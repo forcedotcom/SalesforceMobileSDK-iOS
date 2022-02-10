@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/NSArray+SFAdditions.html">
+	<File path="Categories/NSURL+SFAdditions.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/NSArray(SFAdditions)</TokenIdentifier>
-			<Abstract type="html">Provides Salesforce Mobile SDK filtering for NSArray objects.</Abstract>
-			<DeclaredIn>NSArray+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/NSURL(SFAdditions)</TokenIdentifier>
+			<Abstract type="html">Salesforce Mobile SDK additions to the NSURL class</Abstract>
+			<DeclaredIn>NSURL+SFAdditions.h</DeclaredIn>
             
 			
 			<NodeRef refid="156"/>
@@ -13,59 +13,31 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSArray/filteredArrayWithElementsOfClass:</TokenIdentifier>
-			<Abstract type="html">Returns an array whose elements are guaranteed to be instances of the given class.</Abstract>
-			<DeclaredIn>NSArray+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSURL/valueForParameterName:</TokenIdentifier>
+			<Abstract type="html">Get value for a parameter name from the URL</Abstract>
+			<DeclaredIn>NSURL+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>- (NSArray *)filteredArrayWithElementsOfClass:(Class)aClass</Declaration>
+			<Declaration>- (nullable NSString *)valueForParameterName:(NSString *)name</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>aClass</Name>
-					<Abstract type="html">The class to filter on.</Abstract>
+					<Name>name</Name>
+					<Abstract type="html">Name of the parameter</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">An array whose elements are all of the given type (or a subtype).</Abstract></ReturnValue>
-			<Anchor>//api/name/filteredArrayWithElementsOfClass:</Anchor>
+			
+			<Anchor>//api/name/valueForParameterName:</Anchor>
             <NodeRef refid="156"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSArray/filteredArrayWithValue:forKeyPath:</TokenIdentifier>
-			<Abstract type="html">Returns an array whose elements have a given value at a given keypath.</Abstract>
-			<DeclaredIn>NSArray+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSURL/dictionaryFromQuery</TokenIdentifier>
+			<Abstract type="html">Get all query params as dictionary</Abstract>
+			<DeclaredIn>NSURL+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>- (NSArray *)filteredArrayWithValue:(id)value forKeyPath:(NSString *)key</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>value</Name>
-					<Abstract type="html">The value to filter on.</Abstract>
-				</Parameter><Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The key path for the value to filter on.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (nullable NSDictionary *)dictionaryFromQuery</Declaration>
 			
-			<Anchor>//api/name/filteredArrayWithValue:forKeyPath:</Anchor>
-            <NodeRef refid="156"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSArray/filteredArrayExcludingValue:forKeyPath:</TokenIdentifier>
-			<Abstract type="html">Returns an array whose elements exclude a given value at a given keypath.</Abstract>
-			<DeclaredIn>NSArray+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>- (NSArray *)filteredArrayExcludingValue:(id)value forKeyPath:(NSString *)key</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>value</Name>
-					<Abstract type="html">The value to filter on.</Abstract>
-				</Parameter><Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The key path for the value to filter on.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/filteredArrayExcludingValue:forKeyPath:</Anchor>
+			<Anchor>//api/name/dictionaryFromQuery</Anchor>
             <NodeRef refid="156"/>
 		</Token>
 		

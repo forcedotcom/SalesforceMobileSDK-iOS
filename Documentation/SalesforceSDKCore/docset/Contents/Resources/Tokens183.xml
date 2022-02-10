@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSDKLoginFlowSelectionViewDelegate.html">
+	<File path="Protocols/SalesforceSDKManagerFlow.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSDKLoginFlowSelectionViewDelegate</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intf/SalesforceSDKManagerFlow</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKLoginFlowSelectionView.h</DeclaredIn>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
             
 			
 			<NodeRef refid="183"/>
@@ -13,42 +13,86 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKLoginFlowSelectionViewDelegate/loginFlowSelectionIDPSelected:options:</TokenIdentifier>
-			<Abstract type="html">Used to notify the SDK of user selection on the login flow selection view</Abstract>
-			<DeclaredIn>SFSDKLoginFlowSelectionView.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleAppForeground:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
 			
-			<Declaration>- (void)loginFlowSelectionIDPSelected:(UIViewController *)controller options:(NSDictionary *)appOptions</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>controller</Name>
-					<Abstract type="html">instance invoking this delegate</Abstract>
-				</Parameter><Parameter>
-					<Name>appOptions</Name>
-					<Abstract type="html">addl. name value pairs sent from the sdk for the SFSDKLoginFlowSelectionView</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (void)handleAppForeground:(nonnull NSNotification *)notification</Declaration>
 			
-			<Anchor>//api/name/loginFlowSelectionIDPSelected:options:</Anchor>
+			
+			<Anchor>//api/name/handleAppForeground:</Anchor>
             <NodeRef refid="183"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKLoginFlowSelectionViewDelegate/loginFlowSelectionLocalLoginSelected:options:</TokenIdentifier>
-			<Abstract type="html">Used to notify the SDK of user selection on the login flow selection view</Abstract>
-			<DeclaredIn>SFSDKLoginFlowSelectionView.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleAppBackground:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
 			
-			<Declaration>- (void)loginFlowSelectionLocalLoginSelected:(UIViewController *)controller options:(NSDictionary *)appOptions</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>controller</Name>
-					<Abstract type="html">instance invoking this delegate</Abstract>
-				</Parameter><Parameter>
-					<Name>appOptions</Name>
-					<Abstract type="html">addl. name value pairs sent from the sdk for the SFSDKLoginFlowSelectionVie</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (void)handleAppBackground:(nonnull NSNotification *)notification</Declaration>
 			
-			<Anchor>//api/name/loginFlowSelectionLocalLoginSelected:options:</Anchor>
+			
+			<Anchor>//api/name/handleAppBackground:</Anchor>
+            <NodeRef refid="183"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleAppTerminate:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)handleAppTerminate:(nonnull NSNotification *)notification</Declaration>
+			
+			
+			<Anchor>//api/name/handleAppTerminate:</Anchor>
+            <NodeRef refid="183"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handlePostLogout</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)handlePostLogout</Declaration>
+			
+			
+			<Anchor>//api/name/handlePostLogout</Anchor>
+            <NodeRef refid="183"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleAuthCompleted:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)handleAuthCompleted:(nonnull NSNotification *)notification</Declaration>
+			
+			
+			<Anchor>//api/name/handleAuthCompleted:</Anchor>
+            <NodeRef refid="183"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleIDPInitiatedAuthCompleted:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)handleIDPInitiatedAuthCompleted:(nonnull NSNotification *)notification</Declaration>
+			
+			
+			<Anchor>//api/name/handleIDPInitiatedAuthCompleted:</Anchor>
+            <NodeRef refid="183"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleUserDidLogout:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)handleUserDidLogout:(nonnull NSNotification *)notification</Declaration>
+			
+			
+			<Anchor>//api/name/handleUserDidLogout:</Anchor>
             <NodeRef refid="183"/>
 		</Token>
 		

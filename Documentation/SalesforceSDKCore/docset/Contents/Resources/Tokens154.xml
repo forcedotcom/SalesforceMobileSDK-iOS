@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/TestSetupUtils.html">
+	<File path="Categories/NSObject+SFBlocks.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/TestSetupUtils</TokenIdentifier>
-			<Abstract type="html">This class provides utilities useful to all unit tests based on the Salesforce SDK</Abstract>
-			<DeclaredIn>TestSetupUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/NSObject(SFBlocks)</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>NSObject+SFBlocks.h</DeclaredIn>
             
 			
 			<NodeRef refid="154"/>
@@ -13,67 +13,138 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/TestSetupUtils/populateUILoginInfoFromConfigFileForClass:</TokenIdentifier>
-			<Abstract type="html">Loads a set of auth credentials from the &apos;uitestcredentials.json&apos; file located in the bundle associated
-with the given class, and return a dictionary of login info</Abstract>
-			<DeclaredIn>TestSetupUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSObject/performBlock:onThread:waitUntilDone:</TokenIdentifier>
+			<Abstract type="html">Perform a block on a specific thread.</Abstract>
+			<DeclaredIn>NSObject+SFBlocks.h</DeclaredIn>
 			
-			<Declaration>+ (NSArray *)populateUILoginInfoFromConfigFileForClass:(Class)testClass</Declaration>
+			<Declaration>- (void)performBlock:(SFThreadBlock)block onThread:(NSThread *)thread waitUntilDone:(BOOL)waitUntilDone</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>testClass</Name>
-					<Abstract type="html">The class associated with the bundle where the test credentials file lives.</Abstract>
+					<Name>block</Name>
+					<Abstract type="html">The block to execute on the thread</Abstract>
+				</Parameter><Parameter>
+					<Name>thread</Name>
+					<Abstract type="html">The thread in which to execute the block</Abstract>
+				</Parameter><Parameter>
+					<Name>waitUntilDone</Name>
+					<Abstract type="html">Flag that indicates if this method should block until the block is done executing</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">a dictionary of login username, password, url</Abstract></ReturnValue>
-			<Anchor>//api/name/populateUILoginInfoFromConfigFileForClass:</Anchor>
+			
+			<Anchor>//api/name/performBlock:onThread:waitUntilDone:</Anchor>
             <NodeRef refid="154"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/TestSetupUtils/populateAuthCredentialsFromConfigFileForClass:</TokenIdentifier>
-			<Abstract type="html">Loads a set of auth credentials from the &apos;test_credentials.json&apos; file located in the bundle associated
-with the given class, and configures SFUserAccountManager and the current account with the data from
-that file.</Abstract>
-			<DeclaredIn>TestSetupUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSObject/performBlockOnGlobalQueue:afterDelay:</TokenIdentifier>
+			<Abstract type="html">Perform a block on a global queue thread after a delay.</Abstract>
+			<DeclaredIn>NSObject+SFBlocks.h</DeclaredIn>
 			
-			<Declaration>+ (SFSDKTestCredentialsData *)populateAuthCredentialsFromConfigFileForClass:(Class)testClass</Declaration>
+			<Declaration>- (void)performBlockOnGlobalQueue:(SFThreadBlock)block afterDelay:(NSTimeInterval)delay</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>testClass</Name>
-					<Abstract type="html">The class associated with the bundle where the test credentials file lives.</Abstract>
+					<Name>block</Name>
+					<Abstract type="html">The block to execute</Abstract>
+				</Parameter><Parameter>
+					<Name>delay</Name>
+					<Abstract type="html">The delay before executing the block</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">The configuration data used to configure SFUserAccountManager (useful e.g. for hybrid
-apps which need the data to bootstrap SFHybridViewController.</Abstract></ReturnValue>
-			<Anchor>//api/name/populateAuthCredentialsFromConfigFileForClass:</Anchor>
+			
+			<Anchor>//api/name/performBlockOnGlobalQueue:afterDelay:</Anchor>
             <NodeRef refid="154"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/TestSetupUtils/synchronousAuthRefresh</TokenIdentifier>
-			<Abstract type="html">Performs a synchronous refresh of the OAuth credentials, which will stage the remaining auth
-data (access token, User ID, Org ID, etc.) in SFUserAccountManager.
-populateAuthCredentialsFromConfigFile is required to run once before this method will attempt
-to refresh authentication.</Abstract>
-			<DeclaredIn>TestSetupUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSObject/performBlockOnMainThread:afterDelay:</TokenIdentifier>
+			<Abstract type="html">Perform a block on the main thread after a delay.</Abstract>
+			<DeclaredIn>NSObject+SFBlocks.h</DeclaredIn>
 			
-			<Declaration>+ (void)synchronousAuthRefresh</Declaration>
+			<Declaration>- (void)performBlockOnMainThread:(SFThreadBlock)block afterDelay:(NSTimeInterval)delay</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>block</Name>
+					<Abstract type="html">The block to execute</Abstract>
+				</Parameter><Parameter>
+					<Name>delay</Name>
+					<Abstract type="html">The delay before executing the block</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/synchronousAuthRefresh</Anchor>
+			<Anchor>//api/name/performBlockOnMainThread:afterDelay:</Anchor>
             <NodeRef refid="154"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/TestSetupUtils/newClientCredentials</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>TestSetupUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSObject/waitForBlockCondition:timeout:</TokenIdentifier>
+			<Abstract type="html">Wait until a block return value is YES or a time-out happens.</Abstract>
+			<DeclaredIn>NSObject+SFBlocks.h</DeclaredIn>
 			
-			<Declaration>+ (SFOAuthCredentials *)newClientCredentials</Declaration>
+			<Declaration>- (BOOL)waitForBlockCondition:(BOOL ( ^ ) ( void ))block timeout:(NSTimeInterval)duration</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>block</Name>
+					<Abstract type="html">The block that will be invoked regularily until it returns YES or a time-out happen.</Abstract>
+				</Parameter><Parameter>
+					<Name>duration</Name>
+					<Abstract type="html">Time-out duration.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if the block returned YES or NO if a time-out happened</Abstract></ReturnValue>
+			<Anchor>//api/name/waitForBlockCondition:timeout:</Anchor>
+            <NodeRef refid="154"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSObject/synchronouslyExecuteBlockOnMainThread:</TokenIdentifier>
+			<Abstract type="html">Executes the given block directly if called from the main thread. Otherwise the block
+is synchronously dispatched for execution on the main thread.</Abstract>
+			<DeclaredIn>NSObject+SFBlocks.h</DeclaredIn>
 			
+			<Declaration>- (void)synchronouslyExecuteBlockOnMainThread:(void ( ^ ) ( void ))block</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>block</Name>
+					<Abstract type="html">The block to execute</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			<Anchor>//api/name/newClientCredentials</Anchor>
+			<Anchor>//api/name/synchronouslyExecuteBlockOnMainThread:</Anchor>
+            <NodeRef refid="154"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSObject/asynchronouslyExecuteBlockOnMainThread:</TokenIdentifier>
+			<Abstract type="html">The block is asynchronously dispatched for execution on the main thread.</Abstract>
+			<DeclaredIn>NSObject+SFBlocks.h</DeclaredIn>
+			
+			<Declaration>- (void)asynchronouslyExecuteBlockOnMainThread:(void ( ^ ) ( void ))block</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>block</Name>
+					<Abstract type="html">The block to execute</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/asynchronouslyExecuteBlockOnMainThread:</Anchor>
+            <NodeRef refid="154"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSObject/executeBlockOrDispatchIfNotMainThread:</TokenIdentifier>
+			<Abstract type="html">Executes the given block directly if called from the main thread. Otherwise the block
+is asynchronously dispatched for execution on the main thread.</Abstract>
+			<DeclaredIn>NSObject+SFBlocks.h</DeclaredIn>
+			
+			<Declaration>- (void)executeBlockOrDispatchIfNotMainThread:(void ( ^ ) ( void ))block</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>block</Name>
+					<Abstract type="html">The block to execute</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/executeBlockOrDispatchIfNotMainThread:</Anchor>
             <NodeRef refid="154"/>
 		</Token>
 		

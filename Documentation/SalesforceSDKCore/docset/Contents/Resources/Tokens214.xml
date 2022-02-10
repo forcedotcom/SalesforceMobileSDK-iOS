@@ -1,47 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSDKAppConfigErrorCode.html">
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSDKAppConfigErrorCode</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
-            
-			
-			<NodeRef refid="214"/>
-		</Token>
+	<File path="">
 		
 		
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKAppConfigErrorCodeNoConsumerKey</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSDKAppConfigErrorCodeNoConsumerKey</Declaration>
-            
-            <DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
-            
-            <NodeRef refid="214"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKAppConfigErrorCodeNoRedirectURI</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSDKAppConfigErrorCodeNoRedirectURI</Declaration>
-            
-            <DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
-            
-            <NodeRef refid="214"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKAppConfigErrorCodeNoOAuthScopes</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSDKAppConfigErrorCodeNoOAuthScopes</Declaration>
-            
-            <DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
-            
-            <NodeRef refid="214"/>
-        </Token>
         
         
 	</File>

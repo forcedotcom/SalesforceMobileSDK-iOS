@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFOAuthInfo.html">
+	<File path="Classes/SFOAuthOrgAuthConfiguration.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFOAuthInfo</TokenIdentifier>
-			<Abstract type="html">Data class containing members denoting state information for an OAuth coordinator authentication
-cycle.</Abstract>
-			<DeclaredIn>SFOAuthInfo.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFOAuthOrgAuthConfiguration</TokenIdentifier>
+			<Abstract type="html">Data class representing the org authentication configuration.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
             
 			
 			<NodeRef refid="37"/>
@@ -14,91 +13,163 @@ cycle.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthInfo/setAuthType:</TokenIdentifier>
-			<Abstract type="html">The type of authentication being performed.</Abstract>
-			<DeclaredIn>SFOAuthInfo.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/setUseNativeBrowserForAuth:</TokenIdentifier>
+			<Abstract type="html">Tells Mobile SDK whether to use the native browser for authentication.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, assign) SFOAuthType authType</Declaration>
+			<Declaration>@property (nonatomic, readonly) BOOL useNativeBrowserForAuth</Declaration>
 			
 			
-			<Anchor>//api/name/authType</Anchor>
+			<Anchor>//api/name/useNativeBrowserForAuth</Anchor>
             <NodeRef refid="37"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthInfo/authType</TokenIdentifier>
-			<Abstract type="html">The type of authentication being performed.</Abstract>
-			<DeclaredIn>SFOAuthInfo.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/useNativeBrowserForAuth</TokenIdentifier>
+			<Abstract type="html">Tells Mobile SDK whether to use the native browser for authentication.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, assign) SFOAuthType authType</Declaration>
+			<Declaration>@property (nonatomic, readonly) BOOL useNativeBrowserForAuth</Declaration>
 			
 			
-			<Anchor>//api/name/authType</Anchor>
+			<Anchor>//api/name/useNativeBrowserForAuth</Anchor>
             <NodeRef refid="37"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthInfo/authType</TokenIdentifier>
-			<Abstract type="html">The type of authentication being performed.</Abstract>
-			<DeclaredIn>SFOAuthInfo.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthOrgAuthConfiguration/useNativeBrowserForAuth</TokenIdentifier>
+			<Abstract type="html">Tells Mobile SDK whether to use the native browser for authentication.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, assign) SFOAuthType authType</Declaration>
+			<Declaration>@property (nonatomic, readonly) BOOL useNativeBrowserForAuth</Declaration>
 			
 			
-			<Anchor>//api/name/authType</Anchor>
+			<Anchor>//api/name/useNativeBrowserForAuth</Anchor>
             <NodeRef refid="37"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthInfo/setAuthTypeDescription:</TokenIdentifier>
-			<Abstract type="html">The string description of the auth type.</Abstract>
-			<DeclaredIn>SFOAuthInfo.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/setSsoUrls:</TokenIdentifier>
+			<Abstract type="html">List of configured SSO URLs.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *authTypeDescription</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSArray&lt;NSString*&gt; *ssoUrls</Declaration>
 			
 			
-			<Anchor>//api/name/authTypeDescription</Anchor>
+			<Anchor>//api/name/ssoUrls</Anchor>
             <NodeRef refid="37"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthInfo/authTypeDescription</TokenIdentifier>
-			<Abstract type="html">The string description of the auth type.</Abstract>
-			<DeclaredIn>SFOAuthInfo.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/ssoUrls</TokenIdentifier>
+			<Abstract type="html">List of configured SSO URLs.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *authTypeDescription</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSArray&lt;NSString*&gt; *ssoUrls</Declaration>
 			
 			
-			<Anchor>//api/name/authTypeDescription</Anchor>
+			<Anchor>//api/name/ssoUrls</Anchor>
             <NodeRef refid="37"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthInfo/authTypeDescription</TokenIdentifier>
-			<Abstract type="html">The string description of the auth type.</Abstract>
-			<DeclaredIn>SFOAuthInfo.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthOrgAuthConfiguration/ssoUrls</TokenIdentifier>
+			<Abstract type="html">List of configured SSO URLs.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *authTypeDescription</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSArray&lt;NSString*&gt; *ssoUrls</Declaration>
 			
 			
-			<Anchor>//api/name/authTypeDescription</Anchor>
+			<Anchor>//api/name/ssoUrls</Anchor>
             <NodeRef refid="37"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthInfo/initWithAuthType:</TokenIdentifier>
-			<Abstract type="html">Creates a new instance with the given auth type.</Abstract>
-			<DeclaredIn>SFOAuthInfo.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/setLoginPageUrl:</TokenIdentifier>
+			<Abstract type="html">Configured login page URL.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
 			
-			<Declaration>- (id)initWithAuthType:(SFOAuthType)authType</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSString *loginPageUrl</Declaration>
+			
+			
+			<Anchor>//api/name/loginPageUrl</Anchor>
+            <NodeRef refid="37"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/loginPageUrl</TokenIdentifier>
+			<Abstract type="html">Configured login page URL.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSString *loginPageUrl</Declaration>
+			
+			
+			<Anchor>//api/name/loginPageUrl</Anchor>
+            <NodeRef refid="37"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthOrgAuthConfiguration/loginPageUrl</TokenIdentifier>
+			<Abstract type="html">Configured login page URL.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSString *loginPageUrl</Declaration>
+			
+			
+			<Anchor>//api/name/loginPageUrl</Anchor>
+            <NodeRef refid="37"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/setAuthConfigDict:</TokenIdentifier>
+			<Abstract type="html">Raw dictionary data representing the org auth configuration.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSDictionary *authConfigDict</Declaration>
+			
+			
+			<Anchor>//api/name/authConfigDict</Anchor>
+            <NodeRef refid="37"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/authConfigDict</TokenIdentifier>
+			<Abstract type="html">Raw dictionary data representing the org auth configuration.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSDictionary *authConfigDict</Declaration>
+			
+			
+			<Anchor>//api/name/authConfigDict</Anchor>
+            <NodeRef refid="37"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthOrgAuthConfiguration/authConfigDict</TokenIdentifier>
+			<Abstract type="html">Raw dictionary data representing the org auth configuration.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSDictionary *authConfigDict</Declaration>
+			
+			
+			<Anchor>//api/name/authConfigDict</Anchor>
+            <NodeRef refid="37"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/initWithConfigDict:</TokenIdentifier>
+			<Abstract type="html">Designated initializer.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
+			
+			<Declaration>- (nonnull id)initWithConfigDict:(nullable NSDictionary *)authConfigDict</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>authType</Name>
-					<Abstract type="html">The type of authentication being performed.</Abstract>
+					<Name>authConfigDict</Name>
+					<Abstract type="html">NSDictionary containing the org auth configuration.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/initWithAuthType:</Anchor>
+			<Anchor>//api/name/initWithConfigDict:</Anchor>
             <NodeRef refid="37"/>
 		</Token>
 		

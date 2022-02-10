@@ -1,112 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKPushNotificationDataProvider.html">
+	<File path="Classes/SFSDKStartURLHandler.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKPushNotificationDataProvider</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKStartURLHandler</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
+			<DeclaredIn>SFSDKStartURLHandler.h</DeclaredIn>
             
 			
 			<NodeRef refid="113"/>
 		</Token>
 		
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPushNotificationDataProvider/setUserInfoDict:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
-			
-			<Declaration>@property (nonnull, nonatomic, readonly) NSDictionary *userInfoDict</Declaration>
-			
-			
-			<Anchor>//api/name/userInfoDict</Anchor>
-            <NodeRef refid="113"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPushNotificationDataProvider/userInfoDict</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
-			
-			<Declaration>@property (nonnull, nonatomic, readonly) NSDictionary *userInfoDict</Declaration>
-			
-			
-			<Anchor>//api/name/userInfoDict</Anchor>
-            <NodeRef refid="113"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPushNotificationDataProvider/userInfoDict</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
-			
-			<Declaration>@property (nonnull, nonatomic, readonly) NSDictionary *userInfoDict</Declaration>
-			
-			
-			<Anchor>//api/name/userInfoDict</Anchor>
-            <NodeRef refid="113"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPushNotificationDataProvider/setContentJSONData:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, nonatomic, readonly) NSData *contentJSONData</Declaration>
-			
-			
-			<Anchor>//api/name/contentJSONData</Anchor>
-            <NodeRef refid="113"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPushNotificationDataProvider/contentJSONData</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, nonatomic, readonly) NSData *contentJSONData</Declaration>
-			
-			
-			<Anchor>//api/name/contentJSONData</Anchor>
-            <NodeRef refid="113"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPushNotificationDataProvider/contentJSONData</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, nonatomic, readonly) NSData *contentJSONData</Declaration>
-			
-			
-			<Anchor>//api/name/contentJSONData</Anchor>
-            <NodeRef refid="113"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPushNotificationDataProvider/initWithContentObj:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
-			
-			<Declaration>- (instancetype)initWithContentObj:(nullable id)contentObj</Declaration>
-			
-			
-			<Anchor>//api/name/initWithContentObj:</Anchor>
-            <NodeRef refid="113"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPushNotificationDataProvider/initWithContentJSON:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
-			
-			<Declaration>- (instancetype)initWithContentJSON:(nullable NSString *)contentJSON</Declaration>
-			
-			
-			<Anchor>//api/name/initWithContentJSON:</Anchor>
-            <NodeRef refid="113"/>
-		</Token>
 		
         
         

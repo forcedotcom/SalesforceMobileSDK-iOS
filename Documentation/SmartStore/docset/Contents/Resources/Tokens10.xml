@@ -596,6 +596,34 @@ before Mobile SDK 9.2.</Abstract>
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/queryWithQuerySpec:pageIndex:whereArgs:error:</TokenIdentifier>
+			<Abstract type="html">Search for entries matching the given query spec with optional &quot;where args&quot; (i.e. bind args)
+Provided bind args will be substituted to the ? found in the query
+NB: Bind args are only supported for smart queries</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>- (NSArray *__nullable)queryWithQuerySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex whereArgs:(NSArray *__nullable)whereArgs error:(NSError **)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>querySpec</Name>
+					<Abstract type="html">A native query spec.</Abstract>
+				</Parameter><Parameter>
+					<Name>pageIndex</Name>
+					<Abstract type="html">The page index to start the entries at (this supports paging).</Abstract>
+				</Parameter><Parameter>
+					<Name>whereArgs</Name>
+					<Abstract type="html">The bind args (optional - only supported for smart queries).</Abstract>
+				</Parameter><Parameter>
+					<Name>error</Name>
+					<Abstract type="html">Sets/returns any error generated as part of the process.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">A set of entries given the pageSize provided in the querySpec.</Abstract></ReturnValue>
+			<Anchor>//api/name/queryWithQuerySpec:pageIndex:whereArgs:error:</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/queryAsString:querySpec:pageIndex:error:</TokenIdentifier>
 			<Abstract type="html">Search for entries matching the given query spec without deserializing any JSON</Abstract>
 			<DeclaredIn>SFSmartStore.h</DeclaredIn>

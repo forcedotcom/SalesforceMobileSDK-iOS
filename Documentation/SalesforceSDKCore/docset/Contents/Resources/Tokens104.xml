@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKNewLoginHostViewController.html">
+	<File path="Classes/SFSDKPushNotificationDataProvider.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKNewLoginHostViewController</TokenIdentifier>
-			<Abstract type="html">View controller that allows the user to enter a new login host that contains
-a host (the server address) and an optional name.</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKPushNotificationDataProvider</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
             
 			
 			<NodeRef refid="104"/>
@@ -14,113 +13,98 @@ a host (the server address) and an optional name.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKNewLoginHostViewController/setServer:</TokenIdentifier>
-			<Abstract type="html">The server text field</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPushNotificationDataProvider/setUserInfoDict:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UITextField *server</Declaration>
+			<Declaration>@property (nonnull, nonatomic, readonly) NSDictionary *userInfoDict</Declaration>
 			
 			
-			<Anchor>//api/name/server</Anchor>
+			<Anchor>//api/name/userInfoDict</Anchor>
             <NodeRef refid="104"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKNewLoginHostViewController/server</TokenIdentifier>
-			<Abstract type="html">The server text field</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPushNotificationDataProvider/userInfoDict</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UITextField *server</Declaration>
+			<Declaration>@property (nonnull, nonatomic, readonly) NSDictionary *userInfoDict</Declaration>
 			
 			
-			<Anchor>//api/name/server</Anchor>
+			<Anchor>//api/name/userInfoDict</Anchor>
             <NodeRef refid="104"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKNewLoginHostViewController/server</TokenIdentifier>
-			<Abstract type="html">The server text field</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPushNotificationDataProvider/userInfoDict</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UITextField *server</Declaration>
+			<Declaration>@property (nonnull, nonatomic, readonly) NSDictionary *userInfoDict</Declaration>
 			
 			
-			<Anchor>//api/name/server</Anchor>
+			<Anchor>//api/name/userInfoDict</Anchor>
             <NodeRef refid="104"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKNewLoginHostViewController/setName:</TokenIdentifier>
-			<Abstract type="html">The name text field</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPushNotificationDataProvider/setContentJSONData:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UITextField *name</Declaration>
+			<Declaration>@property (nullable, nonatomic, readonly) NSData *contentJSONData</Declaration>
 			
 			
-			<Anchor>//api/name/name</Anchor>
+			<Anchor>//api/name/contentJSONData</Anchor>
             <NodeRef refid="104"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKNewLoginHostViewController/name</TokenIdentifier>
-			<Abstract type="html">The name text field</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPushNotificationDataProvider/contentJSONData</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UITextField *name</Declaration>
+			<Declaration>@property (nullable, nonatomic, readonly) NSData *contentJSONData</Declaration>
 			
 			
-			<Anchor>//api/name/name</Anchor>
+			<Anchor>//api/name/contentJSONData</Anchor>
             <NodeRef refid="104"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKNewLoginHostViewController/name</TokenIdentifier>
-			<Abstract type="html">The name text field</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPushNotificationDataProvider/contentJSONData</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UITextField *name</Declaration>
+			<Declaration>@property (nullable, nonatomic, readonly) NSData *contentJSONData</Declaration>
 			
 			
-			<Anchor>//api/name/name</Anchor>
+			<Anchor>//api/name/contentJSONData</Anchor>
             <NodeRef refid="104"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKNewLoginHostViewController/setLoginHostListViewController:</TokenIdentifier>
-			<Abstract type="html">A reference to the login host list view controller used to add the host to the list of login hosts
-and to also properly resize the popover controller.</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPushNotificationDataProvider/initWithContentObj:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) SFSDKLoginHostListViewController *loginHostListViewController</Declaration>
+			<Declaration>- (instancetype)initWithContentObj:(nullable id)contentObj</Declaration>
 			
 			
-			<Anchor>//api/name/loginHostListViewController</Anchor>
+			<Anchor>//api/name/initWithContentObj:</Anchor>
             <NodeRef refid="104"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKNewLoginHostViewController/loginHostListViewController</TokenIdentifier>
-			<Abstract type="html">A reference to the login host list view controller used to add the host to the list of login hosts
-and to also properly resize the popover controller.</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPushNotificationDataProvider/initWithContentJSON:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) SFSDKLoginHostListViewController *loginHostListViewController</Declaration>
-			
-			
-			<Anchor>//api/name/loginHostListViewController</Anchor>
-            <NodeRef refid="104"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKNewLoginHostViewController/loginHostListViewController</TokenIdentifier>
-			<Abstract type="html">A reference to the login host list view controller used to add the host to the list of login hosts
-and to also properly resize the popover controller.</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) SFSDKLoginHostListViewController *loginHostListViewController</Declaration>
+			<Declaration>- (instancetype)initWithContentJSON:(nullable NSString *)contentJSON</Declaration>
 			
 			
-			<Anchor>//api/name/loginHostListViewController</Anchor>
+			<Anchor>//api/name/initWithContentJSON:</Anchor>
             <NodeRef refid="104"/>
 		</Token>
 		

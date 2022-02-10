@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/NSDictionary+SFAdditions.html">
+	<File path="Protocols/SFCryptChunksDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/NSDictionary(SFAdditions)</TokenIdentifier>
-			<Abstract type="html">Extension to NSDictionary object</Abstract>
-			<DeclaredIn>NSDictionary+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SFCryptChunksDelegate</TokenIdentifier>
+			<Abstract type="html">SFCryptChunksDelegate</Abstract>
+			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
             
 			
 			<NodeRef refid="163"/>
@@ -13,48 +13,26 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSDictionary/objectAtPath:</TokenIdentifier>
-			<Abstract type="html">Get object from NSDictionary with &quot;/&quot; separated path.</Abstract>
-			<DeclaredIn>NSDictionary+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFCryptChunksDelegate/cryptChunk:chunkResult:bufferLen:</TokenIdentifier>
+			<Abstract type="html">Encrypted / Decrypted chunk results.
+This method may be invoked none to multiple times - until all result is informed to delegate.</Abstract>
+			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
 			
-			<Declaration>- (nullable id)objectAtPath:(nullable NSString *)path</Declaration>
+			<Declaration>- (void)cryptChunk:(SFCryptChunks *)cryptChunks chunkResult:(uint8_t *)buffer bufferLen:(size_t)len</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>path</Name>
-					<Abstract type="html">Path for the object to retrieve. Use &quot;/&quot; to separate between levels. For example, root/child/valueKey will retrieve value from the root NSDictionary object to its child dictionary&apos;s value with key &quot;valueKey&quot;</Abstract>
+					<Name>cryptChunks</Name>
+					<Abstract type="html">the instance sending this message.</Abstract>
+				</Parameter><Parameter>
+					<Name>buffer</Name>
+					<Abstract type="html">the chunk results buffer.</Abstract>
+				</Parameter><Parameter>
+					<Name>len</Name>
+					<Abstract type="html">the chunk results buffer length.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/objectAtPath:</Anchor>
-            <NodeRef refid="163"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSDictionary/nonNullObjectForKey:</TokenIdentifier>
-			<Abstract type="html">Returns an object whose ID is key, or nil.</Abstract>
-			<DeclaredIn>NSDictionary+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (nullable id)nonNullObjectForKey:(nullable id)key</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The ID of an object, or a null value</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">An object whose ID is key, or else nil if the key has a value of NSNull or an NSString value of &quot;&lt;nil&gt;&quot; or &quot;&lt;null&gt;&quot;.</Abstract></ReturnValue>
-			<Anchor>//api/name/nonNullObjectForKey:</Anchor>
-            <NodeRef refid="163"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSDictionary/jsonString</TokenIdentifier>
-			<Abstract type="html">Returns the dictionary&apos;s contents reformatted as a JSON string.</Abstract>
-			<DeclaredIn>NSDictionary+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (nullable NSString *)jsonString</Declaration>
-			
-			
-			<Anchor>//api/name/jsonString</Anchor>
+			<Anchor>//api/name/cryptChunk:chunkResult:bufferLen:</Anchor>
             <NodeRef refid="163"/>
 		</Token>
 		

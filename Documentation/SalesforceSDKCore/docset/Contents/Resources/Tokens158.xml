@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/NSData+SFHexSupport.html">
+	<File path="Categories/NSURLResponse+SFAdditions.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/NSData(SFHexSupport)</TokenIdentifier>
-			<Abstract type="html">Provides hex string conversion support.</Abstract>
-			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/NSURLResponse(SFAdditions)</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>NSURLResponse+SFAdditions.h</DeclaredIn>
             
 			
 			<NodeRef refid="158"/>
@@ -13,14 +13,14 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSData/newHexStringFromBytes</TokenIdentifier>
-			<Abstract type="html">Creates a hex string representation of this object&apos;s data.</Abstract>
-			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSURLResponse/asDictionary</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>NSURLResponse+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)newHexStringFromBytes</Declaration>
+			<Declaration>- (nonnull NSDictionary *)asDictionary</Declaration>
 			
-			<ReturnValue><Abstract type="html">Hex string representation of this object&apos;s data.</Abstract></ReturnValue>
-			<Anchor>//api/name/newHexStringFromBytes</Anchor>
+			
+			<Anchor>//api/name/asDictionary</Anchor>
             <NodeRef refid="158"/>
 		</Token>
 		

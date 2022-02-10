@@ -1,101 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SalesforceSDKManagerFlow.html">
+	<File path="Constants/SFSDKWindowType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SalesforceSDKManagerFlow</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSDKWindowType</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
             
 			
 			<NodeRef refid="198"/>
 		</Token>
 		
 		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleAppForeground:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)handleAppForeground:(nonnull NSNotification *)notification</Declaration>
-			
-			
-			<Anchor>//api/name/handleAppForeground:</Anchor>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeMain</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKWindowTypeMain</Declaration>
+            
+            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+            
             <NodeRef refid="198"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleAppBackground:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)handleAppBackground:(nonnull NSNotification *)notification</Declaration>
-			
-			
-			<Anchor>//api/name/handleAppBackground:</Anchor>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeAuth</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKWindowTypeAuth</Declaration>
+            
+            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+            
             <NodeRef refid="198"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleAppTerminate:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)handleAppTerminate:(nonnull NSNotification *)notification</Declaration>
-			
-			
-			<Anchor>//api/name/handleAppTerminate:</Anchor>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeScreenLock</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKWindowTypeScreenLock</Declaration>
+            
+            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+            
             <NodeRef refid="198"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handlePostLogout</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)handlePostLogout</Declaration>
-			
-			
-			<Anchor>//api/name/handlePostLogout</Anchor>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeSnapshot</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKWindowTypeSnapshot</Declaration>
+            
+            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+            
             <NodeRef refid="198"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleAuthCompleted:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)handleAuthCompleted:(nonnull NSNotification *)notification</Declaration>
-			
-			
-			<Anchor>//api/name/handleAuthCompleted:</Anchor>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeOther</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKWindowTypeOther</Declaration>
+            
+            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+            
             <NodeRef refid="198"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleIDPInitiatedAuthCompleted:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)handleIDPInitiatedAuthCompleted:(nonnull NSNotification *)notification</Declaration>
-			
-			
-			<Anchor>//api/name/handleIDPInitiatedAuthCompleted:</Anchor>
-            <NodeRef refid="198"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleUserDidLogout:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)handleUserDidLogout:(nonnull NSNotification *)notification</Declaration>
-			
-			
-			<Anchor>//api/name/handleUserDidLogout:</Anchor>
-            <NodeRef refid="198"/>
-		</Token>
-		
+        </Token>
         
         
 	</File>

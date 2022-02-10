@@ -1,89 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSDKUserSelectionView.html">
+	<File path="Constants/SFOAuthType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSDKUserSelectionView</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthType</TokenIdentifier>
+			<Abstract type="html">The type of authentication being attempted, in a given OAuth coordinator cycle.</Abstract>
+			<DeclaredIn>SFOAuthInfo.h</DeclaredIn>
             
 			
 			<NodeRef refid="192"/>
 		</Token>
 		
 		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionView/setUserSelectionDelegate:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKUserSelectionViewDelegate&gt; userSelectionDelegate</Declaration>
-			
-			
-			<Anchor>//api/name/userSelectionDelegate</Anchor>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTypeUnknown</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFOAuthTypeUnknown</Declaration>
+            
+            <DeclaredIn>SFOAuthInfo.h</DeclaredIn>
+            
             <NodeRef refid="192"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionView/userSelectionDelegate</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKUserSelectionViewDelegate&gt; userSelectionDelegate</Declaration>
-			
-			
-			<Anchor>//api/name/userSelectionDelegate</Anchor>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTypeUserAgent</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFOAuthTypeUserAgent</Declaration>
+            
+            <DeclaredIn>SFOAuthInfo.h</DeclaredIn>
+            
             <NodeRef refid="192"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfp/SFSDKUserSelectionView/userSelectionDelegate</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKUserSelectionViewDelegate&gt; userSelectionDelegate</Declaration>
-			
-			
-			<Anchor>//api/name/userSelectionDelegate</Anchor>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTypeRefresh</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFOAuthTypeRefresh</Declaration>
+            
+            <DeclaredIn>SFOAuthInfo.h</DeclaredIn>
+            
             <NodeRef refid="192"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionView/setSpAppOptions:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSDictionary *spAppOptions</Declaration>
-			
-			
-			<Anchor>//api/name/spAppOptions</Anchor>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTypeAdvancedBrowser</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFOAuthTypeAdvancedBrowser</Declaration>
+            
+            <DeclaredIn>SFOAuthInfo.h</DeclaredIn>
+            
             <NodeRef refid="192"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionView/spAppOptions</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSDictionary *spAppOptions</Declaration>
-			
-			
-			<Anchor>//api/name/spAppOptions</Anchor>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTypeJwtTokenExchange</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFOAuthTypeJwtTokenExchange</Declaration>
+            
+            <DeclaredIn>SFOAuthInfo.h</DeclaredIn>
+            
             <NodeRef refid="192"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfp/SFSDKUserSelectionView/spAppOptions</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSDictionary *spAppOptions</Declaration>
-			
-			
-			<Anchor>//api/name/spAppOptions</Anchor>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTypeIDP</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFOAuthTypeIDP</Declaration>
+            
+            <DeclaredIn>SFOAuthInfo.h</DeclaredIn>
+            
             <NodeRef refid="192"/>
-		</Token>
-		
+        </Token>
         
         
 	</File>

@@ -1,53 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSDKUserSelectionViewDelegate.html">
+	<File path="Constants/SFRestMethod.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSDKUserSelectionViewDelegate</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFRestMethod</TokenIdentifier>
+			<Abstract type="html">HTTP methods for requests.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
             
 			
 			<NodeRef refid="193"/>
 		</Token>
 		
 		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionViewDelegate/createNewUser:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
-			
-			<Declaration>- (void)createNewUser:(NSDictionary *)spAppOptions</Declaration>
-			
-			
-			<Anchor>//api/name/createNewUser:</Anchor>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFRestMethodGET</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFRestMethodGET</Declaration>
+            
+            <DeclaredIn>SFRestRequest.h</DeclaredIn>
+            
             <NodeRef refid="193"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionViewDelegate/selectedUser:spAppContext:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
-			
-			<Declaration>- (void)selectedUser:(SFUserAccount *)user spAppContext:(NSDictionary *)spAppOptions</Declaration>
-			
-			
-			<Anchor>//api/name/selectedUser:spAppContext:</Anchor>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFRestMethodPOST</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFRestMethodPOST</Declaration>
+            
+            <DeclaredIn>SFRestRequest.h</DeclaredIn>
+            
             <NodeRef refid="193"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionViewDelegate/cancel:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
-			
-			<Declaration>- (void)cancel:(NSDictionary *)spAppOptions</Declaration>
-			
-			
-			<Anchor>//api/name/cancel:</Anchor>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFRestMethodPUT</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFRestMethodPUT</Declaration>
+            
+            <DeclaredIn>SFRestRequest.h</DeclaredIn>
+            
             <NodeRef refid="193"/>
-		</Token>
-		
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFRestMethodDELETE</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFRestMethodDELETE</Declaration>
+            
+            <DeclaredIn>SFRestRequest.h</DeclaredIn>
+            
+            <NodeRef refid="193"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFRestMethodHEAD</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFRestMethodHEAD</Declaration>
+            
+            <DeclaredIn>SFRestRequest.h</DeclaredIn>
+            
+            <NodeRef refid="193"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFRestMethodPATCH</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFRestMethodPATCH</Declaration>
+            
+            <DeclaredIn>SFRestRequest.h</DeclaredIn>
+            
+            <NodeRef refid="193"/>
+        </Token>
         
         
 	</File>

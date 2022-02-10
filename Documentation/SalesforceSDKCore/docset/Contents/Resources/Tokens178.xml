@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFRestRequestDelegate.html">
+	<File path="Protocols/SFSDKUserSelectionViewDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFRestRequestDelegate</TokenIdentifier>
-			<Abstract type="html">Lifecycle events for REST requests.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSDKUserSelectionViewDelegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
             
 			
 			<NodeRef refid="178"/>
@@ -13,55 +13,38 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFRestRequestDelegate/request:didSucceed:rawResponse:</TokenIdentifier>
-			<Abstract type="html">Called when a request was successful.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionViewDelegate/createNewUser:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
 			
-			<Declaration>- (void)request:(SFRestRequest *)request didSucceed:(id)dataResponse rawResponse:(NSURLResponse *)rawResponse</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>request</Name>
-					<Abstract type="html">REST request.</Abstract>
-				</Parameter><Parameter>
-					<Name>dataResponse</Name>
-					<Abstract type="html">The data from the response.  By default, this will be an object
-containing the parsed JSON response.  However, if the response is not JSON,
-the data will be contained in a binary NSData object.</Abstract>
-				</Parameter><Parameter>
-					<Name>rawResponse</Name>
-					<Abstract type="html">Raw response returned by the server.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (void)createNewUser:(NSDictionary *)spAppOptions</Declaration>
 			
-			<Anchor>//api/name/request:didSucceed:rawResponse:</Anchor>
+			
+			<Anchor>//api/name/createNewUser:</Anchor>
             <NodeRef refid="178"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFRestRequestDelegate/request:didFail:rawResponse:error:</TokenIdentifier>
-			<Abstract type="html">Called when a request failed.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionViewDelegate/selectedUser:spAppContext:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
 			
-			<Declaration>- (void)request:(SFRestRequest *)request didFail:(id)dataResponse rawResponse:(NSURLResponse *)rawResponse error:(NSError *)error</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>request</Name>
-					<Abstract type="html">REST request.</Abstract>
-				</Parameter><Parameter>
-					<Name>dataResponse</Name>
-					<Abstract type="html">The data from the response.  By default, this will be an object
-containing the parsed JSON response.  However, if the response is not JSON,
-the data will be contained in a binary NSData object.</Abstract>
-				</Parameter><Parameter>
-					<Name>rawResponse</Name>
-					<Abstract type="html">Raw response returned by the server.</Abstract>
-				</Parameter><Parameter>
-					<Name>error</Name>
-					<Abstract type="html">Error received.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (void)selectedUser:(SFUserAccount *)user spAppContext:(NSDictionary *)spAppOptions</Declaration>
 			
-			<Anchor>//api/name/request:didFail:rawResponse:error:</Anchor>
+			
+			<Anchor>//api/name/selectedUser:spAppContext:</Anchor>
+            <NodeRef refid="178"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionViewDelegate/cancel:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
+			
+			<Declaration>- (void)cancel:(NSDictionary *)spAppOptions</Declaration>
+			
+			
+			<Anchor>//api/name/cancel:</Anchor>
             <NodeRef refid="178"/>
 		</Token>
 		

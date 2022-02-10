@@ -1,246 +1,330 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/NSString+SFAdditions.html">
+	<File path="Protocols/SFOAuthCoordinatorDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/NSString(SFAdditions)</TokenIdentifier>
-			<Abstract type="html">Extension to NSString object</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SFOAuthCoordinatorDelegate</TokenIdentifier>
+			<Abstract type="html">Protocol for objects intending to be a delegate for an OAuth coordinator.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
             
 			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/cl/SFOAuthCoordinator</TokenIdentifier>
+		
+	</RelatedTokens>
+	
 			<NodeRef refid="166"/>
 		</Token>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/stringWithHexData:</TokenIdentifier>
-			<Abstract type="html">A hex string representation of the supplied data; or nil if data is nil or empty.</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinator:willBeginAuthenticationWithView:</TokenIdentifier>
+			<Abstract type="html">Sent when authentication will begin.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
 			
-			<Declaration>+ (nullable NSString *)stringWithHexData:(nullable NSData *)data</Declaration>
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/cl/SFOAuthCoordinator</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginAuthenticationWithView:(WKWebView *)view</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>data</Name>
-					<Abstract type="html">NSData to be represented as a base 16 string.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">A hex string representation of the supplied data; or nil if data is nil or empty.</Abstract></ReturnValue>
-			<Anchor>//api/name/stringWithHexData:</Anchor>
-            <NodeRef refid="166"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/sha256</TokenIdentifier>
-			<Abstract type="html">Returns an SHA 256 hash of the current string</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (NSData *)sha256</Declaration>
-			
-			
-			<Anchor>//api/name/sha256</Anchor>
-            <NodeRef refid="166"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/escapeXMLCharacter:</TokenIdentifier>
-			<Abstract type="html">Escape XML entities</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>+ (nullable NSString *)escapeXMLCharacter:(nullable NSString *)value</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>value</Name>
-					<Abstract type="html">String value to escape. If nil is passed, this method will return nil.</Abstract>
+					<Name>coordinator</Name>
+					<Abstract type="html">The SFOAuthCoordinator instance processing this message</Abstract>
+				</Parameter><Parameter>
+					<Name>view</Name>
+					<Abstract type="html">The WKWebView instance that will be used to conduct the authentication workflow</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/escapeXMLCharacter:</Anchor>
+			<Anchor>//api/name/oauthCoordinator:willBeginAuthenticationWithView:</Anchor>
             <NodeRef refid="166"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/unescapeXMLCharacter:</TokenIdentifier>
-			<Abstract type="html">unescape XML entities</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinator:didStartLoad:</TokenIdentifier>
+			<Abstract type="html">Sent when the web will starts to load its content.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
 			
-			<Declaration>+ (nullable NSString *)unescapeXMLCharacter:(nullable NSString *)value</Declaration>
+			<Declaration>- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didStartLoad:(WKWebView *)view</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>value</Name>
-					<Abstract type="html">String value to unescape. If nil is passed, this method will return nil.</Abstract>
+					<Name>coordinator</Name>
+					<Abstract type="html">The SFOAuthCoordinator instance processing this message</Abstract>
+				</Parameter><Parameter>
+					<Name>view</Name>
+					<Abstract type="html">The WKWebView instance that will be used to conduct the authentication workflow</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/unescapeXMLCharacter:</Anchor>
+			<Anchor>//api/name/oauthCoordinator:didStartLoad:</Anchor>
             <NodeRef refid="166"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/trim</TokenIdentifier>
-			<Abstract type="html">Trim string by taking out beginning and ending space.</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinator:didFinishLoad:error:</TokenIdentifier>
+			<Abstract type="html">Sent when the web will completed to load its content.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)trim</Declaration>
-			
-			
-			<Anchor>//api/name/trim</Anchor>
-            <NodeRef refid="166"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/redacted</TokenIdentifier>
-			<Abstract type="html">Returns the string in debug build or a redacted version of it
-for production build</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)redacted</Declaration>
-			
-			
-			<Anchor>//api/name/redacted</Anchor>
-            <NodeRef refid="166"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/redactedWithPrefix:</TokenIdentifier>
-			<Abstract type="html">Returns the string in debug build or a redacted version of it
-for production build. The prefix length is the number of characters
-that won&apos;t be redacted from the beginning of the string.</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)redactedWithPrefix:(NSUInteger)prefixLength</Declaration>
+			<Declaration>- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFinishLoad:(WKWebView *)view error:(nullable NSError *)errorOrNil</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>prefixLength</Name>
-					<Abstract type="html">The number of characters to preserve at the beginning of the string.</Abstract>
+					<Name>coordinator</Name>
+					<Abstract type="html">The SFOAuthCoordinator instance processing this message</Abstract>
+				</Parameter><Parameter>
+					<Name>view</Name>
+					<Abstract type="html">The WKWebView instance that will be used to conduct the authentication workflow</Abstract>
+				</Parameter><Parameter>
+					<Name>errorOrNil</Name>
+					<Abstract type="html">Contains the error or nil if no error</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/redactedWithPrefix:</Anchor>
+			<Anchor>//api/name/oauthCoordinator:didFinishLoad:error:</Anchor>
             <NodeRef refid="166"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/isEmpty:</TokenIdentifier>
-			<Abstract type="html">Return YES if string is nil or length is 0 or with white space only</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinatorWillBeginAuthentication:authInfo:</TokenIdentifier>
+			<Abstract type="html">Sent before oauthcoordinator will begin any kind of authentication</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
 			
-			<Declaration>+ (BOOL)isEmpty:(nullable NSString *)string</Declaration>
+			<Declaration>- (void)oauthCoordinatorWillBeginAuthentication:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>string</Name>
-					<Abstract type="html">String to check</Abstract>
+					<Name>coordinator</Name>
+					<Abstract type="html">The SFOAuthCoordinator instance processing this message</Abstract>
+				</Parameter><Parameter>
+					<Name>info</Name>
+					<Abstract type="html">The SFOAuthInfo instance containing details about the type of authentication.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/isEmpty:</Anchor>
+			<Anchor>//api/name/oauthCoordinatorWillBeginAuthentication:authInfo:</Anchor>
             <NodeRef refid="166"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/removeWhitespaces</TokenIdentifier>
-			<Abstract type="html">Returns a string after taking out any space</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinatorDidAuthenticate:authInfo:</TokenIdentifier>
+			<Abstract type="html">Sent when authentication successfully completes.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)removeWhitespaces</Declaration>
-			
-			
-			<Anchor>//api/name/removeWhitespaces</Anchor>
-            <NodeRef refid="166"/>
-		</Token>
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/cl/SFOAuthCoordinator</TokenIdentifier>
 		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/stringByURLEncoding</TokenIdentifier>
-			<Abstract type="html">A string with all non-legal URL characters (per RFC 3986) escaped.</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)stringByURLEncoding</Declaration>
-			
-			<ReturnValue><Abstract type="html">A string with all non-legal URL characters (per RFC 3986) escaped.</Abstract></ReturnValue>
-			<Anchor>//api/name/stringByURLEncoding</Anchor>
-            <NodeRef refid="166"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/stringByStrippingHTML</TokenIdentifier>
-			<Abstract type="html">Strips any HTML markup from the source string.</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)stringByStrippingHTML</Declaration>
-			
-			
-			<Anchor>//api/name/stringByStrippingHTML</Anchor>
-            <NodeRef refid="166"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/stringWithTitleCharacter</TokenIdentifier>
-			<Abstract type="html">Returns an uppercase title character for the string without accents or other diacritic marks.
-Intended for use with UI index titles.</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)stringWithTitleCharacter</Declaration>
-			
-			
-			<Anchor>//api/name/stringWithTitleCharacter</Anchor>
-            <NodeRef refid="166"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/queryStringComponents</TokenIdentifier>
-			<Abstract type="html">Returns a dictionary of query string components for the string object.</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (NSDictionary *)queryStringComponents</Declaration>
-			
-			
-			<Anchor>//api/name/queryStringComponents</Anchor>
-            <NodeRef refid="166"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/isEmptyOrWhitespaceAndNewlines</TokenIdentifier>
-			<Abstract type="html">Returns YES if the string is empty of contains only whitespance or newline characters.</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)isEmptyOrWhitespaceAndNewlines</Declaration>
-			
-			
-			<Anchor>//api/name/isEmptyOrWhitespaceAndNewlines</Anchor>
-            <NodeRef refid="166"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/entityId18</TokenIdentifier>
-			<Abstract type="html">The 18 character case-insensitive entity ID representing the receiver.
-Returns nil if the receiver is not a valid Salesforce entity ID.</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (nullable NSString *)entityId18</Declaration>
-			
-			<ReturnValue><Abstract type="html">The 18 character case-insensitive entity ID representing the receiver.
-Returns nil if the receiver is not a valid Salesforce entity ID.</Abstract></ReturnValue>
-			<Anchor>//api/name/entityId18</Anchor>
-            <NodeRef refid="166"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/isEqualToEntityId:</TokenIdentifier>
-			<Abstract type="html">Returns a Boolean value that indicates if the given entity ID is equal to the
-receiver. The comparison properly handles comparing 15 character case-sensitive
-ID&apos;s against 18 character case-insensitive ID&apos;s.</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)isEqualToEntityId:(NSString *)entityId</Declaration>
+	</RelatedTokens>
+	
+			<Declaration>- (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>entityId</Name>
-					<Abstract type="html">The entity ID to compare with the receiver.</Abstract>
+					<Name>coordinator</Name>
+					<Abstract type="html">The SFOAuthCoordinator instance processing this message.</Abstract>
+				</Parameter><Parameter>
+					<Name>info</Name>
+					<Abstract type="html">Object containing info associated with this authentication attempt.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">Returns YES if the given entityId is semantically equal to the receiver,
-otherwise returns NO. Returns NO if either the given ID or receiver are not
-valid Salesforce entity ID&apos;s.</Abstract></ReturnValue>
-			<Anchor>//api/name/isEqualToEntityId:</Anchor>
+			
+			<Anchor>//api/name/oauthCoordinatorDidAuthenticate:authInfo:</Anchor>
+            <NodeRef refid="166"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinator:didFailWithError:authInfo:</TokenIdentifier>
+			<Abstract type="html">Sent if authentication fails due to an error.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/cl/SFOAuthCoordinator</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(nullable SFOAuthInfo *)info</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>coordinator</Name>
+					<Abstract type="html">The SFOAuthCoordinator instance processing this message.</Abstract>
+				</Parameter><Parameter>
+					<Name>error</Name>
+					<Abstract type="html">The error associated with the failure.</Abstract>
+				</Parameter><Parameter>
+					<Name>info</Name>
+					<Abstract type="html">Object containing info associated with the authentication attempt.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/oauthCoordinator:didFailWithError:authInfo:</Anchor>
+            <NodeRef refid="166"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinatorIsNetworkAvailable:</TokenIdentifier>
+			<Abstract type="html">The delegate can implement this method to return a BOOL indicating whether the network is available.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)oauthCoordinatorIsNetworkAvailable:(SFOAuthCoordinator *)coordinator</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>coordinator</Name>
+					<Abstract type="html">The SFOAuthCoordinator object to be queried (typically self).</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/oauthCoordinatorIsNetworkAvailable:</Anchor>
+            <NodeRef refid="166"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinator:willBeginBrowserAuthentication:</TokenIdentifier>
+			<Abstract type="html">Sent to notify the delegate that a browser authentication flow is about to begin.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+			
+			<Declaration>- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginBrowserAuthentication:(SFOAuthBrowserFlowCallbackBlock)callbackBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>coordinator</Name>
+					<Abstract type="html">The SFOAuthCoordinator instance processing this message.</Abstract>
+				</Parameter><Parameter>
+					<Name>callbackBlock</Name>
+					<Abstract type="html">A callback block used to notify the coordinator if it should continue with the authentication flow.
+Pass in YES to proceed, NO to cancel the authentication flow.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/oauthCoordinator:willBeginBrowserAuthentication:</Anchor>
+            <NodeRef refid="166"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinator:displayAlertMessage:completion:</TokenIdentifier>
+			<Abstract type="html">The delegate is expected to display an alert with the specific message and callback the completion block when
+the user dismisses the alert.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+			
+			<Declaration>- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator displayAlertMessage:(NSString *)message completion:(dispatch_block_t)completion</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>coordinator</Name>
+					<Abstract type="html">The SFOAuthCoordinator instance</Abstract>
+				</Parameter><Parameter>
+					<Name>message</Name>
+					<Abstract type="html">The message to display</Abstract>
+				</Parameter><Parameter>
+					<Name>completion</Name>
+					<Abstract type="html">The completion block to invoke</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/oauthCoordinator:displayAlertMessage:completion:</Anchor>
+            <NodeRef refid="166"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinator:displayConfirmationMessage:completion:</TokenIdentifier>
+			<Abstract type="html">The delegate is expected to display a confirmation alert with the specific message and callback the completion block when
+the user dismisses the alert.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+			
+			<Declaration>- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator displayConfirmationMessage:(NSString *)message completion:(void ( ^ ) ( BOOL result ))completion</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>coordinator</Name>
+					<Abstract type="html">The SFOAuthCoordinator instance</Abstract>
+				</Parameter><Parameter>
+					<Name>message</Name>
+					<Abstract type="html">The message to display</Abstract>
+				</Parameter><Parameter>
+					<Name>completion</Name>
+					<Abstract type="html">The completion block to invoke with YES as result if the user confirmed the alert or NO if the user cancelled the alert.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/oauthCoordinator:displayConfirmationMessage:completion:</Anchor>
+            <NodeRef refid="166"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinatorDidFetchAuthCode:authInfo:</TokenIdentifier>
+			<Abstract type="html">Sent to notify the delegate that a  authentication code was retrieved during idp flow.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+			
+			<Declaration>- (void)oauthCoordinatorDidFetchAuthCode:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)authInfo</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>coordinator</Name>
+					<Abstract type="html">The SFOAuthCoordinator instance processing this message.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/oauthCoordinatorDidFetchAuthCode:authInfo:</Anchor>
+            <NodeRef refid="166"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinator:didBeginAuthenticationWithView:</TokenIdentifier>
+			<Abstract type="html">Sent after authentication has begun and the view parameter is displaying the first page of authentication content.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/cl/SFOAuthCoordinator</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(WKWebView *)view</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>coordinator</Name>
+					<Abstract type="html">The SFOAuthCoordinator instance processing this message</Abstract>
+				</Parameter><Parameter>
+					<Name>view</Name>
+					<Abstract type="html">The WKWebView instance that will be used to conduct the authentication workflow</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/oauthCoordinator:didBeginAuthenticationWithView:</Anchor>
+            <NodeRef refid="166"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinator:didBeginAuthenticationWithSession:</TokenIdentifier>
+			<Abstract type="html">Sent after ASWebAuthenticationSession was initialized with authentication URL.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/cl/SFOAuthCoordinator</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSession:(ASWebAuthenticationSession *)session</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>coordinator</Name>
+					<Abstract type="html">The SFOAuthCoordinator instance processing this message</Abstract>
+				</Parameter><Parameter>
+					<Name>session</Name>
+					<Abstract type="html">The ASWebAuthenticationSession instance that will be used to conduct the authentication workflow</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/oauthCoordinator:didBeginAuthenticationWithSession:</Anchor>
+            <NodeRef refid="166"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinatorDidCancelBrowserAuthentication:</TokenIdentifier>
+			<Abstract type="html">Sent to notify the delegate that a browser authentication flow was cancelled out of by the user.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+			
+			<Declaration>- (void)oauthCoordinatorDidCancelBrowserAuthentication:(SFOAuthCoordinator *)coordinator</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>coordinator</Name>
+					<Abstract type="html">The SFOAuthCoordinator instance processing this message.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/oauthCoordinatorDidCancelBrowserAuthentication:</Anchor>
             <NodeRef refid="166"/>
 		</Token>
 		

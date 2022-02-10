@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFAppType.html">
+	<File path="Constants/SFUserAccountChange.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFAppType</TokenIdentifier>
-			<Abstract type="html">Block typedef for creating a custom snapshot view controller.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFUserAccountChange</TokenIdentifier>
+			<Abstract type="html">The various changes that can affect a user account</Abstract>
+			<DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
 			
 			<NodeRef refid="201"/>
@@ -14,41 +14,34 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFAppTypeNative</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>kSFAppTypeNative</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountChangeUnknown</TokenIdentifier>
+            <Abstract type="html">Unknown change
+     </Abstract>
+            <Declaration>SFUserAccountChangeUnknown</Declaration>
             
-            <DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-            
-            <NodeRef refid="201"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFAppTypeHybrid</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>kSFAppTypeHybrid</Declaration>
-            
-            <DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
             <NodeRef refid="201"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFAppTypeReactNative</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>kSFAppTypeReactNative</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountChangeNewUser</TokenIdentifier>
+            <Abstract type="html">New User
+      </Abstract>
+            <Declaration>SFUserAccountChangeNewUser</Declaration>
             
-            <DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
             <NodeRef refid="201"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFAppTypeNativeSwift</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>kSFAppTypeNativeSwift</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountChangeCurrentUser</TokenIdentifier>
+            <Abstract type="html">Change of Current User
+     </Abstract>
+            <Declaration>SFUserAccountChangeCurrentUser</Declaration>
             
-            <DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
             <NodeRef refid="201"/>
         </Token>

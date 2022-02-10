@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFLoginViewController.html">
+	<File path="Classes/SFMethodInterceptor.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFLoginViewController</TokenIdentifier>
-			<Abstract type="html">The Salesforce login screen view.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFMethodInterceptor</TokenIdentifier>
+			<Abstract type="html">This class provides a simple way to intercept an
+instance method or a class method and forward message
+to the original method if needed.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
             
 			
 			<NodeRef refid="29"/>
@@ -13,356 +15,257 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/setDelegate:</TokenIdentifier>
-			<Abstract type="html">The delegate representing the owner of this object.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/setClassToIntercept:</TokenIdentifier>
+			<Abstract type="html">Class to intercept</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak, nullable) id&lt;SFLoginViewControllerDelegate&gt; delegate</Declaration>
+			<Declaration>@property (nonatomic, strong) Class classToIntercept</Declaration>
 			
 			
-			<Anchor>//api/name/delegate</Anchor>
+			<Anchor>//api/name/classToIntercept</Anchor>
             <NodeRef refid="29"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/delegate</TokenIdentifier>
-			<Abstract type="html">The delegate representing the owner of this object.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/classToIntercept</TokenIdentifier>
+			<Abstract type="html">Class to intercept</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak, nullable) id&lt;SFLoginViewControllerDelegate&gt; delegate</Declaration>
+			<Declaration>@property (nonatomic, strong) Class classToIntercept</Declaration>
 			
 			
-			<Anchor>//api/name/delegate</Anchor>
+			<Anchor>//api/name/classToIntercept</Anchor>
             <NodeRef refid="29"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFLoginViewController/delegate</TokenIdentifier>
-			<Abstract type="html">The delegate representing the owner of this object.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMethodInterceptor/classToIntercept</TokenIdentifier>
+			<Abstract type="html">Class to intercept</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak, nullable) id&lt;SFLoginViewControllerDelegate&gt; delegate</Declaration>
+			<Declaration>@property (nonatomic, strong) Class classToIntercept</Declaration>
 			
 			
-			<Anchor>//api/name/delegate</Anchor>
+			<Anchor>//api/name/classToIntercept</Anchor>
             <NodeRef refid="29"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/setOauthView:</TokenIdentifier>
-			<Abstract type="html">Outlet to the OAuth web view.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/setSelectorToIntercept:</TokenIdentifier>
+			<Abstract type="html">Selector to intercept</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) IBOutlet UIView *oauthView</Declaration>
+			<Declaration>@property (nonatomic) SEL selectorToIntercept</Declaration>
 			
 			
-			<Anchor>//api/name/oauthView</Anchor>
+			<Anchor>//api/name/selectorToIntercept</Anchor>
             <NodeRef refid="29"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/oauthView</TokenIdentifier>
-			<Abstract type="html">Outlet to the OAuth web view.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/selectorToIntercept</TokenIdentifier>
+			<Abstract type="html">Selector to intercept</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) IBOutlet UIView *oauthView</Declaration>
+			<Declaration>@property (nonatomic) SEL selectorToIntercept</Declaration>
 			
 			
-			<Anchor>//api/name/oauthView</Anchor>
+			<Anchor>//api/name/selectorToIntercept</Anchor>
             <NodeRef refid="29"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFLoginViewController/oauthView</TokenIdentifier>
-			<Abstract type="html">Outlet to the OAuth web view.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMethodInterceptor/selectorToIntercept</TokenIdentifier>
+			<Abstract type="html">Selector to intercept</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) IBOutlet UIView *oauthView</Declaration>
+			<Declaration>@property (nonatomic) SEL selectorToIntercept</Declaration>
 			
 			
-			<Anchor>//api/name/oauthView</Anchor>
+			<Anchor>//api/name/selectorToIntercept</Anchor>
             <NodeRef refid="29"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/set:</TokenIdentifier>
-			<Abstract type="html">Specify the font to use for navigation bar header text.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/setInstanceMethod:</TokenIdentifier>
+			<Abstract type="html">YES if the selectorToIntercept is an instance
+method, NO if it&apos;s a class method.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) UIFont *NS_SWIFT_NAME ( navigationBarFont )</Declaration>
+			<Declaration>@property (nonatomic) BOOL instanceMethod</Declaration>
 			
 			
-			<Anchor>//api/name/)</Anchor>
+			<Anchor>//api/name/instanceMethod</Anchor>
             <NodeRef refid="29"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/)</TokenIdentifier>
-			<Abstract type="html">Specify the font to use for navigation bar header text.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/instanceMethod</TokenIdentifier>
+			<Abstract type="html">YES if the selectorToIntercept is an instance
+method, NO if it&apos;s a class method.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) UIFont *NS_SWIFT_NAME ( navigationBarFont )</Declaration>
+			<Declaration>@property (nonatomic) BOOL instanceMethod</Declaration>
 			
 			
-			<Anchor>//api/name/)</Anchor>
+			<Anchor>//api/name/instanceMethod</Anchor>
             <NodeRef refid="29"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFLoginViewController/)</TokenIdentifier>
-			<Abstract type="html">Specify the font to use for navigation bar header text.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMethodInterceptor/instanceMethod</TokenIdentifier>
+			<Abstract type="html">YES if the selectorToIntercept is an instance
+method, NO if it&apos;s a class method.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) UIFont *NS_SWIFT_NAME ( navigationBarFont )</Declaration>
+			<Declaration>@property (nonatomic) BOOL instanceMethod</Declaration>
 			
 			
-			<Anchor>//api/name/)</Anchor>
+			<Anchor>//api/name/instanceMethod</Anchor>
             <NodeRef refid="29"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/setConfig:</TokenIdentifier>
-			<Abstract type="html">Specify all display properties in a config. All the above properties are backed by
-a config object</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/setTargetBeforeBlock:</TokenIdentifier>
+			<Abstract type="html">Block to be called before the target method. Can be nil.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nonnull) SFSDKLoginViewControllerConfig *config</Declaration>
+			<Declaration>@property (nonatomic, copy) SFMethodInterceptorInvocationCallback targetBeforeBlock</Declaration>
 			
 			
-			<Anchor>//api/name/config</Anchor>
+			<Anchor>//api/name/targetBeforeBlock</Anchor>
             <NodeRef refid="29"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/config</TokenIdentifier>
-			<Abstract type="html">Specify all display properties in a config. All the above properties are backed by
-a config object</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/targetBeforeBlock</TokenIdentifier>
+			<Abstract type="html">Block to be called before the target method. Can be nil.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nonnull) SFSDKLoginViewControllerConfig *config</Declaration>
+			<Declaration>@property (nonatomic, copy) SFMethodInterceptorInvocationCallback targetBeforeBlock</Declaration>
 			
 			
-			<Anchor>//api/name/config</Anchor>
+			<Anchor>//api/name/targetBeforeBlock</Anchor>
             <NodeRef refid="29"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFLoginViewController/config</TokenIdentifier>
-			<Abstract type="html">Specify all display properties in a config. All the above properties are backed by
-a config object</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMethodInterceptor/targetBeforeBlock</TokenIdentifier>
+			<Abstract type="html">Block to be called before the target method. Can be nil.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nonnull) SFSDKLoginViewControllerConfig *config</Declaration>
+			<Declaration>@property (nonatomic, copy) SFMethodInterceptorInvocationCallback targetBeforeBlock</Declaration>
 			
 			
-			<Anchor>//api/name/config</Anchor>
+			<Anchor>//api/name/targetBeforeBlock</Anchor>
             <NodeRef refid="29"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/setNavBar:</TokenIdentifier>
-			<Abstract type="html">Get the instance of nav bar. Use this property to get the instance of navBar</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/setTargetReplaceBlock:</TokenIdentifier>
+			<Abstract type="html">Block that replaces the target method. Can be nil.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) UINavigationBar *navBar</Declaration>
+			<Declaration>@property (nonatomic, copy) SFMethodInterceptorInvocationCallback targetReplaceBlock</Declaration>
 			
 			
-			<Anchor>//api/name/navBar</Anchor>
+			<Anchor>//api/name/targetReplaceBlock</Anchor>
             <NodeRef refid="29"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/navBar</TokenIdentifier>
-			<Abstract type="html">Get the instance of nav bar. Use this property to get the instance of navBar</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/targetReplaceBlock</TokenIdentifier>
+			<Abstract type="html">Block that replaces the target method. Can be nil.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) UINavigationBar *navBar</Declaration>
+			<Declaration>@property (nonatomic, copy) SFMethodInterceptorInvocationCallback targetReplaceBlock</Declaration>
 			
 			
-			<Anchor>//api/name/navBar</Anchor>
+			<Anchor>//api/name/targetReplaceBlock</Anchor>
             <NodeRef refid="29"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFLoginViewController/navBar</TokenIdentifier>
-			<Abstract type="html">Get the instance of nav bar. Use this property to get the instance of navBar</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMethodInterceptor/targetReplaceBlock</TokenIdentifier>
+			<Abstract type="html">Block that replaces the target method. Can be nil.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly, nullable) UINavigationBar *navBar</Declaration>
+			<Declaration>@property (nonatomic, copy) SFMethodInterceptorInvocationCallback targetReplaceBlock</Declaration>
 			
 			
-			<Anchor>//api/name/navBar</Anchor>
+			<Anchor>//api/name/targetReplaceBlock</Anchor>
             <NodeRef refid="29"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/setLoginHostListViewController:</TokenIdentifier>
-			<Abstract type="html">Get the refrence  to the SFSDKLoginHostListViewController</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/setTargetAfterBlock:</TokenIdentifier>
+			<Abstract type="html">Block to be called after the target method. Can be nil.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFSDKLoginHostListViewController *loginHostListViewController</Declaration>
+			<Declaration>@property (nonatomic, copy) SFMethodInterceptorInvocationAfterCallback targetAfterBlock</Declaration>
 			
 			
-			<Anchor>//api/name/loginHostListViewController</Anchor>
+			<Anchor>//api/name/targetAfterBlock</Anchor>
             <NodeRef refid="29"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/loginHostListViewController</TokenIdentifier>
-			<Abstract type="html">Get the refrence  to the SFSDKLoginHostListViewController</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/targetAfterBlock</TokenIdentifier>
+			<Abstract type="html">Block to be called after the target method. Can be nil.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFSDKLoginHostListViewController *loginHostListViewController</Declaration>
+			<Declaration>@property (nonatomic, copy) SFMethodInterceptorInvocationAfterCallback targetAfterBlock</Declaration>
 			
 			
-			<Anchor>//api/name/loginHostListViewController</Anchor>
+			<Anchor>//api/name/targetAfterBlock</Anchor>
             <NodeRef refid="29"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFLoginViewController/loginHostListViewController</TokenIdentifier>
-			<Abstract type="html">Get the refrence  to the SFSDKLoginHostListViewController</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMethodInterceptor/targetAfterBlock</TokenIdentifier>
+			<Abstract type="html">Block to be called after the target method. Can be nil.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFSDKLoginHostListViewController *loginHostListViewController</Declaration>
+			<Declaration>@property (nonatomic, copy) SFMethodInterceptorInvocationAfterCallback targetAfterBlock</Declaration>
 			
 			
-			<Anchor>//api/name/loginHostListViewController</Anchor>
+			<Anchor>//api/name/targetAfterBlock</Anchor>
             <NodeRef refid="29"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/styleNavigationBar:</TokenIdentifier>
-			<Abstract type="html">Applies the view&apos;s style attributes to the given navigation bar.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/setEnabled:</TokenIdentifier>
+			<Abstract type="html">Set this property to YES to enable the interceptor.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>- (void)styleNavigationBar:(nullable UINavigationBar *)navigationBar</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>navigationBar</Name>
-					<Abstract type="html">The navigation bar that the style is applied to.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic) BOOL enabled</Declaration>
 			
-			<Anchor>//api/name/styleNavigationBar:</Anchor>
+			
+			<Anchor>//api/name/enabled</Anchor>
             <NodeRef refid="29"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/showHostListView</TokenIdentifier>
-			<Abstract type="html">Present the Host List View.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/enabled</TokenIdentifier>
+			<Abstract type="html">Set this property to YES to enable the interceptor.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>- (void)showHostListView</Declaration>
+			<Declaration>@property (nonatomic) BOOL enabled</Declaration>
 			
 			
-			<Anchor>//api/name/showHostListView</Anchor>
+			<Anchor>//api/name/enabled</Anchor>
             <NodeRef refid="29"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/hideHostListView:</TokenIdentifier>
-			<Abstract type="html">Hide the Host List View.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMethodInterceptor/enabled</TokenIdentifier>
+			<Abstract type="html">Set this property to YES to enable the interceptor.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>- (void)hideHostListView:(BOOL)animated</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>animated</Name>
-					<Abstract type="html">Indicates whether or not the hiding should be animated.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/hideHostListView:</Anchor>
-            <NodeRef refid="29"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/createBackButton</TokenIdentifier>
-			<Abstract type="html">Factory Method to create the back button.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
-			
-			<Declaration>- (nonnull UIBarButtonItem *)createBackButton</Declaration>
+			<Declaration>@property (nonatomic) BOOL enabled</Declaration>
 			
 			
-			<Anchor>//api/name/createBackButton</Anchor>
-            <NodeRef refid="29"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/createSettingsButton</TokenIdentifier>
-			<Abstract type="html">Factory Method to create the settings button.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
-			
-			<Declaration>- (nonnull UIBarButtonItem *)createSettingsButton</Declaration>
-			
-			
-			<Anchor>//api/name/createSettingsButton</Anchor>
-            <NodeRef refid="29"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/createTitleItem</TokenIdentifier>
-			<Abstract type="html">Factory Method to create the navigation title.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
-			
-			<Declaration>- (nonnull UIView *)createTitleItem</Declaration>
-			
-			
-			<Anchor>//api/name/createTitleItem</Anchor>
-            <NodeRef refid="29"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/createLoginHostListViewController</TokenIdentifier>
-			<Abstract type="html">Factory Method to create the hostListView Controller.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
-			
-			<Declaration>- (nonnull SFSDKLoginHostListViewController *)createLoginHostListViewController</Declaration>
-			
-			
-			<Anchor>//api/name/createLoginHostListViewController</Anchor>
-            <NodeRef refid="29"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/shouldShowBackButton</TokenIdentifier>
-			<Abstract type="html">Logic to show back button.</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)shouldShowBackButton</Declaration>
-			
-			
-			<Anchor>//api/name/shouldShowBackButton</Anchor>
-            <NodeRef refid="29"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/handleBackButtonAction</TokenIdentifier>
-			<Abstract type="html">Back Button was pressed by user</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
-			
-			<Declaration>- (void)handleBackButtonAction</Declaration>
-			
-			
-			<Anchor>//api/name/handleBackButtonAction</Anchor>
-            <NodeRef refid="29"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/handleLoginHostSelectedAction:</TokenIdentifier>
-			<Abstract type="html">User Selected a host from the host list</Abstract>
-			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
-			
-			<Declaration>- (void)handleLoginHostSelectedAction:(nonnull SFSDKLoginHost *)host</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>host</Name>
-					<Abstract type="html">SFSDKLoginHost</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/handleLoginHostSelectedAction:</Anchor>
+			<Anchor>//api/name/enabled</Anchor>
             <NodeRef refid="29"/>
 		</Token>
 		

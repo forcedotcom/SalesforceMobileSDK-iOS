@@ -1,53 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSDKUserSelectionTableViewControllerDelegate.html">
+	<File path="Constants/SFOAuthTokenEndpointFlow.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSDKUserSelectionTableViewControllerDelegate</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthTokenEndpointFlow</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
             
 			
 			<NodeRef refid="191"/>
 		</Token>
 		
 		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionTableViewControllerDelegate/createNewuser:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
-			
-			<Declaration>- (void)createNewuser:(NSDictionary *)options</Declaration>
-			
-			
-			<Anchor>//api/name/createNewuser:</Anchor>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTokenEndpointFlowNone</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFOAuthTokenEndpointFlowNone</Declaration>
+            
+            <DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+            
             <NodeRef refid="191"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionTableViewControllerDelegate/selectedUser:options:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
-			
-			<Declaration>- (void)selectedUser:(SFUserAccount *)user options:(NSDictionary *)options</Declaration>
-			
-			
-			<Anchor>//api/name/selectedUser:options:</Anchor>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTokenEndpointFlowRefresh</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFOAuthTokenEndpointFlowRefresh</Declaration>
+            
+            <DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+            
             <NodeRef refid="191"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionTableViewControllerDelegate/cancel:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
-			
-			<Declaration>- (void)cancel:(NSDictionary *)options</Declaration>
-			
-			
-			<Anchor>//api/name/cancel:</Anchor>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTokenEndpointFlowAdvancedBrowser</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFOAuthTokenEndpointFlowAdvancedBrowser</Declaration>
+            
+            <DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+            
             <NodeRef refid="191"/>
-		</Token>
-		
+        </Token>
         
         
 	</File>

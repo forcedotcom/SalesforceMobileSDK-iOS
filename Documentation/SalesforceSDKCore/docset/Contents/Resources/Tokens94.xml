@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKInstrumentationHelper.html">
+	<File path="Classes/SFSDKLoginViewControllerConfig.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKInstrumentationHelper</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKInstrumentationHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKLoginViewControllerConfig</TokenIdentifier>
+			<Abstract type="html">Block typedef for setting up a custom SFLoginViewController.</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
             
 			
 			<NodeRef refid="94"/>
@@ -13,50 +13,110 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationHelper/setIsEnabled:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKInstrumentationHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/set:</TokenIdentifier>
+			<Abstract type="html">Specify visibility of nav bar. This property will be used to hide/show the nav bar</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
 			
-			<Declaration>@property (class, nonatomic, readonly) BOOL isEnabled</Declaration>
+			<Declaration>@property (nonatomic) BOOL showNavbar NS_SWIFT_NAME ( showsNavigationBar )</Declaration>
 			
 			
-			<Anchor>//api/name/isEnabled</Anchor>
+			<Anchor>//api/name/)</Anchor>
             <NodeRef refid="94"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationHelper/isEnabled</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKInstrumentationHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/)</TokenIdentifier>
+			<Abstract type="html">Specify visibility of nav bar. This property will be used to hide/show the nav bar</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
 			
-			<Declaration>@property (class, nonatomic, readonly) BOOL isEnabled</Declaration>
+			<Declaration>@property (nonatomic) BOOL showNavbar NS_SWIFT_NAME ( showsNavigationBar )</Declaration>
 			
 			
-			<Anchor>//api/name/isEnabled</Anchor>
+			<Anchor>//api/name/)</Anchor>
             <NodeRef refid="94"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKInstrumentationHelper/isEnabled</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKInstrumentationHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginViewControllerConfig/)</TokenIdentifier>
+			<Abstract type="html">Specify visibility of nav bar. This property will be used to hide/show the nav bar</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
 			
-			<Declaration>@property (class, nonatomic, readonly) BOOL isEnabled</Declaration>
+			<Declaration>@property (nonatomic) BOOL showNavbar NS_SWIFT_NAME ( showsNavigationBar )</Declaration>
 			
 			
-			<Anchor>//api/name/isEnabled</Anchor>
+			<Anchor>//api/name/)</Anchor>
             <NodeRef refid="94"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKInstrumentationHelper/swizzleMethod:with:forClass:isInstanceMethod:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/setDelegate:</TokenIdentifier>
+			<Abstract type="html">Specifiy a delegate for LoginViewController.</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak, nullable) id&lt;SFLoginViewControllerDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/delegate</TokenIdentifier>
+			<Abstract type="html">Specifiy a delegate for LoginViewController.</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak, nullable) id&lt;SFLoginViewControllerDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginViewControllerConfig/delegate</TokenIdentifier>
+			<Abstract type="html">Specifiy a delegate for LoginViewController.</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak, nullable) id&lt;SFLoginViewControllerDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/setLoginViewControllerCreationBlock:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKInstrumentationHelper.h</DeclaredIn>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
 			
-			<Declaration>+ (void)swizzleMethod:(SEL)originalSelector with:(SEL)swizzledSelector forClass:(Class)clazz isInstanceMethod:(BOOL)isInstanceMethod</Declaration>
+			<Declaration>@property (nonatomic, copy, nullable) SFLoginViewControllerCreationBlock loginViewControllerCreationBlock</Declaration>
 			
 			
-			<Anchor>//api/name/swizzleMethod:with:forClass:isInstanceMethod:</Anchor>
+			<Anchor>//api/name/loginViewControllerCreationBlock</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/loginViewControllerCreationBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) SFLoginViewControllerCreationBlock loginViewControllerCreationBlock</Declaration>
+			
+			
+			<Anchor>//api/name/loginViewControllerCreationBlock</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginViewControllerConfig/loginViewControllerCreationBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) SFLoginViewControllerCreationBlock loginViewControllerCreationBlock</Declaration>
+			
+			
+			<Anchor>//api/name/loginViewControllerCreationBlock</Anchor>
             <NodeRef refid="94"/>
 		</Token>
 		

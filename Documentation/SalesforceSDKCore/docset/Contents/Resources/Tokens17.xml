@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFEncryptStream.html">
+	<File path="Classes/SFEncryptionKey.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFEncryptStream</TokenIdentifier>
-			<Abstract type="html">SFEncryptStream is an output stream that encrypts data before it&apos;s written out.
-This class uses SFCryptChunks to perform the encryption.</Abstract>
-			<DeclaredIn>SFEncryptStream.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFEncryptionKey</TokenIdentifier>
+			<Abstract type="html">Data object representing a symmetric encryption key, with a key value and initialization vector.</Abstract>
+			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
             
 			
 			<NodeRef refid="17"/>
@@ -14,42 +13,212 @@ This class uses SFCryptChunks to perform the encryption.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFEncryptStream/setupWithEncryptionKey:</TokenIdentifier>
-			<Abstract type="html">Setup for encryption. Always call either this method or setupWithKey:andInitializationVector:
-before using this stream.</Abstract>
-			<DeclaredIn>SFEncryptStream.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFEncryptionKey/initWithData:initializationVector:</TokenIdentifier>
+			<Abstract type="html">Designated initializer.</Abstract>
+			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
 			
-			<Declaration>- (void)setupWithEncryptionKey:(SFEncryptionKey *)encKey</Declaration>
+			<Declaration>- (id)initWithData:(NSData *)keyData initializationVector:(nullable NSData *)iv</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>encKey</Name>
-					<Abstract type="html">Encryption key</Abstract>
+					<Name>keyData</Name>
+					<Abstract type="html">The key component, represented as NSData.</Abstract>
+				</Parameter><Parameter>
+					<Name>iv</Name>
+					<Abstract type="html">The initialization vector, represented as NSData.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/setupWithEncryptionKey:</Anchor>
+			<Anchor>//api/name/initWithData:initializationVector:</Anchor>
             <NodeRef refid="17"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFEncryptStream/setupWithKey:andInitializationVector:</TokenIdentifier>
-			<Abstract type="html">Setup for encryption. Always call either this method or setupWithEncryptionKey:
-before using this stream. Internally, this method initializes the encryption key using key and iv and then calls
-setupWithEncryptionKey:.</Abstract>
-			<DeclaredIn>SFEncryptStream.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFEncryptionKey/createKey</TokenIdentifier>
+			<Abstract type="html">Generate an encryption key.</Abstract>
+			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
 			
-			<Declaration>- (void)setupWithKey:(NSData *)key andInitializationVector:(nullable NSData *)iv</Declaration>
+			<Declaration>+ (SFEncryptionKey *)createKey</Declaration>
+			
+			<ReturnValue><Abstract type="html">SFEncryptionKey object that contains the encryption key.</Abstract></ReturnValue>
+			<Anchor>//api/name/createKey</Anchor>
+            <NodeRef refid="17"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFEncryptionKey/encryptData:</TokenIdentifier>
+			<Abstract type="html">Encrypt the given data.</Abstract>
+			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
+			
+			<Declaration>- (nullable NSData *)encryptData:(NSData *)dataToEncrypt</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>key</Name>
-					<Abstract type="html">Cipher key.</Abstract>
-				</Parameter><Parameter>
-					<Name>iv</Name>
-					<Abstract type="html">Initialization vector. Its size must match SFCryptChunksCipherBlockSize.</Abstract>
+					<Name>dataToEncrypt</Name>
+					<Abstract type="html">The data to encrypt.</Abstract>
 				</Parameter>
 			</Parameters>
+			<ReturnValue><Abstract type="html">NSData object that contains the encrypted data.</Abstract></ReturnValue>
+			<Anchor>//api/name/encryptData:</Anchor>
+            <NodeRef refid="17"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFEncryptionKey/decryptData:</TokenIdentifier>
+			<Abstract type="html">Decrypt the given data.</Abstract>
+			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
 			
-			<Anchor>//api/name/setupWithKey:andInitializationVector:</Anchor>
+			<Declaration>- (nullable NSData *)decryptData:(NSData *)dataToDecrypt</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>dataToDecrypt</Name>
+					<Abstract type="html">Data to decrypt</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">NSData object that contains the decrypted data.</Abstract></ReturnValue>
+			<Anchor>//api/name/decryptData:</Anchor>
+            <NodeRef refid="17"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFEncryptionKey/setKey:</TokenIdentifier>
+			<Abstract type="html">Key component of the object.</Abstract>
+			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) NSData *key</Declaration>
+			
+			
+			<Anchor>//api/name/key</Anchor>
+            <NodeRef refid="17"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFEncryptionKey/key</TokenIdentifier>
+			<Abstract type="html">Key component of the object.</Abstract>
+			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) NSData *key</Declaration>
+			
+			
+			<Anchor>//api/name/key</Anchor>
+            <NodeRef refid="17"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFEncryptionKey/key</TokenIdentifier>
+			<Abstract type="html">Key component of the object.</Abstract>
+			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) NSData *key</Declaration>
+			
+			
+			<Anchor>//api/name/key</Anchor>
+            <NodeRef refid="17"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFEncryptionKey/setInitializationVector:</TokenIdentifier>
+			<Abstract type="html">Initialization vector component of the object.</Abstract>
+			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSData *initializationVector</Declaration>
+			
+			
+			<Anchor>//api/name/initializationVector</Anchor>
+            <NodeRef refid="17"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFEncryptionKey/initializationVector</TokenIdentifier>
+			<Abstract type="html">Initialization vector component of the object.</Abstract>
+			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSData *initializationVector</Declaration>
+			
+			
+			<Anchor>//api/name/initializationVector</Anchor>
+            <NodeRef refid="17"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFEncryptionKey/initializationVector</TokenIdentifier>
+			<Abstract type="html">Initialization vector component of the object.</Abstract>
+			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSData *initializationVector</Declaration>
+			
+			
+			<Anchor>//api/name/initializationVector</Anchor>
+            <NodeRef refid="17"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFEncryptionKey/setKeyAsString:</TokenIdentifier>
+			<Abstract type="html">The base64 representation of the key data.</Abstract>
+			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *keyAsString</Declaration>
+			
+			
+			<Anchor>//api/name/keyAsString</Anchor>
+            <NodeRef refid="17"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFEncryptionKey/keyAsString</TokenIdentifier>
+			<Abstract type="html">The base64 representation of the key data.</Abstract>
+			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *keyAsString</Declaration>
+			
+			
+			<Anchor>//api/name/keyAsString</Anchor>
+            <NodeRef refid="17"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFEncryptionKey/keyAsString</TokenIdentifier>
+			<Abstract type="html">The base64 representation of the key data.</Abstract>
+			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *keyAsString</Declaration>
+			
+			
+			<Anchor>//api/name/keyAsString</Anchor>
+            <NodeRef refid="17"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFEncryptionKey/setInitializationVectorAsString:</TokenIdentifier>
+			<Abstract type="html">The base64 representation of the initialization vector data.</Abstract>
+			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *initializationVectorAsString</Declaration>
+			
+			
+			<Anchor>//api/name/initializationVectorAsString</Anchor>
+            <NodeRef refid="17"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFEncryptionKey/initializationVectorAsString</TokenIdentifier>
+			<Abstract type="html">The base64 representation of the initialization vector data.</Abstract>
+			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *initializationVectorAsString</Declaration>
+			
+			
+			<Anchor>//api/name/initializationVectorAsString</Anchor>
+            <NodeRef refid="17"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFEncryptionKey/initializationVectorAsString</TokenIdentifier>
+			<Abstract type="html">The base64 representation of the initialization vector data.</Abstract>
+			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *initializationVectorAsString</Declaration>
+			
+			
+			<Anchor>//api/name/initializationVectorAsString</Anchor>
             <NodeRef refid="17"/>
 		</Token>
 		

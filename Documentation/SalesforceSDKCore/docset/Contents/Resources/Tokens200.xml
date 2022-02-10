@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFAppLockControllerMode.html">
+	<File path="Constants/SFUserAccountAccessRestriction.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFAppLockControllerMode</TokenIdentifier>
-			<Abstract type="html">Mode constants indicating whether to create/verify an passcode or use biometric.</Abstract>
-			<DeclaredIn>SFAppLockViewControllerTypes.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFUserAccountAccessRestriction</TokenIdentifier>
+			<Abstract type="html">User account restrictions</Abstract>
+			<DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
 			
 			<NodeRef refid="200"/>
@@ -14,51 +14,41 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFAppLockControllerModeCreatePasscode</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountAccessRestrictionNone</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFAppLockControllerModeCreatePasscode</Declaration>
+            <Declaration>SFUserAccountAccessRestrictionNone</Declaration>
             
-            <DeclaredIn>SFAppLockViewControllerTypes.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
             <NodeRef refid="200"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFAppLockControllerModeVerifyPasscode</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountAccessRestrictionChatter</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFAppLockControllerModeVerifyPasscode</Declaration>
+            <Declaration>SFUserAccountAccessRestrictionChatter</Declaration>
             
-            <DeclaredIn>SFAppLockViewControllerTypes.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
             <NodeRef refid="200"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFAppLockControllerModeChangePasscode</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountAccessRestrictionREST</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFAppLockControllerModeChangePasscode</Declaration>
+            <Declaration>SFUserAccountAccessRestrictionREST</Declaration>
             
-            <DeclaredIn>SFAppLockViewControllerTypes.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
             <NodeRef refid="200"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFAppLockControllerModeEnableBiometric</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountAccessRestrictionOther</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFAppLockControllerModeEnableBiometric</Declaration>
+            <Declaration>SFUserAccountAccessRestrictionOther</Declaration>
             
-            <DeclaredIn>SFAppLockViewControllerTypes.h</DeclaredIn>
-            
-            <NodeRef refid="200"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFAppLockControllerModeVerifyBiometric</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFAppLockControllerModeVerifyBiometric</Declaration>
-            
-            <DeclaredIn>SFAppLockViewControllerTypes.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
             <NodeRef refid="200"/>
         </Token>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFBiometricUnlockState.html">
+	<File path="Constants/SFUserAccountDataChange.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFBiometricUnlockState</TokenIdentifier>
-			<Abstract type="html">The state of biometric unlock.</Abstract>
-			<DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFUserAccountDataChange</TokenIdentifier>
+			<Abstract type="html">The various changes that can affect a user account</Abstract>
+			<DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
 			
 			<NodeRef refid="202"/>
@@ -14,45 +14,56 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFBiometricUnlockApproved</TokenIdentifier>
-            <Abstract type="html">     Biometric unlock was approved by user.
-     *</Abstract>
-            <Declaration>SFBiometricUnlockApproved</Declaration>
-            
-            <DeclaredIn>SFSecurityLockout.h</DeclaredIn>
-            
-            <NodeRef refid="202"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFBiometricUnlockDeclined</TokenIdentifier>
-            <Abstract type="html">     Biometric unlock was declined by user - do not prompt user again.
-     *</Abstract>
-            <Declaration>SFBiometricUnlockDeclined</Declaration>
-            
-            <DeclaredIn>SFSecurityLockout.h</DeclaredIn>
-            
-            <NodeRef refid="202"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFBiometricUnlockAvailable</TokenIdentifier>
-            <Abstract type="html">     Biometric unlock is available - but user has not been prompted to approve it yet.
-     *</Abstract>
-            <Declaration>SFBiometricUnlockAvailable</Declaration>
-            
-            <DeclaredIn>SFSecurityLockout.h</DeclaredIn>
-            
-            <NodeRef refid="202"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFBiometricUnlockUnavailable</TokenIdentifier>
-            <Abstract type="html">     Biometric unlock is not available.
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountDataChangeUnknown</TokenIdentifier>
+            <Abstract type="html">Unknown change
      </Abstract>
-            <Declaration>SFBiometricUnlockUnavailable</Declaration>
+            <Declaration>SFUserAccountDataChangeUnknown</Declaration>
             
-            <DeclaredIn>SFSecurityLockout.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+            
+            <NodeRef refid="202"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountDataChangeCommunityId</TokenIdentifier>
+            <Abstract type="html">The community ID changed
+     </Abstract>
+            <Declaration>SFUserAccountDataChangeCommunityId</Declaration>
+            
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+            
+            <NodeRef refid="202"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountDataChangeIdData</TokenIdentifier>
+            <Abstract type="html">The ID data changed
+     </Abstract>
+            <Declaration>SFUserAccountDataChangeIdData</Declaration>
+            
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+            
+            <NodeRef refid="202"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountDataChangeInstanceURL</TokenIdentifier>
+            <Abstract type="html">InstanceURL Changed
+    </Abstract>
+            <Declaration>SFUserAccountDataChangeInstanceURL</Declaration>
+            
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+            
+            <NodeRef refid="202"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountDataChangeAccessToken</TokenIdentifier>
+            <Abstract type="html">AccessToken Changed
+    </Abstract>
+            <Declaration>SFUserAccountDataChangeAccessToken</Declaration>
+            
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
             <NodeRef refid="202"/>
         </Token>

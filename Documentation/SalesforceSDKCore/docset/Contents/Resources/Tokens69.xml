@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKAuthViewHandler.html">
+	<File path="Classes/SFSDKCompositeRequest.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAuthViewHandler</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKCompositeRequest</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
+			<DeclaredIn>SFSDKCompositeRequest.h</DeclaredIn>
             
 			
 			<NodeRef refid="69"/>
@@ -13,94 +13,86 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHandler/setAuthViewDisplayBlock:</TokenIdentifier>
-			<Abstract type="html">The block used to display the auth view.</Abstract>
-			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCompositeRequest/setAllOrNone:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKCompositeRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFSDKAuthViewDisplayBlock authViewDisplayBlock</Declaration>
+			<Declaration>@property (nonatomic, readonly) BOOL allOrNone</Declaration>
 			
 			
-			<Anchor>//api/name/authViewDisplayBlock</Anchor>
+			<Anchor>//api/name/allOrNone</Anchor>
             <NodeRef refid="69"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHandler/authViewDisplayBlock</TokenIdentifier>
-			<Abstract type="html">The block used to display the auth view.</Abstract>
-			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCompositeRequest/allOrNone</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKCompositeRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFSDKAuthViewDisplayBlock authViewDisplayBlock</Declaration>
+			<Declaration>@property (nonatomic, readonly) BOOL allOrNone</Declaration>
 			
 			
-			<Anchor>//api/name/authViewDisplayBlock</Anchor>
+			<Anchor>//api/name/allOrNone</Anchor>
             <NodeRef refid="69"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthViewHandler/authViewDisplayBlock</TokenIdentifier>
-			<Abstract type="html">The block used to display the auth view.</Abstract>
-			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKCompositeRequest/allOrNone</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKCompositeRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFSDKAuthViewDisplayBlock authViewDisplayBlock</Declaration>
+			<Declaration>@property (nonatomic, readonly) BOOL allOrNone</Declaration>
 			
 			
-			<Anchor>//api/name/authViewDisplayBlock</Anchor>
+			<Anchor>//api/name/allOrNone</Anchor>
             <NodeRef refid="69"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHandler/setAuthViewDismissBlock:</TokenIdentifier>
-			<Abstract type="html">The block used to dismiss the auth view.</Abstract>
-			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCompositeRequest/setAllSubRequests:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKCompositeRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFSDKAuthViewDismissBlock authViewDismissBlock</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSArray&lt;SFSDKCompositeSubRequest*&gt; *allSubRequests</Declaration>
 			
 			
-			<Anchor>//api/name/authViewDismissBlock</Anchor>
+			<Anchor>//api/name/allSubRequests</Anchor>
             <NodeRef refid="69"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHandler/authViewDismissBlock</TokenIdentifier>
-			<Abstract type="html">The block used to dismiss the auth view.</Abstract>
-			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCompositeRequest/allSubRequests</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKCompositeRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFSDKAuthViewDismissBlock authViewDismissBlock</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSArray&lt;SFSDKCompositeSubRequest*&gt; *allSubRequests</Declaration>
 			
 			
-			<Anchor>//api/name/authViewDismissBlock</Anchor>
+			<Anchor>//api/name/allSubRequests</Anchor>
             <NodeRef refid="69"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthViewHandler/authViewDismissBlock</TokenIdentifier>
-			<Abstract type="html">The block used to dismiss the auth view.</Abstract>
-			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKCompositeRequest/allSubRequests</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKCompositeRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFSDKAuthViewDismissBlock authViewDismissBlock</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSArray&lt;SFSDKCompositeSubRequest*&gt; *allSubRequests</Declaration>
 			
 			
-			<Anchor>//api/name/authViewDismissBlock</Anchor>
+			<Anchor>//api/name/allSubRequests</Anchor>
             <NodeRef refid="69"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHandler/initWithDisplayBlock:dismissBlock:</TokenIdentifier>
-			<Abstract type="html">Designated initializer for the class.</Abstract>
-			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCompositeRequest/addRequest:referenceId:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKCompositeRequest+Internal.h</DeclaredIn>
 			
-			<Declaration>- (id)initWithDisplayBlock:(SFSDKAuthViewDisplayBlock)displayBlock dismissBlock:(SFSDKAuthViewDismissBlock _Nullable)dismissBlock</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>displayBlock</Name>
-					<Abstract type="html">The block used to display the auth view.</Abstract>
-				</Parameter><Parameter>
-					<Name>dismissBlock</Name>
-					<Abstract type="html">The block used to dismiss the auth view.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (void)addRequest:(SFRestRequest *)request referenceId:(NSString *)identifier</Declaration>
 			
-			<Anchor>//api/name/initWithDisplayBlock:dismissBlock:</Anchor>
+			
+			<Anchor>//api/name/addRequest:referenceId:</Anchor>
             <NodeRef refid="69"/>
 		</Token>
 		

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKLoginFlowSelectionViewController.html">
+	<File path="Classes/SFSDKMacDetectUtil.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKLoginFlowSelectionViewController</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKMacDetectUtil</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKLoginFlowSelectionViewController.h</DeclaredIn>
+			<DeclaredIn>SFSDKMacDetectUtil.h</DeclaredIn>
             
 			
 			<NodeRef refid="96"/>
@@ -13,74 +13,14 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginFlowSelectionViewController/setSelectionFlowDelegate:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKMacDetectUtil/isOnMac</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKLoginFlowSelectionViewController.h</DeclaredIn>
+			<DeclaredIn>SFSDKMacDetectUtil.h</DeclaredIn>
 			
-			<Declaration>@property (weak, nonatomic) id&lt;SFSDKLoginFlowSelectionViewDelegate&gt; selectionFlowDelegate</Declaration>
-			
-			
-			<Anchor>//api/name/selectionFlowDelegate</Anchor>
-            <NodeRef refid="96"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginFlowSelectionViewController/selectionFlowDelegate</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKLoginFlowSelectionViewController.h</DeclaredIn>
-			
-			<Declaration>@property (weak, nonatomic) id&lt;SFSDKLoginFlowSelectionViewDelegate&gt; selectionFlowDelegate</Declaration>
+			<Declaration>+ (BOOL)isOnMac</Declaration>
 			
 			
-			<Anchor>//api/name/selectionFlowDelegate</Anchor>
-            <NodeRef refid="96"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginFlowSelectionViewController/selectionFlowDelegate</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKLoginFlowSelectionViewController.h</DeclaredIn>
-			
-			<Declaration>@property (weak, nonatomic) id&lt;SFSDKLoginFlowSelectionViewDelegate&gt; selectionFlowDelegate</Declaration>
-			
-			
-			<Anchor>//api/name/selectionFlowDelegate</Anchor>
-            <NodeRef refid="96"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginFlowSelectionViewController/setAppOptions:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKLoginFlowSelectionViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSMutableDictionary *appOptions</Declaration>
-			
-			
-			<Anchor>//api/name/appOptions</Anchor>
-            <NodeRef refid="96"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginFlowSelectionViewController/appOptions</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKLoginFlowSelectionViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSMutableDictionary *appOptions</Declaration>
-			
-			
-			<Anchor>//api/name/appOptions</Anchor>
-            <NodeRef refid="96"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginFlowSelectionViewController/appOptions</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKLoginFlowSelectionViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSMutableDictionary *appOptions</Declaration>
-			
-			
-			<Anchor>//api/name/appOptions</Anchor>
+			<Anchor>//api/name/isOnMac</Anchor>
             <NodeRef refid="96"/>
 		</Token>
 		

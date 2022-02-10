@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKAlertView.html">
+	<File path="Classes/SFSDKAppFeatureMarkers.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAlertView</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertView.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAppFeatureMarkers</TokenIdentifier>
+			<Abstract type="html">Class to register and unregister feature markers associated with SDK facilities being used in
+an app.</Abstract>
+			<DeclaredIn>SFSDKAppFeatureMarkers.h</DeclaredIn>
             
 			
 			<NodeRef refid="51"/>
@@ -13,98 +14,48 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertView/setController:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertView.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKAppFeatureMarkers/registerAppFeature:</TokenIdentifier>
+			<Abstract type="html">Register a particular app feature.</Abstract>
+			<DeclaredIn>SFSDKAppFeatureMarkers.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) UIAlertController *controller</Declaration>
+			<Declaration>+ (void)registerAppFeature:(nonnull NSString *)appFeature</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>appFeature</Name>
+					<Abstract type="html">The string representation of the feature to register.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/controller</Anchor>
+			<Anchor>//api/name/registerAppFeature:</Anchor>
             <NodeRef refid="51"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertView/controller</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertView.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKAppFeatureMarkers/unregisterAppFeature:</TokenIdentifier>
+			<Abstract type="html">Unregister a particular app feature.</Abstract>
+			<DeclaredIn>SFSDKAppFeatureMarkers.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) UIAlertController *controller</Declaration>
+			<Declaration>+ (void)unregisterAppFeature:(nonnull NSString *)appFeature</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>appFeature</Name>
+					<Abstract type="html">The string representation of the feature to unregister.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/controller</Anchor>
+			<Anchor>//api/name/unregisterAppFeature:</Anchor>
             <NodeRef refid="51"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAlertView/controller</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertView.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKAppFeatureMarkers/appFeatures</TokenIdentifier>
+			<Abstract type="html">The current set of registered features.</Abstract>
+			<DeclaredIn>SFSDKAppFeatureMarkers.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) UIAlertController *controller</Declaration>
+			<Declaration>+ (nonnull NSSet&lt;NSString*&gt; *)appFeatures</Declaration>
 			
-			
-			<Anchor>//api/name/controller</Anchor>
-            <NodeRef refid="51"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertView/setWindow:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, weak) SFSDKWindowContainer *window</Declaration>
-			
-			
-			<Anchor>//api/name/window</Anchor>
-            <NodeRef refid="51"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertView/window</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, weak) SFSDKWindowContainer *window</Declaration>
-			
-			
-			<Anchor>//api/name/window</Anchor>
-            <NodeRef refid="51"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAlertView/window</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, weak) SFSDKWindowContainer *window</Declaration>
-			
-			
-			<Anchor>//api/name/window</Anchor>
-            <NodeRef refid="51"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertView/presentViewController:completion:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertView.h</DeclaredIn>
-			
-			<Declaration>- (void)presentViewController:(BOOL)animated completion:(void ( ^ __nullable ) ( void ))completion</Declaration>
-			
-			
-			<Anchor>//api/name/presentViewController:completion:</Anchor>
-            <NodeRef refid="51"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertView/initWithMessage:window:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertView.h</DeclaredIn>
-			
-			<Declaration>- (instancetype)initWithMessage:(SFSDKAlertMessage *)message window:(SFSDKWindowContainer *)window</Declaration>
-			
-			
-			<Anchor>//api/name/initWithMessage:window:</Anchor>
+			<ReturnValue><Abstract type="html">The current set of registered features.</Abstract></ReturnValue>
+			<Anchor>//api/name/appFeatures</Anchor>
             <NodeRef refid="51"/>
 		</Token>
 		

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFManagedPreferences.html">
+	<File path="Classes/SFNativeRestRequestListener.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFManagedPreferences</TokenIdentifier>
-			<Abstract type="html">Class to handle preferences set by an MDM provider.</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFNativeRestRequestListener</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNativeRestRequestListener.h</DeclaredIn>
             
 			
 			<NodeRef refid="30"/>
@@ -13,410 +13,122 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFManagedPreferences/sharedPreferences</TokenIdentifier>
-			<Abstract type="html">The shared instance of this class.</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNativeRestRequestListener/setRequest:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNativeRestRequestListener.h</DeclaredIn>
 			
-			<Declaration>+ (instancetype)sharedPreferences</Declaration>
+			<Declaration>@property (nonatomic, strong) SFRestRequest *request</Declaration>
 			
-			<ReturnValue><Abstract type="html">The shared instance of this class.</Abstract></ReturnValue>
-			<Anchor>//api/name/sharedPreferences</Anchor>
+			
+			<Anchor>//api/name/request</Anchor>
             <NodeRef refid="30"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setHasManagedPreferences:</TokenIdentifier>
-			<Abstract type="html">Whether or not any managed preferences have been configured for this app.</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNativeRestRequestListener/request</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNativeRestRequestListener.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL hasManagedPreferences</Declaration>
+			<Declaration>@property (nonatomic, strong) SFRestRequest *request</Declaration>
 			
 			
-			<Anchor>//api/name/hasManagedPreferences</Anchor>
+			<Anchor>//api/name/request</Anchor>
             <NodeRef refid="30"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/hasManagedPreferences</TokenIdentifier>
-			<Abstract type="html">Whether or not any managed preferences have been configured for this app.</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFNativeRestRequestListener/request</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNativeRestRequestListener.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL hasManagedPreferences</Declaration>
+			<Declaration>@property (nonatomic, strong) SFRestRequest *request</Declaration>
 			
 			
-			<Anchor>//api/name/hasManagedPreferences</Anchor>
+			<Anchor>//api/name/request</Anchor>
             <NodeRef refid="30"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/hasManagedPreferences</TokenIdentifier>
-			<Abstract type="html">Whether or not any managed preferences have been configured for this app.</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNativeRestRequestListener/setSleepDuringLoad:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNativeRestRequestListener.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL hasManagedPreferences</Declaration>
+			<Declaration>@property (nonatomic, assign) NSTimeInterval sleepDuringLoad</Declaration>
 			
 			
-			<Anchor>//api/name/hasManagedPreferences</Anchor>
+			<Anchor>//api/name/sleepDuringLoad</Anchor>
             <NodeRef refid="30"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setRequireCertificateAuthentication:</TokenIdentifier>
-			<Abstract type="html">Whether the app is configured to require certificate-based authentication. (RequireCertAuth)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNativeRestRequestListener/sleepDuringLoad</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNativeRestRequestListener.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL requireCertificateAuthentication</Declaration>
+			<Declaration>@property (nonatomic, assign) NSTimeInterval sleepDuringLoad</Declaration>
 			
 			
-			<Anchor>//api/name/requireCertificateAuthentication</Anchor>
+			<Anchor>//api/name/sleepDuringLoad</Anchor>
             <NodeRef refid="30"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/requireCertificateAuthentication</TokenIdentifier>
-			<Abstract type="html">Whether the app is configured to require certificate-based authentication. (RequireCertAuth)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFNativeRestRequestListener/sleepDuringLoad</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNativeRestRequestListener.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL requireCertificateAuthentication</Declaration>
+			<Declaration>@property (nonatomic, assign) NSTimeInterval sleepDuringLoad</Declaration>
 			
 			
-			<Anchor>//api/name/requireCertificateAuthentication</Anchor>
+			<Anchor>//api/name/sleepDuringLoad</Anchor>
             <NodeRef refid="30"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/requireCertificateAuthentication</TokenIdentifier>
-			<Abstract type="html">Whether the app is configured to require certificate-based authentication. (RequireCertAuth)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNativeRestRequestListener/setRawResponse:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNativeRestRequestListener.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL requireCertificateAuthentication</Declaration>
+			<Declaration>@property (nonatomic, strong) NSURLResponse *rawResponse</Declaration>
 			
 			
-			<Anchor>//api/name/requireCertificateAuthentication</Anchor>
+			<Anchor>//api/name/rawResponse</Anchor>
             <NodeRef refid="30"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setLoginHosts:</TokenIdentifier>
-			<Abstract type="html">An array of prescribed login hosts from the MDM provider. (AppServiceHosts)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNativeRestRequestListener/rawResponse</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNativeRestRequestListener.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSArray *loginHosts</Declaration>
+			<Declaration>@property (nonatomic, strong) NSURLResponse *rawResponse</Declaration>
 			
 			
-			<Anchor>//api/name/loginHosts</Anchor>
+			<Anchor>//api/name/rawResponse</Anchor>
             <NodeRef refid="30"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/loginHosts</TokenIdentifier>
-			<Abstract type="html">An array of prescribed login hosts from the MDM provider. (AppServiceHosts)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFNativeRestRequestListener/rawResponse</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNativeRestRequestListener.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSArray *loginHosts</Declaration>
+			<Declaration>@property (nonatomic, strong) NSURLResponse *rawResponse</Declaration>
 			
 			
-			<Anchor>//api/name/loginHosts</Anchor>
+			<Anchor>//api/name/rawResponse</Anchor>
             <NodeRef refid="30"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/loginHosts</TokenIdentifier>
-			<Abstract type="html">An array of prescribed login hosts from the MDM provider. (AppServiceHosts)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNativeRestRequestListener/initWithRequest:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNativeRestRequestListener.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSArray *loginHosts</Declaration>
+			<Declaration>- (id)initWithRequest:(SFRestRequest *)request</Declaration>
 			
 			
-			<Anchor>//api/name/loginHosts</Anchor>
-            <NodeRef refid="30"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setLoginHostLabels:</TokenIdentifier>
-			<Abstract type="html">The associated labels for the provided login hosts. (AppServiceHostLabels)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSArray *loginHostLabels</Declaration>
-			
-			
-			<Anchor>//api/name/loginHostLabels</Anchor>
-            <NodeRef refid="30"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/loginHostLabels</TokenIdentifier>
-			<Abstract type="html">The associated labels for the provided login hosts. (AppServiceHostLabels)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSArray *loginHostLabels</Declaration>
-			
-			
-			<Anchor>//api/name/loginHostLabels</Anchor>
-            <NodeRef refid="30"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/loginHostLabels</TokenIdentifier>
-			<Abstract type="html">The associated labels for the provided login hosts. (AppServiceHostLabels)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSArray *loginHostLabels</Declaration>
-			
-			
-			<Anchor>//api/name/loginHostLabels</Anchor>
-            <NodeRef refid="30"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setConnectedAppId:</TokenIdentifier>
-			<Abstract type="html">The managed Connected App ID. (ManagedAppOAuthID)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *connectedAppId</Declaration>
-			
-			
-			<Anchor>//api/name/connectedAppId</Anchor>
-            <NodeRef refid="30"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/connectedAppId</TokenIdentifier>
-			<Abstract type="html">The managed Connected App ID. (ManagedAppOAuthID)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *connectedAppId</Declaration>
-			
-			
-			<Anchor>//api/name/connectedAppId</Anchor>
-            <NodeRef refid="30"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/connectedAppId</TokenIdentifier>
-			<Abstract type="html">The managed Connected App ID. (ManagedAppOAuthID)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *connectedAppId</Declaration>
-			
-			
-			<Anchor>//api/name/connectedAppId</Anchor>
-            <NodeRef refid="30"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setConnectedAppCallbackUri:</TokenIdentifier>
-			<Abstract type="html">The managed Conneced App Callback URI. (ManagedAppCallbackURL)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *connectedAppCallbackUri</Declaration>
-			
-			
-			<Anchor>//api/name/connectedAppCallbackUri</Anchor>
-            <NodeRef refid="30"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/connectedAppCallbackUri</TokenIdentifier>
-			<Abstract type="html">The managed Conneced App Callback URI. (ManagedAppCallbackURL)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *connectedAppCallbackUri</Declaration>
-			
-			
-			<Anchor>//api/name/connectedAppCallbackUri</Anchor>
-            <NodeRef refid="30"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/connectedAppCallbackUri</TokenIdentifier>
-			<Abstract type="html">The managed Conneced App Callback URI. (ManagedAppCallbackURL)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *connectedAppCallbackUri</Declaration>
-			
-			
-			<Anchor>//api/name/connectedAppCallbackUri</Anchor>
-            <NodeRef refid="30"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setClearClipboardOnBackground:</TokenIdentifier>
-			<Abstract type="html">Whether or not to clear the clipboard when the app is backgrounded. (ClearClipboardOnBackground)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) BOOL clearClipboardOnBackground</Declaration>
-			
-			
-			<Anchor>//api/name/clearClipboardOnBackground</Anchor>
-            <NodeRef refid="30"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/clearClipboardOnBackground</TokenIdentifier>
-			<Abstract type="html">Whether or not to clear the clipboard when the app is backgrounded. (ClearClipboardOnBackground)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) BOOL clearClipboardOnBackground</Declaration>
-			
-			
-			<Anchor>//api/name/clearClipboardOnBackground</Anchor>
-            <NodeRef refid="30"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/clearClipboardOnBackground</TokenIdentifier>
-			<Abstract type="html">Whether or not to clear the clipboard when the app is backgrounded. (ClearClipboardOnBackground)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) BOOL clearClipboardOnBackground</Declaration>
-			
-			
-			<Anchor>//api/name/clearClipboardOnBackground</Anchor>
-            <NodeRef refid="30"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setShouldDisableExternalPasteDefinedByConnectedApp:</TokenIdentifier>
-			<Abstract type="html">Whether or not external paste is disabled in the connected app.</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) BOOL shouldDisableExternalPasteDefinedByConnectedApp</Declaration>
-			
-			
-			<Anchor>//api/name/shouldDisableExternalPasteDefinedByConnectedApp</Anchor>
-            <NodeRef refid="30"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/shouldDisableExternalPasteDefinedByConnectedApp</TokenIdentifier>
-			<Abstract type="html">Whether or not external paste is disabled in the connected app.</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) BOOL shouldDisableExternalPasteDefinedByConnectedApp</Declaration>
-			
-			
-			<Anchor>//api/name/shouldDisableExternalPasteDefinedByConnectedApp</Anchor>
-            <NodeRef refid="30"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/shouldDisableExternalPasteDefinedByConnectedApp</TokenIdentifier>
-			<Abstract type="html">Whether or not external paste is disabled in the connected app.</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) BOOL shouldDisableExternalPasteDefinedByConnectedApp</Declaration>
-			
-			
-			<Anchor>//api/name/shouldDisableExternalPasteDefinedByConnectedApp</Anchor>
-            <NodeRef refid="30"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setOnlyShowAuthorizedHosts:</TokenIdentifier>
-			<Abstract type="html">Whether or not to display only the authorized hosts. (OnlyShowAuthorizedHosts)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) BOOL onlyShowAuthorizedHosts</Declaration>
-			
-			
-			<Anchor>//api/name/onlyShowAuthorizedHosts</Anchor>
-            <NodeRef refid="30"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/onlyShowAuthorizedHosts</TokenIdentifier>
-			<Abstract type="html">Whether or not to display only the authorized hosts. (OnlyShowAuthorizedHosts)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) BOOL onlyShowAuthorizedHosts</Declaration>
-			
-			
-			<Anchor>//api/name/onlyShowAuthorizedHosts</Anchor>
-            <NodeRef refid="30"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/onlyShowAuthorizedHosts</TokenIdentifier>
-			<Abstract type="html">Whether or not to display only the authorized hosts. (OnlyShowAuthorizedHosts)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) BOOL onlyShowAuthorizedHosts</Declaration>
-			
-			
-			<Anchor>//api/name/onlyShowAuthorizedHosts</Anchor>
-            <NodeRef refid="30"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setIdpAppURLScheme:</TokenIdentifier>
-			<Abstract type="html">The idp App&apos;s URL Scheme</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *idpAppURLScheme</Declaration>
-			
-			
-			<Anchor>//api/name/idpAppURLScheme</Anchor>
-            <NodeRef refid="30"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/idpAppURLScheme</TokenIdentifier>
-			<Abstract type="html">The idp App&apos;s URL Scheme</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *idpAppURLScheme</Declaration>
-			
-			
-			<Anchor>//api/name/idpAppURLScheme</Anchor>
-            <NodeRef refid="30"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/idpAppURLScheme</TokenIdentifier>
-			<Abstract type="html">The idp App&apos;s URL Scheme</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *idpAppURLScheme</Declaration>
-			
-			
-			<Anchor>//api/name/idpAppURLScheme</Anchor>
-            <NodeRef refid="30"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setRawPreferences:</TokenIdentifier>
-			<Abstract type="html">The raw NSDictionary of managed preferences.</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSDictionary *rawPreferences</Declaration>
-			
-			
-			<Anchor>//api/name/rawPreferences</Anchor>
-            <NodeRef refid="30"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/rawPreferences</TokenIdentifier>
-			<Abstract type="html">The raw NSDictionary of managed preferences.</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSDictionary *rawPreferences</Declaration>
-			
-			
-			<Anchor>//api/name/rawPreferences</Anchor>
-            <NodeRef refid="30"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/rawPreferences</TokenIdentifier>
-			<Abstract type="html">The raw NSDictionary of managed preferences.</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSDictionary *rawPreferences</Declaration>
-			
-			
-			<Anchor>//api/name/rawPreferences</Anchor>
+			<Anchor>//api/name/initWithRequest:</Anchor>
             <NodeRef refid="30"/>
 		</Token>
 		

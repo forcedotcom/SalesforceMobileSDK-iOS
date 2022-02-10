@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFKeychainItemWrapper.html">
+	<File path="Classes/SFManagedPreferences.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFKeychainItemWrapper</TokenIdentifier>
-			<Abstract type="html">This class is a wrapper class used to interact with the keychain.</Abstract>
-			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFManagedPreferences</TokenIdentifier>
+			<Abstract type="html">Class to handle preferences set by an MDM provider.</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
             
 			
 			<NodeRef refid="28"/>
@@ -13,243 +13,410 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/set:</TokenIdentifier>
-			<Abstract type="html">Returns the accessible attribute used to store this keychain item.</Abstract>
-			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFManagedPreferences/sharedPreferences</TokenIdentifier>
+			<Abstract type="html">The shared instance of this class.</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, nullable) CFTypeRef accessibleAttribute SFSDK_DEPRECATED ( &quot;9.1&quot; , &quot;10.0&quot; , &quot;Will be removed in Mobile SDK 10.0. Use SFKeychainHelper instead.&quot; )</Declaration>
+			<Declaration>+ (instancetype)sharedPreferences</Declaration>
 			
-			
-			<Anchor>//api/name/)</Anchor>
+			<ReturnValue><Abstract type="html">The shared instance of this class.</Abstract></ReturnValue>
+			<Anchor>//api/name/sharedPreferences</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/)</TokenIdentifier>
-			<Abstract type="html">Returns the accessible attribute used to store this keychain item.</Abstract>
-			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setHasManagedPreferences:</TokenIdentifier>
+			<Abstract type="html">Whether or not any managed preferences have been configured for this app.</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, nullable) CFTypeRef accessibleAttribute SFSDK_DEPRECATED ( &quot;9.1&quot; , &quot;10.0&quot; , &quot;Will be removed in Mobile SDK 10.0. Use SFKeychainHelper instead.&quot; )</Declaration>
+			<Declaration>@property (nonatomic, readonly) BOOL hasManagedPreferences</Declaration>
 			
 			
-			<Anchor>//api/name/)</Anchor>
+			<Anchor>//api/name/hasManagedPreferences</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFKeychainItemWrapper/)</TokenIdentifier>
-			<Abstract type="html">Returns the accessible attribute used to store this keychain item.</Abstract>
-			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/hasManagedPreferences</TokenIdentifier>
+			<Abstract type="html">Whether or not any managed preferences have been configured for this app.</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, nullable) CFTypeRef accessibleAttribute SFSDK_DEPRECATED ( &quot;9.1&quot; , &quot;10.0&quot; , &quot;Will be removed in Mobile SDK 10.0. Use SFKeychainHelper instead.&quot; )</Declaration>
+			<Declaration>@property (nonatomic, readonly) BOOL hasManagedPreferences</Declaration>
 			
 			
-			<Anchor>//api/name/)</Anchor>
+			<Anchor>//api/name/hasManagedPreferences</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFKeychainItemWrapper/keychainAccessErrorsAreFatal</TokenIdentifier>
-			<Abstract type="html">Indicates whether keychain access errors cause a fatal exception.  Default is YES.</Abstract>
-			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/hasManagedPreferences</TokenIdentifier>
+			<Abstract type="html">Whether or not any managed preferences have been configured for this app.</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
 			
-			<Declaration>+ (BOOL)keychainAccessErrorsAreFatal</Declaration>
+			<Declaration>@property (nonatomic, readonly) BOOL hasManagedPreferences</Declaration>
 			
-			<ReturnValue><Abstract type="html">Indicates whether keychain access errors cause a fatal exception.  Default is YES.</Abstract></ReturnValue>
-			<Anchor>//api/name/keychainAccessErrorsAreFatal</Anchor>
+			
+			<Anchor>//api/name/hasManagedPreferences</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFKeychainItemWrapper/setKeychainAccessErrorsAreFatal:</TokenIdentifier>
-			<Abstract type="html">Sets whether or not keychain access errors cause a fatal exception.</Abstract>
-			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setRequireCertificateAuthentication:</TokenIdentifier>
+			<Abstract type="html">Whether the app is configured to require certificate-based authentication. (RequireCertAuth)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
 			
-			<Declaration>+ (void)setKeychainAccessErrorsAreFatal:(BOOL)errorsAreFatal</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>errorsAreFatal</Name>
-					<Abstract type="html">Whether keychain access errors should be fatal.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, readonly) BOOL requireCertificateAuthentication</Declaration>
 			
-			<Anchor>//api/name/setKeychainAccessErrorsAreFatal:</Anchor>
+			
+			<Anchor>//api/name/requireCertificateAuthentication</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFKeychainItemWrapper/setAccessibleAttribute:</TokenIdentifier>
-			<Abstract type="html">Sets the accessible attribute used by this keychain item wrapper class.
-If the previous attribute value is different, this method will trigger
-an update of all the items in the keychain.</Abstract>
-			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/requireCertificateAuthentication</TokenIdentifier>
+			<Abstract type="html">Whether the app is configured to require certificate-based authentication. (RequireCertAuth)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
 			
-			<Declaration>+ (void)setAccessibleAttribute:(nullable CFTypeRef)accessibleAttribute</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>accessibleAttribute</Name>
-					<Abstract type="html">The accessible attribute for this keychain item wrapper class.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, readonly) BOOL requireCertificateAuthentication</Declaration>
 			
-			<Anchor>//api/name/setAccessibleAttribute:</Anchor>
+			
+			<Anchor>//api/name/requireCertificateAuthentication</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFKeychainItemWrapper/itemWithIdentifier:account:</TokenIdentifier>
-			<Abstract type="html">Factory method to hand out an SFKeychainItemWrapper object with the given identifier and account.
-Note that, for any given combination of identifier and account, only one object will be created
-at runtime.  Subsequent requests will return the same object.</Abstract>
-			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/requireCertificateAuthentication</TokenIdentifier>
+			<Abstract type="html">Whether the app is configured to require certificate-based authentication. (RequireCertAuth)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
 			
-			<Declaration>+ (nullable SFKeychainItemWrapper *)itemWithIdentifier:(nullable NSString *)identifier account:(nullable NSString *)account</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>identifier</Name>
-					<Abstract type="html">Identifier to use for the SFKeychainItemWrapper object.</Abstract>
-				</Parameter><Parameter>
-					<Name>account</Name>
-					<Abstract type="html">Account to use for the SFKeychainItemWrapper object.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, readonly) BOOL requireCertificateAuthentication</Declaration>
 			
-			<Anchor>//api/name/itemWithIdentifier:account:</Anchor>
+			
+			<Anchor>//api/name/requireCertificateAuthentication</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/resetKeychainItem</TokenIdentifier>
-			<Abstract type="html">Reset the keychain item.</Abstract>
-			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setLoginHosts:</TokenIdentifier>
+			<Abstract type="html">An array of prescribed login hosts from the MDM provider. (AppServiceHosts)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)resetKeychainItem</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSArray *loginHosts</Declaration>
 			
 			
-			<Anchor>//api/name/resetKeychainItem</Anchor>
+			<Anchor>//api/name/loginHosts</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/setValueData:</TokenIdentifier>
-			<Abstract type="html">Store arbitrary data to the keychain for the service (identifier) and account specified in the initializer.</Abstract>
-			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/loginHosts</TokenIdentifier>
+			<Abstract type="html">An array of prescribed login hosts from the MDM provider. (AppServiceHosts)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
 			
-			<Declaration>- (OSStatus)setValueData:(nullable NSData *)data</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>data</Name>
-					<Abstract type="html">Arbitrary data to store in the keychain. Can be nil.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The status of the keychain update request.</Abstract></ReturnValue>
-			<Anchor>//api/name/setValueData:</Anchor>
+			<Declaration>@property (nonatomic, readonly) NSArray *loginHosts</Declaration>
+			
+			
+			<Anchor>//api/name/loginHosts</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/valueString</TokenIdentifier>
-			<Abstract type="html">Read arbitrary string from the keychain for the service (identifier) and account specified in the initializer.</Abstract>
-			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/loginHosts</TokenIdentifier>
+			<Abstract type="html">An array of prescribed login hosts from the MDM provider. (AppServiceHosts)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
 			
-			<Declaration>- (nullable NSString *)valueString</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSArray *loginHosts</Declaration>
 			
-			<ReturnValue><Abstract type="html">Arbitrary string read from the keychain. Can be nil.</Abstract></ReturnValue>
-			<Anchor>//api/name/valueString</Anchor>
+			
+			<Anchor>//api/name/loginHosts</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/setValueString:</TokenIdentifier>
-			<Abstract type="html">Store arbitrary string to the keychain for the service (identifier) and account specified in the initializer.</Abstract>
-			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setLoginHostLabels:</TokenIdentifier>
+			<Abstract type="html">The associated labels for the provided login hosts. (AppServiceHostLabels)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
 			
-			<Declaration>- (OSStatus)setValueString:(nullable NSString *)string</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>string</Name>
-					<Abstract type="html">Arbitrary string to store in the keychain. Can be nil.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The status of the keychain update request.</Abstract></ReturnValue>
-			<Anchor>//api/name/setValueString:</Anchor>
+			<Declaration>@property (nonatomic, readonly) NSArray *loginHostLabels</Declaration>
+			
+			
+			<Anchor>//api/name/loginHostLabels</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/valueData</TokenIdentifier>
-			<Abstract type="html">Read arbitrary data from the keychain for the service (identifier) and account specified in the initializer.</Abstract>
-			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/loginHostLabels</TokenIdentifier>
+			<Abstract type="html">The associated labels for the provided login hosts. (AppServiceHostLabels)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
 			
-			<Declaration>- (nullable NSData *)valueData</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSArray *loginHostLabels</Declaration>
 			
-			<ReturnValue><Abstract type="html">Arbitrary data read from the keychain. Can be nil.</Abstract></ReturnValue>
-			<Anchor>//api/name/valueData</Anchor>
+			
+			<Anchor>//api/name/loginHostLabels</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFKeychainItemWrapper/keychainErrorCodeString:</TokenIdentifier>
-			<Abstract type="html">Return a string value for an OSStatus error code.</Abstract>
-			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/loginHostLabels</TokenIdentifier>
+			<Abstract type="html">The associated labels for the provided login hosts. (AppServiceHostLabels)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
 			
-			<Declaration>+ (nullable NSString *)keychainErrorCodeString:(OSStatus)errorCode</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>errorCode</Name>
-					<Abstract type="html">The code to stringify.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The string version of the error code.</Abstract></ReturnValue>
-			<Anchor>//api/name/keychainErrorCodeString:</Anchor>
+			<Declaration>@property (nonatomic, readonly) NSArray *loginHostLabels</Declaration>
+			
+			
+			<Anchor>//api/name/loginHostLabels</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/setKeychainData:</TokenIdentifier>
-			<Abstract type="html">The in-memory state of the keychain data.</Abstract>
-			<DeclaredIn>SFKeychainItemWrapper+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setConnectedAppId:</TokenIdentifier>
+			<Abstract type="html">The managed Connected App ID. (ManagedAppOAuthID)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSMutableDictionary *keychainData</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *connectedAppId</Declaration>
 			
 			
-			<Anchor>//api/name/keychainData</Anchor>
+			<Anchor>//api/name/connectedAppId</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeychainItemWrapper/keychainData</TokenIdentifier>
-			<Abstract type="html">The in-memory state of the keychain data.</Abstract>
-			<DeclaredIn>SFKeychainItemWrapper+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/connectedAppId</TokenIdentifier>
+			<Abstract type="html">The managed Connected App ID. (ManagedAppOAuthID)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSMutableDictionary *keychainData</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *connectedAppId</Declaration>
 			
 			
-			<Anchor>//api/name/keychainData</Anchor>
+			<Anchor>//api/name/connectedAppId</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFKeychainItemWrapper/keychainData</TokenIdentifier>
-			<Abstract type="html">The in-memory state of the keychain data.</Abstract>
-			<DeclaredIn>SFKeychainItemWrapper+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/connectedAppId</TokenIdentifier>
+			<Abstract type="html">The managed Connected App ID. (ManagedAppOAuthID)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSMutableDictionary *keychainData</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *connectedAppId</Declaration>
 			
 			
-			<Anchor>//api/name/keychainData</Anchor>
+			<Anchor>//api/name/connectedAppId</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFKeychainItemWrapper/resetInMemoryKeychainItems</TokenIdentifier>
-			<Abstract type="html">Clears the memory cache of keychain items.  NOTE: Used for unit tests only!</Abstract>
-			<DeclaredIn>SFKeychainItemWrapper+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setConnectedAppCallbackUri:</TokenIdentifier>
+			<Abstract type="html">The managed Conneced App Callback URI. (ManagedAppCallbackURL)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
 			
-			<Declaration>+ (void)resetInMemoryKeychainItems</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *connectedAppCallbackUri</Declaration>
 			
 			
-			<Anchor>//api/name/resetInMemoryKeychainItems</Anchor>
+			<Anchor>//api/name/connectedAppCallbackUri</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/connectedAppCallbackUri</TokenIdentifier>
+			<Abstract type="html">The managed Conneced App Callback URI. (ManagedAppCallbackURL)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *connectedAppCallbackUri</Declaration>
+			
+			
+			<Anchor>//api/name/connectedAppCallbackUri</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/connectedAppCallbackUri</TokenIdentifier>
+			<Abstract type="html">The managed Conneced App Callback URI. (ManagedAppCallbackURL)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *connectedAppCallbackUri</Declaration>
+			
+			
+			<Anchor>//api/name/connectedAppCallbackUri</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setClearClipboardOnBackground:</TokenIdentifier>
+			<Abstract type="html">Whether or not to clear the clipboard when the app is backgrounded. (ClearClipboardOnBackground)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) BOOL clearClipboardOnBackground</Declaration>
+			
+			
+			<Anchor>//api/name/clearClipboardOnBackground</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/clearClipboardOnBackground</TokenIdentifier>
+			<Abstract type="html">Whether or not to clear the clipboard when the app is backgrounded. (ClearClipboardOnBackground)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) BOOL clearClipboardOnBackground</Declaration>
+			
+			
+			<Anchor>//api/name/clearClipboardOnBackground</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/clearClipboardOnBackground</TokenIdentifier>
+			<Abstract type="html">Whether or not to clear the clipboard when the app is backgrounded. (ClearClipboardOnBackground)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) BOOL clearClipboardOnBackground</Declaration>
+			
+			
+			<Anchor>//api/name/clearClipboardOnBackground</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setShouldDisableExternalPasteDefinedByConnectedApp:</TokenIdentifier>
+			<Abstract type="html">Whether or not external paste is disabled in the connected app.</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) BOOL shouldDisableExternalPasteDefinedByConnectedApp</Declaration>
+			
+			
+			<Anchor>//api/name/shouldDisableExternalPasteDefinedByConnectedApp</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/shouldDisableExternalPasteDefinedByConnectedApp</TokenIdentifier>
+			<Abstract type="html">Whether or not external paste is disabled in the connected app.</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) BOOL shouldDisableExternalPasteDefinedByConnectedApp</Declaration>
+			
+			
+			<Anchor>//api/name/shouldDisableExternalPasteDefinedByConnectedApp</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/shouldDisableExternalPasteDefinedByConnectedApp</TokenIdentifier>
+			<Abstract type="html">Whether or not external paste is disabled in the connected app.</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) BOOL shouldDisableExternalPasteDefinedByConnectedApp</Declaration>
+			
+			
+			<Anchor>//api/name/shouldDisableExternalPasteDefinedByConnectedApp</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setOnlyShowAuthorizedHosts:</TokenIdentifier>
+			<Abstract type="html">Whether or not to display only the authorized hosts. (OnlyShowAuthorizedHosts)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) BOOL onlyShowAuthorizedHosts</Declaration>
+			
+			
+			<Anchor>//api/name/onlyShowAuthorizedHosts</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/onlyShowAuthorizedHosts</TokenIdentifier>
+			<Abstract type="html">Whether or not to display only the authorized hosts. (OnlyShowAuthorizedHosts)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) BOOL onlyShowAuthorizedHosts</Declaration>
+			
+			
+			<Anchor>//api/name/onlyShowAuthorizedHosts</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/onlyShowAuthorizedHosts</TokenIdentifier>
+			<Abstract type="html">Whether or not to display only the authorized hosts. (OnlyShowAuthorizedHosts)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) BOOL onlyShowAuthorizedHosts</Declaration>
+			
+			
+			<Anchor>//api/name/onlyShowAuthorizedHosts</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setIdpAppURLScheme:</TokenIdentifier>
+			<Abstract type="html">The idp App&apos;s URL Scheme</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *idpAppURLScheme</Declaration>
+			
+			
+			<Anchor>//api/name/idpAppURLScheme</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/idpAppURLScheme</TokenIdentifier>
+			<Abstract type="html">The idp App&apos;s URL Scheme</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *idpAppURLScheme</Declaration>
+			
+			
+			<Anchor>//api/name/idpAppURLScheme</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/idpAppURLScheme</TokenIdentifier>
+			<Abstract type="html">The idp App&apos;s URL Scheme</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *idpAppURLScheme</Declaration>
+			
+			
+			<Anchor>//api/name/idpAppURLScheme</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setRawPreferences:</TokenIdentifier>
+			<Abstract type="html">The raw NSDictionary of managed preferences.</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSDictionary *rawPreferences</Declaration>
+			
+			
+			<Anchor>//api/name/rawPreferences</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/rawPreferences</TokenIdentifier>
+			<Abstract type="html">The raw NSDictionary of managed preferences.</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSDictionary *rawPreferences</Declaration>
+			
+			
+			<Anchor>//api/name/rawPreferences</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/rawPreferences</TokenIdentifier>
+			<Abstract type="html">The raw NSDictionary of managed preferences.</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSDictionary *rawPreferences</Declaration>
+			
+			
+			<Anchor>//api/name/rawPreferences</Anchor>
             <NodeRef refid="28"/>
 		</Token>
 		

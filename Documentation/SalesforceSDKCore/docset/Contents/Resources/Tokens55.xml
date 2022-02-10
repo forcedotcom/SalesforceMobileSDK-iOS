@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKAppLockViewConfig.html">
+	<File path="Classes/SFSDKAuthErrorCommand.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAppLockViewConfig</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAuthErrorCommand</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
             
 			
 			<NodeRef refid="55"/>
@@ -13,518 +13,146 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKAppLockViewConfig/createDefaultConfig</TokenIdentifier>
-			<Abstract type="html">factory method to create a default config instance</Abstract>
-			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorCommand/setErrorCode:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
 			
-			<Declaration>+ (instancetype)createDefaultConfig</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *errorCode</Declaration>
 			
 			
-			<Anchor>//api/name/createDefaultConfig</Anchor>
+			<Anchor>//api/name/errorCode</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/setMaxNumberOfAttempts:</TokenIdentifier>
-			<Abstract type="html">The number of allowed passcode entry attempts before the user is logged out.</Abstract>
-			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorCommand/errorCode</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) NSUInteger maxNumberOfAttempts</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *errorCode</Declaration>
 			
 			
-			<Anchor>//api/name/maxNumberOfAttempts</Anchor>
+			<Anchor>//api/name/errorCode</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/maxNumberOfAttempts</TokenIdentifier>
-			<Abstract type="html">The number of allowed passcode entry attempts before the user is logged out.</Abstract>
-			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthErrorCommand/errorCode</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) NSUInteger maxNumberOfAttempts</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *errorCode</Declaration>
 			
 			
-			<Anchor>//api/name/maxNumberOfAttempts</Anchor>
+			<Anchor>//api/name/errorCode</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppLockViewConfig/maxNumberOfAttempts</TokenIdentifier>
-			<Abstract type="html">The number of allowed passcode entry attempts before the user is logged out.</Abstract>
-			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorCommand/setErrorReason:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) NSUInteger maxNumberOfAttempts</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *errorReason</Declaration>
 			
 			
-			<Anchor>//api/name/maxNumberOfAttempts</Anchor>
+			<Anchor>//api/name/errorReason</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/setPrimaryColor:</TokenIdentifier>
-			<Abstract type="html">Primary color used for passcode input circles and forward buttons.</Abstract>
-			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorCommand/errorReason</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) UIColor *primaryColor</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *errorReason</Declaration>
 			
 			
-			<Anchor>//api/name/primaryColor</Anchor>
+			<Anchor>//api/name/errorReason</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/primaryColor</TokenIdentifier>
-			<Abstract type="html">Primary color used for passcode input circles and forward buttons.</Abstract>
-			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthErrorCommand/errorReason</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) UIColor *primaryColor</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *errorReason</Declaration>
 			
 			
-			<Anchor>//api/name/primaryColor</Anchor>
+			<Anchor>//api/name/errorReason</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppLockViewConfig/primaryColor</TokenIdentifier>
-			<Abstract type="html">Primary color used for passcode input circles and forward buttons.</Abstract>
-			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorCommand/setErrorDescription:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) UIColor *primaryColor</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *errorDescription</Declaration>
 			
 			
-			<Anchor>//api/name/primaryColor</Anchor>
+			<Anchor>//api/name/errorDescription</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/setSecondaryColor:</TokenIdentifier>
-			<Abstract type="html">Secondary color used for the background of the passcode and biometric enable fields.</Abstract>
-			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorCommand/errorDescription</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) UIColor *secondaryColor</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *errorDescription</Declaration>
 			
 			
-			<Anchor>//api/name/secondaryColor</Anchor>
+			<Anchor>//api/name/errorDescription</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/secondaryColor</TokenIdentifier>
-			<Abstract type="html">Secondary color used for the background of the passcode and biometric enable fields.</Abstract>
-			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthErrorCommand/errorDescription</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) UIColor *secondaryColor</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *errorDescription</Declaration>
 			
 			
-			<Anchor>//api/name/secondaryColor</Anchor>
+			<Anchor>//api/name/errorDescription</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppLockViewConfig/secondaryColor</TokenIdentifier>
-			<Abstract type="html">Secondary color used for the background of the passcode and biometric enable fields.</Abstract>
-			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorCommand/setState:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) UIColor *secondaryColor</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *state</Declaration>
 			
 			
-			<Anchor>//api/name/secondaryColor</Anchor>
+			<Anchor>//api/name/state</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/setBackgroundColor:</TokenIdentifier>
-			<Abstract type="html">The background color of the screen.</Abstract>
-			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorCommand/state</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) UIColor *backgroundColor</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *state</Declaration>
 			
 			
-			<Anchor>//api/name/backgroundColor</Anchor>
+			<Anchor>//api/name/state</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/backgroundColor</TokenIdentifier>
-			<Abstract type="html">The background color of the screen.</Abstract>
-			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthErrorCommand/state</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) UIColor *backgroundColor</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *state</Declaration>
 			
 			
-			<Anchor>//api/name/backgroundColor</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppLockViewConfig/backgroundColor</TokenIdentifier>
-			<Abstract type="html">The background color of the screen.</Abstract>
-			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIColor *backgroundColor</Declaration>
-			
-			
-			<Anchor>//api/name/backgroundColor</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/setSecondaryBackgroundColor:</TokenIdentifier>
-			<Abstract type="html">The background color of layered content.</Abstract>
-			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIColor *secondaryBackgroundColor</Declaration>
-			
-			
-			<Anchor>//api/name/secondaryBackgroundColor</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/secondaryBackgroundColor</TokenIdentifier>
-			<Abstract type="html">The background color of layered content.</Abstract>
-			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIColor *secondaryBackgroundColor</Declaration>
-			
-			
-			<Anchor>//api/name/secondaryBackgroundColor</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppLockViewConfig/secondaryBackgroundColor</TokenIdentifier>
-			<Abstract type="html">The background color of layered content.</Abstract>
-			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIColor *secondaryBackgroundColor</Declaration>
-			
-			
-			<Anchor>//api/name/secondaryBackgroundColor</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/setBorderColor:</TokenIdentifier>
-			<Abstract type="html">Border color for the passcode and biometric enable fields.</Abstract>
-			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIColor *borderColor</Declaration>
-			
-			
-			<Anchor>//api/name/borderColor</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/borderColor</TokenIdentifier>
-			<Abstract type="html">Border color for the passcode and biometric enable fields.</Abstract>
-			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIColor *borderColor</Declaration>
-			
-			
-			<Anchor>//api/name/borderColor</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppLockViewConfig/borderColor</TokenIdentifier>
-			<Abstract type="html">Border color for the passcode and biometric enable fields.</Abstract>
-			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIColor *borderColor</Declaration>
-			
-			
-			<Anchor>//api/name/borderColor</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/setInstructionTextColor:</TokenIdentifier>
-			<Abstract type="html">Color of the instruction text for passcode and biometric fields.</Abstract>
-			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIColor *instructionTextColor</Declaration>
-			
-			
-			<Anchor>//api/name/instructionTextColor</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/instructionTextColor</TokenIdentifier>
-			<Abstract type="html">Color of the instruction text for passcode and biometric fields.</Abstract>
-			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIColor *instructionTextColor</Declaration>
-			
-			
-			<Anchor>//api/name/instructionTextColor</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppLockViewConfig/instructionTextColor</TokenIdentifier>
-			<Abstract type="html">Color of the instruction text for passcode and biometric fields.</Abstract>
-			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIColor *instructionTextColor</Declaration>
-			
-			
-			<Anchor>//api/name/instructionTextColor</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/setTitleTextColor:</TokenIdentifier>
-			<Abstract type="html">Color of the title text for passcode and biometric fields.</Abstract>
-			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIColor *titleTextColor</Declaration>
-			
-			
-			<Anchor>//api/name/titleTextColor</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/titleTextColor</TokenIdentifier>
-			<Abstract type="html">Color of the title text for passcode and biometric fields.</Abstract>
-			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIColor *titleTextColor</Declaration>
-			
-			
-			<Anchor>//api/name/titleTextColor</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppLockViewConfig/titleTextColor</TokenIdentifier>
-			<Abstract type="html">Color of the title text for passcode and biometric fields.</Abstract>
-			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIColor *titleTextColor</Declaration>
-			
-			
-			<Anchor>//api/name/titleTextColor</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/setLogoutButtonColor:</TokenIdentifier>
-			<Abstract type="html">Color of the logout button on passcode verify screen.</Abstract>
-			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nonnull) UIColor *logoutButtonColor</Declaration>
-			
-			
-			<Anchor>//api/name/logoutButtonColor</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/logoutButtonColor</TokenIdentifier>
-			<Abstract type="html">Color of the logout button on passcode verify screen.</Abstract>
-			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nonnull) UIColor *logoutButtonColor</Declaration>
-			
-			
-			<Anchor>//api/name/logoutButtonColor</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppLockViewConfig/logoutButtonColor</TokenIdentifier>
-			<Abstract type="html">Color of the logout button on passcode verify screen.</Abstract>
-			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nonnull) UIColor *logoutButtonColor</Declaration>
-			
-			
-			<Anchor>//api/name/logoutButtonColor</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/setInstructionFont:</TokenIdentifier>
-			<Abstract type="html">Font used for displaying instructions.</Abstract>
-			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIFont *instructionFont</Declaration>
-			
-			
-			<Anchor>//api/name/instructionFont</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/instructionFont</TokenIdentifier>
-			<Abstract type="html">Font used for displaying instructions.</Abstract>
-			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIFont *instructionFont</Declaration>
-			
-			
-			<Anchor>//api/name/instructionFont</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppLockViewConfig/instructionFont</TokenIdentifier>
-			<Abstract type="html">Font used for displaying instructions.</Abstract>
-			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIFont *instructionFont</Declaration>
-			
-			
-			<Anchor>//api/name/instructionFont</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/setTitleFont:</TokenIdentifier>
-			<Abstract type="html">Font used for displaying titles.</Abstract>
-			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIFont *titleFont</Declaration>
-			
-			
-			<Anchor>//api/name/titleFont</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/titleFont</TokenIdentifier>
-			<Abstract type="html">Font used for displaying titles.</Abstract>
-			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIFont *titleFont</Declaration>
-			
-			
-			<Anchor>//api/name/titleFont</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppLockViewConfig/titleFont</TokenIdentifier>
-			<Abstract type="html">Font used for displaying titles.</Abstract>
-			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIFont *titleFont</Declaration>
-			
-			
-			<Anchor>//api/name/titleFont</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/setButtonFont:</TokenIdentifier>
-			<Abstract type="html">Font used for displaying buttons.</Abstract>
-			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIFont *buttonFont</Declaration>
-			
-			
-			<Anchor>//api/name/buttonFont</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/buttonFont</TokenIdentifier>
-			<Abstract type="html">Font used for displaying buttons.</Abstract>
-			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIFont *buttonFont</Declaration>
-			
-			
-			<Anchor>//api/name/buttonFont</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppLockViewConfig/buttonFont</TokenIdentifier>
-			<Abstract type="html">Font used for displaying buttons.</Abstract>
-			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIFont *buttonFont</Declaration>
-			
-			
-			<Anchor>//api/name/buttonFont</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/setTouchIdImage:</TokenIdentifier>
-			<Abstract type="html">Image used when enabling Touch Id.</Abstract>
-			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIImage *touchIdImage</Declaration>
-			
-			
-			<Anchor>//api/name/touchIdImage</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/touchIdImage</TokenIdentifier>
-			<Abstract type="html">Image used when enabling Touch Id.</Abstract>
-			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIImage *touchIdImage</Declaration>
-			
-			
-			<Anchor>//api/name/touchIdImage</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppLockViewConfig/touchIdImage</TokenIdentifier>
-			<Abstract type="html">Image used when enabling Touch Id.</Abstract>
-			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIImage *touchIdImage</Declaration>
-			
-			
-			<Anchor>//api/name/touchIdImage</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/setFaceIdImage:</TokenIdentifier>
-			<Abstract type="html">Image used when enabling Face Id.</Abstract>
-			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIImage *faceIdImage</Declaration>
-			
-			
-			<Anchor>//api/name/faceIdImage</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAppLockViewConfig/faceIdImage</TokenIdentifier>
-			<Abstract type="html">Image used when enabling Face Id.</Abstract>
-			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIImage *faceIdImage</Declaration>
-			
-			
-			<Anchor>//api/name/faceIdImage</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAppLockViewConfig/faceIdImage</TokenIdentifier>
-			<Abstract type="html">Image used when enabling Face Id.</Abstract>
-			<DeclaredIn>SFSDKAppLockViewConfig.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) UIImage *faceIdImage</Declaration>
-			
-			
-			<Anchor>//api/name/faceIdImage</Anchor>
+			<Anchor>//api/name/state</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		

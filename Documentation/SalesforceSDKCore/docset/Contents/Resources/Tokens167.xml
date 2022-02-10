@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/NSURL+SFAdditions.html">
+	<File path="Protocols/SFRestRequestDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/NSURL(SFAdditions)</TokenIdentifier>
-			<Abstract type="html">Salesforce Mobile SDK additions to the NSURL class</Abstract>
-			<DeclaredIn>NSURL+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SFRestRequestDelegate</TokenIdentifier>
+			<Abstract type="html">Lifecycle events for REST requests.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
             
 			
 			<NodeRef refid="167"/>
@@ -13,31 +13,55 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSURL/valueForParameterName:</TokenIdentifier>
-			<Abstract type="html">Get value for a parameter name from the URL</Abstract>
-			<DeclaredIn>NSURL+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFRestRequestDelegate/request:didSucceed:rawResponse:</TokenIdentifier>
+			<Abstract type="html">Called when a request was successful.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>- (nullable NSString *)valueForParameterName:(NSString *)name</Declaration>
+			<Declaration>- (void)request:(SFRestRequest *)request didSucceed:(id)dataResponse rawResponse:(NSURLResponse *)rawResponse</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>name</Name>
-					<Abstract type="html">Name of the parameter</Abstract>
+					<Name>request</Name>
+					<Abstract type="html">REST request.</Abstract>
+				</Parameter><Parameter>
+					<Name>dataResponse</Name>
+					<Abstract type="html">The data from the response.  By default, this will be an object
+containing the parsed JSON response.  However, if the response is not JSON,
+the data will be contained in a binary NSData object.</Abstract>
+				</Parameter><Parameter>
+					<Name>rawResponse</Name>
+					<Abstract type="html">Raw response returned by the server.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/valueForParameterName:</Anchor>
+			<Anchor>//api/name/request:didSucceed:rawResponse:</Anchor>
             <NodeRef refid="167"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSURL/dictionaryFromQuery</TokenIdentifier>
-			<Abstract type="html">Get all query params as dictionary</Abstract>
-			<DeclaredIn>NSURL+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFRestRequestDelegate/request:didFail:rawResponse:error:</TokenIdentifier>
+			<Abstract type="html">Called when a request failed.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>- (nullable NSDictionary *)dictionaryFromQuery</Declaration>
+			<Declaration>- (void)request:(SFRestRequest *)request didFail:(id)dataResponse rawResponse:(NSURLResponse *)rawResponse error:(NSError *)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>request</Name>
+					<Abstract type="html">REST request.</Abstract>
+				</Parameter><Parameter>
+					<Name>dataResponse</Name>
+					<Abstract type="html">The data from the response.  By default, this will be an object
+containing the parsed JSON response.  However, if the response is not JSON,
+the data will be contained in a binary NSData object.</Abstract>
+				</Parameter><Parameter>
+					<Name>rawResponse</Name>
+					<Abstract type="html">Raw response returned by the server.</Abstract>
+				</Parameter><Parameter>
+					<Name>error</Name>
+					<Abstract type="html">Error received.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/dictionaryFromQuery</Anchor>
+			<Anchor>//api/name/request:didFail:rawResponse:error:</Anchor>
             <NodeRef refid="167"/>
 		</Token>
 		

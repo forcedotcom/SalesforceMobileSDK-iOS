@@ -68,8 +68,6 @@
 		
 		<option value="//api/name/appDisplayName">appDisplayName</option>
 		
-		<option value="//api/name/appLockViewControllerConfig">appLockViewControllerConfig</option>
-		
 		<option value="//api/name/authCancelledByUserHandlerBlock">authCancelledByUserHandlerBlock</option>
 		
 		<option value="//api/name/authClient">authClient</option>
@@ -140,8 +138,6 @@
 		
 		<option value="//api/name/authenticateWithRequest:completion:failure:">- authenticateWithRequest:completion:failure:</option>
 		
-		<option value="//api/name/biometricUnlockState">- biometricUnlockState</option>
-		
 		<option value="//api/name/clearAllAccountState">- clearAllAccountState</option>
 		
 		<option value="//api/name/createUserAccount:">- createUserAccount:</option>
@@ -151,8 +147,6 @@
 		<option value="//api/name/defaultAuthRequest">- defaultAuthRequest</option>
 		
 		<option value="//api/name/deleteAccountForUser:error:">- deleteAccountForUser:error:</option>
-		
-		<option value="//api/name/deviceHasBiometric">- deviceHasBiometric</option>
 		
 		<option value="//api/name/encodeUserIdentity:">- encodeUserIdentity:</option>
 		
@@ -185,8 +179,6 @@
 		<option value="//api/name/logoutUser:">- logoutUser:</option>
 		
 		<option value="//api/name/orgHasLoggedInUsers:">- orgHasLoggedInUsers:</option>
-		
-		<option value="//api/name/presentBiometricEnrollment:">- presentBiometricEnrollment:</option>
 		
 		<option value="//api/name/refreshCredentials:completion:failure:">- refreshCredentials:completion:failure:</option>
 		
@@ -831,47 +823,6 @@ in the user selection view of the identity provider app.</p>
 		    
 
 			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) SFSDKLoginViewControllerConfig *loginViewControllerConfig</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/appLockViewControllerConfig" title="appLockViewControllerConfig"></a>
-	<h3 class="method-title"><code><a href="#//api/name/appLockViewControllerConfig">&nbsp;&nbsp;appLockViewControllerConfig</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Use this property to indicate to provide Passcode<a href="../Classes/ViewController.html">ViewController</a> customizations for themes,navbar, icons and settings.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) SFSDKAppLockViewConfig *appLockViewControllerConfig</code></div>
 
 		    
 			
@@ -2249,151 +2200,6 @@ current app state.</p>
 			
 		</div>
 	</div>
-</div><div class="section-method">
-	<a name="//api/name/presentBiometricEnrollment:" title="presentBiometricEnrollment:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/presentBiometricEnrollment:">&ndash;&nbsp;presentBiometricEnrollment:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Presents the setup screen that allows the user to opt into Touch/Face Id as a replacement for Passcode.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (void)presentBiometricEnrollment:(nullable SFSDKAppLockViewConfig *)<em>config</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>config</code></th>
-						<td><p>The AppLockViewConfig used to customize the Passcode and Biometric Screens.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/deviceHasBiometric" title="deviceHasBiometric"></a>
-	<h3 class="method-title"><code><a href="#//api/name/deviceHasBiometric">&ndash;&nbsp;deviceHasBiometric</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Determines if the deivce has Touch/Face Id enabled.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (BOOL)deviceHasBiometric</code></div>
-
-		    
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>YES if the device is capable of biometric unlock, NO otherwise.</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/biometricUnlockState" title="biometricUnlockState"></a>
-	<h3 class="method-title"><code><a href="#//api/name/biometricUnlockState">&ndash;&nbsp;biometricUnlockState</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Determines if the deivce is currently using Touch/Face Id instead of passcode.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (SFBiometricUnlockState)biometricUnlockState</code></div>
-
-		    
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p><a href="../Constants/SFBiometricUnlockState.html">SFBiometricUnlockState</a> UserAllowed, UserDeclined, PromptUser or Unavalible.</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
 </div>
 						</div>
 						
@@ -3626,7 +3432,7 @@ This will post user update notification.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2021 Salesforce.com. All rights reserved. Updated: 2021-12-15</p>
+						<p class="copyright">Copyright &copy; 2022 Salesforce.com. All rights reserved. Updated: 2022-02-09</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

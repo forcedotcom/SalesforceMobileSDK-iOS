@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKAuthRequest.html">
+	<File path="Classes/SFSDKAuthViewHandler.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAuthRequest</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAuthViewHandler</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
             
 			
 			<NodeRef refid="64"/>
@@ -13,794 +13,94 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequest/setUseBrowserAuth:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHandler/setAuthViewDisplayBlock:</TokenIdentifier>
+			<Abstract type="html">The block used to display the auth view.</Abstract>
+			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL useBrowserAuth</Declaration>
+			<Declaration>@property (nonatomic, copy) SFSDKAuthViewDisplayBlock authViewDisplayBlock</Declaration>
 			
 			
-			<Anchor>//api/name/useBrowserAuth</Anchor>
+			<Anchor>//api/name/authViewDisplayBlock</Anchor>
             <NodeRef refid="64"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequest/useBrowserAuth</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHandler/authViewDisplayBlock</TokenIdentifier>
+			<Abstract type="html">The block used to display the auth view.</Abstract>
+			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL useBrowserAuth</Declaration>
+			<Declaration>@property (nonatomic, copy) SFSDKAuthViewDisplayBlock authViewDisplayBlock</Declaration>
 			
 			
-			<Anchor>//api/name/useBrowserAuth</Anchor>
+			<Anchor>//api/name/authViewDisplayBlock</Anchor>
             <NodeRef refid="64"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequest/useBrowserAuth</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthViewHandler/authViewDisplayBlock</TokenIdentifier>
+			<Abstract type="html">The block used to display the auth view.</Abstract>
+			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL useBrowserAuth</Declaration>
+			<Declaration>@property (nonatomic, copy) SFSDKAuthViewDisplayBlock authViewDisplayBlock</Declaration>
 			
 			
-			<Anchor>//api/name/useBrowserAuth</Anchor>
+			<Anchor>//api/name/authViewDisplayBlock</Anchor>
             <NodeRef refid="64"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequest/setAdditionalOAuthParameterKeys:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHandler/setAuthViewDismissBlock:</TokenIdentifier>
+			<Abstract type="html">The block used to dismiss the auth view.</Abstract>
+			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSArray&lt;NSString*&gt; *additionalOAuthParameterKeys</Declaration>
+			<Declaration>@property (nonatomic, copy) SFSDKAuthViewDismissBlock authViewDismissBlock</Declaration>
 			
 			
-			<Anchor>//api/name/additionalOAuthParameterKeys</Anchor>
+			<Anchor>//api/name/authViewDismissBlock</Anchor>
             <NodeRef refid="64"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequest/additionalOAuthParameterKeys</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHandler/authViewDismissBlock</TokenIdentifier>
+			<Abstract type="html">The block used to dismiss the auth view.</Abstract>
+			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSArray&lt;NSString*&gt; *additionalOAuthParameterKeys</Declaration>
+			<Declaration>@property (nonatomic, copy) SFSDKAuthViewDismissBlock authViewDismissBlock</Declaration>
 			
 			
-			<Anchor>//api/name/additionalOAuthParameterKeys</Anchor>
+			<Anchor>//api/name/authViewDismissBlock</Anchor>
             <NodeRef refid="64"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequest/additionalOAuthParameterKeys</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthViewHandler/authViewDismissBlock</TokenIdentifier>
+			<Abstract type="html">The block used to dismiss the auth view.</Abstract>
+			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSArray&lt;NSString*&gt; *additionalOAuthParameterKeys</Declaration>
+			<Declaration>@property (nonatomic, copy) SFSDKAuthViewDismissBlock authViewDismissBlock</Declaration>
 			
 			
-			<Anchor>//api/name/additionalOAuthParameterKeys</Anchor>
+			<Anchor>//api/name/authViewDismissBlock</Anchor>
             <NodeRef refid="64"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequest/setAdditionalTokenRefreshParams:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthViewHandler/initWithDisplayBlock:dismissBlock:</TokenIdentifier>
+			<Abstract type="html">Designated initializer for the class.</Abstract>
+			<DeclaredIn>SFSDKAuthViewHandler.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSDictionary&lt;NSString*id&gt; *additionalTokenRefreshParams</Declaration>
+			<Declaration>- (id)initWithDisplayBlock:(SFSDKAuthViewDisplayBlock)displayBlock dismissBlock:(SFSDKAuthViewDismissBlock _Nullable)dismissBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>displayBlock</Name>
+					<Abstract type="html">The block used to display the auth view.</Abstract>
+				</Parameter><Parameter>
+					<Name>dismissBlock</Name>
+					<Abstract type="html">The block used to dismiss the auth view.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/additionalTokenRefreshParams</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequest/additionalTokenRefreshParams</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSDictionary&lt;NSString*id&gt; *additionalTokenRefreshParams</Declaration>
-			
-			
-			<Anchor>//api/name/additionalTokenRefreshParams</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequest/additionalTokenRefreshParams</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSDictionary&lt;NSString*id&gt; *additionalTokenRefreshParams</Declaration>
-			
-			
-			<Anchor>//api/name/additionalTokenRefreshParams</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequest/setLoginHost:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *loginHost</Declaration>
-			
-			
-			<Anchor>//api/name/loginHost</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequest/loginHost</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *loginHost</Declaration>
-			
-			
-			<Anchor>//api/name/loginHost</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequest/loginHost</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *loginHost</Declaration>
-			
-			
-			<Anchor>//api/name/loginHost</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequest/setRetryLoginAfterFailure:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL retryLoginAfterFailure</Declaration>
-			
-			
-			<Anchor>//api/name/retryLoginAfterFailure</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequest/retryLoginAfterFailure</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL retryLoginAfterFailure</Declaration>
-			
-			
-			<Anchor>//api/name/retryLoginAfterFailure</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequest/retryLoginAfterFailure</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL retryLoginAfterFailure</Declaration>
-			
-			
-			<Anchor>//api/name/retryLoginAfterFailure</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequest/setOauthClientId:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *oauthClientId</Declaration>
-			
-			
-			<Anchor>//api/name/oauthClientId</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequest/oauthClientId</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *oauthClientId</Declaration>
-			
-			
-			<Anchor>//api/name/oauthClientId</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequest/oauthClientId</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *oauthClientId</Declaration>
-			
-			
-			<Anchor>//api/name/oauthClientId</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequest/setOauthCompletionUrl:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *oauthCompletionUrl</Declaration>
-			
-			
-			<Anchor>//api/name/oauthCompletionUrl</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequest/oauthCompletionUrl</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *oauthCompletionUrl</Declaration>
-			
-			
-			<Anchor>//api/name/oauthCompletionUrl</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequest/oauthCompletionUrl</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *oauthCompletionUrl</Declaration>
-			
-			
-			<Anchor>//api/name/oauthCompletionUrl</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequest/setBrandLoginPath:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, nullable, copy) NSString *brandLoginPath</Declaration>
-			
-			
-			<Anchor>//api/name/brandLoginPath</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequest/brandLoginPath</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, nullable, copy) NSString *brandLoginPath</Declaration>
-			
-			
-			<Anchor>//api/name/brandLoginPath</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequest/brandLoginPath</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, nullable, copy) NSString *brandLoginPath</Declaration>
-			
-			
-			<Anchor>//api/name/brandLoginPath</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequest/setScopes:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSSet&lt;NSString*&gt; *scopes</Declaration>
-			
-			
-			<Anchor>//api/name/scopes</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequest/scopes</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSSet&lt;NSString*&gt; *scopes</Declaration>
-			
-			
-			<Anchor>//api/name/scopes</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequest/scopes</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSSet&lt;NSString*&gt; *scopes</Declaration>
-			
-			
-			<Anchor>//api/name/scopes</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequest/setLoginViewControllerConfig:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) SFSDKLoginViewControllerConfig *loginViewControllerConfig</Declaration>
-			
-			
-			<Anchor>//api/name/loginViewControllerConfig</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequest/loginViewControllerConfig</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) SFSDKLoginViewControllerConfig *loginViewControllerConfig</Declaration>
-			
-			
-			<Anchor>//api/name/loginViewControllerConfig</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequest/loginViewControllerConfig</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) SFSDKLoginViewControllerConfig *loginViewControllerConfig</Declaration>
-			
-			
-			<Anchor>//api/name/loginViewControllerConfig</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequest/setAppLockViewControllerConfig:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) SFSDKAppLockViewConfig *appLockViewControllerConfig</Declaration>
-			
-			
-			<Anchor>//api/name/appLockViewControllerConfig</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequest/appLockViewControllerConfig</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) SFSDKAppLockViewConfig *appLockViewControllerConfig</Declaration>
-			
-			
-			<Anchor>//api/name/appLockViewControllerConfig</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequest/appLockViewControllerConfig</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) SFSDKAppLockViewConfig *appLockViewControllerConfig</Declaration>
-			
-			
-			<Anchor>//api/name/appLockViewControllerConfig</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequest/setScene:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, nonatomic, strong) UIScene *scene</Declaration>
-			
-			
-			<Anchor>//api/name/scene</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequest/scene</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, nonatomic, strong) UIScene *scene</Declaration>
-			
-			
-			<Anchor>//api/name/scene</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequest/scene</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, nonatomic, strong) UIScene *scene</Declaration>
-			
-			
-			<Anchor>//api/name/scene</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequest/setJwtToken:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *jwtToken</Declaration>
-			
-			
-			<Anchor>//api/name/jwtToken</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequest/jwtToken</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *jwtToken</Declaration>
-			
-			
-			<Anchor>//api/name/jwtToken</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequest/jwtToken</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *jwtToken</Declaration>
-			
-			
-			<Anchor>//api/name/jwtToken</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequest/setUserAgentForAuth:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *userAgentForAuth</Declaration>
-			
-			
-			<Anchor>//api/name/userAgentForAuth</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequest/userAgentForAuth</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *userAgentForAuth</Declaration>
-			
-			
-			<Anchor>//api/name/userAgentForAuth</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequest/userAgentForAuth</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *userAgentForAuth</Declaration>
-			
-			
-			<Anchor>//api/name/userAgentForAuth</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequest/setIdpEnabled:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, assign) BOOL idpEnabled</Declaration>
-			
-			
-			<Anchor>//api/name/idpEnabled</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequest/idpEnabled</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, assign) BOOL idpEnabled</Declaration>
-			
-			
-			<Anchor>//api/name/idpEnabled</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequest/idpEnabled</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, assign) BOOL idpEnabled</Declaration>
-			
-			
-			<Anchor>//api/name/idpEnabled</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequest/setIdpAppURIScheme:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *idpAppURIScheme</Declaration>
-			
-			
-			<Anchor>//api/name/idpAppURIScheme</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequest/idpAppURIScheme</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *idpAppURIScheme</Declaration>
-			
-			
-			<Anchor>//api/name/idpAppURIScheme</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequest/idpAppURIScheme</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *idpAppURIScheme</Declaration>
-			
-			
-			<Anchor>//api/name/idpAppURIScheme</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequest/setUserHint:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *userHint</Declaration>
-			
-			
-			<Anchor>//api/name/userHint</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequest/userHint</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *userHint</Declaration>
-			
-			
-			<Anchor>//api/name/userHint</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequest/userHint</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, nullable) NSString *userHint</Declaration>
-			
-			
-			<Anchor>//api/name/userHint</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequest/setSpAppLoginFlowSelectionAction:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, nullable) UIViewController&lt;SFSDKLoginFlowSelectionView&gt; *^ ) ( void ) spAppLoginFlowSelectionAction</Declaration>
-			
-			
-			<Anchor>//api/name/spAppLoginFlowSelectionAction</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequest/spAppLoginFlowSelectionAction</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, nullable) UIViewController&lt;SFSDKLoginFlowSelectionView&gt; *^ ) ( void ) spAppLoginFlowSelectionAction</Declaration>
-			
-			
-			<Anchor>//api/name/spAppLoginFlowSelectionAction</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequest/spAppLoginFlowSelectionAction</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, nullable) UIViewController&lt;SFSDKLoginFlowSelectionView&gt; *^ ) ( void ) spAppLoginFlowSelectionAction</Declaration>
-			
-			
-			<Anchor>//api/name/spAppLoginFlowSelectionAction</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequest/setAppDisplayName:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *appDisplayName</Declaration>
-			
-			
-			<Anchor>//api/name/appDisplayName</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequest/appDisplayName</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *appDisplayName</Declaration>
-			
-			
-			<Anchor>//api/name/appDisplayName</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequest/appDisplayName</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *appDisplayName</Declaration>
-			
-			
-			<Anchor>//api/name/appDisplayName</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequest/setIdpInitiatedAuth:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL idpInitiatedAuth</Declaration>
-			
-			
-			<Anchor>//api/name/idpInitiatedAuth</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequest/idpInitiatedAuth</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL idpInitiatedAuth</Declaration>
-			
-			
-			<Anchor>//api/name/idpInitiatedAuth</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequest/idpInitiatedAuth</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL idpInitiatedAuth</Declaration>
-			
-			
-			<Anchor>//api/name/idpInitiatedAuth</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequest/setIdpAppUserSelectionAction:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, nullable) UIViewController&lt;SFSDKUserSelectionView&gt; *^ ) ( void ) idpAppUserSelectionAction</Declaration>
-			
-			
-			<Anchor>//api/name/idpAppUserSelectionAction</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequest/idpAppUserSelectionAction</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, nullable) UIViewController&lt;SFSDKUserSelectionView&gt; *^ ) ( void ) idpAppUserSelectionAction</Declaration>
-			
-			
-			<Anchor>//api/name/idpAppUserSelectionAction</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequest/idpAppUserSelectionAction</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy, nullable) UIViewController&lt;SFSDKUserSelectionView&gt; *^ ) ( void ) idpAppUserSelectionAction</Declaration>
-			
-			
-			<Anchor>//api/name/idpAppUserSelectionAction</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequest/setAuthenticateRequestFromSPApp:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL authenticateRequestFromSPApp</Declaration>
-			
-			
-			<Anchor>//api/name/authenticateRequestFromSPApp</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthRequest/authenticateRequestFromSPApp</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL authenticateRequestFromSPApp</Declaration>
-			
-			
-			<Anchor>//api/name/authenticateRequestFromSPApp</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthRequest/authenticateRequestFromSPApp</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL authenticateRequestFromSPApp</Declaration>
-			
-			
-			<Anchor>//api/name/authenticateRequestFromSPApp</Anchor>
+			<Anchor>//api/name/initWithDisplayBlock:dismissBlock:</Anchor>
             <NodeRef refid="64"/>
 		</Token>
 		

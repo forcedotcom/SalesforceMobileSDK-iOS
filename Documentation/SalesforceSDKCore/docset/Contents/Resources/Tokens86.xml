@@ -1,84 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKFetchNotificationsRequestBuilder.html">
+	<File path="Classes/SFSDKIDPRequestHandler.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKFetchNotificationsRequestBuilder</TokenIdentifier>
-			<Abstract type="html">Use this interface to create a RestRequest object that calls the Notifications REST API.</Abstract>
-			<DeclaredIn>SFRestAPI+Notifications.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKIDPRequestHandler</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKIDPRequestHandler.h</DeclaredIn>
             
 			
 			<NodeRef refid="86"/>
 		</Token>
 		
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKFetchNotificationsRequestBuilder/setSize:</TokenIdentifier>
-			<Abstract type="html">Sets the number of notifications to fetch. Max and default are 20.</Abstract>
-			<DeclaredIn>SFRestAPI+Notifications.h</DeclaredIn>
-			
-			<Declaration>- (SFSDKFetchNotificationsRequestBuilder *)setSize:(NSUInteger)size</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>size</Name>
-					<Abstract type="html">Number of notifications to fetch.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/setSize:</Anchor>
-            <NodeRef refid="86"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKFetchNotificationsRequestBuilder/setBefore:</TokenIdentifier>
-			<Abstract type="html">Notifications occurring before the provided date will be fetched. Shouldn&apos;t be used with setAfter.</Abstract>
-			<DeclaredIn>SFRestAPI+Notifications.h</DeclaredIn>
-			
-			<Declaration>- (SFSDKFetchNotificationsRequestBuilder *)setBefore:(NSDate *)date</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>date</Name>
-					<Abstract type="html">Before date. If unspecified, defaults to current date and time.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/setBefore:</Anchor>
-            <NodeRef refid="86"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKFetchNotificationsRequestBuilder/setAfter:</TokenIdentifier>
-			<Abstract type="html">Notifications occurring after the provided date will be fetched. Shouldn&apos;t be used with setBefore.</Abstract>
-			<DeclaredIn>SFRestAPI+Notifications.h</DeclaredIn>
-			
-			<Declaration>- (SFSDKFetchNotificationsRequestBuilder *)setAfter:(NSDate *)date</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>date</Name>
-					<Abstract type="html">After date.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/setAfter:</Anchor>
-            <NodeRef refid="86"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKFetchNotificationsRequestBuilder/buildFetchNotificationsRequest:</TokenIdentifier>
-			<Abstract type="html">Returns a request to fetch notifications based on values from the builder.</Abstract>
-			<DeclaredIn>SFRestAPI+Notifications.h</DeclaredIn>
-			
-			<Declaration>- (SFRestRequest *)buildFetchNotificationsRequest:(NSString *)apiVersion</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>apiVersion</Name>
-					<Abstract type="html">API version.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/buildFetchNotificationsRequest:</Anchor>
-            <NodeRef refid="86"/>
-		</Token>
 		
         
         

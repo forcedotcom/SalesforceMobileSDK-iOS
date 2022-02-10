@@ -1,47 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFOAuthTokenEndpointFlow.html">
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthTokenEndpointFlow</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-            
-			
-			<NodeRef refid="211"/>
-		</Token>
+	<File path="">
 		
 		
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTokenEndpointFlowNone</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFOAuthTokenEndpointFlowNone</Declaration>
-            
-            <DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-            
-            <NodeRef refid="211"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTokenEndpointFlowRefresh</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFOAuthTokenEndpointFlowRefresh</Declaration>
-            
-            <DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-            
-            <NodeRef refid="211"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTokenEndpointFlowAdvancedBrowser</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFOAuthTokenEndpointFlowAdvancedBrowser</Declaration>
-            
-            <DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-            
-            <NodeRef refid="211"/>
-        </Token>
         
         
 	</File>

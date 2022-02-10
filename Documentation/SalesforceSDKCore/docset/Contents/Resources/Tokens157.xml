@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/NSData+SFBase64.html">
+	<File path="Categories/NSURL+SFStringUtils.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/NSData(SFBase64)</TokenIdentifier>
-			<Abstract type="html">Extension to NSData class to provide common functions. Added functionality includes:
---base64 encoding of an NSData object
---MD5 version of an NSData object
---Gzip deflated representation of a gzip-compressed NSData object
---Hex version of an NSData object</Abstract>
-			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/NSURL(SFStringUtils)</TokenIdentifier>
+			<Abstract type="html">Utilities for interacting with NSURL objects.</Abstract>
+			<DeclaredIn>NSURL+SFStringUtils.h</DeclaredIn>
             
 			
 			<NodeRef refid="157"/>
@@ -17,77 +13,80 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSData/randomDataOfLength:</TokenIdentifier>
-			<Abstract type="html">Returns a specified number of random bytes.</Abstract>
-			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSURL/redactedAbsoluteString:</TokenIdentifier>
+			<Abstract type="html">Will return the absolute string of a URL, with potentially sensitive querystring
+parameter values redacted.  Useful for logging URL values without sensitive data
+included.</Abstract>
+			<DeclaredIn>NSURL+SFStringUtils.h</DeclaredIn>
 			
-			<Declaration>- (nullable NSData *)randomDataOfLength:(size_t)length</Declaration>
+			<Declaration>- (NSString *)redactedAbsoluteString:(NSArray *)queryStringParamsToRedact</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>length</Name>
-					<Abstract type="html">The number of bytes of random data to return.</Abstract>
+					<Name>queryStringParamsToRedact</Name>
+					<Abstract type="html">An array of querystring parameter names whose values
+should be redacted.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">The specified quantity of random bytes or nil if an error occurs.</Abstract></ReturnValue>
-			<Anchor>//api/name/randomDataOfLength:</Anchor>
+			<ReturnValue><Abstract type="html">The redacted version of the absolute string value.</Abstract></ReturnValue>
+			<Anchor>//api/name/redactedAbsoluteString:</Anchor>
             <NodeRef refid="157"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSData/newBase64Encoding</TokenIdentifier>
-			<Abstract type="html">Creates a base64 encoded string for this NSData object.</Abstract>
-			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSURL/stringUrlWithBaseUrl:pathComponents:</TokenIdentifier>
+			<Abstract type="html">Helper method that constructs an absolute URL string given the specified components.</Abstract>
+			<DeclaredIn>NSURL+SFStringUtils.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)newBase64Encoding</Declaration>
-			
-			<ReturnValue><Abstract type="html">A base64 encoded version of the data.</Abstract></ReturnValue>
-			<Anchor>//api/name/newBase64Encoding</Anchor>
-            <NodeRef refid="157"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSData/base64Encode</TokenIdentifier>
-			<Abstract type="html">Returns a base64 encoded string for this NSData object.</Abstract>
-			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)base64Encode</Declaration>
-			
-			<ReturnValue><Abstract type="html">A base64 encoded version of the data.</Abstract></ReturnValue>
-			<Anchor>//api/name/base64Encode</Anchor>
-            <NodeRef refid="157"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSData/initWithBase64String:</TokenIdentifier>
-			<Abstract type="html">Creates a base64 encoding of this NSData. Similar to newBase64Encoding.</Abstract>
-			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (id)initWithBase64String:(NSString *)base64</Declaration>
+			<Declaration>+ (NSString *)stringUrlWithBaseUrl:(NSURL *)baseUrl pathComponents:(NSArray *)pathComponents</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>base64</Name>
-					<Abstract type="html">The base64 encoding to use in the new NSData object.</Abstract>
+					<Name>baseUrl</Name>
+					<Abstract type="html">The base URL</Abstract>
+				</Parameter><Parameter>
+					<Name>pathComponents</Name>
+					<Abstract type="html">The components of the path</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">The base64 encoded NSData object.</Abstract></ReturnValue>
-			<Anchor>//api/name/initWithBase64String:</Anchor>
+			<ReturnValue><Abstract type="html">an absolute string URL representation</Abstract></ReturnValue>
+			<Anchor>//api/name/stringUrlWithBaseUrl:pathComponents:</Anchor>
             <NodeRef refid="157"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSData/dataFromBase64String:</TokenIdentifier>
-			<Abstract type="html">Creates an NSData object from a base64 encoded string.</Abstract>
-			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSURL/stringUrlWithScheme:host:port:pathComponents:</TokenIdentifier>
+			<Abstract type="html">Helper method that constructs an absolute URL string given the specified components.</Abstract>
+			<DeclaredIn>NSURL+SFStringUtils.h</DeclaredIn>
 			
-			<Declaration>+ (NSData *)dataFromBase64String:(NSString *)encoding</Declaration>
+			<Declaration>+ (NSString *)stringUrlWithScheme:(NSString *)scheme host:(NSString *)host port:(NSNumber *)port pathComponents:(NSArray *)pathComponents</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>encoding</Name>
-					<Abstract type="html">The string to convert to NSData.</Abstract>
+					<Name>scheme</Name>
+					<Abstract type="html">The scheme of the URL</Abstract>
+				</Parameter><Parameter>
+					<Name>host</Name>
+					<Abstract type="html">The host of the URL</Abstract>
+				</Parameter><Parameter>
+					<Name>port</Name>
+					<Abstract type="html">The port of the URL</Abstract>
+				</Parameter><Parameter>
+					<Name>pathComponents</Name>
+					<Abstract type="html">The components of the path</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">A base64-encoded string version of this object&apos;s data.</Abstract></ReturnValue>
-			<Anchor>//api/name/dataFromBase64String:</Anchor>
+			<ReturnValue><Abstract type="html">an absolute string URL representation</Abstract></ReturnValue>
+			<Anchor>//api/name/stringUrlWithScheme:host:port:pathComponents:</Anchor>
+            <NodeRef refid="157"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSURL/slashTerminatedUrl</TokenIdentifier>
+			<Abstract type="html">Adds a trailing slash to the URL&apos;s path, if necessary</Abstract>
+			<DeclaredIn>NSURL+SFStringUtils.h</DeclaredIn>
+			
+			<Declaration>- (NSURL *)slashTerminatedUrl</Declaration>
+			
+			<ReturnValue><Abstract type="html">A URL whose path ends in a forward slash</Abstract></ReturnValue>
+			<Anchor>//api/name/slashTerminatedUrl</Anchor>
             <NodeRef refid="157"/>
 		</Token>
 		

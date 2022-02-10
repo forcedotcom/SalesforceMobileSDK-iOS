@@ -1,4 +1,4 @@
 Documentation set was installed to Xcode!
 
 Path: /Users/wmathurin/Library/Developer/Shared/Documentation/DocSets/com.salesforce.SalesforceSDKCore.docset
-Time: 2021-12-15 19:11:39 +0000
+Time: 2022-02-10 01:00:59 +0000
