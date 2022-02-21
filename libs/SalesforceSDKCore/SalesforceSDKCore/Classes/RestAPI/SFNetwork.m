@@ -154,7 +154,11 @@ static SFSDKMetricsCollectedBlock _metricsCollectedAction = nil;
         // Don't auto follow redirects in authenticated case
         completionHandler(nil);
     } else {
-        completionHandler(request);
+        NSMutableURLRequest *newRequest = [request mutableCopy];
+        [newRequest setAllHTTPHeaderFields:task.originalRequest.allHTTPHeaderFields];
+        [newRequest setHTTPBody:task.originalRequest.HTTPBody];
+        [newRequest setHTTPMethod:task.originalRequest.HTTPMethod];
+        completionHandler(newRequest);
     }
 }
 
