@@ -93,7 +93,7 @@ static NSString * const kSFDisableExternalPaste = @"DISABLE_EXTERNAL_PASTE";
 }
 
 - (void)configurePreferences {
-    self.rawPreferences = [[NSUserDefaults msdkUserDefaults] dictionaryForKey:kManagedConfigurationKey];
+    self.rawPreferences = [[NSUserDefaults standardUserDefaults] dictionaryForKey:kManagedConfigurationKey];
     if ([self hasManagedPreferences]) {
         [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureManagedByMDM];
     }
