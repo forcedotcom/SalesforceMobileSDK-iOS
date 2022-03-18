@@ -82,12 +82,12 @@ class EncryptionTests: XCTestCase {
         let privateKeyTag = try KeyGenerator.keyTag(name: "ECTest", prefix: KeyGenerator.ecPrivateKeyTagPrefix)
         
         _ = try KeyGenerator.createECKeyPair(privateTag: privateKeyTag, publicTag: publicKeyTag)
-        XCTAssertNotNil(KeyGenerator.ecKey(tag: publicKeyTag))
-        XCTAssertNotNil(KeyGenerator.ecKey(tag: privateKeyTag))
+        XCTAssertNotNil(try KeyGenerator.ecKey(tag: publicKeyTag))
+        XCTAssertNotNil(try KeyGenerator.ecKey(tag: privateKeyTag))
         
         KeyGenerator.removeECKeyPair(privateTag: privateKeyTag, publicTag: publicKeyTag)
-        XCTAssertNil(KeyGenerator.ecKey(tag: publicKeyTag))
-        XCTAssertNil(KeyGenerator.ecKey(tag: privateKeyTag))
+        XCTAssertNil(try KeyGenerator.ecKey(tag: publicKeyTag))
+        XCTAssertNil(try KeyGenerator.ecKey(tag: privateKeyTag))
     }
     
     func testSymmetricKeyRetrievalECKeyReset() throws {
@@ -110,7 +110,7 @@ class EncryptionTests: XCTestCase {
         XCTAssertTrue(KeyGenerator.removeKey(tag: publicKeyTag))
         KeyGenerator.keyCache.removeValue(forKey: "reset2")
         key = try KeyGenerator.encryptionKey(for: "reset2")
-        XCTAssertNotNil(key, "Couldn't generate new symmetric key after EC private key removal")
+        XCTAssertNotNil(key, "Couldn't generate new symmetric key after EC public key removal")
         KeyGenerator.keyCache.removeValue(forKey: "reset2")
         keyAgain = try KeyGenerator.encryptionKey(for: "reset2")
         XCTAssertEqual(key, keyAgain)
@@ -124,6 +124,43 @@ class EncryptionTests: XCTestCase {
         KeyGenerator.keyCache.removeValue(forKey: "reset3")
         keyAgain = try KeyGenerator.encryptionKey(for: "reset3")
         XCTAssertEqual(key, keyAgain)
+    }
+
+    func testSymmetricKeyRecoveryAfterECBug() throws {
+        let publicKeyTag = try KeyGenerator.keyTag(name: KeyGenerator.defaultKeyName, prefix: KeyGenerator.ecPublicKeyTagPrefix)
+        let privateKeyTag = try KeyGenerator.keyTag(name: KeyGenerator.defaultKeyName, prefix: KeyGenerator.ecPrivateKeyTagPrefix)
+        KeyGenerator.removeECKeyPair(privateTag: privateKeyTag, publicTag: publicKeyTag)
+        
+        // Get symmetric key that generates pair
+        let key = try KeyGenerator.encryptionKey(for: "keyName")
+        XCTAssertNotNil(key)
+
+        // After restore to same device, public key would be present but not private key
+        XCTAssertTrue(KeyGenerator.removeKey(tag: privateKeyTag))
+        
+        // Previous bug would mean another EC key pair would be created in addition to the existing single public key
+        _ = try KeyGenerator.createECKeyPair(privateTag: privateKeyTag, publicTag: publicKeyTag)
+        
+        // Check that the public key will throw error because it found more than one
+        XCTAssertThrowsError(try KeyGenerator.ecKey(tag: publicKeyTag))
+        
+        // This should regenerate a new key after being unable to decrypt the old key and deleting the EC duplicates
+        KeyGenerator.keyCache.removeValue(forKey: "keyName")
+        let resetKey = try KeyGenerator.encryptionKey(for: "keyName")
+        XCTAssertNotNil(resetKey)
+        XCTAssertNotEqual(key, resetKey)
+        let unencryptedData = try XCTUnwrap("this is a test".data(using: .utf8))
+        let encryptedData = try Encryptor.encrypt(data: unencryptedData, using: resetKey)
+        let decryptedData = try Encryptor.decrypt(data: encryptedData, using: resetKey)
+        XCTAssertEqual(unencryptedData, decryptedData)
+        
+        // Getting the key for a second time after reset should return the same key, make sure it can decrypt the same data
+        KeyGenerator.keyCache.removeValue(forKey: "keyName")
+        let resetKeyAgain = try KeyGenerator.encryptionKey(for: "keyName")
+        XCTAssertNotNil(resetKeyAgain)
+        XCTAssertEqual(resetKey, resetKeyAgain)
+        let decryptedDataAgain = try Encryptor.decrypt(data: encryptedData, using: resetKeyAgain)
+        XCTAssertEqual(unencryptedData, decryptedDataAgain)
     }
     
     func testConcurrency() throws {

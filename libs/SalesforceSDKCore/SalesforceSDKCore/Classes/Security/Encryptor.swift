@@ -153,6 +153,7 @@ public class KeyGenerator: NSObject {
         case tagCreationFailed
         case keyCreationFailed(underlyingError: Error?)
         case keyQueryFailed(status: OSStatus)
+        case invalidQueryResult
     }
     
     struct KeyPair {
@@ -198,10 +199,13 @@ public class KeyGenerator: NSObject {
     static func symmetricKey(for label: String, keySize: SymmetricKeySize = .bits256) throws -> SymmetricKey {
         let storedLabel = "\(KeyGenerator.keyStoreService).\(label)"
         if let encryptedKeyData = KeychainHelper.read(service: storedLabel, account: nil).data {
-            if let decryptedKeyData = try? Encryptor.decrypt(data: encryptedKeyData, using: ecKeyPair(name: defaultKeyName).privateKey) {
+            do {
+                let privateKey = try ecKeyPair(name: defaultKeyName).privateKey
+                let decryptedKeyData = try Encryptor.decrypt(data: encryptedKeyData, using: privateKey)
                 return SymmetricKey(data: decryptedKeyData)
+            } catch {
+                SalesforceLogger.log(KeyGenerator.self, level: .info, message: "Unable to decrypt existing encryption key for \(label), generating new one. Error: \(error.localizedDescription)")
             }
-            SalesforceLogger.log(KeyGenerator.self, level: .info, message: "Unable to decrypt existing encryption key for \(label), generating new one")
         }
         // Key wasn't in keychain or couldn't be decrypted
         let key = SymmetricKey(size: keySize)
@@ -219,12 +223,13 @@ public class KeyGenerator: NSObject {
     static func ecKeyPair(name: String) throws -> KeyPair {
         let privateTag = try keyTag(name: name, prefix: ecPrivateKeyTagPrefix)
         let publicTag = try keyTag(name: name, prefix: ecPublicKeyTagPrefix)
-        
-        if let privateKey = ecKey(tag: privateTag),
-           let publicKey = ecKey(tag: publicTag) {
+
+        if let privateKey = try? ecKey(tag: privateTag),
+           let publicKey = try? ecKey(tag: publicTag) {
             return KeyPair(publicKey: publicKey, privateKey: privateKey)
         }
-        
+    
+        removeECKeyPair(privateTag: privateTag, publicTag: publicTag)
         return try createECKeyPair(privateTag: privateTag, publicTag: publicTag)
     }
     
@@ -237,20 +242,29 @@ public class KeyGenerator: NSObject {
         }
     }
     
-    static func ecKey(tag: Data) -> SecKey? {
+    static func ecKey(tag: Data) throws -> SecKey? {
         let query: [String: Any] = [
+            String(kSecMatchLimit): kSecMatchLimitAll,
             String(kSecClass): String(kSecClassKey),
             String(kSecAttrApplicationTag): tag,
             String(kSecReturnRef): true
         ]
         var queryResult: CFTypeRef?
         let status = SecItemCopyMatching(query as CFDictionary, &queryResult)
-        if let secKey = queryResult, CFGetTypeID(secKey) == SecKeyGetTypeID() {
-            return (secKey as! SecKey)
-        } else if status != errSecItemNotFound {
+
+        if status == errSecItemNotFound {
+            return nil
+        } else if status != errSecSuccess {
             SalesforceLogger.log(KeyGenerator.self, level: .error, message: "Error getting EC SecKey: \(status)")
+            throw KeyGeneratorError.keyQueryFailed(status: status)
         }
-        return nil
+        
+        let keys = queryResult as? Array<SecKey>
+        if let key = keys?.first, keys?.count == 1 {
+            return key
+        }
+        SalesforceLogger.log(KeyGenerator.self, level: .error, message: "Key query result could not be read or more than one key was returned, key count: \(keys?.count ?? 0)")
+        throw KeyGeneratorError.invalidQueryResult
     }
     
     static func removeKey(tag: Data) -> Bool {
@@ -274,12 +288,12 @@ public class KeyGenerator: NSObject {
     
     @discardableResult
     static func removeECKeyPair(privateTag: Data, publicTag: Data) -> Bool {
-        return removeKey(tag: privateTag) && removeKey(tag: publicTag)
+        let privateKeyDeleted = removeKey(tag: privateTag)
+        let publicKeyDeleted = removeKey(tag: publicTag)
+        return privateKeyDeleted && publicKeyDeleted
     }
 
     static func createECKeyPair(privateTag: Data, publicTag: Data) throws -> KeyPair {
-        removeECKeyPair(privateTag: privateTag, publicTag: publicTag)
-        
         var privateKeyAttributes: [String: Any] = [
             String(kSecAttrIsPermanent): true,
             String(kSecAttrApplicationTag): privateTag
