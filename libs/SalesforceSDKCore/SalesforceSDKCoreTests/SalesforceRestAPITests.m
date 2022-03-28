@@ -1210,6 +1210,16 @@ static NSException *authException = nil;
      XCTAssertEqualObjects(otherContactId, otherQueryRecords[0][ID], "Contact id not returned by query");
 }
 
+// Test for priming records request
+- (void) testGetPrimingRecords {
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForPrimingRecords:nil apiVersion:kSFRestDefaultAPIVersion];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    NSDictionary* response = listener.dataResponse;
+    XCTAssertNotNil(response[@"primingRecords"]);
+    XCTAssertNotNil(response[@"relayToken"]);
+    XCTAssertNotNil(response[@"ruleErrors"]);
+    XCTAssertNotNil(response[@"stats"]);
+}
 
 
 #pragma mark - testing files calls
