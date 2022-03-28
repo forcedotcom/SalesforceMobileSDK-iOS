@@ -361,69 +361,13 @@ NS_SWIFT_NAME(RestClient)
 - (SFRestRequest*) requestForSObjectTree:(NSString *)objectType objectTrees:(NSArray<SFSObjectTree *> *)objectTrees apiVersion:(nullable NSString *)apiVersion;
 
 /**
- * Returns an `SFRestRequest` object to get status of notifications for the user.
+ * Returns an `SFRestRequest` object for getting list of record related to offline briefcase
  *
- * @param apiVersion API version.
- * @see https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_notifications_status.htm
- */
-- (SFRestRequest*) requestForNotificationsStatus:(nullable NSString *)apiVersion;
-
-/**
- * Returns an `SFRestRequest` object to get a notification.
+ * @param apiVersion       Salesforce API version.
+ * @param relayToken       Relay token (to get next page of results)
  *
- * @param notificationId  ID of notification.
- * @param apiVersion API version.
- * @see https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resource_notifications_specific.htm
+ * @see https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_briefcase_priming_records.htm
  */
-- (SFRestRequest*) requestForNotification:(NSString *)notificationId apiVersion:(nullable NSString *)apiVersion;
-
-   /**
-    * Returns an `SFRestRequest` object for updating a notification.
-    *
-    * @param notificationId  ID of notification.
-    * @param read            Marks notification as read (true) or unread (false). If null, field won't be updated.
-    *                        Required if `seen` not provided.
-    * @param seen            Marks notification as seen (true) or unseen (false). If null, field won't be updated.
-    *                        Required if `read` not provided.
-    * @param apiVersion      Salesforce API version.
-    *
-    * @see https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resource_notifications_specific.htm
-    */
-- (SFRestRequest*) requestForNotificationUpdate:(NSString*) notificationId read:(nullable NSNumber*)read seen:(nullable NSNumber*)seen apiVersion:(nullable NSString *)apiVersion;
-
-   /**
-    * Returns an `SFRestRequest` object for getting notifications.
-    *
-    * @param size         Number of notifications to get.
-    * @param before       Get notifications occurring before the provided date. Shouldn't be used with `after`.
-    * @param after        Get notifications occurring after the provided date. Shouldn't be used with `before`.
-    * @param apiVersion   Salesforce API version.
-    *
-    * @see https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_notifications_list.htm
-    */
-- (SFRestRequest*) requestForNotifications:(nullable NSNumber*)size before:(nullable NSDate *)before after:(nullable NSDate *)after apiVersion:(nullable NSString *)apiVersion;
-
-   /**
-    * Returns an `SFRestRequest` object for updating notifications.
-    *
-    * @param notificationIds  IDs of notifications to get. Shouldn't be used with `before`.
-    * @param before           Get notifications before the provided date. Shouldn't be used with `notificationIds`.
-    * @param read             Marks notifications as read (true) or unread (false). If null, field won't be updated.
-    *                         Required if `seen` not provided.
-    * @param seen             Marks notifications as seen (true) or unseen (false). If null, field won't be updated.
-    *                         Required if `read` not provided.
-    * @param apiVersion       Salesforce API version.
-    */
-- (SFRestRequest*) requestForNotificationsUpdate:(nullable NSArray<NSString *> *)notificationIds before:(nullable NSDate *)before read:(nullable NSNumber*)read seen:(nullable NSNumber*)seen apiVersion:(nullable NSString *)apiVersion;
-
-   /**
-    * Returns an `SFRestRequest` object for getting list of record related to offline briefcase
-    *
-    * @param apiVersion       Salesforce API version.
-    * @param relayToken       Relay token (to get next page of results)
-    *
-    * @see https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_briefcase_priming_records.htm
-    */
 - (SFRestRequest*) requestForPrimingRecords:(nullable NSString *)relayToken apiVersion:(nullable NSString *)apiVersion;
 
 ///---------------------------------------------------------------------------------------
