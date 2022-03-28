@@ -42,7 +42,7 @@ extern NSString* const kSFRestErrorDomain NS_SWIFT_NAME(SFRestErrorDomain);
 extern NSInteger const kSFRestErrorCode NS_SWIFT_NAME(SFRestErrorCode);
 
 /*
- * Default API version (currently "v49.0")
+ * Default API version (currently "v54.0")
  * You can override this by using setApiVersion:
  */
 extern NSString* const kSFRestDefaultAPIVersion NS_SWIFT_NAME(SFRestDefaultAPIVersion);
@@ -70,7 +70,7 @@ NS_SWIFT_NAME(RestClient)
 
 /**
  * The REST API version used for all the calls.
-* The default value is `kSFRestDefaultAPIVersion` (currently "v49.0")
+* The default value is `kSFRestDefaultAPIVersion` (currently "v54.0")
  */
 @property (nonatomic, strong) NSString *apiVersion;
 
