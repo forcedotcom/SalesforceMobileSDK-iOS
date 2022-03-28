@@ -35,6 +35,7 @@
 #import "NSString+SFAdditions.h"
 #import "SFSDKCompositeRequest.h"
 #import "SFSDKBatchRequest.h"
+#import "SFFormatUtils.h"
 
 NSString* const kSFRestDefaultAPIVersion = @"v54.0";
 NSString* const kSFRestIfUnmodifiedSince = @"If-Unmodified-Since";
@@ -668,6 +669,87 @@ static dispatch_once_t pred;
     NSString *path = [NSString stringWithFormat:@"/%@/composite/tree/%@", [self computeAPIVersion:apiVersion], objectType];
     SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:nil];
     return [self addBodyForPostRequest:requestJson request:request];
+}
+
+- (SFRestRequest*) requestForNotificationsStatus:(nullable NSString *)apiVersion {
+    NSString *path = [NSString stringWithFormat:@"/%@/connect/notifications/status", [self computeAPIVersion:apiVersion]];
+    return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:nil];
+}
+
+- (SFRestRequest*) requestForNotification:(NSString *)notificationId apiVersion:(nullable NSString *)apiVersion {
+    NSString *path = [NSString stringWithFormat:@"/%@/connect/notifications/%@", [self computeAPIVersion:apiVersion], notificationId];
+    return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:nil];
+}
+
+- (SFRestRequest*) requestForNotificationUpdate:(NSString*)notificationId read:(nullable NSNumber*)read seen:(nullable NSNumber*)seen apiVersion:(nullable NSString *)apiVersion {
+
+    NSString *path = [NSString stringWithFormat:@"/%@/connect/notifications/%@", [self computeAPIVersion:apiVersion], notificationId];
+
+    NSMutableDictionary *queryParams = [NSMutableDictionary new];
+    if (read != nil) {
+        queryParams[@"read"] = [read boolValue] ? @"true" : @"false";
+    }
+    
+    if (seen != nil) {
+        queryParams[@"seen"] = [seen boolValue] ? @"true" : @"false";
+    }
+    
+    return [SFRestRequest requestWithMethod:SFRestMethodPATCH path:path queryParams:queryParams];
+}
+    
+- (SFRestRequest*) requestForNotifications:(nullable NSNumber*)size before:(nullable NSDate *)before after:(nullable NSDate *)after apiVersion:(nullable NSString *)apiVersion {
+    
+    NSString *path = [NSString stringWithFormat:@"/%@/connect/notifications", [self computeAPIVersion:apiVersion]];
+
+    NSMutableDictionary *queryParams = [NSMutableDictionary new];
+    if (size != nil) {
+        queryParams[@"size"] = [NSString stringWithFormat:@"%d", [size intValue]];
+    }
+    
+    if (before != nil) {
+        queryParams[@"before"] = [SFFormatUtils getIsoStringFromDate:before];
+    }
+    
+    if (after != nil) {
+        queryParams[@"after"] = [SFFormatUtils getIsoStringFromDate:after];
+    }
+ 
+    return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:queryParams];
+}
+
+- (SFRestRequest*) requestForNotificationsUpdate:(nullable NSArray<NSString *> *)notificationIds before:(nullable NSDate *)before  read:(nullable NSNumber*)read seen:(nullable NSNumber*)seen  apiVersion:(nullable NSString *)apiVersion {
+    
+    NSString *path = [NSString stringWithFormat:@"/%@/connect/notifications", [self computeAPIVersion:apiVersion]];
+
+    NSMutableDictionary *queryParams = [NSMutableDictionary new];
+    if (notificationIds != nil) {
+        queryParams[@"notificationIds"] = notificationIds;
+    }
+    
+    if (before != nil) {
+        queryParams[@"before"] = [SFFormatUtils getIsoStringFromDate:before];
+    }
+
+    if (read != nil) {
+        queryParams[@"read"] = [read boolValue] ? @"true" : @"false";
+    }
+    
+    if (seen != nil) {
+        queryParams[@"seen"] = [seen boolValue] ? @"true" : @"false";
+    }
+    
+    return [SFRestRequest requestWithMethod:SFRestMethodPATCH path:path queryParams:queryParams];
+}
+
+- (SFRestRequest*) requestForPrimingRecords:(nullable NSString *)relayToken apiVersion:(nullable NSString *)apiVersion {
+    NSString *path = [NSString stringWithFormat:@"/%@/connect/briefcase/priming-records", [self computeAPIVersion:apiVersion]];
+    
+    NSDictionary *queryParams = nil;
+    if (relayToken != nil) {
+        queryParams = @{@"relayToken": relayToken};
+    }
+
+    return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:queryParams];
 }
 
 - (NSString *)toQueryString:(NSDictionary *)components {
