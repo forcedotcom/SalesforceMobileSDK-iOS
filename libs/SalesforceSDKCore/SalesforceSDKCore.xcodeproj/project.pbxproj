@@ -1917,9 +1917,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = CE4CE2851C0E449D009F6029 /* Build configuration list for PBXNativeTarget "SalesforceSDKCore" */;
 			buildPhases = (
+				CE4CE2681C0E449C009F6029 /* Headers */,
 				CE4CE2661C0E449C009F6029 /* Sources */,
 				CE4CE2671C0E449C009F6029 /* Frameworks */,
-				CE4CE2681C0E449C009F6029 /* Headers */,
 				82C5E3DE1C1B628A00376C00 /* Resources */,
 				CE4CE4F41C0E6D14009F6029 /* ShellScript */,
 				E1C80D751C5C5056001B3A21 /* ShellScript */,

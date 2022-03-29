@@ -918,9 +918,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = CE4CE2DB1C0E463C009F6029 /* Build configuration list for PBXNativeTarget "MobileSync" */;
 			buildPhases = (
+				CE4CE2C61C0E463C009F6029 /* Headers */,
 				CE4CE2C41C0E463C009F6029 /* Sources */,
 				CE4CE2C51C0E463C009F6029 /* Frameworks */,
-				CE4CE2C61C0E463C009F6029 /* Headers */,
 				CE4CE4F81C0E6DC4009F6029 /* ShellScript */,
 				CE4CE4FF1C0E6E5C009F6029 /* ShellScript */,
 			);
