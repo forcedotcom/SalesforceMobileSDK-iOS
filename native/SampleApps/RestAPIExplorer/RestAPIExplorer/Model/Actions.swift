@@ -52,6 +52,7 @@ enum ActionType {
     case fileShares
     case addFileShare
     case deleteFileShare
+    case primingRecords
     case currentUserInfo
     case logout
     case switchUser

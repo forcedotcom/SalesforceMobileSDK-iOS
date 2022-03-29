@@ -61,6 +61,7 @@ class ActionTableViewController: UIViewController {
         let fileShares = Action(type: ActionType.fileShares, method: "fileShares:page", objectTypes: "objectId, page")
         let addFileShare = Action(type: ActionType.addFileShare, method: "addFileShare:entityId:shareType", objectTypes: "objectId, entityId, sharedType")
         let deleteFileShare = Action(type: ActionType.deleteFileShare, method: "deleteFileShares:", objectTypes: "objectId")
+        let primingRecords = Action(type: ActionType.primingRecords, method: "primingRecords:", objectTypes: nil)
         let currentUserInfo = Action(type: ActionType.currentUserInfo, method: "current user info", objectTypes: nil)
         let logout = Action(type: ActionType.logout, method: "logout", objectTypes: nil)
         let switchUser = Action(type: ActionType.switchUser, method: "switch user", objectTypes: nil)
@@ -69,7 +70,7 @@ class ActionTableViewController: UIViewController {
         let overrideStyleDark = Action(type: ActionType.overrideStyleDark, method: "Override user interface style: dark", objectTypes: nil)
         let overrideStyleUnspecified = Action(type: ActionType.overrideStyleUnspecified, method: "Override user interface style: unspecified", objectTypes: nil)
         
-        self.actions = [versions, resources, describeGlobal, metadata, describe, retrieve, create, upsert, update, delete, query, search, searchScope, searchResultLayout, ownedFiles, filesInUserGroups, filesShared, fileDetails, batchFileDetails, fileShares, addFileShare, deleteFileShare, currentUserInfo, logout, switchUser, exportCredentials, overrideStyleLight, overrideStyleDark, overrideStyleUnspecified]
+        self.actions = [versions, resources, describeGlobal, metadata, describe, retrieve, create, upsert, update, delete, query, search, searchScope, searchResultLayout, ownedFiles, filesInUserGroups, filesShared, fileDetails, batchFileDetails, fileShares, addFileShare, deleteFileShare, primingRecords, currentUserInfo, logout, switchUser, exportCredentials, overrideStyleLight, overrideStyleDark, overrideStyleUnspecified]
         
         super.init(nibName: nil, bundle: nil)
         
