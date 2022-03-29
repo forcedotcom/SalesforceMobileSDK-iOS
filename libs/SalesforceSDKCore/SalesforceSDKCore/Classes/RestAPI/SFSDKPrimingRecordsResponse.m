@@ -70,10 +70,15 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 
 -(instancetype)initWith:(NSDictionary *)dict {
     if (self=[super init]) {
+        _dict = dict;
         _objectId = dict[@"id"];
         _systemModstamp = [SFFormatUtils getDateFromIsoDateString:dict[@"systemModstamp"]];
     }
     return self;
+}
+
+- (NSString*) description {
+    return [self.dict description];
 }
 
 @end
@@ -82,9 +87,14 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 
 -(instancetype)initWith:(NSDictionary *)dict {
     if (self=[super init]) {
+        _dict = dict;
         _ruleId = dict[@"ruleId"];
     }
     return self;
+}
+
+- (NSString*) description {
+    return [self.dict description];
 }
 
 @end
@@ -94,6 +104,7 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 
 -(instancetype)initWith:(NSDictionary *)dict {
     if (self=[super init]) {
+        _dict = dict;
         _ruleCountTotal = [dict[@"ruleCountTotal"] integerValue];
         _recordCountTotal = [dict[@"recordCountTotal"] integerValue];
         _ruleCountServed = [dict[@"ruleCountServed"] integerValue];
@@ -101,5 +112,10 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
     }
     return self;
 }
+
+- (NSString*) description {
+    return [self.dict description];
+}
+
 
 @end

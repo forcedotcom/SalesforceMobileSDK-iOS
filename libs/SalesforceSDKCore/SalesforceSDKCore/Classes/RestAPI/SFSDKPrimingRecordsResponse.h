@@ -29,6 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 NS_SWIFT_NAME(PrimingRecord)
 @interface SFSDKPrimingRecord : NSObject
+@property (nonatomic,readonly) NSDictionary* dict;
 @property (nonatomic,readonly) NSString* objectId;
 @property (nonatomic,readonly) NSDate* systemModstamp;
 -(instancetype)initWith:(NSDictionary *)dict;
@@ -36,12 +37,14 @@ NS_SWIFT_NAME(PrimingRecord)
 
 NS_SWIFT_NAME(PrimingRuleError)
 @interface SFSDKPrimingRuleError : NSObject
+@property (nonatomic,readonly) NSDictionary* dict;
 @property (nonatomic,readonly) NSString* ruleId;
 -(instancetype)initWith:(NSDictionary *)dict;
 @end
 
 NS_SWIFT_NAME(PrimingStats)
 @interface SFSDKPrimingStats : NSObject
+@property (nonatomic,readonly) NSDictionary* dict;
 @property (nonatomic,readonly) NSUInteger ruleCountTotal;
 @property (nonatomic,readonly) NSUInteger recordCountTotal;
 @property (nonatomic,readonly) NSUInteger ruleCountServed;
