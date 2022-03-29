@@ -24,6 +24,7 @@
 #import "SFSDKLogoutBlocker.h"
 #import "SalesforceRestAPITests.h"
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
+#import <SalesforceSDKCommon/SFJsonUtils.h>
 #import "SFRestAPI+Internal.h"
 #import "SFRestRequest+Internal.h"
 #import "SFNativeRestRequestListener.h"
@@ -1219,6 +1220,52 @@ static NSException *authException = nil;
     XCTAssertNotNil(response[@"relayToken"]);
     XCTAssertNotNil(response[@"ruleErrors"]);
     XCTAssertNotNil(response[@"stats"]);
+}
+
+// Test parsing priming records response going to server
+- (void) testParsePrimingRecordsResponseFromServer {
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForPrimingRecords:nil apiVersion:kSFRestDefaultAPIVersion];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    NSDictionary* response = listener.dataResponse;
+    SFSDKPrimingRecordsResponse* primingRecordsResponse = [[SFSDKPrimingRecordsResponse alloc] initWith:response];
+}
+
+// Test parsing priming records response using hardcoded response
+- (void) testParsePrimingRecordsResponse {
+    NSDictionary* dict = [SFJsonUtils objectFromJSONString:@"{\"primingRecords\":{\"Account\":{\"012S00000009B8HIAU\":[{\"id\":\"001S000001QEDnzIAH\", \"systemModstamp\":\"2021-08-23T18:42:32.000Z\"}, {\"id\":\"001S000000va6rGIAQ\", \"systemModstamp\":\"2019-02-09T02:19:38.000Z\"}]}, \"Contact\":{\"012000000000000AAA\":[{\"id\":\"003S00000129813IAA\", \"systemModstamp\":\"2018-12-22T06:13:59.000Z\"}, {\"id\":\"003S0000012LUhRIAW\", \"systemModstamp\":\"2019-01-12T06:13:11.000Z\"}, {\"id\":\"003S0000012hWwRIAU\", \"systemModstamp\":\"2019-01-30T00:59:06.000Z\"}]}}, \"relayToken\":\"fake-token\", \"ruleErrors\":[{\"ruleId\":\"rule-1\"}, {\"ruleId\":\"rule-2\"}], \"stats\":{\"recordCountServed\":100, \"recordCountTotal\":200, \"ruleCountServed\":2, \"ruleCountTotal\":3}}"];
+    
+    SFSDKPrimingRecordsResponse* primingRecordsResponse = [[SFSDKPrimingRecordsResponse alloc] initWith:dict];
+
+    // Checking priming records
+    // We have accounts and contacts
+    XCTAssertEqual(primingRecordsResponse.primingRecords.count, 2);
+    // We have one record type for accounts and two accounts
+    XCTAssertEqual(primingRecordsResponse.primingRecords[@"Account"].count, 1);
+    XCTAssertEqual(primingRecordsResponse.primingRecords[@"Account"][@"012S00000009B8HIAU"].count, 2);
+    XCTAssertEqualObjects(primingRecordsResponse.primingRecords[@"Account"][@"012S00000009B8HIAU"][0].objectId, @"001S000001QEDnzIAH");
+    XCTAssertEqualObjects(primingRecordsResponse.primingRecords[@"Account"][@"012S00000009B8HIAU"][1].objectId, @"001S000000va6rGIAQ");
+    XCTAssertEqual([primingRecordsResponse.primingRecords[@"Account"][@"012S00000009B8HIAU"][0].systemModstamp timeIntervalSince1970], 1629744152);
+    // We have one record type for contacts and three contacts
+    XCTAssertEqual(primingRecordsResponse.primingRecords[@"Contact"].count, 1);
+    XCTAssertEqual(primingRecordsResponse.primingRecords[@"Contact"][@"012000000000000AAA"].count, 3);
+    XCTAssertEqualObjects(primingRecordsResponse.primingRecords[@"Contact"][@"012000000000000AAA"][0].objectId, @"003S00000129813IAA");
+    XCTAssertEqualObjects(primingRecordsResponse.primingRecords[@"Contact"][@"012000000000000AAA"][1].objectId, @"003S0000012LUhRIAW");
+    XCTAssertEqualObjects(primingRecordsResponse.primingRecords[@"Contact"][@"012000000000000AAA"][2].objectId, @"003S0000012hWwRIAU");
+    XCTAssertEqual([primingRecordsResponse.primingRecords[@"Contact"][@"012000000000000AAA"][0].systemModstamp timeIntervalSince1970], 1545459239);
+
+    // Checking relay token
+    XCTAssertEqualObjects(primingRecordsResponse.relayToken, @"fake-token");
+    
+    // Checking rule errors
+    XCTAssertEqual(primingRecordsResponse.ruleErrors.count, 2);
+    XCTAssertEqualObjects(primingRecordsResponse.ruleErrors[0].ruleId, @"rule-1");
+    XCTAssertEqualObjects(primingRecordsResponse.ruleErrors[1].ruleId, @"rule-2");
+
+    // Checking stats
+    XCTAssertEqual(primingRecordsResponse.stats.recordCountServed, 100);
+    XCTAssertEqual(primingRecordsResponse.stats.recordCountTotal, 200);
+    XCTAssertEqual(primingRecordsResponse.stats.ruleCountServed, 2);
+    XCTAssertEqual(primingRecordsResponse.stats.ruleCountTotal, 3);
 }
 
 
