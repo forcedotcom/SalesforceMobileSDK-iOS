@@ -36,7 +36,7 @@
 #import "SFSDKCompositeRequest.h"
 #import "SFSDKBatchRequest.h"
 
-NSString* const kSFRestDefaultAPIVersion = @"v49.0";
+NSString* const kSFRestDefaultAPIVersion = @"v54.0";
 NSString* const kSFRestIfUnmodifiedSince = @"If-Unmodified-Since";
 NSString* const kSFRestErrorDomain = @"com.salesforce.RestAPI.ErrorDomain";
 NSString* const kSFDefaultContentType = @"application/json";
@@ -668,6 +668,17 @@ static dispatch_once_t pred;
     NSString *path = [NSString stringWithFormat:@"/%@/composite/tree/%@", [self computeAPIVersion:apiVersion], objectType];
     SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:nil];
     return [self addBodyForPostRequest:requestJson request:request];
+}
+
+- (SFRestRequest*) requestForPrimingRecords:(nullable NSString *)relayToken apiVersion:(nullable NSString *)apiVersion {
+    NSString *path = [NSString stringWithFormat:@"/%@/connect/briefcase/priming-records", [self computeAPIVersion:apiVersion]];
+    
+    NSDictionary *queryParams = nil;
+    if (relayToken != nil) {
+        queryParams = @{@"relayToken": relayToken};
+    }
+
+    return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:queryParams];
 }
 
 - (NSString *)toQueryString:(NSDictionary *)components {

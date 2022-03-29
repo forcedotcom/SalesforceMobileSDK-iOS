@@ -709,9 +709,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = CE4CE2C31C0E4581009F6029 /* Build configuration list for PBXNativeTarget "SmartStore" */;
 			buildPhases = (
+				CE4CE2B61C0E4581009F6029 /* Headers */,
 				CE4CE2B41C0E4581009F6029 /* Sources */,
 				CE4CE2B51C0E4581009F6029 /* Frameworks */,
-				CE4CE2B61C0E4581009F6029 /* Headers */,
 				CE4CE4F71C0E6DB9009F6029 /* ShellScript */,
 				CE4CE4FE1C0E6E4D009F6029 /* ShellScript */,
 			);
