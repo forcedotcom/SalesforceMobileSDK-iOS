@@ -2,7 +2,7 @@
  SalesforceSDKCore.h
  SalesforceSDKCore
 
- Created by Wolfgang Mathurin on Mon Mar 28 17:05:09 PDT 2022.
+ Created by Wolfgang Mathurin on Thu May 12 16:16:51 PDT 2022.
 
  Copyright (c) 2022-present, salesforce.com, inc. All rights reserved.
  
@@ -35,6 +35,7 @@
 #import <SalesforceSDKCore/SFSDKSoslBuilder.h>
 #import <SalesforceSDKCore/SFOAuthInfo.h>
 #import <SalesforceSDKCore/SFDecryptStream.h>
+#import <SalesforceSDKCore/SFSDKCollectionResponse.h>
 #import <SalesforceSDKCore/NSData+SFAdditions.h>
 #import <SalesforceSDKCore/SFSDKSalesforceAnalyticsManager.h>
 #import <SalesforceSDKCore/NSURL+SFAdditions.h>
