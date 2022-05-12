@@ -363,12 +363,75 @@ NS_SWIFT_NAME(RestClient)
 /**
  * Returns an `SFRestRequest` object for getting list of record related to offline briefcase
  *
- * @param apiVersion       Salesforce API version.
- * @param relayToken       Relay token (to get next page of results)
+ * @param relayToken Relay token (to get next page of results)
+ * @param apiVersion Salesforce API version.
  *
  * @see https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_briefcase_priming_records.htm
  */
 - (SFRestRequest*) requestForPrimingRecords:(nullable NSString *)relayToken apiVersion:(nullable NSString *)apiVersion;
+
+
+/**
+ * Returns an `SFRestRequest` object for creating multiple records with fewer round trips
+ *
+ * @param allOrNone Indicates whether to roll back the entire request when the creation of any object fails (true) or to continue with the independent creation of other objects in the request.
+ * @param records Array of sObjects.
+ * @param apiVersion Salesforce API version.
+ *
+ * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_sobjects_collections_create.htm
+ */
+- (SFRestRequest*) requestForCollectionCreate:(BOOL)allOrNone records:(NSArray<NSDictionary*>*)records apiVersion:(nullable NSString *)apiVersion;
+
+
+/**
+ * Returns an `SFRestRequest` object for retrieving multiple records with fewer round trips
+ *
+ * @param objectType Type of the requested record.
+ * @param objectIds Array of Salesforce IDs of the requested records.
+ * @param fieldList Array of requested field names.
+ * @param apiVersion Salesforce API version.
+ *
+ * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_sobjects_collections_retrieve.htm
+ */
+- (SFRestRequest*) requestForCollectionRetrieve:(NSString*)objectType objectIds:(NSArray<NSString*>*)objectIds fieldList:(NSArray<NSString*>*)fieldList apiVersion:(nullable NSString *)apiVersion;
+
+
+/**
+ * Returns an `SFRestRequest` object for updating multiple records with fewer round trips
+ *
+ * @param allOrNone Indicates whether to roll back the entire request when the update of any object fails (true) or to continue with the independent update of other objects in the request.
+ * @param records Array of sObjects.
+ * @param apiVersion Salesforce API version.
+ *
+ * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_sobjects_collections_update.htm
+ */
+- (SFRestRequest*) requestForCollectionUpdate:(BOOL)allOrNone records:(NSArray<NSDictionary*>*)records apiVersion:(nullable NSString *)apiVersion;
+
+
+/**
+ * Returns an `SFRestRequest` object for upserting multiple records with fewer round trips
+ *
+ * @param objectType Type of the requested record.
+ * @param externalIdField Name of ID field in source data.
+ * @param allOrNone Indicates whether to roll back the entire request when the upsert of any object fails (true) or to continue with the independent upsert of other objects in the request.
+ * @param records Array of sObjects.
+ * @param apiVersion Salesforce API version.
+ *
+ * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_sobjects_collections_upsert.htm
+ */
+- (SFRestRequest*) requestForCollectionUpsert:(NSString*)objectType externalIdField:(NSString*)externalIdField allOrNone:(BOOL)allOrNone records:(NSArray<NSDictionary*>*)records apiVersion:(nullable NSString *)apiVersion;
+
+
+/**
+ * Returns an `SFRestRequest` object for deleting multiple records with fewer round trips
+ *
+ * @param objectIds List of Salesforce IDs of the records to delete.
+ * @param apiVersion Salesforce API version.
+ *
+ * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_sobjects_collections_delete.htm
+ */
+- (SFRestRequest*) requestForCollectionDelete:(NSArray<NSString*>*)objectIds apiVersion:(nullable NSString *)apiVersion;
+
 
 ///---------------------------------------------------------------------------------------
 /// @name Other utility methods

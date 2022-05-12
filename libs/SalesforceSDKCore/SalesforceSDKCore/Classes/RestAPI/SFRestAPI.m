@@ -681,6 +681,45 @@ static dispatch_once_t pred;
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:queryParams];
 }
 
+- (SFRestRequest*) requestForCollectionCreate:(BOOL)allOrNone records:(NSArray<NSDictionary*>*)records apiVersion:(nullable NSString *)apiVersion {
+    NSString *path = [NSString stringWithFormat:@"/%@/composite/sobjects", [self computeAPIVersion:apiVersion]];
+    NSDictionary* requestJson = @{@"allOrNone": [NSNumber numberWithBool:allOrNone], @"records": records};
+    SFRestRequest* request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:nil];
+    return [self addBodyForPostRequest:requestJson request:request];
+}
+
+- (SFRestRequest*) requestForCollectionRetrieve:(NSString*)objectType objectIds:(NSArray<NSString*>*)objectIds fieldList:(NSArray<NSString*>*)fieldList apiVersion:(nullable NSString *)apiVersion {
+    NSString *path = [NSString stringWithFormat:@"/%@/composite/sobjects/%@", [self computeAPIVersion:apiVersion], objectType];
+    NSDictionary* requestJson = @{@"ids": objectIds, @"fields": fieldList};
+    SFRestRequest* request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:nil];
+    return [self addBodyForPostRequest:requestJson request:request];
+
+}
+
+- (SFRestRequest*) requestForCollectionUpdate:(BOOL)allOrNone records:(NSArray<NSDictionary*>*)records apiVersion:(nullable NSString *)apiVersion {
+    NSString *path = [NSString stringWithFormat:@"/%@/composite/sobjects", [self computeAPIVersion:apiVersion]];
+    NSDictionary* requestJson = @{@"allOrNone": [NSNumber numberWithBool:allOrNone], @"records": records};
+    SFRestRequest* request = [SFRestRequest requestWithMethod:SFRestMethodPATCH path:path queryParams:nil];
+    return [self addBodyForPostRequest:requestJson request:request];
+
+}
+
+- (SFRestRequest*) requestForCollectionUpsert:(NSString*)objectType externalIdField:(NSString*)externalIdField allOrNone:(BOOL)allOrNone records:(NSArray<NSDictionary*>*)records apiVersion:(nullable NSString *)apiVersion {
+    NSString *path = [NSString stringWithFormat:@"/%@/composite/sobjects/%@/%@", [self computeAPIVersion:apiVersion], objectType, externalIdField];
+    NSDictionary* requestJson = @{@"allOrNone": [NSNumber numberWithBool:allOrNone], @"records": records};
+    SFRestRequest* request = [SFRestRequest requestWithMethod:SFRestMethodPATCH path:path queryParams:nil];
+    return [self addBodyForPostRequest:requestJson request:request];
+}
+
+- (SFRestRequest*) requestForCollectionDelete:(NSArray<NSString*>*)objectIds apiVersion:(nullable NSString *)apiVersion {
+    NSString *path = [NSString stringWithFormat:@"/%@/composite/sobjects", [self computeAPIVersion:apiVersion]];
+    NSDictionary* queryParams = @{@"ids": objectIds};
+    return [SFRestRequest requestWithMethod:SFRestMethodDELETE path:path queryParams:queryParams];
+}
+
+
+# pragma mark - Helper methods
+
 - (NSString *)toQueryString:(NSDictionary *)components {
     NSMutableString *params = [NSMutableString new];
     if (components) {
@@ -709,7 +748,6 @@ static dispatch_once_t pred;
     return statusCode  == 404;
 }
 
-# pragma mark - Helper methods
 + (NSString *)getHttpStringFomFromDate:(NSDate *)date {
     if (date == nil) return nil;
     return [httpDateFormatter stringFromDate:date];
