@@ -1287,6 +1287,8 @@ static NSException *authException = nil;
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForCollectionCreate:YES records:records apiVersion:kSFRestDefaultAPIVersion];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     NSArray* response = listener.dataResponse;
+    
+    // Parsing response
     SFSDKCollectionResponse* parsedCreateResponse = [[SFSDKCollectionResponse alloc] initWith:response];
 
     // Checking response
@@ -1302,53 +1304,49 @@ static NSException *authException = nil;
     XCTAssertEqual(0, parsedCreateResponse.subResponses[2].errors.count);
 }
 
-/*
+- (void) testCollectionRetrieve {
+    NSString* firstAccountName = [NSString stringWithFormat:@"%@_account_1_%lf", ENTITY_PREFIX_NAME, CFAbsoluteTimeGetCurrent()];
+    NSString* secondAccountName = [NSString stringWithFormat:@"%@_account_2_%lf", ENTITY_PREFIX_NAME, CFAbsoluteTimeGetCurrent()];
+    NSString* contactName = [NSString stringWithFormat:@"%@_contact_%lf", ENTITY_PREFIX_NAME, CFAbsoluteTimeGetCurrent()];
 
-@Test
-public void testCollectionRetrieve() throws JSONException, IOException {
-    String firstAccountName = ENTITY_NAME_PREFIX + "_account_1_" + System.nanoTime();
-    String secondAccountName = ENTITY_NAME_PREFIX + "_account_2_" + System.nanoTime();
-    String contactName = ENTITY_NAME_PREFIX + "_contact_" + System.nanoTime();
-
-    JSONArray records = makeRecords(
-        new Pair("Account", new Pair("Name", firstAccountName)),
-        new Pair("Contact", new Pair("LastName", contactName)),
-        new Pair("Account", new Pair("Name", secondAccountName))
-    );
+    NSArray<NSDictionary*>* records = [self makeRecords: @[
+        @[@"Account", @"Name", firstAccountName],
+        @[@"Contact", @"LastName", contactName],
+        @[@"Account", @"Name", secondAccountName]
+    ]];
 
     // Doing a collection create
-    RestResponse createResponse = restClient.sendSync(RestRequest.getRequestForCollectionCreate(TestCredentials.API_VERSION, true , records));
-
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForCollectionCreate:YES records:records apiVersion:kSFRestDefaultAPIVersion];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    NSArray* response = listener.dataResponse;
+    
     // Parsing response
-    CollectionResponse parsedCreateResponse = new CollectionResponse(createResponse.asJSONArray());
-    String firstAccountId = parsedCreateResponse.subResponses.get(0).id;
-    String contactId = parsedCreateResponse.subResponses.get(1).id;
-    String secondAccountId = parsedCreateResponse.subResponses.get(2).id;
+    SFSDKCollectionResponse* parsedCreateResponse = [[SFSDKCollectionResponse alloc] initWith:response];
+    NSString* firstAccountId = parsedCreateResponse.subResponses[0].objectId;
+    NSString* contactId = parsedCreateResponse.subResponses[1].objectId;
+    NSString* secondAccountId = parsedCreateResponse.subResponses[2].objectId;
 
- 
-     // Parsing response
-     NSString* firstAccountId = parsedCreateResponse.subResponses[0].objectId;
-     NSString* contactId = parsedCreateResponse.subResponses[1].objectId;
-     NSString* secondAccountId = parsedCreateResponse.subResponses[2].objectId;
-
- 
     // Doing a collection retrieve for the accounts
-    RestRequest accountsRetrieveRequest = RestRequest.getRequestForCollectionRetrieve(TestCredentials.API_VERSION, "Account", Arrays.asList(firstAccountId, secondAccountId), Arrays.asList("Id", "Name"));
-    JSONArray accountsRetrieved = restClient.sendSync(accountsRetrieveRequest).asJSONArray();
+    SFRestRequest* accountsRetrieveRequest = [[SFRestAPI sharedInstance] requestForCollectionRetrieve:@"Account" objectIds:@[firstAccountId, secondAccountId] fieldList:@[@"Id", @"Name"] apiVersion:kSFRestDefaultAPIVersion];
+    listener = [self sendSyncRequest:accountsRetrieveRequest];
+    NSArray<NSDictionary*>* accountsRetrieved = listener.dataResponse;
 
     // Checking response
-    Assert.assertEquals(2, accountsRetrieved.length());
-    Assert.assertEquals(firstAccountName, accountsRetrieved.getJSONObject(0).getString("Name"));
-    Assert.assertEquals(secondAccountName, accountsRetrieved.getJSONObject(1).getString("Name"));
+    XCTAssertEqual(accountsRetrieved.count, 2);
+    XCTAssertEqualObjects(accountsRetrieved[0][@"Name"], firstAccountName);
+    XCTAssertEqualObjects(accountsRetrieved[1][@"Name"], secondAccountName);
 
     // Doing a collection retrieve for the contact
-    RestRequest contactsRetrievedRequest = RestRequest.getRequestForCollectionRetrieve(TestCredentials.API_VERSION, "Contact", Arrays.asList(contactId), Arrays.asList("Id", "LastName"));
-    JSONArray contactsRetrieved = restClient.sendSync(contactsRetrievedRequest).asJSONArray();
+    SFRestRequest* contactsRetrievedRequest = [[SFRestAPI sharedInstance] requestForCollectionRetrieve:@"Contact" objectIds:@[contactId] fieldList:@[@"Id", @"LastName"] apiVersion:kSFRestDefaultAPIVersion];
+    listener = [self sendSyncRequest:contactsRetrievedRequest];
+    NSArray<NSDictionary*>* contactsRetrieved = listener.dataResponse;
 
     // Checking response
-    Assert.assertEquals(1, contactsRetrieved.length());
-    Assert.assertEquals(contactName, contactsRetrieved.getJSONObject(0).getString("LastName"));
+    XCTAssertEqual(contactsRetrieved.count, 1);
+    XCTAssertEqualObjects(contactsRetrieved[0][@"LastName"], contactName);
 }
+
+/*
 
 @Test
 public void testCollectionUpsertNewRecords() throws JSONException, IOException {
