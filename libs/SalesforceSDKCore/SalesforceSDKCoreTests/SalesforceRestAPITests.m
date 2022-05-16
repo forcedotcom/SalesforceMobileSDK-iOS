@@ -1417,7 +1417,7 @@ static NSException *authException = nil;
     XCTAssertTrue(parsedUpsertResponse.subResponses[1].success);
     XCTAssertEqual(0, parsedUpsertResponse.subResponses[1].errors.count);
     
-    // Checking account on server to make sure they were updated
+    // Checking accounts on server to make sure they were updated
     request = [[SFRestAPI sharedInstance] requestForCollectionRetrieve:@"Account" objectIds:@[firstAccountId, secondAccountId] fieldList:@[@"Id", @"Name"] apiVersion:kSFRestDefaultAPIVersion];
     listener = [self sendSyncRequest:request];
     NSArray<NSDictionary*>* accountsRetrieved = listener.dataResponse;
@@ -1428,65 +1428,64 @@ static NSException *authException = nil;
     XCTAssertEqualObjects(accountsRetrieved[1][@"Name"], secondAccountNameUpdated);
 }
 
-/*
 
-@Test
-public void testCollectionUpdate() throws JSONException, IOException {
-    String firstAccountName = ENTITY_NAME_PREFIX + "_account_1_" + System.nanoTime();
-    String secondAccountName = ENTITY_NAME_PREFIX + "_account_2_" + System.nanoTime();
-    String contactName = ENTITY_NAME_PREFIX + "_contact_" + System.nanoTime();
+- (void) testCollectionUpdate {
+    NSString* firstAccountName = [NSString stringWithFormat:@"%@_account_1_%lf", ENTITY_PREFIX_NAME, CFAbsoluteTimeGetCurrent()];
+    NSString* secondAccountName = [NSString stringWithFormat:@"%@_account_2_%lf", ENTITY_PREFIX_NAME, CFAbsoluteTimeGetCurrent()];
+    NSString* contactName = [NSString stringWithFormat:@"%@_contact_%lf", ENTITY_PREFIX_NAME, CFAbsoluteTimeGetCurrent()];
 
-    JSONArray records = makeRecords(
-        new Pair("Account", new Pair("Name", firstAccountName)),
-        new Pair("Contact", new Pair("LastName", contactName)),
-        new Pair("Account", new Pair("Name", secondAccountName))
-    );
+    NSArray<NSDictionary*>* records = [self makeRecords: @[
+        @[@"Account", @"Name", firstAccountName],
+        @[@"Contact", @"LastName", contactName],
+        @[@"Account", @"Name", secondAccountName]
+    ]];
 
     // Doing a collection create
-    RestResponse createResponse = restClient.sendSync(RestRequest.getRequestForCollectionCreate(TestCredentials.API_VERSION, true , records));
-
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForCollectionCreate:YES records:records apiVersion:kSFRestDefaultAPIVersion];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    NSArray* response = listener.dataResponse;
+    
     // Parsing response
-    CollectionResponse parsedCreateResponse = new CollectionResponse(createResponse.asJSONArray());
-    String firstAccountId = parsedCreateResponse.subResponses.get(0).id;
-    String contactId = parsedCreateResponse.subResponses.get(1).id;
-    String secondAccountId = parsedCreateResponse.subResponses.get(2).id;
+    SFSDKCollectionResponse* parsedCreateResponse = [[SFSDKCollectionResponse alloc] initWith:response];
+    NSString* firstAccountId = parsedCreateResponse.subResponses[0].objectId;
+    NSString* contactId = parsedCreateResponse.subResponses[1].objectId;
 
-    // Doing a collection upsert to update one account and the contact
-    JSONArray updatedRecords = makeRecords(
-        new Pair("Account", new Pair("Name", firstAccountName + "_updated")),
-        new Pair("Contact", new Pair("LastName", contactName + "_updated"))
-    );
-    updatedRecords.getJSONObject(0).put("Id", firstAccountId);
-    updatedRecords.getJSONObject(1).put("Id", contactId);
-
-    RestResponse updateResponse = restClient.sendSync(RestRequest.getRequestForCollectionUpdate(TestCredentials.API_VERSION, true, updatedRecords));
-
+    // Doing a collection update one contact and one account
+    NSString* firstAccountNameUpdated = [NSString stringWithFormat:@"%@%@", firstAccountName, @"_updated"];
+    NSString* contactNameUpdated = [NSString stringWithFormat:@"%@%@", contactName, @"_updated"];
+    NSArray<NSDictionary*>* updatedRecords = [self makeRecords: @[
+        @[@"Account", @"Name", firstAccountNameUpdated, @"Id", firstAccountId],
+        @[@"Contact", @"LastName", contactNameUpdated, @"Id", contactId]
+    ]];
+    
+    request = [[SFRestAPI sharedInstance] requestForCollectionUpdate:YES records:updatedRecords apiVersion:kSFRestDefaultAPIVersion];
+    listener = [self sendSyncRequest:request];
+    response = listener.dataResponse;
+    
     // Parsing response
-    CollectionResponse parsedUpdateResponse = new CollectionResponse(updateResponse.asJSONArray());
+    SFSDKCollectionResponse* parsedUpdateResponse = [[SFSDKCollectionResponse alloc] initWith:response];
 
     // Checking response
-    Assert.assertEquals(2, parsedUpdateResponse.subResponses.size());
-    Assert.assertTrue(parsedUpdateResponse.subResponses.get(0).id.startsWith("001"));
-    Assert.assertTrue(parsedUpdateResponse.subResponses.get(0).success);
-    Assert.assertTrue(parsedUpdateResponse.subResponses.get(0).errors.isEmpty());
-    Assert.assertTrue(parsedUpdateResponse.subResponses.get(1).id.startsWith("003"));
-    Assert.assertTrue(parsedUpdateResponse.subResponses.get(1).success);
-    Assert.assertTrue(parsedUpdateResponse.subResponses.get(1).errors.isEmpty());
+    XCTAssertEqual(parsedUpdateResponse.subResponses.count, 2);
+    XCTAssertTrue([parsedUpdateResponse.subResponses[0].objectId hasPrefix:@"001"]);
+    XCTAssertTrue(parsedUpdateResponse.subResponses[0].success);
+    XCTAssertEqual(0, parsedUpdateResponse.subResponses[0].errors.count);
+    XCTAssertTrue([parsedUpdateResponse.subResponses[1].objectId hasPrefix:@"003"]);
+    XCTAssertTrue(parsedUpdateResponse.subResponses[1].success);
+    XCTAssertEqual(0, parsedUpdateResponse.subResponses[1].errors.count);
+    
+    // Checking contact on server to make sure it was updated
+    request = [[SFRestAPI sharedInstance] requestForCollectionRetrieve:@"Contact" objectIds:@[contactId] fieldList:@[@"Id", @"LastName"] apiVersion:kSFRestDefaultAPIVersion];
+    listener = [self sendSyncRequest:request];
+    NSArray<NSDictionary*>* contactsRetrieved = listener.dataResponse;
 
-    // Checking accounts on server
-    RestRequest accountsRetrieveRequest = RestRequest.getRequestForCollectionRetrieve(TestCredentials.API_VERSION, "Account", Arrays.asList(firstAccountId, secondAccountId), Arrays.asList("Id", "Name"));
-    JSONArray accountsRetrieved = restClient.sendSync(accountsRetrieveRequest).asJSONArray();
-    Assert.assertEquals(2, accountsRetrieved.length());
-    Assert.assertEquals(firstAccountName + "_updated", accountsRetrieved.getJSONObject(0).getString("Name"));
-    Assert.assertEquals(secondAccountName, accountsRetrieved.getJSONObject(1).getString("Name"));
-
-    // Checking contact on server
-    RestRequest contactsRetrieveRequest = RestRequest.getRequestForCollectionRetrieve(TestCredentials.API_VERSION, "Contact", Arrays.asList(contactId), Arrays.asList("Id", "LastName"));
-    JSONArray contactsRetrieved = restClient.sendSync(contactsRetrieveRequest).asJSONArray();
-    Assert.assertEquals(1, contactsRetrieved.length());
-    Assert.assertEquals(contactName + "_updated", contactsRetrieved.getJSONObject(0).getString("LastName"));
+    // Checking response
+    XCTAssertEqual(contactsRetrieved.count, 1);
+    XCTAssertEqualObjects(contactsRetrieved[0][@"LastName"], contactNameUpdated);
 }
 
+
+/*
 @Test
 public void testCollectionDelete() throws JSONException, IOException {
     String firstAccountName = ENTITY_NAME_PREFIX + "_account_1_" + System.nanoTime();
