@@ -713,7 +713,7 @@ static dispatch_once_t pred;
 
 - (SFRestRequest*) requestForCollectionDelete:(NSArray<NSString*>*)objectIds apiVersion:(nullable NSString *)apiVersion {
     NSString *path = [NSString stringWithFormat:@"/%@/composite/sobjects", [self computeAPIVersion:apiVersion]];
-    NSDictionary* queryParams = @{@"ids": objectIds};
+    NSDictionary* queryParams = @{@"ids": [objectIds componentsJoinedByString:@","]};
     return [SFRestRequest requestWithMethod:SFRestMethodDELETE path:path queryParams:queryParams];
 }
 

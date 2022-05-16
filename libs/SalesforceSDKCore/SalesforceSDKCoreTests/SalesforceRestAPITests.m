@@ -1227,7 +1227,12 @@ static NSException *authException = nil;
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForPrimingRecords:nil apiVersion:kSFRestDefaultAPIVersion];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     NSDictionary* response = listener.dataResponse;
-    SFSDKPrimingRecordsResponse* primingRecordsResponse = [[SFSDKPrimingRecordsResponse alloc] initWith:response];
+    @try {
+        SFSDKPrimingRecordsResponse* parsedResponse = [[SFSDKPrimingRecordsResponse alloc] initWith:response];
+    }
+    @catch (NSException *exception) {
+        XCTFail(@"Unexpected error %@", exception);
+    }
 }
 
 // Test parsing priming records response using hardcoded response
@@ -1286,22 +1291,21 @@ static NSException *authException = nil;
     // Doing a collection create
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForCollectionCreate:YES records:records apiVersion:kSFRestDefaultAPIVersion];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
-    NSArray* response = listener.dataResponse;
     
     // Parsing response
-    SFSDKCollectionResponse* parsedCreateResponse = [[SFSDKCollectionResponse alloc] initWith:response];
+    SFSDKCollectionResponse* parsedCreateResponse = [[SFSDKCollectionResponse alloc] initWith:listener.dataResponse];
 
     // Checking response
     XCTAssertEqual(parsedCreateResponse.subResponses.count, 3);
     XCTAssertTrue([parsedCreateResponse.subResponses[0].objectId hasPrefix:@"001"]);
     XCTAssertTrue(parsedCreateResponse.subResponses[0].success);
-    XCTAssertEqual(0, parsedCreateResponse.subResponses[0].errors.count);
+    XCTAssertEqual(parsedCreateResponse.subResponses[0].errors.count, 0);
     XCTAssertTrue([parsedCreateResponse.subResponses[1].objectId hasPrefix:@"001"]);
     XCTAssertTrue(parsedCreateResponse.subResponses[1].success);
-    XCTAssertEqual(0, parsedCreateResponse.subResponses[1].errors.count);
+    XCTAssertEqual(parsedCreateResponse.subResponses[1].errors.count, 0);
     XCTAssertTrue([parsedCreateResponse.subResponses[2].objectId hasPrefix:@"003"]);
     XCTAssertTrue(parsedCreateResponse.subResponses[2].success);
-    XCTAssertEqual(0, parsedCreateResponse.subResponses[2].errors.count);
+    XCTAssertEqual(parsedCreateResponse.subResponses[2].errors.count, 0);
 }
 
 - (void) testCollectionRetrieve {
@@ -1318,10 +1322,9 @@ static NSException *authException = nil;
     // Doing a collection create
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForCollectionCreate:YES records:records apiVersion:kSFRestDefaultAPIVersion];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
-    NSArray* response = listener.dataResponse;
     
     // Parsing response
-    SFSDKCollectionResponse* parsedCreateResponse = [[SFSDKCollectionResponse alloc] initWith:response];
+    SFSDKCollectionResponse* parsedCreateResponse = [[SFSDKCollectionResponse alloc] initWith:listener.dataResponse];
     NSString* firstAccountId = parsedCreateResponse.subResponses[0].objectId;
     NSString* contactId = parsedCreateResponse.subResponses[1].objectId;
     NSString* secondAccountId = parsedCreateResponse.subResponses[2].objectId;
@@ -1358,10 +1361,9 @@ static NSException *authException = nil;
      // Doing a collection upsert
      SFRestRequest* request = [[SFRestAPI sharedInstance] requestForCollectionUpsert:@"Account" externalIdField:@"Id" allOrNone:YES records:records apiVersion:kSFRestDefaultAPIVersion];
      SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
-     NSArray* response = listener.dataResponse;
      
      // Parsing response
-     SFSDKCollectionResponse* parsedUpsertResponse = [[SFSDKCollectionResponse alloc] initWith:response];
+     SFSDKCollectionResponse* parsedUpsertResponse = [[SFSDKCollectionResponse alloc] initWith:listener.dataResponse];
 
      // Checking response
      XCTAssertEqual(parsedUpsertResponse.subResponses.count, 2);
@@ -1386,10 +1388,9 @@ static NSException *authException = nil;
     // Doing a collection create
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForCollectionCreate:YES records:records apiVersion:kSFRestDefaultAPIVersion];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
-    NSArray* response = listener.dataResponse;
     
     // Parsing response
-    SFSDKCollectionResponse* parsedCreateResponse = [[SFSDKCollectionResponse alloc] initWith:response];
+    SFSDKCollectionResponse* parsedCreateResponse = [[SFSDKCollectionResponse alloc] initWith:listener.dataResponse];
     NSString* firstAccountId = parsedCreateResponse.subResponses[0].objectId;
     NSString* secondAccountId = parsedCreateResponse.subResponses[1].objectId;
 
@@ -1403,19 +1404,18 @@ static NSException *authException = nil;
     
     request = [[SFRestAPI sharedInstance] requestForCollectionUpsert:@"Account" externalIdField:@"Id" allOrNone:YES records:updatedAccounts apiVersion:kSFRestDefaultAPIVersion];
     listener = [self sendSyncRequest:request];
-    response = listener.dataResponse;
     
     // Parsing response
-    SFSDKCollectionResponse* parsedUpsertResponse = [[SFSDKCollectionResponse alloc] initWith:response];
+    SFSDKCollectionResponse* parsedUpsertResponse = [[SFSDKCollectionResponse alloc] initWith:listener.dataResponse];
 
     // Checking response
     XCTAssertEqual(parsedUpsertResponse.subResponses.count, 2);
     XCTAssertTrue([parsedUpsertResponse.subResponses[0].objectId hasPrefix:@"001"]);
     XCTAssertTrue(parsedUpsertResponse.subResponses[0].success);
-    XCTAssertEqual(0, parsedUpsertResponse.subResponses[0].errors.count);
+    XCTAssertEqual(parsedUpsertResponse.subResponses[0].errors.count, 0);
     XCTAssertTrue([parsedUpsertResponse.subResponses[1].objectId hasPrefix:@"001"]);
     XCTAssertTrue(parsedUpsertResponse.subResponses[1].success);
-    XCTAssertEqual(0, parsedUpsertResponse.subResponses[1].errors.count);
+    XCTAssertEqual(parsedUpsertResponse.subResponses[1].errors.count, 0);
     
     // Checking accounts on server to make sure they were updated
     request = [[SFRestAPI sharedInstance] requestForCollectionRetrieve:@"Account" objectIds:@[firstAccountId, secondAccountId] fieldList:@[@"Id", @"Name"] apiVersion:kSFRestDefaultAPIVersion];
@@ -1443,14 +1443,14 @@ static NSException *authException = nil;
     // Doing a collection create
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForCollectionCreate:YES records:records apiVersion:kSFRestDefaultAPIVersion];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
-    NSArray* response = listener.dataResponse;
     
     // Parsing response
-    SFSDKCollectionResponse* parsedCreateResponse = [[SFSDKCollectionResponse alloc] initWith:response];
+    SFSDKCollectionResponse* parsedCreateResponse = [[SFSDKCollectionResponse alloc] initWith:listener.dataResponse];
     NSString* firstAccountId = parsedCreateResponse.subResponses[0].objectId;
     NSString* contactId = parsedCreateResponse.subResponses[1].objectId;
-
-    // Doing a collection update one contact and one account
+    NSString* secondAccountId = parsedCreateResponse.subResponses[2].objectId;
+    
+    // Doing a collection update for one contact and one account
     NSString* firstAccountNameUpdated = [NSString stringWithFormat:@"%@%@", firstAccountName, @"_updated"];
     NSString* contactNameUpdated = [NSString stringWithFormat:@"%@%@", contactName, @"_updated"];
     NSArray<NSDictionary*>* updatedRecords = [self makeRecords: @[
@@ -1460,134 +1460,147 @@ static NSException *authException = nil;
     
     request = [[SFRestAPI sharedInstance] requestForCollectionUpdate:YES records:updatedRecords apiVersion:kSFRestDefaultAPIVersion];
     listener = [self sendSyncRequest:request];
-    response = listener.dataResponse;
     
     // Parsing response
-    SFSDKCollectionResponse* parsedUpdateResponse = [[SFSDKCollectionResponse alloc] initWith:response];
+    SFSDKCollectionResponse* parsedUpdateResponse = [[SFSDKCollectionResponse alloc] initWith:listener.dataResponse];
 
     // Checking response
     XCTAssertEqual(parsedUpdateResponse.subResponses.count, 2);
     XCTAssertTrue([parsedUpdateResponse.subResponses[0].objectId hasPrefix:@"001"]);
     XCTAssertTrue(parsedUpdateResponse.subResponses[0].success);
-    XCTAssertEqual(0, parsedUpdateResponse.subResponses[0].errors.count);
+    XCTAssertEqual(parsedUpdateResponse.subResponses[0].errors.count, 0);
     XCTAssertTrue([parsedUpdateResponse.subResponses[1].objectId hasPrefix:@"003"]);
     XCTAssertTrue(parsedUpdateResponse.subResponses[1].success);
-    XCTAssertEqual(0, parsedUpdateResponse.subResponses[1].errors.count);
+    XCTAssertEqual(parsedUpdateResponse.subResponses[1].errors.count, 0);
     
-    // Checking contact on server to make sure it was updated
+    // Checking accounts on server
+    request = [[SFRestAPI sharedInstance] requestForCollectionRetrieve:@"Account" objectIds:@[firstAccountId, secondAccountId] fieldList:@[@"Id", @"Name"] apiVersion:kSFRestDefaultAPIVersion];
+    listener = [self sendSyncRequest:request];
+    NSArray<NSDictionary*>* accountdsRetrieved = listener.dataResponse;
+    XCTAssertEqual(accountdsRetrieved.count, 2);
+    XCTAssertEqualObjects(accountdsRetrieved[0][@"Name"], firstAccountNameUpdated);
+    XCTAssertEqualObjects(accountdsRetrieved[1][@"Name"], secondAccountName);
+
+    // Checking contact on server
     request = [[SFRestAPI sharedInstance] requestForCollectionRetrieve:@"Contact" objectIds:@[contactId] fieldList:@[@"Id", @"LastName"] apiVersion:kSFRestDefaultAPIVersion];
     listener = [self sendSyncRequest:request];
     NSArray<NSDictionary*>* contactsRetrieved = listener.dataResponse;
-
-    // Checking response
     XCTAssertEqual(contactsRetrieved.count, 1);
     XCTAssertEqualObjects(contactsRetrieved[0][@"LastName"], contactNameUpdated);
 }
 
 
-/*
-@Test
-public void testCollectionDelete() throws JSONException, IOException {
-    String firstAccountName = ENTITY_NAME_PREFIX + "_account_1_" + System.nanoTime();
-    String secondAccountName = ENTITY_NAME_PREFIX + "_account_2_" + System.nanoTime();
-    String contactName = ENTITY_NAME_PREFIX + "_contact_" + System.nanoTime();
+- (void) testCollectionDelete {
+    NSString* firstAccountName = [NSString stringWithFormat:@"%@_account_1_%lf", ENTITY_PREFIX_NAME, CFAbsoluteTimeGetCurrent()];
+    NSString* secondAccountName = [NSString stringWithFormat:@"%@_account_2_%lf", ENTITY_PREFIX_NAME, CFAbsoluteTimeGetCurrent()];
+    NSString* contactName = [NSString stringWithFormat:@"%@_contact_%lf", ENTITY_PREFIX_NAME, CFAbsoluteTimeGetCurrent()];
 
-    JSONArray records = makeRecords(
-        new Pair("Account", new Pair("Name", firstAccountName)),
-        new Pair("Contact", new Pair("LastName", contactName)),
-        new Pair("Account", new Pair("Name", secondAccountName))
-    );
+    NSArray<NSDictionary*>* records = [self makeRecords: @[
+        @[@"Account", @"Name", firstAccountName],
+        @[@"Contact", @"LastName", contactName],
+        @[@"Account", @"Name", secondAccountName]
+    ]];
 
     // Doing a collection create
-    RestResponse createResponse = restClient.sendSync(RestRequest.getRequestForCollectionCreate(TestCredentials.API_VERSION, true , records));
-
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForCollectionCreate:YES records:records apiVersion:kSFRestDefaultAPIVersion];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    
     // Parsing response
-    CollectionResponse parsedCreateResponse = new CollectionResponse(createResponse.asJSONArray());
-    String firstAccountId = parsedCreateResponse.subResponses.get(0).id;
-    String contactId = parsedCreateResponse.subResponses.get(1).id;
-    String secondAccountId = parsedCreateResponse.subResponses.get(2).id;
+    SFSDKCollectionResponse* parsedCreateResponse = [[SFSDKCollectionResponse alloc] initWith:listener.dataResponse];
+    NSString* firstAccountId = parsedCreateResponse.subResponses[0].objectId;
+    NSString* contactId = parsedCreateResponse.subResponses[1].objectId;
+    NSString* secondAccountId = parsedCreateResponse.subResponses[2].objectId;
 
     // Doing a collection delete for one account and the contact
-    RestResponse deleteResponse = restClient.sendSync(RestRequest.getRequestForCollectionDelete(TestCredentials.API_VERSION, Arrays.asList(firstAccountId, contactId)));
-    CollectionResponse parsedDeleteResponse = new CollectionResponse(deleteResponse.asJSONArray());
+    request = [[SFRestAPI sharedInstance] requestForCollectionDelete:@[firstAccountId, contactId] apiVersion:kSFRestDefaultAPIVersion];
+    listener = [self sendSyncRequest:request];
+    
+    // Parsing response
+    SFSDKCollectionResponse* parsedDeleteResponse = [[SFSDKCollectionResponse alloc] initWith:listener.dataResponse];
 
     // Checking response
-    Assert.assertEquals(2, parsedDeleteResponse.subResponses.size());
-    Assert.assertEquals(firstAccountId, parsedDeleteResponse.subResponses.get(0).id);
-    Assert.assertTrue(parsedDeleteResponse.subResponses.get(0).success);
-    Assert.assertTrue(parsedDeleteResponse.subResponses.get(0).errors.isEmpty());
-    Assert.assertEquals(contactId, parsedDeleteResponse.subResponses.get(1).id);
-    Assert.assertTrue(parsedDeleteResponse.subResponses.get(1).success);
-    Assert.assertTrue(parsedDeleteResponse.subResponses.get(1).errors.isEmpty());
-
+    XCTAssertEqual(parsedDeleteResponse.subResponses.count, 2);
+    XCTAssertTrue([parsedDeleteResponse.subResponses[0].objectId hasPrefix:@"001"]);
+    XCTAssertTrue(parsedDeleteResponse.subResponses[0].success);
+    XCTAssertEqual(parsedDeleteResponse.subResponses[0].errors.count, 0);
+    XCTAssertTrue([parsedDeleteResponse.subResponses[1].objectId hasPrefix:@"003"]);
+    XCTAssertTrue(parsedDeleteResponse.subResponses[1].success);
+    XCTAssertEqual(parsedDeleteResponse.subResponses[1].errors.count, 0);
+    
     // Making sure deleted account is gone using retrieve
-    RestResponse response = restClient.sendSync(RestRequest.getRequestForRetrieve(TestCredentials.API_VERSION, "Account", firstAccountId, Arrays.asList("Id")));
-    Assert.assertEquals("404 was expected", HttpURLConnection.HTTP_NOT_FOUND, response.getStatusCode());
+    request = [[SFRestAPI sharedInstance] requestForRetrieveWithObjectType:@"Account" objectId:firstAccountId fieldList:@"Id,Name" apiVersion:kSFRestDefaultAPIVersion];
+    listener = [self sendSyncRequest:request];
+    XCTAssertEqual(404, listener.lastError.code);
 
-    // Making sure only deleted account is gone using collection retrieve
-    RestRequest accountsRetrieveRequest = RestRequest.getRequestForCollectionRetrieve(TestCredentials.API_VERSION, "Account", Arrays.asList(firstAccountId, secondAccountId), Arrays.asList("Id", "Name"));
-    JSONArray accountsRetrieved = restClient.sendSync(accountsRetrieveRequest).asJSONArray();
-    Assert.assertEquals(2, accountsRetrieved.length());
-    Assert.assertTrue(accountsRetrieved.isNull(0));
-    Assert.assertEquals(secondAccountName, accountsRetrieved.getJSONObject(1).getString("Name"));
-
+    // Making sure deleted account is gone using collection retrieve
+    request = [[SFRestAPI sharedInstance] requestForCollectionRetrieve:@"Account" objectIds:@[firstAccountId, secondAccountId] fieldList:@[@"Id", @"Name"] apiVersion:kSFRestDefaultAPIVersion];
+    listener = [self sendSyncRequest:request];
+    NSArray<NSDictionary*>* accountdsRetrieved = listener.dataResponse;
+    XCTAssertEqual(accountdsRetrieved.count, 2);
+    XCTAssertEqualObjects(accountdsRetrieved[0], [NSNull null]);
+    XCTAssertEqualObjects(accountdsRetrieved[1][@"Name"], secondAccountName);
+    
     // Making sure deleted contact is gone using retrieve
-    response = restClient.sendSync(RestRequest.getRequestForRetrieve(TestCredentials.API_VERSION, "Contact", contactId, Arrays.asList("Id")));
-    Assert.assertEquals("404 was expected", HttpURLConnection.HTTP_NOT_FOUND, response.getStatusCode());
+    request = [[SFRestAPI sharedInstance] requestForRetrieveWithObjectType:@"Contact" objectId:contactId fieldList:@"Id,LastName" apiVersion:kSFRestDefaultAPIVersion];
+    listener = [self sendSyncRequest:request];
+    XCTAssertEqual(404, listener.lastError.code);
 
-    // Making sure contact is gone using collection retrieve
-    RestRequest contactsRetrievedRequest = RestRequest.getRequestForCollectionRetrieve(TestCredentials.API_VERSION, "Contact", Arrays.asList(contactId), Arrays.asList("Id", "LastName"));
-    JSONArray contactsRetrieved = restClient.sendSync(contactsRetrievedRequest).asJSONArray();
-    Assert.assertEquals(1, contactsRetrieved.length());
-    contactsRetrieved = restClient.sendSync(contactsRetrievedRequest).asJSONArray();
-    Assert.assertTrue(contactsRetrieved.isNull(0));
+    // Making sure deleted account is gone using collection retrieve
+    request = [[SFRestAPI sharedInstance] requestForCollectionRetrieve:@"Contact" objectIds:@[contactId] fieldList:@[@"Id", @"LastName"] apiVersion:kSFRestDefaultAPIVersion];
+    listener = [self sendSyncRequest:request];
+    NSArray<NSDictionary*>* contactsRetrieved = listener.dataResponse;
+    XCTAssertEqual(contactsRetrieved.count, 1);
+    XCTAssertEqualObjects(contactsRetrieved[0], [NSNull null]);
 }
 
-@Test
-public void testCollectionCreateWithBadRecordAndAllOrNoneFalse() throws JSONException, IOException {
-    String accountName = ENTITY_NAME_PREFIX + "_account_" + System.nanoTime();
-    String contactName = ENTITY_NAME_PREFIX + "_contact_" + System.nanoTime();
+- (void) testCollectionCreateWithBadRecordAndAllOrNoneFalse {
+    NSString* accountName = [NSString stringWithFormat:@"%@_account_%lf", ENTITY_PREFIX_NAME, CFAbsoluteTimeGetCurrent()];
+    NSString* contactName = [NSString stringWithFormat:@"%@_contact_%lf", ENTITY_PREFIX_NAME, CFAbsoluteTimeGetCurrent()];
 
-    JSONArray records = makeRecords(
-        new Pair("Account", new Pair("BadField", accountName)),
-        new Pair("Contact", new Pair("LastName", contactName))
-    );
+    NSArray<NSDictionary*>* records = [self makeRecords: @[
+        @[@"Account", @"BadField", accountName],
+        @[@"Contact", @"LastName", contactName]
+    ]];
 
-    RestResponse response = restClient.sendSync(RestRequest.getRequestForCollectionCreate(TestCredentials.API_VERSION, false , records));
-    JSONArray jsonResponse = response.asJSONArray();
-    CollectionResponse parsedResponse = new CollectionResponse(jsonResponse);
-    Assert.assertEquals(2, parsedResponse.subResponses.size());
-    Assert.assertNull(parsedResponse.subResponses.get(0).id);
-    Assert.assertFalse(parsedResponse.subResponses.get(0).success);
-    Assert.assertFalse(parsedResponse.subResponses.get(0).errors.isEmpty());
-    Assert.assertTrue(parsedResponse.subResponses.get(1).id.startsWith("003"));
-    Assert.assertTrue(parsedResponse.subResponses.get(1).success);
-    Assert.assertTrue(parsedResponse.subResponses.get(1).errors.isEmpty());
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForCollectionCreate:NO records:records apiVersion:kSFRestDefaultAPIVersion];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    SFSDKCollectionResponse* parsedCreateResponse = [[SFSDKCollectionResponse alloc] initWith:listener.dataResponse];
+
+    // Checking response
+    XCTAssertEqual(parsedCreateResponse.subResponses.count, 2);
+    XCTAssertNil(parsedCreateResponse.subResponses[0].objectId);
+    XCTAssertFalse(parsedCreateResponse.subResponses[0].success);
+    XCTAssertEqual(parsedCreateResponse.subResponses[0].errors.count, 1);
+    XCTAssertEqualObjects(parsedCreateResponse.subResponses[0].errors[0].statusCode, @"INVALID_FIELD");
+    XCTAssertTrue([parsedCreateResponse.subResponses[1].objectId hasPrefix:@"003"]);
+    XCTAssertTrue(parsedCreateResponse.subResponses[1].success);
+    XCTAssertEqual(parsedCreateResponse.subResponses[1].errors.count, 0);
 }
 
-@Test
-public void testCollectionCreateWithBadRecordAndAllOrNoneTrue() throws JSONException, IOException {
-    String accountName = ENTITY_NAME_PREFIX + "_account_" + System.nanoTime();
-    String contactName = ENTITY_NAME_PREFIX + "_contact_" + System.nanoTime();
+- (void) testCollectionCreateWithBadRecordAndAllOrNoneTrue {
+    NSString* accountName = [NSString stringWithFormat:@"%@_account_%lf", ENTITY_PREFIX_NAME, CFAbsoluteTimeGetCurrent()];
+    NSString* contactName = [NSString stringWithFormat:@"%@_contact_%lf", ENTITY_PREFIX_NAME, CFAbsoluteTimeGetCurrent()];
 
-    JSONArray records = makeRecords(
-        new Pair("Account", new Pair("BadField", accountName)),
-        new Pair("Contact", new Pair("LastName", contactName))
-    );
+    NSArray<NSDictionary*>* records = [self makeRecords: @[
+        @[@"Account", @"BadField", accountName],
+        @[@"Contact", @"LastName", contactName]
+    ]];
 
-    RestResponse response = restClient.sendSync(RestRequest.getRequestForCollectionCreate(TestCredentials.API_VERSION, true , records));
-    JSONArray jsonResponse = response.asJSONArray();
-    CollectionResponse parsedResponse = new CollectionResponse(jsonResponse);
-    Assert.assertEquals(2, parsedResponse.subResponses.size());
-    Assert.assertNull(parsedResponse.subResponses.get(0).id);
-    Assert.assertFalse(parsedResponse.subResponses.get(0).success);
-    Assert.assertFalse(parsedResponse.subResponses.get(0).errors.isEmpty());
-    Assert.assertNull(parsedResponse.subResponses.get(1).id);
-    Assert.assertFalse(parsedResponse.subResponses.get(1).success);
-    Assert.assertFalse(parsedResponse.subResponses.get(1).errors.isEmpty());
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForCollectionCreate:YES records:records apiVersion:kSFRestDefaultAPIVersion];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    SFSDKCollectionResponse* parsedCreateResponse = [[SFSDKCollectionResponse alloc] initWith:listener.dataResponse];
+
+    // Checking response
+    XCTAssertEqual(parsedCreateResponse.subResponses.count, 2);
+    XCTAssertNil(parsedCreateResponse.subResponses[0].objectId);
+    XCTAssertFalse(parsedCreateResponse.subResponses[0].success);
+    XCTAssertEqual(parsedCreateResponse.subResponses[0].errors.count, 1);
+    XCTAssertEqualObjects(parsedCreateResponse.subResponses[0].errors[0].statusCode, @"INVALID_FIELD");
+    XCTAssertNil(parsedCreateResponse.subResponses[1].objectId);
+    XCTAssertFalse(parsedCreateResponse.subResponses[1].success);
+    XCTAssertEqual(parsedCreateResponse.subResponses[0].errors.count, 1);
+    XCTAssertEqualObjects(parsedCreateResponse.subResponses[1].errors[0].statusCode, @"ALL_OR_NONE_OPERATION_ROLLED_BACK");
 }
-
-*/
 
 // Make array of dictionaries representing records with provided type an field
 // @param typeFieldNameValues Array of arrays containing objectType, fieldName, otherFieldName, otherFieldValue etc

@@ -51,7 +51,7 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
         _success = [((NSNumber*) dict[@"success"]) boolValue];
         NSArray<NSDictionary*>* rawErrors = dict[@"errors"];
         NSMutableArray<SFSDKCollectionErrorResponse*>* errors = [NSMutableArray new];
-        [errors enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [rawErrors enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             [errors addObject:[[SFSDKCollectionErrorResponse alloc] initWith: obj]];
          }];
         _errors = errors;
