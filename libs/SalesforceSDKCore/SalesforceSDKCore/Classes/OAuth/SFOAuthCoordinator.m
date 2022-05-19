@@ -716,6 +716,7 @@
     NSURL *url = navigationAction.request.URL;
     NSString *requestUrl = [url absoluteString];
     
+    
     if ([url.scheme isEqual:@"mailto"] || [url.scheme isEqual:@"tel"]){
         [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:nil];
         decisionHandler(WKNavigationActionPolicyCancel);
