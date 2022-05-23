@@ -129,8 +129,7 @@ static NSException *authException = nil;
     return [self createAccountsLocally:names mutateBlock:nil];
 }
 
-- (NSArray *) createAccountsLocally:(NSArray*)names mutateBlock:(SFRecordMutatorBlock)mutateBlock;
- {
+- (NSArray *)createAccountsLocally:(NSArray*)names mutateBlock:(SFRecordMutatorBlock)mutateBlock {
     NSMutableArray* createdAccounts = [NSMutableArray new];
     NSMutableDictionary* attributes = [NSMutableDictionary new];
     attributes[TYPE] = ACCOUNT_TYPE;
@@ -149,6 +148,28 @@ static NSException *authException = nil;
         [createdAccounts addObject:account];
     }
     return [self.store upsertEntries:createdAccounts toSoup:ACCOUNTS_SOUP];
+}
+
+- (NSArray *)createContactsForAccountsLocally:(NSArray *)accountIds numberOfContactsPerAccounts:(int)numberOfContacts {
+    NSMutableArray* createdContacts = [NSMutableArray new];
+    NSMutableDictionary* attributes = [NSMutableDictionary new];
+    attributes[TYPE] = CONTACT_TYPE;
+    for (NSString *accountId in accountIds) {
+        for (int i = 0; i< numberOfContacts; i++) {
+            NSMutableDictionary* contact = [NSMutableDictionary new];
+            NSString *contactId = [SFSyncTarget createLocalId];
+            contact[ID] = contactId;
+            contact[ACCOUNT_ID] = accountId;
+            contact[LAST_NAME] = [self createRecordName:CONTACT_TYPE];
+            contact[ATTRIBUTES] = attributes;
+            contact[kSyncTargetLocal] = @YES;
+            contact[kSyncTargetLocallyCreated] = @YES;
+            contact[kSyncTargetLocallyDeleted] = @NO;
+            contact[kSyncTargetLocallyUpdated] = @NO;
+            [createdContacts addObject:contact];
+        }
+    }
+    return [self.store upsertEntries:createdContacts toSoup:CONTACTS_SOUP];
 }
 
 - (void)createAccountsSoup {

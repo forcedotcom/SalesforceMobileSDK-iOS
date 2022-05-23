@@ -55,7 +55,7 @@ NS_SWIFT_NAME(PrimingStats)
 NS_SWIFT_NAME(PrimingRecordsResponse)
 @interface SFSDKPrimingRecordsResponse : NSObject
 @property (nonatomic,readonly) NSDictionary<NSString*, NSDictionary<NSString*, NSArray<SFSDKPrimingRecord*>*>*>* primingRecords;
-@property (nonatomic,readonly) NSString* relayToken;
+@property (nonatomic,readonly,nullable) NSString *relayToken;
 @property (nonatomic,readonly) NSArray<SFSDKPrimingRuleError*>* ruleErrors;
 @property (nonatomic,readonly) SFSDKPrimingStats * stats;
 -(instancetype)initWith:(NSDictionary *)dict;
