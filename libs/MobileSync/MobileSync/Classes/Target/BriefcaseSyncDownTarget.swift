@@ -62,48 +62,48 @@ enum BriefcaseSyncDownError: Error {
 
 @objc(SFBriefcaseSyncDownTarget)
 public class BriefcaseSyncDownTarget: SyncDownTarget {
-    private static let pageSize: UInt = 2000
+    private static let briefcaseFeatureMarker = "BC"
     private static let countIdsPerRetrieve = "countIdsPerRetrieve"
     private static let infos = "infos"
     private static let maxCountIdsPerRetrieve = 2000
     
+    @objc let countIdsPerRetrieve: Int
+    @objc private(set) var infosMap: [String: BriefcaseObjectInfo] = [:]
     private var relayToken: String? = nil
     private var maxTimeStamp: Int64 = 0
-    private var infosMap: [String: BriefcaseObjectInfo] = [:]
     private var fetchedTypedIds: TypedIds?
-    private let countIdsPerRetrieve: Int
     private var sliceIndex = 0
     private var cancellableSet: Set<AnyCancellable> = []
 
-    override required public init(dict: [AnyHashable : Any]) {
-        if let infos = dict[BriefcaseSyncDownTarget.infos]  {
+    override required public convenience init(dict: [AnyHashable : Any]) {
+        var infos: [BriefcaseObjectInfo] = []
+        if let encodedInfos = dict[BriefcaseSyncDownTarget.infos] {
             do {
-                let json = try JSONSerialization.data(withJSONObject: infos)
-                infosMap = try JSONDecoder().decode([String: BriefcaseObjectInfo].self, from: json)
+                let json = try JSONSerialization.data(withJSONObject: encodedInfos)
+                infos.append(contentsOf: try JSONDecoder().decode([BriefcaseObjectInfo].self, from: json))
             } catch {
                 SalesforceLogger.log(BriefcaseSyncDownTarget.self, level: .error, message: "Error decoding briefcase info: \(error)")
             }
         }
-        
-        countIdsPerRetrieve = dict[BriefcaseSyncDownTarget.countIdsPerRetrieve] as? Int ?? BriefcaseSyncDownTarget.maxCountIdsPerRetrieve
-        super.init(dict: dict)
-        
-        self.queryType = QueryType.briefcase
-        ParentChildrenSyncHelper.registerAppFeature()
+        self.init(infos: infos, countIdsPerRetrieve: dict[BriefcaseSyncDownTarget.countIdsPerRetrieve] as? Int)
     }
     
     @objc public convenience init(infos: [BriefcaseObjectInfo]) {
-        self.init(infos: infos, countIdsPerRetrieve: BriefcaseSyncDownTarget.maxCountIdsPerRetrieve)
+        self.init(infos: infos, countIdsPerRetrieve: nil)
     }
     
-    internal init(infos: [BriefcaseObjectInfo], countIdsPerRetrieve: Int) {
+    init(infos: [BriefcaseObjectInfo], countIdsPerRetrieve: Int?) {
         for info in infos {
             infosMap[info.sobjectType] = info
         }
-        self.countIdsPerRetrieve = countIdsPerRetrieve
-        ParentChildrenSyncHelper.registerAppFeature()
+        if let countIdsPerRetrieve = countIdsPerRetrieve, countIdsPerRetrieve < BriefcaseSyncDownTarget.maxCountIdsPerRetrieve {
+            self.countIdsPerRetrieve = countIdsPerRetrieve
+        } else {
+            self.countIdsPerRetrieve = BriefcaseSyncDownTarget.maxCountIdsPerRetrieve
+        }
         super.init()
         self.queryType = QueryType.briefcase
+        SFSDKAppFeatureMarkers.registerAppFeature(BriefcaseSyncDownTarget.briefcaseFeatureMarker)
     }
     
     override public class func new(fromDict dict: [AnyHashable : Any]) -> Self? {
@@ -113,7 +113,7 @@ public class BriefcaseSyncDownTarget: SyncDownTarget {
     override public func asDict() -> NSMutableDictionary {
         let dict = super.asDict()
         do {
-            let data = try JSONEncoder().encode(infosMap)
+            let data = try JSONEncoder().encode(Array(infosMap.values))
             let json = try JSONSerialization.jsonObject(with: data, options: [])
             dict[BriefcaseSyncDownTarget.infos] = json
         } catch {
@@ -273,11 +273,11 @@ public class BriefcaseSyncDownTarget: SyncDownTarget {
     private func cleanGhosts(typedIds: TypedIds, syncManager: SyncManager, syncId: NSNumber) throws -> [Any]  {
         // Cleaning up ghosts one object type at a time
         return try typedIds.objectTypeToIds.flatMap { (objectInfo, records) -> [String] in
-            let predicate = self.buildSyncIdPredicateIfIndexed(syncManager: syncManager, soupName: objectInfo.soupName, syncId: syncId)
-            let localIds = try self.nonDirtyRecordsIds(syncManager: syncManager, soupName: objectInfo.soupName, idField: objectInfo.idFieldName, additionalPredicate: predicate).mutableCopy() as? NSMutableOrderedSet
+            let predicate = buildSyncIdPredicateIfIndexed(syncManager: syncManager, soupName: objectInfo.soupName, syncId: syncId)
+            let localIds = try nonDirtyRecordsIds(syncManager: syncManager, soupName: objectInfo.soupName, idField: objectInfo.idFieldName, additionalPredicate: predicate).mutableCopy() as? NSMutableOrderedSet
             localIds?.removeObjects(in: records)
             if let ghosts = localIds?.array as? [String], !ghosts.isEmpty {
-                try self.deleteRecordsFromLocalStore(syncManager: syncManager, soupName: objectInfo.soupName, ids: ghosts, idField: objectInfo.idFieldName)
+                try deleteRecordsFromLocalStore(syncManager: syncManager, soupName: objectInfo.soupName, ids: ghosts, idField: objectInfo.idFieldName)
                 return ghosts
             }
             return []
@@ -304,46 +304,5 @@ public class BriefcaseSyncDownTarget: SyncDownTarget {
             return infosMap[objectType]
         }
         return nil
-    }
-    
-    // MARK: - Adapted from internal methods in SyncDownTarget.m
-    
-    func buildSyncIdPredicateIfIndexed(syncManager: SyncManager, soupName: String, syncId: NSNumber) -> String {
-        let indexSpecs = syncManager.store.indices(forSoupNamed: soupName)
-        for indexSpec in indexSpecs {
-            if indexSpec.path == kSyncTargetSyncId {
-                return "AND {\(soupName):\(kSyncTargetSyncId)} = \(syncId.stringValue)"
-            }
-        }
-        return ""
-    }
-    
-    func deleteRecordsFromLocalStore(syncManager: SyncManager, soupName: String, ids: [String], idField: String) throws {
-        if !ids.isEmpty {
-            let smartSql = "SELECT {\(soupName):\(SmartStore.soupEntryId)} FROM {\(soupName)} WHERE {\(soupName):\(idField)} IN ('\(ids.joined(separator: "','"))')"
-            if let spec = QuerySpec.buildSmartQuerySpec(smartSql: smartSql, pageSize: UInt(ids.count)) {
-                try syncManager.store.removeEntries(usingQuerySpec: spec, forSoupNamed: soupName)
-            }
-        }
-    }
-    
-    func nonDirtyRecordsIds(syncManager: SyncManager, soupName: String, idField: String, additionalPredicate: String) throws -> NSOrderedSet {
-        let sql = "SELECT {\(soupName):\(idField)} FROM {\(soupName)} WHERE {\(soupName):\(kSyncTargetLocal)} = '0' \(additionalPredicate) ORDER BY {\(soupName):\(idField)} ASC"
-        
-       return try idsWithQuery(sql, syncManager: syncManager)
-    }
-    
-    func idsWithQuery(_ query: String, syncManager: SyncManager) throws -> NSOrderedSet {
-        guard let querySpec = QuerySpec.buildSmartQuerySpec(smartSql: query, pageSize: BriefcaseSyncDownTarget.pageSize) else { return NSOrderedSet() }
-
-        let ids = NSMutableOrderedSet()
-        var pageIndex: UInt = 0
-        var hasMore = true
-        while let results = try syncManager.store.query(using: querySpec, startingFromPageIndex: pageIndex) as? [[Any]], hasMore {
-            hasMore = (results.count == BriefcaseSyncDownTarget.pageSize)
-            pageIndex += 1
-            ids.addObjects(from: results.flatMap { $0 })
-        }
-        return ids
     }
 }

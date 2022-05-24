@@ -95,6 +95,7 @@
 		6927E20A283BEEE200A16668 /* BriefcaseSyncDownTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6927E1FE283BEEE200A16668 /* BriefcaseSyncDownTarget.swift */; };
 		6927E21E283BEFB700A16668 /* BriefcaseSyncDownTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6927E21D283BEFB700A16668 /* BriefcaseSyncDownTests.swift */; };
 		6927E22B283BF17800A16668 /* BriefcaseObjectInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6927E22A283BF17800A16668 /* BriefcaseObjectInfo.swift */; };
+		6927E23F283C3E1400A16668 /* SyncTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6927E23E283C3E1400A16668 /* SyncTarget.swift */; };
 		828E0E541AB398AA004E0AF2 /* TestSyncUpTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 828E0E531AB398AA004E0AF2 /* TestSyncUpTarget.m */; };
 		829DA2AF1C12674D0040F5F1 /* MobileSync.h in Headers */ = {isa = PBXBuildFile; fileRef = 829DA2AE1C12674D0040F5F1 /* MobileSync.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B716A36E218F4FC5009D407F /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B716A34B218F4F9C009D407F /* SalesforceAnalytics.framework */; };
@@ -391,6 +392,7 @@
 		6927E211283BEFB600A16668 /* MobileSyncTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MobileSyncTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		6927E21D283BEFB700A16668 /* BriefcaseSyncDownTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BriefcaseSyncDownTests.swift; sourceTree = "<group>"; };
 		6927E22A283BF17800A16668 /* BriefcaseObjectInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BriefcaseObjectInfo.swift; sourceTree = "<group>"; };
+		6927E23E283C3E1400A16668 /* SyncTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncTarget.swift; sourceTree = "<group>"; };
 		8207891D1A1BBC56009E9831 /* SFMobileSyncPersistableObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFMobileSyncPersistableObject.h; sourceTree = "<group>"; };
 		820789211A1D2555009E9831 /* SFMobileSyncPersistableObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFMobileSyncPersistableObject.m; sourceTree = "<group>"; };
 		820789231A1D26D9009E9831 /* SFMobileSyncPersistableObject+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFMobileSyncPersistableObject+Internal.h"; sourceTree = "<group>"; };
@@ -551,6 +553,7 @@
 			isa = PBXGroup;
 			children = (
 				6927E1FE283BEEE200A16668 /* BriefcaseSyncDownTarget.swift */,
+				6927E23E283C3E1400A16668 /* SyncTarget.swift */,
 				CE98A681209F698400507927 /* SFLayoutSyncDownTarget.h */,
 				CE98A680209F698300507927 /* SFLayoutSyncDownTarget.m */,
 				CE98A67A209F5C5700507927 /* SFMetadataSyncDownTarget.h */,
@@ -1237,6 +1240,7 @@
 				4FCA4A991FBE4E0A00F081B3 /* SFSDKSyncsConfig.m in Sources */,
 				CE4CE4391C0E5A75009F6029 /* SFMobileSyncNetworkUtils.m in Sources */,
 				CE4CE4231C0E5A35009F6029 /* SFMobileSyncSyncManager.m in Sources */,
+				6927E23F283C3E1400A16668 /* SyncTarget.swift in Sources */,
 				4F307E2A1EBA92450040CFC4 /* SFParentInfo.m in Sources */,
 				4FDCBD571E8DDC5C008F8FCE /* SFSyncDownTarget.m in Sources */,
 				CE2BCCF5224A86C100C98308 /* SFMobileSyncSyncManager+Instrumentation.m in Sources */,

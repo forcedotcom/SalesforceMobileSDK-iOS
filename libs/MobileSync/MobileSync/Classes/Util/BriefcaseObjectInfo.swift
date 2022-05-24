@@ -29,11 +29,11 @@ import Foundation
 
 @objc(SFBriefcaseObjectInfo)
 public class BriefcaseObjectInfo: NSObject, Codable {
-    let sobjectType: String
-    let fieldlist: [String]
-    let idFieldName: String
-    let modificationDateFieldName: String
-    let soupName: String
+    @objc let sobjectType: String
+    @objc let fieldlist: [String]
+    @objc let idFieldName: String
+    @objc let modificationDateFieldName: String
+    @objc let soupName: String
 
     @objc public convenience init(soupName: String, sobjectType: String, fieldlist: [String]) {
         self.init(soupName: soupName, sobjectType: sobjectType, fieldlist: fieldlist, idFieldName: nil, modificationDateFieldName: nil)

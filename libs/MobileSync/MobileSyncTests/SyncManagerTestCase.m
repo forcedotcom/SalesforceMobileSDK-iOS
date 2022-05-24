@@ -30,6 +30,7 @@
 #import <SalesforceSDKCore/TestSetupUtils.h>
 #import "TestSyncUpTarget.h"
 #import "SyncManagerTestCase.h"
+#import <MobileSync/MobileSync-Swift.h>
 
 static NSException *authException = nil;
 
@@ -395,6 +396,11 @@ static NSException *authException = nil;
                 XCTAssertEqualObjects(expectedTargetTyped.parentFieldlist, actualTargetTyped.parentFieldlist);
                 XCTAssertEqualObjects(expectedTargetTyped.childrenFieldlist, actualTargetTyped.childrenFieldlist);
                 XCTAssertEqualObjects(expectedTargetTyped.parentSoqlFilter, actualTargetTyped.parentSoqlFilter);
+            } else if (expectedQueryType == SFSyncDownTargetQueryTypeBriefcase) {
+                XCTAssertTrue([sync.target isKindOfClass:[SFBriefcaseSyncDownTarget class]]);
+                SFBriefcaseSyncDownTarget *expectedTargetTyped = (SFBriefcaseSyncDownTarget *)expectedTarget;
+                SFBriefcaseSyncDownTarget *actualTargetTyped = (SFBriefcaseSyncDownTarget *)sync.target;
+                [self checkBriefcaseInfo:actualTargetTyped.infosMap expectedBriefcaseInfo:expectedTargetTyped.infosMap];
             } else if (expectedQueryType == SFSyncDownTargetQueryTypeCustom) {
                 XCTAssertTrue([sync.target isKindOfClass:[SFSyncDownTarget class]]);
             }
@@ -452,6 +458,22 @@ static NSException *authException = nil;
     [self checkParentInfo:childrenInfo expectedParentInfo:expectedChildrenInfo];
     XCTAssertEqualObjects(expectedChildrenInfo.parentIdFieldName, childrenInfo.parentIdFieldName);
     XCTAssertEqualObjects(expectedChildrenInfo.sobjectTypePlural, childrenInfo.sobjectTypePlural);
+}
+
+- (void)checkBriefcaseInfo:(NSDictionary<NSString *, SFBriefcaseObjectInfo *> *)briefcaseInfo
+     expectedBriefcaseInfo:(NSDictionary<NSString *, SFBriefcaseObjectInfo *> *)expectedBriefcaseInfo {
+    XCTAssertTrue(briefcaseInfo.count > 0);
+    XCTAssertEqual(briefcaseInfo.count, expectedBriefcaseInfo.count);
+
+    for (NSString *name in briefcaseInfo.allKeys) {
+        SFBriefcaseObjectInfo *info = briefcaseInfo[name];
+        SFBriefcaseObjectInfo *expectedInfo = expectedBriefcaseInfo[name];
+        XCTAssertEqualObjects(expectedInfo.soupName, info.soupName);
+        XCTAssertEqualObjects(expectedInfo.sobjectType, info.sobjectType);
+        XCTAssertEqualObjects(expectedInfo.idFieldName, info.idFieldName);
+        XCTAssertEqualObjects(expectedInfo.modificationDateFieldName, info.modificationDateFieldName);
+        XCTAssertEqualObjects(expectedInfo.fieldlist, info.fieldlist);
+    }
 }
 
 - (void)checkStatus:(SFSyncState*)sync
