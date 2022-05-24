@@ -53,6 +53,8 @@ class CompositeRequestHelper {
 //                errorBlock(nil)
 //            }
 //        }
+        
+        return Dictionary() // FIXME
     }
         
 //        RestResponse response = syncManager.sendSyncWithMobileSyncUserAgent(compositeRequest);
@@ -126,74 +128,66 @@ class CompositeRequestHelper {
     /**
     * Response object abstracting away differences between /composite/batch and /commposite/sobject sub-responses
     */
-    class RecordResponse {
+    @objc(SFSDKRecordResponse)
+    class RecordResponse: NSObject {
         let success: Bool
-        let recordId: String
+        let recordId: String?
         let recordDoesNotExist: Bool
         let relatedRecordDoesNotExist: Bool
-        let json: Dictionary<String, Any>
+        let json: Any
         
-        init(success:Bool, recordId:String, recordDoesNotExist:Bool, relatedRecordDoesNotExist:Bool, json:Dictionary<String, Any>) {
+        private init(success:Bool, recordId:String?, recordDoesNotExist:Bool, relatedRecordDoesNotExist:Bool, json:Any) {
             self.success = success
             self.recordId = recordId
             self.recordDoesNotExist = recordDoesNotExist
             self.relatedRecordDoesNotExist = relatedRecordDoesNotExist
             self.json = json
         }
-
-    //   private RecordResponse(boolean success, String id, boolean recordDoesNotExist, boolean relatedRecordDoesNotExist, JSONObject json) {
-    //       this.success = success;
-    //       this.id = id;
-    //       this.recordDoesNotExist = recordDoesNotExist;
-    //       this.relatedRecordDoesNotExist = relatedRecordDoesNotExist;
-    //       this.json = json;
-    //   }
-    //
-    //   @Override
-    //   public String toString() {
-    //       return json.toString();
-    //   }
-    //
-    //   static RecordResponse fromCompositeSubResponse(CompositeSubResponse compositeSubResponse) throws JSONException {
-    //       boolean success = compositeSubResponse.isSuccess();
-    //       String id = null;
-    //       String refId = compositeSubResponse.referenceId;
-    //       boolean recordDoesNotExist = false;
-    //       boolean relatedRecordDoesNotExist = false;
-    //       if (success) {
-    //           JSONObject responseBodyResponse = compositeSubResponse.bodyAsJSONObject();
-    //           if (responseBodyResponse != null) {
-    //               id = JSONObjectHelper.optString(responseBodyResponse, Constants.LID);
-    //           }
-    //       } else {
-    //           recordDoesNotExist = compositeSubResponse.httpStatusCode == HttpURLConnection.HTTP_NOT_FOUND;
-    //           JSONArray bodyArray = compositeSubResponse.bodyAsJSONArray();
-    //           JSONObject firstError = bodyArray != null && bodyArray.length() > 0 ? bodyArray.getJSONObject(0) : null;
-    //           relatedRecordDoesNotExist = firstError != null ? "ENTITY_IS_DELETED".equals(firstError.getString("errorCode")) : false;
-    //       }
-    //       return new RecordResponse(success, id, recordDoesNotExist, relatedRecordDoesNotExist, compositeSubResponse.json);
-    //   }
-    //
-    //   static RecordResponse fromCollectionSubResponse(CollectionSubResponse collectionSubResponse) {
-    //       boolean success = collectionSubResponse.success;
-    //       String id = collectionSubResponse.id;
-    //       boolean recordDoesNotExist = false;
-    //       boolean relatedRecordDoesNotExist = false;
-    //       if (!collectionSubResponse.success && !collectionSubResponse.errors.isEmpty()) {
-    //           String error = collectionSubResponse.errors.get(0).statusCode;
-    //           recordDoesNotExist = "INVALID_CROSS_REFERENCE_KEY".equals(error)
-    //               || "ENTITY_IS_DELETED".equals(error);
-    //           relatedRecordDoesNotExist = "ENTITY_IS_DELETED".equals(error); // XXX ambiguous
-    //       }
-    //       return new RecordResponse(success, id, recordDoesNotExist, relatedRecordDoesNotExist, collectionSubResponse.json);
-    //   }
+        
+        static func fromCompositeSubResponse(compositeSubResponse: CompositeSubResponse) -> RecordResponse {
+            let success = RestClient.isStatusCodeSuccess(UInt(compositeSubResponse.httpStatusCode))
+            var recordId:String? = nil
+            var recordDoesNotExist = false
+            var relatedRecordDoesNotExist = false
+            
+            if (success) {
+                if let body = compositeSubResponse.body as? Dictionary<String, Any> {
+                    recordId = body["id"] as? String
+                }
+            } else {
+                recordDoesNotExist = RestClient.isStatusCodeNotFound(UInt(compositeSubResponse.httpStatusCode))
+                if let bodyArray = compositeSubResponse.body as? Array<Dictionary<String, Any>> {
+                    let firstError = bodyArray[0]["errorCode"] as? String
+                    relatedRecordDoesNotExist = firstError == "ENTITY_IS_DELETED"
+                }
+            }
+            
+            return RecordResponse(success:success, recordId: recordId, recordDoesNotExist: recordDoesNotExist, relatedRecordDoesNotExist: relatedRecordDoesNotExist, json: compositeSubResponse.dict)
+            
+        }
+        
+        static func fromCollectionSubResponse(collectionSubResponse: CollectionSubResponse) -> RecordResponse {
+            let success = collectionSubResponse.success
+            let recordId = collectionSubResponse.objectId
+            var recordDoesNotExist = false
+            var relatedRecordDoesNotExist = false
+            
+            if (!success && !collectionSubResponse.errors.isEmpty) {
+                let error = collectionSubResponse.errors[0].statusCode
+                recordDoesNotExist = error == "INVALID_CROSS_REFERENCE_KEY" || error == "ENTITY_IS_DELETED"
+                relatedRecordDoesNotExist = error == "ENTITY_IS_DELETED" // XXX ambiguous
+            }
+            
+            return RecordResponse(success:success, recordId: recordId, recordDoesNotExist: recordDoesNotExist, relatedRecordDoesNotExist: relatedRecordDoesNotExist, json: collectionSubResponse.json)
+        }
     }
 
     /**
     * Request object abstracting away differences between /composite/batch and /commposite/sobject sub-requests
     */
-    class RecordRequest {
-        let referenceId: String?
+    @objc(SFSDKRecordRequest)
+    class RecordRequest: NSObject {
+        var referenceId: String?
         let requestType: RequestType
         let objectType: String
         let fields: Dictionary<String, Any>?
@@ -201,7 +195,7 @@ class CompositeRequestHelper {
         let externalId: String?
         let externalIdFieldName: String?
         
-        init(requestType:RequestType, objectType:String, fields:Dictionary<String, Any>, recordId: String, externalId: String, externalIdFieldName: String) {
+        private init(requestType:RequestType, objectType:String, fields:Dictionary<String, Any>?, recordId: String?, externalId: String?, externalIdFieldName: String?) {
             self.requestType = requestType
             self.objectType = objectType
             self.fields = fields
@@ -210,15 +204,6 @@ class CompositeRequestHelper {
             self.externalIdFieldName = externalIdFieldName
         }
         
-    //   private RecordRequest(RequestType requestType, String objectType, Map<String, Object> fields, String id, String externalId, String externalIdFieldName) {
-    //       this.requestType = requestType;
-    //       this.objectType = objectType;
-    //       this.fields = fields;
-    //       this.id = id;
-    //       this.externalId = externalId;
-    //       this.externalIdFieldName = externalIdFieldName;
-    //   }
-    //
         func asRestRequest() -> RestRequest? {
            switch (requestType) {
            case .CREATE:
@@ -230,138 +215,112 @@ class CompositeRequestHelper {
            case .DELETE:
                return RestClient.shared.requestForDelete(withObjectType: objectType, objectId: recordId!, apiVersion: nil)
            }
-           // We should never get here
-           return nil
         }
-    //
-    //   JSONObject asJSONObjectForCollectionRequest() throws JSONException {
-    //       JSONObject record = new JSONObject();
-    //       JSONObject attributes = new JSONObject();
-    //       attributes.put(Constants.LTYPE, objectType);
-    //       record.put(Constants.ATTRIBUTES, attributes);
-    //       if (fields != null) {
-    //           for (Map.Entry<String, Object> entry : fields.entrySet()) {
-    //               record.put(entry.getKey(), entry.getValue());
-    //           }
-    //       }
-    //
-    //       if (requestType == RequestType.UPDATE) {
-    //           record.put(Constants.ID, id);
-    //       }
-    //
-    //       if (requestType == RequestType.UPSERT) {
-    //           record.put(externalIdFieldName, externalId);
-    //       }
-    //
-    //       return record;
-    //   }
-    //
-    //   static RecordRequest requestForCreate(String objectType, Map<String, Object> fields) {
-    //       return new RecordRequest(RequestType.CREATE, objectType, fields, null, null, null);
-    //   }
-    //
-    //   static RecordRequest requestForUpdate(String objectType, String id, Map<String, Object> fields) {
-    //       return new RecordRequest(RequestType.UPDATE, objectType, fields, id, null, null);
-    //   }
-    //
-    //   static RecordRequest requestForUpsert(String objectType, String externalIdFieldName, String externalId, Map<String, Object> fields) {
-    //       return new RecordRequest(RequestType.UPSERT, objectType, fields, null, externalId, externalIdFieldName);
-    //   }
-    //
-    //   static RecordRequest requestForDelete(String objectType, String id) {
-    //       return new RecordRequest(RequestType.DELETE, objectType, null, id, null, null);
-    //   }
-    //
-    //   static List<String> getRefIds(List<RecordRequest> recordRequests, RequestType requestType) {
-    //       List<String> refIds = new LinkedList<>();
-    //       for (RecordRequest recordRequest : recordRequests) {
-    //           if (recordRequest.requestType == requestType) {
-    //               refIds.add(recordRequest.referenceId);
-    //           }
-    //       }
-    //       return refIds;
-    //   }
-    //
-    //   static List<String> getIds(List<RecordRequest> recordRequests, RequestType requestType) {
-    //       List<String> ids = new LinkedList<>();
-    //       for (RecordRequest recordRequest : recordRequests) {
-    //           if (recordRequest.requestType == requestType) {
-    //               ids.add(recordRequest.id);
-    //           }
-    //       }
-    //       return ids;
-    //   }
-    //
-    //   static List<String> getObjectTypes(List<RecordRequest> recordRequests, RequestType requestType) {
-    //       List<String> objectTypes = new LinkedList<>();
-    //       for (RecordRequest recordRequest : recordRequests) {
-    //           if (recordRequest.requestType == requestType) {
-    //               objectTypes.add(recordRequest.objectType);
-    //           }
-    //       }
-    //       return objectTypes;
-    //   }
-    //
-    //   static List<String> getExternalIdFieldNames(List<RecordRequest> recordRequests, RequestType requestType) {
-    //       List<String> externalIdFieldNames = new LinkedList<>();
-    //       for (RecordRequest recordRequest : recordRequests) {
-    //           if (recordRequest.requestType == requestType) {
-    //               externalIdFieldNames.add(recordRequest.externalIdFieldName);
-    //           }
-    //       }
-    //       return externalIdFieldNames;
-    //   }
-    //
-    //   static JSONArray getJSONArrayForCollectionRequest(List<RecordRequest> recordRequests, RequestType requestType)
-    //       throws JSONException {
-    //       JSONArray jsonArray = new JSONArray();
-    //       for (RecordRequest recordRequest : recordRequests) {
-    //           if (recordRequest.requestType == requestType) {
-    //               jsonArray.put(recordRequest.asJSONObjectForCollectionRequest());
-    //           }
-    //       }
-    //       return jsonArray;
-    //   }
-    //
-    //   static RestRequest getCollectionRequest(String apiVersion, boolean allOrNone, List<RecordRequest> recordRequests, RequestType requestType)
-    //       throws JSONException, UnsupportedEncodingException {
-    //       switch(requestType) {
-    //           case CREATE:
-    //               return RestRequest.getRequestForCollectionCreate(apiVersion, allOrNone, getJSONArrayForCollectionRequest(recordRequests, RequestType.CREATE));
-    //           case UPDATE:
-    //               return RestRequest.getRequestForCollectionUpdate(apiVersion, allOrNone, getJSONArrayForCollectionRequest(recordRequests, RequestType.UPDATE));
-    //           case UPSERT:
-    //               JSONArray records = getJSONArrayForCollectionRequest(recordRequests, RequestType.UPSERT);
-    //
-    //               if (records.length() > 0) {
-    //                   List<String> objectTypes = getObjectTypes(recordRequests, RequestType.UPSERT);
-    //                   List<String> externalIdFieldNames = getExternalIdFieldNames(recordRequests, RequestType.UPSERT);
-    //
-    //                   if (objectTypes.size() == 0 || externalIdFieldNames.size() == 0) {
-    //                       throw new SyncManager.MobileSyncException("Missing sobjectType or externalIdFieldName");
-    //                   }
-    //
-    //                   if (new HashSet<>(objectTypes).size() > 1) {
-    //                       throw new SyncManager.MobileSyncException("All records must have same sobjectType");
-    //                   }
-    //
-    //                   String objectType = objectTypes.get(0);
-    //                   String externalIdFieldName = externalIdFieldNames.get(0);
-    //
-    //                   return RestRequest
-    //                       .getRequestForCollectionUpsert(apiVersion,
-    //                           objectType,
-    //                           externalIdFieldName,
-    //                           allOrNone,
-    //                           records);
-    //               }
-    //           case DELETE:
-    //               return RestRequest.getRequestForCollectionDelete(apiVersion, getIds(recordRequests, RequestType.DELETE));
-    //       }
-    //
-    //       // We should never get here
-    //       return null;
-    //   }
+        
+        func  asDictForCollectionRequest() -> Dictionary<String, Any> {
+            var record:Dictionary<String, Any> = Dictionary()
+            record["attributes"] = ["type": objectType]
+           if let fields = fields {
+               for (fieldName, fieldValue) in fields {
+                   record[fieldName] = fieldValue
+               }
+            }
+            
+            if (requestType == .UPDATE) {
+                record["Id"] = recordId
+            }
+                        
+            if (requestType == .UPSERT) {
+                if let externalIdFieldName = externalIdFieldName {
+                    record[externalIdFieldName] = externalId
+                }
+            }
+            
+            return record
+        }
+        
+        static func requestForCreate(objectType:String, fields:Dictionary<String, Any>) -> RecordRequest {
+            return RecordRequest(requestType:.CREATE, objectType: objectType, fields: fields, recordId: nil, externalId: nil, externalIdFieldName: nil)
+        }
+
+        static func requestForUpdate(objectType:String, recordId:String, fields:Dictionary<String, Any>) -> RecordRequest {
+            return RecordRequest(requestType:.UPDATE, objectType: objectType, fields: fields, recordId: recordId, externalId: nil, externalIdFieldName: nil)
+        }
+
+        static func requestForUpsert(objectType:String, externalIdFieldName:String, externalId:String, fields:Dictionary<String, Any>) -> RecordRequest {
+            return RecordRequest(requestType:.UPSERT, objectType: objectType, fields: fields, recordId: nil, externalId: externalId, externalIdFieldName: externalIdFieldName)
+        }
+
+        static func requestForUpdate(objectType:String, recordId: String) -> RecordRequest {
+            return RecordRequest(requestType:.DELETE, objectType: objectType, fields: nil, recordId: recordId, externalId: nil, externalIdFieldName: nil)
+        }
+        
+        static func getRefIds(recordRequests:Array<RecordRequest>, requestType:RequestType) -> Array<String> {
+            return recordRequests
+                .filter { $0.requestType == requestType }
+                .map { $0.referenceId! }
+        }
+
+        static func getIds(recordRequests:Array<RecordRequest>, requestType:RequestType) -> Array<String> {
+            return recordRequests
+                .filter { $0.requestType == requestType }
+                .map { $0.recordId! }
+        }
+
+        static func getObjectTypes(recordRequests:Array<RecordRequest>, requestType:RequestType) -> Array<String> {
+            return recordRequests
+                .filter { $0.requestType == requestType }
+                .map { $0.objectType }
+        }
+        
+        static func getExternalIdFieldName(recordRequests:Array<RecordRequest>, requestType:RequestType) -> Array<String> {
+            return recordRequests
+                .filter { $0.requestType == requestType }
+                .map { $0.externalIdFieldName! }
+        }
+        
+        static func getArrayForCollectionRequest(recordRequests:Array<RecordRequest>, requestType:RequestType) -> Array<Dictionary<String, Any>> {
+            return recordRequests
+                .filter { $0.requestType == requestType }
+                .map { $0.asDictForCollectionRequest() }
+        }
+        
+        static func getCollectionRequest(recordRequests:Array<RecordRequest>, requestType:RequestType, allOrNone: Bool) -> RestRequest? {
+            switch (requestType) {
+            case .CREATE:
+                return RestClient.shared.request(forCollectionCreate: allOrNone,
+                                                 records: getArrayForCollectionRequest(recordRequests: recordRequests, requestType: .CREATE),
+                                                 apiVersion: nil)
+            case .UPDATE:
+                return RestClient.shared.request(forCollectionUpdate: allOrNone,
+                                                 records: getArrayForCollectionRequest(recordRequests: recordRequests, requestType: .UPDATE),
+                                                 apiVersion: nil)
+            case .UPSERT:
+                let records = getArrayForCollectionRequest(recordRequests: recordRequests, requestType: .UPSERT)
+                if (!records.isEmpty) {
+                    let objectTypes = getObjectTypes(recordRequests: recordRequests, requestType: .UPSERT)
+                    let externalIdFieldNames = getExternalIdFieldName(recordRequests: recordRequests, requestType: .UPSERT)
+                    
+                    if (objectTypes.isEmpty || externalIdFieldNames.isEmpty) {
+                        // throw new SyncManager.MobileSyncException("Missing sobjectType or externalIdFieldName")
+                    }
+                    
+                    if (Set(objectTypes).count > 1) {
+                        // throw new SyncManager.MobileSyncException("All records must have same sobjectType");
+                    }
+                    
+                    let objectType = objectTypes.first!
+                    let externalIdFieldName = externalIdFieldNames.first!
+                    
+                    return RestClient.shared.request(forCollectionUpsert: objectType, externalIdField: externalIdFieldName, allOrNone: allOrNone, records: records, apiVersion: nil)
+                }
+            case .DELETE:
+                return RestClient.shared.request(forCollectionDelete: getIds(recordRequests: recordRequests, requestType: .DELETE),
+                                                 apiVersion: nil)
+            }
+            
+            return nil
+        }
     }
 
     enum RequestType {
