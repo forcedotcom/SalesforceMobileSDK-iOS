@@ -87,6 +87,7 @@
 		4FDCBD5F1E8DDC5C008F8FCE /* SFMruSyncDownTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FDCBD501E8DDC5C008F8FCE /* SFMruSyncDownTarget.m */; };
 		4FDCBD601E8DDC5C008F8FCE /* SFMruSyncDownTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FDCBD511E8DDC5C008F8FCE /* SFMruSyncDownTarget.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4FF1357C221782D600D9D25A /* SyncUpTargetTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF1357B221782D600D9D25A /* SyncUpTargetTests.m */; };
+		4FF85989283C517A0069B189 /* CompositeRequestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FF85988283C517A0069B189 /* CompositeRequestHelper.swift */; };
 		4FF93311221644110058807A /* SFBatchSyncUpTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF933022216440C0058807A /* SFBatchSyncUpTarget.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4FF93314221644640058807A /* SFBatchSyncUpTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF93313221644640058807A /* SFBatchSyncUpTarget.m */; };
 		4FF9331722165CD30058807A /* BatchSyncUpTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF9331622165CD30058807A /* BatchSyncUpTests.m */; };
@@ -378,6 +379,7 @@
 		4FDCBD501E8DDC5C008F8FCE /* SFMruSyncDownTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFMruSyncDownTarget.m; path = Target/SFMruSyncDownTarget.m; sourceTree = "<group>"; };
 		4FDCBD511E8DDC5C008F8FCE /* SFMruSyncDownTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFMruSyncDownTarget.h; path = Target/SFMruSyncDownTarget.h; sourceTree = "<group>"; };
 		4FF1357B221782D600D9D25A /* SyncUpTargetTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SyncUpTargetTests.m; sourceTree = "<group>"; };
+		4FF85988283C517A0069B189 /* CompositeRequestHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompositeRequestHelper.swift; sourceTree = "<group>"; };
 		4FF933022216440C0058807A /* SFBatchSyncUpTarget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SFBatchSyncUpTarget.h; path = Target/SFBatchSyncUpTarget.h; sourceTree = "<group>"; };
 		4FF93313221644640058807A /* SFBatchSyncUpTarget.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFBatchSyncUpTarget.m; path = Target/SFBatchSyncUpTarget.m; sourceTree = "<group>"; };
 		4FF9331622165CD30058807A /* BatchSyncUpTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BatchSyncUpTests.m; sourceTree = "<group>"; };
@@ -830,6 +832,7 @@
 				4FAA9B742255CA730006810D /* SFSDKSoqlMutator.m */,
 				4F1C9CAC22B0867A00669DBA /* SFSDKSoqlTokenizer.h */,
 				4F1C9C9C22B0865B00669DBA /* SFSDKSoqlTokenizer.m */,
+				4FF85988283C517A0069B189 /* CompositeRequestHelper.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -1193,6 +1196,7 @@
 				4FAA9B70225461910006810D /* SFAdvancedSyncUpTask.m in Sources */,
 				CE4CE4371C0E5A75009F6029 /* SFMobileSyncConstants.m in Sources */,
 				CE1BD1CC20AF801400409FE1 /* SFLayoutSyncManager.m in Sources */,
+				4FF85989283C517A0069B189 /* CompositeRequestHelper.swift in Sources */,
 				4FAA9B6F225461910006810D /* SFSyncUpTask.m in Sources */,
 				4F5BBBDC235F734F00E6D619 /* MobileSync.swift in Sources */,
 				CE01BB1020B759D3008E91B6 /* SFMetadataSyncManager.m in Sources */,
