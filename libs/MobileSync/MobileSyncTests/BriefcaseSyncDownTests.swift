@@ -124,7 +124,7 @@ class BriefcaseSyncDownTests: SyncManagerTestCase {
         try syncManager.cleanResyncGhosts(forId: syncId as NSNumber) { _, _ in
             expectation.fulfill()
         }
-        waitForExpectations(timeout: 5)
+        waitForExpectations(timeout: 30)
         
         // Synced records and local records are still present while ghosts are deleted
         checkDbDeleted(ACCOUNTS_SOUP, ids: deletedAccounts, idField: ID)
@@ -167,7 +167,7 @@ class BriefcaseSyncDownTests: SyncManagerTestCase {
         try syncManager.cleanResyncGhosts(forId: syncId as NSNumber) { _, _ in
             expectation.fulfill()
         }
-        waitForExpectations(timeout: 10)
+        waitForExpectations(timeout: 30)
 
         // Synced records and local records are still present while ghosts are deleted
         checkDbDeleted(ACCOUNTS_SOUP, ids: deletedAccounts, idField: ID)
@@ -181,7 +181,10 @@ class BriefcaseSyncDownTests: SyncManagerTestCase {
     }
     
     func testIdsToSkip() throws {
-        let syncResult = try syncDownFetchingTwoObjectTypes(numberAccounts: 12, numberContacts: 12, idsPerRetrieve: 500, numberFetches: 1)
+        let numberOfRecords = 12
+        let syncResult = try syncDownFetchingTwoObjectTypes(numberAccounts: numberOfRecords, numberContacts: numberOfRecords, idsPerRetrieve: 500, numberFetches: 1)
+        XCTAssertEqual(numberOfRecords, syncResult.accountIds.count)
+        XCTAssertEqual(numberOfRecords, syncResult.contactIds.count)
         let target = try XCTUnwrap(syncManager.syncStatus(forId: syncResult.syncId as NSNumber)?.target as? SyncDownTarget)
         
         // No dirty records
@@ -210,7 +213,7 @@ class BriefcaseSyncDownTests: SyncManagerTestCase {
             result = records
             expectation.fulfill()
         }
-        waitForExpectations(timeout: 10)
+        waitForExpectations(timeout: 30)
         guard let records = result as? [[String: Any]] else {
             XCTFail("Unable to parse record response")
             return []
