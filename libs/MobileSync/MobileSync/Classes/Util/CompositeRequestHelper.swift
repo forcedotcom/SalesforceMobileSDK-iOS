@@ -28,117 +28,32 @@
 import Foundation
 import SalesforceSDKCore
 
-class CompositeRequestHelper {
+typealias OnSendCompleteCallback =  (Dictionary<String, CompositeRequestHelper.RecordResponse>) -> ()
+typealias OnFailCallback = (Error) -> ()
 
-   /**
-    * Send record requests using a composite batch request
-    */
-    static func sendAsCompositeBatchRequest(syncManager: SyncManager, allOrNone: Bool, recordRequests: Array<RecordRequest>) -> Dictionary<String, RecordResponse>  {
-        
-        let compositeRequestBuilder = CompositeRequestBuilder().setAllOrNone(allOrNone)
-        for recordRequest in recordRequests {
-            if let restRequest = recordRequest.asRestRequest() {
-                compositeRequestBuilder.add(restRequest, referenceId: recordRequest.referenceId!)
-            }
-        }
-//        let request = compositeRequestBuilder.buildCompositeRequest(nil)
-//
-//        NetworkUtils.sendRequest(withMobileSyncUserAgent: request) { response, error, urlResponse in
-//            errorBlock(error)
-//        } successBlock: { response, urlResponse in
-//            if let records = response as? [[String: Any]] {
-//                allRecords.append(contentsOf: records)
-//                group.leave()
-//            } else {
-//                errorBlock(nil)
-//            }
-//        }
-        
-        return Dictionary() // FIXME
+@objc(SFCompositeRequestHelper)
+class CompositeRequestHelper:NSObject {
+    //
+    // Types of request
+    //
+    enum RequestType: CaseIterable {
+       case CREATE, UPDATE, UPSERT, DELETE
     }
-        
-//        RestResponse response = syncManager.sendSyncWithMobileSyncUserAgent(compositeRequest);
-//        if (!response.isSuccess()) {
-//            throw new SyncManager.MobileSyncException("sendCompositeRequest:" + response);
-//        }
-//        CompositeResponse compositeResponse = new CompositeResponse(response.asJSONObject());
-//        Map<String, RecordResponse> refIdToRecordResponses = new LinkedHashMap<>();
-//        for (CompositeSubResponse subResponse : compositeResponse.subResponses) {
-//            RecordResponse recordResponse = RecordResponse.fromCompositeSubResponse(subResponse);
-//            refIdToRecordResponses.put(subResponse.referenceId, recordResponse);
-//        }
-//        return refIdToRecordResponses;
-//   }
-
-   /**
-    * Send record requests using sobject collection requests
-    */
-//   public static Map<String, RecordResponse> sendAsCollectionRequests(SyncManager syncManager, boolean allOrNone, List<RecordRequest> recordRequests) throws JSONException, IOException {
-//       Map<String, RecordResponse> refIdToRecordResponses = new LinkedHashMap<>();
-//
-//       for (RequestType requestType : RequestType.values()) {
-//           List<String> refIds = RecordRequest.getRefIds(recordRequests, requestType);
-//           if (refIds.size() > 0) {
-//               RestRequest request = RecordRequest
-//                   .getCollectionRequest(syncManager.apiVersion, allOrNone, recordRequests, requestType);
-//               RestResponse response = syncManager.sendSyncWithMobileSyncUserAgent(request);
-//               if (!response.isSuccess()) {
-//                   throw new SyncManager.MobileSyncException(
-//                       "sendAsCollectionRequests:" + response);
-//               } else {
-//                   List<CollectionSubResponse> subResponses = new CollectionResponse(
-//                       response.asJSONArray()).subResponses;
-//                   for (int i = 0; i < subResponses.size(); i++) {
-//                       String refId = refIds.get(i);
-//                       RecordResponse recordResponse = RecordResponse.fromCollectionSubResponse(subResponses.get(i));
-//                       refIdToRecordResponses.put(refId, recordResponse);
-//                   }
-//               }
-//           }
-//       }
-//
-//       return refIdToRecordResponses;
-//   }
-//
-//   /**
-//    * Return ref id to server id map if successful
-//    */
-//   public static Map<String, String> parseIdsFromResponses(Map<String, RecordResponse> refIdToRecordResponse) throws JSONException {
-//       Map<String, String> refIdToServerId = new HashMap<>();
-//       for (Map.Entry<String, RecordResponse> entry : refIdToRecordResponse.entrySet()) {
-//           String refId = entry.getKey();
-//           RecordResponse recordResponse = entry.getValue();
-//           if (recordResponse.id != null) {
-//               refIdToServerId.put(refId, recordResponse.id);
-//           }
-//       }
-//       return refIdToServerId;
-//   }
-//
-//   /**
-//    * Update id field with server id
-//    */
-//   public static void updateReferences(JSONObject record, String fieldWithRefId, Map<String, String> refIdToServerId) throws JSONException {
-//       String refId = JSONObjectHelper.optString(record, fieldWithRefId);
-//       if (refId != null && refIdToServerId.containsKey(refId)) {
-//           record.put(fieldWithRefId, refIdToServerId.get(refId));
-//       }
-//   }
-
-    /**
-    * Response object abstracting away differences between /composite/batch and /commposite/sobject sub-responses
-    */
+    
+    //
+    // Response object abstracting away differences between /composite/batch and /commposite/sobject sub-responses
+    //
     @objc(SFSDKRecordResponse)
     class RecordResponse: NSObject {
         let success: Bool
-        let recordId: String?
+        let objectId: String?
         let recordDoesNotExist: Bool
         let relatedRecordDoesNotExist: Bool
         let json: Any
         
-        private init(success:Bool, recordId:String?, recordDoesNotExist:Bool, relatedRecordDoesNotExist:Bool, json:Any) {
+        private init(success:Bool, objectId:String?, recordDoesNotExist:Bool, relatedRecordDoesNotExist:Bool, json:Any) {
             self.success = success
-            self.recordId = recordId
+            self.objectId = objectId
             self.recordDoesNotExist = recordDoesNotExist
             self.relatedRecordDoesNotExist = relatedRecordDoesNotExist
             self.json = json
@@ -146,13 +61,13 @@ class CompositeRequestHelper {
         
         static func fromCompositeSubResponse(compositeSubResponse: CompositeSubResponse) -> RecordResponse {
             let success = RestClient.isStatusCodeSuccess(UInt(compositeSubResponse.httpStatusCode))
-            var recordId:String? = nil
+            var objectId:String? = nil
             var recordDoesNotExist = false
             var relatedRecordDoesNotExist = false
             
             if (success) {
                 if let body = compositeSubResponse.body as? Dictionary<String, Any> {
-                    recordId = body["id"] as? String
+                    objectId = body["id"] as? String
                 }
             } else {
                 recordDoesNotExist = RestClient.isStatusCodeNotFound(UInt(compositeSubResponse.httpStatusCode))
@@ -162,13 +77,13 @@ class CompositeRequestHelper {
                 }
             }
             
-            return RecordResponse(success:success, recordId: recordId, recordDoesNotExist: recordDoesNotExist, relatedRecordDoesNotExist: relatedRecordDoesNotExist, json: compositeSubResponse.dict)
+            return RecordResponse(success:success, objectId: objectId, recordDoesNotExist: recordDoesNotExist, relatedRecordDoesNotExist: relatedRecordDoesNotExist, json: compositeSubResponse.dict)
             
         }
         
         static func fromCollectionSubResponse(collectionSubResponse: CollectionSubResponse) -> RecordResponse {
             let success = collectionSubResponse.success
-            let recordId = collectionSubResponse.objectId
+            let objectId = collectionSubResponse.objectId
             var recordDoesNotExist = false
             var relatedRecordDoesNotExist = false
             
@@ -178,28 +93,28 @@ class CompositeRequestHelper {
                 relatedRecordDoesNotExist = error == "ENTITY_IS_DELETED" // XXX ambiguous
             }
             
-            return RecordResponse(success:success, recordId: recordId, recordDoesNotExist: recordDoesNotExist, relatedRecordDoesNotExist: relatedRecordDoesNotExist, json: collectionSubResponse.json)
+            return RecordResponse(success:success, objectId: objectId, recordDoesNotExist: recordDoesNotExist, relatedRecordDoesNotExist: relatedRecordDoesNotExist, json: collectionSubResponse.json)
         }
     }
 
-    /**
-    * Request object abstracting away differences between /composite/batch and /commposite/sobject sub-requests
-    */
+    //
+    // Request object abstracting away differences between /composite/batch and /commposite/sobject sub-requests
+    //
     @objc(SFSDKRecordRequest)
     class RecordRequest: NSObject {
         var referenceId: String?
         let requestType: RequestType
         let objectType: String
         let fields: Dictionary<String, Any>?
-        let recordId: String?
+        let objectId: String?
         let externalId: String?
         let externalIdFieldName: String?
         
-        private init(requestType:RequestType, objectType:String, fields:Dictionary<String, Any>?, recordId: String?, externalId: String?, externalIdFieldName: String?) {
+        private init(requestType:RequestType, objectType:String, fields:Dictionary<String, Any>?, objectId: String?, externalId: String?, externalIdFieldName: String?) {
             self.requestType = requestType
             self.objectType = objectType
             self.fields = fields
-            self.recordId = recordId
+            self.objectId = objectId
             self.externalId = externalId
             self.externalIdFieldName = externalIdFieldName
         }
@@ -209,11 +124,11 @@ class CompositeRequestHelper {
            case .CREATE:
                return RestClient.shared.requestForCreate(withObjectType: objectType, fields: fields, apiVersion: nil)
            case .UPDATE:
-               return RestClient.shared.requestForUpdate(withObjectType: objectType, objectId: recordId!, fields: fields, apiVersion: nil)
+               return RestClient.shared.requestForUpdate(withObjectType: objectType, objectId: objectId!, fields: fields, apiVersion: nil)
            case .UPSERT:
                return RestClient.shared.requestForUpsert(withObjectType: objectType, externalIdField: externalIdFieldName!, externalId: externalId, fields: fields!, apiVersion: nil)
            case .DELETE:
-               return RestClient.shared.requestForDelete(withObjectType: objectType, objectId: recordId!, apiVersion: nil)
+               return RestClient.shared.requestForDelete(withObjectType: objectType, objectId: objectId!, apiVersion: nil)
            }
         }
         
@@ -227,7 +142,7 @@ class CompositeRequestHelper {
             }
             
             if (requestType == .UPDATE) {
-                record["Id"] = recordId
+                record["Id"] = objectId
             }
                         
             if (requestType == .UPSERT) {
@@ -239,20 +154,24 @@ class CompositeRequestHelper {
             return record
         }
         
+        @objc
         static func requestForCreate(objectType:String, fields:Dictionary<String, Any>) -> RecordRequest {
-            return RecordRequest(requestType:.CREATE, objectType: objectType, fields: fields, recordId: nil, externalId: nil, externalIdFieldName: nil)
+            return RecordRequest(requestType:.CREATE, objectType: objectType, fields: fields, objectId: nil, externalId: nil, externalIdFieldName: nil)
         }
 
-        static func requestForUpdate(objectType:String, recordId:String, fields:Dictionary<String, Any>) -> RecordRequest {
-            return RecordRequest(requestType:.UPDATE, objectType: objectType, fields: fields, recordId: recordId, externalId: nil, externalIdFieldName: nil)
+        @objc
+        static func requestForUpdate(objectType:String, objectId:String, fields:Dictionary<String, Any>) -> RecordRequest {
+            return RecordRequest(requestType:.UPDATE, objectType: objectType, fields: fields, objectId: objectId, externalId: nil, externalIdFieldName: nil)
         }
 
+        @objc
         static func requestForUpsert(objectType:String, externalIdFieldName:String, externalId:String, fields:Dictionary<String, Any>) -> RecordRequest {
-            return RecordRequest(requestType:.UPSERT, objectType: objectType, fields: fields, recordId: nil, externalId: externalId, externalIdFieldName: externalIdFieldName)
+            return RecordRequest(requestType:.UPSERT, objectType: objectType, fields: fields, objectId: nil, externalId: externalId, externalIdFieldName: externalIdFieldName)
         }
 
-        static func requestForUpdate(objectType:String, recordId: String) -> RecordRequest {
-            return RecordRequest(requestType:.DELETE, objectType: objectType, fields: nil, recordId: recordId, externalId: nil, externalIdFieldName: nil)
+        @objc
+        static func requestForDelete(objectType:String, objectId: String) -> RecordRequest {
+            return RecordRequest(requestType:.DELETE, objectType: objectType, fields: nil, objectId: objectId, externalId: nil, externalIdFieldName: nil)
         }
         
         static func getRefIds(recordRequests:Array<RecordRequest>, requestType:RequestType) -> Array<String> {
@@ -264,7 +183,7 @@ class CompositeRequestHelper {
         static func getIds(recordRequests:Array<RecordRequest>, requestType:RequestType) -> Array<String> {
             return recordRequests
                 .filter { $0.requestType == requestType }
-                .map { $0.recordId! }
+                .map { $0.objectId! }
         }
 
         static func getObjectTypes(recordRequests:Array<RecordRequest>, requestType:RequestType) -> Array<String> {
@@ -323,8 +242,80 @@ class CompositeRequestHelper {
         }
     }
 
-    enum RequestType {
-       case CREATE, UPDATE,UPSERT, DELETE
+    // Send record requests using a composite batch request
+    @objc
+    static func sendAsCompositeBatchRequest(_ syncManager: SyncManager, allOrNone: Bool, recordRequests: Array<RecordRequest>, onComplete: @escaping OnSendCompleteCallback, onFail: @escaping OnFailCallback) {
+        
+        let request = RestClient.shared.compositeRequest(recordRequests.map { $0.asRestRequest()! },
+                                                         refIds: recordRequests.map { $0.referenceId! },
+                                                         allOrNone: allOrNone,
+                                                         apiVersion: nil)
+  
+        NetworkUtils.sendRequest(withMobileSyncUserAgent: request) { response, error, urlResponse in
+            onFail(error!)
+        } successBlock: { response, urlResponse in
+            if let response  = response as? Dictionary<String, Any> {
+                var refIdToRecordResponse = Dictionary<String, RecordResponse>()
+                let compositeResponse = CompositeResponse(response)
+                compositeResponse.subResponses.forEach {
+                    refIdToRecordResponse[$0.referenceId] = RecordResponse.fromCompositeSubResponse(compositeSubResponse:$0)
+                }
+                onComplete(refIdToRecordResponse)
+            }
+        }
+    }
+        
+    // Send record requests using sobject collection requests
+    @objc
+    static func sendAsCollectionRequests(_ syncManager: SyncManager, allOrNone: Bool, recordRequests: Array<RecordRequest>, onComplete: @escaping OnSendCompleteCallback, onFail: @escaping OnFailCallback)  {
+        
+
+        let group = DispatchGroup()
+        var refIdToRecordResponse = Dictionary<String, RecordResponse>()
+        for requestType in RequestType.allCases {
+            let refIds = RecordRequest.getRefIds(recordRequests: recordRequests, requestType: requestType)
+            if (!refIds.isEmpty) {
+                let request = RecordRequest.getCollectionRequest(recordRequests: recordRequests, requestType: requestType, allOrNone: allOrNone)!
+                group.enter()
+                NetworkUtils.sendRequest(withMobileSyncUserAgent: request) { response, error, urlResponse in
+                    onFail(error!)
+                } successBlock: { response, urlResponse in
+                    if let response  = response as? Array<Dictionary<String, Any>> {
+                        let collectionResponse = CollectionResponse(response)
+                        for (i, subResponse) in collectionResponse.subResponses.enumerated() {
+                            let refId = refIds[i]
+                            refIdToRecordResponse[refId] = RecordResponse.fromCollectionSubResponse(collectionSubResponse:subResponse)
+                        }
+                        group.leave()
+                    }
+                }
+            }
+        }
+        
+        group.notify(queue: DispatchQueue.global()) {
+            onComplete(refIdToRecordResponse)
+        }
+    }
+    
+    // Return ref id to server id map if successful
+    @objc
+    static func parseIdsFromResponses(_ refIdToRecordResponse:Dictionary<String, RecordResponse>) -> Dictionary<String, String> {
+        return refIdToRecordResponse.mapValues { $0.objectId! }
+    }
+    
+    // Update id field with server id
+    @objc
+    static func updateReferences(_ record: Dictionary<String, Any>, fieldWithRefId:String, refIdToServerId:Dictionary<String, String>) -> Dictionary<String, Any> {
+        var updatedRecord = Dictionary<String, Any>()
+        for (fieldName, fieldValue) in record {
+            if fieldName == fieldWithRefId {
+                if let refId = fieldValue as? String, let serverId = refIdToServerId[refId] {
+                    updatedRecord[fieldName] = serverId
+                }
+            } else {
+                updatedRecord[fieldName] = fieldValue
+            }
+        }
+        return updatedRecord
     }
 }
-

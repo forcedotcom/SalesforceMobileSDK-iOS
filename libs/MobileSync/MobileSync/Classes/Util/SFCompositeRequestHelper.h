@@ -22,34 +22,10 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSyncUpTarget.h"
-
-@class SFMobileSyncSyncManager;
-@class SFRestRequest;
-@class SFSDKCompositeSubResponse;
-
+#import <MobileSync/MobileSync-Swift.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void (^SFSendCompositeRequestCompleteBlock)(NSDictionary<NSString*, SFSDKCompositeSubResponse*> *refIdToResponses);
-
-NS_SWIFT_NAME(CompositeRequestHelper)
-
-@interface SFCompositeRequestHelper : NSObject
-
-+ (void)sendCompositeRequest:(SFMobileSyncSyncManager *)syncManager
-                   allOrNone:(BOOL)allOrNone
-                      refIds:(NSArray<NSString *> *)refIds
-                    requests:(NSArray<SFRestRequest *> *)requests
-             completionBlock:(SFSendCompositeRequestCompleteBlock)completionBlock
-                   failBlock:(SFSyncUpTargetErrorBlock)failBlock;
-
-+ (NSDictionary<NSString*, NSString*> *)parseIdsFromResponses:(NSArray<SFSDKCompositeResponse*>*)responses;
-
-+ (void)updateReferences:(NSMutableDictionary *)record
-          fieldWithRefId:(NSString *)fieldWithRefId
-         refIdToServerId:(NSDictionary *)refIdToServerId;
-
-@end
+typedef void (^SFSendCompositeRequestCompleteBlock)(NSDictionary<NSString*, SFSDKRecordResponse*> *refIdToResponses);
 
 NS_ASSUME_NONNULL_END

@@ -92,7 +92,6 @@
 		4FF93314221644640058807A /* SFBatchSyncUpTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF93313221644640058807A /* SFBatchSyncUpTarget.m */; };
 		4FF9331722165CD30058807A /* BatchSyncUpTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF9331622165CD30058807A /* BatchSyncUpTests.m */; };
 		4FF9331922167E420058807A /* SFCompositeRequestHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF9331822167E420058807A /* SFCompositeRequestHelper.h */; };
-		4FF9331C22167E590058807A /* SFCompositeRequestHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF9331B22167E590058807A /* SFCompositeRequestHelper.m */; };
 		828E0E541AB398AA004E0AF2 /* TestSyncUpTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 828E0E531AB398AA004E0AF2 /* TestSyncUpTarget.m */; };
 		829DA2AF1C12674D0040F5F1 /* MobileSync.h in Headers */ = {isa = PBXBuildFile; fileRef = 829DA2AE1C12674D0040F5F1 /* MobileSync.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B716A36E218F4FC5009D407F /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B716A34B218F4F9C009D407F /* SalesforceAnalytics.framework */; };
@@ -384,7 +383,6 @@
 		4FF93313221644640058807A /* SFBatchSyncUpTarget.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFBatchSyncUpTarget.m; path = Target/SFBatchSyncUpTarget.m; sourceTree = "<group>"; };
 		4FF9331622165CD30058807A /* BatchSyncUpTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BatchSyncUpTests.m; sourceTree = "<group>"; };
 		4FF9331822167E420058807A /* SFCompositeRequestHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFCompositeRequestHelper.h; sourceTree = "<group>"; };
-		4FF9331B22167E590058807A /* SFCompositeRequestHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFCompositeRequestHelper.m; sourceTree = "<group>"; };
 		4FFEE5B31BFE8F8800B7AA8A /* SmartStore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SmartStore.xcodeproj; path = ../SmartStore/SmartStore.xcodeproj; sourceTree = "<group>"; };
 		8207891D1A1BBC56009E9831 /* SFMobileSyncPersistableObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFMobileSyncPersistableObject.h; sourceTree = "<group>"; };
 		820789211A1D2555009E9831 /* SFMobileSyncPersistableObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFMobileSyncPersistableObject.m; sourceTree = "<group>"; };
@@ -809,7 +807,6 @@
 			isa = PBXGroup;
 			children = (
 				4FF9331822167E420058807A /* SFCompositeRequestHelper.h */,
-				4FF9331B22167E590058807A /* SFCompositeRequestHelper.m */,
 				CE682C751F01A866003C43C0 /* SFSDKMobileSyncLogger.h */,
 				CE682C761F01A866003C43C0 /* SFSDKMobileSyncLogger.m */,
 				4F307E261EBA92230040CFC4 /* SFChildrenInfo.h */,
@@ -1207,7 +1204,6 @@
 				4FAA9B5F22545B630006810D /* SFSyncTask.m in Sources */,
 				CE4CE4471C0E5A75009F6029 /* SFSyncOptions.m in Sources */,
 				CE4CE42A1C0E5A49009F6029 /* SFObject.m in Sources */,
-				4FF9331C22167E590058807A /* SFCompositeRequestHelper.m in Sources */,
 				4FF93314221644640058807A /* SFBatchSyncUpTarget.m in Sources */,
 				4FDCBD551E8DDC5C008F8FCE /* SFSyncTarget.m in Sources */,
 				4FDCBD591E8DDC5C008F8FCE /* SFSoslSyncDownTarget.m in Sources */,

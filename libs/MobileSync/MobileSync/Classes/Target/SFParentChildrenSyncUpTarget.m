@@ -283,11 +283,11 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
     BOOL isDelete = [self isLocallyDeleted:record];
 
     NSMutableArray<NSString *> *refIds = [NSMutableArray new];
-    NSMutableArray<SFRestRequest *> *requests = [NSMutableArray new];
+    NSMutableArray<SFSDKRecordRequest *> *requests = [NSMutableArray new];
 
     // Preparing request for parent
     NSString *parentId = record[self.idFieldName];
-    SFRestRequest *parentRequest = [self buildRequestForParentRecord:record fieldlist:fieldlist];
+    SFSDKRecordRequest *parentRequest = [self buildRequestForParentRecord:record fieldlist:fieldlist];
 
     // Parent request goes first unless it's a delete
     if (parentRequest && !isDelete) {
@@ -306,7 +306,7 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
             childRecord[kSyncTargetLocallyUpdated] = @YES;
         }
 
-        SFRestRequest *childRequest = [self buildRequestForChildRecord:childRecord useParentIdReference:isCreate parentId:isDelete ? nil : parentId];
+        SFSDKRecordRequest *childRequest = [self buildRequestForChildRecord:childRecord useParentIdReference:isCreate parentId:isDelete ? nil : parentId];
 
         if (childRequest) {
             [refIds addObject:childId];
@@ -324,7 +324,7 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
     // Sending composite request
     SFSendCompositeRequestCompleteBlock sendCompositeRequestCompleteBlock = ^(NSDictionary *refIdToResponses) {
         // Build refId to server id
-        NSDictionary *refIdToServerId = [SFCompositeRequestHelper parseIdsFromResponses:[refIdToResponses allValues]];
+        NSDictionary *refIdToServerId = [SFCompositeRequestHelper parseIdsFromResponses:refIdToResponses];
 
         // Will a re-run be required?
         BOOL needReRun = NO;
@@ -360,28 +360,27 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
             completionBlock(nil);
         }
     };
-
-    [SFCompositeRequestHelper sendCompositeRequest:syncManager
-                                         allOrNone:NO
-                                            refIds:refIds
-                                          requests:requests
-                                   completionBlock:sendCompositeRequestCompleteBlock
-                                         failBlock:failBlock];
+    
+    [SFCompositeRequestHelper sendAsCompositeBatchRequest:syncManager
+                                                allOrNone:NO
+                                           recordRequests:requests
+                                               onComplete:sendCompositeRequestCompleteBlock
+                                                   onFail:failBlock];
 }
 
 
-- (SFRestRequest *)buildRequestForParentRecord:(NSDictionary *)record fieldlist:(NSArray *)fieldlist {
+- (SFSDKRecordRequest *)buildRequestForParentRecord:(NSDictionary *)record fieldlist:(NSArray *)fieldlist {
     return [self buildRequestForRecord:record fieldlist:fieldlist isParent:true useParentIdReference:false parentId:nil];
 }
 
-- (SFRestRequest *)buildRequestForChildRecord:(NSDictionary *)record
+- (SFSDKRecordRequest *)buildRequestForChildRecord:(NSDictionary *)record
                          useParentIdReference:(BOOL)useParentIdReference
                                      parentId:(NSString *)parentId {
 
     return [self buildRequestForRecord:record fieldlist:nil isParent:false useParentIdReference:useParentIdReference parentId:parentId];
 }
 
-- (SFRestRequest *)buildRequestForRecord:(NSDictionary *)record
+- (SFSDKRecordRequest *)buildRequestForRecord:(NSDictionary *)record
                                fieldlist:(NSArray *)fieldlist
                                 isParent:(BOOL)isParent
                     useParentIdReference:(BOOL)useParentIdReference
@@ -402,7 +401,7 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
         if (isCreate) {
             return nil; // no need to go to server
         } else {
-            return [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:info.sobjectType objectId:id apiVersion:nil];
+            return [SFSDKRecordRequest requestForDeleteWithObjectType:info.sobjectType objectId:id];
         }
     }
     // Create/update cases
@@ -427,12 +426,12 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
                 // where the the external id field is the id field
                 // and the field is populated by a local id
                 && ![SFSyncTarget isLocalId:externalId]) {
-                return [[SFRestAPI sharedInstance] requestForUpsertWithObjectType:info.sobjectType externalIdField:info.externalIdFieldName externalId:externalId fields:fields apiVersion:nil];
+                return [SFSDKRecordRequest requestForUpsertWithObjectType:info.sobjectType externalIdFieldName:info.externalIdFieldName externalId:externalId fields:fields];
             } else {
-                return [[SFRestAPI sharedInstance] requestForCreateWithObjectType:info.sobjectType fields:fields apiVersion:nil];
+                return [SFSDKRecordRequest requestForCreateWithObjectType:info.sobjectType fields:fields];
             }
         } else {
-            return [[SFRestAPI sharedInstance] requestForUpdateWithObjectType:info.sobjectType objectId:id fields:fields apiVersion:nil];
+            return [SFSDKRecordRequest requestForUpdateWithObjectType:info.sobjectType objectId:id fields:fields];
         }
     }
 }
