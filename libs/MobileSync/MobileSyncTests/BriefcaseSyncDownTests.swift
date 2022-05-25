@@ -82,7 +82,7 @@ class BriefcaseSyncDownTests: SyncManagerTestCase {
         
         let target = BriefcaseSyncDownTarget(infos: [briefcaseAccountInfo], countIdsPerRetrieve: 2000)
         let briefcaseRecords = try startFetch(target: target, syncManager: syncManager, maxTimestamp: 0)
-        XCTAssertEqual(numberAccounts, briefcaseRecords)
+        XCTAssertEqual(Int(numberAccounts), briefcaseRecords.count)
         
         for briefcaseRecord in briefcaseRecords {
             let id = try XCTUnwrap(briefcaseRecord[ID] as? String)
