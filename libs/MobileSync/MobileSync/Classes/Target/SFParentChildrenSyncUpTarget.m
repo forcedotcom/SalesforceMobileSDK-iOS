@@ -23,7 +23,6 @@
  */
 
 #import <SalesforceSDKCore/SFSDKSoqlBuilder.h>
-#import <SalesforceSDKCore/SFSDKCompositeResponse.h>
 #import <SalesforceSDKCommon/SFJsonUtils.h>
 #import "MobileSync.h"
 #import "SFSyncTarget+Internal.h"
@@ -441,19 +440,18 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
                               children:(NSArray<NSMutableDictionary*> *)children
                              mergeMode:(SFSyncStateMergeMode)mergeMode
                        refIdToServerId:(NSDictionary *)refIdToServerId
-                              response:(SFSDKCompositeSubResponse *)response {
+                              response:(SFSDKRecordResponse *)response {
+    
     BOOL needReRun = NO;
     NSString* soupName = self.parentInfo.soupName;
     NSString* idFieldName = self.idFieldName;
-    NSUInteger statusCode = response.httpStatusCode;
-    BOOL successStatusCode = [SFRestAPI isStatusCodeSuccess:statusCode];
-    BOOL notFoundStatusCode = [SFRestAPI isStatusCodeNotFound:statusCode];
+    NSString *lastError = [SFJsonUtils JSONRepresentation:response.errorJson];
 
     // Delete case
     if ([self isLocallyDeleted:record]) {
         if ([self isLocallyCreated:record]  // we didn't go to the sever
-                || successStatusCode  // or we successfully deleted on the server
-                || notFoundStatusCode) // or the record was already deleted on the server
+                || response.success  // or we successfully deleted on the server
+                || response.recordDoesNotExist) // or the record was already deleted on the server
         {
             if (self.relationshipType == SFParentChildrenRelationpshipMasterDetail) {
                 [SFParentChildrenSyncHelper deleteChildrenFromLocalStore:syncManager.store parentInfo:self.parentInfo childrenInfo:self.childrenInfo parentIds:@[record[idFieldName]]];
@@ -463,7 +461,6 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
         }
         // Failure
         else {
-            NSString *lastError = [SFJsonUtils JSONRepresentation:response.body];
             [self saveRecordToLocalStoreWithLastError:syncManager soupName:soupName record:record lastError:lastError];
         }
     }
@@ -471,16 +468,16 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
     // Create / update case
     else {
         // Success case
-        if (successStatusCode)
+        if (response.success)
         {
             // Plugging server id in id field
-            [SFCompositeRequestHelper updateReferences:record fieldWithRefId:idFieldName refIdToServerId:refIdToServerId];
+            NSDictionary* updatedRecord = [SFCompositeRequestHelper updateReferences:record fieldWithRefId:idFieldName refIdToServerId:refIdToServerId];
 
             // Clean and save
-            [self cleanAndSaveInLocalStore:syncManager soupName:soupName record:record];
+            [self cleanAndSaveInLocalStore:syncManager soupName:soupName record:updatedRecord];
         }
         // Handling remotely deleted records
-        else if (notFoundStatusCode) {
+        else if (response.recordDoesNotExist) {
             // Record needs to be recreated
             if (mergeMode == SFSyncStateMergeModeOverwrite) {
                 record[kSyncTargetLocal] = @YES;
@@ -497,7 +494,6 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
         }
         // Failure
         else {
-            NSString *lastError = [SFJsonUtils JSONRepresentation:response.body];
             [self saveRecordToLocalStoreWithLastError:syncManager soupName:soupName record:record lastError:lastError];
         }
 
@@ -506,37 +502,26 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
     return needReRun;
 }
 
-- (BOOL) isEntityDeleted:(SFSDKCompositeSubResponse *) response {
-    @try{
-        return [@"ENTITY_IS_DELETED" isEqualToString:response.body[0][@"errorCode"]];
-    } @catch (NSException* exception) {
-        return NO;
-    }
-}
-
 - (BOOL)updateChildRecordInLocalStore:(SFMobileSyncSyncManager *)syncManager
                                record:(NSMutableDictionary *)record
                                parent:(NSMutableDictionary *)parent
                             mergeMode:(SFSyncStateMergeMode)mergeMode
                       refIdToServerId:(NSDictionary *)refIdToServerId
-                             response:(SFSDKCompositeSubResponse *)response {
+                             response:(SFSDKRecordResponse *)response {
     BOOL needReRun = NO;
     NSString* soupName = self.childrenInfo.soupName;
-    NSUInteger statusCode = response.httpStatusCode;
-    BOOL successStatusCode = [SFRestAPI isStatusCodeSuccess:statusCode];
-    BOOL notFoundStatusCode = [SFRestAPI isStatusCodeNotFound:statusCode];
+    NSString *lastError = [SFJsonUtils JSONRepresentation:response.errorJson];
 
     // Delete case
     if ([self isLocallyDeleted:record]) {
         if ([self isLocallyCreated:record]  // we didn't go to the sever
-                || successStatusCode  // or we successfully deleted on the server
-                || notFoundStatusCode) // or the record was already deleted on the server
+                || response.success  // or we successfully deleted on the server
+                || response.recordDoesNotExist) // or the record was already deleted on the server
         {
             [self deleteFromLocalStore:syncManager soupName:soupName record:record];
         }
         // Failure
         else {
-            NSString *lastError = [SFJsonUtils JSONRepresentation:response.body];
             [self saveRecordToLocalStoreWithLastError:syncManager soupName:soupName record:record lastError:lastError];
         }
     }
@@ -544,20 +529,20 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
     // Create / update case
     else {
         // Success case
-        if (successStatusCode)
+        if (response.success)
         {
             // Plugging server id in id field
-            [SFCompositeRequestHelper updateReferences:record fieldWithRefId:self.childrenInfo.idFieldName refIdToServerId:refIdToServerId];
+            NSDictionary* updatedRecord = [SFCompositeRequestHelper updateReferences:record fieldWithRefId:self.childrenInfo.idFieldName refIdToServerId:refIdToServerId];
 
             // Plugging server id in parent id field
-            [SFCompositeRequestHelper updateReferences:record fieldWithRefId:self.childrenInfo.parentIdFieldName refIdToServerId:refIdToServerId];
+            NSDictionary* fullUpdatedRecord = [SFCompositeRequestHelper updateReferences:updatedRecord fieldWithRefId:self.childrenInfo.parentIdFieldName refIdToServerId:refIdToServerId];
 
             // Clean and save
-            [self cleanAndSaveInLocalStore:syncManager soupName:soupName record:record];
+            [self cleanAndSaveInLocalStore:syncManager soupName:soupName record:fullUpdatedRecord];
         }
 
         // Handling remotely deleted records
-        else if (notFoundStatusCode) {
+        else if (response.recordDoesNotExist) {
 
             // Record needs to be recreated
             if (mergeMode == SFSyncStateMergeModeOverwrite) {
@@ -570,7 +555,7 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
         }
 
         // Handling remotely deleted parent
-        else if([self isEntityDeleted:response]) {
+        else if(response.relatedRecordDoesNotExist) {
             // Parent record needs to be recreated
             if (mergeMode == SFSyncStateMergeModeOverwrite) {
                 parent[kSyncTargetLocal] = @YES;
@@ -583,7 +568,6 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
 
         // Failure
         else {
-            NSString *lastError = [SFJsonUtils JSONRepresentation:response.body];
             [self saveRecordToLocalStoreWithLastError:syncManager soupName:soupName record:record lastError:lastError];
         }
 

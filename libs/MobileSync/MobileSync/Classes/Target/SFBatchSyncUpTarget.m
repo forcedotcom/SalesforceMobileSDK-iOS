@@ -24,7 +24,6 @@
 
 
 #import <SalesforceSDKCommon/SFJsonUtils.h>
-#import <SalesforceSDKCore/SFSDKCompositeResponse.h>
 #import "MobileSync.h"
 #import "SFSyncTarget+Internal.h"
 #import "SFSyncUpTarget+Internal.h"
@@ -215,24 +214,21 @@ static NSUInteger const kSFMaxSubRequestsCompositeAPI = 25;
     }
 }
 
-- (BOOL) updateRecordInLocalStore:(nonnull SFMobileSyncSyncManager *)syncManager soupName:(nonnull NSString *)soupName record:(nonnull NSMutableDictionary *)record mergeMode:(SFSyncStateMergeMode)mergeMode refIdToServerId:(NSDictionary*)refIdToServerId response:(SFSDKCompositeSubResponse*)response isReRun:(BOOL)isReRun {
+- (BOOL) updateRecordInLocalStore:(nonnull SFMobileSyncSyncManager *)syncManager soupName:(nonnull NSString *)soupName record:(nonnull NSMutableDictionary *)record mergeMode:(SFSyncStateMergeMode)mergeMode refIdToServerId:(NSDictionary*)refIdToServerId response:(SFSDKRecordResponse*)response isReRun:(BOOL)isReRun {
 
     BOOL needReRun = NO;
-    NSUInteger statusCode = response.httpStatusCode;
-    BOOL successStatusCode = [SFRestAPI isStatusCodeSuccess:statusCode];
-    BOOL notFoundStatusCode = [SFRestAPI isStatusCodeNotFound:statusCode];
+    NSString *lastError = [SFJsonUtils JSONRepresentation:response.errorJson];
     
     // Delete case
     if ([self isLocallyDeleted:record]) {
         if ([self isLocallyCreated:record]  // we didn't go to the sever
-            || successStatusCode  // or we successfully deleted on the server
-            || notFoundStatusCode) // or the record was already deleted on the server
+            || response.success  // or we successfully deleted on the server
+            || response.recordDoesNotExist) // or the record was already deleted on the server
         {
             [self deleteFromLocalStore:syncManager soupName:soupName record:record];
         }
         // Failure
         else {
-            NSString *lastError = [SFJsonUtils JSONRepresentation:response.body];
             [self saveRecordToLocalStoreWithLastError:syncManager soupName:soupName record:record lastError:lastError];
         }
     }
@@ -240,7 +236,7 @@ static NSUInteger const kSFMaxSubRequestsCompositeAPI = 25;
     // Create / update case
     else {
         // Success case
-        if (successStatusCode)
+        if (response.success)
         {
             // Plugging server id in id field
             NSDictionary* updatedRecord = [SFCompositeRequestHelper updateReferences:record fieldWithRefId:self.idFieldName refIdToServerId:refIdToServerId];
@@ -249,7 +245,7 @@ static NSUInteger const kSFMaxSubRequestsCompositeAPI = 25;
             [self cleanAndSaveInLocalStore:syncManager soupName:soupName record:updatedRecord];
         }
         // Handling remotely deleted records
-        else if (notFoundStatusCode
+        else if (response.recordDoesNotExist
                  && mergeMode == SFSyncStateMergeModeOverwrite // Record needs to be recreated
                  && !isReRun) {
             record[kSyncTargetLocal] = @YES;
@@ -258,7 +254,6 @@ static NSUInteger const kSFMaxSubRequestsCompositeAPI = 25;
         }
         // Failure
         else {
-            NSString *lastError = [SFJsonUtils JSONRepresentation:response.body];
             [self saveRecordToLocalStoreWithLastError:syncManager soupName:soupName record:record lastError:lastError];
         }
         

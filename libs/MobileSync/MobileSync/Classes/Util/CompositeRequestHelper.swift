@@ -45,18 +45,24 @@ class CompositeRequestHelper:NSObject {
     //
     @objc(SFSDKRecordResponse)
     class RecordResponse: NSObject {
-        let success: Bool
-        let objectId: String?
-        let recordDoesNotExist: Bool
-        let relatedRecordDoesNotExist: Bool
-        let json: Any
+        @objc let success: Bool
+        @objc let objectId: String?
+        @objc let recordDoesNotExist: Bool
+        @objc let relatedRecordDoesNotExist: Bool
+        @objc let errorJson: Dictionary<String, Any>?
+        @objc let json: Any
         
-        private init(success:Bool, objectId:String?, recordDoesNotExist:Bool, relatedRecordDoesNotExist:Bool, json:Any) {
+        private init(success:Bool, objectId:String?, recordDoesNotExist:Bool, relatedRecordDoesNotExist:Bool, errorJson: Dictionary<String, Any>?, json:Any) {
             self.success = success
             self.objectId = objectId
             self.recordDoesNotExist = recordDoesNotExist
             self.relatedRecordDoesNotExist = relatedRecordDoesNotExist
+            self.errorJson = errorJson
             self.json = json
+        }
+        
+        func description() ->  String {
+            return SFJsonUtils.jsonRepresentation(json)
         }
         
         static func fromCompositeSubResponse(compositeSubResponse: CompositeSubResponse) -> RecordResponse {
@@ -64,6 +70,7 @@ class CompositeRequestHelper:NSObject {
             var objectId:String? = nil
             var recordDoesNotExist = false
             var relatedRecordDoesNotExist = false
+            var errorJson:Dictionary<String, Any>? = nil
             
             if (success) {
                 if let body = compositeSubResponse.body as? Dictionary<String, Any> {
@@ -72,12 +79,13 @@ class CompositeRequestHelper:NSObject {
             } else {
                 recordDoesNotExist = RestClient.isStatusCodeNotFound(UInt(compositeSubResponse.httpStatusCode))
                 if let bodyArray = compositeSubResponse.body as? Array<Dictionary<String, Any>> {
-                    let firstError = bodyArray[0]["errorCode"] as? String
+                    errorJson = bodyArray[0]
+                    let firstError = errorJson?["errorCode"] as? String
                     relatedRecordDoesNotExist = firstError == "ENTITY_IS_DELETED"
                 }
             }
             
-            return RecordResponse(success:success, objectId: objectId, recordDoesNotExist: recordDoesNotExist, relatedRecordDoesNotExist: relatedRecordDoesNotExist, json: compositeSubResponse.dict)
+            return RecordResponse(success:success, objectId: objectId, recordDoesNotExist: recordDoesNotExist, relatedRecordDoesNotExist: relatedRecordDoesNotExist, errorJson: errorJson, json: compositeSubResponse.dict)
             
         }
         
@@ -86,14 +94,16 @@ class CompositeRequestHelper:NSObject {
             let objectId = collectionSubResponse.objectId
             var recordDoesNotExist = false
             var relatedRecordDoesNotExist = false
-            
+            var errorJson:Dictionary<String, Any>? = nil
+
             if (!success && !collectionSubResponse.errors.isEmpty) {
+                errorJson = collectionSubResponse.errors[0].json
                 let error = collectionSubResponse.errors[0].statusCode
                 recordDoesNotExist = error == "INVALID_CROSS_REFERENCE_KEY" || error == "ENTITY_IS_DELETED"
                 relatedRecordDoesNotExist = error == "ENTITY_IS_DELETED" // XXX ambiguous
             }
             
-            return RecordResponse(success:success, objectId: objectId, recordDoesNotExist: recordDoesNotExist, relatedRecordDoesNotExist: relatedRecordDoesNotExist, json: collectionSubResponse.json)
+            return RecordResponse(success:success, objectId: objectId, recordDoesNotExist: recordDoesNotExist, relatedRecordDoesNotExist: relatedRecordDoesNotExist, errorJson: errorJson, json: collectionSubResponse.json)
         }
     }
 
