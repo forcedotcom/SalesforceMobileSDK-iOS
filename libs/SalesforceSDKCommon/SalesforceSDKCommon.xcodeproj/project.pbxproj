@@ -191,12 +191,12 @@
 		B7136D0B216684A700F6A221 /* SalesforceSDKCommonTests */ = {
 			isa = PBXGroup;
 			children = (
+				B7136D0E216684A700F6A221 /* Info.plist */,
 				B7182B002614346B00867BFE /* KeychainItemManagerTests.swift */,
+				B7D3CAB9218BA32B00780B72 /* SFLoggerTests.m */,
 				B7D3CABB218BC80600780B72 /* SFSDKSafeMutableArrayTests.m */,
 				B7D3CABC218BC80600780B72 /* SFSDKSafeMutableDictionaryTests.m */,
 				B7D3CABD218BC80600780B72 /* SFSDKSafeMutableSetTests.m */,
-				B7136D0E216684A700F6A221 /* Info.plist */,
-				B7D3CAB9218BA32B00780B72 /* SFLoggerTests.m */,
 			);
 			path = SalesforceSDKCommonTests;
 			sourceTree = "<group>";

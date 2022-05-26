@@ -21,31 +21,24 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 #import <XCTest/XCTest.h>
 #import "SFSDKSafeMutableArray.h"
+
 @interface SFSDKSafeMutableArrayTests : XCTestCase
 @end
 
 @implementation SFSDKSafeMutableArrayTests
 
-- (void)setUp {
-    [super setUp];
-}
-
-- (void)tearDown {
-    [super tearDown];
-}
-
 - (void)testReadWrites {
-    
     SFSDKSafeMutableArray *array = [SFSDKSafeMutableArray array];
     NSString *obj1 = @"Test1";
     NSString *obj2 = @"Test2";
-
+    
     [array addObject:obj1];
     [array addObject:obj2];
     [array addObject:[NSNumber numberWithInt:10]];
-
+    
     XCTAssertTrue([array containsObject:obj1]);
     XCTAssertTrue([array containsObject:obj2]);
     XCTAssertTrue([[array[0] description] isEqualToString:obj1]);
@@ -53,9 +46,7 @@
     XCTAssertEqual([array[2] integerValue], 10);
 }
 
-
 - (void)testReadWriteDelete {
-    
     SFSDKSafeMutableArray *array = [SFSDKSafeMutableArray arrayWithCapacity:3];
     [array insertObject:@"Test2" atIndex:0];
     [array insertObject:@"Test1" atIndex:1];
@@ -135,7 +126,6 @@
     dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
     //Have all items been removed
     XCTAssertTrue(array.count == 0);
-    
 }
 
 - (void)testConcurrentReadsAndRemoveAll {
@@ -163,7 +153,6 @@
     dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
     //Have all items been removed
     XCTAssertTrue(array.count == 0);
-    
 }
 
 - (void)testConcurrentReadsAndRemoveWithIndexes {
@@ -175,7 +164,7 @@
     
     NSIndexSet* indexSet = [[NSIndexSet alloc] initWithIndexesInRange:NSMakeRange(1, 5)];
     [array insertObjects:inputs atIndexes:indexSet];
-
+    
     
     XCTAssertEqual(array.count,inputs.count + 1);
     [array enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
@@ -196,4 +185,5 @@
     //Have all items been removed
     XCTAssertTrue(array.count == 1);
 }
+
 @end
