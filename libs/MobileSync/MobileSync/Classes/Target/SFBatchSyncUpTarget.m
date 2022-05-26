@@ -99,7 +99,6 @@ static NSUInteger const kSFMaxSubRequestsCompositeAPI = 25;
         return;
     }
     
-    NSMutableArray<NSString *> *refIds = [NSMutableArray new];
     NSMutableArray<SFSDKRecordRequest *> *requests = [NSMutableArray new];
 
     // Preparing requests
@@ -115,7 +114,7 @@ static NSUInteger const kSFMaxSubRequestsCompositeAPI = 25;
         SFSDKRecordRequest *request = [self buildRequestForRecord:record fieldlist:fieldlist];
         
         if (request) {
-            [refIds addObject:refId];
+            request.referenceId = refId;
             [requests addObject:request];
         }
     }

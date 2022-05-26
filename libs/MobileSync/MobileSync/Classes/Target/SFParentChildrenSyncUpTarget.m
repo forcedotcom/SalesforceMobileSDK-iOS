@@ -281,7 +281,6 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
     BOOL isCreate = [self isLocallyCreated:record];
     BOOL isDelete = [self isLocallyDeleted:record];
 
-    NSMutableArray<NSString *> *refIds = [NSMutableArray new];
     NSMutableArray<SFSDKRecordRequest *> *requests = [NSMutableArray new];
 
     // Preparing request for parent
@@ -290,7 +289,7 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
 
     // Parent request goes first unless it's a delete
     if (parentRequest && !isDelete) {
-        [refIds addObject:parentId];
+        parentRequest.referenceId = parentId;
         [requests addObject:parentRequest];
     }
 
@@ -308,7 +307,7 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
         SFSDKRecordRequest *childRequest = [self buildRequestForChildRecord:childRecord useParentIdReference:isCreate parentId:isDelete ? nil : parentId];
 
         if (childRequest) {
-            [refIds addObject:childId];
+            childRequest.referenceId = childId;
             [requests addObject:childRequest];
         }
 
@@ -316,7 +315,7 @@ typedef void (^SFFetchLastModifiedDatesCompleteBlock)(NSDictionary<NSString *, N
 
     // Parent request goes last when it's a delete
     if (parentRequest && isDelete) {
-        [refIds addObject:parentId];
+        parentRequest.referenceId = parentId;
         [requests addObject:parentRequest];
     }
 

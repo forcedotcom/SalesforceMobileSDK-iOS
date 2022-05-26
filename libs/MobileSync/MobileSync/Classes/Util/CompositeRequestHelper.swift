@@ -36,7 +36,8 @@ class CompositeRequestHelper:NSObject {
     //
     // Types of request
     //
-    enum RequestType: CaseIterable {
+    @objc
+    enum RequestType: Int, CaseIterable {
        case CREATE, UPDATE, UPSERT, DELETE
     }
     
@@ -112,17 +113,17 @@ class CompositeRequestHelper:NSObject {
     //
     @objc(SFSDKRecordRequest)
     class RecordRequest: NSObject {
-        var referenceId: String?
-        let requestType: RequestType
-        let objectType: String
-        let fields: Dictionary<String, Any>?
-        let objectId: String?
-        let externalId: String?
-        let externalIdFieldName: String?
+        @objc var referenceId: String?
+        @objc let requestType: RequestType
+        @objc let objectType: String
+        @objc let fields: Dictionary<String, Any>?
+        @objc let objectId: String?
+        @objc let externalId: String?
+        @objc let externalIdFieldName: String?
         
         private init(requestType:RequestType, objectType:String, fields:Dictionary<String, Any>?, objectId: String?, externalId: String?, externalIdFieldName: String?) {
             self.requestType = requestType
-            self.objectType = objectType
+            self.objectType = objectType == "" ? "null" : objectType
             self.fields = fields
             self.objectId = objectId
             self.externalId = externalId
@@ -145,16 +146,16 @@ class CompositeRequestHelper:NSObject {
         func  asDictForCollectionRequest() -> Dictionary<String, Any> {
             var record:Dictionary<String, Any> = Dictionary()
             record["attributes"] = ["type": objectType]
-           if let fields = fields {
-               for (fieldName, fieldValue) in fields {
-                   record[fieldName] = fieldValue
-               }
+            if let fields = fields {
+                for (fieldName, fieldValue) in fields {
+                    record[fieldName] = fieldValue
+                }
             }
             
             if (requestType == .UPDATE) {
                 record["Id"] = objectId
             }
-                        
+            
             if (requestType == .UPSERT) {
                 if let externalIdFieldName = externalIdFieldName {
                     record[externalIdFieldName] = externalId
@@ -192,7 +193,7 @@ class CompositeRequestHelper:NSObject {
 
         static func getIds(recordRequests:Array<RecordRequest>, requestType:RequestType) -> Array<String> {
             return recordRequests
-                .filter { $0.requestType == requestType }
+                .filter { $0.requestType == requestType && $0.objectId != nil }
                 .map { $0.objectId! }
         }
 
@@ -204,7 +205,7 @@ class CompositeRequestHelper:NSObject {
         
         static func getExternalIdFieldName(recordRequests:Array<RecordRequest>, requestType:RequestType) -> Array<String> {
             return recordRequests
-                .filter { $0.requestType == requestType }
+                .filter { $0.requestType == requestType && $0.externalIdFieldName != nil }
                 .map { $0.externalIdFieldName! }
         }
         
@@ -310,22 +311,20 @@ class CompositeRequestHelper:NSObject {
     // Return ref id to server id map if successful
     @objc
     static func parseIdsFromResponses(_ refIdToRecordResponse:Dictionary<String, RecordResponse>) -> Dictionary<String, String> {
-        return refIdToRecordResponse.mapValues { $0.objectId! }
+        return refIdToRecordResponse
+            .filter { _, response in response.objectId != nil }
+            .mapValues { $0.objectId! }
     }
     
     // Update id field with server id
     @objc
     static func updateReferences(_ record: Dictionary<String, Any>, fieldWithRefId:String, refIdToServerId:Dictionary<String, String>) -> Dictionary<String, Any> {
-        var updatedRecord = Dictionary<String, Any>()
-        for (fieldName, fieldValue) in record {
-            if fieldName == fieldWithRefId {
-                if let refId = fieldValue as? String, let serverId = refIdToServerId[refId] {
-                    updatedRecord[fieldName] = serverId
-                }
-            } else {
-                updatedRecord[fieldName] = fieldValue
-            }
+        var updatedRecord = record // copy
+        
+        if let refId = record[fieldWithRefId] as? String, let serverId = refIdToServerId[refId] {
+            updatedRecord[fieldWithRefId] = serverId
         }
+
         return updatedRecord
     }
 }
