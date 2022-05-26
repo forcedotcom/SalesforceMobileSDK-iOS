@@ -23,21 +23,13 @@
  */
 #import <XCTest/XCTest.h>
 #import "SFSDKSafeMutableSet.h"
+
 @interface SFSDKSafeMutableSetTests : XCTestCase
 @end
 
 @implementation SFSDKSafeMutableSetTests
 
-- (void)setUp {
-    [super setUp];
-}
-
-- (void)tearDown {
-    [super tearDown];
-}
-
 - (void)testReadWrites {
-    
     SFSDKSafeMutableSet *set = [SFSDKSafeMutableSet set];
     [set addObject:@"Test1"];
     [set addObject:@"Test2"];
@@ -49,9 +41,7 @@
     XCTAssertTrue([set containsObject:[NSNumber numberWithInt:10]]);
 }
 
-
 - (void)testReadWriteDelete {
-    
     SFSDKSafeMutableSet *set = [SFSDKSafeMutableSet set];
     [set addObject:@"Test1"];
     [set addObject:@"Test2"];
@@ -68,7 +58,7 @@
     
     SFSDKSafeMutableSet *set = [SFSDKSafeMutableSet set];
     dispatch_group_t group = dispatch_group_create();
-   
+    
     [inputs enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             [set addObject:inputs[idx]];
@@ -76,12 +66,12 @@
     }];
     
     dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
-        
+    
     //Does the set have the right number of items?
     XCTAssertTrue(set.count == inputs.count);
     //Does the set have each of our items?
     [inputs enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-       XCTAssertTrue([set containsObject:inputs[idx]]);
+        XCTAssertTrue([set containsObject:inputs[idx]]);
     }];
 }
 
@@ -97,7 +87,7 @@
         });
     }];
     
-   [inputs enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    [inputs enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             [set anyObject];
         });
@@ -106,7 +96,7 @@
     dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
     //Does the set have the right number of items?
     XCTAssertTrue(set.count == inputs.count);
-     //Does the set have each of our items?
+    //Does the set have each of our items?
     [inputs enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         XCTAssertTrue([set containsObject:inputs[idx]]);
     }];
@@ -138,7 +128,6 @@
     dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
     //Have all items been removed
     XCTAssertTrue(set.count == 0);
-    
 }
 
 - (void)testConcurrentReadsAndRemoveAll {
@@ -165,6 +154,6 @@
     dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
     //Have all items been removed
     XCTAssertTrue(set.count == 0);
-    
 }
+
 @end
