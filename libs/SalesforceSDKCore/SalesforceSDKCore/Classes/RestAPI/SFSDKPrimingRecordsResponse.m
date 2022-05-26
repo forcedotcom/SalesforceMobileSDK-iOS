@@ -23,6 +23,7 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 */
 
 #import "SFSDKPrimingRecordsResponse.h"
+#import "NSDictionary+SFAdditions.h"
 #import "SFFormatUtils.h"
 
 @implementation SFSDKPrimingRecordsResponse
@@ -48,8 +49,8 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
         _primingRecords = apiNameToTypeToPrimingRecords;
         
         // Relay token
-        _relayToken = dict[@"relayToken"];
-        
+        _relayToken = [dict nonNullObjectForKey:@"relayToken"];
+
         // Rule errors
         NSMutableArray* ruleErrors = [NSMutableArray new];
         NSArray* ruleErrorsRaw = dict[@"ruleErrors"];

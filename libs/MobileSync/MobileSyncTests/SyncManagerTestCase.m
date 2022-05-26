@@ -30,6 +30,7 @@
 #import <SalesforceSDKCore/TestSetupUtils.h>
 #import "TestSyncUpTarget.h"
 #import "SyncManagerTestCase.h"
+#import <MobileSync/MobileSync-Swift.h>
 
 static NSException *authException = nil;
 
@@ -129,8 +130,7 @@ static NSException *authException = nil;
     return [self createAccountsLocally:names mutateBlock:nil];
 }
 
-- (NSArray *) createAccountsLocally:(NSArray*)names mutateBlock:(SFRecordMutatorBlock)mutateBlock;
- {
+- (NSArray *)createAccountsLocally:(NSArray*)names mutateBlock:(SFRecordMutatorBlock)mutateBlock {
     NSMutableArray* createdAccounts = [NSMutableArray new];
     NSMutableDictionary* attributes = [NSMutableDictionary new];
     attributes[TYPE] = ACCOUNT_TYPE;
@@ -149,6 +149,28 @@ static NSException *authException = nil;
         [createdAccounts addObject:account];
     }
     return [self.store upsertEntries:createdAccounts toSoup:ACCOUNTS_SOUP];
+}
+
+- (NSArray *)createContactsForAccountsLocally:(NSArray *)accountIds numberOfContactsPerAccounts:(int)numberOfContacts {
+    NSMutableArray* createdContacts = [NSMutableArray new];
+    NSMutableDictionary* attributes = [NSMutableDictionary new];
+    attributes[TYPE] = CONTACT_TYPE;
+    for (NSString *accountId in accountIds) {
+        for (int i = 0; i< numberOfContacts; i++) {
+            NSMutableDictionary* contact = [NSMutableDictionary new];
+            NSString *contactId = [SFSyncTarget createLocalId];
+            contact[ID] = contactId;
+            contact[ACCOUNT_ID] = accountId;
+            contact[LAST_NAME] = [self createRecordName:CONTACT_TYPE];
+            contact[ATTRIBUTES] = attributes;
+            contact[kSyncTargetLocal] = @YES;
+            contact[kSyncTargetLocallyCreated] = @YES;
+            contact[kSyncTargetLocallyDeleted] = @NO;
+            contact[kSyncTargetLocallyUpdated] = @NO;
+            [createdContacts addObject:contact];
+        }
+    }
+    return [self.store upsertEntries:createdContacts toSoup:CONTACTS_SOUP];
 }
 
 - (void)createAccountsSoup {
@@ -374,6 +396,11 @@ static NSException *authException = nil;
                 XCTAssertEqualObjects(expectedTargetTyped.parentFieldlist, actualTargetTyped.parentFieldlist);
                 XCTAssertEqualObjects(expectedTargetTyped.childrenFieldlist, actualTargetTyped.childrenFieldlist);
                 XCTAssertEqualObjects(expectedTargetTyped.parentSoqlFilter, actualTargetTyped.parentSoqlFilter);
+            } else if (expectedQueryType == SFSyncDownTargetQueryTypeBriefcase) {
+                XCTAssertTrue([sync.target isKindOfClass:[SFBriefcaseSyncDownTarget class]]);
+                SFBriefcaseSyncDownTarget *expectedTargetTyped = (SFBriefcaseSyncDownTarget *)expectedTarget;
+                SFBriefcaseSyncDownTarget *actualTargetTyped = (SFBriefcaseSyncDownTarget *)sync.target;
+                [self checkBriefcaseInfo:actualTargetTyped.infosMap expectedBriefcaseInfo:expectedTargetTyped.infosMap];
             } else if (expectedQueryType == SFSyncDownTargetQueryTypeCustom) {
                 XCTAssertTrue([sync.target isKindOfClass:[SFSyncDownTarget class]]);
             }
@@ -431,6 +458,22 @@ static NSException *authException = nil;
     [self checkParentInfo:childrenInfo expectedParentInfo:expectedChildrenInfo];
     XCTAssertEqualObjects(expectedChildrenInfo.parentIdFieldName, childrenInfo.parentIdFieldName);
     XCTAssertEqualObjects(expectedChildrenInfo.sobjectTypePlural, childrenInfo.sobjectTypePlural);
+}
+
+- (void)checkBriefcaseInfo:(NSDictionary<NSString *, SFBriefcaseObjectInfo *> *)briefcaseInfo
+     expectedBriefcaseInfo:(NSDictionary<NSString *, SFBriefcaseObjectInfo *> *)expectedBriefcaseInfo {
+    XCTAssertTrue(briefcaseInfo.count > 0);
+    XCTAssertEqual(briefcaseInfo.count, expectedBriefcaseInfo.count);
+
+    for (NSString *name in briefcaseInfo.allKeys) {
+        SFBriefcaseObjectInfo *info = briefcaseInfo[name];
+        SFBriefcaseObjectInfo *expectedInfo = expectedBriefcaseInfo[name];
+        XCTAssertEqualObjects(expectedInfo.soupName, info.soupName);
+        XCTAssertEqualObjects(expectedInfo.sobjectType, info.sobjectType);
+        XCTAssertEqualObjects(expectedInfo.idFieldName, info.idFieldName);
+        XCTAssertEqualObjects(expectedInfo.modificationDateFieldName, info.modificationDateFieldName);
+        XCTAssertEqualObjects(expectedInfo.fieldlist, info.fieldlist);
+    }
 }
 
 - (void)checkStatus:(SFSyncState*)sync

@@ -1213,7 +1213,7 @@ static NSException *authException = nil;
 
 // Test for priming records request
 - (void) testGetPrimingRecords {
-    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForPrimingRecords:nil apiVersion:kSFRestDefaultAPIVersion];
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForPrimingRecords:nil changedAfterTimestamp:nil apiVersion:kSFRestDefaultAPIVersion];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     NSDictionary* response = listener.dataResponse;
     XCTAssertNotNil(response[@"primingRecords"]);
@@ -1224,7 +1224,7 @@ static NSException *authException = nil;
 
 // Test parsing priming records response going to server
 - (void) testParsePrimingRecordsResponseFromServer {
-    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForPrimingRecords:nil apiVersion:kSFRestDefaultAPIVersion];
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForPrimingRecords:nil changedAfterTimestamp:nil apiVersion:kSFRestDefaultAPIVersion];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     NSDictionary* response = listener.dataResponse;
     @try {

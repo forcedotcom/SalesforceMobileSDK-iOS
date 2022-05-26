@@ -124,6 +124,31 @@
       }
     },
     {
+      "syncName": "briefcaseSyncDown",
+      "syncType": "syncDown",
+      "soupName": "does-not-matter",
+      "target": {
+        "infos": [
+          {
+            "sobjectType": "Account",
+            "fieldlist": ["Name", "Description"],
+            "soupName": "accounts"
+          },
+          {
+            "sobjectType": "Contact",
+            "fieldlist": ["FirstName"],
+            "idFieldName" : "IdX",
+            "modificationDateFieldName": "LastModifiedDateX",
+            "soupName": "contacts"
+          }
+        ],
+        "type" : "briefcase"
+      },
+      "options": {
+        "mergeMode": "OVERWRITE"
+      }
+    },
+    {
       "syncName": "noBatchSyncUp",
       "syncType": "syncUp",
       "soupName": "accounts",

@@ -35,8 +35,9 @@
 #import "NSString+SFAdditions.h"
 #import "SFSDKCompositeRequest.h"
 #import "SFSDKBatchRequest.h"
+#import "SFFormatUtils.h"
 
-NSString* const kSFRestDefaultAPIVersion = @"v54.0";
+NSString* const kSFRestDefaultAPIVersion = @"v55.0";
 NSString* const kSFRestIfUnmodifiedSince = @"If-Unmodified-Since";
 NSString* const kSFRestErrorDomain = @"com.salesforce.RestAPI.ErrorDomain";
 NSString* const kSFDefaultContentType = @"application/json";
@@ -670,12 +671,18 @@ static dispatch_once_t pred;
     return [self addBodyForPostRequest:requestJson request:request];
 }
 
-- (SFRestRequest*) requestForPrimingRecords:(nullable NSString *)relayToken apiVersion:(nullable NSString *)apiVersion {
+- (SFRestRequest*) requestForPrimingRecords:(nullable NSString *)relayToken changedAfterTimestamp:(nullable NSNumber *)timestamp apiVersion:(nullable NSString *)apiVersion {
     NSString *path = [NSString stringWithFormat:@"/%@/connect/briefcase/priming-records", [self computeAPIVersion:apiVersion]];
     
     NSDictionary *queryParams = nil;
     if (relayToken != nil) {
         queryParams = @{@"relayToken": relayToken};
+    }
+    if (timestamp) {
+        NSString *isoTimestamp = [SFFormatUtils getIsoStringFromMillis:timestamp.longLongValue];
+        if (isoTimestamp) {
+            queryParams = @{@"changedAfterTimestamp": isoTimestamp};
+        }
     }
 
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:queryParams];

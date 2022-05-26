@@ -42,7 +42,7 @@ extern NSString* const kSFRestErrorDomain NS_SWIFT_NAME(SFRestErrorDomain);
 extern NSInteger const kSFRestErrorCode NS_SWIFT_NAME(SFRestErrorCode);
 
 /*
- * Default API version (currently "v54.0")
+ * Default API version (currently "v55.0")
  * You can override this by using setApiVersion:
  */
 extern NSString* const kSFRestDefaultAPIVersion NS_SWIFT_NAME(SFRestDefaultAPIVersion);
@@ -70,7 +70,7 @@ NS_SWIFT_NAME(RestClient)
 
 /**
  * The REST API version used for all the calls.
-* The default value is `kSFRestDefaultAPIVersion` (currently "v54.0")
+* The default value is `kSFRestDefaultAPIVersion` (currently "v55.0")
  */
 @property (nonatomic, strong) NSString *apiVersion;
 
@@ -364,12 +364,12 @@ NS_SWIFT_NAME(RestClient)
  * Returns an `SFRestRequest` object for getting list of record related to offline briefcase
  *
  * @param relayToken Relay token (to get next page of results)
+ * @param timestamp To only get ids of records that changed after given time - or nil
  * @param apiVersion Salesforce API version.
  *
  * @see https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_briefcase_priming_records.htm
  */
-- (SFRestRequest*) requestForPrimingRecords:(nullable NSString *)relayToken apiVersion:(nullable NSString *)apiVersion;
-
+- (SFRestRequest*) requestForPrimingRecords:(nullable NSString *)relayToken changedAfterTimestamp:(nullable NSNumber *)timestamp apiVersion:(nullable NSString *)apiVersion;
 
 /**
  * Returns an `SFRestRequest` object for creating multiple records with fewer round trips
