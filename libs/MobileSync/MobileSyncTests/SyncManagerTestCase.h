@@ -64,6 +64,7 @@ typedef NSMutableDictionary* (^SFRecordMutatorBlock) (NSMutableDictionary* recor
 
 - (NSArray *) createAccountsLocally:(NSArray*)names;
 - (NSArray *) createAccountsLocally:(NSArray*)names mutateBlock:(SFRecordMutatorBlock)mutateBlock;
+- (NSArray *)createContactsForAccountsLocally:(NSArray *)accountIds numberOfContactsPerAccounts:(int)numberOfContacts;
 - (void)createAccountsSoup;
 - (void)dropAccountsSoup;
 - (void)createContactsSoup;

@@ -846,7 +846,7 @@ extension RootViewController: ActionTableViewDelegate {
             }
             request = restApi.request(forDeleteFileShare: objId, apiVersion: SFRestDefaultAPIVersion)
         case .primingRecords:
-            request = restApi.request(forPrimingRecords: nil, apiVersion: SFRestDefaultAPIVersion)
+            request = restApi.request(forPrimingRecords: nil, changedAfterTimestamp: nil, apiVersion: SFRestDefaultAPIVersion)
         case .currentUserInfo:
             guard let currentAccount = UserAccountManager.shared.currentUserAccount else {return}
             let idData = currentAccount.idData
