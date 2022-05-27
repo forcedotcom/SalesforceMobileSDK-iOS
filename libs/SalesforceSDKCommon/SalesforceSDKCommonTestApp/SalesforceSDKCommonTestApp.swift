@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  SalesforceSDKCommonTestApp.swift
 //  SalesforceSDKCommon
 //
 //  Created by Xiaoguang Yang on 5/26/22.
@@ -27,9 +27,11 @@
 
 import SwiftUI
 
-struct ContentView: View {
-    var body: some View {
-        Text("SalesforceSDKCommon Test Client")
-            .padding()
+@main
+struct SalesforceSDKCommonTestApp: App {
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+        }
     }
 }
