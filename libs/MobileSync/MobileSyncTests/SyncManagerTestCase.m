@@ -208,18 +208,16 @@ static NSException *authException = nil;
 }
 
 - (void)deleteRecordsOnServer:(NSArray *)ids objectType:(NSString*)objectType {
-
-    NSMutableArray* requests = [NSMutableArray new];
-    for (NSString* recordId in ids) {
-        SFRestRequest *deleteRequest = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:objectType objectId:recordId apiVersion:kSFRestDefaultAPIVersion];
-        [requests addObject:deleteRequest];
-        if (requests.count == 25) {
-            [self sendSyncRequest:[[SFRestAPI sharedInstance] batchRequest:requests haltOnError:NO apiVersion:kSFRestDefaultAPIVersion]];
-            [requests removeAllObjects];
-        }
-    }
-    if (requests.count > 0) {
-        [self sendSyncRequest:[[SFRestAPI sharedInstance] batchRequest:requests haltOnError:NO apiVersion:kSFRestDefaultAPIVersion]];
+    NSUInteger maxIdsPerSlice = 200;
+    NSUInteger countIds = ids.count;
+    NSUInteger countSlices = (int) ceil((double) countIds / maxIdsPerSlice);
+            
+    for (NSUInteger slice = 0; slice < countSlices; slice++) {
+        NSUInteger sliceStartIndex = slice*maxIdsPerSlice;
+        NSUInteger sliceEndIndex = MIN(countIds, (slice+1)*maxIdsPerSlice);
+        NSArray* idsToDelete = [ids subarrayWithRange:NSMakeRange(sliceStartIndex, sliceEndIndex-sliceStartIndex)];
+        SFRestRequest* request = [[SFRestAPI sharedInstance] requestForCollectionDelete:idsToDelete apiVersion:nil];
+        [self sendSyncRequest:request];
     }
 }
 
