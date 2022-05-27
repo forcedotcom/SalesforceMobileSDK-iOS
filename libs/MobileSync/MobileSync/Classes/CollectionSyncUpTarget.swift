@@ -38,12 +38,20 @@ public class CollectionSyncUpTarget: BatchSyncUpTarget {
     
     static let maxRecordsCollectionAPI:UInt = 200
     
-//    override public class func new(fromDict dict: Dictionary<AnyHashable, Any>) -> Self? {
-//        return self.init(dict: dict)
-//    }
+    override public class func build(dict: Dictionary<AnyHashable, Any>?) -> Self {
+        return self.init(dict: dict ?? Dictionary())
+    }
         
+    override public convenience init() {
+        self.init(createFieldlist:nil, updateFieldlist:nil, maxBatchSize:nil)
+    }
+
+    override public convenience init(createFieldlist: Array<String>?, updateFieldlist: Array<String>?) {
+        self.init(createFieldlist:createFieldlist, updateFieldlist:updateFieldlist, maxBatchSize:nil)
+    }
+    
     // Construct CollectionSyncUpTarget with a different maxBatchSize and id/modifiedDate/externalId fields
-    override public init(createFieldlist: Array<String>? = nil, updateFieldlist: Array<String>? = nil, maxBatchSize:NSNumber? = nil) {
+    override public init(createFieldlist: Array<String>?, updateFieldlist: Array<String>?, maxBatchSize:NSNumber?) {
         super.init(createFieldlist:createFieldlist, updateFieldlist:updateFieldlist, maxBatchSize: maxBatchSize)
     }
  

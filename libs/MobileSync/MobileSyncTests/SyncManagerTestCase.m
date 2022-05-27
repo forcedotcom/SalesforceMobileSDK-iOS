@@ -695,6 +695,8 @@ static NSException *authException = nil;
 
     // Runs sync.
     SFSyncUpdateCallbackQueue* queue = [[SFSyncUpdateCallbackQueue alloc] init];
+    
+    NSDate *syncUpStart = [NSDate date];
     [queue runSync:sync syncManager:self.syncManager];
 
     // Checks status updates.
@@ -713,6 +715,9 @@ static NSException *authException = nil;
     } else {
         XCTFail(@"completionStatus value '%ld' not currently supported.", (long)completionStatus);
     }
+    NSDate *syncUpEnd = [NSDate date];
+    NSTimeInterval executionTime = [syncUpEnd timeIntervalSinceDate:syncUpStart];
+    NSLog(@"Sync up executionTime = %f s", executionTime);
 }
 
 

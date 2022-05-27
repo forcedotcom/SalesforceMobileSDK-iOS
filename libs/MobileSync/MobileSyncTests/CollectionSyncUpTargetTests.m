@@ -23,10 +23,10 @@
  */
 
 #import "SFSyncUpdateCallbackQueue.h"
-#import "BatchSyncUpTargetTests.h"
+#import "SyncUpTargetTests.h"
 #import "TestSyncUpTarget.h"
 
-@interface CollectionSyncUpTargetTests : BatchSyncUpTargetTests {
+@interface CollectionSyncUpTargetTests : SyncUpTargetTests {
 }
 
 @end
@@ -51,33 +51,33 @@
 }
 
 - (void) testMaxBatchSizeExceedingLimitInDict {
-    NSDictionary* targetDict = @{kSFSyncTargetiOSImplKey: @"SFCollectionSyncUpTarget", @"maxBatchSize": @26};
+    NSDictionary* targetDict = @{kSFSyncTargetiOSImplKey: @"SFCollectionSyncUpTarget", @"maxBatchSize": @201};
     SFCollectionSyncUpTarget* target = [SFCollectionSyncUpTarget newFromDict:targetDict];
-    XCTAssertEqual(target.maxBatchSize, 25, @"Max batch size should be 200");
+    XCTAssertEqual(target.maxBatchSize, 200, @"Max batch size should be 200");
 }
 
-//- (void) testConstructors {
-//    SFCollectionSyncUpTarget* target = [[SFCollectionSyncUpTarget alloc] init];
-//    XCTAssertNil(target.createFieldlist, @"Wrong createFieldlist");
-//    XCTAssertNil(target.updateFieldlist, @"Wrong updateFieldlist");
-//    XCTAssertEqual(target.maxBatchSize, 25, @"Max batch size should be 25");
-//
-//    target = [[SFCollectionSyncUpTarget alloc] initWithCreateFieldlist:@[@"Name"] updateFieldlist:@[@"Name", @"Description"]];
-//    XCTAssertEqual(target.createFieldlist.count, 1, @"Wrong createFieldlist");
-//    XCTAssertEqualObjects(target.createFieldlist[0], @"Name", @"Wrong createFieldlist");
-//    XCTAssertEqual(target.updateFieldlist.count, 2, @"Wrong updateFieldlist");
-//    XCTAssertEqualObjects(target.updateFieldlist[0], @"Name", @"Wrong updateFieldlist");
-//    XCTAssertEqualObjects(target.updateFieldlist[1], @"Description", @"Wrong updateFieldlist");
-//    XCTAssertEqual(target.maxBatchSize, 200, @"Max batch size should be 200");
-//
-//    target = [[SFCollectionSyncUpTarget alloc] initWithCreateFieldlist:@[@"Name"] updateFieldlist:@[@"Name", @"Description"] maxBatchSize:@12];
-//    XCTAssertEqual(target.createFieldlist.count, 1, @"Wrong createFieldlist");
-//    XCTAssertEqualObjects(target.createFieldlist[0], @"Name", @"Wrong createFieldlist");
-//    XCTAssertEqual(target.updateFieldlist.count, 2, @"Wrong updateFieldlist");
-//    XCTAssertEqualObjects(target.updateFieldlist[0], @"Name", @"Wrong updateFieldlist");
-//    XCTAssertEqualObjects(target.updateFieldlist[1], @"Description", @"Wrong updateFieldlist");
-//    XCTAssertEqual(target.maxBatchSize, 12, @"Max batch size should be 12");
-//}
+- (void) testConstructors {
+    SFCollectionSyncUpTarget* target = [[SFCollectionSyncUpTarget alloc] init];
+    XCTAssertNil(target.createFieldlist, @"Wrong createFieldlist");
+    XCTAssertNil(target.updateFieldlist, @"Wrong updateFieldlist");
+    XCTAssertEqual(target.maxBatchSize, 200, @"Max batch size should be 200");
+
+    target = [[SFCollectionSyncUpTarget alloc] initWithCreateFieldlist:@[@"Name"] updateFieldlist:@[@"Name", @"Description"]];
+    XCTAssertEqual(target.createFieldlist.count, 1, @"Wrong createFieldlist");
+    XCTAssertEqualObjects(target.createFieldlist[0], @"Name", @"Wrong createFieldlist");
+    XCTAssertEqual(target.updateFieldlist.count, 2, @"Wrong updateFieldlist");
+    XCTAssertEqualObjects(target.updateFieldlist[0], @"Name", @"Wrong updateFieldlist");
+    XCTAssertEqualObjects(target.updateFieldlist[1], @"Description", @"Wrong updateFieldlist");
+    XCTAssertEqual(target.maxBatchSize, 200, @"Max batch size should be 200");
+
+    target = [[SFCollectionSyncUpTarget alloc] initWithCreateFieldlist:@[@"Name"] updateFieldlist:@[@"Name", @"Description"] maxBatchSize:@12];
+    XCTAssertEqual(target.createFieldlist.count, 1, @"Wrong createFieldlist");
+    XCTAssertEqualObjects(target.createFieldlist[0], @"Name", @"Wrong createFieldlist");
+    XCTAssertEqual(target.updateFieldlist.count, 2, @"Wrong updateFieldlist");
+    XCTAssertEqualObjects(target.updateFieldlist[0], @"Name", @"Wrong updateFieldlist");
+    XCTAssertEqualObjects(target.updateFieldlist[1], @"Description", @"Wrong updateFieldlist");
+    XCTAssertEqual(target.maxBatchSize, 12, @"Max batch size should be 12");
+}
 
 
 - (void) testFactoryMethodWithDict {
@@ -101,7 +101,7 @@
     
     XCTAssertNil(target.createFieldlist, @"Wrong createFieldlist");
     XCTAssertNil(target.updateFieldlist, @"Wrong createFieldlist");
-    XCTAssertEqual(target.maxBatchSize, 25, @"Max batch size should be 25");
+    XCTAssertEqual(target.maxBatchSize, 200, @"Max batch size should be 200");
 }
 
 
@@ -129,7 +129,7 @@
     
     // Basic sync up target should be the base class.
     SFSyncUpTarget *basicSyncUpTarget = [[SFSyncUpTarget alloc] init];
-    XCTAssertEqual([basicSyncUpTarget class], [SFSyncUpTarget class], @"Default class should be SFSyncUpTarget");
+    XCTAssertEqual([basicSyncUpTarget class], [SFSyncUpTarget class], @"Class should be SFSyncUpTarget");
     XCTAssertEqual(basicSyncUpTarget.targetType, SFSyncUpTargetTypeRestStandard, @"Sync sync up target type is incorrect.");
     
     // Default sync up target should be the SFCollectionSyncUpTarget
@@ -160,7 +160,7 @@
 #pragma mark - THE methods responsible for building sync up targets used in all the tests
 
 - (SFSyncUpTarget*) buildSyncUpTargetWithCreateFieldlist:(nullable NSArray*)createFieldlist updateFieldlist:(nullable NSArray*)updateFieldlist {
-    return [[SFCollectionSyncUpTarget alloc] initWithCreateFieldlist:createFieldlist updateFieldlist:updateFieldlist maxBatchSize:@2];
+    return [[SFCollectionSyncUpTarget alloc] initWithCreateFieldlist:createFieldlist updateFieldlist:updateFieldlist];
 }
 
 @end
