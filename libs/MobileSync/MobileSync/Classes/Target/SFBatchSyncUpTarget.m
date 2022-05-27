@@ -159,11 +159,22 @@ static NSUInteger const kSFMaxSubRequestsCompositeAPI = 25;
         }
     };
         
+    [self sendRecordRequests:syncManager
+              recordRequests:requests
+                  onComplete:sendCompositeRequestCompleteBlock
+                      onFail:failBlock];
+}
+- (void) sendRecordRequests:(nonnull SFMobileSyncSyncManager *)syncManager
+             recordRequests:(nonnull NSArray<SFSDKRecordRequest *> *)requests
+                 onComplete:(nonnull SFSendCompositeRequestCompleteBlock)sendCompleteBlock
+                     onFail:(nonnull SFSyncUpTargetErrorBlock)failBlock {
+    
     [SFCompositeRequestHelper sendAsCompositeBatchRequest:syncManager
                                                 allOrNone:NO
                                            recordRequests:requests
-                                               onComplete:sendCompositeRequestCompleteBlock
+                                               onComplete:sendCompleteBlock
                                                    onFail:failBlock];
+    
 }
 
 #pragma mark - helper methods
@@ -262,9 +273,13 @@ static NSUInteger const kSFMaxSubRequestsCompositeAPI = 25;
 }
 
 - (NSUInteger) computeMaxBatchSize:(NSNumber*)maxBatchSize {
-    return (maxBatchSize == nil || [maxBatchSize unsignedIntegerValue] > kSFMaxSubRequestsCompositeAPI)
-        ? kSFMaxSubRequestsCompositeAPI
+    return (maxBatchSize == nil || [maxBatchSize unsignedIntegerValue] > [self maxAPIBatchSize])
+        ? [self maxAPIBatchSize]
         : [maxBatchSize unsignedIntegerValue];
+}
+
+- (NSUInteger) maxAPIBatchSize {
+    return kSFMaxSubRequestsCompositeAPI;
 }
 
 @end
