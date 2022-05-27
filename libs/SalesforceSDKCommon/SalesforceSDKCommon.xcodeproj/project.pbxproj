@@ -42,10 +42,10 @@
 		B7D3CABE218BC80600780B72 /* SFSDKSafeMutableArrayTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B7D3CABB218BC80600780B72 /* SFSDKSafeMutableArrayTests.m */; };
 		B7D3CABF218BC80600780B72 /* SFSDKSafeMutableDictionaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B7D3CABC218BC80600780B72 /* SFSDKSafeMutableDictionaryTests.m */; };
 		B7D3CAC0218BC80600780B72 /* SFSDKSafeMutableSetTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B7D3CABD218BC80600780B72 /* SFSDKSafeMutableSetTests.m */; };
-		F2713774284031E8003B3D69 /* SDKTestClientApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2713773284031E8003B3D69 /* SDKTestClientApp.swift */; };
-		F2713776284031E8003B3D69 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2713775284031E8003B3D69 /* ContentView.swift */; };
-		F2713778284031E9003B3D69 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F2713777284031E9003B3D69 /* Assets.xcassets */; };
-		F271377B284031E9003B3D69 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F271377A284031E9003B3D69 /* Preview Assets.xcassets */; };
+		F27137BD28405BB8003B3D69 /* SalesforceSDKCommonTestApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27137BC28405BB8003B3D69 /* SalesforceSDKCommonTestApp.swift */; };
+		F27137BF28405BB8003B3D69 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27137BE28405BB8003B3D69 /* ContentView.swift */; };
+		F27137C128405BB9003B3D69 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F27137C028405BB9003B3D69 /* Assets.xcassets */; };
+		F27137C428405BB9003B3D69 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F27137C328405BB9003B3D69 /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,12 +56,12 @@
 			remoteGlobalIDString = B7136CFD216684A700F6A221;
 			remoteInfo = SalesforceSDKCommon;
 		};
-		F271377F28403205003B3D69 /* PBXContainerItemProxy */ = {
+		F27137C828405BF7003B3D69 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B7136CF5216684A700F6A221 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = F2713770284031E8003B3D69;
-			remoteInfo = SDKTestClient;
+			remoteGlobalIDString = F27137B928405BB8003B3D69;
+			remoteInfo = SalesforceSDKCommonTestApp;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -104,11 +104,11 @@
 		B7D3CABB218BC80600780B72 /* SFSDKSafeMutableArrayTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKSafeMutableArrayTests.m; sourceTree = "<group>"; };
 		B7D3CABC218BC80600780B72 /* SFSDKSafeMutableDictionaryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKSafeMutableDictionaryTests.m; sourceTree = "<group>"; };
 		B7D3CABD218BC80600780B72 /* SFSDKSafeMutableSetTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKSafeMutableSetTests.m; sourceTree = "<group>"; };
-		F2713771284031E8003B3D69 /* SDKTestClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SDKTestClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		F2713773284031E8003B3D69 /* SDKTestClientApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SDKTestClientApp.swift; sourceTree = "<group>"; };
-		F2713775284031E8003B3D69 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		F2713777284031E9003B3D69 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		F271377A284031E9003B3D69 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		F27137BA28405BB8003B3D69 /* SalesforceSDKCommonTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SalesforceSDKCommonTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F27137BC28405BB8003B3D69 /* SalesforceSDKCommonTestApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesforceSDKCommonTestApp.swift; sourceTree = "<group>"; };
+		F27137BE28405BB8003B3D69 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		F27137C028405BB9003B3D69 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F27137C328405BB9003B3D69 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,7 +128,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F271376E284031E8003B3D69 /* Frameworks */ = {
+		F27137B728405BB8003B3D69 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -143,7 +143,7 @@
 			children = (
 				B7136D00216684A700F6A221 /* SalesforceSDKCommon */,
 				B7136D0B216684A700F6A221 /* SalesforceSDKCommonTests */,
-				F2713772284031E8003B3D69 /* SDKTestClient */,
+				F27137BB28405BB8003B3D69 /* SalesforceSDKCommonTestApp */,
 				B7136CFF216684A700F6A221 /* Products */,
 				B78898BA218D0329006E0C77 /* Frameworks */,
 			);
@@ -154,7 +154,7 @@
 			children = (
 				B7136CFE216684A700F6A221 /* SalesforceSDKCommon.framework */,
 				B7136D07216684A700F6A221 /* SalesforceSDKCommonTests.xctest */,
-				F2713771284031E8003B3D69 /* SDKTestClient.app */,
+				F27137BA28405BB8003B3D69 /* SalesforceSDKCommonTestApp.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -248,21 +248,21 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		F2713772284031E8003B3D69 /* SDKTestClient */ = {
+		F27137BB28405BB8003B3D69 /* SalesforceSDKCommonTestApp */ = {
 			isa = PBXGroup;
 			children = (
-				F2713773284031E8003B3D69 /* SDKTestClientApp.swift */,
-				F2713775284031E8003B3D69 /* ContentView.swift */,
-				F2713777284031E9003B3D69 /* Assets.xcassets */,
-				F2713779284031E9003B3D69 /* Preview Content */,
+				F27137BC28405BB8003B3D69 /* SalesforceSDKCommonTestApp.swift */,
+				F27137BE28405BB8003B3D69 /* ContentView.swift */,
+				F27137C028405BB9003B3D69 /* Assets.xcassets */,
+				F27137C228405BB9003B3D69 /* Preview Content */,
 			);
-			path = SDKTestClient;
+			path = SalesforceSDKCommonTestApp;
 			sourceTree = "<group>";
 		};
-		F2713779284031E9003B3D69 /* Preview Content */ = {
+		F27137C228405BB9003B3D69 /* Preview Content */ = {
 			isa = PBXGroup;
 			children = (
-				F271377A284031E9003B3D69 /* Preview Assets.xcassets */,
+				F27137C328405BB9003B3D69 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
@@ -326,28 +326,28 @@
 			);
 			dependencies = (
 				B7136D0A216684A700F6A221 /* PBXTargetDependency */,
-				F271378028403205003B3D69 /* PBXTargetDependency */,
+				F27137C928405BF7003B3D69 /* PBXTargetDependency */,
 			);
 			name = SalesforceSDKCommonTests;
 			productName = SalesforceSDKCommonTests;
 			productReference = B7136D07216684A700F6A221 /* SalesforceSDKCommonTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		F2713770284031E8003B3D69 /* SDKTestClient */ = {
+		F27137B928405BB8003B3D69 /* SalesforceSDKCommonTestApp */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F271377C284031E9003B3D69 /* Build configuration list for PBXNativeTarget "SDKTestClient" */;
+			buildConfigurationList = F27137C528405BB9003B3D69 /* Build configuration list for PBXNativeTarget "SalesforceSDKCommonTestApp" */;
 			buildPhases = (
-				F271376D284031E8003B3D69 /* Sources */,
-				F271376E284031E8003B3D69 /* Frameworks */,
-				F271376F284031E8003B3D69 /* Resources */,
+				F27137B628405BB8003B3D69 /* Sources */,
+				F27137B728405BB8003B3D69 /* Frameworks */,
+				F27137B828405BB8003B3D69 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = SDKTestClient;
-			productName = SDKTestClient;
-			productReference = F2713771284031E8003B3D69 /* SDKTestClient.app */;
+			name = SalesforceSDKCommonTestApp;
+			productName = SalesforceSDKCommonTestApp;
+			productReference = F27137BA28405BB8003B3D69 /* SalesforceSDKCommonTestApp.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -368,9 +368,9 @@
 					B7136D06216684A700F6A221 = {
 						CreatedOnToolsVersion = 10.0;
 						LastSwiftMigration = 1230;
-						TestTargetID = F2713770284031E8003B3D69;
+						TestTargetID = F27137B928405BB8003B3D69;
 					};
-					F2713770284031E8003B3D69 = {
+					F27137B928405BB8003B3D69 = {
 						CreatedOnToolsVersion = 13.4;
 					};
 				};
@@ -390,7 +390,7 @@
 			targets = (
 				B7136CFD216684A700F6A221 /* SalesforceSDKCommon */,
 				B7136D06216684A700F6A221 /* SalesforceSDKCommonTests */,
-				F2713770284031E8003B3D69 /* SDKTestClient */,
+				F27137B928405BB8003B3D69 /* SalesforceSDKCommonTestApp */,
 			);
 		};
 /* End PBXProject section */
@@ -410,12 +410,12 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F271376F284031E8003B3D69 /* Resources */ = {
+		F27137B828405BB8003B3D69 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F271377B284031E9003B3D69 /* Preview Assets.xcassets in Resources */,
-				F2713778284031E9003B3D69 /* Assets.xcassets in Resources */,
+				F27137C428405BB9003B3D69 /* Preview Assets.xcassets in Resources */,
+				F27137C128405BB9003B3D69 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -492,12 +492,12 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F271376D284031E8003B3D69 /* Sources */ = {
+		F27137B628405BB8003B3D69 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F2713776284031E8003B3D69 /* ContentView.swift in Sources */,
-				F2713774284031E8003B3D69 /* SDKTestClientApp.swift in Sources */,
+				F27137BF28405BB8003B3D69 /* ContentView.swift in Sources */,
+				F27137BD28405BB8003B3D69 /* SalesforceSDKCommonTestApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -509,10 +509,10 @@
 			target = B7136CFD216684A700F6A221 /* SalesforceSDKCommon */;
 			targetProxy = B7136D09216684A700F6A221 /* PBXContainerItemProxy */;
 		};
-		F271378028403205003B3D69 /* PBXTargetDependency */ = {
+		F27137C928405BF7003B3D69 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = F2713770284031E8003B3D69 /* SDKTestClient */;
-			targetProxy = F271377F28403205003B3D69 /* PBXContainerItemProxy */;
+			target = F27137B928405BB8003B3D69 /* SalesforceSDKCommonTestApp */;
+			targetProxy = F27137C828405BF7003B3D69 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -647,6 +647,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 10.1.0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -661,6 +662,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				MARKETING_VERSION = 10.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SalesforceSDKCommon;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -678,6 +680,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 10.1.0;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -691,6 +694,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				MARKETING_VERSION = 10.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SalesforceSDKCommon;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -719,7 +723,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SDKTestClient.app/SDKTestClient";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SalesforceSDKCommonTestApp.app/SalesforceSDKCommonTestApp";
 			};
 			name = Debug;
 		};
@@ -741,11 +745,11 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SDKTestClient.app/SDKTestClient";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SalesforceSDKCommonTestApp.app/SalesforceSDKCommonTestApp";
 			};
 			name = Release;
 		};
-		F271377D284031E9003B3D69 /* Debug */ = {
+		F27137C628405BB9003B3D69 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -753,14 +757,14 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"SDKTestClient/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"SalesforceSDKCommonTestApp/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -769,7 +773,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SDKTestClient;
+				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SalesforceSDKCommonTestApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -779,7 +783,7 @@
 			};
 			name = Debug;
 		};
-		F271377E284031E9003B3D69 /* Release */ = {
+		F27137C728405BB9003B3D69 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -787,14 +791,14 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"SDKTestClient/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"SalesforceSDKCommonTestApp/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -803,7 +807,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SDKTestClient;
+				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SalesforceSDKCommonTestApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
@@ -842,11 +846,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F271377C284031E9003B3D69 /* Build configuration list for PBXNativeTarget "SDKTestClient" */ = {
+		F27137C528405BB9003B3D69 /* Build configuration list for PBXNativeTarget "SalesforceSDKCommonTestApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				F271377D284031E9003B3D69 /* Debug */,
-				F271377E284031E9003B3D69 /* Release */,
+				F27137C628405BB9003B3D69 /* Debug */,
+				F27137C728405BB9003B3D69 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
