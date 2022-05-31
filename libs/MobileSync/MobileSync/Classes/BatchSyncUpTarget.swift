@@ -27,7 +27,6 @@
 
 import Foundation
 
-
 extension BatchSyncUpTarget {
     // Adapted from internal methods in BatchSyncUpTarget.m
     static let maxSubRequestsCompositeAPI:UInt = 25
@@ -39,8 +38,10 @@ extension BatchSyncUpTarget {
 
 
     @objc
-    func sendRecordRequests(_ syncManager:SyncManager, recordRequests:Array<CompositeRequestHelper.RecordRequest>,
-                            onComplete: @escaping OnSendCompleteCallback, onFail: @escaping OnFailCallback) {
+    func sendRecordRequests(_ syncManager:SyncManager,
+                            recordRequests: Array<CompositeRequestHelper.RecordRequest>,
+                            onComplete: @escaping OnSendCompleteCallback,
+                            onFail: @escaping OnFailCallback) {
         
         CompositeRequestHelper.sendAsCompositeBatchRequest(syncManager, allOrNone: false, recordRequests: recordRequests, onComplete: onComplete, onFail: onFail)
     }

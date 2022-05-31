@@ -33,16 +33,6 @@
 
 @implementation CollectionSyncUpTargetTests
 
-#pragma mark - setUp/tearDown
-
-- (void)setUp {
-    [super setUp];
-}
-
-- (void)tearDown {
-    [super tearDown];
-}
-
 #pragma mark - Tests
 
 - (void) testMaxBatchSizeExceedingLimit {
