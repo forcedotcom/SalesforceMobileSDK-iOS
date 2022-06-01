@@ -49,9 +49,9 @@
 		4FEE448A1BFD5CE500F09C43 /* SFSmartStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96015E1BFD33B30022F021 /* SFSmartStoreTests.m */; };
 		4FF4DC671CF51D9300385C2C /* SFQuerySpecTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF4DC661CF51D9300385C2C /* SFQuerySpecTests.m */; };
 		4FFEE6351BFE98E100B7AA8A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CEAAAE61195911E600CBBFE9 /* InfoPlist.strings */; };
+		693F9BD3284162F500D93B0C /* SQLCipher.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69B2B322261D2C9B00AB86C2 /* SQLCipher.xcframework */; };
 		6984776825C34AFA00B6CAD1 /* NSData+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6984775F25C34AE200B6CAD1 /* NSData+SFAdditions.h */; };
 		6984777325C34B2600B6CAD1 /* NSData+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6984777225C34B2600B6CAD1 /* NSData+SFAdditions.m */; };
-		69B2B323261D2C9B00AB86C2 /* SQLCipher.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69B2B322261D2C9B00AB86C2 /* SQLCipher.xcframework */; };
 		828917841C52B705002F9981 /* FMDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = 8289177A1C52B705002F9981 /* FMDatabase.h */; };
 		828917851C52B705002F9981 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 8289177B1C52B705002F9981 /* FMDatabase.m */; };
 		828917861C52B705002F9981 /* FMDatabaseAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 8289177C1C52B705002F9981 /* FMDatabaseAdditions.h */; };
@@ -363,7 +363,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B716A3D7218F6AD6009D407F /* SalesforceAnalytics.framework in Frameworks */,
-				69B2B323261D2C9B00AB86C2 /* SQLCipher.xcframework in Frameworks */,
+				693F9BD3284162F500D93B0C /* SQLCipher.xcframework in Frameworks */,
 				B716A3D8218F6AD6009D407F /* SalesforceSDKCommon.framework in Frameworks */,
 				B716A3D9218F6AD6009D407F /* SalesforceSDKCore.framework in Frameworks */,
 				CE4CE5851C0FB648009F6029 /* libz.tbd in Frameworks */,
