@@ -123,7 +123,7 @@ class CompositeRequestHelper:NSObject {
         
         private init(requestType:RequestType, objectType:String, fields:Dictionary<String, Any>?, objectId: String?, externalId: String?, externalIdFieldName: String?) {
             self.requestType = requestType
-            self.objectType = objectType == "" ? "null" : objectType
+            self.objectType = objectType
             self.fields = fields
             self.objectId = objectId
             self.externalId = externalId
@@ -145,7 +145,7 @@ class CompositeRequestHelper:NSObject {
         
         func  asDictForCollectionRequest() -> Dictionary<String, Any> {
             var record:Dictionary<String, Any> = Dictionary()
-            record["attributes"] = ["type": objectType]
+            record["attributes"] = ["type": objectType == "" ? nil : objectType]
             if let fields = fields {
                 for (fieldName, fieldValue) in fields {
                     record[fieldName] = fieldValue

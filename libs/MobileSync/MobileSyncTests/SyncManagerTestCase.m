@@ -784,9 +784,7 @@ static NSException *authException = nil;
         NSArray* results = [self.store queryWithQuerySpec:query pageIndex:0 error:nil];
         NSMutableDictionary* account = [[NSMutableDictionary alloc] initWithDictionary:results[0]];
         account[kSyncTargetLocal] = @YES;
-        account[kSyncTargetLocallyCreated] = @NO;
         account[kSyncTargetLocallyDeleted] = @YES;
-        account[kSyncTargetLocallyUpdated] = @NO;
         [deletedAccounts addObject:account];
     }
     [self.store upsertEntries:deletedAccounts toSoup:soupName];
