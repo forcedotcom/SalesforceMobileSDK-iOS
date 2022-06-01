@@ -131,16 +131,20 @@ class CompositeRequestHelper:NSObject {
         }
         
         func asRestRequest() -> RestRequest? {
-           switch (requestType) {
-           case .CREATE:
-               return RestClient.shared.requestForCreate(withObjectType: objectType, fields: fields, apiVersion: nil)
-           case .UPDATE:
-               return RestClient.shared.requestForUpdate(withObjectType: objectType, objectId: objectId!, fields: fields, apiVersion: nil)
-           case .UPSERT:
-               return RestClient.shared.requestForUpsert(withObjectType: objectType, externalIdField: externalIdFieldName!, externalId: externalId, fields: fields!, apiVersion: nil)
-           case .DELETE:
-               return RestClient.shared.requestForDelete(withObjectType: objectType, objectId: objectId!, apiVersion: nil)
-           }
+            // If object type is missing, we don't want to send request to parent path otherwise error will be
+            // hard to understand
+            let objectType = self.objectType == "" ? "null" : self.objectType
+            
+            switch (requestType) {
+            case .CREATE:
+                return RestClient.shared.requestForCreate(withObjectType: objectType, fields: fields, apiVersion: nil)
+            case .UPDATE:
+                return RestClient.shared.requestForUpdate(withObjectType: objectType, objectId: objectId!, fields: fields, apiVersion: nil)
+            case .UPSERT:
+                return RestClient.shared.requestForUpsert(withObjectType: objectType, externalIdField: externalIdFieldName!, externalId: externalId, fields: fields!, apiVersion: nil)
+            case .DELETE:
+                return RestClient.shared.requestForDelete(withObjectType: objectType, objectId: objectId!, apiVersion: nil)
+            }
         }
         
         func  asDictForCollectionRequest() -> Dictionary<String, Any> {
