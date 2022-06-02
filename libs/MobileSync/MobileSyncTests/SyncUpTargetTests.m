@@ -699,7 +699,8 @@
             
             BOOL hasExpectedError = [lastError containsString:@"The requested resource does not exist"] // older end point error
             || [lastError containsString:@"sObject type 'badType' is not supported"] // sobject collection error with bad type
-            || [lastError containsString:@"sObject type 'null' is not supported"]; // sobject collection error with no type
+            || [lastError containsString:@"sObject type 'null' is not supported"] // sobject collection error with no type
+            || [lastError containsString:@"Nested object for polymorphic foreign key must have an attributes field before any other fields"]; // sobject collection error with invalid type that appears after other fields
 
             XCTAssertTrue(hasExpectedError, @"Wrong error: %@", lastError);
         }

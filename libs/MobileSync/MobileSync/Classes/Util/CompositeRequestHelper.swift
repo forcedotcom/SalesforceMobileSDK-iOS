@@ -149,7 +149,7 @@ class CompositeRequestHelper:NSObject {
         
         func  asDictForCollectionRequest() -> Dictionary<String, Any> {
             var record:Dictionary<String, Any> = Dictionary()
-            record["attributes"] = ["type": objectType == "" ? nil : objectType]
+            record["attributes"] = ["type": objectType == "" ? "null" : objectType]
             if let fields = fields {
                 for (fieldName, fieldValue) in fields {
                     record[fieldName] = fieldValue
