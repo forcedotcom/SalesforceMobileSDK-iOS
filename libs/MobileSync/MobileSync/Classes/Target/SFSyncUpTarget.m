@@ -170,7 +170,8 @@ typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
         result[storeId] = [NSNumber numberWithBool:isNewerThanServer];
         if (i < records.count-1) {
             [strongSelf isNewerThanServer:syncManager
-                                  records:records index:i+1
+                                  records:records
+                                    index:i+1
                                    result:result
                               resultBlock:resultBlock];
         } else {
