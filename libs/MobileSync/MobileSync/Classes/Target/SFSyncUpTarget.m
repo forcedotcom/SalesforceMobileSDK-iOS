@@ -145,6 +145,40 @@ typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
     }
 }
 
+- (void)areNewerThanServer:(SFMobileSyncSyncManager *)syncManager
+                   records:(NSArray<NSDictionary*>*)records
+              resultBlock:(SFSyncUpRecordsNewerThanServerBlock)resultBlock
+{
+    [self isNewerThanServer:syncManager
+                    records:records
+                      index:0
+                     result:[NSMutableDictionary new]
+                resultBlock:resultBlock];
+}
+
+- (void)isNewerThanServer:(SFMobileSyncSyncManager *)syncManager
+                   records:(NSArray<NSDictionary*>*)records
+                     index:(NSUInteger)i
+                    result:(NSMutableDictionary*)result
+              resultBlock:(SFSyncUpRecordsNewerThanServerBlock)resultBlock
+{
+    NSDictionary* record = records[i];
+    NSNumber* storeId = record[SOUP_ENTRY_ID];
+    __weak typeof(self) weakSelf = self;
+    [self isNewerThanServer:syncManager record:record resultBlock:^(BOOL isNewerThanServer) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        result[storeId] = [NSNumber numberWithBool:isNewerThanServer];
+        if (i < records.count-1) {
+            [strongSelf isNewerThanServer:syncManager
+                                  records:records index:i+1
+                                   result:result
+                              resultBlock:resultBlock];
+        } else {
+            resultBlock(result);
+        }
+    }];
+}
+
 
 - (void)createOnServer:(SFMobileSyncSyncManager *)syncManager
                 record:(NSDictionary*)record

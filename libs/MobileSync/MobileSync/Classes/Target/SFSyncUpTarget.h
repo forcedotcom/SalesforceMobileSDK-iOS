@@ -75,9 +75,14 @@ typedef NS_ENUM(NSUInteger, SFSyncUpTargetAction) {
 } NS_SWIFT_NAME(SyncUpTarget.Action);
 
 /**
- Block definition for returning whether a records changed on server.
+ Block definition for returning whether a record changed on server.
  */
 typedef void (^SFSyncUpRecordNewerThanServerBlock)(BOOL isNewerThanServer) NS_SWIFT_NAME(RecordNewerThanServerBlock);
+
+/**
+ Block definition for returning whether records changed on server.
+ */
+typedef void (^SFSyncUpRecordsNewerThanServerBlock)(NSDictionary* areNewerThanServer) NS_SWIFT_NAME(RecordsNewerThanServerBlock);
 
 /**
  Block definition for calling a sync up completion block.
@@ -163,6 +168,17 @@ NS_SWIFT_NAME(SyncUpTarget)
 - (void)isNewerThanServer:(SFMobileSyncSyncManager *)syncManager
                    record:(NSDictionary*)record
              resultBlock:(SFSyncUpRecordNewerThanServerBlock)resultBlock;
+
+
+/**
+Same as isNewerThanServer but operating over a list of records
+Return dictionary from record store id to boolean
+ @param records The records
+ @param resultBlock The block to execute
+*/
+ - (void)areNewerThanServer:(SFMobileSyncSyncManager *)syncManager
+                   records:(NSArray<NSDictionary*>*)records
+                resultBlock:(SFSyncUpRecordsNewerThanServerBlock)resultBlock;
 
 /**
  Save locally created record back to server
