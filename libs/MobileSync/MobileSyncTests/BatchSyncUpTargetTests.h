@@ -22,10 +22,8 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <MobileSync/MobileSync-Swift.h>
+#import "SyncUpTargetTests.h"
 
-NS_ASSUME_NONNULL_BEGIN
+@interface BatchSyncUpTargetTests : SyncUpTargetTests 
 
-typedef void (^SFSendCompositeRequestCompleteBlock)(NSDictionary<NSString*, SFSDKRecordResponse*> *refIdToResponses);
-
-NS_ASSUME_NONNULL_END
+@end

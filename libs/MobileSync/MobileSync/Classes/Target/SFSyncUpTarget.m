@@ -23,7 +23,7 @@
  */
 
 #import "SFSyncUpTarget+Internal.h"
-#import "SFBatchSyncUpTarget.h"
+#import <MobileSync/MobileSync-Swift.h>
 #import "SFMobileSyncConstants.h"
 #import "SFMobileSyncNetworkUtils.h"
 #import "SFMobileSyncSyncManager.h"
@@ -107,8 +107,8 @@ typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
         NSString *targetTypeString = (dict == nil || dict[kSFSyncTargetTypeKey] == nil ? kSFSyncUpTargetTypeRestStandard : dict[kSFSyncTargetTypeKey]);
         switch ([self targetTypeFromString:targetTypeString]) {
             case SFSyncUpTargetTypeRestStandard:
-                // Default sync up target (it's SFBatchSyncUpTarget starting in Mobile SDK 7.1)
-                return [[SFBatchSyncUpTarget alloc] initWithDict:dict];
+                // Default sync up target (it's SFCollectionSyncUpTarget starting in Mobile SDK 10.1)
+                return [[SFCollectionSyncUpTarget alloc] initWithDict:dict];
             case SFSyncUpTargetTypeCustom:
                 [SFSDKMobileSyncLogger e:[self class] format:@"%@ Custom class name not specified.", NSStringFromSelector(_cmd)];
                 return nil;

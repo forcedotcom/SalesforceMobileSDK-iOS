@@ -35,7 +35,7 @@ NS_SWIFT_NAME(CollectionErrorResponse)
 @property (nonatomic,readonly) NSString* statusCode;
 @property (nonatomic,readonly) NSString* message;
 @property (nonatomic,readonly) NSArray<NSString*>* fields;
-@property (nonatomic,readonly) NSDictionary* json;
+@property (nonatomic,readonly) NSDictionary<NSString*, id>* json;
 -(instancetype)initWith:(NSDictionary *)dict;
 @end
 
