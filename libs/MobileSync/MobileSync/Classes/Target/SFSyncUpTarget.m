@@ -344,6 +344,7 @@ typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
                                 }
     ];
 }
+
 /**
  Return true if local mod date is greater than remote mod date
  NB: also return true if both were deleted or if local mod date is missing

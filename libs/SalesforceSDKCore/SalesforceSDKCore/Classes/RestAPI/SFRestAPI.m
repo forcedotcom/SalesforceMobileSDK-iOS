@@ -46,6 +46,8 @@ NSInteger const kSFRestSOQLMinBatchSize = 200;
 NSInteger const kSFRestSOQLMaxBatchSize = 2000;
 NSInteger const kSFRestSOQLDefaultBatchSize = 2000;
 NSString* const kSFRestQueryOptions = @"Sforce-Query-Options";
+NSInteger const kSFRestCollectionRetrieveMaxSize = 2000;
+
 
 
 static BOOL kIsTestRun;

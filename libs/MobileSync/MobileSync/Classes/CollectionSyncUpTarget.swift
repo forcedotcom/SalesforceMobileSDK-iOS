@@ -27,8 +27,9 @@
 
 import Foundation
 import SalesforceSDKCore
-import Combine
 
+public typealias SyncUpRecordsNewerThanServerBlock = (Dictionary<AnyHashable,Any>) -> ()
+typealias FetchLastModDatesBlock = (Dictionary<NSNumber, SFRecordModDate>) -> ()
 
 //
 // Subclass of SyncUpTarget that batches create/update/delete operations by using sobject collection apis
@@ -68,5 +69,105 @@ public class CollectionSyncUpTarget: BatchSyncUpTarget {
                             onComplete: @escaping OnSendCompleteCallback, onFail: @escaping OnFailCallback) {
         
         CompositeRequestHelper.sendAsCollectionRequests(syncManager, allOrNone: false, recordRequests: recordRequests, onComplete: onComplete, onFail: onFail)
+    }
+    
+    public override func areNewerThanServer(_ syncManager:SyncManager,
+                                            records:Array<Dictionary<AnyHashable,Any>>,
+                                            resultBlock:@escaping SyncUpRecordsNewerThanServerBlock) {
+        
+        var storeIdToNewerThanServer = Dictionary<NSNumber, Bool>()
+        var nonLocallyCreatedRecords = Array<Dictionary<AnyHashable, Any>>()
+        for record in records {
+            if (isLocallyCreated(record) || record[idFieldName] == nil) {
+                storeIdToNewerThanServer[record[SmartStore.soupEntryId] as! NSNumber] = true
+            } else {
+                nonLocallyCreatedRecords.append(record)
+            }
+        }
+        
+        fetchLastModifiedDates(syncManager, records: nonLocallyCreatedRecords) { [weak self] recordIdToLastModifiedDate in
+            guard let self = self else { return }
+            for record in nonLocallyCreatedRecords {
+                let storeId = record[SmartStore.soupEntryId] as! NSNumber
+                let localModDate = SFRecordModDate(
+                    timestamp: record[self.modificationDateFieldName] as? String,
+                    isDeleted: self.isLocallyDeleted(record))
+                let remoteModDate = recordIdToLastModifiedDate[storeId]
+                // storeIdToNewerThanServer[storeId] = isNewerThanServer(localModDate, remoteModDate)
+            }
+
+            resultBlock(storeIdToNewerThanServer)
+        }
+    }
+    
+    func getRecordType(_ record:Dictionary<AnyHashable,Any>) -> String? {
+        return SFJsonUtils.project(intoJson: record, path: MobileSync.kObjectTypeField) as? String
+    }
+    
+    func fetchLastModifiedDates(_ syncManager:SyncManager,
+                                records:Array<Dictionary<AnyHashable,Any>>,
+                                completeBlock: @escaping FetchLastModDatesBlock) {
+
+        var recordIdToLastModifiedDate = Dictionary<NSNumber, SFRecordModDate>()
+
+        let totalSize = records.count
+        
+        if (totalSize == 0) {
+            completeBlock(recordIdToLastModifiedDate)
+            return
+        }
+            
+        var batchStoreIds = Array<NSNumber>()
+        var batchServerIds = Array<String>()
+        
+        guard let objectType = getRecordType(records[0]) else {
+//            throw MobileSyncException("Record does not have an sobject type")
+            return
+        }
+
+        let group = DispatchGroup()
+        
+        for i in 0...totalSize {
+            let record = records[i]
+            if (getRecordType(record) != objectType) {
+//            throw MobileSyncException("All records should have same sobject type")
+            }
+
+            batchStoreIds.append(record[SmartStore.soupEntryId] as! NSNumber)
+            batchServerIds.append(record[idFieldName] as! String)
+
+            // Process batch if max batch size reached or at the end of records
+            if (batchServerIds.count == SalesforceSDKCore.SFRestCollectionRetrieveMaxSize
+                || i == totalSize - 1) {
+                
+                let request = RestClient.shared.request(forCollectionRetrieve: objectType, objectIds: batchServerIds, fieldList: [modificationDateFieldName], apiVersion: nil)
+                
+                group.enter()
+                NetworkUtils.sendRequest(withMobileSyncUserAgent: request) { response, error, urlResponse in
+//                    errorBlock(error)
+                } successBlock: { response, urlResponse in
+                    if let recordsFromResponse = response as? [Any] {
+                        for j in 0...recordsFromResponse.count {
+                            let storeId = batchStoreIds[j]
+                            if let recordFromResponse = recordsFromResponse[j] as? Dictionary<AnyHashable, Any> {
+                                recordIdToLastModifiedDate[storeId] = SFRecordModDate(
+                                    timestamp: recordFromResponse[self.modificationDateFieldName] as? String,
+                                    isDeleted: false)
+                                
+                            } else {
+                                recordIdToLastModifiedDate[storeId] = SFRecordModDate(timestamp: nil, isDeleted: true)
+                            }
+                        }
+                        group.leave()
+                    } else {
+//                        errorBlock(nil)
+                    }
+                }
+            }
+                
+            group.notify(queue: DispatchQueue.global()) {
+                completeBlock(recordIdToLastModifiedDate)
+            }
+        }
     }
 }

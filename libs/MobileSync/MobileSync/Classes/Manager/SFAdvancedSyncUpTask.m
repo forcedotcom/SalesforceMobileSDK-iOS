@@ -88,8 +88,8 @@
     NSMutableDictionary* record = [records[i] mutableCopy];
     [SFSDKMobileSyncLogger d:[self class] format:@"syncUpMultipleEntries:%@", record];
     
-    NSNumber* recordId = record[SOUP_ENTRY_ID];
-    BOOL shouldSyncUp =  [((NSNumber*) recordIdToShouldSyncUp[recordId]) boolValue];
+    NSNumber* storeId = record[SOUP_ENTRY_ID];
+    BOOL shouldSyncUp =  [((NSNumber*) recordIdToShouldSyncUp[storeId]) boolValue];
     if (shouldSyncUp) {
         [batch addObject:record];
     }

@@ -61,6 +61,11 @@ extern NSInteger const kSFRestSOQLDefaultBatchSize NS_SWIFT_NAME(SFRestSOQLDefau
 extern NSString* const kSFRestQueryOptions NS_SWIFT_NAME(SFRestQueryOptions);
 
 /**
+ Other constants
+ */
+extern NSInteger const kSFRestCollectionRetrieveMaxSize NS_SWIFT_NAME(SFRestCollectionRetrieveMaxSize);
+
+/**
  * Main class used to issue REST requests to the standard Force.com REST API.
  * See the [Force.com REST API Developer's Guide](http://www.salesforce.com/us/developer/docs/api_rest/index.htm)
  * for more information regarding the Force.com REST API.
