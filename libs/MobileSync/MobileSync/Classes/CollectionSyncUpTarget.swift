@@ -29,7 +29,7 @@ import Foundation
 import SalesforceSDKCore
 
 public typealias SyncUpRecordsNewerThanServerBlock = (Dictionary<AnyHashable,Any>) -> ()
-typealias FetchLastModDatesBlock = (Dictionary<NSNumber, SFRecordModDate>) -> ()
+typealias FetchLastModDatesBlock = (Dictionary<NSNumber, SFRecordModDate?>) -> ()
 
 //
 // Subclass of SyncUpTarget that batches create/update/delete operations by using sobject collection apis
@@ -92,8 +92,8 @@ public class CollectionSyncUpTarget: BatchSyncUpTarget {
                 let localModDate = SFRecordModDate(
                     timestamp: record[self.modificationDateFieldName] as? String,
                     isDeleted: self.isLocallyDeleted(record))
-                let remoteModDate = recordIdToLastModifiedDate[storeId]
-                // storeIdToNewerThanServer[storeId] = isNewerThanServer(localModDate, remoteModDate)
+                let remoteModDate = recordIdToLastModifiedDate[storeId] as? SFRecordModDate
+                storeIdToNewerThanServer[storeId] = self.isNewerThanServer(localModDate, remoteModDate: remoteModDate)
             }
 
             resultBlock(storeIdToNewerThanServer)
@@ -108,7 +108,7 @@ public class CollectionSyncUpTarget: BatchSyncUpTarget {
                                 records:Array<Dictionary<AnyHashable,Any>>,
                                 completeBlock: @escaping FetchLastModDatesBlock) {
 
-        var recordIdToLastModifiedDate = Dictionary<NSNumber, SFRecordModDate>()
+        var recordIdToLastModifiedDate = Dictionary<NSNumber, SFRecordModDate?>()
 
         let totalSize = records.count
         
@@ -127,7 +127,7 @@ public class CollectionSyncUpTarget: BatchSyncUpTarget {
 
         let group = DispatchGroup()
         
-        for i in 0...totalSize {
+        for i in 0...totalSize-1 {
             let record = records[i]
             if (getRecordType(record) != objectType) {
 //            throw MobileSyncException("All records should have same sobject type")
@@ -147,7 +147,7 @@ public class CollectionSyncUpTarget: BatchSyncUpTarget {
 //                    errorBlock(error)
                 } successBlock: { response, urlResponse in
                     if let recordsFromResponse = response as? [Any] {
-                        for j in 0...recordsFromResponse.count {
+                        for j in 0...recordsFromResponse.count-1 {
                             let storeId = batchStoreIds[j]
                             if let recordFromResponse = recordsFromResponse[j] as? Dictionary<AnyHashable, Any> {
                                 recordIdToLastModifiedDate[storeId] = SFRecordModDate(

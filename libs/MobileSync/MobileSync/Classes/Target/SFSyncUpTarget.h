@@ -171,6 +171,14 @@ NS_SWIFT_NAME(SyncUpTarget)
 
 
 /**
+ Return true if local mod date is greater than remote mod date
+ NB: also return true if both were deleted or if local mod date is missing
+*/
+- (BOOL)isNewerThanServer:(nullable SFRecordModDate*)localModDate
+            remoteModDate:(nullable SFRecordModDate*)remoteModDate;
+
+
+/**
 Same as isNewerThanServer but operating over a list of records
 Return dictionary from record store id to boolean
  @param records The records
