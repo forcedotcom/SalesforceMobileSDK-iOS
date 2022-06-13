@@ -97,6 +97,7 @@ typedef void (^SFSyncUpTargetErrorBlock)(NSError *error) NS_SWIFT_NAME(SyncUpErr
 /**
  Helper class for isNewerThanServer
  */
+NS_SWIFT_NAME(RecordModDate)
 @interface SFRecordModDate : NSObject
 
 @property (nonatomic, strong) NSDate*  timestamp;   // time stamp - can be nil if unknown
