@@ -158,16 +158,17 @@ public class CollectionSyncUpTarget: BatchSyncUpTarget {
                                 recordIdToLastModifiedDate[storeId] = SFRecordModDate(timestamp: nil, isDeleted: true)
                             }
                         }
+                        print("--> leaving group")
                         group.leave()
                     } else {
 //                        errorBlock(nil)
                     }
                 }
             }
+        }
                 
-            group.notify(queue: DispatchQueue.global()) {
-                completeBlock(recordIdToLastModifiedDate)
-            }
+        group.notify(queue: DispatchQueue.global()) {
+            completeBlock(recordIdToLastModifiedDate)
         }
     }
 }
