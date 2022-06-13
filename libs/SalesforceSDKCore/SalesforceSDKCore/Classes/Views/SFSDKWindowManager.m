@@ -528,12 +528,15 @@ static NSString *const kSFScreenLockWindowKey = @"screenlock";
 }
 @end
 
-@implementation SFSDKUIWindow
+@implementation SFSDKUIWindow {
+    BOOL deallocating;
+}
 
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         _windowName = @"NONAME";
+        deallocating = NO;
     }
     return self;
 }
@@ -542,6 +545,7 @@ static NSString *const kSFScreenLockWindowKey = @"screenlock";
     self = [super initWithFrame:frame];
     if (self) {
         _windowName = windowName;
+        deallocating = NO;
     }
     return self;
 }
@@ -586,6 +590,11 @@ static NSString *const kSFScreenLockWindowKey = @"screenlock";
 }
 
 - (void)disableWindow {
+    if (deallocating) {
+        [SFSDKCoreLogger i:[self class] format:@"Skipping disableWindow for %@ window because it's deallocating", _windowName];
+        return;
+    }
+
     BOOL isActive = self.windowScene.activationState == UISceneActivationStateForegroundActive;
     // TODO: Remove isScreenLockWindow check when min iOS is 15.  
     if (([self isSnapshotWindow] || isActive) && ![self isScreenLockWindow]) {
@@ -595,6 +604,10 @@ static NSString *const kSFScreenLockWindowKey = @"screenlock";
         super.rootViewController = nil;
         [self stashRootViewController];
     }
+}
+
+- (void)dealloc {
+    deallocating = YES;
 }
 
 - (BOOL)isSnapshotWindow {
