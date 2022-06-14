@@ -312,11 +312,13 @@ class RecordRequest: NSObject {
                 let externalIdFieldNames = getExternalIdFieldName(recordRequests: recordRequests, requestType: .UPSERT)
                 
                 if (objectTypes.isEmpty || externalIdFieldNames.isEmpty) {
-                    // throw new SyncManager.MobileSyncException("Missing sobjectType or externalIdFieldName")
+                    MobileSyncLogger.default.e(CompositeRequestHelper.self, message:"Missing sobjectType or externalIdFieldName")
+                    return nil
                 }
                 
                 if (Set(objectTypes).count > 1) {
-                    // throw new SyncManager.MobileSyncException("All records must have same sobjectType");
+                    MobileSyncLogger.default.e(CompositeRequestHelper.self, message:"All records must have same sobjectType")
+                    return nil
                 }
                 
                 let objectType = objectTypes.first!

@@ -121,7 +121,8 @@ public class CollectionSyncUpTarget: BatchSyncUpTarget {
         var batchServerIds = [String]()
         
         guard let objectType = getRecordType(records[0]) else {
-//            throw MobileSyncException("Record does not have an sobject type")
+            MobileSyncLogger.default.e(CollectionSyncUpTarget.self, message:"Record does not have an sobject type")
+            completeBlock(recordIdToLastModifiedDate)
             return
         }
 
@@ -130,7 +131,9 @@ public class CollectionSyncUpTarget: BatchSyncUpTarget {
         for i in 0...totalSize-1 {
             let record = records[i]
             if (getRecordType(record) != objectType) {
-//            throw MobileSyncException("All records should have same sobject type")
+                MobileSyncLogger.default.e(CollectionSyncUpTarget.self, message:"All records should have same sobject type")
+                completeBlock(recordIdToLastModifiedDate)
+                return
             }
 
             batchStoreIds.append(record[SmartStore.soupEntryId] as! NSNumber)
@@ -144,7 +147,8 @@ public class CollectionSyncUpTarget: BatchSyncUpTarget {
                 
                 group.enter()
                 NetworkUtils.sendRequest(withMobileSyncUserAgent: request) { response, error, urlResponse in
-//                    errorBlock(error)
+                    MobileSyncLogger.default.e(CollectionSyncUpTarget.self, message:"Request returned error \(response)")
+                    group.leave()
                 } successBlock: { response, urlResponse in
                     if let recordsFromResponse = response as? [Any] {
                         for j in 0...recordsFromResponse.count-1 {
@@ -158,10 +162,8 @@ public class CollectionSyncUpTarget: BatchSyncUpTarget {
                                 recordIdToLastModifiedDate[storeId] = RecordModDate(timestamp: nil, isDeleted: true)
                             }
                         }
-                        group.leave()
-                    } else {
-//                        errorBlock(nil)
                     }
+                    group.leave()
                 }
             }
         }
