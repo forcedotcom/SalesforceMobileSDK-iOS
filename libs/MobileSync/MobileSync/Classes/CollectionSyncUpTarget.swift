@@ -146,8 +146,7 @@ public class CollectionSyncUpTarget: BatchSyncUpTarget {
                 let request = RestClient.shared.request(forCollectionRetrieve: objectType, objectIds: batchServerIds, fieldList: [modificationDateFieldName], apiVersion: nil)
                 
                 group.enter()
-                NetworkUtils.sendRequest(withMobileSyncUserAgent: request) { response, error, urlResponse in
-                    MobileSyncLogger.default.e(CollectionSyncUpTarget.self, message:"Request returned error \(response)")
+                NetworkUtils.sendRequest(withMobileSyncUserAgent: request) { response, error, urlResponse in                    
                     group.leave()
                 } successBlock: { response, urlResponse in
                     if let recordsFromResponse = response as? [Any] {
