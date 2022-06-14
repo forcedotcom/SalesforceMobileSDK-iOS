@@ -49,6 +49,7 @@
 #import "SFSDKOAuth2+Internal.h"
 #import "SFSDKOAuthConstants.h"
 #import "SFSDKAuthSession.h"
+#import "SFSDKAuthRequest.h"
 
 // Custom constants
 static NSString * const kSFAppStoreLink   = @"itunes.apple.com";
