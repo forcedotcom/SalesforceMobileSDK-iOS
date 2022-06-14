@@ -2732,6 +2732,40 @@ static NSException *authException = nil;
     }
 }
 
+
+- (void) testSOQLWithNewLine {
+    // Creates a contact.
+    NSString *lastName = [NSString stringWithFormat:@"Silver-%@", [NSDate date]];
+    NSDictionary *fields = @{FIRST_NAME: @"LongJohn", LAST_NAME: lastName};
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForCreateWithObjectType:CONTACT fields:fields apiVersion:kSFRestDefaultAPIVersion];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+
+    // Ensures we get an ID back.
+    NSString *contactId = ((NSDictionary *)listener.dataResponse)[LID];
+    XCTAssertNotNil(contactId, @"id not present");
+    [SFLogger log:[self class] level:SFLogLevelDebug format:@"## contact created with id: %@", contactId];
+
+    // Creates a SOQL query with new lines
+    NSMutableString *queryString = [[NSMutableString alloc] init];
+    [queryString appendString:[NSString stringWithFormat:@"SELECT Id,\n FirstName,\n LastName\n FROM Contact \nWHERE Id = '%@'", contactId]];
+
+    // Runs the query.
+    @try {
+        request = [[SFRestAPI sharedInstance] requestForQuery:queryString apiVersion:kSFRestDefaultAPIVersion];
+        listener = [self sendSyncRequest:request];
+        XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+        NSArray *records = ((NSDictionary *)listener.dataResponse)[RECORDS];
+        XCTAssertEqual((int)[records count], 1, @"expected 1 record");
+    }
+    @finally {
+        // Deletes the contact we created.
+        request = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:CONTACT objectId:contactId apiVersion:kSFRestDefaultAPIVersion];
+        listener = [self sendSyncRequest:request];
+        XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    }    
+}
+
 // Tests that stock Mobile SDK user agent is set on the request.
 - (void)testRequestUserAgent {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForSearchResultLayout:ACCOUNT apiVersion:kSFRestDefaultAPIVersion];
