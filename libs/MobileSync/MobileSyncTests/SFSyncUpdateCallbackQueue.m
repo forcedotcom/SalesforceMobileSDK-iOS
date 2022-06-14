@@ -24,7 +24,7 @@
 
 #import "SFSyncUpdateCallbackQueue.h"
 
-#define MAX_WAIT_TIME 5.0
+#define MAX_WAIT_TIME 10.0
 
 @interface SFMobileSyncSyncManager()
 - (void) runSync:(SFSyncState*) sync updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
