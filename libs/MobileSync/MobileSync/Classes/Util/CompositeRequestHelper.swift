@@ -28,14 +28,14 @@
 import Foundation
 import SalesforceSDKCore
 
-typealias OnSendCompleteCallback =  ([String: RecordResponse]) -> ()
-typealias OnFailCallback = (Error) -> ()
+public typealias OnSendCompleteCallback =  ([String: RecordResponse]) -> ()
+public typealias OnFailCallback = (Error) -> ()
 
 @objc(SFCompositeRequestHelper)
-class CompositeRequestHelper:NSObject {
+public class CompositeRequestHelper:NSObject {
     // Send record requests using a composite batch request
     @objc
-    static func sendAsCompositeBatchRequest(_ syncManager: SyncManager, allOrNone: Bool, recordRequests: [RecordRequest], onComplete: @escaping OnSendCompleteCallback, onFail: @escaping OnFailCallback) {
+    public static func sendAsCompositeBatchRequest(_ syncManager: SyncManager, allOrNone: Bool, recordRequests: [RecordRequest], onComplete: @escaping OnSendCompleteCallback, onFail: @escaping OnFailCallback) {
         
         let request = RestClient.shared.compositeRequest(recordRequests.map { $0.asRestRequest()! },
                                                          refIds: recordRequests.map { $0.referenceId! },
@@ -58,7 +58,7 @@ class CompositeRequestHelper:NSObject {
         
     // Send record requests using sobject collection requests
     @objc
-    static func sendAsCollectionRequests(_ syncManager: SyncManager, allOrNone: Bool, recordRequests: [RecordRequest], onComplete: @escaping OnSendCompleteCallback, onFail: @escaping OnFailCallback)  {
+    public static func sendAsCollectionRequests(_ syncManager: SyncManager, allOrNone: Bool, recordRequests: [RecordRequest], onComplete: @escaping OnSendCompleteCallback, onFail: @escaping OnFailCallback)  {
         
 
         let group = DispatchGroup()
@@ -90,7 +90,7 @@ class CompositeRequestHelper:NSObject {
     
     // Return ref id to server id map if successful
     @objc
-    static func parseIdsFromResponses(_ refIdToRecordResponse:Dictionary<String, RecordResponse>) -> [String: String] {
+    public static func parseIdsFromResponses(_ refIdToRecordResponse:Dictionary<String, RecordResponse>) -> [String: String] {
         return refIdToRecordResponse
             .filter { _, response in response.objectId != nil }
             .mapValues { $0.objectId! }
@@ -98,7 +98,7 @@ class CompositeRequestHelper:NSObject {
     
     // Update id field with server id
     @objc
-    static func updateReferences(_ record: [String:Any], fieldWithRefId:String, refIdToServerId:[String: String]) -> [String:Any] {
+    public static func updateReferences(_ record: [String:Any], fieldWithRefId:String, refIdToServerId:[String: String]) -> [String:Any] {
         var updatedRecord = record // copy
         
         if let refId = record[fieldWithRefId] as? String, let serverId = refIdToServerId[refId] {
@@ -113,12 +113,12 @@ class CompositeRequestHelper:NSObject {
 // Response object abstracting away differences between /composite/batch and /commposite/sobject sub-responses
 //
 @objc(SFSDKRecordResponse)
-class RecordResponse: NSObject {
-    @objc let success: Bool
+public class RecordResponse: NSObject {
+    @objc public let success: Bool
     @objc let objectId: String?
-    @objc let recordDoesNotExist: Bool
-    @objc let relatedRecordDoesNotExist: Bool
-    @objc let errorJson: [String:Any]?
+    @objc public let recordDoesNotExist: Bool
+    @objc public let relatedRecordDoesNotExist: Bool
+    @objc public let errorJson: [String:Any]?
     @objc let json: Any
     
     private init(success:Bool, objectId:String?, recordDoesNotExist:Bool, relatedRecordDoesNotExist:Bool, errorJson: [String:Any]?, json:Any) {
@@ -188,8 +188,8 @@ enum RequestType: Int, CaseIterable {
 // Request object abstracting away differences between /composite/batch and /commposite/sobject sub-requests
 //
 @objc(SFSDKRecordRequest)
-class RecordRequest: NSObject {
-    @objc var referenceId: String?
+public class RecordRequest: NSObject {
+    @objc public var referenceId: String?
     @objc let requestType: RequestType
     @objc let objectType: String
     @objc let fields: [String:Any]?
@@ -246,22 +246,22 @@ class RecordRequest: NSObject {
     }
     
     @objc
-    static func requestForCreate(objectType:String, fields:[String:Any]) -> RecordRequest {
+    public static func requestForCreate(objectType:String, fields:[String:Any]) -> RecordRequest {
         return RecordRequest(requestType:.CREATE, objectType: objectType, fields: fields, objectId: nil, externalId: nil, externalIdFieldName: nil)
     }
 
     @objc
-    static func requestForUpdate(objectType:String, objectId:String, fields:[String:Any]) -> RecordRequest {
+    public static func requestForUpdate(objectType:String, objectId:String, fields:[String:Any]) -> RecordRequest {
         return RecordRequest(requestType:.UPDATE, objectType: objectType, fields: fields, objectId: objectId, externalId: nil, externalIdFieldName: nil)
     }
 
     @objc
-    static func requestForUpsert(objectType:String, externalIdFieldName:String, externalId:String, fields:[String:Any]) -> RecordRequest {
+    public static func requestForUpsert(objectType:String, externalIdFieldName:String, externalId:String, fields:[String:Any]) -> RecordRequest {
         return RecordRequest(requestType:.UPSERT, objectType: objectType, fields: fields, objectId: nil, externalId: externalId, externalIdFieldName: externalIdFieldName)
     }
 
     @objc
-    static func requestForDelete(objectType:String, objectId: String) -> RecordRequest {
+    public static func requestForDelete(objectType:String, objectId: String) -> RecordRequest {
         return RecordRequest(requestType:.DELETE, objectType: objectType, fields: nil, objectId: objectId, externalId: nil, externalIdFieldName: nil)
     }
     
