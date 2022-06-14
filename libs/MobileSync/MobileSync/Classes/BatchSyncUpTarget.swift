@@ -39,7 +39,7 @@ extension BatchSyncUpTarget {
 
     @objc
     func sendRecordRequests(_ syncManager:SyncManager,
-                            recordRequests: Array<CompositeRequestHelper.RecordRequest>,
+                            recordRequests: [RecordRequest],
                             onComplete: @escaping OnSendCompleteCallback,
                             onFail: @escaping OnFailCallback) {
         

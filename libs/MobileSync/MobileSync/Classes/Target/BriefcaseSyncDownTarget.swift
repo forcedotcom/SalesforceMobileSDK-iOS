@@ -65,7 +65,7 @@ public class BriefcaseSyncDownTarget: SyncDownTarget {
     private static let briefcaseFeatureMarker = "BC"
     private static let countIdsPerRetrieve = "countIdsPerRetrieve"
     private static let infos = "infos"
-    private static let maxCountIdsPerRetrieve = 2000
+    private static let maxCountIdsPerRetrieve = SalesforceSDKCore.SFRestCollectionRetrieveMaxSize
     
     @objc let countIdsPerRetrieve: Int
     @objc private(set) var infosMap: [String: BriefcaseObjectInfo] = [:]

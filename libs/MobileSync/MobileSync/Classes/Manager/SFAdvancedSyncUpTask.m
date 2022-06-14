@@ -24,6 +24,7 @@
 
 #import "SFAdvancedSyncUpTask.h"
 #import "SFAdvancedSyncUpTarget.h"
+#import <SmartStore/SFSmartStore.h>
 
 @implementation SFAdvancedSyncUpTask
 
@@ -32,72 +33,87 @@
 }
 
 - (void)syncUp:(SFSyncState*)sync recordIds:(NSArray*)recordIds {
-    [self syncUpMultipleEntries:sync recordIds:recordIds index:0 batch:[NSMutableArray new]];
-}
-
-- (void)syncUpMultipleEntries:(SFSyncState*)sync
-                    recordIds:(NSArray*)recordIds
-                        index:(NSUInteger)i
-                        batch:(NSMutableArray*)batch {
-
-    SFSyncStateMergeMode mergeMode = sync.mergeMode;
     SFSyncUpTarget *target = (SFSyncUpTarget *)sync.target;
     NSString* soupName = sync.soupName;
     sync.totalSize = recordIds.count;
+    
+    NSArray<NSDictionary*>* records = [target getFromLocalStore:self.syncManager
+                                                       soupName:soupName
+                                                       storeIds:recordIds];
+    
+    // Figuring out what records need to be synced up based on merge mode and last mod date on server
+    [self shouldSyncUpRecords:self.syncManager target:target records:records options:sync.options resultBlock:^(NSDictionary * _Nonnull recordIdToShouldSyncUp) {
+        [self syncUpMultipleEntries:sync
+                            records:records
+             recordIdToShouldSyncUp:recordIdToShouldSyncUp
+                              index:0
+                              batch:[NSMutableArray new]];
+    }];
+}
+
+- (void) shouldSyncUpRecords:(SFMobileSyncSyncManager *)syncManager
+                      target:(SFSyncUpTarget*)target
+                     records:(NSArray<NSDictionary*>*)records
+                     options:(SFSyncOptions*)options
+                 resultBlock:(SFSyncUpRecordsNewerThanServerBlock)resultBlock {
+        
+    if (options.mergeMode == SFSyncStateMergeModeOverwrite) {
+        NSMutableDictionary* result = [NSMutableDictionary new];
+        
+        for (NSDictionary* record in records) {
+            result[record[SOUP_ENTRY_ID]] = @YES;
+        }
+        
+        resultBlock(result);
+    } else {
+        [target areNewerThanServer:syncManager records:records resultBlock:resultBlock];
+    }
+}
+
+- (void)syncUpMultipleEntries:(SFSyncState*)sync
+                      records:(NSArray<NSDictionary*>*)records
+       recordIdToShouldSyncUp:(NSDictionary*)recordIdToShouldSyncUp
+                        index:(NSUInteger)i
+                        batch:(NSMutableArray*)batch {
+
+    SFSyncUpTarget *target = (SFSyncUpTarget *)sync.target;
+    NSUInteger maxBatchSize = ((SFSyncUpTarget<SFAdvancedSyncUpTarget>*) target).maxBatchSize;
+    sync.totalSize = records.count;
     [self updateSync:sync countSynched:i];
     
     if ([sync isDone] || [self shouldStop]) {
         return;
     }
 
-    NSMutableDictionary* record = [[target getFromLocalStore:self.syncManager soupName:soupName storeId:recordIds[i]] mutableCopy];
+    NSMutableDictionary* record = [records[i] mutableCopy];
     [SFSDKMobileSyncLogger d:[self class] format:@"syncUpMultipleEntries:%@", record];
     
-    if (mergeMode == SFSyncStateMergeModeLeaveIfChanged && ![target isLocallyCreated:record]) {
-        // Need to check the modification date on the server, against the local date.
-        __weak typeof(self) weakSelf = self;
-        [target isNewerThanServer:self.syncManager record:record resultBlock:^(BOOL isNewerThanServer) {
-            __strong typeof(weakSelf) strongSelf = weakSelf;
-            if (isNewerThanServer) {
-                [strongSelf addToSyncUpBatchAndProcessIfNeeded:sync recordIds:recordIds index:i record:record batch:batch];
-            }
-            else {
-                // Server date is newer than the local date.  Skip this update.
-                [SFSDKMobileSyncLogger d:[strongSelf class] format:@"syncUpMultipleEntries: Record not synced since client does not have the latest from server:%@", record];
-                // Calling addToSyncUpBatchAndProcessIfNeeded with nil for record - we don't want to add the current record to the batch
-                // but we do want the batch to be processed if needed
-                [strongSelf addToSyncUpBatchAndProcessIfNeeded:sync recordIds:recordIds index:i record:nil batch:batch];
-            }
-        }];
-    } else {
-        [self addToSyncUpBatchAndProcessIfNeeded:sync recordIds:recordIds index:i record:record batch:batch];
-    }
-}
-
-- (void)addToSyncUpBatchAndProcessIfNeeded:(SFSyncState*)sync
-                                 recordIds:(NSArray*)recordIds
-                                     index:(NSUInteger)i
-                                    record:(NSDictionary*)record
-                                     batch:(NSMutableArray*)batch {
-    
-    SFSyncUpTarget<SFAdvancedSyncUpTarget>* advancedTarget = (SFSyncUpTarget<SFAdvancedSyncUpTarget>*) sync.target;
-    NSUInteger maxBatchSize = advancedTarget.maxBatchSize;
-    
-    // Add record to batch unless nil
-    if (record) {
+    NSNumber* storeId = record[SOUP_ENTRY_ID];
+    BOOL shouldSyncUp =  [((NSNumber*) recordIdToShouldSyncUp[storeId]) boolValue];
+    if (shouldSyncUp) {
         [batch addObject:record];
     }
-    
+        
     // Process batch if max batch size reached or at the end of recordIds
-    if (batch.count == maxBatchSize || i == recordIds.count - 1) {
-        [self processSyncUpBatch:sync recordIds:recordIds index:i batch:batch];
+    if (batch.count == maxBatchSize || i == records.count - 1) {
+        
+        [self processSyncUpBatch:sync
+                         records:records
+          recordIdToShouldSyncUp:recordIdToShouldSyncUp
+                           index:i
+                           batch:batch];
     } else {
-        [self syncUpMultipleEntries:sync recordIds:recordIds index:i+1 batch:batch];
+        [self syncUpMultipleEntries:sync
+                            records:records
+             recordIdToShouldSyncUp:recordIdToShouldSyncUp
+                              index:i+1
+                              batch:batch];
     }
 }
 
 - (void)processSyncUpBatch:(SFSyncState*)sync
-                 recordIds:(NSArray*)recordIds
+                   records:(NSArray<NSDictionary*>*)records
+    recordIdToShouldSyncUp:(NSDictionary*)recordIdToShouldSyncUp
                      index:(NSUInteger)i
                      batch:(NSMutableArray*)batch {
     
@@ -108,7 +124,11 @@
     __weak typeof(self) weakSelf = self;
     void (^nextBlock)(NSDictionary *)=^(NSDictionary *syncUpResult) {
         [batch removeAllObjects];
-        [weakSelf syncUpMultipleEntries:sync recordIds:recordIds index:i+1 batch:batch];
+        [weakSelf syncUpMultipleEntries:sync
+                                records:records
+                 recordIdToShouldSyncUp:recordIdToShouldSyncUp
+                                  index:i+1
+                                  batch:batch];
     };
     
     SFSyncUpTargetErrorBlock failBlock = ^(NSError * err) {
