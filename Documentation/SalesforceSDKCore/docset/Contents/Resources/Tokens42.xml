@@ -17,7 +17,7 @@ for more information regarding the Force.com REST API.</Abstract>
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/setApiVersion:</TokenIdentifier>
 			<Abstract type="html">The REST API version used for all the calls.
-The default value is kSFRestDefaultAPIVersion (currently &quot;v49.0&quot;)</Abstract>
+The default value is kSFRestDefaultAPIVersion (currently &quot;v55.0&quot;)</Abstract>
 			<DeclaredIn>SFRestAPI.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, strong) NSString *apiVersion</Declaration>
@@ -30,7 +30,7 @@ The default value is kSFRestDefaultAPIVersion (currently &quot;v49.0&quot;)</Abs
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/apiVersion</TokenIdentifier>
 			<Abstract type="html">The REST API version used for all the calls.
-The default value is kSFRestDefaultAPIVersion (currently &quot;v49.0&quot;)</Abstract>
+The default value is kSFRestDefaultAPIVersion (currently &quot;v55.0&quot;)</Abstract>
 			<DeclaredIn>SFRestAPI.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, strong) NSString *apiVersion</Declaration>
@@ -43,7 +43,7 @@ The default value is kSFRestDefaultAPIVersion (currently &quot;v49.0&quot;)</Abs
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFRestAPI/apiVersion</TokenIdentifier>
 			<Abstract type="html">The REST API version used for all the calls.
-The default value is kSFRestDefaultAPIVersion (currently &quot;v49.0&quot;)</Abstract>
+The default value is kSFRestDefaultAPIVersion (currently &quot;v55.0&quot;)</Abstract>
 			<DeclaredIn>SFRestAPI.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, strong) NSString *apiVersion</Declaration>
@@ -676,6 +676,153 @@ to return values. Example: &quot;Account,Contact&quot;.</Abstract>
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForPrimingRecords:changedAfterTimestamp:apiVersion:</TokenIdentifier>
+			<Abstract type="html">Returns an SFRestRequest object for getting list of record related to offline briefcase</Abstract>
+			<DeclaredIn>SFRestAPI.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForPrimingRecords:(nullable NSString *)relayToken changedAfterTimestamp:(nullable NSNumber *)timestamp apiVersion:(nullable NSString *)apiVersion</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>relayToken</Name>
+					<Abstract type="html">Relay token (to get next page of results)</Abstract>
+				</Parameter><Parameter>
+					<Name>timestamp</Name>
+					<Abstract type="html">To only get ids of records that changed after given time - or nil</Abstract>
+				</Parameter><Parameter>
+					<Name>apiVersion</Name>
+					<Abstract type="html">Salesforce API version.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/requestForPrimingRecords:changedAfterTimestamp:apiVersion:</Anchor>
+            <NodeRef refid="42"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForCollectionCreate:records:apiVersion:</TokenIdentifier>
+			<Abstract type="html">Returns an SFRestRequest object for creating multiple records with fewer round trips</Abstract>
+			<DeclaredIn>SFRestAPI.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForCollectionCreate:(BOOL)allOrNone records:(NSArray&lt;NSDictionary*&gt; *)records apiVersion:(nullable NSString *)apiVersion</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>allOrNone</Name>
+					<Abstract type="html">Indicates whether to roll back the entire request when the creation of any object fails (true) or to continue with the independent creation of other objects in the request.</Abstract>
+				</Parameter><Parameter>
+					<Name>records</Name>
+					<Abstract type="html">Array of sObjects.</Abstract>
+				</Parameter><Parameter>
+					<Name>apiVersion</Name>
+					<Abstract type="html">Salesforce API version.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/requestForCollectionCreate:records:apiVersion:</Anchor>
+            <NodeRef refid="42"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForCollectionRetrieve:objectIds:fieldList:apiVersion:</TokenIdentifier>
+			<Abstract type="html">Returns an SFRestRequest object for retrieving multiple records with fewer round trips</Abstract>
+			<DeclaredIn>SFRestAPI.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForCollectionRetrieve:(NSString *)objectType objectIds:(NSArray&lt;NSString*&gt; *)objectIds fieldList:(NSArray&lt;NSString*&gt; *)fieldList apiVersion:(nullable NSString *)apiVersion</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>objectType</Name>
+					<Abstract type="html">Type of the requested record.</Abstract>
+				</Parameter><Parameter>
+					<Name>objectIds</Name>
+					<Abstract type="html">Array of Salesforce IDs of the requested records.</Abstract>
+				</Parameter><Parameter>
+					<Name>fieldList</Name>
+					<Abstract type="html">Array of requested field names.</Abstract>
+				</Parameter><Parameter>
+					<Name>apiVersion</Name>
+					<Abstract type="html">Salesforce API version.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/requestForCollectionRetrieve:objectIds:fieldList:apiVersion:</Anchor>
+            <NodeRef refid="42"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForCollectionUpdate:records:apiVersion:</TokenIdentifier>
+			<Abstract type="html">Returns an SFRestRequest object for updating multiple records with fewer round trips</Abstract>
+			<DeclaredIn>SFRestAPI.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForCollectionUpdate:(BOOL)allOrNone records:(NSArray&lt;NSDictionary*&gt; *)records apiVersion:(nullable NSString *)apiVersion</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>allOrNone</Name>
+					<Abstract type="html">Indicates whether to roll back the entire request when the update of any object fails (true) or to continue with the independent update of other objects in the request.</Abstract>
+				</Parameter><Parameter>
+					<Name>records</Name>
+					<Abstract type="html">Array of sObjects.</Abstract>
+				</Parameter><Parameter>
+					<Name>apiVersion</Name>
+					<Abstract type="html">Salesforce API version.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/requestForCollectionUpdate:records:apiVersion:</Anchor>
+            <NodeRef refid="42"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForCollectionUpsert:objectType:externalIdField:records:apiVersion:</TokenIdentifier>
+			<Abstract type="html">Returns an SFRestRequest object for upserting multiple records with fewer round trips</Abstract>
+			<DeclaredIn>SFRestAPI.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForCollectionUpsert:(BOOL)allOrNone objectType:(NSString *)objectType externalIdField:(NSString *)externalIdField records:(NSArray&lt;NSDictionary*&gt; *)records apiVersion:(nullable NSString *)apiVersion</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>allOrNone</Name>
+					<Abstract type="html">Indicates whether to roll back the entire request when the upsert of any object fails (true) or to continue with the independent upsert of other objects in the request.</Abstract>
+				</Parameter><Parameter>
+					<Name>objectType</Name>
+					<Abstract type="html">Type of the requested record.</Abstract>
+				</Parameter><Parameter>
+					<Name>externalIdField</Name>
+					<Abstract type="html">Name of ID field in source data.</Abstract>
+				</Parameter><Parameter>
+					<Name>records</Name>
+					<Abstract type="html">Array of sObjects.</Abstract>
+				</Parameter><Parameter>
+					<Name>apiVersion</Name>
+					<Abstract type="html">Salesforce API version.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/requestForCollectionUpsert:objectType:externalIdField:records:apiVersion:</Anchor>
+            <NodeRef refid="42"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForCollectionDelete:objectIds:apiVersion:</TokenIdentifier>
+			<Abstract type="html">Returns an SFRestRequest object for deleting multiple records with fewer round trips</Abstract>
+			<DeclaredIn>SFRestAPI.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForCollectionDelete:(BOOL)allOrNone objectIds:(NSArray&lt;NSString*&gt; *)objectIds apiVersion:(nullable NSString *)apiVersion</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>allOrNone</Name>
+					<Abstract type="html">Indicates whether to roll back the entire request when the delete of any object fails (true) or to continue with the independent delete of other objects in the request.</Abstract>
+				</Parameter><Parameter>
+					<Name>objectIds</Name>
+					<Abstract type="html">List of Salesforce IDs of the records to delete.</Abstract>
+				</Parameter><Parameter>
+					<Name>apiVersion</Name>
+					<Abstract type="html">Salesforce API version.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/requestForCollectionDelete:objectIds:apiVersion:</Anchor>
+            <NodeRef refid="42"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/isStatusCodeSuccess:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFRestAPI.h</DeclaredIn>
@@ -725,6 +872,204 @@ to return values. Example: &quot;Account,Contact&quot;.</Abstract>
 			</Parameters>
 			
 			<Anchor>//api/name/userAgentString:</Anchor>
+            <NodeRef refid="42"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForNotificationsStatus:</TokenIdentifier>
+			<Abstract type="html">Returns a request to fetch the status of notifications, including unread and unseen count.</Abstract>
+			<DeclaredIn>SFRestAPI+Notifications.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForNotificationsStatus:(NSString *)apiVersion</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>apiVersion</Name>
+					<Abstract type="html">API version.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/requestForNotificationsStatus:</Anchor>
+            <NodeRef refid="42"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForNotification:apiVersion:</TokenIdentifier>
+			<Abstract type="html">Returns a request to fetch the given notification.</Abstract>
+			<DeclaredIn>SFRestAPI+Notifications.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForNotification:(NSString *)notificationId apiVersion:(NSString *)apiVersion</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>notificationId</Name>
+					<Abstract type="html">ID of notification to fetch.</Abstract>
+				</Parameter><Parameter>
+					<Name>apiVersion</Name>
+					<Abstract type="html">API version.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/requestForNotification:apiVersion:</Anchor>
+            <NodeRef refid="42"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/setActiveRequests:</TokenIdentifier>
+			<Abstract type="html">Active requests property.</Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKSafeMutableSet *activeRequests</Declaration>
+			
+			
+			<Anchor>//api/name/activeRequests</Anchor>
+            <NodeRef refid="42"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/activeRequests</TokenIdentifier>
+			<Abstract type="html">Active requests property.</Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKSafeMutableSet *activeRequests</Declaration>
+			
+			
+			<Anchor>//api/name/activeRequests</Anchor>
+            <NodeRef refid="42"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRestAPI/activeRequests</TokenIdentifier>
+			<Abstract type="html">Active requests property.</Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKSafeMutableSet *activeRequests</Declaration>
+			
+			
+			<Anchor>//api/name/activeRequests</Anchor>
+            <NodeRef refid="42"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/setRequiresAuthentication:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL requiresAuthentication</Declaration>
+			
+			
+			<Anchor>//api/name/requiresAuthentication</Anchor>
+            <NodeRef refid="42"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requiresAuthentication</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL requiresAuthentication</Declaration>
+			
+			
+			<Anchor>//api/name/requiresAuthentication</Anchor>
+            <NodeRef refid="42"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRestAPI/requiresAuthentication</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL requiresAuthentication</Declaration>
+			
+			
+			<Anchor>//api/name/requiresAuthentication</Anchor>
+            <NodeRef refid="42"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/setInstrumentationDelegateInternal:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, strong) id&lt;SFRestRequestDelegate&gt; instrumentationDelegateInternal</Declaration>
+			
+			
+			<Anchor>//api/name/instrumentationDelegateInternal</Anchor>
+            <NodeRef refid="42"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/instrumentationDelegateInternal</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, strong) id&lt;SFRestRequestDelegate&gt; instrumentationDelegateInternal</Declaration>
+			
+			
+			<Anchor>//api/name/instrumentationDelegateInternal</Anchor>
+            <NodeRef refid="42"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRestAPI/instrumentationDelegateInternal</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, strong) id&lt;SFRestRequestDelegate&gt; instrumentationDelegateInternal</Declaration>
+			
+			
+			<Anchor>//api/name/instrumentationDelegateInternal</Anchor>
+            <NodeRef refid="42"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/removeActiveRequestObject:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)removeActiveRequestObject:(nonnull SFRestRequest *)request</Declaration>
+			
+			
+			<Anchor>//api/name/removeActiveRequestObject:</Anchor>
+            <NodeRef refid="42"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/forceTimeoutRequest:</TokenIdentifier>
+			<Abstract type="html">Force a request to timeout: for testing only!</Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)forceTimeoutRequest:(nonnull SFRestRequest *)req</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>req</Name>
+					<Abstract type="html">The request to force a timeout on, or nil to grab any active request and force it to timeout</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if we were able to find and timeout the request, NO if the request could not be found</Abstract></ReturnValue>
+			<Anchor>//api/name/forceTimeoutRequest:</Anchor>
+            <NodeRef refid="42"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/computeAPIVersion:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>- (nonnull NSString *)computeAPIVersion:(nullable NSString *)apiVersion</Declaration>
+			
+			
+			<Anchor>//api/name/computeAPIVersion:</Anchor>
+            <NodeRef refid="42"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/removeSharedInstanceWithUser:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (void)removeSharedInstanceWithUser:(nonnull SFUserAccount *)user</Declaration>
+			
+			
+			<Anchor>//api/name/removeSharedInstanceWithUser:</Anchor>
             <NodeRef refid="42"/>
 		</Token>
 		
@@ -853,43 +1198,6 @@ or NSNull to not specify any fields/clauses for that object</Abstract>
 			</Parameters>
 			<ReturnValue><Abstract type="html">query or nil if a query could not be generated</Abstract></ReturnValue>
 			<Anchor>//api/name/SOQLQueryWithFields:sObject:whereClause:groupBy:having:orderBy:limit:</Anchor>
-            <NodeRef refid="42"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForNotificationsStatus:</TokenIdentifier>
-			<Abstract type="html">Returns a request to fetch the status of notifications, including unread and unseen count.</Abstract>
-			<DeclaredIn>SFRestAPI+Notifications.h</DeclaredIn>
-			
-			<Declaration>- (SFRestRequest *)requestForNotificationsStatus:(NSString *)apiVersion</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>apiVersion</Name>
-					<Abstract type="html">API version.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/requestForNotificationsStatus:</Anchor>
-            <NodeRef refid="42"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForNotification:apiVersion:</TokenIdentifier>
-			<Abstract type="html">Returns a request to fetch the given notification.</Abstract>
-			<DeclaredIn>SFRestAPI+Notifications.h</DeclaredIn>
-			
-			<Declaration>- (SFRestRequest *)requestForNotification:(NSString *)notificationId apiVersion:(NSString *)apiVersion</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>notificationId</Name>
-					<Abstract type="html">ID of notification to fetch.</Abstract>
-				</Parameter><Parameter>
-					<Name>apiVersion</Name>
-					<Abstract type="html">API version.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/requestForNotification:apiVersion:</Anchor>
             <NodeRef refid="42"/>
 		</Token>
 		
@@ -1277,167 +1585,6 @@ create a new file at version 1.</Abstract>
 			</Parameters>
 			
 			<Anchor>//api/name/sendBatchRequest:failureBlock:successBlock:</Anchor>
-            <NodeRef refid="42"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/setActiveRequests:</TokenIdentifier>
-			<Abstract type="html">Active requests property.</Abstract>
-			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKSafeMutableSet *activeRequests</Declaration>
-			
-			
-			<Anchor>//api/name/activeRequests</Anchor>
-            <NodeRef refid="42"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/activeRequests</TokenIdentifier>
-			<Abstract type="html">Active requests property.</Abstract>
-			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKSafeMutableSet *activeRequests</Declaration>
-			
-			
-			<Anchor>//api/name/activeRequests</Anchor>
-            <NodeRef refid="42"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFRestAPI/activeRequests</TokenIdentifier>
-			<Abstract type="html">Active requests property.</Abstract>
-			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKSafeMutableSet *activeRequests</Declaration>
-			
-			
-			<Anchor>//api/name/activeRequests</Anchor>
-            <NodeRef refid="42"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/setRequiresAuthentication:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL requiresAuthentication</Declaration>
-			
-			
-			<Anchor>//api/name/requiresAuthentication</Anchor>
-            <NodeRef refid="42"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requiresAuthentication</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL requiresAuthentication</Declaration>
-			
-			
-			<Anchor>//api/name/requiresAuthentication</Anchor>
-            <NodeRef refid="42"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFRestAPI/requiresAuthentication</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL requiresAuthentication</Declaration>
-			
-			
-			<Anchor>//api/name/requiresAuthentication</Anchor>
-            <NodeRef refid="42"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/setInstrumentationDelegateInternal:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, nonatomic, strong) id&lt;SFRestRequestDelegate&gt; instrumentationDelegateInternal</Declaration>
-			
-			
-			<Anchor>//api/name/instrumentationDelegateInternal</Anchor>
-            <NodeRef refid="42"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/instrumentationDelegateInternal</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, nonatomic, strong) id&lt;SFRestRequestDelegate&gt; instrumentationDelegateInternal</Declaration>
-			
-			
-			<Anchor>//api/name/instrumentationDelegateInternal</Anchor>
-            <NodeRef refid="42"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFRestAPI/instrumentationDelegateInternal</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, nonatomic, strong) id&lt;SFRestRequestDelegate&gt; instrumentationDelegateInternal</Declaration>
-			
-			
-			<Anchor>//api/name/instrumentationDelegateInternal</Anchor>
-            <NodeRef refid="42"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/removeActiveRequestObject:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)removeActiveRequestObject:(nonnull SFRestRequest *)request</Declaration>
-			
-			
-			<Anchor>//api/name/removeActiveRequestObject:</Anchor>
-            <NodeRef refid="42"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/forceTimeoutRequest:</TokenIdentifier>
-			<Abstract type="html">Force a request to timeout: for testing only!</Abstract>
-			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)forceTimeoutRequest:(nonnull SFRestRequest *)req</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>req</Name>
-					<Abstract type="html">The request to force a timeout on, or nil to grab any active request and force it to timeout</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if we were able to find and timeout the request, NO if the request could not be found</Abstract></ReturnValue>
-			<Anchor>//api/name/forceTimeoutRequest:</Anchor>
-            <NodeRef refid="42"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/computeAPIVersion:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
-			
-			<Declaration>- (nonnull NSString *)computeAPIVersion:(nullable NSString *)apiVersion</Declaration>
-			
-			
-			<Anchor>//api/name/computeAPIVersion:</Anchor>
-            <NodeRef refid="42"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/removeSharedInstanceWithUser:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
-			
-			<Declaration>+ (void)removeSharedInstanceWithUser:(nonnull SFUserAccount *)user</Declaration>
-			
-			
-			<Anchor>//api/name/removeSharedInstanceWithUser:</Anchor>
             <NodeRef refid="42"/>
 		</Token>
 		

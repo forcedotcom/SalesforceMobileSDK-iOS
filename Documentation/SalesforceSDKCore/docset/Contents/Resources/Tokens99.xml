@@ -1,16 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKNullURLCache.html">
+	<File path="Classes/SFSDKMacDetectUtil.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKNullURLCache</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKMacDetectUtil</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKNullURLCache.h</DeclaredIn>
+			<DeclaredIn>SFSDKMacDetectUtil.h</DeclaredIn>
             
 			
 			<NodeRef refid="99"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKMacDetectUtil/isOnMac</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKMacDetectUtil.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)isOnMac</Declaration>
+			
+			
+			<Anchor>//api/name/isOnMac</Anchor>
+            <NodeRef refid="99"/>
+		</Token>
 		
         
         

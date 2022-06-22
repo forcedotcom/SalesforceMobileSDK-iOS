@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFCompositeRequestHelper.html">
+	<File path="Classes/SFCleanSyncGhostsTask.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFCompositeRequestHelper</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFCompositeRequestHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFCleanSyncGhostsTask</TokenIdentifier>
+			<Abstract type="html">This task class is responsible for running &quot;clean resync ghosts&quot; tasks.</Abstract>
+			<DeclaredIn>SFCleanSyncGhostsTask.h</DeclaredIn>
             
 			
 			<NodeRef refid="7"/>
@@ -13,38 +13,14 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFCompositeRequestHelper/sendCompositeRequest:allOrNone:refIds:requests:completionBlock:failBlock:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCleanSyncGhostsTask/init:sync:completionStatusBlock:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFCompositeRequestHelper.h</DeclaredIn>
+			<DeclaredIn>SFCleanSyncGhostsTask.h</DeclaredIn>
 			
-			<Declaration>+ (void)sendCompositeRequest:(SFMobileSyncSyncManager *)syncManager allOrNone:(BOOL)allOrNone refIds:(NSArray&lt;NSString*&gt; *)refIds requests:(NSArray&lt;SFRestRequest*&gt; *)requests completionBlock:(SFSendCompositeRequestCompleteBlock)completionBlock failBlock:(SFSyncUpTargetErrorBlock)failBlock</Declaration>
-			
-			
-			<Anchor>//api/name/sendCompositeRequest:allOrNone:refIds:requests:completionBlock:failBlock:</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFCompositeRequestHelper/parseIdsFromResponses:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFCompositeRequestHelper.h</DeclaredIn>
-			
-			<Declaration>+ (NSDictionary&lt;NSString*,NSString*&gt; *)parseIdsFromResponses:(NSArray&lt;SFSDKCompositeResponse*&gt; *)responses</Declaration>
+			<Declaration>- (instancetype)init:(SFMobileSyncSyncManager *)syncManager sync:(SFSyncState *)sync completionStatusBlock:(SFSyncSyncManagerCompletionStatusBlock)completionStatusBlock</Declaration>
 			
 			
-			<Anchor>//api/name/parseIdsFromResponses:</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFCompositeRequestHelper/updateReferences:fieldWithRefId:refIdToServerId:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFCompositeRequestHelper.h</DeclaredIn>
-			
-			<Declaration>+ (void)updateReferences:(NSMutableDictionary *)record fieldWithRefId:(NSString *)fieldWithRefId refIdToServerId:(NSDictionary *)refIdToServerId</Declaration>
-			
-			
-			<Anchor>//api/name/updateReferences:fieldWithRefId:refIdToServerId:</Anchor>
+			<Anchor>//api/name/init:sync:completionStatusBlock:</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		

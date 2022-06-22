@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFFileProtectionHelper.html">
+	<File path="Classes/SFJsonUtils.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFFileProtectionHelper</TokenIdentifier>
-			<Abstract type="html">This helper class aims at providing a centralized
-place where NSFileProtection can be configured and retrieved.</Abstract>
-			<DeclaredIn>SFFileProtectionHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFJsonUtils</TokenIdentifier>
+			<Abstract type="html">This class helps decouple framework code from the underlying JSON implementation.</Abstract>
+			<DeclaredIn>SFJsonUtils.h</DeclaredIn>
             
 			
 			<NodeRef refid="3"/>
@@ -14,82 +13,142 @@ place where NSFileProtection can be configured and retrieved.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFFileProtectionHelper/set:</TokenIdentifier>
-			<Abstract type="html">Contains the default NSFileProtection mode to use
-if no protection is specified. By default, this property
-is NSFileProtectionComplete</Abstract>
-			<DeclaredIn>SFFileProtectionHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFJsonUtils/lastError</TokenIdentifier>
+			<Abstract type="html">The last error that was logged during a JSON conversion operation.</Abstract>
+			<DeclaredIn>SFJsonUtils.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *NS_SWIFT_NAME ( defaultMode )</Declaration>
+			<Declaration>+ (NSError *)lastError</Declaration>
 			
-			
-			<Anchor>//api/name/)</Anchor>
+			<ReturnValue><Abstract type="html">The last error that was logged during a JSON conversion operation.</Abstract></ReturnValue>
+			<Anchor>//api/name/lastError</Anchor>
             <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFFileProtectionHelper/)</TokenIdentifier>
-			<Abstract type="html">Contains the default NSFileProtection mode to use
-if no protection is specified. By default, this property
-is NSFileProtectionComplete</Abstract>
-			<DeclaredIn>SFFileProtectionHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFJsonUtils/JSONRepresentation:</TokenIdentifier>
+			<Abstract type="html">Creates the JSON representation of an object.</Abstract>
+			<DeclaredIn>SFJsonUtils.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *NS_SWIFT_NAME ( defaultMode )</Declaration>
-			
-			
-			<Anchor>//api/name/)</Anchor>
-            <NodeRef refid="3"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFFileProtectionHelper/)</TokenIdentifier>
-			<Abstract type="html">Contains the default NSFileProtection mode to use
-if no protection is specified. By default, this property
-is NSFileProtectionComplete</Abstract>
-			<DeclaredIn>SFFileProtectionHelper.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSString *NS_SWIFT_NAME ( defaultMode )</Declaration>
-			
-			
-			<Anchor>//api/name/)</Anchor>
-            <NodeRef refid="3"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFFileProtectionHelper/fileProtectionForPath:</TokenIdentifier>
-			<Abstract type="html">Helper method that will return the file protection
-for the specified file path.</Abstract>
-			<DeclaredIn>SFFileProtectionHelper.h</DeclaredIn>
-			
-			<Declaration>+ (NSString *)fileProtectionForPath:(NSString *)path</Declaration>
+			<Declaration>+ (NSString *)JSONRepresentation:(id)object</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>path</Name>
-					<Abstract type="html">The path for which to return the file protection</Abstract>
+					<Name>object</Name>
+					<Abstract type="html">The object to JSON-ify</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">The file protection</Abstract></ReturnValue>
-			<Anchor>//api/name/fileProtectionForPath:</Anchor>
+			<ReturnValue><Abstract type="html">a JSON string representation of an Objective-C object</Abstract></ReturnValue>
+			<Anchor>//api/name/JSONRepresentation:</Anchor>
             <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFFileProtectionHelper/addProtection:forPath:</TokenIdentifier>
-			<Abstract type="html">Add a valid file protection attribute to a path</Abstract>
-			<DeclaredIn>SFFileProtectionHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFJsonUtils/JSONRepresentation:options:</TokenIdentifier>
+			<Abstract type="html">Creates the JSON representation of an object.</Abstract>
+			<DeclaredIn>SFJsonUtils.h</DeclaredIn>
 			
-			<Declaration>- (void)addProtection:(NSString *)fileProtection forPath:(NSString *)path</Declaration>
+			<Declaration>+ (nullable NSString *)JSONRepresentation:(id)object options:(NSJSONWritingOptions)options</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>fileProtection</Name>
-					<Abstract type="html">Type of file protection to apply to the path</Abstract>
+					<Name>object</Name>
+					<Abstract type="html">The object to JSON-ify</Abstract>
+				</Parameter><Parameter>
+					<Name>options</Name>
+					<Abstract type="html">for json-ization</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">a JSON string representation of an Objective-C object</Abstract></ReturnValue>
+			<Anchor>//api/name/JSONRepresentation:options:</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFJsonUtils/JSONDataRepresentation:</TokenIdentifier>
+			<Abstract type="html">Creates the JSON-as-NSData representation of an object.</Abstract>
+			<DeclaredIn>SFJsonUtils.h</DeclaredIn>
+			
+			<Declaration>+ (NSData *)JSONDataRepresentation:(id)obj</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>obj</Name>
+					<Abstract type="html">The object to JSON-ify.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">A JSON string in NSData format, UTF8 encoded.</Abstract></ReturnValue>
+			<Anchor>//api/name/JSONDataRepresentation:</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFJsonUtils/JSONDataRepresentation:options:</TokenIdentifier>
+			<Abstract type="html">Creates the JSON-as-NSData representation of an object.</Abstract>
+			<DeclaredIn>SFJsonUtils.h</DeclaredIn>
+			
+			<Declaration>+ (nullable NSData *)JSONDataRepresentation:(id)obj options:(NSJSONWritingOptions)options</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>obj</Name>
+					<Abstract type="html">The object to JSON-ify.</Abstract>
+				</Parameter><Parameter>
+					<Name>options</Name>
+					<Abstract type="html">for json-ization</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">A JSON string in NSData format, UTF8 encoded.</Abstract></ReturnValue>
+			<Anchor>//api/name/JSONDataRepresentation:options:</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFJsonUtils/objectFromJSONString:</TokenIdentifier>
+			<Abstract type="html">Creates an object from a string of JSON data.</Abstract>
+			<DeclaredIn>SFJsonUtils.h</DeclaredIn>
+			
+			<Declaration>+ (nullable id)objectFromJSONString:(NSString *)jsonString</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>jsonString</Name>
+					<Abstract type="html">A JSON object string.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">An Objective-C object such as an NSDictionary or NSArray.</Abstract></ReturnValue>
+			<Anchor>//api/name/objectFromJSONString:</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFJsonUtils/objectFromJSONData:</TokenIdentifier>
+			<Abstract type="html">Creates an object from a JSON-as-NSData object.</Abstract>
+			<DeclaredIn>SFJsonUtils.h</DeclaredIn>
+			
+			<Declaration>+ (id)objectFromJSONData:(NSData *)jsonData</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>jsonData</Name>
+					<Abstract type="html">JSON data in an NSData wrapper (UTF8 encoding assumed).</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">An Objective-C object such as an NSDictionary or NSArray.</Abstract></ReturnValue>
+			<Anchor>//api/name/objectFromJSONData:</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFJsonUtils/projectIntoJson:path:</TokenIdentifier>
+			<Abstract type="html">Pull a value from the json-derived object by path (&quot;.&quot; delimited).</Abstract>
+			<DeclaredIn>SFJsonUtils.h</DeclaredIn>
+			
+			<Declaration>+ (id)projectIntoJson:(NSDictionary *)jsonObj path:(NSString *)path</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>jsonObj</Name>
+					<Abstract type="html">The JSON object that contains the requested JSON path.</Abstract>
 				</Parameter><Parameter>
 					<Name>path</Name>
-					<Abstract type="html">The path for which to return the file protection</Abstract>
+					<Abstract type="html">Requested JSON path.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/addProtection:forPath:</Anchor>
+			<Anchor>//api/name/projectIntoJson:path:</Anchor>
             <NodeRef refid="3"/>
 		</Token>
 		

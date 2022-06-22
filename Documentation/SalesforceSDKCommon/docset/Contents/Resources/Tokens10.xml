@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKSafeMutableDictionary.html">
+	<File path="Classes/SFSDKSafeMutableSet.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKSafeMutableDictionary</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKSafeMutableSet</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSafeMutableDictionary.h</DeclaredIn>
+			<DeclaredIn>SFSDKSafeMutableSet.h</DeclaredIn>
             
 			
 			<NodeRef refid="10"/>
@@ -13,186 +13,57 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableDictionary/setAllKeys:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSafeMutableDictionary.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableSet/anyObject</TokenIdentifier>
+			<Abstract type="html">Adds a given object to the set, if it is not already a member.</Abstract>
+			<DeclaredIn>SFSDKSafeMutableSet.h</DeclaredIn>
 			
-			<Declaration>@property (copy, nonatomic, readonly) NSArray *allKeys</Declaration>
+			<Declaration>- (id)anyObject</Declaration>
 			
 			
-			<Anchor>//api/name/allKeys</Anchor>
+			<Anchor>//api/name/anyObject</Anchor>
             <NodeRef refid="10"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableDictionary/allKeys</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSafeMutableDictionary.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableSet/containsObject:</TokenIdentifier>
+			<Abstract type="html">Returns true if the object exists in the set.</Abstract>
+			<DeclaredIn>SFSDKSafeMutableSet.h</DeclaredIn>
 			
-			<Declaration>@property (copy, nonatomic, readonly) NSArray *allKeys</Declaration>
+			<Declaration>- (BOOL)containsObject:(id)anObject</Declaration>
 			
 			
-			<Anchor>//api/name/allKeys</Anchor>
+			<Anchor>//api/name/containsObject:</Anchor>
             <NodeRef refid="10"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKSafeMutableDictionary/allKeys</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSafeMutableDictionary.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableSet/addObject:</TokenIdentifier>
+			<Abstract type="html">Adds a given object to the set, if it is not already a member.</Abstract>
+			<DeclaredIn>SFSDKSafeMutableSet.h</DeclaredIn>
 			
-			<Declaration>@property (copy, nonatomic, readonly) NSArray *allKeys</Declaration>
+			<Declaration>- (void)addObject:(id)obj</Declaration>
 			
 			
-			<Anchor>//api/name/allKeys</Anchor>
+			<Anchor>//api/name/addObject:</Anchor>
             <NodeRef refid="10"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableDictionary/setAllValues:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSafeMutableDictionary.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableSet/addObjectsFromArray:</TokenIdentifier>
+			<Abstract type="html">Adds to the set each object contained in a given array that is not already a member.</Abstract>
+			<DeclaredIn>SFSDKSafeMutableSet.h</DeclaredIn>
 			
-			<Declaration>@property (copy, nonatomic, readonly) NSArray *allValues</Declaration>
+			<Declaration>- (void)addObjectsFromArray:(NSArray *)array</Declaration>
 			
 			
-			<Anchor>//api/name/allValues</Anchor>
+			<Anchor>//api/name/addObjectsFromArray:</Anchor>
             <NodeRef refid="10"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableDictionary/allValues</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSafeMutableDictionary.h</DeclaredIn>
-			
-			<Declaration>@property (copy, nonatomic, readonly) NSArray *allValues</Declaration>
-			
-			
-			<Anchor>//api/name/allValues</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKSafeMutableDictionary/allValues</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSafeMutableDictionary.h</DeclaredIn>
-			
-			<Declaration>@property (copy, nonatomic, readonly) NSArray *allValues</Declaration>
-			
-			
-			<Anchor>//api/name/allValues</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableDictionary/objectForKey:</TokenIdentifier>
-			<Abstract type="html">Retrieves object for the key specified (Thread Safe)</Abstract>
-			<DeclaredIn>SFSDKSafeMutableDictionary.h</DeclaredIn>
-			
-			<Declaration>- (nullable ObjectType)objectForKey:(KeyType&lt;NSCopying&gt;)aKey</Declaration>
-			
-			<ReturnValue><Abstract type="html">object for specified key</Abstract></ReturnValue>
-			<Anchor>//api/name/objectForKey:</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableDictionary/objectForKeyedSubscript:</TokenIdentifier>
-			<Abstract type="html">Retrieves object for the key specified (Thread Safe)</Abstract>
-			<DeclaredIn>SFSDKSafeMutableDictionary.h</DeclaredIn>
-			
-			<Declaration>- (nullable ObjectType)objectForKeyedSubscript:(KeyType&lt;NSCopying&gt;)key</Declaration>
-			
-			<ReturnValue><Abstract type="html">object for specified key</Abstract></ReturnValue>
-			<Anchor>//api/name/objectForKeyedSubscript:</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableDictionary/allKeysForObject:</TokenIdentifier>
-			<Abstract type="html">Retreives all keys for object specified (Thread Safe)</Abstract>
-			<DeclaredIn>SFSDKSafeMutableDictionary.h</DeclaredIn>
-			
-			<Declaration>- (NSArray&lt;KeyType&gt; *)allKeysForObject:(ObjectType)anObject</Declaration>
-			
-			<ReturnValue><Abstract type="html">Array with keys</Abstract></ReturnValue>
-			<Anchor>//api/name/allKeysForObject:</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableDictionary/dictionary</TokenIdentifier>
-			<Abstract type="html">Get a NSDictionary from the mutable Dictionary (Thread Safe)</Abstract>
-			<DeclaredIn>SFSDKSafeMutableDictionary.h</DeclaredIn>
-			
-			<Declaration>- (NSDictionary&lt;KeyType,ObjectType&gt; *)dictionary</Declaration>
-			
-			
-			<Anchor>//api/name/dictionary</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableDictionary/setObject:forKey:</TokenIdentifier>
-			<Abstract type="html">Sets object for key specified (Thread Safe)</Abstract>
-			<DeclaredIn>SFSDKSafeMutableDictionary.h</DeclaredIn>
-			
-			<Declaration>- (void)setObject:(ObjectType)object forKey:(KeyType&lt;NSCopying&gt;)aKey</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>object</Name>
-					<Abstract type="html">to add to collection</Abstract>
-				</Parameter><Parameter>
-					<Name>aKey</Name>
-					<Abstract type="html">for to map the object to</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/setObject:forKey:</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableDictionary/setObject:forKeyedSubscript:</TokenIdentifier>
-			<Abstract type="html">Sets object for key specified (Thread Safe)</Abstract>
-			<DeclaredIn>SFSDKSafeMutableDictionary.h</DeclaredIn>
-			
-			<Declaration>- (void)setObject:(ObjectType)object forKeyedSubscript:(KeyType&lt;NSCopying&gt;)aKey</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>object</Name>
-					<Abstract type="html">to add to collection</Abstract>
-				</Parameter><Parameter>
-					<Name>aKey</Name>
-					<Abstract type="html">for to map the object to</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/setObject:forKeyedSubscript:</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableDictionary/removeObject:</TokenIdentifier>
-			<Abstract type="html">Removes object for key specified (Thread Safe)</Abstract>
-			<DeclaredIn>SFSDKSafeMutableDictionary.h</DeclaredIn>
-			
-			<Declaration>- (void)removeObject:(KeyType&lt;NSCopying&gt;)aKey</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>aKey</Name>
-					<Abstract type="html">to remove from the collection.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/removeObject:</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableDictionary/removeAllObjects</TokenIdentifier>
-			<Abstract type="html">removes all objects (Thread Safe)</Abstract>
-			<DeclaredIn>SFSDKSafeMutableDictionary.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableSet/removeAllObjects</TokenIdentifier>
+			<Abstract type="html">Removes all objects from the set.</Abstract>
+			<DeclaredIn>SFSDKSafeMutableSet.h</DeclaredIn>
 			
 			<Declaration>- (void)removeAllObjects</Declaration>
 			
@@ -202,53 +73,182 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableDictionary/removeObjects:</TokenIdentifier>
-			<Abstract type="html">removes objects for keys (Thread Safe)</Abstract>
-			<DeclaredIn>SFSDKSafeMutableDictionary.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableSet/removeObject:</TokenIdentifier>
+			<Abstract type="html">Removes a given object from the set.</Abstract>
+			<DeclaredIn>SFSDKSafeMutableSet.h</DeclaredIn>
 			
-			<Declaration>- (void)removeObjects:(NSArray&lt;KeyType&lt;NSCopying&gt; &gt; *)keys</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>keys</Name>
-					<Abstract type="html">to remove from the collection.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (void)removeObject:(id)object</Declaration>
 			
-			<Anchor>//api/name/removeObjects:</Anchor>
+			
+			<Anchor>//api/name/removeObject:</Anchor>
             <NodeRef refid="10"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableDictionary/addEntries:</TokenIdentifier>
-			<Abstract type="html">Adds entries from the dictionary passed in (Thread Safe)</Abstract>
-			<DeclaredIn>SFSDKSafeMutableDictionary.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableSet/unionSet:</TokenIdentifier>
+			<Abstract type="html">Removes each object in another given set from the receiving set, if present.</Abstract>
+			<DeclaredIn>SFSDKSafeMutableSet.h</DeclaredIn>
 			
-			<Declaration>- (void)addEntries:(NSDictionary&lt;KeyType,ObjectType&gt; *)otherDictionary</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>otherDictionary</Name>
-					<Abstract type="html">to add to collection</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (void)unionSet:(NSSet *)otherSet</Declaration>
 			
-			<Anchor>//api/name/addEntries:</Anchor>
+			
+			<Anchor>//api/name/unionSet:</Anchor>
             <NodeRef refid="10"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableDictionary/setDictionary:</TokenIdentifier>
-			<Abstract type="html">Sets the dictionary collection to the dictionary passed in(Thread Safe)</Abstract>
-			<DeclaredIn>SFSDKSafeMutableDictionary.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableSet/minusSet:</TokenIdentifier>
+			<Abstract type="html">Empties the receiving set, then adds each object contained in another given set.</Abstract>
+			<DeclaredIn>SFSDKSafeMutableSet.h</DeclaredIn>
 			
-			<Declaration>- (void)setDictionary:(NSDictionary&lt;KeyType,ObjectType&gt; *)dictionary</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>dictionary</Name>
-					<Abstract type="html">to set</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (void)minusSet:(NSSet *)set</Declaration>
 			
-			<Anchor>//api/name/setDictionary:</Anchor>
+			
+			<Anchor>//api/name/minusSet:</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableSet/intersectSet:</TokenIdentifier>
+			<Abstract type="html">Empties the receiving set, then adds each object contained in another given set.</Abstract>
+			<DeclaredIn>SFSDKSafeMutableSet.h</DeclaredIn>
+			
+			<Declaration>- (void)intersectSet:(NSSet *)otherSet</Declaration>
+			
+			
+			<Anchor>//api/name/intersectSet:</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableSet/setSet:</TokenIdentifier>
+			<Abstract type="html">Empties the receiving set, then adds each object contained in another given set.</Abstract>
+			<DeclaredIn>SFSDKSafeMutableSet.h</DeclaredIn>
+			
+			<Declaration>- (void)setSet:(NSSet *)otherSet</Declaration>
+			
+			
+			<Anchor>//api/name/setSet:</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableSet/filterUsingPredicate:</TokenIdentifier>
+			<Abstract type="html">Filter the set using a predicate.</Abstract>
+			<DeclaredIn>SFSDKSafeMutableSet.h</DeclaredIn>
+			
+			<Declaration>- (void)filterUsingPredicate:(NSPredicate *)predicate</Declaration>
+			
+			
+			<Anchor>//api/name/filterUsingPredicate:</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableSet/enumerateObjectsUsingBlock:</TokenIdentifier>
+			<Abstract type="html">Enumerate objects in the set safely, using a block.</Abstract>
+			<DeclaredIn>SFSDKSafeMutableSet.h</DeclaredIn>
+			
+			<Declaration>- (void)enumerateObjectsUsingBlock:(void ( ^ ) ( id obj , BOOL *stop ))block</Declaration>
+			
+			
+			<Anchor>//api/name/enumerateObjectsUsingBlock:</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableSet/asSet</TokenIdentifier>
+			<Abstract type="html">Get a NSSet from the mutable set</Abstract>
+			<DeclaredIn>SFSDKSafeMutableSet.h</DeclaredIn>
+			
+			<Declaration>- (NSSet *)asSet</Declaration>
+			
+			
+			<Anchor>//api/name/asSet</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableSet/allObjects</TokenIdentifier>
+			<Abstract type="html">Return an Array of all Objects</Abstract>
+			<DeclaredIn>SFSDKSafeMutableSet.h</DeclaredIn>
+			
+			<Declaration>- (NSArray *)allObjects</Declaration>
+			
+			
+			<Anchor>//api/name/allObjects</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableSet/isEqualToSet:</TokenIdentifier>
+			<Abstract type="html">Returns true if the sets are equal.</Abstract>
+			<DeclaredIn>SFSDKSafeMutableSet.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)isEqualToSet:(SFSDKSafeMutableSet *)otherSet</Declaration>
+			
+			
+			<Anchor>//api/name/isEqualToSet:</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableSet/setCount:</TokenIdentifier>
+			<Abstract type="html">The number of elements in this set.</Abstract>
+			<DeclaredIn>SFSDKSafeMutableSet.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSUInteger count</Declaration>
+			
+			
+			<Anchor>//api/name/count</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSafeMutableSet/count</TokenIdentifier>
+			<Abstract type="html">The number of elements in this set.</Abstract>
+			<DeclaredIn>SFSDKSafeMutableSet.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSUInteger count</Declaration>
+			
+			
+			<Anchor>//api/name/count</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKSafeMutableSet/count</TokenIdentifier>
+			<Abstract type="html">The number of elements in this set.</Abstract>
+			<DeclaredIn>SFSDKSafeMutableSet.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSUInteger count</Declaration>
+			
+			
+			<Anchor>//api/name/count</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKSafeMutableSet/set</TokenIdentifier>
+			<Abstract type="html">A convenience method to allocate and initialize a new instance of a SFSDKSafeMutableSet.</Abstract>
+			<DeclaredIn>SFSDKSafeMutableSet.h</DeclaredIn>
+			
+			<Declaration>+ (id)set</Declaration>
+			
+			<ReturnValue><Abstract type="html">A new SFSDKSafeMutableSet instance.</Abstract></ReturnValue>
+			<Anchor>//api/name/set</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKSafeMutableSet/setWithCapacity:</TokenIdentifier>
+			<Abstract type="html">A convenience method to allocate and initialize a new instance of a SFSDKSafeMutableSetWithCapacity.</Abstract>
+			<DeclaredIn>SFSDKSafeMutableSet.h</DeclaredIn>
+			
+			<Declaration>+ (id)setWithCapacity:(NSUInteger)numItems</Declaration>
+			
+			<ReturnValue><Abstract type="html">A new SFSDKSafeMutableSet instance.</Abstract></ReturnValue>
+			<Anchor>//api/name/setWithCapacity:</Anchor>
             <NodeRef refid="10"/>
 		</Token>
 		

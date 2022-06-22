@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKSoqlBuilder.html">
+	<File path="Classes/SFSDKPrimingStats.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKSoqlBuilder</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKPrimingStats</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
+			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
             
 			
 			<NodeRef refid="110"/>
@@ -13,230 +13,194 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKSoqlBuilder/withFields:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
-			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingStats/setDict:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
 			
-			<Declaration>+ (SFSDKSoqlBuilder *)withFields:(NSString *)fields</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>fields</Name>
-					<Abstract type="html">a list of one or more fields, separated by commas, that are to be retrieved from the specified object</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/withFields:</Anchor>
+			<Declaration>@property (nonatomic, readonly) NSDictionary *dict</Declaration>
+			
+			
+			<Anchor>//api/name/dict</Anchor>
             <NodeRef refid="110"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKSoqlBuilder/withFieldsArray:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
-			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingStats/dict</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
 			
-			<Declaration>+ (SFSDKSoqlBuilder *)withFieldsArray:(NSArray *)fields</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>fields</Name>
-					<Abstract type="html">an array of one or more fields, that are to be retrieved from the specified object</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/withFieldsArray:</Anchor>
+			<Declaration>@property (nonatomic, readonly) NSDictionary *dict</Declaration>
+			
+			
+			<Anchor>//api/name/dict</Anchor>
             <NodeRef refid="110"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/from:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
-			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPrimingStats/dict</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKSoqlBuilder *)from:(NSString *)from</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>from</Name>
-					<Abstract type="html">the object to be queried</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/from:</Anchor>
+			<Declaration>@property (nonatomic, readonly) NSDictionary *dict</Declaration>
+			
+			
+			<Anchor>//api/name/dict</Anchor>
             <NodeRef refid="110"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/whereClause:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
-			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingStats/setRuleCountTotal:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKSoqlBuilder *)whereClause:(NSString *)whereClause</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>whereClause</Name>
-					<Abstract type="html">a conditional statement</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/whereClause:</Anchor>
+			<Declaration>@property (nonatomic, readonly) NSUInteger ruleCountTotal</Declaration>
+			
+			
+			<Anchor>//api/name/ruleCountTotal</Anchor>
             <NodeRef refid="110"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/with:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
-			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingStats/ruleCountTotal</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKSoqlBuilder *)with:(NSString *)with</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>with</Name>
-					<Abstract type="html">used to filter records based on field values.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/with:</Anchor>
+			<Declaration>@property (nonatomic, readonly) NSUInteger ruleCountTotal</Declaration>
+			
+			
+			<Anchor>//api/name/ruleCountTotal</Anchor>
             <NodeRef refid="110"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/groupBy:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
-			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPrimingStats/ruleCountTotal</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKSoqlBuilder *)groupBy:(NSString *)groupBy</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>groupBy</Name>
-					<Abstract type="html">a list of one or more fields, separated by commas, the resutls are to be grouped by</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/groupBy:</Anchor>
+			<Declaration>@property (nonatomic, readonly) NSUInteger ruleCountTotal</Declaration>
+			
+			
+			<Anchor>//api/name/ruleCountTotal</Anchor>
             <NodeRef refid="110"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/having:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
-			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingStats/setRecordCountTotal:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKSoqlBuilder *)having:(NSString *)having</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>having</Name>
-					<Abstract type="html">specifies one or more conditional expressions using aggregate functions to filter the query results</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/having:</Anchor>
+			<Declaration>@property (nonatomic, readonly) NSUInteger recordCountTotal</Declaration>
+			
+			
+			<Anchor>//api/name/recordCountTotal</Anchor>
             <NodeRef refid="110"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/orderBy:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
-			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingStats/recordCountTotal</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKSoqlBuilder *)orderBy:(NSString *)orderBy</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>orderBy</Name>
-					<Abstract type="html">controls the order of the query results</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/orderBy:</Anchor>
+			<Declaration>@property (nonatomic, readonly) NSUInteger recordCountTotal</Declaration>
+			
+			
+			<Anchor>//api/name/recordCountTotal</Anchor>
             <NodeRef refid="110"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/limit:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
-			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPrimingStats/recordCountTotal</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKSoqlBuilder *)limit:(NSInteger)limit</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>limit</Name>
-					<Abstract type="html">specifies the maximum number of rows to return</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/limit:</Anchor>
+			<Declaration>@property (nonatomic, readonly) NSUInteger recordCountTotal</Declaration>
+			
+			
+			<Anchor>//api/name/recordCountTotal</Anchor>
             <NodeRef refid="110"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/offset:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
-			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingStats/setRuleCountServed:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKSoqlBuilder *)offset:(NSInteger)offset</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>offset</Name>
-					<Abstract type="html">specifies the starting row offset into the result set returned by the query</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/offset:</Anchor>
+			<Declaration>@property (nonatomic, readonly) NSUInteger ruleCountServed</Declaration>
+			
+			
+			<Anchor>//api/name/ruleCountServed</Anchor>
             <NodeRef refid="110"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/encodeAndBuild</TokenIdentifier>
-			<Abstract type="html">Builds an encoded query from the builder.</Abstract>
-			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingStats/ruleCountServed</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)encodeAndBuild</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSUInteger ruleCountServed</Declaration>
 			
-			<ReturnValue><Abstract type="html">the built query</Abstract></ReturnValue>
-			<Anchor>//api/name/encodeAndBuild</Anchor>
+			
+			<Anchor>//api/name/ruleCountServed</Anchor>
             <NodeRef refid="110"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/encodeAndBuildWithPath:</TokenIdentifier>
-			<Abstract type="html">Builds an enoded query from the builder.</Abstract>
-			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPrimingStats/ruleCountServed</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)encodeAndBuildWithPath:(NSString *)path</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>path</Name>
-					<Abstract type="html">the path to build the query for</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the built query</Abstract></ReturnValue>
-			<Anchor>//api/name/encodeAndBuildWithPath:</Anchor>
+			<Declaration>@property (nonatomic, readonly) NSUInteger ruleCountServed</Declaration>
+			
+			
+			<Anchor>//api/name/ruleCountServed</Anchor>
             <NodeRef refid="110"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/buildWithPath:</TokenIdentifier>
-			<Abstract type="html">Builds a raw (unencoded) query from the builder.</Abstract>
-			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingStats/setRecordCountServed:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)buildWithPath:(NSString *)path</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>path</Name>
-					<Abstract type="html">the path to build the query for</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the built query</Abstract></ReturnValue>
-			<Anchor>//api/name/buildWithPath:</Anchor>
+			<Declaration>@property (nonatomic, readonly) NSUInteger recordCountServed</Declaration>
+			
+			
+			<Anchor>//api/name/recordCountServed</Anchor>
             <NodeRef refid="110"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/build</TokenIdentifier>
-			<Abstract type="html">Builds a raw (unencoded) query from the builder.</Abstract>
-			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingStats/recordCountServed</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
 			
-			<Declaration>- (nullable NSString *)build</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSUInteger recordCountServed</Declaration>
 			
-			<ReturnValue><Abstract type="html">the built query</Abstract></ReturnValue>
-			<Anchor>//api/name/build</Anchor>
+			
+			<Anchor>//api/name/recordCountServed</Anchor>
+            <NodeRef refid="110"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPrimingStats/recordCountServed</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSUInteger recordCountServed</Declaration>
+			
+			
+			<Anchor>//api/name/recordCountServed</Anchor>
+            <NodeRef refid="110"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingStats/initWith:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWith:(NSDictionary *)dict</Declaration>
+			
+			
+			<Anchor>//api/name/initWith:</Anchor>
             <NodeRef refid="110"/>
 		</Token>
 		

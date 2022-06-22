@@ -279,6 +279,29 @@ dictionary along the way.</Abstract>
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/getFromLocalStore:soupName:storeIds:</TokenIdentifier>
+			<Abstract type="html">The sync manager</Abstract>
+			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
+			
+			<Declaration>- (NSArray&lt;NSDictionary*&gt; *)getFromLocalStore:(SFMobileSyncSyncManager *)syncManager soupName:(NSString *)soupName storeIds:(NSArray&lt;NSNumber*&gt; *)storeIds</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>syncManager</Name>
+					<Abstract type="html">The sync manager</Abstract>
+				</Parameter><Parameter>
+					<Name>soupName</Name>
+					<Abstract type="html">The soup</Abstract>
+				</Parameter><Parameter>
+					<Name>storeIds</Name>
+					<Abstract type="html">The soup entry ids</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">Records from local store by storeIds</Abstract></ReturnValue>
+			<Anchor>//api/name/getFromLocalStore:soupName:storeIds:</Anchor>
+            <NodeRef refid="39"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/deleteFromLocalStore:soupName:record:</TokenIdentifier>
 			<Abstract type="html">Delete record from local store</Abstract>
 			<DeclaredIn>SFSyncTarget.h</DeclaredIn>

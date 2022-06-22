@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKIDPInitCommand.html">
+	<File path="Classes/SFSDKIDPAuthHelper.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKIDPInitCommand</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKIDPAuthHelper</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKIDPInitCommand.h</DeclaredIn>
+			<DeclaredIn>SFSDKIDPAuthHelper.h</DeclaredIn>
             
 			
 			<NodeRef refid="84"/>
@@ -13,110 +13,62 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKIDPInitCommand/setUserHint:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKIDPAuthHelper/invokeIDPApp:completion:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKIDPInitCommand.h</DeclaredIn>
+			<DeclaredIn>SFSDKIDPAuthHelper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *userHint</Declaration>
+			<Declaration>+ (void)invokeIDPApp:(SFSDKAuthSession *)session completion:(void ( ^ ) ( BOOL ))completionBlock</Declaration>
 			
 			
-			<Anchor>//api/name/userHint</Anchor>
+			<Anchor>//api/name/invokeIDPApp:completion:</Anchor>
             <NodeRef refid="84"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKIDPInitCommand/userHint</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKIDPAuthHelper/invokeSPApp:completion:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKIDPInitCommand.h</DeclaredIn>
+			<DeclaredIn>SFSDKIDPAuthHelper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *userHint</Declaration>
+			<Declaration>+ (void)invokeSPApp:(SFSDKAuthSession *)session completion:(void ( ^ ) ( BOOL ))completionBlock</Declaration>
 			
 			
-			<Anchor>//api/name/userHint</Anchor>
+			<Anchor>//api/name/invokeSPApp:completion:</Anchor>
             <NodeRef refid="84"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKIDPInitCommand/userHint</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKIDPAuthHelper/invokeSPAppWithError:error:reason:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKIDPInitCommand.h</DeclaredIn>
+			<DeclaredIn>SFSDKIDPAuthHelper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *userHint</Declaration>
+			<Declaration>+ (void)invokeSPAppWithError:(SFOAuthCredentials *)spAppCredentials error:(nullable NSError *)error reason:(NSString *)reason</Declaration>
 			
 			
-			<Anchor>//api/name/userHint</Anchor>
+			<Anchor>//api/name/invokeSPAppWithError:error:reason:</Anchor>
             <NodeRef refid="84"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKIDPInitCommand/setDomain:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKIDPAuthHelper/encodeScopes:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKIDPInitCommand.h</DeclaredIn>
+			<DeclaredIn>SFSDKIDPAuthHelper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *domain</Declaration>
+			<Declaration>+ (NSString *)encodeScopes:(NSSet&lt;NSString*&gt; *)requestScopes</Declaration>
 			
 			
-			<Anchor>//api/name/domain</Anchor>
+			<Anchor>//api/name/encodeScopes:</Anchor>
             <NodeRef refid="84"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKIDPInitCommand/domain</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKIDPAuthHelper/decodeScopes:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKIDPInitCommand.h</DeclaredIn>
+			<DeclaredIn>SFSDKIDPAuthHelper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *domain</Declaration>
-			
-			
-			<Anchor>//api/name/domain</Anchor>
-            <NodeRef refid="84"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKIDPInitCommand/domain</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKIDPInitCommand.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *domain</Declaration>
+			<Declaration>+ (NSSet&lt;NSString*&gt; *)decodeScopes:(NSString *)scopeString</Declaration>
 			
 			
-			<Anchor>//api/name/domain</Anchor>
-            <NodeRef refid="84"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKIDPInitCommand/setStartURL:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKIDPInitCommand.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *startURL</Declaration>
-			
-			
-			<Anchor>//api/name/startURL</Anchor>
-            <NodeRef refid="84"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKIDPInitCommand/startURL</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKIDPInitCommand.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *startURL</Declaration>
-			
-			
-			<Anchor>//api/name/startURL</Anchor>
-            <NodeRef refid="84"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKIDPInitCommand/startURL</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKIDPInitCommand.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *startURL</Declaration>
-			
-			
-			<Anchor>//api/name/startURL</Anchor>
+			<Anchor>//api/name/decodeScopes:</Anchor>
             <NodeRef refid="84"/>
 		</Token>
 		

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/NSURLResponse+SFAdditions.html">
+	<File path="Categories/NSData+SFzlib.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/NSURLResponse(SFAdditions)</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>NSURLResponse+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/NSData(SFzlib)</TokenIdentifier>
+			<Abstract type="html">Provides gzip uncompressed conversion support.</Abstract>
+			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
             
 			
 			<NodeRef refid="158"/>
@@ -13,14 +13,26 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSURLResponse/asDictionary</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>NSURLResponse+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/gzipInflate</TokenIdentifier>
+			<Abstract type="html">Converts this data to gzip uncompressed format.</Abstract>
+			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>- (nonnull NSDictionary *)asDictionary</Declaration>
+			<Declaration>- (nullable NSData *)gzipInflate</Declaration>
 			
+			<ReturnValue><Abstract type="html">This data in gzip uncompressed format.</Abstract></ReturnValue>
+			<Anchor>//api/name/gzipInflate</Anchor>
+            <NodeRef refid="158"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/gzipDeflate</TokenIdentifier>
+			<Abstract type="html">Converts this data to gzip compressed format.</Abstract>
+			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
 			
-			<Anchor>//api/name/asDictionary</Anchor>
+			<Declaration>- (nullable NSData *)gzipDeflate</Declaration>
+			
+			<ReturnValue><Abstract type="html">This data in gzip compressed format.</Abstract></ReturnValue>
+			<Anchor>//api/name/gzipDeflate</Anchor>
             <NodeRef refid="158"/>
 		</Token>
 		

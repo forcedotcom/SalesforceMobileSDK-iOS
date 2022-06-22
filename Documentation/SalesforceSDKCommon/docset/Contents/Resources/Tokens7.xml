@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKDatasharingHelper.html">
+	<File path="Classes/SFSDKReachability.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKDatasharingHelper</TokenIdentifier>
-			<Abstract type="html">@class SFSDKDatasharingHelper
-Class used to app data sharing settings</Abstract>
-			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKReachability</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKReachability.h</DeclaredIn>
             
 			
 			<NodeRef refid="7"/>
@@ -14,110 +13,86 @@ Class used to app data sharing settings</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDatasharingHelper/set:</TokenIdentifier>
-			<Abstract type="html">Set to YES to enable app group.</Abstract>
-			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKReachability/reachabilityWithHostName:</TokenIdentifier>
+			<Abstract type="html">Use to check the reachability of a given host name.</Abstract>
+			<DeclaredIn>SFSDKReachability.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) BOOL appGroupEnabled NS_SWIFT_NAME ( isAppGroupEnabled )</Declaration>
+			<Declaration>+ (instancetype)reachabilityWithHostName:(NSString *)hostName</Declaration>
 			
 			
-			<Anchor>//api/name/)</Anchor>
+			<Anchor>//api/name/reachabilityWithHostName:</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDatasharingHelper/)</TokenIdentifier>
-			<Abstract type="html">Set to YES to enable app group.</Abstract>
-			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKReachability/reachabilityWithAddress:</TokenIdentifier>
+			<Abstract type="html">Use to check the reachability of a given IP address.</Abstract>
+			<DeclaredIn>SFSDKReachability.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) BOOL appGroupEnabled NS_SWIFT_NAME ( isAppGroupEnabled )</Declaration>
+			<Declaration>+ (instancetype)reachabilityWithAddress:(const struct sockaddr *)hostAddress</Declaration>
 			
 			
-			<Anchor>//api/name/)</Anchor>
+			<Anchor>//api/name/reachabilityWithAddress:</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKDatasharingHelper/)</TokenIdentifier>
-			<Abstract type="html">Set to YES to enable app group.</Abstract>
-			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKReachability/reachabilityForInternetConnection</TokenIdentifier>
+			<Abstract type="html">Checks whether the default route is available. Should be used by applications that do not connect to a particular host.</Abstract>
+			<DeclaredIn>SFSDKReachability.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) BOOL appGroupEnabled NS_SWIFT_NAME ( isAppGroupEnabled )</Declaration>
+			<Declaration>+ (instancetype)reachabilityForInternetConnection</Declaration>
 			
 			
-			<Anchor>//api/name/)</Anchor>
+			<Anchor>//api/name/reachabilityForInternetConnection</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDatasharingHelper/setAppGroupName:</TokenIdentifier>
-			<Abstract type="html">Name of the app group to use to share data.</Abstract>
-			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKReachability/startNotifier</TokenIdentifier>
+			<Abstract type="html">Start listening for reachability notifications on the current run loop.</Abstract>
+			<DeclaredIn>SFSDKReachability.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) NSString *appGroupName</Declaration>
+			<Declaration>- (BOOL)startNotifier</Declaration>
 			
 			
-			<Anchor>//api/name/appGroupName</Anchor>
+			<Anchor>//api/name/startNotifier</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDatasharingHelper/appGroupName</TokenIdentifier>
-			<Abstract type="html">Name of the app group to use to share data.</Abstract>
-			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKReachability/stopNotifier</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKReachability.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) NSString *appGroupName</Declaration>
+			<Declaration>- (void)stopNotifier</Declaration>
 			
 			
-			<Anchor>//api/name/appGroupName</Anchor>
+			<Anchor>//api/name/stopNotifier</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKDatasharingHelper/appGroupName</TokenIdentifier>
-			<Abstract type="html">Name of the app group to use to share data.</Abstract>
-			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKReachability/currentReachabilityStatus</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKReachability.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) NSString *appGroupName</Declaration>
+			<Declaration>- (SFSDKReachabilityNetworkStatus)currentReachabilityStatus</Declaration>
 			
 			
-			<Anchor>//api/name/appGroupName</Anchor>
+			<Anchor>//api/name/currentReachabilityStatus</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDatasharingHelper/setKeychainGroupName:</TokenIdentifier>
-			<Abstract type="html">Name of the keychain group to use</Abstract>
-			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKReachability/connectionRequired</TokenIdentifier>
+			<Abstract type="html">WWAN may be available, but not active until a connection has been established. WiFi may require a connection for VPN on Demand.</Abstract>
+			<DeclaredIn>SFSDKReachability.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) NSString *keychainGroupName</Declaration>
-			
-			
-			<Anchor>//api/name/keychainGroupName</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDatasharingHelper/keychainGroupName</TokenIdentifier>
-			<Abstract type="html">Name of the keychain group to use</Abstract>
-			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) NSString *keychainGroupName</Declaration>
+			<Declaration>- (BOOL)connectionRequired</Declaration>
 			
 			
-			<Anchor>//api/name/keychainGroupName</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKDatasharingHelper/keychainGroupName</TokenIdentifier>
-			<Abstract type="html">Name of the keychain group to use</Abstract>
-			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) NSString *keychainGroupName</Declaration>
-			
-			
-			<Anchor>//api/name/keychainGroupName</Anchor>
+			<Anchor>//api/name/connectionRequired</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		

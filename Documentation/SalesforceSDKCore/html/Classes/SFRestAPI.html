@@ -124,6 +124,16 @@
 		
 		<option value="//api/name/requestForBatchFileDetails:apiVersion:">- requestForBatchFileDetails:apiVersion:</option>
 		
+		<option value="//api/name/requestForCollectionCreate:records:apiVersion:">- requestForCollectionCreate:records:apiVersion:</option>
+		
+		<option value="//api/name/requestForCollectionDelete:objectIds:apiVersion:">- requestForCollectionDelete:objectIds:apiVersion:</option>
+		
+		<option value="//api/name/requestForCollectionRetrieve:objectIds:fieldList:apiVersion:">- requestForCollectionRetrieve:objectIds:fieldList:apiVersion:</option>
+		
+		<option value="//api/name/requestForCollectionUpdate:records:apiVersion:">- requestForCollectionUpdate:records:apiVersion:</option>
+		
+		<option value="//api/name/requestForCollectionUpsert:objectType:externalIdField:records:apiVersion:">- requestForCollectionUpsert:objectType:externalIdField:records:apiVersion:</option>
+		
 		<option value="//api/name/requestForCreateWithObjectType:fields:apiVersion:">- requestForCreateWithObjectType:fields:apiVersion:</option>
 		
 		<option value="//api/name/requestForDeleteFileShare:apiVersion:">- requestForDeleteFileShare:apiVersion:</option>
@@ -155,6 +165,8 @@
 		<option value="//api/name/requestForNotificationsStatus:">- requestForNotificationsStatus:</option>
 		
 		<option value="//api/name/requestForOwnedFilesList:page:apiVersion:">- requestForOwnedFilesList:page:apiVersion:</option>
+		
+		<option value="//api/name/requestForPrimingRecords:changedAfterTimestamp:apiVersion:">- requestForPrimingRecords:changedAfterTimestamp:apiVersion:</option>
 		
 		<option value="//api/name/requestForProfilePhotoUpload:fileName:mimeType:userId:apiVersion:">- requestForProfilePhotoUpload:fileName:mimeType:userId:apiVersion:</option>
 		
@@ -234,6 +246,11 @@
 See the <a href="http://www.salesforce.com/us/developer/docs/api_rest/index.htm">Force.com REST API Developer&rsquo;s Guide</a>
 for more information regarding the Force.com REST API.</p>
 
+<p>We declare here a set of interfaces that are meant to be used by code running internally
+to SFRestAPI or close &ldquo;friend&rdquo; classes such as unit test helpers. You SHOULD NOT access these interfaces
+from application code.  If you find yourself accessing properties or calling methods
+declared in this file from app code, you&rsquo;re probably doing something wrong.</p>
+
 <p>This category assists with creating SOQL and SOSL queries.</p>
 
 <p>Example SOQL usage:</p>
@@ -250,11 +267,6 @@ limit:10];</p>
 [SFRestAPI SOSLSearchWithSearchTerm:@&ldquo;all of these will be escaped:~{]&rdquo;
                               objectScope:[NSDictionary dictionaryWithObject:@&ldquo;WHERE isactive=true ORDER BY lastname asc limit 5&rdquo;
                                                                       forKey:@&ldquo;User&rdquo;]];</p>
-
-<p>We declare here a set of interfaces that are meant to be used by code running internally
-to SFRestAPI or close &ldquo;friend&rdquo; classes such as unit test helpers. You SHOULD NOT access these interfaces
-from application code.  If you find yourself accessing properties or calling methods
-declared in this file from app code, you&rsquo;re probably doing something wrong.</p>
 					</div>
 					
 					
@@ -282,7 +294,7 @@ declared in this file from app code, you&rsquo;re probably doing something wrong
 			
 			<div class="method-subsection brief-description">
 				<p>The REST API version used for all the calls.
-The default value is <code>kSFRestDefaultAPIVersion</code> (currently &ldquo;v49.0&rdquo;)</p>
+The default value is <code>kSFRestDefaultAPIVersion</code> (currently &ldquo;v55.0&rdquo;)</p>
 			</div>
 			
 		    
@@ -2193,6 +2205,453 @@ to return values. Example: &ldquo;Account,Contact&rdquo;.</p></td>
 			
 		</div>
 	</div>
+</div><div class="section-method">
+	<a name="//api/name/requestForPrimingRecords:changedAfterTimestamp:apiVersion:" title="requestForPrimingRecords:changedAfterTimestamp:apiVersion:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/requestForPrimingRecords:changedAfterTimestamp:apiVersion:">&ndash;&nbsp;requestForPrimingRecords:changedAfterTimestamp:apiVersion:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Returns an <a href="../Classes/SFRestRequest.html"><code>SFRestRequest</code></a> object for getting list of record related to offline briefcase</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForPrimingRecords:(nullable NSString *)<em>relayToken</em> changedAfterTimestamp:(nullable NSNumber *)<em>timestamp</em> apiVersion:(nullable NSString *)<em>apiVersion</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>relayToken</code></th>
+						<td><p>Relay token (to get next page of results)</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>timestamp</code></th>
+						<td><p>To only get ids of records that changed after given time - or nil</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>apiVersion</code></th>
+						<td><p>Salesforce API version.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection see-also-section">
+				<h4 class="method-subtitle">See Also</h4>
+				<ul>
+					
+					<li><code><p><a href="https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_briefcase_priming_records.htm">https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_briefcase_priming_records.htm</a></p></code></li>
+					
+				</ul>
+			</div>
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/requestForCollectionCreate:records:apiVersion:" title="requestForCollectionCreate:records:apiVersion:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/requestForCollectionCreate:records:apiVersion:">&ndash;&nbsp;requestForCollectionCreate:records:apiVersion:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Returns an <a href="../Classes/SFRestRequest.html"><code>SFRestRequest</code></a> object for creating multiple records with fewer round trips</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForCollectionCreate:(BOOL)<em>allOrNone</em> records:(NSArray&lt;NSDictionary*&gt; *)<em>records</em> apiVersion:(nullable NSString *)<em>apiVersion</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>allOrNone</code></th>
+						<td><p>Indicates whether to roll back the entire request when the creation of any object fails (true) or to continue with the independent creation of other objects in the request.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>records</code></th>
+						<td><p>Array of sObjects.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>apiVersion</code></th>
+						<td><p>Salesforce API version.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection see-also-section">
+				<h4 class="method-subtitle">See Also</h4>
+				<ul>
+					
+					<li><code><p><a href="https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_sobjects_collections_create.htm">https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_sobjects_collections_create.htm</a></p></code></li>
+					
+				</ul>
+			</div>
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/requestForCollectionRetrieve:objectIds:fieldList:apiVersion:" title="requestForCollectionRetrieve:objectIds:fieldList:apiVersion:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/requestForCollectionRetrieve:objectIds:fieldList:apiVersion:">&ndash;&nbsp;requestForCollectionRetrieve:objectIds:fieldList:apiVersion:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Returns an <a href="../Classes/SFRestRequest.html"><code>SFRestRequest</code></a> object for retrieving multiple records with fewer round trips</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForCollectionRetrieve:(NSString *)<em>objectType</em> objectIds:(NSArray&lt;NSString*&gt; *)<em>objectIds</em> fieldList:(NSArray&lt;NSString*&gt; *)<em>fieldList</em> apiVersion:(nullable NSString *)<em>apiVersion</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>objectType</code></th>
+						<td><p>Type of the requested record.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>objectIds</code></th>
+						<td><p>Array of Salesforce IDs of the requested records.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>fieldList</code></th>
+						<td><p>Array of requested field names.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>apiVersion</code></th>
+						<td><p>Salesforce API version.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection see-also-section">
+				<h4 class="method-subtitle">See Also</h4>
+				<ul>
+					
+					<li><code><p><a href="https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_sobjects_collections_retrieve.htm">https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_sobjects_collections_retrieve.htm</a></p></code></li>
+					
+				</ul>
+			</div>
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/requestForCollectionUpdate:records:apiVersion:" title="requestForCollectionUpdate:records:apiVersion:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/requestForCollectionUpdate:records:apiVersion:">&ndash;&nbsp;requestForCollectionUpdate:records:apiVersion:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Returns an <a href="../Classes/SFRestRequest.html"><code>SFRestRequest</code></a> object for updating multiple records with fewer round trips</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForCollectionUpdate:(BOOL)<em>allOrNone</em> records:(NSArray&lt;NSDictionary*&gt; *)<em>records</em> apiVersion:(nullable NSString *)<em>apiVersion</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>allOrNone</code></th>
+						<td><p>Indicates whether to roll back the entire request when the update of any object fails (true) or to continue with the independent update of other objects in the request.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>records</code></th>
+						<td><p>Array of sObjects.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>apiVersion</code></th>
+						<td><p>Salesforce API version.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection see-also-section">
+				<h4 class="method-subtitle">See Also</h4>
+				<ul>
+					
+					<li><code><p><a href="https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_sobjects_collections_update.htm">https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_sobjects_collections_update.htm</a></p></code></li>
+					
+				</ul>
+			</div>
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/requestForCollectionUpsert:objectType:externalIdField:records:apiVersion:" title="requestForCollectionUpsert:objectType:externalIdField:records:apiVersion:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/requestForCollectionUpsert:objectType:externalIdField:records:apiVersion:">&ndash;&nbsp;requestForCollectionUpsert:objectType:externalIdField:records:apiVersion:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Returns an <a href="../Classes/SFRestRequest.html"><code>SFRestRequest</code></a> object for upserting multiple records with fewer round trips</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForCollectionUpsert:(BOOL)<em>allOrNone</em> objectType:(NSString *)<em>objectType</em> externalIdField:(NSString *)<em>externalIdField</em> records:(NSArray&lt;NSDictionary*&gt; *)<em>records</em> apiVersion:(nullable NSString *)<em>apiVersion</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>allOrNone</code></th>
+						<td><p>Indicates whether to roll back the entire request when the upsert of any object fails (true) or to continue with the independent upsert of other objects in the request.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>objectType</code></th>
+						<td><p>Type of the requested record.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>externalIdField</code></th>
+						<td><p>Name of ID field in source data.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>records</code></th>
+						<td><p>Array of sObjects.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>apiVersion</code></th>
+						<td><p>Salesforce API version.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection see-also-section">
+				<h4 class="method-subtitle">See Also</h4>
+				<ul>
+					
+					<li><code><p><a href="https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_sobjects_collections_upsert.htm">https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_sobjects_collections_upsert.htm</a></p></code></li>
+					
+				</ul>
+			</div>
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/requestForCollectionDelete:objectIds:apiVersion:" title="requestForCollectionDelete:objectIds:apiVersion:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/requestForCollectionDelete:objectIds:apiVersion:">&ndash;&nbsp;requestForCollectionDelete:objectIds:apiVersion:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Returns an <a href="../Classes/SFRestRequest.html"><code>SFRestRequest</code></a> object for deleting multiple records with fewer round trips</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForCollectionDelete:(BOOL)<em>allOrNone</em> objectIds:(NSArray&lt;NSString*&gt; *)<em>objectIds</em> apiVersion:(nullable NSString *)<em>apiVersion</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>allOrNone</code></th>
+						<td><p>Indicates whether to roll back the entire request when the delete of any object fails (true) or to continue with the independent delete of other objects in the request.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>objectIds</code></th>
+						<td><p>List of Salesforce IDs of the records to delete.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>apiVersion</code></th>
+						<td><p>Salesforce API version.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection see-also-section">
+				<h4 class="method-subtitle">See Also</h4>
+				<ul>
+					
+					<li><code><p><a href="https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_sobjects_collections_delete.htm">https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_sobjects_collections_delete.htm</a></p></code></li>
+					
+				</ul>
+			</div>
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
 </div>
 						</div>
 						
@@ -2328,6 +2787,330 @@ to return values. Example: &ldquo;Account,Contact&rdquo;.</p></td>
 			</div>
 			
 			
+		</div>
+	</div>
+</div>
+						</div>
+						
+
+						<a title="Notifications Methods" name="task_Notifications Methods"></a>
+						<h2 class="task-title">Notifications Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/requestForNotificationsStatus:" title="requestForNotificationsStatus:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/requestForNotificationsStatus:">&ndash;&nbsp;requestForNotificationsStatus:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Returns a request to fetch the status of notifications, including unread and unseen count.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForNotificationsStatus:(NSString *)<em>apiVersion</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>apiVersion</code></th>
+						<td><p>API version.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection see-also-section">
+				<h4 class="method-subtitle">See Also</h4>
+				<ul>
+					
+					<li><code><p><a href="https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_notifications_status.htm">https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_notifications_status.htm</a></p></code></li>
+					
+				</ul>
+			</div>
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Notifications.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/requestForNotification:apiVersion:" title="requestForNotification:apiVersion:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/requestForNotification:apiVersion:">&ndash;&nbsp;requestForNotification:apiVersion:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Returns a request to fetch the given notification.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForNotification:(NSString *)<em>notificationId</em> apiVersion:(NSString *)<em>apiVersion</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>notificationId</code></th>
+						<td><p>ID of notification to fetch.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>apiVersion</code></th>
+						<td><p>API version.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection see-also-section">
+				<h4 class="method-subtitle">See Also</h4>
+				<ul>
+					
+					<li><code><p><a href="https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resource_notifications_specific.htm">https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resource_notifications_specific.htm</a></p></code></li>
+					
+				</ul>
+			</div>
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Notifications.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+
+						<a title="Extension Methods" name="task_Extension Methods"></a>
+						<h2 class="task-title">Extension Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/activeRequests" title="activeRequests"></a>
+	<h3 class="method-title"><code><a href="#//api/name/activeRequests">&nbsp;&nbsp;activeRequests</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Active requests property.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, strong, nonnull) SFSDKSafeMutableSet *activeRequests</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/requiresAuthentication" title="requiresAuthentication"></a>
+	<h3 class="method-title"><code><a href="#//api/name/requiresAuthentication">&nbsp;&nbsp;requiresAuthentication</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL requiresAuthentication</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/instrumentationDelegateInternal" title="instrumentationDelegateInternal"></a>
+	<h3 class="method-title"><code><a href="#//api/name/instrumentationDelegateInternal">&nbsp;&nbsp;instrumentationDelegateInternal</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nullable, nonatomic, strong) id&lt;SFRestRequestDelegate&gt; instrumentationDelegateInternal</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/removeActiveRequestObject:" title="removeActiveRequestObject:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/removeActiveRequestObject:">&ndash;&nbsp;removeActiveRequestObject:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)removeActiveRequestObject:(nonnull SFRestRequest *)<em>request</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/forceTimeoutRequest:" title="forceTimeoutRequest:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/forceTimeoutRequest:">&ndash;&nbsp;forceTimeoutRequest:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Force a request to timeout: for testing only!</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)forceTimeoutRequest:(nonnull SFRestRequest *)<em>req</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>req</code></th>
+						<td><p>The request to force a timeout on, or nil to grab any active request and force it to timeout</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES if we were able to find and timeout the request, NO if the request could not be found</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/computeAPIVersion:" title="computeAPIVersion:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/computeAPIVersion:">&ndash;&nbsp;computeAPIVersion:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (nonnull NSString *)computeAPIVersion:(nullable NSString *)<em>apiVersion</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/removeSharedInstanceWithUser:" title="removeSharedInstanceWithUser:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/removeSharedInstanceWithUser:">+&nbsp;removeSharedInstanceWithUser:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>+ (void)removeSharedInstanceWithUser:(nonnull SFUserAccount *)<em>user</em></code></div>
+
+		    
 		</div>
 	</div>
 </div>
@@ -2743,143 +3526,6 @@ or NSNull to not specify any fields/clauses for that object</li>
 			<div class="method-subsection declared-in-section">
 				<h4 class="method-subtitle">Declared In</h4>
 				<p><code class="declared-in-ref">SFRestAPI+QueryBuilder.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div>
-						</div>
-						
-
-						<a title="Notifications Methods" name="task_Notifications Methods"></a>
-						<h2 class="task-title">Notifications Methods</h2>
-
-						<div class="task-list">
-							<div class="section-method">
-	<a name="//api/name/requestForNotificationsStatus:" title="requestForNotificationsStatus:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/requestForNotificationsStatus:">&ndash;&nbsp;requestForNotificationsStatus:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Returns a request to fetch the status of notifications, including unread and unseen count.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForNotificationsStatus:(NSString *)<em>apiVersion</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>apiVersion</code></th>
-						<td><p>API version.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection see-also-section">
-				<h4 class="method-subtitle">See Also</h4>
-				<ul>
-					
-					<li><code><p><a href="https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_notifications_status.htm">https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_notifications_status.htm</a></p></code></li>
-					
-				</ul>
-			</div>
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Notifications.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/requestForNotification:apiVersion:" title="requestForNotification:apiVersion:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/requestForNotification:apiVersion:">&ndash;&nbsp;requestForNotification:apiVersion:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Returns a request to fetch the given notification.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForNotification:(NSString *)<em>notificationId</em> apiVersion:(NSString *)<em>apiVersion</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>notificationId</code></th>
-						<td><p>ID of notification to fetch.</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>apiVersion</code></th>
-						<td><p>API version.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection see-also-section">
-				<h4 class="method-subtitle">See Also</h4>
-				<ul>
-					
-					<li><code><p><a href="https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resource_notifications_specific.htm">https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resource_notifications_specific.htm</a></p></code></li>
-					
-				</ul>
-			</div>
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Notifications.h</code></p>
 			</div>
 			
 			
@@ -3997,193 +4643,6 @@ create a new file at version 1.</p>
 </div>
 						</div>
 						
-
-						<a title="Extension Methods" name="task_Extension Methods"></a>
-						<h2 class="task-title">Extension Methods</h2>
-
-						<div class="task-list">
-							<div class="section-method">
-	<a name="//api/name/activeRequests" title="activeRequests"></a>
-	<h3 class="method-title"><code><a href="#//api/name/activeRequests">&nbsp;&nbsp;activeRequests</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Active requests property.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, strong, nonnull) SFSDKSafeMutableSet *activeRequests</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Internal.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/requiresAuthentication" title="requiresAuthentication"></a>
-	<h3 class="method-title"><code><a href="#//api/name/requiresAuthentication">&nbsp;&nbsp;requiresAuthentication</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL requiresAuthentication</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/instrumentationDelegateInternal" title="instrumentationDelegateInternal"></a>
-	<h3 class="method-title"><code><a href="#//api/name/instrumentationDelegateInternal">&nbsp;&nbsp;instrumentationDelegateInternal</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nullable, nonatomic, strong) id&lt;SFRestRequestDelegate&gt; instrumentationDelegateInternal</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/removeActiveRequestObject:" title="removeActiveRequestObject:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/removeActiveRequestObject:">&ndash;&nbsp;removeActiveRequestObject:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>- (void)removeActiveRequestObject:(nonnull SFRestRequest *)<em>request</em></code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/forceTimeoutRequest:" title="forceTimeoutRequest:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/forceTimeoutRequest:">&ndash;&nbsp;forceTimeoutRequest:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Force a request to timeout: for testing only!</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (BOOL)forceTimeoutRequest:(nonnull SFRestRequest *)<em>req</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>req</code></th>
-						<td><p>The request to force a timeout on, or nil to grab any active request and force it to timeout</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>YES if we were able to find and timeout the request, NO if the request could not be found</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Internal.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/computeAPIVersion:" title="computeAPIVersion:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/computeAPIVersion:">&ndash;&nbsp;computeAPIVersion:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>- (nonnull NSString *)computeAPIVersion:(nullable NSString *)<em>apiVersion</em></code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/removeSharedInstanceWithUser:" title="removeSharedInstanceWithUser:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/removeSharedInstanceWithUser:">+&nbsp;removeSharedInstanceWithUser:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>+ (void)removeSharedInstanceWithUser:(nonnull SFUserAccount *)<em>user</em></code></div>
-
-		    
-		</div>
-	</div>
-</div>
-						</div>
-						
 					</div>
 					
 					
@@ -4196,7 +4655,7 @@ create a new file at version 1.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2022 Salesforce.com. All rights reserved. Updated: 2022-02-09</p>
+						<p class="copyright">Copyright &copy; 2022 Salesforce.com. All rights reserved. Updated: 2022-06-22</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

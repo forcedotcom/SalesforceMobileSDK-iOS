@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKUserSelectionTableViewController.html">
+	<File path="Classes/SFSDKTestRequestListener.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKUserSelectionTableViewController</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKTestRequestListener</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
             
 			
 			<NodeRef refid="122"/>
@@ -13,206 +13,159 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/setSelectedAccount:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/setDataResponse:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFUserAccount *selectedAccount</Declaration>
+			<Declaration>@property (nullable, nonatomic, retain) id dataResponse</Declaration>
 			
 			
-			<Anchor>//api/name/selectedAccount</Anchor>
+			<Anchor>//api/name/dataResponse</Anchor>
             <NodeRef refid="122"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/selectedAccount</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/dataResponse</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFUserAccount *selectedAccount</Declaration>
+			<Declaration>@property (nullable, nonatomic, retain) id dataResponse</Declaration>
 			
 			
-			<Anchor>//api/name/selectedAccount</Anchor>
+			<Anchor>//api/name/dataResponse</Anchor>
             <NodeRef refid="122"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUserSelectionTableViewController/selectedAccount</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestRequestListener/dataResponse</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFUserAccount *selectedAccount</Declaration>
+			<Declaration>@property (nullable, nonatomic, retain) id dataResponse</Declaration>
 			
 			
-			<Anchor>//api/name/selectedAccount</Anchor>
+			<Anchor>//api/name/dataResponse</Anchor>
             <NodeRef refid="122"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/setListViewDelegate:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/setLastError:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKUserSelectionTableViewControllerDelegate&gt; listViewDelegate</Declaration>
+			<Declaration>@property (nullable, nonatomic, retain) NSError *lastError</Declaration>
 			
 			
-			<Anchor>//api/name/listViewDelegate</Anchor>
+			<Anchor>//api/name/lastError</Anchor>
             <NodeRef refid="122"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/listViewDelegate</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/lastError</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKUserSelectionTableViewControllerDelegate&gt; listViewDelegate</Declaration>
+			<Declaration>@property (nullable, nonatomic, retain) NSError *lastError</Declaration>
 			
 			
-			<Anchor>//api/name/listViewDelegate</Anchor>
+			<Anchor>//api/name/lastError</Anchor>
             <NodeRef refid="122"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUserSelectionTableViewController/listViewDelegate</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestRequestListener/lastError</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKUserSelectionTableViewControllerDelegate&gt; listViewDelegate</Declaration>
+			<Declaration>@property (nullable, nonatomic, retain) NSError *lastError</Declaration>
 			
 			
-			<Anchor>//api/name/listViewDelegate</Anchor>
+			<Anchor>//api/name/lastError</Anchor>
             <NodeRef refid="122"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/setSpAppOptions:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/setReturnStatus:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSDictionary *spAppOptions</Declaration>
+			<Declaration>@property (nullable, nonatomic, retain) NSString *returnStatus</Declaration>
 			
 			
-			<Anchor>//api/name/spAppOptions</Anchor>
+			<Anchor>//api/name/returnStatus</Anchor>
             <NodeRef refid="122"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/spAppOptions</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/returnStatus</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSDictionary *spAppOptions</Declaration>
+			<Declaration>@property (nullable, nonatomic, retain) NSString *returnStatus</Declaration>
 			
 			
-			<Anchor>//api/name/spAppOptions</Anchor>
+			<Anchor>//api/name/returnStatus</Anchor>
             <NodeRef refid="122"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUserSelectionTableViewController/spAppOptions</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestRequestListener/returnStatus</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSDictionary *spAppOptions</Declaration>
+			<Declaration>@property (nullable, nonatomic, retain) NSString *returnStatus</Declaration>
 			
 			
-			<Anchor>//api/name/spAppOptions</Anchor>
+			<Anchor>//api/name/returnStatus</Anchor>
             <NodeRef refid="122"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/setNavigationBar:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/setMaxWaitTime:</TokenIdentifier>
+			<Abstract type="html">Max time to wait for request completion</Abstract>
+			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UINavigationBar *navigationBar</Declaration>
+			<Declaration>@property (nonatomic, assign) NSTimeInterval maxWaitTime</Declaration>
 			
 			
-			<Anchor>//api/name/navigationBar</Anchor>
+			<Anchor>//api/name/maxWaitTime</Anchor>
             <NodeRef refid="122"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/navigationBar</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/maxWaitTime</TokenIdentifier>
+			<Abstract type="html">Max time to wait for request completion</Abstract>
+			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UINavigationBar *navigationBar</Declaration>
+			<Declaration>@property (nonatomic, assign) NSTimeInterval maxWaitTime</Declaration>
 			
 			
-			<Anchor>//api/name/navigationBar</Anchor>
+			<Anchor>//api/name/maxWaitTime</Anchor>
             <NodeRef refid="122"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUserSelectionTableViewController/navigationBar</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestRequestListener/maxWaitTime</TokenIdentifier>
+			<Abstract type="html">Max time to wait for request completion</Abstract>
+			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UINavigationBar *navigationBar</Declaration>
+			<Declaration>@property (nonatomic, assign) NSTimeInterval maxWaitTime</Declaration>
 			
 			
-			<Anchor>//api/name/navigationBar</Anchor>
+			<Anchor>//api/name/maxWaitTime</Anchor>
             <NodeRef refid="122"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/setTableView:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/waitForCompletion</TokenIdentifier>
+			<Abstract type="html">Wait for the request to complete (success or fail)
+Waits for up to maxWaitTime.</Abstract>
+			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UITableView *tableView</Declaration>
+			<Declaration>- (NSString *)waitForCompletion</Declaration>
 			
-			
-			<Anchor>//api/name/tableView</Anchor>
-            <NodeRef refid="122"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/tableView</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) UITableView *tableView</Declaration>
-			
-			
-			<Anchor>//api/name/tableView</Anchor>
-            <NodeRef refid="122"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUserSelectionTableViewController/tableView</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) UITableView *tableView</Declaration>
-			
-			
-			<Anchor>//api/name/tableView</Anchor>
-            <NodeRef refid="122"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/createFooterView</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
-			
-			<Declaration>- (UIView *)createFooterView</Declaration>
-			
-			
-			<Anchor>//api/name/createFooterView</Anchor>
-            <NodeRef refid="122"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/createHeaderView</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
-			
-			<Declaration>- (UIView *)createHeaderView</Declaration>
-			
-			
-			<Anchor>//api/name/createHeaderView</Anchor>
+			<ReturnValue><Abstract type="html">returnStatus:  kTestRequestStatusDidTimeout if maxWaitTime was exceeded</Abstract></ReturnValue>
+			<Anchor>//api/name/waitForCompletion</Anchor>
             <NodeRef refid="122"/>
 		</Token>
 		

@@ -242,6 +242,40 @@ Used to decide whether a record should be synced up or not when using merge mode
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpTarget/isNewerThanServer:remoteModDate:</TokenIdentifier>
+			<Abstract type="html">Return true if local mod date is greater than remote mod date
+NB: also return true if both were deleted or if local mod date is missing</Abstract>
+			<DeclaredIn>SFSyncUpTarget+Internal.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)isNewerThanServer:(nullable SFRecordModDate *)localModDate remoteModDate:(nullable SFRecordModDate *)remoteModDate</Declaration>
+			
+			
+			<Anchor>//api/name/isNewerThanServer:remoteModDate:</Anchor>
+            <NodeRef refid="41"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpTarget/areNewerThanServer:records:resultBlock:</TokenIdentifier>
+			<Abstract type="html">Same as isNewerThanServer but operating over a list of records
+Return dictionary from record store id to boolean</Abstract>
+			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
+			
+			<Declaration>- (void)areNewerThanServer:(SFMobileSyncSyncManager *)syncManager records:(NSArray&lt;NSDictionary*&gt; *)records resultBlock:(SFSyncUpRecordsNewerThanServerBlock)resultBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>records</Name>
+					<Abstract type="html">The records</Abstract>
+				</Parameter><Parameter>
+					<Name>resultBlock</Name>
+					<Abstract type="html">The block to execute</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/areNewerThanServer:records:resultBlock:</Anchor>
+            <NodeRef refid="41"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpTarget/createOnServer:record:fieldlist:completionBlock:failBlock:</TokenIdentifier>
 			<Abstract type="html">Save locally created record back to server</Abstract>
 			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
@@ -377,18 +411,6 @@ Used to decide whether a record should be synced up or not when using merge mode
 			
 			
 			<Anchor>//api/name/buildFieldsMap:fieldlist:idFieldName:modificationDateFieldName:</Anchor>
-            <NodeRef refid="41"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpTarget/isNewerThanServer:remoteModDate:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncUpTarget+Internal.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)isNewerThanServer:(SFRecordModDate *)localModDate remoteModDate:(SFRecordModDate *)remoteModDate</Declaration>
-			
-			
-			<Anchor>//api/name/isNewerThanServer:remoteModDate:</Anchor>
             <NodeRef refid="41"/>
 		</Token>
 		

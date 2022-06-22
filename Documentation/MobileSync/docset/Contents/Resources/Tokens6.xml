@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFCleanSyncGhostsTask.html">
+	<File path="Classes/SFChildrenInfo.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFCleanSyncGhostsTask</TokenIdentifier>
-			<Abstract type="html">This task class is responsible for running &quot;clean resync ghosts&quot; tasks.</Abstract>
-			<DeclaredIn>SFCleanSyncGhostsTask.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFChildrenInfo</TokenIdentifier>
+			<Abstract type="html">Simple object to capture details of children in parent-child relationship</Abstract>
+			<DeclaredIn>SFChildrenInfo.h</DeclaredIn>
             
 			
 			<NodeRef refid="6"/>
@@ -13,14 +13,134 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCleanSyncGhostsTask/init:sync:completionStatusBlock:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFChildrenInfo/setSobjectTypePlural:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFCleanSyncGhostsTask.h</DeclaredIn>
+			<DeclaredIn>SFChildrenInfo.h</DeclaredIn>
 			
-			<Declaration>- (instancetype)init:(SFMobileSyncSyncManager *)syncManager sync:(SFSyncState *)sync completionStatusBlock:(SFSyncSyncManagerCompletionStatusBlock)completionStatusBlock</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *sobjectTypePlural</Declaration>
 			
 			
-			<Anchor>//api/name/init:sync:completionStatusBlock:</Anchor>
+			<Anchor>//api/name/sobjectTypePlural</Anchor>
+            <NodeRef refid="6"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFChildrenInfo/sobjectTypePlural</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFChildrenInfo.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *sobjectTypePlural</Declaration>
+			
+			
+			<Anchor>//api/name/sobjectTypePlural</Anchor>
+            <NodeRef refid="6"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFChildrenInfo/sobjectTypePlural</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFChildrenInfo.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *sobjectTypePlural</Declaration>
+			
+			
+			<Anchor>//api/name/sobjectTypePlural</Anchor>
+            <NodeRef refid="6"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFChildrenInfo/setParentIdFieldName:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFChildrenInfo.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *parentIdFieldName</Declaration>
+			
+			
+			<Anchor>//api/name/parentIdFieldName</Anchor>
+            <NodeRef refid="6"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFChildrenInfo/parentIdFieldName</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFChildrenInfo.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *parentIdFieldName</Declaration>
+			
+			
+			<Anchor>//api/name/parentIdFieldName</Anchor>
+            <NodeRef refid="6"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFChildrenInfo/parentIdFieldName</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFChildrenInfo.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *parentIdFieldName</Declaration>
+			
+			
+			<Anchor>//api/name/parentIdFieldName</Anchor>
+            <NodeRef refid="6"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFChildrenInfo/newWithSObjectType:sobjectTypePlural:soupName:parentIdFieldName:</TokenIdentifier>
+			<Abstract type="html">Factory methods</Abstract>
+			<DeclaredIn>SFChildrenInfo.h</DeclaredIn>
+			
+			<Declaration>+ (SFChildrenInfo *)newWithSObjectType:(NSString *)sobjectType sobjectTypePlural:(NSString *)sobjectTypePlural soupName:(NSString *)soupName parentIdFieldName:(NSString *)parentIdFieldName</Declaration>
+			
+			
+			<Anchor>//api/name/newWithSObjectType:sobjectTypePlural:soupName:parentIdFieldName:</Anchor>
+            <NodeRef refid="6"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFChildrenInfo/newWithSObjectType:sobjectTypePlural:soupName:parentIdFieldName:idFieldName:modificationDateFieldName:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFChildrenInfo.h</DeclaredIn>
+			
+			<Declaration>+ (SFChildrenInfo *)newWithSObjectType:(NSString *)sobjectType sobjectTypePlural:(NSString *)sobjectTypePlural soupName:(NSString *)soupName parentIdFieldName:(NSString *)parentIdFieldName idFieldName:(NSString *)idFieldName modificationDateFieldName:(NSString *)modificationDateFieldName</Declaration>
+			
+			
+			<Anchor>//api/name/newWithSObjectType:sobjectTypePlural:soupName:parentIdFieldName:idFieldName:modificationDateFieldName:</Anchor>
+            <NodeRef refid="6"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFChildrenInfo/newWithSObjectType:sobjectTypePlural:soupName:parentIdFieldName:idFieldName:modificationDateFieldName:externalIdFieldName:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFChildrenInfo.h</DeclaredIn>
+			
+			<Declaration>+ (SFChildrenInfo *)newWithSObjectType:(NSString *)sobjectType sobjectTypePlural:(NSString *)sobjectTypePlural soupName:(NSString *)soupName parentIdFieldName:(NSString *)parentIdFieldName idFieldName:(NSString *)idFieldName modificationDateFieldName:(NSString *)modificationDateFieldName externalIdFieldName:(NSString *__nullable)externalIdFieldName</Declaration>
+			
+			
+			<Anchor>//api/name/newWithSObjectType:sobjectTypePlural:soupName:parentIdFieldName:idFieldName:modificationDateFieldName:externalIdFieldName:</Anchor>
+            <NodeRef refid="6"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFChildrenInfo/newFromDict:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFChildrenInfo.h</DeclaredIn>
+			
+			<Declaration>+ (SFChildrenInfo *)newFromDict:(NSDictionary *)dict</Declaration>
+			
+			
+			<Anchor>//api/name/newFromDict:</Anchor>
+            <NodeRef refid="6"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFChildrenInfo/asDict</TokenIdentifier>
+			<Abstract type="html">Method to translate to dictionary</Abstract>
+			<DeclaredIn>SFChildrenInfo.h</DeclaredIn>
+			
+			<Declaration>- (NSDictionary *)asDict</Declaration>
+			
+			
+			<Anchor>//api/name/asDict</Anchor>
             <NodeRef refid="6"/>
 		</Token>
 		

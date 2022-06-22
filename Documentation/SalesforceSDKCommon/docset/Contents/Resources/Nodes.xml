@@ -23,8 +23,6 @@
 						<NodeRef refid="10"/>
 						<NodeRef refid="11"/>
 						<NodeRef refid="12"/>
-						<NodeRef refid="13"/>
-						<NodeRef refid="14"/>
 						
 					</Subnodes>
 				</Node>
@@ -34,7 +32,7 @@
 					<Name>Categories</Name>
 					<Path>index.html</Path>
 					<Subnodes>
-						<NodeRef refid="15"/>
+						<NodeRef refid="13"/>
 						
 					</Subnodes>
 				</Node>
@@ -44,7 +42,7 @@
 					<Name>Protocols</Name>
 					<Path>index.html</Path>
 					<Subnodes>
-						<NodeRef refid="16"/>
+						<NodeRef refid="14"/>
 						
 					</Subnodes>
 				</Node>
@@ -54,7 +52,7 @@
 					<Name>Constants</Name>
 					<Path>index.html</Path>
 					<Subnodes>
-						<NodeRef refid="17"/>
+						<NodeRef refid="15"/>
 						
 					</Subnodes>
 				</Node>
@@ -66,38 +64,11 @@
 	<Library>
 		
 		<Node id="1" type="file" documentType="reference">
-            <Name>AppDelegate</Name>
-            <Path>Classes/AppDelegate.html</Path>
-            
-                <Subnodes>
-                <Node type="section">
-                    <Path>Classes/AppDelegate.html</Path>
-                    <Name>Overview</Name>
-                    <Anchor>overview</Anchor>
-                </Node>
-                <Node type="section">
-                    <Path>Classes/AppDelegate.html</Path>
-                    <Name>Tasks</Name>
-                    <Anchor>tasks</Anchor>
-                </Node>
-                
-                <Node type="section">
-                    <Path>Classes/AppDelegate.html</Path>
-                    <Name>Properties</Name>
-                    <Anchor>properties</Anchor>
-                </Node>
-                
-                
-                
-            </Subnodes>
-            
-        </Node>
-		<Node id="2" type="file" documentType="reference">
             <Name>SFDefaultLogger</Name>
             <Path>Classes/SFDefaultLogger.html</Path>
             
         </Node>
-		<Node id="3" type="file" documentType="reference">
+		<Node id="2" type="file" documentType="reference">
             <Name>SFFileProtectionHelper</Name>
             <Path>Classes/SFFileProtectionHelper.html</Path>
             
@@ -136,7 +107,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="4" type="file" documentType="reference">
+		<Node id="3" type="file" documentType="reference">
             <Name>SFJsonUtils</Name>
             <Path>Classes/SFJsonUtils.html</Path>
             
@@ -163,7 +134,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="5" type="file" documentType="reference">
+		<Node id="4" type="file" documentType="reference">
             <Name>SFLogger</Name>
             <Path>Classes/SFLogger.html</Path>
             
@@ -202,7 +173,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="6" type="file" documentType="reference">
+		<Node id="5" type="file" documentType="reference">
             <Name>SFPathUtil</Name>
             <Path>Classes/SFPathUtil.html</Path>
             
@@ -229,7 +200,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="7" type="file" documentType="reference">
+		<Node id="6" type="file" documentType="reference">
             <Name>SFSDKDatasharingHelper</Name>
             <Path>Classes/SFSDKDatasharingHelper.html</Path>
             
@@ -256,7 +227,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="8" type="file" documentType="reference">
+		<Node id="7" type="file" documentType="reference">
             <Name>SFSDKReachability</Name>
             <Path>Classes/SFSDKReachability.html</Path>
             
@@ -289,7 +260,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="9" type="file" documentType="reference">
+		<Node id="8" type="file" documentType="reference">
             <Name>SFSDKSafeMutableArray</Name>
             <Path>Classes/SFSDKSafeMutableArray.html</Path>
             
@@ -328,7 +299,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="10" type="file" documentType="reference">
+		<Node id="9" type="file" documentType="reference">
             <Name>SFSDKSafeMutableDictionary</Name>
             <Path>Classes/SFSDKSafeMutableDictionary.html</Path>
             
@@ -361,7 +332,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="11" type="file" documentType="reference">
+		<Node id="10" type="file" documentType="reference">
             <Name>SFSDKSafeMutableSet</Name>
             <Path>Classes/SFSDKSafeMutableSet.html</Path>
             
@@ -400,7 +371,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="12" type="file" documentType="reference">
+		<Node id="11" type="file" documentType="reference">
             <Name>SFSwiftDetectUtil</Name>
             <Path>Classes/SFSwiftDetectUtil.html</Path>
             
@@ -427,7 +398,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="13" type="file" documentType="reference">
+		<Node id="12" type="file" documentType="reference">
             <Name>SFTestContext</Name>
             <Path>Classes/SFTestContext.html</Path>
             
@@ -454,13 +425,8 @@
             </Subnodes>
             
         </Node>
-		<Node id="14" type="file" documentType="reference">
-            <Name>ViewController</Name>
-            <Path>Classes/ViewController.html</Path>
-            
-        </Node>
 		
-		<Node id="15" type="file" documentType="reference">
+		<Node id="13" type="file" documentType="reference">
             <Name>NSUserDefaults(SFAdditions)</Name>
             <Path>Categories/NSUserDefaults+SFAdditions.html</Path>
             
@@ -488,7 +454,7 @@
             
         </Node>
 		
-        <Node id="16" type="file" documentType="reference">
+        <Node id="14" type="file" documentType="reference">
             <Name>SFLogging</Name>
             <Path>Protocols/SFLogging.html</Path>
             
@@ -528,7 +494,7 @@
             
         </Node>
 		
-        <Node id="17" type="file" documentType="reference">
+        <Node id="15" type="file" documentType="reference">
             <Name>SFLogLevel</Name>
             <Path>Constants/SFLogLevel.html</Path>
             

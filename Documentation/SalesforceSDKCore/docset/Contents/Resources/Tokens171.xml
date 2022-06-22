@@ -1,54 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSDKLoginFlowSelectionViewDelegate.html">
+	<File path="Protocols/SFIdentityCoordinatorDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSDKLoginFlowSelectionViewDelegate</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKLoginFlowSelectionView.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SFIdentityCoordinatorDelegate</TokenIdentifier>
+			<Abstract type="html">Protocol for being a delegate to the SFIdentityCoordinator process.  Delegates may receive
+notifications about the success or failure of the identity request process.</Abstract>
+			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
             
 			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/cl/SFIdentityCoordinator</TokenIdentifier>
+		
+	</RelatedTokens>
+	
 			<NodeRef refid="171"/>
 		</Token>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKLoginFlowSelectionViewDelegate/loginFlowSelectionIDPSelected:options:</TokenIdentifier>
-			<Abstract type="html">Used to notify the SDK of user selection on the login flow selection view</Abstract>
-			<DeclaredIn>SFSDKLoginFlowSelectionView.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFIdentityCoordinatorDelegate/identityCoordinatorRetrievedData:</TokenIdentifier>
+			<Abstract type="html">Called when the identity coordinator successfully receives identity data from the service.</Abstract>
+			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
 			
-			<Declaration>- (void)loginFlowSelectionIDPSelected:(UIViewController *)controller options:(NSDictionary *)appOptions</Declaration>
+			<Declaration>- (void)identityCoordinatorRetrievedData:(SFIdentityCoordinator *)coordinator</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>controller</Name>
-					<Abstract type="html">instance invoking this delegate</Abstract>
-				</Parameter><Parameter>
-					<Name>appOptions</Name>
-					<Abstract type="html">addl. name value pairs sent from the sdk for the SFSDKLoginFlowSelectionView</Abstract>
+					<Name>coordinator</Name>
+					<Abstract type="html">the SFIdentityCoordinator instance associated with the requested data.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/loginFlowSelectionIDPSelected:options:</Anchor>
+			<Anchor>//api/name/identityCoordinatorRetrievedData:</Anchor>
             <NodeRef refid="171"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKLoginFlowSelectionViewDelegate/loginFlowSelectionLocalLoginSelected:options:</TokenIdentifier>
-			<Abstract type="html">Used to notify the SDK of user selection on the login flow selection view</Abstract>
-			<DeclaredIn>SFSDKLoginFlowSelectionView.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFIdentityCoordinatorDelegate/identityCoordinator:didFailWithError:</TokenIdentifier>
+			<Abstract type="html">Called if there was an error while retrieving the identity data from the service.</Abstract>
+			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
 			
-			<Declaration>- (void)loginFlowSelectionLocalLoginSelected:(UIViewController *)controller options:(NSDictionary *)appOptions</Declaration>
+			<Declaration>- (void)identityCoordinator:(SFIdentityCoordinator *)coordinator didFailWithError:(NSError *)error</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>controller</Name>
-					<Abstract type="html">instance invoking this delegate</Abstract>
+					<Name>coordinator</Name>
+					<Abstract type="html">The SFIdentityCoordinator instance associated with the request.</Abstract>
 				</Parameter><Parameter>
-					<Name>appOptions</Name>
-					<Abstract type="html">addl. name value pairs sent from the sdk for the SFSDKLoginFlowSelectionVie</Abstract>
+					<Name>error</Name>
+					<Abstract type="html">The error that occurred during the request.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/loginFlowSelectionLocalLoginSelected:options:</Anchor>
+			<Anchor>//api/name/identityCoordinator:didFailWithError:</Anchor>
             <NodeRef refid="171"/>
 		</Token>
 		

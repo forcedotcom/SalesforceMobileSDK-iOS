@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKLoginViewControllerConfig.html">
+	<File path="Classes/SFSDKLoginHost.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKLoginViewControllerConfig</TokenIdentifier>
-			<Abstract type="html">Block typedef for setting up a custom SFLoginViewController.</Abstract>
-			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKLoginHost</TokenIdentifier>
+			<Abstract type="html">Class that encapsulates the information about a login host.</Abstract>
+			<DeclaredIn>SFSDKLoginHost.h</DeclaredIn>
             
 			
 			<NodeRef refid="94"/>
@@ -13,110 +13,133 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/set:</TokenIdentifier>
-			<Abstract type="html">Specify visibility of nav bar. This property will be used to hide/show the nav bar</Abstract>
-			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHost/setName:</TokenIdentifier>
+			<Abstract type="html">The name of the login host.</Abstract>
+			<DeclaredIn>SFSDKLoginHost.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) BOOL showNavbar NS_SWIFT_NAME ( showsNavigationBar )</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *name</Declaration>
 			
 			
-			<Anchor>//api/name/)</Anchor>
+			<Anchor>//api/name/name</Anchor>
             <NodeRef refid="94"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/)</TokenIdentifier>
-			<Abstract type="html">Specify visibility of nav bar. This property will be used to hide/show the nav bar</Abstract>
-			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHost/name</TokenIdentifier>
+			<Abstract type="html">The name of the login host.</Abstract>
+			<DeclaredIn>SFSDKLoginHost.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) BOOL showNavbar NS_SWIFT_NAME ( showsNavigationBar )</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *name</Declaration>
 			
 			
-			<Anchor>//api/name/)</Anchor>
+			<Anchor>//api/name/name</Anchor>
             <NodeRef refid="94"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginViewControllerConfig/)</TokenIdentifier>
-			<Abstract type="html">Specify visibility of nav bar. This property will be used to hide/show the nav bar</Abstract>
-			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginHost/name</TokenIdentifier>
+			<Abstract type="html">The name of the login host.</Abstract>
+			<DeclaredIn>SFSDKLoginHost.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) BOOL showNavbar NS_SWIFT_NAME ( showsNavigationBar )</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *name</Declaration>
 			
 			
-			<Anchor>//api/name/)</Anchor>
+			<Anchor>//api/name/name</Anchor>
             <NodeRef refid="94"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/setDelegate:</TokenIdentifier>
-			<Abstract type="html">Specifiy a delegate for LoginViewController.</Abstract>
-			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHost/setHost:</TokenIdentifier>
+			<Abstract type="html">The server address of the login host.</Abstract>
+			<DeclaredIn>SFSDKLoginHost.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak, nullable) id&lt;SFLoginViewControllerDelegate&gt; delegate</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *host</Declaration>
 			
 			
-			<Anchor>//api/name/delegate</Anchor>
+			<Anchor>//api/name/host</Anchor>
             <NodeRef refid="94"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/delegate</TokenIdentifier>
-			<Abstract type="html">Specifiy a delegate for LoginViewController.</Abstract>
-			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHost/host</TokenIdentifier>
+			<Abstract type="html">The server address of the login host.</Abstract>
+			<DeclaredIn>SFSDKLoginHost.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak, nullable) id&lt;SFLoginViewControllerDelegate&gt; delegate</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *host</Declaration>
 			
 			
-			<Anchor>//api/name/delegate</Anchor>
+			<Anchor>//api/name/host</Anchor>
             <NodeRef refid="94"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginViewControllerConfig/delegate</TokenIdentifier>
-			<Abstract type="html">Specifiy a delegate for LoginViewController.</Abstract>
-			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginHost/host</TokenIdentifier>
+			<Abstract type="html">The server address of the login host.</Abstract>
+			<DeclaredIn>SFSDKLoginHost.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak, nullable) id&lt;SFLoginViewControllerDelegate&gt; delegate</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *host</Declaration>
 			
 			
-			<Anchor>//api/name/delegate</Anchor>
+			<Anchor>//api/name/host</Anchor>
             <NodeRef refid="94"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/setLoginViewControllerCreationBlock:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHost/setDeletable:</TokenIdentifier>
+			<Abstract type="html">Indicates whether this login host can be deleted.</Abstract>
+			<DeclaredIn>SFSDKLoginHost.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) SFLoginViewControllerCreationBlock loginViewControllerCreationBlock</Declaration>
+			<Declaration>@property (readonly, getter=isDeletable) BOOL deletable</Declaration>
 			
 			
-			<Anchor>//api/name/loginViewControllerCreationBlock</Anchor>
+			<Anchor>//api/name/deletable</Anchor>
             <NodeRef refid="94"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/loginViewControllerCreationBlock</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHost/isDeletable</TokenIdentifier>
+			<Abstract type="html">Indicates whether this login host can be deleted.</Abstract>
+			<DeclaredIn>SFSDKLoginHost.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) SFLoginViewControllerCreationBlock loginViewControllerCreationBlock</Declaration>
+			<Declaration>@property (readonly, getter=isDeletable) BOOL deletable</Declaration>
 			
 			
-			<Anchor>//api/name/loginViewControllerCreationBlock</Anchor>
+			<Anchor>//api/name/deletable</Anchor>
             <NodeRef refid="94"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginViewControllerConfig/loginViewControllerCreationBlock</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginHost/deletable</TokenIdentifier>
+			<Abstract type="html">Indicates whether this login host can be deleted.</Abstract>
+			<DeclaredIn>SFSDKLoginHost.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) SFLoginViewControllerCreationBlock loginViewControllerCreationBlock</Declaration>
+			<Declaration>@property (readonly, getter=isDeletable) BOOL deletable</Declaration>
 			
 			
-			<Anchor>//api/name/loginViewControllerCreationBlock</Anchor>
+			<Anchor>//api/name/deletable</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKLoginHost/hostWithName:host:deletable:</TokenIdentifier>
+			<Abstract type="html">* Returns a new login host instance with the specified parameters.</Abstract>
+			<DeclaredIn>SFSDKLoginHost.h</DeclaredIn>
+			
+			<Declaration>+ (SFSDKLoginHost *)hostWithName:(NSString *)name host:(NSString *)host deletable:(BOOL)deletable</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>name</Name>
+					<Abstract type="html">Name of the login host.</Abstract>
+				</Parameter><Parameter>
+					<Name>host</Name>
+					<Abstract type="html">Server address of the login host.</Abstract>
+				</Parameter><Parameter>
+					<Name>deletable</Name>
+					<Abstract type="html">YES if the host can be deleted.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/hostWithName:host:deletable:</Anchor>
             <NodeRef refid="94"/>
 		</Token>
 		

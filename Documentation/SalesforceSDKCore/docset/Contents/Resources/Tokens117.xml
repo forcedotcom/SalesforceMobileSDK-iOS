@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKUITableViewCell.html">
+	<File path="Classes/SFSDKSoqlBuilder.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKUITableViewCell</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKSoqlBuilder</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
             
 			
 			<NodeRef refid="117"/>
@@ -13,218 +13,230 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/setUserName:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKSoqlBuilder/withFields:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
+			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSString *userName</Declaration>
-			
-			
-			<Anchor>//api/name/userName</Anchor>
+			<Declaration>+ (SFSDKSoqlBuilder *)withFields:(NSString *)fields</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>fields</Name>
+					<Abstract type="html">a list of one or more fields, separated by commas, that are to be retrieved from the specified object</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/withFields:</Anchor>
             <NodeRef refid="117"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/userName</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKSoqlBuilder/withFieldsArray:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
+			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSString *userName</Declaration>
-			
-			
-			<Anchor>//api/name/userName</Anchor>
+			<Declaration>+ (SFSDKSoqlBuilder *)withFieldsArray:(NSArray *)fields</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>fields</Name>
+					<Abstract type="html">an array of one or more fields, that are to be retrieved from the specified object</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/withFieldsArray:</Anchor>
             <NodeRef refid="117"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUITableViewCell/userName</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/from:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
+			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSString *userName</Declaration>
-			
-			
-			<Anchor>//api/name/userName</Anchor>
+			<Declaration>- (SFSDKSoqlBuilder *)from:(NSString *)from</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>from</Name>
+					<Abstract type="html">the object to be queried</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/from:</Anchor>
             <NodeRef refid="117"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/setHostName:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/whereClause:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
+			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSString *hostName</Declaration>
-			
-			
-			<Anchor>//api/name/hostName</Anchor>
+			<Declaration>- (SFSDKSoqlBuilder *)whereClause:(NSString *)whereClause</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>whereClause</Name>
+					<Abstract type="html">a conditional statement</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/whereClause:</Anchor>
             <NodeRef refid="117"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/hostName</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/with:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
+			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSString *hostName</Declaration>
-			
-			
-			<Anchor>//api/name/hostName</Anchor>
+			<Declaration>- (SFSDKSoqlBuilder *)with:(NSString *)with</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>with</Name>
+					<Abstract type="html">used to filter records based on field values.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/with:</Anchor>
             <NodeRef refid="117"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUITableViewCell/hostName</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/groupBy:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
+			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSString *hostName</Declaration>
-			
-			
-			<Anchor>//api/name/hostName</Anchor>
+			<Declaration>- (SFSDKSoqlBuilder *)groupBy:(NSString *)groupBy</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>groupBy</Name>
+					<Abstract type="html">a list of one or more fields, separated by commas, the resutls are to be grouped by</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/groupBy:</Anchor>
             <NodeRef refid="117"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/setImageURL:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/having:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
+			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSURL *imageURL</Declaration>
-			
-			
-			<Anchor>//api/name/imageURL</Anchor>
+			<Declaration>- (SFSDKSoqlBuilder *)having:(NSString *)having</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>having</Name>
+					<Abstract type="html">specifies one or more conditional expressions using aggregate functions to filter the query results</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/having:</Anchor>
             <NodeRef refid="117"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/imageURL</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/orderBy:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
+			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSURL *imageURL</Declaration>
-			
-			
-			<Anchor>//api/name/imageURL</Anchor>
+			<Declaration>- (SFSDKSoqlBuilder *)orderBy:(NSString *)orderBy</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>orderBy</Name>
+					<Abstract type="html">controls the order of the query results</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/orderBy:</Anchor>
             <NodeRef refid="117"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUITableViewCell/imageURL</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/limit:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
+			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSURL *imageURL</Declaration>
-			
-			
-			<Anchor>//api/name/imageURL</Anchor>
+			<Declaration>- (SFSDKSoqlBuilder *)limit:(NSInteger)limit</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>limit</Name>
+					<Abstract type="html">specifies the maximum number of rows to return</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/limit:</Anchor>
             <NodeRef refid="117"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/setProfileImage:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/offset:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
+			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
 			
-			<Declaration>@property (strong, nonatomic) UIImage *profileImage</Declaration>
-			
-			
-			<Anchor>//api/name/profileImage</Anchor>
+			<Declaration>- (SFSDKSoqlBuilder *)offset:(NSInteger)offset</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>offset</Name>
+					<Abstract type="html">specifies the starting row offset into the result set returned by the query</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/offset:</Anchor>
             <NodeRef refid="117"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/profileImage</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/encodeAndBuild</TokenIdentifier>
+			<Abstract type="html">Builds an encoded query from the builder.</Abstract>
+			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
 			
-			<Declaration>@property (strong, nonatomic) UIImage *profileImage</Declaration>
+			<Declaration>- (NSString *)encodeAndBuild</Declaration>
 			
-			
-			<Anchor>//api/name/profileImage</Anchor>
+			<ReturnValue><Abstract type="html">the built query</Abstract></ReturnValue>
+			<Anchor>//api/name/encodeAndBuild</Anchor>
             <NodeRef refid="117"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUITableViewCell/profileImage</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/encodeAndBuildWithPath:</TokenIdentifier>
+			<Abstract type="html">Builds an enoded query from the builder.</Abstract>
+			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
 			
-			<Declaration>@property (strong, nonatomic) UIImage *profileImage</Declaration>
-			
-			
-			<Anchor>//api/name/profileImage</Anchor>
+			<Declaration>- (NSString *)encodeAndBuildWithPath:(NSString *)path</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>path</Name>
+					<Abstract type="html">the path to build the query for</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the built query</Abstract></ReturnValue>
+			<Anchor>//api/name/encodeAndBuildWithPath:</Anchor>
             <NodeRef refid="117"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/setReuseCellIdentifier:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/buildWithPath:</TokenIdentifier>
+			<Abstract type="html">Builds a raw (unencoded) query from the builder.</Abstract>
+			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
 			
-			<Declaration>@property (class, nonatomic, readonly) NSString *reuseCellIdentifier</Declaration>
-			
-			
-			<Anchor>//api/name/reuseCellIdentifier</Anchor>
+			<Declaration>- (NSString *)buildWithPath:(NSString *)path</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>path</Name>
+					<Abstract type="html">the path to build the query for</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the built query</Abstract></ReturnValue>
+			<Anchor>//api/name/buildWithPath:</Anchor>
             <NodeRef refid="117"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/reuseCellIdentifier</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSoqlBuilder/build</TokenIdentifier>
+			<Abstract type="html">Builds a raw (unencoded) query from the builder.</Abstract>
+			<DeclaredIn>SFSDKSoqlBuilder.h</DeclaredIn>
 			
-			<Declaration>@property (class, nonatomic, readonly) NSString *reuseCellIdentifier</Declaration>
+			<Declaration>- (nullable NSString *)build</Declaration>
 			
-			
-			<Anchor>//api/name/reuseCellIdentifier</Anchor>
-            <NodeRef refid="117"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUITableViewCell/reuseCellIdentifier</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
-			
-			<Declaration>@property (class, nonatomic, readonly) NSString *reuseCellIdentifier</Declaration>
-			
-			
-			<Anchor>//api/name/reuseCellIdentifier</Anchor>
-            <NodeRef refid="117"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/setCellHeight:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
-			
-			<Declaration>@property (class, nonatomic, readonly) CGFloat cellHeight</Declaration>
-			
-			
-			<Anchor>//api/name/cellHeight</Anchor>
-            <NodeRef refid="117"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/cellHeight</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
-			
-			<Declaration>@property (class, nonatomic, readonly) CGFloat cellHeight</Declaration>
-			
-			
-			<Anchor>//api/name/cellHeight</Anchor>
-            <NodeRef refid="117"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUITableViewCell/cellHeight</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
-			
-			<Declaration>@property (class, nonatomic, readonly) CGFloat cellHeight</Declaration>
-			
-			
-			<Anchor>//api/name/cellHeight</Anchor>
+			<ReturnValue><Abstract type="html">the built query</Abstract></ReturnValue>
+			<Anchor>//api/name/build</Anchor>
             <NodeRef refid="117"/>
 		</Token>
 		

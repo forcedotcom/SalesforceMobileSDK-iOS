@@ -109,6 +109,7 @@
                         <NodeRef refid="68"/>
                         <NodeRef refid="69"/>
                         <NodeRef refid="70"/>
+                        <NodeRef refid="71"/>
                         
                     </Subnodes>
                 </Node>
@@ -146,6 +147,11 @@
             
         </Node>
 		<Node id="2" type="file" documentType="reference">
+            <Name>BatchSyncUpTargetTests</Name>
+            <Path>Classes/BatchSyncUpTargetTests.html</Path>
+            
+        </Node>
+		<Node id="3" type="file" documentType="reference">
             <Name>MobileSyncSDKManager</Name>
             <Path>Classes/MobileSyncSDKManager.html</Path>
             
@@ -178,7 +184,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="3" type="file" documentType="reference">
+		<Node id="4" type="file" documentType="reference">
             <Name>SFAdvancedSyncUpTask</Name>
             <Path>Classes/SFAdvancedSyncUpTask.html</Path>
             
@@ -205,7 +211,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="4" type="file" documentType="reference">
+		<Node id="5" type="file" documentType="reference">
             <Name>SFBatchSyncUpTarget</Name>
             <Path>Classes/SFBatchSyncUpTarget.html</Path>
             
@@ -238,7 +244,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="5" type="file" documentType="reference">
+		<Node id="6" type="file" documentType="reference">
             <Name>SFChildrenInfo</Name>
             <Path>Classes/SFChildrenInfo.html</Path>
             
@@ -277,7 +283,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="6" type="file" documentType="reference">
+		<Node id="7" type="file" documentType="reference">
             <Name>SFCleanSyncGhostsTask</Name>
             <Path>Classes/SFCleanSyncGhostsTask.html</Path>
             
@@ -300,33 +306,6 @@
                     <Name>Instance Methods</Name>
                     <Anchor>instance_methods</Anchor>
                 </Node>
-                
-            </Subnodes>
-            
-        </Node>
-		<Node id="7" type="file" documentType="reference">
-            <Name>SFCompositeRequestHelper</Name>
-            <Path>Classes/SFCompositeRequestHelper.html</Path>
-            
-                <Subnodes>
-                <Node type="section">
-                    <Path>Classes/SFCompositeRequestHelper.html</Path>
-                    <Name>Overview</Name>
-                    <Anchor>overview</Anchor>
-                </Node>
-                <Node type="section">
-                    <Path>Classes/SFCompositeRequestHelper.html</Path>
-                    <Name>Tasks</Name>
-                    <Anchor>tasks</Anchor>
-                </Node>
-                
-                
-                <Node type="section">
-                    <Path>Classes/SFCompositeRequestHelper.html</Path>
-                    <Name>Class Methods</Name>
-                    <Anchor>class_methods</Anchor>
-                </Node>
-                
                 
             </Subnodes>
             
@@ -1727,11 +1706,16 @@
             
         </Node>
         <Node id="69" type="file" documentType="reference">
+            <Name>SFSyncUpRecordsNewerThanServerBlock</Name>
+            <Path>Blocks/SFSyncUpRecordsNewerThanServerBlock.html</Path>
+            
+        </Node>
+        <Node id="70" type="file" documentType="reference">
             <Name>SFSyncUpTargetCompleteBlock</Name>
             <Path>Blocks/SFSyncUpTargetCompleteBlock.html</Path>
             
         </Node>
-        <Node id="70" type="file" documentType="reference">
+        <Node id="71" type="file" documentType="reference">
             <Name>SFSyncUpTargetErrorBlock</Name>
             <Path>Blocks/SFSyncUpTargetErrorBlock.html</Path>
             

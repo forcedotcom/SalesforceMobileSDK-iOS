@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFAdvancedSyncUpTask.html">
+	<File path="Classes/MobileSyncSDKManager.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFAdvancedSyncUpTask</TokenIdentifier>
-			<Abstract type="html">This task class is responsible for running advanced sync up tasks.</Abstract>
-			<DeclaredIn>SFAdvancedSyncUpTask.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/MobileSyncSDKManager</TokenIdentifier>
+			<Abstract type="html">Version of SalesforceSDKManager to be used with all MobileSync-enabled apps.</Abstract>
+			<DeclaredIn>MobileSyncSDKManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="3"/>
@@ -13,14 +13,62 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAdvancedSyncUpTask/init:sync:updateBlock:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFAdvancedSyncUpTask.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/MobileSyncSDKManager/setupGlobalSyncsFromDefaultConfig</TokenIdentifier>
+			<Abstract type="html">Setup global syncs using config found globalsyncs.json</Abstract>
+			<DeclaredIn>MobileSyncSDKManager.h</DeclaredIn>
 			
-			<Declaration>- (instancetype)init:(SFMobileSyncSyncManager *)syncManager sync:(SFSyncState *)sync updateBlock:(__nullable SFSyncSyncManagerUpdateBlock)updateBlock</Declaration>
+			<Declaration>- (void)setupGlobalSyncsFromDefaultConfig</Declaration>
 			
 			
-			<Anchor>//api/name/init:sync:updateBlock:</Anchor>
+			<Anchor>//api/name/setupGlobalSyncsFromDefaultConfig</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/MobileSyncSDKManager/setupUserSyncsFromDefaultConfig</TokenIdentifier>
+			<Abstract type="html">Setup user syncs using config found in usersyncs.json</Abstract>
+			<DeclaredIn>MobileSyncSDKManager.h</DeclaredIn>
+			
+			<Declaration>- (void)setupUserSyncsFromDefaultConfig</Declaration>
+			
+			
+			<Anchor>//api/name/setupUserSyncsFromDefaultConfig</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/MobileSyncSDKManager/set:</TokenIdentifier>
+			<Abstract type="html">The singleton instance of the SDK Manager.</Abstract>
+			<DeclaredIn>MobileSyncSDKManager.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic) MobileSyncSDKManager *NS_SWIFT_NAME ( shared )</Declaration>
+			
+			<ReturnValue><Abstract type="html">The singleton instance of the SDK Manager.</Abstract></ReturnValue>
+			<Anchor>//api/name/)</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/MobileSyncSDKManager/)</TokenIdentifier>
+			<Abstract type="html">The singleton instance of the SDK Manager.</Abstract>
+			<DeclaredIn>MobileSyncSDKManager.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic) MobileSyncSDKManager *NS_SWIFT_NAME ( shared )</Declaration>
+			
+			<ReturnValue><Abstract type="html">The singleton instance of the SDK Manager.</Abstract></ReturnValue>
+			<Anchor>//api/name/)</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/MobileSyncSDKManager/)</TokenIdentifier>
+			<Abstract type="html">The singleton instance of the SDK Manager.</Abstract>
+			<DeclaredIn>MobileSyncSDKManager.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic) MobileSyncSDKManager *NS_SWIFT_NAME ( shared )</Declaration>
+			
+			<ReturnValue><Abstract type="html">The singleton instance of the SDK Manager.</Abstract></ReturnValue>
+			<Anchor>//api/name/)</Anchor>
             <NodeRef refid="3"/>
 		</Token>
 		

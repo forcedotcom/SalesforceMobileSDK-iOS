@@ -93,6 +93,16 @@
             <NodeRef refid="52"/>
         </Token>
         
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSyncDownTargetQueryTypeBriefcase</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSyncDownTargetQueryTypeBriefcase</Declaration>
+            
+            <DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
+            
+            <NodeRef refid="52"/>
+        </Token>
+        
         
 	</File>
 </Tokens>

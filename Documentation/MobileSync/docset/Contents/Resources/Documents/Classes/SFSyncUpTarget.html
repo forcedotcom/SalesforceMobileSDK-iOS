@@ -82,6 +82,8 @@
 	
 	<optgroup label="Instance Methods">
 		
+		<option value="//api/name/areNewerThanServer:records:resultBlock:">- areNewerThanServer:records:resultBlock:</option>
+		
 		<option value="//api/name/buildFieldsMap:fieldlist:idFieldName:modificationDateFieldName:">- buildFieldsMap:fieldlist:idFieldName:modificationDateFieldName:</option>
 		
 		<option value="//api/name/createOnServer:record:fieldlist:completionBlock:failBlock:">- createOnServer:record:fieldlist:completionBlock:failBlock:</option>
@@ -586,6 +588,107 @@ Used to decide whether a record should be synced up or not when using merge mode
 		</div>
 	</div>
 </div><div class="section-method">
+	<a name="//api/name/isNewerThanServer:remoteModDate:" title="isNewerThanServer:remoteModDate:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/isNewerThanServer:remoteModDate:">&ndash;&nbsp;isNewerThanServer:remoteModDate:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Return true if local mod date is greater than remote mod date
+NB: also return true if both were deleted or if local mod date is missing</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)isNewerThanServer:(nullable SFRecordModDate *)<em>localModDate</em> remoteModDate:(nullable SFRecordModDate *)<em>remoteModDate</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSyncUpTarget.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/areNewerThanServer:records:resultBlock:" title="areNewerThanServer:records:resultBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/areNewerThanServer:records:resultBlock:">&ndash;&nbsp;areNewerThanServer:records:resultBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Same as isNewerThanServer but operating over a list of records
+Return dictionary from record store id to boolean</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)areNewerThanServer:(SFMobileSyncSyncManager *)<em>syncManager</em> records:(NSArray&lt;NSDictionary*&gt; *)<em>records</em> resultBlock:(SFSyncUpRecordsNewerThanServerBlock)<em>resultBlock</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>records</code></th>
+						<td><p>The records</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>resultBlock</code></th>
+						<td><p>The block to execute</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSyncUpTarget.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/createOnServer:record:fieldlist:completionBlock:failBlock:" title="createOnServer:record:fieldlist:completionBlock:failBlock:"></a>
 	<h3 class="method-title"><code><a href="#//api/name/createOnServer:record:fieldlist:completionBlock:failBlock:">&ndash;&nbsp;createOnServer:record:fieldlist:completionBlock:failBlock:</a></code>
 </h3>
@@ -945,22 +1048,6 @@ Used to decide whether a record should be synced up or not when using merge mode
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/isNewerThanServer:remoteModDate:" title="isNewerThanServer:remoteModDate:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/isNewerThanServer:remoteModDate:">&ndash;&nbsp;isNewerThanServer:remoteModDate:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>- (BOOL)isNewerThanServer:(SFRecordModDate *)<em>localModDate</em> remoteModDate:(SFRecordModDate *)<em>remoteModDate</em></code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
 	<a name="//api/name/saveRecordToLocalStoreWithLastError:soupName:record:lastError:" title="saveRecordToLocalStoreWithLastError:soupName:record:lastError:"></a>
 	<h3 class="method-title"><code><a href="#//api/name/saveRecordToLocalStoreWithLastError:soupName:record:lastError:">&ndash;&nbsp;saveRecordToLocalStoreWithLastError:soupName:record:lastError:</a></code>
 </h3>
@@ -991,7 +1078,7 @@ Used to decide whether a record should be synced up or not when using merge mode
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2022 Salesforce.com. All rights reserved. Updated: 2022-02-09</p>
+						<p class="copyright">Copyright &copy; 2022 Salesforce.com. All rights reserved. Updated: 2022-06-22</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

@@ -1,57 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFIdentityCoordinatorDelegate.html">
+	<File path="Categories/NSURL+SFStringUtils.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFIdentityCoordinatorDelegate</TokenIdentifier>
-			<Abstract type="html">Protocol for being a delegate to the SFIdentityCoordinator process.  Delegates may receive
-notifications about the success or failure of the identity request process.</Abstract>
-			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/NSURL(SFStringUtils)</TokenIdentifier>
+			<Abstract type="html">Utilities for interacting with NSURL objects.</Abstract>
+			<DeclaredIn>NSURL+SFStringUtils.h</DeclaredIn>
             
 			
-	<RelatedTokens>
-		<TokenIdentifier>//apple_ref/occ/cl/SFIdentityCoordinator</TokenIdentifier>
-		
-	</RelatedTokens>
-	
 			<NodeRef refid="164"/>
 		</Token>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFIdentityCoordinatorDelegate/identityCoordinatorRetrievedData:</TokenIdentifier>
-			<Abstract type="html">Called when the identity coordinator successfully receives identity data from the service.</Abstract>
-			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSURL/redactedAbsoluteString:</TokenIdentifier>
+			<Abstract type="html">Will return the absolute string of a URL, with potentially sensitive querystring
+parameter values redacted.  Useful for logging URL values without sensitive data
+included.</Abstract>
+			<DeclaredIn>NSURL+SFStringUtils.h</DeclaredIn>
 			
-			<Declaration>- (void)identityCoordinatorRetrievedData:(SFIdentityCoordinator *)coordinator</Declaration>
+			<Declaration>- (NSString *)redactedAbsoluteString:(NSArray *)queryStringParamsToRedact</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>coordinator</Name>
-					<Abstract type="html">the SFIdentityCoordinator instance associated with the requested data.</Abstract>
+					<Name>queryStringParamsToRedact</Name>
+					<Abstract type="html">An array of querystring parameter names whose values
+should be redacted.</Abstract>
 				</Parameter>
 			</Parameters>
-			
-			<Anchor>//api/name/identityCoordinatorRetrievedData:</Anchor>
+			<ReturnValue><Abstract type="html">The redacted version of the absolute string value.</Abstract></ReturnValue>
+			<Anchor>//api/name/redactedAbsoluteString:</Anchor>
             <NodeRef refid="164"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFIdentityCoordinatorDelegate/identityCoordinator:didFailWithError:</TokenIdentifier>
-			<Abstract type="html">Called if there was an error while retrieving the identity data from the service.</Abstract>
-			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSURL/stringUrlWithBaseUrl:pathComponents:</TokenIdentifier>
+			<Abstract type="html">Helper method that constructs an absolute URL string given the specified components.</Abstract>
+			<DeclaredIn>NSURL+SFStringUtils.h</DeclaredIn>
 			
-			<Declaration>- (void)identityCoordinator:(SFIdentityCoordinator *)coordinator didFailWithError:(NSError *)error</Declaration>
+			<Declaration>+ (NSString *)stringUrlWithBaseUrl:(NSURL *)baseUrl pathComponents:(NSArray *)pathComponents</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>coordinator</Name>
-					<Abstract type="html">The SFIdentityCoordinator instance associated with the request.</Abstract>
+					<Name>baseUrl</Name>
+					<Abstract type="html">The base URL</Abstract>
 				</Parameter><Parameter>
-					<Name>error</Name>
-					<Abstract type="html">The error that occurred during the request.</Abstract>
+					<Name>pathComponents</Name>
+					<Abstract type="html">The components of the path</Abstract>
 				</Parameter>
 			</Parameters>
+			<ReturnValue><Abstract type="html">an absolute string URL representation</Abstract></ReturnValue>
+			<Anchor>//api/name/stringUrlWithBaseUrl:pathComponents:</Anchor>
+            <NodeRef refid="164"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSURL/stringUrlWithScheme:host:port:pathComponents:</TokenIdentifier>
+			<Abstract type="html">Helper method that constructs an absolute URL string given the specified components.</Abstract>
+			<DeclaredIn>NSURL+SFStringUtils.h</DeclaredIn>
 			
-			<Anchor>//api/name/identityCoordinator:didFailWithError:</Anchor>
+			<Declaration>+ (NSString *)stringUrlWithScheme:(NSString *)scheme host:(NSString *)host port:(NSNumber *)port pathComponents:(NSArray *)pathComponents</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>scheme</Name>
+					<Abstract type="html">The scheme of the URL</Abstract>
+				</Parameter><Parameter>
+					<Name>host</Name>
+					<Abstract type="html">The host of the URL</Abstract>
+				</Parameter><Parameter>
+					<Name>port</Name>
+					<Abstract type="html">The port of the URL</Abstract>
+				</Parameter><Parameter>
+					<Name>pathComponents</Name>
+					<Abstract type="html">The components of the path</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">an absolute string URL representation</Abstract></ReturnValue>
+			<Anchor>//api/name/stringUrlWithScheme:host:port:pathComponents:</Anchor>
+            <NodeRef refid="164"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSURL/slashTerminatedUrl</TokenIdentifier>
+			<Abstract type="html">Adds a trailing slash to the URL&apos;s path, if necessary</Abstract>
+			<DeclaredIn>NSURL+SFStringUtils.h</DeclaredIn>
+			
+			<Declaration>- (NSURL *)slashTerminatedUrl</Declaration>
+			
+			<ReturnValue><Abstract type="html">A URL whose path ends in a forward slash</Abstract></ReturnValue>
+			<Anchor>//api/name/slashTerminatedUrl</Anchor>
             <NodeRef refid="164"/>
 		</Token>
 		

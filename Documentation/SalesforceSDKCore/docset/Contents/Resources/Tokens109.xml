@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKSalesforceSDKUpgradeManager.html">
+	<File path="Classes/SFSDKPrimingRuleError.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKSalesforceSDKUpgradeManager</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKPrimingRuleError</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSalesforceSDKUpgradeManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
             
 			
 			<NodeRef refid="109"/>
@@ -13,26 +13,86 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKSalesforceSDKUpgradeManager/upgrade</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingRuleError/setDict:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSalesforceSDKUpgradeManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
 			
-			<Declaration>+ (void)upgrade</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSDictionary *dict</Declaration>
 			
 			
-			<Anchor>//api/name/upgrade</Anchor>
+			<Anchor>//api/name/dict</Anchor>
             <NodeRef refid="109"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKSalesforceSDKUpgradeManager/upgradeUserAccounts</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingRuleError/dict</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSalesforceSDKUpgradeManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
 			
-			<Declaration>+ (void)upgradeUserAccounts</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSDictionary *dict</Declaration>
 			
 			
-			<Anchor>//api/name/upgradeUserAccounts</Anchor>
+			<Anchor>//api/name/dict</Anchor>
+            <NodeRef refid="109"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPrimingRuleError/dict</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSDictionary *dict</Declaration>
+			
+			
+			<Anchor>//api/name/dict</Anchor>
+            <NodeRef refid="109"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingRuleError/setRuleId:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *ruleId</Declaration>
+			
+			
+			<Anchor>//api/name/ruleId</Anchor>
+            <NodeRef refid="109"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingRuleError/ruleId</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *ruleId</Declaration>
+			
+			
+			<Anchor>//api/name/ruleId</Anchor>
+            <NodeRef refid="109"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPrimingRuleError/ruleId</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *ruleId</Declaration>
+			
+			
+			<Anchor>//api/name/ruleId</Anchor>
+            <NodeRef refid="109"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingRuleError/initWith:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWith:(NSDictionary *)dict</Declaration>
+			
+			
+			<Anchor>//api/name/initWith:</Anchor>
             <NodeRef refid="109"/>
 		</Token>
 		

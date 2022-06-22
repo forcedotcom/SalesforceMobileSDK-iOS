@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSDKUserAccountManagerErrorCode.html">
+	<File path="Constants/SFOAuthSessionRefreshErrorCode.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSDKUserAccountManagerErrorCode</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthSessionRefreshErrorCode</TokenIdentifier>
+			<Abstract type="html">Error codes for refresh failures.</Abstract>
+			<DeclaredIn>SFOAuthSessionRefresher.h</DeclaredIn>
             
 			
 			<NodeRef refid="197"/>
@@ -14,21 +14,11 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKUserAccountManagerError</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthSessionRefreshErrorCodeInvalidCredentials</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKUserAccountManagerError</Declaration>
+            <Declaration>SFOAuthSessionRefreshErrorCodeInvalidCredentials</Declaration>
             
-            <DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
-            
-            <NodeRef refid="197"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKUserAccountManagerCannotEncrypt</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSDKUserAccountManagerCannotEncrypt</Declaration>
-            
-            <DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+            <DeclaredIn>SFOAuthSessionRefresher.h</DeclaredIn>
             
             <NodeRef refid="197"/>
         </Token>

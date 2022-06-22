@@ -265,6 +265,18 @@
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/createContactsForAccountsLocally:numberOfContactsPerAccounts:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
+			
+			<Declaration>- (NSArray *)createContactsForAccountsLocally:(NSArray *)accountIds numberOfContactsPerAccounts:(int)numberOfContacts</Declaration>
+			
+			
+			<Anchor>//api/name/createContactsForAccountsLocally:numberOfContactsPerAccounts:</Anchor>
+            <NodeRef refid="44"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SyncManagerTestCase/createAccountsSoup</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SyncManagerTestCase.h</DeclaredIn>
