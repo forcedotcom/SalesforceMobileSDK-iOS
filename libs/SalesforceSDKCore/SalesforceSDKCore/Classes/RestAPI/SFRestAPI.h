@@ -416,26 +416,26 @@ NS_SWIFT_NAME(RestClient)
 /**
  * Returns an `SFRestRequest` object for upserting multiple records with fewer round trips
  *
+ * @param allOrNone Indicates whether to roll back the entire request when the upsert of any object fails (true) or to continue with the independent upsert of other objects in the request.
  * @param objectType Type of the requested record.
  * @param externalIdField Name of ID field in source data.
- * @param allOrNone Indicates whether to roll back the entire request when the upsert of any object fails (true) or to continue with the independent upsert of other objects in the request.
  * @param records Array of sObjects.
  * @param apiVersion Salesforce API version.
  *
  * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_sobjects_collections_upsert.htm
  */
-- (SFRestRequest*) requestForCollectionUpsert:(NSString*)objectType externalIdField:(NSString*)externalIdField allOrNone:(BOOL)allOrNone records:(NSArray<NSDictionary*>*)records apiVersion:(nullable NSString *)apiVersion;
+- (SFRestRequest*) requestForCollectionUpsert:(BOOL)allOrNone objectType:(NSString*)objectType externalIdField:(NSString*)externalIdField records:(NSArray<NSDictionary*>*)records apiVersion:(nullable NSString *)apiVersion;
 
 
 /**
  * Returns an `SFRestRequest` object for deleting multiple records with fewer round trips
- *
+ * @param allOrNone Indicates whether to roll back the entire request when the delete of any object fails (true) or to continue with the independent delete of other objects in the request.
  * @param objectIds List of Salesforce IDs of the records to delete.
  * @param apiVersion Salesforce API version.
  *
  * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_sobjects_collections_delete.htm
  */
-- (SFRestRequest*) requestForCollectionDelete:(NSArray<NSString*>*)objectIds apiVersion:(nullable NSString *)apiVersion;
+- (SFRestRequest*) requestForCollectionDelete:(BOOL)allOrNone objectIds:(NSArray<NSString*>*)objectIds apiVersion:(nullable NSString *)apiVersion;
 
 
 ///---------------------------------------------------------------------------------------

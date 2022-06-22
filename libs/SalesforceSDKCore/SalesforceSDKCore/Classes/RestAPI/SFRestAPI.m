@@ -713,16 +713,17 @@ static dispatch_once_t pred;
 
 }
 
-- (SFRestRequest*) requestForCollectionUpsert:(NSString*)objectType externalIdField:(NSString*)externalIdField allOrNone:(BOOL)allOrNone records:(NSArray<NSDictionary*>*)records apiVersion:(nullable NSString *)apiVersion {
+- (SFRestRequest*) requestForCollectionUpsert:(BOOL)allOrNone objectType:(NSString*)objectType externalIdField:(NSString*)externalIdField records:(NSArray<NSDictionary*>*)records apiVersion:(nullable NSString *)apiVersion {
     NSString *path = [NSString stringWithFormat:@"/%@/composite/sobjects/%@/%@", [self computeAPIVersion:apiVersion], objectType, externalIdField];
     NSDictionary* requestJson = @{@"allOrNone": [NSNumber numberWithBool:allOrNone], @"records": records};
     SFRestRequest* request = [SFRestRequest requestWithMethod:SFRestMethodPATCH path:path queryParams:nil];
     return [self addBodyForPostRequest:requestJson request:request];
 }
 
-- (SFRestRequest*) requestForCollectionDelete:(NSArray<NSString*>*)objectIds apiVersion:(nullable NSString *)apiVersion {
+- (SFRestRequest*) requestForCollectionDelete:(BOOL)allOrNone objectIds:(NSArray<NSString*>*)objectIds apiVersion:(nullable NSString *)apiVersion {
     NSString *path = [NSString stringWithFormat:@"/%@/composite/sobjects", [self computeAPIVersion:apiVersion]];
-    NSDictionary* queryParams = @{@"ids": [objectIds componentsJoinedByString:@","]};
+    NSDictionary* queryParams = @{@"allOrNone": allOrNone ? @"true" : @"false",
+                                  @"ids": [objectIds componentsJoinedByString:@","]};
     return [SFRestRequest requestWithMethod:SFRestMethodDELETE path:path queryParams:queryParams];
 }
 

@@ -1359,7 +1359,7 @@ static NSException *authException = nil;
      ]];
 
      // Doing a collection upsert
-     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForCollectionUpsert:@"Account" externalIdField:@"Id" allOrNone:YES records:records apiVersion:kSFRestDefaultAPIVersion];
+     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForCollectionUpsert:YES objectType:@"Account" externalIdField:@"Id" records:records apiVersion:kSFRestDefaultAPIVersion];
      SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
      
      // Parsing response
@@ -1402,7 +1402,7 @@ static NSException *authException = nil;
         @[@"Account", @"Name", secondAccountNameUpdated, @"Id", secondAccountId]
     ]];
     
-    request = [[SFRestAPI sharedInstance] requestForCollectionUpsert:@"Account" externalIdField:@"Id" allOrNone:YES records:updatedAccounts apiVersion:kSFRestDefaultAPIVersion];
+    request = [[SFRestAPI sharedInstance] requestForCollectionUpsert:YES objectType:@"Account" externalIdField:@"Id" records:updatedAccounts apiVersion:kSFRestDefaultAPIVersion];
     listener = [self sendSyncRequest:request];
     
     // Parsing response
@@ -1512,7 +1512,7 @@ static NSException *authException = nil;
     NSString* secondAccountId = parsedCreateResponse.subResponses[2].objectId;
 
     // Doing a collection delete for one account and the contact
-    request = [[SFRestAPI sharedInstance] requestForCollectionDelete:@[firstAccountId, contactId] apiVersion:kSFRestDefaultAPIVersion];
+    request = [[SFRestAPI sharedInstance] requestForCollectionDelete:YES objectIds:@[firstAccountId, contactId] apiVersion:kSFRestDefaultAPIVersion];
     listener = [self sendSyncRequest:request];
     
     // Parsing response

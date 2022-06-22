@@ -216,7 +216,7 @@ static NSException *authException = nil;
         NSUInteger sliceStartIndex = slice*maxIdsPerSlice;
         NSUInteger sliceEndIndex = MIN(countIds, (slice+1)*maxIdsPerSlice);
         NSArray* idsToDelete = [ids subarrayWithRange:NSMakeRange(sliceStartIndex, sliceEndIndex-sliceStartIndex)];
-        SFRestRequest* request = [[SFRestAPI sharedInstance] requestForCollectionDelete:idsToDelete apiVersion:nil];
+        SFRestRequest* request = [[SFRestAPI sharedInstance] requestForCollectionDelete:YES objectIds:idsToDelete apiVersion:nil];
         [self sendSyncRequest:request];
     }
 }
