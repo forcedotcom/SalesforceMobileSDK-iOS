@@ -324,10 +324,11 @@ public class RecordRequest: NSObject {
                 let objectType = objectTypes.first!
                 let externalIdFieldName = externalIdFieldNames.first!
                 
-                return RestClient.shared.request(forCollectionUpsert: objectType, externalIdField: externalIdFieldName, allOrNone: allOrNone, records: records, apiVersion: nil)
+                return RestClient.shared.request(forCollectionUpsert: allOrNone, objectType: objectType, externalIdField: externalIdFieldName, records: records, apiVersion: nil)
             }
         case .DELETE:
-            return RestClient.shared.request(forCollectionDelete: getIds(recordRequests: recordRequests, requestType: .DELETE),
+            return RestClient.shared.request(forCollectionDelete: false,
+                                             objectIds: getIds(recordRequests: recordRequests, requestType: .DELETE),
                                              apiVersion: nil)
         }
         
