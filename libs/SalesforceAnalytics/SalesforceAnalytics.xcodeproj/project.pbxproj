@@ -424,9 +424,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = CE2B8BE31CE900F500C6FC6A /* Build configuration list for PBXNativeTarget "SalesforceAnalytics" */;
 			buildPhases = (
+				CE2B8BCC1CE900F500C6FC6A /* Headers */,
 				CE2B8BCA1CE900F500C6FC6A /* Sources */,
 				CE2B8BCB1CE900F500C6FC6A /* Frameworks */,
-				CE2B8BCC1CE900F500C6FC6A /* Headers */,
 				CE2B8BF91CE91AAC00C6FC6A /* ShellScript */,
 				CE2B8BFA1CE91AC700C6FC6A /* ShellScript */,
 			);

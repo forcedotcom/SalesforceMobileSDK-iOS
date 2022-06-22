@@ -2,9 +2,9 @@
  SalesforceSDKCore.h
  SalesforceSDKCore
 
- Created by Brianna Birman on Wed Jul  8 11:59:21 PDT 2020.
+ Created by Wolfgang Mathurin on Thu May 12 16:16:51 PDT 2022.
 
- Copyright (c) 2020-present, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2022-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -35,6 +35,7 @@
 #import <SalesforceSDKCore/SFSDKSoslBuilder.h>
 #import <SalesforceSDKCore/SFOAuthInfo.h>
 #import <SalesforceSDKCore/SFDecryptStream.h>
+#import <SalesforceSDKCore/SFSDKCollectionResponse.h>
 #import <SalesforceSDKCore/NSData+SFAdditions.h>
 #import <SalesforceSDKCore/SFSDKSalesforceAnalyticsManager.h>
 #import <SalesforceSDKCore/NSURL+SFAdditions.h>
@@ -43,6 +44,7 @@
 #import <SalesforceSDKCore/SFSDKUserSelectionNavViewController.h>
 #import <SalesforceSDKCore/SFRestAPI+Notifications.h>
 #import <SalesforceSDKCore/SFSDKInstrumentationHelper.h>
+#import <SalesforceSDKCore/SFSDKPrimingRecordsResponse.h>
 #import <SalesforceSDKCore/SFSDKAsyncProcessListener.h>
 #import <SalesforceSDKCore/SFSDKTestRequestListener.h>
 #import <SalesforceSDKCore/UIColor+SFColors.h>

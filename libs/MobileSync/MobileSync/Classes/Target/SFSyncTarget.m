@@ -122,6 +122,10 @@ NSString * const kSyncTargetLastError = @"__last_error__";
     return [syncManager.store retrieveEntries:@[storeId] fromSoup:soupName][0];
 }
 
+- (NSArray<NSDictionary*>*) getFromLocalStore:(SFMobileSyncSyncManager *)syncManager soupName:(NSString*)soupName storeIds:(NSArray<NSNumber*>*)storeIds {
+    return [syncManager.store retrieveEntries:storeIds fromSoup:soupName];
+}
+
 - (void) deleteFromLocalStore:(SFMobileSyncSyncManager *)syncManager soupName:(NSString*)soupName record:(NSDictionary*)record {
     [SFSDKMobileSyncLogger d:[self class] format:@"deleteFromLocalStore:%@", record];
     [syncManager.store removeEntries:@[record[SOUP_ENTRY_ID]] fromSoup:soupName];

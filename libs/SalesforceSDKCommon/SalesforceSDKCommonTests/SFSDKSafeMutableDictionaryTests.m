@@ -29,6 +29,7 @@
 
 @property (strong, nonatomic) SFSDKSafeMutableDictionary *testDictionary;
 @property (strong, nonatomic) NSArray *testKeys;
+
 @end
 
 @implementation SFSDKSafeMutableDictionaryTests
@@ -41,10 +42,6 @@
     [self.testKeys enumerateObjectsUsingBlock:^(NSString * _Nonnull key, NSUInteger idx, BOOL * _Nonnull stop) {
         [self.testDictionary setObject:objects[idx] forKey:key];
     }];
-}
-
-- (void)tearDown {
-    [super tearDown];
 }
 
 - (void)testConcurrentReadWrites {
