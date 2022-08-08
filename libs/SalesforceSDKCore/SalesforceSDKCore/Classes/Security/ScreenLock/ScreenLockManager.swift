@@ -87,12 +87,13 @@ public class ScreenLockManager: NSObject {
         }
 
         if hasMobilePolicy {
+            defer { lock() }
+
             if let globalTimeout = readMobilePolicy(), lockTimeout >= globalTimeout.intValue {
                 // Only write global policy if there is no policy or the existing timeout is less restrictive
                 return
             }
             writeGlobalPolicy(hasPolicyData)
-            backgroundTimestamp = 0
         }
     }
     
@@ -180,7 +181,7 @@ public class ScreenLockManager: NSObject {
     }
     
     @objc func readMobilePolicy() -> NSNumber? {
-        let result = KeychainHelper.read(service: kScreenLockIdentifier, account: nil)
+        let result = KeychainHelper.read(service: kScreenLockIdentifier, account: "global")
         if let data = result.data, result.success {
             do {
                 let policy = try JSONDecoder().decode(MobilePolicy.self, from: data)
@@ -195,7 +196,7 @@ public class ScreenLockManager: NSObject {
     }
     
     func writeGlobalPolicy(_ data: Data) {
-        let globalResult = KeychainHelper.write(service: kScreenLockIdentifier, data: data, account: nil)
+        let globalResult = KeychainHelper.write(service: kScreenLockIdentifier, data: data, account: "global")
         if globalResult.success {
             SFSDKCoreLogger.i(ScreenLockManager.self, message: "Global mobile policy stored.")
         } else {
@@ -204,7 +205,7 @@ public class ScreenLockManager: NSObject {
     }
     
     func removeGlobalPolicy() {
-        let globalResult = KeychainHelper.remove(service: kScreenLockIdentifier, account: nil)
+        let globalResult = KeychainHelper.remove(service: kScreenLockIdentifier, account: "global")
         if globalResult.success {
             SFSDKCoreLogger.i(ScreenLockManager.self, message: "Global mobile policy removed.")
         } else {

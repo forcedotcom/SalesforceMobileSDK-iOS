@@ -81,27 +81,37 @@
 }
 
 - (void)testLockScreenTriggers {
-    // Login with first user -- app foreground should trigger lock screen
+    // Login with first user with a mobile policy -- should trigger lock screen
     SFUserAccount *user0 = [self createNewUserAccount:0];
     [[SFScreenLockManager shared] storeMobilePolicyWithUserAccount:user0 hasMobilePolicy:YES lockTimeout:15];
-    [[SFScreenLockManager shared] handleAppForeground];
+    XCTAssertTrue([[[SFSDKWindowManager sharedManager] screenLockWindow] isEnabled]);
+    [[[SFSDKWindowManager sharedManager] screenLockWindow] dismissWindow];
+    XCTAssertFalse([[[SFSDKWindowManager sharedManager] screenLockWindow] isEnabled]);
+    
+    // Login with another user with a longer timeout -- should trigger lock screen
+    SFUserAccount *user1 = [self createNewUserAccount:1];
+    [[SFScreenLockManager shared] storeMobilePolicyWithUserAccount:user1 hasMobilePolicy:YES lockTimeout:20];
     XCTAssertTrue([[[SFSDKWindowManager sharedManager] screenLockWindow] isEnabled]);
     [[[SFSDKWindowManager sharedManager] screenLockWindow] dismissWindow];
     XCTAssertFalse([[[SFSDKWindowManager sharedManager] screenLockWindow] isEnabled]);
     
     // After backgrounding, adding a new user with a mobile policy should still trigger lock screen
     [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidEnterBackgroundNotification object:nil];
-    SFUserAccount *user1 = [self createNewUserAccount:1];
-    [[SFScreenLockManager shared] storeMobilePolicyWithUserAccount:user1 hasMobilePolicy:YES lockTimeout:5];
-    [[SFScreenLockManager shared] handleAppForeground];
+    SFUserAccount *user2 = [self createNewUserAccount:2];
+    [[SFScreenLockManager shared] storeMobilePolicyWithUserAccount:user2 hasMobilePolicy:YES lockTimeout:5];
     XCTAssertTrue([[[SFSDKWindowManager sharedManager] screenLockWindow] isEnabled]);
     [[[SFSDKWindowManager sharedManager] screenLockWindow] dismissWindow];
     XCTAssertFalse([[[SFSDKWindowManager sharedManager] screenLockWindow] isEnabled]);
     
+    // Since the timeout hasn't expired, adding a new user without a mobile policy shouldn't trigger the lock screen
+    SFUserAccount *user3 = [self createNewUserAccount:3];
+    [[SFScreenLockManager shared] storeMobilePolicyWithUserAccount:user3 hasMobilePolicy:NO lockTimeout:5];
+    XCTAssertFalse([[[SFSDKWindowManager sharedManager] screenLockWindow] isEnabled]);
+    
     // Since the timeout hasn't expired, backgrounding and adding a new user without a mobile policy shouldn't trigger the lock screen
     [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidEnterBackgroundNotification object:nil];
-    SFUserAccount *user2 = [self createNewUserAccount:2];
-    [[SFScreenLockManager shared] storeMobilePolicyWithUserAccount:user2 hasMobilePolicy:NO lockTimeout:5];
+    SFUserAccount *user4 = [self createNewUserAccount:4];
+    [[SFScreenLockManager shared] storeMobilePolicyWithUserAccount:user4 hasMobilePolicy:NO lockTimeout:5];
     [[SFScreenLockManager shared] handleAppForeground];
     XCTAssertFalse([[[SFSDKWindowManager sharedManager] screenLockWindow] isEnabled]);
 }
@@ -122,7 +132,11 @@
 
 -(SFUserAccount *)createNewUserAccount:(NSInteger) index {
     SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc]initWithIdentifier:[NSString stringWithFormat:@"identifier-%lu", (unsigned long)index] clientId:@"fakeClientIdForTesting" encrypted:YES];
+    NSDictionary *idDataDict = @{ @"user_id" : [NSString stringWithFormat: @"%ld", (long)index] };
+    SFIdentityData *idData = [[SFIdentityData alloc] initWithJsonDict:idDataDict];
     SFUserAccount *user = [[SFUserAccount alloc] initWithCredentials:credentials];
+    [user setIdData:idData];
+    
     return user;
 }
 
