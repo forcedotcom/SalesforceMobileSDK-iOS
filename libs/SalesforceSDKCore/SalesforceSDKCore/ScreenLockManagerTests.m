@@ -30,6 +30,7 @@
 #import <SalesforceSDKCommon/SalesforceSDKCommon-Swift.h>
 #import "SFUserAccountManager+Internal.h"
 #import "SFUserAccount+Internal.h"
+#import "SFSDKWindowManager.h"
 
 @interface ScreenLockManagerTests : XCTestCase
 
@@ -77,6 +78,32 @@
     SFUserAccount *user2 = [self createNewUserAccount:2];
     [[SFScreenLockManager shared] storeMobilePolicyWithUserAccount:user2 hasMobilePolicy:YES lockTimeout:1];
     XCTAssertEqualObjects([[SFScreenLockManager shared] readMobilePolicy], [[NSNumber alloc] initWithInt:1], @"App should lock with most restrictive timeout");
+}
+
+- (void)testLockScreenTriggers {
+    // Login with first user -- app foreground should trigger lock screen
+    SFUserAccount *user0 = [self createNewUserAccount:0];
+    [[SFScreenLockManager shared] storeMobilePolicyWithUserAccount:user0 hasMobilePolicy:YES lockTimeout:15];
+    [[SFScreenLockManager shared] handleAppForeground];
+    XCTAssertTrue([[[SFSDKWindowManager sharedManager] screenLockWindow] isEnabled]);
+    [[[SFSDKWindowManager sharedManager] screenLockWindow] dismissWindow];
+    XCTAssertFalse([[[SFSDKWindowManager sharedManager] screenLockWindow] isEnabled]);
+    
+    // After backgrounding, adding a new user with a mobile policy should still trigger lock screen
+    [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidEnterBackgroundNotification object:nil];
+    SFUserAccount *user1 = [self createNewUserAccount:1];
+    [[SFScreenLockManager shared] storeMobilePolicyWithUserAccount:user1 hasMobilePolicy:YES lockTimeout:5];
+    [[SFScreenLockManager shared] handleAppForeground];
+    XCTAssertTrue([[[SFSDKWindowManager sharedManager] screenLockWindow] isEnabled]);
+    [[[SFSDKWindowManager sharedManager] screenLockWindow] dismissWindow];
+    XCTAssertFalse([[[SFSDKWindowManager sharedManager] screenLockWindow] isEnabled]);
+    
+    // Since the timeout hasn't expired, backgrounding and adding a new user without a mobile policy shouldn't trigger the lock screen
+    [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidEnterBackgroundNotification object:nil];
+    SFUserAccount *user2 = [self createNewUserAccount:2];
+    [[SFScreenLockManager shared] storeMobilePolicyWithUserAccount:user2 hasMobilePolicy:NO lockTimeout:5];
+    [[SFScreenLockManager shared] handleAppForeground];
+    XCTAssertFalse([[[SFSDKWindowManager sharedManager] screenLockWindow] isEnabled]);
 }
 
 - (void)testLogoutScreenLockUsers {

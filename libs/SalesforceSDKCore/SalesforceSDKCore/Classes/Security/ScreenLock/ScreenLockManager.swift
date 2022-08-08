@@ -48,17 +48,9 @@ public class ScreenLockManager: NSObject {
     
     // MARK: Screen Lock Manager
     
-    /// Locks the screen if a there's a mobile policy, ignoring timeout
-    @available(*, deprecated, renamed: "handleAppForeground(lockTimeout:)")
-    @objc public func handleAppForeground() {
-       handleAppForeground(lockTimeout: false)
-    }
-    
     /// Locks the screen if necessary
-    /// - Parameters:
-    ///   - lockTimeout: If true, will only lock if there's a mobile policy and the timeout expired. Otherwise will lock if there's a mobile policy.
-    @objc public func handleAppForeground(lockTimeout: Bool) {
-        if let policyTimeout = readMobilePolicy(), !lockTimeout || (lockTimeout && lockTimeoutExpired(lockTimeout: policyTimeout)) {
+    @objc public func handleAppForeground() {
+        if let policyTimeout = readMobilePolicy(), lockTimeoutExpired(lockTimeout: policyTimeout) {
             lock()
         } else {
             unlockPostProcessing()
@@ -100,6 +92,7 @@ public class ScreenLockManager: NSObject {
                 return
             }
             writeGlobalPolicy(hasPolicyData)
+            backgroundTimestamp = 0
         }
     }
     
@@ -148,7 +141,7 @@ public class ScreenLockManager: NSObject {
         }
     }
     
-    // TODO: Remove in Mobile SDK 11.0
+    // TODO: Remove in Mobile SDK 12.0
     /// Upgrades from SFSecurityLockout to ScreenLockManager
     @objc public func upgradePasscode() {
         let userAccounts = UserAccountManager.shared.userAccounts()
