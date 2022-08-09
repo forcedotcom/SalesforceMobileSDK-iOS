@@ -51,10 +51,6 @@ static NSString * _currentVersion = nil;
             return;
         }
 
-        if (!lastVersion || [lastVersion compare:@"10.1.1" options:NSNumericSearch] == NSOrderedAscending) {
-            [SFSDKSalesforceSDKUpgradeManager upgradePasscode];
-        }
-        
         if (!lastVersion || [lastVersion compare:@"9.2.1" options:NSNumericSearch] == NSOrderedAscending) {
             // 9.2.0 & 9.2.1 upgrade steps both need file and keychain access, if we don't have those,
             // abort the upgrade so that it can rerun
@@ -83,6 +79,10 @@ static NSString * _currentVersion = nil;
             [SFDirectoryManager upgradeUserDirectories];
             [SFSDKSalesforceSDKUpgradeManager upgradeUserAccounts];
             [NSURLCache.sharedURLCache removeAllCachedResponses]; // For cache encryption key change
+        }
+        
+        if (!lastVersion || [lastVersion compare:@"10.1.1" options:NSNumericSearch] == NSOrderedAscending) {
+            [SFSDKSalesforceSDKUpgradeManager upgradePasscode];
         }
         
         [SFSDKSalesforceSDKUpgradeManager setLastVersion:currentVersion];
