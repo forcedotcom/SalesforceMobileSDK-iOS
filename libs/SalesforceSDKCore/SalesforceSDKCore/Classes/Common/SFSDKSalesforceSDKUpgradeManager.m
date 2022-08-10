@@ -79,6 +79,9 @@ static NSString * _currentVersion = nil;
             [SFDirectoryManager upgradeUserDirectories];
             [SFSDKSalesforceSDKUpgradeManager upgradeUserAccounts];
             [NSURLCache.sharedURLCache removeAllCachedResponses]; // For cache encryption key change
+        }
+        
+        if (!lastVersion || [lastVersion compare:@"10.1.1" options:NSNumericSearch] == NSOrderedAscending) {
             [SFSDKSalesforceSDKUpgradeManager upgradePasscode];
         }
         

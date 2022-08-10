@@ -1544,14 +1544,14 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     NSAssert(authSession.identityCoordinator.idData != nil, @"Identity data should not be nil/empty at this point.");
     SFIdentityCoordinator *identityCoordinator = authSession.identityCoordinator;
     BOOL hasMobilePolicy = identityCoordinator.idData.mobilePoliciesConfigured;
+    int lockTimeout = identityCoordinator.idData.mobileAppScreenLockTimeout;
     
     __weak typeof(self) weakSelf = self;
     [self dismissAuthViewControllerIfPresentForScene:authSession.oauthRequest.scene completion:^{
           __strong typeof(weakSelf) strongSelf = weakSelf;
         [strongSelf finalizeAuthCompletion:authSession];
         if (authSession.authInfo.authType != SFOAuthTypeRefresh) {
-            [[SFScreenLockManager shared] storeMobilePolicyWithUserAccount:self.currentUser hasMobilePolicy:hasMobilePolicy];
-            [[SFScreenLockManager shared] handleAppForeground];
+            [[SFScreenLockManager shared] storeMobilePolicyWithUserAccount:self.currentUser hasMobilePolicy:hasMobilePolicy lockTimeout:lockTimeout];
        }
     }];
     [self dismissAuthViewControllerIfPresent];
