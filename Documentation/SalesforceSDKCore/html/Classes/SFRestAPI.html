@@ -3117,6 +3117,256 @@ to return values. Example: &ldquo;Account,Contact&rdquo;.</p></td>
 						</div>
 						
 
+						<a title="Blocks Methods" name="task_Blocks Methods"></a>
+						<h2 class="task-title">Blocks Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/errorWithDescription:" title="errorWithDescription:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/errorWithDescription:">+&nbsp;errorWithDescription:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Creates an error object with the given description.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (NSError *)errorWithDescription:(NSString *)<em>description</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>description</code></th>
+						<td><p>Description</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/sendRequest:failureBlock:successBlock:" title="sendRequest:failureBlock:successBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/sendRequest:failureBlock:successBlock:">&ndash;&nbsp;sendRequest:failureBlock:successBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Sends a request you&rsquo;ve already built, using blocks to return status.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)sendRequest:(SFRestRequest *)<em>request</em> failureBlock:(SFRestRequestFailBlock)<em>failureBlock</em> successBlock:(SFRestResponseBlock)<em>successBlock</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>request</code></th>
+						<td><p><a href="../Classes/SFRestRequest.html">SFRestRequest</a> to be sent.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>failureBlock</code></th>
+						<td><p>Block to be executed when the request fails (timeout, cancel, or error).</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>successBlock</code></th>
+						<td><p>Block to be executed when the request successfully completes.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/sendCompositeRequest:failureBlock:successBlock:" title="sendCompositeRequest:failureBlock:successBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/sendCompositeRequest:failureBlock:successBlock:">&ndash;&nbsp;sendCompositeRequest:failureBlock:successBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Sends a request you&rsquo;ve already built, using blocks to return status.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)sendCompositeRequest:(SFSDKCompositeRequest *)<em>request</em> failureBlock:(SFRestRequestFailBlock)<em>failureBlock</em> successBlock:(SFRestCompositeResponseBlock)<em>successBlock</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>request</code></th>
+						<td><p>Composite request to be sent.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>failureBlock</code></th>
+						<td><p>Block to be executed when the request fails (timeout, cancel, or error).</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>successBlock</code></th>
+						<td><p>Block to be executed when the request successfully completes.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/sendBatchRequest:failureBlock:successBlock:" title="sendBatchRequest:failureBlock:successBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/sendBatchRequest:failureBlock:successBlock:">&ndash;&nbsp;sendBatchRequest:failureBlock:successBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Sends a request you&rsquo;ve already built, using blocks to return status.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)sendBatchRequest:(SFSDKBatchRequest *)<em>request</em> failureBlock:(SFRestRequestFailBlock)<em>failureBlock</em> successBlock:(SFRestBatchResponseBlock)<em>successBlock</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>request</code></th>
+						<td><p>Batch request to be sent.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>failureBlock</code></th>
+						<td><p>Block to be executed when the request fails (timeout, cancel, or error).</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>successBlock</code></th>
+						<td><p>Block to be executed when the request successfully completes.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+
 						<a title="QueryBuilder Methods" name="task_QueryBuilder Methods"></a>
 						<h2 class="task-title">QueryBuilder Methods</h2>
 
@@ -4393,256 +4643,6 @@ create a new file at version 1.</p>
 </div>
 						</div>
 						
-
-						<a title="Blocks Methods" name="task_Blocks Methods"></a>
-						<h2 class="task-title">Blocks Methods</h2>
-
-						<div class="task-list">
-							<div class="section-method">
-	<a name="//api/name/errorWithDescription:" title="errorWithDescription:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/errorWithDescription:">+&nbsp;errorWithDescription:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Creates an error object with the given description.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (NSError *)errorWithDescription:(NSString *)<em>description</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>description</code></th>
-						<td><p>Description</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/sendRequest:failureBlock:successBlock:" title="sendRequest:failureBlock:successBlock:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/sendRequest:failureBlock:successBlock:">&ndash;&nbsp;sendRequest:failureBlock:successBlock:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Sends a request you&rsquo;ve already built, using blocks to return status.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (void)sendRequest:(SFRestRequest *)<em>request</em> failureBlock:(SFRestRequestFailBlock)<em>failureBlock</em> successBlock:(SFRestResponseBlock)<em>successBlock</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>request</code></th>
-						<td><p><a href="../Classes/SFRestRequest.html">SFRestRequest</a> to be sent.</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>failureBlock</code></th>
-						<td><p>Block to be executed when the request fails (timeout, cancel, or error).</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>successBlock</code></th>
-						<td><p>Block to be executed when the request successfully completes.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/sendCompositeRequest:failureBlock:successBlock:" title="sendCompositeRequest:failureBlock:successBlock:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/sendCompositeRequest:failureBlock:successBlock:">&ndash;&nbsp;sendCompositeRequest:failureBlock:successBlock:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Sends a request you&rsquo;ve already built, using blocks to return status.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (void)sendCompositeRequest:(SFSDKCompositeRequest *)<em>request</em> failureBlock:(SFRestRequestFailBlock)<em>failureBlock</em> successBlock:(SFRestCompositeResponseBlock)<em>successBlock</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>request</code></th>
-						<td><p>Composite request to be sent.</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>failureBlock</code></th>
-						<td><p>Block to be executed when the request fails (timeout, cancel, or error).</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>successBlock</code></th>
-						<td><p>Block to be executed when the request successfully completes.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/sendBatchRequest:failureBlock:successBlock:" title="sendBatchRequest:failureBlock:successBlock:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/sendBatchRequest:failureBlock:successBlock:">&ndash;&nbsp;sendBatchRequest:failureBlock:successBlock:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Sends a request you&rsquo;ve already built, using blocks to return status.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (void)sendBatchRequest:(SFSDKBatchRequest *)<em>request</em> failureBlock:(SFRestRequestFailBlock)<em>failureBlock</em> successBlock:(SFRestBatchResponseBlock)<em>successBlock</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>request</code></th>
-						<td><p>Batch request to be sent.</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>failureBlock</code></th>
-						<td><p>Block to be executed when the request fails (timeout, cancel, or error).</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>successBlock</code></th>
-						<td><p>Block to be executed when the request successfully completes.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Blocks.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div>
-						</div>
-						
 					</div>
 					
 					
@@ -4655,7 +4655,7 @@ create a new file at version 1.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2022 Salesforce.com. All rights reserved. Updated: 2022-06-22</p>
+						<p class="copyright">Copyright &copy; 2022 Salesforce.com. All rights reserved. Updated: 2022-08-19</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>
