@@ -30,6 +30,10 @@ import XCTest
 
 final class KeychainItemManagerTests: XCTestCase {
     
+    override func tearDownWithError() throws {
+        _ = KeychainHelper.removeAll()
+    }
+    
     func testCreateIfNotPresent() {
         let accountName = "account.two"
         let serviceName = "test.two"
@@ -40,7 +44,6 @@ final class KeychainItemManagerTests: XCTestCase {
         readResult = KeychainHelper.read(service: serviceName, account: accountName)
         XCTAssertTrue(readResult.success)
         XCTAssertNil(readResult.data)
-        _ = KeychainHelper.remove(service: serviceName, account: accountName)
     }
     
     func testCreateIfNotPresentNilAccount() {
@@ -52,18 +55,11 @@ final class KeychainItemManagerTests: XCTestCase {
         readResult = KeychainHelper.read(service: serviceName, account: nil)
         XCTAssertTrue(readResult.success)
         XCTAssertNil(readResult.data)
-        _ = KeychainHelper.remove(service: serviceName, account: nil)
     }
     
     func testConcurrentCreateIfNotPresent() {
-        let serviceName = "test"
-        addTeardownBlock {
-            _ = KeychainHelper.remove(service: serviceName, account: "0")
-            _ = KeychainHelper.remove(service: serviceName, account: "1")
-        }
-        
         DispatchQueue.concurrentPerform(iterations: 500) { index in
-            let keychainResult = KeychainHelper.createIfNotPresent(service: serviceName, account: "\(index%2)")
+            let keychainResult = KeychainHelper.createIfNotPresent(service: "test", account: "\(index%2)")
             XCTAssertTrue(keychainResult.success)
         }
     }
@@ -90,7 +86,6 @@ final class KeychainItemManagerTests: XCTestCase {
         XCTAssertNil(readResult.data)
         XCTAssertEqual(readResult.status, errSecSuccess)
         XCTAssertNil(readResult.error)
-        _ = KeychainHelper.remove(service: serviceName, account: accountName)
     }
     
     func testWriteAndReadItem() {
@@ -162,6 +157,21 @@ final class KeychainItemManagerTests: XCTestCase {
         XCTAssertNotNil(readResult.error)
     }
     
+    func testUpdateItem() {
+        let serviceName = "test.two"
+        let data1 = Data("ATESTSTRING2".utf8)
+        let data2 = Data("ATESTSTRING3".utf8)
+        var writeResult = KeychainHelper.write(service: serviceName, data: data1, account: nil)
+        XCTAssertTrue(writeResult.success)
+        writeResult = KeychainHelper.write(service: serviceName, data: data2, account: nil)
+        XCTAssertTrue(writeResult.success)
+        let readResult = KeychainHelper.read(service: serviceName, account: nil)
+        XCTAssertTrue(readResult.success)
+        XCTAssertEqual(readResult.data, data2)
+        XCTAssertEqual(readResult.status, errSecSuccess)
+        XCTAssertNil(readResult.error)
+    }
+    
     func testDeleteNonexistentItem() {
         let serviceName = "test.two"
         let accountName = "account.two"
@@ -200,6 +210,36 @@ final class KeychainItemManagerTests: XCTestCase {
             XCTAssertFalse(keychainResult.success)
             XCTAssertEqual(keychainResult.status, errSecItemNotFound)
         }
+    }
+    
+    func testReset() {
+        let serviceName = "test.two"
+        let accountName = "account.two"
+        let data = Data("ATESTSTRING2".utf8)
+        
+        let writeResult = KeychainHelper.write(service: serviceName, data: data, account: accountName)
+        XCTAssertTrue(writeResult.success)
+        XCTAssertNotNil(writeResult.data)
+        XCTAssertEqual(writeResult.status, errSecSuccess)
+        XCTAssertNil(writeResult.error)
+        
+        var readResult = KeychainHelper.read(service: serviceName, account: accountName)
+        XCTAssertTrue(readResult.success)
+        XCTAssertEqual(readResult.data, data)
+        XCTAssertEqual(readResult.status, errSecSuccess)
+        XCTAssertNil(readResult.error)
+        
+        let resetResult = KeychainHelper.reset(service: serviceName, account: accountName)
+        XCTAssertTrue(resetResult.success)
+        XCTAssertNil(resetResult.data)
+        XCTAssertEqual(resetResult.status, errSecSuccess)
+        XCTAssertNil(resetResult.error)
+        
+        readResult = KeychainHelper.read(service: serviceName, account: accountName)
+        XCTAssertTrue(readResult.success)
+        XCTAssertNil(readResult.data)
+        XCTAssertEqual(readResult.status, errSecSuccess)
+        XCTAssertNil(readResult.error)
     }
     
     func testChangeAccesibilityAttribute() throws {
