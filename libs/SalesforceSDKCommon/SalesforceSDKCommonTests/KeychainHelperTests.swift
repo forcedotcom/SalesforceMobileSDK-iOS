@@ -1,5 +1,5 @@
 //
-//  KeychainItemManagerTests.swift
+//  KeychainHelperTests.swift
 //  SalesforceSDKCommon
 //
 //  Created by Raj Rao on 3/30/21.
@@ -28,7 +28,7 @@
 import XCTest
 @testable import SalesforceSDKCommon
 
-final class KeychainItemManagerTests: XCTestCase {
+final class KeychainHelperTests: XCTestCase {
     
     override func tearDownWithError() throws {
         _ = KeychainHelper.removeAll()

@@ -24,226 +24,9 @@
 //  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
 //  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
 //  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//
+
 import Foundation
-
-internal protocol KeychainItemQueryable {
-    var query: [String: Any] { get }
-}
-
-/// Adds kSecClassGenericPassword to the queryable
-internal struct GenericPasswordItemQuery: KeychainItemQueryable {
-
-    let service: String
-    let account: String?
-    let accessGroup: String?
-
-    var query: [String: Any] {
-        var query: [String: Any] = [String(kSecClass): String(kSecClassGenericPassword),
-                                    String(kSecAttrService): service]
-
-        #if !targetEnvironment(simulator)
-        if let accessGroup = accessGroup {
-            query[String(kSecAttrAccessGroup)] = accessGroup
-        }
-        #endif
-        if let account = account {
-            query[String(kSecAttrAccount)] = account
-        }
-
-        return query
-    }
-
-}
-
-internal class KeychainItemManager: NSObject {
-    private let secureStoreQueryable: KeychainItemQueryable
-    static let errorDomain = "com.salesforce.security.keychainException"
-    static let tag = "com.salesforce.mobilesdk"
-
-    let accessibleAttribute: CFString
-    
-    /// Initializer for kSecClassGenericPassword with accessgroup. Will create a keychain item manager
-    /// for kSecClassGenericPassword operations
-    convenience init(service: String, account: String?) {
-        self.init(service: service, account: account, accessibilityAttribute: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly)
-    }
-
-    /// Initializer for kSecClassGenericPassword with accessgroup. Will create a keychain item manager
-    /// - Parameters:
-    ///   - service: Service name for keychain item
-    ///   - account: Account name for keychain item
-    ///   - accessibilityAttribute: kSecAttrAccessible Attribute for keychain
-    init(service: String, account: String?, accessibilityAttribute: CFString) {
-        self.secureStoreQueryable = GenericPasswordItemQuery(service: service,
-                                                             account: account,
-                                                             accessGroup: nil)
-        self.accessibleAttribute = accessibilityAttribute
-    }
-
-    /// Set a value into the keychain for a given identifier.
-    /// - Parameters:
-    ///   - data: Value to store
-    /// - KeychainResult: success or error.
-    func setValue(_ data: Data) -> KeychainResult {
-        var query = self.secureStoreQueryable.query
-        var status = SecItemCopyMatching(query as CFDictionary, nil)
-        guard status == errSecSuccess || status == errSecItemNotFound else {
-            return KeychainResult(error: KeychainItemManager.mapError(from: status), status: status)
-        }
-
-        if status == errSecItemNotFound {
-            query[String(kSecValueData)] = data
-            query[String(kSecAttrCreator)] = KeychainItemManager.tag
-            status = SecItemAdd(query as CFDictionary, nil)
-        } else {
-            let attributesToUpdate: [String: Any] = [String(kSecValueData): data,
-                                                     String(kSecAttrAccessible): self.accessibleAttribute,
-                                                     String(kSecAttrCreator): KeychainItemManager.tag]
-
-            status = SecItemUpdate(query as CFDictionary,
-                                   attributesToUpdate as CFDictionary)
-        }
-
-        //failure to add or update
-        if status != errSecSuccess {
-            return KeychainResult(error: KeychainItemManager.mapError(from: status), status: status)
-        }
-      
-        return self.getValue()
-    }
-
-    /// Set a value into the keychain for a given identifier.
-    /// - Parameters:
-    ///   - data: Value to store
-    /// - KeychainResult: success or error.
-    func addEmptyValue() -> KeychainResult {
-        var query = self.secureStoreQueryable.query
-        query[String(kSecAttrCreator)] = KeychainItemManager.tag
-        var status = SecItemCopyMatching(query as CFDictionary, nil)
-
-        guard status == errSecSuccess || status == errSecItemNotFound else {
-            return KeychainResult(error: KeychainItemManager.mapError(from: status), status: status)
-        }
-
-        if status == errSecItemNotFound {
-            query[String(kSecAttrAccessible)] = self.accessibleAttribute
-            status = SecItemAdd(query as CFDictionary, nil)
-        }
-
-        //failure to add or update
-        if status != errSecSuccess {
-            return KeychainResult(error: KeychainItemManager.mapError(from: status), status: status)
-        }
-
-        return self.getValue()
-    }
-
-    /// Get a value into the keychain for a given identifier.
-    /// - Returns: KeychainResult retrieved for the given identifier
-    func getValue() -> KeychainResult {
-
-        let additions: [String: Any] = [String(kSecMatchLimit): kSecMatchLimitOne,
-                                        String(kSecReturnAttributes): kCFBooleanTrue as Any,
-                                        String(kSecReturnData): kCFBooleanTrue as Any]
-
-        var query = secureStoreQueryable.query
-        query.merge(additions) { (current, _) in current }
-
-        var queryResult: CFTypeRef?
-        let status = SecItemCopyMatching(query as CFDictionary, &queryResult)
-
-        guard errSecSuccess == status else {
-            return KeychainResult(error: KeychainItemManager.mapError(from: status), status: status)
-        }
-
-        guard let item = queryResult as? [String: Any],
-              let resultData = item[String(kSecValueData)] as? Data else {
-            return KeychainResult(data: nil, status: status)
-        }
-        return KeychainResult(data: resultData, status: status)
-
-    }
-
-    /// Remove value for a given identifier.
-    /// - Parameter identifier: the key to use.
-    /// - Throws: KeyStoreError wich wraps the underlying error message
-    func removeValue() -> KeychainResult {
-        let query = secureStoreQueryable.query
-
-        let status = SecItemDelete(query as CFDictionary)
-        guard status == errSecSuccess || status == errSecItemNotFound else {
-            let error = KeychainItemManager.mapError(from: status)
-            return KeychainResult(error: error, status: status)
-        }
-        return KeychainResult(data: nil, status: status)
-    }
-
-    fileprivate static func mapError(from status: OSStatus) -> NSError {
-        let message = SecCopyErrorMessageString(status, nil) as String? ?? NSLocalizedString("Unhandled Error", comment: "")
-        let error = NSError(domain: KeychainItemManager.errorDomain, code: Int(status), userInfo: [NSLocalizedDescriptionKey: message, "com.salesforce.security.keychainException.errorCode": status])
-        return error
-    }
-
-    fileprivate static func mapError(message: String) -> NSError {
-        let error = NSError(domain: KeychainItemManager.errorDomain, code: -1, userInfo: [NSLocalizedDescriptionKey: message])
-        return error
-    }
-}
-
-@objc(SFSDKKeychainResult)
-public class KeychainResult: NSObject {
-    @objc public let success: Bool
-    @objc public let status: OSStatus
-    @objc public let data: Data?
-    @objc public let error: NSError?
-
-    internal init(data: Data?, status: OSStatus) {
-        self.success = true
-        self.status = status
-        self.data = data
-        self.error = nil
-    }
-
-    internal init(error: NSError, status: OSStatus) {
-        self.success = false
-        self.status = status
-        self.data = nil
-        self.error = error
-    }
-}
-
-/// KeychainItemAccessibility  used as the kSecAttrAccessible Value Constants
-@objc public enum KeychainItemAccessibility: Int {
-
-    case whenUnlocked
-    case whenUnlockedThisDeviceOnly
-    case afterFirstUnlock
-    case afterFirstUnlockThisDeviceOnly
-    case whenPasscodeSetThisDeviceOnly
-
-    var asCFString: CFString {
-        switch self {
-        case .whenUnlocked:
-            return kSecAttrAccessibleWhenUnlocked
-
-        case .whenUnlockedThisDeviceOnly:
-            return kSecAttrAccessibleWhenUnlockedThisDeviceOnly
-
-        case .afterFirstUnlock:
-            return kSecAttrAccessibleAfterFirstUnlock
-
-        case .afterFirstUnlockThisDeviceOnly:
-            return kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
-
-        case .whenPasscodeSetThisDeviceOnly:
-            return kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly
-        }
-    }
-
-    var asString: String {
-        return String(self.asCFString)
-    }
-}
 
 @objc(SFSDKKeychainHelper)
 public class KeychainHelper: NSObject {
@@ -275,7 +58,6 @@ public class KeychainHelper: NSObject {
                                                       accessibilityAttribute: KeychainHelper.keychainAccessibleAttribute)
             return keychainManager.getValue()
         }
-       
     }
 
     /// Create an item in the keychain if not present.
@@ -313,7 +95,6 @@ public class KeychainHelper: NSObject {
                                                       accessibilityAttribute: KeychainHelper.keychainAccessibleAttribute)
             return keychainManager.setValue(data)
         }
-        
     }
 
     /// If an item is found remove it and then add an empty entry i.e. data is nil.
@@ -354,7 +135,6 @@ public class KeychainHelper: NSObject {
             }
             return keychainResult
         }
-       
     }
 
     /// Remove all keychain items created by the mobile sdk.
@@ -644,5 +424,59 @@ public class KeychainHelper: NSObject {
             return resultString
 
         }
+    }
+}
+
+@objc(SFSDKKeychainResult)
+public class KeychainResult: NSObject {
+    @objc public let success: Bool
+    @objc public let status: OSStatus
+    @objc public let data: Data?
+    @objc public let error: NSError?
+
+    internal init(data: Data?, status: OSStatus) {
+        self.success = true
+        self.status = status
+        self.data = data
+        self.error = nil
+    }
+
+    internal init(error: NSError, status: OSStatus) {
+        self.success = false
+        self.status = status
+        self.data = nil
+        self.error = error
+    }
+}
+
+/// KeychainItemAccessibility  used as the kSecAttrAccessible Value Constants
+@objc public enum KeychainItemAccessibility: Int {
+    case whenUnlocked
+    case whenUnlockedThisDeviceOnly
+    case afterFirstUnlock
+    case afterFirstUnlockThisDeviceOnly
+    case whenPasscodeSetThisDeviceOnly
+
+    var asCFString: CFString {
+        switch self {
+        case .whenUnlocked:
+            return kSecAttrAccessibleWhenUnlocked
+
+        case .whenUnlockedThisDeviceOnly:
+            return kSecAttrAccessibleWhenUnlockedThisDeviceOnly
+
+        case .afterFirstUnlock:
+            return kSecAttrAccessibleAfterFirstUnlock
+
+        case .afterFirstUnlockThisDeviceOnly:
+            return kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
+
+        case .whenPasscodeSetThisDeviceOnly:
+            return kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly
+        }
+    }
+
+    var asString: String {
+        return String(self.asCFString)
     }
 }
