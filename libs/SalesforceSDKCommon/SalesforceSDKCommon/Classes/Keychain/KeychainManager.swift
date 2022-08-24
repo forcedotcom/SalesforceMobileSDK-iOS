@@ -294,10 +294,8 @@ public class KeychainHelper: NSObject {
             if !keychainResult.success && keychainResult.status == errSecItemNotFound {
                 keychainResult = keychainManager.addEmptyValue()
             }
-            
             return keychainResult
         }
-       
     }
 
     /// Write or Update an item in the keychain if not present.
