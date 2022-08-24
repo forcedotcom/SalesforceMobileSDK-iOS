@@ -79,7 +79,7 @@ final class KeychainItemManagerTests: XCTestCase {
         readResult = KeychainHelper.read(service: serviceName, account: accountName)
         XCTAssertTrue(readResult.success)
         XCTAssertNil(readResult.data)
-        XCTAssertTrue(readResult.status == errSecSuccess)
+        XCTAssertEqual(readResult.status, errSecSuccess)
         XCTAssertNil(readResult.error)
         
         creationResult = KeychainHelper.createIfNotPresent(service: serviceName, account: accountName)
@@ -88,7 +88,7 @@ final class KeychainItemManagerTests: XCTestCase {
         readResult = KeychainHelper.read(service: serviceName, account: accountName)
         XCTAssertTrue(readResult.success)
         XCTAssertNil(readResult.data)
-        XCTAssertTrue(readResult.status == errSecSuccess)
+        XCTAssertEqual(readResult.status, errSecSuccess)
         XCTAssertNil(readResult.error)
         _ = KeychainHelper.remove(service: serviceName, account: accountName)
     }
@@ -99,32 +99,32 @@ final class KeychainItemManagerTests: XCTestCase {
         var readResult = KeychainHelper.read(service: serviceName, account: accountName)
         XCTAssertFalse(readResult.success)
         XCTAssertNil(readResult.data)
-        XCTAssertTrue(readResult.status == errSecItemNotFound)
+        XCTAssertEqual(readResult.status, errSecItemNotFound)
         XCTAssertNotNil(readResult.error)
         
         let data = Data("ATESTSTRING2".utf8)
         let writeResult = KeychainHelper.write(service: serviceName, data: data, account: accountName)
         XCTAssertTrue(writeResult.success)
         XCTAssertNotNil(writeResult.data)
-        XCTAssertTrue(writeResult.status == errSecSuccess)
+        XCTAssertEqual(writeResult.status, errSecSuccess)
         XCTAssertNil(writeResult.error)
         
         readResult = KeychainHelper.read(service: serviceName, account: accountName)
         XCTAssertTrue(readResult.success)
         XCTAssertNotNil(readResult.data)
-        XCTAssertTrue(readResult.status == errSecSuccess)
+        XCTAssertEqual(readResult.status, errSecSuccess)
         XCTAssertNil(readResult.error)
         
         let removeResult = KeychainHelper.remove(service: serviceName, account: accountName)
         XCTAssertTrue(removeResult.success)
         XCTAssertNil(removeResult.data)
-        XCTAssertTrue(removeResult.status == errSecSuccess)
+        XCTAssertEqual(removeResult.status, errSecSuccess)
         XCTAssertNil(removeResult.error)
         
         readResult = KeychainHelper.read(service: serviceName, account: accountName)
         XCTAssertFalse(readResult.success)
         XCTAssertNil(readResult.data)
-        XCTAssertTrue(readResult.status == errSecItemNotFound)
+        XCTAssertEqual(readResult.status, errSecItemNotFound)
         XCTAssertNotNil(readResult.error)
     }
     
@@ -133,32 +133,32 @@ final class KeychainItemManagerTests: XCTestCase {
         var readResult = KeychainHelper.read(service: serviceName, account: nil)
         XCTAssertFalse(readResult.success)
         XCTAssertNil(readResult.data)
-        XCTAssertTrue(readResult.status == errSecItemNotFound)
+        XCTAssertEqual(readResult.status, errSecItemNotFound)
         XCTAssertNotNil(readResult.error)
         
         let data = Data("ATESTSTRING2".utf8)
         let writeResult = KeychainHelper.write(service: serviceName, data: data, account: nil)
         XCTAssertTrue(writeResult.success)
         XCTAssertNotNil(writeResult.data)
-        XCTAssertTrue(writeResult.status == errSecSuccess)
+        XCTAssertEqual(writeResult.status, errSecSuccess)
         XCTAssertNil(writeResult.error)
         
         readResult = KeychainHelper.read(service: serviceName, account: nil)
         XCTAssertTrue(readResult.success)
         XCTAssertNotNil(readResult.data)
-        XCTAssertTrue(readResult.status == errSecSuccess)
+        XCTAssertEqual(readResult.status, errSecSuccess)
         XCTAssertNil(readResult.error)
         
         let removeResult = KeychainHelper.remove(service: serviceName, account: nil)
         XCTAssertTrue(removeResult.success)
         XCTAssertNil(removeResult.data)
-        XCTAssertTrue(removeResult.status == errSecSuccess)
+        XCTAssertEqual(removeResult.status, errSecSuccess)
         XCTAssertNil(removeResult.error)
         
         readResult = KeychainHelper.read(service: serviceName, account: nil)
         XCTAssertFalse(readResult.success)
         XCTAssertNil(readResult.data)
-        XCTAssertTrue(readResult.status == errSecItemNotFound)
+        XCTAssertEqual(readResult.status, errSecItemNotFound)
         XCTAssertNotNil(readResult.error)
     }
     
@@ -169,7 +169,7 @@ final class KeychainItemManagerTests: XCTestCase {
         XCTAssertFalse(removeResult.success)
         XCTAssertNil(removeResult.data)
         XCTAssertNotNil(removeResult.error)
-        XCTAssertTrue(removeResult.status == errSecItemNotFound)
+        XCTAssertEqual(removeResult.status, errSecItemNotFound)
     }
     
     func testDeleteNonexistentItemNilAccount() {
@@ -178,7 +178,7 @@ final class KeychainItemManagerTests: XCTestCase {
         XCTAssertFalse(removeResult.success)
         XCTAssertNil(removeResult.data)
         XCTAssertNotNil(removeResult.error)
-        XCTAssertTrue(removeResult.status == errSecItemNotFound)
+        XCTAssertEqual(removeResult.status, errSecItemNotFound)
     }
     
     func testRemoveAll() {
@@ -197,7 +197,8 @@ final class KeychainItemManagerTests: XCTestCase {
         
         accounts.forEach {
             let keychainResult = KeychainHelper.read(service: $0.0, account: $0.1)
-            XCTAssertFalse(keychainResult.success && keychainResult.status == errSecItemNotFound)
+            XCTAssertFalse(keychainResult.success)
+            XCTAssertEqual(keychainResult.status, errSecItemNotFound)
         }
     }
     
@@ -214,7 +215,8 @@ final class KeychainItemManagerTests: XCTestCase {
         
         accounts.forEach {
             let keychainResult = KeychainHelper.read(service: $0.0, account: $0.1)
-            XCTAssertTrue(keychainResult.success && keychainResult.status == errSecSuccess)
+            XCTAssertTrue(keychainResult.success)
+            XCTAssertEqual(keychainResult.status, errSecSuccess)
         }
         
         for (service, account) in accounts {
@@ -237,7 +239,8 @@ final class KeychainItemManagerTests: XCTestCase {
         
         accounts.forEach {
             let keychainResult = KeychainHelper.read(service: $0.0, account: $0.1)
-            XCTAssertFalse(keychainResult.success && keychainResult.status == errSecItemNotFound)
+            XCTAssertFalse(keychainResult.success)
+            XCTAssertEqual(keychainResult.status, errSecItemNotFound)
         }
     }
     
