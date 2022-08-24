@@ -26,10 +26,10 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#import <XCTest/XCTest.h>
 
-#import <XCTest/XCTest.h>
-#import <SalesforceSDKCommon/SalesforceSDKCommon.h>
+@import XCTest;
+#import "SFLogger.h"
+#import "SFDefaultLogger.h"
 
 static NSString * const kTestDefaultComponent = @"TestDefaultComponent";
 static NSString * const kTestComponent1 = @"TestComponent1";
