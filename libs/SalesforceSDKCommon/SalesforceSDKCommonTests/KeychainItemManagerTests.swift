@@ -33,7 +33,7 @@ final class KeychainItemManagerTests: XCTestCase {
     func testCreateIfNotPresent() {
         let accountName = "account.two"
         let serviceName = "test.two"
-        var readResult = KeychainHelper.read(service: serviceName, account: nil)
+        var readResult = KeychainHelper.read(service: serviceName, account: accountName)
         XCTAssertFalse(readResult.success)
         let creationResult = KeychainHelper.createIfNotPresent(service: serviceName, account: accountName)
         XCTAssertTrue(creationResult.success)
