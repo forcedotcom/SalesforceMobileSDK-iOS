@@ -1,14 +1,28 @@
+#  Xcode version announcments can be found here: https://discuss.circleci.com/c/announcements/
+#  Each post contains a full image manifest, including iOS runtimes, devices, CocoaPods version, etc.
+#  NOTE: When updaing Xcode check the manifest for compatible chruby versions.
 anchors:
-  - &latest-xcode "13.2.1"
-  - &latest-ios   "15.2"
+  - &latest-xcode "13.4.1"
+  - &beta-xcode   "14.0.0"
+  - &latest-ios   "15.5"
   - &min-ios      "14.5"
-  - &chruby       "3.0.3"
+  - &beta-ios     "16.0"
+  - &chruby       "3.1.2"
 
 executors:
   mac:
     working_directory: ~/SalesforceMobileSDK-iOS
     macos:
       xcode: *latest-xcode
+    shell: /bin/bash --login -eo pipefail
+    environment:
+      BASH_ENV: ~/.bashrc
+      FASTLANE_SKIP_UPDATE_CHECK: "true"
+      CHRUBY_VER: *chruby
+  mac-beta:
+    working_directory: ~/SalesforceMobileSDK-iOS
+    macos:
+      xcode: *beta-xcode
     shell: /bin/bash --login -eo pipefail
     environment:
       BASH_ENV: ~/.bashrc
@@ -31,10 +45,10 @@ jobs:
       nightly-test:
         type: boolean
         default: false
-      env: 
-        type: executor
+      env:
+        type: string
         default: "mac"
-    executor: << parameters.env >> 
+    executor: << parameters.env >>
     environment:
       LIB: << parameters.lib >> 
       DEVICE: << parameters.device >>
@@ -49,7 +63,7 @@ jobs:
       - run: 
           name: Install Dependencies
           command:  |
-            npm install shelljs@0.8.4
+            npm install shelljs@0.8.5
             ./install.sh
             ./build/pre-build
             chruby ${CHRUBY_VER}
@@ -82,11 +96,21 @@ jobs:
           path: /Users/distiller/SalesforceMobileSDK-iOS/clangReport
           destination: Static-Analysis
 
+#  Potential parameters that can come from the project GUI Triggers
+parameters:
+  run-schedule:
+    type: boolean
+    default: false
+  beta:
+    type: boolean
+    default: false
       
 workflows:
   version: 2
 
   build-test-pr:
+    when:
+      not: << pipeline.parameters.run-schedule >>
     jobs:
       - run-tests:
           matrix:
@@ -97,20 +121,16 @@ workflows:
               only:
                 - /pull.*/
 
-  # Cron are on a timezone 8 hours ahead of PST
-  # Build everything at ~10:30pm Tuesday/Thursday Nights
+  # Build everything at 10 PM PST Tuesday/Thursday Nights
   #
   # Note:  The "requires" field is used to limit the number of concurrent jobs running (one per lib) to prevent 
   # test faulures since some tests rely on the server or storage to have consistent counts.  Unfotunately the 
   # "requires" field is just a string so anchors cannot be added, thus we need to maintain the iOS version.  
   nightly-test-ios:
-    triggers:
-      - schedule:
-          cron: "30 6 * * 3,5"
-          filters:
-            branches:
-              only:
-                - dev
+    when: 
+      and:
+        - << pipeline.parameters.run-schedule >>
+        - equal: [ false, << pipeline.parameters.beta >> ]
     jobs:
       - run-tests:
           name: test << matrix.lib >> iOS << matrix.ios >> 
@@ -119,7 +139,6 @@ workflows:
               lib: ["SalesforceSDKCommon", "SalesforceAnalytics", "SalesforceSDKCore", "SmartStore", "MobileSync"]
               nightly-test: [true]
               ios: [*min-ios]
-              device: ["iPhone 8"]
       - run-tests:
           name: test << matrix.lib >> iOS << matrix.ios >> 
           matrix:
@@ -129,3 +148,21 @@ workflows:
               ios: [*latest-ios]
           requires:
             - test << matrix.lib >> iOS 14.5
+
+  # Build everything at 11 PM PST Tuesday/Thursday Nights
+  nightly-test-beta-ios:
+    when: 
+      and:
+        - << pipeline.parameters.run-schedule >>
+        - << pipeline.parameters.beta >>
+    jobs:
+      - run-tests:
+          name: test << matrix.lib >> iOS << matrix.ios >> 
+          matrix:
+            parameters:
+              lib: ["SalesforceSDKCommon", "SalesforceAnalytics", "SalesforceSDKCore", "SmartStore", "MobileSync"]
+              nightly-test: [true]
+              ios: [*beta-ios]
+              device: ["iPhone 13"]
+              env: ["mac-beta"]
+            
