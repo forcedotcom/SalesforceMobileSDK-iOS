@@ -27,7 +27,6 @@
 
 import XCTest
 @testable import SalesforceSDKCore
-import CryptoKit
 
 class EncryptionTests: XCTestCase {
 
@@ -37,9 +36,8 @@ class EncryptionTests: XCTestCase {
     
     func testEncryptDecrypt() throws {
         let key = try KeyGenerator.encryptionKey(for: "test1")
-        XCTAssertNotNil(key)
         let sensitiveInfo = "My sensitive info"
-        let sensitiveData = try XCTUnwrap(sensitiveInfo.data(using: .utf8))
+        let sensitiveData = Data(sensitiveInfo.utf8)
         let encryptedData = try Encryptor.encrypt(data: sensitiveData, using: key)
         XCTAssertNotEqual(sensitiveData, encryptedData)
         
@@ -48,33 +46,19 @@ class EncryptionTests: XCTestCase {
         
         let decryptedData = try Encryptor.decrypt(data: encryptedData, using: keyAgain)
         let decryptedString = String(data: decryptedData, encoding: .utf8)
-        
         XCTAssertEqual(decryptedString, sensitiveInfo)
     }
     
     func testEncryptDecryptWrongKey() throws {
         let key = try KeyGenerator.encryptionKey(for: "test1")
-        XCTAssertNotNil(key)
         let sensitiveInfo = "My sensitive info"
-        let sensitiveData = try XCTUnwrap(sensitiveInfo.data(using: .utf8))
+        let sensitiveData = Data(sensitiveInfo.utf8)
         let encryptedData = try Encryptor.encrypt(data: sensitiveData, using: key)
         XCTAssertNotEqual(sensitiveData, encryptedData)
         
         let differentKey = try KeyGenerator.encryptionKey(for: "test2")
         XCTAssertNotEqual(key, differentKey)
-        
         XCTAssertThrowsError(try Encryptor.decrypt(data: encryptedData, using: differentKey))
-    }
-    
-    func testKeyRetrieval() throws {
-        let key = try KeyGenerator.encryptionKey(for: "test1")
-        XCTAssertNotNil(key)
-        let keyAgain = try KeyGenerator.encryptionKey(for: "test1")
-        XCTAssertEqual(key, keyAgain)
-        
-        let differentKey = try KeyGenerator.encryptionKey(for: "test2")
-        XCTAssertNotNil(differentKey)
-        XCTAssertNotEqual(key, differentKey)
     }
     
     func testECKeyCreationDeletion() throws {
@@ -133,7 +117,6 @@ class EncryptionTests: XCTestCase {
         
         // Get symmetric key that generates pair
         let key = try KeyGenerator.encryptionKey(for: "keyName")
-        XCTAssertNotNil(key)
 
         // After restore to same device, public key would be present but not private key
         XCTAssertTrue(KeyGenerator.removeKey(tag: privateKeyTag))
@@ -147,9 +130,8 @@ class EncryptionTests: XCTestCase {
         // This should regenerate a new key after being unable to decrypt the old key and deleting the EC duplicates
         KeyGenerator.keyCache.removeValue(forKey: "keyName")
         let resetKey = try KeyGenerator.encryptionKey(for: "keyName")
-        XCTAssertNotNil(resetKey)
         XCTAssertNotEqual(key, resetKey)
-        let unencryptedData = try XCTUnwrap("this is a test".data(using: .utf8))
+        let unencryptedData = Data("this is a test".utf8)
         let encryptedData = try Encryptor.encrypt(data: unencryptedData, using: resetKey)
         let decryptedData = try Encryptor.decrypt(data: encryptedData, using: resetKey)
         XCTAssertEqual(unencryptedData, decryptedData)
@@ -157,7 +139,6 @@ class EncryptionTests: XCTestCase {
         // Getting the key for a second time after reset should return the same key, make sure it can decrypt the same data
         KeyGenerator.keyCache.removeValue(forKey: "keyName")
         let resetKeyAgain = try KeyGenerator.encryptionKey(for: "keyName")
-        XCTAssertNotNil(resetKeyAgain)
         XCTAssertEqual(resetKey, resetKeyAgain)
         let decryptedDataAgain = try Encryptor.decrypt(data: encryptedData, using: resetKeyAgain)
         XCTAssertEqual(unencryptedData, decryptedDataAgain)
