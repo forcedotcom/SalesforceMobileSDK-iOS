@@ -39,7 +39,7 @@ jobs:
         default: *device
     macos:
       xcode: << parameters.xcode >>
-    working_directory: ~/SalesforceMobileSDK-ReactNative
+    working_directory: ~/SalesforceMobileSDK-iOS
     shell: /bin/bash --login -eo pipefail
     environment:
       DEVICE: << parameters.device >>
