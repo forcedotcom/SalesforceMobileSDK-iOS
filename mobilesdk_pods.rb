@@ -53,6 +53,7 @@ def enable_sign_posts_post_install(installer)
       end
     end
   end
+end
 
 # Post Install: Keeping Mobile SDK deployement target at 14 (__apply_Xcode_12_5_M1_post_install_workaround changes it to 11)
 def mobile_sdk_post_install(installer)
