@@ -30,7 +30,7 @@ def use_mobile_sdk(options={})
   pod 'MobileSync', :path => path
 end
 
-# Pre Install Building Mobile SDK targets as dynamic frameworks
+# Pre Install: Building Mobile SDK targets as dynamic frameworks
 def mobile_sdk_pre_install(installer)
    dynamic_framework = ['SalesforceAnalytics', 'SalesforceSDKCore', 'SalesforceSDKCommon', 'SmartStore', 'FMDB', 'SQLCipher', 'MobileSync']
    installer.pod_targets.each do |pod|
@@ -43,9 +43,8 @@ def mobile_sdk_pre_install(installer)
 end
   
 
-# Post Install 
-def mobile_sdk_post_install(installer)
-   # Enabling sign posts
+# Post Install: Enable sign posts
+def enable_sign_posts_post_install(installer)
   installer.pods_project.targets.each do |target|
     target.build_configurations.each do |config|
       if config.name == 'Debug'
@@ -55,7 +54,8 @@ def mobile_sdk_post_install(installer)
     end
   end
 
-  # Keeping Mobile SDK deployement target at 14 (__apply_Xcode_12_5_M1_post_install_workaround changes it to 11)
+# Post Install: Keeping Mobile SDK deployement target at 14 (__apply_Xcode_12_5_M1_post_install_workaround changes it to 11)
+def mobile_sdk_post_install(installer)
   installer.pods_project.targets.each do |target|
     if ['SalesforceAnalytics', 'SalesforceSDKCommon', 'SalesforceSDKCore', 'SmartStore', 'MobileSync', 'SalesforceReact'].include?(target.name)
       target.build_configurations.each do |config|
