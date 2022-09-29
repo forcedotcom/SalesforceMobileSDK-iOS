@@ -20,7 +20,7 @@
 #  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
 #  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-def use_mobile_sdk(options={})
+def use_mobile_sdk!(options={})
   path = options[:path] ||= "./mobile_sdk/SalesforceMobileSDK-iOS"
 
   pod 'SalesforceSDKCommon', :path => path
@@ -44,7 +44,7 @@ end
   
 
 # Post Install: Enable sign posts
-def enable_sign_posts_post_install(installer)
+def signposts_post_install(installer)
   installer.pods_project.targets.each do |target|
     target.build_configurations.each do |config|
       if config.name == 'Debug'
