@@ -20,7 +20,7 @@
 #  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
 #  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-def use_mobile_sdk! (options={})
+def use_mobile_sdk(options={})
   path = options[:path] ||= "./mobile_sdk/SalesforceMobileSDK-iOS"
 
   pod 'SalesforceSDKCommon', :path => path
@@ -30,13 +30,36 @@ def use_mobile_sdk! (options={})
   pod 'MobileSync', :path => path
 end
 
-# Post Install processing for signposts
-def signposts_post_install(installer)
+# Pre Install Building Mobile SDK targets as dynamic frameworks
+def mobile_sdk_pre_install(installer)
+   dynamic_framework = ['SalesforceAnalytics', 'SalesforceSDKCore', 'SalesforceSDKCommon', 'SmartStore', 'FMDB', 'SQLCipher', 'MobileSync']
+   installer.pod_targets.each do |pod|
+     if dynamic_framework.include?(pod.name)
+       def pod.build_type
+         Pod::BuildType.dynamic_framework
+       end
+     end
+   end
+end
+  
+
+# Post Install 
+def mobile_sdk_post_install(installer)
+   # Enabling sign posts
   installer.pods_project.targets.each do |target|
     target.build_configurations.each do |config|
       if config.name == 'Debug'
         config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] ||= ['$(inherited)', 'DEBUG=1','SIGNPOST_ENABLED=1']
         config.build_settings['OTHER_SWIFT_FLAGS'] = ['$(inherited)', '-DDEBUG','-DSIGNPOST_ENABLED']
+      end
+    end
+  end
+
+  # Keeping Mobile SDK deployement target at 14 (__apply_Xcode_12_5_M1_post_install_workaround changes it to 11)
+  installer.pods_project.targets.each do |target|
+    if ['SalesforceAnalytics', 'SalesforceSDKCommon', 'SalesforceSDKCore', 'SmartStore', 'MobileSync', 'SalesforceReact'].include?(target.name)
+      target.build_configurations.each do |config|
+        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '14.0'
       end
     end
   end
