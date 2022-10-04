@@ -21,8 +21,8 @@
 		B7136D5221669DA400F6A221 /* SFLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = B7136D4F21669DA400F6A221 /* SFLogger.m */; };
 		B7136D5621669F7C00F6A221 /* SFDefaultLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = B7136D5421669F7C00F6A221 /* SFDefaultLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B7136D5821669F7C00F6A221 /* SFDefaultLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = B7136D5521669F7C00F6A221 /* SFDefaultLogger.m */; };
-		B7182B012614346B00867BFE /* KeychainItemManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7182B002614346B00867BFE /* KeychainItemManagerTests.swift */; };
-		B77B6CA4260D261C0074BA3C /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B77B6CA3260D261C0074BA3C /* KeychainManager.swift */; };
+		B7182B012614346B00867BFE /* KeychainHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7182B002614346B00867BFE /* KeychainHelperTests.swift */; };
+		B77B6CA4260D261C0074BA3C /* KeychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B77B6CA3260D261C0074BA3C /* KeychainHelper.swift */; };
 		B77F5CF02170FF74004F3005 /* SFSDKSafeMutableSet.m in Sources */ = {isa = PBXBuildFile; fileRef = B77F5CEA2170FF73004F3005 /* SFSDKSafeMutableSet.m */; };
 		B77F5CF22170FF74004F3005 /* SFSDKSafeMutableDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = B77F5CEB2170FF73004F3005 /* SFSDKSafeMutableDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B77F5CF42170FF74004F3005 /* SFSDKSafeMutableDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = B77F5CEC2170FF73004F3005 /* SFSDKSafeMutableDictionary.m */; };
@@ -46,6 +46,8 @@
 		F27137BF28405BB8003B3D69 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27137BE28405BB8003B3D69 /* ContentView.swift */; };
 		F27137C128405BB9003B3D69 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F27137C028405BB9003B3D69 /* Assets.xcassets */; };
 		F27137C428405BB9003B3D69 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F27137C328405BB9003B3D69 /* Preview Assets.xcassets */; };
+		F2F4222328B6CBC90010EF0F /* GenericPasswordItemQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F4222228B6CBC90010EF0F /* GenericPasswordItemQuery.swift */; };
+		F2F4222528B6CBF40010EF0F /* KeychainItemManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F4222428B6CBF40010EF0F /* KeychainItemManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,8 +85,8 @@
 		B7136D4F21669DA400F6A221 /* SFLogger.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFLogger.m; sourceTree = "<group>"; };
 		B7136D5421669F7C00F6A221 /* SFDefaultLogger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFDefaultLogger.h; sourceTree = "<group>"; };
 		B7136D5521669F7C00F6A221 /* SFDefaultLogger.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFDefaultLogger.m; sourceTree = "<group>"; };
-		B7182B002614346B00867BFE /* KeychainItemManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainItemManagerTests.swift; sourceTree = "<group>"; };
-		B77B6CA3260D261C0074BA3C /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
+		B7182B002614346B00867BFE /* KeychainHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainHelperTests.swift; sourceTree = "<group>"; };
+		B77B6CA3260D261C0074BA3C /* KeychainHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainHelper.swift; sourceTree = "<group>"; };
 		B77F5CEA2170FF73004F3005 /* SFSDKSafeMutableSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKSafeMutableSet.m; sourceTree = "<group>"; };
 		B77F5CEB2170FF73004F3005 /* SFSDKSafeMutableDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKSafeMutableDictionary.h; sourceTree = "<group>"; };
 		B77F5CEC2170FF73004F3005 /* SFSDKSafeMutableDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKSafeMutableDictionary.m; sourceTree = "<group>"; };
@@ -109,6 +111,8 @@
 		F27137BE28405BB8003B3D69 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		F27137C028405BB9003B3D69 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F27137C328405BB9003B3D69 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		F2F4222228B6CBC90010EF0F /* GenericPasswordItemQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericPasswordItemQuery.swift; sourceTree = "<group>"; };
+		F2F4222428B6CBF40010EF0F /* KeychainItemManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainItemManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -173,7 +177,7 @@
 			isa = PBXGroup;
 			children = (
 				B7136D0E216684A700F6A221 /* Info.plist */,
-				B7182B002614346B00867BFE /* KeychainItemManagerTests.swift */,
+				B7182B002614346B00867BFE /* KeychainHelperTests.swift */,
 				B7D3CAB9218BA32B00780B72 /* SFLoggerTests.m */,
 				B7D3CABB218BC80600780B72 /* SFSDKSafeMutableArrayTests.m */,
 				B7D3CABC218BC80600780B72 /* SFSDKSafeMutableDictionaryTests.m */,
@@ -235,7 +239,9 @@
 		B77B6C9F260CFF1D0074BA3C /* Keychain */ = {
 			isa = PBXGroup;
 			children = (
-				B77B6CA3260D261C0074BA3C /* KeychainManager.swift */,
+				F2F4222228B6CBC90010EF0F /* GenericPasswordItemQuery.swift */,
+				B77B6CA3260D261C0074BA3C /* KeychainHelper.swift */,
+				F2F4222428B6CBF40010EF0F /* KeychainItemManager.swift */,
 			);
 			path = Keychain;
 			sourceTree = "<group>";
@@ -472,11 +478,13 @@
 				B77F5D172170FFEE004F3005 /* SFPathUtil.m in Sources */,
 				B77F5D1F2171021F004F3005 /* SFTestContext.m in Sources */,
 				B77F5CF82170FF74004F3005 /* SFSDKSafeMutableArray.m in Sources */,
-				B77B6CA4260D261C0074BA3C /* KeychainManager.swift in Sources */,
+				B77B6CA4260D261C0074BA3C /* KeychainHelper.swift in Sources */,
+				F2F4222528B6CBF40010EF0F /* KeychainItemManager.swift in Sources */,
 				B7136D5221669DA400F6A221 /* SFLogger.m in Sources */,
 				B77F5D152170FFEE004F3005 /* SFFileProtectionHelper.m in Sources */,
 				B7136D2F216686EB00F6A221 /* SFSDKDatasharingHelper.m in Sources */,
 				B77F5D232171021F004F3005 /* SFSwiftDetectUtil.m in Sources */,
+				F2F4222328B6CBC90010EF0F /* GenericPasswordItemQuery.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -485,7 +493,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B7D3CABA218BA32B00780B72 /* SFLoggerTests.m in Sources */,
-				B7182B012614346B00867BFE /* KeychainItemManagerTests.swift in Sources */,
+				B7182B012614346B00867BFE /* KeychainHelperTests.swift in Sources */,
 				B7D3CABE218BC80600780B72 /* SFSDKSafeMutableArrayTests.m in Sources */,
 				B7D3CAC0218BC80600780B72 /* SFSDKSafeMutableSetTests.m in Sources */,
 				B7D3CABF218BC80600780B72 /* SFSDKSafeMutableDictionaryTests.m in Sources */,
@@ -576,6 +584,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -634,6 +643,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";

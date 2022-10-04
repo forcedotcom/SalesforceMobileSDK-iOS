@@ -372,7 +372,7 @@ static NSString *const kSFScreenLockWindowKey = @"screenlock";
     UIScene *scene = window.window.windowScene;
     SFSDKWindowContainer *fallbackWindow = [self mainWindow:scene];
    
-    if (window.isSnapshotWindow) {
+    if (window.isSnapshotWindow || window.isScreenLockWindow) {
         NSString *sceneId = scene.session.persistentIdentifier;
         if ([_lastActiveWindows objectForKey:sceneId]) {
             fallbackWindow = [_lastActiveWindows objectForKey:sceneId];
