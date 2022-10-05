@@ -237,4 +237,18 @@
     XCTAssertTrue(delegate.notificationWindow.isAuthWindow);
     
 }
+
+
+- (void)testDealloc {
+    __weak SFSDKWindowContainer *container;
+    @autoreleasepool {
+        container = [[SFSDKWindowManager sharedManager] createNewNamedWindow:@"customWindow"];
+        [container presentWindow];
+        [[SFSDKWindowManager sharedManager] removeNamedWindow:@"customWindow"];
+    }
+
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"window == nil"];
+    XCTNSPredicateExpectation *expectation = [[XCTNSPredicateExpectation alloc] initWithPredicate:predicate object:container];
+    [self waitForExpectations:@[expectation] timeout:10];
+}
 @end
