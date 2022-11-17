@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -38,7 +38,6 @@
 		4F06AF771C49A16A00F70798 /* SalesforceOAuthUnitTestsCoordinatorDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F06AF611C49A16A00F70798 /* SalesforceOAuthUnitTestsCoordinatorDelegate.h */; };
 		4F06AF7A1C49A16A00F70798 /* SalesforceSDKIdentityTests.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F06AF641C49A16A00F70798 /* SalesforceSDKIdentityTests.h */; };
 		4F06AF811C49A16A00F70798 /* SFOAuthTestFlowCoordinatorDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F06AF6B1C49A16A00F70798 /* SFOAuthTestFlowCoordinatorDelegate.h */; };
-		4F06AF841C49A16A00F70798 /* SFSecurityLockoutTests.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F06AF6E1C49A16A00F70798 /* SFSecurityLockoutTests.h */; };
 		4F06AF861C49A16A00F70798 /* SFTestSDKManagerFlow.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F06AF701C49A16A00F70798 /* SFTestSDKManagerFlow.h */; };
 		4F06AF891C49A18E00F70798 /* NSURL+SFStringUtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F06AF5E1C49A16A00F70798 /* NSURL+SFStringUtilsTests.m */; };
 		4F06AF8A1C49A18E00F70798 /* SalesforceOAuthUnitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F06AF601C49A16A00F70798 /* SalesforceOAuthUnitTests.m */; };
@@ -48,7 +47,6 @@
 		4F06AF8F1C49A18E00F70798 /* SFOAuthSessionRefresherTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F06AF681C49A16A00F70798 /* SFOAuthSessionRefresherTests.m */; };
 		4F06AF911C49A18E00F70798 /* SFOAuthTestFlowCoordinatorDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F06AF6C1C49A16A00F70798 /* SFOAuthTestFlowCoordinatorDelegate.m */; };
 		4F06AF921C49A18E00F70798 /* SFPreferencesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F06AF6D1C49A16A00F70798 /* SFPreferencesTests.m */; };
-		4F06AF931C49A18E00F70798 /* SFSecurityLockoutTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F06AF6F1C49A16A00F70798 /* SFSecurityLockoutTests.m */; };
 		4F06AF941C49A18E00F70798 /* SFTestSDKManagerFlow.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F06AF711C49A16A00F70798 /* SFTestSDKManagerFlow.m */; };
 		4F16F4C1222A1C53008529FB /* SalesforceAnalytics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B716A398218F5E37009D407F /* SalesforceAnalytics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4F16F4C2222A1C5A008529FB /* SalesforceSDKCommon.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B716A38A218F5E2D009D407F /* SalesforceSDKCommon.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -81,6 +79,7 @@
 		6924966B2444E50500D3F63B /* SFFormatUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 692496692444E50500D3F63B /* SFFormatUtils.m */; };
 		6931E954248B5C7100417362 /* SFDirectoryManager+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6931E94E248ADD8E00417362 /* SFDirectoryManager+Internal.h */; };
 		6931EA49248F000600417362 /* SFUserIdUpgradeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6931EA48248F000600417362 /* SFUserIdUpgradeTests.m */; };
+		69341D22266FF61700227CB0 /* Encryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69341D21266FF61700227CB0 /* Encryptor.swift */; };
 		6938392623C82F38008E8E9A /* SFSDKNullURLCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 6938392423C82F38008E8E9A /* SFSDKNullURLCache.h */; };
 		6938392723C82F38008E8E9A /* SFSDKNullURLCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 6938392523C82F38008E8E9A /* SFSDKNullURLCache.m */; };
 		693E623124A287DB0017B222 /* KeyValueEncryptedFileStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693E623024A287DB0017B222 /* KeyValueEncryptedFileStore.swift */; };
@@ -89,6 +88,7 @@
 		6975869F23296D7500574148 /* SFSDKURLCacheTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 691D129F23296A93000D6D41 /* SFSDKURLCacheTests.m */; };
 		697A91A02363C3D800D2836F /* SFSDKPushNotificationDecryption.h in Headers */ = {isa = PBXBuildFile; fileRef = 697A919E2363C3D800D2836F /* SFSDKPushNotificationDecryption.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		697A91A12363C3D800D2836F /* SFSDKPushNotificationDecryption.m in Sources */ = {isa = PBXBuildFile; fileRef = 697A919F2363C3D800D2836F /* SFSDKPushNotificationDecryption.m */; };
+		697F5C4F267BE29A00F382A9 /* EncryptionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697F5C4E267BE29A00F382A9 /* EncryptionTests.swift */; };
 		69848CA52363F8AF00893E57 /* SFSDKPushNotificationFieldsConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 69848CA42363F8AF00893E57 /* SFSDKPushNotificationFieldsConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69848CAC2363F93100893E57 /* SFSDKPushNotificationDecryption+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 69848CAB2363F93100893E57 /* SFSDKPushNotificationDecryption+Internal.h */; };
 		69848CB22363FA1000893E57 /* SFSDKPushNotificationEncryptionConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 69848CB12363FA1000893E57 /* SFSDKPushNotificationEncryptionConstants.h */; };
@@ -96,9 +96,17 @@
 		69848CB62363FA3E00893E57 /* SFSDKPushNotificationError.m in Sources */ = {isa = PBXBuildFile; fileRef = 69848CB42363FA3E00893E57 /* SFSDKPushNotificationError.m */; };
 		69848CB82364035300893E57 /* SFSDKEncryptedPushNotificationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 69848CB72364035300893E57 /* SFSDKEncryptedPushNotificationTests.m */; };
 		69848CBD2364063E00893E57 /* SFSDKPushNotificationDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 69848CBC2364063E00893E57 /* SFSDKPushNotificationDataProvider.m */; };
+		69B2B4F8261EA6F500AB86C2 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69B2B4F2261EA6F500AB86C2 /* CoreTelephony.framework */; };
+		69BDD7E926F16C9000C26D77 /* SFSDKSalesforceSDKUpgradeManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 69BDD7E226F16C9000C26D77 /* SFSDKSalesforceSDKUpgradeManager.h */; };
+		69BDD7EA26F16C9000C26D77 /* SFSDKSalesforceSDKUpgradeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 69BDD7E826F16C9000C26D77 /* SFSDKSalesforceSDKUpgradeManager.m */; };
+		69BDD82C26F86B3600C26D77 /* KeyValueFileStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BDD82626F86B3600C26D77 /* KeyValueFileStoreTests.swift */; };
+		69BDD82F26F90AA400C26D77 /* DecryptStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BDD82D26F90AA400C26D77 /* DecryptStream.swift */; };
+		69BDD83026F90AA400C26D77 /* EncryptStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BDD82E26F90AA400C26D77 /* EncryptStream.swift */; };
 		69CEBC7E22F368CF00F16218 /* SFNetworkTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 69CEBC7D22F368CF00F16218 /* SFNetworkTests.m */; };
 		69E2FD9E22FB937F008E0AF0 /* SFSDKEncryptedURLCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E2FD9622FB937F008E0AF0 /* SFSDKEncryptedURLCache.h */; };
 		69E2FD9F22FB937F008E0AF0 /* SFSDKEncryptedURLCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 69E2FD9D22FB937F008E0AF0 /* SFSDKEncryptedURLCache.m */; };
+		69EA56CB264B1FAA007FE339 /* SFSDKMacDetectUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 69EA56C9264B1FAA007FE339 /* SFSDKMacDetectUtil.h */; };
+		69EA56CC264B1FAA007FE339 /* SFSDKMacDetectUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 69EA56CA264B1FAA007FE339 /* SFSDKMacDetectUtil.m */; };
 		69FB22F9235AD868006BD11B /* SFSDKViewControllerConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 69FB22F7235AD868006BD11B /* SFSDKViewControllerConfig.m */; };
 		8214D955205316BA0007349E /* SFSDKSalesforceAnalyticsManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8214D954205316BA0007349E /* SFSDKSalesforceAnalyticsManagerTests.m */; };
 		8214D96D205317BC0007349E /* SFSDKSalesforceAnalyticsManager+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 8214D96C205317BB0007349E /* SFSDKSalesforceAnalyticsManager+Internal.h */; };
@@ -109,6 +117,8 @@
 		82C5E3EE1C1B62AF00376C00 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 82C5E3ED1C1B62AF00376C00 /* SalesforceSDKResources.bundle */; };
 		82D4642519C7C8170006BDFE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8220B74F16D804CA00EC3921 /* Foundation.framework */; };
 		82D4642619C7C8170006BDFE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EBCC16E14F7000768DE8 /* CoreGraphics.framework */; };
+		A315F83B26EAAC8400B94428 /* ScreenLockManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A315F83A26EAAC8400B94428 /* ScreenLockManager.swift */; };
+		A315F84326EAAFF800B94428 /* ScreenLockUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A315F84226EAAFF800B94428 /* ScreenLockUIView.swift */; };
 		A3161D062181104000437BD2 /* SFSDKAppLockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3161D052181104000437BD2 /* SFSDKAppLockViewController.m */; };
 		A3161D08218110A000437BD2 /* SFSDKPasscodeCreateController.h in Headers */ = {isa = PBXBuildFile; fileRef = A3161D07218110A000437BD2 /* SFSDKPasscodeCreateController.h */; };
 		A3161D0A218110D400437BD2 /* SFSDKPasscodeCreateController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3161D09218110D400437BD2 /* SFSDKPasscodeCreateController.m */; };
@@ -123,6 +133,7 @@
 		A3457AAD216EA91200620098 /* SFAppLockViewControllerTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FD171BFD32140022F021 /* SFAppLockViewControllerTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A35E5C3621924B3B00C2357D /* SFSDKAppLockViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = A3161D0421810D9D00437BD2 /* SFSDKAppLockViewController.h */; };
 		A37F3116252E5C2300026635 /* KeyValueEncryptedFileStoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37F3115252E5C2300026635 /* KeyValueEncryptedFileStoreViewController.swift */; };
+		A3B2F86D26FE8624007BAA69 /* ScreenLockManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A3B2F86C26FE8624007BAA69 /* ScreenLockManagerTests.m */; };
 		A3D0B14D217A951800DDA414 /* SFSDKAppLockViewConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D0B138217A951700DDA414 /* SFSDKAppLockViewConfig.m */; };
 		A3D0B14E217A951800DDA414 /* SFSDKAppLockViewConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = A3D0B14C217A951700DDA414 /* SFSDKAppLockViewConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B70135621F87F63900995171 /* SFSDKAuthErrorManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B70135601F87F63900995171 /* SFSDKAuthErrorManager.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -560,8 +571,6 @@
 		4F06AF6B1C49A16A00F70798 /* SFOAuthTestFlowCoordinatorDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFOAuthTestFlowCoordinatorDelegate.h; path = SalesforceSDKCoreTests/SFOAuthTestFlowCoordinatorDelegate.h; sourceTree = SOURCE_ROOT; };
 		4F06AF6C1C49A16A00F70798 /* SFOAuthTestFlowCoordinatorDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFOAuthTestFlowCoordinatorDelegate.m; path = SalesforceSDKCoreTests/SFOAuthTestFlowCoordinatorDelegate.m; sourceTree = SOURCE_ROOT; };
 		4F06AF6D1C49A16A00F70798 /* SFPreferencesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFPreferencesTests.m; path = SalesforceSDKCoreTests/SFPreferencesTests.m; sourceTree = SOURCE_ROOT; };
-		4F06AF6E1C49A16A00F70798 /* SFSecurityLockoutTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSecurityLockoutTests.h; path = SalesforceSDKCoreTests/SFSecurityLockoutTests.h; sourceTree = SOURCE_ROOT; };
-		4F06AF6F1C49A16A00F70798 /* SFSecurityLockoutTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSecurityLockoutTests.m; path = SalesforceSDKCoreTests/SFSecurityLockoutTests.m; sourceTree = SOURCE_ROOT; };
 		4F06AF701C49A16A00F70798 /* SFTestSDKManagerFlow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFTestSDKManagerFlow.h; path = SalesforceSDKCoreTests/SFTestSDKManagerFlow.h; sourceTree = SOURCE_ROOT; };
 		4F06AF711C49A16A00F70798 /* SFTestSDKManagerFlow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFTestSDKManagerFlow.m; path = SalesforceSDKCoreTests/SFTestSDKManagerFlow.m; sourceTree = SOURCE_ROOT; };
 		4F06AF721C49A16A00F70798 /* SFUserAccountManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFUserAccountManagerTests.m; path = SalesforceSDKCoreTests/SFUserAccountManagerTests.m; sourceTree = SOURCE_ROOT; };
@@ -728,6 +737,7 @@
 		692496692444E50500D3F63B /* SFFormatUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFFormatUtils.m; sourceTree = "<group>"; };
 		6931E94E248ADD8E00417362 /* SFDirectoryManager+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SFDirectoryManager+Internal.h"; sourceTree = "<group>"; };
 		6931EA48248F000600417362 /* SFUserIdUpgradeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFUserIdUpgradeTests.m; path = SalesforceSDKCoreTests/SFUserIdUpgradeTests.m; sourceTree = SOURCE_ROOT; };
+		69341D21266FF61700227CB0 /* Encryptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Encryptor.swift; sourceTree = "<group>"; };
 		6938392423C82F38008E8E9A /* SFSDKNullURLCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKNullURLCache.h; sourceTree = "<group>"; };
 		6938392523C82F38008E8E9A /* SFSDKNullURLCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKNullURLCache.m; sourceTree = "<group>"; };
 		693E623024A287DB0017B222 /* KeyValueEncryptedFileStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyValueEncryptedFileStore.swift; sourceTree = "<group>"; };
@@ -735,6 +745,7 @@
 		694490C725B8E567007747CD /* SFSDKWindowManager+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SFSDKWindowManager+Internal.h"; sourceTree = "<group>"; };
 		697A919E2363C3D800D2836F /* SFSDKPushNotificationDecryption.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKPushNotificationDecryption.h; sourceTree = "<group>"; };
 		697A919F2363C3D800D2836F /* SFSDKPushNotificationDecryption.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKPushNotificationDecryption.m; sourceTree = "<group>"; };
+		697F5C4E267BE29A00F382A9 /* EncryptionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EncryptionTests.swift; path = SalesforceSDKCoreTests/EncryptionTests.swift; sourceTree = SOURCE_ROOT; };
 		69848CA42363F8AF00893E57 /* SFSDKPushNotificationFieldsConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKPushNotificationFieldsConstants.h; sourceTree = "<group>"; };
 		69848CAB2363F93100893E57 /* SFSDKPushNotificationDecryption+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SFSDKPushNotificationDecryption+Internal.h"; sourceTree = "<group>"; };
 		69848CB12363FA1000893E57 /* SFSDKPushNotificationEncryptionConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKPushNotificationEncryptionConstants.h; sourceTree = "<group>"; };
@@ -743,9 +754,17 @@
 		69848CB72364035300893E57 /* SFSDKEncryptedPushNotificationTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFSDKEncryptedPushNotificationTests.m; path = SalesforceSDKCoreTests/SFSDKEncryptedPushNotificationTests.m; sourceTree = SOURCE_ROOT; };
 		69848CBB2364063E00893E57 /* SFSDKPushNotificationDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SFSDKPushNotificationDataProvider.h; path = SalesforceSDKCoreTests/SFSDKPushNotificationDataProvider.h; sourceTree = SOURCE_ROOT; };
 		69848CBC2364063E00893E57 /* SFSDKPushNotificationDataProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFSDKPushNotificationDataProvider.m; path = SalesforceSDKCoreTests/SFSDKPushNotificationDataProvider.m; sourceTree = SOURCE_ROOT; };
+		69B2B4F2261EA6F500AB86C2 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/System/Library/Frameworks/CoreTelephony.framework; sourceTree = DEVELOPER_DIR; };
+		69BDD7E226F16C9000C26D77 /* SFSDKSalesforceSDKUpgradeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKSalesforceSDKUpgradeManager.h; sourceTree = "<group>"; };
+		69BDD7E826F16C9000C26D77 /* SFSDKSalesforceSDKUpgradeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKSalesforceSDKUpgradeManager.m; sourceTree = "<group>"; };
+		69BDD82626F86B3600C26D77 /* KeyValueFileStoreTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KeyValueFileStoreTests.swift; path = SalesforceSDKCoreTests/KeyValueFileStoreTests.swift; sourceTree = SOURCE_ROOT; };
+		69BDD82D26F90AA400C26D77 /* DecryptStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DecryptStream.swift; sourceTree = "<group>"; };
+		69BDD82E26F90AA400C26D77 /* EncryptStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EncryptStream.swift; sourceTree = "<group>"; };
 		69CEBC7D22F368CF00F16218 /* SFNetworkTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFNetworkTests.m; path = SalesforceSDKCoreTests/SFNetworkTests.m; sourceTree = SOURCE_ROOT; };
 		69E2FD9622FB937F008E0AF0 /* SFSDKEncryptedURLCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKEncryptedURLCache.h; sourceTree = "<group>"; };
 		69E2FD9D22FB937F008E0AF0 /* SFSDKEncryptedURLCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKEncryptedURLCache.m; sourceTree = "<group>"; };
+		69EA56C9264B1FAA007FE339 /* SFSDKMacDetectUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKMacDetectUtil.h; sourceTree = "<group>"; };
+		69EA56CA264B1FAA007FE339 /* SFSDKMacDetectUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKMacDetectUtil.m; sourceTree = "<group>"; };
 		69FB22F6235AD868006BD11B /* SFSDKViewControllerConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKViewControllerConfig.h; sourceTree = "<group>"; };
 		69FB22F7235AD868006BD11B /* SFSDKViewControllerConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKViewControllerConfig.m; sourceTree = "<group>"; };
 		6F89606F1A9E96C400A48FF1 /* SalesforceSDKCore-Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSDKCore-Common.xcconfig"; sourceTree = "<group>"; };
@@ -769,6 +788,8 @@
 		82C5E3ED1C1B62AF00376C00 /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
 		82D0AB191C497F410081F833 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		82D4642419C7C8170006BDFE /* SalesforceSDKCoreTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SalesforceSDKCoreTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A315F83A26EAAC8400B94428 /* ScreenLockManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenLockManager.swift; sourceTree = "<group>"; };
+		A315F84226EAAFF800B94428 /* ScreenLockUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenLockUIView.swift; sourceTree = "<group>"; };
 		A3161D0421810D9D00437BD2 /* SFSDKAppLockViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKAppLockViewController.h; sourceTree = "<group>"; };
 		A3161D052181104000437BD2 /* SFSDKAppLockViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKAppLockViewController.m; sourceTree = "<group>"; };
 		A3161D07218110A000437BD2 /* SFSDKPasscodeCreateController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKPasscodeCreateController.h; sourceTree = "<group>"; };
@@ -782,6 +803,7 @@
 		A32FA720217A972B006D7930 /* SFSDKPasscodeTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKPasscodeTextField.h; sourceTree = "<group>"; };
 		A32FA734217A972C006D7930 /* SFSDKPasscodeTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKPasscodeTextField.m; sourceTree = "<group>"; };
 		A37F3115252E5C2300026635 /* KeyValueEncryptedFileStoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyValueEncryptedFileStoreViewController.swift; sourceTree = "<group>"; };
+		A3B2F86C26FE8624007BAA69 /* ScreenLockManagerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ScreenLockManagerTests.m; sourceTree = "<group>"; };
 		A3D0B138217A951700DDA414 /* SFSDKAppLockViewConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKAppLockViewConfig.m; sourceTree = "<group>"; };
 		A3D0B14C217A951700DDA414 /* SFSDKAppLockViewConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKAppLockViewConfig.h; sourceTree = "<group>"; };
 		B70135601F87F63900995171 /* SFSDKAuthErrorManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKAuthErrorManager.h; sourceTree = "<group>"; };
@@ -1010,6 +1032,7 @@
 				B716A3A4218F5E5B009D407F /* SalesforceSDKCommon.framework in Frameworks */,
 				CE4CE5831C0FB5B4009F6029 /* libz.tbd in Frameworks */,
 				CE4CE4711C0E5E2A009F6029 /* Foundation.framework in Frameworks */,
+				69B2B4F8261EA6F500AB86C2 /* CoreTelephony.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1019,6 +1042,8 @@
 		4F7EB3F61BFFC84700768720 /* SalesforceSDKCoreTests */ = {
 			isa = PBXGroup;
 			children = (
+				69BDD82626F86B3600C26D77 /* KeyValueFileStoreTests.swift */,
+				697F5C4E267BE29A00F382A9 /* EncryptionTests.swift */,
 				CE02ACD6202E19B100C6A714 /* SFSDKAuthConfigUtilTests.m */,
 				CEB98ED31F86E76A0083AB9C /* SFSDKAuthErrorCommandTest.m */,
 				CEB98ED41F86E76A0083AB9C /* SFSDKAuthRequestCommandTest.m */,
@@ -1046,8 +1071,6 @@
 				4F06AF6B1C49A16A00F70798 /* SFOAuthTestFlowCoordinatorDelegate.h */,
 				4F06AF6C1C49A16A00F70798 /* SFOAuthTestFlowCoordinatorDelegate.m */,
 				4F06AF6D1C49A16A00F70798 /* SFPreferencesTests.m */,
-				4F06AF6E1C49A16A00F70798 /* SFSecurityLockoutTests.h */,
-				4F06AF6F1C49A16A00F70798 /* SFSecurityLockoutTests.m */,
 				4F06AF701C49A16A00F70798 /* SFTestSDKManagerFlow.h */,
 				4F06AF711C49A16A00F70798 /* SFTestSDKManagerFlow.m */,
 				4F06AF721C49A16A00F70798 /* SFUserAccountManagerTests.m */,
@@ -1089,6 +1112,7 @@
 				B7E66AE823763278005A652E /* RestClientPublisherTests.swift */,
 				6931EA48248F000600417362 /* SFUserIdUpgradeTests.m */,
 				693E623A24A29B6B0017B222 /* SFSDKKeyValueEncryptedFileStoreTests.m */,
+				A3B2F86C26FE8624007BAA69 /* ScreenLockManagerTests.m */,
 			);
 			name = SalesforceSDKCoreTests;
 			path = SalesforceSDKCore;
@@ -1106,6 +1130,8 @@
 		4F96FC511BFD32130022F021 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				69BDD7E226F16C9000C26D77 /* SFSDKSalesforceSDKUpgradeManager.h */,
+				69BDD7E826F16C9000C26D77 /* SFSDKSalesforceSDKUpgradeManager.m */,
 				BE2B45951DAFFB1E004DA618 /* NSObject+SFBlocks.h */,
 				BE2B45961DAFFB1E004DA618 /* NSObject+SFBlocks.m */,
 				4FF945BB1BFFF47D005368C5 /* NSArray+SFAdditions.h */,
@@ -1246,7 +1272,10 @@
 		4F96FCEA1BFD32130022F021 /* Security */ = {
 			isa = PBXGroup;
 			children = (
+				A315F84126EAAFCD00B94428 /* ScreenLock */,
 				A3161CF021810D2800437BD2 /* AppLockView */,
+				69BDD82E26F90AA400C26D77 /* EncryptStream.swift */,
+				69BDD82D26F90AA400C26D77 /* DecryptStream.swift */,
 				4F96FD011BFD32130022F021 /* SFEncryptionKey.h */,
 				4F96FD021BFD32130022F021 /* SFEncryptionKey.m */,
 				4F4055C52232304D00316D91 /* SFSecureEncryptionKey.h */,
@@ -1274,6 +1303,7 @@
 				010A9AE11CC176DD002AF4D3 /* SFDecryptStream.m */,
 				010A9AE21CC176DD002AF4D3 /* SFEncryptStream.h */,
 				010A9AE31CC176DD002AF4D3 /* SFEncryptStream.m */,
+				69341D21266FF61700227CB0 /* Encryptor.swift */,
 			);
 			path = Security;
 			sourceTree = "<group>";
@@ -1335,6 +1365,8 @@
 				B7341DD822E1041600B77778 /* SFSDKOAuth2+Internal.h */,
 				B7341DD622DFE2A500B77778 /* SFSDKOAuth2.m */,
 				B7F6909A22C27ED700E52575 /* SFSDKOAuthConstants.h */,
+				69EA56C9264B1FAA007FE339 /* SFSDKMacDetectUtil.h */,
+				69EA56CA264B1FAA007FE339 /* SFSDKMacDetectUtil.m */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -1427,6 +1459,7 @@
 		8220B74E16D804CA00EC3921 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				69B2B4F2261EA6F500AB86C2 /* CoreTelephony.framework */,
 				B716A38F218F5E37009D407F /* SalesforceAnalytics.xcodeproj */,
 				B716A383218F5E2D009D407F /* SalesforceSDKCommon.xcodeproj */,
 				4FFE4A001BFE522F00F15E01 /* libz.tbd */,
@@ -1514,6 +1547,15 @@
 			);
 			path = SalesforceSDKCoreTestApp;
 			sourceTree = SOURCE_ROOT;
+		};
+		A315F84126EAAFCD00B94428 /* ScreenLock */ = {
+			isa = PBXGroup;
+			children = (
+				A315F83A26EAAC8400B94428 /* ScreenLockManager.swift */,
+				A315F84226EAAFF800B94428 /* ScreenLockUIView.swift */,
+			);
+			path = ScreenLock;
+			sourceTree = "<group>";
 		};
 		A3161CF021810D2800437BD2 /* AppLockView */ = {
 			isa = PBXGroup;
@@ -1797,6 +1839,7 @@
 				CE4CE30F1C0E523B009F6029 /* NSDictionary+SFAdditions.h in Headers */,
 				6900B62C24B64DD800500923 /* NSURLResponse+SFAdditions.h in Headers */,
 				CE4CE3391C0E5245009F6029 /* SFIdentityCoordinator+Internal.h in Headers */,
+				69BDD7E926F16C9000C26D77 /* SFSDKSalesforceSDKUpgradeManager.h in Headers */,
 				B7BAD70C1FBAB8AA0046629F /* SFSDKStartURLHandler.h in Headers */,
 				CE4CE3951C0E526A009F6029 /* SFUserAccountManager.h in Headers */,
 				CE4CE3711C0E526A009F6029 /* SFKeyStore.h in Headers */,
@@ -1805,7 +1848,6 @@
 				CE4CE3A11C0E5279009F6029 /* NSURL+SFStringUtils.h in Headers */,
 				CED452B91D808D0C009266EB /* SFRestAPI+Files.h in Headers */,
 				A3161D102181117100437BD2 /* SFSDKBiometricViewController+Internal.h in Headers */,
-				4F06AF841C49A16A00F70798 /* SFSecurityLockoutTests.h in Headers */,
 				CED452C31D808D0C009266EB /* SFRestRequest.h in Headers */,
 				CE4CE3401C0E524B009F6029 /* SFMethodInterceptor.h in Headers */,
 				B7C2745A1F8151E300CE539D /* SFSDKAuthErrorCommand.h in Headers */,
@@ -1827,6 +1869,7 @@
 				CE4CE31A1C0E523B009F6029 /* SFInactivityTimerCenter.h in Headers */,
 				CED452EB1D808DEE009266EB /* SalesforceRestAPITests.h in Headers */,
 				4F06AF731C49A16A00F70798 /* NSURL+SFStringUtilsTests.h in Headers */,
+				69EA56CB264B1FAA007FE339 /* SFSDKMacDetectUtil.h in Headers */,
 				B7895D0D2345015B00765D85 /* SFSDKCompositeRequest.h in Headers */,
 				CE4CE3531C0E5258009F6029 /* SFSDKAppDelegate.h in Headers */,
 				CE4CE3541C0E5261009F6029 /* SFPushNotificationManager.h in Headers */,
@@ -2030,7 +2073,7 @@
 				};
 			};
 			buildConfigurationList = 8220B74616D804CA00EC3921 /* Build configuration list for PBXProject "SalesforceSDKCore" */;
-			compatibilityVersion = "Xcode 10.0";
+			compatibilityVersion = "Xcode 12.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -2203,9 +2246,10 @@
 				CE02ACEE202E19CF00C6A714 /* SFSDKAuthConfigUtilTests.m in Sources */,
 				4F06AF941C49A18E00F70798 /* SFTestSDKManagerFlow.m in Sources */,
 				B7E66AE923763278005A652E /* RestClientPublisherTests.swift in Sources */,
+				69BDD82C26F86B3600C26D77 /* KeyValueFileStoreTests.swift in Sources */,
+				697F5C4F267BE29A00F382A9 /* EncryptionTests.swift in Sources */,
 				B7A4AE4922E8CA780060E737 /* SFSDKAuthUtilTests.swift in Sources */,
 				4F7EB4161BFFC8D700768720 /* SDKCommonNSDataTests.m in Sources */,
-				4F06AF931C49A18E00F70798 /* SFSecurityLockoutTests.m in Sources */,
 				CE81A9C81E9C26F900F3D0AD /* SFUserAccountManagerNotificationsTests.m in Sources */,
 				4F7EB4171BFFC8D700768720 /* SFEncryptionKeyTests.m in Sources */,
 				69848CBD2364063E00893E57 /* SFSDKPushNotificationDataProvider.m in Sources */,
@@ -2217,6 +2261,7 @@
 				CEB98EDF1F86E7CA0083AB9C /* SFSDKAuthErrorCommandTest.m in Sources */,
 				8263FED31E7336BF0038F694 /* SFSDKAppFeatureMarkersTests.m in Sources */,
 				4F7EB4191BFFC8D700768720 /* SFKeyStoreTests.m in Sources */,
+				A3B2F86D26FE8624007BAA69 /* ScreenLockManagerTests.m in Sources */,
 				B7352CA522761D8400DA2CFF /* SFManagedPreferencesTest.m in Sources */,
 				B759CD8B1F8C10DC0081AA87 /* SFSDKErrorManagerTests.m in Sources */,
 				CEB98EE11F86E7D20083AB9C /* SFSDKAuthResponseCommandTest.m in Sources */,
@@ -2268,6 +2313,7 @@
 				CE4CE3681C0E526A009F6029 /* SFDefaultUserManagementListViewController.m in Sources */,
 				CE4CE3551C0E5261009F6029 /* SFPushNotificationManager.m in Sources */,
 				B7FB26D91F78096300FB25A2 /* SFSDKAdvancedAuthURLHandler.m in Sources */,
+				A315F84326EAAFF800B94428 /* ScreenLockUIView.swift in Sources */,
 				6938392723C82F38008E8E9A /* SFSDKNullURLCache.m in Sources */,
 				B7895D0E2345015B00765D85 /* SFSDKCompositeRequest.m in Sources */,
 				CE145A9D1D138386003BCC20 /* SFSDKSalesforceAnalyticsManager.m in Sources */,
@@ -2299,10 +2345,12 @@
 				010A9AE51CC176DD002AF4D3 /* SFCryptChunks.m in Sources */,
 				B722A709233C437E0089736E /* RestClient.swift in Sources */,
 				CE4CE3411C0E524B009F6029 /* SFMethodInterceptor.m in Sources */,
+				69BDD7EA26F16C9000C26D77 /* SFSDKSalesforceSDKUpgradeManager.m in Sources */,
 				E1C80CE01C5AEBFA001B3A21 /* SFLoginViewController.m in Sources */,
 				693E623124A287DB0017B222 /* KeyValueEncryptedFileStore.swift in Sources */,
 				B791409D1EC11ADE0051492F /* SFSDKWebViewStateManager.m in Sources */,
 				CE4CE3A21C0E5279009F6029 /* NSURL+SFStringUtils.m in Sources */,
+				69BDD82F26F90AA400C26D77 /* DecryptStream.swift in Sources */,
 				B7CD6D671F79CFC900F99F81 /* SFUserAccountManager+URLHandlers.m in Sources */,
 				69848CB62363FA3E00893E57 /* SFSDKPushNotificationError.m in Sources */,
 				CE4CE39A1C0E5272009F6029 /* SFSDKAsyncProcessListener.m in Sources */,
@@ -2335,6 +2383,7 @@
 				B75233E01F4DF0B700040B6E /* SFSDKAuthPreferences.m in Sources */,
 				B767369320A4AB0200F04103 /* SFSDKNavigationController.m in Sources */,
 				CE4CE34B1C0E5252009F6029 /* SFOAuthInfo.m in Sources */,
+				69EA56CC264B1FAA007FE339 /* SFSDKMacDetectUtil.m in Sources */,
 				A32FA736217A972C006D7930 /* SFSDKPasscodeTextField.m in Sources */,
 				CED452BA1D808D0C009266EB /* SFRestAPI+Files.m in Sources */,
 				CE4CE38F1C0E526A009F6029 /* SFUserAccount.m in Sources */,
@@ -2372,6 +2421,9 @@
 				CED452BD1D808D0C009266EB /* SFRestAPI+QueryBuilder.m in Sources */,
 				CE4CE3771C0E526A009F6029 /* SFKeyStoreManager.m in Sources */,
 				B71129111F8A780800436CFB /* SFSDKAlertMessageBuilder.m in Sources */,
+				69341D22266FF61700227CB0 /* Encryptor.swift in Sources */,
+				69BDD83026F90AA400C26D77 /* EncryptStream.swift in Sources */,
+				A315F83B26EAAC8400B94428 /* ScreenLockManager.swift in Sources */,
 				CE88BD531D17065C00AE3BF7 /* SFSDKAILTNPublisher.m in Sources */,
 				CE4CE3AC1C0E5279009F6029 /* SFPreferences.m in Sources */,
 				CED452B81D808D0C009266EB /* SFRestAPI+Blocks.m in Sources */,
@@ -2585,7 +2637,6 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
-				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -2622,7 +2673,6 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				SDKROOT = iphoneos;
-				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_VERSION = 5.0;
 			};
@@ -2763,6 +2813,7 @@
 				INFOPLIST_FILE = SalesforceSDKCore/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2775,6 +2826,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SalesforceSDKCore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2822,6 +2874,7 @@
 				INFOPLIST_FILE = SalesforceSDKCore/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2833,6 +2886,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SalesforceSDKCore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;

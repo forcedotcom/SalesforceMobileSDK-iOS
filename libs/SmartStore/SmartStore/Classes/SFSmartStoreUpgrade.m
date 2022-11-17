@@ -35,110 +35,80 @@
 #import <SalesforceSDKCommon/SFSDKDataSharinghelper.h>
 #import "FMDatabase.h"
 
-static NSString * const kLegacyDefaultPasscodeStoresKey = @"com.salesforce.smartstore.defaultPasscodeStores";
-static NSString * const kLegacyDefaultEncryptionTypeKey = @"com.salesforce.smartstore.defaultEncryptionType";
-static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstore.keyStoreEncryptedStores";
-static NSString * const kKeyStoreHasExternalSalt = @"com.salesforce.smartstore.external.hasExternalSalt";
+NSString * const kKeyStoreHasExternalSalt = @"com.salesforce.smartstore.external.hasExternalSalt";
+NSString * const kSmartStoreVersionKey = @"com.salesforce.mobilesdk.smartstore.version";
 
 @implementation SFSmartStoreUpgrade
 
-+ (void)updateStoreLocations
-{
-    [SFSDKSmartStoreLogger i:[SFSmartStoreUpgrade class] format:@"Migrating stores from legacy locations, where necessary."];
-    NSArray *allStoreNames = [SFSmartStoreUpgrade legacyAllStoreNames];
-    if ([allStoreNames count] == 0) {
-        [SFSDKSmartStoreLogger i:[SFSmartStoreUpgrade class] format:@"No legacy stores to migrate."];
-        return;
-    }
-    [SFSDKSmartStoreLogger i:[SFSmartStoreUpgrade class] format:@"Number of stores to migrate: %d", [allStoreNames count]];
-    for (NSString *storeName in allStoreNames) {
-        BOOL migratedStore = [SFSmartStoreUpgrade updateStoreLocationForStore:storeName];
-        if (migratedStore) {
-            [SFSDKSmartStoreLogger i:[SFSmartStoreUpgrade class] format:@"Successfully migrated store '%@'", storeName];
-        }
-    }
-    NSFileManager *manager = [NSFileManager defaultManager];
-    [manager removeItemAtPath:[SFSmartStoreUpgrade legacyRootStoreDirectory] error:nil];
-}
-
-+ (BOOL)updateStoreLocationForStore:(NSString *)storeName
-{
-    NSString *origStoreDirPath = [SFSmartStoreUpgrade legacyStoreDirectoryForStoreName:storeName];
-    NSString *origStoreFilePath = [SFSmartStoreUpgrade legacyFullDbFilePathForStoreName:storeName];
-    NSString *newStoreDirPath = [[SFSmartStoreDatabaseManager sharedManager] storeDirectoryForStoreName:storeName];
-    NSString *newStoreFilePath = [[SFSmartStoreDatabaseManager sharedManager] fullDbFilePathForStoreName:storeName];
-
-    // No store in the original location?  Nothing to do.
-    NSFileManager *manager = [NSFileManager defaultManager];
-    if (![manager fileExistsAtPath:origStoreFilePath]) {
-        [SFSDKSmartStoreLogger i:[SFSmartStoreUpgrade class] format:@"File for store '%@' does not exist at legacy path.  Nothing to do.", storeName];
-        [manager removeItemAtPath:origStoreDirPath error:nil];
-        return YES;
-    }
++ (void)upgrade {
+    NSString *lastVersion = [SFSmartStoreUpgrade lastVersion];
+    NSString *currentVersion = [SFSmartStoreUpgrade currentVersion];
     
-    // Create the new store directory.
-    NSError *fileIoError = nil;
-    BOOL createdNewStoreDir = [manager createDirectoryAtPath:newStoreDirPath withIntermediateDirectories:YES attributes:nil error:&fileIoError];
-    if (!createdNewStoreDir) {
-        [SFSDKSmartStoreLogger e:[SFSmartStoreUpgrade class] format:@"Error creating new store directory for store '%@': %@", storeName, [fileIoError localizedDescription]];
-        return NO;
-    }
-    
-    // Move the store from the old directory to the new one.
-    BOOL movedStore = [manager moveItemAtPath:origStoreFilePath toPath:newStoreFilePath error:&fileIoError];
-    if (!movedStore) {
-        [SFSDKSmartStoreLogger e:[SFSmartStoreUpgrade class] format:@"Error moving store '%@' to new directory: %@", storeName, [fileIoError localizedDescription]];
-        return NO;
-    }
-    
-    // Remove the old store directory.
-    [manager removeItemAtPath:origStoreDirPath error:nil];
-    return YES;
-}
-
-+ (void)updateEncryptionSalt
-{
-    
-    if ( ![SFSDKDatasharingHelper sharedInstance].appGroupEnabled || [[NSUserDefaults msdkUserDefaults] boolForKey:kKeyStoreHasExternalSalt]) {
-        //already migrated or does not need Externalizing of Salt
+    if ([currentVersion isEqualToString:lastVersion]) {
         return;
     }
     
-    [SFSDKSmartStoreLogger i:[SFSmartStoreUpgrade class] format:@"Updating encryption salt for stores in shared mode."];
-    NSArray *allStoreNames = [[SFSmartStoreDatabaseManager sharedManager] allStoreNames];
+    if (!lastVersion || [lastVersion doubleValue] < 9.2) {
+        [SFSmartStoreUpgrade upgradeEncryption];
+    }
+    
+    [[NSUserDefaults msdkUserDefaults] setValue:currentVersion forKey:kSmartStoreVersionKey];
+    [[NSUserDefaults msdkUserDefaults] synchronize];
+}
+
++ (NSString *)lastVersion {
+    return [[NSUserDefaults msdkUserDefaults] stringForKey:kSmartStoreVersionKey];
+}
+
++ (NSString *)currentVersion {
+    return [[[NSBundle bundleForClass:[SFSmartStoreUpgrade class]] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+}
+
++ (void)upgradeEncryption {
+    // Update user stores
+    for (SFUserAccount *userAccount in [[SFUserAccountManager sharedInstance] allUserAccounts]) {
+        SFSmartStoreDatabaseManager *databaseManager = [SFSmartStoreDatabaseManager sharedManagerForUser:userAccount];
+        [SFSmartStoreUpgrade updateEncryptionForDatabaseManager:databaseManager];
+    }
+    
+    // Global store
+    [SFSmartStoreUpgrade updateEncryptionForDatabaseManager:[SFSmartStoreDatabaseManager sharedGlobalManager]];
+}
+
++ (void)updateEncryptionForDatabaseManager:(SFSmartStoreDatabaseManager *)databaseManager {
+    [SFSDKSmartStoreLogger i:[SFSmartStoreUpgrade class] format:@"Updating encryption for stores."];
+    NSArray *allStoreNames = [databaseManager allStoreNames];
     [SFSDKSmartStoreLogger i:[SFSmartStoreUpgrade class] format:@"Number of stores to update: %d", [allStoreNames count]];
-    SFUserAccount *currentUser = [SFUserAccountManager sharedInstance].currentUser;
     for (NSString *storeName in allStoreNames) {
-        if (![SFSmartStoreUpgrade updateSaltForStore:storeName user:currentUser]) {
-             [SFSDKSmartStoreLogger e:[SFSmartStoreUpgrade class] format:@"Failed to upgrade store for sharing mode: %@", storeName];
+        if (![SFSmartStoreUpgrade updateEncryptionForStore:storeName databaseManager:databaseManager]) {
+             [SFSDKSmartStoreLogger e:[SFSmartStoreUpgrade class] format:@"Failed to encryption and salt for %@", storeName];
         }
     }
 }
 
-+ (BOOL)updateSaltForStore:(NSString *)storeName user:(SFUserAccount *)user {
-    
-    SFSmartStoreDatabaseManager *databaseManager = [SFSmartStoreDatabaseManager sharedManagerForUser:user];
+
++ (BOOL)updateEncryptionForStore:(NSString *)storeName databaseManager:(SFSmartStoreDatabaseManager *)databaseManager {
     if (![databaseManager persistentStoreExists:storeName]) {
-        //NEW Database no need for External Salt migration
-        [SFSDKSmartStoreLogger i:[SFSmartStoreUpgrade class] format:@"Store '%@' does not exist on the filesystem. Skipping Externalized Salt based migration is not required. ", storeName];
+        //NEW Database no need for encryption key
+        [SFSDKSmartStoreLogger i:[SFSmartStoreUpgrade class] format:@"Store '%@' does not exist on the filesystem. Skipping encryption update.", storeName];
         return NO;
     }
     
     NSError *openDbError = nil;
-    
-    //get Key and new Salt
+    NSString *legacyKey = [SFSmartStore legacyEncKey];
     NSString *key = [SFSmartStore encKey];
+    NSString *legacySalt = [[NSUserDefaults msdkUserDefaults] boolForKey:kKeyStoreHasExternalSalt] ? [SFSmartStore legacySalt] : nil;
     NSString *newSalt = [SFSmartStore salt];
     
     FMDatabase *originalEncyptedDB = [databaseManager openStoreDatabaseWithName:storeName
-                                                                            key:key
-                                                                           salt:nil
+                                                                            key:legacyKey
+                                                                           salt:legacySalt
                                                                           error:&openDbError];
     if (originalEncyptedDB == nil || openDbError != nil) {
         [SFSDKSmartStoreLogger e:[SFSmartStoreUpgrade class] format:@"Error opening store '%@' to update encryption: %@", storeName, [openDbError localizedDescription]];
         return NO;
     } else if (![[databaseManager class] verifyDatabaseAccess:originalEncyptedDB error:&openDbError]) {
-        [SFSDKSmartStoreLogger e:[SFSmartStoreUpgrade class] format:@"Error reading the content of store '%@' during externalized salt encryption upgrade: %@", storeName, [openDbError  localizedDescription]];
+        [SFSDKSmartStoreLogger e:[SFSmartStoreUpgrade class] format:@"Error reading the content of store '%@' during encryption upgrade: %@", storeName, [openDbError  localizedDescription]];
         [originalEncyptedDB close];
         return NO;
     }
@@ -148,7 +118,7 @@ static NSString * const kKeyStoreHasExternalSalt = @"com.salesforce.smartstore.e
         NSString *origDatabasePath = originalEncyptedDB.databasePath;
         
         NSString *storePath = [databaseManager fullDbFilePathForStoreName:storeName];
-        NSString *backupStorePath = [NSString stringWithFormat:@"%@_%@",storePath,@"backup"];
+        NSString *backupStorePath = [NSString stringWithFormat:@"%@_%@", storePath, @"backup"];
         NSError *backupError = nil;
         
         // backup and attempt to copy the reencryopted db with the new key + salt
@@ -169,38 +139,38 @@ static NSString * const kKeyStoreHasExternalSalt = @"com.salesforce.smartstore.e
         [SFSDKSmartStoreLogger i:[SFSmartStoreUpgrade class] format:@"Migrating db, did backup db first from '%@' to '%@'", origDatabaseURL, backupDatabaseURL];
         NSError *decryptDbError = nil;
         
-        //lets decryptDB
-        FMDatabase *decryptedDB = [SFSmartStoreDatabaseManager encryptOrUnencryptDb:originalEncyptedDB name:storeName  path:originalEncyptedDB.databasePath  oldKey:key newKey:nil salt:nil error:&decryptDbError];
+        // Let's decrypt DB
+        FMDatabase *decryptedDB = [SFSmartStoreDatabaseManager encryptOrUnencryptDb:originalEncyptedDB name:storeName  path:originalEncyptedDB.databasePath oldKey:legacyKey newKey:nil salt:legacySalt error:&decryptDbError];
         if (decryptDbError || ![SFSmartStoreDatabaseManager verifyDatabaseAccess:decryptedDB error:&decryptDbError] ) {
-            NSString *errorDesc = [NSString stringWithFormat:@"Migrating db, Failed to decrypt  DB %@:", [decryptedDB lastErrorMessage]];
-            [SFSDKSmartStoreLogger e:[SFSmartStoreUpgrade class] format:@"Migrating db '%@', %@", storePath, errorDesc];
+            NSString *errorDesc = [NSString stringWithFormat:@"Migrating DB, failed to decrypt DB %@:", [decryptedDB lastErrorMessage]];
+            [SFSDKSmartStoreLogger e:[SFSmartStoreUpgrade class] format:@"Migrating DB '%@', %@", storePath, errorDesc];
             [self restoreBackupTo:origDatabaseURL from:backupDatabaseURL];
             return NO;
         }
         
         // Now encrypt with new SALT + KEY
         NSError *reEncryptDbError = nil;
-        FMDatabase *reEncryptedDB = [SFSmartStoreDatabaseManager encryptOrUnencryptDb:decryptedDB name:storeName  path:decryptedDB.databasePath  oldKey:@"" newKey:key salt:newSalt error:&reEncryptDbError];
+        FMDatabase *reEncryptedDB = [SFSmartStoreDatabaseManager encryptOrUnencryptDb:decryptedDB name:storeName path:decryptedDB.databasePath oldKey:@"" newKey:key salt:newSalt error:&reEncryptDbError];
         if (!reEncryptedDB || reEncryptDbError) {
-            NSString *errorDesc = [NSString stringWithFormat:@"Migrating db, Failed to reencrypt DB %@:", [reEncryptedDB lastErrorMessage]];
-            [SFSDKSmartStoreLogger e:[SFSmartStoreUpgrade class] format:@"Migrating db '%@', %@", storePath, errorDesc];
+            NSString *errorDesc = [NSString stringWithFormat:@"Migrating DB, failed to reencrypt DB %@:", [reEncryptedDB lastErrorMessage]];
+            [SFSDKSmartStoreLogger e:[SFSmartStoreUpgrade class] format:@"Migrating DB '%@', %@", storePath, errorDesc];
             [fileManager removeItemAtPath:decryptedDB.databasePath error:nil];
             [self restoreBackupTo:origDatabaseURL from:backupDatabaseURL];
             return NO;
         }
         
         if (![SFSmartStoreDatabaseManager verifyDatabaseAccess:reEncryptedDB error:&decryptDbError]) {
-            NSString *errorDesc = [NSString stringWithFormat:@"Failed to verify reencrypted  DB %@:", [decryptedDB lastErrorMessage]];
-            [SFSDKSmartStoreLogger e:[SFSmartStoreUpgrade class] format:@"Migrating db at '%@', %@", storePath,errorDesc];
+            NSString *errorDesc = [NSString stringWithFormat:@"Failed to verify reencrypted DB %@:", [decryptedDB lastErrorMessage]];
+            [SFSDKSmartStoreLogger e:[SFSmartStoreUpgrade class] format:@"Migrating DB at '%@', %@", storePath,errorDesc];
             [fileManager removeItemAtPath:reEncryptedDB.databasePath error:nil];
             [self restoreBackupTo:origDatabaseURL from:backupDatabaseURL];
             return NO;
         }
         [reEncryptedDB close];
-        [SFSDKSmartStoreLogger i:[SFSmartStoreUpgrade class] format:@"Migrating db '%@',  Migration complete.", storePath];
+        [SFSDKSmartStoreLogger i:[SFSmartStoreUpgrade class] format:@"Migrating DB '%@', migration complete.", storePath];
         [fileManager removeItemAtPath:backupStorePath error:nil];
-        [SFSDKSmartStoreLogger i:[SFSmartStoreUpgrade class] format:@"Migrating db '%@',  Removed backup.", backupStorePath];
-        [[NSUserDefaults msdkUserDefaults] setBool:YES forKey:kKeyStoreHasExternalSalt];
+        [SFSDKSmartStoreLogger i:[SFSmartStoreUpgrade class] format:@"Migrating DB '%@', removed backup.", backupStorePath];
+        
         return YES;
     }
     return NO;
@@ -213,75 +183,12 @@ static NSString * const kKeyStoreHasExternalSalt = @"com.salesforce.smartstore.e
     [fileManager removeItemAtPath:origDatabaseURL.path error:nil];
     [fileManager copyItemAtURL:backupDatabaseURL toURL:origDatabaseURL error:&restoreBackupError];
     if (restoreBackupError) {
-        [SFSDKSmartStoreLogger e:[SFSmartStoreUpgrade class] format:@"Migrating db at '%@', Could not restore  from backup.", origDatabaseURL];
+        [SFSDKSmartStoreLogger e:[SFSmartStoreUpgrade class] format:@"Migrating db at '%@', Could not restore from backup.", origDatabaseURL];
     } else {
         success = YES;
         [SFSDKSmartStoreLogger i:[SFSmartStoreUpgrade class] format:@"Migrating db at '%@', Recovered from backup.", origDatabaseURL];
     }
     return success;
 }
-
-#pragma mark - Legacy SmartStore filesystem functionality
-
-+ (NSArray *)legacyAllStoreNames
-{
-    NSString *rootDir = [SFSmartStoreUpgrade legacyRootStoreDirectory];
-    NSError *getStoresError = nil;
-    NSFileManager *manager = [NSFileManager defaultManager];
-    
-    // First see if the legacy root folder exists.
-    BOOL rootDirIsDirectory = NO;
-    BOOL rootDirExists = [manager fileExistsAtPath:rootDir isDirectory:&rootDirIsDirectory];
-    if (!rootDirExists || !rootDirIsDirectory) {
-        [SFSDKSmartStoreLogger i:[SFSmartStoreUpgrade class] format:@"Legacy SmartStore directory does not exist. Nothing to do."];
-        return nil;
-    }
-    
-    // Get the folder paths of the legacy stores.
-    NSArray *storesDirNames = [manager contentsOfDirectoryAtPath:rootDir error:&getStoresError];
-    if (getStoresError) {
-        [SFSDKSmartStoreLogger w:[SFSmartStoreUpgrade class] format:@"Problem retrieving store names from legacy SmartStore directory: %@.  Will not continue.", [getStoresError localizedDescription]];
-        return nil;
-    }
-    NSMutableArray *allStoreNames = [NSMutableArray array];
-    for (NSString *storesDirName in storesDirNames) {
-        if ([SFSmartStoreUpgrade legacyPersistentStoreExists:storesDirName])
-            [allStoreNames addObject:storesDirName];
-    }
-    return allStoreNames;
-}
-
-+ (BOOL)legacyPersistentStoreExists:(NSString *)storeName
-{
-    NSString *fullDbFilePath = [SFSmartStoreUpgrade legacyFullDbFilePathForStoreName:storeName];
-    NSFileManager *manager = [NSFileManager defaultManager];
-    BOOL result = [manager fileExistsAtPath:fullDbFilePath];
-    return result;
-}
-
-+ (NSString *)legacyFullDbFilePathForStoreName:(NSString *)storeName
-{
-    NSString *storePath = [SFSmartStoreUpgrade legacyStoreDirectoryForStoreName:storeName];
-    NSString *fullDbFilePath = [storePath stringByAppendingPathComponent:kStoreDbFileName];
-    return fullDbFilePath;
-}
-
-+ (NSString *)legacyStoreDirectoryForStoreName:(NSString *)storeName
-{
-    NSString *storesDir = [SFSmartStoreUpgrade legacyRootStoreDirectory];
-    NSString *result = [storesDir stringByAppendingPathComponent:storeName];
-    
-    return result;
-}
-
-+ (NSString *)legacyRootStoreDirectory
-{
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = paths[0];
-    NSString *storesDir = [documentsDirectory stringByAppendingPathComponent:kStoresDirectory];
-    
-    return storesDir;
-}
-
 
 @end

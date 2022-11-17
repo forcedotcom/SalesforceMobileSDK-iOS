@@ -31,8 +31,8 @@
 // Nav bar
 static CGFloat      const kNavBarHeight          = 44.0;
 static CGFloat      const kNavBarTitleFontSize   = 18.0;
+
 // Resource keys
-static NSString * const kDevInfoTitleKey = @"devInfoTitle";
 static NSString * const kDevInfoBackButtonTitleKey = @"devInfoBackButtonTitle";
 static NSString * const kDevInfoOKKey = @"devInfoOKKey";
 
@@ -41,7 +41,6 @@ static NSString * const kDevInfoOKKey = @"devInfoOKKey";
 @property (nonatomic, strong) UINavigationBar *navBar;
 @property (nonatomic, strong) UITableView *infoTable;
 @property (nonatomic, strong) NSArray *infoData;
-
 
 @end
 
@@ -57,8 +56,6 @@ static NSString * const kDevInfoOKKey = @"devInfoOKKey";
     }
     return self;
 }
-
-#pragma mark - View lifecycle
 
 #pragma mark - Actions handlers
 
@@ -97,14 +94,13 @@ static NSString * const kDevInfoOKKey = @"devInfoOKKey";
 
     // Table view
     self.infoTable = [self createTableView];
-
 }
 
 - (UINavigationBar*) createNavBar
 {
     UINavigationBar* navBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, kNavBarHeight)];
     navBar.delegate = self;
-    UINavigationItem *navItem = [[UINavigationItem alloc] initWithTitle:[SFSDKResourceUtils localizedString:kDevInfoTitleKey]];
+    UINavigationItem *navItem = [[UINavigationItem alloc] initWithTitle:[[SalesforceSDKManager sharedManager] devInfoTitleString]];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:[SFSDKResourceUtils localizedString:kDevInfoBackButtonTitleKey] style:UIBarButtonItemStylePlain target:self action:@selector(backButtonClicked)];
     [navItem setLeftBarButtonItem:backItem];
     [navBar setItems:@[navItem] animated:YES];

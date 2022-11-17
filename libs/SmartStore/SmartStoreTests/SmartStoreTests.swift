@@ -73,12 +73,21 @@ class SmartStoreTests: XCTestCase {
         }
     }
 
-    func testBadQuery() {
-        _ = store!.registerSoup(withName: "MyTestSoup", withIndexPaths: ["key", "owner"])
-        let result = store!.query("select {MyTestSoup:date} from {MyTestSoup}")
-        switch (result) {
-        case .success(_): XCTFail("query should have failed")
-        case .failure(let error): XCTAssertNotNil(error)
+    func testBadQueryWhenUsingExternalStorage() {
+        // NB: Starting with Mobile SDK 9.1, it is possible to query non-indexed path (when using internal storage), it is no longer a bad query
+        let soupSpec = SoupSpec.newSoupSpec("MyTestSoup", withFeatures: [kSoupFeatureExternalStorage])
+        let soupIndexes = [SoupIndex(path:"key", indexType:kSoupIndexTypeString, columnName:nil)!,
+                           SoupIndex(path:"owner", indexType:kSoupIndexTypeString, columnName:nil)!]
+        do {
+            try store!.registerSoup(withSpecification: soupSpec, withIndices:soupIndexes)
+            let result = store!.query("select {MyTestSoup:date} from {MyTestSoup}")
+            switch (result) {
+                case .success(_): XCTFail("query should have failed")
+                case .failure(let error): XCTAssertNotNil(error)
+            }
+
+        } catch {
+            XCTFail("registration should not have failed")
         }
     }
 

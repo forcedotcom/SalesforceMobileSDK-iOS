@@ -31,7 +31,9 @@ static NSError *sLastError = nil;
 
 + (NSError *)lastError
 {
-    return sLastError;
+    @synchronized (sLastError) {
+        return sLastError;
+    }
 }
 
 + (id)objectFromJSONData:(NSData *)jsonData
@@ -46,7 +48,9 @@ static NSError *sLastError = nil;
 
         if (nil != err) {
             [SFLogger log:[self class] level:SFLogLevelDebug format:@"WARNING error parsing json: %@", err];
-            sLastError = err;
+            @synchronized(sLastError) {
+                sLastError = err;
+            }
             return nil;
         }
     }
@@ -99,7 +103,9 @@ static NSError *sLastError = nil;
          ];
         if (nil != err) {
             [SFLogger log:[self class] level:SFLogLevelDebug format:@"WARNING error writing json: %@", err];
-            sLastError = err;
+            @synchronized(sLastError) {
+                sLastError = err;
+            }
         }
         if (nil == jsonData) {
             [SFLogger log:[self class] level:SFLogLevelDebug format:@"unexpected nil json rep for: %@", obj];

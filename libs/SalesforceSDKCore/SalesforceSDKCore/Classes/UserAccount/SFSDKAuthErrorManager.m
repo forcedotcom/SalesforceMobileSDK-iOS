@@ -161,7 +161,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 + (BOOL)errorIsInvalidAuthCredentials:(NSError *)error
 {
     BOOL errorIsInvalidCreds = NO;
-    if (error.domain == kSFOAuthErrorDomain) {
+    if ([error.domain isEqualToString:kSFOAuthErrorDomain]) {
         if (error.code == kSFOAuthErrorInvalidGrant) {
             errorIsInvalidCreds = YES;
         }

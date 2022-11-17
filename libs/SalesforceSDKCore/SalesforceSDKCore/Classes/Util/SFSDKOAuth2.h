@@ -59,7 +59,9 @@ enum {
     kSFOAuthErrorBrowserLaunchFailed,
     kSFOAuthErrorUnknownAdvancedAuthConfig,
     kSFOAuthErrorInvalidMDMConfiguration,
-    kSFOAuthErrorJWTInvalidGrant
+    kSFOAuthErrorJWTInvalidGrant,
+    kSFOAuthErrorRequestCancelled,
+    kSFOAuthErrorRefreshFailed //generic error
 };
 
 NS_ASSUME_NONNULL_BEGIN
@@ -98,6 +100,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, nullable) NSString *signature;
 @property (nonatomic, readonly, nullable) NSArray<NSString *> *scopes;
 @property (nonatomic, readonly, nullable) NSDictionary *additionalOAuthFields;
+@property (nonatomic, readonly, nullable) NSString *lightningDomain;
+@property (nonatomic, readonly, nullable) NSString *lightningSid;
+@property (nonatomic, readonly, nullable) NSString *vfDomain;
+@property (nonatomic, readonly, nullable) NSString *vfSid;
+@property (nonatomic, readonly, nullable) NSString *contentDomain;
+@property (nonatomic, readonly, nullable) NSString *contentSid;
+@property (nonatomic, readonly, nullable) NSString *csrfToken;
 - (NSDictionary *)asDictionary;
 @end
 

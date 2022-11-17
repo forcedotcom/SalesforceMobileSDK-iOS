@@ -30,17 +30,20 @@
 
 @implementation SFSDKViewUtils
 
-+ (void)styleNavigationBar:(UINavigationBar *)navigationBar config:(SFSDKViewControllerConfig *) config {
++ (void)styleNavigationBar:(UINavigationBar *)navigationBar config:(SFSDKViewControllerConfig *)config classes:(NSArray<Class <UIAppearanceContainer>> *)classes {
 
     if (!navigationBar && !config) {
         return;
     }
     
+    UINavigationBarAppearance *appearance = [[UINavigationBarAppearance alloc] init];
+    [appearance configureWithOpaqueBackground];
+
     if (config.navBarColor) {
-        navigationBar.standardAppearance.backgroundColor = config.navBarColor;
+        appearance.backgroundColor = config.navBarColor;
         navigationBar.backgroundColor = config.navBarColor;
     }
-    
+
     NSMutableDictionary *textAttributes = [[NSMutableDictionary alloc] init];
     if (config.navBarTintColor) {
         navigationBar.tintColor = config.navBarTintColor;
@@ -59,9 +62,18 @@
     }
     
     if ([textAttributes count] > 0) {
-        navigationBar.standardAppearance.titleTextAttributes = textAttributes;
+        appearance.titleTextAttributes = textAttributes;
         [navigationBar setTitleTextAttributes:textAttributes];
     }
+
+    [UINavigationBar appearanceWhenContainedInInstancesOfClasses:classes].standardAppearance = appearance;
+    [UINavigationBar appearanceWhenContainedInInstancesOfClasses:classes].compactAppearance = appearance;
+    [UINavigationBar appearanceWhenContainedInInstancesOfClasses:classes].scrollEdgeAppearance = appearance;
+    #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 150000
+    if (@available(iOS 15.0, *)) {
+        [UINavigationBar appearanceWhenContainedInInstancesOfClasses:classes].compactScrollEdgeAppearance = appearance;
+    }
+    #endif
 }
 
 + ( UIImage * _Nonnull )headerBackgroundImage:(UIColor *)color {

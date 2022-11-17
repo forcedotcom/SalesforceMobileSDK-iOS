@@ -64,9 +64,14 @@ extern NSString * const kSFSmartStoreEncryptionKeyLabel NS_SWIFT_NAME(SmartStore
 extern NSString * const kSFSmartStoreEncryptionSaltLabel NS_SWIFT_NAME(SmartStore.encryptionSaltLabel);
 
 /**
+ Block typedef for generating legacy encryption key.
+ */
+typedef SFEncryptionKey* _Nullable (^SFSmartStoreEncryptionKeyBlock)(void) NS_SWIFT_NAME(EncryptionKeyBlock) __attribute__ ((deprecated("Deprecated in Salesforce Mobile SDK 9.2 and only used for upgrade")));
+
+/**
  Block typedef for generating an encryption key.
  */
-typedef SFEncryptionKey*  _Nullable (^SFSmartStoreEncryptionKeyBlock)(void) NS_SWIFT_NAME(EncryptionKeyBlock);
+typedef NSData* _Nullable (^SFSmartStoreEncryptionKeyGenerator)(void) NS_SWIFT_NAME(EncryptionKeyGenerator);
 
 /**
  Block typedef for generating a 16 byte hash for sharing data betwween multiple apps.
@@ -145,10 +150,16 @@ NS_SWIFT_NAME(SmartStore)
 @property (nonatomic, class, readonly) NSArray<NSString*> *allGlobalStoreNames;
 
 /**
+ Block used to generate the legacy encryption key.
+ */
+@property (nonatomic, class, readonly) SFSmartStoreEncryptionKeyBlock encryptionKeyBlock __attribute__ ((deprecated("Deprecated in Salesforce Mobile SDK 9.2 and only used for upgrade")));
+
+/**
  Block used to generate the encryption key.
  Salesforce recommends using the default encryption key derivation.
  */
-@property (nonatomic, class, readonly)  SFSmartStoreEncryptionKeyBlock encryptionKeyBlock;
+@property (nonatomic, class, readonly) SFSmartStoreEncryptionKeyGenerator encryptionKeyGenerator;
+
 
 /**
  Block used to generate the salt. The salt is maintained in the keychain. Used only when database needs to be shared between apps.
@@ -216,7 +227,9 @@ NS_SWIFT_NAME(SmartStore)
 + (void)removeAllGlobalStores NS_SWIFT_NAME(removeAllGlobal());
 
 /**
- Sets a custom block for deriving the encryption key used to encrypt stores.
+ Sets a custom block for deriving the encryption key used to encrypt stores. This uses a legacy encryption key
+ and is only used for upgrade scenarios. This should only be set if an app was already using it
+ before Mobile SDK 9.2.
  
  ** WARNING: **
  If you choose to override the encryption key derivation, you must set
@@ -227,7 +240,21 @@ NS_SWIFT_NAME(SmartStore)
  
  @param newEncryptionKeyBlock The new encryption key derivation block to use with SmartStore.
  */
-+ (void)setEncryptionKeyBlock:(SFSmartStoreEncryptionKeyBlock)newEncryptionKeyBlock;
++ (void)setEncryptionKeyBlock:(SFSmartStoreEncryptionKeyBlock)newEncryptionKeyBlock __attribute__ ((deprecated("Deprecated in Salesforce Mobile SDK 9.2 and should only be used for upgrade")));
+
+/**
+ Sets a custom block for deriving the encryption key used to encrypt stores.
+ 
+ ** WARNING: **
+ If you choose to override the encryption key derivation, you must set
+ this value before opening any stores.  Setting the value after stores have been opened
+ will result in the corruption and loss of existing data.
+ Also, SmartStore does not use initialization vectors.
+ ** WARNING **
+ 
+ @param newEncryptionKeyGenerator The new encryption key derivation block to use with SmartStore.
+ */
++ (void)setEncryptionKeyGenerator:(SFSmartStoreEncryptionKeyGenerator)newEncryptionKeyGenerator;
 
 #pragma mark - Soup manipulation methods
 

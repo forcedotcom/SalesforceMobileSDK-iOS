@@ -123,6 +123,7 @@ typedef void (^SFLockScreenFailureCallbackBlock)(void);
  This class interacts with the inactivity timer.
  It is responsible for locking and unlocking the device by presenting the passcode modal controller when the timer expires.
  */
+SFSDK_DEPRECATED(9.2, 10.0, "Will be removed in 10.0.")
 @interface SFSecurityLockout : NSObject
 
 /**

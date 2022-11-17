@@ -34,6 +34,7 @@
 NSString * const kSFNetworkEphemeralInstanceIdentifier = @"com.salesforce.network.ephemeralSession";
 NSString * const kSFNetworkBackgroundInstanceIdentifier = @"com.salesforce.network.backgroundSession";
 static SFSDKSafeMutableDictionary *sharedInstances = nil;
+static SFSDKMetricsCollectedBlock _metricsCollectedAction = nil;
 
 @interface SFNetwork()<NSURLSessionDelegate, NSURLSessionTaskDelegate>
 
@@ -129,6 +130,14 @@ static SFSDKSafeMutableDictionary *sharedInstances = nil;
     return [NSString stringWithFormat:@"com.salesforce.network.%@", [[NSUUID UUID] UUIDString]];
 }
 
++ (void)setMetricsCollectedAction:(SFSDKMetricsCollectedBlock)metricsCollectedAction {
+    _metricsCollectedAction = metricsCollectedAction;
+}
+
++ (SFSDKMetricsCollectedBlock)metricsCollectedAction {
+    return _metricsCollectedAction;
+}
+
 #pragma mark - NSURLSessionDelegate
 
 - (void)URLSession:(NSURLSession *)session didBecomeInvalidWithError:(nullable NSError *)error {
@@ -140,12 +149,18 @@ static SFSDKSafeMutableDictionary *sharedInstances = nil;
     }
 }
 
--(void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task willPerformHTTPRedirection:(NSHTTPURLResponse *)response newRequest:(NSURLRequest *)request completionHandler:(void (^)(NSURLRequest * _Nullable))completionHandler {
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task willPerformHTTPRedirection:(NSHTTPURLResponse *)response newRequest:(NSURLRequest *)request completionHandler:(void (^)(NSURLRequest * _Nullable))completionHandler {
     if ([task.originalRequest valueForHTTPHeaderField:@"Authorization"]) {
         // Don't auto follow redirects in authenticated case
         completionHandler(nil);
     } else {
         completionHandler(request);
+    }
+}
+
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didFinishCollectingMetrics:(NSURLSessionTaskMetrics *)metrics {
+    if (_metricsCollectedAction) {
+        _metricsCollectedAction(session, task, metrics);
     }
 }
 

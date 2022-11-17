@@ -131,21 +131,15 @@ static NSString* const kTestAppName = @"OverridenAppName";
     XCTAssertNotNil(userAccountManager.currentUser, @"Current user should not be nil.");
     SFUserAccount *userTo = [self createUserAccount];
     SFUserAccount *userFrom = userAccountManager.currentUser;
-    XCTestExpectation *willSwitchExpectation = [self expectationWithDescription:@"willSwitch"];
-    XCTestExpectation *didSwitchExpectation = [self expectationWithDescription:@"didSwitch"];
     [_currentSdkManagerFlow setUpUserSwitchState:userAccountManager.currentUser toUser:userTo completion:^(SFUserAccount *fromUser, SFUserAccount *toUser, BOOL before) {
         NSString *beforeAfterString = before? @" in willSwitchuser " : @" in didSwitchuser ";
         XCTAssertTrue([fromUser isEqual:userFrom], @"Switch from user is different than expected  %@", beforeAfterString);
         XCTAssertTrue([toUser isEqual:userTo], @"Switch to user is different than expected  %@", beforeAfterString);
-        if (before) {
-            [willSwitchExpectation fulfill];
-        }else {
+        if (!before) {
             XCTAssertTrue([toUser isEqual:userAccountManager.currentUser], @"Switch to user should change current user");
-            [didSwitchExpectation fulfill];
         }
     }];
     [userAccountManager switchToUser:userTo];
-    [self waitForExpectations:@[willSwitchExpectation, didSwitchExpectation] timeout:20];
     [_currentSdkManagerFlow clearUserSwitchState];
 }
 

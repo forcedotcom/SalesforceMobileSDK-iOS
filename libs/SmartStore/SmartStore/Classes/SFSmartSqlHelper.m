@@ -28,6 +28,24 @@
 
 static SFSmartSqlHelper *sharedInstance = nil;
 
+static NSString* const kSmartSqlHelperNoStringsOrFullStrings = @"^([^']|'[^']*')*";
+//  ^           # the start of the string, then
+//  ([^']       # either not a quote character
+//  |'[^']*'    # or a fully quoted string
+//  )*          # as many times as you want
+
+static NSRegularExpression* insideQuotedStringRegexp;
+
+static NSRegularExpression* insideQuotedStringForFTSMatchPredicateRegexp;
+
+static NSString* const kTableDotJsonExtract = @"(\\w+)\\.json_extract\\(soup";
+
+static NSRegularExpression* tableDotJsonExtractRegexp;
+
+static NSString* const kSoupPathPattern = @"\\{([^}]+)\\}";
+
+static NSRegularExpression* soupPathRegexp;
+
 @implementation SFSmartSqlHelper
 
 + (SFSmartSqlHelper*) sharedInstance
@@ -35,6 +53,17 @@ static SFSmartSqlHelper *sharedInstance = nil;
     static dispatch_once_t once;
     dispatch_once(&once, ^{
         sharedInstance = [[super alloc] init];
+        
+        insideQuotedStringRegexp = [[NSRegularExpression alloc]
+                                    initWithPattern:[kSmartSqlHelperNoStringsOrFullStrings stringByAppendingString:@"'[^']*"]
+                                    options:0 error:nil];
+        insideQuotedStringForFTSMatchPredicateRegexp = [[NSRegularExpression alloc]
+                                                        initWithPattern:[kSmartSqlHelperNoStringsOrFullStrings stringByAppendingString:@"MATCH[ ]+'[^']*"]
+                                                        options:0 error:nil];
+        
+        tableDotJsonExtractRegexp = [NSRegularExpression regularExpressionWithPattern:kTableDotJsonExtract options:0 error:nil];
+        
+        soupPathRegexp = [NSRegularExpression regularExpressionWithPattern:kSoupPathPattern options:0 error:nil];
     });
     
     return sharedInstance;
@@ -54,84 +83,111 @@ static SFSmartSqlHelper *sharedInstance = nil;
     
     // Replacing {soupName} and {soupName:path}
     NSMutableString* sql = [NSMutableString string];
-    NSScanner* scanner = [NSScanner scannerWithString:smartSql];
-    [scanner setCharactersToBeSkipped:nil];
-    while(![scanner isAtEnd]) {
-        NSMutableString* foundString = [NSMutableString string];
-        if([scanner scanUpToString:@"{" intoString:&foundString]) {
-            [sql appendString:foundString];
+    
+    NSArray *matches = [soupPathRegexp matchesInString:smartSql
+                                              options:0
+                                                range:NSMakeRange(0, [smartSql length])];
+
+    NSUInteger lastPosition = 0;
+    for (NSTextCheckingResult* matchResult in matches) {
+        NSRange matchRange = [matchResult range];
+        NSString* fullMatch = [smartSql substringWithRange:matchRange];
+        NSString* match = [smartSql substringWithRange:[matchResult rangeAtIndex:1]];
+        NSUInteger position = matchRange.location;
+
+        NSString* beforeStr = [smartSql substringToIndex:position];
+        NSRange searchedRange = NSMakeRange(0, [beforeStr length]);
+
+        BOOL isInsideQuotedString = NSEqualRanges(searchedRange,
+                                                  [insideQuotedStringRegexp
+                                                   rangeOfFirstMatchInString:beforeStr
+                                                   options:0
+                                                   range:searchedRange]);
+        BOOL isInsideQuotedStringForFTSMatchPredicate = NSEqualRanges(searchedRange,
+                                                                      [insideQuotedStringForFTSMatchPredicateRegexp
+                                                                       rangeOfFirstMatchInString:beforeStr
+                                                                       options:0
+                                                                       range:searchedRange]);
+
+        if (isInsideQuotedString && !isInsideQuotedStringForFTSMatchPredicate) {
+            continue;
         }
-        if(![scanner isAtEnd]) {
-            NSUInteger position = [scanner scanLocation];
-            [scanner scanString:@"{" intoString:nil];
-            [scanner scanUpToString:@"}" intoString:&foundString];
-            
-            NSArray* parts = [foundString componentsSeparatedByString:@":"];
-            NSString* soupName = parts[0];
-            SFSoupSpec *soupSpec = [store attributesForSoup:soupName withDb:db];
-            BOOL soupUsesExternalStorage = [soupSpec.features containsObject:kSoupFeatureExternalStorage];
-            NSString* soupTableName = [store tableNameForSoup:soupName withDb:db];
-            if (nil == soupTableName) {
-                @throw [NSException exceptionWithName:@"convertSmartSql failed" reason:[NSString stringWithFormat:@"Invalid soup name:%@", soupName] userInfo:nil];
+
+        NSArray* parts = [match componentsSeparatedByString:@":"];
+        NSString* soupName = parts[0];
+        SFSoupSpec *soupSpec = [store attributesForSoup:soupName withDb:db];
+        BOOL soupUsesExternalStorage = [soupSpec.features containsObject:kSoupFeatureExternalStorage];
+        NSString* soupTableName = [store tableNameForSoup:soupName withDb:db];
+        if (nil == soupTableName) {
+            @throw [NSException exceptionWithName:@"convertSmartSql failed" reason:[NSString stringWithFormat:@"Invalid soup name:%@", soupName] userInfo:nil];
+        }
+        BOOL tableQualified = [smartSql characterAtIndex:position-1] == '.';
+        NSString* tableQualifier = tableQualified ? @"" : [soupTableName stringByAppendingString:@"."];
+
+        // Appending the part before we have not used
+        [sql appendString:[smartSql substringWithRange:NSMakeRange(lastPosition, position-lastPosition)]];
+        lastPosition = position + matchRange.length;
+        
+        // {soupName}
+        if ([parts count] == 1) {
+            [sql appendString:soupTableName];
+        }
+        else if ([parts count] == 2) {
+            NSString* path = parts[1];
+            // {soupName:_soup}
+            if ([path isEqualToString:@"_soup"]) {
+                if (soupUsesExternalStorage) {
+                    [sql appendFormat:@"'%@' as '%@'", soupTableName, kSoupFeatureExternalStorage];
+                    [sql appendFormat:@", %@.%@ as '%@'", soupTableName, ID_COL, SOUP_ENTRY_ID];
+                } else {
+                    [sql appendString:tableQualifier];
+                    [sql appendString:@"soup"];
+                }
             }
-            BOOL tableQualified = [smartSql characterAtIndex:position-1] == '.';
-            NSString* tableQualifier = tableQualified ? @"" : [soupTableName stringByAppendingString:@"."];
-            
-            // {soupName}
-            if ([parts count] == 1) {
-                [sql appendString:soupTableName];
+            // {soupName:_soupEntryId}
+            else if ([path isEqualToString:@"_soupEntryId"]) {
+                [sql appendString:tableQualifier];
+                [sql appendString:@"id"];
             }
-            else if ([parts count] == 2) {
-                NSString* path = parts[1];
-                // {soupName:_soup}
-                if ([path isEqualToString:@"_soup"]) {
-                    if (soupUsesExternalStorage) {
-                        [sql appendFormat:@"'%@' as '%@'", soupTableName, kSoupFeatureExternalStorage];
-                        [sql appendFormat:@", %@.%@ as '%@'", soupTableName, ID_COL, SOUP_ENTRY_ID];
-                    } else {
-                        [sql appendString:tableQualifier];
-                        [sql appendString:@"soup"];
-                    }
-                }
-                // {soupName:_soupEntryId}
-                else if ([path isEqualToString:@"_soupEntryId"]) {
-                    [sql appendString:tableQualifier];
-                    [sql appendString:@"id"];
-                }
-                // {soupName:_soupCreatedDate}
-                else if ([path isEqualToString:@"_soupCreatedDate"]) {
-                    [sql appendString:tableQualifier];
-                    [sql appendString:@"created"];
-                }
-                // {soupName:_soupLastModifiedDate}
-                else if ([path isEqualToString:@"_soupLastModifiedDate"]) {
-                    [sql appendString:tableQualifier];
-                    [sql appendString:@"lastModified"];
-                }
-                // {soupName:path}
-                else {
-                    NSString* columnName = [store columnNameForPath:path inSoup:soupName withDb:db];
+            // {soupName:_soupCreatedDate}
+            else if ([path isEqualToString:@"_soupCreatedDate"]) {
+                [sql appendString:tableQualifier];
+                [sql appendString:@"created"];
+            }
+            // {soupName:_soupLastModifiedDate}
+            else if ([path isEqualToString:@"_soupLastModifiedDate"]) {
+                [sql appendString:tableQualifier];
+                [sql appendString:@"lastModified"];
+            }
+            // {soupName:path}
+            else {
+                NSString* columnName = nil;
+                BOOL indexed = [store hasIndexForPath:path inSoup:soupName withDb:db];
+                if (!indexed && !soupUsesExternalStorage) {
+                    // Thanks to the json1 extension we can query the data even if it is not indexed (as long as the data is stored in the database)
+                    columnName = [NSString stringWithFormat:@"json_extract(soup, '$.%@')", path];
+                } else {
+                    columnName = [store columnNameForPath:path inSoup:soupName withDb:db];
                     if (nil == columnName) {
                         @throw [NSException exceptionWithName:@"convertSmartSql failed" reason:[NSString stringWithFormat:@"Invalid path:%@", path] userInfo:nil];
                     }
-                    [sql appendString:columnName];
                 }
+                [sql appendString:columnName];
             }
-            else if ([parts count] > 2) {
-                @throw [NSException exceptionWithName:@"convertSmartSql failed" reason:[NSString stringWithFormat:@"Invalid soup/path reference: %@ at character: %lu", foundString, (unsigned long)position] userInfo:nil];
-            }
-            
-            
-            [scanner scanString:@"}" intoString:nil];
+        }
+        else if ([parts count] > 2) {
+            @throw [NSException exceptionWithName:@"convertSmartSql failed" reason:[NSString stringWithFormat:@"Invalid soup/path reference: %@ at character: %lu", fullMatch, (unsigned long)position] userInfo:nil];
         }
     }
+    
+    // Appending the tail
+    [sql appendString:[smartSql substringFromIndex:lastPosition]];
+
     
     // With json1 support, the column name could be an expression of the form json_extract(soup, '$.x.y.z')
     // We can't have TABLE_x.json_extract(soup, ...) or table_alias.json_extract(soup, ...) in the sql query
     // Instead we should have json_extract(TABLE_x.soup, ...)
-    NSError *error = nil;
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"([^ ]+)\\.json_extract\\(soup" options:0 error:&error];
-    [regex replaceMatchesInString:sql options:0 range:NSMakeRange(0, [sql length]) withTemplate:@"json_extract($1.soup"];
+    [tableDotJsonExtractRegexp replaceMatchesInString:sql options:0 range:NSMakeRange(0, [sql length]) withTemplate:@"json_extract($1.soup"];
     
     return sql;
 }

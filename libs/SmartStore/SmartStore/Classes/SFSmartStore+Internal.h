@@ -220,10 +220,21 @@ static NSString *const EXPLAIN_ROWS = @"rows";
 
 
 /**
+ @param path Path of interest
+ @param soupName name of the soup
  @param db This method is expected to be called from [fmdbqueue inDatabase:^(){ ... }]
- @return The map of an indexSpec path to a column name from SOUP_INDEX_MAP_TABLE.
+ @return The column name for the given path if indexed or nil otherwise.
  */
 - (NSString *)columnNameForPath:(NSString *)path inSoup:(NSString *)soupName withDb:(FMDatabase*)db;
+
+
+/**
+ @param path Path of interest
+ @param soupName name of the soup
+ @param db This method is expected to be called from [fmdbqueue inDatabase:^(){ ... }]
+ @return YES if the given path is indexed or NO otherwise.
+ */
+- (BOOL) hasIndexForPath:(NSString*)path inSoup:(NSString*)soupName withDb:(FMDatabase*) db;
 
 /**
  Similar to System.currentTimeMillis: time in ms since Jan 1 1970
@@ -233,9 +244,19 @@ static NSString *const EXPLAIN_ROWS = @"rows";
 - (NSNumber*)currentTimeInMilliseconds;
 
 /**
+ @return The legacy key used to encrypt the store.
+ */
++ (NSString *)legacyEncKey;
+
+/**
  @return The key used to encrypt the store.
  */
 + (NSString *)encKey;
+
+/**
+ @return The legacy salt used to encrypt the store for shared mode. Sqlite headers are maintained in plain text for database.
+ */
++ (NSString *)legacySalt;
 
 /**
  @return The key used to encrypt the store for shared mode. Sqlite headers are maintained in plain text for database.

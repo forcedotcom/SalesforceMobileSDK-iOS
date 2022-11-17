@@ -58,29 +58,6 @@ static NSString *communityId = @"COMMUNITYID";
     [fm removeItemAtPath:documentDirectoryOrg error:nil];
 }
 
-- (void)testProfilePhoto {
-    SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:@"CLIENT ID"  clientId:@"CLIENT ID" encrypted:NO];
-    creds.userId = userId18;
-    creds.organizationId = orgId;
-    creds.communityId = communityId;
-    SFUserAccount *account = [[SFUserAccount alloc] initWithCredentials:creds];
-    NSString *photoDirectoryPath = [account userPhotoDirectory];
-    [SFDirectoryManager ensureDirectoryExists:photoDirectoryPath error:nil];
-    
-    // Create photo with 15 character name
-    NSString *photoPath15 = [photoDirectoryPath stringByAppendingPathComponent:userId15];
-    UIImage *photo = [[UIImage alloc] initWithCGImage:[SFSDKResourceUtils imageNamed:@"salesforce-logo"].CGImage];
-    NSData *originalPhotoData = UIImagePNGRepresentation(photo);
-    [originalPhotoData writeToFile:photoPath15 options:NSDataWritingAtomic error:nil];
-    
-    // Accessing photo should rename from 15 to 18 character path if needed and return photo
-    XCTAssertNotNil(account.photo, "Account photo not found");
-    NSString *photoPath18 = [photoDirectoryPath stringByAppendingPathComponent:userId18];
-    NSFileManager *fm = [[NSFileManager alloc] init];
-    XCTAssertFalse([fm fileExistsAtPath:photoPath15]);
-    XCTAssertTrue([fm fileExistsAtPath:photoPath18]);
-}
-
 - (void)testDirectories {
     // Create directories based on 15 character user ID
     NSError *error = nil;

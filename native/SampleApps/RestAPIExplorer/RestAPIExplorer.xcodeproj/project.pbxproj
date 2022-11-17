@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -204,6 +204,7 @@
 
 /* Begin PBXFileReference section */
 		6965555D2589961000A1AB82 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		69B2B3D2261D48D100AB86C2 /* RestAPIExplorer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RestAPIExplorer.entitlements; sourceTree = "<group>"; };
 		A3C0B9082175444F0037A7CB /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		B79F06DC20EA931200BC7D6F /* MobileSync.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MobileSync.xcodeproj; path = ../../../libs/MobileSync/MobileSync.xcodeproj; sourceTree = "<group>"; };
 		B79F06EC20EA931900BC7D6F /* SalesforceSDKCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceSDKCore.xcodeproj; path = ../../../libs/SalesforceSDKCore/SalesforceSDKCore.xcodeproj; sourceTree = "<group>"; };
@@ -303,6 +304,7 @@
 		B7CEA6F120B7105E007D0564 /* RestAPIExplorer */ = {
 			isa = PBXGroup;
 			children = (
+				69B2B3D2261D48D100AB86C2 /* RestAPIExplorer.entitlements */,
 				B7CEA71220B71202007D0564 /* Helpers */,
 				B7CEA71020B71202007D0564 /* Model */,
 				B7CEA70A20B71202007D0564 /* ViewControllers */,
@@ -429,7 +431,7 @@
 				};
 			};
 			buildConfigurationList = B7CEA6EA20B7105E007D0564 /* Build configuration list for PBXProject "RestAPIExplorer" */;
-			compatibilityVersion = "Xcode 10.0";
+			compatibilityVersion = "Xcode 12.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -768,16 +770,19 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = RestAPIExplorer/RestAPIExplorer.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = RestAPIExplorer/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.RestAPIExplorer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -788,16 +793,19 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = RestAPIExplorer/RestAPIExplorer.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = RestAPIExplorer/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.RestAPIExplorer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

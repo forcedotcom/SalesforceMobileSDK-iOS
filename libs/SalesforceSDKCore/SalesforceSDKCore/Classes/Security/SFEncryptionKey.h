@@ -23,12 +23,14 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 /**
  Data object representing a symmetric encryption key, with a key value and initialization vector.
  */
+SFSDK_DEPRECATED(9.2, 11.0, "Will be removed")
 @interface SFEncryptionKey : NSObject <NSCoding, NSCopying>
 
 /**

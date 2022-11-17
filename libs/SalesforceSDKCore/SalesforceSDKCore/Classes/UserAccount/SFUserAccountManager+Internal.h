@@ -101,8 +101,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy, nonnull) void (^alertDisplayBlock)(SFSDKAlertMessage *, SFSDKWindowContainer *);
 
-@property (nonatomic, copy, nonnull) void (^authCancelledByUserHandlerBlock)(void);
-
 /** SFSDKAlertView used to wrap display of SFSDKMessage using an AlertController.
  *
  */

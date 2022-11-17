@@ -24,6 +24,7 @@
 
 #import <Foundation/Foundation.h>
 #import <SalesforceSDKCore/SFEncryptionKey.h>
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -32,6 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
  The key lives in the keychain or, if available, the Secure Enclave.
  This key might not be appropriate for encrypting and decrypting large amounts of data.
  */
+SFSDK_DEPRECATED(9.2, 11.0, "Will be removed")
 @interface SFSecureEncryptionKey : SFEncryptionKey
 
 /**

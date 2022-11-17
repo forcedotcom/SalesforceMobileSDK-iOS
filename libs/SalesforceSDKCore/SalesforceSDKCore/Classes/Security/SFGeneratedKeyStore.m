@@ -24,7 +24,7 @@
 
 #import "SFGeneratedKeyStore.h"
 #import "SFKeyStore+Internal.h"
-#import "SFKeychainItemWrapper.h"
+#import <SalesforceSDKCommon/SalesforceSDKCommon-Swift.h>
 
 // Keychain and NSCoding constants
 static NSString * const kGeneratedKeyStoreKeychainIdentifier = @"com.salesforce.keystore.generatedKeystoreKeychainId";
@@ -40,7 +40,10 @@ NSString * const kGeneratedKeyLabelSuffix = @"Generated";
 
 @end
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 @implementation SFGeneratedKeyStore
+#pragma clang diagnostic pop
 
 - (NSString *)storeDataArchiveKey
 {
@@ -102,15 +105,14 @@ NSString * const kGeneratedKeyLabelSuffix = @"Generated";
     
         // Store the key store key in the keychain.
         if (keyStoreKey == nil) {
-            SFKeychainItemWrapper *keychainItem = [SFKeychainItemWrapper itemWithIdentifier:self.encryptionKeyKeychainIdentifier account:nil];
-            BOOL resetItemResult = [keychainItem resetKeychainItem];
-            if (!resetItemResult) {
-                [SFSDKCoreLogger e:[self class] format:@"Error removing key store key from the keychain."];
+            SFSDKKeychainResult *result = [SFSDKKeychainHelper createIfNotPresentWithService:self.encryptionKeyKeychainIdentifier account:nil];
+            if (!result.success) {
+                [SFSDKCoreLogger e:[self class] format:@"Error removing key store key %@ from the keychain.", self.encryptionKeyKeychainIdentifier];
             }
         } else {
             OSStatus saveKeyResult = [keyStoreKey toKeyChain:self.encryptionKeyKeychainIdentifier archiverKey:self.encryptionKeyDataArchiveKey];
             if (saveKeyResult != noErr) {
-                [SFSDKCoreLogger e:[self class] format:@"Error saving key store key to the keychain."];
+                [SFSDKCoreLogger e:[self class] format:@"Error saving key store key  %@ to the keychain.", self.encryptionKeyKeychainIdentifier];
             }
         }
         

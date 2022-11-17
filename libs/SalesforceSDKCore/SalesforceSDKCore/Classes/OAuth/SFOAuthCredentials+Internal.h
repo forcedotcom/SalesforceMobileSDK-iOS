@@ -33,17 +33,17 @@ typedef NS_ENUM(NSUInteger, SFOAuthCredsEncryptionType) {
     kSFOAuthCredsEncryptionTypeKeyStore
 };
 
-extern NSString * _Nonnull const kSFOAuthEncryptionTypeKey;
+extern NSString * _Nonnull const kSFOAuthServiceLegacyAccess;
+extern NSString * _Nonnull const kSFOAuthServiceLegacyRefresh;
 extern NSString * _Nonnull const kSFOAuthServiceAccess;
 extern NSString * _Nonnull const kSFOAuthServiceRefresh;
-extern NSString * _Nonnull const kSFOAuthServiceActivation;
 
 extern NSException * _Nullable SFOAuthInvalidIdentifierException(void);
 
 @interface SFOAuthCredentials ()
 @property (nonatomic, readwrite, nullable) NSString *protocol;
 @property (nonatomic, readwrite, nullable) NSString *domain;
-@property (nonatomic,readwrite, nonnull) NSString *identifier;
+@property (nonatomic, readwrite, nonnull) NSString *identifier;
 @property (nonatomic, readwrite, nullable) NSString *clientId;
 @property (nonatomic, readwrite, nullable) NSString *redirectUri;
 @property (nonatomic, readwrite, nullable) NSString *jwt;
@@ -57,10 +57,17 @@ extern NSException * _Nullable SFOAuthInvalidIdentifierException(void);
 @property (nonatomic, readwrite, nullable) NSURL *identityUrl;
 @property (nonatomic, readwrite, nullable) NSURL *apiUrl;
 @property (nonatomic, readwrite, nullable) NSString *userId;
-@property (nonatomic, readwrite, strong, nullable) NSDictionary * additionalOAuthFields;
+@property (nonatomic, readwrite, strong, nullable) NSDictionary *additionalOAuthFields;
 @property (nonatomic, readwrite, nullable) NSString *challengeString;
 @property (nonatomic, readwrite, nullable) NSString *authCode;
 @property (nonatomic, readwrite, nullable) NSMutableDictionary * credentialsChangeSet;
+@property (nonatomic, readwrite, nullable) NSString *lightningDomain;
+@property (nonatomic, readwrite, nullable) NSString *lightningSid;
+@property (nonatomic, readwrite, nullable) NSString *vfDomain;
+@property (nonatomic, readwrite, nullable) NSString *vfSid;
+@property (nonatomic, readwrite, nullable) NSString *contentDomain;
+@property (nonatomic, readwrite, nullable) NSString *contentSid;
+@property (nonatomic, readwrite, nullable) NSString *csrfToken;
 
 - (void)setPropertyForKey:(NSString *_Nonnull) key withValue:(id _Nullable ) newValue;
 

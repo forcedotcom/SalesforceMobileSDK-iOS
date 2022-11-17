@@ -87,6 +87,10 @@
  */
 - (nonnull SFSDKWindowContainer *)passcodeWindow;
 
+/** SDK uses this window to present the screen lock view.
+ */
+- (nonnull SFSDKWindowContainer *)screenLockWindow;
+
 /** SDK uses this window to present the login flow for the given scene. Defaults a connected scene if one isn't provided.
  */
 - (nonnull SFSDKWindowContainer *)authWindow:(nullable UIScene *)scene;

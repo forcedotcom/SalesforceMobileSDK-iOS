@@ -29,16 +29,13 @@
 #import "SFSecureEncryptionKey.h"
 #import "SalesforceSDKConstants.h"
 
-// Keychain and NSCoding constants
-static NSString * const kKeyStoreKeychainIdentifier = @"com.salesforce.keystore.keystoreKeychainId";
-static NSString * const kKeyStoreDataArchiveKey = @"com.salesforce.keystore.keystoreDataArchive";
-static NSString * const kKeyStoreEncryptionKeyKeychainIdentifier = @"com.salesforce.keystore.keystoreEncryptionKeyId";
-static NSString * const kKeyStoreEncryptionKeyDataArchiveKey = @"com.salesforce.keystore.keystoreEncryptionKeyDataArchive";
-
 // Static log messages/format strings
 static NSString * const kKeyStoreDecryptionFailedMessage = @"Could not decrypt key store with existing key store key.  Key store is invalid.";
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 @implementation SFKeyStoreManager
+#pragma clang diagnostic pop
 
 + (instancetype)sharedInstance
 {

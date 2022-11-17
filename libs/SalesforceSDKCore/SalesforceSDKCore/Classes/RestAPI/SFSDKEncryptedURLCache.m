@@ -22,6 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 #import "SFSDKEncryptedURLCache.h"
 #import "SFKeyStoreManager.h"
 #import "NSData+SFAdditions.h"
@@ -31,7 +32,7 @@ static NSString * const kURLCacheEncryptionKeyLabel = @"com.salesforce.URLCache.
 
 @interface SFSDKEncryptedURLCache()
 
-@property SFEncryptionKey *encryptionKey;
+@property NSData *encryptionKey;
 
 @end
 
@@ -39,10 +40,10 @@ static NSString * const kURLCacheEncryptionKeyLabel = @"com.salesforce.URLCache.
 
 - (instancetype)initWithMemoryCapacity:(NSUInteger)memoryCapacity
                           diskCapacity:(NSUInteger)diskCapacity
-                              diskPath:(NSString *)path {
-    self = [super initWithMemoryCapacity:memoryCapacity diskCapacity:diskCapacity diskPath:path];
+                          directoryURL:(nullable NSURL *)directoryURL {
+    self = [super initWithMemoryCapacity:memoryCapacity diskCapacity:diskCapacity directoryURL:directoryURL];
     if (self) {
-        _encryptionKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kURLCacheEncryptionKeyLabel autoCreate:YES];
+        _encryptionKey = [SFSDKKeyGenerator encryptionKeyFor:kURLCacheEncryptionKeyLabel error:nil];
     }
     return self;
 }
@@ -50,7 +51,7 @@ static NSString * const kURLCacheEncryptionKeyLabel = @"com.salesforce.URLCache.
 - (instancetype)init {
     self = [super init];
     if (self) {
-        _encryptionKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kURLCacheEncryptionKeyLabel autoCreate:YES];
+        _encryptionKey = [SFSDKKeyGenerator encryptionKeyFor:kURLCacheEncryptionKeyLabel error:nil];
     }
     return self;
 }
@@ -66,12 +67,13 @@ static NSString * const kURLCacheEncryptionKeyLabel = @"com.salesforce.URLCache.
     // For response.data
     NSCachedURLResponse *cachedResponse = [super cachedResponseForRequest:requestWithSecureURL];
     if (cachedResponse) {
-        NSData *decryptedResponseData = [self.encryptionKey decryptData:cachedResponse.data];
+        NSError *error = nil;
+        NSData *decryptedResponseData = [SFSDKEncryptor decryptData:cachedResponse.data key:self.encryptionKey error:&error];
         if (decryptedResponseData) {
             NSCachedURLResponse *decryptedURLResponse = [[NSCachedURLResponse alloc] initWithResponse:cachedResponse.response data:decryptedResponseData userInfo:cachedResponse.userInfo storagePolicy:cachedResponse.storagePolicy];
             return decryptedURLResponse;
         } else {
-             [SFSDKCoreLogger e:[self class] format:@"Unable to decrypt cached response"];
+             [SFSDKCoreLogger e:[self class] format:@"Unable to decrypt cached response: %@", error.localizedDescription];
         }
     }
     return nil;
@@ -87,9 +89,10 @@ static NSString * const kURLCacheEncryptionKeyLabel = @"com.salesforce.URLCache.
     }
     
     // For cachedResponse.data
-    NSData *encryptedResponseData = [self.encryptionKey encryptData:cachedResponse.data];
+    NSError *error = nil;
+    NSData *encryptedResponseData = [SFSDKEncryptor encryptData:cachedResponse.data key:self.encryptionKey error:&error];
     if (!encryptedResponseData) {
-        [SFSDKCoreLogger e:[self class] format:@"Unable to encrypt response to store"];
+        [SFSDKCoreLogger e:[self class] format:@"Unable to encrypt response to store %@", error.localizedDescription];
         return;
     }
     NSCachedURLResponse *encryptedURLResponse = [[NSCachedURLResponse alloc] initWithResponse:cachedResponse.response data:encryptedResponseData userInfo:cachedResponse.userInfo storagePolicy:cachedResponse.storagePolicy];
@@ -112,10 +115,26 @@ static NSString * const kURLCacheEncryptionKeyLabel = @"com.salesforce.URLCache.
         return nil;
     }
     
-    NSString *URLHash = [request.URL.dataRepresentation sha256];
+    NSString *URLHash = [SFSDKEncryptedURLCache computeHash:request];
     NSString *prefixedURL = [NSString stringWithFormat:@"%@%@", kURLSchemePrefix, URLHash];
     NSURL *secureURL = [[NSURL alloc] initWithString:prefixedURL];
     return [[NSURLRequest alloc] initWithURL:secureURL cachePolicy:request.cachePolicy timeoutInterval:request.timeoutInterval];
+}
+
++ (NSString*)computeHash:(nonnull NSURLRequest *)request {
+    return [[[SFSDKEncryptedURLCache urlWithoutSubdomain:request.URL] dataUsingEncoding:NSUTF8StringEncoding] sha256];
+}
+
++ (NSString *)urlWithoutSubdomain:(nonnull NSURL*)url {
+    NSString* host = url.host;
+    NSString* path = url.path;
+    NSString* query = url.query;
+
+    NSArray* hostParts = [host componentsSeparatedByString:@"."];
+    NSRange endRange = NSMakeRange(hostParts.count >= 2 ? hostParts.count - 2 : 0, MIN(hostParts.count, 2));
+    NSString* hostWithoutSubdomain = [[hostParts subarrayWithRange:endRange] componentsJoinedByString:@"."];
+
+    return [NSString stringWithFormat:@"https://%@%@%@", hostWithoutSubdomain, path, (query ? [NSString stringWithFormat:@"?%@", query] : @"")];
 }
 
 @end

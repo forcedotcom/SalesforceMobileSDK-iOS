@@ -60,6 +60,7 @@
 #import "SFSDKSalesforceAnalyticsManager.h"
 #import "SFSecurityLockout+Internal.h"
 #import "SFApplicationHelper.h"
+#import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 
 // Notifications
 NSNotificationName SFUserAccountManagerDidChangeUserNotification       = @"SFUserAccountManagerDidChangeUserNotification";
@@ -660,27 +661,13 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(nullable SFOAuthInfo *)info {
     coordinator.authSession.authError = error;
     coordinator.authSession.authInfo  = info;
-    __block BOOL errorWasHandledByDelegate = NO;
-    
-    //check if the request was initiated by spapp (idp scenario only)
+
+    // check if the request was initiated by spapp (idp scenario only)
     if (coordinator.authSession.oauthRequest.authenticateRequestFromSPApp) {
        [SFSDKIDPAuthHelper invokeSPAppWithError:coordinator.spAppCredentials error:error reason:@"User cancelled authentication"];
         return;
     }
     
-    [self enumerateDelegates:^(id <SFUserAccountManagerDelegate> delegate) {
-        if ([delegate respondsToSelector:@selector(userAccountManager:error:info:)]) {
-            BOOL returnVal = [delegate userAccountManager:self error:error info:coordinator.authInfo];
-            errorWasHandledByDelegate |= returnVal;
-        }
-    }];
-
-    if (!errorWasHandledByDelegate) {
-       BOOL errorWasHandledBySDK =  [self.errorManager processAuthError:error authContext:coordinator.authSession options:nil];
-        if (!errorWasHandledBySDK) {
-            [SFSDKCoreLogger e:[self class] format:@"Unhandled Error during authentication. Handle the error using   [SFUserAccountManagerDelegate userAccountManager:error:info:] and return true. %@", error.localizedDescription];
-        }
-    }
     coordinator.authSession.notifiesDelegatesOfFailure = YES;
     [self handleFailure:error session:coordinator.authSession];
 }
@@ -771,6 +758,12 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 }
 
 - (void)oauthCoordinatorDidCancelBrowserAuthentication:(SFOAuthCoordinator *)coordinator {
+    if (![NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self oauthCoordinatorDidCancelBrowserAuthentication:coordinator];
+        });
+        return;
+    }
     
     SFOAuthInfo *authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeAdvancedBrowser];
     NSDictionary *userInfo = @{ kSFNotificationUserInfoCredentialsKey: coordinator.credentials,
@@ -1324,11 +1317,11 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
             SFUserAccountIdentity *result = nil;
             NSError* error = nil;
             NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:resultData error:&error];
-            unarchiver.requiresSecureCoding = NO;
+            unarchiver.requiresSecureCoding = YES;
             if (error) {
                 [SFSDKCoreLogger e:[self class] format:@"Failed to init unarchiver for current user identity from user defaults: %@.", error];
             } else {
-                result = [unarchiver decodeObjectForKey:kUserDefaultsLastUserIdentityKey];
+                result = [unarchiver decodeObjectOfClass:[SFUserAccountIdentity class] forKey:kUserDefaultsLastUserIdentityKey];
                 [unarchiver finishDecoding];
                 if (result) {
                     _currentUser = [self userAccountForUserIdentity:result];
@@ -1391,7 +1384,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     NSUserDefaults *standardDefaults = [NSUserDefaults msdkUserDefaults];
     [_accountsLock lock];
     if (userAccountIdentity) {
-        NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initRequiringSecureCoding:NO];
+        NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initRequiringSecureCoding:YES];
         [archiver encodeObject:userAccountIdentity forKey:kUserDefaultsLastUserIdentityKey];
         [archiver finishEncoding];
         [standardDefaults setObject:archiver.encodedData forKey:kUserDefaultsLastUserIdentityKey];
@@ -1581,48 +1574,43 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     // already exists.
     NSAssert(authSession.identityCoordinator.idData != nil, @"Identity data should not be nil/empty at this point.");
     SFIdentityCoordinator *identityCoordinator = authSession.identityCoordinator;
-    NSNumber *biometricUnlockKey = [identityCoordinator.idData.customAttributes objectForKey:@"BIOMETRIC_UNLOCK"];
-    BOOL biometricUnlockAvailable = (biometricUnlockKey == nil) ? YES : [biometricUnlockKey boolValue];
+    BOOL hasMobilePolicy = identityCoordinator.idData.mobilePoliciesConfigured;
+    
     __weak typeof(self) weakSelf = self;
     [self dismissAuthViewControllerIfPresentForScene:authSession.oauthRequest.scene completion:^{
           __strong typeof(weakSelf) strongSelf = weakSelf;
+        [strongSelf finalizeAuthCompletion:authSession];
         if (authSession.authInfo.authType != SFOAuthTypeRefresh) {
-           [SFSecurityLockout setPasscodeViewConfig:authSession.oauthRequest.appLockViewControllerConfig];
-            [SFSecurityLockout setLockScreenSuccessCallbackBlock:^(SFSecurityLockoutAction action) {
-                [strongSelf finalizeAuthCompletion:authSession];
-            }];
-            NSString *sceneId = authSession.sceneId;
-            [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
-                strongSelf.authSessions[sceneId].notifiesDelegatesOfFailure = YES;
-                [strongSelf handleFailure:authSession.authError session:strongSelf.authSessions[sceneId]];
-            }];
-           // Check to see if a passcode needs to be created or updated, based on passcode policy data from the
-           // identity service.
-           [SFSecurityLockout setInactivityConfiguration:identityCoordinator.idData.mobileAppPinLength
-                                             lockoutTime:(identityCoordinator.idData.mobileAppScreenLockTimeout * 60)
-                                        biometricAllowed:biometricUnlockAvailable];
-       } else {
-           [strongSelf finalizeAuthCompletion:authSession];
+            [[SFScreenLockManager shared] storeMobilePolicyWithUserAccount:self.currentUser hasMobilePolicy:hasMobilePolicy];
+            [[SFScreenLockManager shared] handleAppForeground];
        }
     }];
     [self dismissAuthViewControllerIfPresent];
 }
 
 - (void)handleFailure:(NSError *)error session:(SFSDKAuthSession *)authSession {
-    
-    if(authSession.authFailureCallback) {
-        authSession.authFailureCallback(authSession.authInfo,error);
+    if (authSession.authFailureCallback) {
+        authSession.authFailureCallback(authSession.authInfo, error);
     }
   
     if (authSession.notifiesDelegatesOfFailure) {
-         __weak typeof(self) weakSelf = self;
+        __block BOOL errorWasHandledByDelegate = NO;
+        __weak typeof(self) weakSelf = self;
         [self enumerateDelegates:^(id <SFUserAccountManagerDelegate> delegate) {
             if ([delegate respondsToSelector:@selector(userAccountManager:error:info:)]) {
-                [delegate userAccountManager:weakSelf error:error info:authSession.authInfo];
+                BOOL returnVal = [delegate userAccountManager:weakSelf error:error info:authSession.authInfo];
+                errorWasHandledByDelegate |= returnVal;
             }
         }];
+
+        if (!errorWasHandledByDelegate) {
+           BOOL errorWasHandledBySDK = [self.errorManager processAuthError:error authContext:authSession options:nil];
+            if (!errorWasHandledBySDK) {
+                [SFSDKCoreLogger e:[self class] format:@"Unhandled Error during authentication. Handle the error using   [SFUserAccountManagerDelegate userAccountManager:error:info:] and return true. %@", error.localizedDescription];
+            }
+        }
     }
-    // [self resetAuthentication:authSession];
+    [self resetAuthentication:authSession];
 }
 
 - (void)resetAuthentication {

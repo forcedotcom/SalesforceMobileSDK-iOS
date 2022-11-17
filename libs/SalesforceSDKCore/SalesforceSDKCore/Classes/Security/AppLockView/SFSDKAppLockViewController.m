@@ -81,10 +81,12 @@
 {
     [self.navigationController.view setBackgroundColor:[UIColor clearColor]];
     self.navigationBar.translucent = NO;
-    [SFSDKViewUtils styleNavigationBar:self.navigationBar config:self.viewConfig];
+    [SFSDKViewUtils styleNavigationBar:self.navigationBar config:self.viewConfig classes:@[[self.navigationController class]]];
 }
 
 #pragma mark - SFSDKPasscodeCreateDelegate
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 
 - (void)passcodeCreated:(NSString *)passcode updateMode:(BOOL)isUpdateMode
 {
@@ -155,6 +157,7 @@
         [[SFSDKWindowManager sharedManager].passcodeWindow dismissWindowAnimated:NO withCompletion:^{}];
     }];
 }
+#pragma clang diagnostic pop
 
 -(UIViewController *)controllerFromMode:(SFAppLockControllerMode)mode andViewConfig:(SFSDKAppLockViewConfig *)viewConfig
 {

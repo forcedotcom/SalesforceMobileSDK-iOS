@@ -30,7 +30,10 @@
 static NSString * const kEncryptionKeyCodingValue = @"com.salesforce.encryption.key.data";
 static NSString * const kInitializationVectorCodingValue = @"com.salesforce.encryption.key.iv";
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 @implementation SFEncryptionKey
+#pragma clang diagnostic pop
 
 @synthesize key = _key;
 @synthesize initializationVector = _initializationVector;

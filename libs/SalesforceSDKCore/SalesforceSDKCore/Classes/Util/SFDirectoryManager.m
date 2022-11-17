@@ -268,9 +268,21 @@ static NSString * const kDirectoryManagerErrorDomain = @"com.salesforce.mobilesd
                     NSString *orgPath = [rootPath stringByAppendingPathComponent:orgContent];
                     NSString *newDirectory = [orgContent entityId18];
                     NSString *newPath = [rootPath stringByAppendingPathComponent:newDirectory];
-                    [fm moveItemAtPath:orgPath toPath:newPath error:&error];
-                    if (error) {
-                        [SFSDKCoreLogger e:[self class] format:@"Error moving %@ to %@: %@", orgPath, newPath, error];
+                    if (![fm fileExistsAtPath:newPath]) {
+                        // File does not exist, copy it.
+                        [fm moveItemAtPath:orgPath toPath:newPath error:&error];
+                        if (error) {
+                            [SFSDKCoreLogger e:[self class] format:@"Existing Files does not exist, Error moving %@ to %@: %@", orgPath, newPath, error];
+                        }
+                    } else {
+                        [fm removeItemAtPath:newPath error:&error];
+                        if (error) {
+                            [SFSDKCoreLogger e:[self class] format:@"Existing Files exist, Error removing %@ to %@: %@", orgPath, newPath, error];
+                        }
+                        [fm moveItemAtPath:orgPath toPath:newPath error:&error];
+                        if (error) {
+                            [SFSDKCoreLogger e:[self class] format:@"Error moving %@ to %@ after removing existing files: %@", orgPath, newPath, error];
+                        }
                     }
                 }
             }

@@ -53,7 +53,6 @@ enum ActionType {
     case addFileShare
     case deleteFileShare
     case currentUserInfo
-    case enableBiometric
     case logout
     case switchUser
     case exportCredentials

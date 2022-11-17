@@ -112,7 +112,9 @@ static inline BOOL IsValidEntityId(NSString *string) {
     returnValue = [returnValue stringByReplacingOccurrencesOfString:@"&#38;" withString:@"&"];
     returnValue = [returnValue stringByReplacingOccurrencesOfString:@"&#34;" withString:@"\""];
     returnValue = [returnValue stringByReplacingOccurrencesOfString:@"&#60;" withString:@"<"];
+    returnValue = [returnValue stringByReplacingOccurrencesOfString:@"&lt;" withString:@"<"];
     returnValue = [returnValue stringByReplacingOccurrencesOfString:@"&#62;" withString:@">"];
+    returnValue = [returnValue stringByReplacingOccurrencesOfString:@"&gt;" withString:@">"];
     returnValue = [returnValue stringByReplacingOccurrencesOfString:@"&amp;" withString:@"&"];
     returnValue = [returnValue stringByReplacingOccurrencesOfString:@"&#169;" withString:@"©"];
     returnValue = [returnValue stringByReplacingOccurrencesOfString:@"&quot;" withString:@"\""];

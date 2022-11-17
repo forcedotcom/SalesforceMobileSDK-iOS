@@ -29,11 +29,13 @@
 - (nullable NSString *)valueForParameterName:(NSString *)name
 {
     NSString *query = [self query];
-    NSArray *queryComponents = [query componentsSeparatedByString:@"&"];
-    for (NSString *paramNameValuePair in queryComponents) {
-        NSArray *paramComponents = [paramNameValuePair componentsSeparatedByString:@"="];
-        if ([[paramComponents objectAtIndex:0] caseInsensitiveCompare:name] == NSOrderedSame) {
-            return ([paramComponents count] > 1 ? [paramComponents objectAtIndex:1] : nil);
+    if (query != nil) {
+        NSArray *queryComponents = [query componentsSeparatedByString:@"&"];
+        for (NSString *paramNameValuePair in queryComponents) {
+            NSArray *paramComponents = [paramNameValuePair componentsSeparatedByString:@"="];
+            if ([[paramComponents objectAtIndex:0] caseInsensitiveCompare:name] == NSOrderedSame) {
+                return ([paramComponents count] > 1 ? [paramComponents objectAtIndex:1] : nil);
+            }
         }
     }
     return nil;
@@ -43,19 +45,19 @@
 - (nullable NSDictionary *)dictionaryFromQuery
 {
     NSString *query = [self query];
-    NSArray *queryComponents = [query componentsSeparatedByString:@"&"];
     NSMutableDictionary *allVaues = [[NSMutableDictionary alloc] init];
-    for (NSString *paramNameValuePair in queryComponents) {
-        NSArray *paramComponents = [paramNameValuePair componentsSeparatedByString:@"="];
-        NSString *key = [paramComponents objectAtIndex:0];
-        NSString *value = @"";
-        if ([paramComponents count] > 1) {
-            value = [paramComponents objectAtIndex:1];
-            value = [[value
-                      stringByReplacingOccurrencesOfString:@"+" withString:@" "] stringByRemovingPercentEncoding];
-            
+    if (query != nil) {
+        NSArray *queryComponents = [query componentsSeparatedByString:@"&"];
+        for (NSString *paramNameValuePair in queryComponents) {
+            NSArray *paramComponents = [paramNameValuePair componentsSeparatedByString:@"="];
+            NSString *key = [paramComponents objectAtIndex:0];
+            NSString *value = @"";
+            if ([paramComponents count] > 1) {
+                value = [paramComponents objectAtIndex:1];
+                value = [[value stringByReplacingOccurrencesOfString:@"+" withString:@" "] stringByRemovingPercentEncoding];
+            }
+            [allVaues setObject:value forKey:key];
         }
-        [allVaues setObject:value forKey:key];
     }
     return allVaues;
 }

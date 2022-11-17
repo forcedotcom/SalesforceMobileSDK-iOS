@@ -76,6 +76,10 @@
     [self layoutWebView];
 }
 
+- (CGFloat) belowFrame:(CGRect) frame {
+    return frame.origin.y + frame.size.height;
+}
+
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
 }
@@ -254,6 +258,11 @@
 - (void)layoutWebView {
     if (nil != _oauthView) {
         [_oauthView removeFromSuperview];
+        CGFloat x = 0;
+        CGFloat y = [self belowFrame:self.navBar.frame];
+        CGFloat w = self.view.bounds.size.width;
+        CGFloat h = self.view.bounds.size.height - y;
+        self.oauthView.frame = CGRectMake(x, y, w, h);
         [self.view addSubview:_oauthView];
     }
 }
@@ -305,7 +314,7 @@
     if (!navigationBar) {
         return;
     }
-    [SFSDKViewUtils styleNavigationBar:navigationBar config:self.config];
+    [SFSDKViewUtils styleNavigationBar:navigationBar config:self.config classes:@[[self.navigationController class]]];
 }
 
 #pragma mark - SFSDKLoginHostDelegate Methods
