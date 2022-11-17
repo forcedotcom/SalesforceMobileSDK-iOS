@@ -22,6 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <UIKit/UIKit.h>
 #import <Security/Security.h>
 #import <WebKit/WebKit.h>
 #import "SFOAuthCredentials+Internal.h"
@@ -49,6 +50,10 @@
 #import "SFSDKOAuthConstants.h"
 #import "SFSDKAuthSession.h"
 #import "SFSDKAuthRequest.h"
+
+// Custom constants
+static NSString * const kSFAppStoreLink   = @"itunes.apple.com";
+
 @interface SFOAuthCoordinator()
 
 @property (nonatomic) NSString *networkIdentifier;
@@ -726,7 +731,10 @@
     } else if ([self isSPAppRedirectURL:requestUrl]){
         [self handleIDPAuthCodeResponse:url];
         decisionHandler(WKNavigationActionPolicyCancel);
-    }else {
+    } else if ([requestUrl containsString:@"otpauth://"] || [requestUrl containsString:kSFAppStoreLink]) {
+        decisionHandler(WKNavigationActionPolicyCancel);
+        [[UIApplication sharedApplication] openURL:url];
+    } else {
         decisionHandler(WKNavigationActionPolicyAllow);
     }
 }

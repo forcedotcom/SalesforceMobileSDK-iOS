@@ -158,6 +158,11 @@ static BOOL const kDefaultShouldAuthenticate = YES;
     return [self fromConfigFile:SFSDKDefaultNativeAppConfigFilePath];
 }
 
++ (instancetype)fromCustomConfigFile:(NSString *) configFilePath
+{
+    return [self fromConfigFile:configFilePath];
+}
+
 + (instancetype)fromConfigFile:(NSString *)configFilePath
 {
     NSAssert(configFilePath.length > 0, @"Must specify a config file path.");
