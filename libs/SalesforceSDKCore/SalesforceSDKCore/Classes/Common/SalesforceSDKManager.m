@@ -298,7 +298,10 @@ NSString * const kSFScreenLockFlowCompleted = @"SFScreenLockFlowCompleted";
         self.userAgentString = [self defaultUserAgentString];
         self.URLCacheType = kSFURLCacheTypeEncrypted;
         self.useEphemeralSessionForAdvancedAuth = YES;
-        [self setupServiceConfiguration];
+        
+        // This line does not allow for a custom config and needed to be removed.
+        // [self setupServiceConfiguration];
+        
         _snapshotViewControllers = [SFSDKSafeMutableDictionary new];
         [SFSDKSalesforceSDKUpgradeManager upgrade];
         [[SFScreenLockManager shared] checkForScreenLockUsers]; // This is necessary because keychain values can outlive the app.
