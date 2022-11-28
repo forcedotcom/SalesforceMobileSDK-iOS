@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SFSDKViewUtils : NSObject
 
-+ (void)styleNavigationBar:(UINavigationBar *)navigationBar config:(SFSDKViewControllerConfig *) config;
++ (void)styleNavigationBar:(UINavigationBar *)navigationBar config:(SFSDKViewControllerConfig *)config classes:(NSArray<Class <UIAppearanceContainer>> *)classes;
 @end
 
 NS_ASSUME_NONNULL_END

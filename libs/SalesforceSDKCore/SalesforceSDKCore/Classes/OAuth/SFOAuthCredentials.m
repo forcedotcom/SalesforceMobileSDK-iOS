@@ -25,17 +25,17 @@
 #import "SFOAuthCredentials+Internal.h"
 #import "SFSDKOAuth2+Internal.h"
 #import "SFSDKOAuthConstants.h"
-static NSString * const kSFOAuthArchiveVersion         = @"1.0.3"; // internal version included when archiving via encodeWithCoder
 
+static NSString * const kSFOAuthArchiveVersion         = @"1.0.3"; // internal version included when archiving via encodeWithCoder
 static NSString * const kSFOAuthAccessGroup            = @"com.salesforce.oauth";
 static NSString * const kSFOAuthProtocolHttps          = @"https";
 
-NSString * const kSFOAuthServiceAccess          = @"com.salesforce.oauth.access";
-NSString * const kSFOAuthServiceRefresh         = @"com.salesforce.oauth.refresh";
-NSString * const kSFOAuthServiceActivation      = @"com.salesforce.oauth.activation";
+NSString * const kSFOAuthServiceAccess          = @"com.salesforce.mobilesdk.oauth.access";
+NSString * const kSFOAuthServiceRefresh         = @"com.salesforce.mobilesdk.oauth.refresh";
+NSString * const kSFOAuthServiceLegacyAccess    = @"com.salesforce.oauth.access";
+NSString * const kSFOAuthServiceLegacyRefresh   = @"com.salesforce.oauth.refresh";
 
 static NSString * const kSFOAuthDefaultDomain          = @"login.salesforce.com";
-
 static NSString * const kSFOAuthClusterImplementationKey = @"SFOAuthClusterImplementation";
 
 NSException * SFOAuthInvalidIdentifierException() {
@@ -50,7 +50,7 @@ NSException * SFOAuthInvalidIdentifierException() {
 @synthesize domain                    = _domain;
 @synthesize clientId                  = _clientId;
 @synthesize redirectUri               = _redirectUri;
-@synthesize organizationId            = _organizationId; // cached org ID dervied from identityURL
+@synthesize organizationId            = _organizationId; // cached org ID derived from identityURL
 @synthesize identityUrl               = _identityUrl;
 @synthesize userId                    = _userId;         // cached user ID derived from identityURL
 @synthesize instanceUrl               = _instanceUrl;
@@ -72,9 +72,8 @@ NSException * SFOAuthInvalidIdentifierException() {
         // should default to SFOAuthKeychainCredentials.
         clusterClassName = @"SFOAuthKeychainCredentials";
     }
-    
     Class clusterClass = NSClassFromString(clusterClassName) ?: self.class;
-    if ([self isMemberOfClass:clusterClass])  {
+    if ([self isMemberOfClass:clusterClass]) {
         self = [super init];
         if (self) {
             self.identifier     = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthIdentifier"];
@@ -87,22 +86,27 @@ NSException * SFOAuthInvalidIdentifierException() {
             self.communityId    = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthCommunityId"];
             self.communityUrl   = [coder decodeObjectOfClass:[NSURL class]    forKey:@"SFOAuthCommunityUrl"];
             self.issuedAt       = [coder decodeObjectOfClass:[NSDate class]   forKey:@"SFOAuthIssuedAt"];
-            self.additionalOAuthFields = [coder decodeObjectOfClass:[NSDictionary class] forKey:@"SFOAuthAdditionalFields"];
-            
+            self.additionalOAuthFields = [coder decodeObjectOfClasses:[NSSet setWithObjects:[NSDictionary class], [NSString class], nil] forKey:@"SFOAuthAdditionalFields"];
             NSString *protocolVal = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthProtocol"];
-            if (nil != protocolVal)
+            if (nil != protocolVal) {
                 self.protocol = protocolVal;
-            else
+            } else {
                 self.protocol = kSFOAuthProtocolHttps;
-            
+            }
             NSNumber *encryptedBool = [coder decodeObjectOfClass:[NSNumber class] forKey:@"SFOAuthEncrypted"];
             _encrypted = (encryptedBool
                           ? [encryptedBool boolValue]
                           : [coder decodeBoolForKey:@"SFOAuthEncrypted"]);
-            
             if ([self isMemberOfClass:[SFOAuthCredentials class]]) {
                 self.refreshToken = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthRefreshToken"];
                 self.accessToken  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthAccessToken"];
+                self.lightningDomain  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthLightningDomain"];
+                self.lightningSid  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthLightningSID"];
+                self.vfDomain  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthVFDomain"];
+                self.vfSid  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthVFSID"];
+                self.contentDomain = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthContentDomain"];
+                self.contentSid  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthContentSID"];
+                self.csrfToken  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthCSRFToken"];
             }
         }
     } else {
@@ -124,10 +128,16 @@ NSException * SFOAuthInvalidIdentifierException() {
     [coder encodeObject:self.communityUrl       forKey:@"SFOAuthCommunityUrl"];
     [coder encodeObject:self.issuedAt           forKey:@"SFOAuthIssuedAt"];
     [coder encodeObject:self.protocol           forKey:@"SFOAuthProtocol"];
+    [coder encodeObject:self.lightningDomain    forKey:@"SFOAuthLightningDomain"];
+    [coder encodeObject:self.lightningSid       forKey:@"SFOAuthLightningSID"];
+    [coder encodeObject:self.vfDomain           forKey:@"SFOAuthVFDomain"];
+    [coder encodeObject:self.vfSid              forKey:@"SFOAuthVFSID"];
+    [coder encodeObject:self.contentDomain      forKey:@"SFOAuthContentDomain"];
+    [coder encodeObject:self.contentSid         forKey:@"SFOAuthContentSID"];
+    [coder encodeObject:self.csrfToken          forKey:@"SFOAuthCSRFToken"];
     [coder encodeObject:kSFOAuthArchiveVersion  forKey:@"SFOAuthArchiveVersion"];
     [coder encodeObject:@(self.isEncrypted)     forKey:@"SFOAuthEncrypted"];
     [coder encodeObject:self.additionalOAuthFields forKey:@"SFOAuthAdditionalFields"];
-   
 }
 
 - (instancetype)initWithIdentifier:(NSString *)theIdentifier clientId:(NSString*)theClientId encrypted:(BOOL)encrypted {
@@ -140,13 +150,11 @@ NSException * SFOAuthInvalidIdentifierException() {
         case SFOAuthCredentialsStorageTypeNone:
             targetClass = NSClassFromString(@"SFOAuthCredentials");
             break;
-            
         case SFOAuthCredentialsStorageTypeKeychain:
         default:
             targetClass = NSClassFromString(@"SFOAuthKeychainCredentials");
             break;
     }
-    
     if ([self isMemberOfClass:targetClass]) {
         self = [super init];
         if (self) {
@@ -177,15 +185,20 @@ NSException * SFOAuthInvalidIdentifierException() {
     copyCreds.communityId = self.communityId;
     copyCreds.communityUrl = self.communityUrl;
     copyCreds.issuedAt = self.issuedAt;
-    
+
     // NB: Intentionally ordering the copying of these, because setting the identity URL automatically
     // sets the OrgID and UserID.  This ensures the values stay in sync.
     copyCreds.identityUrl = self.identityUrl;
     copyCreds.organizationId = self.organizationId;
     copyCreds.userId = self.userId;
-    
+    copyCreds.lightningDomain = self.lightningDomain;
+    copyCreds.lightningSid = self.lightningSid;
+    copyCreds.vfDomain = self.vfDomain;
+    copyCreds.vfSid = self.vfSid;
+    copyCreds.contentDomain = self.contentDomain;
+    copyCreds.contentSid = self.contentSid;
+    copyCreds.csrfToken = self.csrfToken;
     copyCreds.additionalOAuthFields = [self.additionalOAuthFields copy];
-    
     return copyCreds;
 }
 
@@ -231,8 +244,7 @@ NSException * SFOAuthInvalidIdentifierException() {
     if (![identityUrl isEqual:_identityUrl]) {
         _identityUrl = [identityUrl copy];
         _userId = nil;
-         _organizationId = nil;
-        
+        _organizationId = nil;
         if (_identityUrl.path) {
             NSArray *pathComps = [_identityUrl.path componentsSeparatedByString:@"/"];
             if (pathComps.count < 2) {
@@ -284,6 +296,13 @@ NSException * SFOAuthInvalidIdentifierException() {
     self.communityUrl = nil;
     self.issuedAt     = nil;
     self.identityUrl  = nil;
+    self.lightningDomain = nil;
+    self.lightningSid = nil;
+    self.vfDomain = nil;
+    self.vfSid = nil;
+    self.contentDomain = nil;
+    self.contentSid = nil;
+    self.csrfToken = nil;
 }
 
 - (void)setPropertyForKey:(NSString *) propertyName withValue:(id) newValue {
@@ -307,13 +326,12 @@ NSException * SFOAuthInvalidIdentifierException() {
 }
 
 - (BOOL)hasPropertyValueChangedForKey:(NSString *) key {
-    return [_credentialsChangeSet objectForKey:key]!=nil;
+    return [_credentialsChangeSet objectForKey:key] != nil;
 }
 
-- (NSURL *)overrideDomainIfNeeded{
-    
+- (NSURL *)overrideDomainIfNeeded {
     NSString *refreshDomain = self.communityId ? self.communityUrl.absoluteString : self.domain;
-    NSString *protocolHost = self.communityId? refreshDomain : [NSString stringWithFormat:@"%@://%@", self.protocol, refreshDomain];
+    NSString *protocolHost = self.communityId ? refreshDomain : [NSString stringWithFormat:@"%@://%@", self.protocol, refreshDomain];
     return [NSURL URLWithString:protocolHost];
 }
 
@@ -327,36 +345,48 @@ NSException * SFOAuthInvalidIdentifierException() {
  - communityUrl
  */
 - (void)updateCredentials:(NSDictionary *) params {
-    
     if (params[kSFOAuthAccessToken]) {
         [self setPropertyForKey:@"accessToken" withValue:params[kSFOAuthAccessToken]];
     }
-    
     if (params[kSFOAuthIssuedAt]) {
         self.issuedAt = [SFSDKOAuth2 timestampStringToDate:params[kSFOAuthIssuedAt]];
     }
-    
     if (params[kSFOAuthInstanceUrl]) {
         [self setPropertyForKey:@"instanceUrl" withValue:[NSURL URLWithString:params[kSFOAuthInstanceUrl]]];
     }
-    
     if (params[kSFOAuthId]) {
         [self setPropertyForKey:@"identityUrl" withValue:[NSURL URLWithString:params[kSFOAuthId]]];
     }
-    
     if (params[kSFOAuthCommunityId]) {
         [self setPropertyForKey:@"communityId" withValue:params[kSFOAuthCommunityId]];
     }
-    
     if (params[kSFOAuthCommunityUrl]) {
         [self setPropertyForKey:@"communityUrl" withValue:[NSURL URLWithString:params[kSFOAuthCommunityUrl]]];
     }
-    
     if (params[kSFOAuthRefreshToken]) {
         [self setPropertyForKey:@"refreshToken" withValue:params[kSFOAuthRefreshToken]];
     }
-    
+    if (params[kSFOAuthLightningDomain]) {
+        self.lightningDomain = params[kSFOAuthLightningDomain];
+    }
+    if (params[kSFOAuthLightningSID]) {
+        self.lightningSid = params[kSFOAuthLightningSID];
+    }
+    if (params[kSFOAuthVFDomain]) {
+        self.vfDomain = params[kSFOAuthVFDomain];
+    }
+    if (params[kSFOAuthVFSID]) {
+        self.vfSid = params[kSFOAuthVFSID];
+    }
+    if (params[kSFOAuthContentDomain]) {
+        self.contentDomain = params[kSFOAuthContentDomain];
+    }
+    if (params[kSFOAuthContentSID]) {
+        self.contentSid = params[kSFOAuthContentSID];
+    }
+    if (params[kSFOAuthCSRFToken]) {
+        self.csrfToken = params[kSFOAuthCSRFToken];
+    }
 }
-
 
 @end

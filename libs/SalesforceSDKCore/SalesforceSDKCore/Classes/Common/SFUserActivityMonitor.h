@@ -30,6 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
  * Singleton class to monitor the application for user activity, and update SFInactivityTimerCenter when
  * a change is detected.
  */
+SFSDK_DEPRECATED(9.2, 10.0, "Will be removed in 10.0.")
 @interface SFUserActivityMonitor : NSObject
 {
     NSTimer *_monitorTimer;

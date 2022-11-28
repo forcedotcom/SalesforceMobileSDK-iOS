@@ -22,6 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 #import "SFUserAccount+Internal.h"
 #import "SFUserAccountManager+Internal.h"
 #import "SFDirectoryManager.h"
@@ -43,15 +44,13 @@ static const char * kSyncQueue = "com.salesforce.mobilesdk.sfuseraccount.syncque
 /** Key that identifies the global scope
  */
 static NSString * const kGlobalScopingKey = @"-global-";
-static NSString * const kUserAccountPhotoEncryptionKeyLabel = @"com.salesforce.userAccount.photos.encryptionKey";
+NSString * const kUserAccountPhotoEncryptionKeyLabel = @"com.salesforce.userAccount.photos.encryptionKey";
 
 @interface SFUserAccount ()
 {
     BOOL _observingCredentials;
     dispatch_queue_t _syncQueue;
 }
-@property (nonatomic, strong) NSMutableDictionary *customData;
-
 - (id)initWithCoder:(NSCoder*)decoder NS_DESIGNATED_INITIALIZER;
 
 @end
@@ -106,12 +105,12 @@ static NSString * const kUserAccountPhotoEncryptionKeyLabel = @"com.salesforce.u
     self = [super init];
     if (self) {
         _syncQueue = dispatch_queue_create(kSyncQueue, DISPATCH_QUEUE_CONCURRENT);
-        _accessScopes     = [decoder decodeObjectOfClass:[NSSet class] forKey:kUser_ACCESS_SCOPES];
+        _accessScopes     = [decoder decodeObjectOfClasses:[NSSet setWithObjects:[NSSet class], [NSString class], nil] forKey:kUser_ACCESS_SCOPES];
          _accountIdentity = [[SFUserAccountIdentity alloc] init];
         SFOAuthCredentials *creds = [decoder decodeObjectOfClass:[SFOAuthCredentials class] forKey:kUser_CREDENTIALS];
         [self setCredentialsInternal:creds];
         _idData           = [decoder decodeObjectOfClass:[SFIdentityData class] forKey:kUser_ID_DATA];
-        _customData       = [[decoder decodeObjectOfClass:[NSDictionary class] forKey:kUser_CUSTOM_DATA] mutableCopy];
+        _customData       = [[decoder decodeObjectOfClasses:[NSSet setWithObjects: [NSDictionary class], [NSArray class], [NSString class], [NSNumber class], [NSNull class], [NSURL class], [NSDate class], nil] forKey:kUser_CUSTOM_DATA] mutableCopy];
         _accessRestrictions = [decoder decodeIntegerForKey:kUser_ACCESS_RESTRICTIONS];
         _loginState = (_credentials.refreshToken.length > 0 ? SFUserAccountLoginStateLoggedIn : SFUserAccountLoginStateNotLoggedIn);
         if (_loginState == SFUserAccountLoginStateLoggedIn) {
@@ -145,43 +144,17 @@ static NSString * const kUserAccountPhotoEncryptionKeyLabel = @"com.salesforce.u
     return [[self userPhotoDirectory] stringByAppendingPathComponent:[SFDirectoryManager safeStringForDiskRepresentation:_credentials.userId]];
 }
 
-// Starting in SDK 8.2, 18 character IDs are used instead of 15 character IDs.
-// This renames the 15 character profile picture to 18 characters.
-// TODO: Remove in Mobile SDK 10.0
-- (void)upgradePhotoPath {
-    NSString *shortIdPath = [[self userPhotoDirectory] stringByAppendingPathComponent:[SFDirectoryManager safeStringForDiskRepresentation:[_credentials.userId substringToIndex:15]]];
-    if ([[NSFileManager defaultManager] fileExistsAtPath:shortIdPath]) {
-        NSString *newPath = [[self userPhotoDirectory] stringByAppendingPathComponent:_credentials.userId];
-        NSError *error = nil;
-        [[NSFileManager defaultManager] moveItemAtPath:shortIdPath toPath:newPath error:&error];
-        if (error) {
-            [SFSDKCoreLogger e:[self class] format:@"Error moving %@ to %@: %@", shortIdPath, newPath, error];
-        }
-    }
-}
-
 - (UIImage *)photo {
     if (nil == _photo) {
         __weak __typeof(self) weakSelf = self;
         dispatch_sync(_syncQueue, ^{
             __strong typeof(weakSelf) strongSelf = weakSelf;
-            [strongSelf upgradePhotoPath];
             NSString *photoPath = [strongSelf photoPathInternal:nil];
             NSFileManager *manager = [NSFileManager defaultManager];
             if ([manager fileExistsAtPath:photoPath]) {
                 UIImage *decryptedPhoto = [self decryptPhoto:photoPath];
                 if (decryptedPhoto) {
                     strongSelf->_photo = decryptedPhoto;
-                } else {
-                    // TODO: Remove in 9.0
-                    // Check for upgrade scenario
-                    NSData *photoData = [[NSData alloc] initWithContentsOfFile:photoPath];
-                    UIImage *photo = [[UIImage alloc] initWithData:photoData];
-                    if (photo) {
-                        // In this case the photo on disk is pre 8.0 and hasn't been encrypted, use it and encrypt it
-                        strongSelf->_photo = photo;
-                        [self storeEncryptedPhoto:photoData path:photoPath error:nil];
-                    }
                 }
             }
         });
@@ -264,8 +237,8 @@ static NSString * const kUserAccountPhotoEncryptionKeyLabel = @"com.salesforce.u
     SFUserAccountIdentity *accIdentity =  _accountIdentity;
     if (credentials != currentCredentials) {
         if (_observingCredentials) {
-            [currentCredentials removeObserver:self  forKeyPath:kCredentialsUserIdPropName];
-            [currentCredentials removeObserver:self  forKeyPath:kCredentialsOrgIdPropName];
+            [currentCredentials removeObserver:self forKeyPath:kCredentialsUserIdPropName];
+            [currentCredentials removeObserver:self forKeyPath:kCredentialsOrgIdPropName];
             _observingCredentials = NO;
         }
         if (credentials != nil) {
@@ -276,7 +249,7 @@ static NSString * const kUserAccountPhotoEncryptionKeyLabel = @"com.salesforce.u
         _credentials = credentials;
         if (accIdentity) {
             accIdentity.userId = credentials.userId;
-            accIdentity.orgId =  credentials.organizationId;
+            accIdentity.orgId = credentials.organizationId;
         }
     }
 }
@@ -433,17 +406,17 @@ NSString *SFKeyForUserIdAndScope(NSString *userId,NSString *orgId,NSString *comm
 
 - (UIImage *)decryptPhoto:(NSString *)photoPath {
     NSData *data = [[NSData alloc] initWithContentsOfFile:photoPath];
-    SFEncryptionKey *encryptionKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kUserAccountPhotoEncryptionKeyLabel autoCreate:NO];
-    NSData *decryptedData = [encryptionKey decryptData:data];
+    NSData *encryptionKey = [SFSDKKeyGenerator encryptionKeyFor:kUserAccountPhotoEncryptionKeyLabel error:nil];
+    NSData *decryptedData = [SFSDKEncryptor decryptData:data key:encryptionKey error:nil];
     return [[UIImage alloc] initWithData:decryptedData];
 }
 
 - (NSData *)encryptPhoto:(NSData *)data {
-    SFEncryptionKey *encryptionKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kUserAccountPhotoEncryptionKeyLabel autoCreate:YES];
-    return [encryptionKey encryptData:data];
+    NSData *encryptionKey = [SFSDKKeyGenerator encryptionKeyFor:kUserAccountPhotoEncryptionKeyLabel error:nil];
+    return [SFSDKEncryptor encryptData:data key:encryptionKey error:nil];
 }
 
-//#pragma mark - Credentials property changes
+#pragma mark - Credentials property changes
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {

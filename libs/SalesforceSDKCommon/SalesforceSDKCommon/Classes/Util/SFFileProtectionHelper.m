@@ -45,7 +45,7 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        self.defaultNSFileProtectionMode = NSFileProtectionComplete;
+        self.defaultNSFileProtectionMode = NSFileProtectionCompleteUntilFirstUserAuthentication;
         self.pathsToFileProtection = [NSDictionary new];
         self.pathsToFileProtectionAccessQueue = dispatch_queue_create("com.salesforce.fileProtectionHelper.pathsToFileProtection", DISPATCH_QUEUE_SERIAL);
     }

@@ -98,6 +98,14 @@
     [super testConvertSmartSqlWithSelfJoin];
 }
 
+- (void) testConvertSmartSqlWithSelfJoinAndJsonExtractedField {
+    // Doesn't apply to external storage case
+}
+
+- (void) testConvertSmartSqlWithSelfJoinAndJsonExtractedFieldNoLeadingSpaces {
+    // Doesn't apply to external storage case
+}
+
 - (void) testConvertSmartSqlWithSpecialColumns
 {
     NSString *expected = [NSString stringWithFormat:
@@ -114,6 +122,10 @@
 - (void) testConvertSmartSqlWithSpecialColumnsAndSelfJoin
 {
     [super testConvertSmartSqlWithSpecialColumnsAndSelfJoin];
+}
+
+- (void) testConvertSmartSqlForNonIndexedColumns {
+    XCTAssertNil([self.store convertSmartSql:@"select {employees:education}, {employees:address.zipcode} from {employees} where {employees:address.city} = 'San Francisco'"], @"Bad conversion");
 }
 
 - (void) testSmartQueryDoingCount 
@@ -163,6 +175,32 @@
 
 - (void) testSmartQueryMachingBooleanInJSON1Field
 {
+    // Doesn't apply to external storage case
+}
+
+- (void) testSmartQueryFilteringByNonIndexedField
+{
+    // Doesn't apply to external storage case
+}
+    
+- (void) testSmartQueryReturningNonIndexedField
+{
+    // Doesn't apply to external storage case
+}
+
+- (void) testConvertSmartSqlWithQuotedCurlyBraces {
+    // Doesn't apply to external storage case
+}
+
+- (void) testConvertSmartSqlWithMultipleQuotedCurlyBraces {
+    // Doesn't apply to external storage case
+}
+
+- (void) testConvertSmartSqlWithQuotedUnbalancedCurlyBrace {
+    // Doesn't apply to external storage case
+}
+
+- (void) testCleanupRegexpFaster {
     // Doesn't apply to external storage case
 }
 

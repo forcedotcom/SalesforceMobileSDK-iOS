@@ -24,11 +24,13 @@
 
 #import "SFUserAccount.h"
 
+extern NSString * __nonnull const kUserAccountPhotoEncryptionKeyLabel;
 
 @interface SFUserAccount ()
 
 @property (nonatomic, readwrite, getter = isUserDeleted) BOOL userDeleted;
 @property (nonatomic, readwrite, assign) SFUserAccountLoginState loginState;
+@property (nonatomic, strong) NSMutableDictionary *customData;
 
 /*!
  * @method transitionToLoginState:

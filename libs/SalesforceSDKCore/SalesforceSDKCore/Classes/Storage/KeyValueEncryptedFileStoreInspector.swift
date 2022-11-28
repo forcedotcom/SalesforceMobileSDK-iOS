@@ -46,14 +46,13 @@ struct KeyValueEncryptedFileStoreInspector: View {
                         }
                     }
                     HStack {
-                        TextField("Enter Key", text: $key)
+                        TextField("Exact or partial key (for partial use *)", text: $key)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .autocapitalization(.none)
-                        Button("Get Value", action: {
-                            self.getValue(key: self.key)
-                            self.key = ""
+                        Button("Get Value(s)", action: {
+                            self.getValues(typedKey: self.key)
                         }).alert(isPresented: self.$keyNotFoundAlert) {
-                            Alert(title: Text("Key not found in selected store."))
+                            Alert(title: Text("No matching key found in selected store."))
                         }
                     }
                 }.frame(height: 150, alignment: .center)
@@ -89,10 +88,12 @@ struct KeyValueEncryptedFileStoreInspector: View {
         .navigationViewStyle(StackNavigationViewStyle())
     }
     
-    func getValue(key: String) {
+    func getValues(typedKey: String) {
         let stores = getStores()
         var currentStore: KeyValueEncryptedFileStore
         var currentStoreName: String
+        
+        keyValueList.removeAll()
         
         if stores.isEmpty {
             keyNotFoundAlert = true
@@ -112,12 +113,38 @@ struct KeyValueEncryptedFileStoreInspector: View {
             currentStore = KeyValueEncryptedFileStore.shared(withName: currentStoreName)!
         }
         
-        let value = currentStore[key]
-        if (value != nil) {
-            keyValueList.insert(KeyValuePair(key: key, value: value!), at: 0)
-        } else {
+        // Return matching entries if v2 kv store AND key contains a *
+        if (currentStore.storeVersion == 2 && typedKey.contains("*")) {
+            let allKeys = currentStore.allKeys()
+            let allKeysSorted = allKeys == nil ? [] : allKeys!.sorted()
+            for key in allKeysSorted {
+                if (matches(typedKey: typedKey, key: key)) {
+                    keyValueList.append(KeyValuePair(key: key, value: currentStore[key]!))
+                }
+            }
+        }
+        // Otherwise simply lookup typedKey
+        else {
+            let value = currentStore[typedKey]
+            if (value != nil) {
+                keyValueList.insert(KeyValuePair(key: typedKey, value: value!), at: 0)
+            }
+        }
+        
+        if (keyValueList.count == 0) {
             keyNotFoundAlert = true
         }
+    }
+    
+}
+
+func matches(typedKey: String, key: String) -> Bool {
+    if (typedKey.contains("*")) {
+        let regex = try! NSRegularExpression(pattern: "^" + typedKey.replacingOccurrences(of: "*", with: ".*") + "$")
+        let range = NSRange(location: 0, length: key.utf16.count)
+        return regex.firstMatch(in: key, options: [], range: range) != nil
+    } else {
+        return key == typedKey;
     }
 }
 

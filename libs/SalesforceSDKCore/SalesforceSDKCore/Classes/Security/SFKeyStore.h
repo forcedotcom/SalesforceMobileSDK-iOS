@@ -24,11 +24,13 @@
 
 #import <Foundation/Foundation.h>
 #import <SalesforceSDKCore/SFKeyStoreKey.h>
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 /** For internal use. 
  */
+SFSDK_DEPRECATED(9.2, 10.0, "Will be internal only for upgrade steps")
 @interface SFKeyStore : NSObject
 
 /**

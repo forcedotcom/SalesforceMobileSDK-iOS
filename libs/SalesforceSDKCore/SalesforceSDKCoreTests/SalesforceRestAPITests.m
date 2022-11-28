@@ -500,6 +500,15 @@ static NSException *authException = nil;
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
 
+// Runs a SOQL query which specifies a batch size
+// Make sure it succeeds
+-(void) testSOQLQueryWithBatchSize {
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForQuery:@"Select Name from Account" apiVersion:kSFRestDefaultAPIVersion batchSize:250];
+    XCTAssertEqualObjects(@"batchSize=250", request.customHeaders[@"Sforce-Query-Options"]);
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];    listener = [self sendSyncRequest:request];
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+}
+
 // - create object (requestForCreateWithObjectType)
 // - query new object (requestForQuery) and make sure we just got 1 object
 // - update object
@@ -2342,6 +2351,17 @@ static NSException *authException = nil;
     NSURLRequest *finalRequest = [request prepareRequestForSend:_currentUser];
     NSString *expectedURL = [NSString stringWithFormat:@"http://www.apple.com%@%@", kSFDefaultRestEndpoint, @"/test/testing"];
     XCTAssertEqualObjects(finalRequest.URL.absoluteString, expectedURL, @"Final URL should utilize base URL that was passed in");
+}
+
+- (void)testCustomBaseURLRequestPOST {
+    SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:@"https://www.apple.com/test/testing" queryParams:nil];
+    [request setCustomRequestBodyData:[@"hello" dataUsingEncoding:NSUTF8StringEncoding] contentType:@"application/octet-stream"];
+    NSURLRequest *finalRequest = [request prepareRequestForSend:_currentUser];
+    XCTAssertEqualObjects(finalRequest.URL.absoluteString, @"https://www.apple.com/test/testing", @"Final URL should utilize base URL that was passed in");
+    XCTAssertEqualObjects([finalRequest valueForHTTPHeaderField:@"Content-Type"], @"application/octet-stream");
+    XCTAssertEqualObjects([finalRequest valueForHTTPHeaderField:@"Content-Length"], @"5");
+    XCTAssertEqualObjects(finalRequest.HTTPMethod, @"POST");
+    XCTAssertNotNil(finalRequest.HTTPBodyStream);
 }
 
 #pragma mark - miscellaneous tests

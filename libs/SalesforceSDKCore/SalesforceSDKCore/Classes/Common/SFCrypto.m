@@ -26,16 +26,18 @@
 #import "SFCrypto+Internal.h"
 #import "NSString+SFAdditions.h"
 #import "NSData+SFAdditions.h"
-#import "SFKeychainItemWrapper.h"
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
-
+#import <SalesforceSDKCommon/SalesforceSDKCommon-Swift.h>
 static NSString * const kKeychainIdentifierPasscode = @"com.salesforce.security.passcode";
 static NSString * const kKeychainIdentifierIV = @"com.salesforce.security.IV";
 
 NSString * const kKeychainIdentifierBaseAppId = @"com.salesforce.security.baseappid";
 static NSString * const kKeychainIdentifierSimulatorBaseAppId = @"com.salesforce.security.baseappid.sim";
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 @implementation SFCrypto
+#pragma clang diagnostic pop
 
 @synthesize status = _status;
 @synthesize outputStream = _outputStream;
@@ -99,30 +101,35 @@ static NSString * const kKeychainIdentifierSimulatorBaseAppId = @"com.salesforce
 #pragma mark - Implementation
 
 + (BOOL)hasInitializationVector {
-    SFKeychainItemWrapper *keychainWrapper = [SFKeychainItemWrapper itemWithIdentifier:kKeychainIdentifierIV account:nil];
-    NSData *iv = [keychainWrapper valueData];
-    if (iv) {
-        return YES;
-    }
-    return NO;
+    SFSDKKeychainResult *result = [SFSDKKeychainHelper createIfNotPresentWithService:kKeychainIdentifierIV account:nil];
+    return result.success && result.data != nil;
 }
 
 - (NSData *)initializationVector {
-    SFKeychainItemWrapper *keychainWrapper = [SFKeychainItemWrapper itemWithIdentifier:kKeychainIdentifierIV account:nil];
-    NSData *iv = [keychainWrapper valueData];
-    if (iv) {
-        return iv;
-    } else {
-        NSMutableData *data = [NSMutableData dataWithLength:kCCBlockSizeAES128];
-        iv = [data randomDataOfLength:kCCBlockSizeAES128];
-        [keychainWrapper setValueData:iv];
-        return iv;
+    SFSDKKeychainResult *result = [SFSDKKeychainHelper createIfNotPresentWithService:kKeychainIdentifierIV account:nil];
+    
+    if (result.success && result.data) {
+        return result.data;
     }
+    //item was not found, create it.
+    NSMutableData *data = [NSMutableData dataWithLength:kCCBlockSizeAES128];
+    NSData *iv = [data randomDataOfLength:kCCBlockSizeAES128];
+    result = [SFSDKKeychainHelper writeWithService:kKeychainIdentifierIV data:iv account:nil];
+    if (!result.success) {
+       [SFSDKCoreLogger e:[SFCrypto self] format:@"Error writing iv to keychain %@", result.error];
+    }
+    return iv;
+    
 }
 
 + (NSData *)secretWithKey:(NSString *)key {
-    SFKeychainItemWrapper *passcodeWrapper = [SFKeychainItemWrapper itemWithIdentifier:kKeychainIdentifierPasscode account:nil];
-    NSString *passcode = [passcodeWrapper valueString];
+    SFSDKKeychainResult *result = [SFSDKKeychainHelper createIfNotPresentWithService:kKeychainIdentifierPasscode account:nil];
+    if (!result.success) {
+        [SFSDKCoreLogger e:[SFCrypto self] format:@"Error reading %@ from keychain %@", kKeychainIdentifierPasscode, result.error];
+        return nil;
+    }
+    
+    NSString *passcode = [[NSString alloc] initWithData:result.data encoding:NSUTF8StringEncoding];
     
     NSString *baseAppId = [self baseAppIdentifier];
     NSString *strSecret = [baseAppId stringByAppendingString:key];
@@ -204,11 +211,10 @@ static BOOL sBaseAppIdConfiguredThisLaunch = NO;
                 [self setBaseAppIdentifierConfiguredThisLaunch:YES];
             }
         } else {
-            // A value has been successfully persisted to the keychain.  Attempt to retrieve it.
-            SFKeychainItemWrapper *baseAppIdKeychainWrapper = [SFKeychainItemWrapper itemWithIdentifier:kKeychainIdentifierBaseAppId account:nil];
-            NSData *keychainAppIdData = [baseAppIdKeychainWrapper valueData];
+            SFSDKKeychainResult *result =  [SFSDKKeychainHelper readWithService:kKeychainIdentifierBaseAppId account:nil];
+            NSData *keychainAppIdData = result.data;
             NSString *keychainAppId = [[NSString alloc] initWithData:keychainAppIdData encoding:NSUTF8StringEncoding];
-            if (keychainAppIdData == nil || keychainAppId == nil) {
+            if (result.error || keychainAppIdData == nil || keychainAppId == nil) {
                 // Something went wrong either storing or retrieving the value from the keychain.  Try to rewrite the value.
                 [SFSDKCoreLogger e:[self class] format:@"App id keychain data missing or corrupted.  Attempting to reset."];
                 [self setBaseAppIdentifierIsConfigured:NO];
@@ -236,20 +242,22 @@ static BOOL sBaseAppIdConfiguredThisLaunch = NO;
     static NSUInteger maxRetries = 3;
     
     // Store the app ID value in the keychain.
+    NSError *error = nil;
     [SFSDKCoreLogger i:[self class] format:@"Saving the new base app identifier to the keychain."];
-    SFKeychainItemWrapper *baseAppIdKeychainWrapper = [SFKeychainItemWrapper itemWithIdentifier:kKeychainIdentifierBaseAppId account:nil];
+    SFSDKKeychainResult *result = [SFSDKKeychainHelper createIfNotPresentWithService:kKeychainIdentifierBaseAppId account:nil];
+    NSData *appIdData = result.data;
     NSUInteger currentRetries = 0;
     OSStatus keychainResult = -1;
-    NSData *appIdData = [appId dataUsingEncoding:NSUTF8StringEncoding];
     while (currentRetries < maxRetries && keychainResult != noErr) {
-        keychainResult = [baseAppIdKeychainWrapper setValueData:appIdData];
-        if (keychainResult != noErr) {
-            [SFSDKCoreLogger w:[self class] format:@"Could not save the base app identifier to the keychain (result: %@).  Retrying.", [SFKeychainItemWrapper keychainErrorCodeString:keychainResult]];
+        result = [SFSDKKeychainHelper writeWithService:kKeychainIdentifierBaseAppId data:appIdData account:nil];
+        keychainResult  = result.status;
+        if (!result.success) {
+            [SFSDKCoreLogger w:[self class] format:@"Could not save the base app identifier to the keychain (result: %@).  Retrying.", [error localizedDescription]];
         }
         currentRetries++;
     }
     if (keychainResult != noErr) {
-        [SFSDKCoreLogger e:[self class] format:@"Giving up on saving the base app identifier to the keychain (result: %@).", [SFKeychainItemWrapper keychainErrorCodeString:keychainResult]];
+        [SFSDKCoreLogger e:[self class] format:@"Giving up on saving the base app identifier to the keychain (result: %@).", [error localizedDescription]];
         return NO;
     }
     

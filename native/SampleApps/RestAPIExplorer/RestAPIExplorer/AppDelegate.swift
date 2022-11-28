@@ -59,11 +59,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Uncomment the code below to see how you can customize the color, textcolor,
         // font and fontsize of the navigation bar
         // self.customizeLoginView()
-        
-        // Uncomment the code below to customize the color, textcolor and font of the Passcode,
-        // Touch Id and Face Id lock screens.  To use this feature please enable inactivity timeout
-        // in your connected app.
-        // self.customizePasscodeView()
         return true
     }
 
@@ -120,33 +115,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UserAccountManager.shared.loginViewControllerConfig = loginViewConfig
     }
 
-    func customizePasscodeView() {
-        let passcodeViewConfig = AppLockViewControllerConfig()
-        passcodeViewConfig.backgroundColor = UIColor.black
-        passcodeViewConfig.primaryColor = UIColor.orange
-        passcodeViewConfig.secondaryColor = UIColor.gray
-        passcodeViewConfig.titleTextColor = UIColor.white
-        passcodeViewConfig.instructionTextColor = UIColor.white
-        passcodeViewConfig.borderColor = UIColor.yellow
-        passcodeViewConfig.maxNumberOfAttempts = 3
-        UserAccountManager.shared.appLockViewControllerConfig = passcodeViewConfig
-    }
-
     func exportTestingCredentials() {
         guard let creds = UserAccountManager.shared.currentUserAccount?.credentials,
-            let instance = creds.instanceUrl,
-            let identity = creds.identityUrl
-            else {
+              let idData = UserAccountManager.shared.currentUserAccount?.idData,
+              let instance = creds.instanceUrl,
+              let identity = creds.identityUrl
+        else {
                 return
         }
         
-        var config = ["test_client_id": SalesforceManager.shared.bootConfig?.remoteAccessConsumerKey,
-                      "test_login_domain": UserAccountManager.shared.loginHost,
-                      "test_redirect_uri": SalesforceManager.shared.bootConfig?.oauthRedirectURI,
-                      "refresh_token": creds.refreshToken,
-                      "instance_url": instance.absoluteString,
-                      "identity_url": identity.absoluteString,
-                      "access_token": "__NOT_REQUIRED__"]
+        var config = [
+            "test_client_id": SalesforceManager.shared.bootConfig?.remoteAccessConsumerKey,
+            "test_login_domain": UserAccountManager.shared.loginHost,
+            "test_redirect_uri": SalesforceManager.shared.bootConfig?.oauthRedirectURI,
+            "refresh_token": creds.refreshToken,
+            "instance_url": instance.absoluteString,
+            "identity_url": identity.absoluteString,
+            "access_token": "__NOT_REQUIRED__",
+            "organization_id": creds.organizationId,
+            "username": idData.username,
+            "user_id": creds.userId,
+            "display_name": idData.displayName,
+            "photo_url": idData.pictureUrl?.absoluteString
+        ]
         if let community = creds.communityUrl {
             config["community_url"] = community.absoluteString
         }

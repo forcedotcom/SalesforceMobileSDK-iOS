@@ -25,12 +25,14 @@
 #import <Foundation/Foundation.h>
 #import <SalesforceSDKCore/SFEncryptionKey.h>
 #import <SalesforceSDKCore/SFKeyStoreKey.h>
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 /**
  Singleton class to manage operations on the keystore.
  */
+SFSDK_DEPRECATED(9.2, 11.0, "Will be removed")
 @interface SFKeyStoreManager : NSObject
 
 /**

@@ -48,13 +48,17 @@
 "biometricCancelButtonText" = "Not Now";
 "verifyPasscodeButtontext" = "Verify Passcode";
 "biometricFallbackActionLabel" = "Use Passcode";
-"biometricReason" = "Please authenticate to proceed.";
-"logoutButtonTitle" = "Log out";
 "accessibilityPasscodeFieldLabel" = "Passcode field";
 "accessibilityPasscodeLengthHint" = "Passcode is %d numbers long.";
 "accessibilityUnlockAnnouncement" = "Passcode confirmed.";
-"accessibilityLoggedOutAnnouncement" = "You are logged out.";
 
+// Screen Lock
+"biometricReason" = "Please authenticate to proceed.";
+"logoutButtonTitle" = "Log out";
+"retryButtonTitle" = "Retry Unlock";
+"setUpPasscodeMessage" = "%@ requires you to set up an iOS passcode to use the app.";
+"fallbackErrorMessage" = "An unexpected error occurred.";
+"accessibilityLoggedOutAnnouncement" = "You are logged out.";
 
 // OAuth flow
 "authAlertContinueButton"="Continue";
@@ -115,7 +119,6 @@
 "devInfoBackButtonTitle" = "Back";
 "devInfoOKKey" = "OK";
 "devInfoCancelKey" = "Cancel";
-
 
 //IDP User Selection Screen
 "idpSelectUserLabel" = "Select your account to log into";

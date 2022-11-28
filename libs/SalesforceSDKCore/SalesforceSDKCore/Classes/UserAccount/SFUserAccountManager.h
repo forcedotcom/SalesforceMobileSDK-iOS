@@ -177,8 +177,8 @@ FOUNDATION_EXTERN NSString * const kSFIDPSceneIdKey NS_SWIFT_NAME(UserAccountMan
 NS_SWIFT_NAME(UserAccountManagerDelegate)
 @protocol SFUserAccountManagerDelegate <NSObject>
 
-
 @optional
+
 /**
  Called when the account manager wants to determine if the network is available.
  @param userAccountManager The instance of SFUserAccountManager making the call.
@@ -232,6 +232,11 @@ NS_SWIFT_NAME(UserAccountManager.NotificationUserInfo)
  */
 NS_SWIFT_NAME(UserAccountManager)
 @interface SFUserAccountManager : NSObject
+
+/**
+ * Completion block for when auth is cancelled.
+ */
+@property (nonatomic, readwrite, copy, nullable) void (^authCancelledByUserHandlerBlock)(void);
 
 /** The current user account.  This property may be nil if the user
  has never logged in.
@@ -339,7 +344,10 @@ NS_SWIFT_NAME(UserAccountManager)
 /** Use this property to indicate to provide PasscodeViewController customizations for themes,navbar, icons and settings.
  *
  */
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 @property (nonatomic,strong) SFSDKAppLockViewConfig *appLockViewControllerConfig;
+#pragma clang diagnostic pop
 
 /** Shared singleton
  */
@@ -519,8 +527,10 @@ Use this method to stop/clear any authentication which is has already been start
  Presents the setup screen that allows the user to opt into Touch/Face Id as a replacement for Passcode.
  @param config The AppLockViewConfig used to customize the Passcode and Biometric Screens.
  */
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (void)presentBiometricEnrollment:(nullable SFSDKAppLockViewConfig *)config;
-
+#pragma clang diagnostic pop
 /**
  Determines if the deivce has Touch/Face Id enabled.
  @return YES if the device is capable of biometric unlock, NO otherwise.
@@ -536,5 +546,3 @@ Use this method to stop/clear any authentication which is has already been start
 @end
 
 NS_ASSUME_NONNULL_END
-                                                                          
-                                                                          

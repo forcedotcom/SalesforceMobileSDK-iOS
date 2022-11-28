@@ -26,51 +26,72 @@
 #import "SFOAuthCredentials+Internal.h"
 #import "SFSDKCryptoUtils.h"
 #import "SFKeyStoreManager.h"
-#import "SFKeychainItemWrapper.h"
 #import "SFCrypto.h"
 #import "UIDevice+SFHardware.h"
 #import "NSString+SFAdditions.h"
-#import  <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
+#import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
+#import <SalesforceSDKCommon/SalesforceSDKCommon-Swift.h>
+#import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 
-NSString * const kSFOAuthEncryptionTypeKey = @"com.salesforce.oauth.creds.encryption.type";
-
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 @implementation SFOAuthKeychainCredentials
+#pragma clang diagnostic pop
 
 @dynamic refreshToken;   // stored in keychain
 @dynamic accessToken;    // stored in keychain
 
 - (id)initWithCoder:(NSCoder *)coder {
-    return [super initWithCoder:coder];
+    self = [super initWithCoder:coder];
+    if (self && self.encrypted) {
+        [self upgradeEncryption];
+    }
+    return self;
 }
 
 - (instancetype)initWithIdentifier:(NSString *)theIdentifier clientId:(NSString*)theClientId encrypted:(BOOL)encrypted {
-    return [super initWithIdentifier:theIdentifier clientId:theClientId encrypted:encrypted];
+    self = [super initWithIdentifier:theIdentifier clientId:theClientId encrypted:encrypted];
+    if (self && encrypted) {
+        [self upgradeEncryption];
+    }
+    return self;
+}
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+// TODO: Remove in Mobile SDK 11.0
+- (void)upgradeEncryption {
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    NSString *accessToken = [self accessTokenWithSFEncryptionKey:[self keyStoreKeyForService:kSFOAuthServiceLegacyAccess]];
+    if (accessToken) {
+        [self setAccessToken:accessToken];
+    }
+    NSString *refreshToken = [self refreshTokenWithSFEncryptionKey:[self keyStoreKeyForService:kSFOAuthServiceLegacyRefresh]];
+    if (refreshToken) {
+        [self setRefreshToken:refreshToken];
+    }
+    #pragma clang diagnostic pop
 }
 
 #pragma mark - Public Methods
 
 - (NSString *)accessToken {
-    return [self accessTokenWithSFEncryptionKey:[self keyStoreKeyForService:kSFOAuthServiceAccess]];
+    return [self accessTokenWithEncryptionKey:[self encryptionKeyForService:kSFOAuthServiceAccess]];
 }
 
 - (void)setAccessToken:(NSString *)token {
-    [self setAccessToken:token withSFEncryptionKey:[self keyStoreKeyForService:kSFOAuthServiceAccess]];
-    
-    NSUserDefaults *standardUserDefaults = [NSUserDefaults msdkUserDefaults];
-    [standardUserDefaults setInteger:kSFOAuthCredsEncryptionTypeKeyStore forKey:kSFOAuthEncryptionTypeKey];
-    [standardUserDefaults synchronize];
+    [self setAccessToken:token withEncryptionKey:[self encryptionKeyForService:kSFOAuthServiceAccess]];
 }
 
 - (NSString *)refreshToken {
-    return [self refreshTokenWithSFEncryptionKey:[self keyStoreKeyForService:kSFOAuthServiceRefresh]];
+    return [self refreshTokenWithEncryptionKey:[self encryptionKeyForService:kSFOAuthServiceRefresh]];
 }
 
 - (void)setRefreshToken:(NSString *)token {
-    [self setRefreshToken:token withSFEncryptionKey:[self keyStoreKeyForService:kSFOAuthServiceRefresh]];
-    
-    NSUserDefaults *standardUserDefaults = [NSUserDefaults msdkUserDefaults];
-    [standardUserDefaults setInteger:kSFOAuthCredsEncryptionTypeKeyStore forKey:kSFOAuthEncryptionTypeKey];
-    [standardUserDefaults synchronize];
+    [self setRefreshToken:token withEncryptionKey:[self encryptionKeyForService:kSFOAuthServiceRefresh]];
 }
 
 #pragma mark - Private Keychain Methods
@@ -79,31 +100,33 @@ NSString * const kSFOAuthEncryptionTypeKey = @"com.salesforce.oauth.creds.encryp
     if (!([self.identifier length] > 0)) {
         @throw SFOAuthInvalidIdentifierException();
     }
-    
-    SFKeychainItemWrapper *keychainItem = [SFKeychainItemWrapper itemWithIdentifier:service account:self.identifier];
-    NSData *tokenData = [keychainItem valueData];
+    SFSDKKeychainResult *result = [SFSDKKeychainHelper createIfNotPresentWithService:service account:self.identifier];
+    NSData *tokenData = result.data;
+    if (result.error) {
+        [SFSDKCoreLogger e:[self class] format:@"Could not read %@ from keychain, %@", service, result.error];
+    }
     return tokenData;
 }
 
-- (NSString *)accessTokenWithSFEncryptionKey:(SFEncryptionKey *)encryptionKey {
+- (NSString *)accessTokenWithEncryptionKey:(NSData *)encryptionKey {
     NSData *accessTokenData = [self tokenForService:kSFOAuthServiceAccess];
     if (!accessTokenData) {
         return nil;
     }
     
     if (self.isEncrypted) {
-        NSData *decryptedData = [encryptionKey decryptData:accessTokenData];
+        NSData *decryptedData = [SFSDKEncryptor decryptWithData:accessTokenData using:encryptionKey error:nil];
         return [[NSString alloc] initWithData:decryptedData encoding:NSUTF8StringEncoding];
     } else {
         return [[NSString alloc] initWithData:accessTokenData encoding:NSUTF8StringEncoding];
     }
 }
 
-- (void)setAccessToken:(NSString *)token withSFEncryptionKey:(SFEncryptionKey *)encryptionKey {
+- (void)setAccessToken:(NSString *)token withEncryptionKey:(NSData *)encryptionKey {
     NSData *tokenData = ([token length] > 0 ? [token dataUsingEncoding:NSUTF8StringEncoding] : nil);
     if (tokenData != nil) {
         if (self.isEncrypted) {
-            tokenData = [encryptionKey encryptData:tokenData];
+            tokenData = [SFSDKEncryptor encryptData:tokenData key:encryptionKey error:nil];
         }
     }
     
@@ -113,25 +136,25 @@ NSString * const kSFOAuthEncryptionTypeKey = @"com.salesforce.oauth.creds.encryp
     }
 }
 
-- (NSString *)refreshTokenWithSFEncryptionKey:(SFEncryptionKey *)encryptionKey {
+- (NSString *)refreshTokenWithEncryptionKey:(NSData *)encryptionKey {
     NSData *refreshTokenData = [self tokenForService:kSFOAuthServiceRefresh];
     if (!refreshTokenData) {
         return nil;
     }
     
     if (self.isEncrypted) {
-        NSData *decryptedData = [encryptionKey decryptData:refreshTokenData];
+        NSData *decryptedData = [SFSDKEncryptor decryptWithData:refreshTokenData using:encryptionKey error:nil];
         return [[NSString alloc] initWithData:decryptedData encoding:NSUTF8StringEncoding];
     } else {
         return [[NSString alloc] initWithData:refreshTokenData encoding:NSUTF8StringEncoding];
     }
 }
 
-- (void)setRefreshToken:(NSString *)token withSFEncryptionKey:(SFEncryptionKey *)encryptionKey {
+- (void)setRefreshToken:(NSString *)token withEncryptionKey:(NSData *)encryptionKey {
     NSData *tokenData = ([token length] > 0 ? [token dataUsingEncoding:NSUTF8StringEncoding] : nil);
     if (tokenData != nil) {
         if (self.isEncrypted) {
-            tokenData = [encryptionKey encryptData:tokenData];
+            tokenData = [SFSDKEncryptor encryptData:tokenData key:encryptionKey error:nil];
         }
     } else {
         self.instanceUrl = nil;
@@ -152,24 +175,20 @@ NSString * const kSFOAuthEncryptionTypeKey = @"com.salesforce.oauth.creds.encryp
     if (!([self.identifier length] > 0)) {
         @throw SFOAuthInvalidIdentifierException();
     }
-    
-    
-    SFKeychainItemWrapper *keychainItem = [SFKeychainItemWrapper itemWithIdentifier:service account:self.identifier];
-    BOOL keychainOperationSuccessful;
+    SFSDKKeychainResult *result = [SFSDKKeychainHelper createIfNotPresentWithService:service account:self.identifier];
     if (tokenData != nil) {
-        OSStatus result = [keychainItem setValueData:tokenData];
-        keychainOperationSuccessful = (result == errSecSuccess || result == errSecItemNotFound);
-        if (!keychainOperationSuccessful) { // errSecItemNotFound is an expected condition
-            [SFSDKCoreLogger w:[self class] format:@"%@:%@ - Error saving token data to keychain: %@", [self class], NSStringFromSelector(_cmd), [SFKeychainItemWrapper keychainErrorCodeString:result]];
+        result = [SFSDKKeychainHelper writeWithService:service data:tokenData account:self.identifier];
+        if (!result.success) {
+            [SFSDKCoreLogger w:[self class] format:@"%@:%@ - Error saving token data to keychain: %@", [self class], NSStringFromSelector(_cmd), result.error];
         }
     } else {
-        keychainOperationSuccessful = [keychainItem resetKeychainItem];
-        if (!keychainOperationSuccessful) {
-            [SFSDKCoreLogger w:[self class] format:@"%@:%@ - Error resetting keychain data.", [self class], NSStringFromSelector(_cmd)];
+        result = [SFSDKKeychainHelper resetWithService:service account:self.identifier];
+        if (!result.success) {
+            [SFSDKCoreLogger w:[self class] format:@"%@:%@ - Error resetting tokenData in keychain: %@", [self class], NSStringFromSelector(_cmd), result.error];
         }
     }
     
-    return keychainOperationSuccessful;
+    return result.success;
 }
 
 - (NSData *)keyMacForService:(NSString *)service
@@ -200,9 +219,8 @@ NSString * const kSFOAuthEncryptionTypeKey = @"com.salesforce.oauth.creds.encryp
     return [self keyWithSeed:baseAppId service:service];
 }
 
-- (SFEncryptionKey *)keyStoreKeyForService:(NSString *)service
-{
-    SFEncryptionKey *keyForService = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:service autoCreate:YES];
+- (NSData *)encryptionKeyForService:(NSString *)service {
+    NSData *keyForService = [SFSDKKeyGenerator encryptionKeyFor:service error:nil];
     return keyForService;
 }
 
@@ -210,6 +228,76 @@ NSString * const kSFOAuthEncryptionTypeKey = @"com.salesforce.oauth.creds.encryp
 {
     NSString *strSecret = [seed stringByAppendingString:service];
     return [strSecret sha256];
+}
+
+#pragma mark - Legacy encryption key methods
+
+// Used for upgrade steps, TODO: Remove in Mobile SDK 11.0
+- (NSString *)refreshTokenWithSFEncryptionKey:(SFEncryptionKey *)encryptionKey {
+    NSData *refreshTokenData = [self tokenForService:kSFOAuthServiceLegacyRefresh];
+    if (!refreshTokenData) {
+        return nil;
+    }
+    
+    if (self.isEncrypted) {
+        NSData *decryptedData = [encryptionKey decryptData:refreshTokenData];
+        return [[NSString alloc] initWithData:decryptedData encoding:NSUTF8StringEncoding];
+    } else {
+        return [[NSString alloc] initWithData:refreshTokenData encoding:NSUTF8StringEncoding];
+    }
+}
+
+- (NSString *)accessTokenWithSFEncryptionKey:(SFEncryptionKey *)encryptionKey {
+    NSData *accessTokenData = [self tokenForService:kSFOAuthServiceLegacyAccess];
+    if (!accessTokenData) {
+        return nil;
+    }
+    
+    if (self.isEncrypted) {
+        NSData *decryptedData = [encryptionKey decryptData:accessTokenData];
+        return [[NSString alloc] initWithData:decryptedData encoding:NSUTF8StringEncoding];
+    } else {
+        return [[NSString alloc] initWithData:accessTokenData encoding:NSUTF8StringEncoding];
+    }
+}
+
+- (SFEncryptionKey *)keyStoreKeyForService:(NSString *)service {
+    SFEncryptionKey *keyForService = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:service autoCreate:YES];
+    return keyForService;
+}
+
+- (void)setRefreshToken:(NSString *)token withSFEncryptionKey:(SFEncryptionKey *)encryptionKey {
+    NSData *tokenData = ([token length] > 0 ? [token dataUsingEncoding:NSUTF8StringEncoding] : nil);
+    if (tokenData != nil) {
+        if (self.isEncrypted) {
+            tokenData = [encryptionKey encryptData:tokenData];
+        }
+    } else {
+        self.instanceUrl = nil;
+        self.communityId  = nil;
+        self.communityUrl = nil;
+        self.issuedAt    = nil;
+        self.identityUrl = nil;
+    }
+    
+    BOOL updateSucceeded = [self updateKeychainWithTokenData:tokenData forService:kSFOAuthServiceLegacyRefresh];
+    if (!updateSucceeded) {
+        [SFSDKCoreLogger w:[self class] format:@"%@:%@ - Failed to update refresh token.", [self class], NSStringFromSelector(_cmd)];
+    }
+}
+
+- (void)setAccessToken:(NSString *)token withSFEncryptionKey:(SFEncryptionKey *)encryptionKey {
+    NSData *tokenData = ([token length] > 0 ? [token dataUsingEncoding:NSUTF8StringEncoding] : nil);
+    if (tokenData != nil) {
+        if (self.isEncrypted) {
+            tokenData = [encryptionKey encryptData:tokenData];
+        }
+    }
+    
+    BOOL updateSucceeded = [self updateKeychainWithTokenData:tokenData forService:kSFOAuthServiceLegacyAccess];
+    if (!updateSucceeded) {
+        [SFSDKCoreLogger w:[self class] format:@"%@:%@ - Failed to update access token.", [self class], NSStringFromSelector(_cmd)];
+    }
 }
 
 @end
