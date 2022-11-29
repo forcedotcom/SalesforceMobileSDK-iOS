@@ -37,7 +37,7 @@
 #import "SFSDKNullURLCache.h"
 #import "UIColor+SFColors.h"
 #import "SFDirectoryManager+Internal.h"
-#import "SalesforceSDKCore-Swift.h"
+#import "SalesforceSDKCore/SalesforceSDKCore-Swift.h"
 #import "SFSDKResourceUtils.h"
 #import "SFSDKMacDetectUtil.h"
 #import "SFSDKSalesforceSDKUpgradeManager.h"
