@@ -168,7 +168,7 @@
                 __strong typeof(weakSelf) strongSelf = weakSelf;
                 strongSelf.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeAdvancedBrowser];
                 [strongSelf notifyDelegateOfBeginAuthentication];
-                [strongSelf beginNativeBrowserFlow];
+                [strongSelf beginNativeBrowserFlowWithSharedBrowserSessionEnabled:false];
             });
         } else {
             [SFSDKAuthConfigUtil getMyDomainAuthConfig:^(SFOAuthOrgAuthConfiguration *authConfig, NSError *error) {
@@ -180,7 +180,7 @@
                          [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSafariBrowserForLogin];
                         strongSelf.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeAdvancedBrowser];
                         [strongSelf notifyDelegateOfBeginAuthentication];
-                        [strongSelf beginNativeBrowserFlow];
+                        [strongSelf beginNativeBrowserFlowWithSharedBrowserSessionEnabled:authConfig.shareBrowserSession];
                     } else {
                         [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureSafariBrowserForLogin];
                         [strongSelf notifyDelegateOfBeginAuthentication];
@@ -318,24 +318,24 @@
     }
 }
 
-- (void)beginNativeBrowserFlow {
+- (void)beginNativeBrowserFlowWithSharedBrowserSessionEnabled:(BOOL)shareBrowserSession {
     if ([self.delegate respondsToSelector:@selector(oauthCoordinator:willBeginBrowserAuthentication:)]) {
         __weak typeof(self) weakSelf = self;
         [self.delegate oauthCoordinator:self willBeginBrowserAuthentication:^(BOOL proceed) {
             if (proceed) {
-                [weakSelf continueNativeBrowserFlow];
+                [weakSelf continueNativeBrowserFlowWithSharedBrowserSessionEnabled:(BOOL)shareBrowserSession];
             }
         }];
     } else {
         // If delegate does not implement the method, simply continue with the browser flow.
-        [self continueNativeBrowserFlow];
+        [self continueNativeBrowserFlowWithSharedBrowserSessionEnabled:shareBrowserSession];
     }
 }
 
-- (void)continueNativeBrowserFlow {
+- (void)continueNativeBrowserFlowWithSharedBrowserSessionEnabled:(BOOL)shareBrowserSession {
     if (![NSThread isMainThread]) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self continueNativeBrowserFlow];
+            [self continueNativeBrowserFlowWithSharedBrowserSessionEnabled:shareBrowserSession];
         });
         return;
     }
@@ -349,7 +349,15 @@
                                     kSFOAuthRedirectUri, self.credentials.redirectUri,
                                     kSFOAuthDisplay, kSFOAuthDisplayTouch,
                                     kSFOAuthResponseType, kSFOAuthResponseTypeCode,self.credentials.identifier];
-    
+
+
+    // W-11606434 When My Domain org preference:
+    //  - "sharing native browser session for user authentication on iOS" is OFF
+    //  - append prompt=login url param
+    if (!shareBrowserSession) {
+        [approvalUrl appendString:@"&prompt=login"];
+    }
+
     // OAuth scopes
     NSString *scopeString = [self scopeQueryParamString];
     if (scopeString != nil) {
