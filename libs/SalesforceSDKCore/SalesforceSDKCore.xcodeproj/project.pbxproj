@@ -2087,6 +2087,7 @@
 		};
 		CE4CE4F41C0E6D14009F6029 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -2100,6 +2101,7 @@
 		};
 		E1C80D751C5C5056001B3A21 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
