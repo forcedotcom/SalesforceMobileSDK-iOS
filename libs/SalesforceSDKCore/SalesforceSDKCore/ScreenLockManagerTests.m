@@ -85,6 +85,19 @@
     SFUserAccount *user0 = [self createNewUserAccount:0];
     [[SFScreenLockManager shared] storeMobilePolicyWithUserAccount:user0 hasMobilePolicy:YES lockTimeout:15];
     XCTAssertTrue([[[SFSDKWindowManager sharedManager] screenLockWindow] isEnabled]);
+    
+    // Backgrounding/foregrounding on lock -- lock screen should remain & callback shouldn't be called
+    XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:@"Callback"];
+    expectation.inverted = YES;
+    [[SFScreenLockManager shared] setCallbackBlockWithScreenLockCallbackBlock:^{
+        [expectation fulfill];
+    }];
+    [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidEnterBackgroundNotification object:nil];
+    [[SFScreenLockManager shared] handleAppForeground];
+    XCTAssertTrue([[[SFSDKWindowManager sharedManager] screenLockWindow] isEnabled]);
+    [self waitForExpectations:@[expectation] timeout:1];
+    
+    // Unlock
     [[[SFSDKWindowManager sharedManager] screenLockWindow] dismissWindow];
     XCTAssertFalse([[[SFSDKWindowManager sharedManager] screenLockWindow] isEnabled]);
     

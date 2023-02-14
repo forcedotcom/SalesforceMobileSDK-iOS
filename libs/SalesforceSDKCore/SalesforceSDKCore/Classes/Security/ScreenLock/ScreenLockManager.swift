@@ -42,7 +42,9 @@ public class ScreenLockManager: NSObject {
     private override init() {
         super.init()
         NotificationCenter.default.addObserver(forName: UIApplication.didEnterBackgroundNotification, object: nil, queue: nil) { [weak self] _ in
-            self?.backgroundTimestamp = Date().timeIntervalSince1970
+            if !SFSDKWindowManager.shared().screenLockWindow().isEnabled() {
+                self?.backgroundTimestamp = Date().timeIntervalSince1970
+            }
         }
     }
     
