@@ -109,6 +109,7 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
     [SFSDKCoreLogger i:[self class] format:@"Registration with Apple for remote push notifications succeeded"];
     _deviceToken = [NSString stringWithHexData:deviceTokenData];
     [[SFPreferences currentUserLevelPreferences] setObject:_deviceToken forKey:kSFDeviceToken];
+    [[SFPreferences currentUserLevelPreferences] synchronize];
 }
 
 #pragma mark - Salesforce registration
@@ -176,6 +177,7 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
             NSDictionary *responseAsJson = (NSDictionary*) response;
             strongSelf->_deviceSalesforceId = (NSString*) responseAsJson[@"id"];
             [[SFPreferences currentUserLevelPreferences] setObject:strongSelf->_deviceSalesforceId forKey:kSFDeviceSalesforceId];
+            [[SFPreferences currentUserLevelPreferences] synchronize];
             [SFSDKCoreLogger i:[strongSelf class] format:@"Response:%@", responseAsJson];
             [strongSelf postPushNotificationRegistration:completionBlock];
         }
