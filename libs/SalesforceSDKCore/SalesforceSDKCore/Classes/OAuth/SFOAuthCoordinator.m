@@ -22,6 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <UIKit/UIKit.h>
 #import <Security/Security.h>
 #import <WebKit/WebKit.h>
 #import "SFOAuthCredentials+Internal.h"
@@ -52,8 +53,6 @@
 @interface SFOAuthCoordinator()
 
 @property (nonatomic) NSString *networkIdentifier;
-
-@end
 
 @implementation SFOAuthCoordinator
 
@@ -721,7 +720,10 @@
     } else if ([self isSPAppRedirectURL:requestUrl]){
         [self handleIDPAuthCodeResponse:url];
         decisionHandler(WKNavigationActionPolicyCancel);
-    }else {
+    } else if ([requestUrl containsString:kSFAppStoreLink]) {
+        decisionHandler(WKNavigationActionPolicyCancel);
+        [[UIApplication sharedApplication] openURL:url];
+    } else {
         decisionHandler(WKNavigationActionPolicyAllow);
     }
 }
