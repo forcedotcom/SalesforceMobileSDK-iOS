@@ -594,7 +594,6 @@ static NSString *const kSFScreenLockWindowKey = @"screenlock";
         [SFSDKCoreLogger i:[self class] format:@"Skipping disableWindow for %@ window because it's deallocating", _windowName];
         return;
     }
-
     BOOL isActive = self.windowScene.activationState == UISceneActivationStateForegroundActive;
     // TODO: Remove isScreenLockWindow check when min iOS is 15.  
     if (([self isSnapshotWindow] || isActive) && ![self isScreenLockWindow]) {
