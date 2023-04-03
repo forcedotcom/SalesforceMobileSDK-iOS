@@ -24,7 +24,6 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
-@class SFSDKAppLockViewConfig;
 @class SFSDKLoginViewControllerConfig;
 @class UIViewController;
 @protocol SFSDKLoginFlowSelectionView;
@@ -42,10 +41,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, nullable, copy) NSString *brandLoginPath;
 @property (nonatomic, copy) NSSet<NSString*> *scopes;
 @property (nonatomic,strong) SFSDKLoginViewControllerConfig *loginViewControllerConfig;
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-@property (nonatomic,strong) SFSDKAppLockViewConfig *appLockViewControllerConfig;
-#pragma clang diagnotic pop
 @property (nullable, nonatomic, strong) UIScene *scene;
 @property (nonatomic, copy) NSString *jwtToken;
 @property (nonatomic, copy, nullable) NSString *userAgentForAuth;

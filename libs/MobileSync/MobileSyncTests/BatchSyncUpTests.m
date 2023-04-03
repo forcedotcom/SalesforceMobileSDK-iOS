@@ -22,17 +22,11 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SyncManagerTestCase.h"
 #import "SFSyncUpdateCallbackQueue.h"
-#import "SyncUpTargetTests.h"
+#import "BatchSyncUpTargetTests.h"
 #import "TestSyncUpTarget.h"
 
-@interface BatchSyncUpTests : SyncUpTargetTests {
-}
-
-@end
-
-@implementation BatchSyncUpTests
+@implementation BatchSyncUpTargetTests
 
 #pragma mark - setUp/tearDown
 
@@ -46,12 +40,12 @@
 
 #pragma mark - Tests
 
-- (void) testMaxBatchSizeExceeding25 {
+- (void) testMaxBatchSizeExceedingLimit {
     SFBatchSyncUpTarget* target = [[SFBatchSyncUpTarget alloc] initWithCreateFieldlist:nil updateFieldlist:nil maxBatchSize:@26];
     XCTAssertEqual(target.maxBatchSize, 25, @"Max batch size should be 25");
 }
 
-- (void) testMaxBatchSizeExceeding25InDict {
+- (void) testMaxBatchSizeExceedingLimitInDict {
     NSDictionary* targetDict = @{kSFSyncTargetiOSImplKey: @"SFBatchSyncUpTarget", @"maxBatchSize": @26};
     SFBatchSyncUpTarget* target = [SFBatchSyncUpTarget newFromDict:targetDict];
     XCTAssertEqual(target.maxBatchSize, 25, @"Max batch size should be 25");
@@ -123,45 +117,10 @@
 
 }
 
-/**
- * Test serialization and deserialization of SFSyncUpTargets to and from NSDictionary objects.
- */
-- (void)testSyncUpTargetSerialization {
-    
-    // Basic sync up target should be the base class.
-    SFSyncUpTarget *basicSyncUpTarget = [[SFSyncUpTarget alloc] init];
-    XCTAssertEqual([basicSyncUpTarget class], [SFSyncUpTarget class], @"Default class should be SFSyncUpTarget");
-    XCTAssertEqual(basicSyncUpTarget.targetType, SFSyncUpTargetTypeRestStandard, @"Sync sync up target type is incorrect.");
-    
-    // Default sync up target should be the SFBatchSyncUpTarget
-    SFSyncUpTarget *defaultSyncUpTarget = [SFSyncUpTarget newFromDict:nil];
-    XCTAssertEqual([defaultSyncUpTarget class], [SFBatchSyncUpTarget class], @"Default class should be SFBatchSyncUpTarget");
-    XCTAssertEqual(defaultSyncUpTarget.targetType, SFSyncUpTargetTypeRestStandard, @"Sync sync up target type is incorrect.");
-    
-    // Another way of getting the default sync up target
-    SFSyncOptions *options = [SFSyncOptions newSyncOptionsForSyncUp:@[NAME, DESCRIPTION] mergeMode:SFSyncStateMergeModeOverwrite];
-    SFSyncState *syncUpState = [SFSyncState newSyncUpWithOptions:options soupName:ACCOUNTS_SOUP store:self.store];
-    XCTAssertEqual([syncUpState.target class], [SFBatchSyncUpTarget class], @"Default sync up target should be SFBatchSyncUpTarget");
-    
-    // Explicit rest sync up target type creates base class.
-    NSDictionary *restDict = @{ kSFSyncTargetTypeKey: @"rest" };
-    SFSyncUpTarget *resttarget = [SFSyncUpTarget newFromDict:restDict];
-    XCTAssertEqual([resttarget class], [SFBatchSyncUpTarget class], @"Rest class should be SFBatchSyncUpTarget");
-    XCTAssertEqual(resttarget.targetType, SFSyncUpTargetTypeRestStandard, @"Sync sync up target type is incorrect.");
-    
-    // Custom sync up target
-    TestSyncUpTarget *customTarget = [[TestSyncUpTarget alloc] init];
-    NSDictionary *customDict = [customTarget asDict];
-    XCTAssertEqualObjects(customDict[kSFSyncTargetiOSImplKey], NSStringFromClass([TestSyncUpTarget class]), @"Custom class is incorrect.");
-    SFSyncUpTarget *customTargetFromDict = [SFSyncUpTarget newFromDict:customDict];
-    XCTAssertEqual([customTargetFromDict class], [TestSyncUpTarget class], @"Custom class is incorrect.");
-}
-
-
 #pragma mark - THE methods responsible for building sync up targets used in all the tests
 
 - (SFSyncUpTarget*) buildSyncUpTargetWithCreateFieldlist:(nullable NSArray*)createFieldlist updateFieldlist:(nullable NSArray*)updateFieldlist {
-    return [[SFBatchSyncUpTarget alloc] initWithCreateFieldlist:createFieldlist updateFieldlist:updateFieldlist maxBatchSize:@2];
+    return [[SFBatchSyncUpTarget alloc] initWithCreateFieldlist:createFieldlist updateFieldlist:updateFieldlist];
 }
 
 @end

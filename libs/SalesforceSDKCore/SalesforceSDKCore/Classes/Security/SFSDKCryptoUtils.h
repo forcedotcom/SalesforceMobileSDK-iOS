@@ -27,8 +27,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class SFPBKDFData;
-
 /**
  * Default number of PBKDF derivation rounds used to generate a key.
  */

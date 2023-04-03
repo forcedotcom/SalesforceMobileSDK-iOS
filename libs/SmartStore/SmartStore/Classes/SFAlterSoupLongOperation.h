@@ -23,6 +23,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -125,7 +126,8 @@ NS_SWIFT_NAME(AlterSoupLongOperation)
  @param reIndexData YES to reindex.
  @return The initialized self.
  */
-- (id) initWithStore:(SFSmartStore*)store soupName:(NSString*)soupName newSoupSpec:(nullable SFSoupSpec*)newSoupSpec newIndexSpecs:(NSArray*)newIndexSpecs reIndexData:(BOOL)reIndexData;
+- (id) initWithStore:(SFSmartStore*)store soupName:(NSString*)soupName newSoupSpec:(nullable SFSoupSpec*)newSoupSpec newIndexSpecs:(NSArray*)newIndexSpecs reIndexData:(BOOL)reIndexData SFSDK_DEPRECATED(10.0, 11.0, "External storage and soup spec will be removed - use other constructor instead");
+
 
 /** 
  Initializer for resuming an alter soup operation from the data stored in the long operations status table.

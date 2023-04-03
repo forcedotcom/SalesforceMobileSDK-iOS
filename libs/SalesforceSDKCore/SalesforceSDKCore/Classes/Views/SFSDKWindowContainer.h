@@ -34,7 +34,6 @@ NS_ASSUME_NONNULL_BEGIN
 typedef NS_ENUM(NSInteger, SFSDKWindowType) {
     SFSDKWindowTypeMain,
     SFSDKWindowTypeAuth,
-    SFSDKWindowTypePasscode,
     SFSDKWindowTypeScreenLock,
     SFSDKWindowTypeSnapshot,
     SFSDKWindowTypeOther
@@ -133,11 +132,6 @@ typedef NS_ENUM(NSInteger, SFSDKWindowType) {
  * @return YES if this is the snapshot Window
  */
 - (BOOL)isSnapshotWindow;
-
-/** Convenience API returns true if the SFSDKWindowType is passcode
- * @return YES if this is the passcode Window
- */
-- (BOOL)isPasscodeWindow;
 
 /** Convenience API returns true if the SFSDKWindowType is screen lock
  * @return YES if this is the screen lock Window

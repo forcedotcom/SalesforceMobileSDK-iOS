@@ -200,6 +200,10 @@
     // Doesn't apply to external storage case
 }
 
+- (void) testSmartQueryUsingWhereArgs {
+    // Doesn't apply to external storage case - test uses non-indexed field
+}
+
 - (void) testCleanupRegexpFaster {
     // Doesn't apply to external storage case
 }

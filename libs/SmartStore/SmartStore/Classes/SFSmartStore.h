@@ -262,7 +262,7 @@ NS_SWIFT_NAME(SmartStore)
  *  @param soupName Name of the soup.
  *  @return Specs of the soup if it exists.
  */
-- (nullable SFSoupSpec*)attributesForSoup:(NSString*)soupName NS_SWIFT_NAME(specification(forSoupNamed:));
+- (nullable SFSoupSpec*)attributesForSoup:(NSString*)soupName NS_SWIFT_NAME(specification(forSoupNamed:)) SFSDK_DEPRECATED(10.0, 11.0, "External storage and soup spec will be removed");
 
 /**
  @param soupName Name of the soup.
@@ -294,7 +294,7 @@ NS_SWIFT_NAME(SmartStore)
  @return YES if the soup is registered or already exists.
 
  */
-- (BOOL)registerSoupWithSpec:(SFSoupSpec*)soupSpec withIndexSpecs:(NSArray<SFSoupIndex*>*)indexSpecs error:(NSError**)error NS_SWIFT_NAME(registerSoup(withSpecification:withIndices:));
+- (BOOL)registerSoupWithSpec:(SFSoupSpec*)soupSpec withIndexSpecs:(NSArray<SFSoupIndex*>*)indexSpecs error:(NSError**)error NS_SWIFT_NAME(registerSoup(withSpecification:withIndices:)) SFSDK_DEPRECATED(10.0, 11.0, "External storage and soup spec will be removed - use registerSoup with soupName instead");
 
 /**
  Get the number of entries that would be returned with the given query spec
@@ -314,6 +314,20 @@ NS_SWIFT_NAME(SmartStore)
  @return A set of entries given the pageSize provided in the querySpec.
  */
 - (NSArray * __nullable)queryWithQuerySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex error:(NSError **)error NS_SWIFT_NAME(query(using:startingFromPageIndex:));
+
+/**
+ Search for entries matching the given query spec with optional "where args" (i.e. bind args)
+ Provided bind args will be substituted to the ? found in the query
+ NB: Bind args are only supported for smart queries
+
+ @param querySpec A native query spec.
+ @param pageIndex The page index to start the entries at (this supports paging).
+ @param whereArgs The bind args (optional - only supported for smart queries).
+ @param error Sets/returns any error generated as part of the process.
+ 
+ @return A set of entries given the pageSize provided in the querySpec.
+ */
+- (NSArray * __nullable)queryWithQuerySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex whereArgs:(NSArray* __nullable)whereArgs error:(NSError **)error NS_SWIFT_NAME(query(using:startingFromPageIndex:whereArgs:));
 
 /**
  Search for entries matching the given query spec without deserializing any JSON
@@ -459,7 +473,7 @@ NS_SWIFT_NAME(SmartStore)
  @param soupName Name of the soup.
  @return External file storage size, in bytes.
  */
-- (unsigned long long)getExternalFileStorageSizeForSoup:(NSString*)soupName NS_SWIFT_NAME(externalFileStorageSize(forSoupNamed:));
+- (unsigned long long)getExternalFileStorageSizeForSoup:(NSString*)soupName NS_SWIFT_NAME(externalFileStorageSize(forSoupNamed:)) SFSDK_DEPRECATED(10.0, 11.0, "External storage and soup spec will be removed");
 
 /**
  Return the number of external storage files for a given soup.
@@ -467,7 +481,7 @@ NS_SWIFT_NAME(SmartStore)
  @param soupName The name of the soup.
  @return Number of external files.
  */
-- (NSUInteger)getExternalFilesCountForSoup:(NSString*)soupName NS_SWIFT_NAME(externalFilesCount(forSoupNamed:));
+- (NSUInteger)getExternalFilesCountForSoup:(NSString*)soupName NS_SWIFT_NAME(externalFilesCount(forSoupNamed:)) SFSDK_DEPRECATED(10.0, 11.0, "External storage and soup spec will be removed");
 
 /**
  Alter soup indexes.
@@ -488,7 +502,7 @@ NS_SWIFT_NAME(SmartStore)
  @param reIndexData Pass YES if you want existing records to be re-indexed for new index specs.
  @return YES if the soup was altered successfully.
  */
-- (BOOL) alterSoup:(NSString*)soupName withSoupSpec:(SFSoupSpec*)soupSpec withIndexSpecs:(NSArray<SFSoupIndex*>*)indexSpecs reIndexData:(BOOL)reIndexData NS_SWIFT_NAME(alterSoup(named:soupSpec:indexSpecs:reIndexData:));
+- (BOOL) alterSoup:(NSString*)soupName withSoupSpec:(SFSoupSpec*)soupSpec withIndexSpecs:(NSArray<SFSoupIndex*>*)indexSpecs reIndexData:(BOOL)reIndexData NS_SWIFT_NAME(alterSoup(named:soupSpec:indexSpecs:reIndexData:)) SFSDK_DEPRECATED(10.0, 11.0, "External storage and soup spec will be removed - use other alterSoup method instead");
 
 
 /**

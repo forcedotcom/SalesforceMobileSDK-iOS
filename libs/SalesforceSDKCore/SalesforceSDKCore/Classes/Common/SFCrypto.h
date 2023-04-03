@@ -27,92 +27,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/**
- This class is responsible for encrypting and decrypting the content data for chatter.
- */
-
-typedef NS_ENUM(NSUInteger, SFCryptoMode) {
-    SFCryptoModeInMemory,
-    SFCryptoModeDisk
-} SFSDK_DEPRECATED(9.2, 10.0, "Will be removed");
-
-typedef NS_ENUM(NSUInteger, SFCryptoOperation) {
-    SFCryptoOperationEncrypt,
-    SFCryptoOperationDecrypt
-} SFSDK_DEPRECATED(9.2, 10.0, "Will be removed");
+extern NSString * const kKeychainIdentifierBaseAppId;
 
 /** Utility class for data encryption operations. 
  */
-SFSDK_DEPRECATED(9.2, 10.0, "Will be removed, use SFSDKEncryptStream/SFSDKDecryptStream directly instead.")
 @interface SFCrypto : NSObject
-
-/**
- The output file for encrypted/decrypted data in CHCryptoModeDisk mode.
- */
-@property(nonatomic, copy) NSString *file;
-
-/**
- Returns the current mode of operation for the CHCrypto class.
- */
-@property (nonatomic, readonly) SFCryptoMode mode;
-
-/**
- Initializer. Calls the designated initializer, passing nil to <code>iv</code>.
- @param operation Operation to be performed encrypt/decrypt.
- @param key Key used for encyption/decryption. Pass nil to use the default key.
- @param mode Mode which determines whether to perform operation in memory at once or in chunks writing to the disk.
- */
-- (id)initWithOperation:(SFCryptoOperation)operation key:(nullable NSData *)key mode:(SFCryptoMode)mode;
-
-/**
- Designated initializer.
- @param operation Operation to be performed encrypt/decrypt.
- @param key Key used for encyption/decryption pass nil to use the default key.
- @param iv Initialization vector. If set to nil, uses the default initialization vector.
- @param mode Mode which determines whether to perform operation in memory at once or in chunks writing to the disk.
- */
-- (nullable instancetype)initWithOperation:(SFCryptoOperation)operation key:(nullable NSData *)key iv:(nullable NSData*)iv mode:(SFCryptoMode)mode;
-
-/**
- Encrypts or decrypts the passed in data. The input data is assumed to be passed in as a chunk.
- This method requires a call to <code>- finalizeCipher</code>.
- @param inData Input data.
- */
-- (void)cryptData:(NSData *)inData;
-
-/**
- Decrypts the passed in data initializer, performing the decryption in memory.
- @param data Encrypted input data.
- @return Decrypted data.
- */
-- (NSData *)decryptDataInMemory:(NSData *)data;
-
-/**
- Encrypts the passed in data initializer, performing the encryption in memory.
- @param data Input data.
- @return Encrypted data.
- */
-- (NSData *)encryptDataInMemory:(NSData *)data;
-
-/**
- Finalizes the encryption/decryption process.
- */
-- (BOOL)finalizeCipher;
-
-/**
- Decrypts a file.
- @param inputFile Name of the encrypted file.
- @param outputFile Name of the decrypted file.
- @result YES if the file was successfully decrypted; NO otherwise.
- */
--(BOOL) decrypt:(NSString *)inputFile to:(NSString *)outputFile;
-
-/**
- Creates a secret key, based in part on the input key.
- @param key The base key which will seed the return key.
- @result The secret key, based on the input key.
- */
-+ (NSData *)secretWithKey:(NSString *)key;
 
 /**
  Returns a unique identifier associated with this app install.  The identifier will
@@ -134,11 +53,6 @@ SFSDK_DEPRECATED(9.2, 10.0, "Will be removed, use SFSDKEncryptStream/SFSDKDecryp
  @result YES if the base app ID was configured during this app launch; NO otherwise.
  */
 + (BOOL)baseAppIdentifierConfiguredThisLaunch;
-
-/**
- Returns whether we have an initialization vector used for encryption stored in the keychain.
- */
-+ (BOOL)hasInitializationVector;
 
 @end
 

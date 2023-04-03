@@ -28,10 +28,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+// TODO: Remove class in Mobile SDK 11.0
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 /**
  Data object representing the encryption key used for encrypting/decrypting the key store.
  */
-SFSDK_DEPRECATED(9.2, 10.0, "Will be internal only for upgrade steps")
 @interface SFKeyStoreKey : NSObject <NSCoding, NSCopying>
 
 /**
@@ -80,5 +82,5 @@ SFSDK_DEPRECATED(9.2, 10.0, "Will be internal only for upgrade steps")
 @property (nonatomic, strong) SFEncryptionKey *encryptionKey;
 
 @end
-
+#pragma clang diagnostic pop
 NS_ASSUME_NONNULL_END

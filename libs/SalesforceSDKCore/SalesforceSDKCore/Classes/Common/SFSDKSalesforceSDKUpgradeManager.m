@@ -34,7 +34,6 @@
 #import "SFUserAccount+Internal.h"
 #import "SFKeyStoreManager.h"
 #import "SFDefaultUserAccountPersister.h"
-#import "SFSecurityLockout+Internal.h"
 #import "SFApplicationHelper.h"
 
 NSString * const kSalesforceSDKManagerVersionKey = @"com.salesforce.mobilesdk.salesforcesdkmanager.version";
@@ -80,6 +79,9 @@ static NSString * _currentVersion = nil;
             [SFDirectoryManager upgradeUserDirectories];
             [SFSDKSalesforceSDKUpgradeManager upgradeUserAccounts];
             [NSURLCache.sharedURLCache removeAllCachedResponses]; // For cache encryption key change
+        }
+        
+        if (!lastVersion || [lastVersion compare:@"10.1.1" options:NSNumericSearch] == NSOrderedAscending) {
             [SFSDKSalesforceSDKUpgradeManager upgradePasscode];
         }
         
@@ -248,10 +250,6 @@ static NSString * _currentVersion = nil;
 }
 
 + (void)upgradePasscode {
-    #pragma clang diagnostic push
-    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    [SFSecurityLockout resetPasscode];
-    #pragma clang diagnostic pop
     [[SFScreenLockManager shared] upgradePasscode];
 }
 

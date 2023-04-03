@@ -1,31 +1,19 @@
+#  Xcode version announcments can be found here: https://discuss.circleci.com/c/announcements/
+#  Each post contains a full image manifest, including iOS runtimes, devices, CocoaPods version, etc.
+#  NOTE: When updaing Xcode check the manifest for compatible chruby versions.
 anchors:
-  - &latest-xcode "12.5.1"
-  - &latest-ios   "14.5"
-  - &min-ios      "13.7"
-  - &chruby       "2.7.3"
-  - &beta-xcode   "13.0.0"
-  - &beta-ios     "15.0"
-  - &beta-chruby  "3.0.2"
+  - &latest-xcode    "13.4.1"
+  - &latest-ios      "15.5"
+  - &min-ios         "14.5"
+  - &requres-string  "test << matrix.lib >> iOS 14.5"  # Keep this version up to date
+  - &chruby          "3.1.2"
+  - &device          "iPhone 12"
+  - &invalid         ""
 
 executors:
   mac:
-    working_directory: ~/SalesforceMobileSDK-iOS
     macos:
       xcode: *latest-xcode
-    shell: /bin/bash --login -eo pipefail
-    environment:
-      BASH_ENV: ~/.bashrc
-      FASTLANE_SKIP_UPDATE_CHECK: "true"
-      CHRUBY_VER: *chruby
-  mac-beta:
-    working_directory: ~/SalesforceMobileSDK-iOS
-    macos:
-      xcode: *beta-xcode
-    shell: /bin/bash --login -eo pipefail
-    environment:
-      BASH_ENV: ~/.bashrc
-      FASTLANE_SKIP_UPDATE_CHECK: "true"
-      CHRUBY_VER: *beta-chruby
 
 version: 2.1
 jobs:
@@ -34,34 +22,43 @@ jobs:
       lib:
         type: string
         default: "SalesforceSDKCommon"
-      device:
-        type: string
-        default: "iPhone 12"
-      ios:
-        type: string
-        default: *latest-xcode
       nightly-test:
         type: boolean
         default: false
-      env: 
-        type: executor
-        default: "mac"
-    executor: << parameters.env >> 
+      xcode:
+        type: string
+        default: *latest-xcode
+      ios:
+        type: string
+        default: *latest-ios
+      chruby:
+        type: string
+        default: *chruby
+      device:
+        type: string
+        default: *device
+    macos:
+      xcode: << parameters.xcode >>
+    working_directory: ~/SalesforceMobileSDK-iOS
+    shell: /bin/bash --login -eo pipefail
     environment:
-      LIB: << parameters.lib >> 
       DEVICE: << parameters.device >>
       IOS_VERSION: << parameters.ios >>
+      BASH_ENV: ~/.bashrc
+      FASTLANE_SKIP_UPDATE_CHECK: "true"
+      CHRUBY_VER: << parameters.chruby >>
+      LIB: << parameters.lib >>
       NIGHTLY_TEST: << parameters.nightly-test >>
     steps:
       - checkout
       - restore_cache: 
           keys:
-            - v7-gems-{{ checksum ".circleci/Gemfile.lock" }}
-            - v7-gems-
+            - v8-gems-{{ checksum ".circleci/Gemfile.lock" }}
+            - v8-gems-
       - run: 
           name: Install Dependencies
           command:  |
-            npm install shelljs@0.8.4
+            npm install shelljs@0.8.5
             ./install.sh
             ./build/pre-build
             chruby ${CHRUBY_VER}
@@ -69,9 +66,9 @@ jobs:
             bundle check || sudo bundle install
             sudo bundle update
       - save_cache: 
-          key: v7-gems-{{ checksum ".circleci/Gemfile.lock" }}
+          key: v8-gems-{{ checksum ".circleci/Gemfile.lock" }}
           paths:
-            - /Users/distiller/.gem/ruby/2.7.1
+            - /Users/distiller/.gem/ruby/<< parameters.chruby >>
       - run: 
           name: Run Tests
           command:  |
@@ -94,11 +91,28 @@ jobs:
           path: /Users/distiller/SalesforceMobileSDK-iOS/clangReport
           destination: Static-Analysis
 
+#  Potential parameters that can come from the project GUI Triggers
+parameters:
+  xcode:
+    type: string
+    default: *invalid
+  ios:
+    type: string
+    default: *invalid
+  chruby:
+    type: string
+    default: *chruby
+  device:
+    type: string
+    default: *device
       
 workflows:
   version: 2
 
   build-test-pr:
+    when: 
+      and:
+        - equal: [ "webhook", << pipeline.trigger_source >> ]
     jobs:
       - run-tests:
           matrix:
@@ -109,20 +123,13 @@ workflows:
               only:
                 - /pull.*/
 
-  # Cron are on a timezone 8 hours ahead of PST
-  # Build everything at ~10:30pm Tuesday/Thursday Nights
-  #
-  # Note:  The "requires" field is used to limit the number of concurrent jobs running (one per lib) to prevent 
-  # test faulures since some tests rely on the server or storage to have consistent counts.  Unfotunately the 
-  # "requires" field is just a string so anchors cannot be added, thus we need to maintain the iOS version.  
-  nightly-test-ios:
-    triggers:
-      - schedule:
-          cron: "30 6 * * 3,5"
-          filters:
-            branches:
-              only:
-                - dev
+  # Build everything at 10 PM PST Tuesday/Thursday Nights
+  run-tests:
+    when:
+      and:
+        - not: << pipeline.parameters.xcode >>
+        - not:  
+            equal: [ "webhook", << pipeline.trigger_source >> ]
     jobs:
       - run-tests:
           name: test << matrix.lib >> iOS << matrix.ios >> 
@@ -131,7 +138,6 @@ workflows:
               lib: ["SalesforceSDKCommon", "SalesforceAnalytics", "SalesforceSDKCore", "SmartStore", "MobileSync"]
               nightly-test: [true]
               ios: [*min-ios]
-              device: ["iPhone 8"]
       - run-tests:
           name: test << matrix.lib >> iOS << matrix.ios >> 
           matrix:
@@ -140,14 +146,25 @@ workflows:
               nightly-test: [true]
               ios: [*latest-ios]
           requires:
-            - test << matrix.lib >> iOS 13.7
+            - *requres-string
+
+  # Build everything at 11 PM PST Tuesday/Thursday Nights
+  run-tests-beta:
+    when:
+      and:
+        - << pipeline.parameters.xcode >>
+        - << pipeline.parameters.ios >>
+        - not:  
+            equal: [ "webhook", << pipeline.trigger_source >> ]
+    jobs:
       - run-tests:
-          name: test << matrix.lib >> beta iOS << matrix.ios >> 
+          name: test << matrix.lib >> iOS << matrix.ios >> 
           matrix:
             parameters:
+              xcode: [<< pipeline.parameters.xcode >>]
+              ios: [<< pipeline.parameters.ios >>]
+              chruby: [<< pipeline.parameters.chruby >>]
+              device: [<< pipeline.parameters.device >>]
               lib: ["SalesforceSDKCommon", "SalesforceAnalytics", "SalesforceSDKCore", "SmartStore", "MobileSync"]
               nightly-test: [true]
-              ios: [*beta-ios]
-              env: [mac-beta]
-          requires:
-            - test << matrix.lib >> iOS 14.5
+            

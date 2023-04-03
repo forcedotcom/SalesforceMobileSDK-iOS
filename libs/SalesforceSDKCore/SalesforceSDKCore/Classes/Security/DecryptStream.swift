@@ -95,6 +95,11 @@ public class DecryptStream: InputStream {
             do {
                 let data = Data(bytes: encryptedBuffer, count: bytesRead)
                 let decryptedData = try Encryptor.decrypt(data: data, using: key)
+                guard decryptedData.count <= CryptStream.chunkSize else {
+                    // Should never get here
+                    SalesforceLogger.e(DecryptStream.self, message: "Returned decrypted data is larger than the encryption block size")
+                    return -1
+                }
                 decryptedData.copyBytes(to: buffer.advanced(by: readCount), count: decryptedData.count)
                 readCount += decryptedData.count
             } catch {

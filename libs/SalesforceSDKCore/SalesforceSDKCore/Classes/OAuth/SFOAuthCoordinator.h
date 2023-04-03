@@ -101,16 +101,6 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFinishLoad:(WKWebView *)view error:(nullable NSError*)errorOrNil;
 
 /**
- Sent when authentication successfully completes. Note: This method is deprecated.  You should use
- the `oauthCoordinatorDidAuthenticate:authInfo:` method instead.
- 
- @param coordinator The SFOAuthCoordinator instance processing this message
- 
- @see SFOAuthCoordinator
- */
-- (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator __attribute__((deprecated));
-
-/**
  Sent before oauthcoordinator will begin any kind of authentication
  
  @param coordinator The SFOAuthCoordinator instance processing this message

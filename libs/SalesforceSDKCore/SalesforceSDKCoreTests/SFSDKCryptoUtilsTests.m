@@ -24,7 +24,6 @@
 
 #import <XCTest/XCTest.h>
 #import "SFSDKCryptoUtils.h"
-#import "SFPBKDFData.h"
 
 @interface SFSDKCryptoUtilsTests : XCTestCase
 

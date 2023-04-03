@@ -88,7 +88,6 @@
     XCTAssertTrue([options containsObject:@"ENABLE_FTS4"]);
     XCTAssertTrue([options containsObject:@"ENABLE_FTS3_PARENTHESIS"]);
     XCTAssertTrue([options containsObject:@"ENABLE_FTS5"]);
-    XCTAssertTrue([options containsObject:@"ENABLE_JSON1"]);
 }
 
 /**
@@ -110,13 +109,13 @@
 - (void) testSqliteVersion
 {
     NSString* version = [NSString stringWithUTF8String:sqlite3_libversion()];
-    XCTAssertEqualObjects(version, @"3.34.1");
+    XCTAssertEqualObjects(version, @"3.39.2");
 }
 
 - (void) testSqlCipherVersion
 {
     NSString* version = [self.store getSQLCipherVersion];
-    XCTAssertEqualObjects(version, @"4.4.3 community");
+    XCTAssertEqualObjects(version, @"4.5.2 community");
 }
 
 /**

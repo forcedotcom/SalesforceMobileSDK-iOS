@@ -41,7 +41,6 @@ extern uint32_t const SFCryptChunksCipherOptions;
 /**
  *  SFCryptChunksDelegate
  */
-SFSDK_DEPRECATED(9.2, 10.0, "Will be internal only for upgrade steps")
 @protocol SFCryptChunksDelegate <NSObject>
 @required
 /**
@@ -66,7 +65,7 @@ SFSDK_DEPRECATED(9.2, 10.0, "Will be internal only for upgrade steps")
  *      3. Handle results via the delegate methods as you pass data in;
  *      4. When done passing data in, call the finalize crypt method (this is a very important step).
  */
-SFSDK_DEPRECATED(9.2, 10.0, "Will be internal only for upgrade steps")
+SFSDK_DEPRECATED(9.2, 11.0, "Will be removed, only used for upgrade steps")
 @interface SFCryptChunks : NSObject
 
 /**

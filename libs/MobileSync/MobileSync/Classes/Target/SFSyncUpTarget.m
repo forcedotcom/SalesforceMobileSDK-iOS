@@ -23,7 +23,7 @@
  */
 
 #import "SFSyncUpTarget+Internal.h"
-#import "SFBatchSyncUpTarget.h"
+#import <MobileSync/MobileSync-Swift.h>
 #import "SFMobileSyncConstants.h"
 #import "SFMobileSyncNetworkUtils.h"
 #import "SFMobileSyncSyncManager.h"
@@ -107,8 +107,8 @@ typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
         NSString *targetTypeString = (dict == nil || dict[kSFSyncTargetTypeKey] == nil ? kSFSyncUpTargetTypeRestStandard : dict[kSFSyncTargetTypeKey]);
         switch ([self targetTypeFromString:targetTypeString]) {
             case SFSyncUpTargetTypeRestStandard:
-                // Default sync up target (it's SFBatchSyncUpTarget starting in Mobile SDK 7.1)
-                return [[SFBatchSyncUpTarget alloc] initWithDict:dict];
+                // Default sync up target (it's SFCollectionSyncUpTarget starting in Mobile SDK 10.1)
+                return [[SFCollectionSyncUpTarget alloc] initWithDict:dict];
             case SFSyncUpTargetTypeCustom:
                 [SFSDKMobileSyncLogger e:[self class] format:@"%@ Custom class name not specified.", NSStringFromSelector(_cmd)];
                 return nil;
@@ -143,6 +143,41 @@ typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
             resultBlock([self isNewerThanServer:localModDate remoteModDate:remoteModDate]);
         }];
     }
+}
+
+- (void)areNewerThanServer:(SFMobileSyncSyncManager *)syncManager
+                   records:(NSArray<NSDictionary*>*)records
+              resultBlock:(SFSyncUpRecordsNewerThanServerBlock)resultBlock
+{
+    [self isNewerThanServer:syncManager
+                    records:records
+                      index:0
+                     result:[NSMutableDictionary new]
+                resultBlock:resultBlock];
+}
+
+- (void)isNewerThanServer:(SFMobileSyncSyncManager *)syncManager
+                   records:(NSArray<NSDictionary*>*)records
+                     index:(NSUInteger)i
+                    result:(NSMutableDictionary*)result
+              resultBlock:(SFSyncUpRecordsNewerThanServerBlock)resultBlock
+{
+    NSDictionary* record = records[i];
+    NSNumber* storeId = record[SOUP_ENTRY_ID];
+    __weak typeof(self) weakSelf = self;
+    [self isNewerThanServer:syncManager record:record resultBlock:^(BOOL isNewerThanServer) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        result[storeId] = [NSNumber numberWithBool:isNewerThanServer];
+        if (i < records.count-1) {
+            [strongSelf isNewerThanServer:syncManager
+                                  records:records
+                                    index:i+1
+                                   result:result
+                              resultBlock:resultBlock];
+        } else {
+            resultBlock(result);
+        }
+    }];
 }
 
 
@@ -309,10 +344,7 @@ typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
                                 }
     ];
 }
-/**
- Return true if local mod date is greater than remote mod date
- NB: also return true if both were deleted or if local mod date is missing
-*/
+
 - (BOOL)isNewerThanServer:(SFRecordModDate*)localModDate
         remoteModDate:(SFRecordModDate*)remoteModDate
 {

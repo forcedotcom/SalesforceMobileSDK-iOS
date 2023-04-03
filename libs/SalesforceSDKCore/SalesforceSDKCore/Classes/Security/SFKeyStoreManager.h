@@ -24,7 +24,6 @@
 
 #import <Foundation/Foundation.h>
 #import <SalesforceSDKCore/SFEncryptionKey.h>
-#import <SalesforceSDKCore/SFKeyStoreKey.h>
 #import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
 NS_ASSUME_NONNULL_BEGIN

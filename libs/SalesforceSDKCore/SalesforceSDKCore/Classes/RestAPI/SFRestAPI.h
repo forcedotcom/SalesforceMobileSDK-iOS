@@ -42,7 +42,7 @@ extern NSString* const kSFRestErrorDomain NS_SWIFT_NAME(SFRestErrorDomain);
 extern NSInteger const kSFRestErrorCode NS_SWIFT_NAME(SFRestErrorCode);
 
 /*
- * Default API version (currently "v49.0")
+ * Default API version (currently "v55.0")
  * You can override this by using setApiVersion:
  */
 extern NSString* const kSFRestDefaultAPIVersion NS_SWIFT_NAME(SFRestDefaultAPIVersion);
@@ -61,6 +61,11 @@ extern NSInteger const kSFRestSOQLDefaultBatchSize NS_SWIFT_NAME(SFRestSOQLDefau
 extern NSString* const kSFRestQueryOptions NS_SWIFT_NAME(SFRestQueryOptions);
 
 /**
+ Other constants
+ */
+extern NSInteger const kSFRestCollectionRetrieveMaxSize NS_SWIFT_NAME(SFRestCollectionRetrieveMaxSize);
+
+/**
  * Main class used to issue REST requests to the standard Force.com REST API.
  * See the [Force.com REST API Developer's Guide](http://www.salesforce.com/us/developer/docs/api_rest/index.htm)
  * for more information regarding the Force.com REST API.
@@ -70,7 +75,7 @@ NS_SWIFT_NAME(RestClient)
 
 /**
  * The REST API version used for all the calls.
-* The default value is `kSFRestDefaultAPIVersion` (currently "v49.0")
+* The default value is `kSFRestDefaultAPIVersion` (currently "v55.0")
  */
 @property (nonatomic, strong) NSString *apiVersion;
 
@@ -359,6 +364,79 @@ NS_SWIFT_NAME(RestClient)
  * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_sobject_tree.htm
  */
 - (SFRestRequest*) requestForSObjectTree:(NSString *)objectType objectTrees:(NSArray<SFSObjectTree *> *)objectTrees apiVersion:(nullable NSString *)apiVersion;
+
+/**
+ * Returns an `SFRestRequest` object for getting list of record related to offline briefcase
+ *
+ * @param relayToken Relay token (to get next page of results)
+ * @param timestamp To only get ids of records that changed after given time - or nil
+ * @param apiVersion Salesforce API version.
+ *
+ * @see https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_briefcase_priming_records.htm
+ */
+- (SFRestRequest*) requestForPrimingRecords:(nullable NSString *)relayToken changedAfterTimestamp:(nullable NSNumber *)timestamp apiVersion:(nullable NSString *)apiVersion;
+
+/**
+ * Returns an `SFRestRequest` object for creating multiple records with fewer round trips
+ *
+ * @param allOrNone Indicates whether to roll back the entire request when the creation of any object fails (true) or to continue with the independent creation of other objects in the request.
+ * @param records Array of sObjects.
+ * @param apiVersion Salesforce API version.
+ *
+ * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_sobjects_collections_create.htm
+ */
+- (SFRestRequest*) requestForCollectionCreate:(BOOL)allOrNone records:(NSArray<NSDictionary*>*)records apiVersion:(nullable NSString *)apiVersion;
+
+
+/**
+ * Returns an `SFRestRequest` object for retrieving multiple records with fewer round trips
+ *
+ * @param objectType Type of the requested record.
+ * @param objectIds Array of Salesforce IDs of the requested records.
+ * @param fieldList Array of requested field names.
+ * @param apiVersion Salesforce API version.
+ *
+ * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_sobjects_collections_retrieve.htm
+ */
+- (SFRestRequest*) requestForCollectionRetrieve:(NSString*)objectType objectIds:(NSArray<NSString*>*)objectIds fieldList:(NSArray<NSString*>*)fieldList apiVersion:(nullable NSString *)apiVersion;
+
+
+/**
+ * Returns an `SFRestRequest` object for updating multiple records with fewer round trips
+ *
+ * @param allOrNone Indicates whether to roll back the entire request when the update of any object fails (true) or to continue with the independent update of other objects in the request.
+ * @param records Array of sObjects.
+ * @param apiVersion Salesforce API version.
+ *
+ * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_sobjects_collections_update.htm
+ */
+- (SFRestRequest*) requestForCollectionUpdate:(BOOL)allOrNone records:(NSArray<NSDictionary*>*)records apiVersion:(nullable NSString *)apiVersion;
+
+
+/**
+ * Returns an `SFRestRequest` object for upserting multiple records with fewer round trips
+ *
+ * @param allOrNone Indicates whether to roll back the entire request when the upsert of any object fails (true) or to continue with the independent upsert of other objects in the request.
+ * @param objectType Type of the requested record.
+ * @param externalIdField Name of ID field in source data.
+ * @param records Array of sObjects.
+ * @param apiVersion Salesforce API version.
+ *
+ * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_sobjects_collections_upsert.htm
+ */
+- (SFRestRequest*) requestForCollectionUpsert:(BOOL)allOrNone objectType:(NSString*)objectType externalIdField:(NSString*)externalIdField records:(NSArray<NSDictionary*>*)records apiVersion:(nullable NSString *)apiVersion;
+
+
+/**
+ * Returns an `SFRestRequest` object for deleting multiple records with fewer round trips
+ * @param allOrNone Indicates whether to roll back the entire request when the delete of any object fails (true) or to continue with the independent delete of other objects in the request.
+ * @param objectIds List of Salesforce IDs of the records to delete.
+ * @param apiVersion Salesforce API version.
+ *
+ * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_sobjects_collections_delete.htm
+ */
+- (SFRestRequest*) requestForCollectionDelete:(BOOL)allOrNone objectIds:(NSArray<NSString*>*)objectIds apiVersion:(nullable NSString *)apiVersion;
+
 
 ///---------------------------------------------------------------------------------------
 /// @name Other utility methods

@@ -34,7 +34,6 @@
 #import "SFSDKWindowManager.h"
 #import "SFSDKWindowManager+Internal.h"
 #import "SFDefaultUserManagementViewController.h"
-#import "SFSecurityLockout.h"
 #import "SFApplicationHelper.h"
 #import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 
@@ -66,25 +65,6 @@
         [self screenLockValidation:completionBlock];
     }
 }
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-+ (void)passcodeValidation:(void (^)(void))completionBlock  {
-    [SFSecurityLockout setLockScreenSuccessCallbackBlock:^(SFSecurityLockoutAction action) {
-        [SFSDKCoreLogger i:[self class] format:@"Passcode verified, or not configured.  Proceeding with authentication validation."];
-        if (completionBlock) {
-            completionBlock();
-        }
-    }];
-    [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
-        // Note: Failed passcode verification automatically logs out users, which the logout
-        // delegate handler will catch and pass on.  We just log the error and reset launch
-        // state here.
-        [SFSDKCoreLogger e:[self class] format:@"Passcode validation failed.  Logging the user out."];
-    }];
-    [SFSecurityLockout lock];
-}
-#pragma clang diagnostic pop
 
 +(void)screenLockValidation:(void (^)(void))completionBlock  {
     [[SFScreenLockManager shared] setCallbackBlockWithScreenLockCallbackBlock:^{

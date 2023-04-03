@@ -35,8 +35,9 @@
 #import "NSString+SFAdditions.h"
 #import "SFSDKCompositeRequest.h"
 #import "SFSDKBatchRequest.h"
+#import "SFFormatUtils.h"
 
-NSString* const kSFRestDefaultAPIVersion = @"v49.0";
+NSString* const kSFRestDefaultAPIVersion = @"v55.0";
 NSString* const kSFRestIfUnmodifiedSince = @"If-Unmodified-Since";
 NSString* const kSFRestErrorDomain = @"com.salesforce.RestAPI.ErrorDomain";
 NSString* const kSFDefaultContentType = @"application/json";
@@ -45,6 +46,8 @@ NSInteger const kSFRestSOQLMinBatchSize = 200;
 NSInteger const kSFRestSOQLMaxBatchSize = 2000;
 NSInteger const kSFRestSOQLDefaultBatchSize = 2000;
 NSString* const kSFRestQueryOptions = @"Sforce-Query-Options";
+NSInteger const kSFRestCollectionRetrieveMaxSize = 2000;
+
 
 
 static BOOL kIsTestRun;
@@ -670,6 +673,63 @@ static dispatch_once_t pred;
     return [self addBodyForPostRequest:requestJson request:request];
 }
 
+- (SFRestRequest*) requestForPrimingRecords:(nullable NSString *)relayToken changedAfterTimestamp:(nullable NSNumber *)timestamp apiVersion:(nullable NSString *)apiVersion {
+    NSString *path = [NSString stringWithFormat:@"/%@/connect/briefcase/priming-records", [self computeAPIVersion:apiVersion]];
+    
+    NSDictionary *queryParams = nil;
+    if (relayToken != nil) {
+        queryParams = @{@"relayToken": relayToken};
+    }
+    if (timestamp) {
+        NSString *isoTimestamp = [SFFormatUtils getIsoStringFromMillis:timestamp.longLongValue];
+        if (isoTimestamp) {
+            queryParams = @{@"changedAfterTimestamp": isoTimestamp};
+        }
+    }
+
+    return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:queryParams];
+}
+
+- (SFRestRequest*) requestForCollectionCreate:(BOOL)allOrNone records:(NSArray<NSDictionary*>*)records apiVersion:(nullable NSString *)apiVersion {
+    NSString *path = [NSString stringWithFormat:@"/%@/composite/sobjects", [self computeAPIVersion:apiVersion]];
+    NSDictionary* requestJson = @{@"allOrNone": [NSNumber numberWithBool:allOrNone], @"records": records};
+    SFRestRequest* request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:nil];
+    return [self addBodyForPostRequest:requestJson request:request];
+}
+
+- (SFRestRequest*) requestForCollectionRetrieve:(NSString*)objectType objectIds:(NSArray<NSString*>*)objectIds fieldList:(NSArray<NSString*>*)fieldList apiVersion:(nullable NSString *)apiVersion {
+    NSString *path = [NSString stringWithFormat:@"/%@/composite/sobjects/%@", [self computeAPIVersion:apiVersion], objectType];
+    NSDictionary* requestJson = @{@"ids": objectIds, @"fields": fieldList};
+    SFRestRequest* request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:nil];
+    return [self addBodyForPostRequest:requestJson request:request];
+
+}
+
+- (SFRestRequest*) requestForCollectionUpdate:(BOOL)allOrNone records:(NSArray<NSDictionary*>*)records apiVersion:(nullable NSString *)apiVersion {
+    NSString *path = [NSString stringWithFormat:@"/%@/composite/sobjects", [self computeAPIVersion:apiVersion]];
+    NSDictionary* requestJson = @{@"allOrNone": [NSNumber numberWithBool:allOrNone], @"records": records};
+    SFRestRequest* request = [SFRestRequest requestWithMethod:SFRestMethodPATCH path:path queryParams:nil];
+    return [self addBodyForPostRequest:requestJson request:request];
+
+}
+
+- (SFRestRequest*) requestForCollectionUpsert:(BOOL)allOrNone objectType:(NSString*)objectType externalIdField:(NSString*)externalIdField records:(NSArray<NSDictionary*>*)records apiVersion:(nullable NSString *)apiVersion {
+    NSString *path = [NSString stringWithFormat:@"/%@/composite/sobjects/%@/%@", [self computeAPIVersion:apiVersion], objectType, externalIdField];
+    NSDictionary* requestJson = @{@"allOrNone": [NSNumber numberWithBool:allOrNone], @"records": records};
+    SFRestRequest* request = [SFRestRequest requestWithMethod:SFRestMethodPATCH path:path queryParams:nil];
+    return [self addBodyForPostRequest:requestJson request:request];
+}
+
+- (SFRestRequest*) requestForCollectionDelete:(BOOL)allOrNone objectIds:(NSArray<NSString*>*)objectIds apiVersion:(nullable NSString *)apiVersion {
+    NSString *path = [NSString stringWithFormat:@"/%@/composite/sobjects", [self computeAPIVersion:apiVersion]];
+    NSDictionary* queryParams = @{@"allOrNone": allOrNone ? @"true" : @"false",
+                                  @"ids": [objectIds componentsJoinedByString:@","]};
+    return [SFRestRequest requestWithMethod:SFRestMethodDELETE path:path queryParams:queryParams];
+}
+
+
+# pragma mark - Helper methods
+
 - (NSString *)toQueryString:(NSDictionary *)components {
     NSMutableString *params = [NSMutableString new];
     if (components) {
@@ -698,7 +758,6 @@ static dispatch_once_t pred;
     return statusCode  == 404;
 }
 
-# pragma mark - Helper methods
 + (NSString *)getHttpStringFomFromDate:(NSDate *)date {
     if (date == nil) return nil;
     return [httpDateFormatter stringFromDate:date];

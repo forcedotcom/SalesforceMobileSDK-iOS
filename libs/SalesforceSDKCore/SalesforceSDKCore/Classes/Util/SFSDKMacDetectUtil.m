@@ -31,11 +31,7 @@
 
 + (BOOL)isOnMac {
     NSProcessInfo *processInfo = [NSProcessInfo processInfo];
-    BOOL isOnMac = processInfo.macCatalystApp;
-    if (@available(iOS 14.0, *)) { // TODO: Remove in Mobile SDK 10.0
-        isOnMac = isOnMac || processInfo.isiOSAppOnMac;
-    }
-    return isOnMac;
+    return processInfo.macCatalystApp || processInfo.isiOSAppOnMac;
 }
 
 @end

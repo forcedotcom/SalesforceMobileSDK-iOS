@@ -26,6 +26,7 @@
 #import "SyncManagerTestCase.h"
 #import "MobileSyncSDKManager.h"
 #import "SFSoqlSyncDownTarget.h"
+#import <MobileSync/MobileSync-Swift.h>
 
 @interface SFSDKSyncsConfigTests : SyncManagerTestCase
 
@@ -346,6 +347,29 @@
     expectedTotalSize:-1];
 }
 
+- (void)testBriefcaseSyncDownFromConfig {
+    [self.sdkManager setupUserSyncsFromDefaultConfig];
+    SFSyncState *sync = [self.syncManager getSyncStatusByName:@"briefcaseSyncDown"];
 
+    [self checkStatus:sync
+         expectedType:SFSyncStateSyncTypeDown
+           expectedId:sync.syncId
+         expectedName:@"briefcaseSyncDown"
+       expectedTarget:[[SFBriefcaseSyncDownTarget alloc]
+                       initWithInfos:@[[[SFBriefcaseObjectInfo alloc] initWithSoupName:@"accounts"
+                                                                          sobjectType:@"Account"
+                                                                            fieldlist:@[@"Name", @"Description"]
+                                                                          idFieldName:nil
+                                                            modificationDateFieldName:nil],
+                                      [[SFBriefcaseObjectInfo alloc] initWithSoupName:@"contacts"
+                                                                          sobjectType:@"Contact"
+                                                                            fieldlist:@[@"FirstName"]
+                                                                          idFieldName:@"IdX"
+                                                            modificationDateFieldName:@"LastModifiedDateX"]]]
+      expectedOptions:[SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeOverwrite]
+       expectedStatus:SFSyncStateStatusNew
+     expectedProgress:0
+    expectedTotalSize:-1];
+}
 
 @end

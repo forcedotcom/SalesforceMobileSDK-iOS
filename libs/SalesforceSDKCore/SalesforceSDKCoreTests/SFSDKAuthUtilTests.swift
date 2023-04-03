@@ -27,7 +27,6 @@
  */
 
 import XCTest
-import Foundation
 @testable import SalesforceSDKCore
 
 class SFSDKAuthUtilTests: XCTestCase {
@@ -45,7 +44,7 @@ class SFSDKAuthUtilTests: XCTestCase {
         currentUser = UserAccountManager.shared.currentUserAccount
     }
 
-    func testAccessToken() {
+    func testAccessToken() throws {
         let expectation = XCTestExpectation(description: "finished")
         XCTAssertNotNil(currentUser)
         let request = SFSDKOAuthTokenEndpointRequest()
@@ -59,13 +58,11 @@ class SFSDKAuthUtilTests: XCTestCase {
         let oauthClient = SFSDKOAuth2()
         var endpointResponse:SFSDKOAuthTokenEndpointResponse? = nil
         oauthClient.accessToken(forRefresh: request) { (response) in
-            print("Done!")
             endpointResponse = response
             expectation.fulfill()
         }
         self.wait(for: [expectation], timeout: 30)
-        XCTAssertNotNil(endpointResponse)
-        let response = try! require(endpointResponse)
+        let response = try XCTUnwrap(endpointResponse)
         XCTAssertFalse(response.hasError)
         XCTAssertNotNil(response.accessToken)
         XCTAssertTrue(response.refreshToken.count > 0)
@@ -89,7 +86,6 @@ class SFSDKAuthUtilTests: XCTestCase {
         let oauthClient = SFSDKOAuth2()
         var idToken:String? = nil
         oauthClient.openIDToken(forRefresh: request) { (response) in
-            print("Done!")
             idToken = response
             expectation.fulfill()
         }
@@ -97,7 +93,7 @@ class SFSDKAuthUtilTests: XCTestCase {
         XCTAssertNotNil(idToken)
     }
 
-    func testAccessTokenInvalidClientIdError() {
+    func testAccessTokenInvalidClientIdError() throws {
         let expectation = XCTestExpectation(description: "finished")
         XCTAssertNotNil(currentUser)
         let request = SFSDKOAuthTokenEndpointRequest()
@@ -111,19 +107,17 @@ class SFSDKAuthUtilTests: XCTestCase {
         let oauthClient = SFSDKOAuth2()
         var endpointResponse:SFSDKOAuthTokenEndpointResponse? =  nil
         oauthClient.accessToken(forRefresh: request) { (tokenResponse) in
-            print("Done!")
             endpointResponse = tokenResponse
             expectation.fulfill()
         }
         self.wait(for: [expectation], timeout: 10)
-        XCTAssertNotNil(endpointResponse)
-        let response = try! require(endpointResponse)
+        let response = try XCTUnwrap(endpointResponse)
         XCTAssertTrue(response.hasError)
-        let error = try! require(response.error)
+        let error = try XCTUnwrap(response.error)
         XCTAssertTrue((error.error as NSError).code == kSFOAuthErrorInvalidClientId)
     }
 
-    func testAccessTokenInvalidGrant() {
+    func testAccessTokenInvalidGrant() throws {
         let expectation = XCTestExpectation(description: "finished")
         XCTAssertNotNil(currentUser)
         let request = SFSDKOAuthTokenEndpointRequest()
@@ -137,14 +131,12 @@ class SFSDKAuthUtilTests: XCTestCase {
         let oauthClient = SFSDKOAuth2()
         var endpointResponse:SFSDKOAuthTokenEndpointResponse? =  nil
         oauthClient.accessToken(forRefresh: request) { (tokenResponse) in
-            print("Done!")
             endpointResponse = tokenResponse
             expectation.fulfill()
         }
         self.wait(for: [expectation], timeout: 10)
-        XCTAssertNotNil(endpointResponse)
-        let response = try! require(endpointResponse)
-        let error = try! require(response.error)
+        let response = try XCTUnwrap(endpointResponse)
+        let error = try XCTUnwrap(response.error)
         XCTAssertTrue((error.error as NSError).code == kSFOAuthErrorInvalidGrant)
     }
 }

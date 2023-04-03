@@ -27,7 +27,6 @@
 
 import XCTest
 @testable import SalesforceSDKCore
-import CryptoKit
 
 class EncryptionTests: XCTestCase {
 
@@ -37,9 +36,8 @@ class EncryptionTests: XCTestCase {
     
     func testEncryptDecrypt() throws {
         let key = try KeyGenerator.encryptionKey(for: "test1")
-        XCTAssertNotNil(key)
         let sensitiveInfo = "My sensitive info"
-        let sensitiveData = try XCTUnwrap(sensitiveInfo.data(using: .utf8))
+        let sensitiveData = Data(sensitiveInfo.utf8)
         let encryptedData = try Encryptor.encrypt(data: sensitiveData, using: key)
         XCTAssertNotEqual(sensitiveData, encryptedData)
         
@@ -48,33 +46,102 @@ class EncryptionTests: XCTestCase {
         
         let decryptedData = try Encryptor.decrypt(data: encryptedData, using: keyAgain)
         let decryptedString = String(data: decryptedData, encoding: .utf8)
-        
         XCTAssertEqual(decryptedString, sensitiveInfo)
     }
     
     func testEncryptDecryptWrongKey() throws {
         let key = try KeyGenerator.encryptionKey(for: "test1")
-        XCTAssertNotNil(key)
         let sensitiveInfo = "My sensitive info"
-        let sensitiveData = try XCTUnwrap(sensitiveInfo.data(using: .utf8))
+        let sensitiveData = Data(sensitiveInfo.utf8)
         let encryptedData = try Encryptor.encrypt(data: sensitiveData, using: key)
         XCTAssertNotEqual(sensitiveData, encryptedData)
         
         let differentKey = try KeyGenerator.encryptionKey(for: "test2")
         XCTAssertNotEqual(key, differentKey)
-        
         XCTAssertThrowsError(try Encryptor.decrypt(data: encryptedData, using: differentKey))
     }
     
-    func testKeyRetrieval() throws {
-        let key = try KeyGenerator.encryptionKey(for: "test1")
-        XCTAssertNotNil(key)
-        let keyAgain = try KeyGenerator.encryptionKey(for: "test1")
+    func testECKeyCreationDeletion() throws {
+        let publicKeyTag = try KeyGenerator.keyTag(name: "ECTest", prefix: KeyGenerator.ecPublicKeyTagPrefix)
+        let privateKeyTag = try KeyGenerator.keyTag(name: "ECTest", prefix: KeyGenerator.ecPrivateKeyTagPrefix)
+        
+        _ = try KeyGenerator.createECKeyPair(privateTag: privateKeyTag, publicTag: publicKeyTag)
+        XCTAssertNotNil(try KeyGenerator.ecKey(tag: publicKeyTag))
+        XCTAssertNotNil(try KeyGenerator.ecKey(tag: privateKeyTag))
+        
+        KeyGenerator.removeECKeyPair(privateTag: privateKeyTag, publicTag: publicKeyTag)
+        XCTAssertNil(try KeyGenerator.ecKey(tag: publicKeyTag))
+        XCTAssertNil(try KeyGenerator.ecKey(tag: privateKeyTag))
+    }
+    
+    func testSymmetricKeyRetrievalECKeyReset() throws {
+        let publicKeyTag = try KeyGenerator.keyTag(name: KeyGenerator.defaultKeyName, prefix: KeyGenerator.ecPublicKeyTagPrefix)
+        let privateKeyTag = try KeyGenerator.keyTag(name: KeyGenerator.defaultKeyName, prefix: KeyGenerator.ecPrivateKeyTagPrefix)
+        
+        // Just remove private key
+        XCTAssertNotNil(try KeyGenerator.encryptionKey(for: "reset1"))
+        XCTAssertTrue(KeyGenerator.removeKey(tag: privateKeyTag))
+        KeyGenerator.keyCache.removeValue(forKey: "reset1")
+        var key = try KeyGenerator.encryptionKey(for: "reset1")
+        XCTAssertNotNil(key, "Couldn't generate new symmetric key after EC private key removal")
+        // Read the key from the keychain (not cache) to make sure it can be decrypted with new EC key pair
+        KeyGenerator.keyCache.removeValue(forKey: "reset1")
+        var keyAgain = try KeyGenerator.encryptionKey(for: "reset1")
         XCTAssertEqual(key, keyAgain)
         
-        let differentKey = try KeyGenerator.encryptionKey(for: "test2")
-        XCTAssertNotNil(differentKey)
-        XCTAssertNotEqual(key, differentKey)
+        // Just remove public key
+        XCTAssertNotNil(try KeyGenerator.encryptionKey(for: "reset2"))
+        XCTAssertTrue(KeyGenerator.removeKey(tag: publicKeyTag))
+        KeyGenerator.keyCache.removeValue(forKey: "reset2")
+        key = try KeyGenerator.encryptionKey(for: "reset2")
+        XCTAssertNotNil(key, "Couldn't generate new symmetric key after EC public key removal")
+        KeyGenerator.keyCache.removeValue(forKey: "reset2")
+        keyAgain = try KeyGenerator.encryptionKey(for: "reset2")
+        XCTAssertEqual(key, keyAgain)
+
+        // Remove key pair
+        XCTAssertNotNil(try KeyGenerator.encryptionKey(for: "reset3"))
+        XCTAssertTrue(KeyGenerator.removeECKeyPair(privateTag: privateKeyTag, publicTag: publicKeyTag))
+        KeyGenerator.keyCache.removeValue(forKey: "reset3")
+        key = try KeyGenerator.encryptionKey(for: "reset3")
+        XCTAssertNotNil(key, "Couldn't generate new symmetric key after EC key pair removal")
+        KeyGenerator.keyCache.removeValue(forKey: "reset3")
+        keyAgain = try KeyGenerator.encryptionKey(for: "reset3")
+        XCTAssertEqual(key, keyAgain)
+    }
+
+    func testSymmetricKeyRecoveryAfterECBug() throws {
+        let publicKeyTag = try KeyGenerator.keyTag(name: KeyGenerator.defaultKeyName, prefix: KeyGenerator.ecPublicKeyTagPrefix)
+        let privateKeyTag = try KeyGenerator.keyTag(name: KeyGenerator.defaultKeyName, prefix: KeyGenerator.ecPrivateKeyTagPrefix)
+        KeyGenerator.removeECKeyPair(privateTag: privateKeyTag, publicTag: publicKeyTag)
+        
+        // Get symmetric key that generates pair
+        let key = try KeyGenerator.encryptionKey(for: "keyName")
+
+        // After restore to same device, public key would be present but not private key
+        XCTAssertTrue(KeyGenerator.removeKey(tag: privateKeyTag))
+        
+        // Previous bug would mean another EC key pair would be created in addition to the existing single public key
+        _ = try KeyGenerator.createECKeyPair(privateTag: privateKeyTag, publicTag: publicKeyTag)
+        
+        // Check that the public key will throw error because it found more than one
+        XCTAssertThrowsError(try KeyGenerator.ecKey(tag: publicKeyTag))
+        
+        // This should regenerate a new key after being unable to decrypt the old key and deleting the EC duplicates
+        KeyGenerator.keyCache.removeValue(forKey: "keyName")
+        let resetKey = try KeyGenerator.encryptionKey(for: "keyName")
+        XCTAssertNotEqual(key, resetKey)
+        let unencryptedData = Data("this is a test".utf8)
+        let encryptedData = try Encryptor.encrypt(data: unencryptedData, using: resetKey)
+        let decryptedData = try Encryptor.decrypt(data: encryptedData, using: resetKey)
+        XCTAssertEqual(unencryptedData, decryptedData)
+        
+        // Getting the key for a second time after reset should return the same key, make sure it can decrypt the same data
+        KeyGenerator.keyCache.removeValue(forKey: "keyName")
+        let resetKeyAgain = try KeyGenerator.encryptionKey(for: "keyName")
+        XCTAssertEqual(resetKey, resetKeyAgain)
+        let decryptedDataAgain = try Encryptor.decrypt(data: encryptedData, using: resetKeyAgain)
+        XCTAssertEqual(unencryptedData, decryptedDataAgain)
     }
     
     func testConcurrency() throws {
