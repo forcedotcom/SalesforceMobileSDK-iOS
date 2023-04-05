@@ -58,6 +58,8 @@ static NSString * const kSFAppStoreLink   = @"itunes.apple.com";
 
 @property (nonatomic) NSString *networkIdentifier;
 
+@end
+
 @implementation SFOAuthCoordinator
 
 @synthesize credentials          = _credentials;
