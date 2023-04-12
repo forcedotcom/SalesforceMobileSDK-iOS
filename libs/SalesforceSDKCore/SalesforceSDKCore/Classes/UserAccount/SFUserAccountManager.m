@@ -60,6 +60,11 @@
 #import "SFSDKSalesforceAnalyticsManager.h"
 #import "SFApplicationHelper.h"
 #import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
+#import <SalesforceSDKCommon/SalesforceSDKCommon-Swift.h>
+#import "SFSDKAuthRequestCommand.h"
+#import "SFSDKCryptoUtils.h"
+#import "NSData+SFSDKUtils_Internal.h"
+#import "SFSDKIDPAuthHelper.h"
 
 // Notifications
 NSNotificationName SFUserAccountManagerDidChangeUserNotification       = @"SFUserAccountManagerDidChangeUserNotification";
@@ -319,13 +324,46 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 
 #pragma  mark - login & logout
 
-- (BOOL)handleIDPAuthenticationResponse:(NSURL *)appUrlResponse options:(nonnull NSDictionary *)options {
-    [SFSDKCoreLogger d:[self class] format:@"handleIDPAuthenticationResponse %@",[appUrlResponse description]];
+- (BOOL)handleIDPAuthenticationResponse:(NSURL *)appUrlResponse options:(NSDictionary *)options {
+    return [self handleIDPAuthenticationResponse:appUrlResponse options:options completion:nil];
+}
+
+- (BOOL)handleIDPAuthenticationResponse:(NSURL *)appUrlResponse options:(nonnull NSDictionary *)options completion:(void (^)(void))completion {
+    // TODO: Hook in completion
+    
+    [SFSDKCoreLogger d:[self class] format:@"handleIDPAuthenticationResponse %@", [appUrlResponse description]];
     BOOL result = [[SFSDKURLHandlerManager sharedInstance] canHandleRequest:appUrlResponse options:options];
     if (result) {
-        result = [[SFSDKURLHandlerManager sharedInstance] processRequest:appUrlResponse  options:options];
+        result = [[SFSDKURLHandlerManager sharedInstance] processRequest:appUrlResponse options:options];
     }
     return result;
+}
+
+- (void)initiateSPAuthentication:(NSString *)spConsumerKey redirectURI:(NSString *)spRedirectURI scopes:(NSSet<NSString *> *)spScopes {
+    // TODO: Where does keychainGroup come from?
+    // Could have a prefix parameter (for "XD7TD9S6ZU") and a hardcoded string
+    // How to handle app group access group?
+    // Could have a parameter for the group
+    
+    NSString *keychainGroup = @"XD7TD9S6ZU.com.bbirman.msdk";
+    NSData *codeVerifier = [SFSDKCryptoUtils randomByteDataWithLength:kSFVerifierByteLength];
+    SFSDKKeychainResult *result = [SFSDKKeychainHelper writeWithService:@"com.salesforce.codeverifier" data:codeVerifier account:nil accessGroup:keychainGroup cacheEnabled: cacheModeUnspecfied];
+
+    // TODO: Error handling
+    NSString *challengeString = [[[[codeVerifier msdkBase64UrlString] dataUsingEncoding:NSUTF8StringEncoding] msdkSha256Data] msdkBase64UrlString];
+
+    NSDictionary *appContext = @{
+        kSFOAuthClientIdParam: spConsumerKey,
+        kSFOAuthRedirectUrlParam: spRedirectURI,
+        kSFChallengeParamName: challengeString,
+        kSFLoginHostParam: self.currentUser.credentials.domain,
+        kSFScopesParam: [SFSDKIDPAuthHelper encodeScopes:spScopes],
+        kSFKeychainGroupParam: keychainGroup
+    };
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self selectedUser:self.currentUser spAppContext:appContext];
+    });
 }
 
 - (BOOL)loginWithCompletion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
@@ -868,7 +906,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     [self stopCurrentAuthentication:^(BOOL result) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         [strongSelf authenticateWithRequestOnBehalfOfSpApp:request spAppCredentials:spAppCredentials  completion:^(SFOAuthInfo *authInfo, SFUserAccount *user) {
-            [strongSelf authenticateOnBehalfOfSPApp:user spAppCredentials:spAppCredentials];
+            [strongSelf authenticateOnBehalfOfSPApp:user spAppCredentials:spAppCredentials authRequest:nil];
         } failure:^(SFOAuthInfo *authInfo, NSError *error) {
             [SFSDKIDPAuthHelper invokeSPAppWithError:spAppCredentials error:error reason:@"Failed refreshing credentials"];
         }];
@@ -883,10 +921,13 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     SFOAuthCredentials *spAppCredentials = [self spAppCredentials:spAppOptions];
     SFRestRequest *request = [[SFRestAPI sharedInstanceWithUser:user] requestForUserInfo];
     [[SFRestAPI sharedInstanceWithUser:user] sendRequest:request failureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
+        // TODO: report in IDP app?
         [SFSDKIDPAuthHelper invokeSPAppWithError:spAppCredentials error:error reason:@"Failed refreshing credentials"];
     } successBlock:^(id response, NSURLResponse *rawResponse) {
         __strong typeof (self) strongSelf = weakSelf;
-        [strongSelf authenticateOnBehalfOfSPApp:user spAppCredentials:spAppCredentials];
+        SFSDKAuthRequest *request = [self defaultAuthRequest];
+        request.keychainGroup = spAppOptions[kSFKeychainGroupParam];
+        [strongSelf authenticateOnBehalfOfSPApp:user spAppCredentials:spAppCredentials authRequest:request];
     }];
 }
 
@@ -1431,8 +1472,11 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     return self.authSessions[sceneId].isAuthenticating;
 }
 
-- (void)authenticateOnBehalfOfSPApp:(SFUserAccount *)user spAppCredentials:(SFOAuthCredentials *)spAppCredentials {
-    SFSDKAuthRequest *request = [self defaultAuthRequest];
+- (void)authenticateOnBehalfOfSPApp:(SFUserAccount *)user spAppCredentials:(SFOAuthCredentials *)spAppCredentials authRequest:(SFSDKAuthRequest *)request {
+    if (!request) {
+        request = [self defaultAuthRequest];
+    }
+    
     SFSDKAuthSession *authSession = [[SFSDKAuthSession alloc] initWith:request credentials:user.credentials spAppCredentials:spAppCredentials];
     authSession.oauthCoordinator.delegate = self;
     authSession.identityCoordinator.delegate = self;

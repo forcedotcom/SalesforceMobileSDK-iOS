@@ -43,11 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic,copy) NSString *spUserHint;
 
-@property (nonatomic,copy) NSString *callingAppUrl;
-
 @property (nonatomic,copy) NSString *spAppName;
-
-@property (nonatomic,copy) NSString *spAppDescription;
 
 @property (nonatomic,copy) NSString *spLoginHost;
 

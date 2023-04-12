@@ -63,5 +63,5 @@
  @param sceneId The identifier for the scene that's handling the response.
  @return YES if this is request is handled, NO otherwise.
  */
-- (BOOL)handleIdpResponse:(SFSDKAuthResponseCommand *_Nonnull)response sceneId:(nullable NSString *)sceneId;
+- (BOOL)handleIdpResponse:(SFSDKAuthResponseCommand *_Nonnull)response sceneId:(nullable NSString *)sceneId completion:(nullable void (^)(void))completion;
 @end

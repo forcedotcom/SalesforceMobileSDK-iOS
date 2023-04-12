@@ -60,4 +60,12 @@
     return @"authresponse";
 }
 
+- (NSString *)keychainGroup {
+    return [self paramForKey:kSFKeychainGroupParam];
+}
+
+- (void)setKeychainGroup:(NSString *)keychain {
+    [self setParamForKey:keychain key:kSFKeychainGroupParam];
+}
+
 @end

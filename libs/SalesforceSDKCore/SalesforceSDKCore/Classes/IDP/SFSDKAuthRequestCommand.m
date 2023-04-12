@@ -59,7 +59,6 @@
     return [self paramForKey:kSFChallengeParamName];
 }
 
-
 - (void)setSpCodeChallenge:(NSString *)spCodeChallenge {
     [self setParamForKey:spCodeChallenge key:kSFChallengeParamName];
 }
@@ -80,19 +79,6 @@
     [self setParamForKey:spAppName key:kSFAppNameParam];
 }
 
-
-- (void)setCallingAppUrl:(NSString *)callingAppUrl {
-    _callingAppUrl = [callingAppUrl mutableCopy];
-}
-
-- (NSString *)spAppDescription {
-    return [self paramForKey:kSFAppDescParam];
-}
-
-- (void)setSpAppDescription:(NSString *)spAppDescription {
-    [self setParamForKey:spAppDescription key:kSFAppDescParam];
-}
-
 - (NSString *)spLoginHost {
     return [self paramForKey:kSFLoginHostParam];
 }
@@ -100,7 +86,6 @@
 - (void)setSpLoginHost:(NSString *)spLoginHost {
     [self setParamForKey:spLoginHost key:kSFLoginHostParam];
 }
-
 
 - (NSString *)spAppScopes {
     return [self paramForKey:kSFScopesParam];

@@ -513,6 +513,10 @@ Use this method to stop/clear any authentication which is has already been start
  */
 - (BOOL)handleIDPAuthenticationResponse:(NSURL *)url options:(nonnull NSDictionary *)options NS_SWIFT_NAME(handleIdentityProviderResponse(from:with:));
 
+- (BOOL)handleIDPAuthenticationResponse:(NSURL *)url options:(nonnull NSDictionary *)options completion:(nullable void (^)(void))completion NS_SWIFT_NAME(handleIdentityProviderResponse(from:with:completion:));
+
+- (void)initiateSPAuthentication:(NSString *)spConsumerKey redirectURI:(NSString *)spRedirectURI scopes:(NSSet<NSString *> *)spScopes;
+
 @end
 
 NS_ASSUME_NONNULL_END

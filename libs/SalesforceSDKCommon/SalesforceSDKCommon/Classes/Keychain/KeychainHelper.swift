@@ -30,7 +30,18 @@ import Foundation
 
 @objc(SFSDKKeychainHelper)
 public class KeychainHelper: NSObject {
+    /// Default access group, used for all operations unless otherwise specfied at the method level
+    @objc public static var accessGroup: String?
+    @objc public static var cacheEnabled: Bool = false
     @objc public private(set) static var accessibilityAttribute: CFString?
+    
+    @objc public enum cacheMode: Int {
+        case unspecfied
+        case enabled
+        case disabled
+    }
+    
+    typealias KeychainOperation = (String, String?) -> KeychainResult
 
     private static var keychainAccessibleAttribute: CFString {
         return accessibilityAttribute ?? kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
@@ -51,13 +62,32 @@ public class KeychainHelper: NSObject {
     ///   - account: Identifier to use for keychain account key.
     /// - Returns: KeychainResult
     @objc public class func read(service: String, account: String?) -> KeychainResult {
+        return read(service: service, account: account, accessGroup: KeychainHelper.accessGroup)
+    }
+
+    /// Read a value from the keychain for a given access group
+    /// - Parameters:
+    ///   - service: Service name for keychain item
+    ///   - account: Account name for keychain item
+    ///   - accessGroup: kSecAttrAccessGroup attribute for keychain item
+    /// - Returns: KeychainResult
+    @objc public class func read(service: String, account: String?, accessGroup: String? = nil) -> KeychainResult {
         self.upgradeIfRequired()
-        return CachedWrapper.wrap(service, account) { service, account in
+        
+        let keychainRead: KeychainOperation = { service, account in
             let keychainManager = KeychainItemManager(service: service,
                                                       account: account,
-                                                      accessibilityAttribute: KeychainHelper.keychainAccessibleAttribute)
+                                                      accessibilityAttribute: KeychainHelper.keychainAccessibleAttribute,
+                                                      accessGroup: KeychainHelper.accessGroup(accessGroup))
             return keychainManager.getValue()
         }
+        
+        if shouldUseCache(false) { // TODO
+            return CachedWrapper.wrap(service, account, readFunc: keychainRead)
+        } else {
+            return keychainRead(service, account)
+        }
+        
     }
 
     /// Create an item in the keychain if not present.
@@ -66,17 +96,33 @@ public class KeychainHelper: NSObject {
     ///   - account: Identifier to use for keychain account key.
     /// - Returns: KeychainResult
     @objc public class func createIfNotPresent(service: String, account: String?) -> KeychainResult {
+        return createIfNotPresent(service: service, account: account, accessGroup: accessGroup, cacheEnabled: cacheEnabled)
+    }
+    
+    /// Create an item in the keychain if not present.
+    /// - Parameters:
+    ///   - service: Identifier to use for keychain service key.
+    ///   - account: Identifier to use for keychain account key.
+    /// - Returns: KeychainResult
+    public class func createIfNotPresent(service: String, account: String?, accessGroup: String? = nil, cacheEnabled: Bool? = nil) -> KeychainResult {
         self.upgradeIfRequired()
         
-        return CachedWrapper.wrap(service, account) { service, account in
+        let keychainRead: KeychainOperation = { service, account in
             let keychainManager = KeychainItemManager(service: service,
                                                       account: account,
-                                                      accessibilityAttribute: KeychainHelper.keychainAccessibleAttribute)
+                                                      accessibilityAttribute: KeychainHelper.keychainAccessibleAttribute,
+                                                      accessGroup: KeychainHelper.accessGroup(accessGroup))
             var keychainResult = keychainManager.getValue()
             if !keychainResult.success && keychainResult.status == errSecItemNotFound {
                 keychainResult = keychainManager.addEmptyValue()
             }
             return keychainResult
+        }
+        
+        if shouldUseCache(cacheEnabled) {
+            return CachedWrapper.wrap(service, account, readFunc: keychainRead)
+        } else {
+            return keychainRead(service, account)
         }
     }
 
@@ -87,13 +133,39 @@ public class KeychainHelper: NSObject {
     ///   - account: Identifier to use for keychain account key.
     /// - Returns: KeychainResult
     @objc public class func write(service: String, data: Data, account: String?) -> KeychainResult {
+        write(service: service, data: data, account: account, accessGroup: accessGroup, cacheEnabled: cacheMode.enabled)
+    }
+
+    
+    // TODO: Can represent in Swift, could make parallel APIs like encryptor, one only available in Obj-c, one in Swift
+    public class func write(service: String, data: Data, account: String?, accessGroup: String? = nil, cacheEnabled: Bool? = nil) -> KeychainResult {
+        return KeychainResult(data: Data(), status: OSStatus())
+    }
+    
+    
+    ///  Update or create an item in the keychain if not present for a given access group
+    /// - Parameters:
+    ///   - service: Service name for keychain item
+    ///   - data:  Data to write
+    ///   - account: Account name for keychain item
+    ///   - accessGroup: kSecAttrAccessGroup attribute for keychain item
+    /// - Returns: KeychainResult
+    @objc public class func write(service: String, data: Data, account: String?, accessGroup: String? = nil, cacheEnabled: cacheMode = cacheMode.unspecfied) -> KeychainResult {
         self.upgradeIfRequired()
         
-        return CachedWrapper.wrapWrites(service, data, account) { service, data, account in
+        let keychainWrite: (String, Data, String?) -> KeychainResult = { service, data, account in
             let keychainManager = KeychainItemManager(service: service,
                                                       account: account,
-                                                      accessibilityAttribute: KeychainHelper.keychainAccessibleAttribute)
+                                                      accessibilityAttribute: KeychainHelper.keychainAccessibleAttribute,
+                                                      accessGroup: KeychainHelper.accessGroup(accessGroup))
             return keychainManager.setValue(data)
+        }
+        
+        
+        if shouldUseCache(false) { // TODO
+            return CachedWrapper.wrapWrites(service, data, account, writeFunc: keychainWrite)
+        } else {
+            return keychainWrite(service, data, account)
         }
     }
 
@@ -103,9 +175,14 @@ public class KeychainHelper: NSObject {
     ///   - account: Identifier to use for keychain account key.
     /// - Returns: KeychainResult
     @objc public class func reset(service: String, account: String?) -> KeychainResult {
+        return reset(service: service, account: account, accessGroup: accessGroup, cacheEnabled: cacheEnabled)
+    }
+    
+    
+    public class func reset(service: String, account: String?, accessGroup: String? = nil, cacheEnabled: Bool? = nil) -> KeychainResult {
         self.upgradeIfRequired()
         
-        return CachedWrapper.wrapRemoves(service, account) { service, account in
+        let keychainReset: KeychainOperation = { service, account in
             let keychainManager = KeychainItemManager(service: service,
                                                       account: account,
                                                       accessibilityAttribute: KeychainHelper.keychainAccessibleAttribute)
@@ -115,7 +192,14 @@ public class KeychainHelper: NSObject {
             }
             return keychainResult
         }
+        
+        if shouldUseCache(cacheEnabled) {
+            return CachedWrapper.wrapRemoves(service, account, removeFunc: keychainReset)
+        } else {
+            return keychainReset(service, account)
+        }
     }
+    
 
     /// Remove an item from the keychain.
     /// - Parameters:
@@ -123,7 +207,6 @@ public class KeychainHelper: NSObject {
     ///   - account: Identifier to use for keychain account key.
     /// - Returns: KeychainResult
     @objc public class func remove(service: String, account: String?) -> KeychainResult {
-        self.upgradeIfRequired()
         
         return CachedWrapper.wrapRemoves(service, account) { service, account in
             let keychainManager = KeychainItemManager(service: service,
@@ -134,6 +217,28 @@ public class KeychainHelper: NSObject {
                 keychainResult = keychainManager.removeValue()
             }
             return keychainResult
+        }
+    }
+    
+    
+    public class func remove(service: String, account: String?, accessGroup: String? = nil, cacheEnabled: Bool? = nil) -> KeychainResult {
+        self.upgradeIfRequired()
+        
+        let keychainRemove: KeychainOperation = {service, account in
+            let keychainManager = KeychainItemManager(service: service,
+                                                      account: account,
+                                                      accessibilityAttribute: KeychainHelper.keychainAccessibleAttribute)
+            var keychainResult = keychainManager.getValue()
+            if keychainResult.success {
+                keychainResult = keychainManager.removeValue()
+            }
+            return keychainResult
+        }
+        
+        if shouldUseCache(cacheEnabled) {
+            return CachedWrapper.wrapRemoves(service, account, removeFunc: keychainRemove)
+        } else {
+            return keychainRemove(service, account)
         }
     }
 
@@ -219,6 +324,14 @@ public class KeychainHelper: NSObject {
     /// Use this call to clear caches.
     @objc public class func clearCaches() {
         CachedWrapper.clearAllCaches()
+    }
+    
+    private class func accessGroup(_ accessGroup: String?) -> String? {
+        return accessGroup ?? KeychainHelper.accessGroup
+    }
+    
+    private class func shouldUseCache(_ cachedEnabled: Bool?) -> Bool {
+        return cachedEnabled ?? KeychainHelper.cacheEnabled
     }
     
     private class func accessibleAttributeMatches(_ secAttrAccessible: KeychainItemAccessibility) -> Bool {

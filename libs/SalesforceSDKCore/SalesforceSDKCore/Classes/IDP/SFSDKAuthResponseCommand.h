@@ -36,4 +36,6 @@
 
 @property (nonatomic,copy) NSString *domain;
 
+@property (nonatomic, copy) NSString *keychainGroup;
+
 @end

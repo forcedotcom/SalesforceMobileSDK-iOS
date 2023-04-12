@@ -47,7 +47,7 @@
     SFSDKAuthResponseCommand *command = [[SFSDKAuthResponseCommand alloc] init];
     [command fromRequestURL:url];
 
-    [[SFUserAccountManager sharedInstance] handleIdpResponse:command sceneId:options[kSFIDPSceneIdKey]];
+    [[SFUserAccountManager sharedInstance] handleIdpResponse:command sceneId:options[kSFIDPSceneIdKey] completion:nil];
     return NO;
 
 }
