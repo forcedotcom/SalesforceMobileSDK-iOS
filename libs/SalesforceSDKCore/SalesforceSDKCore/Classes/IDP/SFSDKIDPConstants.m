@@ -69,7 +69,7 @@ NSString *const kSFSpecHost = @"oauth2";
 
 NSString *const kSFStartURLParam = @"start_url";
 
-NSString *const kSFKeychainGroupParam = @"keychain_group";
+NSString *const kSFKeychainReferenceParam = @"keychain_reference";
 
 @implementation SFSDKIDPConstants
 

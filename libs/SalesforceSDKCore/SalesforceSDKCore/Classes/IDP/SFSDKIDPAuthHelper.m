@@ -96,7 +96,7 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
     NSURL *spAppURL = [NSURL URLWithString:spAppRedirectUrl];
     responseCommand.scheme = spAppURL.scheme;
     responseCommand.authCode = session.oauthCoordinator.spAppCredentials.authCode;
-    responseCommand.keychainGroup = session.oauthRequest.keychainGroup;
+    responseCommand.keychainReference = session.oauthRequest.keychainReference;
     
     NSURL *url = [responseCommand requestURL];
    

@@ -140,7 +140,7 @@
     
     if (self.authSessions[sceneId]) {
         [self.authSessions[sceneId].oauthCoordinator handleIDPAuthenticationResponse:[response requestURL]];
-    } else if (response.keychainGroup) {
+    } else if (response.keychainReference) {
         // IDP - SP: Need to create auth session
         SFSDKAuthRequest *request = [self defaultAuthRequest];
         request.idpInitiatedAuth = YES;

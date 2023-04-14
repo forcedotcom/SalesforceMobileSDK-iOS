@@ -60,12 +60,20 @@
     return @"authresponse";
 }
 
-- (NSString *)keychainGroup {
-    return [self paramForKey:kSFKeychainGroupParam];
+- (NSString *)keychainReference {
+    return [self paramForKey:kSFKeychainReferenceParam];
 }
 
-- (void)setKeychainGroup:(NSString *)keychain {
-    [self setParamForKey:keychain key:kSFKeychainGroupParam];
+- (void)setKeychainReference:(NSString *)keychain {
+    [self setParamForKey:keychain key:kSFKeychainReferenceParam];
+}
+
+- (NSString *)userHint {
+    return [self paramForKey:kSFUserHintParam];
+}
+
+- (void)setUserHint:(NSString *)userHint {
+    [self setParamForKey:userHint key:kSFUserHintParam];
 }
 
 @end

@@ -36,6 +36,8 @@
 
 @property (nonatomic,copy) NSString *domain;
 
-@property (nonatomic, copy) NSString *keychainGroup;
+@property (nonatomic, copy) NSString *keychainReference;
+
+@property (nonatomic, copy) NSString *userHint;
 
 @end

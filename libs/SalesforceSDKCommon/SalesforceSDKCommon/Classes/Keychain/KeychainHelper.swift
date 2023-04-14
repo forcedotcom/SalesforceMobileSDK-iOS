@@ -32,11 +32,11 @@ import Foundation
 public class KeychainHelper: NSObject {
     /// Default access group, used for all operations unless otherwise specfied at the method level
     @objc public static var accessGroup: String?
-    @objc public static var cacheEnabled: Bool = false
+    @objc public static var cacheEnabled: Bool = false // TODO: Default to on
     @objc public private(set) static var accessibilityAttribute: CFString?
     
-    @objc public enum cacheMode: Int {
-        case unspecfied
+    @objc public enum CacheMode: Int {
+        case unspecified
         case enabled
         case disabled
     }
@@ -62,7 +62,7 @@ public class KeychainHelper: NSObject {
     ///   - account: Identifier to use for keychain account key.
     /// - Returns: KeychainResult
     @objc public class func read(service: String, account: String?) -> KeychainResult {
-        return read(service: service, account: account, accessGroup: KeychainHelper.accessGroup)
+        return read(service: service, account: account, accessGroup: KeychainHelper.accessGroup, cacheMode: .unspecified)
     }
 
     /// Read a value from the keychain for a given access group
@@ -71,7 +71,7 @@ public class KeychainHelper: NSObject {
     ///   - account: Account name for keychain item
     ///   - accessGroup: kSecAttrAccessGroup attribute for keychain item
     /// - Returns: KeychainResult
-    @objc public class func read(service: String, account: String?, accessGroup: String? = nil) -> KeychainResult {
+    @objc public class func read(service: String, account: String?, accessGroup: String? = nil, cacheMode: CacheMode) -> KeychainResult {
         self.upgradeIfRequired()
         
         let keychainRead: KeychainOperation = { service, account in
@@ -82,7 +82,7 @@ public class KeychainHelper: NSObject {
             return keychainManager.getValue()
         }
         
-        if shouldUseCache(false) { // TODO
+        if cacheEnabled(cacheMode) {
             return CachedWrapper.wrap(service, account, readFunc: keychainRead)
         } else {
             return keychainRead(service, account)
@@ -96,7 +96,7 @@ public class KeychainHelper: NSObject {
     ///   - account: Identifier to use for keychain account key.
     /// - Returns: KeychainResult
     @objc public class func createIfNotPresent(service: String, account: String?) -> KeychainResult {
-        return createIfNotPresent(service: service, account: account, accessGroup: accessGroup, cacheEnabled: cacheEnabled)
+        return createIfNotPresent(service: service, account: account, accessGroup: accessGroup, cacheMode: .unspecified)
     }
     
     /// Create an item in the keychain if not present.
@@ -104,7 +104,7 @@ public class KeychainHelper: NSObject {
     ///   - service: Identifier to use for keychain service key.
     ///   - account: Identifier to use for keychain account key.
     /// - Returns: KeychainResult
-    public class func createIfNotPresent(service: String, account: String?, accessGroup: String? = nil, cacheEnabled: Bool? = nil) -> KeychainResult {
+    @objc public class func createIfNotPresent(service: String, account: String?, accessGroup: String? = nil, cacheMode: CacheMode = .unspecified) -> KeychainResult {
         self.upgradeIfRequired()
         
         let keychainRead: KeychainOperation = { service, account in
@@ -119,7 +119,7 @@ public class KeychainHelper: NSObject {
             return keychainResult
         }
         
-        if shouldUseCache(cacheEnabled) {
+        if cacheEnabled(cacheMode) {
             return CachedWrapper.wrap(service, account, readFunc: keychainRead)
         } else {
             return keychainRead(service, account)
@@ -133,16 +133,9 @@ public class KeychainHelper: NSObject {
     ///   - account: Identifier to use for keychain account key.
     /// - Returns: KeychainResult
     @objc public class func write(service: String, data: Data, account: String?) -> KeychainResult {
-        write(service: service, data: data, account: account, accessGroup: accessGroup, cacheEnabled: cacheMode.enabled)
+        write(service: service, data: data, account: account, accessGroup: accessGroup, cacheMode: CacheMode.enabled)
     }
 
-    
-    // TODO: Can represent in Swift, could make parallel APIs like encryptor, one only available in Obj-c, one in Swift
-    public class func write(service: String, data: Data, account: String?, accessGroup: String? = nil, cacheEnabled: Bool? = nil) -> KeychainResult {
-        return KeychainResult(data: Data(), status: OSStatus())
-    }
-    
-    
     ///  Update or create an item in the keychain if not present for a given access group
     /// - Parameters:
     ///   - service: Service name for keychain item
@@ -150,7 +143,7 @@ public class KeychainHelper: NSObject {
     ///   - account: Account name for keychain item
     ///   - accessGroup: kSecAttrAccessGroup attribute for keychain item
     /// - Returns: KeychainResult
-    @objc public class func write(service: String, data: Data, account: String?, accessGroup: String? = nil, cacheEnabled: cacheMode = cacheMode.unspecfied) -> KeychainResult {
+    @objc public class func write(service: String, data: Data, account: String?, accessGroup: String? = nil, cacheMode: CacheMode = .unspecified) -> KeychainResult {
         self.upgradeIfRequired()
         
         let keychainWrite: (String, Data, String?) -> KeychainResult = { service, data, account in
@@ -161,8 +154,7 @@ public class KeychainHelper: NSObject {
             return keychainManager.setValue(data)
         }
         
-        
-        if shouldUseCache(false) { // TODO
+        if cacheEnabled(cacheMode) {
             return CachedWrapper.wrapWrites(service, data, account, writeFunc: keychainWrite)
         } else {
             return keychainWrite(service, data, account)
@@ -175,11 +167,11 @@ public class KeychainHelper: NSObject {
     ///   - account: Identifier to use for keychain account key.
     /// - Returns: KeychainResult
     @objc public class func reset(service: String, account: String?) -> KeychainResult {
-        return reset(service: service, account: account, accessGroup: accessGroup, cacheEnabled: cacheEnabled)
+        return reset(service: service, account: account, accessGroup: accessGroup, cacheMode: .unspecified)
     }
     
     
-    public class func reset(service: String, account: String?, accessGroup: String? = nil, cacheEnabled: Bool? = nil) -> KeychainResult {
+    @objc public class func reset(service: String, account: String?, accessGroup: String? = nil, cacheMode: CacheMode = .unspecified) -> KeychainResult {
         self.upgradeIfRequired()
         
         let keychainReset: KeychainOperation = { service, account in
@@ -193,7 +185,7 @@ public class KeychainHelper: NSObject {
             return keychainResult
         }
         
-        if shouldUseCache(cacheEnabled) {
+        if cacheEnabled(cacheMode) {
             return CachedWrapper.wrapRemoves(service, account, removeFunc: keychainReset)
         } else {
             return keychainReset(service, account)
@@ -220,8 +212,7 @@ public class KeychainHelper: NSObject {
         }
     }
     
-    
-    public class func remove(service: String, account: String?, accessGroup: String? = nil, cacheEnabled: Bool? = nil) -> KeychainResult {
+    public class func remove(service: String, account: String?, accessGroup: String? = nil, cacheMode: CacheMode = .unspecified) -> KeychainResult {
         self.upgradeIfRequired()
         
         let keychainRemove: KeychainOperation = {service, account in
@@ -235,7 +226,7 @@ public class KeychainHelper: NSObject {
             return keychainResult
         }
         
-        if shouldUseCache(cacheEnabled) {
+        if cacheEnabled(cacheMode) {
             return CachedWrapper.wrapRemoves(service, account, removeFunc: keychainRemove)
         } else {
             return keychainRemove(service, account)
@@ -330,8 +321,15 @@ public class KeychainHelper: NSObject {
         return accessGroup ?? KeychainHelper.accessGroup
     }
     
-    private class func shouldUseCache(_ cachedEnabled: Bool?) -> Bool {
-        return cachedEnabled ?? KeychainHelper.cacheEnabled
+    private class func cacheEnabled(_ cacheMode: CacheMode) -> Bool {
+        switch cacheMode {
+        case .enabled:
+            return true
+        case .disabled:
+            return false
+        case .unspecified:
+            return KeychainHelper.cacheEnabled
+        }
     }
     
     private class func accessibleAttributeMatches(_ secAttrAccessible: KeychainItemAccessibility) -> Bool {
