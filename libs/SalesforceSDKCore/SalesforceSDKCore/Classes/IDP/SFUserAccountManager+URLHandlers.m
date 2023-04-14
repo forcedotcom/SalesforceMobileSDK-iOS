@@ -152,6 +152,8 @@
         [self.authSessions[sceneId].oauthCoordinator handleIDPAuthenticationResponse:[response requestURL]];
         authSession.isAuthenticating = YES;
         authSession.oauthCoordinator.delegate = self;
+    } else if (response.userHint) {
+        // TODO: Check hint against current user, switch user if needed
     } else {
         SFSDKAlertMessage *messageObject = [SFSDKAlertMessage messageWithBlock:^(SFSDKAlertMessageBuilder *builder) {
             builder.actionOneTitle = [SFSDKResourceUtils localizedString:@"authAlertCancelButton"];

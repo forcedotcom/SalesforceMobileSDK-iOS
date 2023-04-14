@@ -30,9 +30,12 @@ import Foundation
 
 @objc(SFSDKKeychainHelper)
 public class KeychainHelper: NSObject {
+    
+    typealias KeychainOperation = (String, String?) -> KeychainResult
+    
     /// Default access group, used for all operations unless otherwise specfied at the method level
     @objc public static var accessGroup: String?
-    @objc public static var cacheEnabled: Bool = false // TODO: Default to on
+    @objc public static var cacheEnabled: Bool = true
     @objc public private(set) static var accessibilityAttribute: CFString?
     
     @objc public enum CacheMode: Int {
@@ -40,8 +43,6 @@ public class KeychainHelper: NSObject {
         case enabled
         case disabled
     }
-    
-    typealias KeychainOperation = (String, String?) -> KeychainResult
 
     private static var keychainAccessibleAttribute: CFString {
         return accessibilityAttribute ?? kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly

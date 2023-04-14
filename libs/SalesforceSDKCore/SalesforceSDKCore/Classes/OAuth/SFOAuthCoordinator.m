@@ -235,9 +235,9 @@
     }
     self.approvalCode = codeVal;
     
-    NSString *keychainReference = [appUrlResponse valueForParameterName:kSFKeychainGroupParam];
+    NSString *keychainReference = [appUrlResponse valueForParameterName:kSFKeychainReferenceParam];
     if (keychainReference) { // IDP -> SP auth
-        SFSDKKeychainResult *result = [SFSDKKeychainHelper readWithService:@"com.salesforce.codeverifier" account:nil accessGroup:keychainReference];
+        SFSDKKeychainResult *result = [SFSDKKeychainHelper readWithService:keychainReference account:nil accessGroup:[[SalesforceSDKManager sharedManager] idpKeychainGroup] cacheMode:CacheModeDisabled];
         NSString *codeVerifier = [result.data msdkBase64UrlString];
         if (!codeVerifier || result.error) {
             [SFSDKCoreLogger e:[self class] format:@"URL has keychain group parameter but unable to retrieve value from the keychain: %@", result.error];
