@@ -84,7 +84,7 @@ public class KeychainHelper: NSObject {
         }
         
         if cacheEnabled(cacheMode) {
-            return CachedWrapper.wrap(service, account, readFunc: keychainRead)
+            return CachedWrapper.wrap(service, account, keychainFunc: keychainRead)
         } else {
             return keychainRead(service, account)
         }
@@ -108,7 +108,7 @@ public class KeychainHelper: NSObject {
     @objc public class func createIfNotPresent(service: String, account: String?, accessGroup: String? = nil, cacheMode: CacheMode = .unspecified) -> KeychainResult {
         self.upgradeIfRequired()
         
-        let keychainRead: KeychainOperation = { service, account in
+        let keychainCreateIfNotPresent: KeychainOperation = { service, account in
             let keychainManager = KeychainItemManager(service: service,
                                                       account: account,
                                                       accessibilityAttribute: KeychainHelper.keychainAccessibleAttribute,
@@ -121,9 +121,9 @@ public class KeychainHelper: NSObject {
         }
         
         if cacheEnabled(cacheMode) {
-            return CachedWrapper.wrap(service, account, readFunc: keychainRead)
+            return CachedWrapper.wrap(service, account, keychainFunc: keychainCreateIfNotPresent)
         } else {
-            return keychainRead(service, account)
+            return keychainCreateIfNotPresent(service, account)
         }
     }
 
@@ -134,7 +134,7 @@ public class KeychainHelper: NSObject {
     ///   - account: Identifier to use for keychain account key.
     /// - Returns: KeychainResult
     @objc public class func write(service: String, data: Data, account: String?) -> KeychainResult {
-        write(service: service, data: data, account: account, accessGroup: accessGroup, cacheMode: CacheMode.enabled)
+        write(service: service, data: data, account: account, accessGroup: accessGroup, cacheMode: .unspecified)
     }
 
     ///  Update or create an item in the keychain if not present for a given access group
@@ -177,7 +177,8 @@ public class KeychainHelper: NSObject {
         let keychainReset: KeychainOperation = { service, account in
             let keychainManager = KeychainItemManager(service: service,
                                                       account: account,
-                                                      accessibilityAttribute: KeychainHelper.keychainAccessibleAttribute)
+                                                      accessibilityAttribute: KeychainHelper.keychainAccessibleAttribute,
+                                                      accessGroup: KeychainHelper.accessGroup(accessGroup))
             var keychainResult = keychainManager.getValue()
             if keychainResult.success, keychainManager.removeValue().success {
                 keychainResult = keychainManager.addEmptyValue()
@@ -208,7 +209,8 @@ public class KeychainHelper: NSObject {
         let keychainRemove: KeychainOperation = {service, account in
             let keychainManager = KeychainItemManager(service: service,
                                                       account: account,
-                                                      accessibilityAttribute: KeychainHelper.keychainAccessibleAttribute)
+                                                      accessibilityAttribute: KeychainHelper.keychainAccessibleAttribute,
+                                                      accessGroup: KeychainHelper.accessGroup(accessGroup))
             var keychainResult = keychainManager.getValue()
             if keychainResult.success {
                 keychainResult = keychainManager.removeValue()
@@ -354,7 +356,7 @@ public class KeychainHelper: NSObject {
             return NSString(string: "\(service)_\(acc)")
         }
         
-        class func wrap(_ service: String, _ account: String?, readFunc: (String, String?) -> KeychainResult) -> KeychainResult {
+        class func wrap(_ service: String, _ account: String?, keychainFunc: (String, String?) -> KeychainResult) -> KeychainResult {
             let key = key(service: service, account: account)
             
             // Try read without barrier
@@ -370,7 +372,7 @@ public class KeychainHelper: NSObject {
                 if let currentValue = cache[key] {
                     return currentValue
                 } else {
-                    let keychainResult = readFunc(service, account)
+                    let keychainResult = keychainFunc(service, account)
                     if keychainResult.success {
                         cache[key] = keychainResult
                     }
