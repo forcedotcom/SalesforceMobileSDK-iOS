@@ -364,7 +364,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     SFSDKKeychainResult *userResult = [SFSDKKeychainHelper readWithService:spUserKeyName account:accountIdentifier accessGroup:keychainGroup cacheMode:CacheModeDisabled];
     
     // User is already logged into SP app, open SP app with user hint
-    if (userResult.success) {
+    if (userResult.data) {
         SFSDKAuthResponseCommand *responseCommand = [[SFSDKAuthResponseCommand alloc] init];
         responseCommand.scheme = scheme;
         responseCommand.userHint = accountIdentifier;
@@ -627,9 +627,8 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         if (scheme) {
             NSString *keyName = [NSString stringWithFormat:@"com.salesforce.idp.userLoggedIn-%@", scheme];
             NSString *accountIdentifier = SFKeyForUserAndScope(user, SFUserAccountScopeCommunity);
-            SFSDKKeychainResult *result = [SFSDKKeychainHelper removeWithService:keyName account:accountIdentifier];
+            SFSDKKeychainResult *result = [SFSDKKeychainHelper removeWithService:keyName account:accountIdentifier accessGroup:[SalesforceSDKManager sharedManager].idpKeychainGroup cacheMode:CacheModeDisabled];
         }
-        
     }
     
     //restore these id's inorder to enable post logout cleanup of components

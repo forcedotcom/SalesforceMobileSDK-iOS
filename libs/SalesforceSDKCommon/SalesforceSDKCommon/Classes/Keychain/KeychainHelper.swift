@@ -171,7 +171,6 @@ public class KeychainHelper: NSObject {
         return reset(service: service, account: account, accessGroup: accessGroup, cacheMode: .unspecified)
     }
     
-    
     @objc public class func reset(service: String, account: String?, accessGroup: String? = nil, cacheMode: CacheMode = .unspecified) -> KeychainResult {
         self.upgradeIfRequired()
         
@@ -200,20 +199,10 @@ public class KeychainHelper: NSObject {
     ///   - account: Identifier to use for keychain account key.
     /// - Returns: KeychainResult
     @objc public class func remove(service: String, account: String?) -> KeychainResult {
-        
-        return CachedWrapper.wrapRemoves(service, account) { service, account in
-            let keychainManager = KeychainItemManager(service: service,
-                                                      account: account,
-                                                      accessibilityAttribute: KeychainHelper.keychainAccessibleAttribute)
-            var keychainResult = keychainManager.getValue()
-            if keychainResult.success {
-                keychainResult = keychainManager.removeValue()
-            }
-            return keychainResult
-        }
+        return remove(service: service, account: account, accessGroup: accessGroup, cacheMode: .unspecified)
     }
     
-    public class func remove(service: String, account: String?, accessGroup: String? = nil, cacheMode: CacheMode = .unspecified) -> KeychainResult {
+    @objc public class func remove(service: String, account: String?, accessGroup: String? = nil, cacheMode: CacheMode = .unspecified) -> KeychainResult {
         self.upgradeIfRequired()
         
         let keychainRemove: KeychainOperation = {service, account in
