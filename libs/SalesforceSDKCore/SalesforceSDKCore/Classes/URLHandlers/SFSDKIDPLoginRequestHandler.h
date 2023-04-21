@@ -29,6 +29,6 @@
 #import <Foundation/Foundation.h>
 #import "SFSDKURLHandler.h"
 
-@interface SFSDKIDPInitiatedAuthRequestHandler :NSObject<SFSDKURLHandler>
+@interface SFSDKIDPLoginRequestHandler :NSObject<SFSDKURLHandler>
 
 @end

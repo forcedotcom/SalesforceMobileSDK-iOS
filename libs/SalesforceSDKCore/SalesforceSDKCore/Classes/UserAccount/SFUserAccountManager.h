@@ -31,6 +31,8 @@
 #import <SalesforceSDKCore/SFSDKLoginViewControllerConfig.h>
 #import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
+@class SFSDKSPConfig;
+
 NS_ASSUME_NONNULL_BEGIN
 
 /**
@@ -513,9 +515,12 @@ Use this method to stop/clear any authentication which is has already been start
  */
 - (BOOL)handleIDPAuthenticationResponse:(NSURL *)url options:(nonnull NSDictionary *)options NS_SWIFT_NAME(handleIdentityProviderResponse(from:with:));
 
-- (BOOL)handleIDPAuthenticationResponse:(NSURL *)url options:(nonnull NSDictionary *)options completion:(nullable void (^)(void))completion NS_SWIFT_NAME(handleIdentityProviderResponse(from:with:completion:));
+- (BOOL)handleIDPAuthenticationCommand:(NSURL *)url
+                               options:(nonnull NSDictionary *)options
+                               completion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock
+                               failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock NS_REFINED_FOR_SWIFT;
 
-- (void)initiateSPAuthentication:(NSString *)spConsumerKey redirectURI:(NSString *)spRedirectURI scopes:(NSSet<NSString *> *)spScopes;
+- (void)initiateSPAuthentication:(SFSDKSPConfig *)config;
 
 @end
 

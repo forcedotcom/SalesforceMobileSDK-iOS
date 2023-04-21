@@ -89,4 +89,11 @@ extension UserAccountManager {
         }
     }
     
+    public func handleIdentityProviderCommand(from url: URL, with options: [AnyHashable: Any], completion: @escaping (Result<(UserAccount, AuthInfo), UserAccountManagerError>) -> Void) -> Bool {
+        return __handleIDPAuthenticationCommand(url, options: options, completion: { (authInfo, userAccount) in
+            completion(Result.success((userAccount, authInfo)))
+        }) { (authInfo, error) in
+            completion(Result.failure(.loginFailed(underlyingError: error, authInfo: authInfo)))
+        }
+    }
 }

@@ -32,9 +32,10 @@
 #import "SFUserAccountManager+URLHandlers.h"
 #import "SFSDKAuthRequestCommand.h"
 #import "SFSDKIDPConstants.h"
-#import "SFSDKAuthResponseCommand.h"
+#import "SFSDKSPLoginResponseCommand.h"
 #import "SFSDKAuthErrorCommand.h"
-#import "SFSDKIDPInitCommand.h"
+#import "SFSDKIDPLoginRequestCommand.h"
+#import "SFSDKIDPAuthCodeLoginRequestCommand.h"
 #import "SFSDKAlertMessage.h"
 #import "SFSDKAlertMessageBuilder.h"
 #import "SFSDKStartURLHandler.h"
@@ -60,7 +61,7 @@
     return YES;
 }
 
-- (BOOL)handleIdpInitiatedAuth:(SFSDKIDPInitCommand *)command {
+- (BOOL)handleIdpInitiatedAuth:(SFSDKIDPLoginRequestCommand *)command {
     
     NSString *userHint = command.userHint;
     [SFSDKCoreLogger d:[self class] format:@"handle handleIdpInitiatedAuth for %@", [command.allParams description]];
@@ -133,27 +134,12 @@
     return YES;
 }
 
-- (BOOL)handleIdpResponse:(SFSDKAuthResponseCommand *)response sceneId:(NSString *)sceneId completion:(void (^)(void))completion {
+- (BOOL)handleIdpResponse:(SFSDKSPLoginResponseCommand *)response sceneId:(NSString *)sceneId {
     if (!sceneId) {
         sceneId = [[SFSDKWindowManager sharedManager] defaultScene].session.persistentIdentifier;
     }
-    
     if (self.authSessions[sceneId]) {
         [self.authSessions[sceneId].oauthCoordinator handleIDPAuthenticationResponse:[response requestURL]];
-    } else if (response.keychainReference) {
-        // IDP - SP: Need to create auth session
-        SFSDKAuthRequest *request = [self defaultAuthRequest];
-        request.idpInitiatedAuth = YES;
-        SFSDKAuthSession *authSession = [[SFSDKAuthSession alloc] initWith:request credentials:nil];
-        // TODO: Completion?
-//        authSession.authFailureCallback = failureBlock;
-//        authSession.authSuccessCallback = completionBlock;
-        self.authSessions[sceneId] = authSession;
-        [self.authSessions[sceneId].oauthCoordinator handleIDPAuthenticationResponse:[response requestURL]];
-        authSession.isAuthenticating = YES;
-        authSession.oauthCoordinator.delegate = self;
-    } else if (response.userHint) {
-        // TODO: Check hint against current user, switch user if needed
     } else {
         SFSDKAlertMessage *messageObject = [SFSDKAlertMessage messageWithBlock:^(SFSDKAlertMessageBuilder *builder) {
             builder.actionOneTitle = [SFSDKResourceUtils localizedString:@"authAlertCancelButton"];
@@ -161,9 +147,28 @@
             builder.alertMessage = @"Authentication session for sp app was evicted. Try again." ;
          }];
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self.alertDisplayBlock(messageObject, [[SFSDKWindowManager sharedManager] authWindow:self.authSessions[sceneId].oauthRequest.scene]);
-        });
+         dispatch_async(dispatch_get_main_queue(), ^{
+             self.alertDisplayBlock(messageObject, [[SFSDKWindowManager sharedManager] authWindow:self.authSessions[sceneId].oauthRequest.scene]);
+         });
+    }
+    return YES;
+}
+
+- (BOOL)handleIdpRequest:(SFSDKIDPAuthCodeLoginRequestCommand *_Nonnull)response sceneId:(nullable NSString *)sceneId completion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock
+                 failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock {
+    if (self.authSessions[sceneId]) {
+           [self.authSessions[sceneId].oauthCoordinator handleIDPAuthenticationResponse:[response requestURL]];
+    } else if (response.keychainReference) {
+        // IDP - SP: Need to create auth session
+        SFSDKAuthRequest *request = [self defaultAuthRequest];
+        request.idpInitiatedAuth = YES;
+        SFSDKAuthSession *authSession = [[SFSDKAuthSession alloc] initWith:request credentials:nil];
+        authSession.authFailureCallback = failureBlock;
+        authSession.authSuccessCallback = completionBlock;
+        self.authSessions[sceneId] = authSession;
+        [self.authSessions[sceneId].oauthCoordinator handleIDPAuthenticationResponse:[response requestURL]];
+        authSession.isAuthenticating = YES;
+        authSession.oauthCoordinator.delegate = self;
     }
     return YES;
 }

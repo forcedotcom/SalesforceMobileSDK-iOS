@@ -36,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SFSDKIDPAuthHelper : NSObject
 
 + (void)invokeIDPApp:(SFSDKAuthSession *)session completion:(void (^)(BOOL))completionBlock;
-+ (void)invokeSPApp:(SFSDKAuthSession *)session completion:(void (^)(BOOL))completionBlock ;
++ (void)invokeSPApp:(NSURL *)url completion:(void (^)(BOOL))completionBlock;
 + (void)invokeSPAppWithError:(SFOAuthCredentials *)spAppCredentials error:(nullable NSError *)error reason:(NSString *)reason;
 
 + (NSString *)encodeScopes:(NSSet<NSString *> *)requestScopes;

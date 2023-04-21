@@ -1,5 +1,5 @@
 /*
- SFSDKIDPInitCommand.h
+ SFSDKAuthResponseCommand.h
  SalesforceSDKCore
 
  Created by Raj Rao on 9/28/17.
@@ -26,12 +26,54 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+#import "SFSDKSPLoginResponseCommand.h"
+#import "SFSDKIDPConstants.h"
+#import "SFSDKAuthCommand+Internal.h"
 
-#import "SFSDKAuthCommand.h"
+@implementation SFSDKSPLoginResponseCommand
 
-@interface SFSDKIDPInitCommand : SFSDKAuthCommand
-@property (nonatomic,copy) NSString *userHint;
-@property (nonatomic,copy) NSString *domain;
-@property (nonatomic,copy) NSString *startURL;
+- (NSString *)state {
+    return [self paramForKey:kSFStateParam];
+}
+
+- (void)setState:(NSString *)state {
+    [self setParamForKey:state key:kSFStateParam];
+}
+
+- (NSString *)authCode {
+    return [self paramForKey:kSFCodeParam];
+}
+
+- (void)setAuthCode:(NSString *)authCode {
+    [self setParamForKey:authCode key:kSFCodeParam];
+}
+
+- (NSString *)domain {
+    return [self paramForKey:kSFLoginHostParam];
+}
+
+- (void)setDomain:(NSString *)domain {
+    [self setParamForKey:domain key:kSFLoginHostParam];
+}
+
+- (NSString *)command {
+    return @"authresponse";
+}
+
+- (NSString *)keychainReference {
+    return [self paramForKey:kSFKeychainReferenceParam];
+}
+
+- (void)setKeychainReference:(NSString *)keychain {
+    [self setParamForKey:keychain key:kSFKeychainReferenceParam];
+}
+
+- (NSString *)userHint {
+    return [self paramForKey:kSFUserHintParam];
+}
+
+- (void)setUserHint:(NSString *)userHint {
+    [self setParamForKey:userHint key:kSFUserHintParam];
+}
 
 @end

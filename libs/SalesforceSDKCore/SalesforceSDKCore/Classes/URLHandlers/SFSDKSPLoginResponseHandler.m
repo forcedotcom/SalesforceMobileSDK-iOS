@@ -1,11 +1,11 @@
 /*
- SFSDKAuthResponseCommand.h
+ SFSDKIDPResponseHandler.m
  SalesforceSDKCore
-
- Created by Raj Rao on 9/28/17.
-
+ 
+ Created by Raj Rao on 8/25/17.
+ 
  Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
-
+ 
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
  * Redistributions of source code must retain the above copyright notice, this list of conditions
@@ -16,7 +16,7 @@
  * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
  endorse or promote products derived from this software without specific prior written
  permission of salesforce.com, inc.
-
+ 
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
  FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -26,54 +26,31 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#import "SFSDKAuthResponseCommand.h"
+
 #import "SFSDKIDPConstants.h"
-#import "SFSDKAuthCommand+Internal.h"
+#import "SFSDKSPLoginResponseHandler.h"
+#import "SFSDKAuthPreferences.h"
+#import "NSURL+SFAdditions.h"
+#import "SFUserAccountManager+URLHandlers.h"
+#import "SFSDKAuthPreferences.h"
+#import "SFSDKSPLoginResponseCommand.h"
 
-@implementation SFSDKAuthResponseCommand
+@implementation SFSDKSPLoginResponseHandler
 
-- (NSString *)state {
-    return [self paramForKey:kSFStateParam];
+- (BOOL)canHandleRequest:(NSURL *)url options:(NSDictionary *)options {
+    SFSDKSPLoginResponseCommand *command = [[SFSDKSPLoginResponseCommand alloc] init];
+    return [command isAuthCommand:url];
 }
 
-- (void)setState:(NSString *)state {
-    [self setParamForKey:state key:kSFStateParam];
+- (BOOL)processRequest:(NSURL *)url options:(NSDictionary *)options {
+
+    SFSDKSPLoginResponseCommand *command = [[SFSDKSPLoginResponseCommand alloc] init];
+    [command fromRequestURL:url];
+
+    [[SFUserAccountManager sharedInstance] handleIdpResponse:command sceneId:options[kSFIDPSceneIdKey]];
+    return NO;
+
 }
 
-- (NSString *)authCode {
-    return [self paramForKey:kSFCodeParam];
-}
-
-- (void)setAuthCode:(NSString *)authCode {
-    [self setParamForKey:authCode key:kSFCodeParam];
-}
-
-- (NSString *)domain {
-    return [self paramForKey:kSFLoginHostParam];
-}
-
-- (void)setDomain:(NSString *)domain {
-    [self setParamForKey:domain key:kSFLoginHostParam];
-}
-
-- (NSString *)command {
-    return @"authresponse";
-}
-
-- (NSString *)keychainReference {
-    return [self paramForKey:kSFKeychainReferenceParam];
-}
-
-- (void)setKeychainReference:(NSString *)keychain {
-    [self setParamForKey:keychain key:kSFKeychainReferenceParam];
-}
-
-- (NSString *)userHint {
-    return [self paramForKey:kSFUserHintParam];
-}
-
-- (void)setUserHint:(NSString *)userHint {
-    [self setParamForKey:userHint key:kSFUserHintParam];
-}
 
 @end

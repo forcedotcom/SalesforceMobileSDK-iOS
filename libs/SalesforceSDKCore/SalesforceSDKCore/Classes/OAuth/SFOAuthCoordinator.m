@@ -389,7 +389,7 @@
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (!error && [[SFSDKURLHandlerManager sharedInstance] canHandleRequest:callbackURL options:nil]) {
             NSDictionary *options = @{kSFIDPSceneIdKey : self.authSession.sceneId};
-            [[SFSDKURLHandlerManager sharedInstance] processRequest:callbackURL options:options];
+            [[SFSDKURLHandlerManager sharedInstance] processRequest:callbackURL options:options completion:nil failure:nil];
         } else {
             [strongSelf.delegate oauthCoordinatorDidCancelBrowserAuthentication:strongSelf];
         }

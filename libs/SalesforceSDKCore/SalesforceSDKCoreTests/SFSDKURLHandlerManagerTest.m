@@ -25,12 +25,12 @@
 #import <XCTest/XCTest.h>
 #import "SFSDKURLHandlerManager.h"
 #import "SFSDKAuthRequestCommand.h"
-#import "SFSDKAuthResponseCommand.h"
+#import "SFSDKSPLoginResponseCommand.h"
 #import "SFSDKIDPErrorHandler.h"
 #import "SFSDKAuthErrorCommand.h"
 #import "SFSDKAdvancedAuthURLHandler.h"
 #import "SFSDKIDPRequestHandler.h"
-#import "SFSDKIDPResponseHandler.h"
+#import "SFSDKSPLoginResponseHandler.h"
 
 @interface SFSDKURLHandlerManagerTest : XCTestCase
 
@@ -160,7 +160,7 @@
 - (void)testHandlerManagerForIDPResponse {
     SFSDKURLHandlerManager *manager = [SFSDKURLHandlerManager sharedInstance];
     
-    SFSDKAuthResponseCommand *test = [[SFSDKAuthResponseCommand alloc]init];
+    SFSDKSPLoginResponseCommand *test = [[SFSDKSPLoginResponseCommand alloc]init];
     XCTAssertNotNil(test);
     test.state = @"astate";
     test.authCode = @"authCode";
@@ -172,9 +172,9 @@
 
 
 - (void)testHandlerManagerForIDPResponseWithHandler {
-    SFSDKIDPResponseHandler *handler = [[SFSDKIDPResponseHandler alloc] init];
+    SFSDKSPLoginResponseHandler *handler = [[SFSDKSPLoginResponseHandler alloc] init];
     
-    SFSDKAuthResponseCommand *test = [[SFSDKAuthResponseCommand alloc]init];
+    SFSDKSPLoginResponseCommand *test = [[SFSDKSPLoginResponseCommand alloc]init];
     XCTAssertNotNil(test);
     test.state = @"astate";
     test.authCode = @"authCode";

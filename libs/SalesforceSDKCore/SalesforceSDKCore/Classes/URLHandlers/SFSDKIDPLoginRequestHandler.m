@@ -27,23 +27,22 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSDKIDPInitiatedAuthRequestHandler.h"
+#import "SFSDKIDPLoginRequestHandler.h"
 #import "SFSDKIDPConstants.h"
 #import "NSURL+SFAdditions.h"
 #import "SFUserAccountManager+URLHandlers.h"
 #import "SalesforceSDKCore.h"
-#import "SFSDKIDPInitCommand.h"
+#import "SFSDKIDPLoginRequestCommand.h"
 
-@implementation SFSDKIDPInitiatedAuthRequestHandler
+@implementation SFSDKIDPLoginRequestHandler
 
 - (BOOL)canHandleRequest:(NSURL *)url options:(NSDictionary *)options {
-   SFSDKIDPInitCommand *command = [[SFSDKIDPInitCommand alloc] init];
+   SFSDKIDPLoginRequestCommand *command = [[SFSDKIDPLoginRequestCommand alloc] init];
    return [command isAuthCommand:url];
-
 }
 
 - (BOOL)processRequest:(NSURL *)url options:(NSDictionary *)options {
-    SFSDKIDPInitCommand *command = [[SFSDKIDPInitCommand alloc] init];
+    SFSDKIDPLoginRequestCommand *command = [[SFSDKIDPLoginRequestCommand alloc] init];
     [command fromRequestURL:url];
     [[SFUserAccountManager sharedInstance] handleIdpInitiatedAuth:command];
     return NO;

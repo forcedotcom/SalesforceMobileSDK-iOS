@@ -28,11 +28,18 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "SFUserAccountManager.h"
 
 @protocol SFSDKURLHandler<NSObject>
 
 - (BOOL)canHandleRequest:(NSURL *)url options:(NSDictionary *)options;
 
 - (BOOL)processRequest:(NSURL *)url options:(NSDictionary *)options;
+
+@optional
+- (BOOL)processRequest:(NSURL *)url
+               options:(NSDictionary *)options
+            completion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock
+               failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock;
 
 @end

@@ -62,10 +62,12 @@
 #import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 #import <SalesforceSDKCommon/SalesforceSDKCommon-Swift.h>
 #import "SFSDKAuthRequestCommand.h"
-#import "SFSDKAuthResponseCommand.h"
+#import "SFSDKSPLoginResponseCommand.h"
 #import "SFSDKCryptoUtils.h"
 #import "NSData+SFSDKUtils_Internal.h"
 #import "SFSDKIDPAuthHelper.h"
+#import "SFSDKIDPLoginRequestCommand.h"
+#import "SFSDKIDPAuthCodeLoginRequestCommand.h"
 
 // Notifications
 NSNotificationName SFUserAccountManagerDidChangeUserNotification       = @"SFUserAccountManagerDidChangeUserNotification";
@@ -326,73 +328,70 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 #pragma  mark - login & logout
 
 - (BOOL)handleIDPAuthenticationResponse:(NSURL *)appUrlResponse options:(NSDictionary *)options {
-    return [self handleIDPAuthenticationResponse:appUrlResponse options:options completion:nil];
+    return [self handleIDPAuthenticationCommand:appUrlResponse options:options completion:nil failure:nil];
 }
 
-- (BOOL)handleIDPAuthenticationResponse:(NSURL *)appUrlResponse options:(nonnull NSDictionary *)options completion:(void (^)(void))completion {
+- (BOOL)handleIDPAuthenticationCommand:(NSURL *)url
+                               options:(nonnull NSDictionary *)options
+                               completion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock
+                               failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock {
     // TODO: Hook in completion
     
-    [SFSDKCoreLogger d:[self class] format:@"handleIDPAuthenticationResponse %@", [appUrlResponse description]];
-    BOOL result = [[SFSDKURLHandlerManager sharedInstance] canHandleRequest:appUrlResponse options:options];
+    [SFSDKCoreLogger d:[self class] format:@"handleIDPAuthenticationResponse %@", [url description]];
+    BOOL result = [[SFSDKURLHandlerManager sharedInstance] canHandleRequest:url options:options];
     if (result) {
-        result = [[SFSDKURLHandlerManager sharedInstance] processRequest:appUrlResponse options:options];
+        result = [[SFSDKURLHandlerManager sharedInstance] processRequest:url options:options completion:completionBlock failure:failureBlock];
     }
     return result;
 }
 
-- (void)initiateSPAuthentication:(NSString *)spConsumerKey redirectURI:(NSString *)spRedirectURI scopes:(NSSet<NSString *> *)spScopes {
-    NSString *keychainGroup = [[SalesforceSDKManager sharedManager] idpKeychainGroup];
-    if (!keychainGroup) {
-        // TODO: Error
-        return;
-    }
-    
-    NSString *scheme = [NSURL URLWithString:spRedirectURI].scheme;
+- (void)initiateSPAuthentication:(SFSDKSPConfig *)config {
+    NSString *scheme = [NSURL URLWithString:[config oauthCallbackURL]].scheme;
     if (!scheme) {
         // TODO: Error
         return;
     }
-    
-    NSString *accountIdentifier = SFKeyForUserAndScope([self currentUser], SFUserAccountScopeCommunity);
+
+    NSString *accountIdentifier = [self encodeUserIdentity:[self currentUser].accountIdentity];
     if (!accountIdentifier) {
         // TODO: Error
         return;
     }
-    
-    // Check if SP app is already logged with the current user
-    NSString *spUserKeyName = [NSString stringWithFormat:@"com.salesforce.idp.userLoggedIn-%@", scheme];
+    NSString *keychainGroup = [config keychainGroup];
+
+    // Check if SP app is already logged in with the current user
+    NSString *spUserKeyName = [NSString stringWithFormat:kUserLoggedInKeyFormat, scheme];
     SFSDKKeychainResult *userResult = [SFSDKKeychainHelper readWithService:spUserKeyName account:accountIdentifier accessGroup:keychainGroup cacheMode:CacheModeDisabled];
-    
+
     // User is already logged into SP app, open SP app with user hint
-    if (userResult.data) {
-        SFSDKAuthResponseCommand *responseCommand = [[SFSDKAuthResponseCommand alloc] init];
+    if (userResult.success) {
+        SFSDKIDPLoginRequestCommand *responseCommand = [[SFSDKIDPLoginRequestCommand alloc] init];
         responseCommand.scheme = scheme;
         responseCommand.userHint = accountIdentifier;
-        
         NSURL *url = [responseCommand requestURL];
-       
+
         dispatch_async(dispatch_get_main_queue(), ^{
             BOOL launched = [SFApplicationHelper openURL:url];
             // TODO: Error?
         });
     } else { // User isn't logged into SP app, trigger authentication flow
         NSString *keyIdentifier = [NSString stringWithFormat:@"com.salesforce.idp.codeverifier-%@", scheme];
-        
+
         NSData *codeVerifier = [SFSDKCryptoUtils randomByteDataWithLength:kSFVerifierByteLength];
         // TODO: Error handling
         SFSDKKeychainResult *result = [SFSDKKeychainHelper writeWithService:keyIdentifier data:codeVerifier account:nil accessGroup:keychainGroup cacheMode:CacheModeDisabled];
 
         NSString *challengeString = [[[[codeVerifier msdkBase64UrlString] dataUsingEncoding:NSUTF8StringEncoding] msdkSha256Data] msdkBase64UrlString];
-        
+
         NSDictionary *appContext = @{
-            kSFOAuthClientIdParam: spConsumerKey,
-            kSFOAuthRedirectUrlParam: spRedirectURI,
+            kSFOAuthClientIdParam: [config oauthClientId],
+            kSFOAuthRedirectUrlParam: [config oauthCallbackURL],
             kSFChallengeParamName: challengeString,
             kSFLoginHostParam: self.currentUser.credentials.domain,
-            kSFScopesParam: [SFSDKIDPAuthHelper encodeScopes:spScopes],
+            kSFScopesParam: [SFSDKIDPAuthHelper encodeScopes:[config oauthScopes]],
             kSFKeychainReferenceParam: keyIdentifier
         };
-        
+
         // TODO: Change name to be more generic
         dispatch_async(dispatch_get_main_queue(), ^{
             [self selectedUser:self.currentUser spAppContext:appContext];
@@ -625,8 +624,8 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         NSString *redirectURI = [[[SalesforceSDKManager sharedManager] appConfig] oauthRedirectURI];
         NSString *scheme = [NSURL URLWithString:redirectURI].scheme;
         if (scheme) {
-            NSString *keyName = [NSString stringWithFormat:@"com.salesforce.idp.userLoggedIn-%@", scheme];
-            NSString *accountIdentifier = SFKeyForUserAndScope(user, SFUserAccountScopeCommunity);
+            NSString *keyName = [NSString stringWithFormat:kUserLoggedInKeyFormat, scheme];
+            NSString *accountIdentifier = [self encodeUserIdentity:[user accountIdentity]];
             SFSDKKeychainResult *result = [SFSDKKeychainHelper removeWithService:keyName account:accountIdentifier accessGroup:[SalesforceSDKManager sharedManager].idpKeychainGroup cacheMode:CacheModeDisabled];
         }
     }
@@ -785,8 +784,24 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 - (void)oauthCoordinatorDidFetchAuthCode:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)authInfo {
     coordinator.authSession.authInfo = authInfo;
     
+    SFSDKAuthCommand *authCommand;
+    NSString *keychainReference = coordinator.authSession.oauthRequest.keychainReference;
+    if (keychainReference) { // IDP request to SP
+        SFSDKIDPAuthCodeLoginRequestCommand *command = [[SFSDKIDPAuthCodeLoginRequestCommand alloc] init];
+        command.keychainReference = keychainReference;
+        command.authCode = coordinator.authSession.spAppCredentials.authCode;
+        authCommand = command;
+    } else { // SP - IDP response
+        SFSDKSPLoginResponseCommand *command = [[SFSDKSPLoginResponseCommand alloc] init];
+        command.authCode = coordinator.authSession.spAppCredentials.authCode;
+    }
+    
+    NSString *spAppRedirectUri = coordinator.authSession.spAppCredentials.redirectUri;
+    NSURL *spAppURL = [NSURL URLWithString:spAppRedirectUri];
+    authCommand.scheme = spAppURL.scheme;
+    
     // Fetched auth code as an idp app
-    [SFSDKIDPAuthHelper invokeSPApp:coordinator.authSession completion:^(BOOL result) {
+    [SFSDKIDPAuthHelper invokeSPApp:[authCommand requestURL] completion:^(BOOL result) {
         [self dismissAuthViewControllerIfPresent];
     }];
 }
@@ -1537,7 +1552,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 - (void)populateErrorHandlers {
     __weak typeof (self) weakSelf = self;
     
-    self.errorManager.invalidAuthCredentialsErrorHandlerBlock  = ^(NSError *error, SFSDKAuthSession  *session,NSDictionary *options) {
+    self.errorManager.invalidAuthCredentialsErrorHandlerBlock = ^(NSError *error, SFSDKAuthSession  *session,NSDictionary *options) {
         __strong typeof (weakSelf) strongSelf = weakSelf;
         [SFSDKCoreLogger w:[strongSelf class] format:@"OAuth refresh failed due to invalid grant.  Error code: %ld", (long)error.code];
         session.notifiesDelegatesOfFailure = NO;
@@ -1762,8 +1777,8 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
             NSString *redirectURI = [[[SalesforceSDKManager sharedManager] appConfig] oauthRedirectURI];
             NSString *scheme = [NSURL URLWithString:redirectURI].scheme;
             if (scheme) {
-                NSString *keyName = [NSString stringWithFormat:@"com.salesforce.idp.userLoggedIn-%@", scheme];
-                NSString *accountIdentifier = SFKeyForUserAndScope(userAccount, SFUserAccountScopeCommunity);
+                NSString *keyName = [NSString stringWithFormat:kUserLoggedInKeyFormat, scheme];
+                NSString *accountIdentifier = [self encodeUserIdentity:[userAccount accountIdentity]];
                 SFSDKKeychainResult *result = [SFSDKKeychainHelper createIfNotPresentWithService:keyName account:accountIdentifier accessGroup:[[SalesforceSDKManager sharedManager] idpKeychainGroup] cacheMode: CacheModeDisabled];
                 
                 // TODO: Warn if failure

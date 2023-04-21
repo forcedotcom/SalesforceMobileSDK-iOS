@@ -27,11 +27,11 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSDKIDPInitCommand.h"
+#import "SFSDKIDPLoginRequestCommand.h"
 #import "SFSDKAuthCommand+Internal.h"
 #import "SFSDKIDPConstants.h"
 
-@implementation SFSDKIDPInitCommand
+@implementation SFSDKIDPLoginRequestCommand
 
 - (NSString *)userHint {
     return [self paramForKey:kSFUserHintParam];
@@ -56,7 +56,6 @@
 - (void)setStartURL:(NSString *)userHint {
     return [self setParamForKey:userHint key:kSFStartURLParam];
 }
-
 
 - (NSString *)command {
     return @"idpinit";

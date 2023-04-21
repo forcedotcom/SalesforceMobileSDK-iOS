@@ -71,6 +71,8 @@ NSString *const kSFStartURLParam = @"start_url";
 
 NSString *const kSFKeychainReferenceParam = @"keychain_reference";
 
+NSString *const kUserLoggedInKeyFormat = @"com.salesforce.idp.userLoggedIn-%@";
+
 @implementation SFSDKIDPConstants
 
 @end

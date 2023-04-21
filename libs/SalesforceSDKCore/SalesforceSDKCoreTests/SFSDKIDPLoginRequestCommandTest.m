@@ -1,9 +1,4 @@
 /*
- SFSDKIDPResponseHandler.m
- SalesforceSDKCore
- 
- Created by Raj Rao on 8/25/17.
- 
  Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -27,30 +22,52 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSDKIDPConstants.h"
-#import "SFSDKIDPResponseHandler.h"
-#import "SFSDKAuthPreferences.h"
-#import "NSURL+SFAdditions.h"
-#import "SFUserAccountManager+URLHandlers.h"
-#import "SFSDKAuthPreferences.h"
-#import "SFSDKAuthResponseCommand.h"
+#import <XCTest/XCTest.h>
+#import "SFSDKIDPLoginRequestCommand.h"
+@interface SFSDKIDPLoginRequestCommandTest : XCTestCase
 
-@implementation SFSDKIDPResponseHandler
+@end
 
-- (BOOL)canHandleRequest:(NSURL *)url options:(NSDictionary *)options {
-    SFSDKAuthResponseCommand *command = [[SFSDKAuthResponseCommand alloc] init];
-    return [command isAuthCommand:url];
+@implementation SFSDKIDPLoginRequestCommandTest
+- (void)setUp {
+    [super setUp];
 }
 
-- (BOOL)processRequest:(NSURL *)url options:(NSDictionary *)options {
+- (void)tearDown {
+}
 
-    SFSDKAuthResponseCommand *command = [[SFSDKAuthResponseCommand alloc] init];
-    [command fromRequestURL:url];
+- (void)testSFSDKAuthResponseCommand {
+    SFSDKIDPLoginRequestCommand *test = [[SFSDKIDPLoginRequestCommand alloc]init];
+    XCTAssertNotNil(test);
+    NSString *testURL = @"atest://atest/v1.0/idpinit";
+    XCTAssertTrue([test isAuthCommand:[NSURL URLWithString:testURL]]);
+    XCTAssertTrue([test isAuthCommand:[NSURL URLWithString:testURL.uppercaseString]]);
+    
+}
 
-    [[SFUserAccountManager sharedInstance] handleIdpResponse:command sceneId:options[kSFIDPSceneIdKey] completion:nil];
-    return NO;
-
+- (void)testSFSDKAuthResponseCommandBadURL {
+    SFSDKIDPLoginRequestCommand *test = [[SFSDKIDPLoginRequestCommand alloc]init];
+    XCTAssertNotNil(test);
+    NSString *testURL = @"atest://atest/idpinit";
+    NSURL *url = [NSURL URLWithString:testURL];
+    XCTAssertNotNil(url);
+    XCTAssertFalse([test isAuthCommand:url]);
 }
 
 
+- (void)testSFSDKAuthErrorCommandWithParameters {
+    
+    SFSDKIDPLoginRequestCommand *test = [[SFSDKIDPLoginRequestCommand alloc]init];
+    XCTAssertNotNil(test);
+    test.userHint = @"userHint";
+    
+    XCTAssertNotNil([test requestURL]);
+    
+    SFSDKIDPLoginRequestCommand *test2 = [[SFSDKIDPLoginRequestCommand alloc]init];
+    [test2 isAuthCommand:[test requestURL]];
+    [test2 fromRequestURL:[test requestURL]];
+    
+    XCTAssertTrue([test2.userHint isEqualToString:test.userHint], @"Userhint should be the same  after decoding");
+
+}
 @end
