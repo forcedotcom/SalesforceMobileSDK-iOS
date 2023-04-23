@@ -203,6 +203,7 @@ public class KeychainHelper: NSObject {
         return remove(service: service, account: account, accessGroup: accessGroup, cacheMode: .unspecified)
     }
     
+    @discardableResult
     @objc public class func remove(service: String, account: String?, accessGroup: String? = nil, cacheMode: CacheMode = .unspecified) -> KeychainResult {
         self.upgradeIfRequired()
         

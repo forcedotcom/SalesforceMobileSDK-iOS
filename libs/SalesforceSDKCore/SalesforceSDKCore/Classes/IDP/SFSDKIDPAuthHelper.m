@@ -35,7 +35,7 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 #import "NSData+SFSDKUtils.h"
 #import "SFSDKIDPConstants.h"
 #import "SFSDKAuthRequest.h"
-#import "SFSDKAuthRequestCommand.h"
+#import "SFSDKSPLoginRequestCommand.h"
 #import "SFApplicationHelper.h"
 #import "NSString+SFAdditions.h"
 #import "SFSDKSPLoginResponseCommand.h"
@@ -50,7 +50,7 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
      
     NSString *codeChallengeString = [[[session.oauthCoordinator.codeVerifier dataUsingEncoding:NSUTF8StringEncoding] msdkSha256Data] msdkBase64UrlString];
 
-    SFSDKAuthRequestCommand *command = [[SFSDKAuthRequestCommand alloc] init];
+    SFSDKSPLoginRequestCommand *command = [[SFSDKSPLoginRequestCommand alloc] init];
     command.scheme = session.oauthRequest.idpAppURIScheme;
     command.spClientId = session.oauthCoordinator.credentials.clientId;
     command.spCodeChallenge = codeChallengeString;

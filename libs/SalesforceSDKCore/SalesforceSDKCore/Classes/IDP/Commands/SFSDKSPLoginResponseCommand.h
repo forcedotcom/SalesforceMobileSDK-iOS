@@ -28,6 +28,7 @@
  */
 #import "SFSDKAuthCommand.h"
 
+// Sent by IDP to SP in response to SPLoginRequest
 @interface SFSDKSPLoginResponseCommand : SFSDKAuthCommand
 
 @property (nonatomic,copy) NSString *state;

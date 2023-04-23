@@ -24,7 +24,7 @@
 
 #import <XCTest/XCTest.h>
 #import "SFSDKURLHandlerManager.h"
-#import "SFSDKAuthRequestCommand.h"
+#import "SFSDKSPLoginRequestCommand.h"
 #import "SFSDKSPLoginResponseCommand.h"
 #import "SFSDKIDPErrorHandler.h"
 #import "SFSDKAuthErrorCommand.h"
@@ -90,10 +90,9 @@
     NSString *spChallengeCode = @"AChallenge";
     NSString *userHint = @"USER:ORG";
     NSString *spAppName = @"AnApp";
-    NSString *spAppDesc = @"An Apps Description";
     NSString *spAppScopes = @"Scope1,Scope2";
     
-    SFSDKAuthRequestCommand *test = [[SFSDKAuthRequestCommand alloc]init];
+    SFSDKSPLoginRequestCommand *test = [[SFSDKSPLoginRequestCommand alloc]init];
     XCTAssertNotNil(test);
     test.spClientId = spClientId;
     test.spAppName = spAppName;
@@ -102,7 +101,6 @@
     test.spRedirectURI = spRedirectURI;
     test.spAppScopes = spAppScopes;
     test.spState = spState;
-    test.spAppDescription = spAppDesc;
     test.scheme = @"someapp";
     BOOL result = [manager canHandleRequest:[test requestURL] options:nil];
     XCTAssertTrue(result, @"SFSDKURLHandlerManager should be able to consume a valid id p auth request");
@@ -118,10 +116,9 @@
     NSString *spChallengeCode = @"AChallenge";
     NSString *userHint = @"USER:ORG";
     NSString *spAppName = @"AnApp";
-    NSString *spAppDesc = @"An Apps Description";
     NSString *spAppScopes = @"Scope1,Scope2";
     
-    SFSDKAuthRequestCommand *test = [[SFSDKAuthRequestCommand alloc]init];
+    SFSDKSPLoginRequestCommand *test = [[SFSDKSPLoginRequestCommand alloc]init];
     XCTAssertNotNil(test);
     test.spClientId = spClientId;
     test.spAppName = spAppName;
@@ -130,7 +127,6 @@
     test.spRedirectURI = spRedirectURI;
     test.spAppScopes = spAppScopes;
     test.spState = spState;
-    test.spAppDescription = spAppDesc;
     test.scheme = @"someapp";
     BOOL result = [handler canHandleRequest:[test requestURL] options:nil];
     XCTAssertTrue(result, @"SFSDKIDPRequestHandler should be able to consume a valid id p auth request");
@@ -140,7 +136,7 @@
 - (void)testHandlerManagerForIDPRequestError {
     SFSDKURLHandlerManager *manager = [SFSDKURLHandlerManager sharedInstance];
     
-    SFSDKAuthRequestCommand *test = [[SFSDKAuthRequestCommand alloc]init];
+    SFSDKSPLoginRequestCommand *test = [[SFSDKSPLoginRequestCommand alloc]init];
     XCTAssertNotNil(test);
     
     test.spClientId = @"%@$&7&";
@@ -150,7 +146,6 @@
     test.spRedirectURI = @"";
     test.spAppScopes = @"";
     test.spState = @"";
-    test.spAppDescription = @"";
     
     test.scheme = @"someapp";
     BOOL result = [manager canHandleRequest:[test requestURL] options:nil];

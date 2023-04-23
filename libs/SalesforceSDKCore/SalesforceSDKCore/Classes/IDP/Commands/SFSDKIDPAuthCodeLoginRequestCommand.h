@@ -27,6 +27,7 @@
 
 #import "SFSDKAuthCommand.h"
 
+// Sent by IDP to SP for IDP initiated login flow using the keychain to store the code verifier
 @interface SFSDKIDPAuthCodeLoginRequestCommand : SFSDKAuthCommand
 
 @property (nonatomic, copy) NSString *keychainReference;

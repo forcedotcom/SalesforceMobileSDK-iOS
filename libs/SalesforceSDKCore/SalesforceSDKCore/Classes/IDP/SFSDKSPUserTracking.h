@@ -1,8 +1,8 @@
 //
-//  SFSDKIDPLoginRequestWithChallengeHandler.m
+//  SFSDKSPUserTracking.h
 //  SalesforceSDKCore
 //
-//  Created by Brianna Birman on 4/18/23.
+//  Created by Brianna Birman on 4/22/23.
 //  Copyright (c) 2023-present, salesforce.com, inc. All rights reserved.
 // 
 //  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -25,32 +25,20 @@
 //  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
 //  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#import "SFSDKIDPAuthCodeLoginRequestHandler.h"
-#import "SFSDKIDPAuthCodeLoginRequestCommand.h"
-#import "SFUserAccountManager+URLHandlers.h"
+#import <Foundation/Foundation.h>
 
-@implementation SFSDKIDPAuthCodeLoginRequestHandler
+@class SFUserAccount;
 
-- (BOOL)canHandleRequest:(NSURL *)url options:(NSDictionary *)options {
-    SFSDKIDPAuthCodeLoginRequestCommand *command = [[SFSDKIDPAuthCodeLoginRequestCommand alloc] init];
-    return [command isAuthCommand:url];
-}
+NS_ASSUME_NONNULL_BEGIN
 
-- (BOOL)processRequest:(NSURL *)url options:(NSDictionary *)options {
-    SFSDKIDPAuthCodeLoginRequestCommand *command = [[SFSDKIDPAuthCodeLoginRequestCommand alloc] init];
-    [command fromRequestURL:url];
+@interface SFSDKSPUserTracking : NSObject
 
-    return [[SFUserAccountManager sharedInstance] handleIdpRequest:command sceneId:options[kSFIDPSceneIdKey] completion:nil failure:nil];
-}
++ (void)userLoggedIn:(SFUserAccount *)user;
 
-- (BOOL)processRequest:(NSURL *)url
-               options:(NSDictionary *)options
-            completion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock
-               failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
-    SFSDKIDPAuthCodeLoginRequestCommand *command = [[SFSDKIDPAuthCodeLoginRequestCommand alloc] init];
-    [command fromRequestURL:url];
++ (void)userLoggedOut:(SFUserAccount *)user;
 
-    return [[SFUserAccountManager sharedInstance] handleIdpRequest:command sceneId:options[kSFIDPSceneIdKey] completion:completionBlock failure:failureBlock];
-}
++ (void)reset:(NSString *)keychainGroup;
 
 @end
+
+NS_ASSUME_NONNULL_END

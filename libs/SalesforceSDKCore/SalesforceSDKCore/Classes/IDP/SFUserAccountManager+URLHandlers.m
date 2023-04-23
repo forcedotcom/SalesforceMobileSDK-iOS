@@ -30,7 +30,7 @@
 #import "SFUserAccountManager+Internal.h"
 #import "SFSDKWindowManager+Internal.h"
 #import "SFUserAccountManager+URLHandlers.h"
-#import "SFSDKAuthRequestCommand.h"
+#import "SFSDKSPLoginRequestCommand.h"
 #import "SFSDKIDPConstants.h"
 #import "SFSDKSPLoginResponseCommand.h"
 #import "SFSDKAuthErrorCommand.h"
@@ -90,7 +90,7 @@
     return YES;
 }
 
-- (BOOL)handleAuthRequestFromSPApp:(SFSDKAuthRequestCommand *)request {
+- (BOOL)handleAuthRequestFromSPApp:(SFSDKSPLoginRequestCommand *)request {
     NSString *userHint = request.spUserHint;
     [SFSDKCoreLogger d:[self class] format:@"handleAuthRequestFromSPApp for %@", [request.allParams description]];
     

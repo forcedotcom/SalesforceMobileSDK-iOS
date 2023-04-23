@@ -60,20 +60,4 @@
     return @"authresponse";
 }
 
-- (NSString *)keychainReference {
-    return [self paramForKey:kSFKeychainReferenceParam];
-}
-
-- (void)setKeychainReference:(NSString *)keychain {
-    [self setParamForKey:keychain key:kSFKeychainReferenceParam];
-}
-
-- (NSString *)userHint {
-    return [self paramForKey:kSFUserHintParam];
-}
-
-- (void)setUserHint:(NSString *)userHint {
-    [self setParamForKey:userHint key:kSFUserHintParam];
-}
-
 @end

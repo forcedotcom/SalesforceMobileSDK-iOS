@@ -29,7 +29,7 @@
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
 #import "SFUserAccountManager+Internal.h"
 
-@class SFSDKAuthRequestCommand;
+@class SFSDKSPLoginRequestCommand;
 @class SFSDKSPLoginResponseCommand;
 @class SFSDKAuthErrorCommand;
 @class SFSDKIDPLoginRequestCommand;
@@ -56,7 +56,7 @@
  @param request The  request from the SP APP.
  @return YES if this request is handled, NO otherwise.
  */
-- (BOOL)handleAuthRequestFromSPApp:(SFSDKAuthRequestCommand *_Nonnull)request;
+- (BOOL)handleAuthRequestFromSPApp:(SFSDKSPLoginRequestCommand *_Nonnull)request;
 
 /**
  Handle an IDP response received from an IDP APP.

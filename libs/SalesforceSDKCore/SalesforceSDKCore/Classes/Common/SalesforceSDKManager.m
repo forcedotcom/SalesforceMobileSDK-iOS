@@ -42,6 +42,7 @@
 #import "SFSDKMacDetectUtil.h"
 #import "SFSDKSalesforceSDKUpgradeManager.h"
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
+#import "SFSDKSPUserTracking.h"
 
 static NSString * const kSFAppFeatureSwiftApp    = @"SW";
 static NSString * const kSFAppFeatureMultiUser   = @"MU";
@@ -374,6 +375,11 @@ NSString * const kSFScreenLockFlowCompleted = @"SFScreenLockFlowCompleted";
 
 - (void)setIdpAppURIScheme:(NSString *)idpAppURIScheme {
     [SFUserAccountManager sharedInstance].idpAppURIScheme = idpAppURIScheme;
+}
+
+- (void)setIdpKeychainGroup:(NSString *)idpKeychainGroup {
+    _idpKeychainGroup = idpKeychainGroup;
+    [SFSDKSPUserTracking reset:idpKeychainGroup];
 }
 
 - (NSString *)brandLoginPath
