@@ -1,8 +1,8 @@
 //
-//  IDPAuthCodeLoginRequestCommandTest.swift
+//  SFSDKIDPAuthCodeLoginRequestCommandTest.m
 //  SalesforceSDKCore
 //
-//  Created by Brianna Birman on 4/21/23.
+//  Created by Brianna Birman on 4/23/23.
 //  Copyright (c) 2023-present, salesforce.com, inc. All rights reserved.
 // 
 //  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -25,4 +25,34 @@
 //  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
 //  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import Foundation
+#import "SFSDKIDPAuthCodeLoginRequestCommand.h"
+#import <XCTest/XCTest.h>
+
+
+@interface SFSDKIDPAuthCodeLoginRequestCommandTest : XCTestCase
+
+@end
+
+@implementation SFSDKIDPAuthCodeLoginRequestCommandTest
+
+- (void)testSDKIDPAuthCodeLoginRequestCommand {
+    NSString *keychainRef = @"keychainRef";
+    NSString *authCode = @"authCode123";
+    
+    SFSDKIDPAuthCodeLoginRequestCommand *command = [[SFSDKIDPAuthCodeLoginRequestCommand alloc] init];
+    XCTAssertNotNil(command);
+    command.keychainReference = keychainRef;
+    command.authCode = authCode;
+    command.scheme = @"test";
+    
+    NSURL *requestURL = [command requestURL];
+    XCTAssertNotNil(requestURL);
+    
+    SFSDKIDPAuthCodeLoginRequestCommand  *command2 = [[SFSDKIDPAuthCodeLoginRequestCommand  alloc] init];
+    [command2 fromRequestURL:[command requestURL]];
+    
+    XCTAssertTrue([command2.keychainReference isEqualToString:keychainRef], @"Command should include keychain reference");
+    XCTAssertTrue([command2.authCode isEqualToString:authCode], @"Command should include auth code");
+}
+
+@end

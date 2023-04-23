@@ -43,8 +43,6 @@ NSString *const kSFStateParam = @"state";
 
 NSString *const kSFAppNameParam = @"app_name";
 
-NSString *const kSFAppDescParam = @"app_desc";
-
 NSString *const kSFUserHintParam = @"user_hint";
 
 NSString *const kSFLoginHostParam = @"login_host";

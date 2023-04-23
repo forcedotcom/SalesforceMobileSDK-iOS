@@ -69,8 +69,6 @@ FOUNDATION_EXPORT NSString *const kSFSpecVersion;
 
 FOUNDATION_EXPORT NSString *const kSFSpecHost;
 
-FOUNDATION_EXPORT NSString *const kSFAppDescParam;
-
 FOUNDATION_EXPORT NSString *const kSFScopesParam;
 
 FOUNDATION_EXPORT NSString *const kSFStartURLParam;
