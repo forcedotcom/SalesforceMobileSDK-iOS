@@ -1,5 +1,5 @@
 //
-//  ScreenLockManager.swift
+//  BiometricAuthenticationManager.swift
 //  SalesforceSDKCore
 //
 //  Created by Brandon Page on 4/24/23.
@@ -27,10 +27,53 @@
 
 import Foundation
 
-@objc(SFScreenLockManager)
-public protocol ScreenLockManager {
-    
-    var enabled: Bool { get }
-    
-    func lock()
+@objc(SFBiometricAuthenticationManager)
+public protocol BiometricAuthenticationManager {
+    /**
+       * If the feature is enabled for the current user.
+       *
+       * @return True if the feature is enabled for the current user
+       */
+      var enabled: Bool { get }
+
+      /**
+       * If the device is currently locked.  Authenticated rest requests will fail true.
+       *
+       * @return True if the device is locked
+       */
+    var locked: Bool { get }
+
+      /**
+       * Locks the device immediately.  Authenticated rest requests will fail until the user unlocks the app.
+       */
+      func lock()
+
+      /**
+       * Enables or disables the use of biometric to skip username password authentication on the
+       * login screen to unlock the app for the current user.
+       *
+       * @param optIn True to enable or false to disable
+       */
+      func biometricOptIn(optIn: Bool)
+
+      /**
+       * If the current user has opted in to biometric unlock or not.
+       *
+       * @return True if the current user has opted in
+       */
+      func hasBiometricOptedIn() -> Bool
+
+      /**
+       * Presents a dialog to the user asking them to top into biometric unlock.
+       *
+       */
+      func presentOptInDialog()
+
+      /**
+       * Enables or disables a native button on the login screen that allows the user to bypass
+       * username password authentication with biometric.  By default the button is enabled.
+       *
+       * @param enabled True to use the native button or false to hide it
+       */
+      func enableNativeBiometricLoginButton(enabled: Bool)
 }

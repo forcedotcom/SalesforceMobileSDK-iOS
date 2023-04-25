@@ -1,0 +1,160 @@
+//
+//  BiometricAuthenticationManagerInternal.swift
+//  SalesforceSDKCore
+//
+//  Created by Brandon Page on 4/24/23.
+//  Copyright (c) 2023-present, salesforce.com, inc. All rights reserved.
+// 
+//  Redistribution and use of this software in source and binary forms, with or without modification,
+//  are permitted provided that the following conditions are met:
+//  * Redistributions of source code must retain the above copyright notice, this list of conditions
+//  and the following disclaimer.
+//  * Redistributions in binary form must reproduce the above copyright notice, this list of
+//  conditions and the following disclaimer in the documentation and/or other materials provided
+//  with the distribution.
+//  * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
+//  endorse or promote products derived from this software without specific prior written
+//  permission of salesforce.com, inc.
+// 
+//  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+//  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+//  FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+//  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+//  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+//  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+//  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+//  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+import Foundation
+
+internal class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthenticationManager {
+    var enabled: Bool {
+        get {
+            return true
+        }
+    }
+    
+    var locked: Bool {
+        get {
+            return true
+        }
+    }
+    
+    private let kBioAuthPolicyIdentifier = "com.salesforce.security.bioauthpolicy"
+    private let kBioAuthEnabledIdentifier = "com.salesforce.security.bioauth"
+    private var backgroundTimestamp: Double = 0
+    
+    private override init() {
+        super.init()
+        NotificationCenter.default.addObserver(forName: UIApplication.didEnterBackgroundNotification, object: nil, queue: nil) { [weak self] _ in
+            if (!SFSDKWindowManager.shared().isActiveWindowLogin()) {
+                self?.backgroundTimestamp = Date().timeIntervalSince1970
+            }
+        }
+    }
+    
+    /// Locks the screen if necessary
+    @objc internal func handleAppForeground() {
+        if shouldLock() {
+            lock()
+        }
+    }
+    
+    @objc internal func shouldLock() -> Bool {
+        guard let currentUser = UserAccountManager.shared.currentUserAccount else {
+            return false
+        }
+        let result = KeychainHelper.read(service: kBioAuthPolicyIdentifier, account: currentUser.idData.userId)
+        if (result.success && result.data != nil) {
+            do {
+                let bioAuthPolicy = try JSONDecoder().decode(BioAuthPolicy.self, from: result.data!)
+                if (bioAuthPolicy.hasPolicy && bioAuthPolicy.timeout > 0) {
+                    let timeNow = Date().timeIntervalSince1970
+                    return (timeNow - backgroundTimestamp) > Double(bioAuthPolicy.timeout * 60)
+                }
+            } catch {
+                SFSDKCoreLogger.e(BiometricAuthenticationManager.self, message: "Failed to decode polciy for user.")
+            }
+        }
+        
+        return false
+    }
+    
+    @objc func storeMobilePolicy(userAccount: UserAccount, hasMobilePolicy: Bool, sessionTimeout: Int32) {
+        let hasPolicyData = try! JSONEncoder().encode(
+            BioAuthPolicy(hasPolicy: hasMobilePolicy, timeout: sessionTimeout)
+        )
+        let result = KeychainHelper.write(service: kBioAuthPolicyIdentifier, data: hasPolicyData, account: userAccount.idData.userId)
+        if result.success {
+            SFSDKCoreLogger.i(BiometricAuthenticationManagerInternal.self, message: "Biometric authentication policy stored for user.")
+        } else {
+            SFSDKCoreLogger.e(BiometricAuthenticationManagerInternal.self, message: "Failed to store biometric authentication policy for user.")
+        }
+    }
+    
+    private func readMobilePolicy(userAccount: UserAccount) -> BioAuthPolicy? {
+        let result = KeychainHelper.read(service: kBioAuthPolicyIdentifier, account: userAccount.idData.userId)
+        if let data = result.data, result.success {
+            do {
+                return try JSONDecoder().decode(BioAuthPolicy.self, from: data)
+            } catch {
+                SFSDKCoreLogger.e(ScreenLockManager.self, message: "Failed to read global mobile policy.")
+            }
+        }
+        return nil
+    }
+    
+    func lock() {
+        let accountManager = UserAccountManager.shared
+        let currentAccount = accountManager.currentUserAccount
+        
+        accountManager.switchToNewUserAccount { result in
+            switch result {
+            case .success(let newAccount):
+                if (newAccount.isEqual(currentAccount)) {
+                    _ = accountManager.refresh(credentials: newAccount.credentials) { refreshResult in
+                        switch refreshResult {
+                        case .success((_, _)):
+                            SFSDKCoreLogger.i(BiometricAuthenticationManagerInternal.self, message: "Refresh Succees.")
+                            break
+                        case .failure(let error):
+                            SFSDKCoreLogger.i(BiometricAuthenticationManagerInternal.self, message: "Refresh failed: \(error)")
+                        }
+                    }
+                }
+            case .failure(let error):
+                SFSDKCoreLogger.e(BiometricAuthenticationManagerInternal.self, message: "Attempt to add new user failed: \(error)")
+            }
+        }
+    }
+    
+    func biometricOptIn(optIn: Bool) {
+        
+    }
+    
+    func hasBiometricOptedIn() -> Bool {
+        return true
+    }
+    
+    func presentOptInDialog() {
+        
+    }
+    
+    func enableNativeBiometricLoginButton(enabled: Bool) {
+        
+    }
+    
+    private struct BioAuthPolicy: Encodable, Decodable {
+        let hasPolicy: Bool
+        let timeout: Int32
+        let optIn: Bool?
+        let nativeLoginButton: Bool?
+        
+        init(hasPolicy: Bool, timeout: Int32, optIn: Bool? = false, nativeLoginButton: Bool? = false) {
+            self.hasPolicy = hasPolicy
+            self.timeout = timeout
+            self.optIn = optIn
+            self.nativeLoginButton = nativeLoginButton
+        }
+    }
+}

@@ -26,7 +26,7 @@
 #import <UIKit/UIKit.h>
 #import <SalesforceSDKCore/SalesforceSDKCoreDefines.h>
 #import <SalesforceSDKCore/SalesforceSDKConstants.h>
-@class SFUserAccount, SFSDKAppConfig;
+@class SFUserAccount, SFSDKAppConfig, SFScreenLockManager, SFBiometricAuthenticationManager;
 
 /**
  Block typedef for creating a custom snapshot view controller.
@@ -258,6 +258,16 @@ NS_SWIFT_NAME(SalesforceManager)
  * @return Title string of the dev support menu.
  */
 - (nonnull NSString *)devInfoTitleString;
+
+/**
+ *
+ */
+- (SFScreenLockManager *)getScreenLockManager;
+
+/**
+ *
+ */
+- (SFBiometricAuthenticationManager *)getBiometricAuthenticationManager;
 
 @end
 

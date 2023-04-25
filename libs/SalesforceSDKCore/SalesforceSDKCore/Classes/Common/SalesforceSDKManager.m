@@ -299,7 +299,7 @@ NSString * const kSFScreenLockFlowCompleted = @"SFScreenLockFlowCompleted";
         [self setupServiceConfiguration];
         _snapshotViewControllers = [SFSDKSafeMutableDictionary new];
         [SFSDKSalesforceSDKUpgradeManager upgrade];
-        [[SFScreenLockManager shared] checkForScreenLockUsers]; // This is necessary because keychain values can outlive the app.
+        [[SFScreenLockManagerInternal shared] checkForScreenLockUsers]; // This is necessary because keychain values can outlive the app.
     }
     return self;
 }
@@ -546,7 +546,7 @@ NSString * const kSFScreenLockFlowCompleted = @"SFScreenLockFlowCompleted";
 - (void)handleAppForeground:(NSNotification *)notification
 {
     [SFSDKSalesforceSDKUpgradeManager upgrade];
-    [[SFScreenLockManager shared] handleAppForeground];
+    [[SFScreenLockManagerInternal shared] handleAppForeground];
 }
 
 - (void)handleAppBackground:(NSNotification *)notification
@@ -637,7 +637,7 @@ NSString * const kSFScreenLockFlowCompleted = @"SFScreenLockFlowCompleted";
 
 - (void)handlePostLogout
 {
-    [[SFScreenLockManager shared] checkForScreenLockUsers];
+    [[SFScreenLockManagerInternal shared] checkForScreenLockUsers];
 }
     
 - (BOOL)isSnapshotPresented:(UIScene *)scene {
