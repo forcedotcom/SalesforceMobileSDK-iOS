@@ -39,6 +39,10 @@
 #import "SFSDKWindowManager.h"
 #import "SFSDKNavigationController.h"
 #import "SFSDKViewUtils.h"
+#import "SalesforceSDKManager+Internal.h"
+#import <LocalAuthentication/LocalAuthentication.h>
+#import "SFRestAPI+Internal.h"
+#import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 @interface SFLoginViewController () <SFSDKLoginHostDelegate, SFUserAccountManagerDelegate>
 
 @property (nonatomic, strong) UINavigationBar *navBar;
@@ -257,17 +261,60 @@
 
 - (void)layoutWebView {
     if (nil != _oauthView) {
+        SFBiometricAuthenticationManagerInternal *bioAuthManager = [SFBiometricAuthenticationManagerInternal shared];
+        BOOL showBioAuthButton = [bioAuthManager enabled] && [bioAuthManager showNativeLoginButton];
+        CGFloat heightOffset = showBioAuthButton ? 0.9 : 1.0;
+        
         [_oauthView removeFromSuperview];
         CGFloat x = 0;
         CGFloat y = [self belowFrame:self.navBar.frame];
         CGFloat w = self.view.bounds.size.width;
-        CGFloat h = self.view.bounds.size.height - y;
+        CGFloat h = (self.view.bounds.size.height - y) * heightOffset;
         self.oauthView.frame = CGRectMake(x, y, w, h);
         [self.view addSubview:_oauthView];
+        
+        if (showBioAuthButton) {
+            UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+            [button setTitle:[SFSDKResourceUtils localizedString:@"biometricLoginButton"] forState:UIControlStateNormal];
+            x = 0;
+            y = (self.view.bounds.size.height - y);
+            w = self.view.bounds.size.width;
+            h = ((self.view.bounds.size.height - y) * 0.1);
+            button.frame = CGRectMake(x, y, w, h);
+            [button addTarget:self action:@selector(presentBioAuth:) forControlEvents:UIControlEventTouchUpInside];
+            [self.view addSubview:button];
+        }
     }
 }
 
 #pragma mark - Action Methods
+
+- (IBAction)presentBioAuth:(id)sender {
+    LAContext *context = [[LAContext alloc] init];
+    [context setLocalizedCancelTitle:[SFSDKResourceUtils localizedString:@"usePassword"]];
+    [context setLocalizedFallbackTitle:@""];
+    [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics localizedReason:[SFSDKResourceUtils localizedString:@"biometricReason"] reply:^(BOOL success, NSError *authenticationError) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (success) {
+                [SFBiometricAuthenticationManagerInternal shared].locked = NO;
+                
+                // Refresh token and unlock
+                SFUserAccount *currentAccount = [[SFUserAccountManager sharedInstance] currentUser];
+                [[SFUserAccountManager sharedInstance]
+                 refreshCredentials:currentAccount.credentials
+                 completion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
+                    [SFSDKCoreLogger d:[self class] format:@"Refresh succeeded"];
+                 } failure:^(SFOAuthInfo *authInfo, NSError *error) {
+                     [SFSDKCoreLogger d:[self class] format:@"Refresh failed"];
+                 }];
+
+                UIScene *scene = self.view.window.windowScene;
+                [[SFUserAccountManager sharedInstance] stopCurrentAuthentication:nil];
+                [[[SFSDKWindowManager sharedManager] authWindow:scene].viewController dismissViewControllerAnimated:NO completion:nil];
+            }
+        });
+    }];
+}
 
 - (IBAction)showLoginHost:(id)sender {
     [self showHostListView];

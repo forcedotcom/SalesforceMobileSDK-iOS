@@ -143,6 +143,8 @@
  */
 - (void)removeDelegate:(id<SFSDKWindowManagerDelegate>_Nonnull)delegate;
 
+- (BOOL)isActiveWindowLogin;
+
 + (instancetype _Nonnull)sharedManager;
 
 @end

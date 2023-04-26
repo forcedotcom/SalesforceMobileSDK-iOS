@@ -825,6 +825,14 @@ void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t b
 
 - (void)screenLockFlowDidComplete:(NSNotification *)notification { }
 
+- (nonnull SFBiometricAuthenticationManager *)getBiometricAuthenticationManager {
+    return ((SFBiometricAuthenticationManager *)SFBiometricAuthenticationManagerInternal.shared);
+}
+
+- (nonnull SFScreenLockManager *)getScreenLockManager {
+    return ((SFScreenLockManager *)SFScreenLockManagerInternal.shared);
+}
+
 @end
 
 NSString *SFAppTypeGetDescription(SFAppType appType){

@@ -27,18 +27,17 @@
 
 import Foundation
 
+@objc(SFBiometricAuthenticationManagerInternal)
 internal class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthenticationManager {
+    @objc internal static let shared = BiometricAuthenticationManagerInternal()
+    
     var enabled: Bool {
         get {
-            return true
+            return readMobilePolicy()?.hasPolicy ?? false
         }
     }
     
-    var locked: Bool {
-        get {
-            return true
-        }
-    }
+    var locked = false
     
     private let kBioAuthPolicyIdentifier = "com.salesforce.security.bioauthpolicy"
     private let kBioAuthEnabledIdentifier = "com.salesforce.security.bioauth"
@@ -80,11 +79,11 @@ internal class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthen
         return false
     }
     
-    @objc func storeMobilePolicy(userAccount: UserAccount, hasMobilePolicy: Bool, sessionTimeout: Int32) {
-        let hasPolicyData = try! JSONEncoder().encode(
+    @objc func storePolicy(userAccount: UserAccount, hasMobilePolicy: Bool, sessionTimeout: Int32) {
+        let policyData = try! JSONEncoder().encode(
             BioAuthPolicy(hasPolicy: hasMobilePolicy, timeout: sessionTimeout)
         )
-        let result = KeychainHelper.write(service: kBioAuthPolicyIdentifier, data: hasPolicyData, account: userAccount.idData.userId)
+        let result = KeychainHelper.write(service: kBioAuthPolicyIdentifier, data: policyData, account: userAccount.idData.userId)
         if result.success {
             SFSDKCoreLogger.i(BiometricAuthenticationManagerInternal.self, message: "Biometric authentication policy stored for user.")
         } else {
@@ -92,7 +91,25 @@ internal class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthen
         }
     }
     
-    private func readMobilePolicy(userAccount: UserAccount) -> BioAuthPolicy? {
+    private func storePolicy(policy: BioAuthPolicy) {
+        guard let userAccount = UserAccountManager.shared.currentUserAccount else {
+            return
+        }
+        
+        let policyData = try! JSONEncoder().encode(policy)
+        let result = KeychainHelper.write(service: kBioAuthPolicyIdentifier, data: policyData, account: userAccount.idData.userId)
+        if result.success {
+            SFSDKCoreLogger.i(BiometricAuthenticationManagerInternal.self, message: "Biometric authentication policy stored for user.")
+        } else {
+            SFSDKCoreLogger.e(BiometricAuthenticationManagerInternal.self, message: "Failed to store biometric authentication policy for user.")
+        }
+    }
+    
+    private func readMobilePolicy() -> BioAuthPolicy? {
+        guard let userAccount = UserAccountManager.shared.currentUserAccount else {
+            return nil
+        }
+        
         let result = KeychainHelper.read(service: kBioAuthPolicyIdentifier, account: userAccount.idData.userId)
         if let data = result.data, result.success {
             do {
@@ -105,6 +122,7 @@ internal class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthen
     }
     
     func lock() {
+        locked = true
         let accountManager = UserAccountManager.shared
         let currentAccount = accountManager.currentUserAccount
         
@@ -129,11 +147,14 @@ internal class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthen
     }
     
     func biometricOptIn(optIn: Bool) {
-        
+        if var policy = readMobilePolicy() {
+            policy.optIn = optIn
+            storePolicy(policy: policy)
+        }
     }
     
     func hasBiometricOptedIn() -> Bool {
-        return true
+        return readMobilePolicy()?.optIn ?? false
     }
     
     func presentOptInDialog() {
@@ -141,14 +162,21 @@ internal class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthen
     }
     
     func enableNativeBiometricLoginButton(enabled: Bool) {
-        
+        if var policy = readMobilePolicy() {
+            policy.nativeLoginButton = enabled
+            storePolicy(policy: policy)
+        }
+    }
+    
+    @objc func showNativeLoginButton() -> Bool {
+        return readMobilePolicy()?.nativeLoginButton ?? false
     }
     
     private struct BioAuthPolicy: Encodable, Decodable {
         let hasPolicy: Bool
         let timeout: Int32
-        let optIn: Bool?
-        let nativeLoginButton: Bool?
+        var optIn: Bool?
+        var nativeLoginButton: Bool?
         
         init(hasPolicy: Bool, timeout: Int32, optIn: Bool? = false, nativeLoginButton: Bool? = false) {
             self.hasPolicy = hasPolicy
