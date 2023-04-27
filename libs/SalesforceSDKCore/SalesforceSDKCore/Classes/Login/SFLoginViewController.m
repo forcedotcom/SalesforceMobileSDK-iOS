@@ -98,7 +98,6 @@
     if (self.showNavbar) {
         [self styleNavigationBar:self.navBar];
     }
-
     [self setupBackButton];
 }
 
