@@ -60,6 +60,15 @@
 #import "SFSDKSalesforceAnalyticsManager.h"
 #import "SFApplicationHelper.h"
 #import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
+#import <SalesforceSDKCommon/SalesforceSDKCommon-Swift.h>
+#import "SFSDKSPLoginRequestCommand.h"
+#import "SFSDKSPLoginResponseCommand.h"
+#import "SFSDKCryptoUtils.h"
+#import "NSData+SFSDKUtils_Internal.h"
+#import "SFSDKIDPAuthHelper.h"
+#import "SFSDKIDPLoginRequestCommand.h"
+#import "SFSDKIDPAuthCodeLoginRequestCommand.h"
+#import "SFSDKSPUserTracking.h"
 
 // Notifications
 NSNotificationName SFUserAccountManagerDidChangeUserNotification       = @"SFUserAccountManagerDidChangeUserNotification";
@@ -208,7 +217,6 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         
         _authSessions = [SFSDKSafeMutableDictionary new];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sceneDidDisconnect:) name:UISceneDidDisconnectNotification object:nil];
-        
         [self populateErrorHandlers];
      }
 	return self;
@@ -319,13 +327,83 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 
 #pragma  mark - login & logout
 
-- (BOOL)handleIDPAuthenticationResponse:(NSURL *)appUrlResponse options:(nonnull NSDictionary *)options {
-    [SFSDKCoreLogger d:[self class] format:@"handleIDPAuthenticationResponse %@",[appUrlResponse description]];
-    BOOL result = [[SFSDKURLHandlerManager sharedInstance] canHandleRequest:appUrlResponse options:options];
+- (BOOL)handleIDPAuthenticationResponse:(NSURL *)appUrlResponse options:(NSDictionary *)options {
+    return [self handleIDPAuthenticationCommand:appUrlResponse options:options completion:nil failure:nil];
+}
+
+- (BOOL)handleIDPAuthenticationCommand:(NSURL *)url
+                               options:(nonnull NSDictionary *)options
+                            completion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock
+                               failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock {
+    [SFSDKCoreLogger d:[self class] format:@"handleIDPAuthenticationResponse %@", [url description]];
+    BOOL result = [[SFSDKURLHandlerManager sharedInstance] canHandleRequest:url options:options];
     if (result) {
-        result = [[SFSDKURLHandlerManager sharedInstance] processRequest:appUrlResponse  options:options];
+        result = [[SFSDKURLHandlerManager sharedInstance] processRequest:url options:options completion:completionBlock failure:failureBlock];
     }
     return result;
+}
+
+- (void)kickOffIDPInitiatedLoginFlowForSP:(SFSDKSPConfig *)config statusUpdate:(void(^)(SFSPLoginStatus))statusBlock failure:(void(^)(SFSPLoginError))failureBlock {
+    NSString *scheme = [NSURL URLWithString:[config oauthCallbackURL]].scheme;
+    if (!scheme) {
+        failureBlock(SFSPLoginErrorNoScheme);
+        return;
+    }
+
+    NSString *accountIdentifier = [self encodeUserIdentity:[self currentUser].accountIdentity];
+    if (!accountIdentifier) {
+        failureBlock(SFSPLoginErrorNoScheme);
+        return;
+    }
+    NSString *keychainGroup = [config keychainGroup];
+
+    // Check if SP app is already logged in with the current user
+    NSString *spUserKeyName = [NSString stringWithFormat:kUserLoggedInKeyFormat, scheme];
+    SFSDKKeychainResult *userResult = [SFSDKKeychainHelper readWithService:spUserKeyName account:accountIdentifier accessGroup:keychainGroup cacheMode:CacheModeDisabled];
+
+    // User is already logged into SP app, open SP app with user hint
+    if (userResult.success) {
+        SFSDKIDPLoginRequestCommand *responseCommand = [[SFSDKIDPLoginRequestCommand alloc] init];
+        responseCommand.scheme = scheme;
+        responseCommand.userHint = accountIdentifier;
+        NSURL *url = [responseCommand requestURL];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            statusBlock(SFSPLoginStatusLaunchingSPWithUserHint);
+            BOOL launched = [SFApplicationHelper openURL:url];
+            if (!launched) {
+                failureBlock(SFSPLoginErrorSPLaunchFailed);
+                return;
+            }
+        });
+    } else { // User isn't logged into SP app, trigger authentication flow
+        NSString *keyIdentifier = [NSString stringWithFormat:@"com.salesforce.idp.codeverifier-%@", scheme];
+        NSData *codeVerifier = [SFSDKCryptoUtils randomByteDataWithLength:kSFVerifierByteLength];
+        SFSDKKeychainResult *result = [SFSDKKeychainHelper writeWithService:keyIdentifier data:codeVerifier account:nil accessGroup:keychainGroup cacheMode:CacheModeDisabled];
+        if (result.success) {
+            statusBlock(SFSPLoginStatusCodeVerifierStoredInKeychain);
+        } else {
+            failureBlock(SFSPLoginErrorKeychainWriteFailed);
+            return;
+        }
+
+        NSString *challengeString = [[[[codeVerifier msdkBase64UrlString] dataUsingEncoding:NSUTF8StringEncoding] msdkSha256Data] msdkBase64UrlString];
+        NSDictionary *appContext = @{
+            kSFOAuthClientIdParam: [config oauthClientId],
+            kSFOAuthRedirectUrlParam: [config oauthCallbackURL],
+            kSFChallengeParamName: challengeString,
+            kSFLoginHostParam: self.currentUser.credentials.domain,
+            kSFScopesParam: [SFSDKIDPAuthHelper encodeScopes:[config oauthScopes]],
+        };
+
+        SFSDKAuthRequest *request = [self defaultAuthRequest];
+        request.keychainReference = keyIdentifier;
+        [self idpRefreshTokenAndAuthenticate:[self currentUser] spAppContext:appContext authRequest:request success:^{
+            statusBlock(SFSPLoginStatusGettingAuthCodeFromServer);
+        } failure:^(NSError *error) {
+            failureBlock(SFSPLoginErrorCredentialRefreshFailed);
+        }];
+    }
 }
 
 - (BOOL)loginWithCompletion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
@@ -548,6 +626,8 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 
     [SFSDKWebViewStateManager removeSession];
     
+    [SFSDKSPUserTracking userLoggedOut:user];
+    
     //restore these id's inorder to enable post logout cleanup of components
     // TODO: Revisit the userInfo data structure of kSFNotificationUserDidLogout in 7.0.
     // Technically, an SFUserAccount should not continue to exist after logout.  The
@@ -702,11 +782,26 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 - (void)oauthCoordinatorDidFetchAuthCode:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)authInfo {
     coordinator.authSession.authInfo = authInfo;
     
+    SFSDKAuthCommand *authCommand;
+    NSString *keychainReference = coordinator.authSession.oauthRequest.keychainReference;
+    if (keychainReference) { // IDP request to SP
+        SFSDKIDPAuthCodeLoginRequestCommand *command = [[SFSDKIDPAuthCodeLoginRequestCommand alloc] init];
+        command.keychainReference = keychainReference;
+        command.authCode = coordinator.authSession.spAppCredentials.authCode;
+        authCommand = command;
+    } else { // SP - IDP response
+        SFSDKSPLoginResponseCommand *command = [[SFSDKSPLoginResponseCommand alloc] init];
+        command.authCode = coordinator.authSession.spAppCredentials.authCode;
+    }
+    
+    NSString *spAppRedirectUri = coordinator.authSession.spAppCredentials.redirectUri;
+    NSURL *spAppURL = [NSURL URLWithString:spAppRedirectUri];
+    authCommand.scheme = spAppURL.scheme;
+    
     // Fetched auth code as an idp app
-    [SFSDKIDPAuthHelper invokeSPApp:coordinator.authSession completion:^(BOOL result) {
+    [SFSDKIDPAuthHelper invokeSPApp:[authCommand requestURL] completion:^(BOOL result) {
         [self dismissAuthViewControllerIfPresent];
     }];
-
 }
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(WKWebView *)view {
@@ -868,7 +963,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     [self stopCurrentAuthentication:^(BOOL result) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         [strongSelf authenticateWithRequestOnBehalfOfSpApp:request spAppCredentials:spAppCredentials  completion:^(SFOAuthInfo *authInfo, SFUserAccount *user) {
-            [strongSelf authenticateOnBehalfOfSPApp:user spAppCredentials:spAppCredentials];
+            [strongSelf authenticateOnBehalfOfSPApp:user spAppCredentials:spAppCredentials authRequest:nil];
         } failure:^(SFOAuthInfo *authInfo, NSError *error) {
             [SFSDKIDPAuthHelper invokeSPAppWithError:spAppCredentials error:error reason:@"Failed refreshing credentials"];
         }];
@@ -876,17 +971,25 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     
 }
 
-- (void)selectedUser:(SFUserAccount *)user spAppContext:(NSDictionary *)spAppOptions {
-     //User has been selected in the idp app mode.
-     //make sure access token is not expired
+- (void)idpRefreshTokenAndAuthenticate:(SFUserAccount *)user spAppContext:(NSDictionary *)spAppOptions authRequest:(SFSDKAuthRequest *)authRequest success:(void(^)(void))successBlock failure:(void(^)(NSError *))failureBlock {
+    // Make sure access token is not expired
     __weak typeof (self) weakSelf = self;
     SFOAuthCredentials *spAppCredentials = [self spAppCredentials:spAppOptions];
     SFRestRequest *request = [[SFRestAPI sharedInstanceWithUser:user] requestForUserInfo];
     [[SFRestAPI sharedInstanceWithUser:user] sendRequest:request failureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
-        [SFSDKIDPAuthHelper invokeSPAppWithError:spAppCredentials error:error reason:@"Failed refreshing credentials"];
+        failureBlock(error);
     } successBlock:^(id response, NSURLResponse *rawResponse) {
         __strong typeof (self) strongSelf = weakSelf;
-        [strongSelf authenticateOnBehalfOfSPApp:user spAppCredentials:spAppCredentials];
+        successBlock();
+        [strongSelf authenticateOnBehalfOfSPApp:user spAppCredentials:spAppCredentials authRequest:authRequest];
+    }];
+}
+
+- (void)selectedUser:(SFUserAccount *)user spAppContext:(NSDictionary *)spAppOptions {
+     // User has been selected in the idp app mode.
+    SFOAuthCredentials *spAppCredentials = [self spAppCredentials:spAppOptions];
+    [self idpRefreshTokenAndAuthenticate:user spAppContext:spAppOptions authRequest:nil success:nil failure:^(NSError *error) {
+        [SFSDKIDPAuthHelper invokeSPAppWithError:spAppCredentials error:error reason:@"Failed refreshing credentials"];
     }];
 }
 
@@ -1431,8 +1534,11 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     return self.authSessions[sceneId].isAuthenticating;
 }
 
-- (void)authenticateOnBehalfOfSPApp:(SFUserAccount *)user spAppCredentials:(SFOAuthCredentials *)spAppCredentials {
-    SFSDKAuthRequest *request = [self defaultAuthRequest];
+- (void)authenticateOnBehalfOfSPApp:(SFUserAccount *)user spAppCredentials:(SFOAuthCredentials *)spAppCredentials authRequest:(SFSDKAuthRequest *)request {
+    if (!request) {
+        request = [self defaultAuthRequest];
+    }
+    
     SFSDKAuthSession *authSession = [[SFSDKAuthSession alloc] initWith:request credentials:user.credentials spAppCredentials:spAppCredentials];
     authSession.oauthCoordinator.delegate = self;
     authSession.identityCoordinator.delegate = self;
@@ -1449,7 +1555,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 - (void)populateErrorHandlers {
     __weak typeof (self) weakSelf = self;
     
-    self.errorManager.invalidAuthCredentialsErrorHandlerBlock  = ^(NSError *error, SFSDKAuthSession  *session,NSDictionary *options) {
+    self.errorManager.invalidAuthCredentialsErrorHandlerBlock = ^(NSError *error, SFSDKAuthSession  *session,NSDictionary *options) {
         __strong typeof (weakSelf) strongSelf = weakSelf;
         [SFSDKCoreLogger w:[strongSelf class] format:@"OAuth refresh failed due to invalid grant.  Error code: %ld", (long)error.code];
         session.notifiesDelegatesOfFailure = NO;
@@ -1653,20 +1759,22 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         [self notifyLoginCompletion:userAccount authInfo:authInfo];
     }
     
+    if (authInfo.authType != SFOAuthTypeRefresh) {
+        [SFSDKSPUserTracking userLoggedIn:userAccount];
+    }
     
     if (!authSession.oauthRequest.authenticateRequestFromSPApp) {
         [self resetAuthentication];
     }
-
 }
 - (void)notifyLoginCompletion:(SFUserAccount *)userAccount authInfo:(SFOAuthInfo *)authInfo {
      
      NSDictionary *userInfo = @{kSFNotificationUserInfoAccountKey: userAccount,
                                 kSFNotificationUserInfoAuthTypeKey: authInfo};
-     if (authInfo.authType != SFOAuthTypeRefresh) {
-         [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserDidLogIn
-                                                             object:self
-                                                           userInfo:userInfo]; 
+    if (authInfo.authType != SFOAuthTypeRefresh) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserDidLogIn
+                                                            object:self
+                                                          userInfo:userInfo];
      }  else if (authInfo.authType == SFOAuthTypeRefresh) {
          [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserDidRefreshToken
                                                              object:self

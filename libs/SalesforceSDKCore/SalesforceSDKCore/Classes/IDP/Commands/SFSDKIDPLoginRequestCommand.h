@@ -1,11 +1,11 @@
 /*
- SFSDKIDPInitiatedAuthRequestHandler.m
+ SFSDKIDPInitCommand.h
  SalesforceSDKCore
- 
- Created by Raj Rao on 8/28/17.
- 
+
+ Created by Raj Rao on 9/28/17.
+
  Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
- 
+
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
  * Redistributions of source code must retain the above copyright notice, this list of conditions
@@ -16,7 +16,7 @@
  * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
  endorse or promote products derived from this software without specific prior written
  permission of salesforce.com, inc.
- 
+
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
  FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -27,25 +27,12 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSDKIDPInitiatedAuthRequestHandler.h"
-#import "SFSDKIDPConstants.h"
-#import "NSURL+SFAdditions.h"
-#import "SFUserAccountManager+URLHandlers.h"
-#import "SalesforceSDKCore.h"
-#import "SFSDKIDPInitCommand.h"
+#import "SFSDKAuthCommand.h"
 
-@implementation SFSDKIDPInitiatedAuthRequestHandler
+// Sent by IDP to SP for IDP initiated login flow
+@interface SFSDKIDPLoginRequestCommand : SFSDKAuthCommand
+@property (nonatomic, copy) NSString *userHint;
+@property (nonatomic, copy) NSString *domain;
+@property (nonatomic, copy) NSString *startURL;
 
-- (BOOL)canHandleRequest:(NSURL *)url options:(NSDictionary *)options {
-   SFSDKIDPInitCommand *command = [[SFSDKIDPInitCommand alloc] init];
-   return [command isAuthCommand:url];
-
-}
-
-- (BOOL)processRequest:(NSURL *)url options:(NSDictionary *)options {
-    SFSDKIDPInitCommand *command = [[SFSDKIDPInitCommand alloc] init];
-    [command fromRequestURL:url];
-    [[SFUserAccountManager sharedInstance] handleIdpInitiatedAuth:command];
-    return NO;
-}
 @end

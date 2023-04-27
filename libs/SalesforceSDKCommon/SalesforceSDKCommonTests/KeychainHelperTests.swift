@@ -284,6 +284,60 @@ final class KeychainHelperTests: XCTestCase {
         }
     }
     
+    func testCacheConfigurationEnabled() throws {
+        // Cache enabled at class level
+        KeychainHelper.cacheEnabled = true
+        
+        let service = "testService"
+        let originalData = try XCTUnwrap("FirstWrite".data(using: .utf8))
+        let updatedData = try XCTUnwrap("SecondWrite".data(using: .utf8))
+        
+        // Write an item that should go through cache by default
+        var result = KeychainHelper.write(service: service, data: originalData, account: nil)
+        XCTAssert(result.success)
+        
+        // Write another item not using cache
+        result = KeychainHelper.write(service: service, data: updatedData, account: nil, cacheMode: .disabled)
+        XCTAssert(result.success)
+        
+        // Read using cache by default should retrieve original value
+        result = KeychainHelper.read(service: service, account: nil)
+        XCTAssert(result.success)
+        XCTAssertEqual(originalData, result.data)
+        
+        // Read without cache should retrieve latest value
+        result = KeychainHelper.read(service: service, account: nil, cacheMode: .disabled)
+        XCTAssert(result.success)
+        XCTAssertEqual(updatedData, result.data)
+    }
+    
+    func testCacheConfigurationDisabled() throws {
+        // Cache enabled at class level
+        KeychainHelper.cacheEnabled = false
+        
+        let service = "testService"
+        let originalData = try XCTUnwrap("FirstWrite".data(using: .utf8))
+        let updatedData = try XCTUnwrap("SecondWrite".data(using: .utf8))
+        
+        // Write an item using the cache
+        var result = KeychainHelper.write(service: service, data: originalData, account: nil, cacheMode: .enabled)
+        XCTAssert(result.success)
+        
+        // Write an item that should not go through cache by default
+        result = KeychainHelper.write(service: service, data: updatedData, account: nil)
+        XCTAssert(result.success)
+        
+        // Read from cache, should get original value
+        result = KeychainHelper.read(service: service, account: nil, cacheMode: .enabled)
+        XCTAssert(result.success)
+        XCTAssertEqual(originalData, result.data)
+        
+        // Read without cache by default, should get latest value
+        result = KeychainHelper.read(service: service, account: nil)
+        XCTAssert(result.success)
+        XCTAssertEqual(updatedData, result.data)
+    }
+    
     private func readKeychainItem(service: String, account: String) throws -> [String : Any] {
         let query: [String: Any] = [String(kSecClass): String(kSecClassGenericPassword),
                                     String(kSecAttrService): service,

@@ -31,18 +31,18 @@
 #import "SFOAuthCredentials.h"
 #import "SFSDKUserSelectionNavViewController.h"
 #import "SFUserAccountManager+URLHandlers.h"
-#import "SFSDKAuthRequestCommand.h"
+#import "SFSDKSPLoginRequestCommand.h"
 
 @implementation SFSDKIDPRequestHandler
 
 - (BOOL)canHandleRequest:(NSURL *)url options:(NSDictionary *)options {
-    SFSDKAuthRequestCommand *command = [[SFSDKAuthRequestCommand alloc] init];
+    SFSDKSPLoginRequestCommand *command = [[SFSDKSPLoginRequestCommand alloc] init];
     return [command isAuthCommand:url];
 }
 
 - (BOOL)processRequest:(NSURL *)url options:(NSDictionary *)options {
 
-    SFSDKAuthRequestCommand *command = [[SFSDKAuthRequestCommand alloc] init];
+    SFSDKSPLoginRequestCommand *command = [[SFSDKSPLoginRequestCommand alloc] init];
     [command fromRequestURL:url];
     [[SFUserAccountManager sharedInstance] handleAuthRequestFromSPApp:command];
     return NO;

@@ -1,5 +1,5 @@
 /*
- SFSDKAuthRequestCommand.h
+ SFSDKSPLoginResponseCommand.h
  SalesforceSDKCore
 
  Created by Raj Rao on 9/28/17.
@@ -26,33 +26,15 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 #import "SFSDKAuthCommand.h"
 
-NS_ASSUME_NONNULL_BEGIN
+// Sent by IDP to SP in response to SPLoginRequest
+@interface SFSDKSPLoginResponseCommand : SFSDKAuthCommand
 
-@interface SFSDKAuthRequestCommand : SFSDKAuthCommand
+@property (nonatomic,copy) NSString *state;
 
-@property (nonatomic,copy) NSString *spState;
+@property (nonatomic,copy) NSString *authCode;
 
-@property (nonatomic,copy) NSString *spClientId;
-
-@property (nonatomic,copy) NSString *spRedirectURI;
-
-@property (nonatomic,copy) NSString *spCodeChallenge;
-
-@property (nonatomic,copy) NSString *spUserHint;
-
-@property (nonatomic,copy) NSString *callingAppUrl;
-
-@property (nonatomic,copy) NSString *spAppName;
-
-@property (nonatomic,copy) NSString *spAppDescription;
-
-@property (nonatomic,copy) NSString *spLoginHost;
-
-@property (nonatomic,copy) NSString *spAppScopes;
+@property (nonatomic,copy) NSString *domain;
 
 @end
-
-NS_ASSUME_NONNULL_END

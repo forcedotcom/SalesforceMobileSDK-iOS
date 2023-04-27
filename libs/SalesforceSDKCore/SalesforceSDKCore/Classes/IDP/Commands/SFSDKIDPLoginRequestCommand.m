@@ -1,6 +1,11 @@
 /*
- Copyright (c) 2015-present, salesforce.com, inc. All rights reserved.
- 
+ SFSDKIDPInitCommand.m
+ SalesforceSDKCore
+
+ Created by Raj Rao on 9/28/17.
+
+ Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
+
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
  * Redistributions of source code must retain the above copyright notice, this list of conditions
@@ -11,7 +16,7 @@
  * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
  endorse or promote products derived from this software without specific prior written
  permission of salesforce.com, inc.
- 
+
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
  FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -22,38 +27,37 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+#import "SFSDKIDPLoginRequestCommand.h"
+#import "SFSDKAuthCommand+Internal.h"
+#import "SFSDKIDPConstants.h"
 
-/*!
- * @class SFSDKDatasharingHelper
- * Class used to app data sharing settings 
- */
-NS_SWIFT_NAME(DataSharingHelper)
-@interface SFSDKDatasharingHelper : NSObject
+@implementation SFSDKIDPLoginRequestCommand
 
-/*!
- * @brief Set to YES to enable app group.
- */
-@property (nonatomic) BOOL appGroupEnabled NS_SWIFT_NAME(isAppGroupEnabled);
+- (NSString *)userHint {
+    return [self paramForKey:kSFUserHintParam];
+}
 
-/*!
- * @brief Set to YES to enable keychain sharing.
- */
+- (void)setUserHint:(NSString *)userHint {
+    return [self setParamForKey:userHint key:kSFUserHintParam];
+}
 
-@property (nonatomic) BOOL keychainSharingEnabled NS_SWIFT_NAME(isKeychainSharingEnabled) __attribute__((deprecated("Deprecated in Salesforce Mobile SDK 11.0 and will be removed in Salesforce Mobile SDK 12.0")));
+- (NSString *)domain {
+    return [self paramForKey:kSFLoginHostParam];
+}
 
-/*!
- * @brief Name of the app group to use to share data.
- */
-@property (nonatomic, strong, nullable) NSString *appGroupName;
+- (void)setDomain:(NSString *)domain {
+    return [self setParamForKey:domain key:kSFLoginHostParam];
+}
 
-/*!
- * @brief Name of the keychain group to use
- */
-@property (nonatomic, strong, nullable) NSString *keychainGroupName __attribute__((deprecated("Deprecated in Salesforce Mobile SDK 11.0 and will be removed in Salesforce Mobile SDK 12.0. Use KeychainHelper.accessGroup instead")));
+- (NSString *)startURL {
+    return [self paramForKey:kSFStartURLParam];
+}
 
-/** Shared singleton
- */
-@property (class, nonatomic, readonly, nonnull) SFSDKDatasharingHelper *sharedInstance NS_SWIFT_NAME(shared);
+- (void)setStartURL:(NSString *)userHint {
+    return [self setParamForKey:userHint key:kSFStartURLParam];
+}
 
+- (NSString *)command {
+    return @"idpinit";
+}
 @end
