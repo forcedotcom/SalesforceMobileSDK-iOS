@@ -43,7 +43,6 @@
 #import <SalesforceSDKCore/SFKeyStoreManager.h>
 #import <SalesforceSDKCore/SFEncryptionKey.h>
 #import <SalesforceSDKCore/SFSDKCryptoUtils.h>
-#import <SalesforceSDKCore/SFDecryptStream.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFDirectoryManager.h>
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
@@ -972,34 +971,6 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
     
     NSString *entryAsString = [self readFromEncryptedFile:filePath
                                             encryptionKey:encKey];
-    
-    // If it doesn't look like proper json, it means the entry was encrypted with an older key/IV.
-    // It needs to be stored back with the current encryption.
-    if (![entryAsString hasPrefix:@"{"] && ![SFJsonUtils objectFromJSONString:entryAsString]) {
-        #pragma clang diagnostic push
-        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        SFSmartStoreEncryptionKeyBlock keyBlock = [SFSmartStore encryptionKeyBlock];
-        SFEncryptionKey *legacyEncKey = keyBlock();
-        #pragma clang diagnostic pop
-        
-        // Try for 9.2 upgrade case -- pre 9.2/post 6.2 used SFEncryptionKey with a non-nil IV
-        entryAsString = [self readFromEncryptedFile:filePath encKey:legacyEncKey useNilIV:NO];
-        if ([entryAsString hasPrefix:@"{"] && [SFJsonUtils objectFromJSONString:entryAsString]) {
-            [self writeToEncryptedFile:filePath
-                               content:entryAsString
-                         encryptionKey:encKey];
-        } else {
-            // Try 6.2 upgrade case -- pre 6.2 used SFEncryptionKey with a nil IV
-            entryAsString = [self readFromEncryptedFile:filePath encKey:legacyEncKey useNilIV:YES];
-            if ([entryAsString hasPrefix:@"{"] && [SFJsonUtils objectFromJSONString:entryAsString]) {
-                [self writeToEncryptedFile:filePath
-                                   content:entryAsString
-                             encryptionKey:encKey];
-            } else {
-                [SFSDKSmartStoreLogger e:[self class] format:@"Attempt to migrate an encrypted externally saved soup '%@' with failed.", soupTableName];
-            }
-        }
-    }
 
     // Check for valid JSON.
     if (![self checkRawJson:entryAsString fromMethod:NSStringFromSelector(_cmd)]) {
@@ -2649,23 +2620,6 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
     return salt;
 }
 
-- (NSString *)readFromEncryptedFile:(NSString *)filePath
-                             encKey:(SFEncryptionKey *)encKey
-                           useNilIV:(BOOL)useNilIV {
-    NSInputStream *inputStream = nil;
-    if (encKey) {
-        SFDecryptStream *decryptStream = [[SFDecryptStream alloc] initWithFileAtPath:filePath];
-        if (useNilIV) {
-            encKey = [[SFEncryptionKey alloc] initWithData:encKey.key initializationVector:nil];
-        }
-        [decryptStream setupWithDecryptionKey:encKey];
-        inputStream = decryptStream;
-    } else {
-        inputStream = [[NSInputStream alloc] initWithFileAtPath:filePath];
-    }
-    
-    return [SFSmartStore stringFromInputStream:inputStream];
-}
 #pragma clang diagnostic pop
 
 @end
