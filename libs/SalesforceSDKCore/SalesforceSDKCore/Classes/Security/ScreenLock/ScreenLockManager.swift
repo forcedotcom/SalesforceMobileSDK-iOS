@@ -30,7 +30,9 @@ import Foundation
 @objc(SFScreenLockManager)
 public protocol ScreenLockManager {
     
+    /// If the feature is enabled for the current user.
     var enabled: Bool { get }
     
+    /// Locks the device immediately. 
     func lock()
 }

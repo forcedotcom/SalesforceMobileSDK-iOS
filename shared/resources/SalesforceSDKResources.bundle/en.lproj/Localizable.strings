@@ -37,6 +37,10 @@
 // Biometric Authentication
 "biometricLoginButton" = "Login with Biometric";
 "usePassword" = "Use Password";
+"bioOptInPromptTitle" = "Biometric Login";
+"bioOptInPromptMessage" = "Use TouchID or FaceID to quickly login.  Your biometric information is never stored.";
+"bioPromptEnable" = "Enable";
+"bioPromtpCancel" = "Use Password";
 
 // OAuth flow
 "authAlertContinueButton"="Continue";

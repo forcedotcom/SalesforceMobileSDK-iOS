@@ -46,7 +46,8 @@ internal class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthen
     private override init() {
         super.init()
         NotificationCenter.default.addObserver(forName: UIApplication.didEnterBackgroundNotification, object: nil, queue: nil) { [weak self] _ in
-            if (!SFSDKWindowManager.shared().isActiveWindowLogin()) {
+            // Do not set new background timestamp if we are already locked
+            if (!(self?.locked ?? true)) {
                 self?.backgroundTimestamp = Date().timeIntervalSince1970
             }
         }
@@ -157,8 +158,21 @@ internal class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthen
         return readMobilePolicy()?.optIn ?? false
     }
     
-    func presentOptInDialog() {
-        
+    @objc func hasBeenPromptedForBiometric() -> Bool {
+        return (readMobilePolicy()?.optIn == nil)
+    }
+    
+    func presentOptInDialog(viewController: UIViewController) {
+        let dialog = UIAlertController(title: SFSDKResourceUtils.localizedString("bioOptInPromptTitle"), message: SFSDKResourceUtils.localizedString("bioOptInPromptMessage"), preferredStyle: .alert)
+        let enableAction = UIAlertAction(title: SFSDKResourceUtils.localizedString("bioPromptEnable"), style: .default) { _ in
+            self.biometricOptIn(optIn: true)
+        }
+        let cancelAction = UIAlertAction(title: SFSDKResourceUtils.localizedString("bioPromtpCancel"), style: .default) { _ in
+            self.biometricOptIn(optIn: false)
+        }
+        dialog.addAction(cancelAction)
+        dialog.addAction(enableAction)
+        viewController.present(dialog, animated: true)
     }
     
     func enableNativeBiometricLoginButton(enabled: Bool) {
@@ -169,7 +183,8 @@ internal class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthen
     }
     
     @objc func showNativeLoginButton() -> Bool {
-        return readMobilePolicy()?.nativeLoginButton ?? false
+        // true if not specified
+        return readMobilePolicy()?.nativeLoginButton ?? true
     }
     
     private struct BioAuthPolicy: Encodable, Decodable {

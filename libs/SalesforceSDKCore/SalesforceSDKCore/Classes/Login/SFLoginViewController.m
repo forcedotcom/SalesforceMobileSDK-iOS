@@ -98,10 +98,8 @@
     if (self.showNavbar) {
         [self styleNavigationBar:self.navBar];
     }
-    
-    if (![[SFBiometricAuthenticationManagerInternal shared] locked]) {
-        [self setupBackButton];
-    }
+
+    [self setupBackButton];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -218,6 +216,10 @@
 }
 
 - (BOOL)shouldShowBackButton {
+    if ([[SFBiometricAuthenticationManagerInternal shared] locked]) {
+        return NO;
+    }
+    
     if (self.config.shouldDisplayBackButton || [SFUserAccountManager sharedInstance].idpEnabled) {
         return YES;
     }

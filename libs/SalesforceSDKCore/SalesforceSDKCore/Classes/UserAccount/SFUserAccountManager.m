@@ -1545,16 +1545,36 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     SFIdentityCoordinator *identityCoordinator = authSession.identityCoordinator;
     BOOL hasMobilePolicy = identityCoordinator.idData.mobilePoliciesConfigured;
     int lockTimeout = identityCoordinator.idData.mobileAppScreenLockTimeout;
+    NSDictionary *customAttributes = identityCoordinator.idData.customAttributes;
+    BOOL hasBioAuthPolciy = (customAttributes != nil) && customAttributes[@"biometric_auth"];
+    int sessionTimeout = (customAttributes != nil) && customAttributes[@"biometric_timeout"];
+    SFBiometricAuthenticationManagerInternal *bioAuthManager = [SFBiometricAuthenticationManagerInternal shared];
+    
+    // Set session timeout to the lowest value (15 minutes) of not specified.
+    if (hasMobilePolicy && (sessionTimeout < 1)) {
+        sessionTimeout = 15;
+    }
     
     __weak typeof(self) weakSelf = self;
     [self dismissAuthViewControllerIfPresentForScene:authSession.oauthRequest.scene completion:^{
           __strong typeof(weakSelf) strongSelf = weakSelf;
         [strongSelf finalizeAuthCompletion:authSession];
+
         if (authSession.authInfo.authType != SFOAuthTypeRefresh) {
-            [[SFScreenLockManagerInternal shared] storeMobilePolicyWithUserAccount:self.currentUser hasMobilePolicy:hasMobilePolicy lockTimeout:lockTimeout];
-       }
+            if (hasBioAuthPolciy) {
+                [bioAuthManager storePolicyWithUserAccount:self.currentUser hasMobilePolicy:hasBioAuthPolciy sessionTimeout:sessionTimeout];
+            } else {
+                [[SFScreenLockManagerInternal shared] storeMobilePolicyWithUserAccount:self.currentUser hasMobilePolicy:hasMobilePolicy lockTimeout:lockTimeout];
+            }
+        }
     }];
     [self dismissAuthViewControllerIfPresent];
+    
+    // Only prompt user to opt in ot biometric authentictaion once.
+    if (bioAuthManager.enabled && ![bioAuthManager hasBeenPromptedForBiometric]) {
+        SFSDKWindowContainer *mainWindow = [[SFSDKWindowManager sharedManager] mainWindow:nil];
+        [[SFBiometricAuthenticationManagerInternal shared] presentOptInDialogWithViewController:mainWindow.viewController];
+    }
 }
 
 - (void)handleFailure:(NSError *)error session:(SFSDKAuthSession *)authSession {
