@@ -74,6 +74,7 @@
             }
     }];
     [[SFScreenLockManagerInternal shared] handleAppForeground];
+    [[SFBiometricAuthenticationManagerInternal shared] handleAppForeground];
 }
 
 + (void)handleLogout:(void (^)(void))completionBlock {

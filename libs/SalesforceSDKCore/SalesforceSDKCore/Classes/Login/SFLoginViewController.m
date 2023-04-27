@@ -78,6 +78,11 @@
         self.navigationController.navigationBarHidden = YES;
     }
     [self layoutWebView];
+    
+    SFBiometricAuthenticationManagerInternal *bioAuthManager = [SFBiometricAuthenticationManagerInternal shared];
+    if (bioAuthManager.locked && bioAuthManager.hasBiometricOptedIn) {
+        [self presentBioAuth];
+    }
 }
 
 - (CGFloat) belowFrame:(CGRect) frame {
@@ -93,7 +98,10 @@
     if (self.showNavbar) {
         [self styleNavigationBar:self.navBar];
     }
-    [self setupBackButton];
+    
+    if (![[SFBiometricAuthenticationManagerInternal shared] locked]) {
+        [self setupBackButton];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -262,7 +270,7 @@
 - (void)layoutWebView {
     if (nil != _oauthView) {
         SFBiometricAuthenticationManagerInternal *bioAuthManager = [SFBiometricAuthenticationManagerInternal shared];
-        BOOL showBioAuthButton = [bioAuthManager enabled] && [bioAuthManager showNativeLoginButton];
+        BOOL showBioAuthButton = [bioAuthManager locked] && [bioAuthManager showNativeLoginButton];
         CGFloat heightOffset = showBioAuthButton ? 0.9 : 1.0;
         
         [_oauthView removeFromSuperview];
@@ -281,7 +289,7 @@
             w = self.view.bounds.size.width;
             h = ((self.view.bounds.size.height - y) * 0.1);
             button.frame = CGRectMake(x, y, w, h);
-            [button addTarget:self action:@selector(presentBioAuth:) forControlEvents:UIControlEventTouchUpInside];
+            [button addTarget:self action:@selector(presentBioAuthAction:) forControlEvents:UIControlEventTouchUpInside];
             [self.view addSubview:button];
         }
     }
@@ -289,7 +297,11 @@
 
 #pragma mark - Action Methods
 
-- (IBAction)presentBioAuth:(id)sender {
+- (IBAction)presentBioAuthAction:(id)sender {
+    [self presentBioAuth];
+}
+
+- (void)presentBioAuth {
     LAContext *context = [[LAContext alloc] init];
     [context setLocalizedCancelTitle:[SFSDKResourceUtils localizedString:@"usePassword"]];
     [context setLocalizedFallbackTitle:@""];

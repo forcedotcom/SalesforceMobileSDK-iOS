@@ -41,7 +41,7 @@ public protocol BiometricAuthenticationManager {
        *
        * @return True if the device is locked
        */
-    var locked: Bool { get }
+      var locked: Bool { get }
 
       /**
        * Locks the device immediately.  Authenticated rest requests will fail until the user unlocks the app.
