@@ -159,6 +159,13 @@ static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCel
     [self setEdgesForExtendedLayout:UIRectEdgeNone];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear: animated];
+    if (UIAccessibilityIsVoiceOverRunning()) {
+        UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, self.view);
+    }
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     // We need to make sure the table is refreshed
     // and the size updated when we appear because
