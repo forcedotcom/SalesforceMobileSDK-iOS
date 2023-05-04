@@ -634,6 +634,7 @@ NSString * const kSFScreenLockFlowCompleted = @"SFScreenLockFlowCompleted";
 - (void)handleUserWillLogout:(NSNotification *)notification {
     SFUserAccount *user = notification.userInfo[kSFNotificationUserInfoAccountKey];
     [SFSDKKeyValueEncryptedFileStore removeAllStoresForUser:user];
+    [[SFBiometricAuthenticationManagerInternal shared] cleanupWithUser:user];
 }
 
 - (void)handlePostLogout

@@ -271,7 +271,7 @@
 - (void)layoutWebView {
     if (nil != _oauthView) {
         SFBiometricAuthenticationManagerInternal *bioAuthManager = [SFBiometricAuthenticationManagerInternal shared];
-        BOOL showBioAuthButton = [bioAuthManager locked] && [bioAuthManager showNativeLoginButton];
+        BOOL showBioAuthButton = [bioAuthManager locked] && [bioAuthManager hasBiometricOptedIn] && [bioAuthManager showNativeLoginButton];
         CGFloat heightOffset = showBioAuthButton ? 0.9 : 1.0;
         
         [_oauthView removeFromSuperview];

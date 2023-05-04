@@ -118,6 +118,8 @@ static NSString * const kOptionsClientKey          = @"clientIdentifier";
 
 NSString * const kSFSDKUserAccountManagerErrorDomain = @"com.salesforce.mobilesdk.SFUserAccountManager";
 NSString * const kSFIDPSceneIdKey = @"sceneIdentifier";
+NSString * const kBiometricAuthenticationPolicyKey = @"ENABLE_BIOMETRIC_AUTHENTICATION";
+NSString * const kBiometricAuthenticationTimeoutKey = @"REQUIRE_BIOMETRICS_AFTER";
 
 static NSString * const kSFInvalidCredentialsAuthErrorHandler = @"InvalidCredentialsErrorHandler";
 static NSString * const kSFConnectedAppVersionAuthErrorHandler = @"ConnectedAppVersionErrorHandler";
@@ -1546,8 +1548,8 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     BOOL hasMobilePolicy = identityCoordinator.idData.mobilePoliciesConfigured;
     int lockTimeout = identityCoordinator.idData.mobileAppScreenLockTimeout;
     NSDictionary *customAttributes = identityCoordinator.idData.customAttributes;
-    BOOL hasBioAuthPolciy = (customAttributes != nil) && customAttributes[@"biometric_auth"];
-    int sessionTimeout = (customAttributes != nil) && customAttributes[@"biometric_timeout"];
+    BOOL hasBioAuthPolciy = (customAttributes != nil) && customAttributes[kBiometricAuthenticationPolicyKey];
+    int sessionTimeout = (customAttributes != nil) && customAttributes[kBiometricAuthenticationTimeoutKey];
     SFBiometricAuthenticationManagerInternal *bioAuthManager = [SFBiometricAuthenticationManagerInternal shared];
     
     // Set session timeout to the lowest value (15 minutes) of not specified.

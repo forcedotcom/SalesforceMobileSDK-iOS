@@ -116,7 +116,7 @@ internal class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthen
             do {
                 return try JSONDecoder().decode(BioAuthPolicy.self, from: data)
             } catch {
-                SFSDKCoreLogger.e(ScreenLockManager.self, message: "Failed to read global mobile policy.")
+                SFSDKCoreLogger.e(BiometricAuthenticationManager.self, message: "Failed to read biometric authentication policy.")
             }
         }
         return nil
@@ -187,13 +187,18 @@ internal class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthen
         return readMobilePolicy()?.nativeLoginButton ?? true
     }
     
+    @objc func cleanup(user: UserAccount) {
+        _ = KeychainHelper.remove(service: kBioAuthPolicyIdentifier, account: user.idData.userId)
+        locked = false
+    }
+    
     private struct BioAuthPolicy: Encodable, Decodable {
         let hasPolicy: Bool
         let timeout: Int32
         var optIn: Bool?
         var nativeLoginButton: Bool?
         
-        init(hasPolicy: Bool, timeout: Int32, optIn: Bool? = false, nativeLoginButton: Bool? = false) {
+        init(hasPolicy: Bool, timeout: Int32, optIn: Bool? = false, nativeLoginButton: Bool? = true) {
             self.hasPolicy = hasPolicy
             self.timeout = timeout
             self.optIn = optIn
