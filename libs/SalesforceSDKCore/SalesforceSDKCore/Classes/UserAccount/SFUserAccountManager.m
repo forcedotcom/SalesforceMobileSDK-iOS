@@ -1121,15 +1121,6 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     [_accountsLock lock];
     result = (self.userAccountMap)[userIdentity];
 
-    // TODO: Remove this block in Mobile SDK 10.0, needed for upgrade step after changing from 15 character to 18 character user IDs
-    if (!result) {
-        for (SFUserAccountIdentity *key in self.userAccountMap.allKeys) {
-            if ([key isEqual:userIdentity]) {
-                result = self.userAccountMap[key];
-            }
-        }
-    }
-
     [_accountsLock unlock];
     return result;
 }
@@ -1346,8 +1337,21 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         }
         [_accountsLock unlock];
     }
-    if (userChanged)
+    
+    if (userChanged) {
         [self notifyUserChange:SFUserAccountManagerDidChangeUserNotification withUser:_currentUser andChange:SFUserAccountChangeCurrentUser];
+        
+        SFBiometricAuthenticationManagerInternal *bioAuthManager = SFBiometricAuthenticationManagerInternal.shared;
+        if ([bioAuthManager enabled]) {
+            NSArray *keys = [self.userAccountMap allKeys];
+            for (SFUserAccountIdentity *identity in keys) {
+                // Logout any other user with Biometric Authentication
+                if ([bioAuthManager accountHasBiometricPolciyWithUserId:identity.userId] && ![identity isEqual:[self currentUserIdentity]]) {
+                    [self logoutUser:[self userAccountForUserIdentity:identity]];
+                }
+            }
+        }
+    }
 }
 
 - (SFUserAccountIdentity *)currentUserIdentity {
@@ -1551,6 +1555,8 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     BOOL hasBioAuthPolciy = (customAttributes != nil) && customAttributes[kBiometricAuthenticationPolicyKey];
     int sessionTimeout = (customAttributes != nil) && customAttributes[kBiometricAuthenticationTimeoutKey];
     SFBiometricAuthenticationManagerInternal *bioAuthManager = [SFBiometricAuthenticationManagerInternal shared];
+    // Store current user credentials in case they need to be revoked for Biometric Authentication
+    SFOAuthCredentials *preLoginCredentials = self.currentUser.credentials;
     
     // Set session timeout to the lowest value (15 minutes) of not specified.
     if (hasMobilePolicy && (sessionTimeout < 1)) {
@@ -1565,18 +1571,22 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         if (authSession.authInfo.authType != SFOAuthTypeRefresh) {
             if (hasBioAuthPolciy) {
                 [bioAuthManager storePolicyWithUserAccount:self.currentUser hasMobilePolicy:hasBioAuthPolciy sessionTimeout:sessionTimeout];
-            } else {
+                
+                NSArray *keys = [self.userAccountMap allKeys];
+                for (SFUserAccountIdentity *identity in keys) {
+                    // If this user already exists, revoke the old refresh token.
+                    if ([identity isEqual:[self currentUserIdentity]] && ![preLoginCredentials.refreshToken isEqualToString:self.currentUser.credentials.refreshToken]) {
+                        
+                        id<SFSDKOAuthProtocol> authClient = self.authClient();
+                        [authClient revokeRefreshToken:preLoginCredentials];
+                    }
+                }
+            } else if(hasMobilePolicy) {
                 [[SFScreenLockManagerInternal shared] storeMobilePolicyWithUserAccount:self.currentUser hasMobilePolicy:hasMobilePolicy lockTimeout:lockTimeout];
             }
         }
     }];
     [self dismissAuthViewControllerIfPresent];
-    
-    // Only prompt user to opt in ot biometric authentictaion once.
-    if (bioAuthManager.enabled && ![bioAuthManager hasBeenPromptedForBiometric]) {
-        SFSDKWindowContainer *mainWindow = [[SFSDKWindowManager sharedManager] mainWindow:nil];
-        [[SFBiometricAuthenticationManagerInternal shared] presentOptInDialogWithViewController:mainWindow.viewController];
-    }
 }
 
 - (void)handleFailure:(NSError *)error session:(SFSDKAuthSession *)authSession {

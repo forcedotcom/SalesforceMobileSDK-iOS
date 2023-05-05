@@ -192,6 +192,22 @@ internal class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthen
         locked = false
     }
     
+    @objc func accountHasBiometricPolciy(userId: String) -> Bool {
+        let result = KeychainHelper.read(service: kBioAuthPolicyIdentifier, account: userId)
+        if let data = result.data, result.success {
+            do {
+                let policy = try JSONDecoder().decode(BioAuthPolicy.self, from: data)
+                
+                return policy.hasPolicy
+            } catch {
+                SFSDKCoreLogger.e(BiometricAuthenticationManager.self, message: "Failed to read biometric authentication policy.")
+            }
+        }
+        
+        return false
+    }
+    
+    
     private struct BioAuthPolicy: Encodable, Decodable {
         let hasPolicy: Bool
         let timeout: Int32
