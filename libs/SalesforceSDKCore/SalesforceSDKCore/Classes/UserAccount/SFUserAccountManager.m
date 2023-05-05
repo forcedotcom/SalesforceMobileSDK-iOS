@@ -1346,7 +1346,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
             NSArray *keys = [self.userAccountMap allKeys];
             for (SFUserAccountIdentity *identity in keys) {
                 // Logout any other user with Biometric Authentication
-                if ([bioAuthManager accountHasBiometricPolciyWithUserId:identity.userId] && ![identity isEqual:[self currentUserIdentity]]) {
+                if ([bioAuthManager checkForPolicyWithUserId:identity.userId] && ![identity isEqual:[self currentUserIdentity]]) {
                     [self logoutUser:[self userAccountForUserIdentity:identity]];
                 }
             }
@@ -1787,6 +1787,14 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 }
 
 - (void)switchToUser:(SFUserAccount *)newCurrentUser {
+    SFBiometricAuthenticationManagerInternal *bioAuthManager = [SFBiometricAuthenticationManagerInternal shared];
+    SFScreenLockManagerInternal *screnLockManager = [SFScreenLockManagerInternal shared];
+    if ([bioAuthManager checkForPolicyWithUserId:newCurrentUser.credentials.userId]) {
+        [bioAuthManager lock];
+    } else if ([screnLockManager checkForPolicyWithUserId:newCurrentUser.credentials.userId]) {
+        [screnLockManager lock];
+    }
+    
     if ([self.currentUser.accountIdentity isEqual:newCurrentUser.accountIdentity]) {
         [SFSDKCoreLogger w:[self class] format:@"%@ new user identity is the same as the current user.  No action taken.", NSStringFromSelector(_cmd)];
     } else {

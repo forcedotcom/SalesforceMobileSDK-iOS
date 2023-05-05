@@ -262,6 +262,19 @@ internal class ScreenLockManagerInternal: NSObject, ScreenLockManager {
             SFSDKWindowManager.shared().screenLockWindow().viewController?.present(screenLockViewController, animated: false, completion: nil)
         }
     }
+    
+    @objc func checkForPolicy(userId: String) -> Bool {
+        let result = KeychainHelper.read(service: kScreenLockIdentifier, account: userId)
+        if let resultData = result.data, result.success {
+            do {
+                return try JSONDecoder().decode(MobilePolicy.self, from: resultData).hasPolicy
+            } catch {
+                SFSDKCoreLogger.e(ScreenLockManagerInternal.self, message: "Failed to read Mobile policy for user.")
+            }
+        }
+        
+        return false
+    }
 
     private struct MobilePolicy: Encodable, Decodable {
         let hasPolicy: Bool
