@@ -1788,11 +1788,11 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 
 - (void)switchToUser:(SFUserAccount *)newCurrentUser {
     SFBiometricAuthenticationManagerInternal *bioAuthManager = [SFBiometricAuthenticationManagerInternal shared];
-    SFScreenLockManagerInternal *screnLockManager = [SFScreenLockManagerInternal shared];
+    SFScreenLockManagerInternal *screenLockManager = [SFScreenLockManagerInternal shared];
     if ([bioAuthManager checkForPolicyWithUserId:newCurrentUser.credentials.userId]) {
         [bioAuthManager lock];
-    } else if ([screnLockManager checkForPolicyWithUserId:newCurrentUser.credentials.userId]) {
-        [screnLockManager lock];
+    } else if ([screenLockManager checkForPolicyWithUserId:newCurrentUser.credentials.userId]) {
+        [screenLockManager lock];
     }
     
     if ([self.currentUser.accountIdentity isEqual:newCurrentUser.accountIdentity]) {

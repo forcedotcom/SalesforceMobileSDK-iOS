@@ -827,11 +827,11 @@ void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t b
 
 - (void)screenLockFlowDidComplete:(NSNotification *)notification { }
 
-- (nonnull SFBiometricAuthenticationManager *)getBiometricAuthenticationManager {
+- (nonnull SFBiometricAuthenticationManager *)biometricAuthenticationManager {
     return ((SFBiometricAuthenticationManager *)SFBiometricAuthenticationManagerInternal.shared);
 }
 
-- (nonnull SFScreenLockManager *)getScreenLockManager {
+- (nonnull SFScreenLockManager *)screenLockManager {
     return ((SFScreenLockManager *)SFScreenLockManagerInternal.shared);
 }
 

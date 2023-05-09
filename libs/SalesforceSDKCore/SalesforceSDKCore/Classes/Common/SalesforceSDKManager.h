@@ -264,14 +264,14 @@ NS_SWIFT_NAME(SalesforceManager)
  *
  * @return the Screen Lock Manager
  */
-- (SFScreenLockManager *)getScreenLockManager;
+- (SFScreenLockManager *)screenLockManager;
 
 /**
  * Returns the BiometricAuthenticationManager instance.
  *
  * @return the Biometric Authentication Manager
  */
-- (SFBiometricAuthenticationManager *)getBiometricAuthenticationManager;
+- (SFBiometricAuthenticationManager *)biometricAuthenticationManager;
 
 @end
 
