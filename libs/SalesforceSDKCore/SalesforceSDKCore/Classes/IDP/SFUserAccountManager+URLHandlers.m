@@ -156,6 +156,10 @@
 
 - (BOOL)handleIdpRequest:(SFSDKIDPAuthCodeLoginRequestCommand *_Nonnull)response sceneId:(nullable NSString *)sceneId completion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock
                  failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock {
+    if (!sceneId) {
+        sceneId = [[SFSDKWindowManager sharedManager] defaultScene].session.persistentIdentifier;
+    }
+    
     if (self.authSessions[sceneId]) {
            [self.authSessions[sceneId].oauthCoordinator handleIDPAuthenticationResponse:[response requestURL]];
     } else if (response.keychainReference) {
