@@ -26,6 +26,7 @@
 //  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import Foundation
+import LocalAuthentication
 
 @objc(SFBiometricAuthenticationManagerInternal)
 internal class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthenticationManager {
@@ -124,25 +125,15 @@ internal class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthen
     
     func lock() {
         locked = true
-        let accountManager = UserAccountManager.shared
-        let currentAccount = accountManager.currentUserAccount
         
-        accountManager.switchToNewUserAccount { result in
+        // Open the Login Screen
+        _ = UserAccountManager.shared.login { result in
             switch result {
-            case .success(let newAccount):
-                if (newAccount.isEqual(currentAccount)) {
-                    _ = accountManager.refresh(credentials: newAccount.credentials) { refreshResult in
-                        switch refreshResult {
-                        case .success((_, _)):
-                            SFSDKCoreLogger.i(BiometricAuthenticationManagerInternal.self, message: "Refresh Succees.")
-                            break
-                        case .failure(let error):
-                            SFSDKCoreLogger.i(BiometricAuthenticationManagerInternal.self, message: "Refresh failed: \(error)")
-                        }
-                    }
-                }
+            case .success((_, _)):
+                SFSDKCoreLogger.i(BiometricAuthenticationManagerInternal.self, message: "Biometric authentication success.")
+                break
             case .failure(let error):
-                SFSDKCoreLogger.e(BiometricAuthenticationManagerInternal.self, message: "Attempt to add new user failed: \(error)")
+                SFSDKCoreLogger.e(BiometricAuthenticationManagerInternal.self, message: "Biometric authentication failed: \(error)")
             }
         }
     }
@@ -183,6 +174,11 @@ internal class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthen
     }
     
     @objc func showNativeLoginButton() -> Bool {
+        var error: NSError?
+        if (!LAContext().canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)) {
+            return false
+        }
+        
         // true if not specified
         return readMobilePolicy()?.nativeLoginButton ?? true
     }
@@ -205,6 +201,40 @@ internal class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthen
         return false
     }
     
+    @objc func presentBiometric(scene: UIScene) {
+        let context = LAContext()
+        context.localizedCancelTitle = SFSDKResourceUtils.localizedString("usePassword")
+        var error: NSError?
+        if (context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)) {
+            Task {
+                do {
+                    try await context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: SFSDKResourceUtils.localizedString("biometricReason"))
+                    
+                    self.locked = false
+                    // Refresh token and unlock
+                    let accountManager = UserAccountManager.shared
+                    
+                    if let currentAccount = accountManager.currentUserAccount {
+                        _ = accountManager.refresh(credentials: currentAccount.credentials, { (result) in
+                            switch(result) {
+                            case .success((_, _)):
+                                SFSDKCoreLogger.d(BiometricAuthenticationManagerInternal.self, message: "Refresh credentials succeeded")
+                            case .failure(let error):
+                                SFSDKCoreLogger.d(BiometricAuthenticationManagerInternal.self, message: "Refresh credentials failed: \(error)")
+                            }
+                        })
+                    }
+                    
+                    await accountManager.stopCurrentAuthentication()
+                    await MainActor.run {
+                        SFSDKWindowManager.shared().authWindow(scene).viewController?.dismiss(animated: false)
+                    }
+                } catch {
+                    // This just means the user chose the fallback option instead of biometric
+                }
+            }
+        }
+    }
     
     private struct BioAuthPolicy: Encodable, Decodable {
         let hasPolicy: Bool

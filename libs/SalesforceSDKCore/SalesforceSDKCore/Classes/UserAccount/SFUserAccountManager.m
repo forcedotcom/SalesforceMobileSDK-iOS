@@ -1572,14 +1572,10 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
             if (hasBioAuthPolciy) {
                 [bioAuthManager storePolicyWithUserAccount:self.currentUser hasMobilePolicy:hasBioAuthPolciy sessionTimeout:sessionTimeout];
                 
-                NSArray *keys = [self.userAccountMap allKeys];
-                for (SFUserAccountIdentity *identity in keys) {
-                    // If this user already exists, revoke the old refresh token.
-                    if ([identity isEqual:[self currentUserIdentity]] && ![preLoginCredentials.refreshToken isEqualToString:self.currentUser.credentials.refreshToken]) {
-                        
-                        id<SFSDKOAuthProtocol> authClient = self.authClient();
-                        [authClient revokeRefreshToken:preLoginCredentials];
-                    }
+                if (preLoginCredentials != nil && ![preLoginCredentials.refreshToken isEqualToString:self.currentUser.credentials.refreshToken]) {
+                    
+                    id<SFSDKOAuthProtocol> authClient = self.authClient();
+                    [authClient revokeRefreshToken:preLoginCredentials];
                 }
             } else if(hasMobilePolicy) {
                 [[SFScreenLockManagerInternal shared] storeMobilePolicyWithUserAccount:self.currentUser hasMobilePolicy:hasMobilePolicy lockTimeout:lockTimeout];

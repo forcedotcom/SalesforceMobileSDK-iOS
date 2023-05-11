@@ -252,7 +252,7 @@
             
             SFBiometricAuthenticationManagerInternal *bioAuthManager = [SFBiometricAuthenticationManagerInternal shared];
             if (bioAuthManager.locked && bioAuthManager.hasBiometricOptedIn) {
-                [self presentBioAuth];
+                [bioAuthManager presentBiometricWithScene:self.view.window.windowScene];
             }
         }
         
@@ -723,33 +723,6 @@
     return _session;
 }
 
-- (void)presentBioAuth {
-    LAContext *context = [[LAContext alloc] init];
-    [context setLocalizedCancelTitle:[SFSDKResourceUtils localizedString:@"usePassword"]];
-    [context setLocalizedFallbackTitle:@""];
-    [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics localizedReason:[SFSDKResourceUtils localizedString:@"biometricReason"] reply:^(BOOL success, NSError *authenticationError) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (success) {
-                [SFBiometricAuthenticationManagerInternal shared].locked = NO;
-                
-                // Refresh token and unlock
-                SFUserAccount *currentAccount = [[SFUserAccountManager sharedInstance] currentUser];
-                [[SFUserAccountManager sharedInstance]
-                 refreshCredentials:currentAccount.credentials
-                 completion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
-                    [SFSDKCoreLogger d:[self class] format:@"Refresh succeeded"];
-                 } failure:^(SFOAuthInfo *authInfo, NSError *error) {
-                     [SFSDKCoreLogger d:[self class] format:@"Refresh failed"];
-                 }];
-
-                UIScene *scene = self.view.window.windowScene;
-                [[SFUserAccountManager sharedInstance] stopCurrentAuthentication:nil];
-                [[[SFSDKWindowManager sharedManager] authWindow:scene].viewController dismissViewControllerAnimated:NO completion:nil];
-            }
-        });
-    }];
-}
-
 #pragma mark - WKNavigationDelegate (User-Agent Token Flow)
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     NSURL *url = navigationAction.request.URL;
@@ -765,7 +738,7 @@
         
         SFBiometricAuthenticationManagerInternal *bioAuthManager = [SFBiometricAuthenticationManagerInternal shared];
         if (bioAuthManager.locked && bioAuthManager.hasBiometricOptedIn) {
-            [self presentBioAuth];
+            [bioAuthManager presentBiometricWithScene:self.view.window.windowScene];
         }
     } else {
         decisionHandler(WKNavigationActionPolicyAllow);
