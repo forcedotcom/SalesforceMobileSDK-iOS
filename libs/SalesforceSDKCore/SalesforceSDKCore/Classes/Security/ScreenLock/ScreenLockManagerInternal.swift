@@ -35,7 +35,7 @@ internal typealias ScreenLockCallbackBlock = () -> Void
 internal class ScreenLockManagerInternal: NSObject, ScreenLockManager {
     var enabled: Bool {
         get {
-            return (readMobilePolicy() != nil)
+            return (getTimeout() != nil)
         }
     }
     
@@ -58,7 +58,7 @@ internal class ScreenLockManagerInternal: NSObject, ScreenLockManager {
     
     /// Locks the screen if necessary
     @objc func handleAppForeground() {
-        if let policyTimeout = readMobilePolicy(), lockTimeoutExpired(lockTimeout: policyTimeout) {
+        if let policyTimeout = getTimeout(), lockTimeoutExpired(lockTimeout: policyTimeout) {
             lock()
         } else {
             unlockPostProcessing()
@@ -97,7 +97,7 @@ internal class ScreenLockManagerInternal: NSObject, ScreenLockManager {
         if hasMobilePolicy {
             defer { lock() }
 
-            if let globalTimeout = readMobilePolicy(), lockTimeout >= globalTimeout.intValue {
+            if let globalTimeout = getTimeout(), lockTimeout >= globalTimeout.intValue {
                 // Only write global policy if there is no policy or the existing timeout is less restrictive
                 return
             }
@@ -115,22 +115,12 @@ internal class ScreenLockManagerInternal: NSObject, ScreenLockManager {
     
     /// Checks all users for Screen Lock policy and removes global policy if none are found.
     @objc func checkForScreenLockUsers() {
-        guard readMobilePolicy() != nil else {
+        guard getTimeout() != nil else {
             return
         }
         
         let allPolicies = UserAccountManager.shared.userAccounts()?.compactMap { userAccount -> MobilePolicy? in
-            let id = userAccount.idData.userId
-            let result = KeychainHelper.read(service: kScreenLockIdentifier, account: id)
-            if let resultData = result.data, result.success {
-                do {
-                    return try JSONDecoder().decode(MobilePolicy.self, from: resultData)
-                } catch {
-                    SFSDKCoreLogger.e(ScreenLockManagerInternal.self, message: "Failed to read Mobile policy for user.")
-                    return nil
-                }
-            }
-            return nil
+            readMobilePolicy(id: userAccount.idData.userId)
         }
         
         let strictestPolicy = allPolicies?
@@ -188,18 +178,13 @@ internal class ScreenLockManagerInternal: NSObject, ScreenLockManager {
         removeGlobalPolicy()
     }
     
-    @objc func readMobilePolicy() -> NSNumber? {
-        let result = KeychainHelper.read(service: kScreenLockIdentifier, account: "global")
-        if let data = result.data, result.success {
-            do {
-                let policy = try JSONDecoder().decode(MobilePolicy.self, from: data)
-                if policy.hasPolicy && policy.timeout > 0 {
-                    return NSNumber(value: policy.timeout)
-                }
-            } catch {
-                SFSDKCoreLogger.e(ScreenLockManagerInternal.self, message: "Failed to read global mobile policy.")
+    @objc func getTimeout() -> NSNumber? {
+        if let policy = readMobilePolicy(id: "global") {
+            if (policy.hasPolicy && policy.timeout > 0) {
+                return NSNumber(value: policy.timeout)
             }
         }
+        
         return nil
     }
     
@@ -230,16 +215,6 @@ internal class ScreenLockManagerInternal: NSObject, ScreenLockManager {
         unlockPostProcessing()
     }
     
-    private func unlockPostProcessing() {
-        if callbackBlock != nil {
-            let callbackBlockCopy = callbackBlock!
-            callbackBlock = nil
-            callbackBlockCopy()
-        } else {
-            SFSDKCoreLogger.e(ScreenLockManagerInternal.self, message: "callbackBlock is nil.")
-        }
-    }
-
     func lock() {
         if !Thread.isMainThread {
             DispatchQueue.main.async {
@@ -262,18 +237,32 @@ internal class ScreenLockManagerInternal: NSObject, ScreenLockManager {
             SFSDKWindowManager.shared().screenLockWindow().viewController?.present(screenLockViewController, animated: false, completion: nil)
         }
     }
-    
+
     @objc func checkForPolicy(userId: String) -> Bool {
-        let result = KeychainHelper.read(service: kScreenLockIdentifier, account: userId)
-        if let resultData = result.data, result.success {
+        return readMobilePolicy(id: userId)?.hasPolicy ?? false
+    }
+    
+    private func unlockPostProcessing() {
+        if callbackBlock != nil {
+            let callbackBlockCopy = callbackBlock!
+            callbackBlock = nil
+            callbackBlockCopy()
+        } else {
+            SFSDKCoreLogger.e(ScreenLockManagerInternal.self, message: "callbackBlock is nil.")
+        }
+    }
+    
+    private func readMobilePolicy(id: String) -> MobilePolicy? {
+        let result = KeychainHelper.read(service: kScreenLockIdentifier, account: id)
+        if let data = result.data, result.success {
             do {
-                return try JSONDecoder().decode(MobilePolicy.self, from: resultData).hasPolicy
+                return try JSONDecoder().decode(MobilePolicy.self, from: data)
             } catch {
-                SFSDKCoreLogger.e(ScreenLockManagerInternal.self, message: "Failed to read Mobile policy for user.")
+                SFSDKCoreLogger.e(ScreenLockManagerInternal.self, message: "Failed to read global mobile policy.")
             }
         }
         
-        return false
+        return nil
     }
 
     private struct MobilePolicy: Encodable, Decodable {

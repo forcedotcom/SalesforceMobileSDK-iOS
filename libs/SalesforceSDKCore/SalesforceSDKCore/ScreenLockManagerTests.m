@@ -39,17 +39,17 @@
 @implementation ScreenLockManagerTests
 
 - (void)setUp {
-    [SFSDKKeychainHelper removeAll];
+    BOOL removed = [SFSDKKeychainHelper removeAll];
 }
 
 - (void)testShouldNotLock {
-    XCTAssertNil([[SFScreenLockManagerInternal shared] readMobilePolicy], @"App should not lock by default.");
+    XCTAssertNil([[SFScreenLockManagerInternal shared] getTimeout], @"App should not lock by default.");
 }
 
 - (void)testShouldLock {
     SFUserAccount *user0 = [self createNewUserAccount:0];
     [[SFScreenLockManagerInternal shared] storeMobilePolicyWithUserAccount:user0 hasMobilePolicy:YES lockTimeout:15];
-    XCTAssertEqualObjects([[SFScreenLockManagerInternal shared] readMobilePolicy], [[NSNumber alloc] initWithInt:15], @"App should lock.");
+    XCTAssertEqualObjects([[SFScreenLockManagerInternal shared] getTimeout], [[NSNumber alloc] initWithInt:15], @"App should lock.");
 }
 
 - (void)testShouldLockMultiuser {
@@ -57,7 +57,7 @@
     [[SFScreenLockManagerInternal shared] storeMobilePolicyWithUserAccount:user0 hasMobilePolicy:YES lockTimeout:1];
     SFUserAccount *user1 = [self createNewUserAccount:1];
     [[SFScreenLockManagerInternal shared] storeMobilePolicyWithUserAccount:user1 hasMobilePolicy:NO lockTimeout:0];
-    XCTAssertEqualObjects([[SFScreenLockManagerInternal shared] readMobilePolicy], [[NSNumber alloc] initWithInt:1], @"App should lock.");
+    XCTAssertEqualObjects([[SFScreenLockManagerInternal shared] getTimeout], [[NSNumber alloc] initWithInt:1], @"App should lock.");
 }
 
 - (void)testShouldLockMultiuserDifferentTimeouts {
@@ -67,7 +67,7 @@
     [[SFScreenLockManagerInternal shared] storeMobilePolicyWithUserAccount:user1 hasMobilePolicy:YES lockTimeout:5];
     SFUserAccount *user2 = [self createNewUserAccount:2];
     [[SFScreenLockManagerInternal shared] storeMobilePolicyWithUserAccount:user2 hasMobilePolicy:YES lockTimeout:15];
-    XCTAssertEqualObjects([[SFScreenLockManagerInternal shared] readMobilePolicy], [[NSNumber alloc] initWithInt:1], @"App should lock with most restrictive timeout");
+    XCTAssertEqualObjects([[SFScreenLockManagerInternal shared] getTimeout], [[NSNumber alloc] initWithInt:1], @"App should lock with most restrictive timeout");
 }
 
 - (void)testShouldLockMultiuserDifferentTimeoutsReverseOrder {
@@ -77,7 +77,7 @@
     [[SFScreenLockManagerInternal shared] storeMobilePolicyWithUserAccount:user1 hasMobilePolicy:YES lockTimeout:5];
     SFUserAccount *user2 = [self createNewUserAccount:2];
     [[SFScreenLockManagerInternal shared] storeMobilePolicyWithUserAccount:user2 hasMobilePolicy:YES lockTimeout:1];
-    XCTAssertEqualObjects([[SFScreenLockManagerInternal shared] readMobilePolicy], [[NSNumber alloc] initWithInt:1], @"App should lock with most restrictive timeout");
+    XCTAssertEqualObjects([[SFScreenLockManagerInternal shared] getTimeout], [[NSNumber alloc] initWithInt:1], @"App should lock with most restrictive timeout");
 }
 
 - (void)testLockScreenTriggers {
@@ -136,10 +136,10 @@
     [[SFScreenLockManagerInternal shared] storeMobilePolicyWithUserAccount:user1 hasMobilePolicy:NO lockTimeout:0];
     SFUserAccount *user2 = [self createNewUserAccount:2];
     [[SFScreenLockManagerInternal shared] storeMobilePolicyWithUserAccount:user2 hasMobilePolicy:YES lockTimeout:5];
-    XCTAssertEqualObjects([[SFScreenLockManagerInternal shared] readMobilePolicy], [[NSNumber alloc] initWithInt:5], @"App should lock.");
+    XCTAssertEqualObjects([[SFScreenLockManagerInternal shared] getTimeout], [[NSNumber alloc] initWithInt:5], @"App should lock.");
     
     [[SFScreenLockManagerInternal shared] logoutScreenLockUsers];
-    XCTAssertNil([[SFScreenLockManagerInternal shared] readMobilePolicy], @"App not should lock.");
+    XCTAssertNil([[SFScreenLockManagerInternal shared] getTimeout], @"App not should lock.");
     // Can't test the users are actually logged out because it is a test.
 }
 

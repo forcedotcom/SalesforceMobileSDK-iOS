@@ -34,7 +34,7 @@ internal class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthen
     
     var enabled: Bool {
         get {
-            return readMobilePolicy()?.hasPolicy ?? false
+            return readBioAuhPolicy()?.hasPolicy ?? false
         }
     }
     
@@ -62,19 +62,10 @@ internal class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthen
     }
     
     @objc internal func shouldLock() -> Bool {
-        guard let currentUser = UserAccountManager.shared.currentUserAccount else {
-            return false
-        }
-        let result = KeychainHelper.read(service: kBioAuthPolicyIdentifier, account: currentUser.idData.userId)
-        if (result.success && result.data != nil) {
-            do {
-                let bioAuthPolicy = try JSONDecoder().decode(BioAuthPolicy.self, from: result.data!)
-                if (bioAuthPolicy.hasPolicy && bioAuthPolicy.timeout > 0) {
-                    let timeNow = Date().timeIntervalSince1970
-                    return (timeNow - backgroundTimestamp) > Double(bioAuthPolicy.timeout * 60)
-                }
-            } catch {
-                SFSDKCoreLogger.e(BiometricAuthenticationManager.self, message: "Failed to decode polciy for user.")
+        if let policy = readBioAuhPolicy() {
+            if (policy.hasPolicy && policy.timeout > 0) {
+                let timeNow = Date().timeIntervalSince1970
+                return (timeNow - backgroundTimestamp) > Double(policy.timeout * 60)
             }
         }
         
@@ -107,12 +98,16 @@ internal class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthen
         }
     }
     
-    private func readMobilePolicy() -> BioAuthPolicy? {
+    private func readBioAuhPolicy() -> BioAuthPolicy? {
         guard let userAccount = UserAccountManager.shared.currentUserAccount else {
             return nil
         }
         
-        let result = KeychainHelper.read(service: kBioAuthPolicyIdentifier, account: userAccount.idData.userId)
+        return readBioAuthPolicy(userId: userAccount.idData.userId)
+    }
+    
+    private func readBioAuthPolicy(userId: String) -> BioAuthPolicy? {
+        let result = KeychainHelper.read(service: kBioAuthPolicyIdentifier, account: userId)
         if let data = result.data, result.success {
             do {
                 return try JSONDecoder().decode(BioAuthPolicy.self, from: data)
@@ -120,6 +115,7 @@ internal class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthen
                 SFSDKCoreLogger.e(BiometricAuthenticationManager.self, message: "Failed to read biometric authentication policy.")
             }
         }
+        
         return nil
     }
     
@@ -139,18 +135,18 @@ internal class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthen
     }
     
     func biometricOptIn(optIn: Bool) {
-        if var policy = readMobilePolicy() {
+        if var policy = readBioAuhPolicy() {
             policy.optIn = optIn
             storePolicy(policy: policy)
         }
     }
     
     func hasBiometricOptedIn() -> Bool {
-        return readMobilePolicy()?.optIn ?? false
+        return readBioAuhPolicy()?.optIn ?? false
     }
     
     @objc func hasBeenPromptedForBiometric() -> Bool {
-        return (readMobilePolicy()?.optIn == nil)
+        return (readBioAuhPolicy()?.optIn == nil)
     }
     
     func presentOptInDialog(viewController: UIViewController) {
@@ -167,7 +163,7 @@ internal class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthen
     }
     
     func enableNativeBiometricLoginButton(enabled: Bool) {
-        if var policy = readMobilePolicy() {
+        if var policy = readBioAuhPolicy() {
             policy.nativeLoginButton = enabled
             storePolicy(policy: policy)
         }
@@ -180,7 +176,7 @@ internal class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthen
         }
         
         // true if not specified
-        return readMobilePolicy()?.nativeLoginButton ?? true
+        return readBioAuhPolicy()?.nativeLoginButton ?? true
     }
     
     @objc func cleanup(user: UserAccount) {
