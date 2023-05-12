@@ -420,7 +420,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     SFSDKAuthSession *session = [[SFSDKAuthSession alloc] initWith:request credentials:nil];
     SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithAuthSession:session];
     coordinator.delegate = [SFUserAccountManager sharedInstance];
-    [coordinator beginUserAgentFlow];
+    [coordinator beginWebViewFlow];
 
     [self waitForExpectations:@[expectation] timeout:20];
     
@@ -465,7 +465,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     SFSDKAuthSession *session = [[SFSDKAuthSession alloc] initWith:request credentials:nil];
     SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithAuthSession:session];
     coordinator.delegate = [SFUserAccountManager sharedInstance];
-    [coordinator beginUserAgentFlow];
+    [coordinator beginWebViewFlow];
 
     [self waitForExpectations:@[expectation] timeout:20];
     XCTAssertTrue(success, @"SFSDKLoginViewController config should have changed" );

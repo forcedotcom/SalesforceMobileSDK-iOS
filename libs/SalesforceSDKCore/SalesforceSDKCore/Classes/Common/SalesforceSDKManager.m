@@ -297,6 +297,7 @@ NSString * const kSFScreenLockFlowCompleted = @"SFScreenLockFlowCompleted";
         self.userAgentString = [self defaultUserAgentString];
         self.URLCacheType = kSFURLCacheTypeEncrypted;
         self.useEphemeralSessionForAdvancedAuth = YES;
+        self.useWebServerAuthentication = YES;
         [self setupServiceConfiguration];
         _snapshotViewControllers = [SFSDKSafeMutableDictionary new];
         [SFSDKSalesforceSDKUpgradeManager upgrade];
@@ -480,6 +481,7 @@ NSString * const kSFScreenLockFlowCompleted = @"SFScreenLockFlowCompleted";
             @"SDK Version", SALESFORCE_SDK_VERSION,
             @"App Type", [self getAppTypeAsString],
             @"User Agent", self.userAgentString(@""),
+            @"Use Web Server Authentication", [self useWebServerAuthentication]  ? @"YES" : @"NO",
             @"Browser Login Enabled", [SFUserAccountManager sharedInstance].useBrowserAuth? @"YES" : @"NO",
             @"IDP Enabled", [self idpEnabled] ? @"YES" : @"NO",
             @"Identity Provider", [self isIdentityProvider] ? @"YES" : @"NO",
