@@ -1,5 +1,5 @@
 /*
- SFSDKAuthResponseCommand.h
+ SFSDKIDPInitCommand.m
  SalesforceSDKCore
 
  Created by Raj Rao on 9/28/17.
@@ -26,14 +26,38 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#import "SFSDKAuthCommand.h"
 
-@interface SFSDKAuthResponseCommand : SFSDKAuthCommand
+#import "SFSDKIDPLoginRequestCommand.h"
+#import "SFSDKAuthCommand+Internal.h"
+#import "SFSDKIDPConstants.h"
 
-@property (nonatomic,copy) NSString *state;
+@implementation SFSDKIDPLoginRequestCommand
 
-@property (nonatomic,copy) NSString *authCode;
+- (NSString *)userHint {
+    return [self paramForKey:kSFUserHintParam];
+}
 
-@property (nonatomic,copy) NSString *domain;
+- (void)setUserHint:(NSString *)userHint {
+    return [self setParamForKey:userHint key:kSFUserHintParam];
+}
 
+- (NSString *)domain {
+    return [self paramForKey:kSFLoginHostParam];
+}
+
+- (void)setDomain:(NSString *)domain {
+    return [self setParamForKey:domain key:kSFLoginHostParam];
+}
+
+- (NSString *)startURL {
+    return [self paramForKey:kSFStartURLParam];
+}
+
+- (void)setStartURL:(NSString *)userHint {
+    return [self setParamForKey:userHint key:kSFStartURLParam];
+}
+
+- (NSString *)command {
+    return @"idpinit";
+}
 @end

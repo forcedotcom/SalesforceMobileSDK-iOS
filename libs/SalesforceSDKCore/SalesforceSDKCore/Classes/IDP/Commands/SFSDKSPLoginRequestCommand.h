@@ -1,5 +1,5 @@
 /*
- SFSDKIDPInitCommand.h
+ SFSDKAuthRequestCommand.h
  SalesforceSDKCore
 
  Created by Raj Rao on 9/28/17.
@@ -29,9 +29,27 @@
 
 #import "SFSDKAuthCommand.h"
 
-@interface SFSDKIDPInitCommand : SFSDKAuthCommand
-@property (nonatomic,copy) NSString *userHint;
-@property (nonatomic,copy) NSString *domain;
-@property (nonatomic,copy) NSString *startURL;
+NS_ASSUME_NONNULL_BEGIN
+
+// Sent by SP to IDP for SP initiated login flow
+@interface SFSDKSPLoginRequestCommand : SFSDKAuthCommand
+
+@property (nonatomic,copy) NSString *spState;
+
+@property (nonatomic,copy) NSString *spClientId;
+
+@property (nonatomic,copy) NSString *spRedirectURI;
+
+@property (nonatomic,copy) NSString *spCodeChallenge;
+
+@property (nonatomic,copy) NSString *spUserHint;
+
+@property (nonatomic,copy) NSString *spAppName;
+
+@property (nonatomic,copy) NSString *spLoginHost;
+
+@property (nonatomic,copy) NSString *spAppScopes;
 
 @end
+
+NS_ASSUME_NONNULL_END

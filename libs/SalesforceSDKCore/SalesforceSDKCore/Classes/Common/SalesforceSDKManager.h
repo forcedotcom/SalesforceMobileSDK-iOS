@@ -200,7 +200,9 @@ NS_SWIFT_NAME(SalesforceManager)
 
 /** Use this flag to indicate if the scheme for the identity provider app
  */
-@property (nonatomic, copy) NSString *idpAppURIScheme NS_SWIFT_NAME(identityProviderURLScheme);
+@property (nonatomic, copy, nullable) NSString *idpAppURIScheme NS_SWIFT_NAME(identityProviderURLScheme);
+
+@property (nonatomic, copy, nullable) NSString *idpKeychainGroup NS_SWIFT_NAME(identityProviderKeychainGroup);
 
 /**
  A user friendly display name for use in UI by the SDK on behalf of the app.  This value will be used on various authentication screens

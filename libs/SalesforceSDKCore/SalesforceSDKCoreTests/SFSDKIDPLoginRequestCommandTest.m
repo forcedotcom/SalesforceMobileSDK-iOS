@@ -1,9 +1,4 @@
 /*
- SFSDKIDPResponseHandler.h
- SalesforceSDKCore
- 
- Created by Raj Rao on 8/28/17.
- 
  Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -27,9 +22,52 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
-#import "SFSDKURLHandler.h"
+#import <XCTest/XCTest.h>
+#import "SFSDKIDPLoginRequestCommand.h"
+@interface SFSDKIDPLoginRequestCommandTest : XCTestCase
 
-@interface SFSDKIDPResponseHandler : NSObject<SFSDKURLHandler>
+@end
 
+@implementation SFSDKIDPLoginRequestCommandTest
+- (void)setUp {
+    [super setUp];
+}
+
+- (void)tearDown {
+}
+
+- (void)testSFSDKAuthResponseCommand {
+    SFSDKIDPLoginRequestCommand *test = [[SFSDKIDPLoginRequestCommand alloc]init];
+    XCTAssertNotNil(test);
+    NSString *testURL = @"atest://atest/v1.0/idpinit";
+    XCTAssertTrue([test isAuthCommand:[NSURL URLWithString:testURL]]);
+    XCTAssertTrue([test isAuthCommand:[NSURL URLWithString:testURL.uppercaseString]]);
+    
+}
+
+- (void)testSFSDKAuthResponseCommandBadURL {
+    SFSDKIDPLoginRequestCommand *test = [[SFSDKIDPLoginRequestCommand alloc]init];
+    XCTAssertNotNil(test);
+    NSString *testURL = @"atest://atest/idpinit";
+    NSURL *url = [NSURL URLWithString:testURL];
+    XCTAssertNotNil(url);
+    XCTAssertFalse([test isAuthCommand:url]);
+}
+
+
+- (void)testSFSDKAuthErrorCommandWithParameters {
+    
+    SFSDKIDPLoginRequestCommand *test = [[SFSDKIDPLoginRequestCommand alloc]init];
+    XCTAssertNotNil(test);
+    test.userHint = @"userHint";
+    
+    XCTAssertNotNil([test requestURL]);
+    
+    SFSDKIDPLoginRequestCommand *test2 = [[SFSDKIDPLoginRequestCommand alloc]init];
+    [test2 isAuthCommand:[test requestURL]];
+    [test2 fromRequestURL:[test requestURL]];
+    
+    XCTAssertTrue([test2.userHint isEqualToString:test.userHint], @"Userhint should be the same  after decoding");
+
+}
 @end

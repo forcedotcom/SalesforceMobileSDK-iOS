@@ -88,5 +88,18 @@ extension UserAccountManager {
             completionBlock(Result.success(user))
         }
     }
-    
+
+    /// Handle an authentication request with auth code from the IDP application
+    /// - Parameters:
+    ///    - url: The URL response returned to the app from the IDP application.
+    ///    - options: Dictionary of name-value pairs received from open URL
+    ///    - completion: Completion block to invoke with a UserAccount on success or UserAccountManagerError on failure wrapped in a Result type.
+    /// - Returns: true if this is a valid URL response from IDP authentication that should be handled, false otherwise.
+    public func handleIdentityProviderCommand(from url: URL, with options: [AnyHashable: Any], completion: @escaping (Result<(UserAccount, AuthInfo), UserAccountManagerError>) -> Void) -> Bool {
+        return __handleIDPAuthenticationCommand(url, options: options, completion: { (authInfo, userAccount) in
+            completion(Result.success((userAccount, authInfo)))
+        }) { (authInfo, error) in
+            completion(Result.failure(.loginFailed(underlyingError: error, authInfo: authInfo)))
+        }
+    }
 }

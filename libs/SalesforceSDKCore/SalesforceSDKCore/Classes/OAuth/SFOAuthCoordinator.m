@@ -47,8 +47,11 @@
 #import <SalesforceSDKCommon/SFJsonUtils.h>
 #import "SFSDKOAuth2+Internal.h"
 #import "SFSDKOAuthConstants.h"
+#import "SFSDKIDPConstants.h"
 #import "SFSDKAuthSession.h"
 #import "SFSDKAuthRequest.h"
+#import <SalesforceSDKCommon/SalesforceSDKCommon-Swift.h>
+#import <SalesforceSDKCommon/SFSDKDatasharingHelper.h>
 #import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 #import <LocalAuthentication/LocalAuthentication.h>
 @interface SFOAuthCoordinator()
@@ -179,7 +182,7 @@
                     // Ignore any errors why retrieving authconfig. Default to WKWebView
                     // Errors should have already been logged.
                     if (authConfig.useNativeBrowserForAuth) {
-                         [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSafariBrowserForLogin];
+                        [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSafariBrowserForLogin];
                         strongSelf.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeAdvancedBrowser];
                         [strongSelf notifyDelegateOfBeginAuthentication];
                         [strongSelf beginNativeBrowserFlow];
@@ -233,6 +236,19 @@
         return NO;
     }
     self.approvalCode = codeVal;
+    
+    NSString *keychainReference = [appUrlResponse valueForParameterName:kSFKeychainReferenceParam];
+    if (keychainReference) { // IDP -> SP auth
+        SFSDKKeychainResult *result = [SFSDKKeychainHelper readWithService:keychainReference account:nil accessGroup:[[SalesforceSDKManager sharedManager] idpKeychainGroup] cacheMode:CacheModeDisabled];
+        NSString *codeVerifier = [result.data msdkBase64UrlString];
+        if (!codeVerifier || result.error) {
+            [SFSDKCoreLogger e:[self class] format:@"URL has keychain group parameter but unable to retrieve value from the keychain: %@", result.error];
+            return NO;
+        } else {
+            self.codeVerifier = codeVerifier;
+        }
+    }
+
     [SFSDKCoreLogger i:[self class] format:@"%@ Received advanced authentication response.  Beginning token exchange.", NSStringFromSelector(_cmd)];
     self.advancedAuthState = SFOAuthAdvancedAuthStateTokenRequestInitiated;
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -385,7 +401,7 @@
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (!error && [[SFSDKURLHandlerManager sharedInstance] canHandleRequest:callbackURL options:nil]) {
             NSDictionary *options = @{kSFIDPSceneIdKey : self.authSession.sceneId};
-            [[SFSDKURLHandlerManager sharedInstance] processRequest:callbackURL options:options];
+            [[SFSDKURLHandlerManager sharedInstance] processRequest:callbackURL options:options completion:nil failure:nil];
         } else {
             [strongSelf.delegate oauthCoordinatorDidCancelBrowserAuthentication:strongSelf];
         }
@@ -519,6 +535,7 @@
         [SFSDKCoreLogger i:[self class] format:@"%@: Initiating authorization code flow.", NSStringFromSelector(_cmd)];
         request.approvalCode = self.approvalCode;
         request.codeVerifier = self.codeVerifier;
+
         [self.authClient accessTokenForApprovalCode:request completion:^(SFSDKOAuthTokenEndpointResponse * response) {
              __strong typeof (weakSelf) strongSelf = weakSelf;
             [strongSelf handleResponse:response];

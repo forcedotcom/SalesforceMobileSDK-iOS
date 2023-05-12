@@ -1,5 +1,5 @@
 /*
- SFSDKIDPInitiatedAuthRequestHandler.h
+ SFSDKIDPInitiatedAuthRequestHandler.m
  SalesforceSDKCore
  
  Created by Raj Rao on 8/28/17.
@@ -26,9 +26,25 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#import <Foundation/Foundation.h>
-#import "SFSDKURLHandler.h"
 
-@interface SFSDKIDPInitiatedAuthRequestHandler :NSObject<SFSDKURLHandler>
+#import "SFSDKIDPLoginRequestHandler.h"
+#import "SFSDKIDPConstants.h"
+#import "NSURL+SFAdditions.h"
+#import "SFUserAccountManager+URLHandlers.h"
+#import "SalesforceSDKCore.h"
+#import "SFSDKIDPLoginRequestCommand.h"
 
+@implementation SFSDKIDPLoginRequestHandler
+
+- (BOOL)canHandleRequest:(NSURL *)url options:(NSDictionary *)options {
+   SFSDKIDPLoginRequestCommand *command = [[SFSDKIDPLoginRequestCommand alloc] init];
+   return [command isAuthCommand:url];
+}
+
+- (BOOL)processRequest:(NSURL *)url options:(NSDictionary *)options {
+    SFSDKIDPLoginRequestCommand *command = [[SFSDKIDPLoginRequestCommand alloc] init];
+    [command fromRequestURL:url];
+    [[SFUserAccountManager sharedInstance] handleIdpInitiatedAuth:command];
+    return NO;
+}
 @end
