@@ -174,8 +174,14 @@ internal class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthen
             return false
         }
         
-        // true if not specified
-        return readBioAuhPolicy()?.nativeLoginButton ?? true
+        if let policy = readBioAuhPolicy() {
+            if (policy.hasPolicy && locked) {
+                // true if not specified
+                return readBioAuhPolicy()?.nativeLoginButton ?? true
+            }
+        }
+        
+        return false
     }
     
     @objc func cleanup(user: UserAccount) {

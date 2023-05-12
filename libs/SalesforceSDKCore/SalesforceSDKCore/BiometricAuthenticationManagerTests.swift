@@ -126,10 +126,17 @@ final class BiometricAuthenticationManagerTests: XCTestCase {
     }
     
     func testNativeLoginButton() {
+        bioAuthManager.laContext = StubbedLAContext(canEvaluate: true)
+        XCTAssertFalse(bioAuthManager.showNativeLoginButton(), "Button should not show when there is no user.")
+        
+        let user = createUser(index: 0)
+        XCTAssertFalse(bioAuthManager.showNativeLoginButton(), "Button should not show when user has no policy.")
+        
         bioAuthManager.laContext = StubbedLAContext(canEvaluate: false)
-        XCTAssertFalse(bioAuthManager.showNativeLoginButton(), "Button should not show when biometric is not avalible for device")
+        XCTAssertFalse(bioAuthManager.showNativeLoginButton(), "Button should not show when biometric is not avalible for device.")
         
         bioAuthManager.laContext = StubbedLAContext(canEvaluate: true)
+        bioAuthManager.storePolicy(userAccount: user, hasMobilePolicy: true, sessionTimeout: 15)
         XCTAssertTrue(bioAuthManager.showNativeLoginButton(), "Button should show by default.")
         
         bioAuthManager.enableNativeBiometricLoginButton(enabled: false)
