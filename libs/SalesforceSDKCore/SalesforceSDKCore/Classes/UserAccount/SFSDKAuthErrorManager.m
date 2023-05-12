@@ -36,6 +36,7 @@
 #include "SFSDKOAuth2.h"
 #include "SFSDKAuthSession.h"
 // Auth error handler name constants
+static NSString * const kSFUserAgentErrorHandler = @"UserAgentErrorHandler";
 static NSString * const kSFInvalidCredentialsAuthErrorHandler = @"InvalidCredentialsErrorHandler";
 static NSString * const kSFConnectedAppVersionAuthErrorHandler = @"ConnectedAppVersionErrorHandler";
 static NSString * const kSFNetworkFailureAuthErrorHandler = @"NetworkFailureErrorHandler";
@@ -49,6 +50,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 @property (nonatomic, readwrite) SFAuthErrorHandler *networkFailureAuthErrorHandler;
 @property (nonatomic, readwrite) SFAuthErrorHandler *connectedAppVersionAuthErrorHandler;
 @property (nonatomic, readwrite) SFAuthErrorHandler *hostConnectionErrorHandler;
+@property (nonatomic, readwrite) SFAuthErrorHandler *userAgentErrorHandler;
 @end
 
 @implementation SFSDKAuthErrorManager
@@ -65,6 +67,20 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 {
     __weak typeof(self) weakSelf = self;
     SFAuthErrorHandlerList *authHandlerList = [[SFAuthErrorHandlerList alloc] init];
+    
+    
+    // User agent disabled handler
+    self.userAgentErrorHandler =
+        [[SFAuthErrorHandler alloc] initWithName:kSFUserAgentErrorHandler authSessionBlock:^BOOL(NSError *error, SFSDKAuthSession *authSession, NSDictionary *options) {
+            if ([error.localizedDescription containsString:@"user-agent flow has been disabled"]) {
+                if (self.genericErrorHandlerBlock) {
+                    self.genericErrorHandlerBlock(error, authSession, options);
+                    return YES;
+                }
+            }
+            return NO;
+        }];
+    [authHandlerList addAuthErrorHandler:self.userAgentErrorHandler];
     
     // Invalid credentials handler
     self.invalidCredentialsAuthErrorHandler = [[SFAuthErrorHandler alloc]
