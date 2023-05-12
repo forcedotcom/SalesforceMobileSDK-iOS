@@ -137,7 +137,10 @@ final class BiometricAuthenticationManagerTests: XCTestCase {
         
         bioAuthManager.laContext = StubbedLAContext(canEvaluate: true)
         bioAuthManager.storePolicy(userAccount: user, hasMobilePolicy: true, sessionTimeout: 15)
-        XCTAssertTrue(bioAuthManager.showNativeLoginButton(), "Button should show by default.")
+        XCTAssertFalse(bioAuthManager.showNativeLoginButton(), "Button should show until user opts in.")
+        
+        bioAuthManager.biometricOptIn(optIn: true)
+        XCTAssertTrue(bioAuthManager.showNativeLoginButton())
         
         bioAuthManager.enableNativeBiometricLoginButton(enabled: false)
         XCTAssertFalse(bioAuthManager.showNativeLoginButton())

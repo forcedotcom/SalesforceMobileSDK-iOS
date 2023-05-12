@@ -123,12 +123,13 @@ internal class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthen
     
     func lock() {
         locked = true
+        NotificationCenter.default.post(name: Notification.Name(rawValue: kSFBiometricAuthenticationFlowWillBegin), object: nil)
         
         // Open the Login Screen
         _ = UserAccountManager.shared.login { result in
             switch result {
             case .success((_, _)):
-                self.locked = false
+                self.unlockPostProcessing()
                 SFSDKCoreLogger.i(BiometricAuthenticationManagerInternal.self, message: "Biometric authentication success.")
                 break
             case .failure(let error):
@@ -175,7 +176,7 @@ internal class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthen
         }
         
         if let policy = readBioAuhPolicy() {
-            if (policy.hasPolicy && locked) {
+            if (policy.hasPolicy && locked && hasBiometricOptedIn()) {
                 // true if not specified
                 return readBioAuhPolicy()?.nativeLoginButton ?? true
             }
@@ -210,10 +211,8 @@ internal class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthen
                 do {
                     try await laContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: SFSDKResourceUtils.localizedString("biometricReason"))
                     
-                    self.locked = false
                     // Refresh token and unlock
                     let accountManager = UserAccountManager.shared
-                    
                     if let currentAccount = accountManager.currentUserAccount {
                         _ = accountManager.refresh(credentials: currentAccount.credentials, { (result) in
                             switch(result) {
@@ -225,6 +224,7 @@ internal class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthen
                         })
                     }
                     
+                    unlockPostProcessing()
                     await accountManager.stopCurrentAuthentication()
                     await MainActor.run {
                         SFSDKWindowManager.shared().authWindow(scene).viewController?.dismiss(animated: false)
@@ -234,6 +234,11 @@ internal class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthen
                 }
             }
         }
+    }
+    
+    @objc func unlockPostProcessing() {
+        self.locked = false
+        NotificationCenter.default.post(name: Notification.Name(rawValue: kSFBiometricAuthenticationFlowCompleted), object: nil)
     }
     
     private struct BioAuthPolicy: Encodable, Decodable {

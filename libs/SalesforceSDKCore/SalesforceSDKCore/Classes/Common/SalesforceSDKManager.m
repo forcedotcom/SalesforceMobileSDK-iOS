@@ -81,6 +81,8 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
 
 NSString * const kSFScreenLockFlowWillBegin = @"SFScreenLockFlowWillBegin";
 NSString * const kSFScreenLockFlowCompleted = @"SFScreenLockFlowCompleted";
+NSString * const kSFBiometricAuthenticationFlowWillBegin = @"SFBiometricAuthenticationFlowWillBegin";
+NSString * const kSFBiometricAuthenticationFlowCompleted = @"SFBiometricAuthenticationFlowCompleted";
 
 @implementation UIWindow (SalesforceSDKManager)
 
@@ -291,6 +293,8 @@ NSString * const kSFScreenLockFlowCompleted = @"SFScreenLockFlowCompleted";
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleUserDidLogout:) name:kSFNotificationUserDidLogout object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(screenLockFlowWillBegin:) name:kSFScreenLockFlowWillBegin object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(screenLockFlowDidComplete:) name:kSFScreenLockFlowCompleted object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(biometricAuthenticationFlowWillBegin:) name:kSFBiometricAuthenticationFlowWillBegin object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(biometricAuthenticationFlowDidComplete:) name:kSFBiometricAuthenticationFlowCompleted object:nil];
         
         _useSnapshotView = ![SFSDKMacDetectUtil isOnMac];
         [self computeWebViewUserAgent]; // web view user agent is computed asynchronously so very first call to self.userAgentString(...) will be missing it
@@ -834,6 +838,10 @@ void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t b
 - (void)screenLockFlowWillBegin:(NSNotification *)notification { }
 
 - (void)screenLockFlowDidComplete:(NSNotification *)notification { }
+
+- (void)biometricAuthenticationFlowWillBegin:(NSNotification *)notification { }
+
+- (void)biometricAuthenticationFlowDidComplete:(NSNotification *)notification { }
 
 - (nonnull SFBiometricAuthenticationManager *)biometricAuthenticationManager {
     return ((SFBiometricAuthenticationManager *)SFBiometricAuthenticationManagerInternal.shared);

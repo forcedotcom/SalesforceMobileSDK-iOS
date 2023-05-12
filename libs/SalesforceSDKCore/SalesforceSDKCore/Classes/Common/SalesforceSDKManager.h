@@ -95,6 +95,14 @@ extern NSString * const kSFScreenLockFlowWillBegin;
  */
 extern NSString * const kSFScreenLockFlowCompleted;
 
+/** Notification sent when the screen lock will be displayed.
+ */
+extern NSString * const kSFBiometricAuthenticationFlowWillBegin;
+
+/** Notification sent when the screen lock flow has completed.
+ */
+extern NSString * const kSFBiometricAuthenticationFlowCompleted;
+
 /**
  This class will manage the basic infrastructure of the Mobile SDK elements of the app,
  including the orchestration of authentication, screen lock displaying, and management of app

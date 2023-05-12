@@ -1676,6 +1676,10 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 
         if (authSession.authInfo.authType != SFOAuthTypeRefresh) {
             if (hasBioAuthPolciy) {
+                if ([bioAuthManager locked]) {
+                    [bioAuthManager unlockPostProcessing];
+                }
+                
                 [bioAuthManager storePolicyWithUserAccount:self.currentUser hasMobilePolicy:hasBioAuthPolciy sessionTimeout:sessionTimeout];
                 
                 if (preLoginCredentials != nil && ![preLoginCredentials.refreshToken isEqualToString:self.currentUser.credentials.refreshToken]) {
