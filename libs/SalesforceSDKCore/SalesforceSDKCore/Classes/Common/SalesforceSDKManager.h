@@ -222,6 +222,10 @@ NS_SWIFT_NAME(SalesforceManager)
 */
 @property (nonatomic, assign) BOOL useEphemeralSessionForAdvancedAuth;
 
+/** Whether or not the app should use web server oauth flow in web view. If false, user-agent will be used.
+ */
+@property (nonatomic, assign) BOOL useWebServerAuthentication;
+
 /**
  Initializes the SDK.
  */

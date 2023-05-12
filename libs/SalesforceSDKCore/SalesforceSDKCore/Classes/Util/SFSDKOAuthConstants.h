@@ -73,7 +73,7 @@ static NSString * const kSFOAuthCSRFToken                       = @"csrf_token";
 
 // Used for the IP bypass flow, Advanced auth flow
 static NSString * const kSFOAuthApprovalCode                    = @"code";
-static NSString * const kSFOAuthGrantTypeAuthorizationCode      = @"authorization_code";
+static NSString * const kSFOAuthGrantTypeAuthorizationCode      = @"hybrid_auth_code";
 static NSString * const kSFOAuthResponseTypeActivatedClientCode = @"activated_client_code";
 static NSString * const kSFOAuthResponseClientSecret            = @"client_secret";
 

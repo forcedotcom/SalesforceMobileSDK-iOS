@@ -71,7 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (NSString *)generateApprovalUrlString;
 
-- (void)beginUserAgentFlow;
+- (void)beginWebViewFlow;
 
 @end
 
