@@ -344,6 +344,22 @@ static NSString* const kTestAppName = @"OverridenAppName";
     XCTAssertTrue([brandedURL containsString:[brandPath substringToIndex:brandPath.length-1]]);
 }
 
+- (void)testWebServerFlag {
+    [self createTestAppIdentity];
+    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"testWebServer" clientId:@"testWebServer" encrypted:NO];
+    credentials.domain = @"testWebServer";
+    credentials.redirectUri = @"testWebserver";
+    
+    [SalesforceSDKManager sharedManager].useWebServerAuthentication = YES;
+    SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:credentials];
+    NSString *approvalUrl = [coordinator generateApprovalUrlString];
+    XCTAssert([approvalUrl containsString:@"response_type=code"]);
+    
+    [SalesforceSDKManager sharedManager].useWebServerAuthentication = NO;
+    approvalUrl = [coordinator generateApprovalUrlString];
+    XCTAssert([approvalUrl containsString:@"response_type=hybrid_token"]);
+}
+
 #pragma mark - Dispaly Name Tests
 
 - (void)testDefaultDisplayName {
