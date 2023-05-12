@@ -40,9 +40,11 @@ internal class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthen
     
     var locked = false
     
+    internal var backgroundTimestamp: Double = 0
+    // This is a local var so it can be stubbed for tests
+    internal var laContext = LAContext()
     private let kBioAuthPolicyIdentifier = "com.salesforce.security.bioauthpolicy"
     private let kBioAuthEnabledIdentifier = "com.salesforce.security.bioauth"
-    private var backgroundTimestamp: Double = 0
     
     private override init() {
         super.init()
@@ -126,6 +128,7 @@ internal class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthen
         _ = UserAccountManager.shared.login { result in
             switch result {
             case .success((_, _)):
+                self.locked = false
                 SFSDKCoreLogger.i(BiometricAuthenticationManagerInternal.self, message: "Biometric authentication success.")
                 break
             case .failure(let error):
@@ -143,10 +146,6 @@ internal class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthen
     
     func hasBiometricOptedIn() -> Bool {
         return readBioAuhPolicy()?.optIn ?? false
-    }
-    
-    @objc func hasBeenPromptedForBiometric() -> Bool {
-        return (readBioAuhPolicy()?.optIn == nil)
     }
     
     func presentOptInDialog(viewController: UIViewController) {
@@ -171,7 +170,7 @@ internal class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthen
     
     @objc func showNativeLoginButton() -> Bool {
         var error: NSError?
-        if (!LAContext().canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)) {
+        if (!laContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)) {
             return false
         }
         
@@ -198,13 +197,12 @@ internal class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthen
     }
     
     @objc func presentBiometric(scene: UIScene) {
-        let context = LAContext()
-        context.localizedCancelTitle = SFSDKResourceUtils.localizedString("usePassword")
+        laContext.localizedCancelTitle = SFSDKResourceUtils.localizedString("usePassword")
         var error: NSError?
-        if (context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)) {
+        if (laContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)) {
             Task {
                 do {
-                    try await context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: SFSDKResourceUtils.localizedString("biometricReason"))
+                    try await laContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: SFSDKResourceUtils.localizedString("biometricReason"))
                     
                     self.locked = false
                     // Refresh token and unlock
