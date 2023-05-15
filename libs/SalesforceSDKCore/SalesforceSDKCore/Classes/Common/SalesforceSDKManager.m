@@ -844,11 +844,11 @@ void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t b
 - (void)biometricAuthenticationFlowDidComplete:(NSNotification *)notification { }
 
 - (id <SFBiometricAuthenticationManager>)biometricAuthenticationManager {
-    return SFBiometricAuthenticationManagerInternal.shared.self;
+    return [SFBiometricAuthenticationManagerInternal shared];
 }
 
 - (id <SFScreenLockManager>)screenLockManager {
-    return SFScreenLockManagerInternal.shared;
+    return [SFScreenLockManagerInternal shared];
 }
 
 @end
