@@ -27,6 +27,7 @@
 #import <SalesforceSDKCore/SalesforceSDKCoreDefines.h>
 #import <SalesforceSDKCore/SalesforceSDKConstants.h>
 @class SFUserAccount, SFSDKAppConfig, SFScreenLockManager, SFBiometricAuthenticationManager;
+@protocol SFScreenLockManager, SFBiometricAuthenticationManager;
 
 /**
  Block typedef for creating a custom snapshot view controller.
@@ -278,14 +279,14 @@ NS_SWIFT_NAME(SalesforceManager)
  *
  * @return the Screen Lock Manager
  */
-- (SFScreenLockManager *)screenLockManager;
+- (id <SFScreenLockManager>)screenLockManager;
 
 /**
  * Returns the BiometricAuthenticationManager instance.
  *
  * @return the Biometric Authentication Manager
  */
-- (SFBiometricAuthenticationManager *)biometricAuthenticationManager;
+- (id <SFBiometricAuthenticationManager>)biometricAuthenticationManager;
 
 @end
 

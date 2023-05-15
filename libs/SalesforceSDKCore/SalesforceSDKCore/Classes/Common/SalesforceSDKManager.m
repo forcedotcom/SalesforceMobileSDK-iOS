@@ -843,12 +843,12 @@ void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t b
 
 - (void)biometricAuthenticationFlowDidComplete:(NSNotification *)notification { }
 
-- (nonnull SFBiometricAuthenticationManager *)biometricAuthenticationManager {
-    return ((SFBiometricAuthenticationManager *)SFBiometricAuthenticationManagerInternal.shared);
+- (id <SFBiometricAuthenticationManager>)biometricAuthenticationManager {
+    return SFBiometricAuthenticationManagerInternal.shared.self;
 }
 
-- (nonnull SFScreenLockManager *)screenLockManager {
-    return ((SFScreenLockManager *)SFScreenLockManagerInternal.shared);
+- (id <SFScreenLockManager>)screenLockManager {
+    return SFScreenLockManagerInternal.shared;
 }
 
 @end
