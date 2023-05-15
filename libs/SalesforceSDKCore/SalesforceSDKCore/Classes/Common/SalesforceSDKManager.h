@@ -26,7 +26,8 @@
 #import <UIKit/UIKit.h>
 #import <SalesforceSDKCore/SalesforceSDKCoreDefines.h>
 #import <SalesforceSDKCore/SalesforceSDKConstants.h>
-@class SFUserAccount, SFSDKAppConfig;
+@class SFUserAccount, SFSDKAppConfig, SFScreenLockManager, SFBiometricAuthenticationManager;
+@protocol SFScreenLockManager, SFBiometricAuthenticationManager;
 
 /**
  Block typedef for creating a custom snapshot view controller.
@@ -94,6 +95,14 @@ extern NSString * const kSFScreenLockFlowWillBegin;
 /** Notification sent when the screen lock flow has completed.
  */
 extern NSString * const kSFScreenLockFlowCompleted;
+
+/** Notification sent when the screen lock will be displayed.
+ */
+extern NSString * const kSFBiometricAuthenticationFlowWillBegin;
+
+/** Notification sent when the screen lock flow has completed.
+ */
+extern NSString * const kSFBiometricAuthenticationFlowCompleted;
 
 /**
  This class will manage the basic infrastructure of the Mobile SDK elements of the app,
@@ -264,6 +273,20 @@ NS_SWIFT_NAME(SalesforceManager)
  * @return Title string of the dev support menu.
  */
 - (nonnull NSString *)devInfoTitleString;
+
+/**
+ * Returns the ScreenLockManager instance.
+ *
+ * @return the Screen Lock Manager
+ */
+- (id <SFScreenLockManager>)screenLockManager;
+
+/**
+ * Returns the BiometricAuthenticationManager instance.
+ *
+ * @return the Biometric Authentication Manager
+ */
+- (id <SFBiometricAuthenticationManager>)biometricAuthenticationManager;
 
 @end
 

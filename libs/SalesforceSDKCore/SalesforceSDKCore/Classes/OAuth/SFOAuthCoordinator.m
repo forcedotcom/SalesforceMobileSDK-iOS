@@ -52,6 +52,8 @@
 #import "SFSDKAuthRequest.h"
 #import <SalesforceSDKCommon/SalesforceSDKCommon-Swift.h>
 #import <SalesforceSDKCommon/SFSDKDatasharingHelper.h>
+#import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
+#import <LocalAuthentication/LocalAuthentication.h>
 @interface SFOAuthCoordinator()
 
 @property (nonatomic) NSString *networkIdentifier;
@@ -268,6 +270,16 @@
     NSString *appUrlResponseString = [appUrlResponse absoluteString];
     if (![[appUrlResponseString lowercaseString] hasPrefix:[self.credentials.redirectUri lowercaseString]]) {
         [SFSDKCoreLogger i:[self class] format:@"%@ URL does not match redirect URI.", NSStringFromSelector(_cmd)];
+        
+        if ([self isBiometricPromptURL:appUrlResponseString]) {
+            [SFSDKCoreLogger i:[self class] format:@"Caught biometric request scheme.  Showing native biometric promp."];
+            
+            SFBiometricAuthenticationManagerInternal *bioAuthManager = [SFBiometricAuthenticationManagerInternal shared];
+            if (bioAuthManager.locked && bioAuthManager.hasBiometricOptedIn) {
+                [bioAuthManager presentBiometricWithScene:self.view.window.windowScene];
+            }
+        }
+        
         return NO;
     }
     NSString *query = [appUrlResponse query];
@@ -731,6 +743,13 @@
     } else if ([self isSPAppRedirectURL:requestUrl]){
         [self handleIDPAuthCodeResponse:url];
         decisionHandler(WKNavigationActionPolicyCancel);
+    } else if ([self isBiometricPromptURL:requestUrl]) {
+        [SFSDKCoreLogger i:[self class] format:@"Caught biometric request scheme.  Showing native biometric promp."];
+        
+        SFBiometricAuthenticationManagerInternal *bioAuthManager = [SFBiometricAuthenticationManagerInternal shared];
+        if (bioAuthManager.locked && bioAuthManager.hasBiometricOptedIn) {
+            [bioAuthManager presentBiometricWithScene:self.view.window.windowScene];
+        }
     } else {
         decisionHandler(WKNavigationActionPolicyAllow);
     }
@@ -775,6 +794,11 @@
 - (BOOL) isSPAppRedirectURL:(NSString *)requestUrlString
 {
     return (self.spAppCredentials.redirectUri && [[requestUrlString lowercaseString] hasPrefix:[self.spAppCredentials.redirectUri lowercaseString]]);
+}
+
+- (BOOL) isBiometricPromptURL:(NSString *)requestedUrlString
+{
+    return [requestedUrlString isEqualToString:@"mobilesdk://biometric/authentication/prompt"];
 }
 
 - (void)sfwebView:(WKWebView *)webView didFailLoadWithError:(NSError *)error

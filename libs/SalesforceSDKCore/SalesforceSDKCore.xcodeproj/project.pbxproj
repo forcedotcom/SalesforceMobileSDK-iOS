@@ -119,11 +119,15 @@
 		82C5E3EE1C1B62AF00376C00 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 82C5E3ED1C1B62AF00376C00 /* SalesforceSDKResources.bundle */; };
 		82D4642519C7C8170006BDFE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8220B74F16D804CA00EC3921 /* Foundation.framework */; };
 		82D4642619C7C8170006BDFE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EBCC16E14F7000768DE8 /* CoreGraphics.framework */; };
-		A315F83B26EAAC8400B94428 /* ScreenLockManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A315F83A26EAAC8400B94428 /* ScreenLockManager.swift */; };
+		A315F83B26EAAC8400B94428 /* ScreenLockManagerInternal.swift in Sources */ = {isa = PBXBuildFile; fileRef = A315F83A26EAAC8400B94428 /* ScreenLockManagerInternal.swift */; };
 		A315F84326EAAFF800B94428 /* ScreenLockUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A315F84226EAAFF800B94428 /* ScreenLockUIView.swift */; };
 		A32C854A25268005000FFA42 /* KeyValueEncryptedFileStoreInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32C854925268005000FFA42 /* KeyValueEncryptedFileStoreInspector.swift */; };
 		A37F3116252E5C2300026635 /* KeyValueEncryptedFileStoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37F3115252E5C2300026635 /* KeyValueEncryptedFileStoreViewController.swift */; };
 		A3B2F86D26FE8624007BAA69 /* ScreenLockManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A3B2F86C26FE8624007BAA69 /* ScreenLockManagerTests.m */; };
+		A3C7475C29F7047400D72B7F /* ScreenLockManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C7475B29F7047400D72B7F /* ScreenLockManager.swift */; };
+		A3C7475F29F7087B00D72B7F /* BiometricAuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C7475E29F7087B00D72B7F /* BiometricAuthenticationManager.swift */; };
+		A3C7476129F709EB00D72B7F /* BiometricAuthenticationManagerInternal.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C7476029F709EB00D72B7F /* BiometricAuthenticationManagerInternal.swift */; };
+		A3E4F0CE2A0D6DCE00E9FB63 /* BiometricAuthenticationManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E4F0CD2A0D6DCE00E9FB63 /* BiometricAuthenticationManagerTests.swift */; };
 		B70135621F87F63900995171 /* SFSDKAuthErrorManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B70135601F87F63900995171 /* SFSDKAuthErrorManager.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		B70135641F87F63900995171 /* SFSDKAuthErrorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B70135611F87F63900995171 /* SFSDKAuthErrorManager.m */; };
 		B711290D1F8A780800436CFB /* SFSDKAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = B71129071F8A780700436CFB /* SFSDKAlertView.m */; };
@@ -754,11 +758,15 @@
 		82C5E3ED1C1B62AF00376C00 /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
 		82D0AB191C497F410081F833 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		82D4642419C7C8170006BDFE /* SalesforceSDKCoreTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SalesforceSDKCoreTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		A315F83A26EAAC8400B94428 /* ScreenLockManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenLockManager.swift; sourceTree = "<group>"; };
+		A315F83A26EAAC8400B94428 /* ScreenLockManagerInternal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenLockManagerInternal.swift; sourceTree = "<group>"; };
 		A315F84226EAAFF800B94428 /* ScreenLockUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenLockUIView.swift; sourceTree = "<group>"; };
 		A32C854925268005000FFA42 /* KeyValueEncryptedFileStoreInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyValueEncryptedFileStoreInspector.swift; sourceTree = "<group>"; };
 		A37F3115252E5C2300026635 /* KeyValueEncryptedFileStoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyValueEncryptedFileStoreViewController.swift; sourceTree = "<group>"; };
 		A3B2F86C26FE8624007BAA69 /* ScreenLockManagerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ScreenLockManagerTests.m; sourceTree = "<group>"; };
+		A3C7475B29F7047400D72B7F /* ScreenLockManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenLockManager.swift; sourceTree = "<group>"; };
+		A3C7475E29F7087B00D72B7F /* BiometricAuthenticationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricAuthenticationManager.swift; sourceTree = "<group>"; };
+		A3C7476029F709EB00D72B7F /* BiometricAuthenticationManagerInternal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricAuthenticationManagerInternal.swift; sourceTree = "<group>"; };
+		A3E4F0CD2A0D6DCE00E9FB63 /* BiometricAuthenticationManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricAuthenticationManagerTests.swift; sourceTree = "<group>"; };
 		B70135601F87F63900995171 /* SFSDKAuthErrorManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKAuthErrorManager.h; sourceTree = "<group>"; };
 		B70135611F87F63900995171 /* SFSDKAuthErrorManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKAuthErrorManager.m; sourceTree = "<group>"; };
 		B71129071F8A780700436CFB /* SFSDKAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKAlertView.m; sourceTree = "<group>"; };
@@ -1061,6 +1069,7 @@
 				693E623A24A29B6B0017B222 /* SFSDKKeyValueEncryptedFileStoreTests.m */,
 				A3B2F86C26FE8624007BAA69 /* ScreenLockManagerTests.m */,
 				6990CBBF29F5AF56004A5F8D /* SFSDKIDPAuthCodeLoginRequestCommandTest.m */,
+				A3E4F0CD2A0D6DCE00E9FB63 /* BiometricAuthenticationManagerTests.swift */,
 			);
 			name = SalesforceSDKCoreTests;
 			path = SalesforceSDKCore;
@@ -1214,6 +1223,7 @@
 		4F96FCEA1BFD32130022F021 /* Security */ = {
 			isa = PBXGroup;
 			children = (
+				A3C7475D29F7085E00D72B7F /* BiometricAuthentication */,
 				A315F84126EAAFCD00B94428 /* ScreenLock */,
 				69341D21266FF61700227CB0 /* Encryptor.swift */,
 				69BDD82E26F90AA400C26D77 /* EncryptStream.swift */,
@@ -1501,10 +1511,20 @@
 		A315F84126EAAFCD00B94428 /* ScreenLock */ = {
 			isa = PBXGroup;
 			children = (
-				A315F83A26EAAC8400B94428 /* ScreenLockManager.swift */,
+				A315F83A26EAAC8400B94428 /* ScreenLockManagerInternal.swift */,
 				A315F84226EAAFF800B94428 /* ScreenLockUIView.swift */,
+				A3C7475B29F7047400D72B7F /* ScreenLockManager.swift */,
 			);
 			path = ScreenLock;
+			sourceTree = "<group>";
+		};
+		A3C7475D29F7085E00D72B7F /* BiometricAuthentication */ = {
+			isa = PBXGroup;
+			children = (
+				A3C7475E29F7087B00D72B7F /* BiometricAuthenticationManager.swift */,
+				A3C7476029F709EB00D72B7F /* BiometricAuthenticationManagerInternal.swift */,
+			);
+			path = BiometricAuthentication;
 			sourceTree = "<group>";
 		};
 		B716A384218F5E2D009D407F /* Products */ = {
@@ -2143,6 +2163,7 @@
 			files = (
 				6975869F23296D7500574148 /* SFSDKURLCacheTests.m in Sources */,
 				4F06AF911C49A18E00F70798 /* SFOAuthTestFlowCoordinatorDelegate.m in Sources */,
+				A3E4F0CE2A0D6DCE00E9FB63 /* BiometricAuthenticationManagerTests.swift in Sources */,
 				6931EA49248F000600417362 /* SFUserIdUpgradeTests.m in Sources */,
 				CEB98EE21F86E7D70083AB9C /* SFSDKIDPLoginRequestCommandTest.m in Sources */,
 				B7E1A50E1F43B0FE007AC36A /* SFSDKWindowManagerTests.m in Sources */,
@@ -2235,6 +2256,7 @@
 				E1C80CF21C5AEE31001B3A21 /* SFSDKLoginHostStorage.m in Sources */,
 				B72171572353BFF20022510F /* SFSDKAuthRequest.m in Sources */,
 				B78A238D21014FCA00B19AB3 /* SFSDKAuthHelper.m in Sources */,
+				A3C7475F29F7087B00D72B7F /* BiometricAuthenticationManager.swift in Sources */,
 				CE4CE33F1C0E524B009F6029 /* SFInstrumentation.m in Sources */,
 				697A91A12363C3D800D2836F /* SFSDKPushNotificationDecryption.m in Sources */,
 				CE675A341E0B2CC6002DBF5A /* SFSDKSoqlBuilder.m in Sources */,
@@ -2293,6 +2315,7 @@
 				E1C80CF61C5AEE31001B3A21 /* SFSDKTextFieldTableViewCell.m in Sources */,
 				CE4CE3471C0E5252009F6029 /* SFOAuthCredentials.m in Sources */,
 				CE4CE3141C0E523B009F6029 /* NSString+SFAdditions.m in Sources */,
+				A3C7475C29F7047400D72B7F /* ScreenLockManager.swift in Sources */,
 				B75233E01F4DF0B700040B6E /* SFSDKAuthPreferences.m in Sources */,
 				B767369320A4AB0200F04103 /* SFSDKNavigationController.m in Sources */,
 				CE4CE34B1C0E5252009F6029 /* SFOAuthInfo.m in Sources */,
@@ -2331,7 +2354,7 @@
 				B71129111F8A780800436CFB /* SFSDKAlertMessageBuilder.m in Sources */,
 				69341D22266FF61700227CB0 /* Encryptor.swift in Sources */,
 				69BDD83026F90AA400C26D77 /* EncryptStream.swift in Sources */,
-				A315F83B26EAAC8400B94428 /* ScreenLockManager.swift in Sources */,
+				A315F83B26EAAC8400B94428 /* ScreenLockManagerInternal.swift in Sources */,
 				CE88BD531D17065C00AE3BF7 /* SFSDKAILTNPublisher.m in Sources */,
 				CE4CE3AC1C0E5279009F6029 /* SFPreferences.m in Sources */,
 				CED452B81D808D0C009266EB /* SFRestAPI+Blocks.m in Sources */,
@@ -2352,6 +2375,7 @@
 				CEA8C9711F02F79F00448B51 /* SFSDKCoreLogger.m in Sources */,
 				B711290D1F8A780800436CFB /* SFSDKAlertView.m in Sources */,
 				B7460C1C2347E1A100C7512E /* SFSDKBatchResponse.m in Sources */,
+				A3C7476129F709EB00D72B7F /* BiometricAuthenticationManagerInternal.swift in Sources */,
 				B7FB26DB1F78096300FB25A2 /* SFSDKIDPErrorHandler.m in Sources */,
 				B7677051223AE5E400545C90 /* SFUserAccountManager+Instrumentation.m in Sources */,
 				E1C80CF01C5AEE31001B3A21 /* SFSDKLoginHostListViewController.m in Sources */,

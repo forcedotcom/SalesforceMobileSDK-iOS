@@ -250,7 +250,7 @@ static NSString * _currentVersion = nil;
 }
 
 + (void)upgradePasscode {
-    [[SFScreenLockManager shared] upgradePasscode];
+    [[SFScreenLockManagerInternal shared] upgradePasscode];
 }
 
 @end

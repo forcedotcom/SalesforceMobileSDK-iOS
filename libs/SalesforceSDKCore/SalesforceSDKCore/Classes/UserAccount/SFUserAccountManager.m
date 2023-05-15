@@ -121,12 +121,18 @@ static NSString * const kAlertDismissButtonKey = @"authAlertDismissButton";
 static NSString * const kAlertConnectionErrorFormatStringKey = @"authAlertConnectionErrorFormatString";
 static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismatchError";
 static NSString * const kErroredClientKey = @"SFErroredOAuthClientKey";
-static NSString * const kSFSPAppFeatureIDPLogin   = @"SP";
-static NSString * const kSFIDPAppFeatureIDPLogin   = @"IP";
 static NSString * const kOptionsClientKey          = @"clientIdentifier";
+
+// App Feature Markers
+static NSString * const kSFSPAppFeatureIDPLogin    = @"SP";
+static NSString * const kSFIDPAppFeatureIDPLogin   = @"IP";
+static NSString * const kSFAppFeatureScreenLock    = @"SL";
+static NSString * const kSFAppFeatureBioAuth       = @"BA";
 
 NSString * const kSFSDKUserAccountManagerErrorDomain = @"com.salesforce.mobilesdk.SFUserAccountManager";
 NSString * const kSFIDPSceneIdKey = @"sceneIdentifier";
+NSString * const kBiometricAuthenticationPolicyKey = @"ENABLE_BIOMETRIC_AUTHENTICATION";
+NSString * const kBiometricAuthenticationTimeoutKey = @"REQUIRE_BIOMETRICS_AFTER";
 
 static NSString * const kSFInvalidCredentialsAuthErrorHandler = @"InvalidCredentialsErrorHandler";
 static NSString * const kSFConnectedAppVersionAuthErrorHandler = @"ConnectedAppVersionErrorHandler";
@@ -1222,15 +1228,6 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     [_accountsLock lock];
     result = (self.userAccountMap)[userIdentity];
 
-    // TODO: Remove this block in Mobile SDK 10.0, needed for upgrade step after changing from 15 character to 18 character user IDs
-    if (!result) {
-        for (SFUserAccountIdentity *key in self.userAccountMap.allKeys) {
-            if ([key isEqual:userIdentity]) {
-                result = self.userAccountMap[key];
-            }
-        }
-    }
-
     [_accountsLock unlock];
     return result;
 }
@@ -1447,8 +1444,21 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         }
         [_accountsLock unlock];
     }
-    if (userChanged)
+    
+    if (userChanged) {
         [self notifyUserChange:SFUserAccountManagerDidChangeUserNotification withUser:_currentUser andChange:SFUserAccountChangeCurrentUser];
+        
+        SFBiometricAuthenticationManagerInternal *bioAuthManager = SFBiometricAuthenticationManagerInternal.shared;
+        if ([bioAuthManager enabled]) {
+            NSArray *keys = [self.userAccountMap allKeys];
+            for (SFUserAccountIdentity *identity in keys) {
+                // Logout any other user with Biometric Authentication
+                if ([bioAuthManager checkForPolicyWithUserId:identity.userId] && ![identity isEqual:[self currentUserIdentity]]) {
+                    [self logoutUser:[self userAccountForUserIdentity:identity]];
+                }
+            }
+        }
+    }
 }
 
 - (SFUserAccountIdentity *)currentUserIdentity {
@@ -1651,14 +1661,42 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     SFIdentityCoordinator *identityCoordinator = authSession.identityCoordinator;
     BOOL hasMobilePolicy = identityCoordinator.idData.mobilePoliciesConfigured;
     int lockTimeout = identityCoordinator.idData.mobileAppScreenLockTimeout;
+    NSDictionary *customAttributes = identityCoordinator.idData.customAttributes;
+    BOOL hasBioAuthPolciy = (customAttributes != nil) && customAttributes[kBiometricAuthenticationPolicyKey];
+    int sessionTimeout = (customAttributes != nil) && customAttributes[kBiometricAuthenticationTimeoutKey];
+    SFBiometricAuthenticationManagerInternal *bioAuthManager = [SFBiometricAuthenticationManagerInternal shared];
+    // Store current user credentials in case they need to be revoked for Biometric Authentication
+    SFOAuthCredentials *preLoginCredentials = self.currentUser.credentials;
+    
+    // Set session timeout to the lowest value (15 minutes) of not specified.
+    if (hasMobilePolicy && (sessionTimeout < 1)) {
+        sessionTimeout = 15;
+    }
     
     __weak typeof(self) weakSelf = self;
     [self dismissAuthViewControllerIfPresentForScene:authSession.oauthRequest.scene completion:^{
           __strong typeof(weakSelf) strongSelf = weakSelf;
         [strongSelf finalizeAuthCompletion:authSession];
+
         if (authSession.authInfo.authType != SFOAuthTypeRefresh) {
-            [[SFScreenLockManager shared] storeMobilePolicyWithUserAccount:self.currentUser hasMobilePolicy:hasMobilePolicy lockTimeout:lockTimeout];
-       }
+            if (hasBioAuthPolciy) {
+                if ([bioAuthManager locked]) {
+                    [bioAuthManager unlockPostProcessing];
+                }
+                
+                [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureBioAuth];
+                [bioAuthManager storePolicyWithUserAccount:self.currentUser hasMobilePolicy:hasBioAuthPolciy sessionTimeout:sessionTimeout];
+                
+                if (preLoginCredentials != nil && ![preLoginCredentials.refreshToken isEqualToString:self.currentUser.credentials.refreshToken]) {
+                    
+                    id<SFSDKOAuthProtocol> authClient = self.authClient();
+                    [authClient revokeRefreshToken:preLoginCredentials];
+                }
+            } else if(hasMobilePolicy) {
+                [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureScreenLock];
+                [[SFScreenLockManagerInternal shared] storeMobilePolicyWithUserAccount:self.currentUser hasMobilePolicy:hasMobilePolicy lockTimeout:lockTimeout];
+            }
+        }
     }];
     [self dismissAuthViewControllerIfPresent];
 }
@@ -1863,6 +1901,14 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 }
 
 - (void)switchToUser:(SFUserAccount *)newCurrentUser {
+    SFBiometricAuthenticationManagerInternal *bioAuthManager = [SFBiometricAuthenticationManagerInternal shared];
+    SFScreenLockManagerInternal *screenLockManager = [SFScreenLockManagerInternal shared];
+    if ([bioAuthManager checkForPolicyWithUserId:newCurrentUser.credentials.userId]) {
+        [bioAuthManager lock];
+    } else if ([screenLockManager checkForPolicyWithUserId:newCurrentUser.credentials.userId]) {
+        [screenLockManager lock];
+    }
+    
     if ([self.currentUser.accountIdentity isEqual:newCurrentUser.accountIdentity]) {
         [SFSDKCoreLogger w:[self class] format:@"%@ new user identity is the same as the current user.  No action taken.", NSStringFromSelector(_cmd)];
     } else {
