@@ -121,9 +121,13 @@ static NSString * const kAlertDismissButtonKey = @"authAlertDismissButton";
 static NSString * const kAlertConnectionErrorFormatStringKey = @"authAlertConnectionErrorFormatString";
 static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismatchError";
 static NSString * const kErroredClientKey = @"SFErroredOAuthClientKey";
-static NSString * const kSFSPAppFeatureIDPLogin   = @"SP";
-static NSString * const kSFIDPAppFeatureIDPLogin   = @"IP";
 static NSString * const kOptionsClientKey          = @"clientIdentifier";
+
+// App Feature Markers
+static NSString * const kSFSPAppFeatureIDPLogin    = @"SP";
+static NSString * const kSFIDPAppFeatureIDPLogin   = @"IP";
+static NSString * const kSFAppFeatureScreenLock    = @"SL";
+static NSString * const kSFAppFeatureBioAuth       = @"BA";
 
 NSString * const kSFSDKUserAccountManagerErrorDomain = @"com.salesforce.mobilesdk.SFUserAccountManager";
 NSString * const kSFIDPSceneIdKey = @"sceneIdentifier";
@@ -1680,6 +1684,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
                     [bioAuthManager unlockPostProcessing];
                 }
                 
+                [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureBioAuth];
                 [bioAuthManager storePolicyWithUserAccount:self.currentUser hasMobilePolicy:hasBioAuthPolciy sessionTimeout:sessionTimeout];
                 
                 if (preLoginCredentials != nil && ![preLoginCredentials.refreshToken isEqualToString:self.currentUser.credentials.refreshToken]) {
@@ -1688,6 +1693,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
                     [authClient revokeRefreshToken:preLoginCredentials];
                 }
             } else if(hasMobilePolicy) {
+                [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureScreenLock];
                 [[SFScreenLockManagerInternal shared] storeMobilePolicyWithUserAccount:self.currentUser hasMobilePolicy:hasMobilePolicy lockTimeout:lockTimeout];
             }
         }
