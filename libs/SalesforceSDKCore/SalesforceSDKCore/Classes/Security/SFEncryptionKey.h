@@ -30,8 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Data object representing a symmetric encryption key, with a key value and initialization vector.
  */
-SFSDK_DEPRECATED(9.2, 11.0, "Will be removed")
-@interface SFEncryptionKey : NSObject <NSCoding, NSCopying>
+@interface SFEncryptionKey : NSObject
 
 /**
  Designated initializer.
@@ -39,26 +38,6 @@ SFSDK_DEPRECATED(9.2, 11.0, "Will be removed")
  @param iv The initialization vector, represented as NSData.
  */
 - (id)initWithData:(NSData *)keyData initializationVector:(nullable NSData *)iv;
-
-/**
- Generate an encryption key.
- @returns `SFEncryptionKey` object that contains the encryption key.
- */
-+ (SFEncryptionKey*) createKey;
-
-/**
- Encrypt the given data.
- @param dataToEncrypt The data to encrypt.
- @returns `NSData` object that contains the encrypted data.
- */
-- (nullable NSData *)encryptData:(NSData *)dataToEncrypt;
-
-/**
- Decrypt the given data.
- @param dataToDecrypt Data to decrypt
- @returns `NSData` object that contains the decrypted data.
- */
-- (nullable NSData *)decryptData:(NSData *)dataToDecrypt;
 
 /**
  Key component of the object.

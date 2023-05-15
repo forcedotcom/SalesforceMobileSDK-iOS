@@ -27,7 +27,6 @@
 #import "SFDefaultUserAccountPersister.h"
 #import "SFDirectoryManager.h"
 #import "SFDirectoryManager+Internal.h"
-#import "SFKeyStoreManager.h"
 #import "SFSDKCryptoUtils.h"
 #import <SalesforceSDKCommon/SFFileProtectionHelper.h>
 #import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>

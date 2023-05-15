@@ -329,24 +329,4 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     [credentials revoke];
 }
 
-- (void)testTokenUpgrade {
-    NSString *accessToken = @"AllAccessPass$";
-    NSString *refreshToken = @"RefreshFRESHexciting!";
-    
-    // Simulate credentials with legacy keys
-    SFOAuthKeychainCredentials *credentials = [[SFOAuthKeychainCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
-    [credentials setRefreshToken:refreshToken withSFEncryptionKey:[credentials keyStoreKeyForService:kSFOAuthServiceLegacyRefresh]];
-    [credentials setAccessToken:accessToken withSFEncryptionKey:[credentials keyStoreKeyForService:kSFOAuthServiceLegacyAccess]];
-    
-    // Initialize same credentials, verify tokens are picked up
-    SFOAuthKeychainCredentials *newCredentials = [[SFOAuthKeychainCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
-    NSString *accessTokenVerify = newCredentials.accessToken;
-    XCTAssertEqualObjects(accessToken, accessTokenVerify, @"Access token should decrypt to the same value.");
-    NSString *refreshTokenVerify = newCredentials.refreshToken;
-    XCTAssertEqualObjects(refreshToken, refreshTokenVerify, @"Refresh token should decrypt to the same value.");
-    
-    [credentials revoke];
-    [newCredentials revoke];
-}
-
 @end

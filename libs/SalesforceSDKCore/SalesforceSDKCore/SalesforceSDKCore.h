@@ -50,7 +50,6 @@
 #import <SalesforceSDKCore/SFSDKPushNotificationError.h>
 #import <SalesforceSDKCore/SFOAuthCoordinator.h>
 #import <SalesforceSDKCore/SFSDKOAuth2.h>
-#import <SalesforceSDKCore/SFKeyStoreManager.h>
 #import <SalesforceSDKCore/SFOAuthOrgAuthConfiguration.h>
 #import <SalesforceSDKCore/SFSDKCompositeResponse.h>
 #import <SalesforceSDKCore/SFOAuthCredentials.h>
@@ -59,7 +58,6 @@
 #import <SalesforceSDKCore/SFSDKBatchRequest.h>
 #import <SalesforceSDKCore/SFSDKWindowManager.h>
 #import <SalesforceSDKCore/NSNotificationCenter+SFAdditions.h>
-#import <SalesforceSDKCore/SFEncryptionKey.h>
 #import <SalesforceSDKCore/SFDirectoryManager.h>
 #import <SalesforceSDKCore/SFSDKPushNotificationDecryption.h>
 #import <SalesforceSDKCore/SFSDKAILTNPublisher.h>
@@ -70,7 +68,6 @@
 #import <SalesforceSDKCore/NSURLResponse+SFAdditions.h>
 #import <SalesforceSDKCore/SFApplicationHelper.h>
 #import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
-#import <SalesforceSDKCore/SFSecureEncryptionKey.h>
 #import <SalesforceSDKCore/SFSDKUserSelectionTableViewController.h>
 #import <SalesforceSDKCore/SFSDKNavigationController.h>
 #import <SalesforceSDKCore/SFSDKLoginHostStorage.h>
