@@ -35,6 +35,11 @@
 @property (nonatomic, readonly) BOOL useNativeBrowserForAuth;
 
 /**
+ Tells Mobile SDK  to share the native browser session for authentication.
+ */
+@property (nonatomic, readonly) BOOL shareBrowserSession;
+
+/**
  List of configured SSO URLs.
  */
 @property (nonatomic, strong, readonly, nullable) NSArray<NSString *> *ssoUrls;
