@@ -35,8 +35,6 @@
 #import "SFSoupIndex.h"
 #import "SFSmartStoreUpgrade.h"
 #import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
-#import <SalesforceSDKCore/SFKeyStoreManager.h>
-#import <SalesforceSDKCore/SFEncryptionKey.h>
 #import <SalesforceSDKCore/NSString+SFAdditions.h>
 #import <SalesforceSDKCore/NSData+SFAdditions.h>
 #import "sqlite3.h"

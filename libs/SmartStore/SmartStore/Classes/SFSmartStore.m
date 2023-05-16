@@ -40,8 +40,6 @@
 #import "NSData+SFAdditions.h"
 #import "SFAlterSoupLongOperation.h"
 #import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
-#import <SalesforceSDKCore/SFKeyStoreManager.h>
-#import <SalesforceSDKCore/SFEncryptionKey.h>
 #import <SalesforceSDKCore/SFSDKCryptoUtils.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFDirectoryManager.h>
@@ -56,10 +54,6 @@
 
 static NSMutableDictionary *_allSharedStores;
 static NSMutableDictionary *_allGlobalSharedStores;
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-static SFSmartStoreEncryptionKeyBlock _encryptionKeyBlock = NULL;
-#pragma clang diagnostic pop
 static SFSmartStoreEncryptionKeyGenerator _encryptionKeyGenerator = NULL;
 static SFSmartStoreEncryptionSaltBlock _encryptionSaltBlock = NULL;
 static BOOL _storeUpgradeHasRun = NO;
@@ -154,17 +148,6 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
             return salt;
         };
     }
-
-    // Used for upgrade steps
-    #pragma clang diagnostic push
-    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    if (!_encryptionKeyBlock) {
-        _encryptionKeyBlock = ^SFEncryptionKey *{
-            SFEncryptionKey *key = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kSFSmartStoreEncryptionKeyLabel autoCreate:YES];
-            return key;
-        };
-    }
-    #pragma clang diagnostic pop
 }
 
 - (id)initWithName:(NSString *)name user:(SFUserAccount *)user {
@@ -2588,38 +2571,5 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
 
     return result;
 }
-
-#pragma mark - Legacy used for upgrade steps
-
-+ (SFSmartStoreEncryptionKeyBlock)encryptionKeyBlock {
-    return _encryptionKeyBlock;
-}
-
-+ (void)setEncryptionKeyBlock:(SFSmartStoreEncryptionKeyBlock)newEncryptionKeyBlock {
-    if (newEncryptionKeyBlock != _encryptionKeyBlock) {
-        _encryptionKeyBlock = newEncryptionKeyBlock;
-    }
-}
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-+ (NSString *)legacyEncKey {
-    if (_encryptionKeyBlock) {
-        SFEncryptionKey *key = _encryptionKeyBlock();
-        return key.keyAsString;
-    }
-    return nil;
-}
-
-+ (NSString *)legacySalt {
-    NSString *salt = nil;
-    if ([[SFKeyStoreManager sharedInstance] keyWithLabelExists:kSFSmartStoreEncryptionSaltLabel] || [[SFSDKDatasharingHelper sharedInstance] appGroupEnabled]) {
-        SFEncryptionKey *saltKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kSFSmartStoreEncryptionSaltLabel autoCreate:YES];
-        salt = [[saltKey key] digest];
-    }
-    return salt;
-}
-
-#pragma clang diagnostic pop
 
 @end
