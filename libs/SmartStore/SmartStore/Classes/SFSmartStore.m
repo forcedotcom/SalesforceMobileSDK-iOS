@@ -779,6 +779,23 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
     }
 }
 
++ (NSString*) stringFromInputStream:(NSInputStream*)inputStream {
+    //
+    // We get all the bytes and then convert them to a string
+    // If you convert each buffer's worth of bytes to a string
+    // you might end up corrupting the string (because a multi bytes character could have been split at the buffer boundary)
+    //
+    uint8_t buffer[kBufferSize];
+    NSInteger len;
+    NSMutableData* content = [NSMutableData new];
+    [inputStream open];
+    while ((len = [inputStream read:buffer maxLength:sizeof(buffer)]) > 0) {
+        [content appendBytes:buffer length:len];
+    }
+    [inputStream close];
+    return [[NSString alloc] initWithData:content encoding:NSUTF8StringEncoding];
+}
+
 #pragma mark - Data access utility methods
 
 - (void)insertIntoTable:(NSString*)tableName values:(NSDictionary*)map withDb:(FMDatabase *) db {
