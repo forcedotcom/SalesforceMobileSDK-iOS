@@ -185,15 +185,6 @@
     return  result;
 }
 
-- (BOOL)instr_registerSoupWithSpec:(SFSoupSpec*)soupSpec withIndexSpecs:(NSArray<SFSoupIndex*>*)indexSpecs error:(NSError**)error {
-    os_log_t logger = self.class.oslog;
-    os_signpost_id_t sid = sf_os_signpost_id_generate(logger);
-    sf_os_signpost_interval_begin(logger, sid, "registerSoupWithSpec:withIndexSpecs:error", "storeName:%{public}@  soupName:%{public}@", self.storeName, soupSpec.soupName);
-    BOOL result = [self instr_registerSoupWithSpec:soupSpec withIndexSpecs:indexSpecs error:error];
-    sf_os_signpost_interval_end(logger, sid, "registerSoupWithSpec:withIndexSpecs:error", "storeName:%{public}@ soupName:%{public}@", self.storeName, soupSpec.soupName);
-    return  result;
-}
-
 - (NSArray *)instr_queryWithQuerySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex error:(NSError **)error{
     os_log_t logger = self.class.oslog;
     os_signpost_id_t sid = sf_os_signpost_id_generate(logger);

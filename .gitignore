@@ -27,3 +27,4 @@ clangReport/
 test_output/
 .circleci/fastlane/README.md
 .circleci/fastlane/report.xml
+.build

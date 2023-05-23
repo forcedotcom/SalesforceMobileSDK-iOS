@@ -271,11 +271,8 @@
     
     // Getting soup table name and storage type
     __block NSString *soupTableName;
-    __block BOOL soupUsesExternalStorage;
     [store.storeQueue inDatabase:^(FMDatabase *db) {
         soupTableName = [store tableNameForSoup:soupName withDb:db];
-        SFSoupSpec *soupSpec = [store attributesForSoup:soupName withDb:db];
-        soupUsesExternalStorage = [soupSpec.features containsObject:kSoupFeatureExternalStorage];
     }];
     
     // Getting soup indexes
@@ -306,10 +303,8 @@
                     if (![soupIndex.indexType isEqualToString:kSoupIndexTypeJSON1]) {
                         XCTAssertEqualObjects(actualRow[soupIndex.columnName], expectedEntry[soupIndex.path], @"Mismatching values for path %@ for entry %@", soupIndex.path, soupEntryId);
                     }
-                    if (!soupUsesExternalStorage) {
-                        NSDictionary* actualEntry = [SFJsonUtils objectFromJSONString:actualRow[SOUP_COL]];
-                        [self assertSameJSONWithExpected:expectedEntry actual:actualEntry message:[NSString stringWithFormat:@"Mismatching json for entry %@", soupEntryId]];
-                    }
+                    NSDictionary* actualEntry = [SFJsonUtils objectFromJSONString:actualRow[SOUP_COL]];
+                    [self assertSameJSONWithExpected:expectedEntry actual:actualEntry message:[NSString stringWithFormat:@"Mismatching json for entry %@", soupEntryId]];
                 }
                 
             }
