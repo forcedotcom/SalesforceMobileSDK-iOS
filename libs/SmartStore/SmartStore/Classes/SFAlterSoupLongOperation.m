@@ -58,7 +58,6 @@
         _afterStep = SFAlterSoupStepStarting;
         [store.storeQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
             self->_soupTableName = [store tableNameForSoup:soupName withDb:db];
-            self->_oldSoupSpec = [store attributesForSoup:soupName withDb:db];
             self->_rowId = [self createLongOperationDbRowWithDb:db];
         }];
     }
@@ -194,14 +193,12 @@
 
 
 /**
- Step 3: register soup with new (optional) soup spec, and new indexes
+ Step 3: register soup with new indexes
  */
 - (void) registerSoupUsingTableName
 {
     [_queue inTransaction:^(FMDatabase *db, BOOL *rollback) {
-        // Use new specs if possible, otherwise just use old specs.
-        SFSoupSpec *specToRegister = self.soupSpec ?: self.oldSoupSpec;
-        [self.store registerSoupWithSpec:specToRegister withIndexSpecs:self.indexSpecs withSoupTableName:self.soupTableName withDb:db];
+        [self.store registerSoupWithName:self.soupName withIndexSpecs:self.indexSpecs withSoupTableName:self.soupTableName withDb:db];
         
         // Update row in alter status table -auto commit
         [self updateLongOperationDbRow:SFAlterSoupStepRegisterSoupUsingTableName withDb:db];

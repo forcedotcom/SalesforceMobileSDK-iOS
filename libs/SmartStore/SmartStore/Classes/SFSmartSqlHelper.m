@@ -114,7 +114,6 @@ static NSRegularExpression* soupPathRegexp;
 
         NSArray* parts = [match componentsSeparatedByString:@":"];
         NSString* soupName = parts[0];
-        SFSoupSpec *soupSpec = [store attributesForSoup:soupName withDb:db];
         NSString* soupTableName = [store tableNameForSoup:soupName withDb:db];
         if (nil == soupTableName) {
             @throw [NSException exceptionWithName:@"convertSmartSql failed" reason:[NSString stringWithFormat:@"Invalid soup name:%@", soupName] userInfo:nil];

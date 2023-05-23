@@ -316,29 +316,6 @@
     }];
 }
 
--(void) checkFileSystem:(NSArray*)expectedEntries shouldExist:(BOOL)shouldExist store:(SFSmartStore*)store soupName:(NSString*)soupName
-{
-    __block NSString *soupTableName;
-    [store.storeQueue inDatabase:^(FMDatabase *db) {
-        soupTableName = [store tableNameForSoup:soupName withDb:db];
-    }];
-    
-    for (NSDictionary* expectedEntry in expectedEntries) {
-        NSNumber* soupEntryId = expectedEntry[SOUP_ENTRY_ID];
-        NSString *externalEntryFilePath = [store
-                                           externalStorageSoupFilePath:soupEntryId                                                               soupTableName:soupTableName];
-        BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:externalEntryFilePath];
-        if (shouldExist) {
-            XCTAssertTrue(fileExists, @"External file for %@ should exist", soupEntryId);
-            NSDictionary* actualEntry = [store loadExternalSoupEntry:soupEntryId soupTableName:soupTableName];
-            [self assertSameJSONWithExpected:expectedEntry actual:actualEntry message:@"Wrong json"];
-        }
-        else {
-            XCTAssertFalse(fileExists, @"External file for %@ should not exist", soupEntryId);
-        }
-    }
-}
-
 - (SFUserAccount*)setUpSmartStoreUser
 {
     u_int32_t userIdentifier = arc4random();

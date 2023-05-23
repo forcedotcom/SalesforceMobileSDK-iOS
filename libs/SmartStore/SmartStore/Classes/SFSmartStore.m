@@ -205,9 +205,6 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
         _soupNameToTableName = [[NSCache alloc] init];
         _soupNameToTableName.countLimit = CACHES_COUNT_LIMIT;
         
-        _attrSpecBySoup = [[NSCache alloc] init];
-        _attrSpecBySoup.countLimit = CACHES_COUNT_LIMIT;
-        
         _indexSpecsBySoup = [[NSCache alloc] init];
         _indexSpecsBySoup.countLimit = CACHES_COUNT_LIMIT;
         
@@ -237,7 +234,6 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
     [SFSDKSmartStoreLogger d:[self class] format:@"dealloc store: '%@'", _storeName];
     [self.storeQueue close];
     SFRelease(_soupNameToTableName);
-    SFRelease(_attrSpecBySoup);
     SFRelease(_indexSpecsBySoup);
     SFRelease(_smartSqlToSql);
     
@@ -750,128 +746,6 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
     return _dataProtectionKnownAvailable;
 }
 
-#pragma mark - External Storage utility methods
-
-- (NSString *)externalStorageRootDirectory {
-    return [[self.storePath stringByDeletingPathExtension] stringByAppendingString:@"_external_soup_blobs"];
-}
-
-- (NSString *)externalStorageSoupDirectory:(NSString *)soupTableName {
-    NSString *rootDir = [self externalStorageRootDirectory];
-    return [rootDir stringByAppendingPathComponent:soupTableName];
-}
-
-- (NSString *)externalStorageSoupFilePath:(NSNumber *)soupEntryId
-                            soupTableName:(NSString *)soupTableName {
-    NSString *soupDir = [self externalStorageSoupDirectory:soupTableName];
-    return [soupDir stringByAppendingPathComponent:[NSString stringWithFormat:@"soupelt_%@", soupEntryId]];
-}
-
-- (BOOL)createExternalStorageDirectory:(NSString *)soupTableName {
-    NSError *error = nil;
-    NSString *dir = [self externalStorageSoupDirectory:soupTableName];
-    BOOL dirExists = [SFDirectoryManager ensureDirectoryExists:dir error:&error];
-    if (!dirExists) {
-        [SFSDKSmartStoreLogger e:[self class] format:@"Failed to create external storage directory at path '%@', error: %@", dir, error];
-    }
-    return dirExists;
-}
-
-- (BOOL)saveSoupEntryExternally:(NSDictionary *)soupEntry
-                    soupEntryId:(NSNumber *)soupEntryId
-                  soupTableName:(NSString *)soupTableName {
-    
-    // Helper to log messages
-    void (^log)(NSString* step) = ^(NSString* step) {
-        NSString *message = [NSString stringWithFormat:@"%@ (%@): soupEntryId: %@, soupTableName: %@",
-                             NSStringFromSelector(_cmd),
-                             step,
-                             soupEntryId,
-                             soupTableName];
-        [SFSDKSmartStoreLogger i:[self class] format:message];
-    };
-    
-    // Computing file path for soup entry
-    NSString *filePath = [self externalStorageSoupFilePath:soupEntryId
-                                             soupTableName:soupTableName];
-    if (filePath == nil) {
-        return NO;
-    }
-
-    // Computing tmp file path
-    // Entry is written to tmp file first, then tmp file is renamed to make write closer to an atomic operation
-    NSString *tmpFilePath = [NSString stringWithFormat:@"%@_tmp", filePath];
-    
-    // Setting up output stream
-    NSOutputStream *outputStream = nil;
-    SFSmartStoreEncryptionKeyGenerator keyBlock = [SFSmartStore encryptionKeyGenerator];
-    if (keyBlock) {
-        SFSDKEncryptStream *encryptStream = [[SFSDKEncryptStream alloc] initToFileAtPath:tmpFilePath append:NO];
-        NSData *encKey = keyBlock();
-        [encryptStream setupEncryptionKey:encKey];
-        outputStream = encryptStream;
-    } else {
-        outputStream = [[NSOutputStream alloc] initToFileAtPath:tmpFilePath append:NO];
-    }
-    
-    // Writing to tmp file
-    log(@"1/4 Starting to write to tmp file");
-    [outputStream open];
-    NSError *error = nil;
-    
-    // NSJSONSerialization:writeJSONObject returns the number of bytes written
-    // So NSJSONSerialization:writeJSONObject can return a value > 0 while there is an error
-    [NSJSONSerialization writeJSONObject:soupEntry
-                                toStream:outputStream
-                                 options:0
-                                   error:&error];
-    [outputStream close];
-    
-    if (error) {
-        [SFSmartStore buildEventOnJsonSerializationErrorForUser:self.user fromMethod:NSStringFromSelector(_cmd) error:error];
-    }
-
-    BOOL success = !error;
-    
-    // Renaming tmp file by using moveItemAtPath (but first check if destination exists and deletes it if it does)
-    if (success) {
-        log(@"2/4 Done writing to tmp file");
-        log(@"3/4 Renaming tmp file");
-        
-        if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
-            success = [[NSFileManager defaultManager] removeItemAtPath:filePath
-                                                                 error:&error];
-        }
-
-        if (success) {
-            success = [[NSFileManager defaultManager] moveItemAtPath:tmpFilePath toPath:filePath error:&error];
-            
-            if (success) {
-                log(@"4/4 Done renaming tmp file");
-            }
-        }
-    }
-    
-    if (!success) {
-        NSString *errorMessage = [NSString stringWithFormat:@"Saving external soup to file failed! encrypted: %@, soupEntryId: %@, soupTableName: %@, tmpFilePath: '%@', filePath: '%@', error: %@.",
-                                  keyBlock ? @"YES" : @"NO",
-                                  soupEntryId,
-                                  soupTableName,
-                                  tmpFilePath,
-                                  filePath,
-                                  error];
-        [SFSDKSmartStoreLogger e:[self class] format:errorMessage];
-    }
-    
-    return success;
-}
-
-
-- (id)loadExternalSoupEntry:(NSNumber *)soupEntryId
-              soupTableName:(NSString *)soupTableName
-{
-    return [SFJsonUtils objectFromJSONString:[self loadExternalSoupEntryAsString:soupEntryId soupTableName:soupTableName]];
-}
 
 + (void)buildEventOnJsonParseErrorForUser:(SFUserAccount *)user fromMethod:(NSString*)fromMethod rawJson:(NSString*)rawJson {
     NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
@@ -902,103 +776,6 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
         return NO;
     } else {
         return YES;
-    }
-}
-
-- (NSString*)loadExternalSoupEntryAsString:(NSNumber *)soupEntryId
-                             soupTableName:(NSString *)soupTableName {
-    NSString *filePath = [self externalStorageSoupFilePath:soupEntryId
-                                             soupTableName:soupTableName];
-    
-    SFSmartStoreEncryptionKeyGenerator keyGenerator = [SFSmartStore encryptionKeyGenerator];
-    NSData *encKey;
-    if (keyGenerator) {
-        encKey = keyGenerator();
-    }
-    
-    NSString *entryAsString = [self readFromEncryptedFile:filePath
-                                            encryptionKey:encKey];
-
-    // Check for valid JSON.
-    if (![self checkRawJson:entryAsString fromMethod:NSStringFromSelector(_cmd)]) {
-        return nil;
-    } else {
-        return entryAsString;
-    }
-}
-
-- (NSString *)readFromEncryptedFile:(NSString *)filePath
-                      encryptionKey:(NSData *)encKey {
-    NSInputStream *inputStream = nil;
-    if (encKey) {
-        SFSDKDecryptStream *decryptStream = [[SFSDKDecryptStream alloc] initWithFileAtPath:filePath];
-        [decryptStream setupEncryptionKey:encKey];
-        inputStream = decryptStream;
-    } else {
-        inputStream = [[NSInputStream alloc] initWithFileAtPath:filePath];
-    }
-    
-    return [SFSmartStore stringFromInputStream:inputStream];
-}
-
-+ (NSString*) stringFromInputStream:(NSInputStream*)inputStream {
-    //
-    // We get all the bytes and then convert them to a string
-    // If you convert each buffer's worth of bytes to a string
-    // you might end up corrupting the string (because a multi bytes character could have been split at the buffer boundary)
-    //
-    uint8_t buffer[kBufferSize];
-    NSInteger len;
-    NSMutableData* content = [NSMutableData new];
-    [inputStream open];
-    while ((len = [inputStream read:buffer maxLength:sizeof(buffer)]) > 0) {
-        [content appendBytes:buffer length:len];
-    }
-    [inputStream close];
-    return [[NSString alloc] initWithData:content encoding:NSUTF8StringEncoding];
-}
-
-- (void)writeToEncryptedFile:(NSString *)filePath
-                       content:(NSString *)content
-                       encryptionKey:(NSData *)encKey
-{
-    NSOutputStream *outputStream = nil;
-    if (encKey) {
-        SFSDKEncryptStream *encryptStream = [[SFSDKEncryptStream alloc] initToFileAtPath:filePath append:NO];
-        [encryptStream setupEncryptionKey:encKey];
-        outputStream = encryptStream;
-    } else {
-        outputStream = [[NSOutputStream alloc] initToFileAtPath:filePath append:NO];
-    }
-    [outputStream open];
-    NSData *data = [content dataUsingEncoding:NSUTF8StringEncoding];
-    [outputStream write:data.bytes maxLength:data.length];
-    [outputStream close];
-}
-
-- (void)deleteExternalSoupEntry:(NSNumber *)soupEntryId
-                  soupTableName:(NSString *)soupTableName {
-    NSString *filePath = [self externalStorageSoupFilePath:soupEntryId
-                                             soupTableName:soupTableName];
-    NSError *delError = nil;
-    if (![[NSFileManager defaultManager] removeItemAtPath:filePath
-                                                    error:&delError]) {
-        [SFSDKSmartStoreLogger e:[self class] format:@"Failed to delete external entry at path '%@', error: %@.", filePath, delError];
-    }
-}
-
-- (void)deleteAllExternalEntries:(NSString *)soupTableName
-                       deleteDir:(BOOL)deleteDir {
-    NSString *dirPath = [self externalStorageSoupDirectory:soupTableName];
-    
-    NSError *deleteDirError = nil;
-    if (![[NSFileManager defaultManager] removeItemAtPath:dirPath error:&deleteDirError]) {
-        [SFSDKSmartStoreLogger e:[self class] format:@"Failed to delete external soup dir path '%@', error: %@.", dirPath, deleteDirError];
-    }
-    
-    // Re-create dir if necessary
-    if (!deleteDir) {
-        [self createExternalStorageDirectory:soupTableName];
     }
 }
 
@@ -1254,6 +1031,7 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
 
 - (NSString *)registerNewSoupWithName:(NSString*)soupName withDb:(FMDatabase*) db {
     NSMutableDictionary *soupMapValues = [[NSMutableDictionary alloc] initWithObjectsAndKeys:soupName, SOUP_NAME_COL, nil];
+    [self insertIntoTable:SOUP_ATTRS_TABLE values:soupMapValues withDb:db];
     // Get a safe table name for the soupName
     NSString *soupTableName = [self tableNameBySoupId:[db lastInsertRowId]];
     if (nil == soupTableName) {
@@ -1424,7 +1202,6 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
 }
 
 - (void)removeFromCache:(NSString*) soupName {
-    [_attrSpecBySoup removeObjectForKey:soupName ];
     [_indexSpecsBySoup removeObjectForKey:soupName ];
     [_soupNameToTableName removeObjectForKey:soupName ];
     [_smartSqlToSql removeEntriesForSoup:soupName ];
@@ -1817,7 +1594,7 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
     return result;
 }
 
-- (NSDictionary *)insertOneEntry:(NSDictionary*)entry inSoupTable:(NSString*)soupTableName soupAttributes:(SFSoupSpec*)soupSpec indices:(NSArray*)indices withDb:(FMDatabase*) db
+- (NSDictionary *)insertOneEntry:(NSDictionary*)entry inSoupTable:(NSString*)soupTableName indices:(NSArray*)indices withDb:(FMDatabase*) db
 {
     NSNumber *nowVal = [self currentTimeInMilliseconds];
     NSNumber *newEntryId;
@@ -1866,7 +1643,6 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
 - (NSDictionary *)updateOneEntry:(NSDictionary *)entry
                      withEntryId:(NSNumber *)entryId
                      inSoupTable:(NSString *)soupTableName
-                  soupAttributes:(SFSoupSpec *)soupSpec
                          indices:(NSArray *)indices
                           withDb:(FMDatabase *) db
 {
@@ -1911,7 +1687,6 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
     // NB: We're assuming soupExists has already been validated on the soup name.  This happens
     // e.g. in upsertEntries:toSoup:withExternalIdPath: .
     NSString *soupTableName = [self tableNameForSoup:soupName withDb:db];
-    SFSoupSpec *soupSpec = [self attributesForSoup:soupName withDb:db];
     
     NSNumber *soupEntryId = nil;
     if (externalIdPath != nil) {
@@ -1950,14 +1725,12 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
         result = [self updateOneEntry:entry
                           withEntryId:soupEntryId
                           inSoupTable:soupTableName
-                       soupAttributes:soupSpec
                               indices:indices
                                withDb:db];
     } else {
         //no entry id: insert
         result = [self insertOneEntry:entry
                           inSoupTable:soupTableName
-                       soupAttributes:soupSpec
                               indices:indices
                                withDb:db];
     }
