@@ -24,7 +24,6 @@
 
 #import "SFSmartSqlHelper.h"
 #import "SFSmartStore+Internal.h"
-#import "SFSoupSpec.h"
 
 static SFSmartSqlHelper *sharedInstance = nil;
 
@@ -115,8 +114,6 @@ static NSRegularExpression* soupPathRegexp;
 
         NSArray* parts = [match componentsSeparatedByString:@":"];
         NSString* soupName = parts[0];
-        SFSoupSpec *soupSpec = [store attributesForSoup:soupName withDb:db];
-        BOOL soupUsesExternalStorage = [soupSpec.features containsObject:kSoupFeatureExternalStorage];
         NSString* soupTableName = [store tableNameForSoup:soupName withDb:db];
         if (nil == soupTableName) {
             @throw [NSException exceptionWithName:@"convertSmartSql failed" reason:[NSString stringWithFormat:@"Invalid soup name:%@", soupName] userInfo:nil];
@@ -136,13 +133,8 @@ static NSRegularExpression* soupPathRegexp;
             NSString* path = parts[1];
             // {soupName:_soup}
             if ([path isEqualToString:@"_soup"]) {
-                if (soupUsesExternalStorage) {
-                    [sql appendFormat:@"'%@' as '%@'", soupTableName, kSoupFeatureExternalStorage];
-                    [sql appendFormat:@", %@.%@ as '%@'", soupTableName, ID_COL, SOUP_ENTRY_ID];
-                } else {
-                    [sql appendString:tableQualifier];
-                    [sql appendString:@"soup"];
-                }
+                [sql appendString:tableQualifier];
+                [sql appendString:@"soup"];
             }
             // {soupName:_soupEntryId}
             else if ([path isEqualToString:@"_soupEntryId"]) {
@@ -163,8 +155,8 @@ static NSRegularExpression* soupPathRegexp;
             else {
                 NSString* columnName = nil;
                 BOOL indexed = [store hasIndexForPath:path inSoup:soupName withDb:db];
-                if (!indexed && !soupUsesExternalStorage) {
-                    // Thanks to the json1 extension we can query the data even if it is not indexed (as long as the data is stored in the database)
+                if (!indexed) {
+                    // Thanks to the json1 extension we can query the data even if it is not indexed
                     columnName = [NSString stringWithFormat:@"json_extract(soup, '$.%@')", path];
                 } else {
                     columnName = [store columnNameForPath:path inSoup:soupName withDb:db];

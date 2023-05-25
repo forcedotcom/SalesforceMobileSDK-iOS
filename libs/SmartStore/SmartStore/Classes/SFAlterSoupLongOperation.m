@@ -26,7 +26,6 @@
 #import "FMDatabase.h"
 #import "FMDatabaseQueue.h"
 #import "SFSmartStore+Internal.h"
-#import "SFSoupSpec.h"
 #import "SFSoupIndex.h"
 #import <SalesforceSDKCommon/SFJsonUtils.h>
 
@@ -35,8 +34,6 @@
 @property (nonatomic, readwrite, strong) NSString *soupName;
 @property (nonatomic, readwrite, strong) NSString *soupTableName;
 @property (nonatomic, readwrite, assign) SFAlterSoupStep afterStep;
-@property (nonatomic, readwrite, strong) SFSoupSpec *soupSpec;
-@property (nonatomic, readwrite, strong) SFSoupSpec *oldSoupSpec;
 @property (nonatomic, readwrite, strong) NSArray *indexSpecs;
 @property (nonatomic, readwrite, strong) NSArray *oldIndexSpecs;
 @property (nonatomic, readwrite, assign) BOOL  reIndexData;
@@ -50,24 +47,17 @@
 
 - (id) initWithStore:(SFSmartStore*)store soupName:(NSString*)soupName newIndexSpecs:(NSArray*)newIndexSpecs reIndexData:(BOOL)reIndexData
 {
-    return [self initWithStore:store soupName:soupName newSoupSpec:nil newIndexSpecs:newIndexSpecs reIndexData:reIndexData];
-}
-
-- (id) initWithStore:(SFSmartStore*)store soupName:(NSString*)soupName newSoupSpec:(SFSoupSpec*)newSoupSpec newIndexSpecs:(NSArray*)newIndexSpecs reIndexData:(BOOL)reIndexData
-{
     self = [super init];
     if (nil != self) {
         _store = store;
         _queue = store.storeQueue;
         _soupName = soupName;
-        _soupSpec = newSoupSpec;
         _indexSpecs = [SFSoupIndex asArraySoupIndexes:newIndexSpecs];
         _oldIndexSpecs = [store indicesForSoup:soupName];
         _reIndexData = reIndexData;
         _afterStep = SFAlterSoupStepStarting;
         [store.storeQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
             self->_soupTableName = [store tableNameForSoup:soupName withDb:db];
-            self->_oldSoupSpec = [store attributesForSoup:soupName withDb:db];
             self->_rowId = [self createLongOperationDbRowWithDb:db];
         }];
     }
@@ -83,41 +73,22 @@
         _rowId = rowId;
         _soupName = details[SOUP_NAME];
         _soupTableName = details[SOUP_TABLE_NAME];
-        _soupSpec = [SFSoupSpec newSoupSpecWithDictionary:details[NEW_SOUP_SPEC]];
-        _oldSoupSpec = [SFSoupSpec newSoupSpecWithDictionary:details[OLD_SOUP_SPEC]];
         _indexSpecs = [SFSoupIndex asArraySoupIndexes:details[NEW_INDEX_SPECS]];
         _oldIndexSpecs = [SFSoupIndex asArraySoupIndexes:details[OLD_INDEX_SPECS]];
         _reIndexData = [details[RE_INDEX_DATA] boolValue];
         _afterStep = status;
-        
-        // No old soup spec? Means SmartStore was updated,
-        // from a version that didn't support SFSoupSpec,
-        // and there was an incomplete long operation.
-        if (!_oldSoupSpec) {
-            // Use a default SFSoupSpec that represents a soup without any features.
-            _oldSoupSpec = [SFSoupSpec newSoupSpec:_soupName withFeatures:nil];
-        }
     }
     return self;
 }
 
 - (NSString*) description
 {
-    NSString *soupSpecDescription = @"";
-    if (self.soupSpec) {
-        soupSpecDescription = [NSString stringWithFormat:@"oldSoupSpec=%@ newSoupSpec=%@",
-                               [SFJsonUtils JSONRepresentation:[self.oldSoupSpec asDictionary]],
-                               [SFJsonUtils JSONRepresentation:[self.soupSpec asDictionary]]
-                               ];
-    }
-    
-    return [NSString stringWithFormat:@"AlterSoupOperation = {rowId=%lld soupName=%@ soupTableName=%@ afterStep=%lu reIndexData=%@ %@ oldIndexSpecs=%@ newIndexSpecs=%@}\n",
+    return [NSString stringWithFormat:@"AlterSoupOperation = {rowId=%lld soupName=%@ soupTableName=%@ afterStep=%lu reIndexData=%@ oldIndexSpecs=%@ newIndexSpecs=%@}\n",
             self.rowId,
             self.soupName,
             self.soupTableName,
             (unsigned long)self.afterStep,
             self.reIndexData ? @"YES" : @"NO",
-            soupSpecDescription,
             [SFJsonUtils JSONRepresentation:[SFSoupIndex asArrayOfDictionaries:self.oldIndexSpecs withColumnName:YES]],
             [SFJsonUtils JSONRepresentation:[SFSoupIndex asArrayOfDictionaries:self.indexSpecs  withColumnName:YES]]
             ];
@@ -222,14 +193,12 @@
 
 
 /**
- Step 3: register soup with new (optional) soup spec, and new indexes
+ Step 3: register soup with new indexes
  */
 - (void) registerSoupUsingTableName
 {
     [_queue inTransaction:^(FMDatabase *db, BOOL *rollback) {
-        // Use new specs if possible, otherwise just use old specs.
-        SFSoupSpec *specToRegister = self.soupSpec ?: self.oldSoupSpec;
-        [self.store registerSoupWithSpec:specToRegister withIndexSpecs:self.indexSpecs withSoupTableName:self.soupTableName withDb:db];
+        [self.store registerSoupWithName:self.soupName withIndexSpecs:self.indexSpecs withSoupTableName:self.soupTableName withDb:db];
         
         // Update row in alter status table -auto commit
         [self updateLongOperationDbRow:SFAlterSoupStepRegisterSoupUsingTableName withDb:db];
@@ -259,14 +228,8 @@
         NSMutableArray* oldColumns = [NSMutableArray arrayWithObjects:ID_COL, CREATED_COL, LAST_MODIFIED_COL, nil];
         NSMutableArray* newColumns = [NSMutableArray arrayWithObjects:ID_COL, CREATED_COL, LAST_MODIFIED_COL, nil];
         
-        BOOL oldSoupUsesExternalStorage = [self.oldSoupSpec.features containsObject:kSoupFeatureExternalStorage];
-        BOOL newSoupUsesExternalStorage = [self.soupSpec.features containsObject:kSoupFeatureExternalStorage];
-        // Old specs uses internal storage, and
-        // no new specs or new specs still uses internal storage
-        if (!oldSoupUsesExternalStorage && !newSoupUsesExternalStorage) {
-            [oldColumns addObject:SOUP_COL];
-            [newColumns addObject:SOUP_COL];
-        }
+        [oldColumns addObject:SOUP_COL];
+        [newColumns addObject:SOUP_COL];
         
         // Adding indexed path columns that we are keeping
         for (NSString* keptPath in keptPaths) {
@@ -318,58 +281,7 @@
                                     ];
             [self executeUpdate:db sql:copyFtsSql context:@"copyTable-fts"];
         }
- 
- 		// Exchange internal<->external storage
-        if (self.soupSpec) {
-            BOOL oldSoupUsesExternalStorage = [self.oldSoupSpec.features containsObject:kSoupFeatureExternalStorage];
-            BOOL newSoupUsesExternalStorage = [self.soupSpec.features containsObject:kSoupFeatureExternalStorage];
-            
-            // Internal -> External
-            if (!oldSoupUsesExternalStorage && newSoupUsesExternalStorage) {
-                NSString *selectIdSoupSql = [NSString stringWithFormat:@"SELECT %@, %@ FROM %@_old", ID_COL, SOUP_COL, self.soupTableName];
-                FMResultSet *resultSet = [db executeQuery:selectIdSoupSql];
-                while ([resultSet next]) {
-                    @autoreleasepool {
-                        NSNumber *soupEntryId = @([resultSet longForColumn:ID_COL]);
-                        NSString *rawJson = [resultSet stringForColumn:SOUP_COL];
-                        NSDictionary *entry = [SFJsonUtils objectFromJSONString:rawJson];
-                        BOOL didSave = [self.store saveSoupEntryExternally:entry
-                                                               soupEntryId:soupEntryId
-                                                             soupTableName:self.soupTableName];
-                        if (!didSave) {
-                            @throw [NSException exceptionWithName:@"Failed to save external soup file in alter soup."
-                                                           reason:nil
-                                                         userInfo:nil];
-                        }
-                    }
-                }
-                [resultSet close];
-            }
-            // External -> Internal
-            else if (oldSoupUsesExternalStorage && !newSoupUsesExternalStorage) {
-                NSString *selectIdSql = [NSString stringWithFormat:@"SELECT %@ FROM %@_old", ID_COL, self.soupTableName];
-                FMResultSet *resultSet = [db executeQuery:selectIdSql];
-                while ([resultSet next]) {
-                    @autoreleasepool {
-                        NSNumber *soupEntryId = @([resultSet longForColumn:ID_COL]);
-                        id entry = [self.store loadExternalSoupEntry:soupEntryId soupTableName:self.soupTableName];
-                        if (!entry) {
-                            @throw [NSException exceptionWithName:@"Failed to load external soup file in alter soup."
-                                                           reason:nil
-                                                         userInfo:nil];
-                        }
-                        NSString *rawJson = [SFJsonUtils JSONRepresentation:entry];
-                        [self.store updateTable:self.soupTableName
-                                         values:@{SOUP_COL: rawJson}
-                                        entryId:soupEntryId
-                                          idCol:ID_COL
-                                         withDb:db];
-                    }
-                }
-                [resultSet close];
-                // External files delete: they will only get deleted when the whole long operation completes with success.
-            }
-        }
+
         // Update row in alter status table
         [self updateLongOperationDbRow:SFAlterSoupStepCopyTable withDb:db];
     }];
@@ -433,15 +345,6 @@
  */
 - (void) cleanup
 {
-    
-    BOOL oldSoupUsesExternalStorage = [self.oldSoupSpec.features containsObject:kSoupFeatureExternalStorage];
-    BOOL newSoupUsesExternalStorage = [self.soupSpec.features containsObject:kSoupFeatureExternalStorage];
-    
-    // Cleanup external soup files, if a External -> Internal conversion happened
-    if (oldSoupUsesExternalStorage && !newSoupUsesExternalStorage) {
-        [self.store deleteAllExternalEntries:self.soupTableName deleteDir:YES];
-    }
-    
     // Update status row
     [_queue inTransaction:^(FMDatabase *db, BOOL *rollback) {
         [self updateLongOperationDbRow:SFAlterSoupStepCleanup withDb:db];
@@ -471,10 +374,6 @@
     NSMutableDictionary* details = [NSMutableDictionary dictionary];
     details[SOUP_NAME] = self.soupName;
     details[SOUP_TABLE_NAME] = self.soupTableName;
-    details[OLD_SOUP_SPEC] = [self.oldSoupSpec asDictionary];
-    if (self.soupSpec) {
-        details[NEW_SOUP_SPEC] = [self.soupSpec asDictionary];
-    }
     details[OLD_INDEX_SPECS] = [SFSoupIndex asArrayOfDictionaries:self.oldIndexSpecs withColumnName:YES];
     details[NEW_INDEX_SPECS] = [SFSoupIndex asArrayOfDictionaries:self.indexSpecs withColumnName:YES];
     details[RE_INDEX_DATA] = @(self.reIndexData);

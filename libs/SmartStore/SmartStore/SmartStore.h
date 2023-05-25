@@ -37,6 +37,5 @@
 #import <SmartStore/SFSmartStoreDatabaseManager.h>
 #import <SmartStore/SFAlterSoupLongOperation.h>
 #import <SmartStore/SFSmartSqlHelper.h>
-#import <SmartStore/SFSoupSpec.h>
 #import <SmartStore/SFSDKSmartStoreLogger.h>
 #import <SmartStore/SFSoupIndex.h>
