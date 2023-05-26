@@ -55,14 +55,26 @@ def signposts_post_install(installer)
   end
 end
 
-# Post Install: Keeping Mobile SDK deployement target at 14 (__apply_Xcode_12_5_M1_post_install_workaround changes it to 11)
+# Post Install: fix deployment targets
 def mobile_sdk_post_install(installer)
   installer.pods_project.targets.each do |target|
-    if ['SalesforceAnalytics', 'SalesforceSDKCommon', 'SalesforceSDKCore', 'SmartStore', 'MobileSync', 'SalesforceReact'].include?(target.name)
-      target.build_configurations.each do |config|
-        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '14.0'
-      end
+    # ARC code targeting iOS 8 does not build on Xcode 14.3. Force to at least iOS 9.
+    force_to_arc_supported_min = target.deployment_target[/\d+/].to_i < 9
+    if force_to_arc_supported_min
+      change_deployment_target(target, '9.0')
     end
+    
+    # Mobile SDK targets
+    is_mobile_sdk_target = ['SalesforceAnalytics', 'SalesforceSDKCommon', 'SalesforceSDKCore', 'SmartStore', 'MobileSync', 'SalesforceReact', 'FMDB'].include?(target.name)
+    if is_mobile_sdk_target
+      change_deployment_target(target, '14.0')
+    end
+  end
+end
+
+def change_deployment_target(target, deployment_target)
+  target.build_configurations.each do |config|
+    config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = deployment_target
   end
 end
 
