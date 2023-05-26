@@ -29,17 +29,23 @@ import Foundation
 import SwiftUI
 
 // Callback block used to launch the app when the screen is unlocked.
-internal typealias ScreenLockCallbackBlock = () -> Void
+public typealias ScreenLockCallbackBlock = () -> Void
+
+/*
+ * This class is internal to the Mobile SDK - don't instantiate in your application code
+ * It's only public to be visible from the obj-c code when the library is compiled as a framework
+ * See https://developer.apple.com/documentation/swift/importing-swift-into-objective-c#Import-Code-Within-a-Framework-Target
+ */
 
 @objc(SFScreenLockManagerInternal)
-internal class ScreenLockManagerInternal: NSObject, ScreenLockManager {
-    var enabled: Bool {
+public class ScreenLockManagerInternal: NSObject, ScreenLockManager {
+    public var enabled: Bool {
         get {
             return (getTimeout() != nil)
         }
     }
     
-    @objc internal static let shared = ScreenLockManagerInternal()
+    @objc public static let shared = ScreenLockManagerInternal()
     
     private let kScreenLockIdentifier = "com.salesforce.security.screenlock"
     private var callbackBlock: ScreenLockCallbackBlock? = nil
@@ -57,7 +63,7 @@ internal class ScreenLockManagerInternal: NSObject, ScreenLockManager {
     // MARK: Screen Lock Manager
     
     /// Locks the screen if necessary
-    @objc func handleAppForeground() {
+    @objc public func handleAppForeground() {
         if let policyTimeout = getTimeout(), lockTimeoutExpired(lockTimeout: policyTimeout) {
             lock()
         } else {
@@ -75,7 +81,7 @@ internal class ScreenLockManagerInternal: NSObject, ScreenLockManager {
     ///   - userAccount: The user account
     ///   - hasMobilePolicy: Whether the user has a mobile policy
     @available(*, deprecated, renamed: "storeMobilePolicy(userAccount:hasMobilePolicy:lockTimeout:)")
-    @objc func storeMobilePolicy(userAccount: UserAccount, hasMobilePolicy: Bool) {
+    @objc public func storeMobilePolicy(userAccount: UserAccount, hasMobilePolicy: Bool) {
         storeMobilePolicy(userAccount: userAccount, hasMobilePolicy: hasMobilePolicy, lockTimeout: 1)
     }
     
@@ -85,7 +91,7 @@ internal class ScreenLockManagerInternal: NSObject, ScreenLockManager {
     ///   - userAccount: The user account
     ///   - hasMobilePolicy: Whether the user has a mobile policy
     ///   - lockTimeout: The length of time in minutes before the app will be locked after backgrounding
-    @objc func storeMobilePolicy(userAccount: UserAccount, hasMobilePolicy: Bool, lockTimeout: Int32) {
+    @objc public func storeMobilePolicy(userAccount: UserAccount, hasMobilePolicy: Bool, lockTimeout: Int32) {
         let hasPolicyData = try! JSONEncoder().encode(MobilePolicy(hasPolicy: hasMobilePolicy, timeout: lockTimeout))
         let result = KeychainHelper.write(service: kScreenLockIdentifier, data: hasPolicyData, account: userAccount.idData.userId)
         if result.success {
@@ -109,12 +115,12 @@ internal class ScreenLockManagerInternal: NSObject, ScreenLockManager {
     ///
     /// - Parameters:
     ///   -  screenLockCallbackBlock: The block to be run upon unlock
-    @objc func setCallbackBlock(screenLockCallbackBlock: @escaping ScreenLockCallbackBlock) {
+    @objc public func setCallbackBlock(screenLockCallbackBlock: @escaping ScreenLockCallbackBlock) {
         callbackBlock = screenLockCallbackBlock
     }
     
     /// Checks all users for Screen Lock policy and removes global policy if none are found.
-    @objc func checkForScreenLockUsers() {
+    @objc public func checkForScreenLockUsers() {
         guard getTimeout() != nil else {
             return
         }
@@ -142,7 +148,7 @@ internal class ScreenLockManagerInternal: NSObject, ScreenLockManager {
     
     // TODO: Remove in Mobile SDK 12.0
     /// Upgrades from SFSecurityLockout to ScreenLockManager
-    @objc func upgradePasscode() {
+    @objc public func upgradePasscode() {
         let userAccounts = UserAccountManager.shared.userAccounts()
         
         userAccounts?.forEach({ account in
@@ -215,7 +221,7 @@ internal class ScreenLockManagerInternal: NSObject, ScreenLockManager {
         unlockPostProcessing()
     }
     
-    func lock() {
+    public func lock() {
         if !Thread.isMainThread {
             DispatchQueue.main.async {
                 self.lock()
@@ -238,7 +244,7 @@ internal class ScreenLockManagerInternal: NSObject, ScreenLockManager {
         }
     }
 
-    @objc func checkForPolicy(userId: String) -> Bool {
+    @objc public func checkForPolicy(userId: String) -> Bool {
         return readMobilePolicy(id: userId)?.hasPolicy ?? false
     }
     
