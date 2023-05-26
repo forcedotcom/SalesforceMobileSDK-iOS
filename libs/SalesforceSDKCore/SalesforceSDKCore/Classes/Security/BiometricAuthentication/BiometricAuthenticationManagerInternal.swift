@@ -28,17 +28,23 @@
 import Foundation
 import LocalAuthentication
 
+/*
+ * This class is internal to the Mobile SDK - don't instantiate in your application code
+ * It's only public to be visible from the obj-c code when the library is compiled as a framework
+ * See https://developer.apple.com/documentation/swift/importing-swift-into-objective-c#Import-Code-Within-a-Framework-Target
+ */
+
 @objc(SFBiometricAuthenticationManagerInternal)
-internal class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthenticationManager {
-    @objc internal static let shared = BiometricAuthenticationManagerInternal()
+public class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthenticationManager {
+    @objc public static let shared = BiometricAuthenticationManagerInternal()
     
-    var enabled: Bool {
+    public var enabled: Bool {
         get {
             return readBioAuhPolicy()?.hasPolicy ?? false
         }
     }
     
-    var locked = false
+    public var locked = false
     
     internal var backgroundTimestamp: Double = 0
     // This is a local var so it can be stubbed for tests
@@ -57,7 +63,7 @@ internal class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthen
     }
     
     /// Locks the screen if necessary
-    @objc internal func handleAppForeground() {
+    @objc public func handleAppForeground() {
         if shouldLock() {
             lock()
         }
@@ -74,7 +80,7 @@ internal class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthen
         return false
     }
     
-    @objc func storePolicy(userAccount: UserAccount, hasMobilePolicy: Bool, sessionTimeout: Int32) {
+    @objc public func storePolicy(userAccount: UserAccount, hasMobilePolicy: Bool, sessionTimeout: Int32) {
         let policyData = try! JSONEncoder().encode(
             BioAuthPolicy(hasPolicy: hasMobilePolicy, timeout: sessionTimeout)
         )
@@ -121,7 +127,7 @@ internal class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthen
         return nil
     }
     
-    func lock() {
+    public func lock() {
         locked = true
         NotificationCenter.default.post(name: Notification.Name(rawValue: kSFBiometricAuthenticationFlowWillBegin), object: nil)
         
@@ -138,18 +144,18 @@ internal class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthen
         }
     }
     
-    func biometricOptIn(optIn: Bool) {
+    public func biometricOptIn(optIn: Bool) {
         if var policy = readBioAuhPolicy() {
             policy.optIn = optIn
             storePolicy(policy: policy)
         }
     }
     
-    func hasBiometricOptedIn() -> Bool {
+    public func hasBiometricOptedIn() -> Bool {
         return readBioAuhPolicy()?.optIn ?? false
     }
     
-    func presentOptInDialog(viewController: UIViewController) {
+    public func presentOptInDialog(viewController: UIViewController) {
         let dialog = UIAlertController(title: SFSDKResourceUtils.localizedString("bioOptInPromptTitle"), message: SFSDKResourceUtils.localizedString("bioOptInPromptMessage"), preferredStyle: .alert)
         let enableAction = UIAlertAction(title: SFSDKResourceUtils.localizedString("bioPromptEnable"), style: .default) { _ in
             self.biometricOptIn(optIn: true)
@@ -162,14 +168,14 @@ internal class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthen
         viewController.present(dialog, animated: true)
     }
     
-    func enableNativeBiometricLoginButton(enabled: Bool) {
+    public func enableNativeBiometricLoginButton(enabled: Bool) {
         if var policy = readBioAuhPolicy() {
             policy.nativeLoginButton = enabled
             storePolicy(policy: policy)
         }
     }
     
-    @objc func showNativeLoginButton() -> Bool {
+    @objc public func showNativeLoginButton() -> Bool {
         var error: NSError?
         if (!laContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)) {
             return false
@@ -185,12 +191,12 @@ internal class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthen
         return false
     }
     
-    @objc func cleanup(user: UserAccount) {
+    @objc public func cleanup(user: UserAccount) {
         _ = KeychainHelper.remove(service: kBioAuthPolicyIdentifier, account: user.idData.userId)
         locked = false
     }
     
-    @objc func checkForPolicy(userId: String) -> Bool {
+    @objc public func checkForPolicy(userId: String) -> Bool {
         let result = KeychainHelper.read(service: kBioAuthPolicyIdentifier, account: userId)
         if let data = result.data, result.success {
             do {
@@ -203,7 +209,7 @@ internal class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthen
         return false
     }
     
-    @objc func presentBiometric(scene: UIScene) {
+    @objc public func presentBiometric(scene: UIScene) {
         laContext.localizedCancelTitle = SFSDKResourceUtils.localizedString("usePassword")
         var error: NSError?
         if (laContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)) {
@@ -236,7 +242,7 @@ internal class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthen
         }
     }
     
-    @objc func unlockPostProcessing() {
+    @objc public func unlockPostProcessing() {
         self.locked = false
         NotificationCenter.default.post(name: Notification.Name(rawValue: kSFBiometricAuthenticationFlowCompleted), object: nil)
     }
