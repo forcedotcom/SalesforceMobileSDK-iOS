@@ -132,7 +132,7 @@ static NSString * const kSFAppFeatureBioAuth       = @"BA";
 NSString * const kSFSDKUserAccountManagerErrorDomain = @"com.salesforce.mobilesdk.SFUserAccountManager";
 NSString * const kSFIDPSceneIdKey = @"sceneIdentifier";
 NSString * const kBiometricAuthenticationPolicyKey = @"ENABLE_BIOMETRIC_AUTHENTICATION";
-NSString * const kBiometricAuthenticationTimeoutKey = @"REQUIRE_BIOMETRICS_AFTER";
+NSString * const kBiometricAuthenticationTimeoutKey = @"BIOMETRIC_AUTHENTICATION_TIMEOUT";
 
 static NSString * const kSFInvalidCredentialsAuthErrorHandler = @"InvalidCredentialsErrorHandler";
 static NSString * const kSFConnectedAppVersionAuthErrorHandler = @"ConnectedAppVersionErrorHandler";
