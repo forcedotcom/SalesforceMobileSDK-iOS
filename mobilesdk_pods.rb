@@ -59,7 +59,7 @@ end
 def mobile_sdk_post_install(installer)
   installer.pods_project.targets.each do |target|
     # ARC code targeting iOS 8 does not build on Xcode 14.3. Force to at least iOS 9.
-    force_to_arc_supported_min = target.deployment_target[/\d+/].to_i < 9
+    force_to_arc_supported_min = target.deployment_target.to_i < 9
     if force_to_arc_supported_min
       change_deployment_target(target, '9.0')
     end
