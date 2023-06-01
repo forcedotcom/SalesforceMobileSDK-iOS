@@ -768,6 +768,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     NSString *keychainReference = coordinator.authSession.oauthRequest.keychainReference;
     if (keychainReference) { // IDP request to SP
         SFSDKIDPAuthCodeLoginRequestCommand *command = [[SFSDKIDPAuthCodeLoginRequestCommand alloc] init];
+        command.userHint = [self encodeUserIdentity:[self currentUserIdentity]];
         command.keychainReference = keychainReference;
         command.authCode = coordinator.authSession.spAppCredentials.authCode;
         authCommand = command;
