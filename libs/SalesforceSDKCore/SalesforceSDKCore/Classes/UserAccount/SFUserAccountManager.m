@@ -68,7 +68,6 @@
 #import "SFSDKIDPAuthHelper.h"
 #import "SFSDKIDPLoginRequestCommand.h"
 #import "SFSDKIDPAuthCodeLoginRequestCommand.h"
-#import "SFSDKSPUserTracking.h"
 
 // Notifications
 NSNotificationName SFUserAccountManagerDidChangeUserNotification       = @"SFUserAccountManagerDidChangeUserNotification";
@@ -363,53 +362,32 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     }
     NSString *keychainGroup = [config keychainGroup];
 
-    // Check if SP app is already logged in with the current user
-    NSString *spUserKeyName = [NSString stringWithFormat:kUserLoggedInKeyFormat, scheme];
-    SFSDKKeychainResult *userResult = [SFSDKKeychainHelper readWithService:spUserKeyName account:accountIdentifier accessGroup:keychainGroup cacheMode:CacheModeDisabled];
-
-    // User is already logged into SP app, open SP app with user hint
-    if (userResult.success) {
-        SFSDKIDPLoginRequestCommand *responseCommand = [[SFSDKIDPLoginRequestCommand alloc] init];
-        responseCommand.scheme = scheme;
-        responseCommand.userHint = accountIdentifier;
-        NSURL *url = [responseCommand requestURL];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            statusBlock(SFSPLoginStatusLaunchingSPWithUserHint);
-            BOOL launched = [SFApplicationHelper openURL:url];
-            if (!launched) {
-                failureBlock(SFSPLoginErrorSPLaunchFailed);
-                return;
-            }
-        });
-    } else { // User isn't logged into SP app, trigger authentication flow
-        NSString *keyIdentifier = [NSString stringWithFormat:@"com.salesforce.idp.codeverifier-%@", scheme];
-        NSData *codeVerifier = [SFSDKCryptoUtils randomByteDataWithLength:kSFVerifierByteLength];
-        SFSDKKeychainResult *result = [SFSDKKeychainHelper writeWithService:keyIdentifier data:codeVerifier account:nil accessGroup:keychainGroup cacheMode:CacheModeDisabled];
-        if (result.success) {
-            statusBlock(SFSPLoginStatusCodeVerifierStoredInKeychain);
-        } else {
-            failureBlock(SFSPLoginErrorKeychainWriteFailed);
-            return;
-        }
-
-        NSString *challengeString = [[[[codeVerifier msdkBase64UrlString] dataUsingEncoding:NSUTF8StringEncoding] msdkSha256Data] msdkBase64UrlString];
-        NSDictionary *appContext = @{
-            kSFOAuthClientIdParam: [config oauthClientId],
-            kSFOAuthRedirectUrlParam: [config oauthCallbackURL],
-            kSFChallengeParamName: challengeString,
-            kSFLoginHostParam: self.currentUser.credentials.domain,
-            kSFScopesParam: [SFSDKIDPAuthHelper encodeScopes:[config oauthScopes]],
-        };
-
-        SFSDKAuthRequest *request = [self defaultAuthRequest];
-        request.keychainReference = keyIdentifier;
-        [self idpRefreshTokenAndAuthenticate:[self currentUser] spAppContext:appContext authRequest:request success:^{
-            statusBlock(SFSPLoginStatusGettingAuthCodeFromServer);
-        } failure:^(NSError *error) {
-            failureBlock(SFSPLoginErrorCredentialRefreshFailed);
-        }];
+    NSString *keyIdentifier = [NSString stringWithFormat:@"com.salesforce.idp.codeverifier-%@", scheme];
+    NSData *codeVerifier = [SFSDKCryptoUtils randomByteDataWithLength:kSFVerifierByteLength];
+    SFSDKKeychainResult *result = [SFSDKKeychainHelper writeWithService:keyIdentifier data:codeVerifier account:nil accessGroup:keychainGroup cacheMode:CacheModeDisabled];
+    if (result.success) {
+        statusBlock(SFSPLoginStatusCodeVerifierStoredInKeychain);
+    } else {
+        failureBlock(SFSPLoginErrorKeychainWriteFailed);
+        return;
     }
+
+    NSString *challengeString = [[[[codeVerifier msdkBase64UrlString] dataUsingEncoding:NSUTF8StringEncoding] msdkSha256Data] msdkBase64UrlString];
+    NSDictionary *appContext = @{
+        kSFOAuthClientIdParam: [config oauthClientId],
+        kSFOAuthRedirectUrlParam: [config oauthCallbackURL],
+        kSFChallengeParamName: challengeString,
+        kSFLoginHostParam: self.currentUser.credentials.domain,
+        kSFScopesParam: [SFSDKIDPAuthHelper encodeScopes:[config oauthScopes]],
+    };
+
+    SFSDKAuthRequest *request = [self defaultAuthRequest];
+    request.keychainReference = keyIdentifier;
+    [self idpRefreshTokenAndAuthenticate:[self currentUser] spAppContext:appContext authRequest:request success:^{
+        statusBlock(SFSPLoginStatusGettingAuthCodeFromServer);
+    } failure:^(NSError *error) {
+        failureBlock(SFSPLoginErrorCredentialRefreshFailed);
+    }];
 }
 
 - (BOOL)loginWithCompletion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
@@ -631,8 +609,6 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     }
 
     [SFSDKWebViewStateManager removeSession];
-    
-    [SFSDKSPUserTracking userLoggedOut:user];
     
     //restore these id's inorder to enable post logout cleanup of components
     // TODO: Revisit the userInfo data structure of kSFNotificationUserDidLogout in 7.0.
@@ -1795,10 +1771,6 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     //notify for all login flows except during an SP apps login request.
     if (shouldNotify) {
         [self notifyLoginCompletion:userAccount authInfo:authInfo];
-    }
-    
-    if (authInfo.authType != SFOAuthTypeRefresh) {
-        [SFSDKSPUserTracking userLoggedIn:userAccount];
     }
     
     if (!authSession.oauthRequest.authenticateRequestFromSPApp) {
