@@ -2,9 +2,8 @@
 #  Each post contains a full image manifest, including iOS runtimes, devices, CocoaPods version, etc.
 #  NOTE: When updaing Xcode check the manifest for compatible chruby versions.
 anchors:
-  - &latest-xcode    "14.3.1"
+  - &latest-xcode    "13.4.1"
   - &latest-ios      "15.5"
-  - &macos-res-class "macos.x86.medium.gen2"
   - &min-ios         "14.5"
   - &requres-string  "test << matrix.lib >> iOS 14.5"  # Keep this version up to date
   - &chruby          "3.1.2"
@@ -40,7 +39,6 @@ jobs:
         default: *device
     macos:
       xcode: << parameters.xcode >>
-      resource_class: *macos-res-class
     working_directory: ~/SalesforceMobileSDK-iOS
     shell: /bin/bash --login -eo pipefail
     environment:
