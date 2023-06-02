@@ -176,7 +176,7 @@
             if (userAccount.credentials.accessToken != nil) {
                 [SFSDKCoreLogger d:[self class] format:@"handleIdpRequest userAccount found for userHint"];
             }
-            [self selectedUser:userAccount spAppContext:response.allParams];
+            [self switchToUser:userAccount];
         }
         // We don't have that user - let's create a auth session to login using the code
         else {
