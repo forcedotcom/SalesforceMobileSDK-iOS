@@ -36,6 +36,14 @@
     return @"idpauthcodeinit";
 }
 
+- (NSString *)userHint {
+    return [self paramForKey:kSFUserHintParam];
+}
+
+- (void)setUserHint:(NSString *)userHint {
+    return [self setParamForKey:userHint key:kSFUserHintParam];
+}
+
 - (NSString *)keychainReference {
     return [self paramForKey:kSFKeychainReferenceParam];
 }

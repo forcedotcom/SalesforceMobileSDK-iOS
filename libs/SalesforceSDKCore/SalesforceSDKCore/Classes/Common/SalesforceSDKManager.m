@@ -42,7 +42,6 @@
 #import "SFSDKMacDetectUtil.h"
 #import "SFSDKSalesforceSDKUpgradeManager.h"
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
-#import "SFSDKSPUserTracking.h"
 
 static NSString * const kSFAppFeatureSwiftApp    = @"SW";
 static NSString * const kSFAppFeatureMultiUser   = @"MU";
@@ -384,7 +383,6 @@ NSString * const kSFBiometricAuthenticationFlowCompleted = @"SFBiometricAuthenti
 
 - (void)setIdpKeychainGroup:(NSString *)idpKeychainGroup {
     _idpKeychainGroup = idpKeychainGroup;
-    [SFSDKSPUserTracking reset:idpKeychainGroup];
 }
 
 - (NSString *)brandLoginPath
