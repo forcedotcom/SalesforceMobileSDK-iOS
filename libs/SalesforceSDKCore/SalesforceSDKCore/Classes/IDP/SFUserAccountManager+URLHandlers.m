@@ -167,29 +167,29 @@
            [self.authSessions[sceneId].oauthCoordinator handleIDPAuthenticationResponse:[response requestURL]];
     } else if (response.keychainReference) {
         // IDP - SP: Need to create auth session
-        
-        // We already have that user - let's select it and discard the code
         NSString *userHint = response.userHint;
         if (userHint) {
             SFUserAccountIdentity *identity = [self decodeUserIdentity:userHint];
             SFUserAccount *userAccount = [self userAccountForUserIdentity:identity];
             if (userAccount.credentials.accessToken != nil) {
+                // We already have that user - let's select it and discard the code
                 [SFSDKCoreLogger d:[self class] format:@"handleIdpRequest userAccount found for userHint"];
+                [self switchToUser:userAccount];
+                SFOAuthInfo *authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeIDP];
+                completionBlock(authInfo, userAccount);
+                return YES;
             }
-            [self switchToUser:userAccount];
         }
         // We don't have that user - let's create a auth session to login using the code
-        else {
-            SFSDKAuthRequest *request = [self defaultAuthRequest];
-            request.idpInitiatedAuth = YES;
-            SFSDKAuthSession *authSession = [[SFSDKAuthSession alloc] initWith:request credentials:nil];
-            authSession.authFailureCallback = failureBlock;
-            authSession.authSuccessCallback = completionBlock;
-            self.authSessions[sceneId] = authSession;
-            [self.authSessions[sceneId].oauthCoordinator handleIDPAuthenticationResponse:[response requestURL]];
-            authSession.isAuthenticating = YES;
-            authSession.oauthCoordinator.delegate = self;
-        }
+        SFSDKAuthRequest *request = [self defaultAuthRequest];
+        request.idpInitiatedAuth = YES;
+        SFSDKAuthSession *authSession = [[SFSDKAuthSession alloc] initWith:request credentials:nil];
+        authSession.authFailureCallback = failureBlock;
+        authSession.authSuccessCallback = completionBlock;
+        self.authSessions[sceneId] = authSession;
+        [self.authSessions[sceneId].oauthCoordinator handleIDPAuthenticationResponse:[response requestURL]];
+        authSession.isAuthenticating = YES;
+        authSession.oauthCoordinator.delegate = self;
     }
     return YES;
 }
