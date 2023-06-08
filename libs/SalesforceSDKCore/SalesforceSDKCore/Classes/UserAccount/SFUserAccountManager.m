@@ -372,7 +372,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         return;
     }
 
-    NSString *challengeString = [[[[codeVerifier msdkBase64UrlString] dataUsingEncoding:NSUTF8StringEncoding] msdkSha256Data] msdkBase64UrlString];
+    NSString *challengeString = [[[codeVerifier msdkBase64UrlString] sha256] msdkBase64UrlString];
     NSDictionary *appContext = @{
         kSFOAuthClientIdParam: [config oauthClientId],
         kSFOAuthRedirectUrlParam: [config oauthCallbackURL],
