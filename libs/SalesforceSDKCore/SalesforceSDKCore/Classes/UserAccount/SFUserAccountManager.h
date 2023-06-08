@@ -175,7 +175,6 @@ typedef NS_ENUM(NSUInteger, SFSPLoginStatus) {
 typedef NS_ENUM(NSUInteger, SFSPLoginError) {
     SFSPLoginErrorNoScheme,
     SFSPLoginErrorNoUserIdentity,
-    SFSPLoginErrorSPLaunchFailed,
     SFSPLoginErrorKeychainWriteFailed,
     SFSPLoginErrorCredentialRefreshFailed,
 } NS_SWIFT_NAME(SPLoginError);

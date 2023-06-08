@@ -378,7 +378,8 @@
                                              credentials:self.credentials
                                            webServerFlow:YES
                                                 protocol:nil
-                                                  domain:nil];
+                                                  domain:nil
+                                           codeChallenge:nil];
     approvalUrl = [NSString stringWithFormat:@"%@&state=%@", approvalUrl, self.credentials.identifier];
     
     if (!shareBrowserSession) {
@@ -494,7 +495,8 @@
                                                        credentials:self.spAppCredentials
                                                      webServerFlow:YES
                                                           protocol:@"https"
-                                                            domain:self.credentials.domain];
+                                                            domain:self.credentials.domain
+                                                     codeChallenge:self.spAppCredentials.challengeString];
         NSString *escapedApprovalUrlString = [approvalUrlString stringByURLEncoding];
         NSString *frontDoorUrlString = [NSString stringWithFormat:@"%@/secur/frontdoor.jsp?sid=%@&retURL=%@", baseUrlString, self.credentials.accessToken, escapedApprovalUrlString];
         [self loadWebViewWithUrlString:frontDoorUrlString cookie:YES];
@@ -664,14 +666,16 @@
                             credentials:self.credentials
                           webServerFlow:[[SalesforceSDKManager sharedManager] useWebServerAuthentication]
                                protocol:nil
-                                 domain:nil];
+                                 domain:nil
+                          codeChallenge:nil];
 }
 
 - (NSString *)approvalURLForEndpoint:(NSString *)authorizeEndpoint
                          credentials:(SFOAuthCredentials *)credentials
                        webServerFlow:(BOOL)webServerFlow
                             protocol:(nullable NSString *)protocol
-                              domain:(nullable NSString *)domain {
+                              domain:(nullable NSString *)domain
+                       codeChallenge:(nullable NSString *)codeChallenge {
     if (!protocol) {
         protocol = credentials.protocol;
     }
@@ -696,13 +700,15 @@
                                           kSFOAuthDeviceId, [[[UIDevice currentDevice] identifierForVendor] UUIDString]];
     if (webServerFlow) {
         [approvalUrlString appendFormat:@"&%@=%@", kSFOAuthResponseType, kSFOAuthResponseTypeCode];
-        
-        // Code verifier challenge:
-        //   - self.codeVerifier is a base64url-encoded random data string
-        //   - The code challenge sent here is an SHA-256 hash of self.codeVerifier, also base64url-encoded
-        //   - Later, self.codeVerifier will be sent to the service, to be used to compare against the initial code challenge sent here.
-        self.codeVerifier = [[SFSDKCryptoUtils randomByteDataWithLength:kSFOAuthCodeVerifierByteLength] msdkBase64UrlString];
-        NSString *codeChallenge = [[[self.codeVerifier dataUsingEncoding:NSUTF8StringEncoding] msdkSha256Data] msdkBase64UrlString];
+
+        if (!codeChallenge) {
+            // Code verifier challenge:
+            //   - self.codeVerifier is a base64url-encoded random data string
+            //   - The code challenge sent here is an SHA-256 hash of self.codeVerifier, also base64url-encoded
+            //   - Later, self.codeVerifier will be sent to the service, to be used to compare against the initial code challenge sent here.
+            self.codeVerifier = [[SFSDKCryptoUtils randomByteDataWithLength:kSFOAuthCodeVerifierByteLength] msdkBase64UrlString];
+            codeChallenge = [[[self.codeVerifier dataUsingEncoding:NSUTF8StringEncoding] msdkSha256Data] msdkBase64UrlString];
+        }
         [approvalUrlString appendFormat:@"&%@=%@", kSFOAuthCodeChallengeParamName, codeChallenge];
     } else { // User-Agent
         [approvalUrlString appendFormat:@"&%@=%@", kSFOAuthResponseType, kSFOAuthResponseTypeHybridToken];
