@@ -68,6 +68,7 @@
 #import "SFSDKIDPAuthHelper.h"
 #import "SFSDKIDPLoginRequestCommand.h"
 #import "SFSDKIDPAuthCodeLoginRequestCommand.h"
+#import <SalesforceSDKCommon/SFJsonUtils.h>
 
 // Notifications
 NSNotificationName SFUserAccountManagerDidChangeUserNotification       = @"SFUserAccountManagerDidChangeUserNotification";
@@ -1621,11 +1622,21 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 
 - (void)loggedIn:(BOOL)fromOffline coordinator:(SFOAuthCoordinator *)coordinator notifyDelegatesOfFailure:(BOOL)shouldNotify {
     if (!fromOffline) {
-        SFIdentityCoordinator *identityCoordinator = [[SFIdentityCoordinator alloc] initWithAuthSession:coordinator.authSession];
-        self.authSessions[coordinator.authSession.sceneId].identityCoordinator = identityCoordinator;
         self.authSessions[coordinator.authSession.sceneId].notifiesDelegatesOfFailure = shouldNotify;
-        identityCoordinator.delegate = self;
-        [identityCoordinator initiateIdentityDataRetrieval];
+        [self shouldBlockUser:coordinator.credentials completion:^(BOOL blockUser) {
+            if (blockUser) {
+                [SFSDKCoreLogger e:[self class] message:@"Salesforce integration users are prohibited from successfully authenticating"];
+                NSError *error = [NSError errorWithDomain:kSFOAuthErrorDomain code:kSFOAuthErrorAccessDenied userInfo:nil];
+                [self handleFailure:error session:coordinator.authSession];
+            } else {
+                SFIdentityCoordinator *identityCoordinator = [[SFIdentityCoordinator alloc] initWithAuthSession:coordinator.authSession];
+                self.authSessions[coordinator.authSession.sceneId].identityCoordinator = identityCoordinator;
+                identityCoordinator.delegate = self;
+                [identityCoordinator initiateIdentityDataRetrieval];
+            }
+        } errorBlock:^(NSError *error) {
+            [self handleFailure:error session:coordinator.authSession];
+        }];
     } else {
         [self retrievedIdentityData:coordinator.authSession];
     }
@@ -1720,6 +1731,13 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 }
 
 - (void)resetAuthentication:(SFSDKAuthSession *)authSession {
+    if (![NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self resetAuthentication:authSession];
+        });
+        return;
+    }
+    
     [_accountsLock lock];
     if (authSession.authInfo.authType == SFOAuthTypeUserAgent) {
         [authSession.oauthCoordinator.view removeFromSuperview];
@@ -2026,5 +2044,30 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     return controller;
 }
 
+- (void)shouldBlockUser:(SFOAuthCredentials *)credentials completion:(void(^)(BOOL))completion errorBlock:(void (^)(NSError *))errorBlock  {
+    if (![[SalesforceSDKManager sharedManager] blockSalesforceIntegrationUser]) {
+        completion(NO);
+        return;
+    }
+    
+    NSURL *url = [credentials.instanceUrl URLByAppendingPathComponent:@"/services/oauth2/userinfo"];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
+    request.cachePolicy = NSURLRequestReloadIgnoringCacheData;
+    request.HTTPMethod = @"GET";
+    request.HTTPShouldHandleCookies = NO;
+    [request setValue:[NSString stringWithFormat:kHttpAuthHeaderFormatString, credentials.accessToken] forHTTPHeaderField:kHttpHeaderAuthorization];
+
+    __block NSString *networkIdentifier = [SFNetwork uniqueInstanceIdentifier];
+    SFNetwork *network = [SFNetwork sharedEphemeralInstanceWithIdentifier:networkIdentifier];
+    [network sendRequest:request dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (error) {
+            errorBlock(error);
+        } else {
+            NSDictionary *userInfo = [SFJsonUtils objectFromJSONData:data];
+            completion([userInfo[@"is_salesforce_integration_user"] boolValue]);
+        }
+        [SFNetwork removeSharedInstanceForIdentifier:networkIdentifier];
+    }];
+}
 
 @end
