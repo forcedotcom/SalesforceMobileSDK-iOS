@@ -711,7 +711,8 @@
         }
         [approvalUrlString appendFormat:@"&%@=%@", kSFOAuthCodeChallengeParamName, codeChallenge];
     } else { // User-Agent
-        [approvalUrlString appendFormat:@"&%@=%@", kSFOAuthResponseType, kSFOAuthResponseTypeHybridToken];
+        NSString *responseType = [[SalesforceSDKManager sharedManager] useHybridAuthentication] ? kSFOAuthResponseTypeHybridToken : kSFOAuthResponseTypeToken;
+        [approvalUrlString appendFormat:@"&%@=%@", kSFOAuthResponseType, responseType];
     }
     
     // OAuth scopes

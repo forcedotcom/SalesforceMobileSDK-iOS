@@ -302,6 +302,7 @@ NSString * const kSFBiometricAuthenticationFlowCompleted = @"SFBiometricAuthenti
         self.useEphemeralSessionForAdvancedAuth = YES;
         self.useWebServerAuthentication = YES;
         self.blockSalesforceIntegrationUser = NO;
+        self.useHybridAuthentication = YES;
         [self setupServiceConfiguration];
         _snapshotViewControllers = [SFSDKSafeMutableDictionary new];
         [SFSDKSalesforceSDKUpgradeManager upgrade];
