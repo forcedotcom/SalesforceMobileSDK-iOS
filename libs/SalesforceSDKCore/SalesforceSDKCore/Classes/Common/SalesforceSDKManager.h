@@ -235,6 +235,10 @@ NS_SWIFT_NAME(SalesforceManager)
  */
 @property (nonatomic, assign) BOOL useWebServerAuthentication;
 
+/** Whether hybrid authentication flow should be used. Defaults to YES.
+ */
+@property (nonatomic, assign) BOOL useHybridAuthentication;
+
 /** Sets authentication ability for Salesforce integration users.  When true, Salesforce integration users will be prohibited from initial authentication and receive an error message.  Defaults to NO.
  */
 @property (nonatomic, assign) BOOL blockSalesforceIntegrationUser;
