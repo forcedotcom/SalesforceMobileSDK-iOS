@@ -39,6 +39,7 @@ jobs:
         default: *device
     macos:
       xcode: << parameters.xcode >>
+    resource_class: macos.x86.medium.gen2
     working_directory: ~/SalesforceMobileSDK-iOS
     shell: /bin/bash --login -eo pipefail
     environment:
