@@ -67,7 +67,7 @@ def mobile_sdk_post_install(installer)
     # Mobile SDK targets
     is_mobile_sdk_target = ['SalesforceAnalytics', 'SalesforceSDKCommon', 'SalesforceSDKCore', 'SmartStore', 'MobileSync', 'SalesforceReact', 'FMDB'].include?(target.name)
     if is_mobile_sdk_target
-      change_deployment_target(target, '14.0')
+      change_deployment_target(target, '15.0')
     end
   end
 end
