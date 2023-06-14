@@ -384,6 +384,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 
     SFSDKAuthRequest *request = [self defaultAuthRequest];
     request.keychainReference = keyIdentifier;
+    request.keychainGroup = config.keychainGroup;
     [self idpRefreshTokenAndAuthenticate:[self currentUser] spAppContext:appContext authRequest:request success:^{
         statusBlock(SFSPLoginStatusGettingAuthCodeFromServer);
     } failure:^(NSError *error) {
@@ -771,6 +772,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         SFSDKIDPAuthCodeLoginRequestCommand *command = [[SFSDKIDPAuthCodeLoginRequestCommand alloc] init];
         command.userHint = [self encodeUserIdentity:[self currentUserIdentity]];
         command.keychainReference = keychainReference;
+        command.keychainGroup = coordinator.authSession.oauthRequest.keychainGroup;
         command.authCode = coordinator.authSession.spAppCredentials.authCode;
         authCommand = command;
     } else { // SP - IDP response

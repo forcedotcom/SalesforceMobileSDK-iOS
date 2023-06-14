@@ -239,7 +239,8 @@
     
     NSString *keychainReference = [appUrlResponse valueForParameterName:kSFKeychainReferenceParam];
     if (keychainReference) { // IDP -> SP auth
-        SFSDKKeychainResult *result = [SFSDKKeychainHelper readWithService:keychainReference account:nil accessGroup:[[SalesforceSDKManager sharedManager] idpKeychainGroup] cacheMode:CacheModeDisabled];
+        NSString *keychainGroup = [appUrlResponse valueForParameterName:kSFKeychainGroupParam];
+        SFSDKKeychainResult *result = [SFSDKKeychainHelper readWithService:keychainReference account:nil accessGroup:keychainGroup cacheMode:CacheModeDisabled];
         NSString *codeVerifier = [result.data msdkBase64UrlString];
         if (!codeVerifier || result.error) {
             [SFSDKCoreLogger e:[self class] format:@"URL has keychain group parameter but unable to retrieve value from the keychain: %@", result.error];

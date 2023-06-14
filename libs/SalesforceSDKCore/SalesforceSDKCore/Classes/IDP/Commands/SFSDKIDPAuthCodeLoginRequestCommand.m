@@ -29,7 +29,6 @@
 #import "SFSDKAuthCommand+Internal.h"
 #import "SFSDKIDPConstants.h"
 
-
 @implementation SFSDKIDPAuthCodeLoginRequestCommand
 
 - (NSString *)command {
@@ -50,6 +49,14 @@
 
 - (void)setKeychainReference:(NSString *)keychain {
     [self setParamForKey:keychain key:kSFKeychainReferenceParam];
+}
+
+- (NSString *)keychainGroup {
+    return [self paramForKey:kSFKeychainGroupParam];
+}
+
+- (void)setKeychainGroup:(NSString *)keychain {
+    [self setParamForKey:keychain key:kSFKeychainGroupParam];
 }
 
 - (NSString *)authCode {
