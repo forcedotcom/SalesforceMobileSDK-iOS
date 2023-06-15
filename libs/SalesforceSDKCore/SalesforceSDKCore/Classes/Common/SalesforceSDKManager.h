@@ -211,8 +211,6 @@ NS_SWIFT_NAME(SalesforceManager)
  */
 @property (nonatomic, copy, nullable) NSString *idpAppURIScheme NS_SWIFT_NAME(identityProviderURLScheme);
 
-@property (nonatomic, copy, nullable) NSString *idpKeychainGroup NS_SWIFT_NAME(identityProviderKeychainGroup);
-
 /**
  A user friendly display name for use in UI by the SDK on behalf of the app.  This value will be used on various authentication screens
  such as biometric enrollment or IDP login. If left unset, this property will fallback to CFBundleDisplayName or CFBundleName depending on what is available.

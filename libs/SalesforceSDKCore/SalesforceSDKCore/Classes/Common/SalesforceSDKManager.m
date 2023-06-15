@@ -383,10 +383,6 @@ NSString * const kSFBiometricAuthenticationFlowCompleted = @"SFBiometricAuthenti
     [SFUserAccountManager sharedInstance].idpAppURIScheme = idpAppURIScheme;
 }
 
-- (void)setIdpKeychainGroup:(NSString *)idpKeychainGroup {
-    _idpKeychainGroup = idpKeychainGroup;
-}
-
 - (NSString *)brandLoginPath
 {
     return [SFUserAccountManager sharedInstance].brandLoginPath;

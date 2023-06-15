@@ -75,6 +75,8 @@ FOUNDATION_EXPORT NSString *const kSFStartURLParam;
 
 FOUNDATION_EXPORT NSString *const kSFKeychainReferenceParam;
 
+FOUNDATION_EXPORT NSString *const kSFKeychainGroupParam;
+
 @interface SFSDKIDPConstants : NSObject
 
 @end
