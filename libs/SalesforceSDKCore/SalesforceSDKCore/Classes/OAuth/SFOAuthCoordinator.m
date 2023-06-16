@@ -250,7 +250,10 @@
     }
 
     [SFSDKCoreLogger i:[self class] format:@"%@ Received advanced authentication response.  Beginning token exchange.", NSStringFromSelector(_cmd)];
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
     self.advancedAuthState = SFOAuthAdvancedAuthStateTokenRequestInitiated;
+    #pragma clang diagnostic pop
     dispatch_async(dispatch_get_main_queue(), ^{
         [self beginTokenEndpointFlow];
     });
@@ -327,7 +330,10 @@
 - (void)notifyDelegateOfFailure:(NSError*)error authInfo:(SFOAuthInfo *)info
 {
     self.authenticating = NO;
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
     self.advancedAuthState = SFOAuthAdvancedAuthStateNotStarted;
+    #pragma clang diagnostic pop
     if ([self.delegate respondsToSelector:@selector(oauthCoordinator:didFailWithError:authInfo:)]) {
         dispatch_async(dispatch_get_main_queue(), ^{
            [self.delegate oauthCoordinator:self didFailWithError:error authInfo:info];
@@ -339,7 +345,10 @@
 - (void)notifyDelegateOfSuccess:(SFOAuthInfo *)authInfo
 {
     self.authenticating = NO;
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
     self.advancedAuthState = SFOAuthAdvancedAuthStateNotStarted;
+    #pragma clang diagnostic pop
     if ([self.delegate respondsToSelector:@selector(oauthCoordinatorDidAuthenticate:authInfo:)]) {
         [self.delegate oauthCoordinatorDidAuthenticate:self authInfo:authInfo];
     }

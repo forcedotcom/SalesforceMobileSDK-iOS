@@ -43,7 +43,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, nullable) WKWebView *view;
 @property (nonatomic, strong, nullable) NSString *codeVerifier;
 @property (nonatomic, strong, nullable) SFOAuthInfo *authInfo;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 @property (nonatomic, readwrite) SFOAuthAdvancedAuthState advancedAuthState;
+#pragma clang diagnostic pop
 @property (nonatomic, copy) NSString *origWebUserAgent;
 @property (nonatomic, strong ,nullable) SFOAuthCredentials *spAppCredentials;
 @property (nonatomic, weak, nullable) SFSDKAuthSession *authSession;
