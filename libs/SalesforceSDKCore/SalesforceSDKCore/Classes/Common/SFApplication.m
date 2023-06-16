@@ -37,7 +37,10 @@
 
 @end
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 @implementation SFApplication
+#pragma clang diagnostic pop
 
 @synthesize lastEventDate = _lastEventDate;
 
