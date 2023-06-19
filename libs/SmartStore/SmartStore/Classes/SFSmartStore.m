@@ -29,7 +29,6 @@
 #import "FMDatabaseAdditions.h"
 #import "FMDatabaseQueue.h"
 #import "SFSmartStore+Internal.h"
-#import "SFSmartStoreUpgrade.h"
 #import "SFSmartStoreUtils.h"
 #import "SFSmartSqlHelper.h"
 #import "SFSmartSqlCache.h"
@@ -54,7 +53,6 @@ static NSMutableDictionary *_allSharedStores;
 static NSMutableDictionary *_allGlobalSharedStores;
 static SFSmartStoreEncryptionKeyGenerator _encryptionKeyGenerator = NULL;
 static SFSmartStoreEncryptionSaltBlock _encryptionSaltBlock = NULL;
-static BOOL _storeUpgradeHasRun = NO;
 static BOOL _jsonSerializationCheckEnabled = NO;
 static BOOL _postRawJsonOnError = NO;
 
@@ -163,12 +161,6 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
             return nil;
         }
         [SFSDKSmartStoreLogger d:[self class] format:@"%@ %@, user: %@, isGlobal: %d", NSStringFromSelector(_cmd), name, [SFSmartStoreUtils userKeyForUser:user], isGlobal];
-        @synchronized ([SFSmartStore class]) {
-            if (!_storeUpgradeHasRun) {
-                [SFSmartStoreUpgrade upgrade];
-                _storeUpgradeHasRun = YES;
-            }
-        }
         _storeName = name;
         _isGlobal = isGlobal;
         _user = user;

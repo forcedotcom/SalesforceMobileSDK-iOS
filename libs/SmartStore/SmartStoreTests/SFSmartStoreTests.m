@@ -33,7 +33,6 @@
 #import "SFSmartStoreDatabaseManager.h"
 #import "SFSmartStore+Internal.h"
 #import "SFSoupIndex.h"
-#import "SFSmartStoreUpgrade.h"
 #import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 #import <SalesforceSDKCore/NSString+SFAdditions.h>
 #import <SalesforceSDKCore/NSData+SFAdditions.h>

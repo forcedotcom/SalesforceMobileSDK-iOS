@@ -185,19 +185,9 @@ static NSString *const EXPLAIN_ROWS = @"rows";
 - (NSNumber*)currentTimeInMilliseconds;
 
 /**
- @return The legacy key used to encrypt the store.
- */
-+ (NSString *)legacyEncKey;
-
-/**
  @return The key used to encrypt the store.
  */
 + (NSString *)encKey;
-
-/**
- @return The legacy salt used to encrypt the store for shared mode. Sqlite headers are maintained in plain text for database.
- */
-+ (NSString *)legacySalt;
 
 /**
  @return The key used to encrypt the store for shared mode. Sqlite headers are maintained in plain text for database.
