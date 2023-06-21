@@ -898,7 +898,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     self.loginHost = newLoginHost.host;
     NSNotification *loginHostChangedNotification = [NSNotification notificationWithName:kSFNotificationDidChangeLoginHost object:self userInfo:userInfo];
     [[NSNotificationCenter defaultCenter] postNotification:loginHostChangedNotification];
-    NSString *sceneId = hostListViewController.view.window.windowScene.session.persistentIdentifier;
+    NSString *sceneId = hostListViewController.navigationController.visibleViewController.view.window.windowScene.session.persistentIdentifier;
     [self.authSessions objectForKey:sceneId].oauthRequest.loginHost = newLoginHost.host;
     [_accountsLock unlock];
 }
@@ -908,7 +908,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 }
 
 - (void)loginHostSelected:(SFSDKLoginHostListViewController *)hostListViewController {
-    NSString *sceneId = hostListViewController.view.window.windowScene.session.persistentIdentifier;
+    NSString *sceneId = hostListViewController.navigationController.visibleViewController.view.window.windowScene.session.persistentIdentifier;
     [hostListViewController dismissViewControllerAnimated:YES completion:nil];
     [self restartAuthentication: [self.authSessions objectForKey:sceneId]];
 }
