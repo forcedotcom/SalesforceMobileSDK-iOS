@@ -778,6 +778,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     } else { // SP - IDP response
         SFSDKSPLoginResponseCommand *command = [[SFSDKSPLoginResponseCommand alloc] init];
         command.authCode = coordinator.authSession.spAppCredentials.authCode;
+        authCommand = command;
     }
     
     NSString *spAppRedirectUri = coordinator.authSession.spAppCredentials.redirectUri;
@@ -966,7 +967,9 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         failureBlock(error);
     } successBlock:^(id response, NSURLResponse *rawResponse) {
         __strong typeof (self) strongSelf = weakSelf;
-        successBlock();
+        if (successBlock) {
+            successBlock();
+        }
         [strongSelf authenticateOnBehalfOfSPApp:user spAppCredentials:spAppCredentials authRequest:authRequest];
     }];
 }
