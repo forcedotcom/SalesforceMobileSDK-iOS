@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKLoginHost.html">
+	<File path="Classes/SFSDKNewLoginHostViewController.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKLoginHost</TokenIdentifier>
-			<Abstract type="html">Class that encapsulates the information about a login host.</Abstract>
-			<DeclaredIn>SFSDKLoginHost.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKNewLoginHostViewController</TokenIdentifier>
+			<Abstract type="html">View controller that allows the user to enter a new login host that contains
+a host (the server address) and an optional name.</Abstract>
+			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
             
 			
 			<NodeRef refid="94"/>
@@ -13,11 +14,47 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHost/setName:</TokenIdentifier>
-			<Abstract type="html">The name of the login host.</Abstract>
-			<DeclaredIn>SFSDKLoginHost.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKNewLoginHostViewController/setServer:</TokenIdentifier>
+			<Abstract type="html">The server text field</Abstract>
+			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *name</Declaration>
+			<Declaration>@property (nonatomic, strong) UITextField *server</Declaration>
+			
+			
+			<Anchor>//api/name/server</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKNewLoginHostViewController/server</TokenIdentifier>
+			<Abstract type="html">The server text field</Abstract>
+			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UITextField *server</Declaration>
+			
+			
+			<Anchor>//api/name/server</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKNewLoginHostViewController/server</TokenIdentifier>
+			<Abstract type="html">The server text field</Abstract>
+			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UITextField *server</Declaration>
+			
+			
+			<Anchor>//api/name/server</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKNewLoginHostViewController/setName:</TokenIdentifier>
+			<Abstract type="html">The name text field</Abstract>
+			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UITextField *name</Declaration>
 			
 			
 			<Anchor>//api/name/name</Anchor>
@@ -25,23 +62,11 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHost/name</TokenIdentifier>
-			<Abstract type="html">The name of the login host.</Abstract>
-			<DeclaredIn>SFSDKLoginHost.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKNewLoginHostViewController/name</TokenIdentifier>
+			<Abstract type="html">The name text field</Abstract>
+			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *name</Declaration>
-			
-			
-			<Anchor>//api/name/name</Anchor>
-            <NodeRef refid="94"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginHost/name</TokenIdentifier>
-			<Abstract type="html">The name of the login host.</Abstract>
-			<DeclaredIn>SFSDKLoginHost.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *name</Declaration>
+			<Declaration>@property (nonatomic, strong) UITextField *name</Declaration>
 			
 			
 			<Anchor>//api/name/name</Anchor>
@@ -49,97 +74,53 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHost/setHost:</TokenIdentifier>
-			<Abstract type="html">The server address of the login host.</Abstract>
-			<DeclaredIn>SFSDKLoginHost.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKNewLoginHostViewController/name</TokenIdentifier>
+			<Abstract type="html">The name text field</Abstract>
+			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *host</Declaration>
+			<Declaration>@property (nonatomic, strong) UITextField *name</Declaration>
 			
 			
-			<Anchor>//api/name/host</Anchor>
+			<Anchor>//api/name/name</Anchor>
             <NodeRef refid="94"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHost/host</TokenIdentifier>
-			<Abstract type="html">The server address of the login host.</Abstract>
-			<DeclaredIn>SFSDKLoginHost.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKNewLoginHostViewController/setLoginHostListViewController:</TokenIdentifier>
+			<Abstract type="html">A reference to the login host list view controller used to add the host to the list of login hosts
+and to also properly resize the popover controller.</Abstract>
+			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *host</Declaration>
+			<Declaration>@property (nonatomic, weak) SFSDKLoginHostListViewController *loginHostListViewController</Declaration>
 			
 			
-			<Anchor>//api/name/host</Anchor>
+			<Anchor>//api/name/loginHostListViewController</Anchor>
             <NodeRef refid="94"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginHost/host</TokenIdentifier>
-			<Abstract type="html">The server address of the login host.</Abstract>
-			<DeclaredIn>SFSDKLoginHost.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKNewLoginHostViewController/loginHostListViewController</TokenIdentifier>
+			<Abstract type="html">A reference to the login host list view controller used to add the host to the list of login hosts
+and to also properly resize the popover controller.</Abstract>
+			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *host</Declaration>
+			<Declaration>@property (nonatomic, weak) SFSDKLoginHostListViewController *loginHostListViewController</Declaration>
 			
 			
-			<Anchor>//api/name/host</Anchor>
+			<Anchor>//api/name/loginHostListViewController</Anchor>
             <NodeRef refid="94"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHost/setDeletable:</TokenIdentifier>
-			<Abstract type="html">Indicates whether this login host can be deleted.</Abstract>
-			<DeclaredIn>SFSDKLoginHost.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKNewLoginHostViewController/loginHostListViewController</TokenIdentifier>
+			<Abstract type="html">A reference to the login host list view controller used to add the host to the list of login hosts
+and to also properly resize the popover controller.</Abstract>
+			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
 			
-			<Declaration>@property (readonly, getter=isDeletable) BOOL deletable</Declaration>
-			
-			
-			<Anchor>//api/name/deletable</Anchor>
-            <NodeRef refid="94"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHost/isDeletable</TokenIdentifier>
-			<Abstract type="html">Indicates whether this login host can be deleted.</Abstract>
-			<DeclaredIn>SFSDKLoginHost.h</DeclaredIn>
-			
-			<Declaration>@property (readonly, getter=isDeletable) BOOL deletable</Declaration>
+			<Declaration>@property (nonatomic, weak) SFSDKLoginHostListViewController *loginHostListViewController</Declaration>
 			
 			
-			<Anchor>//api/name/deletable</Anchor>
-            <NodeRef refid="94"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginHost/deletable</TokenIdentifier>
-			<Abstract type="html">Indicates whether this login host can be deleted.</Abstract>
-			<DeclaredIn>SFSDKLoginHost.h</DeclaredIn>
-			
-			<Declaration>@property (readonly, getter=isDeletable) BOOL deletable</Declaration>
-			
-			
-			<Anchor>//api/name/deletable</Anchor>
-            <NodeRef refid="94"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKLoginHost/hostWithName:host:deletable:</TokenIdentifier>
-			<Abstract type="html">* Returns a new login host instance with the specified parameters.</Abstract>
-			<DeclaredIn>SFSDKLoginHost.h</DeclaredIn>
-			
-			<Declaration>+ (SFSDKLoginHost *)hostWithName:(NSString *)name host:(NSString *)host deletable:(BOOL)deletable</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>name</Name>
-					<Abstract type="html">Name of the login host.</Abstract>
-				</Parameter><Parameter>
-					<Name>host</Name>
-					<Abstract type="html">Server address of the login host.</Abstract>
-				</Parameter><Parameter>
-					<Name>deletable</Name>
-					<Abstract type="html">YES if the host can be deleted.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/hostWithName:host:deletable:</Anchor>
+			<Anchor>//api/name/loginHostListViewController</Anchor>
             <NodeRef refid="94"/>
 		</Token>
 		

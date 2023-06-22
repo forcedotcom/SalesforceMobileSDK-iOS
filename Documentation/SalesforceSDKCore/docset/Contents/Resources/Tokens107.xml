@@ -1,136 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKPrimingRecord.html">
+	<File path="Classes/SFSDKRootController.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKPrimingRecord</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKRootController</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
+			<DeclaredIn>SFSDKRootController.h</DeclaredIn>
             
 			
 			<NodeRef refid="107"/>
 		</Token>
 		
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingRecord/setDict:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSDictionary *dict</Declaration>
-			
-			
-			<Anchor>//api/name/dict</Anchor>
-            <NodeRef refid="107"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingRecord/dict</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSDictionary *dict</Declaration>
-			
-			
-			<Anchor>//api/name/dict</Anchor>
-            <NodeRef refid="107"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPrimingRecord/dict</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSDictionary *dict</Declaration>
-			
-			
-			<Anchor>//api/name/dict</Anchor>
-            <NodeRef refid="107"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingRecord/setObjectId:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *objectId</Declaration>
-			
-			
-			<Anchor>//api/name/objectId</Anchor>
-            <NodeRef refid="107"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingRecord/objectId</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *objectId</Declaration>
-			
-			
-			<Anchor>//api/name/objectId</Anchor>
-            <NodeRef refid="107"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPrimingRecord/objectId</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *objectId</Declaration>
-			
-			
-			<Anchor>//api/name/objectId</Anchor>
-            <NodeRef refid="107"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingRecord/setSystemModstamp:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSDate *systemModstamp</Declaration>
-			
-			
-			<Anchor>//api/name/systemModstamp</Anchor>
-            <NodeRef refid="107"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingRecord/systemModstamp</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSDate *systemModstamp</Declaration>
-			
-			
-			<Anchor>//api/name/systemModstamp</Anchor>
-            <NodeRef refid="107"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPrimingRecord/systemModstamp</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSDate *systemModstamp</Declaration>
-			
-			
-			<Anchor>//api/name/systemModstamp</Anchor>
-            <NodeRef refid="107"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingRecord/initWith:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
-			
-			<Declaration>- (instancetype)initWith:(NSDictionary *)dict</Declaration>
-			
-			
-			<Anchor>//api/name/initWith:</Anchor>
-            <NodeRef refid="107"/>
-		</Token>
 		
         
         

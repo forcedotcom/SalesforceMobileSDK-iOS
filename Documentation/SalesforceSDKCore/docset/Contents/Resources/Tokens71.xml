@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKCollectionSubResponse.html">
+	<File path="Classes/SFSDKDevAction.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKCollectionSubResponse</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKDevAction</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCollectionResponse.h</DeclaredIn>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="71"/>
@@ -13,158 +13,94 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCollectionSubResponse/setObjectId:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCollectionResponse.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDevAction/setName:</TokenIdentifier>
+			<Abstract type="html">Gets the  name being used by the action. Is used to display the option</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *objectId</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *name</Declaration>
 			
-			
-			<Anchor>//api/name/objectId</Anchor>
+			<ReturnValue><Abstract type="html">name.</Abstract></ReturnValue>
+			<Anchor>//api/name/name</Anchor>
             <NodeRef refid="71"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCollectionSubResponse/objectId</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCollectionResponse.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDevAction/name</TokenIdentifier>
+			<Abstract type="html">Gets the  name being used by the action. Is used to display the option</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *objectId</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *name</Declaration>
 			
-			
-			<Anchor>//api/name/objectId</Anchor>
+			<ReturnValue><Abstract type="html">name.</Abstract></ReturnValue>
+			<Anchor>//api/name/name</Anchor>
             <NodeRef refid="71"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKCollectionSubResponse/objectId</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCollectionResponse.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKDevAction/name</TokenIdentifier>
+			<Abstract type="html">Gets the  name being used by the action. Is used to display the option</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *objectId</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *name</Declaration>
 			
-			
-			<Anchor>//api/name/objectId</Anchor>
+			<ReturnValue><Abstract type="html">name.</Abstract></ReturnValue>
+			<Anchor>//api/name/name</Anchor>
             <NodeRef refid="71"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCollectionSubResponse/setSuccess:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCollectionResponse.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDevAction/setHandler:</TokenIdentifier>
+			<Abstract type="html">Gets the  handler associated with the action. Is used to display the option</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL success</Declaration>
+			<Declaration>@property (nonatomic, copy, nonnull) void ( ^ ) ( void ) handler</Declaration>
 			
-			
-			<Anchor>//api/name/success</Anchor>
+			<ReturnValue><Abstract type="html">name.</Abstract></ReturnValue>
+			<Anchor>//api/name/handler</Anchor>
             <NodeRef refid="71"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCollectionSubResponse/success</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCollectionResponse.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDevAction/handler</TokenIdentifier>
+			<Abstract type="html">Gets the  handler associated with the action. Is used to display the option</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL success</Declaration>
+			<Declaration>@property (nonatomic, copy, nonnull) void ( ^ ) ( void ) handler</Declaration>
 			
-			
-			<Anchor>//api/name/success</Anchor>
+			<ReturnValue><Abstract type="html">name.</Abstract></ReturnValue>
+			<Anchor>//api/name/handler</Anchor>
             <NodeRef refid="71"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKCollectionSubResponse/success</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCollectionResponse.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKDevAction/handler</TokenIdentifier>
+			<Abstract type="html">Gets the  handler associated with the action. Is used to display the option</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL success</Declaration>
+			<Declaration>@property (nonatomic, copy, nonnull) void ( ^ ) ( void ) handler</Declaration>
 			
-			
-			<Anchor>//api/name/success</Anchor>
+			<ReturnValue><Abstract type="html">name.</Abstract></ReturnValue>
+			<Anchor>//api/name/handler</Anchor>
             <NodeRef refid="71"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCollectionSubResponse/setErrors:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCollectionResponse.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDevAction/initWith:handler:</TokenIdentifier>
+			<Abstract type="html">Initialize with a name and a handler.</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSArray&lt;SFSDKCollectionErrorResponse*&gt; *errors</Declaration>
+			<Declaration>- (instancetype)initWith:(NSString *)name handler:(void ( ^ ) ( void ))handler</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>name</Name>
+					<Abstract type="html">The name use  display an option in the dev options display action sheet.</Abstract>
+				</Parameter><Parameter>
+					<Name>handler</Name>
+					<Abstract type="html">The handler that should be invoked when the option is selected.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/errors</Anchor>
-            <NodeRef refid="71"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCollectionSubResponse/errors</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCollectionResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSArray&lt;SFSDKCollectionErrorResponse*&gt; *errors</Declaration>
-			
-			
-			<Anchor>//api/name/errors</Anchor>
-            <NodeRef refid="71"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKCollectionSubResponse/errors</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCollectionResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSArray&lt;SFSDKCollectionErrorResponse*&gt; *errors</Declaration>
-			
-			
-			<Anchor>//api/name/errors</Anchor>
-            <NodeRef refid="71"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCollectionSubResponse/setJson:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCollectionResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSDictionary *json</Declaration>
-			
-			
-			<Anchor>//api/name/json</Anchor>
-            <NodeRef refid="71"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCollectionSubResponse/json</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCollectionResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSDictionary *json</Declaration>
-			
-			
-			<Anchor>//api/name/json</Anchor>
-            <NodeRef refid="71"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKCollectionSubResponse/json</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCollectionResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSDictionary *json</Declaration>
-			
-			
-			<Anchor>//api/name/json</Anchor>
-            <NodeRef refid="71"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCollectionSubResponse/initWith:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCollectionResponse.h</DeclaredIn>
-			
-			<Declaration>- (instancetype)initWith:(NSDictionary *)dict</Declaration>
-			
-			
-			<Anchor>//api/name/initWith:</Anchor>
+			<Anchor>//api/name/initWith:handler:</Anchor>
             <NodeRef refid="71"/>
 		</Token>
 		

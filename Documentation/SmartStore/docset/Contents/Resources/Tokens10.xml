@@ -157,42 +157,6 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/setEncryptionKeyBlock:</TokenIdentifier>
-			<Abstract type="html">Block used to generate the legacy encryption key.</Abstract>
-			<DeclaredIn>SFSmartStore.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, class, readonly) SFSmartStoreEncryptionKeyBlock encryptionKeyBlock</Declaration>
-			
-			
-			<Anchor>//api/name/encryptionKeyBlock</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/encryptionKeyBlock</TokenIdentifier>
-			<Abstract type="html">Block used to generate the legacy encryption key.</Abstract>
-			<DeclaredIn>SFSmartStore.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, class, readonly) SFSmartStoreEncryptionKeyBlock encryptionKeyBlock</Declaration>
-			
-			
-			<Anchor>//api/name/encryptionKeyBlock</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSmartStore/encryptionKeyBlock</TokenIdentifier>
-			<Abstract type="html">Block used to generate the legacy encryption key.</Abstract>
-			<DeclaredIn>SFSmartStore.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, class, readonly) SFSmartStoreEncryptionKeyBlock encryptionKeyBlock</Declaration>
-			
-			
-			<Anchor>//api/name/encryptionKeyBlock</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/setEncryptionKeyGenerator:</TokenIdentifier>
 			<Abstract type="html">Block used to generate the encryption key.
 Salesforce recommends using the default encryption key derivation.</Abstract>
@@ -420,25 +384,6 @@ for the given user.</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/setEncryptionKeyBlock:</TokenIdentifier>
-			<Abstract type="html">Sets a custom block for deriving the encryption key used to encrypt stores. This uses a legacy encryption key
-and is only used for upgrade scenarios. This should only be set if an app was already using it
-before Mobile SDK 9.2.</Abstract>
-			<DeclaredIn>SFSmartStore.h</DeclaredIn>
-			
-			<Declaration>+ (void)setEncryptionKeyBlock:(SFSmartStoreEncryptionKeyBlock)newEncryptionKeyBlock</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>newEncryptionKeyBlock</Name>
-					<Abstract type="html">The new encryption key derivation block to use with SmartStore.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/setEncryptionKeyBlock:</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/setEncryptionKeyGenerator:</TokenIdentifier>
 			<Abstract type="html">Sets a custom block for deriving the encryption key used to encrypt stores.</Abstract>
 			<DeclaredIn>SFSmartStore.h</DeclaredIn>
@@ -452,23 +397,6 @@ before Mobile SDK 9.2.</Abstract>
 			</Parameters>
 			
 			<Anchor>//api/name/setEncryptionKeyGenerator:</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/attributesForSoup:</TokenIdentifier>
-			<Abstract type="html">Name of the soup.</Abstract>
-			<DeclaredIn>SFSmartStore.h</DeclaredIn>
-			
-			<Declaration>- (nullable SFSoupSpec *)attributesForSoup:(NSString *)soupName</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>soupName</Name>
-					<Abstract type="html">Name of the soup.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">Specs of the soup if it exists.</Abstract></ReturnValue>
-			<Anchor>//api/name/attributesForSoup:</Anchor>
             <NodeRef refid="10"/>
 		</Token>
 		
@@ -526,29 +454,6 @@ before Mobile SDK 9.2.</Abstract>
 			</Parameters>
 			<ReturnValue><Abstract type="html">YES if the soup is registered or already exists.</Abstract></ReturnValue>
 			<Anchor>//api/name/registerSoup:withIndexSpecs:error:</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/registerSoupWithSpec:withIndexSpecs:error:</TokenIdentifier>
-			<Abstract type="html">Creates a new soup or confirms the existence of an existing soup.</Abstract>
-			<DeclaredIn>SFSmartStore.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)registerSoupWithSpec:(SFSoupSpec *)soupSpec withIndexSpecs:(NSArray&lt;SFSoupIndex*&gt; *)indexSpecs error:(NSError **)error</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>soupSpec</Name>
-					<Abstract type="html">Soup specs of the soup to register.</Abstract>
-				</Parameter><Parameter>
-					<Name>indexSpecs</Name>
-					<Abstract type="html">Array of one or more SFSoupIndex objects.</Abstract>
-				</Parameter><Parameter>
-					<Name>error</Name>
-					<Abstract type="html">Sets/returns any error generated as part of the process.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the soup is registered or already exists.</Abstract></ReturnValue>
-			<Anchor>//api/name/registerSoupWithSpec:withIndexSpecs:error:</Anchor>
             <NodeRef refid="10"/>
 		</Token>
 		
@@ -933,40 +838,6 @@ NB: A single SQL call is executed to improve performance.</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/getExternalFileStorageSizeForSoup:</TokenIdentifier>
-			<Abstract type="html">Returns sum of all external file sizes for a given soup.</Abstract>
-			<DeclaredIn>SFSmartStore.h</DeclaredIn>
-			
-			<Declaration>- (unsigned long long)getExternalFileStorageSizeForSoup:(NSString *)soupName</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>soupName</Name>
-					<Abstract type="html">Name of the soup.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">External file storage size, in bytes.</Abstract></ReturnValue>
-			<Anchor>//api/name/getExternalFileStorageSizeForSoup:</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/getExternalFilesCountForSoup:</TokenIdentifier>
-			<Abstract type="html">Return the number of external storage files for a given soup.</Abstract>
-			<DeclaredIn>SFSmartStore.h</DeclaredIn>
-			
-			<Declaration>- (NSUInteger)getExternalFilesCountForSoup:(NSString *)soupName</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>soupName</Name>
-					<Abstract type="html">The name of the soup.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">Number of external files.</Abstract></ReturnValue>
-			<Anchor>//api/name/getExternalFilesCountForSoup:</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/alterSoup:withIndexSpecs:reIndexData:</TokenIdentifier>
 			<Abstract type="html">Alter soup indexes.</Abstract>
 			<DeclaredIn>SFSmartStore.h</DeclaredIn>
@@ -986,32 +857,6 @@ NB: A single SQL call is executed to improve performance.</Abstract>
 			</Parameters>
 			<ReturnValue><Abstract type="html">YES if the soup was altered successfully.</Abstract></ReturnValue>
 			<Anchor>//api/name/alterSoup:withIndexSpecs:reIndexData:</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/alterSoup:withSoupSpec:withIndexSpecs:reIndexData:</TokenIdentifier>
-			<Abstract type="html">Alter soup indexes.</Abstract>
-			<DeclaredIn>SFSmartStore.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)alterSoup:(NSString *)soupName withSoupSpec:(SFSoupSpec *)soupSpec withIndexSpecs:(NSArray&lt;SFSoupIndex*&gt; *)indexSpecs reIndexData:(BOOL)reIndexData</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>soupName</Name>
-					<Abstract type="html">The name of the soup to alter.</Abstract>
-				</Parameter><Parameter>
-					<Name>soupSpec</Name>
-					<Abstract type="html">The new soup spec to convert. (e.g. convert internal storage soup to external storage soup).</Abstract>
-				</Parameter><Parameter>
-					<Name>indexSpecs</Name>
-					<Abstract type="html">Array of one ore more SFSoupIndex objects to replace existing index specs.</Abstract>
-				</Parameter><Parameter>
-					<Name>reIndexData</Name>
-					<Abstract type="html">Pass YES if you want existing records to be re-indexed for new index specs.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the soup was altered successfully.</Abstract></ReturnValue>
-			<Anchor>//api/name/alterSoup:withSoupSpec:withIndexSpecs:reIndexData:</Anchor>
             <NodeRef refid="10"/>
 		</Token>
 		
@@ -1297,28 +1142,6 @@ and maps arbitrary soup names to soup table names (SOUPATTRSTABLE)</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/registeredSoupFeaturesWithDb:</TokenIdentifier>
-			<Abstract type="html">Returns the features currently registered.</Abstract>
-			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
-			
-	<RelatedTokens>
-		<TokenIdentifier>//apple_ref/occ/cl/SFSoupSpec</TokenIdentifier>
-		
-	</RelatedTokens>
-	
-			<Declaration>- (NSArray *)registeredSoupFeaturesWithDb:(FMDatabase *)db</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>db</Name>
-					<Abstract type="html">This method is expected to be called from [fmdbqueue inDatabase:^(){ ... }]</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">array with registered soup features, if none, an empty array.</Abstract></ReturnValue>
-			<Anchor>//api/name/registeredSoupFeaturesWithDb:</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/createLongOperationsStatusTable</TokenIdentifier>
 			<Abstract type="html">Create long operations status table (LONGOPERATIONSSTATUS_TABLE)</Abstract>
 			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
@@ -1331,15 +1154,15 @@ and maps arbitrary soup names to soup table names (SOUPATTRSTABLE)</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/registerSoupWithSpec:withIndexSpecs:withSoupTableName:withDb:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/registerSoupWithName:withIndexSpecs:withSoupTableName:withDb:</TokenIdentifier>
 			<Abstract type="html">Register the soup</Abstract>
 			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
 			
-			<Declaration>- (void)registerSoupWithSpec:(SFSoupSpec *)soupSpec withIndexSpecs:(NSArray *)indexSpecs withSoupTableName:(NSString *)soupTableName withDb:(FMDatabase *)db</Declaration>
+			<Declaration>- (void)registerSoupWithName:(NSString *)soupName withIndexSpecs:(NSArray *)indexSpecs withSoupTableName:(NSString *)soupTableName withDb:(FMDatabase *)db</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>soupSpec</Name>
-					<Abstract type="html">The soup specs of the soup to register</Abstract>
+					<Name>soupName</Name>
+					<Abstract type="html">The name of the soup to register</Abstract>
 				</Parameter><Parameter>
 					<Name>indexSpecs</Name>
 					<Abstract type="html">Array of one ore more IndexSpec objects as dictionaries</Abstract>
@@ -1352,119 +1175,7 @@ and maps arbitrary soup names to soup table names (SOUPATTRSTABLE)</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/registerSoupWithSpec:withIndexSpecs:withSoupTableName:withDb:</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/externalStorageRootDirectory</TokenIdentifier>
-			<Abstract type="html">the root directory where external blobs are stored.</Abstract>
-			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)externalStorageRootDirectory</Declaration>
-			
-			<ReturnValue><Abstract type="html">the root directory where external blobs are stored.</Abstract></ReturnValue>
-			<Anchor>//api/name/externalStorageRootDirectory</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/externalStorageSoupDirectory:</TokenIdentifier>
-			<Abstract type="html">the soup table name</Abstract>
-			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)externalStorageSoupDirectory:(NSString *)soupTableName</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>soupTableName</Name>
-					<Abstract type="html">the soup table name</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the directory in which external blobs are stored for a soup (based on table name).</Abstract></ReturnValue>
-			<Anchor>//api/name/externalStorageSoupDirectory:</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/externalStorageSoupFilePath:soupTableName:</TokenIdentifier>
-			<Abstract type="html">the soup entry id</Abstract>
-			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)externalStorageSoupFilePath:(NSNumber *)soupEntryId soupTableName:(NSString *)soupTableName</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>soupEntryId</Name>
-					<Abstract type="html">the soup entry id</Abstract>
-				</Parameter><Parameter>
-					<Name>soupTableName</Name>
-					<Abstract type="html">the soup table name</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the file path where external blobs of a soup entry is stored.</Abstract></ReturnValue>
-			<Anchor>//api/name/externalStorageSoupFilePath:soupTableName:</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/saveSoupEntryExternally:soupEntryId:soupTableName:</TokenIdentifier>
-			<Abstract type="html">the soup entry to save to a external file</Abstract>
-			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)saveSoupEntryExternally:(NSDictionary *)soupEntry soupEntryId:(NSNumber *)soupEntryId soupTableName:(NSString *)soupTableName</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>soupEntry</Name>
-					<Abstract type="html">the soup entry to save to a external file</Abstract>
-				</Parameter><Parameter>
-					<Name>soupEntryId</Name>
-					<Abstract type="html">the soup entry id</Abstract>
-				</Parameter><Parameter>
-					<Name>soupTableName</Name>
-					<Abstract type="html">the soup table name</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if file was saved successfully.</Abstract></ReturnValue>
-			<Anchor>//api/name/saveSoupEntryExternally:soupEntryId:soupTableName:</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/loadExternalSoupEntry:soupTableName:</TokenIdentifier>
-			<Abstract type="html">the soup entry id</Abstract>
-			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
-			
-			<Declaration>- (id)loadExternalSoupEntry:(NSNumber *)soupEntryId soupTableName:(NSString *)soupTableName</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>soupEntryId</Name>
-					<Abstract type="html">the soup entry id</Abstract>
-				</Parameter><Parameter>
-					<Name>soupTableName</Name>
-					<Abstract type="html">the soup table name</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">a soup entry if file was loaded successfully.</Abstract></ReturnValue>
-			<Anchor>//api/name/loadExternalSoupEntry:soupTableName:</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/deleteAllExternalEntries:deleteDir:</TokenIdentifier>
-			<Abstract type="html">the soup table name</Abstract>
-			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)deleteAllExternalEntries:(NSString *)soupTableName deleteDir:(BOOL)deleteDir</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>soupTableName</Name>
-					<Abstract type="html">the soup table name</Abstract>
-				</Parameter><Parameter>
-					<Name>deleteDir</Name>
-					<Abstract type="html">whether or not should delete directory as well</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/deleteAllExternalEntries:deleteDir:</Anchor>
+			<Anchor>//api/name/registerSoupWithName:withIndexSpecs:withSoupTableName:withDb:</Anchor>
             <NodeRef refid="10"/>
 		</Token>
 		
@@ -1482,26 +1193,6 @@ and maps arbitrary soup names to soup table names (SOUPATTRSTABLE)</Abstract>
 			</Parameters>
 			<ReturnValue><Abstract type="html">The soup table name from SOUPATTRSTABLE, based on soup name.</Abstract></ReturnValue>
 			<Anchor>//api/name/tableNameForSoup:withDb:</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/attributesForSoup:withDb:</TokenIdentifier>
-			<Abstract type="html">the name of the soup</Abstract>
-			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
-			
-			<Declaration>- (SFSoupSpec *)attributesForSoup:(NSString *)soupName withDb:(FMDatabase *)db</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>soupName</Name>
-					<Abstract type="html">the name of the soup</Abstract>
-				</Parameter><Parameter>
-					<Name>db</Name>
-					<Abstract type="html">Database.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">SFSoupSpec for the given soup name</Abstract></ReturnValue>
-			<Anchor>//api/name/attributesForSoup:withDb:</Anchor>
             <NodeRef refid="10"/>
 		</Token>
 		
@@ -1695,18 +1386,6 @@ Used for timestamping created and modified times.</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/legacyEncKey</TokenIdentifier>
-			<Abstract type="html">The legacy key used to encrypt the store.</Abstract>
-			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
-			
-			<Declaration>+ (NSString *)legacyEncKey</Declaration>
-			
-			<ReturnValue><Abstract type="html">The legacy key used to encrypt the store.</Abstract></ReturnValue>
-			<Anchor>//api/name/legacyEncKey</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/encKey</TokenIdentifier>
 			<Abstract type="html">The key used to encrypt the store.</Abstract>
 			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
@@ -1715,18 +1394,6 @@ Used for timestamping created and modified times.</Abstract>
 			
 			<ReturnValue><Abstract type="html">The key used to encrypt the store.</Abstract></ReturnValue>
 			<Anchor>//api/name/encKey</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/legacySalt</TokenIdentifier>
-			<Abstract type="html">The legacy salt used to encrypt the store for shared mode. Sqlite headers are maintained in plain text for database.</Abstract>
-			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
-			
-			<Declaration>+ (NSString *)legacySalt</Declaration>
-			
-			<ReturnValue><Abstract type="html">The legacy salt used to encrypt the store for shared mode. Sqlite headers are maintained in plain text for database.</Abstract></ReturnValue>
-			<Anchor>//api/name/legacySalt</Anchor>
             <NodeRef refid="10"/>
 		</Token>
 		

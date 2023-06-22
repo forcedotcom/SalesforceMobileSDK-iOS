@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFIdentityCoordinator.html">
+	<File path="Classes/SFInstrumentation.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFIdentityCoordinator</TokenIdentifier>
-			<Abstract type="html">The SFIdentityCoordinator class is used to retrieve identity data from the ID endpoint of the
-Salesforce service.  This data will be based on the requesting user, and the OAuth app
-credentials he/she is using to request this information.</Abstract>
-			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFInstrumentation</TokenIdentifier>
+			<Abstract type="html">This class exposes API that allow to intercept
+method call and introspect the object being intercepted.
+It can be used to record timing &amp;amp; usage information for example.</Abstract>
+			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
             
 			
 			<NodeRef refid="20"/>
@@ -15,462 +15,273 @@ credentials he/she is using to request this information.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/initWithCredentials:</TokenIdentifier>
-			<Abstract type="html">The designated initializer of SFIdentityCoordinator.  Creates an instance with the specified
-OAuth credentials.</Abstract>
-			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFInstrumentation/setEnabled:</TokenIdentifier>
+			<Abstract type="html">Enable or disable this instrumentation instance</Abstract>
+			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
 			
-			<Declaration>- (id)initWithCredentials:(SFOAuthCredentials *)credentials</Declaration>
+			<Declaration>@property (nonatomic) BOOL enabled</Declaration>
+			
+			
+			<Anchor>//api/name/enabled</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFInstrumentation/enabled</TokenIdentifier>
+			<Abstract type="html">Enable or disable this instrumentation instance</Abstract>
+			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL enabled</Declaration>
+			
+			
+			<Anchor>//api/name/enabled</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFInstrumentation/enabled</TokenIdentifier>
+			<Abstract type="html">Enable or disable this instrumentation instance</Abstract>
+			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL enabled</Declaration>
+			
+			
+			<Anchor>//api/name/enabled</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFInstrumentation/instrumentationForClass:</TokenIdentifier>
+			<Abstract type="html">Returns an instrumentation instance for the specified class</Abstract>
+			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
+			
+			<Declaration>+ (instancetype)instrumentationForClass:(Class)clazz</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>credentials</Name>
-					<Abstract type="html">The OAuth credentials used to query the identity service.  At a minimum,
-the OAuth credentials must specify a value for accessToken and instanceUrl.</Abstract>
+					<Name>clazz</Name>
+					<Abstract type="html">The class to be instrumented</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/initWithCredentials:</Anchor>
+			<Anchor>//api/name/instrumentationForClass:</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/initiateIdentityDataRetrieval</TokenIdentifier>
-			<Abstract type="html">Begins the identity request.  This request is asynchronous.  Implement the
-SFIdentityCoordinatorDelegate protocol to receive events related to the identity response from
-the service.</Abstract>
-			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFInstrumentation/instrumentationForClassWithName:</TokenIdentifier>
+			<Abstract type="html">Returns an instrumentation instance for the class with the specified name.</Abstract>
+			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
 			
-			<Declaration>- (void)initiateIdentityDataRetrieval</Declaration>
+			<Declaration>+ (instancetype)instrumentationForClassWithName:(NSString *)className</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>className</Name>
+					<Abstract type="html">The name of the class to be instrumented.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/initiateIdentityDataRetrieval</Anchor>
+			<Anchor>//api/name/instrumentationForClassWithName:</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/cancelRetrieval</TokenIdentifier>
-			<Abstract type="html">Cancels a request in progress.</Abstract>
-			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFInstrumentation/interceptorForSelector:isInstanceSelector:</TokenIdentifier>
+			<Abstract type="html">Returns the interceptor configured for the class with the given selector, or nil
+if an interceptor is not configured for the given selector.</Abstract>
+			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
 			
-			<Declaration>- (void)cancelRetrieval</Declaration>
-			
-			
-			<Anchor>//api/name/cancelRetrieval</Anchor>
+			<Declaration>- (nullable SFMethodInterceptor *)interceptorForSelector:(SEL)selector isInstanceSelector:(BOOL)isInstanceSelector</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>selector</Name>
+					<Abstract type="html">The selector to check</Abstract>
+				</Parameter><Parameter>
+					<Name>isInstanceSelector</Name>
+					<Abstract type="html">Whether or not the selector is an instance selector.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The configured SFMethodInterceptor instance, or nil if an interceptor is
+not configured.</Abstract></ReturnValue>
+			<Anchor>//api/name/interceptorForSelector:isInstanceSelector:</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/setCredentials:</TokenIdentifier>
-			<Abstract type="html">The OAuth credentials associated with this instance.</Abstract>
-			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFInstrumentation/interceptInstanceMethod:beforeBlock:afterBlock:</TokenIdentifier>
+			<Abstract type="html">Use this method to intercept the instance method specified by selector</Abstract>
+			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) SFOAuthCredentials *credentials</Declaration>
+			<Declaration>- (void)interceptInstanceMethod:(SEL)selector beforeBlock:(nullable SFMethodInterceptorInvocationCallback)before afterBlock:(nullable SFMethodInterceptorInvocationAfterCallback)after</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>selector</Name>
+					<Abstract type="html">The selector to intercept</Abstract>
+				</Parameter><Parameter>
+					<Name>before</Name>
+					<Abstract type="html">An optional block invoked before the selector is executed</Abstract>
+				</Parameter><Parameter>
+					<Name>after</Name>
+					<Abstract type="html">An optional block invoked after the selector is executed</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/credentials</Anchor>
+			<Anchor>//api/name/interceptInstanceMethod:beforeBlock:afterBlock:</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/credentials</TokenIdentifier>
-			<Abstract type="html">The OAuth credentials associated with this instance.</Abstract>
-			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFInstrumentation/interceptInstanceMethod:replaceWithInvocationBlock:</TokenIdentifier>
+			<Abstract type="html">Use this method to intercept the instance method specified by selector
+and provide a block that will be invoked instead of the method.
+Note: the block contains a single argument which is the NSInvocation of the message.</Abstract>
+			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) SFOAuthCredentials *credentials</Declaration>
+			<Declaration>- (void)interceptInstanceMethod:(SEL)selector replaceWithInvocationBlock:(nullable SFMethodInterceptorInvocationCallback)replace</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>selector</Name>
+					<Abstract type="html">The instance method to be intercepted</Abstract>
+				</Parameter><Parameter>
+					<Name>replace</Name>
+					<Abstract type="html">The block to be invoked</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/credentials</Anchor>
+			<Anchor>//api/name/interceptInstanceMethod:replaceWithInvocationBlock:</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityCoordinator/credentials</TokenIdentifier>
-			<Abstract type="html">The OAuth credentials associated with this instance.</Abstract>
-			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFInstrumentation/interceptClassMethod:beforeBlock:afterBlock:</TokenIdentifier>
+			<Abstract type="html">Use this method to intercept the class method specified by selector</Abstract>
+			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) SFOAuthCredentials *credentials</Declaration>
+			<Declaration>- (void)interceptClassMethod:(SEL)selector beforeBlock:(nullable SFMethodInterceptorInvocationCallback)before afterBlock:(nullable SFMethodInterceptorInvocationAfterCallback)after</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>selector</Name>
+					<Abstract type="html">The selector to intercept</Abstract>
+				</Parameter><Parameter>
+					<Name>before</Name>
+					<Abstract type="html">An optional block invoked before the selector is executed</Abstract>
+				</Parameter><Parameter>
+					<Name>after</Name>
+					<Abstract type="html">An optional block invoked after the selector is executed</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/credentials</Anchor>
+			<Anchor>//api/name/interceptClassMethod:beforeBlock:afterBlock:</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/setIdData:</TokenIdentifier>
-			<Abstract type="html">The SFIdentityData that will be populated with the response data from the service.</Abstract>
-			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFInstrumentation/interceptClassMethod:replaceWithInvocationBlock:</TokenIdentifier>
+			<Abstract type="html">Use this method to intercept the class method specified by selector
+and provide a block that will be invoked instead of the method.
+Note: the block contains a single argument which is the NSInvocation of the message.</Abstract>
+			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) SFIdentityData *idData</Declaration>
+			<Declaration>- (void)interceptClassMethod:(SEL)selector replaceWithInvocationBlock:(SFMethodInterceptorInvocationCallback)replace</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>selector</Name>
+					<Abstract type="html">The instance method to be intercepted</Abstract>
+				</Parameter><Parameter>
+					<Name>replace</Name>
+					<Abstract type="html">The block to be invoked</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/idData</Anchor>
+			<Anchor>//api/name/interceptClassMethod:replaceWithInvocationBlock:</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/idData</TokenIdentifier>
-			<Abstract type="html">The SFIdentityData that will be populated with the response data from the service.</Abstract>
-			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFInstrumentation/instrumentForTiming:afterBlock:</TokenIdentifier>
+			<Abstract type="html">Instrument some selectors of a the target class for performance timing.</Abstract>
+			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) SFIdentityData *idData</Declaration>
+			<Declaration>- (void)instrumentForTiming:(SFInstrumentationSelectorFilter)selectorFilter afterBlock:(SFMethodInterceptorInvocationAfterCallback)after</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>selectorFilter</Name>
+					<Abstract type="html">A block invoked when to select selectors from the class to instrument</Abstract>
+				</Parameter><Parameter>
+					<Name>after</Name>
+					<Abstract type="html">An optional block invoked after any selector is executed</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/idData</Anchor>
+			<Anchor>//api/name/instrumentForTiming:afterBlock:</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityCoordinator/idData</TokenIdentifier>
-			<Abstract type="html">The SFIdentityData that will be populated with the response data from the service.</Abstract>
-			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFInstrumentation/instrumentForTiming:inheritanceLevels:afterBlock:</TokenIdentifier>
+			<Abstract type="html">Instrument some selectors of the target class and its parent class(es)
+for performance timing.</Abstract>
+			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) SFIdentityData *idData</Declaration>
+			<Declaration>- (void)instrumentForTiming:(SFInstrumentationSelectorFilter)selectorFilter inheritanceLevels:(NSUInteger)numInheritanceLevels afterBlock:(SFMethodInterceptorInvocationAfterCallback)after</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>selectorFilter</Name>
+					<Abstract type="html">A block invoked when to select selectors from the class to instrument</Abstract>
+				</Parameter><Parameter>
+					<Name>numInheritanceLevels</Name>
+					<Abstract type="html">The number of inherited classes whose selectors will be made available.</Abstract>
+				</Parameter><Parameter>
+					<Name>after</Name>
+					<Abstract type="html">An optional block invoked after any selector is executed</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/idData</Anchor>
+			<Anchor>//api/name/instrumentForTiming:inheritanceLevels:afterBlock:</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/setDelegate:</TokenIdentifier>
-			<Abstract type="html">The SFIdentityCoordinatorDelegate property to set for receiving information about the request.
-This property must be set prior to initiating an identity request.</Abstract>
-			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFInstrumentation/loadInstructions:completion:</TokenIdentifier>
+			<Abstract type="html">Loads the array of instructions execute them. The instructions usually
+comes from a JSON file.</Abstract>
+			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SFIdentityCoordinatorDelegate&gt; delegate</Declaration>
+			<Declaration>- (void)loadInstructions:(NSArray *)instructions completion:(dispatch_block_t)completion</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>instructions</Name>
+					<Abstract type="html">The array of instructions</Abstract>
+				</Parameter><Parameter>
+					<Name>completion</Name>
+					<Abstract type="html">Optional completion block</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/delegate</Anchor>
+			<Anchor>//api/name/loadInstructions:completion:</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/delegate</TokenIdentifier>
-			<Abstract type="html">The SFIdentityCoordinatorDelegate property to set for receiving information about the request.
-This property must be set prior to initiating an identity request.</Abstract>
-			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFInstrumentation/startMeasure</TokenIdentifier>
+			<Abstract type="html">Start the timing measurement</Abstract>
+			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SFIdentityCoordinatorDelegate&gt; delegate</Declaration>
+			<Declaration>- (void)startMeasure</Declaration>
 			
 			
-			<Anchor>//api/name/delegate</Anchor>
+			<Anchor>//api/name/startMeasure</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityCoordinator/delegate</TokenIdentifier>
-			<Abstract type="html">The SFIdentityCoordinatorDelegate property to set for receiving information about the request.
-This property must be set prior to initiating an identity request.</Abstract>
-			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFInstrumentation/stopMeasure</TokenIdentifier>
+			<Abstract type="html">Stop the timing measurement</Abstract>
+			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SFIdentityCoordinatorDelegate&gt; delegate</Declaration>
+			<Declaration>- (void)stopMeasure</Declaration>
 			
 			
-			<Anchor>//api/name/delegate</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/setTimeout:</TokenIdentifier>
-			<Abstract type="html">The amount of time, in seconds, to attempt the request, before it times out.  If not set, the
-default value is represented by the kSFIdentityRequestDefaultTimeoutSeconds property.</Abstract>
-			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) NSTimeInterval timeout</Declaration>
-			
-			
-			<Anchor>//api/name/timeout</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/timeout</TokenIdentifier>
-			<Abstract type="html">The amount of time, in seconds, to attempt the request, before it times out.  If not set, the
-default value is represented by the kSFIdentityRequestDefaultTimeoutSeconds property.</Abstract>
-			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) NSTimeInterval timeout</Declaration>
-			
-			
-			<Anchor>//api/name/timeout</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityCoordinator/timeout</TokenIdentifier>
-			<Abstract type="html">The amount of time, in seconds, to attempt the request, before it times out.  If not set, the
-default value is represented by the kSFIdentityRequestDefaultTimeoutSeconds property.</Abstract>
-			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) NSTimeInterval timeout</Declaration>
-			
-			
-			<Anchor>//api/name/timeout</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/setRetrievingData:</TokenIdentifier>
-			<Abstract type="html">Whether or not a request is already in progress.</Abstract>
-			<DeclaredIn>SFIdentityCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (assign) BOOL retrievingData</Declaration>
-			
-			
-			<Anchor>//api/name/retrievingData</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/retrievingData</TokenIdentifier>
-			<Abstract type="html">Whether or not a request is already in progress.</Abstract>
-			<DeclaredIn>SFIdentityCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (assign) BOOL retrievingData</Declaration>
-			
-			
-			<Anchor>//api/name/retrievingData</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityCoordinator/retrievingData</TokenIdentifier>
-			<Abstract type="html">Whether or not a request is already in progress.</Abstract>
-			<DeclaredIn>SFIdentityCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (assign) BOOL retrievingData</Declaration>
-			
-			
-			<Anchor>//api/name/retrievingData</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/setSession:</TokenIdentifier>
-			<Abstract type="html">The NSURLSession associated with the ID request.</Abstract>
-			<DeclaredIn>SFIdentityCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) NSURLSession *session</Declaration>
-			
-			
-			<Anchor>//api/name/session</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/session</TokenIdentifier>
-			<Abstract type="html">The NSURLSession associated with the ID request.</Abstract>
-			<DeclaredIn>SFIdentityCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) NSURLSession *session</Declaration>
-			
-			
-			<Anchor>//api/name/session</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityCoordinator/session</TokenIdentifier>
-			<Abstract type="html">The NSURLSession associated with the ID request.</Abstract>
-			<DeclaredIn>SFIdentityCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) NSURLSession *session</Declaration>
-			
-			
-			<Anchor>//api/name/session</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/setOauthSessionRefresher:</TokenIdentifier>
-			<Abstract type="html">The OAuth sesssion refresher to use if the identity request fails with expired credentials.</Abstract>
-			<DeclaredIn>SFIdentityCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) SFOAuthSessionRefresher *oauthSessionRefresher</Declaration>
-			
-			
-			<Anchor>//api/name/oauthSessionRefresher</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/oauthSessionRefresher</TokenIdentifier>
-			<Abstract type="html">The OAuth sesssion refresher to use if the identity request fails with expired credentials.</Abstract>
-			<DeclaredIn>SFIdentityCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) SFOAuthSessionRefresher *oauthSessionRefresher</Declaration>
-			
-			
-			<Anchor>//api/name/oauthSessionRefresher</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityCoordinator/oauthSessionRefresher</TokenIdentifier>
-			<Abstract type="html">The OAuth sesssion refresher to use if the identity request fails with expired credentials.</Abstract>
-			<DeclaredIn>SFIdentityCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) SFOAuthSessionRefresher *oauthSessionRefresher</Declaration>
-			
-			
-			<Anchor>//api/name/oauthSessionRefresher</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/setTypeToCodeDict:</TokenIdentifier>
-			<Abstract type="html">Dictionary mapping error codes to their respective types.</Abstract>
-			<DeclaredIn>SFIdentityCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (strong, nonatomic, readonly) NSDictionary *typeToCodeDict</Declaration>
-			
-			
-			<Anchor>//api/name/typeToCodeDict</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/typeToCodeDict</TokenIdentifier>
-			<Abstract type="html">Dictionary mapping error codes to their respective types.</Abstract>
-			<DeclaredIn>SFIdentityCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (strong, nonatomic, readonly) NSDictionary *typeToCodeDict</Declaration>
-			
-			
-			<Anchor>//api/name/typeToCodeDict</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityCoordinator/typeToCodeDict</TokenIdentifier>
-			<Abstract type="html">Dictionary mapping error codes to their respective types.</Abstract>
-			<DeclaredIn>SFIdentityCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (strong, nonatomic, readonly) NSDictionary *typeToCodeDict</Declaration>
-			
-			
-			<Anchor>//api/name/typeToCodeDict</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/setAuthSession:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFIdentityCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak, nullable) SFSDKAuthSession *authSession</Declaration>
-			
-			
-			<Anchor>//api/name/authSession</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/authSession</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFIdentityCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak, nullable) SFSDKAuthSession *authSession</Declaration>
-			
-			
-			<Anchor>//api/name/authSession</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFIdentityCoordinator/authSession</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFIdentityCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak, nullable) SFSDKAuthSession *authSession</Declaration>
-			
-			
-			<Anchor>//api/name/authSession</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/initWithAuthSession:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFIdentityCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>- (id)initWithAuthSession:(SFSDKAuthSession *)authSession</Declaration>
-			
-			
-			<Anchor>//api/name/initWithAuthSession:</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/notifyDelegateOfSuccess</TokenIdentifier>
-			<Abstract type="html">Triggers the success notifictation to the delegate.</Abstract>
-			<DeclaredIn>SFIdentityCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)notifyDelegateOfSuccess</Declaration>
-			
-			
-			<Anchor>//api/name/notifyDelegateOfSuccess</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/notifyDelegateOfFailure:</TokenIdentifier>
-			<Abstract type="html">Triggers the failure notification and error to the delegate.</Abstract>
-			<DeclaredIn>SFIdentityCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)notifyDelegateOfFailure:(NSError *)error</Declaration>
-			
-			
-			<Anchor>//api/name/notifyDelegateOfFailure:</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/sendRequest</TokenIdentifier>
-			<Abstract type="html">Sends the request to the identity service, and processes the response.</Abstract>
-			<DeclaredIn>SFIdentityCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)sendRequest</Declaration>
-			
-			
-			<Anchor>//api/name/sendRequest</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/processResponse:</TokenIdentifier>
-			<Abstract type="html">Process a completed response from the service, populating the ID data.</Abstract>
-			<DeclaredIn>SFIdentityCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)processResponse:(NSData *)responseData</Declaration>
-			
-			
-			<Anchor>//api/name/processResponse:</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/cleanupData</TokenIdentifier>
-			<Abstract type="html">Cleans up the in-process properties and vars, once a request is completed.</Abstract>
-			<DeclaredIn>SFIdentityCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)cleanupData</Declaration>
-			
-			
-			<Anchor>//api/name/cleanupData</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFIdentityCoordinator/errorWithType:description:</TokenIdentifier>
-			<Abstract type="html">Creates an NSError instance based on type and description, for notifying the delegate
-of a failure.</Abstract>
-			<DeclaredIn>SFIdentityCoordinator+Internal.h</DeclaredIn>
-			
-			<Declaration>- (NSError *)errorWithType:(NSString *)type description:(NSString *)description</Declaration>
-			
-			
-			<Anchor>//api/name/errorWithType:description:</Anchor>
+			<Anchor>//api/name/stopMeasure</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		

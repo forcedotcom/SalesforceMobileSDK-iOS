@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFNetwork.html">
+	<File path="Classes/SFOAuthOrgAuthConfiguration.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFNetwork</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFOAuthOrgAuthConfiguration</TokenIdentifier>
+			<Abstract type="html">Data class representing the org authentication configuration.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
             
 			
 			<NodeRef refid="31"/>
@@ -13,259 +13,199 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFNetwork/setActiveSession:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/setUseNativeBrowserForAuth:</TokenIdentifier>
+			<Abstract type="html">Tells Mobile SDK whether to use the native browser for authentication.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, strong, nonnull) NSURLSession *activeSession</Declaration>
+			<Declaration>@property (nonatomic, readonly) BOOL useNativeBrowserForAuth</Declaration>
 			
 			
-			<Anchor>//api/name/activeSession</Anchor>
+			<Anchor>//api/name/useNativeBrowserForAuth</Anchor>
             <NodeRef refid="31"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFNetwork/activeSession</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/useNativeBrowserForAuth</TokenIdentifier>
+			<Abstract type="html">Tells Mobile SDK whether to use the native browser for authentication.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, strong, nonnull) NSURLSession *activeSession</Declaration>
+			<Declaration>@property (nonatomic, readonly) BOOL useNativeBrowserForAuth</Declaration>
 			
 			
-			<Anchor>//api/name/activeSession</Anchor>
+			<Anchor>//api/name/useNativeBrowserForAuth</Anchor>
             <NodeRef refid="31"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFNetwork/activeSession</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthOrgAuthConfiguration/useNativeBrowserForAuth</TokenIdentifier>
+			<Abstract type="html">Tells Mobile SDK whether to use the native browser for authentication.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, strong, nonnull) NSURLSession *activeSession</Declaration>
+			<Declaration>@property (nonatomic, readonly) BOOL useNativeBrowserForAuth</Declaration>
 			
 			
-			<Anchor>//api/name/activeSession</Anchor>
+			<Anchor>//api/name/useNativeBrowserForAuth</Anchor>
             <NodeRef refid="31"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFNetwork/setMetricsCollectedAction:</TokenIdentifier>
-			<Abstract type="html">The block to execute to execeute when metrics are collected on URL session task, if provided.</Abstract>
-			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/setShareBrowserSession:</TokenIdentifier>
+			<Abstract type="html">Tells Mobile SDK  to share the native browser session for authentication.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
 			
-			<Declaration>@property (class, nonatomic, copy, nullable) SFSDKMetricsCollectedBlock metricsCollectedAction</Declaration>
+			<Declaration>@property (nonatomic, readonly) BOOL shareBrowserSession</Declaration>
 			
 			
-			<Anchor>//api/name/metricsCollectedAction</Anchor>
+			<Anchor>//api/name/shareBrowserSession</Anchor>
             <NodeRef refid="31"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFNetwork/metricsCollectedAction</TokenIdentifier>
-			<Abstract type="html">The block to execute to execeute when metrics are collected on URL session task, if provided.</Abstract>
-			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/shareBrowserSession</TokenIdentifier>
+			<Abstract type="html">Tells Mobile SDK  to share the native browser session for authentication.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
 			
-			<Declaration>@property (class, nonatomic, copy, nullable) SFSDKMetricsCollectedBlock metricsCollectedAction</Declaration>
+			<Declaration>@property (nonatomic, readonly) BOOL shareBrowserSession</Declaration>
 			
 			
-			<Anchor>//api/name/metricsCollectedAction</Anchor>
+			<Anchor>//api/name/shareBrowserSession</Anchor>
             <NodeRef refid="31"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFNetwork/metricsCollectedAction</TokenIdentifier>
-			<Abstract type="html">The block to execute to execeute when metrics are collected on URL session task, if provided.</Abstract>
-			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthOrgAuthConfiguration/shareBrowserSession</TokenIdentifier>
+			<Abstract type="html">Tells Mobile SDK  to share the native browser session for authentication.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
 			
-			<Declaration>@property (class, nonatomic, copy, nullable) SFSDKMetricsCollectedBlock metricsCollectedAction</Declaration>
+			<Declaration>@property (nonatomic, readonly) BOOL shareBrowserSession</Declaration>
 			
 			
-			<Anchor>//api/name/metricsCollectedAction</Anchor>
+			<Anchor>//api/name/shareBrowserSession</Anchor>
             <NodeRef refid="31"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/sharedEphemeralInstance</TokenIdentifier>
-			<Abstract type="html">Returns an instance of this class with the default ephemeral session configuration.</Abstract>
-			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/setSsoUrls:</TokenIdentifier>
+			<Abstract type="html">List of configured SSO URLs.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
 			
-			<Declaration>+ (nonnull instancetype)sharedEphemeralInstance</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSArray&lt;NSString*&gt; *ssoUrls</Declaration>
 			
-			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
-			<Anchor>//api/name/sharedEphemeralInstance</Anchor>
+			
+			<Anchor>//api/name/ssoUrls</Anchor>
             <NodeRef refid="31"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/sharedBackgroundInstance</TokenIdentifier>
-			<Abstract type="html">Returns an instance of this class with the default background session configuration.</Abstract>
-			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/ssoUrls</TokenIdentifier>
+			<Abstract type="html">List of configured SSO URLs.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
 			
-			<Declaration>+ (nonnull instancetype)sharedBackgroundInstance</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSArray&lt;NSString*&gt; *ssoUrls</Declaration>
 			
-			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
-			<Anchor>//api/name/sharedBackgroundInstance</Anchor>
+			
+			<Anchor>//api/name/ssoUrls</Anchor>
             <NodeRef refid="31"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/sharedEphemeralInstanceWithIdentifier:</TokenIdentifier>
-			<Abstract type="html">Returns instance of this class for the given identifier with the default ephemeral session configuration.</Abstract>
-			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthOrgAuthConfiguration/ssoUrls</TokenIdentifier>
+			<Abstract type="html">List of configured SSO URLs.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
 			
-			<Declaration>+ (nonnull instancetype)sharedEphemeralInstanceWithIdentifier:(nonnull NSString *)identifier</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSArray&lt;NSString*&gt; *ssoUrls</Declaration>
 			
-			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
-			<Anchor>//api/name/sharedEphemeralInstanceWithIdentifier:</Anchor>
+			
+			<Anchor>//api/name/ssoUrls</Anchor>
             <NodeRef refid="31"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/sharedBackgroundInstanceWithIdentifier:</TokenIdentifier>
-			<Abstract type="html">Returns instance of this class for the given identifier with the default background session configuration.</Abstract>
-			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/setLoginPageUrl:</TokenIdentifier>
+			<Abstract type="html">Configured login page URL.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
 			
-			<Declaration>+ (nonnull instancetype)sharedBackgroundInstanceWithIdentifier:(nonnull NSString *)identifier</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSString *loginPageUrl</Declaration>
 			
-			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
-			<Anchor>//api/name/sharedBackgroundInstanceWithIdentifier:</Anchor>
+			
+			<Anchor>//api/name/loginPageUrl</Anchor>
             <NodeRef refid="31"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/sharedInstanceWithIdentifier:sessionConfiguration:</TokenIdentifier>
-			<Abstract type="html">Returns an instance of this class with the given session configuration.</Abstract>
-			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/loginPageUrl</TokenIdentifier>
+			<Abstract type="html">Configured login page URL.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
 			
-			<Declaration>+ (nonnull instancetype)sharedInstanceWithIdentifier:(nonnull NSString *)identifier sessionConfiguration:(nonnull NSURLSessionConfiguration *)sessionConfiguration</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSString *loginPageUrl</Declaration>
+			
+			
+			<Anchor>//api/name/loginPageUrl</Anchor>
+            <NodeRef refid="31"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthOrgAuthConfiguration/loginPageUrl</TokenIdentifier>
+			<Abstract type="html">Configured login page URL.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSString *loginPageUrl</Declaration>
+			
+			
+			<Anchor>//api/name/loginPageUrl</Anchor>
+            <NodeRef refid="31"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/setAuthConfigDict:</TokenIdentifier>
+			<Abstract type="html">Raw dictionary data representing the org auth configuration.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSDictionary *authConfigDict</Declaration>
+			
+			
+			<Anchor>//api/name/authConfigDict</Anchor>
+            <NodeRef refid="31"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/authConfigDict</TokenIdentifier>
+			<Abstract type="html">Raw dictionary data representing the org auth configuration.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSDictionary *authConfigDict</Declaration>
+			
+			
+			<Anchor>//api/name/authConfigDict</Anchor>
+            <NodeRef refid="31"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthOrgAuthConfiguration/authConfigDict</TokenIdentifier>
+			<Abstract type="html">Raw dictionary data representing the org auth configuration.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) NSDictionary *authConfigDict</Declaration>
+			
+			
+			<Anchor>//api/name/authConfigDict</Anchor>
+            <NodeRef refid="31"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/initWithConfigDict:</TokenIdentifier>
+			<Abstract type="html">Designated initializer.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
+			
+			<Declaration>- (nonnull id)initWithConfigDict:(nullable NSDictionary *)authConfigDict</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>identifier</Name>
-					<Abstract type="html">Identifier for the instance</Abstract>
-				</Parameter><Parameter>
-					<Name>sessionConfiguration</Name>
-					<Abstract type="html">Configuration to use for the session.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
-			<Anchor>//api/name/sharedInstanceWithIdentifier:sessionConfiguration:</Anchor>
-            <NodeRef refid="31"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFNetwork/sendRequest:dataResponseBlock:</TokenIdentifier>
-			<Abstract type="html">Sends a REST request and calls the appropriate completion block.</Abstract>
-			<DeclaredIn>SFNetwork.h</DeclaredIn>
-			
-			<Declaration>- (nonnull NSURLSessionDataTask *)sendRequest:(nonnull NSURLRequest *)urlRequest dataResponseBlock:(nullable SFDataResponseBlock)dataResponseBlock</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>urlRequest</Name>
-					<Abstract type="html">NSURLRequest instance.</Abstract>
-				</Parameter><Parameter>
-					<Name>dataResponseBlock</Name>
-					<Abstract type="html">Network response block.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">NSURLSessionDataTask instance.</Abstract></ReturnValue>
-			<Anchor>//api/name/sendRequest:dataResponseBlock:</Anchor>
-            <NodeRef refid="31"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/setSessionConfiguration:identifier:</TokenIdentifier>
-			<Abstract type="html">Sets a session configuration to be used for network requests in Mobile SDK.</Abstract>
-			<DeclaredIn>SFNetwork.h</DeclaredIn>
-			
-			<Declaration>+ (void)setSessionConfiguration:(nonnull NSURLSessionConfiguration *)sessionConfig identifier:(nonnull NSString *)identifier</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>sessionConfig</Name>
-					<Abstract type="html">Session configuration to be used.</Abstract>
-				</Parameter><Parameter>
-					<Name>identifier</Name>
-					<Abstract type="html">Identifier for the instance to use this config.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/setSessionConfiguration:identifier:</Anchor>
-            <NodeRef refid="31"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/removeSharedEphemeralInstance</TokenIdentifier>
-			<Abstract type="html">Removes shared instance for the default ephemeral identifier.</Abstract>
-			<DeclaredIn>SFNetwork.h</DeclaredIn>
-			
-			<Declaration>+ (void)removeSharedEphemeralInstance</Declaration>
-			
-			
-			<Anchor>//api/name/removeSharedEphemeralInstance</Anchor>
-            <NodeRef refid="31"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/removeSharedBackgroundInstance</TokenIdentifier>
-			<Abstract type="html">Removes shared instance for the default background identifier.</Abstract>
-			<DeclaredIn>SFNetwork.h</DeclaredIn>
-			
-			<Declaration>+ (void)removeSharedBackgroundInstance</Declaration>
-			
-			
-			<Anchor>//api/name/removeSharedBackgroundInstance</Anchor>
-            <NodeRef refid="31"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/removeSharedInstanceForIdentifier:</TokenIdentifier>
-			<Abstract type="html">Removes shared instance for given identifier.</Abstract>
-			<DeclaredIn>SFNetwork.h</DeclaredIn>
-			
-			<Declaration>+ (void)removeSharedInstanceForIdentifier:(nullable NSString *)identifier</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>identifier</Name>
-					<Abstract type="html">Identifier for the session.</Abstract>
+					<Name>authConfigDict</Name>
+					<Abstract type="html">NSDictionary containing the org auth configuration.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/removeSharedInstanceForIdentifier:</Anchor>
-            <NodeRef refid="31"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/removeAllSharedInstances</TokenIdentifier>
-			<Abstract type="html">Removes all shared instances.</Abstract>
-			<DeclaredIn>SFNetwork.h</DeclaredIn>
-			
-			<Declaration>+ (void)removeAllSharedInstances</Declaration>
-			
-			
-			<Anchor>//api/name/removeAllSharedInstances</Anchor>
-            <NodeRef refid="31"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/sharedInstanceIdentifiers</TokenIdentifier>
-			<Abstract type="html">Returns list of identifiers for all shared instances.</Abstract>
-			<DeclaredIn>SFNetwork.h</DeclaredIn>
-			
-			<Declaration>+ (nullable NSArray *)sharedInstanceIdentifiers</Declaration>
-			
-			<ReturnValue><Abstract type="html">Array of identifiers.</Abstract></ReturnValue>
-			<Anchor>//api/name/sharedInstanceIdentifiers</Anchor>
-            <NodeRef refid="31"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/uniqueInstanceIdentifier</TokenIdentifier>
-			<Abstract type="html">Generates a unique instance identifier.</Abstract>
-			<DeclaredIn>SFNetwork.h</DeclaredIn>
-			
-			<Declaration>+ (nonnull NSString *)uniqueInstanceIdentifier</Declaration>
-			
-			
-			<Anchor>//api/name/uniqueInstanceIdentifier</Anchor>
+			<Anchor>//api/name/initWithConfigDict:</Anchor>
             <NodeRef refid="31"/>
 		</Token>
 		

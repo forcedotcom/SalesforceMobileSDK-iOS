@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKBatchRequest.html">
+	<File path="Classes/SFSDKCompositeResponse.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKBatchRequest</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKCompositeResponse</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBatchRequest.h</DeclaredIn>
+			<DeclaredIn>SFSDKCompositeResponse.h</DeclaredIn>
             
 			
 			<NodeRef refid="66"/>
@@ -13,74 +13,50 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBatchRequest/setHaltOnError:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCompositeResponse/setSubResponses:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBatchRequest.h</DeclaredIn>
+			<DeclaredIn>SFSDKCompositeResponse.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL haltOnError</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSArray&lt;SFSDKCompositeSubResponse*&gt; *subResponses</Declaration>
 			
 			
-			<Anchor>//api/name/haltOnError</Anchor>
+			<Anchor>//api/name/subResponses</Anchor>
             <NodeRef refid="66"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBatchRequest/haltOnError</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCompositeResponse/subResponses</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBatchRequest.h</DeclaredIn>
+			<DeclaredIn>SFSDKCompositeResponse.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL haltOnError</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSArray&lt;SFSDKCompositeSubResponse*&gt; *subResponses</Declaration>
 			
 			
-			<Anchor>//api/name/haltOnError</Anchor>
+			<Anchor>//api/name/subResponses</Anchor>
             <NodeRef refid="66"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKBatchRequest/haltOnError</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKCompositeResponse/subResponses</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBatchRequest.h</DeclaredIn>
+			<DeclaredIn>SFSDKCompositeResponse.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL haltOnError</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSArray&lt;SFSDKCompositeSubResponse*&gt; *subResponses</Declaration>
 			
 			
-			<Anchor>//api/name/haltOnError</Anchor>
+			<Anchor>//api/name/subResponses</Anchor>
             <NodeRef refid="66"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBatchRequest/setBatchRequests:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCompositeResponse/initWith:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBatchRequest.h</DeclaredIn>
+			<DeclaredIn>SFSDKCompositeResponse.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSArray&lt;SFRestRequest*&gt; *batchRequests</Declaration>
-			
-			
-			<Anchor>//api/name/batchRequests</Anchor>
-            <NodeRef refid="66"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBatchRequest/batchRequests</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBatchRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSArray&lt;SFRestRequest*&gt; *batchRequests</Declaration>
+			<Declaration>- (instancetype)initWith:(NSDictionary *)dict</Declaration>
 			
 			
-			<Anchor>//api/name/batchRequests</Anchor>
-            <NodeRef refid="66"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKBatchRequest/batchRequests</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBatchRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSArray&lt;SFRestRequest*&gt; *batchRequests</Declaration>
-			
-			
-			<Anchor>//api/name/batchRequests</Anchor>
+			<Anchor>//api/name/initWith:</Anchor>
             <NodeRef refid="66"/>
 		</Token>
 		

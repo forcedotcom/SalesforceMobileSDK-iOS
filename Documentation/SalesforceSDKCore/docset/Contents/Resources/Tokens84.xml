@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKIDPAuthHelper.html">
+	<File path="Classes/SFSDKInstrumentationHelper.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKIDPAuthHelper</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKInstrumentationHelper</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKIDPAuthHelper.h</DeclaredIn>
+			<DeclaredIn>SFSDKInstrumentationHelper.h</DeclaredIn>
             
 			
 			<NodeRef refid="84"/>
@@ -13,62 +13,50 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKIDPAuthHelper/invokeIDPApp:completion:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationHelper/setIsEnabled:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKIDPAuthHelper.h</DeclaredIn>
+			<DeclaredIn>SFSDKInstrumentationHelper.h</DeclaredIn>
 			
-			<Declaration>+ (void)invokeIDPApp:(SFSDKAuthSession *)session completion:(void ( ^ ) ( BOOL ))completionBlock</Declaration>
+			<Declaration>@property (class, nonatomic, readonly) BOOL isEnabled</Declaration>
 			
 			
-			<Anchor>//api/name/invokeIDPApp:completion:</Anchor>
+			<Anchor>//api/name/isEnabled</Anchor>
             <NodeRef refid="84"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKIDPAuthHelper/invokeSPApp:completion:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationHelper/isEnabled</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKIDPAuthHelper.h</DeclaredIn>
+			<DeclaredIn>SFSDKInstrumentationHelper.h</DeclaredIn>
 			
-			<Declaration>+ (void)invokeSPApp:(SFSDKAuthSession *)session completion:(void ( ^ ) ( BOOL ))completionBlock</Declaration>
+			<Declaration>@property (class, nonatomic, readonly) BOOL isEnabled</Declaration>
 			
 			
-			<Anchor>//api/name/invokeSPApp:completion:</Anchor>
+			<Anchor>//api/name/isEnabled</Anchor>
             <NodeRef refid="84"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKIDPAuthHelper/invokeSPAppWithError:error:reason:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKInstrumentationHelper/isEnabled</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKIDPAuthHelper.h</DeclaredIn>
+			<DeclaredIn>SFSDKInstrumentationHelper.h</DeclaredIn>
 			
-			<Declaration>+ (void)invokeSPAppWithError:(SFOAuthCredentials *)spAppCredentials error:(nullable NSError *)error reason:(NSString *)reason</Declaration>
+			<Declaration>@property (class, nonatomic, readonly) BOOL isEnabled</Declaration>
 			
 			
-			<Anchor>//api/name/invokeSPAppWithError:error:reason:</Anchor>
+			<Anchor>//api/name/isEnabled</Anchor>
             <NodeRef refid="84"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKIDPAuthHelper/encodeScopes:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKInstrumentationHelper/swizzleMethod:with:forClass:isInstanceMethod:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKIDPAuthHelper.h</DeclaredIn>
+			<DeclaredIn>SFSDKInstrumentationHelper.h</DeclaredIn>
 			
-			<Declaration>+ (NSString *)encodeScopes:(NSSet&lt;NSString*&gt; *)requestScopes</Declaration>
-			
-			
-			<Anchor>//api/name/encodeScopes:</Anchor>
-            <NodeRef refid="84"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKIDPAuthHelper/decodeScopes:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKIDPAuthHelper.h</DeclaredIn>
-			
-			<Declaration>+ (NSSet&lt;NSString*&gt; *)decodeScopes:(NSString *)scopeString</Declaration>
+			<Declaration>+ (void)swizzleMethod:(SEL)originalSelector with:(SEL)swizzledSelector forClass:(Class)clazz isInstanceMethod:(BOOL)isInstanceMethod</Declaration>
 			
 			
-			<Anchor>//api/name/decodeScopes:</Anchor>
+			<Anchor>//api/name/swizzleMethod:with:forClass:isInstanceMethod:</Anchor>
             <NodeRef refid="84"/>
 		</Token>
 		

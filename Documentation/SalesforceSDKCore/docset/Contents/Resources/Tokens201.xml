@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSDKAppConfigErrorCode.html">
+	<File path="Constants/SFSPLoginStatus.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSDKAppConfigErrorCode</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSPLoginStatus</TokenIdentifier>
+			<Abstract type="html">  Key used to provide triggering scene info for IDP flow from a scene delegate.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="201"/>
@@ -14,31 +14,31 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKAppConfigErrorCodeNoConsumerKey</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSPLoginStatusLaunchingSPWithUserHint</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKAppConfigErrorCodeNoConsumerKey</Declaration>
+            <Declaration>SFSPLoginStatusLaunchingSPWithUserHint</Declaration>
             
-            <DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountManager.h</DeclaredIn>
             
             <NodeRef refid="201"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKAppConfigErrorCodeNoRedirectURI</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSPLoginStatusCodeVerifierStoredInKeychain</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKAppConfigErrorCodeNoRedirectURI</Declaration>
+            <Declaration>SFSPLoginStatusCodeVerifierStoredInKeychain</Declaration>
             
-            <DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountManager.h</DeclaredIn>
             
             <NodeRef refid="201"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKAppConfigErrorCodeNoOAuthScopes</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSPLoginStatusGettingAuthCodeFromServer</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKAppConfigErrorCodeNoOAuthScopes</Declaration>
+            <Declaration>SFSPLoginStatusGettingAuthCodeFromServer</Declaration>
             
-            <DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountManager.h</DeclaredIn>
             
             <NodeRef refid="201"/>
         </Token>

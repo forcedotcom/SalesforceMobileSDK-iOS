@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFCryptChunks.html">
+	<File path="Classes/SFCrypto.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFCryptChunks</TokenIdentifier>
-			<Abstract type="html">SFCryptChunks performs encryption / decryption in chunks, using a fixed size buffer in the stack.
-It does not allocate any memory to perform the encryption / decryption,
-the size of memory used (by SFCryptChunks) is O(1) regardless of the input / output data size.</Abstract>
-			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFCrypto</TokenIdentifier>
+			<Abstract type="html">Utility class for data encryption operations.</Abstract>
+			<DeclaredIn>SFCrypto.h</DeclaredIn>
             
 			
 			<NodeRef refid="8"/>
@@ -15,157 +13,41 @@ the size of memory used (by SFCryptChunks) is O(1) regardless of the input / out
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCryptChunks/initForEncryptionWithKey:initializationVector:</TokenIdentifier>
-			<Abstract type="html">Initializes a SFCryptChunks for encryption that uses algorithm specified in SFCryptChunksCipherAlgorithm
-and options specified in SFCryptChunksCipherOptions.</Abstract>
-			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFCrypto/baseAppIdentifier</TokenIdentifier>
+			<Abstract type="html">Returns a unique identifier associated with this app install.  The identifier will
+remain the same for the lifetime of the app&apos;s installation on the device.  If the
+app is uninstalled, a new identifier will be created if it is ever reinstalled.</Abstract>
+			<DeclaredIn>SFCrypto.h</DeclaredIn>
 			
-			<Declaration>- (instancetype)initForEncryptionWithKey:(NSData *)key initializationVector:(nullable NSData *)iv</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>key</Name>
-					<Abstract type="html">the cipher key.</Abstract>
-				</Parameter><Parameter>
-					<Name>iv</Name>
-					<Abstract type="html">the initialization vector, must be size of SFCryptChunksCipherBlockSize.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">a SFCryptChunks ready for encryption.</Abstract></ReturnValue>
-			<Anchor>//api/name/initForEncryptionWithKey:initializationVector:</Anchor>
+			<Declaration>+ (NSString *)baseAppIdentifier</Declaration>
+			
+			<ReturnValue><Abstract type="html">A unique identifier for the app install on the particular device.</Abstract></ReturnValue>
+			<Anchor>//api/name/baseAppIdentifier</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCryptChunks/initForDecryptionWithKey:initializationVector:</TokenIdentifier>
-			<Abstract type="html">Initializes a SFCryptChunks for decryption that uses algorithm specified in SFCryptChunksCipherAlgorithm
-and options specified in SFCryptChunksCipherOptions.</Abstract>
-			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFCrypto/baseAppIdentifierIsConfigured</TokenIdentifier>
+			<Abstract type="html">Whether or not the base app identifier has been configured for this app install.</Abstract>
+			<DeclaredIn>SFCrypto.h</DeclaredIn>
 			
-			<Declaration>- (instancetype)initForDecryptionWithKey:(NSData *)key initializationVector:(nullable NSData *)iv</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>key</Name>
-					<Abstract type="html">the cipher key.</Abstract>
-				</Parameter><Parameter>
-					<Name>iv</Name>
-					<Abstract type="html">the initialization vector, must be size of SFCryptChunksCipherBlockSize.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">a SFCryptChunks ready for decryption.</Abstract></ReturnValue>
-			<Anchor>//api/name/initForDecryptionWithKey:initializationVector:</Anchor>
+			<Declaration>+ (BOOL)baseAppIdentifierIsConfigured</Declaration>
+			
+			<ReturnValue><Abstract type="html">YES if the base app ID has already been configured, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/baseAppIdentifierIsConfigured</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCryptChunks/setDelegate:</TokenIdentifier>
-			<Abstract type="html">The delegate to receive crypt results.</Abstract>
-			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFCrypto/baseAppIdentifierConfiguredThisLaunch</TokenIdentifier>
+			<Abstract type="html">Whether or not the base app identifier was configured at some point during this launch of
+the app.</Abstract>
+			<DeclaredIn>SFCrypto.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SFCryptChunksDelegate&gt; delegate</Declaration>
+			<Declaration>+ (BOOL)baseAppIdentifierConfiguredThisLaunch</Declaration>
 			
-			
-			<Anchor>//api/name/delegate</Anchor>
-            <NodeRef refid="8"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCryptChunks/delegate</TokenIdentifier>
-			<Abstract type="html">The delegate to receive crypt results.</Abstract>
-			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) id&lt;SFCryptChunksDelegate&gt; delegate</Declaration>
-			
-			
-			<Anchor>//api/name/delegate</Anchor>
-            <NodeRef refid="8"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFCryptChunks/delegate</TokenIdentifier>
-			<Abstract type="html">The delegate to receive crypt results.</Abstract>
-			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) id&lt;SFCryptChunksDelegate&gt; delegate</Declaration>
-			
-			
-			<Anchor>//api/name/delegate</Anchor>
-            <NodeRef refid="8"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCryptChunks/cryptBuffer:bufferLen:</TokenIdentifier>
-			<Abstract type="html">A data buffer to be encrypted / decrypted. You may pass a buffer of any size here,
-the delegate will then be called with results as many times as needed:
-- the delegate may be called multiple times with chunk results; or
-- the delegate may not be called at all, if there isn&apos;t enough data to produce a result.
-This method utilizes a stack memory buffer the size of 2 cipher blocks.</Abstract>
-			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
-			
-			<Declaration>- (void)cryptBuffer:(const uint8_t *)buffer bufferLen:(size_t)len</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>buffer</Name>
-					<Abstract type="html">the buffer data to be encrypted or decrypted.</Abstract>
-				</Parameter><Parameter>
-					<Name>len</Name>
-					<Abstract type="html">the buffer size.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/cryptBuffer:bufferLen:</Anchor>
-            <NodeRef refid="8"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCryptChunks/setCryptFinalized:</TokenIdentifier>
-			<Abstract type="html">Whether or not the crypt operation completed.
-Once complete, this object must be disposed.</Abstract>
-			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign, readonly) BOOL cryptFinalized</Declaration>
-			
-			
-			<Anchor>//api/name/cryptFinalized</Anchor>
-            <NodeRef refid="8"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCryptChunks/cryptFinalized</TokenIdentifier>
-			<Abstract type="html">Whether or not the crypt operation completed.
-Once complete, this object must be disposed.</Abstract>
-			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign, readonly) BOOL cryptFinalized</Declaration>
-			
-			
-			<Anchor>//api/name/cryptFinalized</Anchor>
-            <NodeRef refid="8"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFCryptChunks/cryptFinalized</TokenIdentifier>
-			<Abstract type="html">Whether or not the crypt operation completed.
-Once complete, this object must be disposed.</Abstract>
-			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign, readonly) BOOL cryptFinalized</Declaration>
-			
-			
-			<Anchor>//api/name/cryptFinalized</Anchor>
-            <NodeRef refid="8"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCryptChunks/finalizeCrypt</TokenIdentifier>
-			<Abstract type="html">Finalizes the crypt operation. The delegate may be called with chunk results if the final crypt produced any results.
-The final result is never bigger than the cipher block size.
-This method utilizes a stack memory buffer the size of 1 cipher block.</Abstract>
-			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
-			
-			<Declaration>- (void)finalizeCrypt</Declaration>
-			
-			
-			<Anchor>//api/name/finalizeCrypt</Anchor>
+			<ReturnValue><Abstract type="html">YES if the base app ID was configured during this app launch; NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/baseAppIdentifierConfiguredThisLaunch</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		

@@ -1,17 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKAuthRootController.html">
+	<File path="Classes/SFSDKCollectionResponse.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAuthRootController</TokenIdentifier>
-			<Abstract type="html">  Sub class of SFSDKRootViewController used in the auth window
-  Implements the ASWebAuthenticationPresentationContextProviding on iOS 13</Abstract>
-			<DeclaredIn>SFSDKAuthRootController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKCollectionResponse</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKCollectionResponse.h</DeclaredIn>
             
 			
 			<NodeRef refid="62"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCollectionResponse/setSubResponses:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKCollectionResponse.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSArray&lt;SFSDKCollectionSubResponse*&gt; *subResponses</Declaration>
+			
+			
+			<Anchor>//api/name/subResponses</Anchor>
+            <NodeRef refid="62"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCollectionResponse/subResponses</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKCollectionResponse.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSArray&lt;SFSDKCollectionSubResponse*&gt; *subResponses</Declaration>
+			
+			
+			<Anchor>//api/name/subResponses</Anchor>
+            <NodeRef refid="62"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKCollectionResponse/subResponses</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKCollectionResponse.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSArray&lt;SFSDKCollectionSubResponse*&gt; *subResponses</Declaration>
+			
+			
+			<Anchor>//api/name/subResponses</Anchor>
+            <NodeRef refid="62"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCollectionResponse/initWith:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKCollectionResponse.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWith:(NSArray *)array</Declaration>
+			
+			
+			<Anchor>//api/name/initWith:</Anchor>
+            <NodeRef refid="62"/>
+		</Token>
 		
         
         

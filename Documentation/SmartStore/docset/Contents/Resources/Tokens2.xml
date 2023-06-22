@@ -435,35 +435,6 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/initWithStore:soupName:newSoupSpec:newIndexSpecs:reIndexData:</TokenIdentifier>
-			<Abstract type="html">Initializer for starting the alter soup operation with a new soup spec.</Abstract>
-			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
-			
-			<Declaration>- (id)initWithStore:(SFSmartStore *)store soupName:(NSString *)soupName newSoupSpec:(nullable SFSoupSpec *)newSoupSpec newIndexSpecs:(NSArray *)newIndexSpecs reIndexData:(BOOL)reIndexData</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>store</Name>
-					<Abstract type="html">SmartStore instance.</Abstract>
-				</Parameter><Parameter>
-					<Name>soupName</Name>
-					<Abstract type="html">Soup name.</Abstract>
-				</Parameter><Parameter>
-					<Name>newSoupSpec</Name>
-					<Abstract type="html">New soup spec.</Abstract>
-				</Parameter><Parameter>
-					<Name>newIndexSpecs</Name>
-					<Abstract type="html">New index specs.</Abstract>
-				</Parameter><Parameter>
-					<Name>reIndexData</Name>
-					<Abstract type="html">YES to reindex.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The initialized self.</Abstract></ReturnValue>
-			<Anchor>//api/name/initWithStore:soupName:newSoupSpec:newIndexSpecs:reIndexData:</Anchor>
-            <NodeRef refid="2"/>
-		</Token>
-		
-		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/initWithStore:rowId:details:status:</TokenIdentifier>
 			<Abstract type="html">Initializer for resuming an alter soup operation from the data stored in the long operations status table.</Abstract>
 			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>

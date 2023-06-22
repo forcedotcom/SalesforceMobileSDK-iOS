@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKAnalyticsTransformPublisherPair.html">
+	<File path="Classes/SFSDKAuthErrorCommand.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAnalyticsTransformPublisherPair</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAuthErrorCommand</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSalesforceAnalyticsManager+Internal.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
             
 			
 			<NodeRef refid="49"/>
@@ -13,86 +13,146 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAnalyticsTransformPublisherPair/setTransform:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorCommand/setErrorCode:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSalesforceAnalyticsManager+Internal.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonnull, nonatomic, readonly, strong) id&lt;SFSDKTransform&gt; transform</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *errorCode</Declaration>
 			
 			
-			<Anchor>//api/name/transform</Anchor>
+			<Anchor>//api/name/errorCode</Anchor>
             <NodeRef refid="49"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAnalyticsTransformPublisherPair/transform</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorCommand/errorCode</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSalesforceAnalyticsManager+Internal.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonnull, nonatomic, readonly, strong) id&lt;SFSDKTransform&gt; transform</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *errorCode</Declaration>
 			
 			
-			<Anchor>//api/name/transform</Anchor>
+			<Anchor>//api/name/errorCode</Anchor>
             <NodeRef refid="49"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAnalyticsTransformPublisherPair/transform</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthErrorCommand/errorCode</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSalesforceAnalyticsManager+Internal.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonnull, nonatomic, readonly, strong) id&lt;SFSDKTransform&gt; transform</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *errorCode</Declaration>
 			
 			
-			<Anchor>//api/name/transform</Anchor>
+			<Anchor>//api/name/errorCode</Anchor>
             <NodeRef refid="49"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAnalyticsTransformPublisherPair/setPublisher:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorCommand/setErrorReason:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSalesforceAnalyticsManager+Internal.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonnull, nonatomic, readonly, strong) id&lt;SFSDKAnalyticsPublisher&gt; publisher</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *errorReason</Declaration>
 			
 			
-			<Anchor>//api/name/publisher</Anchor>
+			<Anchor>//api/name/errorReason</Anchor>
             <NodeRef refid="49"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAnalyticsTransformPublisherPair/publisher</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorCommand/errorReason</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSalesforceAnalyticsManager+Internal.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonnull, nonatomic, readonly, strong) id&lt;SFSDKAnalyticsPublisher&gt; publisher</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *errorReason</Declaration>
 			
 			
-			<Anchor>//api/name/publisher</Anchor>
+			<Anchor>//api/name/errorReason</Anchor>
             <NodeRef refid="49"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAnalyticsTransformPublisherPair/publisher</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthErrorCommand/errorReason</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSalesforceAnalyticsManager+Internal.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonnull, nonatomic, readonly, strong) id&lt;SFSDKAnalyticsPublisher&gt; publisher</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *errorReason</Declaration>
 			
 			
-			<Anchor>//api/name/publisher</Anchor>
+			<Anchor>//api/name/errorReason</Anchor>
             <NodeRef refid="49"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAnalyticsTransformPublisherPair/initWithTransform:publisher:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorCommand/setErrorDescription:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSalesforceAnalyticsManager+Internal.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
 			
-			<Declaration>- (nonnull instancetype)initWithTransform:(nonnull id&lt;SFSDKTransform&gt;)transform publisher:(nonnull id&lt;SFSDKAnalyticsPublisher&gt;)publisher</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *errorDescription</Declaration>
 			
 			
-			<Anchor>//api/name/initWithTransform:publisher:</Anchor>
+			<Anchor>//api/name/errorDescription</Anchor>
+            <NodeRef refid="49"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorCommand/errorDescription</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *errorDescription</Declaration>
+			
+			
+			<Anchor>//api/name/errorDescription</Anchor>
+            <NodeRef refid="49"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthErrorCommand/errorDescription</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *errorDescription</Declaration>
+			
+			
+			<Anchor>//api/name/errorDescription</Anchor>
+            <NodeRef refid="49"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorCommand/setState:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *state</Declaration>
+			
+			
+			<Anchor>//api/name/state</Anchor>
+            <NodeRef refid="49"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorCommand/state</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *state</Declaration>
+			
+			
+			<Anchor>//api/name/state</Anchor>
+            <NodeRef refid="49"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthErrorCommand/state</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *state</Declaration>
+			
+			
+			<Anchor>//api/name/state</Anchor>
             <NodeRef refid="49"/>
 		</Token>
 		

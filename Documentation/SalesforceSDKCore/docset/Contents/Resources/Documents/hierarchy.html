@@ -48,14 +48,6 @@
 
 	<li><a href="Classes/FIXCATEGORYBUG.html">FIXCATEGORYBUG</a></li>
 
-	<li>NSInputStream
-<ul>
-
-	<li><a href="Classes/SFDecryptStream.html">SFDecryptStream</a></li>
-
-</ul>
-</li>
-
 	<li>NSObject
 <ul>
 
@@ -65,8 +57,6 @@
 
 	<li><a href="Classes/SFAuthErrorHandlerList.html">SFAuthErrorHandlerList</a></li>
 
-	<li><a href="Classes/SFCryptChunks.html">SFCryptChunks</a></li>
-
 	<li><a href="Classes/SFCrypto.html">SFCrypto</a></li>
 
 	<li><a href="Classes/SFCryptoStreamTestUtils.html">SFCryptoStreamTestUtils</a></li>
@@ -75,13 +65,7 @@
 
 	<li><a href="Classes/SFDirectoryManager.html">SFDirectoryManager</a></li>
 
-	<li><a href="Classes/SFEncryptionKey.html">SFEncryptionKey</a>
-<ul>
-
-	<li><a href="Classes/SFSecureEncryptionKey.html">SFSecureEncryptionKey</a></li>
-
-</ul>
-</li>
+	<li><a href="Classes/SFEncryptionKey.html">SFEncryptionKey</a></li>
 
 	<li><a href="Classes/SFFormatUtils.html">SFFormatUtils</a></li>
 
@@ -92,18 +76,6 @@
 	<li><a href="Classes/SFInactivityTimerCenter.html">SFInactivityTimerCenter</a></li>
 
 	<li><a href="Classes/SFInstrumentation.html">SFInstrumentation</a></li>
-
-	<li><a href="Classes/SFKeyStore.html">SFKeyStore</a>
-<ul>
-
-	<li><a href="Classes/SFGeneratedKeyStore.html">SFGeneratedKeyStore</a></li>
-
-</ul>
-</li>
-
-	<li><a href="Classes/SFKeyStoreKey.html">SFKeyStoreKey</a></li>
-
-	<li><a href="Classes/SFKeyStoreManager.html">SFKeyStoreManager</a></li>
 
 	<li><a href="Classes/SFManagedPreferences.html">SFManagedPreferences</a></li>
 
@@ -172,11 +144,13 @@
 
 	<li><a href="Classes/SFSDKAuthErrorCommand.html">SFSDKAuthErrorCommand</a></li>
 
-	<li><a href="Classes/SFSDKAuthRequestCommand.html">SFSDKAuthRequestCommand</a></li>
+	<li><a href="Classes/SFSDKIDPAuthCodeLoginRequestCommand.html">SFSDKIDPAuthCodeLoginRequestCommand</a></li>
 
-	<li><a href="Classes/SFSDKAuthResponseCommand.html">SFSDKAuthResponseCommand</a></li>
+	<li><a href="Classes/SFSDKIDPLoginRequestCommand.html">SFSDKIDPLoginRequestCommand</a></li>
 
-	<li><a href="Classes/SFSDKIDPInitCommand.html">SFSDKIDPInitCommand</a></li>
+	<li><a href="Classes/SFSDKSPLoginRequestCommand.html">SFSDKSPLoginRequestCommand</a></li>
+
+	<li><a href="Classes/SFSDKSPLoginResponseCommand.html">SFSDKSPLoginResponseCommand</a></li>
 
 </ul>
 </li>
@@ -221,17 +195,17 @@
 
 	<li><a href="Classes/SFSDKFetchNotificationsRequestBuilder.html">SFSDKFetchNotificationsRequestBuilder</a></li>
 
+	<li><a href="Classes/SFSDKIDPAuthCodeLoginRequestHandler.html">SFSDKIDPAuthCodeLoginRequestHandler</a></li>
+
 	<li><a href="Classes/SFSDKIDPAuthHelper.html">SFSDKIDPAuthHelper</a></li>
 
 	<li><a href="Classes/SFSDKIDPConstants.html">SFSDKIDPConstants</a></li>
 
 	<li><a href="Classes/SFSDKIDPErrorHandler.html">SFSDKIDPErrorHandler</a></li>
 
-	<li><a href="Classes/SFSDKIDPInitiatedAuthRequestHandler.html">SFSDKIDPInitiatedAuthRequestHandler</a></li>
+	<li><a href="Classes/SFSDKIDPLoginRequestHandler.html">SFSDKIDPLoginRequestHandler</a></li>
 
 	<li><a href="Classes/SFSDKIDPRequestHandler.html">SFSDKIDPRequestHandler</a></li>
-
-	<li><a href="Classes/SFSDKIDPResponseHandler.html">SFSDKIDPResponseHandler</a></li>
 
 	<li><a href="Classes/SFSDKInstrumentationHelper.html">SFSDKInstrumentationHelper</a></li>
 
@@ -266,6 +240,8 @@
 	<li><a href="Classes/SFSDKPushNotificationDecryption.html">SFSDKPushNotificationDecryption</a></li>
 
 	<li><a href="Classes/SFSDKResourceUtils.html">SFSDKResourceUtils</a></li>
+
+	<li><a href="Classes/SFSDKSPLoginResponseHandler.html">SFSDKSPLoginResponseHandler</a></li>
 
 	<li><a href="Classes/SFSDKSalesforceAnalyticsManager.html">SFSDKSalesforceAnalyticsManager</a></li>
 
@@ -467,8 +443,6 @@
 						<h2 class="index-title">Protocol References</h2>
 						<ul>
 							
-							<li><a href="Protocols/SFCryptChunksDelegate.html">SFCryptChunksDelegate</a></li>
-							
 							<li><a href="Protocols/SFIdentityCoordinatorDelegate.html">SFIdentityCoordinatorDelegate</a></li>
 							
 							<li><a href="Protocols/SFLoginViewControllerDelegate.html">SFLoginViewControllerDelegate</a></li>
@@ -545,6 +519,10 @@
 	                        
 	                        <li><a href="Constants/SFSDKWindowType.html">SFSDKWindowType</a></li>
 	                        
+	                        <li><a href="Constants/SFSPLoginError.html">SFSPLoginError</a></li>
+	                        
+	                        <li><a href="Constants/SFSPLoginStatus.html">SFSPLoginStatus</a></li>
+	                        
 	                        <li><a href="Constants/SFURLCacheType.html">SFURLCacheType</a></li>
 	                        
 	                        <li><a href="Constants/SFUserAccountAccessRestriction.html">SFUserAccountAccessRestriction</a></li>
@@ -613,7 +591,7 @@
 					<footer>
 						<div class="footer-copyright">
 							
-							<p class="copyright">Copyright &copy; 2022 Salesforce.com. All rights reserved. Updated: 2022-10-04</p>
+							<p class="copyright">Copyright &copy; 2023 Salesforce.com. All rights reserved. Updated: 2023-06-22</p>
 							
 							
 							<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

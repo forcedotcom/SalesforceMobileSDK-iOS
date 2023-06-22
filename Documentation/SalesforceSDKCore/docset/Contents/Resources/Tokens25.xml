@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFKeyStoreKey.html">
+	<File path="Classes/SFNetwork.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFKeyStoreKey</TokenIdentifier>
-			<Abstract type="html">Data object representing the encryption key used for encrypting/decrypting the key store.</Abstract>
-			<DeclaredIn>SFKeyStoreKey.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFNetwork</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
             
 			
 			<NodeRef refid="25"/>
@@ -13,141 +13,259 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFKeyStoreKey/createKey</TokenIdentifier>
-			<Abstract type="html">Create a new SFKeyStoreKey.</Abstract>
-			<DeclaredIn>SFKeyStoreKey.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNetwork/setActiveSession:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
 			
-			<Declaration>+ (instancetype)createKey</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) NSURLSession *activeSession</Declaration>
 			
 			
-			<Anchor>//api/name/createKey</Anchor>
+			<Anchor>//api/name/activeSession</Anchor>
             <NodeRef refid="25"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreKey/initWithKey:</TokenIdentifier>
-			<Abstract type="html">Designated initializer.</Abstract>
-			<DeclaredIn>SFKeyStoreKey.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNetwork/activeSession</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
 			
-			<Declaration>- (instancetype)initWithKey:(SFEncryptionKey *)key</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>key</Name>
-					<Abstract type="html">Encryption key for the key store.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) NSURLSession *activeSession</Declaration>
 			
-			<Anchor>//api/name/initWithKey:</Anchor>
+			
+			<Anchor>//api/name/activeSession</Anchor>
             <NodeRef refid="25"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFKeyStoreKey/fromKeyChain:archiverKey:</TokenIdentifier>
-			<Abstract type="html">Read a value from the keychain.</Abstract>
-			<DeclaredIn>SFKeyStoreKey.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFNetwork/activeSession</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
 			
-			<Declaration>+ (nullable instancetype)fromKeyChain:(NSString *)keychainId archiverKey:(NSString *)archiverKey</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) NSURLSession *activeSession</Declaration>
+			
+			
+			<Anchor>//api/name/activeSession</Anchor>
+            <NodeRef refid="25"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNetwork/setMetricsCollectedAction:</TokenIdentifier>
+			<Abstract type="html">The block to execute to execeute when metrics are collected on URL session task, if provided.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, copy, nullable) SFSDKMetricsCollectedBlock metricsCollectedAction</Declaration>
+			
+			
+			<Anchor>//api/name/metricsCollectedAction</Anchor>
+            <NodeRef refid="25"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNetwork/metricsCollectedAction</TokenIdentifier>
+			<Abstract type="html">The block to execute to execeute when metrics are collected on URL session task, if provided.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, copy, nullable) SFSDKMetricsCollectedBlock metricsCollectedAction</Declaration>
+			
+			
+			<Anchor>//api/name/metricsCollectedAction</Anchor>
+            <NodeRef refid="25"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFNetwork/metricsCollectedAction</TokenIdentifier>
+			<Abstract type="html">The block to execute to execeute when metrics are collected on URL session task, if provided.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, copy, nullable) SFSDKMetricsCollectedBlock metricsCollectedAction</Declaration>
+			
+			
+			<Anchor>//api/name/metricsCollectedAction</Anchor>
+            <NodeRef refid="25"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/sharedEphemeralInstance</TokenIdentifier>
+			<Abstract type="html">Returns an instance of this class with the default ephemeral session configuration.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			
+			<Declaration>+ (nonnull instancetype)sharedEphemeralInstance</Declaration>
+			
+			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
+			<Anchor>//api/name/sharedEphemeralInstance</Anchor>
+            <NodeRef refid="25"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/sharedBackgroundInstance</TokenIdentifier>
+			<Abstract type="html">Returns an instance of this class with the default background session configuration.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			
+			<Declaration>+ (nonnull instancetype)sharedBackgroundInstance</Declaration>
+			
+			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
+			<Anchor>//api/name/sharedBackgroundInstance</Anchor>
+            <NodeRef refid="25"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/sharedEphemeralInstanceWithIdentifier:</TokenIdentifier>
+			<Abstract type="html">Returns instance of this class for the given identifier with the default ephemeral session configuration.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			
+			<Declaration>+ (nonnull instancetype)sharedEphemeralInstanceWithIdentifier:(nonnull NSString *)identifier</Declaration>
+			
+			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
+			<Anchor>//api/name/sharedEphemeralInstanceWithIdentifier:</Anchor>
+            <NodeRef refid="25"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/sharedBackgroundInstanceWithIdentifier:</TokenIdentifier>
+			<Abstract type="html">Returns instance of this class for the given identifier with the default background session configuration.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			
+			<Declaration>+ (nonnull instancetype)sharedBackgroundInstanceWithIdentifier:(nonnull NSString *)identifier</Declaration>
+			
+			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
+			<Anchor>//api/name/sharedBackgroundInstanceWithIdentifier:</Anchor>
+            <NodeRef refid="25"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/sharedInstanceWithIdentifier:sessionConfiguration:</TokenIdentifier>
+			<Abstract type="html">Returns an instance of this class with the given session configuration.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			
+			<Declaration>+ (nonnull instancetype)sharedInstanceWithIdentifier:(nonnull NSString *)identifier sessionConfiguration:(nonnull NSURLSessionConfiguration *)sessionConfiguration</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>keychainId</Name>
-					<Abstract type="html">Identifier in the keychain</Abstract>
+					<Name>identifier</Name>
+					<Abstract type="html">Identifier for the instance</Abstract>
 				</Parameter><Parameter>
-					<Name>archiverKey</Name>
-					<Abstract type="html">Key used in archiver</Abstract>
+					<Name>sessionConfiguration</Name>
+					<Abstract type="html">Configuration to use for the session.</Abstract>
 				</Parameter>
 			</Parameters>
-			
-			<Anchor>//api/name/fromKeyChain:archiverKey:</Anchor>
+			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
+			<Anchor>//api/name/sharedInstanceWithIdentifier:sessionConfiguration:</Anchor>
             <NodeRef refid="25"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreKey/toKeyChain:archiverKey:</TokenIdentifier>
-			<Abstract type="html">Save a value to the keychain.</Abstract>
-			<DeclaredIn>SFKeyStoreKey.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNetwork/sendRequest:dataResponseBlock:</TokenIdentifier>
+			<Abstract type="html">Sends a REST request and calls the appropriate completion block.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
 			
-			<Declaration>- (OSStatus)toKeyChain:(NSString *)keychainId archiverKey:(NSString *)archiverKey</Declaration>
+			<Declaration>- (nonnull NSURLSessionDataTask *)sendRequest:(nonnull NSURLRequest *)urlRequest dataResponseBlock:(nullable SFDataResponseBlock)dataResponseBlock</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>keychainId</Name>
-					<Abstract type="html">Identifier in the keychain.</Abstract>
+					<Name>urlRequest</Name>
+					<Abstract type="html">NSURLRequest instance.</Abstract>
 				</Parameter><Parameter>
-					<Name>archiverKey</Name>
-					<Abstract type="html">Key to use in the archiver.</Abstract>
+					<Name>dataResponseBlock</Name>
+					<Abstract type="html">Network response block.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">32-bit result error code.</Abstract></ReturnValue>
-			<Anchor>//api/name/toKeyChain:archiverKey:</Anchor>
+			<ReturnValue><Abstract type="html">NSURLSessionDataTask instance.</Abstract></ReturnValue>
+			<Anchor>//api/name/sendRequest:dataResponseBlock:</Anchor>
             <NodeRef refid="25"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreKey/encryptData:</TokenIdentifier>
-			<Abstract type="html">Encrypt the given data.</Abstract>
-			<DeclaredIn>SFKeyStoreKey.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/setSessionConfiguration:identifier:</TokenIdentifier>
+			<Abstract type="html">Sets a session configuration to be used for network requests in Mobile SDK.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
 			
-			<Declaration>- (NSData *)encryptData:(NSData *)dataToEncrypt</Declaration>
+			<Declaration>+ (void)setSessionConfiguration:(nonnull NSURLSessionConfiguration *)sessionConfig identifier:(nonnull NSString *)identifier</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>dataToEncrypt</Name>
-					<Abstract type="html">Data to encrypt.</Abstract>
+					<Name>sessionConfig</Name>
+					<Abstract type="html">Session configuration to be used.</Abstract>
+				</Parameter><Parameter>
+					<Name>identifier</Name>
+					<Abstract type="html">Identifier for the instance to use this config.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">&apos;NSData&apos; object that contains the encrypted data.</Abstract></ReturnValue>
-			<Anchor>//api/name/encryptData:</Anchor>
+			
+			<Anchor>//api/name/setSessionConfiguration:identifier:</Anchor>
             <NodeRef refid="25"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreKey/decryptData:</TokenIdentifier>
-			<Abstract type="html">Decrypt the given data.</Abstract>
-			<DeclaredIn>SFKeyStoreKey.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/removeSharedEphemeralInstance</TokenIdentifier>
+			<Abstract type="html">Removes shared instance for the default ephemeral identifier.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
 			
-			<Declaration>- (NSData *)decryptData:(NSData *)dataToDecrypt</Declaration>
+			<Declaration>+ (void)removeSharedEphemeralInstance</Declaration>
+			
+			
+			<Anchor>//api/name/removeSharedEphemeralInstance</Anchor>
+            <NodeRef refid="25"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/removeSharedBackgroundInstance</TokenIdentifier>
+			<Abstract type="html">Removes shared instance for the default background identifier.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			
+			<Declaration>+ (void)removeSharedBackgroundInstance</Declaration>
+			
+			
+			<Anchor>//api/name/removeSharedBackgroundInstance</Anchor>
+            <NodeRef refid="25"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/removeSharedInstanceForIdentifier:</TokenIdentifier>
+			<Abstract type="html">Removes shared instance for given identifier.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
+			
+			<Declaration>+ (void)removeSharedInstanceForIdentifier:(nullable NSString *)identifier</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>dataToDecrypt</Name>
-					<Abstract type="html">The data to decrypt</Abstract>
+					<Name>identifier</Name>
+					<Abstract type="html">Identifier for the session.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">&apos;NSData&apos; object that contains the decrypted data.</Abstract></ReturnValue>
-			<Anchor>//api/name/decryptData:</Anchor>
+			
+			<Anchor>//api/name/removeSharedInstanceForIdentifier:</Anchor>
             <NodeRef refid="25"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreKey/setEncryptionKey:</TokenIdentifier>
-			<Abstract type="html">Encryption key for the key store.</Abstract>
-			<DeclaredIn>SFKeyStoreKey.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/removeAllSharedInstances</TokenIdentifier>
+			<Abstract type="html">Removes all shared instances.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFEncryptionKey *encryptionKey</Declaration>
+			<Declaration>+ (void)removeAllSharedInstances</Declaration>
 			
 			
-			<Anchor>//api/name/encryptionKey</Anchor>
+			<Anchor>//api/name/removeAllSharedInstances</Anchor>
             <NodeRef refid="25"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreKey/encryptionKey</TokenIdentifier>
-			<Abstract type="html">Encryption key for the key store.</Abstract>
-			<DeclaredIn>SFKeyStoreKey.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/sharedInstanceIdentifiers</TokenIdentifier>
+			<Abstract type="html">Returns list of identifiers for all shared instances.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFEncryptionKey *encryptionKey</Declaration>
+			<Declaration>+ (nullable NSArray *)sharedInstanceIdentifiers</Declaration>
 			
-			
-			<Anchor>//api/name/encryptionKey</Anchor>
+			<ReturnValue><Abstract type="html">Array of identifiers.</Abstract></ReturnValue>
+			<Anchor>//api/name/sharedInstanceIdentifiers</Anchor>
             <NodeRef refid="25"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFKeyStoreKey/encryptionKey</TokenIdentifier>
-			<Abstract type="html">Encryption key for the key store.</Abstract>
-			<DeclaredIn>SFKeyStoreKey.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/uniqueInstanceIdentifier</TokenIdentifier>
+			<Abstract type="html">Generates a unique instance identifier.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFEncryptionKey *encryptionKey</Declaration>
+			<Declaration>+ (nonnull NSString *)uniqueInstanceIdentifier</Declaration>
 			
 			
-			<Anchor>//api/name/encryptionKey</Anchor>
+			<Anchor>//api/name/uniqueInstanceIdentifier</Anchor>
             <NodeRef refid="25"/>
 		</Token>
 		

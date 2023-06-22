@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFDecryptStream.html">
+	<File path="Classes/SFDefaultUserManagementDetailViewController.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFDecryptStream</TokenIdentifier>
-			<Abstract type="html">SFDecryptStream implements an input stream that decrypts data immediately after it&apos;s read.
-It uses SFCryptChunks to perform the decryption.</Abstract>
-			<DeclaredIn>SFDecryptStream.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFDefaultUserManagementDetailViewController</TokenIdentifier>
+			<Abstract type="html">View controller for showing the user management details of a given user.</Abstract>
+			<DeclaredIn>SFDefaultUserManagementDetailViewController.h</DeclaredIn>
             
 			
 			<NodeRef refid="11"/>
@@ -14,42 +13,19 @@ It uses SFCryptChunks to perform the decryption.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFDecryptStream/setupWithDecryptionKey:</TokenIdentifier>
-			<Abstract type="html">Setup for decryption. Always call either this method or setupWithKey:andInitializationVector:
-before using this stream.</Abstract>
-			<DeclaredIn>SFDecryptStream.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFDefaultUserManagementDetailViewController/initWithUser:</TokenIdentifier>
+			<Abstract type="html">Initialize to provide the details of the given user.</Abstract>
+			<DeclaredIn>SFDefaultUserManagementDetailViewController.h</DeclaredIn>
 			
-			<Declaration>- (void)setupWithDecryptionKey:(SFEncryptionKey *)decKey</Declaration>
+			<Declaration>- (instancetype)initWithUser:(SFUserAccount *)user</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>decKey</Name>
-					<Abstract type="html">Decryption key.</Abstract>
+					<Name>user</Name>
+					<Abstract type="html">The user providing the details.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/setupWithDecryptionKey:</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFDecryptStream/setupWithKey:andInitializationVector:</TokenIdentifier>
-			<Abstract type="html">Setup for decryption. Always call either this method or setupWithDecryptionKey:
-before using this stream. Internally, this method initializes the decryption key using key and iv and then calls
-setupWithDecryptionKey:.</Abstract>
-			<DeclaredIn>SFDecryptStream.h</DeclaredIn>
-			
-			<Declaration>- (void)setupWithKey:(NSData *)key andInitializationVector:(nullable NSData *)iv</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>key</Name>
-					<Abstract type="html">Cipher key.</Abstract>
-				</Parameter><Parameter>
-					<Name>iv</Name>
-					<Abstract type="html">Initialization vector. Its size must match SFCryptChunksCipherBlockSize.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/setupWithKey:andInitializationVector:</Anchor>
+			<Anchor>//api/name/initWithUser:</Anchor>
             <NodeRef refid="11"/>
 		</Token>
 		

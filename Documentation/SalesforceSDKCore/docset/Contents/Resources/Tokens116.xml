@@ -1,40 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKSalesforceSDKUpgradeManager.html">
+	<File path="Classes/SFSDKStartURLHandler.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKSalesforceSDKUpgradeManager</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKStartURLHandler</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSalesforceSDKUpgradeManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKStartURLHandler.h</DeclaredIn>
             
 			
 			<NodeRef refid="116"/>
 		</Token>
 		
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKSalesforceSDKUpgradeManager/upgrade</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSalesforceSDKUpgradeManager.h</DeclaredIn>
-			
-			<Declaration>+ (void)upgrade</Declaration>
-			
-			
-			<Anchor>//api/name/upgrade</Anchor>
-            <NodeRef refid="116"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKSalesforceSDKUpgradeManager/upgradeUserAccounts</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSalesforceSDKUpgradeManager.h</DeclaredIn>
-			
-			<Declaration>+ (void)upgradeUserAccounts</Declaration>
-			
-			
-			<Anchor>//api/name/upgradeUserAccounts</Anchor>
-            <NodeRef refid="116"/>
-		</Token>
 		
         
         

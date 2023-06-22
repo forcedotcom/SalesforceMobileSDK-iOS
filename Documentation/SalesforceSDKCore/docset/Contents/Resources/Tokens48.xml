@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKAlertView.html">
+	<File path="Classes/SFSDKAuthConfigUtil.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAlertView</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAuthConfigUtil</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertView.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthConfigUtil.h</DeclaredIn>
             
 			
 			<NodeRef refid="48"/>
@@ -13,98 +13,14 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertView/setController:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKAuthConfigUtil/getMyDomainAuthConfig:loginDomain:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertView.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthConfigUtil.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) UIAlertController *controller</Declaration>
-			
-			
-			<Anchor>//api/name/controller</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertView/controller</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) UIAlertController *controller</Declaration>
+			<Declaration>+ (void)getMyDomainAuthConfig:(nonnull MyDomainAuthConfigBlock)authConfigBlock loginDomain:(nonnull NSString *)loginDomain</Declaration>
 			
 			
-			<Anchor>//api/name/controller</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAlertView/controller</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) UIAlertController *controller</Declaration>
-			
-			
-			<Anchor>//api/name/controller</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertView/setWindow:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, weak) SFSDKWindowContainer *window</Declaration>
-			
-			
-			<Anchor>//api/name/window</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertView/window</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, weak) SFSDKWindowContainer *window</Declaration>
-			
-			
-			<Anchor>//api/name/window</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAlertView/window</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, weak) SFSDKWindowContainer *window</Declaration>
-			
-			
-			<Anchor>//api/name/window</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertView/presentViewController:completion:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertView.h</DeclaredIn>
-			
-			<Declaration>- (void)presentViewController:(BOOL)animated completion:(void ( ^ __nullable ) ( void ))completion</Declaration>
-			
-			
-			<Anchor>//api/name/presentViewController:completion:</Anchor>
-            <NodeRef refid="48"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertView/initWithMessage:window:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertView.h</DeclaredIn>
-			
-			<Declaration>- (instancetype)initWithMessage:(SFSDKAlertMessage *)message window:(SFSDKWindowContainer *)window</Declaration>
-			
-			
-			<Anchor>//api/name/initWithMessage:window:</Anchor>
+			<Anchor>//api/name/getMyDomainAuthConfig:loginDomain:</Anchor>
             <NodeRef refid="48"/>
 		</Token>
 		

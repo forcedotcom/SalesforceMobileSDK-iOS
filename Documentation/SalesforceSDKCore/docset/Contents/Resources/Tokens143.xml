@@ -1,16 +1,561 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFUserAccountPersisterEphemeral.html">
+	<File path="Classes/SalesforceSDKManager.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFUserAccountPersisterEphemeral</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFUserAccountPersisterEphemeral.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SalesforceSDKManager</TokenIdentifier>
+			<Abstract type="html">This class will manage the basic infrastructure of the Mobile SDK elements of the app,
+including the orchestration of authentication, screen lock displaying, and management of app
+backgrounding and foregrounding state.</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="143"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SalesforceSDKManager/setInstanceClass:</TokenIdentifier>
+			<Abstract type="html">Class instance to be used to instantiate the singleton.</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>+ (void)setInstanceClass:(Class)className</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>className</Name>
+					<Abstract type="html">Name of instantiator class.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setInstanceClass:</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/set:</TokenIdentifier>
+			<Abstract type="html">Sets &amp;amp; Gets the app name being used by the analytics framework.</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, strong) NSString *NS_SWIFT_NAME ( analyticsAppName )</Declaration>
+			
+			<ReturnValue><Abstract type="html">App name.</Abstract></ReturnValue>
+			<Anchor>//api/name/)</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/)</TokenIdentifier>
+			<Abstract type="html">Sets &amp;amp; Gets the app name being used by the analytics framework.</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, strong) NSString *NS_SWIFT_NAME ( analyticsAppName )</Declaration>
+			
+			<ReturnValue><Abstract type="html">App name.</Abstract></ReturnValue>
+			<Anchor>//api/name/)</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SalesforceSDKManager/)</TokenIdentifier>
+			<Abstract type="html">Sets &amp;amp; Gets the app name being used by the analytics framework.</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, strong) NSString *NS_SWIFT_NAME ( analyticsAppName )</Declaration>
+			
+			<ReturnValue><Abstract type="html">App name.</Abstract></ReturnValue>
+			<Anchor>//api/name/)</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/deviceId</TokenIdentifier>
+			<Abstract type="html">Returns a unique device ID.</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)deviceId</Declaration>
+			
+			<ReturnValue><Abstract type="html">Device ID.</Abstract></ReturnValue>
+			<Anchor>//api/name/deviceId</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/setAppType:</TokenIdentifier>
+			<Abstract type="html">App type (native, hybrid or react native)</Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) SFAppType appType</Declaration>
+			
+			
+			<Anchor>//api/name/appType</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/appType</TokenIdentifier>
+			<Abstract type="html">App type (native, hybrid or react native)</Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) SFAppType appType</Declaration>
+			
+			
+			<Anchor>//api/name/appType</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SalesforceSDKManager/appType</TokenIdentifier>
+			<Abstract type="html">App type (native, hybrid or react native)</Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) SFAppType appType</Declaration>
+			
+			
+			<Anchor>//api/name/appType</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/setIsDevSupportEnabled:</TokenIdentifier>
+			<Abstract type="html">Use this flag to indicate if the dev support dialog should be enabled in the APP</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isDevSupportEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/isDevSupportEnabled</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/isDevSupportEnabled</TokenIdentifier>
+			<Abstract type="html">Use this flag to indicate if the dev support dialog should be enabled in the APP</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isDevSupportEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/isDevSupportEnabled</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SalesforceSDKManager/isDevSupportEnabled</TokenIdentifier>
+			<Abstract type="html">Use this flag to indicate if the dev support dialog should be enabled in the APP</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isDevSupportEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/isDevSupportEnabled</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/setURLCacheType:</TokenIdentifier>
+			<Abstract type="html">The type of cache used for the shared URL cache, defaults to kSFURLCacheTypeEncrypted.</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) SFURLCacheType URLCacheType</Declaration>
+			
+			
+			<Anchor>//api/name/URLCacheType</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/URLCacheType</TokenIdentifier>
+			<Abstract type="html">The type of cache used for the shared URL cache, defaults to kSFURLCacheTypeEncrypted.</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) SFURLCacheType URLCacheType</Declaration>
+			
+			
+			<Anchor>//api/name/URLCacheType</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SalesforceSDKManager/URLCacheType</TokenIdentifier>
+			<Abstract type="html">The type of cache used for the shared URL cache, defaults to kSFURLCacheTypeEncrypted.</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) SFURLCacheType URLCacheType</Declaration>
+			
+			
+			<Anchor>//api/name/URLCacheType</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/setUseEphemeralSessionForAdvancedAuth:</TokenIdentifier>
+			<Abstract type="html">Use this flag to indicate if advanced authentication should use an ephemeral web session. Defaults to YES.</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL useEphemeralSessionForAdvancedAuth</Declaration>
+			
+			
+			<Anchor>//api/name/useEphemeralSessionForAdvancedAuth</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/useEphemeralSessionForAdvancedAuth</TokenIdentifier>
+			<Abstract type="html">Use this flag to indicate if advanced authentication should use an ephemeral web session. Defaults to YES.</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL useEphemeralSessionForAdvancedAuth</Declaration>
+			
+			
+			<Anchor>//api/name/useEphemeralSessionForAdvancedAuth</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SalesforceSDKManager/useEphemeralSessionForAdvancedAuth</TokenIdentifier>
+			<Abstract type="html">Use this flag to indicate if advanced authentication should use an ephemeral web session. Defaults to YES.</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL useEphemeralSessionForAdvancedAuth</Declaration>
+			
+			
+			<Anchor>//api/name/useEphemeralSessionForAdvancedAuth</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/setUseWebServerAuthentication:</TokenIdentifier>
+			<Abstract type="html">Whether or not the app should use web server oauth flow in web view. If false, user-agent will be used.</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL useWebServerAuthentication</Declaration>
+			
+			
+			<Anchor>//api/name/useWebServerAuthentication</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/useWebServerAuthentication</TokenIdentifier>
+			<Abstract type="html">Whether or not the app should use web server oauth flow in web view. If false, user-agent will be used.</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL useWebServerAuthentication</Declaration>
+			
+			
+			<Anchor>//api/name/useWebServerAuthentication</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SalesforceSDKManager/useWebServerAuthentication</TokenIdentifier>
+			<Abstract type="html">Whether or not the app should use web server oauth flow in web view. If false, user-agent will be used.</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL useWebServerAuthentication</Declaration>
+			
+			
+			<Anchor>//api/name/useWebServerAuthentication</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/setUseHybridAuthentication:</TokenIdentifier>
+			<Abstract type="html">Whether hybrid authentication flow should be used. Defaults to YES.</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL useHybridAuthentication</Declaration>
+			
+			
+			<Anchor>//api/name/useHybridAuthentication</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/useHybridAuthentication</TokenIdentifier>
+			<Abstract type="html">Whether hybrid authentication flow should be used. Defaults to YES.</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL useHybridAuthentication</Declaration>
+			
+			
+			<Anchor>//api/name/useHybridAuthentication</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SalesforceSDKManager/useHybridAuthentication</TokenIdentifier>
+			<Abstract type="html">Whether hybrid authentication flow should be used. Defaults to YES.</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL useHybridAuthentication</Declaration>
+			
+			
+			<Anchor>//api/name/useHybridAuthentication</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/setBlockSalesforceIntegrationUser:</TokenIdentifier>
+			<Abstract type="html">Sets authentication ability for Salesforce integration users.  When true, Salesforce integration users will be prohibited from initial authentication and receive an error message.  Defaults to NO.</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL blockSalesforceIntegrationUser</Declaration>
+			
+			
+			<Anchor>//api/name/blockSalesforceIntegrationUser</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/blockSalesforceIntegrationUser</TokenIdentifier>
+			<Abstract type="html">Sets authentication ability for Salesforce integration users.  When true, Salesforce integration users will be prohibited from initial authentication and receive an error message.  Defaults to NO.</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL blockSalesforceIntegrationUser</Declaration>
+			
+			
+			<Anchor>//api/name/blockSalesforceIntegrationUser</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SalesforceSDKManager/blockSalesforceIntegrationUser</TokenIdentifier>
+			<Abstract type="html">Sets authentication ability for Salesforce integration users.  When true, Salesforce integration users will be prohibited from initial authentication and receive an error message.  Defaults to NO.</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL blockSalesforceIntegrationUser</Declaration>
+			
+			
+			<Anchor>//api/name/blockSalesforceIntegrationUser</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SalesforceSDKManager/initializeSDK</TokenIdentifier>
+			<Abstract type="html">Initializes the SDK.</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>+ (void)initializeSDK</Declaration>
+			
+			
+			<Anchor>//api/name/initializeSDK</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SalesforceSDKManager/initializeSDKWithClass:</TokenIdentifier>
+			<Abstract type="html">Initializes the SDK.  Class instance to be used to instantiate the sdkManager.</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>+ (void)initializeSDKWithClass:(Class)className</Declaration>
+			
+			
+			<Anchor>//api/name/initializeSDKWithClass:</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/getAppTypeAsString</TokenIdentifier>
+			<Abstract type="html">app type as a string</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)getAppTypeAsString</Declaration>
+			
+			<ReturnValue><Abstract type="html">app type as a string</Abstract></ReturnValue>
+			<Anchor>//api/name/getAppTypeAsString</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/showDevSupportDialog:</TokenIdentifier>
+			<Abstract type="html">Show dev support dialog</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>- (void)showDevSupportDialog:(UIViewController *)presentingViewController</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>presentingViewController</Name>
+					<Abstract type="html">The view controller currently presented.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/showDevSupportDialog:</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/getDevActions:</TokenIdentifier>
+			<Abstract type="html">The view controller currently presented.</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>- (NSArray&lt;SFSDKDevAction*&gt; *)getDevActions:(UIViewController *)presentedViewController</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>presentedViewController</Name>
+					<Abstract type="html">The view controller currently presented.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">Dev actions (list of DevAction objects) to show in dev support dialog</Abstract></ReturnValue>
+			<Anchor>//api/name/getDevActions:</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/getDevSupportInfos</TokenIdentifier>
+			<Abstract type="html">Dev info (list of name1, value1, name2, value2 etc) to show in SFSDKDevInfoController</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>- (NSArray&lt;NSString*&gt; *)getDevSupportInfos</Declaration>
+			
+			<ReturnValue><Abstract type="html">Dev info (list of name1, value1, name2, value2 etc) to show in SFSDKDevInfoController</Abstract></ReturnValue>
+			<Anchor>//api/name/getDevSupportInfos</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/devInfoTitleString</TokenIdentifier>
+			<Abstract type="html">Returns the title string of the dev support menu.</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>- (nonnull NSString *)devInfoTitleString</Declaration>
+			
+			<ReturnValue><Abstract type="html">Title string of the dev support menu.</Abstract></ReturnValue>
+			<Anchor>//api/name/devInfoTitleString</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/screenLockManager</TokenIdentifier>
+			<Abstract type="html">Returns the ScreenLockManager instance.</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>- (id&lt;SFScreenLockManager&gt;)screenLockManager</Declaration>
+			
+			<ReturnValue><Abstract type="html">the Screen Lock Manager</Abstract></ReturnValue>
+			<Anchor>//api/name/screenLockManager</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/biometricAuthenticationManager</TokenIdentifier>
+			<Abstract type="html">Returns the BiometricAuthenticationManager instance.</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>- (id&lt;SFBiometricAuthenticationManager&gt;)biometricAuthenticationManager</Declaration>
+			
+			<ReturnValue><Abstract type="html">the Biometric Authentication Manager</Abstract></ReturnValue>
+			<Anchor>//api/name/biometricAuthenticationManager</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/setSdkManagerFlow:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak, nullable) id&lt;SalesforceSDKManagerFlow&gt; sdkManagerFlow</Declaration>
+			
+			
+			<Anchor>//api/name/sdkManagerFlow</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/sdkManagerFlow</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak, nullable) id&lt;SalesforceSDKManagerFlow&gt; sdkManagerFlow</Declaration>
+			
+			
+			<Anchor>//api/name/sdkManagerFlow</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SalesforceSDKManager/sdkManagerFlow</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak, nullable) id&lt;SalesforceSDKManagerFlow&gt; sdkManagerFlow</Declaration>
+			
+			
+			<Anchor>//api/name/sdkManagerFlow</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/setSnapshotViewControllers:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nonnull) SFSDKSafeMutableDictionary&lt;NSString*UIViewController*&gt; *snapshotViewControllers</Declaration>
+			
+			
+			<Anchor>//api/name/snapshotViewControllers</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/snapshotViewControllers</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nonnull) SFSDKSafeMutableDictionary&lt;NSString*UIViewController*&gt; *snapshotViewControllers</Declaration>
+			
+			
+			<Anchor>//api/name/snapshotViewControllers</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SalesforceSDKManager/snapshotViewControllers</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nonnull) SFSDKSafeMutableDictionary&lt;NSString*UIViewController*&gt; *snapshotViewControllers</Declaration>
+			
+			
+			<Anchor>//api/name/snapshotViewControllers</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/presentSnapshot:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)presentSnapshot:(nonnull UIScene *)scene</Declaration>
+			
+			
+			<Anchor>//api/name/presentSnapshot:</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/isSnapshotPresented:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)isSnapshotPresented:(nonnull UIScene *)scene</Declaration>
+			
+			
+			<Anchor>//api/name/isSnapshotPresented:</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/dismissSnapshot:completion:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)dismissSnapshot:(nonnull UIScene *)scene completion:(void ( ^ __nullable ) ( void ))completion</Declaration>
+			
+			
+			<Anchor>//api/name/dismissSnapshot:completion:</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
 		
         
         

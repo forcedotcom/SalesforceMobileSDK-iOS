@@ -1,29 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/SFUserAccount+SmartStoreTest.html">
+	<File path="Constants/SFSmartStoreFtsExtension.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/SFUserAccount(SmartStoreTest)</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSmartStoreFtsExtension</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
             
 			
 			<NodeRef refid="24"/>
 		</Token>
 		
 		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/transitionToLoginState:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)transitionToLoginState:(SFUserAccountLoginState)newLoginState</Declaration>
-			
-			
-			<Anchor>//api/name/transitionToLoginState:</Anchor>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSmartStoreFTS4</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSmartStoreFTS4</Declaration>
+            
+            <DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+            
             <NodeRef refid="24"/>
-		</Token>
-		
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSmartStoreFTS5</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSmartStoreFTS5</Declaration>
+            
+            <DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+            
+            <NodeRef refid="24"/>
+        </Token>
         
         
 	</File>

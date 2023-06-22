@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSmartStoreUpgrade.html">
+	<File path="Classes/SFSmartStoreUtils.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSmartStoreUpgrade</TokenIdentifier>
-			<Abstract type="html">Used internally for upgrading SmartStore.</Abstract>
-			<DeclaredIn>SFSmartStoreUpgrade.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSmartStoreUtils</TokenIdentifier>
+			<Abstract type="html">Utility methods used by SmartStore.</Abstract>
+			<DeclaredIn>SFSmartStoreUtils.h</DeclaredIn>
             
 			
 			<NodeRef refid="16"/>
@@ -13,14 +13,15 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreUpgrade/upgrade</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartStoreUpgrade.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreUtils/userKeyForUser:</TokenIdentifier>
+			<Abstract type="html">Returns a unique key for the given user, or a &quot;global&quot; key if no proper
+user is configured.</Abstract>
+			<DeclaredIn>SFSmartStoreUtils.h</DeclaredIn>
 			
-			<Declaration>+ (void)upgrade</Declaration>
+			<Declaration>+ (NSString *)userKeyForUser:(nullable SFUserAccount *)user</Declaration>
 			
-			
-			<Anchor>//api/name/upgrade</Anchor>
+			<ReturnValue><Abstract type="html">Unique key for the given user</Abstract></ReturnValue>
+			<Anchor>//api/name/userKeyForUser:</Anchor>
             <NodeRef refid="16"/>
 		</Token>
 		

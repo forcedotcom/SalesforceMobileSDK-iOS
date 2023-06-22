@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFKeyStoreManager.html">
+	<File path="Classes/SFNotificationUserInfo.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFKeyStoreManager</TokenIdentifier>
-			<Abstract type="html">Singleton class to manage operations on the keystore.</Abstract>
-			<DeclaredIn>SFKeyStoreManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFNotificationUserInfo</TokenIdentifier>
+			<Abstract type="html">User Information for post logout notifications.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="26"/>
@@ -13,153 +13,74 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFKeyStoreManager/sharedInstance</TokenIdentifier>
-			<Abstract type="html">Shared instance of the keystore manager.</Abstract>
-			<DeclaredIn>SFKeyStoreManager.h</DeclaredIn>
-			
-			<Declaration>+ (instancetype)sharedInstance</Declaration>
-			
-			<ReturnValue><Abstract type="html">Shared instance of the keystore manager.</Abstract></ReturnValue>
-			<Anchor>//api/name/sharedInstance</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreManager/retrieveKeyWithLabel:autoCreate:</TokenIdentifier>
-			<Abstract type="html">Retrieves a key with the given label from the keystore or nil, depending on the autoCreate value.</Abstract>
-			<DeclaredIn>SFKeyStoreManager.h</DeclaredIn>
-			
-			<Declaration>- (nullable SFEncryptionKey *)retrieveKeyWithLabel:(NSString *)keyLabel autoCreate:(BOOL)create</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>keyLabel</Name>
-					<Abstract type="html">Label associated with the stored key.</Abstract>
-				</Parameter><Parameter>
-					<Name>create</Name>
-					<Abstract type="html">Indicates whether a new key should be created if one does not exist.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">Encryption key or nil, depending on the autoCreate value.</Abstract></ReturnValue>
-			<Anchor>//api/name/retrieveKeyWithLabel:autoCreate:</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreManager/storeKey:withLabel:</TokenIdentifier>
-			<Abstract type="html">Stores a key with the given label in the keystore encrypted by the store&apos;s key.</Abstract>
-			<DeclaredIn>SFKeyStoreManager.h</DeclaredIn>
-			
-			<Declaration>- (void)storeKey:(SFEncryptionKey *)key withLabel:(NSString *)keyLabel</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>key</Name>
-					<Abstract type="html">Encryption key to be stored.</Abstract>
-				</Parameter><Parameter>
-					<Name>keyLabel</Name>
-					<Abstract type="html">Label associated with the key.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/storeKey:withLabel:</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreManager/removeKeyWithLabel:</TokenIdentifier>
-			<Abstract type="html">Removes the key with the given label from the keystore.</Abstract>
-			<DeclaredIn>SFKeyStoreManager.h</DeclaredIn>
-			
-			<Declaration>- (void)removeKeyWithLabel:(NSString *)keyLabel</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>keyLabel</Name>
-					<Abstract type="html">Label associated with the key to remove.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/removeKeyWithLabel:</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreManager/keyWithLabelExists:</TokenIdentifier>
-			<Abstract type="html">Determines whether a key with the given label exists.</Abstract>
-			<DeclaredIn>SFKeyStoreManager.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)keyWithLabelExists:(NSString *)keyLabel</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>keyLabel</Name>
-					<Abstract type="html">Label associated with the key to query.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the key exists in the keystore; NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/keyWithLabelExists:</Anchor>
-            <NodeRef refid="26"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreManager/setGeneratedKeyStore:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNotificationUserInfo/setAccountIdentity:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFKeyStoreManager+Internal.h</DeclaredIn>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFGeneratedKeyStore *generatedKeyStore</Declaration>
+			<Declaration>@property (nonatomic, readonly) SFUserAccountIdentity *accountIdentity</Declaration>
 			
 			
-			<Anchor>//api/name/generatedKeyStore</Anchor>
+			<Anchor>//api/name/accountIdentity</Anchor>
             <NodeRef refid="26"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreManager/generatedKeyStore</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNotificationUserInfo/accountIdentity</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFKeyStoreManager+Internal.h</DeclaredIn>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFGeneratedKeyStore *generatedKeyStore</Declaration>
+			<Declaration>@property (nonatomic, readonly) SFUserAccountIdentity *accountIdentity</Declaration>
 			
 			
-			<Anchor>//api/name/generatedKeyStore</Anchor>
+			<Anchor>//api/name/accountIdentity</Anchor>
             <NodeRef refid="26"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFKeyStoreManager/generatedKeyStore</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFNotificationUserInfo/accountIdentity</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFKeyStoreManager+Internal.h</DeclaredIn>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFGeneratedKeyStore *generatedKeyStore</Declaration>
+			<Declaration>@property (nonatomic, readonly) SFUserAccountIdentity *accountIdentity</Declaration>
 			
 			
-			<Anchor>//api/name/generatedKeyStore</Anchor>
+			<Anchor>//api/name/accountIdentity</Anchor>
             <NodeRef refid="26"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreManager/createDefaultKey</TokenIdentifier>
-			<Abstract type="html">Creates a default key store key.</Abstract>
-			<DeclaredIn>SFKeyStoreManager+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNotificationUserInfo/setCommunityId:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>- (SFKeyStoreKey *)createDefaultKey</Declaration>
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *communityId</Declaration>
 			
-			<ReturnValue><Abstract type="html">The generated key used to encrypt/decrypt the key store.</Abstract></ReturnValue>
-			<Anchor>//api/name/createDefaultKey</Anchor>
+			
+			<Anchor>//api/name/communityId</Anchor>
             <NodeRef refid="26"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFKeyStoreManager/keyStringToData:</TokenIdentifier>
-			<Abstract type="html">Converts an NSString-based key into NSData.</Abstract>
-			<DeclaredIn>SFKeyStoreManager+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNotificationUserInfo/communityId</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>+ (NSData *)keyStringToData:(NSString *)keyString</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>keyString</Name>
-					<Abstract type="html">The key to convert.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The NSData representation of the key.</Abstract></ReturnValue>
-			<Anchor>//api/name/keyStringToData:</Anchor>
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *communityId</Declaration>
+			
+			
+			<Anchor>//api/name/communityId</Anchor>
+            <NodeRef refid="26"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFNotificationUserInfo/communityId</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *communityId</Declaration>
+			
+			
+			<Anchor>//api/name/communityId</Anchor>
             <NodeRef refid="26"/>
 		</Token>
 		

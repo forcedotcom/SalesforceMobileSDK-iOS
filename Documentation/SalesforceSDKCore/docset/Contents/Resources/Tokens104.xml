@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKOAuthTokenEndpointErrorResponse.html">
+	<File path="Classes/SFSDKPushNotificationDataProvider.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKOAuthTokenEndpointErrorResponse</TokenIdentifier>
-			<Abstract type="html">@enum SFOAuthErrorDomain related error codes
-Constants used by SFOAuthCoordinator to indicate errors in the SFOAuth domain</Abstract>
-			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKPushNotificationDataProvider</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
             
 			
 			<NodeRef refid="104"/>
@@ -14,110 +13,98 @@ Constants used by SFOAuthCoordinator to indicate errors in the SFOAuth domain</A
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthTokenEndpointErrorResponse/setTokenEndpointErrorCode:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPushNotificationDataProvider/setUserInfoDict:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *tokenEndpointErrorCode</Declaration>
+			<Declaration>@property (nonnull, nonatomic, readonly) NSDictionary *userInfoDict</Declaration>
 			
 			
-			<Anchor>//api/name/tokenEndpointErrorCode</Anchor>
+			<Anchor>//api/name/userInfoDict</Anchor>
             <NodeRef refid="104"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthTokenEndpointErrorResponse/tokenEndpointErrorCode</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPushNotificationDataProvider/userInfoDict</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *tokenEndpointErrorCode</Declaration>
+			<Declaration>@property (nonnull, nonatomic, readonly) NSDictionary *userInfoDict</Declaration>
 			
 			
-			<Anchor>//api/name/tokenEndpointErrorCode</Anchor>
+			<Anchor>//api/name/userInfoDict</Anchor>
             <NodeRef refid="104"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKOAuthTokenEndpointErrorResponse/tokenEndpointErrorCode</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPushNotificationDataProvider/userInfoDict</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *tokenEndpointErrorCode</Declaration>
+			<Declaration>@property (nonnull, nonatomic, readonly) NSDictionary *userInfoDict</Declaration>
 			
 			
-			<Anchor>//api/name/tokenEndpointErrorCode</Anchor>
+			<Anchor>//api/name/userInfoDict</Anchor>
             <NodeRef refid="104"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthTokenEndpointErrorResponse/setTokenEndpointErrorDescription:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPushNotificationDataProvider/setContentJSONData:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *tokenEndpointErrorDescription</Declaration>
+			<Declaration>@property (nullable, nonatomic, readonly) NSData *contentJSONData</Declaration>
 			
 			
-			<Anchor>//api/name/tokenEndpointErrorDescription</Anchor>
+			<Anchor>//api/name/contentJSONData</Anchor>
             <NodeRef refid="104"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthTokenEndpointErrorResponse/tokenEndpointErrorDescription</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPushNotificationDataProvider/contentJSONData</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *tokenEndpointErrorDescription</Declaration>
+			<Declaration>@property (nullable, nonatomic, readonly) NSData *contentJSONData</Declaration>
 			
 			
-			<Anchor>//api/name/tokenEndpointErrorDescription</Anchor>
+			<Anchor>//api/name/contentJSONData</Anchor>
             <NodeRef refid="104"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKOAuthTokenEndpointErrorResponse/tokenEndpointErrorDescription</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPushNotificationDataProvider/contentJSONData</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *tokenEndpointErrorDescription</Declaration>
+			<Declaration>@property (nullable, nonatomic, readonly) NSData *contentJSONData</Declaration>
 			
 			
-			<Anchor>//api/name/tokenEndpointErrorDescription</Anchor>
+			<Anchor>//api/name/contentJSONData</Anchor>
             <NodeRef refid="104"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthTokenEndpointErrorResponse/setError:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPushNotificationDataProvider/initWithContentObj:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSError *error</Declaration>
+			<Declaration>- (instancetype)initWithContentObj:(nullable id)contentObj</Declaration>
 			
 			
-			<Anchor>//api/name/error</Anchor>
+			<Anchor>//api/name/initWithContentObj:</Anchor>
             <NodeRef refid="104"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthTokenEndpointErrorResponse/error</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPushNotificationDataProvider/initWithContentJSON:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSError *error</Declaration>
-			
-			
-			<Anchor>//api/name/error</Anchor>
-            <NodeRef refid="104"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKOAuthTokenEndpointErrorResponse/error</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSError *error</Declaration>
+			<Declaration>- (instancetype)initWithContentJSON:(nullable NSString *)contentJSON</Declaration>
 			
 			
-			<Anchor>//api/name/error</Anchor>
+			<Anchor>//api/name/initWithContentJSON:</Anchor>
             <NodeRef refid="104"/>
 		</Token>
 		

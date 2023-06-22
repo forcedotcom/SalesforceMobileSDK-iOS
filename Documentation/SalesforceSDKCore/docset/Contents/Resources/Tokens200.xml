@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFRestMethod.html">
+	<File path="Constants/SFSPLoginError.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFRestMethod</TokenIdentifier>
-			<Abstract type="html">HTTP methods for requests.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSPLoginError</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="200"/>
@@ -14,61 +14,41 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFRestMethodGET</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSPLoginErrorNoScheme</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFRestMethodGET</Declaration>
+            <Declaration>SFSPLoginErrorNoScheme</Declaration>
             
-            <DeclaredIn>SFRestRequest.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountManager.h</DeclaredIn>
             
             <NodeRef refid="200"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFRestMethodPOST</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSPLoginErrorNoUserIdentity</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFRestMethodPOST</Declaration>
+            <Declaration>SFSPLoginErrorNoUserIdentity</Declaration>
             
-            <DeclaredIn>SFRestRequest.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountManager.h</DeclaredIn>
             
             <NodeRef refid="200"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFRestMethodPUT</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSPLoginErrorKeychainWriteFailed</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFRestMethodPUT</Declaration>
+            <Declaration>SFSPLoginErrorKeychainWriteFailed</Declaration>
             
-            <DeclaredIn>SFRestRequest.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountManager.h</DeclaredIn>
             
             <NodeRef refid="200"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFRestMethodDELETE</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSPLoginErrorCredentialRefreshFailed</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFRestMethodDELETE</Declaration>
+            <Declaration>SFSPLoginErrorCredentialRefreshFailed</Declaration>
             
-            <DeclaredIn>SFRestRequest.h</DeclaredIn>
-            
-            <NodeRef refid="200"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFRestMethodHEAD</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFRestMethodHEAD</Declaration>
-            
-            <DeclaredIn>SFRestRequest.h</DeclaredIn>
-            
-            <NodeRef refid="200"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFRestMethodPATCH</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFRestMethodPATCH</Declaration>
-            
-            <DeclaredIn>SFRestRequest.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountManager.h</DeclaredIn>
             
             <NodeRef refid="200"/>
         </Token>

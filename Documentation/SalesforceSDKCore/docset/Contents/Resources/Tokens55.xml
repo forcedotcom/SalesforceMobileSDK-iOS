@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKAuthErrorCommand.html">
+	<File path="Classes/SFSDKAuthSession.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAuthErrorCommand</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAuthSession</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthSession.h</DeclaredIn>
             
 			
 			<NodeRef refid="55"/>
@@ -13,146 +13,494 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorCommand/setErrorCode:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthSession/setIsAuthenticating:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthSession.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *errorCode</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL isAuthenticating</Declaration>
 			
 			
-			<Anchor>//api/name/errorCode</Anchor>
+			<Anchor>//api/name/isAuthenticating</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorCommand/errorCode</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthSession/isAuthenticating</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthSession.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *errorCode</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL isAuthenticating</Declaration>
 			
 			
-			<Anchor>//api/name/errorCode</Anchor>
+			<Anchor>//api/name/isAuthenticating</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthErrorCommand/errorCode</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthSession/isAuthenticating</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthSession.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *errorCode</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL isAuthenticating</Declaration>
 			
 			
-			<Anchor>//api/name/errorCode</Anchor>
+			<Anchor>//api/name/isAuthenticating</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorCommand/setErrorReason:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthSession/setCredentials:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthSession.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *errorReason</Declaration>
+			<Declaration>@property (nonatomic, strong) SFOAuthCredentials *credentials</Declaration>
 			
 			
-			<Anchor>//api/name/errorReason</Anchor>
+			<Anchor>//api/name/credentials</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorCommand/errorReason</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthSession/credentials</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthSession.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *errorReason</Declaration>
+			<Declaration>@property (nonatomic, strong) SFOAuthCredentials *credentials</Declaration>
 			
 			
-			<Anchor>//api/name/errorReason</Anchor>
+			<Anchor>//api/name/credentials</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthErrorCommand/errorReason</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthSession/credentials</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthSession.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *errorReason</Declaration>
+			<Declaration>@property (nonatomic, strong) SFOAuthCredentials *credentials</Declaration>
 			
 			
-			<Anchor>//api/name/errorReason</Anchor>
+			<Anchor>//api/name/credentials</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorCommand/setErrorDescription:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthSession/setOauthCoordinator:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthSession.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *errorDescription</Declaration>
+			<Declaration>@property (nonatomic, strong) SFOAuthCoordinator *oauthCoordinator</Declaration>
 			
 			
-			<Anchor>//api/name/errorDescription</Anchor>
+			<Anchor>//api/name/oauthCoordinator</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorCommand/errorDescription</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthSession/oauthCoordinator</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthSession.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *errorDescription</Declaration>
+			<Declaration>@property (nonatomic, strong) SFOAuthCoordinator *oauthCoordinator</Declaration>
 			
 			
-			<Anchor>//api/name/errorDescription</Anchor>
+			<Anchor>//api/name/oauthCoordinator</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthErrorCommand/errorDescription</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthSession/oauthCoordinator</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthSession.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *errorDescription</Declaration>
+			<Declaration>@property (nonatomic, strong) SFOAuthCoordinator *oauthCoordinator</Declaration>
 			
 			
-			<Anchor>//api/name/errorDescription</Anchor>
+			<Anchor>//api/name/oauthCoordinator</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorCommand/setState:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthSession/setOauthRequest:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthSession.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *state</Declaration>
+			<Declaration>@property (nonatomic, strong) SFSDKAuthRequest *oauthRequest</Declaration>
 			
 			
-			<Anchor>//api/name/state</Anchor>
+			<Anchor>//api/name/oauthRequest</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorCommand/state</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthSession/oauthRequest</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthSession.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *state</Declaration>
+			<Declaration>@property (nonatomic, strong) SFSDKAuthRequest *oauthRequest</Declaration>
 			
 			
-			<Anchor>//api/name/state</Anchor>
+			<Anchor>//api/name/oauthRequest</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthErrorCommand/state</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthSession/oauthRequest</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthErrorCommand.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthSession.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *state</Declaration>
+			<Declaration>@property (nonatomic, strong) SFSDKAuthRequest *oauthRequest</Declaration>
 			
 			
-			<Anchor>//api/name/state</Anchor>
+			<Anchor>//api/name/oauthRequest</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthSession/setSceneId:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthSession.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSString *sceneId</Declaration>
+			
+			
+			<Anchor>//api/name/sceneId</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthSession/sceneId</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthSession.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSString *sceneId</Declaration>
+			
+			
+			<Anchor>//api/name/sceneId</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthSession/sceneId</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthSession.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSString *sceneId</Declaration>
+			
+			
+			<Anchor>//api/name/sceneId</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthSession/setAuthSuccessCallback:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthSession.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) void ( ^ ) ( SFOAuthInfo *, SFUserAccount *) authSuccessCallback</Declaration>
+			
+			
+			<Anchor>//api/name/authSuccessCallback</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthSession/authSuccessCallback</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthSession.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) void ( ^ ) ( SFOAuthInfo *, SFUserAccount *) authSuccessCallback</Declaration>
+			
+			
+			<Anchor>//api/name/authSuccessCallback</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthSession/authSuccessCallback</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthSession.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) void ( ^ ) ( SFOAuthInfo *, SFUserAccount *) authSuccessCallback</Declaration>
+			
+			
+			<Anchor>//api/name/authSuccessCallback</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthSession/setAuthFailureCallback:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthSession.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) void ( ^ ) ( SFOAuthInfo *, NSError *) authFailureCallback</Declaration>
+			
+			
+			<Anchor>//api/name/authFailureCallback</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthSession/authFailureCallback</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthSession.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) void ( ^ ) ( SFOAuthInfo *, NSError *) authFailureCallback</Declaration>
+			
+			
+			<Anchor>//api/name/authFailureCallback</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthSession/authFailureCallback</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthSession.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) void ( ^ ) ( SFOAuthInfo *, NSError *) authFailureCallback</Declaration>
+			
+			
+			<Anchor>//api/name/authFailureCallback</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthSession/setIdentityCoordinator:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthSession.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFIdentityCoordinator *identityCoordinator</Declaration>
+			
+			
+			<Anchor>//api/name/identityCoordinator</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthSession/identityCoordinator</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthSession.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFIdentityCoordinator *identityCoordinator</Declaration>
+			
+			
+			<Anchor>//api/name/identityCoordinator</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthSession/identityCoordinator</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthSession.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFIdentityCoordinator *identityCoordinator</Declaration>
+			
+			
+			<Anchor>//api/name/identityCoordinator</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthSession/setNotifiesDelegatesOfFailure:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthSession.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL notifiesDelegatesOfFailure</Declaration>
+			
+			
+			<Anchor>//api/name/notifiesDelegatesOfFailure</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthSession/notifiesDelegatesOfFailure</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthSession.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL notifiesDelegatesOfFailure</Declaration>
+			
+			
+			<Anchor>//api/name/notifiesDelegatesOfFailure</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthSession/notifiesDelegatesOfFailure</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthSession.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL notifiesDelegatesOfFailure</Declaration>
+			
+			
+			<Anchor>//api/name/notifiesDelegatesOfFailure</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthSession/setAuthError:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthSession.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) NSError *authError</Declaration>
+			
+			
+			<Anchor>//api/name/authError</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthSession/authError</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthSession.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) NSError *authError</Declaration>
+			
+			
+			<Anchor>//api/name/authError</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthSession/authError</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthSession.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) NSError *authError</Declaration>
+			
+			
+			<Anchor>//api/name/authError</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthSession/setAuthInfo:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthSession.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFOAuthInfo *authInfo</Declaration>
+			
+			
+			<Anchor>//api/name/authInfo</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthSession/authInfo</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthSession.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFOAuthInfo *authInfo</Declaration>
+			
+			
+			<Anchor>//api/name/authInfo</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthSession/authInfo</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthSession.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFOAuthInfo *authInfo</Declaration>
+			
+			
+			<Anchor>//api/name/authInfo</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthSession/setAuthCoordinatorBrowserBlock:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthSession.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) void ( ^ ) ( BOOL ) authCoordinatorBrowserBlock</Declaration>
+			
+			
+			<Anchor>//api/name/authCoordinatorBrowserBlock</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthSession/authCoordinatorBrowserBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthSession.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) void ( ^ ) ( BOOL ) authCoordinatorBrowserBlock</Declaration>
+			
+			
+			<Anchor>//api/name/authCoordinatorBrowserBlock</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthSession/authCoordinatorBrowserBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthSession.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) void ( ^ ) ( BOOL ) authCoordinatorBrowserBlock</Declaration>
+			
+			
+			<Anchor>//api/name/authCoordinatorBrowserBlock</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthSession/setSpAppCredentials:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthSession.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) SFOAuthCredentials *spAppCredentials</Declaration>
+			
+			
+			<Anchor>//api/name/spAppCredentials</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthSession/spAppCredentials</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthSession.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) SFOAuthCredentials *spAppCredentials</Declaration>
+			
+			
+			<Anchor>//api/name/spAppCredentials</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthSession/spAppCredentials</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthSession.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) SFOAuthCredentials *spAppCredentials</Declaration>
+			
+			
+			<Anchor>//api/name/spAppCredentials</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthSession/initWith:credentials:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthSession.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWith:(SFSDKAuthRequest *)request credentials:(nullable SFOAuthCredentials *)creds</Declaration>
+			
+			
+			<Anchor>//api/name/initWith:credentials:</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthSession/initWith:credentials:spAppCredentials:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthSession.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWith:(SFSDKAuthRequest *)request credentials:(nullable SFOAuthCredentials *)creds spAppCredentials:(nullable SFOAuthCredentials *)spAppCredentials</Declaration>
+			
+			
+			<Anchor>//api/name/initWith:credentials:spAppCredentials:</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		

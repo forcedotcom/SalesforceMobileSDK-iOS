@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKWindowContainer.html">
+	<File path="Classes/SFUserAccount.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKWindowContainer</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFUserAccount</TokenIdentifier>
+			<Abstract type="html">Class that represents an account. An account represents
+a user together with the current community it is logged in.</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
             
 			
 			<NodeRef refid="135"/>
@@ -13,387 +14,476 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/setWindow:</TokenIdentifier>
-			<Abstract type="html">Underlying Window that is wrapped by this container</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/setAccessScopes:</TokenIdentifier>
+			<Abstract type="html">The access scopes for this user</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UIWindow *window</Declaration>
+			<Declaration>@property (nonatomic, copy, nullable) NSSet&lt;NSString*&gt; *accessScopes</Declaration>
 			
 			
-			<Anchor>//api/name/window</Anchor>
+			<Anchor>//api/name/accessScopes</Anchor>
             <NodeRef refid="135"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/window</TokenIdentifier>
-			<Abstract type="html">Underlying Window that is wrapped by this container</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/accessScopes</TokenIdentifier>
+			<Abstract type="html">The access scopes for this user</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UIWindow *window</Declaration>
+			<Declaration>@property (nonatomic, copy, nullable) NSSet&lt;NSString*&gt; *accessScopes</Declaration>
 			
 			
-			<Anchor>//api/name/window</Anchor>
+			<Anchor>//api/name/accessScopes</Anchor>
             <NodeRef refid="135"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKWindowContainer/window</TokenIdentifier>
-			<Abstract type="html">Underlying Window that is wrapped by this container</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccount/accessScopes</TokenIdentifier>
+			<Abstract type="html">The access scopes for this user</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UIWindow *window</Declaration>
+			<Declaration>@property (nonatomic, copy, nullable) NSSet&lt;NSString*&gt; *accessScopes</Declaration>
 			
 			
-			<Anchor>//api/name/window</Anchor>
+			<Anchor>//api/name/accessScopes</Anchor>
             <NodeRef refid="135"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/setWindowType:</TokenIdentifier>
-			<Abstract type="html">SFSDKWindowType for the window</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/setAccountIdentity:</TokenIdentifier>
+			<Abstract type="html">The unique identifier for this account.</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) SFSDKWindowType windowType</Declaration>
+			<Declaration>@property (nonatomic, readonly) SFUserAccountIdentity *accountIdentity</Declaration>
 			
 			
-			<Anchor>//api/name/windowType</Anchor>
+			<Anchor>//api/name/accountIdentity</Anchor>
             <NodeRef refid="135"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/windowType</TokenIdentifier>
-			<Abstract type="html">SFSDKWindowType for the window</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/accountIdentity</TokenIdentifier>
+			<Abstract type="html">The unique identifier for this account.</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) SFSDKWindowType windowType</Declaration>
+			<Declaration>@property (nonatomic, readonly) SFUserAccountIdentity *accountIdentity</Declaration>
 			
 			
-			<Anchor>//api/name/windowType</Anchor>
+			<Anchor>//api/name/accountIdentity</Anchor>
             <NodeRef refid="135"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKWindowContainer/windowType</TokenIdentifier>
-			<Abstract type="html">SFSDKWindowType for the window</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccount/accountIdentity</TokenIdentifier>
+			<Abstract type="html">The unique identifier for this account.</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) SFSDKWindowType windowType</Declaration>
+			<Declaration>@property (nonatomic, readonly) SFUserAccountIdentity *accountIdentity</Declaration>
 			
 			
-			<Anchor>//api/name/windowType</Anchor>
+			<Anchor>//api/name/accountIdentity</Anchor>
             <NodeRef refid="135"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/setWindowName:</TokenIdentifier>
-			<Abstract type="html">SFSDKWindowType windowName</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/setCredentials:</TokenIdentifier>
+			<Abstract type="html">The credentials associated with this user</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, readonly) NSString *windowName</Declaration>
+			<Declaration>@property (nonatomic, strong) SFOAuthCredentials *credentials</Declaration>
 			
 			
-			<Anchor>//api/name/windowName</Anchor>
+			<Anchor>//api/name/credentials</Anchor>
             <NodeRef refid="135"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/windowName</TokenIdentifier>
-			<Abstract type="html">SFSDKWindowType windowName</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/credentials</TokenIdentifier>
+			<Abstract type="html">The credentials associated with this user</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, readonly) NSString *windowName</Declaration>
+			<Declaration>@property (nonatomic, strong) SFOAuthCredentials *credentials</Declaration>
 			
 			
-			<Anchor>//api/name/windowName</Anchor>
+			<Anchor>//api/name/credentials</Anchor>
             <NodeRef refid="135"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKWindowContainer/windowName</TokenIdentifier>
-			<Abstract type="html">SFSDKWindowType windowName</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccount/credentials</TokenIdentifier>
+			<Abstract type="html">The credentials associated with this user</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, readonly) NSString *windowName</Declaration>
+			<Declaration>@property (nonatomic, strong) SFOAuthCredentials *credentials</Declaration>
 			
 			
-			<Anchor>//api/name/windowName</Anchor>
+			<Anchor>//api/name/credentials</Anchor>
             <NodeRef refid="135"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/setWindowLevel:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/setIdData:</TokenIdentifier>
+			<Abstract type="html">The identity data associated with this user</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) UIWindowLevel windowLevel</Declaration>
+			<Declaration>@property (nonatomic, strong) SFIdentityData *idData</Declaration>
 			
 			
-			<Anchor>//api/name/windowLevel</Anchor>
+			<Anchor>//api/name/idData</Anchor>
             <NodeRef refid="135"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/windowLevel</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/idData</TokenIdentifier>
+			<Abstract type="html">The identity data associated with this user</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) UIWindowLevel windowLevel</Declaration>
+			<Declaration>@property (nonatomic, strong) SFIdentityData *idData</Declaration>
 			
 			
-			<Anchor>//api/name/windowLevel</Anchor>
+			<Anchor>//api/name/idData</Anchor>
             <NodeRef refid="135"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKWindowContainer/windowLevel</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccount/idData</TokenIdentifier>
+			<Abstract type="html">The identity data associated with this user</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) UIWindowLevel windowLevel</Declaration>
+			<Declaration>@property (nonatomic, strong) SFIdentityData *idData</Declaration>
 			
 			
-			<Anchor>//api/name/windowLevel</Anchor>
+			<Anchor>//api/name/idData</Anchor>
             <NodeRef refid="135"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/setViewController:</TokenIdentifier>
-			<Abstract type="html">UIViewController viewController</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/setPhoto:</TokenIdentifier>
+			<Abstract type="html">The user&apos;s photo. Usually store a thumbnail of the user.
+To set this property use setPhoto:completion:</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UIViewController *viewController</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable, readonly) UIImage *photo</Declaration>
 			
 			
-			<Anchor>//api/name/viewController</Anchor>
+			<Anchor>//api/name/photo</Anchor>
             <NodeRef refid="135"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/viewController</TokenIdentifier>
-			<Abstract type="html">UIViewController viewController</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/photo</TokenIdentifier>
+			<Abstract type="html">The user&apos;s photo. Usually store a thumbnail of the user.
+To set this property use setPhoto:completion:</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UIViewController *viewController</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable, readonly) UIImage *photo</Declaration>
 			
 			
-			<Anchor>//api/name/viewController</Anchor>
+			<Anchor>//api/name/photo</Anchor>
             <NodeRef refid="135"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKWindowContainer/viewController</TokenIdentifier>
-			<Abstract type="html">UIViewController viewController</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccount/photo</TokenIdentifier>
+			<Abstract type="html">The user&apos;s photo. Usually store a thumbnail of the user.
+To set this property use setPhoto:completion:</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UIViewController *viewController</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable, readonly) UIImage *photo</Declaration>
 			
 			
-			<Anchor>//api/name/viewController</Anchor>
+			<Anchor>//api/name/photo</Anchor>
             <NodeRef refid="135"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/setWindowDelegate:</TokenIdentifier>
-			<Abstract type="html">SFSDKWindowContainerDelegate window Delegate</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/setAccessRestrictions:</TokenIdentifier>
+			<Abstract type="html">The access restriction associated with this user</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKWindowContainerDelegate&gt; _Nullable windowDelegate</Declaration>
+			<Declaration>@property (nonatomic) SFUserAccountAccessRestriction accessRestrictions</Declaration>
 			
 			
-			<Anchor>//api/name/windowDelegate</Anchor>
+			<Anchor>//api/name/accessRestrictions</Anchor>
             <NodeRef refid="135"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/windowDelegate</TokenIdentifier>
-			<Abstract type="html">SFSDKWindowContainerDelegate window Delegate</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/accessRestrictions</TokenIdentifier>
+			<Abstract type="html">The access restriction associated with this user</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKWindowContainerDelegate&gt; _Nullable windowDelegate</Declaration>
+			<Declaration>@property (nonatomic) SFUserAccountAccessRestriction accessRestrictions</Declaration>
 			
 			
-			<Anchor>//api/name/windowDelegate</Anchor>
+			<Anchor>//api/name/accessRestrictions</Anchor>
             <NodeRef refid="135"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKWindowContainer/windowDelegate</TokenIdentifier>
-			<Abstract type="html">SFSDKWindowContainerDelegate window Delegate</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccount/accessRestrictions</TokenIdentifier>
+			<Abstract type="html">The access restriction associated with this user</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKWindowContainerDelegate&gt; _Nullable windowDelegate</Declaration>
+			<Declaration>@property (nonatomic) SFUserAccountAccessRestriction accessRestrictions</Declaration>
 			
 			
-			<Anchor>//api/name/windowDelegate</Anchor>
+			<Anchor>//api/name/accessRestrictions</Anchor>
             <NodeRef refid="135"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/initWithWindow:name:</TokenIdentifier>
-			<Abstract type="html">Create an instance of a Window</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/setSessionValid:</TokenIdentifier>
+			<Abstract type="html">Returns YES if the user has an access token and, presumably,
+a valid session.</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
 			
-			<Declaration>- (instancetype)initWithWindow:(UIWindow *)window name:(NSString *)windowName</Declaration>
+			<Declaration>@property (nonatomic, readonly, getter=isSessionValid) BOOL sessionValid</Declaration>
+			
+			
+			<Anchor>//api/name/sessionValid</Anchor>
+            <NodeRef refid="135"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/isSessionValid</TokenIdentifier>
+			<Abstract type="html">Returns YES if the user has an access token and, presumably,
+a valid session.</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, getter=isSessionValid) BOOL sessionValid</Declaration>
+			
+			
+			<Anchor>//api/name/sessionValid</Anchor>
+            <NodeRef refid="135"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccount/sessionValid</TokenIdentifier>
+			<Abstract type="html">Returns YES if the user has an access token and, presumably,
+a valid session.</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, getter=isSessionValid) BOOL sessionValid</Declaration>
+			
+			
+			<Anchor>//api/name/sessionValid</Anchor>
+            <NodeRef refid="135"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/setUserDeleted:</TokenIdentifier>
+			<Abstract type="html">Indicates if this account was deleted.  Returns YES if this account was deleted since being created.</Abstract>
+			<DeclaredIn>SFUserAccount+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, getter=isUserDeleted) BOOL userDeleted</Declaration>
+			
+			
+			<Anchor>//api/name/userDeleted</Anchor>
+            <NodeRef refid="135"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/isUserDeleted</TokenIdentifier>
+			<Abstract type="html">Indicates if this account was deleted.  Returns YES if this account was deleted since being created.</Abstract>
+			<DeclaredIn>SFUserAccount+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, getter=isUserDeleted) BOOL userDeleted</Declaration>
+			
+			
+			<Anchor>//api/name/userDeleted</Anchor>
+            <NodeRef refid="135"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccount/userDeleted</TokenIdentifier>
+			<Abstract type="html">Indicates if this account was deleted.  Returns YES if this account was deleted since being created.</Abstract>
+			<DeclaredIn>SFUserAccount+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, getter=isUserDeleted) BOOL userDeleted</Declaration>
+			
+			
+			<Anchor>//api/name/userDeleted</Anchor>
+            <NodeRef refid="135"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/setLoginState:</TokenIdentifier>
+			<Abstract type="html">Indicates this user&apos;s current login state.</Abstract>
+			<DeclaredIn>SFUserAccount+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) SFUserAccountLoginState loginState</Declaration>
+			
+			
+			<Anchor>//api/name/loginState</Anchor>
+            <NodeRef refid="135"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/loginState</TokenIdentifier>
+			<Abstract type="html">Indicates this user&apos;s current login state.</Abstract>
+			<DeclaredIn>SFUserAccount+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) SFUserAccountLoginState loginState</Declaration>
+			
+			
+			<Anchor>//api/name/loginState</Anchor>
+            <NodeRef refid="135"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccount/loginState</TokenIdentifier>
+			<Abstract type="html">Indicates this user&apos;s current login state.</Abstract>
+			<DeclaredIn>SFUserAccount+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) SFUserAccountLoginState loginState</Declaration>
+			
+			
+			<Anchor>//api/name/loginState</Anchor>
+            <NodeRef refid="135"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/initWithCredentials:</TokenIdentifier>
+			<Abstract type="html">Initialize with SFOAuthCredentials credentials</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithCredentials:(SFOAuthCredentials *)credentials</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>window</Name>
-					<Abstract type="html">An instance of UIWindow</Abstract>
+					<Name>credentials</Name>
+					<Abstract type="html">The credentials to link with the SFUserAccount.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the account instance</Abstract></ReturnValue>
+			<Anchor>//api/name/initWithCredentials:</Anchor>
+            <NodeRef refid="135"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/setCustomDataObject:forKey:</TokenIdentifier>
+			<Abstract type="html">Set object in customData dictionary</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			
+			<Declaration>- (void)setCustomDataObject:(id&lt;NSCoding&gt;)object forKey:(id&lt;NSCopying&gt;)key</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>object</Name>
+					<Abstract type="html">The object to store, must be one of the following: NSString, NSNumber,  NSArray, NSDictionary, NSURL, NSNull, NSDate</Abstract>
 				</Parameter><Parameter>
-					<Name>windowName</Name>
-					<Abstract type="html">key for the UIWindow</Abstract>
+					<Name>key</Name>
+					<Abstract type="html">An NSCopying key to store the object at</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">SFSDKWindowComtainer</Abstract></ReturnValue>
-			<Anchor>//api/name/initWithWindow:name:</Anchor>
+			
+			<Anchor>//api/name/setCustomDataObject:forKey:</Anchor>
             <NodeRef refid="135"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/initWithName:</TokenIdentifier>
-			<Abstract type="html">Create an instance of a Window</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/removeCustomDataObjectForKey:</TokenIdentifier>
+			<Abstract type="html">Remove a custom data object for a key</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
 			
-			<Declaration>- (instancetype)initWithName:(NSString *)windowName</Declaration>
+			<Declaration>- (void)removeCustomDataObjectForKey:(id)key</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>windowName</Name>
-					<Abstract type="html">key for the UIWindow</Abstract>
+					<Name>key</Name>
+					<Abstract type="html">The key for the object to remove</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">SFSDKWindowComtainer</Abstract></ReturnValue>
-			<Anchor>//api/name/initWithName:</Anchor>
+			
+			<Anchor>//api/name/removeCustomDataObjectForKey:</Anchor>
             <NodeRef refid="135"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/isEnabled</TokenIdentifier>
-			<Abstract type="html">Returns true if window alpha is set to 1.0</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/customDataObjectForKey:</TokenIdentifier>
+			<Abstract type="html">Retrieve the object stored in the custom data dictionary</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)isEnabled</Declaration>
-			
-			
-			<Anchor>//api/name/isEnabled</Anchor>
+			<Declaration>- (nullable id)customDataObjectForKey:(id)key</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>key</Name>
+					<Abstract type="html">The key for the object to retrieve</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The object for a particular key</Abstract></ReturnValue>
+			<Anchor>//api/name/customDataObjectForKey:</Anchor>
             <NodeRef refid="135"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/presentWindow</TokenIdentifier>
-			<Abstract type="html">Make window visible, set alpha to 1.0</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/setPhoto:completion:</TokenIdentifier>
+			<Abstract type="html">Sets the user&apos;s photo.</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
 			
-			<Declaration>- (void)presentWindow</Declaration>
+			<Declaration>- (void)setPhoto:(UIImage *_Nullable)photo completion:(void ( ^ __nullable ) ( NSError *_Nullable ))completion</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>photo</Name>
+					<Abstract type="html">The user photo, usually the thumbnail of the user.</Abstract>
+				</Parameter><Parameter>
+					<Name>completion</Name>
+					<Abstract type="html">Optional callback block invoked when the photo has been set. If not set, an error is returned.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/presentWindow</Anchor>
+			<Anchor>//api/name/setPhoto:completion:</Anchor>
             <NodeRef refid="135"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/presentWindowAnimated:withCompletion:</TokenIdentifier>
-			<Abstract type="html">Make window visible, set alpha to 1.0 invoke completion block</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/setCustomData:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFUserAccount+Internal.h</DeclaredIn>
 			
-			<Declaration>- (void)presentWindowAnimated:(BOOL)animated withCompletion:(void ( ^ _Nullable ) ( void ))completion</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) NSMutableDictionary *customData</Declaration>
 			
 			
-			<Anchor>//api/name/presentWindowAnimated:withCompletion:</Anchor>
+			<Anchor>//api/name/customData</Anchor>
             <NodeRef refid="135"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/dismissWindowAnimated:withCompletion:</TokenIdentifier>
-			<Abstract type="html">Make window visible</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/customData</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFUserAccount+Internal.h</DeclaredIn>
 			
-			<Declaration>- (void)dismissWindowAnimated:(BOOL)animated withCompletion:(void ( ^ _Nullable ) ( void ))completion</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) NSMutableDictionary *customData</Declaration>
 			
 			
-			<Anchor>//api/name/dismissWindowAnimated:withCompletion:</Anchor>
+			<Anchor>//api/name/customData</Anchor>
             <NodeRef refid="135"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/dismissWindow</TokenIdentifier>
-			<Abstract type="html">Make window invisible</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccount/customData</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFUserAccount+Internal.h</DeclaredIn>
 			
-			<Declaration>- (void)dismissWindow</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) NSMutableDictionary *customData</Declaration>
 			
 			
-			<Anchor>//api/name/dismissWindow</Anchor>
+			<Anchor>//api/name/customData</Anchor>
             <NodeRef refid="135"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/isMainWindow</TokenIdentifier>
-			<Abstract type="html">Convenience API returns true if the SFSDKWindowType is main</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/transitionToLoginState:</TokenIdentifier>
+			<Abstract type="html">Attempts to transition from the current login state to the new login state.</Abstract>
+			<DeclaredIn>SFUserAccount+Internal.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)isMainWindow</Declaration>
-			
-			<ReturnValue><Abstract type="html">YES if this is the main Window</Abstract></ReturnValue>
-			<Anchor>//api/name/isMainWindow</Anchor>
-            <NodeRef refid="135"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/isAuthWindow</TokenIdentifier>
-			<Abstract type="html">Convenience API returns true if the SFSDKWindowType is auth</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)isAuthWindow</Declaration>
-			
-			<ReturnValue><Abstract type="html">YES if this is the auth Window</Abstract></ReturnValue>
-			<Anchor>//api/name/isAuthWindow</Anchor>
-            <NodeRef refid="135"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/isSnapshotWindow</TokenIdentifier>
-			<Abstract type="html">Convenience API returns true if the SFSDKWindowType is snapshot</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)isSnapshotWindow</Declaration>
-			
-			<ReturnValue><Abstract type="html">YES if this is the snapshot Window</Abstract></ReturnValue>
-			<Anchor>//api/name/isSnapshotWindow</Anchor>
-            <NodeRef refid="135"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/isScreenLockWindow</TokenIdentifier>
-			<Abstract type="html">Convenience API returns true if the SFSDKWindowType is screen lock</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)isScreenLockWindow</Declaration>
-			
-			<ReturnValue><Abstract type="html">YES if this is the screen lock Window</Abstract></ReturnValue>
-			<Anchor>//api/name/isScreenLockWindow</Anchor>
-            <NodeRef refid="135"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/topViewController</TokenIdentifier>
-			<Abstract type="html">Tries to return top view controller of this window</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-			
-			<Declaration>- (UIViewController *)topViewController</Declaration>
-			
-			
-			<Anchor>//api/name/topViewController</Anchor>
-            <NodeRef refid="135"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKWindowContainer/topViewControllerWithRootViewController:</TokenIdentifier>
-			<Abstract type="html">Tries to return top view controller given a rootViewcontroller</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-			
-			<Declaration>+ (UIViewController *)topViewControllerWithRootViewController:(UIViewController *)viewController</Declaration>
-			
-			
-			<Anchor>//api/name/topViewControllerWithRootViewController:</Anchor>
+			<Declaration>- (BOOL)transitionToLoginState:(SFUserAccountLoginState)newLoginState</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>newLoginState</Name>
+					<Abstract type="html">The new login state to set.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if the login state change was successful, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/transitionToLoginState:</Anchor>
             <NodeRef refid="135"/>
 		</Token>
 		
