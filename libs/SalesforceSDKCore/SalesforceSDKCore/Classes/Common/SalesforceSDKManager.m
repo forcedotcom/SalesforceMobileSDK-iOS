@@ -80,6 +80,8 @@ static NSInteger const kDefaultCacheDiskCapacity = 1024 * 1024 * 20;  // 20MB
 
 NSString * const kSFScreenLockFlowWillBegin = @"SFScreenLockFlowWillBegin";
 NSString * const kSFScreenLockFlowCompleted = @"SFScreenLockFlowCompleted";
+NSString * const kSFBiometricAuthenticationFlowWillBegin = @"SFBiometricAuthenticationFlowWillBegin";
+NSString * const kSFBiometricAuthenticationFlowCompleted = @"SFBiometricAuthenticationFlowCompleted";
 
 @implementation UIWindow (SalesforceSDKManager)
 
@@ -290,16 +292,21 @@ NSString * const kSFScreenLockFlowCompleted = @"SFScreenLockFlowCompleted";
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleUserDidLogout:) name:kSFNotificationUserDidLogout object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(screenLockFlowWillBegin:) name:kSFScreenLockFlowWillBegin object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(screenLockFlowDidComplete:) name:kSFScreenLockFlowCompleted object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(biometricAuthenticationFlowWillBegin:) name:kSFBiometricAuthenticationFlowWillBegin object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(biometricAuthenticationFlowDidComplete:) name:kSFBiometricAuthenticationFlowCompleted object:nil];
         
         _useSnapshotView = ![SFSDKMacDetectUtil isOnMac];
         [self computeWebViewUserAgent]; // web view user agent is computed asynchronously so very first call to self.userAgentString(...) will be missing it
         self.userAgentString = [self defaultUserAgentString];
         self.URLCacheType = kSFURLCacheTypeEncrypted;
         self.useEphemeralSessionForAdvancedAuth = YES;
+        self.useWebServerAuthentication = YES;
+        self.blockSalesforceIntegrationUser = NO;
+        self.useHybridAuthentication = YES;
         [self setupServiceConfiguration];
         _snapshotViewControllers = [SFSDKSafeMutableDictionary new];
         [SFSDKSalesforceSDKUpgradeManager upgrade];
-        [[SFScreenLockManager shared] checkForScreenLockUsers]; // This is necessary because keychain values can outlive the app.
+        [[SFScreenLockManagerInternal shared] checkForScreenLockUsers]; // This is necessary because keychain values can outlive the app.
     }
     return self;
 }
@@ -474,6 +481,7 @@ NSString * const kSFScreenLockFlowCompleted = @"SFScreenLockFlowCompleted";
             @"SDK Version", SALESFORCE_SDK_VERSION,
             @"App Type", [self getAppTypeAsString],
             @"User Agent", self.userAgentString(@""),
+            @"Use Web Server Authentication", [self useWebServerAuthentication]  ? @"YES" : @"NO",
             @"Browser Login Enabled", [SFUserAccountManager sharedInstance].useBrowserAuth? @"YES" : @"NO",
             @"IDP Enabled", [self idpEnabled] ? @"YES" : @"NO",
             @"Identity Provider", [self isIdentityProvider] ? @"YES" : @"NO",
@@ -546,7 +554,8 @@ NSString * const kSFScreenLockFlowCompleted = @"SFScreenLockFlowCompleted";
 - (void)handleAppForeground:(NSNotification *)notification
 {
     [SFSDKSalesforceSDKUpgradeManager upgrade];
-    [[SFScreenLockManager shared] handleAppForeground];
+    [[SFScreenLockManagerInternal shared] handleAppForeground];
+    [[SFBiometricAuthenticationManagerInternal shared] handleAppForeground];
 }
 
 - (void)handleAppBackground:(NSNotification *)notification
@@ -633,11 +642,12 @@ NSString * const kSFScreenLockFlowCompleted = @"SFScreenLockFlowCompleted";
 - (void)handleUserWillLogout:(NSNotification *)notification {
     SFUserAccount *user = notification.userInfo[kSFNotificationUserInfoAccountKey];
     [SFSDKKeyValueEncryptedFileStore removeAllStoresForUser:user];
+    [[SFBiometricAuthenticationManagerInternal shared] cleanupWithUser:user];
 }
 
 - (void)handlePostLogout
 {
-    [[SFScreenLockManager shared] checkForScreenLockUsers];
+    [[SFScreenLockManagerInternal shared] checkForScreenLockUsers];
 }
     
 - (BOOL)isSnapshotPresented:(UIScene *)scene {
@@ -824,6 +834,18 @@ void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t b
 - (void)screenLockFlowWillBegin:(NSNotification *)notification { }
 
 - (void)screenLockFlowDidComplete:(NSNotification *)notification { }
+
+- (void)biometricAuthenticationFlowWillBegin:(NSNotification *)notification { }
+
+- (void)biometricAuthenticationFlowDidComplete:(NSNotification *)notification { }
+
+- (id <SFBiometricAuthenticationManager>)biometricAuthenticationManager {
+    return [SFBiometricAuthenticationManagerInternal shared];
+}
+
+- (id <SFScreenLockManager>)screenLockManager {
+    return [SFScreenLockManagerInternal shared];
+}
 
 @end
 

@@ -30,9 +30,17 @@
 "biometricReason" = "Please authenticate to proceed.";
 "logoutButtonTitle" = "Log out";
 "retryButtonTitle" = "Retry Unlock";
-"setUpPasscodeMessage" = "%@ requires you to set up an iOS passcode to use the app.";
+"setUpPasscodeMessage" = "%@ requires you to set an iOS passcode before you can connect to Salesforce. Add a passcode in Settings and then try again.";
 "fallbackErrorMessage" = "An unexpected error occurred.";
 "accessibilityLoggedOutAnnouncement" = "You are logged out.";
+
+// Biometric Authentication
+"biometricLoginButton" = "Login with Biometric";
+"usePassword" = "Use Password";
+"bioOptInPromptTitle" = "Biometric Login";
+"bioOptInPromptMessage" = "Use TouchID or FaceID to quickly login.  Your biometric information is never stored.";
+"bioPromptEnable" = "Enable";
+"bioPromtpCancel" = "Use Password";
 
 // OAuth flow
 "authAlertContinueButton"="Continue";

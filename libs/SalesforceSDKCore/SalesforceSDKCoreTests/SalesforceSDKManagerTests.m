@@ -344,6 +344,36 @@ static NSString* const kTestAppName = @"OverridenAppName";
     XCTAssertTrue([brandedURL containsString:[brandPath substringToIndex:brandPath.length-1]]);
 }
 
+- (void)testApprovalUrl {
+    [self createTestAppIdentity];
+    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"testWebServer" clientId:@"testWebServer" encrypted:NO];
+    credentials.domain = @"testWebServer";
+    credentials.redirectUri = @"testWebserver";
+    
+    // Hybrid enabled, web server enabled
+    [SalesforceSDKManager sharedManager].useWebServerAuthentication = YES;
+    SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:credentials];
+    NSString *approvalUrl = [coordinator generateApprovalUrlString];
+    XCTAssert([approvalUrl containsString:@"response_type=code"]);
+    
+    // Hybrid enabled, web server disabled
+    [SalesforceSDKManager sharedManager].useWebServerAuthentication = NO;
+    approvalUrl = [coordinator generateApprovalUrlString];
+    XCTAssert([approvalUrl containsString:@"response_type=hybrid_token"]);
+    
+    // Hybrid disabled, web server enabled
+    [SalesforceSDKManager sharedManager].useHybridAuthentication = NO;
+    [SalesforceSDKManager sharedManager].useWebServerAuthentication = YES;
+    approvalUrl = [coordinator generateApprovalUrlString];
+    XCTAssert([approvalUrl containsString:@"response_type=code"]);
+    
+    // Hybrid disabled, web server disabled
+    [SalesforceSDKManager sharedManager].useHybridAuthentication = NO;
+    [SalesforceSDKManager sharedManager].useWebServerAuthentication = NO;
+    approvalUrl = [coordinator generateApprovalUrlString];
+    XCTAssert([approvalUrl containsString:@"response_type=token"]);
+}
+
 #pragma mark - Dispaly Name Tests
 
 - (void)testDefaultDisplayName {

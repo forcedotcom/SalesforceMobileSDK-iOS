@@ -51,6 +51,7 @@ static NSString * const kSFOAuthFormat                          = @"format";
 static NSString * const kSFOAuthFormatJson                      = @"json";
 static NSString * const kSFOAuthGrantType                       = @"grant_type";
 static NSString * const kSFOAuthGrantTypeHybridRefresh          = @"hybrid_refresh";
+static NSString * const kSFOAuthGrantTypeRefresh                = @"refresh_token";
 static NSString * const kSFOAuthId                              = @"id";
 static NSString * const kSFOAuthInstanceUrl                     = @"instance_url";
 static NSString * const kSFOAuthCommunityId                     = @"sfdc_community_id";
@@ -61,6 +62,7 @@ static NSString * const kSFOAuthRedirectUri                     = @"redirect_uri
 static NSString * const kSFOAuthRefreshToken                    = @"refresh_token";
 static NSString * const kSFOAuthResponseType                    = @"response_type";
 static NSString * const kSFOAuthResponseTypeHybridToken         = @"hybrid_token";
+static NSString * const kSFOAuthResponseTypeToken               = @"token";
 static NSString * const kSFOAuthScope                           = @"scope";
 static NSString * const kSFOAuthSignature                       = @"signature";
 static NSString * const kSFOAuthLightningDomain                 = @"lightning_domain";
@@ -72,10 +74,9 @@ static NSString * const kSFOAuthContentSID                      = @"content_sid"
 static NSString * const kSFOAuthCSRFToken                       = @"csrf_token";
 
 // Used for the IP bypass flow, Advanced auth flow
-static NSString * const kSFOAuthApprovalCode                    = @"code";
-static NSString * const kSFOAuthGrantTypeAuthorizationCode      = @"authorization_code";
-static NSString * const kSFOAuthResponseTypeActivatedClientCode = @"activated_client_code";
-static NSString * const kSFOAuthResponseClientSecret            = @"client_secret";
+static NSString * const kSFOAuthApprovalCode                     = @"code";
+static NSString * const kSFOAuthGrantTypeHybridAuthorizationCode = @"hybrid_auth_code";
+static NSString * const kSFOAuthGrantTypeAuthorizationCode       = @"authorization_code";
 
 // OAuth Error Descriptions
 // see https://na1.salesforce.com/help/doc/en/remoteaccess_oauth_refresh_token_flow.htm

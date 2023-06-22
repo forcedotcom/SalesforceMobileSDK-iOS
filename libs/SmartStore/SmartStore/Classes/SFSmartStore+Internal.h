@@ -84,14 +84,6 @@ static NSString *const EXPLAIN_ROWS = @"rows";
 - (BOOL)createMetaTables;
 
 /**
- Returns the features currently registered.
- @see SFSoupSpec for a list of features.
- @param db This method is expected to be called from [fmdbqueue inDatabase:^(){ ... }]
- @return array with registered soup features, if none, an empty array.
- */
-- (NSArray *)registeredSoupFeaturesWithDb:(FMDatabase*)db;
-
-/**
  Create long operations status table (LONG_OPERATIONS_STATUS_TABLE)
  @return YES if we were able to create the table, NO otherwise.
  */
@@ -99,70 +91,19 @@ static NSString *const EXPLAIN_ROWS = @"rows";
 
 /**
  Register the soup
- @param soupSpec The soup specs of the soup to register
+ @param soupName The name of the soup to register
  @param indexSpecs Array of one ore more IndexSpec objects as dictionaries
  @param soupTableName The name of the table to use for the soup
  @param db This method is expected to be called from [fmdbqueue inDatabase:^(){ ... }]
  */
-- (void)registerSoupWithSpec:(SFSoupSpec*)soupSpec withIndexSpecs:(NSArray*)indexSpecs withSoupTableName:(NSString*) soupTableName withDb:(FMDatabase*) db;
+- (void)registerSoupWithName:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs withSoupTableName:(NSString*) soupTableName withDb:(FMDatabase*) db;
 
-/**
- @return the root directory where external blobs are stored.
- */
-- (NSString *)externalStorageRootDirectory;
-
-/**
- @param soupTableName the soup table name
- @return the directory in which external blobs are stored for a soup (based on table name).
- */
-
-- (NSString *)externalStorageSoupDirectory:(NSString *)soupTableName;
-
-/**
- @param soupEntryId the soup entry id
- @param soupTableName the soup table name
- @return the file path where external blobs of a soup entry is stored.
- */
-- (NSString *)externalStorageSoupFilePath:(NSNumber *)soupEntryId
-                            soupTableName:(NSString *)soupTableName;
-
-/**
- @param soupEntry     the soup entry to save to a external file
- @param soupEntryId   the soup entry id
- @param soupTableName the soup table name
- @return YES if file was saved successfully.
- */
-- (BOOL)saveSoupEntryExternally:(NSDictionary *)soupEntry
-                    soupEntryId:(NSNumber *)soupEntryId
-                  soupTableName:(NSString *)soupTableName;
-
-/**
- @param soupEntryId   the soup entry id
- @param soupTableName the soup table name
- @return a soup entry if file was loaded successfully.
- */
-- (id)loadExternalSoupEntry:(NSNumber *)soupEntryId
-              soupTableName:(NSString *)soupTableName;
-
-/**
- @param soupTableName the soup table name
- @param deleteDir whether or not should delete directory as well
- */
-- (void)deleteAllExternalEntries:(NSString *)soupTableName
-                       deleteDir:(BOOL)deleteDir;
 
 /**
  @param db This method is expected to be called from [fmdbqueue inDatabase:^(){ ... }]
  @return The soup table name from SOUP_ATTRS_TABLE, based on soup name.
  */
 - (NSString *)tableNameForSoup:(NSString*)soupName withDb:(FMDatabase*) db;
-
-/**
- @param soupName the name of the soup
- @param db Database.
- @return SFSoupSpec for the given soup name
- */
-- (SFSoupSpec*)attributesForSoup:(NSString*)soupName withDb:(FMDatabase *)db;
 
 /**
  @param soupName the name of the soup
@@ -244,19 +185,9 @@ static NSString *const EXPLAIN_ROWS = @"rows";
 - (NSNumber*)currentTimeInMilliseconds;
 
 /**
- @return The legacy key used to encrypt the store.
- */
-+ (NSString *)legacyEncKey;
-
-/**
  @return The key used to encrypt the store.
  */
 + (NSString *)encKey;
-
-/**
- @return The legacy salt used to encrypt the store for shared mode. Sqlite headers are maintained in plain text for database.
- */
-+ (NSString *)legacySalt;
 
 /**
  @return The key used to encrypt the store for shared mode. Sqlite headers are maintained in plain text for database.

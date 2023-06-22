@@ -32,7 +32,6 @@
 #import "SFSDKSalesforceSDKUpgradeManager.h"
 #import "SFDirectoryManager+Internal.h"
 #import "SFUserAccount+Internal.h"
-#import "SFKeyStoreManager.h"
 #import "SFDefaultUserAccountPersister.h"
 #import "SFApplicationHelper.h"
 
@@ -77,7 +76,6 @@ static NSString * _currentVersion = nil;
 
         if (!lastVersion || [lastVersion compare:@"9.2.0" options:NSNumericSearch] == NSOrderedAscending) {
             [SFDirectoryManager upgradeUserDirectories];
-            [SFSDKSalesforceSDKUpgradeManager upgradeUserAccounts];
             [NSURLCache.sharedURLCache removeAllCachedResponses]; // For cache encryption key change
         }
         
@@ -139,118 +137,9 @@ static NSString * _currentVersion = nil;
     return _currentVersion;
 }
 
-+ (void)upgradeUserAccounts {
-    NSString *rootDirectory = [[SFDirectoryManager sharedManager] directoryForOrg:nil user:nil community:nil type:NSLibraryDirectory components:nil];
-    NSFileManager *fm = [NSFileManager defaultManager];
-    if ([fm fileExistsAtPath:rootDirectory]) {
-        NSArray *rootContents = [fm contentsOfDirectoryAtPath:rootDirectory error:nil];
-        for (NSString *rootContent in rootContents) {
-            if (![rootContent hasPrefix:kOrgPrefix]) {
-                continue;
-            }
-            NSString *rootPath = [rootDirectory stringByAppendingPathComponent:rootContent];
-            NSArray *orgContents = [fm contentsOfDirectoryAtPath:rootPath error:nil];
-            for (NSString *orgContent in orgContents) {
-                if (![orgContent hasPrefix:kUserPrefix]) {
-                    continue;
-                }
-                NSString *orgPath = [rootPath stringByAppendingPathComponent:orgContent];
-
-                // Check for user account file
-                // ~/Library/<appBundleId>/<orgId>/<userId>/UserAccount.plist
-                NSString *userAccountPath = [orgPath stringByAppendingPathComponent:kUserAccountPlistFileName];
-                if ([fm fileExistsAtPath:userAccountPath]) {
-                    [SFSDKSalesforceSDKUpgradeManager updateEncryptionForUserAccountPath:userAccountPath];
-                }
-                
-                // Check for user photo
-                NSDirectoryEnumerator *enumerator = [fm enumeratorAtURL:[NSURL URLWithString:orgPath] includingPropertiesForKeys:nil options:0 errorHandler:nil];
-                NSURL *userContent;
-                while (userContent = [enumerator nextObject]) {
-                    if ([userContent.absoluteString hasSuffix:@"mobilesdk/photos/"]) {
-                        [SFSDKSalesforceSDKUpgradeManager updatePhoto:userContent userID:orgContent];
-                    }
-                }
-            }
-        }
-    }
-}
-
-+ (void)updatePhoto:(NSURL *)photoDirectory userID:(NSString *)userID {
-    NSURL *photoURL = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:photoDirectory includingPropertiesForKeys:nil options:0 error:nil].firstObject;
-    if (!photoURL) {
-        return;
-    }
-
-    // Starting in Mobile SDK 8.2, 18 character IDs are used instead of 15 character IDs.
-    // This renames the 15 character profile picture to 18 characters.
-    if ([[photoURL lastPathComponent] isEqualToString:[userID substringToIndex:15]]) {
-        NSURL *shortURL = photoURL;
-        photoURL = [[shortURL URLByDeletingLastPathComponent] URLByAppendingPathComponent:userID];
-        NSError *error = nil;
-        [[NSFileManager defaultManager] moveItemAtURL:shortURL toURL:photoURL error:&error];
-        if (error) {
-            [SFSDKCoreLogger e:[self class] format:@"Error moving %@ to %@: %@", shortURL, photoURL, error];
-        }
-    }
-
-    // Starting in Mobile SDK 9.2, photos are encrypted with a different key
-    // Decrypt with legacy key
-    #pragma clang diagnostic push
-    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    SFEncryptionKey *oldKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kUserAccountPhotoEncryptionKeyLabel autoCreate:NO];
-    #pragma clang diagnostic pop
-    NSData *data = [NSData dataWithContentsOfURL:photoURL];
-    NSData *decryptedPhoto = [oldKey decryptData:data];
-   
-    // Reencrypt with new key
-    NSError *error = nil;
-    NSData *newKey = [SFSDKKeyGenerator encryptionKeyFor:kUserAccountPhotoEncryptionKeyLabel error:&error];
-    if (error) {
-        [SFSDKCoreLogger e:[SFSDKSalesforceSDKUpgradeManager class] format:@"Error getting encryption key for %@: %@", kUserAccountPhotoEncryptionKeyLabel, error.localizedDescription];
-        return;
-    }
-    NSData *encryptedPhoto = [SFSDKEncryptor encryptData:decryptedPhoto key:newKey error:&error];
-    if (error) {
-        [SFSDKCoreLogger e:[SFSDKSalesforceSDKUpgradeManager class] format:@"Error reencrypting user photo: %@", error.localizedDescription];
-        return;
-    }
-
-    [encryptedPhoto writeToURL:photoURL atomically:YES];
-}
-
-+ (void)updateEncryptionForUserAccountPath:(NSString *)userAccountPath {
-    NSFileManager *manager = [NSFileManager defaultManager];
-    NSData *encryptedUserAccountData = [manager contentsAtPath:userAccountPath];
-
-    // Decrypt account with legacy key
-    #pragma clang diagnostic push
-    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    SFEncryptionKey *oldKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kUserAccountEncryptionKeyLabel autoCreate:NO];
-    #pragma clang diagnostic pop
-    if (!oldKey || !encryptedUserAccountData) {
-        [SFSDKCoreLogger e:[SFSDKSalesforceSDKUpgradeManager class] format:@"Existing account or key is nil"];
-        return;
-    }
-    NSData *decryptedArchiveData = [oldKey decryptData:encryptedUserAccountData];
-
-    // Reencrypt with new key
-    NSError *error = nil;
-    NSData *encryptionKey = [SFSDKKeyGenerator encryptionKeyFor:kUserAccountEncryptionKeyLabel error:&error];
-    if (error) {
-        [SFSDKCoreLogger e:[SFSDKSalesforceSDKUpgradeManager class] format:@"Error getting encryption key for %@ : %@", kUserAccountEncryptionKeyLabel, error.localizedDescription];
-        return;
-    }
-    NSData *encryptedArchiveData = [SFSDKEncryptor encryptData:decryptedArchiveData key:encryptionKey error:&error];
-    if (error) {
-        [SFSDKCoreLogger e:[SFSDKSalesforceSDKUpgradeManager class] format:@"Error reencrypting user account: %@", error.localizedDescription];
-        return;
-    }
-    [encryptedArchiveData writeToFile:userAccountPath atomically:YES];
-}
 
 + (void)upgradePasscode {
-    [[SFScreenLockManager shared] upgradePasscode];
+    [[SFScreenLockManagerInternal shared] upgradePasscode];
 }
 
 @end

@@ -1,5 +1,10 @@
 /*
- Copyright (c) 2014-present, salesforce.com, inc. All rights reserved.
+ SFSDKIDPInitiatedAuthRequestHandler.h
+ SalesforceSDKCore
+ 
+ Created by Raj Rao on 8/28/17.
+ 
+ Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -21,12 +26,9 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+#import <Foundation/Foundation.h>
+#import "SFSDKURLHandler.h"
 
-#import "SFKeyStore.h"
-#import <SalesforceSDKCore/SalesforceSDKConstants.h>
-
-extern NSString * const kGeneratedKeyLabelSuffix;
-
-@interface SFGeneratedKeyStore : SFKeyStore
+@interface SFSDKIDPLoginRequestHandler :NSObject<SFSDKURLHandler>
 
 @end

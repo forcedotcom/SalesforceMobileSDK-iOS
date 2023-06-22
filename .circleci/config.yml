@@ -2,12 +2,12 @@
 #  Each post contains a full image manifest, including iOS runtimes, devices, CocoaPods version, etc.
 #  NOTE: When updaing Xcode check the manifest for compatible chruby versions.
 anchors:
-  - &latest-xcode    "13.4.1"
-  - &latest-ios      "15.5"
-  - &min-ios         "14.5"
-  - &requres-string  "test << matrix.lib >> iOS 14.5"  # Keep this version up to date
+  - &latest-xcode    "14.1.0"
+  - &latest-ios      "16.1"
+  - &min-ios         "15.5"
+  - &requres-string  "test << matrix.lib >> iOS 15.5"  # Keep this version up to date
   - &chruby          "3.1.2"
-  - &device          "iPhone 12"
+  - &device          "iPhone 13"
   - &invalid         ""
 
 executors:
@@ -39,6 +39,7 @@ jobs:
         default: *device
     macos:
       xcode: << parameters.xcode >>
+    resource_class: macos.x86.medium.gen2
     working_directory: ~/SalesforceMobileSDK-iOS
     shell: /bin/bash --login -eo pipefail
     environment:
@@ -79,7 +80,7 @@ jobs:
           name: Danger Lib
           command:  |
             chruby ${CHRUBY_VER}
-            DANGER_GITHUB_API_TOKEN="279a29d75427e4178cef""b7b5b2d7646c540f025a" danger --dangerfile=.circleci/Dangerfile-Lib.rb --danger_id="${LIB}" --verbose
+            danger --dangerfile=.circleci/Dangerfile-Lib.rb --danger_id="${LIB}" --verbose
           background: true
           when: always
       - store_test_results:

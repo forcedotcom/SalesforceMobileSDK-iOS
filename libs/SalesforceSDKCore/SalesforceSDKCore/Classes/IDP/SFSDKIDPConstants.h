@@ -47,8 +47,6 @@ FOUNDATION_EXPORT NSString *const kSFStateParam;
 
 FOUNDATION_EXPORT NSString *const kSFAppNameParam;
 
-FOUNDATION_EXPORT NSString *const kSFAppNameDefault;
-
 FOUNDATION_EXPORT NSString *const kSFUserHintParam;
 
 FOUNDATION_EXPORT NSString *const kSFLoginHostParam;
@@ -71,11 +69,13 @@ FOUNDATION_EXPORT NSString *const kSFSpecVersion;
 
 FOUNDATION_EXPORT NSString *const kSFSpecHost;
 
-FOUNDATION_EXPORT NSString *const kSFAppDescParam;
-
 FOUNDATION_EXPORT NSString *const kSFScopesParam;
 
 FOUNDATION_EXPORT NSString *const kSFStartURLParam;
+
+FOUNDATION_EXPORT NSString *const kSFKeychainReferenceParam;
+
+FOUNDATION_EXPORT NSString *const kSFKeychainGroupParam;
 
 @interface SFSDKIDPConstants : NSObject
 

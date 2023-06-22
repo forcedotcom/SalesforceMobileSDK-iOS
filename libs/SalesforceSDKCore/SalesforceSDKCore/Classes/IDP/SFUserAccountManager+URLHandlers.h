@@ -29,10 +29,11 @@
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
 #import "SFUserAccountManager+Internal.h"
 
-@class SFSDKAuthRequestCommand;
-@class SFSDKAuthResponseCommand;
+@class SFSDKSPLoginRequestCommand;
+@class SFSDKSPLoginResponseCommand;
 @class SFSDKAuthErrorCommand;
-@class SFSDKIDPInitCommand;
+@class SFSDKIDPLoginRequestCommand;
+@class SFSDKIDPAuthCodeLoginRequestCommand;
 
 @interface SFUserAccountManager (URLHandlers)
 
@@ -48,14 +49,14 @@
  @param command The URL request from the IDP APP.
  @return YES if this is request is handled, NO otherwise.
  */
-- (BOOL)handleIdpInitiatedAuth:(SFSDKIDPInitCommand *_Nonnull)command;
+- (BOOL)handleIdpInitiatedAuth:(SFSDKIDPLoginRequestCommand *_Nonnull)command;
 
 /**
  Handle an IDP request initiated from an SP APP.
  @param request The  request from the SP APP.
  @return YES if this request is handled, NO otherwise.
  */
-- (BOOL)handleAuthRequestFromSPApp:(SFSDKAuthRequestCommand *_Nonnull)request;
+- (BOOL)handleAuthRequestFromSPApp:(SFSDKSPLoginRequestCommand *_Nonnull)request;
 
 /**
  Handle an IDP response received from an IDP APP.
@@ -63,5 +64,11 @@
  @param sceneId The identifier for the scene that's handling the response.
  @return YES if this is request is handled, NO otherwise.
  */
-- (BOOL)handleIdpResponse:(SFSDKAuthResponseCommand *_Nonnull)response sceneId:(nullable NSString *)sceneId;
+- (BOOL)handleIdpResponse:(SFSDKSPLoginResponseCommand *_Nonnull)response sceneId:(nullable NSString *)sceneId;
+
+- (BOOL)handleIdpRequest:(SFSDKIDPAuthCodeLoginRequestCommand *_Nonnull)response
+                 sceneId:(nullable NSString *)sceneId
+              completion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock
+                 failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock;
+
 @end

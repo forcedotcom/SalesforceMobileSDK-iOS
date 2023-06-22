@@ -36,6 +36,8 @@
 #import "SFSDKCompositeRequest.h"
 #import "SFSDKBatchRequest.h"
 #import "SFFormatUtils.h"
+#import "SFLoginViewController.h"
+#import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 
 NSString* const kSFRestDefaultAPIVersion = @"v55.0";
 NSString* const kSFRestIfUnmodifiedSince = @"If-Unmodified-Since";
@@ -310,12 +312,11 @@ static dispatch_once_t pred;
                 id dataForDelegate = [strongSelf prepareDataForDelegate:data request:request response:response];
                 [strongSelf notifyDelegateOfSuccess:requestDelegate request:request data:dataForDelegate rawResponse:response];
             } else {
-                if (shouldRetry && statusCode == 401) {
-
+                // Do not refresh token if biometric authentiction lock is enabled
+                if (shouldRetry && statusCode == 401 && ![[SFBiometricAuthenticationManagerInternal shared] locked]) {
                     // 401 indicates refresh is required.
                     [strongSelf replayRequest:request response:response requestDelegate:requestDelegate];
                 } else {
-
                     // Other status codes indicate failure.
                     NSError *errorForDelegate = [strongSelf prepareErrorForDelegate:data response:response];
                     id dataForDelegate = [strongSelf prepareDataForDelegate:data request:request response:response];

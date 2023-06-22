@@ -60,13 +60,9 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         Class class = [self class];
-        
-        SEL originalSelector = @selector(attributesForSoup:);
-        SEL swizzledSelector = @selector(instr_attributesForSoup:);
-        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
-        
-        originalSelector = @selector(indicesForSoup:);
-        swizzledSelector = @selector(instr_indicesForSoup:);
+                
+        SEL originalSelector = @selector(indicesForSoup:);
+        SEL swizzledSelector = @selector(instr_indicesForSoup:);
         [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
         
         originalSelector = @selector(soupExists:);
@@ -76,11 +72,7 @@
         originalSelector = @selector(registerSoup:withIndexSpecs:error:);
         swizzledSelector = @selector(instr_registerSoup:withIndexSpecs:error:);
         [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
-        
-        originalSelector = @selector(registerSoupWithSpec:withIndexSpecs:error:);
-        swizzledSelector = @selector(instr_registerSoupWithSpec:withIndexSpecs:error:);
-        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
-        
+                
         originalSelector = @selector(queryWithQuerySpec:pageIndex:error:);
         swizzledSelector = @selector(instr_queryWithQuerySpec:pageIndex:error:);
         [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
@@ -125,10 +117,6 @@
         swizzledSelector = @selector(instr_alterSoup:withIndexSpecs:reIndexData:);
         [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
         
-        originalSelector = @selector(alterSoup:withSoupSpec:withIndexSpecs:reIndexData:);
-        swizzledSelector = @selector(instr_alterSoup:withSoupSpec:withIndexSpecs:reIndexData:);
-        [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
-        
         originalSelector = @selector(reIndexSoup:withIndexPaths:);
         swizzledSelector = @selector(instr_reIndexSoup:withIndexPaths:);
         [SFSDKInstrumentationHelper swizzleMethod:originalSelector with:swizzledSelector forClass:class  isInstanceMethod:YES];
@@ -147,15 +135,6 @@
         
         
     });
-}
-
-- (SFSoupSpec*)instr_attributesForSoup:(NSString*)soupName {
-    os_log_t logger = self.class.oslog;
-    os_signpost_id_t sid = sf_os_signpost_id_generate(logger);
-    sf_os_signpost_interval_begin(logger, sid, "attributesForSoup", "storeName:%{public}@ soupName:%{public}@", self.storeName,soupName);
-    SFSoupSpec *spec = [self instr_attributesForSoup:soupName];
-    sf_os_signpost_interval_end(logger, sid, "attributesForSoup", "storeName:%{public}@  soupName:%{public}@", self.storeName,soupName);
-    return  spec;
 }
 
 - (NSArray<SFSoupIndex*>*)instr_indicesForSoup:(NSString*)soupName {
@@ -182,15 +161,6 @@
     sf_os_signpost_interval_begin(logger, sid, "registerSoup:withIndexSpecs:error", "storeName:%{public}@ soupName:%{public}@", self.storeName, soupName);
     BOOL result = [self instr_registerSoup:soupName withIndexSpecs:indexSpecs error:error];
     sf_os_signpost_interval_end(logger, sid, "registerSoup:withIndexSpecs:error", "storeName:%{public}@ soupName:%{public}@", self.storeName, soupName);
-    return  result;
-}
-
-- (BOOL)instr_registerSoupWithSpec:(SFSoupSpec*)soupSpec withIndexSpecs:(NSArray<SFSoupIndex*>*)indexSpecs error:(NSError**)error {
-    os_log_t logger = self.class.oslog;
-    os_signpost_id_t sid = sf_os_signpost_id_generate(logger);
-    sf_os_signpost_interval_begin(logger, sid, "registerSoupWithSpec:withIndexSpecs:error", "storeName:%{public}@  soupName:%{public}@", self.storeName, soupSpec.soupName);
-    BOOL result = [self instr_registerSoupWithSpec:soupSpec withIndexSpecs:indexSpecs error:error];
-    sf_os_signpost_interval_end(logger, sid, "registerSoupWithSpec:withIndexSpecs:error", "storeName:%{public}@ soupName:%{public}@", self.storeName, soupSpec.soupName);
     return  result;
 }
 
@@ -308,15 +278,6 @@
     sf_os_signpost_interval_begin(logger, sid, "alterSoup:withIndexSpecs:reIndexData:", "storeName:%{public}@ soupName:%{public}@", self.storeName, soupName);
     BOOL result = [self instr_alterSoup:soupName withIndexSpecs:indexSpecs reIndexData:reIndexData];
     sf_os_signpost_interval_end(logger, sid, "alterSoup:withIndexSpecs:reIndexData:", "storeName:%{public}@ soupName:%{public}@", self.storeName, soupName);
-    return result;
-}
-
-- (BOOL)instr_alterSoup:(NSString*)soupName withSoupSpec:(SFSoupSpec*)soupSpec withIndexSpecs:(NSArray<SFSoupIndex*>*)indexSpecs reIndexData:(BOOL)reIndexData{
-    os_log_t logger = self.class.oslog;
-    os_signpost_id_t sid = sf_os_signpost_id_generate(logger);
-    sf_os_signpost_interval_begin(logger, sid, "alterSoup:withSoupSpec:withIndexSpecs:reIndexData:", "storeName:%{public}@ soupName:%{public}@", self.storeName, soupName);
-    BOOL result = [self instr_alterSoup:soupName withSoupSpec:soupSpec withIndexSpecs:indexSpecs reIndexData:reIndexData];
-    sf_os_signpost_interval_end(logger, sid, "alterSoup:withSoupSpec:withIndexSpecs:reIndexData:", "storeName:%{public}@ soupName:%{public}@", self.storeName, soupName);
     return result;
 }
 

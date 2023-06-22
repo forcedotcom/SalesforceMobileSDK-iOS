@@ -39,7 +39,8 @@ NS_SWIFT_NAME(DataSharingHelper)
 /*!
  * @brief Set to YES to enable keychain sharing.
  */
-@property (nonatomic) BOOL keychainSharingEnabled NS_SWIFT_NAME(isKeychainSharingEnabled);
+
+@property (nonatomic) BOOL keychainSharingEnabled NS_SWIFT_NAME(isKeychainSharingEnabled) __attribute__((deprecated("Deprecated in Salesforce Mobile SDK 11.0 and will be removed in Salesforce Mobile SDK 12.0")));
 
 /*!
  * @brief Name of the app group to use to share data.
@@ -49,7 +50,7 @@ NS_SWIFT_NAME(DataSharingHelper)
 /*!
  * @brief Name of the keychain group to use
  */
-@property (nonatomic, strong, nullable) NSString *keychainGroupName;
+@property (nonatomic, strong, nullable) NSString *keychainGroupName __attribute__((deprecated("Deprecated in Salesforce Mobile SDK 11.0 and will be removed in Salesforce Mobile SDK 12.0. Use KeychainHelper.accessGroup instead")));
 
 /** Shared singleton
  */

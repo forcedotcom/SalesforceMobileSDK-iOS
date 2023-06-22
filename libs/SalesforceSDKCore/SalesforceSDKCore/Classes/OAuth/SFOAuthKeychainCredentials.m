@@ -25,7 +25,6 @@
 #import "SFOAuthKeychainCredentials.h"
 #import "SFOAuthCredentials+Internal.h"
 #import "SFSDKCryptoUtils.h"
-#import "SFKeyStoreManager.h"
 #import "UIDevice+SFHardware.h"
 #import "NSString+SFAdditions.h"
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
@@ -38,38 +37,15 @@
 @dynamic accessToken;    // stored in keychain
 
 - (id)initWithCoder:(NSCoder *)coder {
-    self = [super initWithCoder:coder];
-    if (self && self.encrypted) {
-        [self upgradeEncryption];
-    }
-    return self;
+    return [super initWithCoder:coder];
 }
 
 - (instancetype)initWithIdentifier:(NSString *)theIdentifier clientId:(NSString*)theClientId encrypted:(BOOL)encrypted {
-    self = [super initWithIdentifier:theIdentifier clientId:theClientId encrypted:encrypted];
-    if (self && encrypted) {
-        [self upgradeEncryption];
-    }
-    return self;
+    return [super initWithIdentifier:theIdentifier clientId:theClientId encrypted:encrypted];
 }
 
 + (BOOL)supportsSecureCoding {
     return YES;
-}
-
-// TODO: Remove in Mobile SDK 11.0
-- (void)upgradeEncryption {
-    #pragma clang diagnostic push
-    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    NSString *accessToken = [self accessTokenWithSFEncryptionKey:[self keyStoreKeyForService:kSFOAuthServiceLegacyAccess]];
-    if (accessToken) {
-        [self setAccessToken:accessToken];
-    }
-    NSString *refreshToken = [self refreshTokenWithSFEncryptionKey:[self keyStoreKeyForService:kSFOAuthServiceLegacyRefresh]];
-    if (refreshToken) {
-        [self setRefreshToken:refreshToken];
-    }
-    #pragma clang diagnostic pop
 }
 
 #pragma mark - Public Methods
@@ -191,79 +167,5 @@
     NSData *keyForService = [SFSDKKeyGenerator encryptionKeyFor:service error:nil];
     return keyForService;
 }
-
-
-#pragma mark - Legacy encryption key methods
-
-// Used for upgrade steps, TODO: Remove in Mobile SDK 11.0
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-- (NSString *)refreshTokenWithSFEncryptionKey:(SFEncryptionKey *)encryptionKey {
-    NSData *refreshTokenData = [self tokenForService:kSFOAuthServiceLegacyRefresh];
-    if (!refreshTokenData) {
-        return nil;
-    }
-    
-    if (self.isEncrypted) {
-        NSData *decryptedData = [encryptionKey decryptData:refreshTokenData];
-        return [[NSString alloc] initWithData:decryptedData encoding:NSUTF8StringEncoding];
-    } else {
-        return [[NSString alloc] initWithData:refreshTokenData encoding:NSUTF8StringEncoding];
-    }
-}
-
-- (NSString *)accessTokenWithSFEncryptionKey:(SFEncryptionKey *)encryptionKey {
-    NSData *accessTokenData = [self tokenForService:kSFOAuthServiceLegacyAccess];
-    if (!accessTokenData) {
-        return nil;
-    }
-    
-    if (self.isEncrypted) {
-        NSData *decryptedData = [encryptionKey decryptData:accessTokenData];
-        return [[NSString alloc] initWithData:decryptedData encoding:NSUTF8StringEncoding];
-    } else {
-        return [[NSString alloc] initWithData:accessTokenData encoding:NSUTF8StringEncoding];
-    }
-}
-
-- (SFEncryptionKey *)keyStoreKeyForService:(NSString *)service {
-    SFEncryptionKey *keyForService = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:service autoCreate:YES];
-    return keyForService;
-}
-
-- (void)setRefreshToken:(NSString *)token withSFEncryptionKey:(SFEncryptionKey *)encryptionKey {
-    NSData *tokenData = ([token length] > 0 ? [token dataUsingEncoding:NSUTF8StringEncoding] : nil);
-    if (tokenData != nil) {
-        if (self.isEncrypted) {
-            tokenData = [encryptionKey encryptData:tokenData];
-        }
-    } else {
-        self.instanceUrl = nil;
-        self.communityId  = nil;
-        self.communityUrl = nil;
-        self.issuedAt    = nil;
-        self.identityUrl = nil;
-    }
-    
-    BOOL updateSucceeded = [self updateKeychainWithTokenData:tokenData forService:kSFOAuthServiceLegacyRefresh];
-    if (!updateSucceeded) {
-        [SFSDKCoreLogger w:[self class] format:@"%@:%@ - Failed to update refresh token.", [self class], NSStringFromSelector(_cmd)];
-    }
-}
-
-- (void)setAccessToken:(NSString *)token withSFEncryptionKey:(SFEncryptionKey *)encryptionKey {
-    NSData *tokenData = ([token length] > 0 ? [token dataUsingEncoding:NSUTF8StringEncoding] : nil);
-    if (tokenData != nil) {
-        if (self.isEncrypted) {
-            tokenData = [encryptionKey encryptData:tokenData];
-        }
-    }
-    
-    BOOL updateSucceeded = [self updateKeychainWithTokenData:tokenData forService:kSFOAuthServiceLegacyAccess];
-    if (!updateSucceeded) {
-        [SFSDKCoreLogger w:[self class] format:@"%@:%@ - Failed to update access token.", [self class], NSStringFromSelector(_cmd)];
-    }
-}
-#pragma clang diagnostic pop
 
 @end

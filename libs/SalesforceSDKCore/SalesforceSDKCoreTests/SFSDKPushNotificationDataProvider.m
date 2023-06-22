@@ -23,11 +23,11 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 */
 
 #import <SalesforceSDKCore/SFSDKPushNotificationFieldsConstants.h>
-#import <SalesforceSDKCore/SFEncryptionKey.h>
 #import <SalesforceSDKCore/SFSDKCryptoUtils.h>
 #import <SalesforceSDKCommon/SFJsonUtils.h>
 #import "SFSDKPushNotificationDataProvider.h"
 #import "SFSDKPushNotificationEncryptionConstants.h"
+#import "SFEncryptionKey.h"
 
 static NSUInteger const kEncryptionKeyLengthBytes = 16;
 static NSUInteger const kEncryptionIVLengthBytes = 16;

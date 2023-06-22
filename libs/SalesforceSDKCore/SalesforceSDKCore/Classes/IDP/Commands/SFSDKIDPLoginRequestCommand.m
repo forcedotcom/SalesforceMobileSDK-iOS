@@ -1,6 +1,11 @@
 /*
- Copyright (c) 2016-present, salesforce.com, inc. All rights reserved.
- 
+ SFSDKIDPInitCommand.m
+ SalesforceSDKCore
+
+ Created by Raj Rao on 9/28/17.
+
+ Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
+
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
  * Redistributions of source code must retain the above copyright notice, this list of conditions
@@ -11,7 +16,7 @@
  * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
  endorse or promote products derived from this software without specific prior written
  permission of salesforce.com, inc.
- 
+
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
  FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -22,36 +27,37 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
-#import <SalesforceSDKCore/SFEncryptionKey.h>
-#import <SalesforceSDKCore/SFCryptChunks.h>
-#import <SalesforceSDKCore/SalesforceSDKConstants.h>
+#import "SFSDKIDPLoginRequestCommand.h"
+#import "SFSDKAuthCommand+Internal.h"
+#import "SFSDKIDPConstants.h"
 
-NS_ASSUME_NONNULL_BEGIN
+@implementation SFSDKIDPLoginRequestCommand
 
-/**
- * `SFDecryptStream` implements an input stream that decrypts data immediately after it's read.
- * It uses `SFCryptChunks` to perform the decryption.
- */
-SFSDK_DEPRECATED(9.2, 11.0, "Will be removed, use SFSDKDecryptStream instead. This should only be used for upgrade steps")
-@interface SFDecryptStream : NSInputStream <SFCryptChunksDelegate>
+- (NSString *)userHint {
+    return [self paramForKey:kSFUserHintParam];
+}
 
-/**
- *  Setup for decryption. Always call either this method or `setupWithKey:andInitializationVector:` 
- *  before using this stream. 
- *  @param decKey Decryption key.
- */
-- (void)setupWithDecryptionKey:(SFEncryptionKey* )decKey;
+- (void)setUserHint:(NSString *)userHint {
+    return [self setParamForKey:userHint key:kSFUserHintParam];
+}
 
-/**
- *  Setup for decryption. Always call either this method or `setupWithDecryptionKey:` 
- *  before using this stream. Internally, this method initializes the decryption key using `key` and `iv` and then calls 
- *  `setupWithDecryptionKey:`. 
- *  @param key Cipher key.
- *  @param iv  Initialization vector. Its size must match `SFCryptChunksCipherBlockSize`.
- */
-- (void)setupWithKey:(NSData *)key andInitializationVector:(nullable NSData *)iv;
+- (NSString *)domain {
+    return [self paramForKey:kSFLoginHostParam];
+}
 
+- (void)setDomain:(NSString *)domain {
+    return [self setParamForKey:domain key:kSFLoginHostParam];
+}
+
+- (NSString *)startURL {
+    return [self paramForKey:kSFStartURLParam];
+}
+
+- (void)setStartURL:(NSString *)userHint {
+    return [self setParamForKey:userHint key:kSFStartURLParam];
+}
+
+- (NSString *)command {
+    return @"idpinit";
+}
 @end
-
-NS_ASSUME_NONNULL_END

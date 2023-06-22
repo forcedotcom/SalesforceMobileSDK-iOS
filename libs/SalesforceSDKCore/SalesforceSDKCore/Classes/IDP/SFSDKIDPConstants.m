@@ -43,10 +43,6 @@ NSString *const kSFStateParam = @"state";
 
 NSString *const kSFAppNameParam = @"app_name";
 
-NSString *const kSFAppNameDefault = @"Application";
-
-NSString *const kSFAppDescParam = @"app_desc";
-
 NSString *const kSFUserHintParam = @"user_hint";
 
 NSString *const kSFLoginHostParam = @"login_host";
@@ -70,6 +66,10 @@ NSString *const kSFSpecVersion = @"v1.0";
 NSString *const kSFSpecHost = @"oauth2";
 
 NSString *const kSFStartURLParam = @"start_url";
+
+NSString *const kSFKeychainReferenceParam = @"keychain_reference";
+
+NSString *const kSFKeychainGroupParam = @"keychain_group";
 
 @implementation SFSDKIDPConstants
 

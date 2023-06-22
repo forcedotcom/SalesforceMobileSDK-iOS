@@ -1,5 +1,10 @@
 /*
- Copyright (c) 2019-present, salesforce.com, inc. All rights reserved.
+ SFSDKIDPInitiatedAuthRequestHandler.m
+ SalesforceSDKCore
+ 
+ Created by Raj Rao on 8/28/17.
+ 
+ Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,39 +27,24 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
-#import <SalesforceSDKCore/SFEncryptionKey.h>
-#import <SalesforceSDKCore/SalesforceSDKConstants.h>
+#import "SFSDKIDPLoginRequestHandler.h"
+#import "SFSDKIDPConstants.h"
+#import "NSURL+SFAdditions.h"
+#import "SFUserAccountManager+URLHandlers.h"
+#import "SalesforceSDKCore.h"
+#import "SFSDKIDPLoginRequestCommand.h"
 
-NS_ASSUME_NONNULL_BEGIN
+@implementation SFSDKIDPLoginRequestHandler
 
-/**
- A secure encryption key. Key bits are not exposed.
- The key lives in the keychain or, if available, the Secure Enclave.
- This key might not be appropriate for encrypting and decrypting large amounts of data.
- */
-SFSDK_DEPRECATED(9.2, 11.0, "Will be removed")
-@interface SFSecureEncryptionKey : SFEncryptionKey
+- (BOOL)canHandleRequest:(NSURL *)url options:(NSDictionary *)options {
+   SFSDKIDPLoginRequestCommand *command = [[SFSDKIDPLoginRequestCommand alloc] init];
+   return [command isAuthCommand:url];
+}
 
-/**
- Create a new `SFSecureEncryptionKey` with the given label.
- @param label Key label.
- */
-+ (instancetype) createKey:(NSString*)label;
-
-/**
- Retrieve the key with the given label from the keychain.
- @param label Key label.
- @return `nil` if the key isn't found.
- */
-+ (nullable instancetype) retrieveKey:(NSString*)label;
-
-/**
- Delete the key with the given label from the keychain.
- @param label Key label.
- */
-+ (void) deleteKey:(NSString*)label;
-
+- (BOOL)processRequest:(NSURL *)url options:(NSDictionary *)options {
+    SFSDKIDPLoginRequestCommand *command = [[SFSDKIDPLoginRequestCommand alloc] init];
+    [command fromRequestURL:url];
+    [[SFUserAccountManager sharedInstance] handleIdpInitiatedAuth:command];
+    return NO;
+}
 @end
-
-NS_ASSUME_NONNULL_END
