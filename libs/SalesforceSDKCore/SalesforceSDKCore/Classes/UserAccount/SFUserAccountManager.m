@@ -1662,7 +1662,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     SFOAuthCredentials *preLoginCredentials = self.currentUser.credentials;
     
     // Set session timeout to the lowest value (15 minutes) of not specified.
-    if (hasMobilePolicy && (sessionTimeout < 1)) {
+    if (hasBioAuthPolciy && (sessionTimeout < 1)) {
         sessionTimeout = 15;
     }
     
