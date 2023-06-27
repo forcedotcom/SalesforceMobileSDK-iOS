@@ -261,6 +261,14 @@ static NSException *authException = nil;
     self.dataCleanupRequired = NO;
 }
 
+// simple: just invoke requestForLimits
+- (void)testGetLimits {
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForLimits:kSFRestDefaultAPIVersion];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    self.dataCleanupRequired = NO;
+}
+
 // simple: just invoke requestForResources
 - (void)testGetResources {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForResources:kSFRestDefaultAPIVersion];

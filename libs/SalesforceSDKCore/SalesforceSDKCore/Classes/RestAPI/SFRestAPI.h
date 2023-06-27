@@ -148,6 +148,12 @@ NS_SWIFT_NAME(RestClient)
 - (SFRestRequest *)requestForVersions;
 
 /**
+ * Returns an `SFRestRequest` object that returns information about limits in your org
+ * @see https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_limits.htm
+ */
+- (SFRestRequest *)requestForLimits:(NSString *)apiVersion;
+
+/**
  * Returns an `SFRestRequest` object that lists available resources for the
  * client's API version, including resource name and URI.
  * @param apiVersion API version.
