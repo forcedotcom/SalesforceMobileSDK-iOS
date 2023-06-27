@@ -1655,14 +1655,14 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     BOOL hasMobilePolicy = identityCoordinator.idData.mobilePoliciesConfigured;
     int lockTimeout = identityCoordinator.idData.mobileAppScreenLockTimeout;
     NSDictionary *customAttributes = identityCoordinator.idData.customAttributes;
-    BOOL hasBioAuthPolciy = (customAttributes != nil) && customAttributes[kBiometricAuthenticationPolicyKey];
+    BOOL hasBioAuthPolicy = (customAttributes != nil) && customAttributes[kBiometricAuthenticationPolicyKey];
     int sessionTimeout = (customAttributes != nil) && customAttributes[kBiometricAuthenticationTimeoutKey];
     SFBiometricAuthenticationManagerInternal *bioAuthManager = [SFBiometricAuthenticationManagerInternal shared];
     // Store current user credentials in case they need to be revoked for Biometric Authentication
     SFOAuthCredentials *preLoginCredentials = self.currentUser.credentials;
     
     // Set session timeout to the lowest value (15 minutes) of not specified.
-    if (hasMobilePolicy && (sessionTimeout < 1)) {
+    if (hasBioAuthPolicy && (sessionTimeout < 1)) {
         sessionTimeout = 15;
     }
     
@@ -1672,13 +1672,13 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         [strongSelf finalizeAuthCompletion:authSession];
 
         if (authSession.authInfo.authType != SFOAuthTypeRefresh) {
-            if (hasBioAuthPolciy) {
+            if (hasBioAuthPolicy) {
                 if ([bioAuthManager locked]) {
                     [bioAuthManager unlockPostProcessing];
                 }
                 
                 [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureBioAuth];
-                [bioAuthManager storePolicyWithUserAccount:self.currentUser hasMobilePolicy:hasBioAuthPolciy sessionTimeout:sessionTimeout];
+                [bioAuthManager storePolicyWithUserAccount:self.currentUser hasMobilePolicy:hasBioAuthPolicy sessionTimeout:sessionTimeout];
                 
                 if (preLoginCredentials != nil && ![preLoginCredentials.refreshToken isEqualToString:self.currentUser.credentials.refreshToken]) {
                     
