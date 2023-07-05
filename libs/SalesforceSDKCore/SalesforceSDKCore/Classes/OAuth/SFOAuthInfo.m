@@ -50,6 +50,9 @@
         case SFOAuthTypeUserAgent:
             desc = @"SFOAuthTypeUserAgent";
             break;
+        case SFOAuthTypeWebServer:
+            desc = @"SFOAuthTypeWebServer";
+            break;
         case SFOAuthTypeRefresh:
             desc = @"SFOAuthTypeRefresh";
             break;
