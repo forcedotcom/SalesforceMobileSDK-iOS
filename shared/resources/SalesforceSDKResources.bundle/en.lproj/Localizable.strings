@@ -35,10 +35,10 @@
 "accessibilityLoggedOutAnnouncement" = "You are logged out.";
 
 // Biometric Authentication
-"biometricLoginButton" = "Login with Biometric";
+"biometricLoginButton" = "Log In with Biometric";
 "usePassword" = "Use Password";
 "bioOptInPromptTitle" = "Biometric Login";
-"bioOptInPromptMessage" = "Use TouchID or FaceID to quickly login.  Your biometric information is never stored.";
+"bioOptInPromptMessage" = "Use TouchID or FaceID to quickly log in.  Your biometric information is never stored.";
 "bioPromptEnable" = "Enable";
 "bioPromtpCancel" = "Use Password";
 
@@ -103,16 +103,16 @@
 "devInfoCancelKey" = "Cancel";
 
 //IDP User Selection Screen
-"idpSelectUserLabel" = "Select your account to log into";
+"idpSelectUserLabel" = "Select your account to log in to";
 "idpAddNewAccountLabel" = "Add new account";
 "idpSelectUserTitleLabel" = "Select user";
 
 //IDP Login Selection Screen
-"idpLoginFlowInfoLabel" = "Select the flow to use for login";
+"idpLoginFlowInfoLabel" = "Select the flow to use for log in";
 "idpLoginLocalFlowDescriptionLabel" = "Local - Host App will be used for authentication";
 "idpLoginIdpFlowDescriptionLabel" = "IDP - Identity Provider App will be launched for authentication";
-"idpLoginButtonTitle" = "IDP Log In";
-"idpLocalLoginButtonTitle" = "Local Log In";
+"idpLoginButtonTitle" = "IDP Login";
+"idpLocalLoginButtonTitle" = "Local Login";
 
 // Key-Value Store Inspector
 "Store" = "Store";
