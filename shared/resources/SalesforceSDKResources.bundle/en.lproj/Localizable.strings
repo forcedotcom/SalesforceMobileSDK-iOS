@@ -74,7 +74,7 @@
 "appConfigValidationErrorNoStartPage" = "No start page configured.";
 "appConfigValidationErrorStartPageAbsoluteURL" = "Start page should not be absolute URL.";
 "appConfigValidationErrorUnauthenticatedStartPageNotAbsoluteURL" = "Unauthenticated start page should be absolute URL.";
-"appConfigValidationErrorNoUnauthenticatedStartPage" = "Unauthenticated start page required for remote app jdeferred authentication.";
+"appConfigValidationErrorNoUnauthenticatedStartPage" = "Unauthenticated start page required for remote app with deferred authentication.";
 "appConfigValidationErrorAbsoluteURLNoAuth" = "Cannot authenticate using an absolute URL for start page.";
 "appConfigValidationErrorRelativeURLAuth" = "Cannot configure relative URL start page with deferred authentication.";
 
