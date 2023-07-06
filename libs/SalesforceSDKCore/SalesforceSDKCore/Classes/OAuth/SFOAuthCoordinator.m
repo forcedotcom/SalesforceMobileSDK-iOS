@@ -143,6 +143,8 @@
     self.authenticating = YES;
     if (self.credentials.refreshToken) {
         self.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefresh];
+    } else if ([[SalesforceSDKManager sharedManager] useWebServerAuthentication]) {
+        self.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeWebServer];
     } else {
         self.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeUserAgent];
     }
