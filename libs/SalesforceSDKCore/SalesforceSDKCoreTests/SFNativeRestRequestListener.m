@@ -68,6 +68,7 @@ int class_uid = 0;
     }
     self.dataResponse = dataResponse;
     self.returnStatus = kTestRequestStatusDidLoad;
+    self.rawResponse = rawResponse;
 }
 
 - (void)request:(SFRestRequest *)request didFail:(id)dataResponse rawResponse:(NSURLResponse *)rawResponse error:(NSError *)error {
