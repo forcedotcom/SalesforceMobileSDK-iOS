@@ -2,11 +2,11 @@
 #  Each post contains a full image manifest, including iOS runtimes, devices, CocoaPods version, etc.
 #  NOTE: When updaing Xcode check the manifest for compatible chruby versions.
 anchors:
-  - &latest-xcode    "14.1.0"
-  - &latest-ios      "16.1"
+  - &latest-xcode    "14.3.1"
+  - &latest-ios      "16.4"
   - &min-ios         "15.5"
-  - &requres-string  "test << matrix.lib >> iOS 15.5"  # Keep this version up to date
-  - &chruby          "3.1.2"
+  - &requres-string  "test << matrix.lib >> iOS 15.5"  # Keep this min version up to date
+  - &chruby          "3.2.2"
   - &device          "iPhone 13"
   - &invalid         ""
 
@@ -116,6 +116,7 @@ workflows:
         - equal: [ "webhook", << pipeline.trigger_source >> ]
     jobs:
       - run-tests:
+          context: iOS Unit Tests
           matrix:
             parameters:
               lib: ["SalesforceSDKCommon", "SalesforceAnalytics", "SalesforceSDKCore", "SmartStore", "MobileSync"]
@@ -134,6 +135,7 @@ workflows:
     jobs:
       - run-tests:
           name: test << matrix.lib >> iOS << matrix.ios >> 
+          context: iOS Unit Tests
           matrix:
             parameters:
               lib: ["SalesforceSDKCommon", "SalesforceAnalytics", "SalesforceSDKCore", "SmartStore", "MobileSync"]
@@ -141,6 +143,7 @@ workflows:
               ios: [*min-ios]
       - run-tests:
           name: test << matrix.lib >> iOS << matrix.ios >> 
+          context: iOS Unit Tests 
           matrix:
             parameters:
               lib: ["SalesforceSDKCommon", "SalesforceAnalytics", "SalesforceSDKCore", "SmartStore", "MobileSync"]
@@ -160,6 +163,7 @@ workflows:
     jobs:
       - run-tests:
           name: test << matrix.lib >> iOS << matrix.ios >> 
+          context: iOS Unit Tests
           matrix:
             parameters:
               xcode: [<< pipeline.parameters.xcode >>]
