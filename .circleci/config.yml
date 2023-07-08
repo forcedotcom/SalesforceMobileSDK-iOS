@@ -1,12 +1,10 @@
 #  Xcode version announcments can be found here: https://discuss.circleci.com/c/announcements/
 #  Each post contains a full image manifest, including iOS runtimes, devices, CocoaPods version, etc.
-#  NOTE: When updaing Xcode check the manifest for compatible chruby versions.
 anchors:
   - &latest-xcode    "14.3.1"
   - &latest-ios      "16.4"
   - &min-ios         "15.5"
   - &requres-string  "test << matrix.lib >> iOS 15.5"  # Keep this min version up to date
-  - &chruby          "3.2.2"
   - &device          "iPhone 13"
   - &invalid         ""
 
@@ -31,9 +29,6 @@ jobs:
       ios:
         type: string
         default: *latest-ios
-      chruby:
-        type: string
-        default: *chruby
       device:
         type: string
         default: *device
@@ -47,39 +42,35 @@ jobs:
       IOS_VERSION: << parameters.ios >>
       BASH_ENV: ~/.bashrc
       FASTLANE_SKIP_UPDATE_CHECK: "true"
-      CHRUBY_VER: << parameters.chruby >>
       LIB: << parameters.lib >>
       NIGHTLY_TEST: << parameters.nightly-test >>
     steps:
       - checkout
       - restore_cache: 
           keys:
-            - v8-gems-{{ checksum ".circleci/Gemfile.lock" }}
-            - v8-gems-
+            - v9-gems-{{ checksum ".circleci/Gemfile.lock" }}
+            - v9-gems-
       - run: 
           name: Install Dependencies
           command:  |
             npm install shelljs@0.8.5
             ./install.sh
             ./build/pre-build
-            chruby ${CHRUBY_VER}
             cd .circleci
             bundle check || sudo bundle install
             sudo bundle update
       - save_cache: 
-          key: v8-gems-{{ checksum ".circleci/Gemfile.lock" }}
+          key: v9-gems-{{ checksum ".circleci/Gemfile.lock" }}
           paths:
-            - /Users/distiller/.gem/ruby/<< parameters.chruby >>
+            - /Users/distiller/.gem/ruby/
       - run: 
           name: Run Tests
           command:  |
-            chruby ${CHRUBY_VER}
             cd .circleci
             bundle exec fastlane PR lib:<< parameters.lib >> 
       - run: 
           name: Danger Lib
           command:  |
-            chruby ${CHRUBY_VER}
             danger --dangerfile=.circleci/Dangerfile-Lib.rb --danger_id="${LIB}" --verbose
           background: true
           when: always
@@ -100,9 +91,6 @@ parameters:
   ios:
     type: string
     default: *invalid
-  chruby:
-    type: string
-    default: *chruby
   device:
     type: string
     default: *device
@@ -168,7 +156,6 @@ workflows:
             parameters:
               xcode: [<< pipeline.parameters.xcode >>]
               ios: [<< pipeline.parameters.ios >>]
-              chruby: [<< pipeline.parameters.chruby >>]
               device: [<< pipeline.parameters.device >>]
               lib: ["SalesforceSDKCommon", "SalesforceAnalytics", "SalesforceSDKCore", "SmartStore", "MobileSync"]
               nightly-test: [true]
