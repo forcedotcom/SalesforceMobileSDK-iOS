@@ -8,6 +8,9 @@ anchors:
   - &device          "iPhone 13"
   - &invalid         ""
 
+orbs:
+  node: circleci/node@5.1.0
+
 executors:
   mac:
     macos:
@@ -50,19 +53,8 @@ jobs:
           keys:
             - v9-gems-{{ checksum ".circleci/Gemfile.lock" }}
             - v9-gems-
-      - run:
-          name: Setup node
-          command: |
-            set +e
-            wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.1/install.sh | bash
-            export NVM_DIR="$HOME/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-            [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-            nvm install v12
-            nvm alias default 12.19.0
-
-            echo 'export NVM_DIR="$HOME/.nvm"' >> $BASH_ENV
-            echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
+      - node/install:
+          node-version: '16.16.0'
       - run: 
           name: Install Dependencies
           command:  |
