@@ -10,6 +10,7 @@ anchors:
 
 orbs:
   node: circleci/node@5.1.0
+  macos: circleci/macos@2
 
 executors:
   mac:
@@ -39,22 +40,22 @@ jobs:
       xcode: << parameters.xcode >>
     resource_class: macos.x86.medium.gen2
     working_directory: ~/SalesforceMobileSDK-iOS
-    shell: /bin/bash --login -eo pipefail
     environment:
       DEVICE: << parameters.device >>
       IOS_VERSION: << parameters.ios >>
-      BASH_ENV: ~/.bashrc
       FASTLANE_SKIP_UPDATE_CHECK: "true"
       LIB: << parameters.lib >>
       NIGHTLY_TEST: << parameters.nightly-test >>
     steps:
       - checkout
+      - macos/switch-ruby:
+          version: "3.2.2"
       - restore_cache: 
           keys:
             - v9-gems-{{ checksum ".circleci/Gemfile.lock" }}
             - v9-gems-
       - node/install:
-          node-version: '16.16.0'
+          node-version: '18.16.0'
       - run: 
           name: Install Dependencies
           command:  |
