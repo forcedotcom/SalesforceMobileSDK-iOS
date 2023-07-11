@@ -5,7 +5,7 @@ anchors:
   - &latest-ios      "16.4"
   - &min-ios         "15.5"
   - &requres-string  "test << matrix.lib >> iOS 15.5"  # Keep this min version up to date
-  - &device          "iPhone 13"
+  - &device          "iPhone SE (3rd generation)"
   - &invalid         ""
 
 executors:
@@ -46,8 +46,8 @@ jobs:
       - checkout
       - restore_cache: 
           keys:
-            - v9-gems-{{ checksum ".circleci/Gemfile.lock" }}
-            - v9-gems-
+            - v1-gem-cahce-{{ checksum ".circleci/Gemfile.lock" }}
+            - v1-gem-cahce
       - run: 
           name: Install Dependencies
           command:  |
@@ -55,12 +55,11 @@ jobs:
             ./install.sh
             ./build/pre-build
             cd .circleci
-            bundle check || sudo bundle install
-            sudo bundle update
+            bundle check || sudo bundle install --path vendor/bundle
       - save_cache: 
-          key: v9-gems-{{ checksum ".circleci/Gemfile.lock" }}
+          key: v1-gem-cahce{{ checksum ".circleci/Gemfile.lock" }}
           paths:
-            - /Users/distiller/.gem/ruby/
+            - vendor/bundle
       - run: 
           name: Run Tests
           command:  |
