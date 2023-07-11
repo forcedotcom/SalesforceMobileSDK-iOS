@@ -2951,16 +2951,13 @@ static NSException *authException = nil;
     SFNativeRestRequestListener *contactListener = [self sendSyncRequest:contactRequest];
     NSString *contactId = ((NSDictionary *)contactListener.dataResponse)[LID];
 
-    // Authenticated request for contact image, shouldn't automatically redirect
+    // Authenticated request for contact image, should automatically redirect
     NSString *path = [NSString stringWithFormat:@"/services/images/photo/%@", contactId];
     SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:nil];
     request.endpoint = @"";
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     NSInteger statusCode = [(NSHTTPURLResponse *)listener.rawResponse statusCode];
-    XCTAssertEqual(statusCode, 302, @"Request did not return 302");
-    NSString *redirectLocation = [(NSHTTPURLResponse *)listener.rawResponse allHeaderFields][@"Location"];
-    XCTAssertNotNil(redirectLocation, @"Redirect location nil");
-    XCTAssert([redirectLocation containsString:@"profilephoto/005/T"]);
+    XCTAssertEqual(statusCode, 200, @"Request did not return 200");
 }
 
 - (SFUserAccount *)createNewUser {
