@@ -763,9 +763,22 @@
         if (bioAuthManager.locked && bioAuthManager.hasBiometricOptedIn) {
             [bioAuthManager presentBiometricWithScene:self.view.window.windowScene];
         }
+    } else if (!self.domainUpdated && [self shouldUpdateDomain:url]) {
+        // To support case where my domain is entered through "Use Custom Domain"
+        self.domainUpdated = YES;
+        decisionHandler(WKNavigationActionPolicyCancel);
+        [self stopAuthentication];
+        self.credentials.domain = url.host;
+        [self authenticate];
     } else {
         decisionHandler(WKNavigationActionPolicyAllow);
     }
+}
+
+- (BOOL)shouldUpdateDomain:(NSURL *)webviewURL {
+    NSURL *currentDomain = [NSURL URLWithString:self.credentials.domain];
+    NSString *myDomainSuffix = @".my.salesforce.com";
+    return (![currentDomain.host hasSuffix:myDomainSuffix] && [webviewURL.host hasSuffix:myDomainSuffix]);
 }
 
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler {
