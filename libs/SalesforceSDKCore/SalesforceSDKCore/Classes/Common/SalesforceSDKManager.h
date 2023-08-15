@@ -237,6 +237,10 @@ NS_SWIFT_NAME(SalesforceManager)
  */
 @property (nonatomic, assign) BOOL useHybridAuthentication;
 
+/** Detect use of "Use Custom Domain" input from login web view. Defaults to NO.
+ */
+@property (nonatomic, assign) BOOL shouldInferCustomDomain;
+
 /** Sets authentication ability for Salesforce integration users.  When true, Salesforce integration users will be prohibited from initial authentication and receive an error message.  Defaults to NO.
  */
 @property (nonatomic, assign) BOOL blockSalesforceIntegrationUser;
