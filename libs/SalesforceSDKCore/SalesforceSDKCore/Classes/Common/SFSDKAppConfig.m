@@ -33,6 +33,7 @@ static NSString* const kRemoteAccessConsumerKey = @"remoteAccessConsumerKey";
 static NSString* const kOauthRedirectURI = @"oauthRedirectURI";
 static NSString* const kOauthScopes = @"oauthScopes";
 static NSString* const kShouldAuthenticate = @"shouldAuthenticate";
+static NSString* const kTokenEndpointURL = @"tokenEndpoint";
 static BOOL const kDefaultShouldAuthenticate = YES;
 
 @interface SFSDKAppConfig()
@@ -63,6 +64,7 @@ static BOOL const kDefaultShouldAuthenticate = YES;
         NSCharacterSet *whitespaceSet = [NSCharacterSet whitespaceAndNewlineCharacterSet];
         self.configDict[kRemoteAccessConsumerKey] = [self.configDict[kRemoteAccessConsumerKey] stringByTrimmingCharactersInSet:whitespaceSet];
         self.configDict[kOauthRedirectURI] = [self.configDict[kOauthRedirectURI] stringByTrimmingCharactersInSet:whitespaceSet];
+        self.configDict[kTokenEndpointURL] = [self.configDict[kTokenEndpointURL] stringByTrimmingCharactersInSet:whitespaceSet];
     }
     return self;
 }
@@ -128,6 +130,14 @@ static BOOL const kDefaultShouldAuthenticate = YES;
 - (void)setOauthRedirectURI:(NSString *)oauthRedirectURI
 {
     self.configDict[kOauthRedirectURI] = [oauthRedirectURI copy];
+}
+
+- (NSString *)tokenEndpointURL {
+    return (self.configDict)[kTokenEndpointURL];
+}
+
+- (void)setTokenEndpointURL:(NSString *)tokenEndpointURL {
+    self.configDict[kTokenEndpointURL] = [tokenEndpointURL copy];
 }
 
 - (NSSet *)oauthScopes

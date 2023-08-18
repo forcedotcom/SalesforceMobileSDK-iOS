@@ -305,7 +305,9 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
 
 #pragma mark - private
 - (NSMutableURLRequest *)prepareBasicRequest:(SFSDKOAuthTokenEndpointRequest *)endpointReq {
-    NSString *protocolHost = endpointReq.serverURL.absoluteString;
+    NSString *configuredTokenURL = [SalesforceSDKManager sharedManager].appConfig.tokenEndpointURL;
+    NSString *protocolHost = configuredTokenURL ? configuredTokenURL : endpointReq.serverURL.absoluteString;
+    
     NSMutableString *url = [[NSMutableString alloc] initWithFormat:@"%@%@", protocolHost, kSFOAuthEndPointToken];
     if (![url hasPrefix:@"http"]) {
         [url insertString:@"https://" atIndex:0];

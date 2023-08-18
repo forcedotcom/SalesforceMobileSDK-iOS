@@ -60,6 +60,10 @@ NS_SWIFT_NAME(BootConfig)
  */
 @property (nonatomic, assign) BOOL shouldAuthenticate NS_SWIFT_NAME(shouldAuthenticateOnFirstLaunch);
 
+/** Optionally override the URL to use for token requests
+ */
+@property (nonatomic, copy, nullable) NSString *tokenEndpointURL;
+
 /**
  * The config as a dictionary
  */

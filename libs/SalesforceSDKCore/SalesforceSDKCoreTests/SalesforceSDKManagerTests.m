@@ -51,6 +51,10 @@ static NSString* const kTestAppName = @"OverridenAppName";
 
 @end
 
+@interface SFSDKOAuth2 (Testing)
+- (NSMutableURLRequest *)prepareBasicRequest:(SFSDKOAuthTokenEndpointRequest *)endpointReq;
+@end
+
 @implementation SalesforceSDKManagerTests
 
 - (void)setUp
@@ -343,6 +347,16 @@ static NSString* const kTestAppName = @"OverridenAppName";
     XCTAssertFalse([brandedURL containsString:[brandPath substringToIndex:brandPath.length]]);
     //should have brand
     XCTAssertTrue([brandedURL containsString:[brandPath substringToIndex:brandPath.length-1]]);
+}
+
+- (void)testCustomTokenEndpointURL {
+    NSString *configuredURL = @"trailblazer.me";
+    NSString *expectedURL = @"https://trailblazer.me/services/oauth2/token";
+    [SalesforceSDKManager sharedManager].appConfig.tokenEndpointURL = configuredURL;
+    SFSDKOAuth2 *oauthClient = [SFSDKOAuth2 new];
+    SFSDKOAuthTokenEndpointRequest *endppointRequest = [SFSDKOAuthTokenEndpointRequest new];
+    NSMutableURLRequest *urlRequest = [oauthClient prepareBasicRequest:endppointRequest];
+    XCTAssert([urlRequest.URL.absoluteString isEqualToString:expectedURL]);
 }
 
 - (void)testAuthenticationFlags {
