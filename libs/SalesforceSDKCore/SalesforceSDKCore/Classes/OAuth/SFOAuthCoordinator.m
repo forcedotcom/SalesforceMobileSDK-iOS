@@ -763,8 +763,9 @@
         if (bioAuthManager.locked && bioAuthManager.hasBiometricOptedIn) {
             [bioAuthManager presentBiometricWithScene:self.view.window.windowScene];
         }
-    } else if ([SalesforceSDKManager sharedManager].shouldInferCustomDomain && [self shouldUpdateDomain:url]) {
+    } else if ([self shouldUpdateDomain:url]) {
         // To support case where my domain is entered through "Use Custom Domain"
+        self.domainUpdated = YES;
         decisionHandler(WKNavigationActionPolicyCancel);
         [self stopAuthentication];
         [[SFUserAccountManager sharedInstance] setLoginHost:url.host];
@@ -776,11 +777,12 @@
 }
 
 - (BOOL)shouldUpdateDomain:(NSURL *)webviewURL {
-    NSString *myDomainSuffix = @".my.salesforce.com";
-    return (![self.credentials.domain hasSuffix:myDomainSuffix] &&
-            [webviewURL.host hasSuffix:myDomainSuffix] &&
-            [webviewURL.path isEqualToString:@"/"] &&
-            [[webviewURL.query stringByRemovingPercentEncoding] hasPrefix:@"startURL=/setup/secur/RemoteAccessAuthorizationPage.apexp"]);
+    NSRegularExpression *regex = [SalesforceSDKManager sharedManager].customDomainInferencePattern;
+    if (!regex || self.domainUpdated || [self.credentials.domain isEqualToString:webviewURL.host]) {
+        return NO;
+    }
+    NSString *urlString = webviewURL.absoluteString;
+    return ([regex firstMatchInString:urlString options:0 range:NSMakeRange(0, urlString.length)] != nil);
 }
 
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler {
