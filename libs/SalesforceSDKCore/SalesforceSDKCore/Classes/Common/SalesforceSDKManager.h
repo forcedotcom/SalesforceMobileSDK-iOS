@@ -238,6 +238,10 @@ NS_SWIFT_NAME(SalesforceManager)
 @property (nonatomic, assign) BOOL useHybridAuthentication;
 
 /** Detect use of "Use Custom Domain" input from login web view using the given regex.
+ *  Example for a specific org:
+ *    "^https:\\/\\/mobilesdk\\.my\\.salesforce\\.com/\\?startURL=%2Fsetup%2Fsecur%2FRemoteAccessAuthorizationPage\\.apexp"
+ *  For any my domain:
+ *    "^https:\\/\\/[a-zA-Z0-9]+\\.my\\.salesforce\\.com/\\?startURL=%2Fsetup%2Fsecur%2FRemoteAccessAuthorizationPage\\.apexp"
  */
 @property (nonatomic, copy, nullable) NSRegularExpression *customDomainInferencePattern;
 
