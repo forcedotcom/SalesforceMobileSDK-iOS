@@ -823,6 +823,42 @@ should handle, NO otherwise.</Abstract></ReturnValue>
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/setDomainUpdated:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL domainUpdated</Declaration>
+			
+			
+			<Anchor>//api/name/domainUpdated</Anchor>
+            <NodeRef refid="27"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/domainUpdated</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL domainUpdated</Declaration>
+			
+			
+			<Anchor>//api/name/domainUpdated</Anchor>
+            <NodeRef refid="27"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCoordinator/domainUpdated</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL domainUpdated</Declaration>
+			
+			
+			<Anchor>//api/name/domainUpdated</Anchor>
+            <NodeRef refid="27"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/setApprovalCode:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>

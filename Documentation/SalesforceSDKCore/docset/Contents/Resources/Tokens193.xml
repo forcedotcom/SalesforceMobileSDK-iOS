@@ -73,6 +73,16 @@
             <NodeRef refid="193"/>
         </Token>
         
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTypeWebServer</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFOAuthTypeWebServer</Declaration>
+            
+            <DeclaredIn>SFOAuthInfo.h</DeclaredIn>
+            
+            <NodeRef refid="193"/>
+        </Token>
+        
         
 	</File>
 </Tokens>

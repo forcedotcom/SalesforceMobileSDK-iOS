@@ -296,6 +296,54 @@ backgrounding and foregrounding state.</Abstract>
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/setCustomDomainInferencePattern:</TokenIdentifier>
+			<Abstract type="html">Detect use of &quot;Use Custom Domain&quot; input from login web view using the given regex.
+Example for a specific org:
+&quot;^https:\\/\\/mobilesdk\\.my\\.salesforce\\.com/\\?startURL=%2Fsetup%2Fsecur%2FRemoteAccessAuthorizationPage\\.apexp&quot;
+For any my domain:
+&quot;^https:\\/\\/[a-zA-Z0-9]+\\.my\\.salesforce\\.com/\\?startURL=%2Fsetup%2Fsecur%2FRemoteAccessAuthorizationPage\\.apexp&quot;</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) NSRegularExpression *customDomainInferencePattern</Declaration>
+			
+			
+			<Anchor>//api/name/customDomainInferencePattern</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/customDomainInferencePattern</TokenIdentifier>
+			<Abstract type="html">Detect use of &quot;Use Custom Domain&quot; input from login web view using the given regex.
+Example for a specific org:
+&quot;^https:\\/\\/mobilesdk\\.my\\.salesforce\\.com/\\?startURL=%2Fsetup%2Fsecur%2FRemoteAccessAuthorizationPage\\.apexp&quot;
+For any my domain:
+&quot;^https:\\/\\/[a-zA-Z0-9]+\\.my\\.salesforce\\.com/\\?startURL=%2Fsetup%2Fsecur%2FRemoteAccessAuthorizationPage\\.apexp&quot;</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) NSRegularExpression *customDomainInferencePattern</Declaration>
+			
+			
+			<Anchor>//api/name/customDomainInferencePattern</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SalesforceSDKManager/customDomainInferencePattern</TokenIdentifier>
+			<Abstract type="html">Detect use of &quot;Use Custom Domain&quot; input from login web view using the given regex.
+Example for a specific org:
+&quot;^https:\\/\\/mobilesdk\\.my\\.salesforce\\.com/\\?startURL=%2Fsetup%2Fsecur%2FRemoteAccessAuthorizationPage\\.apexp&quot;
+For any my domain:
+&quot;^https:\\/\\/[a-zA-Z0-9]+\\.my\\.salesforce\\.com/\\?startURL=%2Fsetup%2Fsecur%2FRemoteAccessAuthorizationPage\\.apexp&quot;</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) NSRegularExpression *customDomainInferencePattern</Declaration>
+			
+			
+			<Anchor>//api/name/customDomainInferencePattern</Anchor>
+            <NodeRef refid="143"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/setBlockSalesforceIntegrationUser:</TokenIdentifier>
 			<Abstract type="html">Sets authentication ability for Salesforce integration users.  When true, Salesforce integration users will be prohibited from initial authentication and receive an error message.  Defaults to NO.</Abstract>
 			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
