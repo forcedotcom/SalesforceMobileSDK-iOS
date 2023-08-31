@@ -330,8 +330,8 @@ NSException * SFOAuthInvalidIdentifierException() {
 }
 
 - (NSURL *)overrideDomainIfNeeded {
-    NSString *refreshDomain = self.communityId ? self.communityUrl.absoluteString : self.domain;
-    NSString *protocolHost = self.communityId ? refreshDomain : [NSString stringWithFormat:@"%@://%@", self.protocol, refreshDomain];
+    NSString *domain = self.communityId ? self.communityUrl.absoluteString : self.domain;
+    NSString *protocolHost = self.communityId ? domain : [NSString stringWithFormat:@"%@://%@", self.protocol, domain];
     return [NSURL URLWithString:protocolHost];
 }
 

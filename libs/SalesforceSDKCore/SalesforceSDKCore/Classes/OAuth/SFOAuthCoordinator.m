@@ -143,6 +143,8 @@
     self.authenticating = YES;
     if (self.credentials.refreshToken) {
         self.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefresh];
+    } else if ([[SalesforceSDKManager sharedManager] useWebServerAuthentication]) {
+        self.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeWebServer];
     } else {
         self.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeUserAgent];
     }
@@ -761,9 +763,26 @@
         if (bioAuthManager.locked && bioAuthManager.hasBiometricOptedIn) {
             [bioAuthManager presentBiometricWithScene:self.view.window.windowScene];
         }
+    } else if ([self shouldUpdateDomain:url]) {
+        // To support case where my domain is entered through "Use Custom Domain"
+        self.domainUpdated = YES;
+        decisionHandler(WKNavigationActionPolicyCancel);
+        [self stopAuthentication];
+        [[SFUserAccountManager sharedInstance] setLoginHost:url.host];
+        self.credentials.domain = url.host;
+        [self authenticate];
     } else {
         decisionHandler(WKNavigationActionPolicyAllow);
     }
+}
+
+- (BOOL)shouldUpdateDomain:(NSURL *)webviewURL {
+    NSRegularExpression *regex = [SalesforceSDKManager sharedManager].customDomainInferencePattern;
+    if (!regex || self.domainUpdated || [self.credentials.domain isEqualToString:webviewURL.host]) {
+        return NO;
+    }
+    NSString *urlString = webviewURL.absoluteString;
+    return ([regex firstMatchInString:urlString options:0 range:NSMakeRange(0, urlString.length)] != nil);
 }
 
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler {
