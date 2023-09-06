@@ -5,7 +5,7 @@ anchors:
   - &latest-ios      "16.4"
   - &min-ios         "15.5"
   - &requres-string  "test << matrix.lib >> iOS 15.5"  # Keep this min version up to date
-  - &device          "iPhone SE (3rd generation)"
+  - &device          "iPhone-SE-3rd-generation"
   - &invalid         ""
 
 executors:
