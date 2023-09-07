@@ -34,7 +34,7 @@ jobs:
         default: *device
     macos:
       xcode: << parameters.xcode >>
-    resource_class: macos.x86.medium.gen2
+    resource_class: macos.m1.medium.gen1
     working_directory: ~/SalesforceMobileSDK-iOS
     environment:
       DEVICE: << parameters.device >>
@@ -65,6 +65,7 @@ jobs:
           command:  |
             cd .circleci
             bundle exec fastlane PR lib:<< parameters.lib >> 
+          no_output_timeout: 20m
       - run: 
           name: Danger Lib
           command:  |
