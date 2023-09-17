@@ -36,7 +36,7 @@
 - (void)tearDown {
 }
 
-- (void)testSFSDKAuthResponseCommand {
+- (void)testSFSDKSPLoginResponseCommand {
     SFSDKSPLoginResponseCommand *test = [[SFSDKSPLoginResponseCommand alloc]init];
     XCTAssertNotNil(test);
     NSString *testURL = @"atest://atest/v1.0/authresponse";
@@ -46,7 +46,7 @@
     
 }
 
-- (void)testSFSDKAuthResponseCommandBadURL {
+- (void)testSFSDKSPLoginResponseCommandBadURL {
     SFSDKSPLoginResponseCommand *test = [[SFSDKSPLoginResponseCommand alloc]init];
     XCTAssertNotNil(test);
     NSString *testURL = @"atest://atest/authresponse";
@@ -56,22 +56,22 @@
 }
 
 
-- (void)testSFSDKAuthErrorCommandWithParameters {
-    
-    SFSDKSPLoginResponseCommand *test = [[SFSDKSPLoginResponseCommand alloc]init];
+- (void)testSFSDKSPLoginCommandWithParameters {
+    SFSDKSPLoginResponseCommand *test = [[SFSDKSPLoginResponseCommand alloc] init];
     XCTAssertNotNil(test);
+    test.scheme = @"scheme";
     test.state = @"astate";
     test.authCode = @"authCode";
     
     XCTAssertNotNil([test requestURL]);
     
-    SFSDKSPLoginResponseCommand *test2 = [[SFSDKSPLoginResponseCommand alloc]init];
+    SFSDKSPLoginResponseCommand *test2 = [[SFSDKSPLoginResponseCommand alloc] init];
     [test2 isAuthCommand:[test requestURL]];
     [test2 fromRequestURL:[test requestURL]];
     
-    XCTAssertTrue([test2.authCode isEqualToString:test.authCode], @"Auth codes should be the same  after decoding");
+    XCTAssertTrue([test2.authCode isEqualToString:test.authCode], @"Auth codes should be the same after decoding");
     
-   XCTAssertTrue([test2.state isEqualToString:test.state], @"State should be the same  after decoding");
+   XCTAssertTrue([test2.state isEqualToString:test.state], @"State should be the same after decoding");
 }
 
 @end
