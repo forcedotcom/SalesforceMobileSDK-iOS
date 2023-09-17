@@ -76,7 +76,12 @@
     SFSDKEncryptedURLCache *encryptedURLCache = [[SFSDKEncryptedURLCache alloc] init];
     NSString *contentString = @"This is my content";
     NSData *contentData = [contentString dataUsingEncoding:NSUTF8StringEncoding];
-    NSURL *url = [[NSURL alloc] initWithString:@"bad string -- will create nil URL"];
+    NSURL *url;
+    if (@available(iOS 17.0, *)) {
+        url = [[NSURL alloc] initWithString:@"bad string -- will create nil URL" encodingInvalidCharacters:NO];
+    } else {
+        url = [[NSURL alloc] initWithString:@"bad string -- will create nil URL"];
+    }
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
     NSURLResponse *response = [[NSURLResponse alloc] initWithURL:url MIMEType:@"text/plain" expectedContentLength:contentData.length textEncodingName:@"NSUTF8StringEncoding"];
     NSCachedURLResponse *toStore = [[NSCachedURLResponse alloc] initWithResponse:response data:contentData userInfo:nil storagePolicy:NSURLCacheStorageAllowed];
