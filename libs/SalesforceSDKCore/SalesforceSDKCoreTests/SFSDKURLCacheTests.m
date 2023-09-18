@@ -78,6 +78,7 @@
     NSData *contentData = [contentString dataUsingEncoding:NSUTF8StringEncoding];
     NSURL *url = [[NSURL alloc] initWithString:@"bad string -- will create nil URL"];
     #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 170000
+    // Starting in iOS 17 `[[NSURL alloc] initWithString:@"bad string -- will create nil URL"]` will encode the characters and return a non-nil URL, use `encodingInvalidCharacters:NO` to recreate the old behavior that returns nil
     if (@available(iOS 17.0, *)) {
         url = [[NSURL alloc] initWithString:@"bad string -- will create nil URL" encodingInvalidCharacters:NO];
     }
