@@ -36,7 +36,7 @@
 - (void)tearDown {
 }
 
-- (void)testSFSDKAuthResponseCommand {
+- (void)testIDPLoginRequestCommand {
     SFSDKIDPLoginRequestCommand *test = [[SFSDKIDPLoginRequestCommand alloc]init];
     XCTAssertNotNil(test);
     NSString *testURL = @"atest://atest/v1.0/idpinit";
@@ -45,7 +45,7 @@
     
 }
 
-- (void)testSFSDKAuthResponseCommandBadURL {
+- (void)testIDPLoginRequestCommandBadURL {
     SFSDKIDPLoginRequestCommand *test = [[SFSDKIDPLoginRequestCommand alloc]init];
     XCTAssertNotNil(test);
     NSString *testURL = @"atest://atest/idpinit";
@@ -54,12 +54,11 @@
     XCTAssertFalse([test isAuthCommand:url]);
 }
 
-
-- (void)testSFSDKAuthErrorCommandWithParameters {
-    
+- (void)testIDPLoginRequestCommandWithParameters {
     SFSDKIDPLoginRequestCommand *test = [[SFSDKIDPLoginRequestCommand alloc]init];
     XCTAssertNotNil(test);
     test.userHint = @"userHint";
+    test.scheme = @"scheme";
     
     XCTAssertNotNil([test requestURL]);
     
@@ -67,7 +66,7 @@
     [test2 isAuthCommand:[test requestURL]];
     [test2 fromRequestURL:[test requestURL]];
     
-    XCTAssertTrue([test2.userHint isEqualToString:test.userHint], @"Userhint should be the same  after decoding");
+    XCTAssertTrue([test2.userHint isEqualToString:test.userHint], @"User hint should be the same after decoding");
 
 }
 @end
