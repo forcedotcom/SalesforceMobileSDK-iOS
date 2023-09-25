@@ -514,7 +514,8 @@ static NSException *authException = nil;
 -(void) testSOQLQueryWithBatchSize {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForQuery:@"Select Name from Account" apiVersion:kSFRestDefaultAPIVersion batchSize:250];
     XCTAssertEqualObjects(@"batchSize=250", request.customHeaders[@"Sforce-Query-Options"]);
-    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];    listener = [self sendSyncRequest:request];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
 

@@ -37,7 +37,7 @@
     NSString *inUrlString = @"https://www.myserver.com/path.html";
     NSURL *url = [NSURL URLWithString:inUrlString];
     NSString *outUrlString = [url redactedAbsoluteString:nil];
-    XCTAssertEqual(inUrlString, outUrlString,
+    XCTAssertTrue([inUrlString isEqualToString:outUrlString],
                    @"'%@' and '%@' should be the same, with no querystring.",
                    inUrlString,
                    outUrlString);
@@ -48,7 +48,7 @@
     NSString *inUrlString = @"https://www.myserver.com/path?param1=val1&param2=val2";
     NSURL *url = [NSURL URLWithString:inUrlString];
     NSString *outUrlString = [url redactedAbsoluteString:nil];
-    XCTAssertEqual(inUrlString, outUrlString,
+    XCTAssertTrue([inUrlString isEqualToString:outUrlString],
                    @"'%@' and '%@' should be the same, with no arguments.",
                    inUrlString,
                    outUrlString);
