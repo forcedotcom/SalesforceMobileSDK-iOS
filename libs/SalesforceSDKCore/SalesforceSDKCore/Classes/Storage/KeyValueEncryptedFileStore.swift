@@ -550,8 +550,10 @@ public class KeyValueEncryptedFileStore: NSObject {
             return nil
         }
         
-        let keyData = Data(key.utf8) as NSData
-        let encodedKey = keyData.sha256() + "\(storeVersion >= 2 ? fileType.nameSuffix : "")"
+        let keyData = Data(key.utf8)
+        let hash = SHA256.hash(data: keyData)
+        let hashString = hash.compactMap { String(format: "%02x", $0) }.joined()
+        let encodedKey = hashString + "\(storeVersion >= 2 ? fileType.nameSuffix : "")"
         return directory.appendingPathComponent(encodedKey)
     }
 
