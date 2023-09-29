@@ -24,7 +24,10 @@
 
 #import "NSNotificationCenter+SFAdditions.h"
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 @implementation NSNotificationCenter (SFAdditions)
+#pragma clang diagnostic pop
 
 + (void)postNotificationOnceWithName:(NSString*)notificationName object:(id)object userInfo:(nullable NSDictionary*)userInfo {
     NSNotification *notification = [NSNotification notificationWithName:notificationName object:object userInfo:userInfo];

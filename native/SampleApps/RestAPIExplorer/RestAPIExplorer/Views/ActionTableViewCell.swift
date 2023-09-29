@@ -41,9 +41,9 @@ class ActionTableViewCell: UITableViewCell {
         self.objectLabel.translatesAutoresizingMaskIntoConstraints = false
         
         self.actionLabel.font = UIFont.appBoldFont(14)
-        self.actionLabel.textColor = UIColor.init(forLightStyle: UIColor.appTextFieldBlue, darkStyle: UIColor.white)
+        self.actionLabel.textColor = UIColor.sfsdk_color(forLightStyle: .appTextFieldBlue, darkStyle: .white)
         self.objectLabel.font = UIFont.appRegularFont(12)
-        self.objectLabel.textColor = UIColor.init(forLightStyle: UIColor.appTextFieldBlue, darkStyle: UIColor.white)
+        self.objectLabel.textColor = UIColor.sfsdk_color(forLightStyle: .appTextFieldBlue, darkStyle: .white)
         
         self.contentView.addSubview(self.actionLabel)
         self.contentView.addSubview(self.objectLabel)

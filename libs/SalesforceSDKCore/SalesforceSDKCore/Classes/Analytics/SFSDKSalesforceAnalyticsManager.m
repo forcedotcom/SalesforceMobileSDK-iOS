@@ -297,7 +297,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
     NSString *osName = [curDevice systemName];
     NSString *appTypeStr = [sdkManager getAppTypeAsString];
     NSString *mobileSdkVersion = SALESFORCE_SDK_VERSION;
-    NSString *deviceModel = [curDevice msdk_platform];
+    NSString *deviceModel = [curDevice sfsdk_platform];
     NSString *deviceId = [sdkManager deviceId];
     NSString *clientId = sdkManager.appConfig.remoteAccessConsumerKey;
     return [[SFSDKDeviceAppAttributes alloc] initWithAppVersion:appVersion appName:appName osVersion:osVersion osName:osName nativeAppType:appTypeStr mobileSdkVersion:mobileSdkVersion deviceModel:deviceModel deviceId:deviceId clientId:clientId];

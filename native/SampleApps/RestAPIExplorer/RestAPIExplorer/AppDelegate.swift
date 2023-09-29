@@ -29,9 +29,9 @@
 
 import UIKit
 import SalesforceSDKCore
-
 import MobileCoreServices
 
+@UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     

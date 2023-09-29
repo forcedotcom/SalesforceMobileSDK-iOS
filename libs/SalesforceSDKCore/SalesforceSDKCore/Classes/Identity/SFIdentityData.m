@@ -103,7 +103,7 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
 
 - (BOOL)assertedUser
 {
-    id value = [self.dictRepresentation msdk_nonNullObjectForKey:kSFIdentityAssertedUserKey];
+    id value = [self.dictRepresentation sfsdk_nonNullObjectForKey:kSFIdentityAssertedUserKey];
     return value == nil ? NO : [value boolValue];
 }
 
@@ -124,12 +124,12 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
 
 - (NSString *)nickname
 {
-    return [self.dictRepresentation msdk_nonNullObjectForKey:kSFIdentityNicknameKey];
+    return [self.dictRepresentation sfsdk_nonNullObjectForKey:kSFIdentityNicknameKey];
 }
 
 - (NSString *)displayName
 {
-    return [self.dictRepresentation msdk_nonNullObjectForKey:kSFIdentityDisplayNameKey];
+    return [self.dictRepresentation sfsdk_nonNullObjectForKey:kSFIdentityDisplayNameKey];
 }
 
 - (NSString *)email
@@ -139,7 +139,7 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
 
 - (NSString *)firstName
 {
-    return [self.dictRepresentation msdk_nonNullObjectForKey:kSFIdentityFirstNameKey];
+    return [self.dictRepresentation sfsdk_nonNullObjectForKey:kSFIdentityFirstNameKey];
 }
 
 - (NSString *)lastName
@@ -247,21 +247,21 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
 
 - (int)utcOffset
 {
-    id value = [self.dictRepresentation msdk_nonNullObjectForKey:kSFIdentityUtcOffsetKey];
+    id value = [self.dictRepresentation sfsdk_nonNullObjectForKey:kSFIdentityUtcOffsetKey];
     return value == nil ? -1 : [value intValue];
 }
 
 - (BOOL)mobilePoliciesConfigured
 {
-    id value = [self.dictRepresentation msdk_nonNullObjectForKey:kSFIdentityMobilePolicyKey];
+    id value = [self.dictRepresentation sfsdk_nonNullObjectForKey:kSFIdentityMobilePolicyKey];
     return value != nil;
 }
 
 - (int)mobileAppPinLength
 {
-    NSDictionary *mobilePolicy = [self.dictRepresentation msdk_nonNullObjectForKey:kSFIdentityMobilePolicyKey];
+    NSDictionary *mobilePolicy = [self.dictRepresentation sfsdk_nonNullObjectForKey:kSFIdentityMobilePolicyKey];
     if (mobilePolicy != nil) {
-        id pinLength = [mobilePolicy msdk_nonNullObjectForKey:kSFIdentityMobileAppPinLengthKey];
+        id pinLength = [mobilePolicy sfsdk_nonNullObjectForKey:kSFIdentityMobileAppPinLengthKey];
         return (pinLength != nil ? [pinLength intValue] : 0);
     } else {
         return 0;
@@ -270,9 +270,9 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
 
 - (int)mobileAppScreenLockTimeout
 {
-    NSDictionary *mobilePolicy = [self.dictRepresentation msdk_nonNullObjectForKey:kSFIdentityMobilePolicyKey];
+    NSDictionary *mobilePolicy = [self.dictRepresentation sfsdk_nonNullObjectForKey:kSFIdentityMobilePolicyKey];
     if (mobilePolicy != nil) {
-        id screenLockTimeout = [mobilePolicy msdk_nonNullObjectForKey:kSFIdentityMobileAppScreenLockTimeoutKey];
+        id screenLockTimeout = [mobilePolicy sfsdk_nonNullObjectForKey:kSFIdentityMobileAppScreenLockTimeoutKey];
         return (screenLockTimeout != nil ? [screenLockTimeout intValue] : 0);
     } else {
         return 0;
@@ -281,7 +281,7 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
 
 - (NSDictionary *)customAttributes
 {
-    NSDictionary *attributes = [self.dictRepresentation msdk_nonNullObjectForKey:kSFIdentityCustomAttributesKey];
+    NSDictionary *attributes = [self.dictRepresentation sfsdk_nonNullObjectForKey:kSFIdentityCustomAttributesKey];
 
     if (![attributes isKindOfClass:[NSDictionary class]]) {
         attributes = nil;
@@ -298,7 +298,7 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
 
 - (NSDictionary *)customPermissions
 {
-    return [self.dictRepresentation msdk_nonNullObjectForKey:kSFIdentityCustomPermissionsKey];
+    return [self.dictRepresentation sfsdk_nonNullObjectForKey:kSFIdentityCustomPermissionsKey];
 }
 
 - (void)setCustomPermissions:(NSDictionary *)customPermissions
@@ -310,7 +310,7 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
 
 - (NSDate *)lastModifiedDate
 {
-    NSString *value = [self.dictRepresentation msdk_nonNullObjectForKey:kSFIdentityLastModifiedDateKey];
+    NSString *value = [self.dictRepresentation sfsdk_nonNullObjectForKey:kSFIdentityLastModifiedDateKey];
     if (value != nil)
         return [[self class] dateFromRfc822String:value];
     else
@@ -327,9 +327,9 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
 
 - (NSString *)parentExistsOrNilForString:(NSString *)parentKey childKey:(NSString *)childKey
 {
-    NSDictionary *parentDict = [self.dictRepresentation msdk_nonNullObjectForKey:parentKey];
+    NSDictionary *parentDict = [self.dictRepresentation sfsdk_nonNullObjectForKey:parentKey];
     if (parentDict != nil) {
-        NSString *value = [parentDict msdk_nonNullObjectForKey:childKey];
+        NSString *value = [parentDict sfsdk_nonNullObjectForKey:childKey];
         return [value isKindOfClass:[NSString class]] ? value : nil;
     } else {
         return nil;

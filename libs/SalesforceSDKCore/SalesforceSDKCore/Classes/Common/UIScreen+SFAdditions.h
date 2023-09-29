@@ -34,9 +34,9 @@ NS_ASSUME_NONNULL_BEGIN
 /** Returns the rectangle that describes the screen boundaries in portrait orientation.
  @return Screen boundaries in portrait orientation.
  */
-- (CGRect)msdk_portraitScreenBounds;
+- (CGRect)sfsdk_portraitScreenBounds;
 
-- (CGRect)portraitScreenBounds SFSDK_DEPRECATED(11.1, 12.0, "Use msdk_portraitScreenBounds instead");
+- (CGRect)portraitScreenBounds SFSDK_DEPRECATED(11.1, 12.0, "Use sfsdk_portraitScreenBounds instead");
 
 @end
 
