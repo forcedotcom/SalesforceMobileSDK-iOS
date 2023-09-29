@@ -50,10 +50,10 @@
 
 - (NSURL *)requestURL {
     
-    NSAssert([self.scheme msdk_isEmptyOrWhitespaceAndNewlines]==false, @"Scheme cannot be nil");
-    NSAssert([self.path msdk_isEmptyOrWhitespaceAndNewlines]==false, @"Path cannot be nil");
-    NSAssert([self.version msdk_isEmptyOrWhitespaceAndNewlines]==false, @"Version cannot be nil");
-    NSAssert([self.command msdk_isEmptyOrWhitespaceAndNewlines]==false, @"Command cannot be nil");
+    NSAssert([self.scheme sfsdk_isEmptyOrWhitespaceAndNewlines]==false, @"Scheme cannot be nil");
+    NSAssert([self.path sfsdk_isEmptyOrWhitespaceAndNewlines]==false, @"Path cannot be nil");
+    NSAssert([self.version sfsdk_isEmptyOrWhitespaceAndNewlines]==false, @"Version cannot be nil");
+    NSAssert([self.command sfsdk_isEmptyOrWhitespaceAndNewlines]==false, @"Command cannot be nil");
     
     NSString *urlPath = [NSString stringWithFormat:@"%@://%@/%@/%@",self.scheme,kSFSpecHost,self.version,self.command];
     
@@ -82,7 +82,7 @@
     self.scheme = [url scheme];
     
     //put all the query params in our backing store
-    NSDictionary *dictionary = [url msdk_dictionaryFromQuery];
+    NSDictionary *dictionary = [url sfsdk_dictionaryFromQuery];
     [self.commandParameters addEntriesFromDictionary:dictionary];
     
 }

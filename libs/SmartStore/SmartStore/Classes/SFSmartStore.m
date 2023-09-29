@@ -130,12 +130,12 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
  
             NSData *existingSalt = [SFSDKKeychainHelper readWithService:kSFSmartStoreEncryptionSaltLabel account:nil].data;
             if (existingSalt) {
-                salt = [existingSalt msdk_newHexStringFromBytes];
+                salt = [existingSalt sfsdk_newHexStringFromBytes];
             } else if ([[SFSDKDatasharingHelper sharedInstance] appGroupEnabled]) {
-                NSData *newSalt = [[NSMutableData dataWithLength:kSFSmartStoreEncryptionSaltLength] msdk_randomDataOfLength:kSFSmartStoreEncryptionSaltLength];
+                NSData *newSalt = [[NSMutableData dataWithLength:kSFSmartStoreEncryptionSaltLength] sfsdk_randomDataOfLength:kSFSmartStoreEncryptionSaltLength];
                 SFSDKKeychainResult *result = [SFSDKKeychainHelper writeWithService:kSFSmartStoreEncryptionSaltLabel data:newSalt account:nil];
                 if (result.success) {
-                    salt = [newSalt msdk_newHexStringFromBytes];
+                    salt = [newSalt sfsdk_newHexStringFromBytes];
                 } else {
                     [SFSDKSmartStoreLogger e:[self class] format:@"Error writing salt to keychain: %@", result.error.localizedDescription];
                 }

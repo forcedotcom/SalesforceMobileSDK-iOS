@@ -61,7 +61,7 @@ struct ContentSection {
         self.titleLabel.translatesAutoresizingMaskIntoConstraints = false
         self.titleLabel.font = UIFont.appRegularFont(20)
         self.titleLabel.text = title
-        self.titleLabel.textColor = UIColor.init(forLightStyle: UIColor.appDarkBlue, darkStyle: UIColor.white)
+        self.titleLabel.textColor = UIColor.sfsdk_color(forLightStyle: .appDarkBlue, darkStyle: .white)
         self.container.addSubview(self.titleLabel)
         self.titleLabel.leftAnchor.constraint(equalTo: self.container.leftAnchor, constant: ContentSection.horizontalMargin).isActive = true
  
@@ -276,7 +276,7 @@ class RootViewController: UIViewController {
         label.font = UIFont.appRegularFont(12)
         label.lineBreakMode = .byTruncatingTail
         label.numberOfLines = 1
-        label.textColor = UIColor.init(forLightStyle: UIColor.appLabel, darkStyle: UIColor.white)
+        label.textColor = UIColor.sfsdk_color(forLightStyle: UIColor.appLabel, darkStyle: UIColor.white)
         
         let field = UITextView()
         field.translatesAutoresizingMaskIntoConstraints = false

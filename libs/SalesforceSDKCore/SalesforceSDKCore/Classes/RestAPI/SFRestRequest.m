@@ -358,7 +358,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
         [queryString appendString:@"?"];
         for (NSString *paramName in [components allKeys]) {
             NSString* paramValue = components[paramName];
-            NSString *part = [NSString stringWithFormat:@"%@=%@", [paramName msdk_stringByURLEncoding], [paramValue msdk_stringByURLEncoding]];
+            NSString *part = [NSString stringWithFormat:@"%@=%@", [paramName sfsdk_stringByURLEncoding], [paramValue sfsdk_stringByURLEncoding]];
             [parts addObject:part];
         }
         [queryString appendString:[parts componentsJoinedByString:@"&"]];

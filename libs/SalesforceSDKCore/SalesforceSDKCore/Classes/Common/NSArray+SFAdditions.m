@@ -24,7 +24,10 @@
 
 #import "NSArray+SFAdditions.h"
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 @implementation NSArray (SFAdditions)
+#pragma clang diagnostic pop
 
 - (NSArray *)filteredArrayWithElementsOfClass:(Class)aClass {
     if (!aClass) { return [self copy]; }

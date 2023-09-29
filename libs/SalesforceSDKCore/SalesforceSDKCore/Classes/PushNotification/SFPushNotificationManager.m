@@ -107,7 +107,7 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
 
 - (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceTokenData {
     [SFSDKCoreLogger i:[self class] format:@"Registration with Apple for remote push notifications succeeded"];
-    _deviceToken = [NSString msdk_stringWithHexData:deviceTokenData];
+    _deviceToken = [NSString sfsdk_stringWithHexData:deviceTokenData];
     [[SFPreferences currentUserLevelPreferences] setObject:_deviceToken forKey:kSFDeviceToken];
     [[SFPreferences currentUserLevelPreferences] synchronize];
 }

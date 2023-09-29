@@ -44,49 +44,49 @@
 
 - (void)testEntityId18
 {
-    XCTAssertEqual([USER_A_ID_18 compare:[USER_A_ID_15 msdk_entityId18]], NSOrderedSame);
-    XCTAssertEqual([USER_B_ID_18 compare:[USER_B_ID_15 msdk_entityId18]], NSOrderedSame);
+    XCTAssertEqual([USER_A_ID_18 compare:[USER_A_ID_15 sfsdk_entityId18]], NSOrderedSame);
+    XCTAssertEqual([USER_B_ID_18 compare:[USER_B_ID_15 sfsdk_entityId18]], NSOrderedSame);
 }
 
 - (void)testIsEqualToEntityId
 {
-    XCTAssertTrue([@"" msdk_isEqualToEntityId:@""]);
-    XCTAssertTrue([ME msdk_isEqualToEntityId:ME]);
-    XCTAssertTrue([ME msdk_isEqualToEntityId:OTHER_ME]);
-    XCTAssertTrue([OTHER_ME msdk_isEqualToEntityId:ME]);
+    XCTAssertTrue([@"" sfsdk_isEqualToEntityId:@""]);
+    XCTAssertTrue([ME sfsdk_isEqualToEntityId:ME]);
+    XCTAssertTrue([ME sfsdk_isEqualToEntityId:OTHER_ME]);
+    XCTAssertTrue([OTHER_ME sfsdk_isEqualToEntityId:ME]);
 
-    XCTAssertTrue([USER_A_ID_15 msdk_isEqualToEntityId:USER_A_ID_15]);
-    XCTAssertTrue([USER_A_ID_15 msdk_isEqualToEntityId:USER_A_ID_18]);
-    XCTAssertTrue([USER_A_ID_18 msdk_isEqualToEntityId:USER_A_ID_15]);
-    XCTAssertTrue([USER_A_ID_18 msdk_isEqualToEntityId:USER_A_ID_18]);
+    XCTAssertTrue([USER_A_ID_15 sfsdk_isEqualToEntityId:USER_A_ID_15]);
+    XCTAssertTrue([USER_A_ID_15 sfsdk_isEqualToEntityId:USER_A_ID_18]);
+    XCTAssertTrue([USER_A_ID_18 sfsdk_isEqualToEntityId:USER_A_ID_15]);
+    XCTAssertTrue([USER_A_ID_18 sfsdk_isEqualToEntityId:USER_A_ID_18]);
 
-    XCTAssertTrue([USER_B_ID_15 msdk_isEqualToEntityId:USER_B_ID_15]);
-    XCTAssertTrue([USER_B_ID_15 msdk_isEqualToEntityId:USER_B_ID_18]);
-    XCTAssertTrue([USER_B_ID_18 msdk_isEqualToEntityId:USER_B_ID_15]);
-    XCTAssertTrue([USER_B_ID_18 msdk_isEqualToEntityId:USER_B_ID_18]);
+    XCTAssertTrue([USER_B_ID_15 sfsdk_isEqualToEntityId:USER_B_ID_15]);
+    XCTAssertTrue([USER_B_ID_15 sfsdk_isEqualToEntityId:USER_B_ID_18]);
+    XCTAssertTrue([USER_B_ID_18 sfsdk_isEqualToEntityId:USER_B_ID_15]);
+    XCTAssertTrue([USER_B_ID_18 sfsdk_isEqualToEntityId:USER_B_ID_18]);
 
-    XCTAssertFalse([USER_A_ID_15 msdk_isEqualToEntityId:@""]);
-    XCTAssertFalse([USER_A_ID_15 msdk_isEqualToEntityId:ME]);
-    XCTAssertFalse([USER_A_ID_15 msdk_isEqualToEntityId:OTHER_ME]);
-    XCTAssertFalse([USER_A_ID_15 msdk_isEqualToEntityId:USER_B_ID_15]);
-    XCTAssertFalse([USER_A_ID_15 msdk_isEqualToEntityId:USER_B_ID_18]);
+    XCTAssertFalse([USER_A_ID_15 sfsdk_isEqualToEntityId:@""]);
+    XCTAssertFalse([USER_A_ID_15 sfsdk_isEqualToEntityId:ME]);
+    XCTAssertFalse([USER_A_ID_15 sfsdk_isEqualToEntityId:OTHER_ME]);
+    XCTAssertFalse([USER_A_ID_15 sfsdk_isEqualToEntityId:USER_B_ID_15]);
+    XCTAssertFalse([USER_A_ID_15 sfsdk_isEqualToEntityId:USER_B_ID_18]);
 
-    XCTAssertFalse([@"" msdk_isEqualToEntityId:USER_A_ID_15]);
-    XCTAssertFalse([ME msdk_isEqualToEntityId:USER_A_ID_15]);
-    XCTAssertFalse([OTHER_ME msdk_isEqualToEntityId:USER_A_ID_15]);
-    XCTAssertFalse([USER_B_ID_15 msdk_isEqualToEntityId:USER_A_ID_15]);
-    XCTAssertFalse([USER_B_ID_18 msdk_isEqualToEntityId:USER_A_ID_15]);
+    XCTAssertFalse([@"" sfsdk_isEqualToEntityId:USER_A_ID_15]);
+    XCTAssertFalse([ME sfsdk_isEqualToEntityId:USER_A_ID_15]);
+    XCTAssertFalse([OTHER_ME sfsdk_isEqualToEntityId:USER_A_ID_15]);
+    XCTAssertFalse([USER_B_ID_15 sfsdk_isEqualToEntityId:USER_A_ID_15]);
+    XCTAssertFalse([USER_B_ID_18 sfsdk_isEqualToEntityId:USER_A_ID_15]);
 
 }
 
 - (void)testUnescapeXMLCharacter
 {
-    XCTAssertTrue([[NSString msdk_unescapeXMLCharacter:@"O&quot;Maley"] isEqualToString:@"O\"Maley"]);
-    XCTAssertTrue([[NSString msdk_unescapeXMLCharacter:@"O&#62;Maley"] isEqualToString:@"O>Maley"]);
-    XCTAssertTrue([[NSString msdk_unescapeXMLCharacter:@"O&gt;Maley"] isEqualToString:@"O>Maley"]);
-    XCTAssertTrue([[NSString msdk_unescapeXMLCharacter:@"O&#60;Maley"] isEqualToString:@"O<Maley"]);
-    XCTAssertTrue([[NSString msdk_unescapeXMLCharacter:@"O&lt;Maley"] isEqualToString:@"O<Maley"]);
-    XCTAssertTrue([[NSString msdk_unescapeXMLCharacter:@"O&#39;Maley"] isEqualToString:@"O'Maley"]);
+    XCTAssertTrue([[NSString sfsdk_unescapeXMLCharacter:@"O&quot;Maley"] isEqualToString:@"O\"Maley"]);
+    XCTAssertTrue([[NSString sfsdk_unescapeXMLCharacter:@"O&#62;Maley"] isEqualToString:@"O>Maley"]);
+    XCTAssertTrue([[NSString sfsdk_unescapeXMLCharacter:@"O&gt;Maley"] isEqualToString:@"O>Maley"]);
+    XCTAssertTrue([[NSString sfsdk_unescapeXMLCharacter:@"O&#60;Maley"] isEqualToString:@"O<Maley"]);
+    XCTAssertTrue([[NSString sfsdk_unescapeXMLCharacter:@"O&lt;Maley"] isEqualToString:@"O<Maley"]);
+    XCTAssertTrue([[NSString sfsdk_unescapeXMLCharacter:@"O&#39;Maley"] isEqualToString:@"O'Maley"]);
 }
 
 @end

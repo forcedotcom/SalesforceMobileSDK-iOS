@@ -28,11 +28,11 @@
 #import "UIFont+SFSDKIDP.h"
 
 @implementation UIFont (SFSDKIDP)
-+(UIFont *)msdk_textRegular:(CGFloat)size {
++(UIFont *)sfsdk_textRegular:(CGFloat)size {
     return [UIFont systemFontOfSize:size weight:UIFontWeightRegular];
 }
 
-+(UIFont *)msdk_textBold:(CGFloat)size {
++(UIFont *)sfsdk_textBold:(CGFloat)size {
     return [UIFont systemFontOfSize:size weight:UIFontWeightBold];
 }
 @end

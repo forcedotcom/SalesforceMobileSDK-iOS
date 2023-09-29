@@ -38,23 +38,23 @@ NS_ASSUME_NONNULL_BEGIN
  This method is similar to the built-in valueForKeyPath function except it handles special value like NSNULL and <nil> in the NSDictonary element value*
  
  @param path Path for the object to retrieve. Use "/" to separate between levels. For example, root/child/valueKey will retrieve value from the root NSDictionary object to its child dictionary's value with key "valueKey"  */
-- (nullable id)msdk_objectAtPath:(nullable NSString *)path;
+- (nullable id)sfsdk_objectAtPath:(nullable NSString *)path;
 
-- (nullable id)objectAtPath:(nullable NSString *)path SFSDK_DEPRECATED(11.1, 12.0, "Use msdk_objectAtPath: instead");
+- (nullable id)objectAtPath:(nullable NSString *)path SFSDK_DEPRECATED(11.1, 12.0, "Use sfsdk_objectAtPath: instead");
 
 /**Returns an object whose ID is key, or nil.
  @param key The ID of an object, or a null value
  @return An object whose ID is key, or else nil if the key has a value of NSNull or an NSString value of "<nil>" or "<null>".
  */
-- (nullable id)msdk_nonNullObjectForKey:(nullable id)key;
+- (nullable id)sfsdk_nonNullObjectForKey:(nullable id)key;
 
-- (nullable id)nonNullObjectForKey:(nullable id)key SFSDK_DEPRECATED(11.1, 12.0, "Use msdk_nonNullObjectForKey: instead");
+- (nullable id)nonNullObjectForKey:(nullable id)key SFSDK_DEPRECATED(11.1, 12.0, "Use sfsdk_nonNullObjectForKey: instead");
 
 /** Returns the dictionary's contents reformatted as a JSON string.
  */
-- (nullable NSString *)msdk_jsonString;
+- (nullable NSString *)sfsdk_jsonString;
 
-- (nullable NSString *)jsonString SFSDK_DEPRECATED(11.1, 12.0, "Use msdk_jsonString instead");
+- (nullable NSString *)jsonString SFSDK_DEPRECATED(11.1, 12.0, "Use sfsdk_jsonString instead");
 
 @end
 

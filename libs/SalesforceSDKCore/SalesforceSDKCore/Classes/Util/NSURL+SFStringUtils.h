@@ -46,9 +46,9 @@ extern NSString * const kSFRedactedQuerystringValue;
  *                                  should be redacted.
  * @return The redacted version of the absolute string value.
  */
-- (NSString *)msdk_redactedAbsoluteString:(NSArray *)queryStringParamsToRedact;
+- (NSString *)sfsdk_redactedAbsoluteString:(NSArray *)queryStringParamsToRedact;
 
-- (NSString *)redactedAbsoluteString:(NSArray *)queryStringParamsToRedact SFSDK_DEPRECATED(11.1, 12.0, "Use msdk_redactedAbsoluteString: instead");
+- (NSString *)redactedAbsoluteString:(NSArray *)queryStringParamsToRedact SFSDK_DEPRECATED(11.1, 12.0, "Use sfsdk_redactedAbsoluteString: instead");
 
 /**
  Helper method that constructs an absolute URL string given the specified components.
