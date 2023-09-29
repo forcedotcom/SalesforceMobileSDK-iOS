@@ -27,7 +27,9 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
+SFSDK_DEPRECATED(11.1, 12.0, "Will be removed")
 @interface SFInactivityTimerCenter : NSObject
 
 /*!
