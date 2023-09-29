@@ -34,7 +34,6 @@
 #import "SFSmartSqlCache.h"
 #import "SFSoupIndex.h"
 #import "SFQuerySpec.h"
-#import "NSData+SFAdditions.h"
 #import "SFAlterSoupLongOperation.h"
 #import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 #import <SalesforceSDKCore/SFSDKCryptoUtils.h>
@@ -131,12 +130,12 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
  
             NSData *existingSalt = [SFSDKKeychainHelper readWithService:kSFSmartStoreEncryptionSaltLabel account:nil].data;
             if (existingSalt) {
-                salt = [existingSalt newHexStringFromBytes];
+                salt = [existingSalt msdk_newHexStringFromBytes];
             } else if ([[SFSDKDatasharingHelper sharedInstance] appGroupEnabled]) {
-                NSData *newSalt = [[NSMutableData dataWithLength:kSFSmartStoreEncryptionSaltLength] randomDataOfLength:kSFSmartStoreEncryptionSaltLength];
+                NSData *newSalt = [[NSMutableData dataWithLength:kSFSmartStoreEncryptionSaltLength] msdk_randomDataOfLength:kSFSmartStoreEncryptionSaltLength];
                 SFSDKKeychainResult *result = [SFSDKKeychainHelper writeWithService:kSFSmartStoreEncryptionSaltLabel data:newSalt account:nil];
                 if (result.success) {
-                    salt = [newSalt newHexStringFromBytes];
+                    salt = [newSalt msdk_newHexStringFromBytes];
                 } else {
                     [SFSDKSmartStoreLogger e:[self class] format:@"Error writing salt to keychain: %@", result.error.localizedDescription];
                 }

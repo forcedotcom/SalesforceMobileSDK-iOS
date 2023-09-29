@@ -46,9 +46,9 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 
 + (void)invokeIDPApp:(SFSDKAuthSession *)session completion:(void (^)(BOOL))completionBlock {
     
-    session.oauthCoordinator.codeVerifier = [[SFSDKCryptoUtils randomByteDataWithLength:kSFVerifierByteLength] msdkBase64UrlString];
+    session.oauthCoordinator.codeVerifier = [[SFSDKCryptoUtils randomByteDataWithLength:kSFVerifierByteLength] msdk_base64UrlString];
      
-    NSString *codeChallengeString = [[[session.oauthCoordinator.codeVerifier dataUsingEncoding:NSUTF8StringEncoding] msdkSha256Data] msdkBase64UrlString];
+    NSString *codeChallengeString = [[[session.oauthCoordinator.codeVerifier dataUsingEncoding:NSUTF8StringEncoding] msdk_sha256Data] msdk_base64UrlString];
 
     SFSDKSPLoginRequestCommand *command = [[SFSDKSPLoginRequestCommand alloc] init];
     command.scheme = session.oauthRequest.idpAppURIScheme;
@@ -71,7 +71,7 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 + (NSString *)encodeScopes:(NSSet <NSString *> *)requestScopes {
     NSMutableSet *scopes = (requestScopes.count > 0 ? [NSMutableSet setWithSet:requestScopes] : [NSMutableSet set]);
     [scopes addObject:kSFRefreshTokenParam];
-    NSString *scopeStr = [[[scopes allObjects] componentsJoinedByString:@","] stringByURLEncoding];
+    NSString *scopeStr = [[[scopes allObjects] componentsJoinedByString:@","] msdk_stringByURLEncoding];
     return [NSString stringWithFormat:@"%@", scopeStr];
 }
 

@@ -110,7 +110,7 @@
 #pragma mark Encoded Queries
 
 - (NSString *) encodeAndBuild {
-    return [[self build] stringByURLEncoding];
+    return [[self build] msdk_stringByURLEncoding];
 }
 
 - (NSString *) encodeAndBuildWithPath:(NSString *) path {

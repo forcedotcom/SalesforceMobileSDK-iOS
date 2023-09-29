@@ -253,7 +253,7 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
     NSString *grantType = [[SalesforceSDKManager sharedManager] useHybridAuthentication] ? kSFOAuthGrantTypeHybridRefresh : kSFOAuthGrantTypeRefresh;
     [params appendFormat:@"&%@=%@&%@=%@", kSFOAuthGrantType, grantType, kSFOAuthRefreshToken, endpointReq.refreshToken];
     for (NSString * key in endpointReq.additionalTokenRefreshParams) {
-        [params appendFormat:@"&%@=%@", [key stringByURLEncoding], [endpointReq.additionalTokenRefreshParams[key] stringByURLEncoding]];
+        [params appendFormat:@"&%@=%@", [key msdk_stringByURLEncoding], [endpointReq.additionalTokenRefreshParams[key] msdk_stringByURLEncoding]];
     }
     NSData *encodedBody = [params dataUsingEncoding:NSUTF8StringEncoding];
     [request setHTTPBody:encodedBody];

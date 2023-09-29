@@ -743,7 +743,7 @@ static dispatch_once_t pred;
         [params appendString:@"?"];
         for (NSString *paramName in [components allKeys]) {
           NSString* paramValue = components[paramName];
-          NSString *part = [NSString stringWithFormat:@"%@=%@", [paramName stringByURLEncoding], [paramValue stringByURLEncoding]];
+          NSString *part = [NSString stringWithFormat:@"%@=%@", [paramName msdk_stringByURLEncoding], [paramValue msdk_stringByURLEncoding]];
           [parts addObject:part];
         }
         [params appendString:[parts componentsJoinedByString:@"&"]];
