@@ -310,7 +310,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 }
 
 - (void)setIdpAppURIScheme:(NSString *)idpAppURIScheme {
-    if (idpAppURIScheme && [idpAppURIScheme msdk_trim].length > 0) {
+    if (idpAppURIScheme && [idpAppURIScheme sfsdk_trim].length > 0) {
         [SFSDKAppFeatureMarkers registerAppFeature:kSFSPAppFeatureIDPLogin];
     } else {
         [SFSDKAppFeatureMarkers unregisterAppFeature:kSFSPAppFeatureIDPLogin];
@@ -373,7 +373,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         return;
     }
 
-    NSString *challengeString = [[[codeVerifier msdk_base64UrlString] msdk_sha256] msdk_base64UrlString];
+    NSString *challengeString = [[[codeVerifier sfsdk_base64UrlString] sfsdk_sha256] sfsdk_base64UrlString];
     NSDictionary *appContext = @{
         kSFOAuthClientIdParam: [config oauthClientId],
         kSFOAuthRedirectUrlParam: [config oauthCallbackURL],
@@ -998,7 +998,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     
     NSString *loginHost = callingAppOptions[kSFLoginHostParam];
     
-    if (loginHost == nil || [loginHost msdk_isEmptyOrWhitespaceAndNewlines]){
+    if (loginHost == nil || [loginHost sfsdk_isEmptyOrWhitespaceAndNewlines]){
         loginHost = self.loginHost;
     }
     creds.domain = loginHost;
@@ -1240,7 +1240,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     for (SFUserAccountIdentity *key in self.userAccountMap) {
         SFUserAccount *account = (self.userAccountMap)[key];
         NSString *accountOrg = account.credentials.organizationId;
-        if ([accountOrg msdk_isEqualToEntityId:orgId]) {
+        if ([accountOrg sfsdk_isEqualToEntityId:orgId]) {
             [responseArray addObject:account];
         }
     }

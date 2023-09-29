@@ -103,10 +103,10 @@
 }
 
 - (nullable NSString *)platform {
-    return [self msdk_platform];
+    return [self sfsdk_platform];
 }
 
-- (NSString *)msdk_platform {
+- (NSString *)sfsdk_platform {
     static NSString *result = nil;
     if (!result) {
         result = [self getSysInfoByName:"hw.machine"];
@@ -125,10 +125,10 @@
 }
 
 - (double)systemVersionNumber {
-    return [self msdk_systemVersionNumber];
+    return [self sfsdk_systemVersionNumber];
 }
 
-- (double)msdk_systemVersionNumber {
+- (double)sfsdk_systemVersionNumber {
     static double version = 0;
     if (version == 0) {
         version = [[self systemVersion] doubleValue];
@@ -220,26 +220,26 @@
 }
 
 - (NSUInteger)totalMemory {
-    return [self msdk_totalMemory];
+    return [self sfsdk_totalMemory];
 }
 
-- (NSUInteger)msdk_totalMemory {
+- (NSUInteger)sfsdk_totalMemory {
     return [self getSysInfo:HW_PHYSMEM];
 }
 
 - (NSUInteger)userMemory {
-    return [self msdk_userMemory];
+    return [self sfsdk_userMemory];
 }
 
-- (NSUInteger)msdk_userMemory {
+- (NSUInteger)sfsdk_userMemory {
     return [self getSysInfo:HW_USERMEM];
 }
 
 - (NSUInteger)applicationMemory {
-    return [self msdk_applicationMemory];
+    return [self sfsdk_applicationMemory];
 }
 
-- (NSUInteger)msdk_applicationMemory {
+- (NSUInteger)sfsdk_applicationMemory {
     struct mach_task_basic_info info;
     mach_msg_type_number_t size = MACH_TASK_BASIC_INFO_COUNT;
     kern_return_t kerr = task_info(mach_task_self(),
@@ -251,11 +251,11 @@
 }
 
 - (NSUInteger)freeMemory {
-    return [self msdk_freeMemory];
+    return [self sfsdk_freeMemory];
 }
 
 /**Free VM page space available to application*/
-- (NSUInteger)msdk_freeMemory {
+- (NSUInteger)sfsdk_freeMemory {
     mach_port_t host_port = mach_host_self();
     mach_msg_type_number_t host_size = sizeof(vm_statistics_data_t) / sizeof(integer_t);
     vm_size_t pagesize;
@@ -280,20 +280,20 @@
 #pragma mark file system -- Thanks Joachim Bean!
 
 - (NSNumber *)totalDiskSpace {
-    return [self msdk_totalDiskSpace];
+    return [self sfsdk_totalDiskSpace];
 }
 
-- (NSNumber *)msdk_totalDiskSpace {
+- (NSNumber *)sfsdk_totalDiskSpace {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSDictionary *fattributes = [fileManager attributesOfFileSystemForPath:NSHomeDirectory() error:nil];
     return [fattributes objectForKey:NSFileSystemSize];
 }
 
 - (NSNumber *)freeDiskSpace {
-    return [self msdk_freeDiskSpace];
+    return [self sfsdk_freeDiskSpace];
 }
 
-- (NSNumber *)msdk_freeDiskSpace {
+- (NSNumber *)sfsdk_freeDiskSpace {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSDictionary *fattributes = [fileManager attributesOfFileSystemForPath:NSHomeDirectory() error:nil];
     return [fattributes objectForKey:NSFileSystemFreeSize];
@@ -302,11 +302,11 @@
 #pragma mark platform type and name utils
 
 - (UIDevicePlatform)platformType {
-    return [self msdk_platformType];
+    return [self sfsdk_platformType];
 }
 
-- (UIDevicePlatform)msdk_platformType {
-    NSString *platform = [self msdk_platform];
+- (UIDevicePlatform)sfsdk_platformType {
+    NSString *platform = [self sfsdk_platform];
     
     // The ever mysterious iFPGA
     if ([platform isEqualToString:@"iFPGA"])            return UIDeviceIFPGA;
@@ -429,15 +429,15 @@
 }
 
 - (BOOL)hasNeuralEngine {
-    return [self msdk_hasNeuralEngine];
+    return [self sfsdk_hasNeuralEngine];
 }
 
-- (BOOL)msdk_hasNeuralEngine {
-    if (![UIDevice msdk_currentDeviceIsIPad] && ![UIDevice msdk_currentDeviceIsIPhone]) {
+- (BOOL)sfsdk_hasNeuralEngine {
+    if (![UIDevice sfsdk_currentDeviceIsIPad] && ![UIDevice sfsdk_currentDeviceIsIPhone]) {
         return NO;
     }
     
-    UIDevicePlatform platform = [self msdk_platformType];
+    UIDevicePlatform platform = [self sfsdk_platformType];
     switch (platform) {
         case UIDevice1GiPhone:
         case UIDevice3GiPhone:
@@ -480,11 +480,11 @@
 }
 
 - (NSString *)platformString {
-    return [self msdk_platformString];
+    return [self sfsdk_platformString];
 }
 
-- (NSString *)msdk_platformString {
-    switch ([self msdk_platformType])
+- (NSString *)sfsdk_platformString {
+    switch ([self sfsdk_platformType])
     {
         case UIDevice1GiPhone: return IPHONE_1G_NAMESTRING;
         case UIDevice3GiPhone: return IPHONE_3G_NAMESTRING;
@@ -562,11 +562,11 @@
 
 
 - (UIDeviceFamily)deviceFamily {
-    return [self msdk_deviceFamily];
+    return [self sfsdk_deviceFamily];
 }
 
-- (UIDeviceFamily)msdk_deviceFamily {
-    NSString *platform = [self msdk_platform];
+- (UIDeviceFamily)sfsdk_deviceFamily {
+    NSString *platform = [self sfsdk_platform];
     if ([platform hasPrefix:@"iPhone"]) return UIDeviceFamilyiPhone;
     if ([platform hasPrefix:@"iPod"]) return UIDeviceFamilyiPod;
     if ([platform hasPrefix:@"iPad"]) return UIDeviceFamilyiPad;
@@ -629,10 +629,10 @@
 }
 
 - (UIInterfaceOrientation)interfaceOrientation {
-    return [self msdk_interfaceOrientation];
+    return [self sfsdk_interfaceOrientation];
 }
 
-- (UIInterfaceOrientation)msdk_interfaceOrientation {
+- (UIInterfaceOrientation)sfsdk_interfaceOrientation {
     UIDeviceOrientation deviceOrientation = UIDevice.currentDevice.orientation;
     UIInterfaceOrientation orientation = (UIInterfaceOrientation)deviceOrientation;
     if (!UIDeviceOrientationIsValidInterfaceOrientation(deviceOrientation)) {
@@ -642,26 +642,26 @@
 }
 
 + (BOOL)currentDeviceIsIPad {
-    return [self msdk_currentDeviceIsIPad];
+    return [self sfsdk_currentDeviceIsIPad];
 }
 
-+ (BOOL)msdk_currentDeviceIsIPad {
++ (BOOL)sfsdk_currentDeviceIsIPad {
     return (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad);
 }
 
 + (BOOL)currentDeviceIsIPhone {
-    return [self msdk_currentDeviceIsIPhone];
+    return [self sfsdk_currentDeviceIsIPhone];
 }
 
-+ (BOOL)msdk_currentDeviceIsIPhone {
++ (BOOL)sfsdk_currentDeviceIsIPhone {
     return (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPhone);
 }
 
 - (BOOL)isSimulator {
-    return [self msdk_isSimulator];
+    return [self sfsdk_isSimulator];
 }
 
-- (BOOL)msdk_isSimulator {
+- (BOOL)sfsdk_isSimulator {
     #if TARGET_OS_SIMULATOR
     return YES;
     #else
@@ -670,15 +670,15 @@
 }
 
 - (BOOL)hasIphone6ScreenSize {
-   return  CGRectGetHeight([[UIScreen mainScreen] msdk_portraitScreenBounds]) == 667.0f && CGRectGetWidth([[UIScreen mainScreen] msdk_portraitScreenBounds]) == 375.0f;
+   return  CGRectGetHeight([[UIScreen mainScreen] sfsdk_portraitScreenBounds]) == 667.0f && CGRectGetWidth([[UIScreen mainScreen] sfsdk_portraitScreenBounds]) == 375.0f;
 }
 
 - (BOOL)hasIphone6PlusScreenSize {
-    return  CGRectGetHeight([[UIScreen mainScreen] msdk_portraitScreenBounds]) == 736.0f && CGRectGetWidth([[UIScreen mainScreen] msdk_portraitScreenBounds]) == 414.0f;
+    return  CGRectGetHeight([[UIScreen mainScreen] sfsdk_portraitScreenBounds]) == 736.0f && CGRectGetWidth([[UIScreen mainScreen] sfsdk_portraitScreenBounds]) == 414.0f;
 }
 
 - (BOOL)hasIphoneXScreenSize {
-    return  CGRectGetHeight([[UIScreen mainScreen] msdk_portraitScreenBounds]) == 812.0f && CGRectGetWidth([[UIScreen mainScreen] msdk_portraitScreenBounds]) == 375.0f;
+    return  CGRectGetHeight([[UIScreen mainScreen] sfsdk_portraitScreenBounds]) == 812.0f && CGRectGetWidth([[UIScreen mainScreen] sfsdk_portraitScreenBounds]) == 375.0f;
 }
 
 #pragma mark - 

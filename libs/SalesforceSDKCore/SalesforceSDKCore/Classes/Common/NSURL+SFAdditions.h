@@ -34,15 +34,15 @@ NS_ASSUME_NONNULL_BEGIN
 /** Get value for a parameter name from the URL
  @param name Name of the parameter
  */
-- (nullable NSString*)msdk_valueForParameterName:(NSString*)name;
+- (nullable NSString*)sfsdk_valueForParameterName:(NSString*)name;
 
-- (nullable NSString*)valueForParameterName:(NSString*)name SFSDK_DEPRECATED(11.1, 12.0, "Use msdk_valueForParameterName: instead");
+- (nullable NSString*)valueForParameterName:(NSString*)name SFSDK_DEPRECATED(11.1, 12.0, "Use sfsdk_valueForParameterName: instead");
 
 /** Get all query params as dictionary
  */
-- (nullable NSDictionary *)msdk_dictionaryFromQuery;
+- (nullable NSDictionary *)sfsdk_dictionaryFromQuery;
 
-- (nullable NSDictionary *)dictionaryFromQuery SFSDK_DEPRECATED(11.1, 12.0, "Use msdk_dictionaryFromQuery instead");
+- (nullable NSDictionary *)dictionaryFromQuery SFSDK_DEPRECATED(11.1, 12.0, "Use sfsdk_dictionaryFromQuery instead");
 
 @end
 

@@ -61,7 +61,7 @@ struct ContentSection {
         self.titleLabel.translatesAutoresizingMaskIntoConstraints = false
         self.titleLabel.font = UIFont.appRegularFont(20)
         self.titleLabel.text = title
-        self.titleLabel.textColor = UIColor.init(forLightStyle: UIColor.appDarkBlue, darkStyle: UIColor.white)
+        self.titleLabel.textColor = UIColor.sfsdk_color(forLightStyle: .appDarkBlue, darkStyle: .white)
         self.container.addSubview(self.titleLabel)
         self.titleLabel.leftAnchor.constraint(equalTo: self.container.leftAnchor, constant: ContentSection.horizontalMargin).isActive = true
  

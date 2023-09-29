@@ -390,7 +390,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 }
 
 - (void)testEntityId {
-    NSString *userId = @"ABCDE12345ABCDE".entityId18;
+    NSString *userId = @"ABCDE12345ABCDE".sfsdk_entityId18;
     SFUserAccountIdentity *identity = [[SFUserAccountIdentity alloc] initWithUserId:userId  orgId:@"ABCDE12345ABCDE"];
     XCTAssertNotNil(identity);
     XCTAssertTrue(userId.length == 18,@"EntityId18 should not be nil");

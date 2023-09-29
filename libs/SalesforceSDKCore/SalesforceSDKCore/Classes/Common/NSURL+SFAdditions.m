@@ -27,10 +27,10 @@
 @implementation NSURL (SFAdditions)
 
 - (nullable NSString *)valueForParameterName:(NSString *)name {
-    return [self msdk_valueForParameterName:name];
+    return [self sfsdk_valueForParameterName:name];
 }
 
-- (nullable NSString *)msdk_valueForParameterName:(NSString *)name
+- (nullable NSString *)sfsdk_valueForParameterName:(NSString *)name
 {
     NSString *query = [self query];
     if (query != nil) {
@@ -46,10 +46,10 @@
 }
 
 - (nullable NSDictionary *)dictionaryFromQuery {
-    return [self msdk_dictionaryFromQuery];
+    return [self sfsdk_dictionaryFromQuery];
 }
 
-- (nullable NSDictionary *)msdk_dictionaryFromQuery
+- (nullable NSDictionary *)sfsdk_dictionaryFromQuery
 {
     NSString *query = [self query];
     NSMutableDictionary *allVaues = [[NSMutableDictionary alloc] init];

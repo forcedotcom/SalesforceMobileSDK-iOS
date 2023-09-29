@@ -98,13 +98,13 @@ static NSString * const kUserAccountIdentityOrgIdKey = @"orgIdKey";
     
     SFUserAccountIdentity *objectToCompare = (SFUserAccountIdentity *)object;
     
-    BOOL userIdsEqual = [objectToCompare.userId msdk_isEqualToEntityId:self.userId];
-    BOOL orgIdsEqual = [objectToCompare.orgId msdk_isEqualToEntityId:self.orgId];
+    BOOL userIdsEqual = [objectToCompare.userId sfsdk_isEqualToEntityId:self.userId];
+    BOOL orgIdsEqual = [objectToCompare.orgId sfsdk_isEqualToEntityId:self.orgId];
     return userIdsEqual && orgIdsEqual;
 }
 
 - (BOOL)matchesCredentials:(SFOAuthCredentials *)credentials {
-    return ([[self.userId msdk_entityId18] isEqualToString:[credentials.userId msdk_entityId18]] && [[self.orgId msdk_entityId18] isEqualToString:[credentials.organizationId msdk_entityId18]]);
+    return ([[self.userId sfsdk_entityId18] isEqualToString:[credentials.userId sfsdk_entityId18]] && [[self.orgId sfsdk_entityId18] isEqualToString:[credentials.organizationId sfsdk_entityId18]]);
 }
 
 - (NSUInteger)hash
@@ -117,8 +117,8 @@ static NSString * const kUserAccountIdentityOrgIdKey = @"orgIdKey";
     if (otherIdentity == nil)
         return NSOrderedAscending;
     
-    NSString *thisStringToCompare = [NSString stringWithFormat:@"%@_%@", [self.orgId msdk_entityId18] , [self.userId msdk_entityId18]];
-    NSString *otherStringToCompare = [NSString stringWithFormat:@"%@_%@", [otherIdentity.orgId msdk_entityId18], [otherIdentity.userId msdk_entityId18]];
+    NSString *thisStringToCompare = [NSString stringWithFormat:@"%@_%@", [self.orgId sfsdk_entityId18] , [self.userId sfsdk_entityId18]];
+    NSString *otherStringToCompare = [NSString stringWithFormat:@"%@_%@", [otherIdentity.orgId sfsdk_entityId18], [otherIdentity.userId sfsdk_entityId18]];
     return [thisStringToCompare localizedCompare:otherStringToCompare];
 }
 

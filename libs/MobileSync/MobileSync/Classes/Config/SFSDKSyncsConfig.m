@@ -61,7 +61,7 @@ static NSString *const kSyncsConfigTarget = @"target";
     SFMobileSyncSyncManager * syncManager = [SFMobileSyncSyncManager sharedInstanceForStore:store];
 
     for (NSDictionary * syncConfig in self.syncConfigs) {
-        NSString *syncName = [syncConfig nonNullObjectForKey:kSyncsConfigSyncName];
+        NSString *syncName = [syncConfig sfsdk_nonNullObjectForKey:kSyncsConfigSyncName];
 
         // Leaving sync alone if it already exists
         if ([syncManager hasSyncWithName:syncName]) {

@@ -30,8 +30,8 @@
 
 @interface NSURLResponse (SFAdditions)
 
-- (nonnull NSDictionary *)msdk_asDictionary;
+- (nonnull NSDictionary *)sfsdk_asDictionary;
 
-- (nonnull NSDictionary *)asDictionary SFSDK_DEPRECATED(11.1, 12.0, "Use msdk_asDictionary instead");
+- (nonnull NSDictionary *)asDictionary SFSDK_DEPRECATED(11.1, 12.0, "Use sfsdk_asDictionary instead");
 
 @end

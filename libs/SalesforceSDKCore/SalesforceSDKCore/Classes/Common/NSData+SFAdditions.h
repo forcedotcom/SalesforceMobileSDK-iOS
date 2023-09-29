@@ -38,9 +38,9 @@ NS_ASSUME_NONNULL_BEGIN
  @param length The number of bytes of random data to return.
  @return The specified quantity of random bytes or `nil` if an error occurs.
  */
-- (nullable NSData *)msdk_randomDataOfLength:(size_t)length;
+- (nullable NSData *)sfsdk_randomDataOfLength:(size_t)length;
 
-- (nullable NSData *)randomDataOfLength:(size_t)length SFSDK_DEPRECATED(11.1, 12.0, "Use msdk_randomDataOfLength: instead");
+- (nullable NSData *)randomDataOfLength:(size_t)length SFSDK_DEPRECATED(11.1, 12.0, "Use sfsdk_randomDataOfLength: instead");
 
 
 /**Creates a base64 encoded string for this NSData object.
@@ -84,9 +84,9 @@ NS_ASSUME_NONNULL_BEGIN
 /**Derives  a  sha256  hex encoded string.
  @return md5 version of data.
  */
--(NSString *)msdk_sha256;
+-(NSString *)sfsdk_sha256;
 
--(NSString *)sha256 SFSDK_DEPRECATED(11.1, 12.0, "Use msdk_sha256 instead");
+-(NSString *)sha256 SFSDK_DEPRECATED(11.1, 12.0, "Use sfsdk_sha256 instead");
 
 
 @end
@@ -97,16 +97,16 @@ NS_ASSUME_NONNULL_BEGIN
 /**Converts this data to gzip uncompressed format.
  @return This data in gzip uncompressed format.
 */
-- (nullable NSData *)msdk_gzipInflate;
+- (nullable NSData *)sfsdk_gzipInflate;
 
-- (nullable NSData *)gzipInflate SFSDK_DEPRECATED(11.1, 12.0, "Use msdk_gzipInflate instead");
+- (nullable NSData *)gzipInflate SFSDK_DEPRECATED(11.1, 12.0, "Use sfsdk_gzipInflate instead");
 
 /**Converts this data to gzip compressed format.
  @return This data in gzip compressed format.
  */
-- (nullable NSData *)msdk_gzipDeflate;
+- (nullable NSData *)sfsdk_gzipDeflate;
 
-- (nullable NSData *)gzipDeflate SFSDK_DEPRECATED(11.1, 12.0, "Use msdk_gzipDeflate instead");
+- (nullable NSData *)gzipDeflate SFSDK_DEPRECATED(11.1, 12.0, "Use sfsdk_gzipDeflate instead");
 @end
 
 /**
@@ -116,9 +116,9 @@ NS_ASSUME_NONNULL_BEGIN
 /** Creates a hex string representation of this object's data.
  @return Hex string representation of this object's data.
  */
-- (NSString*)msdk_newHexStringFromBytes;
+- (NSString*)sfsdk_newHexStringFromBytes;
 
-- (NSString*)newHexStringFromBytes SFSDK_DEPRECATED(11.1, 12.0, "Use msdk_newHexStringFromBytes instead");
+- (NSString*)newHexStringFromBytes SFSDK_DEPRECATED(11.1, 12.0, "Use sfsdk_newHexStringFromBytes instead");
 
 @end
 
