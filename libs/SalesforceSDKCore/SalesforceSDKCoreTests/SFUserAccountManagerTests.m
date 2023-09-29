@@ -111,7 +111,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 - (void)setUp {
     [super setUp];
     // Delete the content of the global library directory
-    NSString *globalLibraryDirectory = [[SFDirectoryManager sharedManager] directoryForUser:nil type:NSLibraryDirectory components:nil];
+    NSString *globalLibraryDirectory = [[SFDirectoryManager sharedManager] globalDirectoryOfType:NSLibraryDirectory components:nil];
     [[NSFileManager defaultManager] removeItemAtPath:globalLibraryDirectory error:nil];
     // Set the oauth client ID after deleting the content of the global library directory
     // to ensure the SFUserAccountManager sharedInstance loads from an empty directory

@@ -1843,9 +1843,6 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
     NSString* limitSql = [NSString stringWithFormat:@"SELECT * FROM (%@) LIMIT %lu", querySql, (unsigned long)querySpec.pageSize];
     NSArray* args = [querySpec bindsForQuerySpec];
     
-    // For soup using external storage, run query to get ids
-    NSMutableArray* ids = [NSMutableArray new];
-    
     NSString *deleteSql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@ in (%@)", soupTableName, ID_COL, limitSql];
     [self executeUpdateThrows:deleteSql withArgumentsInArray:args withDb:db];
     // fts

@@ -299,14 +299,6 @@
     [self checkDb:savedEntries cityColType:toType countryColType:toType];
 }
 
--(void) checkFileSystem:(NSArray*)expectedEntries shouldExist:(BOOL)shouldExist
-{
-    [self checkFileSystem:expectedEntries
-              shouldExist:shouldExist
-                    store:self.store
-                 soupName:kTestSoupName];
-}
-
 -(void) checkDb:(NSArray*)expectedEntries cityColType:(NSString*)cityColType countryColType:(NSString*)countryColType
 {
     // Expected column names
