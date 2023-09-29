@@ -27,6 +27,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -34,14 +35,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** Construct a color given hex color, like "#00FF00" (#RRGGBB).
  */
-+ (nullable UIColor *)colorFromHexValue:(NSString *)hexString;
++ (nullable UIColor *)msdk_colorFromHexValue:(NSString *)hexString;
 
-+ (UIColor *)colorForLightStyle:(UIColor *)lightStyleColor darkStyle:(UIColor *)darkStyleColor;
++ (nullable UIColor *)colorFromHexValue:(NSString *)hexString SFSDK_DEPRECATED(11.1, 12.0, "Use msdk_colorFromHexValue: instead");
+
++ (UIColor *)msdk_colorForLightStyle:(UIColor *)lightStyleColor darkStyle:(UIColor *)darkStyleColor;
+
++ (UIColor *)colorForLightStyle:(UIColor *)lightStyleColor darkStyle:(UIColor *)darkStyleColor SFSDK_DEPRECATED(11.1, 12.0, "Use msdk_colorForLightStyle:darkStyle: instead");
 
 /** Returns a CSS hex color representation
  of this color
  */
-- (NSString *)hexStringFromColor;
+- (NSString *)msdk_hexStringFromColor;
+
+- (NSString *)hexStringFromColor SFSDK_DEPRECATED(11.1, 12.0, "Use msdk_hexStringFromColor instead");
 
 @property (class, nonatomic, readonly) UIColor *salesforceBlueColor;
 @property (class, nonatomic, readonly) UIColor *salesforceSystemBackgroundColor;

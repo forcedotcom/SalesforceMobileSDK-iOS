@@ -88,7 +88,7 @@
  */
 
 #pragma mark sysctlbyname utils
-- (NSString *) getSysInfoByName:(char *)typeSpecifier
+- (NSString *)getSysInfoByName:(char *)typeSpecifier
 {
     size_t size;
     sysctlbyname(typeSpecifier, NULL, &size, NULL, 0);
@@ -102,8 +102,11 @@
     return results;
 }
 
-- (NSString *) platform
-{
+- (nullable NSString *)platform {
+    return [self msdk_platform];
+}
+
+- (NSString *)msdk_platform {
     static NSString *result = nil;
     if (!result) {
         result = [self getSysInfoByName:"hw.machine"];
@@ -113,8 +116,7 @@
 
 
 // Thanks, Tom Harrington (Atomicbird)
-- (NSString *) hwmodel
-{
+- (NSString *)hwmodel {
     static NSString *result = nil;
     if (!result) {
         result = [self getSysInfoByName:"hw.model"];
@@ -122,8 +124,11 @@
     return result;
 }
 
-- (double)systemVersionNumber
-{
+- (double)systemVersionNumber {
+    return [self msdk_systemVersionNumber];
+}
+
+- (double)msdk_systemVersionNumber {
     static double version = 0;
     if (version == 0) {
         version = [[self systemVersion] doubleValue];
@@ -133,8 +138,7 @@
 }
 
 #pragma mark sysctl utils
-- (NSUInteger) getSysInfo: (uint) typeSpecifier
-{
+- (NSUInteger)getSysInfo: (uint) typeSpecifier {
     size_t size = sizeof(int);
     int results;
     int mib[2] = {CTL_HW, typeSpecifier};
@@ -142,23 +146,19 @@
     return (NSUInteger) results;
 }
 
-- (NSUInteger) cpuFrequency
-{
+- (NSUInteger)cpuFrequency {
     return [self getSysInfo:HW_CPU_FREQ];
 }
 
-- (NSUInteger) busFrequency
-{
+- (NSUInteger)busFrequency {
     return [self getSysInfo:HW_BUS_FREQ];
 }
 
-- (NSUInteger) cpuCount
-{
+- (NSUInteger)cpuCount {
     return [self getSysInfo:HW_NCPU];
 }
 
-- (float) totalCPU
-{
+- (float)totalCPU {
     kern_return_t kr;
     task_info_data_t tinfo;
     mach_msg_type_number_t task_info_count;
@@ -219,18 +219,27 @@
     return tot_cpu;
 }
 
-- (NSUInteger) totalMemory
-{
+- (NSUInteger)totalMemory {
+    return [self msdk_totalMemory];
+}
+
+- (NSUInteger)msdk_totalMemory {
     return [self getSysInfo:HW_PHYSMEM];
 }
 
-- (NSUInteger) userMemory
-{
+- (NSUInteger)userMemory {
+    return [self msdk_userMemory];
+}
+
+- (NSUInteger)msdk_userMemory {
     return [self getSysInfo:HW_USERMEM];
 }
 
-- (NSUInteger) applicationMemory
-{
+- (NSUInteger)applicationMemory {
+    return [self msdk_applicationMemory];
+}
+
+- (NSUInteger)msdk_applicationMemory {
     struct mach_task_basic_info info;
     mach_msg_type_number_t size = MACH_TASK_BASIC_INFO_COUNT;
     kern_return_t kerr = task_info(mach_task_self(),
@@ -241,9 +250,12 @@
     return (kerr == KERN_SUCCESS) ? info.resident_size : 0;
 }
 
+- (NSUInteger)freeMemory {
+    return [self msdk_freeMemory];
+}
+
 /**Free VM page space available to application*/
-- (NSUInteger) freeMemory
-{
+- (NSUInteger)msdk_freeMemory {
     mach_port_t host_port = mach_host_self();
     mach_msg_type_number_t host_size = sizeof(vm_statistics_data_t) / sizeof(integer_t);
     vm_size_t pagesize;
@@ -261,30 +273,40 @@
     return vm_stat.free_count * (uint) pagesize;
 }
 
-- (NSUInteger) maxSocketBufferSize
-{
+- (NSUInteger)maxSocketBufferSize {
     return [self getSysInfo:KIPC_MAXSOCKBUF];
 }
 
 #pragma mark file system -- Thanks Joachim Bean!
-- (NSNumber *) totalDiskSpace
-{
+
+- (NSNumber *)totalDiskSpace {
+    return [self msdk_totalDiskSpace];
+}
+
+- (NSNumber *)msdk_totalDiskSpace {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSDictionary *fattributes = [fileManager attributesOfFileSystemForPath:NSHomeDirectory() error:nil];
     return [fattributes objectForKey:NSFileSystemSize];
 }
 
-- (NSNumber *) freeDiskSpace
-{
+- (NSNumber *)freeDiskSpace {
+    return [self msdk_freeDiskSpace];
+}
+
+- (NSNumber *)msdk_freeDiskSpace {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSDictionary *fattributes = [fileManager attributesOfFileSystemForPath:NSHomeDirectory() error:nil];
     return [fattributes objectForKey:NSFileSystemFreeSize];
 }
 
 #pragma mark platform type and name utils
-- (UIDevicePlatform) platformType
-{
-    NSString *platform = [self platform];
+
+- (UIDevicePlatform)platformType {
+    return [self msdk_platformType];
+}
+
+- (UIDevicePlatform)msdk_platformType {
+    NSString *platform = [self msdk_platform];
     
     // The ever mysterious iFPGA
     if ([platform isEqualToString:@"iFPGA"])            return UIDeviceIFPGA;
@@ -407,12 +429,15 @@
 }
 
 - (BOOL)hasNeuralEngine {
-    
-    if (![UIDevice currentDeviceIsIPad] && ![UIDevice currentDeviceIsIPhone]) {
+    return [self msdk_hasNeuralEngine];
+}
+
+- (BOOL)msdk_hasNeuralEngine {
+    if (![UIDevice msdk_currentDeviceIsIPad] && ![UIDevice msdk_currentDeviceIsIPhone]) {
         return NO;
     }
     
-    UIDevicePlatform platform = [self platformType];
+    UIDevicePlatform platform = [self msdk_platformType];
     switch (platform) {
         case UIDevice1GiPhone:
         case UIDevice3GiPhone:
@@ -454,9 +479,12 @@
     }
 }
 
-- (NSString *) platformString
-{
-    switch ([self platformType])
+- (NSString *)platformString {
+    return [self msdk_platformString];
+}
+
+- (NSString *)msdk_platformString {
+    switch ([self msdk_platformType])
     {
         case UIDevice1GiPhone: return IPHONE_1G_NAMESTRING;
         case UIDevice3GiPhone: return IPHONE_3G_NAMESTRING;
@@ -528,14 +556,17 @@
     }
 }
 
-- (BOOL) hasRetinaDisplay
-{
+- (BOOL)hasRetinaDisplay {
     return ([UIScreen mainScreen].scale > 1.0f);
 }
 
-- (UIDeviceFamily) deviceFamily
-{
-    NSString *platform = [self platform];
+
+- (UIDeviceFamily)deviceFamily {
+    return [self msdk_deviceFamily];
+}
+
+- (UIDeviceFamily)msdk_deviceFamily {
+    NSString *platform = [self msdk_platform];
     if ([platform hasPrefix:@"iPhone"]) return UIDeviceFamilyiPhone;
     if ([platform hasPrefix:@"iPod"]) return UIDeviceFamilyiPod;
     if ([platform hasPrefix:@"iPad"]) return UIDeviceFamilyiPad;
@@ -548,8 +579,7 @@
 // Return the local MAC addy
 // Courtesy of FreeBSD hackers email list
 // Accidentally munged during previous update. Fixed thanks to mlamb.
-- (NSString *) macaddress
-{
+- (NSString *)macaddress {
     int                 mib[6];
     size_t              len;
     char                *buf;
@@ -599,6 +629,10 @@
 }
 
 - (UIInterfaceOrientation)interfaceOrientation {
+    return [self msdk_interfaceOrientation];
+}
+
+- (UIInterfaceOrientation)msdk_interfaceOrientation {
     UIDeviceOrientation deviceOrientation = UIDevice.currentDevice.orientation;
     UIInterfaceOrientation orientation = (UIInterfaceOrientation)deviceOrientation;
     if (!UIDeviceOrientationIsValidInterfaceOrientation(deviceOrientation)) {
@@ -608,14 +642,26 @@
 }
 
 + (BOOL)currentDeviceIsIPad {
+    return [self msdk_currentDeviceIsIPad];
+}
+
++ (BOOL)msdk_currentDeviceIsIPad {
     return (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad);
 }
 
 + (BOOL)currentDeviceIsIPhone {
+    return [self msdk_currentDeviceIsIPhone];
+}
+
++ (BOOL)msdk_currentDeviceIsIPhone {
     return (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPhone);
 }
 
 - (BOOL)isSimulator {
+    return [self msdk_isSimulator];
+}
+
+- (BOOL)msdk_isSimulator {
     #if TARGET_OS_SIMULATOR
     return YES;
     #else
@@ -624,15 +670,15 @@
 }
 
 - (BOOL)hasIphone6ScreenSize {
-   return  CGRectGetHeight([[UIScreen mainScreen] portraitScreenBounds]) == 667.0f && CGRectGetWidth([[UIScreen mainScreen] portraitScreenBounds]) == 375.0f;
+   return  CGRectGetHeight([[UIScreen mainScreen] msdk_portraitScreenBounds]) == 667.0f && CGRectGetWidth([[UIScreen mainScreen] msdk_portraitScreenBounds]) == 375.0f;
 }
 
 - (BOOL)hasIphone6PlusScreenSize {
-    return  CGRectGetHeight([[UIScreen mainScreen] portraitScreenBounds]) == 736.0f && CGRectGetWidth([[UIScreen mainScreen] portraitScreenBounds]) == 414.0f;
+    return  CGRectGetHeight([[UIScreen mainScreen] msdk_portraitScreenBounds]) == 736.0f && CGRectGetWidth([[UIScreen mainScreen] msdk_portraitScreenBounds]) == 414.0f;
 }
 
 - (BOOL)hasIphoneXScreenSize {
-    return  CGRectGetHeight([[UIScreen mainScreen] portraitScreenBounds]) == 812.0f && CGRectGetWidth([[UIScreen mainScreen] portraitScreenBounds]) == 375.0f;
+    return  CGRectGetHeight([[UIScreen mainScreen] msdk_portraitScreenBounds]) == 812.0f && CGRectGetWidth([[UIScreen mainScreen] msdk_portraitScreenBounds]) == 375.0f;
 }
 
 #pragma mark - 

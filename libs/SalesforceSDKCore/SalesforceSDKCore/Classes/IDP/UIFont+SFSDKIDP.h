@@ -29,6 +29,6 @@
 #import <UIKit/UIKit.h>
 
 @interface UIFont (SFSDKIDP)
-+(UIFont *)textRegular:(CGFloat)size;
-+(UIFont *)textBold:(CGFloat)size;
++(UIFont *)msdk_textRegular:(CGFloat)size;
++(UIFont *)msdk_textBold:(CGFloat)size;
 @end

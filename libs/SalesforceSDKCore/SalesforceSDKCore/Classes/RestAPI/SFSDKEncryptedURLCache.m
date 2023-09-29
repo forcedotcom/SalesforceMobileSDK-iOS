@@ -121,7 +121,7 @@ static NSString * const kURLCacheEncryptionKeyLabel = @"com.salesforce.URLCache.
 }
 
 + (NSString*)computeHash:(nonnull NSURLRequest *)request {
-    return [[[SFSDKEncryptedURLCache urlWithoutSubdomain:request.URL] dataUsingEncoding:NSUTF8StringEncoding] sha256];
+    return [[[SFSDKEncryptedURLCache urlWithoutSubdomain:request.URL] dataUsingEncoding:NSUTF8StringEncoding] msdk_sha256];
 }
 
 + (NSString *)urlWithoutSubdomain:(nonnull NSURL*)url {

@@ -31,6 +31,11 @@ NSString * const kSFRedactedQuerystringValue = @"[redacted]";
 
 - (NSString *)redactedAbsoluteString:(NSArray *)queryStringParamsToRedact
 {
+    return [self msdk_redactedAbsoluteString:queryStringParamsToRedact];
+}
+
+- (NSString *)msdk_redactedAbsoluteString:(NSArray *)queryStringParamsToRedact
+{
     if (queryStringParamsToRedact == nil || [queryStringParamsToRedact count] == 0 || [self query] == nil || [[self query] length] == 0)
         return [self absoluteString];
     

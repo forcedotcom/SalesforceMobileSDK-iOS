@@ -36,7 +36,7 @@
 {
     NSString *inUrlString = @"https://www.myserver.com/path.html";
     NSURL *url = [NSURL URLWithString:inUrlString];
-    NSString *outUrlString = [url redactedAbsoluteString:nil];
+    NSString *outUrlString = [url msdk_redactedAbsoluteString:nil];
     XCTAssertTrue([inUrlString isEqualToString:outUrlString],
                    @"'%@' and '%@' should be the same, with no querystring.",
                    inUrlString,
@@ -47,7 +47,7 @@
 {
     NSString *inUrlString = @"https://www.myserver.com/path?param1=val1&param2=val2";
     NSURL *url = [NSURL URLWithString:inUrlString];
-    NSString *outUrlString = [url redactedAbsoluteString:nil];
+    NSString *outUrlString = [url msdk_redactedAbsoluteString:nil];
     XCTAssertTrue([inUrlString isEqualToString:outUrlString],
                    @"'%@' and '%@' should be the same, with no arguments.",
                    inUrlString,
@@ -59,7 +59,7 @@
     NSString *inUrlString = @"https://www.myserver.com/path?param1=val1&param2=val2";
     NSURL *url = [NSURL URLWithString:inUrlString];
     NSArray *redactParams = @[@"param3", @"param4"];
-    NSString *outUrlString = [url redactedAbsoluteString:redactParams];
+    NSString *outUrlString = [url msdk_redactedAbsoluteString:redactParams];
     XCTAssertTrue([inUrlString isEqualToString:outUrlString],
                  @"'%@' and '%@' should be the same, with no matching arguments.",
                  inUrlString,
@@ -73,7 +73,7 @@
     NSArray *redactParams = @[@"param1"];
     NSString *expectedOutUrlString = [NSString stringWithFormat:@"https://www.myserver.com/path?param1=%@&param2=val2",
                                       kSFRedactedQuerystringValue];
-    NSString *actualOutUrlString = [url redactedAbsoluteString:redactParams];
+    NSString *actualOutUrlString = [url msdk_redactedAbsoluteString:redactParams];
     XCTAssertTrue([expectedOutUrlString isEqualToString:actualOutUrlString],
                  @"'%@' should turn into '%@'.  Got '%@' instead.",
                  inUrlString,
@@ -89,7 +89,7 @@
     NSString *expectedOutUrlString = [NSString stringWithFormat:@"https://www.myserver.com/path?param1=%@&param2=%@",
                                       kSFRedactedQuerystringValue,
                                       kSFRedactedQuerystringValue];
-    NSString *actualOutUrlString = [url redactedAbsoluteString:redactParams];
+    NSString *actualOutUrlString = [url msdk_redactedAbsoluteString:redactParams];
     XCTAssertTrue([expectedOutUrlString isEqualToString:actualOutUrlString],
                  @"'%@' should turn into '%@'.  Got '%@' instead.",
                  inUrlString,

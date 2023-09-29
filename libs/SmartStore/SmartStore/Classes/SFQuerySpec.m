@@ -158,17 +158,17 @@ NSString * const kQuerySpecParamSmartSql = @"smartSql";
 
 - (id)initWithDictionary:(NSDictionary*)querySpec withSoupName:(NSString*) targetSoupName {
     
-    NSString* rawQueryType = [querySpec nonNullObjectForKey:kQuerySpecParamQueryType];
-    NSString* path = [querySpec nonNullObjectForKey:kQuerySpecParamIndexPath];
-    NSArray* selectPaths = [querySpec nonNullObjectForKey:kQuerySpecParamSelectPaths];
-    NSString* beginKey = [querySpec nonNullObjectForKey:kQuerySpecParamBeginKey];
-    NSString* endKey = [querySpec nonNullObjectForKey:kQuerySpecParamEndKey];
-    NSString* matchKey = [querySpec nonNullObjectForKey:kQuerySpecParamMatchKey];
-    NSString* likeKey = [querySpec nonNullObjectForKey:kQuerySpecParamLikeKey];
-    NSString* smartSql = [querySpec nonNullObjectForKey:kQuerySpecParamSmartSql];
-    NSString* orderPath = [querySpec nonNullObjectForKey:kQuerySpecParamOrderPath];
-    NSString* rawOrder =  [querySpec nonNullObjectForKey:kQuerySpecParamOrder];
-    NSNumber* rawPageSize = [querySpec nonNullObjectForKey:kQuerySpecParamPageSize];
+    NSString* rawQueryType = [querySpec msdk_nonNullObjectForKey:kQuerySpecParamQueryType];
+    NSString* path = [querySpec msdk_nonNullObjectForKey:kQuerySpecParamIndexPath];
+    NSArray* selectPaths = [querySpec msdk_nonNullObjectForKey:kQuerySpecParamSelectPaths];
+    NSString* beginKey = [querySpec msdk_nonNullObjectForKey:kQuerySpecParamBeginKey];
+    NSString* endKey = [querySpec msdk_nonNullObjectForKey:kQuerySpecParamEndKey];
+    NSString* matchKey = [querySpec msdk_nonNullObjectForKey:kQuerySpecParamMatchKey];
+    NSString* likeKey = [querySpec msdk_nonNullObjectForKey:kQuerySpecParamLikeKey];
+    NSString* smartSql = [querySpec msdk_nonNullObjectForKey:kQuerySpecParamSmartSql];
+    NSString* orderPath = [querySpec msdk_nonNullObjectForKey:kQuerySpecParamOrderPath];
+    NSString* rawOrder =  [querySpec msdk_nonNullObjectForKey:kQuerySpecParamOrder];
+    NSNumber* rawPageSize = [querySpec msdk_nonNullObjectForKey:kQuerySpecParamPageSize];
 
     SFSoupQuerySortOrder order = [SFQuerySpec sortOrderFromString:rawOrder];
     NSUInteger pageSize = ([rawPageSize integerValue] > 0 ? [rawPageSize integerValue] : kQuerySpecDefaultPageSize);

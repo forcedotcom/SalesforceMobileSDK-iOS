@@ -26,9 +26,12 @@
 //  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #import <Foundation/Foundation.h>
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
 @interface NSURLResponse (SFAdditions)
 
-- (nonnull NSDictionary *)asDictionary;
+- (nonnull NSDictionary *)msdk_asDictionary;
+
+- (nonnull NSDictionary *)asDictionary SFSDK_DEPRECATED(11.1, 12.0, "Use msdk_asDictionary instead");
 
 @end

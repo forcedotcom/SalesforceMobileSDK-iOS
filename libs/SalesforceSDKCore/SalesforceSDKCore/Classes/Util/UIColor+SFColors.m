@@ -36,6 +36,10 @@
 }
 
 + (UIColor *)colorFromHexValue:(NSString *)hexString {
+    return [UIColor msdk_colorFromHexValue:hexString];
+}
+
++ (UIColor *)msdk_colorFromHexValue:(NSString *)hexString {
     UIColor *color = nil;
     hexString = [[self class] msdk_sixDigitHexFromString:hexString];
     if ([hexString length] > 0) {
@@ -110,6 +114,10 @@
 }
 
 + (UIColor *)colorForLightStyle:(UIColor *)lightStyleColor darkStyle:(UIColor *)darkStyleColor {
+    return [UIColor msdk_colorForLightStyle:lightStyleColor darkStyle:darkStyleColor];
+}
+
++ (UIColor *)msdk_colorForLightStyle:(UIColor *)lightStyleColor darkStyle:(UIColor *)darkStyleColor {
     return [[UIColor alloc] initWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
                 if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
                     return darkStyleColor;
@@ -120,6 +128,10 @@
 }
 
 - (NSString *)hexStringFromColor {
+    return [self msdk_hexStringFromColor];
+}
+
+- (NSString *)msdk_hexStringFromColor {
     NSAssert (self.canProvideRGBComponents, @"Must be a RGB color to use hexStringFromColor");
     
     CGFloat r, g, b;

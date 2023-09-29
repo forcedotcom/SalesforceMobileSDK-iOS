@@ -28,7 +28,12 @@
 
 @implementation NSDictionary (SFAdditions)
 
-- (nullable id) objectAtPath:(NSString *) path {
+
+- (nullable id) objectAtPath:(NSString *)path {
+    return [self msdk_objectAtPath:path];
+}
+
+- (nullable id) msdk_objectAtPath:(NSString *)path {
     if (path == nil) {
         return nil;
     }
@@ -36,7 +41,7 @@
     id obj = self;
     NSArray *elements = [path componentsSeparatedByString: @"/"];
     for (NSString *element in elements) {
-        obj = [obj nonNullObjectForKey:element];
+        obj = [obj msdk_nonNullObjectForKey:element];
         if (obj == nil) {
             return nil;
         }
@@ -44,13 +49,17 @@
     
     if (nil != obj) {
         if ([obj isKindOfClass:[NSString class]]) {
-            obj = [NSString unescapeXMLCharacter:obj];
+            obj = [NSString msdk_unescapeXMLCharacter:obj];
         }
     }
     return obj;
 }
 
 - (nullable id)nonNullObjectForKey:(id)key {
+    return [self msdk_nonNullObjectForKey:key];
+}
+
+- (nullable id)msdk_nonNullObjectForKey:(id)key {
     id result = [self objectForKey:key];
     if (result == [NSNull null]) {
         return nil;
@@ -62,7 +71,11 @@
     return result;
 }
 
-- (nullable NSString*)jsonString {
+- (nullable NSString *)jsonString {
+    return [self msdk_jsonString];
+}
+
+- (nullable NSString*)msdk_jsonString {
     NSError *error = nil;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:self
                                                        options:0

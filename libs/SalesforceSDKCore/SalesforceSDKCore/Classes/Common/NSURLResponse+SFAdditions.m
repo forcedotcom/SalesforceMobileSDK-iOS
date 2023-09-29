@@ -30,6 +30,10 @@
 @implementation NSURLResponse (SFAdditions)
 
 - (NSDictionary *)asDictionary {
+    return [self msdk_asDictionary];
+}
+
+- (NSDictionary *)msdk_asDictionary {
     NSMutableDictionary *responseDictionary = [NSMutableDictionary new];
     responseDictionary[@"expectedContentLength"] = [NSNumber numberWithLongLong:self.expectedContentLength];
     responseDictionary[@"MIMEType"] = self.MIMEType;
