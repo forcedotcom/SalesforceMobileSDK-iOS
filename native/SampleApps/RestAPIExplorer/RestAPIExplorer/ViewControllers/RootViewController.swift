@@ -276,7 +276,7 @@ class RootViewController: UIViewController {
         label.font = UIFont.appRegularFont(12)
         label.lineBreakMode = .byTruncatingTail
         label.numberOfLines = 1
-        label.textColor = UIColor.init(forLightStyle: UIColor.appLabel, darkStyle: UIColor.white)
+        label.textColor = UIColor.sfsdk_color(forLightStyle: UIColor.appLabel, darkStyle: UIColor.white)
         
         let field = UITextView()
         field.translatesAutoresizingMaskIntoConstraints = false
