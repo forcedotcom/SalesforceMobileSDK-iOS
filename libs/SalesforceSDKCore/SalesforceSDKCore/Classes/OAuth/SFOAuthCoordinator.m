@@ -508,6 +508,15 @@
 
 - (void)loadWebViewWithUrlString:(NSString *)urlString cookie:(BOOL)enableCookie {
     NSURL *urlToLoad = [NSURL URLWithString:urlString];
+    if (!urlToLoad) {
+        [SFSDKCoreLogger d:[self class] format:@"%@ Invalid URL, unable to load web view for '%@' auth flow", NSStringFromSelector(_cmd), self.authInfo.authTypeDescription];
+        NSError *error = [[NSError alloc] initWithDomain:kSFOAuthErrorDomain
+                                                    code:kSFOAuthErrorInvalidURL
+                                                userInfo:nil];
+        [self notifyDelegateOfFailure:error authInfo:self.authInfo];
+        return;
+    }
+    
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:urlToLoad];
     [request setHTTPShouldHandleCookies:enableCookie];
     [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData]; // don't use cache
