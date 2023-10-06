@@ -48,6 +48,7 @@
 		4FF4DC671CF51D9300385C2C /* SFQuerySpecTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF4DC661CF51D9300385C2C /* SFQuerySpecTests.m */; };
 		4FFEE6351BFE98E100B7AA8A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CEAAAE61195911E600CBBFE9 /* InfoPlist.strings */; };
 		693F9BD3284162F500D93B0C /* SQLCipher.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69B2B322261D2C9B00AB86C2 /* SQLCipher.xcframework */; };
+		696E912D2AD0977600205884 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 696E91232AD0975B00205884 /* PrivacyInfo.xcprivacy */; };
 		828917841C52B705002F9981 /* FMDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = 8289177A1C52B705002F9981 /* FMDatabase.h */; };
 		828917851C52B705002F9981 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 8289177B1C52B705002F9981 /* FMDatabase.m */; };
 		828917861C52B705002F9981 /* FMDatabaseAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 8289177C1C52B705002F9981 /* FMDatabaseAdditions.h */; };
@@ -279,6 +280,7 @@
 		4FAB7D801F8D8C3C00226249 /* SFSDKStoreConfigTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKStoreConfigTests.m; sourceTree = "<group>"; };
 		4FF4DC661CF51D9300385C2C /* SFQuerySpecTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFQuerySpecTests.m; sourceTree = "<group>"; };
 		4FFEE6341BFE98B600B7AA8A /* SmartStoreTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "SmartStoreTests-Info.plist"; path = "SmartStoreTests/SmartStoreTests-Info.plist"; sourceTree = SOURCE_ROOT; };
+		696E91232AD0975B00205884 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		69B2B322261D2C9B00AB86C2 /* SQLCipher.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = SQLCipher.xcframework; path = ../../external/ThirdPartyDependencies/sqlcipher/SQLCipher.xcframework; sourceTree = "<group>"; };
 		8289177A1C52B705002F9981 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabase.h; path = ../../../../external/fmdb/src/fmdb/FMDatabase.h; sourceTree = "<group>"; };
 		8289177B1C52B705002F9981 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMDatabase.m; path = ../../../../external/fmdb/src/fmdb/FMDatabase.m; sourceTree = "<group>"; };
@@ -535,6 +537,7 @@
 		CEAAAE4B195911E600CBBFE9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				696E91232AD0975B00205884 /* PrivacyInfo.xcprivacy */,
 				82D0AB331C497FD90081F833 /* Info.plist */,
 				4F230BC31BFEAE430030EEFA /* SmartStore-Prefix.pch */,
 			);
@@ -675,6 +678,7 @@
 				CE4CE2B61C0E4581009F6029 /* Headers */,
 				CE4CE2B41C0E4581009F6029 /* Sources */,
 				CE4CE2B51C0E4581009F6029 /* Frameworks */,
+				696E912C2AD0977000205884 /* Resources */,
 				CE4CE4F71C0E6DB9009F6029 /* ShellScript */,
 				CE4CE4FE1C0E6E4D009F6029 /* ShellScript */,
 			);
@@ -847,6 +851,14 @@
 				4F06AF181C499EB600F70798 /* Assets.xcassets in Resources */,
 				4FAB7D791F8D888400226249 /* userstore.json in Resources */,
 				4F06AF161C499EB600F70798 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		696E912C2AD0977000205884 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				696E912D2AD0977600205884 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
