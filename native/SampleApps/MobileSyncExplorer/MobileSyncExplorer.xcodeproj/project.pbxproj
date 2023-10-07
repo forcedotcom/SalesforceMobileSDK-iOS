@@ -12,6 +12,7 @@
 		4FCA4A9D1FBE61C300F081B3 /* usersyncs.json in Resources */ = {isa = PBXBuildFile; fileRef = 4FCA4A9C1FBE61C300F081B3 /* usersyncs.json */; };
 		4FEAC2451B97C65C00B08512 /* ActionsPopupController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FEAC2421B97C65C00B08512 /* ActionsPopupController.m */; };
 		6931EAD92490097D00417362 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6931EAD82490097D00417362 /* CoreServices.framework */; };
+		696A8B6A2AD0F7B300A85A1D /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 696A8B692AD0F7B300A85A1D /* PrivacyInfo.xcprivacy */; };
 		820C8B0E19E6054E00E9BE5C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C8B0D19E6054E00E9BE5C /* AppDelegate.m */; };
 		820C8B1119E6059400E9BE5C /* InitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C8B1019E6059400E9BE5C /* InitialViewController.m */; };
 		820C8B1F19E6081C00E9BE5C /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C8B1E19E6081C00E9BE5C /* ImageIO.framework */; };
@@ -266,6 +267,7 @@
 		4FEAC2421B97C65C00B08512 /* ActionsPopupController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionsPopupController.m; sourceTree = "<group>"; };
 		4FEAC2431B97C65C00B08512 /* ActionsPopupController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionsPopupController.h; sourceTree = "<group>"; };
 		6931EAD82490097D00417362 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
+		696A8B692AD0F7B300A85A1D /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		820C8B0C19E6054E00E9BE5C /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		820C8B0D19E6054E00E9BE5C /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		820C8B0F19E6059400E9BE5C /* InitialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InitialViewController.h; sourceTree = "<group>"; };
@@ -423,7 +425,6 @@
 		827C631A19E6018C00027484 /* MobileSyncExplorer */ = {
 			isa = PBXGroup;
 			children = (
-				82A171DD1D8377BB00688320 /* MobileSyncExplorer.entitlements */,
 				820C8B0B19E6054E00E9BE5C /* Classes */,
 				820C8B3319E639D500E9BE5C /* Resources */,
 				827C631B19E6018C00027484 /* Supporting Files */,
@@ -434,10 +435,12 @@
 		827C631B19E6018C00027484 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				82A171DD1D8377BB00688320 /* MobileSyncExplorer.entitlements */,
 				827C631C19E6018C00027484 /* MobileSyncExplorer-Info.plist */,
 				827C631D19E6018C00027484 /* InfoPlist.strings */,
 				827C632019E6018C00027484 /* main.m */,
 				827C632219E6018C00027484 /* MobileSyncExplorer-Prefix.pch */,
+				696A8B692AD0F7B300A85A1D /* PrivacyInfo.xcprivacy */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -769,6 +772,7 @@
 				8284055A19EAFD9C0079AB60 /* Images.xcassets in Resources */,
 				4FCA4A9D1FBE61C300F081B3 /* usersyncs.json in Resources */,
 				827C631F19E6018C00027484 /* InfoPlist.strings in Resources */,
+				696A8B6A2AD0F7B300A85A1D /* PrivacyInfo.xcprivacy in Resources */,
 				B7168F2D1FACC1F100A48DB5 /* LaunchScreen.storyboard in Resources */,
 				B7DC2CFA20FD491300B62708 /* bootconfig.plist in Resources */,
 				4F941E951F8C43370035EB03 /* userstore.json in Resources */,

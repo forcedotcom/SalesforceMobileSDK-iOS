@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6965555E2589961000A1AB82 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6965555D2589961000A1AB82 /* SceneDelegate.swift */; };
+		696A8B5A2AD0F75900A85A1D /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 696A8B592AD0F75900A85A1D /* PrivacyInfo.xcprivacy */; };
 		A3D23079219749C3009F433D /* SalesforceSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7D641C8218F429D006DF5F0 /* SalesforceSDKCommon.framework */; };
 		A3D2307A219749C3009F433D /* SalesforceSDKCommon.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B7D641C8218F429D006DF5F0 /* SalesforceSDKCommon.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B79F072320EA936D00BC7D6F /* MobileSync.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B79F06E520EA931200BC7D6F /* MobileSync.framework */; };
@@ -203,6 +204,7 @@
 
 /* Begin PBXFileReference section */
 		6965555D2589961000A1AB82 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		696A8B592AD0F75900A85A1D /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		69B2B3D2261D48D100AB86C2 /* RestAPIExplorer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RestAPIExplorer.entitlements; sourceTree = "<group>"; };
 		B79F06DC20EA931200BC7D6F /* MobileSync.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MobileSync.xcodeproj; path = ../../../libs/MobileSync/MobileSync.xcodeproj; sourceTree = "<group>"; };
 		B79F06EC20EA931900BC7D6F /* SalesforceSDKCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceSDKCore.xcodeproj; path = ../../../libs/SalesforceSDKCore/SalesforceSDKCore.xcodeproj; sourceTree = "<group>"; };
@@ -242,6 +244,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		696A8B4A2AD0F72D00A85A1D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				69B2B3D2261D48D100AB86C2 /* RestAPIExplorer.entitlements */,
+				B7C5120920C084B100B39DAA /* bootconfig.plist */,
+				B7CEA6FE20B71060007D0564 /* Info.plist */,
+				696A8B592AD0F75900A85A1D /* PrivacyInfo.xcprivacy */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		B79F06DD20EA931200BC7D6F /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -302,15 +315,13 @@
 		B7CEA6F120B7105E007D0564 /* RestAPIExplorer */ = {
 			isa = PBXGroup;
 			children = (
-				69B2B3D2261D48D100AB86C2 /* RestAPIExplorer.entitlements */,
 				B7CEA71220B71202007D0564 /* Helpers */,
 				B7CEA71020B71202007D0564 /* Model */,
 				B7CEA70A20B71202007D0564 /* ViewControllers */,
 				B7CEA70820B71202007D0564 /* Views */,
 				B7CEA70520B710F6007D0564 /* Resources */,
+				696A8B4A2AD0F72D00A85A1D /* Supporting Files */,
 				B7CEA6F220B7105E007D0564 /* AppDelegate.swift */,
-				B7CEA6FE20B71060007D0564 /* Info.plist */,
-				B7C5120920C084B100B39DAA /* bootconfig.plist */,
 				6965555D2589961000A1AB82 /* SceneDelegate.swift */,
 			);
 			path = RestAPIExplorer;
@@ -582,6 +593,7 @@
 			files = (
 				B7C5120A20C084B100B39DAA /* bootconfig.plist in Resources */,
 				B7CEA71F20B712B1007D0564 /* RestAPI.xcassets in Resources */,
+				696A8B5A2AD0F75900A85A1D /* PrivacyInfo.xcprivacy in Resources */,
 				B7CEA70720B71139007D0564 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
