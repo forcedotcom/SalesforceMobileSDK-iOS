@@ -140,13 +140,18 @@ class RootViewController: UIViewController {
                                                name: NSNotification.Name(rawValue: kSFScreenLockFlowWillBegin),
                                                object: nil)
         
-        self.navigationController?.navigationBar.barTintColor = UIColor.appDarkBlue
-        self.navigationController?.navigationBar.isTranslucent = false
-        
         guard let font = UIFont.appRegularFont(20) else {
             return
         }
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: font]
+        let navBarAppearance = UINavigationBarAppearance()
+        navBarAppearance.backgroundColor = UIColor.appDarkBlue
+        navBarAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: font]
+
+        self.navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance;
+        self.navigationController?.navigationBar.compactAppearance = navBarAppearance;
+        self.navigationController?.navigationBar.standardAppearance = navBarAppearance;
+        self.navigationController?.navigationBar.compactScrollEdgeAppearance = navBarAppearance;
+     
         self.title = "RestAPI Explorer"
         
         guard let leftImage = UIImage(named: "list")?.withRenderingMode(.alwaysOriginal), let _ = UIImage(named: "search")?.withRenderingMode(.alwaysOriginal) else {
