@@ -162,22 +162,22 @@ typedef void (^SFSyncUpRecordModDateBlock)(SFRecordModDate *remoteModDate);
                     result:(NSMutableDictionary*)result
               resultBlock:(SFSyncUpRecordsNewerThanServerBlock)resultBlock
 {
-    NSDictionary* record = records[i];
-    NSNumber* storeId = record[SOUP_ENTRY_ID];
-    __weak typeof(self) weakSelf = self;
-    [self isNewerThanServer:syncManager record:record resultBlock:^(BOOL isNewerThanServer) {
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        result[storeId] = [NSNumber numberWithBool:isNewerThanServer];
-        if (i < records.count-1) {
+    if (i < records.count) {
+        NSDictionary* record = records[i];
+        NSNumber* storeId = record[SOUP_ENTRY_ID];
+        __weak typeof(self) weakSelf = self;
+        [self isNewerThanServer:syncManager record:record resultBlock:^(BOOL isNewerThanServer) {
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            result[storeId] = [NSNumber numberWithBool:isNewerThanServer];
             [strongSelf isNewerThanServer:syncManager
                                   records:records
                                     index:i+1
                                    result:result
                               resultBlock:resultBlock];
-        } else {
-            resultBlock(result);
-        }
-    }];
+        }];
+    } else {
+        resultBlock(result);
+    }
 }
 
 
