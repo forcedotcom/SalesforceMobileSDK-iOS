@@ -962,7 +962,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     // Make sure access token is not expired
     __weak typeof (self) weakSelf = self;
     SFOAuthCredentials *spAppCredentials = [self spAppCredentials:spAppOptions];
-    SFRestRequest *request = [[SFRestAPI sharedInstanceWithUser:user] requestForLimits:nil];
+    SFRestRequest *request = [[SFRestAPI sharedInstanceWithUser:user] cheapRequest:nil];
     [[SFRestAPI sharedInstanceWithUser:user] sendRequest:request failureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
         failureBlock(error);
     } successBlock:^(id response, NSURLResponse *rawResponse) {

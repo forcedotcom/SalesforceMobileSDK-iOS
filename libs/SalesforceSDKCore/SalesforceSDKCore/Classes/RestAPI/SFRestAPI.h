@@ -154,6 +154,11 @@ NS_SWIFT_NAME(RestClient)
 - (SFRestRequest *)requestForLimits:(nullable NSString *)apiVersion;
 
 /**
+ * Returns an `SFRestRequest` object for a cheap request to re-hydrate the access token
+ */
+- (SFRestRequest *)cheapRequest:(nullable NSString *)apiVersion;
+
+/**
  * Returns an `SFRestRequest` object that lists available resources for the
  * client's API version, including resource name and URI.
  * @param apiVersion API version.

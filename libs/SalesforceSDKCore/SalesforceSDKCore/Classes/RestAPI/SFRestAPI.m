@@ -499,6 +499,11 @@ static dispatch_once_t pred;
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:nil];
 }
 
+- (SFRestRequest *)cheapRequest:(NSString *)apiVersion {
+    return [self requestForResources:apiVersion];
+}
+
+
 - (SFRestRequest *)requestForResources:(NSString *)apiVersion {
     NSString *path = [NSString stringWithFormat:@"/%@", [self computeAPIVersion:apiVersion]];
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:nil];
