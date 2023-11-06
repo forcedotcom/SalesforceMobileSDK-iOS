@@ -29,9 +29,10 @@
 
 import UIKit
 import SalesforceSDKCore
-
 import MobileCoreServices
+import UniformTypeIdentifiers
 
+@UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
@@ -144,6 +145,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
         let configJSON = SFJsonUtils.jsonRepresentation(config)
         let board = UIPasteboard.general
-        board.setValue(configJSON, forPasteboardType: kUTTypeUTF8PlainText as String)
+        board.setValue(configJSON, forPasteboardType: UTType.utf8PlainText.identifier)
     }
 }

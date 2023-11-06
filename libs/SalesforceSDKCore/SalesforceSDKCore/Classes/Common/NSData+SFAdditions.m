@@ -244,6 +244,10 @@ void bufferDecode64(BYTE *destData, size_t *destLen, const char *srcData, size_t
 @implementation NSData (SFBase64)
 
 - (NSData *)randomDataOfLength:(size_t)length {
+    return [self sfsdk_randomDataOfLength:length];
+}
+
+- (NSData *)sfsdk_randomDataOfLength:(size_t)length {
     NSMutableData *data = [NSMutableData dataWithData:self];
     int result = SecRandomCopyBytes(kSecRandomDefault, length, [data mutableBytes]);
     if (result != 0) {
@@ -384,7 +388,11 @@ void bufferDecode64(BYTE *destData, size_t *destLen, const char *srcData, size_t
 }
 
 
--(NSString *)sha256 {
+- (NSString *)sha256 {
+    return [self sfsdk_sha256];
+}
+
+- (NSString *)sfsdk_sha256 {
     unsigned char digest[CC_SHA256_DIGEST_LENGTH];
     digest[0] = 0;
     CC_SHA256([self bytes], (CC_LONG)[self length], digest);
@@ -397,7 +405,12 @@ void bufferDecode64(BYTE *destData, size_t *destLen, const char *srcData, size_t
 @end
 
 @implementation NSData (SFzlib)
+
 - (NSData *) gzipInflate {
+    return [self sfsdk_gzipInflate];
+}
+
+- (NSData *) sfsdk_gzipInflate {
     if ([self length] == 0) {
         return self;
     }
@@ -439,7 +452,11 @@ void bufferDecode64(BYTE *destData, size_t *destLen, const char *srcData, size_t
     else return nil;
 }
 
--(NSData *)gzipDeflate {
+- (NSData *)gzipDeflate {
+    return [self sfsdk_gzipDeflate];
+}
+
+- (NSData *)sfsdk_gzipDeflate {
 	z_stream stream;
 	stream.zalloc = Z_NULL;
 	stream.zfree = Z_NULL;
@@ -485,7 +502,11 @@ void bufferDecode64(BYTE *destData, size_t *destLen, const char *srcData, size_t
 
 @implementation NSData (SFHexSupport)
 
-- (NSString*)newHexStringFromBytes {
+- (NSString *)newHexStringFromBytes {
+    return [self sfsdk_newHexStringFromBytes];
+}
+
+- (NSString *)sfsdk_newHexStringFromBytes {
 	NSUInteger dataLen = [self length];
 	NSMutableString *sb = [[NSMutableString alloc] initWithCapacity:(2 * dataLen )];
 	const unsigned char *rawBytes = [self bytes];	

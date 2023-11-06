@@ -299,7 +299,7 @@ public class KeyGenerator: NSObject {
             String(kSecAttrApplicationTag): privateTag
         ]
         
-        if SecureEnclave.isAvailable && !UIDevice.current.isSimulator() {
+        if SecureEnclave.isAvailable && !UIDevice.current.sfsdk_isSimulator() {
             if let privateAccess = SecAccessControlCreateWithFlags(nil, kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly, [.privateKeyUsage], nil) {
                 privateKeyAttributes[String(kSecAttrAccessControl)] = privateAccess
             }
@@ -318,7 +318,7 @@ public class KeyGenerator: NSObject {
             String(kSecAttrKeySizeInBits): 256
         ]
         
-        if SecureEnclave.isAvailable && !UIDevice.current.isSimulator() {
+        if SecureEnclave.isAvailable && !UIDevice.current.sfsdk_isSimulator() {
             keyPairAttributes[String(kSecAttrTokenID)] = kSecAttrTokenIDSecureEnclave;
         }
         keyPairAttributes[String(kSecPrivateKeyAttrs)] = privateKeyAttributes;

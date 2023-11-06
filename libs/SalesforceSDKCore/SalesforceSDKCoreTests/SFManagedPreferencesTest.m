@@ -74,6 +74,33 @@ static NSException *authException = nil;
     XCTAssertTrue([SFManagedPreferences sharedPreferences].idpAppURLScheme, @"SFManagedPreferences idpAppURLScheme should have been set");
     
     XCTAssertEqualObjects([SFManagedPreferences sharedPreferences].idpAppURLScheme,[SFUserAccountManager sharedInstance].idpAppURIScheme, @"SFUserAccountManager should have been setup to use SFManagedPreferences connectedAppId");
+}
+
+- (void)testManagedPreferenceLoginHost {
+    // Empty array
+    NSArray *emptyArray = @[];
+    NSDictionary *preferences = @{@"AppServiceHosts":emptyArray,
+                                  @"AppServiceHostLabels":emptyArray};
+    [[NSUserDefaults msdkUserDefaults] setObject:preferences forKey:@"com.apple.configuration.managed"];
+    XCTAssertNil([[SFManagedPreferences sharedPreferences] loginHosts]);
+    XCTAssertNil([[SFManagedPreferences sharedPreferences] loginHostLabels]);
+
+    // Populated array
+    NSArray *hostArray = @[@"host1", @"host2"];
+    NSArray *labelArray = @[@"label1", @"label2"];
+    preferences = @{@"AppServiceHosts":hostArray,
+                    @"AppServiceHostLabels":labelArray};
+    [[NSUserDefaults msdkUserDefaults] setObject:preferences forKey:@"com.apple.configuration.managed"];
+    XCTAssertEqualObjects([[SFManagedPreferences sharedPreferences] loginHosts], hostArray);
+    XCTAssertEqualObjects([[SFManagedPreferences sharedPreferences] loginHostLabels], labelArray);
     
+    // String
+    NSString *hostString = @"host1";
+    NSString *labelString = @"label1";
+    preferences = @{@"AppServiceHosts":hostString,
+                    @"AppServiceHostLabels":labelString};
+    [[NSUserDefaults msdkUserDefaults] setObject:preferences forKey:@"com.apple.configuration.managed"];
+    XCTAssertEqualObjects([[SFManagedPreferences sharedPreferences] loginHosts], @[hostString]);
+    XCTAssertEqualObjects([[SFManagedPreferences sharedPreferences] loginHostLabels], @[labelString]);
 }
 @end

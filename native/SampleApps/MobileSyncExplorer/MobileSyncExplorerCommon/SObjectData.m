@@ -83,7 +83,7 @@
 }
 
 - (id)nonNullFieldValue:(NSString *)fieldName {
-    return [self.soupDict nonNullObjectForKey:fieldName];
+    return [self.soupDict sfsdk_nonNullObjectForKey:fieldName];
 }
 
 - (NSString *)description {

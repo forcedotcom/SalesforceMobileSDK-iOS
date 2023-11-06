@@ -135,10 +135,11 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
                                            }];
     [authHandlerList addAuthErrorHandler:self.networkFailureAuthErrorHandler];
     
-    // Generic failure handler
+    // Host connection error handler
     self.hostConnectionErrorHandler = [[SFAuthErrorHandler alloc] initWithName:kSFHostConnectionErrorHandler
                                      authSessionBlock:^BOOL(NSError *error, SFSDKAuthSession *authSession, NSDictionary *options) {
-                                        if (error.userInfo[@"_kCFStreamErrorCodeKey"] && error.userInfo[@"_kCFStreamErrorDomainKey"] ) {
+                                        if ((error.userInfo[@"_kCFStreamErrorCodeKey"] && error.userInfo[@"_kCFStreamErrorDomainKey"]) ||
+                                            ([error.domain isEqualToString:kSFOAuthErrorDomain] && error.code == kSFOAuthErrorInvalidURL)) {
                                             if (self.hostConnectionErrorHandlerBlock) {
                                                 self.hostConnectionErrorHandlerBlock(error, authSession, options);
                                                  return YES;

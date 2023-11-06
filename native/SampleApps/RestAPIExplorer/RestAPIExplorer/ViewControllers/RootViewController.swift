@@ -61,7 +61,7 @@ struct ContentSection {
         self.titleLabel.translatesAutoresizingMaskIntoConstraints = false
         self.titleLabel.font = UIFont.appRegularFont(20)
         self.titleLabel.text = title
-        self.titleLabel.textColor = UIColor.init(forLightStyle: UIColor.appDarkBlue, darkStyle: UIColor.white)
+        self.titleLabel.textColor = UIColor.sfsdk_color(forLightStyle: .appDarkBlue, darkStyle: .white)
         self.container.addSubview(self.titleLabel)
         self.titleLabel.leftAnchor.constraint(equalTo: self.container.leftAnchor, constant: ContentSection.horizontalMargin).isActive = true
  
@@ -140,13 +140,18 @@ class RootViewController: UIViewController {
                                                name: NSNotification.Name(rawValue: kSFScreenLockFlowWillBegin),
                                                object: nil)
         
-        self.navigationController?.navigationBar.barTintColor = UIColor.appDarkBlue
-        self.navigationController?.navigationBar.isTranslucent = false
-        
         guard let font = UIFont.appRegularFont(20) else {
             return
         }
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: font]
+        let navBarAppearance = UINavigationBarAppearance()
+        navBarAppearance.backgroundColor = UIColor.appDarkBlue
+        navBarAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: font]
+
+        self.navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance;
+        self.navigationController?.navigationBar.compactAppearance = navBarAppearance;
+        self.navigationController?.navigationBar.standardAppearance = navBarAppearance;
+        self.navigationController?.navigationBar.compactScrollEdgeAppearance = navBarAppearance;
+     
         self.title = "RestAPI Explorer"
         
         guard let leftImage = UIImage(named: "list")?.withRenderingMode(.alwaysOriginal), let _ = UIImage(named: "search")?.withRenderingMode(.alwaysOriginal) else {
@@ -276,7 +281,7 @@ class RootViewController: UIViewController {
         label.font = UIFont.appRegularFont(12)
         label.lineBreakMode = .byTruncatingTail
         label.numberOfLines = 1
-        label.textColor = UIColor.init(forLightStyle: UIColor.appLabel, darkStyle: UIColor.white)
+        label.textColor = UIColor.sfsdk_color(forLightStyle: UIColor.appLabel, darkStyle: UIColor.white)
         
         let field = UITextView()
         field.translatesAutoresizingMaskIntoConstraints = false

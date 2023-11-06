@@ -54,10 +54,10 @@
                                      @[ @"a/b=c+d", @"a_b=c-d" ]
                                      ];
     
-    NSString *nilResult = [NSData replaceBase64CharsForBase64UrlString:nil];
+    NSString *nilResult = [NSData sfsdk_replaceBase64CharsForBase64UrlString:nil];
     XCTAssertNil(nilResult, @"nil in should give nil out");
     for (NSArray *beforeAfterPair in beforeAfterStrings) {
-        NSString *base64UrlReplace = [NSData replaceBase64CharsForBase64UrlString:beforeAfterPair[0]];
+        NSString *base64UrlReplace = [NSData sfsdk_replaceBase64CharsForBase64UrlString:beforeAfterPair[0]];
         XCTAssertEqualObjects(base64UrlReplace, beforeAfterPair[1], @"Strings don't match");
     }
 }
@@ -67,12 +67,12 @@
     NSMutableArray *entriesArray = [NSMutableArray array];
     for (NSUInteger i = 0; i < 100; i++) {
         NSData *randomData = [self randomDataOfRandomLength];
-        [entriesArray addObject:@[ randomData, [randomData msdkSha256Data] ]];
+        [entriesArray addObject:@[ randomData, [randomData sfsdk_sha256Data] ]];
     }
     
     for (NSUInteger i = 0; i < 100; i++) {
         NSData *inData = entriesArray[i][0];
-        NSData *sha256Data = [inData msdkSha256Data];
+        NSData *sha256Data = [inData sfsdk_sha256Data];
         XCTAssertTrue([sha256Data isEqualToData:entriesArray[i][1]], @"SHA256 value should be the same across generations");
     }
 }

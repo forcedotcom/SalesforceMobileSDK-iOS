@@ -44,31 +44,19 @@ extension UIColor {
     }
 
     class var appTextFieldBorder: UIColor {
-        if #available(iOS 13, *) {
-            return UIColor.separator
-        }
-       return UIColor(displayP3Red: 168.0/255.0, green: 183.0/255.0, blue: 199.0/255.0, alpha: 1.0)
+        return UIColor.separator
     }
     
     class var appViewBorder: UIColor {
-        if #available(iOS 13, *) {
-            return UIColor.separator
-        }
-        return UIColor(displayP3Red: 224.0/255.0, green: 229.0/255.0, blue: 238.0/255.0, alpha: 1.0)
+        return UIColor.separator
     }
 
     class var appButton: UIColor {
-        if #available(iOS 13, *) {
-            return UIColor.systemBlue
-        }
-        return UIColor(displayP3Red: 0.0/255.0, green: 112.0/255.0, blue: 210.0/255.0, alpha: 1.0)
+        return UIColor.systemBlue
     }
     
     class var appGroupedBackground: UIColor {
-        if #available(iOS 13, *) {
-            return UIColor.systemGroupedBackground
-        }
-        return UIColor(displayP3Red: 242.0/255.0, green: 242.0/255.0, blue: 247.0/255.0, alpha: 1.0)
+        return UIColor.systemGroupedBackground
     }
     
     class var appSecondarySystemGroupedBackground: UIColor {
@@ -80,28 +68,20 @@ extension UIColor {
 
     class var appContentBackground: UIColor {
         let lightStyleColor = UIColor(displayP3Red: 224.0/255.0, green: 229.0/255.0, blue: 238.0/255.0, alpha: 1.0)
-        return UIColor.init(forLightStyle: lightStyleColor, darkStyle: UIColor.secondarySystemBackground)
+        return UIColor.sfsdk_color(forLightStyle: lightStyleColor, darkStyle: UIColor.secondarySystemBackground)
     }
     
     class var appTextViewYellowBackground: UIColor {
         let lightStyleColor = UIColor(displayP3Red: 250.0/255.0, green: 255.0/255.0, blue: 189.0/255.0, alpha: 1.0)
         let darkStyleColor = UIColor(displayP3Red: 249.0/255.0, green: 214.0/255.0, blue: 74/255.0, alpha: 0.35)
-        return UIColor.init(forLightStyle: lightStyleColor, darkStyle: darkStyleColor)
+        return UIColor.sfsdk_color(forLightStyle: lightStyleColor, darkStyle: darkStyleColor)
     }
     
     class var appTextField: UIColor {
-        let lightStyleColor = UIColor.appTextFieldBlue
-        if #available(iOS 13, *) {
-            return UIColor.init(forLightStyle: lightStyleColor, darkStyle: UIColor.label)
-        }
-        return lightStyleColor
+        return UIColor.sfsdk_color(forLightStyle: UIColor.appTextFieldBlue, darkStyle: UIColor.label)
     }
     
     class var appLabel: UIColor {
-        let lightStyleColor = UIColor.appTextBlue
-        if #available(iOS 13, *) {
-            return UIColor.init(forLightStyle: lightStyleColor, darkStyle: UIColor.label)
-        }
-        return lightStyleColor
+        return UIColor.sfsdk_color(forLightStyle: UIColor.appTextBlue, darkStyle: UIColor.label)
     }
 }

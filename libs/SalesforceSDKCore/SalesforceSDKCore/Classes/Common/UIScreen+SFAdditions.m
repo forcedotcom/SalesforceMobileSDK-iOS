@@ -26,9 +26,13 @@
 
 @implementation UIScreen (SFAdditions)
 
+- (CGRect)portraitScreenBounds {
+    return [self sfsdk_portraitScreenBounds];
+}
+
 /* As of iOS 8, UIScreen bounds are orientation dependent. Use this utility method
  if you want the bounds you'd see if the device were in portrait orientation */
-- (CGRect)portraitScreenBounds {
+- (CGRect)sfsdk_portraitScreenBounds {
     CGRect portraitBounds = self.bounds;
     
     if ([self respondsToSelector:@selector(fixedCoordinateSpace)]) {

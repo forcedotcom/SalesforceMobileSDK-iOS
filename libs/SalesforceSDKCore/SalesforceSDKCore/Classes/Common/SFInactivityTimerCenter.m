@@ -25,7 +25,10 @@
 #import "SFInactivityTimerCenter.h"
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 @implementation SFInactivityTimerCenter
+#pragma clang diagnostic pop
 
 static NSString *const kDefaultKeyLastActivity = @"timer.lastactivity";
 static NSMutableDictionary *allTimers = nil;

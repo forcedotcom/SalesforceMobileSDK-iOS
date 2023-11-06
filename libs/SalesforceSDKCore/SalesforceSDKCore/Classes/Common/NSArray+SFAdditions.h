@@ -23,12 +23,13 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 /** Provides Salesforce Mobile SDK filtering for NSArray objects.
  */
-
+SFSDK_DEPRECATED(11.1, 12.0, "Will be removed")
 @interface NSArray (SFAdditions)
 
 /**

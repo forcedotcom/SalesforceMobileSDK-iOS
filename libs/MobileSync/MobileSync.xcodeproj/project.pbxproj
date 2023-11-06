@@ -99,6 +99,7 @@
 		6927E21E283BEFB700A16668 /* BriefcaseSyncDownTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6927E21D283BEFB700A16668 /* BriefcaseSyncDownTests.swift */; };
 		6927E22B283BF17800A16668 /* BriefcaseObjectInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6927E22A283BF17800A16668 /* BriefcaseObjectInfo.swift */; };
 		6927E23F283C3E1400A16668 /* SyncTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6927E23E283C3E1400A16668 /* SyncTarget.swift */; };
+		696E913D2AD09E7600205884 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 696E913B2AD09E6200205884 /* PrivacyInfo.xcprivacy */; };
 		828E0E541AB398AA004E0AF2 /* TestSyncUpTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 828E0E531AB398AA004E0AF2 /* TestSyncUpTarget.m */; };
 		829DA2AF1C12674D0040F5F1 /* MobileSync.h in Headers */ = {isa = PBXBuildFile; fileRef = 829DA2AE1C12674D0040F5F1 /* MobileSync.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B716A36E218F4FC5009D407F /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B716A34B218F4F9C009D407F /* SalesforceAnalytics.framework */; };
@@ -400,6 +401,7 @@
 		6927E21D283BEFB700A16668 /* BriefcaseSyncDownTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BriefcaseSyncDownTests.swift; sourceTree = "<group>"; };
 		6927E22A283BF17800A16668 /* BriefcaseObjectInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BriefcaseObjectInfo.swift; sourceTree = "<group>"; };
 		6927E23E283C3E1400A16668 /* SyncTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncTarget.swift; sourceTree = "<group>"; };
+		696E913B2AD09E6200205884 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		8207891D1A1BBC56009E9831 /* SFMobileSyncPersistableObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFMobileSyncPersistableObject.h; sourceTree = "<group>"; };
 		820789211A1D2555009E9831 /* SFMobileSyncPersistableObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFMobileSyncPersistableObject.m; sourceTree = "<group>"; };
 		820789231A1D26D9009E9831 /* SFMobileSyncPersistableObject+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFMobileSyncPersistableObject+Internal.h"; sourceTree = "<group>"; };
@@ -729,6 +731,7 @@
 			children = (
 				82D0AB371C497FFB0081F833 /* Info.plist */,
 				CEAAAE4C195911E600CBBFE9 /* MobileSync-Prefix.pch */,
+				696E913B2AD09E6200205884 /* PrivacyInfo.xcprivacy */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -946,6 +949,7 @@
 				CE4CE2C61C0E463C009F6029 /* Headers */,
 				CE4CE2C41C0E463C009F6029 /* Sources */,
 				CE4CE2C51C0E463C009F6029 /* Frameworks */,
+				696E913C2AD09E6F00205884 /* Resources */,
 				CE4CE4F81C0E6DC4009F6029 /* ShellScript */,
 				CE4CE4FF1C0E6E5C009F6029 /* ShellScript */,
 			);
@@ -1144,6 +1148,14 @@
 				4F06AF3D1C499FD100F70798 /* Assets.xcassets in Resources */,
 				4F3D603B1FBFB11C00D1830F /* usersyncs.json in Resources */,
 				4F06AF3B1C499FD100F70798 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		696E913C2AD09E6F00205884 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				696E913D2AD09E7600205884 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

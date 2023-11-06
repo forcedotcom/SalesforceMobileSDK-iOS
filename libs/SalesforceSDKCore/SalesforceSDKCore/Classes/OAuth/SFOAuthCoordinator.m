@@ -232,18 +232,18 @@
         return NO;
     }
 
-    NSString *codeVal = [appUrlResponse valueForParameterName:@"code"];
+    NSString *codeVal = [appUrlResponse sfsdk_valueForParameterName:@"code"];
     if ([codeVal length] == 0) {
         [SFSDKCoreLogger i:[self class] format:@"%@ URL has no '%@' parameter value.", NSStringFromSelector(_cmd), kSFOAuthResponseTypeCode];
         return NO;
     }
     self.approvalCode = codeVal;
     
-    NSString *keychainReference = [appUrlResponse valueForParameterName:kSFKeychainReferenceParam];
+    NSString *keychainReference = [appUrlResponse sfsdk_valueForParameterName:kSFKeychainReferenceParam];
     if (keychainReference) { // IDP -> SP auth
-        NSString *keychainGroup = [appUrlResponse valueForParameterName:kSFKeychainGroupParam];
+        NSString *keychainGroup = [appUrlResponse sfsdk_valueForParameterName:kSFKeychainGroupParam];
         SFSDKKeychainResult *result = [SFSDKKeychainHelper readWithService:keychainReference account:nil accessGroup:keychainGroup cacheMode:CacheModeDisabled];
-        NSString *codeVerifier = [result.data msdkBase64UrlString];
+        NSString *codeVerifier = [result.data sfsdk_base64UrlString];
         if (!codeVerifier || result.error) {
             [SFSDKCoreLogger e:[self class] format:@"URL has keychain group parameter but unable to retrieve value from the keychain: %@", result.error];
             return NO;
@@ -465,7 +465,7 @@
         if (self.credentials.accessToken && self.credentials.apiUrl) {
             NSString *baseUrlString = [self.credentials.apiUrl absoluteString];
             NSString *approvalUrlString = [self generateApprovalUrlString];
-            NSString *escapedApprovalUrlString = [approvalUrlString stringByURLEncoding];
+            NSString *escapedApprovalUrlString = [approvalUrlString sfsdk_stringByURLEncoding];
             NSString *frontDoorUrlString = [NSString stringWithFormat:@"%@/secur/frontdoor.jsp?sid=%@&retURL=%@", baseUrlString, self.credentials.accessToken, escapedApprovalUrlString];
             [self loadWebViewWithUrlString:frontDoorUrlString cookie:YES];
         }
@@ -478,7 +478,7 @@
                      kSFOAuthEndPointToken];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:self.timeout];
     NSString *grantType = @"urn:ietf:params:oauth:grant-type:jwt-bearer";
-    NSString *bodyStr = [[@"grant_type=" stringByAppendingString:[grantType stringByURLEncoding]] stringByAppendingString:[NSString stringWithFormat:@"&assertion=%@", self.credentials.jwt]];
+    NSString *bodyStr = [[@"grant_type=" stringByAppendingString:[grantType sfsdk_stringByURLEncoding]] stringByAppendingString:[NSString stringWithFormat:@"&assertion=%@", self.credentials.jwt]];
     NSData *body = [bodyStr dataUsingEncoding:NSUTF8StringEncoding];
     [request setHTTPBody:body];
     [request setHTTPMethod:kHttpMethodPost];
@@ -500,7 +500,7 @@
                                                           protocol:@"https"
                                                             domain:self.credentials.domain
                                                      codeChallenge:self.spAppCredentials.challengeString];
-        NSString *escapedApprovalUrlString = [approvalUrlString stringByURLEncoding];
+        NSString *escapedApprovalUrlString = [approvalUrlString sfsdk_stringByURLEncoding];
         NSString *frontDoorUrlString = [NSString stringWithFormat:@"%@/secur/frontdoor.jsp?sid=%@&retURL=%@", baseUrlString, self.credentials.accessToken, escapedApprovalUrlString];
         [self loadWebViewWithUrlString:frontDoorUrlString cookie:YES];
     }
@@ -508,10 +508,19 @@
 
 - (void)loadWebViewWithUrlString:(NSString *)urlString cookie:(BOOL)enableCookie {
     NSURL *urlToLoad = [NSURL URLWithString:urlString];
+    if (!urlToLoad) {
+        [SFSDKCoreLogger d:[self class] format:@"%@ Invalid URL, unable to load web view for '%@' auth flow", NSStringFromSelector(_cmd), self.authInfo.authTypeDescription];
+        NSError *error = [[NSError alloc] initWithDomain:kSFOAuthErrorDomain
+                                                    code:kSFOAuthErrorInvalidURL
+                                                userInfo:nil];
+        [self notifyDelegateOfFailure:error authInfo:self.authInfo];
+        return;
+    }
+    
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:urlToLoad];
     [request setHTTPShouldHandleCookies:enableCookie];
     [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData]; // don't use cache
-    [SFSDKCoreLogger d:[self class] format:@"%@ Loading web view for '%@' auth flow, with URL: %@", NSStringFromSelector(_cmd), self.authInfo.authTypeDescription, [urlToLoad redactedAbsoluteString:@[ @"sid" ]]];
+    [SFSDKCoreLogger d:[self class] format:@"%@ Loading web view for '%@' auth flow, with URL: %@", NSStringFromSelector(_cmd), self.authInfo.authTypeDescription, [urlToLoad sfsdk_redactedAbsoluteString:@[ @"sid" ]]];
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.view loadRequest:request];
     });
@@ -571,10 +580,10 @@
 
 - (NSError *)checkFrontdoorResponseForErrors:(NSURL *)requestUrl {
     NSError *error = nil;
-    NSString *ecValue = [requestUrl valueForParameterName:kSFECParameter];
+    NSString *ecValue = [requestUrl sfsdk_valueForParameterName:kSFECParameter];
     BOOL foundValidEcValue = ([ecValue isEqualToString:@"301"] || [ecValue isEqualToString:@"302"]);
-    NSString *errorCode = [requestUrl valueForParameterName:kSFOAuthError];
-    NSString *errorDescription = [requestUrl valueForParameterName:kSFOAuthErrorDescription];
+    NSString *errorCode = [requestUrl sfsdk_valueForParameterName:kSFOAuthError];
+    NSString *errorDescription = [requestUrl sfsdk_valueForParameterName:kSFOAuthErrorDescription];
     if (foundValidEcValue) {
         [SFSDKCoreLogger d:[self class] format:@"%@ IDP Authcode redirect response encountered an ec=301 or 302 redirect: %@", NSStringFromSelector(_cmd), requestUrl];
         error = [SFSDKOAuth2 errorWithType:kSFOAuthErrorTypeMalformedResponse description:@"IDP Authcode redirect response encountered an ec=301 or 302 redirect"];
@@ -709,8 +718,8 @@
             //   - self.codeVerifier is a base64url-encoded random data string
             //   - The code challenge sent here is an SHA-256 hash of self.codeVerifier, also base64url-encoded
             //   - Later, self.codeVerifier will be sent to the service, to be used to compare against the initial code challenge sent here.
-            self.codeVerifier = [[SFSDKCryptoUtils randomByteDataWithLength:kSFOAuthCodeVerifierByteLength] msdkBase64UrlString];
-            codeChallenge = [[[self.codeVerifier dataUsingEncoding:NSUTF8StringEncoding] msdkSha256Data] msdkBase64UrlString];
+            self.codeVerifier = [[SFSDKCryptoUtils randomByteDataWithLength:kSFOAuthCodeVerifierByteLength] sfsdk_base64UrlString];
+            codeChallenge = [[[self.codeVerifier dataUsingEncoding:NSUTF8StringEncoding] sfsdk_sha256Data] sfsdk_base64UrlString];
         }
         [approvalUrlString appendFormat:@"&%@=%@", kSFOAuthCodeChallengeParamName, codeChallenge];
     } else { // User-Agent
@@ -729,7 +738,7 @@
 - (NSString *)scopeQueryParamString {
     NSMutableSet *scopes = (self.scopes.count > 0 ? [NSMutableSet setWithSet:self.scopes] : [NSMutableSet set]);
     [scopes addObject:kSFOAuthRefreshToken];
-    NSString *scopeStr = [[[scopes allObjects] componentsJoinedByString:@" "] stringByURLEncoding];
+    NSString *scopeStr = [[[scopes allObjects] componentsJoinedByString:@" "] sfsdk_stringByURLEncoding];
     return [NSString stringWithFormat:@"&%@=%@", kSFOAuthScope, scopeStr];
 }
 
@@ -876,7 +885,7 @@
 
 - (NSString *)brandedAuthorizeURL{
     NSMutableString *brandedAuthorizeURL = [NSMutableString stringWithFormat:@"%@",kSFOAuthEndPointAuthorize];
-    if (self.brandLoginPath && ![self.brandLoginPath isEmptyOrWhitespaceAndNewlines]) {
+    if (self.brandLoginPath && ![self.brandLoginPath sfsdk_isEmptyOrWhitespaceAndNewlines]) {
         NSMutableString *urlString = [NSMutableString stringWithString:self.brandLoginPath];
         // get rid of leading and trailing slash
         if ([urlString hasPrefix:@"/"])

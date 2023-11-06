@@ -25,7 +25,10 @@
 
 #import "NSObject+SFBlocks.h"
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 @implementation NSObject (SFBlocks)
+#pragma clang diagnostic pop
 
 static NSTimeInterval const RUNLOOP_WAIT_TIME = 0.1;
 

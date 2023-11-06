@@ -34,7 +34,6 @@
 #import "SFSmartSqlCache.h"
 #import "SFSoupIndex.h"
 #import "SFQuerySpec.h"
-#import "NSData+SFAdditions.h"
 #import "SFAlterSoupLongOperation.h"
 #import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 #import <SalesforceSDKCore/SFSDKCryptoUtils.h>
@@ -131,12 +130,12 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
  
             NSData *existingSalt = [SFSDKKeychainHelper readWithService:kSFSmartStoreEncryptionSaltLabel account:nil].data;
             if (existingSalt) {
-                salt = [existingSalt newHexStringFromBytes];
+                salt = [existingSalt sfsdk_newHexStringFromBytes];
             } else if ([[SFSDKDatasharingHelper sharedInstance] appGroupEnabled]) {
-                NSData *newSalt = [[NSMutableData dataWithLength:kSFSmartStoreEncryptionSaltLength] randomDataOfLength:kSFSmartStoreEncryptionSaltLength];
+                NSData *newSalt = [[NSMutableData dataWithLength:kSFSmartStoreEncryptionSaltLength] sfsdk_randomDataOfLength:kSFSmartStoreEncryptionSaltLength];
                 SFSDKKeychainResult *result = [SFSDKKeychainHelper writeWithService:kSFSmartStoreEncryptionSaltLabel data:newSalt account:nil];
                 if (result.success) {
-                    salt = [newSalt newHexStringFromBytes];
+                    salt = [newSalt sfsdk_newHexStringFromBytes];
                 } else {
                     [SFSDKSmartStoreLogger e:[self class] format:@"Error writing salt to keychain: %@", result.error.localizedDescription];
                 }
@@ -1843,9 +1842,6 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
     NSString* querySql = [self convertSmartSql: querySpec.idsSmartSql withDb:db];
     NSString* limitSql = [NSString stringWithFormat:@"SELECT * FROM (%@) LIMIT %lu", querySql, (unsigned long)querySpec.pageSize];
     NSArray* args = [querySpec bindsForQuerySpec];
-    
-    // For soup using external storage, run query to get ids
-    NSMutableArray* ids = [NSMutableArray new];
     
     NSString *deleteSql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@ in (%@)", soupTableName, ID_COL, limitSql];
     [self executeUpdateThrows:deleteSql withArgumentsInArray:args withDb:db];
