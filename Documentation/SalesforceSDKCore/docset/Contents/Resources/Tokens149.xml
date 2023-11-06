@@ -13,13 +13,25 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSData/newHexStringFromBytes</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/sfsdk_newHexStringFromBytes</TokenIdentifier>
 			<Abstract type="html">Creates a hex string representation of this object&apos;s data.</Abstract>
+			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)sfsdk_newHexStringFromBytes</Declaration>
+			
+			<ReturnValue><Abstract type="html">Hex string representation of this object&apos;s data.</Abstract></ReturnValue>
+			<Anchor>//api/name/sfsdk_newHexStringFromBytes</Anchor>
+            <NodeRef refid="149"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/newHexStringFromBytes</TokenIdentifier>
+			<Abstract type="html"></Abstract>
 			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
 			
 			<Declaration>- (NSString *)newHexStringFromBytes</Declaration>
 			
-			<ReturnValue><Abstract type="html">Hex string representation of this object&apos;s data.</Abstract></ReturnValue>
+			
 			<Anchor>//api/name/newHexStringFromBytes</Anchor>
             <NodeRef refid="149"/>
 		</Token>

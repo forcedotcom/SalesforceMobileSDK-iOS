@@ -13,26 +13,26 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIFont/textRegular:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/UIFont/sfsdk_textRegular:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>UIFont+SFSDKIDP.h</DeclaredIn>
 			
-			<Declaration>+ (UIFont *)textRegular:(CGFloat)size</Declaration>
+			<Declaration>+ (UIFont *)sfsdk_textRegular:(CGFloat)size</Declaration>
 			
 			
-			<Anchor>//api/name/textRegular:</Anchor>
+			<Anchor>//api/name/sfsdk_textRegular:</Anchor>
             <NodeRef refid="163"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIFont/textBold:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/UIFont/sfsdk_textBold:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>UIFont+SFSDKIDP.h</DeclaredIn>
 			
-			<Declaration>+ (UIFont *)textBold:(CGFloat)size</Declaration>
+			<Declaration>+ (UIFont *)sfsdk_textBold:(CGFloat)size</Declaration>
 			
 			
-			<Anchor>//api/name/textBold:</Anchor>
+			<Anchor>//api/name/sfsdk_textBold:</Anchor>
             <NodeRef refid="163"/>
 		</Token>
 		

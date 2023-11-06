@@ -13,25 +13,49 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSData/gzipInflate</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/sfsdk_gzipInflate</TokenIdentifier>
 			<Abstract type="html">Converts this data to gzip uncompressed format.</Abstract>
+			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
+			
+			<Declaration>- (nullable NSData *)sfsdk_gzipInflate</Declaration>
+			
+			<ReturnValue><Abstract type="html">This data in gzip uncompressed format.</Abstract></ReturnValue>
+			<Anchor>//api/name/sfsdk_gzipInflate</Anchor>
+            <NodeRef refid="153"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/gzipInflate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
 			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
 			
 			<Declaration>- (nullable NSData *)gzipInflate</Declaration>
 			
-			<ReturnValue><Abstract type="html">This data in gzip uncompressed format.</Abstract></ReturnValue>
+			
 			<Anchor>//api/name/gzipInflate</Anchor>
             <NodeRef refid="153"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSData/gzipDeflate</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/sfsdk_gzipDeflate</TokenIdentifier>
 			<Abstract type="html">Converts this data to gzip compressed format.</Abstract>
+			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
+			
+			<Declaration>- (nullable NSData *)sfsdk_gzipDeflate</Declaration>
+			
+			<ReturnValue><Abstract type="html">This data in gzip compressed format.</Abstract></ReturnValue>
+			<Anchor>//api/name/sfsdk_gzipDeflate</Anchor>
+            <NodeRef refid="153"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/gzipDeflate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
 			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
 			
 			<Declaration>- (nullable NSData *)gzipDeflate</Declaration>
 			
-			<ReturnValue><Abstract type="html">This data in gzip compressed format.</Abstract></ReturnValue>
+			
 			<Anchor>//api/name/gzipDeflate</Anchor>
             <NodeRef refid="153"/>
 		</Token>

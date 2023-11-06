@@ -13,8 +13,20 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/platform</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/sfsdk_platform</TokenIdentifier>
 			<Abstract type="html">Platform for the Device</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			
+			<Declaration>- (nullable NSString *)sfsdk_platform</Declaration>
+			
+			
+			<Anchor>//api/name/sfsdk_platform</Anchor>
+            <NodeRef refid="162"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/platform</TokenIdentifier>
+			<Abstract type="html"></Abstract>
 			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
 			
 			<Declaration>- (nullable NSString *)platform</Declaration>
@@ -37,9 +49,21 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/platformType</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/sfsdk_platformType</TokenIdentifier>
 			<Abstract type="html">Platform type
 See UIDevicePlatform</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			
+			<Declaration>- (UIDevicePlatform)sfsdk_platformType</Declaration>
+			
+			
+			<Anchor>//api/name/sfsdk_platformType</Anchor>
+            <NodeRef refid="162"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/platformType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
 			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
 			
 			<Declaration>- (UIDevicePlatform)platformType</Declaration>
@@ -50,20 +74,44 @@ See UIDevicePlatform</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/systemVersionNumber</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/sfsdk_systemVersionNumber</TokenIdentifier>
 			<Abstract type="html">Returns the system-dependent version number.</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			
+			<Declaration>- (double)sfsdk_systemVersionNumber</Declaration>
+			
+			<ReturnValue><Abstract type="html">The system version number.</Abstract></ReturnValue>
+			<Anchor>//api/name/sfsdk_systemVersionNumber</Anchor>
+            <NodeRef refid="162"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/systemVersionNumber</TokenIdentifier>
+			<Abstract type="html"></Abstract>
 			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
 			
 			<Declaration>- (double)systemVersionNumber</Declaration>
 			
-			<ReturnValue><Abstract type="html">The system version number.</Abstract></ReturnValue>
+			
 			<Anchor>//api/name/systemVersionNumber</Anchor>
             <NodeRef refid="162"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/platformString</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/sfsdk_platformString</TokenIdentifier>
 			<Abstract type="html">Platform string</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)sfsdk_platformString</Declaration>
+			
+			
+			<Anchor>//api/name/sfsdk_platformString</Anchor>
+            <NodeRef refid="162"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/platformString</TokenIdentifier>
+			<Abstract type="html"></Abstract>
 			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
 			
 			<Declaration>- (NSString *)platformString</Declaration>
@@ -122,8 +170,20 @@ See UIDevicePlatform</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/totalMemory</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/sfsdk_totalMemory</TokenIdentifier>
 			<Abstract type="html">Total memory</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			
+			<Declaration>- (NSUInteger)sfsdk_totalMemory</Declaration>
+			
+			
+			<Anchor>//api/name/sfsdk_totalMemory</Anchor>
+            <NodeRef refid="162"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/totalMemory</TokenIdentifier>
+			<Abstract type="html"></Abstract>
 			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
 			
 			<Declaration>- (NSUInteger)totalMemory</Declaration>
@@ -134,8 +194,20 @@ See UIDevicePlatform</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/userMemory</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/sfsdk_userMemory</TokenIdentifier>
 			<Abstract type="html">User Memory</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			
+			<Declaration>- (NSUInteger)sfsdk_userMemory</Declaration>
+			
+			
+			<Anchor>//api/name/sfsdk_userMemory</Anchor>
+            <NodeRef refid="162"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/userMemory</TokenIdentifier>
+			<Abstract type="html"></Abstract>
 			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
 			
 			<Declaration>- (NSUInteger)userMemory</Declaration>
@@ -146,8 +218,20 @@ See UIDevicePlatform</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/applicationMemory</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/sfsdk_applicationMemory</TokenIdentifier>
 			<Abstract type="html">Memory used by application (in bytes)</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			
+			<Declaration>- (NSUInteger)sfsdk_applicationMemory</Declaration>
+			
+			
+			<Anchor>//api/name/sfsdk_applicationMemory</Anchor>
+            <NodeRef refid="162"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/applicationMemory</TokenIdentifier>
+			<Abstract type="html"></Abstract>
 			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
 			
 			<Declaration>- (NSUInteger)applicationMemory</Declaration>
@@ -158,8 +242,20 @@ See UIDevicePlatform</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/freeMemory</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/sfsdk_freeMemory</TokenIdentifier>
 			<Abstract type="html">Free VM page space available to application (in bytes)</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			
+			<Declaration>- (NSUInteger)sfsdk_freeMemory</Declaration>
+			
+			
+			<Anchor>//api/name/sfsdk_freeMemory</Anchor>
+            <NodeRef refid="162"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/freeMemory</TokenIdentifier>
+			<Abstract type="html"></Abstract>
 			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
 			
 			<Declaration>- (NSUInteger)freeMemory</Declaration>
@@ -170,8 +266,20 @@ See UIDevicePlatform</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/totalDiskSpace</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/sfsdk_totalDiskSpace</TokenIdentifier>
 			<Abstract type="html">Total disk space</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			
+			<Declaration>- (NSNumber *)sfsdk_totalDiskSpace</Declaration>
+			
+			
+			<Anchor>//api/name/sfsdk_totalDiskSpace</Anchor>
+            <NodeRef refid="162"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/totalDiskSpace</TokenIdentifier>
+			<Abstract type="html"></Abstract>
 			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
 			
 			<Declaration>- (NSNumber *)totalDiskSpace</Declaration>
@@ -182,8 +290,20 @@ See UIDevicePlatform</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/freeDiskSpace</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/sfsdk_freeDiskSpace</TokenIdentifier>
 			<Abstract type="html">Total free space</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			
+			<Declaration>- (NSNumber *)sfsdk_freeDiskSpace</Declaration>
+			
+			
+			<Anchor>//api/name/sfsdk_freeDiskSpace</Anchor>
+            <NodeRef refid="162"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/freeDiskSpace</TokenIdentifier>
+			<Abstract type="html"></Abstract>
 			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
 			
 			<Declaration>- (NSNumber *)freeDiskSpace</Declaration>
@@ -218,8 +338,20 @@ See UIDevicePlatform</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/hasNeuralEngine</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/sfsdk_hasNeuralEngine</TokenIdentifier>
 			<Abstract type="html">Returns whether the device&apos;s SOC has a neural engine for core ML tasks</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)sfsdk_hasNeuralEngine</Declaration>
+			
+			
+			<Anchor>//api/name/sfsdk_hasNeuralEngine</Anchor>
+            <NodeRef refid="162"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/hasNeuralEngine</TokenIdentifier>
+			<Abstract type="html"></Abstract>
 			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
 			
 			<Declaration>- (BOOL)hasNeuralEngine</Declaration>
@@ -230,8 +362,20 @@ See UIDevicePlatform</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/deviceFamily</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/sfsdk_deviceFamily</TokenIdentifier>
 			<Abstract type="html">Device Family</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			
+			<Declaration>- (UIDeviceFamily)sfsdk_deviceFamily</Declaration>
+			
+			
+			<Anchor>//api/name/sfsdk_deviceFamily</Anchor>
+            <NodeRef refid="162"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/deviceFamily</TokenIdentifier>
+			<Abstract type="html"></Abstract>
 			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
 			
 			<Declaration>- (UIDeviceFamily)deviceFamily</Declaration>
@@ -242,9 +386,21 @@ See UIDevicePlatform</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/interfaceOrientation</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/sfsdk_interfaceOrientation</TokenIdentifier>
 			<Abstract type="html">Device&apos;s current orientation
 This method will first try to retrieve orientation using UIDevice currentOrientation, if return value is an invalid orientation, it will try to use the orientation of the first window scene</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			
+			<Declaration>- (UIInterfaceOrientation)sfsdk_interfaceOrientation</Declaration>
+			
+			
+			<Anchor>//api/name/sfsdk_interfaceOrientation</Anchor>
+            <NodeRef refid="162"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/interfaceOrientation</TokenIdentifier>
+			<Abstract type="html"></Abstract>
 			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
 			
 			<Declaration>- (UIInterfaceOrientation)interfaceOrientation</Declaration>
@@ -255,13 +411,25 @@ This method will first try to retrieve orientation using UIDevice currentOrienta
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/isSimulator</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/sfsdk_isSimulator</TokenIdentifier>
 			<Abstract type="html">Determine if current device is simulator or not</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)sfsdk_isSimulator</Declaration>
+			
+			<ReturnValue><Abstract type="html">Return YES if current device is simulator, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/sfsdk_isSimulator</Anchor>
+            <NodeRef refid="162"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/isSimulator</TokenIdentifier>
+			<Abstract type="html"></Abstract>
 			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
 			
 			<Declaration>- (BOOL)isSimulator</Declaration>
 			
-			<ReturnValue><Abstract type="html">Return YES if current device is simulator, NO otherwise.</Abstract></ReturnValue>
+			
 			<Anchor>//api/name/isSimulator</Anchor>
             <NodeRef refid="162"/>
 		</Token>
@@ -315,8 +483,20 @@ This method will first try to retrieve orientation using UIDevice currentOrienta
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/currentDeviceIsIPad</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/sfsdk_currentDeviceIsIPad</TokenIdentifier>
 			<Abstract type="html">Return YES if device is iPad</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)sfsdk_currentDeviceIsIPad</Declaration>
+			
+			
+			<Anchor>//api/name/sfsdk_currentDeviceIsIPad</Anchor>
+            <NodeRef refid="162"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/currentDeviceIsIPad</TokenIdentifier>
+			<Abstract type="html"></Abstract>
 			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
 			
 			<Declaration>+ (BOOL)currentDeviceIsIPad</Declaration>
@@ -327,8 +507,20 @@ This method will first try to retrieve orientation using UIDevice currentOrienta
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/currentDeviceIsIPhone</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/sfsdk_currentDeviceIsIPhone</TokenIdentifier>
 			<Abstract type="html">Return YES if device is iPhone</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)sfsdk_currentDeviceIsIPhone</Declaration>
+			
+			
+			<Anchor>//api/name/sfsdk_currentDeviceIsIPhone</Anchor>
+            <NodeRef refid="162"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/currentDeviceIsIPhone</TokenIdentifier>
+			<Abstract type="html"></Abstract>
 			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
 			
 			<Declaration>+ (BOOL)currentDeviceIsIPhone</Declaration>

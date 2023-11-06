@@ -13,6 +13,18 @@
 		
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSURLResponse/sfsdk_asDictionary</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>NSURLResponse+SFAdditions.h</DeclaredIn>
+			
+			<Declaration>- (nonnull NSDictionary *)sfsdk_asDictionary</Declaration>
+			
+			
+			<Anchor>//api/name/sfsdk_asDictionary</Anchor>
+            <NodeRef refid="160"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/NSURLResponse/asDictionary</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>NSURLResponse+SFAdditions.h</DeclaredIn>

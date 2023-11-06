@@ -241,18 +241,6 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreTestCase/checkFileSystem:shouldExist:store:soupName:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>
-			
-			<Declaration>- (void)checkFileSystem:(NSArray *)expectedEntries shouldExist:(BOOL)shouldExist store:(SFSmartStore *)store soupName:(NSString *)soupName</Declaration>
-			
-			
-			<Anchor>//api/name/checkFileSystem:shouldExist:store:soupName:</Anchor>
-            <NodeRef refid="14"/>
-		</Token>
-		
-		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreTestCase/setUpSmartStoreUser</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>

@@ -13,25 +13,49 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSData/msdkBase64UrlString</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/sfsdk_base64UrlString</TokenIdentifier>
 			<Abstract type="html">Creates a base64url string based on the data.  See RFC 4648.</Abstract>
+			<DeclaredIn>NSData+SFSDKUtils.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)sfsdk_base64UrlString</Declaration>
+			
+			<ReturnValue><Abstract type="html">The base64url string based on the data.</Abstract></ReturnValue>
+			<Anchor>//api/name/sfsdk_base64UrlString</Anchor>
+            <NodeRef refid="150"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/msdkBase64UrlString</TokenIdentifier>
+			<Abstract type="html"></Abstract>
 			<DeclaredIn>NSData+SFSDKUtils.h</DeclaredIn>
 			
 			<Declaration>- (NSString *)msdkBase64UrlString</Declaration>
 			
-			<ReturnValue><Abstract type="html">The base64url string based on the data.</Abstract></ReturnValue>
+			
 			<Anchor>//api/name/msdkBase64UrlString</Anchor>
             <NodeRef refid="150"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSData/msdkSha256Data</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/sfsdk_sha256Data</TokenIdentifier>
 			<Abstract type="html">Creates an SHA256 hash of the given data.</Abstract>
+			<DeclaredIn>NSData+SFSDKUtils.h</DeclaredIn>
+			
+			<Declaration>- (nullable NSData *)sfsdk_sha256Data</Declaration>
+			
+			<ReturnValue><Abstract type="html">The SHA256 hash of the given data.</Abstract></ReturnValue>
+			<Anchor>//api/name/sfsdk_sha256Data</Anchor>
+            <NodeRef refid="150"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/msdkSha256Data</TokenIdentifier>
+			<Abstract type="html"></Abstract>
 			<DeclaredIn>NSData+SFSDKUtils.h</DeclaredIn>
 			
 			<Declaration>- (nullable NSData *)msdkSha256Data</Declaration>
 			
-			<ReturnValue><Abstract type="html">The SHA256 hash of the given data.</Abstract></ReturnValue>
+			
 			<Anchor>//api/name/msdkSha256Data</Anchor>
             <NodeRef refid="150"/>
 		</Token>

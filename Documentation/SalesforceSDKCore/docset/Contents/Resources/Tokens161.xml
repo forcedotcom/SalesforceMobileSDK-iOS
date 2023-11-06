@@ -13,14 +13,38 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/colorFromHexValue:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/sfsdk_colorFromHexValue:</TokenIdentifier>
 			<Abstract type="html">Construct a color given hex color, like &quot;#00FF00&quot; (#RRGGBB).</Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			
+			<Declaration>+ (nullable UIColor *)sfsdk_colorFromHexValue:(NSString *)hexString</Declaration>
+			
+			
+			<Anchor>//api/name/sfsdk_colorFromHexValue:</Anchor>
+            <NodeRef refid="161"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/colorFromHexValue:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
 			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
 			
 			<Declaration>+ (nullable UIColor *)colorFromHexValue:(NSString *)hexString</Declaration>
 			
 			
 			<Anchor>//api/name/colorFromHexValue:</Anchor>
+            <NodeRef refid="161"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/sfsdk_colorForLightStyle:darkStyle:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			
+			<Declaration>+ (UIColor *)sfsdk_colorForLightStyle:(UIColor *)lightStyleColor darkStyle:(UIColor *)darkStyleColor</Declaration>
+			
+			
+			<Anchor>//api/name/sfsdk_colorForLightStyle:darkStyle:</Anchor>
             <NodeRef refid="161"/>
 		</Token>
 		
@@ -37,9 +61,21 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/hexStringFromColor</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/sfsdk_hexStringFromColor</TokenIdentifier>
 			<Abstract type="html">Returns a CSS hex color representation
 of this color</Abstract>
+			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)sfsdk_hexStringFromColor</Declaration>
+			
+			
+			<Anchor>//api/name/sfsdk_hexStringFromColor</Anchor>
+            <NodeRef refid="161"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIColor/hexStringFromColor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
 			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
 			
 			<Declaration>- (NSString *)hexStringFromColor</Declaration>

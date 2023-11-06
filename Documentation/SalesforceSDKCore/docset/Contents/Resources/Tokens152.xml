@@ -37,13 +37,25 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSData/sha256</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/sfsdk_sha256</TokenIdentifier>
 			<Abstract type="html">Derives  a  sha256  hex encoded string.</Abstract>
+			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)sfsdk_sha256</Declaration>
+			
+			<ReturnValue><Abstract type="html">md5 version of data.</Abstract></ReturnValue>
+			<Anchor>//api/name/sfsdk_sha256</Anchor>
+            <NodeRef refid="152"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/sha256</TokenIdentifier>
+			<Abstract type="html"></Abstract>
 			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
 			
 			<Declaration>- (NSString *)sha256</Declaration>
 			
-			<ReturnValue><Abstract type="html">md5 version of data.</Abstract></ReturnValue>
+			
 			<Anchor>//api/name/sha256</Anchor>
             <NodeRef refid="152"/>
 		</Token>

@@ -13,11 +13,11 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSData/replaceBase64CharsForBase64UrlString:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/sfsdk_replaceBase64CharsForBase64UrlString:</TokenIdentifier>
 			<Abstract type="html">Replace the base64 characters that are invalid in a base64url string.</Abstract>
 			<DeclaredIn>NSData+SFSDKUtils_Internal.h</DeclaredIn>
 			
-			<Declaration>+ (NSString *)replaceBase64CharsForBase64UrlString:(NSString *)base64String</Declaration>
+			<Declaration>+ (NSString *)sfsdk_replaceBase64CharsForBase64UrlString:(NSString *)base64String</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>base64String</Name>
@@ -25,7 +25,7 @@
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">The base64 string with the URL chars replaced (i.e. the base64url string).</Abstract></ReturnValue>
-			<Anchor>//api/name/replaceBase64CharsForBase64UrlString:</Anchor>
+			<Anchor>//api/name/sfsdk_replaceBase64CharsForBase64UrlString:</Anchor>
             <NodeRef refid="151"/>
 		</Token>
 		

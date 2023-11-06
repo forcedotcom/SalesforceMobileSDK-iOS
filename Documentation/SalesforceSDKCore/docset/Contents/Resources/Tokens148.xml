@@ -17,11 +17,11 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSData/randomDataOfLength:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/sfsdk_randomDataOfLength:</TokenIdentifier>
 			<Abstract type="html">Returns a specified number of random bytes.</Abstract>
 			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>- (nullable NSData *)randomDataOfLength:(size_t)length</Declaration>
+			<Declaration>- (nullable NSData *)sfsdk_randomDataOfLength:(size_t)length</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>length</Name>
@@ -29,6 +29,18 @@
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">The specified quantity of random bytes or nil if an error occurs.</Abstract></ReturnValue>
+			<Anchor>//api/name/sfsdk_randomDataOfLength:</Anchor>
+            <NodeRef refid="148"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/randomDataOfLength:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
+			
+			<Declaration>- (nullable NSData *)randomDataOfLength:(size_t)length</Declaration>
+			
+			
 			<Anchor>//api/name/randomDataOfLength:</Anchor>
             <NodeRef refid="148"/>
 		</Token>
