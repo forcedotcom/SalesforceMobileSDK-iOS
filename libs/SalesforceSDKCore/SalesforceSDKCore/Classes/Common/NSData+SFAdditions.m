@@ -243,10 +243,6 @@ void bufferDecode64(BYTE *destData, size_t *destLen, const char *srcData, size_t
 
 @implementation NSData (SFBase64)
 
-- (NSData *)randomDataOfLength:(size_t)length {
-    return [self sfsdk_randomDataOfLength:length];
-}
-
 - (NSData *)sfsdk_randomDataOfLength:(size_t)length {
     NSMutableData *data = [NSMutableData dataWithData:self];
     int result = SecRandomCopyBytes(kSecRandomDefault, length, [data mutableBytes]);
@@ -257,140 +253,9 @@ void bufferDecode64(BYTE *destData, size_t *destLen, const char *srcData, size_t
     return data;
 }
 
--(NSString *)newBase64Encoding {
-	NSUInteger sl = [self length];
-	size_t destLen = sl % 3 == 0 ? sl/3*4 : ((sl/3)+1)*4;
-	char *buff = malloc(destLen);
-	bufferEncode64(buff, destLen, [self bytes], sl);
-	NSString *result = [[NSString alloc] initWithBytesNoCopy:buff length:destLen encoding:NSASCIIStringEncoding freeWhenDone:YES];
-	return result;
-}
-
--(NSString *)base64Encode {
-	NSString *result = [self newBase64Encoding];
-    return result;
-}
-
--(id)initWithBase64String:(NSString *)base64 {
-	NSUInteger sl = [base64 length];
-	if (sl == 0)
-		return [self initWithBytes:NULL length:0];
-	size_t destLen = sl/4*3;
-	BYTE *buff = malloc(destLen);
-	bufferDecode64(buff, &destLen, [base64 cStringUsingEncoding:NSASCIIStringEncoding], sl);
-	return [self initWithBytesNoCopy:buff length:destLen freeWhenDone:YES];
-}
-
-+(NSData *)dataFromBase64String:(NSString *)encoding
-{
-    NSData *data = nil;
-    unsigned char *decodedBytes = NULL;
-    @try {
-#define __ 255
-        static char decodingTable[256] = {
-            __,__,__,__, __,__,__,__, __,__,__,__, __,__,__,__,  // 0x00 - 0x0F
-            __,__,__,__, __,__,__,__, __,__,__,__, __,__,__,__,  // 0x10 - 0x1F
-            __,__,__,__, __,__,__,__, __,__,__,62, __,__,__,63,  // 0x20 - 0x2F
-            52,53,54,55, 56,57,58,59, 60,61,__,__, __, 0,__,__,  // 0x30 - 0x3F
-            __, 0, 1, 2,  3, 4, 5, 6,  7, 8, 9,10, 11,12,13,14,  // 0x40 - 0x4F
-            15,16,17,18, 19,20,21,22, 23,24,25,__, __,__,__,__,  // 0x50 - 0x5F
-            __,26,27,28, 29,30,31,32, 33,34,35,36, 37,38,39,40,  // 0x60 - 0x6F
-            41,42,43,44, 45,46,47,48, 49,50,51,__, __,__,__,__,  // 0x70 - 0x7F
-            __,__,__,__, __,__,__,__, __,__,__,__, __,__,__,__,  // 0x80 - 0x8F
-            __,__,__,__, __,__,__,__, __,__,__,__, __,__,__,__,  // 0x90 - 0x9F
-            __,__,__,__, __,__,__,__, __,__,__,__, __,__,__,__,  // 0xA0 - 0xAF
-            __,__,__,__, __,__,__,__, __,__,__,__, __,__,__,__,  // 0xB0 - 0xBF
-            __,__,__,__, __,__,__,__, __,__,__,__, __,__,__,__,  // 0xC0 - 0xCF
-            __,__,__,__, __,__,__,__, __,__,__,__, __,__,__,__,  // 0xD0 - 0xDF
-            __,__,__,__, __,__,__,__, __,__,__,__, __,__,__,__,  // 0xE0 - 0xEF
-            __,__,__,__, __,__,__,__, __,__,__,__, __,__,__,__,  // 0xF0 - 0xFF
-        };
-        NSData *encodedData = [encoding dataUsingEncoding:NSASCIIStringEncoding];
-        unsigned char *encodedBytes = (unsigned char *)[encodedData bytes];
-        
-        NSUInteger encodedLength = [encodedData length];
-        NSUInteger encodedBlocks = (encodedLength+3) >> 2;
-        NSUInteger expectedDataLength = encodedBlocks * 3;
-        
-        unsigned char decodingBlock[4];
-        
-        decodedBytes = malloc(expectedDataLength);
-        if( decodedBytes != NULL ) {
-            
-            NSUInteger i = 0;
-            NSUInteger j = 0;
-            NSUInteger k = 0;
-            unsigned char c;
-            while( i < encodedLength ) {
-                c = decodingTable[encodedBytes[i]];
-                i++;
-                if( c != __ ) {
-                    decodingBlock[j] = c;
-                    j++;
-                    if( j == 4 ) {
-                        decodedBytes[k] = (decodingBlock[0] << 2) | (decodingBlock[1] >> 4);
-                        decodedBytes[k+1] = (decodingBlock[1] << 4) | (decodingBlock[2] >> 2);
-                        decodedBytes[k+2] = (decodingBlock[2] << 6) | (decodingBlock[3]);
-                        j = 0;
-                        k += 3;
-                    }
-                }
-            }
-            
-            // Process left over bytes, if any
-            if( j == 3 ) {
-                decodedBytes[k] = (decodingBlock[0] << 2) | (decodingBlock[1] >> 4);
-                decodedBytes[k+1] = (decodingBlock[1] << 4) | (decodingBlock[2] >> 2);
-                k += 2;
-            } else if( j == 2 ) {
-                decodedBytes[k] = (decodingBlock[0] << 2) | (decodingBlock[1] >> 4);
-                k += 1;
-            }
-            data = [[NSData alloc] initWithBytes:decodedBytes length:k];
-        }
-    }
-    @catch (NSException *exception) {
-        data = nil;
-        [SFSDKCoreLogger d:[self class] format:@"WARNING: error occured while decoding base 32 string: %@", exception];
-    }
-    @finally {
-        if( decodedBytes != NULL ) {
-            free( decodedBytes );
-        }
-    }
-    return data;
-}
-
 @end
 
 @implementation NSData (SFSHA)
-
--(NSString *)sha1 {
-    unsigned char digest[CC_SHA1_DIGEST_LENGTH];
-    digest[0] = 0;
-    CC_SHA1([self bytes], (CC_LONG)[self length], digest);
-    NSMutableString *ms = [NSMutableString string];
-    for(int i = 0; i < CC_SHA1_DIGEST_LENGTH; i++) {
-        [ms appendFormat:@"%02x", digest[i]];
-    }
-    return [ms copy];
-}
-
--(NSString *)sha224 {
-    unsigned char digest[CC_SHA224_DIGEST_LENGTH];
-    digest[0] = 0;
-    CC_SHA224([self bytes], (CC_LONG)[self length], digest);
-    NSMutableString *ms = [NSMutableString string];
-    for(int i = 0; i < CC_SHA224_DIGEST_LENGTH; i++) {
-        [ms appendFormat:@"%02x", digest[i]];
-    }
-    return [ms copy];
-}
-
-
-- (NSString *)sha256 {
-    return [self sfsdk_sha256];
-}
 
 - (NSString *)sfsdk_sha256 {
     unsigned char digest[CC_SHA256_DIGEST_LENGTH];
@@ -405,10 +270,6 @@ void bufferDecode64(BYTE *destData, size_t *destLen, const char *srcData, size_t
 @end
 
 @implementation NSData (SFzlib)
-
-- (NSData *) gzipInflate {
-    return [self sfsdk_gzipInflate];
-}
 
 - (NSData *) sfsdk_gzipInflate {
     if ([self length] == 0) {
@@ -450,10 +311,6 @@ void bufferDecode64(BYTE *destData, size_t *destLen, const char *srcData, size_t
         return [NSData dataWithData: decompressed];
     }
     else return nil;
-}
-
-- (NSData *)gzipDeflate {
-    return [self sfsdk_gzipDeflate];
 }
 
 - (NSData *)sfsdk_gzipDeflate {
@@ -501,10 +358,6 @@ void bufferDecode64(BYTE *destData, size_t *destLen, const char *srcData, size_t
 @end
 
 @implementation NSData (SFHexSupport)
-
-- (NSString *)newHexStringFromBytes {
-    return [self sfsdk_newHexStringFromBytes];
-}
 
 - (NSString *)sfsdk_newHexStringFromBytes {
 	NSUInteger dataLen = [self length];

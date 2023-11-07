@@ -57,7 +57,6 @@
 #import <SalesforceSDKCore/SFUserAccount.h>
 #import <SalesforceSDKCore/SFSDKBatchRequest.h>
 #import <SalesforceSDKCore/SFSDKWindowManager.h>
-#import <SalesforceSDKCore/NSNotificationCenter+SFAdditions.h>
 #import <SalesforceSDKCore/SFDirectoryManager.h>
 #import <SalesforceSDKCore/SFSDKPushNotificationDecryption.h>
 #import <SalesforceSDKCore/SFSDKAILTNPublisher.h>
@@ -76,7 +75,6 @@
 #import <SalesforceSDKCore/SFSDKLoginHostListViewController.h>
 #import <SalesforceSDKCore/SFSDKAnalyticsPublisher.h>
 #import <SalesforceSDKCore/SFSDKAppConfig.h>
-#import <SalesforceSDKCore/NSArray+SFAdditions.h>
 #import <SalesforceSDKCore/SFSDKEventBuilderHelper.h>
 #import <SalesforceSDKCore/SFSDKSoqlBuilder.h>
 #import <SalesforceSDKCore/NSString+SFAdditions.h>
@@ -95,7 +93,6 @@
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
 #import <SalesforceSDKCore/SFSDKBatchResponse.h>
 #import <SalesforceSDKCore/NSURL+SFStringUtils.h>
-#import <SalesforceSDKCore/SFInactivityTimerCenter.h>
 #import <SalesforceSDKCore/SalesforceSDKConstants.h>
 #import <SalesforceSDKCore/SFSObjectTree.h>
 #import <SalesforceSDKCore/SFSDKUITableViewCell.h>
@@ -107,7 +104,6 @@
 #import <SalesforceSDKCore/SFSDKWebViewStateManager.h>
 #import <SalesforceSDKCore/SFPushNotificationManager.h>
 #import <SalesforceSDKCore/SFSDKViewController.h>
-#import <SalesforceSDKCore/NSObject+SFBlocks.h>
 #import <SalesforceSDKCore/SFSDKViewControllerConfig.h>
 #import <SalesforceSDKCore/SFNetwork.h>
 #import <SalesforceSDKCore/SFIdentityData.h>
@@ -125,5 +121,4 @@
 #import <SalesforceSDKCore/SFMethodInterceptor.h>
 #import <SalesforceSDKCore/SFSDKAppFeatureMarkers.h>
 #import <SalesforceSDKCore/SFSDKSoslReturningBuilder.h>
-#import <SalesforceSDKCore/SFApplication.h>
 #import <SalesforceSDKCore/SFInstrumentation.h>

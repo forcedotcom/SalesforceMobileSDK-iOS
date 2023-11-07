@@ -24,7 +24,6 @@
  */
 
 #import "SFSDKWebUtils.h"
-#import "SFApplication.h"
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 #import <WebKit/WebKit.h>
 
