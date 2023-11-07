@@ -1,3 +1,0 @@
-[submodule "external/fmdb"]
-	path = external/fmdb
-	url = https://github.com/forcedotcom/fmdb
