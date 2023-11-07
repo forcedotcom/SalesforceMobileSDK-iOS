@@ -29,10 +29,6 @@
 
 @implementation NSURLResponse (SFAdditions)
 
-- (NSDictionary *)asDictionary {
-    return [self sfsdk_asDictionary];
-}
-
 - (NSDictionary *)sfsdk_asDictionary {
     NSMutableDictionary *responseDictionary = [NSMutableDictionary new];
     responseDictionary[@"expectedContentLength"] = [NSNumber numberWithLongLong:self.expectedContentLength];

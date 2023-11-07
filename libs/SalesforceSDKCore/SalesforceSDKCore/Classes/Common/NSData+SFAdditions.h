@@ -40,54 +40,16 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (nullable NSData *)sfsdk_randomDataOfLength:(size_t)length;
 
-- (nullable NSData *)randomDataOfLength:(size_t)length SFSDK_DEPRECATED(11.1, 12.0, "Use sfsdk_randomDataOfLength: instead");
-
-
-/**Creates a base64 encoded string for this NSData object.
- @return A base64 encoded version of the data.
- */
--(NSString *)newBase64Encoding SFSDK_DEPRECATED(11.1, 12.0, "Will be removed");
-
-/**Returns a base64 encoded string for this NSData object.
- @return A base64 encoded version of the data.
- */
--(NSString *)base64Encode SFSDK_DEPRECATED(11.1, 12.0, "Will be removed");
-
-/**Creates a base64 encoding of this NSData. Similar to newBase64Encoding.
- @param base64 The base64 encoding to use in the new NSData object.
- @return The base64 encoded NSData object. 
- */
--(id)initWithBase64String:(NSString *)base64 SFSDK_DEPRECATED(11.1, 12.0, "Will be removed");
-
-/** Creates an NSData object from a base64 encoded string.
- @param encoding The string to convert to NSData.
- @return A base64-encoded string version of this object's data.
- */
-+(NSData *)dataFromBase64String:(NSString *)encoding SFSDK_DEPRECATED(11.1, 12.0, "Will be removed");
-
 @end
 
 /** Provides MD5 conversion support.
  */
 @interface NSData (SFSHA)
 
-/** Derives  a  sha1  hex encoded string.
- @return md5 version of data.
- */
--(NSString *)sha1 SFSDK_DEPRECATED(11.1, 12.0, "Will be removed");
-
-/**Derives  a  sha224  hex encoded string.
- @return md5 version of data.
- */
--(NSString *)sha224 SFSDK_DEPRECATED(11.1, 12.0, "Will be removed");
-
 /**Derives  a  sha256  hex encoded string.
  @return md5 version of data.
  */
 -(NSString *)sfsdk_sha256;
-
--(NSString *)sha256 SFSDK_DEPRECATED(11.1, 12.0, "Use sfsdk_sha256 instead");
-
 
 @end
 
@@ -99,26 +61,22 @@ NS_ASSUME_NONNULL_BEGIN
 */
 - (nullable NSData *)sfsdk_gzipInflate;
 
-- (nullable NSData *)gzipInflate SFSDK_DEPRECATED(11.1, 12.0, "Use sfsdk_gzipInflate instead");
-
 /**Converts this data to gzip compressed format.
  @return This data in gzip compressed format.
  */
 - (nullable NSData *)sfsdk_gzipDeflate;
 
-- (nullable NSData *)gzipDeflate SFSDK_DEPRECATED(11.1, 12.0, "Use sfsdk_gzipDeflate instead");
 @end
 
 /**
  Provides hex string conversion support.
  */
 @interface NSData (SFHexSupport)
+
 /** Creates a hex string representation of this object's data.
  @return Hex string representation of this object's data.
  */
 - (NSString*)sfsdk_newHexStringFromBytes;
-
-- (NSString*)newHexStringFromBytes SFSDK_DEPRECATED(11.1, 12.0, "Use sfsdk_newHexStringFromBytes instead");
 
 @end
 
