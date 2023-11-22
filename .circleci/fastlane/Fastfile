@@ -97,7 +97,8 @@ def test_scheme(scheme)
         output_directory: 'test_output',
         output_types: 'html,junit',
         code_coverage: true,
-        skip_build: true
+        skip_build: true,
+        number_of_retries: 1
     )
   ensure
     system("mv ../test_output/report.html ../test_output/#{scheme}_results.html")
