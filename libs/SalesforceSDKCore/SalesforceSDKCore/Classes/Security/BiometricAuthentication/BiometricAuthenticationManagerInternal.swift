@@ -210,6 +210,7 @@ public class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthenti
     }
     
     @objc public func presentBiometric(scene: UIScene) {
+        let laContext = LAContext()
         laContext.localizedCancelTitle = SFSDKResourceUtils.localizedString("usePassword")
         var error: NSError?
         if (laContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)) {
