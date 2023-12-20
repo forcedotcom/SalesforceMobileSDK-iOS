@@ -35,10 +35,6 @@
     return [UIColor colorWithRed:0.0f/255.0f green:112.0f/255.0f blue:210.0f/255.0f alpha:1.0f];
 }
 
-+ (UIColor *)colorFromHexValue:(NSString *)hexString {
-    return [UIColor sfsdk_colorFromHexValue:hexString];
-}
-
 + (UIColor *)sfsdk_colorFromHexValue:(NSString *)hexString {
     UIColor *color = nil;
     hexString = [[self class] sfsdk_sixDigitHexFromString:hexString];
@@ -113,10 +109,6 @@
     return [UIColor colorWithRed: 245.0/255.0 green:246.0/255.0 blue: 250.0/255.0 alpha: 1.0];
 }
 
-+ (UIColor *)colorForLightStyle:(UIColor *)lightStyleColor darkStyle:(UIColor *)darkStyleColor {
-    return [UIColor sfsdk_colorForLightStyle:lightStyleColor darkStyle:darkStyleColor];
-}
-
 + (UIColor *)sfsdk_colorForLightStyle:(UIColor *)lightStyleColor darkStyle:(UIColor *)darkStyleColor {
     return [[UIColor alloc] initWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
                 if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
@@ -125,10 +117,6 @@
                     return lightStyleColor;
                 }
             }];
-}
-
-- (NSString *)hexStringFromColor {
-    return [self sfsdk_hexStringFromColor];
 }
 
 - (NSString *)sfsdk_hexStringFromColor {

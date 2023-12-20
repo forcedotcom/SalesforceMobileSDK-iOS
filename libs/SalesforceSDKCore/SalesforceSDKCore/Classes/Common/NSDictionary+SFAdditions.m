@@ -24,14 +24,8 @@
 
 #import "NSDictionary+SFAdditions.h"
 #import "NSString+SFAdditions.h"
-#import "NSArray+SFAdditions.h"
 
 @implementation NSDictionary (SFAdditions)
-
-
-- (nullable id) objectAtPath:(NSString *)path {
-    return [self sfsdk_objectAtPath:path];
-}
 
 - (nullable id) sfsdk_objectAtPath:(NSString *)path {
     if (path == nil) {
@@ -55,10 +49,6 @@
     return obj;
 }
 
-- (nullable id)nonNullObjectForKey:(id)key {
-    return [self sfsdk_nonNullObjectForKey:key];
-}
-
 - (nullable id)sfsdk_nonNullObjectForKey:(id)key {
     id result = [self objectForKey:key];
     if (result == [NSNull null]) {
@@ -69,10 +59,6 @@
     }
     
     return result;
-}
-
-- (nullable NSString *)jsonString {
-    return [self sfsdk_jsonString];
 }
 
 - (nullable NSString*)sfsdk_jsonString {

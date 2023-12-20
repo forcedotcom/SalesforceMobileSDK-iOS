@@ -37,18 +37,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (nullable UIColor *)sfsdk_colorFromHexValue:(NSString *)hexString;
 
-+ (nullable UIColor *)colorFromHexValue:(NSString *)hexString SFSDK_DEPRECATED(11.1, 12.0, "Use sfsdk_colorFromHexValue: instead");
-
 + (UIColor *)sfsdk_colorForLightStyle:(UIColor *)lightStyleColor darkStyle:(UIColor *)darkStyleColor;
-
-+ (UIColor *)colorForLightStyle:(UIColor *)lightStyleColor darkStyle:(UIColor *)darkStyleColor SFSDK_DEPRECATED(11.1, 12.0, "Use sfsdk_colorForLightStyle:darkStyle: instead");
 
 /** Returns a CSS hex color representation
  of this color
  */
 - (NSString *)sfsdk_hexStringFromColor;
-
-- (NSString *)hexStringFromColor SFSDK_DEPRECATED(11.1, 12.0, "Use sfsdk_hexStringFromColor instead");
 
 @property (class, nonatomic, readonly) UIColor *salesforceBlueColor;
 @property (class, nonatomic, readonly) UIColor *salesforceSystemBackgroundColor;
