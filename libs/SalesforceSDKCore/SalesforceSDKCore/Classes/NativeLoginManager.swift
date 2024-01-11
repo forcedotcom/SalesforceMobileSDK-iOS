@@ -32,5 +32,5 @@ public protocol NativeLoginManager {
     
     @objc func login(username: String, password: String) -> Bool
     
-    @objc func fallbackToWebview() 
+    @objc func fallbackToWebAuthentication() 
 }

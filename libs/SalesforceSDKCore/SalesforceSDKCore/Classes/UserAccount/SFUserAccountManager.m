@@ -185,6 +185,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         _accountsLock = [NSRecursiveLock new];
         _authPreferences = [SFSDKAuthPreferences  new];
         _errorManager = [[SFSDKAuthErrorManager alloc] init];
+        _shouldFallbackToWebAuthentication = NO;
         __weak typeof (self) weakSelf = self;
         self.alertDisplayBlock = ^(SFSDKAlertMessage * message, SFSDKWindowContainer *window) {
             __strong typeof (weakSelf) strongSelf = weakSelf;
@@ -482,9 +483,8 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     }
     
     SFSDKAuthRequest *request;
-    SFNativeLoginManagerInternal *nativeLoginManager = (SFNativeLoginManagerInternal *)[[SalesforceSDKManager sharedManager] nativeLoginManager];
-    if (nativeLoginManager != nil) {
-        request = [self nativeLoginAuthRequest:nativeLoginManager];
+    if (self.nativeLoginEnabled && !self.shouldFallbackToWebAuthentication) {
+        request = [self nativeLoginAuthRequest];
     } else {
         request = [self defaultAuthRequest];
     }
@@ -516,7 +516,8 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     return request;
 }
 
--(SFSDKAuthRequest *)nativeLoginAuthRequest:(SFNativeLoginManagerInternal *)nativeLoginManager {
+-(SFSDKAuthRequest *)nativeLoginAuthRequest {
+    SFNativeLoginManagerInternal *nativeLoginManager = (SFNativeLoginManagerInternal *)[[SalesforceSDKManager sharedManager] nativeLoginManager];
     SFSDKAuthRequest *request = [[SFSDKAuthRequest alloc] init];
     request.loginHost = nativeLoginManager.loginUrl;
     request.additionalOAuthParameterKeys = self.additionalOAuthParameterKeys;
@@ -535,9 +536,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     NSString *sceneId = authSession.sceneId;
     self.authSessions[sceneId] = authSession;
     
-    // TODO: Clean this up when implementing fallback to webview.
-    UIViewController *nativeLogin = [SalesforceSDKManager sharedManager].nativeLoginViewController;
-    if (nativeLogin != nil) {
+    if (self.nativeLoginEnabled && !self.shouldFallbackToWebAuthentication) {
         authSession.oauthCoordinator.useNativeAuth = YES;
     }
     
@@ -865,6 +864,13 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         dispatch_async(dispatch_get_main_queue(), ^{
             [self oauthCoordinatorDidCancelBrowserAuthentication:coordinator];
         });
+        return;
+    }
+    
+    if (self.nativeLoginEnabled && self.shouldFallbackToWebAuthentication) {
+        self.shouldFallbackToWebAuthentication = NO;
+        [self stopCurrentAuthentication:^(BOOL result) { }];
+        [self loginWithCompletion:^(SFOAuthInfo* authInfo, SFUserAccount* user) { } failure:^(SFOAuthInfo* authInfo, NSError* error) { }];
         return;
     }
     
@@ -1943,7 +1949,8 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 #pragma mark Switching Users
 - (void)switchToNewUserWithCompletion:(void (^)(NSError *error, SFUserAccount * currentAccount))completion {
     SFUserAccount *prevUser = self.currentUser;
-    if (!self.currentUser) {
+    BOOL nativeLoginFallback = self.nativeLoginEnabled && self.shouldFallbackToWebAuthentication;
+    if (!self.currentUser && !nativeLoginFallback) {
         NSError *error = [[NSError alloc] initWithDomain:kSFSDKUserAccountManagerErrorDomain
                                                     code:SFSDKUserAccountManagerError
                                                 userInfo:@{
@@ -2061,16 +2068,18 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 }
 
 - (void)presentLoginView:(SFSDKAuthViewHolder *)viewHandler {
-    UIViewController *nativeLogin = [SalesforceSDKManager sharedManager].nativeLoginViewController;
     void (^presentViewBlock)(void) = ^void() {
-        if (nativeLogin != nil) {
+        if (self.nativeLoginEnabled && !self.shouldFallbackToWebAuthentication) {
+            UIViewController *nativeLogin = [SalesforceSDKManager sharedManager].nativeLoginViewController;
             UIViewController *controllerToPresent = [[SFSDKNavigationController alloc] initWithRootViewController:nativeLogin];
             controllerToPresent.modalPresentationStyle = UIModalPresentationFullScreen;
             [[[SFSDKWindowManager sharedManager] authWindow:viewHandler.scene].viewController presentViewController:controllerToPresent animated:NO completion:^{ }];
         }
         else if (!viewHandler.isAdvancedAuthFlow) {
             UIViewController *controllerToPresent = [[SFSDKNavigationController alloc] initWithRootViewController:viewHandler.loginController];
-            controllerToPresent.modalPresentationStyle = UIModalPresentationFullScreen;
+            if(!(self.nativeLoginEnabled && self.shouldFallbackToWebAuthentication)) {
+                controllerToPresent.modalPresentationStyle = UIModalPresentationFullScreen;
+            }
             [[[SFSDKWindowManager sharedManager] authWindow:viewHandler.scene].viewController presentViewController:controllerToPresent animated:NO completion:^{
                 NSAssert((nil != [viewHandler.loginController.oauthView superview]), @"No superview for oauth web view invoke [super viewDidLayoutSubviews] in the SFLoginViewController subclass");
             }];

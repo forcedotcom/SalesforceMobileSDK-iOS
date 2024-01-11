@@ -106,8 +106,11 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         return false
     }
     
-    @objc public func fallbackToWebview() {
-        
+    @objc public func fallbackToWebAuthentication() {
+        UserAccountManager.shared.shouldFallbackToWebAuthentication = true
+        UserAccountManager.shared.switchToNewUserAccount { _ in
+            UserAccountManager.shared.shouldFallbackToWebAuthentication = false
+        }
     }
     
     private func urlSafeBase64Encode(data: Data) -> String {

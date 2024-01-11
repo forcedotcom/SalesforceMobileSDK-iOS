@@ -33,7 +33,7 @@
 #import "SFSDKLoginHostDelegate.h"
 #import "UIColor+SFColors.h"
 #import "SFSDKResourceUtils.h"
-#import "SFUserAccountManager.h"
+#import "SFUserAccountManager+Internal.h"
 #import "SFSDKLoginViewControllerConfig.h"
 #import "SFOAuthInfo.h"
 #import "SFSDKWindowManager.h"
@@ -219,6 +219,10 @@
         return NO;
     }
     
+    if ([SFUserAccountManager sharedInstance].shouldFallbackToWebAuthentication) {
+        return YES;
+    }
+    
     if (self.config.shouldDisplayBackButton || [SFUserAccountManager sharedInstance].idpEnabled) {
         return YES;
     }
@@ -313,6 +317,12 @@
 - (void)handleBackButtonAction {
     UIScene *scene = self.view.window.windowScene;
     [[SFUserAccountManager sharedInstance] stopCurrentAuthentication:nil];
+    
+    if ([SFUserAccountManager sharedInstance].shouldFallbackToWebAuthentication) {
+        [SFUserAccountManager sharedInstance].shouldFallbackToWebAuthentication = NO;
+        [[SFUserAccountManager sharedInstance] loginWithCompletion:^(SFOAuthInfo* authInfo, SFUserAccount* user) { } failure:^(SFOAuthInfo* authInfo, NSError* error) { }];
+    }
+    
     if (![SFUserAccountManager sharedInstance].idpEnabled) {
         [[[SFSDKWindowManager sharedManager] authWindow:scene].viewController.presentedViewController dismissViewControllerAnimated:NO completion:^{
             [[[SFSDKWindowManager sharedManager] authWindow:scene] dismissWindow];

@@ -354,6 +354,11 @@ NS_SWIFT_NAME(UserAccountManager)
  */
 @property (nonatomic,strong) SFSDKLoginViewControllerConfig *loginViewControllerConfig;
 
+/**
+ * Indicates that that web based authentication should be used instead of native login.
+ */
+@property (nonatomic, assign) BOOL shouldFallbackToWebAuthentication;
+
 /** Shared singleton
  */
 @property (class,nonatomic,readonly) SFUserAccountManager *sharedInstance NS_SWIFT_NAME(shared);
