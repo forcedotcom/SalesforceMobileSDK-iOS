@@ -168,7 +168,14 @@
         [self beginJwtTokenExchangeFlow];
     } else {
         __weak typeof(self) weakSelf = self;
-        if (self.useBrowserAuth) {
+        if (self.useNativeAuth) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                __strong typeof(weakSelf) strongSelf = weakSelf;
+                strongSelf.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeNative];
+                [strongSelf notifyDelegateOfBeginAuthentication];
+                [strongSelf beginHeadlessNativeLoginFlow];
+            });
+        } else if (self.useBrowserAuth) {
             [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSafariBrowserForLogin];
             dispatch_async(dispatch_get_main_queue(), ^{
                 __strong typeof(weakSelf) strongSelf = weakSelf;
@@ -554,6 +561,17 @@
             [strongSelf handleResponse:response];
         }];
     }
+}
+
+- (void)beginHeadlessNativeLoginFlow {
+    if (![NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self beginHeadlessNativeLoginFlow];
+        });
+        return;
+    }
+    
+    [self.delegate oauthCoordinatorDidBeginNativeAuthentication:self];
 }
          
 - (void)handleResponse:(SFSDKOAuthTokenEndpointResponse *)response {

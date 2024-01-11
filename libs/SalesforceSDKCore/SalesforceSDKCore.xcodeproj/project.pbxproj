@@ -117,7 +117,9 @@
 		A315F83B26EAAC8400B94428 /* ScreenLockManagerInternal.swift in Sources */ = {isa = PBXBuildFile; fileRef = A315F83A26EAAC8400B94428 /* ScreenLockManagerInternal.swift */; };
 		A315F84326EAAFF800B94428 /* ScreenLockUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A315F84226EAAFF800B94428 /* ScreenLockUIView.swift */; };
 		A32C854A25268005000FFA42 /* KeyValueEncryptedFileStoreInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32C854925268005000FFA42 /* KeyValueEncryptedFileStoreInspector.swift */; };
+		A375301C2B2A6CC8006DFE69 /* NativeLoginManagerInternal.swift in Sources */ = {isa = PBXBuildFile; fileRef = A375301B2B2A6CC8006DFE69 /* NativeLoginManagerInternal.swift */; };
 		A37F3116252E5C2300026635 /* KeyValueEncryptedFileStoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37F3115252E5C2300026635 /* KeyValueEncryptedFileStoreViewController.swift */; };
+		A3A146962B45E9D400902A82 /* NativeLoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A146952B45E9D400902A82 /* NativeLoginManager.swift */; };
 		A3C7475C29F7047400D72B7F /* ScreenLockManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C7475B29F7047400D72B7F /* ScreenLockManager.swift */; };
 		A3C7475F29F7087B00D72B7F /* BiometricAuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C7475E29F7087B00D72B7F /* BiometricAuthenticationManager.swift */; };
 		A3C7476129F709EB00D72B7F /* BiometricAuthenticationManagerInternal.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C7476029F709EB00D72B7F /* BiometricAuthenticationManagerInternal.swift */; };
@@ -711,7 +713,9 @@
 		A315F83A26EAAC8400B94428 /* ScreenLockManagerInternal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenLockManagerInternal.swift; sourceTree = "<group>"; };
 		A315F84226EAAFF800B94428 /* ScreenLockUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenLockUIView.swift; sourceTree = "<group>"; };
 		A32C854925268005000FFA42 /* KeyValueEncryptedFileStoreInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyValueEncryptedFileStoreInspector.swift; sourceTree = "<group>"; };
+		A375301B2B2A6CC8006DFE69 /* NativeLoginManagerInternal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeLoginManagerInternal.swift; sourceTree = "<group>"; };
 		A37F3115252E5C2300026635 /* KeyValueEncryptedFileStoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyValueEncryptedFileStoreViewController.swift; sourceTree = "<group>"; };
+		A3A146952B45E9D400902A82 /* NativeLoginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeLoginManager.swift; sourceTree = "<group>"; };
 		A3C7475B29F7047400D72B7F /* ScreenLockManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenLockManager.swift; sourceTree = "<group>"; };
 		A3C7475E29F7087B00D72B7F /* BiometricAuthenticationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricAuthenticationManager.swift; sourceTree = "<group>"; };
 		A3C7476029F709EB00D72B7F /* BiometricAuthenticationManagerInternal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricAuthenticationManagerInternal.swift; sourceTree = "<group>"; };
@@ -1439,6 +1443,15 @@
 			path = ScreenLock;
 			sourceTree = "<group>";
 		};
+		A37530152B2A6C6B006DFE69 /* NativeLogin */ = {
+			isa = PBXGroup;
+			children = (
+				A375301B2B2A6CC8006DFE69 /* NativeLoginManagerInternal.swift */,
+				A3A146952B45E9D400902A82 /* NativeLoginManager.swift */,
+			);
+			name = NativeLogin;
+			sourceTree = "<group>";
+		};
 		A3C7475D29F7085E00D72B7F /* BiometricAuthentication */ = {
 			isa = PBXGroup;
 			children = (
@@ -1617,6 +1630,7 @@
 		E139509E1C535F9C00575C03 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				A37530152B2A6C6B006DFE69 /* NativeLogin */,
 				E1C80CDD1C5AEBFA001B3A21 /* SFLoginViewController.h */,
 				E1C80CDE1C5AEBFA001B3A21 /* SFLoginViewController.m */,
 				E13950A21C53620B00575C03 /* LoginHost */,
@@ -2229,6 +2243,7 @@
 				CE50CE921DD3DD1F00F1297B /* SFSDKEventBuilderHelper.m in Sources */,
 				4F3139652331C5A1007B3705 /* SFSDKAuthRootController.m in Sources */,
 				CE4CE3A61C0E5279009F6029 /* SFDirectoryManager.m in Sources */,
+				A375301C2B2A6CC8006DFE69 /* NativeLoginManagerInternal.swift in Sources */,
 				B72171532353BFD90022510F /* SFSDKAuthSession.m in Sources */,
 				B7C274561F81507100CE539D /* SFSDKSPLoginResponseCommand.m in Sources */,
 				B7FB26C81F78094A00FB25A2 /* SFSDKUserSelectionTableViewController.m in Sources */,
@@ -2268,6 +2283,7 @@
 				B711290D1F8A780800436CFB /* SFSDKAlertView.m in Sources */,
 				B7460C1C2347E1A100C7512E /* SFSDKBatchResponse.m in Sources */,
 				A3C7476129F709EB00D72B7F /* BiometricAuthenticationManagerInternal.swift in Sources */,
+				A3A146962B45E9D400902A82 /* NativeLoginManager.swift in Sources */,
 				B7FB26DB1F78096300FB25A2 /* SFSDKIDPErrorHandler.m in Sources */,
 				B7677051223AE5E400545C90 /* SFUserAccountManager+Instrumentation.m in Sources */,
 				E1C80CF01C5AEE31001B3A21 /* SFSDKLoginHostListViewController.m in Sources */,

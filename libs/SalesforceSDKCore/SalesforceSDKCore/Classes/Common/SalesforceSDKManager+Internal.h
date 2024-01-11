@@ -25,6 +25,7 @@
 @property (nonatomic, assign) SFAppType appType;
 @property (nonatomic, weak, nullable) id<SalesforceSDKManagerFlow> sdkManagerFlow;
 @property (nonatomic, strong, nonnull) SFSDKSafeMutableDictionary<NSString *, UIViewController *> *snapshotViewControllers;
+@property (nonatomic, strong, nullable) UIViewController* nativeLoginViewController;
 
 - (void)presentSnapshot:(nonnull UIScene *)scene;
 - (BOOL)isSnapshotPresented:(nonnull UIScene *)scene;

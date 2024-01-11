@@ -69,6 +69,7 @@
 #import "SFSDKIDPLoginRequestCommand.h"
 #import "SFSDKIDPAuthCodeLoginRequestCommand.h"
 #import <SalesforceSDKCommon/SFJsonUtils.h>
+#import "SFSDKOAuth2+Internal.h"
 
 // Notifications
 NSNotificationName SFUserAccountManagerDidChangeUserNotification       = @"SFUserAccountManagerDidChangeUserNotification";
@@ -480,7 +481,14 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         return NO;
     }
     
-    SFSDKAuthRequest *request = [self defaultAuthRequest];
+    SFSDKAuthRequest *request;
+    SFNativeLoginManagerInternal *nativeLoginManager = (SFNativeLoginManagerInternal *)[[SalesforceSDKManager sharedManager] nativeLoginManager];
+    if (nativeLoginManager != nil) {
+        request = [self nativeLoginAuthRequest:nativeLoginManager];
+    } else {
+        request = [self defaultAuthRequest];
+    }
+    
     if (scene) {
         request.scene = scene;
     }
@@ -508,6 +516,16 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     return request;
 }
 
+-(SFSDKAuthRequest *)nativeLoginAuthRequest:(SFNativeLoginManagerInternal *)nativeLoginManager {
+    SFSDKAuthRequest *request = [[SFSDKAuthRequest alloc] init];
+    request.loginHost = nativeLoginManager.loginUrl;
+    request.additionalOAuthParameterKeys = self.additionalOAuthParameterKeys;
+    request.oauthClientId = nativeLoginManager.clientId;
+    request.oauthCompletionUrl = nativeLoginManager.redirectUri;
+    request.scene = [[SFSDKWindowManager sharedManager] defaultScene];
+    return request;
+}
+
 - (BOOL)authenticateWithRequest:(SFSDKAuthRequest *)request completion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
     SFSDKAuthSession *authSession = [[SFSDKAuthSession alloc] initWith:request credentials:nil];
     authSession.isAuthenticating = YES;
@@ -516,6 +534,13 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     authSession.oauthCoordinator.delegate = self;
     NSString *sceneId = authSession.sceneId;
     self.authSessions[sceneId] = authSession;
+    
+    // TODO: Clean this up when implementing fallback to webview.
+    UIViewController *nativeLogin = [SalesforceSDKManager sharedManager].nativeLoginViewController;
+    if (nativeLogin != nil) {
+        authSession.oauthCoordinator.useNativeAuth = YES;
+    }
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         [SFSDKWebViewStateManager removeSession];
         [authSession.oauthCoordinator authenticate];
@@ -818,6 +843,21 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
                                 kSFNotificationUserInfoAuthTypeKey: coordinator.authInfo };
     [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserWillShowAuthView object:self  userInfo:userInfo];
     self.authViewHandler.authViewDisplayBlock(viewHolder);
+}
+
+- (void)oauthCoordinatorDidBeginNativeAuthentication:(SFOAuthCoordinator *)coordinator {
+    SFSDKAuthViewHolder *viewHolder = [SFSDKAuthViewHolder new];
+    viewHolder.scene = coordinator.authSession.oauthRequest.scene;
+    
+    // Ensure this runs on the main thread.  Has to be sync, because the coordinator expects the auth view
+    // to be added to a superview by the end of this method.
+    if (![NSThread isMainThread]) {
+       dispatch_sync(dispatch_get_main_queue(), ^{
+           self.authViewHandler.authViewDisplayBlock(viewHolder);
+       });
+    } else {
+       self.authViewHandler.authViewDisplayBlock(viewHolder);
+    }
 }
 
 - (void)oauthCoordinatorDidCancelBrowserAuthentication:(SFOAuthCoordinator *)coordinator {
@@ -1135,6 +1175,35 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     SFUserAccount *newAcct = [[SFUserAccount alloc] initWithCredentials:credentials];
     [self saveAccountForUser:newAcct error:nil];
     return newAcct;
+}
+- (void)createNativeUserAccount:(NSData *)data {
+    if (![NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self createNativeUserAccount:data];
+        });
+        return;
+    }
+    
+    UIScene *scene = SalesforceSDKManager.sharedManager.nativeLoginViewController.view.window.windowScene;
+    SFSDKAuthSession *authSession = self.authSessions[scene.session.persistentIdentifier];
+    
+    // Dummy request is necessary for flow
+    SFSDKOAuthTokenEndpointRequest *request = [[SFSDKOAuthTokenEndpointRequest alloc] init];
+    request.additionalOAuthParameterKeys = [NSArray new];
+    
+    // Let SFSDKOAuth2 do error handling
+    [(SFSDKOAuth2 *)self.authClient() handleTokenEndpointResponse:^(SFSDKOAuthTokenEndpointResponse *response) {
+        [[authSession oauthCoordinator] updateCredentials:[response asDictionary]];
+        authSession.credentials = authSession.oauthCoordinator.credentials;
+        authSession.identityCoordinator = [[SFIdentityCoordinator alloc] initWithCredentials:authSession.credentials];
+        
+        authSession.oauthCoordinator.delegate = self;
+        authSession.identityCoordinator.delegate = self;
+        authSession.oauthCoordinator.authSession = authSession;
+        authSession.identityCoordinator.authSession = authSession;
+        
+        [[authSession identityCoordinator] initiateIdentityDataRetrieval];
+    } request:request data:data urlResponse:[[NSURLResponse alloc] init]];
 }
 
 - (void)migrateUserDefaults {
@@ -1801,6 +1870,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         [self resetAuthentication];
     }
 }
+
 - (void)notifyLoginCompletion:(SFUserAccount *)userAccount authInfo:(SFOAuthInfo *)authInfo {
      
      NSDictionary *userInfo = @{kSFNotificationUserInfoAccountKey: userAccount,
@@ -1991,8 +2061,14 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 }
 
 - (void)presentLoginView:(SFSDKAuthViewHolder *)viewHandler {
+    UIViewController *nativeLogin = [SalesforceSDKManager sharedManager].nativeLoginViewController;
     void (^presentViewBlock)(void) = ^void() {
-        if (!viewHandler.isAdvancedAuthFlow) {
+        if (nativeLogin != nil) {
+            UIViewController *controllerToPresent = [[SFSDKNavigationController alloc] initWithRootViewController:nativeLogin];
+            controllerToPresent.modalPresentationStyle = UIModalPresentationFullScreen;
+            [[[SFSDKWindowManager sharedManager] authWindow:viewHandler.scene].viewController presentViewController:controllerToPresent animated:NO completion:^{ }];
+        }
+        else if (!viewHandler.isAdvancedAuthFlow) {
             UIViewController *controllerToPresent = [[SFSDKNavigationController alloc] initWithRootViewController:viewHandler.loginController];
             controllerToPresent.modalPresentationStyle = UIModalPresentationFullScreen;
             [[[SFSDKWindowManager sharedManager] authWindow:viewHandler.scene].viewController presentViewController:controllerToPresent animated:NO completion:^{
@@ -2031,10 +2107,12 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
  }
 
 - (BOOL)isAlreadyPresentingLoginController:(UIViewController*)presentedViewController {
+    UIViewController *topView = ((SFSDKNavigationController*) presentedViewController).topViewController;
+    BOOL isLoginViewController = [topView isKindOfClass:[SFLoginViewController class]] || topView == SalesforceSDKManager.sharedManager.nativeLoginViewController;
     return (presentedViewController
             && !presentedViewController.beingDismissed
             && [presentedViewController isKindOfClass:[SFSDKNavigationController class]]
-            && [((SFSDKNavigationController*) presentedViewController).topViewController isKindOfClass:[SFLoginViewController class]]);
+            && isLoginViewController);
 }
 
 - (SFLoginViewController *)createLoginViewControllerInstance:(SFOAuthCoordinator *)coordinator {

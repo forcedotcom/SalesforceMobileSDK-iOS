@@ -2,8 +2,8 @@
 //  NativeLoginManager.swift
 //  SalesforceSDKCore
 //
-//  Created by Brandon Page on 12/13/23.
-//  Copyright (c) 2023-present, salesforce.com, inc. All rights reserved.
+//  Created by Brandon Page on 1/3/24.
+//  Copyright (c) 2024-present, salesforce.com, inc. All rights reserved.
 // 
 //  Redistribution and use of this software in source and binary forms, with or without modification,
 //  are permitted provided that the following conditions are met:
@@ -25,119 +25,12 @@
 //  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
 //  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import CryptoKit
+import Foundation
 
-/*
- *
- *
- */
 @objc(SFNativeLoginManager)
-public class NativeLoginManager: NSObject {
-    var clientId: String
-    var redirectUri: String
-    var loginUrl: String
+public protocol NativeLoginManager {
     
-    struct AuthorizationResponse: Codable {
-        let sfdc_community_url: String
-        let sfdc_community_id: String
-        let code: String
-    }
+    @objc func login(username: String, password: String) -> Bool
     
-    @objc init(clientId: String, redirectUri: String, loginUrl: String) {
-        self.clientId = clientId
-        self.redirectUri = redirectUri
-        self.loginUrl = loginUrl
-    }
-    
-    @objc public func login(username: String, password: String) -> Bool {
-        // TODO: check username, password, clientId, redirect uri, login url for validity
-        
-        // TODO:  get kSFOAuthEndPointAuthorize and other consants from source
-        
-        guard let creds: Data = "\(username):\(password)".data(using: .utf8) else {
-            // log
-            return false
-        }
-        let encodedCreds = urlSafeBase64Encode(data: creds)
-        let authRequest = RestRequest(method: RestRequest.Method.POST, baseURL: loginUrl, path: "/services/oauth2/authorize", queryParams: nil)
-        let customHeaders: NSMutableDictionary = ["Auth-Request-Type": "Named-User",
-                                                  "Content-Type": "application/x-www-form-urlencoded",
-                                                  "Authorization": "Basic \(encodedCreds)"]
-        
-        let codeVerifier = generateCodeVerifier()
-        guard let challenge = generateChallenge(codeVerifier: codeVerifier) else { return false }
-        let authRequestBody = "response_type=code_credentials&client_id=\(clientId)&redirect_uri=\(redirectUri)&code_challenge=\(challenge)"
-        authRequest.customHeaders = customHeaders
-        authRequest.setCustomRequestBodyString(authRequestBody, contentType: "application/x-www-form-urlencoded")
-        authRequest.requiresAuthentication = false
-        authRequest.endpoint = ""
-        
-        RestClient.sharedGlobal.send(request: authRequest, { authResult in
-            switch(authResult) {
-            case .success(let authResponse):
-                do {
-                    let data = try authResponse.asDecodable(type: AuthorizationResponse.self)
-                    let tokenRequest = RestRequest(method: RestRequest.Method.POST, baseURL: data.sfdc_community_url, path: "/services/oauth2/token", queryParams: nil)
-                    let tokenRequestBody = "code=\(data.code)&grant_type=authorization_code&client_id=\(self.clientId)&redirect_uri=\(self.redirectUri)&code_verifier=\(codeVerifier)"
-                    
-                    tokenRequest.setCustomRequestBodyString(tokenRequestBody, contentType: "application/x-www-form-urlencoded")
-                    tokenRequest.requiresAuthentication = false
-                    tokenRequest.endpoint = ""
-                    
-                    RestClient.sharedGlobal.send(request: tokenRequest) { tokenResult in
-                        switch(tokenResult) {
-                        case .success(let tokenResponse):
-                            do {
-                                if let jsonResponse = try tokenResponse.asJson() as? [String : Any] {
-                                    let sfTokenResponse = SFSDKOAuthTokenEndpointResponse(dictionary: jsonResponse, parseAdditionalFields: [])
-                                    let authCoordinator = SFOAuthCoordinator()
-                                    authCoordinator.credentials = OAuthCredentials()
-                                    authCoordinator.handle(sfTokenResponse)
-                                    
-                                    // TODO: improve adding user
-                                    let newUser = UserAccountManager.shared.createUserAccount(with: authCoordinator.credentials!)
-                                    UserAccountManager.shared.switchToUserAccount(newUser)
-                                    
-                                    // TODO: return from outer function
-                                }
-                            } catch {
-                                
-                            }
-                        case .failure(let error):
-                            SFSDKCoreLogger().e(self.classForCoder, message: "error: \(error)")
-                        }
-                    }
-                } catch {
-                    SFSDKCoreLogger().e(self.classForCoder, message: "error: \(error)")
-                }
-            case .failure(let error):
-                SFSDKCoreLogger().e(self.classForCoder, message: "error: \(error)")
-            }
-        })
-        
-        return false
-    }
-    
-    @objc public func fallbackToWebview() {
-        
-    }
-    
-    private func urlSafeBase64Encode(data: Data) -> String {
-        return data.base64EncodedString()
-            .replacingOccurrences(of: "/", with: "_")
-            .replacingOccurrences(of: "+", with: "-")
-            .replacingOccurrences(of: "=", with: "")
-    }
-    
-    private func generateCodeVerifier() -> String {
-        let randomData = SFSDKCryptoUtils.randomByteData(withLength: 128)
-        return urlSafeBase64Encode(data: randomData)
-    }
-    
-    private func generateChallenge(codeVerifier: String) -> String? {
-        guard let data = codeVerifier.data(using: .utf8) else { return nil }
-        let hash = SHA256.hash(data: data)
-        return urlSafeBase64Encode(data: hash.dataRepresentation)
-    }
+    @objc func fallbackToWebview() 
 }
-

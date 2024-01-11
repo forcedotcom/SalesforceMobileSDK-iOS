@@ -45,6 +45,7 @@
 static NSString * const kSFAppFeatureSwiftApp    = @"SW";
 static NSString * const kSFAppFeatureMultiUser   = @"MU";
 static NSString * const kSFAppFeatureMacApp      = @"MC";
+static NSString * const kSFAppFeatureNativeLogin = @"NL";
 
 // Error constants
 NSString * const kSalesforceSDKManagerErrorDomain     = @"com.salesforce.sdkmanager.error";
@@ -81,6 +82,9 @@ NSString * const kSFScreenLockFlowWillBegin = @"SFScreenLockFlowWillBegin";
 NSString * const kSFScreenLockFlowCompleted = @"SFScreenLockFlowCompleted";
 NSString * const kSFBiometricAuthenticationFlowWillBegin = @"SFBiometricAuthenticationFlowWillBegin";
 NSString * const kSFBiometricAuthenticationFlowCompleted = @"SFBiometricAuthenticationFlowCompleted";
+
+// Native Login
+SFNativeLoginManagerInternal *nativeLogin;
 
 @implementation UIWindow (SalesforceSDKManager)
 
@@ -844,6 +848,25 @@ void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t b
 
 - (id <SFScreenLockManager>)screenLockManager {
     return [SFScreenLockManagerInternal shared];
+}
+
+#pragma mark - Native Login
+
+- (id <SFNativeLoginManager>)useNativeLogin:(nonnull NSString *)remoteAccessConsumerKey :(nonnull NSString *)oauthRedirectURI
+                                           :(nonnull NSString *)loginUrl :(nonnull UIViewController *)nativeLoginViewController {
+    [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureNativeLogin];
+    _nativeLoginViewController = nativeLoginViewController;
+    nativeLogin = [[SFNativeLoginManagerInternal alloc] initWithClientId:remoteAccessConsumerKey redirectUri:oauthRedirectURI loginUrl:loginUrl];
+    
+    return nativeLogin;
+}
+
+- (id <SFNativeLoginManager>)nativeLoginManager {
+    if (nativeLogin == nil) {
+        [[SFLogger defaultLogger] e:[self class] message:@"You must call 'useNativeLogin' to create the Native Login Manager instance before retrieving it."];
+    }
+    
+    return nativeLogin;
 }
 
 @end

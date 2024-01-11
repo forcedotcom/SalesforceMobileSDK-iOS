@@ -27,7 +27,7 @@
 #import <SalesforceSDKCore/SalesforceSDKCoreDefines.h>
 #import <SalesforceSDKCore/SalesforceSDKConstants.h>
 @class SFUserAccount, SFSDKAppConfig, SFScreenLockManager, SFBiometricAuthenticationManager;
-@protocol SFScreenLockManager, SFBiometricAuthenticationManager;
+@protocol SFScreenLockManager, SFBiometricAuthenticationManager, SFNativeLoginManager;
 
 /**
  Block typedef for creating a custom snapshot view controller.
@@ -289,18 +289,39 @@ NS_SWIFT_NAME(SalesforceManager)
 - (nonnull NSString *)devInfoTitleString;
 
 /**
- * Returns the ScreenLockManager instance.
+ * Returns The ScreenLockManager instance.
  *
- * @return the Screen Lock Manager
+ * @return The Screen Lock Manager.
  */
 - (id <SFScreenLockManager>)screenLockManager;
 
 /**
- * Returns the BiometricAuthenticationManager instance.
+ * Returns The BiometricAuthenticationManager instance.
  *
- * @return the Biometric Authentication Manager
+ * @return The Biometric Authentication Manager.
  */
 - (id <SFBiometricAuthenticationManager>)biometricAuthenticationManager;
+
+/**
+ * Creates the NativeLoginManager instance.
+ *
+ * @param remoteAccessConsumerKey The Conneted App consumer key.
+ * @param oauthRedirectURI the Conneted App redirect URI.
+ * @param loginUrl the login url for native login
+ * @param nativeLoginViewController the UI instance that will be presented to the user and
+ *  is responsible for using the returned Native Login Manager to initiate the login process.
+ *
+ * @return The Native Login Manager.
+ */
+- (id <SFNativeLoginManager>)useNativeLogin:(nonnull NSString *)remoteAccessConsumerKey :(nonnull NSString *)oauthRedirectURI
+                                           :(nonnull NSString *)loginUrl :(nonnull UIViewController *)nativeLoginViewController;
+
+/**
+ * Returns The NativeLoginManager instance.
+ *
+ * @return The Native Login Manager.
+ */
+- (id <SFNativeLoginManager>)nativeLoginManager;
 
 @end
 

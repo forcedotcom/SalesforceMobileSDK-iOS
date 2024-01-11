@@ -36,6 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSError *)errorWithType:(NSString *)type description:(NSString *)description;
 + (NSError *)errorWithType:(NSString *)type description:(NSString *)description underlyingError:(NSError *_Nullable)underlyingError;
 + (NSDate *)timestampStringToDate:(NSString *)timestamp;
+- (void)handleTokenEndpointResponse:(void (^)(SFSDKOAuthTokenEndpointResponse *))completionBlock request:(SFSDKOAuthTokenEndpointRequest *)endpointReq data:(NSData *)data urlResponse:(NSURLResponse *)response;
 @end
 
 NS_ASSUME_NONNULL_END
