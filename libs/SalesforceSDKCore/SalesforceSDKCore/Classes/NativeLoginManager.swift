@@ -50,7 +50,7 @@ public protocol NativeLoginManager {
     @objc func fallbackToWebAuthentication()
     
     /// If the native login view should show a back button.
-    @objc func shouldShowBackButtom() -> Bool
+    @objc func shouldShowBackButton() -> Bool
     
     /// Cancels authentication if appropriate.  Use this function to
     /// navigate back to the app if the user backs out of authentication

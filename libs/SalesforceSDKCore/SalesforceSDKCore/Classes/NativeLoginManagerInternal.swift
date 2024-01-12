@@ -136,7 +136,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         }
     }
     
-    public func shouldShowBackButtom() -> Bool {
+    public func shouldShowBackButton() -> Bool {
         if (SalesforceManager.shared.biometricAuthenticationManager().locked) {
             return false
         }
@@ -150,7 +150,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
     }
     
     public func cancelAuthentication() {
-        if (shouldShowBackButtom()) {
+        if (shouldShowBackButton()) {
             UserAccountManager.shared.stopCurrentAuthentication()
             
             if (UserAccountManager.shared.isIDPEnabled) {
