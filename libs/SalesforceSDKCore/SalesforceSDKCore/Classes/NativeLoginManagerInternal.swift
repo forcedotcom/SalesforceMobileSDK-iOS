@@ -27,12 +27,16 @@
 
 import CryptoKit
 
-/*
- * This class is internal to the Mobile SDK - don't instantiate in your application code
- * It's only public to be visible from the obj-c code when the library is compiled as a framework
- * See https://developer.apple.com/documentation/swift/importing-swift-into-objective-c#Import-Code-Within-a-Framework-Target
- */
+/// Global Constants
+let maximumUsernameLength = 80
+let minimumPasswordLength = 8
+let maximumPasswordLengthInBytes = 16000
 
+///
+/// This class is internal to the Mobile SDK - don't instantiate in your application code!
+///
+/// It's only public to be visible from the obj-c code when the library is compiled as a framework.
+/// See https://developer.apple.com/documentation/swift/importing-swift-into-objective-c#Import-Code-Within-a-Framework-Target
 @objc(SFNativeLoginManagerInternal)
 public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
     @objc let clientId: String
@@ -51,38 +55,45 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         self.loginUrl = loginUrl
     }
     
-    @objc public func login(username: String, password: String) -> Bool {
-        // TODO: check username, password, clientId, redirect uri, login url for validity
+    public func login(username: String, password: String) -> NativeLoginError {
+        let trimmedUsername = username.trimmingCharacters(in: .whitespacesAndNewlines)
+        let trimmedPassword = password.trimmingCharacters(in: .whitespacesAndNewlines)
         
-        // TODO:  get kSFOAuthEndPointAuthorize and other consants from source
+        if !isValidUsername(username: trimmedUsername) {
+            return .invalidUsername
+        }
         
-        guard let creds: Data = "\(username):\(password)".data(using: .utf8) else {
-            // log
-            return false
+        if !isValidPassword(username: trimmedUsername, password: trimmedPassword) {
+            return .invalidPassword
+        }
+        
+        guard let creds: Data = "\(trimmedUsername):\(trimmedPassword)".data(using: .utf8) else {
+            SFSDKCoreLogger().e(self.classForCoder, message: "Username or Password contain non-UTF8 characters.")
+            return .invalidCredentials
         }
         let encodedCreds = urlSafeBase64Encode(data: creds)
-        let authRequest = RestRequest(method: RestRequest.Method.POST, baseURL: loginUrl, path: "/services/oauth2/authorize", queryParams: nil)
-        let customHeaders: NSMutableDictionary = ["Auth-Request-Type": "Named-User",
-                                                  "Content-Type": "application/x-www-form-urlencoded",
-                                                  "Authorization": "Basic \(encodedCreds)"]
+        let authRequest = RestRequest(method: RestRequest.Method.POST, baseURL: loginUrl, path: kSFOAuthEndPointAuthorize, queryParams: nil)
+        let customHeaders: NSMutableDictionary = [kSFOAuthRequestTypeParamName: kSFOAuthRequestTypeNamedUser,
+                                                  kHttpHeaderContentType: kHttpPostContentType,
+                                                  kSFOAuthAuthorizationTypeParamName: "\(kSFOAuthAuthorizationTypeBasic) \(encodedCreds)"]
         
         let codeVerifier = generateCodeVerifier()
-        guard let challenge = generateChallenge(codeVerifier: codeVerifier) else { return false }
-        let authRequestBody = "response_type=code_credentials&client_id=\(clientId)&redirect_uri=\(redirectUri)&code_challenge=\(challenge)"
+        guard let challenge = generateChallenge(codeVerifier: codeVerifier) else { return .unknownError }
+        let authRequestBody = "\(kSFOAuthResponseType)=\(kSFOAuthCodeCredentialsParamName)&\(kSFOAuthClientId)=\(self.clientId)&\(kSFOAuthRedirectUri)=\(redirectUri)&\(kSFOAuthCodeChallengeParamName)=\(challenge)"
         authRequest.customHeaders = customHeaders
-        authRequest.setCustomRequestBodyString(authRequestBody, contentType: "application/x-www-form-urlencoded")
+        authRequest.setCustomRequestBodyString(authRequestBody, contentType: kHttpPostContentType)
         authRequest.requiresAuthentication = false
         authRequest.endpoint = ""
         
         RestClient.sharedGlobal.send(request: authRequest, { authResult in
-            switch(authResult) {
+            switch authResult {
             case .success(let authResponse):
                 do {
                     let data = try authResponse.asDecodable(type: AuthorizationResponse.self)
-                    let tokenRequest = RestRequest(method: RestRequest.Method.POST, baseURL: data.sfdc_community_url, path: "/services/oauth2/token", queryParams: nil)
-                    let tokenRequestBody = "code=\(data.code)&grant_type=authorization_code&client_id=\(self.clientId)&redirect_uri=\(self.redirectUri)&code_verifier=\(codeVerifier)"
+                    let tokenRequest = RestRequest(method: RestRequest.Method.POST, baseURL: data.sfdc_community_url, path: kSFOAuthEndPointToken, queryParams: nil)
+                    let tokenRequestBody = "\(kSFOAuthResponseTypeCode)=\(data.code)&\(kSFOAuthGrantType)=\(kSFOAuthGrantTypeAuthorizationCode)&\(kSFOAuthClientId)=\(self.clientId)&\(kSFOAuthRedirectUri)=\(self.redirectUri)&\(kSFOAuthCodeVerifierParamName)=\(codeVerifier)"
                     
-                    tokenRequest.setCustomRequestBodyString(tokenRequestBody, contentType: "application/x-www-form-urlencoded")
+                    tokenRequest.setCustomRequestBodyString(tokenRequestBody, contentType: kHttpPostContentType)
                     tokenRequest.requiresAuthentication = false
                     tokenRequest.endpoint = ""
                     
@@ -99,20 +110,67 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
                 }
             case .failure(let error):
                 // you will get auth failure here if the use cannot login this way
-                SFSDKCoreLogger().e(self.classForCoder, message: "error: \(error)")
+                SFSDKCoreLogger().e(self.classForCoder, message: "authenication error: \(error)")
             }
         })
         
-        return false
+        return .unknownError
     }
     
-    @objc public func fallbackToWebAuthentication() {
+    public func fallbackToWebAuthentication() {
         UserAccountManager.shared.shouldFallbackToWebAuthentication = true
         UserAccountManager.shared.switchToNewUserAccount { _ in
             UserAccountManager.shared.shouldFallbackToWebAuthentication = false
         }
     }
     
+    public func shouldShowBackButtom() -> Bool {
+        if (SalesforceManager.shared.biometricAuthenticationManager().locked) {
+            return false
+        }
+        
+        if (UserAccountManager.shared.isIDPEnabled) {
+            return true
+        }
+        
+        guard let totalAccounts = UserAccountManager.shared.userAccounts()?.count else { return false }
+        return (totalAccounts > 0 && UserAccountManager.shared.currentUserAccount != nil)
+    }
+    
+    public func cancelAuthentication() {
+        if (shouldShowBackButtom()) {
+            UserAccountManager.shared.stopCurrentAuthentication()
+            
+            if (UserAccountManager.shared.isIDPEnabled) {
+                SFSDKWindowManager.shared().authWindow(nil).viewController?.dismiss(animated: false)
+            } else {
+                SFSDKWindowManager.shared().authWindow(nil).viewController?.presentedViewController?.dismiss(animated: false, completion: {
+                    SFSDKWindowManager.shared().authWindow(nil).dismissWindow()
+                })
+            }
+        }
+    }
+    
+    private func isValidUsername(username: String) -> Bool {
+        if (username.count > maximumUsernameLength) {
+            return false
+        }
+        
+        let emailStyleRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
+        let predicate = NSPredicate(format: "SELF MATCHES %@", emailStyleRegex)
+        return predicate.evaluate(with: username)
+    }
+    
+    /// Validation of the weakest possible password requrements.
+    /// Rules derived from: https://help.salesforce.com/s/articleView?id=sf.admin_password.htm&type=5
+    private func isValidPassword(username: String, password: String) -> Bool {
+        let containsNumber = password.rangeOfCharacter(from: .decimalDigits) != nil
+        let containsChar = password.rangeOfCharacter(from: .alphanumerics) != nil
+        
+        return password.count >= minimumPasswordLength && password.utf8.count <= maximumPasswordLengthInBytes
+        && containsNumber && containsChar && !password.contains(username)
+    }
+ 
     private func urlSafeBase64Encode(data: Data) -> String {
         return data.base64EncodedString()
             .replacingOccurrences(of: "/", with: "_")
@@ -121,7 +179,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
     }
     
     private func generateCodeVerifier() -> String {
-        let randomData = SFSDKCryptoUtils.randomByteData(withLength: 128)
+        let randomData = SFSDKCryptoUtils.randomByteData(withLength: kSFOAuthCodeVerifierByteLength)
         return urlSafeBase64Encode(data: randomData)
     }
     

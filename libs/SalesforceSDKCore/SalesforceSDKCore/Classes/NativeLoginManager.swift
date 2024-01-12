@@ -26,11 +26,36 @@
 //  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import Foundation
+ 
+@objc public enum NativeLoginError: Int {
+    case invalidUsername         // Username does not meet Salesforce criteria (length, email format, ect).
+    case invalidPassword         // Password does not meet Salesforce criteria.
+    case invalidCredentials      // Username/password combination is incorrect.
+    case invalidUserProfile      // User profile is not allowed to use Native Login.
+    case unknownError
+}
 
 @objc(SFNativeLoginManager)
 public protocol NativeLoginManager {
     
-    @objc func login(username: String, password: String) -> Bool
+    /// Initiate a login with user provided username and password.
+    ///
+    /// Note: this function does not return upon successful login.
+    ///
+    /// - Parameters:
+    ///   - username: User provided Salesforce username.
+    ///   - password: User provided Salesforce password.
+    /// - Returns: NativeLoginError if login fails.
+    @objc func login(username: String, password: String) -> NativeLoginError
     
-    @objc func fallbackToWebAuthentication() 
+    /// Initiates web based authenticatioin.
+    @objc func fallbackToWebAuthentication()
+    
+    /// If the native login view should show a back button.
+    @objc func shouldShowBackButtom() -> Bool
+    
+    /// Cancels authentication if appropriate.  Use this function to
+    /// navigate back to the app if the user backs out of authentication
+    /// when another user is logged in.
+    @objc func cancelAuthentication()
 }

@@ -219,11 +219,8 @@
         return NO;
     }
     
-    if ([SFUserAccountManager sharedInstance].shouldFallbackToWebAuthentication) {
-        return YES;
-    }
-    
-    if (self.config.shouldDisplayBackButton || [SFUserAccountManager sharedInstance].idpEnabled) {
+    if (self.config.shouldDisplayBackButton || [SFUserAccountManager sharedInstance].idpEnabled
+        || [SFUserAccountManager sharedInstance].shouldFallbackToWebAuthentication) {
         return YES;
     }
     NSInteger totalAccounts = [SFUserAccountManager sharedInstance].allUserAccounts.count;
