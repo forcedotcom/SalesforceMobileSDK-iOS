@@ -32,10 +32,6 @@
 
 static NSString * const kUserIdFormatString = @"005R0000000Dsl%lu";
 static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
-static NSString * const kSFOAuthAccessToken = @"access_token";
-static NSString * const kSFOAuthInstanceUrl = @"instance_url";
-static NSString * const kSFOAuthCommunityId = @"sfdc_community_id";
-static NSString * const kSFOAuthCommunityUrl = @"sfdc_community_url";
 
 @interface SFUserAccountManagerNotificationsTests : XCTestCase {
     id<SFUserAccountPersister> _origAccountPersister;
