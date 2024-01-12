@@ -55,7 +55,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         self.loginUrl = loginUrl
     }
     
-    public func login(username: String, password: String) -> NativeLoginError {
+    public func login(username: String, password: String) async -> NativeLoginResult {
         let trimmedUsername = username.trimmingCharacters(in: .whitespacesAndNewlines)
         let trimmedPassword = password.trimmingCharacters(in: .whitespacesAndNewlines)
         
@@ -84,37 +84,49 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         authRequest.setCustomRequestBodyString(authRequestBody, contentType: kHttpPostContentType)
         authRequest.requiresAuthentication = false
         authRequest.endpoint = ""
-        
-        RestClient.sharedGlobal.send(request: authRequest, { authResult in
-            switch authResult {
-            case .success(let authResponse):
-                do {
-                    let data = try authResponse.asDecodable(type: AuthorizationResponse.self)
-                    let tokenRequest = RestRequest(method: RestRequest.Method.POST, baseURL: data.sfdc_community_url, path: kSFOAuthEndPointToken, queryParams: nil)
-                    let tokenRequestBody = "\(kSFOAuthResponseTypeCode)=\(data.code)&\(kSFOAuthGrantType)=\(kSFOAuthGrantTypeAuthorizationCode)&\(kSFOAuthClientId)=\(self.clientId)&\(kSFOAuthRedirectUri)=\(self.redirectUri)&\(kSFOAuthCodeVerifierParamName)=\(codeVerifier)"
-                    
-                    tokenRequest.setCustomRequestBodyString(tokenRequestBody, contentType: kHttpPostContentType)
-                    tokenRequest.requiresAuthentication = false
-                    tokenRequest.endpoint = ""
-                    
-                    RestClient.sharedGlobal.send(request: tokenRequest) { tokenResult in
-                        switch(tokenResult) {
-                        case .success(let tokenResponse):
-                            UserAccountManager.shared.createNativeUserAccount(with: tokenResponse.asData())
-                        case .failure(let error):
-                            SFSDKCoreLogger().e(self.classForCoder, message: "error: \(error)")
-                        }
-                    }
-                } catch {
-                    SFSDKCoreLogger().e(self.classForCoder, message: "error: \(error)")
-                }
-            case .failure(let error):
-                // you will get auth failure here if the use cannot login this way
-                SFSDKCoreLogger().e(self.classForCoder, message: "authenication error: \(error)")
+   
+        // First REST Call - Authorization
+        let authResult = await withCheckedContinuation { continuation in
+            RestClient.sharedGlobal.send(request: authRequest) { result in
+                continuation.resume(returning: result)
             }
-        })
+        }
         
-        return .unknownError
+        switch authResult {
+        case .success(let authResponse):
+            do {
+                let data = try authResponse.asDecodable(type: AuthorizationResponse.self)
+                let tokenRequest = RestRequest(method: RestRequest.Method.POST, baseURL: data.sfdc_community_url, path: kSFOAuthEndPointToken, queryParams: nil)
+                let tokenRequestBody = "\(kSFOAuthResponseTypeCode)=\(data.code)&\(kSFOAuthGrantType)=\(kSFOAuthGrantTypeAuthorizationCode)&\(kSFOAuthClientId)=\(self.clientId)&\(kSFOAuthRedirectUri)=\(self.redirectUri)&\(kSFOAuthCodeVerifierParamName)=\(codeVerifier)"
+                
+                tokenRequest.setCustomRequestBodyString(tokenRequestBody, contentType: kHttpPostContentType)
+                tokenRequest.requiresAuthentication = false
+                tokenRequest.endpoint = ""
+                
+                // Second REST Call - token request with code verifier
+                let tokenResult = await withCheckedContinuation { continuation in
+                    RestClient.shared.send(request: tokenRequest) { tokenResult in
+                        continuation.resume(returning: tokenResult)
+                    }
+                }
+                
+                switch(tokenResult) {
+                case .success(let tokenResponse):
+                    UserAccountManager.shared.createNativeUserAccount(with: tokenResponse.asData())
+                    return .success
+                case .failure(let error):
+                    SFSDKCoreLogger().e(self.classForCoder, message: "error: \(error)")
+                    return .unknownError
+                }
+            } catch {
+                SFSDKCoreLogger().e(self.classForCoder, message: "error: \(error)")
+                return .unknownError
+            }
+        case .failure(let error):
+            // You will catch the error here in the event of auth failure or if the use cannot login this way.
+            SFSDKCoreLogger().e(self.classForCoder, message: "authenication error: \(error)")
+            return .invalidCredentials
+        }
     }
     
     public func fallbackToWebAuthentication() {

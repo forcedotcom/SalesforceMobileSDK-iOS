@@ -27,12 +27,12 @@
 
 import Foundation
  
-@objc public enum NativeLoginError: Int {
+@objc public enum NativeLoginResult: Int {
     case invalidUsername         // Username does not meet Salesforce criteria (length, email format, ect).
     case invalidPassword         // Password does not meet Salesforce criteria.
     case invalidCredentials      // Username/password combination is incorrect.
-    case invalidUserProfile      // User profile is not allowed to use Native Login.
     case unknownError
+    case success
 }
 
 @objc(SFNativeLoginManager)
@@ -40,13 +40,11 @@ public protocol NativeLoginManager {
     
     /// Initiate a login with user provided username and password.
     ///
-    /// Note: this function does not return upon successful login.
-    ///
     /// - Parameters:
     ///   - username: User provided Salesforce username.
     ///   - password: User provided Salesforce password.
-    /// - Returns: NativeLoginError if login fails.
-    @objc func login(username: String, password: String) -> NativeLoginError
+    /// - Returns: NativeLoginResult
+    @objc func login(username: String, password: String) async -> NativeLoginResult
     
     /// Initiates web based authenticatioin.
     @objc func fallbackToWebAuthentication()
