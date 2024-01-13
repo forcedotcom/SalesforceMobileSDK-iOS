@@ -27,7 +27,6 @@
 #import <SalesforceSDKCore/SFUserAccountIdentity.h>
 #import <SalesforceSDKCore/SFUserAccountConstants.h>
 #import <SalesforceSDKCore/SFOAuthCoordinator.h>
-#import <SalesforceSDKCore/SFOAuthCoordinator.h>
 #import <SalesforceSDKCore/SFSDKLoginViewControllerConfig.h>
 #import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
@@ -327,6 +326,11 @@ NS_SWIFT_NAME(UserAccountManager)
  *
  */
 @property (nonatomic, copy, nullable) SFIDPUserSelectionBlock idpUserSelectionAction;
+
+
+/** Use this to add handling for navigation actions like email and custom links on the login screen, return WKNavigationActionPolicyAllow for any other actions to make sure that the login flow isn't interrupted
+ */
+@property (nonatomic, copy, nullable) WKNavigationActionPolicy (^navigationPolicyForAction)(WKWebView *webview, WKNavigationAction *action);
 
 /**  Use this property to enable an app to become and IdentityProvider for other apps
  *

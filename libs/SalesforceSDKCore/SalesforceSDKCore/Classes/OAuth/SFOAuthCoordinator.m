@@ -794,6 +794,8 @@
         [[SFUserAccountManager sharedInstance] setLoginHost:url.host];
         self.credentials.domain = url.host;
         [self authenticate];
+    } else if ([SFUserAccountManager sharedInstance].navigationPolicyForAction) {
+        decisionHandler([SFUserAccountManager sharedInstance].navigationPolicyForAction(webView, navigationAction));
     } else {
         decisionHandler(WKNavigationActionPolicyAllow);
     }
