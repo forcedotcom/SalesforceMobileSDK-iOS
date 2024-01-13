@@ -177,7 +177,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
     /// Rules derived from: https://help.salesforce.com/s/articleView?id=sf.admin_password.htm&type=5
     private func isValidPassword(username: String, password: String) -> Bool {
         let containsNumber = password.rangeOfCharacter(from: .decimalDigits) != nil
-        let containsChar = password.rangeOfCharacter(from: .alphanumerics) != nil
+        let containsChar = password.rangeOfCharacter(from: .letters) != nil
         
         return password.count >= minimumPasswordLength && password.utf8.count <= maximumPasswordLengthInBytes
         && containsNumber && containsChar && !password.contains(username)
