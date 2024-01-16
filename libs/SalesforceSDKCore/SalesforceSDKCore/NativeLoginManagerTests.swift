@@ -31,11 +31,21 @@ import XCTest
 final class NativeLoginManagerTests: XCTestCase {
     let nativeLoginManager = NativeLoginManagerInternal(clientId: "", redirectUri: "", loginUrl: "")
     
+    override func setUpWithError() throws {
+        _ = KeychainHelper.removeAll()
+    }
+
+    override func tearDownWithError() throws {
+        _ = KeychainHelper.removeAll()
+        UserAccountManager.shared.clearAllAccountState()
+    }
+    
     func testUsername() async {
         var result = await nativeLoginManager.login(username: "", password: "")
         XCTAssertEqual(.invalidUsername, result, "Should not allow empty username.")
         result = await nativeLoginManager.login(username: "test@c", password: "")
         XCTAssertEqual(.invalidUsername, result, "Should not allow invalid username.")
+        
         // success
         result = await nativeLoginManager.login(username: "test@c.co   ", password: "")
         XCTAssertEqual(.invalidPassword, result, "Should allow username.")
@@ -52,6 +62,7 @@ final class NativeLoginManagerTests: XCTestCase {
         XCTAssertEqual(.invalidPassword, result, "Should not allow password without any numbers.")
         result = await nativeLoginManager.login(username: "user@name.com", password: "passuser@name.comword")
         XCTAssertEqual(.invalidPassword, result, "Should not allow password that contains username.")
+        
         // success
         result = await nativeLoginManager.login(username: "bpage@salesforce.com", password: "mypass12")
         XCTAssertEqual(.invalidCredentials, result, "Should not allow password without any numbers.")
@@ -61,12 +72,42 @@ final class NativeLoginManagerTests: XCTestCase {
         let accountManager = UserAccountManager.shared
         XCTAssertNil(accountManager.currentUserAccount)
         XCTAssertFalse(nativeLoginManager.shouldShowBackButton(), "Should not show back button by default.")
+        guard let _ = try? createUser() else {
+            XCTFail()
+            return
+        }
+        XCTAssertTrue(nativeLoginManager.shouldShowBackButton(), "Should show back button when there is a logged in user.")
+        
+        // Clear accuount
+        _ = KeychainHelper.removeAll()
+        UserAccountManager.shared.clearAllAccountState()
+        
+        XCTAssertFalse(nativeLoginManager.shouldShowBackButton(), "Should not show back button when there are no other accounts.")
     }
     
-    private func createUser(index: Int) -> UserAccount {
-        let credentials = OAuthCredentials(identifier: "identifier-\(index)", clientId: "fakeClientIdForTesting", encrypted: true)!
+    func testShouldShowBackButtonWithBioAuth() {
+        guard let user = try? createUser() else {
+            XCTFail()
+            return
+        }
+        let bioAuthManager = BiometricAuthenticationManagerInternal.shared
+        bioAuthManager.storePolicy(userAccount: user, hasMobilePolicy: true, sessionTimeout: 1)
+        XCTAssertTrue(nativeLoginManager.shouldShowBackButton(), "Should show back button when there is a logged in user (but not locked).")
+
+        bioAuthManager.locked = true
+        XCTAssertFalse(nativeLoginManager.shouldShowBackButton(), "Should not show back button when bio auth is locked.")
+    }
+    
+    func testShouldShowBackButtonWithIDP() {
+        SalesforceManager.shared.identityProviderURLScheme = "test"
+        XCTAssertTrue(nativeLoginManager.shouldShowBackButton(), "Should show back button when app is an identity provider.")
+    }
+    
+    private func createUser() throws -> UserAccount {
+        let credentials = OAuthCredentials(identifier: "identifier-0", clientId: "fakeClientIdForTesting", encrypted: true)!
         let user = UserAccount(credentials: credentials)
-        user.idData = IdentityData(jsonDict: [ "user_id": "\(index)" ])
+        user.idData = IdentityData(jsonDict: [ "user_id": "0" ])
+        try UserAccountManager.shared.upsert(user)
         UserAccountManager.shared.currentUserAccount = user
         
         return user
