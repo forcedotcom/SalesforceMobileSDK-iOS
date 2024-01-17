@@ -291,6 +291,23 @@ static NSString* const kTestAppName = @"OverridenAppName";
     XCTAssertEqual(customSnapshot, snapshotOnDismissal, @"Custom snapshot view controller was not used on dismissal!");
 }
 
+- (void)testNativeLoginManager
+{
+    NSString *consumerKey = @"1234";
+    NSString *redirct = @"ftest/redirect";
+    NSString *loginUrl = @"https://salesforce.com/some/test/url";
+    UIViewController *view = [[UIViewController alloc] init];
+    
+    SFNativeLoginManagerInternal *loginManager = (SFNativeLoginManagerInternal *)[[SalesforceSDKManager sharedManager] useNativeLogin:consumerKey :redirct :loginUrl :view];
+    
+    XCTAssertEqual(consumerKey, loginManager.clientId);
+    XCTAssertEqual(redirct, loginManager.redirectUri);
+    XCTAssertEqual(loginUrl, loginManager.loginUrl);
+    XCTAssertEqual(view, [SalesforceSDKManager sharedManager].nativeLoginViewController);
+    XCTAssertEqual(loginManager, [[SalesforceSDKManager sharedManager] nativeLoginManager]);
+    XCTAssertTrue([[SFUserAccountManager sharedInstance] nativeLoginEnabled]);
+}
+
 #pragma mark - Process Pool Tests
 
 - (void)testDefaultProcessPoolIsNotNil

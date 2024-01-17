@@ -31,15 +31,6 @@ import XCTest
 final class NativeLoginManagerTests: XCTestCase {
     let nativeLoginManager = NativeLoginManagerInternal(clientId: "", redirectUri: "", loginUrl: "")
     
-    override func setUpWithError() throws {
-        _ = KeychainHelper.removeAll()
-    }
-
-    override func tearDownWithError() throws {
-        _ = KeychainHelper.removeAll()
-        UserAccountManager.shared.clearAllAccountState()
-    }
-    
     func testUsername() async {
         var result = await nativeLoginManager.login(username: "", password: "")
         XCTAssertEqual(.invalidUsername, result, "Should not allow empty username.")
@@ -96,11 +87,18 @@ final class NativeLoginManagerTests: XCTestCase {
 
         bioAuthManager.locked = true
         XCTAssertFalse(nativeLoginManager.shouldShowBackButton(), "Should not show back button when bio auth is locked.")
+        
+        // Clear accuount
+        _ = KeychainHelper.removeAll()
+        UserAccountManager.shared.clearAllAccountState()
+        bioAuthManager.locked = false
     }
     
     func testShouldShowBackButtonWithIDP() {
+        XCTAssertFalse(nativeLoginManager.shouldShowBackButton(), "Should not show back button by default.")
         SalesforceManager.shared.identityProviderURLScheme = "test"
         XCTAssertTrue(nativeLoginManager.shouldShowBackButton(), "Should show back button when app is an identity provider.")
+        SalesforceManager.shared.identityProviderURLScheme = nil
     }
     
     private func createUser() throws -> UserAccount {
