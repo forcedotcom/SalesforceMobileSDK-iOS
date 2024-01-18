@@ -62,7 +62,9 @@ public protocol NativeLoginManager {
     
     /// The username of the locked account.  Can be used to pre-populate the username field
     /// or in a message telling the user which account biometric will unlock.
-    @objc var biometricAuthenticationUsername: String? { get }
+    ///
+    /// - Returns: The username of the locked user or nil.
+    @objc func getBiometricAuthenticationUsername() -> String?
     
     /// Signals that the user has preformed a successful biometric challenge.
     /// Used to unlock the app in the case of Biometric Authentication.

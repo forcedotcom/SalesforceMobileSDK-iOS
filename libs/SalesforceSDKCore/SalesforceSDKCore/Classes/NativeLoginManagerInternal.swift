@@ -39,14 +39,6 @@ let maximumPasswordLengthInBytes = 16000
 /// See https://developer.apple.com/documentation/swift/importing-swift-into-objective-c#Import-Code-Within-a-Framework-Target
 @objc(SFNativeLoginManagerInternal)
 public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
-    @objc public var biometricAuthenticationUsername: String? = {
-        if BiometricAuthenticationManagerInternal.shared.shouldLock() {
-            return UserAccountManager.shared.currentUserAccount?.idData.username
-        }
-        
-        return nil
-    }()
-    
     @objc let clientId: String
     @objc let redirectUri: String
     @objc let loginUrl: String
@@ -179,6 +171,14 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
             bioAuthMgr.unlockPostProcessing()
             UserAccountManager.shared.stopCurrentAuthentication()
         }
+    }
+    
+    public func getBiometricAuthenticationUsername() -> String? {
+        if BiometricAuthenticationManagerInternal.shared.locked {
+            return UserAccountManager.shared.currentUserAccount?.idData.username
+        }
+        
+        return nil
     }
     
     private func isValidUsername(username: String) -> Bool {
