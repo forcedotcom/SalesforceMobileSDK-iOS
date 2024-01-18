@@ -39,6 +39,14 @@ let maximumPasswordLengthInBytes = 16000
 /// See https://developer.apple.com/documentation/swift/importing-swift-into-objective-c#Import-Code-Within-a-Framework-Target
 @objc(SFNativeLoginManagerInternal)
 public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
+    @objc public var biometricAuthenticationUsername: String? = {
+        if BiometricAuthenticationManagerInternal.shared.shouldLock() {
+            return UserAccountManager.shared.currentUserAccount?.idData.username
+        }
+        
+        return nil
+    }()
+    
     @objc let clientId: String
     @objc let redirectUri: String
     @objc let loginUrl: String
@@ -105,7 +113,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
                 
                 // Second REST Call - token request with code verifier
                 let tokenResult = await withCheckedContinuation { continuation in
-                    RestClient.shared.send(request: tokenRequest) { tokenResult in
+                    RestClient.sharedGlobal.send(request: tokenRequest) { tokenResult in
                         continuation.resume(returning: tokenResult)
                     }
                 }
@@ -160,6 +168,16 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
                     SFSDKWindowManager.shared().authWindow(nil).dismissWindow()
                 })
             }
+        }
+    }
+    
+    public func biometricAuthenticationSuccess() {
+        let bioAuthMgr = BiometricAuthenticationManagerInternal.shared
+        
+        if bioAuthMgr.enabled && bioAuthMgr.locked {
+            SFSDKCoreLogger.i(self.classForCoder, message: "Native Login biometric authentication success.")
+            bioAuthMgr.unlockPostProcessing()
+            UserAccountManager.shared.stopCurrentAuthentication()
         }
     }
     

@@ -29,7 +29,7 @@ import Foundation
  
 @objc public enum NativeLoginResult: Int {
     case invalidUsername         // Username does not meet Salesforce criteria (length, email format, ect).
-    case invalidPassword         // Password does not meet Salesforce criteria.
+    case invalidPassword         // Password does not meet the weakest Salesforce criteria.
     case invalidCredentials      // Username/password combination is incorrect.
     case unknownError
     case success
@@ -56,4 +56,17 @@ public protocol NativeLoginManager {
     /// navigate back to the app if the user backs out of authentication
     /// when another user is logged in.
     @objc func cancelAuthentication()
+    
+    
+    /// Biometric Authentication Helpers
+    
+    /// The username of the locked account.  Can be used to pre-populate the username field
+    /// or in a message telling the user which account biometric will unlock.
+    @objc var biometricAuthenticationUsername: String? { get }
+    
+    /// Signals that the user has preformed a successful biometric challenge.
+    /// Used to unlock the app in the case of Biometric Authentication.
+    ///
+    /// Note: this call will dismiss your login view controller.
+    @objc func biometricAuthenticationSuccess()
 }
