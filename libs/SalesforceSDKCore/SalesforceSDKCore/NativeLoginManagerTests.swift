@@ -29,9 +29,19 @@ import XCTest
 @testable import SalesforceSDKCore
 
 final class NativeLoginManagerTests: XCTestCase {
-    let nativeLoginManager = NativeLoginManagerInternal(clientId: "", redirectUri: "", loginUrl: "")
+    let nativeLoginManager = NativeLoginManagerInternal(clientId: "c", redirectUri: "r", loginUrl: "l")
     
-    func testUsername() async {
+    override func setUp() async throws {
+        BiometricAuthenticationManagerInternal.shared.locked = false
+    }
+    
+    override func tearDownWithError() throws {
+        UserAccountManager.shared.stopCurrentAuthentication()
+        _ = KeychainHelper.removeAll()
+        UserAccountManager.shared.clearAllAccountState()
+    }
+    
+    func testUsernameValidation() async {
         var result = await nativeLoginManager.login(username: "", password: "")
         XCTAssertEqual(.invalidUsername, result, "Should not allow empty username.")
         result = await nativeLoginManager.login(username: "test@c", password: "")
@@ -42,7 +52,8 @@ final class NativeLoginManagerTests: XCTestCase {
         XCTAssertEqual(.invalidPassword, result, "Should allow username.")
     }
     
-    func testPassword() async {
+
+    func testPasswordValidation() async {
         var result = await nativeLoginManager.login(username: "bpage@salesforce.com", password: "")
         XCTAssertEqual(.invalidPassword, result, "Should not allow invalid password.")
         result = await nativeLoginManager.login(username: "bpage@salesforce.com", password: "test123")
@@ -51,7 +62,7 @@ final class NativeLoginManagerTests: XCTestCase {
         XCTAssertEqual(.invalidPassword, result, "Should not allow password without any letter chars.")
         result = await nativeLoginManager.login(username: "bpage@salesforce.com", password: "abcdefghi")
         XCTAssertEqual(.invalidPassword, result, "Should not allow password without any numbers.")
-        result = await nativeLoginManager.login(username: "user@name.com", password: "passuser@name.comword")
+        result = await nativeLoginManager.login(username: "user@name.com", password: "passuser@name.comword1")
         XCTAssertEqual(.invalidPassword, result, "Should not allow password that contains username.")
         
         // success
@@ -63,24 +74,17 @@ final class NativeLoginManagerTests: XCTestCase {
         let accountManager = UserAccountManager.shared
         XCTAssertNil(accountManager.currentUserAccount)
         XCTAssertFalse(nativeLoginManager.shouldShowBackButton(), "Should not show back button by default.")
-        guard let _ = try? createUser() else {
-            XCTFail()
-            return
-        }
+        _ = createUser()
         XCTAssertTrue(nativeLoginManager.shouldShowBackButton(), "Should show back button when there is a logged in user.")
         
         // Clear accuount
         _ = KeychainHelper.removeAll()
         UserAccountManager.shared.clearAllAccountState()
-        
         XCTAssertFalse(nativeLoginManager.shouldShowBackButton(), "Should not show back button when there are no other accounts.")
     }
     
     func testShouldShowBackButtonWithBioAuth() {
-        guard let user = try? createUser() else {
-            XCTFail()
-            return
-        }
+        let user = createUser()
         let bioAuthManager = BiometricAuthenticationManagerInternal.shared
         bioAuthManager.storePolicy(userAccount: user, hasMobilePolicy: true, sessionTimeout: 1)
         XCTAssertTrue(nativeLoginManager.shouldShowBackButton(), "Should show back button when there is a logged in user (but not locked).")
@@ -101,11 +105,13 @@ final class NativeLoginManagerTests: XCTestCase {
         SalesforceManager.shared.identityProviderURLScheme = nil
     }
     
-    private func createUser() throws -> UserAccount {
+    private func createUser() -> UserAccount {
         let credentials = OAuthCredentials(identifier: "identifier-0", clientId: "fakeClientIdForTesting", encrypted: true)!
         let user = UserAccount(credentials: credentials)
         user.idData = IdentityData(jsonDict: [ "user_id": "0" ])
-        try UserAccountManager.shared.upsert(user)
+        do {
+            try UserAccountManager.shared.upsert(user)
+        } catch { }
         UserAccountManager.shared.currentUserAccount = user
         
         return user

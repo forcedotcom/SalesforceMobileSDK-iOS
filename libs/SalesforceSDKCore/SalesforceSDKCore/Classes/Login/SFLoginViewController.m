@@ -317,7 +317,7 @@
     
     if ([SFUserAccountManager sharedInstance].shouldFallbackToWebAuthentication) {
         [SFUserAccountManager sharedInstance].shouldFallbackToWebAuthentication = NO;
-        [[SFUserAccountManager sharedInstance] loginWithCompletion:^(SFOAuthInfo* authInfo, SFUserAccount* user) { } failure:^(SFOAuthInfo* authInfo, NSError* error) { }];
+        [[SFUserAccountManager sharedInstance] loginWithCompletion:nil failure:nil];
     }
     
     if (![SFUserAccountManager sharedInstance].idpEnabled) {

@@ -39,9 +39,10 @@ jobs:
     environment:
       DEVICE: << parameters.device >>
       IOS_VERSION: << parameters.ios >>
-      FASTLANE_SKIP_UPDATE_CHECK: "true"
       LIB: << parameters.lib >>
       NIGHTLY_TEST: << parameters.nightly-test >>
+      FASTLANE_SKIP_UPDATE_CHECK: "true"
+      HOMEBREW_NO_AUTO_UPDATE: 1
     steps:
       - checkout
       - restore_cache: 
@@ -56,6 +57,7 @@ jobs:
             ./build/pre-build
             cd .circleci
             bundle check || sudo bundle install --path vendor/bundle
+            brew install xcbeautify
       - save_cache: 
           key: v1-gem-cahce{{ checksum ".circleci/Gemfile.lock" }}
           paths:
