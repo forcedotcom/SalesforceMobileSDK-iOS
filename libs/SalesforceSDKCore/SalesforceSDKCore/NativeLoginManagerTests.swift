@@ -29,9 +29,10 @@ import XCTest
 @testable import SalesforceSDKCore
 
 final class NativeLoginManagerTests: XCTestCase {
-    let nativeLoginManager = NativeLoginManagerInternal(clientId: "c", redirectUri: "r", loginUrl: "l")
+    let nativeLoginManager = SalesforceManager.shared.useNativeLogin("c", "r", "l", UIViewController())
     
-    override func setUp() async throws {
+    override func setUpWithError() throws {
+        _ = KeychainHelper.removeAll()
         BiometricAuthenticationManagerInternal.shared.locked = false
     }
     
@@ -57,17 +58,15 @@ final class NativeLoginManagerTests: XCTestCase {
         var result = await nativeLoginManager.login(username: "bpage@salesforce.com", password: "")
         XCTAssertEqual(.invalidPassword, result, "Should not allow invalid password.")
         result = await nativeLoginManager.login(username: "bpage@salesforce.com", password: "test123")
-        XCTAssertEqual(.invalidPassword, result, "Should not allow password shorter than 7 chars.")
+        XCTAssertEqual(.invalidPassword, result, "Should not allow password shorter than 8 chars.")
         result = await nativeLoginManager.login(username: "bpage@salesforce.com", password: "123456789")
         XCTAssertEqual(.invalidPassword, result, "Should not allow password without any letter chars.")
         result = await nativeLoginManager.login(username: "bpage@salesforce.com", password: "abcdefghi")
         XCTAssertEqual(.invalidPassword, result, "Should not allow password without any numbers.")
-        result = await nativeLoginManager.login(username: "user@name.com", password: "passuser@name.comword1")
-        XCTAssertEqual(.invalidPassword, result, "Should not allow password that contains username.")
         
         // success
         result = await nativeLoginManager.login(username: "bpage@salesforce.com", password: "mypass12")
-        XCTAssertEqual(.invalidCredentials, result, "Should not allow password without any numbers.")
+        XCTAssertEqual(.invalidCredentials, result, "Password should be acceptable.")
     }
     
     func testShouldShowBackButton() {

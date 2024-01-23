@@ -63,7 +63,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
             return .invalidUsername
         }
         
-        if !isValidPassword(username: trimmedUsername, password: trimmedPassword) {
+        if !isValidPassword(password: trimmedPassword) {
             return .invalidPassword
         }
         
@@ -193,12 +193,11 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
     
     /// Validation of the weakest possible password requrements.
     /// Rules derived from: https://help.salesforce.com/s/articleView?id=sf.admin_password.htm&type=5
-    private func isValidPassword(username: String, password: String) -> Bool {
+    private func isValidPassword(password: String) -> Bool {
         let containsNumber = password.rangeOfCharacter(from: .decimalDigits) != nil
-        let containsChar = password.rangeOfCharacter(from: .letters) != nil
+        let containsLetter = password.rangeOfCharacter(from: .letters) != nil
         
-        return password.count >= minimumPasswordLength && password.utf8.count <= maximumPasswordLengthInBytes
-        && containsNumber && containsChar && !password.contains(username)
+        return containsNumber && containsLetter && password.count >= minimumPasswordLength && password.utf8.count <= maximumPasswordLengthInBytes
     }
  
     private func urlSafeBase64Encode(data: Data) -> String {
