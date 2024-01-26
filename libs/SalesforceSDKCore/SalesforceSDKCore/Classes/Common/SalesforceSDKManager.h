@@ -305,16 +305,18 @@ NS_SWIFT_NAME(SalesforceManager)
 /**
  * Creates the NativeLoginManager instance.
  *
- * @param remoteAccessConsumerKey The Conneted App consumer key.
- * @param oauthRedirectURI the Conneted App redirect URI.
- * @param loginUrl the login url for native login
+ * @param consumerKey The Connected App consumer key.
+ * @param callbackUrl the Connected App redirect URI.
+ * @param communityUrl the login url for native login
  * @param nativeLoginViewController the UI instance that will be presented to the user and
  *  is responsible for using the returned Native Login Manager to initiate the login process.
  *
  * @return The Native Login Manager.
  */
-- (id <SFNativeLoginManager>)useNativeLogin:(nonnull NSString *)remoteAccessConsumerKey :(nonnull NSString *)oauthRedirectURI
-                                           :(nonnull NSString *)loginUrl :(nonnull UIViewController *)nativeLoginViewController;
+- (id <SFNativeLoginManager>)useNativeLoginWithConsumerKey:(nonnull NSString *)consumerKey
+                                               callbackUrl:(nonnull NSString *)callbackUrl
+                                              communityUrl:(nonnull NSString *)communityUrl
+                                 nativeLoginViewController:(nonnull UIViewController *)nativeLoginViewController;
 
 /**
  * Returns The NativeLoginManager instance.

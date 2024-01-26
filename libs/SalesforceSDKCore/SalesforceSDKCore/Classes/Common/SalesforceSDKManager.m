@@ -852,11 +852,14 @@ void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t b
 
 #pragma mark - Native Login
 
-- (id <SFNativeLoginManager>)useNativeLogin:(nonnull NSString *)remoteAccessConsumerKey :(nonnull NSString *)oauthRedirectURI
-                                           :(nonnull NSString *)loginUrl :(nonnull UIViewController *)nativeLoginViewController {
+- (id <SFNativeLoginManager>)useNativeLoginWithConsumerKey:(nonnull NSString *)consumerKey
+                                               callbackUrl:(nonnull NSString *)callbackUrl
+                                              communityUrl:(nonnull NSString *)communityUrl
+                                 nativeLoginViewController:(nonnull UIViewController *)nativeLoginViewController {
+    
     [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureNativeLogin];
     _nativeLoginViewController = nativeLoginViewController;
-    nativeLogin = [[SFNativeLoginManagerInternal alloc] initWithClientId:remoteAccessConsumerKey redirectUri:oauthRedirectURI loginUrl:loginUrl];
+    nativeLogin = [[SFNativeLoginManagerInternal alloc] initWithClientId:consumerKey redirectUri:callbackUrl loginUrl:communityUrl];
     [SFUserAccountManager sharedInstance].nativeLoginEnabled = true;
     
     return nativeLogin;
