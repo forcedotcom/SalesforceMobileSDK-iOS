@@ -29,7 +29,7 @@ import XCTest
 @testable import SalesforceSDKCore
 
 final class NativeLoginManagerTests: XCTestCase {
-    let nativeLoginManager = SalesforceManager.shared.useNativeLogin("c", "r", "l", UIViewController())
+    let nativeLoginManager = SalesforceManager.shared.useNativeLogin(withConsumerKey: "c", callbackUrl: "r", communityUrl: "l", nativeLoginViewController: UIViewController())
     
     override func setUpWithError() throws {
         _ = KeychainHelper.removeAll()

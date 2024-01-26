@@ -297,8 +297,11 @@ static NSString* const kTestAppName = @"OverridenAppName";
     NSString *redirct = @"ftest/redirect";
     NSString *loginUrl = @"https://salesforce.com/some/test/url";
     UIViewController *view = [[UIViewController alloc] init];
-    
-    SFNativeLoginManagerInternal *loginManager = (SFNativeLoginManagerInternal *)[[SalesforceSDKManager sharedManager] useNativeLogin:consumerKey :redirct :loginUrl :view];
+    SFNativeLoginManagerInternal *loginManager = (SFNativeLoginManagerInternal *)
+        [[SalesforceSDKManager sharedManager] useNativeLoginWithConsumerKey:consumerKey
+                                                                callbackUrl:redirct
+                                                               communityUrl:loginUrl
+                                                  nativeLoginViewController:view];
     
     XCTAssertEqual(consumerKey, loginManager.clientId);
     XCTAssertEqual(redirct, loginManager.redirectUri);
