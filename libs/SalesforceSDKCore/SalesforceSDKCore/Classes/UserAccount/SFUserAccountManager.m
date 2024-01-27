@@ -1182,17 +1182,17 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     [self saveAccountForUser:newAcct error:nil];
     return newAcct;
 }
-- (void)createNativeUserAccount:(NSData *)data {
+
+- (void)createNativeUserAccount:(NSData *)data scene:(nullable UIScene *)scene {
     if (![NSThread isMainThread]) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self createNativeUserAccount:data];
+            [self createNativeUserAccount:data scene:scene];
         });
         return;
     }
     
-    UIScene *scene = SalesforceSDKManager.sharedManager.nativeLoginViewController.view.window.windowScene;
-    SFSDKAuthSession *authSession = self.authSessions[scene.session.persistentIdentifier];
-    
+    UIScene *nativeLoginScene = scene ? scene : [[[SalesforceSDKManager sharedManager] nativeLoginViewControllers] objectForKey:kSFDefaultNativeLoginViewControllerKey].view.window.windowScene;
+    SFSDKAuthSession *authSession = self.authSessions[nativeLoginScene.session.persistentIdentifier];
     // Dummy request is necessary for flow
     SFSDKOAuthTokenEndpointRequest *request = [[SFSDKOAuthTokenEndpointRequest alloc] init];
     request.additionalOAuthParameterKeys = [NSArray new];
@@ -2074,7 +2074,8 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 - (void)presentLoginView:(SFSDKAuthViewHolder *)viewHandler {
     void (^presentViewBlock)(void) = ^void() {
         if (self.nativeLoginEnabled && !self.shouldFallbackToWebAuthentication) {
-            UIViewController *nativeLogin = [SalesforceSDKManager sharedManager].nativeLoginViewController;
+            UIViewController *multiWindowNativeLoginVC = [[SalesforceSDKManager sharedManager].nativeLoginViewControllers objectForKey:viewHandler.scene.session.persistentIdentifier];
+            UIViewController *nativeLogin = multiWindowNativeLoginVC ? multiWindowNativeLoginVC : [[[SalesforceSDKManager sharedManager] nativeLoginViewControllers] objectForKey:kSFDefaultNativeLoginViewControllerKey];
             UIViewController *controllerToPresent = [[SFSDKNavigationController alloc] initWithRootViewController:nativeLogin];
             controllerToPresent.modalPresentationStyle = UIModalPresentationFullScreen;
             [[[SFSDKWindowManager sharedManager] authWindow:viewHandler.scene].viewController presentViewController:controllerToPresent animated:NO completion:^{ }];
@@ -2121,7 +2122,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 
 - (BOOL)isAlreadyPresentingLoginController:(UIViewController*)presentedViewController {
     UIViewController *topView = ((SFSDKNavigationController*) presentedViewController).topViewController;
-    BOOL isLoginViewController = [topView isKindOfClass:[SFLoginViewController class]] || topView == SalesforceSDKManager.sharedManager.nativeLoginViewController;
+    BOOL isLoginViewController = [topView isKindOfClass:[SFLoginViewController class]];
     return (presentedViewController
             && !presentedViewController.beingDismissed
             && [presentedViewController isKindOfClass:[SFSDKNavigationController class]]

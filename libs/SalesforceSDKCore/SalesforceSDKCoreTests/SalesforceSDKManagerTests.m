@@ -301,12 +301,13 @@ static NSString* const kTestAppName = @"OverridenAppName";
         [[SalesforceSDKManager sharedManager] useNativeLoginWithConsumerKey:consumerKey
                                                                 callbackUrl:redirct
                                                                communityUrl:loginUrl
-                                                  nativeLoginViewController:view];
+                                                  nativeLoginViewController:view
+                                                                      scene:nil];
     
     XCTAssertEqual(consumerKey, loginManager.clientId);
     XCTAssertEqual(redirct, loginManager.redirectUri);
     XCTAssertEqual(loginUrl, loginManager.loginUrl);
-    XCTAssertEqual(view, [SalesforceSDKManager sharedManager].nativeLoginViewController);
+    XCTAssertEqual(view, [[[SalesforceSDKManager sharedManager] nativeLoginViewControllers] objectForKey:kSFDefaultNativeLoginViewControllerKey]);
     XCTAssertEqual(loginManager, [[SalesforceSDKManager sharedManager] nativeLoginManager]);
     XCTAssertTrue([[SFUserAccountManager sharedInstance] nativeLoginEnabled]);
 }

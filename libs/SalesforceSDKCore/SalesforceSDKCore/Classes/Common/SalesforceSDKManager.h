@@ -316,7 +316,8 @@ NS_SWIFT_NAME(SalesforceManager)
 - (id <SFNativeLoginManager>)useNativeLoginWithConsumerKey:(nonnull NSString *)consumerKey
                                                callbackUrl:(nonnull NSString *)callbackUrl
                                               communityUrl:(nonnull NSString *)communityUrl
-                                 nativeLoginViewController:(nonnull UIViewController *)nativeLoginViewController;
+                                 nativeLoginViewController:(nonnull UIViewController *)nativeLoginViewController
+                                                     scene:(nullable UIScene *)scene;
 
 /**
  * Returns The NativeLoginManager instance.

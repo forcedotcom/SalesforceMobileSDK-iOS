@@ -400,8 +400,9 @@ NS_SWIFT_NAME(UserAccountManager)
 
 /** Create an account when necessary using token endpoint response data.
   @param data The token endpoint response to use.
+  @param scene Optional scene to identify Native Login View Controller.
  */
-- (void)createNativeUserAccount:(NSData *)data NS_SWIFT_NAME(createNativeUserAccount(with:));
+- (void)createNativeUserAccount:(NSData *)data scene:(nullable UIScene *)scene NS_SWIFT_NAME(createNativeUserAccount(with:scene:));
 
 /** Allows you to look up the user account associated with a given user identity.
  @param userIdentity The user identity of the user account to be looked up

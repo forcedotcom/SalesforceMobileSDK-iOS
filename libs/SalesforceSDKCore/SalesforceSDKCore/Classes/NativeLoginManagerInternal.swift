@@ -42,6 +42,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
     @objc let clientId: String
     @objc let redirectUri: String
     @objc let loginUrl: String
+    let scene: UIScene?
     
     struct AuthorizationResponse: Codable {
         let sfdc_community_url: String
@@ -49,10 +50,11 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         let code: String
     }
     
-    @objc internal init(clientId: String, redirectUri: String, loginUrl: String) {
+    @objc internal init(clientId: String, redirectUri: String, loginUrl: String, scene: UIScene?) {
         self.clientId = clientId
         self.redirectUri = redirectUri
         self.loginUrl = loginUrl
+        self.scene = scene
     }
     
     public func login(username: String, password: String) async -> NativeLoginResult {
@@ -112,7 +114,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
                 
                 switch(tokenResult) {
                 case .success(let tokenResponse):
-                    UserAccountManager.shared.createNativeUserAccount(with: tokenResponse.asData())
+                    UserAccountManager.shared.createNativeUserAccount(with: tokenResponse.asData(), scene:self.scene)
                     return .success
                 case .failure(let error):
                     SFSDKCoreLogger().e(self.classForCoder, message: "error: \(error)")

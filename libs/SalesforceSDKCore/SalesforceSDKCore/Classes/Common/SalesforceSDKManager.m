@@ -308,6 +308,7 @@ SFNativeLoginManagerInternal *nativeLogin;
         self.useHybridAuthentication = YES;
         [self setupServiceConfiguration];
         _snapshotViewControllers = [SFSDKSafeMutableDictionary new];
+        _nativeLoginViewControllers = [SFSDKSafeMutableDictionary new];
         [SFSDKSalesforceSDKUpgradeManager upgrade];
         [[SFScreenLockManagerInternal shared] checkForScreenLockUsers]; // This is necessary because keychain values can outlive the app.
     }
@@ -855,11 +856,13 @@ void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t b
 - (id <SFNativeLoginManager>)useNativeLoginWithConsumerKey:(nonnull NSString *)consumerKey
                                                callbackUrl:(nonnull NSString *)callbackUrl
                                               communityUrl:(nonnull NSString *)communityUrl
-                                 nativeLoginViewController:(nonnull UIViewController *)nativeLoginViewController {
+                                 nativeLoginViewController:(nonnull UIViewController *)nativeLoginViewController
+                                                     scene:(nullable UIScene *)scene {
     
     [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureNativeLogin];
-    _nativeLoginViewController = nativeLoginViewController;
-    nativeLogin = [[SFNativeLoginManagerInternal alloc] initWithClientId:consumerKey redirectUri:callbackUrl loginUrl:communityUrl];
+    NSString *key = scene ? scene.session.persistentIdentifier : kSFDefaultNativeLoginViewControllerKey;
+    [_nativeLoginViewControllers setObject:nativeLoginViewController forKey:key];
+    nativeLogin = [[SFNativeLoginManagerInternal alloc] initWithClientId:consumerKey redirectUri:callbackUrl loginUrl:communityUrl scene:scene];
     [SFUserAccountManager sharedInstance].nativeLoginEnabled = true;
     
     return nativeLogin;
