@@ -2121,12 +2121,10 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
  }
 
 - (BOOL)isAlreadyPresentingLoginController:(UIViewController*)presentedViewController {
-    UIViewController *topView = ((SFSDKNavigationController*) presentedViewController).topViewController;
-    BOOL isLoginViewController = [topView isKindOfClass:[SFLoginViewController class]];
     return (presentedViewController
             && !presentedViewController.beingDismissed
             && [presentedViewController isKindOfClass:[SFSDKNavigationController class]]
-            && isLoginViewController);
+            && [((SFSDKNavigationController*) presentedViewController).topViewController isKindOfClass:[SFLoginViewController class]]);
 }
 
 - (SFLoginViewController *)createLoginViewControllerInstance:(SFOAuthCoordinator *)coordinator {
