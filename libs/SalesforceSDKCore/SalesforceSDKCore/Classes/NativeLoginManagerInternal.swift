@@ -143,10 +143,6 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
             return false
         }
         
-        if (UserAccountManager.shared.isIDPEnabled) {
-            return true
-        }
-        
         guard let totalAccounts = UserAccountManager.shared.userAccounts()?.count else { return false }
         return (totalAccounts > 0 && UserAccountManager.shared.currentUserAccount != nil)
     }
@@ -154,14 +150,9 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
     public func cancelAuthentication() {
         if (shouldShowBackButton()) {
             UserAccountManager.shared.stopCurrentAuthentication()
-            
-            if (UserAccountManager.shared.isIDPEnabled) {
-                SFSDKWindowManager.shared().authWindow(nil).viewController?.dismiss(animated: false)
-            } else {
-                SFSDKWindowManager.shared().authWindow(nil).viewController?.presentedViewController?.dismiss(animated: false, completion: {
-                    SFSDKWindowManager.shared().authWindow(nil).dismissWindow()
-                })
-            }
+            SFSDKWindowManager.shared().authWindow(nil).viewController?.presentedViewController?.dismiss(animated: false, completion: {
+                SFSDKWindowManager.shared().authWindow(nil).dismissWindow()
+            })
         }
     }
     
