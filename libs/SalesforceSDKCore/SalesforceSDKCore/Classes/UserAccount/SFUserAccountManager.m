@@ -1207,6 +1207,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         authSession.identityCoordinator.delegate = self;
         authSession.oauthCoordinator.authSession = authSession;
         authSession.identityCoordinator.authSession = authSession;
+        authSession.nativeLogin = YES;
         
         [[authSession identityCoordinator] initiateIdentityDataRetrieval];
     } request:request data:data urlResponse:[[NSURLResponse alloc] init]];

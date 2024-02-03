@@ -236,6 +236,12 @@ NS_SWIFT_NAME(IdentityData)
 @property (nullable, strong, nonatomic, readonly) NSDate *lastModifiedDate;
 
 /**
+ * Wheher or not the user was added via Native Login.  The profile of this user
+ * restricts them from certain flows, such as IDP.
+ */
+@property (readonly) BOOL nativeLogin;
+
+/**
  * Designated initializer for creating an instance of the SFIdentityData object.
  * @param jsonDict The JSON dictionary containing the user data.
  */

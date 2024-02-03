@@ -97,13 +97,6 @@ final class NativeLoginManagerTests: XCTestCase {
         bioAuthManager.locked = false
     }
     
-    func testShouldShowBackButtonWithIDP() {
-        XCTAssertFalse(nativeLoginManager.shouldShowBackButton(), "Should not show back button by default.")
-        SalesforceManager.shared.identityProviderURLScheme = "test"
-        XCTAssertTrue(nativeLoginManager.shouldShowBackButton(), "Should show back button when app is an identity provider.")
-        SalesforceManager.shared.identityProviderURLScheme = nil
-    }
-    
     private func createUser() -> UserAccount {
         let credentials = OAuthCredentials(identifier: "identifier-0", clientId: "fakeClientIdForTesting", encrypted: true)!
         let user = UserAccount(credentials: credentials)

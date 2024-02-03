@@ -26,10 +26,10 @@
 #import "SFIdentityCoordinator+Internal.h"
 #import "SFOAuthCredentials.h"
 #import "SFOAuthSessionRefresher.h"
-#import "SFIdentityData.h"
 #import "SFUserAccountManager.h"
 #import "SFNetwork.h"
 #import "SFSDKAuthSession.h"
+#import "SFIdentityData+Internal.h"
 
 // Public constants
 
@@ -248,8 +248,12 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
         return;
     }
     
-    SFIdentityData *idData = [[SFIdentityData alloc] initWithJsonDict:idJsonData];
-    self.idData = idData;
+    NSMutableDictionary *mutableIdJsonData = [[NSMutableDictionary alloc] initWithDictionary:idJsonData];
+    if (self.authSession.nativeLogin) {
+        [mutableIdJsonData setObject:[NSNumber numberWithBool:YES] forKey:@"native_login"];
+    }
+    SFIdentityData *idData = [[SFIdentityData alloc] initWithJsonDict:mutableIdJsonData];
+     self.idData = idData;
     
     [self notifyDelegateOfSuccess];
 }
