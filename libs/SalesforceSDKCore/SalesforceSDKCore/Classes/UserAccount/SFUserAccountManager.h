@@ -398,7 +398,7 @@ NS_SWIFT_NAME(UserAccountManager)
  */
 - (SFUserAccount*)createUserAccount:(SFOAuthCredentials *)credentials NS_SWIFT_NAME(createUserAccount(with:));
 
-/** Create an account when necessary using token endpoint response data.
+/** Create an account when necessary using token endpoint response data.  This function is intented for internal use only.
   @param data The token endpoint response to use.
   @param scene Optional scene to identify Native Login View Controller.
  */

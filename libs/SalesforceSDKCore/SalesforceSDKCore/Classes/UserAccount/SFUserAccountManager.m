@@ -869,7 +869,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     
     if (self.nativeLoginEnabled && self.shouldFallbackToWebAuthentication) {
         self.shouldFallbackToWebAuthentication = NO;
-        [self stopCurrentAuthentication:^(BOOL result) { }];
+        [self stopCurrentAuthentication:nil];
         [self loginWithCompletion:^(SFOAuthInfo* authInfo, SFUserAccount* user) { } failure:^(SFOAuthInfo* authInfo, NSError* error) { }];
         return;
     }

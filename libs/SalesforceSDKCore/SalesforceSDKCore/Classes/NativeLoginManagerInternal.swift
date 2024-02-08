@@ -125,7 +125,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
                 return .unknownError
             }
         case .failure(let error):
-            // You will catch the error here in the event of auth failure or if the use cannot login this way.
+            // You will catch the error here in the event of auth failure or if the user cannot login this way.
             SFSDKCoreLogger().e(self.classForCoder, message: "authenication error: \(error)")
             return .invalidCredentials
         }

@@ -870,7 +870,7 @@ void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t b
 
 - (id <SFNativeLoginManager>)nativeLoginManager {
     if (nativeLogin == nil) {
-        [[SFLogger defaultLogger] e:[self class] message:@"You must call 'useNativeLogin' to create the Native Login Manager instance before retrieving it."];
+        [[SFSDKCoreLogger defaultLogger] e:[self class] message:@"You must call 'useNativeLogin' to create the Native Login Manager instance before retrieving it."];
     }
     
     return nativeLogin;
