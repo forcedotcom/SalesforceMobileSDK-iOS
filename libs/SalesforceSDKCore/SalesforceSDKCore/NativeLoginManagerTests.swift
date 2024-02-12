@@ -76,7 +76,7 @@ final class NativeLoginManagerTests: XCTestCase {
         _ = createUser()
         XCTAssertTrue(nativeLoginManager.shouldShowBackButton(), "Should show back button when there is a logged in user.")
         
-        // Clear accuount
+        // Clear account
         _ = KeychainHelper.removeAll()
         UserAccountManager.shared.clearAllAccountState()
         XCTAssertFalse(nativeLoginManager.shouldShowBackButton(), "Should not show back button when there are no other accounts.")
@@ -91,7 +91,7 @@ final class NativeLoginManagerTests: XCTestCase {
         bioAuthManager.locked = true
         XCTAssertFalse(nativeLoginManager.shouldShowBackButton(), "Should not show back button when bio auth is locked.")
         
-        // Clear accuount
+        // Clear account
         _ = KeychainHelper.removeAll()
         UserAccountManager.shared.clearAllAccountState()
         bioAuthManager.locked = false

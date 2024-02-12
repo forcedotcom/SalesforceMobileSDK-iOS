@@ -320,7 +320,7 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
 
 - (BOOL)nativeLogin 
 {
-    return  [self.dictRepresentation objectForKey:kSFNativeLoginDateKey];
+    return [[self.dictRepresentation objectForKey:kSFNativeLoginDateKey] boolValue];
 }
 
 #pragma mark - Private methods
