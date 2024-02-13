@@ -65,6 +65,7 @@ NSString * const kSFIdentityMobileAppScreenLockTimeoutKey = @"screen_lock";
 NSString * const kSFIdentityCustomAttributesKey           = @"custom_attributes";
 NSString * const kSFIdentityCustomPermissionsKey          = @"custom_permissions";
 NSString * const kSFIdentityLastModifiedDateKey           = @"last_modified_date";
+NSString * const kSFNativeLoginKey                        = @"native_login";
 
 NSString * const kSFIdentityDateFormatString              = @"yyyy-MM-dd'T'HH:mm:ssZZZ";
 NSString * const kIdJsonDictKey                           = @"dictRepresentation";
@@ -315,6 +316,11 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
         return [[self class] dateFromRfc822String:value];
     else
         return nil;
+}
+
+- (BOOL)nativeLogin 
+{
+    return [[self.dictRepresentation objectForKey:kSFNativeLoginKey] boolValue];
 }
 
 #pragma mark - Private methods

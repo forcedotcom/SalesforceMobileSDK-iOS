@@ -4,6 +4,8 @@
 #import "SFUserAccount.h"
 #import "SFSDKAppConfig.h"
 
+static NSString * _Nonnull const kSFDefaultNativeLoginViewControllerKey = @"defaultKey";
+
 @protocol SalesforceSDKManagerFlow <NSObject>
 
 - (void)handleAppForeground:(nonnull NSNotification *)notification;
@@ -25,6 +27,7 @@
 @property (nonatomic, assign) SFAppType appType;
 @property (nonatomic, weak, nullable) id<SalesforceSDKManagerFlow> sdkManagerFlow;
 @property (nonatomic, strong, nonnull) SFSDKSafeMutableDictionary<NSString *, UIViewController *> *snapshotViewControllers;
+@property (nonatomic, strong, nullable) SFSDKSafeMutableDictionary<NSString *, UIViewController *> *nativeLoginViewControllers;
 
 - (void)presentSnapshot:(nonnull UIScene *)scene;
 - (BOOL)isSnapshotPresented:(nonnull UIScene *)scene;

@@ -45,6 +45,7 @@
 static NSString * const kSFAppFeatureSwiftApp    = @"SW";
 static NSString * const kSFAppFeatureMultiUser   = @"MU";
 static NSString * const kSFAppFeatureMacApp      = @"MC";
+static NSString * const kSFAppFeatureNativeLogin = @"NL";
 
 // Error constants
 NSString * const kSalesforceSDKManagerErrorDomain     = @"com.salesforce.sdkmanager.error";
@@ -81,6 +82,9 @@ NSString * const kSFScreenLockFlowWillBegin = @"SFScreenLockFlowWillBegin";
 NSString * const kSFScreenLockFlowCompleted = @"SFScreenLockFlowCompleted";
 NSString * const kSFBiometricAuthenticationFlowWillBegin = @"SFBiometricAuthenticationFlowWillBegin";
 NSString * const kSFBiometricAuthenticationFlowCompleted = @"SFBiometricAuthenticationFlowCompleted";
+
+// Native Login
+SFNativeLoginManagerInternal *nativeLogin;
 
 @implementation UIWindow (SalesforceSDKManager)
 
@@ -304,6 +308,7 @@ NSString * const kSFBiometricAuthenticationFlowCompleted = @"SFBiometricAuthenti
         self.useHybridAuthentication = YES;
         [self setupServiceConfiguration];
         _snapshotViewControllers = [SFSDKSafeMutableDictionary new];
+        _nativeLoginViewControllers = [SFSDKSafeMutableDictionary new];
         [SFSDKSalesforceSDKUpgradeManager upgrade];
         [[SFScreenLockManagerInternal shared] checkForScreenLockUsers]; // This is necessary because keychain values can outlive the app.
     }
@@ -844,6 +849,31 @@ void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t b
 
 - (id <SFScreenLockManager>)screenLockManager {
     return [SFScreenLockManagerInternal shared];
+}
+
+#pragma mark - Native Login
+
+- (id <SFNativeLoginManager>)useNativeLoginWithConsumerKey:(nonnull NSString *)consumerKey
+                                               callbackUrl:(nonnull NSString *)callbackUrl
+                                              communityUrl:(nonnull NSString *)communityUrl
+                                 nativeLoginViewController:(nonnull UIViewController *)nativeLoginViewController
+                                                     scene:(nullable UIScene *)scene {
+    
+    [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureNativeLogin];
+    NSString *key = scene ? scene.session.persistentIdentifier : kSFDefaultNativeLoginViewControllerKey;
+    [_nativeLoginViewControllers setObject:nativeLoginViewController forKey:key];
+    nativeLogin = [[SFNativeLoginManagerInternal alloc] initWithClientId:consumerKey redirectUri:callbackUrl loginUrl:communityUrl scene:scene];
+    [SFUserAccountManager sharedInstance].nativeLoginEnabled = true;
+    
+    return nativeLogin;
+}
+
+- (id <SFNativeLoginManager>)nativeLoginManager {
+    if (nativeLogin == nil) {
+        [[SFSDKCoreLogger defaultLogger] e:[self class] message:@"You must call 'useNativeLogin' to create the Native Login Manager instance before retrieving it."];
+    }
+    
+    return nativeLogin;
 }
 
 @end

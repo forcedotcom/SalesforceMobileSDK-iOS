@@ -33,7 +33,7 @@
 #import "SFSDKLoginHostDelegate.h"
 #import "UIColor+SFColors.h"
 #import "SFSDKResourceUtils.h"
-#import "SFUserAccountManager.h"
+#import "SFUserAccountManager+Internal.h"
 #import "SFSDKLoginViewControllerConfig.h"
 #import "SFOAuthInfo.h"
 #import "SFSDKWindowManager.h"
@@ -219,7 +219,8 @@
         return NO;
     }
     
-    if (self.config.shouldDisplayBackButton || [SFUserAccountManager sharedInstance].idpEnabled) {
+    if (self.config.shouldDisplayBackButton || [SFUserAccountManager sharedInstance].idpEnabled
+        || [SFUserAccountManager sharedInstance].shouldFallbackToWebAuthentication) {
         return YES;
     }
     NSInteger totalAccounts = [SFUserAccountManager sharedInstance].allUserAccounts.count;
@@ -313,6 +314,12 @@
 - (void)handleBackButtonAction {
     UIScene *scene = self.view.window.windowScene;
     [[SFUserAccountManager sharedInstance] stopCurrentAuthentication:nil];
+    
+    if ([SFUserAccountManager sharedInstance].shouldFallbackToWebAuthentication) {
+        [SFUserAccountManager sharedInstance].shouldFallbackToWebAuthentication = NO;
+        [[SFUserAccountManager sharedInstance] loginWithCompletion:nil failure:nil];
+    }
+    
     if (![SFUserAccountManager sharedInstance].idpEnabled) {
         [[[SFSDKWindowManager sharedManager] authWindow:scene].viewController.presentedViewController dismissViewControllerAnimated:NO completion:^{
             [[[SFSDKWindowManager sharedManager] authWindow:scene] dismissWindow];

@@ -30,7 +30,7 @@
 #define SFSDKOAuthConstants_h
 
 // Private constants
-static NSString * const kSFOAuthEndPointAuthorize               = @"/services/oauth2/authorize";    // user agent flow
+static NSString * const kSFOAuthEndPointAuthorize               = @"/services/oauth2/authorize";    // login flow
 static NSString * const kSFOAuthEndPointToken                   = @"/services/oauth2/token";        // token refresh flow
 static NSString * const kSFRevokePath                           = @"/services/oauth2/revoke";
 
@@ -77,6 +77,13 @@ static NSString * const kSFOAuthCSRFToken                       = @"csrf_token";
 static NSString * const kSFOAuthApprovalCode                     = @"code";
 static NSString * const kSFOAuthGrantTypeHybridAuthorizationCode = @"hybrid_auth_code";
 static NSString * const kSFOAuthGrantTypeAuthorizationCode       = @"authorization_code";
+
+// Native Login constants
+static NSString * const kSFOAuthCodeCredentialsParamName        = @"code_credentials";
+static NSString * const kSFOAuthRequestTypeParamName            = @"Auth-Request-Type";
+static NSString * const kSFOAuthRequestTypeNamedUser            = @"Named-User";
+static NSString * const kSFOAuthAuthorizationTypeParamName      = @"Authorization";
+static NSString * const kSFOAuthAuthorizationTypeBasic          = @"Basic";
 
 // OAuth Error Descriptions
 // see https://na1.salesforce.com/help/doc/en/remoteaccess_oauth_refresh_token_flow.htm
