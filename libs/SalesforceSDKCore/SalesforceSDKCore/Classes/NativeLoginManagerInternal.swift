@@ -39,9 +39,9 @@ let maximumPasswordLengthInBytes = 16000
 /// See https://developer.apple.com/documentation/swift/importing-swift-into-objective-c#Import-Code-Within-a-Framework-Target
 @objc(SFNativeLoginManagerInternal)
 public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
-    @objc let clientId: String
-    @objc let redirectUri: String
-    @objc let loginUrl: String
+    @objc public let clientId: String
+    @objc public let redirectUri: String
+    @objc public let loginUrl: String
     let scene: UIScene?
     
     struct AuthorizationResponse: Codable {
@@ -50,7 +50,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         let code: String
     }
     
-    @objc internal init(clientId: String, redirectUri: String, loginUrl: String, scene: UIScene?) {
+    @objc public init(clientId: String, redirectUri: String, loginUrl: String, scene: UIScene?) {
         self.clientId = clientId
         self.redirectUri = redirectUri
         self.loginUrl = loginUrl
