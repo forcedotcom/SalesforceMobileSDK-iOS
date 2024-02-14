@@ -278,7 +278,7 @@ SFNativeLoginManagerInternal *nativeLogin;
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAppForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAppBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAppTerminate:) name:UIApplicationWillTerminateNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleSceneDidActivate:) name:UISceneDidActivateNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleSceneWillEnterForeground:) name:UISceneWillEnterForegroundNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleSceneDidEnterBackground:) name:UISceneDidEnterBackgroundNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleSceneWillConnect:) name:UISceneWillConnectNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleSceneDidDisconnect:) name:UISceneDidDisconnectNotification object:nil];
@@ -570,7 +570,7 @@ SFNativeLoginManagerInternal *nativeLogin;
 
 - (void)handleAppTerminate:(NSNotification *)notification { }
 
-- (void)handleSceneDidActivate:(NSNotification *)notification {
+- (void)handleSceneWillEnterForeground:(NSNotification *)notification {
      UIScene *scene = (UIScene *)notification.object;
      NSString *sceneId = scene.session.persistentIdentifier;
      [SFSDKCoreLogger d:[self class] format:@"Scene %@ is resuming active state.", sceneId];
