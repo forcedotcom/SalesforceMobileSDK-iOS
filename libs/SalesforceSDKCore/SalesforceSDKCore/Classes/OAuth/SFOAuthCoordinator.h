@@ -176,6 +176,15 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSession:(ASWebAuthenticationSession *)session;
 
 /**
+ Sent to notify the delegate that authentication via native REST APIs has begun.
+ 
+ @param coordinator The SFOAuthCoordinator instance processing this message
+ 
+ @see SFOAuthCoordinator
+ */
+- (void)oauthCoordinatorDidBeginNativeAuthentication:(SFOAuthCoordinator *)coordinator;
+
+/**
  Sent to notify the delegate that a browser authentication flow was cancelled out of by the user.
 
  @param coordinator   The SFOAuthCoordinator instance processing this message.
@@ -273,13 +282,15 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
  */
 @property (nonatomic, copy) NSString *brandLoginPath;
 
-/** Setup the coordinator to use SafariViewController for authentication.
+/** Setup the coordinator to use ASWebAuthenticationSession for authentication.
  */
 @property (nonatomic, assign) BOOL useBrowserAuth;
     
-/** Setup the coordinator to use SafariViewController for authentication.
-   */
 @property (nonatomic, strong) id<SFSDKOAuthProtocol>authClient;
+
+/** Setup the coordinator to use an app provided native UI for authentication.
+ */
+@property (nonatomic, assign) BOOL useNativeAuth;
 
 ///---------------------------------------------------------------------------------------
 /// @name Initialization

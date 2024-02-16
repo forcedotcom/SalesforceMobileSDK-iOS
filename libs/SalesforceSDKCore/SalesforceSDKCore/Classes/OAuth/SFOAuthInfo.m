@@ -62,6 +62,8 @@
         case SFOAuthTypeJwtTokenExchange:
             desc = @"SFOAuthTypeJwtTokenExchange";
             break;
+        case SFOAuthTypeNative:
+            desc = @"SFOAuthTypeNative";
         case SFOAuthTypeUnknown:
         default:
             desc = @"SFOAuthTypeUnknown";

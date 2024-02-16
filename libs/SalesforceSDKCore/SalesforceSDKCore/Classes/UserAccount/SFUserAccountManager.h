@@ -358,6 +358,11 @@ NS_SWIFT_NAME(UserAccountManager)
  */
 @property (nonatomic,strong) SFSDKLoginViewControllerConfig *loginViewControllerConfig;
 
+/**
+ * Indicates that that web based authentication should be used instead of native login.
+ */
+@property (nonatomic, assign) BOOL shouldFallbackToWebAuthentication;
+
 /** Shared singleton
  */
 @property (class,nonatomic,readonly) SFUserAccountManager *sharedInstance NS_SWIFT_NAME(shared);
@@ -393,6 +398,11 @@ NS_SWIFT_NAME(UserAccountManager)
  */
 - (SFUserAccount*)createUserAccount:(SFOAuthCredentials *)credentials NS_SWIFT_NAME(createUserAccount(with:));
 
+/** Create an account when necessary using token endpoint response data.  This function is intented for internal use only.
+  @param data The token endpoint response to use.
+  @param scene Optional scene to identify Native Login View Controller.
+ */
+- (void)createNativeUserAccount:(NSData *)data scene:(nullable UIScene *)scene NS_SWIFT_NAME(createNativeUserAccount(with:scene:));
 
 /** Allows you to look up the user account associated with a given user identity.
  @param userIdentity The user identity of the user account to be looked up

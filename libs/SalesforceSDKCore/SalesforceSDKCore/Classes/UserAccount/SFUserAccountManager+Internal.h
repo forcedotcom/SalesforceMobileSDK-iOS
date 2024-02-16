@@ -118,6 +118,11 @@ Set this block to handle presentation of the Authentication View Controller.
 */
 @property (nonatomic, strong) SFSDKAuthViewHandler *authViewHandler;
 
+/**
+ Indicates if the app is configured for native login authentication.
+ */
+@property (nonatomic, assign) BOOL nativeLoginEnabled;
+
 - (void)setCurrentUserInternal:(SFUserAccount* _Nullable)user;
 
 /**

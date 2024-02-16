@@ -27,7 +27,7 @@
 #import <SalesforceSDKCore/SalesforceSDKCoreDefines.h>
 #import <SalesforceSDKCore/SalesforceSDKConstants.h>
 @class SFUserAccount, SFSDKAppConfig, SFScreenLockManager, SFBiometricAuthenticationManager;
-@protocol SFScreenLockManager, SFBiometricAuthenticationManager;
+@protocol SFScreenLockManager, SFBiometricAuthenticationManager, SFNativeLoginManager;
 
 /**
  Block typedef for creating a custom snapshot view controller.
@@ -289,18 +289,43 @@ NS_SWIFT_NAME(SalesforceManager)
 - (nonnull NSString *)devInfoTitleString;
 
 /**
- * Returns the ScreenLockManager instance.
+ * Returns The ScreenLockManager instance.
  *
- * @return the Screen Lock Manager
+ * @return The Screen Lock Manager.
  */
 - (id <SFScreenLockManager>)screenLockManager;
 
 /**
- * Returns the BiometricAuthenticationManager instance.
+ * Returns The BiometricAuthenticationManager instance.
  *
- * @return the Biometric Authentication Manager
+ * @return The Biometric Authentication Manager.
  */
 - (id <SFBiometricAuthenticationManager>)biometricAuthenticationManager;
+
+/**
+ * Creates the NativeLoginManager instance.
+ *
+ * @param consumerKey The Connected App consumer key.
+ * @param callbackUrl The Connected App redirect URI.
+ * @param communityUrl The login url for native login
+ * @param nativeLoginViewController The UI instance that will be presented to the user and
+ *  is responsible for using the returned Native Login Manager to initiate the login process.
+ * @param scene Optional UIScene to enable multi-window support.
+ *
+ * @return The Native Login Manager.
+ */
+- (id <SFNativeLoginManager>)useNativeLoginWithConsumerKey:(nonnull NSString *)consumerKey
+                                               callbackUrl:(nonnull NSString *)callbackUrl
+                                              communityUrl:(nonnull NSString *)communityUrl
+                                 nativeLoginViewController:(nonnull UIViewController *)nativeLoginViewController
+                                                     scene:(nullable UIScene *)scene;
+
+/**
+ * Returns The NativeLoginManager instance.
+ *
+ * @return The Native Login Manager.
+ */
+- (id <SFNativeLoginManager>)nativeLoginManager;
 
 @end
 

@@ -1,10 +1,10 @@
 #  Xcode version announcments can be found here: https://discuss.circleci.com/c/announcements/
 #  Each post contains a full image manifest, including iOS runtimes, devices, CocoaPods version, etc.
 anchors:
-  - &latest-xcode    "14.3.1"
-  - &latest-ios      "16.4"
-  - &min-ios         "15.5"
-  - &requres-string  "test << matrix.lib >> iOS 15.5"  # Keep this min version up to date
+  - &latest-xcode    "15.2"
+  - &latest-ios      "17.2"
+  - &min-ios         "16.4"
+  - &requres-string  "test << matrix.lib >> iOS 16.4"  # Keep this min version up to date
   - &device          "iPhone-SE-3rd-generation"
   - &invalid         ""
 
@@ -34,14 +34,15 @@ jobs:
         default: *device
     macos:
       xcode: << parameters.xcode >>
-    resource_class: macos.m1.medium.gen1
+    resource_class: macos.x86.medium.gen2
     working_directory: ~/SalesforceMobileSDK-iOS
     environment:
       DEVICE: << parameters.device >>
       IOS_VERSION: << parameters.ios >>
-      FASTLANE_SKIP_UPDATE_CHECK: "true"
       LIB: << parameters.lib >>
       NIGHTLY_TEST: << parameters.nightly-test >>
+      FASTLANE_SKIP_UPDATE_CHECK: "true"
+      HOMEBREW_NO_AUTO_UPDATE: 1
     steps:
       - checkout
       - restore_cache: 
@@ -56,6 +57,7 @@ jobs:
             ./build/pre-build
             cd .circleci
             bundle check || sudo bundle install --path vendor/bundle
+            brew install xcbeautify
       - save_cache: 
           key: v1-gem-cahce{{ checksum ".circleci/Gemfile.lock" }}
           paths:
