@@ -1582,7 +1582,7 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
 
         NSMutableArray* contactTrees = [NSMutableArray new];
         for (NSUInteger j = 0; j<listContactFields.count; j++) {
-            NSString* refIdContact = [NSString stringWithFormat:@"%@:refContact_%lu", refIdAccount, (unsigned long)j];
+            NSString* refIdContact = [NSString stringWithFormat:@"%@__refContact_%lu", refIdAccount, (unsigned long)j];
             NSDictionary * contactFields = listContactFields[j];
             refIdToFields[refIdContact] = contactFields;
             [contactTrees addObject:[[SFSObjectTree alloc] initWithObjectType:CONTACT_TYPE objectTypePlural:CONTACT_TYPE_PLURAL referenceId:refIdContact fields:contactFields childrenTrees:nil]];
@@ -1609,7 +1609,7 @@ typedef NS_ENUM(NSInteger, SFSyncUpChange) {
     // Populate accountIdToFields and accountIdContactIdToFields
     for (NSString* refId in [refIdToId allKeys]) {
         NSDictionary * fields = refIdToFields[refId];
-        NSArray* parts = [refId componentsSeparatedByString:@":"];
+        NSArray* parts = [refId componentsSeparatedByString:@"__"];
         NSString* accountId = refIdToId[parts[0]];
         NSString* contactId = parts.count > 1 ? refIdToId[refId] : nil;
 
