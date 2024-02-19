@@ -37,7 +37,7 @@
 #import "SFSDKNullURLCache.h"
 #import "UIColor+SFColors.h"
 #import "SFDirectoryManager+Internal.h"
-#import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
+#import "SalesforceSDKCore/SalesforceSDKCore-Swift.h"
 #import "SFSDKResourceUtils.h"
 #import "SFSDKMacDetectUtil.h"
 #import "SFSDKSalesforceSDKUpgradeManager.h"
@@ -202,6 +202,18 @@ NSString * const kSFBiometricAuthenticationFlowCompleted = @"SFBiometricAuthenti
     [SalesforceSDKManager sharedManager];
 }
 
++ (void)initializeSDKWithConfigFileName:(NSString *)configFileName {
+    [self initializeSDKWithClass:InstanceClass andConfigFileName:configFileName];
+}
+
++ (void)initializeSDKWithClass:(Class)className andConfigFileName:(NSString *)fileName {
+    [self setInstanceClass:className];
+    [SalesforceSDKManager sharedManager];
+    [SalesforceSDKManager sharedManager].customConfigFilePath = fileName;
+    [[SalesforceSDKManager sharedManager] setupServiceConfiguration];
+
+}
+
 + (instancetype)sharedManager {
     static dispatch_once_t pred;
     static SalesforceSDKManager *sdkManager = nil;
@@ -304,6 +316,7 @@ NSString * const kSFBiometricAuthenticationFlowCompleted = @"SFBiometricAuthenti
         self.blockSalesforceIntegrationUser = NO;
         self.useHybridAuthentication = YES;
         [self setupServiceConfiguration];
+
         _snapshotViewControllers = [SFSDKSafeMutableDictionary new];
         [SFSDKSalesforceSDKUpgradeManager upgrade];
         [[SFScreenLockManagerInternal shared] checkForScreenLockUsers]; // This is necessary because keychain values can outlive the app.
@@ -333,7 +346,9 @@ NSString * const kSFBiometricAuthenticationFlowCompleted = @"SFBiometricAuthenti
 
 - (SFSDKAppConfig *)appConfig {
     if (_appConfig == nil) {
-        SFSDKAppConfig *config = [SFSDKAppConfig fromDefaultConfigFile];
+        SFSDKAppConfig *config;
+        
+        config = [SFSDKAppConfig fromConfigFile:self.customConfigFilePath];
         _appConfig = config?:[[SFSDKAppConfig alloc] init];
     }
     return _appConfig;

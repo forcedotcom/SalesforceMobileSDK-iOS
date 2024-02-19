@@ -83,7 +83,7 @@ struct KeyValueEncryptedFileStoreInspector: View {
                         }
                     }
                 }
-            }.navigationBarTitle(Text("Key-Value Store Inspector"), displayMode: .inline)
+            }.navigationBarTitle(Text("Key-Value Store Inspector"))
         }
         .navigationViewStyle(StackNavigationViewStyle())
     }

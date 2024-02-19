@@ -22,6 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <UIKit/UIKit.h>
 #import <Security/Security.h>
 #import <WebKit/WebKit.h>
 #import "SFOAuthCredentials+Internal.h"
@@ -54,6 +55,10 @@
 #import <SalesforceSDKCommon/SFSDKDatasharingHelper.h>
 #import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 #import <LocalAuthentication/LocalAuthentication.h>
+
+// Custom constants
+static NSString * const kSFAppStoreLink   = @"itunes.apple.com";
+
 @interface SFOAuthCoordinator()
 
 @property (nonatomic) NSString *networkIdentifier;
@@ -780,6 +785,9 @@
         [[SFUserAccountManager sharedInstance] setLoginHost:url.host];
         self.credentials.domain = url.host;
         [self authenticate];
+    } else if ([requestUrl containsString:@"otpauth://"] || [requestUrl containsString:kSFAppStoreLink]) {
+        decisionHandler(WKNavigationActionPolicyCancel);
+        [[UIApplication sharedApplication] openURL:url];
     } else {
         decisionHandler(WKNavigationActionPolicyAllow);
     }

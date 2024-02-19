@@ -249,5 +249,4 @@
     XCTNSPredicateExpectation *expectation = [[XCTNSPredicateExpectation alloc] initWithPredicate:predicate object:container];
     [self waitForExpectations:@[expectation] timeout:10];
 }
-
 @end
