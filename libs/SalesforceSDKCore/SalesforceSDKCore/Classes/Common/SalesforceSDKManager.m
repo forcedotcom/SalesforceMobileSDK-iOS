@@ -315,7 +315,9 @@ NSString * const kSFBiometricAuthenticationFlowCompleted = @"SFBiometricAuthenti
         self.useWebServerAuthentication = YES;
         self.blockSalesforceIntegrationUser = NO;
         self.useHybridAuthentication = YES;
-        [self setupServiceConfiguration];
+        
+        // This line does not allow for a custom config and needed to be removed.
+        // [self setupServiceConfiguration];
 
         _snapshotViewControllers = [SFSDKSafeMutableDictionary new];
         [SFSDKSalesforceSDKUpgradeManager upgrade];
