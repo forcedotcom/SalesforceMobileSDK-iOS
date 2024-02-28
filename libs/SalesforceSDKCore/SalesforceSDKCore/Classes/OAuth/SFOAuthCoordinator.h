@@ -54,7 +54,7 @@ typedef NS_ENUM(NSUInteger, SFOAuthAdvancedAuthState) {
      initiated a token exchange request.
      */
     SFOAuthAdvancedAuthStateTokenRequestInitiated
-};
+} SFSDK_DEPRECATED(11.0, 12.0, "Will be removed");
 
 /**
  Callback block used for the browser flow authentication.
@@ -264,7 +264,7 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
 /**
  The current state of any in-progress advanced authentication flow.
  */
-@property (nonatomic, readonly) SFOAuthAdvancedAuthState advancedAuthState;
+@property (nonatomic, readonly) SFOAuthAdvancedAuthState advancedAuthState SFSDK_DEPRECATED(11.0, 12.0, "Will be removed");
 
 /** View in which the user will input OAuth credentials for the user-agent flow OAuth process.
  

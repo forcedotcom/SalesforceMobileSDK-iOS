@@ -31,6 +31,7 @@
 #import "SFSDKAppConfig.h"
 #import "SFUserAccount+Internal.h"
 #import "SFOAuthCredentials+Internal.h"
+#import "SFOAuthTestFlowCoordinatorDelegate.h"
 
 static NSString* const kTestAppName = @"OverridenAppName";
 
@@ -342,6 +343,49 @@ static NSString* const kTestAppName = @"OverridenAppName";
     XCTAssertFalse([brandedURL containsString:[brandPath substringToIndex:brandPath.length]]);
     //should have brand
     XCTAssertTrue([brandedURL containsString:[brandPath substringToIndex:brandPath.length-1]]);
+}
+
+- (void)testAuthenticationFlags {
+    [self createTestAppIdentity];
+    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"testAuthenticationFlags" clientId:@"test" encrypted:NO];
+    credentials.domain = @"test";
+    credentials.redirectUri = @"test";
+    
+    // Hybrid enabled, web server enabled
+    [SalesforceSDKManager sharedManager].useWebServerAuthentication = YES;
+    SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:credentials];
+    SFOAuthTestFlowCoordinatorDelegate *delegate = [SFOAuthTestFlowCoordinatorDelegate new];
+    coordinator.delegate = delegate;
+    NSString *approvalUrl = [coordinator generateApprovalUrlString];
+    XCTAssert([approvalUrl containsString:@"response_type=code"]);
+    [coordinator authenticate];
+    XCTAssertEqual(SFOAuthTypeWebServer, coordinator.authInfo.authType);
+    [coordinator stopAuthentication];
+    
+    // Hybrid enabled, web server disabled
+    [SalesforceSDKManager sharedManager].useWebServerAuthentication = NO;
+    approvalUrl = [coordinator generateApprovalUrlString];
+    XCTAssert([approvalUrl containsString:@"response_type=hybrid_token"]);
+    [coordinator authenticate];
+    XCTAssertEqual(SFOAuthTypeUserAgent, coordinator.authInfo.authType);
+    [coordinator stopAuthentication];
+    
+    // Hybrid disabled, web server enabled
+    [SalesforceSDKManager sharedManager].useHybridAuthentication = NO;
+    [SalesforceSDKManager sharedManager].useWebServerAuthentication = YES;
+    approvalUrl = [coordinator generateApprovalUrlString];
+    XCTAssert([approvalUrl containsString:@"response_type=code"]);
+    [coordinator authenticate];
+    XCTAssertEqual(SFOAuthTypeWebServer, coordinator.authInfo.authType);
+    [coordinator stopAuthentication];
+    
+    // Hybrid disabled, web server disabled
+    [SalesforceSDKManager sharedManager].useHybridAuthentication = NO;
+    [SalesforceSDKManager sharedManager].useWebServerAuthentication = NO;
+    approvalUrl = [coordinator generateApprovalUrlString];
+    XCTAssert([approvalUrl containsString:@"response_type=token"]);
+    [coordinator authenticate];
+    XCTAssertEqual(SFOAuthTypeUserAgent, coordinator.authInfo.authType);
 }
 
 #pragma mark - Dispaly Name Tests

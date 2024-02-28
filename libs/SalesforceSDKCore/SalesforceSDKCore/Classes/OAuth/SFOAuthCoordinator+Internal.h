@@ -39,6 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly, nullable) NSURLSession *session;
 @property (nonatomic, strong , nullable) NSMutableData *responseData;
 @property (nonatomic, assign) BOOL initialRequestLoaded;
+@property (nonatomic, assign) BOOL domainUpdated;
 @property (nonatomic, copy) NSString *approvalCode;
 @property (nonatomic, strong, nullable) WKWebView *view;
 @property (nonatomic, strong, nullable) NSString *codeVerifier;
@@ -71,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (NSString *)generateApprovalUrlString;
 
-- (void)beginUserAgentFlow;
+- (void)beginWebViewFlow;
 
 @end
 

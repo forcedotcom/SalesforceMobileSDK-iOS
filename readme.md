@@ -27,12 +27,12 @@ After cloning the repo:
 
 This script pulls the submodule dependencies from GitHub, to finalize setup of the workspace.  You can then work with the Mobile SDK by opening `SalesforceMobileSDK.xcworkspace` from Xcode.
 
-The Salesforce Mobile SDK for iOS requires iOS 11.0 or greater.  The install.sh script checks for this, and aborts if the configured SDK version is incorrect.
+The Salesforce Mobile SDK for iOS requires iOS 15.0 or greater.  The install.sh script checks for this, and aborts if the configured SDK version is incorrect.
 
 Introduction
 ==
 
-### What's New in 10.2.0
+### What's New in 11.1.0
 See [release notes](https://github.com/forcedotcom/SalesforceMobileSDK-iOS/releases).
 
 ### Native Applications

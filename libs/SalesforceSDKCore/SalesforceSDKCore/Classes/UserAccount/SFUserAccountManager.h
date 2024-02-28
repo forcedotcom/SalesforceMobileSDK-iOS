@@ -31,6 +31,8 @@
 #import <SalesforceSDKCore/SFSDKLoginViewControllerConfig.h>
 #import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
+@class SFSDKSPConfig;
+
 NS_ASSUME_NONNULL_BEGIN
 
 /**
@@ -163,6 +165,19 @@ FOUNDATION_EXTERN NSString * const kSFNotificationToUserKey NS_SWIFT_NAME(UserAc
 /**  Key used to provide triggering scene info for IDP flow from a scene delegate.
  */
 FOUNDATION_EXTERN NSString * const kSFIDPSceneIdKey NS_SWIFT_NAME(UserAccountManager.IDPSceneKey);
+
+typedef NS_ENUM(NSUInteger, SFSPLoginStatus) {
+    SFSPLoginStatusLaunchingSPWithUserHint,
+    SFSPLoginStatusCodeVerifierStoredInKeychain,
+    SFSPLoginStatusGettingAuthCodeFromServer
+} NS_SWIFT_NAME(SPLoginStatus);
+
+typedef NS_ENUM(NSUInteger, SFSPLoginError) {
+    SFSPLoginErrorNoScheme,
+    SFSPLoginErrorNoUserIdentity,
+    SFSPLoginErrorKeychainWriteFailed,
+    SFSPLoginErrorCredentialRefreshFailed,
+} NS_SWIFT_NAME(SPLoginError);
 
 @class SFUserAccountManager;
 @class SFSDKAlertMessage;
@@ -508,10 +523,35 @@ Use this method to stop/clear any authentication which is has already been start
 /**
  Handle an authentication response from the IDP application
  @param url The URL response returned to the app from the IDP application.
- @options Dictionary of name-value pairs received from open URL
+ @param options Dictionary of name-value pairs received from open URL
  @return YES if this is a valid URL response from IDP authentication that should be handled, NO otherwise.
  */
 - (BOOL)handleIDPAuthenticationResponse:(NSURL *)url options:(nonnull NSDictionary *)options NS_SWIFT_NAME(handleIdentityProviderResponse(from:with:));
+
+
+/**
+ Handle an authentication request with auth code from the IDP application
+ @param url The URL response returned to the app from the IDP application.
+ @param options Dictionary of name-value pairs received from open URL
+ @param completionBlock called on successful login
+ @param failureBlock called on failure during login flow
+ @return YES if this is a valid URL response from IDP authentication that should be handled, NO otherwise.
+ */
+- (BOOL)handleIDPAuthenticationCommand:(NSURL *)url
+                               options:(nonnull NSDictionary *)options
+                            completion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock
+                               failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock NS_REFINED_FOR_SWIFT;
+
+
+/**
+ Kick off IDP initiated login flow for given SP app
+ @param config Configuration for SP app
+ @param statusBlock called at different steps throughout the login flow
+ @param failureBlock called on error, stops the login flow
+ */
+- (void)kickOffIDPInitiatedLoginFlowForSP:(SFSDKSPConfig *)config
+                             statusUpdate:(void(^)(SFSPLoginStatus))statusBlock
+                                  failure:(void(^)(SFSPLoginError))failureBlock;
 
 @end
 

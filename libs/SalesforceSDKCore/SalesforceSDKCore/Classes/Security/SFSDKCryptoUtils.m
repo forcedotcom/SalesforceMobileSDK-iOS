@@ -110,7 +110,7 @@ static NSString * const kSFECPrivateKeyTagPrefix = @"com.salesforce.eckey.privat
 
 + (NSData *)randomByteDataWithLength:(NSUInteger)lengthInBytes
 {
-    NSData *data = [[NSMutableData dataWithLength:lengthInBytes] randomDataOfLength:lengthInBytes];
+    NSData *data = [[NSMutableData dataWithLength:lengthInBytes] sfsdk_randomDataOfLength:lengthInBytes];
     return data;
 }
 

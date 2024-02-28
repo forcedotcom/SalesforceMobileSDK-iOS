@@ -5,6 +5,7 @@
  */
 
 #import <UIKit/UIKit.h>
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
 #define IFPGA_NAMESTRING                @"iFPGA"
 
@@ -166,108 +167,140 @@ typedef NS_ENUM(NSUInteger, UIDeviceFamily) {
 @interface UIDevice (SFHardware)
 
 /**Platform for the Device*/
-- (nullable NSString *) platform;
+- (nullable NSString *)sfsdk_platform;
+
+- (nullable NSString *)platform SFSDK_DEPRECATED(11.1, 12.0, "Use sfsdk_platform instead");
 
 /**Hardware model*/
-- (nullable NSString *) hwmodel;
+- (nullable NSString *)hwmodel SFSDK_DEPRECATED(11.1, 12.0, "Will be removed");
 
 /**Platform type
  See `UIDevicePlatform`
  */
-- (UIDevicePlatform) platformType;
+- (UIDevicePlatform)sfsdk_platformType;
+
+- (UIDevicePlatform)platformType SFSDK_DEPRECATED(11.1, 12.0, "Use sfsdk_platformType instead");
 
 /**Returns the system-dependent version number.
  @return The system version number.
  */
-- (double)systemVersionNumber;
+- (double)sfsdk_systemVersionNumber;
+
+- (double)systemVersionNumber SFSDK_DEPRECATED(11.1, 12.0, "Use sfsdk_systemVersionNumber instead");
 
 /**Platform string
  
  Valid values are defined above in the IPHONE_XX_NAMESTRING and IPAD_XXX_NAMESTRING
  */
-- (NSString *) platformString;
+- (NSString *)sfsdk_platformString;
+
+- (NSString *)platformString SFSDK_DEPRECATED(11.1, 12.0, "Use sfsdk_platformString instead");
 
 /**CPU Frequency*/
-- (NSUInteger) cpuFrequency;
+- (NSUInteger)cpuFrequency SFSDK_DEPRECATED(11.1, 12.0, "Will be removed");
 
 /**Bus frequency*/
-- (NSUInteger) busFrequency;
+- (NSUInteger)busFrequency SFSDK_DEPRECATED(11.1, 12.0, "Will be removed");
 
 /**CPU Count*/
-- (NSUInteger) cpuCount;
+- (NSUInteger)cpuCount SFSDK_DEPRECATED(11.1, 12.0, "Will be removed");
 
 /**Total CUP*/
-- (float) totalCPU;
+- (float)totalCPU SFSDK_DEPRECATED(11.1, 12.0, "Will be removed");
 
 /**Total memory*/
-- (NSUInteger) totalMemory;
+- (NSUInteger)sfsdk_totalMemory;
+
+- (NSUInteger)totalMemory SFSDK_DEPRECATED(11.1, 12.0, "Use sfsdk_totalMemory instead");
 
 /**User Memory*/
-- (NSUInteger) userMemory;
+- (NSUInteger)sfsdk_userMemory;
+
+- (NSUInteger)userMemory SFSDK_DEPRECATED(11.1, 12.0, "Use sfsdk_userMemory instead");
 
 /**Memory used by application (in bytes)*/
-- (NSUInteger) applicationMemory;
+- (NSUInteger)sfsdk_applicationMemory;
+
+- (NSUInteger)applicationMemory SFSDK_DEPRECATED(11.1, 12.0, "Use sfsdk_applicationMemory instead");
 
 /**Free VM page space available to application (in bytes)*/
-- (NSUInteger) freeMemory;
+- (NSUInteger)sfsdk_freeMemory;
+
+- (NSUInteger)freeMemory SFSDK_DEPRECATED(11.1, 12.0, "Use sfsdk_freeMemory instead");
 
 /**Total disk space*/
-- (NSNumber *) totalDiskSpace;
+- (NSNumber *)sfsdk_totalDiskSpace;
+
+- (NSNumber *)totalDiskSpace SFSDK_DEPRECATED(11.1, 12.0, "Use sfsdk_totalDiskSpace instead");
 
 /**Total free space*/
-- (NSNumber *) freeDiskSpace;
+- (NSNumber *)sfsdk_freeDiskSpace;
+
+- (NSNumber *)freeDiskSpace SFSDK_DEPRECATED(11.1, 12.0, "Use sfsdk_freeDiskSpace instead");
 
 /**Mac address*/
-- (nullable NSString *) macaddress;
+- (nullable NSString *)macaddress SFSDK_DEPRECATED(11.1, 12.0, "Will be removed");
 
 /**Returns whether the device has a retina display*/
-- (BOOL) hasRetinaDisplay;
+- (BOOL)hasRetinaDisplay SFSDK_DEPRECATED(11.1, 12.0, "Will be removed");
 
 /**Returns whether the device's SOC has a neural engine for core ML tasks*/
-- (BOOL) hasNeuralEngine;
+- (BOOL)sfsdk_hasNeuralEngine;
+
+- (BOOL)hasNeuralEngine SFSDK_DEPRECATED(11.1, 12.0, "Use sfsdk_hasNeuralEngine instead");
 
 /**Device Family*/
-- (UIDeviceFamily) deviceFamily;
+- (UIDeviceFamily)sfsdk_deviceFamily;
+
+- (UIDeviceFamily)deviceFamily SFSDK_DEPRECATED(11.1, 12.0, "Use sfsdk_deviceFamily instead");
 
 /**Device's current orientation
  This method will first try to retrieve orientation using UIDevice currentOrientation, if return value is an invalid orientation, it will try to use the orientation of the first window scene
  */
-- (UIInterfaceOrientation)interfaceOrientation;
+- (UIInterfaceOrientation)sfsdk_interfaceOrientation;
+
+- (UIInterfaceOrientation)interfaceOrientation SFSDK_DEPRECATED(11.1, 12.0, "Use sfsdk_interfaceOrientation instead");
 
 /**
  *  Determine if current device is simulator or not
  *
  *  @return Return YES if current device is simulator, NO otherwise.
  */
-- (BOOL)isSimulator;
+- (BOOL)sfsdk_isSimulator;
+
+- (BOOL)isSimulator SFSDK_DEPRECATED(11.1, 12.0, "Use sfsdk_isSimulator instead");
 
 /** Determines whether the current device can place phone calls.
  * @return Returns YES if the current device can make a phone call, NO otherwise.
  */
-- (BOOL)canDevicePlaceAPhoneCall;
+- (BOOL)canDevicePlaceAPhoneCall SFSDK_DEPRECATED(11.1, 12.0, "Will be removed");
 
 /** Determine if the current device has the screen size of an iPhone 6.
  * @return Returns YES if so, NO otherwise.
  */
-- (BOOL)hasIphone6ScreenSize;
+- (BOOL)hasIphone6ScreenSize SFSDK_DEPRECATED(11.1, 12.0, "Will be removed");
 
 /** Determine if the current device has the screen size of an iPhone 6 plus.
  * @return Returns YES if so, NO otherwise.
  */
-- (BOOL)hasIphone6PlusScreenSize;
+- (BOOL)hasIphone6PlusScreenSize SFSDK_DEPRECATED(11.1, 12.0, "Will be removed");
 
 /** Determine if the current device has the screen size of an iPhone X.
  * @return Returns YES if so, NO otherwise.
  */
-- (BOOL)hasIphoneXScreenSize;
+- (BOOL)hasIphoneXScreenSize SFSDK_DEPRECATED(11.1, 12.0, "Will be removed");
 
 /**Return YES if device is iPad
  */
-+ (BOOL)currentDeviceIsIPad;
++ (BOOL)sfsdk_currentDeviceIsIPad;
+
++ (BOOL)currentDeviceIsIPad SFSDK_DEPRECATED(11.1, 12.0, "Use sfsdk_currentDeviceIsIPad instead");
 
 /**Return YES if device is iPhone
  */
-+ (BOOL)currentDeviceIsIPhone;
++ (BOOL)sfsdk_currentDeviceIsIPhone;
+
++ (BOOL)currentDeviceIsIPhone SFSDK_DEPRECATED(11.1, 12.0, "Use sfsdk_currentDeviceIsIPhone instead");
 
 @end
 

@@ -23,6 +23,7 @@
  */
 
 #import <UIKit/UIKit.h>
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -30,6 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
  * Mobile SDK extension of the UIApplication object.  Currently just gathers
  * date/time information about user events.
  */
+SFSDK_DEPRECATED(11.1, 12.0, "No longer needed for passcode functionality")
 @interface SFApplication : UIApplication
 
 /**

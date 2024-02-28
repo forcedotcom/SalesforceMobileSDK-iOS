@@ -63,7 +63,7 @@ static NSString* const kRestApiSuffix = @"connect/proxy/app-analytics-logging";
     // Adds GZIP compression.
     NSString *bodyString = [[self class] dictionaryAsJSONString:bodyDictionary];
     NSData *bodyData = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
-    NSData *postData = [bodyData gzipDeflate];
+    NSData *postData = [bodyData sfsdk_gzipDeflate];
     [request setCustomRequestBodyData:postData contentType:@"application/json"];
     [request setHeaderValue:@"gzip" forHeaderName:@"Content-Encoding"];
     [request setHeaderValue:[NSString stringWithFormat:@"%lu", (unsigned long)[postData length]] forHeaderName:@"Content-Length"];

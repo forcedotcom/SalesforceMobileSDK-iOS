@@ -120,7 +120,10 @@ static NSString * const kSFDisableExternalPaste = @"DISABLE_EXTERNAL_PASTE";
     if ([objLoginHosts isKindOfClass:[NSString class]]) {
         objLoginHosts = @[ objLoginHosts ];
     }
-    return objLoginHosts;
+    if ([objLoginHosts isKindOfClass:[NSArray class]] && [(NSArray *)objLoginHosts count] > 0) {
+        return objLoginHosts;
+    }
+    return nil;
 }
 
 - (NSArray *)loginHostLabels {
@@ -128,7 +131,10 @@ static NSString * const kSFDisableExternalPaste = @"DISABLE_EXTERNAL_PASTE";
     if ([objLoginHostLabels isKindOfClass:[NSString class]]) {
         objLoginHostLabels = @[ objLoginHostLabels ];
     }
-    return objLoginHostLabels;
+    if ([objLoginHostLabels isKindOfClass:[NSArray class]] && [(NSArray *)objLoginHostLabels count] > 0) {
+        return objLoginHostLabels;
+    }
+    return nil;
 }
 
 - (NSString *)connectedAppId {

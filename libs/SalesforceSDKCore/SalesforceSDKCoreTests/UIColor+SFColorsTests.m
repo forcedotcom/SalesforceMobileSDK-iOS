@@ -38,53 +38,53 @@
 
 - (void)testColorWithShortHandHexAndPoundPrefix {
     NSString *shortHandHexColor = @"#abc";
-    UIColor *color = [UIColor colorFromHexValue:shortHandHexColor];
+    UIColor *color = [UIColor sfsdk_colorFromHexValue:shortHandHexColor];
     NSString *hexFromColor = HexStringFromComponents(CGColorGetComponents(color.CGColor));
     XCTAssert([hexFromColor caseInsensitiveCompare:@"aabbcc"] == NSOrderedSame, @"Hex strings do not match color generated!");
 }
 
 - (void)testColorWithShortHandHexNoPoundPrefix {
     NSString *shortHandHexColor = @"abc";
-    UIColor *color = [UIColor colorFromHexValue:shortHandHexColor];
+    UIColor *color = [UIColor sfsdk_colorFromHexValue:shortHandHexColor];
     NSString *hexFromColor = HexStringFromComponents(CGColorGetComponents(color.CGColor));
     XCTAssert([hexFromColor caseInsensitiveCompare:@"aabbcc"] == NSOrderedSame, @"Hex strings do not match color generated!");
 }
 
 - (void)testColorWithPoundPrefix {
     NSString *shortHandHexColor = @"#aabbcc";
-    UIColor *color = [UIColor colorFromHexValue:shortHandHexColor];
+    UIColor *color = [UIColor sfsdk_colorFromHexValue:shortHandHexColor];
     NSString *hexFromColor = HexStringFromComponents(CGColorGetComponents(color.CGColor));
     XCTAssert([hexFromColor caseInsensitiveCompare:@"aabbcc"] == NSOrderedSame, @"Hex strings do not match color generated!");
 }
 
 - (void)testColorWithNoPoundPrefix {
     NSString *shortHandHexColor = @"aabbcc";
-    UIColor *color = [UIColor colorFromHexValue:shortHandHexColor];
+    UIColor *color = [UIColor sfsdk_colorFromHexValue:shortHandHexColor];
     NSString *hexFromColor = HexStringFromComponents(CGColorGetComponents(color.CGColor));
     XCTAssert([hexFromColor caseInsensitiveCompare:@"aabbcc"] == NSOrderedSame, @"Hex strings do not match color generated!");
 }
 
 - (void)testInvalidShorthand {
     NSString *shortHandHexColor = @"ab";
-    UIColor *color = [UIColor colorFromHexValue:shortHandHexColor];
+    UIColor *color = [UIColor sfsdk_colorFromHexValue:shortHandHexColor];
     XCTAssertNil(color, @"Color must be nil for invalid hex representation!");
 }
 
 - (void)testInvalidShorthandWithPoundPrefix {
     NSString *shortHandHexColor = @"#ab";
-    UIColor *color = [UIColor colorFromHexValue:shortHandHexColor];
+    UIColor *color = [UIColor sfsdk_colorFromHexValue:shortHandHexColor];
     XCTAssertNil(color, @"Color must be nil for invalid hex representation!");
 }
 
 - (void)testEmptyHexString {
     NSString *shortHandHexColor = @"";
-    UIColor *color = [UIColor colorFromHexValue:shortHandHexColor];
+    UIColor *color = [UIColor sfsdk_colorFromHexValue:shortHandHexColor];
     XCTAssertNil(color, @"Color must be nil for empty hex representation!");
 }
 
 - (void)testNilHexString {
     NSString *shortHandHexColor = nil;
-    UIColor *color = [UIColor colorFromHexValue:shortHandHexColor];
+    UIColor *color = [UIColor sfsdk_colorFromHexValue:shortHandHexColor];
     XCTAssertNil(color, @"Color must be nil for nil hex representation!");
 }
 

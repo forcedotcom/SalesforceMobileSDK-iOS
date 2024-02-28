@@ -1,13 +1,11 @@
 #  Xcode version announcments can be found here: https://discuss.circleci.com/c/announcements/
 #  Each post contains a full image manifest, including iOS runtimes, devices, CocoaPods version, etc.
-#  NOTE: When updaing Xcode check the manifest for compatible chruby versions.
 anchors:
-  - &latest-xcode    "13.4.1"
-  - &latest-ios      "15.5"
-  - &min-ios         "14.5"
-  - &requres-string  "test << matrix.lib >> iOS 14.5"  # Keep this version up to date
-  - &chruby          "3.1.2"
-  - &device          "iPhone 12"
+  - &latest-xcode    "14.3.1"
+  - &latest-ios      "16.4"
+  - &min-ios         "15.5"
+  - &requres-string  "test << matrix.lib >> iOS 15.5"  # Keep this min version up to date
+  - &device          "iPhone-SE-3rd-generation"
   - &invalid         ""
 
 executors:
@@ -31,55 +29,47 @@ jobs:
       ios:
         type: string
         default: *latest-ios
-      chruby:
-        type: string
-        default: *chruby
       device:
         type: string
         default: *device
     macos:
       xcode: << parameters.xcode >>
+    resource_class: macos.m1.medium.gen1
     working_directory: ~/SalesforceMobileSDK-iOS
-    shell: /bin/bash --login -eo pipefail
     environment:
       DEVICE: << parameters.device >>
       IOS_VERSION: << parameters.ios >>
-      BASH_ENV: ~/.bashrc
       FASTLANE_SKIP_UPDATE_CHECK: "true"
-      CHRUBY_VER: << parameters.chruby >>
       LIB: << parameters.lib >>
       NIGHTLY_TEST: << parameters.nightly-test >>
     steps:
       - checkout
       - restore_cache: 
           keys:
-            - v8-gems-{{ checksum ".circleci/Gemfile.lock" }}
-            - v8-gems-
+            - v1-gem-cahce-{{ checksum ".circleci/Gemfile.lock" }}
+            - v1-gem-cahce
       - run: 
           name: Install Dependencies
           command:  |
             npm install shelljs@0.8.5
             ./install.sh
             ./build/pre-build
-            chruby ${CHRUBY_VER}
             cd .circleci
-            bundle check || sudo bundle install
-            sudo bundle update
+            bundle check || sudo bundle install --path vendor/bundle
       - save_cache: 
-          key: v8-gems-{{ checksum ".circleci/Gemfile.lock" }}
+          key: v1-gem-cahce{{ checksum ".circleci/Gemfile.lock" }}
           paths:
-            - /Users/distiller/.gem/ruby/<< parameters.chruby >>
+            - vendor/bundle
       - run: 
           name: Run Tests
           command:  |
-            chruby ${CHRUBY_VER}
             cd .circleci
             bundle exec fastlane PR lib:<< parameters.lib >> 
+          no_output_timeout: 20m
       - run: 
           name: Danger Lib
           command:  |
-            chruby ${CHRUBY_VER}
-            DANGER_GITHUB_API_TOKEN="279a29d75427e4178cef""b7b5b2d7646c540f025a" danger --dangerfile=.circleci/Dangerfile-Lib.rb --danger_id="${LIB}" --verbose
+            danger --dangerfile=.circleci/Dangerfile-Lib.rb --danger_id="${LIB}" --verbose
           background: true
           when: always
       - store_test_results:
@@ -99,9 +89,6 @@ parameters:
   ios:
     type: string
     default: *invalid
-  chruby:
-    type: string
-    default: *chruby
   device:
     type: string
     default: *device
@@ -115,6 +102,7 @@ workflows:
         - equal: [ "webhook", << pipeline.trigger_source >> ]
     jobs:
       - run-tests:
+          context: iOS Unit Tests
           matrix:
             parameters:
               lib: ["SalesforceSDKCommon", "SalesforceAnalytics", "SalesforceSDKCore", "SmartStore", "MobileSync"]
@@ -133,6 +121,7 @@ workflows:
     jobs:
       - run-tests:
           name: test << matrix.lib >> iOS << matrix.ios >> 
+          context: iOS Unit Tests
           matrix:
             parameters:
               lib: ["SalesforceSDKCommon", "SalesforceAnalytics", "SalesforceSDKCore", "SmartStore", "MobileSync"]
@@ -140,6 +129,7 @@ workflows:
               ios: [*min-ios]
       - run-tests:
           name: test << matrix.lib >> iOS << matrix.ios >> 
+          context: iOS Unit Tests 
           matrix:
             parameters:
               lib: ["SalesforceSDKCommon", "SalesforceAnalytics", "SalesforceSDKCore", "SmartStore", "MobileSync"]
@@ -159,11 +149,11 @@ workflows:
     jobs:
       - run-tests:
           name: test << matrix.lib >> iOS << matrix.ios >> 
+          context: iOS Unit Tests
           matrix:
             parameters:
               xcode: [<< pipeline.parameters.xcode >>]
               ios: [<< pipeline.parameters.ios >>]
-              chruby: [<< pipeline.parameters.chruby >>]
               device: [<< pipeline.parameters.device >>]
               lib: ["SalesforceSDKCommon", "SalesforceAnalytics", "SalesforceSDKCore", "SmartStore", "MobileSync"]
               nightly-test: [true]

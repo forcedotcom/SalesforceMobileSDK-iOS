@@ -87,7 +87,7 @@ struct ScreenLockUIView: View {
             context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) { success, error in
                 if success {
                     DispatchQueue.main.async {
-                        ScreenLockManager.shared.unlock()
+                        ScreenLockManagerInternal.shared.unlock()
                     }
                 } else {
                     errorText = error?.localizedDescription ?? SFSDKResourceUtils.localizedString("fallbackErrorMessage")
@@ -119,7 +119,7 @@ private func getIcon() -> UIImage {
 }
 
 private func logout() {
-    ScreenLockManager.shared.logoutScreenLockUsers();
+    ScreenLockManagerInternal.shared.logoutScreenLockUsers();
 
     if(UIAccessibility.isVoiceOverRunning) {
         UIAccessibility.post(notification: UIAccessibility.Notification.screenChanged, argument: SFSDKResourceUtils.localizedString("accessibilityLoggedOutAnnouncement"))

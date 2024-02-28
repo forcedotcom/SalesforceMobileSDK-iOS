@@ -57,7 +57,7 @@ static NSString *const kStoreConfigIndexes = @"indexes";
     }
 
     for (NSDictionary * soupConfig in self.soupsConfig) {
-        NSString *soupName = [soupConfig nonNullObjectForKey:kStoreConfigSoupName];
+        NSString *soupName = [soupConfig sfsdk_nonNullObjectForKey:kStoreConfigSoupName];
 
         // Leaving soup alone if it already exists
         if ([store soupExists:soupName]) {
@@ -66,7 +66,7 @@ static NSString *const kStoreConfigIndexes = @"indexes";
         }
 
 
-        NSArray *indexSpecs = [SFSoupIndex asArraySoupIndexes:[soupConfig nonNullObjectForKey:kStoreConfigIndexes]];
+        NSArray *indexSpecs = [SFSoupIndex asArraySoupIndexes:[soupConfig sfsdk_nonNullObjectForKey:kStoreConfigIndexes]];
         NSError * error = nil;
         [store registerSoup:soupName withIndexSpecs:indexSpecs error:&error];
         if (error) {

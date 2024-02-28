@@ -26,7 +26,6 @@
 #import "SFSmartStore+Internal.h"
 #import "SFSoupIndex.h"
 #import "SFQuerySpec.h"
-#import "SFSoupSpec.h"
 #import <SalesforceSDKCommon/SFJsonUtils.h>
 #import "FMDatabaseQueue.h"
 #import "FMDatabase.h"
@@ -201,76 +200,6 @@
 }
 
 /**
- * Test for alterSoup with column type change from string to json1
- * and storage goes from external to internal
- */
--(void) testAlterSoupTypeChangeStringToJSON1ExternalToInternal
-{
-    [self tryAlterSoupTypeChange:@"string"
-                          toType:@"json1"
-             fromStorageInternal:NO
-               toStorageInternal:YES
-              toStorageInternal2:YES];
-}
-
-/**
- * Test for alterSoup with column type change from json1 to string
- * and storage change from internal to external
- */
--(void) testAlterSoupTypeChangeJSON1ToStringInternalToExternal
-{
-    [self tryAlterSoupTypeChange:@"json1"
-                          toType:@"string"
-             fromStorageInternal:YES
-               toStorageInternal:YES
-              toStorageInternal2:NO];
-}
-
-/**
- * Test for alterSoup with column type change from string to full_text
- * and storage change from external to internal
- */
--(void) testAlterSoupTypeChangeStringToFullTextExternalToInternal
-{
-    [self tryAlterSoupTypeChange:@"string"
-                          toType:@"full_text"
-             fromStorageInternal:NO
-               toStorageInternal:YES
-              toStorageInternal2:YES];
-}
-
-/**
- * Test for alterSoup with column type change from full_text to string
- * and storage change from internal to external
- */
--(void) testAlterSoupTypeChangeFullTextToStringInternalToExternal
-{
-    [self tryAlterSoupTypeChange:@"full_text"
-                          toType:@"string"
-             fromStorageInternal:YES
-               toStorageInternal:YES
-              toStorageInternal2:NO];
-}
-
-/**
- * Test for alterSoup with string column 
- * and storage change from internal to external to internal
- */
--(void) testAlterSoupStringInternalToExternalToInternal
-{
-    [self tryAlterSoupTypeChange:@"string" toType:@"string" fromStorageInternal:YES toStorageInternal:NO toStorageInternal2:YES];
-}
-
-/**
- * Test for alterSoup with full_text column 
- * and storage change from internal to external to internal
- */
--(void) testAlterSoupFullTextInternalToExternalToInternal
-{
-    [self tryAlterSoupTypeChange:@"full_text" toType:@"full_text" fromStorageInternal:YES toStorageInternal:NO toStorageInternal2:YES];
-}
-
-/**
  * Test for alterSoup passing in same index specs (string)
  * Make sure db table / indexes are recreated
  * That way soup created before 4.2 can get the new indexes (create/lastModified) by calling alterSoup
@@ -343,85 +272,34 @@
 -(void) tryAlterSoupTypeChange:(NSString*)fromType
                         toType:(NSString*)toType
 {
-    [self tryAlterSoupTypeChange:fromType
-                          toType:toType
-             fromStorageInternal:YES
-               toStorageInternal:YES
-              toStorageInternal2:YES];
-}
-
-/**
- * Start with soup with country and city as fromType and storage based on fromStorageInternal
- * Alter soup to have country as toType and storage based on toStorageInternal
- * Alter soup a second time to have city as toType and storage based on toStorageInternal2
- */
--(void) tryAlterSoupTypeChange:(NSString*)fromType
-                        toType:(NSString*)toType
-           fromStorageInternal:(BOOL)fromStorageInternal
-             toStorageInternal:(BOOL)toStorageInternal
-            toStorageInternal2:(BOOL)toStorageInternal2
-
-{
-    SFSoupSpec* soupSpec = [SFSoupSpec
-                            newSoupSpec:kTestSoupName
-                            withFeatures:(fromStorageInternal ? nil :@[kSoupFeatureExternalStorage])];
     NSArray* indexSpecs = [SFSoupIndex asArraySoupIndexes:@[@{@"path":kCity, @"type":fromType}, @{@"path": kCountry, @"type":fromType}]];
     XCTAssertFalse([self.store soupExists:kTestSoupName], "Test soup should not exists");
-    [self.store registerSoupWithSpec:soupSpec withIndexSpecs:indexSpecs error:nil];
+    [self.store registerSoup:kTestSoupName withIndexSpecs:indexSpecs error:nil];
     XCTAssertTrue([self.store soupExists:kTestSoupName], "Register soup call failed");
     
     NSArray* savedEntries = [self.store upsertEntries:@[@{kCity:@"San Francisco", kCountry:@"United States"}, @{kName:@"Paris", kCountry:@"France"}]
                                                toSoup:kTestSoupName];
     
     // Check db
-    [self checkDb:savedEntries cityColType:fromType countryColType:fromType internalStorage:fromStorageInternal];
-    
-    // Check file system if applicable
-    [self checkFileSystem:savedEntries shouldExist:!fromStorageInternal];
+    [self checkDb:savedEntries cityColType:fromType countryColType:fromType];
     
     // Alter soup - country now toType
-    SFSoupSpec* soupSpecNew = [SFSoupSpec
-                                newSoupSpec:kTestSoupName
-                                withFeatures:(toStorageInternal ? nil :@[kSoupFeatureExternalStorage])];
     NSArray* indexSpecsNew = [SFSoupIndex asArraySoupIndexes:@[@{@"path":kCity, @"type":fromType}, @{@"path":kCountry, @"type":toType}]];
-    [self.store alterSoup:kTestSoupName withSoupSpec:soupSpecNew withIndexSpecs:indexSpecsNew reIndexData:YES];
+    [self.store alterSoup:kTestSoupName withIndexSpecs:indexSpecsNew reIndexData:YES];
     
     // Check db
-    [self checkDb:savedEntries cityColType:fromType countryColType:toType internalStorage:toStorageInternal];
+    [self checkDb:savedEntries cityColType:fromType countryColType:toType];
 
-    
-    // Check file system
-    [self checkFileSystem:savedEntries shouldExist:!toStorageInternal];
     
     // Alter soup - city now toType
-    SFSoupSpec* soupSpecNew2 = [SFSoupSpec
-                               newSoupSpec:kTestSoupName
-                               withFeatures:(toStorageInternal2 ? nil :@[kSoupFeatureExternalStorage])];
-
     NSArray* indexSpecsNew2 = [SFSoupIndex asArraySoupIndexes:@[@{@"path":kCity, @"type":toType}, @{@"path":kCountry, @"type":toType}]];
-    [self.store alterSoup:kTestSoupName withSoupSpec:soupSpecNew2 withIndexSpecs:indexSpecsNew2 reIndexData:YES];
+    [self.store alterSoup:kTestSoupName withIndexSpecs:indexSpecsNew2 reIndexData:YES];
     
     // Check db
-    [self checkDb:savedEntries cityColType:toType countryColType:toType internalStorage:toStorageInternal2];
-    
-    // Check file system if applicable
-    [self checkFileSystem:savedEntries shouldExist:!toStorageInternal2];
-}
-
--(void) checkFileSystem:(NSArray*)expectedEntries shouldExist:(BOOL)shouldExist
-{
-    [self checkFileSystem:expectedEntries
-              shouldExist:shouldExist
-                    store:self.store
-                 soupName:kTestSoupName];
+    [self checkDb:savedEntries cityColType:toType countryColType:toType];
 }
 
 -(void) checkDb:(NSArray*)expectedEntries cityColType:(NSString*)cityColType countryColType:(NSString*)countryColType
-{
-    [self checkDb:expectedEntries cityColType:cityColType countryColType:countryColType internalStorage:YES];
-}
-
--(void) checkDb:(NSArray*)expectedEntries cityColType:(NSString*)cityColType countryColType:(NSString*)countryColType internalStorage:(BOOL)internalStorage
 {
     // Expected column names
     NSString* expectedCityCol = ([cityColType isEqualToString:kSoupIndexTypeJSON1] ? [NSString stringWithFormat:@"json_extract(soup, '$.%@')", kCity] : kCityCol);
@@ -446,7 +324,7 @@
     // Check soup table columns
     NSMutableArray* expectedColumns = [NSMutableArray new];
     [expectedColumns addObject:@"id"];
-    if (internalStorage) [expectedColumns addObject:@"soup"];
+    [expectedColumns addObject:@"soup"];
     [expectedColumns addObject:@"created"];
     [expectedColumns addObject:@"lastModified"];
     if (![cityColType isEqualToString:kSoupIndexTypeJSON1]) [expectedColumns addObject:kCityCol];

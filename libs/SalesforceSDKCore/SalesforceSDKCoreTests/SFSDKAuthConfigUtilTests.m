@@ -37,6 +37,7 @@ static NSString * const kSFTestId = @"test_id";
 static NSString * const kSFTestClientId = @"test_client_id";
 static NSString * const kSFMyDomainEndpoint = @"mobilesdk.my.salesforce.com";
 static NSString * const kSFAlternateMyDomainEndpoint = @"powerofus.force.com";
+static NSString * const kSFAlternateMyDomainLoginURL = @"foundation.my.site.com/PowerOfUsLogin";
 static NSString * const kSFSandboxEndpoint = @"test.salesforce.com";
 
 @interface SFSDKAuthConfigUtilTests : XCTestCase
@@ -81,7 +82,7 @@ static NSString * const kSFSandboxEndpoint = @"test.salesforce.com";
         XCTAssertNotNil(authConfig, @"Auth config should not be nil");
         XCTAssertNotNil(authConfig.authConfigDict, @"Auth config dictionary should not be nil");
         XCTAssertNotNil(authConfig.ssoUrls, @"SSO URLs should not be nil");
-        XCTAssertEqual(authConfig.ssoUrls.count, 3, @"SSO URLs should have 3 valid entries");
+        XCTAssertEqual(authConfig.ssoUrls.count, 2, @"SSO URLs should have 2 valid entries");
         [expect fulfill];
     } loginDomain:credentials.domain];
     [self waitForExpectationsWithTimeout:20 handler:nil];
@@ -96,7 +97,7 @@ static NSString * const kSFSandboxEndpoint = @"test.salesforce.com";
         XCTAssertNotNil(authConfig, @"Auth config should not be nil");
         XCTAssertNotNil(authConfig.authConfigDict, @"Auth config dictionary should not be nil");
         XCTAssertNotNil(authConfig.loginPageUrl, @"Login page URL should not be nil");
-        XCTAssertTrue([authConfig.loginPageUrl containsString:kSFAlternateMyDomainEndpoint], @"Login page URL should contain correct URL");
+        XCTAssertTrue([authConfig.loginPageUrl containsString:kSFAlternateMyDomainLoginURL], @"Login page URL should contain correct URL");
         [expect fulfill];
     } loginDomain:credentials.domain];
     [self waitForExpectationsWithTimeout:20 handler:nil];

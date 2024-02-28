@@ -30,9 +30,17 @@
 "biometricReason" = "Please authenticate to proceed.";
 "logoutButtonTitle" = "Log out";
 "retryButtonTitle" = "Retry Unlock";
-"setUpPasscodeMessage" = "%@ requires you to set up an iOS passcode to use the app.";
+"setUpPasscodeMessage" = "%@ requires you to set an iOS passcode before you can connect to Salesforce. Add a passcode in Settings and then try again.";
 "fallbackErrorMessage" = "An unexpected error occurred.";
 "accessibilityLoggedOutAnnouncement" = "You are logged out.";
+
+// Biometric Authentication
+"biometricLoginButton" = "Log In with Biometric";
+"usePassword" = "Use Password";
+"bioOptInPromptTitle" = "Biometric Login";
+"bioOptInPromptMessage" = "Use TouchID or FaceID to quickly log in.  Your biometric information is never stored.";
+"bioPromptEnable" = "Enable";
+"bioPromtpCancel" = "Use Password";
 
 // OAuth flow
 "authAlertContinueButton"="Continue";
@@ -95,16 +103,16 @@
 "devInfoCancelKey" = "Cancel";
 
 //IDP User Selection Screen
-"idpSelectUserLabel" = "Select your account to log into";
+"idpSelectUserLabel" = "Select your account to log in to";
 "idpAddNewAccountLabel" = "Add new account";
 "idpSelectUserTitleLabel" = "Select user";
 
 //IDP Login Selection Screen
-"idpLoginFlowInfoLabel" = "Select the flow to use for login";
+"idpLoginFlowInfoLabel" = "Select the flow to use for log in";
 "idpLoginLocalFlowDescriptionLabel" = "Local - Host App will be used for authentication";
 "idpLoginIdpFlowDescriptionLabel" = "IDP - Identity Provider App will be launched for authentication";
-"idpLoginButtonTitle" = "IDP Log In";
-"idpLocalLoginButtonTitle" = "Local Log In";
+"idpLoginButtonTitle" = "IDP Login";
+"idpLocalLoginButtonTitle" = "Local Login";
 
 // Key-Value Store Inspector
 "Store" = "Store";

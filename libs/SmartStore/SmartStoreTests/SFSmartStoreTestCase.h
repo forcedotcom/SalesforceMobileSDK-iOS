@@ -58,8 +58,6 @@
 
 - (void) checkSoupTable:(NSArray*)expectedEntries shouldExist:(BOOL)shouldExist store:(SFSmartStore*)store soupName:(NSString*)soupName;
 
--(void) checkFileSystem:(NSArray*)expectedEntries shouldExist:(BOOL)shouldExist store:(SFSmartStore*)store soupName:(NSString*)soupName;
-
 - (SFUserAccount*) setUpSmartStoreUser;
 - (void) tearDownSmartStoreUser:(SFUserAccount*)user;
 

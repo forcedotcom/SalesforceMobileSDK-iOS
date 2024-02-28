@@ -1,6 +1,6 @@
 {
 	"name": "SalesforceMobileSDK-iOS",
-	"version": "10.2.0",
+	"version": "11.1.0",
 	"description": "Salesforce Mobile SDK for iOS",
 	"keywords": [ "mobilesdk", "ios", "salesforce", "mobile", "sdk" ],
 	"homepage": "https://github.com/forcedotcom/SalesforceMobileSDK-iOS",
@@ -10,7 +10,7 @@
 	],
 	"repository": {
 		"type" : "git",
-		"url" : "https://github.com/forcedotcom/SalesforceMobileSDK-iOS.git"
+		"url" : "https://github.com/HEBPartnerNetDeveloper/SalesforceMobileSDK-iOS.git"
 	},
     "engines": {
         "node": ">=4"

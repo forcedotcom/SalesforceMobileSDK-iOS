@@ -36,8 +36,12 @@
 }
 
 + (UIColor *)colorFromHexValue:(NSString *)hexString {
+    return [UIColor sfsdk_colorFromHexValue:hexString];
+}
+
++ (UIColor *)sfsdk_colorFromHexValue:(NSString *)hexString {
     UIColor *color = nil;
-    hexString = [[self class] msdk_sixDigitHexFromString:hexString];
+    hexString = [[self class] sfsdk_sixDigitHexFromString:hexString];
     if ([hexString length] > 0) {
         unsigned rgbValue = 0;
         NSScanner *scanner = [NSScanner scannerWithString:hexString];
@@ -47,7 +51,7 @@
     return color;
 }
 
-+ (NSString *)msdk_sixDigitHexFromString:(NSString *)hexString {
++ (NSString *)sfsdk_sixDigitHexFromString:(NSString *)hexString {
     if (hexString.length == 0) {
         return nil;
     }
@@ -110,6 +114,10 @@
 }
 
 + (UIColor *)colorForLightStyle:(UIColor *)lightStyleColor darkStyle:(UIColor *)darkStyleColor {
+    return [UIColor sfsdk_colorForLightStyle:lightStyleColor darkStyle:darkStyleColor];
+}
+
++ (UIColor *)sfsdk_colorForLightStyle:(UIColor *)lightStyleColor darkStyle:(UIColor *)darkStyleColor {
     return [[UIColor alloc] initWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
                 if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
                     return darkStyleColor;
@@ -120,6 +128,10 @@
 }
 
 - (NSString *)hexStringFromColor {
+    return [self sfsdk_hexStringFromColor];
+}
+
+- (NSString *)sfsdk_hexStringFromColor {
     NSAssert (self.canProvideRGBComponents, @"Must be a RGB color to use hexStringFromColor");
     
     CGFloat r, g, b;

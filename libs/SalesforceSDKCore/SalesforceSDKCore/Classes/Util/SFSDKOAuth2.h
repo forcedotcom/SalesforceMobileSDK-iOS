@@ -61,7 +61,8 @@ enum {
     kSFOAuthErrorInvalidMDMConfiguration,
     kSFOAuthErrorJWTInvalidGrant,
     kSFOAuthErrorRequestCancelled,
-    kSFOAuthErrorRefreshFailed //generic error
+    kSFOAuthErrorRefreshFailed, //generic error
+    kSFOAuthErrorInvalidURL
 };
 
 NS_ASSUME_NONNULL_BEGIN

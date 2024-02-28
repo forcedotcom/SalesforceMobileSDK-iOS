@@ -24,6 +24,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -45,7 +46,9 @@ extern NSString * const kSFRedactedQuerystringValue;
  *                                  should be redacted.
  * @return The redacted version of the absolute string value.
  */
-- (NSString *)redactedAbsoluteString:(NSArray *)queryStringParamsToRedact;
+- (NSString *)sfsdk_redactedAbsoluteString:(NSArray *)queryStringParamsToRedact;
+
+- (NSString *)redactedAbsoluteString:(NSArray *)queryStringParamsToRedact SFSDK_DEPRECATED(11.1, 12.0, "Use sfsdk_redactedAbsoluteString: instead");
 
 /**
  Helper method that constructs an absolute URL string given the specified components.
@@ -53,7 +56,7 @@ extern NSString * const kSFRedactedQuerystringValue;
  @param pathComponents The components of the path
  @return an absolute string URL representation
  */
-+ (NSString*)stringUrlWithBaseUrl:(NSURL*)baseUrl pathComponents:(NSArray*)pathComponents;
++ (NSString*)stringUrlWithBaseUrl:(NSURL*)baseUrl pathComponents:(NSArray*)pathComponents SFSDK_DEPRECATED(11.1, 12.0, "Will be removed");
 
 /**
  Helper method that constructs an absolute URL string given the specified components.
@@ -63,13 +66,13 @@ extern NSString * const kSFRedactedQuerystringValue;
  @param pathComponents The components of the path
  @return an absolute string URL representation
  */
-+ (NSString*)stringUrlWithScheme:(NSString*)scheme host:(NSString*)host port:(NSNumber*)port pathComponents:(NSArray*)pathComponents;
++ (NSString*)stringUrlWithScheme:(NSString*)scheme host:(NSString*)host port:(NSNumber*)port pathComponents:(NSArray*)pathComponents SFSDK_DEPRECATED(11.1, 12.0, "Will be removed");
 
 /**
  Adds a trailing slash to the URL's path, if necessary
  @return A URL whose path ends in a forward slash
  */
-- (NSURL *)slashTerminatedUrl;
+- (NSURL *)slashTerminatedUrl SFSDK_DEPRECATED(11.1, 12.0, "Will be removed");
 
 @end
 

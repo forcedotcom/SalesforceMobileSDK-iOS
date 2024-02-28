@@ -30,11 +30,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SFOAuthKeychainCredentials : SFOAuthCredentials
 
-- (SFEncryptionKey *)keyStoreKeyForService:(NSString *)service;
-- (nullable NSString *)refreshTokenWithSFEncryptionKey:(SFEncryptionKey *)encryptionKey;
-- (void)setRefreshToken:(nullable NSString *)token withSFEncryptionKey:(SFEncryptionKey *)key;
-- (nullable NSString *)accessTokenWithSFEncryptionKey:(SFEncryptionKey *)encryptionKey;
-- (void)setAccessToken:(nullable NSString *)token withSFEncryptionKey:(SFEncryptionKey *)key;
 
 @end
 

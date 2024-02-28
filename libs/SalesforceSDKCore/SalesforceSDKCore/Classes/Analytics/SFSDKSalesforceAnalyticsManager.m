@@ -32,7 +32,6 @@
 #import "SFUserAccountManager.h"
 #import "SalesforceSDKManager.h"
 #import "SFDirectoryManager.h"
-#import "SFKeyStoreManager.h"
 #import "SFSDKCryptoUtils.h"
 #import "SFSDKAILTNPublisher.h"
 #import "UIDevice+SFHardware.h"
@@ -59,49 +58,8 @@ static NSMutableDictionary *analyticsManagerList = nil;
     if (self == [SFSDKSalesforceAnalyticsManager class] && analyticsManagerList == nil) {
         analyticsManagerList = [[NSMutableDictionary alloc] init];
     }
-
-    [SFSDKSalesforceAnalyticsManager upgradeStoreEncryption];
 }
 
-// TODO: Remove in Mobile SDK 11.0
-+ (void)upgradeStoreEncryption {
-    #pragma clang diagnostic push
-    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    SFEncryptionKey *legacyKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kEventStoreEncryptionKeyLabel autoCreate:YES];
-    #pragma clang diagnostic pop
-
-    NSUserDefaults *standardUserDefaults = [NSUserDefaults msdkUserDefaults];
-    if (![standardUserDefaults boolForKey:kEventStoreGCMEncryptedKey]) {
-        NSError *error = nil;
-        NSData *newKey = [SFSDKKeyGenerator encryptionKeyFor:kEventStoreEncryptionKeyLabel error:&error];
-        if (error) {
-            [SFSDKCoreLogger e:[self class] format:@"Error getting encryption key: %@", error.localizedDescription];
-            return;
-        }
-        
-        NSString *rootPath = [[SFDirectoryManager sharedManager] globalDirectoryOfType:NSDocumentDirectory components:nil];
-        NSFileManager *fileManager = [NSFileManager defaultManager];
-        NSDirectoryEnumerator *enumerator = [fileManager enumeratorAtURL:[NSURL URLWithString:rootPath] includingPropertiesForKeys:nil options:0 errorHandler:nil];
-        NSMutableArray<NSURL *> *eventStores = [[NSMutableArray alloc] init];
-        NSURL *rootFile;
-        while ((rootFile = [enumerator nextObject])) {
-            if ([[rootFile lastPathComponent] isEqualToString:kEventStoresDirectory]) {
-                [eventStores addObject:rootFile];
-            }
-        }
-        for (NSURL *store in eventStores) {
-            NSArray<NSURL *> *events = [fileManager contentsOfDirectoryAtURL:store includingPropertiesForKeys:nil options:0 error:nil];
-            for (NSURL *event in events) {
-                NSData *encryptedEvent = [[NSData alloc] initWithContentsOfURL:event];
-                NSData *decryptedEvent = [legacyKey decryptData:encryptedEvent];
-                NSData *reencryptedEvent = [SFSDKEncryptor encryptData:decryptedEvent key:newKey error:nil];
-                [reencryptedEvent writeToURL:event options:NSDataWritingFileProtectionCompleteUntilFirstUserAuthentication error:nil];
-            }
-        }
-        [standardUserDefaults setBool:YES forKey:kEventStoreGCMEncryptedKey];
-        [standardUserDefaults synchronize];
-    }
-}
 
 + (instancetype) sharedInstanceWithUser:(SFUserAccount *) userAccount {
     @synchronized ([SFSDKSalesforceAnalyticsManager class]) {
@@ -339,7 +297,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
     NSString *osName = [curDevice systemName];
     NSString *appTypeStr = [sdkManager getAppTypeAsString];
     NSString *mobileSdkVersion = SALESFORCE_SDK_VERSION;
-    NSString *deviceModel = [curDevice platform];
+    NSString *deviceModel = [curDevice sfsdk_platform];
     NSString *deviceId = [sdkManager deviceId];
     NSString *clientId = sdkManager.appConfig.remoteAccessConsumerKey;
     return [[SFSDKDeviceAppAttributes alloc] initWithAppVersion:appVersion appName:appName osVersion:osVersion osName:osName nativeAppType:appTypeStr mobileSdkVersion:mobileSdkVersion deviceModel:deviceModel deviceId:deviceId clientId:clientId];

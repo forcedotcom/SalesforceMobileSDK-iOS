@@ -23,6 +23,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -33,11 +34,15 @@ NS_ASSUME_NONNULL_BEGIN
 /** Get value for a parameter name from the URL
  @param name Name of the parameter
  */
-- (nullable NSString*)valueForParameterName:(NSString*)name;
+- (nullable NSString*)sfsdk_valueForParameterName:(NSString*)name;
+
+- (nullable NSString*)valueForParameterName:(NSString*)name SFSDK_DEPRECATED(11.1, 12.0, "Use sfsdk_valueForParameterName: instead");
 
 /** Get all query params as dictionary
  */
-- (nullable NSDictionary *)dictionaryFromQuery;
+- (nullable NSDictionary *)sfsdk_dictionaryFromQuery;
+
+- (nullable NSDictionary *)dictionaryFromQuery SFSDK_DEPRECATED(11.1, 12.0, "Use sfsdk_dictionaryFromQuery instead");
 
 @end
 

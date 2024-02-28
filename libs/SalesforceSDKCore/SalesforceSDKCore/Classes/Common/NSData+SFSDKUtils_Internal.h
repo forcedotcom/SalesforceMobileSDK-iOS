@@ -35,6 +35,6 @@
  * @param base64String The input string with characters to replace.
  * @return The base64 string with the URL chars replaced (i.e. the base64url string).
  */
-+ (NSString *)replaceBase64CharsForBase64UrlString:(NSString *)base64String;
++ (NSString *)sfsdk_replaceBase64CharsForBase64UrlString:(NSString *)base64String;
 
 @end

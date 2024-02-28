@@ -196,30 +196,18 @@
 
 - (void) testConvertSmartSqlWithJSON1
 {
-    if ([[self.store attributesForSoup:kEmployeesSoup].features containsObject:kSoupFeatureExternalStorage]) {
-        [SFSDKSmartStoreLogger i:[self class] format:@"Test Skipped for soup with external storage feature."];
-        return;
-    }
     XCTAssertEqualObjects(@"select TABLE_1_1, json_extract(soup, '$.education') from TABLE_1 where json_extract(soup, '$.education') = 'MIT'",
                           [self.store convertSmartSql:@"select {employees:lastName}, {employees:education} from {employees} where {employees:education} = 'MIT'"], @"Bad conversion");
 }
 
 - (void) testConvertSmartSqlWithJSON1AndTableQualifiedColumn
 {
-    if ([[self.store attributesForSoup:kEmployeesSoup].features containsObject:kSoupFeatureExternalStorage]) {
-        [SFSDKSmartStoreLogger i:[self class] format:@"Test Skipped for soup with external storage feature."];
-        return;
-    }
     XCTAssertEqualObjects(@"select json_extract(TABLE_1.soup, '$.education') from TABLE_1 order by json_extract(TABLE_1.soup, '$.education')",
                           [self.store convertSmartSql:@"select {employees}.{employees:education} from {employees} order by {employees}.{employees:education}"], @"Bad conversion");
 }
 
 - (void) testConvertSmartSqlWithJSON1AndTableAliases
 {
-    if ([[self.store attributesForSoup:kEmployeesSoup].features containsObject:kSoupFeatureExternalStorage]) {
-        [SFSDKSmartStoreLogger i:[self class] format:@"Test Skipped for soup with external storage feature."];
-        return;
-    }
     XCTAssertEqualObjects(@"select json_extract(e.soup, '$.education'), json_extract(soup, '$.building') from TABLE_1 as e, TABLE_2",
                           [self.store convertSmartSql:@"select e.{employees:education}, {departments:building} from {employees} as e, {departments}"], @"Bad conversion");
     
@@ -400,6 +388,68 @@
     querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:employeeId} from {employees} where {employees:isManager} = 0 order by {employees:employeeId}" withPageSize:10];
     result = [self.store queryWithQuerySpec:querySpec pageIndex:0  error:nil];
     [self assertSameJSONArrayWithExpected:[SFJsonUtils objectFromJSONString:@"[[\"00020\"],[\"00060\"],[\"00070\"],[\"00310\"],[\"102\"]]"] actual:result message:@"Wrong result"];
+}
+
+ // Test running smart queries matching non-ASCII characters in String field
+- (void) testSmartQueryMachingNonAsciiInStringField
+{
+    // Creating another employee from a json string with first name using non-ascii characters (Turkish)
+    [self createEmployeeWithJsonString:@"{\"employeeId\":\"101\",\"firstName\":\"Göktuğ\"}"];
+
+    // Creating another employee from a json string with first name using non-ascii characters (Korean)
+    [self createEmployeeWithJsonString:@"{\"employeeId\":\"102\",\"firstName\":\"보배\"}"];
+
+    // Smart sql looking for first name containing a certain non-ASCII character (ğ)
+    SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:employeeId} from {employees} where {employees:firstName} like '%ğ%'" withPageSize:10];
+    NSArray* result = [self.store queryWithQuerySpec:querySpec pageIndex:0  error:nil];
+    [self assertSameJSONArrayWithExpected:[SFJsonUtils objectFromJSONString:@"[[\"101\"]]"] actual:result message:@"Wrong result"];
+
+    // Smart sql looking for first name containing a certain non-ASCII character (배)
+    querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:employeeId} from {employees} where {employees:firstName} like '%배%'" withPageSize:10];
+    result = [self.store queryWithQuerySpec:querySpec pageIndex:0  error:nil];
+    [self assertSameJSONArrayWithExpected:[SFJsonUtils objectFromJSONString:@"[[\"102\"]]"] actual:result message:@"Wrong result"];
+}
+
+// Test running smart queries matching non-ASCII characters in Json1 field
+- (void) testSmartQueryMachingNonAsciiInJSON1Field
+{
+    // Creating another employee from a json string with education using non-ascii characters (Turkish)
+    [self createEmployeeWithJsonString:@"{\"employeeId\":\"101\",\"education\":\"latince uzmanı\"}"];
+
+    // Creating another employee from a json string with education using non-ascii characters (Korean)
+    [self createEmployeeWithJsonString:@"{\"employeeId\":\"102\",\"education\":\"라틴어 전문가\"}"];
+
+    // Smart sql looking for education containing a certain non-ASCII character (ı)
+    SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:employeeId} from {employees} where {employees:education} like '%ı%'" withPageSize:10];
+    NSArray* result = [self.store queryWithQuerySpec:querySpec pageIndex:0  error:nil];
+    [self assertSameJSONArrayWithExpected:[SFJsonUtils objectFromJSONString:@"[[\"101\"]]"] actual:result message:@"Wrong result"];
+
+    // Smart sql looking for education containing a certain non-ASCII character (문)
+    querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:employeeId} from {employees} where {employees:education} like '%문%'" withPageSize:10];
+    result = [self.store queryWithQuerySpec:querySpec pageIndex:0  error:nil];
+    [self assertSameJSONArrayWithExpected:[SFJsonUtils objectFromJSONString:@"[[\"102\"]]"] actual:result message:@"Wrong result"];
+}
+
+
+ // Test running smart queries matching non-ASCII characters in non-indexed field
+- (void) testSmartQueryMachingNonAsciiInNonIndexedField
+{
+    // Creating another employee from a json string with country using non-ascii characters (Turkish)
+    [self createEmployeeWithJsonString:@"{\"employeeId\":\"101\",\"country\":\"Türkçe\"}"];
+
+    // Creating another employee from a json string with country using non-ascii characters (Korean)
+    [self createEmployeeWithJsonString:@"{\"employeeId\":\"102\",\"country\":\"한국\"}"];
+
+    // Smart sql looking for country containing a certain non-ASCII character (ç)
+    SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:employeeId} from {employees} where {employees:country} like '%ç%'" withPageSize:10];
+    NSArray* result = [self.store queryWithQuerySpec:querySpec pageIndex:0  error:nil];
+    [self assertSameJSONArrayWithExpected:[SFJsonUtils objectFromJSONString:@"[[\"101\"]]"] actual:result message:@"Wrong result"];
+
+    // Smart sql looking for country containing a certain non-ASCII character (국)
+    querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:employeeId} from {employees} where {employees:country} like '%국%'" withPageSize:10];
+    result = [self.store queryWithQuerySpec:querySpec pageIndex:0  error:nil];
+    [self assertSameJSONArrayWithExpected:[SFJsonUtils objectFromJSONString:@"[[\"102\"]]"] actual:result message:@"Wrong result"];
+
 }
 
 - (void)testSmartQueryFilteringByNonIndexedField {

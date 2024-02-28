@@ -111,7 +111,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 - (void)setUp {
     [super setUp];
     // Delete the content of the global library directory
-    NSString *globalLibraryDirectory = [[SFDirectoryManager sharedManager] directoryForUser:nil type:NSLibraryDirectory components:nil];
+    NSString *globalLibraryDirectory = [[SFDirectoryManager sharedManager] globalDirectoryOfType:NSLibraryDirectory components:nil];
     [[NSFileManager defaultManager] removeItemAtPath:globalLibraryDirectory error:nil];
     // Set the oauth client ID after deleting the content of the global library directory
     // to ensure the SFUserAccountManager sharedInstance loads from an empty directory
@@ -390,7 +390,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 }
 
 - (void)testEntityId {
-    NSString *userId = @"ABCDE12345ABCDE".entityId18;
+    NSString *userId = @"ABCDE12345ABCDE".sfsdk_entityId18;
     SFUserAccountIdentity *identity = [[SFUserAccountIdentity alloc] initWithUserId:userId  orgId:@"ABCDE12345ABCDE"];
     XCTAssertNotNil(identity);
     XCTAssertTrue(userId.length == 18,@"EntityId18 should not be nil");
@@ -420,7 +420,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     SFSDKAuthSession *session = [[SFSDKAuthSession alloc] initWith:request credentials:nil];
     SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithAuthSession:session];
     coordinator.delegate = [SFUserAccountManager sharedInstance];
-    [coordinator beginUserAgentFlow];
+    [coordinator beginWebViewFlow];
 
     [self waitForExpectations:@[expectation] timeout:20];
     
@@ -465,7 +465,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     SFSDKAuthSession *session = [[SFSDKAuthSession alloc] initWith:request credentials:nil];
     SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithAuthSession:session];
     coordinator.delegate = [SFUserAccountManager sharedInstance];
-    [coordinator beginUserAgentFlow];
+    [coordinator beginWebViewFlow];
 
     [self waitForExpectations:@[expectation] timeout:20];
     XCTAssertTrue(success, @"SFSDKLoginViewController config should have changed" );

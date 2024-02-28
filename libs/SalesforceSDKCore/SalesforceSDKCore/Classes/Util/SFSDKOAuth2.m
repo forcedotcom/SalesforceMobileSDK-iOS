@@ -198,9 +198,11 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
                                kSFOAuthClientId, endpointReq.clientID,
                                kSFOAuthDeviceId,[[[UIDevice currentDevice] identifierForVendor] UUIDString]];
     [params appendFormat:@"&%@=%@", kSFOAuthCodeVerifierParamName, endpointReq.codeVerifier];
-    [params appendFormat:@"&%@=%@&%@=%@", kSFOAuthGrantType, kSFOAuthGrantTypeAuthorizationCode, kSFOAuthApprovalCode, endpointReq.approvalCode];
+    NSString *grantType = [[SalesforceSDKManager sharedManager] useHybridAuthentication] ? kSFOAuthGrantTypeHybridAuthorizationCode : kSFOAuthGrantTypeAuthorizationCode;
+    [params appendFormat:@"&%@=%@&%@=%@", kSFOAuthGrantType, grantType, kSFOAuthApprovalCode, endpointReq.approvalCode];
     NSData *encodedBody = [params dataUsingEncoding:NSUTF8StringEncoding];
     [request setHTTPBody:encodedBody];
+    
     __block NSString *instanceIdentifier = [SFNetwork uniqueInstanceIdentifier];
     NSURLSession *session = [self createURLSessionWithIdentifier:instanceIdentifier];
     __weak typeof(self) weakSelf = self;
@@ -248,9 +250,10 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
                                kSFOAuthClientId, endpointReq.clientID,
                                kSFOAuthDeviceId,[[[UIDevice currentDevice] identifierForVendor] UUIDString]];
     [SFSDKCoreLogger i:[self class] format:@"%@: Initiating refresh token flow.", NSStringFromSelector(_cmd)];
-    [params appendFormat:@"&%@=%@&%@=%@", kSFOAuthGrantType, kSFOAuthGrantTypeHybridRefresh, kSFOAuthRefreshToken, endpointReq.refreshToken];
+    NSString *grantType = [[SalesforceSDKManager sharedManager] useHybridAuthentication] ? kSFOAuthGrantTypeHybridRefresh : kSFOAuthGrantTypeRefresh;
+    [params appendFormat:@"&%@=%@&%@=%@", kSFOAuthGrantType, grantType, kSFOAuthRefreshToken, endpointReq.refreshToken];
     for (NSString * key in endpointReq.additionalTokenRefreshParams) {
-        [params appendFormat:@"&%@=%@", [key stringByURLEncoding], [endpointReq.additionalTokenRefreshParams[key] stringByURLEncoding]];
+        [params appendFormat:@"&%@=%@", [key sfsdk_stringByURLEncoding], [endpointReq.additionalTokenRefreshParams[key] sfsdk_stringByURLEncoding]];
     }
     NSData *encodedBody = [params dataUsingEncoding:NSUTF8StringEncoding];
     [request setHTTPBody:encodedBody];

@@ -49,7 +49,7 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
         _primingRecords = apiNameToTypeToPrimingRecords;
         
         // Relay token
-        _relayToken = [dict nonNullObjectForKey:@"relayToken"];
+        _relayToken = [dict sfsdk_nonNullObjectForKey:@"relayToken"];
 
         // Rule errors
         NSMutableArray* ruleErrors = [NSMutableArray new];

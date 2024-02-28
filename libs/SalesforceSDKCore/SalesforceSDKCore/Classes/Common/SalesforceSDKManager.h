@@ -26,7 +26,8 @@
 #import <UIKit/UIKit.h>
 #import <SalesforceSDKCore/SalesforceSDKCoreDefines.h>
 #import <SalesforceSDKCore/SalesforceSDKConstants.h>
-@class SFUserAccount, SFSDKAppConfig;
+@class SFUserAccount, SFSDKAppConfig, SFScreenLockManager, SFBiometricAuthenticationManager;
+@protocol SFScreenLockManager, SFBiometricAuthenticationManager;
 
 /**
  Block typedef for creating a custom snapshot view controller.
@@ -94,6 +95,14 @@ extern NSString * const kSFScreenLockFlowWillBegin;
 /** Notification sent when the screen lock flow has completed.
  */
 extern NSString * const kSFScreenLockFlowCompleted;
+
+/** Notification sent when the screen lock will be displayed.
+ */
+extern NSString * const kSFBiometricAuthenticationFlowWillBegin;
+
+/** Notification sent when the screen lock flow has completed.
+ */
+extern NSString * const kSFBiometricAuthenticationFlowCompleted;
 
 /**
  This class will manage the basic infrastructure of the Mobile SDK elements of the app,
@@ -204,7 +213,7 @@ NS_SWIFT_NAME(SalesforceManager)
 
 /** Use this flag to indicate if the scheme for the identity provider app
  */
-@property (nonatomic, copy) NSString *idpAppURIScheme NS_SWIFT_NAME(identityProviderURLScheme);
+@property (nonatomic, copy, nullable) NSString *idpAppURIScheme NS_SWIFT_NAME(identityProviderURLScheme);
 
 /**
  A user friendly display name for use in UI by the SDK on behalf of the app.  This value will be used on various authentication screens
@@ -223,6 +232,26 @@ NS_SWIFT_NAME(SalesforceManager)
 /** Use this flag to indicate if advanced authentication should use an ephemeral web session. Defaults to YES.
 */
 @property (nonatomic, assign) BOOL useEphemeralSessionForAdvancedAuth;
+
+/** Whether or not the app should use web server oauth flow in web view. If false, user-agent will be used.
+ */
+@property (nonatomic, assign) BOOL useWebServerAuthentication;
+
+/** Whether hybrid authentication flow should be used. Defaults to YES.
+ */
+@property (nonatomic, assign) BOOL useHybridAuthentication;
+
+/** Detect use of "Use Custom Domain" input from login web view using the given regex.
+ *  Example for a specific org:
+ *    "^https:\\/\\/mobilesdk\\.my\\.salesforce\\.com/\\?startURL=%2Fsetup%2Fsecur%2FRemoteAccessAuthorizationPage\\.apexp"
+ *  For any my domain:
+ *    "^https:\\/\\/[a-zA-Z0-9]+\\.my\\.salesforce\\.com/\\?startURL=%2Fsetup%2Fsecur%2FRemoteAccessAuthorizationPage\\.apexp"
+ */
+@property (nonatomic, copy, nullable) NSRegularExpression *customDomainInferencePattern;
+
+/** Sets authentication ability for Salesforce integration users.  When true, Salesforce integration users will be prohibited from initial authentication and receive an error message.  Defaults to NO.
+ */
+@property (nonatomic, assign) BOOL blockSalesforceIntegrationUser;
 
 /**
  Initializes the SDK.
@@ -267,6 +296,20 @@ NS_SWIFT_NAME(SalesforceManager)
  * @return Title string of the dev support menu.
  */
 - (nonnull NSString *)devInfoTitleString;
+
+/**
+ * Returns the ScreenLockManager instance.
+ *
+ * @return the Screen Lock Manager
+ */
+- (id <SFScreenLockManager>)screenLockManager;
+
+/**
+ * Returns the BiometricAuthenticationManager instance.
+ *
+ * @return the Biometric Authentication Manager
+ */
+- (id <SFBiometricAuthenticationManager>)biometricAuthenticationManager;
 
 @end
 

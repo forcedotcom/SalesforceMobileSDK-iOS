@@ -28,11 +28,19 @@
 @implementation NSData (SFSDKUtils)
 
 - (NSString *)msdkBase64UrlString {
-    NSString *base64String = [self base64EncodedStringWithOptions:0];
-    return [[self class] replaceBase64CharsForBase64UrlString:base64String];
+    return [self sfsdk_base64UrlString];
 }
 
-- (NSData *)msdkSha256Data {
+- (NSString *)sfsdk_base64UrlString {
+    NSString *base64String = [self base64EncodedStringWithOptions:0];
+    return [[self class] sfsdk_replaceBase64CharsForBase64UrlString:base64String];
+}
+
+- (nullable NSData *)msdkSha256Data {
+    return [self sfsdk_sha256Data];
+}
+
+- (NSData *)sfsdk_sha256Data {
     NSMutableData *sha256Data = [NSMutableData dataWithLength:CC_SHA256_DIGEST_LENGTH];
     CC_SHA256(self.bytes, (CC_LONG)self.length,  sha256Data.mutableBytes);
     return sha256Data;
@@ -40,7 +48,7 @@
 
 #pragma mark - Internal methods
 
-+ (NSString *)replaceBase64CharsForBase64UrlString:(NSString *)base64String {
++ (NSString *)sfsdk_replaceBase64CharsForBase64UrlString:(NSString *)base64String {
     if (base64String == nil) return nil;
     
     NSMutableString *base64UrlString = [NSMutableString stringWithString:base64String];

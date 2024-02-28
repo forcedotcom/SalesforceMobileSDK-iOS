@@ -33,10 +33,7 @@
 #import "SFSmartStoreDatabaseManager.h"
 #import "SFSmartStore+Internal.h"
 #import "SFSoupIndex.h"
-#import "SFSmartStoreUpgrade.h"
 #import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
-#import <SalesforceSDKCore/SFKeyStoreManager.h>
-#import <SalesforceSDKCore/SFEncryptionKey.h>
 #import <SalesforceSDKCore/NSString+SFAdditions.h>
 #import <SalesforceSDKCore/NSData+SFAdditions.h>
 #import "sqlite3.h"
@@ -109,13 +106,13 @@
 - (void) testSqliteVersion
 {
     NSString* version = [NSString stringWithUTF8String:sqlite3_libversion()];
-    XCTAssertEqualObjects(version, @"3.39.2");
+    XCTAssertEqualObjects(version, @"3.41.2");
 }
 
 - (void) testSqlCipherVersion
 {
     NSString* version = [self.store getSQLCipherVersion];
-    XCTAssertEqualObjects(version, @"4.5.2 community");
+    XCTAssertEqualObjects(version, @"4.5.4 community");
 }
 
 /**
@@ -1413,13 +1410,8 @@ Make sure we do NOT get a notification for a JSON parsing error
 }
 
 - (void) registerTestSoup:(SFSmartStore*)store indexType:(NSString*)indexType {
-    SFSoupSpec *soupSpec = [SFSoupSpec newSoupSpec:kTestSoupName withFeatures:nil];
-    [self registerTestSoup:store indexType:indexType soupSpec:soupSpec];
-}
-
-- (void) registerTestSoup:(SFSmartStore*)store indexType:(NSString*)indexType soupSpec:(SFSoupSpec*)soupSpec {
     NSError* error = nil;
-    [store registerSoupWithSpec:soupSpec withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[@{@"path": @"key",@"type":indexType}, @{@"path": @"value",@"type":kSoupIndexTypeString}]] error:&error];
+    [store registerSoup:kTestSoupName withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[@{@"path": @"key",@"type":indexType}, @{@"path": @"value",@"type":kSoupIndexTypeString}]] error:&error];
     XCTAssertNil(error, @"Soup should have registered without error");
     XCTAssertTrue([store soupExists:kTestSoupName], @"Soup should exist after registration");
 }

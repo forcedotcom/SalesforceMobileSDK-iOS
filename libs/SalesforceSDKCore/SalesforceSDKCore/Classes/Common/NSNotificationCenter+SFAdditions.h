@@ -23,6 +23,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -31,6 +32,7 @@ static NSString * const SFApplicationWillAbortOrExitNotification = @"Application
 
 /** Posts notifications either once with a run loop, or on the main thread.
  */
+SFSDK_DEPRECATED(11.1, 12.0, "Will be removed")
 @interface NSNotificationCenter (SFAdditions)
 
 /**
