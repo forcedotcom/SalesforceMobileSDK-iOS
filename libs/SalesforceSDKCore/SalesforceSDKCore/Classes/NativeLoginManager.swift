@@ -71,4 +71,36 @@ public protocol NativeLoginManager {
     ///
     /// Note: this call will dismiss your login view controller.
     @objc func biometricAuthenticationSuccess()
+    
+    // MARK: Headerless, Password-Less Login Via One-Time-Passcode
+    
+    /// Submits a request for a one-time-passcode to the Salesforce headerless password-less login flow.
+    /// This fulfills step three of the headerless password-less login flow.
+    ///
+    /// See https://help.salesforce.com/s/articleView?id=sf.remoteaccess_headless_passwordless_login_public_clients.htm&type=5
+    ///
+    /// - Parameters:
+    ///   - username: A valid Salesforce username.  Note that email may be used for community users.
+    ///   - recaptchaToken: A reCAPTCHA token provided by the reCAPTCHA SDK
+    ///   - reCaptchaSiteKeyId: The Google Cloud project reCAPTCHA Key's "Id" as shown in
+    ///   Google Cloud Console under "Products & Solutions", "Security" and "reCAPTCHA Enterprise"
+    ///   - googleCloudProjectId:The Google Cloud project's "Id" as shown in Google Cloud
+    ///   Console
+    ///   - isReCaptchaEnterprise: Specifies if reCAPTCHA uses the enterprise license
+    ///   - otpVerificationMethod: The delivery method for the OTP
+    /// - Returns: A login result indicating the outcome of the OTP request
+    ///
+    @objc func submitOtpRequest(
+        username: String,
+        reCaptchaToken: String,
+        reCaptchaSiteKeyId: String?,
+        googleCloudProjectId: String?,
+        isReCaptchaEnterprise: Bool,
+        otpVerificationMethod: OtpVerificationMethod) async throws -> NativeLoginResult
+}
+
+/// The possible OTP verification methods.
+@objc public enum OtpVerificationMethod: Int {
+    case email
+    case sms
 }

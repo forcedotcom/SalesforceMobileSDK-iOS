@@ -1,0 +1,12 @@
+module RecaptchaEnterprise {
+  umbrella header "RecaptchaEnterprise.h"
+  
+
+  export *
+  module * { export * }
+  link framework "CoreFoundation"
+  link framework "DeviceCheck"
+  link framework "Foundation"
+  link framework "UIKit"
+  link framework "WebKit"
+}

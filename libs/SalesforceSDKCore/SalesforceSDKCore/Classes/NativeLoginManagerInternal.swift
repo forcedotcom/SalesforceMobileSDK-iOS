@@ -39,6 +39,9 @@ let maximumPasswordLengthInBytes = 16000
 /// See https://developer.apple.com/documentation/swift/importing-swift-into-objective-c#Import-Code-Within-a-Framework-Target
 @objc(SFNativeLoginManagerInternal)
 public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
+    
+    static let errorDomain = "com.salesforce.security.nativeLoginException"
+    
     @objc public let clientId: String
     @objc public let redirectUri: String
     @objc public let loginUrl: String
@@ -210,5 +213,166 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         let hash = SHA256.hash(data: data)
         return urlSafeBase64Encode(data: hash.dataRepresentation)
     }
+    
+    // MARK: Headerless, Password-Less Login Via One-Time-Passcode
+    
+    /// The most recently obtained OTP identifier in the headerless, password-less login flow.
+    private var otpIdentifier: String?
+    
+    public func submitOtpRequest(
+        username: String,
+        reCaptchaToken: String,
+        reCaptchaSiteKeyId: String?,
+        googleCloudProjectId: String?,
+        isReCaptchaEnterprise: Bool,
+        otpVerificationMethod: OtpVerificationMethod) async throws -> NativeLoginResult
+    {
+        
+        // Validate parameters.
+        if !isValidUsername(
+            username: username.trimmingCharacters(in: .whitespacesAndNewlines)
+        ) {
+            return .invalidUsername
+        }
+        
+        /*
+         * Create the OTP request body with the provided parameters. Note: The
+         * `emailtemplate` parameter isn't supported here, but could be added in
+         * the future.
+         */
+        // Determine the reCAPTCHA parameter for non-enterprise reCAPTCHA
+        let reCaptchaParameter: String? = if (isReCaptchaEnterprise) {
+            nil
+        } else {
+            reCaptchaToken
+        }
+        // Determine the reCAPTCHA "event" parameter for enterprise reCAPTCHA
+        let reCaptchaEventParameter: OtpRequestBodyReCaptchaEvent? = if (isReCaptchaEnterprise) {
+            OtpRequestBodyReCaptchaEvent(
+                token: reCaptchaToken,
+                siteKey: try reCaptchaSiteKeyId ?? { throw NSError(
+                    domain:NativeLoginManagerInternal.errorDomain,
+                    code:-1,
+                    userInfo: [NSLocalizedDescriptionKey: "A reCAPTCHA site key wasn't and must be provided when using enterprise reCAPATCHA."])}(),
+                projectId: try googleCloudProjectId ?? { throw NSError(
+                    domain:NativeLoginManagerInternal.errorDomain,
+                    code:-1,
+                    userInfo: [NSLocalizedDescriptionKey: "A Google Cloud project id wasn't and must be provided when using enterprise reCAPATCHA."])}()
+            )
+        } else {
+            nil
+        }
+        // Determine the OTP verification method.
+        let otpVerificationMethodString = switch (otpVerificationMethod) {
+        case .email: "email"
+        case .sms: "sms"
+        }
+        // Generate the OTP request body.
+        let requestBodyString = try {
+            do { return String(
+                data: try JSONEncoder().encode(
+                    OtpRequestBody(
+                        recaptcha: reCaptchaParameter,
+                        recaptchaevent: reCaptchaEventParameter,
+                        username: username,
+                        verificationMethod: otpVerificationMethodString)
+                ),
+                encoding: .utf8)!
+            } catch let error {
+                throw NativeLoginError.encodingError(underlyingError: error)
+            }}()
+        
+        // Create the OTP request.
+        let otpRequest = RestRequest(
+            method: .POST,
+            baseURL: loginUrl,
+            path: kSFOAuthEndPointHeadlessInitPasswordlessLogin,
+            queryParams: nil)
+        otpRequest.endpoint = ""
+        otpRequest.requiresAuthentication = false
+        otpRequest.setCustomRequestBodyString(
+            requestBodyString,
+            contentType: kHttpPostApplicationJsonContentType
+        )
+        
+        // Submit the OTP request and fetch the OTP response.
+        let otpResponse = await withCheckedContinuation { continuation in
+            RestClient.sharedGlobal.send(
+                request: otpRequest
+            ) { result in
+                continuation.resume(returning: result)
+            }
+        }
+        
+        // React to the OTP response.
+        switch otpResponse {
+            
+        case .success(let otpResponse):
+            // Decode the OTP response to obtain the OTP email and identifier.
+            let otpResponseBody = try {
+                do {
+                    return try otpResponse.asDecodable(type: OtpResponseBody.self)
+                } catch let error {
+                    throw NativeLoginError.decodingError(underlyingError: error)
+                }}()
+            otpIdentifier = otpResponseBody.identifier
+            return .success
+            
+        case .failure(let error):
+            SFSDKCoreLogger().e(self.classForCoder, message: "OTP request failure with description '\(error.localizedDescription)'.")
+            return .unknownError
+        }
+    }
+    
+    /// Error cases for native login.
+    public enum NativeLoginError: Error {
+        case invalidParameter
+        case encodingError(underlyingError: Error)
+        case decodingError(underlyingError: Error)
+    }
+    
+    /// A structure for the OTP request body.
+    private struct OtpRequestBody: Codable {
+        
+        /// The reCAPTCHA token provided by the reCAPTCHA iOS SDK.  This is not used with reCAPTCHA Enterprise
+        let recaptcha: String?
+        
+        /// The reCAPTCHA parameters for use with reCAPTCHA Enterprise
+        let recaptchaevent: OtpRequestBodyReCaptchaEvent?
+        
+        /// The Salesforce username
+        let username: String
+        
+        /// The OTP verification code's delivery method in "email" or "sms"
+        let verificationMethod: String
+        
+        enum CodingKeys: String, CodingKey {
+            case recaptcha = "recaptcha"
+            case recaptchaevent = "recaptchaevent"
+            case verificationMethod = "verificationmethod"
+            case username = "username"
+        }
+    }
+    
+    /// A structure for the OTP request response body.
+    private struct OtpResponseBody: Codable {
+        let status: String
+        let identifier: String
+    }
+    
+    /// A structure for the OTP request body's reCAPTCHA event parameter.
+    private struct OtpRequestBodyReCaptchaEvent: Codable {
+        
+        /// The reCAPTCHA token provided by the reCAPTCHA iOS SDK.  This is used only with reCAPTCHA Enterprise
+        let token: String
+        
+        /// The Google Cloud project reCAPTCHA Key's "Id" as shown in Google Cloud Console under "Products & Solutions", "Security" and "reCAPTCHA Enterprise"
+        let siteKey: String
+        
+        /// The user-inittiated "Action Name" for the reCAPTCHA event.  A specific value is not required by Google though it is used in reCAPTCHA Metrics.  "login" is a recommended value from Google documentation.
+        var expectedAction = "login"
+        
+        /// The Google Cloud project's "Id" as shown in Google Cloud Console
+        let projectId: String
+    }
 }
-
