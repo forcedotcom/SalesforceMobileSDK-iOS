@@ -53,7 +53,7 @@ class PushNotificationDecryptionTests: XCTestCase {
         let key = SFSDKCryptoUtils.randomByteData(withLength: 16)
         let iv = SFSDKCryptoUtils.randomByteData(withLength: 16)
         let jsonContent = try JSONSerialization.data(withJSONObject: contentDictionary)
-        let encryptedConent = try XCTUnwrap(SFSDKCryptoUtils.aes128EncryptData(jsonContent, withKey: key, iv: iv)).base64EncodedString()
+        let encryptedContent = try XCTUnwrap(SFSDKCryptoUtils.aes128EncryptData(jsonContent, withKey: key, iv: iv)).base64EncodedString()
         
         // RSA-PKCS1 encryption for secret
         let secret = key + iv
@@ -61,7 +61,7 @@ class PushNotificationDecryptionTests: XCTestCase {
         let secretString = encryptedSecret.base64EncodedString()
         
         notificationContent.userInfo[kRemoteNotificationKeySecret] = secretString
-        notificationContent.userInfo[kRemoteNotificationKeyContent] = encryptedConent
+        notificationContent.userInfo[kRemoteNotificationKeyContent] = encryptedContent
         
         // Decrypt
         try SFSDKPushNotificationDecryption.decryptNotificationContent(notificationContent)
@@ -76,7 +76,7 @@ class PushNotificationDecryptionTests: XCTestCase {
         let key = SFSDKCryptoUtils.randomByteData(withLength: 16)
         let iv = SFSDKCryptoUtils.randomByteData(withLength: 16)
         let jsonContent = try JSONSerialization.data(withJSONObject: contentDictionary)
-        let encryptedConent = try XCTUnwrap(SFSDKCryptoUtils.aes128EncryptData(jsonContent, withKey: key, iv: iv)).base64EncodedString()
+        let encryptedContent = try XCTUnwrap(SFSDKCryptoUtils.aes128EncryptData(jsonContent, withKey: key, iv: iv)).base64EncodedString()
         
         // RSA-OAEP encryption for secret
         let secret = key + iv
@@ -84,7 +84,7 @@ class PushNotificationDecryptionTests: XCTestCase {
         let secretString = encryptedSecret.base64EncodedString()
         
         notificationContent.userInfo[kRemoteNotificationKeySecret] = secretString
-        notificationContent.userInfo[kRemoteNotificationKeyContent] = encryptedConent
+        notificationContent.userInfo[kRemoteNotificationKeyContent] = encryptedContent
         
         // Decrypt
         try SFSDKPushNotificationDecryption.decryptNotificationContent(notificationContent)
