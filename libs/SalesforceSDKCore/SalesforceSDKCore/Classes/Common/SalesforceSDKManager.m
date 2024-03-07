@@ -862,7 +862,11 @@ void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t b
     [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureNativeLogin];
     NSString *key = scene ? scene.session.persistentIdentifier : kSFDefaultNativeLoginViewControllerKey;
     [_nativeLoginViewControllers setObject:nativeLoginViewController forKey:key];
-    nativeLogin = [[SFNativeLoginManagerInternal alloc] initWithClientId:consumerKey redirectUri:callbackUrl loginUrl:communityUrl scene:scene];
+    nativeLogin = [[SFNativeLoginManagerInternal alloc]
+                   initWithClientId:consumerKey
+                   redirectUri:callbackUrl
+                   loginUrl:communityUrl
+                   scene:scene];
     [SFUserAccountManager sharedInstance].nativeLoginEnabled = true;
     
     return nativeLogin;

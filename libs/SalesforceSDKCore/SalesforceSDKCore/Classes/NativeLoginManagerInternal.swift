@@ -45,6 +45,17 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
     @objc public let clientId: String
     @objc public let redirectUri: String
     @objc public let loginUrl: String
+    
+    ///   The Google Cloud project reCAPTCHA Key's "Id" as shown in Google Cloud Console under
+    ///   "Products & Solutions", "Security" and "reCAPTCHA Enterprise"
+    private let reCaptchaSiteKeyId: String?
+    
+    ///   The Google Cloud project's "Id" as shown in Google Cloud Console
+    private let googleCloudProjectId: String?
+    
+    ///  Specifies if reCAPTCHA uses the enterprise license
+    private let isReCaptchaEnterprise: Bool
+    
     let scene: UIScene?
     
     /// A structure for the Headless Identity API's authorization endpoint response
@@ -54,10 +65,36 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         let code: String
     }
     
-    @objc public init(clientId: String, redirectUri: String, loginUrl: String, scene: UIScene?) {
+    @objc public init(
+        clientId: String,
+        redirectUri: String,
+        loginUrl: String,
+        scene: UIScene?
+    ) {
         self.clientId = clientId
         self.redirectUri = redirectUri
         self.loginUrl = loginUrl
+        self.reCaptchaSiteKeyId = nil
+        self.googleCloudProjectId = nil
+        self.isReCaptchaEnterprise = false
+        self.scene = scene
+    }
+    
+    @objc public init(
+        clientId: String,
+        redirectUri: String,
+        loginUrl: String,
+        reCaptchaSiteKeyId: String?,
+        googleCloudProjectId: String?,
+        isReCaptchaEnterprise: Bool,
+        scene: UIScene?
+    ) {
+        self.clientId = clientId
+        self.redirectUri = redirectUri
+        self.loginUrl = loginUrl
+        self.reCaptchaSiteKeyId = reCaptchaSiteKeyId
+        self.googleCloudProjectId = googleCloudProjectId
+        self.isReCaptchaEnterprise = isReCaptchaEnterprise
         self.scene = scene
     }
     
@@ -191,9 +228,6 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
     public func submitOtpRequest(
         username: String,
         reCaptchaToken: String,
-        reCaptchaSiteKeyId: String?,
-        googleCloudProjectId: String?,
-        isReCaptchaEnterprise: Bool,
         otpVerificationMethod: OtpVerificationMethod) async throws -> OtpRequestResult
     {
         

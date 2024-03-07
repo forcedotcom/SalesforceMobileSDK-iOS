@@ -80,13 +80,8 @@ public protocol NativeLoginManager {
     /// See https://help.salesforce.com/s/articleView?id=sf.remoteaccess_headless_passwordless_login_public_clients.htm&type=5
     ///
     /// - Parameters:
-    ///   - username: A valid Salesforce username.  Note that email may be used for community users.
+    ///   - username: A valid Salesforce username.  Note that email may be used for community users
     ///   - recaptchaToken: A reCAPTCHA token provided by the reCAPTCHA SDK
-    ///   - reCaptchaSiteKeyId: The Google Cloud project reCAPTCHA Key's "Id" as shown in
-    ///   Google Cloud Console under "Products & Solutions", "Security" and "reCAPTCHA Enterprise"
-    ///   - googleCloudProjectId:The Google Cloud project's "Id" as shown in Google Cloud
-    ///   Console
-    ///   - isReCaptchaEnterprise: Specifies if reCAPTCHA uses the enterprise license
     ///   - otpVerificationMethod: The delivery method for the OTP
     /// - Returns: An OTP request result with the overal login result and the OTP identifier for
     /// successful OTP requests
@@ -94,9 +89,6 @@ public protocol NativeLoginManager {
     @objc func submitOtpRequest(
         username: String,
         reCaptchaToken: String,
-        reCaptchaSiteKeyId: String?,
-        googleCloudProjectId: String?,
-        isReCaptchaEnterprise: Bool,
         otpVerificationMethod: OtpVerificationMethod) async throws -> OtpRequestResult
     
     /// Submits a request for a one-time-passcode to the Salesforce headless password-less login flow.
