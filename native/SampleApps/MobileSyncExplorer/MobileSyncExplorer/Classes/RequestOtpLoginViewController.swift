@@ -54,7 +54,7 @@ class RequestOtpLoginViewController : UIViewController, UIPickerViewDelegate, UI
     var recaptchaToken: String? = nil
     
     
-    /// Submits a request for a one-time-passcode to the Salesforce headerless password-less login flow.
+    /// Submits a request for a one-time-passcode to the Salesforce headless password-less login flow.
     /// - Parameters:
     ///   - username: The user-entered Salesforce username
     private func submitOtpRequest(username: String) {

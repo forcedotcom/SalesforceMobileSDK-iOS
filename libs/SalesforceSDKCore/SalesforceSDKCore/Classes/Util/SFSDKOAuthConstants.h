@@ -124,7 +124,7 @@ static NSString * const kOAuthUserAgentUserDefaultsKey              = @"UserAgen
 static NSString * const kSFAppFeatureSafariBrowserForLogin          = @"BW";
 static NSString * const kSFECParameter                              = @"ec";
 
-// Headerless, password-less authentication constants
+// Headless, password-less authentication constants
 static NSString * const kSFOAuthEndPointHeadlessInitPasswordlessLogin = @"services/auth/headless/init/passwordless/login";
 
 #endif /* SFSDKOAuthConstants_h */

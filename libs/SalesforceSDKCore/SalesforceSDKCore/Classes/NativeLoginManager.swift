@@ -72,10 +72,10 @@ public protocol NativeLoginManager {
     /// Note: this call will dismiss your login view controller.
     @objc func biometricAuthenticationSuccess()
     
-    // MARK: Headerless, Password-Less Login Via One-Time-Passcode
+    // MARK: Headless, Password-Less Login Via One-Time-Passcode
     
-    /// Submits a request for a one-time-passcode to the Salesforce headerless password-less login flow.
-    /// This fulfills step three of the headerless password-less login flow.
+    /// Submits a request for a one-time-passcode to the Salesforce headless password-less login flow.
+    /// This fulfills step three of the headless password-less login flow.
     ///
     /// See https://help.salesforce.com/s/articleView?id=sf.remoteaccess_headless_passwordless_login_public_clients.htm&type=5
     ///
@@ -97,10 +97,10 @@ public protocol NativeLoginManager {
         reCaptchaSiteKeyId: String?,
         googleCloudProjectId: String?,
         isReCaptchaEnterprise: Bool,
-        otpVerificationMethod: OtpVerificationMethod) async throws -> OtpResult
+        otpVerificationMethod: OtpVerificationMethod) async throws -> OtpRequestResult
     
-    /// Submits a request for a one-time-passcode to the Salesforce headerless password-less login flow.
-    /// This fulfills steps eight, eleven and thirteen of the headerless password-less login flow.
+    /// Submits a request for a one-time-passcode to the Salesforce headless password-less login flow.
+    /// This fulfills steps eight, eleven and thirteen of the headless password-less login flow.
     ///
     /// See https://help.salesforce.com/s/articleView?id=sf.remoteaccess_headless_passwordless_login_public_clients.htm&type=5
     ///
@@ -118,7 +118,7 @@ public protocol NativeLoginManager {
 }
 
 /// An Objective-C compatible OTP request result
-@objc public class OtpResult: NSObject {
+@objc public class OtpRequestResult: NSObject {
     
     /// The overall result of the OTP request.
     public let nativeLoginResult: NativeLoginResult

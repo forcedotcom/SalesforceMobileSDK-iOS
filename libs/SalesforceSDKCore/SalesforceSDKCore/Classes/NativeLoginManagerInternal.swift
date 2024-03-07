@@ -186,7 +186,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         return urlSafeBase64Encode(data: hash.dataRepresentation)
     }
     
-    // MARK: Headerless, Password-Less Login Via One-Time-Passcode
+    // MARK: Headless, Password-Less Login Via One-Time-Passcode
     
     public func submitOtpRequest(
         username: String,
@@ -194,14 +194,14 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         reCaptchaSiteKeyId: String?,
         googleCloudProjectId: String?,
         isReCaptchaEnterprise: Bool,
-        otpVerificationMethod: OtpVerificationMethod) async throws -> OtpResult
+        otpVerificationMethod: OtpVerificationMethod) async throws -> OtpRequestResult
     {
         
         // Validate parameters.
         if !isValidUsername(
             username: username.trimmingCharacters(in: .whitespacesAndNewlines)
         ) {
-            return OtpResult(nativeLoginResult: .invalidUsername)
+            return OtpRequestResult(nativeLoginResult: .invalidUsername)
         }
         
         /*
@@ -282,7 +282,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
                 } catch let error {
                     throw NativeLoginError.decodingError(underlyingError: error)
                 }}()
-            return OtpResult(
+            return OtpRequestResult(
                 nativeLoginResult: .success,
                 otpIdentifier: otpResponseBody.identifier)
             
@@ -290,7 +290,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
             SFSDKCoreLogger().e(
                 classForCoder,
                 message: "OTP request failure with description '\(error.localizedDescription)'.")
-            return OtpResult(nativeLoginResult: .unknownError)
+            return OtpRequestResult(nativeLoginResult: .unknownError)
         }
     }
     
@@ -359,7 +359,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
             codeVerifier: codeVerifier)
     }
     
-    /// Resolves a Headless Identity API headerless, password-less one-time-passcode verification type
+    /// Resolves a Headless Identity API headless, password-less one-time-passcode verification type
     /// header value from the provided OTP verification method.
     /// - Parameters:
     ///   - otpVerificationMethod: An OTP verification method

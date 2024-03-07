@@ -53,6 +53,43 @@ final class NativeLoginManagerTests: XCTestCase {
         XCTAssertEqual(.invalidPassword, result, "Should allow username.")
     }
     
+    func testUsernameValidationInSubmitOtpRequest() async {
+        var result = await submitOtpRequest(
+            username: "",
+            reCaptchaToken: "",
+            reCaptchaSiteKeyId: "",
+            googleCloudProjectId: "",
+            isReCaptchaEnterprise: true,
+            otpVerificationMethod: .sms)
+        XCTAssertEqual(
+            .invalidUsername,
+            result?.nativeLoginResult,
+            "Should not allow empty username.")
+        result = await submitOtpRequest(
+            username: "test@c",
+            reCaptchaToken: "",
+            reCaptchaSiteKeyId: "",
+            googleCloudProjectId: "",
+            isReCaptchaEnterprise: true,
+            otpVerificationMethod: .sms)
+        XCTAssertEqual(
+            NativeLoginResult.invalidUsername,
+            result?.nativeLoginResult,
+            "Should not allow invalid username.")
+        
+        // success
+        result = await submitOtpRequest(
+            username: "test@c.co   ",
+            reCaptchaToken: "",
+            reCaptchaSiteKeyId: "",
+            googleCloudProjectId: "",
+            isReCaptchaEnterprise: true,
+            otpVerificationMethod: .sms)
+        XCTAssertEqual(
+            NativeLoginResult.unknownError,
+            result?.nativeLoginResult,
+            "Should allow username.")
+    }
 
     func testPasswordValidation() async {
         var result = await login(username: "bpage@salesforce.com", password: "")
@@ -116,7 +153,32 @@ final class NativeLoginManagerTests: XCTestCase {
     ) async -> NativeLoginResult? {
 
         return await { do {
-            return try await nativeLoginManager.login(username: username, password: password)
+            return try await nativeLoginManager.login(
+                username: username,
+                password: password)
+        } catch {
+            return nil
+        }}()
+    }
+    
+    /// A convenience for Native Login Manager's login method that discards errors.
+    private func submitOtpRequest(
+        username: String,
+        reCaptchaToken: String,
+        reCaptchaSiteKeyId: String?,
+        googleCloudProjectId: String?,
+        isReCaptchaEnterprise: Bool,
+        otpVerificationMethod: OtpVerificationMethod
+    ) async -> OtpRequestResult? {
+        
+        return await { do {
+            return try await nativeLoginManager.submitOtpRequest(
+                username: username,
+                reCaptchaToken: reCaptchaToken,
+                reCaptchaSiteKeyId: reCaptchaSiteKeyId,
+                googleCloudProjectId: googleCloudProjectId,
+                isReCaptchaEnterprise: isReCaptchaEnterprise,
+                otpVerificationMethod: otpVerificationMethod)
         } catch {
             return nil
         }}()
