@@ -44,7 +44,7 @@ public protocol NativeLoginManager {
     ///   - username: User provided Salesforce username.
     ///   - password: User provided Salesforce password.
     /// - Returns: NativeLoginResult
-    @objc func login(username: String, password: String) async -> NativeLoginResult
+    @objc func login(username: String, password: String) async throws -> NativeLoginResult
     
     /// Initiates web based authenticatioin.
     @objc func fallbackToWebAuthentication()
@@ -88,7 +88,8 @@ public protocol NativeLoginManager {
     ///   Console
     ///   - isReCaptchaEnterprise: Specifies if reCAPTCHA uses the enterprise license
     ///   - otpVerificationMethod: The delivery method for the OTP
-    /// - Returns: A login result indicating the outcome of the OTP request
+    /// - Returns: An OTP request result with the overal login result and the OTP identifier for
+    /// successful OTP requests
     ///
     @objc func submitOtpRequest(
         username: String,
@@ -96,7 +97,42 @@ public protocol NativeLoginManager {
         reCaptchaSiteKeyId: String?,
         googleCloudProjectId: String?,
         isReCaptchaEnterprise: Bool,
-        otpVerificationMethod: OtpVerificationMethod) async throws -> NativeLoginResult
+        otpVerificationMethod: OtpVerificationMethod) async throws -> OtpResult
+    
+    /// Submits a request for a one-time-passcode to the Salesforce headerless password-less login flow.
+    /// This fulfills steps eight, eleven and thirteen of the headerless password-less login flow.
+    ///
+    /// See https://help.salesforce.com/s/articleView?id=sf.remoteaccess_headless_passwordless_login_public_clients.htm&type=5
+    ///
+    /// - Parameters:
+    ///   - otp: A user-entered OTP
+    ///   - otpIdentifier: The OTP identifier issued by the Headless Identity API
+    ///   - otpVerificationMethod: The OTP verification method used to obtain the OTP identifier
+    /// - Returns: A login result indicating the outcome of the authorization and access token requests
+    ///
+    @objc func submitPasswordlessAuthorizationRequest(
+        otp: String,
+        otpIdentifier: String,
+        otpVerificationMethod: OtpVerificationMethod
+    ) async throws -> NativeLoginResult
+}
+
+/// An Objective-C compatible OTP request result
+@objc public class OtpResult: NSObject {
+    
+    /// The overall result of the OTP request.
+    public let nativeLoginResult: NativeLoginResult
+    
+    /// On success result, the OTP identifier provided by the API
+    public let otpIdentifier: String?
+    
+    init(
+        nativeLoginResult: NativeLoginResult,
+        otpIdentifier: String? = nil
+    ) {
+        self.nativeLoginResult = nativeLoginResult
+        self.otpIdentifier = otpIdentifier
+    }
 }
 
 /// The possible OTP verification methods.

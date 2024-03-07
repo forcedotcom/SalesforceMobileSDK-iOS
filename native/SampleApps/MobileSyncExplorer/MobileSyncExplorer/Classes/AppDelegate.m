@@ -43,8 +43,8 @@
 
 @interface AppDelegate ()
 
-/// The login view.
-@property (nonatomic, strong) LoginViewController *loginViewController;
+/// The view provided to native login for user entry of the headless, password-less login via one-time-passcode flow's step one OTP request parameters.
+@property (nonatomic, strong) RequestOtpLoginViewController *requestOtploginViewController;
 
 /**
  * Convenience method for setting up the main UIViewController and setting self.window's rootViewController
@@ -71,8 +71,8 @@
         [SFSDKDatasharingHelper sharedInstance].appGroupName = config.appGroupName;
         [SFSDKDatasharingHelper sharedInstance].appGroupEnabled = config.appGroupsEnabled;
 
-        // Create the login view.
-        self.loginViewController = [LoginViewController new];
+        // Create the request one-time-passcode login view.
+        self.requestOtploginViewController = [RequestOtpLoginViewController new];
 
         [MobileSyncSDKManager initializeSDK];
         
@@ -81,7 +81,7 @@
          useNativeLoginWithConsumerKey:@"3MVG9CEn_O3jvv0wTqRT0Le6tmzX.EQ9ZvtHL1TG3gHFV.4IvKZyXw5SgdiVPi61mXrpu40mCOhKevEfYNMOm"
          callbackUrl:@"https://msdk-enhanced-dev-ed.my.site.com/services/oauth2/echo"
          communityUrl:@"https://msdk-enhanced-dev-ed.my.site.com/headless"
-         nativeLoginViewController:self.loginViewController
+         nativeLoginViewController:self.requestOtploginViewController
          scene: nil];
         
         //App Setup for any changes to the current authenticated user

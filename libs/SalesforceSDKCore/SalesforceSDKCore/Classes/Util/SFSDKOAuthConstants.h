@@ -79,9 +79,16 @@ static NSString * const kSFOAuthGrantTypeHybridAuthorizationCode = @"hybrid_auth
 static NSString * const kSFOAuthGrantTypeAuthorizationCode       = @"authorization_code";
 
 // Native Login constants
+static NSString * const kSFOAuthAuthVerificationTypeParamName   = @"Auth-Verification-Type";
+static NSString * const kSFOAuthAuthVerificationTypeEmail       = @"email";
+static NSString * const kSFOAuthAuthVerificationTypeSms         = @"sms";
+
 static NSString * const kSFOAuthCodeCredentialsParamName        = @"code_credentials";
+
 static NSString * const kSFOAuthRequestTypeParamName            = @"Auth-Request-Type";
 static NSString * const kSFOAuthRequestTypeNamedUser            = @"Named-User";
+static NSString * const kSFOAuthRequestTypePasswordlessLogin    = @"passwordless-login";
+
 static NSString * const kSFOAuthAuthorizationTypeParamName      = @"Authorization";
 static NSString * const kSFOAuthAuthorizationTypeBasic          = @"Basic";
 

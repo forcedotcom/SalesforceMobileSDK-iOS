@@ -58,7 +58,8 @@
 		BCAE02051D7F7A9A00944153 /* SalesforceAnalytics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8D4C1CE932BD00C6FC6A /* SalesforceAnalytics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CE2B8D671CE932D600C6FC6A /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8D4C1CE932BD00C6FC6A /* SalesforceAnalytics.framework */; };
 		CE6AB39B1C10C4F50012125E /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE6AB39A1C10C4F50012125E /* libz.tbd */; };
-		D323D6BF2B687B220058F3D3 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D323D6BE2B687B220058F3D3 /* LoginViewController.swift */; };
+		D323D6BF2B687B220058F3D3 /* RequestOtpLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D323D6BE2B687B220058F3D3 /* RequestOtpLoginViewController.swift */; };
+		D374412E2B98DEE9008E2F98 /* SubmitOtpLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D374412D2B98DEE9008E2F98 /* SubmitOtpLoginViewController.swift */; };
 		D375A2972B647888008F00BA /* Placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D375A2962B647888008F00BA /* Placeholder.swift */; };
 		D375A29A2B647CB4008F00BA /* RecaptchaEnterprise.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = D375A2992B647CB4008F00BA /* RecaptchaEnterprise.xcframework */; };
 /* End PBXBuildFile section */
@@ -320,7 +321,8 @@
 		B7E0CF321D91CECE0050A1F4 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		CE2B8D341CE932BD00C6FC6A /* SalesforceAnalytics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceAnalytics.xcodeproj; path = ../../../libs/SalesforceAnalytics/SalesforceAnalytics.xcodeproj; sourceTree = "<group>"; };
 		CE6AB39A1C10C4F50012125E /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
-		D323D6BE2B687B220058F3D3 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		D323D6BE2B687B220058F3D3 /* RequestOtpLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestOtpLoginViewController.swift; sourceTree = "<group>"; };
+		D374412D2B98DEE9008E2F98 /* SubmitOtpLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubmitOtpLoginViewController.swift; sourceTree = "<group>"; };
 		D375A2842B64743D008F00BA /* RecaptchaEnterprise.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = RecaptchaEnterprise.a; path = "../../../external/ThirdPartyDependencies/RecaptchaEnterprise/RecaptchaEnterprise.xcframework/ios-arm64_x86_64-simulator/RecaptchaEnterprise.a"; sourceTree = "<group>"; };
 		D375A2952B647887008F00BA /* MobileSyncExplorer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MobileSyncExplorer-Bridging-Header.h"; sourceTree = "<group>"; };
 		D375A2962B647888008F00BA /* Placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Placeholder.swift; sourceTree = "<group>"; };
@@ -363,20 +365,21 @@
 		820C8B0B19E6054E00E9BE5C /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				B7BAD7321FBB7DC30046629F /* IDPLoginViewController.xib */,
-				4FEAC2421B97C65C00B08512 /* ActionsPopupController.m */,
 				4FEAC2431B97C65C00B08512 /* ActionsPopupController.h */,
+				4FEAC2421B97C65C00B08512 /* ActionsPopupController.m */,
 				820C8B0C19E6054E00E9BE5C /* AppDelegate.h */,
 				820C8B0D19E6054E00E9BE5C /* AppDelegate.m */,
-				820C8B0F19E6059400E9BE5C /* InitialViewController.h */,
-				820C8B1019E6059400E9BE5C /* InitialViewController.m */,
 				8284055419EA09E40079AB60 /* ContactDetailViewController.h */,
 				8284055519EA09E40079AB60 /* ContactDetailViewController.m */,
 				820C8B3019E60BDE00E9BE5C /* ContactListViewController.h */,
 				820C8B3119E60BDE00E9BE5C /* ContactListViewController.m */,
-				D375A2962B647888008F00BA /* Placeholder.swift */,
+				B7BAD7321FBB7DC30046629F /* IDPLoginViewController.xib */,
+				820C8B0F19E6059400E9BE5C /* InitialViewController.h */,
+				820C8B1019E6059400E9BE5C /* InitialViewController.m */,
+				D323D6BE2B687B220058F3D3 /* RequestOtpLoginViewController.swift */,
 				D375A2952B647887008F00BA /* MobileSyncExplorer-Bridging-Header.h */,
-				D323D6BE2B687B220058F3D3 /* LoginViewController.swift */,
+				D374412D2B98DEE9008E2F98 /* SubmitOtpLoginViewController.swift */,
+				D375A2962B647888008F00BA /* Placeholder.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -811,9 +814,10 @@
 			files = (
 				820C8B1119E6059400E9BE5C /* InitialViewController.m in Sources */,
 				820C8B0E19E6054E00E9BE5C /* AppDelegate.m in Sources */,
+				D374412E2B98DEE9008E2F98 /* SubmitOtpLoginViewController.swift in Sources */,
 				4FEAC2451B97C65C00B08512 /* ActionsPopupController.m in Sources */,
 				8284055619EA09E40079AB60 /* ContactDetailViewController.m in Sources */,
-				D323D6BF2B687B220058F3D3 /* LoginViewController.swift in Sources */,
+				D323D6BF2B687B220058F3D3 /* RequestOtpLoginViewController.swift in Sources */,
 				820C8B3219E60BDE00E9BE5C /* ContactListViewController.m in Sources */,
 				827C632119E6018C00027484 /* main.m in Sources */,
 				D375A2972B647888008F00BA /* Placeholder.swift in Sources */,

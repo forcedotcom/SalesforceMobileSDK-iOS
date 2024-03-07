@@ -1,5 +1,5 @@
 //
-//  LoginViewController.swift
+//  RequestOtpLoginViewController.swift
 //  MobileSyncExplorer
 //
 //  Created by Eric Johnson on 1/29/24.
@@ -31,7 +31,7 @@ import UIKit
 
 
 @objc
-class LoginViewController : UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+class RequestOtpLoginViewController : UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
     
     // MARK: LoginViewController Implementation
@@ -47,11 +47,61 @@ class LoginViewController : UIViewController, UIPickerViewDelegate, UIPickerView
     private let submitButton = UIButton()
     
     /// The user-selected OTP delivery method.
-    private var otpDeliveryMethod = OtpVerificationMethod.sms
+    private var otpVerificationMethod = OtpVerificationMethod.sms
     
     /// The reCAPTCHA token, which is provided by the view controller's owner.
     @objc
     var recaptchaToken: String? = nil
+    
+    
+    /// Submits a request for a one-time-passcode to the Salesforce headerless password-less login flow.
+    /// - Parameters:
+    ///   - username: The user-entered Salesforce username
+    private func submitOtpRequest(username: String) {
+        let appDelegate = (UIApplication.shared.delegate as? AppDelegate)
+        
+        // Execute reCAPTCHA for a new token.
+        appDelegate?.executeReCaptcha { recaptchaToken in
+            if let recaptchaTokenUnwrapped = recaptchaToken {
+                Task {
+                    // Submit the OTP request with the acquired reCAPTCHA token and username.
+                    async let otpRequestResult = SalesforceManager.shared.nativeLoginManager().submitOtpRequest(
+                        username: username,
+                        reCaptchaToken: recaptchaTokenUnwrapped,
+                        reCaptchaSiteKeyId: "6Lc3vVwpAAAAAL9noKtP5yACufTp5Tu7lIxqLmzQ",
+                        googleCloudProjectId: "mobile-apps-team-sfdc",
+                        isReCaptchaEnterprise: true,
+                        otpVerificationMethod: self.otpVerificationMethod
+                    )
+                    
+                    do {
+                        guard let otpIdentifier = try await otpRequestResult.otpIdentifier else { return }
+                        self.presentOtpVerification(
+                            otpIdentifier: otpIdentifier,
+                            otpVerificationMethod: self.otpVerificationMethod
+                        )
+                    } catch let error {
+                        print("Cannot request headless, password-less login one-time-passcode due to an error with description '\(error.localizedDescription)'.")
+                    }
+                }
+            }
+        }
+    }
+    
+    /// Presents a view for user-entry of the previously requested headless, password-less one-time-passcode.
+    /// - Parameters:
+    ///   - otpIdentifier: The OTP identifier issued by the Headless Identity API
+    ///   - otpVerificationMethod The OTP verification method used to obtain the OTP identifier
+    private func presentOtpVerification(
+        otpIdentifier: String,
+        otpVerificationMethod: OtpVerificationMethod
+    ) {
+        present(
+            SubmitOtpLoginViewController(
+                otpIdentifier: otpIdentifier,
+                otpVerificationMethod: otpVerificationMethod),
+            animated: true)
+    }
     
     
     // MARK: UIViewController Implementation
@@ -154,21 +204,7 @@ class LoginViewController : UIViewController, UIPickerViewDelegate, UIPickerView
         _ sender: UIButton
     ) {
         guard let username = userNameTextField.text else { return }
-        let appDelegate = (UIApplication.shared.delegate as? AppDelegate)
-        appDelegate?.executeReCaptcha { recaptchaToken in
-            if let recaptchaTokenUnwrapped = recaptchaToken {
-                Task {
-                    async let otpRequestResult = SalesforceManager.shared.nativeLoginManager().submitOtpRequest(
-                        username: username,
-                        reCaptchaToken: recaptchaTokenUnwrapped,
-                        reCaptchaSiteKeyId: "6Lc3vVwpAAAAAL9noKtP5yACufTp5Tu7lIxqLmzQ",
-                        googleCloudProjectId: "mobile-apps-team-sfdc",
-                        isReCaptchaEnterprise: true,
-                        otpVerificationMethod: self.otpDeliveryMethod
-                    )
-                }
-            }
-        }
+        submitOtpRequest(username: username)
     }
     
     
@@ -201,7 +237,7 @@ class LoginViewController : UIViewController, UIPickerViewDelegate, UIPickerView
         inComponent component: Int
     ) {
         
-        otpDeliveryMethod = switch(row) {
+        otpVerificationMethod = switch(row) {
         case 0: .email
         case 1: .sms
         default: .sms
