@@ -68,9 +68,6 @@ class RequestOtpLoginViewController : UIViewController, UIPickerViewDelegate, UI
                     async let otpRequestResult = SalesforceManager.shared.nativeLoginManager().submitOtpRequest(
                         username: username,
                         reCaptchaToken: recaptchaTokenUnwrapped,
-                        reCaptchaSiteKeyId: "6Lc3vVwpAAAAAL9noKtP5yACufTp5Tu7lIxqLmzQ",
-                        googleCloudProjectId: "mobile-apps-team-sfdc",
-                        isReCaptchaEnterprise: true,
                         otpVerificationMethod: self.otpVerificationMethod
                     )
                     

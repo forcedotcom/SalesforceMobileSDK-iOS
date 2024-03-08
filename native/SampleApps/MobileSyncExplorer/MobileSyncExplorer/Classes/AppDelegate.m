@@ -81,6 +81,9 @@
          useNativeLoginWithConsumerKey:@"3MVG9CEn_O3jvv0wTqRT0Le6tmzX.EQ9ZvtHL1TG3gHFV.4IvKZyXw5SgdiVPi61mXrpu40mCOhKevEfYNMOm"
          callbackUrl:@"https://msdk-enhanced-dev-ed.my.site.com/services/oauth2/echo"
          communityUrl:@"https://msdk-enhanced-dev-ed.my.site.com/headless"
+         reCaptchaSiteKeyId: @"6Lc3vVwpAAAAAL9noKtP5yACufTp5Tu7lIxqLmzQ"
+         googleCloudProjectId: @"mobile-apps-team-sfdc"
+         isReCaptchaEnterprise: true
          nativeLoginViewController:self.requestOtploginViewController
          scene: nil];
         

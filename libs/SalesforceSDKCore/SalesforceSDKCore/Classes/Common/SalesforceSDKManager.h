@@ -321,6 +321,15 @@ NS_SWIFT_NAME(SalesforceManager)
                                  nativeLoginViewController:(nonnull UIViewController *)nativeLoginViewController
                                                      scene:(nullable UIScene *)scene;
 
+- (id <SFNativeLoginManager>)useNativeLoginWithConsumerKey:(nonnull NSString *)consumerKey
+                                               callbackUrl:(nonnull NSString *)callbackUrl
+                                              communityUrl:(nonnull NSString *)communityUrl
+                                        reCaptchaSiteKeyId:(NSString *)reCaptchaSiteKeyId
+                                      googleCloudProjectId:(NSString *)googleCloudProjectId
+                                     isReCaptchaEnterprise:(BOOL)isReCaptchaEnterprise
+                                 nativeLoginViewController:(nonnull UIViewController *)nativeLoginViewController
+                                                     scene:(nullable UIScene *)scene;
+
 /**
  * Returns The NativeLoginManager instance.
  *

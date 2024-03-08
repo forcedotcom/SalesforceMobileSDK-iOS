@@ -858,14 +858,36 @@ void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t b
                                               communityUrl:(nonnull NSString *)communityUrl
                                  nativeLoginViewController:(nonnull UIViewController *)nativeLoginViewController
                                                      scene:(nullable UIScene *)scene {
+    return [self useNativeLoginWithConsumerKey:consumerKey
+                                   callbackUrl:callbackUrl
+                                  communityUrl:communityUrl
+                            reCaptchaSiteKeyId:nil
+                          googleCloudProjectId:nil
+                         isReCaptchaEnterprise:NO
+                     nativeLoginViewController:nativeLoginViewController
+                                         scene:scene];
+}
+
+- (id <SFNativeLoginManager>)useNativeLoginWithConsumerKey:(nonnull NSString *)consumerKey
+                                               callbackUrl:(nonnull NSString *)callbackUrl
+                                              communityUrl:(nonnull NSString *)communityUrl
+                                        reCaptchaSiteKeyId:(NSString *)reCaptchaSiteKeyId
+                                      googleCloudProjectId:(NSString *)googleCloudProjectId
+                                     isReCaptchaEnterprise:(BOOL)isReCaptchaEnterprise
+                                 nativeLoginViewController:(nonnull UIViewController *)nativeLoginViewController
+                                                     scene:(nullable UIScene *)scene {
     
     [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureNativeLogin];
     NSString *key = scene ? scene.session.persistentIdentifier : kSFDefaultNativeLoginViewControllerKey;
     [_nativeLoginViewControllers setObject:nativeLoginViewController forKey:key];
+    
     nativeLogin = [[SFNativeLoginManagerInternal alloc]
                    initWithClientId:consumerKey
                    redirectUri:callbackUrl
                    loginUrl:communityUrl
+                   reCaptchaSiteKeyId:reCaptchaSiteKeyId
+                   googleCloudProjectId:googleCloudProjectId
+                   isReCaptchaEnterprise:isReCaptchaEnterprise
                    scene:scene];
     [SFUserAccountManager sharedInstance].nativeLoginEnabled = true;
     
