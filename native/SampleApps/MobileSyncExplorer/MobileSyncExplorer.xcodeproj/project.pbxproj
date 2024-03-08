@@ -58,10 +58,6 @@
 		BCAE02051D7F7A9A00944153 /* SalesforceAnalytics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8D4C1CE932BD00C6FC6A /* SalesforceAnalytics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CE2B8D671CE932D600C6FC6A /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8D4C1CE932BD00C6FC6A /* SalesforceAnalytics.framework */; };
 		CE6AB39B1C10C4F50012125E /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE6AB39A1C10C4F50012125E /* libz.tbd */; };
-		D323D6BF2B687B220058F3D3 /* RequestOtpLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D323D6BE2B687B220058F3D3 /* RequestOtpLoginViewController.swift */; };
-		D374412E2B98DEE9008E2F98 /* SubmitOtpLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D374412D2B98DEE9008E2F98 /* SubmitOtpLoginViewController.swift */; };
-		D375A2972B647888008F00BA /* Placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D375A2962B647888008F00BA /* Placeholder.swift */; };
-		D375A29A2B647CB4008F00BA /* RecaptchaEnterprise.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = D375A2992B647CB4008F00BA /* RecaptchaEnterprise.xcframework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -321,12 +317,6 @@
 		B7E0CF321D91CECE0050A1F4 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		CE2B8D341CE932BD00C6FC6A /* SalesforceAnalytics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceAnalytics.xcodeproj; path = ../../../libs/SalesforceAnalytics/SalesforceAnalytics.xcodeproj; sourceTree = "<group>"; };
 		CE6AB39A1C10C4F50012125E /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
-		D323D6BE2B687B220058F3D3 /* RequestOtpLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestOtpLoginViewController.swift; sourceTree = "<group>"; };
-		D374412D2B98DEE9008E2F98 /* SubmitOtpLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubmitOtpLoginViewController.swift; sourceTree = "<group>"; };
-		D375A2842B64743D008F00BA /* RecaptchaEnterprise.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = RecaptchaEnterprise.a; path = "../../../external/ThirdPartyDependencies/RecaptchaEnterprise/RecaptchaEnterprise.xcframework/ios-arm64_x86_64-simulator/RecaptchaEnterprise.a"; sourceTree = "<group>"; };
-		D375A2952B647887008F00BA /* MobileSyncExplorer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MobileSyncExplorer-Bridging-Header.h"; sourceTree = "<group>"; };
-		D375A2962B647888008F00BA /* Placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Placeholder.swift; sourceTree = "<group>"; };
-		D375A2992B647CB4008F00BA /* RecaptchaEnterprise.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = RecaptchaEnterprise.xcframework; path = ../../../external/ThirdPartyDependencies/RecaptchaEnterprise/RecaptchaEnterprise.xcframework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -334,7 +324,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D375A29A2B647CB4008F00BA /* RecaptchaEnterprise.xcframework in Frameworks */,
 				CE2B8D671CE932D600C6FC6A /* SalesforceAnalytics.framework in Frameworks */,
 				CE6AB39B1C10C4F50012125E /* libz.tbd in Frameworks */,
 				827C631719E6018C00027484 /* CoreGraphics.framework in Frameworks */,
@@ -365,21 +354,17 @@
 		820C8B0B19E6054E00E9BE5C /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				4FEAC2431B97C65C00B08512 /* ActionsPopupController.h */,
+				B7BAD7321FBB7DC30046629F /* IDPLoginViewController.xib */,
 				4FEAC2421B97C65C00B08512 /* ActionsPopupController.m */,
+				4FEAC2431B97C65C00B08512 /* ActionsPopupController.h */,
 				820C8B0C19E6054E00E9BE5C /* AppDelegate.h */,
 				820C8B0D19E6054E00E9BE5C /* AppDelegate.m */,
+				820C8B0F19E6059400E9BE5C /* InitialViewController.h */,
+				820C8B1019E6059400E9BE5C /* InitialViewController.m */,
 				8284055419EA09E40079AB60 /* ContactDetailViewController.h */,
 				8284055519EA09E40079AB60 /* ContactDetailViewController.m */,
 				820C8B3019E60BDE00E9BE5C /* ContactListViewController.h */,
 				820C8B3119E60BDE00E9BE5C /* ContactListViewController.m */,
-				B7BAD7321FBB7DC30046629F /* IDPLoginViewController.xib */,
-				820C8B0F19E6059400E9BE5C /* InitialViewController.h */,
-				820C8B1019E6059400E9BE5C /* InitialViewController.m */,
-				D323D6BE2B687B220058F3D3 /* RequestOtpLoginViewController.swift */,
-				D375A2952B647887008F00BA /* MobileSyncExplorer-Bridging-Header.h */,
-				D374412D2B98DEE9008E2F98 /* SubmitOtpLoginViewController.swift */,
-				D375A2962B647888008F00BA /* Placeholder.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -419,7 +404,6 @@
 		827C631319E6018C00027484 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				D375A2992B647CB4008F00BA /* RecaptchaEnterprise.xcframework */,
 				B7D641CD218F42B5006DF5F0 /* SalesforceSDKCommon.xcodeproj */,
 				CE2B8D341CE932BD00C6FC6A /* SalesforceAnalytics.xcodeproj */,
 				829DA2561C1260960040F5F1 /* MobileSync.xcodeproj */,
@@ -434,7 +418,6 @@
 				827C631619E6018C00027484 /* CoreGraphics.framework */,
 				827C631819E6018C00027484 /* UIKit.framework */,
 				B7E0CF321D91CECE0050A1F4 /* NotificationCenter.framework */,
-				D375A2842B64743D008F00BA /* RecaptchaEnterprise.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -615,7 +598,7 @@
 				ORGANIZATIONNAME = salesforce.com;
 				TargetAttributes = {
 					827C631019E6018C00027484 = {
-						LastSwiftMigration = 1520;
+						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
@@ -814,13 +797,10 @@
 			files = (
 				820C8B1119E6059400E9BE5C /* InitialViewController.m in Sources */,
 				820C8B0E19E6054E00E9BE5C /* AppDelegate.m in Sources */,
-				D374412E2B98DEE9008E2F98 /* SubmitOtpLoginViewController.swift in Sources */,
 				4FEAC2451B97C65C00B08512 /* ActionsPopupController.m in Sources */,
 				8284055619EA09E40079AB60 /* ContactDetailViewController.m in Sources */,
-				D323D6BF2B687B220058F3D3 /* RequestOtpLoginViewController.swift in Sources */,
 				820C8B3219E60BDE00E9BE5C /* ContactListViewController.m in Sources */,
 				827C632119E6018C00027484 /* main.m in Sources */,
-				D375A2972B647888008F00BA /* Placeholder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -934,7 +914,6 @@
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = "${PROJECT_DIR}/../../../ThirdPartyDependencies/RecaptchaEnterprise";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -999,7 +978,6 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_SEARCH_PATHS = "${PROJECT_DIR}/../../../ThirdPartyDependencies/RecaptchaEnterprise";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -1028,11 +1006,9 @@
 		827C634719E6018C00027484 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_WARNINGS = NO;
-				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = MobileSyncExplorer/MobileSyncExplorer.entitlements;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MobileSyncExplorer/MobileSyncExplorer-Prefix.pch";
@@ -1045,8 +1021,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.MobileSyncExplorer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_MACCATALYST = NO;
-				SWIFT_OBJC_BRIDGING_HEADER = "MobileSyncExplorer/Classes/MobileSyncExplorer-Bridging-Header.h";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
@@ -1056,11 +1030,9 @@
 		827C634819E6018C00027484 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_WARNINGS = NO;
-				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = MobileSyncExplorer/MobileSyncExplorer.entitlements;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MobileSyncExplorer/MobileSyncExplorer-Prefix.pch";
@@ -1073,7 +1045,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.MobileSyncExplorer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_MACCATALYST = NO;
-				SWIFT_OBJC_BRIDGING_HEADER = "MobileSyncExplorer/Classes/MobileSyncExplorer-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;

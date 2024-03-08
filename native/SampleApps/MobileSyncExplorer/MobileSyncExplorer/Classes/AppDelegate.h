@@ -24,16 +24,8 @@
 
 #import <UIKit/UIKit.h>
 
-#import <RecaptchaEnterprise/RecaptchaEnterprise.h>
-
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-
-@property (strong, atomic) RecaptchaClient *recaptchaClient;
-
-#pragma mark - reCAPTCHA Methods
-
-- (void)executeReCaptcha:(void ( ^ )( NSString* ))completion;
 
 @end

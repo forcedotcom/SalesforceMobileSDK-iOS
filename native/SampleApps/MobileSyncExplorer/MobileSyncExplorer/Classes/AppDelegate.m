@@ -25,9 +25,6 @@
 #import "AppDelegate.h"
 #import "InitialViewController.h"
 #import "ContactListViewController.h"
-
-#import <MobileSyncExplorer-Swift.h>
-
 #import <SalesforceSDKCore/SFPushNotificationManager.h>
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
 #import <SalesforceSDKCore/SFSDKAppConfig.h>
@@ -42,9 +39,6 @@
 #import <UserNotifications/UserNotifications.h>
 
 @interface AppDelegate ()
-
-/// The view provided to native login for user entry of the headless, password-less login via one-time-passcode flow's step one OTP request parameters.
-@property (nonatomic, strong) RequestOtpLoginViewController *requestOtploginViewController;
 
 /**
  * Convenience method for setting up the main UIViewController and setting self.window's rootViewController
@@ -71,21 +65,7 @@
         [SFSDKDatasharingHelper sharedInstance].appGroupName = config.appGroupName;
         [SFSDKDatasharingHelper sharedInstance].appGroupEnabled = config.appGroupsEnabled;
 
-        // Create the request one-time-passcode login view.
-        self.requestOtploginViewController = [RequestOtpLoginViewController new];
-
         [MobileSyncSDKManager initializeSDK];
-        
-        // Configure native login and headless identity flow.
-        [[MobileSyncSDKManager sharedManager]
-         useNativeLoginWithConsumerKey:@"3MVG9CEn_O3jvv0wTqRT0Le6tmzX.EQ9ZvtHL1TG3gHFV.4IvKZyXw5SgdiVPi61mXrpu40mCOhKevEfYNMOm"
-         callbackUrl:@"https://msdk-enhanced-dev-ed.my.site.com/services/oauth2/echo"
-         communityUrl:@"https://msdk-enhanced-dev-ed.my.site.com/headless"
-         reCaptchaSiteKeyId: @"6Lc3vVwpAAAAAL9noKtP5yACufTp5Tu7lIxqLmzQ"
-         googleCloudProjectId: @"mobile-apps-team-sfdc"
-         isReCaptchaEnterprise: true
-         nativeLoginViewController:self.requestOtploginViewController
-         scene: nil];
         
         //App Setup for any changes to the current authenticated user
         __weak typeof (self) weakSelf = self;
@@ -125,24 +105,6 @@
         [weakSelf resetUserloginStatus];
         [weakSelf setupRootViewController];
     }];
-    
-    // Get the reCAPTCHA client.
-    [Recaptcha getClientWithSiteKey:@"6Lc3vVwpAAAAAL9noKtP5yACufTp5Tu7lIxqLmzQ"
-                         completion:^void(RecaptchaClient* recaptchaClient,
-                                          NSError* error)
-     {
-        
-        // Verify the reCAPTCHA client.
-        if (!recaptchaClient) {
-            NSLog(@"Cannot get reCAPTCHA client due to an error with description '%@'.",
-                  (RecaptchaError *)error.userInfo.description);
-            return;
-        }
-        
-        // Assign the reCAPTCHA client.
-        self->_recaptchaClient = recaptchaClient;
-    }];
-
     return YES;
 }
 
@@ -187,28 +149,6 @@
     // return [[SFUserAccountManager sharedInstance] handleIDPAuthenticationResponse:url options:options];
     return NO;
 
-}
-
-#pragma mark - reCAPTCHA Methods
-
-- (void)executeReCaptcha:(void ( ^ )( NSString* ))completion {
-    
-    // Execute reCAPTCHA for a new token.
-    [_recaptchaClient
-     execute:RecaptchaAction.login
-     completion:^void(NSString* _Nullable token,
-                      NSError* _Nullable error)
-     {
-        // If a token wasn't returned log a warning instead of calling the completion.
-        if (!token) {
-            NSLog (@"No token was returned when executing reCAPTCHA due to an error with description: '%@'.",
-                   (RecaptchaError *)error.userInfo.description);
-            return;
-        }
-        
-        // Pass the new token to the completion.
-        completion(token);
-    }];
 }
 
 #pragma mark - Private methods
