@@ -455,7 +455,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
     
     // MARK: Private Implementation
     
-    /// Generates a Base64 encoded value by concatinated the provided values with a colon, which is
+    /// Generates a Base64 encoded value by concatinating the provided values with a colon, which is
     /// commonly used in the Headless Identity API request headers.
     /// - Parameters:
     ///   - value1: The left-side value
