@@ -446,7 +446,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         /// The Google Cloud project reCAPTCHA Key's "Id" as shown in Google Cloud Console under "Products & Solutions", "Security" and "reCAPTCHA Enterprise"
         let siteKey: String
         
-        /// The user-inittiated "Action Name" for the reCAPTCHA event.  A specific value is not required by Google though it is used in reCAPTCHA Metrics.  "login" is a recommended value from Google documentation.
+        /// The user-initiated "Action Name" for the reCAPTCHA event.  A specific value is not required by Google though it is used in reCAPTCHA Metrics.  "login" is a recommended value from Google documentation.
         var expectedAction = "login"
         
         /// The Google Cloud project's "Id" as shown in Google Cloud Console
