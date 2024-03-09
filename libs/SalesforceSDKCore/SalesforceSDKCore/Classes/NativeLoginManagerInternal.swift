@@ -253,14 +253,10 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         let reCaptchaEventParameter: OtpRequestBodyReCaptchaEvent? = if (isReCaptchaEnterprise) {
             OtpRequestBodyReCaptchaEvent(
                 token: reCaptchaToken,
-                siteKey: try reCaptchaSiteKeyId ?? { throw NSError(
-                    domain:NativeLoginManagerInternal.errorDomain,
-                    code:-1,
-                    userInfo: [NSLocalizedDescriptionKey: "A reCAPTCHA site key wasn't and must be provided when using enterprise reCAPATCHA."])}(),
-                projectId: try googleCloudProjectId ?? { throw NSError(
-                    domain:NativeLoginManagerInternal.errorDomain,
-                    code:-1,
-                    userInfo: [NSLocalizedDescriptionKey: "A Google Cloud project id wasn't and must be provided when using enterprise reCAPATCHA."])}()
+                siteKey: try reCaptchaSiteKeyId ?? { throw NativeLoginError.invalidParameterError(
+                    message: "A reCAPTCHA site key wasn't and must be provided when using enterprise reCAPATCHA.")}(),
+                projectId: try googleCloudProjectId ?? { throw NativeLoginError.invalidParameterError(
+                    message: "A Google Cloud project id wasn't and must be provided when using enterprise reCAPATCHA.")}()
             )
         } else {
             nil
@@ -342,10 +338,8 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         guard let codeChallenge = generateChallenge(
             codeVerifier: codeVerifier
         ) else {
-            throw NSError(
-                domain:NativeLoginManagerInternal.errorDomain,
-                code:-1,
-                userInfo: [NSLocalizedDescriptionKey: "Cannot generate code verifier due to a nil result."])
+            throw NativeLoginError.codeVerifierError(
+                message: "Cannot generate code verifier due to a nil result.")
         }
         
         // Determine the OTP verification method.
@@ -410,9 +404,10 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
     
     /// Error cases for native login.
     public enum NativeLoginError: Error {
-        case invalidParameter
-        case encodingError(underlyingError: Error)
+        case codeVerifierError(message: String)
         case decodingError(underlyingError: Error)
+        case encodingError(underlyingError: Error)
+        case invalidParameterError(message: String)
     }
     
     /// A structure for the OTP request body.
@@ -474,10 +469,8 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         guard let valuesUtf8EncodedData = "\(value1):\(value2)".data(
             using: .utf8
         ) else {
-            throw NSError(
-                domain:NativeLoginManagerInternal.errorDomain,
-                code:-1,
-                userInfo: [NSLocalizedDescriptionKey: "Unable to UTF-8 encode colon-concatinated string with values '\(value1)' and '\(value2)' due to a nil encoding result."])
+            throw NativeLoginError.invalidParameterError(
+                message: "Unable to UTF-8 encode colon-concatinated string with values '\(value1)' and '\(value2)' due to a nil encoding result.")
         }
         return urlSafeBase64Encode(data: valuesUtf8EncodedData)
     }
