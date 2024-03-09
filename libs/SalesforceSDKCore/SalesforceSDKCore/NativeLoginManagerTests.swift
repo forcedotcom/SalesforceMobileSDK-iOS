@@ -57,9 +57,6 @@ final class NativeLoginManagerTests: XCTestCase {
         var result = await submitOtpRequest(
             username: "",
             reCaptchaToken: "",
-            reCaptchaSiteKeyId: "",
-            googleCloudProjectId: "",
-            isReCaptchaEnterprise: true,
             otpVerificationMethod: .sms)
         XCTAssertEqual(
             .invalidUsername,
@@ -68,9 +65,6 @@ final class NativeLoginManagerTests: XCTestCase {
         result = await submitOtpRequest(
             username: "test@c",
             reCaptchaToken: "",
-            reCaptchaSiteKeyId: "",
-            googleCloudProjectId: "",
-            isReCaptchaEnterprise: true,
             otpVerificationMethod: .sms)
         XCTAssertEqual(
             NativeLoginResult.invalidUsername,
@@ -81,9 +75,6 @@ final class NativeLoginManagerTests: XCTestCase {
         result = await submitOtpRequest(
             username: "test@c.co   ",
             reCaptchaToken: "",
-            reCaptchaSiteKeyId: "",
-            googleCloudProjectId: "",
-            isReCaptchaEnterprise: true,
             otpVerificationMethod: .sms)
         XCTAssertEqual(
             NativeLoginResult.unknownError,
@@ -165,9 +156,6 @@ final class NativeLoginManagerTests: XCTestCase {
     private func submitOtpRequest(
         username: String,
         reCaptchaToken: String,
-        reCaptchaSiteKeyId: String?,
-        googleCloudProjectId: String?,
-        isReCaptchaEnterprise: Bool,
         otpVerificationMethod: OtpVerificationMethod
     ) async -> OtpRequestResult? {
         
@@ -175,9 +163,6 @@ final class NativeLoginManagerTests: XCTestCase {
             return try await nativeLoginManager.submitOtpRequest(
                 username: username,
                 reCaptchaToken: reCaptchaToken,
-                reCaptchaSiteKeyId: reCaptchaSiteKeyId,
-                googleCloudProjectId: googleCloudProjectId,
-                isReCaptchaEnterprise: isReCaptchaEnterprise,
                 otpVerificationMethod: otpVerificationMethod)
         } catch {
             return nil
