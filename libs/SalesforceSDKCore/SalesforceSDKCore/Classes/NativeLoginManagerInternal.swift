@@ -349,7 +349,6 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
             value1: otpIdentifier,
             value2: otp)
         // Generate the authorization request headers.
-        // TODO: Evaluate use of `Uvid-Hint` header. ECJ20240306
         let authorizationRequestHeaders: NSMutableDictionary = [
             kSFOAuthRequestTypeParamName: kSFOAuthRequestTypePasswordlessLogin,
             kSFOAuthAuthVerificationTypeParamName: otpVerificationMethodString,
