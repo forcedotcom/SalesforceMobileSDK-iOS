@@ -331,7 +331,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
     ) async throws -> NativeLoginResult
     {
         // Validate parameters.
-        let trimmedOtp = otp// otp.trimmingCharacters(in: .whitespacesAndNewlines)
+        let trimmedOtp = otp.trimmingCharacters(in: .whitespacesAndNewlines)
         
         // Generate code verifier and code challenge.
         let codeVerifier = generateCodeVerifier()
