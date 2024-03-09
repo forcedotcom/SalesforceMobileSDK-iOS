@@ -392,8 +392,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
     ///   - otpVerificationMethod: An OTP verification method
     private func generateVerificationTypeHeaderValue(
         otpVerificationMethod: OtpVerificationMethod
-    ) -> String
-    {
+    ) -> String {
         
         return switch (otpVerificationMethod) {
         case .email: kSFOAuthAuthVerificationTypeEmail
