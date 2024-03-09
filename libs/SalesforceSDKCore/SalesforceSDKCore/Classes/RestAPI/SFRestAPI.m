@@ -373,8 +373,6 @@ static dispatch_once_t pred;
 
     // Parse error from data if any.
     if (data) {
-        NSString* newStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        NSLog(@"%@", newStr);
         NSObject* errorObj = [SFJsonUtils objectFromJSONData:data];
 
         // Parsing succeeded.
