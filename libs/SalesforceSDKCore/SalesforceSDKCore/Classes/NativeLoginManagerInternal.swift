@@ -39,9 +39,7 @@ let maximumPasswordLengthInBytes = 16000
 /// See https://developer.apple.com/documentation/swift/importing-swift-into-objective-c#Import-Code-Within-a-Framework-Target
 @objc(SFNativeLoginManagerInternal)
 public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
-    
-    static let errorDomain = "com.salesforce.security.nativeLoginException"
-    
+        
     @objc public let clientId: String
     @objc public let redirectUri: String
     @objc public let loginUrl: String
@@ -113,7 +111,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         if !isValidPassword(password: trimmedPassword) {
             return .invalidPassword
         }
-        let credentials = try generateColonConcatinatedBase64String(
+        let credentials = try generateColonConcatenatedBase64String(
             value1: trimmedUsername,
             value2: trimmedPassword)
         let authRequest = RestRequest(method: .POST, baseURL: loginUrl, path: kSFOAuthEndPointAuthorize, queryParams: nil)
@@ -345,7 +343,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         // Determine the OTP verification method.
         let otpVerificationMethodString = generateVerificationTypeHeaderValue(otpVerificationMethod: otpVerificationMethod)
         // Generate the authorization.
-        let authorization = try generateColonConcatinatedBase64String(
+        let authorization = try generateColonConcatenatedBase64String(
             value1: otpIdentifier,
             value2: otp)
         // Generate the authorization request headers.
@@ -460,7 +458,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
     /// - Parameters:
     ///   - value1: The left-side value
     ///   - value2: The right-side value
-    private func generateColonConcatinatedBase64String(
+    private func generateColonConcatenatedBase64String(
         value1: String,
         value2: String
     ) throws -> String {
@@ -468,7 +466,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
             using: .utf8
         ) else {
             throw NativeLoginError.invalidParameterError(
-                message: "Unable to UTF-8 encode colon-concatinated string with values '\(value1)' and '\(value2)' due to a nil encoding result.")
+                message: "Unable to UTF-8 encode colon-concatenated string with values '\(value1)' and '\(value2)' due to a nil encoding result.")
         }
         return urlSafeBase64Encode(data: valuesUtf8EncodedData)
     }

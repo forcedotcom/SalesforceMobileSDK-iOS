@@ -110,7 +110,9 @@ public protocol NativeLoginManager {
 }
 
 /// An Objective-C compatible OTP request result
-@objc public class OtpRequestResult: NSObject {
+@objc(SFOtpRequestResult)
+@objcMembers
+public class OtpRequestResult: NSObject {
     
     /// The overall result of the OTP request.
     public let nativeLoginResult: NativeLoginResult
