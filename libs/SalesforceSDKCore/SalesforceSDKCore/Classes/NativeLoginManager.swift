@@ -44,7 +44,7 @@ public protocol NativeLoginManager {
     ///   - username: User provided Salesforce username.
     ///   - password: User provided Salesforce password.
     /// - Returns: NativeLoginResult
-    @objc func login(username: String, password: String) async throws -> NativeLoginResult
+    @objc func login(username: String, password: String) async -> NativeLoginResult
     
     /// Initiates web based authenticatioin.
     @objc func fallbackToWebAuthentication()
@@ -89,7 +89,7 @@ public protocol NativeLoginManager {
     @objc func submitOtpRequest(
         username: String,
         reCaptchaToken: String,
-        otpVerificationMethod: OtpVerificationMethod) async throws -> OtpRequestResult
+        otpVerificationMethod: OtpVerificationMethod) async -> OtpRequestResult
     
     /// Submits a request for a one-time-passcode to the Salesforce headless password-less login flow.
     /// This fulfills steps eight, eleven and thirteen of the headless password-less login flow.
@@ -106,7 +106,7 @@ public protocol NativeLoginManager {
         otp: String,
         otpIdentifier: String,
         otpVerificationMethod: OtpVerificationMethod
-    ) async throws -> NativeLoginResult
+    ) async -> NativeLoginResult
 }
 
 /// An Objective-C compatible OTP request result

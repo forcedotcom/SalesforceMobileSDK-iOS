@@ -63,11 +63,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         let code: String
     }
     
-    @objc public init(
-        clientId: String,
-        redirectUri: String,
-        loginUrl: String,
-        scene: UIScene?
+    @objc public init(clientId: String, redirectUri: String, loginUrl: String, scene: UIScene?
     ) {
         self.clientId = clientId
         self.redirectUri = redirectUri
@@ -78,15 +74,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         self.scene = scene
     }
     
-    @objc public init(
-        clientId: String,
-        redirectUri: String,
-        loginUrl: String,
-        reCaptchaSiteKeyId: String?,
-        googleCloudProjectId: String?,
-        isReCaptchaEnterprise: Bool,
-        scene: UIScene?
-    ) {
+    @objc public init(clientId: String, redirectUri: String, loginUrl: String, reCaptchaSiteKeyId: String?, googleCloudProjectId: String?, isReCaptchaEnterprise: Bool, scene: UIScene?) {
         self.clientId = clientId
         self.redirectUri = redirectUri
         self.loginUrl = loginUrl
@@ -99,7 +87,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
     public func login(
         username: String,
         password: String
-    ) async throws -> NativeLoginResult
+    ) async -> NativeLoginResult
     {
         let trimmedUsername = username.trimmingCharacters(in: .whitespacesAndNewlines)
         let trimmedPassword = password.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -111,13 +99,19 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         if !isValidPassword(password: trimmedPassword) {
             return .invalidPassword
         }
-        let credentials = try generateColonConcatenatedBase64String(
+        guard let credentials = generateColonConcatenatedBase64String(
             value1: trimmedUsername,
-            value2: trimmedPassword)
+            value2: trimmedPassword) else {
+            SFSDKCoreLogger().e(
+                classForCoder,
+                message: "Unable to UTF-8 encode colon-concatenated string with values '\(trimmedUsername)' and '\(trimmedPassword)' due to a nil encoding result.")
+            return .unknownError
+            
+        }
         let authRequest = RestRequest(method: .POST, baseURL: loginUrl, path: kSFOAuthEndPointAuthorize, queryParams: nil)
         let customHeaders: NSMutableDictionary = [kSFOAuthRequestTypeParamName: kSFOAuthRequestTypeNamedUser,
-                                                  kHttpHeaderContentType: kHttpPostContentType,
-                                                  kSFOAuthAuthorizationTypeParamName: "\(kSFOAuthAuthorizationTypeBasic) \(credentials)"]
+                                                        kHttpHeaderContentType: kHttpPostContentType,
+                                            kSFOAuthAuthorizationTypeParamName: "\(kSFOAuthAuthorizationTypeBasic) \(credentials)"]
         
         let codeVerifier = generateCodeVerifier()
         guard let challenge = generateChallenge(codeVerifier: codeVerifier) else { return .unknownError }
@@ -127,7 +121,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         authRequest.setCustomRequestBodyString(authRequestBody, contentType: kHttpPostContentType)
         authRequest.requiresAuthentication = false
         authRequest.endpoint = ""
-   
+        
         // First REST Call - Authorization
         let authorizationResponse = await withCheckedContinuation { continuation in
             RestClient.sharedGlobal.send(request: authRequest) { result in
@@ -226,7 +220,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
     public func submitOtpRequest(
         username: String,
         reCaptchaToken: String,
-        otpVerificationMethod: OtpVerificationMethod) async throws -> OtpRequestResult
+        otpVerificationMethod: OtpVerificationMethod) async -> OtpRequestResult
     {
         
         // Validate parameters.
@@ -234,6 +228,18 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
             username: username.trimmingCharacters(in: .whitespacesAndNewlines)
         ) {
             return OtpRequestResult(nativeLoginResult: .invalidUsername)
+        }
+        guard let reCaptchaSiteKeyId = reCaptchaSiteKeyId else {
+            SFSDKCoreLogger().e(
+                classForCoder,
+                message: "A reCAPTCHA site key wasn't and must be provided when using enterprise reCAPATCHA.")
+            return OtpRequestResult(nativeLoginResult: .unknownError)
+        }
+        guard let googleCloudProjectId = googleCloudProjectId else {
+            SFSDKCoreLogger().e(
+                classForCoder,
+                message: "A Google Cloud project id wasn't and must be provided when using enterprise reCAPATCHA.")
+            return OtpRequestResult(nativeLoginResult: .unknownError)
         }
         
         /*
@@ -251,10 +257,8 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         let reCaptchaEventParameter: OtpRequestBodyReCaptchaEvent? = if (isReCaptchaEnterprise) {
             OtpRequestBodyReCaptchaEvent(
                 token: reCaptchaToken,
-                siteKey: try reCaptchaSiteKeyId ?? { throw NativeLoginError.invalidParameterError(
-                    message: "A reCAPTCHA site key wasn't and must be provided when using enterprise reCAPATCHA.")}(),
-                projectId: try googleCloudProjectId ?? { throw NativeLoginError.invalidParameterError(
-                    message: "A Google Cloud project id wasn't and must be provided when using enterprise reCAPATCHA.")}()
+                siteKey: reCaptchaSiteKeyId,
+                projectId: googleCloudProjectId
             )
         } else {
             nil
@@ -263,7 +267,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         let otpVerificationMethodString = generateVerificationTypeHeaderValue(
             otpVerificationMethod: otpVerificationMethod)
         // Generate the OTP request body.
-        let requestBodyString = try {
+        guard let requestBodyString = {
             do { return String(
                 data: try JSONEncoder().encode(
                     OtpRequestBody(
@@ -274,8 +278,11 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
                 ),
                 encoding: .utf8)!
             } catch let error {
-                throw NativeLoginError.encodingError(underlyingError: error)
-            }}()
+                SFSDKCoreLogger().e(
+                    classForCoder,
+                    message: "Cannot JSON encode OTP request body due to an encoding error with description '\(error.localizedDescription)'.")
+                return nil
+            }}() else { return OtpRequestResult(nativeLoginResult: .unknownError) }
         
         // Create the OTP request.
         let otpRequest = RestRequest(
@@ -304,12 +311,15 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
             
         case .success(let otpResponse):
             // Decode the OTP response to obtain the OTP email and identifier.
-            let otpResponseBody = try {
+            guard let otpResponseBody = {
                 do {
                     return try otpResponse.asDecodable(type: OtpResponseBody.self)
                 } catch let error {
-                    throw NativeLoginError.decodingError(underlyingError: error)
-                }}()
+                    SFSDKCoreLogger().e(
+                        classForCoder,
+                        message: "Cannot JSON decode OTP response body due to a decoding error with description '\(error.localizedDescription)'.")
+                    return nil
+                }}() else { return OtpRequestResult(nativeLoginResult: .unknownError) }
             return OtpRequestResult(
                 nativeLoginResult: .success,
                 otpIdentifier: otpResponseBody.identifier)
@@ -326,7 +336,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         otp: String,
         otpIdentifier: String,
         otpVerificationMethod: OtpVerificationMethod
-    ) async throws -> NativeLoginResult
+    ) async -> NativeLoginResult
     {
         // Validate parameters.
         let trimmedOtp = otp.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -336,16 +346,24 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         guard let codeChallenge = generateChallenge(
             codeVerifier: codeVerifier
         ) else {
-            throw NativeLoginError.codeVerifierError(
+            SFSDKCoreLogger().e(
+                classForCoder,
                 message: "Cannot generate code verifier due to a nil result.")
+            return .unknownError
         }
         
         // Determine the OTP verification method.
         let otpVerificationMethodString = generateVerificationTypeHeaderValue(otpVerificationMethod: otpVerificationMethod)
         // Generate the authorization.
-        let authorization = try generateColonConcatenatedBase64String(
+        guard let authorization = generateColonConcatenatedBase64String(
             value1: otpIdentifier,
-            value2: otp)
+            value2: otp) else
+        {
+            SFSDKCoreLogger().e(
+                classForCoder,
+                message: "Unable to UTF-8 encode colon-concatenated string with values '\(otpIdentifier)' and '\(otp)' due to a nil encoding result.")
+            return .unknownError
+        }
         // Generate the authorization request headers.
         let authorizationRequestHeaders: NSMutableDictionary = [
             kSFOAuthRequestTypeParamName: kSFOAuthRequestTypePasswordlessLogin,
@@ -396,14 +414,6 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         case .email: kSFOAuthAuthVerificationTypeEmail
         case .sms: kSFOAuthAuthVerificationTypeSms
         }
-    }
-    
-    /// Error cases for native login.
-    public enum NativeLoginError: Error {
-        case codeVerifierError(message: String)
-        case decodingError(underlyingError: Error)
-        case encodingError(underlyingError: Error)
-        case invalidParameterError(message: String)
     }
     
     /// A structure for the OTP request body.
@@ -461,13 +471,11 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
     private func generateColonConcatenatedBase64String(
         value1: String,
         value2: String
-    ) throws -> String {
+    ) -> String? {
         guard let valuesUtf8EncodedData = "\(value1):\(value2)".data(
             using: .utf8
-        ) else {
-            throw NativeLoginError.invalidParameterError(
-                message: "Unable to UTF-8 encode colon-concatenated string with values '\(value1)' and '\(value2)' due to a nil encoding result.")
-        }
+        ) else { return nil }
+        
         return urlSafeBase64Encode(data: valuesUtf8EncodedData)
     }
     
@@ -491,13 +499,13 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
     ) async -> NativeLoginResult {
         
         switch authorizationResponse {
-
+            
         case .success(let successfulResponse): // Authorization success.
             do {
                 // Decode the authorization response.
                 let authorizationResponseBody = try successfulResponse.asDecodable(
                     type: AuthorizationResponseBody.self)
-
+                
                 // Generate the access token request body.
                 let tokenRequestBody = "\(kSFOAuthResponseTypeCode)=\(authorizationResponseBody.code)&\(kSFOAuthGrantType)=\(kSFOAuthGrantTypeAuthorizationCode)&\(kSFOAuthClientId)=\(clientId)&\(kSFOAuthRedirectUri)=\(redirectUri)&\(kSFOAuthCodeVerifierParamName)=\(codeVerifier)"
                 
