@@ -308,8 +308,9 @@ NS_SWIFT_NAME(SalesforceManager)
  * @param consumerKey The Connected App consumer key.
  * @param callbackUrl The Connected App redirect URI.
  * @param communityUrl The login url for native login
- * @param nativeLoginViewController The UI instance that will be presented to the user and
- *  is responsible for using the returned Native Login Manager to initiate the login process.
+ * @param nativeLoginViewController The view presented to the user and responsible for using the
+ * returned Native Login Manager to initiate either of the authorization code and credentials login flow or the
+ * headless, password-less login flow.
  * @param scene Optional UIScene to enable multi-window support.
  *
  * @return The Native Login Manager.
@@ -317,6 +318,15 @@ NS_SWIFT_NAME(SalesforceManager)
 - (id <SFNativeLoginManager>)useNativeLoginWithConsumerKey:(nonnull NSString *)consumerKey
                                                callbackUrl:(nonnull NSString *)callbackUrl
                                               communityUrl:(nonnull NSString *)communityUrl
+                                 nativeLoginViewController:(nonnull UIViewController *)nativeLoginViewController
+                                                     scene:(nullable UIScene *)scene;
+
+- (id <SFNativeLoginManager>)useNativeLoginWithConsumerKey:(nonnull NSString *)consumerKey
+                                               callbackUrl:(nonnull NSString *)callbackUrl
+                                              communityUrl:(nonnull NSString *)communityUrl
+                                        reCaptchaSiteKeyId:(NSString *)reCaptchaSiteKeyId
+                                      googleCloudProjectId:(NSString *)googleCloudProjectId
+                                     isReCaptchaEnterprise:(BOOL)isReCaptchaEnterprise
                                  nativeLoginViewController:(nonnull UIViewController *)nativeLoginViewController
                                                      scene:(nullable UIScene *)scene;
 

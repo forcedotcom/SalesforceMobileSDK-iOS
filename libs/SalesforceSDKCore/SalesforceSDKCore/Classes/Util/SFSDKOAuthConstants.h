@@ -79,9 +79,16 @@ static NSString * const kSFOAuthGrantTypeHybridAuthorizationCode = @"hybrid_auth
 static NSString * const kSFOAuthGrantTypeAuthorizationCode       = @"authorization_code";
 
 // Native Login constants
+static NSString * const kSFOAuthAuthVerificationTypeParamName   = @"Auth-Verification-Type";
+static NSString * const kSFOAuthAuthVerificationTypeEmail       = @"email";
+static NSString * const kSFOAuthAuthVerificationTypeSms         = @"sms";
+
 static NSString * const kSFOAuthCodeCredentialsParamName        = @"code_credentials";
+
 static NSString * const kSFOAuthRequestTypeParamName            = @"Auth-Request-Type";
 static NSString * const kSFOAuthRequestTypeNamedUser            = @"Named-User";
+static NSString * const kSFOAuthRequestTypePasswordlessLogin    = @"passwordless-login";
+
 static NSString * const kSFOAuthAuthorizationTypeParamName      = @"Authorization";
 static NSString * const kSFOAuthAuthorizationTypeBasic          = @"Basic";
 
@@ -111,9 +118,13 @@ static NSUInteger kSFOAuthReponseBufferLength                       = 512; // by
 static NSString * const kHttpMethodPost                             = @"POST";
 static NSString * const kHttpHeaderContentType                      = @"Content-Type";
 static NSString * const kHttpPostContentType                        = @"application/x-www-form-urlencoded";
+static NSString * const kHttpPostApplicationJsonContentType         = @"application/json";
 static NSString * const kHttpHeaderUserAgent                        = @"User-Agent";
 static NSString * const kOAuthUserAgentUserDefaultsKey              = @"UserAgent";
 static NSString * const kSFAppFeatureSafariBrowserForLogin          = @"BW";
 static NSString * const kSFECParameter                              = @"ec";
+
+// Headless, password-less authentication constants
+static NSString * const kSFOAuthEndPointHeadlessInitPasswordlessLogin = @"services/auth/headless/init/passwordless/login";
 
 #endif /* SFSDKOAuthConstants_h */

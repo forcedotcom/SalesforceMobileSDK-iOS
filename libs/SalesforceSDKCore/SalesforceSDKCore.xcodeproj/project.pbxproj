@@ -1449,8 +1449,8 @@
 		A37530152B2A6C6B006DFE69 /* NativeLogin */ = {
 			isa = PBXGroup;
 			children = (
-				A375301B2B2A6CC8006DFE69 /* NativeLoginManagerInternal.swift */,
 				A3A146952B45E9D400902A82 /* NativeLoginManager.swift */,
+				A375301B2B2A6CC8006DFE69 /* NativeLoginManagerInternal.swift */,
 			);
 			name = NativeLogin;
 			sourceTree = "<group>";

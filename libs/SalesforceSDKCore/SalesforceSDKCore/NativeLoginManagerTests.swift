@@ -53,7 +53,35 @@ final class NativeLoginManagerTests: XCTestCase {
         XCTAssertEqual(.invalidPassword, result, "Should allow username.")
     }
     
-
+    func testUsernameValidationInSubmitOtpRequest() async {
+        var result = await nativeLoginManager.submitOtpRequest(
+            username: "",
+            reCaptchaToken: "",
+            otpVerificationMethod: .sms)
+        XCTAssertEqual(
+            .invalidUsername,
+            result.nativeLoginResult,
+            "Should not allow empty username.")
+        result = await nativeLoginManager.submitOtpRequest(
+            username: "test@c",
+            reCaptchaToken: "",
+            otpVerificationMethod: .sms)
+        XCTAssertEqual(
+            NativeLoginResult.invalidUsername,
+            result.nativeLoginResult,
+            "Should not allow invalid username.")
+        
+        // success
+        result = await nativeLoginManager.submitOtpRequest(
+            username: "test@c.co   ",
+            reCaptchaToken: "",
+            otpVerificationMethod: .sms)
+        XCTAssertEqual(
+            NativeLoginResult.unknownError,
+            result.nativeLoginResult,
+            "Should allow username.")
+    }
+    
     func testPasswordValidation() async {
         var result = await nativeLoginManager.login(username: "bpage@salesforce.com", password: "")
         XCTAssertEqual(.invalidPassword, result, "Should not allow invalid password.")
