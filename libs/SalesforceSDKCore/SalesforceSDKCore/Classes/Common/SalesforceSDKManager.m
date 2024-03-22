@@ -399,6 +399,10 @@ SFNativeLoginManagerInternal *nativeLogin;
 
 #pragma mark - Dev support methods
 
+- (void)setIsLoginWebviewInspectable:(BOOL)isLoginWebviewInspectable {
+    _isLoginWebviewInspectable = isLoginWebviewInspectable;
+}
+
 - (void)setIsDevSupportEnabled:(BOOL)isDevSupportEnabled {
     _isDevSupportEnabled = isDevSupportEnabled;
     if (self.isDevSupportEnabled) {
