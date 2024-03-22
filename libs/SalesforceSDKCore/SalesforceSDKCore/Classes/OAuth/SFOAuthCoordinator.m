@@ -324,6 +324,13 @@
         _view.clipsToBounds = YES;
         _view.translatesAutoresizingMaskIntoConstraints = NO;
         _view.customUserAgent = [SalesforceSDKManager sharedManager].userAgentString(@"");
+#ifdef DEBUG
+    #if TARGET_IPHONE_SIMULATOR
+        if (@available(iOS 16.4, *)) {
+            _view.inspectable = YES;
+        }
+    #endif
+#endif
         _view.UIDelegate = self;
     }
     return _view;
