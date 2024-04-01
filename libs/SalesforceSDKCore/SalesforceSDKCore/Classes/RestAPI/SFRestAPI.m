@@ -39,7 +39,7 @@
 #import "SFLoginViewController.h"
 #import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 
-NSString* const kSFRestDefaultAPIVersion = @"v59.0";
+NSString* const kSFRestDefaultAPIVersion = @"v60.0";
 NSString* const kSFRestIfUnmodifiedSince = @"If-Unmodified-Since";
 NSString* const kSFRestErrorDomain = @"com.salesforce.RestAPI.ErrorDomain";
 NSString* const kSFDefaultContentType = @"application/json";
