@@ -23,7 +23,7 @@
 def use_mobile_sdk!(options={})
   path = options[:path] ||= "./mobile_sdk/SalesforceMobileSDK-iOS"
 
-  pod 'FMDB', :git => 'https://github.com/ccgus/fmdb', :tag => '2.7.9'
+  pod 'FMDB', :git => 'https://github.com/ccgus/fmdb', :tag => '2.7.10'
   pod 'SalesforceSDKCommon', :path => path
   pod 'SalesforceAnalytics', :path => path
   pod 'SalesforceSDKCore', :path => path
