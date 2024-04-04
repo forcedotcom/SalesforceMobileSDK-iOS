@@ -186,14 +186,15 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
         return nil;
     }
     
-    NSError *decryptionError;
-    NSData *decryptedData = [SFSDKCryptoUtils decryptData:secretData key:privateKeyRef algorithm:kSecKeyAlgorithmRSAEncryptionOAEPSHA256 error:&decryptionError];
-    if (decryptionError) {
-        [SFSDKCoreLogger w:[self class] format:@"Decrypting secret with RSA OAEP failed, falling back to PKCS1: %@", decryptionError];
-        decryptedData = [SFSDKCryptoUtils decryptData:secretData key:privateKeyRef algorithm:kSecKeyAlgorithmRSAEncryptionPKCS1 error:&decryptionError];
+    NSError *oaepDecryptionError;
+    NSData *decryptedData = [SFSDKCryptoUtils decryptData:secretData key:privateKeyRef algorithm:kSecKeyAlgorithmRSAEncryptionOAEPSHA256 error:&oaepDecryptionError];
+    if (oaepDecryptionError) {
+        [SFSDKCoreLogger w:[self class] format:@"Decrypting secret with RSA OAEP failed, falling back to PKCS1: %@", oaepDecryptionError.localizedDescription];
         
-        if (decryptionError) {
-            [SFSDKCoreLogger e:[self class] format:@"Decrypting secret with RSA PKCS1 failed: %@", decryptionError];
+        NSError *pkcs1DecryptionError;
+        decryptedData = [SFSDKCryptoUtils decryptData:secretData key:privateKeyRef algorithm:kSecKeyAlgorithmRSAEncryptionPKCS1 error:&pkcs1DecryptionError];
+        if (pkcs1DecryptionError) {
+            [SFSDKCoreLogger e:[self class] format:@"Decrypting secret with RSA PKCS1 failed: %@", pkcs1DecryptionError.localizedDescription];
         }
     }
 
