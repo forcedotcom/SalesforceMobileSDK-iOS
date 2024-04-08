@@ -875,8 +875,8 @@ void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t b
 - (id <SFNativeLoginManager>)useNativeLoginWithConsumerKey:(nonnull NSString *)consumerKey
                                                callbackUrl:(nonnull NSString *)callbackUrl
                                               communityUrl:(nonnull NSString *)communityUrl
-                                        reCaptchaSiteKeyId:(NSString *)reCaptchaSiteKeyId
-                                      googleCloudProjectId:(NSString *)googleCloudProjectId
+                                        reCaptchaSiteKeyId:(nullable NSString *)reCaptchaSiteKeyId
+                                      googleCloudProjectId:(nullable NSString *)googleCloudProjectId
                                      isReCaptchaEnterprise:(BOOL)isReCaptchaEnterprise
                                  nativeLoginViewController:(nonnull UIViewController *)nativeLoginViewController
                                                      scene:(nullable UIScene *)scene {

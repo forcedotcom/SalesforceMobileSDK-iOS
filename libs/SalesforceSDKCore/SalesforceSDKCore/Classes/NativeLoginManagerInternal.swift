@@ -357,7 +357,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         // Generate the authorization.
         guard let authorization = generateColonConcatenatedBase64String(
             value1: otpIdentifier,
-            value2: otp) else
+            value2: trimmedOtp) else
         {
             SFSDKCoreLogger().e(
                 classForCoder,
