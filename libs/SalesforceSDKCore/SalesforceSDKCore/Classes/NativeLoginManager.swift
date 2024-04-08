@@ -81,7 +81,7 @@ public protocol NativeLoginManager {
     ///
     /// - Parameters:
     ///   - username: A valid Salesforce username.  Note that email may be used for community users
-    ///   - recaptchaToken: A reCAPTCHA token provided by the reCAPTCHA SDK
+    ///   - reCaptchaToken: A reCAPTCHA token provided by the reCAPTCHA SDK
     ///   - otpVerificationMethod: The delivery method for the OTP
     /// - Returns: An OTP request result with the overall login result and the OTP identifier for
     /// successful OTP requests

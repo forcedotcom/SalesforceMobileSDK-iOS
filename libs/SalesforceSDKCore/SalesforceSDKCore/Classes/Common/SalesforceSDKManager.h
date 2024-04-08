@@ -328,8 +328,8 @@ NS_SWIFT_NAME(SalesforceManager)
 - (id <SFNativeLoginManager>)useNativeLoginWithConsumerKey:(nonnull NSString *)consumerKey
                                                callbackUrl:(nonnull NSString *)callbackUrl
                                               communityUrl:(nonnull NSString *)communityUrl
-                                        reCaptchaSiteKeyId:(NSString *)reCaptchaSiteKeyId
-                                      googleCloudProjectId:(NSString *)googleCloudProjectId
+                                        reCaptchaSiteKeyId:(nullable NSString *)reCaptchaSiteKeyId
+                                      googleCloudProjectId:(nullable NSString *)googleCloudProjectId
                                      isReCaptchaEnterprise:(BOOL)isReCaptchaEnterprise
                                  nativeLoginViewController:(nonnull UIViewController *)nativeLoginViewController
                                                      scene:(nullable UIScene *)scene;
