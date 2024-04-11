@@ -505,10 +505,10 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
                 // Decode the authorization response.
                 let authorizationResponseBody = try successfulResponse.asDecodable(
                     type: AuthorizationResponseBody.self)
-                let grantType = (SalesforceManager.shared.useHybridAuthentication) ? kSFOAuthGrantTypeHybridAuthorizationCode : kSFOAuthGrantTypeAuthorizationCode
+                let grantType = (SalesforceManager.shared.useHybridAuthentication) ? kSFOAuthGrantTypeHybridAuthorizationCode: kSFOAuthGrantTypeAuthorizationCode
                 
                 // Generate the access token request body.
-                let tokenRequestBody = "\(kSFOAuthResponseTypeCode)onResponseBody.code)&\(kSFOAuthGrantType)=\(grantType)&\(kSFOAuthClientId)=\(clientId)&\(kSFOAuthRedirectUri)=\(redirectUri)&\(kSFOAuthCodeVerifierParamName)=\(codeVerifier)"
+                let tokenRequestBody = "\(kSFOAuthResponseTypeCode)=\(authorizationResponseBody.code)&\(kSFOAuthGrantType)=\(grantType)&\(kSFOAuthClientId)=\(clientId)&\(kSFOAuthRedirectUri)=\(redirectUri)&\(kSFOAuthCodeVerifierParamName)=\(codeVerifier)"
                 
                 // Create the access token request.
                 let tokenRequest = RestRequest(
