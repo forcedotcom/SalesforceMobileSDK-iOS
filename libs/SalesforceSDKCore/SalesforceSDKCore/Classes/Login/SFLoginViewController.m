@@ -46,6 +46,7 @@
 @interface SFLoginViewController () <SFSDKLoginHostDelegate, SFUserAccountManagerDelegate>
 
 @property (nonatomic, strong) UINavigationBar *navBar;
+@property (nonatomic, strong, nullable) UIButton *biometricButton;
 
 // Reference to previous user account
 @property (nonatomic, strong) SFUserAccount *previousUserAccount;
@@ -72,14 +73,25 @@
     self.view.autoresizesSubviews = YES;
     self.view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     self.view.clipsToBounds = YES;
-    if(self.showNavbar){
+    if (self.showNavbar){
         [self setupNavigationBar];
     } else {
         self.navigationController.navigationBarHidden = YES;
     }
-    [self layoutWebView];
     
+    [self.view addSubview:_oauthView];
+
     SFBiometricAuthenticationManagerInternal *bioAuthManager = [SFBiometricAuthenticationManagerInternal shared];
+    BOOL showBioAuthButton = [bioAuthManager showNativeLoginButton];
+
+    if (showBioAuthButton) {
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        [button setTitle:[SFSDKResourceUtils localizedString:@"biometricLoginButton"] forState:UIControlStateNormal];
+        [button addTarget:self action:@selector(presentBioAuthAction:) forControlEvents:UIControlEventTouchUpInside];
+        self.biometricButton = button;
+        [self.view addSubview:self.biometricButton];
+    }
+    
     if (bioAuthManager.locked && bioAuthManager.hasBiometricOptedIn) {
         [bioAuthManager presentBiometricWithScene:self.view.window.windowScene];
     }
@@ -89,8 +101,21 @@
     return frame.origin.y + frame.size.height;
 }
 
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
+- (void)viewWillLayoutSubviews {
+    CGFloat heightOffsetMultiplier = _biometricButton ? 0.9 : 1.0;
+    CGFloat bottomOffset = _biometricButton ? self.view.safeAreaInsets.bottom : 0;
+    
+    // Web view
+    CGFloat x = 0;
+    CGFloat y = [self belowFrame:self.navBar.frame];
+    CGFloat w = self.view.bounds.size.width;
+    CGFloat h = ((self.view.bounds.size.height - y) * heightOffsetMultiplier) - bottomOffset;
+    self.oauthView.frame = CGRectMake(x, y, w, h);
+    
+    // Biometric button
+    h = (self.view.bounds.size.height - y) * 0.1;
+    y = self.view.bounds.size.height - h - bottomOffset;
+    _biometricButton.frame = CGRectMake(x, y, w, h);
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -269,34 +294,6 @@
     return UIInterfaceOrientationMaskAll;
 }
 
-- (void)layoutWebView {
-    if (nil != _oauthView) {
-        SFBiometricAuthenticationManagerInternal *bioAuthManager = [SFBiometricAuthenticationManagerInternal shared];
-        BOOL showBioAuthButton = [bioAuthManager showNativeLoginButton];
-        CGFloat heightOffset = showBioAuthButton ? 0.9 : 1.0;
-        
-        [_oauthView removeFromSuperview];
-        CGFloat x = 0;
-        CGFloat y = [self belowFrame:self.navBar.frame];
-        CGFloat w = self.view.bounds.size.width;
-        CGFloat h = (self.view.bounds.size.height - y) * heightOffset;
-        self.oauthView.frame = CGRectMake(x, y, w, h);
-        [self.view addSubview:_oauthView];
-        
-        if (showBioAuthButton) {
-            UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-            [button setTitle:[SFSDKResourceUtils localizedString:@"biometricLoginButton"] forState:UIControlStateNormal];
-            x = 0;
-            y = (self.view.bounds.size.height - y);
-            w = self.view.bounds.size.width;
-            h = ((self.view.bounds.size.height - y) * 0.1);
-            button.frame = CGRectMake(x, y, w, h);
-            [button addTarget:self action:@selector(presentBioAuthAction:) forControlEvents:UIControlEventTouchUpInside];
-            [self.view addSubview:button];
-        }
-    }
-}
-
 #pragma mark - Action Methods
 
 - (IBAction)presentBioAuthAction:(id)sender {
@@ -403,8 +400,4 @@
         self.previousUserAccount = fromUser;
 }
 
-
-
-
 @end
-
