@@ -97,13 +97,17 @@
     }
 }
 
+- (CGFloat) belowFrame:(CGRect) frame {
+    return frame.origin.y + frame.size.height;
+}
+
 - (void)viewWillLayoutSubviews {
     CGFloat heightOffsetMultiplier = _biometricButton ? 0.9 : 1.0;
     CGFloat bottomOffset = _biometricButton ? self.view.safeAreaInsets.bottom : 0;
     
     // Web view
     CGFloat x = 0;
-    CGFloat y = self.view.safeAreaInsets.top;
+    CGFloat y = [self belowFrame:self.navBar.frame];
     CGFloat w = self.view.bounds.size.width;
     CGFloat h = ((self.view.bounds.size.height - y) * heightOffsetMultiplier) - bottomOffset;
     self.oauthView.frame = CGRectMake(x, y, w, h);
