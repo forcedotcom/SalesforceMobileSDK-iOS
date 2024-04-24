@@ -212,7 +212,7 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
             [[db executeQuery:@"PRAGMA cipher_plaintext_header_size = 32"] close];
             NSString *pragma = [NSString stringWithFormat:@"PRAGMA cipher_salt = \"x'%@'\"",salt];
             [[db executeQuery:pragma] close];
-            sqlite3_exec(db.sqliteHandle, "PRAGMA journal_mode = WAL;",0,0,0);
+            [[db executeQuery:@"PRAGMA journal_mode = WAL"] close];
         }
     }
 
