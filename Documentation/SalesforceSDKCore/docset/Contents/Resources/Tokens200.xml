@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSPLoginError.html">
+	<File path="Constants/SFUserAccountLoginState.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSPLoginError</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFUserAccountLoginState</TokenIdentifier>
+			<Abstract type="html">Enumeration of the potential login states of the user account.</Abstract>
+			<DeclaredIn>SFUserAccount.h</DeclaredIn>
             
 			
 			<NodeRef refid="200"/>
@@ -14,41 +14,34 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSPLoginErrorNoScheme</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSPLoginErrorNoScheme</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountLoginStateNotLoggedIn</TokenIdentifier>
+            <Abstract type="html">     User account is not logged in.
+     </Abstract>
+            <Declaration>SFUserAccountLoginStateNotLoggedIn</Declaration>
             
-            <DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-            
-            <NodeRef refid="200"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSPLoginErrorNoUserIdentity</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSPLoginErrorNoUserIdentity</Declaration>
-            
-            <DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+            <DeclaredIn>SFUserAccount.h</DeclaredIn>
             
             <NodeRef refid="200"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSPLoginErrorKeychainWriteFailed</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSPLoginErrorKeychainWriteFailed</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountLoginStateLoggedIn</TokenIdentifier>
+            <Abstract type="html">     User account is logged in.
+     </Abstract>
+            <Declaration>SFUserAccountLoginStateLoggedIn</Declaration>
             
-            <DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+            <DeclaredIn>SFUserAccount.h</DeclaredIn>
             
             <NodeRef refid="200"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSPLoginErrorCredentialRefreshFailed</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSPLoginErrorCredentialRefreshFailed</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountLoginStateLoggingOut</TokenIdentifier>
+            <Abstract type="html">     User account is in the process of logging out.
+     </Abstract>
+            <Declaration>SFUserAccountLoginStateLoggingOut</Declaration>
             
-            <DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+            <DeclaredIn>SFUserAccount.h</DeclaredIn>
             
             <NodeRef refid="200"/>
         </Token>

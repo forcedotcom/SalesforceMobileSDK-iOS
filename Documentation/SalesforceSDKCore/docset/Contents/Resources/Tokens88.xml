@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKLoginHostListViewController.html">
+	<File path="Classes/SFSDKLoginViewControllerConfig.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKLoginHostListViewController</TokenIdentifier>
-			<Abstract type="html">Displays a list of hosts that can be used for login.
-A customer can either add a new host or select an existing host to reload the login web page.</Abstract>
-			<DeclaredIn>SFSDKLoginHostListViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKLoginViewControllerConfig</TokenIdentifier>
+			<Abstract type="html">Block typedef for setting up a custom SFLoginViewController.</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
             
 			
 			<NodeRef refid="88"/>
@@ -14,11 +13,47 @@ A customer can either add a new host or select an existing host to reload the lo
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostListViewController/setDelegate:</TokenIdentifier>
-			<Abstract type="html">Delegate object of the host list view controller.</Abstract>
-			<DeclaredIn>SFSDKLoginHostListViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/set:</TokenIdentifier>
+			<Abstract type="html">Specify visibility of nav bar. This property will be used to hide/show the nav bar</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKLoginHostDelegate&gt; delegate</Declaration>
+			<Declaration>@property (nonatomic) BOOL showNavbar NS_SWIFT_NAME ( showsNavigationBar )</Declaration>
+			
+			
+			<Anchor>//api/name/)</Anchor>
+            <NodeRef refid="88"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/)</TokenIdentifier>
+			<Abstract type="html">Specify visibility of nav bar. This property will be used to hide/show the nav bar</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL showNavbar NS_SWIFT_NAME ( showsNavigationBar )</Declaration>
+			
+			
+			<Anchor>//api/name/)</Anchor>
+            <NodeRef refid="88"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginViewControllerConfig/)</TokenIdentifier>
+			<Abstract type="html">Specify visibility of nav bar. This property will be used to hide/show the nav bar</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL showNavbar NS_SWIFT_NAME ( showsNavigationBar )</Declaration>
+			
+			
+			<Anchor>//api/name/)</Anchor>
+            <NodeRef refid="88"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/setDelegate:</TokenIdentifier>
+			<Abstract type="html">Specifiy a delegate for LoginViewController.</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak, nullable) id&lt;SFLoginViewControllerDelegate&gt; delegate</Declaration>
 			
 			
 			<Anchor>//api/name/delegate</Anchor>
@@ -26,23 +61,11 @@ A customer can either add a new host or select an existing host to reload the lo
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostListViewController/delegate</TokenIdentifier>
-			<Abstract type="html">Delegate object of the host list view controller.</Abstract>
-			<DeclaredIn>SFSDKLoginHostListViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/delegate</TokenIdentifier>
+			<Abstract type="html">Specifiy a delegate for LoginViewController.</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKLoginHostDelegate&gt; delegate</Declaration>
-			
-			
-			<Anchor>//api/name/delegate</Anchor>
-            <NodeRef refid="88"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginHostListViewController/delegate</TokenIdentifier>
-			<Abstract type="html">Delegate object of the host list view controller.</Abstract>
-			<DeclaredIn>SFSDKLoginHostListViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKLoginHostDelegate&gt; delegate</Declaration>
+			<Declaration>@property (nonatomic, weak, nullable) id&lt;SFLoginViewControllerDelegate&gt; delegate</Declaration>
 			
 			
 			<Anchor>//api/name/delegate</Anchor>
@@ -50,122 +73,50 @@ A customer can either add a new host or select an existing host to reload the lo
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostListViewController/setHidesCancelButton:</TokenIdentifier>
-			<Abstract type="html">Hides the Cancel button if it exists. If you&apos;ve used a navigation controller
-to present this view controller, a Cancel button is automatically added to
-the left bar button item.</Abstract>
-			<DeclaredIn>SFSDKLoginHostListViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginViewControllerConfig/delegate</TokenIdentifier>
+			<Abstract type="html">Specifiy a delegate for LoginViewController.</Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL hidesCancelButton</Declaration>
+			<Declaration>@property (nonatomic, weak, nullable) id&lt;SFLoginViewControllerDelegate&gt; delegate</Declaration>
 			
 			
-			<Anchor>//api/name/hidesCancelButton</Anchor>
+			<Anchor>//api/name/delegate</Anchor>
             <NodeRef refid="88"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostListViewController/hidesCancelButton</TokenIdentifier>
-			<Abstract type="html">Hides the Cancel button if it exists. If you&apos;ve used a navigation controller
-to present this view controller, a Cancel button is automatically added to
-the left bar button item.</Abstract>
-			<DeclaredIn>SFSDKLoginHostListViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/setLoginViewControllerCreationBlock:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL hidesCancelButton</Declaration>
+			<Declaration>@property (nonatomic, copy, nullable) SFLoginViewControllerCreationBlock loginViewControllerCreationBlock</Declaration>
 			
 			
-			<Anchor>//api/name/hidesCancelButton</Anchor>
+			<Anchor>//api/name/loginViewControllerCreationBlock</Anchor>
             <NodeRef refid="88"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginHostListViewController/hidesCancelButton</TokenIdentifier>
-			<Abstract type="html">Hides the Cancel button if it exists. If you&apos;ve used a navigation controller
-to present this view controller, a Cancel button is automatically added to
-the left bar button item.</Abstract>
-			<DeclaredIn>SFSDKLoginHostListViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginViewControllerConfig/loginViewControllerCreationBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL hidesCancelButton</Declaration>
+			<Declaration>@property (nonatomic, copy, nullable) SFLoginViewControllerCreationBlock loginViewControllerCreationBlock</Declaration>
 			
 			
-			<Anchor>//api/name/hidesCancelButton</Anchor>
+			<Anchor>//api/name/loginViewControllerCreationBlock</Anchor>
             <NodeRef refid="88"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostListViewController/setHidesAddButton:</TokenIdentifier>
-			<Abstract type="html">Hides the Add button if it exists.  Enables the adding of hosts to the host list.</Abstract>
-			<DeclaredIn>SFSDKLoginHostListViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginViewControllerConfig/loginViewControllerCreationBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKLoginViewControllerConfig.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL hidesAddButton</Declaration>
-			
-			
-			<Anchor>//api/name/hidesAddButton</Anchor>
-            <NodeRef refid="88"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostListViewController/hidesAddButton</TokenIdentifier>
-			<Abstract type="html">Hides the Add button if it exists.  Enables the adding of hosts to the host list.</Abstract>
-			<DeclaredIn>SFSDKLoginHostListViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL hidesAddButton</Declaration>
+			<Declaration>@property (nonatomic, copy, nullable) SFLoginViewControllerCreationBlock loginViewControllerCreationBlock</Declaration>
 			
 			
-			<Anchor>//api/name/hidesAddButton</Anchor>
-            <NodeRef refid="88"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginHostListViewController/hidesAddButton</TokenIdentifier>
-			<Abstract type="html">Hides the Add button if it exists.  Enables the adding of hosts to the host list.</Abstract>
-			<DeclaredIn>SFSDKLoginHostListViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL hidesAddButton</Declaration>
-			
-			
-			<Anchor>//api/name/hidesAddButton</Anchor>
-            <NodeRef refid="88"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostListViewController/addLoginHost:</TokenIdentifier>
-			<Abstract type="html">Adds a new login host. Also updates the underlying storage and refreshes
-the list of login hosts.</Abstract>
-			<DeclaredIn>SFSDKLoginHostListViewController.h</DeclaredIn>
-			
-	<RelatedTokens>
-		<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostListViewController/showAddLoginHost</TokenIdentifier>
-		
-	</RelatedTokens>
-	
-			<Declaration>- (void)addLoginHost:(SFSDKLoginHost *)host</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>host</Name>
-					<Abstract type="html">Login host to be added.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/addLoginHost:</Anchor>
-            <NodeRef refid="88"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostListViewController/showAddLoginHost</TokenIdentifier>
-			<Abstract type="html">Displays a view for adding a new login host.
-If you&apos;ve used a navigation controller to present this view controller,
-an add button is automatically added to the right bar button item.</Abstract>
-			<DeclaredIn>SFSDKLoginHostListViewController.h</DeclaredIn>
-			
-	<RelatedTokens>
-		<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostListViewController/addLoginHost:</TokenIdentifier>
-		
-	</RelatedTokens>
-	
-			<Declaration>- (void)showAddLoginHost</Declaration>
-			
-			
-			<Anchor>//api/name/showAddLoginHost</Anchor>
+			<Anchor>//api/name/loginViewControllerCreationBlock</Anchor>
             <NodeRef refid="88"/>
 		</Token>
 		

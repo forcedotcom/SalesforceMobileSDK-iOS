@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKTestRequestListener.html">
+	<File path="Classes/SFSDKUITableViewCell.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKTestRequestListener</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKUITableViewCell</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
             
 			
 			<NodeRef refid="118"/>
@@ -13,159 +13,218 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/setDataResponse:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/setUserName:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
 			
-			<Declaration>@property (nullable, nonatomic, retain) id dataResponse</Declaration>
+			<Declaration>@property (nonatomic, assign) NSString *userName</Declaration>
 			
 			
-			<Anchor>//api/name/dataResponse</Anchor>
+			<Anchor>//api/name/userName</Anchor>
             <NodeRef refid="118"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/dataResponse</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/userName</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
 			
-			<Declaration>@property (nullable, nonatomic, retain) id dataResponse</Declaration>
+			<Declaration>@property (nonatomic, assign) NSString *userName</Declaration>
 			
 			
-			<Anchor>//api/name/dataResponse</Anchor>
+			<Anchor>//api/name/userName</Anchor>
             <NodeRef refid="118"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestRequestListener/dataResponse</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUITableViewCell/userName</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
 			
-			<Declaration>@property (nullable, nonatomic, retain) id dataResponse</Declaration>
+			<Declaration>@property (nonatomic, assign) NSString *userName</Declaration>
 			
 			
-			<Anchor>//api/name/dataResponse</Anchor>
+			<Anchor>//api/name/userName</Anchor>
             <NodeRef refid="118"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/setLastError:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/setHostName:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
 			
-			<Declaration>@property (nullable, nonatomic, retain) NSError *lastError</Declaration>
+			<Declaration>@property (nonatomic, assign) NSString *hostName</Declaration>
 			
 			
-			<Anchor>//api/name/lastError</Anchor>
+			<Anchor>//api/name/hostName</Anchor>
             <NodeRef refid="118"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/lastError</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/hostName</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
 			
-			<Declaration>@property (nullable, nonatomic, retain) NSError *lastError</Declaration>
+			<Declaration>@property (nonatomic, assign) NSString *hostName</Declaration>
 			
 			
-			<Anchor>//api/name/lastError</Anchor>
+			<Anchor>//api/name/hostName</Anchor>
             <NodeRef refid="118"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestRequestListener/lastError</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUITableViewCell/hostName</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
 			
-			<Declaration>@property (nullable, nonatomic, retain) NSError *lastError</Declaration>
+			<Declaration>@property (nonatomic, assign) NSString *hostName</Declaration>
 			
 			
-			<Anchor>//api/name/lastError</Anchor>
+			<Anchor>//api/name/hostName</Anchor>
             <NodeRef refid="118"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/setReturnStatus:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/setImageURL:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
 			
-			<Declaration>@property (nullable, nonatomic, retain) NSString *returnStatus</Declaration>
+			<Declaration>@property (nonatomic, assign) NSURL *imageURL</Declaration>
 			
 			
-			<Anchor>//api/name/returnStatus</Anchor>
+			<Anchor>//api/name/imageURL</Anchor>
             <NodeRef refid="118"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/returnStatus</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/imageURL</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
 			
-			<Declaration>@property (nullable, nonatomic, retain) NSString *returnStatus</Declaration>
+			<Declaration>@property (nonatomic, assign) NSURL *imageURL</Declaration>
 			
 			
-			<Anchor>//api/name/returnStatus</Anchor>
+			<Anchor>//api/name/imageURL</Anchor>
             <NodeRef refid="118"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestRequestListener/returnStatus</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUITableViewCell/imageURL</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
 			
-			<Declaration>@property (nullable, nonatomic, retain) NSString *returnStatus</Declaration>
+			<Declaration>@property (nonatomic, assign) NSURL *imageURL</Declaration>
 			
 			
-			<Anchor>//api/name/returnStatus</Anchor>
+			<Anchor>//api/name/imageURL</Anchor>
             <NodeRef refid="118"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/setMaxWaitTime:</TokenIdentifier>
-			<Abstract type="html">Max time to wait for request completion</Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/setProfileImage:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSTimeInterval maxWaitTime</Declaration>
+			<Declaration>@property (strong, nonatomic) UIImage *profileImage</Declaration>
 			
 			
-			<Anchor>//api/name/maxWaitTime</Anchor>
+			<Anchor>//api/name/profileImage</Anchor>
             <NodeRef refid="118"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/maxWaitTime</TokenIdentifier>
-			<Abstract type="html">Max time to wait for request completion</Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/profileImage</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSTimeInterval maxWaitTime</Declaration>
+			<Declaration>@property (strong, nonatomic) UIImage *profileImage</Declaration>
 			
 			
-			<Anchor>//api/name/maxWaitTime</Anchor>
+			<Anchor>//api/name/profileImage</Anchor>
             <NodeRef refid="118"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestRequestListener/maxWaitTime</TokenIdentifier>
-			<Abstract type="html">Max time to wait for request completion</Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUITableViewCell/profileImage</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSTimeInterval maxWaitTime</Declaration>
+			<Declaration>@property (strong, nonatomic) UIImage *profileImage</Declaration>
 			
 			
-			<Anchor>//api/name/maxWaitTime</Anchor>
+			<Anchor>//api/name/profileImage</Anchor>
             <NodeRef refid="118"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestRequestListener/waitForCompletion</TokenIdentifier>
-			<Abstract type="html">Wait for the request to complete (success or fail)
-Waits for up to maxWaitTime.</Abstract>
-			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/setReuseCellIdentifier:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)waitForCompletion</Declaration>
+			<Declaration>@property (class, nonatomic, readonly) NSString *reuseCellIdentifier</Declaration>
 			
-			<ReturnValue><Abstract type="html">returnStatus:  kTestRequestStatusDidTimeout if maxWaitTime was exceeded</Abstract></ReturnValue>
-			<Anchor>//api/name/waitForCompletion</Anchor>
+			
+			<Anchor>//api/name/reuseCellIdentifier</Anchor>
+            <NodeRef refid="118"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/reuseCellIdentifier</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) NSString *reuseCellIdentifier</Declaration>
+			
+			
+			<Anchor>//api/name/reuseCellIdentifier</Anchor>
+            <NodeRef refid="118"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUITableViewCell/reuseCellIdentifier</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) NSString *reuseCellIdentifier</Declaration>
+			
+			
+			<Anchor>//api/name/reuseCellIdentifier</Anchor>
+            <NodeRef refid="118"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/setCellHeight:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) CGFloat cellHeight</Declaration>
+			
+			
+			<Anchor>//api/name/cellHeight</Anchor>
+            <NodeRef refid="118"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUITableViewCell/cellHeight</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) CGFloat cellHeight</Declaration>
+			
+			
+			<Anchor>//api/name/cellHeight</Anchor>
+            <NodeRef refid="118"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUITableViewCell/cellHeight</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUITableViewCell.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) CGFloat cellHeight</Declaration>
+			
+			
+			<Anchor>//api/name/cellHeight</Anchor>
             <NodeRef refid="118"/>
 		</Token>
 		

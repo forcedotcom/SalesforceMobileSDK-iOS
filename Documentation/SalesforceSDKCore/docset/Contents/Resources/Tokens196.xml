@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSDKNetworkServiceType.html">
+	<File path="Constants/SFURLCacheType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSDKNetworkServiceType</TokenIdentifier>
-			<Abstract type="html">HTTP methods for requests.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFURLCacheType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="196"/>
@@ -14,31 +14,31 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFNetworkServiceTypeDefault</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/kSFURLCacheTypeEncrypted</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFNetworkServiceTypeDefault</Declaration>
+            <Declaration>kSFURLCacheTypeEncrypted</Declaration>
             
-            <DeclaredIn>SFRestRequest.h</DeclaredIn>
+            <DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
             
             <NodeRef refid="196"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFNetworkServiceTypeResponsiveData</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/kSFURLCacheTypeNull</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFNetworkServiceTypeResponsiveData</Declaration>
+            <Declaration>kSFURLCacheTypeNull</Declaration>
             
-            <DeclaredIn>SFRestRequest.h</DeclaredIn>
+            <DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
             
             <NodeRef refid="196"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFNetworkServiceTypeBackground</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/kSFURLCacheTypeStandard</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFNetworkServiceTypeBackground</Declaration>
+            <Declaration>kSFURLCacheTypeStandard</Declaration>
             
-            <DeclaredIn>SFRestRequest.h</DeclaredIn>
+            <DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
             
             <NodeRef refid="196"/>
         </Token>

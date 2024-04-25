@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKTextFieldTableViewCell.html">
+	<File path="Classes/SFSDKUIWindow.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKTextFieldTableViewCell</TokenIdentifier>
-			<Abstract type="html">A custom UITableViewCell which contains a UITextField for inserting and editing text.</Abstract>
-			<DeclaredIn>SFSDKTextFieldTableViewCell.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKUIWindow</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="119"/>
@@ -13,38 +13,98 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTextFieldTableViewCell/setTextField:</TokenIdentifier>
-			<Abstract type="html">Text field for inserting and editing text.</Abstract>
-			<DeclaredIn>SFSDKTextFieldTableViewCell.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUIWindow/initWithFrame:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) UITextField *textField</Declaration>
+			<Declaration>- (instancetype _Nonnull)initWithFrame:(CGRect)frame</Declaration>
 			
 			
-			<Anchor>//api/name/textField</Anchor>
+			<Anchor>//api/name/initWithFrame:</Anchor>
             <NodeRef refid="119"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTextFieldTableViewCell/textField</TokenIdentifier>
-			<Abstract type="html">Text field for inserting and editing text.</Abstract>
-			<DeclaredIn>SFSDKTextFieldTableViewCell.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUIWindow/initWithFrame:andName:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) UITextField *textField</Declaration>
+			<Declaration>- (instancetype _Nonnull)initWithFrame:(CGRect)frame andName:(NSString *_Nonnull)windowName</Declaration>
 			
 			
-			<Anchor>//api/name/textField</Anchor>
+			<Anchor>//api/name/initWithFrame:andName:</Anchor>
             <NodeRef refid="119"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTextFieldTableViewCell/textField</TokenIdentifier>
-			<Abstract type="html">Text field for inserting and editing text.</Abstract>
-			<DeclaredIn>SFSDKTextFieldTableViewCell.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUIWindow/setStashedController:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) UITextField *textField</Declaration>
+			<Declaration>@property (nonatomic, strong) UIViewController *stashedController</Declaration>
 			
 			
-			<Anchor>//api/name/textField</Anchor>
+			<Anchor>//api/name/stashedController</Anchor>
+            <NodeRef refid="119"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUIWindow/stashedController</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UIViewController *stashedController</Declaration>
+			
+			
+			<Anchor>//api/name/stashedController</Anchor>
+            <NodeRef refid="119"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUIWindow/stashedController</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UIViewController *stashedController</Declaration>
+			
+			
+			<Anchor>//api/name/stashedController</Anchor>
+            <NodeRef refid="119"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUIWindow/setWindowName:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *windowName</Declaration>
+			
+			
+			<Anchor>//api/name/windowName</Anchor>
+            <NodeRef refid="119"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUIWindow/windowName</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *windowName</Declaration>
+			
+			
+			<Anchor>//api/name/windowName</Anchor>
+            <NodeRef refid="119"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUIWindow/windowName</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *windowName</Declaration>
+			
+			
+			<Anchor>//api/name/windowName</Anchor>
             <NodeRef refid="119"/>
 		</Token>
 		

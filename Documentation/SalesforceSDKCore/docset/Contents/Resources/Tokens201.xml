@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSPLoginStatus.html">
+	<File path="Constants/SFUserAccountScope.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSPLoginStatus</TokenIdentifier>
-			<Abstract type="html">  Key used to provide triggering scene info for IDP flow from a scene delegate.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFUserAccountScope</TokenIdentifier>
+			<Abstract type="html">The various scopes related to a user account</Abstract>
+			<DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
 			
 			<NodeRef refid="201"/>
@@ -14,31 +14,45 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSPLoginStatusLaunchingSPWithUserHint</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSPLoginStatusLaunchingSPWithUserHint</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountScopeGlobal</TokenIdentifier>
+            <Abstract type="html">Global scope (one per application)
+     </Abstract>
+            <Declaration>SFUserAccountScopeGlobal</Declaration>
             
-            <DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-            
-            <NodeRef refid="201"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSPLoginStatusCodeVerifierStoredInKeychain</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSPLoginStatusCodeVerifierStoredInKeychain</Declaration>
-            
-            <DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
             <NodeRef refid="201"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSPLoginStatusGettingAuthCodeFromServer</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSPLoginStatusGettingAuthCodeFromServer</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountScopeOrg</TokenIdentifier>
+            <Abstract type="html">Scope by organization
+     </Abstract>
+            <Declaration>SFUserAccountScopeOrg</Declaration>
             
-            <DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountScopeUser</TokenIdentifier>
+            <Abstract type="html">Scope by user
+     </Abstract>
+            <Declaration>SFUserAccountScopeUser</Declaration>
+            
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountScopeCommunity</TokenIdentifier>
+            <Abstract type="html">Scope by community
+     </Abstract>
+            <Declaration>SFUserAccountScopeCommunity</Declaration>
+            
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
             <NodeRef refid="201"/>
         </Token>

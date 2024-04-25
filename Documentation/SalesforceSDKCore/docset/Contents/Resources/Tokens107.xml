@@ -1,16 +1,124 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKRootController.html">
+	<File path="Classes/SFSDKSPLoginResponseCommand.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKRootController</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKSPLoginResponseCommand</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKRootController.h</DeclaredIn>
+			<DeclaredIn>SFSDKSPLoginResponseCommand.h</DeclaredIn>
             
 			
 			<NodeRef refid="107"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSPLoginResponseCommand/setState:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKSPLoginResponseCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *state</Declaration>
+			
+			
+			<Anchor>//api/name/state</Anchor>
+            <NodeRef refid="107"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSPLoginResponseCommand/state</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKSPLoginResponseCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *state</Declaration>
+			
+			
+			<Anchor>//api/name/state</Anchor>
+            <NodeRef refid="107"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKSPLoginResponseCommand/state</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKSPLoginResponseCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *state</Declaration>
+			
+			
+			<Anchor>//api/name/state</Anchor>
+            <NodeRef refid="107"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSPLoginResponseCommand/setAuthCode:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKSPLoginResponseCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *authCode</Declaration>
+			
+			
+			<Anchor>//api/name/authCode</Anchor>
+            <NodeRef refid="107"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSPLoginResponseCommand/authCode</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKSPLoginResponseCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *authCode</Declaration>
+			
+			
+			<Anchor>//api/name/authCode</Anchor>
+            <NodeRef refid="107"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKSPLoginResponseCommand/authCode</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKSPLoginResponseCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *authCode</Declaration>
+			
+			
+			<Anchor>//api/name/authCode</Anchor>
+            <NodeRef refid="107"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSPLoginResponseCommand/setDomain:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKSPLoginResponseCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *domain</Declaration>
+			
+			
+			<Anchor>//api/name/domain</Anchor>
+            <NodeRef refid="107"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSPLoginResponseCommand/domain</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKSPLoginResponseCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *domain</Declaration>
+			
+			
+			<Anchor>//api/name/domain</Anchor>
+            <NodeRef refid="107"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKSPLoginResponseCommand/domain</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKSPLoginResponseCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *domain</Declaration>
+			
+			
+			<Anchor>//api/name/domain</Anchor>
+            <NodeRef refid="107"/>
+		</Token>
 		
         
         

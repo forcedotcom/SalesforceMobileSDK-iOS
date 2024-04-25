@@ -1,16 +1,125 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKNullURLCache.html">
+	<File path="Classes/SFSDKOAuthTokenEndpointErrorResponse.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKNullURLCache</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKNullURLCache.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKOAuthTokenEndpointErrorResponse</TokenIdentifier>
+			<Abstract type="html">@enum SFOAuthErrorDomain related error codes
+Constants used by SFOAuthCoordinator to indicate errors in the SFOAuth domain</Abstract>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
             
 			
 			<NodeRef refid="95"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthTokenEndpointErrorResponse/setTokenEndpointErrorCode:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *tokenEndpointErrorCode</Declaration>
+			
+			
+			<Anchor>//api/name/tokenEndpointErrorCode</Anchor>
+            <NodeRef refid="95"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthTokenEndpointErrorResponse/tokenEndpointErrorCode</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *tokenEndpointErrorCode</Declaration>
+			
+			
+			<Anchor>//api/name/tokenEndpointErrorCode</Anchor>
+            <NodeRef refid="95"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKOAuthTokenEndpointErrorResponse/tokenEndpointErrorCode</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *tokenEndpointErrorCode</Declaration>
+			
+			
+			<Anchor>//api/name/tokenEndpointErrorCode</Anchor>
+            <NodeRef refid="95"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthTokenEndpointErrorResponse/setTokenEndpointErrorDescription:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *tokenEndpointErrorDescription</Declaration>
+			
+			
+			<Anchor>//api/name/tokenEndpointErrorDescription</Anchor>
+            <NodeRef refid="95"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthTokenEndpointErrorResponse/tokenEndpointErrorDescription</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *tokenEndpointErrorDescription</Declaration>
+			
+			
+			<Anchor>//api/name/tokenEndpointErrorDescription</Anchor>
+            <NodeRef refid="95"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKOAuthTokenEndpointErrorResponse/tokenEndpointErrorDescription</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *tokenEndpointErrorDescription</Declaration>
+			
+			
+			<Anchor>//api/name/tokenEndpointErrorDescription</Anchor>
+            <NodeRef refid="95"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthTokenEndpointErrorResponse/setError:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSError *error</Declaration>
+			
+			
+			<Anchor>//api/name/error</Anchor>
+            <NodeRef refid="95"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuthTokenEndpointErrorResponse/error</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSError *error</Declaration>
+			
+			
+			<Anchor>//api/name/error</Anchor>
+            <NodeRef refid="95"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKOAuthTokenEndpointErrorResponse/error</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSError *error</Declaration>
+			
+			
+			<Anchor>//api/name/error</Anchor>
+            <NodeRef refid="95"/>
+		</Token>
 		
         
         

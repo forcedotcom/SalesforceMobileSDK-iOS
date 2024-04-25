@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSDKLoginFlowSelectionViewDelegate.html">
+	<File path="Protocols/SFSDKUserSelectionTableViewControllerDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSDKLoginFlowSelectionViewDelegate</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSDKUserSelectionTableViewControllerDelegate</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKLoginFlowSelectionView.h</DeclaredIn>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
             
 			
 			<NodeRef refid="172"/>
@@ -13,42 +13,38 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKLoginFlowSelectionViewDelegate/loginFlowSelectionIDPSelected:options:</TokenIdentifier>
-			<Abstract type="html">Used to notify the SDK of user selection on the login flow selection view</Abstract>
-			<DeclaredIn>SFSDKLoginFlowSelectionView.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionTableViewControllerDelegate/createNewuser:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
 			
-			<Declaration>- (void)loginFlowSelectionIDPSelected:(UIViewController *)controller options:(NSDictionary *)appOptions</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>controller</Name>
-					<Abstract type="html">instance invoking this delegate</Abstract>
-				</Parameter><Parameter>
-					<Name>appOptions</Name>
-					<Abstract type="html">addl. name value pairs sent from the sdk for the SFSDKLoginFlowSelectionView</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (void)createNewuser:(NSDictionary *)options</Declaration>
 			
-			<Anchor>//api/name/loginFlowSelectionIDPSelected:options:</Anchor>
+			
+			<Anchor>//api/name/createNewuser:</Anchor>
             <NodeRef refid="172"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKLoginFlowSelectionViewDelegate/loginFlowSelectionLocalLoginSelected:options:</TokenIdentifier>
-			<Abstract type="html">Used to notify the SDK of user selection on the login flow selection view</Abstract>
-			<DeclaredIn>SFSDKLoginFlowSelectionView.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionTableViewControllerDelegate/selectedUser:options:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
 			
-			<Declaration>- (void)loginFlowSelectionLocalLoginSelected:(UIViewController *)controller options:(NSDictionary *)appOptions</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>controller</Name>
-					<Abstract type="html">instance invoking this delegate</Abstract>
-				</Parameter><Parameter>
-					<Name>appOptions</Name>
-					<Abstract type="html">addl. name value pairs sent from the sdk for the SFSDKLoginFlowSelectionVie</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (void)selectedUser:(SFUserAccount *)user options:(NSDictionary *)options</Declaration>
 			
-			<Anchor>//api/name/loginFlowSelectionLocalLoginSelected:options:</Anchor>
+			
+			<Anchor>//api/name/selectedUser:options:</Anchor>
+            <NodeRef refid="172"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionTableViewControllerDelegate/cancel:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			
+			<Declaration>- (void)cancel:(NSDictionary *)options</Declaration>
+			
+			
+			<Anchor>//api/name/cancel:</Anchor>
             <NodeRef refid="172"/>
 		</Token>
 		

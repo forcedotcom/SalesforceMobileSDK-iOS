@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFInstrumentation.html">
+	<File path="Classes/SFManagedPreferences.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFInstrumentation</TokenIdentifier>
-			<Abstract type="html">This class exposes API that allow to intercept
-method call and introspect the object being intercepted.
-It can be used to record timing &amp;amp; usage information for example.</Abstract>
-			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFManagedPreferences</TokenIdentifier>
+			<Abstract type="html">Class to handle preferences set by an MDM provider.</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
             
 			
 			<NodeRef refid="20"/>
@@ -15,273 +13,410 @@ It can be used to record timing &amp;amp; usage information for example.</Abstra
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFInstrumentation/setEnabled:</TokenIdentifier>
-			<Abstract type="html">Enable or disable this instrumentation instance</Abstract>
-			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFManagedPreferences/sharedPreferences</TokenIdentifier>
+			<Abstract type="html">The shared instance of this class.</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) BOOL enabled</Declaration>
+			<Declaration>+ (instancetype)sharedPreferences</Declaration>
 			
-			
-			<Anchor>//api/name/enabled</Anchor>
+			<ReturnValue><Abstract type="html">The shared instance of this class.</Abstract></ReturnValue>
+			<Anchor>//api/name/sharedPreferences</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFInstrumentation/enabled</TokenIdentifier>
-			<Abstract type="html">Enable or disable this instrumentation instance</Abstract>
-			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setHasManagedPreferences:</TokenIdentifier>
+			<Abstract type="html">Whether or not any managed preferences have been configured for this app.</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) BOOL enabled</Declaration>
+			<Declaration>@property (nonatomic, readonly) BOOL hasManagedPreferences</Declaration>
 			
 			
-			<Anchor>//api/name/enabled</Anchor>
+			<Anchor>//api/name/hasManagedPreferences</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFInstrumentation/enabled</TokenIdentifier>
-			<Abstract type="html">Enable or disable this instrumentation instance</Abstract>
-			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/hasManagedPreferences</TokenIdentifier>
+			<Abstract type="html">Whether or not any managed preferences have been configured for this app.</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) BOOL enabled</Declaration>
+			<Declaration>@property (nonatomic, readonly) BOOL hasManagedPreferences</Declaration>
 			
 			
-			<Anchor>//api/name/enabled</Anchor>
+			<Anchor>//api/name/hasManagedPreferences</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFInstrumentation/instrumentationForClass:</TokenIdentifier>
-			<Abstract type="html">Returns an instrumentation instance for the specified class</Abstract>
-			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/hasManagedPreferences</TokenIdentifier>
+			<Abstract type="html">Whether or not any managed preferences have been configured for this app.</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
 			
-			<Declaration>+ (instancetype)instrumentationForClass:(Class)clazz</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>clazz</Name>
-					<Abstract type="html">The class to be instrumented</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, readonly) BOOL hasManagedPreferences</Declaration>
 			
-			<Anchor>//api/name/instrumentationForClass:</Anchor>
+			
+			<Anchor>//api/name/hasManagedPreferences</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFInstrumentation/instrumentationForClassWithName:</TokenIdentifier>
-			<Abstract type="html">Returns an instrumentation instance for the class with the specified name.</Abstract>
-			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setRequireCertificateAuthentication:</TokenIdentifier>
+			<Abstract type="html">Whether the app is configured to require certificate-based authentication. (RequireCertAuth)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
 			
-			<Declaration>+ (instancetype)instrumentationForClassWithName:(NSString *)className</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>className</Name>
-					<Abstract type="html">The name of the class to be instrumented.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, readonly) BOOL requireCertificateAuthentication</Declaration>
 			
-			<Anchor>//api/name/instrumentationForClassWithName:</Anchor>
+			
+			<Anchor>//api/name/requireCertificateAuthentication</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFInstrumentation/interceptorForSelector:isInstanceSelector:</TokenIdentifier>
-			<Abstract type="html">Returns the interceptor configured for the class with the given selector, or nil
-if an interceptor is not configured for the given selector.</Abstract>
-			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/requireCertificateAuthentication</TokenIdentifier>
+			<Abstract type="html">Whether the app is configured to require certificate-based authentication. (RequireCertAuth)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
 			
-			<Declaration>- (nullable SFMethodInterceptor *)interceptorForSelector:(SEL)selector isInstanceSelector:(BOOL)isInstanceSelector</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>selector</Name>
-					<Abstract type="html">The selector to check</Abstract>
-				</Parameter><Parameter>
-					<Name>isInstanceSelector</Name>
-					<Abstract type="html">Whether or not the selector is an instance selector.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The configured SFMethodInterceptor instance, or nil if an interceptor is
-not configured.</Abstract></ReturnValue>
-			<Anchor>//api/name/interceptorForSelector:isInstanceSelector:</Anchor>
+			<Declaration>@property (nonatomic, readonly) BOOL requireCertificateAuthentication</Declaration>
+			
+			
+			<Anchor>//api/name/requireCertificateAuthentication</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFInstrumentation/interceptInstanceMethod:beforeBlock:afterBlock:</TokenIdentifier>
-			<Abstract type="html">Use this method to intercept the instance method specified by selector</Abstract>
-			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/requireCertificateAuthentication</TokenIdentifier>
+			<Abstract type="html">Whether the app is configured to require certificate-based authentication. (RequireCertAuth)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
 			
-			<Declaration>- (void)interceptInstanceMethod:(SEL)selector beforeBlock:(nullable SFMethodInterceptorInvocationCallback)before afterBlock:(nullable SFMethodInterceptorInvocationAfterCallback)after</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>selector</Name>
-					<Abstract type="html">The selector to intercept</Abstract>
-				</Parameter><Parameter>
-					<Name>before</Name>
-					<Abstract type="html">An optional block invoked before the selector is executed</Abstract>
-				</Parameter><Parameter>
-					<Name>after</Name>
-					<Abstract type="html">An optional block invoked after the selector is executed</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, readonly) BOOL requireCertificateAuthentication</Declaration>
 			
-			<Anchor>//api/name/interceptInstanceMethod:beforeBlock:afterBlock:</Anchor>
+			
+			<Anchor>//api/name/requireCertificateAuthentication</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFInstrumentation/interceptInstanceMethod:replaceWithInvocationBlock:</TokenIdentifier>
-			<Abstract type="html">Use this method to intercept the instance method specified by selector
-and provide a block that will be invoked instead of the method.
-Note: the block contains a single argument which is the NSInvocation of the message.</Abstract>
-			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setLoginHosts:</TokenIdentifier>
+			<Abstract type="html">An array of prescribed login hosts from the MDM provider. (AppServiceHosts)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
 			
-			<Declaration>- (void)interceptInstanceMethod:(SEL)selector replaceWithInvocationBlock:(nullable SFMethodInterceptorInvocationCallback)replace</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>selector</Name>
-					<Abstract type="html">The instance method to be intercepted</Abstract>
-				</Parameter><Parameter>
-					<Name>replace</Name>
-					<Abstract type="html">The block to be invoked</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, readonly) NSArray *loginHosts</Declaration>
 			
-			<Anchor>//api/name/interceptInstanceMethod:replaceWithInvocationBlock:</Anchor>
+			
+			<Anchor>//api/name/loginHosts</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFInstrumentation/interceptClassMethod:beforeBlock:afterBlock:</TokenIdentifier>
-			<Abstract type="html">Use this method to intercept the class method specified by selector</Abstract>
-			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/loginHosts</TokenIdentifier>
+			<Abstract type="html">An array of prescribed login hosts from the MDM provider. (AppServiceHosts)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
 			
-			<Declaration>- (void)interceptClassMethod:(SEL)selector beforeBlock:(nullable SFMethodInterceptorInvocationCallback)before afterBlock:(nullable SFMethodInterceptorInvocationAfterCallback)after</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>selector</Name>
-					<Abstract type="html">The selector to intercept</Abstract>
-				</Parameter><Parameter>
-					<Name>before</Name>
-					<Abstract type="html">An optional block invoked before the selector is executed</Abstract>
-				</Parameter><Parameter>
-					<Name>after</Name>
-					<Abstract type="html">An optional block invoked after the selector is executed</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, readonly) NSArray *loginHosts</Declaration>
 			
-			<Anchor>//api/name/interceptClassMethod:beforeBlock:afterBlock:</Anchor>
+			
+			<Anchor>//api/name/loginHosts</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFInstrumentation/interceptClassMethod:replaceWithInvocationBlock:</TokenIdentifier>
-			<Abstract type="html">Use this method to intercept the class method specified by selector
-and provide a block that will be invoked instead of the method.
-Note: the block contains a single argument which is the NSInvocation of the message.</Abstract>
-			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/loginHosts</TokenIdentifier>
+			<Abstract type="html">An array of prescribed login hosts from the MDM provider. (AppServiceHosts)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
 			
-			<Declaration>- (void)interceptClassMethod:(SEL)selector replaceWithInvocationBlock:(SFMethodInterceptorInvocationCallback)replace</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>selector</Name>
-					<Abstract type="html">The instance method to be intercepted</Abstract>
-				</Parameter><Parameter>
-					<Name>replace</Name>
-					<Abstract type="html">The block to be invoked</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, readonly) NSArray *loginHosts</Declaration>
 			
-			<Anchor>//api/name/interceptClassMethod:replaceWithInvocationBlock:</Anchor>
+			
+			<Anchor>//api/name/loginHosts</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFInstrumentation/instrumentForTiming:afterBlock:</TokenIdentifier>
-			<Abstract type="html">Instrument some selectors of a the target class for performance timing.</Abstract>
-			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setLoginHostLabels:</TokenIdentifier>
+			<Abstract type="html">The associated labels for the provided login hosts. (AppServiceHostLabels)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
 			
-			<Declaration>- (void)instrumentForTiming:(SFInstrumentationSelectorFilter)selectorFilter afterBlock:(SFMethodInterceptorInvocationAfterCallback)after</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>selectorFilter</Name>
-					<Abstract type="html">A block invoked when to select selectors from the class to instrument</Abstract>
-				</Parameter><Parameter>
-					<Name>after</Name>
-					<Abstract type="html">An optional block invoked after any selector is executed</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, readonly) NSArray *loginHostLabels</Declaration>
 			
-			<Anchor>//api/name/instrumentForTiming:afterBlock:</Anchor>
+			
+			<Anchor>//api/name/loginHostLabels</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFInstrumentation/instrumentForTiming:inheritanceLevels:afterBlock:</TokenIdentifier>
-			<Abstract type="html">Instrument some selectors of the target class and its parent class(es)
-for performance timing.</Abstract>
-			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/loginHostLabels</TokenIdentifier>
+			<Abstract type="html">The associated labels for the provided login hosts. (AppServiceHostLabels)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
 			
-			<Declaration>- (void)instrumentForTiming:(SFInstrumentationSelectorFilter)selectorFilter inheritanceLevels:(NSUInteger)numInheritanceLevels afterBlock:(SFMethodInterceptorInvocationAfterCallback)after</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>selectorFilter</Name>
-					<Abstract type="html">A block invoked when to select selectors from the class to instrument</Abstract>
-				</Parameter><Parameter>
-					<Name>numInheritanceLevels</Name>
-					<Abstract type="html">The number of inherited classes whose selectors will be made available.</Abstract>
-				</Parameter><Parameter>
-					<Name>after</Name>
-					<Abstract type="html">An optional block invoked after any selector is executed</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, readonly) NSArray *loginHostLabels</Declaration>
 			
-			<Anchor>//api/name/instrumentForTiming:inheritanceLevels:afterBlock:</Anchor>
+			
+			<Anchor>//api/name/loginHostLabels</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFInstrumentation/loadInstructions:completion:</TokenIdentifier>
-			<Abstract type="html">Loads the array of instructions execute them. The instructions usually
-comes from a JSON file.</Abstract>
-			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/loginHostLabels</TokenIdentifier>
+			<Abstract type="html">The associated labels for the provided login hosts. (AppServiceHostLabels)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
 			
-			<Declaration>- (void)loadInstructions:(NSArray *)instructions completion:(dispatch_block_t)completion</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>instructions</Name>
-					<Abstract type="html">The array of instructions</Abstract>
-				</Parameter><Parameter>
-					<Name>completion</Name>
-					<Abstract type="html">Optional completion block</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, readonly) NSArray *loginHostLabels</Declaration>
 			
-			<Anchor>//api/name/loadInstructions:completion:</Anchor>
+			
+			<Anchor>//api/name/loginHostLabels</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFInstrumentation/startMeasure</TokenIdentifier>
-			<Abstract type="html">Start the timing measurement</Abstract>
-			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setConnectedAppId:</TokenIdentifier>
+			<Abstract type="html">The managed Connected App ID. (ManagedAppOAuthID)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
 			
-			<Declaration>- (void)startMeasure</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *connectedAppId</Declaration>
 			
 			
-			<Anchor>//api/name/startMeasure</Anchor>
+			<Anchor>//api/name/connectedAppId</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFInstrumentation/stopMeasure</TokenIdentifier>
-			<Abstract type="html">Stop the timing measurement</Abstract>
-			<DeclaredIn>SFInstrumentation.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/connectedAppId</TokenIdentifier>
+			<Abstract type="html">The managed Connected App ID. (ManagedAppOAuthID)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
 			
-			<Declaration>- (void)stopMeasure</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *connectedAppId</Declaration>
 			
 			
-			<Anchor>//api/name/stopMeasure</Anchor>
+			<Anchor>//api/name/connectedAppId</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/connectedAppId</TokenIdentifier>
+			<Abstract type="html">The managed Connected App ID. (ManagedAppOAuthID)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *connectedAppId</Declaration>
+			
+			
+			<Anchor>//api/name/connectedAppId</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setConnectedAppCallbackUri:</TokenIdentifier>
+			<Abstract type="html">The managed Conneced App Callback URI. (ManagedAppCallbackURL)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *connectedAppCallbackUri</Declaration>
+			
+			
+			<Anchor>//api/name/connectedAppCallbackUri</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/connectedAppCallbackUri</TokenIdentifier>
+			<Abstract type="html">The managed Conneced App Callback URI. (ManagedAppCallbackURL)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *connectedAppCallbackUri</Declaration>
+			
+			
+			<Anchor>//api/name/connectedAppCallbackUri</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/connectedAppCallbackUri</TokenIdentifier>
+			<Abstract type="html">The managed Conneced App Callback URI. (ManagedAppCallbackURL)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *connectedAppCallbackUri</Declaration>
+			
+			
+			<Anchor>//api/name/connectedAppCallbackUri</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setClearClipboardOnBackground:</TokenIdentifier>
+			<Abstract type="html">Whether or not to clear the clipboard when the app is backgrounded. (ClearClipboardOnBackground)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) BOOL clearClipboardOnBackground</Declaration>
+			
+			
+			<Anchor>//api/name/clearClipboardOnBackground</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/clearClipboardOnBackground</TokenIdentifier>
+			<Abstract type="html">Whether or not to clear the clipboard when the app is backgrounded. (ClearClipboardOnBackground)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) BOOL clearClipboardOnBackground</Declaration>
+			
+			
+			<Anchor>//api/name/clearClipboardOnBackground</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/clearClipboardOnBackground</TokenIdentifier>
+			<Abstract type="html">Whether or not to clear the clipboard when the app is backgrounded. (ClearClipboardOnBackground)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) BOOL clearClipboardOnBackground</Declaration>
+			
+			
+			<Anchor>//api/name/clearClipboardOnBackground</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setShouldDisableExternalPasteDefinedByConnectedApp:</TokenIdentifier>
+			<Abstract type="html">Whether or not external paste is disabled in the connected app.</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) BOOL shouldDisableExternalPasteDefinedByConnectedApp</Declaration>
+			
+			
+			<Anchor>//api/name/shouldDisableExternalPasteDefinedByConnectedApp</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/shouldDisableExternalPasteDefinedByConnectedApp</TokenIdentifier>
+			<Abstract type="html">Whether or not external paste is disabled in the connected app.</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) BOOL shouldDisableExternalPasteDefinedByConnectedApp</Declaration>
+			
+			
+			<Anchor>//api/name/shouldDisableExternalPasteDefinedByConnectedApp</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/shouldDisableExternalPasteDefinedByConnectedApp</TokenIdentifier>
+			<Abstract type="html">Whether or not external paste is disabled in the connected app.</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) BOOL shouldDisableExternalPasteDefinedByConnectedApp</Declaration>
+			
+			
+			<Anchor>//api/name/shouldDisableExternalPasteDefinedByConnectedApp</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setOnlyShowAuthorizedHosts:</TokenIdentifier>
+			<Abstract type="html">Whether or not to display only the authorized hosts. (OnlyShowAuthorizedHosts)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) BOOL onlyShowAuthorizedHosts</Declaration>
+			
+			
+			<Anchor>//api/name/onlyShowAuthorizedHosts</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/onlyShowAuthorizedHosts</TokenIdentifier>
+			<Abstract type="html">Whether or not to display only the authorized hosts. (OnlyShowAuthorizedHosts)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) BOOL onlyShowAuthorizedHosts</Declaration>
+			
+			
+			<Anchor>//api/name/onlyShowAuthorizedHosts</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/onlyShowAuthorizedHosts</TokenIdentifier>
+			<Abstract type="html">Whether or not to display only the authorized hosts. (OnlyShowAuthorizedHosts)</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) BOOL onlyShowAuthorizedHosts</Declaration>
+			
+			
+			<Anchor>//api/name/onlyShowAuthorizedHosts</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setIdpAppURLScheme:</TokenIdentifier>
+			<Abstract type="html">The idp App&apos;s URL Scheme</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *idpAppURLScheme</Declaration>
+			
+			
+			<Anchor>//api/name/idpAppURLScheme</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/idpAppURLScheme</TokenIdentifier>
+			<Abstract type="html">The idp App&apos;s URL Scheme</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *idpAppURLScheme</Declaration>
+			
+			
+			<Anchor>//api/name/idpAppURLScheme</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/idpAppURLScheme</TokenIdentifier>
+			<Abstract type="html">The idp App&apos;s URL Scheme</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *idpAppURLScheme</Declaration>
+			
+			
+			<Anchor>//api/name/idpAppURLScheme</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setRawPreferences:</TokenIdentifier>
+			<Abstract type="html">The raw NSDictionary of managed preferences.</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSDictionary *rawPreferences</Declaration>
+			
+			
+			<Anchor>//api/name/rawPreferences</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/rawPreferences</TokenIdentifier>
+			<Abstract type="html">The raw NSDictionary of managed preferences.</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSDictionary *rawPreferences</Declaration>
+			
+			
+			<Anchor>//api/name/rawPreferences</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/rawPreferences</TokenIdentifier>
+			<Abstract type="html">The raw NSDictionary of managed preferences.</Abstract>
+			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSDictionary *rawPreferences</Declaration>
+			
+			
+			<Anchor>//api/name/rawPreferences</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		

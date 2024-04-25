@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/NSArray+SFAdditions.html">
+	<File path="Categories/NSData+SFSDKUtils.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/NSArray(SFAdditions)</TokenIdentifier>
-			<Abstract type="html">Provides Salesforce Mobile SDK filtering for NSArray objects.</Abstract>
-			<DeclaredIn>NSArray+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/NSData(SFSDKUtils)</TokenIdentifier>
+			<Abstract type="html">Mobile SDK utility additions to NSData.</Abstract>
+			<DeclaredIn>NSData+SFSDKUtils.h</DeclaredIn>
             
 			
 			<NodeRef refid="147"/>
@@ -13,59 +13,26 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSArray/filteredArrayWithElementsOfClass:</TokenIdentifier>
-			<Abstract type="html">Returns an array whose elements are guaranteed to be instances of the given class.</Abstract>
-			<DeclaredIn>NSArray+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/sfsdk_base64UrlString</TokenIdentifier>
+			<Abstract type="html">Creates a base64url string based on the data.  See RFC 4648.</Abstract>
+			<DeclaredIn>NSData+SFSDKUtils.h</DeclaredIn>
 			
-			<Declaration>- (NSArray *)filteredArrayWithElementsOfClass:(Class)aClass</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>aClass</Name>
-					<Abstract type="html">The class to filter on.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">An array whose elements are all of the given type (or a subtype).</Abstract></ReturnValue>
-			<Anchor>//api/name/filteredArrayWithElementsOfClass:</Anchor>
+			<Declaration>- (NSString *)sfsdk_base64UrlString</Declaration>
+			
+			<ReturnValue><Abstract type="html">The base64url string based on the data.</Abstract></ReturnValue>
+			<Anchor>//api/name/sfsdk_base64UrlString</Anchor>
             <NodeRef refid="147"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSArray/filteredArrayWithValue:forKeyPath:</TokenIdentifier>
-			<Abstract type="html">Returns an array whose elements have a given value at a given keypath.</Abstract>
-			<DeclaredIn>NSArray+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/sfsdk_sha256Data</TokenIdentifier>
+			<Abstract type="html">Creates an SHA256 hash of the given data.</Abstract>
+			<DeclaredIn>NSData+SFSDKUtils.h</DeclaredIn>
 			
-			<Declaration>- (NSArray *)filteredArrayWithValue:(id)value forKeyPath:(NSString *)key</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>value</Name>
-					<Abstract type="html">The value to filter on.</Abstract>
-				</Parameter><Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The key path for the value to filter on.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (nullable NSData *)sfsdk_sha256Data</Declaration>
 			
-			<Anchor>//api/name/filteredArrayWithValue:forKeyPath:</Anchor>
-            <NodeRef refid="147"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSArray/filteredArrayExcludingValue:forKeyPath:</TokenIdentifier>
-			<Abstract type="html">Returns an array whose elements exclude a given value at a given keypath.</Abstract>
-			<DeclaredIn>NSArray+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (NSArray *)filteredArrayExcludingValue:(id)value forKeyPath:(NSString *)key</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>value</Name>
-					<Abstract type="html">The value to filter on.</Abstract>
-				</Parameter><Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The key path for the value to filter on.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/filteredArrayExcludingValue:forKeyPath:</Anchor>
+			<ReturnValue><Abstract type="html">The SHA256 hash of the given data.</Abstract></ReturnValue>
+			<Anchor>//api/name/sfsdk_sha256Data</Anchor>
             <NodeRef refid="147"/>
 		</Token>
 		

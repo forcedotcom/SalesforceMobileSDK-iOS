@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKBatchRequest.html">
+	<File path="Classes/SFSDKBatchResponse.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKBatchRequest</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKBatchResponse</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBatchRequest.h</DeclaredIn>
+			<DeclaredIn>SFSDKBatchResponse.h</DeclaredIn>
             
 			
 			<NodeRef refid="58"/>
@@ -13,74 +13,86 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBatchRequest/setHaltOnError:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBatchResponse/setHasErrors:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBatchRequest.h</DeclaredIn>
+			<DeclaredIn>SFSDKBatchResponse.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL haltOnError</Declaration>
+			<Declaration>@property (nonatomic, readonly) BOOL hasErrors</Declaration>
 			
 			
-			<Anchor>//api/name/haltOnError</Anchor>
+			<Anchor>//api/name/hasErrors</Anchor>
             <NodeRef refid="58"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBatchRequest/haltOnError</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBatchResponse/hasErrors</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBatchRequest.h</DeclaredIn>
+			<DeclaredIn>SFSDKBatchResponse.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL haltOnError</Declaration>
+			<Declaration>@property (nonatomic, readonly) BOOL hasErrors</Declaration>
 			
 			
-			<Anchor>//api/name/haltOnError</Anchor>
+			<Anchor>//api/name/hasErrors</Anchor>
             <NodeRef refid="58"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKBatchRequest/haltOnError</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKBatchResponse/hasErrors</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBatchRequest.h</DeclaredIn>
+			<DeclaredIn>SFSDKBatchResponse.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL haltOnError</Declaration>
+			<Declaration>@property (nonatomic, readonly) BOOL hasErrors</Declaration>
 			
 			
-			<Anchor>//api/name/haltOnError</Anchor>
+			<Anchor>//api/name/hasErrors</Anchor>
             <NodeRef refid="58"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBatchRequest/setBatchRequests:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBatchResponse/setResults:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBatchRequest.h</DeclaredIn>
+			<DeclaredIn>SFSDKBatchResponse.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSArray&lt;SFRestRequest*&gt; *batchRequests</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSArray&lt;id&gt; *results</Declaration>
 			
 			
-			<Anchor>//api/name/batchRequests</Anchor>
+			<Anchor>//api/name/results</Anchor>
             <NodeRef refid="58"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBatchRequest/batchRequests</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBatchResponse/results</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBatchRequest.h</DeclaredIn>
+			<DeclaredIn>SFSDKBatchResponse.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSArray&lt;SFRestRequest*&gt; *batchRequests</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSArray&lt;id&gt; *results</Declaration>
 			
 			
-			<Anchor>//api/name/batchRequests</Anchor>
+			<Anchor>//api/name/results</Anchor>
             <NodeRef refid="58"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKBatchRequest/batchRequests</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKBatchResponse/results</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBatchRequest.h</DeclaredIn>
+			<DeclaredIn>SFSDKBatchResponse.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSArray&lt;SFRestRequest*&gt; *batchRequests</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSArray&lt;id&gt; *results</Declaration>
 			
 			
-			<Anchor>//api/name/batchRequests</Anchor>
+			<Anchor>//api/name/results</Anchor>
+            <NodeRef refid="58"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBatchResponse/initWith:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKBatchResponse+Internal.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWith:(NSDictionary *)dict</Declaration>
+			
+			
+			<Anchor>//api/name/initWith:</Anchor>
             <NodeRef refid="58"/>
 		</Token>
 		

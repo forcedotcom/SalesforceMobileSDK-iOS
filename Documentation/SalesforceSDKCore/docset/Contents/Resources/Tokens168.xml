@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFRestRequestDelegate.html">
+	<File path="Protocols/SFSDKLoginHostDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFRestRequestDelegate</TokenIdentifier>
-			<Abstract type="html">Lifecycle events for REST requests.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSDKLoginHostDelegate</TokenIdentifier>
+			<Abstract type="html">Use the SFSDKLoginHostDelegate to be notified of the actions taken by the user on the login host list view controller.</Abstract>
+			<DeclaredIn>SFSDKLoginHostDelegate.h</DeclaredIn>
             
 			
 			<NodeRef refid="168"/>
@@ -13,55 +13,95 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFRestRequestDelegate/request:didSucceed:rawResponse:</TokenIdentifier>
-			<Abstract type="html">Called when a request was successful.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKLoginHostDelegate/hostListViewController:willPresentLoginHostViewController:</TokenIdentifier>
+			<Abstract type="html">Notifies the delegate that a new login host viewcontroller will be presented.</Abstract>
+			<DeclaredIn>SFSDKLoginHostDelegate.h</DeclaredIn>
 			
-			<Declaration>- (void)request:(SFRestRequest *)request didSucceed:(id)dataResponse rawResponse:(NSURLResponse *)rawResponse</Declaration>
+			<Declaration>- (void)hostListViewController:(SFSDKLoginHostListViewController *)hostListViewController willPresentLoginHostViewController:(UIViewController *)loginHostViewController</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>request</Name>
-					<Abstract type="html">REST request.</Abstract>
+					<Name>hostListViewController</Name>
+					<Abstract type="html">The instance sending this message.</Abstract>
 				</Parameter><Parameter>
-					<Name>dataResponse</Name>
-					<Abstract type="html">The data from the response.  By default, this will be an object
-containing the parsed JSON response.  However, if the response is not JSON,
-the data will be contained in a binary NSData object.</Abstract>
-				</Parameter><Parameter>
-					<Name>rawResponse</Name>
-					<Abstract type="html">Raw response returned by the server.</Abstract>
+					<Name>loginHostViewController</Name>
+					<Abstract type="html">The view controller that will be presented.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/request:didSucceed:rawResponse:</Anchor>
+			<Anchor>//api/name/hostListViewController:willPresentLoginHostViewController:</Anchor>
             <NodeRef refid="168"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFRestRequestDelegate/request:didFail:rawResponse:error:</TokenIdentifier>
-			<Abstract type="html">Called when a request failed.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKLoginHostDelegate/hostListViewControllerDidSelectLoginHost:</TokenIdentifier>
+			<Abstract type="html">Notifies the delegate that a login host has been selected by the user.
+This will be a good time to dismiss the host list view controller.</Abstract>
+			<DeclaredIn>SFSDKLoginHostDelegate.h</DeclaredIn>
 			
-			<Declaration>- (void)request:(SFRestRequest *)request didFail:(id)dataResponse rawResponse:(NSURLResponse *)rawResponse error:(NSError *)error</Declaration>
+			<Declaration>- (void)hostListViewControllerDidSelectLoginHost:(SFSDKLoginHostListViewController *)hostListViewController</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>request</Name>
-					<Abstract type="html">REST request.</Abstract>
-				</Parameter><Parameter>
-					<Name>dataResponse</Name>
-					<Abstract type="html">The data from the response.  By default, this will be an object
-containing the parsed JSON response.  However, if the response is not JSON,
-the data will be contained in a binary NSData object.</Abstract>
-				</Parameter><Parameter>
-					<Name>rawResponse</Name>
-					<Abstract type="html">Raw response returned by the server.</Abstract>
-				</Parameter><Parameter>
-					<Name>error</Name>
-					<Abstract type="html">Error received.</Abstract>
+					<Name>hostListViewController</Name>
+					<Abstract type="html">The instance sending this message.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/request:didFail:rawResponse:error:</Anchor>
+			<Anchor>//api/name/hostListViewControllerDidSelectLoginHost:</Anchor>
+            <NodeRef refid="168"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKLoginHostDelegate/hostListViewControllerDidAddLoginHost:</TokenIdentifier>
+			<Abstract type="html">Notifies the delegate that a login host has been added to the list of hosts.</Abstract>
+			<DeclaredIn>SFSDKLoginHostDelegate.h</DeclaredIn>
+			
+			<Declaration>- (void)hostListViewControllerDidAddLoginHost:(SFSDKLoginHostListViewController *)hostListViewController</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>hostListViewController</Name>
+					<Abstract type="html">The instance sending this message.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/hostListViewControllerDidAddLoginHost:</Anchor>
+            <NodeRef refid="168"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKLoginHostDelegate/hostListViewControllerDidCancelLoginHost:</TokenIdentifier>
+			<Abstract type="html">Notifies the delegate that user cancels out from the login host picking flow</Abstract>
+			<DeclaredIn>SFSDKLoginHostDelegate.h</DeclaredIn>
+			
+			<Declaration>- (void)hostListViewControllerDidCancelLoginHost:(SFSDKLoginHostListViewController *)hostListViewController</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>hostListViewController</Name>
+					<Abstract type="html">The instance sending this message.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/hostListViewControllerDidCancelLoginHost:</Anchor>
+            <NodeRef refid="168"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKLoginHostDelegate/hostListViewController:didChangeLoginHost:</TokenIdentifier>
+			<Abstract type="html">Notifies the delegate that the login host has been changed in some capacity (user-selected, host entry edited,
+custom login host added, previous current login host deleted, etc.).</Abstract>
+			<DeclaredIn>SFSDKLoginHostDelegate.h</DeclaredIn>
+			
+			<Declaration>- (void)hostListViewController:(SFSDKLoginHostListViewController *)hostListViewController didChangeLoginHost:(SFSDKLoginHost *)newLoginHost</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>hostListViewController</Name>
+					<Abstract type="html">The instance sending this message.</Abstract>
+				</Parameter><Parameter>
+					<Name>newLoginHost</Name>
+					<Abstract type="html">The updated login host.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/hostListViewController:didChangeLoginHost:</Anchor>
             <NodeRef refid="168"/>
 		</Token>
 		

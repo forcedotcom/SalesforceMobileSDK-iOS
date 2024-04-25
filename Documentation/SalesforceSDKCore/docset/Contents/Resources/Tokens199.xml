@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSDKWindowType.html">
+	<File path="Constants/SFUserAccountDataChange.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSDKWindowType</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFUserAccountDataChange</TokenIdentifier>
+			<Abstract type="html">The various changes that can affect a user account</Abstract>
+			<DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
 			
 			<NodeRef refid="199"/>
@@ -14,51 +14,56 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeMain</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSDKWindowTypeMain</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountDataChangeUnknown</TokenIdentifier>
+            <Abstract type="html">Unknown change
+     </Abstract>
+            <Declaration>SFUserAccountDataChangeUnknown</Declaration>
             
-            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-            
-            <NodeRef refid="199"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeAuth</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSDKWindowTypeAuth</Declaration>
-            
-            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
             <NodeRef refid="199"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeScreenLock</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSDKWindowTypeScreenLock</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountDataChangeCommunityId</TokenIdentifier>
+            <Abstract type="html">The community ID changed
+     </Abstract>
+            <Declaration>SFUserAccountDataChangeCommunityId</Declaration>
             
-            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-            
-            <NodeRef refid="199"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeSnapshot</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSDKWindowTypeSnapshot</Declaration>
-            
-            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
             <NodeRef refid="199"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeOther</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSDKWindowTypeOther</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountDataChangeIdData</TokenIdentifier>
+            <Abstract type="html">The ID data changed
+     </Abstract>
+            <Declaration>SFUserAccountDataChangeIdData</Declaration>
             
-            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+            
+            <NodeRef refid="199"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountDataChangeInstanceURL</TokenIdentifier>
+            <Abstract type="html">InstanceURL Changed
+    </Abstract>
+            <Declaration>SFUserAccountDataChangeInstanceURL</Declaration>
+            
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+            
+            <NodeRef refid="199"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountDataChangeAccessToken</TokenIdentifier>
+            <Abstract type="html">AccessToken Changed
+    </Abstract>
+            <Declaration>SFUserAccountDataChangeAccessToken</Declaration>
+            
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
             <NodeRef refid="199"/>
         </Token>

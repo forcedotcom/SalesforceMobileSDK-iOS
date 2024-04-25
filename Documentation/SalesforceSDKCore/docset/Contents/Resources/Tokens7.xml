@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFAuthErrorHandlerList.html">
+	<File path="Classes/SFCrypto.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFAuthErrorHandlerList</TokenIdentifier>
-			<Abstract type="html">Manages the authentication handler filter list, for processing authentication errors.  Note that
-order of entries is important: the list will be processed serially, starting with the first item
-and ending with the last.</Abstract>
-			<DeclaredIn>SFAuthErrorHandlerList.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFCrypto</TokenIdentifier>
+			<Abstract type="html">Utility class for data encryption operations.</Abstract>
+			<DeclaredIn>SFCrypto.h</DeclaredIn>
             
 			
 			<NodeRef refid="7"/>
@@ -15,132 +13,41 @@ and ending with the last.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandlerList/setAuthHandlerArray:</TokenIdentifier>
-			<Abstract type="html">A readonly copy of the array of authentication error handlers.</Abstract>
-			<DeclaredIn>SFAuthErrorHandlerList.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFCrypto/baseAppIdentifier</TokenIdentifier>
+			<Abstract type="html">Returns a unique identifier associated with this app install.  The identifier will
+remain the same for the lifetime of the app&apos;s installation on the device.  If the
+app is uninstalled, a new identifier will be created if it is ever reinstalled.</Abstract>
+			<DeclaredIn>SFCrypto.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSArray *authHandlerArray</Declaration>
+			<Declaration>+ (NSString *)baseAppIdentifier</Declaration>
 			
-			
-			<Anchor>//api/name/authHandlerArray</Anchor>
+			<ReturnValue><Abstract type="html">A unique identifier for the app install on the particular device.</Abstract></ReturnValue>
+			<Anchor>//api/name/baseAppIdentifier</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandlerList/authHandlerArray</TokenIdentifier>
-			<Abstract type="html">A readonly copy of the array of authentication error handlers.</Abstract>
-			<DeclaredIn>SFAuthErrorHandlerList.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFCrypto/baseAppIdentifierIsConfigured</TokenIdentifier>
+			<Abstract type="html">Whether or not the base app identifier has been configured for this app install.</Abstract>
+			<DeclaredIn>SFCrypto.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSArray *authHandlerArray</Declaration>
+			<Declaration>+ (BOOL)baseAppIdentifierIsConfigured</Declaration>
 			
-			
-			<Anchor>//api/name/authHandlerArray</Anchor>
+			<ReturnValue><Abstract type="html">YES if the base app ID has already been configured, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/baseAppIdentifierIsConfigured</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFAuthErrorHandlerList/authHandlerArray</TokenIdentifier>
-			<Abstract type="html">A readonly copy of the array of authentication error handlers.</Abstract>
-			<DeclaredIn>SFAuthErrorHandlerList.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFCrypto/baseAppIdentifierConfiguredThisLaunch</TokenIdentifier>
+			<Abstract type="html">Whether or not the base app identifier was configured at some point during this launch of
+the app.</Abstract>
+			<DeclaredIn>SFCrypto.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSArray *authHandlerArray</Declaration>
+			<Declaration>+ (BOOL)baseAppIdentifierConfiguredThisLaunch</Declaration>
 			
-			
-			<Anchor>//api/name/authHandlerArray</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandlerList/addAuthErrorHandler:</TokenIdentifier>
-			<Abstract type="html">Adds an authentication error handler to the end of the filter list.  Note: Error handler
-names must be unique within the list, so if an error handler already exists with the
-given name, it will be removed before adding the new handler.</Abstract>
-			<DeclaredIn>SFAuthErrorHandlerList.h</DeclaredIn>
-			
-			<Declaration>- (void)addAuthErrorHandler:(SFAuthErrorHandler *)errorHandler</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>errorHandler</Name>
-					<Abstract type="html">The error handler to add to the list.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/addAuthErrorHandler:</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandlerList/addAuthErrorHandler:atIndex:</TokenIdentifier>
-			<Abstract type="html">Adds an authentication error handler at a specific index in the list.  Note: Error handler
-names must be unique within the list, so if an error handler already exists with the
-given name, it will be removed before adding the new handler.</Abstract>
-			<DeclaredIn>SFAuthErrorHandlerList.h</DeclaredIn>
-			
-			<Declaration>- (void)addAuthErrorHandler:(SFAuthErrorHandler *)errorHandler atIndex:(NSUInteger)index</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>errorHandler</Name>
-					<Abstract type="html">The error handler to add to the list.</Abstract>
-				</Parameter><Parameter>
-					<Name>index</Name>
-					<Abstract type="html">The index at which to add the error handler.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/addAuthErrorHandler:atIndex:</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandlerList/removeAuthErrorHandlerWithName:</TokenIdentifier>
-			<Abstract type="html">Removes the error handler with the given name from the list.  If no error handler exists
-in the list with the name, no action is taken.</Abstract>
-			<DeclaredIn>SFAuthErrorHandlerList.h</DeclaredIn>
-			
-			<Declaration>- (void)removeAuthErrorHandlerWithName:(NSString *)errorHandlerName</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>errorHandlerName</Name>
-					<Abstract type="html">The name of the error handler to remove.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/removeAuthErrorHandlerWithName:</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandlerList/removeAuthErrorHandler:</TokenIdentifier>
-			<Abstract type="html">Removes the given error handler from the list.  If the error handler cannot be found, no
-action is taken.</Abstract>
-			<DeclaredIn>SFAuthErrorHandlerList.h</DeclaredIn>
-			
-			<Declaration>- (void)removeAuthErrorHandler:(SFAuthErrorHandler *)errorHandler</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>errorHandler</Name>
-					<Abstract type="html">The error handler to remove.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/removeAuthErrorHandler:</Anchor>
-            <NodeRef refid="7"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandlerList/authErrorHandlerInList:</TokenIdentifier>
-			<Abstract type="html">Determines whether the given error handler is in the list.</Abstract>
-			<DeclaredIn>SFAuthErrorHandlerList.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)authErrorHandlerInList:(SFAuthErrorHandler *)errorHandler</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>errorHandler</Name>
-					<Abstract type="html">The error handler to look for in the list.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the error handler is in the list, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/authErrorHandlerInList:</Anchor>
+			<ReturnValue><Abstract type="html">YES if the base app ID was configured during this app launch; NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/baseAppIdentifierConfiguredThisLaunch</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		

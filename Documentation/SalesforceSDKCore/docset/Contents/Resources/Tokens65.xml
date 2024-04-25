@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKCompositeRequestBuilder.html">
+	<File path="Classes/SFSDKCompositeSubRequest.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKCompositeRequestBuilder</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKCompositeSubRequest</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSDKCompositeRequest.h</DeclaredIn>
             
@@ -13,50 +13,50 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCompositeRequestBuilder/setAllOrNone:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCompositeSubRequest/setReferenceId:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSDKCompositeRequest.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKCompositeRequestBuilder *)setAllOrNone:(BOOL)allOrNone</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *referenceId</Declaration>
 			
 			
-			<Anchor>//api/name/setAllOrNone:</Anchor>
+			<Anchor>//api/name/referenceId</Anchor>
             <NodeRef refid="65"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCompositeRequestBuilder/addRequest:referenceId:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCompositeSubRequest/referenceId</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSDKCompositeRequest.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKCompositeRequestBuilder *)addRequest:(SFRestRequest *)request referenceId:(NSString *)referenceId</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *referenceId</Declaration>
 			
 			
-			<Anchor>//api/name/addRequest:referenceId:</Anchor>
+			<Anchor>//api/name/referenceId</Anchor>
             <NodeRef refid="65"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCompositeRequestBuilder/addRequest:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKCompositeSubRequest/referenceId</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSDKCompositeRequest.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKCompositeRequestBuilder *)addRequest:(SFSDKCompositeSubRequest *)subRequest</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *referenceId</Declaration>
 			
 			
-			<Anchor>//api/name/addRequest:</Anchor>
+			<Anchor>//api/name/referenceId</Anchor>
             <NodeRef refid="65"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCompositeRequestBuilder/buildCompositeRequest:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCompositeSubRequest/initWithReferenceId:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSDKCompositeRequest.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKCompositeRequest *)buildCompositeRequest:(NSString *)apiVersion</Declaration>
+			<Declaration>- (instancetype)initWithReferenceId:(NSString *)referenceId</Declaration>
 			
 			
-			<Anchor>//api/name/buildCompositeRequest:</Anchor>
+			<Anchor>//api/name/initWithReferenceId:</Anchor>
             <NodeRef refid="65"/>
 		</Token>
 		

@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFMethodInterceptor.html">
+	<File path="Classes/SFNetwork.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFMethodInterceptor</TokenIdentifier>
-			<Abstract type="html">This class provides a simple way to intercept an
-instance method or a class method and forward message
-to the original method if needed.</Abstract>
-			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFNetwork</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
             
 			
 			<NodeRef refid="23"/>
@@ -15,257 +13,259 @@ to the original method if needed.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/setClassToIntercept:</TokenIdentifier>
-			<Abstract type="html">Class to intercept</Abstract>
-			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNetwork/setActiveSession:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) Class classToIntercept</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) NSURLSession *activeSession</Declaration>
 			
 			
-			<Anchor>//api/name/classToIntercept</Anchor>
+			<Anchor>//api/name/activeSession</Anchor>
             <NodeRef refid="23"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/classToIntercept</TokenIdentifier>
-			<Abstract type="html">Class to intercept</Abstract>
-			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNetwork/activeSession</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) Class classToIntercept</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) NSURLSession *activeSession</Declaration>
 			
 			
-			<Anchor>//api/name/classToIntercept</Anchor>
+			<Anchor>//api/name/activeSession</Anchor>
             <NodeRef refid="23"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFMethodInterceptor/classToIntercept</TokenIdentifier>
-			<Abstract type="html">Class to intercept</Abstract>
-			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFNetwork/activeSession</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) Class classToIntercept</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) NSURLSession *activeSession</Declaration>
 			
 			
-			<Anchor>//api/name/classToIntercept</Anchor>
+			<Anchor>//api/name/activeSession</Anchor>
             <NodeRef refid="23"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/setSelectorToIntercept:</TokenIdentifier>
-			<Abstract type="html">Selector to intercept</Abstract>
-			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNetwork/setMetricsCollectedAction:</TokenIdentifier>
+			<Abstract type="html">The block to execute to execeute when metrics are collected on URL session task, if provided.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) SEL selectorToIntercept</Declaration>
+			<Declaration>@property (class, nonatomic, copy, nullable) SFSDKMetricsCollectedBlock metricsCollectedAction</Declaration>
 			
 			
-			<Anchor>//api/name/selectorToIntercept</Anchor>
+			<Anchor>//api/name/metricsCollectedAction</Anchor>
             <NodeRef refid="23"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/selectorToIntercept</TokenIdentifier>
-			<Abstract type="html">Selector to intercept</Abstract>
-			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNetwork/metricsCollectedAction</TokenIdentifier>
+			<Abstract type="html">The block to execute to execeute when metrics are collected on URL session task, if provided.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) SEL selectorToIntercept</Declaration>
+			<Declaration>@property (class, nonatomic, copy, nullable) SFSDKMetricsCollectedBlock metricsCollectedAction</Declaration>
 			
 			
-			<Anchor>//api/name/selectorToIntercept</Anchor>
+			<Anchor>//api/name/metricsCollectedAction</Anchor>
             <NodeRef refid="23"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFMethodInterceptor/selectorToIntercept</TokenIdentifier>
-			<Abstract type="html">Selector to intercept</Abstract>
-			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFNetwork/metricsCollectedAction</TokenIdentifier>
+			<Abstract type="html">The block to execute to execeute when metrics are collected on URL session task, if provided.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) SEL selectorToIntercept</Declaration>
+			<Declaration>@property (class, nonatomic, copy, nullable) SFSDKMetricsCollectedBlock metricsCollectedAction</Declaration>
 			
 			
-			<Anchor>//api/name/selectorToIntercept</Anchor>
+			<Anchor>//api/name/metricsCollectedAction</Anchor>
             <NodeRef refid="23"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/setInstanceMethod:</TokenIdentifier>
-			<Abstract type="html">YES if the selectorToIntercept is an instance
-method, NO if it&apos;s a class method.</Abstract>
-			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/sharedEphemeralInstance</TokenIdentifier>
+			<Abstract type="html">Returns an instance of this class with the default ephemeral session configuration.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) BOOL instanceMethod</Declaration>
+			<Declaration>+ (nonnull instancetype)sharedEphemeralInstance</Declaration>
 			
-			
-			<Anchor>//api/name/instanceMethod</Anchor>
+			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
+			<Anchor>//api/name/sharedEphemeralInstance</Anchor>
             <NodeRef refid="23"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/instanceMethod</TokenIdentifier>
-			<Abstract type="html">YES if the selectorToIntercept is an instance
-method, NO if it&apos;s a class method.</Abstract>
-			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/sharedBackgroundInstance</TokenIdentifier>
+			<Abstract type="html">Returns an instance of this class with the default background session configuration.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) BOOL instanceMethod</Declaration>
+			<Declaration>+ (nonnull instancetype)sharedBackgroundInstance</Declaration>
 			
-			
-			<Anchor>//api/name/instanceMethod</Anchor>
+			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
+			<Anchor>//api/name/sharedBackgroundInstance</Anchor>
             <NodeRef refid="23"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFMethodInterceptor/instanceMethod</TokenIdentifier>
-			<Abstract type="html">YES if the selectorToIntercept is an instance
-method, NO if it&apos;s a class method.</Abstract>
-			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/sharedEphemeralInstanceWithIdentifier:</TokenIdentifier>
+			<Abstract type="html">Returns instance of this class for the given identifier with the default ephemeral session configuration.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) BOOL instanceMethod</Declaration>
+			<Declaration>+ (nonnull instancetype)sharedEphemeralInstanceWithIdentifier:(nonnull NSString *)identifier</Declaration>
 			
-			
-			<Anchor>//api/name/instanceMethod</Anchor>
+			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
+			<Anchor>//api/name/sharedEphemeralInstanceWithIdentifier:</Anchor>
             <NodeRef refid="23"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/setTargetBeforeBlock:</TokenIdentifier>
-			<Abstract type="html">Block to be called before the target method. Can be nil.</Abstract>
-			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/sharedBackgroundInstanceWithIdentifier:</TokenIdentifier>
+			<Abstract type="html">Returns instance of this class for the given identifier with the default background session configuration.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFMethodInterceptorInvocationCallback targetBeforeBlock</Declaration>
+			<Declaration>+ (nonnull instancetype)sharedBackgroundInstanceWithIdentifier:(nonnull NSString *)identifier</Declaration>
 			
-			
-			<Anchor>//api/name/targetBeforeBlock</Anchor>
+			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
+			<Anchor>//api/name/sharedBackgroundInstanceWithIdentifier:</Anchor>
             <NodeRef refid="23"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/targetBeforeBlock</TokenIdentifier>
-			<Abstract type="html">Block to be called before the target method. Can be nil.</Abstract>
-			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/sharedInstanceWithIdentifier:sessionConfiguration:</TokenIdentifier>
+			<Abstract type="html">Returns an instance of this class with the given session configuration.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFMethodInterceptorInvocationCallback targetBeforeBlock</Declaration>
-			
-			
-			<Anchor>//api/name/targetBeforeBlock</Anchor>
+			<Declaration>+ (nonnull instancetype)sharedInstanceWithIdentifier:(nonnull NSString *)identifier sessionConfiguration:(nonnull NSURLSessionConfiguration *)sessionConfiguration</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>identifier</Name>
+					<Abstract type="html">Identifier for the instance</Abstract>
+				</Parameter><Parameter>
+					<Name>sessionConfiguration</Name>
+					<Abstract type="html">Configuration to use for the session.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
+			<Anchor>//api/name/sharedInstanceWithIdentifier:sessionConfiguration:</Anchor>
             <NodeRef refid="23"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFMethodInterceptor/targetBeforeBlock</TokenIdentifier>
-			<Abstract type="html">Block to be called before the target method. Can be nil.</Abstract>
-			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNetwork/sendRequest:dataResponseBlock:</TokenIdentifier>
+			<Abstract type="html">Sends a REST request and calls the appropriate completion block.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFMethodInterceptorInvocationCallback targetBeforeBlock</Declaration>
-			
-			
-			<Anchor>//api/name/targetBeforeBlock</Anchor>
+			<Declaration>- (nonnull NSURLSessionDataTask *)sendRequest:(nonnull NSURLRequest *)urlRequest dataResponseBlock:(nullable SFDataResponseBlock)dataResponseBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>urlRequest</Name>
+					<Abstract type="html">NSURLRequest instance.</Abstract>
+				</Parameter><Parameter>
+					<Name>dataResponseBlock</Name>
+					<Abstract type="html">Network response block.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">NSURLSessionDataTask instance.</Abstract></ReturnValue>
+			<Anchor>//api/name/sendRequest:dataResponseBlock:</Anchor>
             <NodeRef refid="23"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/setTargetReplaceBlock:</TokenIdentifier>
-			<Abstract type="html">Block that replaces the target method. Can be nil.</Abstract>
-			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/setSessionConfiguration:identifier:</TokenIdentifier>
+			<Abstract type="html">Sets a session configuration to be used for network requests in Mobile SDK.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFMethodInterceptorInvocationCallback targetReplaceBlock</Declaration>
+			<Declaration>+ (void)setSessionConfiguration:(nonnull NSURLSessionConfiguration *)sessionConfig identifier:(nonnull NSString *)identifier</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>sessionConfig</Name>
+					<Abstract type="html">Session configuration to be used.</Abstract>
+				</Parameter><Parameter>
+					<Name>identifier</Name>
+					<Abstract type="html">Identifier for the instance to use this config.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/targetReplaceBlock</Anchor>
+			<Anchor>//api/name/setSessionConfiguration:identifier:</Anchor>
             <NodeRef refid="23"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/targetReplaceBlock</TokenIdentifier>
-			<Abstract type="html">Block that replaces the target method. Can be nil.</Abstract>
-			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/removeSharedEphemeralInstance</TokenIdentifier>
+			<Abstract type="html">Removes shared instance for the default ephemeral identifier.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFMethodInterceptorInvocationCallback targetReplaceBlock</Declaration>
+			<Declaration>+ (void)removeSharedEphemeralInstance</Declaration>
 			
 			
-			<Anchor>//api/name/targetReplaceBlock</Anchor>
+			<Anchor>//api/name/removeSharedEphemeralInstance</Anchor>
             <NodeRef refid="23"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFMethodInterceptor/targetReplaceBlock</TokenIdentifier>
-			<Abstract type="html">Block that replaces the target method. Can be nil.</Abstract>
-			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/removeSharedBackgroundInstance</TokenIdentifier>
+			<Abstract type="html">Removes shared instance for the default background identifier.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFMethodInterceptorInvocationCallback targetReplaceBlock</Declaration>
+			<Declaration>+ (void)removeSharedBackgroundInstance</Declaration>
 			
 			
-			<Anchor>//api/name/targetReplaceBlock</Anchor>
+			<Anchor>//api/name/removeSharedBackgroundInstance</Anchor>
             <NodeRef refid="23"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/setTargetAfterBlock:</TokenIdentifier>
-			<Abstract type="html">Block to be called after the target method. Can be nil.</Abstract>
-			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/removeSharedInstanceForIdentifier:</TokenIdentifier>
+			<Abstract type="html">Removes shared instance for given identifier.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFMethodInterceptorInvocationAfterCallback targetAfterBlock</Declaration>
+			<Declaration>+ (void)removeSharedInstanceForIdentifier:(nullable NSString *)identifier</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>identifier</Name>
+					<Abstract type="html">Identifier for the session.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/targetAfterBlock</Anchor>
+			<Anchor>//api/name/removeSharedInstanceForIdentifier:</Anchor>
             <NodeRef refid="23"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/targetAfterBlock</TokenIdentifier>
-			<Abstract type="html">Block to be called after the target method. Can be nil.</Abstract>
-			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/removeAllSharedInstances</TokenIdentifier>
+			<Abstract type="html">Removes all shared instances.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFMethodInterceptorInvocationAfterCallback targetAfterBlock</Declaration>
+			<Declaration>+ (void)removeAllSharedInstances</Declaration>
 			
 			
-			<Anchor>//api/name/targetAfterBlock</Anchor>
+			<Anchor>//api/name/removeAllSharedInstances</Anchor>
             <NodeRef refid="23"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFMethodInterceptor/targetAfterBlock</TokenIdentifier>
-			<Abstract type="html">Block to be called after the target method. Can be nil.</Abstract>
-			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/sharedInstanceIdentifiers</TokenIdentifier>
+			<Abstract type="html">Returns list of identifiers for all shared instances.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFMethodInterceptorInvocationAfterCallback targetAfterBlock</Declaration>
+			<Declaration>+ (nullable NSArray *)sharedInstanceIdentifiers</Declaration>
 			
-			
-			<Anchor>//api/name/targetAfterBlock</Anchor>
+			<ReturnValue><Abstract type="html">Array of identifiers.</Abstract></ReturnValue>
+			<Anchor>//api/name/sharedInstanceIdentifiers</Anchor>
             <NodeRef refid="23"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/setEnabled:</TokenIdentifier>
-			<Abstract type="html">Set this property to YES to enable the interceptor.</Abstract>
-			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFNetwork/uniqueInstanceIdentifier</TokenIdentifier>
+			<Abstract type="html">Generates a unique instance identifier.</Abstract>
+			<DeclaredIn>SFNetwork.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) BOOL enabled</Declaration>
-			
-			
-			<Anchor>//api/name/enabled</Anchor>
-            <NodeRef refid="23"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/enabled</TokenIdentifier>
-			<Abstract type="html">Set this property to YES to enable the interceptor.</Abstract>
-			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) BOOL enabled</Declaration>
+			<Declaration>+ (nonnull NSString *)uniqueInstanceIdentifier</Declaration>
 			
 			
-			<Anchor>//api/name/enabled</Anchor>
-            <NodeRef refid="23"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFMethodInterceptor/enabled</TokenIdentifier>
-			<Abstract type="html">Set this property to YES to enable the interceptor.</Abstract>
-			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) BOOL enabled</Declaration>
-			
-			
-			<Anchor>//api/name/enabled</Anchor>
+			<Anchor>//api/name/uniqueInstanceIdentifier</Anchor>
             <NodeRef refid="23"/>
 		</Token>
 		

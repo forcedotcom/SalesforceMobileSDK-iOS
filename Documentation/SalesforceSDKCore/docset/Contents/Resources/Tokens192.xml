@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFOAuthTokenEndpointFlow.html">
+	<File path="Constants/SFSDKUserAccountManagerErrorCode.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthTokenEndpointFlow</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSDKUserAccountManagerErrorCode</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
             
 			
 			<NodeRef refid="192"/>
@@ -14,31 +14,21 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTokenEndpointFlowNone</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKUserAccountManagerError</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFOAuthTokenEndpointFlowNone</Declaration>
+            <Declaration>SFSDKUserAccountManagerError</Declaration>
             
-            <DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
             
             <NodeRef refid="192"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTokenEndpointFlowRefresh</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKUserAccountManagerCannotEncrypt</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFOAuthTokenEndpointFlowRefresh</Declaration>
+            <Declaration>SFSDKUserAccountManagerCannotEncrypt</Declaration>
             
-            <DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
-            
-            <NodeRef refid="192"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTokenEndpointFlowAdvancedBrowser</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFOAuthTokenEndpointFlowAdvancedBrowser</Declaration>
-            
-            <DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
             
             <NodeRef refid="192"/>
         </Token>

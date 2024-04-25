@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSDKLoginFlowSelectionView.html">
+	<File path="Protocols/SFSDKURLHandler.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSDKLoginFlowSelectionView</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSDKURLHandler</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKLoginFlowSelectionView.h</DeclaredIn>
+			<DeclaredIn>SFSDKURLHandler.h</DeclaredIn>
             
 			
 			<NodeRef refid="171"/>
@@ -13,74 +13,38 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKLoginFlowSelectionView/setSelectionFlowDelegate:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKURLHandler/canHandleRequest:options:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKLoginFlowSelectionView.h</DeclaredIn>
+			<DeclaredIn>SFSDKURLHandler.h</DeclaredIn>
 			
-			<Declaration>@property (weak, nonatomic) id&lt;SFSDKLoginFlowSelectionViewDelegate&gt; selectionFlowDelegate</Declaration>
+			<Declaration>- (BOOL)canHandleRequest:(nonnull NSURL *)url options:(nullable NSDictionary *)options</Declaration>
 			
 			
-			<Anchor>//api/name/selectionFlowDelegate</Anchor>
+			<Anchor>//api/name/canHandleRequest:options:</Anchor>
             <NodeRef refid="171"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKLoginFlowSelectionView/selectionFlowDelegate</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKURLHandler/processRequest:options:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKLoginFlowSelectionView.h</DeclaredIn>
+			<DeclaredIn>SFSDKURLHandler.h</DeclaredIn>
 			
-			<Declaration>@property (weak, nonatomic) id&lt;SFSDKLoginFlowSelectionViewDelegate&gt; selectionFlowDelegate</Declaration>
+			<Declaration>- (BOOL)processRequest:(nonnull NSURL *)url options:(nullable NSDictionary *)options</Declaration>
 			
 			
-			<Anchor>//api/name/selectionFlowDelegate</Anchor>
+			<Anchor>//api/name/processRequest:options:</Anchor>
             <NodeRef refid="171"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfp/SFSDKLoginFlowSelectionView/selectionFlowDelegate</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKURLHandler/processRequest:options:completion:failure:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKLoginFlowSelectionView.h</DeclaredIn>
+			<DeclaredIn>SFSDKURLHandler.h</DeclaredIn>
 			
-			<Declaration>@property (weak, nonatomic) id&lt;SFSDKLoginFlowSelectionViewDelegate&gt; selectionFlowDelegate</Declaration>
-			
-			
-			<Anchor>//api/name/selectionFlowDelegate</Anchor>
-            <NodeRef refid="171"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKLoginFlowSelectionView/setAppOptions:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKLoginFlowSelectionView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSDictionary *appOptions</Declaration>
+			<Declaration>- (BOOL)processRequest:(nonnull NSURL *)url options:(nullable NSDictionary *)options completion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock</Declaration>
 			
 			
-			<Anchor>//api/name/appOptions</Anchor>
-            <NodeRef refid="171"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKLoginFlowSelectionView/appOptions</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKLoginFlowSelectionView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSDictionary *appOptions</Declaration>
-			
-			
-			<Anchor>//api/name/appOptions</Anchor>
-            <NodeRef refid="171"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfp/SFSDKLoginFlowSelectionView/appOptions</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKLoginFlowSelectionView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSDictionary *appOptions</Declaration>
-			
-			
-			<Anchor>//api/name/appOptions</Anchor>
+			<Anchor>//api/name/processRequest:options:completion:failure:</Anchor>
             <NodeRef refid="171"/>
 		</Token>
 		

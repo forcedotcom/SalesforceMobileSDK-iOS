@@ -68,6 +68,10 @@
 		
 		<option value="//api/name/isDevSupportEnabled">isDevSupportEnabled</option>
 		
+		<option value="//api/name/isLoginWebviewInspectable">isLoginWebviewInspectable</option>
+		
+		<option value="//api/name/nativeLoginViewControllers">nativeLoginViewControllers</option>
+		
 		<option value="//api/name/sdkManagerFlow">sdkManagerFlow</option>
 		
 		<option value="//api/name/snapshotViewControllers">snapshotViewControllers</option>
@@ -112,11 +116,17 @@
 		
 		<option value="//api/name/isSnapshotPresented:">- isSnapshotPresented:</option>
 		
+		<option value="//api/name/nativeLoginManager">- nativeLoginManager</option>
+		
 		<option value="//api/name/presentSnapshot:">- presentSnapshot:</option>
 		
 		<option value="//api/name/screenLockManager">- screenLockManager</option>
 		
 		<option value="//api/name/showDevSupportDialog:">- showDevSupportDialog:</option>
+		
+		<option value="//api/name/useNativeLoginWithConsumerKey:callbackUrl:communityUrl:nativeLoginViewController:scene:">- useNativeLoginWithConsumerKey:callbackUrl:communityUrl:nativeLoginViewController:scene:</option>
+		
+		<option value="//api/name/useNativeLoginWithConsumerKey:callbackUrl:communityUrl:reCaptchaSiteKeyId:googleCloudProjectId:isReCaptchaEnterprise:nativeLoginViewController:scene:">- useNativeLoginWithConsumerKey:callbackUrl:communityUrl:reCaptchaSiteKeyId:googleCloudProjectId:isReCaptchaEnterprise:nativeLoginViewController:scene:</option>
 		
 	</optgroup>
 	
@@ -373,6 +383,47 @@ backgrounding and foregrounding state.</p>
 		    
 
 			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL isDevSupportEnabled</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SalesforceSDKManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/isLoginWebviewInspectable" title="isLoginWebviewInspectable"></a>
+	<h3 class="method-title"><code><a href="#//api/name/isLoginWebviewInspectable">&nbsp;&nbsp;isLoginWebviewInspectable</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Use this flag to indicate if the login webview should be inspectable (NB: only applies to iOS 16.4 and above)</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL isLoginWebviewInspectable</code></div>
 
 		    
 			
@@ -989,7 +1040,7 @@ For any my domain:
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Returns the ScreenLockManager instance.</p>
+				<p>Returns The ScreenLockManager instance.</p>
 			</div>
 			
 		    
@@ -1002,7 +1053,7 @@ For any my domain:
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>the Screen Lock Manager</p>
+				<p>The Screen Lock Manager.</p>
 			</div>
 			
 
@@ -1035,7 +1086,7 @@ For any my domain:
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Returns the BiometricAuthenticationManager instance.</p>
+				<p>Returns The BiometricAuthenticationManager instance.</p>
 			</div>
 			
 		    
@@ -1048,7 +1099,149 @@ For any my domain:
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>the Biometric Authentication Manager</p>
+				<p>The Biometric Authentication Manager.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SalesforceSDKManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/useNativeLoginWithConsumerKey:callbackUrl:communityUrl:nativeLoginViewController:scene:" title="useNativeLoginWithConsumerKey:callbackUrl:communityUrl:nativeLoginViewController:scene:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/useNativeLoginWithConsumerKey:callbackUrl:communityUrl:nativeLoginViewController:scene:">&ndash;&nbsp;useNativeLoginWithConsumerKey:callbackUrl:communityUrl:nativeLoginViewController:scene:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Creates the NativeLoginManager instance.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (id&lt;SFNativeLoginManager&gt;)useNativeLoginWithConsumerKey:(nonnull NSString *)<em>consumerKey</em> callbackUrl:(nonnull NSString *)<em>callbackUrl</em> communityUrl:(nonnull NSString *)<em>communityUrl</em> nativeLoginViewController:(nonnull UIViewController *)<em>nativeLoginViewController</em> scene:(nullable UIScene *)<em>scene</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>consumerKey</code></th>
+						<td><p>The Connected App consumer key.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>callbackUrl</code></th>
+						<td><p>The Connected App redirect URI.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>communityUrl</code></th>
+						<td><p>The login url for native login</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>nativeLoginViewController</code></th>
+						<td><p>The view presented to the user and responsible for using the
+returned Native Login Manager to initiate either of the authorization code and credentials login flow or the
+headless, password-less login flow.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>scene</code></th>
+						<td><p>Optional UIScene to enable multi-window support.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>The Native Login Manager.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SalesforceSDKManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/useNativeLoginWithConsumerKey:callbackUrl:communityUrl:reCaptchaSiteKeyId:googleCloudProjectId:isReCaptchaEnterprise:nativeLoginViewController:scene:" title="useNativeLoginWithConsumerKey:callbackUrl:communityUrl:reCaptchaSiteKeyId:googleCloudProjectId:isReCaptchaEnterprise:nativeLoginViewController:scene:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/useNativeLoginWithConsumerKey:callbackUrl:communityUrl:reCaptchaSiteKeyId:googleCloudProjectId:isReCaptchaEnterprise:nativeLoginViewController:scene:">&ndash;&nbsp;useNativeLoginWithConsumerKey:callbackUrl:communityUrl:reCaptchaSiteKeyId:googleCloudProjectId:isReCaptchaEnterprise:nativeLoginViewController:scene:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (id&lt;SFNativeLoginManager&gt;)useNativeLoginWithConsumerKey:(nonnull NSString *)<em>consumerKey</em> callbackUrl:(nonnull NSString *)<em>callbackUrl</em> communityUrl:(nonnull NSString *)<em>communityUrl</em> reCaptchaSiteKeyId:(nullable NSString *)<em>reCaptchaSiteKeyId</em> googleCloudProjectId:(nullable NSString *)<em>googleCloudProjectId</em> isReCaptchaEnterprise:(BOOL)<em>isReCaptchaEnterprise</em> nativeLoginViewController:(nonnull UIViewController *)<em>nativeLoginViewController</em> scene:(nullable UIScene *)<em>scene</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/nativeLoginManager" title="nativeLoginManager"></a>
+	<h3 class="method-title"><code><a href="#//api/name/nativeLoginManager">&ndash;&nbsp;nativeLoginManager</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Returns The NativeLoginManager instance.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (id&lt;SFNativeLoginManager&gt;)nativeLoginManager</code></div>
+
+		    
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>The Native Login Manager.</p>
 			</div>
 			
 
@@ -1105,6 +1298,22 @@ For any my domain:
 			
 
 			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, nonnull) SFSDKSafeMutableDictionary&lt;NSString*UIViewController*&gt; *snapshotViewControllers</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/nativeLoginViewControllers" title="nativeLoginViewControllers"></a>
+	<h3 class="method-title"><code><a href="#//api/name/nativeLoginViewControllers">&nbsp;&nbsp;nativeLoginViewControllers</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, nullable) SFSDKSafeMutableDictionary&lt;NSString*UIViewController*&gt; *nativeLoginViewControllers</code></div>
 
 		    
 		</div>
@@ -1172,7 +1381,7 @@ For any my domain:
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2023 Salesforce.com. All rights reserved. Updated: 2023-11-06</p>
+						<p class="copyright">Copyright &copy; 2024 Salesforce.com. All rights reserved. Updated: 2024-04-25</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

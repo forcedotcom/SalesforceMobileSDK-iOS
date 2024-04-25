@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKAuthErrorManager.html">
+	<File path="Classes/SFSDKAuthPreferences.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAuthErrorManager</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAuthPreferences</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthPreferences.h</DeclaredIn>
             
 			
 			<NodeRef refid="50"/>
@@ -13,211 +13,491 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorManager/setNetworkErrorHandlerBlock:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthPreferences/setAdditionalOAuthParameterKeys:</TokenIdentifier>
+			<Abstract type="html">An array of additional keys (NSString) to parse during OAuth</Abstract>
+			<DeclaredIn>SFSDKAuthPreferences.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock networkErrorHandlerBlock</Declaration>
+			<Declaration>@property (nonatomic, strong) NSArray *additionalOAuthParameterKeys</Declaration>
 			
 			
-			<Anchor>//api/name/networkErrorHandlerBlock</Anchor>
+			<Anchor>//api/name/additionalOAuthParameterKeys</Anchor>
             <NodeRef refid="50"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorManager/networkErrorHandlerBlock</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthPreferences/additionalOAuthParameterKeys</TokenIdentifier>
+			<Abstract type="html">An array of additional keys (NSString) to parse during OAuth</Abstract>
+			<DeclaredIn>SFSDKAuthPreferences.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock networkErrorHandlerBlock</Declaration>
+			<Declaration>@property (nonatomic, strong) NSArray *additionalOAuthParameterKeys</Declaration>
 			
 			
-			<Anchor>//api/name/networkErrorHandlerBlock</Anchor>
+			<Anchor>//api/name/additionalOAuthParameterKeys</Anchor>
             <NodeRef refid="50"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthErrorManager/networkErrorHandlerBlock</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthPreferences/additionalOAuthParameterKeys</TokenIdentifier>
+			<Abstract type="html">An array of additional keys (NSString) to parse during OAuth</Abstract>
+			<DeclaredIn>SFSDKAuthPreferences.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock networkErrorHandlerBlock</Declaration>
+			<Declaration>@property (nonatomic, strong) NSArray *additionalOAuthParameterKeys</Declaration>
 			
 			
-			<Anchor>//api/name/networkErrorHandlerBlock</Anchor>
+			<Anchor>//api/name/additionalOAuthParameterKeys</Anchor>
             <NodeRef refid="50"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorManager/setConnectedAppVersionMismatchErrorHandlerBlock:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthPreferences/setAdditionalTokenRefreshParams:</TokenIdentifier>
+			<Abstract type="html">A dictionary of additional parameters (key value pairs) to send during token refresh</Abstract>
+			<DeclaredIn>SFSDKAuthPreferences.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock connectedAppVersionMismatchErrorHandlerBlock</Declaration>
+			<Declaration>@property (nonatomic, strong) NSDictionary *additionalTokenRefreshParams</Declaration>
 			
 			
-			<Anchor>//api/name/connectedAppVersionMismatchErrorHandlerBlock</Anchor>
+			<Anchor>//api/name/additionalTokenRefreshParams</Anchor>
             <NodeRef refid="50"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorManager/connectedAppVersionMismatchErrorHandlerBlock</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthPreferences/additionalTokenRefreshParams</TokenIdentifier>
+			<Abstract type="html">A dictionary of additional parameters (key value pairs) to send during token refresh</Abstract>
+			<DeclaredIn>SFSDKAuthPreferences.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock connectedAppVersionMismatchErrorHandlerBlock</Declaration>
+			<Declaration>@property (nonatomic, strong) NSDictionary *additionalTokenRefreshParams</Declaration>
 			
 			
-			<Anchor>//api/name/connectedAppVersionMismatchErrorHandlerBlock</Anchor>
+			<Anchor>//api/name/additionalTokenRefreshParams</Anchor>
             <NodeRef refid="50"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthErrorManager/connectedAppVersionMismatchErrorHandlerBlock</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthPreferences/additionalTokenRefreshParams</TokenIdentifier>
+			<Abstract type="html">A dictionary of additional parameters (key value pairs) to send during token refresh</Abstract>
+			<DeclaredIn>SFSDKAuthPreferences.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock connectedAppVersionMismatchErrorHandlerBlock</Declaration>
+			<Declaration>@property (nonatomic, strong) NSDictionary *additionalTokenRefreshParams</Declaration>
 			
 			
-			<Anchor>//api/name/connectedAppVersionMismatchErrorHandlerBlock</Anchor>
+			<Anchor>//api/name/additionalTokenRefreshParams</Anchor>
             <NodeRef refid="50"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorManager/setInvalidAuthCredentialsErrorHandlerBlock:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthPreferences/setLoginHost:</TokenIdentifier>
+			<Abstract type="html">The host that will be used for login.</Abstract>
+			<DeclaredIn>SFSDKAuthPreferences.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock invalidAuthCredentialsErrorHandlerBlock</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) NSString *loginHost</Declaration>
 			
 			
-			<Anchor>//api/name/invalidAuthCredentialsErrorHandlerBlock</Anchor>
+			<Anchor>//api/name/loginHost</Anchor>
             <NodeRef refid="50"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorManager/invalidAuthCredentialsErrorHandlerBlock</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthPreferences/loginHost</TokenIdentifier>
+			<Abstract type="html">The host that will be used for login.</Abstract>
+			<DeclaredIn>SFSDKAuthPreferences.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock invalidAuthCredentialsErrorHandlerBlock</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) NSString *loginHost</Declaration>
 			
 			
-			<Anchor>//api/name/invalidAuthCredentialsErrorHandlerBlock</Anchor>
+			<Anchor>//api/name/loginHost</Anchor>
             <NodeRef refid="50"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthErrorManager/invalidAuthCredentialsErrorHandlerBlock</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthPreferences/loginHost</TokenIdentifier>
+			<Abstract type="html">The host that will be used for login.</Abstract>
+			<DeclaredIn>SFSDKAuthPreferences.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock invalidAuthCredentialsErrorHandlerBlock</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) NSString *loginHost</Declaration>
 			
 			
-			<Anchor>//api/name/invalidAuthCredentialsErrorHandlerBlock</Anchor>
+			<Anchor>//api/name/loginHost</Anchor>
             <NodeRef refid="50"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorManager/setHostConnectionErrorHandlerBlock:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthPreferences/setRetryLoginAfterFailure:</TokenIdentifier>
+			<Abstract type="html">Should the login process start again if it fails (default: YES)</Abstract>
+			<DeclaredIn>SFSDKAuthPreferences.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock hostConnectionErrorHandlerBlock</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL retryLoginAfterFailure</Declaration>
 			
 			
-			<Anchor>//api/name/hostConnectionErrorHandlerBlock</Anchor>
+			<Anchor>//api/name/retryLoginAfterFailure</Anchor>
             <NodeRef refid="50"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorManager/hostConnectionErrorHandlerBlock</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthPreferences/retryLoginAfterFailure</TokenIdentifier>
+			<Abstract type="html">Should the login process start again if it fails (default: YES)</Abstract>
+			<DeclaredIn>SFSDKAuthPreferences.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock hostConnectionErrorHandlerBlock</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL retryLoginAfterFailure</Declaration>
 			
 			
-			<Anchor>//api/name/hostConnectionErrorHandlerBlock</Anchor>
+			<Anchor>//api/name/retryLoginAfterFailure</Anchor>
             <NodeRef refid="50"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthErrorManager/hostConnectionErrorHandlerBlock</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthPreferences/retryLoginAfterFailure</TokenIdentifier>
+			<Abstract type="html">Should the login process start again if it fails (default: YES)</Abstract>
+			<DeclaredIn>SFSDKAuthPreferences.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock hostConnectionErrorHandlerBlock</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL retryLoginAfterFailure</Declaration>
 			
 			
-			<Anchor>//api/name/hostConnectionErrorHandlerBlock</Anchor>
+			<Anchor>//api/name/retryLoginAfterFailure</Anchor>
             <NodeRef refid="50"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorManager/setGenericErrorHandlerBlock:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthPreferences/setOauthClientId:</TokenIdentifier>
+			<Abstract type="html">OAuth client ID to use for login.  Apps may customize
+by setting this property before login; otherwise, this
+value is determined by the SFDCOAuthClientIdPreference
+configured via the settings bundle.</Abstract>
+			<DeclaredIn>SFSDKAuthPreferences.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock genericErrorHandlerBlock</Declaration>
+			<Declaration>@property (nonatomic, copy, nullable) NSString *oauthClientId</Declaration>
 			
 			
-			<Anchor>//api/name/genericErrorHandlerBlock</Anchor>
+			<Anchor>//api/name/oauthClientId</Anchor>
             <NodeRef refid="50"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorManager/genericErrorHandlerBlock</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthPreferences/oauthClientId</TokenIdentifier>
+			<Abstract type="html">OAuth client ID to use for login.  Apps may customize
+by setting this property before login; otherwise, this
+value is determined by the SFDCOAuthClientIdPreference
+configured via the settings bundle.</Abstract>
+			<DeclaredIn>SFSDKAuthPreferences.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock genericErrorHandlerBlock</Declaration>
+			<Declaration>@property (nonatomic, copy, nullable) NSString *oauthClientId</Declaration>
 			
 			
-			<Anchor>//api/name/genericErrorHandlerBlock</Anchor>
+			<Anchor>//api/name/oauthClientId</Anchor>
             <NodeRef refid="50"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthErrorManager/genericErrorHandlerBlock</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthPreferences/oauthClientId</TokenIdentifier>
+			<Abstract type="html">OAuth client ID to use for login.  Apps may customize
+by setting this property before login; otherwise, this
+value is determined by the SFDCOAuthClientIdPreference
+configured via the settings bundle.</Abstract>
+			<DeclaredIn>SFSDKAuthPreferences.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock genericErrorHandlerBlock</Declaration>
+			<Declaration>@property (nonatomic, copy, nullable) NSString *oauthClientId</Declaration>
 			
 			
-			<Anchor>//api/name/genericErrorHandlerBlock</Anchor>
+			<Anchor>//api/name/oauthClientId</Anchor>
             <NodeRef refid="50"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorManager/processAuthError:authContext:options:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthPreferences/setOauthCompletionUrl:</TokenIdentifier>
+			<Abstract type="html">OAuth callback url to use for the OAuth login process.
+Apps may customize this by setting this property before login.
+By default this value is picked up from the main
+bundle property SFDCOAuthRedirectUri</Abstract>
+			<DeclaredIn>SFSDKAuthPreferences.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)processAuthError:(NSError *)error authContext:(SFSDKAuthSession *)session options:(NSDictionary *_Nullable)options</Declaration>
+			<Declaration>@property (nonatomic, copy, nullable) NSString *oauthCompletionUrl</Declaration>
 			
 			
-			<Anchor>//api/name/processAuthError:authContext:options:</Anchor>
+			<Anchor>//api/name/oauthCompletionUrl</Anchor>
             <NodeRef refid="50"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKAuthErrorManager/errorIsInvalidAuthCredentials:</TokenIdentifier>
-			<Abstract type="html">Determines whether an error is due to invalid auth credentials.</Abstract>
-			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthPreferences/oauthCompletionUrl</TokenIdentifier>
+			<Abstract type="html">OAuth callback url to use for the OAuth login process.
+Apps may customize this by setting this property before login.
+By default this value is picked up from the main
+bundle property SFDCOAuthRedirectUri</Abstract>
+			<DeclaredIn>SFSDKAuthPreferences.h</DeclaredIn>
 			
-			<Declaration>+ (BOOL)errorIsInvalidAuthCredentials:(NSError *)error</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>error</Name>
-					<Abstract type="html">The error to check against an invalid credentials error.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the error is due to invalid credentials, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/errorIsInvalidAuthCredentials:</Anchor>
+			<Declaration>@property (nonatomic, copy, nullable) NSString *oauthCompletionUrl</Declaration>
+			
+			
+			<Anchor>//api/name/oauthCompletionUrl</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthPreferences/oauthCompletionUrl</TokenIdentifier>
+			<Abstract type="html">OAuth callback url to use for the OAuth login process.
+Apps may customize this by setting this property before login.
+By default this value is picked up from the main
+bundle property SFDCOAuthRedirectUri</Abstract>
+			<DeclaredIn>SFSDKAuthPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) NSString *oauthCompletionUrl</Declaration>
+			
+			
+			<Anchor>//api/name/oauthCompletionUrl</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthPreferences/setBrandLoginPath:</TokenIdentifier>
+			<Abstract type="html">The Branded Login path configured for this application.</Abstract>
+			<DeclaredIn>SFSDKAuthPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) NSString *brandLoginPath</Declaration>
+			
+			
+			<Anchor>//api/name/brandLoginPath</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthPreferences/brandLoginPath</TokenIdentifier>
+			<Abstract type="html">The Branded Login path configured for this application.</Abstract>
+			<DeclaredIn>SFSDKAuthPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) NSString *brandLoginPath</Declaration>
+			
+			
+			<Anchor>//api/name/brandLoginPath</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthPreferences/brandLoginPath</TokenIdentifier>
+			<Abstract type="html">The Branded Login path configured for this application.</Abstract>
+			<DeclaredIn>SFSDKAuthPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) NSString *brandLoginPath</Declaration>
+			
+			
+			<Anchor>//api/name/brandLoginPath</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthPreferences/setScopes:</TokenIdentifier>
+			<Abstract type="html">The OAuth scopes associated with the app.</Abstract>
+			<DeclaredIn>SFSDKAuthPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSSet&lt;NSString*&gt; *scopes</Declaration>
+			
+			
+			<Anchor>//api/name/scopes</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthPreferences/scopes</TokenIdentifier>
+			<Abstract type="html">The OAuth scopes associated with the app.</Abstract>
+			<DeclaredIn>SFSDKAuthPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSSet&lt;NSString*&gt; *scopes</Declaration>
+			
+			
+			<Anchor>//api/name/scopes</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthPreferences/scopes</TokenIdentifier>
+			<Abstract type="html">The OAuth scopes associated with the app.</Abstract>
+			<DeclaredIn>SFSDKAuthPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSSet&lt;NSString*&gt; *scopes</Declaration>
+			
+			
+			<Anchor>//api/name/scopes</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthPreferences/setIsIdentityProvider:</TokenIdentifier>
+			<Abstract type="html">  Use this property to enable an app to become and IdentityProvider for other apps</Abstract>
+			<DeclaredIn>SFSDKAuthPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isIdentityProvider</Declaration>
+			
+			
+			<Anchor>//api/name/isIdentityProvider</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthPreferences/isIdentityProvider</TokenIdentifier>
+			<Abstract type="html">  Use this property to enable an app to become and IdentityProvider for other apps</Abstract>
+			<DeclaredIn>SFSDKAuthPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isIdentityProvider</Declaration>
+			
+			
+			<Anchor>//api/name/isIdentityProvider</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthPreferences/isIdentityProvider</TokenIdentifier>
+			<Abstract type="html">  Use this property to enable an app to become and IdentityProvider for other apps</Abstract>
+			<DeclaredIn>SFSDKAuthPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isIdentityProvider</Declaration>
+			
+			
+			<Anchor>//api/name/isIdentityProvider</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthPreferences/setIdpEnabled:</TokenIdentifier>
+			<Abstract type="html">Check if the idp apps URI scheme  has been set.</Abstract>
+			<DeclaredIn>SFSDKAuthPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) BOOL idpEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/idpEnabled</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthPreferences/idpEnabled</TokenIdentifier>
+			<Abstract type="html">Check if the idp apps URI scheme  has been set.</Abstract>
+			<DeclaredIn>SFSDKAuthPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) BOOL idpEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/idpEnabled</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthPreferences/idpEnabled</TokenIdentifier>
+			<Abstract type="html">Check if the idp apps URI scheme  has been set.</Abstract>
+			<DeclaredIn>SFSDKAuthPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) BOOL idpEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/idpEnabled</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthPreferences/setIdpAppURIScheme:</TokenIdentifier>
+			<Abstract type="html">Use this property to indicate the url scheme  for the Identity Provider app</Abstract>
+			<DeclaredIn>SFSDKAuthPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) NSString *idpAppURIScheme</Declaration>
+			
+			
+			<Anchor>//api/name/idpAppURIScheme</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthPreferences/idpAppURIScheme</TokenIdentifier>
+			<Abstract type="html">Use this property to indicate the url scheme  for the Identity Provider app</Abstract>
+			<DeclaredIn>SFSDKAuthPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) NSString *idpAppURIScheme</Declaration>
+			
+			
+			<Anchor>//api/name/idpAppURIScheme</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthPreferences/idpAppURIScheme</TokenIdentifier>
+			<Abstract type="html">Use this property to indicate the url scheme  for the Identity Provider app</Abstract>
+			<DeclaredIn>SFSDKAuthPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) NSString *idpAppURIScheme</Declaration>
+			
+			
+			<Anchor>//api/name/idpAppURIScheme</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthPreferences/setAppDisplayName:</TokenIdentifier>
+			<Abstract type="html">A user friendly display name for use in UI by the SDK on behalf of the app.  This value will be used on various authentication screens
+such as biometric enrollment or IDP login. If left unset, this property will fallback to CFBundleDisplayName or CFBundleName depending on what is available.</Abstract>
+			<DeclaredIn>SFSDKAuthPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *appDisplayName</Declaration>
+			
+			
+			<Anchor>//api/name/appDisplayName</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthPreferences/appDisplayName</TokenIdentifier>
+			<Abstract type="html">A user friendly display name for use in UI by the SDK on behalf of the app.  This value will be used on various authentication screens
+such as biometric enrollment or IDP login. If left unset, this property will fallback to CFBundleDisplayName or CFBundleName depending on what is available.</Abstract>
+			<DeclaredIn>SFSDKAuthPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *appDisplayName</Declaration>
+			
+			
+			<Anchor>//api/name/appDisplayName</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthPreferences/appDisplayName</TokenIdentifier>
+			<Abstract type="html">A user friendly display name for use in UI by the SDK on behalf of the app.  This value will be used on various authentication screens
+such as biometric enrollment or IDP login. If left unset, this property will fallback to CFBundleDisplayName or CFBundleName depending on what is available.</Abstract>
+			<DeclaredIn>SFSDKAuthPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *appDisplayName</Declaration>
+			
+			
+			<Anchor>//api/name/appDisplayName</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthPreferences/setRequireBrowserAuthentication:</TokenIdentifier>
+			<Abstract type="html">Whether the app is configured to require certificate-based authentication. (RequireCertAuth)</Abstract>
+			<DeclaredIn>SFSDKAuthPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL requireBrowserAuthentication</Declaration>
+			
+			
+			<Anchor>//api/name/requireBrowserAuthentication</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthPreferences/requireBrowserAuthentication</TokenIdentifier>
+			<Abstract type="html">Whether the app is configured to require certificate-based authentication. (RequireCertAuth)</Abstract>
+			<DeclaredIn>SFSDKAuthPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL requireBrowserAuthentication</Declaration>
+			
+			
+			<Anchor>//api/name/requireBrowserAuthentication</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthPreferences/requireBrowserAuthentication</TokenIdentifier>
+			<Abstract type="html">Whether the app is configured to require certificate-based authentication. (RequireCertAuth)</Abstract>
+			<DeclaredIn>SFSDKAuthPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL requireBrowserAuthentication</Declaration>
+			
+			
+			<Anchor>//api/name/requireBrowserAuthentication</Anchor>
             <NodeRef refid="50"/>
 		</Token>
 		

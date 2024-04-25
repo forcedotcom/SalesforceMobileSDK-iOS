@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKEventBuilderHelper.html">
+	<File path="Classes/SFSDKIDPAuthCodeLoginRequestCommand.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKEventBuilderHelper</TokenIdentifier>
-			<Abstract type="html">// Event startTime and endTime can be specified by passing values for attributes STARTTIME and ENDTIME</Abstract>
-			<DeclaredIn>SFSDKEventBuilderHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKIDPAuthCodeLoginRequestCommand</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKIDPAuthCodeLoginRequestCommand.h</DeclaredIn>
             
 			
 			<NodeRef refid="74"/>
@@ -13,28 +13,146 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKEventBuilderHelper/createAndStoreEvent:userAccount:className:attributes:</TokenIdentifier>
-			<Abstract type="html">Creates and stores an analytics event with the supplied parameters.</Abstract>
-			<DeclaredIn>SFSDKEventBuilderHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKIDPAuthCodeLoginRequestCommand/setUserHint:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKIDPAuthCodeLoginRequestCommand.h</DeclaredIn>
 			
-			<Declaration>+ (void)createAndStoreEvent:(NSString *)name userAccount:(nullable SFUserAccount *)userAccount className:(NSString *)className attributes:(nullable NSDictionary *)attributes</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>name</Name>
-					<Abstract type="html">Event name.</Abstract>
-				</Parameter><Parameter>
-					<Name>userAccount</Name>
-					<Abstract type="html">User account.</Abstract>
-				</Parameter><Parameter>
-					<Name>className</Name>
-					<Abstract type="html">Class name or context where the event was generated.</Abstract>
-				</Parameter><Parameter>
-					<Name>attributes</Name>
-					<Abstract type="html">Addiitonal attributes.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, copy) NSString *userHint</Declaration>
 			
-			<Anchor>//api/name/createAndStoreEvent:userAccount:className:attributes:</Anchor>
+			
+			<Anchor>//api/name/userHint</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKIDPAuthCodeLoginRequestCommand/userHint</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKIDPAuthCodeLoginRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *userHint</Declaration>
+			
+			
+			<Anchor>//api/name/userHint</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKIDPAuthCodeLoginRequestCommand/userHint</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKIDPAuthCodeLoginRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *userHint</Declaration>
+			
+			
+			<Anchor>//api/name/userHint</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKIDPAuthCodeLoginRequestCommand/setKeychainGroup:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKIDPAuthCodeLoginRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *keychainGroup</Declaration>
+			
+			
+			<Anchor>//api/name/keychainGroup</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKIDPAuthCodeLoginRequestCommand/keychainGroup</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKIDPAuthCodeLoginRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *keychainGroup</Declaration>
+			
+			
+			<Anchor>//api/name/keychainGroup</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKIDPAuthCodeLoginRequestCommand/keychainGroup</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKIDPAuthCodeLoginRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *keychainGroup</Declaration>
+			
+			
+			<Anchor>//api/name/keychainGroup</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKIDPAuthCodeLoginRequestCommand/setKeychainReference:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKIDPAuthCodeLoginRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *keychainReference</Declaration>
+			
+			
+			<Anchor>//api/name/keychainReference</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKIDPAuthCodeLoginRequestCommand/keychainReference</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKIDPAuthCodeLoginRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *keychainReference</Declaration>
+			
+			
+			<Anchor>//api/name/keychainReference</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKIDPAuthCodeLoginRequestCommand/keychainReference</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKIDPAuthCodeLoginRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *keychainReference</Declaration>
+			
+			
+			<Anchor>//api/name/keychainReference</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKIDPAuthCodeLoginRequestCommand/setAuthCode:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKIDPAuthCodeLoginRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *authCode</Declaration>
+			
+			
+			<Anchor>//api/name/authCode</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKIDPAuthCodeLoginRequestCommand/authCode</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKIDPAuthCodeLoginRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *authCode</Declaration>
+			
+			
+			<Anchor>//api/name/authCode</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKIDPAuthCodeLoginRequestCommand/authCode</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKIDPAuthCodeLoginRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *authCode</Declaration>
+			
+			
+			<Anchor>//api/name/authCode</Anchor>
             <NodeRef refid="74"/>
 		</Token>
 		

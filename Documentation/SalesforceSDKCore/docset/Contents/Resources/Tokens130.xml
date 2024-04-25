@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKWebViewStateManager.html">
+	<File path="Classes/SFSDKWindowManager.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKWebViewStateManager</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKWindowManager</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="130"/>
@@ -13,101 +13,242 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKWebViewStateManager/removeSession</TokenIdentifier>
-			<Abstract type="html">  Remove all associated state with WKWebView e.g. Remove Cookies, reset WKProcessPool unless session cookie removal  has been disabled.</Abstract>
-			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/setUserInterfaceStyle:</TokenIdentifier>
+			<Abstract type="html">Sets overrideUserInterfaceStyle on managed windows. Default is UIUserInterfaceStyleUnspecified.</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
 			
-			<Declaration>+ (void)removeSession</Declaration>
+			<Declaration>@property (nonatomic, assign) UIUserInterfaceStyle userInterfaceStyle</Declaration>
 			
 			
-			<Anchor>//api/name/removeSession</Anchor>
+			<Anchor>//api/name/userInterfaceStyle</Anchor>
             <NodeRef refid="130"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWebViewStateManager/setSessionCookieManagementDisabled:</TokenIdentifier>
-			<Abstract type="html">Disables the crreation/removal of session Cookies. The application can call the respective methods</Abstract>
-			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/userInterfaceStyle</TokenIdentifier>
+			<Abstract type="html">Sets overrideUserInterfaceStyle on managed windows. Default is UIUserInterfaceStyleUnspecified.</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
 			
-			<Declaration>@property (class, nonatomic, assign, getter=isSessionCookieManagementDisabled) BOOL sessionCookieManagementDisabled</Declaration>
+			<Declaration>@property (nonatomic, assign) UIUserInterfaceStyle userInterfaceStyle</Declaration>
 			
 			
-			<Anchor>//api/name/sessionCookieManagementDisabled</Anchor>
+			<Anchor>//api/name/userInterfaceStyle</Anchor>
             <NodeRef refid="130"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWebViewStateManager/isSessionCookieManagementDisabled</TokenIdentifier>
-			<Abstract type="html">Disables the crreation/removal of session Cookies. The application can call the respective methods</Abstract>
-			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKWindowManager/userInterfaceStyle</TokenIdentifier>
+			<Abstract type="html">Sets overrideUserInterfaceStyle on managed windows. Default is UIUserInterfaceStyleUnspecified.</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
 			
-			<Declaration>@property (class, nonatomic, assign, getter=isSessionCookieManagementDisabled) BOOL sessionCookieManagementDisabled</Declaration>
+			<Declaration>@property (nonatomic, assign) UIUserInterfaceStyle userInterfaceStyle</Declaration>
 			
 			
-			<Anchor>//api/name/sessionCookieManagementDisabled</Anchor>
+			<Anchor>//api/name/userInterfaceStyle</Anchor>
             <NodeRef refid="130"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKWebViewStateManager/sessionCookieManagementDisabled</TokenIdentifier>
-			<Abstract type="html">Disables the crreation/removal of session Cookies. The application can call the respective methods</Abstract>
-			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/screenLockWindow</TokenIdentifier>
+			<Abstract type="html">SDK uses this window to present the screen lock view.</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
 			
-			<Declaration>@property (class, nonatomic, assign, getter=isSessionCookieManagementDisabled) BOOL sessionCookieManagementDisabled</Declaration>
+			<Declaration>- (nonnull SFSDKWindowContainer *)screenLockWindow</Declaration>
 			
 			
-			<Anchor>//api/name/sessionCookieManagementDisabled</Anchor>
+			<Anchor>//api/name/screenLockWindow</Anchor>
             <NodeRef refid="130"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWebViewStateManager/setSharedProcessPool:</TokenIdentifier>
-			<Abstract type="html">Gets or sets an instance of WKProcessPool that will be used during instantiation of any WKWebView instances @discussion
-  Use the default instance or provide an instance to share state between WKWebView instances</Abstract>
-			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/authWindow:</TokenIdentifier>
+			<Abstract type="html">SDK uses this window to present the login flow for the given scene. Defaults a connected scene if one isn&apos;t provided.</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
 			
-			<Declaration>@property (class, strong, nonatomic, nullable) WKProcessPool *sharedProcessPool</Declaration>
+			<Declaration>- (nonnull SFSDKWindowContainer *)authWindow:(nullable UIScene *)scene</Declaration>
 			
 			
-			<Anchor>//api/name/sharedProcessPool</Anchor>
+			<Anchor>//api/name/authWindow:</Anchor>
             <NodeRef refid="130"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWebViewStateManager/sharedProcessPool</TokenIdentifier>
-			<Abstract type="html">Gets or sets an instance of WKProcessPool that will be used during instantiation of any WKWebView instances @discussion
-  Use the default instance or provide an instance to share state between WKWebView instances</Abstract>
-			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/snapshotWindow:</TokenIdentifier>
+			<Abstract type="html">SDK uses this window to present the snapshot view for a given scene. Defaults to a connected scene if one isn&apos;t provided.</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
 			
-			<Declaration>@property (class, strong, nonatomic, nullable) WKProcessPool *sharedProcessPool</Declaration>
+			<Declaration>- (nonnull SFSDKWindowContainer *)snapshotWindow:(nullable UIScene *)scene</Declaration>
 			
 			
-			<Anchor>//api/name/sharedProcessPool</Anchor>
+			<Anchor>//api/name/snapshotWindow:</Anchor>
             <NodeRef refid="130"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKWebViewStateManager/sharedProcessPool</TokenIdentifier>
-			<Abstract type="html">Gets or sets an instance of WKProcessPool that will be used during instantiation of any WKWebView instances @discussion
-  Use the default instance or provide an instance to share state between WKWebView instances</Abstract>
-			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/mainWindow:</TokenIdentifier>
+			<Abstract type="html">Returns the SFSDKWindowContainer window representing the mainWindow that has been set for a given scene. Defaults to a connected scene if one isn&apos;t provided.</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
 			
-			<Declaration>@property (class, strong, nonatomic, nullable) WKProcessPool *sharedProcessPool</Declaration>
+			<Declaration>- (nonnull SFSDKWindowContainer *)mainWindow:(nullable UIScene *)scene</Declaration>
 			
 			
-			<Anchor>//api/name/sharedProcessPool</Anchor>
+			<Anchor>//api/name/mainWindow:</Anchor>
             <NodeRef refid="130"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKWebViewStateManager/resetSessionCookie</TokenIdentifier>
-			<Abstract type="html">Clears session cookie data from the cookie store unless session cookie removal  has been disabled.</Abstract>
-			<DeclaredIn>SFSDKWebViewStateManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/activeWindow:</TokenIdentifier>
+			<Abstract type="html">Returns the SFSDKWindowContainer window representing the active presented window that has been set for a given scene. Defaults to a connected scene if one isn&apos;t provided.</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
 			
-			<Declaration>+ (void)resetSessionCookie</Declaration>
+			<Declaration>- (nullable SFSDKWindowContainer *)activeWindow:(nullable UIScene *)scene</Declaration>
 			
 			
-			<Anchor>//api/name/resetSessionCookie</Anchor>
+			<Anchor>//api/name/activeWindow:</Anchor>
+            <NodeRef refid="130"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/setMainUIWindow:</TokenIdentifier>
+			<Abstract type="html">Used to setup the main application window.</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			
+			<Declaration>- (void)setMainUIWindow:(UIWindow *_Nonnull)window</Declaration>
+			
+			
+			<Anchor>//api/name/setMainUIWindow:</Anchor>
+            <NodeRef refid="130"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/setMainUIWindow:scene:</TokenIdentifier>
+			<Abstract type="html">Used to setup the main window for a given scene. Defaults to a connected scene if one isn&apos;t provided.</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			
+			<Declaration>- (void)setMainUIWindow:(nonnull UIWindow *)window scene:(nullable UIScene *)scene</Declaration>
+			
+			
+			<Anchor>//api/name/setMainUIWindow:scene:</Anchor>
+            <NodeRef refid="130"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/createNewNamedWindow:</TokenIdentifier>
+			<Abstract type="html">Used to create a new Window keyed by a specified name</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			
+			<Declaration>- (SFSDKWindowContainer *_Nullable)createNewNamedWindow:(NSString *_Nonnull)windowName</Declaration>
+			
+			
+			<Anchor>//api/name/createNewNamedWindow:</Anchor>
+            <NodeRef refid="130"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/createNewNamedWindow:scene:</TokenIdentifier>
+			<Abstract type="html">Used to create a new window keyed by a specified name for a given scene. Defaults to a  connected scene if one isn&apos;t provided.</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			
+			<Declaration>- (nullable SFSDKWindowContainer *)createNewNamedWindow:(nonnull NSString *)windowName scene:(nullable UIScene *)scene</Declaration>
+			
+			
+			<Anchor>//api/name/createNewNamedWindow:scene:</Anchor>
+            <NodeRef refid="130"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/removeNamedWindow:</TokenIdentifier>
+			<Abstract type="html">Used to remove a Window by a specified name</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)removeNamedWindow:(NSString *_Nonnull)windowName</Declaration>
+			
+			
+			<Anchor>//api/name/removeNamedWindow:</Anchor>
+            <NodeRef refid="130"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/removeNamedWindow:scene:</TokenIdentifier>
+			<Abstract type="html">Used to remove a window by a specified name for a given scene. Defaults to a connected scene if one isn&apos;t provided.</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)removeNamedWindow:(nonnull NSString *)windowName scene:(nullable UIScene *)scene</Declaration>
+			
+			
+			<Anchor>//api/name/removeNamedWindow:scene:</Anchor>
+            <NodeRef refid="130"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/windowWithName:</TokenIdentifier>
+			<Abstract type="html">Used to retrieve a Window by a specified name</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			
+			<Declaration>- (SFSDKWindowContainer *_Nullable)windowWithName:(NSString *_Nonnull)name</Declaration>
+			
+			
+			<Anchor>//api/name/windowWithName:</Anchor>
+            <NodeRef refid="130"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/windowWithName:scene:</TokenIdentifier>
+			<Abstract type="html">Used to retrieve a window by a specified name for a given scene. Defaults to a connected scene if one isn&apos;t provided.</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			
+			<Declaration>- (nullable SFSDKWindowContainer *)windowWithName:(nonnull NSString *)name scene:(nullable UIScene *)scene</Declaration>
+			
+			
+			<Anchor>//api/name/windowWithName:scene:</Anchor>
+            <NodeRef refid="130"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/addDelegate:</TokenIdentifier>
+			<Abstract type="html">Add a Window Manager Delegate</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			
+			<Declaration>- (void)addDelegate:(id&lt;SFSDKWindowManagerDelegate&gt; _Nonnull)delegate</Declaration>
+			
+			
+			<Anchor>//api/name/addDelegate:</Anchor>
+            <NodeRef refid="130"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/removeDelegate:</TokenIdentifier>
+			<Abstract type="html">Remove a Window Manager Delegate</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			
+			<Declaration>- (void)removeDelegate:(id&lt;SFSDKWindowManagerDelegate&gt; _Nonnull)delegate</Declaration>
+			
+			
+			<Anchor>//api/name/removeDelegate:</Anchor>
+            <NodeRef refid="130"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKWindowManager/sharedManager</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			
+			<Declaration>+ (instancetype _Nonnull)sharedManager</Declaration>
+			
+			
+			<Anchor>//api/name/sharedManager</Anchor>
+            <NodeRef refid="130"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/defaultScene</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKWindowManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (UIScene *)defaultScene</Declaration>
+			
+			
+			<Anchor>//api/name/defaultScene</Anchor>
             <NodeRef refid="130"/>
 		</Token>
 		

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFInactivityTimerCenter.html">
+	<File path="Classes/SFLoginViewController.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFInactivityTimerCenter</TokenIdentifier>
-			<Abstract type="html">This class manages manages the inactivity timer. See NSTimer in the Objective-C documentation for more details.</Abstract>
-			<DeclaredIn>SFInactivityTimerCenter.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFLoginViewController</TokenIdentifier>
+			<Abstract type="html">The Salesforce login screen view.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
             
 			
 			<NodeRef refid="19"/>
@@ -13,110 +13,356 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFInactivityTimerCenter/registerTimer:target:selector:timerInterval:</TokenIdentifier>
-			<Abstract type="html">* Register the timer.</Abstract>
-			<DeclaredIn>SFInactivityTimerCenter.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/setDelegate:</TokenIdentifier>
+			<Abstract type="html">The delegate representing the owner of this object.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
 			
-			<Declaration>+ (void)registerTimer:(NSString *)timerName target:(id)target selector:(SEL)aSelector timerInterval:(NSTimeInterval)interval</Declaration>
+			<Declaration>@property (nonatomic, weak, nullable) id&lt;SFLoginViewControllerDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="19"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/delegate</TokenIdentifier>
+			<Abstract type="html">The delegate representing the owner of this object.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak, nullable) id&lt;SFLoginViewControllerDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="19"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLoginViewController/delegate</TokenIdentifier>
+			<Abstract type="html">The delegate representing the owner of this object.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak, nullable) id&lt;SFLoginViewControllerDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="19"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/setOauthView:</TokenIdentifier>
+			<Abstract type="html">Outlet to the OAuth web view.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) IBOutlet UIView *oauthView</Declaration>
+			
+			
+			<Anchor>//api/name/oauthView</Anchor>
+            <NodeRef refid="19"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/oauthView</TokenIdentifier>
+			<Abstract type="html">Outlet to the OAuth web view.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) IBOutlet UIView *oauthView</Declaration>
+			
+			
+			<Anchor>//api/name/oauthView</Anchor>
+            <NodeRef refid="19"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLoginViewController/oauthView</TokenIdentifier>
+			<Abstract type="html">Outlet to the OAuth web view.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) IBOutlet UIView *oauthView</Declaration>
+			
+			
+			<Anchor>//api/name/oauthView</Anchor>
+            <NodeRef refid="19"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/set:</TokenIdentifier>
+			<Abstract type="html">Specify the font to use for navigation bar header text.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) UIFont *NS_SWIFT_NAME ( navigationBarFont )</Declaration>
+			
+			
+			<Anchor>//api/name/)</Anchor>
+            <NodeRef refid="19"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/)</TokenIdentifier>
+			<Abstract type="html">Specify the font to use for navigation bar header text.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) UIFont *NS_SWIFT_NAME ( navigationBarFont )</Declaration>
+			
+			
+			<Anchor>//api/name/)</Anchor>
+            <NodeRef refid="19"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLoginViewController/)</TokenIdentifier>
+			<Abstract type="html">Specify the font to use for navigation bar header text.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) UIFont *NS_SWIFT_NAME ( navigationBarFont )</Declaration>
+			
+			
+			<Anchor>//api/name/)</Anchor>
+            <NodeRef refid="19"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/setConfig:</TokenIdentifier>
+			<Abstract type="html">Specify all display properties in a config. All the above properties are backed by
+a config object</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nonnull) SFSDKLoginViewControllerConfig *config</Declaration>
+			
+			
+			<Anchor>//api/name/config</Anchor>
+            <NodeRef refid="19"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/config</TokenIdentifier>
+			<Abstract type="html">Specify all display properties in a config. All the above properties are backed by
+a config object</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nonnull) SFSDKLoginViewControllerConfig *config</Declaration>
+			
+			
+			<Anchor>//api/name/config</Anchor>
+            <NodeRef refid="19"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLoginViewController/config</TokenIdentifier>
+			<Abstract type="html">Specify all display properties in a config. All the above properties are backed by
+a config object</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nonnull) SFSDKLoginViewControllerConfig *config</Declaration>
+			
+			
+			<Anchor>//api/name/config</Anchor>
+            <NodeRef refid="19"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/setNavBar:</TokenIdentifier>
+			<Abstract type="html">Get the instance of nav bar. Use this property to get the instance of navBar</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) UINavigationBar *navBar</Declaration>
+			
+			
+			<Anchor>//api/name/navBar</Anchor>
+            <NodeRef refid="19"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/navBar</TokenIdentifier>
+			<Abstract type="html">Get the instance of nav bar. Use this property to get the instance of navBar</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) UINavigationBar *navBar</Declaration>
+			
+			
+			<Anchor>//api/name/navBar</Anchor>
+            <NodeRef refid="19"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLoginViewController/navBar</TokenIdentifier>
+			<Abstract type="html">Get the instance of nav bar. Use this property to get the instance of navBar</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) UINavigationBar *navBar</Declaration>
+			
+			
+			<Anchor>//api/name/navBar</Anchor>
+            <NodeRef refid="19"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/setLoginHostListViewController:</TokenIdentifier>
+			<Abstract type="html">Get the refrence  to the SFSDKLoginHostListViewController</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFSDKLoginHostListViewController *loginHostListViewController</Declaration>
+			
+			
+			<Anchor>//api/name/loginHostListViewController</Anchor>
+            <NodeRef refid="19"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/loginHostListViewController</TokenIdentifier>
+			<Abstract type="html">Get the refrence  to the SFSDKLoginHostListViewController</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFSDKLoginHostListViewController *loginHostListViewController</Declaration>
+			
+			
+			<Anchor>//api/name/loginHostListViewController</Anchor>
+            <NodeRef refid="19"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLoginViewController/loginHostListViewController</TokenIdentifier>
+			<Abstract type="html">Get the refrence  to the SFSDKLoginHostListViewController</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFSDKLoginHostListViewController *loginHostListViewController</Declaration>
+			
+			
+			<Anchor>//api/name/loginHostListViewController</Anchor>
+            <NodeRef refid="19"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/styleNavigationBar:</TokenIdentifier>
+			<Abstract type="html">Applies the view&apos;s style attributes to the given navigation bar.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>- (void)styleNavigationBar:(nullable UINavigationBar *)navigationBar</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>timerName</Name>
-					<Abstract type="html">Name to use to register the timer.</Abstract>
-				</Parameter><Parameter>
-					<Name>target</Name>
-					<Abstract type="html">The object to which to send the message specified by aSelector when the timer fires. See NSTimer documentation.</Abstract>
-				</Parameter><Parameter>
-					<Name>aSelector</Name>
-					<Abstract type="html">The message to send to target when the timer fires. See NSTimer documentation.</Abstract>
-				</Parameter><Parameter>
-					<Name>interval</Name>
-					<Abstract type="html">For a repeating timer, this parameter contains the number of seconds between firings of the timer. See NSTimer documentation.</Abstract>
+					<Name>navigationBar</Name>
+					<Abstract type="html">The navigation bar that the style is applied to.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/registerTimer:target:selector:timerInterval:</Anchor>
+			<Anchor>//api/name/styleNavigationBar:</Anchor>
             <NodeRef refid="19"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFInactivityTimerCenter/removeTimer:</TokenIdentifier>
-			<Abstract type="html">* Remove a specific timer.</Abstract>
-			<DeclaredIn>SFInactivityTimerCenter.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/showHostListView</TokenIdentifier>
+			<Abstract type="html">Present the Host List View.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
 			
-			<Declaration>+ (void)removeTimer:(NSString *)timerName</Declaration>
+			<Declaration>- (void)showHostListView</Declaration>
+			
+			
+			<Anchor>//api/name/showHostListView</Anchor>
+            <NodeRef refid="19"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/hideHostListView:</TokenIdentifier>
+			<Abstract type="html">Hide the Host List View.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>- (void)hideHostListView:(BOOL)animated</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>timerName</Name>
-					<Abstract type="html">Name of the timer to remove.</Abstract>
+					<Name>animated</Name>
+					<Abstract type="html">Indicates whether or not the hiding should be animated.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/removeTimer:</Anchor>
+			<Anchor>//api/name/hideHostListView:</Anchor>
             <NodeRef refid="19"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFInactivityTimerCenter/removeAllTimers</TokenIdentifier>
-			<Abstract type="html">Remove all timers.</Abstract>
-			<DeclaredIn>SFInactivityTimerCenter.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/createBackButton</TokenIdentifier>
+			<Abstract type="html">Factory Method to create the back button.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
 			
-			<Declaration>+ (void)removeAllTimers</Declaration>
+			<Declaration>- (nonnull UIBarButtonItem *)createBackButton</Declaration>
 			
 			
-			<Anchor>//api/name/removeAllTimers</Anchor>
+			<Anchor>//api/name/createBackButton</Anchor>
             <NodeRef refid="19"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFInactivityTimerCenter/updateActivityTimestamp</TokenIdentifier>
-			<Abstract type="html">Update last activity timestamp to current time.</Abstract>
-			<DeclaredIn>SFInactivityTimerCenter.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/createSettingsButton</TokenIdentifier>
+			<Abstract type="html">Factory Method to create the settings button.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
 			
-			<Declaration>+ (void)updateActivityTimestamp</Declaration>
+			<Declaration>- (nonnull UIBarButtonItem *)createSettingsButton</Declaration>
 			
 			
-			<Anchor>//api/name/updateActivityTimestamp</Anchor>
+			<Anchor>//api/name/createSettingsButton</Anchor>
             <NodeRef refid="19"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFInactivityTimerCenter/updateActivityTimestampTo:</TokenIdentifier>
-			<Abstract type="html">* Update last activity timestamp to specified time.</Abstract>
-			<DeclaredIn>SFInactivityTimerCenter.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/createTitleItem</TokenIdentifier>
+			<Abstract type="html">Factory Method to create the navigation title.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
 			
-			<Declaration>+ (void)updateActivityTimestampTo:(NSDate *)date</Declaration>
+			<Declaration>- (nonnull UIView *)createTitleItem</Declaration>
+			
+			
+			<Anchor>//api/name/createTitleItem</Anchor>
+            <NodeRef refid="19"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/createLoginHostListViewController</TokenIdentifier>
+			<Abstract type="html">Factory Method to create the hostListView Controller.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>- (nonnull SFSDKLoginHostListViewController *)createLoginHostListViewController</Declaration>
+			
+			
+			<Anchor>//api/name/createLoginHostListViewController</Anchor>
+            <NodeRef refid="19"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/shouldShowBackButton</TokenIdentifier>
+			<Abstract type="html">Logic to show back button.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)shouldShowBackButton</Declaration>
+			
+			
+			<Anchor>//api/name/shouldShowBackButton</Anchor>
+            <NodeRef refid="19"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/handleBackButtonAction</TokenIdentifier>
+			<Abstract type="html">Back Button was pressed by user</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>- (void)handleBackButtonAction</Declaration>
+			
+			
+			<Anchor>//api/name/handleBackButtonAction</Anchor>
+            <NodeRef refid="19"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/handleLoginHostSelectedAction:</TokenIdentifier>
+			<Abstract type="html">User Selected a host from the host list</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>- (void)handleLoginHostSelectedAction:(nonnull SFSDKLoginHost *)host</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>date</Name>
-					<Abstract type="html">The NSDate object that specifies the new timestamp.</Abstract>
+					<Name>host</Name>
+					<Abstract type="html">SFSDKLoginHost</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/updateActivityTimestampTo:</Anchor>
-            <NodeRef refid="19"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFInactivityTimerCenter/lastActivityTimestamp</TokenIdentifier>
-			<Abstract type="html">Return the timestamp for the latest activity.</Abstract>
-			<DeclaredIn>SFInactivityTimerCenter.h</DeclaredIn>
-			
-			<Declaration>+ (NSDate *)lastActivityTimestamp</Declaration>
-			
-			
-			<Anchor>//api/name/lastActivityTimestamp</Anchor>
-            <NodeRef refid="19"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFInactivityTimerCenter/saveActivityTimestamp</TokenIdentifier>
-			<Abstract type="html">Save the activity timestamp to persistant storage.</Abstract>
-			<DeclaredIn>SFInactivityTimerCenter.h</DeclaredIn>
-			
-			<Declaration>+ (void)saveActivityTimestamp</Declaration>
-			
-			
-			<Anchor>//api/name/saveActivityTimestamp</Anchor>
+			<Anchor>//api/name/handleLoginHostSelectedAction:</Anchor>
             <NodeRef refid="19"/>
 		</Token>
 		

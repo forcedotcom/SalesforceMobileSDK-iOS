@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/NSDictionary+SFAdditions.html">
+	<File path="Categories/NSURL+SFStringUtils.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/NSDictionary(SFAdditions)</TokenIdentifier>
-			<Abstract type="html">Extension to NSDictionary object</Abstract>
-			<DeclaredIn>NSDictionary+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/NSURL(SFStringUtils)</TokenIdentifier>
+			<Abstract type="html">Utilities for interacting with NSURL objects.</Abstract>
+			<DeclaredIn>NSURL+SFStringUtils.h</DeclaredIn>
             
 			
 			<NodeRef refid="154"/>
@@ -13,84 +13,22 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSDictionary/sfsdk_objectAtPath:</TokenIdentifier>
-			<Abstract type="html">Get object from NSDictionary with &quot;/&quot; separated path.</Abstract>
-			<DeclaredIn>NSDictionary+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSURL/sfsdk_redactedAbsoluteString:</TokenIdentifier>
+			<Abstract type="html">Will return the absolute string of a URL, with potentially sensitive querystring
+parameter values redacted.  Useful for logging URL values without sensitive data
+included.</Abstract>
+			<DeclaredIn>NSURL+SFStringUtils.h</DeclaredIn>
 			
-			<Declaration>- (nullable id)sfsdk_objectAtPath:(nullable NSString *)path</Declaration>
+			<Declaration>- (NSString *)sfsdk_redactedAbsoluteString:(NSArray *)queryStringParamsToRedact</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>path</Name>
-					<Abstract type="html">Path for the object to retrieve. Use &quot;/&quot; to separate between levels. For example, root/child/valueKey will retrieve value from the root NSDictionary object to its child dictionary&apos;s value with key &quot;valueKey&quot;</Abstract>
+					<Name>queryStringParamsToRedact</Name>
+					<Abstract type="html">An array of querystring parameter names whose values
+should be redacted.</Abstract>
 				</Parameter>
 			</Parameters>
-			
-			<Anchor>//api/name/sfsdk_objectAtPath:</Anchor>
-            <NodeRef refid="154"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSDictionary/objectAtPath:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>NSDictionary+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (nullable id)objectAtPath:(nullable NSString *)path</Declaration>
-			
-			
-			<Anchor>//api/name/objectAtPath:</Anchor>
-            <NodeRef refid="154"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSDictionary/sfsdk_nonNullObjectForKey:</TokenIdentifier>
-			<Abstract type="html">Returns an object whose ID is key, or nil.</Abstract>
-			<DeclaredIn>NSDictionary+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (nullable id)sfsdk_nonNullObjectForKey:(nullable id)key</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The ID of an object, or a null value</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">An object whose ID is key, or else nil if the key has a value of NSNull or an NSString value of &quot;&lt;nil&gt;&quot; or &quot;&lt;null&gt;&quot;.</Abstract></ReturnValue>
-			<Anchor>//api/name/sfsdk_nonNullObjectForKey:</Anchor>
-            <NodeRef refid="154"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSDictionary/nonNullObjectForKey:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>NSDictionary+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (nullable id)nonNullObjectForKey:(nullable id)key</Declaration>
-			
-			
-			<Anchor>//api/name/nonNullObjectForKey:</Anchor>
-            <NodeRef refid="154"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSDictionary/sfsdk_jsonString</TokenIdentifier>
-			<Abstract type="html">Returns the dictionary&apos;s contents reformatted as a JSON string.</Abstract>
-			<DeclaredIn>NSDictionary+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (nullable NSString *)sfsdk_jsonString</Declaration>
-			
-			
-			<Anchor>//api/name/sfsdk_jsonString</Anchor>
-            <NodeRef refid="154"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSDictionary/jsonString</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>NSDictionary+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (nullable NSString *)jsonString</Declaration>
-			
-			
-			<Anchor>//api/name/jsonString</Anchor>
+			<ReturnValue><Abstract type="html">The redacted version of the absolute string value.</Abstract></ReturnValue>
+			<Anchor>//api/name/sfsdk_redactedAbsoluteString:</Anchor>
             <NodeRef refid="154"/>
 		</Token>
 		

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKNewLoginHostViewController.html">
+	<File path="Classes/SFSDKOAuth2.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKNewLoginHostViewController</TokenIdentifier>
-			<Abstract type="html">View controller that allows the user to enter a new login host that contains
-a host (the server address) and an optional name.</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKOAuth2</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
             
 			
 			<NodeRef refid="94"/>
@@ -14,113 +13,74 @@ a host (the server address) and an optional name.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKNewLoginHostViewController/setServer:</TokenIdentifier>
-			<Abstract type="html">The server text field</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKOAuth2/parseQueryString:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UITextField *server</Declaration>
+			<Declaration>+ (NSDictionary *)parseQueryString:(NSString *)query</Declaration>
 			
 			
-			<Anchor>//api/name/server</Anchor>
+			<Anchor>//api/name/parseQueryString:</Anchor>
             <NodeRef refid="94"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKNewLoginHostViewController/server</TokenIdentifier>
-			<Abstract type="html">The server text field</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKOAuth2/parseQueryString:decodeParams:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UITextField *server</Declaration>
+			<Declaration>+ (NSDictionary *)parseQueryString:(NSString *)query decodeParams:(BOOL)decodeParams</Declaration>
 			
 			
-			<Anchor>//api/name/server</Anchor>
+			<Anchor>//api/name/parseQueryString:decodeParams:</Anchor>
             <NodeRef refid="94"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKNewLoginHostViewController/server</TokenIdentifier>
-			<Abstract type="html">The server text field</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKOAuth2/errorWithType:description:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UITextField *server</Declaration>
+			<Declaration>+ (NSError *)errorWithType:(NSString *)type description:(NSString *)description</Declaration>
 			
 			
-			<Anchor>//api/name/server</Anchor>
+			<Anchor>//api/name/errorWithType:description:</Anchor>
             <NodeRef refid="94"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKNewLoginHostViewController/setName:</TokenIdentifier>
-			<Abstract type="html">The name text field</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKOAuth2/errorWithType:description:underlyingError:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UITextField *name</Declaration>
+			<Declaration>+ (NSError *)errorWithType:(NSString *)type description:(NSString *)description underlyingError:(NSError *_Nullable)underlyingError</Declaration>
 			
 			
-			<Anchor>//api/name/name</Anchor>
+			<Anchor>//api/name/errorWithType:description:underlyingError:</Anchor>
             <NodeRef refid="94"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKNewLoginHostViewController/name</TokenIdentifier>
-			<Abstract type="html">The name text field</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKOAuth2/timestampStringToDate:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UITextField *name</Declaration>
+			<Declaration>+ (NSDate *)timestampStringToDate:(NSString *)timestamp</Declaration>
 			
 			
-			<Anchor>//api/name/name</Anchor>
+			<Anchor>//api/name/timestampStringToDate:</Anchor>
             <NodeRef refid="94"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKNewLoginHostViewController/name</TokenIdentifier>
-			<Abstract type="html">The name text field</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKOAuth2/handleTokenEndpointResponse:request:data:urlResponse:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UITextField *name</Declaration>
-			
-			
-			<Anchor>//api/name/name</Anchor>
-            <NodeRef refid="94"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKNewLoginHostViewController/setLoginHostListViewController:</TokenIdentifier>
-			<Abstract type="html">A reference to the login host list view controller used to add the host to the list of login hosts
-and to also properly resize the popover controller.</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) SFSDKLoginHostListViewController *loginHostListViewController</Declaration>
+			<Declaration>- (void)handleTokenEndpointResponse:(void ( ^ ) ( SFSDKOAuthTokenEndpointResponse *))completionBlock request:(SFSDKOAuthTokenEndpointRequest *)endpointReq data:(NSData *)data urlResponse:(NSURLResponse *)response</Declaration>
 			
 			
-			<Anchor>//api/name/loginHostListViewController</Anchor>
-            <NodeRef refid="94"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKNewLoginHostViewController/loginHostListViewController</TokenIdentifier>
-			<Abstract type="html">A reference to the login host list view controller used to add the host to the list of login hosts
-and to also properly resize the popover controller.</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) SFSDKLoginHostListViewController *loginHostListViewController</Declaration>
-			
-			
-			<Anchor>//api/name/loginHostListViewController</Anchor>
-            <NodeRef refid="94"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKNewLoginHostViewController/loginHostListViewController</TokenIdentifier>
-			<Abstract type="html">A reference to the login host list view controller used to add the host to the list of login hosts
-and to also properly resize the popover controller.</Abstract>
-			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) SFSDKLoginHostListViewController *loginHostListViewController</Declaration>
-			
-			
-			<Anchor>//api/name/loginHostListViewController</Anchor>
+			<Anchor>//api/name/handleTokenEndpointResponse:request:data:urlResponse:</Anchor>
             <NodeRef refid="94"/>
 		</Token>
 		

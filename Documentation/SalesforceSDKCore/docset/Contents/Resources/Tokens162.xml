@@ -1,532 +1,352 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/UIDevice+SFHardware.html">
+	<File path="Protocols/SFOAuthCoordinatorDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/UIDevice(SFHardware)</TokenIdentifier>
-			<Abstract type="html">Extension to UIDevice class to provide more hardware related information, including hardware model, capability and also most importantly current device&apos;s orientation</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SFOAuthCoordinatorDelegate</TokenIdentifier>
+			<Abstract type="html">Protocol for objects intending to be a delegate for an OAuth coordinator.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
             
 			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/cl/SFOAuthCoordinator</TokenIdentifier>
+		
+	</RelatedTokens>
+	
 			<NodeRef refid="162"/>
 		</Token>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/sfsdk_platform</TokenIdentifier>
-			<Abstract type="html">Platform for the Device</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinator:willBeginAuthenticationWithView:</TokenIdentifier>
+			<Abstract type="html">Sent when authentication will begin.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
 			
-			<Declaration>- (nullable NSString *)sfsdk_platform</Declaration>
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/cl/SFOAuthCoordinator</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginAuthenticationWithView:(WKWebView *)view</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>coordinator</Name>
+					<Abstract type="html">The SFOAuthCoordinator instance processing this message</Abstract>
+				</Parameter><Parameter>
+					<Name>view</Name>
+					<Abstract type="html">The WKWebView instance that will be used to conduct the authentication workflow</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/sfsdk_platform</Anchor>
+			<Anchor>//api/name/oauthCoordinator:willBeginAuthenticationWithView:</Anchor>
             <NodeRef refid="162"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/platform</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinator:didStartLoad:</TokenIdentifier>
+			<Abstract type="html">Sent when the web will starts to load its content.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
 			
-			<Declaration>- (nullable NSString *)platform</Declaration>
+			<Declaration>- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didStartLoad:(WKWebView *)view</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>coordinator</Name>
+					<Abstract type="html">The SFOAuthCoordinator instance processing this message</Abstract>
+				</Parameter><Parameter>
+					<Name>view</Name>
+					<Abstract type="html">The WKWebView instance that will be used to conduct the authentication workflow</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/platform</Anchor>
+			<Anchor>//api/name/oauthCoordinator:didStartLoad:</Anchor>
             <NodeRef refid="162"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/hwmodel</TokenIdentifier>
-			<Abstract type="html">Hardware model</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinator:didFinishLoad:error:</TokenIdentifier>
+			<Abstract type="html">Sent when the web will completed to load its content.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
 			
-			<Declaration>- (nullable NSString *)hwmodel</Declaration>
+			<Declaration>- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFinishLoad:(WKWebView *)view error:(nullable NSError *)errorOrNil</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>coordinator</Name>
+					<Abstract type="html">The SFOAuthCoordinator instance processing this message</Abstract>
+				</Parameter><Parameter>
+					<Name>view</Name>
+					<Abstract type="html">The WKWebView instance that will be used to conduct the authentication workflow</Abstract>
+				</Parameter><Parameter>
+					<Name>errorOrNil</Name>
+					<Abstract type="html">Contains the error or nil if no error</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/hwmodel</Anchor>
+			<Anchor>//api/name/oauthCoordinator:didFinishLoad:error:</Anchor>
             <NodeRef refid="162"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/sfsdk_platformType</TokenIdentifier>
-			<Abstract type="html">Platform type
-See UIDevicePlatform</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinatorWillBeginAuthentication:authInfo:</TokenIdentifier>
+			<Abstract type="html">Sent before oauthcoordinator will begin any kind of authentication</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
 			
-			<Declaration>- (UIDevicePlatform)sfsdk_platformType</Declaration>
+			<Declaration>- (void)oauthCoordinatorWillBeginAuthentication:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>coordinator</Name>
+					<Abstract type="html">The SFOAuthCoordinator instance processing this message</Abstract>
+				</Parameter><Parameter>
+					<Name>info</Name>
+					<Abstract type="html">The SFOAuthInfo instance containing details about the type of authentication.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/sfsdk_platformType</Anchor>
+			<Anchor>//api/name/oauthCoordinatorWillBeginAuthentication:authInfo:</Anchor>
             <NodeRef refid="162"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/platformType</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinatorDidAuthenticate:authInfo:</TokenIdentifier>
+			<Abstract type="html">Sent when authentication successfully completes.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
 			
-			<Declaration>- (UIDevicePlatform)platformType</Declaration>
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/cl/SFOAuthCoordinator</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>coordinator</Name>
+					<Abstract type="html">The SFOAuthCoordinator instance processing this message.</Abstract>
+				</Parameter><Parameter>
+					<Name>info</Name>
+					<Abstract type="html">Object containing info associated with this authentication attempt.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/platformType</Anchor>
+			<Anchor>//api/name/oauthCoordinatorDidAuthenticate:authInfo:</Anchor>
             <NodeRef refid="162"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/sfsdk_systemVersionNumber</TokenIdentifier>
-			<Abstract type="html">Returns the system-dependent version number.</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinator:didFailWithError:authInfo:</TokenIdentifier>
+			<Abstract type="html">Sent if authentication fails due to an error.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
 			
-			<Declaration>- (double)sfsdk_systemVersionNumber</Declaration>
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/cl/SFOAuthCoordinator</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(nullable SFOAuthInfo *)info</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>coordinator</Name>
+					<Abstract type="html">The SFOAuthCoordinator instance processing this message.</Abstract>
+				</Parameter><Parameter>
+					<Name>error</Name>
+					<Abstract type="html">The error associated with the failure.</Abstract>
+				</Parameter><Parameter>
+					<Name>info</Name>
+					<Abstract type="html">Object containing info associated with the authentication attempt.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			<ReturnValue><Abstract type="html">The system version number.</Abstract></ReturnValue>
-			<Anchor>//api/name/sfsdk_systemVersionNumber</Anchor>
+			<Anchor>//api/name/oauthCoordinator:didFailWithError:authInfo:</Anchor>
             <NodeRef refid="162"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/systemVersionNumber</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinatorIsNetworkAvailable:</TokenIdentifier>
+			<Abstract type="html">The delegate can implement this method to return a BOOL indicating whether the network is available.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
 			
-			<Declaration>- (double)systemVersionNumber</Declaration>
+			<Declaration>- (BOOL)oauthCoordinatorIsNetworkAvailable:(SFOAuthCoordinator *)coordinator</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>coordinator</Name>
+					<Abstract type="html">The SFOAuthCoordinator object to be queried (typically self).</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/systemVersionNumber</Anchor>
+			<Anchor>//api/name/oauthCoordinatorIsNetworkAvailable:</Anchor>
             <NodeRef refid="162"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/sfsdk_platformString</TokenIdentifier>
-			<Abstract type="html">Platform string</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinator:willBeginBrowserAuthentication:</TokenIdentifier>
+			<Abstract type="html">Sent to notify the delegate that a browser authentication flow is about to begin.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)sfsdk_platformString</Declaration>
+			<Declaration>- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginBrowserAuthentication:(SFOAuthBrowserFlowCallbackBlock)callbackBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>coordinator</Name>
+					<Abstract type="html">The SFOAuthCoordinator instance processing this message.</Abstract>
+				</Parameter><Parameter>
+					<Name>callbackBlock</Name>
+					<Abstract type="html">A callback block used to notify the coordinator if it should continue with the authentication flow.
+Pass in YES to proceed, NO to cancel the authentication flow.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/sfsdk_platformString</Anchor>
+			<Anchor>//api/name/oauthCoordinator:willBeginBrowserAuthentication:</Anchor>
             <NodeRef refid="162"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/platformString</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinator:displayAlertMessage:completion:</TokenIdentifier>
+			<Abstract type="html">The delegate is expected to display an alert with the specific message and callback the completion block when
+the user dismisses the alert.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)platformString</Declaration>
+			<Declaration>- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator displayAlertMessage:(NSString *)message completion:(dispatch_block_t)completion</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>coordinator</Name>
+					<Abstract type="html">The SFOAuthCoordinator instance</Abstract>
+				</Parameter><Parameter>
+					<Name>message</Name>
+					<Abstract type="html">The message to display</Abstract>
+				</Parameter><Parameter>
+					<Name>completion</Name>
+					<Abstract type="html">The completion block to invoke</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/platformString</Anchor>
+			<Anchor>//api/name/oauthCoordinator:displayAlertMessage:completion:</Anchor>
             <NodeRef refid="162"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/cpuFrequency</TokenIdentifier>
-			<Abstract type="html">CPU Frequency</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinator:displayConfirmationMessage:completion:</TokenIdentifier>
+			<Abstract type="html">The delegate is expected to display a confirmation alert with the specific message and callback the completion block when
+the user dismisses the alert.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
 			
-			<Declaration>- (NSUInteger)cpuFrequency</Declaration>
+			<Declaration>- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator displayConfirmationMessage:(NSString *)message completion:(void ( ^ ) ( BOOL result ))completion</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>coordinator</Name>
+					<Abstract type="html">The SFOAuthCoordinator instance</Abstract>
+				</Parameter><Parameter>
+					<Name>message</Name>
+					<Abstract type="html">The message to display</Abstract>
+				</Parameter><Parameter>
+					<Name>completion</Name>
+					<Abstract type="html">The completion block to invoke with YES as result if the user confirmed the alert or NO if the user cancelled the alert.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/cpuFrequency</Anchor>
+			<Anchor>//api/name/oauthCoordinator:displayConfirmationMessage:completion:</Anchor>
             <NodeRef refid="162"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/busFrequency</TokenIdentifier>
-			<Abstract type="html">Bus frequency</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinatorDidFetchAuthCode:authInfo:</TokenIdentifier>
+			<Abstract type="html">Sent to notify the delegate that a  authentication code was retrieved during idp flow.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
 			
-			<Declaration>- (NSUInteger)busFrequency</Declaration>
+			<Declaration>- (void)oauthCoordinatorDidFetchAuthCode:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)authInfo</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>coordinator</Name>
+					<Abstract type="html">The SFOAuthCoordinator instance processing this message.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/busFrequency</Anchor>
+			<Anchor>//api/name/oauthCoordinatorDidFetchAuthCode:authInfo:</Anchor>
             <NodeRef refid="162"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/cpuCount</TokenIdentifier>
-			<Abstract type="html">CPU Count</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinator:didBeginAuthenticationWithView:</TokenIdentifier>
+			<Abstract type="html">Sent after authentication has begun and the view parameter is displaying the first page of authentication content.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
 			
-			<Declaration>- (NSUInteger)cpuCount</Declaration>
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/cl/SFOAuthCoordinator</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(WKWebView *)view</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>coordinator</Name>
+					<Abstract type="html">The SFOAuthCoordinator instance processing this message</Abstract>
+				</Parameter><Parameter>
+					<Name>view</Name>
+					<Abstract type="html">The WKWebView instance that will be used to conduct the authentication workflow</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/cpuCount</Anchor>
+			<Anchor>//api/name/oauthCoordinator:didBeginAuthenticationWithView:</Anchor>
             <NodeRef refid="162"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/totalCPU</TokenIdentifier>
-			<Abstract type="html">Total CUP</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinator:didBeginAuthenticationWithSession:</TokenIdentifier>
+			<Abstract type="html">Sent after ASWebAuthenticationSession was initialized with authentication URL.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
 			
-			<Declaration>- (float)totalCPU</Declaration>
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/cl/SFOAuthCoordinator</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSession:(ASWebAuthenticationSession *)session</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>coordinator</Name>
+					<Abstract type="html">The SFOAuthCoordinator instance processing this message</Abstract>
+				</Parameter><Parameter>
+					<Name>session</Name>
+					<Abstract type="html">The ASWebAuthenticationSession instance that will be used to conduct the authentication workflow</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/totalCPU</Anchor>
+			<Anchor>//api/name/oauthCoordinator:didBeginAuthenticationWithSession:</Anchor>
             <NodeRef refid="162"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/sfsdk_totalMemory</TokenIdentifier>
-			<Abstract type="html">Total memory</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinatorDidBeginNativeAuthentication:</TokenIdentifier>
+			<Abstract type="html">Sent to notify the delegate that authentication via native REST APIs has begun.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
 			
-			<Declaration>- (NSUInteger)sfsdk_totalMemory</Declaration>
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/cl/SFOAuthCoordinator</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (void)oauthCoordinatorDidBeginNativeAuthentication:(SFOAuthCoordinator *)coordinator</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>coordinator</Name>
+					<Abstract type="html">The SFOAuthCoordinator instance processing this message</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/sfsdk_totalMemory</Anchor>
+			<Anchor>//api/name/oauthCoordinatorDidBeginNativeAuthentication:</Anchor>
             <NodeRef refid="162"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/totalMemory</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
-			
-			<Declaration>- (NSUInteger)totalMemory</Declaration>
-			
-			
-			<Anchor>//api/name/totalMemory</Anchor>
-            <NodeRef refid="162"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/sfsdk_userMemory</TokenIdentifier>
-			<Abstract type="html">User Memory</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
-			
-			<Declaration>- (NSUInteger)sfsdk_userMemory</Declaration>
-			
-			
-			<Anchor>//api/name/sfsdk_userMemory</Anchor>
-            <NodeRef refid="162"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/userMemory</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
-			
-			<Declaration>- (NSUInteger)userMemory</Declaration>
-			
-			
-			<Anchor>//api/name/userMemory</Anchor>
-            <NodeRef refid="162"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/sfsdk_applicationMemory</TokenIdentifier>
-			<Abstract type="html">Memory used by application (in bytes)</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
-			
-			<Declaration>- (NSUInteger)sfsdk_applicationMemory</Declaration>
-			
-			
-			<Anchor>//api/name/sfsdk_applicationMemory</Anchor>
-            <NodeRef refid="162"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/applicationMemory</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
-			
-			<Declaration>- (NSUInteger)applicationMemory</Declaration>
-			
-			
-			<Anchor>//api/name/applicationMemory</Anchor>
-            <NodeRef refid="162"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/sfsdk_freeMemory</TokenIdentifier>
-			<Abstract type="html">Free VM page space available to application (in bytes)</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
-			
-			<Declaration>- (NSUInteger)sfsdk_freeMemory</Declaration>
-			
-			
-			<Anchor>//api/name/sfsdk_freeMemory</Anchor>
-            <NodeRef refid="162"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/freeMemory</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
-			
-			<Declaration>- (NSUInteger)freeMemory</Declaration>
-			
-			
-			<Anchor>//api/name/freeMemory</Anchor>
-            <NodeRef refid="162"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/sfsdk_totalDiskSpace</TokenIdentifier>
-			<Abstract type="html">Total disk space</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
-			
-			<Declaration>- (NSNumber *)sfsdk_totalDiskSpace</Declaration>
-			
-			
-			<Anchor>//api/name/sfsdk_totalDiskSpace</Anchor>
-            <NodeRef refid="162"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/totalDiskSpace</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
-			
-			<Declaration>- (NSNumber *)totalDiskSpace</Declaration>
-			
-			
-			<Anchor>//api/name/totalDiskSpace</Anchor>
-            <NodeRef refid="162"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/sfsdk_freeDiskSpace</TokenIdentifier>
-			<Abstract type="html">Total free space</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
-			
-			<Declaration>- (NSNumber *)sfsdk_freeDiskSpace</Declaration>
-			
-			
-			<Anchor>//api/name/sfsdk_freeDiskSpace</Anchor>
-            <NodeRef refid="162"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/freeDiskSpace</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
-			
-			<Declaration>- (NSNumber *)freeDiskSpace</Declaration>
-			
-			
-			<Anchor>//api/name/freeDiskSpace</Anchor>
-            <NodeRef refid="162"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/macaddress</TokenIdentifier>
-			<Abstract type="html">Mac address</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
-			
-			<Declaration>- (nullable NSString *)macaddress</Declaration>
-			
-			
-			<Anchor>//api/name/macaddress</Anchor>
-            <NodeRef refid="162"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/hasRetinaDisplay</TokenIdentifier>
-			<Abstract type="html">Returns whether the device has a retina display</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)hasRetinaDisplay</Declaration>
-			
-			
-			<Anchor>//api/name/hasRetinaDisplay</Anchor>
-            <NodeRef refid="162"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/sfsdk_hasNeuralEngine</TokenIdentifier>
-			<Abstract type="html">Returns whether the device&apos;s SOC has a neural engine for core ML tasks</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)sfsdk_hasNeuralEngine</Declaration>
-			
-			
-			<Anchor>//api/name/sfsdk_hasNeuralEngine</Anchor>
-            <NodeRef refid="162"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/hasNeuralEngine</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)hasNeuralEngine</Declaration>
-			
-			
-			<Anchor>//api/name/hasNeuralEngine</Anchor>
-            <NodeRef refid="162"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/sfsdk_deviceFamily</TokenIdentifier>
-			<Abstract type="html">Device Family</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
-			
-			<Declaration>- (UIDeviceFamily)sfsdk_deviceFamily</Declaration>
-			
-			
-			<Anchor>//api/name/sfsdk_deviceFamily</Anchor>
-            <NodeRef refid="162"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/deviceFamily</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
-			
-			<Declaration>- (UIDeviceFamily)deviceFamily</Declaration>
-			
-			
-			<Anchor>//api/name/deviceFamily</Anchor>
-            <NodeRef refid="162"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/sfsdk_interfaceOrientation</TokenIdentifier>
-			<Abstract type="html">Device&apos;s current orientation
-This method will first try to retrieve orientation using UIDevice currentOrientation, if return value is an invalid orientation, it will try to use the orientation of the first window scene</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
-			
-			<Declaration>- (UIInterfaceOrientation)sfsdk_interfaceOrientation</Declaration>
-			
-			
-			<Anchor>//api/name/sfsdk_interfaceOrientation</Anchor>
-            <NodeRef refid="162"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/interfaceOrientation</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
-			
-			<Declaration>- (UIInterfaceOrientation)interfaceOrientation</Declaration>
-			
-			
-			<Anchor>//api/name/interfaceOrientation</Anchor>
-            <NodeRef refid="162"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/sfsdk_isSimulator</TokenIdentifier>
-			<Abstract type="html">Determine if current device is simulator or not</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)sfsdk_isSimulator</Declaration>
-			
-			<ReturnValue><Abstract type="html">Return YES if current device is simulator, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/sfsdk_isSimulator</Anchor>
-            <NodeRef refid="162"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/isSimulator</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)isSimulator</Declaration>
-			
-			
-			<Anchor>//api/name/isSimulator</Anchor>
-            <NodeRef refid="162"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/canDevicePlaceAPhoneCall</TokenIdentifier>
-			<Abstract type="html">Determines whether the current device can place phone calls.</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)canDevicePlaceAPhoneCall</Declaration>
-			
-			<ReturnValue><Abstract type="html">Returns YES if the current device can make a phone call, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/canDevicePlaceAPhoneCall</Anchor>
-            <NodeRef refid="162"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/hasIphone6ScreenSize</TokenIdentifier>
-			<Abstract type="html">Determine if the current device has the screen size of an iPhone 6.</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)hasIphone6ScreenSize</Declaration>
-			
-			<ReturnValue><Abstract type="html">Returns YES if so, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/hasIphone6ScreenSize</Anchor>
-            <NodeRef refid="162"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/hasIphone6PlusScreenSize</TokenIdentifier>
-			<Abstract type="html">Determine if the current device has the screen size of an iPhone 6 plus.</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)hasIphone6PlusScreenSize</Declaration>
-			
-			<ReturnValue><Abstract type="html">Returns YES if so, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/hasIphone6PlusScreenSize</Anchor>
-            <NodeRef refid="162"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/hasIphoneXScreenSize</TokenIdentifier>
-			<Abstract type="html">Determine if the current device has the screen size of an iPhone X.</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)hasIphoneXScreenSize</Declaration>
-			
-			<ReturnValue><Abstract type="html">Returns YES if so, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/hasIphoneXScreenSize</Anchor>
-            <NodeRef refid="162"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/sfsdk_currentDeviceIsIPad</TokenIdentifier>
-			<Abstract type="html">Return YES if device is iPad</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
-			
-			<Declaration>+ (BOOL)sfsdk_currentDeviceIsIPad</Declaration>
-			
-			
-			<Anchor>//api/name/sfsdk_currentDeviceIsIPad</Anchor>
-            <NodeRef refid="162"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/currentDeviceIsIPad</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
-			
-			<Declaration>+ (BOOL)currentDeviceIsIPad</Declaration>
-			
-			
-			<Anchor>//api/name/currentDeviceIsIPad</Anchor>
-            <NodeRef refid="162"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/sfsdk_currentDeviceIsIPhone</TokenIdentifier>
-			<Abstract type="html">Return YES if device is iPhone</Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
-			
-			<Declaration>+ (BOOL)sfsdk_currentDeviceIsIPhone</Declaration>
-			
-			
-			<Anchor>//api/name/sfsdk_currentDeviceIsIPhone</Anchor>
-            <NodeRef refid="162"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/currentDeviceIsIPhone</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
-			
-			<Declaration>+ (BOOL)currentDeviceIsIPhone</Declaration>
-			
-			
-			<Anchor>//api/name/currentDeviceIsIPhone</Anchor>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorDelegate/oauthCoordinatorDidCancelBrowserAuthentication:</TokenIdentifier>
+			<Abstract type="html">Sent to notify the delegate that a browser authentication flow was cancelled out of by the user.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+			
+			<Declaration>- (void)oauthCoordinatorDidCancelBrowserAuthentication:(SFOAuthCoordinator *)coordinator</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>coordinator</Name>
+					<Abstract type="html">The SFOAuthCoordinator instance processing this message.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/oauthCoordinatorDidCancelBrowserAuthentication:</Anchor>
             <NodeRef refid="162"/>
 		</Token>
 		

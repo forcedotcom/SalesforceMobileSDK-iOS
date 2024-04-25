@@ -298,7 +298,7 @@ limit:10];</p>
 			
 			<div class="method-subsection brief-description">
 				<p>The REST API version used for all the calls.
-The default value is <code>kSFRestDefaultAPIVersion</code> (currently &ldquo;v55.0&rdquo;)</p>
+The default value is <code>kSFRestDefaultAPIVersion</code> (currently &ldquo;v60.0&rdquo;)</p>
 			</div>
 			
 		    
@@ -3138,143 +3138,6 @@ to return values. Example: &ldquo;Account,Contact&rdquo;.</p></td>
 						</div>
 						
 
-						<a title="Notifications Methods" name="task_Notifications Methods"></a>
-						<h2 class="task-title">Notifications Methods</h2>
-
-						<div class="task-list">
-							<div class="section-method">
-	<a name="//api/name/requestForNotificationsStatus:" title="requestForNotificationsStatus:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/requestForNotificationsStatus:">&ndash;&nbsp;requestForNotificationsStatus:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Returns a request to fetch the status of notifications, including unread and unseen count.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForNotificationsStatus:(NSString *)<em>apiVersion</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>apiVersion</code></th>
-						<td><p>API version.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection see-also-section">
-				<h4 class="method-subtitle">See Also</h4>
-				<ul>
-					
-					<li><code><p><a href="https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_notifications_status.htm">https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_notifications_status.htm</a></p></code></li>
-					
-				</ul>
-			</div>
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Notifications.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/requestForNotification:apiVersion:" title="requestForNotification:apiVersion:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/requestForNotification:apiVersion:">&ndash;&nbsp;requestForNotification:apiVersion:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Returns a request to fetch the given notification.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForNotification:(NSString *)<em>notificationId</em> apiVersion:(NSString *)<em>apiVersion</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>notificationId</code></th>
-						<td><p>ID of notification to fetch.</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>apiVersion</code></th>
-						<td><p>API version.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection see-also-section">
-				<h4 class="method-subtitle">See Also</h4>
-				<ul>
-					
-					<li><code><p><a href="https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resource_notifications_specific.htm">https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resource_notifications_specific.htm</a></p></code></li>
-					
-				</ul>
-			</div>
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Notifications.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div>
-						</div>
-						
-
 						<a title="Files Methods" name="task_Files Methods"></a>
 						<h2 class="task-title">Files Methods</h2>
 
@@ -4321,6 +4184,143 @@ create a new file at version 1.</p>
 						</div>
 						
 
+						<a title="Notifications Methods" name="task_Notifications Methods"></a>
+						<h2 class="task-title">Notifications Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/requestForNotificationsStatus:" title="requestForNotificationsStatus:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/requestForNotificationsStatus:">&ndash;&nbsp;requestForNotificationsStatus:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Returns a request to fetch the status of notifications, including unread and unseen count.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForNotificationsStatus:(NSString *)<em>apiVersion</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>apiVersion</code></th>
+						<td><p>API version.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection see-also-section">
+				<h4 class="method-subtitle">See Also</h4>
+				<ul>
+					
+					<li><code><p><a href="https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_notifications_status.htm">https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_notifications_status.htm</a></p></code></li>
+					
+				</ul>
+			</div>
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Notifications.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/requestForNotification:apiVersion:" title="requestForNotification:apiVersion:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/requestForNotification:apiVersion:">&ndash;&nbsp;requestForNotification:apiVersion:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Returns a request to fetch the given notification.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFRestRequest *)requestForNotification:(NSString *)<em>notificationId</em> apiVersion:(NSString *)<em>apiVersion</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>notificationId</code></th>
+						<td><p>ID of notification to fetch.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>apiVersion</code></th>
+						<td><p>API version.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection see-also-section">
+				<h4 class="method-subtitle">See Also</h4>
+				<ul>
+					
+					<li><code><p><a href="https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resource_notifications_specific.htm">https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resource_notifications_specific.htm</a></p></code></li>
+					
+				</ul>
+			</div>
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Notifications.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+
 						<a title="QueryBuilder Methods" name="task_QueryBuilder Methods"></a>
 						<h2 class="task-title">QueryBuilder Methods</h2>
 
@@ -4750,7 +4750,7 @@ or NSNull to not specify any fields/clauses for that object</li>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2023 Salesforce.com. All rights reserved. Updated: 2023-11-06</p>
+						<p class="copyright">Copyright &copy; 2024 Salesforce.com. All rights reserved. Updated: 2024-04-25</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

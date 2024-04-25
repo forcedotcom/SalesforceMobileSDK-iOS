@@ -85,42 +85,6 @@ Class used to app data sharing settings</Abstract>
             <NodeRef refid="6"/>
 		</Token>
 		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDatasharingHelper/setKeychainGroupName:</TokenIdentifier>
-			<Abstract type="html">Name of the keychain group to use</Abstract>
-			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) NSString *keychainGroupName</Declaration>
-			
-			
-			<Anchor>//api/name/keychainGroupName</Anchor>
-            <NodeRef refid="6"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDatasharingHelper/keychainGroupName</TokenIdentifier>
-			<Abstract type="html">Name of the keychain group to use</Abstract>
-			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) NSString *keychainGroupName</Declaration>
-			
-			
-			<Anchor>//api/name/keychainGroupName</Anchor>
-            <NodeRef refid="6"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKDatasharingHelper/keychainGroupName</TokenIdentifier>
-			<Abstract type="html">Name of the keychain group to use</Abstract>
-			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) NSString *keychainGroupName</Declaration>
-			
-			
-			<Anchor>//api/name/keychainGroupName</Anchor>
-            <NodeRef refid="6"/>
-		</Token>
-		
         
         
 	</File>

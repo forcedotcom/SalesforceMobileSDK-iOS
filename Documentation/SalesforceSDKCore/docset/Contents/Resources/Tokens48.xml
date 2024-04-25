@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKAuthConfigUtil.html">
+	<File path="Classes/SFSDKAuthErrorManager.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAuthConfigUtil</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAuthErrorManager</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthConfigUtil.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="48"/>
@@ -13,14 +13,211 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKAuthConfigUtil/getMyDomainAuthConfig:loginDomain:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorManager/setNetworkErrorHandlerBlock:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAuthConfigUtil.h</DeclaredIn>
+			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
 			
-			<Declaration>+ (void)getMyDomainAuthConfig:(nonnull MyDomainAuthConfigBlock)authConfigBlock loginDomain:(nonnull NSString *)loginDomain</Declaration>
+			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock networkErrorHandlerBlock</Declaration>
 			
 			
-			<Anchor>//api/name/getMyDomainAuthConfig:loginDomain:</Anchor>
+			<Anchor>//api/name/networkErrorHandlerBlock</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorManager/networkErrorHandlerBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock networkErrorHandlerBlock</Declaration>
+			
+			
+			<Anchor>//api/name/networkErrorHandlerBlock</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthErrorManager/networkErrorHandlerBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock networkErrorHandlerBlock</Declaration>
+			
+			
+			<Anchor>//api/name/networkErrorHandlerBlock</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorManager/setConnectedAppVersionMismatchErrorHandlerBlock:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock connectedAppVersionMismatchErrorHandlerBlock</Declaration>
+			
+			
+			<Anchor>//api/name/connectedAppVersionMismatchErrorHandlerBlock</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorManager/connectedAppVersionMismatchErrorHandlerBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock connectedAppVersionMismatchErrorHandlerBlock</Declaration>
+			
+			
+			<Anchor>//api/name/connectedAppVersionMismatchErrorHandlerBlock</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthErrorManager/connectedAppVersionMismatchErrorHandlerBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock connectedAppVersionMismatchErrorHandlerBlock</Declaration>
+			
+			
+			<Anchor>//api/name/connectedAppVersionMismatchErrorHandlerBlock</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorManager/setInvalidAuthCredentialsErrorHandlerBlock:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock invalidAuthCredentialsErrorHandlerBlock</Declaration>
+			
+			
+			<Anchor>//api/name/invalidAuthCredentialsErrorHandlerBlock</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorManager/invalidAuthCredentialsErrorHandlerBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock invalidAuthCredentialsErrorHandlerBlock</Declaration>
+			
+			
+			<Anchor>//api/name/invalidAuthCredentialsErrorHandlerBlock</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthErrorManager/invalidAuthCredentialsErrorHandlerBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock invalidAuthCredentialsErrorHandlerBlock</Declaration>
+			
+			
+			<Anchor>//api/name/invalidAuthCredentialsErrorHandlerBlock</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorManager/setHostConnectionErrorHandlerBlock:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock hostConnectionErrorHandlerBlock</Declaration>
+			
+			
+			<Anchor>//api/name/hostConnectionErrorHandlerBlock</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorManager/hostConnectionErrorHandlerBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock hostConnectionErrorHandlerBlock</Declaration>
+			
+			
+			<Anchor>//api/name/hostConnectionErrorHandlerBlock</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthErrorManager/hostConnectionErrorHandlerBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock hostConnectionErrorHandlerBlock</Declaration>
+			
+			
+			<Anchor>//api/name/hostConnectionErrorHandlerBlock</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorManager/setGenericErrorHandlerBlock:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock genericErrorHandlerBlock</Declaration>
+			
+			
+			<Anchor>//api/name/genericErrorHandlerBlock</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorManager/genericErrorHandlerBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock genericErrorHandlerBlock</Declaration>
+			
+			
+			<Anchor>//api/name/genericErrorHandlerBlock</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAuthErrorManager/genericErrorHandlerBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) SFSDKErrorHandlerBlock genericErrorHandlerBlock</Declaration>
+			
+			
+			<Anchor>//api/name/genericErrorHandlerBlock</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAuthErrorManager/processAuthError:authContext:options:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)processAuthError:(NSError *)error authContext:(SFSDKAuthSession *)session options:(NSDictionary *_Nullable)options</Declaration>
+			
+			
+			<Anchor>//api/name/processAuthError:authContext:options:</Anchor>
+            <NodeRef refid="48"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKAuthErrorManager/errorIsInvalidAuthCredentials:</TokenIdentifier>
+			<Abstract type="html">Determines whether an error is due to invalid auth credentials.</Abstract>
+			<DeclaredIn>SFSDKAuthErrorManager.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)errorIsInvalidAuthCredentials:(NSError *)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>error</Name>
+					<Abstract type="html">The error to check against an invalid credentials error.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if the error is due to invalid credentials, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/errorIsInvalidAuthCredentials:</Anchor>
             <NodeRef refid="48"/>
 		</Token>
 		

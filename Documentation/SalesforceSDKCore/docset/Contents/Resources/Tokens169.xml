@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSDKAnalyticsPublisher.html">
+	<File path="Protocols/SFSDKOAuthProtocol.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSDKAnalyticsPublisher</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSDKOAuthProtocol</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAnalyticsPublisher.h</DeclaredIn>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
             
 			
 			<NodeRef refid="169"/>
@@ -13,25 +13,50 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKAnalyticsPublisher/publish:user:publishCompleteBlock:</TokenIdentifier>
-			<Abstract type="html">Publishes events to a network endpoint.</Abstract>
-			<DeclaredIn>SFSDKAnalyticsPublisher.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthProtocol/accessTokenForApprovalCode:completion:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
 			
-			<Declaration>- (void)publish:(nonnull NSArray *)events user:(nonnull SFUserAccount *)user publishCompleteBlock:(nonnull PublishCompleteBlock)publishCompleteBlock</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>events</Name>
-					<Abstract type="html">Events to be published.</Abstract>
-				</Parameter><Parameter>
-					<Name>user</Name>
-					<Abstract type="html">SFUserAccount to use to determine where events are to be published.</Abstract>
-				</Parameter><Parameter>
-					<Name>publishCompleteBlock</Name>
-					<Abstract type="html">Completion block invoked once network publish is complete.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (void)accessTokenForApprovalCode:(SFSDKOAuthTokenEndpointRequest *)endpointReq completion:(void ( ^ ) ( SFSDKOAuthTokenEndpointResponse *))completionBlock</Declaration>
 			
-			<Anchor>//api/name/publish:user:publishCompleteBlock:</Anchor>
+			
+			<Anchor>//api/name/accessTokenForApprovalCode:completion:</Anchor>
+            <NodeRef refid="169"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthProtocol/accessTokenForRefresh:completion:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			
+			<Declaration>- (void)accessTokenForRefresh:(SFSDKOAuthTokenEndpointRequest *)endpointReq completion:(void ( ^ ) ( SFSDKOAuthTokenEndpointResponse *))completionBlock</Declaration>
+			
+			
+			<Anchor>//api/name/accessTokenForRefresh:completion:</Anchor>
+            <NodeRef refid="169"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthProtocol/openIDTokenForRefresh:completion:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			
+			<Declaration>- (void)openIDTokenForRefresh:(SFSDKOAuthTokenEndpointRequest *)endpointReq completion:(void ( ^ ) ( NSString *))completionBlock</Declaration>
+			
+			
+			<Anchor>//api/name/openIDTokenForRefresh:completion:</Anchor>
+            <NodeRef refid="169"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthProtocol/revokeRefreshToken:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			
+			<Declaration>- (void)revokeRefreshToken:(SFOAuthCredentials *)credentials</Declaration>
+			
+			
+			<Anchor>//api/name/revokeRefreshToken:</Anchor>
             <NodeRef refid="169"/>
 		</Token>
 		

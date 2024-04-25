@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKCompositeRequest.html">
+	<File path="Classes/SFSDKCompositeResponse.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKCompositeRequest</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKCompositeResponse</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCompositeRequest.h</DeclaredIn>
+			<DeclaredIn>SFSDKCompositeResponse.h</DeclaredIn>
             
 			
 			<NodeRef refid="64"/>
@@ -13,86 +13,50 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCompositeRequest/setAllOrNone:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCompositeResponse/setSubResponses:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCompositeRequest.h</DeclaredIn>
+			<DeclaredIn>SFSDKCompositeResponse.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL allOrNone</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSArray&lt;SFSDKCompositeSubResponse*&gt; *subResponses</Declaration>
 			
 			
-			<Anchor>//api/name/allOrNone</Anchor>
+			<Anchor>//api/name/subResponses</Anchor>
             <NodeRef refid="64"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCompositeRequest/allOrNone</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCompositeResponse/subResponses</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCompositeRequest.h</DeclaredIn>
+			<DeclaredIn>SFSDKCompositeResponse.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL allOrNone</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSArray&lt;SFSDKCompositeSubResponse*&gt; *subResponses</Declaration>
 			
 			
-			<Anchor>//api/name/allOrNone</Anchor>
+			<Anchor>//api/name/subResponses</Anchor>
             <NodeRef refid="64"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKCompositeRequest/allOrNone</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKCompositeResponse/subResponses</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCompositeRequest.h</DeclaredIn>
+			<DeclaredIn>SFSDKCompositeResponse.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL allOrNone</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSArray&lt;SFSDKCompositeSubResponse*&gt; *subResponses</Declaration>
 			
 			
-			<Anchor>//api/name/allOrNone</Anchor>
+			<Anchor>//api/name/subResponses</Anchor>
             <NodeRef refid="64"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCompositeRequest/setAllSubRequests:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCompositeResponse/initWith:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCompositeRequest.h</DeclaredIn>
+			<DeclaredIn>SFSDKCompositeResponse.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSArray&lt;SFSDKCompositeSubRequest*&gt; *allSubRequests</Declaration>
-			
-			
-			<Anchor>//api/name/allSubRequests</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCompositeRequest/allSubRequests</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCompositeRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSArray&lt;SFSDKCompositeSubRequest*&gt; *allSubRequests</Declaration>
+			<Declaration>- (instancetype)initWith:(NSDictionary *)dict</Declaration>
 			
 			
-			<Anchor>//api/name/allSubRequests</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKCompositeRequest/allSubRequests</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCompositeRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSArray&lt;SFSDKCompositeSubRequest*&gt; *allSubRequests</Declaration>
-			
-			
-			<Anchor>//api/name/allSubRequests</Anchor>
-            <NodeRef refid="64"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCompositeRequest/addRequest:referenceId:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCompositeRequest+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)addRequest:(SFRestRequest *)request referenceId:(NSString *)identifier</Declaration>
-			
-			
-			<Anchor>//api/name/addRequest:referenceId:</Anchor>
+			<Anchor>//api/name/initWith:</Anchor>
             <NodeRef refid="64"/>
 		</Token>
 		

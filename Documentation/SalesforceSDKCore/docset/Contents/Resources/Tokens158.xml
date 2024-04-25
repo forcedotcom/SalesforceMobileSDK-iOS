@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/NSURL+SFAdditions.html">
+	<File path="Categories/UIFont+SFSDKIDP.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/NSURL(SFAdditions)</TokenIdentifier>
-			<Abstract type="html">Salesforce Mobile SDK additions to the NSURL class</Abstract>
-			<DeclaredIn>NSURL+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/UIFont(SFSDKIDP)</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIFont+SFSDKIDP.h</DeclaredIn>
             
 			
 			<NodeRef refid="158"/>
@@ -13,55 +13,26 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSURL/sfsdk_valueForParameterName:</TokenIdentifier>
-			<Abstract type="html">Get value for a parameter name from the URL</Abstract>
-			<DeclaredIn>NSURL+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (nullable NSString *)sfsdk_valueForParameterName:(NSString *)name</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>name</Name>
-					<Abstract type="html">Name of the parameter</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/sfsdk_valueForParameterName:</Anchor>
-            <NodeRef refid="158"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSURL/valueForParameterName:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/UIFont/sfsdk_textRegular:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>NSURL+SFAdditions.h</DeclaredIn>
+			<DeclaredIn>UIFont+SFSDKIDP.h</DeclaredIn>
 			
-			<Declaration>- (nullable NSString *)valueForParameterName:(NSString *)name</Declaration>
+			<Declaration>+ (UIFont *)sfsdk_textRegular:(CGFloat)size</Declaration>
 			
 			
-			<Anchor>//api/name/valueForParameterName:</Anchor>
+			<Anchor>//api/name/sfsdk_textRegular:</Anchor>
             <NodeRef refid="158"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSURL/sfsdk_dictionaryFromQuery</TokenIdentifier>
-			<Abstract type="html">Get all query params as dictionary</Abstract>
-			<DeclaredIn>NSURL+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (nullable NSDictionary *)sfsdk_dictionaryFromQuery</Declaration>
-			
-			
-			<Anchor>//api/name/sfsdk_dictionaryFromQuery</Anchor>
-            <NodeRef refid="158"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSURL/dictionaryFromQuery</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/UIFont/sfsdk_textBold:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>NSURL+SFAdditions.h</DeclaredIn>
+			<DeclaredIn>UIFont+SFSDKIDP.h</DeclaredIn>
 			
-			<Declaration>- (nullable NSDictionary *)dictionaryFromQuery</Declaration>
+			<Declaration>+ (UIFont *)sfsdk_textBold:(CGFloat)size</Declaration>
 			
 			
-			<Anchor>//api/name/dictionaryFromQuery</Anchor>
+			<Anchor>//api/name/sfsdk_textBold:</Anchor>
             <NodeRef refid="158"/>
 		</Token>
 		

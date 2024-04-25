@@ -56,23 +56,11 @@
 	
 
 	
-	<optgroup label="Class Methods">
-		
-		<option value="//api/name/stringUrlWithBaseUrl:pathComponents:">+ stringUrlWithBaseUrl:pathComponents:</option>
-		
-		<option value="//api/name/stringUrlWithScheme:host:port:pathComponents:">+ stringUrlWithScheme:host:port:pathComponents:</option>
-		
-	</optgroup>
-	
 
 	
 	<optgroup label="Instance Methods">
 		
-		<option value="//api/name/redactedAbsoluteString:">- redactedAbsoluteString:</option>
-		
 		<option value="//api/name/sfsdk_redactedAbsoluteString:">- sfsdk_redactedAbsoluteString:</option>
-		
-		<option value="//api/name/slashTerminatedUrl">- slashTerminatedUrl</option>
 		
 	</optgroup>
 	
@@ -181,204 +169,6 @@ should be redacted.</p></td>
 			
 		</div>
 	</div>
-</div><div class="section-method">
-	<a name="//api/name/redactedAbsoluteString:" title="redactedAbsoluteString:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/redactedAbsoluteString:">&ndash;&nbsp;redactedAbsoluteString:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>- (NSString *)redactedAbsoluteString:(NSArray *)<em>queryStringParamsToRedact</em></code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/stringUrlWithBaseUrl:pathComponents:" title="stringUrlWithBaseUrl:pathComponents:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/stringUrlWithBaseUrl:pathComponents:">+&nbsp;stringUrlWithBaseUrl:pathComponents:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Helper method that constructs an absolute URL string given the specified components.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (NSString *)stringUrlWithBaseUrl:(NSURL *)<em>baseUrl</em> pathComponents:(NSArray *)<em>pathComponents</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>baseUrl</code></th>
-						<td><p>The base URL</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>pathComponents</code></th>
-						<td><p>The components of the path</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>an absolute string URL representation</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">NSURL+SFStringUtils.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/stringUrlWithScheme:host:port:pathComponents:" title="stringUrlWithScheme:host:port:pathComponents:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/stringUrlWithScheme:host:port:pathComponents:">+&nbsp;stringUrlWithScheme:host:port:pathComponents:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Helper method that constructs an absolute URL string given the specified components.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (NSString *)stringUrlWithScheme:(NSString *)<em>scheme</em> host:(NSString *)<em>host</em> port:(NSNumber *)<em>port</em> pathComponents:(NSArray *)<em>pathComponents</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>scheme</code></th>
-						<td><p>The scheme of the URL</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>host</code></th>
-						<td><p>The host of the URL</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>port</code></th>
-						<td><p>The port of the URL</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>pathComponents</code></th>
-						<td><p>The components of the path</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>an absolute string URL representation</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">NSURL+SFStringUtils.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/slashTerminatedUrl" title="slashTerminatedUrl"></a>
-	<h3 class="method-title"><code><a href="#//api/name/slashTerminatedUrl">&ndash;&nbsp;slashTerminatedUrl</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Adds a trailing slash to the URL&rsquo;s path, if necessary</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (NSURL *)slashTerminatedUrl</code></div>
-
-		    
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>A URL whose path ends in a forward slash</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">NSURL+SFStringUtils.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
 </div>
 						</div>
 						
@@ -394,7 +184,7 @@ should be redacted.</p></td>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2023 Salesforce.com. All rights reserved. Updated: 2023-11-06</p>
+						<p class="copyright">Copyright &copy; 2024 Salesforce.com. All rights reserved. Updated: 2024-04-25</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

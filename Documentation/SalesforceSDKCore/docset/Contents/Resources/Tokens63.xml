@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKCollectionSubResponse.html">
+	<File path="Classes/SFSDKCompositeRequestBuilder.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKCollectionSubResponse</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKCompositeRequestBuilder</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCollectionResponse.h</DeclaredIn>
+			<DeclaredIn>SFSDKCompositeRequest.h</DeclaredIn>
             
 			
 			<NodeRef refid="63"/>
@@ -13,158 +13,50 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCollectionSubResponse/setObjectId:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCompositeRequestBuilder/setAllOrNone:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCollectionResponse.h</DeclaredIn>
+			<DeclaredIn>SFSDKCompositeRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *objectId</Declaration>
+			<Declaration>- (SFSDKCompositeRequestBuilder *)setAllOrNone:(BOOL)allOrNone</Declaration>
 			
 			
-			<Anchor>//api/name/objectId</Anchor>
+			<Anchor>//api/name/setAllOrNone:</Anchor>
             <NodeRef refid="63"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCollectionSubResponse/objectId</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCompositeRequestBuilder/addRequest:referenceId:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCollectionResponse.h</DeclaredIn>
+			<DeclaredIn>SFSDKCompositeRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *objectId</Declaration>
+			<Declaration>- (SFSDKCompositeRequestBuilder *)addRequest:(SFRestRequest *)request referenceId:(NSString *)referenceId</Declaration>
 			
 			
-			<Anchor>//api/name/objectId</Anchor>
+			<Anchor>//api/name/addRequest:referenceId:</Anchor>
             <NodeRef refid="63"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKCollectionSubResponse/objectId</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCompositeRequestBuilder/addRequest:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCollectionResponse.h</DeclaredIn>
+			<DeclaredIn>SFSDKCompositeRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *objectId</Declaration>
+			<Declaration>- (SFSDKCompositeRequestBuilder *)addRequest:(SFSDKCompositeSubRequest *)subRequest</Declaration>
 			
 			
-			<Anchor>//api/name/objectId</Anchor>
+			<Anchor>//api/name/addRequest:</Anchor>
             <NodeRef refid="63"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCollectionSubResponse/setSuccess:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCompositeRequestBuilder/buildCompositeRequest:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCollectionResponse.h</DeclaredIn>
+			<DeclaredIn>SFSDKCompositeRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL success</Declaration>
-			
-			
-			<Anchor>//api/name/success</Anchor>
-            <NodeRef refid="63"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCollectionSubResponse/success</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCollectionResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) BOOL success</Declaration>
+			<Declaration>- (SFSDKCompositeRequest *)buildCompositeRequest:(NSString *)apiVersion</Declaration>
 			
 			
-			<Anchor>//api/name/success</Anchor>
-            <NodeRef refid="63"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKCollectionSubResponse/success</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCollectionResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) BOOL success</Declaration>
-			
-			
-			<Anchor>//api/name/success</Anchor>
-            <NodeRef refid="63"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCollectionSubResponse/setErrors:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCollectionResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSArray&lt;SFSDKCollectionErrorResponse*&gt; *errors</Declaration>
-			
-			
-			<Anchor>//api/name/errors</Anchor>
-            <NodeRef refid="63"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCollectionSubResponse/errors</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCollectionResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSArray&lt;SFSDKCollectionErrorResponse*&gt; *errors</Declaration>
-			
-			
-			<Anchor>//api/name/errors</Anchor>
-            <NodeRef refid="63"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKCollectionSubResponse/errors</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCollectionResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSArray&lt;SFSDKCollectionErrorResponse*&gt; *errors</Declaration>
-			
-			
-			<Anchor>//api/name/errors</Anchor>
-            <NodeRef refid="63"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCollectionSubResponse/setJson:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCollectionResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSDictionary *json</Declaration>
-			
-			
-			<Anchor>//api/name/json</Anchor>
-            <NodeRef refid="63"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCollectionSubResponse/json</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCollectionResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSDictionary *json</Declaration>
-			
-			
-			<Anchor>//api/name/json</Anchor>
-            <NodeRef refid="63"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKCollectionSubResponse/json</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCollectionResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSDictionary *json</Declaration>
-			
-			
-			<Anchor>//api/name/json</Anchor>
-            <NodeRef refid="63"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCollectionSubResponse/initWith:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCollectionResponse.h</DeclaredIn>
-			
-			<Declaration>- (instancetype)initWith:(NSDictionary *)dict</Declaration>
-			
-			
-			<Anchor>//api/name/initWith:</Anchor>
+			<Anchor>//api/name/buildCompositeRequest:</Anchor>
             <NodeRef refid="63"/>
 		</Token>
 		

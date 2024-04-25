@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/NSString+SFAdditions.html">
+	<File path="Categories/UIDevice+SFHardware.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/NSString(SFAdditions)</TokenIdentifier>
-			<Abstract type="html">Extension to NSString object</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/UIDevice(SFHardware)</TokenIdentifier>
+			<Abstract type="html">Extension to UIDevice class to provide more hardware related information, including hardware model, capability and also most importantly current device&apos;s orientation</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
             
 			
 			<NodeRef refid="157"/>
@@ -13,390 +13,196 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/sfsdk_stringWithHexData:</TokenIdentifier>
-			<Abstract type="html">A hex string representation of the supplied data; or nil if data is nil or empty.</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/sfsdk_platform</TokenIdentifier>
+			<Abstract type="html">Platform for the Device</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
 			
-			<Declaration>+ (nullable NSString *)sfsdk_stringWithHexData:(nullable NSData *)data</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>data</Name>
-					<Abstract type="html">NSData to be represented as a base 16 string.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">A hex string representation of the supplied data; or nil if data is nil or empty.</Abstract></ReturnValue>
-			<Anchor>//api/name/sfsdk_stringWithHexData:</Anchor>
+			<Declaration>- (nullable NSString *)sfsdk_platform</Declaration>
+			
+			
+			<Anchor>//api/name/sfsdk_platform</Anchor>
             <NodeRef refid="157"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/stringWithHexData:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/sfsdk_platformType</TokenIdentifier>
+			<Abstract type="html">Platform type
+See UIDevicePlatform</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
 			
-			<Declaration>+ (nullable NSString *)stringWithHexData:(nullable NSData *)data</Declaration>
+			<Declaration>- (UIDevicePlatform)sfsdk_platformType</Declaration>
 			
 			
-			<Anchor>//api/name/stringWithHexData:</Anchor>
+			<Anchor>//api/name/sfsdk_platformType</Anchor>
             <NodeRef refid="157"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/sfsdk_sha256</TokenIdentifier>
-			<Abstract type="html">Returns an SHA 256 hash of the current string</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/sfsdk_systemVersionNumber</TokenIdentifier>
+			<Abstract type="html">Returns the system-dependent version number.</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
 			
-			<Declaration>- (NSData *)sfsdk_sha256</Declaration>
+			<Declaration>- (double)sfsdk_systemVersionNumber</Declaration>
 			
-			
-			<Anchor>//api/name/sfsdk_sha256</Anchor>
+			<ReturnValue><Abstract type="html">The system version number.</Abstract></ReturnValue>
+			<Anchor>//api/name/sfsdk_systemVersionNumber</Anchor>
             <NodeRef refid="157"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/sha256</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/sfsdk_platformString</TokenIdentifier>
+			<Abstract type="html">Platform string</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
 			
-			<Declaration>- (NSData *)sha256</Declaration>
+			<Declaration>- (NSString *)sfsdk_platformString</Declaration>
 			
 			
-			<Anchor>//api/name/sha256</Anchor>
+			<Anchor>//api/name/sfsdk_platformString</Anchor>
             <NodeRef refid="157"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/sfsdk_escapeXMLCharacter:</TokenIdentifier>
-			<Abstract type="html">Escape XML entities</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/sfsdk_totalMemory</TokenIdentifier>
+			<Abstract type="html">Total memory</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
 			
-			<Declaration>+ (nullable NSString *)sfsdk_escapeXMLCharacter:(nullable NSString *)value</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>value</Name>
-					<Abstract type="html">String value to escape. If nil is passed, this method will return nil.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (NSUInteger)sfsdk_totalMemory</Declaration>
 			
-			<Anchor>//api/name/sfsdk_escapeXMLCharacter:</Anchor>
+			
+			<Anchor>//api/name/sfsdk_totalMemory</Anchor>
             <NodeRef refid="157"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/escapeXMLCharacter:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/sfsdk_userMemory</TokenIdentifier>
+			<Abstract type="html">User Memory</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
 			
-			<Declaration>+ (nullable NSString *)escapeXMLCharacter:(nullable NSString *)value</Declaration>
+			<Declaration>- (NSUInteger)sfsdk_userMemory</Declaration>
 			
 			
-			<Anchor>//api/name/escapeXMLCharacter:</Anchor>
+			<Anchor>//api/name/sfsdk_userMemory</Anchor>
             <NodeRef refid="157"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/sfsdk_unescapeXMLCharacter:</TokenIdentifier>
-			<Abstract type="html">unescape XML entities</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/sfsdk_applicationMemory</TokenIdentifier>
+			<Abstract type="html">Memory used by application (in bytes)</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
 			
-			<Declaration>+ (nullable NSString *)sfsdk_unescapeXMLCharacter:(nullable NSString *)value</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>value</Name>
-					<Abstract type="html">String value to unescape. If nil is passed, this method will return nil.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (NSUInteger)sfsdk_applicationMemory</Declaration>
 			
-			<Anchor>//api/name/sfsdk_unescapeXMLCharacter:</Anchor>
+			
+			<Anchor>//api/name/sfsdk_applicationMemory</Anchor>
             <NodeRef refid="157"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/unescapeXMLCharacter:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/sfsdk_freeMemory</TokenIdentifier>
+			<Abstract type="html">Free VM page space available to application (in bytes)</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
 			
-			<Declaration>+ (nullable NSString *)unescapeXMLCharacter:(nullable NSString *)value</Declaration>
+			<Declaration>- (NSUInteger)sfsdk_freeMemory</Declaration>
 			
 			
-			<Anchor>//api/name/unescapeXMLCharacter:</Anchor>
+			<Anchor>//api/name/sfsdk_freeMemory</Anchor>
             <NodeRef refid="157"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/sfsdk_trim</TokenIdentifier>
-			<Abstract type="html">Trim string by taking out beginning and ending space.</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/sfsdk_totalDiskSpace</TokenIdentifier>
+			<Abstract type="html">Total disk space</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)sfsdk_trim</Declaration>
+			<Declaration>- (NSNumber *)sfsdk_totalDiskSpace</Declaration>
 			
 			
-			<Anchor>//api/name/sfsdk_trim</Anchor>
+			<Anchor>//api/name/sfsdk_totalDiskSpace</Anchor>
             <NodeRef refid="157"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/trim</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/sfsdk_freeDiskSpace</TokenIdentifier>
+			<Abstract type="html">Total free space</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)trim</Declaration>
+			<Declaration>- (NSNumber *)sfsdk_freeDiskSpace</Declaration>
 			
 			
-			<Anchor>//api/name/trim</Anchor>
+			<Anchor>//api/name/sfsdk_freeDiskSpace</Anchor>
             <NodeRef refid="157"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/sfsdk_redacted</TokenIdentifier>
-			<Abstract type="html">Returns the string in debug build or a redacted version of it
-for production build</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/sfsdk_hasNeuralEngine</TokenIdentifier>
+			<Abstract type="html">Returns whether the device&apos;s SOC has a neural engine for core ML tasks</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)sfsdk_redacted</Declaration>
+			<Declaration>- (BOOL)sfsdk_hasNeuralEngine</Declaration>
 			
 			
-			<Anchor>//api/name/sfsdk_redacted</Anchor>
+			<Anchor>//api/name/sfsdk_hasNeuralEngine</Anchor>
             <NodeRef refid="157"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/redacted</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/sfsdk_deviceFamily</TokenIdentifier>
+			<Abstract type="html">Device Family</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)redacted</Declaration>
+			<Declaration>- (UIDeviceFamily)sfsdk_deviceFamily</Declaration>
 			
 			
-			<Anchor>//api/name/redacted</Anchor>
+			<Anchor>//api/name/sfsdk_deviceFamily</Anchor>
             <NodeRef refid="157"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/sfsdk_redactedWithPrefix:</TokenIdentifier>
-			<Abstract type="html">Returns the string in debug build or a redacted version of it
-for production build. The prefix length is the number of characters
-that won&apos;t be redacted from the beginning of the string.</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/sfsdk_interfaceOrientation</TokenIdentifier>
+			<Abstract type="html">Device&apos;s current orientation
+This method will first try to retrieve orientation using UIDevice currentOrientation, if return value is an invalid orientation, it will try to use the orientation of the first window scene</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)sfsdk_redactedWithPrefix:(NSUInteger)prefixLength</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>prefixLength</Name>
-					<Abstract type="html">The number of characters to preserve at the beginning of the string.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (UIInterfaceOrientation)sfsdk_interfaceOrientation</Declaration>
 			
-			<Anchor>//api/name/sfsdk_redactedWithPrefix:</Anchor>
+			
+			<Anchor>//api/name/sfsdk_interfaceOrientation</Anchor>
             <NodeRef refid="157"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/redactedWithPrefix:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/sfsdk_isSimulator</TokenIdentifier>
+			<Abstract type="html">Determine if current device is simulator or not</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)redactedWithPrefix:(NSUInteger)prefixLength</Declaration>
+			<Declaration>- (BOOL)sfsdk_isSimulator</Declaration>
 			
-			
-			<Anchor>//api/name/redactedWithPrefix:</Anchor>
+			<ReturnValue><Abstract type="html">Return YES if current device is simulator, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/sfsdk_isSimulator</Anchor>
             <NodeRef refid="157"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/sfsdk_isEmpty:</TokenIdentifier>
-			<Abstract type="html">Return YES if string is nil or length is 0 or with white space only</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/sfsdk_currentDeviceIsIPad</TokenIdentifier>
+			<Abstract type="html">Return YES if device is iPad</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
 			
-			<Declaration>+ (BOOL)sfsdk_isEmpty:(nullable NSString *)string</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>string</Name>
-					<Abstract type="html">String to check</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>+ (BOOL)sfsdk_currentDeviceIsIPad</Declaration>
 			
-			<Anchor>//api/name/sfsdk_isEmpty:</Anchor>
+			
+			<Anchor>//api/name/sfsdk_currentDeviceIsIPad</Anchor>
             <NodeRef refid="157"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/isEmpty:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/UIDevice/sfsdk_currentDeviceIsIPhone</TokenIdentifier>
+			<Abstract type="html">Return YES if device is iPhone</Abstract>
+			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
 			
-			<Declaration>+ (BOOL)isEmpty:(nullable NSString *)string</Declaration>
-			
-			
-			<Anchor>//api/name/isEmpty:</Anchor>
-            <NodeRef refid="157"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/removeWhitespaces</TokenIdentifier>
-			<Abstract type="html">Returns a string after taking out any space</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)removeWhitespaces</Declaration>
+			<Declaration>+ (BOOL)sfsdk_currentDeviceIsIPhone</Declaration>
 			
 			
-			<Anchor>//api/name/removeWhitespaces</Anchor>
-            <NodeRef refid="157"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/sfsdk_stringByURLEncoding</TokenIdentifier>
-			<Abstract type="html">A string with all non-legal URL characters (per RFC 3986) escaped.</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)sfsdk_stringByURLEncoding</Declaration>
-			
-			<ReturnValue><Abstract type="html">A string with all non-legal URL characters (per RFC 3986) escaped.</Abstract></ReturnValue>
-			<Anchor>//api/name/sfsdk_stringByURLEncoding</Anchor>
-            <NodeRef refid="157"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/stringByURLEncoding</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)stringByURLEncoding</Declaration>
-			
-			
-			<Anchor>//api/name/stringByURLEncoding</Anchor>
-            <NodeRef refid="157"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/sfsdk_stringByStrippingHTML</TokenIdentifier>
-			<Abstract type="html">Strips any HTML markup from the source string.</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)sfsdk_stringByStrippingHTML</Declaration>
-			
-			
-			<Anchor>//api/name/sfsdk_stringByStrippingHTML</Anchor>
-            <NodeRef refid="157"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/stringByStrippingHTML</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)stringByStrippingHTML</Declaration>
-			
-			
-			<Anchor>//api/name/stringByStrippingHTML</Anchor>
-            <NodeRef refid="157"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/stringWithTitleCharacter</TokenIdentifier>
-			<Abstract type="html">Returns an uppercase title character for the string without accents or other diacritic marks.
-Intended for use with UI index titles.</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)stringWithTitleCharacter</Declaration>
-			
-			
-			<Anchor>//api/name/stringWithTitleCharacter</Anchor>
-            <NodeRef refid="157"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/queryStringComponents</TokenIdentifier>
-			<Abstract type="html">Returns a dictionary of query string components for the string object.</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (NSDictionary *)queryStringComponents</Declaration>
-			
-			
-			<Anchor>//api/name/queryStringComponents</Anchor>
-            <NodeRef refid="157"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/sfsdk_isEmptyOrWhitespaceAndNewlines</TokenIdentifier>
-			<Abstract type="html">Returns YES if the string is empty of contains only whitespance or newline characters.</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)sfsdk_isEmptyOrWhitespaceAndNewlines</Declaration>
-			
-			
-			<Anchor>//api/name/sfsdk_isEmptyOrWhitespaceAndNewlines</Anchor>
-            <NodeRef refid="157"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/isEmptyOrWhitespaceAndNewlines</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)isEmptyOrWhitespaceAndNewlines</Declaration>
-			
-			
-			<Anchor>//api/name/isEmptyOrWhitespaceAndNewlines</Anchor>
-            <NodeRef refid="157"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/sfsdk_entityId18</TokenIdentifier>
-			<Abstract type="html">The 18 character case-insensitive entity ID representing the receiver.
-Returns nil if the receiver is not a valid Salesforce entity ID.</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (nullable NSString *)sfsdk_entityId18</Declaration>
-			
-			<ReturnValue><Abstract type="html">The 18 character case-insensitive entity ID representing the receiver.
-Returns nil if the receiver is not a valid Salesforce entity ID.</Abstract></ReturnValue>
-			<Anchor>//api/name/sfsdk_entityId18</Anchor>
-            <NodeRef refid="157"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/entityId18</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (nullable NSString *)entityId18</Declaration>
-			
-			
-			<Anchor>//api/name/entityId18</Anchor>
-            <NodeRef refid="157"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/sfsdk_isEqualToEntityId:</TokenIdentifier>
-			<Abstract type="html">Returns a Boolean value that indicates if the given entity ID is equal to the
-receiver. The comparison properly handles comparing 15 character case-sensitive
-ID&apos;s against 18 character case-insensitive ID&apos;s.</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)sfsdk_isEqualToEntityId:(NSString *)entityId</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>entityId</Name>
-					<Abstract type="html">The entity ID to compare with the receiver.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">Returns YES if the given entityId is semantically equal to the receiver,
-otherwise returns NO. Returns NO if either the given ID or receiver are not
-valid Salesforce entity ID&apos;s.</Abstract></ReturnValue>
-			<Anchor>//api/name/sfsdk_isEqualToEntityId:</Anchor>
-            <NodeRef refid="157"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/isEqualToEntityId:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)isEqualToEntityId:(NSString *)entityId</Declaration>
-			
-			
-			<Anchor>//api/name/isEqualToEntityId:</Anchor>
+			<Anchor>//api/name/sfsdk_currentDeviceIsIPhone</Anchor>
             <NodeRef refid="157"/>
 		</Token>
 		
