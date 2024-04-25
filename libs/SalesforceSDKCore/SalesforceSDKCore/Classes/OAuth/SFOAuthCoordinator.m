@@ -76,7 +76,6 @@
 @synthesize initialRequestLoaded        = _initialRequestLoaded;
 @synthesize approvalCode                = _approvalCode;
 @synthesize scopes                      = _scopes;
-@synthesize advancedAuthState           = _advancedAuthState;
 @synthesize codeVerifier                = _codeVerifier;
 @synthesize authInfo                    = _authInfo;
 @synthesize userAgentForAuth            = _userAgentForAuth;
@@ -169,7 +168,14 @@
         [self beginJwtTokenExchangeFlow];
     } else {
         __weak typeof(self) weakSelf = self;
-        if (self.useBrowserAuth) {
+        if (self.useNativeAuth) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                __strong typeof(weakSelf) strongSelf = weakSelf;
+                strongSelf.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeNative];
+                [strongSelf notifyDelegateOfBeginAuthentication];
+                [strongSelf beginHeadlessNativeLoginFlow];
+            });
+        } else if (self.useBrowserAuth) {
             [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSafariBrowserForLogin];
             dispatch_async(dispatch_get_main_queue(), ^{
                 __strong typeof(weakSelf) strongSelf = weakSelf;
@@ -253,7 +259,6 @@
     }
 
     [SFSDKCoreLogger i:[self class] format:@"%@ Received advanced authentication response.  Beginning token exchange.", NSStringFromSelector(_cmd)];
-    self.advancedAuthState = SFOAuthAdvancedAuthStateTokenRequestInitiated;
     dispatch_async(dispatch_get_main_queue(), ^{
         [self beginTokenEndpointFlow];
     });
@@ -319,6 +324,9 @@
         _view.clipsToBounds = YES;
         _view.translatesAutoresizingMaskIntoConstraints = NO;
         _view.customUserAgent = [SalesforceSDKManager sharedManager].userAgentString(@"");
+        if (@available(iOS 16.4, *)) {
+            _view.inspectable = [SalesforceSDKManager sharedManager].isLoginWebviewInspectable;
+        }
         _view.UIDelegate = self;
     }
     return _view;
@@ -330,7 +338,6 @@
 - (void)notifyDelegateOfFailure:(NSError*)error authInfo:(SFOAuthInfo *)info
 {
     self.authenticating = NO;
-    self.advancedAuthState = SFOAuthAdvancedAuthStateNotStarted;
     if ([self.delegate respondsToSelector:@selector(oauthCoordinator:didFailWithError:authInfo:)]) {
         dispatch_async(dispatch_get_main_queue(), ^{
            [self.delegate oauthCoordinator:self didFailWithError:error authInfo:info];
@@ -342,7 +349,6 @@
 - (void)notifyDelegateOfSuccess:(SFOAuthInfo *)authInfo
 {
     self.authenticating = NO;
-    self.advancedAuthState = SFOAuthAdvancedAuthStateNotStarted;
     if ([self.delegate respondsToSelector:@selector(oauthCoordinatorDidAuthenticate:authInfo:)]) {
         [self.delegate oauthCoordinatorDidAuthenticate:self authInfo:authInfo];
     }
@@ -558,6 +564,17 @@
             [strongSelf handleResponse:response];
         }];
     }
+}
+
+- (void)beginHeadlessNativeLoginFlow {
+    if (![NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self beginHeadlessNativeLoginFlow];
+        });
+        return;
+    }
+    
+    [self.delegate oauthCoordinatorDidBeginNativeAuthentication:self];
 }
          
 - (void)handleResponse:(SFSDKOAuthTokenEndpointResponse *)response {

@@ -27,7 +27,7 @@
 #import <SalesforceSDKCore/SalesforceSDKCoreDefines.h>
 #import <SalesforceSDKCore/SalesforceSDKConstants.h>
 @class SFUserAccount, SFSDKAppConfig, SFScreenLockManager, SFBiometricAuthenticationManager;
-@protocol SFScreenLockManager, SFBiometricAuthenticationManager;
+@protocol SFScreenLockManager, SFBiometricAuthenticationManager, SFNativeLoginManager;
 
 /**
  Block typedef for creating a custom snapshot view controller.
@@ -221,6 +221,10 @@ NS_SWIFT_NAME(SalesforceManager)
  */
 @property (nonatomic, assign) BOOL isDevSupportEnabled;
 
+/** Use this flag to indicate if the login webview should be inspectable (NB: only applies to iOS 16.4 and above)
+ */
+@property (nonatomic, assign) BOOL isLoginWebviewInspectable;
+
 /** The type of cache used for the shared URL cache, defaults to kSFURLCacheTypeEncrypted.
 */
 @property (nonatomic, assign) SFURLCacheType URLCacheType;
@@ -289,18 +293,53 @@ NS_SWIFT_NAME(SalesforceManager)
 - (nonnull NSString *)devInfoTitleString;
 
 /**
- * Returns the ScreenLockManager instance.
+ * Returns The ScreenLockManager instance.
  *
- * @return the Screen Lock Manager
+ * @return The Screen Lock Manager.
  */
 - (id <SFScreenLockManager>)screenLockManager;
 
 /**
- * Returns the BiometricAuthenticationManager instance.
+ * Returns The BiometricAuthenticationManager instance.
  *
- * @return the Biometric Authentication Manager
+ * @return The Biometric Authentication Manager.
  */
 - (id <SFBiometricAuthenticationManager>)biometricAuthenticationManager;
+
+/**
+ * Creates the NativeLoginManager instance.
+ *
+ * @param consumerKey The Connected App consumer key.
+ * @param callbackUrl The Connected App redirect URI.
+ * @param communityUrl The login url for native login
+ * @param nativeLoginViewController The view presented to the user and responsible for using the
+ * returned Native Login Manager to initiate either of the authorization code and credentials login flow or the
+ * headless, password-less login flow.
+ * @param scene Optional UIScene to enable multi-window support.
+ *
+ * @return The Native Login Manager.
+ */
+- (id <SFNativeLoginManager>)useNativeLoginWithConsumerKey:(nonnull NSString *)consumerKey
+                                               callbackUrl:(nonnull NSString *)callbackUrl
+                                              communityUrl:(nonnull NSString *)communityUrl
+                                 nativeLoginViewController:(nonnull UIViewController *)nativeLoginViewController
+                                                     scene:(nullable UIScene *)scene;
+
+- (id <SFNativeLoginManager>)useNativeLoginWithConsumerKey:(nonnull NSString *)consumerKey
+                                               callbackUrl:(nonnull NSString *)callbackUrl
+                                              communityUrl:(nonnull NSString *)communityUrl
+                                        reCaptchaSiteKeyId:(nullable NSString *)reCaptchaSiteKeyId
+                                      googleCloudProjectId:(nullable NSString *)googleCloudProjectId
+                                     isReCaptchaEnterprise:(BOOL)isReCaptchaEnterprise
+                                 nativeLoginViewController:(nonnull UIViewController *)nativeLoginViewController
+                                                     scene:(nullable UIScene *)scene;
+
+/**
+ * Returns The NativeLoginManager instance.
+ *
+ * @return The Native Login Manager.
+ */
+- (id <SFNativeLoginManager>)nativeLoginManager;
 
 @end
 

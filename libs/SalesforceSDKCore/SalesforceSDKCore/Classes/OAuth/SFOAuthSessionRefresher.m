@@ -137,4 +137,9 @@
     // Do nothing - doesn't apply to the refresh flow.
 }
 
+- (void)oauthCoordinatorDidBeginNativeAuthentication:(nonnull SFOAuthCoordinator *)coordinator {
+    
+    // Do nothing - doesn't apply to the refresh flow.
+}
+
 @end

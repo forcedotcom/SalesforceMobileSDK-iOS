@@ -39,7 +39,7 @@
 @implementation ScreenLockManagerTests
 
 - (void)setUp {
-    BOOL removed = [SFSDKKeychainHelper removeAll];
+    BOOL _ = [SFSDKKeychainHelper removeAll];
 }
 
 - (void)testShouldNotLock {
@@ -83,7 +83,7 @@
 - (void)testLockScreenTriggers {
     // Login with first user with a mobile policy -- should trigger lock screen
     SFUserAccount *user0 = [self createNewUserAccount:0];
-    [[SFScreenLockManagerInternal shared] storeMobilePolicyWithUserAccount:user0 hasMobilePolicy:YES lockTimeout:15];
+    [[SFScreenLockManagerInternal shared] storeMobilePolicyWithUserAccount:user0 hasMobilePolicy:YES lockTimeout:1];
     XCTAssertTrue([[[SFSDKWindowManager sharedManager] screenLockWindow] isEnabled]);
     
     // Backgrounding/foregrounding on lock -- lock screen should remain & callback shouldn't be called

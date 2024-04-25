@@ -81,12 +81,16 @@ public class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthenti
     }
     
     @objc public func storePolicy(userAccount: UserAccount, hasMobilePolicy: Bool, sessionTimeout: Int32) {
-        let policyData = try! JSONEncoder().encode(
-            BioAuthPolicy(hasPolicy: hasMobilePolicy, timeout: sessionTimeout)
-        )
-        let result = KeychainHelper.write(service: kBioAuthPolicyIdentifier, data: policyData, account: userAccount.idData.userId)
-        if result.success {
-            SFSDKCoreLogger.i(BiometricAuthenticationManagerInternal.self, message: "Biometric authentication policy stored for user.")
+        let existingPolicy = readBioAuthPolicy(userId: userAccount.idData.userId)
+        if let policyData = try? JSONEncoder().encode(
+            BioAuthPolicy(hasPolicy: hasMobilePolicy, timeout: sessionTimeout, optIn: existingPolicy?.optIn)
+        ) {
+            let result = KeychainHelper.write(service: kBioAuthPolicyIdentifier, data: policyData, account: userAccount.idData.userId)
+            if result.success {
+                SFSDKCoreLogger.i(BiometricAuthenticationManagerInternal.self, message: "Biometric authentication policy stored for user.")
+            } else {
+                SFSDKCoreLogger.e(BiometricAuthenticationManagerInternal.self, message: "Failed to store biometric authentication policy for user.")
+            }
         } else {
             SFSDKCoreLogger.e(BiometricAuthenticationManagerInternal.self, message: "Failed to store biometric authentication policy for user.")
         }
@@ -114,7 +118,7 @@ public class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthenti
         return readBioAuthPolicy(userId: userAccount.idData.userId)
     }
     
-    private func readBioAuthPolicy(userId: String) -> BioAuthPolicy? {
+    internal func readBioAuthPolicy(userId: String) -> BioAuthPolicy? {
         let result = KeychainHelper.read(service: kBioAuthPolicyIdentifier, account: userId)
         if let data = result.data, result.success {
             do {
@@ -210,6 +214,7 @@ public class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthenti
     }
     
     @objc public func presentBiometric(scene: UIScene) {
+        let laContext = LAContext()
         laContext.localizedCancelTitle = SFSDKResourceUtils.localizedString("usePassword")
         var error: NSError?
         if (laContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)) {
@@ -247,7 +252,7 @@ public class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthenti
         NotificationCenter.default.post(name: Notification.Name(rawValue: kSFBiometricAuthenticationFlowCompleted), object: nil)
     }
     
-    private struct BioAuthPolicy: Encodable, Decodable {
+    internal struct BioAuthPolicy: Encodable, Decodable {
         let hasPolicy: Bool
         let timeout: Int32
         var optIn: Bool?

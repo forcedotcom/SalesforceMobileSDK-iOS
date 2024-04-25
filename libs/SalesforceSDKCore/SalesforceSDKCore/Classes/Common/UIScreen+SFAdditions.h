@@ -36,8 +36,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (CGRect)sfsdk_portraitScreenBounds;
 
-- (CGRect)portraitScreenBounds SFSDK_DEPRECATED(11.1, 12.0, "Use sfsdk_portraitScreenBounds instead");
-
 @end
 
 NS_ASSUME_NONNULL_END

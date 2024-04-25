@@ -159,7 +159,7 @@ extern NSUInteger const kSFPBKDFDefaultSaltByteLength;
  * @param keyRef Keyref used in encryption
  * @return `NSData` object containing the encrypted Data, or `nil` if encryption failed.
  */
-+ (nullable NSData*)encryptUsingRSAforData:(NSData *)data withKeyRef:(SecKeyRef)keyRef;
++ (nullable NSData*)encryptUsingRSAforData:(NSData *)data withKeyRef:(SecKeyRef)keyRef SFSDK_DEPRECATED(12.0, 13.0, "Will be removed.");
 
 /**
  * Decrypt data with given `SecKeyRef` using the RSA `pkcs1` algorithm.
@@ -167,7 +167,7 @@ extern NSUInteger const kSFPBKDFDefaultSaltByteLength;
  * @param keyRef Keyref used in decryption
  * @return `NSData` object containing the decrypted Data, or `nil` if decryption failed.
  */
-+ (nullable NSData*)decryptUsingRSAforData:(NSData * )data withKeyRef:(SecKeyRef)keyRef;
++ (nullable NSData*)decryptUsingRSAforData:(NSData *)data withKeyRef:(SecKeyRef)keyRef SFSDK_DEPRECATED(12.0, 13.0, "Will be removed.");
 
 /**
  * Check for availability of the secure enclave.

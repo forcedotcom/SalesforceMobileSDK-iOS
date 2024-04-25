@@ -152,6 +152,11 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
     if (rsaPublicKey) {
         bodyDict[@"RsaPublicKey"] = rsaPublicKey;
     }
+    // TODO remove once MSDK default api version is 61 or greater
+    if ([[SFRestAPI sharedInstance].apiVersion compare:@"v61.0"] >= 0) {
+        bodyDict[@"CipherName"] = @"RSA_OAEP_SHA256";
+    }
+
     [request setCustomRequestBodyDictionary:bodyDict contentType:@"application/json"];
     __weak typeof(self) weakSelf = self;
     [[SFRestAPI sharedInstance] sendRequest:request failureBlock:^(id response, NSError *e, NSURLResponse *rawResponse) {

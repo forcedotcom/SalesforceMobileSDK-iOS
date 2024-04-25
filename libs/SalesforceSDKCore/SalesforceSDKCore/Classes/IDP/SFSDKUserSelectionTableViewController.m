@@ -224,6 +224,13 @@ static CGFloat kHorizontalSpace = 12;
     if (userAccount.photo) {
         cell.profileImage = userAccount.photo;
     }
+    
+    // Dont't allow these users to be selected.  
+    if (userAccount.idData.nativeLogin) {
+        cell.userInteractionEnabled = NO;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    }
+ 
     return cell;
 }
 
