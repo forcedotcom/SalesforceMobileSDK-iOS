@@ -12,14 +12,8 @@
 				<string>CA92.1</string>
 			</array>
 		</dict>
-		<dict>
-			<key>NSPrivacyAccessedAPIType</key>
-			<string></string>
-		</dict>
 	</array>
 	<key>NSPrivacyTracking</key>
 	<false/>
-	<key>NSPrivacyCollectedDataTypes</key>
-	<array/>
 </dict>
 </plist>
