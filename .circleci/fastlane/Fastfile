@@ -32,9 +32,9 @@ lane :PR do |options|
     pr_files = JSON.parse(pull_files)
     for pr_file in pr_files
       path = pr_file['filename']
-      $schemes.each do |lib|
+      $schemes.each do |scheme|
         if path.include? scheme
-          schemes.merge($schemes[$schemes.index(lib)..])
+          schemes.merge($schemes[$schemes.index(scheme)..])
           break
         end
       end
