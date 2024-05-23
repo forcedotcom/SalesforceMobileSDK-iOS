@@ -124,10 +124,4 @@
  */
 - (void) updateLoggingPrefs;
 
-
-/**
- * Clears unpublished events.
- */
-- (void) clearAllEvents;
-
 @end
