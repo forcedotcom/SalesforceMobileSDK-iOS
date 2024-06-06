@@ -27,6 +27,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
 /** SFOAuth default network timeout in seconds.
  */
@@ -63,6 +64,16 @@ enum {
     kSFOAuthErrorRequestCancelled,
     kSFOAuthErrorRefreshFailed, //generic error
     kSFOAuthErrorInvalidURL
+};
+
+typedef NS_ENUM(NSInteger, SFLogoutReason) {
+    SFLogoutReasonTokenExpired,       // "Refresh token expired"
+    SFLogoutReasonSSDKPolicy,         // "SSDK initiated logout for policy violation"
+    SFLogoutReasonTimeout,            // "Timeout while waiting for server response"
+    SFLogoutReasonUnexpected,         // "Unexpected error or crash"
+    SFLogoutReasonUnexpectedResponse, // "Unexpected response from server"
+    SFLogoutReasonUnknown,            // "Unknown"
+    SFLogoutReasonUserInitiated,      // "User initiated logout"
 };
 
 NS_ASSUME_NONNULL_BEGIN
@@ -115,7 +126,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)accessTokenForApprovalCode:(SFSDKOAuthTokenEndpointRequest *)endpointReq completion:(void (^)(SFSDKOAuthTokenEndpointResponse *))completionBlock;
 - (void)accessTokenForRefresh:(SFSDKOAuthTokenEndpointRequest *)endpointReq completion:(void (^)(SFSDKOAuthTokenEndpointResponse *))completionBlock;
 - (void)openIDTokenForRefresh:(SFSDKOAuthTokenEndpointRequest *)endpointReq completion:(void (^)(NSString *))completionBlock;
-- (void)revokeRefreshToken:(SFOAuthCredentials *)credentials;
+- (void)revokeRefreshToken:(SFOAuthCredentials *)credentials SFSDK_DEPRECATED(12.1, 13.0, "Will be replaced by revokeRefreshToken:reason:");
+
+@optional
+- (void)revokeRefreshToken:(SFOAuthCredentials *)credentials reason:(SFLogoutReason)reason;
+
 @end
 
 @protocol SFSDKOAuthSessionManaging<NSObject>

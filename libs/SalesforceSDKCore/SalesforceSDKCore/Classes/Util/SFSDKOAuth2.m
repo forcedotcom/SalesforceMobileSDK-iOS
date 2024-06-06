@@ -217,7 +217,7 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
                 [SFSDKCoreLogger d:[strongSelf class] format:@"Attempt to get access token for approval code timed out after %f seconds.", endpointReq.timeout];
                 endpointResponse = [[SFSDKOAuthTokenEndpointResponse alloc] initWithError:[NSError errorWithDomain:kSFOAuthErrorDomain code:kSFOAuthErrorTimeout userInfo:nil]];
             } else {
-                 endpointResponse = [[SFSDKOAuthTokenEndpointResponse alloc] initWithError:error];
+                endpointResponse = [[SFSDKOAuthTokenEndpointResponse alloc] initWithError:error];
             }
             [SFSDKCoreLogger d:[strongSelf class] format:@"SFOAuth2 session failed with error: error code: %ld, description: %@, URL: %@", (long)error.code, [error localizedDescription], errorUrlString];
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -311,7 +311,7 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
         [url insertString:@"https://" atIndex:0];
     }
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]
-                                                            cachePolicy:NSURLRequestReloadIgnoringCacheData
+                                                                cachePolicy:NSURLRequestReloadIgnoringCacheData
                                                             timeoutInterval:endpointReq.timeout];
     [request setHTTPMethod:kHttpMethodPost];
     [request setValue:kHttpPostContentType forHTTPHeaderField:kHttpHeaderContentType];
@@ -363,10 +363,15 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
 }
 
 - (void)revokeRefreshToken:(SFOAuthCredentials *)credentials {
+    [self revokeRefreshToken:credentials reason:SFLogoutReasonUnknown];
+}
+
+- (void)revokeRefreshToken:(SFOAuthCredentials *)credentials reason:(SFLogoutReason)reason {
     if (credentials.refreshToken != nil) {
-        NSString *host = [NSString stringWithFormat:@"%@://%@%@?token=%@",
-                        credentials.protocol, credentials.domain,
-                        kSFRevokePath, credentials.refreshToken];
+        NSString *host = [NSString stringWithFormat:@"%@://%@%@?token=%@&?revoke_reason=%@",
+                          credentials.protocol, credentials.domain,
+                          kSFRevokePath, credentials.refreshToken,
+                          [SFSDKOAuth2 stringValueForLogoutReason:reason]];
         NSURL *url = [NSURL URLWithString:host];
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
         [request setHTTPMethod:@"GET"];
@@ -382,6 +387,25 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
 }
 
 #pragma mark - Utilities
+
++ (NSString *)stringValueForLogoutReason:(SFLogoutReason)reason {
+    switch(reason) {
+        case SFLogoutReasonUserInitiated:
+            return @"user_logout";
+        case SFLogoutReasonUnknown:
+            return @"unknown";
+        case SFLogoutReasonUnexpected:
+            return @"unexpected";
+        case SFLogoutReasonTokenExpired:
+            return @"refresh_token_expired";
+        case SFLogoutReasonSSDKPolicy:
+            return @"ssdk_logout_policy";
+        case SFLogoutReasonTimeout:
+            return @"timeout";
+        case SFLogoutReasonUnexpectedResponse:
+            return @"unexpected_response";
+    }
+}
 
 + (NSDictionary *)parseQueryString:(NSString *)query {
     return [self parseQueryString:query decodeParams:YES];

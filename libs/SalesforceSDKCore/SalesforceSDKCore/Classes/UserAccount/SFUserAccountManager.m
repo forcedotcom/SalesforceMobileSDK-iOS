@@ -573,6 +573,10 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 }
 
 - (void)logoutUser:(SFUserAccount *)user {
+    [self logoutUser:user reason:SFLogoutReasonUnknown];
+}
+
+- (void)logoutUser:(SFUserAccount *)user reason:(SFLogoutReason)reason {
   
     // No-op, if the user is not valid.
     if (user == nil) {
@@ -590,7 +594,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     __weak typeof(self) weakSelf = self;
     [[SFPushNotificationManager sharedInstance] unregisterSalesforceNotificationsWithCompletionBlock:user completionBlock:^void() {
         __strong typeof(weakSelf) strongSelf = weakSelf;
-        [strongSelf postPushUnregistration:user];
+        [strongSelf postPushUnregistration:user logoutReason:reason];
     }];
 }
 
@@ -605,11 +609,11 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     }];
 }
 
-- (void)postPushUnregistration:(SFUserAccount *)user {
+- (void)postPushUnregistration:(SFUserAccount *)user logoutReason:(SFLogoutReason)reason {
     
     if (![NSThread isMainThread]) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self postPushUnregistration:user];
+            [self postPushUnregistration:user logoutReason:reason];
         });
         return;
     }
@@ -628,7 +632,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 
     [self deleteAccountForUser:user error:nil];
     id<SFSDKOAuthProtocol> authClient = self.authClient();
-    [authClient revokeRefreshToken:user.credentials];
+    [authClient revokeRefreshToken:user.credentials reason:reason];
     BOOL isCurrentUser = [user isEqual:self.currentUser];
     if (isCurrentUser) {
         [self setCurrentUserInternal:nil];
@@ -904,7 +908,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         // No retry, as missing parameters are fatal
         [SFSDKCoreLogger e:[self class] format:@"Missing parameters attempting to retrieve identity data.  Error domain: %@, code: %ld, description: %@", [error domain], [error code], [error localizedDescription]];
         id<SFSDKOAuthProtocol> authClient = self.authClient();
-        [authClient revokeRefreshToken:coordinator.credentials];
+        [authClient revokeRefreshToken:coordinator.credentials reason:SFLogoutReasonUnexpectedResponse];
        [self handleFailure:error session:coordinator.authSession];
     } else {
         [SFSDKCoreLogger e:[self class] format:@"Error retrieving idData:%@", error];
@@ -1517,7 +1521,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
             for (SFUserAccountIdentity *identity in keys) {
                 // Logout any other user with Biometric Authentication
                 if ([bioAuthManager checkForPolicyWithUserId:identity.userId] && ![identity isEqual:[self currentUserIdentity]]) {
-                    [self logoutUser:[self userAccountForUserIdentity:identity]];
+                    [self logoutUser:[self userAccountForUserIdentity:identity] reason:SFLogoutReasonUnknown];
                 }
             }
         }
@@ -1763,9 +1767,9 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
                 if (preLoginCredentials != nil && ![preLoginCredentials.refreshToken isEqualToString:self.currentUser.credentials.refreshToken]) {
                     
                     id<SFSDKOAuthProtocol> authClient = self.authClient();
-                    [authClient revokeRefreshToken:preLoginCredentials];
+                    [authClient revokeRefreshToken:preLoginCredentials reason:SFLogoutReasonUnknown];
                 }
-            } else if(hasMobilePolicy) {
+            } else if (hasMobilePolicy) {
                 [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureScreenLock];
                 [[SFScreenLockManagerInternal shared] storeMobilePolicyWithUserAccount:self.currentUser hasMobilePolicy:hasMobilePolicy lockTimeout:lockTimeout];
             }

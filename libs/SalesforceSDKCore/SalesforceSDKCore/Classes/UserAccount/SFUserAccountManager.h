@@ -530,6 +530,15 @@ Use this method to stop/clear any authentication which is has already been start
 - (void)logoutUser:(SFUserAccount *)user NS_SWIFT_NAME(logout(_:));
 
 /**
+ Performs a logout on the specified user.  Note that if the user is not the current user of the app, the
+ specified user's authenticated state will be removed, but no other action will otherwise interrupt the
+ current app state.
+ @param user The user to log out.
+ @param reason The reason that log out was initiated.
+ */
+- (void)logoutUser:(SFUserAccount *)user reason:(SFLogoutReason)reason NS_SWIFT_NAME(logout(_:reason:));
+
+/**
  Performs a logout for all users of the app, including the current user.
  */
 - (void)logoutAllUsers;
