@@ -390,6 +390,8 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
 
 + (NSString *)stringValueForLogoutReason:(SFLogoutReason)reason {
     switch(reason) {
+        case SFLogoutReasonCorruptState:
+            return @"corrupt_state";
         case SFLogoutReasonUserInitiated:
             return @"user_logout";
         case SFLogoutReasonUnknown:

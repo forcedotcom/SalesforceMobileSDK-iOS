@@ -67,6 +67,7 @@ enum {
 };
 
 typedef NS_ENUM(NSInteger, SFLogoutReason) {
+    SFLogoutReasonCorruptState,       // "Corrupted client state"
     SFLogoutReasonTokenExpired,       // "Refresh token expired"
     SFLogoutReasonSSDKPolicy,         // "SSDK initiated logout for policy violation"
     SFLogoutReasonTimeout,            // "Timeout while waiting for server response"
