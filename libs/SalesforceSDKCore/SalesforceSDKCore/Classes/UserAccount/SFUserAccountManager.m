@@ -572,6 +572,10 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     [self logoutUser:[SFUserAccountManager sharedInstance].currentUser];
 }
 
+- (void)logout:(SFLogoutReason)reason {
+    [self logoutUser:[SFUserAccountManager sharedInstance].currentUser reason:reason];
+}
+
 - (void)logoutUser:(SFUserAccount *)user {
     [self logoutUser:user reason:SFLogoutReasonUnknown];
 }

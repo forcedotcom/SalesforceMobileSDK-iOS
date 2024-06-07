@@ -515,11 +515,19 @@ Use this method to stop/clear any authentication which is has already been start
 @param completionBlock The completion block is called with YES if a session was cleared successfully. 
 */
 - (void)stopCurrentAuthentication:(nullable void (^)(BOOL))completionBlock;
+
 /**
  Forces a logout from the current account, redirecting the user to the login process.
  This throws out the OAuth refresh token.
  */
 - (void)logout;
+
+/**
+ Forces a logout from the current account, redirecting the user to the login process.
+ This throws out the OAuth refresh token.
+ @param reason The reason that log out was initiated.
+ */
+- (void)logout:(SFLogoutReason)reason;
 
 /**
  Performs a logout on the specified user.  Note that if the user is not the current user of the app, the
