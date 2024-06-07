@@ -368,7 +368,7 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
 
 - (void)revokeRefreshToken:(SFOAuthCredentials *)credentials reason:(SFLogoutReason)reason {
     if (credentials.refreshToken != nil) {
-        NSString *host = [NSString stringWithFormat:@"%@://%@%@?token=%@&?revoke_reason=%@",
+        NSString *host = [NSString stringWithFormat:@"%@://%@%@?token=%@&revoke_reason=%@",
                           credentials.protocol, credentials.domain,
                           kSFRevokePath, credentials.refreshToken,
                           [SFSDKOAuth2 stringValueForLogoutReason:reason]];
