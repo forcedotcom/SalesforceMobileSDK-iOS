@@ -88,6 +88,7 @@ static NSString * const kSFOAuthCodeCredentialsParamName        = @"code_credent
 static NSString * const kSFOAuthRequestTypeParamName            = @"Auth-Request-Type";
 static NSString * const kSFOAuthRequestTypeNamedUser            = @"Named-User";
 static NSString * const kSFOAuthRequestTypePasswordlessLogin    = @"passwordless-login";
+static NSString * const kSFOAuthRequestTypeUserRegistration     = @"user-registration";
 
 static NSString * const kSFOAuthAuthorizationTypeParamName      = @"Authorization";
 static NSString * const kSFOAuthAuthorizationTypeBasic          = @"Basic";
@@ -124,7 +125,13 @@ static NSString * const kOAuthUserAgentUserDefaultsKey              = @"UserAgen
 static NSString * const kSFAppFeatureSafariBrowserForLogin          = @"BW";
 static NSString * const kSFECParameter                              = @"ec";
 
-// Headless, password-less authentication constants
+// Endpoint path for Salesforce Identity API initialize headless, password-less login flow
 static NSString * const kSFOAuthEndPointHeadlessInitPasswordlessLogin = @"services/auth/headless/init/passwordless/login";
+
+/// Endpoint path for Salesforce Identity API initialize headless registration flow
+static NSString * const kSFOAuthEndPointHeadlessInitRegistration = @"services/auth/headless/init/registration";
+
+/// Endpoint path for Salesforce Identity API headless forgot password flow
+static NSString * const kSFOAuthEndPointHeadlessForgotPassword = @"services/auth/headless/forgot_password";
 
 #endif /* SFSDKOAuthConstants_h */
