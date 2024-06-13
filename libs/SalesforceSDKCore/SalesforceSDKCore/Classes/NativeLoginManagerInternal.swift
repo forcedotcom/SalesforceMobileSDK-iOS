@@ -4,7 +4,7 @@
 //
 //  Created by Brandon Page on 12/13/23.
 //  Copyright (c) 2023-present, salesforce.com, inc. All rights reserved.
-// 
+//
 //  Redistribution and use of this software in source and binary forms, with or without modification,
 //  are permitted provided that the following conditions are met:
 //  * Redistributions of source code must retain the above copyright notice, this list of conditions
@@ -15,7 +15,7 @@
 //  * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
 //  endorse or promote products derived from this software without specific prior written
 //  permission of salesforce.com, inc.
-// 
+//
 //  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
 //  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
 //  FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -39,7 +39,7 @@ let maximumPasswordLengthInBytes = 16000
 /// See https://developer.apple.com/documentation/swift/importing-swift-into-objective-c#Import-Code-Within-a-Framework-Target
 @objc(SFNativeLoginManagerInternal)
 public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
-        
+    
     @objc public let clientId: String
     @objc public let redirectUri: String
     @objc public let loginUrl: String
@@ -92,13 +92,9 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         let trimmedUsername = username.trimmingCharacters(in: .whitespacesAndNewlines)
         let trimmedPassword = password.trimmingCharacters(in: .whitespacesAndNewlines)
         
-        if !isValidUsername(username: trimmedUsername) {
-            return .invalidUsername
-        }
+        if let it = mapInvalidUsernameToResult(trimmedUsername) { return it }
+        if let it = mapInvalidPasswordToResult(trimmedPassword) { return it }
         
-        if !isValidPassword(password: trimmedPassword) {
-            return .invalidPassword
-        }
         guard let credentials = generateColonConcatenatedBase64String(
             value1: trimmedUsername,
             value2: trimmedPassword) else {
@@ -128,7 +124,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
                 continuation.resume(returning: result)
             }
         }
-
+        
         // Second REST Call - Access token request with code verifier
         return await submitAccessTokenRequest(
             authorizationResponse: authorizationResponse,
@@ -196,7 +192,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         
         return containsNumber && containsLetter && password.count >= minimumPasswordLength && password.utf8.count <= maximumPasswordLengthInBytes
     }
- 
+    
     private func urlSafeBase64Encode(data: Data) -> String {
         return data.base64EncodedString()
             .replacingOccurrences(of: "/", with: "_")
@@ -215,7 +211,303 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         return urlSafeBase64Encode(data: hash.dataRepresentation)
     }
     
-    // MARK: Headless, Password-Less Login Via One-Time-Passcode
+    // MARK: Salesforce Identity API Headless Registration Flow
+    
+    @objc public func startRegistration(
+        email: String,
+        firstName: String,
+        lastName: String,
+        username: String,
+        newPassword: String,
+        reCaptchaToken: String,
+        otpVerificationMethod: OtpVerificationMethod
+    ) async -> StartRegistrationResult {
+        
+        // Validate parameters.
+        let trimmedEmail = email.trimmingCharacters(in: .whitespacesAndNewlines)
+        let trimmedUsername = username.trimmingCharacters(in: .whitespacesAndNewlines)
+        let trimmedPassword = newPassword.trimmingCharacters(in: .whitespacesAndNewlines)
+        if let it = mapInvalidEmailAddressToResult(trimmedEmail) { return StartRegistrationResult(nativeLoginResult: it) }
+        if let it = mapInvalidUsernameToResult(trimmedUsername) { return StartRegistrationResult(nativeLoginResult: it) }
+        if let it = mapInvalidPasswordToResult(trimmedPassword) { return StartRegistrationResult(nativeLoginResult: it) }
+        let reCaptchaParameterGenerationResult = generateReCaptchaParameters(reCaptchaToken: reCaptchaToken)
+        
+        // Determine the OTP verification method.
+        let otpVerificationMethodString = generateVerificationTypeHeaderValue(
+            otpVerificationMethod: otpVerificationMethod)
+        
+        // Generate the start registration request body.
+        guard let startRegistrationRequestBodyString = {
+            do { return String(
+                data: try JSONEncoder().encode(
+                    StartRegistrationRequestBody(
+                        recaptcha: reCaptchaParameterGenerationResult.nonEnterpriseReCaptchaToken,
+                        recaptchaevent: reCaptchaParameterGenerationResult.enterpriseReCaptchaEvent,
+                        userData: UserData(
+                            email: email,
+                            username: username,
+                            password: newPassword,
+                            firstName: firstName,
+                            lastName: lastName),
+                        otpVerificationMethod: otpVerificationMethodString)
+                ),
+                encoding: .utf8)!
+            } catch let error {
+                SFSDKCoreLogger().e(
+                    classForCoder,
+                    message: "Cannot JSON encode start registration request body due to an encoding error with description '\(error.localizedDescription)'.")
+                return nil
+            }}() else { return StartRegistrationResult(nativeLoginResult: .unknownError) }
+        
+        // Create the start registration request.
+        let startRegistrationRequest = RestRequest(
+            method: .POST,
+            baseURL: loginUrl,
+            path: kSFOAuthEndPointHeadlessInitRegistration,
+            queryParams: nil)
+        startRegistrationRequest.endpoint = ""
+        startRegistrationRequest.requiresAuthentication = false
+        startRegistrationRequest.setCustomRequestBodyString(
+            startRegistrationRequestBodyString,
+            contentType: kHttpPostApplicationJsonContentType
+        )
+        
+        // Submit the start registration request and fetch the response.
+        let startRegistrationResponse = await withCheckedContinuation { continuation in
+            RestClient.sharedGlobal.send(
+                request: startRegistrationRequest
+            ) { result in
+                continuation.resume(returning: result)
+            }
+        }
+        
+        // React to the start registration response.
+        switch startRegistrationResponse {
+            
+        case .success(let startRegistrationResponse):
+            // Decode the start registration response.
+            guard let startRegistrationResponseBody = {
+                do {
+                    return try startRegistrationResponse.asDecodable(type: StartRegistrationResponseBody.self)
+                } catch let error {
+                    SFSDKCoreLogger().e(
+                        classForCoder,
+                        message: "Cannot JSON decode start registration response body due to a decoding error with description '\(error.localizedDescription)'.")
+                    return nil
+                }}() else { return StartRegistrationResult(nativeLoginResult: .unknownError) }
+            return StartRegistrationResult(
+                nativeLoginResult: .success,
+                email: startRegistrationResponseBody.email,
+                requestIdentifier: startRegistrationResponseBody.identifier)
+            
+        case .failure(let error):
+            SFSDKCoreLogger().e(
+                classForCoder,
+                message: "Start registration request failure with description '\(error.localizedDescription)'.")
+            return StartRegistrationResult(nativeLoginResult: .unknownError)
+        }
+    }
+    
+    public func completeRegistration(
+        otp: String,
+        requestIdentifier: String,
+        otpVerificationMethod: OtpVerificationMethod
+    ) async -> NativeLoginResult {
+        
+        return await submitAuthorizationRequest(
+            authRequestType: kSFOAuthRequestTypeUserRegistration,
+            otp: otp,
+            otpIdentifier: requestIdentifier,
+            otpVerificationMethod: otpVerificationMethod)
+    }
+    
+    /// A data class for the Salesforce Identity API start registration request body.
+    private struct StartRegistrationRequestBody : Codable {
+        
+        /// The reCAPTCHA token provided by the reCAPTCHA iOS SDK.  This is not used with reCAPTCHA Enterprise
+        var recaptcha: String?
+        
+        /// The reCAPTCHA parameters for use with reCAPTCHA Enterprise
+        var recaptchaevent: ReCaptchaEventRequestParameter?
+        
+        /// The start registration request user data
+        var userData: UserData
+        
+        /// The one-time-password's delivery method for verification in "email" or "sms"
+        var otpVerificationMethod: String
+        
+        enum CodingKeys: String, CodingKey {
+            case recaptcha = "recaptcha"
+            case recaptchaevent = "recaptchaevent"
+            case userData = "userdata"
+            case otpVerificationMethod = "verificationMethod"
+        }
+    }
+    
+    /// A data class for the Salesforce Identity API start registration request body's user info
+    /// parameter.
+    private struct UserData : Codable {
+        
+        /// A valid, user-entered email address
+        var email: String
+        
+        /// A valid Salesforce username or email
+        var username: String
+        
+        /// The user-entered new password
+        var password: String
+        
+        /// The user-entered first name
+        var firstName: String
+        
+        /// The user-entered last name
+        var lastName: String
+        
+        enum CodingKeys: String, CodingKey {
+            case email = "email"
+            case username = "username"
+            case password = "password"
+            case firstName = "firstName"
+            case lastName = "lastName"
+        }
+    }
+    
+    /// A structure for the start registration response body.
+    private struct StartRegistrationResponseBody: Codable {
+        let email: String
+        let identifier: String
+    }
+    
+    // MARK: Salesforce Identity API Headless Forgot Password Flow
+    
+    public func startPasswordReset(
+        username: String,
+        reCaptchaToken: String
+    ) async -> NativeLoginResult {
+        
+        // Validate parameters.
+        let trimmedUsername = username.trimmingCharacters(in: .whitespacesAndNewlines)
+        if let it = mapInvalidUsernameToResult(trimmedUsername) { return it }
+        let reCaptchaParameterGenerationResult = generateReCaptchaParameters(reCaptchaToken: reCaptchaToken)
+        
+        // Generate the start password reset request body.
+        guard let startPasswordResetRequestBodyString = {
+            do { return String(
+                data: try JSONEncoder().encode(
+                    StartPasswordResetRequestBody(
+                        recaptcha: reCaptchaParameterGenerationResult.nonEnterpriseReCaptchaToken,
+                        recaptchaevent: reCaptchaParameterGenerationResult.enterpriseReCaptchaEvent,
+                        username: trimmedUsername)
+                ),
+                encoding: .utf8)!
+            } catch let error {
+                SFSDKCoreLogger().e(
+                    classForCoder,
+                    message: "Cannot JSON encode start password reset request body due to an encoding error with description '\(error.localizedDescription)'.")
+                return nil
+            }}() else { return .unknownError }
+        
+        // Create the start password reset request.
+        let startPasswordResetRequest = RestRequest(
+            method: .POST,
+            baseURL: loginUrl,
+            path: kSFOAuthEndPointHeadlessForgotPassword,
+            queryParams: nil)
+        startPasswordResetRequest.endpoint = ""
+        startPasswordResetRequest.requiresAuthentication = false
+        startPasswordResetRequest.setCustomRequestBodyString(
+            startPasswordResetRequestBodyString,
+            contentType: kHttpPostApplicationJsonContentType
+        )
+        
+        let startPasswordResetResponse = await withCheckedContinuation { continuation in
+            RestClient.sharedGlobal.send(
+                request: startPasswordResetRequest
+            ) { result in
+                continuation.resume(returning: result)
+            }
+        }
+        
+        // React to the start password reset response.
+        switch startPasswordResetResponse {
+            
+        case .success(let startPasswordResetResponse):
+            return .success
+            
+        case .failure(let error):
+            SFSDKCoreLogger().e(
+                classForCoder,
+                message: "Start password reset request failure with description '\(error.localizedDescription)'.")
+            return  .unknownError
+        }
+    }
+    
+    public func completePasswordReset(
+        username: String,
+        otp: String,
+        newPassword: String
+    ) async -> NativeLoginResult {
+        
+        // Validate parameters.
+        let trimmedUsername = username.trimmingCharacters(in: .whitespacesAndNewlines)
+        if let it = mapInvalidUsernameToResult(trimmedUsername) { return it }
+        let trimmedOtp = otp.trimmingCharacters(in: .whitespacesAndNewlines)
+        let trimmedPassword = newPassword.trimmingCharacters(in: .whitespacesAndNewlines)
+        if let it = mapInvalidPasswordToResult(trimmedPassword) { return it }
+        
+        // Generate the complete password reset request body.
+        guard let completePasswordResetRequestBodyString = {
+            do { return String(
+                data: try JSONEncoder().encode(
+                    CompletePasswordResetRequestBody(
+                        username: trimmedUsername,
+                        otp: trimmedOtp,
+                        newPassword: trimmedPassword)
+                ),
+                encoding: .utf8)!
+            } catch let error {
+                SFSDKCoreLogger().e(
+                    classForCoder,
+                    message: "Cannot JSON encode complete password reset request body due to an encoding error with description '\(error.localizedDescription)'.")
+                return nil
+            }}() else { return .unknownError }
+        
+        // Create the complete password reset request.
+        let completePasswordResetRequest = RestRequest(
+            method: .POST,
+            baseURL: loginUrl,
+            path: kSFOAuthEndPointHeadlessForgotPassword,
+            queryParams: nil)
+        completePasswordResetRequest.endpoint = ""
+        completePasswordResetRequest.requiresAuthentication = false
+        completePasswordResetRequest.setCustomRequestBodyString(
+            completePasswordResetRequestBodyString,
+            contentType: kHttpPostApplicationJsonContentType
+        )
+        
+        let completePasswordResetResponse = await withCheckedContinuation { continuation in
+            RestClient.sharedGlobal.send(
+                request: completePasswordResetRequest
+            ) { result in
+                continuation.resume(returning: result)
+            }
+        }
+        
+        // React to the complete password reset response.
+        switch completePasswordResetResponse {
+            
+        case .success(let completePasswordResetResponse):
+            return .success
+            
+        case .failure(let error):
+            SFSDKCoreLogger().e(
+                classForCoder,
+                message: "Complete password reset request failure with description '\(error.localizedDescription)'.")
+            return  .unknownError
+        }
+    }
+    
+    // MARK: Salesforce Identity API Headless, Password-Less Login Via One-Time-Passcode
     
     public func submitOtpRequest(
         username: String,
@@ -229,40 +521,13 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         ) {
             return OtpRequestResult(nativeLoginResult: .invalidUsername)
         }
-        guard let reCaptchaSiteKeyId = reCaptchaSiteKeyId else {
-            SFSDKCoreLogger().e(
-                classForCoder,
-                message: "A reCAPTCHA site key wasn't and must be provided when using enterprise reCAPATCHA.")
-            return OtpRequestResult(nativeLoginResult: .unknownError)
-        }
-        guard let googleCloudProjectId = googleCloudProjectId else {
-            SFSDKCoreLogger().e(
-                classForCoder,
-                message: "A Google Cloud project id wasn't and must be provided when using enterprise reCAPATCHA.")
-            return OtpRequestResult(nativeLoginResult: .unknownError)
-        }
+        let reCaptchaParameterGenerationResult = generateReCaptchaParameters(reCaptchaToken: reCaptchaToken)
         
         /*
          * Create the OTP request body with the provided parameters. Note: The
          * `emailtemplate` parameter isn't supported here, but could be added in
          * the future.
          */
-        // Determine the reCAPTCHA parameter for non-enterprise reCAPTCHA
-        let reCaptchaParameter: String? = if (isReCaptchaEnterprise) {
-            nil
-        } else {
-            reCaptchaToken
-        }
-        // Determine the reCAPTCHA "event" parameter for enterprise reCAPTCHA
-        let reCaptchaEventParameter: OtpRequestBodyReCaptchaEvent? = if (isReCaptchaEnterprise) {
-            OtpRequestBodyReCaptchaEvent(
-                token: reCaptchaToken,
-                siteKey: reCaptchaSiteKeyId,
-                projectId: googleCloudProjectId
-            )
-        } else {
-            nil
-        }
         // Determine the OTP verification method.
         let otpVerificationMethodString = generateVerificationTypeHeaderValue(
             otpVerificationMethod: otpVerificationMethod)
@@ -271,8 +536,8 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
             do { return String(
                 data: try JSONEncoder().encode(
                     OtpRequestBody(
-                        recaptcha: reCaptchaParameter,
-                        recaptchaevent: reCaptchaEventParameter,
+                        recaptcha: reCaptchaParameterGenerationResult.nonEnterpriseReCaptchaToken,
+                        recaptchaevent: reCaptchaParameterGenerationResult.enterpriseReCaptchaEvent,
                         username: username,
                         verificationMethod: otpVerificationMethodString)
                 ),
@@ -373,7 +638,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         
         // Generate the authorization request body.
         let authorizationRequestBodyString = generateAuthorizationRequestBody(codeChallenge: codeChallenge)
-            
+        
         // Create the authorization request.
         let authorizationRequest = RestRequest(
             method: .POST,
@@ -416,6 +681,42 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         }
     }
     
+    /// A data class for the start password reset request body.
+    private struct StartPasswordResetRequestBody: Codable {
+        /// The reCAPTCHA token provided by the reCAPTCHA iOS SDK.  This is not used with reCAPTCHA Enterprise
+        var recaptcha: String?
+        
+        /// The reCAPTCHA parameters for use with reCAPTCHA Enterprise
+        var recaptchaevent: ReCaptchaEventRequestParameter?
+        
+        /// A valid Salesforce username or email
+        var username: String
+        
+        enum CodingKeys: String, CodingKey {
+            case recaptcha = "recaptcha"
+            case recaptchaevent = "recaptchaevent"
+            case username = "username"
+        }
+    }
+    
+    /// A data class for the complete reset password OTP request body.
+    private struct CompletePasswordResetRequestBody: Codable {
+        /// A valid Salesforce username or email
+        var username: String
+        
+        /// The user-entered one-time-password previously delivered to the user by the Salesforce Identity API forgot password endpoint
+        var otp: String
+        
+        /// The user-entered new password
+        var newPassword: String
+        
+        enum CodingKeys: String, CodingKey {
+            case username = "username"
+            case otp = "otp"
+            case newPassword = "newpassword"
+        }
+    }
+    
     /// A structure for the OTP request body.
     private struct OtpRequestBody: Codable {
         
@@ -423,7 +724,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         let recaptcha: String?
         
         /// The reCAPTCHA parameters for use with reCAPTCHA Enterprise
-        let recaptchaevent: OtpRequestBodyReCaptchaEvent?
+        let recaptchaevent: ReCaptchaEventRequestParameter?
         
         /// The Salesforce username
         let username: String
@@ -445,8 +746,8 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         let identifier: String
     }
     
-    /// A structure for the OTP request body's reCAPTCHA event parameter.
-    private struct OtpRequestBodyReCaptchaEvent: Codable {
+    /// A data class for the Salesforce Identity API request body reCAPTCHA event parameters.
+    private struct ReCaptchaEventRequestParameter: Codable {
         
         /// The reCAPTCHA token provided by the reCAPTCHA iOS SDK.  This is used only with reCAPTCHA Enterprise
         let token: String
@@ -479,6 +780,65 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         return urlSafeBase64Encode(data: valuesUtf8EncodedData)
     }
     
+    /// Generates either the reCAPTCHA token parameter for non-enterprise reCAPTCHA configurations or
+    /// the reCAPTCHA event parameter for enterprise reCAPTCHA configurations.
+    /// - Parameters:
+    ///    - reCaptchaToken: A reCAPTCHA token provided by the reCAPTCHA SDK
+    ///  - Returns: The reCAPTCHA parameter generation result with exactly one of the non-enterprise
+    ///  reCAPTCHA parameter, enterprise reCAPTCHA parameter or a native login result for generation
+    ///  failure
+    private func generateReCaptchaParameters(
+        reCaptchaToken: String
+    ) -> ReCaptchaParameterGenerationResult {
+        
+        // Validate state.
+        guard let reCaptchaSiteKeyId else {
+            SFSDKCoreLogger().e(
+                classForCoder,
+                message: "A reCAPTCHA site key wasn't and must be provided when using enterprise reCAPATCHA.")
+            return ReCaptchaParameterGenerationResult(result: .unknownError)
+        }
+        guard let googleCloudProjectId else {
+            SFSDKCoreLogger().e(
+                classForCoder,
+                message: "A Google Cloud project id wasn't and must be provided when using enterprise reCAPATCHA.")
+            return ReCaptchaParameterGenerationResult(result : .unknownError)
+        }
+        
+        // Generate the Salesforce Identity API reCAPTCHA request parameters.
+        return ReCaptchaParameterGenerationResult(
+            nonEnterpriseReCaptchaToken: {
+                switch(isReCaptchaEnterprise) {
+                case true: return nil
+                default: return reCaptchaToken
+                }
+            }(),
+            enterpriseReCaptchaEvent: {
+                switch(isReCaptchaEnterprise) {
+                case true: return ReCaptchaEventRequestParameter(
+                    token: reCaptchaToken,
+                    siteKey: reCaptchaSiteKeyId,
+                    projectId: googleCloudProjectId
+                )
+                    
+                default: return nil
+                }
+            }()
+        )
+    }
+    
+    /// The result of generating Salesforce Identity API request reCAPTCHA parameters.
+    private struct ReCaptchaParameterGenerationResult {
+        /// The reCAPTCHA token parameter for non-enterprise reCAPTCHA
+        var nonEnterpriseReCaptchaToken: String? = nil
+        
+        /// The reCAPTCHA event parameter for enterprise reCAPTCHA
+        var enterpriseReCaptchaEvent: ReCaptchaEventRequestParameter? = nil
+        
+        /// The error native login result of the reCAPTCHA parameter generation or null for successful generation
+        var result: NativeLoginResult? = nil
+    }
+    
     /// Generates a request body for the Headless Identity API authorization request.
     /// - Parameters:
     ///   - codeChallenge: The authorization code challenge
@@ -486,6 +846,88 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         codeChallenge: String
     ) -> String {
         return "\(kSFOAuthResponseType)=\(kSFOAuthCodeCredentialsParamName)&\(kSFOAuthClientId)=\(clientId)&\(kSFOAuthRedirectUri)=\(redirectUri)&\(kSFOAuthCodeChallengeParamName)=\(codeChallenge)"
+    }
+    
+    /// Submits an authorization request to the Salesforce Identity API and, on success, submits the access
+    /// token request.
+    /// - Parameters:
+    ///   - authRequestType: The Salesforce Identity API authorization request type header value
+    ///   - otp: A one-time-password (OTP) previously issued by the Salesforce Identity API
+    ///   - identifier: A OTP or request identifier previously issued by the Salesforce Identity API to
+    /// match the provided OTP
+    ///   - otpVerificationMethod: The OTP verification method used to obtain the identifier from the
+    /// Salesforce Identity API
+    /// - Returns: A native login result indicating success or one of several possible failures, including both
+    /// in-app and Salesforce Identity API results
+    public func submitAuthorizationRequest(
+        authRequestType: String,
+        otp: String,
+        otpIdentifier: String,
+        otpVerificationMethod: OtpVerificationMethod
+    ) async -> NativeLoginResult
+    {
+        // Validate parameters.
+        let trimmedOtp = otp.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        // Generate code verifier and code challenge.
+        let codeVerifier = generateCodeVerifier()
+        guard let codeChallenge = generateChallenge(
+            codeVerifier: codeVerifier
+        ) else {
+            SFSDKCoreLogger().e(
+                classForCoder,
+                message: "Cannot generate code verifier due to a nil result.")
+            return .unknownError
+        }
+        
+        // Determine the OTP verification method.
+        let otpVerificationMethodString = generateVerificationTypeHeaderValue(otpVerificationMethod: otpVerificationMethod)
+        // Generate the authorization.
+        guard let authorization = generateColonConcatenatedBase64String(
+            value1: otpIdentifier,
+            value2: trimmedOtp) else
+        {
+            SFSDKCoreLogger().e(
+                classForCoder,
+                message: "Unable to UTF-8 encode colon-concatenated string with values '\(otpIdentifier)' and '\(otp)' due to a nil encoding result.")
+            return .unknownError
+        }
+        // Generate the authorization request headers.
+        let authorizationRequestHeaders: NSMutableDictionary = [
+            kSFOAuthRequestTypeParamName: authRequestType,
+            kSFOAuthAuthVerificationTypeParamName: otpVerificationMethodString,
+            kHttpHeaderContentType: kHttpPostContentType,
+            kSFOAuthAuthorizationTypeParamName: "\(kSFOAuthAuthorizationTypeBasic) \(authorization)"]
+        
+        // Generate the authorization request body.
+        let authorizationRequestBodyString = generateAuthorizationRequestBody(codeChallenge: codeChallenge)
+        
+        // Create the authorization request.
+        let authorizationRequest = RestRequest(
+            method: .POST,
+            baseURL: loginUrl,
+            path: kSFOAuthEndPointAuthorize,
+            queryParams: nil)
+        authorizationRequest.customHeaders = authorizationRequestHeaders
+        authorizationRequest.endpoint = ""
+        authorizationRequest.requiresAuthentication = false
+        authorizationRequest.setCustomRequestBodyString(
+            authorizationRequestBodyString,
+            contentType: kHttpPostContentType)
+        
+        // Submit the authorization request and fetch the authorization response.
+        let authorizationResponse = await withCheckedContinuation { continuation in
+            RestClient.sharedGlobal.send(
+                request: authorizationRequest
+            ) { result in
+                continuation.resume(returning: result)
+            }
+        }
+        
+        // React to the authorization response.
+        return await submitAccessTokenRequest(
+            authorizationResponse: authorizationResponse,
+            codeVerifier: codeVerifier)
     }
     
     /// Reacts to a response from the Headless Identity API's authorization endpoint to initiate the token
@@ -556,6 +998,58 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
             // You will catch the error here in the event of auth failure or if the user cannot login this way.
             SFSDKCoreLogger().e(classForCoder, message: "authentication error: \(error)")
             return .invalidCredentials
+        }
+    }
+    
+    // MARK: Private String Parameter Validation
+    
+    /// Validates a string is a valid email address.
+    /// - Parameters:
+    ///   - string: The string to validate
+    /// - Returns: nil for valid email addresses - The invalid email login result otherwise
+    ///
+    func mapInvalidEmailAddressToResult(_ string: String) -> NativeLoginResult? {
+        let detector = try? NSDataDetector(
+            types: NSTextCheckingResult.CheckingType.link.rawValue
+        )
+        let range = NSRange(
+            string.startIndex..<string.endIndex,
+            in: string
+        )
+        let matches = detector?.matches(
+            in: string,
+            options: [],
+            range: range
+        )
+        guard let match = matches?.first, matches?.count == 1 else {
+            return .invalidEmail
+        }
+        guard match.url?.scheme == "mailto", match.range == range else {
+            return .invalidEmail
+        }
+        
+        return nil
+    }
+    
+    /// Validates a string is a valid password.
+    /// - Parameters:
+    ///    - string: The string to validate
+    /// - Returns: nil for valid passwords - The invalid password login result otherwise
+    func mapInvalidPasswordToResult(_ string: String) -> NativeLoginResult? {
+        switch (!isValidPassword(password: string.trimmingCharacters(in: .whitespacesAndNewlines))) {
+        case true: return .invalidPassword
+        default : return nil
+        }
+    }
+    
+    /// Validates this string is a valid username.
+    /// - Parameters:
+    ///   - string: The string to validate
+    /// - Returns: nil for valid usernames - The invalid username login result otherwise
+    func mapInvalidUsernameToResult(_ string: String) -> NativeLoginResult? {
+        switch (!isValidUsername(username: string.trimmingCharacters(in: .whitespacesAndNewlines))) {
+        case true: return .invalidUsername
+        default:  return nil
         }
     }
 }

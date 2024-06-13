@@ -26,12 +26,22 @@
 //  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import Foundation
- 
+
 @objc public enum NativeLoginResult: Int {
-    case invalidUsername         // Username does not meet Salesforce criteria (length, email format, ect).
-    case invalidPassword         // Password does not meet the weakest Salesforce criteria.
-    case invalidCredentials      // Username/password combination is incorrect.
+    /// Email address is not a valid format
+    case invalidEmail
+    
+    /// Username does not meet Salesforce criteria (length, email format, ect).
+    case invalidUsername
+    
+    /// Password does not meet the weakest Salesforce criteria.
+    case invalidPassword
+    
+    /// Username/password combination is incorrect.
+    case invalidCredentials
+    
     case unknownError
+    
     case success
 }
 
@@ -72,15 +82,96 @@ public protocol NativeLoginManager {
     /// Note: this call will dismiss your login view controller.
     @objc func biometricAuthenticationSuccess()
     
-    // MARK: Headless, Password-Less Login Via One-Time-Passcode
+    // MARK: Salesforce Identity API Headless Registration Flow
     
-    /// Submits a request for a one-time-passcode to the Salesforce headless password-less login flow.
-    /// This fulfills step three of the headless password-less login flow.
+    ///  Submits a request to start a user registration to the Salesforce Identity API headless registration
+    ///  flow.  This fulfills step four of the headless registration flow.
+    ///
+    ///  See https://help.salesforce.com/s/articleView?id=sf.remoteaccess_headless_registration_public_clients.htm&type=5
+    ///
+    /// - Parameters:
+    ///   - email: The user-entered email address
+    ///   - firstName: The user-entered first name
+    ///   - lastName: The user-entered last name
+    ///   - username: A valid Salesforce username or email
+    ///   - newPassword: The user-entered new password
+    ///   - reCaptchaToken: A reCAPTCHA token provided by the reCAPTCHA SDK
+    ///   - otpVerificationMethod: The delivery method for the OTP
+    ///  - Returns: The start registration result with the request identifier returned by the Salesforce
+    ///  Identity API and a native login result indicating success or one of several possible failures,
+    ///  including both in-app and Salesforce Identity API results
+    @objc func startRegistration(
+        email: String,
+        firstName: String,
+        lastName: String,
+        username: String,
+        newPassword: String,
+        reCaptchaToken: String,
+        otpVerificationMethod: OtpVerificationMethod
+    ) async -> StartRegistrationResult
+    
+    ///  Submits a request to complete a user registration to the Salesforce Identity API headless
+    ///  registration flow.  This fulfills step eight of the headless registration flow.
+    ///
+    ///  See https://help.salesforce.com/s/articleView?id=sf.remoteaccess_headless_registration_public_clients.htm&type=5
+    ///
+    /// - Parameters:
+    ///    - otp A user-entered one-time-password
+    ///    - requestIdentifier The request identifier issued by the Salesforce Identity API headless
+    ///    registration flow in the start registration method
+    ///    - otpVerificationMethod The one-time-password verification method used to obtain the
+    ///    OTP identifier
+    ///  - Returns: A native login result indicating success or one of several possible failures, including
+    ///  both in-app and Salesforce Identity API results
+    @objc func completeRegistration(
+        otp: String,
+        requestIdentifier: String,
+        otpVerificationMethod: OtpVerificationMethod
+    ) async -> NativeLoginResult
+    
+    // MARK: Salesforce Identity API Headless Forgot Password Flow
+    
+    /// Submits a request to start a password reset to the Salesforce Identity API headless forgot password
+    /// flow.  This fulfills step one of the headless forgot password flow.
+    ///
+    /// See https://help.salesforce.com/s/articleView?id=sf.remoteaccess_headless_forgot_password_flow.htm&type=5
+    ///
+    /// - Parameters:
+    ///   - username: A valid Salesforce username or email
+    ///   - reCaptchaToken: A reCAPTCHA token provided by the reCAPTCHA SDK
+    /// - Returns: A native login result indicating success or one of several possible failures, including
+    ///  both in-app and Salesforce Identity API results
+    @objc func startPasswordReset(
+        username: String,
+        reCaptchaToken: String
+    ) async -> NativeLoginResult
+    
+    /// Submits a request to complete a password reset to the Salesforce Identity API headless forgot
+    /// password flow. This fulfills step four of the headless forgot password flow.
+    ///
+    /// See https://help.salesforce.com/s/articleView?id=sf.remoteaccess_headless_forgot_password_flow.htm&type=5
+    ///
+    /// - Parameters:
+    ///   - username: A valid Salesforce username or email
+    ///   - otp: A user-entered one-time-password
+    ///   - newPassword: The user-entered new password
+    /// - Returns: A native login result indicating success or one of several possible failures, including
+    /// both in-app and Salesforce Identity API results
+    @objc func completePasswordReset(
+        username: String,
+        otp: String,
+        newPassword: String
+    ) async -> NativeLoginResult
+    
+    // MARK: Salesforce Identity API Headless, Password-Less Login Via One-Time-Passcode
+    
+    /// Submits a request to start password-less login via one-time-passcode to the Salesforce Identity API
+    /// headless, password-less login flow. This fulfills step three of the headless, password-less login flow.
     ///
     /// See https://help.salesforce.com/s/articleView?id=sf.remoteaccess_headless_passwordless_login_public_clients.htm&type=5
     ///
     /// - Parameters:
-    ///   - username: A valid Salesforce username.  Note that email may be used for community users
+    ///   - username: A valid Salesforce username or email
     ///   - reCaptchaToken: A reCAPTCHA token provided by the reCAPTCHA SDK
     ///   - otpVerificationMethod: The delivery method for the OTP
     /// - Returns: An OTP request result with the overall login result and the OTP identifier for
@@ -91,16 +182,20 @@ public protocol NativeLoginManager {
         reCaptchaToken: String,
         otpVerificationMethod: OtpVerificationMethod) async -> OtpRequestResult
     
-    /// Submits a request for a one-time-passcode to the Salesforce headless password-less login flow.
-    /// This fulfills steps eight, eleven and thirteen of the headless password-less login flow.
+    /// Submits a request to complete a password-less login to the Salesforce Identity API headless,
+    /// password-less login flow. This fulfills steps eight, eleven and thirteen of the headless password-less
+    /// login flow.
     ///
     /// See https://help.salesforce.com/s/articleView?id=sf.remoteaccess_headless_passwordless_login_public_clients.htm&type=5
     ///
     /// - Parameters:
-    ///   - otp: A user-entered OTP
-    ///   - otpIdentifier: The OTP identifier issued by the Headless Identity API
-    ///   - otpVerificationMethod: The OTP verification method used to obtain the OTP identifier
-    /// - Returns: A login result indicating the outcome of the authorization and access token requests
+    ///   - otp: A user-entered one-time-password
+    ///   - otpIdentifier: The one-time-password identifier issued by the Salesforce Identity API
+    ///   headless, password-less login flow in the start password-less authorization method.
+    ///   - otpVerificationMethod: The one-time-password verification method used to obtain the
+    ///   OTP identifier
+    /// - Returns: A native login result indicating success or one of several possible failures, including
+    /// both in-app and Salesforce Identity API results
     ///
     @objc func submitPasswordlessAuthorizationRequest(
         otp: String,
@@ -109,12 +204,47 @@ public protocol NativeLoginManager {
     ) async -> NativeLoginResult
 }
 
+// MARK: Salesforce Identity API Headless Registration Flow Data Types
+
+/// An Objective-C compatible start registration result.
+/// - Parameters:
+///   - nativeLoginResult: A native login result indicating success or one of several possible
+///   failures, including both in-app and Salesforce Identity API results
+///   - email: On success result, the email provided by the Salesforce Identity API
+///   - requestIdentifier: On success result, the request identifier provided by the Salesforce
+///   Identity API
+@objc(SFStartRegistrationResult)
+@objcMembers
+public class StartRegistrationResult: NSObject {
+    
+    /// The overall result of the start registration request
+    public let nativeLoginResult: NativeLoginResult
+    
+    /// On success result, the email address provided by the Salesforce Identity API
+    public let email: String?
+    
+    /// On success result, the request identifier provided by the Salesforce Identity API
+    public let requestIdentifier: String?
+    
+    init(
+        nativeLoginResult: NativeLoginResult,
+        email: String? = nil,
+        requestIdentifier: String? = nil
+    ) {
+        self.nativeLoginResult = nativeLoginResult
+        self.email = email
+        self.requestIdentifier = requestIdentifier
+    }
+}
+
+// MARK: Salesforce Identity API Headless, Password-Less Login Via One-Time-Passcode Data Types
+
 /// An Objective-C compatible OTP request result
 @objc(SFOtpRequestResult)
 @objcMembers
 public class OtpRequestResult: NSObject {
     
-    /// The overall result of the OTP request.
+    /// The overall result of the OTP request
     public let nativeLoginResult: NativeLoginResult
     
     /// On success result, the OTP identifier provided by the API
@@ -128,6 +258,8 @@ public class OtpRequestResult: NSObject {
         self.otpIdentifier = otpIdentifier
     }
 }
+
+// MARK: Common Data Types
 
 /// The possible OTP verification methods.
 @objc public enum OtpVerificationMethod: Int {
