@@ -1525,7 +1525,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
             for (SFUserAccountIdentity *identity in keys) {
                 // Logout any other user with Biometric Authentication
                 if ([bioAuthManager checkForPolicyWithUserId:identity.userId] && ![identity isEqual:[self currentUserIdentity]]) {
-                    [self logoutUser:[self userAccountForUserIdentity:identity] reason:SFLogoutReasonUnknown];
+                    [self logoutUser:[self userAccountForUserIdentity:identity] reason:SFLogoutReasonRefreshTokenRotated];
                 }
             }
         }

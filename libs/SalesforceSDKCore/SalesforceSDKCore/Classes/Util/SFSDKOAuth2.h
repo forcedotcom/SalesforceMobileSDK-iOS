@@ -75,6 +75,7 @@ typedef NS_ENUM(NSInteger, SFLogoutReason) {
     SFLogoutReasonUnexpectedResponse, // "Unexpected response from server"
     SFLogoutReasonUnknown,            // "Unknown"
     SFLogoutReasonUserInitiated,      // "User initiated logout"
+    SFLogoutReasonRefreshTokenRotated // "Refresh token rotated"
 };
 
 NS_ASSUME_NONNULL_BEGIN
@@ -139,6 +140,8 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface SFSDKOAuth2 : NSObject<SFSDKOAuthProtocol, SFSDKOAuthSessionManaging>
+
++ (NSMutableURLRequest *)requestForRevokeRefreshToken:(SFOAuthCredentials *)credentials reason:(SFLogoutReason)reason;
 
 @end
 

@@ -368,14 +368,7 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
 
 - (void)revokeRefreshToken:(SFOAuthCredentials *)credentials reason:(SFLogoutReason)reason {
     if (credentials.refreshToken != nil) {
-        NSString *host = [NSString stringWithFormat:@"%@://%@%@?token=%@&revoke_reason=%@",
-                          credentials.protocol, credentials.domain,
-                          kSFRevokePath, credentials.refreshToken,
-                          [SFSDKOAuth2 stringValueForLogoutReason:reason]];
-        NSURL *url = [NSURL URLWithString:host];
-        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
-        [request setHTTPMethod:@"GET"];
-        [request setHTTPShouldHandleCookies:NO];
+        NSMutableURLRequest *request = [SFSDKOAuth2 requestForRevokeRefreshToken:credentials reason:reason];
 
         __block NSString *networkIdentifier = [SFNetwork uniqueInstanceIdentifier];
         SFNetwork *network = [SFNetwork sharedEphemeralInstanceWithIdentifier:networkIdentifier];
@@ -387,6 +380,18 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
 }
 
 #pragma mark - Utilities
+
++ (NSMutableURLRequest *)requestForRevokeRefreshToken:(SFOAuthCredentials *)credentials reason:(SFLogoutReason)reason {
+    NSString *host = [NSString stringWithFormat:@"%@://%@%@?token=%@&revoke_reason=%@",
+                      credentials.protocol, credentials.domain,
+                      kSFRevokePath, credentials.refreshToken,
+                      [SFSDKOAuth2 stringValueForLogoutReason:reason]];
+    NSURL *url = [NSURL URLWithString:host];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
+    [request setHTTPMethod:@"GET"];
+    [request setHTTPShouldHandleCookies:NO];
+    return request;
+}
 
 + (NSString *)stringValueForLogoutReason:(SFLogoutReason)reason {
     switch(reason) {
@@ -406,6 +411,8 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
             return @"timeout";
         case SFLogoutReasonUnexpectedResponse:
             return @"unexpected_response";
+        case SFLogoutReasonRefreshTokenRotated:
+            return @"refresh_token_rotated";
     }
 }
 
