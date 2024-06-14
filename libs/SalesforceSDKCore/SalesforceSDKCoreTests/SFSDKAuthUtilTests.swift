@@ -139,4 +139,19 @@ class SFSDKAuthUtilTests: XCTestCase {
         let error = try XCTUnwrap(response.error)
         XCTAssertTrue((error.error as NSError).code == kSFOAuthErrorInvalidGrant)
     }
+    
+    func testRevokeToken() throws {
+        let credentials = try XCTUnwrap(currentUser?.credentials)
+        let request = SFSDKOAuth2.request(forRevokeRefreshToken: credentials, reason: .userInitiated)
+        let url = try XCTUnwrap(request.url?.absoluteString)
+        let queryItems = try XCTUnwrap(URLComponents(string: url)?.queryItems)
+        
+        XCTAssertEqual(queryItems.count, 2)
+        XCTAssertTrue(queryItems.contains(where: { item in
+            item.name == "token" && item.value == credentials.refreshToken
+        }))
+        XCTAssertTrue(queryItems.contains(where: { item in
+            item.name == "revoke_reason" && item.value == "user_logout"
+        }))
+    }
 }
