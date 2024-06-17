@@ -429,7 +429,7 @@ static dispatch_once_t pred;
                     // Make sure we call logout on the main thread.
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [strongSelf createAndStoreLogoutEvent:refreshError user:strongSelf.user];
-                        [[SFUserAccountManager sharedInstance] logoutUser:strongSelf.user];
+                        [[SFUserAccountManager sharedInstance] logoutUser:strongSelf.user reason:SFLogoutReasonTokenExpired];
                     });
                 }
             }];
