@@ -137,6 +137,10 @@ FOUNDATION_EXTERN NSString * const SFUserAccountManagerUserChangeUserKey NS_SWIF
  */
 FOUNDATION_EXTERN NSString * const kSFNotificationUserInfoAccountKey NS_SWIFT_NAME(UserAccountManager.userInfoAccountKey);
 
+/**  Key to use to lookup logout reason associated with NSNotification log out events.
+ */
+FOUNDATION_EXTERN NSString * const kSFNotificationUserInfoLogoutReasonKey NS_SWIFT_NAME(UserAccountManager.userInfoLogoutReasonKey);
+
 /**  Key to use to lookup credentials associated with  NSNotification userInfo.
  */
 FOUNDATION_EXTERN NSString * const kSFNotificationUserInfoCredentialsKey NS_SWIFT_NAME(UserAccountManager.userInfoCredentialsKey);
