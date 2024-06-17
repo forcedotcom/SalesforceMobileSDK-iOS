@@ -99,17 +99,18 @@ NSNotificationName kSFNotificationUserDidReceiveIDPResponse   = @"SFNotification
 NSNotificationName kSFNotificationUserIDPInitDidLogIn       = @"SFNotificationUserIDPInitDidLogIn";
 
 //keys used in notifications
-NSString * const kSFNotificationUserInfoAccountKey      = @"account";
-NSString * const kSFNotificationUserInfoCredentialsKey  = @"credentials";
-NSString * const kSFNotificationUserInfoAuthTypeKey     = @"authType";
-NSString * const kSFNotificationPreviousLoginHost     = @"prevLoginHost";
-NSString * const kSFNotificationCurrentLoginHost     = @"currentLoginHost";
-NSString * const kSFUserInfoAddlOptionsKey     = @"options";
-NSString * const kSFNotificationUserInfoKey    = @"sfuserInfo";
-NSString * const kSFNotificationFromUserKey    = @"fromUser";
-NSString * const kSFNotificationToUserKey      = @"toUser";
-NSString * const SFUserAccountManagerUserChangeKey      = @"change";
-NSString * const SFUserAccountManagerUserChangeUserKey      = @"user";
+NSString * const kSFNotificationUserInfoAccountKey           = @"account";
+NSString * const kSFNotificationUserInfoLogoutReasonKey      = @"logoutReason";
+NSString * const kSFNotificationUserInfoCredentialsKey       = @"credentials";
+NSString * const kSFNotificationUserInfoAuthTypeKey          = @"authType";
+NSString * const kSFNotificationPreviousLoginHost            = @"prevLoginHost";
+NSString * const kSFNotificationCurrentLoginHost             = @"currentLoginHost";
+NSString * const kSFUserInfoAddlOptionsKey                   = @"options";
+NSString * const kSFNotificationUserInfoKey                  = @"sfuserInfo";
+NSString * const kSFNotificationFromUserKey                  = @"fromUser";
+NSString * const kSFNotificationToUserKey                    = @"toUser";
+NSString * const SFUserAccountManagerUserChangeKey           = @"change";
+NSString * const SFUserAccountManagerUserChangeUserKey       = @"user";
 
 // Persistence Keys
 static NSString * const kUserDefaultsLastUserIdentityKey = @"LastUserIdentity";
@@ -628,8 +629,10 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     NSString *userId = user.credentials.userId;
     NSString *orgId = user.credentials.organizationId;
     NSString *communityId = user.credentials.communityId;
+    NSNumber *logoutReason = [NSNumber numberWithInteger:reason];
     
-    NSDictionary *userInfo = @{ kSFNotificationUserInfoAccountKey : user };
+    NSDictionary *userInfo = @{ kSFNotificationUserInfoAccountKey : user,
+                                kSFNotificationUserInfoLogoutReasonKey: logoutReason };
     [[NSNotificationCenter defaultCenter]  postNotificationName:kSFNotificationUserWillLogout
                                                          object:self
                                                        userInfo:userInfo];
