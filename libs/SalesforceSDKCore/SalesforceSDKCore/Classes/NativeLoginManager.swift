@@ -116,10 +116,10 @@ public protocol NativeLoginManager {
     ///  See https://help.salesforce.com/s/articleView?id=sf.remoteaccess_headless_registration_public_clients.htm&type=5
     ///
     /// - Parameters:
-    ///    - otp A user-entered one-time-password
-    ///    - requestIdentifier The request identifier issued by the Salesforce Identity API headless
+    ///    - otp: A user-entered one-time-password
+    ///    - requestIdentifier: The request identifier issued by the Salesforce Identity API headless
     ///    registration flow in the start registration method
-    ///    - otpVerificationMethod The one-time-password verification method used to obtain the
+    ///    - otpVerificationMethod: The one-time-password verification method used to obtain the
     ///    OTP identifier
     ///  - Returns: A native login result indicating success or one of several possible failures, including
     ///  both in-app and Salesforce Identity API results
@@ -207,12 +207,6 @@ public protocol NativeLoginManager {
 // MARK: Salesforce Identity API Headless Registration Flow Data Types
 
 /// An Objective-C compatible start registration result.
-/// - Parameters:
-///   - nativeLoginResult: A native login result indicating success or one of several possible
-///   failures, including both in-app and Salesforce Identity API results
-///   - email: On success result, the email provided by the Salesforce Identity API
-///   - requestIdentifier: On success result, the request identifier provided by the Salesforce
-///   Identity API
 @objc(SFStartRegistrationResult)
 @objcMembers
 public class StartRegistrationResult: NSObject {

@@ -242,7 +242,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
                 data: try JSONEncoder().encode(
                     StartRegistrationRequestBody(
                         recaptcha: reCaptchaParameterGenerationResult.nonEnterpriseReCaptchaToken,
-                        recaptchaevent: reCaptchaParameterGenerationResult.enterpriseReCaptchaEvent,
+                        recaptchaEvent: reCaptchaParameterGenerationResult.enterpriseReCaptchaEvent,
                         userData: UserData(
                             email: email,
                             username: username,
@@ -251,7 +251,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
                             lastName: lastName),
                         otpVerificationMethod: otpVerificationMethodString)
                 ),
-                encoding: .utf8)!
+                encoding: .utf8)
             } catch let error {
                 SFSDKCoreLogger().e(
                     classForCoder,
@@ -328,7 +328,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         var recaptcha: String?
         
         /// The reCAPTCHA parameters for use with reCAPTCHA Enterprise
-        var recaptchaevent: ReCaptchaEventRequestParameter?
+        var recaptchaEvent: ReCaptchaEventRequestParameter?
         
         /// The start registration request user data
         var userData: UserData
@@ -338,7 +338,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         
         enum CodingKeys: String, CodingKey {
             case recaptcha = "recaptcha"
-            case recaptchaevent = "recaptchaevent"
+            case recaptchaEvent = "recaptchaevent"
             case userData = "userdata"
             case otpVerificationMethod = "verificationMethod"
         }
@@ -396,10 +396,10 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
                 data: try JSONEncoder().encode(
                     StartPasswordResetRequestBody(
                         recaptcha: reCaptchaParameterGenerationResult.nonEnterpriseReCaptchaToken,
-                        recaptchaevent: reCaptchaParameterGenerationResult.enterpriseReCaptchaEvent,
+                        recaptchaEvent: reCaptchaParameterGenerationResult.enterpriseReCaptchaEvent,
                         username: trimmedUsername)
                 ),
-                encoding: .utf8)!
+                encoding: .utf8)
             } catch let error {
                 SFSDKCoreLogger().e(
                     classForCoder,
@@ -464,7 +464,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
                         otp: trimmedOtp,
                         newPassword: trimmedPassword)
                 ),
-                encoding: .utf8)!
+                encoding: .utf8)
             } catch let error {
                 SFSDKCoreLogger().e(
                     classForCoder,
@@ -537,11 +537,11 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
                 data: try JSONEncoder().encode(
                     OtpRequestBody(
                         recaptcha: reCaptchaParameterGenerationResult.nonEnterpriseReCaptchaToken,
-                        recaptchaevent: reCaptchaParameterGenerationResult.enterpriseReCaptchaEvent,
+                        recaptchaEvent: reCaptchaParameterGenerationResult.enterpriseReCaptchaEvent,
                         username: username,
                         verificationMethod: otpVerificationMethodString)
                 ),
-                encoding: .utf8)!
+                encoding: .utf8)
             } catch let error {
                 SFSDKCoreLogger().e(
                     classForCoder,
@@ -687,14 +687,14 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         var recaptcha: String?
         
         /// The reCAPTCHA parameters for use with reCAPTCHA Enterprise
-        var recaptchaevent: ReCaptchaEventRequestParameter?
+        var recaptchaEvent: ReCaptchaEventRequestParameter?
         
         /// A valid Salesforce username or email
         var username: String
         
         enum CodingKeys: String, CodingKey {
             case recaptcha = "recaptcha"
-            case recaptchaevent = "recaptchaevent"
+            case recaptchaEvent = "recaptchaevent"
             case username = "username"
         }
     }
@@ -724,7 +724,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         let recaptcha: String?
         
         /// The reCAPTCHA parameters for use with reCAPTCHA Enterprise
-        let recaptchaevent: ReCaptchaEventRequestParameter?
+        let recaptchaEvent: ReCaptchaEventRequestParameter?
         
         /// The Salesforce username
         let username: String
@@ -734,7 +734,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         
         enum CodingKeys: String, CodingKey {
             case recaptcha = "recaptcha"
-            case recaptchaevent = "recaptchaevent"
+            case recaptchaEvent = "recaptchaevent"
             case verificationMethod = "verificationmethod"
             case username = "username"
         }
