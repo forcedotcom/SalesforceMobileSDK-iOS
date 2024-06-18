@@ -431,7 +431,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         // React to the start password reset response.
         switch startPasswordResetResponse {
             
-        case .success(let startPasswordResetResponse):
+        case .success:
             return .success
             
         case .failure(let error):
@@ -496,7 +496,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         // React to the complete password reset response.
         switch completePasswordResetResponse {
             
-        case .success(let completePasswordResetResponse):
+        case .success:
             return .success
             
         case .failure(let error):
