@@ -1,0 +1,54 @@
+# Validate changes to this class with: curl -X POST --data-binary @codecov.yml https://codecov.io/validate
+
+codecov:
+  branch: dev
+
+coverage:
+  precision: 2
+  round: down
+  range: "25...75"
+
+coverage:
+  status:
+    project:
+      default: false  # disable the default status that measures entire project
+      SalesforceAnalytics:
+        target: auto
+        paths: 
+          - "libs/SalesforceAnalytics/SalesforceAnalytics/"
+        flags: 
+          - SalesforceAnalytics
+      SalesforceSDKCommon:
+        target: auto
+        paths: 
+          - "libs/SalesforceSDKCore/SalesforceSDKCommon/"
+        flags: 
+          - SalesforceSDKCommon
+      SalesforceSDKCore:
+        target: auto
+        paths: 
+          - "libs/SalesforceSDKCore/SalesforceSDKCore/"
+        flags: 
+          - SalesforceSDKCore
+      SmartStore:
+        target: auto
+        paths: 
+          - "libs/SmartStore/SmartStore/"
+        flags: 
+          - SmartStore
+      MobileSync:
+        target: auto
+        paths: 
+          - "libs/MobileSync/MobileSync/"
+        flags: 
+          - MobileSync
+
+ignore:
+  - "shared"
+  - "native"
+  - "libs/**/*Test*/*"
+
+comment:
+  layout: "reach, diff"
+  behavior: default
+  require_changes: false
