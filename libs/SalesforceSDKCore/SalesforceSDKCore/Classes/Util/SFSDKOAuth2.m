@@ -283,7 +283,10 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
                 }
             });
             return;
+        } else {
+            [SFSDKEventBuilderHelper createAndStoreEvent:@"tokenRefresh" userAccount:[SFUserAccountManager sharedInstance].currentUser className:NSStringFromClass([strongSelf class]) attributes:nil];
         }
+        
         [strongSelf handleTokenEndpointResponse:completionBlock request:endpointReq data:data urlResponse:urlResponse];
     }] resume];
 }
