@@ -558,9 +558,8 @@
     } else {
         // Assumes refresh token flow.
         [SFSDKCoreLogger i:[self class] format:@"%@: Initiating refresh token flow.", NSStringFromSelector(_cmd)];
-        [self.authClient accessTokenForRefresh:request  completion:^(SFSDKOAuthTokenEndpointResponse * response) {
+        [self.authClient accessTokenForRefresh:request completion:^(SFSDKOAuthTokenEndpointResponse * response) {
             __strong typeof (weakSelf) strongSelf = weakSelf;
-            [SFSDKEventBuilderHelper createAndStoreEvent:@"tokenRefresh" userAccount:[SFUserAccountManager sharedInstance].currentUser className:NSStringFromClass([strongSelf class]) attributes:nil];
             [strongSelf handleResponse:response];
         }];
     }
