@@ -1,4 +1,4 @@
-# Validate changes to this class with: curl -X POST --data-binary @codecov.yml https://codecov.io/validate
+# Validate changes to this class with: curl -X POST --data-binary @.codecov.yml https://codecov.io/validate
 
 codecov:
   branch: dev
@@ -8,7 +8,6 @@ coverage:
   round: down
   range: "25...75"
 
-coverage:
   status:
     project:
       default: false  # disable the default status that measures entire project
@@ -48,7 +47,11 @@ ignore:
   - "native"
   - "libs/**/*Test*/*"
 
+flag_management:
+  default_rules: # the rules that will be followed for any flag added, generally
+    carryforward: true
+
 comment:
-  layout: "reach, diff"
+  layout: "diff, flags, files"
   behavior: default
   require_changes: false
