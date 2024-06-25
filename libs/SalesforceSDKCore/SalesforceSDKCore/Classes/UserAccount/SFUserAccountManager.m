@@ -100,6 +100,7 @@ NSNotificationName kSFNotificationUserIDPInitDidLogIn       = @"SFNotificationUs
 
 //keys used in notifications
 NSString * const kSFNotificationUserInfoAccountKey           = @"account";
+NSString * const kSFNotificationUserInfoLoginReasonKey       = @"loginReason";
 NSString * const kSFNotificationUserInfoLogoutReasonKey      = @"logoutReason";
 NSString * const kSFNotificationUserInfoCredentialsKey       = @"credentials";
 NSString * const kSFNotificationUserInfoAuthTypeKey          = @"authType";
@@ -396,15 +397,25 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 }
 
 - (BOOL)loginWithCompletion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
+    return [self loginWithReason:SFLoginReasonUnknown completion:completionBlock failure:failureBlock];
+}
+
+- (BOOL)loginWithReason:(SFLoginReason)reason completion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock {
+    [SFSDKCoreLogger i:[self class] format:@"[%@ %@]", NSStringFromClass([self class]), NSStringFromSelector(_cmd)];
     BOOL result = NO;
     for (UIScene *scene in [SFApplicationHelper sharedApplication].connectedScenes) {
-        result |= [self loginWithCompletion:completionBlock failure:failureBlock scene:scene];
+        result |= [self loginWithReason:reason scene:scene completion:completionBlock failure:failureBlock];
     }
     return result;
 }
 
 - (BOOL)loginWithCompletion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock scene:(UIScene *)scene {
-    return [self authenticateWithCompletion:completionBlock failure:failureBlock scene:scene];
+    return [self loginWithReason:SFLoginReasonUnknown scene:scene completion:completionBlock failure:failureBlock];
+}
+    
+- (BOOL)loginWithReason:(SFLoginReason)reason scene:(UIScene *)scene completion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock  {
+    [SFSDKCoreLogger i:[self class] format:@"[%@ %@]", NSStringFromClass([self class]), NSStringFromSelector(_cmd)];
+    return [self authenticateWithReason:reason scene:scene completion:completionBlock failure:failureBlock];
 }
 
 - (BOOL)refreshCredentials:(SFOAuthCredentials *)credentials completion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
@@ -476,7 +487,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     }
 }
 
-- (BOOL)authenticateWithCompletion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock scene:(UIScene *)scene {
+- (BOOL)authenticateWithReason:(SFLoginReason)reason scene:(UIScene *)scene completion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
     SFSDKAuthSession *authSession = self.authSessions[scene.session.persistentIdentifier];
     if (authSession && authSession.isAuthenticating) {
         [SFSDKCoreLogger e:[self class] format:@"Login has already been called. Stop current authentication using SFUserAccountManager::stopCurrentAuthentication and then retry."];
@@ -490,6 +501,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         request = [self defaultAuthRequest];
     }
     
+    request.loginReason = reason;
     if (scene) {
         request.scene = scene;
     }
@@ -827,12 +839,19 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 }
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(WKWebView *)view {
-
     SFLoginViewController *loginViewController = [self createLoginViewControllerInstance:coordinator];
     loginViewController.oauthView = view;
     SFSDKAuthViewHolder *viewHolder = [SFSDKAuthViewHolder new];
     viewHolder.loginController = loginViewController;
     viewHolder.scene = coordinator.authSession.oauthRequest.scene;
+    
+    SFLoginReason reason = coordinator.authSession.oauthRequest.loginReason;
+    [SFSDKCoreLogger i:[self class] format:@"Showing auth view, login reason: %@", reason]; // TODO string value
+    NSDictionary *userInfo = @{ kSFNotificationUserInfoCredentialsKey: coordinator.credentials,
+                                kSFNotificationUserInfoAuthTypeKey: coordinator.authInfo,
+                                kSFNotificationUserInfoLoginReasonKey: @(coordinator.authSession.oauthRequest.loginReason)};
+    [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserWillShowAuthView object:self  userInfo:userInfo];
+    
     // Ensure this runs on the main thread.  Has to be sync, because the coordinator expects the auth view
     // to be added to a superview by the end of this method.
     if (![NSThread isMainThread]) {

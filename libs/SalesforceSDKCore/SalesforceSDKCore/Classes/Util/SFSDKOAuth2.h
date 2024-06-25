@@ -78,6 +78,13 @@ typedef NS_ENUM(NSInteger, SFLogoutReason) {
     SFLogoutReasonRefreshTokenRotated // "Refresh token rotated"
 };
 
+typedef NS_ENUM(NSInteger, SFLoginReason) {
+    SFLoginReasonUnknown,
+    SFLoginReasonRestAPI,
+    SFLoginReasonSwitchToNewUser,
+    SFLoginReasonBiometricLock,
+};
+
 NS_ASSUME_NONNULL_BEGIN
 @class SFOAuthCredentials;
 @interface SFSDKOAuthTokenEndpointErrorResponse : NSObject
