@@ -62,6 +62,7 @@ jobs:
             cd .circleci
             bundle check || sudo bundle install --path vendor/bundle
             brew install xcbeautify
+            mkdir -p ~/.gnupg
       - save_cache: 
           key: v1-gem-cahce{{ checksum ".circleci/Gemfile.lock" }}
           paths:
