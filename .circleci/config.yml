@@ -71,7 +71,7 @@ jobs:
           name: Run Tests
           command:  |
             cd .circleci
-            bundle exec fastlane PR lib:<< parameters.lib >> 
+            fastlane PR lib:<< parameters.lib >> 
           no_output_timeout: 20m
       - run: 
           name: Danger Lib
