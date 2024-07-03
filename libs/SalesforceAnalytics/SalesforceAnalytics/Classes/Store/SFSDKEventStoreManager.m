@@ -120,7 +120,7 @@
     }
 }
 
-- (NSArray<SFSDKInstrumentationEvent *> *) eventFiles {
+- (NSArray<NSString *> *) eventFiles {
     return [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.storeDirectory error:nil];
 }
 
