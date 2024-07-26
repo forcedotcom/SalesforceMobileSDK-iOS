@@ -74,7 +74,7 @@
 
 - (void)actionLogout
 {
-    [[SFUserAccountManager sharedInstance] logout];
+    [[SFUserAccountManager sharedInstance] logout:SFLogoutReasonUserInitiated];
 }
 
 - (void)actionSwitchUser:(SFUserAccount *)user

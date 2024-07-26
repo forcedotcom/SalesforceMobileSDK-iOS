@@ -467,7 +467,7 @@ SFNativeLoginManagerInternal *nativeLogin;
                  [presentedViewController presentViewController:devInfo animated:NO completion:nil];
              }],
              [[SFSDKDevAction alloc]initWith:@"Logout" handler:^{
-                 [[SFUserAccountManager  sharedInstance] logout];
+                 [[SFUserAccountManager  sharedInstance] logout:SFLogoutReasonUserInitiated];
              }],
              [[SFSDKDevAction alloc]initWith:@"Switch user" handler:^{
                  SFDefaultUserManagementViewController *umvc = [[SFDefaultUserManagementViewController alloc] initWithCompletionBlock:^(SFUserManagementAction action) {
