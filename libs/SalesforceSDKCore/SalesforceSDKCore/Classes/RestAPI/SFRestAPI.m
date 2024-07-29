@@ -255,7 +255,7 @@ static dispatch_once_t pred;
             attributes[@"errorCode"] = [NSNumber numberWithInteger:error.code];
             attributes[@"errorDescription"] = error.localizedDescription;
             [SFSDKEventBuilderHelper createAndStoreEvent:@"userLogout" userAccount:nil className:NSStringFromClass([strongSelf class]) attributes:attributes];
-            [[SFUserAccountManager sharedInstance] logout];
+            [[SFUserAccountManager sharedInstance] logout:SFLogoutReasonUnexpected];
         }];
     } else {
         [self enqueueRequest:request requestDelegate:requestDelegate shouldRetry:shouldRetry];
