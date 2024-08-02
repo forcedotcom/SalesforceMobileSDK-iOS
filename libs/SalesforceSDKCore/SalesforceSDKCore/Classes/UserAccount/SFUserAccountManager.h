@@ -367,6 +367,11 @@ NS_SWIFT_NAME(UserAccountManager)
  */
 @property (nonatomic, assign) BOOL shouldFallbackToWebAuthentication;
 
+/**
+ *  If true, present the auth window while the webview is loading. Otherwise wait to present the auth window until the webview has finished loading
+ */
+@property (nonatomic, assign) BOOL showAuthWindowWhileLoading;
+
 /** Shared singleton
  */
 @property (class,nonatomic,readonly) SFUserAccountManager *sharedInstance NS_SWIFT_NAME(shared);

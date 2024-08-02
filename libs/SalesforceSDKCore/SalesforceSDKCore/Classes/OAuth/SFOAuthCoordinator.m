@@ -822,20 +822,30 @@
     if ([self.delegate respondsToSelector:@selector(oauthCoordinator:didStartLoad:)]) {
         [self.delegate oauthCoordinator:self didStartLoad:webView];
     }
+    
+    if ([SFUserAccountManager sharedInstance].showAuthWindowWhileLoading) {
+        [self startWebviewAuthenticationIfNeeded];
+    }
+}
+
+- (void)startWebviewAuthenticationIfNeeded {
+    if (!self.initialRequestLoaded) {
+        self.initialRequestLoaded = YES;
+        [self.delegate oauthCoordinator:self didBeginAuthenticationWithView:self.view];
+    }
 }
 
 - (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error {
     [self sfwebView:webView didFailLoadWithError:error];
 }
 
-- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation
-{
+- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
     if ([self.delegate respondsToSelector:@selector(oauthCoordinator:didFinishLoad:error:)]) {
         [self.delegate oauthCoordinator:self didFinishLoad:webView error:nil];
     }
-    if (!self.initialRequestLoaded) {
-        self.initialRequestLoaded = YES;
-        [self.delegate oauthCoordinator:self didBeginAuthenticationWithView:self.view];
+    
+    if (![SFUserAccountManager sharedInstance].showAuthWindowWhileLoading) {
+        [self startWebviewAuthenticationIfNeeded];
     }
 }
 
