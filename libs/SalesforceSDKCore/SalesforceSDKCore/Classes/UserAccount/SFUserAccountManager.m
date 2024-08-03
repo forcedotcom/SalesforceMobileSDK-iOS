@@ -187,6 +187,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         _authPreferences = [SFSDKAuthPreferences  new];
         _errorManager = [[SFSDKAuthErrorManager alloc] init];
         _shouldFallbackToWebAuthentication = NO;
+        _showAuthWindowWhileLoading = NO;
         __weak typeof (self) weakSelf = self;
         self.alertDisplayBlock = ^(SFSDKAlertMessage * message, SFSDKWindowContainer *window) {
             __strong typeof (weakSelf) strongSelf = weakSelf;
