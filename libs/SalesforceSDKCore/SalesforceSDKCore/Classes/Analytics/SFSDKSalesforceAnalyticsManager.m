@@ -219,7 +219,7 @@ static SInt32 kBatchProcessCount = 100;
         } else {
             NSArray *eventFiles = [self.eventStoreManager eventFiles];
             SInt32 i = 0;
-            SInt32 remainingEvents = eventFiles.count;
+            NSUInteger remainingEvents = eventFiles.count;
             
             while (i < eventFiles.count) {
                 NSArray *subEvents = [eventFiles subarrayWithRange:NSMakeRange(i, MIN(kBatchProcessCount, remainingEvents))];

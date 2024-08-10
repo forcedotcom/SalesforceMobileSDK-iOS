@@ -71,7 +71,7 @@ typedef NSData * _Nullable (^ _Nullable DataDecryptorBlock)(NSData * _Nullable d
  *
  * @return List of event files.
  */
-- (NSArray<SFSDKInstrumentationEvent *> *) eventFiles;
+- (nullable NSArray<NSString *> *)eventFiles;
 
 /**
  * Returns a specific event stored on the filesystem.
