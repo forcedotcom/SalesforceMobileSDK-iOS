@@ -191,6 +191,8 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
     BOOL result = [SFSDKPushNotificationDecryption decryptNotificationContent:notifContent error:&nonRSASecretError];
     XCTAssertFalse(result);
     if (@available(iOS 17.4, *)) {
+        // As of 17.4, decrypting a bad key with PKCS1 returns data instead of nil, so the secret decryption doesn't fail
+        // at the same point as before but using it later to decrypt the content still fails
         XCTAssertEqual(nonRSASecretError.code, SFSDKPushNotificationErrorContentDecryptionFailed);
     } else {
         XCTAssertEqual(nonRSASecretError.code, SFSDKPushNotificationErrorSecretDecryptionFailed);
