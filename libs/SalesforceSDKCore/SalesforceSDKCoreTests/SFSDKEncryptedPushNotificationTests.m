@@ -190,7 +190,11 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
     NSError *nonRSASecretError = nil;
     BOOL result = [SFSDKPushNotificationDecryption decryptNotificationContent:notifContent error:&nonRSASecretError];
     XCTAssertFalse(result);
-    XCTAssertEqual(nonRSASecretError.code, SFSDKPushNotificationErrorSecretDecryptionFailed);
+    if (@available(iOS 17.4, *)) {
+        XCTAssertEqual(nonRSASecretError.code, SFSDKPushNotificationErrorContentDecryptionFailed);
+    } else {
+        XCTAssertEqual(nonRSASecretError.code, SFSDKPushNotificationErrorSecretDecryptionFailed);
+    }
 }
 
 - (void)testNotificationTransformMalformedContent {
