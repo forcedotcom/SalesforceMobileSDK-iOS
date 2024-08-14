@@ -51,24 +51,20 @@ jobs:
       - checkout
       - macos/switch-ruby:
           version: "3.2.3"
-      - restore_cache: 
-          keys:
-            - v1-gem-cahce-{{ checksum ".circleci/Gemfile.lock" }}
-            - v1-gem-cahce
       - run: 
           name: Install Dependencies
           command:  |
             npm install shelljs@0.8.5
-            ./install.sh
-            ./build/pre-build
-            cd .circleci
-            bundle check || sudo bundle install --path vendor/bundle
             brew install xcbeautify
             mkdir -p ~/.gnupg
-      - save_cache: 
-          key: v1-gem-cahce{{ checksum ".circleci/Gemfile.lock" }}
-          paths:
-            - vendor/bundle
+            ./install.sh
+            ./build/pre-build
+            sudo gem install fastlane
+            sudo gem install xcpretty
+            sudo gem install danger
+            sudo gem install danger-junit
+            sudo gem install plist
+            sudo gem install json
       - run: 
           name: Run Tests
           command:  |
