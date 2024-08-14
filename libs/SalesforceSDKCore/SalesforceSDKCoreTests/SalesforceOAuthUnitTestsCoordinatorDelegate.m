@@ -29,13 +29,13 @@
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginAuthenticationWithView:(WKWebView *)view {
     // we should never be called here as the test sets a refresh token in the credentials, 
-    // therefore we do the refresh flow instead of the user agent flow
-    XCTFail(@"user agent authentication flow should not begin");
+    // therefore we do the refresh flow instead of the user agent or web server flow
+    XCTFail(@"authentication flow should not begin");
 }
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(WKWebView *)view {
     // we should never be called here as the test sets a refresh token in the credentials, 
-    // therefore we do the refresh flow instead of the user agent flow
+    // therefore we do the refresh flow instead of the user agent or web server flow
     XCTFail(@"user agent authentication flow should not begin");
 }
 
@@ -49,5 +49,12 @@
     // ASWebAuthenticationSession auth flow is not supported in unit test framework.
     XCTFail(@"ASWebAuthenticationSession auth flow is not supported in unit test framework");
 }
+
+- (void)oauthCoordinatorDidBeginNativeAuthentication:(nonnull SFOAuthCoordinator *)coordinator { 
+    // we should never be called here as the test sets a refresh token in the credentials,
+    // therefore we do the refresh flow instead of the native login flow
+    XCTFail(@"native authentication flow should not begin");
+}
+
 
 @end
