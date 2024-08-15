@@ -60,6 +60,18 @@
             <NodeRef refid="169"/>
 		</Token>
 		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthProtocol/revokeRefreshToken:reason:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			
+			<Declaration>- (void)revokeRefreshToken:(SFOAuthCredentials *)credentials reason:(SFLogoutReason)reason</Declaration>
+			
+			
+			<Anchor>//api/name/revokeRefreshToken:reason:</Anchor>
+            <NodeRef refid="169"/>
+		</Token>
+		
         
         
 	</File>

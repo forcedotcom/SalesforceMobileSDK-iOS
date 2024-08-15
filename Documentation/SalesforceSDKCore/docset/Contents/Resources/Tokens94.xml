@@ -13,6 +13,18 @@
 		
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKOAuth2/requestForRevokeRefreshToken:reason:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			
+			<Declaration>+ (NSMutableURLRequest *)requestForRevokeRefreshToken:(SFOAuthCredentials *)credentials reason:(SFLogoutReason)reason</Declaration>
+			
+			
+			<Anchor>//api/name/requestForRevokeRefreshToken:reason:</Anchor>
+            <NodeRef refid="94"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/SFSDKOAuth2/parseQueryString:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSDKOAuth2+Internal.h</DeclaredIn>

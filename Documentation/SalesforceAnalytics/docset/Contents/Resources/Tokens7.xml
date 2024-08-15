@@ -287,6 +287,18 @@ filename suffix is used to generate a unique filename per event.</Abstract>
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/eventFiles</TokenIdentifier>
+			<Abstract type="html">Returns all the event files stored on the filesystem for that unique identifier.</Abstract>
+			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
+			
+			<Declaration>- (nullable NSArray&lt;NSString*&gt; *)eventFiles</Declaration>
+			
+			<ReturnValue><Abstract type="html">List of event files.</Abstract></ReturnValue>
+			<Anchor>//api/name/eventFiles</Anchor>
+            <NodeRef refid="7"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/fetchEvent:</TokenIdentifier>
 			<Abstract type="html">Returns a specific event stored on the filesystem.</Abstract>
 			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
@@ -353,6 +365,18 @@ filename suffix is used to generate a unique filename per event.</Abstract>
 			
 			
 			<Anchor>//api/name/deleteAllEvents</Anchor>
+            <NodeRef refid="7"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKEventStoreManager/shouldStoreEvent</TokenIdentifier>
+			<Abstract type="html">Lets callers know if they can store an event (optimization, so they wouldn&apos;t have to build and call -store: unnecessarily).</Abstract>
+			<DeclaredIn>SFSDKEventStoreManager.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)shouldStoreEvent</Declaration>
+			
+			
+			<Anchor>//api/name/shouldStoreEvent</Anchor>
             <NodeRef refid="7"/>
 		</Token>
 		

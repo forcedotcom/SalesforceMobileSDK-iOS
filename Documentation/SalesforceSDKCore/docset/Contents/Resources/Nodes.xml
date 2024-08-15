@@ -242,6 +242,7 @@
 						<NodeRef refid="202"/>
 						<NodeRef refid="203"/>
 						<NodeRef refid="204"/>
+						<NodeRef refid="205"/>
 						
 					</Subnodes>
 				</Node>
@@ -251,7 +252,6 @@
                     <Name>Blocks</Name>
                     <Path>index.html</Path>
                     <Subnodes>
-                        <NodeRef refid="205"/>
                         <NodeRef refid="206"/>
                         <NodeRef refid="207"/>
                         <NodeRef refid="208"/>
@@ -275,6 +275,7 @@
                         <NodeRef refid="226"/>
                         <NodeRef refid="227"/>
                         <NodeRef refid="228"/>
+                        <NodeRef refid="229"/>
                         
                     </Subnodes>
                 </Node>
@@ -5076,232 +5077,237 @@
             
         </Node>
 		<Node id="183" type="file" documentType="reference">
+            <Name>SFLogoutReason</Name>
+            <Path>Constants/SFLogoutReason.html</Path>
+            
+        </Node>
+		<Node id="184" type="file" documentType="reference">
             <Name>SFOAuthCredentialsStorageType</Name>
             <Path>Constants/SFOAuthCredentialsStorageType.html</Path>
             
         </Node>
-		<Node id="184" type="file" documentType="reference">
+		<Node id="185" type="file" documentType="reference">
             <Name>SFOAuthCredsEncryptionType</Name>
             <Path>Constants/SFOAuthCredsEncryptionType.html</Path>
             
         </Node>
-		<Node id="185" type="file" documentType="reference">
+		<Node id="186" type="file" documentType="reference">
             <Name>SFOAuthSessionRefreshErrorCode</Name>
             <Path>Constants/SFOAuthSessionRefreshErrorCode.html</Path>
             
         </Node>
-		<Node id="186" type="file" documentType="reference">
+		<Node id="187" type="file" documentType="reference">
             <Name>SFOAuthTokenEndpointFlow</Name>
             <Path>Constants/SFOAuthTokenEndpointFlow.html</Path>
             
         </Node>
-		<Node id="187" type="file" documentType="reference">
+		<Node id="188" type="file" documentType="reference">
             <Name>SFOAuthType</Name>
             <Path>Constants/SFOAuthType.html</Path>
             
         </Node>
-		<Node id="188" type="file" documentType="reference">
+		<Node id="189" type="file" documentType="reference">
             <Name>SFRestMethod</Name>
             <Path>Constants/SFRestMethod.html</Path>
             
         </Node>
-		<Node id="189" type="file" documentType="reference">
+		<Node id="190" type="file" documentType="reference">
             <Name>SFSDKAppConfigErrorCode</Name>
             <Path>Constants/SFSDKAppConfigErrorCode.html</Path>
             
         </Node>
-		<Node id="190" type="file" documentType="reference">
+		<Node id="191" type="file" documentType="reference">
             <Name>SFSDKNetworkServiceType</Name>
             <Path>Constants/SFSDKNetworkServiceType.html</Path>
             
         </Node>
-		<Node id="191" type="file" documentType="reference">
+		<Node id="192" type="file" documentType="reference">
             <Name>SFSDKRestServiceHostType</Name>
             <Path>Constants/SFSDKRestServiceHostType.html</Path>
             
         </Node>
-		<Node id="192" type="file" documentType="reference">
+		<Node id="193" type="file" documentType="reference">
             <Name>SFSDKUserAccountManagerErrorCode</Name>
             <Path>Constants/SFSDKUserAccountManagerErrorCode.html</Path>
             
         </Node>
-		<Node id="193" type="file" documentType="reference">
+		<Node id="194" type="file" documentType="reference">
             <Name>SFSDKWindowType</Name>
             <Path>Constants/SFSDKWindowType.html</Path>
             
         </Node>
-		<Node id="194" type="file" documentType="reference">
+		<Node id="195" type="file" documentType="reference">
             <Name>SFSPLoginError</Name>
             <Path>Constants/SFSPLoginError.html</Path>
             
         </Node>
-		<Node id="195" type="file" documentType="reference">
+		<Node id="196" type="file" documentType="reference">
             <Name>SFSPLoginStatus</Name>
             <Path>Constants/SFSPLoginStatus.html</Path>
             
         </Node>
-		<Node id="196" type="file" documentType="reference">
+		<Node id="197" type="file" documentType="reference">
             <Name>SFURLCacheType</Name>
             <Path>Constants/SFURLCacheType.html</Path>
             
         </Node>
-		<Node id="197" type="file" documentType="reference">
+		<Node id="198" type="file" documentType="reference">
             <Name>SFUserAccountAccessRestriction</Name>
             <Path>Constants/SFUserAccountAccessRestriction.html</Path>
             
         </Node>
-		<Node id="198" type="file" documentType="reference">
+		<Node id="199" type="file" documentType="reference">
             <Name>SFUserAccountChange</Name>
             <Path>Constants/SFUserAccountChange.html</Path>
             
         </Node>
-		<Node id="199" type="file" documentType="reference">
+		<Node id="200" type="file" documentType="reference">
             <Name>SFUserAccountDataChange</Name>
             <Path>Constants/SFUserAccountDataChange.html</Path>
             
         </Node>
-		<Node id="200" type="file" documentType="reference">
+		<Node id="201" type="file" documentType="reference">
             <Name>SFUserAccountLoginState</Name>
             <Path>Constants/SFUserAccountLoginState.html</Path>
             
         </Node>
-		<Node id="201" type="file" documentType="reference">
+		<Node id="202" type="file" documentType="reference">
             <Name>SFUserAccountScope</Name>
             <Path>Constants/SFUserAccountScope.html</Path>
             
         </Node>
-		<Node id="202" type="file" documentType="reference">
+		<Node id="203" type="file" documentType="reference">
             <Name>SFUserManagementAction</Name>
             <Path>Constants/SFUserManagementAction.html</Path>
             
         </Node>
-		<Node id="203" type="file" documentType="reference">
+		<Node id="204" type="file" documentType="reference">
             <Name>UIDeviceFamily</Name>
             <Path>Constants/UIDeviceFamily.html</Path>
             
         </Node>
-		<Node id="204" type="file" documentType="reference">
+		<Node id="205" type="file" documentType="reference">
             <Name>UIDevicePlatform</Name>
             <Path>Constants/UIDevicePlatform.html</Path>
             
         </Node>
 		
-        <Node id="205" type="file" documentType="reference">
+        <Node id="206" type="file" documentType="reference">
             <Name>SFAuthErrorHandlerContextEvalBlock</Name>
             <Path>Blocks/SFAuthErrorHandlerContextEvalBlock.html</Path>
             
         </Node>
-        <Node id="206" type="file" documentType="reference">
+        <Node id="207" type="file" documentType="reference">
             <Name>SFDataResponseBlock</Name>
             <Path>Blocks/SFDataResponseBlock.html</Path>
             
         </Node>
-        <Node id="207" type="file" documentType="reference">
+        <Node id="208" type="file" documentType="reference">
             <Name>SFInstrumentationSelectorFilter</Name>
             <Path>Blocks/SFInstrumentationSelectorFilter.html</Path>
             
         </Node>
-        <Node id="208" type="file" documentType="reference">
+        <Node id="209" type="file" documentType="reference">
             <Name>SFMethodInterceptorInvocationAfterCallback</Name>
             <Path>Blocks/SFMethodInterceptorInvocationAfterCallback.html</Path>
             
         </Node>
-        <Node id="209" type="file" documentType="reference">
+        <Node id="210" type="file" documentType="reference">
             <Name>SFMethodInterceptorInvocationCallback</Name>
             <Path>Blocks/SFMethodInterceptorInvocationCallback.html</Path>
             
         </Node>
-        <Node id="210" type="file" documentType="reference">
+        <Node id="211" type="file" documentType="reference">
             <Name>SFOAuthBrowserFlowCallbackBlock</Name>
             <Path>Blocks/SFOAuthBrowserFlowCallbackBlock.html</Path>
             
         </Node>
-        <Node id="211" type="file" documentType="reference">
+        <Node id="212" type="file" documentType="reference">
             <Name>SFRestArrayResponseBlock</Name>
             <Path>Blocks/SFRestArrayResponseBlock.html</Path>
             
         </Node>
-        <Node id="212" type="file" documentType="reference">
+        <Node id="213" type="file" documentType="reference">
             <Name>SFRestBatchResponseBlock</Name>
             <Path>Blocks/SFRestBatchResponseBlock.html</Path>
             
         </Node>
-        <Node id="213" type="file" documentType="reference">
+        <Node id="214" type="file" documentType="reference">
             <Name>SFRestCompositeResponseBlock</Name>
             <Path>Blocks/SFRestCompositeResponseBlock.html</Path>
             
         </Node>
-        <Node id="214" type="file" documentType="reference">
+        <Node id="215" type="file" documentType="reference">
             <Name>SFRestDataResponseBlock</Name>
             <Path>Blocks/SFRestDataResponseBlock.html</Path>
             
         </Node>
-        <Node id="215" type="file" documentType="reference">
+        <Node id="216" type="file" documentType="reference">
             <Name>SFRestDictionaryResponseBlock</Name>
             <Path>Blocks/SFRestDictionaryResponseBlock.html</Path>
             
         </Node>
-        <Node id="216" type="file" documentType="reference">
+        <Node id="217" type="file" documentType="reference">
             <Name>SFRestRequestFailBlock</Name>
             <Path>Blocks/SFRestRequestFailBlock.html</Path>
             
         </Node>
-        <Node id="217" type="file" documentType="reference">
+        <Node id="218" type="file" documentType="reference">
             <Name>SFRestResponseBlock</Name>
             <Path>Blocks/SFRestResponseBlock.html</Path>
             
         </Node>
-        <Node id="218" type="file" documentType="reference">
+        <Node id="219" type="file" documentType="reference">
             <Name>SFSDKAuthViewDismissBlock</Name>
             <Path>Blocks/SFSDKAuthViewDismissBlock.html</Path>
             
         </Node>
-        <Node id="219" type="file" documentType="reference">
+        <Node id="220" type="file" documentType="reference">
             <Name>SFSDKAuthViewDisplayBlock</Name>
             <Path>Blocks/SFSDKAuthViewDisplayBlock.html</Path>
             
         </Node>
-        <Node id="220" type="file" documentType="reference">
+        <Node id="221" type="file" documentType="reference">
             <Name>SFSDKErrorHandlerBlock</Name>
             <Path>Blocks/SFSDKErrorHandlerBlock.html</Path>
             
         </Node>
-        <Node id="221" type="file" documentType="reference">
+        <Node id="222" type="file" documentType="reference">
             <Name>SFSDKFailureNotificationBlock</Name>
             <Path>Blocks/SFSDKFailureNotificationBlock.html</Path>
             
         </Node>
-        <Node id="222" type="file" documentType="reference">
+        <Node id="223" type="file" documentType="reference">
             <Name>SFSDKMetricsCollectedBlock</Name>
             <Path>Blocks/SFSDKMetricsCollectedBlock.html</Path>
             
         </Node>
-        <Node id="223" type="file" documentType="reference">
+        <Node id="224" type="file" documentType="reference">
             <Name>SFSnapshotViewControllerDismissalBlock</Name>
             <Path>Blocks/SFSnapshotViewControllerDismissalBlock.html</Path>
             
         </Node>
-        <Node id="224" type="file" documentType="reference">
+        <Node id="225" type="file" documentType="reference">
             <Name>SFSnapshotViewControllerPresentationBlock</Name>
             <Path>Blocks/SFSnapshotViewControllerPresentationBlock.html</Path>
             
         </Node>
-        <Node id="225" type="file" documentType="reference">
+        <Node id="226" type="file" documentType="reference">
             <Name>SFUserAccountManagerFailureCallbackBlock</Name>
             <Path>Blocks/SFUserAccountManagerFailureCallbackBlock.html</Path>
             
         </Node>
-        <Node id="226" type="file" documentType="reference">
+        <Node id="227" type="file" documentType="reference">
             <Name>SFUserAccountManagerSuccessCallbackBlock</Name>
             <Path>Blocks/SFUserAccountManagerSuccessCallbackBlock.html</Path>
             
         </Node>
-        <Node id="227" type="file" documentType="reference">
+        <Node id="228" type="file" documentType="reference">
             <Name>SFUserManagementCompletionBlock</Name>
             <Path>Blocks/SFUserManagementCompletionBlock.html</Path>
             
         </Node>
-        <Node id="228" type="file" documentType="reference">
+        <Node id="229" type="file" documentType="reference">
             <Name>_Nonnull</Name>
             <Path>Blocks/_Nonnull.html</Path>
             

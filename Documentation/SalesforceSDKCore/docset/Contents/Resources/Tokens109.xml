@@ -157,6 +157,42 @@
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/setBatchingEnabled:</TokenIdentifier>
+			<Abstract type="html">Disables or enables batch processing of events.</Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readwrite, assign, getter=isBatchingEnabled) BOOL batchingEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/batchingEnabled</Anchor>
+            <NodeRef refid="109"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSalesforceAnalyticsManager/isBatchingEnabled</TokenIdentifier>
+			<Abstract type="html">Disables or enables batch processing of events.</Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readwrite, assign, getter=isBatchingEnabled) BOOL batchingEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/batchingEnabled</Anchor>
+            <NodeRef refid="109"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKSalesforceAnalyticsManager/batchingEnabled</TokenIdentifier>
+			<Abstract type="html">Disables or enables batch processing of events.</Abstract>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readwrite, assign, getter=isBatchingEnabled) BOOL batchingEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/batchingEnabled</Anchor>
+            <NodeRef refid="109"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/SFSDKSalesforceAnalyticsManager/sharedInstanceWithUser:</TokenIdentifier>
 			<Abstract type="html">Returns an instance of this class associated with the specified user account.</Abstract>
 			<DeclaredIn>SFSDKSalesforceAnalyticsManager.h</DeclaredIn>

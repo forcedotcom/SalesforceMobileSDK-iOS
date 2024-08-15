@@ -121,6 +121,42 @@
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/setRegisterOnForeground:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL registerOnForeground</Declaration>
+			
+			
+			<Anchor>//api/name/registerOnForeground</Anchor>
+            <NodeRef refid="33"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/registerOnForeground</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL registerOnForeground</Declaration>
+			
+			
+			<Anchor>//api/name/registerOnForeground</Anchor>
+            <NodeRef refid="33"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFPushNotificationManager/registerOnForeground</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL registerOnForeground</Declaration>
+			
+			
+			<Anchor>//api/name/registerOnForeground</Anchor>
+            <NodeRef refid="33"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/SFPushNotificationManager/sharedInstance</TokenIdentifier>
 			<Abstract type="html">The share instance of this class.</Abstract>
 			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>

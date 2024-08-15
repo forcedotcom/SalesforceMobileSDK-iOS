@@ -4,8 +4,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/cl/SFSDKOAuthTokenEndpointErrorResponse</TokenIdentifier>
-			<Abstract type="html">@enum SFOAuthErrorDomain related error codes
-Constants used by SFOAuthCoordinator to indicate errors in the SFOAuth domain</Abstract>
+			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
             
 			
