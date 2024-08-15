@@ -59,7 +59,7 @@ jobs:
             mkdir -p ~/.gnupg
             ./install.sh
             ./build/pre-build
-            sudo gem install fastlane
+            sudo gem install --no-document fastlane
             sudo gem install xcpretty
             sudo gem install danger
             sudo gem install danger-junit
