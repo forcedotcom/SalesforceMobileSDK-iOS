@@ -22,6 +22,7 @@ WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWIS
 WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 #import <Foundation/Foundation.h>
+#import <SalesforceSDKCore/SFSDKOAuth2.h>
 
 NS_ASSUME_NONNULL_BEGIN
 @class SFSDKLoginViewControllerConfig;
@@ -44,6 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, strong) UIScene *scene;
 @property (nonatomic, copy) NSString *jwtToken;
 @property (nonatomic, copy, nullable) NSString *userAgentForAuth;
+@property (nonatomic) SFLoginReason loginReason; // TODO
 
 //IDP flow related properties (SPApp related properties)
 @property (nonatomic, readonly, assign) BOOL idpEnabled;
