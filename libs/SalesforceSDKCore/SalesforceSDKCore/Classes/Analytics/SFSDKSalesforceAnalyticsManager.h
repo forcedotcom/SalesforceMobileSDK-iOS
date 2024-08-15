@@ -47,6 +47,14 @@
 @property (nonatomic, readwrite, assign, getter=isLoggingEnabled) BOOL loggingEnabled;
 
 /**
+ * Disables or enables batch processing of events.
+ *
+ * @discussion If batching is enabled, publishing of events will happen in smaller chunks
+ */
+@property (nonatomic, readwrite, assign, getter=isBatchingEnabled) BOOL batchingEnabled;
+
+
+/**
  * Returns an instance of this class associated with the specified user account.
  *
  * @param userAccount User account.

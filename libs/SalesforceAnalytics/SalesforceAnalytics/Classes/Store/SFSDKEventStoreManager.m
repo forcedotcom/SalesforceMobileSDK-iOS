@@ -120,6 +120,10 @@
     }
 }
 
+- (NSArray<NSString *> *)eventFiles {
+    return [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.storeDirectory error:nil];
+}
+
 - (SFSDKInstrumentationEvent *) fetchEvent:(NSString *) eventId {
     if (!eventId) {
         return nil;
@@ -129,7 +133,7 @@
 }
 
 - (NSArray<SFSDKInstrumentationEvent *> *) fetchAllEvents {
-    NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.storeDirectory error:nil];
+    NSArray *files = [self eventFiles];
     NSMutableArray *events = [[NSMutableArray alloc] init];
     for (NSString *file in files) {
         SFSDKInstrumentationEvent *event = [self fetchEventFromFile:[self filenameForEvent:file]];

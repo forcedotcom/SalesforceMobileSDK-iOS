@@ -112,7 +112,7 @@
 - (void) testSqlCipherVersion
 {
     NSString* version = [self.store getSQLCipherVersion];
-    XCTAssertEqualObjects(version, @"4.5.7 community");
+    XCTAssertEqualObjects(version, @"4.6.0 community");
 }
 
 /**

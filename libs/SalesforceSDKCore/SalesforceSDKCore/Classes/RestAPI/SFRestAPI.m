@@ -255,7 +255,7 @@ static dispatch_once_t pred;
             attributes[@"errorCode"] = [NSNumber numberWithInteger:error.code];
             attributes[@"errorDescription"] = error.localizedDescription;
             [SFSDKEventBuilderHelper createAndStoreEvent:@"userLogout" userAccount:nil className:NSStringFromClass([strongSelf class]) attributes:attributes];
-            [[SFUserAccountManager sharedInstance] logout];
+            [[SFUserAccountManager sharedInstance] logout:SFLogoutReasonUnexpected];
         }];
     } else {
         [self enqueueRequest:request requestDelegate:requestDelegate shouldRetry:shouldRetry];
@@ -429,7 +429,7 @@ static dispatch_once_t pred;
                     // Make sure we call logout on the main thread.
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [strongSelf createAndStoreLogoutEvent:refreshError user:strongSelf.user];
-                        [[SFUserAccountManager sharedInstance] logoutUser:strongSelf.user];
+                        [[SFUserAccountManager sharedInstance] logoutUser:strongSelf.user reason:SFLogoutReasonTokenExpired];
                     });
                 }
             }];

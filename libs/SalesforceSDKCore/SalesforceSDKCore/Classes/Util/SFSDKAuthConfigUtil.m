@@ -31,12 +31,19 @@
 #import <SalesforceSDKCommon/SFJsonUtils.h>
 
 static NSString * const kSFOAuthEndPointAuthConfiguration = @"/.well-known/auth-configuration";
+static NSString * const kSandboxLoginURL = @"test.salesforce.com";
+static NSString * const kProductionLoginURL = @"login.salesforce.com";
 
 @implementation SFSDKAuthConfigUtil
 
 + (void)getMyDomainAuthConfig:(MyDomainAuthConfigBlock)authConfigBlock loginDomain:(NSString *)loginDomain {
     NSString *orgConfigUrl = [NSString stringWithFormat:@"https://%@%@", loginDomain, kSFOAuthEndPointAuthConfiguration];
-    [SFSDKCoreLogger i:[self class] format:@"%@ Advanced authentication configured. Retrieving auth configuration from %@", NSStringFromSelector(_cmd), orgConfigUrl];
+    if ([loginDomain isEqualToString:kSandboxLoginURL] || [loginDomain isEqualToString:kProductionLoginURL]) {
+        [SFSDKCoreLogger d:[self class] format:@"%@ Skipping auth config retrieval for login pool URL", NSStringFromSelector(_cmd)];
+        authConfigBlock(nil, nil);
+        return;
+    }
+    [SFSDKCoreLogger i:[self class] format:@"%@ Checking if advanced authentication configured. Retrieving auth configuration from %@", NSStringFromSelector(_cmd), orgConfigUrl];
     NSMutableURLRequest *orgConfigRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:orgConfigUrl]];
     SFNetwork *network = [SFNetwork sharedEphemeralInstance];
     __weak __typeof(self) weakSelf = self;

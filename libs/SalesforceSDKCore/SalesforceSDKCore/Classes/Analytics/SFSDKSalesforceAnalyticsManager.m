@@ -52,6 +52,8 @@ static NSString * const kEventStoreGCMEncryptedKey = @"com.salesforce.eventStore
 
 static NSMutableDictionary *analyticsManagerList = nil;
 
+static SInt32 kBatchProcessCount = 100;
+
 @implementation SFSDKSalesforceAnalyticsManager
 
 + (void)initialize {
@@ -209,16 +211,56 @@ static NSMutableDictionary *analyticsManagerList = nil;
 
 - (void) publishAllEvents {
     @synchronized (self) {
-        NSArray<SFSDKInstrumentationEvent *> *events = [self.eventStoreManager fetchAllEvents];
-        [self publishEvents:events];
+        dispatch_group_t publishEventsGroup = dispatch_group_create();
+
+        if (self.batchingEnabled == NO) {
+            NSArray<SFSDKInstrumentationEvent *> *events = [self.eventStoreManager fetchAllEvents];
+            [self publishEvents:events dispatchGroup:publishEventsGroup];
+        } else {
+            NSArray *eventFiles = [self.eventStoreManager eventFiles];
+            SInt32 i = 0;
+            NSUInteger remainingEvents = eventFiles.count;
+            
+            while (i < eventFiles.count) {
+                NSArray *subEvents = [eventFiles subarrayWithRange:NSMakeRange(i, MIN(kBatchProcessCount, remainingEvents))];
+                //MIN() used because array must be larger than or equal to range size, else exception will be thrown
+                
+                // batch process and use autorelease pool to best manage memory usage in processsing events
+                @autoreleasepool {
+                    NSMutableArray * eventsArray = [NSMutableArray arrayWithCapacity:kBatchProcessCount];
+                    for (SInt32 subCount = 0; subCount < subEvents.count; subCount++) {
+                        
+                        NSString *eventFile = subEvents[subCount];
+                        [eventsArray addObject:[self.eventStoreManager fetchEvent:eventFile]];
+                    }
+                    [self publishEvents:eventsArray dispatchGroup:publishEventsGroup];
+                    i += subEvents.count;
+                    remainingEvents = remainingEvents - subEvents.count;
+                }
+                
+            }
+        }
+        
+        dispatch_group_notify(publishEventsGroup, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
+            [self cleanupBackgroundTask];
+        });
     }
 }
 
 - (void) publishEvents:(NSArray<SFSDKInstrumentationEvent *> *) events {
+    [self publishEvents:events dispatchGroup:nil];
+}
+
+- (void) publishEvents:(NSArray<SFSDKInstrumentationEvent *> *) events dispatchGroup:(nullable dispatch_group_t) dispatchGroup {
     if (events.count == 0 || self.remotes.count == 0) {
         return;
     }
     @synchronized (self) {
+        
+        if (dispatchGroup != nil) {
+            dispatch_group_enter(dispatchGroup);
+        }
+        
         NSMutableArray<NSString *> *eventIds = [[NSMutableArray alloc] init];
         for (SFSDKInstrumentationEvent *event in events) {
             [eventIds addObject:event.eventId];
@@ -260,7 +302,10 @@ static NSMutableDictionary *analyticsManagerList = nil;
                 }
                 publishCompleteBlock = nil;
             }
-            [self cleanupBackgroundTask];
+            
+            if (dispatchGroup != nil) {
+                dispatch_group_leave(dispatchGroup);
+            }
         };
         [self applyTransformAndPublish:currentTpp events:events publishCompleteBlock:publishCompleteBlock];
     }
@@ -346,11 +391,14 @@ static NSMutableDictionary *analyticsManagerList = nil;
     if (tpp) {
         NSMutableArray *eventsArray = [[NSMutableArray alloc] init];
         for (SFSDKInstrumentationEvent *event in events) {
-            id transformedEvent = [tpp.transform transform:event];
-            if (transformedEvent != nil) {
-                [eventsArray addObject:transformedEvent];
+            @autoreleasepool {
+                id transformedEvent = [tpp.transform transform:event];
+                if (transformedEvent != nil) {
+                    [eventsArray addObject:transformedEvent];
+                }
             }
         }
+
         id<SFSDKAnalyticsPublisher> networkPublisher = tpp.publisher;
         if (networkPublisher) {
             [networkPublisher publish:eventsArray user:self.userAccount publishCompleteBlock:publishCompleteBlock];

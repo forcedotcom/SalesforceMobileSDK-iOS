@@ -46,10 +46,11 @@ NS_SWIFT_NAME(PushNotificationManager)
  */
 @property (nullable, nonatomic, strong) NSDictionary* customPushRegistrationBody;
 
+@property (nonatomic, assign) BOOL registerOnForeground;
+
 /** The share instance of this class.
  */
 + (SFPushNotificationManager *) sharedInstance;
-
 
 /**
  * Register with APNS

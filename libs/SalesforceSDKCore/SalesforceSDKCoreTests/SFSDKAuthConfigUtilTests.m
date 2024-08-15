@@ -36,8 +36,8 @@
 static NSString * const kSFTestId = @"test_id";
 static NSString * const kSFTestClientId = @"test_client_id";
 static NSString * const kSFMyDomainEndpoint = @"mobilesdk.my.salesforce.com";
-static NSString * const kSFAlternateMyDomainEndpoint = @"powerofus.force.com";
-static NSString * const kSFAlternateMyDomainLoginURL = @"foundation.my.site.com/PowerOfUsLogin";
+static NSString * const kSFAlternateMyDomainEndpoint = @"powerofus.salesforce.com";
+static NSString * const kSFAlternateMyDomainLoginURL = @"powerofus.salesforce.com/s/login";
 static NSString * const kSFSandboxEndpoint = @"test.salesforce.com";
 
 @interface SFSDKAuthConfigUtilTests : XCTestCase
@@ -75,14 +75,14 @@ static NSString * const kSFSandboxEndpoint = @"test.salesforce.com";
 
 - (void)testGetSSOUrls {
     SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:kSFTestId clientId:kSFTestClientId encrypted:YES];
-    [credentials setDomain:kSFAlternateMyDomainEndpoint];
+    [credentials setDomain:kSFMyDomainEndpoint];
     XCTestExpectation *expect = [self expectationWithDescription:@"testGetSSOUrls"];
     [SFSDKAuthConfigUtil getMyDomainAuthConfig:^(SFOAuthOrgAuthConfiguration *authConfig, NSError *error) {
         XCTAssertNil(error, @"Error should be nil");
         XCTAssertNotNil(authConfig, @"Auth config should not be nil");
         XCTAssertNotNil(authConfig.authConfigDict, @"Auth config dictionary should not be nil");
         XCTAssertNotNil(authConfig.ssoUrls, @"SSO URLs should not be nil");
-        XCTAssertEqual(authConfig.ssoUrls.count, 2, @"SSO URLs should have 2 valid entries");
+        XCTAssertEqual(authConfig.ssoUrls.count, 1, @"SSO URLs should have 1 valid entries");
         [expect fulfill];
     } loginDomain:credentials.domain];
     [self waitForExpectationsWithTimeout:20 handler:nil];
