@@ -4302,6 +4302,193 @@ create a new file at version 1.</p>
 						</div>
 						
 
+						<a title="Extension Methods" name="task_Extension Methods"></a>
+						<h2 class="task-title">Extension Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/activeRequests" title="activeRequests"></a>
+	<h3 class="method-title"><code><a href="#//api/name/activeRequests">&nbsp;&nbsp;activeRequests</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Active requests property.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, strong, nonnull) SFSDKSafeMutableSet *activeRequests</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/requiresAuthentication" title="requiresAuthentication"></a>
+	<h3 class="method-title"><code><a href="#//api/name/requiresAuthentication">&nbsp;&nbsp;requiresAuthentication</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL requiresAuthentication</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/instrumentationDelegateInternal" title="instrumentationDelegateInternal"></a>
+	<h3 class="method-title"><code><a href="#//api/name/instrumentationDelegateInternal">&nbsp;&nbsp;instrumentationDelegateInternal</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nullable, nonatomic, strong) id&lt;SFRestRequestDelegate&gt; instrumentationDelegateInternal</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/removeActiveRequestObject:" title="removeActiveRequestObject:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/removeActiveRequestObject:">&ndash;&nbsp;removeActiveRequestObject:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)removeActiveRequestObject:(nonnull SFRestRequest *)<em>request</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/forceTimeoutRequest:" title="forceTimeoutRequest:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/forceTimeoutRequest:">&ndash;&nbsp;forceTimeoutRequest:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Force a request to timeout: for testing only!</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)forceTimeoutRequest:(nonnull SFRestRequest *)<em>req</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>req</code></th>
+						<td><p>The request to force a timeout on, or nil to grab any active request and force it to timeout</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES if we were able to find and timeout the request, NO if the request could not be found</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFRestAPI+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/computeAPIVersion:" title="computeAPIVersion:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/computeAPIVersion:">&ndash;&nbsp;computeAPIVersion:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (nonnull NSString *)computeAPIVersion:(nullable NSString *)<em>apiVersion</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/removeSharedInstanceWithUser:" title="removeSharedInstanceWithUser:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/removeSharedInstanceWithUser:">+&nbsp;removeSharedInstanceWithUser:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>+ (void)removeSharedInstanceWithUser:(nonnull SFUserAccount *)<em>user</em></code></div>
+
+		    
+		</div>
+	</div>
+</div>
+						</div>
+						
+
 						<a title="Blocks Methods" name="task_Blocks Methods"></a>
 						<h2 class="task-title">Blocks Methods</h2>
 
@@ -4551,193 +4738,6 @@ create a new file at version 1.</p>
 </div>
 						</div>
 						
-
-						<a title="Extension Methods" name="task_Extension Methods"></a>
-						<h2 class="task-title">Extension Methods</h2>
-
-						<div class="task-list">
-							<div class="section-method">
-	<a name="//api/name/activeRequests" title="activeRequests"></a>
-	<h3 class="method-title"><code><a href="#//api/name/activeRequests">&nbsp;&nbsp;activeRequests</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Active requests property.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, strong, nonnull) SFSDKSafeMutableSet *activeRequests</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Internal.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/requiresAuthentication" title="requiresAuthentication"></a>
-	<h3 class="method-title"><code><a href="#//api/name/requiresAuthentication">&nbsp;&nbsp;requiresAuthentication</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL requiresAuthentication</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/instrumentationDelegateInternal" title="instrumentationDelegateInternal"></a>
-	<h3 class="method-title"><code><a href="#//api/name/instrumentationDelegateInternal">&nbsp;&nbsp;instrumentationDelegateInternal</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nullable, nonatomic, strong) id&lt;SFRestRequestDelegate&gt; instrumentationDelegateInternal</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/removeActiveRequestObject:" title="removeActiveRequestObject:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/removeActiveRequestObject:">&ndash;&nbsp;removeActiveRequestObject:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>- (void)removeActiveRequestObject:(nonnull SFRestRequest *)<em>request</em></code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/forceTimeoutRequest:" title="forceTimeoutRequest:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/forceTimeoutRequest:">&ndash;&nbsp;forceTimeoutRequest:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Force a request to timeout: for testing only!</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (BOOL)forceTimeoutRequest:(nonnull SFRestRequest *)<em>req</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>req</code></th>
-						<td><p>The request to force a timeout on, or nil to grab any active request and force it to timeout</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>YES if we were able to find and timeout the request, NO if the request could not be found</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFRestAPI+Internal.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/computeAPIVersion:" title="computeAPIVersion:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/computeAPIVersion:">&ndash;&nbsp;computeAPIVersion:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>- (nonnull NSString *)computeAPIVersion:(nullable NSString *)<em>apiVersion</em></code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/removeSharedInstanceWithUser:" title="removeSharedInstanceWithUser:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/removeSharedInstanceWithUser:">+&nbsp;removeSharedInstanceWithUser:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>+ (void)removeSharedInstanceWithUser:(nonnull SFUserAccount *)<em>user</em></code></div>
-
-		    
-		</div>
-	</div>
-</div>
-						</div>
-						
 					</div>
 					
 					
@@ -4750,7 +4750,7 @@ create a new file at version 1.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2024 Salesforce.com. All rights reserved. Updated: 2024-08-15</p>
+						<p class="copyright">Copyright &copy; 2024 Salesforce.com. All rights reserved. Updated: 2024-08-29</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

@@ -1217,6 +1217,89 @@ current app state.</Abstract>
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/handleIdpAuthError:</TokenIdentifier>
+			<Abstract type="html">Handle an error situation that occured in the IDP flow.</Abstract>
+			<DeclaredIn>SFUserAccountManager+URLHandlers.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)handleIdpAuthError:(SFSDKAuthErrorCommand *_Nonnull)command</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>command</Name>
+					<Abstract type="html">The Error URL request from the idp or SP App.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if this is request is handled, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/handleIdpAuthError:</Anchor>
+            <NodeRef refid="135"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/handleIdpInitiatedAuth:</TokenIdentifier>
+			<Abstract type="html">Handle an IDP initiated auth flow.</Abstract>
+			<DeclaredIn>SFUserAccountManager+URLHandlers.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)handleIdpInitiatedAuth:(SFSDKIDPLoginRequestCommand *_Nonnull)command</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>command</Name>
+					<Abstract type="html">The URL request from the IDP APP.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if this is request is handled, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/handleIdpInitiatedAuth:</Anchor>
+            <NodeRef refid="135"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/handleAuthRequestFromSPApp:</TokenIdentifier>
+			<Abstract type="html">Handle an IDP request initiated from an SP APP.</Abstract>
+			<DeclaredIn>SFUserAccountManager+URLHandlers.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)handleAuthRequestFromSPApp:(SFSDKSPLoginRequestCommand *_Nonnull)request</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>request</Name>
+					<Abstract type="html">The  request from the SP APP.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if this request is handled, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/handleAuthRequestFromSPApp:</Anchor>
+            <NodeRef refid="135"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/handleIdpResponse:sceneId:</TokenIdentifier>
+			<Abstract type="html">Handle an IDP response received from an IDP APP.</Abstract>
+			<DeclaredIn>SFUserAccountManager+URLHandlers.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)handleIdpResponse:(SFSDKSPLoginResponseCommand *_Nonnull)response sceneId:(nullable NSString *)sceneId</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>response</Name>
+					<Abstract type="html">The URL response from the IDP APP.</Abstract>
+				</Parameter><Parameter>
+					<Name>sceneId</Name>
+					<Abstract type="html">The identifier for the scene that&apos;s handling the response.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if this is request is handled, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/handleIdpResponse:sceneId:</Anchor>
+            <NodeRef refid="135"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/handleIdpRequest:sceneId:completion:failure:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFUserAccountManager+URLHandlers.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)handleIdpRequest:(SFSDKIDPAuthCodeLoginRequestCommand *_Nonnull)response sceneId:(nullable NSString *)sceneId completion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock</Declaration>
+			
+			
+			<Anchor>//api/name/handleIdpRequest:sceneId:completion:failure:</Anchor>
+            <NodeRef refid="135"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setDelegates:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
@@ -1843,89 +1926,6 @@ This will post user update notification.</Abstract>
 			
 			
 			<Anchor>//api/name/loginWithCompletion:failure:scene:</Anchor>
-            <NodeRef refid="135"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/handleIdpAuthError:</TokenIdentifier>
-			<Abstract type="html">Handle an error situation that occured in the IDP flow.</Abstract>
-			<DeclaredIn>SFUserAccountManager+URLHandlers.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)handleIdpAuthError:(SFSDKAuthErrorCommand *_Nonnull)command</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>command</Name>
-					<Abstract type="html">The Error URL request from the idp or SP App.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if this is request is handled, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/handleIdpAuthError:</Anchor>
-            <NodeRef refid="135"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/handleIdpInitiatedAuth:</TokenIdentifier>
-			<Abstract type="html">Handle an IDP initiated auth flow.</Abstract>
-			<DeclaredIn>SFUserAccountManager+URLHandlers.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)handleIdpInitiatedAuth:(SFSDKIDPLoginRequestCommand *_Nonnull)command</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>command</Name>
-					<Abstract type="html">The URL request from the IDP APP.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if this is request is handled, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/handleIdpInitiatedAuth:</Anchor>
-            <NodeRef refid="135"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/handleAuthRequestFromSPApp:</TokenIdentifier>
-			<Abstract type="html">Handle an IDP request initiated from an SP APP.</Abstract>
-			<DeclaredIn>SFUserAccountManager+URLHandlers.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)handleAuthRequestFromSPApp:(SFSDKSPLoginRequestCommand *_Nonnull)request</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>request</Name>
-					<Abstract type="html">The  request from the SP APP.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if this request is handled, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/handleAuthRequestFromSPApp:</Anchor>
-            <NodeRef refid="135"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/handleIdpResponse:sceneId:</TokenIdentifier>
-			<Abstract type="html">Handle an IDP response received from an IDP APP.</Abstract>
-			<DeclaredIn>SFUserAccountManager+URLHandlers.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)handleIdpResponse:(SFSDKSPLoginResponseCommand *_Nonnull)response sceneId:(nullable NSString *)sceneId</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>response</Name>
-					<Abstract type="html">The URL response from the IDP APP.</Abstract>
-				</Parameter><Parameter>
-					<Name>sceneId</Name>
-					<Abstract type="html">The identifier for the scene that&apos;s handling the response.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if this is request is handled, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/handleIdpResponse:sceneId:</Anchor>
-            <NodeRef refid="135"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/handleIdpRequest:sceneId:completion:failure:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFUserAccountManager+URLHandlers.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)handleIdpRequest:(SFSDKIDPAuthCodeLoginRequestCommand *_Nonnull)response sceneId:(nullable NSString *)sceneId completion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock</Declaration>
-			
-			
-			<Anchor>//api/name/handleIdpRequest:sceneId:completion:failure:</Anchor>
             <NodeRef refid="135"/>
 		</Token>
 		

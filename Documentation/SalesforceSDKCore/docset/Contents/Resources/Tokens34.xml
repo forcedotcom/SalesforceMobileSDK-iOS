@@ -1366,92 +1366,6 @@ create a new file at version 1.</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/errorWithDescription:</TokenIdentifier>
-			<Abstract type="html">Creates an error object with the given description.</Abstract>
-			<DeclaredIn>SFRestAPI+Blocks.h</DeclaredIn>
-			
-			<Declaration>+ (NSError *)errorWithDescription:(NSString *)description</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>description</Name>
-					<Abstract type="html">Description</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/errorWithDescription:</Anchor>
-            <NodeRef refid="34"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/sendRequest:failureBlock:successBlock:</TokenIdentifier>
-			<Abstract type="html">Sends a request you&apos;ve already built, using blocks to return status.</Abstract>
-			<DeclaredIn>SFRestAPI+Blocks.h</DeclaredIn>
-			
-			<Declaration>- (void)sendRequest:(SFRestRequest *)request failureBlock:(SFRestRequestFailBlock)failureBlock successBlock:(SFRestResponseBlock)successBlock</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>request</Name>
-					<Abstract type="html">SFRestRequest to be sent.</Abstract>
-				</Parameter><Parameter>
-					<Name>failureBlock</Name>
-					<Abstract type="html">Block to be executed when the request fails (timeout, cancel, or error).</Abstract>
-				</Parameter><Parameter>
-					<Name>successBlock</Name>
-					<Abstract type="html">Block to be executed when the request successfully completes.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/sendRequest:failureBlock:successBlock:</Anchor>
-            <NodeRef refid="34"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/sendCompositeRequest:failureBlock:successBlock:</TokenIdentifier>
-			<Abstract type="html">Sends a request you&apos;ve already built, using blocks to return status.</Abstract>
-			<DeclaredIn>SFRestAPI+Blocks.h</DeclaredIn>
-			
-			<Declaration>- (void)sendCompositeRequest:(SFSDKCompositeRequest *)request failureBlock:(SFRestRequestFailBlock)failureBlock successBlock:(SFRestCompositeResponseBlock)successBlock</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>request</Name>
-					<Abstract type="html">Composite request to be sent.</Abstract>
-				</Parameter><Parameter>
-					<Name>failureBlock</Name>
-					<Abstract type="html">Block to be executed when the request fails (timeout, cancel, or error).</Abstract>
-				</Parameter><Parameter>
-					<Name>successBlock</Name>
-					<Abstract type="html">Block to be executed when the request successfully completes.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/sendCompositeRequest:failureBlock:successBlock:</Anchor>
-            <NodeRef refid="34"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/sendBatchRequest:failureBlock:successBlock:</TokenIdentifier>
-			<Abstract type="html">Sends a request you&apos;ve already built, using blocks to return status.</Abstract>
-			<DeclaredIn>SFRestAPI+Blocks.h</DeclaredIn>
-			
-			<Declaration>- (void)sendBatchRequest:(SFSDKBatchRequest *)request failureBlock:(SFRestRequestFailBlock)failureBlock successBlock:(SFRestBatchResponseBlock)successBlock</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>request</Name>
-					<Abstract type="html">Batch request to be sent.</Abstract>
-				</Parameter><Parameter>
-					<Name>failureBlock</Name>
-					<Abstract type="html">Block to be executed when the request fails (timeout, cancel, or error).</Abstract>
-				</Parameter><Parameter>
-					<Name>successBlock</Name>
-					<Abstract type="html">Block to be executed when the request successfully completes.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/sendBatchRequest:failureBlock:successBlock:</Anchor>
-            <NodeRef refid="34"/>
-		</Token>
-		
-		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/setActiveRequests:</TokenIdentifier>
 			<Abstract type="html">Active requests property.</Abstract>
 			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
@@ -1609,6 +1523,92 @@ create a new file at version 1.</Abstract>
 			
 			
 			<Anchor>//api/name/removeSharedInstanceWithUser:</Anchor>
+            <NodeRef refid="34"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/errorWithDescription:</TokenIdentifier>
+			<Abstract type="html">Creates an error object with the given description.</Abstract>
+			<DeclaredIn>SFRestAPI+Blocks.h</DeclaredIn>
+			
+			<Declaration>+ (NSError *)errorWithDescription:(NSString *)description</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>description</Name>
+					<Abstract type="html">Description</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/errorWithDescription:</Anchor>
+            <NodeRef refid="34"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/sendRequest:failureBlock:successBlock:</TokenIdentifier>
+			<Abstract type="html">Sends a request you&apos;ve already built, using blocks to return status.</Abstract>
+			<DeclaredIn>SFRestAPI+Blocks.h</DeclaredIn>
+			
+			<Declaration>- (void)sendRequest:(SFRestRequest *)request failureBlock:(SFRestRequestFailBlock)failureBlock successBlock:(SFRestResponseBlock)successBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>request</Name>
+					<Abstract type="html">SFRestRequest to be sent.</Abstract>
+				</Parameter><Parameter>
+					<Name>failureBlock</Name>
+					<Abstract type="html">Block to be executed when the request fails (timeout, cancel, or error).</Abstract>
+				</Parameter><Parameter>
+					<Name>successBlock</Name>
+					<Abstract type="html">Block to be executed when the request successfully completes.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/sendRequest:failureBlock:successBlock:</Anchor>
+            <NodeRef refid="34"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/sendCompositeRequest:failureBlock:successBlock:</TokenIdentifier>
+			<Abstract type="html">Sends a request you&apos;ve already built, using blocks to return status.</Abstract>
+			<DeclaredIn>SFRestAPI+Blocks.h</DeclaredIn>
+			
+			<Declaration>- (void)sendCompositeRequest:(SFSDKCompositeRequest *)request failureBlock:(SFRestRequestFailBlock)failureBlock successBlock:(SFRestCompositeResponseBlock)successBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>request</Name>
+					<Abstract type="html">Composite request to be sent.</Abstract>
+				</Parameter><Parameter>
+					<Name>failureBlock</Name>
+					<Abstract type="html">Block to be executed when the request fails (timeout, cancel, or error).</Abstract>
+				</Parameter><Parameter>
+					<Name>successBlock</Name>
+					<Abstract type="html">Block to be executed when the request successfully completes.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/sendCompositeRequest:failureBlock:successBlock:</Anchor>
+            <NodeRef refid="34"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/sendBatchRequest:failureBlock:successBlock:</TokenIdentifier>
+			<Abstract type="html">Sends a request you&apos;ve already built, using blocks to return status.</Abstract>
+			<DeclaredIn>SFRestAPI+Blocks.h</DeclaredIn>
+			
+			<Declaration>- (void)sendBatchRequest:(SFSDKBatchRequest *)request failureBlock:(SFRestRequestFailBlock)failureBlock successBlock:(SFRestBatchResponseBlock)successBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>request</Name>
+					<Abstract type="html">Batch request to be sent.</Abstract>
+				</Parameter><Parameter>
+					<Name>failureBlock</Name>
+					<Abstract type="html">Block to be executed when the request fails (timeout, cancel, or error).</Abstract>
+				</Parameter><Parameter>
+					<Name>successBlock</Name>
+					<Abstract type="html">Block to be executed when the request successfully completes.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/sendBatchRequest:failureBlock:successBlock:</Anchor>
             <NodeRef refid="34"/>
 		</Token>
 		
