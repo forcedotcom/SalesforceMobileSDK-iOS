@@ -134,10 +134,18 @@ NS_SWIFT_NAME(RestClient)
 ///---------------------------------------------------------------------------------------
 
 /**
- * Returns an `SFRestRequest` object that contains information associated with the current user.
+ * Returns an `SFRestRequest` object that returns information associated with the current user.
  * @see https://help.salesforce.com/articleView?id=remoteaccess_using_userinfo_endpoint.htm
  */
 - (SFRestRequest *)requestForUserInfo;
+
+/**
+ * Returns an `SFRestRequest` object that returns URL to bridge into UI sessions (a front door URL).
+ * @param redirectUri A relative path that points to where the user is redirected when their new session begins.
+ * @see https://help.salesforce.com/s/articleView?id=sf.frontdoor_singleaccess.htm
+ */
+- (SFRestRequest *)requestForSingleAccess:(NSString *)redirectUri;
+
 
 /**
  * Returns an `SFRestRequest` object that lists summary information about each

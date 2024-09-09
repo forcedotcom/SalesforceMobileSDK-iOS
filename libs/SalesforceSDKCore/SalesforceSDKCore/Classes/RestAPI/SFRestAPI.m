@@ -487,6 +487,16 @@ static dispatch_once_t pred;
     return request;
 }
 
+- (SFRestRequest *)requestForSingleAccess:(NSString*) redirectUri {
+    NSString *path = @"/services/oauth2/singleaccess";
+    NSString *bodyStr = [@"redirect_uri=" stringByAppendingString:[redirectUri sfsdk_stringByURLEncoding]];
+    SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPOST serviceHostType:SFSDKRestServiceHostTypeInstance path:path queryParams:nil];
+    [request setCustomRequestBodyString:bodyStr contentType:kHttpPostContentType];
+    request.endpoint = @"";
+    return request;
+}
+
+
 - (SFRestRequest *)requestForVersions {
     NSString *path = @"/";
     SFRestRequest* request = [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:nil];
