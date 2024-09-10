@@ -494,22 +494,41 @@
 }
 
 // IDP related
-- (void)beginIDPFlow {
+- (void)beginIDPFlow:(SFUserAccount *)user success:(void(^)(void))successBlock failure:(void(^)(NSError *))failureBlock {
     self.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeIDP];
     self.initialRequestLoaded = NO;
     // notify delegate will be begin authentication in our (web) vew
     if (self.credentials.accessToken && self.credentials.apiUrl) {
-        NSString *baseUrlString = [self.credentials.apiUrl absoluteString];
-        NSString *approvalUrlString = [self approvalURLForEndpoint:kSFOAuthEndPointAuthorize
-                                                       credentials:self.spAppCredentials
-                                                     webServerFlow:YES
-                                                          protocol:@"https"
-                                                            domain:self.credentials.domain
-                                                     codeChallenge:self.spAppCredentials.challengeString];
-        NSString *escapedApprovalUrlString = [approvalUrlString sfsdk_stringByURLEncoding];
-        NSString *frontDoorUrlString = [NSString stringWithFormat:@"%@/secur/frontdoor.jsp?sid=%@&retURL=%@", baseUrlString, self.credentials.accessToken, escapedApprovalUrlString];
-        [self loadWebViewWithUrlString:frontDoorUrlString cookie:YES];
+        NSString* approvalPathForSP = [self computeAuthorizationPathForSP];
+        SFRestRequest* singleAccessRequest = [[SFRestAPI sharedInstanceWithUser:user] requestForSingleAccess:approvalPathForSP];
+        __weak typeof (self) weakSelf = self;
+        [[SFRestAPI sharedInstanceWithUser:user] sendRequest:singleAccessRequest failureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
+            failureBlock(error);
+        } successBlock:^(id response, NSURLResponse *rawResponse) {
+            __strong typeof (self) strongSelf = weakSelf;
+            if (successBlock) {
+                successBlock();
+            }
+            NSString *frontDoorUrlString = ((NSDictionary*) response)[@"frontdoor_uri"];
+            [strongSelf loadWebViewWithUrlString:frontDoorUrlString cookie:YES];
+        }];
     }
+}
+
+- (NSString*)computeAuthorizationPathForSP {
+    NSString *approvalUrlString = [self approvalURLForEndpoint:kSFOAuthEndPointAuthorize
+                                                   credentials:self.spAppCredentials
+                                                 webServerFlow:YES
+                                                      protocol:@"https"
+                                                        domain:self.credentials.domain
+                                                 codeChallenge:self.spAppCredentials.challengeString];
+    // Create an NSURL from the string
+    NSURL *approvalUrl = [NSURL URLWithString:approvalUrlString];
+
+    // Extract everything but the protocol and domain
+    NSString *approvalPath = [[approvalUrl path] stringByAppendingString:approvalUrl.query ? [@"?" stringByAppendingString:approvalUrl.query] : @""];
+    
+    return approvalPath;
 }
 
 - (void)loadWebViewWithUrlString:(NSString *)urlString cookie:(BOOL)enableCookie {

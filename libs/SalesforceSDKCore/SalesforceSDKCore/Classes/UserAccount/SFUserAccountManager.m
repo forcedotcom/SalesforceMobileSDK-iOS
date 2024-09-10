@@ -389,7 +389,8 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     SFSDKAuthRequest *request = [self defaultAuthRequest];
     request.keychainReference = keyIdentifier;
     request.keychainGroup = config.keychainGroup;
-    [self idpRefreshTokenAndAuthenticate:[self currentUser] spAppContext:appContext authRequest:request success:^{
+    SFOAuthCredentials *spAppCredentials = [self spAppCredentials:appContext];
+    [self authenticateOnBehalfOfSPApp:[self currentUser] spAppCredentials:spAppCredentials authRequest:request success:^{
         statusBlock(SFSPLoginStatusGettingAuthCodeFromServer);
     } failure:^(NSError *error) {
         failureBlock(SFSPLoginErrorCredentialRefreshFailed);
@@ -1003,39 +1004,25 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     //Create new user selected in IDP flow in the idp app mode.
     SFSDKAuthRequest *request = [self defaultAuthRequest];
     request.authenticateRequestFromSPApp = YES;
-    __weak typeof(self) weakSelf = self;
     SFOAuthCredentials *spAppCredentials = [self spAppCredentials:spAppOptions];
+    __weak typeof(self) weakSelf = self;
     [self stopCurrentAuthentication:^(BOOL result) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         [strongSelf authenticateWithRequestOnBehalfOfSpApp:request spAppCredentials:spAppCredentials  completion:^(SFOAuthInfo *authInfo, SFUserAccount *user) {
-            [strongSelf authenticateOnBehalfOfSPApp:user spAppCredentials:spAppCredentials authRequest:nil];
-        } failure:^(SFOAuthInfo *authInfo, NSError *error) {
+            [strongSelf authenticateOnBehalfOfSPApp:user spAppCredentials:spAppCredentials authRequest:nil success:nil failure:^(NSError *error){
+                [SFSDKIDPAuthHelper invokeSPAppWithError:spAppCredentials error:error reason:@"Failed refreshing credentials"];
+            }];
+        } failure:^(SFOAuthInfo *authInfo, NSError *error){
             [SFSDKIDPAuthHelper invokeSPAppWithError:spAppCredentials error:error reason:@"Failed refreshing credentials"];
         }];
     }];
     
 }
 
-- (void)idpRefreshTokenAndAuthenticate:(SFUserAccount *)user spAppContext:(NSDictionary *)spAppOptions authRequest:(SFSDKAuthRequest *)authRequest success:(void(^)(void))successBlock failure:(void(^)(NSError *))failureBlock {
-    // Make sure access token is not expired
-    __weak typeof (self) weakSelf = self;
-    SFOAuthCredentials *spAppCredentials = [self spAppCredentials:spAppOptions];
-    SFRestRequest *request = [[SFRestAPI sharedInstanceWithUser:user] cheapRequest:nil];
-    [[SFRestAPI sharedInstanceWithUser:user] sendRequest:request failureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
-        failureBlock(error);
-    } successBlock:^(id response, NSURLResponse *rawResponse) {
-        __strong typeof (self) strongSelf = weakSelf;
-        if (successBlock) {
-            successBlock();
-        }
-        [strongSelf authenticateOnBehalfOfSPApp:user spAppCredentials:spAppCredentials authRequest:authRequest];
-    }];
-}
-
 - (void)selectedUser:(SFUserAccount *)user spAppContext:(NSDictionary *)spAppOptions {
      // User has been selected in the idp app mode.
     SFOAuthCredentials *spAppCredentials = [self spAppCredentials:spAppOptions];
-    [self idpRefreshTokenAndAuthenticate:user spAppContext:spAppOptions authRequest:nil success:nil failure:^(NSError *error) {
+    [self authenticateOnBehalfOfSPApp:[self currentUser] spAppCredentials:spAppCredentials authRequest:nil success:nil failure:^(NSError *error) {
         [SFSDKIDPAuthHelper invokeSPAppWithError:spAppCredentials error:error reason:@"Failed refreshing credentials"];
     }];
 }
@@ -1619,7 +1606,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     return self.authSessions[sceneId].isAuthenticating;
 }
 
-- (void)authenticateOnBehalfOfSPApp:(SFUserAccount *)user spAppCredentials:(SFOAuthCredentials *)spAppCredentials authRequest:(SFSDKAuthRequest *)request {
+- (void)authenticateOnBehalfOfSPApp:(SFUserAccount *)user spAppCredentials:(SFOAuthCredentials *)spAppCredentials authRequest:(SFSDKAuthRequest *)request success:(void(^)(void))successBlock failure:(void(^)(NSError *))failureBlock {
     if (!request) {
         request = [self defaultAuthRequest];
     }
@@ -1632,7 +1619,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     dispatch_async(dispatch_get_main_queue(), ^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
         [strongSelf dismissAuthViewControllerIfPresentForScene:authSession.oauthRequest.scene completion:^{
-             [strongSelf.authSessions[authSession.sceneId].oauthCoordinator beginIDPFlow];
+            [strongSelf.authSessions[authSession.sceneId].oauthCoordinator beginIDPFlow:user success:successBlock failure:failureBlock];
         }];
     });
 }
