@@ -261,6 +261,16 @@ static NSException *authException = nil;
     self.dataCleanupRequired = NO;
 }
 
+// simple: just invoke requestForSingleAccess
+- (void)testGetSingleAccess {
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForSingleAccess:@"abc/def"];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    [self checkKeysInJsonObject:listener.dataResponse expectedKeys:@[@"frontdoor_uri"]];
+    self.dataCleanupRequired = NO;
+}
+
+
 // simple: just invoke requestForLimits
 - (void)testGetLimits {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForLimits:kSFRestDefaultAPIVersion];
@@ -3055,6 +3065,14 @@ static NSException *authException = nil;
     NSDictionary *requestBody = request.requestBodyAsDictionary;
     NSString *requestNotificationIds = requestBody[@"notificationIds"];
     XCTAssertEqualObjects(notificationIds, requestNotificationIds);
+}
+
+#pragma mark - Helper methods
+
+- (void)checkKeysInJsonObject:(NSDictionary *)jsonObject expectedKeys:(NSArray<NSString *> *)expectedKeys {
+    for (NSString *expectedKey in expectedKeys) {
+        NSAssert([jsonObject objectForKey:expectedKey] != nil, @"Object should have key: %@", expectedKey);
+    }
 }
 
 @end
