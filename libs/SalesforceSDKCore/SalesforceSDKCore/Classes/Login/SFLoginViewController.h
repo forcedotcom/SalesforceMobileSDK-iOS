@@ -66,6 +66,9 @@ NS_SWIFT_NAME(SalesforceLoginViewController)
  */
 @property (nonatomic, strong, nullable) IBOutlet UIView *oauthView;
 
+/** The biometric log in button */
+@property (nonatomic, strong, readonly, nullable) UIButton *biometricButton;
+
 /** Specify the font to use for navigation bar header text.*/
 @property (nonatomic, strong, nullable) UIFont * navBarFont NS_SWIFT_NAME(navigationBarFont);
 

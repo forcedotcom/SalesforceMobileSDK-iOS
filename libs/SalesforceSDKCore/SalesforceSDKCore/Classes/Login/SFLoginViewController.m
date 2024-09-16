@@ -336,7 +336,7 @@
     return _loginHostListViewController;
 }
 
-#pragma mark - Properties`
+#pragma mark - Properties
 
 - (void)setOauthView:(UIView *)oauthView {
     if (![oauthView isEqual:_oauthView]) {
