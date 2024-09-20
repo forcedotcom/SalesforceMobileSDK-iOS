@@ -8,12 +8,14 @@ Pod::Spec.new do |s|
   s.license      = { :type => "Salesforce.com Mobile SDK License", :file => "LICENSE.md" }
   s.author       = { "Bharath Hariharan" => "bhariharan@salesforce.com" }
 
-  s.platform     = :ios, "16.0"
+  s.platforms    =  { :ios => "16.0", :visionos => "2.0" }
 
   s.source       = { :git => "https://github.com/forcedotcom/SalesforceMobileSDK-iOS.git",
                      :tag => "v#{s.version}" }
 
-  s.frameworks   = 'CoreTelephony'
+  s.xcconfig = { 'OTHER_LDFLAGS[sdk=iphoneos*]' => '$(inherited) -framework "CoreTelephony"',
+                 'OTHER_LDFLAGS[sdk=iphonesimulator*]' => '$(inherited) -framework "CoreTelephony"',
+                 'OTHER_LDFLAGS[sdk=macos*]' => '$(inherited) -framework "CoreTelephony"' }
 
   s.requires_arc = true
   s.default_subspec  = 'SalesforceAnalytics'

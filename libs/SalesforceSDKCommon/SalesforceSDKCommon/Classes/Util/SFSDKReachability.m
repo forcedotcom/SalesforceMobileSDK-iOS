@@ -48,7 +48,7 @@ static void SFSDKPrintReachabilityFlags(SCNetworkReachabilityFlags flags, const 
 }
 
 
-static void SFSDKReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReachabilityFlags flags, void* info)
+static void SFSDKReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReachabilityFlags flags, void* info) API_UNAVAILABLE(visionos)
 {
 #pragma unused (target, flags)
 	NSCAssert(info != NULL, @"info was NULL in SFSDKReachabilityCallback");

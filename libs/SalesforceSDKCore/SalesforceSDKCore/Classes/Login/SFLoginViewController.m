@@ -220,7 +220,9 @@
         [self.view addSubview:self.navBar];
     }
     
-    [self setNeedsStatusBarAppearanceUpdate];
+    #if !TARGET_OS_VISION
+        [self setNeedsStatusBarAppearanceUpdate];
+    #endif
 }
 
 - (void)setupBackButton {
