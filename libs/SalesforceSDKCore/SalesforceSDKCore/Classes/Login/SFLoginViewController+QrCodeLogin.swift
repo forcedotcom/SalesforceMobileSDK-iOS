@@ -3,13 +3,33 @@
 //  SalesforceSDKCore
 //
 //  Created by Eric Johnson on 9/5/24.
+//  Copyright (c) 2024-present, salesforce.com, inc. All rights reserved.
 //
+//  Redistribution and use of this software in source and binary forms, with or without modification,
+//  are permitted provided that the following conditions are met:
+//  * Redistributions of source code must retain the above copyright notice, this list of conditions
+//  and the following disclaimer.
+//  * Redistributions in binary form must reproduce the above copyright notice, this list of
+//  conditions and the following disclaimer in the documentation and/or other materials provided
+//  with the distribution.
+//  * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
+//  endorse or promote products derived from this software without specific prior written
+//  permission of salesforce.com, inc.
+//
+//  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+//  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+//  FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+//  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+//  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+//  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+//  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+//  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import Foundation
 
 public extension SalesforceLoginViewController {
 
-    // MARK: QR Code Login Via UI Bridge API Public Implementation
+    // MARK: - QR Code Login Via UI Bridge API Public Implementation
 
     /**
      * Automatically log in with a UI Bridge API login QR code.
@@ -49,7 +69,6 @@ public extension SalesforceLoginViewController {
         _ frontdoorBridgeUrlString: String,
         pkceCodeVerifier: String?
     ) {
-        print("Login With Frontdoor Bridge URL: '\(frontdoorBridgeUrlString)'/'\(String(describing: pkceCodeVerifier))'.")
         
         guard let frontdoorBridgeUrl = URL(string: frontdoorBridgeUrlString) else { return }
         guard let webView = oauthView as? WKWebView else { return }
@@ -59,19 +78,8 @@ public extension SalesforceLoginViewController {
         }
     }
 
-    // MARK: QR Code Login Via UI Bridge API Private Implementation
+    // MARK: - QR Code Login Via UI Bridge API Private Implementation
 
-//    /**
-//     * Determines if QR code login is enabled for the provided intent.
-//     * @param intent The intent to determine QR code login enablement for
-//     * @return Boolean true if QR code login is enabled for the the intent or
-//     * false otherwise
-//     */
-//    private fun isDeepLinkedQrCodeLogin(
-//        intent: Intent
-//    ) = SalesforceSDKManager.getInstance().isQrCodeLoginEnabled
-//            && intent.data?.path?.contains(LOGIN_QR_PATH) == true
-//
     /**
      * Parses UI Bridge API parameters from the provided login QR code content.
      * - Parameters
@@ -91,8 +99,6 @@ public extension SalesforceLoginViewController {
      * Parses UI Bridge API parameters JSON from the provided string, which may be formatted to match
      * either QR code content provided by app's QR code library or a custom app deep link from an external
      * QR code reader.
-     *
-     * TODO: W-16171402: Verify this after developing template app's external QR code deep-link support. ECJ20240912
      *
      * 1. From external QR reader: ?bridgeJson={...}
      * 2. From the app's QR reader: ?bridgeJson=%7B...%7D
@@ -133,7 +139,7 @@ public extension SalesforceLoginViewController {
         } catch let error {
             SFSDKCoreLogger().e(
                 classForCoder,
-                message: "Cannot JSON encode start password reset request body due to an encoding error with description '\(error.localizedDescription)'.")
+                message: "Cannot JSON decode UI bridge API parameters due to a decoding error with description '\(error.localizedDescription)'.")
             return nil
         }
     }
