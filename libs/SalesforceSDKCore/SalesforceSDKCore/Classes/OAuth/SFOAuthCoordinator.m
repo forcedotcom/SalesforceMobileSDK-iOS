@@ -791,7 +791,7 @@
     NSURL *url = navigationAction.request.URL;
     NSString *requestUrl = [url absoluteString];
     if ([self isRedirectURL:requestUrl]) {
-        if ([[SalesforceSDKManager sharedManager] useWebServerAuthentication]) {
+        if ([[SalesforceSDKManager sharedManager] useWebServerAuthentication] && ![[SalesforceSDKManager sharedManager] isQrCodeLoginEnabled]) {
             [self handleWebServerResponse:url];
         } else {
             [self handleUserAgentResponse:url];

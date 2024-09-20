@@ -51,11 +51,12 @@ public extension SalesforceLoginViewController {
     ) {
         print("Login With Frontdoor Bridge URL: '\(frontdoorBridgeUrlString)'/'\(String(describing: pkceCodeVerifier))'.")
         
-        // TODO: W-16171402: Integrate With Existing Login Logic And Resolve Use Of PKCE Code Verifier. ECJ20240912
-        
         guard let frontdoorBridgeUrl = URL(string: frontdoorBridgeUrlString) else { return }
         guard let webView = oauthView as? WKWebView else { return }
-        webView.load(URLRequest(url: frontdoorBridgeUrl))
+        
+        DispatchQueue.main.async {
+            webView.load(URLRequest(url: frontdoorBridgeUrl))
+        }
     }
 
     // MARK: QR Code Login Via UI Bridge API Private Implementation
