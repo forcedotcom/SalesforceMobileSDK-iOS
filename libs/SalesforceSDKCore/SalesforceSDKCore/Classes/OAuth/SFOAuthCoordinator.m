@@ -791,10 +791,15 @@
     NSURL *url = navigationAction.request.URL;
     NSString *requestUrl = [url absoluteString];
     if ([self isRedirectURL:requestUrl]) {
-        if ([[SalesforceSDKManager sharedManager] useWebServerAuthentication] && ![[SalesforceSDKManager sharedManager] isQrCodeLoginEnabled]) {
-            [self handleWebServerResponse:url];
+        if ([url query]) {
+            [self handleWebServerResponse:url]; // Handles URLs with query string parameter.
+        } else if ([url fragment]) {
+            [self handleUserAgentResponse:url]; // Handles URLs with the fragment component.
         } else {
-            [self handleUserAgentResponse:url];
+            [SFSDKCoreLogger
+             i:[self class]
+             format:@"Web view cannot decide navigation action policy for callback URL without query or fragment.  Bailing."];
+            return;
         }
         decisionHandler(WKNavigationActionPolicyCancel);
     } else if ([self isSPAppRedirectURL:requestUrl]){
