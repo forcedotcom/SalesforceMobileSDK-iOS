@@ -69,12 +69,18 @@ public extension SalesforceLoginViewController {
         _ frontdoorBridgeUrlString: String,
         pkceCodeVerifier: String?
     ) {
-        
         guard let frontdoorBridgeUrl = URL(string: frontdoorBridgeUrlString) else { return }
-        guard let webView = oauthView as? WKWebView else { return }
         
-        DispatchQueue.main.async {
-            webView.load(URLRequest(url: frontdoorBridgeUrl))
+        // Stop current authentication attempt, if applicable, before starting the new one.
+        UserAccountManager.shared.stopCurrentAuthentication { result in
+            
+            DispatchQueue.main.async {
+                // Login using front door bridge URL and PKCE code verifier provided by the QR code.
+                AuthHelper.loginIfRequired(nil,
+                                           frontDoorBridgeUrl: frontdoorBridgeUrl,
+                                           codeVerifier: pkceCodeVerifier) {
+                }
+            }
         }
     }
 
