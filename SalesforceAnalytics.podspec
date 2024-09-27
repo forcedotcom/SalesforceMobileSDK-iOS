@@ -14,8 +14,7 @@ Pod::Spec.new do |s|
                      :tag => "v#{s.version}" }
 
   s.xcconfig = { 'OTHER_LDFLAGS[sdk=iphoneos*]' => '$(inherited) -framework "CoreTelephony"',
-                 'OTHER_LDFLAGS[sdk=iphonesimulator*]' => '$(inherited) -framework "CoreTelephony"',
-                 'OTHER_LDFLAGS[sdk=macos*]' => '$(inherited) -framework "CoreTelephony"' }
+                 'OTHER_LDFLAGS[sdk=iphonesimulator*]' => '$(inherited) -framework "CoreTelephony"' }
 
   s.requires_arc = true
   s.default_subspec  = 'SalesforceAnalytics'
