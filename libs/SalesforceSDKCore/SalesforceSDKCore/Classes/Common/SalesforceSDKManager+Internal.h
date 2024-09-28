@@ -18,6 +18,7 @@ static NSString * _Nonnull const kSFDefaultNativeLoginViewControllerKey = @"defa
 
 @end
 
+API_UNAVAILABLE(visionos)
 @interface SnapshotViewController : UIViewController
 
 @end
@@ -29,8 +30,8 @@ static NSString * _Nonnull const kSFDefaultNativeLoginViewControllerKey = @"defa
 @property (nonatomic, strong, nonnull) SFSDKSafeMutableDictionary<NSString *, UIViewController *> *snapshotViewControllers;
 @property (nonatomic, strong, nullable) SFSDKSafeMutableDictionary<NSString *, UIViewController *> *nativeLoginViewControllers;
 
-- (void)presentSnapshot:(nonnull UIScene *)scene;
-- (BOOL)isSnapshotPresented:(nonnull UIScene *)scene;
-- (void)dismissSnapshot:(nonnull UIScene *)scene completion:(void (^ __nullable)(void))completion;
+- (void)presentSnapshot:(nonnull UIScene *)scene API_UNAVAILABLE(visionos);
+- (BOOL)isSnapshotPresented:(nonnull UIScene *)scene API_UNAVAILABLE(visionos);
+- (void)dismissSnapshot:(nonnull UIScene *)scene completion:(void (^ __nullable)(void))completion API_UNAVAILABLE(visionos);
 
 @end

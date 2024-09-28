@@ -2110,14 +2110,18 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
             presentViewBlock();
         }
     };
-    
-    if ([[SalesforceSDKManager sharedManager] isSnapshotPresented:viewHandler.scene]) {
-        [[SalesforceSDKManager sharedManager] dismissSnapshot:viewHandler.scene completion:^{
-            presentWindowBlock();
-        }];
-    } else {
+
+    #if TARGET_OS_VISION
         presentWindowBlock();
-    }
+    #else
+        if ([[SalesforceSDKManager sharedManager] isSnapshotPresented:viewHandler.scene]) {
+            [[SalesforceSDKManager sharedManager] dismissSnapshot:viewHandler.scene completion:^{
+                presentWindowBlock();
+            }];
+        } else {
+            presentWindowBlock();
+        }
+    #endif
  }
 
 - (BOOL)isAlreadyPresentingLoginController:(UIViewController*)presentedViewController {
