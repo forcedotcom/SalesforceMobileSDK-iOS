@@ -582,7 +582,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     authSession.authSuccessCallback = completionBlock;
     authSession.oauthCoordinator.delegate = self;
     authSession.oauthCoordinator.overrideWithCodeVerifier = codeVerifier;
-    authSession.oauthCoordinator.overrideWithfrontDoorBridgeUrl = frontDoorBridgeUrl;
+    authSession.oauthCoordinator.overrideWithFrontDoorBridgeUrl = frontDoorBridgeUrl;
     NSString *sceneId = authSession.sceneId;
     self.authSessions[sceneId] = authSession;
     

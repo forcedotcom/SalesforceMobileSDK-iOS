@@ -548,8 +548,8 @@
     [SFSDKCoreLogger d:[self class] format:@"%@ Loading web view for '%@' auth flow, with URL: %@", NSStringFromSelector(_cmd), self.authInfo.authTypeDescription, [urlToLoad sfsdk_redactedAbsoluteString:@[ @"sid" ]]];
     dispatch_async(dispatch_get_main_queue(), ^{
         // If an overriding Salesforce Identity API UI Bridge front door bridge is present, load it.
-        if (self.overrideWithfrontDoorBridgeUrl) {
-            [self.view loadRequest:[NSURLRequest requestWithURL:self.overrideWithfrontDoorBridgeUrl]];
+        if (self.overrideWithFrontDoorBridgeUrl) {
+            [self.view loadRequest:[NSURLRequest requestWithURL:self.overrideWithFrontDoorBridgeUrl]];
 
         } else {
             [self.view loadRequest:request];
@@ -797,8 +797,8 @@
     NSURL *url = navigationAction.request.URL;
     NSString *requestUrl = [url absoluteString];
     if ([self isRedirectURL:requestUrl]) {
-        // Determine if presence of override parameters requiring the user agent flow.
-        BOOL overrideWithUserAgentFlow = self.overrideWithfrontDoorBridgeUrl && !self.overrideWithCodeVerifier;
+        // Determine if presence of override parameters require the user agent flow.
+        BOOL overrideWithUserAgentFlow = self.overrideWithFrontDoorBridgeUrl && !self.overrideWithCodeVerifier;
         if ( [[SalesforceSDKManager sharedManager] useWebServerAuthentication] && !overrideWithUserAgentFlow) {
             [self handleWebServerResponse:url]; // Web server flow/URLs with query string parameters.
         } else {
