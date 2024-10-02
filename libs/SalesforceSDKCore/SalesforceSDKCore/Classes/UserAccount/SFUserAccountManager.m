@@ -405,8 +405,28 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     return result;
 }
 
-- (BOOL)loginWithCompletion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock scene:(UIScene *)scene {
-    return [self authenticateWithCompletion:completionBlock failure:failureBlock scene:scene];
+- (BOOL)loginWithCompletion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock
+                    failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock
+                      scene:(UIScene *)scene
+{
+    return [self loginWithCompletion:completionBlock
+                             failure:failureBlock
+                               scene:scene
+                  frontDoorBridgeUrl:nil
+                        codeVerifier:nil];
+}
+
+- (BOOL)loginWithCompletion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock
+                    failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock
+                      scene:(UIScene *)scene
+         frontDoorBridgeUrl:(nullable NSURL * )frontDoorBridgeUrl
+               codeVerifier:(nullable NSString *)codeVerifier
+{
+    return [self authenticateWithCompletion:completionBlock
+                                    failure:failureBlock
+                                      scene:scene
+                         frontDoorBridgeUrl:frontDoorBridgeUrl
+                               codeVerifier:codeVerifier];
 }
 
 - (BOOL)refreshCredentials:(SFOAuthCredentials *)credentials completion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
@@ -478,7 +498,23 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     }
 }
 
-- (BOOL)authenticateWithCompletion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock scene:(UIScene *)scene {
+- (BOOL)authenticateWithCompletion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock
+                           failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock
+                             scene:(UIScene *)scene
+{
+    return [self authenticateWithCompletion:completionBlock
+                                    failure:failureBlock
+                                      scene:scene
+                         frontDoorBridgeUrl:nil
+                               codeVerifier:nil];
+}
+
+- (BOOL)authenticateWithCompletion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock
+                           failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock
+                             scene:(UIScene *)scene
+                frontDoorBridgeUrl:(NSURL * )frontDoorBridgeUrl
+                      codeVerifier:(NSString *)codeVerifier
+{
     SFSDKAuthSession *authSession = self.authSessions[scene.session.persistentIdentifier];
     if (authSession && authSession.isAuthenticating) {
         [SFSDKCoreLogger e:[self class] format:@"Login has already been called. Stop current authentication using SFUserAccountManager::stopCurrentAuthentication and then retry."];
@@ -499,7 +535,11 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     if (request.idpEnabled) {
        return [self authenticateUsingIDP:request completion:completionBlock failure:failureBlock];
     }
-    return [self authenticateWithRequest:request completion:completionBlock failure:failureBlock];
+    return [self authenticateWithRequest:request
+                              completion:completionBlock
+                                 failure:failureBlock
+                      frontDoorBridgeUrl:frontDoorBridgeUrl
+                            codeVerifier:codeVerifier];
 }
 
 -(SFSDKAuthRequest *)defaultAuthRequest {
@@ -530,12 +570,19 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     return request;
 }
 
-- (BOOL)authenticateWithRequest:(SFSDKAuthRequest *)request completion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
+- (BOOL)authenticateWithRequest:(SFSDKAuthRequest *)request
+                     completion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock
+                        failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock
+             frontDoorBridgeUrl:(NSURL * )frontDoorBridgeUrl
+                   codeVerifier:(NSString *)codeVerifier
+{
     SFSDKAuthSession *authSession = [[SFSDKAuthSession alloc] initWith:request credentials:nil];
     authSession.isAuthenticating = YES;
     authSession.authFailureCallback = failureBlock;
     authSession.authSuccessCallback = completionBlock;
     authSession.oauthCoordinator.delegate = self;
+    authSession.oauthCoordinator.overrideWithCodeVerifier = codeVerifier;
+    authSession.oauthCoordinator.overrideWithFrontDoorBridgeUrl = frontDoorBridgeUrl;
     NSString *sceneId = authSession.sceneId;
     self.authSessions[sceneId] = authSession;
     
@@ -568,7 +615,11 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     NSAssert(jwtToken.length > 0, @"JWT token value required.");
     SFSDKAuthRequest *request = [self defaultAuthRequest];
     request.jwtToken = jwtToken;
-    return [self authenticateWithRequest:request completion:completionBlock failure:failureBlock];
+    return [self authenticateWithRequest:request
+                              completion:completionBlock
+                                 failure:failureBlock
+                      frontDoorBridgeUrl:nil
+                            codeVerifier:nil];
 }
 
 - (void)logout {
@@ -612,7 +663,11 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     [self dismissAuthViewControllerIfPresentForScene:scene completion:^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
         strongSelf.authSessions[scene.session.persistentIdentifier].isAuthenticating = NO;
-        [strongSelf authenticateWithRequest:session.oauthRequest completion:session.authSuccessCallback failure:session.authFailureCallback];
+        [strongSelf authenticateWithRequest:session.oauthRequest
+                                 completion:session.authSuccessCallback
+                                    failure:session.authFailureCallback
+                         frontDoorBridgeUrl:nil
+                               codeVerifier:nil];
     }];
 }
 
@@ -995,7 +1050,11 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     NSString *sceneId = scene.session.persistentIdentifier;
     [self dismissAuthViewControllerIfPresentForScene:scene completion:^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
-        [strongSelf authenticateWithRequest:strongSelf.authSessions[sceneId].oauthRequest completion:strongSelf.authSessions[sceneId].authSuccessCallback failure:strongSelf.authSessions[sceneId].authFailureCallback];
+        [strongSelf authenticateWithRequest:strongSelf.authSessions[sceneId].oauthRequest
+                                 completion:strongSelf.authSessions[sceneId].authSuccessCallback
+                                    failure:strongSelf.authSessions[sceneId].authFailureCallback
+                         frontDoorBridgeUrl:nil
+                               codeVerifier:nil];
     }];
 }
 
