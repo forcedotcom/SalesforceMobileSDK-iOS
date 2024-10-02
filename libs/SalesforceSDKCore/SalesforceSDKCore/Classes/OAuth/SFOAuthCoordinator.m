@@ -344,6 +344,7 @@
         });
     }
     self.authInfo = nil;
+    [self resetFrontDoorBridgeUrl];
 }
 
 - (void)notifyDelegateOfSuccess:(SFOAuthInfo *)authInfo
@@ -353,6 +354,7 @@
         [self.delegate oauthCoordinatorDidAuthenticate:self authInfo:authInfo];
     }
     self.authInfo = nil;
+    [self resetFrontDoorBridgeUrl];
 }
 
 - (void)notifyDelegateOfBeginAuthentication
@@ -774,6 +776,15 @@
         [approvalUrlString appendString:scopeString];
     }
     return approvalUrlString;
+}
+
+/**
+ * Resets all state related to Salesforce Identity API UI Bridge front door bridge URL log in to its default
+ * inactive state.
+ */
+-(void) resetFrontDoorBridgeUrl {
+    self.overrideWithFrontDoorBridgeUrl = nil;
+    self.overrideWithCodeVerifier = nil;
 }
 
 - (NSString *)scopeQueryParamString {
