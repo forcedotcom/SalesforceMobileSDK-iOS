@@ -28,44 +28,25 @@
 import Foundation
 
 public extension SalesforceLoginViewController {
-
-    // MARK: - QR Code Login Via UI Bridge API Public Implementation
-
-    /**
-     * Automatically log in with a UI Bridge API login QR code.
-     * - Parameters
-     *     - loginQrCodeContent:  The login QR code content.  This should be either a URL or URL
-     *     query containing the UI Bridge API JSON parameter.  The UI Bridge API JSON parameter
-     *     should contain URL-encoded JSON with two values:
-     *       - frontdoor_bridge_url
-     *       - pkce_code_verifier
-     * If pkce_code_verifier is not specified then the user agent flow is used
-     * - Returns: Boolean true if a log in attempt is possible using the provided QR code content, false
-     * otherwise
-     */
-    func loginFromQrCode(
-        loginQrCodeContent: String?
-    ) -> Bool {
-        if let uiBridgeApiParameters = uiBridgeApiParametersFromLoginQrCodeContent(
-            loginQrCodeContent
-        ) {
-            loginWithFrontdoorBridgeUrl(
-                uiBridgeApiParameters.frontdoorBridgeUrl,
-                pkceCodeVerifier: uiBridgeApiParameters.pkceCodeVerifier
-            )
-            return true
-        } else {
-            return false
-        }
-    }
-
+    
+    // MARK: - QR Code Login Via Salesforce Identity API UI Bridge Public Implementation
+    
     /**
      * Automatically log in with a UI Bridge API front door bridge URL and PKCE code verifier.
+     *
+     * This method is the intended entry point to Salesforce Mobile SDK when using the Salesforce
+     * Identity API UI Bridge front door URL.  Usable, default implementations of methods are
+     * provided for parsing the UI Bridge parameters from the reference JSON and log in URLs used
+     * by the reference QR Code Log In implementation.  However, the URL and JSON structure in the
+     * reference implementation is not required.  An app may use a custom structure so long as this
+     * entry point is used to log in with the front door URL and optional PKCE code verifier.
+     *
      * - Parameters
      *   - frontdoorBridgeUrl: The UI Bridge API front door bridge URL
-     *   - pkceCodeVerifier: The PKCE code verifier
+     *   - pkceCodeVerifier: The optional PKCE code verifier, which is not required for User Agent
+     * Authorization Flow but is required for Web Server Authorization Flow
      */
-    func loginWithFrontdoorBridgeUrl(
+    class func loginWithFrontdoorBridgeUrl(
         _ frontdoorBridgeUrlString: String,
         pkceCodeVerifier: String?
     ) {
@@ -83,87 +64,165 @@ public extension SalesforceLoginViewController {
             }
         }
     }
-
-    // MARK: - QR Code Login Via UI Bridge API Private Implementation
-
+    
     /**
-     * Parses UI Bridge API parameters from the provided login QR code content.
+     * Automatically log in using a QR code login URL and Salesforce Identity API UI Bridge.
+     *
+     * This method is the intended entry point for login using the reference QR Code Login URL and JSON
+     * format.  It will parse the UI Bridge parameters from the login QR code URL and call
+     * ``SFLoginViewController/loginWithFrontdoorBridgeUrl(_:pkceCodeVerifier:)``.
+     * However, the URL and JSON structure in the reference implementation is not required.  An app may
+     * use a custom structure so long as UI Bridge front door URL and optional PKCE code verifier are
+     * provided to
+     * ``SFLoginViewController/loginWithFrontdoorBridgeUrl(_:pkceCodeVerifier:)``.
      * - Parameters
-     *   - loginQrCodeContent: The login QR code content string
-     *   - UiBridgeApiParameters: The UI Bridge API parameters or null if the QR code content cannot
+     *     - qrCodeLoginUrl:  The QR code login URL
+     * - Returns: Boolean true if a log in attempt is possible using the provided QR code log in URL,
+     * false otherwise
+     */
+    class func loginWithFrontdoorBridgeUrlFromQrCode(
+        _ qrCodeLoginUrl: String?
+    ) -> Bool {
+        if let uiBridgeApiParameters = uiBridgeApiParametersFromQrCodeLoginUrl(
+            qrCodeLoginUrl
+        ) {
+            loginWithFrontdoorBridgeUrl(
+                uiBridgeApiParameters.frontdoorBridgeUrl,
+                pkceCodeVerifier: uiBridgeApiParameters.pkceCodeVerifier
+            )
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    /**
+     * For QR code login URLs, the URL path which distinguishes them from other URLs provided by the
+     * app's internal QR code reader or deep link intents from external QR code readers.
+     *
+     * Apps may customize this so long as it matches the server-side Apex class or other code generating
+     * the QR code.
+     *
+     * Apps need not use the QR code login URL structure provided here if they wish to entirely customize
+     * the QR code login URL format and implement a custom parsing scheme.
+     */
+    static var qrCodeLoginUrlPath = "/login/qr"
+    
+    /**
+     * For QR code login URLs, the URL query string parameter name for the Salesforce Identity API UI
+     * Bridge parameters JSON object.
+     *
+     * Apps may customize this so long as it matches the server-side Apex class or other code generating
+     * the QR code.
+     */
+    static var qrCodeLoginUrlJsonParameterName = "bridgeJson"
+    
+    /**
+     * For QR code login URLs, the Salesforce Identity API UI Bridge parameters JSON key for the
+     * frontdoor URL.
+     *
+     * Apps may customize this so long as it matches the server-side Apex class or other code generating
+     * the QR code.
+     */
+    static var qrCodeLoginUrlJsonFrontdoorBridgeUrlKey = "frontdoor_bridge_url"
+    
+    /**
+     * For QR code login URLs, the Salesforce Identity API UI Bridge parameters JSON key for the PKCE
+     * code verifier, which is only used when the front door URL was generated for the web server
+     * authorization flow.  The user agent flow does not require a value for this parameter.
+     *
+     * Apps may customize this so long as it matches the server-side Apex class or other code generating
+     * the QR code.
+     */
+    static var qrCodeLoginUrlJsonPkceCodeVerifierKey = "pkce_code_verifier"
+    
+    // MARK: - QR Code Login Via Salesforce Identity API UI Bridge Private Implementation
+    
+    /**
+     * Parses Salesforce Identity API UI Bridge parameters from the provided login QR code login URL.
+     * - Parameters
+     *   - qrCodeLoginUrl: The QR code login URL
+     *   - UiBridgeApiParameters: The UI Bridge API parameters or null if the QR code login URL cannot
      *   provide them for any reason
      */
-    private func uiBridgeApiParametersFromLoginQrCodeContent(
-        _ loginQrCodeContent: String?
+    private class func uiBridgeApiParametersFromQrCodeLoginUrl(
+        _ qrCodeLoginUrl: String?
     ) -> UiBridgeApiParameters? {
-        guard let loginQrCodeContentUnwrapped = loginQrCodeContent else { return nil }
-        guard let uiBridgeApiJson = uiBridgeApiJsonFromQrCodeContent(loginQrCodeContentUnwrapped) else { return nil }
+        guard let qrCodeLoginUrlUnwrapped = qrCodeLoginUrl else { return nil }
+        guard let uiBridgeApiJson = uiBridgeApiJsonFromQrCodeLoginUrl(qrCodeLoginUrlUnwrapped) else { return nil }
         return uiBridgeApiParametersFromUiBridgeApiJson(uiBridgeApiJson)
     }
-
+    
     /**
-     * Parses UI Bridge API parameters JSON from the provided string, which may be formatted to match
-     * either QR code content provided by app's QR code library or a custom app deep link from an external
-     * QR code reader.
-     *
-     * 1. From external QR reader: ?bridgeJson={...}
-     * 2. From the app's QR reader: ?bridgeJson=%7B...%7D
+     * Parses Salesforce Identity API UI Bridge parameters JSON string from the provided QR code login
+     * URL.
      *
      * - Parameters
-     *   - qrCodeContent: The QR code content string
-     * - Returns: String: The UI Bridge API parameter JSON or null if the string cannot provide the
-     *  JSON for any reason
+     *   - qrCodeLoginUrl: The QR code login URL
+     * - Returns: String: The UI Bridge API parameter JSON or null if the QR code login URL cannot
+     * provide the JSON for any reason
      */
-    private func uiBridgeApiJsonFromQrCodeContent(
-        _ qrCodeContent: String
+    private class func uiBridgeApiJsonFromQrCodeLoginUrl(
+        _ qrCodeLoginUrl: String
     ) -> String? {
         return try? NSRegularExpression(
-            pattern: "^.*\\?bridgeJson=").stringByReplacingMatches(
-                in: qrCodeContent,
+            pattern: "^.*\\?\(SalesforceLoginViewController.qrCodeLoginUrlJsonParameterName)=").stringByReplacingMatches(
+                in: qrCodeLoginUrl,
                 range: NSRange(
                     location: 0,
-                    length: qrCodeContent.utf16.count),
+                    length: qrCodeLoginUrl.utf16.count),
                 withTemplate: "").removingPercentEncoding
     }
-
+    
     /**
-     * Creates UI Bridge API parameters from the provided JSON string.
+     * Creates Salesforce Identity API UI Bridge parameters from the provided JSON string.
      * - Parameters
      *   - uiBridgeApiParameterJsonString: The UI Bridge API parameters JSON string
      * - Returns: The UI Bridge API parameters
      */
-    private func uiBridgeApiParametersFromUiBridgeApiJson(
+    private class func uiBridgeApiParametersFromUiBridgeApiJson(
         _ uiBridgeApiParameterJsonString: String
     ) -> UiBridgeApiParameters? {
         guard let uiBridgeApiParameterJsonData = uiBridgeApiParameterJsonString.data(
             using: .utf8
         ) else { return nil }
         
-        do { return try JSONDecoder().decode(
-            UiBridgeApiParameters.self,
-            from: uiBridgeApiParameterJsonData)
+        do {
+            let jsonAny = try JSONSerialization.jsonObject(
+                with: uiBridgeApiParameterJsonData,
+                options: []
+            )
+            if let jsonMap = jsonAny as? [String: Any] {
+                guard let frontdoorBridgeUrl = jsonMap[qrCodeLoginUrlJsonFrontdoorBridgeUrlKey] as? String else { return nil}
+                
+                // Note: Codable is not used here so the JSON key names are customizable by the MSDK API consumer.
+                return UiBridgeApiParameters(
+                    frontdoorBridgeUrl: frontdoorBridgeUrl,
+                    pkceCodeVerifier: jsonMap[qrCodeLoginUrlJsonPkceCodeVerifierKey] as? String
+                )
+            } else {
+                SFSDKCoreLogger().e(
+                    self,
+                    message: "Cannot JSON decode UI bridge API parameters due to an unexpected JSON format.")
+                return nil
+            }
         } catch let error {
             SFSDKCoreLogger().e(
-                classForCoder,
+                self,
                 message: "Cannot JSON decode UI bridge API parameters due to a decoding error with description '\(error.localizedDescription)'.")
             return nil
         }
     }
-
+    
     /**
      * A struct representing UI Bridge API parameters provided by a login QR code.
      */
-    private struct UiBridgeApiParameters: Codable {
+    private struct UiBridgeApiParameters {
         
         /** The front door bridge URL provided by the login QR code */
         let frontdoorBridgeUrl: String
         
         /** The PKCE code verifier provided by the login QR code */
         let pkceCodeVerifier: String?
-        
-        enum CodingKeys: String, CodingKey {
-            case frontdoorBridgeUrl = "frontdoor_bridge_url"
-            case pkceCodeVerifier = "pkce_code_verifier"
-        }
     }
 }
