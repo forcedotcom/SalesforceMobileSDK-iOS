@@ -49,7 +49,7 @@ public class ScreenLockManagerInternal: NSObject, ScreenLockManager {
     
     private let kScreenLockIdentifier = "com.salesforce.security.screenlock"
     private var callbackBlock: ScreenLockCallbackBlock? = nil
-    private var backgroundTimestamp: Double = 0
+    var backgroundTimestamp: Double = 0
     
     private override init() {
         super.init()

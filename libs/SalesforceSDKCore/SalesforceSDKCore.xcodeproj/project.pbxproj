@@ -99,6 +99,7 @@
 		69BDD82F26F90AA400C26D77 /* DecryptStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BDD82D26F90AA400C26D77 /* DecryptStream.swift */; };
 		69BDD83026F90AA400C26D77 /* EncryptStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BDD82E26F90AA400C26D77 /* EncryptStream.swift */; };
 		69CEBC7E22F368CF00F16218 /* SFNetworkTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 69CEBC7D22F368CF00F16218 /* SFNetworkTests.m */; };
+		69DEF9E02CBED60700D80D80 /* ScreenLockManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DEF9DF2CBED60700D80D80 /* ScreenLockManagerTests.swift */; };
 		69DFE0632B968D8F000906E4 /* CryptoUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DFE0622B968D8F000906E4 /* CryptoUtils.swift */; };
 		69DFE06B2B969C22000906E4 /* CryptoUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DFE0682B969C1D000906E4 /* CryptoUtilsTests.swift */; };
 		69DFE06C2B969C25000906E4 /* PushNotificationDecryptionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DFE0672B969C1D000906E4 /* PushNotificationDecryptionTests.swift */; };
@@ -686,6 +687,7 @@
 		69BDD82D26F90AA400C26D77 /* DecryptStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DecryptStream.swift; sourceTree = "<group>"; };
 		69BDD82E26F90AA400C26D77 /* EncryptStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EncryptStream.swift; sourceTree = "<group>"; };
 		69CEBC7D22F368CF00F16218 /* SFNetworkTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFNetworkTests.m; path = SalesforceSDKCoreTests/SFNetworkTests.m; sourceTree = SOURCE_ROOT; };
+		69DEF9DF2CBED60700D80D80 /* ScreenLockManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenLockManagerTests.swift; sourceTree = "<group>"; };
 		69DFE0622B968D8F000906E4 /* CryptoUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoUtils.swift; sourceTree = "<group>"; };
 		69DFE0672B969C1D000906E4 /* PushNotificationDecryptionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PushNotificationDecryptionTests.swift; path = SalesforceSDKCoreTests/PushNotificationDecryptionTests.swift; sourceTree = SOURCE_ROOT; };
 		69DFE0682B969C1D000906E4 /* CryptoUtilsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CryptoUtilsTests.swift; path = SalesforceSDKCoreTests/CryptoUtilsTests.swift; sourceTree = SOURCE_ROOT; };
@@ -958,6 +960,7 @@
 		4F7EB3F61BFFC84700768720 /* SalesforceSDKCoreTests */ = {
 			isa = PBXGroup;
 			children = (
+				69DEF9DF2CBED60700D80D80 /* ScreenLockManagerTests.swift */,
 				69DFE0682B969C1D000906E4 /* CryptoUtilsTests.swift */,
 				69DFE0672B969C1D000906E4 /* PushNotificationDecryptionTests.swift */,
 				696E91452AD0A14A00205884 /* BiometricAuthenticationManagerTests.swift */,
@@ -2104,6 +2107,7 @@
 				8214D955205316BA0007349E /* SFSDKSalesforceAnalyticsManagerTests.m in Sources */,
 				4F06AF891C49A18E00F70798 /* NSURL+SFStringUtilsTests.m in Sources */,
 				B759CD891F8BDBAC0081AA87 /* SDSDKAlertMessageTest.m in Sources */,
+				69DEF9E02CBED60700D80D80 /* ScreenLockManagerTests.swift in Sources */,
 				4F06AF8C1C49A18E00F70798 /* SalesforceSDKIdentityTests.m in Sources */,
 				4F06AF921C49A18E00F70798 /* SFPreferencesTests.m in Sources */,
 				4F755F5820D48F8600CE4E0E /* NSString+SFAdditionsTests.m in Sources */,
