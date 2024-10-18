@@ -38,10 +38,11 @@
 - (BOOL)processRequest:(NSURL *)url options:(NSDictionary *)options {
     if (url) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            BOOL success = [SFApplicationHelper openURL:url];
-            if (!success) {
-                 [SFSDKCoreLogger d:[self class] format:@"Could not launch  %@", url];
-            }
+            [SFApplicationHelper openURL:url options:options completionHandler:^(BOOL success) {
+                if (!success) {
+                     [SFSDKCoreLogger d:[self class] format:@"Could not launch  %@", url];
+                }
+            }];
         });
     }
     return NO;
