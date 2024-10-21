@@ -51,4 +51,19 @@
     return success;
 }
 
++ (void)openURL:(NSURL*)url options:(NSDictionary<UIApplicationOpenExternalURLOptionsKey, id> *)options completionHandler:(void (^ __nullable)(BOOL success))completion {
+    UIApplication *app = [self sharedApplication];
+    
+    if (app) {
+        SEL selector = @selector(openURL:options:completionHandler:);
+        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[[app class] instanceMethodSignatureForSelector:selector]];
+        [invocation setTarget:app];
+        [invocation setSelector:selector];
+        [invocation setArgument:&url atIndex:2];
+        [invocation setArgument:&options atIndex:3];
+        [invocation setArgument:&completion atIndex:4];
+        [invocation invoke];
+    }
+}
+
 @end
