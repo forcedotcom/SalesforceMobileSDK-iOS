@@ -617,7 +617,9 @@ SFNativeLoginManagerInternal *nativeLogin;
 
     // Set up snapshot security view, if it's configured.
     @try {
+        #if !TARGET_OS_VISION
         [self presentSnapshot:scene];
+        #endif
     }
     @catch (NSException *exception) {
         [SFSDKCoreLogger w:[self class] format:@"Exception thrown while setting up security snapshot view for scene %@: '%@'. Continuing background.", sceneId, [exception reason]];

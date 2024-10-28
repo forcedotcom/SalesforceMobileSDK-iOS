@@ -10,8 +10,6 @@
 #include <net/if.h>
 #include <net/if_dl.h>
 #import <mach/mach.h>
-#import <CoreTelephony/CTTelephonyNetworkInfo.h>
-#import <CoreTelephony/CTCarrier.h>
 #import "UIDevice+SFHardware.h"
 #import "UIScreen+SFAdditions.h"
 #import "SFApplicationHelper.h"
@@ -294,12 +292,13 @@
     if ([platform hasPrefix:@"AppleTV"])                return UIDeviceUnknownAppleTV;
     
     // Simulator thanks Jordan Breeding
-    if ([platform hasSuffix:@"86"] || [platform isEqual:@"x86_64"])
-    {
-        BOOL smallerScreen = [[UIScreen mainScreen] bounds].size.width < 768;
-        return smallerScreen ? UIDeviceSimulatoriPhone : UIDeviceSimulatoriPad;
-    }
-    
+    #if !TARGET_OS_VISION
+        if ([platform hasSuffix:@"86"] || [platform isEqual:@"x86_64"]) {
+            BOOL smallerScreen = [[UIScreen mainScreen] bounds].size.width < 768;
+            return smallerScreen ? UIDeviceSimulatoriPhone : UIDeviceSimulatoriPad;
+        }
+    #endif
+
     return UIDeviceUnknown;
 }
 

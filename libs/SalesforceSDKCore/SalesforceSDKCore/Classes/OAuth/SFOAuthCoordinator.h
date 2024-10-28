@@ -32,6 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class SFOAuthCoordinator;
 @class SFOAuthInfo;
+@class SFUserAccount;
 
 /**
  Callback block used for the browser flow authentication.
@@ -350,7 +351,7 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
 
 - (BOOL)handleIDPAuthenticationResponse:(NSURL *)appUrlResponse;
 
-- (void)beginIDPFlow;
+- (void)beginIDPFlow:(SFUserAccount *)user success:(void(^)(void))successBlock failure:(void(^)(NSError *))failureBlock;
 
 @end
 

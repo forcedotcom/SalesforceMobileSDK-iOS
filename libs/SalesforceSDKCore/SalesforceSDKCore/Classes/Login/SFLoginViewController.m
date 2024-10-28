@@ -220,7 +220,9 @@
         [self.view addSubview:self.navBar];
     }
     
-    [self setNeedsStatusBarAppearanceUpdate];
+    #if !TARGET_OS_VISION
+        [self setNeedsStatusBarAppearanceUpdate];
+    #endif
 }
 
 - (void)setupBackButton {
@@ -336,7 +338,7 @@
     return _loginHostListViewController;
 }
 
-#pragma mark - Properties`
+#pragma mark - Properties
 
 - (void)setOauthView:(UIView *)oauthView {
     if (![oauthView isEqual:_oauthView]) {

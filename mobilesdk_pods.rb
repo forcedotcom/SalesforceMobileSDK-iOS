@@ -23,7 +23,6 @@
 def use_mobile_sdk!(options={})
   path = options[:path] ||= "./mobile_sdk/SalesforceMobileSDK-iOS"
 
-  pod 'FMDB', :git => 'https://github.com/ccgus/fmdb', :tag => '2.7.10'
   pod 'SalesforceSDKCommon', :path => path
   pod 'SalesforceAnalytics', :path => path
   pod 'SalesforceSDKCore', :path => path
@@ -55,6 +54,18 @@ def signposts_post_install(installer)
     end
   end
 end
+
+
+# Post Install: Enable visionOS support
+def vision_os_post_install(installer)
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      config.build_settings['SUPPORTED_PLATFORMS'] = 'iphoneos iphonesimulator xros xrsimulator'
+      config.build_settings['TARGETED_DEVICE_FAMILY'] = '1,2,7'
+    end
+  end
+end
+
 
 # Post Install: fix deployment targets
 def mobile_sdk_post_install(installer)

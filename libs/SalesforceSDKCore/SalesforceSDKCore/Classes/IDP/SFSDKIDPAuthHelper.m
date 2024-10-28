@@ -63,8 +63,9 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
     
     NSURL *url = [command requestURL];
     dispatch_async(dispatch_get_main_queue(), ^{
-        BOOL launched  = [SFApplicationHelper openURL:url];
-        completionBlock(launched);
+        [SFApplicationHelper openURL:url options:@{} completionHandler:^(BOOL success) {
+            completionBlock(success);
+        }];
     });
 }
 
@@ -95,8 +96,9 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
             [authWindow dismissWindow];
             [[[SFSDKWindowManager sharedManager] mainWindow:nil] presentWindow];
         }];
-        BOOL launched  = [SFApplicationHelper openURL:url];
-        completionBlock(launched);
+        [SFApplicationHelper openURL:url options:@{} completionHandler:^(BOOL success) {
+            completionBlock(success);
+        }];
     });
 }
 
@@ -111,12 +113,15 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
             [authWindow dismissWindow];
             [[[SFSDKWindowManager sharedManager] mainWindow:nil] presentWindow];
         }];
-        BOOL launched  = [SFApplicationHelper openURL:url];
-        if (!launched) {
-            [SFSDKCoreLogger e:[self class] format:@"Could not launch spAPP to handle error %@",[error description]];
-        }
-        [[SFUserAccountManager sharedInstance] stopCurrentAuthentication:^(BOOL result) {
-            [SFSDKCoreLogger d:[self class] format:@"Completed idp authentication with error, %@",error];
+        
+        [SFApplicationHelper openURL:url options:@{} completionHandler:^(BOOL success) {
+            if (!success) {
+                [SFSDKCoreLogger e:[self class] format:@"Could not launch spAPP to handle error %@", [error description]];
+            }
+            
+            [[SFUserAccountManager sharedInstance] stopCurrentAuthentication:^(BOOL result) {
+                [SFSDKCoreLogger d:[self class] format:@"Completed idp authentication with error, %@", error];
+            }];
         }];
     });
 }

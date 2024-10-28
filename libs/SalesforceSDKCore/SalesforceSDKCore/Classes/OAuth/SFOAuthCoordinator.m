@@ -316,8 +316,14 @@
         WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
         config.processPool = SFSDKWebViewStateManager.sharedProcessPool;
         UIWindowScene *scene = (UIWindowScene *)self.authSession.oauthRequest.scene;
-        CGRect viewBounds = scene? scene.coordinateSpace.bounds : [UIScreen mainScreen].bounds;
-        _view = [[WKWebView alloc] initWithFrame:viewBounds configuration:config];
+        CGRect bounds = scene.coordinateSpace.bounds;
+        #if !TARGET_OS_VISION
+            if (!scene) {
+                bounds = [UIScreen mainScreen].bounds;
+            }
+        #endif
+        
+        _view = [[WKWebView alloc] initWithFrame:bounds configuration:config];
         _view.navigationDelegate = self;
         _view.autoresizesSubviews = YES;
         _view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
@@ -344,6 +350,7 @@
         });
     }
     self.authInfo = nil;
+    [self resetFrontDoorBridgeUrl];
 }
 
 - (void)notifyDelegateOfSuccess:(SFOAuthInfo *)authInfo
@@ -353,6 +360,7 @@
         [self.delegate oauthCoordinatorDidAuthenticate:self authInfo:authInfo];
     }
     self.authInfo = nil;
+    [self resetFrontDoorBridgeUrl];
 }
 
 - (void)notifyDelegateOfBeginAuthentication
@@ -494,22 +502,41 @@
 }
 
 // IDP related
-- (void)beginIDPFlow {
+- (void)beginIDPFlow:(SFUserAccount *)user success:(void(^)(void))successBlock failure:(void(^)(NSError *))failureBlock {
     self.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeIDP];
     self.initialRequestLoaded = NO;
     // notify delegate will be begin authentication in our (web) vew
     if (self.credentials.accessToken && self.credentials.apiUrl) {
-        NSString *baseUrlString = [self.credentials.apiUrl absoluteString];
-        NSString *approvalUrlString = [self approvalURLForEndpoint:kSFOAuthEndPointAuthorize
-                                                       credentials:self.spAppCredentials
-                                                     webServerFlow:YES
-                                                          protocol:@"https"
-                                                            domain:self.credentials.domain
-                                                     codeChallenge:self.spAppCredentials.challengeString];
-        NSString *escapedApprovalUrlString = [approvalUrlString sfsdk_stringByURLEncoding];
-        NSString *frontDoorUrlString = [NSString stringWithFormat:@"%@/secur/frontdoor.jsp?sid=%@&retURL=%@", baseUrlString, self.credentials.accessToken, escapedApprovalUrlString];
-        [self loadWebViewWithUrlString:frontDoorUrlString cookie:YES];
+        NSString* approvalPathForSP = [self computeAuthorizationPathForSP];
+        SFRestRequest* singleAccessRequest = [[SFRestAPI sharedInstanceWithUser:user] requestForSingleAccess:approvalPathForSP];
+        __weak typeof (self) weakSelf = self;
+        [[SFRestAPI sharedInstanceWithUser:user] sendRequest:singleAccessRequest failureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
+            failureBlock(error);
+        } successBlock:^(id response, NSURLResponse *rawResponse) {
+            __strong typeof (self) strongSelf = weakSelf;
+            if (successBlock) {
+                successBlock();
+            }
+            NSString *frontDoorUrlString = ((NSDictionary*) response)[@"frontdoor_uri"];
+            [strongSelf loadWebViewWithUrlString:frontDoorUrlString cookie:YES];
+        }];
     }
+}
+
+- (NSString*)computeAuthorizationPathForSP {
+    NSString *approvalUrlString = [self approvalURLForEndpoint:kSFOAuthEndPointAuthorize
+                                                   credentials:self.spAppCredentials
+                                                 webServerFlow:YES
+                                                      protocol:@"https"
+                                                        domain:self.credentials.domain
+                                                 codeChallenge:self.spAppCredentials.challengeString];
+    // Create an NSURL from the string
+    NSURL *approvalUrl = [NSURL URLWithString:approvalUrlString];
+
+    // Extract everything but the protocol and domain
+    NSString *approvalPath = [[approvalUrl path] stringByAppendingString:approvalUrl.query ? [@"?" stringByAppendingString:approvalUrl.query] : @""];
+    
+    return approvalPath;
 }
 
 - (void)loadWebViewWithUrlString:(NSString *)urlString cookie:(BOOL)enableCookie {
@@ -528,7 +555,13 @@
     [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData]; // don't use cache
     [SFSDKCoreLogger d:[self class] format:@"%@ Loading web view for '%@' auth flow, with URL: %@", NSStringFromSelector(_cmd), self.authInfo.authTypeDescription, [urlToLoad sfsdk_redactedAbsoluteString:@[ @"sid" ]]];
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.view loadRequest:request];
+        // If an overriding Salesforce Identity API UI Bridge front door bridge is present, load it.
+        if (self.overrideWithFrontDoorBridgeUrl) {
+            [self.view loadRequest:[NSURLRequest requestWithURL:self.overrideWithFrontDoorBridgeUrl]];
+
+        } else {
+            [self.view loadRequest:request];
+        }
     });
 }
 - (void)updateCredentials:(NSDictionary *) params {
@@ -549,8 +582,8 @@
     if (self.approvalCode) {
         [SFSDKCoreLogger i:[self class] format:@"%@: Initiating authorization code flow.", NSStringFromSelector(_cmd)];
         request.approvalCode = self.approvalCode;
-        request.codeVerifier = self.codeVerifier;
-
+        // Choose either the default generated code verifier or the code verifier matching the overriding Salesforce Identity API UI Bridge front door bridge.
+        request.codeVerifier = self.overrideWithCodeVerifier ? self.overrideWithCodeVerifier : self.codeVerifier;
         [self.authClient accessTokenForApprovalCode:request completion:^(SFSDKOAuthTokenEndpointResponse * response) {
              __strong typeof (weakSelf) strongSelf = weakSelf;
             [strongSelf handleResponse:response];
@@ -731,8 +764,8 @@
 
         if (!codeChallenge) {
             // Code verifier challenge:
-            //   - self.codeVerifier is a base64url-encoded random data string
-            //   - The code challenge sent here is an SHA-256 hash of self.codeVerifier, also base64url-encoded
+            //   - self.codeVerifier is a Base64 URL-Safe encoded (Note, not URL encoded) random data string
+            //   - The code challenge sent here is an SHA-256 hash of self.codeVerifier, also Base64 URL-Safe encoded
             //   - Later, self.codeVerifier will be sent to the service, to be used to compare against the initial code challenge sent here.
             self.codeVerifier = [[SFSDKCryptoUtils randomByteDataWithLength:kSFOAuthCodeVerifierByteLength] sfsdk_base64UrlString];
             codeChallenge = [[[self.codeVerifier dataUsingEncoding:NSUTF8StringEncoding] sfsdk_sha256Data] sfsdk_base64UrlString];
@@ -749,6 +782,15 @@
         [approvalUrlString appendString:scopeString];
     }
     return approvalUrlString;
+}
+
+/**
+ * Resets all state related to Salesforce Identity API UI Bridge front door bridge URL log in to its default
+ * inactive state.
+ */
+-(void) resetFrontDoorBridgeUrl {
+    self.overrideWithFrontDoorBridgeUrl = nil;
+    self.overrideWithCodeVerifier = nil;
 }
 
 - (NSString *)scopeQueryParamString {
@@ -772,10 +814,12 @@
     NSURL *url = navigationAction.request.URL;
     NSString *requestUrl = [url absoluteString];
     if ([self isRedirectURL:requestUrl]) {
-        if ([[SalesforceSDKManager sharedManager] useWebServerAuthentication]) {
-            [self handleWebServerResponse:url];
+        // Determine if presence of override parameters require the user agent flow.
+        BOOL overrideWithUserAgentFlow = self.overrideWithFrontDoorBridgeUrl && !self.overrideWithCodeVerifier;
+        if ( [[SalesforceSDKManager sharedManager] useWebServerAuthentication] && !overrideWithUserAgentFlow) {
+            [self handleWebServerResponse:url]; // Web server flow/URLs with query string parameters.
         } else {
-            [self handleUserAgentResponse:url];
+            [self handleUserAgentResponse:url]; // User agent flow/URLs with the fragment component.
         }
         decisionHandler(WKNavigationActionPolicyCancel);
     } else if ([self isSPAppRedirectURL:requestUrl]){

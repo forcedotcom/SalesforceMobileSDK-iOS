@@ -94,12 +94,12 @@
 		69848CB82364035300893E57 /* SFSDKEncryptedPushNotificationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 69848CB72364035300893E57 /* SFSDKEncryptedPushNotificationTests.m */; };
 		69848CBD2364063E00893E57 /* SFSDKPushNotificationDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 69848CBC2364063E00893E57 /* SFSDKPushNotificationDataProvider.m */; };
 		6990CBC029F5AF56004A5F8D /* SFSDKIDPAuthCodeLoginRequestCommandTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6990CBBF29F5AF56004A5F8D /* SFSDKIDPAuthCodeLoginRequestCommandTest.m */; };
-		69B2B4F8261EA6F500AB86C2 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69B2B4F2261EA6F500AB86C2 /* CoreTelephony.framework */; };
 		69BDD7E926F16C9000C26D77 /* SFSDKSalesforceSDKUpgradeManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 69BDD7E226F16C9000C26D77 /* SFSDKSalesforceSDKUpgradeManager.h */; };
 		69BDD7EA26F16C9000C26D77 /* SFSDKSalesforceSDKUpgradeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 69BDD7E826F16C9000C26D77 /* SFSDKSalesforceSDKUpgradeManager.m */; };
 		69BDD82F26F90AA400C26D77 /* DecryptStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BDD82D26F90AA400C26D77 /* DecryptStream.swift */; };
 		69BDD83026F90AA400C26D77 /* EncryptStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BDD82E26F90AA400C26D77 /* EncryptStream.swift */; };
 		69CEBC7E22F368CF00F16218 /* SFNetworkTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 69CEBC7D22F368CF00F16218 /* SFNetworkTests.m */; };
+		69DEF9E02CBED60700D80D80 /* ScreenLockManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DEF9DF2CBED60700D80D80 /* ScreenLockManagerTests.swift */; };
 		69DFE0632B968D8F000906E4 /* CryptoUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DFE0622B968D8F000906E4 /* CryptoUtils.swift */; };
 		69DFE06B2B969C22000906E4 /* CryptoUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DFE0682B969C1D000906E4 /* CryptoUtilsTests.swift */; };
 		69DFE06C2B969C25000906E4 /* PushNotificationDecryptionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DFE0672B969C1D000906E4 /* PushNotificationDecryptionTests.swift */; };
@@ -687,6 +687,7 @@
 		69BDD82D26F90AA400C26D77 /* DecryptStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DecryptStream.swift; sourceTree = "<group>"; };
 		69BDD82E26F90AA400C26D77 /* EncryptStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EncryptStream.swift; sourceTree = "<group>"; };
 		69CEBC7D22F368CF00F16218 /* SFNetworkTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFNetworkTests.m; path = SalesforceSDKCoreTests/SFNetworkTests.m; sourceTree = SOURCE_ROOT; };
+		69DEF9DF2CBED60700D80D80 /* ScreenLockManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenLockManagerTests.swift; sourceTree = "<group>"; };
 		69DFE0622B968D8F000906E4 /* CryptoUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoUtils.swift; sourceTree = "<group>"; };
 		69DFE0672B969C1D000906E4 /* PushNotificationDecryptionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PushNotificationDecryptionTests.swift; path = SalesforceSDKCoreTests/PushNotificationDecryptionTests.swift; sourceTree = SOURCE_ROOT; };
 		69DFE0682B969C1D000906E4 /* CryptoUtilsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CryptoUtilsTests.swift; path = SalesforceSDKCoreTests/CryptoUtilsTests.swift; sourceTree = SOURCE_ROOT; };
@@ -950,7 +951,6 @@
 				B716A3A4218F5E5B009D407F /* SalesforceSDKCommon.framework in Frameworks */,
 				CE4CE5831C0FB5B4009F6029 /* libz.tbd in Frameworks */,
 				CE4CE4711C0E5E2A009F6029 /* Foundation.framework in Frameworks */,
-				69B2B4F8261EA6F500AB86C2 /* CoreTelephony.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -960,6 +960,7 @@
 		4F7EB3F61BFFC84700768720 /* SalesforceSDKCoreTests */ = {
 			isa = PBXGroup;
 			children = (
+				69DEF9DF2CBED60700D80D80 /* ScreenLockManagerTests.swift */,
 				69DFE0682B969C1D000906E4 /* CryptoUtilsTests.swift */,
 				69DFE0672B969C1D000906E4 /* PushNotificationDecryptionTests.swift */,
 				696E91452AD0A14A00205884 /* BiometricAuthenticationManagerTests.swift */,
@@ -2106,6 +2107,7 @@
 				8214D955205316BA0007349E /* SFSDKSalesforceAnalyticsManagerTests.m in Sources */,
 				4F06AF891C49A18E00F70798 /* NSURL+SFStringUtilsTests.m in Sources */,
 				B759CD891F8BDBAC0081AA87 /* SDSDKAlertMessageTest.m in Sources */,
+				69DEF9E02CBED60700D80D80 /* ScreenLockManagerTests.swift in Sources */,
 				4F06AF8C1C49A18E00F70798 /* SalesforceSDKIdentityTests.m in Sources */,
 				4F06AF921C49A18E00F70798 /* SFPreferencesTests.m in Sources */,
 				4F755F5820D48F8600CE4E0E /* NSString+SFAdditionsTests.m in Sources */,
@@ -2489,6 +2491,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
+				XROS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
 		};
@@ -2527,6 +2530,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_VERSION = 5.0;
+				XROS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
 		};
@@ -2674,10 +2678,11 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SalesforceSDKCore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,7";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -2732,9 +2737,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SalesforceSDKCore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,7";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";

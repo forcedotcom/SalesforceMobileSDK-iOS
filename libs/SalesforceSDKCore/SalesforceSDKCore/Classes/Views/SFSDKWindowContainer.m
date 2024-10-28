@@ -29,6 +29,7 @@
 #import "SFSDKWindowContainer.h"
 #import "SFSDKWindowManager.h"
 #import "SFSDKRootController.h"
+#import "SFApplicationHelper.h"
 @interface SFSDKWindowContainer()
 
 @end
@@ -55,7 +56,16 @@
 
 - (UIWindow *)window {
     if (_window == nil) {
-        _window = [[SFSDKUIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds andName:_windowName];
+        UIWindowScene *scene = (UIWindowScene *)[SFApplicationHelper sharedApplication].connectedScenes.allObjects.firstObject;
+        CGRect bounds = scene.coordinateSpace.bounds;
+        
+        #if !TARGET_OS_VISION
+            if (!scene) {
+                bounds = [UIScreen mainScreen].bounds;
+            }
+        #endif
+        
+        _window = [[SFSDKUIWindow alloc] initWithFrame:bounds andName:_windowName];
         _window.windowLevel = self.windowLevel;
         if (!self.viewController ) {
             self.viewController = [[SFSDKRootController alloc] init];
@@ -82,7 +92,11 @@
 }
 
 - (BOOL)isEnabled {
-    return self.window.alpha == 1.0 && !self.window.isHidden;
+    #if TARGET_OS_VISION
+        return self.window.rootViewController.view.alpha == 1.0 && !self.window.isHidden;
+    #else
+        return self.window.alpha == 1.0 && !self.window.isHidden;
+    #endif
 }
 
 - (void)presentWindowAnimated:(BOOL)animated withCompletion:(void (^ _Nullable)(void))completion {
