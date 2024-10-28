@@ -176,13 +176,30 @@ The default value is kSFRestDefaultAPIVersion (currently &quot;v60.0&quot;)</Abs
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForUserInfo</TokenIdentifier>
-			<Abstract type="html">Returns an SFRestRequest object that contains information associated with the current user.</Abstract>
+			<Abstract type="html">Returns an SFRestRequest object that returns information associated with the current user.</Abstract>
 			<DeclaredIn>SFRestAPI.h</DeclaredIn>
 			
 			<Declaration>- (SFRestRequest *)requestForUserInfo</Declaration>
 			
 			
 			<Anchor>//api/name/requestForUserInfo</Anchor>
+            <NodeRef refid="34"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForSingleAccess:</TokenIdentifier>
+			<Abstract type="html">Returns an SFRestRequest object that returns URL to bridge into UI sessions (a front door URL).</Abstract>
+			<DeclaredIn>SFRestAPI.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)requestForSingleAccess:(NSString *)redirectUri</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>redirectUri</Name>
+					<Abstract type="html">A relative path that points to where the user is redirected when their new session begins.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/requestForSingleAccess:</Anchor>
             <NodeRef refid="34"/>
 		</Token>
 		
@@ -900,130 +917,200 @@ to return values. Example: &quot;Account,Contact&quot;.</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/sanitizeSOSLSearchTerm:</TokenIdentifier>
-			<Abstract type="html">The search term to be sanitized.</Abstract>
-			<DeclaredIn>SFRestAPI+QueryBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForNotificationsStatus:</TokenIdentifier>
+			<Abstract type="html">Returns a request to fetch the status of notifications, including unread and unseen count.</Abstract>
+			<DeclaredIn>SFRestAPI+Notifications.h</DeclaredIn>
 			
-			<Declaration>+ (NSString *)sanitizeSOSLSearchTerm:(NSString *)searchTerm</Declaration>
+			<Declaration>- (SFRestRequest *)requestForNotificationsStatus:(NSString *)apiVersion</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>searchTerm</Name>
-					<Abstract type="html">The search term to be sanitized.</Abstract>
+					<Name>apiVersion</Name>
+					<Abstract type="html">API version.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">SOSL-safe version of search term</Abstract></ReturnValue>
-			<Anchor>//api/name/sanitizeSOSLSearchTerm:</Anchor>
+			
+			<Anchor>//api/name/requestForNotificationsStatus:</Anchor>
             <NodeRef refid="34"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/SOSLSearchWithSearchTerm:objectScope:</TokenIdentifier>
-			<Abstract type="html">Generate a SOSL search.</Abstract>
-			<DeclaredIn>SFRestAPI+QueryBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForNotification:apiVersion:</TokenIdentifier>
+			<Abstract type="html">Returns a request to fetch the given notification.</Abstract>
+			<DeclaredIn>SFRestAPI+Notifications.h</DeclaredIn>
 			
-			<Declaration>+ (nullable NSString *)SOSLSearchWithSearchTerm:(NSString *)term objectScope:(nullable NSDictionary&lt;NSString*,NSString*&gt; *)objectScope</Declaration>
+			<Declaration>- (SFRestRequest *)requestForNotification:(NSString *)notificationId apiVersion:(NSString *)apiVersion</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>term</Name>
-					<Abstract type="html">- the search term. This is sanitized for proper characters</Abstract>
+					<Name>notificationId</Name>
+					<Abstract type="html">ID of notification to fetch.</Abstract>
 				</Parameter><Parameter>
-					<Name>objectScope</Name>
-					<Abstract type="html">- nil to search all searchable objects, or a dictionary where each key is an sObject name
-and each value is a string with the fieldlist and (optional) where, order by, and limit clause for that object.
-or NSNull to not specify any fields/clauses for that object</Abstract>
+					<Name>apiVersion</Name>
+					<Abstract type="html">API version.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">query or nil if a query could not be generated</Abstract></ReturnValue>
-			<Anchor>//api/name/SOSLSearchWithSearchTerm:objectScope:</Anchor>
+			
+			<Anchor>//api/name/requestForNotification:apiVersion:</Anchor>
             <NodeRef refid="34"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/SOSLSearchWithSearchTerm:fieldScope:objectScope:limit:</TokenIdentifier>
-			<Abstract type="html">Generate a SOSL search.</Abstract>
-			<DeclaredIn>SFRestAPI+QueryBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/setActiveRequests:</TokenIdentifier>
+			<Abstract type="html">Active requests property.</Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
 			
-			<Declaration>+ (nullable NSString *)SOSLSearchWithSearchTerm:(NSString *)term fieldScope:(nullable NSString *)fieldScope objectScope:(nullable NSDictionary&lt;NSString*,NSString*&gt; *)objectScope limit:(NSInteger)limit</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>term</Name>
-					<Abstract type="html">- the search term. This is sanitized for proper characters</Abstract>
-				</Parameter><Parameter>
-					<Name>fieldScope</Name>
-					<Abstract type="html">- nil OR the SOSL scope, e.g. &quot;IN ALL FIELDS&quot;. if nil, defaults to &quot;IN NAME FIELDS&quot;</Abstract>
-				</Parameter><Parameter>
-					<Name>objectScope</Name>
-					<Abstract type="html">- nil to search all searchable objects, or a dictionary where each key is an sObject name
-and each value is a string with the fieldlist and (optional) where, order by, and limit clause for that object.
-or NSNull to not specify any fields/clauses for that object</Abstract>
-				</Parameter><Parameter>
-					<Name>limit</Name>
-					<Abstract type="html">- overall search limit (max 200)</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">query or nil if a query could not be generated</Abstract></ReturnValue>
-			<Anchor>//api/name/SOSLSearchWithSearchTerm:fieldScope:objectScope:limit:</Anchor>
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKSafeMutableSet *activeRequests</Declaration>
+			
+			
+			<Anchor>//api/name/activeRequests</Anchor>
             <NodeRef refid="34"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/SOQLQueryWithFields:sObject:whereClause:limit:</TokenIdentifier>
-			<Abstract type="html">Generate a SOQL query.</Abstract>
-			<DeclaredIn>SFRestAPI+QueryBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/activeRequests</TokenIdentifier>
+			<Abstract type="html">Active requests property.</Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
 			
-			<Declaration>+ (nullable NSString *)SOQLQueryWithFields:(NSArray&lt;NSString*&gt; *)fields sObject:(NSString *)sObject whereClause:(nullable NSString *)whereClause limit:(NSInteger)limit</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>fields</Name>
-					<Abstract type="html">- NSArray of fields to select</Abstract>
-				</Parameter><Parameter>
-					<Name>sObject</Name>
-					<Abstract type="html">- object to query</Abstract>
-				</Parameter><Parameter>
-					<Name>whereClause</Name>
-					<Abstract type="html">- nil OR where clause</Abstract>
-				</Parameter><Parameter>
-					<Name>limit</Name>
-					<Abstract type="html">- limit count, or 0 for no limit (for use with query locators)</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">query or nil if a query could not be generated</Abstract></ReturnValue>
-			<Anchor>//api/name/SOQLQueryWithFields:sObject:whereClause:limit:</Anchor>
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKSafeMutableSet *activeRequests</Declaration>
+			
+			
+			<Anchor>//api/name/activeRequests</Anchor>
             <NodeRef refid="34"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/SOQLQueryWithFields:sObject:whereClause:groupBy:having:orderBy:limit:</TokenIdentifier>
-			<Abstract type="html">Generate a SOQL query.</Abstract>
-			<DeclaredIn>SFRestAPI+QueryBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRestAPI/activeRequests</TokenIdentifier>
+			<Abstract type="html">Active requests property.</Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
 			
-			<Declaration>+ (nullable NSString *)SOQLQueryWithFields:(NSArray&lt;NSString*&gt; *)fields sObject:(NSString *)sObject whereClause:(nullable NSString *)whereClause groupBy:(nullable NSArray&lt;NSString*&gt; *)groupBy having:(nullable NSString *)having orderBy:(nullable NSArray&lt;NSString*&gt; *)orderBy limit:(NSInteger)limit</Declaration>
+			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKSafeMutableSet *activeRequests</Declaration>
+			
+			
+			<Anchor>//api/name/activeRequests</Anchor>
+            <NodeRef refid="34"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/setRequiresAuthentication:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL requiresAuthentication</Declaration>
+			
+			
+			<Anchor>//api/name/requiresAuthentication</Anchor>
+            <NodeRef refid="34"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requiresAuthentication</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL requiresAuthentication</Declaration>
+			
+			
+			<Anchor>//api/name/requiresAuthentication</Anchor>
+            <NodeRef refid="34"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRestAPI/requiresAuthentication</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL requiresAuthentication</Declaration>
+			
+			
+			<Anchor>//api/name/requiresAuthentication</Anchor>
+            <NodeRef refid="34"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/setInstrumentationDelegateInternal:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, strong) id&lt;SFRestRequestDelegate&gt; instrumentationDelegateInternal</Declaration>
+			
+			
+			<Anchor>//api/name/instrumentationDelegateInternal</Anchor>
+            <NodeRef refid="34"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/instrumentationDelegateInternal</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, strong) id&lt;SFRestRequestDelegate&gt; instrumentationDelegateInternal</Declaration>
+			
+			
+			<Anchor>//api/name/instrumentationDelegateInternal</Anchor>
+            <NodeRef refid="34"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRestAPI/instrumentationDelegateInternal</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, strong) id&lt;SFRestRequestDelegate&gt; instrumentationDelegateInternal</Declaration>
+			
+			
+			<Anchor>//api/name/instrumentationDelegateInternal</Anchor>
+            <NodeRef refid="34"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/removeActiveRequestObject:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)removeActiveRequestObject:(nonnull SFRestRequest *)request</Declaration>
+			
+			
+			<Anchor>//api/name/removeActiveRequestObject:</Anchor>
+            <NodeRef refid="34"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/forceTimeoutRequest:</TokenIdentifier>
+			<Abstract type="html">Force a request to timeout: for testing only!</Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)forceTimeoutRequest:(nonnull SFRestRequest *)req</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>fields</Name>
-					<Abstract type="html">- NSArray of fields to select</Abstract>
-				</Parameter><Parameter>
-					<Name>sObject</Name>
-					<Abstract type="html">- object to query</Abstract>
-				</Parameter><Parameter>
-					<Name>whereClause</Name>
-					<Abstract type="html">- nil OR where clause</Abstract>
-				</Parameter><Parameter>
-					<Name>groupBy</Name>
-					<Abstract type="html">- nil OR NSArray of strings, each string is an individual group by clause</Abstract>
-				</Parameter><Parameter>
-					<Name>having</Name>
-					<Abstract type="html">- nil OR having clause</Abstract>
-				</Parameter><Parameter>
-					<Name>orderBy</Name>
-					<Abstract type="html">- nil OR NSArray of strings, each string is an individual order by clause</Abstract>
-				</Parameter><Parameter>
-					<Name>limit</Name>
-					<Abstract type="html">- limit count, or 0 for no limit (for use with query locators)</Abstract>
+					<Name>req</Name>
+					<Abstract type="html">The request to force a timeout on, or nil to grab any active request and force it to timeout</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">query or nil if a query could not be generated</Abstract></ReturnValue>
-			<Anchor>//api/name/SOQLQueryWithFields:sObject:whereClause:groupBy:having:orderBy:limit:</Anchor>
+			<ReturnValue><Abstract type="html">YES if we were able to find and timeout the request, NO if the request could not be found</Abstract></ReturnValue>
+			<Anchor>//api/name/forceTimeoutRequest:</Anchor>
+            <NodeRef refid="34"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/computeAPIVersion:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>- (nonnull NSString *)computeAPIVersion:(nullable NSString *)apiVersion</Declaration>
+			
+			
+			<Anchor>//api/name/computeAPIVersion:</Anchor>
+            <NodeRef refid="34"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/removeSharedInstanceWithUser:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (void)removeSharedInstanceWithUser:(nonnull SFUserAccount *)user</Declaration>
+			
+			
+			<Anchor>//api/name/removeSharedInstanceWithUser:</Anchor>
             <NodeRef refid="34"/>
 		</Token>
 		
@@ -1329,200 +1416,130 @@ create a new file at version 1.</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForNotificationsStatus:</TokenIdentifier>
-			<Abstract type="html">Returns a request to fetch the status of notifications, including unread and unseen count.</Abstract>
-			<DeclaredIn>SFRestAPI+Notifications.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/sanitizeSOSLSearchTerm:</TokenIdentifier>
+			<Abstract type="html">The search term to be sanitized.</Abstract>
+			<DeclaredIn>SFRestAPI+QueryBuilder.h</DeclaredIn>
 			
-			<Declaration>- (SFRestRequest *)requestForNotificationsStatus:(NSString *)apiVersion</Declaration>
+			<Declaration>+ (NSString *)sanitizeSOSLSearchTerm:(NSString *)searchTerm</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>apiVersion</Name>
-					<Abstract type="html">API version.</Abstract>
+					<Name>searchTerm</Name>
+					<Abstract type="html">The search term to be sanitized.</Abstract>
 				</Parameter>
 			</Parameters>
-			
-			<Anchor>//api/name/requestForNotificationsStatus:</Anchor>
+			<ReturnValue><Abstract type="html">SOSL-safe version of search term</Abstract></ReturnValue>
+			<Anchor>//api/name/sanitizeSOSLSearchTerm:</Anchor>
             <NodeRef refid="34"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requestForNotification:apiVersion:</TokenIdentifier>
-			<Abstract type="html">Returns a request to fetch the given notification.</Abstract>
-			<DeclaredIn>SFRestAPI+Notifications.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/SOSLSearchWithSearchTerm:objectScope:</TokenIdentifier>
+			<Abstract type="html">Generate a SOSL search.</Abstract>
+			<DeclaredIn>SFRestAPI+QueryBuilder.h</DeclaredIn>
 			
-			<Declaration>- (SFRestRequest *)requestForNotification:(NSString *)notificationId apiVersion:(NSString *)apiVersion</Declaration>
+			<Declaration>+ (nullable NSString *)SOSLSearchWithSearchTerm:(NSString *)term objectScope:(nullable NSDictionary&lt;NSString*,NSString*&gt; *)objectScope</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>notificationId</Name>
-					<Abstract type="html">ID of notification to fetch.</Abstract>
+					<Name>term</Name>
+					<Abstract type="html">- the search term. This is sanitized for proper characters</Abstract>
 				</Parameter><Parameter>
-					<Name>apiVersion</Name>
-					<Abstract type="html">API version.</Abstract>
+					<Name>objectScope</Name>
+					<Abstract type="html">- nil to search all searchable objects, or a dictionary where each key is an sObject name
+and each value is a string with the fieldlist and (optional) where, order by, and limit clause for that object.
+or NSNull to not specify any fields/clauses for that object</Abstract>
 				</Parameter>
 			</Parameters>
-			
-			<Anchor>//api/name/requestForNotification:apiVersion:</Anchor>
+			<ReturnValue><Abstract type="html">query or nil if a query could not be generated</Abstract></ReturnValue>
+			<Anchor>//api/name/SOSLSearchWithSearchTerm:objectScope:</Anchor>
             <NodeRef refid="34"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/setActiveRequests:</TokenIdentifier>
-			<Abstract type="html">Active requests property.</Abstract>
-			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/SOSLSearchWithSearchTerm:fieldScope:objectScope:limit:</TokenIdentifier>
+			<Abstract type="html">Generate a SOSL search.</Abstract>
+			<DeclaredIn>SFRestAPI+QueryBuilder.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKSafeMutableSet *activeRequests</Declaration>
-			
-			
-			<Anchor>//api/name/activeRequests</Anchor>
-            <NodeRef refid="34"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/activeRequests</TokenIdentifier>
-			<Abstract type="html">Active requests property.</Abstract>
-			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKSafeMutableSet *activeRequests</Declaration>
-			
-			
-			<Anchor>//api/name/activeRequests</Anchor>
-            <NodeRef refid="34"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFRestAPI/activeRequests</TokenIdentifier>
-			<Abstract type="html">Active requests property.</Abstract>
-			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, strong, nonnull) SFSDKSafeMutableSet *activeRequests</Declaration>
-			
-			
-			<Anchor>//api/name/activeRequests</Anchor>
-            <NodeRef refid="34"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/setRequiresAuthentication:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL requiresAuthentication</Declaration>
-			
-			
-			<Anchor>//api/name/requiresAuthentication</Anchor>
-            <NodeRef refid="34"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/requiresAuthentication</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL requiresAuthentication</Declaration>
-			
-			
-			<Anchor>//api/name/requiresAuthentication</Anchor>
-            <NodeRef refid="34"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFRestAPI/requiresAuthentication</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL requiresAuthentication</Declaration>
-			
-			
-			<Anchor>//api/name/requiresAuthentication</Anchor>
-            <NodeRef refid="34"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/setInstrumentationDelegateInternal:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, nonatomic, strong) id&lt;SFRestRequestDelegate&gt; instrumentationDelegateInternal</Declaration>
-			
-			
-			<Anchor>//api/name/instrumentationDelegateInternal</Anchor>
-            <NodeRef refid="34"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/instrumentationDelegateInternal</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, nonatomic, strong) id&lt;SFRestRequestDelegate&gt; instrumentationDelegateInternal</Declaration>
-			
-			
-			<Anchor>//api/name/instrumentationDelegateInternal</Anchor>
-            <NodeRef refid="34"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFRestAPI/instrumentationDelegateInternal</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, nonatomic, strong) id&lt;SFRestRequestDelegate&gt; instrumentationDelegateInternal</Declaration>
-			
-			
-			<Anchor>//api/name/instrumentationDelegateInternal</Anchor>
-            <NodeRef refid="34"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/removeActiveRequestObject:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)removeActiveRequestObject:(nonnull SFRestRequest *)request</Declaration>
-			
-			
-			<Anchor>//api/name/removeActiveRequestObject:</Anchor>
-            <NodeRef refid="34"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/forceTimeoutRequest:</TokenIdentifier>
-			<Abstract type="html">Force a request to timeout: for testing only!</Abstract>
-			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)forceTimeoutRequest:(nonnull SFRestRequest *)req</Declaration>
+			<Declaration>+ (nullable NSString *)SOSLSearchWithSearchTerm:(NSString *)term fieldScope:(nullable NSString *)fieldScope objectScope:(nullable NSDictionary&lt;NSString*,NSString*&gt; *)objectScope limit:(NSInteger)limit</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>req</Name>
-					<Abstract type="html">The request to force a timeout on, or nil to grab any active request and force it to timeout</Abstract>
+					<Name>term</Name>
+					<Abstract type="html">- the search term. This is sanitized for proper characters</Abstract>
+				</Parameter><Parameter>
+					<Name>fieldScope</Name>
+					<Abstract type="html">- nil OR the SOSL scope, e.g. &quot;IN ALL FIELDS&quot;. if nil, defaults to &quot;IN NAME FIELDS&quot;</Abstract>
+				</Parameter><Parameter>
+					<Name>objectScope</Name>
+					<Abstract type="html">- nil to search all searchable objects, or a dictionary where each key is an sObject name
+and each value is a string with the fieldlist and (optional) where, order by, and limit clause for that object.
+or NSNull to not specify any fields/clauses for that object</Abstract>
+				</Parameter><Parameter>
+					<Name>limit</Name>
+					<Abstract type="html">- overall search limit (max 200)</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">YES if we were able to find and timeout the request, NO if the request could not be found</Abstract></ReturnValue>
-			<Anchor>//api/name/forceTimeoutRequest:</Anchor>
+			<ReturnValue><Abstract type="html">query or nil if a query could not be generated</Abstract></ReturnValue>
+			<Anchor>//api/name/SOSLSearchWithSearchTerm:fieldScope:objectScope:limit:</Anchor>
             <NodeRef refid="34"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/computeAPIVersion:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/SOQLQueryWithFields:sObject:whereClause:limit:</TokenIdentifier>
+			<Abstract type="html">Generate a SOQL query.</Abstract>
+			<DeclaredIn>SFRestAPI+QueryBuilder.h</DeclaredIn>
 			
-			<Declaration>- (nonnull NSString *)computeAPIVersion:(nullable NSString *)apiVersion</Declaration>
-			
-			
-			<Anchor>//api/name/computeAPIVersion:</Anchor>
+			<Declaration>+ (nullable NSString *)SOQLQueryWithFields:(NSArray&lt;NSString*&gt; *)fields sObject:(NSString *)sObject whereClause:(nullable NSString *)whereClause limit:(NSInteger)limit</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>fields</Name>
+					<Abstract type="html">- NSArray of fields to select</Abstract>
+				</Parameter><Parameter>
+					<Name>sObject</Name>
+					<Abstract type="html">- object to query</Abstract>
+				</Parameter><Parameter>
+					<Name>whereClause</Name>
+					<Abstract type="html">- nil OR where clause</Abstract>
+				</Parameter><Parameter>
+					<Name>limit</Name>
+					<Abstract type="html">- limit count, or 0 for no limit (for use with query locators)</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">query or nil if a query could not be generated</Abstract></ReturnValue>
+			<Anchor>//api/name/SOQLQueryWithFields:sObject:whereClause:limit:</Anchor>
             <NodeRef refid="34"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/removeSharedInstanceWithUser:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/SOQLQueryWithFields:sObject:whereClause:groupBy:having:orderBy:limit:</TokenIdentifier>
+			<Abstract type="html">Generate a SOQL query.</Abstract>
+			<DeclaredIn>SFRestAPI+QueryBuilder.h</DeclaredIn>
 			
-			<Declaration>+ (void)removeSharedInstanceWithUser:(nonnull SFUserAccount *)user</Declaration>
-			
-			
-			<Anchor>//api/name/removeSharedInstanceWithUser:</Anchor>
+			<Declaration>+ (nullable NSString *)SOQLQueryWithFields:(NSArray&lt;NSString*&gt; *)fields sObject:(NSString *)sObject whereClause:(nullable NSString *)whereClause groupBy:(nullable NSArray&lt;NSString*&gt; *)groupBy having:(nullable NSString *)having orderBy:(nullable NSArray&lt;NSString*&gt; *)orderBy limit:(NSInteger)limit</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>fields</Name>
+					<Abstract type="html">- NSArray of fields to select</Abstract>
+				</Parameter><Parameter>
+					<Name>sObject</Name>
+					<Abstract type="html">- object to query</Abstract>
+				</Parameter><Parameter>
+					<Name>whereClause</Name>
+					<Abstract type="html">- nil OR where clause</Abstract>
+				</Parameter><Parameter>
+					<Name>groupBy</Name>
+					<Abstract type="html">- nil OR NSArray of strings, each string is an individual group by clause</Abstract>
+				</Parameter><Parameter>
+					<Name>having</Name>
+					<Abstract type="html">- nil OR having clause</Abstract>
+				</Parameter><Parameter>
+					<Name>orderBy</Name>
+					<Abstract type="html">- nil OR NSArray of strings, each string is an individual order by clause</Abstract>
+				</Parameter><Parameter>
+					<Name>limit</Name>
+					<Abstract type="html">- limit count, or 0 for no limit (for use with query locators)</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">query or nil if a query could not be generated</Abstract></ReturnValue>
+			<Anchor>//api/name/SOQLQueryWithFields:sObject:whereClause:groupBy:having:orderBy:limit:</Anchor>
             <NodeRef refid="34"/>
 		</Token>
 		

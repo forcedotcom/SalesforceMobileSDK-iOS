@@ -52,6 +52,37 @@
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKAuthHelper/loginIfRequired:frontDoorBridgeUrl:codeVerifier:completion:</TokenIdentifier>
+			<Abstract type="html">Initiate a login flow if the user is not already logged in to Salesforce and if the app config&apos;s
+shouldAuthenticate flag is set to false.</Abstract>
+			<DeclaredIn>SFSDKAuthHelper.h</DeclaredIn>
+			
+			<Declaration>+ (void)loginIfRequired:(nullable UIScene *)scene frontDoorBridgeUrl:(nullable NSURL *)frontDoorBridgeUrl codeVerifier:(nullable NSString *)codeVerifier completion:(void ( ^ ) ( void ))completionBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>scene</Name>
+					<Abstract type="html">Scene that login is initiated for.</Abstract>
+				</Parameter><Parameter>
+					<Name>frontDoorBridgeUrl</Name>
+					<Abstract type="html">Optionally, a Salesforce Identity API front door bridge URL to use in place
+of the default log in URL</Abstract>
+				</Parameter><Parameter>
+					<Name>codeVerifier</Name>
+					<Abstract type="html">Optionally and only with the front door bridge URL parameter, a code verifier to use
+when the front door bridge URL is using web server authentication</Abstract>
+				</Parameter><Parameter>
+					<Name>completionBlock</Name>
+					<Abstract type="html">Block that executes immediately if the user is already logged in or if the app
+config&apos;s shouldAuthenticate is set to false. Otherwise, this block executes after the user logs in successfully
+if login is required.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/loginIfRequired:frontDoorBridgeUrl:codeVerifier:completion:</Anchor>
+            <NodeRef refid="49"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/SFSDKAuthHelper/handleLogout:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSDKAuthHelper.h</DeclaredIn>

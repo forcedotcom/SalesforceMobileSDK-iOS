@@ -188,6 +188,42 @@ backgrounding and foregrounding state.</Abstract>
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/setIsQrCodeLoginEnabled:</TokenIdentifier>
+			<Abstract type="html">* Indicates if login via QR Code and UI bridge API is enabled</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isQrCodeLoginEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/isQrCodeLoginEnabled</Anchor>
+            <NodeRef refid="141"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/isQrCodeLoginEnabled</TokenIdentifier>
+			<Abstract type="html">* Indicates if login via QR Code and UI bridge API is enabled</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isQrCodeLoginEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/isQrCodeLoginEnabled</Anchor>
+            <NodeRef refid="141"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SalesforceSDKManager/isQrCodeLoginEnabled</TokenIdentifier>
+			<Abstract type="html">* Indicates if login via QR Code and UI bridge API is enabled</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isQrCodeLoginEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/isQrCodeLoginEnabled</Anchor>
+            <NodeRef refid="141"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/setURLCacheType:</TokenIdentifier>
 			<Abstract type="html">The type of cache used for the shared URL cache, defaults to kSFURLCacheTypeEncrypted.</Abstract>
 			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>

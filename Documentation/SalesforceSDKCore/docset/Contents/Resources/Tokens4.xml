@@ -45,6 +45,18 @@ on platform that doesn&apos;t have one (such as extension).</Abstract>
             <NodeRef refid="4"/>
 		</Token>
 		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFApplicationHelper/openURL:options:completionHandler:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFApplicationHelper.h</DeclaredIn>
+			
+			<Declaration>+ (void)openURL:(NSURL *)url options:(NSDictionary&lt;UIApplicationOpenExternalURLOptionsKey,id&gt; *)options completionHandler:(void ( ^ __nullable ) ( BOOL success ))completion</Declaration>
+			
+			
+			<Anchor>//api/name/openURL:options:completionHandler:</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
         
         
 	</File>

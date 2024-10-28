@@ -85,6 +85,42 @@
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/setBiometricButton:</TokenIdentifier>
+			<Abstract type="html">The biometric log in button</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) UIButton *biometricButton</Declaration>
+			
+			
+			<Anchor>//api/name/biometricButton</Anchor>
+            <NodeRef refid="19"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/biometricButton</TokenIdentifier>
+			<Abstract type="html">The biometric log in button</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) UIButton *biometricButton</Declaration>
+			
+			
+			<Anchor>//api/name/biometricButton</Anchor>
+            <NodeRef refid="19"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLoginViewController/biometricButton</TokenIdentifier>
+			<Abstract type="html">The biometric log in button</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nullable) UIButton *biometricButton</Declaration>
+			
+			
+			<Anchor>//api/name/biometricButton</Anchor>
+            <NodeRef refid="19"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/set:</TokenIdentifier>
 			<Abstract type="html">Specify the font to use for navigation bar header text.</Abstract>
 			<DeclaredIn>SFLoginViewController.h</DeclaredIn>

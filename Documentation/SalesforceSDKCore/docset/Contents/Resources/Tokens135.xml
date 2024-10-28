@@ -1894,14 +1894,14 @@ This will post user update notification.</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/authenticateWithRequest:completion:failure:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/authenticateWithRequest:completion:failure:frontDoorBridgeUrl:codeVerifier:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)authenticateWithRequest:(SFSDKAuthRequest *)request completion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock</Declaration>
+			<Declaration>- (BOOL)authenticateWithRequest:(SFSDKAuthRequest *)request completion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock frontDoorBridgeUrl:(nullable NSURL *)frontDoorBridgeUrl codeVerifier:(nullable NSString *)codeVerifier</Declaration>
 			
 			
-			<Anchor>//api/name/authenticateWithRequest:completion:failure:</Anchor>
+			<Anchor>//api/name/authenticateWithRequest:completion:failure:frontDoorBridgeUrl:codeVerifier:</Anchor>
             <NodeRef refid="135"/>
 		</Token>
 		
@@ -1926,6 +1926,18 @@ This will post user update notification.</Abstract>
 			
 			
 			<Anchor>//api/name/loginWithCompletion:failure:scene:</Anchor>
+            <NodeRef refid="135"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/loginWithCompletion:failure:scene:frontDoorBridgeUrl:codeVerifier:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)loginWithCompletion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock scene:(UIScene *)scene frontDoorBridgeUrl:(nullable NSURL *)frontDoorBridgeUrl codeVerifier:(nullable NSString *)codeVerifier</Declaration>
+			
+			
+			<Anchor>//api/name/loginWithCompletion:failure:scene:frontDoorBridgeUrl:codeVerifier:</Anchor>
             <NodeRef refid="135"/>
 		</Token>
 		
