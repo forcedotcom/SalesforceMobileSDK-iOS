@@ -32,7 +32,7 @@ The Salesforce Mobile SDK for iOS requires iOS 15.0 or greater.  The install.sh 
 Introduction
 ==
 
-### What's New in 12.2.0
+### What's New in 13.0.0
 See [release notes](https://github.com/forcedotcom/SalesforceMobileSDK-iOS/releases).
 
 ### Native Applications
