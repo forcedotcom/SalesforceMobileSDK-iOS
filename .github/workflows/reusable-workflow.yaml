@@ -1,0 +1,44 @@
+on:
+  workflow_call:
+    inputs:
+      lib:
+        required: true
+        type: string
+      ios:
+        default: '^18'
+        required: false
+        type: string
+      xcode:
+        default: '^16'
+        required: false
+        type: string
+
+jobs:
+  test-ios:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4.1.0
+      - name: Install Dependencies
+        run: |
+          npm install shelljs@0.8.5
+          ./install.sh
+          ./build/pre-build
+      - name: Static Analysis and Danger
+        if: ${{ github.event_name == 'pull_request' }}
+        run: |
+          xcodebuild analyze -workspace SalesforceMobileSDK.xcworkspace -scheme ${{ inputs.lib }} -sdk 'iphonesimulator' \
+            CLANG_ANALYZER_OUTPUT=plist-html CLANG_ANALYZER_OUTPUT_DIR=./clangReport RUN_CLANG_STATIC_ANALYZER=YES
+      - uses: mxcl/xcodebuild@v3
+        with:
+          xcode: ${{ inputs.xcode }}
+          platform: iOS
+          platform-version: ${{ inputs.ios }}
+          workspace: SalesSalesforceMobileSDK.xcworkspace
+          scheme: ${{ inputs.lib }}
+          code-coverage: ${{ github.event_name == 'pull_request' }}
+          upload-logs: always
+      - uses: kishikawakatsumi/xcresulttool@v1
+        with:
+          path: test.xcresult
+        if: success() || failure()
+      

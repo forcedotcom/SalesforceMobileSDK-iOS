@@ -1,0 +1,17 @@
+name: Nightly Tests
+
+on: 
+  schedule:
+    - cron: "0 5 * * 3,5"  # cron is UTC, this translates to 10 PM PST Tues and Thur.
+
+jobs:
+  ios-pr:
+    strategy:
+      fail-fast: false
+      matrix:
+        lib: [SalesforceSDKCommon, SalesforceAnalytics, SalesforceSDKCore, SmartStore, MobileSync]
+        ios: [^18, ^17]
+    uses: ./.github/workflows/reusable-workflow.yaml
+    with:
+      lib: ${{ matrix.lib }}
+      ios: ${{ matirx.ios }}
