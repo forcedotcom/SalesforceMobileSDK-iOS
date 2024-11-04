@@ -1,4 +1,5 @@
 on:
+  workflow_dispatch:
   workflow_call:
     inputs:
       lib:
@@ -21,10 +22,12 @@ jobs:
         with:
           fetch-depth: 100
       - name: Install Dependencies
+        env: 
+          TEST_CREDENTIALS: ${{ secrets.TEST_CREDENTIALS }}
         run: |
           npm install shelljs@0.8.5
           ./install.sh
-          echo ${{ secrets.TEST_CREDENTIALS }} > ./shared/test/test_credentials.json
+          echo $TEST_CREDENTIALS > ./shared/test/test_credentials.json
       - uses: mxcl/xcodebuild@v3
         with:
           xcode: ${{ inputs.xcode }}
@@ -35,10 +38,16 @@ jobs:
           code-coverage: ${{ github.event_name == 'pull_request' }}
           upload-logs: always
       - name: Danger Test Results
-        if: ${{ github.event_name == 'pull_request' }} && (success() || failure())
+        if: (github.event_name == 'pull_request') && failure()
         env:
           DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cd .github
+          cd .github/DangerFiles
           bundle update && bundle install
-          bundle exec danger --dangerfile=DangerTestResults.rb --danger_id=${{ inputs.lib }}
+          bundle exec danger --dangerfile=TestResults.rb --danger_id=${{ inputs.lib }}
+      - uses: codecov/codecov-action@v4
+        with:
+          flags: ${{ inputs.lib }}
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        if: success() || failure()

@@ -8,8 +8,6 @@ on:
 jobs:
   static-analysis:
     runs-on: macos-latest
-    outputs:
-      libs: ${{ steps.danger.outputs.libs }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -19,24 +17,43 @@ jobs:
         run: |
           npm install shelljs@0.8.5
           ./install.sh
-      - name: Static Analysis and Danger
-        if: ${{ github.event_name == 'pull_request' }} && (success() || failure())
-        id: danger
+      - name: Run Static Analysis
+        # It would be nice to use xcbeaufity here but all the warnings and errors get annotated onto the PR, including 
+        # files not mofified in the PR which is annoying.  
+        run: xcodebuild analyze -workspace SalesforceMobileSDK.xcworkspace -scheme MobileSync -sdk 'iphonesimulator' \
+            CLANG_ANALYZER_OUTPUT=plist-html CLANG_ANALYZER_OUTPUT_DIR=./clangReport RUN_CLANG_STATIC_ANALYZER=YES
+      - name: Report Static Analysis
         env:
           DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          xcodebuild analyze -workspace SalesforceMobileSDK.xcworkspace -scheme MobileSync -sdk 'iphonesimulator' \
-            CLANG_ANALYZER_OUTPUT=plist-html CLANG_ANALYZER_OUTPUT_DIR=./clangReport RUN_CLANG_STATIC_ANALYZER=YES | xcbeautify
-          cd .github
+          cd .github/DangerFiles
           bundle update && bundle install
-          bundle exec danger --dangerfile=DangerStaticAnalysis.rb
+          bundle exec danger --dangerfile=StaticAnalysis.rb --danger_id=StaticAnalysis
+
+  test-orchestrator:
+    runs-on: macos-latest
+    outputs:
+      libs: ${{ steps.test-orchestrator.outputs.libs }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 100
+      - name: Determine Tests to Run
+        id: test-orchestrator
+        env:
+          DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd .github/DangerFiles
+          bundle update && bundle install
+          bundle exec danger --dangerfile=TestOrchestrator.rb
 
   ios-pr:
-    needs: [static-analysis]
+    needs: [test-orchestrator]
     strategy:
       fail-fast: false
       matrix:
-        lib: ${{ fromJson(needs.static-analysis.outputs.libs) }}
+        lib: ${{ fromJson(needs.test-orchestrator.outputs.libs) }}
     uses: ./.github/workflows/reusable-workflow.yaml
     with:
       lib: ${{ matrix.lib }}
