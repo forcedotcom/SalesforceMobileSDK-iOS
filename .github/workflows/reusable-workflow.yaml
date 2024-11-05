@@ -37,7 +37,7 @@ jobs:
           platform-version: ${{ inputs.ios }}
           workspace: SalesforceMobileSDK.xcworkspace
           scheme: ${{ inputs.lib }}
-          code-coverage: ${{ github.event_name == 'pull_request' }}
+          code-coverage: true
           upload-logs: always
       - name: Danger Test Results
         if: (github.event_name == 'pull_request') && failure()

@@ -1,4 +1,3 @@
-
 $git_pr_api = "https://api.github.com/repos/%s/SalesforceMobileSDK-iOS/pulls/%s/files"
 $schemes = ['SalesforceSDKCommon', 'SalesforceAnalytics', 'SalesforceSDKCore', 'SmartStore', 'MobileSync']
 ENV['DEVICE'] = 'iPhone-SE-3rd-generation' unless ENV.has_key?('DEVICE')
@@ -86,7 +85,7 @@ def test_scheme(scheme)
   system('xcrun simctl delete test_device') or true
   sim_id = `xcrun simctl create test_device com.apple.CoreSimulator.SimDeviceType.#{device} com.apple.CoreSimulator.SimRuntime.iOS-#{ios_code}`.delete("\n")
   ios_version = `xcrun xctrace list devices | grep test_device | awk -F"[()]" '{print $2}'`.delete("\n")
-
+  
   if (ios_version.empty?) 
     UI.user_error!('Invalid Test Device.')
   end
