@@ -4,7 +4,6 @@ SCHEMES = ['SalesforceSDKCommon', 'SalesforceAnalytics', 'SalesforceSDKCore', 'S
 modifed_libs = Set[]
 for file in (git.modified_files + git.added_files);
     scheme = file.split("libs/").last.split("/").first
-    print "lib: #{scheme}\n"
     if scheme == '.github'
         # If CI files are modified, run all tests
         modifed_libs.merge(SCHEMES)

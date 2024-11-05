@@ -11,6 +11,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        # We need a sufficient depth or Danger will occasionally run into issues 
+        # checking which files were modified.
         with:
           fetch-depth: 100
       - name: Install Dependencies
@@ -37,6 +39,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        # We need a sufficient depth or Danger will occasionally run into issues 
+        # checking which files were modified.
         with:
           fetch-depth: 100
       - name: Determine Tests to Run
@@ -57,3 +61,4 @@ jobs:
     uses: ./.github/workflows/reusable-workflow.yaml
     with:
       lib: ${{ matrix.lib }}
+    secrets: inherit
