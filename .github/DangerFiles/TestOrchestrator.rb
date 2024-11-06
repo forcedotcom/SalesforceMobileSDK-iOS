@@ -4,10 +4,7 @@ SCHEMES = ['SalesforceSDKCommon', 'SalesforceAnalytics', 'SalesforceSDKCore', 'S
 modifed_libs = Set[]
 for file in (git.modified_files + git.added_files);
     scheme = file.split("libs/").last.split("/").first
-    if scheme == '.github'
-        # If CI files are modified, run all tests
-        modifed_libs.merge(SCHEMES)
-    elsif SCHEMES.include?(scheme) 
+    if SCHEMES.include?(scheme) 
         modifed_libs.add(scheme)
     end
 end
