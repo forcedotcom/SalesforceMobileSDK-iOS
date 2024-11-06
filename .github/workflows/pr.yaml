@@ -1,7 +1,8 @@
 name: Pull Request
 
-on: 
-  pull_request:
+on:
+  # Dangerious without Member Check setep! 
+  pull_request_target:
     branches:
       - dev
 
@@ -9,12 +10,18 @@ jobs:
   static-analysis:
     runs-on: macos-latest
     steps:
+      - name: Member Check
+        if: ${{ github.event.pull_request.author_association != 'MEMBER' }}
+        run: |
+          echo "Pull Request not triggered by a MSDK team member.  Someone from the team needs to rerun this workflow AFTER it has been deemed safe."
+          exit 1
       - name: Checkout
         uses: actions/checkout@v4
-        # We need a sufficient depth or Danger will occasionally run into issues 
-        # checking which files were modified.
         with:
+          # We need a sufficient depth or Danger will occasionally run into issues checking which files were modified.
           fetch-depth: 100
+          # This is dangerous without the member check
+          ref: ${{ github.event.pull_request.head.sha }} 
       - name: Install Dependencies
         run: |
           npm install shelljs@0.8.5
@@ -37,12 +44,18 @@ jobs:
     outputs:
       libs: ${{ steps.test-orchestrator.outputs.libs }}
     steps:
+      - name: Member Check
+        if: ${{ github.event.pull_request.author_association != 'MEMBER' }}
+        run: |
+          echo "Pull Request not triggered by a MSDK team member.  Someone from the team needs to rerun this workflow AFTER it has been deemed safe."
+          exit 1
       - name: Checkout
         uses: actions/checkout@v4
-        # We need a sufficient depth or Danger will occasionally run into issues 
-        # checking which files were modified.
         with:
+          # We need a sufficient depth or Danger will occasionally run into issues checking which files were modified.
           fetch-depth: 100
+          # This is dangerous without the member check
+          ref: ${{ github.event.pull_request.head.sha }} 
       - name: Determine Tests to Run
         id: test-orchestrator
         env:
