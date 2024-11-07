@@ -107,6 +107,10 @@ NSException * SFOAuthInvalidIdentifierException() {
                 self.contentDomain = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthContentDomain"];
                 self.contentSid  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthContentSID"];
                 self.csrfToken  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthCSRFToken"];
+                self.cookieClientSrc  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthClientSrc"];
+                self.cookieSidClient  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthCookieSidClient"];
+                self.sidCookieName  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthSidCookieName"];
+
             }
         }
     } else {
@@ -135,6 +139,9 @@ NSException * SFOAuthInvalidIdentifierException() {
     [coder encodeObject:self.contentDomain      forKey:@"SFOAuthContentDomain"];
     [coder encodeObject:self.contentSid         forKey:@"SFOAuthContentSID"];
     [coder encodeObject:self.csrfToken          forKey:@"SFOAuthCSRFToken"];
+    [coder encodeObject:self.cookieClientSrc    forKey:@"SFOAuthClientSrc"];
+    [coder encodeObject:self.cookieSidClient    forKey:@"SFOAuthCookieSidClient"];
+    [coder encodeObject:self.sidCookieName      forKey:@"SFOAuthSidCookieName"];
     [coder encodeObject:kSFOAuthArchiveVersion  forKey:@"SFOAuthArchiveVersion"];
     [coder encodeObject:@(self.isEncrypted)     forKey:@"SFOAuthEncrypted"];
     [coder encodeObject:self.additionalOAuthFields forKey:@"SFOAuthAdditionalFields"];
@@ -198,6 +205,9 @@ NSException * SFOAuthInvalidIdentifierException() {
     copyCreds.contentDomain = self.contentDomain;
     copyCreds.contentSid = self.contentSid;
     copyCreds.csrfToken = self.csrfToken;
+    copyCreds.cookieClientSrc = self.cookieClientSrc;
+    copyCreds.cookieSidClient = self.cookieSidClient;
+    copyCreds.sidCookieName = self.sidCookieName;
     copyCreds.additionalOAuthFields = [self.additionalOAuthFields copy];
     return copyCreds;
 }
@@ -303,6 +313,9 @@ NSException * SFOAuthInvalidIdentifierException() {
     self.contentDomain = nil;
     self.contentSid = nil;
     self.csrfToken = nil;
+    self.cookieClientSrc = nil;
+    self.cookieSidClient = nil;
+    self.sidCookieName = nil;
 }
 
 - (void)setPropertyForKey:(NSString *) propertyName withValue:(id) newValue {
@@ -387,6 +400,16 @@ NSException * SFOAuthInvalidIdentifierException() {
     if (params[kSFOAuthCSRFToken]) {
         self.csrfToken = params[kSFOAuthCSRFToken];
     }
+    if (params[kSFOAuthCookieClientSrc]) {
+        self.cookieClientSrc = params[kSFOAuthCookieClientSrc];
+    }
+    if (params[kSFOAuthCookieSidClient]) {
+        self.cookieSidClient = params[kSFOAuthCookieSidClient];
+    }
+    if (params[kSFOAuthSidCookieName]) {
+        self.sidCookieName = params[kSFOAuthSidCookieName];
+    }
+
 }
 
 @end

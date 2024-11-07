@@ -68,6 +68,9 @@ extern NSException * _Nullable SFOAuthInvalidIdentifierException(void);
 @property (nonatomic, readwrite, nullable) NSString *contentDomain;
 @property (nonatomic, readwrite, nullable) NSString *contentSid;
 @property (nonatomic, readwrite, nullable) NSString *csrfToken;
+@property (nonatomic, readwrite, nullable) NSString *cookieClientSrc;
+@property (nonatomic, readwrite, nullable) NSString *cookieSidClient;
+@property (nonatomic, readwrite, nullable) NSString *sidCookieName;
 
 - (void)setPropertyForKey:(NSString *_Nonnull) key withValue:(id _Nullable ) newValue;
 

@@ -133,6 +133,9 @@ NS_SWIFT_NAME(OAuthCredentials)
 @property (nonatomic, readonly, nullable) NSString *contentDomain;
 @property (nonatomic, readonly, nullable) NSString *contentSid;
 @property (nonatomic, readonly, nullable) NSString *csrfToken;
+@property (nonatomic, readonly, nullable) NSString *cookieClientSrc;
+@property (nonatomic, readonly, nullable) NSString *cookieSidClient;
+@property (nonatomic, readonly, nullable) NSString *sidCookieName;
 
 /** A readonly convenience property returning the Salesforce Organization ID provided in the path component of the identityUrl.
  
