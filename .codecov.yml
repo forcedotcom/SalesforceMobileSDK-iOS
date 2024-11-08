@@ -12,31 +12,26 @@ coverage:
     project:
       default: false  # disable the default status that measures entire project
       SalesforceAnalytics:
-        target: auto
         paths: 
           - "libs/SalesforceAnalytics/SalesforceAnalytics/"
         flags: 
           - SalesforceAnalytics
       SalesforceSDKCommon:
-        target: auto
         paths: 
           - "libs/SalesforceSDKCore/SalesforceSDKCommon/"
         flags: 
           - SalesforceSDKCommon
       SalesforceSDKCore:
-        target: auto
         paths: 
           - "libs/SalesforceSDKCore/SalesforceSDKCore/"
         flags: 
           - SalesforceSDKCore
       SmartStore:
-        target: auto
         paths: 
           - "libs/SmartStore/SmartStore/"
         flags: 
           - SmartStore
       MobileSync:
-        target: auto
         paths: 
           - "libs/MobileSync/MobileSync/"
         flags: 
@@ -51,7 +46,29 @@ flag_management:
   default_rules: # the rules that will be followed for any flag added, generally
     carryforward: true
 
+# PR comment layout
 comment:
-  layout: "diff, flags, files"
+  layout: "diff, components, files"
   behavior: default
   require_changes: false
+
+component_management:
+  individual_components:
+    - component_id: SalesforceAnalytics  # this is an identifier that should not be changed
+      name: Analytics  # this is a display name, and can be changed freely
+      paths: 
+        - "libs/SalesforceAnalytics/SalesforceAnalytics/"
+    - component_id: SalesforceSDKCommon
+      name: Common
+      paths: 
+        - "libs/SalesforceSDKCommon/SalesforceSDKCommon/"
+    - component_id: SalesforceSDKCore
+      name: Core
+      paths: 
+        - "libs/SalesforceSDKCore/SalesforceSDKCore/"
+    - component_id: SmartStore
+      paths: 
+        - "libs/SmartStore/SmartStore/"
+    - component_id: MobileSync
+      paths: 
+        - "libs/MobileSync/MobileSync/"
