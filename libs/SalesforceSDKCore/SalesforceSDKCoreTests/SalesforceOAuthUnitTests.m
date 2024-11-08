@@ -131,11 +131,19 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     credsIn.identityUrl     = [NSURL URLWithString:@"https://login.salesforce.com/ID/orgID/eighteenCharUsrXYZ"];
     credsIn.instanceUrl     = [NSURL URLWithString:@"http://www.salesforce.com"];
     credsIn.issuedAt        = [NSDate date];
+    credsIn.contentDomain   = @"mobilesdk.my.salesforce.com";
+    credsIn.contentSid      = @"contentsid";
+    credsIn.lightningDomain = @"mobilesdk.lightning.force.com";
+    credsIn.lightningSid    = @"lightningsid";
+    credsIn.vfDomain        = @"mobilesdk.vf.force.com";
+    credsIn.vfSid           = @"vfsid";
+    credsIn.csrfToken       = @"csrf-token-test";
+    credsIn.cookieClientSrc = @"cookie-client-src-test";
+    credsIn.cookieSidClient = @"cookie-sid-client";
+    credsIn.sidCookieName   = @"sid-cookie-name";
+
     credsIn.additionalOAuthFields = @{
-        @"content_domain": @"mobilesdk.my.salesforce.com",
-        @"content_sid": @"contentsid",
-        @"lightning_domain": @"mobilesdk.lightning.force.com",
-        @"lightning_sid": @"lightningsid",
+        @"abc": @"def"
     };
     
     NSString *expectedUserId = @"eighteenCharUsrXYZ"; // derived from identityUrl
@@ -152,15 +160,25 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     
     XCTAssertNotNil(credsOut, @"couldn't unarchive credentials");
     
-    XCTAssertEqualObjects(credsIn.identifier,        credsOut.identifier,        @"identifier mismatch");
-    XCTAssertEqualObjects(credsIn.clientId,          credsOut.clientId,          @"clientId mismatch");
-    XCTAssertEqualObjects(credsIn.domain,            credsOut.domain,            @"domain mismatch");
-    XCTAssertEqualObjects(credsIn.redirectUri,       credsOut.redirectUri,       @"redirectUri mismatch");
-    XCTAssertEqualObjects(credsIn.organizationId,    credsOut.organizationId,    @"organizationId mismatch");
-    XCTAssertEqualObjects(credsIn.identityUrl,       credsOut.identityUrl,       @"identityUrl mistmatch");
-    XCTAssertEqualObjects(expectedUserId,            credsOut.userId,            @"userId mismatch");
-    XCTAssertEqualObjects(credsIn.instanceUrl,       credsOut.instanceUrl,       @"instanceUrl mismatch");
-    XCTAssertEqualObjects(credsIn.issuedAt,          credsOut.issuedAt,          @"issuedAt mismatch");
+    XCTAssertEqualObjects(credsIn.identifier,          credsOut.identifier,          @"identifier mismatch");
+    XCTAssertEqualObjects(credsIn.clientId,            credsOut.clientId,            @"clientId mismatch");
+    XCTAssertEqualObjects(credsIn.domain,              credsOut.domain,              @"domain mismatch");
+    XCTAssertEqualObjects(credsIn.redirectUri,         credsOut.redirectUri,         @"redirectUri mismatch");
+    XCTAssertEqualObjects(credsIn.organizationId,      credsOut.organizationId,      @"organizationId mismatch");
+    XCTAssertEqualObjects(credsIn.identityUrl,         credsOut.identityUrl,         @"identityUrl mismatch");
+    XCTAssertEqualObjects(expectedUserId,              credsOut.userId,              @"userId mismatch");
+    XCTAssertEqualObjects(credsIn.instanceUrl,         credsOut.instanceUrl,         @"instanceUrl mismatch");
+    XCTAssertEqualObjects(credsIn.issuedAt,            credsOut.issuedAt,            @"issuedAt mismatch");
+    XCTAssertEqualObjects(credsIn.contentDomain,       credsOut.contentDomain,       @"contentDomain mismatch");
+    XCTAssertEqualObjects(credsIn.contentSid,          credsOut.contentSid,          @"contentSid mismatch");
+    XCTAssertEqualObjects(credsIn.lightningDomain,     credsOut.lightningDomain,     @"lightningDomain mismatch");
+    XCTAssertEqualObjects(credsIn.lightningSid,        credsOut.lightningSid,        @"lightningSid mismatch");
+    XCTAssertEqualObjects(credsIn.vfDomain,            credsOut.vfDomain,            @"vfDomain mismatch");
+    XCTAssertEqualObjects(credsIn.vfSid,               credsOut.vfSid,               @"vfSid mismatch");
+    XCTAssertEqualObjects(credsIn.csrfToken,           credsOut.csrfToken,           @"csrfToken mismatch");
+    XCTAssertEqualObjects(credsIn.cookieClientSrc,     credsOut.cookieClientSrc,     @"cookieClientSrc mismatch");
+    XCTAssertEqualObjects(credsIn.cookieSidClient,     credsOut.cookieSidClient,     @"cookieSidClient mismatch");
+    XCTAssertEqualObjects(credsIn.sidCookieName,       credsOut.sidCookieName,       @"sidCookieName mismatch");
     XCTAssertEqualObjects(credsIn.additionalOAuthFields, credsOut.additionalOAuthFields, @"additionalFields mismatch");
     
     credsIn = nil;
@@ -179,6 +197,16 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     NSDate *issuedAtToCheck = [NSDate date];
     NSURL *identityUrlToCheck = [NSURL URLWithString:@"https://login.salesforce.com/id/someOrg/someUser"];
     NSString *userIdToCheck = @"userID";
+    NSString *contentDomainToCheck = @"mobilesdk.my.salesforce.com";
+    NSString *contentSidToCheck = @"contentsid";
+    NSString *lightningDomainToCheck = @"mobilesdk.lightning.force.com";
+    NSString *lightningSidToCheck = @"lightningsid";
+    NSString *vfDomainToCheck = @"mobilesdk.vf.force.com";
+    NSString *vfSidToCheck = @"vfsid";
+    NSString *csrfTokenToCheck = @"csrf-token-test";
+    NSString *cookieClientSrcToCheck = @"cookie-client-src-test";
+    NSString *cookieSidClientToCheck = @"cookie-sid-client";
+    NSString *sidCookieNameToCheck = @"sid-cookie-name";
     NSDictionary *additionalFieldsToCheck = @{ @"field1": @"field1Val" };
     
     SFOAuthCredentials *origCreds = [[SFOAuthCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
@@ -191,6 +219,16 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     origCreds.communityId = communityIdToCheck;
     origCreds.communityUrl = communityUrlToCheck;
     origCreds.issuedAt = issuedAtToCheck;
+    origCreds.contentDomain = contentDomainToCheck;
+    origCreds.contentSid = contentSidToCheck;
+    origCreds.lightningDomain = lightningDomainToCheck;
+    origCreds.lightningSid = lightningSidToCheck;
+    origCreds.vfDomain = vfDomainToCheck;
+    origCreds.vfSid = vfSidToCheck;
+    origCreds.csrfToken = csrfTokenToCheck;
+    origCreds.cookieClientSrc = cookieClientSrcToCheck;
+    origCreds.cookieSidClient = cookieSidClientToCheck;
+    origCreds.sidCookieName = sidCookieNameToCheck;
     
     // NB: Intentionally ordering the setting of these, because setting the identity URL automatically
     // sets the OrgID and UserID.  This ensures the values stay in sync.
@@ -214,6 +252,16 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     origCreds.issuedAt = nil;
     origCreds.identityUrl = nil;
     origCreds.userId = nil;
+    origCreds.contentDomain = nil;
+    origCreds.contentSid = nil;
+    origCreds.lightningDomain = nil;
+    origCreds.lightningSid = nil;
+    origCreds.vfDomain = nil;
+    origCreds.vfSid = nil;
+    origCreds.csrfToken = nil;
+    origCreds.cookieClientSrc = nil;
+    origCreds.cookieSidClient = nil;
+    origCreds.sidCookieName = nil;
     origCreds.additionalOAuthFields = nil;
     
     XCTAssertNotEqual(origCreds, copiedCreds);
@@ -244,6 +292,26 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     XCTAssertNotEqual(origCreds.identityUrl, copiedCreds.identityUrl);
     XCTAssertEqual(copiedCreds.userId, userIdToCheck);
     XCTAssertNotEqual(origCreds.userId, copiedCreds.userId);
+    XCTAssertEqual(copiedCreds.contentDomain, contentDomainToCheck);
+    XCTAssertNotEqual(origCreds.contentDomain, copiedCreds.contentDomain);
+    XCTAssertEqual(copiedCreds.contentSid, contentSidToCheck);
+    XCTAssertNotEqual(origCreds.contentSid, copiedCreds.contentSid);
+    XCTAssertEqual(copiedCreds.lightningDomain, lightningDomainToCheck);
+    XCTAssertNotEqual(origCreds.lightningDomain, copiedCreds.lightningDomain);
+    XCTAssertEqual(copiedCreds.lightningSid, lightningSidToCheck);
+    XCTAssertNotEqual(origCreds.lightningSid, copiedCreds.lightningSid);
+    XCTAssertEqual(copiedCreds.vfDomain, vfDomainToCheck);
+    XCTAssertNotEqual(origCreds.vfDomain, copiedCreds.vfDomain);
+    XCTAssertEqual(copiedCreds.vfSid, vfSidToCheck);
+    XCTAssertNotEqual(origCreds.vfSid, copiedCreds.vfSid);
+    XCTAssertEqual(copiedCreds.csrfToken, csrfTokenToCheck);
+    XCTAssertNotEqual(origCreds.csrfToken, copiedCreds.csrfToken);
+    XCTAssertEqual(copiedCreds.cookieClientSrc, cookieClientSrcToCheck);
+    XCTAssertNotEqual(origCreds.cookieClientSrc, copiedCreds.cookieClientSrc);
+    XCTAssertEqual(copiedCreds.cookieSidClient, cookieSidClientToCheck);
+    XCTAssertNotEqual(origCreds.cookieSidClient, copiedCreds.cookieSidClient);
+    XCTAssertEqual(copiedCreds.sidCookieName, sidCookieNameToCheck);
+    XCTAssertNotEqual(origCreds.sidCookieName, copiedCreds.sidCookieName);
     XCTAssertEqual(copiedCreds.additionalOAuthFields, additionalFieldsToCheck);
     XCTAssertNotEqual(origCreds.additionalOAuthFields, copiedCreds.additionalOAuthFields);
 }

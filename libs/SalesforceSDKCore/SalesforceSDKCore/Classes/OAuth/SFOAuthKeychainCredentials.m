@@ -128,12 +128,6 @@
         if (self.isEncrypted) {
             tokenData = [SFSDKEncryptor encryptData:tokenData key:encryptionKey error:nil];
         }
-    } else {
-        self.instanceUrl = nil;
-        self.communityId  = nil;
-        self.communityUrl = nil;
-        self.issuedAt    = nil;
-        self.identityUrl = nil;
     }
     
     BOOL updateSucceeded = [self updateKeychainWithTokenData:tokenData forService:kSFOAuthServiceRefresh];

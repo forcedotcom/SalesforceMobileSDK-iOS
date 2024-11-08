@@ -97,21 +97,18 @@ NSException * SFOAuthInvalidIdentifierException() {
             _encrypted = (encryptedBool
                           ? [encryptedBool boolValue]
                           : [coder decodeBoolForKey:@"SFOAuthEncrypted"]);
-            if ([self isMemberOfClass:[SFOAuthCredentials class]]) {
-                self.refreshToken = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthRefreshToken"];
-                self.accessToken  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthAccessToken"];
-                self.lightningDomain  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthLightningDomain"];
-                self.lightningSid  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthLightningSID"];
-                self.vfDomain  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthVFDomain"];
-                self.vfSid  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthVFSID"];
-                self.contentDomain = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthContentDomain"];
-                self.contentSid  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthContentSID"];
-                self.csrfToken  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthCSRFToken"];
-                self.cookieClientSrc  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthClientSrc"];
-                self.cookieSidClient  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthCookieSidClient"];
-                self.sidCookieName  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthSidCookieName"];
-
-            }
+            self.refreshToken = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthRefreshToken"];
+            self.accessToken  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthAccessToken"];
+            self.lightningDomain  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthLightningDomain"];
+            self.lightningSid  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthLightningSID"];
+            self.vfDomain  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthVFDomain"];
+            self.vfSid  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthVFSID"];
+            self.contentDomain = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthContentDomain"];
+            self.contentSid  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthContentSID"];
+            self.csrfToken  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthCSRFToken"];
+            self.cookieClientSrc  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthClientSrc"];
+            self.cookieSidClient  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthCookieSidClient"];
+            self.sidCookieName  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthSidCookieName"];
         }
     } else {
         self = [[clusterClass alloc] initWithCoder:coder];
