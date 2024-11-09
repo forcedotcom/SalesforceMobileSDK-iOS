@@ -37,6 +37,10 @@ extern NSString * _Nonnull const kSFOAuthServiceLegacyAccess;
 extern NSString * _Nonnull const kSFOAuthServiceLegacyRefresh;
 extern NSString * _Nonnull const kSFOAuthServiceAccess;
 extern NSString * _Nonnull const kSFOAuthServiceRefresh;
+extern NSString * _Nonnull const kSFOAuthServiceLightningSid;
+extern NSString * _Nonnull const kSFOAuthServiceVfSid;
+extern NSString * _Nonnull const kSFOAuthServiceContentSid;
+extern NSString * _Nonnull const kSFOAuthServiceCsrf;
 
 extern NSException * _Nullable SFOAuthInvalidIdentifierException(void);
 

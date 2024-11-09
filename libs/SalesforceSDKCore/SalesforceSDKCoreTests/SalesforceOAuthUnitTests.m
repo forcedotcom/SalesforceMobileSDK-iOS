@@ -39,9 +39,8 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
 
 @interface SFOAuthKeychainCredentials (Testing)
 
-- (NSString *)refreshTokenWithEncryptionKey:(NSData *)encryptionKey;
-- (NSString *)accessTokenWithEncryptionKey:(NSData *)encryptionKey;
-- (NSData *)encryptionKeyForService:(NSString *)service;
+- (NSString *)decryptedTokenForService:(NSString *)service;
+- (void)encryptToken:(NSString *)token forService:(NSString *)service;
 
 @end
 
@@ -272,12 +271,20 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     XCTAssertEqual(copiedCreds.jwt, jwtToCheck);
     XCTAssertNotEqual(origCreds.jwt, copiedCreds.jwt);
     
-    // NB: Access and refresh tokens cannot be distinct after copy and change, because of the keychain.
+    // NB: Fields stored in keychain cannot be distinct after copy and change
     XCTAssertNotEqual(copiedCreds.refreshToken, refreshTokenToCheck);
     XCTAssertEqual(origCreds.refreshToken, copiedCreds.refreshToken);
     XCTAssertNotEqual(copiedCreds.accessToken, accessTokenToCheck);
     XCTAssertEqual(origCreds.accessToken, copiedCreds.accessToken);
-    
+    XCTAssertNotEqual(copiedCreds.lightningSid, lightningSidToCheck);
+    XCTAssertEqual(origCreds.lightningSid, copiedCreds.lightningSid);
+    XCTAssertNotEqual(copiedCreds.vfSid, vfSidToCheck);
+    XCTAssertEqual(origCreds.vfSid, copiedCreds.vfSid);
+    XCTAssertNotEqual(copiedCreds.contentSid, contentSidToCheck);
+    XCTAssertEqual(origCreds.contentSid, copiedCreds.contentSid);
+    XCTAssertNotEqual(copiedCreds.csrfToken, csrfTokenToCheck);
+    XCTAssertEqual(origCreds.csrfToken, copiedCreds.csrfToken);
+
     XCTAssertEqual(copiedCreds.organizationId, orgIdToCheck);
     XCTAssertNotEqual(origCreds.organizationId, copiedCreds.organizationId);
     XCTAssertEqual(copiedCreds.instanceUrl, instanceUrlToCheck);
@@ -294,18 +301,10 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     XCTAssertNotEqual(origCreds.userId, copiedCreds.userId);
     XCTAssertEqual(copiedCreds.contentDomain, contentDomainToCheck);
     XCTAssertNotEqual(origCreds.contentDomain, copiedCreds.contentDomain);
-    XCTAssertEqual(copiedCreds.contentSid, contentSidToCheck);
-    XCTAssertNotEqual(origCreds.contentSid, copiedCreds.contentSid);
     XCTAssertEqual(copiedCreds.lightningDomain, lightningDomainToCheck);
     XCTAssertNotEqual(origCreds.lightningDomain, copiedCreds.lightningDomain);
-    XCTAssertEqual(copiedCreds.lightningSid, lightningSidToCheck);
-    XCTAssertNotEqual(origCreds.lightningSid, copiedCreds.lightningSid);
     XCTAssertEqual(copiedCreds.vfDomain, vfDomainToCheck);
     XCTAssertNotEqual(origCreds.vfDomain, copiedCreds.vfDomain);
-    XCTAssertEqual(copiedCreds.vfSid, vfSidToCheck);
-    XCTAssertNotEqual(origCreds.vfSid, copiedCreds.vfSid);
-    XCTAssertEqual(copiedCreds.csrfToken, csrfTokenToCheck);
-    XCTAssertNotEqual(origCreds.csrfToken, copiedCreds.csrfToken);
     XCTAssertEqual(copiedCreds.cookieClientSrc, cookieClientSrcToCheck);
     XCTAssertNotEqual(origCreds.cookieClientSrc, copiedCreds.cookieClientSrc);
     XCTAssertEqual(copiedCreds.cookieSidClient, cookieSidClientToCheck);
@@ -383,16 +382,36 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
 - (void)testDefaultTokenEncryption {
     NSString *accessToken = @"AllAccessPass$";
     NSString *refreshToken = @"RefreshFRESHexciting!";
-    
+    NSString *lightningSid = @"lighting-sid-test";
+    NSString *vfSid = @"vf-sid-test";
+    NSString *contentSid = @"content-sid-test";
+    NSString *csrfToken = @"csrf-test";
+
     SFOAuthKeychainCredentials *credentials = [[SFOAuthKeychainCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
     credentials.accessToken = accessToken;
     credentials.refreshToken = refreshToken;
-    
+    credentials.lightningSid = lightningSid;
+    credentials.vfSid = vfSid;
+    credentials.contentSid = contentSid;
+    credentials.csrfToken = csrfToken;
    
-    NSString *accessTokenVerify = [credentials accessTokenWithEncryptionKey:[credentials encryptionKeyForService:kSFOAuthServiceAccess]];
+    NSString *accessTokenVerify = [credentials decryptedTokenForService:kSFOAuthServiceAccess];
     XCTAssertEqualObjects(accessToken, accessTokenVerify, @"Access token should decrypt to the same value.");
-    NSString *refreshTokenVerify = [credentials refreshTokenWithEncryptionKey:[credentials encryptionKeyForService:kSFOAuthServiceRefresh]];
+
+    NSString *refreshTokenVerify = [credentials decryptedTokenForService:kSFOAuthServiceRefresh];
     XCTAssertEqualObjects(refreshToken, refreshTokenVerify, @"Refresh token should decrypt to the same value.");
+    
+    NSString *lightningSidVerify = [credentials decryptedTokenForService:kSFOAuthServiceLightningSid];
+    XCTAssertEqualObjects(lightningSid, lightningSidVerify, @"Lightning sid should decrypt to the same value.");
+
+    NSString *contentSidVerify = [credentials decryptedTokenForService:kSFOAuthServiceContentSid];
+    XCTAssertEqualObjects(contentSid, contentSidVerify, @"content sid should decrypt to the same value.");
+
+    NSString *vfSidVerify = [credentials decryptedTokenForService:kSFOAuthServiceVfSid];
+    XCTAssertEqualObjects(vfSid, vfSidVerify, @"vf sid should decrypt to the same value.");
+
+    NSString *csrfTokenVerify = [credentials decryptedTokenForService:kSFOAuthServiceCsrf];
+    XCTAssertEqualObjects(csrfToken, csrfTokenVerify, @"csrf token should decrypt to the same value.");
     
     [credentials revoke];
 }

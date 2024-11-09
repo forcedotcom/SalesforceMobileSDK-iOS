@@ -247,7 +247,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
         }
     }
     
-       // Remove and verify that allUserAccounts property implicitly loads the accounts from disk.
+    // Remove and verify that allUserAccounts property implicitly loads the accounts from disk.
     [self.uam clearAllAccountState];
     NSError *error =nil;
     [self.uam loadAccounts:&error];

@@ -51,20 +51,53 @@
 #pragma mark - Public Methods
 
 - (NSString *)accessToken {
-    return [self accessTokenWithEncryptionKey:[self encryptionKeyForService:kSFOAuthServiceAccess]];
+    return [self decryptedTokenForService:kSFOAuthServiceAccess];
 }
 
 - (void)setAccessToken:(NSString *)token {
-    [self setAccessToken:token withEncryptionKey:[self encryptionKeyForService:kSFOAuthServiceAccess]];
+    [self encryptToken:token forService:kSFOAuthServiceAccess];
 }
 
 - (NSString *)refreshToken {
-    return [self refreshTokenWithEncryptionKey:[self encryptionKeyForService:kSFOAuthServiceRefresh]];
+    return [self decryptedTokenForService:kSFOAuthServiceRefresh];
 }
 
 - (void)setRefreshToken:(NSString *)token {
-    [self setRefreshToken:token withEncryptionKey:[self encryptionKeyForService:kSFOAuthServiceRefresh]];
+    [self encryptToken:token forService:kSFOAuthServiceRefresh];
 }
+
+- (NSString *)lightningSid {
+    return [self decryptedTokenForService:kSFOAuthServiceLightningSid];
+}
+
+- (void)setLightningSid:(NSString *)sid {
+    [self encryptToken:sid forService:kSFOAuthServiceLightningSid];
+}
+
+- (NSString *)vfSid {
+    return [self decryptedTokenForService:kSFOAuthServiceVfSid];
+}
+
+- (void)setVfSid:(NSString *)sid {
+    [self encryptToken:sid forService:kSFOAuthServiceVfSid];
+}
+
+- (NSString *)contentSid {
+    return [self decryptedTokenForService:kSFOAuthServiceContentSid];
+}
+
+- (void)setContentSid:(NSString *)sid {
+    [self encryptToken:sid forService:kSFOAuthServiceContentSid];
+}
+
+- (NSString *)csrfToken {
+    return [self decryptedTokenForService:kSFOAuthServiceCsrf];
+}
+
+- (void)setCsrfToken:(NSString *)token {
+    [self encryptToken:token forService:kSFOAuthServiceCsrf];
+}
+
 
 #pragma mark - Private Keychain Methods
 - (NSData *)tokenForService:(NSString *)service
@@ -80,21 +113,23 @@
     return tokenData;
 }
 
-- (NSString *)accessTokenWithEncryptionKey:(NSData *)encryptionKey {
-    NSData *accessTokenData = [self tokenForService:kSFOAuthServiceAccess];
-    if (!accessTokenData) {
+- (NSString *)decryptedTokenForService:(NSString *)service {
+    NSData* encryptionKey = [self encryptionKeyForService:service];
+    NSData *data = [self tokenForService:service];
+    if (!data) {
         return nil;
     }
     
     if (self.isEncrypted) {
-        NSData *decryptedData = [SFSDKEncryptor decryptData:accessTokenData key:encryptionKey error:nil];
+        NSData *decryptedData = [SFSDKEncryptor decryptData:data key:encryptionKey error:nil];
         return [[NSString alloc] initWithData:decryptedData encoding:NSUTF8StringEncoding];
     } else {
-        return [[NSString alloc] initWithData:accessTokenData encoding:NSUTF8StringEncoding];
+        return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     }
 }
 
-- (void)setAccessToken:(NSString *)token withEncryptionKey:(NSData *)encryptionKey {
+- (void)encryptToken:(NSString *)token forService:(NSString *)service {
+    NSData* encryptionKey = [self encryptionKeyForService:service];
     NSData *tokenData = ([token length] > 0 ? [token dataUsingEncoding:NSUTF8StringEncoding] : nil);
     if (tokenData != nil) {
         if (self.isEncrypted) {
@@ -102,37 +137,9 @@
         }
     }
     
-    BOOL updateSucceeded = [self updateKeychainWithTokenData:tokenData forService:kSFOAuthServiceAccess];
+    BOOL updateSucceeded = [self updateKeychainWithTokenData:tokenData forService:service];
     if (!updateSucceeded) {
-        [SFSDKCoreLogger w:[self class] format:@"%@:%@ - Failed to update access token.", [self class], NSStringFromSelector(_cmd)];
-    }
-}
-
-- (NSString *)refreshTokenWithEncryptionKey:(NSData *)encryptionKey {
-    NSData *refreshTokenData = [self tokenForService:kSFOAuthServiceRefresh];
-    if (!refreshTokenData) {
-        return nil;
-    }
-    
-    if (self.isEncrypted) {
-        NSData *decryptedData = [SFSDKEncryptor decryptData:refreshTokenData key:encryptionKey error:nil];
-        return [[NSString alloc] initWithData:decryptedData encoding:NSUTF8StringEncoding];
-    } else {
-        return [[NSString alloc] initWithData:refreshTokenData encoding:NSUTF8StringEncoding];
-    }
-}
-
-- (void)setRefreshToken:(NSString *)token withEncryptionKey:(NSData *)encryptionKey {
-    NSData *tokenData = ([token length] > 0 ? [token dataUsingEncoding:NSUTF8StringEncoding] : nil);
-    if (tokenData != nil) {
-        if (self.isEncrypted) {
-            tokenData = [SFSDKEncryptor encryptData:tokenData key:encryptionKey error:nil];
-        }
-    }
-    
-    BOOL updateSucceeded = [self updateKeychainWithTokenData:tokenData forService:kSFOAuthServiceRefresh];
-    if (!updateSucceeded) {
-        [SFSDKCoreLogger w:[self class] format:@"%@:%@ - Failed to update refresh token.", [self class], NSStringFromSelector(_cmd)];
+        [SFSDKCoreLogger w:[self class] format:@"%@:%@ - Failed to update %@.", [self class], service];
     }
 }
 
