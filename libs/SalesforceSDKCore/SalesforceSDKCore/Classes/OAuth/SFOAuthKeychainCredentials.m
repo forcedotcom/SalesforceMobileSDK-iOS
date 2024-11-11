@@ -139,7 +139,7 @@
     
     BOOL updateSucceeded = [self updateKeychainWithTokenData:tokenData forService:service];
     if (!updateSucceeded) {
-        [SFSDKCoreLogger w:[self class] format:@"%@:%@ - Failed to update %@.", [self class], service];
+        [SFSDKCoreLogger w:[self class] format:@"%@:%@ - Failed to update %@.", [self class], NSStringFromSelector(_cmd), service];
     }
 }
 
