@@ -32,6 +32,11 @@ static NSString * const kSFOAuthProtocolHttps          = @"https";
 
 NSString * const kSFOAuthServiceAccess          = @"com.salesforce.mobilesdk.oauth.access";
 NSString * const kSFOAuthServiceRefresh         = @"com.salesforce.mobilesdk.oauth.refresh";
+NSString * const kSFOAuthServiceLightningSid    = @"com.salesforce.mobilesdk.oauth.lightningSid";
+NSString * const kSFOAuthServiceVfSid           = @"com.salesforce.mobilesdk.oauth.vfSid";
+NSString * const kSFOAuthServiceContentSid      = @"com.salesforce.mobilesdk.oauth.contentSid";
+NSString * const kSFOAuthServiceCsrf            = @"com.salesforce.mobilesdk.oauth.csrf";
+
 NSString * const kSFOAuthServiceLegacyAccess    = @"com.salesforce.oauth.access";
 NSString * const kSFOAuthServiceLegacyRefresh   = @"com.salesforce.oauth.refresh";
 
@@ -97,14 +102,20 @@ NSException * SFOAuthInvalidIdentifierException() {
             _encrypted = (encryptedBool
                           ? [encryptedBool boolValue]
                           : [coder decodeBoolForKey:@"SFOAuthEncrypted"]);
+
+            self.lightningDomain  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthLightningDomain"];
+            self.vfDomain  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthVFDomain"];
+            self.contentDomain = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthContentDomain"];
+            self.cookieClientSrc  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthClientSrc"];
+            self.cookieSidClient  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthCookieSidClient"];
+            self.sidCookieName  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthSidCookieName"];
+
             if ([self isMemberOfClass:[SFOAuthCredentials class]]) {
+                // Otherwise they are stored in keychain
                 self.refreshToken = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthRefreshToken"];
                 self.accessToken  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthAccessToken"];
-                self.lightningDomain  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthLightningDomain"];
                 self.lightningSid  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthLightningSID"];
-                self.vfDomain  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthVFDomain"];
                 self.vfSid  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthVFSID"];
-                self.contentDomain = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthContentDomain"];
                 self.contentSid  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthContentSID"];
                 self.csrfToken  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthCSRFToken"];
             }
@@ -135,6 +146,9 @@ NSException * SFOAuthInvalidIdentifierException() {
     [coder encodeObject:self.contentDomain      forKey:@"SFOAuthContentDomain"];
     [coder encodeObject:self.contentSid         forKey:@"SFOAuthContentSID"];
     [coder encodeObject:self.csrfToken          forKey:@"SFOAuthCSRFToken"];
+    [coder encodeObject:self.cookieClientSrc    forKey:@"SFOAuthClientSrc"];
+    [coder encodeObject:self.cookieSidClient    forKey:@"SFOAuthCookieSidClient"];
+    [coder encodeObject:self.sidCookieName      forKey:@"SFOAuthSidCookieName"];
     [coder encodeObject:kSFOAuthArchiveVersion  forKey:@"SFOAuthArchiveVersion"];
     [coder encodeObject:@(self.isEncrypted)     forKey:@"SFOAuthEncrypted"];
     [coder encodeObject:self.additionalOAuthFields forKey:@"SFOAuthAdditionalFields"];
@@ -198,6 +212,9 @@ NSException * SFOAuthInvalidIdentifierException() {
     copyCreds.contentDomain = self.contentDomain;
     copyCreds.contentSid = self.contentSid;
     copyCreds.csrfToken = self.csrfToken;
+    copyCreds.cookieClientSrc = self.cookieClientSrc;
+    copyCreds.cookieSidClient = self.cookieSidClient;
+    copyCreds.sidCookieName = self.sidCookieName;
     copyCreds.additionalOAuthFields = [self.additionalOAuthFields copy];
     return copyCreds;
 }
@@ -303,6 +320,9 @@ NSException * SFOAuthInvalidIdentifierException() {
     self.contentDomain = nil;
     self.contentSid = nil;
     self.csrfToken = nil;
+    self.cookieClientSrc = nil;
+    self.cookieSidClient = nil;
+    self.sidCookieName = nil;
 }
 
 - (void)setPropertyForKey:(NSString *) propertyName withValue:(id) newValue {
@@ -387,6 +407,16 @@ NSException * SFOAuthInvalidIdentifierException() {
     if (params[kSFOAuthCSRFToken]) {
         self.csrfToken = params[kSFOAuthCSRFToken];
     }
+    if (params[kSFOAuthCookieClientSrc]) {
+        self.cookieClientSrc = params[kSFOAuthCookieClientSrc];
+    }
+    if (params[kSFOAuthCookieSidClient]) {
+        self.cookieSidClient = params[kSFOAuthCookieSidClient];
+    }
+    if (params[kSFOAuthSidCookieName]) {
+        self.sidCookieName = params[kSFOAuthSidCookieName];
+    }
+
 }
 
 @end

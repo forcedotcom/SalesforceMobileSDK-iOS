@@ -72,6 +72,9 @@ static NSString * const kSFOAuthVFSID                           = @"visualforce_
 static NSString * const kSFOAuthContentDomain                   = @"content_domain";
 static NSString * const kSFOAuthContentSID                      = @"content_sid";
 static NSString * const kSFOAuthCSRFToken                       = @"csrf_token";
+static NSString * const kSFOAuthCookieClientSrc                 = @"cookie-clientSrc";
+static NSString * const kSFOAuthCookieSidClient                 = @"cookie-sid_Client";
+static NSString * const kSFOAuthSidCookieName                   = @"sidCookieName";
 
 // Used for the IP bypass flow, Advanced auth flow
 static NSString * const kSFOAuthApprovalCode                     = @"code";

@@ -121,6 +121,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, nullable) NSString *contentDomain;
 @property (nonatomic, readonly, nullable) NSString *contentSid;
 @property (nonatomic, readonly, nullable) NSString *csrfToken;
+@property (nonatomic, readonly, nullable) NSString *cookieClientSrc;
+@property (nonatomic, readonly, nullable) NSString *cookieSidClient;
+@property (nonatomic, readonly, nullable) NSString *sidCookieName;
 - (NSDictionary *)asDictionary;
 @end
 
