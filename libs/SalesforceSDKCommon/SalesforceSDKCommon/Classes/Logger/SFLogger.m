@@ -27,24 +27,61 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <SalesforceSDKCommon/SalesforceSDKCommon-Swift.h>
+
 #import "SFLogger.h"
 #import "SFDefaultLogger.h"
 #import "SFSDKSafeMutableDictionary.h"
+
+@protocol SFLogReceiver;
+@protocol SFLogReceiverFactory;
+
 static NSString * const kDefaultComponentName = @"SFSDK";
 
 static Class InstanceClass;
+
+/**
+ * The factory for Salesforce log receivers.
+ * - Parameters
+ *   - logReceiverFactory: The factory for Salesforce log receivers
+ */
+static id<SFLogReceiverFactory> _Nullable _logReceiverFactory;
+
 static SFSDKSafeMutableDictionary *loggerList = nil;
 
 @interface SFLogger()
 - (instancetype)init:(NSString *)componentName;
+- (instancetype)init:(NSString *)componentName logReceiver:(id<SFLogReceiver>)logReceiver;
+
 + (void)clearAllComponents;
+
 @property id<SFLogging> logger;
+
+/** The Salesforce log receiver to receive all logs issued by this Salesforce logger */
+@property id<SFLogReceiver> logReceiver;
 
 @end
 
 @implementation SFLogger
 
+/**
+ * Creates a new Salesforce logger.
+ *
+ * @param componentName The named component the logger will be associated with
+ */
 - (instancetype)init:(NSString *)componentName {
+    return [self init:componentName logReceiver:nil];
+}
+
+/**
+ * Creates a new Salesforce logger.
+ *
+ * @param componentName The named component the logger will be associated with
+ * @param logReceiver The Salesforce log receiver to receive all logs issued by the Salesforce logger
+ */
+- (instancetype)init:(NSString *)componentName
+         logReceiver:(id<SFLogReceiver>)logReceiver
+{
     self = [super init];
     if (self) {
         //for backward compatibility with SFSDKLogger
@@ -54,6 +91,7 @@ static SFSDKSafeMutableDictionary *loggerList = nil;
         } else {
             self.logger = [[InstanceClass alloc] initWithComponent:componentName];
         }
+        self.logReceiver = logReceiver;
     }
     return self;
 }
@@ -67,82 +105,132 @@ static SFSDKSafeMutableDictionary *loggerList = nil;
 }
 - (void)log:(nonnull Class)cls message:(nonnull NSString *)message {
     [self.logger log:cls level:SFLogLevelDefault message:message];
+    
+    [self.logReceiver receiveWithLevel:SFLogLevelDefault cls:cls component:self.logger.componentName message:message];
 }
 
 - (void)log:(nonnull Class)cls format:(nonnull NSString *)format, ... {
     va_list args;
     va_start(args, format);
     [self.logger log:cls level:SFLogLevelDefault format:format args:args];
+    
+    NSString *formattedMessage = [[NSString alloc] initWithFormat:format arguments:args];
+    [self.logReceiver receiveWithLevel:SFLogLevelDefault cls:cls component:self.logger.componentName message:formattedMessage];
+    
     va_end(args);
 }
 
 - (void)log:(Class)cls level:(SFLogLevel)level message:(NSString *)message {
     [self.logger log:cls level:level message:message];
+    
+    [self.logReceiver receiveWithLevel:level cls:cls component:self.logger.componentName message:message];
 }
 
 - (void)log:(Class)cls level:(SFLogLevel)level format:(NSString *)format, ... {
     va_list args;
     va_start(args, format);
     [self.logger log:cls level:level format:format args:args];
+    
+    NSString *formattedMessage = [[NSString alloc] initWithFormat:format arguments:args];
+    [self.logReceiver receiveWithLevel:level cls:cls component:self.logger.componentName message:formattedMessage];
+    
     va_end(args);
 }
 
 - (void)log:(Class)cls level:(SFLogLevel)level format:(NSString *)format args:(va_list)args {
+    va_list args_copy;
+    va_copy(args_copy, args);
+    
     [self.logger log:cls level:level format:format args:args];
+    
+    NSString *formattedMessage = [[NSString alloc] initWithFormat:format arguments:args_copy];
+    [self.logReceiver receiveWithLevel:SFLogLevelInfo cls:cls component:self.logger.componentName message:formattedMessage];
+    
+    va_end(args_copy);
 }
 
 - (void)e:(nonnull Class)cls message:(nonnull NSString *)message {
     [self.logger log:cls level:SFLogLevelError message:message];
+    
+    [self.logReceiver receiveWithLevel:SFLogLevelError cls:cls component:self.logger.componentName message:message];
 }
 
 - (void)e:(nonnull Class)cls format:(nonnull NSString *)format, ... {
     va_list args;
     va_start(args, format);
     [self.logger log:cls level:SFLogLevelError format:format args:args];
+    
+    NSString *formattedMessage = [[NSString alloc] initWithFormat:format arguments:args];
+    [self.logReceiver receiveWithLevel:SFLogLevelError cls:cls component:self.logger.componentName message:formattedMessage];
+    
     va_end(args);
 }
 
 - (void)f:(nonnull Class)cls message:(nonnull NSString *)message {
     [self.logger log:cls level:SFLogLevelFault message:message];
+    
+    [self.logReceiver receiveWithLevel:SFLogLevelFault cls:cls component:self.logger.componentName message:message];
 }
 
 - (void)f:(nonnull Class)cls format:(nonnull NSString *)format, ... {
     va_list args;
     va_start(args, format);
     [self.logger log:cls level:SFLogLevelFault format:format args:args];
+    
+    NSString *formattedMessage = [[NSString alloc] initWithFormat:format arguments:args];
+    [self.logReceiver receiveWithLevel:SFLogLevelFault cls:cls component:self.logger.componentName message:formattedMessage];
+    
     va_end(args);
 }
 
 - (void)i:(nonnull Class)cls message:(nonnull NSString *)message {
     [self.logger log:cls level:SFLogLevelInfo message:message];
+    
+    [self.logReceiver receiveWithLevel:SFLogLevelInfo cls:cls component:self.logger.componentName message:message];
 }
 
 - (void)i:(nonnull Class)cls format:(nonnull NSString *)format, ... {
     va_list args;
     va_start(args, format);
     [self.logger log:cls level:SFLogLevelInfo format:format args:args];
+    
+    NSString *formattedMessage = [[NSString alloc] initWithFormat:format arguments:args];
+    [self.logReceiver receiveWithLevel:SFLogLevelInfo cls:cls component:self.logger.componentName message:formattedMessage];
+    
     va_end(args);
 }
 
 - (void)d:(nonnull Class)cls message:(nonnull NSString *)message {
     [self.logger log:cls level:SFLogLevelDebug message:message];
+    
+    [self.logReceiver receiveWithLevel:SFLogLevelDebug cls:cls component:self.logger.componentName message:message];
 }
 
 - (void)d:(nonnull Class)cls format:(nonnull NSString *)format, ... {
     va_list args;
     va_start(args, format);
     [self.logger log:cls level:SFLogLevelDebug format:format args:args];
+    
+    NSString *formattedMessage = [[NSString alloc] initWithFormat:format arguments:args];
+    [self.logReceiver receiveWithLevel:SFLogLevelDebug cls:cls component:self.logger.componentName message:formattedMessage];
+    
     va_end(args);
 }
 
 - (void)w:(nonnull Class)cls message:(nonnull NSString *)message {
     [self.logger log:cls level:SFLogLevelDefault message:message];
+    
+    [self.logReceiver receiveWithLevel:SFLogLevelDefault cls:cls component:self.logger.componentName message:message];
 }
 
 - (void)w:(nonnull Class)cls format:(nonnull NSString *)format, ... {
     va_list args;
     va_start(args, format);
     [self.logger log:cls level:SFLogLevelDefault format:format args:args];
+    
+    NSString *formattedMessage = [[NSString alloc] initWithFormat:format arguments:args];
+    [self.logReceiver receiveWithLevel:SFLogLevelDefault cls:cls component:self.logger.componentName message:formattedMessage];
+    
     va_end(args);
 }
 
@@ -256,6 +344,10 @@ static SFSDKSafeMutableDictionary *loggerList = nil;
     InstanceClass = loggerClass;
 }
 
++ (void)setLogReceiverFactory:(id<SFLogReceiverFactory>)logReceiverFactory {
+    _logReceiverFactory = logReceiverFactory;
+}
+
 + (nonnull instancetype)defaultLogger {
     return [self loggerForComponent:kDefaultComponentName];
 }
@@ -272,7 +364,13 @@ static SFSDKSafeMutableDictionary *loggerList = nil;
         }
         id logger = [loggerList objectForKey:componentName];
         if (!logger) {
-            logger =  [[self alloc] init:componentName];
+            id<SFLogReceiver> logReceiver = nil;
+            if (_logReceiverFactory) {
+                logReceiver = [_logReceiverFactory createWithComponentName:componentName];
+            }
+            
+            logger =  [[self alloc] init:componentName logReceiver:logReceiver];
+            
             [loggerList setObject:logger forKey:componentName];
         }
         return logger;
