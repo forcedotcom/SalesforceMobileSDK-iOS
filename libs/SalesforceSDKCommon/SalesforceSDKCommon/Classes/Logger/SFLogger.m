@@ -103,43 +103,45 @@ static SFSDKSafeMutableDictionary *loggerList = nil;
 -(void)setLogLevel:(SFLogLevel) logLevel {
     [self.logger setLogLevel:logLevel];
 }
+
+- (void)submitLogEntryWithClass:(nonnull Class)cls level:(SFLogLevel)level message:(nonnull NSString *)message {
+    [self.logger log:cls level:level message:message];
+    [self.logReceiver receiveWithLevel:level cls:cls component:self.logger.componentName message:message];
+}
+
+/**
+ * Submits a log entry with the provided properties to the logger and log receiver.
+ */
+- (void)submitLogEntryWithClass:(nonnull Class)cls level:(SFLogLevel)level format:(nonnull NSString *)format args:(va_list)args {
+    [self.logger log:cls level:level format:format args:args];
+    NSString *formattedMessage = [[NSString alloc] initWithFormat:format arguments:args];
+    [self.logReceiver receiveWithLevel:level cls:cls component:self.logger.componentName message:formattedMessage];
+}
+
 - (void)log:(nonnull Class)cls message:(nonnull NSString *)message {
-    [self.logger log:cls level:SFLogLevelDefault message:message];
-    
-    [self.logReceiver receiveWithLevel:SFLogLevelDefault cls:cls component:self.logger.componentName message:message];
+    [self submitLogEntryWithClass:cls level:SFLogLevelDefault message:message];
 }
 
 - (void)log:(nonnull Class)cls format:(nonnull NSString *)format, ... {
     va_list args;
     va_start(args, format);
-    [self.logger log:cls level:SFLogLevelDefault format:format args:args];
-    
-    NSString *formattedMessage = [[NSString alloc] initWithFormat:format arguments:args];
-    [self.logReceiver receiveWithLevel:SFLogLevelDefault cls:cls component:self.logger.componentName message:formattedMessage];
-    
+    [self submitLogEntryWithClass:cls level:SFLogLevelDefault format:format args:args];
     va_end(args);
 }
 
 - (void)log:(Class)cls level:(SFLogLevel)level message:(NSString *)message {
-    [self.logger log:cls level:level message:message];
-    
-    [self.logReceiver receiveWithLevel:level cls:cls component:self.logger.componentName message:message];
-}
+    [self submitLogEntryWithClass:cls level:level message:message];}
 
 - (void)log:(Class)cls level:(SFLogLevel)level format:(NSString *)format, ... {
     va_list args;
     va_start(args, format);
-    [self.logger log:cls level:level format:format args:args];
-    
-    NSString *formattedMessage = [[NSString alloc] initWithFormat:format arguments:args];
-    [self.logReceiver receiveWithLevel:level cls:cls component:self.logger.componentName message:formattedMessage];
-    
+    [self submitLogEntryWithClass:cls level:level format:format args:args];
     va_end(args);
 }
 
 - (void)log:(Class)cls level:(SFLogLevel)level format:(NSString *)format args:(va_list)args {
     va_list args_copy;
-    va_copy(args_copy, args);
+    va_copy(args_copy, args); // Note: This log convenience cannot use the common submit log entry methods since it requires this local memory copy due to the caller already having run `va_start` on `args`.
     
     [self.logger log:cls level:level format:format args:args];
     
@@ -150,87 +152,57 @@ static SFSDKSafeMutableDictionary *loggerList = nil;
 }
 
 - (void)e:(nonnull Class)cls message:(nonnull NSString *)message {
-    [self.logger log:cls level:SFLogLevelError message:message];
-    
-    [self.logReceiver receiveWithLevel:SFLogLevelError cls:cls component:self.logger.componentName message:message];
+    [self submitLogEntryWithClass:cls level:SFLogLevelError message:message];
 }
 
 - (void)e:(nonnull Class)cls format:(nonnull NSString *)format, ... {
     va_list args;
     va_start(args, format);
-    [self.logger log:cls level:SFLogLevelError format:format args:args];
-    
-    NSString *formattedMessage = [[NSString alloc] initWithFormat:format arguments:args];
-    [self.logReceiver receiveWithLevel:SFLogLevelError cls:cls component:self.logger.componentName message:formattedMessage];
-    
+    [self submitLogEntryWithClass:cls level:SFLogLevelError format:format args:args];
     va_end(args);
 }
 
 - (void)f:(nonnull Class)cls message:(nonnull NSString *)message {
-    [self.logger log:cls level:SFLogLevelFault message:message];
-    
-    [self.logReceiver receiveWithLevel:SFLogLevelFault cls:cls component:self.logger.componentName message:message];
+    [self submitLogEntryWithClass:cls level:SFLogLevelFault message:message];
 }
 
 - (void)f:(nonnull Class)cls format:(nonnull NSString *)format, ... {
     va_list args;
     va_start(args, format);
-    [self.logger log:cls level:SFLogLevelFault format:format args:args];
-    
-    NSString *formattedMessage = [[NSString alloc] initWithFormat:format arguments:args];
-    [self.logReceiver receiveWithLevel:SFLogLevelFault cls:cls component:self.logger.componentName message:formattedMessage];
-    
+    [self submitLogEntryWithClass:cls level:SFLogLevelFault format:format args:args];
     va_end(args);
 }
 
 - (void)i:(nonnull Class)cls message:(nonnull NSString *)message {
-    [self.logger log:cls level:SFLogLevelInfo message:message];
-    
-    [self.logReceiver receiveWithLevel:SFLogLevelInfo cls:cls component:self.logger.componentName message:message];
+    [self submitLogEntryWithClass:cls level:SFLogLevelInfo message:message];
 }
 
 - (void)i:(nonnull Class)cls format:(nonnull NSString *)format, ... {
     va_list args;
     va_start(args, format);
-    [self.logger log:cls level:SFLogLevelInfo format:format args:args];
-    
-    NSString *formattedMessage = [[NSString alloc] initWithFormat:format arguments:args];
-    [self.logReceiver receiveWithLevel:SFLogLevelInfo cls:cls component:self.logger.componentName message:formattedMessage];
-    
+    [self submitLogEntryWithClass:cls level:SFLogLevelInfo format:format args:args];
     va_end(args);
 }
 
 - (void)d:(nonnull Class)cls message:(nonnull NSString *)message {
-    [self.logger log:cls level:SFLogLevelDebug message:message];
-    
-    [self.logReceiver receiveWithLevel:SFLogLevelDebug cls:cls component:self.logger.componentName message:message];
+    [self submitLogEntryWithClass:cls level:SFLogLevelDebug message:message];
 }
 
 - (void)d:(nonnull Class)cls format:(nonnull NSString *)format, ... {
     va_list args;
     va_start(args, format);
-    [self.logger log:cls level:SFLogLevelDebug format:format args:args];
-    
-    NSString *formattedMessage = [[NSString alloc] initWithFormat:format arguments:args];
-    [self.logReceiver receiveWithLevel:SFLogLevelDebug cls:cls component:self.logger.componentName message:formattedMessage];
-    
+    [self submitLogEntryWithClass:cls level:SFLogLevelDebug format:format args:args];
     va_end(args);
 }
 
 - (void)w:(nonnull Class)cls message:(nonnull NSString *)message {
-    [self.logger log:cls level:SFLogLevelDefault message:message];
-    
-    [self.logReceiver receiveWithLevel:SFLogLevelDefault cls:cls component:self.logger.componentName message:message];
+    [self submitLogEntryWithClass:cls level:SFLogLevelDefault message:message];
 }
 
 - (void)w:(nonnull Class)cls format:(nonnull NSString *)format, ... {
     va_list args;
     va_start(args, format);
-    [self.logger log:cls level:SFLogLevelDefault format:format args:args];
-    
-    NSString *formattedMessage = [[NSString alloc] initWithFormat:format arguments:args];
-    [self.logReceiver receiveWithLevel:SFLogLevelDefault cls:cls component:self.logger.componentName message:formattedMessage];
-    
+    [self submitLogEntryWithClass:cls level:SFLogLevelDefault format:format args:args];
     va_end(args);
 }
 
