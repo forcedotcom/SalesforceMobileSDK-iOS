@@ -8,7 +8,7 @@ on:
 
 jobs:
   static-analysis:
-    runs-on: macos-latest
+    runs-on: macos-15
     steps:
       - name: Member Check
         if: ${{ github.event.pull_request.author_association != 'MEMBER' }}
@@ -40,7 +40,7 @@ jobs:
           bundle exec danger --dangerfile=StaticAnalysis.rb --danger_id=StaticAnalysis
 
   test-orchestrator:
-    runs-on: macos-latest
+    runs-on: macos-15
     outputs:
       libs: ${{ steps.test-orchestrator.outputs.libs }}
     steps:
