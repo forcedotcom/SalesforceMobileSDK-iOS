@@ -11,7 +11,7 @@ jobs:
     runs-on: macos-15
     steps:
       - name: Member Check
-        if: ${{ github.event.pull_request.author_association != 'MEMBER' }}
+        if: ${{ github.event.pull_request.author_association != 'MEMBER' && github.event.pull_request.author_association != 'OWNER' }}
         run: |
           echo "Pull Request not triggered by a MSDK team member.  Someone from the team needs to rerun this workflow AFTER it has been deemed safe."
           exit 1
