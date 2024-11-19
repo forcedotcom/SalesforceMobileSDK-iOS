@@ -98,6 +98,14 @@
     [self encryptToken:token forService:kSFOAuthServiceCsrf];
 }
 
+- (NSString *)parentSid {
+    return [self decryptedTokenForService:kSFOAuthServiceParentSid];
+}
+
+- (void)setParentSid:(NSString *)sid {
+    [self encryptToken:sid forService:kSFOAuthServiceParentSid];
+}
+
 
 #pragma mark - Private Keychain Methods
 - (NSData *)tokenForService:(NSString *)service

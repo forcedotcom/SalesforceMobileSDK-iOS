@@ -41,6 +41,7 @@ extern NSString * _Nonnull const kSFOAuthServiceLightningSid;
 extern NSString * _Nonnull const kSFOAuthServiceVfSid;
 extern NSString * _Nonnull const kSFOAuthServiceContentSid;
 extern NSString * _Nonnull const kSFOAuthServiceCsrf;
+extern NSString * _Nonnull const kSFOAuthServiceParentSid;
 
 extern NSException * _Nullable SFOAuthInvalidIdentifierException(void);
 
@@ -75,6 +76,9 @@ extern NSException * _Nullable SFOAuthInvalidIdentifierException(void);
 @property (nonatomic, readwrite, nullable) NSString *cookieClientSrc;
 @property (nonatomic, readwrite, nullable) NSString *cookieSidClient;
 @property (nonatomic, readwrite, nullable) NSString *sidCookieName;
+@property (nonatomic, readwrite, nullable) NSString *parentSid;
+@property (nonatomic, readwrite, nullable) NSString *tokenFormat;
+
 
 - (void)setPropertyForKey:(NSString *_Nonnull) key withValue:(id _Nullable ) newValue;
 

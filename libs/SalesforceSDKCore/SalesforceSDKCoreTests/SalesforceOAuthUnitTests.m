@@ -140,6 +140,8 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     credsIn.cookieClientSrc = @"cookie-client-src-test";
     credsIn.cookieSidClient = @"cookie-sid-client";
     credsIn.sidCookieName   = @"sid-cookie-name";
+    credsIn.parentSid       = @"parent-sid";
+    credsIn.tokenFormat     = @"token-format";
 
     credsIn.additionalOAuthFields = @{
         @"abc": @"def"
@@ -178,6 +180,8 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     XCTAssertEqualObjects(credsIn.cookieClientSrc,     credsOut.cookieClientSrc,     @"cookieClientSrc mismatch");
     XCTAssertEqualObjects(credsIn.cookieSidClient,     credsOut.cookieSidClient,     @"cookieSidClient mismatch");
     XCTAssertEqualObjects(credsIn.sidCookieName,       credsOut.sidCookieName,       @"sidCookieName mismatch");
+    XCTAssertEqualObjects(credsIn.parentSid,           credsOut.parentSid,           @"parentSid mismatch");
+    XCTAssertEqualObjects(credsIn.tokenFormat,         credsOut.tokenFormat,         @"tokenFormat mismatch");
     XCTAssertEqualObjects(credsIn.additionalOAuthFields, credsOut.additionalOAuthFields, @"additionalFields mismatch");
     
     credsIn = nil;
@@ -206,6 +210,8 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     NSString *cookieClientSrcToCheck = @"cookie-client-src-test";
     NSString *cookieSidClientToCheck = @"cookie-sid-client";
     NSString *sidCookieNameToCheck = @"sid-cookie-name";
+    NSString *parentSidToCheck = @"parent-sid";
+    NSString *tokenFormatToCheck = @"token-format";
     NSDictionary *additionalFieldsToCheck = @{ @"field1": @"field1Val" };
     
     SFOAuthCredentials *origCreds = [[SFOAuthCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
@@ -228,6 +234,8 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     origCreds.cookieClientSrc = cookieClientSrcToCheck;
     origCreds.cookieSidClient = cookieSidClientToCheck;
     origCreds.sidCookieName = sidCookieNameToCheck;
+    origCreds.parentSid = parentSidToCheck;
+    origCreds.tokenFormat = tokenFormatToCheck;
     
     // NB: Intentionally ordering the setting of these, because setting the identity URL automatically
     // sets the OrgID and UserID.  This ensures the values stay in sync.
@@ -261,6 +269,8 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     origCreds.cookieClientSrc = nil;
     origCreds.cookieSidClient = nil;
     origCreds.sidCookieName = nil;
+    origCreds.parentSid = nil;
+    origCreds.tokenFormat = nil;
     origCreds.additionalOAuthFields = nil;
     
     XCTAssertNotEqual(origCreds, copiedCreds);
@@ -284,6 +294,8 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     XCTAssertEqual(origCreds.contentSid, copiedCreds.contentSid);
     XCTAssertNotEqual(copiedCreds.csrfToken, csrfTokenToCheck);
     XCTAssertEqual(origCreds.csrfToken, copiedCreds.csrfToken);
+    XCTAssertNotEqual(copiedCreds.parentSid, parentSidToCheck);
+    XCTAssertEqual(origCreds.parentSid, copiedCreds.parentSid);
 
     XCTAssertEqual(copiedCreds.organizationId, orgIdToCheck);
     XCTAssertNotEqual(origCreds.organizationId, copiedCreds.organizationId);
@@ -311,6 +323,8 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     XCTAssertNotEqual(origCreds.cookieSidClient, copiedCreds.cookieSidClient);
     XCTAssertEqual(copiedCreds.sidCookieName, sidCookieNameToCheck);
     XCTAssertNotEqual(origCreds.sidCookieName, copiedCreds.sidCookieName);
+    XCTAssertEqual(copiedCreds.tokenFormat, tokenFormatToCheck);
+    XCTAssertNotEqual(origCreds.tokenFormat, copiedCreds.tokenFormat);
     XCTAssertEqual(copiedCreds.additionalOAuthFields, additionalFieldsToCheck);
     XCTAssertNotEqual(origCreds.additionalOAuthFields, copiedCreds.additionalOAuthFields);
 }

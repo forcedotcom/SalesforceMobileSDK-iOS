@@ -124,6 +124,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, nullable) NSString *cookieClientSrc;
 @property (nonatomic, readonly, nullable) NSString *cookieSidClient;
 @property (nonatomic, readonly, nullable) NSString *sidCookieName;
+@property (nonatomic, readonly, nullable) NSString *parentSid;
+@property (nonatomic, readonly, nullable) NSString *tokenFormat;
 - (NSDictionary *)asDictionary;
 @end
 
