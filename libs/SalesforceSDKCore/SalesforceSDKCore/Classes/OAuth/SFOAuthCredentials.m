@@ -36,6 +36,7 @@ NSString * const kSFOAuthServiceLightningSid    = @"com.salesforce.mobilesdk.oau
 NSString * const kSFOAuthServiceVfSid           = @"com.salesforce.mobilesdk.oauth.vfSid";
 NSString * const kSFOAuthServiceContentSid      = @"com.salesforce.mobilesdk.oauth.contentSid";
 NSString * const kSFOAuthServiceCsrf            = @"com.salesforce.mobilesdk.oauth.csrf";
+NSString * const kSFOAuthServiceParentSid       = @"com.salesforce.mobilesdk.oauth.parentSid";
 
 NSString * const kSFOAuthServiceLegacyAccess    = @"com.salesforce.oauth.access";
 NSString * const kSFOAuthServiceLegacyRefresh   = @"com.salesforce.oauth.refresh";
@@ -109,6 +110,7 @@ NSException * SFOAuthInvalidIdentifierException() {
             self.cookieClientSrc  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthClientSrc"];
             self.cookieSidClient  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthCookieSidClient"];
             self.sidCookieName  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthSidCookieName"];
+            self.tokenFormat  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthTokenFormat"];
 
             if ([self isMemberOfClass:[SFOAuthCredentials class]]) {
                 // Otherwise they are stored in keychain
@@ -118,6 +120,7 @@ NSException * SFOAuthInvalidIdentifierException() {
                 self.vfSid  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthVFSID"];
                 self.contentSid  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthContentSID"];
                 self.csrfToken  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthCSRFToken"];
+                self.parentSid = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthParentSID"];
             }
         }
     } else {
@@ -140,15 +143,12 @@ NSException * SFOAuthInvalidIdentifierException() {
     [coder encodeObject:self.issuedAt           forKey:@"SFOAuthIssuedAt"];
     [coder encodeObject:self.protocol           forKey:@"SFOAuthProtocol"];
     [coder encodeObject:self.lightningDomain    forKey:@"SFOAuthLightningDomain"];
-    [coder encodeObject:self.lightningSid       forKey:@"SFOAuthLightningSID"];
     [coder encodeObject:self.vfDomain           forKey:@"SFOAuthVFDomain"];
-    [coder encodeObject:self.vfSid              forKey:@"SFOAuthVFSID"];
     [coder encodeObject:self.contentDomain      forKey:@"SFOAuthContentDomain"];
-    [coder encodeObject:self.contentSid         forKey:@"SFOAuthContentSID"];
-    [coder encodeObject:self.csrfToken          forKey:@"SFOAuthCSRFToken"];
     [coder encodeObject:self.cookieClientSrc    forKey:@"SFOAuthClientSrc"];
     [coder encodeObject:self.cookieSidClient    forKey:@"SFOAuthCookieSidClient"];
     [coder encodeObject:self.sidCookieName      forKey:@"SFOAuthSidCookieName"];
+    [coder encodeObject:self.tokenFormat        forKey:@"SFOAuthTokenFormat"];
     [coder encodeObject:kSFOAuthArchiveVersion  forKey:@"SFOAuthArchiveVersion"];
     [coder encodeObject:@(self.isEncrypted)     forKey:@"SFOAuthEncrypted"];
     [coder encodeObject:self.additionalOAuthFields forKey:@"SFOAuthAdditionalFields"];
@@ -215,6 +215,8 @@ NSException * SFOAuthInvalidIdentifierException() {
     copyCreds.cookieClientSrc = self.cookieClientSrc;
     copyCreds.cookieSidClient = self.cookieSidClient;
     copyCreds.sidCookieName = self.sidCookieName;
+    copyCreds.parentSid = self.parentSid;
+    copyCreds.tokenFormat = self.tokenFormat;
     copyCreds.additionalOAuthFields = [self.additionalOAuthFields copy];
     return copyCreds;
 }
@@ -323,6 +325,8 @@ NSException * SFOAuthInvalidIdentifierException() {
     self.cookieClientSrc = nil;
     self.cookieSidClient = nil;
     self.sidCookieName = nil;
+    self.parentSid = nil;
+    self.tokenFormat = nil;
 }
 
 - (void)setPropertyForKey:(NSString *) propertyName withValue:(id) newValue {
@@ -415,6 +419,12 @@ NSException * SFOAuthInvalidIdentifierException() {
     }
     if (params[kSFOAuthSidCookieName]) {
         self.sidCookieName = params[kSFOAuthSidCookieName];
+    }
+    if (params[kSFOAuthParentSid]) {
+        self.parentSid = params[kSFOAuthParentSid];
+    }
+    if (params[kSFOAuthTokenFormat]) {
+        self.tokenFormat = params[kSFOAuthTokenFormat];
     }
 
 }

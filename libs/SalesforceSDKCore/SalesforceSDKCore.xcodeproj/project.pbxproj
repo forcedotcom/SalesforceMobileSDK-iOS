@@ -58,6 +58,8 @@
 		4F7EB4AB1BFFCF0000768720 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F7EB4961BFFCEF600768720 /* AppDelegate.m */; };
 		4F7EB4AC1BFFCF0F00768720 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F7EB4A01BFFCEF600768720 /* main.m */; };
 		4F7EB4AD1BFFCF2300768720 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F7EB4A41BFFCEF600768720 /* ViewController.m */; };
+		4F8A3B012CEC202F00ECDC76 /* JwtAccessToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8A3B002CEC202F00ECDC76 /* JwtAccessToken.swift */; };
+		4F8A3B082CEC213400ECDC76 /* JwtAccessTokenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8A3B072CEC212B00ECDC76 /* JwtAccessTokenTests.swift */; };
 		4FE5332A1BFFE70600814D2A /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F7EB4981BFFCEF600768720 /* Main_iPad.storyboard */; };
 		4FE5332B1BFFE70600814D2A /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F7EB49A1BFFCEF600768720 /* Main_iPhone.storyboard */; };
 		6900B62C24B64DD800500923 /* NSURLResponse+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6900B62A24B64DD800500923 /* NSURLResponse+SFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -547,6 +549,8 @@
 		4F7EB4A21BFFCEF600768720 /* SalesforceSDKCoreTestApp-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SalesforceSDKCoreTestApp-Prefix.pch"; path = "SalesforceSDKCoreTestApp/SalesforceSDKCoreTestApp-Prefix.pch"; sourceTree = SOURCE_ROOT; };
 		4F7EB4A31BFFCEF600768720 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewController.h; path = SalesforceSDKCoreTestApp/ViewController.h; sourceTree = SOURCE_ROOT; };
 		4F7EB4A41BFFCEF600768720 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ViewController.m; path = SalesforceSDKCoreTestApp/ViewController.m; sourceTree = SOURCE_ROOT; };
+		4F8A3B002CEC202F00ECDC76 /* JwtAccessToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JwtAccessToken.swift; sourceTree = "<group>"; };
+		4F8A3B072CEC212B00ECDC76 /* JwtAccessTokenTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JwtAccessTokenTests.swift; sourceTree = "<group>"; };
 		4F96FC521BFD32130022F021 /* NSData+SFSDKUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+SFSDKUtils.h"; sourceTree = "<group>"; };
 		4F96FC531BFD32130022F021 /* NSData+SFSDKUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+SFSDKUtils.m"; sourceTree = "<group>"; };
 		4F96FC541BFD32130022F021 /* NSData+SFSDKUtils_Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+SFSDKUtils_Internal.h"; sourceTree = "<group>"; };
@@ -960,6 +964,7 @@
 		4F7EB3F61BFFC84700768720 /* SalesforceSDKCoreTests */ = {
 			isa = PBXGroup;
 			children = (
+				4F8A3B072CEC212B00ECDC76 /* JwtAccessTokenTests.swift */,
 				69DEF9DF2CBED60700D80D80 /* ScreenLockManagerTests.swift */,
 				69DFE0682B969C1D000906E4 /* CryptoUtilsTests.swift */,
 				69DFE0672B969C1D000906E4 /* PushNotificationDecryptionTests.swift */,
@@ -1115,6 +1120,7 @@
 		4F96FCC41BFD32130022F021 /* OAuth */ = {
 			isa = PBXGroup;
 			children = (
+				4F8A3B002CEC202F00ECDC76 /* JwtAccessToken.swift */,
 				B7E1A77D1F4C8844007AC36A /* SFSDKAuthViewHandler.h */,
 				B7E1A77E1F4C8844007AC36A /* SFSDKAuthViewHandler.m */,
 				4F96FCC51BFD32130022F021 /* SFOAuthCoordinator+Internal.h */,
@@ -2139,6 +2145,7 @@
 				69CEBC7E22F368CF00F16218 /* SFNetworkTests.m in Sources */,
 				4F7EB41B1BFFC8D700768720 /* SFSDKCryptoUtilsTests.m in Sources */,
 				69848CB82364035300893E57 /* SFSDKEncryptedPushNotificationTests.m in Sources */,
+				4F8A3B082CEC213400ECDC76 /* JwtAccessTokenTests.swift in Sources */,
 				4F06AF8D1C49A18E00F70798 /* SalesforceSDKManagerTests.m in Sources */,
 				4F06AF8F1C49A18E00F70798 /* SFOAuthSessionRefresherTests.m in Sources */,
 				CEB98EE31F86E7DC0083AB9C /* SFSDKURLHandlerManagerTest.m in Sources */,
@@ -2251,6 +2258,7 @@
 				CE4CE34B1C0E5252009F6029 /* SFOAuthInfo.m in Sources */,
 				69EA56CC264B1FAA007FE339 /* SFSDKMacDetectUtil.m in Sources */,
 				CED452BA1D808D0C009266EB /* SFRestAPI+Files.m in Sources */,
+				4F8A3B012CEC202F00ECDC76 /* JwtAccessToken.swift in Sources */,
 				CE4CE38F1C0E526A009F6029 /* SFUserAccount.m in Sources */,
 				CE4CE3B21C0E5279009F6029 /* SFSDKWebUtils.m in Sources */,
 				B7A4AE4722E8C77C0060E737 /* SFSDKOAuth2.m in Sources */,

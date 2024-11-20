@@ -494,6 +494,7 @@ SFNativeLoginManagerInternal *nativeLogin;
             @"IDP Enabled", [self idpEnabled] ? @"YES" : @"NO",
             @"Identity Provider", [self isIdentityProvider] ? @"YES" : @"NO",
             @"Current User", [self userToString:userAccountManager.currentUser],
+            @"Access Token Expiration", [self accessTokenExpiration],
             @"Authenticated Users", [self usersToString:userAccountManager.allUserAccounts],
             @"User Key-Value Stores", [self safeJoin:[SFSDKKeyValueEncryptedFileStore allStoreNames] separator:@", "],
             @"Global Key-Value Stores", [self safeJoin:[SFSDKKeyValueEncryptedFileStore allGlobalStoreNames] separator:@", "]
@@ -506,8 +507,27 @@ SFNativeLoginManagerInternal *nativeLogin;
     if ([managedPreferences hasManagedPreferences]) {
         [devInfos addObjectsFromArray:[self dictToDevInfos:managedPreferences.rawPreferences keyPrefix:@"Managed Pref"]];
     }
-
+    
     return devInfos;
+}
+
+- (NSString *) accessTokenExpiration {
+    SFOAuthCredentials* creds = [SFUserAccountManager sharedInstance].currentUser.credentials;
+    NSString* expiration = @"Unknown";
+    
+    if ([creds.tokenFormat isEqualToString:@"jwt"]) {
+        SFSDKJwtAccessToken* jwtAccessToken = [[SFSDKJwtAccessToken alloc] initWithJwt:creds.accessToken error:nil];
+        if (jwtAccessToken) {
+            NSDate* expirationDate = jwtAccessToken.expirationDate;
+            if (expirationDate) {
+                NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+                expiration = [dateFormatter stringFromDate:expirationDate];
+            }
+        }
+    }
+    
+    return expiration;
 }
 
 - (NSString*) userToString:(SFUserAccount*)user {

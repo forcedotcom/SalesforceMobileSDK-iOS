@@ -75,6 +75,8 @@ static NSString * const kSFOAuthCSRFToken                       = @"csrf_token";
 static NSString * const kSFOAuthCookieClientSrc                 = @"cookie-clientSrc";
 static NSString * const kSFOAuthCookieSidClient                 = @"cookie-sid_Client";
 static NSString * const kSFOAuthSidCookieName                   = @"sidCookieName";
+static NSString * const kSFOAuthParentSid                       = @"parent_sid";
+static NSString * const kSFOAuthTokenFormat                     = @"token_format";
 
 // Used for the IP bypass flow, Advanced auth flow
 static NSString * const kSFOAuthApprovalCode                     = @"code";
