@@ -69,17 +69,27 @@ public struct JwtPayload: Codable {
 }
 
 /// Class representing a JWT Access Token
-public class JwtAccessToken {
+@objc(SFSDKJwtAccessToken)
+public class JwtAccessToken : NSObject {
     let rawJwt: String
     let header: JwtHeader
     let payload: JwtPayload
 
     /// Initializer to parse and decode the JWT string
-    init(jwt: String) throws {
+    @objc init(jwt: String) throws {
         self.rawJwt = jwt
         self.header = try JwtAccessToken.parseJwtHeader(jwt: jwt)
         self.payload = try JwtAccessToken.parseJwtPayload(jwt: jwt)
     }
+    
+    /// Returns the expiration time as a Date, or nil if not available
+    @objc public func expirationDate() -> Date? {
+        guard let expirationTime = payload.expirationTime else {
+            return nil
+        }
+        return Date(timeIntervalSince1970: TimeInterval(expirationTime))
+    }
+    
 
     /// Helper method to decode the JWT Header
     private static func parseJwtHeader(jwt: String) throws -> JwtHeader {
