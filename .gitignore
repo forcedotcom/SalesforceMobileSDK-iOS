@@ -18,7 +18,6 @@ shared/test/test_credentials.json
 /libs/MobileSync/build/
 /native/SampleApps/RestAPIExplorer/build/
 node_modules/
-.github/
 .idea/
 package-lock.json
 npm-debug.log
