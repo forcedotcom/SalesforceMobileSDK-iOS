@@ -27,6 +27,10 @@
 
 #import "SFSDKWindowManager.h"
 
+static const CGFloat SFWindowLevelScreenLockOffset  = 100;
+static const CGFloat SFWindowLevelAuthOffset        = 120;
+static const CGFloat SFWindowLevelSnapshotOffset    = 1000;
+
 @interface SFSDKWindowManager ()
 
 - (UIScene *)defaultScene;

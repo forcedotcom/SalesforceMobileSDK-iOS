@@ -25,6 +25,7 @@
 
 #import <XCTest/XCTest.h>
 #import "SFSDKWindowManager.h"
+#import "SFSDKWindowManager+Internal.h"
 #import "SFApplicationHelper.h"
 
 @interface SFSDKWindowManagerTests: XCTestCase{
@@ -110,6 +111,7 @@
     SFSDKWindowContainer *authWindowNilScene = [[SFSDKWindowManager sharedManager] authWindow:nil];
     XCTAssert(authWindowNilScene.window != nil);
     XCTAssert(authWindowNilScene.windowType == SFSDKWindowTypeAuth);
+    XCTAssertEqual(authWindowNilScene.window.windowLevel, SFWindowLevelAuthOffset);
     
     UIScene *scene = [SFApplicationHelper sharedApplication].connectedScenes.allObjects.firstObject;
     SFSDKWindowContainer *authWindowScene = [[SFSDKWindowManager sharedManager] authWindow:scene];
@@ -122,6 +124,7 @@
     SFSDKWindowContainer *screenLockWindow = [SFSDKWindowManager sharedManager].screenLockWindow;
     XCTAssert(screenLockWindow.window!=nil);
     XCTAssert(screenLockWindow.windowType == SFSDKWindowTypeScreenLock);
+    XCTAssertEqual(screenLockWindow.window.windowLevel, SFWindowLevelScreenLockOffset);
 }
 
 - (void)testSnapshotWindow {
@@ -134,6 +137,7 @@
     XCTAssert(snapshowWindowScene.window != nil);
     XCTAssert(snapshowWindowScene.windowType == SFSDKWindowTypeSnapshot);
     XCTAssertEqualObjects(snapshotWindowNilScene, snapshowWindowScene);
+    XCTAssertEqual(snapshowWindowScene.window.windowLevel, SFWindowLevelSnapshotOffset);
 }
 
 - (void)testEnable {
