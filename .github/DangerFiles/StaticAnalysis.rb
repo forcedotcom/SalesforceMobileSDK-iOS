@@ -26,7 +26,7 @@ for file in files;
 
     if modified_file_names.include?(report_file_name) || added_file_names.include?(report_file_name)
         issues = report['diagnostics']
-        print "File modified in PR: #{file}, has #{issue.count} issues.\n"
+        print "File modified in PR: #{file}, has #{issues.count} issues.\n"
         for i in 0..issues.count-1
             unless issues[i].nil?
                 message << "#{report_file_name} | #{issues[i]['type']} | #{issues[i]['category']} | #{issues[i]['description']} | #{issues[i]['location']['line']} | #{issues[i]['location']['col']}\n"
