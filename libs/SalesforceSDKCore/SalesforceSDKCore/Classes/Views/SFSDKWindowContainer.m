@@ -99,6 +99,11 @@
     #endif
 }
 
+- (void)setWindowLevel:(UIWindowLevel)windowLevel {
+    _windowLevel = windowLevel;
+    _window.windowLevel = _windowLevel;
+}
+
 - (void)presentWindowAnimated:(BOOL)animated withCompletion:(void (^ _Nullable)(void))completion {
     if ([self.windowDelegate respondsToSelector:@selector(presentWindow:animated:withCompletion:)]) {
         [self.windowDelegate presentWindow:self animated:animated withCompletion:completion];

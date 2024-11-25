@@ -28,6 +28,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #import "SFSDKWindowManager.h"
+#import "SFSDKWindowManager+Internal.h"
 #import "SFSDKWindowContainer.h"
 #import "SFApplicationHelper.h"
 #import "SFSDKMacDetectUtil.h"
@@ -70,9 +71,6 @@ Attempt to resolve issues related to  the multi-windowing implementation in the 
 
 @implementation SFSDKWindowManager
 
-static const CGFloat SFWindowLevelScreenLockOffset  = 100;
-static const CGFloat SFWindowLevelAuthOffset      = 120;
-static const CGFloat SFWindowLevelSnapshotOffset  = 1000;
 static NSString *const kSFMainWindowKey     = @"main";
 static NSString *const kSFLoginWindowKey    = @"auth";
 static NSString *const kSFSnaphotWindowKey  = @"snapshot";
