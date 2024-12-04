@@ -288,10 +288,6 @@
     return loginHostListViewController;
 }
 
-- (BOOL)shouldAutorotate {
-    return YES;
-}
-
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskAll;
 }

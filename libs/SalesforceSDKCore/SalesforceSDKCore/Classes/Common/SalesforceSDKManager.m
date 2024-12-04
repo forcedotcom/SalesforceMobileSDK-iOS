@@ -108,10 +108,6 @@ SFNativeLoginManagerInternal *nativeLogin;
     self.view.backgroundColor = [UIColor salesforceSystemBackgroundColor];
 }
 
-- (BOOL)shouldAutorotate {
-    return YES;
-}
-
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
    return UIInterfaceOrientationMaskAll;
 }
