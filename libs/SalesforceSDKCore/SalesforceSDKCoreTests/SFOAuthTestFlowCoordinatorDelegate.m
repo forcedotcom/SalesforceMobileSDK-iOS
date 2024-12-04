@@ -101,4 +101,5 @@ static NSString * const kASWebAuthenticationSessionNotSupportedReasonFormat  = @
     @throw [NSException exceptionWithName:kASWebAuthenticationSessionNotSupportedReasonFormat reason:reason userInfo:nil];
 }
 
+- (void)oauthCoordinatorDidBeginNativeAuthentication:(nonnull SFOAuthCoordinator *)coordinator { }
 @end
