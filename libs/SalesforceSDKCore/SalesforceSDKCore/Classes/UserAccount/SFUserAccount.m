@@ -341,7 +341,7 @@ NSString * const kUserAccountPhotoEncryptionKeyLabel = @"com.salesforce.userAcco
     }
 }
 
-NSString *SFKeyForGlobalScope() {
+NSString *SFKeyForGlobalScope(void) {
     return  SFKeyForUserIdAndScope(nil,nil,nil,SFUserAccountScopeGlobal);
 }
 
