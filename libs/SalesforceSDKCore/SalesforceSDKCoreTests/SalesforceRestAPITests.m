@@ -1247,7 +1247,7 @@ static NSException *authException = nil;
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     NSDictionary* response = listener.dataResponse;
     @try {
-        SFSDKPrimingRecordsResponse* parsedResponse = [[SFSDKPrimingRecordsResponse alloc] initWith:response];
+        (void)[[SFSDKPrimingRecordsResponse alloc] initWith:response];
     }
     @catch (NSException *exception) {
         XCTFail(@"Unexpected error %@", exception);
