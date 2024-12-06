@@ -139,10 +139,6 @@ static NSString * const kDevInfoOKKey = @"devInfoOKKey";
     [self layoutTableView];
 }
 
-- (BOOL)shouldAutorotate {
-    return YES;
-}
-
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskAll;
 }

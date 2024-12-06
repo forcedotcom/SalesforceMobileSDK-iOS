@@ -451,10 +451,6 @@ static NSString * const kInspectorPickerDefault = @"default";
     [self.resultGrid reloadData];
 }
 
-- (BOOL)shouldAutorotate {
-    return YES;
-}
-
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskAll;
 }

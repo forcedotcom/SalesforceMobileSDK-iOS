@@ -90,7 +90,10 @@
 
 - (void)setUp {
     [super setUp];
-    _origApplicationWindow = [UIApplication sharedApplication].keyWindow;
+    UIWindowScene *windowScene = (UIWindowScene *)[[[UIApplication sharedApplication] connectedScenes] anyObject];
+    if ([windowScene isKindOfClass:[UIWindowScene class]]) {
+        _origApplicationWindow = windowScene.windows.firstObject;
+    }
 }
 
 - (void)tearDown {

@@ -436,7 +436,12 @@
     UIDeviceOrientation deviceOrientation = UIDevice.currentDevice.orientation;
     UIInterfaceOrientation orientation = (UIInterfaceOrientation)deviceOrientation;
     if (!UIDeviceOrientationIsValidInterfaceOrientation(deviceOrientation)) {
-        orientation = [SFApplicationHelper sharedApplication].windows.firstObject.windowScene.interfaceOrientation;
+        UIWindowScene *windowScene = (UIWindowScene *)[[[SFApplicationHelper sharedApplication] connectedScenes] anyObject];
+        if ([windowScene isKindOfClass:[UIWindowScene class]]) {
+            orientation = windowScene.interfaceOrientation;
+        } else {
+            orientation = UIInterfaceOrientationUnknown;
+        }
     }
     return orientation;
 }

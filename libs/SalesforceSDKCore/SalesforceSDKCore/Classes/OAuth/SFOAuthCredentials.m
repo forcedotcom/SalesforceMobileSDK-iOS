@@ -44,7 +44,7 @@ NSString * const kSFOAuthServiceLegacyRefresh   = @"com.salesforce.oauth.refresh
 static NSString * const kSFOAuthDefaultDomain          = @"login.salesforce.com";
 static NSString * const kSFOAuthClusterImplementationKey = @"SFOAuthClusterImplementation";
 
-NSException * SFOAuthInvalidIdentifierException() {
+NSException * SFOAuthInvalidIdentifierException(void) {
     return [[NSException alloc] initWithName:NSInternalInconsistencyException
                                       reason:@"identifier cannot be nil or empty"
                                     userInfo:nil];
