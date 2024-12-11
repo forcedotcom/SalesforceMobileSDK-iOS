@@ -81,7 +81,6 @@
 #import <SalesforceSDKCore/NSData+SFSDKUtils.h>
 #import <SalesforceSDKCore/UIScreen+SFAdditions.h>
 #import <SalesforceSDKCore/SFRestAPI+QueryBuilder.h>
-#import <SalesforceSDKCore/SFSDKAppDelegate.h>
 #import <SalesforceSDKCore/SFRestAPI+Blocks.h>
 #import <SalesforceSDKCore/SFSDKAuthConfigUtil.h>
 #import <SalesforceSDKCore/SFSDKAlertMessage.h>

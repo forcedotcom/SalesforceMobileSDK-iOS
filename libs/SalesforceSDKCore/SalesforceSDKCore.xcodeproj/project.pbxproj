@@ -262,8 +262,6 @@
 		CE4CE3101C0E523B009F6029 /* NSDictionary+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF945C01BFFF47D005368C5 /* NSDictionary+SFAdditions.m */; };
 		CE4CE3131C0E523B009F6029 /* NSString+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF945C31BFFF47D005368C5 /* NSString+SFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE4CE3141C0E523B009F6029 /* NSString+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF945C41BFFF47D005368C5 /* NSString+SFAdditions.m */; };
-		CE4CE3151C0E523B009F6029 /* SFCrypto.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF945C51BFFF47D005368C5 /* SFCrypto.h */; };
-		CE4CE3161C0E523B009F6029 /* SFCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF945C61BFFF47D005368C5 /* SFCrypto.m */; };
 		CE4CE3231C0E523B009F6029 /* UIDevice+SFHardware.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF945D31BFFF47D005368C5 /* UIDevice+SFHardware.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE4CE3241C0E523B009F6029 /* UIDevice+SFHardware.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF945D41BFFF47D005368C5 /* UIDevice+SFHardware.m */; };
 		CE4CE3251C0E523B009F6029 /* UIScreen+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF945D51BFFF47D005368C5 /* UIScreen+SFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -302,7 +300,6 @@
 		CE4CE3501C0E5252009F6029 /* SFOAuthSessionRefresher+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FCD31BFD32130022F021 /* SFOAuthSessionRefresher+Internal.h */; };
 		CE4CE3511C0E5252009F6029 /* SFOAuthSessionRefresher.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FCD41BFD32130022F021 /* SFOAuthSessionRefresher.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE4CE3521C0E5252009F6029 /* SFOAuthSessionRefresher.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FCD51BFD32130022F021 /* SFOAuthSessionRefresher.m */; };
-		CE4CE3531C0E5258009F6029 /* SFSDKAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FCD71BFD32130022F021 /* SFSDKAppDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE4CE3541C0E5261009F6029 /* SFPushNotificationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FCD91BFD32130022F021 /* SFPushNotificationManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE4CE3551C0E5261009F6029 /* SFPushNotificationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FCDA1BFD32130022F021 /* SFPushNotificationManager.m */; };
 		CE4CE35D1C0E526A009F6029 /* SFAuthErrorHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FCF21BFD32130022F021 /* SFAuthErrorHandler.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -584,7 +581,6 @@
 		4F96FCD31BFD32130022F021 /* SFOAuthSessionRefresher+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFOAuthSessionRefresher+Internal.h"; sourceTree = "<group>"; };
 		4F96FCD41BFD32130022F021 /* SFOAuthSessionRefresher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFOAuthSessionRefresher.h; sourceTree = "<group>"; };
 		4F96FCD51BFD32130022F021 /* SFOAuthSessionRefresher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFOAuthSessionRefresher.m; sourceTree = "<group>"; };
-		4F96FCD71BFD32130022F021 /* SFSDKAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKAppDelegate.h; sourceTree = "<group>"; };
 		4F96FCD91BFD32130022F021 /* SFPushNotificationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPushNotificationManager.h; sourceTree = "<group>"; };
 		4F96FCDA1BFD32130022F021 /* SFPushNotificationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFPushNotificationManager.m; sourceTree = "<group>"; };
 		4F96FCF21BFD32130022F021 /* SFAuthErrorHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFAuthErrorHandler.h; sourceTree = "<group>"; };
@@ -640,8 +636,6 @@
 		4FF945C01BFFF47D005368C5 /* NSDictionary+SFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+SFAdditions.m"; sourceTree = "<group>"; };
 		4FF945C31BFFF47D005368C5 /* NSString+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SFAdditions.h"; sourceTree = "<group>"; };
 		4FF945C41BFFF47D005368C5 /* NSString+SFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SFAdditions.m"; sourceTree = "<group>"; };
-		4FF945C51BFFF47D005368C5 /* SFCrypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFCrypto.h; sourceTree = "<group>"; };
-		4FF945C61BFFF47D005368C5 /* SFCrypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFCrypto.m; sourceTree = "<group>"; };
 		4FF945D31BFFF47D005368C5 /* UIDevice+SFHardware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+SFHardware.h"; sourceTree = "<group>"; };
 		4FF945D41BFFF47D005368C5 /* UIDevice+SFHardware.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+SFHardware.m"; sourceTree = "<group>"; };
 		4FF945D51BFFF47D005368C5 /* UIScreen+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScreen+SFAdditions.h"; sourceTree = "<group>"; };
@@ -1060,8 +1054,6 @@
 				4FF945C41BFFF47D005368C5 /* NSString+SFAdditions.m */,
 				4FF946211BFFF663005368C5 /* NSURL+SFAdditions.h */,
 				4FF946221BFFF663005368C5 /* NSURL+SFAdditions.m */,
-				4FF945C51BFFF47D005368C5 /* SFCrypto.h */,
-				4FF945C61BFFF47D005368C5 /* SFCrypto.m */,
 				4FF945D31BFFF47D005368C5 /* UIDevice+SFHardware.h */,
 				4FF945D41BFFF47D005368C5 /* UIDevice+SFHardware.m */,
 				4FF945D51BFFF47D005368C5 /* UIScreen+SFAdditions.h */,
@@ -1148,14 +1140,6 @@
 				B72171552353BFF20022510F /* SFSDKAuthRequest.m */,
 			);
 			path = OAuth;
-			sourceTree = "<group>";
-		};
-		4F96FCD61BFD32130022F021 /* Protocols */ = {
-			isa = PBXGroup;
-			children = (
-				4F96FCD71BFD32130022F021 /* SFSDKAppDelegate.h */,
-			);
-			path = Protocols;
 			sourceTree = "<group>";
 		};
 		4F96FCD81BFD32130022F021 /* PushNotification */ = {
@@ -1414,7 +1398,6 @@
 				4F96FC631BFD32130022F021 /* Identity */,
 				4F96FC691BFD32130022F021 /* Instrumentation */,
 				4F96FCC41BFD32130022F021 /* OAuth */,
-				4F96FCD61BFD32130022F021 /* Protocols */,
 				4F96FCD81BFD32130022F021 /* PushNotification */,
 				6935FB9823FDE919002BEFCC /* UserAccount */,
 				4F96FCEA1BFD32130022F021 /* Security */,
@@ -1701,7 +1684,6 @@
 				CEA8C9701F02F79F00448B51 /* SFSDKCoreLogger.h in Headers */,
 				6900D804243D521C00888336 /* SFRestAPI+Notifications.h in Headers */,
 				829DA2951C1266340040F5F1 /* SalesforceSDKCore.h in Headers */,
-				CE4CE3151C0E523B009F6029 /* SFCrypto.h in Headers */,
 				CE4CE3501C0E5252009F6029 /* SFOAuthSessionRefresher+Internal.h in Headers */,
 				E1C80CF51C5AEE31001B3A21 /* SFSDKTextFieldTableViewCell.h in Headers */,
 				B7FB26DA1F78096300FB25A2 /* SFSDKIDPErrorHandler.h in Headers */,
@@ -1759,7 +1741,6 @@
 				4F06AF731C49A16A00F70798 /* NSURL+SFStringUtilsTests.h in Headers */,
 				69EA56CB264B1FAA007FE339 /* SFSDKMacDetectUtil.h in Headers */,
 				B7895D0D2345015B00765D85 /* SFSDKCompositeRequest.h in Headers */,
-				CE4CE3531C0E5258009F6029 /* SFSDKAppDelegate.h in Headers */,
 				4F5727E327F27F1A0008CDA4 /* SFSDKPrimingRecordsResponse.h in Headers */,
 				CE4CE3541C0E5261009F6029 /* SFPushNotificationManager.h in Headers */,
 				8214D96D205317BC0007349E /* SFSDKSalesforceAnalyticsManager+Internal.h in Headers */,
@@ -2173,7 +2154,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE4CE3161C0E523B009F6029 /* SFCrypto.m in Sources */,
 				A37F3116252E5C2300026635 /* KeyValueEncryptedFileStoreViewController.swift in Sources */,
 				69FB22F9235AD868006BD11B /* SFSDKViewControllerConfig.m in Sources */,
 				CE4CE39C1C0E5272009F6029 /* SFSDKTestCredentialsData.m in Sources */,
