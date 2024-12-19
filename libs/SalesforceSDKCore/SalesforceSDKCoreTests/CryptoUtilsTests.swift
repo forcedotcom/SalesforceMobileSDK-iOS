@@ -55,15 +55,4 @@ class CryptoUtilsTests: XCTestCase {
         decryptedData = try XCTUnwrap(SFSDKCryptoUtils.decrypt(data: encryptedData, key: privateKey, algorithm: SecKeyAlgorithm.rsaEncryptionOAEPSHA256))
         XCTAssertEqual(stringToEncrypt, String(bytes: decryptedData, encoding: .utf8))
     }
-
-    func testEncryptWithOldPKCS1MethodDecryptWithNew() throws {
-        let stringToEncrypt = "Test string"
-        let data = try XCTUnwrap(stringToEncrypt.data(using: .utf8))
-
-        // Old encrypt
-        let encryptedData = try XCTUnwrap(SFSDKCryptoUtils.encrypt(usingRSAforData: data, withKeyRef: publicKey)) // Deprecated method
-        // New decrypt
-        let decryptedData = try XCTUnwrap(SFSDKCryptoUtils.decrypt(data: encryptedData, key: privateKey, algorithm: SecKeyAlgorithm.rsaEncryptionPKCS1))
-        XCTAssertEqual(stringToEncrypt, String(bytes: decryptedData, encoding: .utf8))
-    }
 }

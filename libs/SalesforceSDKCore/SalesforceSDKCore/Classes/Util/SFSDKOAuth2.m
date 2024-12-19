@@ -385,10 +385,6 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
     }
 }
 
-- (void)revokeRefreshToken:(SFOAuthCredentials *)credentials {
-    [self revokeRefreshToken:credentials reason:SFLogoutReasonUnknown];
-}
-
 - (void)revokeRefreshToken:(SFOAuthCredentials *)credentials reason:(SFLogoutReason)reason {
     if (credentials.refreshToken != nil) {
         NSMutableURLRequest *request = [SFSDKOAuth2 requestForRevokeRefreshToken:credentials reason:reason];

@@ -133,11 +133,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)accessTokenForApprovalCode:(SFSDKOAuthTokenEndpointRequest *)endpointReq completion:(void (^)(SFSDKOAuthTokenEndpointResponse *))completionBlock;
 - (void)accessTokenForRefresh:(SFSDKOAuthTokenEndpointRequest *)endpointReq completion:(void (^)(SFSDKOAuthTokenEndpointResponse *))completionBlock;
 - (void)openIDTokenForRefresh:(SFSDKOAuthTokenEndpointRequest *)endpointReq completion:(void (^)(NSString *))completionBlock;
-- (void)revokeRefreshToken:(SFOAuthCredentials *)credentials SFSDK_DEPRECATED(12.1, 13.0, "Will be replaced by revokeRefreshToken:reason:");
-
-@optional
 - (void)revokeRefreshToken:(SFOAuthCredentials *)credentials reason:(SFLogoutReason)reason;
-
 @end
 
 @protocol SFSDKOAuthSessionManaging<NSObject>
