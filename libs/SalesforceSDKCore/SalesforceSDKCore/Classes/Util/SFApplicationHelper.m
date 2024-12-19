@@ -34,23 +34,6 @@
     return nil;
 }
 
-+ (BOOL)openURL:(NSURL*)url {
-    BOOL success = NO;
-    UIApplication *app = [self sharedApplication];
-    
-    if (app) {
-        SEL selector = @selector(openURL:);
-        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[[app class] instanceMethodSignatureForSelector:selector]];
-        [invocation setTarget:app];
-        [invocation setSelector:selector];
-        [invocation setArgument:&url atIndex:2];
-        [invocation invoke];
-        [invocation getReturnValue:&success];
-    }
-    
-    return success;
-}
-
 + (void)openURL:(NSURL*)url options:(NSDictionary<UIApplicationOpenExternalURLOptionsKey, id> *)options completionHandler:(void (^ __nullable)(BOOL success))completion {
     UIApplication *app = [self sharedApplication];
     

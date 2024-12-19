@@ -193,44 +193,6 @@ static NSString * const kSFECPrivateKeyTagPrefix = @"com.salesforce.eckey.privat
     return [self getRSAKeyRefWithTag:tagString keyLength:length];
 }
 
-+ (nullable NSData*)encryptUsingRSAforData:(NSData *)data withKeyRef:(SecKeyRef)keyRef
-{
-    uint8_t *bytes = (uint8_t*)[data bytes];
-    size_t blockSize = SecKeyGetBlockSize(keyRef);
-    
-    uint8_t cipherText[blockSize];
-    size_t cipherLength = blockSize;
-    OSStatus status = SecKeyEncrypt(keyRef, kSecPaddingPKCS1, bytes, [data length], &cipherText[0], &cipherLength);
-
-    if (status != errSecSuccess) {
-        [SFSDKCoreLogger e:[self class] format:@"encryptUsingRSAforData failed with status code: %d", status];
-        return nil;
-    }
-    
-    NSData *encryptedData = [NSData dataWithBytes:cipherText length:cipherLength];
-    return encryptedData;
-
-}
-
-+ (nullable NSData*)decryptUsingRSAforData:(NSData *)data withKeyRef:(SecKeyRef)keyRef
-{
-    size_t blockSize = SecKeyGetBlockSize(keyRef);
-    size_t cipherLength = [data length];
-    uint8_t *cipherText = (uint8_t*)[data bytes];
-    
-    uint8_t plainText[blockSize];
-    size_t plainLength = blockSize;
-    OSStatus status = SecKeyDecrypt(keyRef, kSecPaddingPKCS1, &cipherText[0], cipherLength, &plainText[0], &plainLength );
-    
-    if (status != errSecSuccess) {
-        [SFSDKCoreLogger e:[self class] format:@"decryptUsingRSAforData failed with status code: %d", status];
-        return nil;
-    }
-    
-    NSData *decryptedData = [NSData dataWithBytes:plainText length:plainLength];
-    return decryptedData;
-}
-
 + (BOOL) isSecureEnclaveAvailable
 {
 #if TARGET_OS_SIMULATOR

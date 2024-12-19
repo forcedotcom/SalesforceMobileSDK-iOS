@@ -57,7 +57,7 @@ class PushNotificationDecryptionTests: XCTestCase {
         
         // RSA-PKCS1 encryption for secret
         let secret = key + iv
-        let encryptedSecret = try XCTUnwrap(SFSDKCryptoUtils.encrypt(usingRSAforData: secret, withKeyRef: publicKey))
+        let encryptedSecret = try SFSDKCryptoUtils.encrypt(data: secret, key: publicKey, algorithm: SecKeyAlgorithm.rsaEncryptionPKCS1)
         let secretString = encryptedSecret.base64EncodedString()
         
         notificationContent.userInfo[kRemoteNotificationKeySecret] = secretString
