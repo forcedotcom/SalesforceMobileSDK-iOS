@@ -40,11 +40,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (nullable UIApplication*)sharedApplication;
 
-/** Opens the specified URL.
- @param url The URL to be opened.
- @return YES if the URL is successfully opened.
- */
-+ (BOOL)openURL:(NSURL*)url SFSDK_DEPRECATED(12.2, 13.0, "Use openURL:options:completionHandler: instead.");
 
 + (void)openURL:(NSURL*)url options:(NSDictionary<UIApplicationOpenExternalURLOptionsKey, id> *)options completionHandler:(void (^ __nullable)(BOOL success))completion;
 

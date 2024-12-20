@@ -28,6 +28,7 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 #import "SFSDKPushNotificationDataProvider.h"
 #import "SFSDKPushNotificationEncryptionConstants.h"
 #import "SFEncryptionKey.h"
+#import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 
 static NSUInteger const kEncryptionKeyLengthBytes = 16;
 static NSUInteger const kEncryptionIVLengthBytes = 16;
@@ -84,7 +85,7 @@ static NSUInteger const kEncryptionIVLengthBytes = 16;
     [fullKeyData appendData:key.initializationVector];
     
     SecKeyRef publicKeyRef = [self getPublicKeyRef];
-    NSData *encryptedKeyData = [SFSDKCryptoUtils encryptUsingRSAforData:fullKeyData withKeyRef:publicKeyRef];
+    NSData *encryptedKeyData = [SFSDKCryptoUtils encryptData:fullKeyData key:publicKeyRef algorithm:kSecKeyAlgorithmRSAEncryptionOAEPSHA256 error:nil];
     CFRelease(publicKeyRef);
     return [encryptedKeyData base64EncodedStringWithOptions:0];
 }
