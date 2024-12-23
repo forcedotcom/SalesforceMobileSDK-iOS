@@ -247,7 +247,7 @@ static NSString *const kSFScreenLockWindowKey = @"screenlock";
 - (SFSDKWindowContainer *)windowWithName:(NSString *)name scene:(nullable UIScene *)scene {
     scene = [self nonnullScene:scene];
     SFSDKWindowContainer *container = [[self.namedWindows objectForKey:scene.session.persistentIdentifier] objectForKey:name];
-    [self setWindowScene:container scene:nil];
+    [self setWindowScene:container scene:scene];
     return container;
 }
 
