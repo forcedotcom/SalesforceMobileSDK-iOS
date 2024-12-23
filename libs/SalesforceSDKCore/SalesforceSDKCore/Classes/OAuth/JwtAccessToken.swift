@@ -76,7 +76,7 @@ public class JwtAccessToken : NSObject {
     let payload: JwtPayload
 
     /// Initializer to parse and decode the JWT string
-    @objc init(jwt: String) throws {
+    @objc public init(jwt: String) throws {
         self.rawJwt = jwt
         self.header = try JwtAccessToken.parseJwtHeader(jwt: jwt)
         self.payload = try JwtAccessToken.parseJwtPayload(jwt: jwt)
