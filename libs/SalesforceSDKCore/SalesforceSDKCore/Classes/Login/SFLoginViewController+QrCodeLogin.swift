@@ -27,6 +27,8 @@
 
 import Foundation
 
+let sfSppFeatureQrCodeLogin: String = "QR"
+
 public extension SalesforceLoginViewController {
     
     // MARK: - QR Code Login Via Salesforce Identity API UI Bridge Public Implementation
@@ -86,6 +88,7 @@ public extension SalesforceLoginViewController {
         if let uiBridgeApiParameters = uiBridgeApiParametersFromQrCodeLoginUrl(
             qrCodeLoginUrl
         ) {
+            SFSDKAppFeatureMarkers.registerAppFeature(sfSppFeatureQrCodeLogin)
             loginWithFrontdoorBridgeUrl(
                 uiBridgeApiParameters.frontdoorBridgeUrl,
                 pkceCodeVerifier: uiBridgeApiParameters.pkceCodeVerifier
