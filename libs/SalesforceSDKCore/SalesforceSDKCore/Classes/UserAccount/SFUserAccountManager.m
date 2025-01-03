@@ -71,8 +71,6 @@
 #import <SalesforceSDKCommon/SFJsonUtils.h>
 #import "SFSDKOAuth2+Internal.h"
 
-static NSString * const kSFAppFeatureQrCodeLogin = @"QR";
-
 // Notifications
 NSNotificationName SFUserAccountManagerDidChangeUserNotification       = @"SFUserAccountManagerDidChangeUserNotification";
 NSNotificationName SFUserAccountManagerDidChangeUserDataNotification   = @"SFUserAccountManagerDidChangeUserDataNotification";
@@ -424,7 +422,6 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
          frontDoorBridgeUrl:(nullable NSURL * )frontDoorBridgeUrl
                codeVerifier:(nullable NSString *)codeVerifier
 {
-    [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureQrCodeLogin];
     return [self authenticateWithCompletion:completionBlock
                                     failure:failureBlock
                                       scene:scene
