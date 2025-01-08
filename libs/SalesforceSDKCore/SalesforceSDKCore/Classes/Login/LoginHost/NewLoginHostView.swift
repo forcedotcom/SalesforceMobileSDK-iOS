@@ -97,7 +97,7 @@ struct NewLoginHostView: View {
                 Button {
                     save()
                 } label: {
-                    Text("Done").bold()
+                    Text(SFSDKResourceUtils.localizedString("DONE_BUTTON")).bold()
                 }
                 .disabled(host.trimmingCharacters(in: .whitespaces).isEmpty)
             }
