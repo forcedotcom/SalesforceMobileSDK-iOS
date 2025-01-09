@@ -345,7 +345,7 @@ static NSString * const kInspectorPickerDefault = @"default";
     [navBar setItems:@[navItem] animated:YES];
     navBar.translucent = NO;
     navBar.barTintColor = [UIColor salesforceBlueColor];
-    navBar.tintColor = [UIColor whiteColor];
+    navBar.tintColor = [UIColor salesforceNavBarTintColor];
     navBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName:[UIFont systemFontOfSize:kNavBarTitleFontSize]};
     [self.view addSubview:navBar];
     return navBar;

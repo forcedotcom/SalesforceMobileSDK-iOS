@@ -99,7 +99,7 @@ static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCel
  * Invoked when the user presses the Add button. This method presents the new login host view.
  */
 - (void)showAddLoginHost:(id)sender {
-    UIViewController *detailViewController = [SFSDKNewLoginHostViewController viewControllerWithSaveAction:^(NSString * _Nonnull host, NSString * _Nullable label) {
+    UIViewController *detailViewController = [SFSDKNewLoginHostViewController viewControllerWithConfig:self.config saveAction:^(NSString * _Nonnull host, NSString * _Nullable label) {
         [self addLoginHost:[SFSDKLoginHost hostWithName:label host:host deletable:YES]];
     }];
 

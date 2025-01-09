@@ -28,6 +28,7 @@
 
 #import <UIKit/UIKit.h>
 #import <SalesforceSDKCore/SFSDKLoginHostDelegate.h>
+#import <SalesforceSDKCore/SFSDKViewControllerConfig.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -56,6 +57,8 @@ NS_SWIFT_NAME(LoginHostListViewController)
  * Hides the Add button if it exists.  Enables the adding of hosts to the host list.
  */
 @property (nonatomic,assign) BOOL hidesAddButton;
+
+@property (nonatomic) SFSDKViewControllerConfig *config;
 
 /**
  * Adds a new login host. Also updates the underlying storage and refreshes 
