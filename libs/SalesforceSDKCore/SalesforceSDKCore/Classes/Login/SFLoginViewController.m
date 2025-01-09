@@ -285,6 +285,7 @@
 
 - (SFSDKLoginHostListViewController *)createLoginHostListViewController {
     SFSDKLoginHostListViewController *loginHostListViewController = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
+    loginHostListViewController.config = self.config;
     return loginHostListViewController;
 }
 

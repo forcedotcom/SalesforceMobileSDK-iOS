@@ -109,6 +109,10 @@
     return [UIColor colorWithRed: 245.0/255.0 green:246.0/255.0 blue: 250.0/255.0 alpha: 1.0];
 }
 
++ (UIColor *)salesforceNavBarTintColor {
+    return [UIColor whiteColor];
+}
+
 + (UIColor *)sfsdk_colorForLightStyle:(UIColor *)lightStyleColor darkStyle:(UIColor *)darkStyleColor {
     return [[UIColor alloc] initWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
                 if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {

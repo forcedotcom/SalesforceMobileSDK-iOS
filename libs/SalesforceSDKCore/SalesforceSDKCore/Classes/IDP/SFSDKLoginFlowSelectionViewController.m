@@ -236,7 +236,7 @@
         UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(showLoginHost:)];
         rightButton.accessibilityLabel = [SFSDKResourceUtils localizedString:@"LOGIN_CHOOSE_SERVER"];
         self.navBar.topItem.rightBarButtonItem = rightButton;
-        self.navBar.topItem.rightBarButtonItem.tintColor = [UIColor  whiteColor];
+        self.navBar.topItem.rightBarButtonItem.tintColor = [UIColor salesforceNavBarTintColor];
     }
     
 }

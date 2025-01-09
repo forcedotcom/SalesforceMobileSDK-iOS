@@ -30,8 +30,8 @@ import SwiftUI
 
 @objc(SFSDKNewLoginHostViewController)
 class NewLoginHostViewController: NSObject {
-    @objc public static func viewController(saveAction: @escaping ((String, String?) -> Void)) -> UIViewController {
-        let view = NewLoginHostView(saveAction: saveAction)
+    @objc public static func viewController(config: SFSDKViewControllerConfig?, saveAction: @escaping ((String, String?) -> Void)) -> UIViewController {
+        let view = NewLoginHostView(viewControllerConfig: config, saveAction: saveAction)
         return UIHostingController(rootView: view)
     }
 }
@@ -59,9 +59,15 @@ struct NewLoginHostView: View {
     @State var host = ""
     @State var label = ""
     private var saveAction: ((String, String?) -> Void)
+    private var navBarTintColor: Color
     
-    init(saveAction: @escaping ((String, String?) -> Void)) {
+    init(viewControllerConfig: SFSDKViewControllerConfig?, saveAction: @escaping ((String, String?) -> Void)) {
         self.saveAction = saveAction
+        if let navBarTintColor =  viewControllerConfig?.navigationBarTintColor {
+            self.navBarTintColor = Color(uiColor: navBarTintColor)
+        } else {
+            self.navBarTintColor = Color(uiColor: UIColor.salesforceNavBarTint)
+        }
     }
     
     func save() {
@@ -99,12 +105,13 @@ struct NewLoginHostView: View {
                 } label: {
                     Text(SFSDKResourceUtils.localizedString("DONE_BUTTON")).bold()
                 }
+                .tint(navBarTintColor)
                 .disabled(host.trimmingCharacters(in: .whitespaces).isEmpty)
             }
-        }.tint(.white)
+        }
     }
 }
 
 #Preview {
-    NewLoginHostView {_,_ in }
+    NewLoginHostView(viewControllerConfig: nil) {_,_ in }
 }
