@@ -143,6 +143,16 @@
     XCTAssertEqual(snapshowWindowScene.window.windowLevel, SFWindowLevelSnapshotOffset);
 }
 
+- (void)testCustomWindow {
+    NSString *windowName = @"test";
+    SFSDKWindowContainer *createdWindow = [[SFSDKWindowManager sharedManager] createNewNamedWindow:windowName];
+    XCTAssert(createdWindow.window != nil);
+    XCTAssert(createdWindow.windowType == SFSDKWindowTypeOther);
+    
+    SFSDKWindowContainer *retrievedWindow = [[SFSDKWindowManager sharedManager] windowWithName:windowName];
+    XCTAssertEqualObjects(createdWindow, retrievedWindow);
+}
+
 - (void)testEnable {
     SFSDKWindowContainer *screenLockWindow = [SFSDKWindowManager sharedManager].screenLockWindow;
     [screenLockWindow presentWindow];

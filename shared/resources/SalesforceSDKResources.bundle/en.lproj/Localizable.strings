@@ -59,8 +59,11 @@
 "LOGIN_SERVER_SANDBOX" = "Sandbox";
 "LOGIN_CHOOSE_SERVER" = "Choose Connection";
 "LOGIN_ADD_SERVER" = "Add Connection";
-"LOGIN_SERVER_URL" = "Host (Example: login.salesforce.com)";
-"LOGIN_SERVER_NAME" = "Label (Optional)";
+"LOGIN_SERVER_URL" = "Host";
+"LOGIN_SERVER_NAME" = "Label";
+"LOGIN_SERVER_URL_PLACEHOLDER" = "Example: login.salesforce.com";
+"LOGIN_SERVER_NAME_PLACEHOLDER" = "Optional";
+"DONE_BUTTON" = "Done";
 
 //Account Switcher
 "ACCOUNT_SWITCHER_TITLE" = "Manage Accounts";

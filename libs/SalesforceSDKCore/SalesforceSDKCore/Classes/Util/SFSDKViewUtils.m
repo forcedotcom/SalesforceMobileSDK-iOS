@@ -27,6 +27,7 @@
  */
 #import "SFSDKViewUtils.h"
 #import "SFSDKViewControllerConfig.h"
+#import "UIColor+SFColors.h"
 
 @implementation SFSDKViewUtils
 
@@ -50,7 +51,7 @@
         [textAttributes setObject:config.navBarTintColor forKey:NSForegroundColorAttributeName];
     } else {
         // default color
-        navigationBar.tintColor = [UIColor whiteColor];
+        navigationBar.tintColor = [UIColor salesforceNavBarTintColor];
     }
     
     if (config.navBarTitleColor){

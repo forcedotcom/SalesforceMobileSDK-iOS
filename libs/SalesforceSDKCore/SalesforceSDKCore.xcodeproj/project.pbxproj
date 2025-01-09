@@ -79,6 +79,7 @@
 		6938392723C82F38008E8E9A /* SFSDKNullURLCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 6938392523C82F38008E8E9A /* SFSDKNullURLCache.m */; };
 		693E623124A287DB0017B222 /* KeyValueEncryptedFileStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693E623024A287DB0017B222 /* KeyValueEncryptedFileStore.swift */; };
 		693E623B24A29B6B0017B222 /* SFSDKKeyValueEncryptedFileStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 693E623A24A29B6B0017B222 /* SFSDKKeyValueEncryptedFileStoreTests.m */; };
+		6941BE662D2F0E1B00CEC59B /* NewLoginHostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6941BE652D2F0E1B00CEC59B /* NewLoginHostView.swift */; };
 		694490D025B8F4C4007747CD /* SFSDKWindowManager+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 694490C725B8E567007747CD /* SFSDKWindowManager+Internal.h */; };
 		695E86A829EE24D0002BDEA6 /* SPConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695E86A729EE24D0002BDEA6 /* SPConfig.swift */; };
 		695E86B929EF8D6E002BDEA6 /* SFSDKIDPAuthCodeLoginRequestCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = 695E86B729EF8D6E002BDEA6 /* SFSDKIDPAuthCodeLoginRequestCommand.h */; };
@@ -105,6 +106,7 @@
 		69BDD82F26F90AA400C26D77 /* DecryptStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BDD82D26F90AA400C26D77 /* DecryptStream.swift */; };
 		69BDD83026F90AA400C26D77 /* EncryptStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BDD82E26F90AA400C26D77 /* EncryptStream.swift */; };
 		69CEBC7E22F368CF00F16218 /* SFNetworkTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 69CEBC7D22F368CF00F16218 /* SFNetworkTests.m */; };
+		69D03E262D2C6D0B004381EC /* SFLoginViewController+QrCodeLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D03E252D2C6D0B004381EC /* SFLoginViewController+QrCodeLogin.swift */; };
 		69DFE0632B968D8F000906E4 /* CryptoUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DFE0622B968D8F000906E4 /* CryptoUtils.swift */; };
 		69DFE06B2B969C22000906E4 /* CryptoUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DFE0682B969C1D000906E4 /* CryptoUtilsTests.swift */; };
 		69DFE06C2B969C25000906E4 /* PushNotificationDecryptionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DFE0672B969C1D000906E4 /* PushNotificationDecryptionTests.swift */; };
@@ -398,8 +400,6 @@
 		E1C80CF01C5AEE31001B3A21 /* SFSDKLoginHostListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C80CE51C5AEE31001B3A21 /* SFSDKLoginHostListViewController.m */; };
 		E1C80CF11C5AEE31001B3A21 /* SFSDKLoginHostStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C80CE61C5AEE31001B3A21 /* SFSDKLoginHostStorage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1C80CF21C5AEE31001B3A21 /* SFSDKLoginHostStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C80CE71C5AEE31001B3A21 /* SFSDKLoginHostStorage.m */; };
-		E1C80CF31C5AEE31001B3A21 /* SFSDKNewLoginHostViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C80CE81C5AEE31001B3A21 /* SFSDKNewLoginHostViewController.h */; };
-		E1C80CF41C5AEE31001B3A21 /* SFSDKNewLoginHostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C80CE91C5AEE31001B3A21 /* SFSDKNewLoginHostViewController.m */; };
 		E1C80CF51C5AEE31001B3A21 /* SFSDKTextFieldTableViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C80CEA1C5AEE31001B3A21 /* SFSDKTextFieldTableViewCell.h */; };
 		E1C80CF61C5AEE31001B3A21 /* SFSDKTextFieldTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C80CEB1C5AEE31001B3A21 /* SFSDKTextFieldTableViewCell.m */; };
 		E1C80D081C5AF029001B3A21 /* SalesforceSDKAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1C80D071C5AF029001B3A21 /* SalesforceSDKAssets.xcassets */; };
@@ -662,6 +662,7 @@
 		6938392523C82F38008E8E9A /* SFSDKNullURLCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKNullURLCache.m; sourceTree = "<group>"; };
 		693E623024A287DB0017B222 /* KeyValueEncryptedFileStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyValueEncryptedFileStore.swift; sourceTree = "<group>"; };
 		693E623A24A29B6B0017B222 /* SFSDKKeyValueEncryptedFileStoreTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFSDKKeyValueEncryptedFileStoreTests.m; path = SalesforceSDKCoreTests/SFSDKKeyValueEncryptedFileStoreTests.m; sourceTree = SOURCE_ROOT; };
+		6941BE652D2F0E1B00CEC59B /* NewLoginHostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NewLoginHostView.swift; path = Login/LoginHost/NewLoginHostView.swift; sourceTree = "<group>"; };
 		694490C725B8E567007747CD /* SFSDKWindowManager+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SFSDKWindowManager+Internal.h"; sourceTree = "<group>"; };
 		695E86A729EE24D0002BDEA6 /* SPConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPConfig.swift; sourceTree = "<group>"; };
 		695E86B729EF8D6E002BDEA6 /* SFSDKIDPAuthCodeLoginRequestCommand.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKIDPAuthCodeLoginRequestCommand.h; sourceTree = "<group>"; };
@@ -689,6 +690,7 @@
 		69BDD82D26F90AA400C26D77 /* DecryptStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DecryptStream.swift; sourceTree = "<group>"; };
 		69BDD82E26F90AA400C26D77 /* EncryptStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EncryptStream.swift; sourceTree = "<group>"; };
 		69CEBC7D22F368CF00F16218 /* SFNetworkTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFNetworkTests.m; path = SalesforceSDKCoreTests/SFNetworkTests.m; sourceTree = SOURCE_ROOT; };
+		69D03E252D2C6D0B004381EC /* SFLoginViewController+QrCodeLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "SFLoginViewController+QrCodeLogin.swift"; path = "Login/SFLoginViewController+QrCodeLogin.swift"; sourceTree = "<group>"; };
 		69DFE0622B968D8F000906E4 /* CryptoUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoUtils.swift; sourceTree = "<group>"; };
 		69DFE0672B969C1D000906E4 /* PushNotificationDecryptionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PushNotificationDecryptionTests.swift; path = SalesforceSDKCoreTests/PushNotificationDecryptionTests.swift; sourceTree = SOURCE_ROOT; };
 		69DFE0682B969C1D000906E4 /* CryptoUtilsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CryptoUtilsTests.swift; path = SalesforceSDKCoreTests/CryptoUtilsTests.swift; sourceTree = SOURCE_ROOT; };
@@ -903,8 +905,6 @@
 		E1C80CE51C5AEE31001B3A21 /* SFSDKLoginHostListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSDKLoginHostListViewController.m; path = Login/LoginHost/SFSDKLoginHostListViewController.m; sourceTree = "<group>"; };
 		E1C80CE61C5AEE31001B3A21 /* SFSDKLoginHostStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSDKLoginHostStorage.h; path = Login/LoginHost/SFSDKLoginHostStorage.h; sourceTree = "<group>"; };
 		E1C80CE71C5AEE31001B3A21 /* SFSDKLoginHostStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSDKLoginHostStorage.m; path = Login/LoginHost/SFSDKLoginHostStorage.m; sourceTree = "<group>"; };
-		E1C80CE81C5AEE31001B3A21 /* SFSDKNewLoginHostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSDKNewLoginHostViewController.h; path = Login/LoginHost/SFSDKNewLoginHostViewController.h; sourceTree = "<group>"; };
-		E1C80CE91C5AEE31001B3A21 /* SFSDKNewLoginHostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSDKNewLoginHostViewController.m; path = Login/LoginHost/SFSDKNewLoginHostViewController.m; sourceTree = "<group>"; };
 		E1C80CEA1C5AEE31001B3A21 /* SFSDKTextFieldTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSDKTextFieldTableViewCell.h; path = Login/LoginHost/SFSDKTextFieldTableViewCell.h; sourceTree = "<group>"; };
 		E1C80CEB1C5AEE31001B3A21 /* SFSDKTextFieldTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSDKTextFieldTableViewCell.m; path = Login/LoginHost/SFSDKTextFieldTableViewCell.m; sourceTree = "<group>"; };
 		E1C80D071C5AF029001B3A21 /* SalesforceSDKAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = SalesforceSDKAssets.xcassets; path = ../../shared/resources/SalesforceSDKAssets.xcassets; sourceTree = "<group>"; };
@@ -1635,6 +1635,7 @@
 				A37530152B2A6C6B006DFE69 /* NativeLogin */,
 				E1C80CDD1C5AEBFA001B3A21 /* SFLoginViewController.h */,
 				E1C80CDE1C5AEBFA001B3A21 /* SFLoginViewController.m */,
+				69D03E252D2C6D0B004381EC /* SFLoginViewController+QrCodeLogin.swift */,
 				E13950A21C53620B00575C03 /* LoginHost */,
 				B78C27B71FBCFFCB00742CD5 /* SFSDKLoginViewControllerConfig.h */,
 				B78C27B81FBCFFCB00742CD5 /* SFSDKLoginViewControllerConfig.m */,
@@ -1645,6 +1646,7 @@
 		E13950A21C53620B00575C03 /* LoginHost */ = {
 			isa = PBXGroup;
 			children = (
+				6941BE652D2F0E1B00CEC59B /* NewLoginHostView.swift */,
 				E1C80CE11C5AEE31001B3A21 /* SFSDKLoginHost.h */,
 				E1C80CE21C5AEE31001B3A21 /* SFSDKLoginHost.m */,
 				E1C80CE31C5AEE31001B3A21 /* SFSDKLoginHostDelegate.h */,
@@ -1652,8 +1654,6 @@
 				E1C80CE51C5AEE31001B3A21 /* SFSDKLoginHostListViewController.m */,
 				E1C80CE61C5AEE31001B3A21 /* SFSDKLoginHostStorage.h */,
 				E1C80CE71C5AEE31001B3A21 /* SFSDKLoginHostStorage.m */,
-				E1C80CE81C5AEE31001B3A21 /* SFSDKNewLoginHostViewController.h */,
-				E1C80CE91C5AEE31001B3A21 /* SFSDKNewLoginHostViewController.m */,
 				E1C80CEA1C5AEE31001B3A21 /* SFSDKTextFieldTableViewCell.h */,
 				E1C80CEB1C5AEE31001B3A21 /* SFSDKTextFieldTableViewCell.m */,
 			);
@@ -1695,7 +1695,6 @@
 				CE4CE3991C0E5272009F6029 /* SFSDKAsyncProcessListener.h in Headers */,
 				CE4CE3251C0E523B009F6029 /* UIScreen+SFAdditions.h in Headers */,
 				CE4CE38E1C0E526A009F6029 /* SFUserAccount.h in Headers */,
-				E1C80CF31C5AEE31001B3A21 /* SFSDKNewLoginHostViewController.h in Headers */,
 				B7FB26C71F78094A00FB25A2 /* SFSDKUserSelectionTableViewController.h in Headers */,
 				B72171562353BFF20022510F /* SFSDKAuthRequest.h in Headers */,
 				CE4CE33E1C0E524B009F6029 /* SFInstrumentation.h in Headers */,
@@ -2162,6 +2161,7 @@
 				B7895D1A2345304800765D85 /* SFSDKCompositeResponse.m in Sources */,
 				B7FB26E11F78096300FB25A2 /* SFSDKSPLoginResponseHandler.m in Sources */,
 				B70135641F87F63900995171 /* SFSDKAuthErrorManager.m in Sources */,
+				69D03E262D2C6D0B004381EC /* SFLoginViewController+QrCodeLogin.swift in Sources */,
 				CE4CE3521C0E5252009F6029 /* SFOAuthSessionRefresher.m in Sources */,
 				CE4CE3681C0E526A009F6029 /* SFDefaultUserManagementListViewController.m in Sources */,
 				CE4CE3551C0E5261009F6029 /* SFPushNotificationManager.m in Sources */,
@@ -2265,7 +2265,6 @@
 				B7A6ED32236A3F8600DBA451 /* UserAccountManager.swift in Sources */,
 				CE4CE3241C0E523B009F6029 /* UIDevice+SFHardware.m in Sources */,
 				CE675A381E0B2CC6002DBF5A /* SFSDKSoslReturningBuilder.m in Sources */,
-				E1C80CF41C5AEE31001B3A21 /* SFSDKNewLoginHostViewController.m in Sources */,
 				CE4CE3281C0E523B009F6029 /* NSData+SFSDKUtils.m in Sources */,
 				CED452BD1D808D0C009266EB /* SFRestAPI+QueryBuilder.m in Sources */,
 				B71129111F8A780800436CFB /* SFSDKAlertMessageBuilder.m in Sources */,
@@ -2291,6 +2290,7 @@
 				B7460C1C2347E1A100C7512E /* SFSDKBatchResponse.m in Sources */,
 				A3C7476129F709EB00D72B7F /* BiometricAuthenticationManagerInternal.swift in Sources */,
 				B7FB26DB1F78096300FB25A2 /* SFSDKIDPErrorHandler.m in Sources */,
+				6941BE662D2F0E1B00CEC59B /* NewLoginHostView.swift in Sources */,
 				B7677051223AE5E400545C90 /* SFUserAccountManager+Instrumentation.m in Sources */,
 				E1C80CF01C5AEE31001B3A21 /* SFSDKLoginHostListViewController.m in Sources */,
 				B773CCF81F8200BD00D2D1B2 /* SFSDKIDPLoginRequestCommand.m in Sources */,
