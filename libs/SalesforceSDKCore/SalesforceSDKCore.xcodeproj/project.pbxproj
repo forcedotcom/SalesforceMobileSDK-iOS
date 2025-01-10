@@ -101,6 +101,7 @@
 		69848CB82364035300893E57 /* SFSDKEncryptedPushNotificationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 69848CB72364035300893E57 /* SFSDKEncryptedPushNotificationTests.m */; };
 		69848CBD2364063E00893E57 /* SFSDKPushNotificationDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 69848CBC2364063E00893E57 /* SFSDKPushNotificationDataProvider.m */; };
 		6990CBC029F5AF56004A5F8D /* SFSDKIDPAuthCodeLoginRequestCommandTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6990CBBF29F5AF56004A5F8D /* SFSDKIDPAuthCodeLoginRequestCommandTest.m */; };
+		69B36F492D30C34F00EFF84A /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B36F482D30C34F00EFF84A /* ColorExtension.swift */; };
 		69BDD7E926F16C9000C26D77 /* SFSDKSalesforceSDKUpgradeManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 69BDD7E226F16C9000C26D77 /* SFSDKSalesforceSDKUpgradeManager.h */; };
 		69BDD7EA26F16C9000C26D77 /* SFSDKSalesforceSDKUpgradeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 69BDD7E826F16C9000C26D77 /* SFSDKSalesforceSDKUpgradeManager.m */; };
 		69BDD82F26F90AA400C26D77 /* DecryptStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BDD82D26F90AA400C26D77 /* DecryptStream.swift */; };
@@ -685,6 +686,7 @@
 		69848CBC2364063E00893E57 /* SFSDKPushNotificationDataProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFSDKPushNotificationDataProvider.m; path = SalesforceSDKCoreTests/SFSDKPushNotificationDataProvider.m; sourceTree = SOURCE_ROOT; };
 		6990CBBF29F5AF56004A5F8D /* SFSDKIDPAuthCodeLoginRequestCommandTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFSDKIDPAuthCodeLoginRequestCommandTest.m; path = SalesforceSDKCoreTests/SFSDKIDPAuthCodeLoginRequestCommandTest.m; sourceTree = SOURCE_ROOT; };
 		69B2B4F2261EA6F500AB86C2 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/System/Library/Frameworks/CoreTelephony.framework; sourceTree = DEVELOPER_DIR; };
+		69B36F482D30C34F00EFF84A /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		69BDD7E226F16C9000C26D77 /* SFSDKSalesforceSDKUpgradeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKSalesforceSDKUpgradeManager.h; sourceTree = "<group>"; };
 		69BDD7E826F16C9000C26D77 /* SFSDKSalesforceSDKUpgradeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKSalesforceSDKUpgradeManager.m; sourceTree = "<group>"; };
 		69BDD82D26F90AA400C26D77 /* DecryptStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DecryptStream.swift; sourceTree = "<group>"; };
@@ -1193,6 +1195,7 @@
 		4F96FD371BFD32140022F021 /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				69B36F482D30C34F00EFF84A /* ColorExtension.swift */,
 				CEA8C96E1F02F79F00448B51 /* SFSDKCoreLogger.h */,
 				CEA8C96F1F02F79F00448B51 /* SFSDKCoreLogger.m */,
 				CE675A2D1E0B2CC6002DBF5A /* SFSDKSoqlBuilder.h */,
@@ -2238,6 +2241,7 @@
 				B75233E01F4DF0B700040B6E /* SFSDKAuthPreferences.m in Sources */,
 				B767369320A4AB0200F04103 /* SFSDKNavigationController.m in Sources */,
 				CE4CE34B1C0E5252009F6029 /* SFOAuthInfo.m in Sources */,
+				69B36F492D30C34F00EFF84A /* ColorExtension.swift in Sources */,
 				69EA56CC264B1FAA007FE339 /* SFSDKMacDetectUtil.m in Sources */,
 				CED452BA1D808D0C009266EB /* SFRestAPI+Files.m in Sources */,
 				4F8A3B012CEC202F00ECDC76 /* JwtAccessToken.swift in Sources */,
