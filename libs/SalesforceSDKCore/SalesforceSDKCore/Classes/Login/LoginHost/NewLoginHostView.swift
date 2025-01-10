@@ -28,7 +28,7 @@
 import SwiftUI
 
 @objc(SFSDKNewLoginHostViewController)
-class NewLoginHostViewController: NSObject {
+public class NewLoginHostViewController: NSObject {
     @objc public static func viewController(config: SFSDKViewControllerConfig?, saveAction: @escaping ((String, String?) -> Void)) -> UIViewController {
         let view = NewLoginHostView(viewControllerConfig: config, saveAction: saveAction)
         return UIHostingController(rootView: view)
