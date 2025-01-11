@@ -27,7 +27,6 @@
 
 import SwiftUI
 
-
 @objc(SFSDKNewLoginHostViewController)
 class NewLoginHostViewController: NSObject {
     @objc public static func viewController(config: SFSDKViewControllerConfig?, saveAction: @escaping ((String, String?) -> Void)) -> UIViewController {
@@ -41,10 +40,17 @@ struct NewLoginHostField: View {
     let fieldPlaceholder: String
     @Binding var fieldValue: String
     
+    func placeholderText() -> Text {
+        let dynamicColor = Color(lightStyle: Color(red: 118/255, green: 118/255, blue: 118/255),
+                                 darkStyle: Color(red: 132/255, green: 132/255, blue: 132/255))
+       
+        return Text(fieldPlaceholder).foregroundStyle(dynamicColor)
+    }
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
             Text(fieldLabel)
-            TextField(fieldPlaceholder, text: $fieldValue)
+            TextField("", text: $fieldValue, prompt: placeholderText())
                 .autocorrectionDisabled()
                 .padding()
                 .background(

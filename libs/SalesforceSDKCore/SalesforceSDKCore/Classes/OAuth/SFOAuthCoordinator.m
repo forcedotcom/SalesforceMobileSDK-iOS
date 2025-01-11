@@ -330,9 +330,7 @@
         _view.clipsToBounds = YES;
         _view.translatesAutoresizingMaskIntoConstraints = NO;
         _view.customUserAgent = [SalesforceSDKManager sharedManager].userAgentString(@"");
-        if (@available(iOS 16.4, *)) {
-            _view.inspectable = [SalesforceSDKManager sharedManager].isLoginWebviewInspectable;
-        }
+        _view.inspectable = [SalesforceSDKManager sharedManager].isLoginWebviewInspectable;
         _view.UIDelegate = self;
     }
     return _view;
