@@ -2907,10 +2907,10 @@ static NSException *authException = nil;
         response = resp;
         [getExpectation fulfill];
     }];
-    [self waitForExpectations:@[getExpectation] timeout:20];
-    XCTAssertTrue(error == nil,@"RestApi call to a public api should not fail");
-    XCTAssertFalse(response == nil,@"RestApi call to a public api should not have a nil response");
-    XCTAssertTrue(response.count > 0 ,@"The response should have github/forcedotcom repos");
+    [self waitForExpectations:@[getExpectation] timeout:30];
+    XCTAssertTrue(error == nil, @"RestApi call to a public api should not fail. Error: %@", [error localizedDescription]);
+    XCTAssertFalse(response == nil, @"RestApi call to a public api should not have a nil response");
+    XCTAssertTrue(response.count > 0, @"The response should have github/forcedotcom repos");
 }
 
 - (void)testCustomSalesforceEndpoint {
