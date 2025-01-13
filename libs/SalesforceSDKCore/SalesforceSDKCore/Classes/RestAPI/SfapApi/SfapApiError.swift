@@ -31,7 +31,7 @@ import Foundation
 
 /// An exception derived from an `sfap_api` endpoint failure response.
 /// See https://developer.salesforce.com/docs/einstein/genai/guide/access-models-api-with-rest.html#step-3-use-models-rest-api
-///  /// @param errorCode The `sfap_api` error code
+/// @param errorCode The `sfap_api` error code
 /// @param message The `sfap_api` error message
 /// @param messageCode The `sfap_api` error code
 /// @param source The original `sfap_api` error response body

@@ -93,7 +93,6 @@ public class SfapApiClient : NSObject {
             path: "einstein/platform/v1/models/\(modelNameUnwrapped)/generations",
             queryParams: nil)
         sfapApiGenerationsRequest.customHeaders = [
-            //            "Authorization" : "Bearer \(String(describing: token))",
             "x-sfdc-app-context" : "EinsteinGPT",
             "x-client-feature-id" : "ai-platform-models-connected-app"
         ]
