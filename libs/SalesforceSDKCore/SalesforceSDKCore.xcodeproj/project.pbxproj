@@ -389,6 +389,10 @@
 		CED452ED1D808DEE009266EB /* SFNativeRestRequestListener.h in Headers */ = {isa = PBXBuildFile; fileRef = CED452E91D808DEE009266EB /* SFNativeRestRequestListener.h */; };
 		CED452EF1D808E0A009266EB /* SFNativeRestRequestListener.m in Sources */ = {isa = PBXBuildFile; fileRef = CED452EA1D808DEE009266EB /* SFNativeRestRequestListener.m */; };
 		CED452F01D808E0F009266EB /* SalesforceRestAPITests.m in Sources */ = {isa = PBXBuildFile; fileRef = CED452E81D808DEE009266EB /* SalesforceRestAPITests.m */; };
+		D38F430A2D35BD4B00B9E251 /* SfapApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38F43052D35BD4B00B9E251 /* SfapApiClient.swift */; };
+		D38F430B2D35BD4B00B9E251 /* SfapApiGenerationsRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38F43072D35BD4B00B9E251 /* SfapApiGenerationsRequestBody.swift */; };
+		D38F430C2D35BD4B00B9E251 /* SfapApiError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38F43062D35BD4B00B9E251 /* SfapApiError.swift */; };
+		D38F430D2D35BD4B00B9E251 /* SfapApiGenerationsResponseBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38F43082D35BD4B00B9E251 /* SfapApiGenerationsResponseBody.swift */; };
 		E1C80CDF1C5AEBFA001B3A21 /* SFLoginViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C80CDD1C5AEBFA001B3A21 /* SFLoginViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1C80CE01C5AEBFA001B3A21 /* SFLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C80CDE1C5AEBFA001B3A21 /* SFLoginViewController.m */; };
 		E1C80CEC1C5AEE31001B3A21 /* SFSDKLoginHost.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C80CE11C5AEE31001B3A21 /* SFSDKLoginHost.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -894,6 +898,10 @@
 		CED452E81D808DEE009266EB /* SalesforceRestAPITests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SalesforceRestAPITests.m; path = SalesforceSDKCoreTests/SalesforceRestAPITests.m; sourceTree = SOURCE_ROOT; };
 		CED452E91D808DEE009266EB /* SFNativeRestRequestListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFNativeRestRequestListener.h; path = SalesforceSDKCoreTests/SFNativeRestRequestListener.h; sourceTree = SOURCE_ROOT; };
 		CED452EA1D808DEE009266EB /* SFNativeRestRequestListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFNativeRestRequestListener.m; path = SalesforceSDKCoreTests/SFNativeRestRequestListener.m; sourceTree = SOURCE_ROOT; };
+		D38F43052D35BD4B00B9E251 /* SfapApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SfapApiClient.swift; sourceTree = "<group>"; };
+		D38F43062D35BD4B00B9E251 /* SfapApiError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SfapApiError.swift; sourceTree = "<group>"; };
+		D38F43072D35BD4B00B9E251 /* SfapApiGenerationsRequestBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SfapApiGenerationsRequestBody.swift; sourceTree = "<group>"; };
+		D38F43082D35BD4B00B9E251 /* SfapApiGenerationsResponseBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SfapApiGenerationsResponseBody.swift; sourceTree = "<group>"; };
 		E1C80CDD1C5AEBFA001B3A21 /* SFLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFLoginViewController.h; path = Login/SFLoginViewController.h; sourceTree = "<group>"; };
 		E1C80CDE1C5AEBFA001B3A21 /* SFLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFLoginViewController.m; path = Login/SFLoginViewController.m; sourceTree = "<group>"; };
 		E1C80CE11C5AEE31001B3A21 /* SFSDKLoginHost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSDKLoginHost.h; path = Login/LoginHost/SFSDKLoginHost.h; sourceTree = "<group>"; };
@@ -1387,23 +1395,23 @@
 		82AF840C16DFD95F008912EF /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				B722A702233C432E0089736E /* Extensions */,
-				B7FB26CA1F78096300FB25A2 /* URLHandlers */,
-				B7FB26B51F78094A00FB25A2 /* IDP */,
-				B7A20F7C1F25850E00D1E4B0 /* Views */,
-				CED452A81D808D0C009266EB /* RestAPI */,
 				CE145A881D137FD2003BCC20 /* Analytics */,
-				E139509E1C535F9C00575C03 /* Login */,
 				4F96FC511BFD32130022F021 /* Common */,
+				B722A702233C432E0089736E /* Extensions */,
 				4F96FC631BFD32130022F021 /* Identity */,
+				B7FB26B51F78094A00FB25A2 /* IDP */,
 				4F96FC691BFD32130022F021 /* Instrumentation */,
+				E139509E1C535F9C00575C03 /* Login */,
 				4F96FCC41BFD32130022F021 /* OAuth */,
 				4F96FCD81BFD32130022F021 /* PushNotification */,
-				6935FB9823FDE919002BEFCC /* UserAccount */,
+				CED452A81D808D0C009266EB /* RestAPI */,
 				4F96FCEA1BFD32130022F021 /* Security */,
 				69C5F99F24A3D999002C294D /* Storage */,
 				4F96FD2E1BFD32140022F021 /* Test */,
+				B7FB26CA1F78096300FB25A2 /* URLHandlers */,
+				6935FB9823FDE919002BEFCC /* UserAccount */,
 				4F96FD371BFD32140022F021 /* Util */,
+				B7A20F7C1F25850E00D1E4B0 /* Views */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -1588,45 +1596,57 @@
 		CED452A81D808D0C009266EB /* RestAPI */ = {
 			isa = PBXGroup;
 			children = (
-				4F5727DC27F27F1A0008CDA4 /* SFSDKPrimingRecordsResponse.h */,
-				4F5727E227F27F1A0008CDA4 /* SFSDKPrimingRecordsResponse.m */,
-				69E2FD9622FB937F008E0AF0 /* SFSDKEncryptedURLCache.h */,
-				69E2FD9D22FB937F008E0AF0 /* SFSDKEncryptedURLCache.m */,
-				6938392423C82F38008E8E9A /* SFSDKNullURLCache.h */,
-				6938392523C82F38008E8E9A /* SFSDKNullURLCache.m */,
+				D38F43092D35BD4B00B9E251 /* SfapApi */,
 				CE7F66291E556CA800DC3FBB /* SFNetwork.h */,
 				CE7F662A1E556CA800DC3FBB /* SFNetwork.m */,
+				CED452B01D808D0C009266EB /* SFRestAPI.h */,
+				CED452B11D808D0C009266EB /* SFRestAPI.m */,
 				CED452A91D808D0C009266EB /* SFRestAPI+Blocks.h */,
 				CED452AA1D808D0C009266EB /* SFRestAPI+Blocks.m */,
 				CED452AB1D808D0C009266EB /* SFRestAPI+Files.h */,
 				CED452AC1D808D0C009266EB /* SFRestAPI+Files.m */,
 				CED452AD1D808D0C009266EB /* SFRestAPI+Internal.h */,
-				CED452AE1D808D0C009266EB /* SFRestAPI+QueryBuilder.h */,
-				CED452AF1D808D0C009266EB /* SFRestAPI+QueryBuilder.m */,
 				6900D802243D521C00888336 /* SFRestAPI+Notifications.h */,
 				6900D803243D521C00888336 /* SFRestAPI+Notifications.m */,
-				CED452B01D808D0C009266EB /* SFRestAPI.h */,
-				CED452B11D808D0C009266EB /* SFRestAPI.m */,
-				CED452B41D808D0C009266EB /* SFRestRequest+Internal.h */,
+				CED452AE1D808D0C009266EB /* SFRestAPI+QueryBuilder.h */,
+				CED452AF1D808D0C009266EB /* SFRestAPI+QueryBuilder.m */,
 				CED452B51D808D0C009266EB /* SFRestRequest.h */,
 				CED452B61D808D0C009266EB /* SFRestRequest.m */,
-				FDCECBE6688B51C1B9BDC524 /* SFSObjectTree.m */,
-				FDCEC40C4B860474C90D02AF /* SFSObjectTree.h */,
+				CED452B41D808D0C009266EB /* SFRestRequest+Internal.h */,
+				B7460C0C2347DD4E00C7512E /* SFSDKBatchRequest.h */,
+				B7460C0D2347DD4E00C7512E /* SFSDKBatchRequest.m */,
+				B7460C192347E1A100C7512E /* SFSDKBatchResponse.h */,
+				B7460C1A2347E1A100C7512E /* SFSDKBatchResponse.m */,
+				B7460C1D2347E1CB00C7512E /* SFSDKBatchResponse+Internal.h */,
+				4F2410A9282DC87A00E5EFE3 /* SFSDKCollectionResponse.h */,
+				4F2410B0282DCA4B00E5EFE3 /* SFSDKCollectionResponse.m */,
 				B7895D0B2345015B00765D85 /* SFSDKCompositeRequest.h */,
 				B7895D0C2345015B00765D85 /* SFSDKCompositeRequest.m */,
 				B7895D1323450E8E00765D85 /* SFSDKCompositeRequest+Internal.h */,
 				B7895D172345304800765D85 /* SFSDKCompositeResponse.h */,
-				B7895D8123469DE200765D85 /* SFSDKCompositeResponse+Internal.h */,
 				B7895D182345304800765D85 /* SFSDKCompositeResponse.m */,
-				B7460C0C2347DD4E00C7512E /* SFSDKBatchRequest.h */,
-				B7460C192347E1A100C7512E /* SFSDKBatchResponse.h */,
-				B7460C1A2347E1A100C7512E /* SFSDKBatchResponse.m */,
-				B7460C0D2347DD4E00C7512E /* SFSDKBatchRequest.m */,
-				B7460C1D2347E1CB00C7512E /* SFSDKBatchResponse+Internal.h */,
-				4F2410A9282DC87A00E5EFE3 /* SFSDKCollectionResponse.h */,
-				4F2410B0282DCA4B00E5EFE3 /* SFSDKCollectionResponse.m */,
+				B7895D8123469DE200765D85 /* SFSDKCompositeResponse+Internal.h */,
+				69E2FD9622FB937F008E0AF0 /* SFSDKEncryptedURLCache.h */,
+				69E2FD9D22FB937F008E0AF0 /* SFSDKEncryptedURLCache.m */,
+				6938392423C82F38008E8E9A /* SFSDKNullURLCache.h */,
+				6938392523C82F38008E8E9A /* SFSDKNullURLCache.m */,
+				4F5727DC27F27F1A0008CDA4 /* SFSDKPrimingRecordsResponse.h */,
+				4F5727E227F27F1A0008CDA4 /* SFSDKPrimingRecordsResponse.m */,
+				FDCEC40C4B860474C90D02AF /* SFSObjectTree.h */,
+				FDCECBE6688B51C1B9BDC524 /* SFSObjectTree.m */,
 			);
 			path = RestAPI;
+			sourceTree = "<group>";
+		};
+		D38F43092D35BD4B00B9E251 /* SfapApi */ = {
+			isa = PBXGroup;
+			children = (
+				D38F43052D35BD4B00B9E251 /* SfapApiClient.swift */,
+				D38F43062D35BD4B00B9E251 /* SfapApiError.swift */,
+				D38F43072D35BD4B00B9E251 /* SfapApiGenerationsRequestBody.swift */,
+				D38F43082D35BD4B00B9E251 /* SfapApiGenerationsResponseBody.swift */,
+			);
+			path = SfapApi;
 			sourceTree = "<group>";
 		};
 		E139509E1C535F9C00575C03 /* Login */ = {
@@ -2285,6 +2305,10 @@
 				E1C80CED1C5AEE31001B3A21 /* SFSDKLoginHost.m in Sources */,
 				695E86A829EE24D0002BDEA6 /* SPConfig.swift in Sources */,
 				CE4CE3961C0E526A009F6029 /* SFUserAccountManager.m in Sources */,
+				D38F430A2D35BD4B00B9E251 /* SfapApiClient.swift in Sources */,
+				D38F430B2D35BD4B00B9E251 /* SfapApiGenerationsRequestBody.swift in Sources */,
+				D38F430C2D35BD4B00B9E251 /* SfapApiError.swift in Sources */,
+				D38F430D2D35BD4B00B9E251 /* SfapApiGenerationsResponseBody.swift in Sources */,
 				CE4CE36B1C0E526A009F6029 /* SFDefaultUserManagementViewController.m in Sources */,
 				CEA8C9711F02F79F00448B51 /* SFSDKCoreLogger.m in Sources */,
 				B711290D1F8A780800436CFB /* SFSDKAlertView.m in Sources */,
