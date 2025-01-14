@@ -32,9 +32,6 @@ import Foundation
 @objc(SFApApiClient)
 public class SfapApiClient : NSObject {
     
-    /// The error domain
-    static let errorDomain = "com.salesforce.sfap_api.client"
-    
     /// The sfap_api hostname
     private let apiHostName: String
     
@@ -64,13 +61,8 @@ public class SfapApiClient : NSObject {
     ) async throws -> SfapApiGenerationsResponseBody {
         
         // Guards.
-        guard
-            let userAccountCurrent = UserAccountManager.shared.currentUserAccount,
-            let restClient = RestClient.restClient(for: userAccountCurrent) else {
-            throw sfapApiErrorWithMessage("Cannot invoke sfap_api client without a current user account.")}
-        
-        guard let modelNameUnwrapped = modelName else {
-            throw sfapApiErrorWithMessage("Cannot fetch generated embeddings without specifying a model name.")
+        guard let modelName = modelName else {
+            throw sfapApiError(message: "Cannot fetch generated embeddings without specifying a model name.")
         }
         
         // Generate the sfap_api generations request body.
@@ -81,16 +73,16 @@ public class SfapApiClient : NSObject {
                 ),
                 encoding: .utf8)
             } catch let error {
-                throw sfapApiErrorWithMessage("Cannot JSON encode sfap_api generations request body due to an encoding error with description '\(error.localizedDescription)'.")
+                throw sfapApiError(message: "Cannot JSON encode sfap_api generations request body due to an encoding error with description '\(error.localizedDescription)'.")
             }}() else {
-                throw sfapApiErrorWithMessage("Cannot JSON encode sfap_api generations request body.")
+                throw sfapApiError(message: "Cannot JSON encode sfap_api generations request body.")
             }
         
         // Create the sfap_api generations request.
         let sfapApiGenerationsRequest = RestRequest(
             method: .POST,
             baseURL: "https://\(apiHostName)/",
-            path: "einstein/platform/v1/models/\(modelNameUnwrapped)/generations",
+            path: "einstein/platform/v1/models/\(modelName)/generations",
             queryParams: nil)
         sfapApiGenerationsRequest.customHeaders = [
             "x-sfdc-app-context" : "EinsteinGPT",
@@ -117,33 +109,44 @@ public class SfapApiClient : NSObject {
             
         case .success(let sfapApiGenerationsResponse):
             // Decode the sfap_api generations response.
-            guard let sfapApiGenerationsResponseBody = try {
-                do {
-                    return try sfapApiGenerationsResponse.asDecodable(type: SfapApiGenerationsResponseBody.self)
-                } catch let error {
-                    throw sfapApiErrorWithMessage("Cannot JSON decode sfap_api generations response body due to a decoding error with description '\(error.localizedDescription)'.")
-                }}() else {
-                    throw sfapApiErrorWithMessage("Cannot JSON decode sfap_api generations response body.")
-                }
+            let sfapApiGenerationsResponseBody = try sfapApiGenerationsResponse.asDecodable(
+                type: SfapApiGenerationsResponseBody.self
+            )
             return sfapApiGenerationsResponseBody
             
         case .failure(let error):
-            throw sfapApiErrorWithMessage("sfap_api generations request failure with description '\(error.localizedDescription)'.")
+            switch error {
+                
+            case .apiFailed(
+                response: let response,
+                underlyingError: _,
+                urlResponse: _
+            ): if let errorResponseData = response as? Data {
+                let sfapApiErrorResponseBody = try JSONDecoder().decode(SfapApiErrorResponseBody.self, from: errorResponseData)
+                throw sfapApiError(
+                    errorCode: sfapApiErrorResponseBody.errorCode,
+                    message: "sfap_api generations request failure with description: '\(error.localizedDescription)', message: '\(String(describing: sfapApiErrorResponseBody.message))'.",
+                    messageCode: sfapApiErrorResponseBody.messageCode,
+                    source: String(data: errorResponseData, encoding: .utf8))
+            } else { throw error }
+                
+            default: throw error
+            }
         }
     }
     
-    private func sfapApiErrorWithMessage(_ message: String) -> SfapApiError {
-        
-        SFSDKCoreLogger().e(
-            classForCoder,
-            message: message)
+    private func sfapApiError(
+        errorCode: String? = nil,
+        message: String,
+        messageCode: String? = nil,
+        source: String? = nil) -> SfapApiError
+    {
+        SFSDKCoreLogger().e(classForCoder, message: message)
         
         return SfapApiError(
-            domain: SfapApiClient.errorDomain,
-            code: -1,
-            userInfo: [NSLocalizedDescriptionKey : message],
+            errorCode: errorCode,
             message: message,
-            messageCode: nil,
-            source: nil)
+            messageCode: messageCode,
+            source: source)
     }
 }

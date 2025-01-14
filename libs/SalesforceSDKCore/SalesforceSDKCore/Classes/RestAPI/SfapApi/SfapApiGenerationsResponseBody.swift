@@ -161,25 +161,4 @@ public class SfapApiGenerationsResponseBody: NSObject, Codable {
             }
         }
     }
-    
-    /// Returns an `sfap_api` "generations" endpoint response from the JSON text.
-    /// - Parameters:
-    /// - json The JSON text
-    /// - Return: The `sfap_api` "generations" endpoint response body or nil if a value cannot be
-    ///  returned for any reason.  A log entry will be output when nil is returned do to an error
-    static func fromJson(json: String) -> SfapApiGenerationsResponseBody? {
-        guard let result: SfapApiGenerationsResponseBody? = {
-            do {
-                if let data = json.data(using: .utf8) {
-                    return try JSONDecoder.init().decode(SfapApiGenerationsResponseBody.self, from: data)
-                } else { return nil }
-            } catch let error {
-                SFSDKCoreLogger().e(
-                    SfapApiClient.classForCoder(),
-                    message: "Cannot JSON decode sfap_api generations request body due to a decoding error with description '\(error.localizedDescription)'.")
-                return nil
-            }}() else { return nil }
-        result?.sourceJson = json
-        return result
-    }
 }
