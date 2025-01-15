@@ -37,7 +37,9 @@ public class NewLoginHostViewController: NSObject {
 
 struct NewLoginHostField: View {
     let fieldLabel: String
+    let fieldLabelAccessibilityID: String
     let fieldPlaceholder: String
+    let fieldInputAccessibilityID: String
     @Binding var fieldValue: String
     
     func placeholderText() -> Text {
@@ -50,7 +52,9 @@ struct NewLoginHostField: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
             Text(fieldLabel)
+                .accessibilityIdentifier(fieldLabelAccessibilityID)
             TextField("", text: $fieldValue, prompt: placeholderText())
+                .accessibilityIdentifier(fieldInputAccessibilityID)
                 .autocorrectionDisabled()
                 .padding()
                 .background(
@@ -87,14 +91,18 @@ struct NewLoginHostView: View {
     var body: some View {
         List {
             NewLoginHostField(fieldLabel: SFSDKResourceUtils.localizedString("LOGIN_SERVER_URL"),
+                              fieldLabelAccessibilityID: "addconn_hostLabel",
                               fieldPlaceholder: SFSDKResourceUtils.localizedString("LOGIN_SERVER_URL_PLACEHOLDER"),
+                              fieldInputAccessibilityID: "addconn_hostInput",
                               fieldValue: $host)
                 .keyboardType(.URL)
                 .autocapitalization(.none)
                 .listRowSeparator(.hidden)
 
             NewLoginHostField(fieldLabel: SFSDKResourceUtils.localizedString("LOGIN_SERVER_NAME"),
+                              fieldLabelAccessibilityID: "addconn_nameLabel",
                               fieldPlaceholder: SFSDKResourceUtils.localizedString("LOGIN_SERVER_NAME_PLACEHOLDER"),
+                              fieldInputAccessibilityID: "addconn_nameInput",
                               fieldValue: $label)
                 .listRowSeparator(.hidden)
                 .padding(.bottom)
