@@ -39,7 +39,7 @@ import Foundation
  * See https://developer.salesforce.com/docs/einstein/genai/guide/access-models-api-with-rest.html
  */
 @objc(SFApApiClient)
-public class SfapApiClient : NSObject {
+public class SfapAPIClient : NSObject {
     
     /// The sfap_api hostname
     private let apiHostName: String
