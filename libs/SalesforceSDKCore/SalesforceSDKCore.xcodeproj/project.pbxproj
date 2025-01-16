@@ -389,7 +389,14 @@
 		CED452ED1D808DEE009266EB /* SFNativeRestRequestListener.h in Headers */ = {isa = PBXBuildFile; fileRef = CED452E91D808DEE009266EB /* SFNativeRestRequestListener.h */; };
 		CED452EF1D808E0A009266EB /* SFNativeRestRequestListener.m in Sources */ = {isa = PBXBuildFile; fileRef = CED452EA1D808DEE009266EB /* SFNativeRestRequestListener.m */; };
 		CED452F01D808E0F009266EB /* SalesforceRestAPITests.m in Sources */ = {isa = PBXBuildFile; fileRef = CED452E81D808DEE009266EB /* SalesforceRestAPITests.m */; };
-		D38F430A2D35BD4B00B9E251 /* SfapApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38F43052D35BD4B00B9E251 /* SfapApiClient.swift */; };
+		D378EA0A2D3973F9008FA71D /* SfapApiChatGenerationsRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = D378EA022D3973F9008FA71D /* SfapApiChatGenerationsRequestBody.swift */; };
+		D378EA0B2D3973F9008FA71D /* SfapApiErrorResponseBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = D378EA072D3973F9008FA71D /* SfapApiErrorResponseBody.swift */; };
+		D378EA0C2D3973F9008FA71D /* SfapApiFeedbackRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = D378EA082D3973F9008FA71D /* SfapApiFeedbackRequestBody.swift */; };
+		D378EA0D2D3973F9008FA71D /* SfapApiEmbeddingsRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = D378EA052D3973F9008FA71D /* SfapApiEmbeddingsRequestBody.swift */; };
+		D378EA0E2D3973F9008FA71D /* SfapApiChatGenerationsResponseBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = D378EA032D3973F9008FA71D /* SfapApiChatGenerationsResponseBody.swift */; };
+		D378EA0F2D3973F9008FA71D /* SfapApiFeedbackResponseBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = D378EA092D3973F9008FA71D /* SfapApiFeedbackResponseBody.swift */; };
+		D378EA102D3973F9008FA71D /* SfapAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D378EA042D3973F9008FA71D /* SfapAPIClient.swift */; };
+		D378EA112D3973F9008FA71D /* SfapApiEmbeddingsResponseBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = D378EA062D3973F9008FA71D /* SfapApiEmbeddingsResponseBody.swift */; };
 		D38F430B2D35BD4B00B9E251 /* SfapApiGenerationsRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38F43072D35BD4B00B9E251 /* SfapApiGenerationsRequestBody.swift */; };
 		D38F430C2D35BD4B00B9E251 /* SfapApiError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38F43062D35BD4B00B9E251 /* SfapApiError.swift */; };
 		D38F430D2D35BD4B00B9E251 /* SfapApiGenerationsResponseBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38F43082D35BD4B00B9E251 /* SfapApiGenerationsResponseBody.swift */; };
@@ -898,7 +905,14 @@
 		CED452E81D808DEE009266EB /* SalesforceRestAPITests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SalesforceRestAPITests.m; path = SalesforceSDKCoreTests/SalesforceRestAPITests.m; sourceTree = SOURCE_ROOT; };
 		CED452E91D808DEE009266EB /* SFNativeRestRequestListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFNativeRestRequestListener.h; path = SalesforceSDKCoreTests/SFNativeRestRequestListener.h; sourceTree = SOURCE_ROOT; };
 		CED452EA1D808DEE009266EB /* SFNativeRestRequestListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFNativeRestRequestListener.m; path = SalesforceSDKCoreTests/SFNativeRestRequestListener.m; sourceTree = SOURCE_ROOT; };
-		D38F43052D35BD4B00B9E251 /* SfapApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SfapApiClient.swift; sourceTree = "<group>"; };
+		D378EA022D3973F9008FA71D /* SfapApiChatGenerationsRequestBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SfapApiChatGenerationsRequestBody.swift; sourceTree = "<group>"; };
+		D378EA032D3973F9008FA71D /* SfapApiChatGenerationsResponseBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SfapApiChatGenerationsResponseBody.swift; sourceTree = "<group>"; };
+		D378EA042D3973F9008FA71D /* SfapAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SfapAPIClient.swift; sourceTree = "<group>"; };
+		D378EA052D3973F9008FA71D /* SfapApiEmbeddingsRequestBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SfapApiEmbeddingsRequestBody.swift; sourceTree = "<group>"; };
+		D378EA062D3973F9008FA71D /* SfapApiEmbeddingsResponseBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SfapApiEmbeddingsResponseBody.swift; sourceTree = "<group>"; };
+		D378EA072D3973F9008FA71D /* SfapApiErrorResponseBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SfapApiErrorResponseBody.swift; sourceTree = "<group>"; };
+		D378EA082D3973F9008FA71D /* SfapApiFeedbackRequestBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SfapApiFeedbackRequestBody.swift; sourceTree = "<group>"; };
+		D378EA092D3973F9008FA71D /* SfapApiFeedbackResponseBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SfapApiFeedbackResponseBody.swift; sourceTree = "<group>"; };
 		D38F43062D35BD4B00B9E251 /* SfapApiError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SfapApiError.swift; sourceTree = "<group>"; };
 		D38F43072D35BD4B00B9E251 /* SfapApiGenerationsRequestBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SfapApiGenerationsRequestBody.swift; sourceTree = "<group>"; };
 		D38F43082D35BD4B00B9E251 /* SfapApiGenerationsResponseBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SfapApiGenerationsResponseBody.swift; sourceTree = "<group>"; };
@@ -1641,8 +1655,15 @@
 		D38F43092D35BD4B00B9E251 /* SfapApi */ = {
 			isa = PBXGroup;
 			children = (
-				D38F43052D35BD4B00B9E251 /* SfapApiClient.swift */,
+				D378EA022D3973F9008FA71D /* SfapApiChatGenerationsRequestBody.swift */,
+				D378EA032D3973F9008FA71D /* SfapApiChatGenerationsResponseBody.swift */,
+				D378EA042D3973F9008FA71D /* SfapAPIClient.swift */,
+				D378EA052D3973F9008FA71D /* SfapApiEmbeddingsRequestBody.swift */,
+				D378EA062D3973F9008FA71D /* SfapApiEmbeddingsResponseBody.swift */,
 				D38F43062D35BD4B00B9E251 /* SfapApiError.swift */,
+				D378EA072D3973F9008FA71D /* SfapApiErrorResponseBody.swift */,
+				D378EA082D3973F9008FA71D /* SfapApiFeedbackRequestBody.swift */,
+				D378EA092D3973F9008FA71D /* SfapApiFeedbackResponseBody.swift */,
 				D38F43072D35BD4B00B9E251 /* SfapApiGenerationsRequestBody.swift */,
 				D38F43082D35BD4B00B9E251 /* SfapApiGenerationsResponseBody.swift */,
 			);
@@ -2208,6 +2229,14 @@
 				CE4CE3881C0E526A009F6029 /* SFSDKCryptoUtils.m in Sources */,
 				CE4CE3261C0E523B009F6029 /* UIScreen+SFAdditions.m in Sources */,
 				B7C273F01F7EEFB700CE539D /* SFSDKIDPConstants.m in Sources */,
+				D378EA0A2D3973F9008FA71D /* SfapApiChatGenerationsRequestBody.swift in Sources */,
+				D378EA0B2D3973F9008FA71D /* SfapApiErrorResponseBody.swift in Sources */,
+				D378EA0C2D3973F9008FA71D /* SfapApiFeedbackRequestBody.swift in Sources */,
+				D378EA0D2D3973F9008FA71D /* SfapApiEmbeddingsRequestBody.swift in Sources */,
+				D378EA0E2D3973F9008FA71D /* SfapApiChatGenerationsResponseBody.swift in Sources */,
+				D378EA0F2D3973F9008FA71D /* SfapApiFeedbackResponseBody.swift in Sources */,
+				D378EA102D3973F9008FA71D /* SfapAPIClient.swift in Sources */,
+				D378EA112D3973F9008FA71D /* SfapApiEmbeddingsResponseBody.swift in Sources */,
 				B767704D223AE5E400545C90 /* SFRestAPI+Instrumentation.m in Sources */,
 				695E86BA29EF8D6E002BDEA6 /* SFSDKIDPAuthCodeLoginRequestCommand.m in Sources */,
 				B7C2745C1F8151E300CE539D /* SFSDKAuthErrorCommand.m in Sources */,
@@ -2305,7 +2334,6 @@
 				E1C80CED1C5AEE31001B3A21 /* SFSDKLoginHost.m in Sources */,
 				695E86A829EE24D0002BDEA6 /* SPConfig.swift in Sources */,
 				CE4CE3961C0E526A009F6029 /* SFUserAccountManager.m in Sources */,
-				D38F430A2D35BD4B00B9E251 /* SfapApiClient.swift in Sources */,
 				D38F430B2D35BD4B00B9E251 /* SfapApiGenerationsRequestBody.swift in Sources */,
 				D38F430C2D35BD4B00B9E251 /* SfapApiError.swift in Sources */,
 				D38F430D2D35BD4B00B9E251 /* SfapApiGenerationsResponseBody.swift in Sources */,
