@@ -1,5 +1,5 @@
 /*
- SfapApiErrorResponseBody.swift
+ SfapApiFeedbackResponseBody.swift
  SalesforceSDKCore
  
  Created by Eric C. Johnson (Johnson.Eric@Salesforce.com) on 20250114.
@@ -30,23 +30,12 @@
 import Foundation
 
 /**
- Models error responses from the `sfap_api` endpoints.
- See https://developer.salesforce.com/docs/einstein/genai/references/models-api?meta=Summary
+ * Models a `sfap_api` `feedback` endpoint response.
  */
-public struct SfapApiErrorResponseBody: Codable {
-    
-    /// The response error code
-    public let errorCode: String?
-    
-    /// The response message
+@objc
+public class SfapApiFeedbackResponseBody : NSObject, Codable {
     public let message: String?
     
-    /// The response message code
-    public let messageCode: String?
-    
-    enum CodingKeys: String, CodingKey {
-        case errorCode = "errorCode"
-        case message = "message"
-        case messageCode = "messageCode"
-    }
+    /** The original JSON used to initialize this response body */
+    internal(set) public var sourceJson: String?
 }

@@ -36,8 +36,8 @@ import Foundation
 /// @param source The original `sfap_api` error response body
 public struct SfapApiError: Error {
     
-    var errorCode: String? = nil
-    var message: String? = nil
-    var messageCode: String? = nil
-    var source: String? = nil
+    public var errorCode: String? = nil
+    public var message: String? = nil
+    public var messageCode: String? = nil
+    public var source: String? = nil
 }

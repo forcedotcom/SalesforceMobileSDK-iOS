@@ -29,6 +29,15 @@
 
 import Foundation
 
+/**
+ * Provides REST client methods for a variety of `sfap_api` endpoints.
+ * - `chat-generations`
+ * - `embeddings`
+ * - `feedback`
+ * - `generations`
+ *
+ * See https://developer.salesforce.com/docs/einstein/genai/guide/access-models-api-with-rest.html
+ */
 @objc(SFApApiClient)
 public class SfapApiClient : NSObject {
     
@@ -41,20 +50,138 @@ public class SfapApiClient : NSObject {
     /// The REST client
     private let restClient: RestClient
     
+    /**
+     * Initializes a new SfapApiClient.
+     * - Parameters:
+     *   - apiHostName: The Salesforce `sfap_api` hostname
+     *   - modelName: The model name to request from.  For possible values, see
+     *   https://developer.salesforce.com/docs/einstein/genai/guide/api-names.html.
+     *   Note that the `embeddings` endpoint requires an embeddings-enabled model such as
+     *   `sfdc_ai__DefaultOpenAITextEmbeddingAda_002`.  Also note that submitting to the `feedback`
+     *   endpoint does not require value for this parameter
+     *   - restClient: The REST client to use
+     */
     @objc
     public init(
         apiHostName: String,
         modelName: String? = nil,
-        restClient: RestClient) {
-            self.apiHostName = apiHostName
-            self.modelName = modelName
-            self.restClient = restClient
-        }
+        restClient: RestClient
+    ) {
+        self.apiHostName = apiHostName
+        self.modelName = modelName
+        self.restClient = restClient
+    }
     
-    /// Fetches generated text from the `sfap_api` "generations" endpoint.
-    /// - Parameters:
-    ///   -  prompt: The prompt request parameter value
-    /// - Returns: The endpoint's response
+    /**
+     * Submit a request to the `sfap_api` `embeddings` endpoint.
+     * - Parameters:
+     *   - requestBody: The `embeddings` request body
+     * - Returns: The endpoint's response
+     */
+    @objc
+    public func fetchGeneratedEmbeddings(
+        requestBody: SfapApiEmbeddingsRequestBody
+    ) async throws -> SfapApiEmbeddingsResponseBody {
+        
+        // Guards.
+        guard let modelName = modelName else {
+            throw sfapApiError(message: "Cannot fetch generated embeddings without specifying a model name.")
+        }
+        
+        // Generate the sfap_api embeddings request body.
+        let sfapApiEmbeddingsRequestBodyString = try requestBodyStringFromRequest(
+            requestBody,
+            named: "embeddings request")
+        
+        // Create the sfap_api embeddings request.
+        let sfapApiEmbeddingsRequest = restRequestWithBodyString(
+            sfapApiEmbeddingsRequestBodyString,
+            path: "einstein/platform/v1/models/\(modelName)/embeddings"
+        )
+        
+        // Submit the sfap_api embeddings request and fetch the response.
+        let sfapApiEmbeddingsResponse = await withCheckedContinuation { continuation in
+            restClient.send(
+                request: sfapApiEmbeddingsRequest
+            ) { result in
+                continuation.resume(returning: result)
+            }
+        }
+        
+        // React to the sfap_api embeddings response.
+        switch sfapApiEmbeddingsResponse {
+            
+        case .success(let sfapApiEmbeddingsResponse):
+            // Decode the sfap_api embeddings response.
+            let sfapApiEmbeddingsResponseBody = try sfapApiEmbeddingsResponse.asDecodable(
+                type: SfapApiEmbeddingsResponseBody.self
+            )
+            sfapApiEmbeddingsResponseBody.sourceJson = sfapApiEmbeddingsResponse.asString()
+            return sfapApiEmbeddingsResponseBody
+            
+        case .failure(let error):
+            throw try errorForRestClientError(error, requestName: "generate embeddings request")
+        }
+    }
+    
+    /**
+     * Fetches generated chat responses from the `sfap_api` `chat-generations` endpoint.
+     * - Parameters:
+     *   - requestBody: The `chat-generations` request body
+     * - Returns: The endpoint's response
+     */
+    @objc
+    public func fetchGeneratedChat(
+        requestBody: SfapApiChatGenerationsRequestBody
+    ) async throws -> SfapApiChatGenerationsResponseBody {
+        
+        // Guards.
+        guard let modelName = modelName else {
+            throw sfapApiError(message: "Cannot fetch generated chat responses without specifying a model name.")
+        }
+        
+        // Generate the sfap_api generate chat request body.
+        let sfapApiChatGenerationsRequestBodyString = try requestBodyStringFromRequest(
+            requestBody,
+            named: "chat generations request")
+        
+        // Create the sfap_api chat generations request.
+        let sfapApiChatGenerationsRequest = restRequestWithBodyString(
+            sfapApiChatGenerationsRequestBodyString,
+            path: "einstein/platform/v1/models/\(modelName)/chat-generations"
+        )
+        
+        // Submit the sfap_api chat generations request and fetch the response.
+        let sfapApiChatGenerationsResponse = await withCheckedContinuation { continuation in
+            restClient.send(
+                request: sfapApiChatGenerationsRequest
+            ) { result in
+                continuation.resume(returning: result)
+            }
+        }
+        
+        // React to the sfap_api chat generations response.
+        switch sfapApiChatGenerationsResponse {
+            
+        case .success(let sfapApiChatGenerationsResponse):
+            // Decode the sfap_api chat generations response.
+            let sfapApiChatGenerationsResponseBody = try sfapApiChatGenerationsResponse.asDecodable(
+                type: SfapApiChatGenerationsResponseBody.self
+            )
+            sfapApiChatGenerationsResponseBody.sourceJson = sfapApiChatGenerationsResponse.asString()
+            return sfapApiChatGenerationsResponseBody
+            
+        case .failure(let error):
+            throw try errorForRestClientError(error, requestName: "chat generations request")
+        }
+    }
+    
+    /**
+     * Fetches generated text from the `sfap_api` "generations" endpoint.
+     * - Parameters:
+     *   -  prompt: The prompt request parameter value
+     * - Returns: The endpoint's response
+     */
     @objc
     public func fetchGeneratedText(
         _ prompt: String
@@ -62,37 +189,18 @@ public class SfapApiClient : NSObject {
         
         // Guards.
         guard let modelName = modelName else {
-            throw sfapApiError(message: "Cannot fetch generated embeddings without specifying a model name.")
+            throw sfapApiError(message: "Cannot fetch generated text without specifying a model name.")
         }
         
         // Generate the sfap_api generations request body.
-        guard let sfapApiGenerationsRequestBodyString = try {
-            do { return String(
-                data: try JSONEncoder().encode(
-                    SfapApiGenerationsRequestBody(prompt: prompt)
-                ),
-                encoding: .utf8)
-            } catch let error {
-                throw sfapApiError(message: "Cannot JSON encode sfap_api generations request body due to an encoding error with description '\(error.localizedDescription)'.")
-            }}() else {
-                throw sfapApiError(message: "Cannot JSON encode sfap_api generations request body.")
-            }
+        let sfapApiGenerationsRequestBodyString = try requestBodyStringFromRequest(
+            SfapApiGenerationsRequestBody(prompt: prompt),
+            named: "generations request")
         
         // Create the sfap_api generations request.
-        let sfapApiGenerationsRequest = RestRequest(
-            method: .POST,
-            baseURL: "https://\(apiHostName)/",
-            path: "einstein/platform/v1/models/\(modelName)/generations",
-            queryParams: nil)
-        sfapApiGenerationsRequest.customHeaders = [
-            "x-sfdc-app-context" : "EinsteinGPT",
-            "x-client-feature-id" : "ai-platform-models-connected-app"
-        ]
-        sfapApiGenerationsRequest.endpoint = ""
-        sfapApiGenerationsRequest.requiresAuthentication = true
-        sfapApiGenerationsRequest.setCustomRequestBodyString(
+        let sfapApiGenerationsRequest = restRequestWithBodyString(
             sfapApiGenerationsRequestBodyString,
-            contentType: "application/json; charset=utf-8"
+            path: "einstein/platform/v1/models/\(modelName)/generations"
         )
         
         // Submit the sfap_api generations request and fetch the response.
@@ -112,26 +220,121 @@ public class SfapApiClient : NSObject {
             let sfapApiGenerationsResponseBody = try sfapApiGenerationsResponse.asDecodable(
                 type: SfapApiGenerationsResponseBody.self
             )
+            sfapApiGenerationsResponseBody.sourceJson = sfapApiGenerationsResponse.asString()
             return sfapApiGenerationsResponseBody
             
         case .failure(let error):
-            switch error {
-                
-            case .apiFailed(
-                response: let response,
-                underlyingError: _,
-                urlResponse: _
-            ): if let errorResponseData = response as? Data {
-                let sfapApiErrorResponseBody = try JSONDecoder().decode(SfapApiErrorResponseBody.self, from: errorResponseData)
-                throw sfapApiError(
-                    errorCode: sfapApiErrorResponseBody.errorCode,
-                    message: "sfap_api generations request failure with description: '\(error.localizedDescription)', message: '\(String(describing: sfapApiErrorResponseBody.message))'.",
-                    messageCode: sfapApiErrorResponseBody.messageCode,
-                    source: String(data: errorResponseData, encoding: .utf8))
-            } else { throw error }
-                
-            default: throw error
+            throw try errorForRestClientError(error, requestName: "generations request")
+        }
+    }
+    
+    /**
+     * Submits feedback for previously generated text from the `sfap_api` endpoints to the `sfap_api`
+     * `feedback` endpoint.
+     * - Parameters:
+     *   - requestBody: The `feedback` request body
+     * - Returns: The endpoint's response
+     */
+    @objc
+    public func submitGeneratedTextFeedback(
+        requestBody: SfapApiFeedbackRequestBody
+    ) async throws -> SfapApiFeedbackResponseBody {
+        
+        // Generate the sfap_api feedback request body.
+        let sfapApiFeedbackRequestBodyString = try requestBodyStringFromRequest(
+            requestBody,
+            named: "feedback request")
+        
+        // Create the sfap_api feedback request.
+        let sfapApiFeedbackRequest = restRequestWithBodyString(
+            sfapApiFeedbackRequestBodyString,
+            path: "einstein/platform/v1/feedback"
+        )
+        
+        // Submit the sfap_api feedback request and fetch the response.
+        let sfapApiFeedbackResponse = await withCheckedContinuation { continuation in
+            restClient.send(
+                request: sfapApiFeedbackRequest
+            ) { result in
+                continuation.resume(returning: result)
             }
+        }
+        
+        // React to the sfap_api feedback response.
+        switch sfapApiFeedbackResponse {
+            
+        case .success(let sfapApiFeedbackResponse):
+            // Decode the sfap_api feedback response.
+            let sfapApiFeedbackResponseBody = try sfapApiFeedbackResponse.asDecodable(
+                type: SfapApiFeedbackResponseBody.self
+            )
+            sfapApiFeedbackResponseBody.sourceJson = sfapApiFeedbackResponse.asString()
+            return sfapApiFeedbackResponseBody
+            
+        case .failure(let error):
+            throw try errorForRestClientError(error, requestName: "feedback request")
+        }
+    }
+    
+    private func generateSfapApiHeaders() -> NSMutableDictionary {
+        return [
+            "x-sfdc-app-context" : "EinsteinGPT",
+            "x-client-feature-id" : "ai-platform-models-connected-app"
+        ]
+    }
+    
+    private func requestBodyStringFromRequest(
+        _ requestBody: Codable,
+        named: String
+    ) throws -> String {
+        guard let requestBodyString = try {
+            do { return String(
+                data: try JSONEncoder().encode(requestBody),
+                encoding: .utf8)
+            } catch let error {
+                throw sfapApiError(message: "Cannot JSON encode sfap_api \(named) body due to an encoding error with description '\(error.localizedDescription)'.")
+            }}() else {
+                throw sfapApiError(message: "Cannot JSON encode sfap_api \(named) body.")
+            }
+        return requestBodyString
+    }
+    
+    private func restRequestWithBodyString(
+        _ requestBodyString: String,
+        path: String
+    ) -> RestRequest {
+        let restRequest = RestRequest(
+            method: .POST,
+            baseURL: "https://\(apiHostName)/",
+            path: path,
+            queryParams: nil)
+        restRequest.customHeaders = generateSfapApiHeaders()
+        restRequest.endpoint = ""
+        restRequest.requiresAuthentication = true
+        restRequest.setCustomRequestBodyString(
+            requestBodyString,
+            contentType: "application/json; charset=utf-8"
+        )
+        return restRequest
+    }
+    
+    private func errorForRestClientError(_ restClientError: RestClientError, requestName: String) throws -> Error {
+        switch restClientError {
+            
+        case .apiFailed(
+            response: let response,
+            underlyingError: _,
+            urlResponse: _
+        ): if let errorResponseData = response as? Data {
+            let sfapApiErrorResponseBody = try JSONDecoder().decode(SfapApiErrorResponseBody.self, from: errorResponseData)
+            return sfapApiError(
+                errorCode: sfapApiErrorResponseBody.errorCode,
+                message: "sfap_api \(requestName) failure with description: '\(restClientError.localizedDescription)', message: '\(String(describing: sfapApiErrorResponseBody.message))'.",
+                messageCode: sfapApiErrorResponseBody.messageCode,
+                source: String(data: errorResponseData, encoding: .utf8))
+        } else { return restClientError }
+            
+        default: return restClientError
         }
     }
     

@@ -1,8 +1,8 @@
 /*
- SfapApiGenerationsResponseBody.swift
+ SfapApiChatGenerationsResponseBody.swift
  SalesforceSDKCore
  
- Created by Eric C. Johnson (Johnson.Eric@Salesforce.com) on 20250108.
+ Created by Eric C. Johnson (Johnson.Eric@Salesforce.com) on 20250114.
  
  Copyright (c) 2025-present, salesforce.com, inc. All rights reserved.
  
@@ -30,78 +30,52 @@
 import Foundation
 
 /**
- * Models a `sfap_api` "generations" endpoint response.
- * See https://developer.salesforce.com/docs/einstein/genai/references/models-api?meta=generateText
+ * Models a `sfap_api` "chat-generations" endpoint response.
  */
 @objc
-public class SfapApiGenerationsResponseBody: NSObject, Codable {
+public class SfapApiChatGenerationsResponseBody : NSObject, Codable {
     public let id: String?
-    public let generation: Generation?
-    public let moreGenerations: String?
-    public let parameters: Parameters?
-    public let prompt: String?
+    public let generationDetails: GenerationDetails?
     
-    enum CodingKeys: String, CodingKey {
-        case id = "id"
-        case generation = "generation"
-        case moreGenerations = "moreGenerations"
-        case parameters = "parameters"
-        case prompt = "prompt"
-    }
-    
-    /// The original JSON used to initialize this response body
+    /** The original JSON used to initialize this response body */
     internal(set) public var sourceJson: String?
     
-    public struct Generation: Codable {
-        public let id: String?
-        public let contentQuality: ContentQuality?
-        public let generatedText: String?
+    public struct GenerationDetails : Codable {
+        public let generations: Array<Generation>?
         public let parameters: Parameters?
         
-        enum CodingKeys: String, CodingKey {
-            case id = "id"
-            case contentQuality = "contentQuality"
-            case generatedText = "generatedText"
-            case parameters = "parameters"
-        }
-        
-        public struct Parameters : Codable {
-            public let finishReason: String?
-            public let refusal: String?
-            public let index: Int?
-            public let logprobs: String?
+        public struct Generation : Codable {
+            public let id: String?
+            public let content: String?
+            public let contentQuality: ContentQuality?
+            public let parameters: Parameters?
+            public let role: String?
+            public let timestamp: Int64?
             
-            enum CodingKeys: String, CodingKey {
-                case finishReason = "finish_reason"
-                case refusal = "refusal"
-                case index = "index"
-                case logprobs = "logprobs"
-            }
-        }
-        
-        public struct ContentQuality: Codable {
-            public let scanToxicity: ScanToxicity?
-            
-            enum CodingKeys: String, CodingKey {
-                case scanToxicity = "scanToxicity"
-            }
-            
-            public struct ScanToxicity: Codable {
-                public let isDetected: Bool?
-                public let categories: Array<Category>?
+            public struct Parameters : Codable {
+                public let finishReason: String?
+                public let refusal: String?
+                public let index: Int?
+                public let logprobs: String?
                 
                 enum CodingKeys: String, CodingKey {
-                    case isDetected = "isDetected"
-                    case categories = "categories"
+                    case finishReason = "finish_reason"
+                    case refusal = "refusal"
+                    case index = "index"
+                    case logprobs = "logprobs"
                 }
+            }
+            
+            public struct ContentQuality : Codable {
+                public let scanToxicity: ScanToxicity?
                 
-                public struct Category : Codable {
-                    public let categoryName: String?
-                    public let score: Double?
+                public struct ScanToxicity : Codable {
+                    public let isDetected: Bool?
+                    public let categories: Array<Category>?
                     
-                    enum CodingKeys: String, CodingKey {
-                        case categoryName = "categoryName"
-                        case score = "score"
+                    public struct Category : Codable {
+                        public let categoryName: String?
+                        public let score: Double?
                     }
                 }
             }
@@ -111,7 +85,7 @@ public class SfapApiGenerationsResponseBody: NSObject, Codable {
     public struct Parameters : Codable {
         public let created: Int?
         public let model: String?
-        public let `object`: String?
+        public let object: String?
         public let systemFingerprint: String?
         public let usage: Usage?
         

@@ -1,5 +1,5 @@
 /*
- SfapApiErrorResponseBody.swift
+ SfapApiEmbeddingsRequestBody.swift
  SalesforceSDKCore
  
  Created by Eric C. Johnson (Johnson.Eric@Salesforce.com) on 20250114.
@@ -30,23 +30,14 @@
 import Foundation
 
 /**
- Models error responses from the `sfap_api` endpoints.
- See https://developer.salesforce.com/docs/einstein/genai/references/models-api?meta=Summary
+ * Models a `sfap_api` `embeddings` endpoint request.
+ * See https://developer.salesforce.com/docs/einstein/genai/references/models-api?meta=generateText
  */
-public struct SfapApiErrorResponseBody: Codable {
+@objc
+public class SfapApiEmbeddingsRequestBody : NSObject, Codable {
+    public let input: Array<String>
     
-    /// The response error code
-    public let errorCode: String?
-    
-    /// The response message
-    public let message: String?
-    
-    /// The response message code
-    public let messageCode: String?
-    
-    enum CodingKeys: String, CodingKey {
-        case errorCode = "errorCode"
-        case message = "message"
-        case messageCode = "messageCode"
+    public init(input: Array<String>) {
+        self.input = input
     }
 }
