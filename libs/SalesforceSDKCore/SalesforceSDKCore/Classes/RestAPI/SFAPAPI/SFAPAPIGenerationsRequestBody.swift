@@ -1,5 +1,5 @@
 /*
- SfapApiGenerationsRequestBody.swift
+ SFAPAPIGenerationsRequestBody.swift
  SalesforceSDKCore
  
  Created by Eric C. Johnson (Johnson.Eric@Salesforce.com) on 20250108.
@@ -33,12 +33,8 @@ import Foundation
  Models a `sfap_api` `generations` endpoint request.
  See https://developer.salesforce.com/docs/einstein/genai/references/models-api?meta=generateText
  */
-struct SfapApiGenerationsRequestBody: Codable {
+struct SFAPAPIGenerationsRequestBody: Codable {
     
     /// The request prompt parameter value
     public let prompt: String
-    
-    enum CodingKeys: String, CodingKey {
-        case prompt = "prompt"
-    }
 }

@@ -1,8 +1,8 @@
 /*
- SfapApiError.swift
+ SFAPAPIEmbeddingsResponseBody.swift
  SalesforceSDKCore
  
- Created by Eric C. Johnson (Johnson.Eric@Salesforce.com) on 20250109.
+ Created by Eric C. Johnson (Johnson.Eric@Salesforce.com) on 20250114.
  
  Copyright (c) 2025-present, salesforce.com, inc. All rights reserved.
  
@@ -29,15 +29,35 @@
 
 import Foundation
 
-/// An error derived from an `sfap_api` endpoint failure response.
-/// See https://developer.salesforce.com/docs/einstein/genai/guide/access-models-api-with-rest.html#step-3-use-models-rest-api
-/// @param message The `sfap_api` error message
-/// @param messageCode The `sfap_api` error code
-/// @param source The original `sfap_api` error response body
-public struct SfapApiError: Error {
+/**
+ * Models a `sfap_api` `embeddings` endpoint response.
+ */
+@objc
+public class SFAPAPIEmbeddingsResponseBody : NSObject, Codable {
+    public let embeddings: Array<Embedding>?
+    public let parameters: Parameters?
     
-    public var errorCode: String? = nil
-    public var message: String? = nil
-    public var messageCode: String? = nil
-    public var source: String? = nil
+    public struct Embedding : Codable {
+        public let embedding: Array<Double>?
+        public let index: Int?
+    }
+    
+    public struct Parameters : Codable {
+        public let model: String?
+        public let `object`: String?
+        public let usage: Usage?
+        
+        public struct Usage : Codable {
+            public let promptTokens: Int?
+            public let totalTokens: Int?
+            
+            enum CodingKeys: String, CodingKey {
+                case promptTokens = "prompt_tokens"
+                case totalTokens = "total_tokens"
+            }
+        }
+    }
+    
+    /** The original JSON used to initialize this response body */
+    internal(set) public var sourceJson: String?
 }

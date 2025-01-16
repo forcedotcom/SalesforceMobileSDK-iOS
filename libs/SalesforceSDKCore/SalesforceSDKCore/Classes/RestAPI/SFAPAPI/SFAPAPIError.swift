@@ -1,8 +1,8 @@
 /*
- SfapApiEmbeddingsResponseBody.swift
+ SFAPAPIError.swift
  SalesforceSDKCore
  
- Created by Eric C. Johnson (Johnson.Eric@Salesforce.com) on 20250114.
+ Created by Eric C. Johnson (Johnson.Eric@Salesforce.com) on 20250109.
  
  Copyright (c) 2025-present, salesforce.com, inc. All rights reserved.
  
@@ -29,35 +29,19 @@
 
 import Foundation
 
-/**
- * Models a `sfap_api` `embeddings` endpoint response.
- */
-@objc
-public class SfapApiEmbeddingsResponseBody : NSObject, Codable {
-    public let embeddings: Array<Embedding>?
-    public let parameters: Parameters?
+/// An error derived from an `sfap_api` endpoint failure response.
+/// See https://developer.salesforce.com/docs/einstein/genai/guide/access-models-api-with-rest.html#step-3-use-models-rest-api
+public struct SFAPAPIError: Error {
     
-    public struct Embedding : Codable {
-        public let embedding: Array<Double>?
-        public let index: Int?
-    }
+    /// The `sfap_api` error code
+    public var errorCode: String? = nil
     
-    public struct Parameters : Codable {
-        public let model: String?
-        public let `object`: String?
-        public let usage: Usage?
-        
-        public struct Usage : Codable {
-            public let promptTokens: Int?
-            public let totalTokens: Int?
-            
-            enum CodingKeys: String, CodingKey {
-                case promptTokens = "prompt_tokens"
-                case totalTokens = "total_tokens"
-            }
-        }
-    }
+    /// The `sfap_api` error message
+    public var message: String? = nil
     
-    /** The original JSON used to initialize this response body */
-    internal(set) public var sourceJson: String?
+    /// The `sfap_api` message code
+    public var messageCode: String? = nil
+    
+    /// The original `sfap_api` error response body
+    public var source: String? = nil
 }

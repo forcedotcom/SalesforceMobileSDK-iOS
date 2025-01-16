@@ -1,5 +1,5 @@
 /*
- SfapApiClient.swift
+ SFAPAPIClient.swift
  SalesforceSDKCore
  
  Created by Eric C. Johnson (Johnson.Eric@Salesforce.com) on 20250108.
@@ -38,7 +38,7 @@ import Foundation
  *
  * See https://developer.salesforce.com/docs/einstein/genai/guide/access-models-api-with-rest.html
  */
-@objc(SFApApiClient)
+@objc(SFAPAPIClient)
 public class SfapAPIClient : NSObject {
     
     /// The sfap_api hostname
@@ -51,7 +51,7 @@ public class SfapAPIClient : NSObject {
     private let restClient: RestClient
     
     /**
-     * Initializes a new SfapApiClient.
+     * Initializes a new SFAPAPIClient.
      * - Parameters:
      *   - apiHostName: The Salesforce `sfap_api` hostname
      *   - modelName: The model name to request from.  For possible values, see
@@ -80,8 +80,8 @@ public class SfapAPIClient : NSObject {
      */
     @objc
     public func fetchGeneratedEmbeddings(
-        requestBody: SfapApiEmbeddingsRequestBody
-    ) async throws -> SfapApiEmbeddingsResponseBody {
+        requestBody: SFAPAPIEmbeddingsRequestBody
+    ) async throws -> SFAPAPIEmbeddingsResponseBody {
         
         // Guards.
         guard let modelName = modelName else {
@@ -114,7 +114,7 @@ public class SfapAPIClient : NSObject {
         case .success(let sfapApiEmbeddingsResponse):
             // Decode the sfap_api embeddings response.
             let sfapApiEmbeddingsResponseBody = try sfapApiEmbeddingsResponse.asDecodable(
-                type: SfapApiEmbeddingsResponseBody.self
+                type: SFAPAPIEmbeddingsResponseBody.self
             )
             sfapApiEmbeddingsResponseBody.sourceJson = sfapApiEmbeddingsResponse.asString()
             return sfapApiEmbeddingsResponseBody
@@ -132,8 +132,8 @@ public class SfapAPIClient : NSObject {
      */
     @objc
     public func fetchGeneratedChat(
-        requestBody: SfapApiChatGenerationsRequestBody
-    ) async throws -> SfapApiChatGenerationsResponseBody {
+        requestBody: SFAPAPIChatGenerationsRequestBody
+    ) async throws -> SFAPAPIChatGenerationsResponseBody {
         
         // Guards.
         guard let modelName = modelName else {
@@ -166,7 +166,7 @@ public class SfapAPIClient : NSObject {
         case .success(let sfapApiChatGenerationsResponse):
             // Decode the sfap_api chat generations response.
             let sfapApiChatGenerationsResponseBody = try sfapApiChatGenerationsResponse.asDecodable(
-                type: SfapApiChatGenerationsResponseBody.self
+                type: SFAPAPIChatGenerationsResponseBody.self
             )
             sfapApiChatGenerationsResponseBody.sourceJson = sfapApiChatGenerationsResponse.asString()
             return sfapApiChatGenerationsResponseBody
@@ -185,7 +185,7 @@ public class SfapAPIClient : NSObject {
     @objc
     public func fetchGeneratedText(
         _ prompt: String
-    ) async throws -> SfapApiGenerationsResponseBody {
+    ) async throws -> SFAPAPIGenerationsResponseBody {
         
         // Guards.
         guard let modelName = modelName else {
@@ -194,7 +194,7 @@ public class SfapAPIClient : NSObject {
         
         // Generate the sfap_api generations request body.
         let sfapApiGenerationsRequestBodyString = try requestBodyStringFromRequest(
-            SfapApiGenerationsRequestBody(prompt: prompt),
+            SFAPAPIGenerationsRequestBody(prompt: prompt),
             named: "generations request")
         
         // Create the sfap_api generations request.
@@ -218,7 +218,7 @@ public class SfapAPIClient : NSObject {
         case .success(let sfapApiGenerationsResponse):
             // Decode the sfap_api generations response.
             let sfapApiGenerationsResponseBody = try sfapApiGenerationsResponse.asDecodable(
-                type: SfapApiGenerationsResponseBody.self
+                type: SFAPAPIGenerationsResponseBody.self
             )
             sfapApiGenerationsResponseBody.sourceJson = sfapApiGenerationsResponse.asString()
             return sfapApiGenerationsResponseBody
@@ -237,8 +237,8 @@ public class SfapAPIClient : NSObject {
      */
     @objc
     public func submitGeneratedTextFeedback(
-        requestBody: SfapApiFeedbackRequestBody
-    ) async throws -> SfapApiFeedbackResponseBody {
+        requestBody: SFAPAPIFeedbackRequestBody
+    ) async throws -> SFAPAPIFeedbackResponseBody {
         
         // Generate the sfap_api feedback request body.
         let sfapApiFeedbackRequestBodyString = try requestBodyStringFromRequest(
@@ -266,7 +266,7 @@ public class SfapAPIClient : NSObject {
         case .success(let sfapApiFeedbackResponse):
             // Decode the sfap_api feedback response.
             let sfapApiFeedbackResponseBody = try sfapApiFeedbackResponse.asDecodable(
-                type: SfapApiFeedbackResponseBody.self
+                type: SFAPAPIFeedbackResponseBody.self
             )
             sfapApiFeedbackResponseBody.sourceJson = sfapApiFeedbackResponse.asString()
             return sfapApiFeedbackResponseBody
@@ -276,7 +276,7 @@ public class SfapAPIClient : NSObject {
         }
     }
     
-    private func generateSfapApiHeaders() -> NSMutableDictionary {
+    private func generateHeaders() -> NSMutableDictionary {
         return [
             "x-sfdc-app-context" : "EinsteinGPT",
             "x-client-feature-id" : "ai-platform-models-connected-app"
@@ -308,7 +308,7 @@ public class SfapAPIClient : NSObject {
             baseURL: "https://\(apiHostName)/",
             path: path,
             queryParams: nil)
-        restRequest.customHeaders = generateSfapApiHeaders()
+        restRequest.customHeaders = generateHeaders()
         restRequest.endpoint = ""
         restRequest.requiresAuthentication = true
         restRequest.setCustomRequestBodyString(
@@ -326,7 +326,7 @@ public class SfapAPIClient : NSObject {
             underlyingError: _,
             urlResponse: _
         ): if let errorResponseData = response as? Data {
-            let sfapApiErrorResponseBody = try JSONDecoder().decode(SfapApiErrorResponseBody.self, from: errorResponseData)
+            let sfapApiErrorResponseBody = try JSONDecoder().decode(SFAPAPIErrorResponseBody.self, from: errorResponseData)
             return sfapApiError(
                 errorCode: sfapApiErrorResponseBody.errorCode,
                 message: "sfap_api \(requestName) failure with description: '\(restClientError.localizedDescription)', message: '\(String(describing: sfapApiErrorResponseBody.message))'.",
@@ -342,11 +342,11 @@ public class SfapAPIClient : NSObject {
         errorCode: String? = nil,
         message: String,
         messageCode: String? = nil,
-        source: String? = nil) -> SfapApiError
+        source: String? = nil) -> SFAPAPIError
     {
         SFSDKCoreLogger().e(classForCoder, message: message)
         
-        return SfapApiError(
+        return SFAPAPIError(
             errorCode: errorCode,
             message: message,
             messageCode: messageCode,

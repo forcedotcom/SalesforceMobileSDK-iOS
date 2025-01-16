@@ -1,5 +1,5 @@
 /*
- SfapApiEmbeddingsRequestBody.swift
+ SFAPAPIFeedbackResponseBody.swift
  SalesforceSDKCore
  
  Created by Eric C. Johnson (Johnson.Eric@Salesforce.com) on 20250114.
@@ -30,14 +30,12 @@
 import Foundation
 
 /**
- * Models a `sfap_api` `embeddings` endpoint request.
- * See https://developer.salesforce.com/docs/einstein/genai/references/models-api?meta=generateText
+ * Models a `sfap_api` `feedback` endpoint response.
  */
 @objc
-public class SfapApiEmbeddingsRequestBody : NSObject, Codable {
-    public let input: Array<String>
+public class SFAPAPIFeedbackResponseBody : NSObject, Codable {
+    public let message: String?
     
-    public init(input: Array<String>) {
-        self.input = input
-    }
+    /** The original JSON used to initialize this response body */
+    internal(set) public var sourceJson: String?
 }
