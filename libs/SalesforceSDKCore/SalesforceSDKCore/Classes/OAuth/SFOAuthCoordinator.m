@@ -953,6 +953,13 @@
     }
 }
 
+- (nullable WKWebView *)webView:(WKWebView *)webView createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration forNavigationAction:(WKNavigationAction *)navigationAction windowFeatures:(WKWindowFeatures *)windowFeatures {
+    if ([SFUserAccountManager sharedInstance].createWebview) {
+        return [SFUserAccountManager sharedInstance].createWebview(webView, configuration, navigationAction, windowFeatures);
+    }
+    return nil;
+}
+
 - (NSString *)brandedAuthorizeURL{
     NSMutableString *brandedAuthorizeURL = [NSMutableString stringWithFormat:@"%@",kSFOAuthEndPointAuthorize];
     if (self.brandLoginPath && ![self.brandLoginPath sfsdk_isEmptyOrWhitespaceAndNewlines]) {
