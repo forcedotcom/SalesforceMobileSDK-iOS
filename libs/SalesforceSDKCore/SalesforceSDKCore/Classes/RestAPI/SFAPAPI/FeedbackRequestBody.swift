@@ -1,5 +1,5 @@
 /*
- SFAPAPIChatGenerationsRequestBody.swift
+ FeedbackRequestBody.swift
  SalesforceSDKCore
  
  Created by Eric C. Johnson (Johnson.Eric@Salesforce.com) on 20250114.
@@ -30,86 +30,58 @@
 import Foundation
 
 /**
- * Models a `sfap_api` `chat-generations` endpoint request.
- * See https://developer.salesforce.com/docs/einstein/genai/references/models-api?meta=generateChat
+ * Models a `sfap_api` `feedback` endpoint request.
+ * See https://developer.salesforce.com/docs/einstein/genai/references/models-api?meta=generateText
  *
- * The endpoint accepts a `tags` object.  To provide `tags`, subclass and introduce a
- * new parameter of any object type named `tags`.  Also, the subclass will need to conform to
- * `Codable` and provide handling for the custom `tags` object's encoding and decoding as in
+ * The endpoint accepts a `appFeedback` object.  To provide `appFeedback`, subclass and introduce a
+ * new parameter of any object type named `appFeedback`.  Also, the subclass will need to conform to
+ * `Codable` and provide handling for the custom `appFeedback` object's encoding and decoding as in
  * the following sample code.
  *   required init(from decoder: any Decoder) throws {
  *     let container = try decoder.container(keyedBy: CodingKeys.self)
- *     self.tags = try container.decode(Tags.self, forKey: .tags)
+ *     self.appFeedback = try container.decode(AppFeedback.self, forKey: .appFeedback)
  *     try super.init(from: decoder)
  *   }
  *
  *   public init(
  *       // Provide superclass parameters
- *     tags: Tags
+ *     appFeedback: AppFeedback
  *   ) {
- *     self.tags = tags
+ *     self.appFeedback = appFeedback
  *      super.init( // Provide superclass parameters)
  *   }
  *
  *   public override func encode(to encoder: any Encoder) throws {
  *     var container = encoder.container(keyedBy: CodingKeys.self)
- *     try container.encode(tags, forKey: .tag`)
+ *     try container.encode(appFeedback, forKey: .appFeedback)
  *     try super.encode(to: encoder)
  *   }
  */
-@objc
-open class SFAPAPIChatGenerationsRequestBody : NSObject, Codable {
+@objc(SFFeedbackRequestBody)
+public class FeedbackRequestBody : NSObject, Codable {
+    public let id: String?
+    public let appGeneration: String?
+    public let appGenerationId: String?
+    public let feedback: String?
+    public let feedbackText: String?
+    public let generationId: String?
+    public let source: String?
     
-    /// The request messages parameter value
-    public let messages: Array<Message>
-    
-    /// The request localization parameter value
-    public let localization: Localization
-    
-    public init(
-        messages: Array<Message>,
-        localization: Localization
+    public required init(
+        id: String? = nil,
+        appGeneration: String? = nil,
+        appGenerationId: String? = nil,
+        feedback: String?,
+        feedbackText: String? = nil,
+        generationId: String?,
+        source: String? = nil
     ) {
-        self.messages = messages
-        self.localization = localization
-    }
-    
-    public struct Message : Codable {
-        public let role: String
-        public let content: String
-        
-        public init(role: String, content: String) {
-            self.role = role
-            self.content = content
-        }
-    }
-    
-    public struct Localization : Codable {
-        public let defaultLocale: String
-        public let inputLocales: Array<Locale>
-        public let expectedLocales: Array<String>
-        
-        public init(
-            defaultLocale: String,
-            inputLocales: Array<Locale>,
-            expectedLocales: Array<String>
-        ) {
-            self.defaultLocale = defaultLocale
-            self.inputLocales = inputLocales
-            self.expectedLocales = expectedLocales
-        }
-    }
-    
-    public struct Locale : Codable {
-        public let locale: String
-        public let probability: Double
-        
-        public init(
-            locale: String,
-            probability: Double
-        ) {
-            self.locale = locale
-            self.probability = probability
-        }
+        self.id = id
+        self.appGeneration = appGeneration
+        self.appGenerationId = appGenerationId
+        self.feedback = feedback
+        self.feedbackText = feedbackText
+        self.generationId = generationId
+        self.source = source
     }
 }

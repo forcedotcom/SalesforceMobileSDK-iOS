@@ -1,8 +1,8 @@
 /*
- SFAPAPIEmbeddingsRequestBody.swift
+ SfapError.swift
  SalesforceSDKCore
  
- Created by Eric C. Johnson (Johnson.Eric@Salesforce.com) on 20250114.
+ Created by Eric C. Johnson (Johnson.Eric@Salesforce.com) on 20250109.
  
  Copyright (c) 2025-present, salesforce.com, inc. All rights reserved.
  
@@ -29,15 +29,19 @@
 
 import Foundation
 
-/**
- * Models a `sfap_api` `embeddings` endpoint request.
- * See https://developer.salesforce.com/docs/einstein/genai/references/models-api?meta=generateText
- */
-@objc
-public class SFAPAPIEmbeddingsRequestBody : NSObject, Codable {
-    public let input: Array<String>
+/// An error derived from an `sfap_api` endpoint failure response.
+/// See https://developer.salesforce.com/docs/einstein/genai/guide/access-models-api-with-rest.html#step-3-use-models-rest-api
+public struct SfapError: Error {
     
-    public init(input: Array<String>) {
-        self.input = input
-    }
+    /// The `sfap_api` error code
+    public var errorCode: String? = nil
+    
+    /// The `sfap_api` error message
+    public var message: String? = nil
+    
+    /// The `sfap_api` message code
+    public var messageCode: String? = nil
+    
+    /// The original `sfap_api` error response body
+    public var source: String? = nil
 }

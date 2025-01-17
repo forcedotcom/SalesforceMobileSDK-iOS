@@ -1,5 +1,5 @@
 /*
- SFAPAPIFeedbackResponseBody.swift
+ FeedbackResponseBody.swift
  SalesforceSDKCore
  
  Created by Eric C. Johnson (Johnson.Eric@Salesforce.com) on 20250114.
@@ -32,8 +32,8 @@ import Foundation
 /**
  * Models a `sfap_api` `feedback` endpoint response.
  */
-@objc
-public class SFAPAPIFeedbackResponseBody : NSObject, Codable {
+@objc(SFFeedbackResponseBody)
+public class FeedbackResponseBody : NSObject, Codable {
     public let message: String?
     
     /** The original JSON used to initialize this response body */

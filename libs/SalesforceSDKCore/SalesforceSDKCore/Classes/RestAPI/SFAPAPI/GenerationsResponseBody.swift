@@ -1,5 +1,5 @@
 /*
- SFAPAPIGenerationsResponseBody.swift
+ GenerationsResponseBody.swift
  SalesforceSDKCore
  
  Created by Eric C. Johnson (Johnson.Eric@Salesforce.com) on 20250108.
@@ -33,8 +33,8 @@ import Foundation
  * Models a `sfap_api` "generations" endpoint response.
  * See https://developer.salesforce.com/docs/einstein/genai/references/models-api?meta=generateText
  */
-@objc
-public class SFAPAPIGenerationsResponseBody: NSObject, Codable {
+@objc(SFGenerationsResponseBody)
+public class GenerationsResponseBody: NSObject, Codable {
     public let id: String?
     public let generation: Generation?
     public let moreGenerations: String?

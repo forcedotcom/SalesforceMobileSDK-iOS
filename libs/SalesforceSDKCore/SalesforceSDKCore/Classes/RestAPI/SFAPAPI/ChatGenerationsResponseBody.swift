@@ -1,5 +1,5 @@
 /*
- SFAPAPIChatGenerationsResponseBody.swift
+ ChatGenerationsResponseBody.swift
  SalesforceSDKCore
  
  Created by Eric C. Johnson (Johnson.Eric@Salesforce.com) on 20250114.
@@ -32,8 +32,8 @@ import Foundation
 /**
  * Models a `sfap_api` "chat-generations" endpoint response.
  */
-@objc
-public class SFAPAPIChatGenerationsResponseBody : NSObject, Codable {
+@objc(SFChatGenerationsResponseBody)
+public class ChatGenerationsResponseBody : NSObject, Codable {
     public let id: String?
     public let generationDetails: GenerationDetails?
     

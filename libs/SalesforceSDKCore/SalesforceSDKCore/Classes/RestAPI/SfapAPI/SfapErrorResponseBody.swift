@@ -1,8 +1,8 @@
 /*
- SFAPAPIError.swift
+ SfapErrorResponseBody.swift
  SalesforceSDKCore
  
- Created by Eric C. Johnson (Johnson.Eric@Salesforce.com) on 20250109.
+ Created by Eric C. Johnson (Johnson.Eric@Salesforce.com) on 20250114.
  
  Copyright (c) 2025-present, salesforce.com, inc. All rights reserved.
  
@@ -29,19 +29,18 @@
 
 import Foundation
 
-/// An error derived from an `sfap_api` endpoint failure response.
-/// See https://developer.salesforce.com/docs/einstein/genai/guide/access-models-api-with-rest.html#step-3-use-models-rest-api
-public struct SFAPAPIError: Error {
+/**
+ Models error responses from the `sfap_api` endpoints.
+ See https://developer.salesforce.com/docs/einstein/genai/references/models-api?meta=Summary
+ */
+public struct SfapErrorResponseBody: Codable {
     
-    /// The `sfap_api` error code
-    public var errorCode: String? = nil
+    /// The response error code
+    public let errorCode: String?
     
-    /// The `sfap_api` error message
-    public var message: String? = nil
+    /// The response message
+    public let message: String?
     
-    /// The `sfap_api` message code
-    public var messageCode: String? = nil
-    
-    /// The original `sfap_api` error response body
-    public var source: String? = nil
+    /// The response message code
+    public let messageCode: String?
 }

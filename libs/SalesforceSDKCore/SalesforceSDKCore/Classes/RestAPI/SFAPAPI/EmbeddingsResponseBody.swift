@@ -1,5 +1,5 @@
 /*
- SFAPAPIEmbeddingsResponseBody.swift
+ EmbeddingsResponseBody.swift
  SalesforceSDKCore
  
  Created by Eric C. Johnson (Johnson.Eric@Salesforce.com) on 20250114.
@@ -32,8 +32,8 @@ import Foundation
 /**
  * Models a `sfap_api` `embeddings` endpoint response.
  */
-@objc
-public class SFAPAPIEmbeddingsResponseBody : NSObject, Codable {
+@objc(SFEmbeddingsResponseBody)
+public class EmbeddingsResponseBody : NSObject, Codable {
     public let embeddings: Array<Embedding>?
     public let parameters: Parameters?
     

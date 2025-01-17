@@ -1,8 +1,8 @@
 /*
- SFAPAPIErrorResponseBody.swift
+ GenerationsRequestBody.swift
  SalesforceSDKCore
  
- Created by Eric C. Johnson (Johnson.Eric@Salesforce.com) on 20250114.
+ Created by Eric C. Johnson (Johnson.Eric@Salesforce.com) on 20250108.
  
  Copyright (c) 2025-present, salesforce.com, inc. All rights reserved.
  
@@ -30,17 +30,16 @@
 import Foundation
 
 /**
- Models error responses from the `sfap_api` endpoints.
- See https://developer.salesforce.com/docs/einstein/genai/references/models-api?meta=Summary
+ Models a `sfap_api` `generations` endpoint request.
+ See https://developer.salesforce.com/docs/einstein/genai/references/models-api?meta=generateText
  */
-public struct SFAPAPIErrorResponseBody: Codable {
+@objc(SFGenerationsRequestBody)
+class GenerationsRequestBody: NSObject, Codable {
     
-    /// The response error code
-    public let errorCode: String?
+    /// The request prompt parameter value
+    public let prompt: String
     
-    /// The response message
-    public let message: String?
-    
-    /// The response message code
-    public let messageCode: String?
+    public init(prompt: String) {
+        self.prompt = prompt
+    }
 }

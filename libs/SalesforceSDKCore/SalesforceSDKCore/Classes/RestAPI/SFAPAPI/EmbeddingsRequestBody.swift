@@ -1,8 +1,8 @@
 /*
- SFAPAPIGenerationsRequestBody.swift
+ EmbeddingsRequestBody.swift
  SalesforceSDKCore
  
- Created by Eric C. Johnson (Johnson.Eric@Salesforce.com) on 20250108.
+ Created by Eric C. Johnson (Johnson.Eric@Salesforce.com) on 20250114.
  
  Copyright (c) 2025-present, salesforce.com, inc. All rights reserved.
  
@@ -30,11 +30,14 @@
 import Foundation
 
 /**
- Models a `sfap_api` `generations` endpoint request.
- See https://developer.salesforce.com/docs/einstein/genai/references/models-api?meta=generateText
+ * Models a `sfap_api` `embeddings` endpoint request.
+ * See https://developer.salesforce.com/docs/einstein/genai/references/models-api?meta=generateText
  */
-struct SFAPAPIGenerationsRequestBody: Codable {
+@objc(SFEmbeddingsRequestBody)
+public class EmbeddingsRequestBody : NSObject, Codable {
+    public let input: Array<String>
     
-    /// The request prompt parameter value
-    public let prompt: String
+    public init(input: Array<String>) {
+        self.input = input
+    }
 }
