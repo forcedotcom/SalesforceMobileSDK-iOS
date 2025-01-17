@@ -229,6 +229,15 @@ NS_SWIFT_NAME(SmartStore)
  */
 + (void)setEncryptionKeyGenerator:(SFSmartStoreEncryptionKeyGenerator)newEncryptionKeyGenerator;
 
+/**
+ Set license key for SQLCipher
+ Needed when using commercial or enterprise editions of SQLCipher
+ Should be called before using SmartStore
+ 
+ @param licenseKey The license key string provided by Zetetic
+ */
++ (void)setLicenseKey:(NSString*)licenseKey;
+
 #pragma mark - Soup manipulation methods
 
 /**

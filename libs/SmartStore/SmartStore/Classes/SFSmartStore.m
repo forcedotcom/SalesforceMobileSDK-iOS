@@ -54,6 +54,7 @@ static SFSmartStoreEncryptionKeyGenerator _encryptionKeyGenerator = NULL;
 static SFSmartStoreEncryptionSaltBlock _encryptionSaltBlock = NULL;
 static BOOL _jsonSerializationCheckEnabled = NO;
 static BOOL _postRawJsonOnError = NO;
+static NSString* _licenseKey = NULL;
 
 // The name of the store name used by the SFSmartStorePlugin for hybrid apps
 NSString * const kDefaultSmartStoreName   = @"defaultStore";
@@ -718,6 +719,14 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
     if (newEncryptionKeyGenerator != _encryptionKeyGenerator) {
         _encryptionKeyGenerator = newEncryptionKeyGenerator;
     }
+}
+
++ (NSString *)licenseKey {
+    return _licenseKey;
+}
+
++ (void)setLicenseKey:(NSString*)licenseKey {
+    _licenseKey = [licenseKey copy];
 }
 
 - (NSNumber *)currentTimeInMilliseconds {
