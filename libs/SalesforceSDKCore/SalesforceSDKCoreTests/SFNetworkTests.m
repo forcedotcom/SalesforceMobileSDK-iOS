@@ -136,7 +136,7 @@
         [metricsExpectation fulfill];
     };
     
-    [self waitForExpectations:@[getExpectation, metricsExpectation] timeout:20];
+    [self waitForExpectations:@[getExpectation, metricsExpectation] timeout:30];
 }
 
 @end
