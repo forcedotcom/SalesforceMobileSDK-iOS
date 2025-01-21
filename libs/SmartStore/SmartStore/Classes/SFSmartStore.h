@@ -469,6 +469,18 @@ NS_SWIFT_NAME(SmartStore)
  */
 - (NSString *)getSQLCipherVersion NS_SWIFT_NAME(versionOfSQLCipher());
 
+/**
+ * Return SQLCipher provider version
+ * @return cipher provider version
+ */
+- (NSString *)getCipherProviderVersion NS_SWIFT_NAME(cipherProviderVersion());
+
+/**
+ * Return SQLCipher FIPS status
+ * @return 0 when using the community edition or the commercial edition and 1 when using the FIPS enabled enterprise edition
+ */
+- (NSString *)getCipherFIPSStatus NS_SWIFT_NAME(cipherFIPSStatus());
+
 #pragma mark - Long operations recovery methods
 
 /**

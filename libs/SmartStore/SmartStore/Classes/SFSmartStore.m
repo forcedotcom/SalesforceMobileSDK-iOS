@@ -2036,6 +2036,16 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
     return [[self queryPragma:@"cipher_version"] componentsJoinedByString:@""];
 }
 
+- (NSString*) getCipherProviderVersion
+{
+    return [[self queryPragma:@"cipher_provider_version"] componentsJoinedByString:@""];
+}
+
+- (NSString*) getCipherFipsStatus
+{
+    return [[self queryPragma:@"cipher_fips_status"] componentsJoinedByString:@""];
+}
+
 - (NSArray*) queryPragma:(NSString*) pragma
 {
     __block NSMutableArray* result = [NSMutableArray new];
