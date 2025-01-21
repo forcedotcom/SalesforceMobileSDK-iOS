@@ -225,9 +225,6 @@ NS_SWIFT_NAME(SalesforceManager)
  */
 @property (nonatomic, assign) BOOL isLoginWebviewInspectable;
 
-/*** Indicates if login via QR Code and UI bridge API is enabled */
-@property (nonatomic, assign) BOOL isQrCodeLoginEnabled;
-
 /** The type of cache used for the shared URL cache, defaults to kSFURLCacheTypeEncrypted.
 */
 @property (nonatomic, assign) SFURLCacheType URLCacheType;
