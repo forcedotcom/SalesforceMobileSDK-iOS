@@ -5,6 +5,7 @@ on:
   pull_request_target:
     branches:
       - dev
+    
 
 jobs:
   static-analysis:
@@ -13,7 +14,7 @@ jobs:
       - name: Member Check
         if: ${{ github.event.pull_request.author_association != 'MEMBER' && github.event.pull_request.author_association != 'OWNER' }}
         run: |
-          echo "Pull Request not triggered by a MSDK team member.  Someone from the team needs to rerun this workflow AFTER it has been deemed safe."
+          echo "Pull Request not triggered by a MSDK team member.  Someone from the team needs to rerun this workflow AFTER it has been deemed safe. Test 123"
           exit 1
       - name: Checkout
         uses: actions/checkout@v4
