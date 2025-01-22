@@ -123,8 +123,8 @@
 
 - (void) testCipherFIPSStatus
 {
-    NSString* cipherFIPSStatus = [self.store getCipherFIPSStatus];
-    XCTAssertEqualObjects(cipherFIPSStatus, @"0");
+    BOOL cipherFIPSStatus = [self.store getCipherFIPSStatus];
+    XCTAssertFalse(cipherFIPSStatus);
 }
 
 /**
