@@ -23,6 +23,7 @@
  */
 
 #import "SFSmartStoreDatabaseManager+Internal.h"
+#import "SFSmartStore+Internal.h"
 #import <SalesforceSDKCore/UIDevice+SFHardware.h>
 #import <SalesforceSDKCore/NSData+SFAdditions.h>
 #import <SalesforceSDKCore/NSString+SFAdditions.h>
@@ -199,6 +200,9 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
 
 + (FMDatabase*) unlockDatabase:(FMDatabase*)db key:(NSString*)key salt:(NSString *)salt {
     if ([db open]) {
+        if ([SFSmartStore licenseKey])
+            [[db executeQuery:[NSString stringWithFormat:@"PRAGMA cipher_license = '%@'", [SFSmartStore licenseKey]]] close];
+        
         if (key)
            [db setKey:key];
         
