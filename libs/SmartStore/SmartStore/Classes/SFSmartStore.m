@@ -2041,7 +2041,7 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
     return [[self queryPragma:@"cipher_provider_version"] componentsJoinedByString:@""];
 }
 
-- (BOOL) getCipherFipsStatus
+- (BOOL) getCipherFIPSStatus
 {
     NSString *cipherFIPSStatus = [[self queryPragma:@"cipher_fips_status"] componentsJoinedByString:@""];
     return [cipherFIPSStatus isEqualToString:@"1"];
