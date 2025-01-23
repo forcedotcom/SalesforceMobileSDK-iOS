@@ -560,7 +560,11 @@ class RootViewController: UIViewController {
     @objc func userDidTapQueryButton(_ sender: UIButton) {
         print("handle tapped query button")
         self.view.endEditing(true)
-        guard let path = self.manualQueryTextField.text, let method = RestRequest.Method(rawValue: self.methodControl.selectedSegmentIndex) else {return}
+        
+        guard let path = self.manualQueryTextField.text,
+              let method = RestRequest.Method(rawValue: self.methodControl.selectedSegmentIndex) else {
+            return
+        }
         
         var queryParams: [String: Any]?
         if let params = self.paramsTextView.text {
@@ -568,8 +572,6 @@ class RootViewController: UIViewController {
         }
         
         let request = RestRequest(method: method, path: path, queryParams: queryParams)
-        
-        self.view.endEditing(true)
         Task {
             await handleResponseForRequest(request: request)
         }
