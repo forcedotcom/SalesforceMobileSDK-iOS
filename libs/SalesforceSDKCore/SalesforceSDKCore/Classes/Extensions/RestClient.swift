@@ -116,7 +116,7 @@ extension RestClient {
     /// Execute a prebuilt request.
     /// - Parameter request: `RestRequest` object.
     /// - Parameter completionBlock: `Result` block that handles the server's response.
-    @available(*, deprecated, message: "Deprecated in Salesforce Mobile SDK 13 and will be removed in Salesforce Mobile SDK 14. Use the async/await version of `send(request:)` instead.")
+    @available(*, deprecated, message: "Deprecated in Salesforce Mobile SDK 13.0 and will be removed in Salesforce Mobile SDK 14.0. Use the async/await version of `send(request:)` instead.")
     public func send(request: RestRequest, _ completionBlock: @escaping (Result<RestResponse, RestClientError>) -> Void) {
         request.parseResponse = false
         __send(request, failureBlock: { (rawResponse, error, urlResponse) in
@@ -166,7 +166,7 @@ extension RestClient {
     /// - Parameter compositeRequest: `CompositeRequest` object containing the array of subrequests to execute.
     /// - Parameter completionBlock: `Result` block that handles the server's response.
     /// - See   [Composite](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_composite.htm).
-    @available(*, deprecated, message: "Deprecated in Salesforce Mobile SDK 13 and will be removed in Salesforce Mobile SDK 14. Use the async/await version of `send(compositeRequest:)` instead.")
+    @available(*, deprecated, message: "Deprecated in Salesforce Mobile SDK 13.0 and will be removed in Salesforce Mobile SDK 14.0. Use the async/await version of `send(compositeRequest:)` instead.")
     public func send(compositeRequest: CompositeRequest, _ completionBlock: @escaping (Result<CompositeResponse, RestClientError>) -> Void) {
         compositeRequest.parseResponse = false
         __send(compositeRequest, failureBlock: { (response, error, urlResponse) in
@@ -195,7 +195,7 @@ extension RestClient {
     /// - Parameter batchRequest: `BatchRequest` object containing the array of subrequests to execute.
     /// - Parameter completionBlock: `Result` block that handles the server's response.
     /// - See   [Batch](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_batch.htm).
-    @available(*, deprecated, message: "Deprecated in Salesforce Mobile SDK 13 and will be removed in Salesforce Mobile SDK 14. Use the async/await version of `send(batchRequest:)` instead.")
+    @available(*, deprecated, message: "Deprecated in Salesforce Mobile SDK 13.0 and will be removed in Salesforce Mobile SDK 14.0. Use the async/await version of `send(batchRequest:)` instead.")
     public func send(batchRequest: BatchRequest, _ completionBlock: @escaping (Result<BatchResponse, RestClientError>) -> Void) {
         batchRequest.parseResponse = false
         __send(batchRequest,
@@ -253,7 +253,7 @@ extension RestClient {
     ///
     /// This method relies on the passed parameter ofModelType to infer the generic Record's
     /// concrete type.
-    @available(*, deprecated, message: "Deprecated in Salesforce Mobile SDK 13 and will be removed in Salesforce Mobile SDK 14. Use the async/await version of `fetchRecords(ofModelType:forRequest:withDecoder:)` instead.")
+    @available(*, deprecated, message: "Deprecated in Salesforce Mobile SDK 13.0 and will be removed in Salesforce Mobile SDK 14.0. Use the async/await version of `fetchRecords(ofModelType:forRequest:withDecoder:)` instead.")
     public func fetchRecords<Record: Decodable>(ofModelType modelType: Record.Type,
                                                 forRequest request: RestRequest,
                                                 withDecoder decoder: JSONDecoder = .init(),
@@ -317,7 +317,7 @@ extension RestClient {
     ///
     /// This method relies on the passed parameter ofModelType to infer the generic Record's
     /// concrete type.
-    @available(*, deprecated, message: "Deprecated in Salesforce Mobile SDK 13 and will be removed in Salesforce Mobile SDK 14. Use the async/await version of `fetchRecords(ofModelType:forQuery:withApiVersion:withDecoder:)` instead.")
+    @available(*, deprecated, message: "Deprecated in Salesforce Mobile SDK 13.0 and will be removed in Salesforce Mobile SDK 14.0. Use the async/await version of `fetchRecords(ofModelType:forQuery:withApiVersion:withDecoder:)` instead.")
     public func fetchRecords<Record: Decodable>(ofModelType modelType: Record.Type,
                                                 forQuery query: String,
                                                 withApiVersion version: String = SFRestDefaultAPIVersion,
