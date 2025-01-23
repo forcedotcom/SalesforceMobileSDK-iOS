@@ -82,7 +82,12 @@ static SInt32 kBatchProcessCount = 100;
                 return nil;
             }
             analyticsMgr = [[self alloc] initWithUser:userAccount];
-            analyticsManagerList[key] = analyticsMgr;
+            if (analyticsMgr) {
+                analyticsManagerList[key] = analyticsMgr;
+            } else {
+                [SFSDKCoreLogger w:[self class] format:@"%@ Unable to create a SFSDKSalesforceAnalyticsManager instance for a user.", NSStringFromSelector(_cmd)];
+                return nil;
+            }
         }
         return analyticsMgr;
     }
@@ -139,6 +144,11 @@ static SInt32 kBatchProcessCount = 100;
             rootStoreDir = [[SFDirectoryManager sharedManager] directoryForUser:userAccount type:NSDocumentDirectory components:@[ kEventStoresDirectory ]];
         } else {
             rootStoreDir = [[SFDirectoryManager sharedManager] globalDirectoryOfType:NSDocumentDirectory components:@[ kEventStoresDirectory ]];
+        }
+        
+        if (!rootStoreDir) {
+            [SFSDKCoreLogger e:[self class] format:@"Root directory path is nil"];
+            return nil;
         }
 
         NSError *error = nil;
