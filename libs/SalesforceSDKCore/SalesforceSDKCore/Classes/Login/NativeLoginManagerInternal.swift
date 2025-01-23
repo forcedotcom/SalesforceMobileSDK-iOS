@@ -63,7 +63,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         let code: String
     }
     
-    private func mapAsyncResult<T>(
+    private func handleResponseForRequest<T>(
         execute: () async throws -> T
     ) async -> Result<T, RestClientError> {
         do {
@@ -132,7 +132,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         authRequest.endpoint = ""
         
         // First REST Call - Authorization
-        let authorizationResponse = await mapAsyncResult {
+        let authorizationResponse = await handleResponseForRequest {
             try await RestClient.sharedGlobal.send(request: authRequest)
         }
         
@@ -284,7 +284,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         )
 
         // Submit the start registration request and fetch the response.
-        let startRegistrationResponse = await mapAsyncResult {
+        let startRegistrationResponse = await handleResponseForRequest {
             try await RestClient.sharedGlobal.send(request: startRegistrationRequest)
         }
         
@@ -427,7 +427,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
             contentType: kHttpPostApplicationJsonContentType
         )
         
-        let startPasswordResetResponse = await mapAsyncResult {
+        let startPasswordResetResponse = await handleResponseForRequest {
             try await RestClient.sharedGlobal.send(request: startPasswordResetRequest)
         }
         
@@ -488,7 +488,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
             contentType: kHttpPostApplicationJsonContentType
         )
         
-        let completePasswordResetResponse = await mapAsyncResult {
+        let completePasswordResetResponse = await handleResponseForRequest {
             try await RestClient.shared.send(request: completePasswordResetRequest)
         }
         
@@ -562,7 +562,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         )
         
         // Submit the OTP request and fetch the OTP response.
-        let otpResponse = await mapAsyncResult {
+        let otpResponse = await handleResponseForRequest {
             try await RestClient.sharedGlobal.send(request: otpRequest)
         }
         
@@ -648,7 +648,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
             contentType: kHttpPostContentType)
         
         // Submit the authorization request and fetch the authorization response.
-        let authorizationResponse = await mapAsyncResult {
+        let authorizationResponse = await handleResponseForRequest {
             try await RestClient.sharedGlobal.send(request: authorizationRequest)
         }
         
@@ -907,7 +907,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
             contentType: kHttpPostContentType)
         
         // Submit the authorization request and fetch the authorization response.
-        let authorizationResponse = await mapAsyncResult {
+        let authorizationResponse = await handleResponseForRequest {
             try await RestClient.sharedGlobal.send(request: authorizationRequest)
         }
         
@@ -952,7 +952,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
                     contentType: kHttpPostContentType)
                 
                 // Submit the access token request.
-                let tokenResponse = await mapAsyncResult {
+                let tokenResponse = await handleResponseForRequest {
                     try await RestClient.sharedGlobal.send(request: tokenRequest)
                 }
                 
