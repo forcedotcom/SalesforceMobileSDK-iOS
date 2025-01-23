@@ -19,7 +19,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Debug Permissions Response
         run: |
-          echo "Permissions raw responsen: ${{ steps.check_permissions.outputs.data }}"
+          echo "Permissions raw response: ${{ steps.check_permissions.outputs.data }}"
       - name: Validate Write Permissions
         run: |
           permission=$(echo "${{ fromJson(steps.check_permissions.outputs.data).permission }}")
@@ -58,7 +58,7 @@ jobs:
     outputs:
       libs: ${{ steps.test-orchestrator.outputs.libs }}
     steps:
-      - name: Testing Check Write Permissions
+      - name: Check Write Permissions
         uses: octokit/request-action@v2.x
         id: check_permissions
         with:
@@ -67,7 +67,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Debug Permissions Response
         run: |
-          echo "Permissions raw responsen: ${{ steps.check_permissions.outputs.data }}"
+          echo "Permissions raw response: ${{ steps.check_permissions.outputs.data }}"
       - name: Validate Write Permissions
         run: |
           permission=$(echo "${{ fromJson(steps.check_permissions.outputs.data).permission }}")
