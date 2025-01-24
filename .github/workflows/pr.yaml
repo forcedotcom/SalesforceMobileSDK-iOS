@@ -10,22 +10,22 @@ jobs:
   static-analysis:
     runs-on: macos-15
     steps:
-      - name: Check Write Permissions
+      - name: Check Write Permission
         uses: octokit/request-action@v2.x
-        id: check_permissions
+        id: check_permission
         with:
           route: GET /repos/${{ github.repository }}/collaborators/${{ github.triggering_actor }}/permission
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Debug Permissions Response
+      - name: Debug Permission Response
         run: |
-          echo "Permissions raw response: ${{ steps.check_permissions.outputs.data }}"
-      - name: Validate Write Permissions
+          echo "Permission raw response: ${{ steps.check_permissions.outputs.data }}"
+      - name: Validate Write Permission
         run: |
           permission=$(echo "${{ fromJson(steps.check_permissions.outputs.data).permission }}")
-          echo "User ${{ github.triggering_actor }} has permissions: $permissions"
+          echo "User ${{ github.triggering_actor }} has permission: $permission"
           if [[ "$permission" != "write" && "$permission" != "admin" ]]; then
-            echo "User ${{ github.triggering_actor }} does not have sufficient permissions (write or admin) to proceed. Someone from the team needs to rerun this workflow AFTER it has been deemed safe."
+            echo "User ${{ github.triggering_actor }} does not have sufficient permission (write or admin) to proceed. Someone from the team needs to rerun this workflow AFTER it has been deemed safe."
             exit 1
           fi
       - name: Checkout
@@ -58,22 +58,22 @@ jobs:
     outputs:
       libs: ${{ steps.test-orchestrator.outputs.libs }}
     steps:
-      - name: Check Write Permissions
+      - name: Check Write Permission
         uses: octokit/request-action@v2.x
-        id: check_permissions
+        id: check_permission
         with:
           route: GET /repos/${{ github.repository }}/collaborators/${{ github.triggering_actor }}/permission
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Debug Permissions Response
+      - name: Debug Permission Response
         run: |
-          echo "Permissions raw response: ${{ steps.check_permissions.outputs.data }}"
-      - name: Validate Write Permissions
+          echo "Permission raw response: ${{ steps.check_permissions.outputs.data }}"
+      - name: Validate Write Permission
         run: |
           permission=$(echo "${{ fromJson(steps.check_permissions.outputs.data).permission }}")
-          echo "User ${{ github.triggering_actor }} has permissions: $permissions"
+          echo "User ${{ github.triggering_actor }} has permission: $permission"
           if [[ "$permission" != "write" && "$permission" != "admin" ]]; then
-            echo "User ${{ github.triggering_actor }} does not have sufficient permissions (write or admin) to proceed. Someone from the team needs to rerun this workflow AFTER it has been deemed safe."
+            echo "User ${{ github.triggering_actor }} does not have sufficient permission (write or admin) to proceed. Someone from the team needs to rerun this workflow AFTER it has been deemed safe."
             exit 1
           fi
       - name: Checkout
