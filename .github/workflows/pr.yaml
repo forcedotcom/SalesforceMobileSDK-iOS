@@ -1,7 +1,7 @@
 name: Pull Request
 
 on:
-  # Dangerious without Member Check setep! 
+  # Dangerious without Member Check setup!
   pull_request_target:
     branches:
       - dev
@@ -10,27 +10,41 @@ jobs:
   static-analysis:
     runs-on: macos-15
     steps:
-      - name: Member Check
-        if: ${{ github.event.pull_request.author_association != 'MEMBER' && github.event.pull_request.author_association != 'OWNER' }}
+      - name: Check Write Permission
+        uses: octokit/request-action@v2.x
+        id: check_permission
+        with:
+          route: GET /repos/${{ github.repository }}/collaborators/${{ github.triggering_actor }}/permission
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Debug Permission Response
         run: |
-          echo "Pull Request not triggered by a MSDK team member.  Someone from the team needs to rerun this workflow AFTER it has been deemed safe."
-          exit 1
+          echo "Permission raw response: ${{ steps.check_permissions.outputs.data }}"
+      - name: Validate Write Permission
+        run: |
+          permission=$(echo "${{ fromJson(steps.check_permissions.outputs.data).permission }}")
+          echo "User ${{ github.triggering_actor }} has permission: $permission"
+          if [[ "$permission" != "write" && "$permission" != "admin" ]]; then
+            echo "User ${{ github.triggering_actor }} does not have sufficient permission (write or admin) to proceed. Someone from the team needs to rerun this workflow AFTER it has been deemed safe."
+            exit 1
+          fi
       - name: Checkout
         uses: actions/checkout@v4
         with:
           # We need a sufficient depth or Danger will occasionally run into issues checking which files were modified.
           fetch-depth: 100
           # This is dangerous without the member check
-          ref: ${{ github.event.pull_request.head.sha }} 
+          ref: ${{ github.event.pull_request.head.sha }}
       - name: Install Dependencies
         run: |
           npm install shelljs@0.8.5
           ./install.sh
       - name: Run Static Analysis
-        # It would be nice to use xcbeaufity here but all the warnings and errors get annotated onto the PR, including 
-        # files not mofified in the PR which is annoying.  
-        run: xcodebuild analyze -workspace SalesforceMobileSDK.xcworkspace -scheme MobileSync -sdk 'iphonesimulator' \
-            CLANG_ANALYZER_OUTPUT=plist-html CLANG_ANALYZER_OUTPUT_DIR=./clangReport RUN_CLANG_STATIC_ANALYZER=YES
+        # It would be nice to use xcbeaufity here but all the warnings and errors get annotated onto the PR, including
+        # files not mofified in the PR which is annoying.
+        run:
+          xcodebuild analyze -workspace SalesforceMobileSDK.xcworkspace -scheme MobileSync -sdk 'iphonesimulator' \
+          CLANG_ANALYZER_OUTPUT=plist-html CLANG_ANALYZER_OUTPUT_DIR=./clangReport RUN_CLANG_STATIC_ANALYZER=YES
       - name: Report Static Analysis
         env:
           DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -44,18 +58,31 @@ jobs:
     outputs:
       libs: ${{ steps.test-orchestrator.outputs.libs }}
     steps:
-      - name: Member Check
-        if: ${{ github.event.pull_request.author_association != 'MEMBER' }}
+      - name: Check Write Permission
+        uses: octokit/request-action@v2.x
+        id: check_permission
+        with:
+          route: GET /repos/${{ github.repository }}/collaborators/${{ github.triggering_actor }}/permission
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Debug Permission Response
         run: |
-          echo "Pull Request not triggered by a MSDK team member.  Someone from the team needs to rerun this workflow AFTER it has been deemed safe."
-          exit 1
+          echo "Permission raw response: ${{ steps.check_permissions.outputs.data }}"
+      - name: Validate Write Permission
+        run: |
+          permission=$(echo "${{ fromJson(steps.check_permissions.outputs.data).permission }}")
+          echo "User ${{ github.triggering_actor }} has permission: $permission"
+          if [[ "$permission" != "write" && "$permission" != "admin" ]]; then
+            echo "User ${{ github.triggering_actor }} does not have sufficient permission (write or admin) to proceed. Someone from the team needs to rerun this workflow AFTER it has been deemed safe."
+            exit 1
+          fi
       - name: Checkout
         uses: actions/checkout@v4
         with:
           # We need a sufficient depth or Danger will occasionally run into issues checking which files were modified.
           fetch-depth: 100
           # This is dangerous without the member check
-          ref: ${{ github.event.pull_request.head.sha }} 
+          ref: ${{ github.event.pull_request.head.sha }}
       - name: Determine Tests to Run
         id: test-orchestrator
         env:
