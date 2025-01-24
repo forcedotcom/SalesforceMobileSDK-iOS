@@ -63,6 +63,19 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         let code: String
     }
     
+    private func handleResponseForRequest<T>(
+        execute: () async throws -> T
+    ) async -> Result<T, RestClientError> {
+        do {
+            let result = try await execute()
+            return .success(result)
+        } catch let error as RestClientError {
+            return .failure(error)
+        } catch {
+            return .failure(.apiFailed(response: nil, underlyingError: error, urlResponse: nil))
+        }
+    }
+    
     @objc public init(clientId: String, redirectUri: String, loginUrl: String, scene: UIScene?
     ) {
         self.clientId = clientId
@@ -119,10 +132,8 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         authRequest.endpoint = ""
         
         // First REST Call - Authorization
-        let authorizationResponse = await withCheckedContinuation { continuation in
-            RestClient.sharedGlobal.send(request: authRequest) { result in
-                continuation.resume(returning: result)
-            }
+        let authorizationResponse = await handleResponseForRequest {
+            try await RestClient.sharedGlobal.send(request: authRequest)
         }
         
         // Second REST Call - Access token request with code verifier
@@ -271,14 +282,10 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
             startRegistrationRequestBodyString,
             contentType: kHttpPostApplicationJsonContentType
         )
-        
+
         // Submit the start registration request and fetch the response.
-        let startRegistrationResponse = await withCheckedContinuation { continuation in
-            RestClient.sharedGlobal.send(
-                request: startRegistrationRequest
-            ) { result in
-                continuation.resume(returning: result)
-            }
+        let startRegistrationResponse = await handleResponseForRequest {
+            try await RestClient.sharedGlobal.send(request: startRegistrationRequest)
         }
         
         // React to the start registration response.
@@ -420,12 +427,8 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
             contentType: kHttpPostApplicationJsonContentType
         )
         
-        let startPasswordResetResponse = await withCheckedContinuation { continuation in
-            RestClient.sharedGlobal.send(
-                request: startPasswordResetRequest
-            ) { result in
-                continuation.resume(returning: result)
-            }
+        let startPasswordResetResponse = await handleResponseForRequest {
+            try await RestClient.sharedGlobal.send(request: startPasswordResetRequest)
         }
         
         // React to the start password reset response.
@@ -485,12 +488,8 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
             contentType: kHttpPostApplicationJsonContentType
         )
         
-        let completePasswordResetResponse = await withCheckedContinuation { continuation in
-            RestClient.sharedGlobal.send(
-                request: completePasswordResetRequest
-            ) { result in
-                continuation.resume(returning: result)
-            }
+        let completePasswordResetResponse = await handleResponseForRequest {
+            try await RestClient.shared.send(request: completePasswordResetRequest)
         }
         
         // React to the complete password reset response.
@@ -563,12 +562,8 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         )
         
         // Submit the OTP request and fetch the OTP response.
-        let otpResponse = await withCheckedContinuation { continuation in
-            RestClient.sharedGlobal.send(
-                request: otpRequest
-            ) { result in
-                continuation.resume(returning: result)
-            }
+        let otpResponse = await handleResponseForRequest {
+            try await RestClient.sharedGlobal.send(request: otpRequest)
         }
         
         // React to the OTP response.
@@ -653,12 +648,8 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
             contentType: kHttpPostContentType)
         
         // Submit the authorization request and fetch the authorization response.
-        let authorizationResponse = await withCheckedContinuation { continuation in
-            RestClient.sharedGlobal.send(
-                request: authorizationRequest
-            ) { result in
-                continuation.resume(returning: result)
-            }
+        let authorizationResponse = await handleResponseForRequest {
+            try await RestClient.sharedGlobal.send(request: authorizationRequest)
         }
         
         // React to the authorization response.
@@ -916,12 +907,8 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
             contentType: kHttpPostContentType)
         
         // Submit the authorization request and fetch the authorization response.
-        let authorizationResponse = await withCheckedContinuation { continuation in
-            RestClient.sharedGlobal.send(
-                request: authorizationRequest
-            ) { result in
-                continuation.resume(returning: result)
-            }
+        let authorizationResponse = await handleResponseForRequest {
+            try await RestClient.sharedGlobal.send(request: authorizationRequest)
         }
         
         // React to the authorization response.
@@ -965,12 +952,8 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
                     contentType: kHttpPostContentType)
                 
                 // Submit the access token request.
-                let tokenResponse = await withCheckedContinuation { continuation in
-                    RestClient.sharedGlobal.send(
-                        request: tokenRequest
-                    ) { tokenResponse in
-                        continuation.resume(returning: tokenResponse)
-                    }
+                let tokenResponse = await handleResponseForRequest {
+                    try await RestClient.sharedGlobal.send(request: tokenRequest)
                 }
                 
                 // React to the token response.
