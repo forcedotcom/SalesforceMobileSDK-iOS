@@ -14,7 +14,7 @@ jobs:
         uses: octokit/request-action@v2.x
         id: check_permissions
         with:
-          route: GET /repos/${{ github.repository }}/collaborators/${{ github.actor }}/permission
+          route: GET /repos/${{ github.repository }}/collaborators/${{ github.triggering_actor }}/permission
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Debug Permissions Response
@@ -23,9 +23,9 @@ jobs:
       - name: Validate Write Permissions
         run: |
           permission=$(echo "${{ fromJson(steps.check_permissions.outputs.data).permission }}")
-          echo "User ${{ github.actor }} has permissions: $permissions"
+          echo "User ${{ github.triggering_actor }} has permissions: $permissions"
           if [[ "$permission" != "write" && "$permission" != "admin" ]]; then
-            echo "User ${{ github.actor }} does not have sufficient permissions (write or admin) to proceed."
+            echo "User ${{ github.triggering_actor }} does not have sufficient permissions (write or admin) to proceed. Someone from the team needs to rerun this workflow AFTER it has been deemed safe."
             exit 1
           fi
       - name: Checkout
@@ -62,7 +62,7 @@ jobs:
         uses: octokit/request-action@v2.x
         id: check_permissions
         with:
-          route: GET /repos/${{ github.repository }}/collaborators/${{ github.actor }}/permission
+          route: GET /repos/${{ github.repository }}/collaborators/${{ github.triggering_actor }}/permission
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Debug Permissions Response
@@ -71,9 +71,9 @@ jobs:
       - name: Validate Write Permissions
         run: |
           permission=$(echo "${{ fromJson(steps.check_permissions.outputs.data).permission }}")
-          echo "User ${{ github.actor }} has permissions: $permissions"
+          echo "User ${{ github.triggering_actor }} has permissions: $permissions"
           if [[ "$permission" != "write" && "$permission" != "admin" ]]; then
-            echo "User ${{ github.actor }} does not have sufficient permissions (write or admin) to proceed."
+            echo "User ${{ github.triggering_actor }} does not have sufficient permissions (write or admin) to proceed. Someone from the team needs to rerun this workflow AFTER it has been deemed safe."
             exit 1
           fi
       - name: Checkout
