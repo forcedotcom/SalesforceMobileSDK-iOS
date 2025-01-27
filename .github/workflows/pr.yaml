@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Check Write Permission
         uses: octokit/request-action@v2.x
-        id: check_permission
+        id: check_permissions
         with:
           route: GET /repos/${{ github.repository }}/collaborators/${{ github.triggering_actor }}/permission
         env:
@@ -60,7 +60,7 @@ jobs:
     steps:
       - name: Check Write Permission
         uses: octokit/request-action@v2.x
-        id: check_permission
+        id: check_permissions
         with:
           route: GET /repos/${{ github.repository }}/collaborators/${{ github.triggering_actor }}/permission
         env:
