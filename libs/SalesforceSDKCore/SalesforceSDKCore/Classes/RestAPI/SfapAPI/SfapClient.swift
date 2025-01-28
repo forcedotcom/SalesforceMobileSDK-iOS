@@ -99,29 +99,12 @@ public class SfapClient : NSObject {
             path: "einstein/platform/v1/models/\(modelName)/embeddings"
         )
         
-        // Submit the sfap_api embeddings request and fetch the response.
-        let embeddingsResponse = await withCheckedContinuation { continuation in
-            restClient.send(
-                request: embeddingsRequest
-            ) { result in
-                continuation.resume(returning: result)
-            }
-        }
-        
-        // React to the sfap_api embeddings response.
-        switch embeddingsResponse {
-            
-        case .success(let embeddingsResponse):
-            // Decode the sfap_api embeddings response.
-            let embeddingsResponseBody = try embeddingsResponse.asDecodable(
-                type: EmbeddingsResponseBody.self
-            )
-            embeddingsResponseBody.sourceJson = embeddingsResponse.asString()
-            return embeddingsResponseBody
-            
-        case .failure(let error):
-            throw try errorForRestClientError(error, requestName: "generate embeddings request")
-        }
+        let embeddingsResponse = try await restClient.send(request: embeddingsRequest)
+        let embeddingsResponseBody = try embeddingsResponse.asDecodable(
+            type: EmbeddingsResponseBody.self
+        )
+        embeddingsResponseBody.sourceJson = embeddingsResponse.asString()
+        return embeddingsResponseBody
     }
     
     /**
@@ -151,29 +134,12 @@ public class SfapClient : NSObject {
             path: "einstein/platform/v1/models/\(modelName)/chat-generations"
         )
         
-        // Submit the sfap_api chat generations request and fetch the response.
-        let chatGenerationsResponse = await withCheckedContinuation { continuation in
-            restClient.send(
-                request: chatGenerationsRequest
-            ) { result in
-                continuation.resume(returning: result)
-            }
-        }
-        
-        // React to the sfap_api chat generations response.
-        switch chatGenerationsResponse {
-            
-        case .success(let chatGenerationsResponse):
-            // Decode the sfap_api chat generations response.
-            let chatGenerationsResponseBody = try chatGenerationsResponse.asDecodable(
-                type: ChatGenerationsResponseBody.self
-            )
-            chatGenerationsResponseBody.sourceJson = chatGenerationsResponse.asString()
-            return chatGenerationsResponseBody
-            
-        case .failure(let error):
-            throw try errorForRestClientError(error, requestName: "chat generations request")
-        }
+        let chatGenerationsResponse = try await restClient.send(request: chatGenerationsRequest)
+        let chatGenerationsResponseBody = try chatGenerationsResponse.asDecodable(
+            type: ChatGenerationsResponseBody.self
+        )
+        chatGenerationsResponseBody.sourceJson = chatGenerationsResponse.asString()
+        return chatGenerationsResponseBody
     }
     
     /**
@@ -203,29 +169,12 @@ public class SfapClient : NSObject {
             path: "einstein/platform/v1/models/\(modelName)/generations"
         )
         
-        // Submit the sfap_api generations request and fetch the response.
-        let generationsResponse = await withCheckedContinuation { continuation in
-            restClient.send(
-                request: generationsRequest
-            ) { result in
-                continuation.resume(returning: result)
-            }
-        }
-        
-        // React to the sfap_api generations response.
-        switch generationsResponse {
-            
-        case .success(let generationsResponse):
-            // Decode the sfap_api generations response.
-            let generationsResponseBody = try generationsResponse.asDecodable(
-                type: GenerationsResponseBody.self
-            )
-            generationsResponseBody.sourceJson = generationsResponse.asString()
-            return generationsResponseBody
-            
-        case .failure(let error):
-            throw try errorForRestClientError(error, requestName: "generations request")
-        }
+        let generationsResponse = try await restClient.send(request: generationsRequest)
+        let generationsResponseBody = try generationsResponse.asDecodable(
+            type: GenerationsResponseBody.self
+        )
+        generationsResponseBody.sourceJson = generationsResponse.asString()
+        return generationsResponseBody
     }
     
     /**
@@ -251,29 +200,12 @@ public class SfapClient : NSObject {
             path: "einstein/platform/v1/feedback"
         )
         
-        // Submit the sfap_api feedback request and fetch the response.
-        let feedbackResponse = await withCheckedContinuation { continuation in
-            restClient.send(
-                request: feedbackRequest
-            ) { result in
-                continuation.resume(returning: result)
-            }
-        }
-        
-        // React to the sfap_api feedback response.
-        switch feedbackResponse {
-            
-        case .success(let feedbackResponse):
-            // Decode the sfap_api feedback response.
-            let feedbackResponseBody = try feedbackResponse.asDecodable(
-                type: FeedbackResponseBody.self
-            )
-            feedbackResponseBody.sourceJson = feedbackResponse.asString()
-            return feedbackResponseBody
-            
-        case .failure(let error):
-            throw try errorForRestClientError(error, requestName: "feedback request")
-        }
+        let feedbackResponse = try await restClient.send(request: feedbackRequest)
+        let feedbackResponseBody = try feedbackResponse.asDecodable(
+            type: FeedbackResponseBody.self
+        )
+        feedbackResponseBody.sourceJson = feedbackResponse.asString()
+        return feedbackResponseBody
     }
     
     private func generateHeaders() -> NSMutableDictionary {
