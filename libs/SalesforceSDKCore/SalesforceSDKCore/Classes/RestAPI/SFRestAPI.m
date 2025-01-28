@@ -251,9 +251,6 @@ static dispatch_once_t pred;
         } failure:^(SFOAuthInfo *authInfo, NSError *error) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             [SFSDKCoreLogger e:[strongSelf class] format:@"Authentication failed in SFRestAPI: %@. Logging out.", error];
-            NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
-            attributes[@"errorCode"] = [NSNumber numberWithInteger:error.code];
-            attributes[@"errorDescription"] = error.localizedDescription;
             [[SFUserAccountManager sharedInstance] logout:SFLogoutReasonUnexpected];
         }];
     } else {
