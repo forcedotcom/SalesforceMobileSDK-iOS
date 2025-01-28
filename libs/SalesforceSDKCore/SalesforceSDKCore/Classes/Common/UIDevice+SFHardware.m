@@ -21,44 +21,6 @@
  iFPGA ->        Unknown or Internal Development Platform
  
  // iPhone Models
- iPhone1,1  ->   iPhone 1G (Original iPhone), M68
- iPhone1,2  ->   iPhone 3G, N82
-
- iPhone2,1  ->   iPhone 3GS, N89/N88
-
- iPhone3,1  ->   iPhone 4 (AT&T), N90
- iPhone3,2  ->   iPhone 4 (Other Carriers), ??
- iPhone3,3  ->   iPhone 4 (Verizon), N92
-
- iPhone4,1  ->   iPhone 4S (GSM), N94
-
- iPhone5,1  ->   iPhone 5 (GSM/LTE, 16-21nm), N41/N42
- iPhone5,2  ->   iPhone 5 (GSM+CDMA, LTE), N42
- iPhone5,3  ->   iPhone 5C (GSM), N48
- iPhone5,4  ->   iPhone 5C (Global), N48
-
- iPhone6,1  ->   iPhone 5S (GSM), N51
- iPhone6,2  ->   iPhone 5S (Global), N53
-
- iPhone7,1  ->   iPhone 6 Plus, N56
- iPhone7,2  ->   iPhone 6, N61
-
- iPhone8,1  ->   iPhone 6S, N71
- iPhone8,2  ->   iPhone 6S Plus, N66
- iPhone8,4  ->   iPhone SE (1st Generation), N69
-
- iPhone9,1  ->   iPhone 7 (GSM), D10
- iPhone9,3  ->   iPhone 7 (Global), D101
- iPhone9,2  ->   iPhone 7 Plus (GSM), D11
- iPhone9,4  ->   iPhone 7 Plus (Global), D111
-
- iPhone10,1 ->   iPhone 8 (GSM), D20
- iPhone10,4 ->   iPhone 8 (Global), D201
- iPhone10,2 ->   iPhone 8 Plus (GSM), D21
- iPhone10,5 ->   iPhone 8 Plus (Global), D211
- iPhone10,3 ->   iPhone X (Global), D22
- iPhone10,6 ->   iPhone X (GSM), D221
-
  iPhone11,2 ->   iPhone XS, D321
  iPhone11,4 ->   iPhone XS Max (China), D331
  iPhone11,6 ->   iPhone XS Max (Global), D332
@@ -95,27 +57,49 @@
  iPhone17,3 ->   iPhone 16
  iPhone17,4 ->   iPhone 16 Plus
 
- // iPod Models
- iPod1,1   ->    iPod touch 1G, N45
- iPod2,1   ->    iPod touch 2G, N72
- iPod3,1   ->    iPod touch 3G, N18
- iPod4,1   ->    iPod touch 4G, N80
- iPod5,1   ->    iPod touch 5G, N81
-
  // iPad Models
- iPad1,1   ->    iPad 1G (WiFi and 3G), K48
- iPad2,1   ->    iPad 2 (WiFi), K93
- iPad2,2   ->    iPad 2 (GSM), K94
- iPad2,3   ->    iPad 2 (CDMA), K95
- iPad2,5   ->    iPad mini (1st Generation), P105
- iPad3,1   ->    iPad 3 (WiFi), J1
- iPad3,2   ->    iPad 3 (CDMA), J2A
- iPad3,3   ->    iPad 3 (GSM), J33
- iPad4,1   ->    iPad Air (1st Generation, WiFi), J71
- iPad4,4   ->    iPad mini 2, J85
- iPad5,1   ->    iPad mini 4, J96
- iPad8,1   ->    iPad Pro (11-inch, 1st Gen), D42a
- iPad13,1  ->    iPad Air (4th Gen), J413
+ iPad7,11   ->    iPad (7th Generation), D331AP
+ iPad7,12   ->    iPad (7th Generation), D331AP
+ iPad8,1    ->    iPad Pro (11-inch, 1st Generation), D42A
+ iPad8,2    ->    iPad Pro (11-inch, 1st Generation), D42A
+ iPad8,3    ->    iPad Pro (11-inch, 1st Generation), D42A
+ iPad8,4    ->    iPad Pro (11-inch, 1st Generation), D42A
+ iPad8,5    ->    iPad Pro (12.9-inch, 3rd Generation), J417AP
+ iPad8,6    ->    iPad Pro (12.9-inch, 3rd Generation), J417AP
+ iPad8,7    ->    iPad Pro (12.9-inch, 3rd Generation), J417AP
+ iPad8,8    ->    iPad Pro (12.9-inch, 3rd Generation), J417AP
+ iPad8,9    ->    iPad Pro (11-inch, 2nd Generation), D43AP
+ iPad8,10   ->    iPad Pro (11-inch, 2nd Generation), D43AP
+ iPad8,11   ->    iPad Pro (12.9-inch, 4th Generation), J418AP
+ iPad8,12   ->    iPad Pro (12.9-inch, 4th Generation), J418AP
+ iPad11,1   ->    iPad mini (5th Generation), J210AP
+ iPad11,2   ->    iPad mini (5th Generation), J210AP
+ iPad11,3   ->    iPad Air (3rd Generation), J230AP
+ iPad11,4   ->    iPad Air (3rd Generation), J230AP
+ iPad11,6   ->    iPad (8th Generation), J217AP
+ iPad11,7   ->    iPad (8th Generation), J217AP
+ iPad12,1   ->    iPad (9th Generation), J272AP
+ iPad12,2   ->    iPad (9th Generation), J272AP
+ iPad13,1   ->    iPad Air (4th Generation), J413AP
+ iPad13,2   ->    iPad Air (4th Generation), J413AP
+ iPad13,4   ->    iPad Pro (11-inch, 3rd Generation), D44AP
+ iPad13,5   ->    iPad Pro (11-inch, 3rd Generation), D44AP
+ iPad13,6   ->    iPad Pro (11-inch, 3rd Generation), D44AP
+ iPad13,7   ->    iPad Pro (11-inch, 3rd Generation), D44AP
+ iPad13,8   ->    iPad Pro (12.9-inch, 5th Generation, M1), J522AP
+ iPad13,9   ->    iPad Pro (12.9-inch, 5th Generation, M1), J522AP
+ iPad13,10  ->    iPad Pro (12.9-inch, 5th Generation, M1), J522AP
+ iPad13,11  ->    iPad Pro (12.9-inch, 5th Generation, M1), J522AP
+ iPad13,16  ->    iPad Air (5th Generation, M1), J517AP
+ iPad13,17  ->    iPad Air (5th Generation, M1), J517AP
+ iPad13,18  ->    iPad (10th Generation), J274AP
+ iPad13,19  ->    iPad (10th Generation), J274AP
+ iPad14,1   ->    iPad mini (6th Generation), J407AP
+ iPad14,2   ->    iPad mini (6th Generation), J407AP
+ iPad14,3   ->    iPad Pro (12.9-inch, 6th Generation, M2), J523AP
+ iPad14,4   ->    iPad Pro (12.9-inch, 6th Generation, M2), J523AP
+ iPad14,5   ->    iPad Pro (11-inch, 4th Generation, M2), D45AP
+ iPad14,6   ->    iPad Pro (11-inch, 4th Generation, M2), D45AP
 
  // Apple TVs
  AppleTV2,1 ->   Apple TV 2G, K66
