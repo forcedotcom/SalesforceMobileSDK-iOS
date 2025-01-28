@@ -446,7 +446,6 @@ static dispatch_once_t pred;
 
                     // Make sure we call logout on the main thread.
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        [strongSelf createAndStoreLogoutEvent:refreshError user:strongSelf.user];
                         [[SFUserAccountManager sharedInstance] logoutUser:strongSelf.user reason:SFLogoutReasonTokenExpired];
                     });
                 }
@@ -487,12 +486,6 @@ static dispatch_once_t pred;
         [delegate request:request didFail:data rawResponse:rawResponse error:error];
     }
     [self removeActiveRequestObject:request];
-}
-
-- (void)createAndStoreLogoutEvent:(NSError *)error user:(SFUserAccount*)user {
-    NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
-    attributes[@"errorCode"] = [NSNumber numberWithInteger:error.code];
-    attributes[@"errorDescription"] = error.localizedDescription;
 }
 
 #pragma mark - SFRestRequest factory methods
