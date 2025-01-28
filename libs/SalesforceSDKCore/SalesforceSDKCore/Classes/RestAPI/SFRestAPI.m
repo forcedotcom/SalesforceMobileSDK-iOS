@@ -251,10 +251,6 @@ static dispatch_once_t pred;
         } failure:^(SFOAuthInfo *authInfo, NSError *error) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             [SFSDKCoreLogger e:[strongSelf class] format:@"Authentication failed in SFRestAPI: %@. Logging out.", error];
-            NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
-            attributes[@"errorCode"] = [NSNumber numberWithInteger:error.code];
-            attributes[@"errorDescription"] = error.localizedDescription;
-            [SFSDKEventBuilderHelper createAndStoreEvent:@"userLogout" userAccount:nil className:NSStringFromClass([strongSelf class]) attributes:attributes];
             [[SFUserAccountManager sharedInstance] logout:SFLogoutReasonUnexpected];
         }];
     } else {
@@ -447,7 +443,6 @@ static dispatch_once_t pred;
 
                     // Make sure we call logout on the main thread.
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        [strongSelf createAndStoreLogoutEvent:refreshError user:strongSelf.user];
                         [[SFUserAccountManager sharedInstance] logoutUser:strongSelf.user reason:SFLogoutReasonTokenExpired];
                     });
                 }
@@ -488,13 +483,6 @@ static dispatch_once_t pred;
         [delegate request:request didFail:data rawResponse:rawResponse error:error];
     }
     [self removeActiveRequestObject:request];
-}
-
-- (void)createAndStoreLogoutEvent:(NSError *)error user:(SFUserAccount*)user {
-    NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
-    attributes[@"errorCode"] = [NSNumber numberWithInteger:error.code];
-    attributes[@"errorDescription"] = error.localizedDescription;
-    [SFSDKEventBuilderHelper createAndStoreEvent:@"userLogout" userAccount:user className:NSStringFromClass([self class]) attributes:attributes];
 }
 
 #pragma mark - SFRestRequest factory methods
