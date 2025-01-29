@@ -218,78 +218,126 @@
     
     // Placeholder for unknown platforms or iFPGA (rare and mostly unused)
     if ([platform isEqualToString:@"iFPGA"]) return UIDeviceIFPGA;
-
-    // iPhones (iOS 17 and newer supported)
-    if ([platform isEqualToString:@"iPhone12,8"]) return UIDeviceSE2iPhone;           // iPhone SE (2nd generation)
-    if ([platform isEqualToString:@"iPhone14,6"]) return UIDeviceSE3iPhone;           // iPhone SE (3rd generation)
-    if ([platform isEqualToString:@"iPhone11,8"]) return UIDeviceXRiPhone;            // iPhone XR
-    if ([platform isEqualToString:@"iPhone11,2"]) return UIDeviceXsiPhone;            // iPhone XS
-    if ([platform isEqualToString:@"iPhone11,4"] || [platform isEqualToString:@"iPhone11,6"]) return UIDeviceXsMaxiPhone; // iPhone XS Max
-    if ([platform isEqualToString:@"iPhone12,1"]) return UIDevice11iPhone;           // iPhone 11
-    if ([platform isEqualToString:@"iPhone12,3"]) return UIDevice11ProiPhone;        // iPhone 11 Pro
-    if ([platform isEqualToString:@"iPhone12,5"]) return UIDevice11ProMaxiPhone;     // iPhone 11 Pro Max
-    if ([platform isEqualToString:@"iPhone13,1"]) return UIDevice12MiniiPhone;       // iPhone 12 Mini
-    if ([platform isEqualToString:@"iPhone13,2"]) return UIDevice12iPhone;           // iPhone 12
-    if ([platform isEqualToString:@"iPhone13,3"]) return UIDevice12ProiPhone;        // iPhone 12 Pro
-    if ([platform isEqualToString:@"iPhone13,4"]) return UIDevice12ProMaxiPhone;     // iPhone 12 Pro Max
-    if ([platform isEqualToString:@"iPhone14,4"]) return UIDevice13MiniiPhone;       // iPhone 13 Mini
-    if ([platform isEqualToString:@"iPhone14,5"]) return UIDevice13iPhone;           // iPhone 13
-    if ([platform isEqualToString:@"iPhone14,2"]) return UIDevice13ProiPhone;        // iPhone 13 Pro
-    if ([platform isEqualToString:@"iPhone14,3"]) return UIDevice13ProMaxiPhone;     // iPhone 13 Pro Max
-    if ([platform isEqualToString:@"iPhone14,7"]) return UIDevice14iPhone;           // iPhone 14
-    if ([platform isEqualToString:@"iPhone14,8"]) return UIDevice14PlusiPhone;       // iPhone 14 Plus
-    if ([platform isEqualToString:@"iPhone15,2"]) return UIDevice14ProiPhone;        // iPhone 14 Pro
-    if ([platform isEqualToString:@"iPhone15,3"]) return UIDevice14ProMaxiPhone;     // iPhone 14 Pro Max
-    if ([platform isEqualToString:@"iPhone15,4"]) return UIDevice15iPhone;           // iPhone 15
-    if ([platform isEqualToString:@"iPhone15,5"]) return UIDevice15PlusiPhone;       // iPhone 15 Plus
-    if ([platform isEqualToString:@"iPhone16,1"]) return UIDevice15ProiPhone;        // iPhone 15 Pro
-    if ([platform isEqualToString:@"iPhone16,2"]) return UIDevice15ProMaxiPhone;     // iPhone 15 Pro Max
-    if ([platform isEqualToString:@"iPhone17,1"]) return UIDevice16ProiPhone;     // iPhone 16 Pro
-    if ([platform isEqualToString:@"iPhone17,2"]) return UIDevice16ProMaxiPhone; // iPhone 16 Pro Max
-    if ([platform isEqualToString:@"iPhone17,3"]) return UIDevice16iPhone;       // iPhone 16
-    if ([platform isEqualToString:@"iPhone17,4"]) return UIDevice16PlusiPhone;   // iPhone 16 Plus
-
-    // iPads (iOS 17 and newer supported)
-    if ([platform isEqualToString:@"iPad7,11"] || [platform isEqualToString:@"iPad7,12"]) return UIDevice7GiPad;    // iPad (7th generation)
-    if ([platform isEqualToString:@"iPad8,1"] || [platform isEqualToString:@"iPad8,2"] ||
-        [platform isEqualToString:@"iPad8,3"] || [platform isEqualToString:@"iPad8,4"]) return UIDevice11InchiPadPro; // iPad Pro (11-inch, 1st generation)
-    if ([platform isEqualToString:@"iPad8,5"] || [platform isEqualToString:@"iPad8,6"] ||
-        [platform isEqualToString:@"iPad8,7"] || [platform isEqualToString:@"iPad8,8"]) return UIDevice3G129InchiPadPro; // iPad Pro (12.9-inch, 3rd generation)
-    if ([platform isEqualToString:@"iPad8,9"] || [platform isEqualToString:@"iPad8,10"]) return UIDevice11Inch2GiPadPro; // iPad Pro (11-inch, 2nd generation)
-    if ([platform isEqualToString:@"iPad8,11"] || [platform isEqualToString:@"iPad8,12"]) return UIDevice4G129InchiPadPro; // 4th generation of the iPad Pro 12.9-inch
-    if ([platform isEqualToString:@"iPad11,3"] || [platform isEqualToString:@"iPad11,4"]) return UIDevice3GiPadAir;  // iPad Air (3rd generation)
-    if ([platform isEqualToString:@"iPad11,1"] || [platform isEqualToString:@"iPad11,2"]) return UIDevice5GiPadMini; // iPad mini (5th generation)
-    if ([platform isEqualToString:@"iPad11,6"] || [platform isEqualToString:@"iPad11,7"]) return UIDevice8GiPad;    // iPad (8th generation)
-    if ([platform isEqualToString:@"iPad12,1"] || [platform isEqualToString:@"iPad12,2"]) return UIDevice9GiPad;    // iPad (9th generation)
-    if ([platform isEqualToString:@"iPad13,1"] || [platform isEqualToString:@"iPad13,2"]) return UIDevice4GiPadAir;  // iPad Air (4th generation)
-    if ([platform isEqualToString:@"iPad13,4"] || [platform isEqualToString:@"iPad13,5"] ||
-        [platform isEqualToString:@"iPad13,6"] || [platform isEqualToString:@"iPad13,7"]) return UIDevice11Inch3GiPadPro; // iPad Pro (11-inch, 3rd generation)
-    if ([platform isEqualToString:@"iPad13,8"] || [platform isEqualToString:@"iPad13,9"] ||
-        [platform isEqualToString:@"iPad13,10"] || [platform isEqualToString:@"iPad13,11"]) return UIDevice5G129InchiPadPro; // iPad Pro (12.9-inch, M1)
-    if ([platform isEqualToString:@"iPad13,16"] || [platform isEqualToString:@"iPad13,17"]) return UIDevice5GiPadAir; // iPad Air (5th generation)
-    if ([platform isEqualToString:@"iPad13,18"] || [platform isEqualToString:@"iPad13,19"]) return UIDevice10GiPad; // iPad (10th generation)
-    if ([platform isEqualToString:@"iPad14,1"] || [platform isEqualToString:@"iPad14,2"]) return UIDevice6GiPadMini; // iPad mini (6th generation)
-    if ([platform isEqualToString:@"iPad14,3"] || [platform isEqualToString:@"iPad14,4"]) return UIDevice6G129InchiPadPro; // iPad Pro (12.9-inch, 6th generation)
-    if ([platform isEqualToString:@"iPad14,5"] || [platform isEqualToString:@"iPad14,6"]) return UIDevice11Inch4GiPadPro; // iPad Pro (11-inch, 4th generation)
- 
-    // Apple TVs
-    if ([platform isEqualToString:@"AppleTV5,3"]) return UIDeviceAppleTV4; // Apple TV HD
-    if ([platform isEqualToString:@"AppleTV6,2"]) return UIDeviceAppleTV4k; // Apple TV 4K (1st generation)
-    if ([platform isEqualToString:@"AppleTV11,1"]) return UIDeviceAppleTV4k2G; // Apple TV 4K (2nd generation)
-    if ([platform isEqualToString:@"AppleTV14,1"]) return UIDeviceAppleTV4k3G; // Apple TV 4K (3rd generation)
-
+    
     // Simulators
-    #if !TARGET_OS_VISION
-    UIDevice *device = [UIDevice currentDevice];
-    if (device.userInterfaceIdiom == UIUserInterfaceIdiomPhone) {
-        return UIDeviceSimulatoriPhone;
-    } else if (device.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
-        return UIDeviceSimulatoriPad;
-    } else {
-        return UIDeviceSimulator; // Default case for other types like visionOS
+#if !TARGET_OS_VISION
+    if ([self sfsdk_isSimulator]) {
+        UIDevice *device = [UIDevice currentDevice];
+        
+        switch (device.userInterfaceIdiom) {
+            case UIUserInterfaceIdiomPhone:
+                return UIDeviceSimulatoriPhone;
+            case UIUserInterfaceIdiomPad:
+                return UIDeviceSimulatoriPad;
+            default:
+                return UIDeviceSimulator; // Default case for unknown idioms (e.g., visionOS or future devices)
+        }
     }
-    #endif
-
+#endif
+    
+    // iPhones (iOS 17 and newer supported)
+    NSDictionary *iphoneIdentifiers = @{
+        @"iPhone12,8": @(UIDeviceSE2iPhone),           // iPhone SE (2nd generation)
+        @"iPhone14,6": @(UIDeviceSE3iPhone),           // iPhone SE (3rd generation)
+        @"iPhone11,8": @(UIDeviceXRiPhone),            // iPhone XR
+        @"iPhone11,2": @(UIDeviceXsiPhone),            // iPhone XS
+        @"iPhone11,4": @(UIDeviceXsMaxiPhone),         // iPhone XS Max (China)
+        @"iPhone11,6": @(UIDeviceXsMaxiPhone),         // iPhone XS Max (Global)
+        @"iPhone12,1": @(UIDevice11iPhone),           // iPhone 11
+        @"iPhone12,3": @(UIDevice11ProiPhone),        // iPhone 11 Pro
+        @"iPhone12,5": @(UIDevice11ProMaxiPhone),     // iPhone 11 Pro Max
+        @"iPhone13,1": @(UIDevice12MiniiPhone),       // iPhone 12 Mini
+        @"iPhone13,2": @(UIDevice12iPhone),           // iPhone 12
+        @"iPhone13,3": @(UIDevice12ProiPhone),        // iPhone 12 Pro
+        @"iPhone13,4": @(UIDevice12ProMaxiPhone),     // iPhone 12 Pro Max
+        @"iPhone14,4": @(UIDevice13MiniiPhone),       // iPhone 13 Mini
+        @"iPhone14,5": @(UIDevice13iPhone),           // iPhone 13
+        @"iPhone14,2": @(UIDevice13ProiPhone),        // iPhone 13 Pro
+        @"iPhone14,3": @(UIDevice13ProMaxiPhone),     // iPhone 13 Pro Max
+        @"iPhone14,7": @(UIDevice14iPhone),           // iPhone 14
+        @"iPhone14,8": @(UIDevice14PlusiPhone),       // iPhone 14 Plus
+        @"iPhone15,2": @(UIDevice14ProiPhone),        // iPhone 14 Pro
+        @"iPhone15,3": @(UIDevice14ProMaxiPhone),     // iPhone 14 Pro Max
+        @"iPhone15,4": @(UIDevice15iPhone),           // iPhone 15
+        @"iPhone15,5": @(UIDevice15PlusiPhone),       // iPhone 15 Plus
+        @"iPhone16,1": @(UIDevice15ProiPhone),        // iPhone 15 Pro
+        @"iPhone16,2": @(UIDevice15ProMaxiPhone),     // iPhone 15 Pro Max
+        @"iPhone17,1": @(UIDevice16ProiPhone),        // iPhone 16 Pro
+        @"iPhone17,2": @(UIDevice16ProMaxiPhone),     // iPhone 16 Pro Max
+        @"iPhone17,3": @(UIDevice16iPhone),           // iPhone 16
+        @"iPhone17,4": @(UIDevice16PlusiPhone),       // iPhone 16 Plus
+    };
+    NSNumber *iphoneType = iphoneIdentifiers[platform];
+    if (iphoneType) return iphoneType.integerValue;
+    
+    // iPads (iOS 17 and newer supported)
+    NSDictionary *ipadIdentifiers = @{
+        @"iPad7,11": @(UIDevice7GiPad),              // iPad (7th generation)
+        @"iPad7,12": @(UIDevice7GiPad),              // iPad (7th generation)
+        @"iPad8,1":  @(UIDevice11InchiPadPro),        // iPad Pro (11-inch, 1st generation)
+        @"iPad8,2":  @(UIDevice11InchiPadPro),        // iPad Pro (11-inch, 1st generation)
+        @"iPad8,3":  @(UIDevice11InchiPadPro),        // iPad Pro (11-inch, 1st generation)
+        @"iPad8,4":  @(UIDevice11InchiPadPro),        // iPad Pro (11-inch, 1st generation)
+        @"iPad8,5":  @(UIDevice3G129InchiPadPro),     // iPad Pro (12.9-inch, 3rd generation)
+        @"iPad8,6":  @(UIDevice3G129InchiPadPro),     // iPad Pro (12.9-inch, 3rd generation)
+        @"iPad8,7":  @(UIDevice3G129InchiPadPro),     // iPad Pro (12.9-inch, 3rd generation)
+        @"iPad8,8":  @(UIDevice3G129InchiPadPro),     // iPad Pro (12.9-inch, 3rd generation)
+        @"iPad8,9":  @(UIDevice11Inch2GiPadPro),      // iPad Pro (11-inch, 2nd generation)
+        @"iPad8,10": @(UIDevice11Inch2GiPadPro),      // iPad Pro (11-inch, 2nd generation)
+        @"iPad8,11": @(UIDevice4G129InchiPadPro),     // 4th generation of the iPad Pro 12.9-inch
+        @"iPad8,12": @(UIDevice4G129InchiPadPro),     // 4th generation of the iPad Pro 12.9-inch
+        @"iPad11,3": @(UIDevice3GiPadAir),          // iPad Air (3rd generation)
+        @"iPad11,4": @(UIDevice3GiPadAir),          // iPad Air (3rd generation)
+        @"iPad11,1": @(UIDevice5GiPadMini),         // iPad mini (5th generation)
+        @"iPad11,2": @(UIDevice5GiPadMini),         // iPad mini (5th generation)
+        @"iPad11,6": @(UIDevice8GiPad),             // iPad (8th generation)
+        @"iPad11,7": @(UIDevice8GiPad),             // iPad (8th generation)
+        @"iPad12,1": @(UIDevice9GiPad),             // iPad (9th generation)
+        @"iPad12,2": @(UIDevice9GiPad),             // iPad (9th generation)
+        @"iPad13,1": @(UIDevice4GiPadAir),          // iPad Air (4th generation)
+        @"iPad13,2": @(UIDevice4GiPadAir),          // iPad Air (4th generation)
+        @"iPad13,4": @(UIDevice11Inch3GiPadPro),    // iPad Pro (11-inch, 3rd generation)
+        @"iPad13,5": @(UIDevice11Inch3GiPadPro),    // iPad Pro (11-inch, 3rd generation)
+        @"iPad13,6": @(UIDevice11Inch3GiPadPro),    // iPad Pro (11-inch, 3rd generation)
+        @"iPad13,7": @(UIDevice11Inch3GiPadPro),    // iPad Pro (11-inch, 3rd generation)
+        @"iPad13,8": @(UIDevice5G129InchiPadPro),   // iPad Pro (12.9-inch, M1)
+        @"iPad13,9": @(UIDevice5G129InchiPadPro),   // iPad Pro (12.9-inch, M1)
+        @"iPad13,10": @(UIDevice5G129InchiPadPro),  // iPad Pro (12.9-inch, M1)
+        @"iPad13,11": @(UIDevice5G129InchiPadPro),  // iPad Pro (12.9-inch, M1)
+        @"iPad13,16": @(UIDevice5GiPadAir),         // iPad Air (5th generation)
+        @"iPad13,17": @(UIDevice5GiPadAir),         // iPad Air (5th generation)
+        @"iPad13,18": @(UIDevice10GiPad),           // iPad (10th generation)
+        @"iPad13,19": @(UIDevice10GiPad),           // iPad (10th generation)
+        @"iPad14,1": @(UIDevice6GiPadMini),         // iPad mini (6th generation)
+        @"iPad14,2": @(UIDevice6GiPadMini),         // iPad mini (6th generation)
+        @"iPad14,3": @(UIDevice6G129InchiPadPro),   // iPad Pro (12.9-inch, 6th generation)
+        @"iPad14,4": @(UIDevice6G129InchiPadPro),   // iPad Pro (12.9-inch, 6th generation)
+        @"iPad14,5": @(UIDevice11Inch4GiPadPro),    // iPad Pro (11-inch, 4th generation)
+        @"iPad14,6": @(UIDevice11Inch4GiPadPro),    // iPad Pro (11-inch, 4th generation)
+        @"iPad14,8": @(UIDevice6GiPadAir),          // iPad Air 6th Gen
+        @"iPad14,9": @(UIDevice6GiPadAir),          // iPad Air 6th Gen
+       @"iPad14,10": @(UIDevice7GiPadAir),          //iPad Air 7th Gen
+       @"iPad14,11": @(UIDevice7GiPadAir),          //iPad Air 7th Gen
+       @"iPad16,1": @(UIDevice7GiPadMini),          //iPad mini 7th Gen (WiFi)
+       @"iPad16,2": @(UIDevice7GiPadMini),          //iPad mini 7th Gen (WiFi+Cellular)
+       @"iPad16,3": @(UIDevice11Inch5GiPadPro),     //iPad Pro 11 inch 5th Gen
+       @"iPad16,4": @(UIDevice11Inch5GiPadPro),     //iPad Pro 11 inch 5th Gen
+       @"iPad16,5": @(UIDevice12Inch7GiPadPro),     //iPad Pro 12.9 inch 7th Gen
+       @"iPad16,6": @(UIDevice12Inch7GiPadPro),     //iPad Pro 12.9 inch 7th Gen
+    };
+    NSNumber *ipadType = ipadIdentifiers[platform];
+    if (ipadType) return ipadType.integerValue;
+    
+    // Apple TVs
+    NSDictionary *appleTVIdentifiers = @{
+        @"AppleTV5,3": @(UIDeviceAppleTV4),        // Apple TV HD
+        @"AppleTV6,2": @(UIDeviceAppleTV4k),       // Apple TV 4K (1st generation)
+        @"AppleTV11,1": @(UIDeviceAppleTV4k2G),    // Apple TV 4K (2nd generation)
+        @"AppleTV14,1": @(UIDeviceAppleTV4k3G),    // Apple TV 4K (3rd generation)
+    };
+    NSNumber *appleTVType = appleTVIdentifiers[platform];
+    if (appleTVType) return appleTVType.integerValue;
+    
     return UIDeviceUnknown;  // Unknown platform fallback
 }
 
@@ -406,6 +454,11 @@
         case UIDevice11Inch2GiPadPro: return IPAD_PRO_11_2G_NAMESTRING;
         case UIDevice11Inch3GiPadPro: return IPAD_PRO_11_3G_NAMESTRING;
         case UIDevice11Inch4GiPadPro: return IPAD_PRO_11_4G_NAMESTRING;
+        case UIDevice6GiPadAir: return IPAD_AIR_6G_NAMESTRING;
+        case UIDevice7GiPadAir: return IPAD_AIR_7G_NAMESTRING;
+        case UIDevice7GiPadMini: return IPAD_MINI_7G_NAMESTRING;
+        case UIDevice11Inch5GiPadPro: return IPAD_PRO_11_5G_NAMESTRING;
+        case UIDevice12Inch7GiPadPro: return IPAD_PRO_12_7G_NAMESTRING;
 
         case UIDeviceUnknowniPad: return IPAD_UNKNOWN_NAMESTRING;
 

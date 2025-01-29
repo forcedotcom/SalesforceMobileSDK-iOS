@@ -44,9 +44,12 @@
 // Supported iPads
 #define IPAD_MINI_5G_NAMESTRING         @"iPad mini (5th generation)"
 #define IPAD_MINI_6G_NAMESTRING         @"iPad mini (6th generation)"
+#define IPAD_MINI_7G_NAMESTRING         @"iPad mini 7th Gen"
 #define IPAD_AIR_3G_NAMESTRING          @"iPad Air (3rd generation)"
 #define IPAD_AIR_4G_NAMESTRING          @"iPad Air (4th generation)"
 #define IPAD_AIR_5G_NAMESTRING          @"iPad Air (5th generation)"
+#define IPAD_AIR_6G_NAMESTRING          @"iPad Air 6th Gen"
+#define IPAD_AIR_7G_NAMESTRING          @"iPad Air 7th Gen"
 #define IPAD_7G_NAMESTRING              @"iPad (7th generation)"
 #define IPAD_8G_NAMESTRING              @"iPad (8th generation)"
 #define IPAD_9G_NAMESTRING              @"iPad (9th generation)"
@@ -58,6 +61,8 @@
 #define IPAD_PRO_12_9_4G_NAMESTRING     @"iPad Pro (12.9-inch, 4th generation)"
 #define IPAD_PRO_12_9_5G_NAMESTRING     @"iPad Pro (12.9-inch, 5th generation)"
 #define IPAD_PRO_12_9_6G_NAMESTRING     @"iPad Pro (12.9-inch, 6th generation)"
+#define IPAD_PRO_11_5G_NAMESTRING       @"iPad Pro 11 inch 5th Gen"
+#define IPAD_PRO_12_7G_NAMESTRING       @"iPad Pro 12.9 inch 7th Gen"
 
 #define IPAD_UNKNOWN_NAMESTRING         @"Unknown iPad"
 
@@ -139,6 +144,11 @@ typedef NS_ENUM(NSUInteger, UIDevicePlatform) {
     UIDevice11Inch2GiPadPro,      // iPad Pro (11-inch, 2nd generation)
     UIDevice11Inch3GiPadPro,      // iPad Pro (11-inch, 3rd generation, M1)
     UIDevice11Inch4GiPadPro,      // iPad Pro (11-inch, 4th generation, M2)
+    UIDevice6GiPadAir,            // iPad Air 6th Gen
+    UIDevice7GiPadAir,            //iPad Air 7th Gen
+    UIDevice7GiPadMini,           //iPad mini 7th Gen
+    UIDevice11Inch5GiPadPro,      //iPad Pro 11 inch 5th Gen
+    UIDevice12Inch7GiPadPro,      //iPad Pro 12.9 inch 7th Gen
     
     // Supported Apple TVs
     UIDeviceAppleTV4,             // Apple TV HD
