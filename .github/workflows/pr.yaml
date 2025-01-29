@@ -1,7 +1,6 @@
 name: Pull Request
 
 on:
-  # Dangerious without Member Check setup!
   pull_request_target:
     branches:
       - dev
@@ -9,6 +8,8 @@ on:
 jobs:
   static-analysis:
     runs-on: macos-15
+    env:
+      BUNDLE_GEMFILE: ${{ github.workspace }}/.github/DangerFiles/Gemfile
     steps:
       - name: Check Write Permission
         uses: octokit/request-action@v2.x
@@ -34,7 +35,7 @@ jobs:
           # We need a sufficient depth or Danger will occasionally run into issues checking which files were modified.
           fetch-depth: 100
           # This is dangerous without the member check
-          ref: ${{ github.event.pull_request.head.sha }}
+          ref: ${{ github.head_ref }}
       - name: Install Dependencies
         run: |
           npm install shelljs@0.8.5
@@ -45,13 +46,14 @@ jobs:
         run:
           xcodebuild analyze -workspace SalesforceMobileSDK.xcworkspace -scheme MobileSync -sdk 'iphonesimulator' \
           CLANG_ANALYZER_OUTPUT=plist-html CLANG_ANALYZER_OUTPUT_DIR=./clangReport RUN_CLANG_STATIC_ANALYZER=YES
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          bundler-cache: true
       - name: Report Static Analysis
         env:
           DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          cd .github/DangerFiles
-          bundle update && bundle install
-          bundle exec danger --dangerfile=StaticAnalysis.rb --danger_id=StaticAnalysis
+        run: bundle exec danger --dangerfile=StaticAnalysis.rb --danger_id=StaticAnalysis
 
   test-orchestrator:
     runs-on: macos-15
