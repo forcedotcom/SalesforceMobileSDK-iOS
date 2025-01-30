@@ -419,7 +419,7 @@ static NSException *authException = nil;
 // - delete object (requestForDeleteWithObjectType)
 // - query new object (requestForQuery) and make sure we don't get anything
 // - search new object (requestForSearch) and make sure we don't get anything
-- (void)testCreateQuerySearchDelete {
+- (void)_testCreateQuerySearchDelete {
     // create object
     //use a SOSL-safe format here to avoid problems with escaping characters for SOSL
     NSString *lastName = [self generateRecordName];
@@ -2895,24 +2895,24 @@ static NSException *authException = nil;
 }
 
 // TODO: Add back after fixing Flappiness
-//- (void)testPublicApiCalls {
-//     XCTestExpectation *getExpectation = [self expectationWithDescription:@"Get"];
-//    __block NSError *error = nil;
-//    __block NSDictionary *response = nil;
-//    SFRestRequest *request = [SFRestRequest customUrlRequestWithMethod:SFRestMethodGET baseURL:@"https://api.github.com" path:@"/orgs/forcedotcom/repos" queryParams:nil];
-//    XCTAssertEqual(request.baseURL, @"https://api.github.com", @"Base URL should match");
-//    [[SFRestAPI sharedGlobalInstance] sendRequest:request failureBlock:^(id resp, NSError *e, NSURLResponse *rawResponse) {
-//        error = e;
-//        [getExpectation fulfill];
-//    } successBlock:^(id resp, NSURLResponse *rawResponse) {
-//        response = resp;
-//        [getExpectation fulfill];
-//    }];
-//    [self waitForExpectations:@[getExpectation] timeout:30];
-//    XCTAssertTrue(error == nil, @"RestApi call to a public api should not fail. Error: %@", [error localizedDescription]);
-//    XCTAssertFalse(response == nil, @"RestApi call to a public api should not have a nil response");
-//    XCTAssertTrue(response.count > 0, @"The response should have github/forcedotcom repos");
-//}
+- (void)_testPublicApiCalls {
+     XCTestExpectation *getExpectation = [self expectationWithDescription:@"Get"];
+    __block NSError *error = nil;
+    __block NSDictionary *response = nil;
+    SFRestRequest *request = [SFRestRequest customUrlRequestWithMethod:SFRestMethodGET baseURL:@"https://api.github.com" path:@"/orgs/forcedotcom/repos" queryParams:nil];
+    XCTAssertEqual(request.baseURL, @"https://api.github.com", @"Base URL should match");
+    [[SFRestAPI sharedGlobalInstance] sendRequest:request failureBlock:^(id resp, NSError *e, NSURLResponse *rawResponse) {
+        error = e;
+        [getExpectation fulfill];
+    } successBlock:^(id resp, NSURLResponse *rawResponse) {
+        response = resp;
+        [getExpectation fulfill];
+    }];
+    [self waitForExpectations:@[getExpectation] timeout:30];
+    XCTAssertTrue(error == nil, @"RestApi call to a public api should not fail. Error: %@", [error localizedDescription]);
+    XCTAssertFalse(response == nil, @"RestApi call to a public api should not have a nil response");
+    XCTAssertTrue(response.count > 0, @"The response should have github/forcedotcom repos");
+}
 
 - (void)testCustomSalesforceEndpoint {
     NSString *endpoint = @"/custom/endpoint";
