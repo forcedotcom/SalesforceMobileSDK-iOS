@@ -16,18 +16,21 @@ on:
         default: macos-15
         required: false
         type: string
+      is_pr:
+        type: boolean
+        default: false
   
 jobs:
   test-ios:
     runs-on: ${{ inputs.macos }}
-    env:
-      BUNDLE_GEMFILE: ${{ github.workspace }}/.github/DangerFiles/Gemfile
     steps:
       - uses: actions/checkout@v4
-        # We need a sufficient depth or Danger will occasionally run into issues 
-        # checking which files were modified.
+        if: ${{ inputs.is_pr }}
         with:
-          fetch-depth: 100
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/checkout@v4
+        if: ${{ ! inputs.is_pr }}
+        with:
           ref: ${{ github.head_ref }}
       - name: Install Dependencies
         env: 
@@ -46,15 +49,10 @@ jobs:
           code-coverage: true
           upload-logs: always
           verbosity: xcbeautify
-      - uses: ruby/setup-ruby@v1
+      - uses: slidoapp/xcresulttool@v3.1.0
         with:
-          ruby-version: '3.3'
-          bundler-cache: true
-      - name: Danger Test Results
-        if: (github.event_name == 'pull_request') && failure()
-        env:
-          DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: bundle exec danger --dangerfile=TestResults.rb --danger_id=${{ inputs.lib }}
+          path: test.xcresult
+        if: success() || failure()
       - uses: codecov/codecov-action@v4
         with:
           flags: ${{ inputs.lib }}
