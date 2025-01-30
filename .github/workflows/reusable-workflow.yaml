@@ -36,7 +36,6 @@ jobs:
         env: 
           TEST_CREDENTIALS: ${{ secrets.TEST_CREDENTIALS }}
         run: |
-          npm install shelljs@0.8.5
           ./install.sh
           echo $TEST_CREDENTIALS > ./shared/test/test_credentials.json
       - uses: mxcl/xcodebuild@v3
@@ -52,6 +51,9 @@ jobs:
       - uses: slidoapp/xcresulttool@v3.1.0
         with:
           path: test.xcresult
+          title: "${{ inputs.lib }} iOS ${{ inputs.ios }}"
+          show-code-coverage: false
+          upload-bundles: false
         if: success() || failure()
       - uses: codecov/codecov-action@v4
         with:
