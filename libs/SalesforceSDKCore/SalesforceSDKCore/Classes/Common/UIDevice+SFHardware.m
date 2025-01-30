@@ -220,7 +220,6 @@
     if ([platform isEqualToString:@"iFPGA"]) return UIDeviceIFPGA;
     
     // Simulators
-#if !TARGET_OS_VISION
     if ([self sfsdk_isSimulator]) {
         UIDevice *device = [UIDevice currentDevice];
         
@@ -230,10 +229,9 @@
             case UIUserInterfaceIdiomPad:
                 return UIDeviceSimulatoriPad;
             default:
-                return UIDeviceSimulator; // Default case for unknown idioms (e.g., visionOS or future devices)
+                return UIDeviceSimulator;
         }
     }
-#endif
     
     // iPhones (iOS 17 and newer supported)
     NSDictionary *iphoneIdentifiers = @{
@@ -316,14 +314,14 @@
         @"iPad14,6": @(UIDevice11Inch4GiPadPro),    // iPad Pro (11-inch, 4th generation)
         @"iPad14,8": @(UIDevice6GiPadAir),          // iPad Air 6th Gen
         @"iPad14,9": @(UIDevice6GiPadAir),          // iPad Air 6th Gen
-       @"iPad14,10": @(UIDevice7GiPadAir),          //iPad Air 7th Gen
-       @"iPad14,11": @(UIDevice7GiPadAir),          //iPad Air 7th Gen
-       @"iPad16,1": @(UIDevice7GiPadMini),          //iPad mini 7th Gen (WiFi)
-       @"iPad16,2": @(UIDevice7GiPadMini),          //iPad mini 7th Gen (WiFi+Cellular)
-       @"iPad16,3": @(UIDevice11Inch5GiPadPro),     //iPad Pro 11 inch 5th Gen
-       @"iPad16,4": @(UIDevice11Inch5GiPadPro),     //iPad Pro 11 inch 5th Gen
-       @"iPad16,5": @(UIDevice12Inch7GiPadPro),     //iPad Pro 12.9 inch 7th Gen
-       @"iPad16,6": @(UIDevice12Inch7GiPadPro),     //iPad Pro 12.9 inch 7th Gen
+        @"iPad14,10": @(UIDevice7GiPadAir),          //iPad Air 7th Gen
+        @"iPad14,11": @(UIDevice7GiPadAir),          //iPad Air 7th Gen
+        @"iPad16,1": @(UIDevice7GiPadMini),          //iPad mini 7th Gen (WiFi)
+        @"iPad16,2": @(UIDevice7GiPadMini),          //iPad mini 7th Gen (WiFi+Cellular)
+        @"iPad16,3": @(UIDevice11Inch5GiPadPro),     //iPad Pro 11 inch 5th Gen
+        @"iPad16,4": @(UIDevice11Inch5GiPadPro),     //iPad Pro 11 inch 5th Gen
+        @"iPad16,5": @(UIDevice12Inch7GiPadPro),     //iPad Pro 12.9 inch 7th Gen
+        @"iPad16,6": @(UIDevice12Inch7GiPadPro),     //iPad Pro 12.9 inch 7th Gen
     };
     NSNumber *ipadType = ipadIdentifiers[platform];
     if (ipadType) return ipadType.integerValue;
@@ -513,11 +511,11 @@
 }
 
 - (BOOL)sfsdk_isSimulator {
-    #if TARGET_OS_SIMULATOR
+#if TARGET_OS_SIMULATOR
     return YES;
-    #else
+#else
     return NO;
-    #endif
+#endif
 }
 
 @end
