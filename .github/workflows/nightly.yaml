@@ -13,15 +13,16 @@ jobs:
       matrix:
         lib: [SalesforceSDKCommon, SalesforceAnalytics, SalesforceSDKCore, SmartStore, MobileSync]
         ios: [^18, ^17]
+        macos: [macos-15]
         include:
           - ios: ^18
-            macos: macos-15
+            xcode: ^16
           - ios: ^17
-            macos: macos-14
-
+            xcode: ^15
     uses: ./.github/workflows/reusable-workflow.yaml
     with:
       lib: ${{ matrix.lib }}
       ios: ${{ matrix.ios }}
+      xcode: ${{ matrix.xcode }}
       macos: ${{ matrix.macos }}
     secrets: inherit

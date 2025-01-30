@@ -52,7 +52,7 @@ jobs:
       - name: Report Static Analysis
         env:
           DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: bundle exec danger --dangerfile=.github/DanagerFiles/StaticAnalysis.rb --danger_id=StaticAnalysis
+        run: bundle exec danger --dangerfile=.github/DangerFiles/StaticAnalysis.rb --danger_id=StaticAnalysis
 
   test-orchestrator:
     runs-on: macos-15
