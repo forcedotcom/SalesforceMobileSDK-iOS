@@ -2,4 +2,3 @@ source("https://rubygems.org")
 
 gem 'danger'
 gem 'plist'
-gem 'danger-xcode_summary'

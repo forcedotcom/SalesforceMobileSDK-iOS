@@ -52,7 +52,7 @@ jobs:
       - name: Report Static Analysis
         env:
           DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: bundle exec danger --dangerfile=StaticAnalysis.rb --danger_id=StaticAnalysis
+        run: bundle exec danger --dangerfile=.github/DanagerFiles/StaticAnalysis.rb --danger_id=StaticAnalysis
 
   test-orchestrator:
     runs-on: macos-15
@@ -91,7 +91,7 @@ jobs:
         run: |
           cd .github/DangerFiles
           bundle update && bundle install
-          bundle exec danger --dangerfile=TestOrchestrator.rb
+          bundle exec danger --dangerfile=.github/DangerFiles/TestOrchestrator.rb --danger_id="TestOrchestrator"
 
   ios-pr:
     needs: [test-orchestrator]

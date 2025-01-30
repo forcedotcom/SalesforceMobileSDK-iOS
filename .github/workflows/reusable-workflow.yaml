@@ -23,14 +23,10 @@ on:
 jobs:
   test-ios:
     runs-on: ${{ inputs.macos }}
-    env:
-      BUNDLE_GEMFILE: ${{ github.workspace }}/.github/DangerFiles/Gemfile
     steps:
       - uses: actions/checkout@v4
         if: ${{ inputs.is_pr }}
         with:
-          # We need a sufficient depth or Danger will occasionally run into issues checking which files were modified.
-          fetch-depth: 100
           ref: ${{ github.event.pull_request.head.sha }}
       - uses: actions/checkout@v4
         if: ${{ ! inputs.is_pr }}
