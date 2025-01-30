@@ -16,6 +16,9 @@ on:
         default: macos-15
         required: false
         type: string
+      is_pr:
+        type: boolean
+        default: false
   
 jobs:
   test-ios:
@@ -24,10 +27,14 @@ jobs:
       BUNDLE_GEMFILE: ${{ github.workspace }}/.github/DangerFiles/Gemfile
     steps:
       - uses: actions/checkout@v4
-        # We need a sufficient depth or Danger will occasionally run into issues 
-        # checking which files were modified.
+        if: ${{ inputs.is_pr }}
         with:
+          # We need a sufficient depth or Danger will occasionally run into issues checking which files were modified.
           fetch-depth: 100
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/checkout@v4
+        if: ${{ ! inputs.is_pr }}
+        with:
           ref: ${{ github.head_ref }}
       - name: Install Dependencies
         env: 
