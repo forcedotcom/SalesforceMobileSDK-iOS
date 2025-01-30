@@ -1,11 +1,13 @@
 name: Nightly Tests
 
-on: 
+on:
   schedule:
     - cron: "0 5 * * 3,5"  # cron is UTC, this translates to 10 PM PST Tues and Thur.
+  # This lets us trigger the workflow from a browser.
+  workflow_dispatch:
 
 jobs:
-  ios-pr:
+  ios-nightly:
     strategy:
       fail-fast: false
       matrix:

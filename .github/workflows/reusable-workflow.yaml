@@ -1,5 +1,4 @@
 on:
-  workflow_dispatch:
   workflow_call:
     inputs:
       lib:
@@ -21,12 +20,15 @@ on:
 jobs:
   test-ios:
     runs-on: ${{ inputs.macos }}
+    env:
+      BUNDLE_GEMFILE: ${{ github.workspace }}/.github/DangerFiles/Gemfile
     steps:
       - uses: actions/checkout@v4
         # We need a sufficient depth or Danger will occasionally run into issues 
         # checking which files were modified.
         with:
           fetch-depth: 100
+          ref: ${{ github.head_ref }}
       - name: Install Dependencies
         env: 
           TEST_CREDENTIALS: ${{ secrets.TEST_CREDENTIALS }}
@@ -44,14 +46,15 @@ jobs:
           code-coverage: true
           upload-logs: always
           verbosity: xcbeautify
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          bundler-cache: true
       - name: Danger Test Results
         if: (github.event_name == 'pull_request') && failure()
         env:
           DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          cd .github/DangerFiles
-          bundle update && bundle install
-          bundle exec danger --dangerfile=TestResults.rb --danger_id=${{ inputs.lib }}
+        run: bundle exec danger --dangerfile=TestResults.rb --danger_id=${{ inputs.lib }}
       - uses: codecov/codecov-action@v4
         with:
           flags: ${{ inputs.lib }}
