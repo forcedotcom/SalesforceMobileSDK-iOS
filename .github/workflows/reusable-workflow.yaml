@@ -5,11 +5,11 @@ on:
         required: true
         type: string
       ios:
-        default: '^18'
+        default: "^18"
         required: false
         type: string
       xcode:
-        default: '^16'
+        default: "^16"
         required: false
         type: string
       macos:
@@ -19,7 +19,7 @@ on:
       is_pr:
         type: boolean
         default: false
-  
+
 jobs:
   test-ios:
     runs-on: ${{ inputs.macos }}
@@ -33,7 +33,7 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
       - name: Install Dependencies
-        env: 
+        env:
           TEST_CREDENTIALS: ${{ secrets.TEST_CREDENTIALS }}
         run: |
           ./install.sh
@@ -46,7 +46,6 @@ jobs:
           workspace: SalesforceMobileSDK.xcworkspace
           scheme: ${{ inputs.lib }}
           code-coverage: true
-          upload-logs: always
           verbosity: xcbeautify
       - uses: slidoapp/xcresulttool@v3.1.0
         with:
