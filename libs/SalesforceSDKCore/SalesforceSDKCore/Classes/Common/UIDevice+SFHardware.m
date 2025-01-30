@@ -336,6 +336,11 @@
     NSNumber *appleTVType = appleTVIdentifiers[platform];
     if (appleTVType) return appleTVType.integerValue;
     
+    // Check for any identifiers we might have missed.
+    if ([platform hasPrefix:@"iPhone"]) return UIDeviceUnknowniPhone;
+    if ([platform hasPrefix:@"iPad"]) return UIDeviceUnknowniPad;
+    if ([platform hasPrefix:@"AppleTV"]) return UIDeviceUnknownAppleTV;
+    
     return UIDeviceUnknown;  // Unknown platform fallback
 }
 
