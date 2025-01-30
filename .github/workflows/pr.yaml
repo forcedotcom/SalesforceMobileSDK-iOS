@@ -56,6 +56,8 @@ jobs:
 
   test-orchestrator:
     runs-on: macos-15
+    env:
+      BUNDLE_GEMFILE: ${{ github.workspace }}/.github/DangerFiles/Gemfile
     outputs:
       libs: ${{ steps.test-orchestrator.outputs.libs }}
     steps:
@@ -84,14 +86,15 @@ jobs:
           fetch-depth: 100
           # This is dangerous without the member check
           ref: ${{ github.event.pull_request.head.sha }}
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          bundler-cache: true
       - name: Determine Tests to Run
         id: test-orchestrator
         env:
           DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          cd .github/DangerFiles
-          bundle update && bundle install
-          bundle exec danger --dangerfile=.github/DangerFiles/TestOrchestrator.rb --danger_id="TestOrchestrator"
+        run: bundle exec danger --dangerfile=.github/DangerFiles/TestOrchestrator.rb --danger_id="TestOrchestrator"
 
   ios-pr:
     needs: [test-orchestrator]
