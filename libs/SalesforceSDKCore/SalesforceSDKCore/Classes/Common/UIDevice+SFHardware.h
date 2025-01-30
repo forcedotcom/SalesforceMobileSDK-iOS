@@ -9,149 +9,156 @@
 
 #define IFPGA_NAMESTRING                @"iFPGA"
 
-#define IPHONE_1G_NAMESTRING            @"iPhone 1G"
-#define IPHONE_3G_NAMESTRING            @"iPhone 3G"
-#define IPHONE_3GS_NAMESTRING           @"iPhone 3GS"
-#define IPHONE_4_NAMESTRING             @"iPhone 4"
-#define IPHONE_4S_NAMESTRING            @"iPhone 4S"
-#define IPHONE_5_NAMESTRING             @"iPhone 5"
-#define IPHONE_5C_NAMESTRING            @"iPhone 5C"
-#define IPHONE_5S_NAMESTRING            @"iPhone 5S"
-#define IPHONE_6_NAMESTRING             @"iPhone 6"
-#define IPHONE_6P_NAMESTRING            @"iPhone 6+"
-#define IPHONE_6s_NAMESTRING            @"iPhone 6s"
-#define IPHONE_6sP_NAMESTRING           @"iPhone 6s+"
-#define IPHONE_SE_NAMESTRING            @"iPhone SE"
-#define IPHONE_7_NAMESTRING             @"iPhone 7"
-#define IPHONE_7P_NAMESTRING            @"iPhone 7+"
-#define IPHONE_8_NAMESTRING             @"iPhone 8"
-#define IPHONE_8P_NAMESTRING            @"iPhone 8+"
-#define IPHONE_X_NAMESTRING             @"iPhone X"
+// Supported iPhones
+#define IPHONE_SE_2G_NAMESTRING         @"iPhone SE (2nd generation)"
+#define IPHONE_SE_3G_NAMESTRING         @"iPhone SE (3rd generation)"
 #define IPHONE_XS_NAMESTRING            @"iPhone XS"
 #define IPHONE_XSMAX_NAMESTRING         @"iPhone XS Max"
 #define IPHONE_XR_NAMESTRING            @"iPhone XR"
+#define IPHONE_11_NAMESTRING            @"iPhone 11"
+#define IPHONE_11_PRO_NAMESTRING        @"iPhone 11 Pro"
+#define IPHONE_11_PRO_MAX_NAMESTRING    @"iPhone 11 Pro Max"
+#define IPHONE_12_MINI_NAMESTRING       @"iPhone 12 Mini"
+#define IPHONE_12_NAMESTRING            @"iPhone 12"
+#define IPHONE_12_PRO_NAMESTRING        @"iPhone 12 Pro"
+#define IPHONE_12_PRO_MAX_NAMESTRING    @"iPhone 12 Pro Max"
+#define IPHONE_13_MINI_NAMESTRING       @"iPhone 13 Mini"
+#define IPHONE_13_NAMESTRING            @"iPhone 13"
+#define IPHONE_13_PRO_NAMESTRING        @"iPhone 13 Pro"
+#define IPHONE_13_PRO_MAX_NAMESTRING    @"iPhone 13 Pro Max"
+#define IPHONE_14_NAMESTRING            @"iPhone 14"
+#define IPHONE_14_PLUS_NAMESTRING       @"iPhone 14 Plus"
+#define IPHONE_14_PRO_NAMESTRING        @"iPhone 14 Pro"
+#define IPHONE_14_PRO_MAX_NAMESTRING    @"iPhone 14 Pro Max"
+#define IPHONE_15_NAMESTRING            @"iPhone 15"
+#define IPHONE_15_PLUS_NAMESTRING       @"iPhone 15 Plus"
+#define IPHONE_15_PRO_NAMESTRING        @"iPhone 15 Pro"
+#define IPHONE_15_PRO_MAX_NAMESTRING    @"iPhone 15 Pro Max"
+#define IPHONE_16_PRO_NAMESTRING        @"iPhone 16 Pro"
+#define IPHONE_16_PRO_MAX_NAMESTRING    @"iPhone 16 Pro Max"
+#define IPHONE_16_NAMESTRING            @"iPhone 16"
+#define IPHONE_16_PLUS_NAMESTRING       @"iPhone 16 Plus"
 
 #define IPHONE_UNKNOWN_NAMESTRING       @"Unknown iPhone"
 
-#define IPOD_1G_NAMESTRING              @"iPod touch 1G"
-#define IPOD_2G_NAMESTRING              @"iPod touch 2G"
-#define IPOD_3G_NAMESTRING              @"iPod touch 3G"
-#define IPOD_4G_NAMESTRING              @"iPod touch 4G"
-#define IPOD_5G_NAMESTRING              @"iPod Touch 5"
-#define IPOD_6G_NAMESTRING              @"iPod Touch 6"
-#define IPOD_UNKNOWN_NAMESTRING         @"Unknown iPod"
-
-#define IPAD_1G_NAMESTRING              @"iPad 1G"
-#define IPAD_2G_NAMESTRING              @"iPad 2G"
-#define IPAD_3G_NAMESTRING              @"iPad 3G"
-#define IPAD_4G_NAMESTRING              @"iPad 4G"
-#define IPAD_5G_NAMESTRING              @"iPad 5G"
-#define IPAD_6G_NAMESTRING              @"iPad 6G"
-#define IPAD_AIR_1G_NAMESTRING          @"iPad Air 1G"
-#define IPAD_AIR_2G_NAMESTRING          @"iPad Air 2G"
-#define IPAD_PRO_9_7_INCH_NAMESTRING    @"iPad Pro (9.7 inch)"
-#define IPAD_PRO_12_9_INCH_NAMESTRING   @"iPad Pro (12.9 inch)"
-#define IPAD_PRO_12_9_2G_INCH_NAMESTRING   @"iPad Pro (12.9 inch) (2nd generation)"
-#define IPAD_PRO_12_9_3G_INCH_NAMESTRING   @"iPad Pro (12.9 inch) (3rd generation)"
-#define IPAD_PRO_10_5_INCH_NAMESTRING   @"iPad Pro (10.5 inch)"
-#define IPAD_PRO_11_INCH_NAMESTRING     @"iPad Pro (11-inch)"
-
-
+// Supported iPads
+#define IPAD_MINI_5G_NAMESTRING         @"iPad mini (5th generation)"
+#define IPAD_MINI_6G_NAMESTRING         @"iPad mini (6th generation)"
+#define IPAD_MINI_7G_NAMESTRING         @"iPad mini 7th Gen"
+#define IPAD_AIR_3G_NAMESTRING          @"iPad Air (3rd generation)"
+#define IPAD_AIR_4G_NAMESTRING          @"iPad Air (4th generation)"
+#define IPAD_AIR_5G_NAMESTRING          @"iPad Air (5th generation)"
+#define IPAD_AIR_6G_NAMESTRING          @"iPad Air 6th Gen"
+#define IPAD_AIR_7G_NAMESTRING          @"iPad Air 7th Gen"
+#define IPAD_7G_NAMESTRING              @"iPad (7th generation)"
+#define IPAD_8G_NAMESTRING              @"iPad (8th generation)"
+#define IPAD_9G_NAMESTRING              @"iPad (9th generation)"
+#define IPAD_10G_NAMESTRING             @"iPad (10th generation)"
+#define IPAD_PRO_11_2G_NAMESTRING       @"iPad Pro (11-inch, 2nd generation)"
+#define IPAD_PRO_11_3G_NAMESTRING       @"iPad Pro (11-inch, 3rd generation)"
+#define IPAD_PRO_11_4G_NAMESTRING       @"iPad Pro (11-inch, 4th generation)"
+#define IPAD_PRO_12_9_3G_NAMESTRING     @"iPad Pro (12.9-inch, 3rd generation)"
+#define IPAD_PRO_12_9_4G_NAMESTRING     @"iPad Pro (12.9-inch, 4th generation)"
+#define IPAD_PRO_12_9_5G_NAMESTRING     @"iPad Pro (12.9-inch, 5th generation)"
+#define IPAD_PRO_12_9_6G_NAMESTRING     @"iPad Pro (12.9-inch, 6th generation)"
+#define IPAD_PRO_11_5G_NAMESTRING       @"iPad Pro 11 inch 5th Gen"
+#define IPAD_PRO_12_7G_NAMESTRING       @"iPad Pro 12.9 inch 7th Gen"
 
 #define IPAD_UNKNOWN_NAMESTRING         @"Unknown iPad"
 
-#define IPAD_MINI_1G_NAMESTRING         @"iPad mini 1G"
-#define IPAD_MINI_2G_NAMESTRING         @"iPad mini 2G"
-#define IPAD_MINI_3G_NAMESTRING         @"iPad mini 3G"
-#define IPAD_MINI_4G_NAMESTRING         @"iPad mini 5G"
+// Supported Apple TVs
+#define APPLETV_4G_NAMESTRING           @"Apple TV HD"
+#define APPLETV_4K_NAMESTRING           @"Apple TV 4K (1st generation)"
+#define APPLETV_4K_2G_NAMESTRING        @"Apple TV 4K (2nd generation)"
+#define APPLETV_4K_3G_NAMESTRING        @"Apple TV 4K (3rd generation)"
 
-#define APPLETV_2G_NAMESTRING           @"Apple TV 2G"
-#define APPLETV_3G_NAMESTRING           @"Apple TV 3G"
-#define APPLETV_4G_NAMESTRING           @"Apple TV 4G"
-#define APPLETV_4K_NAMESTRING           @"APPLE TV 4K"
 #define APPLETV_UNKNOWN_NAMESTRING      @"Unknown Apple TV"
 
-#define IOS_FAMILY_UNKNOWN_DEVICE       @"Unknown iOS device"
-
+// Simulator
 #define SIMULATOR_NAMESTRING            @"iPhone Simulator"
 #define SIMULATOR_IPHONE_NAMESTRING     @"iPhone Simulator"
 #define SIMULATOR_IPAD_NAMESTRING       @"iPad Simulator"
 #define SIMULATOR_APPLETV_NAMESTRING    @"Apple TV Simulator"
+
+// Unknown
+#define IOS_FAMILY_UNKNOWN_DEVICE       @"Unknown iOS device"
 
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSUInteger, UIDevicePlatform) {
     UIDeviceUnknown,
     
+    UIDeviceIFPGA,
+    
     UIDeviceSimulator,
     UIDeviceSimulatoriPhone,
-    UIDeviceSimulatoriPhone6,
-    UIDeviceSimulatoriPhone6Plus,
     UIDeviceSimulatoriPad,
     UIDeviceSimulatorAppleTV,
     
-    UIDevice1GiPhone,
-    UIDevice3GiPhone,
-    UIDevice3GSiPhone,
-    UIDevice4iPhone,
-    UIDevice4SiPhone,
-    UIDevice5iPhone,
-    UIDevice5CiPhone,
-    UIDevice5SiPhone,
-    UIDevice6iPhone,
-    UIDevice6PlusiPhone,
-    UIDevice6siPhone,
-    UIDevice6sPlusiPhone,
-    UIDeviceSEiPhone,
-    UIDevice7iPhone,
-    UIDevice7PlusiPhone,
-    UIDevice8iPhone,
-    UIDevice8PlusiPhone,
-    UIDeviceXiPhone,
-    UIDeviceXsiPhone,
-    UIDeviceXsMaxiPhone,
-    UIDeviceXRiPhone,
+    // Supported iPhones (A12 Bionic and newer)
+    UIDeviceSE2iPhone,            // iPhone SE (2nd generation)
+    UIDeviceSE3iPhone,            // iPhone SE (3rd generation)
+    UIDeviceXRiPhone,             // iPhone XR
+    UIDeviceXsiPhone,             // iPhone XS
+    UIDeviceXsMaxiPhone,          // iPhone XS Max
+    UIDevice11iPhone,             // iPhone 11
+    UIDevice11ProiPhone,          // iPhone 11 Pro
+    UIDevice11ProMaxiPhone,       // iPhone 11 Pro Max
+    UIDevice12MiniiPhone,         // iPhone 12 Mini
+    UIDevice12iPhone,             // iPhone 12
+    UIDevice12ProiPhone,          // iPhone 12 Pro
+    UIDevice12ProMaxiPhone,       // iPhone 12 Pro Max
+    UIDevice13MiniiPhone,         // iPhone 13 Mini
+    UIDevice13iPhone,             // iPhone 13
+    UIDevice13ProiPhone,          // iPhone 13 Pro
+    UIDevice13ProMaxiPhone,       // iPhone 13 Pro Max
+    UIDevice14iPhone,             // iPhone 14
+    UIDevice14PlusiPhone,         // iPhone 14 Plus
+    UIDevice14ProiPhone,          // iPhone 14 Pro
+    UIDevice14ProMaxiPhone,       // iPhone 14 Pro Max
+    UIDevice15iPhone,             // iPhone 15
+    UIDevice15PlusiPhone,         // iPhone 15 Plus
+    UIDevice15ProiPhone,          // iPhone 15 Pro
+    UIDevice15ProMaxiPhone,       // iPhone 15 Pro Max
+    UIDevice16ProiPhone,          // iPhone 16 Pro
+    UIDevice16ProMaxiPhone,       // iPhone 16 Pro Max
+    UIDevice16iPhone,             // iPhone 16
+    UIDevice16PlusiPhone,         // iPhone 16 Plus
     
+    // Supported iPads (A12 Bionic and newer)
+    UIDevice5GiPadMini,           // iPad mini (5th generation)
+    UIDevice6GiPadMini,           // iPad mini (6th generation)
+    UIDevice3GiPadAir,            // iPad Air (3rd generation)
+    UIDevice4GiPadAir,            // iPad Air (4th generation)
+    UIDevice5GiPadAir,            // iPad Air (5th generation)
+    UIDevice7GiPad,               // iPad (7th generation)
+    UIDevice8GiPad,               // iPad (8th generation)
+    UIDevice9GiPad,               // iPad (9th generation)
+    UIDevice10GiPad,              // iPad (10th generation)
+    UIDeviceM1iPadPro129Inch,     // iPad Pro (12.9-inch, M1)
+    UIDevice3G129InchiPadPro,     // iPad Pro (12.9-inch, 3rd generation)
+    UIDevice4G129InchiPadPro,     // iPad Pro (12.9-inch, 4th generation)
+    UIDevice5G129InchiPadPro,     // iPad Pro (12.9-inch, 5th generation)
+    UIDevice6G129InchiPadPro,     // iPad Pro (12.9-inch, 6th generation, M2)
+    UIDevice11InchiPadPro,        // iPad Pro (11-inch, 1st gen)
+    UIDevice11Inch2GiPadPro,      // iPad Pro (11-inch, 2nd generation)
+    UIDevice11Inch3GiPadPro,      // iPad Pro (11-inch, 3rd generation, M1)
+    UIDevice11Inch4GiPadPro,      // iPad Pro (11-inch, 4th generation, M2)
+    UIDevice6GiPadAir,            // iPad Air 6th Gen
+    UIDevice7GiPadAir,            //iPad Air 7th Gen
+    UIDevice7GiPadMini,           //iPad mini 7th Gen
+    UIDevice11Inch5GiPadPro,      //iPad Pro 11 inch 5th Gen
+    UIDevice12Inch7GiPadPro,      //iPad Pro 12.9 inch 7th Gen
     
-    UIDevice1GiPod,
-    UIDevice2GiPod,
-    UIDevice3GiPod,
-    UIDevice4GiPod,
-    UIDevice5GiPod,
-    UIDevice6GiPod,
-    
-    UIDevice1GiPad,
-    UIDevice2GiPad,
-    UIDevice3GiPad,
-    UIDevice4GiPad,
-    UIDevice5GiPad,
-    UIDevice6GiPad,
-    UIDevice1GiPadAir,
-    UIDevice2GiPadAir,
-    
-    UIDevice1GiPadMini,
-    UIDevice2GiPadMini,
-    UIDevice3GiPadMini,
-    UIDevice4GiPadMini,
-    
-    UIDevice97InchiPadPro,
-    UIDevice129InchiPadPro,
-    UIDevice2G129InchiPadPro,
-    UIDevice3G129InchiPadPro,
-    UIDevice105InchIpadPro,
-    UIDevice11InchIpadPro,
-    
-    
-    UIDeviceAppleTV2,
-    UIDeviceAppleTV3,
-    UIDeviceAppleTV4,
-    UIDeviceAppleTV4k,
+    // Supported Apple TVs
+    UIDeviceAppleTV4,             // Apple TV HD
+    UIDeviceAppleTV4k,            // Apple TV 4K (1st generation)
+    UIDeviceAppleTV4k2G,          // Apple TV 4K (2nd generation)
+    UIDeviceAppleTV4k3G,          // Apple TV 4K (3rd generation)
     
     UIDeviceUnknowniPhone,
-    UIDeviceUnknowniPod,
     UIDeviceUnknowniPad,
-    UIDeviceUnknownAppleTV,
-    UIDeviceIFPGA
+    UIDeviceUnknownAppleTV
 };
 
 typedef NS_ENUM(NSUInteger, UIDeviceFamily) {
