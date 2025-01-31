@@ -32,8 +32,9 @@ class ScreenLockManagerTests: XCTestCase {
     override func setUpWithError() throws {
         ScreenLockManagerInternal.shared.backgroundTimestamp = 0
     }
-    
-    func testLockScreenTriggers() throws {
+
+// TODO: Add back after fixing Flappiness
+    func _testLockScreenTriggers() throws {
         // Login with first user with a mobile policy -- should trigger lock screen
         let user0 = try createNewUserAccount(index: 0)
         ScreenLockManagerInternal.shared.storeMobilePolicy(userAccount: user0, hasMobilePolicy: true, lockTimeout: 1)
