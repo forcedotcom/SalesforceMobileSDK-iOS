@@ -281,6 +281,7 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
     NSURLSession *session = [self createURLSessionWithIdentifier:instanceIdentifier];
 
     __weak typeof(self) weakSelf = self;
+    NSString *className = NSStringFromClass([self class]);
     [[session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *urlResponse, NSError *error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         SFSDKOAuthTokenEndpointResponse *endpointResponse = nil;
@@ -293,21 +294,29 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
             endpointResponse = [[SFSDKOAuthTokenEndpointResponse alloc] initWithError:[NSError errorWithDomain:kSFOAuthErrorDomain code:code userInfo:nil]];
             
             if (error.code == NSURLErrorTimedOut) {
-                [SFSDKCoreLogger d:[strongSelf class] format:@"Refresh attempt timed out after %f seconds.", endpointReq.timeout];
+                [SFSDKCoreLogger d:[SFSDKOAuth2 class] format:@"Refresh attempt timed out after %f seconds.", endpointReq.timeout];
             }
             
-            [SFSDKCoreLogger d:[strongSelf class] format:@"SFOAuth2 session failed with error: error code: %ld, description: %@, URL: %@", (long)error.code, [error localizedDescription], errorUrlString];
+            [SFSDKCoreLogger d:[SFSDKOAuth2 class] format:@"SFOAuth2 session failed with error: error code: %ld, description: %@, URL: %@", (long)error.code, [error localizedDescription], errorUrlString];
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (completionBlock) {
                     completionBlock(endpointResponse);
                 }
             });
             return;
-        } else {
-            [SFSDKEventBuilderHelper createAndStoreEvent:@"tokenRefresh" userAccount:[SFUserAccountManager sharedInstance].currentUser className:NSStringFromClass([strongSelf class]) attributes:nil];
         }
         
-        [strongSelf handleTokenEndpointResponse:completionBlock request:endpointReq data:data urlResponse:urlResponse];
+        [SFSDKEventBuilderHelper createAndStoreEvent:@"tokenRefresh" userAccount:[SFUserAccountManager sharedInstance].currentUser className:className attributes:nil];
+        if (strongSelf) {
+            [strongSelf handleTokenEndpointResponse:completionBlock request:endpointReq data:data urlResponse:urlResponse];
+        } else {
+            [SFSDKCoreLogger d:[SFSDKOAuth2 class] format:@"Token endpoint response handler skipped because self was deallocated."];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (completionBlock) {
+                    completionBlock(nil);
+                }
+            });
+        }
     }] resume];
 }
 
