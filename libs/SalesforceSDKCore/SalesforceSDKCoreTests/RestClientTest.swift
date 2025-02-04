@@ -263,8 +263,7 @@ class RestClientTests: XCTestCase {
         }
     }
     
-    // TODO: Add back after fixing Flappiness
-    func _testAsyncBatchRequestStopOnFailure() async throws {
+    func testAsyncBatchRequestStopOnFailure() async throws {
         do {
             // Create account
             let accountName = self.generateRecordName()

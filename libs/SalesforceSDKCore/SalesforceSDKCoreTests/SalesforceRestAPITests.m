@@ -419,7 +419,7 @@ static NSException *authException = nil;
 // - delete object (requestForDeleteWithObjectType)
 // - query new object (requestForQuery) and make sure we don't get anything
 // - search new object (requestForSearch) and make sure we don't get anything
-- (void)_testCreateQuerySearchDelete {
+- (void)testCreateQuerySearchDelete {
     // create object
     //use a SOSL-safe format here to avoid problems with escaping characters for SOSL
     NSString *lastName = [self generateRecordName];
@@ -1447,8 +1447,7 @@ static NSException *authException = nil;
     XCTAssertEqualObjects(accountsRetrieved[1][@"Name"], secondAccountNameUpdated);
 }
 
-// TODO: Add back after fixing Flappiness
-- (void) _testCollectionUpdate {
+- (void) testCollectionUpdate {
     NSString* firstAccountName = [NSString stringWithFormat:@"%@_account_1_%lf", ENTITY_PREFIX_NAME, CFAbsoluteTimeGetCurrent()];
     NSString* secondAccountName = [NSString stringWithFormat:@"%@_account_2_%lf", ENTITY_PREFIX_NAME, CFAbsoluteTimeGetCurrent()];
     NSString* contactName = [NSString stringWithFormat:@"%@_contact_%lf", ENTITY_PREFIX_NAME, CFAbsoluteTimeGetCurrent()];
@@ -1937,8 +1936,7 @@ static NSException *authException = nil;
 }
 
 // Upload files / get owned files / delete files / get owned files again
-// TODO: Add back after fixing Flappiness
-- (void)_testUploadOwnedFilesDelete {
+- (void)testUploadOwnedFilesDelete {
 
     // upload first file
     NSDictionary *fileAttrs = [self uploadFile];
