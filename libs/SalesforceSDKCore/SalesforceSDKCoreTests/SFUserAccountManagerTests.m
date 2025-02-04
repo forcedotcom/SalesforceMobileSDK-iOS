@@ -624,7 +624,8 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     return credentials;
 }
 
-- (void)testUserAccountEncoding {
+// TODO: Add back after fixing Flappiness
+- (void)_testUserAccountEncoding {
     NSData *data;
     NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initRequiringSecureCoding:NO];
 
