@@ -114,8 +114,8 @@
     }
 }
 
-// TODO: Add back after fixing Flappiness
-- (void)_testMetricsAction {
+
+- (void)testMetricsAction {
     [self addTeardownBlock:^{
         SFNetwork.metricsCollectedAction = nil;
     }];

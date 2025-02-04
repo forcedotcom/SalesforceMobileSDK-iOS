@@ -187,8 +187,7 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     credsIn = nil;
 }
 
-// TODO: Add back after fixing Flappiness
-- (void)_testCredentialsCopying {
+- (void)testCredentialsCopying {
     NSString *domainToCheck = @"login.salesforce.com";
     NSString *redirectUriToCheck = @"redirectUri://done";
     NSString *jwtToCheck = @"jwtToken";
