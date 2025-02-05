@@ -2894,8 +2894,7 @@ static NSException *authException = nil;
     XCTAssertTrue(globalInstance != sharedInstance, @"SFRestAPI globalInstance and sharedInstance must be different");
 }
 
-// TODO: Add back after fixing Flappiness
-- (void)_testPublicApiCalls {
+- (void)testPublicApiCalls {
      XCTestExpectation *getExpectation = [self expectationWithDescription:@"Get"];
     __block NSError *error = nil;
     __block NSDictionary *response = nil;
