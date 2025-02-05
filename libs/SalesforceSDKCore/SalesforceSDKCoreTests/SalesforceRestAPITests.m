@@ -2898,8 +2898,14 @@ static NSException *authException = nil;
      XCTestExpectation *getExpectation = [self expectationWithDescription:@"Get"];
     __block NSError *error = nil;
     __block NSDictionary *response = nil;
-    SFRestRequest *request = [SFRestRequest customUrlRequestWithMethod:SFRestMethodGET baseURL:@"https://api.github.com" path:@"/orgs/forcedotcom/repos" queryParams:nil];
-    XCTAssertEqual(request.baseURL, @"https://api.github.com", @"Base URL should match");
+    NSString *testBaseURL = @"https://mobilesdk.my.salesforce.com";
+    NSString *testPathURL = @"/.well-known/auth-configuration";
+    SFRestRequest *request = [SFRestRequest customUrlRequestWithMethod:SFRestMethodGET
+                                                               baseURL:testBaseURL
+                                                                  path:testPathURL
+                                                           queryParams:nil];
+    XCTAssertEqual(request.baseURL, testBaseURL, @"Base URL should match");
+    XCTAssertEqual(request.path, testPathURL, @"Path URL should match");
     [[SFRestAPI sharedGlobalInstance] sendRequest:request failureBlock:^(id resp, NSError *e, NSURLResponse *rawResponse) {
         error = e;
         [getExpectation fulfill];
