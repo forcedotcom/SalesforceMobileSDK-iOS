@@ -1574,8 +1574,9 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
             NSArray *keys = [self.userAccountMap allKeys];
             for (SFUserAccountIdentity *identity in keys) {
                 // Logout any other user with Biometric Authentication
+                // This is an unexpected logout(s) because we only support one Bio Auth user.
                 if ([bioAuthManager checkForPolicyWithUserId:identity.userId] && ![identity isEqual:[self currentUserIdentity]]) {
-                    [self logoutUser:[self userAccountForUserIdentity:identity] reason:SFLogoutReasonRefreshTokenRotated];
+                    [self logoutUser:[self userAccountForUserIdentity:identity] reason:SFLogoutReasonUnexpected];
                 }
             }
         }
@@ -1821,7 +1822,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
                 if (preLoginCredentials != nil && ![preLoginCredentials.refreshToken isEqualToString:self.currentUser.credentials.refreshToken]) {
                     
                     id<SFSDKOAuthProtocol> authClient = self.authClient();
-                    [authClient revokeRefreshToken:preLoginCredentials reason:SFLogoutReasonUnknown];
+                    [authClient revokeRefreshToken:preLoginCredentials reason:SFLogoutReasonRefreshTokenRotated];
                 }
             } else if (hasMobilePolicy) {
                 [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureScreenLock];
