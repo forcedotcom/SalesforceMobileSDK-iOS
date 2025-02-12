@@ -41,6 +41,7 @@
 #import "SFSDKMacDetectUtil.h"
 #import "SFSDKSalesforceSDKUpgradeManager.h"
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
+#import "SFSDKWindowManager+Internal.h"
 
 static NSString * const kSFAppFeatureSwiftApp    = @"SW";
 static NSString * const kSFAppFeatureMultiUser   = @"MU";
@@ -665,12 +666,14 @@ SFNativeLoginManagerInternal *nativeLogin;
     [self.snapshotViewControllers removeObject:scene.session.persistentIdentifier];
 }
 
-- (nullable UIScene *)sceneFromNotification:(NSNotification *)notification {
+- (UIScene *)sceneFromNotification:(NSNotification *)notification {
     id object = notification.object;
     if ([object isKindOfClass:[UIScene class]]) {
         return object;
+    } else {
+        [SFSDKCoreLogger w:[self class] message:@"Unable to derive scene from notification, using default"];
+        return [[SFSDKWindowManager sharedManager] defaultScene];
     }
-    return nil;
 }
 
 - (void)handleAuthCompleted:(NSNotification *)notification { }
