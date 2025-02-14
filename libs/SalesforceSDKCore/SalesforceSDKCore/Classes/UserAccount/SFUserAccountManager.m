@@ -1159,6 +1159,9 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 - (BOOL)handleAdvancedAuthURL:(NSURL *)advancedAuthURL options:(NSDictionary *)options {
     BOOL result = NO;
     NSString *sceneId = options[kSFIDPSceneIdKey];
+    if (!sceneId) {
+        sceneId = [[SFSDKWindowManager sharedManager] defaultScene].session.persistentIdentifier;
+    }
     if (self.authSessions[sceneId]) {
         result = [self.authSessions[sceneId].oauthCoordinator handleAdvancedAuthenticationResponse:advancedAuthURL];
     }
