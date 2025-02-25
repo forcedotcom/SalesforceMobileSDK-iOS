@@ -146,28 +146,7 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
     return [[self class] openDatabaseWithPath:fullDbFilePath key:key salt:salt error:error];
 }
 
-// If you created your database with an app based on Mobile SDK 5.3.0 using cocoapod
-// Then the key was never applied, and the database can be read directly
-// This method checks for that situation and encrypt the database if needed
-- (void)fixFor530Bug:(NSString *)storeName key:(NSString *)key salt:(NSString *)salt {
-    NSString *fullDbFilePath = [self fullDbFilePathForStoreName:storeName];
-    
-    __block BOOL needEncrypting = NO;
-    [[FMDatabaseQueue databaseQueueWithPath:fullDbFilePath] inDatabase:^(FMDatabase* db) {
-        // In the normal case, the db will not be readable - we don't want to be logging any errors
-        BOOL logsErrors = db.logsErrors;
-        db.logsErrors = NO;
-        needEncrypting = [[self class] verifyDatabaseAccess:db error:nil];
-        db.logsErrors = logsErrors;
-    }];
-    
-    if (needEncrypting) {
-        [[self class] encryptDbWithStoreName:storeName storePath:fullDbFilePath key:key salt:salt error:nil];
-    }
-}
-
 - (FMDatabaseQueue *)openStoreQueueWithName:(NSString *)storeName key:(NSString *)key salt:(NSString *)salt error:(NSError * __autoreleasing *)error {
-    [self fixFor530Bug:storeName key:key salt:salt];
     
     __block BOOL result = YES;
     NSString *fullDbFilePath = [self fullDbFilePathForStoreName:storeName];
@@ -440,21 +419,16 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
 
 + (BOOL)verifyDatabaseAccess:(FMDatabase *)db error:(NSError **)error
 {
-    NSString *sqlCommand = @"SELECT name FROM sqlite_master LIMIT 1";
-    FMResultSet *rs = [db executeQuery:sqlCommand];
-    if (rs == nil) {
-        // May not be results, but rs should never be nil coming back.
+    if (![db goodConnection]) {
         if (error != nil) {
             NSString *errorDesc = [NSString stringWithFormat:kSFSmartStoreVerifyReadDbErrorDesc, [db databasePath], [db lastErrorMessage]];
             *error = [NSError errorWithDomain:kSFSmartStoreDbErrorDomain
                                          code:kSFSmartStoreVerifyReadDbErrorCode
                                      userInfo:@{NSLocalizedDescriptionKey: errorDesc}];
         }
-        [rs close];
         return NO;
     }
     
-    [rs close];
     return YES;
 }
 
