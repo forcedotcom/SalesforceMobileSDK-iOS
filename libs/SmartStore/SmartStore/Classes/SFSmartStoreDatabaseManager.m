@@ -146,13 +146,36 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
     return [[self class] openDatabaseWithPath:fullDbFilePath key:key salt:salt error:error];
 }
 
+// If you created your database with an app based on Mobile SDK 12.0 or 12.1.x using cocoapod
+// Then SQLCipher was not properly linked
+// This method checks for that situation and encrypt the database if needed
+- (void)fixFor12Bug:(NSString *)storeName key:(NSString *)key salt:(NSString *)salt {
+    NSString *fullDbFilePath = [self fullDbFilePathForStoreName:storeName];
+
+    __block BOOL needEncrypting = NO;
+    [[FMDatabaseQueue databaseQueueWithPath:fullDbFilePath] inDatabase:^(FMDatabase* db) {
+        // In the normal case, the db will not be readable - we don't want to be logging any errors
+        BOOL logsErrors = db.logsErrors;
+        db.logsErrors = NO;
+        needEncrypting = [[self class] verifyDatabaseAccess:db error:nil];
+        db.logsErrors = logsErrors;
+    }];
+
+    if (needEncrypting) {
+        [[self class] encryptDbWithStoreName:storeName storePath:fullDbFilePath key:key salt:salt error:nil];
+    }
+}
+
 - (FMDatabaseQueue *)openStoreQueueWithName:(NSString *)storeName key:(NSString *)key salt:(NSString *)salt error:(NSError * __autoreleasing *)error {
+    
+    [self fixFor12Bug:storeName key:key salt:salt];
     
     __block BOOL result = YES;
     NSString *fullDbFilePath = [self fullDbFilePathForStoreName:storeName];
     FMDatabaseQueue *queue = [FMDatabaseQueue databaseQueueWithPath:fullDbFilePath];
     [queue inDatabase:^(FMDatabase* db) {
         result = ([[self class] setKeyForDb:db key:key salt:salt error:error] != nil);
+        result = result && [db goodConnection]; // make sure SQLCipher is properly linked
     }];
     return (result ? queue : nil);
 }
@@ -419,7 +442,9 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
 
 + (BOOL)verifyDatabaseAccess:(FMDatabase *)db error:(NSError **)error
 {
-    if (![db goodConnection]) {
+    FMResultSet *rs = [db executeQuery:@"select name from sqlite_master where type='table'"];
+    if (rs == nil) {
+        // May not be results, but rs should never be nil coming back.
         if (error != nil) {
             NSString *errorDesc = [NSString stringWithFormat:kSFSmartStoreVerifyReadDbErrorDesc, [db databasePath], [db lastErrorMessage]];
             *error = [NSError errorWithDomain:kSFSmartStoreDbErrorDomain
