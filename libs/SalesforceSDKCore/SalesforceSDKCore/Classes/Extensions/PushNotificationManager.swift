@@ -31,6 +31,11 @@ import Foundation
 public enum PushNotificationManagerError: Error {
     case registrationFailed
     case currentUserNotDetected
+    case failedNotificationTypesRetrieval
+}
+
+enum UserDefaultsKeys {
+    static let cachedNotificationTypes = "cachedNotificationTypes"
 }
 
 extension PushNotificationManager {
@@ -84,3 +89,100 @@ extension PushNotificationManager {
         }
     }
 }
+
+extension PushNotificationManager {
+    private func fetchNotificationTypesFromAPI(with client: RestClient) async throws -> [NotificationType] {
+        let request = RestRequest(method: .GET, path: "connect/notifications/types", queryParams: nil)
+        let response = try await client.send(request: request)
+        let result = try response.asDecodable(type: NotificationTypesResponse.self)
+        return result.notificationTypes
+    }
+    
+    private func storeNotification(types: [NotificationType], with userDefaults: UserDefaults) {
+        do {
+            let encodedData = try JSONEncoder().encode(types)
+            userDefaults.set(encodedData, forKey: UserDefaultsKeys.cachedNotificationTypes)
+        } catch {
+            print("Failed to encode notification types: \(error.localizedDescription)")
+        }
+    }
+    
+    private func getCachedNotificationTypes(with userDefaults: UserDefaults) -> [NotificationType]? {
+        guard let encodedData = userDefaults.data(forKey: UserDefaultsKeys.cachedNotificationTypes) else {
+            return nil
+        }
+        do {
+            return try JSONDecoder().decode([NotificationType].self, from: encodedData)
+        } catch {
+            print("Failed to decode notification types: \(error.localizedDescription)")
+            return nil
+        }
+    }
+    
+        private func setNotificationCategories(types: [NotificationType]) {
+            let categories = types.map { createNotificationCategory(from: $0) }
+            UNUserNotificationCenter.current().setNotificationCategories(Set(categories))
+        }
+    
+        private func createNotificationCategory(from type: NotificationType) -> UNNotificationCategory {
+            let actions = createActions(from: type.actionGroups)
+            return UNNotificationCategory(identifier: type.apiName, actions: actions, intentIdentifiers: [])
+        }
+    
+        private func createActions(from actionGroups: [ActionGroup]) -> [UNNotificationAction] {
+            return actionGroups.flatMap { actionGroup in
+                actionGroup.actions.map { action in
+                    UNNotificationAction(
+                        identifier: action.identifier,
+                        title: action.label,
+                        options: [.foreground] // Ensures the app opens if needed
+                    )
+                }
+            }
+        }
+}
+
+@objc
+extension PushNotificationManager {
+    /// Retrieves available notification types from the API or local cache if the API request fails.
+    ///
+    /// - Parameters:
+    ///   - restClient: The `RestClient` instance used to fetch notification types from the API.
+    ///   - userDefaults: Stores and retrieves cached notification types. Defaults to `.standard`.
+    /// - Returns: A tuple containing:
+    ///   - `Bool`: `true` if notification types were successfully retrieved and stored; `false` if retrieval failed.
+    ///   - `Error?`: An error object if retrieval fails completely, or `nil` if successful.
+    ///
+    /// If the API fetch fails, the function attempts to retrieve notification types from the cache.
+    /// If neither source provides data, the function returns `false` with an appropriate error.
+    @objc
+    public func getNotificationTypes(restClient: RestClient = RestClient.shared,
+                                     userDefaults: UserDefaults = .standard) async -> (Bool, Error?) {
+        do {
+            let types = try await fetchNotificationTypesFromAPI(with: restClient)
+            storeNotification(types: types, with: userDefaults)
+            setNotificationCategories(types: types)
+            return (true, nil)
+        } catch {
+            print("API fetch failed: \(error.localizedDescription). Trying cache...")
+            guard let cachedTypes = getCachedNotificationTypes(with: userDefaults) else {
+                print("No cached notification types available.")
+                return (false, PushNotificationManagerError.failedNotificationTypesRetrieval as Error)
+            }
+            print("Using cached notification types.")
+            setNotificationCategories(types: cachedTypes)
+            return (true, nil)
+        }
+    }
+    
+    /// Deletes all cached notification types and removes registered notification categories.
+    ///
+    /// - Parameter userDefaults: The `UserDefaults` instance used to remove cached notification types. Defaults to `.standard`.
+    @objc
+    public func deleteNotificationTypes(userDefaults: UserDefaults = .standard) {
+        userDefaults.removeObject(forKey: UserDefaultsKeys.cachedNotificationTypes)
+        UNUserNotificationCenter.current().setNotificationCategories([])
+        print("Deleted notification types and removed registered categories.")
+    }
+}
+
