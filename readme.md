@@ -1,5 +1,5 @@
 # Salesforce.com Mobile SDK for iOS
-[![Nightly Tests](https://github.com/forcedotcom/SalesforceMobileSDK-iOS/actions/workflows/nightly.yaml/badge.svg)](https://github.com/forcedotcom/SalesforceMobileSDK-iOS/actions/workflows/nightly.yaml)
+[![Tests](https://github.com/forcedotcom/SalesforceMobileSDK-iOS/actions/workflows/nightly.yaml/badge.svg)](https://github.com/forcedotcom/SalesforceMobileSDK-iOS/actions/workflows/nightly.yaml)
 [![Known Vulnerabilities](https://snyk.io/test/github/forcedotcom/SalesforceMobileSDK-iOS/badge.svg)](https://snyk.io/test/github/forcedotcom/SalesforceMobileSDK-iOS)
 ![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/forcedotcom/SalesforceMobileSDK-iOS?sort=semver)
 
