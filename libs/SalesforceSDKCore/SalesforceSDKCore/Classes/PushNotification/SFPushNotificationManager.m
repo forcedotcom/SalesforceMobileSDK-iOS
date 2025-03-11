@@ -184,7 +184,7 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
             [[SFPreferences currentUserLevelPreferences] synchronize];
             [SFSDKCoreLogger i:[strongSelf class] format:@"Response:%@", responseAsJson];
             [strongSelf getNotificationTypesWithRestClient:[SFRestAPI sharedInstance]
-                                              userDefaults:[NSUserDefaults standardUserDefaults]
+                                                   account:[[SFUserAccountManager sharedInstance] currentUser]
                                          completionHandler:^(BOOL passed, NSError * _Nullable error) {
                 if (error != nil) {
                     [SFSDKCoreLogger e:[strongSelf class] format:@"Get Notification Types Error: %@", [error localizedDescription]];
