@@ -53,6 +53,7 @@ jobs:
           title: "${{ inputs.lib }} iOS ${{ inputs.ios }}"
           show-code-coverage: false
           upload-bundles: false
+          show-passed-tests: false
         if: success() || failure()
       - uses: codecov/codecov-action@v4
         with:
