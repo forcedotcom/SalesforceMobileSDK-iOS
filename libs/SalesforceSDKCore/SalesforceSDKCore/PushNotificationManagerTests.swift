@@ -65,9 +65,7 @@ class PushNotificationManagerTests: XCTestCase {
             XCTAssertNotNil(error)
             return
         }
-        
-        // Should throw an assertion before we get here.
-        XCTFail()
+        XCTFail("Should throw an assertion before we get here.")
     }
     
     func testGetActionGroups_Success() {
