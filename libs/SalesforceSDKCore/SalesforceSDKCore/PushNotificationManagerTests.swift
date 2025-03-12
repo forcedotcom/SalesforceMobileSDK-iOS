@@ -66,9 +66,107 @@ class PushNotificationManagerTests: XCTestCase {
             return
         }
         
-        // Should throw an error before we get here.
+        // Should throw an assertion before we get here.
         XCTFail()
     }
+    
+    func testGetActionGroups_Success() {
+            // Given
+            let mockNotificationType = NotificationType(type: "test_type", apiName: "test_api_name", label: "Test Label", actionGroups: [
+                ActionGroup(name: "group_1", actions: [])
+            ])
+            mockUserAccount.notificationTypes = [mockNotificationType]
+
+            // When
+            let actionGroups = pushNotificationManager.getActionGroups(notificationTypeApiName: "test_api_name", account: mockUserAccount)
+
+            // Then
+            XCTAssertNotNil(actionGroups)
+            XCTAssertEqual(actionGroups?.count, 1)
+            XCTAssertEqual(actionGroups?.first?.name, "group_1")
+        }
+
+        func testGetActionGroup_Success() {
+            // Given
+            let actionGroup = ActionGroup(name: "group_1", actions: [])
+            let mockNotificationType = NotificationType(type: "test_type", apiName: "test_api_name", label: "Test Label", actionGroups: [actionGroup])
+            mockUserAccount.notificationTypes = [mockNotificationType]
+
+            // When
+            let retrievedActionGroup = pushNotificationManager.getActionGroup(notificationTypeApiName: "test_api_name", actionGroupName: "group_1", account: mockUserAccount)
+
+            // Then
+            XCTAssertNotNil(retrievedActionGroup)
+            XCTAssertEqual(retrievedActionGroup?.name, "group_1")
+        }
+
+        func testGetAction_Success() {
+            // Given
+            let action = Action(name: "approve", identifier: "approval_req__approve", label: "Approve", type: "NotificationApiAction")
+            let actionGroup = ActionGroup(name: "approval_req", actions: [action])
+            let mockNotificationType = NotificationType(type: "test_type", apiName: "test_api_name", label: "Test Label", actionGroups: [actionGroup])
+            mockUserAccount.notificationTypes = [mockNotificationType]
+
+            // When
+            let retrievedAction = pushNotificationManager.getAction(notificationTypeApiName: "test_api_name", actionIdentifier: "approval_req__approve", account: mockUserAccount)
+
+            // Then
+            XCTAssertNotNil(retrievedAction)
+            XCTAssertEqual(retrievedAction?.identifier, "approval_req__approve")
+            XCTAssertEqual(retrievedAction?.label, "Approve")
+        }
+
+        func testGetAction_Failure() {
+            // Given
+            mockUserAccount.notificationTypes = []
+
+            // When
+            let retrievedAction = pushNotificationManager.getAction(notificationTypeApiName: "invalid_api_name", actionIdentifier: "non_existent_action", account: mockUserAccount)
+
+            // Then
+            XCTAssertNil(retrievedAction)
+        }
+
+        // MARK: - Invoke Server Notification Action
+
+        func testInvokeServerNotificationAction_Success() async throws {
+            // Given
+            mockRestClient.jsonResponse = """
+            {
+                "message": "Action executed successfully"
+            }
+            """.data(using: .utf8)!
+
+            // When
+            let result = try await pushNotificationManager.invokeServerNotificationAction(
+                client: mockRestClient,
+                notificationId: "test_notification",
+                actionIdentifier: "test_action"
+            )
+
+            // Then
+            XCTAssertEqual(result.message, "Action executed successfully")
+        }
+
+        func testInvokeServerNotificationAction_Failure() async throws {
+            // Given
+            mockRestClient.mockError = NSError(domain: "MockRestClient", code: 500, userInfo: [NSLocalizedDescriptionKey: "Server Error"])
+
+            // When
+            do {
+                _ = try await pushNotificationManager.invokeServerNotificationAction(
+                    client: mockRestClient,
+                    notificationId: "test_notification",
+                    actionIdentifier: "test_action"
+                )
+            } catch {
+                // Then
+                XCTAssertNotNil(error)
+                return
+            }
+
+            XCTFail("Expected an error but succeeded")
+        }
 
     // MARK: - Helper Function
 
