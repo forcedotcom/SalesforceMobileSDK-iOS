@@ -60,3 +60,12 @@ public class Action: NSObject, Codable {
         self.type = type
     }
 }
+
+@objcMembers
+public class ActionResultRepresentation: NSObject, Codable {
+    public let message: String
+
+    public init(message: String) {
+        self.message = message
+    }
+}
