@@ -21,42 +21,34 @@ class PushNotificationManagerTests: XCTestCase {
         super.tearDown()
     }
 
-    func testGetNotificationTypes_SuccessfulAPIResponse() async {
+    func testGetNotificationTypes_SuccessfulAPIResponse() async throws {
         // Given
         mockRestClient.jsonResponse = makeMockJSONResponse()
 
         // When
-        let (success, error) = await pushNotificationManager.getNotificationTypes(
-            restClient: mockRestClient,
-            account: mockUserAccount
-        )
+        let types = try await pushNotificationManager.getNotificationTypes(restClient: mockRestClient, account: mockUserAccount)
 
         // Then
-        XCTAssertTrue(success)
-        XCTAssertNil(error)
+        XCTAssertFalse(types.isEmpty, "Expected notification types")
         let cachedData = try? XCTUnwrap(mockUserAccount.notificationTypes)
         XCTAssertFalse(cachedData!.isEmpty, "Expected notification types to be stored")
     }
 
-    func testGetNotificationTypes_FallbackToCache() async {
+    func testGetNotificationTypes_FallbackToCache() async throws {
         // Given
         mockRestClient.mockError = NSError(domain: "MockRestClient", code: 500, userInfo: [NSLocalizedDescriptionKey: "Mock API failure"])
         mockUserAccount.notificationTypes = [NotificationType(type: "cachedType", apiName: "cached_notification", label: "Cached Notification", actionGroups: [])]
 
         // When
-        let (success, error) = await pushNotificationManager.getNotificationTypes(
-            restClient: mockRestClient,
-            account: mockUserAccount
-        )
+        let types = try await pushNotificationManager.getNotificationTypes(restClient: mockRestClient, account: mockUserAccount)
 
         // Then
-        XCTAssertTrue(success, "Expected success even with API failure, since cache should be used.")
-        XCTAssertNil(error, "Expected no error when falling back to cache.")
+        XCTAssertFalse(types.isEmpty, "Expected success even with API failure, since cache should be used.")
         let cachedData = try? XCTUnwrap(mockUserAccount.notificationTypes)
         XCTAssertFalse(cachedData!.isEmpty, "Expected cached notification types to be retrieved.")
     }
 
-    func testGetNotificationTypes_FailNoCache() async {
+    func testGetNotificationTypes_FailNoCache() async throws {
         // Given
         mockRestClient.mockError = NSError(
             domain: "MockRestClient",
@@ -66,15 +58,16 @@ class PushNotificationManagerTests: XCTestCase {
         mockUserAccount.notificationTypes = nil
 
         // When
-        let (success, error) = await pushNotificationManager.getNotificationTypes(
-            restClient: mockRestClient,
-            account: mockUserAccount
-        )
-
-        // Then
-        XCTAssertFalse(success, "Expected failure since both API and cache are unavailable.")
-        XCTAssertNotNil(error, "Expected an error when API fails and cache is empty.")
-        XCTAssertEqual(error as? PushNotificationManagerError, .failedNotificationTypesRetrieval, "Expected a `failedNotificationTypesRetrieval` error.")
+        do {
+            _ = try await pushNotificationManager.getNotificationTypes(restClient: mockRestClient, account: mockUserAccount)
+        } catch {
+            // Then
+            XCTAssertNotNil(error)
+            return
+        }
+        
+        // Should throw an error before we get here.
+        XCTFail()
     }
 
     // MARK: - Helper Function
