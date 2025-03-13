@@ -24,6 +24,8 @@
 		009D77521CA4A92200D5183A /* SFPushNotificationManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 009D77511CA4A92200D5183A /* SFPushNotificationManagerTests.m */; };
 		010A9B551CC1A131002AF4D3 /* SFCryptoStreamTestUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 010A9B511CC1A131002AF4D3 /* SFCryptoStreamTestUtils.h */; };
 		010A9B591CC1A147002AF4D3 /* SFCryptoStreamTestUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 010A9B521CC1A131002AF4D3 /* SFCryptoStreamTestUtils.m */; };
+		238AA5802D827AF80036667C /* PushNotificationManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238AA57F2D827AF80036667C /* PushNotificationManagerTests.swift */; };
+		23945B712D78E4A60060B195 /* NotificationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23945B702D78E4A60060B195 /* NotificationType.swift */; };
 		23A4C7462D0CAFA000DF55EB /* ScreenLockManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A4C7452D0CAFA000DF55EB /* ScreenLockManagerTests.swift */; };
 		23A4C7492D0CAFCF00DF55EB /* NativeLoginManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A4C7482D0CAFCF00DF55EB /* NativeLoginManagerTests.swift */; };
 		23A4C74A2D0CAFCF00DF55EB /* JwtAccessTokenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A4C7472D0CAFCF00DF55EB /* JwtAccessTokenTests.swift */; };
@@ -519,6 +521,8 @@
 		009D77511CA4A92200D5183A /* SFPushNotificationManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFPushNotificationManagerTests.m; path = SalesforceSDKCoreTests/SFPushNotificationManagerTests.m; sourceTree = SOURCE_ROOT; };
 		010A9B511CC1A131002AF4D3 /* SFCryptoStreamTestUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFCryptoStreamTestUtils.h; path = SalesforceSDKCoreTests/SFCryptoStreamTestUtils.h; sourceTree = SOURCE_ROOT; };
 		010A9B521CC1A131002AF4D3 /* SFCryptoStreamTestUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFCryptoStreamTestUtils.m; path = SalesforceSDKCoreTests/SFCryptoStreamTestUtils.m; sourceTree = SOURCE_ROOT; };
+		238AA57F2D827AF80036667C /* PushNotificationManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PushNotificationManagerTests.swift; path = SalesforceSDKCoreTests/PushNotificationManagerTests.swift; sourceTree = SOURCE_ROOT; };
+		23945B702D78E4A60060B195 /* NotificationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationType.swift; sourceTree = "<group>"; };
 		23A4C7452D0CAFA000DF55EB /* ScreenLockManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ScreenLockManagerTests.swift; path = SalesforceSDKCoreTests/ScreenLockManagerTests.swift; sourceTree = SOURCE_ROOT; };
 		23A4C7472D0CAFCF00DF55EB /* JwtAccessTokenTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = JwtAccessTokenTests.swift; path = SalesforceSDKCoreTests/JwtAccessTokenTests.swift; sourceTree = SOURCE_ROOT; };
 		23A4C7482D0CAFCF00DF55EB /* NativeLoginManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NativeLoginManagerTests.swift; path = SalesforceSDKCoreTests/NativeLoginManagerTests.swift; sourceTree = SOURCE_ROOT; };
@@ -982,6 +986,7 @@
 		4F7EB3F61BFFC84700768720 /* SalesforceSDKCoreTests */ = {
 			isa = PBXGroup;
 			children = (
+				238AA57F2D827AF80036667C /* PushNotificationManagerTests.swift */,
 				23A4C7472D0CAFCF00DF55EB /* JwtAccessTokenTests.swift */,
 				23A4C7482D0CAFCF00DF55EB /* NativeLoginManagerTests.swift */,
 				23A4C7452D0CAFA000DF55EB /* ScreenLockManagerTests.swift */,
@@ -1178,6 +1183,7 @@
 				69848CB12363FA1000893E57 /* SFSDKPushNotificationEncryptionConstants.h */,
 				69848CB32363FA3E00893E57 /* SFSDKPushNotificationError.h */,
 				69848CB42363FA3E00893E57 /* SFSDKPushNotificationError.m */,
+				23945B702D78E4A60060B195 /* NotificationType.swift */,
 			);
 			path = PushNotification;
 			sourceTree = "<group>";
@@ -2127,6 +2133,7 @@
 			files = (
 				6975869F23296D7500574148 /* SFSDKURLCacheTests.m in Sources */,
 				4F06AF911C49A18E00F70798 /* SFOAuthTestFlowCoordinatorDelegate.m in Sources */,
+				238AA5802D827AF80036667C /* PushNotificationManagerTests.swift in Sources */,
 				6931EA49248F000600417362 /* SFUserIdUpgradeTests.m in Sources */,
 				CEB98EE21F86E7D70083AB9C /* SFSDKIDPLoginRequestCommandTest.m in Sources */,
 				B7E1A50E1F43B0FE007AC36A /* SFSDKWindowManagerTests.m in Sources */,
@@ -2351,6 +2358,7 @@
 				E1C80CF01C5AEE31001B3A21 /* SFSDKLoginHostListViewController.m in Sources */,
 				B773CCF81F8200BD00D2D1B2 /* SFSDKIDPLoginRequestCommand.m in Sources */,
 				CE4CE3931C0E526A009F6029 /* SFUserAccountIdentity.m in Sources */,
+				23945B712D78E4A60060B195 /* NotificationType.swift in Sources */,
 				CE4CE32D1C0E523B009F6029 /* SalesforceSDKManager.m in Sources */,
 				CE4CE3101C0E523B009F6029 /* NSDictionary+SFAdditions.m in Sources */,
 				B7FB26DD1F78096300FB25A2 /* SFSDKIDPLoginRequestHandler.m in Sources */,
