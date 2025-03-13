@@ -119,7 +119,7 @@ NSString * const kUserAccountPhotoEncryptionKeyLabel = @"com.salesforce.userAcco
         if (_loginState == SFUserAccountLoginStateLoggedIn) {
             [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureOAuth];
         }
-        _notificationTypes = [decoder decodeObjectOfClasses:[NSSet setWithObjects:[NSArray class], [NotificationType class], nil] forKey:kUser_NOTIFICATION_TYPES];
+        _notificationTypes = [decoder decodeObjectOfClasses:[NSSet setWithObjects:[NSArray class], [SFSDKNotificationType class], nil] forKey:kUser_NOTIFICATION_TYPES];
     }
     return self;
 }

@@ -183,14 +183,13 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
             [[SFPreferences currentUserLevelPreferences] setObject:strongSelf->_deviceSalesforceId forKey:kSFDeviceSalesforceId];
             [[SFPreferences currentUserLevelPreferences] synchronize];
             [SFSDKCoreLogger i:[strongSelf class] format:@"Response:%@", responseAsJson];
-            [strongSelf getNotificationTypesWithRestClient:[SFRestAPI sharedInstance]
-                                                   account:[[SFUserAccountManager sharedInstance] currentUser]
-                                         completionHandler:^(NSArray<NotificationType *> * _Nullable type, NSError * _Nullable error) {
+            [strongSelf fetchAndStoreNotificationTypesWithRestClient:[SFRestAPI sharedInstance] account:user completionHandler:^(NSError * _Nullable error) {
                 if (error != nil) {
                     [SFSDKCoreLogger e:[strongSelf class] format:@"Get Notification Types Error: %@", [error localizedDescription]];
                 }
                 [strongSelf postPushNotificationRegistration:completionBlock];
             }];
+            
         }
     }];
     return YES;

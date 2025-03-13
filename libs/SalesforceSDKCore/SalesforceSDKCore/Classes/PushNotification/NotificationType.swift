@@ -1,5 +1,6 @@
 import Foundation
 
+@objc(SFSDKNotificationTypesResponse)
 @objcMembers
 public class NotificationTypesResponse: NSObject, Codable {
     public let notificationTypes: [NotificationType]
@@ -9,6 +10,7 @@ public class NotificationTypesResponse: NSObject, Codable {
     }
 }
 
+@objc(SFSDKNotificationType)
 @objcMembers
 public class NotificationType: NSObject, Codable {
     public let type: String
@@ -29,12 +31,13 @@ public class NotificationType: NSObject, Codable {
             let response = try decoder.decode(NotificationTypesResponse.self, from: jsonData)
             return response.notificationTypes
         } catch {
-            print("Failed to decode NotificationType: \(error)")
+            SFSDKCoreLogger.e(NotificationType.self, message: "Failed to decode NotificationType: \(error)")
             return []
         }
     }
 }
 
+@objc(SFSDKActionGroup)
 @objcMembers
 public class ActionGroup: NSObject, Codable {
     public let name: String
@@ -46,6 +49,7 @@ public class ActionGroup: NSObject, Codable {
     }
 }
 
+@objc(SFSDKAction)
 @objcMembers
 public class Action: NSObject, Codable {
     public let name: String
@@ -61,6 +65,7 @@ public class Action: NSObject, Codable {
     }
 }
 
+@objc(SFSDKActionResultRepresentation)
 @objcMembers
 public class ActionResultRepresentation: NSObject, Codable {
     public let message: String

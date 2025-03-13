@@ -35,10 +35,6 @@ public enum PushNotificationManagerError: Error {
     case notificationActionInvocationFailed(String)
 }
 
-enum UserDefaultsKeys {
-    static let cachedNotificationTypes = "cachedNotificationTypes"
-}
-
 extension PushNotificationManager {
     
     /// Register for Salesforce notfications for a current user
@@ -93,8 +89,8 @@ extension PushNotificationManager {
 
 extension PushNotificationManager {
     @objc
-    func getNotificationTypes(restClient: RestClient = RestClient.shared,
-                                 account: UserAccount? = UserAccountManager.shared.currentUserAccount) async throws -> [NotificationType] {
+    func fetchAndStoreNotificationTypes(restClient: RestClient = RestClient.shared,
+                                 account: UserAccount? = UserAccountManager.shared.currentUserAccount) async throws {
         guard let account = account else {
             throw PushNotificationManagerError.currentUserNotDetected as Error
         }
@@ -103,20 +99,22 @@ extension PushNotificationManager {
             let types = try await fetchNotificationTypesFromAPI(with: restClient)
             storeNotification(types: types, with: account)
             setNotificationCategories(types: types)
-            return (types)
         } catch {
-            SFSDKCoreLogger().d(PushNotificationManager.self, message: "API fetch failed: \(error.localizedDescription). Trying cache...")
+            SFSDKCoreLogger.d(PushNotificationManager.self, message: "API fetch failed: \(error.localizedDescription). Trying cache...")
             guard let cachedTypes = getCachedNotificationTypes(with: account) else {
-                SFSDKCoreLogger().e(PushNotificationManager.self, message: "No cached notification types available.")
+                SFSDKCoreLogger.e(PushNotificationManager.self, message: "No cached notification types available.")
                 throw PushNotificationManagerError.failedNotificationTypesRetrieval as Error
             }
-            SFSDKCoreLogger().d(PushNotificationManager.self, message: "Using cached notification types.")
+            SFSDKCoreLogger.d(PushNotificationManager.self, message: "Using cached notification types.")
             setNotificationCategories(types: cachedTypes)
-            return (cachedTypes)
         }
     }
     
     private func fetchNotificationTypesFromAPI(with client: RestClient) async throws -> [NotificationType] {
+        guard client.apiVersion.compare("v61.0").rawValue >= 0 else {
+            throw PushNotificationManagerError.notificationActionInvocationFailed("API Version must be at least v61.0")
+        }
+        
         let request = RestRequest(method: .GET, path: "connect/notifications/types", queryParams: nil)
         let response = try await client.send(request: request)
         let result = try response.asDecodable(type: NotificationTypesResponse.self)
@@ -237,6 +235,10 @@ extension PushNotificationManager {
                                                notificationId: String,
                                                actionIdentifier: String
     ) async throws -> ActionResultRepresentation {
+        guard client.apiVersion.compare("v61.0").rawValue >= 0 else {
+            throw PushNotificationManagerError.notificationActionInvocationFailed("API Version must be at least v61.0")
+        }
+        
         let path = "/connect/notifications/\(notificationId)/actions/\(actionIdentifier)"
         let request = RestRequest(method: .POST, path: path, queryParams: nil)
         

@@ -11,6 +11,7 @@ class PushNotificationManagerTests: XCTestCase {
         super.setUp()
         pushNotificationManager = PushNotificationManager.sharedInstance()
         mockRestClient = MockRestClient()
+        mockRestClient.apiVersion = "v61.0"
         mockUserAccount = UserAccount()
     }
 
@@ -26,10 +27,9 @@ class PushNotificationManagerTests: XCTestCase {
         mockRestClient.jsonResponse = makeMockJSONResponse()
 
         // When
-        let types = try await pushNotificationManager.getNotificationTypes(restClient: mockRestClient, account: mockUserAccount)
+        try await pushNotificationManager.fetchAndStoreNotificationTypes(restClient: mockRestClient, account: mockUserAccount)
 
         // Then
-        XCTAssertFalse(types.isEmpty, "Expected notification types")
         let cachedData = try? XCTUnwrap(mockUserAccount.notificationTypes)
         XCTAssertFalse(cachedData!.isEmpty, "Expected notification types to be stored")
     }
@@ -40,10 +40,9 @@ class PushNotificationManagerTests: XCTestCase {
         mockUserAccount.notificationTypes = [NotificationType(type: "cachedType", apiName: "cached_notification", label: "Cached Notification", actionGroups: [])]
 
         // When
-        let types = try await pushNotificationManager.getNotificationTypes(restClient: mockRestClient, account: mockUserAccount)
+        try await pushNotificationManager.fetchAndStoreNotificationTypes(restClient: mockRestClient, account: mockUserAccount)
 
         // Then
-        XCTAssertFalse(types.isEmpty, "Expected success even with API failure, since cache should be used.")
         let cachedData = try? XCTUnwrap(mockUserAccount.notificationTypes)
         XCTAssertFalse(cachedData!.isEmpty, "Expected cached notification types to be retrieved.")
     }
@@ -59,7 +58,7 @@ class PushNotificationManagerTests: XCTestCase {
 
         // When
         do {
-            _ = try await pushNotificationManager.getNotificationTypes(restClient: mockRestClient, account: mockUserAccount)
+            try await pushNotificationManager.fetchAndStoreNotificationTypes(restClient: mockRestClient, account: mockUserAccount)
         } catch {
             // Then
             XCTAssertNotNil(error)
