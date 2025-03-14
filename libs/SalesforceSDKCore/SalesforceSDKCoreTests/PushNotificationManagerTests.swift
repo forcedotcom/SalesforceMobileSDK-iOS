@@ -11,7 +11,7 @@ class PushNotificationManagerTests: XCTestCase {
         super.setUp()
         pushNotificationManager = PushNotificationManager.sharedInstance()
         mockRestClient = MockRestClient()
-        mockRestClient.apiVersion = "v61.0"
+        mockRestClient.apiVersion = "v64.0"
         mockUserAccount = UserAccount()
     }
 
@@ -187,13 +187,13 @@ class PushNotificationManagerTests: XCTestCase {
                             "actions": [
                                 {
                                     "name": "approve",
-                                    "identifier": "approval_req__approve",
+                                    "actionKey": "approval_req__approve",
                                     "label": "Approve",
                                     "type": "NotificationApiAction"
                                 },
                                 {
                                     "name": "deny",
-                                    "identifier": "approval_req__deny",
+                                    "actionKey": "approval_req__deny",
                                     "label": "Deny",
                                     "type": "NotificationApiAction"
                                 }
