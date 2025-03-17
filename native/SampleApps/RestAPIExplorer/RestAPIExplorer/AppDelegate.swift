@@ -28,6 +28,7 @@
  */
 
 import UIKit
+import SalesforceSDKCommon
 import SalesforceSDKCore
 import MobileCoreServices
 import UniformTypeIdentifiers
@@ -39,7 +40,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     override init() {
         
         super.init()
-      
+        
+        // Uncomment to enable custom log receivers.
+        //setUpLoggingCustomizations()
+        
         SalesforceManager.initializeSDK()
         SalesforceManager.shared.appDisplayName = "Rest API Explorer"
         UserAccountManager.shared.navigationPolicyForAction = { webView, action in
@@ -50,7 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return .allow
         }
         
-        //Uncomment following block to enable IDP Login flow.
+        // Uncomment following block to enable IDP Login flow.
         //SalesforceManager.shared.identityProviderURLScheme = "sampleidpapp"
     }
     
@@ -69,21 +73,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // self.customizeLoginView()
         return true
     }
-
+    
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         // Uncomment the code below to register your device token with the push notification manager
         // didRegisterForRemoteNotifications(deviceToken)
     }
-
+    
     func didRegisterForRemoteNotifications(_ deviceToken: Data) {
         PushNotificationManager.sharedInstance().didRegisterForRemoteNotifications(withDeviceToken: deviceToken)
         if let _ = UserAccountManager.shared.currentUserAccount?.credentials.accessToken {
             PushNotificationManager.sharedInstance().registerForSalesforceNotifications { (result) in
                 switch (result) {
-                    case .success(let successFlag):
-                        SalesforceLogger.d(AppDelegate.self, message: "Registration for Salesforce notifications status:  \(successFlag)")
-                    case .failure(let error):
-                        SalesforceLogger.e(AppDelegate.self, message: "Registration for Salesforce notifications failed \(error)")
+                case .success(let successFlag):
+                    SalesforceLogger.d(AppDelegate.self, message: "Registration for Salesforce notifications status:  \(successFlag)")
+                case .failure(let error):
+                    SalesforceLogger.e(AppDelegate.self, message: "Registration for Salesforce notifications failed \(error)")
                 }
             }
         }
@@ -103,16 +107,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             } else {
                 SalesforceLogger.d(AppDelegate.self, message: "Push notification authorization denied")
             }
-
+            
             if let error = error {
                 SalesforceLogger.e(AppDelegate.self, message: "Push notification authorization error: \(error)")
             }
         }
     }
-
+    
     func customizeLoginView() {
         let loginViewConfig = SalesforceLoginViewControllerConfig()
-
+        
         // Set showSettingsIcon to NO if you want to hide the settings icon on the nav bar
         loginViewConfig.showsSettingsIcon = false
         // Set showNavBar to false if you want to hide the top bar
@@ -122,14 +126,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         loginViewConfig.navigationBarFont = UIFont(name: "Helvetica", size: 16.0)
         UserAccountManager.shared.loginViewControllerConfig = loginViewConfig
     }
-
+    
     func exportTestingCredentials() {
         guard let creds = UserAccountManager.shared.currentUserAccount?.credentials,
               let idData = UserAccountManager.shared.currentUserAccount?.idData,
               let instance = creds.instanceUrl,
               let identity = creds.identityUrl
         else {
-                return
+            return
         }
         
         var config = [
@@ -149,9 +153,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let community = creds.communityUrl {
             config["community_url"] = community.absoluteString
         }
-    
+        
         let configJSON = SFJsonUtils.jsonRepresentation(config)
         let board = UIPasteboard.general
         board.setValue(configJSON, forPasteboardType: UTType.utf8PlainText.identifier)
+    }
+    
+    private func setUpLoggingCustomizations() {
+        // Create a custom Salesfoce Mobile SDK (MSDK) log receiver so this app can customize log entry handling.
+        class MyLogReceiver: SalesforceLogReceiver {
+            func receive(level: SalesforceLogger.Level, cls: AnyClass, component: String, message: String) {
+                print("AppMsdkLogReceiver: '\(cls)', [\(level)], '\(component)', '\(message)'")
+            }
+        }
+        
+        // Register a factory to create custom log receivers for all MSDK loggers.
+        class MyLogReceiverFactory : SalesforceLogReceiverFactory {
+            func create(componentName: String) -> any SalesforceSDKCommon.SalesforceLogReceiver {
+                return MyLogReceiver()
+            }
+        }
+        
+        SalesforceLogger.setLogReceiverFactory(MyLogReceiverFactory())
     }
 }

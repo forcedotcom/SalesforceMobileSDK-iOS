@@ -101,4 +101,10 @@ static NSString * const kASWebAuthenticationSessionNotSupportedReasonFormat  = @
     @throw [NSException exceptionWithName:kASWebAuthenticationSessionNotSupportedReasonFormat reason:reason userInfo:nil];
 }
 
+- (void)oauthCoordinatorDidBeginNativeAuthentication:(nonnull SFOAuthCoordinator *)coordinator {
+    [SFLogger log:[self class] level:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
+    NSString *reason = [NSString stringWithFormat:kASWebAuthenticationSessionNotSupportedReasonFormat, NSStringFromSelector(_cmd)];
+    @throw [NSException exceptionWithName:kASWebAuthenticationSessionNotSupportedReasonFormat reason:reason userInfo:nil];
+}
+
 @end

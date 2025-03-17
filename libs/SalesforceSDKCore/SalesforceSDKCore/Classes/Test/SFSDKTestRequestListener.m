@@ -115,6 +115,10 @@ NSString* const kTestRequestStatusDidFail = @"didFail";
     NSAssert(NO, @"Web Server flow not supported in this class.");
 }
 
+- (void)oauthCoordinatorDidBeginNativeAuthentication:(nonnull SFOAuthCoordinator *)coordinator {
+    NSAssert(NO, @"Web Server flow not supported in this class.");
+}
+
 - (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info
 {
     [SFSDKCoreLogger i:[self class] format:@"%@ with authInfo: %@", NSStringFromSelector(_cmd), info];

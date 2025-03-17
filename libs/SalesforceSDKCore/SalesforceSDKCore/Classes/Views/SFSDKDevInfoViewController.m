@@ -106,7 +106,7 @@ static NSString * const kDevInfoOKKey = @"devInfoOKKey";
     [navBar setItems:@[navItem] animated:YES];
     navBar.translucent = NO;
     navBar.barTintColor = [UIColor salesforceBlueColor];
-    navBar.tintColor = [UIColor whiteColor];
+    navBar.tintColor = [UIColor salesforceNavBarTintColor];
     navBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName:[UIFont systemFontOfSize:kNavBarTitleFontSize]};
     [self.view addSubview:navBar];
     return navBar;
@@ -137,10 +137,6 @@ static NSString * const kDevInfoOKKey = @"devInfoOKKey";
 {
     [self layoutNavBar];
     [self layoutTableView];
-}
-
-- (BOOL)shouldAutorotate {
-    return YES;
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {

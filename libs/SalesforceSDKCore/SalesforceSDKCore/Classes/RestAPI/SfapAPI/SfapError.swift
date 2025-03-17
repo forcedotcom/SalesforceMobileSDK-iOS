@@ -1,5 +1,10 @@
 /*
- Copyright (c) 2015-present, salesforce.com, inc. All rights reserved.
+ SfapError.swift
+ SalesforceSDKCore
+ 
+ Created by Eric C. Johnson (Johnson.Eric@Salesforce.com) on 20250109.
+ 
+ Copyright (c) 2025-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,38 +27,21 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
-#import <SalesforceSDKCore/SalesforceSDKConstants.h>
+import Foundation
 
-NS_ASSUME_NONNULL_BEGIN
-
-extern NSString * const kKeychainIdentifierBaseAppId;
-
-/** Utility class for data encryption operations. 
- */
-@interface SFCrypto : NSObject
-
-/**
- Returns a unique identifier associated with this app install.  The identifier will
- remain the same for the lifetime of the app's installation on the device.  If the
- app is uninstalled, a new identifier will be created if it is ever reinstalled.
- @result A unique identifier for the app install on the particular device.
- */
-+ (NSString *)baseAppIdentifier;
-
-/**
- Whether or not the base app identifier has been configured for this app install.
- @result YES if the base app ID has already been configured, NO otherwise.
- */
-+ (BOOL)baseAppIdentifierIsConfigured;
-
-/**
- Whether or not the base app identifier was configured at some point during this launch of
- the app.
- @result YES if the base app ID was configured during this app launch; NO otherwise.
- */
-+ (BOOL)baseAppIdentifierConfiguredThisLaunch;
-
-@end
-
-NS_ASSUME_NONNULL_END
+/// An error derived from an `sfap_api` endpoint failure response.
+/// See https://developer.salesforce.com/docs/einstein/genai/guide/access-models-api-with-rest.html#step-3-use-models-rest-api
+public struct SfapError: Error {
+    
+    /// The `sfap_api` error code
+    public var errorCode: String? = nil
+    
+    /// The `sfap_api` error message
+    public var message: String? = nil
+    
+    /// The `sfap_api` message code
+    public var messageCode: String? = nil
+    
+    /// The original `sfap_api` error response body
+    public var source: String? = nil
+}

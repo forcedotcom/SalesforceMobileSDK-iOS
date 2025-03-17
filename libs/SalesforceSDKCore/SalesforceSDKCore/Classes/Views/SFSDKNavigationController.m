@@ -38,10 +38,6 @@
     [SFSDKViewController refreshAllViews:self.view];
 }
 
-- (BOOL)shouldAutorotate{
-    return self.topViewController.shouldAutorotate;
-}
-
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     return self.topViewController.supportedInterfaceOrientations;
 }

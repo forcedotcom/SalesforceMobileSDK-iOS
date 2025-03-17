@@ -1,5 +1,5 @@
 # Salesforce.com Mobile SDK for iOS
-[![CircleCI](https://circleci.com/gh/forcedotcom/SalesforceMobileSDK-iOS/tree/dev.svg?style=svg)](https://circleci.com/gh/forcedotcom/SalesforceMobileSDK-iOS/tree/dev)
+[![Tests](https://github.com/forcedotcom/SalesforceMobileSDK-iOS/actions/workflows/nightly.yaml/badge.svg)](https://github.com/forcedotcom/SalesforceMobileSDK-iOS/actions/workflows/nightly.yaml)
 [![Known Vulnerabilities](https://snyk.io/test/github/forcedotcom/SalesforceMobileSDK-iOS/badge.svg)](https://snyk.io/test/github/forcedotcom/SalesforceMobileSDK-iOS)
 ![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/forcedotcom/SalesforceMobileSDK-iOS?sort=semver)
 
@@ -27,12 +27,12 @@ After cloning the repo:
 
 This script pulls the submodule dependencies from GitHub, to finalize setup of the workspace.  You can then work with the Mobile SDK by opening `SalesforceMobileSDK.xcworkspace` from Xcode.
 
-The Salesforce Mobile SDK for iOS requires iOS 15.0 or greater.  The install.sh script checks for this, and aborts if the configured SDK version is incorrect.
+The Salesforce Mobile SDK for iOS requires iOS 17.0 or greater.  The install.sh script checks for this, and aborts if the configured SDK version is incorrect.
 
 Introduction
 ==
 
-### What's New in 12.2.0
+### What's New in 13.0.0
 See [release notes](https://github.com/forcedotcom/SalesforceMobileSDK-iOS/releases).
 
 ### Native Applications

@@ -229,6 +229,15 @@ NS_SWIFT_NAME(SmartStore)
  */
 + (void)setEncryptionKeyGenerator:(SFSmartStoreEncryptionKeyGenerator)newEncryptionKeyGenerator;
 
+/**
+ Set license key for SQLCipher
+ Needed when using commercial or enterprise editions of SQLCipher
+ Should be called before using SmartStore
+ 
+ @param licenseKey The license key string provided by Zetetic
+ */
++ (void)setLicenseKey:(NSString*)licenseKey;
+
 #pragma mark - Soup manipulation methods
 
 /**
@@ -459,6 +468,18 @@ NS_SWIFT_NAME(SmartStore)
  * @return The version of SQL Cipher in use.
  */
 - (NSString *)getSQLCipherVersion NS_SWIFT_NAME(versionOfSQLCipher());
+
+/**
+ * Return SQLCipher provider version
+ * @return cipher provider version
+ */
+- (NSString *)getCipherProviderVersion NS_SWIFT_NAME(cipherProviderVersion());
+
+/**
+ * Return SQLCipher FIPS status
+ * @return true if using a FIPS enabled SQLCipher edition
+ */
+- (BOOL)getCipherFIPSStatus NS_SWIFT_NAME(cipherFIPSStatus());
 
 #pragma mark - Long operations recovery methods
 

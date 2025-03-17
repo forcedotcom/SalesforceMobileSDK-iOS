@@ -330,9 +330,7 @@
         _view.clipsToBounds = YES;
         _view.translatesAutoresizingMaskIntoConstraints = NO;
         _view.customUserAgent = [SalesforceSDKManager sharedManager].userAgentString(@"");
-        if (@available(iOS 16.4, *)) {
-            _view.inspectable = [SalesforceSDKManager sharedManager].isLoginWebviewInspectable;
-        }
+        _view.inspectable = [SalesforceSDKManager sharedManager].isLoginWebviewInspectable;
         _view.UIDelegate = self;
     }
     return _view;
@@ -953,6 +951,13 @@
     } else {
         [SFSDKCoreLogger w:[self class] format:@"WKWebView did want to display a confirmation alert but no delegate responded to it"];
     }
+}
+
+- (nullable WKWebView *)webView:(WKWebView *)webView createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration forNavigationAction:(WKNavigationAction *)navigationAction windowFeatures:(WKWindowFeatures *)windowFeatures {
+    if ([SFUserAccountManager sharedInstance].createWebview) {
+        return [SFUserAccountManager sharedInstance].createWebview(webView, configuration, navigationAction, windowFeatures);
+    }
+    return nil;
 }
 
 - (NSString *)brandedAuthorizeURL{

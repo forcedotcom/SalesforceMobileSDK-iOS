@@ -74,6 +74,12 @@
     // the current user, if present, will be separated from the other users in the table view.
     _userAccountList = [self accountListMinusCurrentUser:[SFUserAccountManager sharedInstance].allUserAccounts];
     _hasCurrentUser = ([SFUserAccountManager sharedInstance].currentUser != nil);
+    
+    // If there there's no current user, don't let the user cancel or dismiss the window before
+    // selecting an existing user or logging into a new one
+    self.navigationItem.leftBarButtonItem.enabled = _hasCurrentUser;
+    self.modalInPresentation = !_hasCurrentUser;
+    
     [self.tableView reloadData];
 }
 

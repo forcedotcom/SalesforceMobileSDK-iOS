@@ -1,5 +1,10 @@
 /*
- Copyright (c) 2015-present, salesforce.com, inc. All rights reserved.
+ EmbeddingsRequestBody.swift
+ SalesforceSDKCore
+ 
+ Created by Eric C. Johnson (Johnson.Eric@Salesforce.com) on 20250114.
+ 
+ Copyright (c) 2025-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,31 +27,17 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
-
-NS_ASSUME_NONNULL_BEGIN
+import Foundation
 
 /**
- * Protocol defining an SDK-based app delegate.
+ * Models a `sfap_api` `embeddings` endpoint request.
+ * See https://developer.salesforce.com/docs/einstein/genai/references/models-api?meta=generateText
  */
-@protocol SFSDKAppDelegate <UIApplicationDelegate>
-
-/**
- The User-Agent string presented by this application
- */
-@property (nonatomic, readonly) NSString *userAgentString;
-
-/**
- * Forces a logout from the current account.
- * This throws out the OAuth refresh token.
- */
-- (void)logout;
-
-/**
- * Creates a snapshot view.
- */
-- (UIView*)createSnapshotView;
-
-@end
-
-NS_ASSUME_NONNULL_END
+@objc(SFEmbeddingsRequestBody)
+public class EmbeddingsRequestBody : NSObject, Codable {
+    public let input: Array<String>
+    
+    public init(input: Array<String>) {
+        self.input = input
+    }
+}

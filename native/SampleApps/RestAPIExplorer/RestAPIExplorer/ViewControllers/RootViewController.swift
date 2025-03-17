@@ -560,7 +560,11 @@ class RootViewController: UIViewController {
     @objc func userDidTapQueryButton(_ sender: UIButton) {
         print("handle tapped query button")
         self.view.endEditing(true)
-        guard let path = self.manualQueryTextField.text, let method = RestRequest.Method(rawValue: self.methodControl.selectedSegmentIndex) else {return}
+        
+        guard let path = self.manualQueryTextField.text,
+              let method = RestRequest.Method(rawValue: self.methodControl.selectedSegmentIndex) else {
+            return
+        }
         
         var queryParams: [String: Any]?
         if let params = self.paramsTextView.text {
@@ -568,13 +572,8 @@ class RootViewController: UIViewController {
         }
         
         let request = RestRequest(method: method, path: path, queryParams: queryParams)
-        RestClient.shared.send(request: request) { result in
-            switch result {
-                case .success(let response):
-                    self.handleSuccess(request: request, response: response)
-                case .failure(let error):
-                    self.handleError(request: request, error: error)
-            }
+        Task {
+            await handleResponseForRequest(request: request)
         }
     }
     
@@ -884,15 +883,21 @@ extension RootViewController: ActionTableViewDelegate {
             return
         }
         
-        if let sendRequest = request {
-            RestClient.shared.send(request: sendRequest) { result in
-                switch result {
-                    case .success(let response):
-                        self.handleSuccess(request: sendRequest, response: response)
-                    case .failure(let error):
-                        self.handleError(request: sendRequest, error: error)
-                }
+        if let requestToSend = request {
+            Task {
+                await handleResponseForRequest(request: requestToSend)
             }
+        }
+    }
+    
+    private func handleResponseForRequest(request: RestRequest) async {
+        do {
+            let response = try await RestClient.shared.send(request: request)
+            self.handleSuccess(request: request, response: response)
+        } catch let error as RestClientError {
+            self.handleError(request: request, error: error)
+        } catch {
+            self.handleError(request: request, error: RestClientError.invalidRequest(error.localizedDescription))
         }
     }
 }

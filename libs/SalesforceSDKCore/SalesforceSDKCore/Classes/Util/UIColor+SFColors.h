@@ -55,6 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (class, nonatomic, readonly) UIColor *salesforceAltBackgroundColor;
 @property (class, nonatomic, readonly) UIColor *salesforceAlt2BackgroundColor;
 @property (class, nonatomic, readonly) UIColor *salesforceTableCellBackgroundColor;
+@property (class, nonatomic, readonly) UIColor *salesforceNavBarTintColor;
 
 @end
 

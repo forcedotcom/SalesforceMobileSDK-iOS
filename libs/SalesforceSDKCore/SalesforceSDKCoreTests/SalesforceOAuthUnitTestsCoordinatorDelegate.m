@@ -50,4 +50,8 @@
     XCTFail(@"ASWebAuthenticationSession auth flow is not supported in unit test framework");
 }
 
+- (void)oauthCoordinatorDidBeginNativeAuthentication:(nonnull SFOAuthCoordinator *)coordinator { 
+    // ASWebAuthenticationSession auth flow is not supported in unit test framework.
+    XCTFail(@"ASWebAuthenticationSession auth flow is not supported in unit test framework");
+}
 @end

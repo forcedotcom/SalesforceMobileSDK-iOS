@@ -1,9 +1,10 @@
 /*
- SFSDKNewLoginHostViewController.h
+ GenerationsRequestBody.swift
  SalesforceSDKCore
  
- Created by Kunal Chitalia on 1/22/16.
- Copyright (c) 2016-present, salesforce.com, inc. All rights reserved.
+ Created by Eric C. Johnson (Johnson.Eric@Salesforce.com) on 20250108.
+ 
+ Copyright (c) 2025-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -26,31 +27,19 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
-
-NS_ASSUME_NONNULL_BEGIN
-
-@class SFSDKLoginHostListViewController;
+import Foundation
 
 /**
- * View controller that allows the user to enter a new login host that contains
- * a host (the server address) and an optional name.
+ Models a `sfap_api` `generations` endpoint request.
+ See https://developer.salesforce.com/docs/einstein/genai/references/models-api?meta=generateText
  */
-@interface SFSDKNewLoginHostViewController : UITableViewController <UITextFieldDelegate>
-
-/** The server text field
-*/
-@property (nonatomic, strong) UITextField *server;
-
-/** The name text field
-*/
-@property (nonatomic, strong) UITextField *name;
-
-/** A reference to the login host list view controller used to add the host to the list of login hosts
- and to also properly resize the popover controller.
- */
-@property (nonatomic, weak) SFSDKLoginHostListViewController *loginHostListViewController;
-
-@end
-
-NS_ASSUME_NONNULL_END
+@objc(SFGenerationsRequestBody)
+class GenerationsRequestBody: NSObject, Codable {
+    
+    /// The request prompt parameter value
+    public let prompt: String
+    
+    public init(prompt: String) {
+        self.prompt = prompt
+    }
+}

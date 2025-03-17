@@ -27,13 +27,14 @@
  */
 
 #import "SFSDKLoginHostListViewController.h"
-#import "SFSDKNewLoginHostViewController.h"
 #import "SFSDKLoginHostStorage.h"
 #import "SFSDKLoginHost.h"
 #import "SFSDKResourceUtils.h"
 #import "SFManagedPreferences.h"
 #import "SFUserAccountManager.h"
 #import "SFSDKViewUtils.h"
+#import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
+
 static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCellIdentifier";
 
 @interface SFSDKLoginHostListViewController () <UINavigationControllerDelegate>
@@ -98,9 +99,10 @@ static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCel
  * Invoked when the user presses the Add button. This method presents the new login host view.
  */
 - (void)showAddLoginHost:(id)sender {
-    SFSDKNewLoginHostViewController *detailViewController = [[SFSDKNewLoginHostViewController alloc] initWithStyle:UITableViewStyleGrouped];
-    detailViewController.loginHostListViewController = self;
-    
+    UIViewController *detailViewController = [SFSDKNewLoginHostViewController viewControllerWithConfig:self.config saveAction:^(NSString * _Nonnull host, NSString * _Nullable label) {
+        [self addLoginHost:[SFSDKLoginHost hostWithName:label host:host deletable:YES]];
+    }];
+
     if ([self.delegate respondsToSelector:@selector(hostListViewController:willPresentLoginHostViewController:)]) {
         [self.delegate hostListViewController:self willPresentLoginHostViewController:self];
     }

@@ -41,6 +41,7 @@
 #import "SFSDKMacDetectUtil.h"
 #import "SFSDKSalesforceSDKUpgradeManager.h"
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
+#import "SFSDKWindowManager+Internal.h"
 
 static NSString * const kSFAppFeatureSwiftApp    = @"SW";
 static NSString * const kSFAppFeatureMultiUser   = @"MU";
@@ -106,10 +107,6 @@ SFNativeLoginManagerInternal *nativeLogin;
     self.view.frame = [UIScreen mainScreen].bounds;
     self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.view.backgroundColor = [UIColor salesforceSystemBackgroundColor];
-}
-
-- (BOOL)shouldAutorotate {
-    return YES;
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
@@ -279,6 +276,7 @@ SFNativeLoginManagerInternal *nativeLogin;
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAppBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAppTerminate:) name:UIApplicationWillTerminateNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleSceneWillEnterForeground:) name:UISceneWillEnterForegroundNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleSceneDidActivate:) name:UISceneDidActivateNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleSceneDidEnterBackground:) name:UISceneDidEnterBackgroundNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleSceneWillConnect:) name:UISceneWillConnectNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleSceneDidDisconnect:) name:UISceneDidDisconnectNotification object:nil];
@@ -494,6 +492,7 @@ SFNativeLoginManagerInternal *nativeLogin;
             @"IDP Enabled", [self idpEnabled] ? @"YES" : @"NO",
             @"Identity Provider", [self isIdentityProvider] ? @"YES" : @"NO",
             @"Current User", [self userToString:userAccountManager.currentUser],
+            @"Access Token Expiration", [self accessTokenExpiration],
             @"Authenticated Users", [self usersToString:userAccountManager.allUserAccounts],
             @"User Key-Value Stores", [self safeJoin:[SFSDKKeyValueEncryptedFileStore allStoreNames] separator:@", "],
             @"Global Key-Value Stores", [self safeJoin:[SFSDKKeyValueEncryptedFileStore allGlobalStoreNames] separator:@", "]
@@ -506,8 +505,27 @@ SFNativeLoginManagerInternal *nativeLogin;
     if ([managedPreferences hasManagedPreferences]) {
         [devInfos addObjectsFromArray:[self dictToDevInfos:managedPreferences.rawPreferences keyPrefix:@"Managed Pref"]];
     }
-
+    
     return devInfos;
+}
+
+- (NSString *) accessTokenExpiration {
+    SFOAuthCredentials* creds = [SFUserAccountManager sharedInstance].currentUser.credentials;
+    NSString* expiration = @"Unknown";
+    
+    if ([creds.tokenFormat isEqualToString:@"jwt"]) {
+        SFSDKJwtAccessToken* jwtAccessToken = [[SFSDKJwtAccessToken alloc] initWithJwt:creds.accessToken error:nil];
+        if (jwtAccessToken) {
+            NSDate* expirationDate = jwtAccessToken.expirationDate;
+            if (expirationDate) {
+                NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+                expiration = [dateFormatter stringFromDate:expirationDate];
+            }
+        }
+    }
+    
+    return expiration;
 }
 
 - (NSString*) userToString:(SFUserAccount*)user {
@@ -575,20 +593,37 @@ SFNativeLoginManagerInternal *nativeLogin;
 - (void)handleAppTerminate:(NSNotification *)notification { }
 
 - (void)handleSceneWillEnterForeground:(NSNotification *)notification {
-     UIScene *scene = (UIScene *)notification.object;
-     NSString *sceneId = scene.session.persistentIdentifier;
-     [SFSDKCoreLogger d:[self class] format:@"Scene %@ is resuming active state.", sceneId];
+    UIScene *scene = [self sceneFromNotification:notification];
+    NSString *sceneId = scene.session.persistentIdentifier;
+    [SFSDKCoreLogger d:[self class] format:@"Scene %@ is entering foreground.", sceneId];
 
-     @try {
-         [self dismissSnapshot:scene completion:nil];
-     }
-     @catch (NSException *exception) {
-         [SFSDKCoreLogger w:[self class] format:@"Exception thrown while removing security snapshot view for scene %@: '%@'. Will continue to resume scene.", sceneId, [exception reason]];
-     }
+    // Using this to dismiss snapshot for screen mirroring
+    if (scene.session.role == UIWindowSceneSessionRoleExternalDisplayNonInteractive) {
+        @try {
+            [self dismissSnapshot:scene completion:nil];
+        }
+        
+        @catch (NSException *exception) {
+            [SFSDKCoreLogger w:[self class] format:@"Exception thrown while removing security snapshot view for scene %@: '%@'. Will continue to resume scene.", sceneId, [exception reason]];
+        }
+    }
+}
+
+- (void)handleSceneDidActivate:(NSNotification *)notification {
+    UIScene *scene = [self sceneFromNotification:notification];
+    NSString *sceneId = scene.session.persistentIdentifier;
+    [SFSDKCoreLogger d:[self class] format:@"Scene %@ is resuming active state.", sceneId];
+
+    @try {
+        [self dismissSnapshot:scene completion:nil];
+    }
+    @catch (NSException *exception) {
+        [SFSDKCoreLogger w:[self class] format:@"Exception thrown while removing security snapshot view for scene %@: '%@'. Will continue to resume scene.", sceneId, [exception reason]];
+    }
 }
 
 - (void)handleSceneWillConnect:(NSNotification *)notification {
-    UIScene *scene = (UIScene *)notification.object;
+    UIScene *scene = [self sceneFromNotification:notification];
     if (scene.activationState == UISceneActivationStateBackground) {
         SFSDKWindowContainer *activeWindow = [[SFSDKWindowManager sharedManager] activeWindow:scene];
         if ([activeWindow isAuthWindow] || [activeWindow isScreenLockWindow]) {
@@ -599,7 +634,7 @@ SFNativeLoginManagerInternal *nativeLogin;
 }
 
 - (void)handleSceneDidEnterBackground:(NSNotification *)notification {
-    UIScene *scene = (UIScene *)notification.object;
+    UIScene *scene = [self sceneFromNotification:notification];
     NSString *sceneId = scene.session.persistentIdentifier;
 
     [SFSDKCoreLogger d:[self class] format:@"Scene %@ is entering background.", sceneId];
@@ -627,8 +662,18 @@ SFNativeLoginManagerInternal *nativeLogin;
 }
 
 - (void)handleSceneDidDisconnect:(NSNotification *)notification {
-    UIScene *scene = (UIScene *)notification.object;
+    UIScene *scene = [self sceneFromNotification:notification];
     [self.snapshotViewControllers removeObject:scene.session.persistentIdentifier];
+}
+
+- (UIScene *)sceneFromNotification:(NSNotification *)notification {
+    id object = notification.object;
+    if ([object isKindOfClass:[UIScene class]]) {
+        return object;
+    } else {
+        [SFSDKCoreLogger w:[self class] message:@"Unable to derive scene from notification, using default"];
+        return [[SFSDKWindowManager sharedManager] defaultScene];
+    }
 }
 
 - (void)handleAuthCompleted:(NSNotification *)notification { }

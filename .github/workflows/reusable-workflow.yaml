@@ -1,0 +1,63 @@
+on:
+  workflow_call:
+    inputs:
+      lib:
+        required: true
+        type: string
+      ios:
+        default: "^18"
+        required: false
+        type: string
+      xcode:
+        default: "^16"
+        required: false
+        type: string
+      macos:
+        default: macos-15
+        required: false
+        type: string
+      is_pr:
+        type: boolean
+        default: false
+
+jobs:
+  test-ios:
+    runs-on: ${{ inputs.macos }}
+    steps:
+      - uses: actions/checkout@v4
+        if: ${{ inputs.is_pr }}
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/checkout@v4
+        if: ${{ ! inputs.is_pr }}
+        with:
+          ref: ${{ github.head_ref }}
+      - name: Install Dependencies
+        env:
+          TEST_CREDENTIALS: ${{ secrets.TEST_CREDENTIALS }}
+        run: |
+          ./install.sh
+          echo $TEST_CREDENTIALS > ./shared/test/test_credentials.json
+      - uses: mxcl/xcodebuild@v3
+        with:
+          xcode: ${{ inputs.xcode }}
+          platform: iOS
+          platform-version: ${{ inputs.ios }}
+          workspace: SalesforceMobileSDK.xcworkspace
+          scheme: ${{ inputs.lib }}
+          code-coverage: true
+          verbosity: xcbeautify
+      - uses: slidoapp/xcresulttool@v3.1.0
+        with:
+          path: test.xcresult
+          title: "${{ inputs.lib }} iOS ${{ inputs.ios }}"
+          show-code-coverage: false
+          upload-bundles: false
+          show-passed-tests: false
+        if: success() || failure()
+      - uses: codecov/codecov-action@v4
+        with:
+          flags: ${{ inputs.lib }}
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        if: success() || failure()

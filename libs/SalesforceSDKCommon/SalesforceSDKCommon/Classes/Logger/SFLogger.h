@@ -28,6 +28,8 @@
 #import <Foundation/Foundation.h>
 #import <os/log.h>
 
+@protocol SFLogReceiverFactory;
+
 typedef NS_ENUM(NSUInteger, SFLogLevel){
     SFLogLevelDefault =  OS_LOG_TYPE_DEFAULT,
     SFLogLevelInfo    =  OS_LOG_TYPE_INFO,
@@ -364,6 +366,12 @@ NS_SWIFT_NAME(SalesforceLogger)
  * @param logger Class.
  */
 + (void)setInstanceClass:(Class<SFLogging>)logger;
+
+/**
+ * Sets the log receiver factory which creates log receivers.
+ * @param logReceiverFactory The log receiver factory
+ */
++ (void)setLogReceiverFactory:(id<SFLogReceiverFactory>)logReceiverFactory;
 
 /**
  * Get the default Logger.

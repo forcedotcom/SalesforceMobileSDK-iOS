@@ -1247,7 +1247,7 @@ static NSException *authException = nil;
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     NSDictionary* response = listener.dataResponse;
     @try {
-        SFSDKPrimingRecordsResponse* parsedResponse = [[SFSDKPrimingRecordsResponse alloc] initWith:response];
+        (void)[[SFSDKPrimingRecordsResponse alloc] initWith:response];
     }
     @catch (NSException *exception) {
         XCTFail(@"Unexpected error %@", exception);
@@ -1446,7 +1446,6 @@ static NSException *authException = nil;
     XCTAssertEqualObjects(accountsRetrieved[0][@"Name"], firstAccountNameUpdated);
     XCTAssertEqualObjects(accountsRetrieved[1][@"Name"], secondAccountNameUpdated);
 }
-
 
 - (void) testCollectionUpdate {
     NSString* firstAccountName = [NSString stringWithFormat:@"%@_account_1_%lf", ENTITY_PREFIX_NAME, CFAbsoluteTimeGetCurrent()];
@@ -1935,6 +1934,7 @@ static NSException *authException = nil;
     XCTAssertTrue(range.location!= NSNotFound && range.length > 0 , "The URL must have communities path");
     
 }
+
 // Upload files / get owned files / delete files / get owned files again
 - (void)testUploadOwnedFilesDelete {
 
@@ -2898,8 +2898,14 @@ static NSException *authException = nil;
      XCTestExpectation *getExpectation = [self expectationWithDescription:@"Get"];
     __block NSError *error = nil;
     __block NSDictionary *response = nil;
-    SFRestRequest *request = [SFRestRequest customUrlRequestWithMethod:SFRestMethodGET baseURL:@"https://api.github.com" path:@"/orgs/forcedotcom/repos" queryParams:nil];
-    XCTAssertEqual(request.baseURL, @"https://api.github.com", @"Base URL should match");
+    NSString *testBaseURL = @"https://mobilesdk.my.salesforce.com";
+    NSString *testPathURL = @"/.well-known/auth-configuration";
+    SFRestRequest *request = [SFRestRequest customUrlRequestWithMethod:SFRestMethodGET
+                                                               baseURL:testBaseURL
+                                                                  path:testPathURL
+                                                           queryParams:nil];
+    XCTAssertEqual(request.baseURL, testBaseURL, @"Base URL should match");
+    XCTAssertEqual(request.path, testPathURL, @"Path URL should match");
     [[SFRestAPI sharedGlobalInstance] sendRequest:request failureBlock:^(id resp, NSError *e, NSURLResponse *rawResponse) {
         error = e;
         [getExpectation fulfill];
@@ -2907,10 +2913,10 @@ static NSException *authException = nil;
         response = resp;
         [getExpectation fulfill];
     }];
-    [self waitForExpectations:@[getExpectation] timeout:20];
-    XCTAssertTrue(error == nil,@"RestApi call to a public api should not fail");
-    XCTAssertFalse(response == nil,@"RestApi call to a public api should not have a nil response");
-    XCTAssertTrue(response.count > 0 ,@"The response should have github/forcedotcom repos");
+    [self waitForExpectations:@[getExpectation] timeout:30];
+    XCTAssertTrue(error == nil, @"RestApi call to a public api should not fail. Error: %@", [error localizedDescription]);
+    XCTAssertFalse(response == nil, @"RestApi call to a public api should not have a nil response");
+    XCTAssertTrue(response.count > 0, @"The response should have github/forcedotcom repos");
 }
 
 - (void)testCustomSalesforceEndpoint {

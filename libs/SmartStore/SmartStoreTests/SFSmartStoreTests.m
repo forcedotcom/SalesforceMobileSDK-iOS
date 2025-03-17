@@ -115,6 +115,18 @@
     XCTAssertEqualObjects(version, @"4.6.1 community");
 }
 
+- (void) testCipherProviderVersion
+{
+    NSString* cipherProviderVersion = [self.store getCipherProviderVersion];
+    XCTAssertEqualObjects(cipherProviderVersion, @"unknown");
+}
+
+- (void) testCipherFIPSStatus
+{
+    BOOL cipherFIPSStatus = [self.store getCipherFIPSStatus];
+    XCTAssertFalse(cipherFIPSStatus);
+}
+
 /**
  * Test fts extension
  */

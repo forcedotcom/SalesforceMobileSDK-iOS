@@ -23,6 +23,7 @@
  */
 
 #import "SFSmartStoreDatabaseManager+Internal.h"
+#import "SFSmartStore+Internal.h"
 #import <SalesforceSDKCore/UIDevice+SFHardware.h>
 #import <SalesforceSDKCore/NSData+SFAdditions.h>
 #import <SalesforceSDKCore/NSString+SFAdditions.h>
@@ -145,12 +146,12 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
     return [[self class] openDatabaseWithPath:fullDbFilePath key:key salt:salt error:error];
 }
 
-// If you created your database with an app based on Mobile SDK 5.3.0 using cocoapod
-// Then the key was never applied, and the database can be read directly
+// If you created your database with an app based on Mobile SDK 12.0 or 12.1.x using cocoapod
+// Then SQLCipher was not properly linked
 // This method checks for that situation and encrypt the database if needed
-- (void)fixFor530Bug:(NSString *)storeName key:(NSString *)key salt:(NSString *)salt {
+- (void)fixFor12Bug:(NSString *)storeName key:(NSString *)key salt:(NSString *)salt {
     NSString *fullDbFilePath = [self fullDbFilePathForStoreName:storeName];
-    
+
     __block BOOL needEncrypting = NO;
     [[FMDatabaseQueue databaseQueueWithPath:fullDbFilePath] inDatabase:^(FMDatabase* db) {
         // In the normal case, the db will not be readable - we don't want to be logging any errors
@@ -159,20 +160,22 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
         needEncrypting = [[self class] verifyDatabaseAccess:db error:nil];
         db.logsErrors = logsErrors;
     }];
-    
+
     if (needEncrypting) {
         [[self class] encryptDbWithStoreName:storeName storePath:fullDbFilePath key:key salt:salt error:nil];
     }
 }
 
 - (FMDatabaseQueue *)openStoreQueueWithName:(NSString *)storeName key:(NSString *)key salt:(NSString *)salt error:(NSError * __autoreleasing *)error {
-    [self fixFor530Bug:storeName key:key salt:salt];
+    
+    [self fixFor12Bug:storeName key:key salt:salt];
     
     __block BOOL result = YES;
     NSString *fullDbFilePath = [self fullDbFilePathForStoreName:storeName];
     FMDatabaseQueue *queue = [FMDatabaseQueue databaseQueueWithPath:fullDbFilePath];
     [queue inDatabase:^(FMDatabase* db) {
         result = ([[self class] setKeyForDb:db key:key salt:salt error:error] != nil);
+        result = result && [db goodConnection]; // make sure SQLCipher is properly linked
     }];
     return (result ? queue : nil);
 }
@@ -199,6 +202,9 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
 
 + (FMDatabase*) unlockDatabase:(FMDatabase*)db key:(NSString*)key salt:(NSString *)salt {
     if ([db open]) {
+        if ([SFSmartStore licenseKey])
+            [[db executeQuery:[NSString stringWithFormat:@"PRAGMA cipher_license = '%@'", [SFSmartStore licenseKey]]] close];
+        
         if (key)
            [db setKey:key];
         
@@ -436,8 +442,7 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
 
 + (BOOL)verifyDatabaseAccess:(FMDatabase *)db error:(NSError **)error
 {
-    NSString *sqlCommand = @"SELECT name FROM sqlite_master LIMIT 1";
-    FMResultSet *rs = [db executeQuery:sqlCommand];
+    FMResultSet *rs = [db executeQuery:@"select name from sqlite_master where type='table'"];
     if (rs == nil) {
         // May not be results, but rs should never be nil coming back.
         if (error != nil) {
@@ -446,11 +451,9 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
                                          code:kSFSmartStoreVerifyReadDbErrorCode
                                      userInfo:@{NSLocalizedDescriptionKey: errorDesc}];
         }
-        [rs close];
         return NO;
     }
     
-    [rs close];
     return YES;
 }
 

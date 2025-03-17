@@ -39,7 +39,7 @@
 @implementation ScreenLockManagerTests
 
 - (void)setUp {
-    BOOL _ = [SFSDKKeychainHelper removeAll];
+    (void)[SFSDKKeychainHelper removeAll];
 }
 
 - (void)testShouldNotLock {

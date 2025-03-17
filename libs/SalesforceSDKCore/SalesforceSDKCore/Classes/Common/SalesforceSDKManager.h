@@ -221,12 +221,9 @@ NS_SWIFT_NAME(SalesforceManager)
  */
 @property (nonatomic, assign) BOOL isDevSupportEnabled;
 
-/** Use this flag to indicate if the login webview should be inspectable (NB: only applies to iOS 16.4 and above)
+/** Use this flag to indicate if the login webview should be inspectable
  */
 @property (nonatomic, assign) BOOL isLoginWebviewInspectable;
-
-/*** Indicates if login via QR Code and UI bridge API is enabled */
-@property (nonatomic, assign) BOOL isQrCodeLoginEnabled;
 
 /** The type of cache used for the shared URL cache, defaults to kSFURLCacheTypeEncrypted.
 */
