@@ -167,6 +167,53 @@ NS_SWIFT_NAME(RestClient)
 - (SFRestRequest *)cheapRequest:(nullable NSString *)apiVersion;
 
 /**
+ * Returns an `SFRestRequest` object to retrieve the available notification types.
+ * The notification types define the possible push notifications the app can handle,
+ * including their structure and associated actions.
+ *
+ * This method automatically uses the default API version.
+ *
+ * @return An `SFRestRequest` object for fetching the notification types.
+ */
+- (SFRestRequest *)requestForNotificationTypes;
+
+/**
+ * Returns an `SFRestRequest` object to retrieve the available notification types.
+ * The notification types define the possible push notifications the app can handle,
+ * including their structure and associated actions.
+ *
+ * @param apiVersion The API version to use. If `nil`, the default API version is used.
+ * @return An `SFRestRequest` object for fetching the notification types.
+ */
+- (SFRestRequest *)requestForNotificationTypesWithVersion:(nullable NSString *)apiVersion;
+
+/**
+ * Returns an `SFRestRequest` object to invoke a server-side action for a specific notification.
+ * This is used when the user selects an action on a notification, and the action requires
+ * processing.
+ *
+ * This method automatically uses the default API version.
+ *
+ * @param notificationId The unique identifier of the notification.
+ * @param actionIdentifier The identifier of the action to invoke on the server.
+ * @return An `SFRestRequest` object for invoking a server-side notification action.
+ */
+- (SFRestRequest *)requestForInvokeNotificationAction:(NSString *)notificationId
+                                     actionIdentifier:(NSString *)actionIdentifier;
+/**
+ * Returns an `SFRestRequest` object to invoke a server-side action for a specific notification.
+ * This is used when the user selects an action on a notification, and the action requires
+ * processing.
+ *
+ * @param notificationId The unique identifier of the notification.
+ * @param actionIdentifier The identifier of the action to invoke on the server.
+ * @param apiVersion The API version to use. If `nil`, the default API version is used.
+ * @return An `SFRestRequest` object for invoking a server-side notification action.
+ */
+- (SFRestRequest *)requestForInvokeNotificationAction:(NSString *)notificationId
+                                     actionIdentifier:(NSString *)actionIdentifier
+                                           apiVersion:(nullable NSString *)apiVersion;
+/**
  * Returns an `SFRestRequest` object that lists available resources for the
  * client's API version, including resource name and URI.
  * @param apiVersion API version.

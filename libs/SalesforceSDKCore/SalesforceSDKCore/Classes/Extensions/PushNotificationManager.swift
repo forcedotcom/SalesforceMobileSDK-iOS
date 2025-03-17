@@ -114,8 +114,7 @@ extension PushNotificationManager {
         guard client.apiVersion.compare("v64.0").rawValue >= 0 else {
             throw PushNotificationManagerError.notificationActionInvocationFailed("API Version must be at least v64.0")
         }
-        
-        let request = RestRequest(method: .GET, path: "\(client.apiVersion)/connect/notifications/types", queryParams: nil)
+        let request = client.requestForNotificationTypes()
         let response = try await client.send(request: request)
         do {
             let result = try JSONDecoder().decode(NotificationTypesResponse.self, from: response.data)
@@ -249,9 +248,7 @@ extension PushNotificationManager {
             throw PushNotificationManagerError.notificationActionInvocationFailed("API Version must be at least v64.0")
         }
         
-        let path = "\(client.apiVersion)/connect/notifications/\(notificationId)/actions/\(actionIdentifier)"
-        let request = RestRequest(method: .POST, path: path, queryParams: nil)
-        
+        let request = client.request(forInvokeNotificationAction: notificationId, actionIdentifier: actionIdentifier)
         do {
             let response = try await client.send(request: request)
             return try response.asDecodable(type: ActionResultRepresentation.self)
