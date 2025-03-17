@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSPLoginError.html">
+	<File path="Constants/SFUserAccountAccessRestriction.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSPLoginError</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFUserAccountAccessRestriction</TokenIdentifier>
+			<Abstract type="html">User account restrictions</Abstract>
+			<DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
 			
 			<NodeRef refid="195"/>
@@ -14,41 +14,41 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSPLoginErrorNoScheme</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountAccessRestrictionNone</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSPLoginErrorNoScheme</Declaration>
+            <Declaration>SFUserAccountAccessRestrictionNone</Declaration>
             
-            <DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
             <NodeRef refid="195"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSPLoginErrorNoUserIdentity</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountAccessRestrictionChatter</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSPLoginErrorNoUserIdentity</Declaration>
+            <Declaration>SFUserAccountAccessRestrictionChatter</Declaration>
             
-            <DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
             <NodeRef refid="195"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSPLoginErrorKeychainWriteFailed</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountAccessRestrictionREST</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSPLoginErrorKeychainWriteFailed</Declaration>
+            <Declaration>SFUserAccountAccessRestrictionREST</Declaration>
             
-            <DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
             <NodeRef refid="195"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSPLoginErrorCredentialRefreshFailed</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountAccessRestrictionOther</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSPLoginErrorCredentialRefreshFailed</Declaration>
+            <Declaration>SFUserAccountAccessRestrictionOther</Declaration>
             
-            <DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
             <NodeRef refid="195"/>
         </Token>

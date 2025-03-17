@@ -701,6 +701,23 @@
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFLogger/setLogReceiverFactory:</TokenIdentifier>
+			<Abstract type="html">Sets the log receiver factory which creates log receivers.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>+ (void)setLogReceiverFactory:(id&lt;SFLogReceiverFactory&gt;)logReceiverFactory</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>logReceiverFactory</Name>
+					<Abstract type="html">The log receiver factory</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setLogReceiverFactory:</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFLogger/setDefaultLogger:</TokenIdentifier>
 			<Abstract type="html">Get the default Logger.</Abstract>
 			<DeclaredIn>SFLogger.h</DeclaredIn>

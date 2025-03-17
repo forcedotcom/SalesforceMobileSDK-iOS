@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSDKURLHandler.html">
+	<File path="Protocols/SFSDKUserSelectionViewDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSDKURLHandler</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSDKUserSelectionViewDelegate</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKURLHandler.h</DeclaredIn>
+			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
             
 			
 			<NodeRef refid="171"/>
@@ -13,38 +13,38 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKURLHandler/canHandleRequest:options:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionViewDelegate/createNewUser:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKURLHandler.h</DeclaredIn>
+			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)canHandleRequest:(nonnull NSURL *)url options:(nullable NSDictionary *)options</Declaration>
+			<Declaration>- (void)createNewUser:(NSDictionary *)spAppOptions</Declaration>
 			
 			
-			<Anchor>//api/name/canHandleRequest:options:</Anchor>
+			<Anchor>//api/name/createNewUser:</Anchor>
             <NodeRef refid="171"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKURLHandler/processRequest:options:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionViewDelegate/selectedUser:spAppContext:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKURLHandler.h</DeclaredIn>
+			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)processRequest:(nonnull NSURL *)url options:(nullable NSDictionary *)options</Declaration>
+			<Declaration>- (void)selectedUser:(SFUserAccount *)user spAppContext:(NSDictionary *)spAppOptions</Declaration>
 			
 			
-			<Anchor>//api/name/processRequest:options:</Anchor>
+			<Anchor>//api/name/selectedUser:spAppContext:</Anchor>
             <NodeRef refid="171"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKURLHandler/processRequest:options:completion:failure:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionViewDelegate/cancel:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKURLHandler.h</DeclaredIn>
+			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)processRequest:(nonnull NSURL *)url options:(nullable NSDictionary *)options completion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock</Declaration>
+			<Declaration>- (void)cancel:(NSDictionary *)spAppOptions</Declaration>
 			
 			
-			<Anchor>//api/name/processRequest:options:completion:failure:</Anchor>
+			<Anchor>//api/name/cancel:</Anchor>
             <NodeRef refid="171"/>
 		</Token>
 		

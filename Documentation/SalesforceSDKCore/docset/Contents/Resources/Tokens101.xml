@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKPrimingStats.html">
+	<File path="Classes/SFSDKPushNotificationDecryption.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKPrimingStats</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKPushNotificationDecryption</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
+			<DeclaredIn>SFSDKPushNotificationDecryption.h</DeclaredIn>
             
 			
 			<NodeRef refid="101"/>
@@ -13,194 +13,58 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingStats/setDict:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKPushNotificationDecryption/decryptNotificationContent:error:</TokenIdentifier>
+			<Abstract type="html">Decrypts the given notification content. Leaves the content unchanged if it&apos;s not encrypted.</Abstract>
+			<DeclaredIn>SFSDKPushNotificationDecryption.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSDictionary *dict</Declaration>
-			
-			
-			<Anchor>//api/name/dict</Anchor>
+			<Declaration>+ (BOOL)decryptNotificationContent:(nonnull UNMutableNotificationContent *)notificationContent error:(NSError *_Nullable *_Nullable)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>notificationContent</Name>
+					<Abstract type="html">Content to decrypt.</Abstract>
+				</Parameter><Parameter>
+					<Name>error</Name>
+					<Abstract type="html">The error associated with decryption, if an error occurs.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES on success, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/decryptNotificationContent:error:</Anchor>
             <NodeRef refid="101"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingStats/dict</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKPushNotificationDecryption/validateNotificationUserInfo:error:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
+			<DeclaredIn>SFSDKPushNotificationDecryption+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSDictionary *dict</Declaration>
+			<Declaration>+ (BOOL)validateNotificationUserInfo:(nonnull NSDictionary *)userInfo error:(NSError *_Nullable *_Nullable)error</Declaration>
 			
 			
-			<Anchor>//api/name/dict</Anchor>
+			<Anchor>//api/name/validateNotificationUserInfo:error:</Anchor>
             <NodeRef refid="101"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPrimingStats/dict</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKPushNotificationDecryption/getAESKeyFromSecret:error:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
+			<DeclaredIn>SFSDKPushNotificationDecryption+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSDictionary *dict</Declaration>
+			<Declaration>+ (nullable SFEncryptionKey *)getAESKeyFromSecret:(nonnull NSString *)secret error:(NSError *_Nullable *_Nullable)error</Declaration>
 			
 			
-			<Anchor>//api/name/dict</Anchor>
+			<Anchor>//api/name/getAESKeyFromSecret:error:</Anchor>
             <NodeRef refid="101"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingStats/setRuleCountTotal:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKPushNotificationDecryption/aesDecryptString:withKey:error:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
+			<DeclaredIn>SFSDKPushNotificationDecryption+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSUInteger ruleCountTotal</Declaration>
-			
-			
-			<Anchor>//api/name/ruleCountTotal</Anchor>
-            <NodeRef refid="101"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingStats/ruleCountTotal</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSUInteger ruleCountTotal</Declaration>
+			<Declaration>+ (nullable NSString *)aesDecryptString:(nonnull NSString *)encryptedString withKey:(nonnull SFEncryptionKey *)key error:(NSError *_Nullable *_Nullable)error</Declaration>
 			
 			
-			<Anchor>//api/name/ruleCountTotal</Anchor>
-            <NodeRef refid="101"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPrimingStats/ruleCountTotal</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSUInteger ruleCountTotal</Declaration>
-			
-			
-			<Anchor>//api/name/ruleCountTotal</Anchor>
-            <NodeRef refid="101"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingStats/setRecordCountTotal:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSUInteger recordCountTotal</Declaration>
-			
-			
-			<Anchor>//api/name/recordCountTotal</Anchor>
-            <NodeRef refid="101"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingStats/recordCountTotal</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSUInteger recordCountTotal</Declaration>
-			
-			
-			<Anchor>//api/name/recordCountTotal</Anchor>
-            <NodeRef refid="101"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPrimingStats/recordCountTotal</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSUInteger recordCountTotal</Declaration>
-			
-			
-			<Anchor>//api/name/recordCountTotal</Anchor>
-            <NodeRef refid="101"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingStats/setRuleCountServed:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSUInteger ruleCountServed</Declaration>
-			
-			
-			<Anchor>//api/name/ruleCountServed</Anchor>
-            <NodeRef refid="101"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingStats/ruleCountServed</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSUInteger ruleCountServed</Declaration>
-			
-			
-			<Anchor>//api/name/ruleCountServed</Anchor>
-            <NodeRef refid="101"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPrimingStats/ruleCountServed</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSUInteger ruleCountServed</Declaration>
-			
-			
-			<Anchor>//api/name/ruleCountServed</Anchor>
-            <NodeRef refid="101"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingStats/setRecordCountServed:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSUInteger recordCountServed</Declaration>
-			
-			
-			<Anchor>//api/name/recordCountServed</Anchor>
-            <NodeRef refid="101"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingStats/recordCountServed</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSUInteger recordCountServed</Declaration>
-			
-			
-			<Anchor>//api/name/recordCountServed</Anchor>
-            <NodeRef refid="101"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPrimingStats/recordCountServed</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSUInteger recordCountServed</Declaration>
-			
-			
-			<Anchor>//api/name/recordCountServed</Anchor>
-            <NodeRef refid="101"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingStats/initWith:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
-			
-			<Declaration>- (instancetype)initWith:(NSDictionary *)dict</Declaration>
-			
-			
-			<Anchor>//api/name/initWith:</Anchor>
+			<Anchor>//api/name/aesDecryptString:withKey:error:</Anchor>
             <NodeRef refid="101"/>
 		</Token>
 		

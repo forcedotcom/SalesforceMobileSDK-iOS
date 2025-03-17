@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFUserAccountChange.html">
+	<File path="Constants/SFUserAccountScope.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFUserAccountChange</TokenIdentifier>
-			<Abstract type="html">The various changes that can affect a user account</Abstract>
+			<TokenIdentifier>//apple_ref/c/tdef/SFUserAccountScope</TokenIdentifier>
+			<Abstract type="html">The various scopes related to a user account</Abstract>
 			<DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
 			
@@ -14,10 +14,10 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountChangeUnknown</TokenIdentifier>
-            <Abstract type="html">Unknown change
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountScopeGlobal</TokenIdentifier>
+            <Abstract type="html">Global scope (one per application)
      </Abstract>
-            <Declaration>SFUserAccountChangeUnknown</Declaration>
+            <Declaration>SFUserAccountScopeGlobal</Declaration>
             
             <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
@@ -25,10 +25,10 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountChangeNewUser</TokenIdentifier>
-            <Abstract type="html">New User
-      </Abstract>
-            <Declaration>SFUserAccountChangeNewUser</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountScopeOrg</TokenIdentifier>
+            <Abstract type="html">Scope by organization
+     </Abstract>
+            <Declaration>SFUserAccountScopeOrg</Declaration>
             
             <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
@@ -36,10 +36,21 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountChangeCurrentUser</TokenIdentifier>
-            <Abstract type="html">Change of Current User
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountScopeUser</TokenIdentifier>
+            <Abstract type="html">Scope by user
      </Abstract>
-            <Declaration>SFUserAccountChangeCurrentUser</Declaration>
+            <Declaration>SFUserAccountScopeUser</Declaration>
+            
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+            
+            <NodeRef refid="199"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountScopeCommunity</TokenIdentifier>
+            <Abstract type="html">Scope by community
+     </Abstract>
+            <Declaration>SFUserAccountScopeCommunity</Declaration>
             
             <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             

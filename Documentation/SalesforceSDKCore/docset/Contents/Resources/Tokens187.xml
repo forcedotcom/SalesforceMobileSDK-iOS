@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFOAuthTokenEndpointFlow.html">
+	<File path="Constants/SFSDKAppConfigErrorCode.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthTokenEndpointFlow</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSDKAppConfigErrorCode</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
             
 			
 			<NodeRef refid="187"/>
@@ -14,31 +14,31 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTokenEndpointFlowNone</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKAppConfigErrorCodeNoConsumerKey</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFOAuthTokenEndpointFlowNone</Declaration>
+            <Declaration>SFSDKAppConfigErrorCodeNoConsumerKey</Declaration>
             
-            <DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+            <DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
             
             <NodeRef refid="187"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTokenEndpointFlowRefresh</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKAppConfigErrorCodeNoRedirectURI</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFOAuthTokenEndpointFlowRefresh</Declaration>
+            <Declaration>SFSDKAppConfigErrorCodeNoRedirectURI</Declaration>
             
-            <DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+            <DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
             
             <NodeRef refid="187"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthTokenEndpointFlowAdvancedBrowser</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKAppConfigErrorCodeNoOAuthScopes</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFOAuthTokenEndpointFlowAdvancedBrowser</Declaration>
+            <Declaration>SFSDKAppConfigErrorCodeNoOAuthScopes</Declaration>
             
-            <DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+            <DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
             
             <NodeRef refid="187"/>
         </Token>

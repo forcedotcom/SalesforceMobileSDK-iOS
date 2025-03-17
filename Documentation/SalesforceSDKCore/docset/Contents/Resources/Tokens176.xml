@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSDKWindowManagerDelegate.html">
+	<File path="Protocols/SalesforceSDKManagerFlow.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSDKWindowManagerDelegate</TokenIdentifier>
-			<Abstract type="html">Delegate of the SFSDKWindowManager</Abstract>
-			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SalesforceSDKManagerFlow</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
             
 			
 			<NodeRef refid="176"/>
@@ -13,82 +13,86 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKWindowManagerDelegate/windowManager:willPresentWindow:</TokenIdentifier>
-			<Abstract type="html">Called when the window will be made opaque</Abstract>
-			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleAppForeground:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
 			
-			<Declaration>- (void)windowManager:(SFSDKWindowManager *_Nonnull)windowManager willPresentWindow:(SFSDKWindowContainer *_Nonnull)window</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>windowManager</Name>
-					<Abstract type="html">The window manager making this call</Abstract>
-				</Parameter><Parameter>
-					<Name>window</Name>
-					<Abstract type="html">The window that will be made opaque</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (void)handleAppForeground:(nonnull NSNotification *)notification</Declaration>
 			
-			<Anchor>//api/name/windowManager:willPresentWindow:</Anchor>
+			
+			<Anchor>//api/name/handleAppForeground:</Anchor>
             <NodeRef refid="176"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKWindowManagerDelegate/windowManager:didPresentWindow:</TokenIdentifier>
-			<Abstract type="html">Called when the window has been made opaque</Abstract>
-			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleAppBackground:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
 			
-			<Declaration>- (void)windowManager:(SFSDKWindowManager *_Nonnull)windowManager didPresentWindow:(SFSDKWindowContainer *_Nonnull)window</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>windowManager</Name>
-					<Abstract type="html">The window manager making this call</Abstract>
-				</Parameter><Parameter>
-					<Name>window</Name>
-					<Abstract type="html">The window that has been made opaque</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (void)handleAppBackground:(nonnull NSNotification *)notification</Declaration>
 			
-			<Anchor>//api/name/windowManager:didPresentWindow:</Anchor>
+			
+			<Anchor>//api/name/handleAppBackground:</Anchor>
             <NodeRef refid="176"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKWindowManagerDelegate/windowManager:willDismissWindow:</TokenIdentifier>
-			<Abstract type="html">Called when the window will be made transparent</Abstract>
-			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleAppTerminate:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
 			
-			<Declaration>- (void)windowManager:(SFSDKWindowManager *_Nonnull)windowManager willDismissWindow:(SFSDKWindowContainer *_Nonnull)window</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>windowManager</Name>
-					<Abstract type="html">The window manager making this call</Abstract>
-				</Parameter><Parameter>
-					<Name>window</Name>
-					<Abstract type="html">The window will be made transparent</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (void)handleAppTerminate:(nonnull NSNotification *)notification</Declaration>
 			
-			<Anchor>//api/name/windowManager:willDismissWindow:</Anchor>
+			
+			<Anchor>//api/name/handleAppTerminate:</Anchor>
             <NodeRef refid="176"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKWindowManagerDelegate/windowManager:didDismissWindow:</TokenIdentifier>
-			<Abstract type="html">Called when the window is made transparent</Abstract>
-			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handlePostLogout</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
 			
-			<Declaration>- (void)windowManager:(SFSDKWindowManager *_Nonnull)windowManager didDismissWindow:(SFSDKWindowContainer *_Nonnull)window</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>windowManager</Name>
-					<Abstract type="html">The window manager making this call</Abstract>
-				</Parameter><Parameter>
-					<Name>window</Name>
-					<Abstract type="html">The window that has been made transparent</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (void)handlePostLogout</Declaration>
 			
-			<Anchor>//api/name/windowManager:didDismissWindow:</Anchor>
+			
+			<Anchor>//api/name/handlePostLogout</Anchor>
+            <NodeRef refid="176"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleAuthCompleted:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)handleAuthCompleted:(nonnull NSNotification *)notification</Declaration>
+			
+			
+			<Anchor>//api/name/handleAuthCompleted:</Anchor>
+            <NodeRef refid="176"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleIDPInitiatedAuthCompleted:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)handleIDPInitiatedAuthCompleted:(nonnull NSNotification *)notification</Declaration>
+			
+			
+			<Anchor>//api/name/handleIDPInitiatedAuthCompleted:</Anchor>
+            <NodeRef refid="176"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleUserDidLogout:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)handleUserDidLogout:(nonnull NSNotification *)notification</Declaration>
+			
+			
+			<Anchor>//api/name/handleUserDidLogout:</Anchor>
             <NodeRef refid="176"/>
 		</Token>
 		

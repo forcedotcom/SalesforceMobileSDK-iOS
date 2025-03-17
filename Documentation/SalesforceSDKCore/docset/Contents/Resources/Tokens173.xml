@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSDKUserSelectionView.html">
+	<File path="Protocols/SFSDKWindowManagerDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSDKUserSelectionView</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSDKWindowManagerDelegate</TokenIdentifier>
+			<Abstract type="html">Delegate of the SFSDKWindowManager</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="173"/>
@@ -13,74 +13,82 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionView/setUserSelectionDelegate:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKWindowManagerDelegate/windowManager:willPresentWindow:</TokenIdentifier>
+			<Abstract type="html">Called when the window will be made opaque</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKUserSelectionViewDelegate&gt; userSelectionDelegate</Declaration>
+			<Declaration>- (void)windowManager:(SFSDKWindowManager *_Nonnull)windowManager willPresentWindow:(SFSDKWindowContainer *_Nonnull)window</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>windowManager</Name>
+					<Abstract type="html">The window manager making this call</Abstract>
+				</Parameter><Parameter>
+					<Name>window</Name>
+					<Abstract type="html">The window that will be made opaque</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/userSelectionDelegate</Anchor>
+			<Anchor>//api/name/windowManager:willPresentWindow:</Anchor>
             <NodeRef refid="173"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionView/userSelectionDelegate</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKWindowManagerDelegate/windowManager:didPresentWindow:</TokenIdentifier>
+			<Abstract type="html">Called when the window has been made opaque</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKUserSelectionViewDelegate&gt; userSelectionDelegate</Declaration>
+			<Declaration>- (void)windowManager:(SFSDKWindowManager *_Nonnull)windowManager didPresentWindow:(SFSDKWindowContainer *_Nonnull)window</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>windowManager</Name>
+					<Abstract type="html">The window manager making this call</Abstract>
+				</Parameter><Parameter>
+					<Name>window</Name>
+					<Abstract type="html">The window that has been made opaque</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/userSelectionDelegate</Anchor>
+			<Anchor>//api/name/windowManager:didPresentWindow:</Anchor>
             <NodeRef refid="173"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfp/SFSDKUserSelectionView/userSelectionDelegate</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKWindowManagerDelegate/windowManager:willDismissWindow:</TokenIdentifier>
+			<Abstract type="html">Called when the window will be made transparent</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKUserSelectionViewDelegate&gt; userSelectionDelegate</Declaration>
+			<Declaration>- (void)windowManager:(SFSDKWindowManager *_Nonnull)windowManager willDismissWindow:(SFSDKWindowContainer *_Nonnull)window</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>windowManager</Name>
+					<Abstract type="html">The window manager making this call</Abstract>
+				</Parameter><Parameter>
+					<Name>window</Name>
+					<Abstract type="html">The window will be made transparent</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/userSelectionDelegate</Anchor>
+			<Anchor>//api/name/windowManager:willDismissWindow:</Anchor>
             <NodeRef refid="173"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionView/setSpAppOptions:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKWindowManagerDelegate/windowManager:didDismissWindow:</TokenIdentifier>
+			<Abstract type="html">Called when the window is made transparent</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSDictionary *spAppOptions</Declaration>
+			<Declaration>- (void)windowManager:(SFSDKWindowManager *_Nonnull)windowManager didDismissWindow:(SFSDKWindowContainer *_Nonnull)window</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>windowManager</Name>
+					<Abstract type="html">The window manager making this call</Abstract>
+				</Parameter><Parameter>
+					<Name>window</Name>
+					<Abstract type="html">The window that has been made transparent</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/spAppOptions</Anchor>
-            <NodeRef refid="173"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionView/spAppOptions</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSDictionary *spAppOptions</Declaration>
-			
-			
-			<Anchor>//api/name/spAppOptions</Anchor>
-            <NodeRef refid="173"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfp/SFSDKUserSelectionView/spAppOptions</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSDictionary *spAppOptions</Declaration>
-			
-			
-			<Anchor>//api/name/spAppOptions</Anchor>
+			<Anchor>//api/name/windowManager:didDismissWindow:</Anchor>
             <NodeRef refid="173"/>
 		</Token>
 		

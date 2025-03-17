@@ -1,76 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKIDPAuthHelper.html">
+	<File path="Classes/SFSDKIDPConstants.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKIDPAuthHelper</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKIDPConstants</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKIDPAuthHelper.h</DeclaredIn>
+			<DeclaredIn>SFSDKIDPConstants.h</DeclaredIn>
             
 			
 			<NodeRef refid="76"/>
 		</Token>
 		
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKIDPAuthHelper/invokeIDPApp:completion:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKIDPAuthHelper.h</DeclaredIn>
-			
-			<Declaration>+ (void)invokeIDPApp:(SFSDKAuthSession *)session completion:(void ( ^ ) ( BOOL ))completionBlock</Declaration>
-			
-			
-			<Anchor>//api/name/invokeIDPApp:completion:</Anchor>
-            <NodeRef refid="76"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKIDPAuthHelper/invokeSPApp:completion:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKIDPAuthHelper.h</DeclaredIn>
-			
-			<Declaration>+ (void)invokeSPApp:(NSURL *)url completion:(void ( ^ ) ( BOOL ))completionBlock</Declaration>
-			
-			
-			<Anchor>//api/name/invokeSPApp:completion:</Anchor>
-            <NodeRef refid="76"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKIDPAuthHelper/invokeSPAppWithError:error:reason:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKIDPAuthHelper.h</DeclaredIn>
-			
-			<Declaration>+ (void)invokeSPAppWithError:(SFOAuthCredentials *)spAppCredentials error:(nullable NSError *)error reason:(NSString *)reason</Declaration>
-			
-			
-			<Anchor>//api/name/invokeSPAppWithError:error:reason:</Anchor>
-            <NodeRef refid="76"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKIDPAuthHelper/encodeScopes:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKIDPAuthHelper.h</DeclaredIn>
-			
-			<Declaration>+ (NSString *)encodeScopes:(NSSet&lt;NSString*&gt; *)requestScopes</Declaration>
-			
-			
-			<Anchor>//api/name/encodeScopes:</Anchor>
-            <NodeRef refid="76"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKIDPAuthHelper/decodeScopes:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKIDPAuthHelper.h</DeclaredIn>
-			
-			<Declaration>+ (NSSet&lt;NSString*&gt; *)decodeScopes:(NSString *)scopeString</Declaration>
-			
-			
-			<Anchor>//api/name/decodeScopes:</Anchor>
-            <NodeRef refid="76"/>
-		</Token>
 		
         
         

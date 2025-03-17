@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFRestRequestDelegate.html">
+	<File path="Protocols/SFSDKLoginFlowSelectionView.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFRestRequestDelegate</TokenIdentifier>
-			<Abstract type="html">Lifecycle events for REST requests.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSDKLoginFlowSelectionView</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKLoginFlowSelectionView.h</DeclaredIn>
             
 			
 			<NodeRef refid="163"/>
@@ -13,55 +13,74 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFRestRequestDelegate/request:didSucceed:rawResponse:</TokenIdentifier>
-			<Abstract type="html">Called when a request was successful.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKLoginFlowSelectionView/setSelectionFlowDelegate:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKLoginFlowSelectionView.h</DeclaredIn>
 			
-			<Declaration>- (void)request:(SFRestRequest *)request didSucceed:(id)dataResponse rawResponse:(NSURLResponse *)rawResponse</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>request</Name>
-					<Abstract type="html">REST request.</Abstract>
-				</Parameter><Parameter>
-					<Name>dataResponse</Name>
-					<Abstract type="html">The data from the response.  By default, this will be an object
-containing the parsed JSON response.  However, if the response is not JSON,
-the data will be contained in a binary NSData object.</Abstract>
-				</Parameter><Parameter>
-					<Name>rawResponse</Name>
-					<Abstract type="html">Raw response returned by the server.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (weak, nonatomic) id&lt;SFSDKLoginFlowSelectionViewDelegate&gt; selectionFlowDelegate</Declaration>
 			
-			<Anchor>//api/name/request:didSucceed:rawResponse:</Anchor>
+			
+			<Anchor>//api/name/selectionFlowDelegate</Anchor>
             <NodeRef refid="163"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFRestRequestDelegate/request:didFail:rawResponse:error:</TokenIdentifier>
-			<Abstract type="html">Called when a request failed.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKLoginFlowSelectionView/selectionFlowDelegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKLoginFlowSelectionView.h</DeclaredIn>
 			
-			<Declaration>- (void)request:(SFRestRequest *)request didFail:(id)dataResponse rawResponse:(NSURLResponse *)rawResponse error:(NSError *)error</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>request</Name>
-					<Abstract type="html">REST request.</Abstract>
-				</Parameter><Parameter>
-					<Name>dataResponse</Name>
-					<Abstract type="html">The data from the response.  By default, this will be an object
-containing the parsed JSON response.  However, if the response is not JSON,
-the data will be contained in a binary NSData object.</Abstract>
-				</Parameter><Parameter>
-					<Name>rawResponse</Name>
-					<Abstract type="html">Raw response returned by the server.</Abstract>
-				</Parameter><Parameter>
-					<Name>error</Name>
-					<Abstract type="html">Error received.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (weak, nonatomic) id&lt;SFSDKLoginFlowSelectionViewDelegate&gt; selectionFlowDelegate</Declaration>
 			
-			<Anchor>//api/name/request:didFail:rawResponse:error:</Anchor>
+			
+			<Anchor>//api/name/selectionFlowDelegate</Anchor>
+            <NodeRef refid="163"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfp/SFSDKLoginFlowSelectionView/selectionFlowDelegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKLoginFlowSelectionView.h</DeclaredIn>
+			
+			<Declaration>@property (weak, nonatomic) id&lt;SFSDKLoginFlowSelectionViewDelegate&gt; selectionFlowDelegate</Declaration>
+			
+			
+			<Anchor>//api/name/selectionFlowDelegate</Anchor>
+            <NodeRef refid="163"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKLoginFlowSelectionView/setAppOptions:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKLoginFlowSelectionView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSDictionary *appOptions</Declaration>
+			
+			
+			<Anchor>//api/name/appOptions</Anchor>
+            <NodeRef refid="163"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKLoginFlowSelectionView/appOptions</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKLoginFlowSelectionView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSDictionary *appOptions</Declaration>
+			
+			
+			<Anchor>//api/name/appOptions</Anchor>
+            <NodeRef refid="163"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfp/SFSDKLoginFlowSelectionView/appOptions</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKLoginFlowSelectionView.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSDictionary *appOptions</Declaration>
+			
+			
+			<Anchor>//api/name/appOptions</Anchor>
             <NodeRef refid="163"/>
 		</Token>
 		

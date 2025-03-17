@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSDKUserAccountManagerErrorCode.html">
+	<File path="Constants/SFSPLoginStatus.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSDKUserAccountManagerErrorCode</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSPLoginStatus</TokenIdentifier>
+			<Abstract type="html">  Key used to provide triggering scene info for IDP flow from a scene delegate.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="193"/>
@@ -14,21 +14,31 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKUserAccountManagerError</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSPLoginStatusLaunchingSPWithUserHint</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKUserAccountManagerError</Declaration>
+            <Declaration>SFSPLoginStatusLaunchingSPWithUserHint</Declaration>
             
-            <DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountManager.h</DeclaredIn>
             
             <NodeRef refid="193"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKUserAccountManagerCannotEncrypt</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSPLoginStatusCodeVerifierStoredInKeychain</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKUserAccountManagerCannotEncrypt</Declaration>
+            <Declaration>SFSPLoginStatusCodeVerifierStoredInKeychain</Declaration>
             
-            <DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+            
+            <NodeRef refid="193"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSPLoginStatusGettingAuthCodeFromServer</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSPLoginStatusGettingAuthCodeFromServer</Declaration>
+            
+            <DeclaredIn>SFUserAccountManager.h</DeclaredIn>
             
             <NodeRef refid="193"/>
         </Token>

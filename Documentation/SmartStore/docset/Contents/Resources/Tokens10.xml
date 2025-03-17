@@ -401,6 +401,25 @@ for the given user.</Abstract>
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/setLicenseKey:</TokenIdentifier>
+			<Abstract type="html">Set license key for SQLCipher
+Needed when using commercial or enterprise editions of SQLCipher
+Should be called before using SmartStore</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>+ (void)setLicenseKey:(NSString *)licenseKey</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>licenseKey</Name>
+					<Abstract type="html">The license key string provided by Zetetic</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setLicenseKey:</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/indicesForSoup:</TokenIdentifier>
 			<Abstract type="html">Name of the soup.</Abstract>
 			<DeclaredIn>SFSmartStore.h</DeclaredIn>
@@ -917,6 +936,30 @@ NB: A single SQL call is executed to improve performance.</Abstract>
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/getCipherProviderVersion</TokenIdentifier>
+			<Abstract type="html">Return SQLCipher provider version</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)getCipherProviderVersion</Declaration>
+			
+			<ReturnValue><Abstract type="html">cipher provider version</Abstract></ReturnValue>
+			<Anchor>//api/name/getCipherProviderVersion</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/getCipherFIPSStatus</TokenIdentifier>
+			<Abstract type="html">Return SQLCipher FIPS status</Abstract>
+			<DeclaredIn>SFSmartStore.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)getCipherFIPSStatus</Declaration>
+			
+			<ReturnValue><Abstract type="html">true if using a FIPS enabled SQLCipher edition</Abstract></ReturnValue>
+			<Anchor>//api/name/getCipherFIPSStatus</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStore/resumeLongOperations</TokenIdentifier>
 			<Abstract type="html">Complete long operations that were interrupted.</Abstract>
 			<DeclaredIn>SFSmartStore.h</DeclaredIn>
@@ -968,6 +1011,18 @@ Note that on the simulator currently, data protection is NEVER active.</Abstract
 			</Parameters>
 			<ReturnValue><Abstract type="html">The NSDate representation of the last modified date.</Abstract></ReturnValue>
 			<Anchor>//api/name/dateFromLastModifiedValue:</Anchor>
+            <NodeRef refid="10"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStore/licenseKey</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)licenseKey</Declaration>
+			
+			
+			<Anchor>//api/name/licenseKey</Anchor>
             <NodeRef refid="10"/>
 		</Token>
 		

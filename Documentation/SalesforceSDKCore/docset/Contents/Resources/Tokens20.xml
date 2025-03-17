@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFManagedPreferences.html">
+	<File path="Classes/SFMethodInterceptor.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFManagedPreferences</TokenIdentifier>
-			<Abstract type="html">Class to handle preferences set by an MDM provider.</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFMethodInterceptor</TokenIdentifier>
+			<Abstract type="html">This class provides a simple way to intercept an
+instance method or a class method and forward message
+to the original method if needed.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
             
 			
 			<NodeRef refid="20"/>
@@ -13,410 +15,257 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFManagedPreferences/sharedPreferences</TokenIdentifier>
-			<Abstract type="html">The shared instance of this class.</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/setClassToIntercept:</TokenIdentifier>
+			<Abstract type="html">Class to intercept</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>+ (instancetype)sharedPreferences</Declaration>
+			<Declaration>@property (nonatomic, strong) Class classToIntercept</Declaration>
 			
-			<ReturnValue><Abstract type="html">The shared instance of this class.</Abstract></ReturnValue>
-			<Anchor>//api/name/sharedPreferences</Anchor>
+			
+			<Anchor>//api/name/classToIntercept</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setHasManagedPreferences:</TokenIdentifier>
-			<Abstract type="html">Whether or not any managed preferences have been configured for this app.</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/classToIntercept</TokenIdentifier>
+			<Abstract type="html">Class to intercept</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL hasManagedPreferences</Declaration>
+			<Declaration>@property (nonatomic, strong) Class classToIntercept</Declaration>
 			
 			
-			<Anchor>//api/name/hasManagedPreferences</Anchor>
+			<Anchor>//api/name/classToIntercept</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/hasManagedPreferences</TokenIdentifier>
-			<Abstract type="html">Whether or not any managed preferences have been configured for this app.</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMethodInterceptor/classToIntercept</TokenIdentifier>
+			<Abstract type="html">Class to intercept</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL hasManagedPreferences</Declaration>
+			<Declaration>@property (nonatomic, strong) Class classToIntercept</Declaration>
 			
 			
-			<Anchor>//api/name/hasManagedPreferences</Anchor>
+			<Anchor>//api/name/classToIntercept</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/hasManagedPreferences</TokenIdentifier>
-			<Abstract type="html">Whether or not any managed preferences have been configured for this app.</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/setSelectorToIntercept:</TokenIdentifier>
+			<Abstract type="html">Selector to intercept</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL hasManagedPreferences</Declaration>
+			<Declaration>@property (nonatomic) SEL selectorToIntercept</Declaration>
 			
 			
-			<Anchor>//api/name/hasManagedPreferences</Anchor>
+			<Anchor>//api/name/selectorToIntercept</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setRequireCertificateAuthentication:</TokenIdentifier>
-			<Abstract type="html">Whether the app is configured to require certificate-based authentication. (RequireCertAuth)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/selectorToIntercept</TokenIdentifier>
+			<Abstract type="html">Selector to intercept</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL requireCertificateAuthentication</Declaration>
+			<Declaration>@property (nonatomic) SEL selectorToIntercept</Declaration>
 			
 			
-			<Anchor>//api/name/requireCertificateAuthentication</Anchor>
+			<Anchor>//api/name/selectorToIntercept</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/requireCertificateAuthentication</TokenIdentifier>
-			<Abstract type="html">Whether the app is configured to require certificate-based authentication. (RequireCertAuth)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMethodInterceptor/selectorToIntercept</TokenIdentifier>
+			<Abstract type="html">Selector to intercept</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL requireCertificateAuthentication</Declaration>
+			<Declaration>@property (nonatomic) SEL selectorToIntercept</Declaration>
 			
 			
-			<Anchor>//api/name/requireCertificateAuthentication</Anchor>
+			<Anchor>//api/name/selectorToIntercept</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/requireCertificateAuthentication</TokenIdentifier>
-			<Abstract type="html">Whether the app is configured to require certificate-based authentication. (RequireCertAuth)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/setInstanceMethod:</TokenIdentifier>
+			<Abstract type="html">YES if the selectorToIntercept is an instance
+method, NO if it&apos;s a class method.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL requireCertificateAuthentication</Declaration>
+			<Declaration>@property (nonatomic) BOOL instanceMethod</Declaration>
 			
 			
-			<Anchor>//api/name/requireCertificateAuthentication</Anchor>
+			<Anchor>//api/name/instanceMethod</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setLoginHosts:</TokenIdentifier>
-			<Abstract type="html">An array of prescribed login hosts from the MDM provider. (AppServiceHosts)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/instanceMethod</TokenIdentifier>
+			<Abstract type="html">YES if the selectorToIntercept is an instance
+method, NO if it&apos;s a class method.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSArray *loginHosts</Declaration>
+			<Declaration>@property (nonatomic) BOOL instanceMethod</Declaration>
 			
 			
-			<Anchor>//api/name/loginHosts</Anchor>
+			<Anchor>//api/name/instanceMethod</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/loginHosts</TokenIdentifier>
-			<Abstract type="html">An array of prescribed login hosts from the MDM provider. (AppServiceHosts)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMethodInterceptor/instanceMethod</TokenIdentifier>
+			<Abstract type="html">YES if the selectorToIntercept is an instance
+method, NO if it&apos;s a class method.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSArray *loginHosts</Declaration>
+			<Declaration>@property (nonatomic) BOOL instanceMethod</Declaration>
 			
 			
-			<Anchor>//api/name/loginHosts</Anchor>
+			<Anchor>//api/name/instanceMethod</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/loginHosts</TokenIdentifier>
-			<Abstract type="html">An array of prescribed login hosts from the MDM provider. (AppServiceHosts)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/setTargetBeforeBlock:</TokenIdentifier>
+			<Abstract type="html">Block to be called before the target method. Can be nil.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSArray *loginHosts</Declaration>
+			<Declaration>@property (nonatomic, copy) SFMethodInterceptorInvocationCallback targetBeforeBlock</Declaration>
 			
 			
-			<Anchor>//api/name/loginHosts</Anchor>
+			<Anchor>//api/name/targetBeforeBlock</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setLoginHostLabels:</TokenIdentifier>
-			<Abstract type="html">The associated labels for the provided login hosts. (AppServiceHostLabels)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/targetBeforeBlock</TokenIdentifier>
+			<Abstract type="html">Block to be called before the target method. Can be nil.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSArray *loginHostLabels</Declaration>
+			<Declaration>@property (nonatomic, copy) SFMethodInterceptorInvocationCallback targetBeforeBlock</Declaration>
 			
 			
-			<Anchor>//api/name/loginHostLabels</Anchor>
+			<Anchor>//api/name/targetBeforeBlock</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/loginHostLabels</TokenIdentifier>
-			<Abstract type="html">The associated labels for the provided login hosts. (AppServiceHostLabels)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMethodInterceptor/targetBeforeBlock</TokenIdentifier>
+			<Abstract type="html">Block to be called before the target method. Can be nil.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSArray *loginHostLabels</Declaration>
+			<Declaration>@property (nonatomic, copy) SFMethodInterceptorInvocationCallback targetBeforeBlock</Declaration>
 			
 			
-			<Anchor>//api/name/loginHostLabels</Anchor>
+			<Anchor>//api/name/targetBeforeBlock</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/loginHostLabels</TokenIdentifier>
-			<Abstract type="html">The associated labels for the provided login hosts. (AppServiceHostLabels)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/setTargetReplaceBlock:</TokenIdentifier>
+			<Abstract type="html">Block that replaces the target method. Can be nil.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSArray *loginHostLabels</Declaration>
+			<Declaration>@property (nonatomic, copy) SFMethodInterceptorInvocationCallback targetReplaceBlock</Declaration>
 			
 			
-			<Anchor>//api/name/loginHostLabels</Anchor>
+			<Anchor>//api/name/targetReplaceBlock</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setConnectedAppId:</TokenIdentifier>
-			<Abstract type="html">The managed Connected App ID. (ManagedAppOAuthID)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/targetReplaceBlock</TokenIdentifier>
+			<Abstract type="html">Block that replaces the target method. Can be nil.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *connectedAppId</Declaration>
+			<Declaration>@property (nonatomic, copy) SFMethodInterceptorInvocationCallback targetReplaceBlock</Declaration>
 			
 			
-			<Anchor>//api/name/connectedAppId</Anchor>
+			<Anchor>//api/name/targetReplaceBlock</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/connectedAppId</TokenIdentifier>
-			<Abstract type="html">The managed Connected App ID. (ManagedAppOAuthID)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMethodInterceptor/targetReplaceBlock</TokenIdentifier>
+			<Abstract type="html">Block that replaces the target method. Can be nil.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *connectedAppId</Declaration>
+			<Declaration>@property (nonatomic, copy) SFMethodInterceptorInvocationCallback targetReplaceBlock</Declaration>
 			
 			
-			<Anchor>//api/name/connectedAppId</Anchor>
+			<Anchor>//api/name/targetReplaceBlock</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/connectedAppId</TokenIdentifier>
-			<Abstract type="html">The managed Connected App ID. (ManagedAppOAuthID)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/setTargetAfterBlock:</TokenIdentifier>
+			<Abstract type="html">Block to be called after the target method. Can be nil.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *connectedAppId</Declaration>
+			<Declaration>@property (nonatomic, copy) SFMethodInterceptorInvocationAfterCallback targetAfterBlock</Declaration>
 			
 			
-			<Anchor>//api/name/connectedAppId</Anchor>
+			<Anchor>//api/name/targetAfterBlock</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setConnectedAppCallbackUri:</TokenIdentifier>
-			<Abstract type="html">The managed Conneced App Callback URI. (ManagedAppCallbackURL)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/targetAfterBlock</TokenIdentifier>
+			<Abstract type="html">Block to be called after the target method. Can be nil.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *connectedAppCallbackUri</Declaration>
+			<Declaration>@property (nonatomic, copy) SFMethodInterceptorInvocationAfterCallback targetAfterBlock</Declaration>
 			
 			
-			<Anchor>//api/name/connectedAppCallbackUri</Anchor>
+			<Anchor>//api/name/targetAfterBlock</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/connectedAppCallbackUri</TokenIdentifier>
-			<Abstract type="html">The managed Conneced App Callback URI. (ManagedAppCallbackURL)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMethodInterceptor/targetAfterBlock</TokenIdentifier>
+			<Abstract type="html">Block to be called after the target method. Can be nil.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *connectedAppCallbackUri</Declaration>
+			<Declaration>@property (nonatomic, copy) SFMethodInterceptorInvocationAfterCallback targetAfterBlock</Declaration>
 			
 			
-			<Anchor>//api/name/connectedAppCallbackUri</Anchor>
+			<Anchor>//api/name/targetAfterBlock</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/connectedAppCallbackUri</TokenIdentifier>
-			<Abstract type="html">The managed Conneced App Callback URI. (ManagedAppCallbackURL)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/setEnabled:</TokenIdentifier>
+			<Abstract type="html">Set this property to YES to enable the interceptor.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *connectedAppCallbackUri</Declaration>
+			<Declaration>@property (nonatomic) BOOL enabled</Declaration>
 			
 			
-			<Anchor>//api/name/connectedAppCallbackUri</Anchor>
+			<Anchor>//api/name/enabled</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setClearClipboardOnBackground:</TokenIdentifier>
-			<Abstract type="html">Whether or not to clear the clipboard when the app is backgrounded. (ClearClipboardOnBackground)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/enabled</TokenIdentifier>
+			<Abstract type="html">Set this property to YES to enable the interceptor.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL clearClipboardOnBackground</Declaration>
+			<Declaration>@property (nonatomic) BOOL enabled</Declaration>
 			
 			
-			<Anchor>//api/name/clearClipboardOnBackground</Anchor>
+			<Anchor>//api/name/enabled</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/clearClipboardOnBackground</TokenIdentifier>
-			<Abstract type="html">Whether or not to clear the clipboard when the app is backgrounded. (ClearClipboardOnBackground)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMethodInterceptor/enabled</TokenIdentifier>
+			<Abstract type="html">Set this property to YES to enable the interceptor.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL clearClipboardOnBackground</Declaration>
-			
-			
-			<Anchor>//api/name/clearClipboardOnBackground</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/clearClipboardOnBackground</TokenIdentifier>
-			<Abstract type="html">Whether or not to clear the clipboard when the app is backgrounded. (ClearClipboardOnBackground)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) BOOL clearClipboardOnBackground</Declaration>
+			<Declaration>@property (nonatomic) BOOL enabled</Declaration>
 			
 			
-			<Anchor>//api/name/clearClipboardOnBackground</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setShouldDisableExternalPasteDefinedByConnectedApp:</TokenIdentifier>
-			<Abstract type="html">Whether or not external paste is disabled in the connected app.</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) BOOL shouldDisableExternalPasteDefinedByConnectedApp</Declaration>
-			
-			
-			<Anchor>//api/name/shouldDisableExternalPasteDefinedByConnectedApp</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/shouldDisableExternalPasteDefinedByConnectedApp</TokenIdentifier>
-			<Abstract type="html">Whether or not external paste is disabled in the connected app.</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) BOOL shouldDisableExternalPasteDefinedByConnectedApp</Declaration>
-			
-			
-			<Anchor>//api/name/shouldDisableExternalPasteDefinedByConnectedApp</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/shouldDisableExternalPasteDefinedByConnectedApp</TokenIdentifier>
-			<Abstract type="html">Whether or not external paste is disabled in the connected app.</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) BOOL shouldDisableExternalPasteDefinedByConnectedApp</Declaration>
-			
-			
-			<Anchor>//api/name/shouldDisableExternalPasteDefinedByConnectedApp</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setOnlyShowAuthorizedHosts:</TokenIdentifier>
-			<Abstract type="html">Whether or not to display only the authorized hosts. (OnlyShowAuthorizedHosts)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) BOOL onlyShowAuthorizedHosts</Declaration>
-			
-			
-			<Anchor>//api/name/onlyShowAuthorizedHosts</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/onlyShowAuthorizedHosts</TokenIdentifier>
-			<Abstract type="html">Whether or not to display only the authorized hosts. (OnlyShowAuthorizedHosts)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) BOOL onlyShowAuthorizedHosts</Declaration>
-			
-			
-			<Anchor>//api/name/onlyShowAuthorizedHosts</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/onlyShowAuthorizedHosts</TokenIdentifier>
-			<Abstract type="html">Whether or not to display only the authorized hosts. (OnlyShowAuthorizedHosts)</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) BOOL onlyShowAuthorizedHosts</Declaration>
-			
-			
-			<Anchor>//api/name/onlyShowAuthorizedHosts</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setIdpAppURLScheme:</TokenIdentifier>
-			<Abstract type="html">The idp App&apos;s URL Scheme</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *idpAppURLScheme</Declaration>
-			
-			
-			<Anchor>//api/name/idpAppURLScheme</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/idpAppURLScheme</TokenIdentifier>
-			<Abstract type="html">The idp App&apos;s URL Scheme</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *idpAppURLScheme</Declaration>
-			
-			
-			<Anchor>//api/name/idpAppURLScheme</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/idpAppURLScheme</TokenIdentifier>
-			<Abstract type="html">The idp App&apos;s URL Scheme</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *idpAppURLScheme</Declaration>
-			
-			
-			<Anchor>//api/name/idpAppURLScheme</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/setRawPreferences:</TokenIdentifier>
-			<Abstract type="html">The raw NSDictionary of managed preferences.</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSDictionary *rawPreferences</Declaration>
-			
-			
-			<Anchor>//api/name/rawPreferences</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFManagedPreferences/rawPreferences</TokenIdentifier>
-			<Abstract type="html">The raw NSDictionary of managed preferences.</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSDictionary *rawPreferences</Declaration>
-			
-			
-			<Anchor>//api/name/rawPreferences</Anchor>
-            <NodeRef refid="20"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFManagedPreferences/rawPreferences</TokenIdentifier>
-			<Abstract type="html">The raw NSDictionary of managed preferences.</Abstract>
-			<DeclaredIn>SFManagedPreferences.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, readonly) NSDictionary *rawPreferences</Declaration>
-			
-			
-			<Anchor>//api/name/rawPreferences</Anchor>
+			<Anchor>//api/name/enabled</Anchor>
             <NodeRef refid="20"/>
 		</Token>
 		

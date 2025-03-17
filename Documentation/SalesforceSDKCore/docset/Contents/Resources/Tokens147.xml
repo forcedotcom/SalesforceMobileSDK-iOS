@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/NSData+SFSDKUtils.html">
+	<File path="Categories/NSData+SFSHA.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/NSData(SFSDKUtils)</TokenIdentifier>
-			<Abstract type="html">Mobile SDK utility additions to NSData.</Abstract>
-			<DeclaredIn>NSData+SFSDKUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/NSData(SFSHA)</TokenIdentifier>
+			<Abstract type="html">Provides MD5 conversion support.</Abstract>
+			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
             
 			
 			<NodeRef refid="147"/>
@@ -13,26 +13,14 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSData/sfsdk_base64UrlString</TokenIdentifier>
-			<Abstract type="html">Creates a base64url string based on the data.  See RFC 4648.</Abstract>
-			<DeclaredIn>NSData+SFSDKUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/sfsdk_sha256</TokenIdentifier>
+			<Abstract type="html">Derives  a  sha256  hex encoded string.</Abstract>
+			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)sfsdk_base64UrlString</Declaration>
+			<Declaration>- (NSString *)sfsdk_sha256</Declaration>
 			
-			<ReturnValue><Abstract type="html">The base64url string based on the data.</Abstract></ReturnValue>
-			<Anchor>//api/name/sfsdk_base64UrlString</Anchor>
-            <NodeRef refid="147"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSData/sfsdk_sha256Data</TokenIdentifier>
-			<Abstract type="html">Creates an SHA256 hash of the given data.</Abstract>
-			<DeclaredIn>NSData+SFSDKUtils.h</DeclaredIn>
-			
-			<Declaration>- (nullable NSData *)sfsdk_sha256Data</Declaration>
-			
-			<ReturnValue><Abstract type="html">The SHA256 hash of the given data.</Abstract></ReturnValue>
-			<Anchor>//api/name/sfsdk_sha256Data</Anchor>
+			<ReturnValue><Abstract type="html">md5 version of data.</Abstract></ReturnValue>
+			<Anchor>//api/name/sfsdk_sha256</Anchor>
             <NodeRef refid="147"/>
 		</Token>
 		

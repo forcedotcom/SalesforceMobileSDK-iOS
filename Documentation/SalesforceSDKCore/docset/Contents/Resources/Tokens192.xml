@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSDKRestServiceHostType.html">
+	<File path="Constants/SFSPLoginError.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSDKRestServiceHostType</TokenIdentifier>
-			<Abstract type="html">The type of service host to use for Rest requests.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSPLoginError</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="192"/>
@@ -14,34 +14,41 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKRestServiceHostTypeLogin</TokenIdentifier>
-            <Abstract type="html">Request uses the login endpoint.
-     </Abstract>
-            <Declaration>SFSDKRestServiceHostTypeLogin</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFSPLoginErrorNoScheme</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSPLoginErrorNoScheme</Declaration>
             
-            <DeclaredIn>SFRestRequest.h</DeclaredIn>
-            
-            <NodeRef refid="192"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKRestServiceHostTypeInstance</TokenIdentifier>
-            <Abstract type="html">Request uses the instance endpoint.
-     </Abstract>
-            <Declaration>SFSDKRestServiceHostTypeInstance</Declaration>
-            
-            <DeclaredIn>SFRestRequest.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountManager.h</DeclaredIn>
             
             <NodeRef refid="192"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKRestServiceHostTypeCustom</TokenIdentifier>
-            <Abstract type="html">Request uses a custom endpoint.
-     </Abstract>
-            <Declaration>SFSDKRestServiceHostTypeCustom</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFSPLoginErrorNoUserIdentity</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSPLoginErrorNoUserIdentity</Declaration>
             
-            <DeclaredIn>SFRestRequest.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+            
+            <NodeRef refid="192"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSPLoginErrorKeychainWriteFailed</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSPLoginErrorKeychainWriteFailed</Declaration>
+            
+            <DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+            
+            <NodeRef refid="192"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSPLoginErrorCredentialRefreshFailed</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSPLoginErrorCredentialRefreshFailed</Declaration>
+            
+            <DeclaredIn>SFUserAccountManager.h</DeclaredIn>
             
             <NodeRef refid="192"/>
         </Token>

@@ -90,6 +90,8 @@
 		
 		<option value="//api/name/encKey">+ encKey</option>
 		
+		<option value="//api/name/licenseKey">+ licenseKey</option>
+		
 		<option value="//api/name/removeAllGlobalStores">+ removeAllGlobalStores</option>
 		
 		<option value="//api/name/removeAllStores">+ removeAllStores</option>
@@ -105,6 +107,8 @@
 		<option value="//api/name/salt">+ salt</option>
 		
 		<option value="//api/name/setEncryptionKeyGenerator:">+ setEncryptionKeyGenerator:</option>
+		
+		<option value="//api/name/setLicenseKey:">+ setLicenseKey:</option>
 		
 		<option value="//api/name/sharedGlobalStoreWithName:">+ sharedGlobalStoreWithName:</option>
 		
@@ -147,6 +151,10 @@
 		<option value="//api/name/executeUpdateThrows:withArgumentsInArray:withDb:">- executeUpdateThrows:withArgumentsInArray:withDb:</option>
 		
 		<option value="//api/name/executeUpdateThrows:withDb:">- executeUpdateThrows:withDb:</option>
+		
+		<option value="//api/name/getCipherFIPSStatus">- getCipherFIPSStatus</option>
+		
+		<option value="//api/name/getCipherProviderVersion">- getCipherProviderVersion</option>
 		
 		<option value="//api/name/getCompileOptions">- getCompileOptions</option>
 		
@@ -1031,6 +1039,61 @@ will result in the corruption and loss of existing data.
 Also, SmartStore does not use initialization vectors.
 <strong> WARNING </strong></p>
 			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartStore.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/setLicenseKey:" title="setLicenseKey:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/setLicenseKey:">+&nbsp;setLicenseKey:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Set license key for SQLCipher
+Needed when using commercial or enterprise editions of SQLCipher
+Should be called before using SmartStore</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)setLicenseKey:(NSString *)<em>licenseKey</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>licenseKey</code></th>
+						<td><p>The license key string provided by Zetetic</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
 			
 
 			
@@ -2538,6 +2601,98 @@ NB: A single SQL call is executed to improve performance.</p>
 		</div>
 	</div>
 </div><div class="section-method">
+	<a name="//api/name/getCipherProviderVersion" title="getCipherProviderVersion"></a>
+	<h3 class="method-title"><code><a href="#//api/name/getCipherProviderVersion">&ndash;&nbsp;getCipherProviderVersion</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Return SQLCipher provider version</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (NSString *)getCipherProviderVersion</code></div>
+
+		    
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>cipher provider version</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartStore.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/getCipherFIPSStatus" title="getCipherFIPSStatus"></a>
+	<h3 class="method-title"><code><a href="#//api/name/getCipherFIPSStatus">&ndash;&nbsp;getCipherFIPSStatus</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Return SQLCipher FIPS status</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)getCipherFIPSStatus</code></div>
+
+		    
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>true if using a FIPS enabled SQLCipher edition</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartStore.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/resumeLongOperations" title="resumeLongOperations"></a>
 	<h3 class="method-title"><code><a href="#//api/name/resumeLongOperations">&ndash;&nbsp;resumeLongOperations</a></code>
 </h3>
@@ -2739,6 +2894,22 @@ Note that on the simulator currently, data protection is NEVER active.</p>
 
 						<div class="task-list">
 							<div class="section-method">
+	<a name="//api/name/licenseKey" title="licenseKey"></a>
+	<h3 class="method-title"><code><a href="#//api/name/licenseKey">+&nbsp;licenseKey</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>+ (NSString *)licenseKey</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/storeQueue" title="storeQueue"></a>
 	<h3 class="method-title"><code><a href="#//api/name/storeQueue">&nbsp;&nbsp;storeQueue</a></code>
 </h3>
@@ -4190,7 +4361,7 @@ always return YES (i.e. that the result is valid).</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2024 Salesforce.com. All rights reserved. Updated: 2024-10-28</p>
+						<p class="copyright">Copyright &copy; 2025 Salesforce.com. All rights reserved. Updated: 2025-03-17</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

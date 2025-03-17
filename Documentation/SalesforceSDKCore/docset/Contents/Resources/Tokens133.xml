@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFUserAccount.html">
+	<File path="Classes/SFUserAccountManager.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFUserAccount</TokenIdentifier>
-			<Abstract type="html">Class that represents an account. An account represents
-a user together with the current community it is logged in.</Abstract>
-			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFUserAccountManager</TokenIdentifier>
+			<Abstract type="html">Class used to manage the accounts functions used across the app.
+It supports multiple accounts and their associated credentials.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="133"/>
@@ -14,476 +14,1966 @@ a user together with the current community it is logged in.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/setAccessScopes:</TokenIdentifier>
-			<Abstract type="html">The access scopes for this user</Abstract>
-			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setAuthCancelledByUserHandlerBlock:</TokenIdentifier>
+			<Abstract type="html">Completion block for when auth is cancelled.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) NSSet&lt;NSString*&gt; *accessScopes</Declaration>
+			<Declaration>@property (nonatomic, readwrite, copy, nullable) void ( ^ ) ( void ) authCancelledByUserHandlerBlock</Declaration>
 			
 			
-			<Anchor>//api/name/accessScopes</Anchor>
+			<Anchor>//api/name/authCancelledByUserHandlerBlock</Anchor>
             <NodeRef refid="133"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/accessScopes</TokenIdentifier>
-			<Abstract type="html">The access scopes for this user</Abstract>
-			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/authCancelledByUserHandlerBlock</TokenIdentifier>
+			<Abstract type="html">Completion block for when auth is cancelled.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) NSSet&lt;NSString*&gt; *accessScopes</Declaration>
+			<Declaration>@property (nonatomic, readwrite, copy, nullable) void ( ^ ) ( void ) authCancelledByUserHandlerBlock</Declaration>
 			
 			
-			<Anchor>//api/name/accessScopes</Anchor>
+			<Anchor>//api/name/authCancelledByUserHandlerBlock</Anchor>
             <NodeRef refid="133"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccount/accessScopes</TokenIdentifier>
-			<Abstract type="html">The access scopes for this user</Abstract>
-			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/authCancelledByUserHandlerBlock</TokenIdentifier>
+			<Abstract type="html">Completion block for when auth is cancelled.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, nullable) NSSet&lt;NSString*&gt; *accessScopes</Declaration>
+			<Declaration>@property (nonatomic, readwrite, copy, nullable) void ( ^ ) ( void ) authCancelledByUserHandlerBlock</Declaration>
 			
 			
-			<Anchor>//api/name/accessScopes</Anchor>
+			<Anchor>//api/name/authCancelledByUserHandlerBlock</Anchor>
             <NodeRef refid="133"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/setAccountIdentity:</TokenIdentifier>
-			<Abstract type="html">The unique identifier for this account.</Abstract>
-			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/set:</TokenIdentifier>
+			<Abstract type="html">The current user account.  This property may be nil if the user
+has never logged in.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) SFUserAccountIdentity *accountIdentity</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) SFUserAccount *NS_SWIFT_NAME ( currentUserAccount )</Declaration>
 			
 			
-			<Anchor>//api/name/accountIdentity</Anchor>
+			<Anchor>//api/name/)</Anchor>
             <NodeRef refid="133"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/accountIdentity</TokenIdentifier>
-			<Abstract type="html">The unique identifier for this account.</Abstract>
-			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/)</TokenIdentifier>
+			<Abstract type="html">The current user account.  This property may be nil if the user
+has never logged in.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) SFUserAccountIdentity *accountIdentity</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) SFUserAccount *NS_SWIFT_NAME ( currentUserAccount )</Declaration>
 			
 			
-			<Anchor>//api/name/accountIdentity</Anchor>
+			<Anchor>//api/name/)</Anchor>
             <NodeRef refid="133"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccount/accountIdentity</TokenIdentifier>
-			<Abstract type="html">The unique identifier for this account.</Abstract>
-			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/)</TokenIdentifier>
+			<Abstract type="html">The current user account.  This property may be nil if the user
+has never logged in.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) SFUserAccountIdentity *accountIdentity</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) SFUserAccount *NS_SWIFT_NAME ( currentUserAccount )</Declaration>
 			
 			
-			<Anchor>//api/name/accountIdentity</Anchor>
+			<Anchor>//api/name/)</Anchor>
             <NodeRef refid="133"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/setCredentials:</TokenIdentifier>
-			<Abstract type="html">The credentials associated with this user</Abstract>
-			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setCurrentUserAnonymous:</TokenIdentifier>
+			<Abstract type="html">Returns YES if the current user is anonymous, no otherwise
+  </Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFOAuthCredentials *credentials</Declaration>
+			<Declaration>@property (nonatomic, readonly, getter=isCurrentUserAnonymous) BOOL currentUserAnonymous</Declaration>
 			
 			
-			<Anchor>//api/name/credentials</Anchor>
+			<Anchor>//api/name/currentUserAnonymous</Anchor>
             <NodeRef refid="133"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/credentials</TokenIdentifier>
-			<Abstract type="html">The credentials associated with this user</Abstract>
-			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/isCurrentUserAnonymous</TokenIdentifier>
+			<Abstract type="html">Returns YES if the current user is anonymous, no otherwise
+  </Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFOAuthCredentials *credentials</Declaration>
+			<Declaration>@property (nonatomic, readonly, getter=isCurrentUserAnonymous) BOOL currentUserAnonymous</Declaration>
 			
 			
-			<Anchor>//api/name/credentials</Anchor>
+			<Anchor>//api/name/currentUserAnonymous</Anchor>
             <NodeRef refid="133"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccount/credentials</TokenIdentifier>
-			<Abstract type="html">The credentials associated with this user</Abstract>
-			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/currentUserAnonymous</TokenIdentifier>
+			<Abstract type="html">Returns YES if the current user is anonymous, no otherwise
+  </Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFOAuthCredentials *credentials</Declaration>
+			<Declaration>@property (nonatomic, readonly, getter=isCurrentUserAnonymous) BOOL currentUserAnonymous</Declaration>
 			
 			
-			<Anchor>//api/name/credentials</Anchor>
+			<Anchor>//api/name/currentUserAnonymous</Anchor>
             <NodeRef refid="133"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/setIdData:</TokenIdentifier>
-			<Abstract type="html">The identity data associated with this user</Abstract>
-			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setLogoutSettingEnabled:</TokenIdentifier>
+			<Abstract type="html">Returns YES if the logout is requested by the app settings.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFIdentityData *idData</Declaration>
+			<Declaration>@property (nonatomic, readonly, getter=isLogoutSettingEnabled) BOOL logoutSettingEnabled</Declaration>
 			
 			
-			<Anchor>//api/name/idData</Anchor>
+			<Anchor>//api/name/logoutSettingEnabled</Anchor>
             <NodeRef refid="133"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/idData</TokenIdentifier>
-			<Abstract type="html">The identity data associated with this user</Abstract>
-			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/isLogoutSettingEnabled</TokenIdentifier>
+			<Abstract type="html">Returns YES if the logout is requested by the app settings.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFIdentityData *idData</Declaration>
+			<Declaration>@property (nonatomic, readonly, getter=isLogoutSettingEnabled) BOOL logoutSettingEnabled</Declaration>
 			
 			
-			<Anchor>//api/name/idData</Anchor>
+			<Anchor>//api/name/logoutSettingEnabled</Anchor>
             <NodeRef refid="133"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccount/idData</TokenIdentifier>
-			<Abstract type="html">The identity data associated with this user</Abstract>
-			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/logoutSettingEnabled</TokenIdentifier>
+			<Abstract type="html">Returns YES if the logout is requested by the app settings.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFIdentityData *idData</Declaration>
+			<Declaration>@property (nonatomic, readonly, getter=isLogoutSettingEnabled) BOOL logoutSettingEnabled</Declaration>
 			
 			
-			<Anchor>//api/name/idData</Anchor>
+			<Anchor>//api/name/logoutSettingEnabled</Anchor>
             <NodeRef refid="133"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/setPhoto:</TokenIdentifier>
-			<Abstract type="html">The user&apos;s photo. Usually store a thumbnail of the user.
-To set this property use setPhoto:completion:</Abstract>
-			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setAdditionalOAuthParameterKeys:</TokenIdentifier>
+			<Abstract type="html">An array of additional keys (NSString) to parse during OAuth</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable, readonly) UIImage *photo</Declaration>
+			<Declaration>@property (nonatomic, strong) NSArray&lt;NSString*&gt; *additionalOAuthParameterKeys</Declaration>
 			
 			
-			<Anchor>//api/name/photo</Anchor>
+			<Anchor>//api/name/additionalOAuthParameterKeys</Anchor>
             <NodeRef refid="133"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/photo</TokenIdentifier>
-			<Abstract type="html">The user&apos;s photo. Usually store a thumbnail of the user.
-To set this property use setPhoto:completion:</Abstract>
-			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/additionalOAuthParameterKeys</TokenIdentifier>
+			<Abstract type="html">An array of additional keys (NSString) to parse during OAuth</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable, readonly) UIImage *photo</Declaration>
+			<Declaration>@property (nonatomic, strong) NSArray&lt;NSString*&gt; *additionalOAuthParameterKeys</Declaration>
 			
 			
-			<Anchor>//api/name/photo</Anchor>
+			<Anchor>//api/name/additionalOAuthParameterKeys</Anchor>
             <NodeRef refid="133"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccount/photo</TokenIdentifier>
-			<Abstract type="html">The user&apos;s photo. Usually store a thumbnail of the user.
-To set this property use setPhoto:completion:</Abstract>
-			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/additionalOAuthParameterKeys</TokenIdentifier>
+			<Abstract type="html">An array of additional keys (NSString) to parse during OAuth</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable, readonly) UIImage *photo</Declaration>
+			<Declaration>@property (nonatomic, strong) NSArray&lt;NSString*&gt; *additionalOAuthParameterKeys</Declaration>
 			
 			
-			<Anchor>//api/name/photo</Anchor>
+			<Anchor>//api/name/additionalOAuthParameterKeys</Anchor>
             <NodeRef refid="133"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/setAccessRestrictions:</TokenIdentifier>
-			<Abstract type="html">The access restriction associated with this user</Abstract>
-			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setLoginHost:</TokenIdentifier>
+			<Abstract type="html">The host that will be used for login.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) SFUserAccountAccessRestriction accessRestrictions</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *loginHost</Declaration>
 			
 			
-			<Anchor>//api/name/accessRestrictions</Anchor>
+			<Anchor>//api/name/loginHost</Anchor>
             <NodeRef refid="133"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/accessRestrictions</TokenIdentifier>
-			<Abstract type="html">The access restriction associated with this user</Abstract>
-			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/loginHost</TokenIdentifier>
+			<Abstract type="html">The host that will be used for login.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) SFUserAccountAccessRestriction accessRestrictions</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *loginHost</Declaration>
 			
 			
-			<Anchor>//api/name/accessRestrictions</Anchor>
+			<Anchor>//api/name/loginHost</Anchor>
             <NodeRef refid="133"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccount/accessRestrictions</TokenIdentifier>
-			<Abstract type="html">The access restriction associated with this user</Abstract>
-			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/loginHost</TokenIdentifier>
+			<Abstract type="html">The host that will be used for login.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) SFUserAccountAccessRestriction accessRestrictions</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *loginHost</Declaration>
 			
 			
-			<Anchor>//api/name/accessRestrictions</Anchor>
+			<Anchor>//api/name/loginHost</Anchor>
             <NodeRef refid="133"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/setSessionValid:</TokenIdentifier>
-			<Abstract type="html">Returns YES if the user has an access token and, presumably,
-a valid session.</Abstract>
-			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setBrandLoginPath:</TokenIdentifier>
+			<Abstract type="html">The Branded Login path configured for this application.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, getter=isSessionValid) BOOL sessionValid</Declaration>
+			<Declaration>@property (nonatomic, nullable, copy) NSString *brandLoginPath</Declaration>
 			
 			
-			<Anchor>//api/name/sessionValid</Anchor>
+			<Anchor>//api/name/brandLoginPath</Anchor>
             <NodeRef refid="133"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/isSessionValid</TokenIdentifier>
-			<Abstract type="html">Returns YES if the user has an access token and, presumably,
-a valid session.</Abstract>
-			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/brandLoginPath</TokenIdentifier>
+			<Abstract type="html">The Branded Login path configured for this application.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, getter=isSessionValid) BOOL sessionValid</Declaration>
+			<Declaration>@property (nonatomic, nullable, copy) NSString *brandLoginPath</Declaration>
 			
 			
-			<Anchor>//api/name/sessionValid</Anchor>
+			<Anchor>//api/name/brandLoginPath</Anchor>
             <NodeRef refid="133"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccount/sessionValid</TokenIdentifier>
-			<Abstract type="html">Returns YES if the user has an access token and, presumably,
-a valid session.</Abstract>
-			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/brandLoginPath</TokenIdentifier>
+			<Abstract type="html">The Branded Login path configured for this application.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, getter=isSessionValid) BOOL sessionValid</Declaration>
+			<Declaration>@property (nonatomic, nullable, copy) NSString *brandLoginPath</Declaration>
 			
 			
-			<Anchor>//api/name/sessionValid</Anchor>
+			<Anchor>//api/name/brandLoginPath</Anchor>
             <NodeRef refid="133"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/setUserDeleted:</TokenIdentifier>
-			<Abstract type="html">Indicates if this account was deleted.  Returns YES if this account was deleted since being created.</Abstract>
-			<DeclaredIn>SFUserAccount+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setScopes:</TokenIdentifier>
+			<Abstract type="html">The OAuth scopes associated with the app.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, getter=isUserDeleted) BOOL userDeleted</Declaration>
+			<Declaration>@property (nonatomic, copy) NSSet&lt;NSString*&gt; *scopes</Declaration>
 			
 			
-			<Anchor>//api/name/userDeleted</Anchor>
+			<Anchor>//api/name/scopes</Anchor>
             <NodeRef refid="133"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/isUserDeleted</TokenIdentifier>
-			<Abstract type="html">Indicates if this account was deleted.  Returns YES if this account was deleted since being created.</Abstract>
-			<DeclaredIn>SFUserAccount+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/scopes</TokenIdentifier>
+			<Abstract type="html">The OAuth scopes associated with the app.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, getter=isUserDeleted) BOOL userDeleted</Declaration>
+			<Declaration>@property (nonatomic, copy) NSSet&lt;NSString*&gt; *scopes</Declaration>
 			
 			
-			<Anchor>//api/name/userDeleted</Anchor>
+			<Anchor>//api/name/scopes</Anchor>
             <NodeRef refid="133"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccount/userDeleted</TokenIdentifier>
-			<Abstract type="html">Indicates if this account was deleted.  Returns YES if this account was deleted since being created.</Abstract>
-			<DeclaredIn>SFUserAccount+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/scopes</TokenIdentifier>
+			<Abstract type="html">The OAuth scopes associated with the app.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, getter=isUserDeleted) BOOL userDeleted</Declaration>
+			<Declaration>@property (nonatomic, copy) NSSet&lt;NSString*&gt; *scopes</Declaration>
 			
 			
-			<Anchor>//api/name/userDeleted</Anchor>
+			<Anchor>//api/name/scopes</Anchor>
             <NodeRef refid="133"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/setLoginState:</TokenIdentifier>
-			<Abstract type="html">Indicates this user&apos;s current login state.</Abstract>
-			<DeclaredIn>SFUserAccount+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setAuthClient:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, assign) SFUserAccountLoginState loginState</Declaration>
+			<Declaration>@property (nonatomic, copy, nullable) SFAuthClientFactoryBlock authClient</Declaration>
 			
 			
-			<Anchor>//api/name/loginState</Anchor>
+			<Anchor>//api/name/authClient</Anchor>
             <NodeRef refid="133"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/loginState</TokenIdentifier>
-			<Abstract type="html">Indicates this user&apos;s current login state.</Abstract>
-			<DeclaredIn>SFUserAccount+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/authClient</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, assign) SFUserAccountLoginState loginState</Declaration>
+			<Declaration>@property (nonatomic, copy, nullable) SFAuthClientFactoryBlock authClient</Declaration>
 			
 			
-			<Anchor>//api/name/loginState</Anchor>
+			<Anchor>//api/name/authClient</Anchor>
             <NodeRef refid="133"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccount/loginState</TokenIdentifier>
-			<Abstract type="html">Indicates this user&apos;s current login state.</Abstract>
-			<DeclaredIn>SFUserAccount+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/authClient</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, assign) SFUserAccountLoginState loginState</Declaration>
+			<Declaration>@property (nonatomic, copy, nullable) SFAuthClientFactoryBlock authClient</Declaration>
 			
 			
-			<Anchor>//api/name/loginState</Anchor>
+			<Anchor>//api/name/authClient</Anchor>
             <NodeRef refid="133"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/initWithCredentials:</TokenIdentifier>
-			<Abstract type="html">Initialize with SFOAuthCredentials credentials</Abstract>
-			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setIdpLoginFlowSelectionAction:</TokenIdentifier>
+			<Abstract type="html">Use this block to replace the Login flow selection dialog</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>- (instancetype)initWithCredentials:(SFOAuthCredentials *)credentials</Declaration>
+			<Declaration>@property (nonatomic, copy, nullable) SFIDPLoginFlowSelectionBlock idpLoginFlowSelectionAction</Declaration>
+			
+			
+			<Anchor>//api/name/idpLoginFlowSelectionAction</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/idpLoginFlowSelectionAction</TokenIdentifier>
+			<Abstract type="html">Use this block to replace the Login flow selection dialog</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) SFIDPLoginFlowSelectionBlock idpLoginFlowSelectionAction</Declaration>
+			
+			
+			<Anchor>//api/name/idpLoginFlowSelectionAction</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/idpLoginFlowSelectionAction</TokenIdentifier>
+			<Abstract type="html">Use this block to replace the Login flow selection dialog</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) SFIDPLoginFlowSelectionBlock idpLoginFlowSelectionAction</Declaration>
+			
+			
+			<Anchor>//api/name/idpLoginFlowSelectionAction</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setIdpUserSelectionAction:</TokenIdentifier>
+			<Abstract type="html">Use this to replace the default User Selection Screen</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) SFIDPUserSelectionBlock idpUserSelectionAction</Declaration>
+			
+			
+			<Anchor>//api/name/idpUserSelectionAction</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/idpUserSelectionAction</TokenIdentifier>
+			<Abstract type="html">Use this to replace the default User Selection Screen</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) SFIDPUserSelectionBlock idpUserSelectionAction</Declaration>
+			
+			
+			<Anchor>//api/name/idpUserSelectionAction</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/idpUserSelectionAction</TokenIdentifier>
+			<Abstract type="html">Use this to replace the default User Selection Screen</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) SFIDPUserSelectionBlock idpUserSelectionAction</Declaration>
+			
+			
+			<Anchor>//api/name/idpUserSelectionAction</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setNavigationPolicyForAction:</TokenIdentifier>
+			<Abstract type="html">Use this to add handling for navigation actions like email and custom links on the login screen, return WKNavigationActionPolicyAllow for any other actions to make sure that the login flow isn&apos;t interrupted</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) WKNavigationActionPolicy ( ^ ) ( WKWebView *webview , WKNavigationAction *action ) navigationPolicyForAction</Declaration>
+			
+			
+			<Anchor>//api/name/navigationPolicyForAction</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/navigationPolicyForAction</TokenIdentifier>
+			<Abstract type="html">Use this to add handling for navigation actions like email and custom links on the login screen, return WKNavigationActionPolicyAllow for any other actions to make sure that the login flow isn&apos;t interrupted</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) WKNavigationActionPolicy ( ^ ) ( WKWebView *webview , WKNavigationAction *action ) navigationPolicyForAction</Declaration>
+			
+			
+			<Anchor>//api/name/navigationPolicyForAction</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/navigationPolicyForAction</TokenIdentifier>
+			<Abstract type="html">Use this to add handling for navigation actions like email and custom links on the login screen, return WKNavigationActionPolicyAllow for any other actions to make sure that the login flow isn&apos;t interrupted</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) WKNavigationActionPolicy ( ^ ) ( WKWebView *webview , WKNavigationAction *action ) navigationPolicyForAction</Declaration>
+			
+			
+			<Anchor>//api/name/navigationPolicyForAction</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setCreateWebview:</TokenIdentifier>
+			<Abstract type="html">Use this to add custom handling for WKUIDelegate&apos;s webView:createWebViewWithConfiguration:forNavigationAction:windowFeatures:</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) WKWebView *( ^ ) ( WKWebView *webview , WKWebViewConfiguration *configuration , WKNavigationAction *action , WKWindowFeatures *windowFeatures ) createWebview</Declaration>
+			
+			
+			<Anchor>//api/name/createWebview</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/createWebview</TokenIdentifier>
+			<Abstract type="html">Use this to add custom handling for WKUIDelegate&apos;s webView:createWebViewWithConfiguration:forNavigationAction:windowFeatures:</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) WKWebView *( ^ ) ( WKWebView *webview , WKWebViewConfiguration *configuration , WKNavigationAction *action , WKWindowFeatures *windowFeatures ) createWebview</Declaration>
+			
+			
+			<Anchor>//api/name/createWebview</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/createWebview</TokenIdentifier>
+			<Abstract type="html">Use this to add custom handling for WKUIDelegate&apos;s webView:createWebViewWithConfiguration:forNavigationAction:windowFeatures:</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) WKWebView *( ^ ) ( WKWebView *webview , WKWebViewConfiguration *configuration , WKNavigationAction *action , WKWindowFeatures *windowFeatures ) createWebview</Declaration>
+			
+			
+			<Anchor>//api/name/createWebview</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setIsIdentityProvider:</TokenIdentifier>
+			<Abstract type="html">  Use this property to enable an app to become and IdentityProvider for other apps</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isIdentityProvider</Declaration>
+			
+			
+			<Anchor>//api/name/isIdentityProvider</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/isIdentityProvider</TokenIdentifier>
+			<Abstract type="html">  Use this property to enable an app to become and IdentityProvider for other apps</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isIdentityProvider</Declaration>
+			
+			
+			<Anchor>//api/name/isIdentityProvider</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/isIdentityProvider</TokenIdentifier>
+			<Abstract type="html">  Use this property to enable an app to become and IdentityProvider for other apps</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isIdentityProvider</Declaration>
+			
+			
+			<Anchor>//api/name/isIdentityProvider</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setIdpAppURIScheme:</TokenIdentifier>
+			<Abstract type="html">Use this property to indicate the url scheme  for the Identity Provider app</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) NSString *idpAppURIScheme</Declaration>
+			
+			
+			<Anchor>//api/name/idpAppURIScheme</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/idpAppURIScheme</TokenIdentifier>
+			<Abstract type="html">Use this property to indicate the url scheme  for the Identity Provider app</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) NSString *idpAppURIScheme</Declaration>
+			
+			
+			<Anchor>//api/name/idpAppURIScheme</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/idpAppURIScheme</TokenIdentifier>
+			<Abstract type="html">Use this property to indicate the url scheme  for the Identity Provider app</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nullable) NSString *idpAppURIScheme</Declaration>
+			
+			
+			<Anchor>//api/name/idpAppURIScheme</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setAppDisplayName:</TokenIdentifier>
+			<Abstract type="html">Use this property to indicate to provide a user-friendly name for your app. This name will be displayed
+in the user selection view of the identity provider app.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *appDisplayName</Declaration>
+			
+			
+			<Anchor>//api/name/appDisplayName</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/appDisplayName</TokenIdentifier>
+			<Abstract type="html">Use this property to indicate to provide a user-friendly name for your app. This name will be displayed
+in the user selection view of the identity provider app.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *appDisplayName</Declaration>
+			
+			
+			<Anchor>//api/name/appDisplayName</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/appDisplayName</TokenIdentifier>
+			<Abstract type="html">Use this property to indicate to provide a user-friendly name for your app. This name will be displayed
+in the user selection view of the identity provider app.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *appDisplayName</Declaration>
+			
+			
+			<Anchor>//api/name/appDisplayName</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setLoginViewControllerConfig:</TokenIdentifier>
+			<Abstract type="html">Use this property to indicate to provide LoginViewController customizations for themes,navbar and settigs icon.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFSDKLoginViewControllerConfig *loginViewControllerConfig</Declaration>
+			
+			
+			<Anchor>//api/name/loginViewControllerConfig</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/loginViewControllerConfig</TokenIdentifier>
+			<Abstract type="html">Use this property to indicate to provide LoginViewController customizations for themes,navbar and settigs icon.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFSDKLoginViewControllerConfig *loginViewControllerConfig</Declaration>
+			
+			
+			<Anchor>//api/name/loginViewControllerConfig</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/loginViewControllerConfig</TokenIdentifier>
+			<Abstract type="html">Use this property to indicate to provide LoginViewController customizations for themes,navbar and settigs icon.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFSDKLoginViewControllerConfig *loginViewControllerConfig</Declaration>
+			
+			
+			<Anchor>//api/name/loginViewControllerConfig</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setShouldFallbackToWebAuthentication:</TokenIdentifier>
+			<Abstract type="html">Indicates that that web based authentication should be used instead of native login.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL shouldFallbackToWebAuthentication</Declaration>
+			
+			
+			<Anchor>//api/name/shouldFallbackToWebAuthentication</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/shouldFallbackToWebAuthentication</TokenIdentifier>
+			<Abstract type="html">Indicates that that web based authentication should be used instead of native login.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL shouldFallbackToWebAuthentication</Declaration>
+			
+			
+			<Anchor>//api/name/shouldFallbackToWebAuthentication</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/shouldFallbackToWebAuthentication</TokenIdentifier>
+			<Abstract type="html">Indicates that that web based authentication should be used instead of native login.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL shouldFallbackToWebAuthentication</Declaration>
+			
+			
+			<Anchor>//api/name/shouldFallbackToWebAuthentication</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setShowAuthWindowWhileLoading:</TokenIdentifier>
+			<Abstract type="html">If true, present the auth window while the webview is loading. Otherwise wait to present the auth window until the webview has finished loading</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL showAuthWindowWhileLoading</Declaration>
+			
+			
+			<Anchor>//api/name/showAuthWindowWhileLoading</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/showAuthWindowWhileLoading</TokenIdentifier>
+			<Abstract type="html">If true, present the auth window while the webview is loading. Otherwise wait to present the auth window until the webview has finished loading</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL showAuthWindowWhileLoading</Declaration>
+			
+			
+			<Anchor>//api/name/showAuthWindowWhileLoading</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/showAuthWindowWhileLoading</TokenIdentifier>
+			<Abstract type="html">If true, present the auth window while the webview is loading. Otherwise wait to present the auth window until the webview has finished loading</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL showAuthWindowWhileLoading</Declaration>
+			
+			
+			<Anchor>//api/name/showAuthWindowWhileLoading</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/addDelegate:</TokenIdentifier>
+			<Abstract type="html">Adds a delegate to this user account manager.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>- (void)addDelegate:(id&lt;SFUserAccountManagerDelegate&gt;)delegate</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>delegate</Name>
+					<Abstract type="html">The delegate to add.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/addDelegate:</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/removeDelegate:</TokenIdentifier>
+			<Abstract type="html">Removes a delegate from this user account manager.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>- (void)removeDelegate:(id&lt;SFUserAccountManagerDelegate&gt;)delegate</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>delegate</Name>
+					<Abstract type="html">The delegate to remove.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/removeDelegate:</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/loadAccounts:</TokenIdentifier>
+			<Abstract type="html">Loads all the accounts.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)loadAccounts:(NSError **)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>error</Name>
+					<Abstract type="html">On output, the error if the return value is NO</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if the accounts were loaded properly, NO in case of error</Abstract></ReturnValue>
+			<Anchor>//api/name/loadAccounts:</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/allUserAccounts</TokenIdentifier>
+			<Abstract type="html">An NSArray of all the SFUserAccount instances for the app.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>- (nullable NSArray&lt;SFUserAccount*&gt; *)allUserAccounts</Declaration>
+			
+			
+			<Anchor>//api/name/allUserAccounts</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/allUserIdentities</TokenIdentifier>
+			<Abstract type="html">Returns all the user identities sorted by Org ID and User ID.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>- (nullable NSArray&lt;SFUserAccountIdentity*&gt; *)allUserIdentities</Declaration>
+			
+			
+			<Anchor>//api/name/allUserIdentities</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/createUserAccount:</TokenIdentifier>
+			<Abstract type="html">Create an account when necessary using the credentials provided.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>- (SFUserAccount *)createUserAccount:(SFOAuthCredentials *)credentials</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>credentials</Name>
-					<Abstract type="html">The credentials to link with the SFUserAccount.</Abstract>
+					<Abstract type="html">The credentials to use.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">the account instance</Abstract></ReturnValue>
-			<Anchor>//api/name/initWithCredentials:</Anchor>
+			
+			<Anchor>//api/name/createUserAccount:</Anchor>
             <NodeRef refid="133"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/setCustomDataObject:forKey:</TokenIdentifier>
-			<Abstract type="html">Set object in customData dictionary</Abstract>
-			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/createNativeUserAccount:scene:</TokenIdentifier>
+			<Abstract type="html">Create an account when necessary using token endpoint response data.  This function is intented for internal use only.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>- (void)setCustomDataObject:(id&lt;NSCoding&gt;)object forKey:(id&lt;NSCopying&gt;)key</Declaration>
+			<Declaration>- (void)createNativeUserAccount:(NSData *)data scene:(nullable UIScene *)scene</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>data</Name>
+					<Abstract type="html">The token endpoint response to use.</Abstract>
+				</Parameter><Parameter>
+					<Name>scene</Name>
+					<Abstract type="html">Optional scene to identify Native Login View Controller.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/createNativeUserAccount:scene:</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/userAccountForUserIdentity:</TokenIdentifier>
+			<Abstract type="html">Allows you to look up the user account associated with a given user identity.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>- (nullable SFUserAccount *)userAccountForUserIdentity:(SFUserAccountIdentity *)userIdentity</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>userIdentity</Name>
+					<Abstract type="html">The user identity of the user account to be looked up</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/userAccountForUserIdentity:</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/accountsForOrgId:</TokenIdentifier>
+			<Abstract type="html">Returns all accounts that have access to a particular org</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>- (NSArray&lt;SFUserAccount*&gt; *)accountsForOrgId:(NSString *)orgId</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>orgId</Name>
+					<Abstract type="html">The org to match accounts against</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">An array of accounts that can access that org</Abstract></ReturnValue>
+			<Anchor>//api/name/accountsForOrgId:</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/accountsForInstanceURL:</TokenIdentifier>
+			<Abstract type="html">Returns all accounts that match a particular instance URL</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>- (NSArray&lt;SFUserAccount*&gt; *)accountsForInstanceURL:(NSURL *)instanceURL</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>instanceURL</Name>
+					<Abstract type="html">The host parameter of a given instance URL</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">An array of accounts that match that instance URL</Abstract></ReturnValue>
+			<Anchor>//api/name/accountsForInstanceURL:</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/userAccountsForDomain:</TokenIdentifier>
+			<Abstract type="html">Returns all accounts that match a domain</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>- (NSArray&lt;SFUserAccount*&gt; *)userAccountsForDomain:(NSString *)domain</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>domain</Name>
+					<Abstract type="html">The domain.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">An array of accounts that match that instance URL</Abstract></ReturnValue>
+			<Anchor>//api/name/userAccountsForDomain:</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/saveAccountForUser:error:</TokenIdentifier>
+			<Abstract type="html">Adds/Updates a user account</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)saveAccountForUser:(SFUserAccount *)userAccount error:(NSError **)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>userAccount</Name>
+					<Abstract type="html">The account to be added</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/saveAccountForUser:error:</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/accountForCredentials:</TokenIdentifier>
+			<Abstract type="html">Lookup  a user account</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>- (nullable SFUserAccount *)accountForCredentials:(SFOAuthCredentials *)credentials</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>credentials</Name>
+					<Abstract type="html">used to  up Account matching the credentials</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/accountForCredentials:</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/deleteAccountForUser:error:</TokenIdentifier>
+			<Abstract type="html">Allows you to remove the given user account.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)deleteAccountForUser:(SFUserAccount *)userAccount error:(NSError **)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>userAccount</Name>
+					<Abstract type="html">The user account to remove.</Abstract>
+				</Parameter><Parameter>
+					<Name>error</Name>
+					<Abstract type="html">Output error parameter, populated if there was an error deleting
+the account (likely from the filesystem operations).</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if the deletion was successful, NO otherwise.  Note: If no persisted account matching
+the user parameter is found, no action will be taken, and deletion will be reported as successful.</Abstract></ReturnValue>
+			<Anchor>//api/name/deleteAccountForUser:error:</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/clearAllAccountState</TokenIdentifier>
+			<Abstract type="html">Clear all the accounts state (but do not change anything on the disk).</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>- (void)clearAllAccountState</Declaration>
+			
+			
+			<Anchor>//api/name/clearAllAccountState</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setObjectForUserCustomData:forKey:andUser:</TokenIdentifier>
+			<Abstract type="html">Apply custom data to the SFUserAccount that can be
+accessed outside that user&apos;s sandbox. This data will be persisted
+between launches and should only be used for non-sensitive information.
+The NSDictionary should be NSCoder encodeable.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>- (void)setObjectForUserCustomData:(NSObject&lt;NSCoding&gt; *)object forKey:(NSString *)key andUser:(SFUserAccount *)userAccount</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>object</Name>
-					<Abstract type="html">The object to store, must be one of the following: NSString, NSNumber,  NSArray, NSDictionary, NSURL, NSNull, NSDate</Abstract>
+					<Abstract type="html">The NScoding enabled object to set</Abstract>
 				</Parameter><Parameter>
 					<Name>key</Name>
-					<Abstract type="html">An NSCopying key to store the object at</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/setCustomDataObject:forKey:</Anchor>
-            <NodeRef refid="133"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/removeCustomDataObjectForKey:</TokenIdentifier>
-			<Abstract type="html">Remove a custom data object for a key</Abstract>
-			<DeclaredIn>SFUserAccount.h</DeclaredIn>
-			
-			<Declaration>- (void)removeCustomDataObjectForKey:(id)key</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The key for the object to remove</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/removeCustomDataObjectForKey:</Anchor>
-            <NodeRef refid="133"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/customDataObjectForKey:</TokenIdentifier>
-			<Abstract type="html">Retrieve the object stored in the custom data dictionary</Abstract>
-			<DeclaredIn>SFUserAccount.h</DeclaredIn>
-			
-			<Declaration>- (nullable id)customDataObjectForKey:(id)key</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The key for the object to retrieve</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The object for a particular key</Abstract></ReturnValue>
-			<Anchor>//api/name/customDataObjectForKey:</Anchor>
-            <NodeRef refid="133"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/setPhoto:completion:</TokenIdentifier>
-			<Abstract type="html">Sets the user&apos;s photo.</Abstract>
-			<DeclaredIn>SFUserAccount.h</DeclaredIn>
-			
-			<Declaration>- (void)setPhoto:(UIImage *_Nullable)photo completion:(void ( ^ __nullable ) ( NSError *_Nullable ))completion</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>photo</Name>
-					<Abstract type="html">The user photo, usually the thumbnail of the user.</Abstract>
+					<Abstract type="html">The key to retrieve this data for</Abstract>
 				</Parameter><Parameter>
-					<Name>completion</Name>
-					<Abstract type="html">Optional callback block invoked when the photo has been set. If not set, an error is returned.</Abstract>
+					<Name>userAccount</Name>
+					<Abstract type="html">The SFUserAccount to apply this change to.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/setPhoto:completion:</Anchor>
+			<Anchor>//api/name/setObjectForUserCustomData:forKey:andUser:</Anchor>
             <NodeRef refid="133"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/setCustomData:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFUserAccount+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/switchToNewUserWithCompletion:</TokenIdentifier>
+			<Abstract type="html">Switches to a new user. Sets the current user only if the login succeeds. Completion block is
+invoked if the login flow completes, or if any errors are encountered during the flow.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) NSMutableDictionary *customData</Declaration>
+			<Declaration>- (void)switchToNewUserWithCompletion:(void ( ^ ) ( NSError *_Nullable , SFUserAccount *_Nullable ))completion</Declaration>
 			
 			
-			<Anchor>//api/name/customData</Anchor>
+			<Anchor>//api/name/switchToNewUserWithCompletion:</Anchor>
             <NodeRef refid="133"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/customData</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFUserAccount+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/switchToUser:</TokenIdentifier>
+			<Abstract type="html">Switches away from the current user, to the given user account.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) NSMutableDictionary *customData</Declaration>
-			
-			
-			<Anchor>//api/name/customData</Anchor>
-            <NodeRef refid="133"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccount/customData</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFUserAccount+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong, nullable) NSMutableDictionary *customData</Declaration>
-			
-			
-			<Anchor>//api/name/customData</Anchor>
-            <NodeRef refid="133"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccount/transitionToLoginState:</TokenIdentifier>
-			<Abstract type="html">Attempts to transition from the current login state to the new login state.</Abstract>
-			<DeclaredIn>SFUserAccount+Internal.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)transitionToLoginState:(SFUserAccountLoginState)newLoginState</Declaration>
+			<Declaration>- (void)switchToUser:(nullable SFUserAccount *)userAccount</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>newLoginState</Name>
-					<Abstract type="html">The new login state to set.</Abstract>
+					<Name>userAccount</Name>
+					<Abstract type="html">The user to switch to.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the login state change was successful, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/transitionToLoginState:</Anchor>
+			
+			<Anchor>//api/name/switchToUser:</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/loginWithCompletion:failure:</TokenIdentifier>
+			<Abstract type="html">Kick off the login process for credentials that&apos;s previously configured.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)loginWithCompletion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>completionBlock</Name>
+					<Abstract type="html">The block of code to execute when the authentication process successfully completes.</Abstract>
+				</Parameter><Parameter>
+					<Name>failureBlock</Name>
+					<Abstract type="html">The block of code to execute when the authentication process has a fatal failure.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if this call kicks off the authentication process.  NO if an authentication process has already
+started, in which case subsequent requests are queued up to have their completion or failure blocks executed
+in succession.</Abstract></ReturnValue>
+			<Anchor>//api/name/loginWithCompletion:failure:</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/refreshCredentials:completion:failure:</TokenIdentifier>
+			<Abstract type="html">Kick off the refresh process for the specified credentials.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)refreshCredentials:(nonnull SFOAuthCredentials *)credentials completion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>credentials</Name>
+					<Abstract type="html">SFOAuthCredentials to be refreshed.</Abstract>
+				</Parameter><Parameter>
+					<Name>completionBlock</Name>
+					<Abstract type="html">The block of code to execute when the refresh process successfully completes.</Abstract>
+				</Parameter><Parameter>
+					<Name>failureBlock</Name>
+					<Abstract type="html">The block of code to execute when the refresh process has a fatal failure.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if this call kicks off the authentication process.  NO if an authentication process has already
+started, in which case subsequent requests are queued up to have their completion or failure blocks executed
+in succession.</Abstract></ReturnValue>
+			<Anchor>//api/name/refreshCredentials:completion:failure:</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/loginWithJwtToken:completion:failure:</TokenIdentifier>
+			<Abstract type="html">Login using the given JWT token to exchange with the service for credentials.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)loginWithJwtToken:(NSString *)jwtToken completion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>jwtToken</Name>
+					<Abstract type="html">The JWT token (received out of band) to exchange for credentials.</Abstract>
+				</Parameter><Parameter>
+					<Name>completionBlock</Name>
+					<Abstract type="html">The block of code to execute when the authentication process successfully completes.</Abstract>
+				</Parameter><Parameter>
+					<Name>failureBlock</Name>
+					<Abstract type="html">The block of code to execute when the authentication process has a fatal failure.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if this call kicks off the authentication process.  NO if an authentication process has already
+started, in which case subsequent requests are queued up to have their completion or failure blocks executed
+in succession.</Abstract></ReturnValue>
+			<Anchor>//api/name/loginWithJwtToken:completion:failure:</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/stopCurrentAuthentication:</TokenIdentifier>
+			<Abstract type="html">Use this method to stop/clear any authentication which is has already been started</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>- (void)stopCurrentAuthentication:(nullable void ( ^ ) ( BOOL ))completionBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>completionBlock</Name>
+					<Abstract type="html">The completion block is called with YES if a session was cleared successfully.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/stopCurrentAuthentication:</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/logout</TokenIdentifier>
+			<Abstract type="html">Forces a logout from the current account, redirecting the user to the login process.
+This throws out the OAuth refresh token.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>- (void)logout</Declaration>
+			
+			
+			<Anchor>//api/name/logout</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/logout:</TokenIdentifier>
+			<Abstract type="html">Forces a logout from the current account, redirecting the user to the login process.
+This throws out the OAuth refresh token.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>- (void)logout:(SFLogoutReason)reason</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>reason</Name>
+					<Abstract type="html">The reason that log out was initiated.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/logout:</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/logoutUser:</TokenIdentifier>
+			<Abstract type="html">Performs a logout on the specified user.  Note that if the user is not the current user of the app, the
+specified user&apos;s authenticated state will be removed, but no other action will otherwise interrupt the
+current app state.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>- (void)logoutUser:(SFUserAccount *)user</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>user</Name>
+					<Abstract type="html">The user to log out.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/logoutUser:</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/logoutUser:reason:</TokenIdentifier>
+			<Abstract type="html">Performs a logout on the specified user.  Note that if the user is not the current user of the app, the
+specified user&apos;s authenticated state will be removed, but no other action will otherwise interrupt the
+current app state.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>- (void)logoutUser:(SFUserAccount *)user reason:(SFLogoutReason)reason</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>user</Name>
+					<Abstract type="html">The user to log out.</Abstract>
+				</Parameter><Parameter>
+					<Name>reason</Name>
+					<Abstract type="html">The reason that log out was initiated.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/logoutUser:reason:</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/logoutAllUsers</TokenIdentifier>
+			<Abstract type="html">Performs a logout for all users of the app, including the current user.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>- (void)logoutAllUsers</Declaration>
+			
+			
+			<Anchor>//api/name/logoutAllUsers</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/handleIDPAuthenticationResponse:options:</TokenIdentifier>
+			<Abstract type="html">Handle an authentication response from the IDP application</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)handleIDPAuthenticationResponse:(NSURL *)url options:(nonnull NSDictionary *)options</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>url</Name>
+					<Abstract type="html">The URL response returned to the app from the IDP application.</Abstract>
+				</Parameter><Parameter>
+					<Name>options</Name>
+					<Abstract type="html">Dictionary of name-value pairs received from open URL</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if this is a valid URL response from IDP authentication that should be handled, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/handleIDPAuthenticationResponse:options:</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/handleIDPAuthenticationCommand:options:completion:failure:</TokenIdentifier>
+			<Abstract type="html">Handle an authentication request with auth code from the IDP application</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)handleIDPAuthenticationCommand:(NSURL *)url options:(nonnull NSDictionary *)options completion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>url</Name>
+					<Abstract type="html">The URL response returned to the app from the IDP application.</Abstract>
+				</Parameter><Parameter>
+					<Name>options</Name>
+					<Abstract type="html">Dictionary of name-value pairs received from open URL</Abstract>
+				</Parameter><Parameter>
+					<Name>completionBlock</Name>
+					<Abstract type="html">called on successful login</Abstract>
+				</Parameter><Parameter>
+					<Name>failureBlock</Name>
+					<Abstract type="html">called on failure during login flow</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if this is a valid URL response from IDP authentication that should be handled, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/handleIDPAuthenticationCommand:options:completion:failure:</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/kickOffIDPInitiatedLoginFlowForSP:statusUpdate:failure:</TokenIdentifier>
+			<Abstract type="html">Kick off IDP initiated login flow for given SP app</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>- (void)kickOffIDPInitiatedLoginFlowForSP:(SFSDKSPConfig *)config statusUpdate:(void ( ^ ) ( SFSPLoginStatus ))statusBlock failure:(void ( ^ ) ( SFSPLoginError ))failureBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>config</Name>
+					<Abstract type="html">Configuration for SP app</Abstract>
+				</Parameter><Parameter>
+					<Name>statusBlock</Name>
+					<Abstract type="html">called at different steps throughout the login flow</Abstract>
+				</Parameter><Parameter>
+					<Name>failureBlock</Name>
+					<Abstract type="html">called on error, stops the login flow</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/kickOffIDPInitiatedLoginFlowForSP:statusUpdate:failure:</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/handleIdpAuthError:</TokenIdentifier>
+			<Abstract type="html">Handle an error situation that occured in the IDP flow.</Abstract>
+			<DeclaredIn>SFUserAccountManager+URLHandlers.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)handleIdpAuthError:(SFSDKAuthErrorCommand *_Nonnull)command</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>command</Name>
+					<Abstract type="html">The Error URL request from the idp or SP App.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if this is request is handled, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/handleIdpAuthError:</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/handleIdpInitiatedAuth:</TokenIdentifier>
+			<Abstract type="html">Handle an IDP initiated auth flow.</Abstract>
+			<DeclaredIn>SFUserAccountManager+URLHandlers.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)handleIdpInitiatedAuth:(SFSDKIDPLoginRequestCommand *_Nonnull)command</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>command</Name>
+					<Abstract type="html">The URL request from the IDP APP.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if this is request is handled, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/handleIdpInitiatedAuth:</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/handleAuthRequestFromSPApp:</TokenIdentifier>
+			<Abstract type="html">Handle an IDP request initiated from an SP APP.</Abstract>
+			<DeclaredIn>SFUserAccountManager+URLHandlers.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)handleAuthRequestFromSPApp:(SFSDKSPLoginRequestCommand *_Nonnull)request</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>request</Name>
+					<Abstract type="html">The  request from the SP APP.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if this request is handled, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/handleAuthRequestFromSPApp:</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/handleIdpResponse:sceneId:</TokenIdentifier>
+			<Abstract type="html">Handle an IDP response received from an IDP APP.</Abstract>
+			<DeclaredIn>SFUserAccountManager+URLHandlers.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)handleIdpResponse:(SFSDKSPLoginResponseCommand *_Nonnull)response sceneId:(nullable NSString *)sceneId</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>response</Name>
+					<Abstract type="html">The URL response from the IDP APP.</Abstract>
+				</Parameter><Parameter>
+					<Name>sceneId</Name>
+					<Abstract type="html">The identifier for the scene that&apos;s handling the response.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if this is request is handled, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/handleIdpResponse:sceneId:</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/handleIdpRequest:sceneId:completion:failure:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFUserAccountManager+URLHandlers.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)handleIdpRequest:(SFSDKIDPAuthCodeLoginRequestCommand *_Nonnull)response sceneId:(nullable NSString *)sceneId completion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock</Declaration>
+			
+			
+			<Anchor>//api/name/handleIdpRequest:sceneId:completion:failure:</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setDelegates:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nonnull) NSHashTable&lt;id&lt;SFUserAccountManagerDelegate&gt; &gt; *delegates</Declaration>
+			
+			
+			<Anchor>//api/name/delegates</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/delegates</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nonnull) NSHashTable&lt;id&lt;SFUserAccountManagerDelegate&gt; &gt; *delegates</Declaration>
+			
+			
+			<Anchor>//api/name/delegates</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/delegates</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nonnull) NSHashTable&lt;id&lt;SFUserAccountManagerDelegate&gt; &gt; *delegates</Declaration>
+			
+			
+			<Anchor>//api/name/delegates</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setUserAccountMap:</TokenIdentifier>
+			<Abstract type="html">A map of user accounts by user ID</Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) NSMutableDictionary *userAccountMap</Declaration>
+			
+			
+			<Anchor>//api/name/userAccountMap</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/userAccountMap</TokenIdentifier>
+			<Abstract type="html">A map of user accounts by user ID</Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) NSMutableDictionary *userAccountMap</Declaration>
+			
+			
+			<Anchor>//api/name/userAccountMap</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/userAccountMap</TokenIdentifier>
+			<Abstract type="html">A map of user accounts by user ID</Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) NSMutableDictionary *userAccountMap</Declaration>
+			
+			
+			<Anchor>//api/name/userAccountMap</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setAccountPersister:</TokenIdentifier>
+			<Abstract type="html">instance of accountPersister</Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) id&lt;SFUserAccountPersister&gt; accountPersister</Declaration>
+			
+			
+			<Anchor>//api/name/accountPersister</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/accountPersister</TokenIdentifier>
+			<Abstract type="html">instance of accountPersister</Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) id&lt;SFUserAccountPersister&gt; accountPersister</Declaration>
+			
+			
+			<Anchor>//api/name/accountPersister</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/accountPersister</TokenIdentifier>
+			<Abstract type="html">instance of accountPersister</Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) id&lt;SFUserAccountPersister&gt; accountPersister</Declaration>
+			
+			
+			<Anchor>//api/name/accountPersister</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setAuthPreferences:</TokenIdentifier>
+			<Abstract type="html">instance of authPreferences</Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nonnull) SFSDKAuthPreferences *authPreferences</Declaration>
+			
+			
+			<Anchor>//api/name/authPreferences</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/authPreferences</TokenIdentifier>
+			<Abstract type="html">instance of authPreferences</Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nonnull) SFSDKAuthPreferences *authPreferences</Declaration>
+			
+			
+			<Anchor>//api/name/authPreferences</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/authPreferences</TokenIdentifier>
+			<Abstract type="html">instance of authPreferences</Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nonnull) SFSDKAuthPreferences *authPreferences</Declaration>
+			
+			
+			<Anchor>//api/name/authPreferences</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setAlertView:</TokenIdentifier>
+			<Abstract type="html">SFSDKAlertView used to wrap display of SFSDKMessage using an AlertController.</Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) SFSDKAlertView *alertView</Declaration>
+			
+			
+			<Anchor>//api/name/alertView</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/alertView</TokenIdentifier>
+			<Abstract type="html">SFSDKAlertView used to wrap display of SFSDKMessage using an AlertController.</Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) SFSDKAlertView *alertView</Declaration>
+			
+			
+			<Anchor>//api/name/alertView</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/alertView</TokenIdentifier>
+			<Abstract type="html">SFSDKAlertView used to wrap display of SFSDKMessage using an AlertController.</Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) SFSDKAlertView *alertView</Declaration>
+			
+			
+			<Anchor>//api/name/alertView</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setAlertDisplayBlock:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nonnull) void ( ^ ) ( SFSDKAlertMessage *, SFSDKWindowContainer *) alertDisplayBlock</Declaration>
+			
+			
+			<Anchor>//api/name/alertDisplayBlock</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/alertDisplayBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nonnull) void ( ^ ) ( SFSDKAlertMessage *, SFSDKWindowContainer *) alertDisplayBlock</Declaration>
+			
+			
+			<Anchor>//api/name/alertDisplayBlock</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/alertDisplayBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, nonnull) void ( ^ ) ( SFSDKAlertMessage *, SFSDKWindowContainer *) alertDisplayBlock</Declaration>
+			
+			
+			<Anchor>//api/name/alertDisplayBlock</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setErrorManager:</TokenIdentifier>
+			<Abstract type="html">SFSDKAlertView used to wrap display of SFSDKMessage using an AlertController.</Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) SFSDKAuthErrorManager *errorManager</Declaration>
+			
+			
+			<Anchor>//api/name/errorManager</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/errorManager</TokenIdentifier>
+			<Abstract type="html">SFSDKAlertView used to wrap display of SFSDKMessage using an AlertController.</Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) SFSDKAuthErrorManager *errorManager</Declaration>
+			
+			
+			<Anchor>//api/name/errorManager</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/errorManager</TokenIdentifier>
+			<Abstract type="html">SFSDKAlertView used to wrap display of SFSDKMessage using an AlertController.</Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nullable) SFSDKAuthErrorManager *errorManager</Declaration>
+			
+			
+			<Anchor>//api/name/errorManager</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setAuthSessions:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nonnull) SFSDKSafeMutableDictionary&lt;NSString*SFSDKAuthSession*&gt; *authSessions</Declaration>
+			
+			
+			<Anchor>//api/name/authSessions</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/authSessions</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nonnull) SFSDKSafeMutableDictionary&lt;NSString*SFSDKAuthSession*&gt; *authSessions</Declaration>
+			
+			
+			<Anchor>//api/name/authSessions</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/authSessions</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nonnull) SFSDKSafeMutableDictionary&lt;NSString*SFSDKAuthSession*&gt; *authSessions</Declaration>
+			
+			
+			<Anchor>//api/name/authSessions</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setUseBrowserAuth:</TokenIdentifier>
+			<Abstract type="html">Indicates if the app is configured to require browser based authentication.</Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL useBrowserAuth</Declaration>
+			
+			
+			<Anchor>//api/name/useBrowserAuth</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/useBrowserAuth</TokenIdentifier>
+			<Abstract type="html">Indicates if the app is configured to require browser based authentication.</Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL useBrowserAuth</Declaration>
+			
+			
+			<Anchor>//api/name/useBrowserAuth</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/useBrowserAuth</TokenIdentifier>
+			<Abstract type="html">Indicates if the app is configured to require browser based authentication.</Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL useBrowserAuth</Declaration>
+			
+			
+			<Anchor>//api/name/useBrowserAuth</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setAuthViewHandler:</TokenIdentifier>
+			<Abstract type="html">Set this block to handle presentation of the Authentication View Controller.</Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFSDKAuthViewHandler *authViewHandler</Declaration>
+			
+			
+			<Anchor>//api/name/authViewHandler</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/authViewHandler</TokenIdentifier>
+			<Abstract type="html">Set this block to handle presentation of the Authentication View Controller.</Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFSDKAuthViewHandler *authViewHandler</Declaration>
+			
+			
+			<Anchor>//api/name/authViewHandler</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/authViewHandler</TokenIdentifier>
+			<Abstract type="html">Set this block to handle presentation of the Authentication View Controller.</Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFSDKAuthViewHandler *authViewHandler</Declaration>
+			
+			
+			<Anchor>//api/name/authViewHandler</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setNativeLoginEnabled:</TokenIdentifier>
+			<Abstract type="html">Indicates if the app is configured for native login authentication.</Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL nativeLoginEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/nativeLoginEnabled</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/nativeLoginEnabled</TokenIdentifier>
+			<Abstract type="html">Indicates if the app is configured for native login authentication.</Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL nativeLoginEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/nativeLoginEnabled</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/nativeLoginEnabled</TokenIdentifier>
+			<Abstract type="html">Indicates if the app is configured for native login authentication.</Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL nativeLoginEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/nativeLoginEnabled</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setCurrentUserInternal:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)setCurrentUserInternal:(SFUserAccount *_Nullable)user</Declaration>
+			
+			
+			<Anchor>//api/name/setCurrentUserInternal:</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/enumerateDelegates:</TokenIdentifier>
+			<Abstract type="html">Executes the given block for each configured delegate.</Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)enumerateDelegates:(nullable void ( ^ ) ( id&lt;SFUserAccountManagerDelegate&gt; _Nonnull ))block</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>block</Name>
+					<Abstract type="html">The block to execute for each delegate.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/enumerateDelegates:</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/allExistingAccountNames</TokenIdentifier>
+			<Abstract type="html">NSSet enumeration of all account Names</Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (nullable NSSet *)allExistingAccountNames</Declaration>
+			
+			<ReturnValue><Abstract type="html">NSSet enumeration of all account Names</Abstract></ReturnValue>
+			<Anchor>//api/name/allExistingAccountNames</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/uniqueUserAccountIdentifier:</TokenIdentifier>
+			<Abstract type="html">Returns a unique identifier that can be used to create a new Account</Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (nonnull NSString *)uniqueUserAccountIdentifier:(nonnull NSString *)clientId</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>clientId</Name>
+					<Abstract type="html">OAuth Client Id</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">A unique identifier</Abstract></ReturnValue>
+			<Anchor>//api/name/uniqueUserAccountIdentifier:</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/reload</TokenIdentifier>
+			<Abstract type="html">Reload the accounts and reset the state of SFUserAccountManager. Use for tests only</Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)reload</Declaration>
+			
+			
+			<Anchor>//api/name/reload</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/orgHasLoggedInUsers:</TokenIdentifier>
+			<Abstract type="html">Check if user accounts exist for a given org.</Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)orgHasLoggedInUsers:(nonnull NSString *)orgId</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>orgId</Name>
+					<Abstract type="html">for org</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if accounts exist, otherwise NO.</Abstract></ReturnValue>
+			<Anchor>//api/name/orgHasLoggedInUsers:</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/accountPersister</TokenIdentifier>
+			<Abstract type="html">Get the Account Persister being used.</Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (nullable id&lt;SFUserAccountPersister&gt;)accountPersister</Declaration>
+			
+			<ReturnValue><Abstract type="html">SFUserAccountPersister that is used.</Abstract></ReturnValue>
+			<Anchor>//api/name/accountPersister</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/applyCredentials:</TokenIdentifier>
+			<Abstract type="html">Invoke this method to apply the specified credentials to the
+a user whose credentials match. If no user exists, a new one is created. Fire notifications.
+This will post user update notification.</Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (SFUserAccount *)applyCredentials:(SFOAuthCredentials *)credentials</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>credentials</Name>
+					<Abstract type="html">The credentials to apply</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/applyCredentials:</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/applyCredentials:withIdData:</TokenIdentifier>
+			<Abstract type="html">Invoke this method to apply the specified credentials to the
+a user whose credentials match. If no user exists, a new one is created. Fire notifications.
+This will post user update notification.</Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (SFUserAccount *)applyCredentials:(SFOAuthCredentials *)credentials withIdData:(nullable SFIdentityData *)identityData</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>credentials</Name>
+					<Abstract type="html">The credentials to apply</Abstract>
+				</Parameter><Parameter>
+					<Name>identityData</Name>
+					<Abstract type="html">The identityData to apply</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/applyCredentials:withIdData:</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/encodeUserIdentity:</TokenIdentifier>
+			<Abstract type="html">to use for encoding to String</Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (NSString *_Nonnull)encodeUserIdentity:(SFUserAccountIdentity *_Nonnull)userIdentity</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>userIdentity</Name>
+					<Abstract type="html">to use for encoding to String</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">NSString userid:orgid</Abstract></ReturnValue>
+			<Anchor>//api/name/encodeUserIdentity:</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/decodeUserIdentity:</TokenIdentifier>
+			<Abstract type="html">encoded string</Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (SFUserAccountIdentity *_Nullable)decodeUserIdentity:(NSString *_Nullable)userIdentityEncoded</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>userIdentityEncoded</Name>
+					<Abstract type="html">encoded string</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">SFUserAccountIdentity decoded from string</Abstract></ReturnValue>
+			<Anchor>//api/name/decodeUserIdentity:</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/handleAdvancedAuthURL:options:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)handleAdvancedAuthURL:(NSURL *)advancedAuthURL options:(nullable NSDictionary *)options</Declaration>
+			
+			
+			<Anchor>//api/name/handleAdvancedAuthURL:options:</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/authenticateUsingIDP:completion:failure:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)authenticateUsingIDP:(SFSDKAuthRequest *)request completion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock</Declaration>
+			
+			
+			<Anchor>//api/name/authenticateUsingIDP:completion:failure:</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/authenticateWithRequest:completion:failure:frontDoorBridgeUrl:codeVerifier:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)authenticateWithRequest:(SFSDKAuthRequest *)request completion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock frontDoorBridgeUrl:(nullable NSURL *)frontDoorBridgeUrl codeVerifier:(nullable NSString *)codeVerifier</Declaration>
+			
+			
+			<Anchor>//api/name/authenticateWithRequest:completion:failure:frontDoorBridgeUrl:codeVerifier:</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/defaultAuthRequest</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (SFSDKAuthRequest *)defaultAuthRequest</Declaration>
+			
+			
+			<Anchor>//api/name/defaultAuthRequest</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/loginWithCompletion:failure:scene:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)loginWithCompletion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock scene:(nullable UIScene *)scene</Declaration>
+			
+			
+			<Anchor>//api/name/loginWithCompletion:failure:scene:</Anchor>
+            <NodeRef refid="133"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/loginWithCompletion:failure:scene:frontDoorBridgeUrl:codeVerifier:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)loginWithCompletion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock scene:(UIScene *)scene frontDoorBridgeUrl:(nullable NSURL *)frontDoorBridgeUrl codeVerifier:(nullable NSString *)codeVerifier</Declaration>
+			
+			
+			<Anchor>//api/name/loginWithCompletion:failure:scene:frontDoorBridgeUrl:codeVerifier:</Anchor>
             <NodeRef refid="133"/>
 		</Token>
 		

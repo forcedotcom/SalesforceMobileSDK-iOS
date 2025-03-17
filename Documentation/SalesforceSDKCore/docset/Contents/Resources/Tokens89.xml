@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKLogoutBlocker.html">
+	<File path="Classes/SFSDKMacDetectUtil.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKLogoutBlocker</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKMacDetectUtil</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKLogoutBlocker.h</DeclaredIn>
+			<DeclaredIn>SFSDKMacDetectUtil.h</DeclaredIn>
             
 			
 			<NodeRef refid="89"/>
@@ -13,14 +13,14 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKLogoutBlocker/block</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKMacDetectUtil/isOnMac</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKLogoutBlocker.h</DeclaredIn>
+			<DeclaredIn>SFSDKMacDetectUtil.h</DeclaredIn>
 			
-			<Declaration>+ (instancetype)block</Declaration>
+			<Declaration>+ (BOOL)isOnMac</Declaration>
 			
 			
-			<Anchor>//api/name/block</Anchor>
+			<Anchor>//api/name/isOnMac</Anchor>
             <NodeRef refid="89"/>
 		</Token>
 		

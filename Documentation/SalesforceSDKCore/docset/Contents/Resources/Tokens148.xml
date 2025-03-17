@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/NSData+SFSDKUtilsInternal.html">
+	<File path="Categories/NSData+SFzlib.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/NSData(SFSDKUtilsInternal)</TokenIdentifier>
-			<Abstract type="html">Internal definitions for the Mobile SDK NSData utilities.</Abstract>
-			<DeclaredIn>NSData+SFSDKUtils_Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/NSData(SFzlib)</TokenIdentifier>
+			<Abstract type="html">Provides gzip uncompressed conversion support.</Abstract>
+			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
             
 			
 			<NodeRef refid="148"/>
@@ -13,19 +13,26 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSData/sfsdk_replaceBase64CharsForBase64UrlString:</TokenIdentifier>
-			<Abstract type="html">Replace the base64 characters that are invalid in a base64url string.</Abstract>
-			<DeclaredIn>NSData+SFSDKUtils_Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/sfsdk_gzipInflate</TokenIdentifier>
+			<Abstract type="html">Converts this data to gzip uncompressed format.</Abstract>
+			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>+ (NSString *)sfsdk_replaceBase64CharsForBase64UrlString:(NSString *)base64String</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>base64String</Name>
-					<Abstract type="html">The input string with characters to replace.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The base64 string with the URL chars replaced (i.e. the base64url string).</Abstract></ReturnValue>
-			<Anchor>//api/name/sfsdk_replaceBase64CharsForBase64UrlString:</Anchor>
+			<Declaration>- (nullable NSData *)sfsdk_gzipInflate</Declaration>
+			
+			<ReturnValue><Abstract type="html">This data in gzip uncompressed format.</Abstract></ReturnValue>
+			<Anchor>//api/name/sfsdk_gzipInflate</Anchor>
+            <NodeRef refid="148"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/sfsdk_gzipDeflate</TokenIdentifier>
+			<Abstract type="html">Converts this data to gzip compressed format.</Abstract>
+			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
+			
+			<Declaration>- (nullable NSData *)sfsdk_gzipDeflate</Declaration>
+			
+			<ReturnValue><Abstract type="html">This data in gzip compressed format.</Abstract></ReturnValue>
+			<Anchor>//api/name/sfsdk_gzipDeflate</Anchor>
             <NodeRef refid="148"/>
 		</Token>
 		

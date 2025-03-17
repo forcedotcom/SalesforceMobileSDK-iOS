@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFRestMethod.html">
+	<File path="Constants/SFSDKRestServiceHostType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFRestMethod</TokenIdentifier>
-			<Abstract type="html">HTTP methods for requests.</Abstract>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSDKRestServiceHostType</TokenIdentifier>
+			<Abstract type="html">The type of service host to use for Rest requests.</Abstract>
 			<DeclaredIn>SFRestRequest.h</DeclaredIn>
             
 			
@@ -14,9 +14,10 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFRestMethodGET</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFRestMethodGET</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKRestServiceHostTypeLogin</TokenIdentifier>
+            <Abstract type="html">Request uses the login endpoint.
+     </Abstract>
+            <Declaration>SFSDKRestServiceHostTypeLogin</Declaration>
             
             <DeclaredIn>SFRestRequest.h</DeclaredIn>
             
@@ -24,9 +25,10 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFRestMethodPOST</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFRestMethodPOST</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKRestServiceHostTypeInstance</TokenIdentifier>
+            <Abstract type="html">Request uses the instance endpoint.
+     </Abstract>
+            <Declaration>SFSDKRestServiceHostTypeInstance</Declaration>
             
             <DeclaredIn>SFRestRequest.h</DeclaredIn>
             
@@ -34,39 +36,10 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFRestMethodPUT</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFRestMethodPUT</Declaration>
-            
-            <DeclaredIn>SFRestRequest.h</DeclaredIn>
-            
-            <NodeRef refid="189"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFRestMethodDELETE</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFRestMethodDELETE</Declaration>
-            
-            <DeclaredIn>SFRestRequest.h</DeclaredIn>
-            
-            <NodeRef refid="189"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFRestMethodHEAD</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFRestMethodHEAD</Declaration>
-            
-            <DeclaredIn>SFRestRequest.h</DeclaredIn>
-            
-            <NodeRef refid="189"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFRestMethodPATCH</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFRestMethodPATCH</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKRestServiceHostTypeCustom</TokenIdentifier>
+            <Abstract type="html">Request uses a custom endpoint.
+     </Abstract>
+            <Declaration>SFSDKRestServiceHostTypeCustom</Declaration>
             
             <DeclaredIn>SFRestRequest.h</DeclaredIn>
             

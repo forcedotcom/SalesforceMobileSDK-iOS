@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSDKWindowType.html">
+	<File path="Constants/SFURLCacheType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSDKWindowType</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/SFURLCacheType</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="194"/>
@@ -14,51 +14,31 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeMain</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/kSFURLCacheTypeEncrypted</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKWindowTypeMain</Declaration>
+            <Declaration>kSFURLCacheTypeEncrypted</Declaration>
             
-            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+            <DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
             
             <NodeRef refid="194"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeAuth</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/kSFURLCacheTypeNull</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKWindowTypeAuth</Declaration>
+            <Declaration>kSFURLCacheTypeNull</Declaration>
             
-            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+            <DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
             
             <NodeRef refid="194"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeScreenLock</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/kSFURLCacheTypeStandard</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKWindowTypeScreenLock</Declaration>
+            <Declaration>kSFURLCacheTypeStandard</Declaration>
             
-            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-            
-            <NodeRef refid="194"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeSnapshot</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSDKWindowTypeSnapshot</Declaration>
-            
-            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-            
-            <NodeRef refid="194"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeOther</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSDKWindowTypeOther</Declaration>
-            
-            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+            <DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
             
             <NodeRef refid="194"/>
         </Token>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKUpdateNotificationsRequestBuilder.html">
+	<File path="Classes/SFSDKUserSelectionTableViewController.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKUpdateNotificationsRequestBuilder</TokenIdentifier>
-			<Abstract type="html">Use this interface to create a PATCH RestRequest object that calls the Notifications REST API.</Abstract>
-			<DeclaredIn>SFRestAPI+Notifications.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKUserSelectionTableViewController</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
             
 			
 			<NodeRef refid="121"/>
@@ -13,104 +13,206 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUpdateNotificationsRequestBuilder/setNotificationId:</TokenIdentifier>
-			<Abstract type="html">Sets the notification to update. Shouldn&apos;t be used with setNotificationIds or setBefore.</Abstract>
-			<DeclaredIn>SFRestAPI+Notifications.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/setSelectedAccount:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKUpdateNotificationsRequestBuilder *)setNotificationId:(NSString *)notificationId</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>notificationId</Name>
-					<Abstract type="html">ID of notification to update.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, strong) SFUserAccount *selectedAccount</Declaration>
 			
-			<Anchor>//api/name/setNotificationId:</Anchor>
+			
+			<Anchor>//api/name/selectedAccount</Anchor>
             <NodeRef refid="121"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUpdateNotificationsRequestBuilder/setNotificationIds:</TokenIdentifier>
-			<Abstract type="html">Sets a list of notifications to update (max 50). Shouldn&apos;t be used with setNotificationId or setBefore.</Abstract>
-			<DeclaredIn>SFRestAPI+Notifications.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/selectedAccount</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKUpdateNotificationsRequestBuilder *)setNotificationIds:(NSArray&lt;NSString*&gt; *)notificationIds</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>notificationIds</Name>
-					<Abstract type="html">Array of notifications IDs to update.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, strong) SFUserAccount *selectedAccount</Declaration>
 			
-			<Anchor>//api/name/setNotificationIds:</Anchor>
+			
+			<Anchor>//api/name/selectedAccount</Anchor>
             <NodeRef refid="121"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUpdateNotificationsRequestBuilder/setBefore:</TokenIdentifier>
-			<Abstract type="html">Notifications occurring before the provided date will be updated. Shouldn&apos;t be used with setNotificationId or setNotificationIds.</Abstract>
-			<DeclaredIn>SFRestAPI+Notifications.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUserSelectionTableViewController/selectedAccount</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKUpdateNotificationsRequestBuilder *)setBefore:(NSDate *)date</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>date</Name>
-					<Abstract type="html">Before date. If unspecified, defaults to current date and time.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, strong) SFUserAccount *selectedAccount</Declaration>
 			
-			<Anchor>//api/name/setBefore:</Anchor>
+			
+			<Anchor>//api/name/selectedAccount</Anchor>
             <NodeRef refid="121"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUpdateNotificationsRequestBuilder/setSeen:</TokenIdentifier>
-			<Abstract type="html">Marks the notification(s) as seen (true) or unseen (false)</Abstract>
-			<DeclaredIn>SFRestAPI+Notifications.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/setListViewDelegate:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKUpdateNotificationsRequestBuilder *)setSeen:(BOOL)seen</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>seen</Name>
-					<Abstract type="html">If the notification is seen or not.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, weak) id&lt;SFSDKUserSelectionTableViewControllerDelegate&gt; listViewDelegate</Declaration>
 			
-			<Anchor>//api/name/setSeen:</Anchor>
+			
+			<Anchor>//api/name/listViewDelegate</Anchor>
             <NodeRef refid="121"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUpdateNotificationsRequestBuilder/setRead:</TokenIdentifier>
-			<Abstract type="html">Marks the notification(s) as read (true) or unread (false)</Abstract>
-			<DeclaredIn>SFRestAPI+Notifications.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/listViewDelegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKUpdateNotificationsRequestBuilder *)setRead:(BOOL)read</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>read</Name>
-					<Abstract type="html">If the notification is read or not.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, weak) id&lt;SFSDKUserSelectionTableViewControllerDelegate&gt; listViewDelegate</Declaration>
 			
-			<Anchor>//api/name/setRead:</Anchor>
+			
+			<Anchor>//api/name/listViewDelegate</Anchor>
             <NodeRef refid="121"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUpdateNotificationsRequestBuilder/buildUpdateNotificationsRequest:</TokenIdentifier>
-			<Abstract type="html">Returns a request to update notifications based on values from the builder.</Abstract>
-			<DeclaredIn>SFRestAPI+Notifications.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUserSelectionTableViewController/listViewDelegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
 			
-			<Declaration>- (SFRestRequest *)buildUpdateNotificationsRequest:(NSString *)apiVersion</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>apiVersion</Name>
-					<Abstract type="html">API version.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, weak) id&lt;SFSDKUserSelectionTableViewControllerDelegate&gt; listViewDelegate</Declaration>
 			
-			<Anchor>//api/name/buildUpdateNotificationsRequest:</Anchor>
+			
+			<Anchor>//api/name/listViewDelegate</Anchor>
+            <NodeRef refid="121"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/setSpAppOptions:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSDictionary *spAppOptions</Declaration>
+			
+			
+			<Anchor>//api/name/spAppOptions</Anchor>
+            <NodeRef refid="121"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/spAppOptions</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSDictionary *spAppOptions</Declaration>
+			
+			
+			<Anchor>//api/name/spAppOptions</Anchor>
+            <NodeRef refid="121"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUserSelectionTableViewController/spAppOptions</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSDictionary *spAppOptions</Declaration>
+			
+			
+			<Anchor>//api/name/spAppOptions</Anchor>
+            <NodeRef refid="121"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/setNavigationBar:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UINavigationBar *navigationBar</Declaration>
+			
+			
+			<Anchor>//api/name/navigationBar</Anchor>
+            <NodeRef refid="121"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/navigationBar</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UINavigationBar *navigationBar</Declaration>
+			
+			
+			<Anchor>//api/name/navigationBar</Anchor>
+            <NodeRef refid="121"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUserSelectionTableViewController/navigationBar</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UINavigationBar *navigationBar</Declaration>
+			
+			
+			<Anchor>//api/name/navigationBar</Anchor>
+            <NodeRef refid="121"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/setTableView:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UITableView *tableView</Declaration>
+			
+			
+			<Anchor>//api/name/tableView</Anchor>
+            <NodeRef refid="121"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/tableView</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UITableView *tableView</Declaration>
+			
+			
+			<Anchor>//api/name/tableView</Anchor>
+            <NodeRef refid="121"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUserSelectionTableViewController/tableView</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UITableView *tableView</Declaration>
+			
+			
+			<Anchor>//api/name/tableView</Anchor>
+            <NodeRef refid="121"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/createFooterView</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			
+			<Declaration>- (UIView *)createFooterView</Declaration>
+			
+			
+			<Anchor>//api/name/createFooterView</Anchor>
+            <NodeRef refid="121"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/createHeaderView</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			
+			<Declaration>- (UIView *)createHeaderView</Declaration>
+			
+			
+			<Anchor>//api/name/createHeaderView</Anchor>
             <NodeRef refid="121"/>
 		</Token>
 		
