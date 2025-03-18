@@ -4,7 +4,7 @@ import Foundation
 @objcMembers
 public class NotificationTypesResponse: NSObject, Codable {
     public let notificationTypes: [NotificationType]
-
+    
     public init(notificationTypes: [NotificationType]) {
         self.notificationTypes = notificationTypes
     }
@@ -16,15 +16,15 @@ public class NotificationType: NSObject, Codable {
     public let type: String
     public let apiName: String
     public let label: String
-    public let actionGroups: [ActionGroup]
-
-    public init(type: String, apiName: String, label: String, actionGroups: [ActionGroup]) {
+    public let actionGroups: [ActionGroup]?
+    
+    public init(type: String, apiName: String, label: String, actionGroups: [ActionGroup]?) {
         self.type = type
         self.apiName = apiName
         self.label = label
         self.actionGroups = actionGroups
     }
-
+    
     @objc public class func from(jsonData: Data) -> [NotificationType] {
         let decoder = JSONDecoder()
         do {
@@ -42,7 +42,7 @@ public class NotificationType: NSObject, Codable {
 public class ActionGroup: NSObject, Codable {
     public let name: String
     public let actions: [Action]
-
+    
     public init(name: String, actions: [Action]) {
         self.name = name
         self.actions = actions
@@ -56,7 +56,12 @@ public class Action: NSObject, Codable {
     public let identifier: String
     public let label: String
     public let type: String
-
+    
+    enum CodingKeys: String, CodingKey {
+        case name, label, type
+        case identifier = "actionKey"
+    }
+    
     public init(name: String, identifier: String, label: String, type: String) {
         self.name = name
         self.identifier = identifier
@@ -69,7 +74,7 @@ public class Action: NSObject, Codable {
 @objcMembers
 public class ActionResultRepresentation: NSObject, Codable {
     public let message: String
-
+    
     public init(message: String) {
         self.message = message
     }
