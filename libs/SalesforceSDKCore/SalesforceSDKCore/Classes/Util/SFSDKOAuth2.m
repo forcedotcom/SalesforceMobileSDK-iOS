@@ -425,6 +425,16 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
     switch(reason) {
         case SFLogoutReasonCorruptState:
             return @"corrupt_state";
+        case SFLogoutReasonCorruptStateAppConfigurationSettings:
+            return @"corrupt_state_app_configuration_settings";
+        case SFLogoutReasonCorruptStateAppProviderErrorInvalidUser:
+            return @"corrupt_state_app_provider_error_invalid_user";
+        case SFLogoutReasonCorruptStateAppInvalidRestClient:
+            return @"corrupt_state_app_invalid_restclient";
+        case SFLogoutReasonCorruptStateAppOther:
+            return @"corrupt_state_app_other";
+        case SFLogoutReasonCorruptStateMSDK:
+            return @"corrupt_state_msdk";
         case SFLogoutReasonUserInitiated:
             return @"user_logout";
         case SFLogoutReasonUnknown:
