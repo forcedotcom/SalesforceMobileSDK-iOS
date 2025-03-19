@@ -41,6 +41,36 @@
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:nil];
 }
 
+- (SFRestRequest *)requestForNotificationTypes {
+    return [self requestForNotificationTypesWithVersion:self.apiVersion];
+}
+
+- (SFRestRequest *)requestForNotificationTypesWithVersion:(nullable NSString *)apiVersion {
+    NSString *path = [NSString stringWithFormat:@"/%@/connect/notifications/types", [self computeAPIVersion:apiVersion]];
+    return [SFRestRequest requestWithMethod:SFRestMethodGET
+                                       path:path
+                                queryParams:nil];
+}
+
+- (SFRestRequest *)requestForInvokeNotificationAction:(NSString *)notificationId
+                                     actionIdentifier:(NSString *)actionIdentifier {
+    return [self requestForInvokeNotificationAction:notificationId
+                                   actionIdentifier:actionIdentifier
+                                         apiVersion:self.apiVersion];
+}
+
+- (SFRestRequest *)requestForInvokeNotificationAction:(NSString *)notificationId
+                                     actionIdentifier:(NSString *)actionIdentifier
+                                           apiVersion:(nullable NSString *)apiVersion {
+    NSString *path = [NSString stringWithFormat:@"/%@/connect/notifications/%@/actions/%@",
+                      [self computeAPIVersion:apiVersion],
+                      notificationId,
+                      actionIdentifier];
+    return [SFRestRequest requestWithMethod:SFRestMethodPOST
+                                       path:path
+                                queryParams:nil];
+}
+
 @end
 
 

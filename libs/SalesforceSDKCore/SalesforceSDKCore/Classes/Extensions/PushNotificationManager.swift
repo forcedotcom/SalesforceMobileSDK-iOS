@@ -31,6 +31,8 @@ import Foundation
 public enum PushNotificationManagerError: Error {
     case registrationFailed
     case currentUserNotDetected
+    case failedNotificationTypesRetrieval
+    case notificationActionInvocationFailed(String)
 }
 
 extension PushNotificationManager {
@@ -84,3 +86,175 @@ extension PushNotificationManager {
         }
     }
 }
+
+extension PushNotificationManager {
+    @objc
+    public func fetchAndStoreNotificationTypes(restClient: RestClient = RestClient.shared,
+                                               account: UserAccount? = UserAccountManager.shared.currentUserAccount) async throws {
+        guard let account = account else {
+            throw PushNotificationManagerError.currentUserNotDetected as Error
+        }
+        
+        do {
+            let types = try await fetchNotificationTypesFromAPI(with: restClient)
+            storeNotification(types: types, with: account)
+            setNotificationCategories(types: types)
+        } catch {
+            SFSDKCoreLogger.d(PushNotificationManager.self, message: "API fetch failed: \(error.localizedDescription). Trying cache...")
+            guard let cachedTypes = getCachedNotificationTypes(with: account) else {
+                SFSDKCoreLogger.e(PushNotificationManager.self, message: "No cached notification types available.")
+                throw PushNotificationManagerError.failedNotificationTypesRetrieval as Error
+            }
+            SFSDKCoreLogger.d(PushNotificationManager.self, message: "Using cached notification types.")
+            setNotificationCategories(types: cachedTypes)
+        }
+    }
+    
+    private func fetchNotificationTypesFromAPI(with client: RestClient) async throws -> [NotificationType] {
+        guard client.apiVersion.compare("v64.0").rawValue >= 0 else {
+            throw PushNotificationManagerError.notificationActionInvocationFailed("API Version must be at least v64.0")
+        }
+        let request = client.requestForNotificationTypes()
+        let response = try await client.send(request: request)
+        do {
+            let result = try JSONDecoder().decode(NotificationTypesResponse.self, from: response.data)
+            return result.notificationTypes
+        } catch {
+            SFSDKCoreLogger.e(PushNotificationManager.self, message: "Decoding error: \(error.localizedDescription)")
+            throw error
+        }
+    }
+    
+    private func storeNotification(types: [NotificationType], with account: UserAccount) {
+        account.notificationTypes = types
+    }
+    
+    private func getCachedNotificationTypes(with account: UserAccount) -> [NotificationType]? {
+        return account.notificationTypes
+    }
+    
+    private func setNotificationCategories(types: [NotificationType]) {
+        let categories = types.map { createNotificationCategory(from: $0) }
+        UNUserNotificationCenter.current().setNotificationCategories(Set(categories))
+    }
+    
+    private func createNotificationCategory(from type: NotificationType) -> UNNotificationCategory {
+        let actions = createActions(from: type.actionGroups)
+        return UNNotificationCategory(identifier: type.apiName, actions: actions, intentIdentifiers: [])
+    }
+    
+    private func createActions(from actionGroups: [ActionGroup]?) -> [UNNotificationAction] {
+        guard let actionGroups = actionGroups else {
+            return []
+        }
+        return actionGroups.flatMap { actionGroup in
+            actionGroup.actions.map { action in
+                UNNotificationAction(
+                    identifier: action.identifier,
+                    title: action.label,
+                    options: [.foreground] // Ensures the app opens if needed
+                )
+            }
+        }
+    }
+    
+    private func getNotificationType(apiName: String, account: UserAccount) -> NotificationType? {
+        guard let notificationTypes = account.notificationTypes else { return nil }
+        return notificationTypes.first { $0.apiName == apiName }
+    }
+}
+
+@objc
+extension PushNotificationManager {
+    
+    /// Retrieves all stored notification types for the current or specified user account.
+    ///
+    /// - Parameter account: The user account from which to retrieve notification types. Defaults to the current user.
+    /// - Returns: An array of `NotificationType` if available, otherwise `nil`.
+    @objc
+    public func getNotificationTypes(account: UserAccount? = UserAccountManager.shared.currentUserAccount) -> [NotificationType]? {
+        return account?.notificationTypes
+    }
+    
+    /// Retrieves all action groups for a given notification type.
+    ///
+    /// - Parameters:
+    ///   - notificationTypeApiName: The API name of the notification type.
+    ///   - account: The user account from which to retrieve action groups. Defaults to the current user.
+    /// - Returns: An array of `ActionGroup` if found, otherwise `nil`.
+    @objc
+    public func getActionGroups(notificationTypeApiName: String,
+                                account: UserAccount? = UserAccountManager.shared.currentUserAccount) -> [ActionGroup]? {
+        guard let account = account,
+              let notificationType = getNotificationType(apiName: notificationTypeApiName, account: account) else {
+            return nil
+        }
+        return notificationType.actionGroups
+    }
+    
+    /// Retrieves a specific action group for a given notification type.
+    ///
+    /// - Parameters:
+    ///   - notificationTypeApiName: The API name of the notification type.
+    ///   - actionGroupName: The name of the action group.
+    ///   - account: The user account from which to retrieve the action group. Defaults to the current user.
+    /// - Returns: The `ActionGroup` if found, otherwise `nil`.
+    @objc
+    public func getActionGroup(notificationTypeApiName: String,
+                               actionGroupName: String,
+                               account: UserAccount? = UserAccountManager.shared.currentUserAccount) -> ActionGroup? {
+        guard let account = account,
+              let notificationType = getNotificationType(apiName: notificationTypeApiName, account: account) else {
+            return nil
+        }
+        return notificationType.actionGroups?.first { $0.name == actionGroupName }
+    }
+    
+    /// Retrieves a specific action by its identifier within a given notification type.
+    ///
+    /// - Parameters:
+    ///   - notificationTypeApiName: The API name of the notification type.
+    ///   - actionIdentifier: The identifier of the action.
+    ///   - account: The user account from which to retrieve the action. Defaults to the current user.
+    /// - Returns: The `Action` if found, otherwise `nil`.
+    @objc
+    public func getAction(notificationTypeApiName: String,
+                          actionIdentifier: String,
+                          account: UserAccount? = UserAccountManager.shared.currentUserAccount) -> Action? {
+        guard let account = account,
+              let notificationType = getNotificationType(apiName: notificationTypeApiName, account: account),
+              let actionGroups = notificationType.actionGroups else {
+            return nil
+        }
+        return actionGroups
+            .flatMap { $0.actions }
+            .first { $0.identifier == actionIdentifier }
+    }
+    
+    /// Invokes a server-side notification action for a specific notification.
+    ///
+    /// - Parameters:
+    ///   - client: The `RestClient` instance to use for the request. Defaults to `RestClient.shared`.
+    ///   - notificationId: The ID of the notification for which the action is invoked.
+    ///   - actionIdentifier: The identifier of the action to be performed.
+    /// - Throws: `PushNotificationManagerError.notificationActionInvocationFailed` if the action invocation fails.
+    /// - Returns: An `ActionResultRepresentation` containing the response from the server.
+    @objc
+    public func invokeServerNotificationAction(client: RestClient = RestClient.shared,
+                                               notificationId: String,
+                                               actionIdentifier: String
+    ) async throws -> ActionResultRepresentation {
+        guard client.apiVersion.compare("v64.0").rawValue >= 0 else {
+            throw PushNotificationManagerError.notificationActionInvocationFailed("API Version must be at least v64.0")
+        }
+        
+        let request = client.request(forInvokeNotificationAction: notificationId, actionIdentifier: actionIdentifier)
+        do {
+            let response = try await client.send(request: request)
+            return try response.asDecodable(type: ActionResultRepresentation.self)
+        } catch {
+            throw PushNotificationManagerError.notificationActionInvocationFailed(error.localizedDescription)
+        }
+    }
+}
+

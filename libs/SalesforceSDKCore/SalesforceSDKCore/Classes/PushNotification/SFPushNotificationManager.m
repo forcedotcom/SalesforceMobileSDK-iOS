@@ -33,6 +33,7 @@
 #import "SFRestAPI+Blocks.h"
 #import "SFSDKPushNotificationEncryptionConstants.h"
 #import "SFSDKCryptoUtils.h"
+#import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 
 static NSString* const kSFDeviceToken = @"deviceToken";
 static NSString* const kSFDeviceSalesforceId = @"deviceSalesforceId";
@@ -182,7 +183,14 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
             [[SFPreferences currentUserLevelPreferences] setObject:strongSelf->_deviceSalesforceId forKey:kSFDeviceSalesforceId];
             [[SFPreferences currentUserLevelPreferences] synchronize];
             [SFSDKCoreLogger i:[strongSelf class] format:@"Response:%@", responseAsJson];
-            [strongSelf postPushNotificationRegistration:completionBlock];
+            [strongSelf fetchAndStoreNotificationTypesWithRestClient:[SFRestAPI sharedInstance]
+                                                             account:user
+                                                   completionHandler:^(NSError * _Nullable error) {
+                if (error != nil) {
+                    [SFSDKCoreLogger e:[strongSelf class] format:@"Get Notification Types Error: %@", [error localizedDescription]];
+                }
+                [strongSelf postPushNotificationRegistration:completionBlock];
+            }];
         }
     }];
     return YES;
