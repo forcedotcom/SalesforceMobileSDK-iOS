@@ -67,15 +67,20 @@ enum {
 };
 
 typedef NS_ENUM(NSInteger, SFLogoutReason) {
-    SFLogoutReasonCorruptState,       // "Corrupted client state"
-    SFLogoutReasonTokenExpired,       // "Refresh token expired"
-    SFLogoutReasonSSDKPolicy,         // "SSDK initiated logout for policy violation"
-    SFLogoutReasonTimeout,            // "Timeout while waiting for server response"
-    SFLogoutReasonUnexpected,         // "Unexpected error or crash"
-    SFLogoutReasonUnexpectedResponse, // "Unexpected response from server"
-    SFLogoutReasonUnknown,            // "Unknown"
-    SFLogoutReasonUserInitiated,      // "User initiated logout"
-    SFLogoutReasonRefreshTokenRotated // "Refresh token rotated"
+    SFLogoutReasonCorruptState,                     // Corrupted client state
+    SFLogoutReasonCorruptStateAppConfigurationSettings,    // bad configuration settings
+    SFLogoutReasonCorruptStateAppProviderErrorInvalidUser, // invalid user
+    SFLogoutReasonCorruptStateAppInvalidRestClient, // invalid rest client
+    SFLogoutReasonCorruptStateAppOther,             // other
+    SFLogoutReasonCorruptStateMSDK,                 // Corrupted client state detected by Mobile SDK
+    SFLogoutReasonTokenExpired,                     // Refresh token expired
+    SFLogoutReasonSSDKPolicy,                       // SSDK initiated logout for policy violation
+    SFLogoutReasonTimeout,                          // Timeout while waiting for server response
+    SFLogoutReasonUnexpected,                       // Unexpected error or crash
+    SFLogoutReasonUnexpectedResponse,               // Unexpected response from server
+    SFLogoutReasonUnknown,                          // Unknown
+    SFLogoutReasonUserInitiated,                    // User initiated logout
+    SFLogoutReasonRefreshTokenRotated               // Refresh token rotated
 };
 
 NS_ASSUME_NONNULL_BEGIN
