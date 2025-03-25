@@ -39,7 +39,6 @@
 #import "SFSDKEventBuilderHelper.h"
 #import "SFSDKAppFeatureMarkers.h"
 #import "SalesforceSDKManager.h"
-#import "SFSDKWebViewStateManager.h"
 #import "SFNetwork.h"
 #import "NSURL+SFAdditions.h"
 #import "SFSDKURLHandlerManager.h"

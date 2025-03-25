@@ -100,7 +100,6 @@
 #import <SalesforceSDKCore/SalesforceSDKCoreDefines.h>
 #import <SalesforceSDKCore/SFAuthErrorHandlerList.h>
 #import <SalesforceSDKCore/SFDefaultUserManagementListViewController.h>
-#import <SalesforceSDKCore/SFSDKWebViewStateManager.h>
 #import <SalesforceSDKCore/SFPushNotificationManager.h>
 #import <SalesforceSDKCore/SFSDKViewController.h>
 #import <SalesforceSDKCore/SFSDKViewControllerConfig.h>

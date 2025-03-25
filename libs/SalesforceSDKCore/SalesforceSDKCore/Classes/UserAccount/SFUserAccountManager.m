@@ -44,7 +44,6 @@
 #import "SFRestAPI+Blocks.h"
 #import "NSString+SFAdditions.h"
 #import "SFSDKAppFeatureMarkers.h"
-#import "SFSDKWebViewStateManager.h"
 #import "SFSDKWindowManager.h"
 #import "SFPushNotificationManager.h"
 #import "SFSDKAlertMessage.h"
@@ -591,8 +590,10 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     }
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        [SFSDKWebViewStateManager forceRemoveSession];
-        [authSession.oauthCoordinator authenticate];
+        [SFSDKWebViewStateManager removeSessionForcefullyWithCompletionHandler:^{
+            [authSession.oauthCoordinator authenticate];
+        }];
+            
     });
     return self.authSessions[sceneId].isAuthenticating;
 }
@@ -605,8 +606,10 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     authSession.oauthCoordinator.delegate = self;
     self.authSessions[authSession.sceneId] = authSession;
     dispatch_async(dispatch_get_main_queue(), ^{
-        [SFSDKWebViewStateManager forceRemoveSession];
-        [authSession.oauthCoordinator authenticate];
+        [SFSDKWebViewStateManager removeSessionForcefullyWithCompletionHandler:^{
+            [authSession.oauthCoordinator authenticate];
+        }];
+        
     });
     return self.authSessions[authSession.sceneId].isAuthenticating;
 }
