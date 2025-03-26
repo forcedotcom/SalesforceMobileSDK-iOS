@@ -591,7 +591,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     }
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        [SFSDKWebViewStateManager removeSession];
+        [SFSDKWebViewStateManager forceRemoveSession];
         [authSession.oauthCoordinator authenticate];
     });
     return self.authSessions[sceneId].isAuthenticating;
@@ -605,7 +605,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     authSession.oauthCoordinator.delegate = self;
     self.authSessions[authSession.sceneId] = authSession;
     dispatch_async(dispatch_get_main_queue(), ^{
-        [SFSDKWebViewStateManager removeSession];
+        [SFSDKWebViewStateManager forceRemoveSession];
         [authSession.oauthCoordinator authenticate];
     });
     return self.authSessions[authSession.sceneId].isAuthenticating;
