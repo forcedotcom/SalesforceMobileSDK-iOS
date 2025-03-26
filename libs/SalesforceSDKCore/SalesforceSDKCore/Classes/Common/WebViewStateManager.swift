@@ -26,19 +26,28 @@ import WebKit
 @objc(SFSDKWebViewStateManager)
 public class WebViewStateManager: NSObject {
     private static var processPool: WKProcessPool?
-    private static var sessionCookieManagementDisabled = false
+    private static var managementDisabled = false
+    
+    @objc
+    public static var sessionCookieManagementDisabled: Bool {
+        get {
+            return managementDisabled
+        }
+        set {
+            managementDisabled = newValue
+        }
+    }
 
     @objc
     @MainActor
     public static func removeSession() {
         sharedProcessPool = nil
-
+        
         if sessionCookieManagementDisabled {
             SFSDKCoreLogger.d(WebViewStateManager.self, message: "[\(Self.self) removeSession]: Cookie Management disabled. Will do nothing.")
             return
         }
         
-        // Perform async cleanup without blocking the current thread
         Task {
             await removeWKWebViewCookies()
         }
@@ -46,32 +55,25 @@ public class WebViewStateManager: NSObject {
 
     @objc
     @MainActor
+    public static func resetSessionCookie() {
+        if sessionCookieManagementDisabled {
+            SFSDKCoreLogger.d(WebViewStateManager.self, message: "[\(Self.self) resetSessionCookie]: Cookie Management disabled. Will do nothing.")
+            return
+        }
+        
+        Task {
+            await removeWKWebViewCookies()
+        }
+    }
+    
+    @objc
+    @MainActor
     public static func removeSessionForcefully() async {
         sharedProcessPool = nil
         await removeWKWebViewCookies()
     }
 
-    @objc
-    public static func resetSessionCookie() async {
-        if sessionCookieManagementDisabled {
-            SFSDKCoreLogger.d(WebViewStateManager.self, message: "[\(Self.self) resetSessionCookie]: Cookie Management disabled. Will do nothing.")
-            return
-        }
-        await removeWKWebViewCookies()
-    }
-
-    @MainActor
-    private static func removeWKWebViewCookies() async {
-        await withCheckedContinuation { continuation in
-            let dataStore = WKWebsiteDataStore.default()
-            let websiteDataTypes: Set<String> = [WKWebsiteDataTypeCookies]
-            dataStore.removeData(ofTypes: websiteDataTypes, modifiedSince: Date.distantPast) {
-                continuation.resume()
-            }
-        }
-        
-    }
-
+    
     @objc
     @MainActor
     public static var sharedProcessPool: WKProcessPool? {
@@ -90,13 +92,10 @@ public class WebViewStateManager: NSObject {
         }
     }
 
-    @objc
-    public static func setSessionCookieManagementDisabled(_ disabled: Bool) {
-        sessionCookieManagementDisabled = disabled
-    }
-
-    @objc
-    public static func isSessionCookieManagementDisabled() -> Bool {
-        return sessionCookieManagementDisabled
-    }
+    @MainActor
+    private static func removeWKWebViewCookies() async {
+        let dataStore = WKWebsiteDataStore.default()
+        let websiteDataTypes: Set<String> = [WKWebsiteDataTypeCookies]
+        await dataStore.removeData(ofTypes: websiteDataTypes, modifiedSince: Date.distantPast)
+    }    
 }

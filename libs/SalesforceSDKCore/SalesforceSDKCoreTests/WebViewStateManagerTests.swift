@@ -6,34 +6,29 @@ final class WebViewStateManagerTests: XCTestCase {
 
     override func setUp() async throws {
         try await super.setUp()
-        WebViewStateManager.setSessionCookieManagementDisabled(false)
+        WebViewStateManager.sessionCookieManagementDisabled = false
     }
 
     override func tearDown() async throws {
         try await super.tearDown()
     }
 
-    @MainActor func testSharedProcessPoolIsCreated() {
+    @MainActor
+    func testSharedProcessPoolIsCreated() {
         let pool = WebViewStateManager.sharedProcessPool
         XCTAssertNotNil(pool)
         XCTAssertEqual(pool, WebViewStateManager.sharedProcessPool)
     }
 
-    @MainActor func testSetSharedProcessPoolUpdatesPool() {
+    @MainActor
+    func testSetSharedProcessPoolUpdatesPool() {
         let customPool = WKProcessPool()
         WebViewStateManager.sharedProcessPool = customPool
         XCTAssertEqual(WebViewStateManager.sharedProcessPool, customPool)
     }
 
-    func testSessionCookieManagementToggle() {
-        WebViewStateManager.setSessionCookieManagementDisabled(true)
-        XCTAssertTrue(WebViewStateManager.isSessionCookieManagementDisabled())
-
-        WebViewStateManager.setSessionCookieManagementDisabled(false)
-        XCTAssertFalse(WebViewStateManager.isSessionCookieManagementDisabled())
-    }
-
-    @MainActor func testRemoveSessionForcefullyCallsCompletion() async {
+    @MainActor
+    func testRemoveSessionForcefullyCallsCompletion() async {
         // Set a custom pool to verify it's cleared
         WebViewStateManager.sharedProcessPool = WKProcessPool()
 
@@ -46,5 +41,13 @@ final class WebViewStateManagerTests: XCTestCase {
         // Check that cookies were cleared
         let records = await WKWebsiteDataStore.default().dataRecords(ofTypes: [WKWebsiteDataTypeCookies])
         XCTAssertTrue(records.isEmpty, "Expected cookies to be cleared")
+    }
+    
+    func testSessionCookieManagementToggle() {
+        WebViewStateManager.sessionCookieManagementDisabled = true
+        XCTAssertTrue(WebViewStateManager.sessionCookieManagementDisabled)
+
+        WebViewStateManager.sessionCookieManagementDisabled = false
+        XCTAssertFalse(WebViewStateManager.sessionCookieManagementDisabled)
     }
 }
