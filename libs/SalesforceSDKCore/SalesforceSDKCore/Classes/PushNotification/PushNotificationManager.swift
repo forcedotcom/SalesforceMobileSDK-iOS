@@ -88,9 +88,10 @@ public class PushNotificationManager: NSObject {
                                                object: nil)
     }
 
-    /**
-    * Register with APNS
-    */
+    /// Registers the app with Apple Push Notification Service (APNS).
+    ///
+    /// This should be called to initiate push notification registration.
+    /// No-op if running in the simulator.
     public func registerForRemoteNotifications() {
         guard !isSimulator else {
             SFSDKCoreLogger.i(Self.self, message: "Skipping push registration in simulator")
@@ -115,7 +116,13 @@ public class PushNotificationManager: NSObject {
     }
 
     // MARK: - Salesforce Registration
-
+    
+    /// Registers the device for push notifications with Salesforce using the current user account.
+    ///
+    /// - Parameters:
+    ///   - completionBlock: A block executed on successful registration.
+    ///   - failBlock: A block executed if registration fails.
+    /// - Returns: `true` if registration started successfully, otherwise `false`.
     @objc(registerSalesforceNotificationsWithCompletionBlock:failBlock:)
     public func registerSalesforceNotifications(completionBlock: (() -> Void)?, failBlock: (() -> Void)?) -> Bool {
         guard let user = UserAccountManager.shared.currentUserAccount else {
@@ -127,6 +134,13 @@ public class PushNotificationManager: NSObject {
         return registerSalesforceNotifications(for: user, completionBlock: completionBlock, failBlock: failBlock)
     }
 
+    /// Registers the device for push notifications with Salesforce for a specific user account.
+    ///
+    /// - Parameters:
+    ///   - user: The user account to use for registration.
+    ///   - completionBlock: A block executed on successful registration.
+    ///   - failBlock: A block executed if registration fails.
+    /// - Returns: `true` if registration started successfully, otherwise `false`.
     @objc(registerSalesforceNotificationsWithCompletionBlock:completionBlock:failBlock:)
     public func registerSalesforceNotifications(for user: UserAccount,
                                                 completionBlock: (() -> Void)?,
@@ -217,6 +231,10 @@ public class PushNotificationManager: NSObject {
 
     // MARK: - Salesforce Unregistration
 
+    /// Unregisters the device from Salesforce push notifications for the current user.
+    ///
+    /// - Parameter completionBlock: A block executed when unregistration is complete.
+    /// - Returns: `true` if unregistration started successfully, otherwise `false`.
     @objc(unregisterSalesforceNotificationsWithCompletionBlock:)
     public func unregisterSalesforceNotifications(completionBlock: (() -> Void)?) -> Bool {
         guard let user = UserAccountManager.shared.currentUserAccount else {
@@ -227,6 +245,12 @@ public class PushNotificationManager: NSObject {
         return unregisterSalesforceNotifications(for: user, completionBlock: completionBlock)
     }
 
+    /// Unregisters the device from Salesforce push notifications for a specific user.
+    ///
+    /// - Parameters:
+    ///   - user: The user account to unregister.
+    ///   - completionBlock: A block executed when unregistration is complete.
+    /// - Returns: `true` if unregistration started successfully, otherwise `false`.
     @objc(unregisterSalesforceNotificationsWithCompletionBlock:completionBlock:)
     public func unregisterSalesforceNotifications(for user: UserAccount,
                                                   completionBlock: (() -> Void)?) -> Bool {
@@ -272,6 +296,12 @@ public class PushNotificationManager: NSObject {
         return true
     }
     
+    /// Fetches and stores actionable notification types from the server or cache.
+    ///
+    /// - Parameters:
+    ///   - restClient: The `RestClient` to use for the API call.
+    ///   - account: The user account to associate notification types with.
+    /// - Throws: An error if the types cannot be retrieved from server or cache.
     @objc(fetchAndStoreNotificationTypesWithRestClient:account:completionHandler:)
     public func fetchAndStoreNotificationTypes(restClient: RestClient = RestClient.shared,
                                                account: UserAccount? = UserAccountManager.shared.currentUserAccount) async throws {
@@ -294,6 +324,9 @@ public class PushNotificationManager: NSObject {
         }
     }
     
+    /// Returns the RSA public key used for encrypting push notification payloads.
+    ///
+    /// - Returns: A base64-encoded string representation of the RSA public key, or `nil` if unavailable.
     @objc
     public func getRSAPublicKey() -> String? {
         let name = PushNotificationManagerConstants.kPNEncryptionKeyName
