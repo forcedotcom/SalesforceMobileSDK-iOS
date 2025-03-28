@@ -1,0 +1,386 @@
+//
+//  PushNotificationManager.swift
+//  SalesforceSDKCore
+//
+//  Created by Riley Crebs on 3/27/25.
+//  Copyright (c) 2025-present, salesforce.com, inc. All rights reserved.
+// 
+//  Redistribution and use of this software in source and binary forms, with or without modification,
+//  are permitted provided that the following conditions are met:
+//  * Redistributions of source code must retain the above copyright notice, this list of conditions
+//  and the following disclaimer.
+//  * Redistributions in binary form must reproduce the above copyright notice, this list of
+//  conditions and the following disclaimer in the documentation and/or other materials provided
+//  with the distribution.
+//  * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
+//  endorse or promote products derived from this software without specific prior written
+//  permission of salesforce.com, inc.
+// 
+//  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+//  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+//  FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+//  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+//  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+//  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+//  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+//  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+import Foundation
+
+struct PushNotificationConstants {
+    static let deviceToken = "deviceToken"
+    static let deviceSalesforceId = "deviceSalesforceId"
+    static let endPoint = "sobjects/MobilePushServiceDevice"
+    static let appFeaturePushNotifications = "PN"
+}
+
+@objc(SFSDKPushNotificationEncryptionConstants)
+@objcMembers
+public class PushNotificationManagerConstants: NSObject {
+    public static let kPNEncryptionKeyName = "com.salesforce.mobilesdk.notificationKey"
+    public static let kPNEncryptionKeyLength: UInt = 2048
+}
+
+public enum PushNotificationManagerError: Error {
+    case registrationFailed
+    case currentUserNotDetected
+    case failedNotificationTypesRetrieval
+    case notificationActionInvocationFailed(String)
+}
+
+
+@objc(SFPushNotificationManager)
+@objcMembers
+public class PushNotificationManager: NSObject {
+
+    @objc(sharedInstance)
+    public static let shared = PushNotificationManager()
+
+    public var deviceToken: String?
+    public var deviceSalesforceId: String?
+    public var customPushRegistrationBody: [String: Any]?
+    public var registerOnForeground: Bool = true
+
+    var isSimulator: Bool = false
+    private var queue = OperationQueue()
+
+    private override init() {
+        super.init()
+
+#if targetEnvironment(simulator)
+        isSimulator = true
+#else
+        isSimulator = false
+#endif
+
+        let prefs = SFPreferences.currentUserLevel()
+        deviceToken = prefs?.string(forKey: "deviceToken")
+        deviceSalesforceId = prefs?.string(forKey: "deviceSalesforceId")
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(onUserLoggedIn(_:)),
+                                               name: NSNotification.Name(rawValue: UserAccountManager.didLogInUser.rawValue),
+                                               object: nil)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(onAppWillEnterForeground(_:)),
+                                               name: UIApplication.willEnterForegroundNotification,
+                                               object: nil)
+    }
+
+    /**
+    * Register with APNS
+    */
+    public func registerForRemoteNotifications() {
+        guard !isSimulator else {
+            SFSDKCoreLogger.i(Self.self, message: "Skipping push registration in simulator")
+            return
+        }
+
+        SFSDKCoreLogger.i(Self.self, message: "Registering with APNS")
+        SFApplicationHelper.sharedApplication()?.registerForRemoteNotifications()
+    }
+
+    /**
+     * Call this method from your app delegate's didRegisterForRemoteNotificationsWithDeviceToken
+     * @param deviceTokenData The device token returned by APNS.
+     */
+    @objc(didRegisterForRemoteNotificationsWithDeviceToken:)
+    public func didRegisterForRemoteNotifications(deviceTokenData: Data) {
+        SFSDKCoreLogger.i(Self.self, message: "APNS registration succeeded")
+        deviceToken = deviceTokenData.map { String(format: "%02.2hhx", $0) }.joined()
+        let prefs = SFPreferences.currentUserLevel()
+        prefs?.setObject(deviceToken as Any, forKey: "deviceToken")
+        prefs?.synchronize()
+    }
+
+    // MARK: - Salesforce Registration
+
+    @objc(registerSalesforceNotificationsWithCompletionBlock:failBlock:)
+    public func registerSalesforceNotifications(completionBlock: (() -> Void)?, failBlock: (() -> Void)?) -> Bool {
+        guard let user = UserAccountManager.shared.currentUserAccount else {
+            SFSDKCoreLogger.e(Self.self, message: "No current user found")
+            failBlock?()
+            return false
+        }
+
+        return registerSalesforceNotifications(for: user, completionBlock: completionBlock, failBlock: failBlock)
+    }
+
+    @objc(registerSalesforceNotificationsWithCompletionBlock:completionBlock:failBlock:)
+    public func registerSalesforceNotifications(for user: UserAccount,
+                                                completionBlock: (() -> Void)?,
+                                                failBlock: (() -> Void)?) -> Bool {
+        if isSimulator {
+            SFSDKCoreLogger.i(Self.self, message: "Skipping Salesforce push notification registration because push isn't supported on the simulator")
+            postPushNotificationRegistration(completionBlock)
+            return true
+        }
+
+        let credentials = user.credentials
+
+        guard let deviceToken = deviceToken else {
+            SFSDKCoreLogger.e(Self.self, message: "Cannot register for notifications with Salesforce: no deviceToken")
+            postPushNotificationRegistration(failBlock)
+            return false
+        }
+
+        let path = "/\(RestClient.shared.apiVersion)/\(PushNotificationConstants.endPoint)"
+        let request = RestRequest(method: .POST, path: path, queryParams: nil)
+
+        let bundleId = Bundle.main.bundleIdentifier ?? ""
+        var bodyDict: [String: Any] = [
+            "ConnectionToken": deviceToken,
+            "ServiceType": "Apple",
+            "ApplicationBundle": bundleId
+        ]
+
+        if let customBody = customPushRegistrationBody {
+            bodyDict.merge(customBody) { _, new in new }
+        }
+
+        if let communityId = credentials.communityId {
+            bodyDict["NetworkId"] = communityId
+        }
+
+        if let rsaPublicKey = getRSAPublicKey() {
+            bodyDict["RsaPublicKey"] = rsaPublicKey
+        }
+
+        bodyDict["CipherName"] = "RSA_OAEP_SHA256"
+
+        request.setCustomRequestBodyDictionary(bodyDict, contentType: "application/json")
+        Task {
+            do {
+                let result = try await RestClient.shared.send(request: request)
+                
+                SFSDKAppFeatureMarkers.registerAppFeature(PushNotificationConstants.appFeaturePushNotifications)
+
+                guard let httpResponse = result.urlResponse as? HTTPURLResponse else {
+                    SFSDKCoreLogger.e(Self.self, message: "Unexpected raw response type")
+                    self.postPushNotificationRegistration(failBlock)
+                    return
+                }
+
+                guard (200..<300).contains(httpResponse.statusCode),
+                      let json = try? result.asJson() as? [String: Any] else {
+                    SFSDKCoreLogger.e(Self.self, message: "Registration failed. Status: \(httpResponse.statusCode). Response: \(result)")
+                    self.postPushNotificationRegistration(failBlock)
+                    return
+                }
+
+                SFSDKCoreLogger.i(Self.self, message: "Registration succeeded")
+                self.deviceSalesforceId = json["id"] as? String
+
+                let prefs = SFPreferences.currentUserLevel()
+                prefs?.setObject(self.deviceSalesforceId ?? "", forKey: PushNotificationConstants.deviceSalesforceId)
+                prefs?.synchronize()
+
+                SFSDKCoreLogger.i(Self.self, message: "Response: \(json)")
+
+                Task {
+                    do {
+                        try await self.fetchAndStoreNotificationTypes(restClient: RestClient.shared, account: user)
+                    } catch {
+                        SFSDKCoreLogger.e(Self.self, message: "Get Notification Types Error: \(error.localizedDescription)")
+                    }
+                    self.postPushNotificationRegistration(completionBlock)
+                }
+            } catch {
+                SFSDKCoreLogger.e(Self.self, message: "Registration for notifications with Salesforce failed with error \(error.localizedDescription)")
+                self.postPushNotificationRegistration(failBlock)
+            }
+            
+        }
+        return true
+    }
+
+    // MARK: - Salesforce Unregistration
+
+    @objc(unregisterSalesforceNotificationsWithCompletionBlock:)
+    public func unregisterSalesforceNotifications(completionBlock: (() -> Void)?) -> Bool {
+        guard let user = UserAccountManager.shared.currentUserAccount else {
+            completionBlock?()
+            return false
+        }
+
+        return unregisterSalesforceNotifications(for: user, completionBlock: completionBlock)
+    }
+
+    @objc(unregisterSalesforceNotificationsWithCompletionBlock:completionBlock:)
+    public func unregisterSalesforceNotifications(for user: UserAccount,
+                                                  completionBlock: (() -> Void)?) -> Bool {
+        guard let deviceSalesforceId = deviceSalesforceId else {
+            postPushNotificationUnregistration(completionBlock)
+            return true
+        }
+
+        if isSimulator {
+            postPushNotificationUnregistration(completionBlock)
+            return true
+        }
+        let credentials = user.credentials
+
+        guard let prefs = SFPreferences.sharedPreferences(for: .user, user: user) else {
+            SFSDKCoreLogger.e(Self.self, message: "Cannot unregister from notifications with Salesforce: no user prefs")
+            postPushNotificationUnregistration(completionBlock)
+            return false
+        }
+
+        guard let sfId = prefs.string(forKey: PushNotificationConstants.deviceSalesforceId) else {
+            SFSDKCoreLogger.e(Self.self, message: "Cannot unregister from notifications with Salesforce: no deviceSalesforceId")
+            postPushNotificationUnregistration(completionBlock)
+            return false
+        }
+
+        let path = "/\(RestClient.shared.apiVersion)/\(PushNotificationConstants.endPoint)/\(sfId)"
+        let request = RestRequest(method: .DELETE,
+                                  path: path,
+                                  queryParams: nil)
+        Task {
+            do {
+                let result = try await RestClient.shared.send(request: request)
+                self.postPushNotificationUnregistration(completionBlock)
+            } catch {
+                SFSDKCoreLogger.e(Self.self, message: "Push notification unregistration failed: \(error.localizedDescription)")
+            }
+            
+            
+        }
+
+        SFSDKCoreLogger.i(Self.self, message: "Unregister from notifications with Salesforce sent")
+        return true
+    }
+    
+    @objc(fetchAndStoreNotificationTypesWithRestClient:account:completionHandler:)
+    public func fetchAndStoreNotificationTypes(restClient: RestClient = RestClient.shared,
+                                               account: UserAccount? = UserAccountManager.shared.currentUserAccount) async throws {
+        guard let account = account else {
+            throw PushNotificationManagerError.currentUserNotDetected as Error
+        }
+        
+        do {
+            let types = try await fetchNotificationTypesFromAPI(with: restClient)
+            storeNotification(types: types, with: account)
+            setNotificationCategories(types: types)
+        } catch {
+            SFSDKCoreLogger.d(PushNotificationManager.self, message: "API fetch failed: \(error.localizedDescription). Trying cache...")
+            guard let cachedTypes = getCachedNotificationTypes(with: account) else {
+                SFSDKCoreLogger.e(PushNotificationManager.self, message: "No cached notification types available.")
+                throw PushNotificationManagerError.failedNotificationTypesRetrieval as Error
+            }
+            SFSDKCoreLogger.d(PushNotificationManager.self, message: "Using cached notification types.")
+            setNotificationCategories(types: cachedTypes)
+        }
+    }
+    
+    @objc
+    public func getRSAPublicKey() -> String? {
+        let name = PushNotificationManagerConstants.kPNEncryptionKeyName
+        let length = PushNotificationManagerConstants.kPNEncryptionKeyLength
+        var key = SFSDKCryptoUtils.getRSAPublicKeyString(withName: name, keyLength: length)
+        if key == nil {
+            SFSDKCryptoUtils.createRSAKeyPair(withName: name, keyLength: length, accessibleAttribute: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly)
+            key = SFSDKCryptoUtils.getRSAPublicKeyString(withName: name, keyLength: length)
+        }
+        return key
+    }
+    
+    /// Register for Salesforce notfications for a current user
+    /// - Parameter completionBlock: completion block to call with success or failure
+    public func registerForSalesforceNotifications(_ completionBlock:@escaping (Result<Bool, PushNotificationManagerError>)->()) {
+        if let currentUser = UserAccountManager.shared.currentUserAccount {
+            return self.registerForSalesforceNotifications(user: currentUser, completionBlock: completionBlock)
+        }
+        completionBlock(.failure(.currentUserNotDetected))
+    }
+    
+    /// Register for Salesforce notfications for a given user
+    /// - Parameters:
+    ///   - user: A user account ot use  to register for noitfications
+    ///   - completionBlock: completion block to call with success or failure
+    public func registerForSalesforceNotifications(user: UserAccount, completionBlock:@escaping (Result<Bool, PushNotificationManagerError>)->()) {
+        let result = registerSalesforceNotifications(for: user) {
+            return completionBlock(.success(true))
+        } failBlock: {
+            completionBlock(.failure(.registrationFailed))
+        }
+    }
+    
+    /// Unregister from notifications with Salesforce for a current user
+    /// - Parameter completionBlock: completion block to call with success or failure
+    public func unregisterForSalesforceNotifications(_ completionBlock:@escaping (Bool)->()) {
+        
+        guard let currentUser = UserAccountManager.shared.currentUserAccount else {
+            completionBlock(false)
+            return
+        }
+        if let currentUser = UserAccountManager.shared.currentUserAccount {
+            self.unregisterForSalesforceNotifications(user: currentUser, completionBlock)
+           return
+        }
+        completionBlock(false)
+     }
+    
+    ///  Unregister from Salesforce notfications for a specific user
+    /// - Parameters:
+    ///   - user: The user that should be unregistered from notfications
+    ///   - completionBlock: <#completionBlock description#>
+    public func unregisterForSalesforceNotifications(user: UserAccount, _ completionBlock:@escaping (Bool)->()) {
+        let result = unregisterSalesforceNotifications(for: user) {
+            completionBlock(true)
+        }
+        
+        if (!result) {
+            completionBlock(false)
+        }
+    }
+}
+
+private extension PushNotificationManager {
+    @objc private func onUserLoggedIn(_ notification: Notification) {
+        if deviceToken != nil {
+            SFSDKCoreLogger.i(Self.self, message: "User logged in, registering push")
+            _ = registerSalesforceNotifications(completionBlock: nil, failBlock: nil)
+        }
+    }
+
+    @objc private func onAppWillEnterForeground(_ notification: Notification) {
+        guard registerOnForeground,
+              !UserAccountManager.shared.isLogoutSettingEnabled,
+              deviceToken != nil else {
+            return
+        }
+
+        SFSDKCoreLogger.i(Self.self, message: "App entering foreground, re-registering push")
+        _ = registerSalesforceNotifications(completionBlock: nil, failBlock: nil)
+    }
+    
+    private func postPushNotificationRegistration(_ completionBlock: (() -> Void)?) {
+        completionBlock?()
+    }
+    
+    private func postPushNotificationUnregistration(_ completionBlock: (() -> Void)?) {
+        completionBlock?()
+    }
+}

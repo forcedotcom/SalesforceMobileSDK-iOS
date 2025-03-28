@@ -22,6 +22,6 @@ WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWIS
 WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#import "SFSDKPushNotificationError.h"
+#import "SFSDKPushNotificationErrorDomain.h"
 
 NSErrorDomain const SFSDKPushNotificationErrorDomain = @"com.salesforce.mobilesdk.push.error";

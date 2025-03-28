@@ -2,9 +2,9 @@
  SalesforceSDKCore.h
  SalesforceSDKCore
 
- Created by Brandon Page on Thu Jan 11 16:25:14 PST 2024.
+ Created by Riley Crebs on Fri Mar 28 14:04:07 MDT 2025.
 
- Copyright (c) 2024-present, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2025-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -29,6 +29,7 @@
 
 #import <SalesforceSDKCore/SFDefaultUserManagementDetailViewController.h>
 #import <SalesforceSDKCore/SFSDKCoreLogger.h>
+#import <SalesforceSDKCore/SFSDKPushNotificationErrorDomain.h>
 #import <SalesforceSDKCore/SFFormatUtils.h>
 #import <SalesforceSDKCore/SFSDKAlertMessageBuilder.h>
 #import <SalesforceSDKCore/SFSDKSoslBuilder.h>
@@ -47,7 +48,6 @@
 #import <SalesforceSDKCore/SFSDKTestRequestListener.h>
 #import <SalesforceSDKCore/UIColor+SFColors.h>
 #import <SalesforceSDKCore/SFSDKLoginHostDelegate.h>
-#import <SalesforceSDKCore/SFSDKPushNotificationError.h>
 #import <SalesforceSDKCore/SFOAuthCoordinator.h>
 #import <SalesforceSDKCore/SFSDKOAuth2.h>
 #import <SalesforceSDKCore/SFOAuthOrgAuthConfiguration.h>
@@ -100,7 +100,6 @@
 #import <SalesforceSDKCore/SalesforceSDKCoreDefines.h>
 #import <SalesforceSDKCore/SFAuthErrorHandlerList.h>
 #import <SalesforceSDKCore/SFDefaultUserManagementListViewController.h>
-#import <SalesforceSDKCore/SFPushNotificationManager.h>
 #import <SalesforceSDKCore/SFSDKViewController.h>
 #import <SalesforceSDKCore/SFSDKViewControllerConfig.h>
 #import <SalesforceSDKCore/SFNetwork.h>

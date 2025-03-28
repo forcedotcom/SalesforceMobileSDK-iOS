@@ -9,7 +9,7 @@ class PushNotificationManagerTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        pushNotificationManager = PushNotificationManager.sharedInstance()
+        pushNotificationManager = PushNotificationManager.shared
         mockRestClient = MockRestClient()
         mockRestClient.apiVersion = "v64.0"
         mockUserAccount = UserAccount()

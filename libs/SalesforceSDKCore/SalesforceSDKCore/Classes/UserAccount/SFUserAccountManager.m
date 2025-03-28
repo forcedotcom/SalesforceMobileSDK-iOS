@@ -45,7 +45,6 @@
 #import "NSString+SFAdditions.h"
 #import "SFSDKAppFeatureMarkers.h"
 #import "SFSDKWindowManager.h"
-#import "SFPushNotificationManager.h"
 #import "SFSDKAlertMessage.h"
 #import "SFSDKAlertView.h"
 #import "SFSDKAlertMessageBuilder.h"

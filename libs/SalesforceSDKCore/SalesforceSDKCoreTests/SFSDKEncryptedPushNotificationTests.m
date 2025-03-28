@@ -25,8 +25,8 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 #import <XCTest/XCTest.h>
 #import <SalesforceSDKCore/SFSDKPushNotificationFieldsConstants.h>
 #import <SalesforceSDKCore/SFSDKPushNotificationDecryption.h>
-#import <SalesforceSDKCore/SFSDKPushNotificationError.h>
-#import <SalesforceSDKCore/SFPushNotificationManager.h>
+#import <SalesforceSDKCore/SFSDKPushNotificationErrorDomain.h>
+#import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 #import "SFSDKPushNotificationDataProvider.h"
 #import "SFSDKPushNotificationDecryption+Internal.h"
 

@@ -24,6 +24,8 @@
 		009D77521CA4A92200D5183A /* SFPushNotificationManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 009D77511CA4A92200D5183A /* SFPushNotificationManagerTests.m */; };
 		010A9B551CC1A131002AF4D3 /* SFCryptoStreamTestUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 010A9B511CC1A131002AF4D3 /* SFCryptoStreamTestUtils.h */; };
 		010A9B591CC1A147002AF4D3 /* SFCryptoStreamTestUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 010A9B521CC1A131002AF4D3 /* SFCryptoStreamTestUtils.m */; };
+		233755942D95F2F80040E414 /* PushNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233755932D95F2F80040E414 /* PushNotificationManager.swift */; };
+		2337559D2D9738AB0040E414 /* PushNotificationManager+ActionableNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2337559C2D9738AB0040E414 /* PushNotificationManager+ActionableNotifications.swift */; };
 		238AA5802D827AF80036667C /* PushNotificationManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238AA57F2D827AF80036667C /* PushNotificationManagerTests.swift */; };
 		23945B712D78E4A60060B195 /* NotificationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23945B702D78E4A60060B195 /* NotificationType.swift */; };
 		2394F4702D9307D300B9686A /* WebViewStateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2394F46F2D9307D300B9686A /* WebViewStateManager.swift */; };
@@ -101,8 +103,8 @@
 		69848CA52363F8AF00893E57 /* SFSDKPushNotificationFieldsConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 69848CA42363F8AF00893E57 /* SFSDKPushNotificationFieldsConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69848CAC2363F93100893E57 /* SFSDKPushNotificationDecryption+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 69848CAB2363F93100893E57 /* SFSDKPushNotificationDecryption+Internal.h */; };
 		69848CB22363FA1000893E57 /* SFSDKPushNotificationEncryptionConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 69848CB12363FA1000893E57 /* SFSDKPushNotificationEncryptionConstants.h */; };
-		69848CB52363FA3E00893E57 /* SFSDKPushNotificationError.h in Headers */ = {isa = PBXBuildFile; fileRef = 69848CB32363FA3E00893E57 /* SFSDKPushNotificationError.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		69848CB62363FA3E00893E57 /* SFSDKPushNotificationError.m in Sources */ = {isa = PBXBuildFile; fileRef = 69848CB42363FA3E00893E57 /* SFSDKPushNotificationError.m */; };
+		69848CB52363FA3E00893E57 /* SFSDKPushNotificationErrorDomain.h in Headers */ = {isa = PBXBuildFile; fileRef = 69848CB32363FA3E00893E57 /* SFSDKPushNotificationErrorDomain.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		69848CB62363FA3E00893E57 /* SFSDKPushNotificationErrorDomain.m in Sources */ = {isa = PBXBuildFile; fileRef = 69848CB42363FA3E00893E57 /* SFSDKPushNotificationErrorDomain.m */; };
 		69848CB82364035300893E57 /* SFSDKEncryptedPushNotificationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 69848CB72364035300893E57 /* SFSDKEncryptedPushNotificationTests.m */; };
 		69848CBD2364063E00893E57 /* SFSDKPushNotificationDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 69848CBC2364063E00893E57 /* SFSDKPushNotificationDataProvider.m */; };
 		6990CBC029F5AF56004A5F8D /* SFSDKIDPAuthCodeLoginRequestCommandTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6990CBBF29F5AF56004A5F8D /* SFSDKIDPAuthCodeLoginRequestCommandTest.m */; };
@@ -223,7 +225,6 @@
 		B7E1A7851F4C8844007AC36A /* SFSDKAuthViewHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E1A77E1F4C8844007AC36A /* SFSDKAuthViewHandler.m */; };
 		B7E391122209E63E00D61D4D /* SFSDKViewUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = B7E391102209E63E00D61D4D /* SFSDKViewUtils.h */; };
 		B7E391132209E63E00D61D4D /* SFSDKViewUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E391112209E63E00D61D4D /* SFSDKViewUtils.m */; };
-		B7E66AE22375007D005A652E /* PushNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E66AE12375007D005A652E /* PushNotificationManager.swift */; };
 		B7E66AE923763278005A652E /* RestClientPublisherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E66AE823763278005A652E /* RestClientPublisherTests.swift */; };
 		B7E8A2A51E7369DB007C0D92 /* SFDefaultUserAccountPersister.h in Headers */ = {isa = PBXBuildFile; fileRef = B7E8A2A31E7369DB007C0D92 /* SFDefaultUserAccountPersister.h */; };
 		B7E8A2A61E7369DB007C0D92 /* SFDefaultUserAccountPersister.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E8A2A41E7369DB007C0D92 /* SFDefaultUserAccountPersister.m */; };
@@ -306,8 +307,6 @@
 		CE4CE3501C0E5252009F6029 /* SFOAuthSessionRefresher+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FCD31BFD32130022F021 /* SFOAuthSessionRefresher+Internal.h */; };
 		CE4CE3511C0E5252009F6029 /* SFOAuthSessionRefresher.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FCD41BFD32130022F021 /* SFOAuthSessionRefresher.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE4CE3521C0E5252009F6029 /* SFOAuthSessionRefresher.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FCD51BFD32130022F021 /* SFOAuthSessionRefresher.m */; };
-		CE4CE3541C0E5261009F6029 /* SFPushNotificationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FCD91BFD32130022F021 /* SFPushNotificationManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CE4CE3551C0E5261009F6029 /* SFPushNotificationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FCDA1BFD32130022F021 /* SFPushNotificationManager.m */; };
 		CE4CE35D1C0E526A009F6029 /* SFAuthErrorHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FCF21BFD32130022F021 /* SFAuthErrorHandler.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		CE4CE35E1C0E526A009F6029 /* SFAuthErrorHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FCF31BFD32130022F021 /* SFAuthErrorHandler.m */; };
 		CE4CE35F1C0E526A009F6029 /* SFAuthErrorHandlerList.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FCF41BFD32130022F021 /* SFAuthErrorHandlerList.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -522,6 +521,8 @@
 		009D77511CA4A92200D5183A /* SFPushNotificationManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFPushNotificationManagerTests.m; path = SalesforceSDKCoreTests/SFPushNotificationManagerTests.m; sourceTree = SOURCE_ROOT; };
 		010A9B511CC1A131002AF4D3 /* SFCryptoStreamTestUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFCryptoStreamTestUtils.h; path = SalesforceSDKCoreTests/SFCryptoStreamTestUtils.h; sourceTree = SOURCE_ROOT; };
 		010A9B521CC1A131002AF4D3 /* SFCryptoStreamTestUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFCryptoStreamTestUtils.m; path = SalesforceSDKCoreTests/SFCryptoStreamTestUtils.m; sourceTree = SOURCE_ROOT; };
+		233755932D95F2F80040E414 /* PushNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationManager.swift; sourceTree = "<group>"; };
+		2337559C2D9738AB0040E414 /* PushNotificationManager+ActionableNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PushNotificationManager+ActionableNotifications.swift"; sourceTree = "<group>"; };
 		238AA57F2D827AF80036667C /* PushNotificationManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PushNotificationManagerTests.swift; path = SalesforceSDKCoreTests/PushNotificationManagerTests.swift; sourceTree = SOURCE_ROOT; };
 		23945B702D78E4A60060B195 /* NotificationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationType.swift; sourceTree = "<group>"; };
 		2394F46F2D9307D300B9686A /* WebViewStateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewStateManager.swift; sourceTree = "<group>"; };
@@ -605,8 +606,6 @@
 		4F96FCD31BFD32130022F021 /* SFOAuthSessionRefresher+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFOAuthSessionRefresher+Internal.h"; sourceTree = "<group>"; };
 		4F96FCD41BFD32130022F021 /* SFOAuthSessionRefresher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFOAuthSessionRefresher.h; sourceTree = "<group>"; };
 		4F96FCD51BFD32130022F021 /* SFOAuthSessionRefresher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFOAuthSessionRefresher.m; sourceTree = "<group>"; };
-		4F96FCD91BFD32130022F021 /* SFPushNotificationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPushNotificationManager.h; sourceTree = "<group>"; };
-		4F96FCDA1BFD32130022F021 /* SFPushNotificationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFPushNotificationManager.m; sourceTree = "<group>"; };
 		4F96FCF21BFD32130022F021 /* SFAuthErrorHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFAuthErrorHandler.h; sourceTree = "<group>"; };
 		4F96FCF31BFD32130022F021 /* SFAuthErrorHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFAuthErrorHandler.m; sourceTree = "<group>"; };
 		4F96FCF41BFD32130022F021 /* SFAuthErrorHandlerList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFAuthErrorHandlerList.h; sourceTree = "<group>"; };
@@ -698,8 +697,8 @@
 		69848CA42363F8AF00893E57 /* SFSDKPushNotificationFieldsConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKPushNotificationFieldsConstants.h; sourceTree = "<group>"; };
 		69848CAB2363F93100893E57 /* SFSDKPushNotificationDecryption+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SFSDKPushNotificationDecryption+Internal.h"; sourceTree = "<group>"; };
 		69848CB12363FA1000893E57 /* SFSDKPushNotificationEncryptionConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKPushNotificationEncryptionConstants.h; sourceTree = "<group>"; };
-		69848CB32363FA3E00893E57 /* SFSDKPushNotificationError.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKPushNotificationError.h; sourceTree = "<group>"; };
-		69848CB42363FA3E00893E57 /* SFSDKPushNotificationError.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKPushNotificationError.m; sourceTree = "<group>"; };
+		69848CB32363FA3E00893E57 /* SFSDKPushNotificationErrorDomain.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKPushNotificationErrorDomain.h; sourceTree = "<group>"; };
+		69848CB42363FA3E00893E57 /* SFSDKPushNotificationErrorDomain.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKPushNotificationErrorDomain.m; sourceTree = "<group>"; };
 		69848CB72364035300893E57 /* SFSDKEncryptedPushNotificationTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFSDKEncryptedPushNotificationTests.m; path = SalesforceSDKCoreTests/SFSDKEncryptedPushNotificationTests.m; sourceTree = SOURCE_ROOT; };
 		69848CBB2364063E00893E57 /* SFSDKPushNotificationDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SFSDKPushNotificationDataProvider.h; path = SalesforceSDKCoreTests/SFSDKPushNotificationDataProvider.h; sourceTree = SOURCE_ROOT; };
 		69848CBC2364063E00893E57 /* SFSDKPushNotificationDataProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFSDKPushNotificationDataProvider.m; path = SalesforceSDKCoreTests/SFSDKPushNotificationDataProvider.m; sourceTree = SOURCE_ROOT; };
@@ -838,7 +837,6 @@
 		B7E1A77E1F4C8844007AC36A /* SFSDKAuthViewHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKAuthViewHandler.m; sourceTree = "<group>"; };
 		B7E391102209E63E00D61D4D /* SFSDKViewUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKViewUtils.h; sourceTree = "<group>"; };
 		B7E391112209E63E00D61D4D /* SFSDKViewUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKViewUtils.m; sourceTree = "<group>"; };
-		B7E66AE12375007D005A652E /* PushNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationManager.swift; sourceTree = "<group>"; };
 		B7E66AE823763278005A652E /* RestClientPublisherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RestClientPublisherTests.swift; path = SalesforceSDKCoreTests/RestClientPublisherTests.swift; sourceTree = SOURCE_ROOT; };
 		B7E8A2A31E7369DB007C0D92 /* SFDefaultUserAccountPersister.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFDefaultUserAccountPersister.h; sourceTree = "<group>"; };
 		B7E8A2A41E7369DB007C0D92 /* SFDefaultUserAccountPersister.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFDefaultUserAccountPersister.m; sourceTree = "<group>"; };
@@ -1176,17 +1174,16 @@
 		4F96FCD81BFD32130022F021 /* PushNotification */ = {
 			isa = PBXGroup;
 			children = (
-				4F96FCD91BFD32130022F021 /* SFPushNotificationManager.h */,
-				4F96FCDA1BFD32130022F021 /* SFPushNotificationManager.m */,
 				697A919E2363C3D800D2836F /* SFSDKPushNotificationDecryption.h */,
 				69848CAB2363F93100893E57 /* SFSDKPushNotificationDecryption+Internal.h */,
 				697A919F2363C3D800D2836F /* SFSDKPushNotificationDecryption.m */,
 				69848CA42363F8AF00893E57 /* SFSDKPushNotificationFieldsConstants.h */,
 				69848CB12363FA1000893E57 /* SFSDKPushNotificationEncryptionConstants.h */,
-				69848CB32363FA3E00893E57 /* SFSDKPushNotificationError.h */,
-				69848CB42363FA3E00893E57 /* SFSDKPushNotificationError.m */,
+				69848CB32363FA3E00893E57 /* SFSDKPushNotificationErrorDomain.h */,
+				69848CB42363FA3E00893E57 /* SFSDKPushNotificationErrorDomain.m */,
 				23945B702D78E4A60060B195 /* NotificationType.swift */,
 				23B2FDE62DB03486006ADC07 /* NotificationCategoryFactory.swift */,
+				233755932D95F2F80040E414 /* PushNotificationManager.swift */,
 			);
 			path = PushNotification;
 			sourceTree = "<group>";
@@ -1522,7 +1519,7 @@
 			children = (
 				B722A708233C437E0089736E /* RestClient.swift */,
 				B7A6ED31236A3F8600DBA451 /* UserAccountManager.swift */,
-				B7E66AE12375007D005A652E /* PushNotificationManager.swift */,
+				2337559C2D9738AB0040E414 /* PushNotificationManager+ActionableNotifications.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1793,7 +1790,6 @@
 				69EA56CB264B1FAA007FE339 /* SFSDKMacDetectUtil.h in Headers */,
 				B7895D0D2345015B00765D85 /* SFSDKCompositeRequest.h in Headers */,
 				4F5727E327F27F1A0008CDA4 /* SFSDKPrimingRecordsResponse.h in Headers */,
-				CE4CE3541C0E5261009F6029 /* SFPushNotificationManager.h in Headers */,
 				8214D96D205317BC0007349E /* SFSDKSalesforceAnalyticsManager+Internal.h in Headers */,
 				B7A20F871F25850E00D1E4B0 /* SFSDKWindowManager.h in Headers */,
 				CE4CE3B11C0E5279009F6029 /* SFSDKWebUtils.h in Headers */,
@@ -1870,7 +1866,7 @@
 				B7FB26DC1F78096300FB25A2 /* SFSDKIDPLoginRequestHandler.h in Headers */,
 				CE4CE3231C0E523B009F6029 /* UIDevice+SFHardware.h in Headers */,
 				E1C80CF11C5AEE31001B3A21 /* SFSDKLoginHostStorage.h in Headers */,
-				69848CB52363FA3E00893E57 /* SFSDKPushNotificationError.h in Headers */,
+				69848CB52363FA3E00893E57 /* SFSDKPushNotificationErrorDomain.h in Headers */,
 				CE4CE3381C0E5245009F6029 /* SFIdentityData+Internal.h in Headers */,
 				B7677053223AE5E400545C90 /* SFUserAccountManager+Instrumentation.h in Headers */,
 				4F06AF751C49A16A00F70798 /* SalesforceOAuthUnitTests.h in Headers */,
@@ -2207,6 +2203,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				233755942D95F2F80040E414 /* PushNotificationManager.swift in Sources */,
 				A37F3116252E5C2300026635 /* KeyValueEncryptedFileStoreViewController.swift in Sources */,
 				69FB22F9235AD868006BD11B /* SFSDKViewControllerConfig.m in Sources */,
 				CE4CE39C1C0E5272009F6029 /* SFSDKTestCredentialsData.m in Sources */,
@@ -2218,7 +2215,6 @@
 				69D03E262D2C6D0B004381EC /* SFLoginViewController+QrCodeLogin.swift in Sources */,
 				CE4CE3521C0E5252009F6029 /* SFOAuthSessionRefresher.m in Sources */,
 				CE4CE3681C0E526A009F6029 /* SFDefaultUserManagementListViewController.m in Sources */,
-				CE4CE3551C0E5261009F6029 /* SFPushNotificationManager.m in Sources */,
 				B7FB26D91F78096300FB25A2 /* SFSDKAdvancedAuthURLHandler.m in Sources */,
 				A315F84326EAAFF800B94428 /* ScreenLockUIView.swift in Sources */,
 				4F2410B1282DCA4B00E5EFE3 /* SFSDKCollectionResponse.m in Sources */,
@@ -2272,7 +2268,7 @@
 				23A4C74E2D0CB68B00DF55EB /* NativeLoginManagerInternal.swift in Sources */,
 				23A4C74F2D0CB68B00DF55EB /* NativeLoginManager.swift in Sources */,
 				B7CD6D671F79CFC900F99F81 /* SFUserAccountManager+URLHandlers.m in Sources */,
-				69848CB62363FA3E00893E57 /* SFSDKPushNotificationError.m in Sources */,
+				69848CB62363FA3E00893E57 /* SFSDKPushNotificationErrorDomain.m in Sources */,
 				CE4CE39A1C0E5272009F6029 /* SFSDKAsyncProcessListener.m in Sources */,
 				B7A20F861F25850E00D1E4B0 /* SFSDKWindowContainer.m in Sources */,
 				B7FB26C41F78094A00FB25A2 /* SFSDKLoginFlowSelectionViewController.m in Sources */,
@@ -2285,7 +2281,6 @@
 				CE4CE33B1C0E5245009F6029 /* SFIdentityCoordinator.m in Sources */,
 				82A195A71E73247F008F5AA8 /* SFSDKAppFeatureMarkers.m in Sources */,
 				CE675A361E0B2CC6002DBF5A /* SFSDKSoslBuilder.m in Sources */,
-				B7E66AE22375007D005A652E /* PushNotificationManager.swift in Sources */,
 				69DFE0632B968D8F000906E4 /* CryptoUtils.swift in Sources */,
 				FDED97291CAA16EB009D80F2 /* SFApplicationHelper.m in Sources */,
 				B78927622241643500BEDED4 /* SFSDKInstrumentationHelper.m in Sources */,
@@ -2314,6 +2309,7 @@
 				B7FB26DF1F78096300FB25A2 /* SFSDKIDPRequestHandler.m in Sources */,
 				CE4CE3B01C0E5279009F6029 /* SFSDKResourceUtils.m in Sources */,
 				B7E8A2A61E7369DB007C0D92 /* SFDefaultUserAccountPersister.m in Sources */,
+				2337559D2D9738AB0040E414 /* PushNotificationManager+ActionableNotifications.swift in Sources */,
 				B7A20FAF1F26C39700D1E4B0 /* SFSDKRootController.m in Sources */,
 				CE50CE921DD3DD1F00F1297B /* SFSDKEventBuilderHelper.m in Sources */,
 				4F3139652331C5A1007B3705 /* SFSDKAuthRootController.m in Sources */,
