@@ -25,7 +25,6 @@
 #import "AppDelegate.h"
 #import "InitialViewController.h"
 #import "ContactListViewController.h"
-#import <SalesforceSDKCore/SFPushNotificationManager.h>
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
 #import <SalesforceSDKCore/SFSDKAppConfig.h>
 #import <SalesforceSDKcore/SFSDKWindowManager.h>
@@ -37,6 +36,7 @@
 #import <SalesforceSDKCore/SFSDKNavigationController.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <UserNotifications/UserNotifications.h>
+#import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 
 @interface AppDelegate ()
 
@@ -133,7 +133,7 @@
 - (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     [[SFPushNotificationManager sharedInstance] didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
     if ([SFUserAccountManager sharedInstance].currentUser.credentials.accessToken != nil) {
-        [[SFPushNotificationManager sharedInstance] registerSalesforceNotificationsWithCompletionBlock:nil failBlock:nil];
+        (void)[[SFPushNotificationManager sharedInstance] registerSalesforceNotificationsWithCompletionBlock:nil failBlock:nil];
     }
 }
 

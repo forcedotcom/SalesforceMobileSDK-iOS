@@ -254,7 +254,7 @@ public class PushNotificationManager: NSObject {
     @objc(unregisterSalesforceNotificationsWithCompletionBlock:completionBlock:)
     public func unregisterSalesforceNotifications(for user: UserAccount,
                                                   completionBlock: (() -> Void)?) -> Bool {
-        guard let deviceSalesforceId = deviceSalesforceId else {
+        guard deviceSalesforceId != nil else {
             postPushNotificationUnregistration(completionBlock)
             return true
         }
@@ -263,7 +263,6 @@ public class PushNotificationManager: NSObject {
             postPushNotificationUnregistration(completionBlock)
             return true
         }
-        let credentials = user.credentials
 
         guard let prefs = SFPreferences.sharedPreferences(for: .user, user: user) else {
             SFSDKCoreLogger.e(Self.self, message: "Cannot unregister from notifications with Salesforce: no user prefs")
@@ -283,7 +282,7 @@ public class PushNotificationManager: NSObject {
                                   queryParams: nil)
         Task {
             do {
-                let result = try await RestClient.shared.send(request: request)
+                _ = try await RestClient.shared.send(request: request)
                 self.postPushNotificationUnregistration(completionBlock)
             } catch {
                 SFSDKCoreLogger.e(Self.self, message: "Push notification unregistration failed: \(error.localizedDescription)")
@@ -353,7 +352,7 @@ public class PushNotificationManager: NSObject {
     ///   - user: A user account ot use  to register for noitfications
     ///   - completionBlock: completion block to call with success or failure
     public func registerForSalesforceNotifications(user: UserAccount, completionBlock:@escaping (Result<Bool, PushNotificationManagerError>)->()) {
-        let result = registerSalesforceNotifications(for: user) {
+        _ = registerSalesforceNotifications(for: user) {
             return completionBlock(.success(true))
         } failBlock: {
             completionBlock(.failure(.registrationFailed))
@@ -368,11 +367,7 @@ public class PushNotificationManager: NSObject {
             completionBlock(false)
             return
         }
-        if let currentUser = UserAccountManager.shared.currentUserAccount {
-            self.unregisterForSalesforceNotifications(user: currentUser, completionBlock)
-           return
-        }
-        completionBlock(false)
+        self.unregisterForSalesforceNotifications(user: currentUser, completionBlock)
      }
     
     ///  Unregister from Salesforce notfications for a specific user
