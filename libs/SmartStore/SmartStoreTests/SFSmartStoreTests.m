@@ -358,7 +358,7 @@
         [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newAllQuerySpec:kTestSoupName withSelectPaths:@[@"key"] withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderAscending withPageSize:10]
                                             page:0
                                  expectedResults:@[@[@"ka1"], @[@"ka2"], @[@"ka3"]]
-                                        covering:![indexType isEqualToString:kSoupIndexTypeJSON1] //interestingly the explain plan doesn't use a covering index with a functional index
+                                        covering:YES
                              expectedDbOperation:@"SCAN"
                                            store:store];
 
@@ -427,7 +427,7 @@
         [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newRangeQuerySpec:kTestSoupName withSelectPaths:@[@"key"] withPath:@"key" withBeginKey:@"ka2" withEndKey:@"ka3" withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderDescending withPageSize:10]
                                             page:0
                                  expectedResults:@[@[@"ka3"], @[@"ka2"]]
-                                        covering:![indexType isEqualToString:kSoupIndexTypeJSON1] // interestingly the explain plan doesn't use a covering index with a functional index
+                                        covering:YES
                              expectedDbOperation:@"SEARCH"
                                            store:store];
         
@@ -534,7 +534,7 @@
         [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newLikeQuerySpec:kTestSoupName withSelectPaths:@[@"key"] withPath:@"key" withLikeKey:@"%bc%" withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderDescending withPageSize:10]
                                             page:0
                                  expectedResults:@[@[@"bbcd"], @[@"abcd"], @[@"abcc"]]
-                                        covering:![indexType isEqualToString:kSoupIndexTypeJSON1] // interestingly the explain plan doesn't use a covering index with a functional index
+                                        covering:YES
                              expectedDbOperation:@"SCAN"
                                            store:store];
     
@@ -589,7 +589,7 @@
         [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newSmartQuerySpec:smartSql withPageSize:10]
                                             page:0
                                  expectedResults:@[@[@"abcc"], @[@"abcd"]]
-                                        covering:![indexType isEqualToString:kSoupIndexTypeJSON1] // interestingly the explain plan doesn't use a covering index with a functional index
+                                        covering:YES
                              expectedDbOperation:@"SCAN"
                                            store:store];
         // Anoter smart query
@@ -597,7 +597,7 @@
         [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newSmartQuerySpec:smartSql withPageSize:2]
                                             page:0
                                  expectedResults:@[@[@"abcc"], @[@"abcd"]]
-                                        covering:![indexType isEqualToString:kSoupIndexTypeJSON1] // interestingly the explain plan doesn't use a covering index with a functional index
+                                        covering:YES
                              expectedDbOperation:@"SCAN"
                                            store:store];
     }
