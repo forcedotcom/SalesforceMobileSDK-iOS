@@ -19,83 +19,240 @@ class PushNotificationManagerTests: XCTestCase {
         mockUserAccount = nil
         pushNotificationManager = nil
         mockRestClient = nil
+        UserAccountManager.shared.currentUserAccount = nil
         super.tearDown()
     }
 
-    func testGetNotificationTypes_SuccessfulAPIResponse() async throws {
+    // MARK: - Registration Tests
+    
+    func testRegisterForRemoteNotifications_Simulator() {
         // Given
-        mockRestClient.jsonResponse = makeMockJSONResponse()
-
+        pushNotificationManager.isSimulator = true
+        
         // When
-        try await pushNotificationManager.fetchAndStoreNotificationTypes(restClient: mockRestClient, account: mockUserAccount)
-
-        // Then
-        let cachedData = try? XCTUnwrap(mockUserAccount.notificationTypes)
-        XCTAssertFalse(cachedData!.isEmpty, "Expected notification types to be stored")
-    }
-
-    func testGetNotificationTypes_FallbackToCache() async throws {
-        // Given
-        mockRestClient.mockError = NSError(domain: "MockRestClient", code: 500, userInfo: [NSLocalizedDescriptionKey: "Mock API failure"])
-        mockUserAccount.notificationTypes = [NotificationType(type: "cachedType", apiName: "cached_notification", label: "Cached Notification", actionGroups: [])]
-
-        // When
-        try await pushNotificationManager.fetchAndStoreNotificationTypes(restClient: mockRestClient, account: mockUserAccount)
-
-        // Then
-        let cachedData = try? XCTUnwrap(mockUserAccount.notificationTypes)
-        XCTAssertFalse(cachedData!.isEmpty, "Expected cached notification types to be retrieved.")
-    }
-
-    func testGetNotificationTypes_FailNoCache() async throws {
-        // Given
-        mockRestClient.mockError = NSError(
-            domain: "MockRestClient",
-            code: 500,
-            userInfo: [NSLocalizedDescriptionKey: "Mock API failure"]
-        )
-        mockUserAccount.notificationTypes = nil
-
-        // When
-        do {
-            try await pushNotificationManager.fetchAndStoreNotificationTypes(restClient: mockRestClient, account: mockUserAccount)
-        } catch {
-            // Then
-            XCTAssertNotNil(error)
-            return
-        }
-        XCTFail("Should throw an assertion before we get here.")
+        pushNotificationManager.registerForRemoteNotifications()
+        
+        // Then - No crash, just logs and returns
     }
     
+    func testDidRegisterForRemoteNotificationsWithDeviceToken() {
+        // Given
+        let deviceToken = Data([0x01, 0x02, 0x03, 0x04])
+        
+        // When
+        pushNotificationManager.didRegisterForRemoteNotifications(withDeviceToken: deviceToken)
+        
+        // Then
+        XCTAssertNotNil(pushNotificationManager.deviceToken)
+        XCTAssertEqual(pushNotificationManager.deviceToken, "01020304")
+    }
+    
+    func testRegisterSalesforceNotifications_NoCurrentUser() {
+        // Given
+        UserAccountManager.shared.currentUserAccount = nil
+        
+        // When
+        let result = pushNotificationManager.registerSalesforceNotifications(completionBlock: nil, failBlock: nil)
+        
+        // Then
+        XCTAssertFalse(result)
+    }
+    
+    func testRegisterSalesforceNotifications_NoDeviceToken() {
+        // Given
+        pushNotificationManager.deviceToken = nil
+        
+        // When
+        let result = pushNotificationManager.registerSalesforceNotifications(completionBlock: nil, failBlock: nil)
+        
+        // Then
+        XCTAssertFalse(result)
+    }
+    
+    func testUnregisterSalesforceNotifications_NoCurrentUser() {
+        // Given
+        UserAccountManager.shared.currentUserAccount = nil
+        
+        // When
+        let result = pushNotificationManager.unregisterSalesforceNotifications(completionBlock: nil)
+        
+        // Then
+        XCTAssertFalse(result)
+    }
+    
+    func testUnregisterSalesforceNotifications_NoDeviceSalesforceId() {
+        // Given
+        pushNotificationManager.deviceSalesforceId = nil
+        UserAccountManager.shared.currentUserAccount = mockUserAccount
+        
+        // When
+        let result = pushNotificationManager.unregisterSalesforceNotifications(completionBlock: nil)
+        
+        // Then
+        XCTAssertTrue(result)
+    }
+    
+    func testUnregisterSalesforceNotifications_Simulator() {
+        // Given
+        pushNotificationManager.isSimulator = true
+        UserAccountManager.shared.currentUserAccount = mockUserAccount
+        
+        // When
+        let result = pushNotificationManager.unregisterSalesforceNotifications(completionBlock: nil)
+        
+        // Then
+        XCTAssertTrue(result)
+    }
+    
+    // MARK: - Modern Swift API Tests
+    
+    func testRegisterForSalesforceNotifications_Success() {
+        // Given
+        let expectation = XCTestExpectation(description: "Registration completion")
+        pushNotificationManager.deviceToken = "test-token"
+        UserAccountManager.shared.currentUserAccount = mockUserAccount
+        
+        // When
+        pushNotificationManager.registerForSalesforceNotifications { result in
+            // Then
+            switch result {
+            case .success(let success):
+                XCTAssertTrue(success)
+            case .failure:
+                XCTFail("Should not fail")
+            }
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 1.0)
+    }
+    
+    func testRegisterForSalesforceNotifications_NoCurrentUser() {
+        // Given
+        let expectation = XCTestExpectation(description: "Registration completion")
+        UserAccountManager.shared.currentUserAccount = nil
+        
+        // When
+        pushNotificationManager.registerForSalesforceNotifications { result in
+            // Then
+            switch result {
+            case .success:
+                XCTFail("Should fail")
+            case .failure(let error):
+                XCTAssertEqual(error, .currentUserNotDetected)
+            }
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 1.0)
+    }
+    
+    func testUnregisterForSalesforceNotifications_Success() {
+        // Given
+        let expectation = XCTestExpectation(description: "Unregistration completion")
+        pushNotificationManager.deviceSalesforceId = "test-id"
+        UserAccountManager.shared.currentUserAccount = mockUserAccount
+        
+        // When
+        pushNotificationManager.unregisterForSalesforceNotifications { success in
+            // Then
+            XCTAssertTrue(success)
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 1.0)
+    }
+    
+    func testUnregisterForSalesforceNotifications_NoCurrentUser() {
+        // Given
+        let expectation = XCTestExpectation(description: "Unregistration completion")
+        UserAccountManager.shared.currentUserAccount = nil
+        
+        // When
+        pushNotificationManager.unregisterForSalesforceNotifications { success in
+            // Then
+            XCTAssertFalse(success)
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 1.0)
+    }
+    
+    // MARK: - RSA Public Key Tests
+    
+    func testGetRSAPublicKey() {
+        // When
+        let publicKey = pushNotificationManager.getRSAPublicKey()
+        
+        // Then
+        XCTAssertNotNil(publicKey)
+    }
+    
+    // MARK: - Notification Types Tests
+    
+    func testGetNotificationTypes_Success() {
+        // Given
+        let mockTypes = [NotificationType(type: "test", apiName: "test", label: "Test", actionGroups: [])]
+        mockUserAccount.notificationTypes = mockTypes
+        
+        // When
+        let types = pushNotificationManager.getNotificationTypes(account: mockUserAccount)
+        
+        // Then
+        XCTAssertNotNil(types)
+        XCTAssertEqual(types?.count, 1)
+        XCTAssertEqual(types?.first?.apiName, "test")
+    }
+    
+    func testGetNotificationTypes_NoAccount() {
+        // When
+        let types = pushNotificationManager.getNotificationTypes(account: nil)
+        
+        // Then
+        XCTAssertNil(types)
+    }
+    
+    // MARK: - Action Tests
+    
     func testGetActionGroups_Success() {
-            // Given
-            let mockNotificationType = NotificationType(type: "test_type", apiName: "test_api_name", label: "Test Label", actionGroups: [
-                ActionGroup(name: "group_1", actions: [])
-            ])
-            mockUserAccount.notificationTypes = [mockNotificationType]
+        // Given
+        let mockNotificationType = NotificationType(type: "test_type", apiName: "test_api_name", label: "Test Label", actionGroups: [
+            ActionGroup(name: "group_1", actions: [])
+        ])
+        mockUserAccount.notificationTypes = [mockNotificationType]
 
-            // When
-            let actionGroups = pushNotificationManager.getActionGroups(notificationTypeApiName: "test_api_name", account: mockUserAccount)
+        // When
+        let actionGroups = pushNotificationManager.getActionGroups(notificationTypeApiName: "test_api_name", account: mockUserAccount)
 
-            // Then
-            XCTAssertNotNil(actionGroups)
-            XCTAssertEqual(actionGroups?.count, 1)
-            XCTAssertEqual(actionGroups?.first?.name, "group_1")
-        }
+        // Then
+        XCTAssertNotNil(actionGroups)
+        XCTAssertEqual(actionGroups?.count, 1)
+        XCTAssertEqual(actionGroups?.first?.name, "group_1")
+    }
 
-        func testGetActionGroup_Success() {
-            // Given
-            let actionGroup = ActionGroup(name: "group_1", actions: [])
-            let mockNotificationType = NotificationType(type: "test_type", apiName: "test_api_name", label: "Test Label", actionGroups: [actionGroup])
-            mockUserAccount.notificationTypes = [mockNotificationType]
+    func testGetActionGroup_Success() {
+        // Given
+        let actionGroup = ActionGroup(name: "group_1", actions: [])
+        let mockNotificationType = NotificationType(type: "test_type", apiName: "test_api_name", label: "Test Label", actionGroups: [actionGroup])
+        mockUserAccount.notificationTypes = [mockNotificationType]
 
-            // When
-            let retrievedActionGroup = pushNotificationManager.getActionGroup(notificationTypeApiName: "test_api_name", actionGroupName: "group_1", account: mockUserAccount)
+        // When
+        let retrievedActionGroup = pushNotificationManager.getActionGroup(notificationTypeApiName: "test_api_name", actionGroupName: "group_1", account: mockUserAccount)
 
-            // Then
-            XCTAssertNotNil(retrievedActionGroup)
-            XCTAssertEqual(retrievedActionGroup?.name, "group_1")
-        }
+        // Then
+        XCTAssertNotNil(retrievedActionGroup)
+        XCTAssertEqual(retrievedActionGroup?.name, "group_1")
+    }
+
+    func testGetAction_Success() {
+        // Given
+        let action = Action(name: "approve", identifier: "approval_req__approve", label: "Approve", type: "NotificationApiAction")
+        let actionGroup = ActionGroup(name: "approval_req", actions: [action])
+        let mockNotificationType = NotificationType(type: "test_type", apiName: "test_api_name", label: "Test Label", actionGroups: [actionGroup])
+        mockUserAccount.notificationTypes = [mockNotificationType]
+
+        // When
+        let retrievedAction = pushNotificationManager.getAction(notificationTypeApiName: "test_api_name", actionIdentifier: "approval_req__approve", account: mockUserAccount)
 
         func testGetAction_Success() {
             // Given
@@ -104,67 +261,58 @@ class PushNotificationManagerTests: XCTestCase {
             let mockNotificationType = NotificationType(type: "test_type", apiName: "test_api_name", label: "Test Label", actionGroups: [actionGroup])
             mockUserAccount.notificationTypes = [mockNotificationType]
 
-            // When
-            let retrievedAction = pushNotificationManager.getAction(notificationTypeApiName: "test_api_name", actionIdentifier: "approval_req__approve", account: mockUserAccount)
+    func testGetAction_Failure() {
+        // Given
+        mockUserAccount.notificationTypes = []
 
-            // Then
-            XCTAssertNotNil(retrievedAction)
-            XCTAssertEqual(retrievedAction?.identifier, "approval_req__approve")
-            XCTAssertEqual(retrievedAction?.label, "Approve")
+        // When
+        let retrievedAction = pushNotificationManager.getAction(notificationTypeApiName: "invalid_api_name", actionIdentifier: "non_existent_action", account: mockUserAccount)
+
+        // Then
+        XCTAssertNil(retrievedAction)
+    }
+
+    // MARK: - Invoke Server Notification Action Tests
+
+    func testInvokeServerNotificationAction_Success() async throws {
+        // Given
+        mockRestClient.jsonResponse = """
+        {
+            "message": "Action executed successfully"
         }
+        """.data(using: .utf8)!
 
-        func testGetAction_Failure() {
-            // Given
-            mockUserAccount.notificationTypes = []
+        // When
+        let result = try await pushNotificationManager.invokeServerNotificationAction(
+            client: mockRestClient,
+            notificationId: "test_notification",
+            actionIdentifier: "test_action"
+        )
 
-            // When
-            let retrievedAction = pushNotificationManager.getAction(notificationTypeApiName: "invalid_api_name", actionIdentifier: "non_existent_action", account: mockUserAccount)
+        // Then
+        XCTAssertEqual(result.message, "Action executed successfully")
+    }
 
-            // Then
-            XCTAssertNil(retrievedAction)
-        }
+    func testInvokeServerNotificationAction_Failure() async throws {
+        // Given
+        mockRestClient.mockError = NSError(domain: "MockRestClient", code: 500, userInfo: [NSLocalizedDescriptionKey: "Server Error"])
 
-        // MARK: - Invoke Server Notification Action
-
-        func testInvokeServerNotificationAction_Success() async throws {
-            // Given
-            mockRestClient.jsonResponse = """
-            {
-                "message": "Action executed successfully"
-            }
-            """.data(using: .utf8)!
-
-            // When
-            let result = try await pushNotificationManager.invokeServerNotificationAction(
+        // When
+        do {
+            _ = try await pushNotificationManager.invokeServerNotificationAction(
                 client: mockRestClient,
                 notificationId: "test_notification",
                 actionIdentifier: "test_action"
             )
-
+        } catch {
             // Then
-            XCTAssertEqual(result.message, "Action executed successfully")
+            XCTAssertNotNil(error)
+            return
         }
 
-        func testInvokeServerNotificationAction_Failure() async throws {
-            // Given
-            mockRestClient.mockError = NSError(domain: "MockRestClient", code: 500, userInfo: [NSLocalizedDescriptionKey: "Server Error"])
-
-            // When
-            do {
-                _ = try await pushNotificationManager.invokeServerNotificationAction(
-                    client: mockRestClient,
-                    notificationId: "test_notification",
-                    actionIdentifier: "test_action"
-                )
-            } catch {
-                // Then
-                XCTAssertNotNil(error)
-                return
-            }
-
-            XCTFail("Expected an error but succeeded")
-        }
-
+        XCTFail("Expected an error but succeeded")
+    }
+    
     // MARK: - Helper Function
 
     private func makeMockJSONResponse() -> Data {

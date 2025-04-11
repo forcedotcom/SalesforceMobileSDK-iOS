@@ -41,13 +41,27 @@ public class PushNotificationManagerConstants: NSObject {
     public static let kPNEncryptionKeyLength: UInt = 2048
 }
 
-public enum PushNotificationManagerError: Error {
+public enum PushNotificationManagerError: Error, Equatable {
     case registrationFailed
     case currentUserNotDetected
     case failedNotificationTypesRetrieval
     case notificationActionInvocationFailed(String)
+    
+    public static func == (lhs: PushNotificationManagerError, rhs: PushNotificationManagerError) -> Bool {
+        switch (lhs, rhs) {
+        case (.registrationFailed, .registrationFailed):
+            return true
+        case (.currentUserNotDetected, .currentUserNotDetected):
+            return true
+        case (.failedNotificationTypesRetrieval, .failedNotificationTypesRetrieval):
+            return true
+        case (.notificationActionInvocationFailed(let lhsMsg), .notificationActionInvocationFailed(let rhsMsg)):
+            return lhsMsg == rhsMsg
+        default:
+            return false
+        }
+    }
 }
-
 
 @objc(SFPushNotificationManager)
 @objcMembers
