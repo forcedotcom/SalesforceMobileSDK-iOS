@@ -354,6 +354,48 @@ class PushNotificationManagerTests: XCTestCase {
         """
         return json.data(using: .utf8)!
     }
+
+    // MARK: - Error Tests
+    
+    func testPushNotificationManagerError_Equatable_SameCases() {
+        // Test same cases without associated values
+        XCTAssertEqual(PushNotificationManagerError.registrationFailed, PushNotificationManagerError.registrationFailed)
+        XCTAssertEqual(PushNotificationManagerError.currentUserNotDetected, PushNotificationManagerError.currentUserNotDetected)
+        XCTAssertEqual(PushNotificationManagerError.failedNotificationTypesRetrieval, PushNotificationManagerError.failedNotificationTypesRetrieval)
+        
+        // Test same cases with same associated values
+        let error1 = PushNotificationManagerError.notificationActionInvocationFailed("test error")
+        let error2 = PushNotificationManagerError.notificationActionInvocationFailed("test error")
+        XCTAssertEqual(error1, error2)
+    }
+    
+    func testPushNotificationManagerError_Equatable_DifferentCases() {
+        // Test different cases without associated values
+        XCTAssertNotEqual(PushNotificationManagerError.registrationFailed, PushNotificationManagerError.currentUserNotDetected)
+        XCTAssertNotEqual(PushNotificationManagerError.registrationFailed, PushNotificationManagerError.failedNotificationTypesRetrieval)
+        XCTAssertNotEqual(PushNotificationManagerError.currentUserNotDetected, PushNotificationManagerError.failedNotificationTypesRetrieval)
+        
+        // Test same case with different associated values
+        let error1 = PushNotificationManagerError.notificationActionInvocationFailed("error 1")
+        let error2 = PushNotificationManagerError.notificationActionInvocationFailed("error 2")
+        XCTAssertNotEqual(error1, error2)
+        
+        // Test different cases with and without associated values
+        XCTAssertNotEqual(PushNotificationManagerError.registrationFailed, PushNotificationManagerError.notificationActionInvocationFailed("test"))
+        XCTAssertNotEqual(PushNotificationManagerError.currentUserNotDetected, PushNotificationManagerError.notificationActionInvocationFailed("test"))
+        XCTAssertNotEqual(PushNotificationManagerError.failedNotificationTypesRetrieval, PushNotificationManagerError.notificationActionInvocationFailed("test"))
+    }
+    
+    func testPushNotificationManagerError_Equatable_EmptyString() {
+        // Test with empty string
+        let error1 = PushNotificationManagerError.notificationActionInvocationFailed("")
+        let error2 = PushNotificationManagerError.notificationActionInvocationFailed("")
+        XCTAssertEqual(error1, error2)
+        
+        // Test empty string vs non-empty string
+        let error3 = PushNotificationManagerError.notificationActionInvocationFailed("not empty")
+        XCTAssertNotEqual(error1, error3)
+    }
 }
 
 // MARK: - Mock RestClient
