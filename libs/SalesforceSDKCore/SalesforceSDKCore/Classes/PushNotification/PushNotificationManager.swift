@@ -53,6 +53,7 @@ public enum PushNotificationManagerError: Error {
 @objcMembers
 public class PushNotificationManager: NSObject {
 
+    @objc(sharedInstance)
     public static let shared = PushNotificationManager()
     
     public var deviceToken: String?
@@ -101,19 +102,14 @@ public class PushNotificationManager: NSObject {
         SFApplicationHelper.sharedApplication()?.registerForRemoteNotifications()
     }
     
-    /// Get shared singlton instance of the push notification manager.
-    public static func sharedInstance() -> PushNotificationManager {
-        return PushNotificationManager.shared
-    }
-    
     /**
      * Call this method from your app delegate's didRegisterForRemoteNotificationsWithDeviceToken
      * @param deviceTokenData The device token returned by APNS.
      */
     @objc(didRegisterForRemoteNotificationsWithDeviceToken:)
-    public func didRegisterForRemoteNotifications(deviceTokenData: Data) {
+    public func didRegisterForRemoteNotifications(withDeviceToken: Data) {
         SFSDKCoreLogger.i(Self.self, message: "APNS registration succeeded")
-        deviceToken = deviceTokenData.map { String(format: "%02.2hhx", $0) }.joined()
+        deviceToken = withDeviceToken.map { String(format: "%02.2hhx", $0) }.joined()
         let prefs = SFPreferences.currentUserLevel()
         prefs?.setObject(deviceToken as Any, forKey: "deviceToken")
         prefs?.synchronize()
@@ -309,7 +305,7 @@ public class PushNotificationManager: NSObject {
     public func fetchAndStoreNotificationTypes(restClient: RestClient = RestClient.shared,
                                                account: UserAccount? = UserAccountManager.shared.currentUserAccount) async throws {
         guard let account = account else {
-            throw PushNotificationManagerError.currentUserNotDetected as Error
+            throw PushNotificationManagerError.currentUserNotDetected
         }
         
         do {
