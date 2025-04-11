@@ -122,12 +122,20 @@ public class PushNotificationManager: NSObject {
      */
     @objc(didRegisterForRemoteNotificationsWithDeviceToken:)
     public func didRegisterForRemoteNotifications(withDeviceToken: Data) {
+        
         SFSDKCoreLogger.i(Self.self, message: "APNS registration succeeded")
-        deviceToken = withDeviceToken.map { String(format: "%02.2hhx", $0) }.joined()
-        let prefs = SFPreferences.currentUserLevel()
-        prefs?.setObject(deviceToken as Any, forKey: "deviceToken")
-        prefs?.synchronize()
+        guard let hexString = NSString.sfsdk_string(withHexData: withDeviceToken) else {
+            SFSDKCoreLogger.e(Self.self, message: "Data was empty, got nil")
+            return
+        }
+        self.deviceToken = hexString
+        if let prefs = SFPreferences.currentUserLevel() {
+            prefs.setObject(hexString, forKey: "deviceToken")
+            prefs.synchronize()
+        }
     }
+    
+
     
     // MARK: - Salesforce Registration
     
