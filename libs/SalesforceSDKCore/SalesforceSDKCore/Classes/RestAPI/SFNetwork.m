@@ -118,11 +118,15 @@ static SFSDKMetricsCollectedBlock _metricsCollectedAction = nil;
 
 + (void)removeSharedInstanceForIdentifier:(nullable NSString *)identifier {
     if (identifier) {
+        [[(SFNetwork *)sharedInstances[identifier] activeSession] invalidateAndCancel];
         [sharedInstances removeObject:identifier];
     }
 }
 
 + (void)removeAllSharedInstances {
+    for (SFNetwork * network in sharedInstances.allValues) {
+        [network.activeSession invalidateAndCancel];
+    }
     [sharedInstances removeAllObjects];
 }
 
