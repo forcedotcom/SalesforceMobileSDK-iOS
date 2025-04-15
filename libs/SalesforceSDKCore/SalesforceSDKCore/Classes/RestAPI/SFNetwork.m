@@ -124,7 +124,7 @@ static SFSDKMetricsCollectedBlock _metricsCollectedAction = nil;
 }
 
 + (void)removeAllSharedInstances {
-    for (SFNetwork * network in sharedInstances.allValues) {
+    for (SFNetwork *network in sharedInstances.allValues) {
         [network.activeSession invalidateAndCancel];
     }
     [sharedInstances removeAllObjects];
