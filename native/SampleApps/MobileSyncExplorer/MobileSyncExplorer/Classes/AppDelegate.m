@@ -133,7 +133,7 @@
 - (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     [[SFPushNotificationManager sharedInstance] didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
     if ([SFUserAccountManager sharedInstance].currentUser.credentials.accessToken != nil) {
-        (void)[[SFPushNotificationManager sharedInstance] registerSalesforceNotificationsWithCompletionBlock:nil failBlock:nil];
+        [[SFPushNotificationManager sharedInstance] registerSalesforceNotificationsWithCompletionBlock:nil failBlock:nil];
     }
 }
 

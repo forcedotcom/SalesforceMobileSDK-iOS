@@ -399,7 +399,6 @@ class PushNotificationManagerTests: XCTestCase {
     }
     
     // MARK: - Helper Function
-
     private func makeMockJSONResponse() -> Data {
         let json = """
         {
@@ -480,6 +479,128 @@ class PushNotificationManagerTests: XCTestCase {
         // Test empty string vs non-empty string
         let error3 = PushNotificationManagerError.notificationActionInvocationFailed("not empty")
         XCTAssertNotEqual(error1, error3)
+    }
+
+    // MARK: - Fetch and Store Notification Types Tests
+    
+    func testFetchAndStoreNotificationTypes_Success() async throws {
+        // Given
+        mockRestClient.apiVersion = "v64.0"
+        mockRestClient.jsonResponse = makeMockJSONResponse()
+        
+        // When
+        try await pushNotificationManager.fetchAndStoreNotificationTypes(
+            restClient: mockRestClient,
+            account: mockUserAccount
+        )
+        
+        // Then
+        XCTAssertNotNil(mockUserAccount.notificationTypes)
+        XCTAssertEqual(mockUserAccount.notificationTypes?.count, 2)
+        XCTAssertEqual(mockUserAccount.notificationTypes?.first?.apiName, "chatter_mention")
+        XCTAssertEqual(mockUserAccount.notificationTypes?.last?.apiName, "approval_notification")
+    }
+    
+    func testFetchAndStoreNotificationTypes_NoAccount() async {
+        // Given
+        let nilAccount: UserAccount? = nil
+        
+        // When/Then
+        do {
+            try await pushNotificationManager.fetchAndStoreNotificationTypes(
+                restClient: mockRestClient,
+                account: nilAccount
+            )
+            XCTFail("Expected currentUserNotDetected error")
+        } catch let error as PushNotificationManagerError {
+            XCTAssertEqual(error, .currentUserNotDetected)
+        } catch {
+            XCTFail("Unexpected error: \(error)")
+        }
+    }
+    
+    func testFetchAndStoreNotificationTypes_APITooLow() async {
+        // Given
+        mockRestClient.apiVersion = "v63.0"
+        
+        // When/Then
+        do {
+            try await pushNotificationManager.fetchAndStoreNotificationTypes(
+                restClient: mockRestClient,
+                account: mockUserAccount
+            )
+            XCTFail("Expected notificationActionInvocationFailed error")
+        } catch let error as PushNotificationManagerError {
+            XCTAssertEqual(error, .failedNotificationTypesRetrieval)
+        } catch {
+            XCTFail("Unexpected error: \(error)")
+        }
+    }
+    
+    func testFetchAndStoreNotificationTypes_ServerErrorWithCache() async throws {
+        // Given
+        mockRestClient.apiVersion = "v64.0"
+        mockRestClient.mockError = NSError(domain: "MockRestClient", code: 500, userInfo: [NSLocalizedDescriptionKey: "Server Error"])
+        
+        // Set up cached types
+        let cachedTypes = [
+            NotificationType(type: "cached_type", apiName: "cached_type", label: "Cached Type", actionGroups: [])
+        ]
+        mockUserAccount.notificationTypes = cachedTypes
+        
+        // When
+        try await pushNotificationManager.fetchAndStoreNotificationTypes(
+            restClient: mockRestClient,
+            account: mockUserAccount
+        )
+        
+        // Then
+        XCTAssertNotNil(mockUserAccount.notificationTypes)
+        XCTAssertEqual(mockUserAccount.notificationTypes?.count, 1)
+        XCTAssertEqual(mockUserAccount.notificationTypes?.first?.apiName, "cached_type")
+    }
+    
+    func testFetchAndStoreNotificationTypes_ServerErrorNoCache() async {
+        // Given
+        mockRestClient.apiVersion = "v64.0"
+        mockRestClient.mockError = NSError(domain: "MockRestClient", code: 500, userInfo: [NSLocalizedDescriptionKey: "Server Error"])
+        mockUserAccount.notificationTypes = nil
+        
+        // When/Then
+        do {
+            try await pushNotificationManager.fetchAndStoreNotificationTypes(
+                restClient: mockRestClient,
+                account: mockUserAccount
+            )
+            XCTFail("Expected failedNotificationTypesRetrieval error")
+        } catch let error as PushNotificationManagerError {
+            XCTAssertEqual(error, .failedNotificationTypesRetrieval)
+        } catch {
+            XCTFail("Unexpected error: \(error)")
+        }
+    }
+    
+    func testFetchAndStoreNotificationTypes_InvalidResponseWithCache() async throws {
+        // Given
+        mockRestClient.apiVersion = "v64.0"
+        mockRestClient.jsonResponse = "invalid json".data(using: .utf8)!
+        
+        // Set up cached types
+        let cachedTypes = [
+            NotificationType(type: "cached_type", apiName: "cached_type", label: "Cached Type", actionGroups: [])
+        ]
+        mockUserAccount.notificationTypes = cachedTypes
+        
+        // When
+        try await pushNotificationManager.fetchAndStoreNotificationTypes(
+            restClient: mockRestClient,
+            account: mockUserAccount
+        )
+        
+        // Then
+        XCTAssertNotNil(mockUserAccount.notificationTypes)
+        XCTAssertEqual(mockUserAccount.notificationTypes?.count, 1)
+        XCTAssertEqual(mockUserAccount.notificationTypes?.first?.apiName, "cached_type")
     }
 }
 

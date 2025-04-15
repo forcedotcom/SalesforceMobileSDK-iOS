@@ -93,37 +93,7 @@ public extension PushNotificationManager {
             .flatMap { $0.actions }
             .first { $0.identifier == actionIdentifier }
     }
-    
-    /// Invokes a server-side notification action for a given notification using a completion block.
-    ///
-    /// This method wraps the Swift async implementation (`invokeServerNotificationAction`) and exposes it in a
-    /// block-based format for Objective-C compatibility.
-    ///
-    /// - Parameters:
-    ///   - notificationId: The identifier of the notification to act on.
-    ///   - actionIdentifier: The identifier of the action to invoke.
-    ///   - completion: A completion block called with the result. If successful, the `ActionResultRepresentation` is non-nil and `NSError` is nil.
-    ///                 If the action fails, the result is nil and `NSError` contains the failure reason.
-    ///
-    /// - Note: Available to Objective-C. This method maps to `invokeNotificationActionWithId:actionIdentifier:completion:` in Objective-C.
-    @objc(invokeNotificationActionWithId:actionIdentifier:completion:)
-    func invokeNotificationAction(notificationId: String,
-                                  actionIdentifier: String,
-                                  completion: @escaping (ActionResultRepresentation?, NSError?) -> Void) {
-        Task {
-            do {
-                let result = try await invokeServerNotificationAction(
-                    client: RestClient.shared,
-                    notificationId: notificationId,
-                    actionIdentifier: actionIdentifier
-                )
-                completion(result, nil)
-            } catch {
-                completion(nil, error as NSError)
-            }
-        }
-    }
-    
+
     /// Invokes a server-side notification action for a specific notification.
     ///
     /// - Parameters:
