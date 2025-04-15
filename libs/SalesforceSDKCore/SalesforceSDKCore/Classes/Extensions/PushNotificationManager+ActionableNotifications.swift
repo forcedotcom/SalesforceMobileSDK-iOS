@@ -141,7 +141,8 @@ internal extension PushNotificationManager {
     }
     
     func setNotificationCategories(types: [NotificationType]) {
-        let categories = types.map { createNotificationCategory(from: $0) }
+        let categories = types
+            .flatMap { createNotificationCategories(from: $0) }
         UNUserNotificationCenter.current().setNotificationCategories(Set(categories))
     }
     
@@ -151,23 +152,31 @@ internal extension PushNotificationManager {
 }
 
 private extension PushNotificationManager {
-    func createNotificationCategory(from type: NotificationType) -> UNNotificationCategory {
-        let actions = createActions(from: type.actionGroups)
-        return UNNotificationCategory(identifier: type.apiName, actions: actions, intentIdentifiers: [])
+    
+    func createNotificationCategories(from type: NotificationType) -> [UNNotificationCategory] {
+        guard let actionGroups = type.actionGroups else { return [] }
+
+        return actionGroups.map { group in
+            let actions = createActions(from: group)
+            return UNNotificationCategory(
+                identifier: group.name,
+                actions: actions,
+                intentIdentifiers: []
+            )
+        }
     }
     
-    func createActions(from actionGroups: [ActionGroup]?) -> [UNNotificationAction] {
-        guard let actionGroups = actionGroups else {
+    func createActions(from actionGroup: ActionGroup?) -> [UNNotificationAction] {
+        guard let actionGroup = actionGroup else {
             return []
         }
-        return actionGroups.flatMap { actionGroup in
-            actionGroup.actions.map { action in
-                UNNotificationAction(
-                    identifier: action.identifier,
-                    title: action.label,
-                    options: [.foreground] // Ensures the app opens if needed
-                )
-            }
+        
+        return actionGroup.actions.compactMap { action in
+            UNNotificationAction(
+                identifier: action.identifier,
+                title: action.label,
+                options: [.foreground] // Ensures the app opens if needed
+            )
         }
     }
     
