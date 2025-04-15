@@ -6,24 +6,43 @@ class PushNotificationManagerTests: XCTestCase {
     var pushNotificationManager: PushNotificationManager!
     var mockRestClient: MockRestClient!
     var mockUserAccount: UserAccount!
+    var mockApplicationHelper: MockApplicationHelper!
+    var originalMethod: IMP?
+    var mockPreferences: MockPreferences!
     
     override func setUp() {
         super.setUp()
-        pushNotificationManager = PushNotificationManager.shared
+        mockApplicationHelper = MockApplicationHelper()
+        
         mockRestClient = MockRestClient()
-        mockRestClient.apiVersion = "v64.0"
+        mockRestClient.apiVersion = SFRestDefaultAPIVersion
         mockUserAccount = UserAccount()
+        mockPreferences = MockPreferences()
+        mockPreferences.setObject("mock-sfid", forKey: PushNotificationConstants.deviceSalesforceId)
+        pushNotificationManager = PushNotificationManager(applicationHelper: mockApplicationHelper,
+                                                          apiVersion: SFRestDefaultAPIVersion,
+                                                          restClient: mockRestClient,
+                                                          currentUser: mockUserAccount,
+                                                          preferences: mockPreferences)
+        pushNotificationManager.isSimulator = false
     }
 
     override func tearDown() {
+        // Restore original method
+        if let originalMethod = originalMethod {
+            let originalSelector = #selector(SFPreferences.sharedPreferences(for:user:))
+            class_replaceMethod(SFPreferences.self, originalSelector, originalMethod, "@@:@@")
+        }
+        
         mockUserAccount = nil
         pushNotificationManager = nil
         mockRestClient = nil
+        mockApplicationHelper = nil
         UserAccountManager.shared.currentUserAccount = nil
         super.tearDown()
     }
 
-    // MARK: - Registration Tests
+    // MARK: - Remote Registration Tests
     
     func testRegisterForRemoteNotifications_Simulator() {
         // Given
@@ -33,6 +52,18 @@ class PushNotificationManagerTests: XCTestCase {
         pushNotificationManager.registerForRemoteNotifications()
         
         // Then - No crash, just logs and returns
+        XCTAssertFalse(mockApplicationHelper.registerForRemoteNotificationsCalled)
+    }
+    
+    func testRegisterForRemoteNotifications_RealDevice() {
+        // Given
+        pushNotificationManager.isSimulator = false
+        
+        // When
+        pushNotificationManager.registerForRemoteNotifications()
+        
+        // Then
+        XCTAssertTrue(mockApplicationHelper.registerForRemoteNotificationsCalled)
     }
     
     func testDidRegisterForRemoteNotificationsWithDeviceToken() {
@@ -111,6 +142,12 @@ class PushNotificationManagerTests: XCTestCase {
         let expectation = XCTestExpectation(description: "Registration completion")
         pushNotificationManager.deviceToken = "test-token"
         UserAccountManager.shared.currentUserAccount = mockUserAccount
+        // Set up mock REST client to succeed
+        mockRestClient.jsonResponse = """
+        {
+            "success": true
+        }
+        """.data(using: .utf8)!
         
         // When
         pushNotificationManager.registerForSalesforceNotifications { result in
@@ -149,9 +186,17 @@ class PushNotificationManagerTests: XCTestCase {
     
     func testUnregisterForSalesforceNotifications_Success() {
         // Given
+        
         let expectation = XCTestExpectation(description: "Unregistration completion")
         pushNotificationManager.deviceSalesforceId = "test-id"
         UserAccountManager.shared.currentUserAccount = mockUserAccount
+        
+        // Set up mock REST client to succeed
+        mockRestClient.jsonResponse = """
+        {
+            "success": true
+        }
+        """.data(using: .utf8)!
         
         // When
         pushNotificationManager.unregisterForSalesforceNotifications { success in
@@ -163,15 +208,34 @@ class PushNotificationManagerTests: XCTestCase {
         wait(for: [expectation], timeout: 1.0)
     }
     
-    func testUnregisterForSalesforceNotifications_NoCurrentUser() {
+    func testUnregisterForSalesforceNotifications_NoPreferences() {
         // Given
         let expectation = XCTestExpectation(description: "Unregistration completion")
-        UserAccountManager.shared.currentUserAccount = nil
+        pushNotificationManager.deviceSalesforceId = "test-id"
+        UserAccountManager.shared.currentUserAccount = mockUserAccount
+        mockPreferences.objects.removeAll()
         
         // When
         pushNotificationManager.unregisterForSalesforceNotifications { success in
             // Then
             XCTAssertFalse(success)
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 1.0)
+    }
+    
+    func testUnregisterForSalesforceNotifications_NoDeviceId() {
+        // Given
+        let expectation = XCTestExpectation(description: "Unregistration completion")
+        pushNotificationManager.isSimulator = false
+        UserAccountManager.shared.currentUserAccount = mockUserAccount
+        pushNotificationManager.deviceSalesforceId = nil
+        
+        // When
+        pushNotificationManager.unregisterForSalesforceNotifications { success in
+            // Then
+            XCTAssertTrue(success)
             expectation.fulfill()
         }
         
@@ -276,6 +340,7 @@ class PushNotificationManagerTests: XCTestCase {
 
     func testInvokeServerNotificationAction_Success() async throws {
         // Given
+        mockRestClient.apiVersion = "v64.0"
         mockRestClient.jsonResponse = """
         {
             "message": "Action executed successfully"
@@ -292,9 +357,29 @@ class PushNotificationManagerTests: XCTestCase {
         // Then
         XCTAssertEqual(result.message, "Action executed successfully")
     }
+    
+    func testInvokeServerNotificationAction_APITooLow() async {
+        // Given
+        mockRestClient.apiVersion = "v63.0"
+
+        // When/Then: Verify that the call throws the expected error.
+        do {
+            _ = try await pushNotificationManager.invokeServerNotificationAction(
+                client: mockRestClient,
+                notificationId: "test_notification",
+                actionIdentifier: "test_action"
+            )
+            XCTFail("Expected PushNotificationManagerError.notificationActionInvocationFailed error, but no error was thrown.")
+        } catch let error as PushNotificationManagerError {
+            XCTAssertEqual(error, .notificationActionInvocationFailed("API Version must be at least v64.0"))
+        } catch {
+            XCTFail("Unexpected error: \(error)")
+        }
+    }
 
     func testInvokeServerNotificationAction_Failure() async throws {
         // Given
+        mockRestClient.apiVersion = "v64.0"
         mockRestClient.mockError = NSError(domain: "MockRestClient", code: 500, userInfo: [NSLocalizedDescriptionKey: "Server Error"])
 
         // When
@@ -417,11 +502,11 @@ class MockRestClient: RestClient {
     """.data(using: .utf8)! // Default mock JSON response
 
     override func send(_ request: RestRequest, requestDelegate: RestRequestDelegate?) {
-        let mockURLResponse = URLResponse(url: URL(string: "https://example.com")!,
-                                          mimeType: "application/json",
-                                          expectedContentLength: 0,
-                                          textEncodingName: "utf-8")
-
+        let mockURLResponse = HTTPURLResponse(url: URL(string: "https://example.com")!,
+                                              mimeType: "application/json",
+                                              expectedContentLength: 0,
+                                              textEncodingName: "utf-8")
+        
         if let error = mockError {
             requestDelegate?.request?(request, didSucceed: error, rawResponse: mockURLResponse)
             return
@@ -678,5 +763,26 @@ class ActionTypeTests: XCTestCase {
         
         // Then
         XCTAssertEqual(action.type, .foregroundAction, "Unknown type should default to foregroundAction")
+    }
+}
+// MARK: - Mock Application Helper
+
+class MockApplicationHelper: ApplicationHelper {
+    var registerForRemoteNotificationsCalled = false
+    
+    func registerForRemoteNotifications() {
+        registerForRemoteNotificationsCalled = true
+    }
+}
+
+
+class MockPreferences: SFPreferences {
+    var objects: [String: Any] = [:]
+    override func string(forKey key: String) -> String? {
+        return objects[key] as? String
+    }
+    
+    override func setObject(_ object: Any, forKey key: String) {
+        objects[key] = object
     }
 }

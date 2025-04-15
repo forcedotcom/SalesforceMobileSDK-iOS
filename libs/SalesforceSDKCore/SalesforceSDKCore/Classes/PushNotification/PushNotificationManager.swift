@@ -77,19 +77,40 @@ public class PushNotificationManager: NSObject {
     
     var isSimulator: Bool = false
     private var queue = OperationQueue()
+    private let applicationHelper: ApplicationHelper
+    private let apiVersion: String
+    private let restClient: RestClient?
+    private let currentUser: UserAccount?
+    private let preferences: SFPreferences?
     
-    private override init() {
+    internal init(applicationHelper: ApplicationHelper = DefaultApplicationHelper.shared,
+                  apiVersion: String = RestClient.shared.apiVersion,
+                  restClient : RestClient? = RestClient.shared,
+                  currentUser: UserAccount? = UserAccountManager.shared.currentUserAccount,
+                  preferences: SFPreferences? = nil) {
+        self.applicationHelper = applicationHelper
+        self.apiVersion = apiVersion
+        self.restClient = restClient
+        self.currentUser = currentUser
+        
+        if preferences == nil {
+            self.preferences = SFPreferences.sharedPreferences(for: .user, user: currentUser)
+        } else {
+            self.preferences = preferences
+        }
+        
         super.init()
         
+        
 #if targetEnvironment(simulator)
-        isSimulator = true
+        self.isSimulator = true
 #else
-        isSimulator = false
+        self.isSimulator = false
 #endif
         
         let prefs = SFPreferences.currentUserLevel()
-        deviceToken = prefs?.string(forKey: "deviceToken")
-        deviceSalesforceId = prefs?.string(forKey: "deviceSalesforceId")
+        self.deviceToken = prefs?.string(forKey: "deviceToken")
+        self.deviceSalesforceId = prefs?.string(forKey: "deviceSalesforceId")
         
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(onUserLoggedIn(_:)),
@@ -113,7 +134,7 @@ public class PushNotificationManager: NSObject {
         }
         
         SFSDKCoreLogger.i(Self.self, message: "Registering with APNS")
-        SFApplicationHelper.sharedApplication()?.registerForRemoteNotifications()
+        applicationHelper.registerForRemoteNotifications()
     }
     
     /**
@@ -134,8 +155,6 @@ public class PushNotificationManager: NSObject {
             prefs.synchronize()
         }
     }
-    
-
     
     // MARK: - Salesforce Registration
     
@@ -167,9 +186,9 @@ public class PushNotificationManager: NSObject {
     public func registerSalesforceNotifications(for user: UserAccount,
                                                 completionBlock: (() -> Void)?,
                                                 failBlock: (() -> Void)?) -> Bool {
-        if isSimulator {
+        if isSimulator{
             SFSDKCoreLogger.i(Self.self, message: "Skipping Salesforce push notification registration because push isn't supported on the simulator")
-            postPushNotificationRegistration(completionBlock)
+            completionBlock?()
             return true
         }
         
@@ -177,11 +196,11 @@ public class PushNotificationManager: NSObject {
         
         guard let deviceToken = deviceToken else {
             SFSDKCoreLogger.e(Self.self, message: "Cannot register for notifications with Salesforce: no deviceToken")
-            postPushNotificationRegistration(failBlock)
+            failBlock?()
             return false
         }
         
-        let path = "/\(RestClient.shared.apiVersion)/\(PushNotificationConstants.endPoint)"
+        let path = "/\(apiVersion)/\(PushNotificationConstants.endPoint)"
         let request = RestRequest(method: .POST, path: path, queryParams: nil)
         
         let bundleId = Bundle.main.bundleIdentifier ?? ""
@@ -208,20 +227,27 @@ public class PushNotificationManager: NSObject {
         request.setCustomRequestBodyDictionary(bodyDict, contentType: "application/json")
         Task {
             do {
-                let result = try await RestClient.shared.send(request: request)
+                
+                guard let restClient = restClient else {
+                    SFSDKCoreLogger.e(Self.self, message: "Cannot register for notifications with Salesforce: no restClient")
+                    failBlock?()
+                    return
+                }
+                
+                let result = try await restClient.send(request: request)
                 
                 SFSDKAppFeatureMarkers.registerAppFeature(PushNotificationConstants.appFeaturePushNotifications)
                 
                 guard let httpResponse = result.urlResponse as? HTTPURLResponse else {
                     SFSDKCoreLogger.e(Self.self, message: "Unexpected raw response type")
-                    self.postPushNotificationRegistration(failBlock)
+                    failBlock?()
                     return
                 }
                 
                 guard (200..<300).contains(httpResponse.statusCode),
                       let json = try? result.asJson() as? [String: Any] else {
                     SFSDKCoreLogger.e(Self.self, message: "Registration failed. Status: \(httpResponse.statusCode). Response: \(result)")
-                    self.postPushNotificationRegistration(failBlock)
+                    failBlock?()
                     return
                 }
                 
@@ -236,17 +262,16 @@ public class PushNotificationManager: NSObject {
                 
                 Task {
                     do {
-                        try await self.fetchAndStoreNotificationTypes(restClient: RestClient.shared, account: user)
+                        try await self.fetchAndStoreNotificationTypes(restClient: restClient, account: user)
                     } catch {
                         SFSDKCoreLogger.e(Self.self, message: "Get Notification Types Error: \(error.localizedDescription)")
                     }
-                    self.postPushNotificationRegistration(completionBlock)
+                    completionBlock?()
                 }
             } catch {
                 SFSDKCoreLogger.e(Self.self, message: "Registration for notifications with Salesforce failed with error \(error.localizedDescription)")
-                self.postPushNotificationRegistration(failBlock)
+                failBlock?()
             }
-            
         }
         return true
     }
@@ -277,40 +302,37 @@ public class PushNotificationManager: NSObject {
     public func unregisterSalesforceNotifications(for user: UserAccount,
                                                   completionBlock: (() -> Void)?) -> Bool {
         guard deviceSalesforceId != nil else {
-            postPushNotificationUnregistration(completionBlock)
+            completionBlock?()
             return true
         }
         
         if isSimulator {
-            postPushNotificationUnregistration(completionBlock)
+            completionBlock?()
             return true
         }
         
-        guard let prefs = SFPreferences.sharedPreferences(for: .user, user: user) else {
+        guard let prefs = preferences else {
             SFSDKCoreLogger.e(Self.self, message: "Cannot unregister from notifications with Salesforce: no user prefs")
-            postPushNotificationUnregistration(completionBlock)
             return false
         }
         
         guard let sfId = prefs.string(forKey: PushNotificationConstants.deviceSalesforceId) else {
             SFSDKCoreLogger.e(Self.self, message: "Cannot unregister from notifications with Salesforce: no deviceSalesforceId")
-            postPushNotificationUnregistration(completionBlock)
             return false
         }
         
-        let path = "/\(RestClient.shared.apiVersion)/\(PushNotificationConstants.endPoint)/\(sfId)"
+        let path = "/\(apiVersion)/\(PushNotificationConstants.endPoint)/\(sfId)"
         let request = RestRequest(method: .DELETE,
                                   path: path,
                                   queryParams: nil)
         Task {
             do {
-                _ = try await RestClient.shared.send(request: request)
-                self.postPushNotificationUnregistration(completionBlock)
+                _ = try await restClient?.send(request: request)
+                completionBlock?()
             } catch {
                 SFSDKCoreLogger.e(Self.self, message: "Push notification unregistration failed: \(error.localizedDescription)")
+                completionBlock?()
             }
-            
-            
         }
         
         SFSDKCoreLogger.i(Self.self, message: "Unregister from notifications with Salesforce sent")
@@ -395,7 +417,7 @@ public class PushNotificationManager: NSObject {
     ///  Unregister from Salesforce notfications for a specific user
     /// - Parameters:
     ///   - user: The user that should be unregistered from notfications
-    ///   - completionBlock: <#completionBlock description#>
+    ///   - completionBlock: completion block to call with success or failure
     public func unregisterForSalesforceNotifications(user: UserAccount, _ completionBlock:@escaping (Bool)->()) {
         let result = unregisterSalesforceNotifications(for: user) {
             completionBlock(true)
@@ -424,13 +446,5 @@ private extension PushNotificationManager {
         
         SFSDKCoreLogger.i(Self.self, message: "App entering foreground, re-registering push")
         _ = registerSalesforceNotifications(completionBlock: nil, failBlock: nil)
-    }
-    
-    private func postPushNotificationRegistration(_ completionBlock: (() -> Void)?) {
-        completionBlock?()
-    }
-    
-    private func postPushNotificationUnregistration(_ completionBlock: (() -> Void)?) {
-        completionBlock?()
     }
 }
