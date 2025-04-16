@@ -70,7 +70,7 @@ public class Action: NSObject, Codable {
     }
 }
 
-@objc(SFSDKNotificationctionType)
+@objc(SFSDKNotificationActionType)
 public enum NotificationActionType: Int, Codable {
     case notificationApiAction = 0
     case foregroundAction = 1
