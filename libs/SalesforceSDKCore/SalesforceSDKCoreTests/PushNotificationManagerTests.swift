@@ -404,3 +404,89 @@ class NotificationCategoryFactoryTests: XCTestCase {
         XCTAssertFalse(options.contains(.authenticationRequired))
     }
 }
+
+class ActionTypeTests: XCTestCase {
+    
+    func testActionTypeDecoding() throws {
+        // Given
+        let json = """
+        {
+            "name": "test",
+            "actionKey": "test_key",
+            "label": "Test Label",
+            "type": "NotificationApiAction"
+        }
+        """
+        let jsonData = json.data(using: .utf8)!
+        
+        // When
+        let action = try JSONDecoder().decode(Action.self, from: jsonData)
+        
+        // Then
+        XCTAssertEqual(action.type, .notificationApiAction)
+    }
+    
+    func testActionTypeDecodingForeground() throws {
+        // Given
+        let json = """
+        {
+            "name": "test",
+            "actionKey": "test_key",
+            "label": "Test Label",
+            "type": "foreground"
+        }
+        """
+        let jsonData = json.data(using: .utf8)!
+        
+        // When
+        let action = try JSONDecoder().decode(Action.self, from: jsonData)
+        
+        // Then
+        XCTAssertEqual(action.type, .foregroundAction)
+    }
+    
+    func testActionTypeStringValue() {
+        // Test notificationApiAction
+        let apiAction = ActionType.notificationApiAction
+        XCTAssertEqual(apiAction.stringValue, "NotificationApiAction")
+        
+        // Test foregroundAction
+        let foregroundAction = ActionType.foregroundAction
+        XCTAssertEqual(foregroundAction.stringValue, "ForegroundAction")
+    }
+    
+    func testActionTypeDecodingInvalidType() throws {
+        // Given
+        let json = """
+        {
+            "name": "test",
+            "actionKey": "test_key",
+            "label": "Test Label",
+            "invalidType": "invalidType"
+        }
+        """
+        let jsonData = json.data(using: .utf8)!
+        
+        // When, Then
+        XCTAssertThrowsError(try JSONDecoder().decode(Action.self, from: jsonData))
+    }
+    
+    func testActionTypeDecodingDefaultCase() throws {
+        // Given
+        let json = """
+        {
+            "name": "test",
+            "actionKey": "test_key",
+            "label": "Test Label",
+            "type": "dismiss"
+        }
+        """
+        let jsonData = json.data(using: .utf8)!
+        
+        // When
+        let action = try JSONDecoder().decode(Action.self, from: jsonData)
+        
+        // Then
+        XCTAssertEqual(action.type, .foregroundAction, "Unknown type should default to foregroundAction")
+    }
+}
