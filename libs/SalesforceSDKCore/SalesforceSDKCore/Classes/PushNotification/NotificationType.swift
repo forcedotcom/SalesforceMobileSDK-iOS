@@ -55,18 +55,45 @@ public class Action: NSObject, Codable {
     public let name: String
     public let identifier: String
     public let label: String
-    public let type: String
+    public let type: NotificationActionType
     
     enum CodingKeys: String, CodingKey {
         case name, label, type
         case identifier = "actionKey"
     }
     
-    public init(name: String, identifier: String, label: String, type: String) {
+    public init(name: String, identifier: String, label: String, type: NotificationActionType) {
         self.name = name
         self.identifier = identifier
         self.label = label
         self.type = type
+    }
+}
+
+@objc(SFSDKNotificationActionType)
+public enum NotificationActionType: Int, Codable {
+    case notificationApiAction = 0
+    case foregroundAction = 1
+    
+    var stringValue: String {
+        switch self {
+        case .notificationApiAction: return "NotificationApiAction"
+        case .foregroundAction: return "ForegroundAction"
+        }
+    }
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let rawValue = try container.decode(String.self)
+        switch rawValue {
+        case "NotificationApiAction": self = .notificationApiAction
+        default: self = .foregroundAction
+        }
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(stringValue)
     }
 }
 

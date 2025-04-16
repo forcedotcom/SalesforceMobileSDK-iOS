@@ -99,7 +99,7 @@ class PushNotificationManagerTests: XCTestCase {
 
         func testGetAction_Success() {
             // Given
-            let action = Action(name: "approve", identifier: "approval_req__approve", label: "Approve", type: "NotificationApiAction")
+            let action = Action(name: "approve", identifier: "approval_req__approve", label: "Approve", type: .notificationApiAction)
             let actionGroup = ActionGroup(name: "approval_req", actions: [action])
             let mockNotificationType = NotificationType(type: "test_type", apiName: "test_api_name", label: "Test Label", actionGroups: [actionGroup])
             mockUserAccount.notificationTypes = [mockNotificationType]
@@ -238,5 +238,255 @@ class MockRestClient: RestClient {
         }
         
         requestDelegate?.request?(request, didSucceed: jsonResponse, rawResponse: mockURLResponse)
+    }
+}
+
+class NotificationCategoryFactoryTests: XCTestCase {
+    var factory: NotificationCategoryFactory!
+    
+    override func setUp() {
+        super.setUp()
+        factory = NotificationCategoryFactory.shared
+    }
+    
+    override func tearDown() {
+        factory = nil
+        super.tearDown()
+    }
+    
+    func testCreateCategories_WithActualJSON() throws {
+        // Given
+        let json = """
+        {
+            "notificationTypes": [
+                {
+                    "type": "chatter_mention",
+                    "apiName": "chatter_mention",
+                    "label": "Chatter Mention",
+                    "actionGroups": []
+                },
+                {
+                    "type": "approval_notification",
+                    "apiName": "approval_notification",
+                    "label": "Approval Notification",
+                    "actionGroups": [
+                        {
+                            "name": "approval_req",
+                            "actions": [
+                                {
+                                    "name": "approve",
+                                    "actionKey": "approval_req__approve",
+                                    "label": "Approve",
+                                    "type": "NotificationApiAction"
+                                },
+                                {
+                                    "name": "deny",
+                                    "actionKey": "approval_req__deny",
+                                    "label": "Deny",
+                                    "type": "NotificationApiAction"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+        """
+        let jsonData = json.data(using: .utf8)!
+        let response = try JSONDecoder().decode(NotificationTypesResponse.self, from: jsonData)
+        
+        // When
+        let categories = factory.createCategories(from: response.notificationTypes)
+        
+        // Then
+        XCTAssertEqual(categories.count, 1, "Should only create categories for notification types with action groups")
+        
+        // Verify approval_notification category
+        let approvalCategory = categories.first { $0.identifier == "approval_req" }
+        XCTAssertNotNil(approvalCategory, "Should create category for approval_notification")
+        XCTAssertEqual(approvalCategory?.actions.count, 2, "Should create both approve and deny actions")
+        
+        // Verify approve action
+        let approveAction = approvalCategory?.actions.first { $0.identifier == "approval_req__approve" }
+        XCTAssertNotNil(approveAction, "Should create approve action")
+        XCTAssertEqual(approveAction?.title, "Approve")
+        guard let options = approveAction?.options else {
+            XCTFail("Should have options")
+            return
+        }
+        XCTAssertTrue(options.contains(.authenticationRequired))
+        XCTAssertFalse(options.contains(.foreground))
+        
+        // Verify deny action
+        let denyAction = approvalCategory?.actions.first { $0.identifier == "approval_req__deny" }
+        XCTAssertNotNil(denyAction, "Should create deny action")
+        XCTAssertEqual(denyAction?.title, "Deny")
+        guard let options = denyAction?.options else {
+            XCTFail("Should have options")
+            return
+        }
+        XCTAssertTrue(options.contains(.authenticationRequired))
+        XCTAssertFalse(options.contains(.foreground))
+    }
+    
+    func testCreateCategories_WithNonApiAction() throws {
+        // Given
+        let json = """
+        {
+            "notificationTypes": [
+                {
+                    "type": "chatter_mention",
+                    "apiName": "chatter_mention",
+                    "label": "Chatter Mention",
+                    "actionGroups": []
+                },
+                {
+                    "type": "custom_notification",
+                    "apiName": "custom_notification",
+                    "label": "Custom Notification",
+                    "actionGroups": [
+                        {
+                            "name": "custom_actions",
+                            "actions": [
+                                {
+                                    "name": "view",
+                                    "actionKey": "custom_actions__view",
+                                    "label": "View Details",
+                                    "type": "foreground"
+                                },
+                                {
+                                    "name": "dismiss",
+                                    "actionKey": "custom_actions__dismiss",
+                                    "label": "Dismiss",
+                                    "type": "dismiss"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+        """
+        let jsonData = json.data(using: .utf8)!
+        let response = try JSONDecoder().decode(NotificationTypesResponse.self, from: jsonData)
+        
+        // When
+        let categories = factory.createCategories(from: response.notificationTypes)
+        
+        // Then
+        XCTAssertEqual(categories.count, 1, "Should only create categories for notification types with action groups")
+        
+        // Verify custom_notification category
+        let customCategory = categories.first { $0.identifier == "custom_actions" }
+        XCTAssertNotNil(customCategory, "Should create category for custom_notification")
+        XCTAssertEqual(customCategory?.actions.count, 2, "Should create both view and dismiss actions")
+        
+        // Verify view action
+        let viewAction = customCategory?.actions.first { $0.identifier == "custom_actions__view" }
+        XCTAssertNotNil(viewAction, "Should create view action")
+        XCTAssertEqual(viewAction?.title, "View Details")
+        guard let options = viewAction?.options else {
+            XCTFail("Should have options")
+            return
+        }
+        XCTAssertTrue(options.contains(.foreground))
+        XCTAssertFalse(options.contains(.authenticationRequired))
+        
+        // Verify dismiss action
+        let dismissAction = customCategory?.actions.first { $0.identifier == "custom_actions__dismiss" }
+        XCTAssertNotNil(dismissAction, "Should create dismiss action")
+        XCTAssertEqual(dismissAction?.title, "Dismiss")
+        guard let options = dismissAction?.options else {
+            XCTFail("Should have options")
+            return
+        }
+        XCTAssertTrue(options.contains(.foreground))
+        XCTAssertFalse(options.contains(.authenticationRequired))
+    }
+}
+
+class ActionTypeTests: XCTestCase {
+    
+    func testActionTypeDecoding() throws {
+        // Given
+        let json = """
+        {
+            "name": "test",
+            "actionKey": "test_key",
+            "label": "Test Label",
+            "type": "NotificationApiAction"
+        }
+        """
+        let jsonData = json.data(using: .utf8)!
+        
+        // When
+        let action = try JSONDecoder().decode(Action.self, from: jsonData)
+        
+        // Then
+        XCTAssertEqual(action.type, .notificationApiAction)
+    }
+    
+    func testActionTypeDecodingForeground() throws {
+        // Given
+        let json = """
+        {
+            "name": "test",
+            "actionKey": "test_key",
+            "label": "Test Label",
+            "type": "foreground"
+        }
+        """
+        let jsonData = json.data(using: .utf8)!
+        
+        // When
+        let action = try JSONDecoder().decode(Action.self, from: jsonData)
+        
+        // Then
+        XCTAssertEqual(action.type, .foregroundAction)
+    }
+    
+    func testActionTypeStringValue() {
+        // Test notificationApiAction
+        let apiAction = NotificationActionType.notificationApiAction
+        XCTAssertEqual(apiAction.stringValue, "NotificationApiAction")
+        
+        // Test foregroundAction
+        let foregroundAction = NotificationActionType.foregroundAction
+        XCTAssertEqual(foregroundAction.stringValue, "ForegroundAction")
+    }
+    
+    func testActionTypeDecodingInvalidType() throws {
+        // Given
+        let json = """
+        {
+            "name": "test",
+            "actionKey": "test_key",
+            "label": "Test Label",
+            "invalidType": "invalidType"
+        }
+        """
+        let jsonData = json.data(using: .utf8)!
+        
+        // When, Then
+        XCTAssertThrowsError(try JSONDecoder().decode(Action.self, from: jsonData))
+    }
+    
+    func testActionTypeDecodingDefaultCase() throws {
+        // Given
+        let json = """
+        {
+            "name": "test",
+            "actionKey": "test_key",
+            "label": "Test Label",
+            "type": "dismiss"
+        }
+        """
+        let jsonData = json.data(using: .utf8)!
+        
+        // When
+        let action = try JSONDecoder().decode(Action.self, from: jsonData)
+        
+        // Then
+        XCTAssertEqual(action.type, .foregroundAction, "Unknown type should default to foregroundAction")
     }
 }

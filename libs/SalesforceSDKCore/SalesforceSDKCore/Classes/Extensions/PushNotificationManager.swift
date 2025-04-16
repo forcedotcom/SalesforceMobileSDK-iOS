@@ -134,28 +134,8 @@ extension PushNotificationManager {
     }
     
     private func setNotificationCategories(types: [NotificationType]) {
-        let categories = types.map { createNotificationCategory(from: $0) }
-        UNUserNotificationCenter.current().setNotificationCategories(Set(categories))
-    }
-    
-    private func createNotificationCategory(from type: NotificationType) -> UNNotificationCategory {
-        let actions = createActions(from: type.actionGroups)
-        return UNNotificationCategory(identifier: type.apiName, actions: actions, intentIdentifiers: [])
-    }
-    
-    private func createActions(from actionGroups: [ActionGroup]?) -> [UNNotificationAction] {
-        guard let actionGroups = actionGroups else {
-            return []
-        }
-        return actionGroups.flatMap { actionGroup in
-            actionGroup.actions.map { action in
-                UNNotificationAction(
-                    identifier: action.identifier,
-                    title: action.label,
-                    options: [.foreground] // Ensures the app opens if needed
-                )
-            }
-        }
+        let categories = NotificationCategoryFactory.shared.createCategories(from: types)
+        UNUserNotificationCenter.current().setNotificationCategories(categories)
     }
     
     private func getNotificationType(apiName: String, account: UserAccount) -> NotificationType? {
