@@ -55,14 +55,14 @@ public class Action: NSObject, Codable {
     public let name: String
     public let identifier: String
     public let label: String
-    public let type: ActionType
+    public let type: NotificationActionType
     
     enum CodingKeys: String, CodingKey {
         case name, label, type
         case identifier = "actionKey"
     }
     
-    public init(name: String, identifier: String, label: String, type: ActionType) {
+    public init(name: String, identifier: String, label: String, type: NotificationActionType) {
         self.name = name
         self.identifier = identifier
         self.label = label
@@ -70,8 +70,8 @@ public class Action: NSObject, Codable {
     }
 }
 
-@objc(SFSDKActionType)
-public enum ActionType: Int, Codable {
+@objc(SFSDKNotificationctionType)
+public enum NotificationActionType: Int, Codable {
     case notificationApiAction = 0
     case foregroundAction = 1
     

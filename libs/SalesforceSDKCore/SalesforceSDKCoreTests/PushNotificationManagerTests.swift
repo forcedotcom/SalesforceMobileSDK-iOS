@@ -447,11 +447,11 @@ class ActionTypeTests: XCTestCase {
     
     func testActionTypeStringValue() {
         // Test notificationApiAction
-        let apiAction = ActionType.notificationApiAction
+        let apiAction = NotificationActionType.notificationApiAction
         XCTAssertEqual(apiAction.stringValue, "NotificationApiAction")
         
         // Test foregroundAction
-        let foregroundAction = ActionType.foregroundAction
+        let foregroundAction = NotificationActionType.foregroundAction
         XCTAssertEqual(foregroundAction.stringValue, "ForegroundAction")
     }
     
