@@ -152,7 +152,7 @@ public class PushNotificationManager: NSObject {
         }
         self.deviceToken = hexString
         if let prefs = SFPreferences.currentUserLevel() {
-            prefs.setObject(hexString, forKey: "deviceToken")
+            prefs.setObject(hexString, forKey: PushNotificationConstants.deviceToken)
             prefs.synchronize()
         }
     }
