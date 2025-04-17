@@ -308,23 +308,6 @@ class PushNotificationManagerTests: XCTestCase {
         XCTAssertEqual(retrievedActionGroup?.name, "group_1")
     }
 
-    func testGetAction_Success() {
-        // Given
-        let action = Action(name: "approve", identifier: "approval_req__approve", label: "Approve", type: "NotificationApiAction")
-        let actionGroup = ActionGroup(name: "approval_req", actions: [action])
-        let mockNotificationType = NotificationType(type: "test_type", apiName: "test_api_name", label: "Test Label", actionGroups: [actionGroup])
-        mockUserAccount.notificationTypes = [mockNotificationType]
-
-        // When
-        let retrievedAction = pushNotificationManager.getAction(notificationTypeApiName: "test_api_name", actionIdentifier: "approval_req__approve", account: mockUserAccount)
-
-        func testGetAction_Success() {
-            // Given
-            let action = Action(name: "approve", identifier: "approval_req__approve", label: "Approve", type: .notificationApiAction)
-            let actionGroup = ActionGroup(name: "approval_req", actions: [action])
-            let mockNotificationType = NotificationType(type: "test_type", apiName: "test_api_name", label: "Test Label", actionGroups: [actionGroup])
-            mockUserAccount.notificationTypes = [mockNotificationType]
-
     func testGetAction_Failure() {
         // Given
         mockUserAccount.notificationTypes = []
@@ -400,63 +383,6 @@ class PushNotificationManagerTests: XCTestCase {
     
     // MARK: - Helper Function
     private func makeMockJSONResponse() -> Data {
-        let json = """
-        {
-            "notificationTypes": [
-                {
-                    "type": "chatter_mention",
-                    "apiName": "chatter_mention",
-                    "label": "Chatter Mention",
-                    "actionGroups": []
-                },
-                {
-                    "type": "approval_notification",
-                    "apiName": "approval_notification",
-                    "label": "Approval Notification",
-                    "actionGroups": [
-                        {
-                            "name": "new_acc_and_opp",
-                            "actions": [
-                                {
-                                    "name": "approve",
-                                    "actionKey": "approval_req__approve",
-                                    "label": "Approve",
-                                    "type": "NotificationApiAction"
-                                },
-                                {
-                                    "name": "deny",
-                                    "actionKey": "approval_req__deny",
-                                    "label": "Deny",
-                                    "type": "NotificationApiAction"
-                                }
-                            ]
-                        },
-                        {
-                            "name": "updateCase",
-                            "actions": [
-                                {
-                                    "name": "approve",
-                                    "actionKey": "approval_req__approve",
-                                    "label": "Approve",
-                                    "type": "NotificationApiAction"
-                                },
-                                {
-                                    "name": "deny",
-                                    "actionKey": "approval_req__deny",
-                                    "label": "Deny",
-                                    "type": "NotificationApiAction"
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        }
-        """
-        return json.data(using: .utf8)!
-    }
-    
-    private func makeMockJSONResponseTwo() -> Data {
         let json = """
         {
           "notificationTypes": [
@@ -604,7 +530,7 @@ class PushNotificationManagerTests: XCTestCase {
     func testFetchAndStoreNotificationTypes_Success() async throws {
         // Given
         mockRestClient.apiVersion = "v64.0"
-        mockRestClient.jsonResponse = makeMockJSONResponseTwo()
+        mockRestClient.jsonResponse = makeMockJSONResponse()
         
         // When
         try await pushNotificationManager.fetchAndStoreNotificationTypes(
@@ -718,39 +644,6 @@ class PushNotificationManagerTests: XCTestCase {
         XCTAssertNotNil(mockUserAccount.notificationTypes)
         XCTAssertEqual(mockUserAccount.notificationTypes?.count, 1)
         XCTAssertEqual(mockUserAccount.notificationTypes?.first?.apiName, "cached_type")
-    }
-}
-
-// MARK: - Mock RestClient
-
-class MockRestClient: RestClient {
-    var mockError: Error?
-    weak var testDelegate: RestRequestDelegate?
-    var jsonResponse: Data = """
-    {
-        "notificationTypes": [
-            {
-                "type": "chatter_mention",
-                "apiName": "chatter_mention",
-                "label": "Chatter Mention",
-                "actionGroups": []
-            }
-        ]
-    }
-    """.data(using: .utf8)! // Default mock JSON response
-
-    override func send(_ request: RestRequest, requestDelegate: RestRequestDelegate?) {
-        let mockURLResponse = HTTPURLResponse(url: URL(string: "https://example.com")!,
-                                              mimeType: "application/json",
-                                              expectedContentLength: 0,
-                                              textEncodingName: "utf-8")
-        
-        if let error = mockError {
-            requestDelegate?.request?(request, didSucceed: error, rawResponse: mockURLResponse)
-            return
-        }
-        
-        requestDelegate?.request?(request, didSucceed: jsonResponse, rawResponse: mockURLResponse)
     }
 }
 
@@ -1003,7 +896,39 @@ class ActionTypeTests: XCTestCase {
         XCTAssertEqual(action.type, .foregroundAction, "Unknown type should default to foregroundAction")
     }
 }
-// MARK: - Mock Application Helper
+
+// MARK: - Mocks
+
+class MockRestClient: RestClient {
+    var mockError: Error?
+    weak var testDelegate: RestRequestDelegate?
+    var jsonResponse: Data = """
+    {
+        "notificationTypes": [
+            {
+                "type": "chatter_mention",
+                "apiName": "chatter_mention",
+                "label": "Chatter Mention",
+                "actionGroups": []
+            }
+        ]
+    }
+    """.data(using: .utf8)! // Default mock JSON response
+
+    override func send(_ request: RestRequest, requestDelegate: RestRequestDelegate?) {
+        let mockURLResponse = HTTPURLResponse(url: URL(string: "https://example.com")!,
+                                              mimeType: "application/json",
+                                              expectedContentLength: 0,
+                                              textEncodingName: "utf-8")
+        
+        if let error = mockError {
+            requestDelegate?.request?(request, didSucceed: error, rawResponse: mockURLResponse)
+            return
+        }
+        
+        requestDelegate?.request?(request, didSucceed: jsonResponse, rawResponse: mockURLResponse)
+    }
+}
 
 class MockApplicationHelper: ApplicationHelper {
     var registerForRemoteNotificationsCalled = false
