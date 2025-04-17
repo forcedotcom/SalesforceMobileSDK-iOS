@@ -189,7 +189,7 @@ public class PushNotificationManager: NSObject {
     public func registerSalesforceNotifications(for user: UserAccount,
                                                 completionBlock: (() -> Void)?,
                                                 failBlock: (() -> Void)?) -> Bool {
-        if isSimulator{
+        if isSimulator {
             SFSDKCoreLogger.i(Self.self, message: "Skipping Salesforce push notification registration because push isn't supported on the simulator")
             completionBlock?()
             return true

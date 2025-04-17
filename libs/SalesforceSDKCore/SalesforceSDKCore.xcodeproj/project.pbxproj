@@ -104,8 +104,8 @@
 		69848CA52363F8AF00893E57 /* SFSDKPushNotificationFieldsConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 69848CA42363F8AF00893E57 /* SFSDKPushNotificationFieldsConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69848CAC2363F93100893E57 /* SFSDKPushNotificationDecryption+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 69848CAB2363F93100893E57 /* SFSDKPushNotificationDecryption+Internal.h */; };
 		69848CB22363FA1000893E57 /* SFSDKPushNotificationEncryptionConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 69848CB12363FA1000893E57 /* SFSDKPushNotificationEncryptionConstants.h */; };
-		69848CB52363FA3E00893E57 /* SFSDKPushNotificationErrorDomain.h in Headers */ = {isa = PBXBuildFile; fileRef = 69848CB32363FA3E00893E57 /* SFSDKPushNotificationErrorDomain.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		69848CB62363FA3E00893E57 /* SFSDKPushNotificationErrorDomain.m in Sources */ = {isa = PBXBuildFile; fileRef = 69848CB42363FA3E00893E57 /* SFSDKPushNotificationErrorDomain.m */; };
+		69848CB52363FA3E00893E57 /* SFSDKPushNotificationError.h in Headers */ = {isa = PBXBuildFile; fileRef = 69848CB32363FA3E00893E57 /* SFSDKPushNotificationError.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		69848CB62363FA3E00893E57 /* SFSDKPushNotificationError.m in Sources */ = {isa = PBXBuildFile; fileRef = 69848CB42363FA3E00893E57 /* SFSDKPushNotificationError.m */; };
 		69848CB82364035300893E57 /* SFSDKEncryptedPushNotificationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 69848CB72364035300893E57 /* SFSDKEncryptedPushNotificationTests.m */; };
 		69848CBD2364063E00893E57 /* SFSDKPushNotificationDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 69848CBC2364063E00893E57 /* SFSDKPushNotificationDataProvider.m */; };
 		6990CBC029F5AF56004A5F8D /* SFSDKIDPAuthCodeLoginRequestCommandTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6990CBBF29F5AF56004A5F8D /* SFSDKIDPAuthCodeLoginRequestCommandTest.m */; };
@@ -699,8 +699,8 @@
 		69848CA42363F8AF00893E57 /* SFSDKPushNotificationFieldsConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKPushNotificationFieldsConstants.h; sourceTree = "<group>"; };
 		69848CAB2363F93100893E57 /* SFSDKPushNotificationDecryption+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SFSDKPushNotificationDecryption+Internal.h"; sourceTree = "<group>"; };
 		69848CB12363FA1000893E57 /* SFSDKPushNotificationEncryptionConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKPushNotificationEncryptionConstants.h; sourceTree = "<group>"; };
-		69848CB32363FA3E00893E57 /* SFSDKPushNotificationErrorDomain.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKPushNotificationErrorDomain.h; sourceTree = "<group>"; };
-		69848CB42363FA3E00893E57 /* SFSDKPushNotificationErrorDomain.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKPushNotificationErrorDomain.m; sourceTree = "<group>"; };
+		69848CB32363FA3E00893E57 /* SFSDKPushNotificationError.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKPushNotificationError.h; sourceTree = "<group>"; };
+		69848CB42363FA3E00893E57 /* SFSDKPushNotificationError.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKPushNotificationError.m; sourceTree = "<group>"; };
 		69848CB72364035300893E57 /* SFSDKEncryptedPushNotificationTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFSDKEncryptedPushNotificationTests.m; path = SalesforceSDKCoreTests/SFSDKEncryptedPushNotificationTests.m; sourceTree = SOURCE_ROOT; };
 		69848CBB2364063E00893E57 /* SFSDKPushNotificationDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SFSDKPushNotificationDataProvider.h; path = SalesforceSDKCoreTests/SFSDKPushNotificationDataProvider.h; sourceTree = SOURCE_ROOT; };
 		69848CBC2364063E00893E57 /* SFSDKPushNotificationDataProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFSDKPushNotificationDataProvider.m; path = SalesforceSDKCoreTests/SFSDKPushNotificationDataProvider.m; sourceTree = SOURCE_ROOT; };
@@ -1181,8 +1181,8 @@
 				697A919F2363C3D800D2836F /* SFSDKPushNotificationDecryption.m */,
 				69848CA42363F8AF00893E57 /* SFSDKPushNotificationFieldsConstants.h */,
 				69848CB12363FA1000893E57 /* SFSDKPushNotificationEncryptionConstants.h */,
-				69848CB32363FA3E00893E57 /* SFSDKPushNotificationErrorDomain.h */,
-				69848CB42363FA3E00893E57 /* SFSDKPushNotificationErrorDomain.m */,
+				69848CB32363FA3E00893E57 /* SFSDKPushNotificationError.h */,
+				69848CB42363FA3E00893E57 /* SFSDKPushNotificationError.m */,
 				23945B702D78E4A60060B195 /* NotificationType.swift */,
 				23B2FDE62DB03486006ADC07 /* NotificationCategoryFactory.swift */,
 				233755932D95F2F80040E414 /* PushNotificationManager.swift */,
@@ -1869,7 +1869,7 @@
 				B7FB26DC1F78096300FB25A2 /* SFSDKIDPLoginRequestHandler.h in Headers */,
 				CE4CE3231C0E523B009F6029 /* UIDevice+SFHardware.h in Headers */,
 				E1C80CF11C5AEE31001B3A21 /* SFSDKLoginHostStorage.h in Headers */,
-				69848CB52363FA3E00893E57 /* SFSDKPushNotificationErrorDomain.h in Headers */,
+				69848CB52363FA3E00893E57 /* SFSDKPushNotificationError.h in Headers */,
 				CE4CE3381C0E5245009F6029 /* SFIdentityData+Internal.h in Headers */,
 				B7677053223AE5E400545C90 /* SFUserAccountManager+Instrumentation.h in Headers */,
 				4F06AF751C49A16A00F70798 /* SalesforceOAuthUnitTests.h in Headers */,
@@ -2272,7 +2272,7 @@
 				23A4C74E2D0CB68B00DF55EB /* NativeLoginManagerInternal.swift in Sources */,
 				23A4C74F2D0CB68B00DF55EB /* NativeLoginManager.swift in Sources */,
 				B7CD6D671F79CFC900F99F81 /* SFUserAccountManager+URLHandlers.m in Sources */,
-				69848CB62363FA3E00893E57 /* SFSDKPushNotificationErrorDomain.m in Sources */,
+				69848CB62363FA3E00893E57 /* SFSDKPushNotificationError.m in Sources */,
 				CE4CE39A1C0E5272009F6029 /* SFSDKAsyncProcessListener.m in Sources */,
 				B7A20F861F25850E00D1E4B0 /* SFSDKWindowContainer.m in Sources */,
 				B7FB26C41F78094A00FB25A2 /* SFSDKLoginFlowSelectionViewController.m in Sources */,

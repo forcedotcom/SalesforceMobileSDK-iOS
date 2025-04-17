@@ -28,7 +28,7 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 #import "SFSDKPushNotificationDecryption.h"
 #import "SFSDKPushNotificationDecryption+Internal.h"
 #import "SFSDKPushNotificationFieldsConstants.h"
-#import "SFSDKPushNotificationErrorDomain.h"
+#import "SFSDKPushNotificationError.h"
 #import "SFSDKPushNotificationEncryptionConstants.h"
 
 @implementation SFSDKPushNotificationDecryption

@@ -2,7 +2,7 @@
  SalesforceSDKCore.h
  SalesforceSDKCore
 
- Created by Riley Crebs on Fri Mar 28 14:04:07 MDT 2025.
+ Created by Riley Crebs on Thu Apr 17 11:54:18 MDT 2025.
 
  Copyright (c) 2025-present, salesforce.com, inc. All rights reserved.
  
@@ -29,7 +29,6 @@
 
 #import <SalesforceSDKCore/SFDefaultUserManagementDetailViewController.h>
 #import <SalesforceSDKCore/SFSDKCoreLogger.h>
-#import <SalesforceSDKCore/SFSDKPushNotificationErrorDomain.h>
 #import <SalesforceSDKCore/SFFormatUtils.h>
 #import <SalesforceSDKCore/SFSDKAlertMessageBuilder.h>
 #import <SalesforceSDKCore/SFSDKSoslBuilder.h>
@@ -48,6 +47,7 @@
 #import <SalesforceSDKCore/SFSDKTestRequestListener.h>
 #import <SalesforceSDKCore/UIColor+SFColors.h>
 #import <SalesforceSDKCore/SFSDKLoginHostDelegate.h>
+#import <SalesforceSDKCore/SFSDKPushNotificationError.h>
 #import <SalesforceSDKCore/SFOAuthCoordinator.h>
 #import <SalesforceSDKCore/SFSDKOAuth2.h>
 #import <SalesforceSDKCore/SFOAuthOrgAuthConfiguration.h>
