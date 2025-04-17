@@ -67,8 +67,10 @@ public enum PushNotificationManagerError: Error, Equatable {
 @objcMembers
 public class PushNotificationManager: NSObject {
 
-    @objc(sharedInstance)
     public static let shared = PushNotificationManager()
+    public static func sharedInstance() -> PushNotificationManager {
+        return shared
+    }
     
     public var deviceToken: String?
     public var deviceSalesforceId: String?
@@ -164,6 +166,7 @@ public class PushNotificationManager: NSObject {
     ///   - completionBlock: A block executed on successful registration.
     ///   - failBlock: A block executed if registration fails.
     /// - Returns: `true` if registration started successfully, otherwise `false`.
+    @discardableResult
     @objc(registerSalesforceNotificationsWithCompletionBlock:failBlock:)
     public func registerSalesforceNotifications(completionBlock: (() -> Void)?, failBlock: (() -> Void)?) -> Bool {
         guard let user = UserAccountManager.shared.currentUserAccount else {
@@ -182,6 +185,7 @@ public class PushNotificationManager: NSObject {
     ///   - completionBlock: A block executed on successful registration.
     ///   - failBlock: A block executed if registration fails.
     /// - Returns: `true` if registration started successfully, otherwise `false`.
+    @discardableResult
     @objc(registerSalesforceNotificationsWithCompletionBlock:completionBlock:failBlock:)
     public func registerSalesforceNotifications(for user: UserAccount,
                                                 completionBlock: (() -> Void)?,
