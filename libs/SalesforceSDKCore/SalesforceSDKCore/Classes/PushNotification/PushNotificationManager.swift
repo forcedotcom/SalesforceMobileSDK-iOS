@@ -78,7 +78,6 @@ public class PushNotificationManager: NSObject {
     public var registerOnForeground: Bool = true
     
     var isSimulator: Bool = false
-    private var queue = OperationQueue()
     private let applicationHelper: ApplicationHelper
     private let apiVersion: String
     private let restClient: RestClient?
@@ -111,8 +110,8 @@ public class PushNotificationManager: NSObject {
 #endif
         
         let prefs = SFPreferences.currentUserLevel()
-        self.deviceToken = prefs?.string(forKey: "deviceToken")
-        self.deviceSalesforceId = prefs?.string(forKey: "deviceSalesforceId")
+        self.deviceToken = prefs?.string(forKey: PushNotificationConstants.deviceToken)
+        self.deviceSalesforceId = prefs?.string(forKey: PushNotificationConstants.deviceSalesforceId)
         
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(onUserLoggedIn(_:)),
