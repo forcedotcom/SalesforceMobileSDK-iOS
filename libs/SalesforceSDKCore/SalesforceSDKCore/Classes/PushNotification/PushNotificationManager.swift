@@ -285,6 +285,7 @@ public class PushNotificationManager: NSObject {
     ///
     /// - Parameter completionBlock: A block executed when unregistration is complete.
     /// - Returns: `true` if unregistration started successfully, otherwise `false`.
+    @discardableResult
     @objc(unregisterSalesforceNotificationsWithCompletionBlock:)
     public func unregisterSalesforceNotifications(completionBlock: (() -> Void)?) -> Bool {
         guard let user = UserAccountManager.shared.currentUserAccount else {
@@ -301,6 +302,7 @@ public class PushNotificationManager: NSObject {
     ///   - user: The user account to unregister.
     ///   - completionBlock: A block executed when unregistration is complete.
     /// - Returns: `true` if unregistration started successfully, otherwise `false`.
+    @discardableResult
     @objc(unregisterSalesforceNotificationsWithCompletionBlock:completionBlock:)
     public func unregisterSalesforceNotifications(for user: UserAccount,
                                                   completionBlock: (() -> Void)?) -> Bool {
