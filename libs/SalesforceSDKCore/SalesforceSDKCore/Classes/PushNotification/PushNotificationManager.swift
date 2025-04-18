@@ -78,13 +78,13 @@ public class PushNotificationManager: NSObject {
     public var registerOnForeground: Bool = true
     
     var isSimulator: Bool = false
-    private let applicationHelper: ApplicationHelper
+    private let applicationHelper: RemoteNotificationRegistering
     private let apiVersion: String
     private let restClient: RestClient?
     private let currentUser: UserAccount?
     private let preferences: SFPreferences?
     
-    internal init(applicationHelper: ApplicationHelper = DefaultApplicationHelper.shared,
+    internal init(applicationHelper: RemoteNotificationRegistering = DefaultRemoteNotificationRegistrar(),
                   apiVersion: String = RestClient.shared.apiVersion,
                   restClient : RestClient? = RestClient.shared,
                   currentUser: UserAccount? = UserAccountManager.shared.currentUserAccount,

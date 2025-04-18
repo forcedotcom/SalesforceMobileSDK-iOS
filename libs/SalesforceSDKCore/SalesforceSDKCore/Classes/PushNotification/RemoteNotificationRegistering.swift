@@ -1,5 +1,5 @@
 //
-//  ApplicationHelperProtocol.swift
+//  ApplicationRegister.swift
 //  SalesforceSDKCore
 //
 //  Created by Riley Crebs on 4/14/25.
@@ -27,16 +27,16 @@
 
 import Foundation
 
-// MARK: - Application Helper Protocol
+// MARK: - Remote Notification Registration Protocol
 
-public protocol ApplicationHelper {
+public protocol RemoteNotificationRegistering {
     func registerForRemoteNotifications()
 }
 
-// MARK: - Default Application Helper
+// MARK: - Default Implementation
 
-public class DefaultApplicationHelper: ApplicationHelper {
-    public static let shared = DefaultApplicationHelper()
+class DefaultRemoteNotificationRegistrar: RemoteNotificationRegistering {
+    public init() {}
     
     public func registerForRemoteNotifications() {
         SFApplicationHelper.sharedApplication()?.registerForRemoteNotifications()

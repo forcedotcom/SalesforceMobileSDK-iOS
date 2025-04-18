@@ -930,7 +930,7 @@ class MockRestClient: RestClient {
     }
 }
 
-class MockApplicationHelper: ApplicationHelper {
+class MockApplicationHelper: RemoteNotificationRegistering {
     var registerForRemoteNotificationsCalled = false
     
     func registerForRemoteNotifications() {
