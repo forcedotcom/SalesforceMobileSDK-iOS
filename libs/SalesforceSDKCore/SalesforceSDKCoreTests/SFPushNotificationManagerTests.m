@@ -51,7 +51,7 @@ static NSString* const kSFDeviceSalesforceId = @"deviceSalesforceId";
 
 - (void)setUp {
     [super setUp];
-    self.manager = [SFPushNotificationManager sharedInstance];
+    self.manager = [[SFPushNotificationManager alloc] init];
     self.manager.isSimulator = NO;
     self.manager.deviceSalesforceId = @"pretending-we-registered";
     SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"happy-user" clientId:[SFUserAccountManager sharedInstance].oauthClientId encrypted:YES];

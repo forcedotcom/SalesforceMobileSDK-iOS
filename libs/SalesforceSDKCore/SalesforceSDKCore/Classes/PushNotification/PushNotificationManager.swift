@@ -68,7 +68,7 @@ public enum PushNotificationManagerError: Error, Equatable {
 public class PushNotificationManager: NSObject {
 
     public static let shared = PushNotificationManager()
-    public static func sharedInstance() -> PushNotificationManager {
+    @objc public static func sharedInstance() -> PushNotificationManager {
         return shared
     }
     
@@ -84,7 +84,29 @@ public class PushNotificationManager: NSObject {
     private let currentUser: UserAccount?
     private let preferences: SFPreferences?
     
-    init(notificationRegister: RemoteNotificationRegistering = DefaultRemoteNotificationRegistrar(),
+    /// Convenience initializer that sets up the PushNotificationManager with default values:
+    /// - notificationRegister: DefaultRemoteNotificationRegistrar() - Handles APNS registration
+    /// - apiVersion: RestClient.shared.apiVersion - Uses the current API version from RestClient
+    /// - restClient: RestClient.shared - Uses the shared RestClient instance
+    /// - currentUser: UserAccountManager.shared.currentUserAccount - Uses the current logged-in user
+    /// - preferences: SFPreferences.sharedPreferences(for: .user, user: currentUser) - Uses user-level preferences
+    @objc
+    public override convenience init() {
+        self.init(notificationRegister: DefaultRemoteNotificationRegistrar(),
+                   apiVersion: RestClient.shared.apiVersion,
+                   restClient: RestClient.shared,
+                   currentUser: UserAccountManager.shared.currentUserAccount,
+                   preferences: SFPreferences.sharedPreferences(for: .user, user: UserAccountManager.shared.currentUserAccount))
+    }
+    
+    /// Internal initializer used for testing and dependency injection.
+    /// This initializer allows for customizing the dependencies of PushNotificationManager:
+    /// - Parameter notificationRegister: The registrar that handles APNS registration. Defaults to DefaultRemoteNotificationRegistrar.
+    /// - Parameter apiVersion: The Salesforce API version to use. Defaults to RestClient.shared.apiVersion.
+    /// - Parameter restClient: The REST client for making API calls. Defaults to RestClient.shared.
+    /// - Parameter currentUser: The user account to use. Defaults to UserAccountManager.shared.currentUserAccount.
+    /// - Parameter preferences: The preferences store to use. Defaults to user-level SFPreferences.
+    internal init(notificationRegister: RemoteNotificationRegistering = DefaultRemoteNotificationRegistrar(),
                   apiVersion: String = RestClient.shared.apiVersion,
                   restClient : RestClient? = RestClient.shared,
                   currentUser: UserAccount? = UserAccountManager.shared.currentUserAccount,
@@ -101,7 +123,6 @@ public class PushNotificationManager: NSObject {
         }
         
         super.init()
-        
         
 #if targetEnvironment(simulator)
         self.isSimulator = true
