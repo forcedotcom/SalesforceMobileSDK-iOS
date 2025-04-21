@@ -19,7 +19,7 @@ class PushNotificationManagerTests: XCTestCase {
         mockUserAccount = UserAccount()
         mockPreferences = MockPreferences()
         mockPreferences.setObject("mock-sfid", forKey: PushNotificationConstants.deviceSalesforceId)
-        pushNotificationManager = PushNotificationManager(applicationHelper: mockApplicationHelper,
+        pushNotificationManager = PushNotificationManager(notificationRegister: mockApplicationHelper,
                                                           apiVersion: SFRestDefaultAPIVersion,
                                                           restClient: mockRestClient,
                                                           currentUser: mockUserAccount,

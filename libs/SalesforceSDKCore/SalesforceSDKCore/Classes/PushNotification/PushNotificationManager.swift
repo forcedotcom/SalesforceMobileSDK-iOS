@@ -78,18 +78,18 @@ public class PushNotificationManager: NSObject {
     public var registerOnForeground: Bool = true
     
     var isSimulator: Bool = false
-    private let applicationHelper: RemoteNotificationRegistering
+    private let notificationRegister: RemoteNotificationRegistering
     private let apiVersion: String
     private let restClient: RestClient?
     private let currentUser: UserAccount?
     private let preferences: SFPreferences?
     
-    internal init(applicationHelper: RemoteNotificationRegistering = DefaultRemoteNotificationRegistrar(),
+    init(notificationRegister: RemoteNotificationRegistering = DefaultRemoteNotificationRegistrar(),
                   apiVersion: String = RestClient.shared.apiVersion,
                   restClient : RestClient? = RestClient.shared,
                   currentUser: UserAccount? = UserAccountManager.shared.currentUserAccount,
                   preferences: SFPreferences? = nil) {
-        self.applicationHelper = applicationHelper
+        self.notificationRegister = notificationRegister
         self.apiVersion = apiVersion
         self.restClient = restClient
         self.currentUser = currentUser
@@ -135,7 +135,7 @@ public class PushNotificationManager: NSObject {
         }
         
         SFSDKCoreLogger.i(Self.self, message: "Registering with APNS")
-        applicationHelper.registerForRemoteNotifications()
+        notificationRegister.registerForRemoteNotifications()
     }
     
     /**
