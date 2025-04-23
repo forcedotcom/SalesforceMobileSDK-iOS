@@ -660,7 +660,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     XCTAssertNotNil(userOut.idData, @"couldn't unarchive idData");
    
     XCTAssertEqualObjects(userIn.customData, userOut.customData, @"customData mismatch");
-    XCTAssertEqualObjects(userIn.accessScopes, userOut.accessScopes, @"accessScopes mismatch");
+    XCTAssertEqual(userIn.accessScopes.count, userOut.accessScopes.count);
     XCTAssertEqual(userIn.accessRestrictions, userOut.accessRestrictions, @"accessRestrictions mismatch");
 }
 

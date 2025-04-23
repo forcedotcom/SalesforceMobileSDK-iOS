@@ -23,7 +23,6 @@
  */
 
 #import <XCTest/XCTest.h>
-#import "SFPushNotificationManager.h"
 #import "SFUserAccount.h"
 #import "SFOAuthCoordinator.h"
 #import "SFIdentityCoordinator.h"
@@ -33,6 +32,8 @@
 #import "SFUserAccount+Internal.h"
 #import "SFOAuthCredentials+Internal.h"
 #import "SFUserAccountManager+Internal.h"
+#import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
+
 // needs to match what is defined in SFPushNotificationManager
 static NSString* const kSFDeviceSalesforceId = @"deviceSalesforceId";
 
