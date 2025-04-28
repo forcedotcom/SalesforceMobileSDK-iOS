@@ -67,7 +67,7 @@ struct NewLoginHostField: View {
 
 struct NewLoginHostView: View {
     @State var host = ""
-    @State var label = ""
+    @State var hostName = ""
     private var saveAction: ((String, String?) -> Void)
     private var navBarTintColor: Color
     
@@ -85,7 +85,7 @@ struct NewLoginHostView: View {
         if let httpsRange = hostToSave.range(of: "://") {
             hostToSave = String(host[...httpsRange.upperBound])
         }
-        saveAction(hostToSave, label.trimmingCharacters(in: .whitespaces))
+        saveAction(hostToSave, hostName.trimmingCharacters(in: .whitespaces))
     }
     
     var body: some View {
@@ -103,7 +103,7 @@ struct NewLoginHostView: View {
                               fieldLabelAccessibilityID: "addconn_nameLabel",
                               fieldPlaceholder: SFSDKResourceUtils.localizedString("LOGIN_SERVER_NAME_PLACEHOLDER"),
                               fieldInputAccessibilityID: "addconn_nameInput",
-                              fieldValue: $label)
+                              fieldValue: $hostName)
                 .listRowSeparator(.hidden)
                 .padding(.bottom)
         }
