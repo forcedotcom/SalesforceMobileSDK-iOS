@@ -230,7 +230,7 @@ ABSTRACT_METHOD
 }
 
 - (NSString *)getNonDirtyRecordIdsSql:(NSString *)soupName idField:(NSString *)idField additionalPredicate:(NSString *)additionalPredicate {
-    return [NSString stringWithFormat:@"SELECT {%@:%@} FROM {%@} WHERE {%@:%@} = '0' %@ ORDER BY {%@:%@} ASC",
+    return [NSString stringWithFormat:@"SELECT {%@:%@} FROM {%@} WHERE {%@:%@} = 0 %@ ORDER BY {%@:%@} ASC",
                                       soupName, idField, soupName, soupName, kSyncTargetLocal, additionalPredicate, soupName, idField];
 }
 
