@@ -31,12 +31,6 @@
 #import "SFSDKBatchRequest.h"
 #import "SFSDKBatchResponse+Internal.h"
 #import "SFSDKCompositeResponse+Internal.h"
-#import <objc/runtime.h>
-
-// Pattern demonstrated in the Apple documentation. We use a static key
-// whose address will be used by the objc_setAssociatedObject (no need to have a value).
-static char FailureBlockKey;
-static char SuccessBlockKey;
 
 @implementation SFRestAPI (Blocks)
 
@@ -55,13 +49,15 @@ static char SuccessBlockKey;
 
 #pragma mark - sending requests
 
-- (void) sendRequest:(SFRestRequest *)request failureBlock:(SFRestRequestFailBlock)failureBlock successBlock:(SFRestResponseBlock)successBlock {
-    objc_setAssociatedObject(request, &FailureBlockKey, failureBlock, OBJC_ASSOCIATION_COPY);
-    objc_setAssociatedObject(request, &SuccessBlockKey, successBlock, OBJC_ASSOCIATION_COPY);
-    [self send:request requestDelegate:self];
+- (void) sendRequest:(SFRestRequest *)request
+        failureBlock:(SFRestRequestFailBlock)failureBlock
+        successBlock:(SFRestResponseBlock)successBlock {
+    [self send:request failureBlock:failureBlock successBlock:successBlock];
 }
 
-- (void) sendCompositeRequest:(SFSDKCompositeRequest *)request failureBlock:(SFRestRequestFailBlock)failureBlock successBlock:(SFRestCompositeResponseBlock)successBlock {
+- (void) sendCompositeRequest:(SFSDKCompositeRequest *)request
+                 failureBlock:(SFRestRequestFailBlock)failureBlock
+                 successBlock:(SFRestCompositeResponseBlock)successBlock {
     [self sendRequest:request failureBlock:failureBlock successBlock:^(id response, NSURLResponse * rawResponse) {
         @try {
             SFSDKCompositeResponse *compositeResponse = [[SFSDKCompositeResponse alloc] initWith:response];
@@ -76,7 +72,9 @@ static char SuccessBlockKey;
     }];
 }
 
-- (void) sendBatchRequest:(SFSDKBatchRequest *)request failureBlock:(SFRestRequestFailBlock)failureBlock successBlock:(SFRestBatchResponseBlock)successBlock {
+- (void) sendBatchRequest:(SFSDKBatchRequest *)request
+             failureBlock:(SFRestRequestFailBlock)failureBlock
+             successBlock:(SFRestBatchResponseBlock)successBlock {
     [self sendRequest:request failureBlock:failureBlock successBlock:^(id response, NSURLResponse * rawResponse) {
         @try {
             SFSDKBatchResponse *compositeResponse = [[SFSDKBatchResponse alloc] initWith:response];
@@ -91,34 +89,4 @@ static char SuccessBlockKey;
         }
     }];
 }
-
-#pragma mark - response delegate
-
-- (void) triggerDelegatesForRequest:(SFRestRequest *)request success:(BOOL)success withObject:(id)object rawResponse:(NSURLResponse *)rawResponse error:(NSError *)error {
-    if (success) {
-        void (^successBlock)(id, NSURLResponse *);
-        successBlock = (void (^) (id, NSURLResponse *))objc_getAssociatedObject(request, &SuccessBlockKey);
-        if (successBlock) {
-            successBlock(object, rawResponse);
-        }
-    } else {
-        SFRestRequestFailBlock failBlock = (SFRestRequestFailBlock)objc_getAssociatedObject(request, &FailureBlockKey);
-        if (failBlock) {
-            failBlock(object, error, rawResponse);
-        }
-    }
-
-    // Removes both blocks from the request.
-    objc_setAssociatedObject(request, &FailureBlockKey, nil, OBJC_ASSOCIATION_ASSIGN);
-    objc_setAssociatedObject(request, &SuccessBlockKey, nil, OBJC_ASSOCIATION_ASSIGN);
-}
-
-- (void)request:(SFRestRequest *)request didSucceed:(id)dataResponse rawResponse:(NSURLResponse *)rawResponse {
-    [self triggerDelegatesForRequest:request success:YES withObject:dataResponse rawResponse:rawResponse error:nil];
-}
-
-- (void)request:(SFRestRequest *)request didFail:(id)dataResponse rawResponse:(NSURLResponse *)rawResponse error:(NSError *)error {
-    [self triggerDelegatesForRequest:request success:NO withObject:dataResponse rawResponse:rawResponse error:error];
-}
-
 @end

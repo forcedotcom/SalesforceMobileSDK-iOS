@@ -57,8 +57,6 @@ static SFSDKSafeMutableDictionary *sfRestApiList = nil;
 
 @interface SFRestAPI ()
 
-@property (readwrite, assign) BOOL sessionRefreshInProgress;
-@property (readwrite, assign) BOOL pendingRequestsBeingProcessed;
 @property (nonatomic, strong) SFOAuthSessionRefresher *oauthSessionRefresher;
 @property (nonatomic, strong, readwrite) SFUserAccount *user;
 
@@ -86,8 +84,6 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
         self.user = user;
         _activeRequests = [SFSDKSafeMutableSet setWithCapacity:10];
         self.apiVersion = kSFRestDefaultAPIVersion;
-        self.sessionRefreshInProgress = NO;
-        self.pendingRequestsBeingProcessed = NO;
         self.requiresAuthentication = (user != nil && user.credentials.accessToken != nil);
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserDidLogout:)  name:kSFNotificationUserDidLogout object:nil];
     }
@@ -206,6 +202,7 @@ static dispatch_once_t pred;
     if (nil != toCancel) {
         found = YES;
         [self notifyDelegateOfFailure:toCancel.requestDelegate request:toCancel data:nil rawResponse:nil error:nil];
+        [toCancel cancel];
     }
     return found;
 }
@@ -231,10 +228,39 @@ static dispatch_once_t pred;
     [self send:request requestDelegate:requestDelegate shouldRetry:self.requiresAuthentication && request.requiresAuthentication];
 }
 
-- (void)send:(SFRestRequest *)request requestDelegate:(id<SFRestRequestDelegate>)requestDelegate shouldRetry:(BOOL)shouldRetry {
+- (void)send:(SFRestRequest *)request requestDelegate:(nullable id<SFRestRequestDelegate>)requestDelegate shouldRetry:(BOOL)shouldRetry {
     if (requestDelegate != nil) {
         request.requestDelegate = requestDelegate;
     }
+
+    [self send:request failureBlock:^(id  _Nullable response, NSError * _Nullable e, NSURLResponse * _Nullable rawResponse) {
+        [self notifyDelegateOfFailure:requestDelegate
+                              request:request
+                                 data:response
+                          rawResponse:rawResponse
+                                error:e];
+    } successBlock:^(id  _Nullable response, NSURLResponse * _Nullable rawResponse) {
+        [self notifyDelegateOfSuccess:requestDelegate
+                              request:request
+                                 data:response
+                          rawResponse:rawResponse];
+    } shouldRetry: shouldRetry];
+}
+
+- (void)send:(SFRestRequest *)request
+failureBlock:(SFRestRequestFailBlock)failureBlock
+successBlock:(SFRestResponseBlock)successBlock {
+    [self send:request
+  failureBlock:failureBlock
+  successBlock:successBlock
+   shouldRetry:self.requiresAuthentication && request.requiresAuthentication];
+}
+
+- (void)send:(SFRestRequest *)request
+failureBlock:(SFRestRequestFailBlock)failureBlock
+successBlock:(SFRestResponseBlock)successBlock
+ shouldRetry:(BOOL)shouldRetry {
+    
     if (!self.requiresAuthentication) {
         NSAssert(!request.requiresAuthentication , @"Use SFRestAPI sharedInstance for authenticated requests");
     }
@@ -247,14 +273,14 @@ static dispatch_once_t pred;
         [[SFUserAccountManager sharedInstance] loginWithCompletion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             strongSelf.user = userAccount;
-            [strongSelf enqueueRequest:request requestDelegate:requestDelegate shouldRetry:shouldRetry];
+            [strongSelf enqueueRequest:request failureBlock:failureBlock successBlock:successBlock shouldRetry:shouldRetry];
         } failure:^(SFOAuthInfo *authInfo, NSError *error) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             [SFSDKCoreLogger e:[strongSelf class] format:@"Authentication failed in SFRestAPI: %@. Logging out.", error];
             [[SFUserAccountManager sharedInstance] logout:SFLogoutReasonUnexpected];
         }];
     } else {
-        [self enqueueRequest:request requestDelegate:requestDelegate shouldRetry:shouldRetry];
+        [self enqueueRequest:request failureBlock:failureBlock successBlock:successBlock shouldRetry:shouldRetry];
     }
 }
 
@@ -272,7 +298,10 @@ static dispatch_once_t pred;
     return self.oauthSessionRefresher;
 }
 
-- (void)enqueueRequest:(SFRestRequest *)request requestDelegate:(id<SFRestRequestDelegate>)requestDelegate shouldRetry:(BOOL)shouldRetry {
+- (void)enqueueRequest:(SFRestRequest *)request
+          failureBlock:(SFRestRequestFailBlock)failureBlock
+          successBlock:(SFRestResponseBlock)successBlock
+           shouldRetry:(BOOL)shouldRetry {
     __weak __typeof(self) weakSelf = self;
     NSURLRequest *finalRequest = [request prepareRequestForSend:self.user];
     if (finalRequest) {
@@ -292,13 +321,19 @@ static dispatch_once_t pred;
             if (error) {
                 [SFSDKCoreLogger d:[strongSelf class] format:@"REST request failed with error: Error Code: %ld, Description: %@, URL: %@", (long) error.code, error.localizedDescription, finalRequest.URL];
                 id dataForDelegate = [strongSelf prepareDataForDelegate:data request:request response:response];
-                [strongSelf notifyDelegateOfFailure:requestDelegate request:request data:dataForDelegate rawResponse:response error:error];
+                if (failureBlock) {
+                    failureBlock(dataForDelegate, error, response);
+                }
+                [self removeActiveRequestObject:request];
                 return;
             }
-
+            
             // Timeout.
             if (!response) {
-                [strongSelf notifyDelegateOfFailure:requestDelegate request:request data:nil rawResponse:nil error:nil];
+                if (failureBlock) {
+                    failureBlock(nil, nil, nil);
+                }
+                [self removeActiveRequestObject:request];
                 return;
             }
             NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
@@ -306,15 +341,20 @@ static dispatch_once_t pred;
             // 2xx indicates success.
             if ([SFRestAPI isStatusCodeSuccess:statusCode]) {
                 id dataForDelegate = [strongSelf prepareDataForDelegate:data request:request response:response];
-                [strongSelf notifyDelegateOfSuccess:requestDelegate request:request data:dataForDelegate rawResponse:response];
+                if (successBlock) {
+                    successBlock(dataForDelegate, response);
+                }
             } else {
                 if (shouldRetry && [self shouldRefresh:statusCode responseData:data request:request]) {
-                    [strongSelf replayRequest:request response:response requestDelegate:requestDelegate];
+                    [strongSelf replayRequest:request response:response failureBlock:failureBlock successBlock:successBlock];
                 } else {
                     // Other status codes indicate failure.
                     NSError *errorForDelegate = [strongSelf prepareErrorForDelegate:data response:response];
                     id dataForDelegate = [strongSelf prepareDataForDelegate:data request:request response:response];
-                    [strongSelf notifyDelegateOfFailure:requestDelegate request:request data:dataForDelegate rawResponse:response error:errorForDelegate];
+                    if (failureBlock) {
+                        failureBlock(dataForDelegate, errorForDelegate, response);
+                        [self removeActiveRequestObject:request];
+                    }
                 }
             }
         }];
@@ -407,48 +447,54 @@ static dispatch_once_t pred;
     return [[NSError alloc] initWithDomain:kSFRestErrorDomain code:statusCode userInfo:errorDict];
 }
 
-- (void)replayRequest:(SFRestRequest *)request response:(NSURLResponse *)response requestDelegate:(id<SFRestRequestDelegate>)requestDelegate {
+- (void)replayRequest:(SFRestRequest *)request
+             response:(NSURLResponse *)response
+         failureBlock:(SFRestRequestFailBlock)failureBlock
+         successBlock:(SFRestResponseBlock)successBlock {
     [SFSDKCoreLogger i:[self class] format:@"%@: REST request failed due to expired credentials. Attempting to refresh credentials.", NSStringFromSelector(_cmd)];
-
+    
     /*
      * Sends the session refresh request if an OAuth session is not being refreshed.
      * Otherwise, wait for the current session refresh call to complete before sending.
      */
-    @synchronized (self) {
-        if (!self.sessionRefreshInProgress) {
-            self.sessionRefreshInProgress = YES;
-            SFOAuthSessionRefresher *sessionRefresher = [self sessionRefresherForUser:self.user];
-            __weak __typeof(self) weakSelf = self;
-            [sessionRefresher refreshSessionWithCompletion:^(SFOAuthCredentials *updatedCredentials) {
-                __strong typeof(weakSelf) strongSelf = weakSelf;
-                [SFSDKCoreLogger i:[strongSelf class] format:@"%@: Credentials refresh successful. Replaying original REST request.", NSStringFromSelector(_cmd)];
-                strongSelf.sessionRefreshInProgress = NO;
-                strongSelf.oauthSessionRefresher = nil;
-                @synchronized (strongSelf) {
-                    if (!strongSelf.pendingRequestsBeingProcessed) {
-                        strongSelf.pendingRequestsBeingProcessed = YES;
-                        [strongSelf resendActiveRequestsRequiringAuthentication];
-                    }
-                }
-            } error:^(NSError *refreshError) {
-                __strong typeof(weakSelf) strongSelf = weakSelf;
-                [SFSDKCoreLogger e:[strongSelf class] format:@"Failed to refresh expired session. Error: %@", refreshError];
-                [strongSelf notifyDelegateOfFailure:requestDelegate request:request data:nil rawResponse:response error:refreshError];
-                strongSelf.pendingRequestsBeingProcessed = YES;
-                [strongSelf flushPendingRequestQueue:refreshError rawResponse:response];
-                strongSelf.sessionRefreshInProgress = NO;
-                strongSelf.oauthSessionRefresher = nil;
-                if ([refreshError.domain isEqualToString:kSFOAuthErrorDomain] && refreshError.code == kSFOAuthErrorInvalidGrant) {
-                    [SFSDKCoreLogger i:[strongSelf class] format:@"%@ Invalid grant error received, triggering logout.", NSStringFromSelector(_cmd)];
-
-                    // Make sure we call logout on the main thread.
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [[SFUserAccountManager sharedInstance] logoutUser:strongSelf.user reason:SFLogoutReasonTokenExpired];
-                    });
-                }
-            }];
-        }
-    }
+    static dispatch_queue_t replayQueue;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        replayQueue = dispatch_queue_create("com.salesforce.restapi.replayQueue", DISPATCH_QUEUE_SERIAL);
+    });
+    dispatch_async(replayQueue, ^{
+        dispatch_semaphore_t refreshGate = dispatch_semaphore_create(0);
+        
+        SFOAuthSessionRefresher *sessionRefresher = [self sessionRefresherForUser:self.user];
+        __weak __typeof(self) weakSelf = self;
+        [sessionRefresher refreshSessionWithCompletion:^(SFOAuthCredentials *updatedCredentials) {
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            [SFSDKCoreLogger i:[strongSelf class] format:@"%@: Credentials refresh successful. Replaying original REST request.", NSStringFromSelector(_cmd)];
+            strongSelf.oauthSessionRefresher = nil;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [strongSelf send:request failureBlock:failureBlock successBlock:successBlock shouldRetry:NO];
+            });
+            dispatch_semaphore_signal(refreshGate); // Mark done
+        } error:^(NSError *refreshError) {
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            [SFSDKCoreLogger e:[strongSelf class] format:@"Failed to refresh expired session. Error: %@", refreshError];
+            if (failureBlock) {
+                failureBlock(nil, refreshError, response);
+            }
+            [strongSelf flushPendingRequestQueue:refreshError rawResponse:response];
+            strongSelf.oauthSessionRefresher = nil;
+            if ([refreshError.domain isEqualToString:kSFOAuthErrorDomain] && refreshError.code == kSFOAuthErrorInvalidGrant) {
+                [SFSDKCoreLogger i:[strongSelf class] format:@"%@ Invalid grant error received, triggering logout.", NSStringFromSelector(_cmd)];
+                
+                // Make sure we call logout on the main thread.
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[SFUserAccountManager sharedInstance] logoutUser:strongSelf.user reason:SFLogoutReasonTokenExpired];
+                });
+            }
+            dispatch_semaphore_signal(refreshGate); // Also mark done on failure
+        }];
+        dispatch_semaphore_wait(refreshGate, DISPATCH_TIME_FOREVER); // Wait until signal
+    });
 }
 
 -(void)flushPendingRequestQueue:(NSError *)error rawResponse:(NSURLResponse *)rawResponse {
@@ -457,17 +503,6 @@ static dispatch_once_t pred;
         for (SFRestRequest *request in pendingRequests) {
             [self notifyDelegateOfFailure:request.requestDelegate request:request data:nil rawResponse:rawResponse error:error];
         }
-        self.pendingRequestsBeingProcessed = NO;
-    }
-}
-
-- (void)resendActiveRequestsRequiringAuthentication {
-    @synchronized (self) {
-        NSSet *pendingRequests = [self.activeRequests asSet];
-        for (SFRestRequest *request in pendingRequests) {
-            [self send:request requestDelegate:request.requestDelegate shouldRetry:NO];
-        }
-        self.pendingRequestsBeingProcessed = NO;
     }
 }
 
