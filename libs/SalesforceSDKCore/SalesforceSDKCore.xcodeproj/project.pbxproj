@@ -39,6 +39,7 @@
 		23A4C74F2D0CB68B00DF55EB /* NativeLoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A4C74C2D0CB68B00DF55EB /* NativeLoginManager.swift */; };
 		23B2FDEC2DB03496006ADC07 /* NotificationCategoryFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B2FDE62DB03486006ADC07 /* NotificationCategoryFactory.swift */; };
 		23CAB1312DD515B500B8929B /* SFLoginViewController+Deep-Linking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23CAB1302DD515B500B8929B /* SFLoginViewController+Deep-Linking.swift */; };
+		23CAB0F92DCBE51F00B8929B /* MockRestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23CAB0F72DCBE51F00B8929B /* MockRestClient.swift */; };
 		444B95D01E83251900908C61 /* UIColor+SFColorsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 444B95CF1E83251900908C61 /* UIColor+SFColorsTests.m */; };
 		4F06AF731C49A16A00F70798 /* NSURL+SFStringUtilsTests.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F06AF5D1C49A16A00F70798 /* NSURL+SFStringUtilsTests.h */; };
 		4F06AF751C49A16A00F70798 /* SalesforceOAuthUnitTests.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F06AF5F1C49A16A00F70798 /* SalesforceOAuthUnitTests.h */; };
@@ -540,6 +541,7 @@
 		23A4C74D2D0CB68B00DF55EB /* NativeLoginManagerInternal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NativeLoginManagerInternal.swift; path = Login/NativeLoginManagerInternal.swift; sourceTree = "<group>"; };
 		23B2FDE62DB03486006ADC07 /* NotificationCategoryFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCategoryFactory.swift; sourceTree = "<group>"; };
 		23CAB1302DD515B500B8929B /* SFLoginViewController+Deep-Linking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "SFLoginViewController+Deep-Linking.swift"; path = "Login/SFLoginViewController+Deep-Linking.swift"; sourceTree = "<group>"; };
+		23CAB0F72DCBE51F00B8929B /* MockRestClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockRestClient.swift; sourceTree = "<group>"; };
 		444B95CF1E83251900908C61 /* UIColor+SFColorsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+SFColorsTests.m"; path = "SalesforceSDKCoreTests/UIColor+SFColorsTests.m"; sourceTree = SOURCE_ROOT; };
 		4F06AF5D1C49A16A00F70798 /* NSURL+SFStringUtilsTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSURL+SFStringUtilsTests.h"; path = "SalesforceSDKCoreTests/NSURL+SFStringUtilsTests.h"; sourceTree = SOURCE_ROOT; };
 		4F06AF5E1C49A16A00F70798 /* NSURL+SFStringUtilsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSURL+SFStringUtilsTests.m"; path = "SalesforceSDKCoreTests/NSURL+SFStringUtilsTests.m"; sourceTree = SOURCE_ROOT; };
@@ -991,6 +993,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		23CAB0F82DCBE51F00B8929B /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				23CAB0F72DCBE51F00B8929B /* MockRestClient.swift */,
+			);
+			name = Mocks;
+			path = SalesforceSDKCoreTests/Mocks;
+			sourceTree = SOURCE_ROOT;
+		};
 		4F7EB3F61BFFC84700768720 /* SalesforceSDKCoreTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -1068,6 +1079,7 @@
 				6931EA48248F000600417362 /* SFUserIdUpgradeTests.m */,
 				693E623A24A29B6B0017B222 /* SFSDKKeyValueEncryptedFileStoreTests.m */,
 				6990CBBF29F5AF56004A5F8D /* SFSDKIDPAuthCodeLoginRequestCommandTest.m */,
+				23CAB0F82DCBE51F00B8929B /* Mocks */,
 			);
 			name = SalesforceSDKCoreTests;
 			path = SalesforceSDKCore;
@@ -2163,6 +2175,7 @@
 				E1DDC1441CAEEB34002F51DD /* SFSDKLoginHostTests.m in Sources */,
 				CE02ACEE202E19CF00C6A714 /* SFSDKAuthConfigUtilTests.m in Sources */,
 				4F06AF941C49A18E00F70798 /* SFTestSDKManagerFlow.m in Sources */,
+				23CAB0F92DCBE51F00B8929B /* MockRestClient.swift in Sources */,
 				B7E66AE923763278005A652E /* RestClientPublisherTests.swift in Sources */,
 				697F5C4F267BE29A00F382A9 /* EncryptionTests.swift in Sources */,
 				B7A4AE4922E8CA780060E737 /* SFSDKAuthUtilTests.swift in Sources */,
