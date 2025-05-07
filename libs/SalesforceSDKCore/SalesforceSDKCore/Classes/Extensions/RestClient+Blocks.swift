@@ -86,13 +86,7 @@ public typealias SFRestBatchResponseBlock = (_ response: BatchResponse, _ rawRes
                 let compositeResponse = CompositeResponse(dict)
                 successBlock(compositeResponse, rawResponse)
             } catch {
-                let nsError = NSError(domain: SFRestErrorDomain,
-                                      code: SFRestErrorCode,
-                                      userInfo: [
-                                        "Exception": "ParseFailure",
-                                        NSDebugDescriptionErrorKey: error.localizedDescription
-                                      ])
-                failureBlock(response, nsError, rawResponse)
+                failureBlock(response, error, rawResponse)
             }
         }
     }
@@ -117,13 +111,7 @@ public typealias SFRestBatchResponseBlock = (_ response: BatchResponse, _ rawRes
                 let batchResponse = BatchResponse(dict)
                 successBlock(batchResponse, rawResponse)
             } catch {
-                let nsError = NSError(domain: SFRestErrorDomain,
-                                      code: SFRestErrorCode,
-                                      userInfo: [
-                                        "Exception": "ParseFailure",
-                                        NSDebugDescriptionErrorKey: error.localizedDescription
-                                      ])
-                failureBlock(response, nsError, rawResponse)
+                failureBlock(response, error, rawResponse)
             }
         }
     }
