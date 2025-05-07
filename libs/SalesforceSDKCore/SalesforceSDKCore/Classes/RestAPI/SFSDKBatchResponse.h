@@ -29,6 +29,7 @@ NS_SWIFT_NAME(BatchResponse)
 @interface SFSDKBatchResponse : NSObject
 @property (nonatomic,readonly) BOOL hasErrors;
 @property (nonatomic,readonly) NSArray<id> *results;
+-(instancetype)initWith:(NSDictionary *)dict;
 @end
 
 NS_ASSUME_NONNULL_END
