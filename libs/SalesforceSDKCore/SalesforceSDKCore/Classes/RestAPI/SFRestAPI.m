@@ -508,12 +508,14 @@ successBlock:(SFRestResponseBlock)successBlock
     if ([delegate respondsToSelector:@selector(request:didSucceed:rawResponse:)]) {
         [delegate request:request didSucceed:data rawResponse:rawResponse];
     }
+    [self removeActiveRequestObject:request];
 }
 
 - (void)notifyDelegateOfFailure:(id<SFRestRequestDelegate>)delegate request:(SFRestRequest *)request data:(id)data rawResponse:(NSURLResponse *)rawResponse error:(NSError *)error {
     if ([delegate respondsToSelector:@selector(request:didFail:rawResponse:error:)]) {
         [delegate request:request didFail:data rawResponse:rawResponse error:error];
     }
+    [self removeActiveRequestObject:request];
 }
 
 #pragma mark - SFRestRequest factory methods
