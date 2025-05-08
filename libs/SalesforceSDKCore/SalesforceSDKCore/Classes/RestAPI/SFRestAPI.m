@@ -316,7 +316,8 @@ successBlock:(SFRestResponseBlock)successBlock
         NSURLSessionDataTask *dataTask = [network sendRequest:finalRequest dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             [SFNetwork removeSharedInstanceForIdentifier:instanceIdentifier];
-
+            [self removeActiveRequestObject:request];
+            
             // Network error.
             if (error) {
                 [SFSDKCoreLogger d:[strongSelf class] format:@"REST request failed with error: Error Code: %ld, Description: %@, URL: %@", (long) error.code, error.localizedDescription, finalRequest.URL];
@@ -324,7 +325,6 @@ successBlock:(SFRestResponseBlock)successBlock
                 if (failureBlock) {
                     failureBlock(dataForDelegate, error, response);
                 }
-                [self removeActiveRequestObject:request];
                 return;
             }
             
@@ -333,7 +333,6 @@ successBlock:(SFRestResponseBlock)successBlock
                 if (failureBlock) {
                     failureBlock(nil, nil, nil);
                 }
-                [self removeActiveRequestObject:request];
                 return;
             }
             NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
@@ -353,7 +352,6 @@ successBlock:(SFRestResponseBlock)successBlock
                     id dataForDelegate = [strongSelf prepareDataForDelegate:data request:request response:response];
                     if (failureBlock) {
                         failureBlock(dataForDelegate, errorForDelegate, response);
-                        [self removeActiveRequestObject:request];
                     }
                 }
             }
@@ -510,14 +508,12 @@ successBlock:(SFRestResponseBlock)successBlock
     if ([delegate respondsToSelector:@selector(request:didSucceed:rawResponse:)]) {
         [delegate request:request didSucceed:data rawResponse:rawResponse];
     }
-    [self removeActiveRequestObject:request];
 }
 
 - (void)notifyDelegateOfFailure:(id<SFRestRequestDelegate>)delegate request:(SFRestRequest *)request data:(id)data rawResponse:(NSURLResponse *)rawResponse error:(NSError *)error {
     if ([delegate respondsToSelector:@selector(request:didFail:rawResponse:error:)]) {
         [delegate request:request didFail:data rawResponse:rawResponse error:error];
     }
-    [self removeActiveRequestObject:request];
 }
 
 #pragma mark - SFRestRequest factory methods
