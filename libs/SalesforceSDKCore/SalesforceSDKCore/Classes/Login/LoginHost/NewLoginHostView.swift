@@ -82,9 +82,9 @@ struct NewLoginHostView: View {
     
     func save() {
         var hostToSave = host.trimmingCharacters(in: .whitespaces)
-        if let httpsRange = hostToSave.range(of: "://"),
-           let components = URLComponents(string: hostToSave),
-           let scheme = components.scheme {
+        if hostToSave.contains("://"),
+           let components = URLComponents(string: hostToSave) {
+            let scheme = components.scheme ?? ""
             hostToSave = String(hostToSave.dropFirst("\(scheme)://".count))
         }
         saveAction(hostToSave, hostLabel.trimmingCharacters(in: .whitespaces))
