@@ -56,21 +56,6 @@
 }
 
 + (void)loginIfRequired:(UIScene *)scene
-              loginHint:(NSString *)loginHint
-              loginHost:(NSString *)loginHost
-             completion:(void (^)(void))completionBlock
-{
-    [self loginIfRequired:scene
-                loginHint:loginHint
-                loginHost:loginHost
-       frontDoorBridgeUrl:nil
-             codeVerifier:nil
-               completion:completionBlock];
-}
-
-+ (void)loginIfRequired:(UIScene *)scene
-              loginHint:(NSString *)loginHint
-              loginHost:(NSString *)loginHost
      frontDoorBridgeUrl:(NSURL * )frontDoorBridgeUrl
            codeVerifier:(NSString *)codeVerifier
              completion:(void (^)(void))completionBlock
@@ -112,19 +97,6 @@
     } else {
         [self screenLockValidation:completionBlock];
     }
-}
-
-+ (void)loginIfRequired:(UIScene *)scene
-     frontDoorBridgeUrl:(NSURL * )frontDoorBridgeUrl
-           codeVerifier:(NSString *)codeVerifier
-             completion:(void (^)(void))completionBlock
-{
-    [self loginIfRequired:scene
-                loginHint:nil
-                loginHost:nil
-       frontDoorBridgeUrl:frontDoorBridgeUrl
-             codeVerifier:codeVerifier
-               completion:completionBlock];
 }
 
 +(void)screenLockValidation:(void (^)(void))completionBlock  {
