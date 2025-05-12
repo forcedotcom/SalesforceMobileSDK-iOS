@@ -193,12 +193,15 @@ Set this block to handle presentation of the Authentication View Controller.
 - (BOOL)authenticateUsingIDP:(SFSDKAuthRequest *)request completion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock;
 
 - (BOOL)authenticateWithRequest:(SFSDKAuthRequest *)request
+                      loginHint:(nullable NSString *)loginHint
                      completion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock
                         failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock
              frontDoorBridgeUrl:(nullable NSURL * )frontDoorBridgeUrl
                    codeVerifier:(nullable NSString *)codeVerifier;
 
 - (SFSDKAuthRequest *)defaultAuthRequest;
+
+- (SFSDKAuthRequest *)defaultAuthRequestWithLoginHost:(nullable NSString *)loginHost;
 
 - (BOOL)loginWithCompletion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock
                     failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock
@@ -207,6 +210,8 @@ Set this block to handle presentation of the Authentication View Controller.
 - (BOOL)loginWithCompletion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock
                     failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock
                       scene:(UIScene *)scene
+                  loginHint:(nullable NSString *)loginHint
+                  loginHost:(nullable NSString *)loginHost
          frontDoorBridgeUrl:(nullable NSURL * )frontDoorBridgeUrl
                codeVerifier:(nullable NSString *)codeVerifier;
 

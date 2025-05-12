@@ -410,6 +410,8 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     return [self loginWithCompletion:completionBlock
                              failure:failureBlock
                                scene:scene
+                           loginHint:nil
+                           loginHost:nil
                   frontDoorBridgeUrl:nil
                         codeVerifier:nil];
 }
@@ -417,12 +419,16 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 - (BOOL)loginWithCompletion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock
                     failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock
                       scene:(UIScene *)scene
+                  loginHint:(nullable NSString *)loginHint
+                  loginHost:(nullable NSString *)loginHost
          frontDoorBridgeUrl:(nullable NSURL * )frontDoorBridgeUrl
                codeVerifier:(nullable NSString *)codeVerifier
 {
     return [self authenticateWithCompletion:completionBlock
                                     failure:failureBlock
                                       scene:scene
+                                  loginHint:loginHint
+                                  loginHost:loginHost
                          frontDoorBridgeUrl:frontDoorBridgeUrl
                                codeVerifier:codeVerifier];
 }
@@ -503,6 +509,8 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     return [self authenticateWithCompletion:completionBlock
                                     failure:failureBlock
                                       scene:scene
+                                  loginHint:nil
+                                  loginHost:nil
                          frontDoorBridgeUrl:nil
                                codeVerifier:nil];
 }
@@ -510,6 +518,8 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 - (BOOL)authenticateWithCompletion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock
                            failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock
                              scene:(UIScene *)scene
+                         loginHint:(nullable NSString *)loginHint
+                         loginHost:(nullable NSString *)loginHost
                 frontDoorBridgeUrl:(NSURL * )frontDoorBridgeUrl
                       codeVerifier:(NSString *)codeVerifier
 {
@@ -534,15 +544,16 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
        return [self authenticateUsingIDP:request completion:completionBlock failure:failureBlock];
     }
     return [self authenticateWithRequest:request
+                               loginHint:loginHint
                               completion:completionBlock
                                  failure:failureBlock
                       frontDoorBridgeUrl:frontDoorBridgeUrl
                             codeVerifier:codeVerifier];
 }
 
--(SFSDKAuthRequest *)defaultAuthRequest {
+- (SFSDKAuthRequest *)defaultAuthRequestWithLoginHost:(nullable NSString *)loginHost {
     SFSDKAuthRequest *request = [[SFSDKAuthRequest alloc] init];
-    request.loginHost = self.loginHost;
+    request.loginHost = loginHost != nil ? loginHost : self.loginHost;
     request.additionalOAuthParameterKeys = self.additionalOAuthParameterKeys;
     request.loginViewControllerConfig = self.loginViewControllerConfig;
     request.brandLoginPath = self.brandLoginPath;
@@ -557,6 +568,10 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     return request;
 }
 
+-(SFSDKAuthRequest *)defaultAuthRequest {
+    return [self defaultAuthRequestWithLoginHost:nil];
+}
+
 -(SFSDKAuthRequest *)nativeLoginAuthRequest {
     SFNativeLoginManagerInternal *nativeLoginManager = (SFNativeLoginManagerInternal *)[[SalesforceSDKManager sharedManager] nativeLoginManager];
     SFSDKAuthRequest *request = [[SFSDKAuthRequest alloc] init];
@@ -569,6 +584,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 }
 
 - (BOOL)authenticateWithRequest:(SFSDKAuthRequest *)request
+                      loginHint:(nullable NSString *)loginHint
                      completion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock
                         failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock
              frontDoorBridgeUrl:(NSURL * )frontDoorBridgeUrl
@@ -581,6 +597,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     authSession.oauthCoordinator.delegate = self;
     authSession.oauthCoordinator.overrideWithCodeVerifier = codeVerifier;
     authSession.oauthCoordinator.overrideWithFrontDoorBridgeUrl = frontDoorBridgeUrl;
+    authSession.oauthCoordinator.loginHint = loginHint;
     NSString *sceneId = authSession.sceneId;
     self.authSessions[sceneId] = authSession;
     
@@ -618,6 +635,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     SFSDKAuthRequest *request = [self defaultAuthRequest];
     request.jwtToken = jwtToken;
     return [self authenticateWithRequest:request
+                               loginHint:nil
                               completion:completionBlock
                                  failure:failureBlock
                       frontDoorBridgeUrl:nil
@@ -666,6 +684,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         __strong typeof(weakSelf) strongSelf = weakSelf;
         strongSelf.authSessions[scene.session.persistentIdentifier].isAuthenticating = NO;
         [strongSelf authenticateWithRequest:session.oauthRequest
+                                  loginHint:nil
                                  completion:session.authSuccessCallback
                                     failure:session.authFailureCallback
                          frontDoorBridgeUrl:nil
@@ -1053,6 +1072,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     [self dismissAuthViewControllerIfPresentForScene:scene completion:^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
         [strongSelf authenticateWithRequest:strongSelf.authSessions[sceneId].oauthRequest
+                                  loginHint:nil
                                  completion:strongSelf.authSessions[sceneId].authSuccessCallback
                                     failure:strongSelf.authSessions[sceneId].authFailureCallback
                          frontDoorBridgeUrl:nil
