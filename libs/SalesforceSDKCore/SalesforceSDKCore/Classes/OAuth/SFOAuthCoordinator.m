@@ -778,6 +778,11 @@
     if (scopeString != nil) {
         [approvalUrlString appendString:scopeString];
     }
+    
+    if (self.loginHint) {
+      [approvalUrlString appendFormat:@"&%@=%@", @"login_hint", self.loginHint];
+    }
+    
     return approvalUrlString;
 }
 
