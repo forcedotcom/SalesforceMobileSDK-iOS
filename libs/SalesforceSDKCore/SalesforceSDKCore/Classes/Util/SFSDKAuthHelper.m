@@ -93,8 +93,8 @@
                        loginWithCompletion:nil
                        failure:failureBlock
                        scene:scene
-                       loginHint:nil
-                       loginHost:nil
+                       loginHint:loginHint
+                       loginHost:loginHost
                        frontDoorBridgeUrl:frontDoorBridgeUrl
                        codeVerifier:codeVerifier];
         if (!result) {
@@ -103,8 +103,8 @@
                  loginWithCompletion:nil
                  failure:failureBlock
                  scene:scene
-                 loginHint:nil
-                 loginHost:nil
+                 loginHint:loginHint
+                 loginHost:loginHost
                  frontDoorBridgeUrl:frontDoorBridgeUrl
                  codeVerifier:codeVerifier];
             }];

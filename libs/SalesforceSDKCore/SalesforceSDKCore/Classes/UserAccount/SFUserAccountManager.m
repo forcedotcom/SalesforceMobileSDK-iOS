@@ -533,7 +533,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     if (self.nativeLoginEnabled && !self.shouldFallbackToWebAuthentication) {
         request = [self nativeLoginAuthRequest];
     } else {
-        request = [self defaultAuthRequest];
+        request = [self defaultAuthRequestWithLoginHost:loginHost];
     }
     
     if (scene) {
