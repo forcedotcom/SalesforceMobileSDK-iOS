@@ -37,7 +37,8 @@ public typealias SFRestCompositeResponseBlock = (_ response: CompositeResponse, 
 public typealias SFRestBatchResponseBlock = (_ response: BatchResponse, _ rawResponse: URLResponse?) -> Void
 
 // MARK: - RestClient Extension
-@objc extension RestClient {
+@objc
+extension RestClient {
 
     /** Creates an error object with the given description.
      @param description Description
