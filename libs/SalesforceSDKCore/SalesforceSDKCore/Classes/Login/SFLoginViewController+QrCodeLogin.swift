@@ -229,18 +229,3 @@ public extension SalesforceLoginViewController {
         let pkceCodeVerifier: String?
     }
 }
-
-public extension SalesforceLoginViewController {
-    
-    class func loginWithLoginHint(
-        loginHint: String,
-        loginHost: String
-    ) {
-        // Stop current authentication attempt, if applicable, before starting the new one.
-        UserAccountManager.shared.stopCurrentAuthentication { result in
-            DispatchQueue.main.async {
-                AuthHelper.loginIfRequired(nil,loginHint: loginHint, loginHost: loginHost) {}
-            }
-        }
-    }
-}
