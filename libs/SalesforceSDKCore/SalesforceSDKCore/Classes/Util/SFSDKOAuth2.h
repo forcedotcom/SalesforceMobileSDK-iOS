@@ -131,6 +131,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, nullable) NSString *sidCookieName;
 @property (nonatomic, readonly, nullable) NSString *parentSid;
 @property (nonatomic, readonly, nullable) NSString *tokenFormat;
+@property (nonatomic, readonly, nullable) NSString *beaconChildConsumerKey;
+@property (nonatomic, readonly, nullable) NSString *beaconChildConsumerSecret;
+
 - (NSDictionary *)asDictionary;
 @end
 

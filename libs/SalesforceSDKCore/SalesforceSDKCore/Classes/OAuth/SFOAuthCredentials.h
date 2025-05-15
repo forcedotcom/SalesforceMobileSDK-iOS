@@ -138,6 +138,8 @@ NS_SWIFT_NAME(OAuthCredentials)
 @property (nonatomic, readonly, nullable) NSString *sidCookieName;
 @property (nonatomic, readonly, nullable) NSString *parentSid;
 @property (nonatomic, readonly, nullable) NSString *tokenFormat;
+@property (nonatomic, readonly, nullable) NSString *beaconChildConsumerKey;
+@property (nonatomic, readonly, nullable) NSString *beaconChildConsumerSecret;
 
 
 /** A readonly convenience property returning the Salesforce Organization ID provided in the path component of the identityUrl.
@@ -271,6 +273,11 @@ NS_SWIFT_NAME(OAuthCredentials)
 - (NSURL *)overrideDomainIfNeeded;
 
 - (void)updateCredentials:(NSDictionary *)params;
+
+/** Returns the oauth client id to use for refresh
+ In the case of beacon app, the beacon child consumer key returned during login should be used instead of the configured consumer key
+ */
+- (NSString*)getClientIdForRefresh;
 
 @end
 
