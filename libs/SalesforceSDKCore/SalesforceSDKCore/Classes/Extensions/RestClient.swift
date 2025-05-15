@@ -141,10 +141,8 @@ extension RestClient {
         request.parseResponse = false
         
         return try await withCheckedThrowingContinuation { continuation in
-            var strongRequest: RestRequest? = request
             __send(request,
                    failureBlock: { rawResponse, error, urlResponse in
-                defer { strongRequest = nil }
                 let apiError = RestClientError.apiFailed(
                     response: rawResponse,
                     underlyingError: error ?? RestClientError.apiResponseIsEmpty,
@@ -153,7 +151,6 @@ extension RestClient {
                 continuation.resume(throwing: apiError)
             },
                    successBlock: { rawResponse, urlResponse in
-                defer { strongRequest = nil } 
                 if let data = rawResponse as? Data,
                    let urlResponse = urlResponse {
                     let result = RestResponse(data: data, urlResponse: urlResponse)

@@ -483,7 +483,8 @@ successBlock:(SFRestResponseBlock)successBlock
                 @synchronized (strongSelf) {
                     if (!strongSelf.pendingRequestsBeingProcessed) {
                         strongSelf.pendingRequestsBeingProcessed = YES;
-                        [strongSelf resendActiveRequestsRequiringAuthentication];
+                        [strongSelf resendActiveRequestsRequiringAuthenticationWithFailureBlock:failureBlock
+                                                                                   successBlock:successBlock];
                     }
                 }
             } error:^(NSError *refreshError) {
@@ -521,11 +522,15 @@ successBlock:(SFRestResponseBlock)successBlock
     }
 }
 
-- (void)resendActiveRequestsRequiringAuthentication {
+- (void)resendActiveRequestsRequiringAuthenticationWithFailureBlock:(SFRestRequestFailBlock)failureBlock
+                                                   successBlock:(SFRestResponseBlock)successBlock  {
     @synchronized (self) {
         NSSet *pendingRequests = [self.activeRequests asSet];
         for (SFRestRequest *request in pendingRequests) {
-            [self send:request requestDelegate:request.requestDelegate shouldRetry:NO];
+            [self send:request
+          failureBlock:failureBlock
+          successBlock:successBlock
+           shouldRetry:NO];
         }
         self.pendingRequestsBeingProcessed = NO;
     }
