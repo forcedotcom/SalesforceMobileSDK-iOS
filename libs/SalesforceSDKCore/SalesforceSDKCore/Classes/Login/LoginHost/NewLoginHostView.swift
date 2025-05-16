@@ -67,7 +67,7 @@ struct NewLoginHostField: View {
 
 struct NewLoginHostView: View {
     @State var host = ""
-    @State var hostName = ""
+    @State var hostLabel = ""
     private var saveAction: ((String, String?) -> Void)
     private var navBarTintColor: Color
     
@@ -80,12 +80,14 @@ struct NewLoginHostView: View {
         }
     }
     
-    func save() {
+    func save(host: String, hostLabel: String) {
         var hostToSave = host.trimmingCharacters(in: .whitespaces)
-        if let httpsRange = hostToSave.range(of: "://") {
-            hostToSave = String(host[...httpsRange.upperBound])
+        if hostToSave.contains("://"),
+           let components = URLComponents(string: hostToSave) {
+            let scheme = components.scheme ?? ""
+            hostToSave = String(hostToSave.dropFirst("\(scheme)://".count))
         }
-        saveAction(hostToSave, hostName.trimmingCharacters(in: .whitespaces))
+        saveAction(hostToSave, hostLabel.trimmingCharacters(in: .whitespaces))
     }
     
     var body: some View {
@@ -103,7 +105,7 @@ struct NewLoginHostView: View {
                               fieldLabelAccessibilityID: "addconn_nameLabel",
                               fieldPlaceholder: SFSDKResourceUtils.localizedString("LOGIN_SERVER_NAME_PLACEHOLDER"),
                               fieldInputAccessibilityID: "addconn_nameInput",
-                              fieldValue: $hostName)
+                              fieldValue: $hostLabel)
                 .listRowSeparator(.hidden)
                 .padding(.bottom)
         }
@@ -115,7 +117,7 @@ struct NewLoginHostView: View {
         .toolbar {
             ToolbarItemGroup(placement: .topBarTrailing) {
                 Button {
-                    save()
+                    save(host: host, hostLabel: hostLabel)
                 } label: {
                     Text(SFSDKResourceUtils.localizedString("DONE_BUTTON")).bold()
                 }
