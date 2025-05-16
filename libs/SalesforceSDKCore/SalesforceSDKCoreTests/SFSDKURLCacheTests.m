@@ -34,6 +34,8 @@
 #import <SalesforceSDKCore/TestSetupUtils.h>
 #import "SFSDKTestCredentialsData.h"
 #import "SFRestAPI+Blocks.h"
+#import "SalesforceSDKCore/SalesforceSDKCore-Swift.h"
+
 
 @interface SFRestAPI (Testing)
 
