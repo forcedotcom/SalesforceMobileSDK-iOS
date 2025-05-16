@@ -54,6 +54,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// For Salesforce Identity UI Bridge API support, the optional web server flow code verififer accompaning the front door bridge URL.  This can only be used with `overrideWithfrontDoorBridgeUrl`.
 @property (nonatomic, strong, nullable) NSString *overrideWithCodeVerifier;
 
+@property (nonatomic, strong, nullable) NSString *loginHint;
+
 - (instancetype)initWithAuthSession:(SFSDKAuthSession *)authSession;
 
 /** UpdateCredentials and record changes to instanceUrl,accessToken,communityId

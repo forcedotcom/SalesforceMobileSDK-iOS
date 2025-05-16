@@ -37,6 +37,7 @@
 		23A4C74E2D0CB68B00DF55EB /* NativeLoginManagerInternal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A4C74D2D0CB68B00DF55EB /* NativeLoginManagerInternal.swift */; };
 		23A4C74F2D0CB68B00DF55EB /* NativeLoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A4C74C2D0CB68B00DF55EB /* NativeLoginManager.swift */; };
 		23B2FDEC2DB03496006ADC07 /* NotificationCategoryFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B2FDE62DB03486006ADC07 /* NotificationCategoryFactory.swift */; };
+		23CAB1312DD515B500B8929B /* SFLoginViewController+Deep-Linking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23CAB1302DD515B500B8929B /* SFLoginViewController+Deep-Linking.swift */; };
 		444B95D01E83251900908C61 /* UIColor+SFColorsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 444B95CF1E83251900908C61 /* UIColor+SFColorsTests.m */; };
 		4F06AF731C49A16A00F70798 /* NSURL+SFStringUtilsTests.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F06AF5D1C49A16A00F70798 /* NSURL+SFStringUtilsTests.h */; };
 		4F06AF751C49A16A00F70798 /* SalesforceOAuthUnitTests.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F06AF5F1C49A16A00F70798 /* SalesforceOAuthUnitTests.h */; };
@@ -535,6 +536,7 @@
 		23A4C74C2D0CB68B00DF55EB /* NativeLoginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NativeLoginManager.swift; path = Login/NativeLoginManager.swift; sourceTree = "<group>"; };
 		23A4C74D2D0CB68B00DF55EB /* NativeLoginManagerInternal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NativeLoginManagerInternal.swift; path = Login/NativeLoginManagerInternal.swift; sourceTree = "<group>"; };
 		23B2FDE62DB03486006ADC07 /* NotificationCategoryFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCategoryFactory.swift; sourceTree = "<group>"; };
+		23CAB1302DD515B500B8929B /* SFLoginViewController+Deep-Linking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "SFLoginViewController+Deep-Linking.swift"; path = "Login/SFLoginViewController+Deep-Linking.swift"; sourceTree = "<group>"; };
 		444B95CF1E83251900908C61 /* UIColor+SFColorsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+SFColorsTests.m"; path = "SalesforceSDKCoreTests/UIColor+SFColorsTests.m"; sourceTree = SOURCE_ROOT; };
 		4F06AF5D1C49A16A00F70798 /* NSURL+SFStringUtilsTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSURL+SFStringUtilsTests.h"; path = "SalesforceSDKCoreTests/NSURL+SFStringUtilsTests.h"; sourceTree = SOURCE_ROOT; };
 		4F06AF5E1C49A16A00F70798 /* NSURL+SFStringUtilsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSURL+SFStringUtilsTests.m"; path = "SalesforceSDKCoreTests/NSURL+SFStringUtilsTests.m"; sourceTree = SOURCE_ROOT; };
@@ -1689,6 +1691,7 @@
 				E1C80CDD1C5AEBFA001B3A21 /* SFLoginViewController.h */,
 				E1C80CDE1C5AEBFA001B3A21 /* SFLoginViewController.m */,
 				69D03E252D2C6D0B004381EC /* SFLoginViewController+QrCodeLogin.swift */,
+				23CAB1302DD515B500B8929B /* SFLoginViewController+Deep-Linking.swift */,
 				E13950A21C53620B00575C03 /* LoginHost */,
 				B78C27B71FBCFFCB00742CD5 /* SFSDKLoginViewControllerConfig.h */,
 				B78C27B81FBCFFCB00742CD5 /* SFSDKLoginViewControllerConfig.m */,
@@ -2273,6 +2276,7 @@
 				23A4C74F2D0CB68B00DF55EB /* NativeLoginManager.swift in Sources */,
 				B7CD6D671F79CFC900F99F81 /* SFUserAccountManager+URLHandlers.m in Sources */,
 				69848CB62363FA3E00893E57 /* SFSDKPushNotificationError.m in Sources */,
+				23CAB1312DD515B500B8929B /* SFLoginViewController+Deep-Linking.swift in Sources */,
 				CE4CE39A1C0E5272009F6029 /* SFSDKAsyncProcessListener.m in Sources */,
 				B7A20F861F25850E00D1E4B0 /* SFSDKWindowContainer.m in Sources */,
 				B7FB26C41F78094A00FB25A2 /* SFSDKLoginFlowSelectionViewController.m in Sources */,
