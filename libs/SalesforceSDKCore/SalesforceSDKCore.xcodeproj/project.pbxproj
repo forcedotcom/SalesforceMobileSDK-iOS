@@ -73,6 +73,8 @@
 		4F7EB4AC1BFFCF0F00768720 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F7EB4A01BFFCEF600768720 /* main.m */; };
 		4F7EB4AD1BFFCF2300768720 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F7EB4A41BFFCEF600768720 /* ViewController.m */; };
 		4F8A3B012CEC202F00ECDC76 /* JwtAccessToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8A3B002CEC202F00ECDC76 /* JwtAccessToken.swift */; };
+		4F9E05322DD6A08000548985 /* SFSDKOAuthTokenEndpointResponseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F9E052C2DD6A06F00548985 /* SFSDKOAuthTokenEndpointResponseTests.m */; };
+		4F9E05342DD7BE1500548985 /* SFOAuthCredentialsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F9E05332DD7BE0A00548985 /* SFOAuthCredentialsTests.m */; };
 		4FE5332A1BFFE70600814D2A /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F7EB4981BFFCEF600768720 /* Main_iPad.storyboard */; };
 		4FE5332B1BFFE70600814D2A /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F7EB49A1BFFCEF600768720 /* Main_iPhone.storyboard */; };
 		6900B62C24B64DD800500923 /* NSURLResponse+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6900B62A24B64DD800500923 /* NSURLResponse+SFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -657,6 +659,8 @@
 		4F96FD471BFD32140022F021 /* SFSDKResourceUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKResourceUtils.m; sourceTree = "<group>"; };
 		4F96FD481BFD32140022F021 /* SFSDKWebUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKWebUtils.h; sourceTree = "<group>"; };
 		4F96FD491BFD32140022F021 /* SFSDKWebUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKWebUtils.m; sourceTree = "<group>"; };
+		4F9E052C2DD6A06F00548985 /* SFSDKOAuthTokenEndpointResponseTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKOAuthTokenEndpointResponseTests.m; sourceTree = "<group>"; };
+		4F9E05332DD7BE0A00548985 /* SFOAuthCredentialsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFOAuthCredentialsTests.m; sourceTree = "<group>"; };
 		4FEE438A1BFD488900F09C43 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		4FF945BD1BFFF47D005368C5 /* NSData+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+SFAdditions.h"; sourceTree = "<group>"; };
 		4FF945BE1BFFF47D005368C5 /* NSData+SFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+SFAdditions.m"; sourceTree = "<group>"; };
@@ -992,6 +996,8 @@
 		4F7EB3F61BFFC84700768720 /* SalesforceSDKCoreTests */ = {
 			isa = PBXGroup;
 			children = (
+				4F9E05332DD7BE0A00548985 /* SFOAuthCredentialsTests.m */,
+				4F9E052C2DD6A06F00548985 /* SFSDKOAuthTokenEndpointResponseTests.m */,
 				696D6C3D2DD7E0AD00138888 /* NewLoginHostTests.swift */,
 				238AA57F2D827AF80036667C /* PushNotificationManagerTests.swift */,
 				2394F4712D930C5400B9686A /* WebViewStateManagerTests.swift */,
@@ -2185,8 +2191,10 @@
 				69CEBC7E22F368CF00F16218 /* SFNetworkTests.m in Sources */,
 				4F7EB41B1BFFC8D700768720 /* SFSDKCryptoUtilsTests.m in Sources */,
 				69848CB82364035300893E57 /* SFSDKEncryptedPushNotificationTests.m in Sources */,
+				4F9E05322DD6A08000548985 /* SFSDKOAuthTokenEndpointResponseTests.m in Sources */,
 				4F06AF8D1C49A18E00F70798 /* SalesforceSDKManagerTests.m in Sources */,
 				4F06AF8F1C49A18E00F70798 /* SFOAuthSessionRefresherTests.m in Sources */,
+				4F9E05342DD7BE1500548985 /* SFOAuthCredentialsTests.m in Sources */,
 				CEB98EE31F86E7DC0083AB9C /* SFSDKURLHandlerManagerTest.m in Sources */,
 				CED452F01D808E0F009266EB /* SalesforceRestAPITests.m in Sources */,
 				2394F4722D930C5400B9686A /* WebViewStateManagerTests.swift in Sources */,

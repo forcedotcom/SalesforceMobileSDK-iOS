@@ -142,6 +142,8 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     credsIn.sidCookieName   = @"sid-cookie-name";
     credsIn.parentSid       = @"parent-sid";
     credsIn.tokenFormat     = @"token-format";
+    credsIn.beaconChildConsumerKey = @"beacon-child-consumer-key";
+    credsIn.beaconChildConsumerSecret = @"beacon-child-consumer-secret";
 
     credsIn.additionalOAuthFields = @{
         @"abc": @"def"
@@ -182,6 +184,8 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     XCTAssertEqualObjects(credsIn.sidCookieName,       credsOut.sidCookieName,       @"sidCookieName mismatch");
     XCTAssertEqualObjects(credsIn.parentSid,           credsOut.parentSid,           @"parentSid mismatch");
     XCTAssertEqualObjects(credsIn.tokenFormat,         credsOut.tokenFormat,         @"tokenFormat mismatch");
+    XCTAssertEqualObjects(credsIn.beaconChildConsumerKey,    credsOut.beaconChildConsumerKey,    @"beaconChildConsumerKey mismatch");
+    XCTAssertEqualObjects(credsIn.beaconChildConsumerSecret, credsOut.beaconChildConsumerSecret, @"beaconChildConsumerSecret mismatch");
     XCTAssertEqualObjects(credsIn.additionalOAuthFields, credsOut.additionalOAuthFields, @"additionalFields mismatch");
     
     credsIn = nil;
@@ -212,6 +216,8 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     NSString *sidCookieNameToCheck = @"sid-cookie-name";
     NSString *parentSidToCheck = @"parent-sid";
     NSString *tokenFormatToCheck = @"token-format";
+    NSString *beaconChildConsumerKeyCheck = @"beacon-child-consumer-key";
+    NSString *beaconChildConsumerSecretCheck = @"beacon-child-consumer-secret";
     NSDictionary *additionalFieldsToCheck = @{ @"field1": @"field1Val" };
     
     SFOAuthCredentials *origCreds = [[SFOAuthCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
@@ -236,7 +242,9 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     origCreds.sidCookieName = sidCookieNameToCheck;
     origCreds.parentSid = parentSidToCheck;
     origCreds.tokenFormat = tokenFormatToCheck;
-    
+    origCreds.beaconChildConsumerKey = beaconChildConsumerKeyCheck;
+    origCreds.beaconChildConsumerSecret = beaconChildConsumerSecretCheck;
+
     // NB: Intentionally ordering the setting of these, because setting the identity URL automatically
     // sets the OrgID and UserID.  This ensures the values stay in sync.
     origCreds.identityUrl = identityUrlToCheck;
@@ -271,6 +279,8 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     origCreds.sidCookieName = nil;
     origCreds.parentSid = nil;
     origCreds.tokenFormat = nil;
+    origCreds.beaconChildConsumerKey = nil;
+    origCreds.beaconChildConsumerSecret = nil;
     origCreds.additionalOAuthFields = nil;
     
     XCTAssertNotEqual(origCreds, copiedCreds);
@@ -296,6 +306,10 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     XCTAssertEqual(origCreds.csrfToken, copiedCreds.csrfToken);
     XCTAssertNotEqual(copiedCreds.parentSid, parentSidToCheck);
     XCTAssertEqual(origCreds.parentSid, copiedCreds.parentSid);
+    XCTAssertNotEqual(copiedCreds.beaconChildConsumerKey, beaconChildConsumerKeyCheck);
+    XCTAssertEqual(origCreds.beaconChildConsumerKey, copiedCreds.beaconChildConsumerKey);
+    XCTAssertNotEqual(copiedCreds.beaconChildConsumerSecret, beaconChildConsumerSecretCheck);
+    XCTAssertEqual(origCreds.beaconChildConsumerSecret, copiedCreds.beaconChildConsumerSecret);
 
     XCTAssertEqual(copiedCreds.organizationId, orgIdToCheck);
     XCTAssertNotEqual(origCreds.organizationId, copiedCreds.organizationId);
