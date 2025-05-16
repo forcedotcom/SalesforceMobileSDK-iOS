@@ -44,38 +44,6 @@ typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nul
 typedef void (^SFRestCompositeResponseBlock) (SFSDKCompositeResponse *response, NSURLResponse * _Nullable rawResponse) NS_SWIFT_NAME(RestCompositeResponseBlock);
 typedef void (^SFRestBatchResponseBlock) (SFSDKBatchResponse *response, NSURLResponse * _Nullable rawResponse) NS_SWIFT_NAME(RestBatchResponseBlock);
 
-/** Creates an error object with the given description.
- @param description Description
- */
-+ (NSError *)errorWithDescription:(NSString *)description;
-
-/**
- * Sends a request you've already built, using blocks to return status.
- *
- * @param request SFRestRequest to be sent.
- * @param failureBlock Block to be executed when the request fails (timeout, cancel, or error).
- * @param successBlock Block to be executed when the request successfully completes.
- */
-- (void) sendRequest:(SFRestRequest *)request failureBlock:(SFRestRequestFailBlock)failureBlock successBlock:(SFRestResponseBlock)successBlock NS_REFINED_FOR_SWIFT;
-
-/**
- * Sends a request you've already built, using blocks to return status.
- *
- * @param request Composite request to be sent.
- * @param failureBlock Block to be executed when the request fails (timeout, cancel, or error).
- * @param successBlock Block to be executed when the request successfully completes.
- */
-- (void) sendCompositeRequest:(SFSDKCompositeRequest *)request failureBlock:(SFRestRequestFailBlock)failureBlock successBlock:(SFRestCompositeResponseBlock)successBlock NS_REFINED_FOR_SWIFT;
-
-/**
- * Sends a request you've already built, using blocks to return status.
- *
- * @param request Batch request to be sent.
- * @param failureBlock Block to be executed when the request fails (timeout, cancel, or error).
- * @param successBlock Block to be executed when the request successfully completes.
- */
-- (void) sendBatchRequest:(SFSDKBatchRequest *)request failureBlock:(SFRestRequestFailBlock)failureBlock successBlock:(SFRestBatchResponseBlock)successBlock NS_REFINED_FOR_SWIFT;
-
 @end
 
 NS_ASSUME_NONNULL_END

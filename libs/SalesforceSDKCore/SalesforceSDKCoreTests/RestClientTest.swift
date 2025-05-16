@@ -657,6 +657,72 @@ class RestClientTests: XCTestCase {
         }
     }
     
+    func testSendCompositeRequest_ThrowsOnInvalidResponseFormat() async {
+        // Arrange: create a composite request with one valid subrequest
+        let builder = CompositeRequestBuilder()
+        let dummyRequest = RestRequest(method: .GET, path: "/dummy", queryParams: nil)
+        let composite = builder
+            .add(dummyRequest, referenceId: "ref1")
+            .buildCompositeRequest("v56.0")
+
+        // Inject mock client with bad response
+        let mockClient = MockRestClient()
+        mockClient.jsonResponse = """
+            [ { "shouldBe": "a dictionary" } ]
+        """.data(using: .utf8)! // Invalid top-level type
+        
+        // Act + Assert
+        do {
+            _ = try await mockClient.send(compositeRequest: composite)
+            XCTFail("Expected an error for invalid response format")
+        } catch let error as RestClientError {
+            switch error {
+            case .apiFailed(_, let underlyingError, _):
+                let nsError = underlyingError as NSError
+                XCTAssertEqual(nsError.localizedDescription, "CompositeResponse format invalid")
+                XCTAssertEqual(nsError.domain, "API Error")
+                XCTAssertEqual(nsError.code, 42)
+            default:
+                XCTFail("Unexpected RestClientError case: \(error)")
+            }
+        } catch {
+            XCTFail("Unexpected error: \(error)")
+        }
+    }
+    
+    func testSendBatchRequest_ThrowsOnInvalidResponseFormat() async {
+        // Arrange: create a composite request with one valid subrequest
+        let builder = BatchRequestBuilder()
+        let dummyRequest = RestRequest(method: .GET, path: "/dummy", queryParams: nil)
+        let batch = builder
+            .add(dummyRequest)
+            .buildBatchRequest("v56.0")
+
+        // Inject mock client with bad response
+        let mockClient = MockRestClient()
+        mockClient.jsonResponse = """
+            [ { "shouldBe": "a dictionary" } ]
+        """.data(using: .utf8)! // Invalid top-level type
+        
+        // Act + Assert
+        do {
+            _ = try await mockClient.send(batchRequest: batch)
+            XCTFail("Expected an error for invalid response format")
+        } catch let error as RestClientError {
+            switch error {
+            case .apiFailed(_, let underlyingError, _):
+                let nsError = underlyingError as NSError
+                XCTAssertEqual(nsError.localizedDescription, "BatchResponse format invalid")
+                XCTAssertEqual(nsError.domain, "API Error")
+                XCTAssertEqual(nsError.code, 42)
+            default:
+                XCTFail("Unexpected RestClientError case: \(error)")
+            }
+        } catch {
+            XCTFail("Unexpected error: \(error)")
+        }
+    }
+    
     private func generateRecordName() -> String {
         let timecode = Date.timeIntervalSinceReferenceDate
         return "SwiftTestsiOS\(timecode)"
