@@ -32,10 +32,10 @@
 #import "SalesforceSDKManager.h"
 #import "NSData+SFAdditions.h"
 #import "SFRestAPI+Blocks.h"
+#import "SalesforceSDKCore/SalesforceSDKCore-Swift.h"
 
 static NSString* const kCode = @"code";
 static NSString* const kAiltn = @"ailtn";
-static NSString* const kSchemaTypeKey = @"schemaType";
 static NSString* const kData = @"data";
 static NSString* const kLogLines = @"logLines";
 static NSString* const kPayload = @"payload";
