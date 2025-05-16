@@ -80,7 +80,7 @@ struct NewLoginHostView: View {
         }
     }
     
-    func save() {
+    func save(host: String, hostLabel: String) {
         var hostToSave = host.trimmingCharacters(in: .whitespaces)
         if hostToSave.contains("://"),
            let components = URLComponents(string: hostToSave) {
@@ -117,7 +117,7 @@ struct NewLoginHostView: View {
         .toolbar {
             ToolbarItemGroup(placement: .topBarTrailing) {
                 Button {
-                    save()
+                    save(host: host, hostLabel: hostLabel)
                 } label: {
                     Text(SFSDKResourceUtils.localizedString("DONE_BUTTON")).bold()
                 }
