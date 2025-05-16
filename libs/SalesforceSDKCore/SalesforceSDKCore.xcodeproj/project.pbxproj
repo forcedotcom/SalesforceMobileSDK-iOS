@@ -86,6 +86,7 @@
 		695E86BA29EF8D6E002BDEA6 /* SFSDKIDPAuthCodeLoginRequestCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 695E86B829EF8D6E002BDEA6 /* SFSDKIDPAuthCodeLoginRequestCommand.m */; };
 		695E86BD29EF9312002BDEA6 /* SFSDKIDPAuthCodeLoginRequestHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 695E86BB29EF9312002BDEA6 /* SFSDKIDPAuthCodeLoginRequestHandler.h */; };
 		695E86BE29EF9312002BDEA6 /* SFSDKIDPAuthCodeLoginRequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 695E86BC29EF9312002BDEA6 /* SFSDKIDPAuthCodeLoginRequestHandler.m */; };
+		696D6C3E2DD7E0AD00138888 /* NewLoginHostTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696D6C3D2DD7E0AD00138888 /* NewLoginHostTests.swift */; };
 		696E91472AD0A14A00205884 /* BiometricAuthenticationManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696E91452AD0A14A00205884 /* BiometricAuthenticationManagerTests.swift */; };
 		696E91482AD0A14A00205884 /* ScreenLockManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 696E91462AD0A14A00205884 /* ScreenLockManagerTests.m */; };
 		696E914A2AD0A68600205884 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 696E91492AD0A68600205884 /* PrivacyInfo.xcprivacy */; };
@@ -681,6 +682,7 @@
 		695E86B829EF8D6E002BDEA6 /* SFSDKIDPAuthCodeLoginRequestCommand.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKIDPAuthCodeLoginRequestCommand.m; sourceTree = "<group>"; };
 		695E86BB29EF9312002BDEA6 /* SFSDKIDPAuthCodeLoginRequestHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKIDPAuthCodeLoginRequestHandler.h; sourceTree = "<group>"; };
 		695E86BC29EF9312002BDEA6 /* SFSDKIDPAuthCodeLoginRequestHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKIDPAuthCodeLoginRequestHandler.m; sourceTree = "<group>"; };
+		696D6C3D2DD7E0AD00138888 /* NewLoginHostTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NewLoginHostTests.swift; path = SalesforceSDKCoreTests/NewLoginHostTests.swift; sourceTree = SOURCE_ROOT; };
 		696E91452AD0A14A00205884 /* BiometricAuthenticationManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BiometricAuthenticationManagerTests.swift; path = SalesforceSDKCoreTests/BiometricAuthenticationManagerTests.swift; sourceTree = SOURCE_ROOT; };
 		696E91462AD0A14A00205884 /* ScreenLockManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ScreenLockManagerTests.m; path = SalesforceSDKCoreTests/ScreenLockManagerTests.m; sourceTree = SOURCE_ROOT; };
 		696E91492AD0A68600205884 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
@@ -982,6 +984,7 @@
 		4F7EB3F61BFFC84700768720 /* SalesforceSDKCoreTests */ = {
 			isa = PBXGroup;
 			children = (
+				696D6C3D2DD7E0AD00138888 /* NewLoginHostTests.swift */,
 				23A4C7472D0CAFCF00DF55EB /* JwtAccessTokenTests.swift */,
 				23A4C7482D0CAFCF00DF55EB /* NativeLoginManagerTests.swift */,
 				23A4C7452D0CAFA000DF55EB /* ScreenLockManagerTests.swift */,
@@ -2128,6 +2131,7 @@
 				6975869F23296D7500574148 /* SFSDKURLCacheTests.m in Sources */,
 				4F06AF911C49A18E00F70798 /* SFOAuthTestFlowCoordinatorDelegate.m in Sources */,
 				6931EA49248F000600417362 /* SFUserIdUpgradeTests.m in Sources */,
+				696D6C3E2DD7E0AD00138888 /* NewLoginHostTests.swift in Sources */,
 				CEB98EE21F86E7D70083AB9C /* SFSDKIDPLoginRequestCommandTest.m in Sources */,
 				B7E1A50E1F43B0FE007AC36A /* SFSDKWindowManagerTests.m in Sources */,
 				4F06AF8A1C49A18E00F70798 /* SalesforceOAuthUnitTests.m in Sources */,
