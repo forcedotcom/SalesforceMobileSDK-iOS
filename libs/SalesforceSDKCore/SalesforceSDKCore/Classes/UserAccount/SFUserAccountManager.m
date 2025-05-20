@@ -551,7 +551,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
                             codeVerifier:codeVerifier];
 }
 
-- (SFSDKAuthRequest *)defaultAuthRequestWithLoginHost:(nullable NSString *)loginHost {
+-(SFSDKAuthRequest *)defaultAuthRequestWithLoginHost:(nullable NSString *)loginHost {
     SFSDKAuthRequest *request = [[SFSDKAuthRequest alloc] init];
     request.loginHost = loginHost != nil ? loginHost : self.loginHost;
     request.additionalOAuthParameterKeys = self.additionalOAuthParameterKeys;

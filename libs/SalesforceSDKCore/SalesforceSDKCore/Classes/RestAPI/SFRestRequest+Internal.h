@@ -23,6 +23,7 @@
  */
 
 #import "SFRestRequest.h"
+#import "SFRestAPI+Blocks.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SFRestRequest ()
@@ -32,6 +33,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, copy) NSDictionary *requestBodyAsDictionary;
 @property (nullable, nonatomic, copy) NSString *requestContentType;
 @property (nullable, nonatomic, strong) id<SFRestRequestDelegate> instrumentationDelegateInternal;
+
+@property (nonatomic, copy, nullable) SFRestRequestFailBlock failureBlock;
+@property (nonatomic, copy, nullable) SFRestResponseBlock successBlock;
+
 
 + (nonnull NSString *)restUrlForBaseUrl:(nullable NSString *)baseUrl serviceHostType:(SFSDKRestServiceHostType)hostType credentials:(nonnull SFOAuthCredentials *)credentials;
 + (NSString *)toQueryString:(nullable NSDictionary *)components;

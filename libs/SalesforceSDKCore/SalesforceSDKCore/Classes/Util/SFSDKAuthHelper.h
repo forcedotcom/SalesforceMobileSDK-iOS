@@ -75,7 +75,7 @@ NS_SWIFT_NAME(AuthHelper)
 /**
  Initiate a login flow if the user is not already logged in to Salesforce and if the app config's
  `shouldAuthenticate` flag is set to false.
-
+ 
  @param scene Scene that login is initiated for.
  @param loginHint Optional login hint to pre-fill the username field.
  @param loginHost Optional login host URL to use for authentication.
