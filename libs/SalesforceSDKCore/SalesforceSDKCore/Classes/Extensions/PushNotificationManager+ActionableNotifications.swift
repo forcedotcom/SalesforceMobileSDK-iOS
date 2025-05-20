@@ -141,7 +141,15 @@ internal extension PushNotificationManager {
     }
     
     func setNotificationCategories(types: [NotificationType]) {
-        let categories = types
+        
+        let filterTypes: [NotificationType]
+        if let filter = UserAccountManager.shared.filterSupportedNotificationTypes {
+            filterTypes = filter(types)
+        } else {
+            filterTypes = types
+        }
+        
+        let categories = filterTypes
             .flatMap { createNotificationCategories(from: $0) }
         UNUserNotificationCenter.current().setNotificationCategories(Set(categories))
     }
