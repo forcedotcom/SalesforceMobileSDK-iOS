@@ -553,7 +553,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 
 -(SFSDKAuthRequest *)defaultAuthRequestWithLoginHost:(nullable NSString *)loginHost {
     SFSDKAuthRequest *request = [[SFSDKAuthRequest alloc] init];
-    request.loginHost = loginHost != nil ? loginHost : self.loginHost;;
+    request.loginHost = loginHost != nil ? loginHost : self.loginHost;
     request.additionalOAuthParameterKeys = self.additionalOAuthParameterKeys;
     request.loginViewControllerConfig = self.loginViewControllerConfig;
     request.brandLoginPath = self.brandLoginPath;
