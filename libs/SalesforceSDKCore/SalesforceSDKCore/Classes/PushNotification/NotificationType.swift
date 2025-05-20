@@ -25,6 +25,21 @@ public class NotificationType: NSObject, Codable {
         self.actionGroups = actionGroups
     }
     
+    /** Creates a new NotificationType with only the specified actions
+     * - Parameter allowedActionNames: Set of action names to keep
+     * - Returns: A new NotificationType with filtered actions
+     **/
+    @objc
+    public func filteredCopy(keepingActions allowedActionNames: Set<String>) -> NotificationType {
+        let filteredGroups = actionGroups?.map { group in
+            let filteredActions = group.actions.filter { action in
+                allowedActionNames.contains(action.name)
+            }
+            return ActionGroup(name: group.name, actions: filteredActions)
+        }
+        return NotificationType(type: type, apiName: apiName, label: label, actionGroups: filteredGroups)
+    }
+    
     @objc public class func from(jsonData: Data) -> [NotificationType] {
         let decoder = JSONDecoder()
         do {

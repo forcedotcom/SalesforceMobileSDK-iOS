@@ -729,6 +729,83 @@ class PushNotificationManagerTests: XCTestCase {
         
         wait(for: [expectation], timeout: 1.0)
     }
+
+    func testSetNotificationCategories_WithActionFilter() {
+        // Given
+        let mockTypes = [
+            NotificationType(type: "approval_type", apiName: "approval_type", label: "Approval Type", actionGroups: [
+                ActionGroup(name: "approval_actions", actions: [
+                    Action(name: "approve", identifier: "approval_actions__approve", label: "Approve", type: .notificationApiAction),
+                    Action(name: "deny", identifier: "approval_actions__deny", label: "Deny", type: .notificationApiAction),
+                    Action(name: "delegate", identifier: "approval_actions__delegate", label: "Delegate", type: .notificationApiAction)
+                ])
+            ])
+        ]
+        
+        // When
+        UserAccountManager.shared.filterSupportedNotificationTypes = { types in
+            return types.map { type in
+                // Use the helper method to filter actions
+                return type.filteredCopy(keepingActions: ["approve", "deny"])
+            }
+        }
+        pushNotificationManager.setNotificationCategories(types: mockTypes)
+        
+        // Then
+        let expectation = XCTestExpectation(description: "Get notification categories")
+        UNUserNotificationCenter.current().getNotificationCategories { categories in
+
+            XCTAssertEqual(categories.count, 1, "Should register one category")
+            
+            let category = categories.first
+            XCTAssertEqual(category?.identifier, "approval_actions", "Category identifier should match")
+            XCTAssertEqual(category?.actions.count, 2, "Should have only approve and deny actions")
+            
+            let approveAction = category?.actions.first { $0.identifier == "approval_actions__approve" }
+            XCTAssertNotNil(approveAction, "Should have approve action")
+            XCTAssertEqual(approveAction?.title, "Approve", "Action title should match")
+            
+            let denyAction = category?.actions.first { $0.identifier == "approval_actions__deny" }
+            XCTAssertNotNil(denyAction, "Should have deny action")
+            XCTAssertEqual(denyAction?.title, "Deny", "Action title should match")
+            
+            let delegateAction = category?.actions.first { $0.identifier == "approval_actions__delegate" }
+            XCTAssertNil(delegateAction, "Should not have delegate action")
+            
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 1.0)
+    }
+
+    func testNotificationTypeFilteredCopy() {
+        // Given
+        let originalType = NotificationType(type: "test_type", apiName: "test_type", label: "Test Type", actionGroups: [
+            ActionGroup(name: "test_group", actions: [
+                Action(name: "action1", identifier: "test_group__action1", label: "Action 1", type: .notificationApiAction),
+                Action(name: "action2", identifier: "test_group__action2", label: "Action 2", type: .notificationApiAction),
+                Action(name: "action3", identifier: "test_group__action3", label: "Action 3", type: .notificationApiAction)
+            ])
+        ])
+        
+        // When
+        let filteredType = originalType.filteredCopy(keepingActions: ["action1", "action3"])
+        
+        // Then
+        XCTAssertEqual(filteredType.type, originalType.type, "Type should be preserved")
+        XCTAssertEqual(filteredType.apiName, originalType.apiName, "API name should be preserved")
+        XCTAssertEqual(filteredType.label, originalType.label, "Label should be preserved")
+        
+        // Verify action groups
+        XCTAssertEqual(filteredType.actionGroups?.count, 1, "Should have one action group")
+        let filteredGroup = filteredType.actionGroups?.first
+        XCTAssertEqual(filteredGroup?.name, "test_group", "Group name should be preserved")
+        
+        // Verify actions
+        XCTAssertEqual(filteredGroup?.actions.count, 2, "Should have two actions")
+        let actionNames = filteredGroup?.actions.map { $0.name }
+        XCTAssertEqual(actionNames, ["action1", "action3"], "Should only keep specified actions")
+    }
 }
 
 class NotificationCategoryFactoryTests: XCTestCase {
