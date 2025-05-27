@@ -113,6 +113,19 @@ extension RestClient {
         var records: [Record]?
     }
     
+    /// Sends a URLRequest
+    /// - Parameter urlRequest: The URLRequest to send
+    /// - Returns: A RestResponse containing the response data and metadata
+    /// - Throws: A RestClientError if the request fails
+    @objc(sendURLRequest:completion:)
+    public func send(urlRequest: URLRequest) async throws -> (Data, URLResponse) {
+        guard let restRequest = urlRequest.toRestRequest() else {
+            throw RestClientError.invalidRequest("Request is not a query request.")
+        }
+        let response = try await send(request: restRequest)
+        return (response.data, response.urlResponse)
+    }
+    
     /// Execute a prebuilt request.
     /// - Parameter request: The `RestRequest` object containing the request details.
     /// - Returns: A `RestResponse` object containing the response data and metadata.
