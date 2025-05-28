@@ -120,7 +120,7 @@ extension RestClient {
     @objc(sendURLRequest:completion:)
     public func send(urlRequest: URLRequest) async throws -> (Data, URLResponse) {
         guard let restRequest = urlRequest.toRestRequest() else {
-            throw RestClientError.invalidRequest("Request is not a query request.")
+            throw RestClientError.invalidRequest("Request is not a valid MSDK REST request.")
         }
         let response = try await send(request: restRequest)
         return (response.data, response.urlResponse)
