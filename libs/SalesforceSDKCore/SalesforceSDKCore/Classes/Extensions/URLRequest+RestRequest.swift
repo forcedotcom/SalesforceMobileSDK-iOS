@@ -30,7 +30,8 @@ extension URLRequest {
     
     /// Converts a URLRequest to an SFRestRequest
     /// - Returns: A new SFRestRequest instance populated with the URLRequest's properties
-    public func toRestRequest() -> RestRequest? {
+    public func toRestRequest(_ networkServiceType: RestRequest.NetWorkServiceType = RestRequest.NetWorkServiceType.SFNetworkServiceTypeDefault,
+                              _ requiresAuthentication: Bool = true) -> RestRequest? {
         guard let url = self.url else { return nil }
         
         let path = url.path
@@ -61,6 +62,8 @@ extension URLRequest {
         }
         
         request.endpoint = url.path
+        request.networkServiceType = networkServiceType
+        request.requiresAuthentication = requiresAuthentication
         return request
     }
 }
