@@ -42,6 +42,8 @@ extern NSString * _Nonnull const kSFOAuthServiceVfSid;
 extern NSString * _Nonnull const kSFOAuthServiceContentSid;
 extern NSString * _Nonnull const kSFOAuthServiceCsrf;
 extern NSString * _Nonnull const kSFOAuthServiceParentSid;
+extern NSString * _Nonnull const kSFOAuthServiceBeaconChildConsumerKey;
+extern NSString * _Nonnull const kSFOAuthServiceBeaconChildConsumerSecret;
 
 extern NSException * _Nullable SFOAuthInvalidIdentifierException(void);
 
@@ -78,7 +80,8 @@ extern NSException * _Nullable SFOAuthInvalidIdentifierException(void);
 @property (nonatomic, readwrite, nullable) NSString *sidCookieName;
 @property (nonatomic, readwrite, nullable) NSString *parentSid;
 @property (nonatomic, readwrite, nullable) NSString *tokenFormat;
-
+@property (nonatomic, readwrite, nullable) NSString *beaconChildConsumerKey;
+@property (nonatomic, readwrite, nullable) NSString *beaconChildConsumerSecret;
 
 - (void)setPropertyForKey:(NSString *_Nonnull) key withValue:(id _Nullable ) newValue;
 

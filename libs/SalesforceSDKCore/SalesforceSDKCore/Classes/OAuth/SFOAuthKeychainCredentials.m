@@ -106,6 +106,21 @@
     [self encryptToken:sid forService:kSFOAuthServiceParentSid];
 }
 
+- (NSString *)beaconChildConsumerKey {
+    return [self decryptedTokenForService:kSFOAuthServiceBeaconChildConsumerKey];
+}
+
+- (void)setBeaconChildConsumerKey:(NSString *)key {
+    [self encryptToken:key forService:kSFOAuthServiceBeaconChildConsumerKey];
+}
+
+- (NSString *)beaconChildConsumerSecret {
+    return [self decryptedTokenForService:kSFOAuthServiceBeaconChildConsumerSecret];
+}
+
+- (void)setBeaconChildConsumerSecret:(NSString *)secret {
+    [self encryptToken:secret forService:kSFOAuthServiceBeaconChildConsumerSecret];
+}
 
 #pragma mark - Private Keychain Methods
 - (NSData *)tokenForService:(NSString *)service

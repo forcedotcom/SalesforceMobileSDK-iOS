@@ -381,6 +381,13 @@ NS_SWIFT_NAME(UserAccountManager)
 @property (class,nonatomic,readonly) SFUserAccountManager *sharedInstance NS_SWIFT_NAME(shared);
 
 /**
+ * Use this to provide a custom filter for supported notification types.
+ * The app can use this to return only the notification types it supports,
+ * so that unsupported types are not registered with the system.
+ */
+@property (nonatomic, copy, nullable) NSArray<NotificationType*>* (^filterSupportedNotificationTypes)(NSArray<NotificationType*>* notificationTypes);
+
+/**
  Adds a delegate to this user account manager.
  @param delegate The delegate to add.
  */

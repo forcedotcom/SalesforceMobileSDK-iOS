@@ -37,6 +37,8 @@ NSString * const kSFOAuthServiceVfSid           = @"com.salesforce.mobilesdk.oau
 NSString * const kSFOAuthServiceContentSid      = @"com.salesforce.mobilesdk.oauth.contentSid";
 NSString * const kSFOAuthServiceCsrf            = @"com.salesforce.mobilesdk.oauth.csrf";
 NSString * const kSFOAuthServiceParentSid       = @"com.salesforce.mobilesdk.oauth.parentSid";
+NSString * const kSFOAuthServiceBeaconChildConsumerKey    = @"com.salesforce.mobilesdk.oauth.beaconChildConsumerKey";
+NSString * const kSFOAuthServiceBeaconChildConsumerSecret = @"com.salesforce.mobilesdk.oauth.beaconChildConsumerSecret";
 
 NSString * const kSFOAuthServiceLegacyAccess    = @"com.salesforce.oauth.access";
 NSString * const kSFOAuthServiceLegacyRefresh   = @"com.salesforce.oauth.refresh";
@@ -121,6 +123,8 @@ NSException * SFOAuthInvalidIdentifierException(void) {
                 self.contentSid  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthContentSID"];
                 self.csrfToken  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthCSRFToken"];
                 self.parentSid = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthParentSID"];
+                self.beaconChildConsumerKey  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthBeaconChildConsumerKey"];
+                self.beaconChildConsumerSecret  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthBeaconChildConsumerSecret"];
             }
         }
     } else {
@@ -217,6 +221,8 @@ NSException * SFOAuthInvalidIdentifierException(void) {
     copyCreds.sidCookieName = self.sidCookieName;
     copyCreds.parentSid = self.parentSid;
     copyCreds.tokenFormat = self.tokenFormat;
+    copyCreds.beaconChildConsumerKey = self.beaconChildConsumerKey;
+    copyCreds.beaconChildConsumerSecret = self.beaconChildConsumerSecret;
     copyCreds.additionalOAuthFields = [self.additionalOAuthFields copy];
     return copyCreds;
 }
@@ -327,6 +333,8 @@ NSException * SFOAuthInvalidIdentifierException(void) {
     self.sidCookieName = nil;
     self.parentSid = nil;
     self.tokenFormat = nil;
+    self.beaconChildConsumerKey = nil;
+    self.beaconChildConsumerSecret = nil;
 }
 
 - (void)setPropertyForKey:(NSString *) propertyName withValue:(id) newValue {
@@ -426,7 +434,16 @@ NSException * SFOAuthInvalidIdentifierException(void) {
     if (params[kSFOAuthTokenFormat]) {
         self.tokenFormat = params[kSFOAuthTokenFormat];
     }
+    if (params[kSFOAuthBeaconChildConsumerKey]) {
+        self.beaconChildConsumerKey = params[kSFOAuthBeaconChildConsumerKey];
+    }
+    if (params[kSFOAuthBeaconChildConsumerSecret]) {
+        self.beaconChildConsumerSecret = params[kSFOAuthBeaconChildConsumerSecret];
+    }
+}
 
+- (NSString*)getClientIdForRefresh {
+    return self.beaconChildConsumerKey.length != 0 ? self.beaconChildConsumerKey : self.clientId;
 }
 
 @end
