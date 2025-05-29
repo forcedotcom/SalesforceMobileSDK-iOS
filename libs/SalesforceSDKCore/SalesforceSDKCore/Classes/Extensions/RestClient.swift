@@ -113,6 +113,23 @@ extension RestClient {
         var records: [Record]?
     }
     
+    /// Sends a URLRequest
+    /// - Parameter urlRequest: The URLRequest to send
+    /// - Parameter networkServiceType: Specify a service type or use the default.
+    /// - Parameter requiresAuthentication: Specify requires auth, default to true.
+    /// - Returns: A RestResponse containing the response data and metadata
+    /// - Throws: A RestClientError if the request fails
+    @objc(sendURLRequest:networkServiceType:requiresAuthentication:completion:)
+    public func send(urlRequest: URLRequest,
+                     networkServiceType: RestRequest.NetWorkServiceType = RestRequest.NetWorkServiceType.SFNetworkServiceTypeDefault,
+                     requiresAuthentication: Bool = true) async throws -> (Data, URLResponse) {
+        guard let restRequest = urlRequest.toRestRequest(networkServiceType, requiresAuthentication) else {
+            throw RestClientError.invalidRequest("Request is not a valid MSDK REST request.")
+        }
+        let response = try await send(request: restRequest)
+        return (response.data, response.urlResponse)
+    }
+    
     /// Execute a prebuilt request.
     /// - Parameter request: The `RestRequest` object containing the request details.
     /// - Returns: A `RestResponse` object containing the response data and metadata.

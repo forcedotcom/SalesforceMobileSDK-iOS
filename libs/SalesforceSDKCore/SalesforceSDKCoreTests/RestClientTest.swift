@@ -690,6 +690,54 @@ class RestClientTests: XCTestCase {
         }
     }
     
+    func testSendURLRequestSuccess() async throws {
+        // Given
+        let request = URLRequest(url: URL(string: "https://test.salesforce.com")!)
+        
+        // When
+        let (data, response) = try await RestClient.shared.send(urlRequest: request)
+        
+        // Then
+        XCTAssertNotNil(data, "Response data should not be nil")
+        XCTAssertEqual((response as? HTTPURLResponse)?.statusCode, 200)
+    }
+    
+    func testSendURLRequestNetworkError() async {
+        // Given
+        let request = URLRequest(url: URL(string: "https://invalid.salesforce.com")!)
+        
+        // When/Then
+        do {
+            _ = try await RestClient.shared.send(urlRequest: request)
+            XCTFail("Expected error to be thrown")
+        } catch {
+            // Verify it's a RestClientError
+            XCTAssertTrue(error is RestClientError, "Error should be RestClientError")
+        }
+    }
+    
+    func testSendURLRequestHTTPError() async {
+        // Given
+        let request = URLRequest(url: URL(string: "https://test.salesforce.com/services/data/v56.0/sobjects/InvalidObject")!)
+        
+        // When/Then
+        do {
+            _ = try await RestClient.shared.send(urlRequest: request)
+            XCTFail("Expected error to be thrown")
+        } catch let error as RestClientError {
+            switch error {
+            case .apiFailed(_, let underlyingError, let urlResponse):
+                XCTAssertNotNil(underlyingError, "Underlying error should not be nil")
+                XCTAssertNotNil(urlResponse, "URL response should not be nil")
+                XCTAssertEqual((urlResponse as? HTTPURLResponse)?.statusCode, 400)
+            default:
+                XCTFail("Unexpected error type: \(error)")
+            }
+        } catch {
+            XCTFail("Unexpected error: \(error)")
+        }
+    }
+    
     func testSendBatchRequest_ThrowsOnInvalidResponseFormat() async {
         // Arrange: create a composite request with one valid subrequest
         let builder = BatchRequestBuilder()
