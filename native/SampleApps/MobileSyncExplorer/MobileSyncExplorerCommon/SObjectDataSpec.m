@@ -23,7 +23,8 @@
  */
 
 #import "SObjectDataSpec.h"
-#import <MobileSync/SFMobileSyncSyncManager.h>
+
+@import MobileSync;
 
 NSString * const kSObjectIdField = @"Id";
 

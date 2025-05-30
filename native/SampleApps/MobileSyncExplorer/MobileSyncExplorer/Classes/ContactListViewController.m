@@ -25,10 +25,9 @@
 #import "ContactListViewController.h"
 #import "ActionsPopupController.h"
 #import "ContactDetailViewController.h"
-#import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
-#import <SalesforceSDKCore/SFUserAccountManager.h>
-#import <SalesforceSDKCore/SalesforceSDKManager.h>
-#import <SmartStore/SFSmartStoreInspectorViewController.h>
+
+@import SalesforceSDKCore;
+@import SmartStore;
 
 static NSString * const kNavBarTitleText                = @"Contacts";
 static NSUInteger const kNavBarTintColor                = 0xf10000;
