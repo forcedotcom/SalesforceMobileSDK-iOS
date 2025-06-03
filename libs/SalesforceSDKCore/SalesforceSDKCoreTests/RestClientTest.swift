@@ -777,3 +777,52 @@ class RestClientTests: XCTestCase {
     }
     
 }
+
+final class RestClientWebSocketTests: XCTestCase {
+
+    // Dummy delegate to satisfy the WebSocket call
+    class DummyWebSocketDelegate: NSObject, URLSessionWebSocketDelegate {}
+
+    func testNewWebSocketFromURLRequest() {
+        // Given
+        let request = RestRequest(method: .GET,
+                                  serviceHostType: .login,
+                                  path: "/a",
+                                  queryParams: nil)
+        
+        
+        guard let urlRequest = request.prepare(forSend: RestClient.shared.userAccount) else {
+            XCTFail("Failed to prepare URLRequest from RestRequest")
+            return
+        }
+
+        // When
+        let socket = RestClient.shared.newWebSocket(
+            from: urlRequest,
+            delegate: DummyWebSocketDelegate()
+        )
+        socket.resume()
+
+        // Then
+        XCTAssertNotNil(socket, "WebSocket should not be nil")
+        XCTAssertEqual(socket.state, .running, "WebSocket should be in running state after resume")
+
+        // Cleanup
+        socket.cancel(with: .goingAway, reason: nil)
+    }
+    
+    func testNewWebSocketAppliesCustomAuthToken() {
+        // Given
+        let token = "test.jwt.token"
+        var request = URLRequest(url: URL(string: "wss://example.com")!)
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+
+        // When
+        let socket = RestClient.shared.newWebSocket(from: request, delegate: DummyWebSocketDelegate())
+        socket.resume()
+
+        // Then
+        XCTAssertEqual(request.value(forHTTPHeaderField: "Authorization"), "Bearer \(token)")
+        socket.cancel(with: .goingAway, reason: nil)
+    }
+}
