@@ -1,9 +1,10 @@
 //
-//  RestClient+WebSocket.swift
+//  Network.swift
 //  SalesforceSDKCore
 //
+//  Created by Riley Crebs on 6/5/25.
 //  Copyright (c) 2025-present, salesforce.com, inc. All rights reserved.
-//
+// 
 //  Redistribution and use of this software in source and binary forms, with or without modification,
 //  are permitted provided that the following conditions are met:
 //  * Redistributions of source code must retain the above copyright notice, this list of conditions
@@ -14,7 +15,7 @@
 //  * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
 //  endorse or promote products derived from this software without specific prior written
 //  permission of salesforce.com, inc.
-//
+// 
 //  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
 //  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
 //  FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -24,20 +25,17 @@
 //  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
 //  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-extension RestClient {
-    /// Creates a new WebSocket from a URLRequest.
-    /// - Parameters:
-    ///   - request: The URLRequest.
-    /// - Returns: A configured URLSessionWebSocketTask.
-    public func newWebSocket(from request: URLRequest) async throws -> WebSocketClientTask {
-        let network = Network.sharedEphemeralInstance()
-        let task = network.activeSession.webSocketTask(with: request)
-        let clientTask = WebSocketClientTask(task: task)
-        task.resume()
-        return clientTask
+extension Network: URLSessionWebSocketDelegate {
+    public func urlSession(_ session: URLSession,
+                           webSocketTask: URLSessionWebSocketTask,
+                           didOpenWithProtocol protocol: String?) {
+        print("WebSocket connected")
     }
-    
-    
+
+    public func urlSession(_ session: URLSession,
+                           webSocketTask: URLSessionWebSocketTask,
+                           didCloseWith closeCode: URLSessionWebSocketTask.CloseCode,
+                           reason: Data?) {
+        print("WebSocket disconnected with code: \(closeCode)")
+    }
 }
-
-

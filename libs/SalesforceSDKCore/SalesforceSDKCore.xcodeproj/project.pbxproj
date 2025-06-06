@@ -37,9 +37,11 @@
 		23A4C74A2D0CAFCF00DF55EB /* JwtAccessTokenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A4C7472D0CAFCF00DF55EB /* JwtAccessTokenTests.swift */; };
 		23A4C74E2D0CB68B00DF55EB /* NativeLoginManagerInternal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A4C74D2D0CB68B00DF55EB /* NativeLoginManagerInternal.swift */; };
 		23A4C74F2D0CB68B00DF55EB /* NativeLoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A4C74C2D0CB68B00DF55EB /* NativeLoginManager.swift */; };
+		23AF91432DF2173A003A6D74 /* WebSocketClientTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23AF91422DF21711003A6D74 /* WebSocketClientTask.swift */; };
+		23AF914B2DF23ED6003A6D74 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23AF914A2DF23ED1003A6D74 /* Network.swift */; };
 		23B2FDEC2DB03496006ADC07 /* NotificationCategoryFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B2FDE62DB03486006ADC07 /* NotificationCategoryFactory.swift */; };
-		23CAB1312DD515B500B8929B /* SFLoginViewController+Deep-Linking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23CAB1302DD515B500B8929B /* SFLoginViewController+Deep-Linking.swift */; };
 		23CAB0F92DCBE51F00B8929B /* MockRestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23CAB0F72DCBE51F00B8929B /* MockRestClient.swift */; };
+		23CAB1312DD515B500B8929B /* SFLoginViewController+Deep-Linking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23CAB1302DD515B500B8929B /* SFLoginViewController+Deep-Linking.swift */; };
 		23CE44212DEE258800ADC770 /* RestClient+WebSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23CE44202DEE257900ADC770 /* RestClient+WebSocket.swift */; };
 		23EDDEFE2DE0F7620024AD39 /* URLRequest+RestRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EDDEF82DE0F7480024AD39 /* URLRequest+RestRequest.swift */; };
 		23EDDF022DE0F9EF0024AD39 /* URLRequest+RestRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EDDF012DE0F9EF0024AD39 /* URLRequest+RestRequestTests.swift */; };
@@ -542,9 +544,11 @@
 		23A4C7482D0CAFCF00DF55EB /* NativeLoginManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NativeLoginManagerTests.swift; path = SalesforceSDKCoreTests/NativeLoginManagerTests.swift; sourceTree = SOURCE_ROOT; };
 		23A4C74C2D0CB68B00DF55EB /* NativeLoginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NativeLoginManager.swift; path = Login/NativeLoginManager.swift; sourceTree = "<group>"; };
 		23A4C74D2D0CB68B00DF55EB /* NativeLoginManagerInternal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NativeLoginManagerInternal.swift; path = Login/NativeLoginManagerInternal.swift; sourceTree = "<group>"; };
+		23AF91422DF21711003A6D74 /* WebSocketClientTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketClientTask.swift; sourceTree = "<group>"; };
+		23AF914A2DF23ED1003A6D74 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		23B2FDE62DB03486006ADC07 /* NotificationCategoryFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCategoryFactory.swift; sourceTree = "<group>"; };
-		23CAB1302DD515B500B8929B /* SFLoginViewController+Deep-Linking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "SFLoginViewController+Deep-Linking.swift"; path = "Login/SFLoginViewController+Deep-Linking.swift"; sourceTree = "<group>"; };
 		23CAB0F72DCBE51F00B8929B /* MockRestClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockRestClient.swift; sourceTree = "<group>"; };
+		23CAB1302DD515B500B8929B /* SFLoginViewController+Deep-Linking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "SFLoginViewController+Deep-Linking.swift"; path = "Login/SFLoginViewController+Deep-Linking.swift"; sourceTree = "<group>"; };
 		23CE44202DEE257900ADC770 /* RestClient+WebSocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RestClient+WebSocket.swift"; sourceTree = "<group>"; };
 		23EDDEF82DE0F7480024AD39 /* URLRequest+RestRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLRequest+RestRequest.swift"; sourceTree = "<group>"; };
 		23EDDF012DE0F9EF0024AD39 /* URLRequest+RestRequestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "URLRequest+RestRequestTests.swift"; path = "SalesforceSDKCoreTests/URLRequest+RestRequestTests.swift"; sourceTree = SOURCE_ROOT; };
@@ -1548,6 +1552,7 @@
 		B722A702233C432E0089736E /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				23AF914A2DF23ED1003A6D74 /* Network.swift */,
 				23CE44202DEE257900ADC770 /* RestClient+WebSocket.swift */,
 				23EDDEF82DE0F7480024AD39 /* URLRequest+RestRequest.swift */,
 				23350C552DCAB190009A10DE /* RestClient+Blocks.swift */,
@@ -1653,6 +1658,7 @@
 		CED452A81D808D0C009266EB /* RestAPI */ = {
 			isa = PBXGroup;
 			children = (
+				23AF91422DF21711003A6D74 /* WebSocketClientTask.swift */,
 				D3D675DA2D39EF01008E468E /* SfapAPI */,
 				CE7F66291E556CA800DC3FBB /* SFNetwork.h */,
 				CE7F662A1E556CA800DC3FBB /* SFNetwork.m */,
@@ -2266,6 +2272,7 @@
 				B78A238D21014FCA00B19AB3 /* SFSDKAuthHelper.m in Sources */,
 				A3C7475F29F7087B00D72B7F /* BiometricAuthenticationManager.swift in Sources */,
 				CE4CE33F1C0E524B009F6029 /* SFInstrumentation.m in Sources */,
+				23AF914B2DF23ED6003A6D74 /* Network.swift in Sources */,
 				697A91A12363C3D800D2836F /* SFSDKPushNotificationDecryption.m in Sources */,
 				CE675A341E0B2CC6002DBF5A /* SFSDKSoqlBuilder.m in Sources */,
 				69E2FD9F22FB937F008E0AF0 /* SFSDKEncryptedURLCache.m in Sources */,
@@ -2325,6 +2332,7 @@
 				FDED97291CAA16EB009D80F2 /* SFApplicationHelper.m in Sources */,
 				B78927622241643500BEDED4 /* SFSDKInstrumentationHelper.m in Sources */,
 				CE4CE39E1C0E5272009F6029 /* SFSDKTestRequestListener.m in Sources */,
+				23AF91432DF2173A003A6D74 /* WebSocketClientTask.swift in Sources */,
 				B7E1A7851F4C8844007AC36A /* SFSDKAuthViewHandler.m in Sources */,
 				B7FB26C61F78094A00FB25A2 /* SFSDKUserSelectionNavViewController.m in Sources */,
 				CE4CE34F1C0E5252009F6029 /* SFOAuthOrgAuthConfiguration.m in Sources */,

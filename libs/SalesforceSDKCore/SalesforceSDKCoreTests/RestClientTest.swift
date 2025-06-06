@@ -780,10 +780,7 @@ class RestClientTests: XCTestCase {
 
 final class RestClientWebSocketTests: XCTestCase {
 
-    // Dummy delegate to satisfy the WebSocket call
-    class DummyWebSocketDelegate: NSObject, URLSessionWebSocketDelegate {}
-
-    func testNewWebSocketFromURLRequest() {
+    func testNewWebSocketFromURLRequest() async throws {
         // Given
         let request = RestRequest(method: .GET,
                                   serviceHostType: .login,
@@ -797,32 +794,37 @@ final class RestClientWebSocketTests: XCTestCase {
         }
 
         // When
-        let socket = RestClient.shared.newWebSocket(
-            from: urlRequest,
-            delegate: DummyWebSocketDelegate()
-        )
-        socket.resume()
+        let socket = try await RestClient.shared.newWebSocket(from: urlRequest)
 
         // Then
         XCTAssertNotNil(socket, "WebSocket should not be nil")
-        XCTAssertEqual(socket.state, .running, "WebSocket should be in running state after resume")
-
-        // Cleanup
-        socket.cancel(with: .goingAway, reason: nil)
     }
     
     func testNewWebSocketAppliesCustomAuthToken() {
         // Given
+        let expectation = XCTestExpectation(description: "queryTest")
         let token = "test.jwt.token"
-        var request = URLRequest(url: URL(string: "wss://example.com")!)
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-
+        let request = URLRequest(url: URL(string: "wss://example.com")!)
+        
         // When
-        let socket = RestClient.shared.newWebSocket(from: request, delegate: DummyWebSocketDelegate())
-        socket.resume()
-
+        Task {
+            let socket = try await RestClient.shared.newWebSocket(from: request)
+            socket.listen { result in
+                switch result {
+                case .failure(let error):
+                    // Then
+                    XCTAssertEqual(request.value(forHTTPHeaderField: "Authorization"), "Bearer \(token)")
+                    XCTAssertNotNil(error)
+                    expectation.fulfill()
+                default:
+                    XCTFail("WebSocket connection should fail")
+                    break
+                }
+            }
+        }
+        
+        
         // Then
-        XCTAssertEqual(request.value(forHTTPHeaderField: "Authorization"), "Bearer \(token)")
-        socket.cancel(with: .goingAway, reason: nil)
+        self.wait(for: [expectation], timeout: 5)
     }
 }
