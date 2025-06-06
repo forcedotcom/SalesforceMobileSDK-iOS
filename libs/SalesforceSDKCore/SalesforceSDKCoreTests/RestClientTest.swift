@@ -777,3 +777,54 @@ class RestClientTests: XCTestCase {
     }
     
 }
+
+final class RestClientWebSocketTests: XCTestCase {
+
+    func testNewWebSocketFromURLRequest() async throws {
+        // Given
+        let request = RestRequest(method: .GET,
+                                  serviceHostType: .login,
+                                  path: "/a",
+                                  queryParams: nil)
+        
+        
+        guard let urlRequest = request.prepare(forSend: RestClient.shared.userAccount) else {
+            XCTFail("Failed to prepare URLRequest from RestRequest")
+            return
+        }
+
+        // When
+        let socket = try await RestClient.shared.newWebSocket(from: urlRequest)
+
+        // Then
+        XCTAssertNotNil(socket, "WebSocket should not be nil")
+    }
+    
+    func testNewWebSocketAppliesCustomAuthToken() {
+        // Given
+        let expectation = XCTestExpectation(description: "queryTest")
+        let token = "test.jwt.token"
+        let request = URLRequest(url: URL(string: "wss://example.com")!)
+        
+        // When
+        Task {
+            let socket = try await RestClient.shared.newWebSocket(from: request)
+            socket.listen { result in
+                switch result {
+                case .failure(let error):
+                    // Then
+                    XCTAssertEqual(request.value(forHTTPHeaderField: "Authorization"), "Bearer \(token)")
+                    XCTAssertNotNil(error)
+                    expectation.fulfill()
+                default:
+                    XCTFail("WebSocket connection should fail")
+                    break
+                }
+            }
+        }
+        
+        
+        // Then
+        self.wait(for: [expectation], timeout: 5)
+    }
+}
