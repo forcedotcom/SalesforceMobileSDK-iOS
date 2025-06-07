@@ -54,6 +54,7 @@ static NSString * const kSFOAuthGrantTypeHybridRefresh          = @"hybrid_refre
 static NSString * const kSFOAuthGrantTypeRefresh                = @"refresh_token";
 static NSString * const kSFOAuthId                              = @"id";
 static NSString * const kSFOAuthInstanceUrl                     = @"instance_url";
+static NSString * const kSFOAuthApiInstanceUrl                  = @"api_instance_url";
 static NSString * const kSFOAuthCommunityId                     = @"sfdc_community_id";
 static NSString * const kSFOAuthCommunityUrl                    = @"sfdc_community_url";
 static NSString * const kSFOAuthIdToken                         = @"id_token";
