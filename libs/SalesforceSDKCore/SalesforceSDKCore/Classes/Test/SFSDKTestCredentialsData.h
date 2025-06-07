@@ -34,6 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) NSString *refreshToken;
 @property (nonatomic, readonly) NSString *identityUrl;
 @property (nonatomic, readonly) NSString *instanceUrl;
+@property (nonatomic, readonly) NSString *apiInstanceUrl;
 @property (nonatomic, readonly) NSString *clientId;
 @property (nonatomic, readonly) NSString *redirectUri;
 @property (nonatomic, readonly) NSString *loginHost;

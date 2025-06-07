@@ -82,6 +82,7 @@ static SFOAuthCredentials *credentials = nil;
     [SFUserAccountManager sharedInstance].loginHost = credsData.loginHost;
     credentials = [self newClientCredentials];
     credentials.instanceUrl = [NSURL URLWithString:credsData.instanceUrl];
+    credentials.apiInstanceUrl = [NSURL URLWithString:credsData.apiInstanceUrl];
     credentials.identityUrl = [NSURL URLWithString:credsData.identityUrl];
     NSString *communityUrlString = credsData.communityUrl;
     if (communityUrlString.length > 0) {
