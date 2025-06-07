@@ -79,7 +79,7 @@
     XCTAssertEqualObjects(response.accessToken, @"test-auth-token");
     XCTAssertEqualObjects(response.refreshToken, @"test-refresh-token");
     XCTAssertEqualObjects(response.instanceUrl.absoluteString, @"https://instance.salesforce.com");
-    XCTAssertEqualObjects(response.apiInstanceUrl.absoluteString, @"https://instance.salesforce.com");
+    XCTAssertEqualObjects(response.apiInstanceUrl.absoluteString, @"https://api.salesforce.com");
     XCTAssertEqualObjects(response.identityUrl.absoluteString, @"https://id.salesforce.com");
     XCTAssertEqualObjects(response.communityId, @"test-community-id");
     XCTAssertEqualObjects(response.communityUrl.absoluteString, @"https://community.salesforce.com");
