@@ -33,7 +33,6 @@ extension RestClient {
         let network = Network.sharedEphemeralInstance()
         let task = network.activeSession.webSocketTask(with: request)
         let clientTask = WebSocketClientTask(task: task)
-        task.resume()
         return clientTask
     }
     

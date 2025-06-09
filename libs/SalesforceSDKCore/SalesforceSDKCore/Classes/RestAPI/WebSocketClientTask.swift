@@ -46,18 +46,19 @@ public final class WebSocketClientTask {
     
     private var shouldRetry = true
 
+    deinit { task.cancel() }
+    
     init(task: URLSessionWebSocketTask) {
         self.task = task
     }
     
-    func send(_ message: URLSessionWebSocketTask.Message, completion: ((Error?) -> Void)? = nil) {
+    public func send(_ message: URLSessionWebSocketTask.Message, completion: ((Error?) -> Void)? = nil) {
         task.send(message) { error in
             completion?(error)
         }
     }
     
-    func listen(onReceive: @escaping (Result<URLSessionWebSocketTask.Message, Error>) -> Void) {
-        task.resume()
+    public func listen(onReceive: @escaping (Result<URLSessionWebSocketTask.Message, Error>) -> Void) {
         task.receive { [self] result in
             switch result {
                 
@@ -83,11 +84,13 @@ public final class WebSocketClientTask {
                 
             case .success(_):
                 onReceive(result)
+                self.listen(onReceive: onReceive)
             }
         }
+        task.resume()
     }
 
-    func cancel(with closeCode: URLSessionWebSocketTask.CloseCode = .normalClosure, reason: Data? = nil) {
+    public func cancel(with closeCode: URLSessionWebSocketTask.CloseCode = .normalClosure, reason: Data? = nil) {
         task.cancel(with: closeCode, reason: reason)
     }
     
