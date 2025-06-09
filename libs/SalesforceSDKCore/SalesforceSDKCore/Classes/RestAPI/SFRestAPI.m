@@ -329,7 +329,7 @@ successBlock:(SFRestResponseBlock)successBlock
         } else {
             network = [self networkForRequest:request];
         }
-        NSURLSessionDataTask *dataTask = [network sendRequest:finalRequest dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
+        __block NSURLSessionDataTask *dataTask = [network sendRequest:finalRequest dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             [SFNetwork removeSharedInstanceForIdentifier:instanceIdentifier];
             
@@ -359,7 +359,7 @@ successBlock:(SFRestResponseBlock)successBlock
                     successBlock(dataForDelegate, response);
                 }
             } else {
-                if (shouldRetry && [self shouldRefresh:statusCode responseData:data request:request]) {
+                if (shouldRetry &&  [dataTask shouldRetryWith:data]) {
                     [strongSelf replayRequest:request response:response failureBlock:failureBlock successBlock:successBlock];
                 } else {
                     // Other status codes indicate failure.
@@ -372,26 +372,6 @@ successBlock:(SFRestResponseBlock)successBlock
             }
         }];
         request.sessionDataTask = dataTask;
-    }
-}
-
-- (BOOL)shouldRefresh:(NSInteger)statusCode responseData:(NSData *)responseData request:(SFRestRequest *)request {
-    // most calls return 401 if oauth access token is not valid
-    BOOL isNotAuthorized = statusCode == 401;
-    
-    // service/oauth2 calls return 403 with Bad_OAuth_Token response if oauth access is not valid
-    BOOL hasBadOAuthToken = statusCode == 403
-    && [request.path hasPrefix:@"/services/oauth2"]
-    && [[[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding] isEqualToString:@"Bad_OAuth_Token"];
-    
-    if (isNotAuthorized || hasBadOAuthToken) {
-        [SFSDKCoreLogger d:[self class] format:@"response request path: %@", request.path];
-        [SFSDKCoreLogger i:[self class] format:@"response code: %ld", (long) statusCode];
-        
-        // Do not refresh token if biometric authentiction lock is enabled
-        return ![[SFBiometricAuthenticationManagerInternal shared] locked];
-    } else {
-        return false;
     }
 }
 

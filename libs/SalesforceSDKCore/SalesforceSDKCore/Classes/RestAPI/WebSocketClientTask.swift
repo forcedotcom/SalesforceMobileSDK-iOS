@@ -61,9 +61,9 @@ public final class WebSocketClientTask {
     public func listen(onReceive: @escaping (Result<URLSessionWebSocketTask.Message, Error>) -> Void) {
         task.receive { [self] result in
             switch result {
-                
             case .failure(let error):
-                if shouldRetry(for: error) {
+                
+                if task.shouldRetry() {
                     guard let originalRequest = self.task.originalRequest else {
                         onReceive(.failure(error))
                         return
@@ -76,6 +76,7 @@ public final class WebSocketClientTask {
                             self.listen(onReceive: onReceive)
                         } catch {
                             onReceive(.failure(error))
+                            shouldRetry = true
                         }
                     }
                 } else {
@@ -92,10 +93,6 @@ public final class WebSocketClientTask {
 
     public func cancel(with closeCode: URLSessionWebSocketTask.CloseCode = .normalClosure, reason: Data? = nil) {
         task.cancel(with: closeCode, reason: reason)
-    }
-    
-    private func shouldRetry(for error: Error) -> Bool {
-        return shouldRetry && isAuthError(error)
     }
     
     private func refreshWebSocketToken(with request: URLRequest) async throws {
