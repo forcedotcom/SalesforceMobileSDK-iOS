@@ -359,7 +359,7 @@ successBlock:(SFRestResponseBlock)successBlock
                     successBlock(dataForDelegate, response);
                 }
             } else {
-                if (shouldRetry &&  [dataTask shouldRetryWith:data]) {
+                if (shouldRetry && [self shouldRetryTask:dataTask withData:data]) {
                     [strongSelf replayRequest:request response:response failureBlock:failureBlock successBlock:successBlock];
                 } else {
                     // Other status codes indicate failure.
@@ -373,6 +373,12 @@ successBlock:(SFRestResponseBlock)successBlock
         }];
         request.sessionDataTask = dataTask;
     }
+}
+
+-(BOOL)shouldRetryTask:(NSURLSessionTask*)task
+              withData:(NSData*)data {
+    return [task shouldRetryWith:data
+                biometricAuthManager:SFBiometricAuthenticationManagerInternal.shared];
 }
 
 
