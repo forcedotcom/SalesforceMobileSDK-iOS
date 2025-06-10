@@ -29,13 +29,13 @@ extension Network: URLSessionWebSocketDelegate {
     public func urlSession(_ session: URLSession,
                            webSocketTask: URLSessionWebSocketTask,
                            didOpenWithProtocol protocol: String?) {
-        print("WebSocket connected")
+        SFSDKCoreLogger.i(Self.self, message: "WebSocket connected")
     }
 
     public func urlSession(_ session: URLSession,
                            webSocketTask: URLSessionWebSocketTask,
                            didCloseWith closeCode: URLSessionWebSocketTask.CloseCode,
                            reason: Data?) {
-        print("WebSocket disconnected with code: \(closeCode)")
+        SFSDKCoreLogger.i(Self.self, message: "WebSocket disconnected with code: \(closeCode)")
     }
 }
