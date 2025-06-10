@@ -28,10 +28,24 @@ extension RestClient {
     /// Creates a new WebSocket from a URLRequest.
     /// - Parameters:
     ///   - request: The URLRequest.
-    /// - Returns: A configured URLSessionWebSocketTask.
+    /// - Returns: A configured WebSocketClientTask.
     public func newWebSocket(from request: URLRequest) async throws -> WebSocketClientTask {
         let network = Network.sharedEphemeralInstance()
         let task = network.activeSession.webSocketTask(with: request)
+        let clientTask = WebSocketClientTask(task: task)
+        return clientTask
+    }
+    
+    /// Creates a new WebSocket from a RestRequest.
+    /// - Parameters:
+    ///   - request: MSDK RestRequest.
+    /// - Returns: A configured WebSocketClientTask.
+    public func newWebSocket(from request: RestRequest) async throws -> WebSocketClientTask {
+        guard let urlRequest = request.prepare(forSend: userAccount) else {
+            throw RestClientError.invalidRequest("Request is not a valid MSDK REST request.")
+        }
+        let network = Network.sharedEphemeralInstance()
+        let task = network.activeSession.webSocketTask(with: urlRequest)
         let clientTask = WebSocketClientTask(task: task)
         return clientTask
     }
