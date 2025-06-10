@@ -27,29 +27,58 @@
 
 import Foundation
 
-enum WebSocketAuthError: Error {
-    case tokenExpired
-    case unrecoverable(Error)
+protocol WebSocketClientTaskProtocol {
+    
+    var originalRequest: URLRequest? { get }
+    
+    func send(_ message: URLSessionWebSocketTask.Message, completionHandler: @escaping @Sendable ((any Error)?) -> Void)
+    
+    func receive(completionHandler: @escaping @Sendable (Result<URLSessionWebSocketTask.Message, any Error>) -> Void)
+    
+    func cancel(with closeCode: URLSessionWebSocketTask.CloseCode, reason: Data?)
+    
+    func shouldRetry() -> Bool
+    
+    func cancel()
+    
+    func resume()
 }
 
-func isAuthError(_ error: Error) -> Bool {
-    let nsError = error as NSError
-    return (
-        nsError.localizedDescription.contains("403") ||
-        nsError.localizedDescription.contains("Bad_OAuth_Token") ||
-        nsError.localizedDescription.contains("401")
-    )
+extension URLSessionWebSocketTask: WebSocketClientTaskProtocol {
+    func shouldRetry() -> Bool {
+        shouldRetry(with: nil, biometricAuthManager: BiometricAuthenticationManagerInternal.shared)
+    }
+}
+
+protocol WebSocketNetworkProtocol {
+    func webSocketTask(with request: URLRequest) -> WebSocketClientTaskProtocol
+}
+
+extension Network: WebSocketNetworkProtocol {
+    func ephemeralInstance() -> WebSocketNetworkProtocol {
+        return Network.sharedEphemeralInstance()
+    }
+    
+    func webSocketTask(with request: URLRequest) -> WebSocketClientTaskProtocol {
+        return self.activeSession.webSocketTask(with: request)
+    }
 }
 
 public final class WebSocketClientTask {
-    private var task: URLSessionWebSocketTask
+    private var task: WebSocketClientTaskProtocol
+    private var network: WebSocketNetworkProtocol
+    private var accountManager: UserAccountManaging
     
     private var shouldRetry = true
 
     deinit { task.cancel() }
     
-    init(task: URLSessionWebSocketTask) {
+    init(task: WebSocketClientTaskProtocol,
+         network: WebSocketNetworkProtocol = Network.sharedEphemeralInstance(),
+         accountManager: UserAccountManaging = UserAccountManager.shared) {
         self.task = task
+        self.network = network
+        self.accountManager = accountManager
     }
     
     public func send(_ message: URLSessionWebSocketTask.Message, completion: ((Error?) -> Void)? = nil) {
@@ -63,7 +92,7 @@ public final class WebSocketClientTask {
             switch result {
             case .failure(let error):
                 
-                if task.shouldRetry() {
+                if self.shouldRetry && task.shouldRetry() {
                     guard let originalRequest = self.task.originalRequest else {
                         onReceive(.failure(error))
                         return
@@ -85,7 +114,6 @@ public final class WebSocketClientTask {
                 
             case .success(_):
                 onReceive(result)
-                self.listen(onReceive: onReceive)
             }
         }
         task.resume()
@@ -97,13 +125,12 @@ public final class WebSocketClientTask {
     
     private func refreshWebSocketToken(with request: URLRequest) async throws {
         let request = try await self.prepareWebSocketRequest(request)
-        let network = Network.sharedEphemeralInstance()
-        task = network.activeSession.webSocketTask(with: request)
+        task = network.webSocketTask(with: request)
     }
     
     private func prepareWebSocketRequest(_ request: URLRequest) async throws -> URLRequest {
         var mutableRequest = request
-        if let account = UserAccountManager.shared.currentUserAccount {
+        if let account = accountManager.account() {
             try await refreshCredentials(for: account)
             if let token = account.credentials.accessToken {
                 mutableRequest.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
@@ -114,7 +141,7 @@ public final class WebSocketClientTask {
     
     private func refreshCredentials(for account: UserAccount) async throws {
         try await withCheckedThrowingContinuation { continuation in
-            _ = UserAccountManager.shared.refresh(credentials: account.credentials) { result in
+            _ = accountManager.refresh(credentials: account.credentials) { result in
                 switch result {
                 case .success:
                     continuation.resume()
