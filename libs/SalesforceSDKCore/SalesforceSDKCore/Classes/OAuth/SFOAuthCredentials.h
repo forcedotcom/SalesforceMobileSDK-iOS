@@ -162,6 +162,16 @@ NS_SWIFT_NAME(OAuthCredentials)
  */
 @property (nonatomic, readonly, nullable) NSURL *instanceUrl;
 
+/** The URL of the  SFAP  server instance for this session.
+ 
+ This is the URL that client SFAP requests should be made to after authentication completes.
+ This property is set by the `SFOAuthCoordinator` after authentication has successfully completed.
+ This URL is only defined when sfap_api scope is used.
+ 
+ @warning The setter for this property is exposed publicly only for unit tests. Client code should not set this property.
+ */
+@property (nonatomic, readonly, nullable) NSURL *apiInstanceUrl;
+
 /** The community ID the user choose to log into. This usually happens when the user
  logs into the app using a community-based login page
  

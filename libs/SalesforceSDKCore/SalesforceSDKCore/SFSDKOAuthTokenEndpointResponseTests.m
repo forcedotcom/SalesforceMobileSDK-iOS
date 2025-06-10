@@ -46,6 +46,7 @@
     [params setObject:@"test-auth-token" forKey:@"access_token"];
     [params setObject:@"test-refresh-token" forKey:@"refresh_token"];
     [params setObject:@"https://instance.salesforce.com" forKey:@"instance_url"];
+    [params setObject:@"https://api.salesforce.com" forKey:@"api_instance_url"];
     [params setObject:@"https://id.salesforce.com" forKey:@"id"];
     [params setObject:@"test-community-id" forKey:@"sfdc_community_id"];
     [params setObject:@"https://community.salesforce.com" forKey:@"sfdc_community_url"];
@@ -78,6 +79,7 @@
     XCTAssertEqualObjects(response.accessToken, @"test-auth-token");
     XCTAssertEqualObjects(response.refreshToken, @"test-refresh-token");
     XCTAssertEqualObjects(response.instanceUrl.absoluteString, @"https://instance.salesforce.com");
+    XCTAssertEqualObjects(response.apiInstanceUrl.absoluteString, @"https://api.salesforce.com");
     XCTAssertEqualObjects(response.identityUrl.absoluteString, @"https://id.salesforce.com");
     XCTAssertEqualObjects(response.communityId, @"test-community-id");
     XCTAssertEqualObjects(response.communityUrl.absoluteString, @"https://community.salesforce.com");
