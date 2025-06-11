@@ -48,26 +48,34 @@ public final class WebSocketClient {
     }
     
     public func listen(onReceive: @escaping (Result<URLSessionWebSocketTask.Message, Error>) -> Void) {
-        
         task.resume()
-        
         Task { [weak self] in
-            guard let self = self else { return }
-            
-            while true {
-                do {
-                    let message = try await task.receive()
-                    onReceive(.success(message))
-                } catch {
-                    self.handleFailure(error: error, onReceive: onReceive)
-                    break
-                }
-            }
+            await self?.startListening(onReceive: onReceive)
         }
     }
 
     public func cancel(with closeCode: URLSessionWebSocketTask.CloseCode = .normalClosure, reason: Data? = nil) {
         task.cancel(with: closeCode, reason: reason)
+    }
+    
+    private func startListening(onReceive: @escaping (Result<URLSessionWebSocketTask.Message, Error>) -> Void) async {
+        
+        var continueListening = true
+        while continueListening {
+            continueListening = await receiveNextMessage(onReceive: onReceive)
+        }
+    }
+
+    @discardableResult
+    private func receiveNextMessage(onReceive: @escaping (Result<URLSessionWebSocketTask.Message, Error>) -> Void) async -> Bool {
+        do {
+            let message = try await task.receive()
+            onReceive(.success(message))
+            return true
+        } catch {
+            handleFailure(error: error, onReceive: onReceive)
+            return false
+        }
     }
     
     private func handleFailure(error: Error,
