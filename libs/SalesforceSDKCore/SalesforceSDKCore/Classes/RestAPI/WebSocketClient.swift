@@ -26,13 +26,35 @@
 
 import Foundation
 
+actor TokenRefreshCoordinator {
+    private var isRefreshing = false
+    private var waiters: [CheckedContinuation<Void, Never>] = []
+    
+    func beginRefreshIfNeeded() -> Bool {
+        guard !isRefreshing else { return false }
+        isRefreshing = true
+        return true
+    }
+    
+    func notifyRefreshCompleted() {
+        isRefreshing = false
+        waiters.forEach { $0.resume() }
+        waiters.removeAll()
+    }
+    
+    func waitUntilRefreshed() async {
+        await withCheckedContinuation { continuation in
+            waiters.append(continuation)
+        }
+    }
+}
+
 public final class WebSocketClient {
     private var task: WebSocketClientTaskProtocol
     private var network: WebSocketNetworkProtocol
     private var accountManager: UserAccountManaging
+    private let tokenRefreshCoordinator = TokenRefreshCoordinator()
     
-    private var shouldRetry = true
-
     deinit { task.cancel() }
     
     init(task: WebSocketClientTaskProtocol,
@@ -44,64 +66,72 @@ public final class WebSocketClient {
     }
     
     public func send(_ message: URLSessionWebSocketTask.Message) async throws -> Void {
-        try await task.send(message)
+        do {
+            try await task.send(message)
+        } catch {
+            if let error = await attemptTokenRefresh(error: error) {
+                throw error
+            } else {
+                try await send(message)
+            }
+        }
     }
     
     public func listen(onReceive: @escaping (Result<URLSessionWebSocketTask.Message, Error>) -> Void) {
         task.resume()
         Task { [weak self] in
-            await self?.startListening(onReceive: onReceive)
+            guard let self = self else { return }
+            
+            var keepListening = true
+            
+            while keepListening {
+                do {
+                    
+                    let message = try await task.receive()
+                    onReceive(.success(message))
+                } catch {
+                    keepListening = false
+                    if let error = await attemptTokenRefresh(error: error) {
+                        onReceive(.failure(error))
+                    } else {
+                        listen(onReceive: onReceive)
+                    }
+                }
+            }
         }
     }
-
+    
     public func cancel(with closeCode: URLSessionWebSocketTask.CloseCode = .normalClosure, reason: Data? = nil) {
         task.cancel(with: closeCode, reason: reason)
     }
     
-    private func startListening(onReceive: @escaping (Result<URLSessionWebSocketTask.Message, Error>) -> Void) async {
-        
-        var continueListening = true
-        while continueListening {
-            continueListening = await receiveNextMessage(onReceive: onReceive)
-        }
-    }
-
-    @discardableResult
-    private func receiveNextMessage(onReceive: @escaping (Result<URLSessionWebSocketTask.Message, Error>) -> Void) async -> Bool {
-        do {
-            let message = try await task.receive()
-            onReceive(.success(message))
-            return true
-        } catch {
-            handleFailure(error: error, onReceive: onReceive)
-            return false
-        }
-    }
-    
-    private func handleFailure(error: Error,
-                               onReceive: @escaping (Result<URLSessionWebSocketTask.Message, Error>) -> Void) {
-        guard shouldRetry, task.shouldRetry(),
+    private func attemptTokenRefresh(error: Error) async -> Error? {
+        guard task.shouldRetry(),
               let originalRequest = task.originalRequest else {
-            onReceive(.failure(error))
-            return
+            return error
         }
-
-        task.cancel(with: .goingAway, reason: nil)
-        shouldRetry = false // Only retry once
-
-        Task {
+        
+        if await tokenRefreshCoordinator.beginRefreshIfNeeded() {
+            task.cancel(with: .goingAway, reason: nil)
             do {
                 try await self.refreshWebSocketToken(with: originalRequest)
-                listen(onReceive: onReceive)
+                await tokenRefreshCoordinator.notifyRefreshCompleted()
+                return nil
             } catch {
-                onReceive(.failure(error))
+                await tokenRefreshCoordinator.notifyRefreshCompleted()
+                return error
             }
+        } else {
+            await tokenRefreshCoordinator.waitUntilRefreshed()
+            return nil
         }
+        
     }
     
     private func refreshWebSocketToken(with request: URLRequest) async throws {
         let request = try await self.prepareWebSocketRequest(request)
         task = network.webSocketTask(with: request)
+        task.resume()
     }
     
     private func prepareWebSocketRequest(_ request: URLRequest) async throws -> URLRequest {
