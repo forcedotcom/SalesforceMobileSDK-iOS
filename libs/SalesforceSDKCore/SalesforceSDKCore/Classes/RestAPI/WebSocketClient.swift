@@ -1,5 +1,5 @@
 //
-//  WebSocketClientTask.swift
+//  WebSocketClient.swift
 //  SalesforceSDKCore
 //
 //  Copyright (c) 2025-present, salesforce.com, inc. All rights reserved.
@@ -26,44 +26,7 @@
 
 import Foundation
 
-protocol WebSocketClientTaskProtocol {
-    
-    var originalRequest: URLRequest? { get }
-    
-    func send(_ message: URLSessionWebSocketTask.Message, completionHandler: @escaping @Sendable ((any Error)?) -> Void)
-    
-    func receive(completionHandler: @escaping @Sendable (Result<URLSessionWebSocketTask.Message, any Error>) -> Void)
-    
-    func cancel(with closeCode: URLSessionWebSocketTask.CloseCode, reason: Data?)
-    
-    func shouldRetry() -> Bool
-    
-    func cancel()
-    
-    func resume()
-}
-
-extension URLSessionWebSocketTask: WebSocketClientTaskProtocol {
-    func shouldRetry() -> Bool {
-        shouldRetry(with: nil, biometricAuthManager: BiometricAuthenticationManagerInternal.shared)
-    }
-}
-
-protocol WebSocketNetworkProtocol {
-    func webSocketTask(with request: URLRequest) -> WebSocketClientTaskProtocol
-}
-
-extension Network: WebSocketNetworkProtocol {
-    func ephemeralInstance() -> WebSocketNetworkProtocol {
-        return Network.sharedEphemeralInstance()
-    }
-    
-    func webSocketTask(with request: URLRequest) -> WebSocketClientTaskProtocol {
-        return self.activeSession.webSocketTask(with: request)
-    }
-}
-
-public final class WebSocketClientTask {
+public final class WebSocketClient {
     private var task: WebSocketClientTaskProtocol
     private var network: WebSocketNetworkProtocol
     private var accountManager: UserAccountManaging
@@ -80,26 +43,25 @@ public final class WebSocketClientTask {
         self.accountManager = accountManager
     }
     
-    public func send(_ message: URLSessionWebSocketTask.Message, completion: ((Error?) -> Void)? = nil) {
-        task.send(message) { error in
-            completion?(error)
-        }
+    public func send(_ message: URLSessionWebSocketTask.Message) async throws -> Void {
+        try await task.send(message)
     }
     
     public func listen(onReceive: @escaping (Result<URLSessionWebSocketTask.Message, Error>) -> Void) {
         
         task.resume()
-        task.receive { [weak self] result in
+        
+        Task { [weak self] in
             guard let self = self else { return }
             
-            switch result {
-            case .failure(let error):
-                handleFailure(error: error,
-                              onReceive: onReceive)
-                
-            case .success(_):
-                onReceive(result)
-                listen(onReceive: onReceive)
+            while true {
+                do {
+                    let message = try await task.receive()
+                    onReceive(.success(message))
+                } catch {
+                    self.handleFailure(error: error, onReceive: onReceive)
+                    break
+                }
             }
         }
     }
@@ -122,7 +84,7 @@ public final class WebSocketClientTask {
         Task {
             do {
                 try await self.refreshWebSocketToken(with: originalRequest)
-                self.listen(onReceive: onReceive)
+                listen(onReceive: onReceive)
             } catch {
                 onReceive(.failure(error))
             }

@@ -2,7 +2,6 @@
 //  Network.swift
 //  SalesforceSDKCore
 //
-//  Created by Riley Crebs on 6/5/25.
 //  Copyright (c) 2025-present, salesforce.com, inc. All rights reserved.
 // 
 //  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -24,6 +23,22 @@
 //  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
 //  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
 //  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+import Foundation
+
+protocol WebSocketNetworkProtocol {
+    func webSocketTask(with request: URLRequest) -> WebSocketClientTaskProtocol
+}
+
+extension Network: WebSocketNetworkProtocol {
+    func ephemeralInstance() -> WebSocketNetworkProtocol {
+        return Network.sharedEphemeralInstance()
+    }
+    
+    func webSocketTask(with request: URLRequest) -> WebSocketClientTaskProtocol {
+        return self.activeSession.webSocketTask(with: request)
+    }
+}
 
 extension Network: URLSessionWebSocketDelegate {
     public func urlSession(_ session: URLSession,

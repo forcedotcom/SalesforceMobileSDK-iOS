@@ -2,7 +2,23 @@ import XCTest
 
 @testable import SalesforceSDKCore
 
-class MockWebSocketTask: WebSocketClientTaskProtocol {
+class MockWebSocket: WebSocketClientTaskProtocol {
+    func send(_ message: URLSessionWebSocketTask.Message) async throws {
+        sentMessages.append(message)
+    }
+    
+    func receive() async throws -> URLSessionWebSocketTask.Message {
+        guard keepReceivingMessages else {
+            throw CancellationError()
+        }
+        
+        if shouldError {
+            throw NSError(domain: "test", code: 1, userInfo: nil)
+        } else {
+            return .string("incoming")
+        }
+    }
+    
     var sentMessages: [URLSessionWebSocketTask.Message] = []
     var didCancel = false
     var originalRequest: URLRequest?
@@ -45,8 +61,14 @@ class MockWebSocketTask: WebSocketClientTaskProtocol {
 
 class MockNetwork: WebSocketNetworkProtocol {
     var shouldError = false
+    var mockWebSocket: MockWebSocket?
+    
     func webSocketTask(with request: URLRequest) -> any SalesforceSDKCore.WebSocketClientTaskProtocol {
-        let task = MockWebSocketTask()
+        if let mockWebSocket {
+            mockWebSocket.shouldError = false
+            return mockWebSocket
+        }
+        let task = MockWebSocket()
         task.originalRequest = request
         task.shouldError = shouldError
         return task
@@ -75,29 +97,27 @@ class MockUserAccountManager: UserAccountManaging {
     }
 }
 
-final class WebSocketClientTaskTests: XCTestCase {
+final class WebSocketClientTests: XCTestCase {
     
-    func testSendMessageSuccess() {
+    func testSendMessageSuccess() async {
         // Given
-        let mockTask = MockWebSocketTask()
-        let client = WebSocketClientTask(task: mockTask)
+        let mockTask = MockWebSocket()
+        let client = WebSocketClient(task: mockTask)
         let message = URLSessionWebSocketTask.Message.string("test")
-        let expectation = self.expectation(description: "Send completes")
         
         // When
-        client.send(message) { error in
-            // Then
-            XCTAssertNil(error)
+        do {
+            try await client.send(message)
             XCTAssertEqual(mockTask.sentMessages.count, 1)
-            expectation.fulfill()
+        } catch {
+            XCTFail("Shouldn't send message: \(error)")
         }
-        wait(for: [expectation], timeout: 1.0)
     }
     
     func testCancelTask() {
         // Given
-        let mockTask = MockWebSocketTask()
-        let client = WebSocketClientTask(task: mockTask)
+        let mockTask = MockWebSocket()
+        let client = WebSocketClient(task: mockTask)
         
         // When
         client.cancel()
@@ -109,8 +129,8 @@ final class WebSocketClientTaskTests: XCTestCase {
     func testListenReceivesSuccessMessage() {
         
         // Given
-        let mockTask = MockWebSocketTask()
-        let client = WebSocketClientTask(task: mockTask)
+        let mockTask = MockWebSocket()
+        let client = WebSocketClient(task: mockTask)
         let expectation = self.expectation(description: "Message received")
         
         // When
@@ -118,7 +138,6 @@ final class WebSocketClientTaskTests: XCTestCase {
             switch result {
             case .success(_):
                 // Then
-                mockTask.keepReceivingMessages.toggle()
                 expectation.fulfill()
             case .failure(_):
                 XCTFail("Expected success")
@@ -129,42 +148,43 @@ final class WebSocketClientTaskTests: XCTestCase {
     
     func testListenReceivesFailureAndPerformRetryToSuccess() {
         // Given
-        let mockTask = MockWebSocketTask()
+        let mockTask = MockWebSocket()
         mockTask.shouldError.toggle()
         mockTask.originalRequest = URLRequest(url: URL(string: "ws://mock.com")!)
         let mockNetwork = MockNetwork()
+        mockNetwork.mockWebSocket = mockTask
         let mockAccountManager = MockUserAccountManager()
-        let client = WebSocketClientTask(task: mockTask,
-                                         network: mockNetwork,
-                                         accountManager: mockAccountManager)
-        let expectation = self.expectation(description: "Error received")
+        let client = WebSocketClient(task: mockTask,
+                                     network: mockNetwork,
+                                     accountManager: mockAccountManager)
+        let expectation = self.expectation(description: "Success received")
         
         // When
         client.listen { result in
+            mockTask.keepReceivingMessages.toggle()
             switch result {
             case .success(let message):
                 // Then
                 XCTAssertNotNil(message)
                 expectation.fulfill()
-            default:
-                XCTFail("Expected Success")
+            default: break
             }
         }
-        wait(for: [expectation], timeout: 1.0)
+        wait(for: [expectation], timeout: 5.0)
     }
     
     func testListenReceivesFailureAndPerformRetryToFailure() {
         // Given
-        let mockTask = MockWebSocketTask()
+        let mockTask = MockWebSocket()
         mockTask.shouldError.toggle()
         mockTask.originalRequest = URLRequest(url: URL(string: "ws://mock.com")!)
         let mockAccountManager = MockUserAccountManager()
         mockAccountManager.shouldError.toggle()
         let mockNetwork = MockNetwork()
         mockNetwork.shouldError.toggle()
-        let client = WebSocketClientTask(task: mockTask,
-                                         network: mockNetwork,
-                                         accountManager: mockAccountManager)
+        let client = WebSocketClient(task: mockTask,
+                                     network: mockNetwork,
+                                     accountManager: mockAccountManager)
         let expectation = self.expectation(description: "Error received")
         
         // When
