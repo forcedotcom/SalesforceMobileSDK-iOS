@@ -2,7 +2,6 @@
 //  WebSocketClientTask.swift
 //  SalesforceSDKCore
 //
-//  Created by Riley Crebs on 6/5/25.
 //  Copyright (c) 2025-present, salesforce.com, inc. All rights reserved.
 //
 //  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -88,39 +87,46 @@ public final class WebSocketClientTask {
     }
     
     public func listen(onReceive: @escaping (Result<URLSessionWebSocketTask.Message, Error>) -> Void) {
-        task.receive { [self] result in
+        
+        task.resume()
+        task.receive { [weak self] result in
+            guard let self = self else { return }
+            
             switch result {
             case .failure(let error):
-                
-                if self.shouldRetry && task.shouldRetry() {
-                    guard let originalRequest = self.task.originalRequest else {
-                        onReceive(.failure(error))
-                        return
-                    }
-                    self.task.cancel(with: .goingAway, reason: nil)
-                    shouldRetry = false // Only want to retry once
-                    Task {
-                        do {
-                            try await self.refreshWebSocketToken(with: originalRequest)
-                            self.listen(onReceive: onReceive)
-                        } catch {
-                            onReceive(.failure(error))
-                            shouldRetry = true
-                        }
-                    }
-                } else {
-                    onReceive(.failure(error))
-                }
+                handleFailure(error: error,
+                              onReceive: onReceive)
                 
             case .success(_):
                 onReceive(result)
+                listen(onReceive: onReceive)
             }
         }
-        task.resume()
     }
 
     public func cancel(with closeCode: URLSessionWebSocketTask.CloseCode = .normalClosure, reason: Data? = nil) {
         task.cancel(with: closeCode, reason: reason)
+    }
+    
+    private func handleFailure(error: Error,
+                               onReceive: @escaping (Result<URLSessionWebSocketTask.Message, Error>) -> Void) {
+        guard shouldRetry, task.shouldRetry(),
+              let originalRequest = task.originalRequest else {
+            onReceive(.failure(error))
+            return
+        }
+
+        task.cancel(with: .goingAway, reason: nil)
+        shouldRetry = false // Only retry once
+
+        Task {
+            do {
+                try await self.refreshWebSocketToken(with: originalRequest)
+                self.listen(onReceive: onReceive)
+            } catch {
+                onReceive(.failure(error))
+            }
+        }
     }
     
     private func refreshWebSocketToken(with request: URLRequest) async throws {

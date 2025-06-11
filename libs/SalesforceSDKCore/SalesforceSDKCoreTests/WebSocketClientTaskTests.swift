@@ -7,6 +7,7 @@ class MockWebSocketTask: WebSocketClientTaskProtocol {
     var didCancel = false
     var originalRequest: URLRequest?
     var shouldError = false
+    var keepReceivingMessages: Bool = true
     
     func send(_ message: URLSessionWebSocketTask.Message, completionHandler: @escaping @Sendable ((any Error)?) -> Void) {
         sentMessages.append(message)
@@ -14,6 +15,9 @@ class MockWebSocketTask: WebSocketClientTaskProtocol {
     }
     
     func receive(completionHandler: @escaping @Sendable (Result<URLSessionWebSocketTask.Message, any Error>) -> Void) {
+        
+        guard keepReceivingMessages else { return }
+        
         if !shouldError {
             completionHandler(.success(URLSessionWebSocketTask.Message.string("incoming")))
         } else {
@@ -114,6 +118,7 @@ final class WebSocketClientTaskTests: XCTestCase {
             switch result {
             case .success(_):
                 // Then
+                mockTask.keepReceivingMessages.toggle()
                 expectation.fulfill()
             case .failure(_):
                 XCTFail("Expected success")

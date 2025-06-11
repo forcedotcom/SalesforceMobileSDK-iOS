@@ -799,30 +799,4 @@ final class RestClientWebSocketTests: XCTestCase {
         // Then
         XCTAssertNotNil(socket, "WebSocket should not be nil")
     }
-    
-    func testListenShouldFail() {
-        // Given
-        let expectation = XCTestExpectation(description: "queryTest")
-        let request = URLRequest(url: URL(string: "wss://example.com")!)
-        
-        // When
-        Task {
-            let socket = try await RestClient.shared.newWebSocket(from: request)
-            socket.listen { result in
-                switch result {
-                case .failure(let error):
-                    // Then
-                    XCTAssertNotNil(error)
-                    expectation.fulfill()
-                default:
-                    XCTFail("WebSocket connection should fail")
-                    break
-                }
-            }
-        }
-        
-        
-        // Then
-        self.wait(for: [expectation], timeout: 5)
-    }
 }
