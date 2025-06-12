@@ -79,10 +79,10 @@ public class PushNotificationManager: NSObject {
     
     var isSimulator: Bool = false
     private let notificationRegister: RemoteNotificationRegistering
-    private let apiVersion: String
-    private let restClient: RestClient?
-    private let currentUser: UserAccount?
-    private let preferences: SFPreferences?
+    private var apiVersion: String
+    private var restClient: RestClient?
+    private var currentUser: UserAccount?
+    private var preferences: SFPreferences?
     
     /// Convenience initializer that sets up the PushNotificationManager with default values:
     /// - notificationRegister: DefaultRemoteNotificationRegistrar() - Handles APNS registration
@@ -457,6 +457,8 @@ public class PushNotificationManager: NSObject {
 
 private extension PushNotificationManager {
     @objc private func onUserLoggedIn(_ notification: Notification) {
+        refreshDependencies()
+        
         if deviceToken != nil {
             SFSDKCoreLogger.i(Self.self, message: "User logged in, registering push")
             _ = registerSalesforceNotifications(completionBlock: nil, failBlock: nil)
@@ -472,5 +474,15 @@ private extension PushNotificationManager {
         
         SFSDKCoreLogger.i(Self.self, message: "App entering foreground, re-registering push")
         _ = registerSalesforceNotifications(completionBlock: nil, failBlock: nil)
+    }
+    
+    func refreshDependencies() {
+        // Refresh dependencies now that user is logged in
+        let restClient = RestClient.shared
+        let user = UserAccountManager.shared.currentUserAccount
+        
+        self.restClient = restClient
+        self.apiVersion = restClient.apiVersion
+        self.currentUser = user
     }
 }
