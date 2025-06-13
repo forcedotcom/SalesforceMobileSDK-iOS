@@ -16,12 +16,12 @@ class PushNotificationManagerTests: XCTestCase {
         
         mockRestClient = MockRestClient()
         mockRestClient.apiVersion = SFRestDefaultAPIVersion
+        mockApplicationHelper.client = mockRestClient
         mockUserAccount = UserAccount()
         UserAccountManager.shared.currentUserAccount = mockUserAccount
         mockPreferences = MockPreferences()
         mockPreferences.setObject("mock-sfid", forKey: PushNotificationConstants.deviceSalesforceId)
         pushNotificationManager = PushNotificationManager(notificationRegister: mockApplicationHelper,
-                                                          restClient: mockRestClient,
                                                           preferences: mockPreferences)
         pushNotificationManager.isSimulator = false
     }
@@ -1040,7 +1040,13 @@ class ActionTypeTests: XCTestCase {
 }
 
 // MARK: - Mocks
-class MockApplicationHelper: RemoteNotificationRegistering {
+class MockApplicationHelper: RemoteNotificationRegistering {    
+    var client: RestClient?
+    
+    func client(for user: UserAccount?) -> RestClient? {
+        client
+    }
+    
     var registerForRemoteNotificationsCalled = false
     
     func registerForRemoteNotifications() {
