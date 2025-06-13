@@ -777,3 +777,26 @@ class RestClientTests: XCTestCase {
     }
     
 }
+
+final class RestClientWebSocketTests: XCTestCase {
+
+    func testNewWebSocketFromURLRequest() async throws {
+        // Given
+        let request = RestRequest(method: .GET,
+                                  serviceHostType: .login,
+                                  path: "/a",
+                                  queryParams: nil)
+        
+        
+        guard let urlRequest = request.prepare(forSend: RestClient.shared.userAccount) else {
+            XCTFail("Failed to prepare URLRequest from RestRequest")
+            return
+        }
+
+        // When
+        let socket = try await RestClient.shared.newWebSocket(from: urlRequest)
+
+        // Then
+        XCTAssertNotNil(socket, "WebSocket should not be nil")
+    }
+}
