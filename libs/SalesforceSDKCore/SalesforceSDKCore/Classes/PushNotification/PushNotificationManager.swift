@@ -79,45 +79,37 @@ public class PushNotificationManager: NSObject {
     
     var isSimulator: Bool = false
     private let notificationRegister: RemoteNotificationRegistering
-    private let apiVersion: String
-    private let restClient: RestClient?
-    private let currentUser: UserAccount?
-    private let preferences: SFPreferences?
+    private var restClient: RestClient?
+    private var preferences: SFPreferences?
+    
+    private var loginObserver: NSObjectProtocol?
+    private var logoutObserver: NSObjectProtocol?
+    private var enterForegroundObserver: NSObjectProtocol?
     
     /// Convenience initializer that sets up the PushNotificationManager with default values:
     /// - notificationRegister: DefaultRemoteNotificationRegistrar() - Handles APNS registration
-    /// - apiVersion: RestClient.shared.apiVersion - Uses the current API version from RestClient
     /// - restClient: RestClient.shared - Uses the shared RestClient instance
-    /// - currentUser: UserAccountManager.shared.currentUserAccount - Uses the current logged-in user
     /// - preferences: SFPreferences.sharedPreferences(for: .user, user: currentUser) - Uses user-level preferences
     @objc
     public override convenience init() {
         self.init(notificationRegister: DefaultRemoteNotificationRegistrar(),
-                   apiVersion: RestClient.shared.apiVersion,
                    restClient: RestClient.shared,
-                   currentUser: UserAccountManager.shared.currentUserAccount,
                    preferences: SFPreferences.sharedPreferences(for: .user, user: UserAccountManager.shared.currentUserAccount))
     }
     
     /// Internal initializer used for testing and dependency injection.
     /// This initializer allows for customizing the dependencies of PushNotificationManager:
     /// - Parameter notificationRegister: The registrar that handles APNS registration. Defaults to DefaultRemoteNotificationRegistrar.
-    /// - Parameter apiVersion: The Salesforce API version to use. Defaults to RestClient.shared.apiVersion.
     /// - Parameter restClient: The REST client for making API calls. Defaults to RestClient.shared.
-    /// - Parameter currentUser: The user account to use. Defaults to UserAccountManager.shared.currentUserAccount.
     /// - Parameter preferences: The preferences store to use. Defaults to user-level SFPreferences.
     internal init(notificationRegister: RemoteNotificationRegistering = DefaultRemoteNotificationRegistrar(),
-                  apiVersion: String = RestClient.shared.apiVersion,
                   restClient : RestClient? = RestClient.shared,
-                  currentUser: UserAccount? = UserAccountManager.shared.currentUserAccount,
                   preferences: SFPreferences? = nil) {
         self.notificationRegister = notificationRegister
-        self.apiVersion = apiVersion
         self.restClient = restClient
-        self.currentUser = currentUser
         
         if preferences == nil {
-            self.preferences = SFPreferences.sharedPreferences(for: .user, user: currentUser)
+            self.preferences = SFPreferences.currentUserLevel()
         } else {
             self.preferences = preferences
         }
@@ -130,19 +122,23 @@ public class PushNotificationManager: NSObject {
         self.isSimulator = false
 #endif
         
-        let prefs = SFPreferences.currentUserLevel()
-        self.deviceToken = prefs?.string(forKey: PushNotificationConstants.deviceToken)
-        self.deviceSalesforceId = prefs?.string(forKey: PushNotificationConstants.deviceSalesforceId)
+        self.deviceToken = preferences?.string(forKey: PushNotificationConstants.deviceToken)
+        self.deviceSalesforceId = preferences?.string(forKey: PushNotificationConstants.deviceSalesforceId)
         
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(onUserLoggedIn(_:)),
-                                               name: NSNotification.Name(rawValue: UserAccountManager.didLogInUser.rawValue),
-                                               object: nil)
-        
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(onAppWillEnterForeground(_:)),
-                                               name: UIApplication.willEnterForegroundNotification,
-                                               object: nil)
+        setupNotificationObservers()
+    }
+    
+    deinit {
+        let center = NotificationCenter.default
+        if let loginObserver = loginObserver {
+            center.removeObserver(loginObserver)
+        }
+        if let logoutObserver = logoutObserver {
+            center.removeObserver(logoutObserver)
+        }
+        if let enterForegroundObserver = enterForegroundObserver {
+            center.removeObserver(enterForegroundObserver)
+        }
     }
     
     /// Registers the app with Apple Push Notification Service (APNS).
@@ -224,6 +220,7 @@ public class PushNotificationManager: NSObject {
             return false
         }
         
+        let apiVersion = restClient?.apiVersion ?? SFRestDefaultAPIVersion
         let path = "/\(apiVersion)/\(PushNotificationConstants.endPoint)"
         let request = RestRequest(method: .POST, path: path, queryParams: nil)
         
@@ -286,7 +283,7 @@ public class PushNotificationManager: NSObject {
                 
                 Task {
                     do {
-                        try await self.fetchAndStoreNotificationTypes(restClient: restClient, account: user)
+                        try await self.fetchAndStoreNotificationTypes(restClient: restClient)
                     } catch {
                         SFSDKCoreLogger.e(Self.self, message: "Get Notification Types Error: \(error.localizedDescription)")
                     }
@@ -347,6 +344,7 @@ public class PushNotificationManager: NSObject {
             return false
         }
         
+        let apiVersion = restClient?.apiVersion ?? SFRestDefaultAPIVersion
         let path = "/\(apiVersion)/\(PushNotificationConstants.endPoint)/\(sfId)"
         let request = RestRequest(method: .DELETE,
                                   path: path,
@@ -369,12 +367,10 @@ public class PushNotificationManager: NSObject {
     ///
     /// - Parameters:
     ///   - restClient: The `RestClient` to use for the API call.
-    ///   - account: The user account to associate notification types with.
     /// - Throws: An error if the types cannot be retrieved from server or cache.
-    @objc(fetchAndStoreNotificationTypesWithRestClient:account:completionHandler:)
-    public func fetchAndStoreNotificationTypes(restClient: RestClient = RestClient.shared,
-                                               account: UserAccount? = UserAccountManager.shared.currentUserAccount) async throws {
-        guard let account = account else {
+    @objc(fetchAndStoreNotificationTypesWithRestClient:completionHandler:)
+    public func fetchAndStoreNotificationTypes(restClient: RestClient = RestClient.shared) async throws {
+        guard let account = UserAccountManager.shared.currentUserAccount else {
             throw PushNotificationManagerError.currentUserNotDetected
         }
         
@@ -453,10 +449,33 @@ public class PushNotificationManager: NSObject {
             completionBlock(false)
         }
     }
+
 }
 
 private extension PushNotificationManager {
+    
+    private func setupNotificationObservers() {
+        loginObserver =  NotificationCenter.default.addObserver(
+            forName: UserAccountManager.didLogInUser,
+            object: nil,
+            queue: .main
+        ) { [weak self] in self?.onUserLoggedIn($0) }
+        
+        logoutObserver = NotificationCenter.default.addObserver(
+            forName: UserAccountManager.didLogoutUser,
+            object: nil,
+            queue: .main
+        ) { [weak self] in self?.onUserLoggedOut($0) }
+        
+        enterForegroundObserver = NotificationCenter.default.addObserver(
+            forName: UIApplication.willEnterForegroundNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] in self?.onAppWillEnterForeground($0) }
+    }
+    
     @objc private func onUserLoggedIn(_ notification: Notification) {
+        restClient = RestClient.shared
         if deviceToken != nil {
             SFSDKCoreLogger.i(Self.self, message: "User logged in, registering push")
             _ = registerSalesforceNotifications(completionBlock: nil, failBlock: nil)
@@ -472,5 +491,9 @@ private extension PushNotificationManager {
         
         SFSDKCoreLogger.i(Self.self, message: "App entering foreground, re-registering push")
         _ = registerSalesforceNotifications(completionBlock: nil, failBlock: nil)
+    }
+    
+    @objc private func onUserLoggedOut(_ notification: Notification) {
+        restClient = RestClient.shared
     }
 }
