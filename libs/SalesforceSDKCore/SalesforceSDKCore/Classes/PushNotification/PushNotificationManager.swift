@@ -82,6 +82,10 @@ public class PushNotificationManager: NSObject {
     private var restClient: RestClient?
     private var preferences: SFPreferences?
     
+    private var loginObserver: NSObjectProtocol?
+    private var logoutObserver: NSObjectProtocol?
+    private var enterForegroundObserver: NSObjectProtocol?
+    
     /// Convenience initializer that sets up the PushNotificationManager with default values:
     /// - notificationRegister: DefaultRemoteNotificationRegistrar() - Handles APNS registration
     /// - restClient: RestClient.shared - Uses the shared RestClient instance
@@ -121,15 +125,14 @@ public class PushNotificationManager: NSObject {
         self.deviceToken = preferences?.string(forKey: PushNotificationConstants.deviceToken)
         self.deviceSalesforceId = preferences?.string(forKey: PushNotificationConstants.deviceSalesforceId)
         
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(onUserLoggedIn(_:)),
-                                               name: NSNotification.Name(rawValue: UserAccountManager.didLogInUser.rawValue),
-                                               object: nil)
-        
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(onAppWillEnterForeground(_:)),
-                                               name: UIApplication.willEnterForegroundNotification,
-                                               object: nil)
+        setupNotificationObservers()
+    }
+    
+    deinit {
+        let center = NotificationCenter.default
+        center.removeObserver(loginObserver ?? self)
+        center.removeObserver(logoutObserver ?? self)
+        center.removeObserver(enterForegroundObserver ?? self)
     }
     
     /// Registers the app with Apple Push Notification Service (APNS).
@@ -305,6 +308,55 @@ public class PushNotificationManager: NSObject {
         return unregisterSalesforceNotifications(for: user, completionBlock: completionBlock)
     }
     
+    /// Unregisters the device from Salesforce push notifications for a specific user.
+    ///
+    /// - Parameters:
+    ///   - user: The user account to unregister.
+    ///   - completionBlock: A block executed when unregistration is complete.
+    /// - Returns: `true` if unregistration started successfully, otherwise `false`.
+    @discardableResult
+    @objc(unregisterSalesforceNotificationsWithCompletionBlock:completionBlock:)
+    public func unregisterSalesforceNotifications(for user: UserAccount,
+                                                  completionBlock: (() -> Void)?) -> Bool {
+        guard deviceSalesforceId != nil else {
+            completionBlock?()
+            return true
+        }
+        
+        if isSimulator {
+            completionBlock?()
+            return true
+        }
+        
+        guard let prefs = preferences else {
+            SFSDKCoreLogger.e(Self.self, message: "Cannot unregister from notifications with Salesforce: no user prefs")
+            return false
+        }
+        
+        guard let sfId = prefs.string(forKey: PushNotificationConstants.deviceSalesforceId) else {
+            SFSDKCoreLogger.e(Self.self, message: "Cannot unregister from notifications with Salesforce: no deviceSalesforceId")
+            return false
+        }
+        
+        let apiVersion = restClient?.apiVersion ?? SFRestDefaultAPIVersion
+        let path = "/\(apiVersion)/\(PushNotificationConstants.endPoint)/\(sfId)"
+        let request = RestRequest(method: .DELETE,
+                                  path: path,
+                                  queryParams: nil)
+        Task {
+            do {
+                _ = try await restClient?.send(request: request)
+                completionBlock?()
+            } catch {
+                SFSDKCoreLogger.e(Self.self, message: "Push notification unregistration failed: \(error.localizedDescription)")
+                completionBlock?()
+            }
+        }
+        
+        SFSDKCoreLogger.i(Self.self, message: "Unregister from notifications with Salesforce sent")
+        return true
+    }
+    
     /// Fetches and stores actionable notification types from the server or cache.
     ///
     /// - Parameters:
@@ -377,11 +429,47 @@ public class PushNotificationManager: NSObject {
         }
         self.unregisterForSalesforceNotifications(user: currentUser, completionBlock)
     }
+    
+    ///  Unregister from Salesforce notfications for a specific user
+    /// - Parameters:
+    ///   - user: The user that should be unregistered from notfications
+    ///   - completionBlock: completion block to call with success or failure
+    public func unregisterForSalesforceNotifications(user: UserAccount, _ completionBlock:@escaping (Bool)->()) {
+        let result = unregisterSalesforceNotifications(for: user) {
+            completionBlock(true)
+        }
+        
+        if (!result) {
+            completionBlock(false)
+        }
+    }
+
 }
 
 private extension PushNotificationManager {
-    @objc private func onUserLoggedIn(_ notification: Notification) {
+    
+    private func setupNotificationObservers() {
+        loginObserver =  NotificationCenter.default.addObserver(
+            forName: UserAccountManager.didLogInUser,
+            object: nil,
+            queue: .main
+        ) { [weak self] in self?.onUserLoggedIn($0) }
         
+        logoutObserver = NotificationCenter.default.addObserver(
+            forName: UserAccountManager.didLogoutUser,
+            object: nil,
+            queue: .main
+        ) { [weak self] in self?.onUserLoggedOut($0) }
+        
+        enterForegroundObserver = NotificationCenter.default.addObserver(
+            forName: UIApplication.willEnterForegroundNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] in self?.onAppWillEnterForeground($0) }
+    }
+    
+    @objc private func onUserLoggedIn(_ notification: Notification) {
+        restClient = RestClient.shared
         if deviceToken != nil {
             SFSDKCoreLogger.i(Self.self, message: "User logged in, registering push")
             _ = registerSalesforceNotifications(completionBlock: nil, failBlock: nil)
@@ -399,54 +487,7 @@ private extension PushNotificationManager {
         _ = registerSalesforceNotifications(completionBlock: nil, failBlock: nil)
     }
     
-    private func unregisterSalesforceNotifications(for user: UserAccount,
-                                                  completionBlock: (() -> Void)?) -> Bool {
-        guard deviceSalesforceId != nil else {
-            completionBlock?()
-            return true
-        }
-        
-        if isSimulator {
-            completionBlock?()
-            return true
-        }
-        
-        guard let prefs = preferences else {
-            SFSDKCoreLogger.e(Self.self, message: "Cannot unregister from notifications with Salesforce: no user prefs")
-            return false
-        }
-        
-        guard let sfId = prefs.string(forKey: PushNotificationConstants.deviceSalesforceId) else {
-            SFSDKCoreLogger.e(Self.self, message: "Cannot unregister from notifications with Salesforce: no deviceSalesforceId")
-            return false
-        }
-        
-        let apiVersion = restClient?.apiVersion ?? SFRestDefaultAPIVersion
-        let path = "/\(apiVersion)/\(PushNotificationConstants.endPoint)/\(sfId)"
-        let request = RestRequest(method: .DELETE,
-                                  path: path,
-                                  queryParams: nil)
-        Task {
-            do {
-                _ = try await restClient?.send(request: request)
-                completionBlock?()
-            } catch {
-                SFSDKCoreLogger.e(Self.self, message: "Push notification unregistration failed: \(error.localizedDescription)")
-                completionBlock?()
-            }
-        }
-        
-        SFSDKCoreLogger.i(Self.self, message: "Unregister from notifications with Salesforce sent")
-        return true
-    }
-    
-    private func unregisterForSalesforceNotifications(user: UserAccount, _ completionBlock:@escaping (Bool)->()) {
-        let result = unregisterSalesforceNotifications(for: user) {
-            completionBlock(true)
-        }
-        
-        if (!result) {
-            completionBlock(false)
-        }
+    @objc private func onUserLoggedOut(_ notification: Notification) {
+        restClient = RestClient.shared
     }
 }
