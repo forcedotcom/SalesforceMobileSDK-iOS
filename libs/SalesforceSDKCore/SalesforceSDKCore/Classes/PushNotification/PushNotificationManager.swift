@@ -130,9 +130,15 @@ public class PushNotificationManager: NSObject {
     
     deinit {
         let center = NotificationCenter.default
-        center.removeObserver(loginObserver ?? self)
-        center.removeObserver(logoutObserver ?? self)
-        center.removeObserver(enterForegroundObserver ?? self)
+        if let loginObserver = loginObserver {
+            center.removeObserver(loginObserver)
+        }
+        if let logoutObserver = logoutObserver {
+            center.removeObserver(logoutObserver)
+        }
+        if let enterForegroundObserver = enterForegroundObserver {
+            center.removeObserver(enterForegroundObserver)
+        }
     }
     
     /// Registers the app with Apple Push Notification Service (APNS).
