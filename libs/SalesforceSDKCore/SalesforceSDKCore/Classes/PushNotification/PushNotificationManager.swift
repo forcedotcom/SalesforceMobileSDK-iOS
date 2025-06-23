@@ -80,7 +80,6 @@ public class PushNotificationManager: NSObject {
     var isSimulator: Bool = false
     private let notificationRegister: RemoteNotificationRegistering
     private var preferences: SFPreferences?
-    
     private var loginObserver: NSObjectProtocol?
     private var enterForegroundObserver: NSObjectProtocol?
     
@@ -91,7 +90,7 @@ public class PushNotificationManager: NSObject {
     @objc
     public override convenience init() {
         self.init(notificationRegister: DefaultRemoteNotificationRegistrar(),
-                  preferences: SFPreferences.sharedPreferences(for: .user, user: UserAccountManager.shared.currentUserAccount))
+                  preferences: SFPreferences.currentUserLevel())
     }
     
     /// Internal initializer used for testing and dependency injection.
@@ -276,7 +275,7 @@ public class PushNotificationManager: NSObject {
                 
                 Task {
                     do {
-                        try await self.fetchAndStoreNotificationTypes(restClient: restClient)
+                        try await self.fetchAndStoreNotificationTypes(restClient: restClient, account: user)
                     } catch {
                         SFSDKCoreLogger.e(Self.self, message: "Get Notification Types Error: \(error.localizedDescription)")
                     }
@@ -360,10 +359,12 @@ public class PushNotificationManager: NSObject {
     ///
     /// - Parameters:
     ///   - restClient: The `RestClient` to use for the API call.
+    ///   - account: The user account to associate notification types with.
     /// - Throws: An error if the types cannot be retrieved from server or cache.
-    @objc(fetchAndStoreNotificationTypesWithRestClient:completionHandler:)
-    public func fetchAndStoreNotificationTypes(restClient: RestClient = RestClient.shared) async throws {
-        guard let account = UserAccountManager.shared.currentUserAccount else {
+    @objc(fetchAndStoreNotificationTypesWithRestClient:account:completionHandler:)
+    public func fetchAndStoreNotificationTypes(restClient: RestClient = RestClient.shared,
+                                               account: UserAccount? = UserAccountManager.shared.currentUserAccount) async throws {
+        guard let account = account else {
             throw PushNotificationManagerError.currentUserNotDetected
         }
         
