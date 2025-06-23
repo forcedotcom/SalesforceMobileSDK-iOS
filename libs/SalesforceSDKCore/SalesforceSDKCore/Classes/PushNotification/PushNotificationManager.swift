@@ -82,7 +82,6 @@ public class PushNotificationManager: NSObject {
     private var preferences: SFPreferences?
     
     private var loginObserver: NSObjectProtocol?
-    private var logoutObserver: NSObjectProtocol?
     private var enterForegroundObserver: NSObjectProtocol?
     
     /// Convenience initializer that sets up the PushNotificationManager with default values:
@@ -128,9 +127,6 @@ public class PushNotificationManager: NSObject {
         let center = NotificationCenter.default
         if let loginObserver = loginObserver {
             center.removeObserver(loginObserver)
-        }
-        if let logoutObserver = logoutObserver {
-            center.removeObserver(logoutObserver)
         }
         if let enterForegroundObserver = enterForegroundObserver {
             center.removeObserver(enterForegroundObserver)

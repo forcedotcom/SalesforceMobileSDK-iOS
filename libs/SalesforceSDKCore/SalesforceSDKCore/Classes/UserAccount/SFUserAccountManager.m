@@ -670,7 +670,8 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     
     // Before starting actual logout (which will tear down SFRestAPI), first unregister from push notifications if needed
     __weak typeof(self) weakSelf = self;
-    [[SFPushNotificationManager sharedInstance] unregisterSalesforceNotificationsWithCompletionBlock:^void() {
+    [[SFPushNotificationManager sharedInstance] unregisterSalesforceNotificationsWithCompletionBlock:user
+                                                                                     completionBlock:^void() {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         [strongSelf postPushUnregistration:user logoutReason:reason];
     }];
