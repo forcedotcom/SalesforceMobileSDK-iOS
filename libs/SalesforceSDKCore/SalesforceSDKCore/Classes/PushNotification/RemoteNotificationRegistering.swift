@@ -33,6 +33,8 @@ public protocol RemoteNotificationRegistering {
     func registerForRemoteNotifications()
     
     func client(for user: UserAccount?) -> RestClient?
+    
+    func preferences(for user: UserAccount?) -> SFPreferences?
 }
 
 // MARK: - Default Implementation
@@ -50,5 +52,12 @@ final class DefaultRemoteNotificationRegistrar: RemoteNotificationRegistering {
             return RestClient.shared
         }
         return RestClient.restClient(for: account)
+    }
+    
+    func preferences(for user: UserAccount?) -> SFPreferences? {
+        guard let account = user else {
+            return SFPreferences.currentUserLevel()
+        }
+        return SFPreferences.sharedPreferences(for: .user, user: account)
     }
 }

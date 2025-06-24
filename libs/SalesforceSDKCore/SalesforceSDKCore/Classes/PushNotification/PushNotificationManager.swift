@@ -79,7 +79,6 @@ public class PushNotificationManager: NSObject {
     
     var isSimulator: Bool = false
     private let notificationRegister: RemoteNotificationRegistering
-    private var preferences: SFPreferences?
     private var loginObserver: NSObjectProtocol?
     private var enterForegroundObserver: NSObjectProtocol?
     
@@ -89,8 +88,7 @@ public class PushNotificationManager: NSObject {
     /// - preferences: SFPreferences.sharedPreferences(for: .user, user: currentUser) - Uses user-level preferences
     @objc
     public override convenience init() {
-        self.init(notificationRegister: DefaultRemoteNotificationRegistrar(),
-                  preferences: SFPreferences.currentUserLevel())
+        self.init(notificationRegister: DefaultRemoteNotificationRegistrar())
     }
     
     /// Internal initializer used for testing and dependency injection.
@@ -98,15 +96,8 @@ public class PushNotificationManager: NSObject {
     /// - Parameter notificationRegister: The registrar that handles APNS registration. Defaults to DefaultRemoteNotificationRegistrar.
     /// - Parameter restClient: The REST client for making API calls. Defaults to RestClient.shared.
     /// - Parameter preferences: The preferences store to use. Defaults to user-level SFPreferences.
-    internal init(notificationRegister: RemoteNotificationRegistering = DefaultRemoteNotificationRegistrar(),
-                  preferences: SFPreferences? = nil) {
+    internal init(notificationRegister: RemoteNotificationRegistering = DefaultRemoteNotificationRegistrar()) {
         self.notificationRegister = notificationRegister
-        
-        if preferences == nil {
-            self.preferences = SFPreferences.currentUserLevel()
-        } else {
-            self.preferences = preferences
-        }
         
         super.init()
         
@@ -115,7 +106,7 @@ public class PushNotificationManager: NSObject {
 #else
         self.isSimulator = false
 #endif
-        
+        let preferences = notificationRegister.preferences(for: UserAccountManager.shared.currentUserAccount)
         self.deviceToken = preferences?.string(forKey: PushNotificationConstants.deviceToken)
         self.deviceSalesforceId = preferences?.string(forKey: PushNotificationConstants.deviceSalesforceId)
         
@@ -325,7 +316,7 @@ public class PushNotificationManager: NSObject {
             completionBlock?()
             return true
         }
-        
+        let preferences = notificationRegister.preferences(for: UserAccountManager.shared.currentUserAccount)
         guard let prefs = preferences else {
             SFSDKCoreLogger.e(Self.self, message: "Cannot unregister from notifications with Salesforce: no user prefs")
             return false
