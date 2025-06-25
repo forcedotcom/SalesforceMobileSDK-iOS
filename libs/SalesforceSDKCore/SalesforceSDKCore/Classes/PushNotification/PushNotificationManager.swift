@@ -202,8 +202,13 @@ public class PushNotificationManager: NSObject {
             return false
         }
         
-        let restClient = notificationRegister.client(for: user)
-        let apiVersion = restClient?.apiVersion ?? SFRestDefaultAPIVersion
+        guard let restClient = notificationRegister.client(for: user) else {
+            SFSDKCoreLogger.e(Self.self, message: "Cannot register for notifications with Salesforce: no restClient")
+            failBlock?()
+            return false
+        }
+        
+        let apiVersion = restClient.apiVersion
         let path = "/\(apiVersion)/\(PushNotificationConstants.endPoint)"
         let request = RestRequest(method: .POST, path: path, queryParams: nil)
         
@@ -231,13 +236,6 @@ public class PushNotificationManager: NSObject {
         request.setCustomRequestBodyDictionary(bodyDict, contentType: "application/json")
         Task {
             do {
-                
-                guard let restClient = restClient else {
-                    SFSDKCoreLogger.e(Self.self, message: "Cannot register for notifications with Salesforce: no restClient")
-                    failBlock?()
-                    return
-                }
-                
                 let result = try await restClient.send(request: request)
                 
                 SFSDKAppFeatureMarkers.registerAppFeature(PushNotificationConstants.appFeaturePushNotifications)
@@ -326,15 +324,20 @@ public class PushNotificationManager: NSObject {
             SFSDKCoreLogger.e(Self.self, message: "Cannot unregister from notifications with Salesforce: no deviceSalesforceId")
             return false
         }
-        let restClient = notificationRegister.client(for: user)
-        let apiVersion = restClient?.apiVersion ?? SFRestDefaultAPIVersion
+        
+        guard let restClient = notificationRegister.client(for: user) else {
+            SFSDKCoreLogger.e(Self.self, message: "Cannot register for notifications with Salesforce: no restClient")
+            return false
+        }
+        
+        let apiVersion = restClient.apiVersion
         let path = "/\(apiVersion)/\(PushNotificationConstants.endPoint)/\(sfId)"
         let request = RestRequest(method: .DELETE,
                                   path: path,
                                   queryParams: nil)
         Task {
             do {
-                _ = try await restClient?.send(request: request)
+                _ = try await restClient.send(request: request)
                 completionBlock?()
             } catch {
                 SFSDKCoreLogger.e(Self.self, message: "Push notification unregistration failed: \(error.localizedDescription)")
