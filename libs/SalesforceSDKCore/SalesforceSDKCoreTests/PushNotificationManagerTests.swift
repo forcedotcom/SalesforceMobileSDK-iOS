@@ -12,18 +12,21 @@ class PushNotificationManagerTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        mockApplicationHelper = MockApplicationHelper()
+        
+        mockPreferences = MockPreferences()
+        mockPreferences.setObject("mock-sfid", forKey: PushNotificationConstants.deviceSalesforceId)
+        
+        mockUserAccount = UserAccount()
+        UserAccountManager.shared.currentUserAccount = mockUserAccount
         
         mockRestClient = MockRestClient()
         mockRestClient.apiVersion = SFRestDefaultAPIVersion
-        mockUserAccount = UserAccount()
-        mockPreferences = MockPreferences()
-        mockPreferences.setObject("mock-sfid", forKey: PushNotificationConstants.deviceSalesforceId)
-        pushNotificationManager = PushNotificationManager(notificationRegister: mockApplicationHelper,
-                                                          apiVersion: SFRestDefaultAPIVersion,
-                                                          restClient: mockRestClient,
-                                                          currentUser: mockUserAccount,
-                                                          preferences: mockPreferences)
+        
+        mockApplicationHelper = MockApplicationHelper()
+        mockApplicationHelper.client = mockRestClient
+        mockApplicationHelper.preferences = mockPreferences
+        
+        pushNotificationManager = PushNotificationManager(notificationRegister: mockApplicationHelper)
         pushNotificationManager.isSimulator = false
     }
 
@@ -533,10 +536,7 @@ class PushNotificationManagerTests: XCTestCase {
         mockRestClient.jsonResponse = makeMockJSONResponse()
         
         // When
-        try await pushNotificationManager.fetchAndStoreNotificationTypes(
-            restClient: mockRestClient,
-            account: mockUserAccount
-        )
+        try await pushNotificationManager.fetchAndStoreNotificationTypes(restClient: mockRestClient)
         
         // Then
         XCTAssertNotNil(mockUserAccount.notificationTypes)
@@ -546,14 +546,11 @@ class PushNotificationManagerTests: XCTestCase {
     
     func testFetchAndStoreNotificationTypes_NoAccount() async {
         // Given
-        let nilAccount: UserAccount? = nil
+        UserAccountManager.shared.currentUserAccount = nil
         
         // When/Then
         do {
-            try await pushNotificationManager.fetchAndStoreNotificationTypes(
-                restClient: mockRestClient,
-                account: nilAccount
-            )
+            try await pushNotificationManager.fetchAndStoreNotificationTypes(restClient: mockRestClient)
             XCTFail("Expected currentUserNotDetected error")
         } catch let error as PushNotificationManagerError {
             XCTAssertEqual(error, .currentUserNotDetected)
@@ -568,10 +565,7 @@ class PushNotificationManagerTests: XCTestCase {
         
         // When/Then
         do {
-            try await pushNotificationManager.fetchAndStoreNotificationTypes(
-                restClient: mockRestClient,
-                account: mockUserAccount
-            )
+            try await pushNotificationManager.fetchAndStoreNotificationTypes(restClient: mockRestClient)
             XCTFail("Expected notificationActionInvocationFailed error")
         } catch let error as PushNotificationManagerError {
             XCTAssertEqual(error, .failedNotificationTypesRetrieval)
@@ -592,10 +586,7 @@ class PushNotificationManagerTests: XCTestCase {
         mockUserAccount.notificationTypes = cachedTypes
         
         // When
-        try await pushNotificationManager.fetchAndStoreNotificationTypes(
-            restClient: mockRestClient,
-            account: mockUserAccount
-        )
+        try await pushNotificationManager.fetchAndStoreNotificationTypes(restClient: mockRestClient)
         
         // Then
         XCTAssertNotNil(mockUserAccount.notificationTypes)
@@ -611,10 +602,7 @@ class PushNotificationManagerTests: XCTestCase {
         
         // When/Then
         do {
-            try await pushNotificationManager.fetchAndStoreNotificationTypes(
-                restClient: mockRestClient,
-                account: mockUserAccount
-            )
+            try await pushNotificationManager.fetchAndStoreNotificationTypes(restClient: mockRestClient)
             XCTFail("Expected failedNotificationTypesRetrieval error")
         } catch let error as PushNotificationManagerError {
             XCTAssertEqual(error, .failedNotificationTypesRetrieval)
@@ -635,10 +623,7 @@ class PushNotificationManagerTests: XCTestCase {
         mockUserAccount.notificationTypes = cachedTypes
         
         // When
-        try await pushNotificationManager.fetchAndStoreNotificationTypes(
-            restClient: mockRestClient,
-            account: mockUserAccount
-        )
+        try await pushNotificationManager.fetchAndStoreNotificationTypes(restClient: mockRestClient)
         
         // Then
         XCTAssertNotNil(mockUserAccount.notificationTypes)
@@ -1060,6 +1045,17 @@ class ActionTypeTests: XCTestCase {
 
 // MARK: - Mocks
 class MockApplicationHelper: RemoteNotificationRegistering {
+    var client: RestClient?
+    var preferences: SFPreferences?
+    
+    func client(for user: UserAccount?) -> RestClient? {
+        client
+    }
+    
+    func preferences(for user: UserAccount?) -> SFPreferences? {
+        preferences
+    }
+    
     var registerForRemoteNotificationsCalled = false
     
     func registerForRemoteNotifications() {
