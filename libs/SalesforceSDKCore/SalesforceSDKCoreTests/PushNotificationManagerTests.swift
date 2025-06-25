@@ -651,12 +651,12 @@ class PushNotificationManagerTests: XCTestCase {
         let mockTypes = [
             NotificationType(type: "supported_type", apiName: "supported_type", label: "Supported Type", actionGroups: [
                 ActionGroup(name: "group1", actions: [
-                    Action(name: "action1", identifier: "group1__action1", label: "Action 1", type: .notificationApiAction)
+                    Action(name: "action1", identifier: "group1__action1", label: "Action 1", type: "NotificationApiAction")
                 ])
             ]),
             NotificationType(type: "unsupported_type", apiName: "unsupported_type", label: "Unsupported Type", actionGroups: [
                 ActionGroup(name: "group2", actions: [
-                    Action(name: "action2", identifier: "group2__action2", label: "Action 2", type: .notificationApiAction)
+                    Action(name: "action2", identifier: "group2__action2", label: "Action 2", type: "NotificationApiAction")
                 ])
             ])
         ]
@@ -691,12 +691,12 @@ class PushNotificationManagerTests: XCTestCase {
         let mockTypes = [
             NotificationType(type: "type1", apiName: "type1", label: "Type 1", actionGroups: [
                 ActionGroup(name: "group1", actions: [
-                    Action(name: "action1", identifier: "group1__action1", label: "Action 1", type: .notificationApiAction)
+                    Action(name: "action1", identifier: "group1__action1", label: "Action 1", type: "NotificationApiAction")
                 ])
             ]),
             NotificationType(type: "type2", apiName: "type2", label: "Type 2", actionGroups: [
                 ActionGroup(name: "group2", actions: [
-                    Action(name: "action2", identifier: "group2__action2", label: "Action 2", type: .notificationApiAction)
+                    Action(name: "action2", identifier: "group2__action2", label: "Action 2", type: "NotificationApiAction")
                 ])
             ])
         ]
@@ -735,9 +735,9 @@ class PushNotificationManagerTests: XCTestCase {
         let mockTypes = [
             NotificationType(type: "approval_type", apiName: "approval_type", label: "Approval Type", actionGroups: [
                 ActionGroup(name: "approval_actions", actions: [
-                    Action(name: "approve", identifier: "approval_actions__approve", label: "Approve", type: .notificationApiAction),
-                    Action(name: "deny", identifier: "approval_actions__deny", label: "Deny", type: .notificationApiAction),
-                    Action(name: "delegate", identifier: "approval_actions__delegate", label: "Delegate", type: .notificationApiAction)
+                    Action(name: "approve", identifier: "approval_actions__approve", label: "Approve", type: "NotificationApiAction"),
+                    Action(name: "deny", identifier: "approval_actions__deny", label: "Deny", type: "NotificationApiAction"),
+                    Action(name: "delegate", identifier: "approval_actions__delegate", label: "Delegate", type: "NotificationApiAction")
                 ])
             ])
         ]
@@ -782,9 +782,9 @@ class PushNotificationManagerTests: XCTestCase {
         // Given
         let originalType = NotificationType(type: "test_type", apiName: "test_type", label: "Test Type", actionGroups: [
             ActionGroup(name: "test_group", actions: [
-                Action(name: "action1", identifier: "test_group__action1", label: "Action 1", type: .notificationApiAction),
-                Action(name: "action2", identifier: "test_group__action2", label: "Action 2", type: .notificationApiAction),
-                Action(name: "action3", identifier: "test_group__action3", label: "Action 3", type: .notificationApiAction)
+                Action(name: "action1", identifier: "test_group__action1", label: "Action 1", type: "NotificationApiAction"),
+                Action(name: "action2", identifier: "test_group__action2", label: "Action 2", type: "NotificationApiAction"),
+                Action(name: "action3", identifier: "test_group__action3", label: "Action 3", type: "NotificationApiAction")
             ])
         ])
         
@@ -990,7 +990,7 @@ class ActionTypeTests: XCTestCase {
         let action = try JSONDecoder().decode(Action.self, from: jsonData)
         
         // Then
-        XCTAssertEqual(action.type, .notificationApiAction)
+        XCTAssertEqual(action.type, "NotificationApiAction")
     }
     
     func testActionTypeDecodingForeground() throws {
@@ -1009,17 +1009,7 @@ class ActionTypeTests: XCTestCase {
         let action = try JSONDecoder().decode(Action.self, from: jsonData)
         
         // Then
-        XCTAssertEqual(action.type, .foregroundAction)
-    }
-    
-    func testActionTypeStringValue() {
-        // Test notificationApiAction
-        let apiAction = NotificationActionType.notificationApiAction
-        XCTAssertEqual(apiAction.stringValue, "NotificationApiAction")
-        
-        // Test foregroundAction
-        let foregroundAction = NotificationActionType.foregroundAction
-        XCTAssertEqual(foregroundAction.stringValue, "ForegroundAction")
+        XCTAssertEqual(action.type, "foreground")
     }
     
     func testActionTypeDecodingInvalidType() throws {
@@ -1036,25 +1026,6 @@ class ActionTypeTests: XCTestCase {
         
         // When, Then
         XCTAssertThrowsError(try JSONDecoder().decode(Action.self, from: jsonData))
-    }
-    
-    func testActionTypeDecodingDefaultCase() throws {
-        // Given
-        let json = """
-        {
-            "name": "test",
-            "actionKey": "test_key",
-            "label": "Test Label",
-            "type": "dismiss"
-        }
-        """
-        let jsonData = json.data(using: .utf8)!
-        
-        // When
-        let action = try JSONDecoder().decode(Action.self, from: jsonData)
-        
-        // Then
-        XCTAssertEqual(action.type, .foregroundAction, "Unknown type should default to foregroundAction")
     }
 }
 
