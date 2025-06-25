@@ -735,9 +735,9 @@ class PushNotificationManagerTests: XCTestCase {
         let mockTypes = [
             NotificationType(type: "approval_type", apiName: "approval_type", label: "Approval Type", actionGroups: [
                 ActionGroup(name: "approval_actions", actions: [
-                    Action(name: "approve", identifier: "approval_actions__approve", label: "Approve", type: "NotificationApiAction"),
-                    Action(name: "deny", identifier: "approval_actions__deny", label: "Deny", type: "NotificationApiAction"),
-                    Action(name: "delegate", identifier: "approval_actions__delegate", label: "Delegate", type: "NotificationApiAction")
+                    Action(name: "approve", identifier: "approval_actions__approve", label: "Approve", type: "approve_type"),
+                    Action(name: "deny", identifier: "approval_actions__deny", label: "Deny", type: "deny_type"),
+                    Action(name: "delegate", identifier: "approval_actions__delegate", label: "Delegate", type: "delegate_type")
                 ])
             ])
         ]
@@ -746,7 +746,7 @@ class PushNotificationManagerTests: XCTestCase {
         UserAccountManager.shared.filterSupportedNotificationTypes = { types in
             return types.map { type in
                 // Use the helper method to filter actions
-                return type.filteredCopy(keepingActions: ["approve", "deny"])
+                return type.filteredCopy(keepingActions: ["approve_type", "deny_type"])
             }
         }
         pushNotificationManager.setNotificationCategories(types: mockTypes)
@@ -782,14 +782,14 @@ class PushNotificationManagerTests: XCTestCase {
         // Given
         let originalType = NotificationType(type: "test_type", apiName: "test_type", label: "Test Type", actionGroups: [
             ActionGroup(name: "test_group", actions: [
-                Action(name: "action1", identifier: "test_group__action1", label: "Action 1", type: "NotificationApiAction"),
-                Action(name: "action2", identifier: "test_group__action2", label: "Action 2", type: "NotificationApiAction"),
-                Action(name: "action3", identifier: "test_group__action3", label: "Action 3", type: "NotificationApiAction")
+                Action(name: "action1", identifier: "test_group__action1", label: "Action 1", type: "action1_type"),
+                Action(name: "action2", identifier: "test_group__action2", label: "Action 2", type: "action2_type"),
+                Action(name: "action3", identifier: "test_group__action3", label: "Action 3", type: "action3_type")
             ])
         ])
         
         // When
-        let filteredType = originalType.filteredCopy(keepingActions: ["action1", "action3"])
+        let filteredType = originalType.filteredCopy(keepingActions: ["action1_type", "action3_type"])
         
         // Then
         XCTAssertEqual(filteredType.type, originalType.type, "Type should be preserved")
