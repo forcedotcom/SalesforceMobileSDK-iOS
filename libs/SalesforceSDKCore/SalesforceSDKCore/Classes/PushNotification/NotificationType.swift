@@ -26,14 +26,14 @@ public class NotificationType: NSObject, Codable {
     }
     
     /** Creates a new NotificationType with only the specified actions
-     * - Parameter allowedActionNames: Set of action names to keep
+     * - Parameter allowedActionTypes: Set of action types to keep
      * - Returns: A new NotificationType with filtered actions
      **/
     @objc
-    public func filteredCopy(keepingActions allowedActionNames: Set<String>) -> NotificationType {
+    public func filteredCopy(keepingActions allowedActionTypes: Set<String>) -> NotificationType {
         let filteredGroups = actionGroups?.map { group in
             let filteredActions = group.actions.filter { action in
-                allowedActionNames.contains(action.name)
+                allowedActionTypes.contains(action.type)
             }
             return ActionGroup(name: group.name, actions: filteredActions)
         }
