@@ -30,6 +30,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 NS_SWIFT_NAME(SalesforceInstrumentationHelper)
+/// @deprecated Signpost logging is deprecated and this helper will be removed in version 14.0.
+__attribute__((deprecated("Signpost logging is deprecated and will be removed in version 14.0")));
 @interface SFSDKInstrumentationHelper : NSObject
 @property (class,nonatomic,readonly) BOOL isEnabled;
 + (void)swizzleMethod:(SEL)originalSelector with:(SEL)swizzledSelector forClass:(Class)clazz isInstanceMethod:(BOOL)isInstanceMethod;
