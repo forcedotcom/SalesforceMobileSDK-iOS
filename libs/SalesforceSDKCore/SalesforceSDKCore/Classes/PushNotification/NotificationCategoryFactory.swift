@@ -34,7 +34,7 @@ public class NotificationCategoryFactory: NSObject {
         }
         
         return actionGroup.actions.compactMap { action in
-            let options: UNNotificationActionOptions = action.type == .notificationApiAction ? [.authenticationRequired] : [.foreground]
+            let options: UNNotificationActionOptions = action.type == "NotificationApiAction" ? [.authenticationRequired] : [.foreground]
             return UNNotificationAction(
                 identifier: action.identifier,
                 title: action.label,
