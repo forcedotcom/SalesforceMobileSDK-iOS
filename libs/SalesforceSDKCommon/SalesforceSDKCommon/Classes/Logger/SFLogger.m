@@ -146,7 +146,7 @@ static SFSDKSafeMutableDictionary *loggerList = nil;
     [self.logger log:cls level:level format:format args:args];
     
     NSString *formattedMessage = [[NSString alloc] initWithFormat:format arguments:args_copy];
-    [self.logReceiver receiveWithLevel:SFLogLevelInfo cls:cls component:self.logger.componentName message:formattedMessage];
+    [self.logReceiver receiveWithLevel:level cls:cls component:self.logger.componentName message:formattedMessage];
     
     va_end(args_copy);
 }
