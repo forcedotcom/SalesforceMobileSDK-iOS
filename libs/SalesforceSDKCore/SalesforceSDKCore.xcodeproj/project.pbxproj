@@ -408,6 +408,7 @@
 		CED452ED1D808DEE009266EB /* SFNativeRestRequestListener.h in Headers */ = {isa = PBXBuildFile; fileRef = CED452E91D808DEE009266EB /* SFNativeRestRequestListener.h */; };
 		CED452EF1D808E0A009266EB /* SFNativeRestRequestListener.m in Sources */ = {isa = PBXBuildFile; fileRef = CED452EA1D808DEE009266EB /* SFNativeRestRequestListener.m */; };
 		CED452F01D808E0F009266EB /* SalesforceRestAPITests.m in Sources */ = {isa = PBXBuildFile; fileRef = CED452E81D808DEE009266EB /* SalesforceRestAPITests.m */; };
+		D325B5DB2E135242007F8221 /* LoginError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D325B5DA2E135242007F8221 /* LoginError.swift */; };
 		D3D675DB2D39EF01008E468E /* ChatGenerationsRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D675CF2D39EF01008E468E /* ChatGenerationsRequestBody.swift */; };
 		D3D675DC2D39EF01008E468E /* EmbeddingsRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D675D12D39EF01008E468E /* EmbeddingsRequestBody.swift */; };
 		D3D675DD2D39EF01008E468E /* ChatGenerationsResponseBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D675D02D39EF01008E468E /* ChatGenerationsResponseBody.swift */; };
@@ -941,6 +942,7 @@
 		CED452E81D808DEE009266EB /* SalesforceRestAPITests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SalesforceRestAPITests.m; path = SalesforceSDKCoreTests/SalesforceRestAPITests.m; sourceTree = SOURCE_ROOT; };
 		CED452E91D808DEE009266EB /* SFNativeRestRequestListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFNativeRestRequestListener.h; path = SalesforceSDKCoreTests/SFNativeRestRequestListener.h; sourceTree = SOURCE_ROOT; };
 		CED452EA1D808DEE009266EB /* SFNativeRestRequestListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFNativeRestRequestListener.m; path = SalesforceSDKCoreTests/SFNativeRestRequestListener.m; sourceTree = SOURCE_ROOT; };
+		D325B5DA2E135242007F8221 /* LoginError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LoginError.swift; path = Login/LoginError.swift; sourceTree = "<group>"; };
 		D3D675CF2D39EF01008E468E /* ChatGenerationsRequestBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatGenerationsRequestBody.swift; sourceTree = "<group>"; };
 		D3D675D02D39EF01008E468E /* ChatGenerationsResponseBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatGenerationsResponseBody.swift; sourceTree = "<group>"; };
 		D3D675D12D39EF01008E468E /* EmbeddingsRequestBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmbeddingsRequestBody.swift; sourceTree = "<group>"; };
@@ -1732,6 +1734,7 @@
 		E139509E1C535F9C00575C03 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				D325B5DA2E135242007F8221 /* LoginError.swift */,
 				A37530152B2A6C6B006DFE69 /* NativeLogin */,
 				E1C80CDD1C5AEBFA001B3A21 /* SFLoginViewController.h */,
 				E1C80CDE1C5AEBFA001B3A21 /* SFLoginViewController.m */,
@@ -2387,6 +2390,7 @@
 				CE4CE3661C0E526A009F6029 /* SFDefaultUserManagementDetailViewController.m in Sources */,
 				CEC75D2220276ECD00A043AA /* SFSDKAuthConfigUtil.m in Sources */,
 				6924966B2444E50500D3F63B /* SFFormatUtils.m in Sources */,
+				D325B5DB2E135242007F8221 /* LoginError.swift in Sources */,
 				CE4CE33D1C0E5245009F6029 /* SFIdentityData.m in Sources */,
 				6900D805243D521C00888336 /* SFRestAPI+Notifications.m in Sources */,
 				CE4CE3A01C0E5272009F6029 /* TestSetupUtils.m in Sources */,
