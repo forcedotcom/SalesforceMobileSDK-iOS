@@ -51,8 +51,24 @@ public extension SalesforceLoginViewController {
     class func loginWithFrontdoorBridgeUrl(
         _ frontdoorBridgeUrlString: String,
         pkceCodeVerifier: String?
-    ) {
+    ) throws {
         guard let frontdoorBridgeUrl = URL(string: frontdoorBridgeUrlString) else { return }
+        
+        // Only allow use of front door bridge URLs with matching consumer keys.
+        guard let frontdoorBridgeUrlComponents = NSURLComponents(
+            url: frontdoorBridgeUrl,
+            resolvingAgainstBaseURL: true),
+              let frontdoorBridgeUrlQueryItems = frontdoorBridgeUrlComponents.queryItems,
+              let startUrlString = frontdoorBridgeUrlQueryItems.first(where: { $0.name == "startURL"})?.value,
+              let startUrl = URL(string: startUrlString),
+              let startUrlComponents = NSURLComponents(url: startUrl, resolvingAgainstBaseURL: true),
+              let startUrlQueryItems = startUrlComponents.queryItems,
+              let frontdoorBridgeUrlClientId = startUrlQueryItems.first(where: { $0.name == "client_id"})?.value,
+              frontdoorBridgeUrlClientId == SalesforceManager.shared.bootConfig?.remoteAccessConsumerKey
+        else {
+            let message = "Cannot use another app's login QR Code.  Please log in to this app."
+            throw SfapError(errorCode: "-1", message: message, messageCode: nil, source: nil)
+        }
         
         // Stop current authentication attempt, if applicable, before starting the new one.
         UserAccountManager.shared.stopCurrentAuthentication { result in
@@ -84,12 +100,12 @@ public extension SalesforceLoginViewController {
      */
     class func loginWithFrontdoorBridgeUrlFromQrCode(
         _ qrCodeLoginUrl: String?
-    ) -> Bool {
+    ) throws -> Bool {
         if let uiBridgeApiParameters = uiBridgeApiParametersFromQrCodeLoginUrl(
             qrCodeLoginUrl
         ) {
             SFSDKAppFeatureMarkers.registerAppFeature(sfSppFeatureQrCodeLogin)
-            loginWithFrontdoorBridgeUrl(
+            try loginWithFrontdoorBridgeUrl(
                 uiBridgeApiParameters.frontdoorBridgeUrl,
                 pkceCodeVerifier: uiBridgeApiParameters.pkceCodeVerifier
             )
