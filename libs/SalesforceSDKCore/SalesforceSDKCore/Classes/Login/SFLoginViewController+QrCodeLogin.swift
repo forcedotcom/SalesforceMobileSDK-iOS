@@ -67,7 +67,7 @@ public extension SalesforceLoginViewController {
               frontdoorBridgeUrlClientId == SalesforceManager.shared.bootConfig?.remoteAccessConsumerKey
         else {
             let message = "Cannot use another app's login QR Code.  Please log in to this app."
-            throw SfapError(errorCode: "-1", message: message, messageCode: nil, source: nil)
+            throw LoginError(message: message)
         }
         
         // Stop current authentication attempt, if applicable, before starting the new one.
