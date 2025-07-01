@@ -238,19 +238,13 @@ public class KeychainHelper: NSObject {
     public class func setAccessibleAttribute(_ secAttrAccessible: KeychainItemAccessibility) -> KeychainResult {
        
         accessibilityAttribute = secAttrAccessible.asCFString
-        if accessibleAttributeMatches(secAttrAccessible) {
-            return KeychainResult.init(data: Data(), status: errSecSuccess)
-        }
         
         CachedWrapper.clearAllCaches()
         let query: [String: Any] = [
             String(kSecClass): kSecClassGenericPassword,
+            String(kSecAttrCreator): String(KeychainItemManager.tag),
             String(kSecMatchLimit): kSecMatchLimitAll,
             String(kSecReturnAttributes): kCFBooleanTrue!]
-
-        let updateQuery: [String: Any] = [
-            String(kSecClass): kSecClassGenericPassword]
-
         var queryResult: AnyObject?
         let status = SecItemCopyMatching(query as CFDictionary, &queryResult)
 
@@ -264,19 +258,44 @@ public class KeychainHelper: NSObject {
             return KeychainResult(error: KeychainItemManager.mapError(from: status), status: status)
         }
 
-
-        if (queryResult as? [[String : Any]]) != nil {
-            SalesforceLogger.log(KeychainHelper.self,level: .info, message: "Retrieved keychain items, will now update!")
+        if let keychainItems = queryResult as? [[String: Any]] {
+            SalesforceLogger.log(KeychainHelper.self, level: .info, message: "Retrieved keychain items, will now update!")
+            
+            // Attribute to apply to each item
             let kAttributes: [String: Any] = [String(kSecAttrAccessible): keychainAccessibleAttribute]
-            let status = SecItemUpdate(updateQuery as CFDictionary,
-                                       kAttributes as CFDictionary)
-
-            if status != errSecSuccess {
-                SalesforceLogger.log(KeychainHelper.self,level: .error, message: "Attempt to update accessibility attribute for mobilesdk items failed!")
-                return KeychainResult(error: KeychainItemManager.mapError(from: status), status: status)
-
+        
+            for item in keychainItems {
+                // Service, account, access group and synchronizable form primary key for item but we don't support using synchronizable
+                // https://developer.apple.com/documentation/security/ksecclassgenericpassword
+                guard let service = item[String(kSecAttrService)] else { continue }
+                let account = item[String(kSecAttrAccount)]
+                let accessGroup = item[String(kSecAttrAccessGroup)]
+                let accessibleAttribute = item[String(kSecAttrAccessible)] as? NSString // Toll free bridge to CFString
+                
+                if accessibleAttribute == nil || accessibleAttribute != secAttrAccessible.asCFString {
+                    SalesforceLogger.log(KeychainHelper.self, level: .debug, message: "Updating \(service)-\(account ?? "")-\(accessGroup ?? "") from \(accessibleAttribute ?? "") to \(secAttrAccessible.asCFString)")
+                    
+                    var updateQuery: [String: Any] = [
+                        String(kSecAttrService): service,
+                        String(kSecClass): kSecClassGenericPassword,
+                    ]
+                    
+                    if let account {
+                        updateQuery[String(kSecAttrAccount)] = account
+                    }
+                    
+                    if let accessGroup {
+                        updateQuery[String(kSecAttrAccessGroup)] = accessGroup
+                    }
+                    
+                    let updateStatus = SecItemUpdate(updateQuery as CFDictionary,
+                                                     kAttributes as CFDictionary)
+                    
+                    if updateStatus != errSecSuccess {
+                        SalesforceLogger.log(KeychainHelper.self, level: .error, message: "Error updating keychain item: \(KeychainItemManager.mapError(from: updateStatus))")
+                    }
+                }
             }
-            SalesforceLogger.log(KeychainHelper.self,level: .info, message: "Attempt to update accessibility attribute for mobilesdk items succeeded!")
         }
 
         var queryUpdateResult: AnyObject?
