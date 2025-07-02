@@ -206,7 +206,32 @@
 
 - (void)authenticateWithCredentials:(SFOAuthCredentials *)credentials {
     self.credentials = credentials;
+
+    if ([self isWelcomeDomain:self.credentials.domain]) {
+        [self runMyDomainDiscoveryAndAuthenticate];
+        return;
+    }
     [self authenticate];
+}
+
+- (BOOL)isWelcomeDomain:(NSString *)domain {
+    return [domain isEqualToString:@"welcome.salesforce.com"];
+}
+
+- (void)runMyDomainDiscoveryAndAuthenticate {
+    DomainDiscoveryCoordinator *discoveryCoordinator = [[DomainDiscoveryCoordinator alloc] init];
+    __weak typeof(self) weakSelf = self;
+    [discoveryCoordinator runDomainDiscoveryWithCredentials:self.credentials
+                                                 completion:^(NSString *myDomain, NSString *loginHint, NSError *error) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (error) {
+            [strongSelf notifyDelegateOfFailure:error authInfo:strongSelf.authInfo];
+            return;
+        }
+        strongSelf.loginHint = loginHint;
+        strongSelf.credentials.domain = myDomain;
+        [strongSelf authenticate];
+    }];
 }
 
 - (BOOL)isAuthenticating {
