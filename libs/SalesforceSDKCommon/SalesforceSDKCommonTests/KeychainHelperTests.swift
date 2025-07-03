@@ -31,6 +31,7 @@ import XCTest
 final class KeychainHelperTests: XCTestCase {
     
     override func tearDownWithError() throws {
+        KeychainHelper.setAccessibleAttribute(.afterFirstUnlockThisDeviceOnly)
         _ = KeychainHelper.removeAll()
     }
     
@@ -284,6 +285,43 @@ final class KeychainHelperTests: XCTestCase {
         }
     }
     
+    func testAccessibilityAttributeScope() throws {
+        // Broader teardown than KeychainHelper.removeAll()
+        addTeardownBlock {
+            let deleteQuery: [String: Any] = [
+                String(kSecClass): kSecClassGenericPassword,
+            ]
+
+            let deleteStatus = SecItemDelete(deleteQuery as CFDictionary)
+            XCTAssert(deleteStatus == errSecSuccess)
+        }
+        
+        // Create item without MSDK or creator tag
+        let data = try XCTUnwrap("Test2".data(using: .utf8))
+        let addQuery: [String: Any] = [
+            String(kSecValueData): data,
+            String(kSecClass): String(kSecClassGenericPassword),
+            String(kSecAttrAccessible): kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly
+        ]
+        SecItemAdd(addQuery as CFDictionary, nil)
+
+        // Call MSDK update method, should error because it can't find any items with MSDK tag
+        let result = KeychainHelper.setAccessibleAttribute(.afterFirstUnlock)
+        XCTAssertFalse(result.success)
+        
+        // Query for items with the original item's accessibility attribute to make sure it's still there
+        let readQuery: [String: Any] = [
+            String(kSecAttrAccessible): kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly,
+            String(kSecClass): kSecClassGenericPassword,
+            String(kSecMatchLimit): kSecMatchLimitAll,
+            String(kSecReturnAttributes): kCFBooleanTrue!]
+
+        let readStatus = SecItemCopyMatching(readQuery as CFDictionary, nil)
+        if readStatus != errSecSuccess {
+            XCTFail("Original keychain item cannot be found")
+        }
+    }
+    
     func testCacheConfigurationEnabled() throws {
         // Cache enabled at class level
         KeychainHelper.cacheEnabled = true
@@ -337,7 +375,7 @@ final class KeychainHelperTests: XCTestCase {
         XCTAssert(result.success)
         XCTAssertEqual(updatedData, result.data)
     }
-    
+
     private func readKeychainItem(service: String, account: String) throws -> [String : Any] {
         let query: [String: Any] = [String(kSecClass): String(kSecClassGenericPassword),
                                     String(kSecAttrService): service,
