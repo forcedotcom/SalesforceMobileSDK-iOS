@@ -263,7 +263,7 @@ final class KeychainHelperTests: XCTestCase {
         for (service, account) in accounts {
             let keychainResult = try readKeychainItem(service: service, account: account)
             let accessibilityAttr = try XCTUnwrap(keychainResult[String(kSecAttrAccessible)])
-            XCTAssertEqual(accessibilityAttr as! CFString, kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly) 
+            XCTAssertEqual(accessibilityAttr as! CFString, kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly)
         }
         
         let attrResult = KeychainHelper.setAccessibleAttribute(.whenUnlocked)
@@ -286,7 +286,7 @@ final class KeychainHelperTests: XCTestCase {
     }
     
     func testAccessibilityAttributeScope() throws {
-        // Broader teardown that KeychainHelper.removeAll()
+        // Broader teardown than KeychainHelper.removeAll()
         addTeardownBlock {
             let deleteQuery: [String: Any] = [
                 String(kSecClass): kSecClassGenericPassword,

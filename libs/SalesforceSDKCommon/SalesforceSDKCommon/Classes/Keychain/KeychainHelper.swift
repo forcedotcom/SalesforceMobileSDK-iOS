@@ -216,10 +216,10 @@ public class KeychainHelper: NSObject {
     @objc public class func removeAll() -> KeychainResult {
         return CachedWrapper.wrapRemoveAll {
             let deleteQuery: [String: Any] = [
-                String(kSecClass): kSecClassGenericPassword,
-                String(kSecAttrCreator): String(KeychainItemManager.tag)]
+                String(kSecClass): kSecClassGenericPassword]
 
-            let deleteStatus = SecItemDelete(deleteQuery as CFDictionary)
+            let deleteStatus = SecItemOperations.delete(deleteQuery)
+            
             if deleteStatus == errSecSuccess {
                 return KeychainResult(data: nil, status: deleteStatus)
             }
@@ -242,11 +242,11 @@ public class KeychainHelper: NSObject {
         CachedWrapper.clearAllCaches()
         let query: [String: Any] = [
             String(kSecClass): kSecClassGenericPassword,
-            String(kSecAttrCreator): String(KeychainItemManager.tag),
             String(kSecMatchLimit): kSecMatchLimitAll,
             String(kSecReturnAttributes): kCFBooleanTrue!]
         var queryResult: AnyObject?
-        let status = SecItemCopyMatching(query as CFDictionary, &queryResult)
+        let status = SecItemOperations.copyMatching(query, &queryResult)
+
 
         if status == errSecItemNotFound {
             SalesforceLogger.log(KeychainHelper.self,level: .debug, message: "Attempt to update accessibility attribute for mobilesdk items, no items found")
@@ -288,8 +288,7 @@ public class KeychainHelper: NSObject {
                         updateQuery[String(kSecAttrAccessGroup)] = accessGroup
                     }
                     
-                    let updateStatus = SecItemUpdate(updateQuery as CFDictionary,
-                                                     kAttributes as CFDictionary)
+                    let updateStatus = SecItemOperations.update(updateQuery, kAttributes)
                     
                     if updateStatus != errSecSuccess {
                         SalesforceLogger.log(KeychainHelper.self, level: .error, message: "Error updating keychain item: \(KeychainItemManager.mapError(from: updateStatus))")
@@ -299,7 +298,7 @@ public class KeychainHelper: NSObject {
         }
 
         var queryUpdateResult: AnyObject?
-        let readStatus = SecItemCopyMatching(query as CFDictionary, &queryUpdateResult)
+        let readStatus = SecItemOperations.copyMatching(query, &queryUpdateResult)
         if readStatus != errSecSuccess {
             SalesforceLogger.log(KeychainHelper.self,level: .error, message: "Attempt to update accessibility attribute for mobilesdk items failed!")
             return KeychainResult(error: KeychainItemManager.mapError(from: readStatus), status: readStatus)
@@ -325,27 +324,6 @@ public class KeychainHelper: NSObject {
         case .unspecified:
             return KeychainHelper.cacheEnabled
         }
-    }
-    
-    private class func accessibleAttributeMatches(_ secAttrAccessible: KeychainItemAccessibility) -> Bool {
-        let query: [String: Any] = [String(kSecClass): String(kSecClassGenericPassword),
-                        String(kSecAttrService): baseAppIdentifierKey,
-                        String(kSecMatchLimit): kSecMatchLimitOne,
-                        String(kSecReturnAttributes): kCFBooleanTrue as Any]
-
-
-        var queryResult: CFTypeRef?
-        let status = SecItemCopyMatching(query as CFDictionary, &queryResult)
-
-        guard errSecSuccess == status else {
-            return false
-        }
-        guard let item = queryResult as? [String: Any],
-              let accessibleAttr = item[String(kSecAttrAccessible)] as? String else {
-            return false
-        }
-
-        return secAttrAccessible.asString ==  accessibleAttr
     }
     
     internal class CachedWrapper {

@@ -12,6 +12,8 @@
 		4F8A3B872CEE998900ECDC76 /* SalesforceLogReceiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8A3B852CEE998900ECDC76 /* SalesforceLogReceiver.swift */; };
 		4F8A3B882CEE998900ECDC76 /* SalesforceLogReceiverFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8A3B862CEE998900ECDC76 /* SalesforceLogReceiverFactory.swift */; };
 		696E914D2AD0AA8B00205884 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 696E914C2AD0AA8B00205884 /* PrivacyInfo.xcprivacy */; };
+		69AEBFCA2E15ED8E0003C1FA /* SecItemOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69AEBFC92E15ED890003C1FA /* SecItemOperations.swift */; };
+		69AEBFCD2E1617230003C1FA /* SecItemOperationsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69AEBFCC2E1617230003C1FA /* SecItemOperationsTests.swift */; };
 		B7136D08216684A700F6A221 /* SalesforceSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7136CFE216684A700F6A221 /* SalesforceSDKCommon.framework */; };
 		B7136D0F216684A700F6A221 /* SalesforceSDKCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = B7136D01216684A700F6A221 /* SalesforceSDKCommon.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B7136D2F216686EB00F6A221 /* SFSDKDatasharingHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B7136D29216686EA00F6A221 /* SFSDKDatasharingHelper.m */; };
@@ -76,6 +78,8 @@
 		4F8A3B852CEE998900ECDC76 /* SalesforceLogReceiver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesforceLogReceiver.swift; sourceTree = "<group>"; };
 		4F8A3B862CEE998900ECDC76 /* SalesforceLogReceiverFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesforceLogReceiverFactory.swift; sourceTree = "<group>"; };
 		696E914C2AD0AA8B00205884 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		69AEBFC92E15ED890003C1FA /* SecItemOperations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecItemOperations.swift; sourceTree = "<group>"; };
+		69AEBFCC2E1617230003C1FA /* SecItemOperationsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecItemOperationsTests.swift; sourceTree = "<group>"; };
 		B7136CFE216684A700F6A221 /* SalesforceSDKCommon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SalesforceSDKCommon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7136D01216684A700F6A221 /* SalesforceSDKCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SalesforceSDKCommon.h; sourceTree = "<group>"; };
 		B7136D02216684A700F6A221 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -193,6 +197,7 @@
 			children = (
 				B7136D0E216684A700F6A221 /* Info.plist */,
 				B7182B002614346B00867BFE /* KeychainHelperTests.swift */,
+				69AEBFCC2E1617230003C1FA /* SecItemOperationsTests.swift */,
 				B7D3CAB9218BA32B00780B72 /* SFLoggerTests.m */,
 				B7D3CABB218BC80600780B72 /* SFSDKSafeMutableArrayTests.m */,
 				B7D3CABC218BC80600780B72 /* SFSDKSafeMutableDictionaryTests.m */,
@@ -256,6 +261,7 @@
 		B77B6C9F260CFF1D0074BA3C /* Keychain */ = {
 			isa = PBXGroup;
 			children = (
+				69AEBFC92E15ED890003C1FA /* SecItemOperations.swift */,
 				F2F4222228B6CBC90010EF0F /* GenericPasswordItemQuery.swift */,
 				B77B6CA3260D261C0074BA3C /* KeychainHelper.swift */,
 				F2F4222428B6CBF40010EF0F /* KeychainItemManager.swift */,
@@ -489,6 +495,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				69AEBFCA2E15ED8E0003C1FA /* SecItemOperations.swift in Sources */,
 				4F5DDEB621A4B2530024E7F3 /* SFJsonUtils.m in Sources */,
 				B77F5CF42170FF74004F3005 /* SFSDKSafeMutableDictionary.m in Sources */,
 				B77F5CF02170FF74004F3005 /* SFSDKSafeMutableSet.m in Sources */,
@@ -514,6 +521,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				69AEBFCD2E1617230003C1FA /* SecItemOperationsTests.swift in Sources */,
 				B7D3CABA218BA32B00780B72 /* SFLoggerTests.m in Sources */,
 				B7182B012614346B00867BFE /* KeychainHelperTests.swift in Sources */,
 				B7D3CABE218BC80600780B72 /* SFSDKSafeMutableArrayTests.m in Sources */,
