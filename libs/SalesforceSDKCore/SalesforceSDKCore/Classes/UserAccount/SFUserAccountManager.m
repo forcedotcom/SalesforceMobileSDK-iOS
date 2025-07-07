@@ -1228,7 +1228,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     tokenQuery[(__bridge id)kSecReturnAttributes] = (id)kCFBooleanTrue;
 
     CFArrayRef outArr = nil;
-    OSStatus result = [SecItemOperations copyMatching:[NSDictionary dictionaryWithDictionary:tokenQuery] result:(CFTypeRef *)&outArr];
+    OSStatus result = [SFSDKSecItemOperations copyMatching:[NSDictionary dictionaryWithDictionary:tokenQuery] result:(CFTypeRef *)&outArr];
     if (noErr == result) {
         NSMutableSet *accounts = [NSMutableSet set];
         for (NSDictionary *info in (__bridge_transfer NSArray *)outArr) {

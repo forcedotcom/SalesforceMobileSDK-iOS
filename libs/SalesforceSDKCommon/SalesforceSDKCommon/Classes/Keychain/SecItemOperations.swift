@@ -25,25 +25,26 @@
 //  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
 //  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-@objc class SecItemOperations: NSObject {
+@objc(SFSDKSecItemOperations)
+public class SecItemOperations: NSObject {
     
     @objc(copyMatching:result:)
-    static func copyMatching(_ query: [String: Any], _ result: UnsafeMutablePointer<CFTypeRef?>?) -> OSStatus {
+    public static func copyMatching(_ query: [String: Any], _ result: UnsafeMutablePointer<CFTypeRef?>?) -> OSStatus {
         return SecItemCopyMatching(msdkTaggedQuery(query), result)
     }
     
     @objc(add:result:)
-    static func add(_ query: [String: Any], _ result: UnsafeMutablePointer<CFTypeRef?>?) -> OSStatus {
+    public static func add(_ query: [String: Any], _ result: UnsafeMutablePointer<CFTypeRef?>?) -> OSStatus {
         return SecItemAdd(msdkTaggedQuery(query), result)
     }
     
     @objc
-    static func delete(_ query: [String: Any]) -> OSStatus {
+    public static func delete(_ query: [String: Any]) -> OSStatus {
         return SecItemDelete(msdkTaggedQuery(query))
     }
     
     @objc(update:attributesToUpdate:)
-    static func update(_ query: [String: Any], _ attributesToUpdate: [String: Any]) -> OSStatus {
+    public static func update(_ query: [String: Any], _ attributesToUpdate: [String: Any]) -> OSStatus {
         return SecItemUpdate(msdkTaggedQuery(query), attributesToUpdate as CFDictionary)
     }
     
