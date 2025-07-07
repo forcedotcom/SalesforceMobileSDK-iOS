@@ -595,8 +595,15 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     authSession.authFailureCallback = failureBlock;
     authSession.authSuccessCallback = completionBlock;
     authSession.oauthCoordinator.delegate = self;
-    authSession.oauthCoordinator.overrideWithCodeVerifier = codeVerifier;
-    authSession.oauthCoordinator.overrideWithFrontDoorBridgeUrl = frontDoorBridgeUrl;
+
+    // Only allow use of front door bridge URLs with matching consumer keys.
+    if (frontDoorBridgeUrl != nil) {
+        authSession.oauthCoordinator.overridingFrontDoorBridgeUrlMatchesConsumerKey = [self validateBootConfigConsumerKeyMatches:frontDoorBridgeUrl];
+        if (authSession.oauthCoordinator.overridingFrontDoorBridgeUrlMatchesConsumerKey) {
+            authSession.oauthCoordinator.overrideWithCodeVerifier = codeVerifier;
+            authSession.oauthCoordinator.overrideWithFrontDoorBridgeUrl = frontDoorBridgeUrl;
+        }
+    }
     authSession.oauthCoordinator.loginHint = loginHint;
     NSString *sceneId = authSession.sceneId;
     self.authSessions[sceneId] = authSession;
@@ -906,20 +913,34 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 }
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(WKWebView *)view {
-
     SFLoginViewController *loginViewController = [self createLoginViewControllerInstance:coordinator];
     loginViewController.oauthView = view;
     SFSDKAuthViewHolder *viewHolder = [SFSDKAuthViewHolder new];
     viewHolder.loginController = loginViewController;
     viewHolder.scene = coordinator.authSession.oauthRequest.scene;
+    
+    void (^authViewDisplayBlock)(void) = ^{
+        
+        self.authViewHandler.authViewDisplayBlock(viewHolder);
+        if (!coordinator.overridingFrontDoorBridgeUrlMatchesConsumerKey) {
+            UIAlertController* alertController = [UIAlertController
+                                                  alertControllerWithTitle:@"Error"
+                                                  message:@"Cannot use another app's login QR Code.  Please log in to this app."
+                                                  preferredStyle:UIAlertControllerStyleAlert];
+            [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
+            [loginViewController
+             presentViewController:alertController
+             animated:true
+             completion:nil];
+        }
+    };
+    
     // Ensure this runs on the main thread.  Has to be sync, because the coordinator expects the auth view
     // to be added to a superview by the end of this method.
     if (![NSThread isMainThread]) {
-       dispatch_sync(dispatch_get_main_queue(), ^{
-           self.authViewHandler.authViewDisplayBlock(viewHolder);
-       });
+        dispatch_sync(dispatch_get_main_queue(), authViewDisplayBlock);
     } else {
-       self.authViewHandler.authViewDisplayBlock(viewHolder);
+        authViewDisplayBlock();
     }
 }
 
@@ -2105,6 +2126,21 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
                                                                  kSFNotificationFromUserKey: fromUser ?: [NSNull null],
                                                                  kSFNotificationToUserKey: toUser?: [NSNull null]
                                                                  }];
+}
+
+- (BOOL)validateBootConfigConsumerKeyMatches:(NSURL *)frontdoorBridgeUrl {
+    
+    NSURLComponents * frontdoorBridgeUrlComponents = [NSURLComponents
+                                                      componentsWithURL: frontdoorBridgeUrl
+                                                      resolvingAgainstBaseURL:YES];
+    NSArray<NSURLQueryItem *> * frontdoorBridgeUrlQueryItems = frontdoorBridgeUrlComponents.queryItems;
+    NSString * startUrlString = [frontdoorBridgeUrlQueryItems filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name == 'startURL'"]][0].value;
+    NSURL * startUrl = [[NSURL alloc] initWithString:startUrlString];
+    NSURLComponents * startUrlComponents = [NSURLComponents componentsWithURL: startUrl resolvingAgainstBaseURL: YES];
+    NSArray<NSURLQueryItem *> * startUrlQueryItems = startUrlComponents.queryItems;
+    NSString * frontdoorBridgeUrlClientId = [startUrlQueryItems filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name == 'client_id'"]][0].value;
+    
+    return [frontdoorBridgeUrlClientId isEqualToString:[[SalesforceSDKManager sharedManager] appConfig].remoteAccessConsumerKey];
 }
 
 #pragma mark - User Change Notifications

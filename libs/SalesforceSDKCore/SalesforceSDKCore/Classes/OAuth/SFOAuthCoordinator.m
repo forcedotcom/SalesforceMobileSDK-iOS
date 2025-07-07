@@ -552,7 +552,7 @@
     [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData]; // don't use cache
     [SFSDKCoreLogger d:[self class] format:@"%@ Loading web view for '%@' auth flow, with URL: %@", NSStringFromSelector(_cmd), self.authInfo.authTypeDescription, [urlToLoad sfsdk_redactedAbsoluteString:@[ @"sid" ]]];
     dispatch_async(dispatch_get_main_queue(), ^{
-        // If an overriding Salesforce Identity API UI Bridge front door bridge is present, load it.
+        // If a valid overriding Salesforce Identity API UI Bridge front door bridge is present, load it.
         if (self.overrideWithFrontDoorBridgeUrl) {
             [self.view loadRequest:[NSURLRequest requestWithURL:self.overrideWithFrontDoorBridgeUrl]];
 
@@ -792,6 +792,7 @@
  * inactive state.
  */
 -(void) resetFrontDoorBridgeUrl {
+    self.overridingFrontDoorBridgeUrlMatchesConsumerKey = YES;
     self.overrideWithFrontDoorBridgeUrl = nil;
     self.overrideWithCodeVerifier = nil;
 }
