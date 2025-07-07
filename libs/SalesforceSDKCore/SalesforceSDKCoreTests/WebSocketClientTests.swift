@@ -1,5 +1,4 @@
 import XCTest
-
 @testable import SalesforceSDKCore
 
 class MockWebSocket: WebSocketClientTaskProtocol {
@@ -72,28 +71,6 @@ class MockNetwork: WebSocketNetworkProtocol {
         task.originalRequest = request
         task.shouldError = shouldError
         return task
-    }
-}
-
-class MockUserAccountManager: UserAccountManaging {
-    let mockUserAccount = UserAccount()
-    let mockInfo = AuthInfo()
-    
-    var shouldError = false
-    
-    func account() -> UserAccount? {
-        mockUserAccount
-    }
-    
-    func refresh(credentials: OAuthCredentials, _ completionBlock: @escaping (Result<(UserAccount, AuthInfo), SalesforceSDKCore.UserAccountManagerError>) -> Void) -> Bool {
-        if shouldError {
-            let error = NSError(domain: "test", code: 1, userInfo: nil)
-            let refreshError = UserAccountManagerError.refreshFailed(underlyingError: error, authInfo: mockInfo)
-            completionBlock(.failure(refreshError))
-        } else {
-            completionBlock(.success((mockUserAccount, mockInfo)))
-        }
-        return true
     }
 }
 

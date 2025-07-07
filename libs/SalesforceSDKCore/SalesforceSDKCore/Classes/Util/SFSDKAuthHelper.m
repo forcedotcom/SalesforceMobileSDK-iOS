@@ -85,30 +85,12 @@
         }
     }];
 
-    if (![SFUserAccountManager sharedInstance].currentUser && [SalesforceSDKManager sharedManager].appConfig.shouldAuthenticate) {
-        SFUserAccountManagerFailureCallbackBlock failureBlock = ^(SFOAuthInfo *authInfo, NSError *authError) {
-            [SFSDKCoreLogger e:[self class] format:@"Authentication failed: %@.", [authError localizedDescription]];
-        };
-        BOOL result = [[SFUserAccountManager sharedInstance]
-                       loginWithCompletion:nil
-                       failure:failureBlock
-                       scene:scene
-                       loginHint:loginHint
-                       loginHost:loginHost
-                       frontDoorBridgeUrl:frontDoorBridgeUrl
-                       codeVerifier:codeVerifier];
-        if (!result) {
-            [[SFUserAccountManager sharedInstance] stopCurrentAuthentication:^(BOOL result) {
-                [[SFUserAccountManager sharedInstance]
-                 loginWithCompletion:nil
-                 failure:failureBlock
-                 scene:scene
-                 loginHint:loginHint
-                 loginHost:loginHost
+    SFSDKLoginContext *context = [self contextFor:loginHint loginHost:loginHost];
+    if ([context shouldLogin]) {
+        [self attemptLoginWithScene:scene
+                          context:context
                  frontDoorBridgeUrl:frontDoorBridgeUrl
-                 codeVerifier:codeVerifier];
-            }];
-        }
+                       codeVerifier:codeVerifier];
     } else {
         [self screenLockValidation:completionBlock];
     }
@@ -206,6 +188,35 @@
             completionBlock();
         }
     }];
+}
+
++ (void)attemptLoginWithScene:(UIScene *)scene
+                   context:(SFSDKLoginContext *)context
+          frontDoorBridgeUrl:(NSURL *)frontDoorBridgeUrl
+                codeVerifier:(NSString *)codeVerifier {
+    SFUserAccountManagerFailureCallbackBlock failureBlock = ^(SFOAuthInfo *authInfo, NSError *authError) {
+        [SFSDKCoreLogger e:[self class] format:@"Authentication failed: %@.", [authError localizedDescription]];
+    };
+    BOOL result = [[SFUserAccountManager sharedInstance]
+                   loginWithCompletion:nil
+                   failure:failureBlock
+                   scene:scene
+                   loginHint:context.loginHint
+                   loginHost:context.loginHost
+                   frontDoorBridgeUrl:frontDoorBridgeUrl
+                   codeVerifier:codeVerifier];
+    if (!result) {
+        [[SFUserAccountManager sharedInstance] stopCurrentAuthentication:^(BOOL result) {
+            [[SFUserAccountManager sharedInstance]
+             loginWithCompletion:nil
+             failure:failureBlock
+             scene:scene
+             loginHint:context.loginHint
+             loginHost:context.loginHost
+             frontDoorBridgeUrl:frontDoorBridgeUrl
+             codeVerifier:codeVerifier];
+        }];
+    }
 }
 
 @end
