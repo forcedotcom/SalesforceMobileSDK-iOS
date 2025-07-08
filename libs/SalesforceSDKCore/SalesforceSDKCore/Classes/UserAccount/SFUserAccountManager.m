@@ -68,6 +68,7 @@
 #import "SFSDKIDPAuthCodeLoginRequestCommand.h"
 #import <SalesforceSDKCommon/SFJsonUtils.h>
 #import "SFSDKOAuth2+Internal.h"
+#import "SFSDKResourceUtils.h"
 
 // Notifications
 NSNotificationName SFUserAccountManagerDidChangeUserNotification       = @"SFUserAccountManagerDidChangeUserNotification";
@@ -598,11 +599,9 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 
     // Only allow use of front door bridge URLs with matching consumer keys.
     if (frontDoorBridgeUrl != nil) {
-        authSession.oauthCoordinator.overridingFrontDoorBridgeUrlMatchesConsumerKey = [self validateBootConfigConsumerKeyMatches:frontDoorBridgeUrl];
-        if (authSession.oauthCoordinator.overridingFrontDoorBridgeUrlMatchesConsumerKey) {
-            authSession.oauthCoordinator.overrideWithCodeVerifier = codeVerifier;
-            authSession.oauthCoordinator.overrideWithFrontDoorBridgeUrl = frontDoorBridgeUrl;
-        }
+        authSession.oauthCoordinator.frontdoorBridgeLoginOverride = [[SFOAuthCoordinatorFrontdoorBridgeLoginOverride alloc]
+                                                        initWithFrontdoorBridgeUrl:frontDoorBridgeUrl
+                                                        codeVerifier:codeVerifier];
     }
     authSession.oauthCoordinator.loginHint = loginHint;
     NSString *sceneId = authSession.sceneId;
@@ -922,10 +921,10 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     void (^authViewDisplayBlock)(void) = ^{
         
         self.authViewHandler.authViewDisplayBlock(viewHolder);
-        if (!coordinator.overridingFrontDoorBridgeUrlMatchesConsumerKey) {
+        if (coordinator.frontdoorBridgeLoginOverride && !coordinator.frontdoorBridgeLoginOverride.matchesConsumerKey) {
             UIAlertController* alertController = [UIAlertController
                                                   alertControllerWithTitle:@"Error"
-                                                  message:@"Cannot use another app's login QR Code.  Please log in to this app."
+                                                  message:[SFSDKResourceUtils localizedString:@"authAlertFrontdoorLoginUrlConsumerKeyMismatch"]
                                                   preferredStyle:UIAlertControllerStyleAlert];
             [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
             [loginViewController
@@ -2126,21 +2125,6 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
                                                                  kSFNotificationFromUserKey: fromUser ?: [NSNull null],
                                                                  kSFNotificationToUserKey: toUser?: [NSNull null]
                                                                  }];
-}
-
-- (BOOL)validateBootConfigConsumerKeyMatches:(NSURL *)frontdoorBridgeUrl {
-    
-    NSURLComponents * frontdoorBridgeUrlComponents = [NSURLComponents
-                                                      componentsWithURL: frontdoorBridgeUrl
-                                                      resolvingAgainstBaseURL:YES];
-    NSArray<NSURLQueryItem *> * frontdoorBridgeUrlQueryItems = frontdoorBridgeUrlComponents.queryItems;
-    NSString * startUrlString = [frontdoorBridgeUrlQueryItems filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name == 'startURL'"]][0].value;
-    NSURL * startUrl = [[NSURL alloc] initWithString:startUrlString];
-    NSURLComponents * startUrlComponents = [NSURLComponents componentsWithURL: startUrl resolvingAgainstBaseURL: YES];
-    NSArray<NSURLQueryItem *> * startUrlQueryItems = startUrlComponents.queryItems;
-    NSString * frontdoorBridgeUrlClientId = [startUrlQueryItems filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name == 'client_id'"]][0].value;
-    
-    return [frontdoorBridgeUrlClientId isEqualToString:[[SalesforceSDKManager sharedManager] appConfig].remoteAccessConsumerKey];
 }
 
 #pragma mark - User Change Notifications

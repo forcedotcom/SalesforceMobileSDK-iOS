@@ -347,7 +347,7 @@
         });
     }
     self.authInfo = nil;
-    [self resetFrontDoorBridgeUrl];
+    [self clearFrontDoorBridgeLoginOverride];
 }
 
 - (void)notifyDelegateOfSuccess:(SFOAuthInfo *)authInfo
@@ -357,7 +357,7 @@
         [self.delegate oauthCoordinatorDidAuthenticate:self authInfo:authInfo];
     }
     self.authInfo = nil;
-    [self resetFrontDoorBridgeUrl];
+    [self clearFrontDoorBridgeLoginOverride];
 }
 
 - (void)notifyDelegateOfBeginAuthentication
@@ -553,8 +553,8 @@
     [SFSDKCoreLogger d:[self class] format:@"%@ Loading web view for '%@' auth flow, with URL: %@", NSStringFromSelector(_cmd), self.authInfo.authTypeDescription, [urlToLoad sfsdk_redactedAbsoluteString:@[ @"sid" ]]];
     dispatch_async(dispatch_get_main_queue(), ^{
         // If a valid overriding Salesforce Identity API UI Bridge front door bridge is present, load it.
-        if (self.overrideWithFrontDoorBridgeUrl) {
-            [self.view loadRequest:[NSURLRequest requestWithURL:self.overrideWithFrontDoorBridgeUrl]];
+        if (self.frontdoorBridgeLoginOverride.frontdoorBridgeUrl) {
+            [self.view loadRequest:[NSURLRequest requestWithURL:self.frontdoorBridgeLoginOverride.frontdoorBridgeUrl]];
 
         } else {
             [self.view loadRequest:request];
@@ -580,7 +580,7 @@
         [SFSDKCoreLogger i:[self class] format:@"%@: Initiating authorization code flow.", NSStringFromSelector(_cmd)];
         request.approvalCode = self.approvalCode;
         // Choose either the default generated code verifier or the code verifier matching the overriding Salesforce Identity API UI Bridge front door bridge.
-        request.codeVerifier = self.overrideWithCodeVerifier ? self.overrideWithCodeVerifier : self.codeVerifier;
+        request.codeVerifier = self.frontdoorBridgeLoginOverride.codeVerifier ? self.frontdoorBridgeLoginOverride.codeVerifier : self.codeVerifier;
         [self.authClient accessTokenForApprovalCode:request completion:^(SFSDKOAuthTokenEndpointResponse * response) {
              __strong typeof (weakSelf) strongSelf = weakSelf;
             [strongSelf handleResponse:response];
@@ -791,10 +791,8 @@
  * Resets all state related to Salesforce Identity API UI Bridge front door bridge URL log in to its default
  * inactive state.
  */
--(void) resetFrontDoorBridgeUrl {
-    self.overridingFrontDoorBridgeUrlMatchesConsumerKey = YES;
-    self.overrideWithFrontDoorBridgeUrl = nil;
-    self.overrideWithCodeVerifier = nil;
+-(void) clearFrontDoorBridgeLoginOverride {
+    self.frontdoorBridgeLoginOverride = nil;
 }
 
 - (NSString *)scopeQueryParamString {
@@ -819,7 +817,7 @@
     NSString *requestUrl = [url absoluteString];
     if ([self isRedirectURL:requestUrl]) {
         // Determine if presence of override parameters require the user agent flow.
-        BOOL overrideWithUserAgentFlow = self.overrideWithFrontDoorBridgeUrl && !self.overrideWithCodeVerifier;
+        BOOL overrideWithUserAgentFlow = self.frontdoorBridgeLoginOverride.frontdoorBridgeUrl && !self.frontdoorBridgeLoginOverride.codeVerifier;
         if ( [[SalesforceSDKManager sharedManager] useWebServerAuthentication] && !overrideWithUserAgentFlow) {
             [self handleWebServerResponse:url]; // Web server flow/URLs with query string parameters.
         } else {
@@ -980,6 +978,33 @@
         [brandedAuthorizeURL appendFormat:@"/%@",urlString];
     }
     return brandedAuthorizeURL;
+}
+
+@end
+
+@implementation SFOAuthCoordinatorFrontdoorBridgeLoginOverride
+
+- initWithFrontdoorBridgeUrl:(NSURL *)frontdoorBridgeUrl codeVerifier:(NSString *)codeVerifier {
+    self = [super init];
+    
+    NSURLComponents * frontdoorBridgeUrlComponents = [NSURLComponents
+                                                      componentsWithURL: frontdoorBridgeUrl
+                                                      resolvingAgainstBaseURL:YES];
+    NSArray<NSURLQueryItem *> * frontdoorBridgeUrlQueryItems = frontdoorBridgeUrlComponents.queryItems;
+    NSString * startUrlString = [frontdoorBridgeUrlQueryItems filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name == 'startURL'"]][0].value;
+    NSURL * startUrl = [[NSURL alloc] initWithString:startUrlString];
+    NSURLComponents * startUrlComponents = [NSURLComponents componentsWithURL: startUrl resolvingAgainstBaseURL: YES];
+    NSArray<NSURLQueryItem *> * startUrlQueryItems = startUrlComponents.queryItems;
+    NSString * frontdoorBridgeUrlClientId = [startUrlQueryItems filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name == 'client_id'"]][0].value;
+    
+    self.matchesConsumerKey = [frontdoorBridgeUrlClientId isEqualToString:[[SalesforceSDKManager sharedManager] appConfig].remoteAccessConsumerKey];
+
+    if (self.matchesConsumerKey) {
+        self.codeVerifier = codeVerifier;
+        self.frontdoorBridgeUrl = frontdoorBridgeUrl;
+    }
+    
+    return self;
 }
 
 @end
