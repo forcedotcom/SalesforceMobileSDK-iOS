@@ -25,7 +25,7 @@
 #import "SFOAuthCoordinator.h"
 #import "SFSDKAuthSession.h"
 @class SFOAuthInfo;
-@class SFOAuthCoordinatorFrontdoorBridgeLoginOverride;
+@class AuthCoordinatorFrontdoorBridgeLoginOverride;
 
 typedef NS_ENUM(NSUInteger, SFOAuthTokenEndpointFlow) {
     SFOAuthTokenEndpointFlowNone = 0,
@@ -49,7 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong ,nullable) SFOAuthCredentials *spAppCredentials;
 @property (nonatomic, weak, nullable) SFSDKAuthSession *authSession;
 
-@property (nonatomic, strong, nullable) SFOAuthCoordinatorFrontdoorBridgeLoginOverride *frontdoorBridgeLoginOverride;
+@property (nonatomic, strong, nullable) AuthCoordinatorFrontdoorBridgeLoginOverride *frontdoorBridgeLoginOverride;
 
 @property (nonatomic, strong, nullable) NSString *loginHint;
 
