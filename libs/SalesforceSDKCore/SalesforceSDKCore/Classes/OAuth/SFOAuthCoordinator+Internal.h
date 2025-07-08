@@ -23,6 +23,7 @@
  */
 
 #import "SFOAuthCoordinator.h"
+#import "SFOAuthCoordinatorFrontdoorBridgeLoginOverride.h"
 #import "SFSDKAuthSession.h"
 @class SFOAuthInfo;
 
@@ -32,21 +33,6 @@ typedef NS_ENUM(NSUInteger, SFOAuthTokenEndpointFlow) {
     SFOAuthTokenEndpointFlowAdvancedBrowser
 };
 NS_ASSUME_NONNULL_BEGIN
-
-@interface SFOAuthCoordinatorFrontdoorBridgeLoginOverride: NSObject
-
-/// For Salesforce Identity UI Bridge API support, an overriding front door bridge URL to use in place of the default initial URL.
-@property (nonatomic, strong, nullable) NSURL *frontdoorBridgeUrl;
-
-/// For Salesforce Identity UI Bridge API support, the optional web server flow code verififer accompaning the front door bridge URL.  This can only be used with `overrideWithfrontDoorBridgeUrl`.
-@property (nonatomic, strong, nullable) NSString *codeVerifier;
-
-/// For Salesforce Identity UI Bridge API support, indicates if overriding front door bridge URL has a consumer key value that matches the app config, which is also known as the boot config.
-@property (nonatomic, assign) BOOL matchesConsumerKey;
-
-- initWithFrontdoorBridgeUrl:(NSURL *)frontdoorBridgeUrl codeVerifier:(NSString *)codeVerifier;
-
-@end
 
 @interface SFOAuthCoordinator ()
 

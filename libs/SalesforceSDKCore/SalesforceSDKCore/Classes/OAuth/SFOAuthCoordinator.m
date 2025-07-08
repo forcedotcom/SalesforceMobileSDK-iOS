@@ -981,30 +981,3 @@
 }
 
 @end
-
-@implementation SFOAuthCoordinatorFrontdoorBridgeLoginOverride
-
-- initWithFrontdoorBridgeUrl:(NSURL *)frontdoorBridgeUrl codeVerifier:(NSString *)codeVerifier {
-    self = [super init];
-    
-    NSURLComponents * frontdoorBridgeUrlComponents = [NSURLComponents
-                                                      componentsWithURL: frontdoorBridgeUrl
-                                                      resolvingAgainstBaseURL:YES];
-    NSArray<NSURLQueryItem *> * frontdoorBridgeUrlQueryItems = frontdoorBridgeUrlComponents.queryItems;
-    NSString * startUrlString = [frontdoorBridgeUrlQueryItems filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name == 'startURL'"]][0].value;
-    NSURL * startUrl = [[NSURL alloc] initWithString:startUrlString];
-    NSURLComponents * startUrlComponents = [NSURLComponents componentsWithURL: startUrl resolvingAgainstBaseURL: YES];
-    NSArray<NSURLQueryItem *> * startUrlQueryItems = startUrlComponents.queryItems;
-    NSString * frontdoorBridgeUrlClientId = [startUrlQueryItems filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name == 'client_id'"]][0].value;
-    
-    self.matchesConsumerKey = [frontdoorBridgeUrlClientId isEqualToString:[[SalesforceSDKManager sharedManager] appConfig].remoteAccessConsumerKey];
-
-    if (self.matchesConsumerKey) {
-        self.codeVerifier = codeVerifier;
-        self.frontdoorBridgeUrl = frontdoorBridgeUrl;
-    }
-    
-    return self;
-}
-
-@end
