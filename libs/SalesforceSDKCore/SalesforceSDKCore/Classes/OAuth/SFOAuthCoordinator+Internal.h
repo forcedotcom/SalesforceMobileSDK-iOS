@@ -22,10 +22,9 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFOAuthCoordinator.h"
 #import "SFSDKAuthSession.h"
-@class SFOAuthInfo;
-@class AuthCoordinatorFrontdoorBridgeLoginOverride;
+#import "SalesforceSDKCore/SalesforceSDKCore.h"
+#import "SalesforceSDKCore/SalesforceSDKCore-Swift.h"
 
 typedef NS_ENUM(NSUInteger, SFOAuthTokenEndpointFlow) {
     SFOAuthTokenEndpointFlowNone = 0,
