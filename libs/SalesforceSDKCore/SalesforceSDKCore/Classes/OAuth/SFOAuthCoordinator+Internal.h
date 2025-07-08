@@ -23,9 +23,9 @@
  */
 
 #import "SFOAuthCoordinator.h"
-#import "SFOAuthCoordinatorFrontdoorBridgeLoginOverride.h"
 #import "SFSDKAuthSession.h"
 @class SFOAuthInfo;
+@class SFOAuthCoordinatorFrontdoorBridgeLoginOverride;
 
 typedef NS_ENUM(NSUInteger, SFOAuthTokenEndpointFlow) {
     SFOAuthTokenEndpointFlowNone = 0,
