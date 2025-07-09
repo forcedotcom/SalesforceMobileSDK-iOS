@@ -24,7 +24,8 @@ import Foundation
 import WebKit
 
 @objc(SFSDKWebViewStateManager)
-public class WebViewStateManager: NSObject {
+@available(*, deprecated, message: "The SFSDKWebViewStateManager class, deprecated in Swift code on the Salesforce Mobile SDK 13.1, will be removed in the Salesforce Mobile SDK 14.0. Use WebViewStateManager instead. SFSDKWebViewStateManager will remain available in Objective-C code in the SDK 14.0.")
+public class SFSDKWebViewStateManager: NSObject {
     private static var processPool: WKProcessPool?
     private static var managementDisabled = false
     
@@ -44,7 +45,7 @@ public class WebViewStateManager: NSObject {
         sharedProcessPool = nil
         
         if sessionCookieManagementDisabled {
-            SFSDKCoreLogger.d(WebViewStateManager.self, message: "[\(Self.self) removeSession]: Cookie Management disabled. Will do nothing.")
+            SFSDKCoreLogger.d(SFSDKWebViewStateManager.self, message: "[\(Self.self) removeSession]: Cookie Management disabled. Will do nothing.")
             return
         }
         
@@ -57,7 +58,7 @@ public class WebViewStateManager: NSObject {
     @MainActor
     public static func resetSessionCookie() {
         if sessionCookieManagementDisabled {
-            SFSDKCoreLogger.d(WebViewStateManager.self, message: "[\(Self.self) resetSessionCookie]: Cookie Management disabled. Will do nothing.")
+            SFSDKCoreLogger.d(SFSDKWebViewStateManager.self, message: "[\(Self.self) resetSessionCookie]: Cookie Management disabled. Will do nothing.")
             return
         }
         
@@ -79,14 +80,14 @@ public class WebViewStateManager: NSObject {
     public static var sharedProcessPool: WKProcessPool? {
         get {
             if processPool == nil {
-                SFSDKCoreLogger.i(WebViewStateManager.self, message: "[\(Self.self) sharedProcessPool]: No process pool exists. Creating new instance.")
+                SFSDKCoreLogger.i(SFSDKWebViewStateManager.self, message: "[\(Self.self) sharedProcessPool]: No process pool exists. Creating new instance.")
                 processPool = WKProcessPool()
             }
             return processPool
         }
         set {
             if newValue !== processPool {
-                SFSDKCoreLogger.i(WebViewStateManager.self, message: "[\(Self.self) setSharedProcessPool]: Changing from \(String(describing: processPool)) to \(String(describing: newValue))")
+                SFSDKCoreLogger.i(SFSDKWebViewStateManager.self, message: "[\(Self.self) setSharedProcessPool]: Changing from \(String(describing: processPool)) to \(String(describing: newValue))")
                 processPool = newValue
             }
         }

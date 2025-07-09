@@ -35,7 +35,7 @@
 		23705EC22DF35D6C00E644A0 /* WebSocketClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23705EC12DF35D6C00E644A0 /* WebSocketClient.swift */; };
 		238AA5802D827AF80036667C /* PushNotificationManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238AA57F2D827AF80036667C /* PushNotificationManagerTests.swift */; };
 		23945B712D78E4A60060B195 /* NotificationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23945B702D78E4A60060B195 /* NotificationType.swift */; };
-		2394F4702D9307D300B9686A /* WebViewStateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2394F46F2D9307D300B9686A /* WebViewStateManager.swift */; };
+		2394F4702D9307D300B9686A /* SFSDKWebViewStateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2394F46F2D9307D300B9686A /* SFSDKWebViewStateManager.swift */; };
 		2394F4722D930C5400B9686A /* WebViewStateManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2394F4712D930C5400B9686A /* WebViewStateManagerTests.swift */; };
 		23A4C7462D0CAFA000DF55EB /* ScreenLockManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A4C7452D0CAFA000DF55EB /* ScreenLockManagerTests.swift */; };
 		23A4C7492D0CAFCF00DF55EB /* NativeLoginManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A4C7482D0CAFCF00DF55EB /* NativeLoginManagerTests.swift */; };
@@ -551,7 +551,7 @@
 		23705EC12DF35D6C00E644A0 /* WebSocketClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketClient.swift; sourceTree = "<group>"; };
 		238AA57F2D827AF80036667C /* PushNotificationManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PushNotificationManagerTests.swift; path = SalesforceSDKCoreTests/PushNotificationManagerTests.swift; sourceTree = SOURCE_ROOT; };
 		23945B702D78E4A60060B195 /* NotificationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationType.swift; sourceTree = "<group>"; };
-		2394F46F2D9307D300B9686A /* WebViewStateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewStateManager.swift; sourceTree = "<group>"; };
+		2394F46F2D9307D300B9686A /* SFSDKWebViewStateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSDKWebViewStateManager.swift; sourceTree = "<group>"; };
 		2394F4712D930C5400B9686A /* WebViewStateManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = WebViewStateManagerTests.swift; path = SalesforceSDKCoreTests/WebViewStateManagerTests.swift; sourceTree = SOURCE_ROOT; };
 		23A4C7452D0CAFA000DF55EB /* ScreenLockManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ScreenLockManagerTests.swift; path = SalesforceSDKCoreTests/ScreenLockManagerTests.swift; sourceTree = SOURCE_ROOT; };
 		23A4C7472D0CAFCF00DF55EB /* JwtAccessTokenTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = JwtAccessTokenTests.swift; path = SalesforceSDKCoreTests/JwtAccessTokenTests.swift; sourceTree = SOURCE_ROOT; };
@@ -1159,7 +1159,7 @@
 				692496692444E50500D3F63B /* SFFormatUtils.m */,
 				6900B62A24B64DD800500923 /* NSURLResponse+SFAdditions.h */,
 				6900B62B24B64DD800500923 /* NSURLResponse+SFAdditions.m */,
-				2394F46F2D9307D300B9686A /* WebViewStateManager.swift */,
+				2394F46F2D9307D300B9686A /* SFSDKWebViewStateManager.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -2354,7 +2354,7 @@
 				CE4CE36D1C0E526A009F6029 /* SFEncryptionKey.m in Sources */,
 				CE7F662C1E556CA800DC3FBB /* SFNetwork.m in Sources */,
 				B7C5125A20C188AE00B39DAA /* SFSDKViewController.m in Sources */,
-				2394F4702D9307D300B9686A /* WebViewStateManager.swift in Sources */,
+				2394F4702D9307D300B9686A /* SFSDKWebViewStateManager.swift in Sources */,
 				CE4CE3A41C0E5279009F6029 /* SalesforceSDKCoreDefines.m in Sources */,
 				CE4CE34D1C0E5252009F6029 /* SFOAuthKeychainCredentials.m in Sources */,
 				CE4CE33B1C0E5245009F6029 /* SFIdentityCoordinator.m in Sources */,
