@@ -68,6 +68,7 @@
 #import "SFSDKIDPAuthCodeLoginRequestCommand.h"
 #import <SalesforceSDKCommon/SFJsonUtils.h>
 #import "SFSDKOAuth2+Internal.h"
+#import "SFSDKResourceUtils.h"
 
 // Notifications
 NSNotificationName SFUserAccountManagerDidChangeUserNotification       = @"SFUserAccountManagerDidChangeUserNotification";
@@ -595,8 +596,13 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     authSession.authFailureCallback = failureBlock;
     authSession.authSuccessCallback = completionBlock;
     authSession.oauthCoordinator.delegate = self;
-    authSession.oauthCoordinator.overrideWithCodeVerifier = codeVerifier;
-    authSession.oauthCoordinator.overrideWithFrontDoorBridgeUrl = frontDoorBridgeUrl;
+
+    // Only allow use of front door bridge URLs with matching consumer keys.
+    if (frontDoorBridgeUrl != nil) {
+        authSession.oauthCoordinator.frontdoorBridgeLoginOverride = [[SFSDKAuthCoordinatorFrontdoorBridgeLoginOverride alloc]
+                                                        initWithFrontdoorBridgeUrl:frontDoorBridgeUrl
+                                                        codeVerifier:codeVerifier];
+    }
     authSession.oauthCoordinator.loginHint = loginHint;
     NSString *sceneId = authSession.sceneId;
     self.authSessions[sceneId] = authSession;
@@ -906,20 +912,34 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 }
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(WKWebView *)view {
-
     SFLoginViewController *loginViewController = [self createLoginViewControllerInstance:coordinator];
     loginViewController.oauthView = view;
     SFSDKAuthViewHolder *viewHolder = [SFSDKAuthViewHolder new];
     viewHolder.loginController = loginViewController;
     viewHolder.scene = coordinator.authSession.oauthRequest.scene;
+    
+    void (^authViewDisplayBlock)(void) = ^{
+        
+        self.authViewHandler.authViewDisplayBlock(viewHolder);
+        if (coordinator.frontdoorBridgeLoginOverride && !coordinator.frontdoorBridgeLoginOverride.matchesConsumerKey) {
+            UIAlertController* alertController = [UIAlertController
+                                                  alertControllerWithTitle:@"Error"
+                                                  message:[SFSDKResourceUtils localizedString:@"authAlertFrontdoorLoginUrlConsumerKeyMismatch"]
+                                                  preferredStyle:UIAlertControllerStyleAlert];
+            [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
+            [loginViewController
+             presentViewController:alertController
+             animated:true
+             completion:nil];
+        }
+    };
+    
     // Ensure this runs on the main thread.  Has to be sync, because the coordinator expects the auth view
     // to be added to a superview by the end of this method.
     if (![NSThread isMainThread]) {
-       dispatch_sync(dispatch_get_main_queue(), ^{
-           self.authViewHandler.authViewDisplayBlock(viewHolder);
-       });
+        dispatch_sync(dispatch_get_main_queue(), authViewDisplayBlock);
     } else {
-       self.authViewHandler.authViewDisplayBlock(viewHolder);
+        authViewDisplayBlock();
     }
 }
 

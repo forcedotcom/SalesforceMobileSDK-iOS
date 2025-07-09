@@ -22,9 +22,9 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFOAuthCoordinator.h"
 #import "SFSDKAuthSession.h"
-@class SFOAuthInfo;
+#import "SalesforceSDKCore/SalesforceSDKCore.h"
+#import "SalesforceSDKCore/SalesforceSDKCore-Swift.h"
 
 typedef NS_ENUM(NSUInteger, SFOAuthTokenEndpointFlow) {
     SFOAuthTokenEndpointFlowNone = 0,
@@ -48,11 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong ,nullable) SFOAuthCredentials *spAppCredentials;
 @property (nonatomic, weak, nullable) SFSDKAuthSession *authSession;
 
-/// For Salesforce Identity UI Bridge API support, an overriding front door bridge URL to use in place of the default initial URL.
-@property (nonatomic, strong, nullable) NSURL *overrideWithFrontDoorBridgeUrl;
-
-/// For Salesforce Identity UI Bridge API support, the optional web server flow code verififer accompaning the front door bridge URL.  This can only be used with `overrideWithfrontDoorBridgeUrl`.
-@property (nonatomic, strong, nullable) NSString *overrideWithCodeVerifier;
+@property (nonatomic, strong, nullable) SFSDKAuthCoordinatorFrontdoorBridgeLoginOverride *frontdoorBridgeLoginOverride;
 
 @property (nonatomic, strong, nullable) NSString *loginHint;
 

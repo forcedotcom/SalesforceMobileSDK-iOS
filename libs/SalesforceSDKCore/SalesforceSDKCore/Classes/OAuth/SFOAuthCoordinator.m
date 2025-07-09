@@ -347,7 +347,7 @@
         });
     }
     self.authInfo = nil;
-    [self resetFrontDoorBridgeUrl];
+    [self clearFrontDoorBridgeLoginOverride];
 }
 
 - (void)notifyDelegateOfSuccess:(SFOAuthInfo *)authInfo
@@ -357,7 +357,7 @@
         [self.delegate oauthCoordinatorDidAuthenticate:self authInfo:authInfo];
     }
     self.authInfo = nil;
-    [self resetFrontDoorBridgeUrl];
+    [self clearFrontDoorBridgeLoginOverride];
 }
 
 - (void)notifyDelegateOfBeginAuthentication
@@ -552,9 +552,9 @@
     [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData]; // don't use cache
     [SFSDKCoreLogger d:[self class] format:@"%@ Loading web view for '%@' auth flow, with URL: %@", NSStringFromSelector(_cmd), self.authInfo.authTypeDescription, [urlToLoad sfsdk_redactedAbsoluteString:@[ @"sid" ]]];
     dispatch_async(dispatch_get_main_queue(), ^{
-        // If an overriding Salesforce Identity API UI Bridge front door bridge is present, load it.
-        if (self.overrideWithFrontDoorBridgeUrl) {
-            [self.view loadRequest:[NSURLRequest requestWithURL:self.overrideWithFrontDoorBridgeUrl]];
+        // If a valid overriding Salesforce Identity API UI Bridge front door bridge is present, load it.
+        if (self.frontdoorBridgeLoginOverride.frontdoorBridgeUrl) {
+            [self.view loadRequest:[NSURLRequest requestWithURL:self.frontdoorBridgeLoginOverride.frontdoorBridgeUrl]];
 
         } else {
             [self.view loadRequest:request];
@@ -580,7 +580,7 @@
         [SFSDKCoreLogger i:[self class] format:@"%@: Initiating authorization code flow.", NSStringFromSelector(_cmd)];
         request.approvalCode = self.approvalCode;
         // Choose either the default generated code verifier or the code verifier matching the overriding Salesforce Identity API UI Bridge front door bridge.
-        request.codeVerifier = self.overrideWithCodeVerifier ? self.overrideWithCodeVerifier : self.codeVerifier;
+        request.codeVerifier = self.frontdoorBridgeLoginOverride.codeVerifier ? self.frontdoorBridgeLoginOverride.codeVerifier : self.codeVerifier;
         [self.authClient accessTokenForApprovalCode:request completion:^(SFSDKOAuthTokenEndpointResponse * response) {
              __strong typeof (weakSelf) strongSelf = weakSelf;
             [strongSelf handleResponse:response];
@@ -791,9 +791,8 @@
  * Resets all state related to Salesforce Identity API UI Bridge front door bridge URL log in to its default
  * inactive state.
  */
--(void) resetFrontDoorBridgeUrl {
-    self.overrideWithFrontDoorBridgeUrl = nil;
-    self.overrideWithCodeVerifier = nil;
+-(void) clearFrontDoorBridgeLoginOverride {
+    self.frontdoorBridgeLoginOverride = nil;
 }
 
 - (NSString *)scopeQueryParamString {
@@ -818,7 +817,7 @@
     NSString *requestUrl = [url absoluteString];
     if ([self isRedirectURL:requestUrl]) {
         // Determine if presence of override parameters require the user agent flow.
-        BOOL overrideWithUserAgentFlow = self.overrideWithFrontDoorBridgeUrl && !self.overrideWithCodeVerifier;
+        BOOL overrideWithUserAgentFlow = self.frontdoorBridgeLoginOverride.frontdoorBridgeUrl && !self.frontdoorBridgeLoginOverride.codeVerifier;
         if ( [[SalesforceSDKManager sharedManager] useWebServerAuthentication] && !overrideWithUserAgentFlow) {
             [self handleWebServerResponse:url]; // Web server flow/URLs with query string parameters.
         } else {
