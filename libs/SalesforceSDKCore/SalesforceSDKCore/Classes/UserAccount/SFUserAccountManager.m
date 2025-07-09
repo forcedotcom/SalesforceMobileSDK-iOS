@@ -599,7 +599,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 
     // Only allow use of front door bridge URLs with matching consumer keys.
     if (frontDoorBridgeUrl != nil) {
-        authSession.oauthCoordinator.frontdoorBridgeLoginOverride = [[AuthCoordinatorFrontdoorBridgeLoginOverride alloc]
+        authSession.oauthCoordinator.frontdoorBridgeLoginOverride = [[SFSDKAuthCoordinatorFrontdoorBridgeLoginOverride alloc]
                                                         initWithFrontdoorBridgeUrl:frontDoorBridgeUrl
                                                         codeVerifier:codeVerifier];
     }

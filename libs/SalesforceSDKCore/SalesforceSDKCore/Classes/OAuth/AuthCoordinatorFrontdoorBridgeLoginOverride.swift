@@ -24,7 +24,8 @@
 
 import Foundation
 
-@objc public class AuthCoordinatorFrontdoorBridgeLoginOverride: NSObject {
+@objc(SFSDKAuthCoordinatorFrontdoorBridgeLoginOverride)
+public class AuthCoordinatorFrontdoorBridgeLoginOverride: NSObject {
     
     /// For Salesforce Identity UI Bridge API support, an overriding front door bridge URL to use in place of the default initial URL.
     @objc public var frontdoorBridgeUrl: URL?

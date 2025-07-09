@@ -48,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong ,nullable) SFOAuthCredentials *spAppCredentials;
 @property (nonatomic, weak, nullable) SFSDKAuthSession *authSession;
 
-@property (nonatomic, strong, nullable) AuthCoordinatorFrontdoorBridgeLoginOverride *frontdoorBridgeLoginOverride;
+@property (nonatomic, strong, nullable) SFSDKAuthCoordinatorFrontdoorBridgeLoginOverride *frontdoorBridgeLoginOverride;
 
 @property (nonatomic, strong, nullable) NSString *loginHint;
 
