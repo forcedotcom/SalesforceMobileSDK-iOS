@@ -85,7 +85,7 @@
         }
     }];
 
-    if (![SFUserAccountManager sharedInstance].currentUser && [SalesforceSDKManager sharedManager].appConfig.shouldAuthenticate) {
+    if ([self isDeepLink:loginHint host:loginHost] || [self shouldAuthenticateNewUser]) {
         SFUserAccountManagerFailureCallbackBlock failureBlock = ^(SFOAuthInfo *authInfo, NSError *authError) {
             [SFSDKCoreLogger e:[self class] format:@"Authentication failed: %@.", [authError localizedDescription]];
         };
@@ -112,6 +112,14 @@
     } else {
         [self screenLockValidation:completionBlock];
     }
+}
+
++ (BOOL)isDeepLink:(NSString *)hint host:(NSString *)host {
+    return ([hint length] > 0 && [host length] > 0);
+}
+
++ (BOOL)shouldAuthenticateNewUser {
+    return ![SFUserAccountManager sharedInstance].currentUser && [SalesforceSDKManager sharedManager].appConfig.shouldAuthenticate;
 }
 
 + (void)loginIfRequired:(UIScene *)scene
