@@ -32,29 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class SFOAuthCoordinator;
 @class SFOAuthInfo;
-
-
-
-/**
- Enumeration of different advanced authentication stages.
- */
-typedef NS_ENUM(NSUInteger, SFOAuthAdvancedAuthState) {
-    /**
-     No advanced authentication is currently under way.
-     */
-    SFOAuthAdvancedAuthStateNotStarted = 0,
-    
-    /**
-     The advanced authentication flow has initiated a request through Safari view controller.
-     */
-    SFOAuthAdvancedAuthStateBrowserRequestInitiated,
-    
-    /**
-     The advanced authentication flow has received a response from Safari view controller, and has
-     initiated a token exchange request.
-     */
-    SFOAuthAdvancedAuthStateTokenRequestInitiated
-} SFSDK_DEPRECATED(11.0, 12.0, "Will be removed");
+@class SFUserAccount;
 
 /**
  Callback block used for the browser flow authentication.
@@ -199,6 +177,15 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSession:(ASWebAuthenticationSession *)session;
 
 /**
+ Sent to notify the delegate that authentication via native REST APIs has begun.
+ 
+ @param coordinator The SFOAuthCoordinator instance processing this message
+ 
+ @see SFOAuthCoordinator
+ */
+- (void)oauthCoordinatorDidBeginNativeAuthentication:(SFOAuthCoordinator *)coordinator;
+
+/**
  Sent to notify the delegate that a browser authentication flow was cancelled out of by the user.
 
  @param coordinator   The SFOAuthCoordinator instance processing this message.
@@ -261,11 +248,6 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
  */
 @property (nonatomic, assign) NSTimeInterval timeout;
 
-/**
- The current state of any in-progress advanced authentication flow.
- */
-@property (nonatomic, readonly) SFOAuthAdvancedAuthState advancedAuthState SFSDK_DEPRECATED(11.0, 12.0, "Will be removed");
-
 /** View in which the user will input OAuth credentials for the user-agent flow OAuth process.
  
  This is only guaranteed to be non-`nil` after one of the delegate methods returning a web view has been called.
@@ -301,13 +283,15 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
  */
 @property (nonatomic, copy) NSString *brandLoginPath;
 
-/** Setup the coordinator to use SafariViewController for authentication.
+/** Setup the coordinator to use ASWebAuthenticationSession for authentication.
  */
 @property (nonatomic, assign) BOOL useBrowserAuth;
     
-/** Setup the coordinator to use SafariViewController for authentication.
-   */
 @property (nonatomic, strong) id<SFSDKOAuthProtocol>authClient;
+
+/** Setup the coordinator to use an app provided native UI for authentication.
+ */
+@property (nonatomic, assign) BOOL useNativeAuth;
 
 ///---------------------------------------------------------------------------------------
 /// @name Initialization
@@ -367,7 +351,7 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
 
 - (BOOL)handleIDPAuthenticationResponse:(NSURL *)appUrlResponse;
 
-- (void)beginIDPFlow;
+- (void)beginIDPFlow:(SFUserAccount *)user success:(void(^)(void))successBlock failure:(void(^)(NSError *))failureBlock;
 
 @end
 

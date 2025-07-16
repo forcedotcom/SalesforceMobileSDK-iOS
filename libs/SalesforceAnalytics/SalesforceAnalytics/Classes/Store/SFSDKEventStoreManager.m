@@ -97,7 +97,18 @@
         NSString *filename = [self filenameForEvent:eventCopy.eventId];
         NSString *parentDir = [filename stringByDeletingLastPathComponent];
         [[NSFileManager defaultManager] createDirectoryAtPath:parentDir withIntermediateDirectories:YES attributes: @{ NSFileProtectionKey: NSFileProtectionCompleteUntilFirstUserAuthentication } error:&error];
-        [encryptedData writeToFile:filename options:NSDataWritingFileProtectionCompleteUntilFirstUserAuthentication error:&error];
+        if (error) {
+            [SFSDKAnalyticsLogger w:[self class] format:@"Error occurred while trying to create directory: %@", error.localizedDescription];
+            return;
+        }
+        
+        @try {
+            [encryptedData writeToFile:filename options:NSDataWritingFileProtectionCompleteUntilFirstUserAuthentication error:&error];
+        } @catch (NSException *e) {
+            [SFSDKAnalyticsLogger w:[self class] format:@"Exception thrown while writing to file: %@", e.reason];
+            return;
+        }
+        
         if (error) {
             [SFSDKAnalyticsLogger w:[self class] format:@"Error occurred while writing to file: %@", error.localizedDescription];
         } else {
@@ -120,6 +131,10 @@
     }
 }
 
+- (NSArray<NSString *> *)eventFiles {
+    return [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.storeDirectory error:nil];
+}
+
 - (SFSDKInstrumentationEvent *) fetchEvent:(NSString *) eventId {
     if (!eventId) {
         return nil;
@@ -129,7 +144,7 @@
 }
 
 - (NSArray<SFSDKInstrumentationEvent *> *) fetchAllEvents {
-    NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.storeDirectory error:nil];
+    NSArray *files = [self eventFiles];
     NSMutableArray *events = [[NSMutableArray alloc] init];
     for (NSString *file in files) {
         SFSDKInstrumentationEvent *event = [self fetchEventFromFile:[self filenameForEvent:file]];

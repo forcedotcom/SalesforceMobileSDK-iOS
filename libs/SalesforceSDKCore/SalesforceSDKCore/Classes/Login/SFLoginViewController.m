@@ -33,7 +33,7 @@
 #import "SFSDKLoginHostDelegate.h"
 #import "UIColor+SFColors.h"
 #import "SFSDKResourceUtils.h"
-#import "SFUserAccountManager.h"
+#import "SFUserAccountManager+Internal.h"
 #import "SFSDKLoginViewControllerConfig.h"
 #import "SFOAuthInfo.h"
 #import "SFSDKWindowManager.h"
@@ -46,6 +46,7 @@
 @interface SFLoginViewController () <SFSDKLoginHostDelegate, SFUserAccountManagerDelegate>
 
 @property (nonatomic, strong) UINavigationBar *navBar;
+@property (nonatomic, strong, nullable) UIButton *biometricButton;
 
 // Reference to previous user account
 @property (nonatomic, strong) SFUserAccount *previousUserAccount;
@@ -72,25 +73,51 @@
     self.view.autoresizesSubviews = YES;
     self.view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     self.view.clipsToBounds = YES;
-    if(self.showNavbar){
+    if (self.showNavbar){
         [self setupNavigationBar];
     } else {
         self.navigationController.navigationBarHidden = YES;
     }
-    [self layoutWebView];
     
+    [self.view addSubview:_oauthView];
+
     SFBiometricAuthenticationManagerInternal *bioAuthManager = [SFBiometricAuthenticationManagerInternal shared];
+    BOOL showBioAuthButton = [bioAuthManager showNativeLoginButton];
+
+    if (showBioAuthButton) {
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        [button setTitle:[SFSDKResourceUtils localizedString:@"biometricLoginButton"] forState:UIControlStateNormal];
+        [button addTarget:self action:@selector(presentBioAuthAction:) forControlEvents:UIControlEventTouchUpInside];
+        self.biometricButton = button;
+        [self.view addSubview:self.biometricButton];
+    }
+    
     if (bioAuthManager.locked && bioAuthManager.hasBiometricOptedIn) {
         [bioAuthManager presentBiometricWithScene:self.view.window.windowScene];
     }
+    
+    [self registerForTraitChanges:@[UITraitDisplayScale.class] withAction:@selector(setupNavigationBar)];
 }
 
 - (CGFloat) belowFrame:(CGRect) frame {
     return frame.origin.y + frame.size.height;
 }
 
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
+- (void)viewWillLayoutSubviews {
+    CGFloat heightOffsetMultiplier = _biometricButton ? 0.9 : 1.0;
+    CGFloat bottomOffset = _biometricButton ? self.view.safeAreaInsets.bottom : 0;
+    
+    // Web view
+    CGFloat x = 0;
+    CGFloat y = [self belowFrame:self.navBar.frame];
+    CGFloat w = self.view.bounds.size.width;
+    CGFloat h = ((self.view.bounds.size.height - y) * heightOffsetMultiplier) - bottomOffset;
+    self.oauthView.frame = CGRectMake(x, y, w, h);
+    
+    // Biometric button
+    h = (self.view.bounds.size.height - y) * 0.1;
+    y = self.view.bounds.size.height - h - bottomOffset;
+    _biometricButton.frame = CGRectMake(x, y, w, h);
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -170,32 +197,35 @@
 #pragma mark - Setup Navigation bar
 
 - (void)setupNavigationBar {
-    
-    self.navBar = self.navigationController.navigationBar;
-    self.navBar.topItem.titleView = [self createTitleItem];
-    // Hides the gear icon if there are no hosts to switch to.
-    SFManagedPreferences *managedPreferences = [SFManagedPreferences sharedPreferences];
-    if (managedPreferences.onlyShowAuthorizedHosts && managedPreferences.loginHosts.count == 0) {
-        self.config.showSettingsIcon = NO;
+    if (self.showNavbar) {
+        self.navBar = self.navigationController.navigationBar;
+        self.navBar.topItem.titleView = [self createTitleItem];
+        // Hides the gear icon if there are no hosts to switch to.
+        SFManagedPreferences *managedPreferences = [SFManagedPreferences sharedPreferences];
+        if (managedPreferences.onlyShowAuthorizedHosts && managedPreferences.loginHosts.count == 0) {
+            self.config.showSettingsIcon = NO;
+        }
+        if(self.showSettingsIcon) {
+            // Setup right bar button.
+            UIBarButtonItem *button = [self createSettingsButton];
+            if (!button.target){
+                [button setTarget:self];
+            }
+            if (!button.action){
+                [button setAction:@selector(showLoginHost:)];
+            }
+            self.navBar.topItem.rightBarButtonItem = button;
+        }
+        [self styleNavigationBar:self.navBar];
+        
+        if (self.navigationController == nil) {
+            [self.view addSubview:self.navBar];
+        }
+        
+        #if !TARGET_OS_VISION
+        [self setNeedsStatusBarAppearanceUpdate];
+        #endif
     }
-    if(self.showSettingsIcon) {
-        // Setup right bar button.
-       UIBarButtonItem *button = [self createSettingsButton];
-       if (!button.target){
-           [button setTarget:self];
-       }
-       if (!button.action){
-           [button setAction:@selector(showLoginHost:)];
-       }
-       self.navBar.topItem.rightBarButtonItem = button;
-    }
-    [self styleNavigationBar:self.navBar];
-    
-    if (self.navigationController == nil) {
-        [self.view addSubview:self.navBar];
-    }
-    
-    [self setNeedsStatusBarAppearanceUpdate];
 }
 
 - (void)setupBackButton {
@@ -219,7 +249,8 @@
         return NO;
     }
     
-    if (self.config.shouldDisplayBackButton || [SFUserAccountManager sharedInstance].idpEnabled) {
+    if (self.config.shouldDisplayBackButton || [SFUserAccountManager sharedInstance].idpEnabled
+        || [SFUserAccountManager sharedInstance].shouldFallbackToWebAuthentication) {
         return YES;
     }
     NSInteger totalAccounts = [SFUserAccountManager sharedInstance].allUserAccounts.count;
@@ -249,51 +280,24 @@
     }
     if (self.config.navBarFont) {
         item.font = self.config.navBarFont;
+    } else {
+        item.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
     }
+    
     item.text = title;
-    [item sizeToFit];
+    item.textAlignment = NSTextAlignmentCenter;
+    item.adjustsFontForContentSizeCategory = YES;
     return item;
 }
 
 - (SFSDKLoginHostListViewController *)createLoginHostListViewController {
     SFSDKLoginHostListViewController *loginHostListViewController = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
+    loginHostListViewController.config = self.config;
     return loginHostListViewController;
-}
-
-- (BOOL)shouldAutorotate {
-    return YES;
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskAll;
-}
-
-- (void)layoutWebView {
-    if (nil != _oauthView) {
-        SFBiometricAuthenticationManagerInternal *bioAuthManager = [SFBiometricAuthenticationManagerInternal shared];
-        BOOL showBioAuthButton = [bioAuthManager showNativeLoginButton];
-        CGFloat heightOffset = showBioAuthButton ? 0.9 : 1.0;
-        
-        [_oauthView removeFromSuperview];
-        CGFloat x = 0;
-        CGFloat y = [self belowFrame:self.navBar.frame];
-        CGFloat w = self.view.bounds.size.width;
-        CGFloat h = (self.view.bounds.size.height - y) * heightOffset;
-        self.oauthView.frame = CGRectMake(x, y, w, h);
-        [self.view addSubview:_oauthView];
-        
-        if (showBioAuthButton) {
-            UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-            [button setTitle:[SFSDKResourceUtils localizedString:@"biometricLoginButton"] forState:UIControlStateNormal];
-            x = 0;
-            y = (self.view.bounds.size.height - y);
-            w = self.view.bounds.size.width;
-            h = ((self.view.bounds.size.height - y) * 0.1);
-            button.frame = CGRectMake(x, y, w, h);
-            [button addTarget:self action:@selector(presentBioAuthAction:) forControlEvents:UIControlEventTouchUpInside];
-            [self.view addSubview:button];
-        }
-    }
 }
 
 #pragma mark - Action Methods
@@ -313,6 +317,12 @@
 - (void)handleBackButtonAction {
     UIScene *scene = self.view.window.windowScene;
     [[SFUserAccountManager sharedInstance] stopCurrentAuthentication:nil];
+    
+    if ([SFUserAccountManager sharedInstance].shouldFallbackToWebAuthentication) {
+        [SFUserAccountManager sharedInstance].shouldFallbackToWebAuthentication = NO;
+        [[SFUserAccountManager sharedInstance] loginWithCompletion:nil failure:nil];
+    }
+    
     if (![SFUserAccountManager sharedInstance].idpEnabled) {
         [[[SFSDKWindowManager sharedManager] authWindow:scene].viewController.presentedViewController dismissViewControllerAnimated:NO completion:^{
             [[[SFSDKWindowManager sharedManager] authWindow:scene] dismissWindow];
@@ -332,7 +342,7 @@
     return _loginHostListViewController;
 }
 
-#pragma mark - Properties`
+#pragma mark - Properties
 
 - (void)setOauthView:(UIView *)oauthView {
     if (![oauthView isEqual:_oauthView]) {
@@ -396,8 +406,4 @@
         self.previousUserAccount = fromUser;
 }
 
-
-
-
 @end
-

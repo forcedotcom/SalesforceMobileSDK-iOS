@@ -23,6 +23,7 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 */
 
 #import <SalesforceSDKCore/SFSDKCryptoUtils.h>
+#import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 #import <SalesforceSDKCommon/SFJsonUtils.h>
 #import "SFSDKPushNotificationDecryption.h"
 #import "SFSDKPushNotificationDecryption+Internal.h"
@@ -176,6 +177,7 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
         }
         return nil;
     }
+    
     SecKeyRef privateKeyRef = [SFSDKCryptoUtils getRSAPrivateKeyRefWithName:kPNEncryptionKeyName keyLength:kPNEncryptionKeyLength];
     if (privateKeyRef == nil) {
         if (error) {
@@ -183,7 +185,19 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
         }
         return nil;
     }
-    NSData *decryptedData = [SFSDKCryptoUtils decryptUsingRSAforData:secretData withKeyRef:privateKeyRef];
+    
+    NSError *oaepDecryptionError;
+    NSData *decryptedData = [SFSDKCryptoUtils decryptData:secretData key:privateKeyRef algorithm:kSecKeyAlgorithmRSAEncryptionOAEPSHA256 error:&oaepDecryptionError];
+    if (oaepDecryptionError) {
+        [SFSDKCoreLogger w:[self class] format:@"Decrypting secret with RSA OAEP failed, falling back to PKCS1: %@", oaepDecryptionError.localizedDescription];
+        
+        NSError *pkcs1DecryptionError;
+        decryptedData = [SFSDKCryptoUtils decryptData:secretData key:privateKeyRef algorithm:kSecKeyAlgorithmRSAEncryptionPKCS1 error:&pkcs1DecryptionError];
+        if (pkcs1DecryptionError) {
+            [SFSDKCoreLogger e:[self class] format:@"Decrypting secret with RSA PKCS1 failed: %@", pkcs1DecryptionError.localizedDescription];
+        }
+    }
+
     CFRelease(privateKeyRef);
     if (decryptedData == nil) {
         if (error) {

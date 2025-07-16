@@ -49,6 +49,29 @@ NS_SWIFT_NAME(AuthHelper)
  */
 + (void)loginIfRequired:(UIScene *)scene completion:(nullable void (^)(void))completionBlock;
 
+/**
+ Initiate a login flow if the user is not already logged in to Salesforce and if the app config's
+ `shouldAuthenticate` flag is set to false.
+ 
+ Parameters here include support for an optional overriding Salesforce Identity UI Bridge API front door bridge
+ URL with an optional overriding code verifier.  These override the default login URL to load and the default
+ code verifier that would be generated for it when web server authentication is enabled.  One use case for this
+ is automatic login from a front door bridge URL provided as part of a QR code log in set up.
+ 
+ @param scene Scene that login is initiated for.
+ @param completionBlock Block that executes immediately if the user is already logged in or if the app
+ config's `shouldAuthenticate` is set to false. Otherwise, this block executes after the user logs in successfully
+ if login is required.
+ @param frontDoorBridgeUrl Optionally, a Salesforce Identity API front door bridge URL to use in place
+ of the default log in URL
+ @param codeVerifier Optionally and only with the front door bridge URL parameter, a code verifier to use
+ when the front door bridge URL is using web server authentication
+ */
++ (void)loginIfRequired:(nullable UIScene *)scene
+     frontDoorBridgeUrl:(nullable NSURL * )frontDoorBridgeUrl
+           codeVerifier:(nullable NSString *)codeVerifier
+             completion:(void (^)(void))completionBlock;
+
 + (void)handleLogout:(nullable void (^)(void))completionBlock;
 
 + (void)handleLogout:(UIScene *)scene completion:(nullable void (^)(void))completionBlock;

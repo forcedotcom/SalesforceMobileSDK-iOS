@@ -1,0 +1,28 @@
+name: Nightly Tests
+
+on:
+  schedule:
+    - cron: "0 5 * * 3,5"  # cron is UTC, this translates to 10 PM PST Tues and Thur.
+  # This lets us trigger the workflow from a browser.
+  workflow_dispatch:
+
+jobs:
+  ios-nightly:
+    strategy:
+      fail-fast: false
+      matrix:
+        lib: [SalesforceSDKCommon, SalesforceAnalytics, SalesforceSDKCore, SmartStore, MobileSync]
+        ios: [^18, ^17]
+        macos: [macos-15]
+        include:
+          - ios: ^18
+            xcode: ^16
+          - ios: ^17
+            xcode: ^15
+    uses: ./.github/workflows/reusable-workflow.yaml
+    with:
+      lib: ${{ matrix.lib }}
+      ios: ${{ matrix.ios }}
+      xcode: ${{ matrix.xcode }}
+      macos: ${{ matrix.macos }}
+    secrets: inherit

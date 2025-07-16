@@ -247,7 +247,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
         }
     }
     
-       // Remove and verify that allUserAccounts property implicitly loads the accounts from disk.
+    // Remove and verify that allUserAccounts property implicitly loads the accounts from disk.
     [self.uam clearAllAccountState];
     NSError *error =nil;
     [self.uam loadAccounts:&error];
@@ -309,6 +309,8 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 }
 
 - (void)testLoginHostForSwitchToUser {
+    [SFUserAccountManager sharedInstance].nativeLoginEnabled = NO;
+    
     NSArray *accounts = [self createAndVerifyUserAccounts:2];
     SFUserAccount *origUser = accounts[0];
     self.uam.loginHost = @"my.prev.domain";

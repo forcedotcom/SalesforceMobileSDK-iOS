@@ -36,13 +36,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (nullable NSString*)sfsdk_valueForParameterName:(NSString*)name;
 
-- (nullable NSString*)valueForParameterName:(NSString*)name SFSDK_DEPRECATED(11.1, 12.0, "Use sfsdk_valueForParameterName: instead");
-
 /** Get all query params as dictionary
  */
 - (nullable NSDictionary *)sfsdk_dictionaryFromQuery;
-
-- (nullable NSDictionary *)dictionaryFromQuery SFSDK_DEPRECATED(11.1, 12.0, "Use sfsdk_dictionaryFromQuery instead");
 
 @end
 

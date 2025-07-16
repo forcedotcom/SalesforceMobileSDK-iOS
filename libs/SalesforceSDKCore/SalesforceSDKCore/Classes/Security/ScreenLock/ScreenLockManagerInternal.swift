@@ -49,7 +49,7 @@ public class ScreenLockManagerInternal: NSObject, ScreenLockManager {
     
     private let kScreenLockIdentifier = "com.salesforce.security.screenlock"
     private var callbackBlock: ScreenLockCallbackBlock? = nil
-    private var backgroundTimestamp: Double = 0
+    var backgroundTimestamp: Double = 0
     
     private override init() {
         super.init()
@@ -171,8 +171,7 @@ public class ScreenLockManagerInternal: NSObject, ScreenLockManager {
                             } else {
                                 SFSDKCoreLogger.e(ScreenLockManagerInternal.self, message: "Failed to remove Mobile policy for user.")
                             }
-                            
-                            UserAccountManager.shared.logout(userAccount)
+                            UserAccountManager.shared.logout(userAccount, reason: .userInitiated)
                         }
                     } catch {
                         SFSDKCoreLogger.e(ScreenLockManagerInternal.self, message: "Failed to read Mobile policy for user.")

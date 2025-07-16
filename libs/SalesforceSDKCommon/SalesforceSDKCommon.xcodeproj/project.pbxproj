@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		4F5DDEB621A4B2530024E7F3 /* SFJsonUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F5DDEB421A4B2520024E7F3 /* SFJsonUtils.m */; };
 		4F5DDEB721A4B2530024E7F3 /* SFJsonUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F5DDEB521A4B2530024E7F3 /* SFJsonUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4F8A3B872CEE998900ECDC76 /* SalesforceLogReceiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8A3B852CEE998900ECDC76 /* SalesforceLogReceiver.swift */; };
+		4F8A3B882CEE998900ECDC76 /* SalesforceLogReceiverFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8A3B862CEE998900ECDC76 /* SalesforceLogReceiverFactory.swift */; };
 		696E914D2AD0AA8B00205884 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 696E914C2AD0AA8B00205884 /* PrivacyInfo.xcprivacy */; };
 		B7136D08216684A700F6A221 /* SalesforceSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7136CFE216684A700F6A221 /* SalesforceSDKCommon.framework */; };
 		B7136D0F216684A700F6A221 /* SalesforceSDKCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = B7136D01216684A700F6A221 /* SalesforceSDKCommon.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -71,6 +73,8 @@
 /* Begin PBXFileReference section */
 		4F5DDEB421A4B2520024E7F3 /* SFJsonUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFJsonUtils.m; sourceTree = "<group>"; };
 		4F5DDEB521A4B2530024E7F3 /* SFJsonUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFJsonUtils.h; sourceTree = "<group>"; };
+		4F8A3B852CEE998900ECDC76 /* SalesforceLogReceiver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesforceLogReceiver.swift; sourceTree = "<group>"; };
+		4F8A3B862CEE998900ECDC76 /* SalesforceLogReceiverFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesforceLogReceiverFactory.swift; sourceTree = "<group>"; };
 		696E914C2AD0AA8B00205884 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		B7136CFE216684A700F6A221 /* SalesforceSDKCommon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SalesforceSDKCommon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7136D01216684A700F6A221 /* SalesforceSDKCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SalesforceSDKCommon.h; sourceTree = "<group>"; };
@@ -210,6 +214,8 @@
 		B7136D192166866700F6A221 /* Logger */ = {
 			isa = PBXGroup;
 			children = (
+				4F8A3B852CEE998900ECDC76 /* SalesforceLogReceiver.swift */,
+				4F8A3B862CEE998900ECDC76 /* SalesforceLogReceiverFactory.swift */,
 				B7136D4E21669DA400F6A221 /* SFLogger.h */,
 				B7136D4F21669DA400F6A221 /* SFLogger.m */,
 				B7136D5421669F7C00F6A221 /* SFDefaultLogger.h */,
@@ -486,6 +492,8 @@
 				4F5DDEB621A4B2530024E7F3 /* SFJsonUtils.m in Sources */,
 				B77F5CF42170FF74004F3005 /* SFSDKSafeMutableDictionary.m in Sources */,
 				B77F5CF02170FF74004F3005 /* SFSDKSafeMutableSet.m in Sources */,
+				4F8A3B872CEE998900ECDC76 /* SalesforceLogReceiver.swift in Sources */,
+				4F8A3B882CEE998900ECDC76 /* SalesforceLogReceiverFactory.swift in Sources */,
 				B7136D30216686EB00F6A221 /* SFSDKReachability.m in Sources */,
 				B7136D5821669F7C00F6A221 /* SFDefaultLogger.m in Sources */,
 				B7136D32216686EB00F6A221 /* NSUserDefaults+SFAdditions.m in Sources */,
@@ -593,7 +601,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -601,6 +609,7 @@
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+				XROS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
 		};
@@ -652,7 +661,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -661,6 +670,7 @@
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+				XROS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
 		};
@@ -688,10 +698,11 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SalesforceSDKCommon;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,7";
 			};
 			name = Debug;
 		};
@@ -718,9 +729,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SalesforceSDKCommon;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,7";
 			};
 			name = Release;
 		};

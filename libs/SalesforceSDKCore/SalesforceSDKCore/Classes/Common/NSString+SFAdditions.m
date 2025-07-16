@@ -42,10 +42,6 @@ static inline BOOL IsValidEntityId(NSString *string) {
 
 @implementation NSString (SFAdditions)
 
-+ (BOOL)isEmpty:(nullable NSString *)string {
-    return [NSString sfsdk_isEmpty:string];
-}
-
 + (BOOL)sfsdk_isEmpty:(nullable NSString *)string {
     if (nil == string || [string isKindOfClass:[NSNull class]]) {
         return YES;
@@ -57,9 +53,6 @@ static inline BOOL IsValidEntityId(NSString *string) {
     return NO;
 }
 
-+ (NSString *)stringWithHexData:(NSData *)data {
-    return [NSString sfsdk_stringWithHexData:data];
-}
 
 + (NSString *)sfsdk_stringWithHexData:(NSData *)data {
     if (![data length]) return nil;
@@ -71,34 +64,18 @@ static inline BOOL IsValidEntityId(NSString *string) {
     return [NSString stringWithString:stringBuffer];
 }
 
-- (NSData *)sha256 {
-    return [self sfsdk_sha256];
-}
-
 - (NSData *)sfsdk_sha256 {
     unsigned char digest[CC_SHA256_DIGEST_LENGTH] = {0};
     CC_SHA256([self UTF8String], (CC_LONG)[self lengthOfBytesUsingEncoding:NSUTF8StringEncoding], digest);
     return [NSData dataWithBytes:digest length:CC_SHA256_DIGEST_LENGTH];
 }
 
-- (NSString *)trim {
-    return [self sfsdk_trim];
-}
-
 - (NSString *)sfsdk_trim {
     return [self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 }
 
-- (NSString *)redacted {
-    return [self sfsdk_redacted];
-}
-
 - (NSString *)sfsdk_redacted {
     return [self sfsdk_redactedWithPrefix:0];
-}
-
-- (NSString *)redactedWithPrefix:(NSUInteger)prefixLength {
-    return [self sfsdk_redactedWithPrefix:prefixLength];
 }
 
 - (NSString *)sfsdk_redactedWithPrefix:(NSUInteger)prefixLength {
@@ -111,10 +88,6 @@ static inline BOOL IsValidEntityId(NSString *string) {
     }
     return ms;
 #endif
-}
-
-+ (NSString *)escapeXMLCharacter:(NSString *)value {
-    return [NSString sfsdk_escapeXMLCharacter:value];
 }
 
 + (NSString *)sfsdk_escapeXMLCharacter:(NSString *)value {
@@ -130,10 +103,6 @@ static inline BOOL IsValidEntityId(NSString *string) {
     returnValue = [returnValue stringByReplacingOccurrencesOfString:@"©" withString:@"&#169;"];
     returnValue = [returnValue stringByReplacingOccurrencesOfString:@"\"" withString:@"&quot;"];
     return returnValue;
-}
-
-+ (NSString *)unescapeXMLCharacter:(NSString *)value {
-    return [NSString sfsdk_unescapeXMLCharacter:value];
 }
 
 + (NSString *)sfsdk_unescapeXMLCharacter:(NSString *)value {
@@ -153,39 +122,10 @@ static inline BOOL IsValidEntityId(NSString *string) {
     return returnValue;
 }
 
-- (NSString *)removeWhitespaces {
-    NSArray* words = [self componentsSeparatedByCharactersInSet :[NSCharacterSet whitespaceCharacterSet]];
-    return [words componentsJoinedByString:@""];
-}
-
-- (NSDictionary *)queryStringComponents {
-    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    NSArray *pairs = [self componentsSeparatedByString:@"&"];
-    
-    for (NSString *pair in pairs) {
-        NSArray *elements = [pair componentsSeparatedByString:@"="];
-        if ([elements count] == 2) {
-            NSString *key = [[elements objectAtIndex:0] stringByRemovingPercentEncoding];
-            NSString *val = [[elements objectAtIndex:1] stringByRemovingPercentEncoding];
-            [dict setObject:val forKey:key];
-        }
-    }
-    
-    return [NSDictionary dictionaryWithDictionary:dict];
-}
-
-- (NSString *)stringByURLEncoding {
-    return [self sfsdk_stringByURLEncoding];
-}
-
 - (NSString *)sfsdk_stringByURLEncoding {
     NSCharacterSet *urlAllowedCharacterSet = [[NSCharacterSet characterSetWithCharactersInString:@"\n\r \"#%/:<>?@[\\]^`{|}&:/=+"] invertedSet];
     NSString* result = [self stringByAddingPercentEncodingWithAllowedCharacters:urlAllowedCharacterSet];
     return result;
-}
-
-- (NSString *)stringByStrippingHTML {
-    return [self sfsdk_stringByStrippingHTML];
 }
 
 - (NSString *)sfsdk_stringByStrippingHTML {
@@ -197,37 +137,9 @@ static inline BOOL IsValidEntityId(NSString *string) {
     return str;
 }
 
-- (NSString*)stringWithTitleCharacter {
-    NSString *result = nil;
-    
-    if (self.length == 0) {
-        result = @"#";
-    } else {
-        NSString *unaccentedString = [self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        unaccentedString = [unaccentedString stringByFoldingWithOptions:(NSDiacriticInsensitiveSearch |
-                                                                         NSCaseInsensitiveSearch |
-                                                                         NSWidthInsensitiveSearch)
-                                                                 locale:[NSLocale currentLocale]];
-        
-        result = [[unaccentedString uppercaseString] substringWithRange:NSMakeRange(0, 1)];
-        if (nil == result || NSNotFound != [result rangeOfCharacterFromSet:[NSCharacterSet decimalDigitCharacterSet]].location)
-            result = @"0-9";
-    }
-    
-    return result;
-}
-
-- (BOOL)isEmptyOrWhitespaceAndNewlines {
-    return [self sfsdk_isEmptyOrWhitespaceAndNewlines];
-}
-
 - (BOOL)sfsdk_isEmptyOrWhitespaceAndNewlines {
     return !self.length ||
     ![self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length;
-}
-
-- (nullable NSString*)entityId18 {
-    return [self sfsdk_entityId18];
 }
 
 - (nullable NSString*)sfsdk_entityId18 {
@@ -261,10 +173,6 @@ static inline BOOL IsValidEntityId(NSString *string) {
         [suffix appendFormat:@"%c", kChunkTable[chunkMap]];
     }
     return [NSString stringWithFormat:@"%@%@", selfString, suffix];
-}
-
-- (BOOL)isEqualToEntityId:(NSString *)entityId {
-    return [self sfsdk_isEqualToEntityId:entityId];
 }
 
 - (BOOL)sfsdk_isEqualToEntityId:(NSString *)entityId {

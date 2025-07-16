@@ -104,7 +104,12 @@
     if (self.completionBlock) {
         dispatch_async(dispatch_get_main_queue(), ^{
             SFUserAccount *account = [[SFUserAccountManager sharedInstance] accountForCredentials:self.credentials];
-            NSDictionary *userInfo = @{ kSFNotificationUserInfoAccountKey : account };
+            NSMutableDictionary *userInfo = [NSMutableDictionary new];
+            if (account) {
+                [userInfo setValue:account forKey:kSFNotificationUserInfoAccountKey];
+            } else {
+                [SFSDKCoreLogger e:[self class] format:@"%@ No account for credentials", NSStringFromSelector(_cmd)];
+            }
             [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserDidRefreshToken
                                                                 object:self
                                                               userInfo:userInfo];
@@ -134,6 +139,11 @@
 
 - (void)oauthCoordinatorDidCancelBrowserAuthentication:(SFOAuthCoordinator *)coordinator {
 
+    // Do nothing - doesn't apply to the refresh flow.
+}
+
+- (void)oauthCoordinatorDidBeginNativeAuthentication:(nonnull SFOAuthCoordinator *)coordinator {
+    
     // Do nothing - doesn't apply to the refresh flow.
 }
 

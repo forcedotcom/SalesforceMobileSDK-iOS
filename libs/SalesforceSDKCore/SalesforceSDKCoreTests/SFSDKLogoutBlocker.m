@@ -55,20 +55,36 @@
             [SFSDKCoreLogger d:[self class] format:@"Swizzled logout methods for Logout protection."];
             SEL originalSelector = @selector(logout);
             SEL swizzledSelector = @selector(dummy_logout);
-            [self swizzleMethod:originalSelector with:swizzledSelector forClass:[SFUserAccountManager class]  isInstanceMethod:YES];
+            [self swizzleMethod:originalSelector with:swizzledSelector forClass:[SFUserAccountManager class] isInstanceMethod:YES];
+            
+            originalSelector = @selector(logout:);
+            swizzledSelector = @selector(dummy_logout:);
+            [self swizzleMethod:originalSelector with:swizzledSelector forClass:[SFUserAccountManager class] isInstanceMethod:YES];
+            
             originalSelector = @selector(logoutAllUsers);
             swizzledSelector = @selector(dummy_logoutAllUsers);
-            [self swizzleMethod:originalSelector with:swizzledSelector forClass:[SFUserAccountManager class]  isInstanceMethod:YES];
+            [self swizzleMethod:originalSelector with:swizzledSelector forClass:[SFUserAccountManager class] isInstanceMethod:YES];
+            
             originalSelector = @selector(logoutUser:);
             swizzledSelector = @selector(dummy_logoutUser:);
-            [self swizzleMethod:originalSelector with:swizzledSelector forClass:[SFUserAccountManager class]   isInstanceMethod:YES];
+            [self swizzleMethod:originalSelector with:swizzledSelector forClass:[SFUserAccountManager class] isInstanceMethod:YES];
+            
+            originalSelector = @selector(logoutUser:reason:);
+            swizzledSelector = @selector(dummy_logoutUser:reason:);
+            [self swizzleMethod:originalSelector with:swizzledSelector forClass:[SFUserAccountManager class] isInstanceMethod:YES];
         });
 }
 
 - (void)dummy_logout {
 }
 
+- (void)dummy_logout:(SFLogoutReason)reason {
+}
+
 - (void)dummy_logoutUser:(SFUserAccount *)user {
+}
+
+- (void)dummy_logoutUser:(SFUserAccount *)user reason:(SFLogoutReason)reason {
 }
 
 - (void)dummy_logoutAllUsers {

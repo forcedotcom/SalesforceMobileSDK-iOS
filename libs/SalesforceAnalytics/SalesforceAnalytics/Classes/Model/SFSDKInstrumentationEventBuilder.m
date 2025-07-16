@@ -30,8 +30,11 @@
 #import "SFSDKInstrumentationEventBuilder.h"
 #import "SFSDKAnalyticsManager+Internal.h"
 #import "SFSDKInstrumentationEvent+Internal.h"
-#import <CoreTelephony/CTTelephonyNetworkInfo.h>
 #import <SalesforceSDKCommon/SFSDKReachability.h>
+
+#if __has_include(<CoreTelephony/CTTelephonyNetworkInfo.h>)
+#import <CoreTelephony/CTTelephonyNetworkInfo.h>
+#endif
 
 @interface SFSDKInstrumentationEventBuilder ()
 
@@ -90,29 +93,38 @@
     }
 }
 
+
 - (NSString *) getConnectionType {
-    SFSDKReachability *reachability = [SFSDKReachability reachabilityForInternetConnection];
-    [reachability startNotifier];
-    SFSDKReachabilityNetworkStatus networkStatus = [reachability currentReachabilityStatus];
-    switch (networkStatus) {
-        case SFSDKReachabilityNotReachable:
-            return @"None";
-        case SFSDKReachabilityReachableViaWWAN:
-            return [self getMobileConnectionSubType];
-        case SFSDKReachabilityReachableViaWiFi:
-            return @"WiFi";
-        default:
-            return @"Unknown";
-    }
+    NSString *defaultType = @"Unknown";
+    #if TARGET_OS_VISION
+        return defaultType;
+    #else
+        SFSDKReachability *reachability = [SFSDKReachability reachabilityForInternetConnection];
+        [reachability startNotifier];
+        SFSDKReachabilityNetworkStatus networkStatus = [reachability currentReachabilityStatus];
+        switch (networkStatus) {
+            case SFSDKReachabilityNotReachable:
+                return @"None";
+            case SFSDKReachabilityReachableViaWWAN:
+                return [self getMobileConnectionSubType];
+            case SFSDKReachabilityReachableViaWiFi:
+                return @"WiFi";
+            default:
+                return defaultType;
+        }
+    #endif
 }
 
 - (NSString *) getMobileConnectionSubType {
     NSString *type = @"Mobile";
-    CTTelephonyNetworkInfo *telephonyInfo = [[CTTelephonyNetworkInfo alloc] init];
-    NSString *subType = telephonyInfo.serviceCurrentRadioAccessTechnology.allValues.firstObject;
-    if (subType != nil) {
-        type = [NSString stringWithFormat:@"Mobile;%@", subType];
-    }
+    #if __has_include(<CoreTelephony/CTTelephonyNetworkInfo.h>)
+        CTTelephonyNetworkInfo *telephonyInfo = [[CTTelephonyNetworkInfo alloc] init];
+        NSString *subType = telephonyInfo.serviceCurrentRadioAccessTechnology.allValues.firstObject;
+        if (subType != nil) {
+            type = [NSString stringWithFormat:@"Mobile;%@", subType];
+        }
+    #endif
+       
     return type;
 }
 

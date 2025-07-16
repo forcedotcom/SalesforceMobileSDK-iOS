@@ -23,6 +23,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -39,11 +40,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (nullable UIApplication*)sharedApplication;
 
-/** Opens the specified URL.
- @param url The URL to be opened.
- @return YES if the URL is successfully opened.
- */
-+ (BOOL)openURL:(NSURL*)url;
+
++ (void)openURL:(NSURL*)url options:(NSDictionary<UIApplicationOpenExternalURLOptionsKey, id> *)options completionHandler:(void (^ __nullable)(BOOL success))completion;
 
 @end
 

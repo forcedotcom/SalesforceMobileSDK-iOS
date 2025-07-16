@@ -81,7 +81,6 @@ static NSString * const kSFAppStoreLink   = @"itunes.apple.com";
 @synthesize initialRequestLoaded        = _initialRequestLoaded;
 @synthesize approvalCode                = _approvalCode;
 @synthesize scopes                      = _scopes;
-@synthesize advancedAuthState           = _advancedAuthState;
 @synthesize codeVerifier                = _codeVerifier;
 @synthesize authInfo                    = _authInfo;
 @synthesize userAgentForAuth            = _userAgentForAuth;
@@ -174,7 +173,14 @@ static NSString * const kSFAppStoreLink   = @"itunes.apple.com";
         [self beginJwtTokenExchangeFlow];
     } else {
         __weak typeof(self) weakSelf = self;
-        if (self.useBrowserAuth) {
+        if (self.useNativeAuth) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                __strong typeof(weakSelf) strongSelf = weakSelf;
+                strongSelf.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeNative];
+                [strongSelf notifyDelegateOfBeginAuthentication];
+                [strongSelf beginHeadlessNativeLoginFlow];
+            });
+        } else if (self.useBrowserAuth) {
             [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSafariBrowserForLogin];
             dispatch_async(dispatch_get_main_queue(), ^{
                 __strong typeof(weakSelf) strongSelf = weakSelf;
@@ -258,7 +264,6 @@ static NSString * const kSFAppStoreLink   = @"itunes.apple.com";
     }
 
     [SFSDKCoreLogger i:[self class] format:@"%@ Received advanced authentication response.  Beginning token exchange.", NSStringFromSelector(_cmd)];
-    self.advancedAuthState = SFOAuthAdvancedAuthStateTokenRequestInitiated;
     dispatch_async(dispatch_get_main_queue(), ^{
         [self beginTokenEndpointFlow];
     });
@@ -316,14 +321,21 @@ static NSString * const kSFAppStoreLink   = @"itunes.apple.com";
         WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
         config.processPool = SFSDKWebViewStateManager.sharedProcessPool;
         UIWindowScene *scene = (UIWindowScene *)self.authSession.oauthRequest.scene;
-        CGRect viewBounds = scene? scene.coordinateSpace.bounds : [UIScreen mainScreen].bounds;
-        _view = [[WKWebView alloc] initWithFrame:viewBounds configuration:config];
+        CGRect bounds = scene.coordinateSpace.bounds;
+        #if !TARGET_OS_VISION
+            if (!scene) {
+                bounds = [UIScreen mainScreen].bounds;
+            }
+        #endif
+        
+        _view = [[WKWebView alloc] initWithFrame:bounds configuration:config];
         _view.navigationDelegate = self;
         _view.autoresizesSubviews = YES;
         _view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         _view.clipsToBounds = YES;
         _view.translatesAutoresizingMaskIntoConstraints = NO;
         _view.customUserAgent = [SalesforceSDKManager sharedManager].userAgentString(@"");
+        _view.inspectable = [SalesforceSDKManager sharedManager].isLoginWebviewInspectable;
         _view.UIDelegate = self;
     }
     return _view;
@@ -335,23 +347,23 @@ static NSString * const kSFAppStoreLink   = @"itunes.apple.com";
 - (void)notifyDelegateOfFailure:(NSError*)error authInfo:(SFOAuthInfo *)info
 {
     self.authenticating = NO;
-    self.advancedAuthState = SFOAuthAdvancedAuthStateNotStarted;
     if ([self.delegate respondsToSelector:@selector(oauthCoordinator:didFailWithError:authInfo:)]) {
         dispatch_async(dispatch_get_main_queue(), ^{
            [self.delegate oauthCoordinator:self didFailWithError:error authInfo:info];
         });
     }
     self.authInfo = nil;
+    [self resetFrontDoorBridgeUrl];
 }
 
 - (void)notifyDelegateOfSuccess:(SFOAuthInfo *)authInfo
 {
     self.authenticating = NO;
-    self.advancedAuthState = SFOAuthAdvancedAuthStateNotStarted;
     if ([self.delegate respondsToSelector:@selector(oauthCoordinatorDidAuthenticate:authInfo:)]) {
         [self.delegate oauthCoordinatorDidAuthenticate:self authInfo:authInfo];
     }
     self.authInfo = nil;
+    [self resetFrontDoorBridgeUrl];
 }
 
 - (void)notifyDelegateOfBeginAuthentication
@@ -493,22 +505,41 @@ static NSString * const kSFAppStoreLink   = @"itunes.apple.com";
 }
 
 // IDP related
-- (void)beginIDPFlow {
+- (void)beginIDPFlow:(SFUserAccount *)user success:(void(^)(void))successBlock failure:(void(^)(NSError *))failureBlock {
     self.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeIDP];
     self.initialRequestLoaded = NO;
     // notify delegate will be begin authentication in our (web) vew
     if (self.credentials.accessToken && self.credentials.apiUrl) {
-        NSString *baseUrlString = [self.credentials.apiUrl absoluteString];
-        NSString *approvalUrlString = [self approvalURLForEndpoint:kSFOAuthEndPointAuthorize
-                                                       credentials:self.spAppCredentials
-                                                     webServerFlow:YES
-                                                          protocol:@"https"
-                                                            domain:self.credentials.domain
-                                                     codeChallenge:self.spAppCredentials.challengeString];
-        NSString *escapedApprovalUrlString = [approvalUrlString sfsdk_stringByURLEncoding];
-        NSString *frontDoorUrlString = [NSString stringWithFormat:@"%@/secur/frontdoor.jsp?sid=%@&retURL=%@", baseUrlString, self.credentials.accessToken, escapedApprovalUrlString];
-        [self loadWebViewWithUrlString:frontDoorUrlString cookie:YES];
+        NSString* approvalPathForSP = [self computeAuthorizationPathForSP];
+        SFRestRequest* singleAccessRequest = [[SFRestAPI sharedInstanceWithUser:user] requestForSingleAccess:approvalPathForSP];
+        __weak typeof (self) weakSelf = self;
+        [[SFRestAPI sharedInstanceWithUser:user] sendRequest:singleAccessRequest failureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
+            failureBlock(error);
+        } successBlock:^(id response, NSURLResponse *rawResponse) {
+            __strong typeof (self) strongSelf = weakSelf;
+            if (successBlock) {
+                successBlock();
+            }
+            NSString *frontDoorUrlString = ((NSDictionary*) response)[@"frontdoor_uri"];
+            [strongSelf loadWebViewWithUrlString:frontDoorUrlString cookie:YES];
+        }];
     }
+}
+
+- (NSString*)computeAuthorizationPathForSP {
+    NSString *approvalUrlString = [self approvalURLForEndpoint:kSFOAuthEndPointAuthorize
+                                                   credentials:self.spAppCredentials
+                                                 webServerFlow:YES
+                                                      protocol:@"https"
+                                                        domain:self.credentials.domain
+                                                 codeChallenge:self.spAppCredentials.challengeString];
+    // Create an NSURL from the string
+    NSURL *approvalUrl = [NSURL URLWithString:approvalUrlString];
+
+    // Extract everything but the protocol and domain
+    NSString *approvalPath = [[approvalUrl path] stringByAppendingString:approvalUrl.query ? [@"?" stringByAppendingString:approvalUrl.query] : @""];
+    
+    return approvalPath;
 }
 
 - (void)loadWebViewWithUrlString:(NSString *)urlString cookie:(BOOL)enableCookie {
@@ -527,7 +558,13 @@ static NSString * const kSFAppStoreLink   = @"itunes.apple.com";
     [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData]; // don't use cache
     [SFSDKCoreLogger d:[self class] format:@"%@ Loading web view for '%@' auth flow, with URL: %@", NSStringFromSelector(_cmd), self.authInfo.authTypeDescription, [urlToLoad sfsdk_redactedAbsoluteString:@[ @"sid" ]]];
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.view loadRequest:request];
+        // If an overriding Salesforce Identity API UI Bridge front door bridge is present, load it.
+        if (self.overrideWithFrontDoorBridgeUrl) {
+            [self.view loadRequest:[NSURLRequest requestWithURL:self.overrideWithFrontDoorBridgeUrl]];
+
+        } else {
+            [self.view loadRequest:request];
+        }
     });
 }
 - (void)updateCredentials:(NSDictionary *) params {
@@ -548,8 +585,8 @@ static NSString * const kSFAppStoreLink   = @"itunes.apple.com";
     if (self.approvalCode) {
         [SFSDKCoreLogger i:[self class] format:@"%@: Initiating authorization code flow.", NSStringFromSelector(_cmd)];
         request.approvalCode = self.approvalCode;
-        request.codeVerifier = self.codeVerifier;
-
+        // Choose either the default generated code verifier or the code verifier matching the overriding Salesforce Identity API UI Bridge front door bridge.
+        request.codeVerifier = self.overrideWithCodeVerifier ? self.overrideWithCodeVerifier : self.codeVerifier;
         [self.authClient accessTokenForApprovalCode:request completion:^(SFSDKOAuthTokenEndpointResponse * response) {
              __strong typeof (weakSelf) strongSelf = weakSelf;
             [strongSelf handleResponse:response];
@@ -557,12 +594,22 @@ static NSString * const kSFAppStoreLink   = @"itunes.apple.com";
     } else {
         // Assumes refresh token flow.
         [SFSDKCoreLogger i:[self class] format:@"%@: Initiating refresh token flow.", NSStringFromSelector(_cmd)];
-        [self.authClient accessTokenForRefresh:request  completion:^(SFSDKOAuthTokenEndpointResponse * response) {
+        [self.authClient accessTokenForRefresh:request completion:^(SFSDKOAuthTokenEndpointResponse * response) {
             __strong typeof (weakSelf) strongSelf = weakSelf;
-            [SFSDKEventBuilderHelper createAndStoreEvent:@"tokenRefresh" userAccount:[SFUserAccountManager sharedInstance].currentUser className:NSStringFromClass([strongSelf class]) attributes:nil];
             [strongSelf handleResponse:response];
         }];
     }
+}
+
+- (void)beginHeadlessNativeLoginFlow {
+    if (![NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self beginHeadlessNativeLoginFlow];
+        });
+        return;
+    }
+    
+    [self.delegate oauthCoordinatorDidBeginNativeAuthentication:self];
 }
          
 - (void)handleResponse:(SFSDKOAuthTokenEndpointResponse *)response {
@@ -720,8 +767,8 @@ static NSString * const kSFAppStoreLink   = @"itunes.apple.com";
 
         if (!codeChallenge) {
             // Code verifier challenge:
-            //   - self.codeVerifier is a base64url-encoded random data string
-            //   - The code challenge sent here is an SHA-256 hash of self.codeVerifier, also base64url-encoded
+            //   - self.codeVerifier is a Base64 URL-Safe encoded (Note, not URL encoded) random data string
+            //   - The code challenge sent here is an SHA-256 hash of self.codeVerifier, also Base64 URL-Safe encoded
             //   - Later, self.codeVerifier will be sent to the service, to be used to compare against the initial code challenge sent here.
             self.codeVerifier = [[SFSDKCryptoUtils randomByteDataWithLength:kSFOAuthCodeVerifierByteLength] sfsdk_base64UrlString];
             codeChallenge = [[[self.codeVerifier dataUsingEncoding:NSUTF8StringEncoding] sfsdk_sha256Data] sfsdk_base64UrlString];
@@ -738,6 +785,15 @@ static NSString * const kSFAppStoreLink   = @"itunes.apple.com";
         [approvalUrlString appendString:scopeString];
     }
     return approvalUrlString;
+}
+
+/**
+ * Resets all state related to Salesforce Identity API UI Bridge front door bridge URL log in to its default
+ * inactive state.
+ */
+-(void) resetFrontDoorBridgeUrl {
+    self.overrideWithFrontDoorBridgeUrl = nil;
+    self.overrideWithCodeVerifier = nil;
 }
 
 - (NSString *)scopeQueryParamString {
@@ -761,10 +817,12 @@ static NSString * const kSFAppStoreLink   = @"itunes.apple.com";
     NSURL *url = navigationAction.request.URL;
     NSString *requestUrl = [url absoluteString];
     if ([self isRedirectURL:requestUrl]) {
-        if ([[SalesforceSDKManager sharedManager] useWebServerAuthentication]) {
-            [self handleWebServerResponse:url];
+        // Determine if presence of override parameters require the user agent flow.
+        BOOL overrideWithUserAgentFlow = self.overrideWithFrontDoorBridgeUrl && !self.overrideWithCodeVerifier;
+        if ( [[SalesforceSDKManager sharedManager] useWebServerAuthentication] && !overrideWithUserAgentFlow) {
+            [self handleWebServerResponse:url]; // Web server flow/URLs with query string parameters.
         } else {
-            [self handleUserAgentResponse:url];
+            [self handleUserAgentResponse:url]; // User agent flow/URLs with the fragment component.
         }
         decisionHandler(WKNavigationActionPolicyCancel);
     } else if ([self isSPAppRedirectURL:requestUrl]){
@@ -785,9 +843,8 @@ static NSString * const kSFAppStoreLink   = @"itunes.apple.com";
         [[SFUserAccountManager sharedInstance] setLoginHost:url.host];
         self.credentials.domain = url.host;
         [self authenticate];
-    } else if ([requestUrl containsString:@"otpauth://"] || [requestUrl containsString:kSFAppStoreLink]) {
-        decisionHandler(WKNavigationActionPolicyCancel);
-        [[UIApplication sharedApplication] openURL:url];
+    } else if ([SFUserAccountManager sharedInstance].navigationPolicyForAction) {
+        decisionHandler([SFUserAccountManager sharedInstance].navigationPolicyForAction(webView, navigationAction));
     } else {
         decisionHandler(WKNavigationActionPolicyAllow);
     }
@@ -812,20 +869,30 @@ static NSString * const kSFAppStoreLink   = @"itunes.apple.com";
     if ([self.delegate respondsToSelector:@selector(oauthCoordinator:didStartLoad:)]) {
         [self.delegate oauthCoordinator:self didStartLoad:webView];
     }
+    
+    if ([SFUserAccountManager sharedInstance].showAuthWindowWhileLoading) {
+        [self startWebviewAuthenticationIfNeeded];
+    }
+}
+
+- (void)startWebviewAuthenticationIfNeeded {
+    if (!self.initialRequestLoaded) {
+        self.initialRequestLoaded = YES;
+        [self.delegate oauthCoordinator:self didBeginAuthenticationWithView:self.view];
+    }
 }
 
 - (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error {
     [self sfwebView:webView didFailLoadWithError:error];
 }
 
-- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation
-{
+- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
     if ([self.delegate respondsToSelector:@selector(oauthCoordinator:didFinishLoad:error:)]) {
         [self.delegate oauthCoordinator:self didFinishLoad:webView error:nil];
     }
-    if (!self.initialRequestLoaded) {
-        self.initialRequestLoaded = YES;
-        [self.delegate oauthCoordinator:self didBeginAuthenticationWithView:self.view];
+    
+    if (![SFUserAccountManager sharedInstance].showAuthWindowWhileLoading) {
+        [self startWebviewAuthenticationIfNeeded];
     }
 }
 
@@ -889,6 +956,13 @@ static NSString * const kSFAppStoreLink   = @"itunes.apple.com";
     } else {
         [SFSDKCoreLogger w:[self class] format:@"WKWebView did want to display a confirmation alert but no delegate responded to it"];
     }
+}
+
+- (nullable WKWebView *)webView:(WKWebView *)webView createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration forNavigationAction:(WKNavigationAction *)navigationAction windowFeatures:(WKWindowFeatures *)windowFeatures {
+    if ([SFUserAccountManager sharedInstance].createWebview) {
+        return [SFUserAccountManager sharedInstance].createWebview(webView, configuration, navigationAction, windowFeatures);
+    }
+    return nil;
 }
 
 - (NSString *)brandedAuthorizeURL{

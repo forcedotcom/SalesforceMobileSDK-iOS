@@ -26,9 +26,7 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 #import "SFLogger.h"
 
 NSString * const kAppGroupEnabled = @"kAccessGroupEnabled";
-NSString * const kKeychainSharingEnabled = @"kKeyChainSharingEnabled";
 NSString * const KAppGroupName = @"KAppGroupName";
-NSString * const KKeychainGroupName = @"KKeychainGroupName";
 NSString * const kDidMigrateToAppGroupsKey = @"kAppDefaultsMigratedToAppGroups";
 
 @implementation SFSDKDatasharingHelper
@@ -53,17 +51,6 @@ NSString * const kDidMigrateToAppGroupsKey = @"kAppDefaultsMigratedToAppGroups";
     [standardDefaults synchronize];
 }
 
-- (NSString *)keychainGroupName {
-    NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-    return [standardDefaults stringForKey:KKeychainGroupName];
-}
-
-- (void)setKeychainGroupName:(NSString *)keychainGroupName{
-    NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-    [standardDefaults setObject:keychainGroupName forKey:KKeychainGroupName];
-    [standardDefaults synchronize];
-}
-
 - (void)setAppGroupEnabled:(BOOL)appGroupEnabled {
     NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:self.appGroupName];
     [sharedDefaults setBool:appGroupEnabled forKey:kAppGroupEnabled];
@@ -78,12 +65,6 @@ NSString * const kDidMigrateToAppGroupsKey = @"kAppDefaultsMigratedToAppGroups";
 - (BOOL)appGroupEnabled {
      NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:self.appGroupName];
      return [sharedDefaults boolForKey:kAppGroupEnabled];
-}
-
-- (void)setKeychainSharingEnabled:(BOOL)keychainSharingEnabled {
-     NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:self.keychainGroupName];
-    [sharedDefaults setBool:keychainSharingEnabled forKey:kKeychainSharingEnabled];
-    [sharedDefaults synchronize];
 }
 
 - (void)migrateUserDefaultsToAppContainer:(NSUserDefaults *)sharedDefaults {
@@ -110,23 +91,6 @@ NSString * const kDidMigrateToAppGroupsKey = @"kAppDefaultsMigratedToAppGroups";
         [target setObject:sourceDictionary[key] forKey:key];
     }
     [target synchronize];
-}
-
-- (BOOL)keychainSharingEnabled {
-#if TARGET_IPHONE_SIMULATOR
-    //From Apple
-    // Ignore the access group if running on the iPhone simulator.
-    // Apps that are built for the simulator aren't signed, so there's no keychain access group
-    // for the simulator to check. This means that all apps can see all keychain items when run
-    // on the simulator.
-    //
-    // If a SecItem contains an access group attribute, SecItemAdd and SecItemUpdate on the
-    // simulator will return -25243 (errSecNoAccessForItem).
-    return NO;
-#else
-    NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:self.keychainGroupName];
-    return [sharedDefaults boolForKey:kKeychainSharingEnabled];
-#endif
 }
 
 @end

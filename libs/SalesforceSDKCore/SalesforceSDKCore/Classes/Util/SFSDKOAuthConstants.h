@@ -30,7 +30,7 @@
 #define SFSDKOAuthConstants_h
 
 // Private constants
-static NSString * const kSFOAuthEndPointAuthorize               = @"/services/oauth2/authorize";    // user agent flow
+static NSString * const kSFOAuthEndPointAuthorize               = @"/services/oauth2/authorize";    // login flow
 static NSString * const kSFOAuthEndPointToken                   = @"/services/oauth2/token";        // token refresh flow
 static NSString * const kSFRevokePath                           = @"/services/oauth2/revoke";
 
@@ -72,11 +72,31 @@ static NSString * const kSFOAuthVFSID                           = @"visualforce_
 static NSString * const kSFOAuthContentDomain                   = @"content_domain";
 static NSString * const kSFOAuthContentSID                      = @"content_sid";
 static NSString * const kSFOAuthCSRFToken                       = @"csrf_token";
+static NSString * const kSFOAuthCookieClientSrc                 = @"cookie-clientSrc";
+static NSString * const kSFOAuthCookieSidClient                 = @"cookie-sid_Client";
+static NSString * const kSFOAuthSidCookieName                   = @"sidCookieName";
+static NSString * const kSFOAuthParentSid                       = @"parent_sid";
+static NSString * const kSFOAuthTokenFormat                     = @"token_format";
 
 // Used for the IP bypass flow, Advanced auth flow
 static NSString * const kSFOAuthApprovalCode                     = @"code";
 static NSString * const kSFOAuthGrantTypeHybridAuthorizationCode = @"hybrid_auth_code";
 static NSString * const kSFOAuthGrantTypeAuthorizationCode       = @"authorization_code";
+
+// Native Login constants
+static NSString * const kSFOAuthAuthVerificationTypeParamName   = @"Auth-Verification-Type";
+static NSString * const kSFOAuthAuthVerificationTypeEmail       = @"email";
+static NSString * const kSFOAuthAuthVerificationTypeSms         = @"sms";
+
+static NSString * const kSFOAuthCodeCredentialsParamName        = @"code_credentials";
+
+static NSString * const kSFOAuthRequestTypeParamName            = @"Auth-Request-Type";
+static NSString * const kSFOAuthRequestTypeNamedUser            = @"Named-User";
+static NSString * const kSFOAuthRequestTypePasswordlessLogin    = @"passwordless-login";
+static NSString * const kSFOAuthRequestTypeUserRegistration     = @"user-registration";
+
+static NSString * const kSFOAuthAuthorizationTypeParamName      = @"Authorization";
+static NSString * const kSFOAuthAuthorizationTypeBasic          = @"Basic";
 
 // OAuth Error Descriptions
 // see https://na1.salesforce.com/help/doc/en/remoteaccess_oauth_refresh_token_flow.htm
@@ -104,9 +124,19 @@ static NSUInteger kSFOAuthReponseBufferLength                       = 512; // by
 static NSString * const kHttpMethodPost                             = @"POST";
 static NSString * const kHttpHeaderContentType                      = @"Content-Type";
 static NSString * const kHttpPostContentType                        = @"application/x-www-form-urlencoded";
+static NSString * const kHttpPostApplicationJsonContentType         = @"application/json";
 static NSString * const kHttpHeaderUserAgent                        = @"User-Agent";
 static NSString * const kOAuthUserAgentUserDefaultsKey              = @"UserAgent";
 static NSString * const kSFAppFeatureSafariBrowserForLogin          = @"BW";
 static NSString * const kSFECParameter                              = @"ec";
+
+// Endpoint path for Salesforce Identity API initialize headless, password-less login flow
+static NSString * const kSFOAuthEndPointHeadlessInitPasswordlessLogin = @"services/auth/headless/init/passwordless/login";
+
+/// Endpoint path for Salesforce Identity API initialize headless registration flow
+static NSString * const kSFOAuthEndPointHeadlessInitRegistration = @"services/auth/headless/init/registration";
+
+/// Endpoint path for Salesforce Identity API headless forgot password flow
+static NSString * const kSFOAuthEndPointHeadlessForgotPassword = @"services/auth/headless/forgot_password";
 
 #endif /* SFSDKOAuthConstants_h */

@@ -25,6 +25,7 @@
 
 #import <XCTest/XCTest.h>
 #import "SFSDKWindowManager.h"
+#import "SFSDKWindowManager+Internal.h"
 #import "SFApplicationHelper.h"
 
 @interface SFSDKWindowManagerTests: XCTestCase{
@@ -89,7 +90,10 @@
 
 - (void)setUp {
     [super setUp];
-    _origApplicationWindow = [UIApplication sharedApplication].keyWindow;
+    UIWindowScene *windowScene = (UIWindowScene *)[[[UIApplication sharedApplication] connectedScenes] anyObject];
+    if ([windowScene isKindOfClass:[UIWindowScene class]]) {
+        _origApplicationWindow = windowScene.windows.firstObject;
+    }
 }
 
 - (void)tearDown {
@@ -110,6 +114,7 @@
     SFSDKWindowContainer *authWindowNilScene = [[SFSDKWindowManager sharedManager] authWindow:nil];
     XCTAssert(authWindowNilScene.window != nil);
     XCTAssert(authWindowNilScene.windowType == SFSDKWindowTypeAuth);
+    XCTAssertEqual(authWindowNilScene.window.windowLevel, SFWindowLevelAuthOffset);
     
     UIScene *scene = [SFApplicationHelper sharedApplication].connectedScenes.allObjects.firstObject;
     SFSDKWindowContainer *authWindowScene = [[SFSDKWindowManager sharedManager] authWindow:scene];
@@ -122,6 +127,7 @@
     SFSDKWindowContainer *screenLockWindow = [SFSDKWindowManager sharedManager].screenLockWindow;
     XCTAssert(screenLockWindow.window!=nil);
     XCTAssert(screenLockWindow.windowType == SFSDKWindowTypeScreenLock);
+    XCTAssertEqual(screenLockWindow.window.windowLevel, SFWindowLevelScreenLockOffset);
 }
 
 - (void)testSnapshotWindow {
@@ -134,6 +140,17 @@
     XCTAssert(snapshowWindowScene.window != nil);
     XCTAssert(snapshowWindowScene.windowType == SFSDKWindowTypeSnapshot);
     XCTAssertEqualObjects(snapshotWindowNilScene, snapshowWindowScene);
+    XCTAssertEqual(snapshowWindowScene.window.windowLevel, SFWindowLevelSnapshotOffset);
+}
+
+- (void)testCustomWindow {
+    NSString *windowName = @"test";
+    SFSDKWindowContainer *createdWindow = [[SFSDKWindowManager sharedManager] createNewNamedWindow:windowName];
+    XCTAssert(createdWindow.window != nil);
+    XCTAssert(createdWindow.windowType == SFSDKWindowTypeOther);
+    
+    SFSDKWindowContainer *retrievedWindow = [[SFSDKWindowManager sharedManager] windowWithName:windowName];
+    XCTAssertEqualObjects(createdWindow, retrievedWindow);
 }
 
 - (void)testEnable {

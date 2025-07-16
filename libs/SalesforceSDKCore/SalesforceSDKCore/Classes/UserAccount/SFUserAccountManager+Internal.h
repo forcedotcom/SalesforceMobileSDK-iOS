@@ -118,6 +118,11 @@ Set this block to handle presentation of the Authentication View Controller.
 */
 @property (nonatomic, strong) SFSDKAuthViewHandler *authViewHandler;
 
+/**
+ Indicates if the app is configured for native login authentication.
+ */
+@property (nonatomic, assign) BOOL nativeLoginEnabled;
+
 - (void)setCurrentUserInternal:(SFUserAccount* _Nullable)user;
 
 /**
@@ -187,13 +192,23 @@ Set this block to handle presentation of the Authentication View Controller.
 
 - (BOOL)authenticateUsingIDP:(SFSDKAuthRequest *)request completion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock;
 
-- (BOOL)authenticateWithRequest:(SFSDKAuthRequest *)request completion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock;
+- (BOOL)authenticateWithRequest:(SFSDKAuthRequest *)request
+                     completion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock
+                        failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock
+             frontDoorBridgeUrl:(nullable NSURL * )frontDoorBridgeUrl
+                   codeVerifier:(nullable NSString *)codeVerifier;
 
 - (SFSDKAuthRequest *)defaultAuthRequest;
 
 - (BOOL)loginWithCompletion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock
                     failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock
                       scene:(nullable UIScene *)scene;
+
+- (BOOL)loginWithCompletion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock
+                    failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock
+                      scene:(UIScene *)scene
+         frontDoorBridgeUrl:(nullable NSURL * )frontDoorBridgeUrl
+               codeVerifier:(nullable NSString *)codeVerifier;
 
 @end
 

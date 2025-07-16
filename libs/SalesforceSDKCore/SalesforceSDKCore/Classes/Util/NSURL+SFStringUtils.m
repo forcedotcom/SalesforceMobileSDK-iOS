@@ -29,11 +29,6 @@ NSString * const kSFRedactedQuerystringValue = @"[redacted]";
 
 @implementation NSURL (SFStringUtils)
 
-- (NSString *)redactedAbsoluteString:(NSArray *)queryStringParamsToRedact
-{
-    return [self sfsdk_redactedAbsoluteString:queryStringParamsToRedact];
-}
-
 - (NSString *)sfsdk_redactedAbsoluteString:(NSArray *)queryStringParamsToRedact
 {
     if (queryStringParamsToRedact == nil || [queryStringParamsToRedact count] == 0 || [self query] == nil || [[self query] length] == 0)
@@ -82,28 +77,6 @@ NSString * const kSFRedactedQuerystringValue = @"[redacted]";
     return redactedUrl;
 }
 
-+ (NSString*)stringUrlWithBaseUrl:(NSURL*)baseUrl pathComponents:(NSArray*)pathComponents {
-    NSMutableString *absoluteUrl = [[NSMutableString alloc] initWithString:[baseUrl absoluteString]?:@""];
-    [self appendPathComponents:pathComponents toMutableUrlString:absoluteUrl];
-    return absoluteUrl;
-}
-
-+ (NSString*)stringUrlWithScheme:(NSString*)scheme host:(NSString*)host port:(NSNumber*)port pathComponents:(NSArray*)pathComponents {
-    if (!host || !scheme) {
-        return nil;
-    }
-    NSMutableString *absoluteUrl = [[NSMutableString alloc] init];
-    [absoluteUrl appendFormat:@"%@://", scheme];
-    [absoluteUrl appendString:host];
-    if (port) {
-        [absoluteUrl appendFormat:@":%@", port];
-    }
-    
-    [self appendPathComponents:pathComponents toMutableUrlString:absoluteUrl];
-
-    return absoluteUrl;
-}
-
 + (void)appendPathComponents:(NSArray*)pathComponents toMutableUrlString:(NSMutableString*)urlString {
     for (NSString *c in pathComponents) {
         if ([c isEqualToString:@"/"]) {
@@ -119,16 +92,6 @@ NSString * const kSFRedactedQuerystringValue = @"[redacted]";
             [urlString appendString:c];
         }
     }
-}
-
-- (NSURL *)slashTerminatedUrl {
-    NSMutableString *urlString = [self.absoluteString mutableCopy];
-
-    if (NSMaxRange([self.path rangeOfString:@"/" options:NSBackwardsSearch]) < self.path.length - 1) {
-        [urlString appendString:@"/"];
-    }
-    
-    return [NSURL URLWithString:urlString];
 }
 
 @end

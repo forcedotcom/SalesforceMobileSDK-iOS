@@ -241,7 +241,8 @@ static NSString* const kTestAppName = @"OverridenAppName";
     // This will simulate that the snapshot view is being presented
     UIView* fakeView = [UIView new];
     [fakeView addSubview:defaultViewControllerOnPresentation.view];
-    [[NSNotificationCenter defaultCenter] postNotificationName:UISceneDidActivateNotification object:scene];
+    [[NSNotificationCenter defaultCenter] postNotificationName:UISceneDidActivateNotification
+                                                        object:scene];
     XCTAssertEqual(defaultViewControllerOnPresentation, defaultViewControllerOnDismissal, @"Default snapshot view controller on dismissal is different than the one provided on presentation!");
 }
 
@@ -289,6 +290,27 @@ static NSString* const kTestAppName = @"OverridenAppName";
     [fakeView addSubview:customSnapshot.view];
     [[NSNotificationCenter defaultCenter] postNotificationName:UISceneDidActivateNotification object:scene];
     XCTAssertEqual(customSnapshot, snapshotOnDismissal, @"Custom snapshot view controller was not used on dismissal!");
+}
+
+- (void)testNativeLoginManager
+{
+    NSString *consumerKey = @"1234";
+    NSString *redirct = @"ftest/redirect";
+    NSString *loginUrl = @"https://salesforce.com/some/test/url";
+    UIViewController *view = [[UIViewController alloc] init];
+    SFNativeLoginManagerInternal *loginManager = (SFNativeLoginManagerInternal *)
+        [[SalesforceSDKManager sharedManager] useNativeLoginWithConsumerKey:consumerKey
+                                                                callbackUrl:redirct
+                                                               communityUrl:loginUrl
+                                                  nativeLoginViewController:view
+                                                                      scene:nil];
+    
+    XCTAssertEqual(consumerKey, loginManager.clientId);
+    XCTAssertEqual(redirct, loginManager.redirectUri);
+    XCTAssertEqual(loginUrl, loginManager.loginUrl);
+    XCTAssertEqual(view, [[[SalesforceSDKManager sharedManager] nativeLoginViewControllers] objectForKey:kSFDefaultNativeLoginViewControllerKey]);
+    XCTAssertEqual(loginManager, [[SalesforceSDKManager sharedManager] nativeLoginManager]);
+    XCTAssertTrue([[SFUserAccountManager sharedInstance] nativeLoginEnabled]);
 }
 
 #pragma mark - Process Pool Tests

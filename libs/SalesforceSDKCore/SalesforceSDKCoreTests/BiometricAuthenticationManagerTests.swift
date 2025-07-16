@@ -69,6 +69,31 @@ final class BiometricAuthenticationManagerTests: XCTestCase {
         XCTAssertTrue(bioAuthManager.enabled)
     }
     
+    func testUpdatePolicy() {
+        XCTAssertFalse(bioAuthManager.enabled, "Should not be enabled by default.")
+        let user = createUser(index: 0)
+        let userId = user.idData.userId
+        XCTAssertFalse(bioAuthManager.checkForPolicy(userId: userId), "User should not have polciy by default.")
+    
+        bioAuthManager.storePolicy(userAccount: user, hasMobilePolicy: true, sessionTimeout: 1)
+        // Opt User into Biometric
+        bioAuthManager.biometricOptIn(optIn: true)
+        
+        bioAuthManager.storePolicy(userAccount: user, hasMobilePolicy: true, sessionTimeout: 1)
+        XCTAssertTrue(bioAuthManager.checkForPolicy(userId: userId))
+        XCTAssertTrue(bioAuthManager.enabled)
+        let optInStatus: Bool = ((bioAuthManager.readBioAuthPolicy(userId: userId)?.optIn!) != nil)
+        XCTAssertTrue(optInStatus, "Opt-In status should not be set back to false.")
+        
+        bioAuthManager.storePolicy(userAccount: user, hasMobilePolicy: false, sessionTimeout: 5)
+        XCTAssertFalse(bioAuthManager.checkForPolicy(userId: userId))
+        XCTAssertFalse(bioAuthManager.enabled, "New Policy should be applied.")
+        let timeout = bioAuthManager.readBioAuthPolicy(userId: userId)?.timeout
+        XCTAssertEqual(timeout, 5, "Session Timeout should be updated.")
+        let optInStatus2: Bool = ((bioAuthManager.readBioAuthPolicy(userId: userId)?.optIn!) != nil)
+        XCTAssertTrue(optInStatus2, "Opt-In status should not be set back to false.")
+    }
+    
     func testShouldLock() {
         XCTAssertFalse(bioAuthManager.shouldLock(), "Should not lock by default.")
         let user0 = createUser(index: 0)

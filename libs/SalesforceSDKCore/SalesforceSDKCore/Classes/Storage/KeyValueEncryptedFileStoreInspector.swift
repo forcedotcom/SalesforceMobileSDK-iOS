@@ -41,8 +41,8 @@ struct KeyValueEncryptedFileStoreInspector: View {
             VStack(alignment: .leading) {
                 Form {
                     Picker(selection: $selectedIndex, label: Text("Store")) {
-                        ForEach(0 ..< stores.count) {
-                            Text(self.stores[$0])
+                        ForEach(stores.indices, id: \.self) { index in
+                            Text(self.stores[index])
                         }
                     }
                     HStack {
