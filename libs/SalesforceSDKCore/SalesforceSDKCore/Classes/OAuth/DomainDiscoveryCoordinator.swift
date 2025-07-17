@@ -1,100 +1,99 @@
 import Foundation
 import WebKit
 
-/// Coordinator for My Domain discovery via WebView before OAuth login.
 public enum DomainDiscoveryConstants {
+    /// The callback URL used for domain discovery.
     public static let callbackURL = "sfdc://discocallback"
 }
 
-@objcMembers
-public class DomainDiscoveryCoordinator: NSObject {
-    private var webView: WKWebView
+/// Represents the result of a domain discovery operation.
+@objc(SFDomainDiscoveryResult)
+public class DomainDiscoveryResult: NSObject {
+    /// The login hint returned from domain discovery.
+    @objc public let loginHint: String
+    /// The discovered My Domain value.
+    @objc public let myDomain: String
     
-    @objc(init)
-    public convenience override init() {
-        let webView = WKWebView()
-        self.init(webView: webView)
-    }
-
-    public init(webView: WKWebView = WKWebView()) {
-        self.webView = webView
-        super.init()
-        self.webView.navigationDelegate = self
-    }
-
-    private var continuation: CheckedContinuation<(String, String), Error>?
-
-    @MainActor
-    @objc(runDomainDiscoveryWithCredentials:completion:)
-    public func runMyDomainDiscovery(
-        credentials: OAuthCredentials
-    ) async throws -> (String, String) {
-        
-        guard webView != nil else {
-            throw NSError(domain: "DomainDiscoveryCoordinator", code: 1000, userInfo: [NSLocalizedDescriptionKey: "Missing webView"])
-        }
-        // 1. Build the discovery URL
-        let discoveryHost = credentials.domain ?? "welcome.salesforce.com"
-        guard let clientId = credentials.clientId,
-              let clientVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String else {
-            throw NSError(domain: "DomainDiscoveryCoordinator", code: 1001, userInfo: [NSLocalizedDescriptionKey: "Missing required credentials"])
-        }
-
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = discoveryHost
-        components.path = ""
-        components.queryItems = [
-            URLQueryItem(name: "client_id", value: clientId),
-            URLQueryItem(name: "client_version", value: clientVersion),
-            URLQueryItem(name: "callback_url", value: DomainDiscoveryConstants.callbackURL)
-        ]
-        guard let url = components.url else {
-            throw NSError(domain: "DomainDiscoveryCoordinator", code: 1002, userInfo: [NSLocalizedDescriptionKey: "Failed to construct discovery URL"])
-        }
-
-        // 2. Load the URL in the webView and wait for callback
-        return try await withCheckedThrowingContinuation { continuation in
-            self.continuation = continuation
-            self.webView.load(URLRequest(url: url))
-        }
+    init(loginHint: String, myDomain: String) {
+        self.loginHint = loginHint
+        self.myDomain = myDomain
     }
 }
 
-extension DomainDiscoveryCoordinator: WKNavigationDelegate {
-    /// Decides whether to allow or cancel a navigation action.
-    public func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        defer { decisionHandler(.allow) }
-        guard let url = navigationAction.request.url else { return }
-
-        // Use the constant for callback URL matching
-        if url.absoluteString.hasPrefix(DomainDiscoveryConstants.callbackURL) {
-            let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
-            let myDomain = components?.queryItems?.first(where: { $0.name == "my_domain" })?.value?.removingPercentEncoding
-            let loginHint = components?.queryItems?.first(where: { $0.name == "login_hint" })?.value?.removingPercentEncoding
-
-            if let myDomain, let loginHint, !myDomain.isEmpty, !loginHint.isEmpty {
-                continuation?.resume(returning: (myDomain, loginHint))
-            } else {
-                let error = NSError(domain: "DomainDiscoveryCoordinator", code: 1003, userInfo: [NSLocalizedDescriptionKey: "Missing or malformed parameters in callback"])
-                continuation?.resume(throwing: error)
-            }
-            continuation = nil
+/// Coordinator for My Domain discovery via WKWebView before OAuth login.
+///
+/// This class loads a discovery URL in a WKWebView and waits for a callback URL to be hit, returning the discovered domain and login hint.
+@objcMembers
+public class DomainDiscoveryCoordinator: NSObject {
+    /// Starts the domain discovery process by loading the discovery URL in the provided WKWebView.
+    ///
+    /// - Parameters:
+    ///   - webview: The WKWebView in which to load the discovery URL for domain discovery.
+    ///   - credentials: The OAuth credentials containing clientId, clientVersion, and domain.
+    ///
+    /// This method loads the discovery URL in the given webview. The result of the discovery should be handled by monitoring navigation actions and calling `handle(webAction:)`.
+    @MainActor
+    @objc public func runMyDomainsDiscovery(on webview: WKWebView,
+                                      with credentials: OAuthCredentials) {
+        guard let clientId = credentials.clientId,
+              let clientVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String,
+              let domain = credentials.domain else {
+            SFSDKCoreLogger().e(classForCoder, message: "Missing required credentials")
+            return
         }
+        guard let url = Self.buildDiscoveryURL(clientId: clientId, clientVersion: clientVersion, domain: domain) as URL? else {
+            SFSDKCoreLogger().e(classForCoder, message: "Failed to construct discovery URL")
+            return
+        }
+        webview.load(URLRequest(url: url))
     }
-
-    /// Called when navigation starts.
-    public func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-        // TODO: Handle navigation start if needed
+    
+    /// Handles a navigation action and checks if it matches the domain discovery callback URL.
+    ///
+    /// - Parameter action: The WKNavigationAction to inspect.
+    /// - Returns: A `DomainDiscoveryResult` if the callback URL is detected and parsed; otherwise, `nil`.
+    ///
+    /// Call this from your WKNavigationDelegate when a navigation action occurs to detect and extract the result from the domain discovery callback URL.
+    @objc(handleWithWebAction:)
+    public func handle(webAction action: WKNavigationAction) -> DomainDiscoveryResult? {
+        guard let url = action.request.url else {
+            return nil
+        }
+        if isDomainDiscoveryCallbackURL(url) {
+            let result = parseDiscoveryCallbackURL(url)
+            return result
+        }
+        return nil
     }
+}
 
-    /// Called when navigation finishes successfully.
-    public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        // TODO: Handle navigation finish if needed
+extension DomainDiscoveryCoordinator {
+    private static func buildDiscoveryURL(clientId: String, clientVersion: String, domain: String, callbackURL: String = DomainDiscoveryConstants.callbackURL) -> NSURL? {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = domain
+        components.path = "/discovery"
+        components.queryItems = [
+            URLQueryItem(name: "client_id", value: clientId),
+            URLQueryItem(name: "client_version", value: clientVersion),
+            URLQueryItem(name: "callback_url", value: callbackURL)
+        ]
+        return components.url as NSURL?
     }
-
-    /// Called when navigation fails.
-    public func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        // TODO: Handle navigation failure
+    
+    private func isDomainDiscoveryCallbackURL(_ url: URL?) -> Bool {
+        guard let url = url as URL? else { return false }
+        return url.absoluteString.lowercased().hasPrefix(DomainDiscoveryConstants.callbackURL.lowercased())
+    }
+    
+    private func parseDiscoveryCallbackURL(_ url: URL?) -> DomainDiscoveryResult? {
+        guard let url = url as URL? else { return nil }
+        let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+        let loginHint = components?.queryItems?.first(where: { $0.name == "login_hint" })?.value
+        var myDomain = components?.queryItems?.first(where: { $0.name == "my_domain" })?.value
+        if let domain = myDomain, domain.hasPrefix("https://") {
+            myDomain = String(domain.dropFirst("https://".count))
+        }
+        return DomainDiscoveryResult(loginHint: loginHint ?? "", myDomain: myDomain ?? "")
     }
 }

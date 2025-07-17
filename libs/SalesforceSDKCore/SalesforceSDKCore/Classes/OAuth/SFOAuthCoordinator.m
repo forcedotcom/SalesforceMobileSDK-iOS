@@ -56,6 +56,7 @@
 @interface SFOAuthCoordinator()
 
 @property (nonatomic) NSString *networkIdentifier;
+@property (nonatomic, strong) DomainDiscoveryCoordinator *domainDiscoveryCoordinator;
 
 @end
 
@@ -206,32 +207,21 @@
 
 - (void)authenticateWithCredentials:(SFOAuthCredentials *)credentials {
     self.credentials = credentials;
-
-    if ([self isWelcomeDomain:self.credentials.domain]) {
+    if ([self isDiscoveryDomain:self.credentials.domain]) {
         [self runMyDomainDiscoveryAndAuthenticate];
         return;
     }
     [self authenticate];
 }
 
-- (BOOL)isWelcomeDomain:(NSString *)domain {
-    return [domain isEqualToString:@"welcome.salesforce.com"];
+- (BOOL)isDiscoveryDomain:(NSString *)domain {
+    return [domain isEqualToString:@"gidruntime-cell2.sfproxy.gid.dev1-uswest2.aws.sfdc.cl"];
 }
 
 - (void)runMyDomainDiscoveryAndAuthenticate {
-    DomainDiscoveryCoordinator *discoveryCoordinator = [[DomainDiscoveryCoordinator alloc] init];
-    __weak typeof(self) weakSelf = self;
-    [discoveryCoordinator runDomainDiscoveryWithCredentials:self.credentials
-                                                 completion:^(NSString *myDomain, NSString *loginHint, NSError *error) {
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        if (error) {
-            [strongSelf notifyDelegateOfFailure:error authInfo:strongSelf.authInfo];
-            return;
-        }
-        strongSelf.loginHint = loginHint;
-        strongSelf.credentials.domain = myDomain;
-        [strongSelf authenticate];
-    }];
+    self.domainDiscoveryCoordinator = [[DomainDiscoveryCoordinator alloc] initWith:self.view];
+    [self startWebviewAuthenticationIfNeeded];
+    [self.domainDiscoveryCoordinator runMyDomainsDiscoveryOn:self.view with:self.credentials];
 }
 
 - (BOOL)isAuthenticating {
@@ -243,7 +233,6 @@
     [self.session invalidateAndCancel];
     _session = nil;
     self.networkIdentifier = nil;
-    
     self.authenticating = NO;
 }
 
@@ -690,7 +679,6 @@
         if ([self.delegate respondsToSelector:@selector(oauthCoordinatorDidFetchAuthCode:authInfo:)]) {
             [self.delegate oauthCoordinatorDidFetchAuthCode:self authInfo:self.authInfo];
         }
-        
     }
 }
 
@@ -836,8 +824,26 @@
     return _session;
 }
 
+- (void)handleCustomDomainUpdateWithLoginHint:(NSString *)loginHint myDomain:(NSString *)myDomain {
+    self.domainUpdated = YES;
+    [self stopAuthentication];
+    self.loginHint = loginHint;
+    self.credentials.domain = myDomain;
+    [[SFUserAccountManager sharedInstance] setLoginHost:myDomain];
+    [self authenticate];
+}
+
 #pragma mark - WKNavigationDelegate (User-Agent Token Flow)
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
+    
+    SFDomainDiscoveryResult *result = [self.domainDiscoveryCoordinator handleWithWebAction:navigationAction];
+    if (result) {
+        [self handleCustomDomainUpdateWithLoginHint:result.loginHint
+                                           myDomain:result.myDomain];
+        decisionHandler(WKNavigationActionPolicyCancel);
+        return;
+    }
+    
     NSURL *url = navigationAction.request.URL;
     NSString *requestUrl = [url absoluteString];
     if ([self isRedirectURL:requestUrl]) {
@@ -860,13 +866,9 @@
             [bioAuthManager presentBiometricWithScene:self.view.window.windowScene];
         }
     } else if ([self shouldUpdateDomain:url]) {
-        // To support case where my domain is entered through "Use Custom Domain"
-        self.domainUpdated = YES;
+        [self handleCustomDomainUpdateWithLoginHint:self.loginHint
+                                           myDomain:url.host];
         decisionHandler(WKNavigationActionPolicyCancel);
-        [self stopAuthentication];
-        [[SFUserAccountManager sharedInstance] setLoginHost:url.host];
-        self.credentials.domain = url.host;
-        [self authenticate];
     } else if ([SFUserAccountManager sharedInstance].navigationPolicyForAction) {
         decisionHandler([SFUserAccountManager sharedInstance].navigationPolicyForAction(webView, navigationAction));
     } else {
@@ -902,10 +904,16 @@
 - (void)startWebviewAuthenticationIfNeeded {
     if (!self.initialRequestLoaded) {
         self.initialRequestLoaded = YES;
-        [self.delegate oauthCoordinator:self didBeginAuthenticationWithView:self.view];
+        [self startAuthenticationWithView:self.view];
     }
 }
 
+- (void)startAuthenticationWithView:(WKWebView *)view {
+    if ([self.delegate respondsToSelector:@selector(oauthCoordinator:didBeginAuthenticationWithView:)]) {
+        [self.delegate oauthCoordinator:self
+         didBeginAuthenticationWithView:view];
+    }
+}
 - (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error {
     [self sfwebView:webView didFailLoadWithError:error];
 }
@@ -1004,5 +1012,4 @@
     }
     return brandedAuthorizeURL;
 }
-
 @end
