@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *approvalCode;
 @property (nonatomic, strong, nullable) WKWebView *view;
 @property (nonatomic, strong, nullable) NSString *codeVerifier;
-@property (nonatomic, strong, nullable) SFOAuthInfo *authInfo;
+@property (nonatomic, strong, nonnull) SFOAuthInfo *authInfo;
 @property (nonatomic, copy) NSString *origWebUserAgent;
 @property (nonatomic, strong ,nullable) SFOAuthCredentials *spAppCredentials;
 @property (nonatomic, weak, nullable) SFSDKAuthSession *authSession;
