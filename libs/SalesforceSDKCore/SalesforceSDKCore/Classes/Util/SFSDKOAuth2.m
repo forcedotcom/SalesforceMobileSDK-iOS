@@ -422,14 +422,20 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
 #pragma mark - Utilities
 
 + (NSMutableURLRequest *)requestForRevokeRefreshToken:(SFOAuthCredentials *)credentials reason:(SFLogoutReason)reason {
-    NSString *host = [NSString stringWithFormat:@"%@://%@%@?token=%@&revoke_reason=%@",
-                      credentials.protocol, credentials.domain,
-                      kSFRevokePath, credentials.refreshToken,
-                      [SFSDKOAuth2 stringValueForLogoutReason:reason]];
+    NSString *host = [NSString stringWithFormat:@"%@://%@%@",
+                      credentials.protocol, credentials.domain, kSFRevokePath];
     NSURL *url = [NSURL URLWithString:host];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
-    [request setHTTPMethod:@"GET"];
+    [request setHTTPMethod:kHttpMethodPost];
+    [request setValue:kHttpPostContentType forHTTPHeaderField:kHttpHeaderContentType];
     [request setHTTPShouldHandleCookies:NO];
+    
+    NSString *params = [NSString stringWithFormat:@"token=%@&revoke_reason=%@",
+                        [credentials.refreshToken sfsdk_stringByURLEncoding],
+                        [SFSDKOAuth2 stringValueForLogoutReason:reason]];
+    NSData *encodedBody = [params dataUsingEncoding:NSUTF8StringEncoding];
+    [request setHTTPBody:encodedBody];
+    
     return request;
 }
 
