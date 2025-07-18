@@ -4,6 +4,7 @@ import WebKit
 public enum DomainDiscoveryConstants {
     /// The callback URL used for domain discovery.
     public static let callbackURL = "sfdc://discocallback"
+    public static let discoveryDomain = "welcome.salesforce.com"
 }
 
 /// Represents the result of a domain discovery operation.
@@ -50,12 +51,12 @@ public class DomainDiscoveryCoordinator: NSObject {
     
     /// Handles a navigation action and checks if it matches the domain discovery callback URL.
     ///
-    /// - Parameter action: The WKNavigationAction to inspect.
+    /// - Parameter action: The action to inspect.
     /// - Returns: A `DomainDiscoveryResult` if the callback URL is detected and parsed; otherwise, `nil`.
     ///
     /// Call this from your WKNavigationDelegate when a navigation action occurs to detect and extract the result from the domain discovery callback URL.
     @objc(handleWithWebAction:)
-    public func handle(webAction action: WKNavigationAction) -> DomainDiscoveryResult? {
+    public func handle(action: WKNavigationAction) -> DomainDiscoveryResult? {
         guard let url = action.request.url else {
             return nil
         }
@@ -64,6 +65,12 @@ public class DomainDiscoveryCoordinator: NSObject {
             return result
         }
         return nil
+    }
+    
+    @objc
+    public func isDisoveryDomain(_ domain: String?) -> Bool {
+        guard let domain = domain else { return false }
+        return domain.lowercased().contains(DomainDiscoveryConstants.discoveryDomain)
     }
 }
 

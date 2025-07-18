@@ -83,6 +83,7 @@
 
 
 - (id)init {
+    _domainDiscoveryCoordinator = [[DomainDiscoveryCoordinator alloc] init];
     return [self initWithCredentials:nil];
 }
 
@@ -215,11 +216,10 @@
 }
 
 - (BOOL)isDiscoveryDomain:(NSString *)domain {
-    return [domain isEqualToString:@"gidruntime-cell2.sfproxy.gid.dev1-uswest2.aws.sfdc.cl"];
+    return [self.domainDiscoveryCoordinator isDisoveryDomain:domain];
 }
 
 - (void)runMyDomainDiscoveryAndAuthenticate {
-    self.domainDiscoveryCoordinator = [[DomainDiscoveryCoordinator alloc] initWith:self.view];
     [self startWebviewAuthenticationIfNeeded];
     [self.domainDiscoveryCoordinator runMyDomainsDiscoveryOn:self.view with:self.credentials];
 }
