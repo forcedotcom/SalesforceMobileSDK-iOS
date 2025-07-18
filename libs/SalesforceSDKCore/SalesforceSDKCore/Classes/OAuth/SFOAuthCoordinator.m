@@ -845,9 +845,6 @@ static NSString * const kSFAppStoreLink   = @"itunes.apple.com";
         [[SFUserAccountManager sharedInstance] setLoginHost:url.host];
         self.credentials.domain = url.host;
         [self authenticate];
-    } else if ([requestUrl containsString:@"otpauth://"] || [requestUrl containsString:kSFAppStoreLink]) {
-        decisionHandler(WKNavigationActionPolicyCancel);
-        [[UIApplication sharedApplication] openURL:url];
     } else if ([SFUserAccountManager sharedInstance].navigationPolicyForAction) {
         decisionHandler([SFUserAccountManager sharedInstance].navigationPolicyForAction(webView, navigationAction));
     } else {
