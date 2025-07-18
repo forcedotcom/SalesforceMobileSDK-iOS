@@ -27,7 +27,6 @@
 #import "SFUserAccountManager+Internal.h"
 #import "SFSDKWindowManager.h"
 #import "SFManagedPreferences.h"
-#import "SFInactivityTimerCenter.h"
 #import "SFApplicationHelper.h"
 #import "SFSDKAppFeatureMarkers.h"
 #import "SFSDKDevInfoViewController.h"
@@ -46,6 +45,7 @@
 static NSString * const kSFAppFeatureSwiftApp    = @"SW";
 static NSString * const kSFAppFeatureMultiUser   = @"MU";
 static NSString * const kSFAppFeatureMacApp      = @"MC";
+static NSString * const kSFAppFeatureNativeLogin = @"NL";
 
 // Error constants
 NSString * const kSalesforceSDKManagerErrorDomain     = @"com.salesforce.sdkmanager.error";
@@ -82,6 +82,9 @@ NSString * const kSFScreenLockFlowWillBegin = @"SFScreenLockFlowWillBegin";
 NSString * const kSFScreenLockFlowCompleted = @"SFScreenLockFlowCompleted";
 NSString * const kSFBiometricAuthenticationFlowWillBegin = @"SFBiometricAuthenticationFlowWillBegin";
 NSString * const kSFBiometricAuthenticationFlowCompleted = @"SFBiometricAuthenticationFlowCompleted";
+
+// Native Login
+SFNativeLoginManagerInternal *nativeLogin;
 
 @implementation UIWindow (SalesforceSDKManager)
 
@@ -287,7 +290,7 @@ NSString * const kSFBiometricAuthenticationFlowCompleted = @"SFBiometricAuthenti
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAppForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAppBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAppTerminate:) name:UIApplicationWillTerminateNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleSceneDidActivate:) name:UISceneDidActivateNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleSceneWillEnterForeground:) name:UISceneWillEnterForegroundNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleSceneDidEnterBackground:) name:UISceneDidEnterBackgroundNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleSceneWillConnect:) name:UISceneWillConnectNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleSceneDidDisconnect:) name:UISceneDidDisconnectNotification object:nil];
@@ -320,6 +323,7 @@ NSString * const kSFBiometricAuthenticationFlowCompleted = @"SFBiometricAuthenti
         // [self setupServiceConfiguration];
 
         _snapshotViewControllers = [SFSDKSafeMutableDictionary new];
+        _nativeLoginViewControllers = [SFSDKSafeMutableDictionary new];
         [SFSDKSalesforceSDKUpgradeManager upgrade];
         [[SFScreenLockManagerInternal shared] checkForScreenLockUsers]; // This is necessary because keychain values can outlive the app.
     }
@@ -412,6 +416,10 @@ NSString * const kSFBiometricAuthenticationFlowCompleted = @"SFBiometricAuthenti
 
 #pragma mark - Dev support methods
 
+- (void)setIsLoginWebviewInspectable:(BOOL)isLoginWebviewInspectable {
+    _isLoginWebviewInspectable = isLoginWebviewInspectable;
+}
+
 - (void)setIsDevSupportEnabled:(BOOL)isDevSupportEnabled {
     _isDevSupportEnabled = isDevSupportEnabled;
     if (self.isDevSupportEnabled) {
@@ -476,7 +484,7 @@ NSString * const kSFBiometricAuthenticationFlowCompleted = @"SFBiometricAuthenti
                  [presentedViewController presentViewController:devInfo animated:NO completion:nil];
              }],
              [[SFSDKDevAction alloc]initWith:@"Logout" handler:^{
-                 [[SFUserAccountManager  sharedInstance] logout];
+                 [[SFUserAccountManager  sharedInstance] logout:SFLogoutReasonUserInitiated];
              }],
              [[SFSDKDevAction alloc]initWith:@"Switch user" handler:^{
                  SFDefaultUserManagementViewController *umvc = [[SFDefaultUserManagementViewController alloc] initWithCompletionBlock:^(SFUserManagementAction action) {
@@ -583,7 +591,7 @@ NSString * const kSFBiometricAuthenticationFlowCompleted = @"SFBiometricAuthenti
 
 - (void)handleAppTerminate:(NSNotification *)notification { }
 
-- (void)handleSceneDidActivate:(NSNotification *)notification {
+- (void)handleSceneWillEnterForeground:(NSNotification *)notification {
      UIScene *scene = (UIScene *)notification.object;
      NSString *sceneId = scene.session.persistentIdentifier;
      [SFSDKCoreLogger d:[self class] format:@"Scene %@ is resuming active state.", sceneId];
@@ -626,7 +634,9 @@ NSString * const kSFBiometricAuthenticationFlowCompleted = @"SFBiometricAuthenti
 
     // Set up snapshot security view, if it's configured.
     @try {
+        #if !TARGET_OS_VISION
         [self presentSnapshot:scene];
+        #endif
     }
     @catch (NSException *exception) {
         [SFSDKCoreLogger w:[self class] format:@"Exception thrown while setting up security snapshot view for scene %@: '%@'. Continuing background.", sceneId, [exception reason]];
@@ -862,6 +872,57 @@ void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t b
 
 - (id <SFScreenLockManager>)screenLockManager {
     return [SFScreenLockManagerInternal shared];
+}
+
+#pragma mark - Native Login
+
+- (id <SFNativeLoginManager>)useNativeLoginWithConsumerKey:(nonnull NSString *)consumerKey
+                                               callbackUrl:(nonnull NSString *)callbackUrl
+                                              communityUrl:(nonnull NSString *)communityUrl
+                                 nativeLoginViewController:(nonnull UIViewController *)nativeLoginViewController
+                                                     scene:(nullable UIScene *)scene {
+    return [self useNativeLoginWithConsumerKey:consumerKey
+                                   callbackUrl:callbackUrl
+                                  communityUrl:communityUrl
+                            reCaptchaSiteKeyId:nil
+                          googleCloudProjectId:nil
+                         isReCaptchaEnterprise:NO
+                     nativeLoginViewController:nativeLoginViewController
+                                         scene:scene];
+}
+
+- (id <SFNativeLoginManager>)useNativeLoginWithConsumerKey:(nonnull NSString *)consumerKey
+                                               callbackUrl:(nonnull NSString *)callbackUrl
+                                              communityUrl:(nonnull NSString *)communityUrl
+                                        reCaptchaSiteKeyId:(nullable NSString *)reCaptchaSiteKeyId
+                                      googleCloudProjectId:(nullable NSString *)googleCloudProjectId
+                                     isReCaptchaEnterprise:(BOOL)isReCaptchaEnterprise
+                                 nativeLoginViewController:(nonnull UIViewController *)nativeLoginViewController
+                                                     scene:(nullable UIScene *)scene {
+    
+    [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureNativeLogin];
+    NSString *key = scene ? scene.session.persistentIdentifier : kSFDefaultNativeLoginViewControllerKey;
+    [_nativeLoginViewControllers setObject:nativeLoginViewController forKey:key];
+    
+    nativeLogin = [[SFNativeLoginManagerInternal alloc]
+                   initWithClientId:consumerKey
+                   redirectUri:callbackUrl
+                   loginUrl:communityUrl
+                   reCaptchaSiteKeyId:reCaptchaSiteKeyId
+                   googleCloudProjectId:googleCloudProjectId
+                   isReCaptchaEnterprise:isReCaptchaEnterprise
+                   scene:scene];
+    [SFUserAccountManager sharedInstance].nativeLoginEnabled = true;
+    
+    return nativeLogin;
+}
+
+- (id <SFNativeLoginManager>)nativeLoginManager {
+    if (nativeLogin == nil) {
+        [[SFSDKCoreLogger defaultLogger] e:[self class] message:@"You must call 'useNativeLogin' to create the Native Login Manager instance before retrieving it."];
+    }
+    
+    return nativeLogin;
 }
 
 @end

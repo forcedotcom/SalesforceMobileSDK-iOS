@@ -90,4 +90,22 @@ static NSString * const kOrgId = @"00D000000000062EAA";
     return user;
 }
 
+- (BOOL)waitForBlockCondition:(BOOL(^)(void))block timeout:(NSTimeInterval)duration {
+    BOOL blockCondition = NO;
+    @autoreleasepool {
+        blockCondition = block();
+        if (!blockCondition) {
+            NSDate *date = [NSDate dateWithTimeIntervalSinceNow:duration];
+            while ([date timeIntervalSinceNow] > 0) {
+                if (block()) {
+                    blockCondition = YES;
+                    break;
+                }
+                [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+            }
+        }
+    }
+    return blockCondition;
+}
+
 @end

@@ -24,6 +24,7 @@ typedef enum : NSInteger {
 extern NSString *kSFSDKReachabilityChangedNotification;
 
 
+API_UNAVAILABLE(visionos)
 @interface SFSDKReachability : NSObject
 
 /*!

@@ -195,7 +195,7 @@ static NSString* const kTestAppName = @"OverridenAppName";
     UIScene *scene = UIApplication.sharedApplication.connectedScenes.allObjects.firstObject;
     [[NSNotificationCenter defaultCenter] postNotificationName:UISceneDidEnterBackgroundNotification object:scene];
     XCTAssertTrue(presentOnBackground, @"Did not respond to scene background.");
-    [[NSNotificationCenter defaultCenter] postNotificationName:UISceneDidActivateNotification object:scene];
+    [[NSNotificationCenter defaultCenter] postNotificationName:UISceneWillEnterForegroundNotification object:scene];
     XCTAssertTrue(dismissOnDidBecomeActive, @"Did not respond to app did become active.");
 }
 
@@ -241,7 +241,8 @@ static NSString* const kTestAppName = @"OverridenAppName";
     // This will simulate that the snapshot view is being presented
     UIView* fakeView = [UIView new];
     [fakeView addSubview:defaultViewControllerOnPresentation.view];
-    [[NSNotificationCenter defaultCenter] postNotificationName:UISceneDidActivateNotification object:scene];
+    [[NSNotificationCenter defaultCenter] postNotificationName:UISceneWillEnterForegroundNotification
+                                                        object:scene];
     XCTAssertEqual(defaultViewControllerOnPresentation, defaultViewControllerOnDismissal, @"Default snapshot view controller on dismissal is different than the one provided on presentation!");
 }
 
@@ -287,8 +288,29 @@ static NSString* const kTestAppName = @"OverridenAppName";
     // This will simulate that the snapshot view is being presented
     UIView* fakeView = [UIView new];
     [fakeView addSubview:customSnapshot.view];
-    [[NSNotificationCenter defaultCenter] postNotificationName:UISceneDidActivateNotification object:scene];
+    [[NSNotificationCenter defaultCenter] postNotificationName:UISceneWillEnterForegroundNotification object:scene];
     XCTAssertEqual(customSnapshot, snapshotOnDismissal, @"Custom snapshot view controller was not used on dismissal!");
+}
+
+- (void)testNativeLoginManager
+{
+    NSString *consumerKey = @"1234";
+    NSString *redirct = @"ftest/redirect";
+    NSString *loginUrl = @"https://salesforce.com/some/test/url";
+    UIViewController *view = [[UIViewController alloc] init];
+    SFNativeLoginManagerInternal *loginManager = (SFNativeLoginManagerInternal *)
+        [[SalesforceSDKManager sharedManager] useNativeLoginWithConsumerKey:consumerKey
+                                                                callbackUrl:redirct
+                                                               communityUrl:loginUrl
+                                                  nativeLoginViewController:view
+                                                                      scene:nil];
+    
+    XCTAssertEqual(consumerKey, loginManager.clientId);
+    XCTAssertEqual(redirct, loginManager.redirectUri);
+    XCTAssertEqual(loginUrl, loginManager.loginUrl);
+    XCTAssertEqual(view, [[[SalesforceSDKManager sharedManager] nativeLoginViewControllers] objectForKey:kSFDefaultNativeLoginViewControllerKey]);
+    XCTAssertEqual(loginManager, [[SalesforceSDKManager sharedManager] nativeLoginManager]);
+    XCTAssertTrue([[SFUserAccountManager sharedInstance] nativeLoginEnabled]);
 }
 
 #pragma mark - Process Pool Tests

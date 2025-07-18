@@ -67,6 +67,13 @@ typedef NSData * _Nullable (^ _Nullable DataDecryptorBlock)(NSData * _Nullable d
 - (void) storeEvents:(nullable NSArray<SFSDKInstrumentationEvent *> *) events;
 
 /**
+ * Returns all the event files stored on the filesystem for that unique identifier.
+ *
+ * @return List of event files.
+ */
+- (nullable NSArray<NSString *> *)eventFiles;
+
+/**
  * Returns a specific event stored on the filesystem.
  *
  * @param eventId Unique identifier for the event.
@@ -98,5 +105,10 @@ typedef NSData * _Nullable (^ _Nullable DataDecryptorBlock)(NSData * _Nullable d
  * Deletes all the events stored on the filesystem for that unique identifier.
  */
 - (void) deleteAllEvents;
+
+/**
+ * Lets callers know if they _can_ store an event (optimization, so they wouldn't have to build and call -store: unnecessarily).
+ */
+- (BOOL) shouldStoreEvent;
 
 @end

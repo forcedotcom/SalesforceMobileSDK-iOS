@@ -637,7 +637,7 @@ class RootViewController: UIViewController {
                                       preferredStyle: .alert)
         
         let logout = UIAlertAction(title: "Logout", style: .default) { _ in
-            UserAccountManager.shared.logout()
+            UserAccountManager.shared.logout(SFLogoutReason.userInitiated)
         }
         let cancel = UIAlertAction(title: "Cancel", style: .cancel) { _ in
             self.presentedViewController?.dismiss(animated: true, completion: nil)

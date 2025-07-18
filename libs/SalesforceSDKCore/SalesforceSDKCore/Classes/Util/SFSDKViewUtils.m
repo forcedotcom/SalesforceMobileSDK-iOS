@@ -69,11 +69,7 @@
     [UINavigationBar appearanceWhenContainedInInstancesOfClasses:classes].standardAppearance = appearance;
     [UINavigationBar appearanceWhenContainedInInstancesOfClasses:classes].compactAppearance = appearance;
     [UINavigationBar appearanceWhenContainedInInstancesOfClasses:classes].scrollEdgeAppearance = appearance;
-    #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 150000
-    if (@available(iOS 15.0, *)) {
-        [UINavigationBar appearanceWhenContainedInInstancesOfClasses:classes].compactScrollEdgeAppearance = appearance;
-    }
-    #endif
+    [UINavigationBar appearanceWhenContainedInInstancesOfClasses:classes].compactScrollEdgeAppearance = appearance;
 }
 
 + ( UIImage * _Nonnull )headerBackgroundImage:(UIColor *)color {

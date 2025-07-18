@@ -27,7 +27,6 @@
 #import <SalesforceSDKCore/SFUserAccountIdentity.h>
 #import <SalesforceSDKCore/SFUserAccountConstants.h>
 #import <SalesforceSDKCore/SFOAuthCoordinator.h>
-#import <SalesforceSDKCore/SFOAuthCoordinator.h>
 #import <SalesforceSDKCore/SFSDKLoginViewControllerConfig.h>
 #import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
@@ -137,6 +136,10 @@ FOUNDATION_EXTERN NSString * const SFUserAccountManagerUserChangeUserKey NS_SWIF
 /**  Key to use to lookup userAccount associated with  NSNotification userInfo.
  */
 FOUNDATION_EXTERN NSString * const kSFNotificationUserInfoAccountKey NS_SWIFT_NAME(UserAccountManager.userInfoAccountKey);
+
+/**  Key to use to lookup logout reason associated with NSNotification log out events.
+ */
+FOUNDATION_EXTERN NSString * const kSFNotificationUserInfoLogoutReasonKey NS_SWIFT_NAME(UserAccountManager.userInfoLogoutReasonKey);
 
 /**  Key to use to lookup credentials associated with  NSNotification userInfo.
  */
@@ -328,6 +331,11 @@ NS_SWIFT_NAME(UserAccountManager)
  */
 @property (nonatomic, copy, nullable) SFIDPUserSelectionBlock idpUserSelectionAction;
 
+
+/** Use this to add handling for navigation actions like email and custom links on the login screen, return WKNavigationActionPolicyAllow for any other actions to make sure that the login flow isn't interrupted
+ */
+@property (nonatomic, copy, nullable) WKNavigationActionPolicy (^navigationPolicyForAction)(WKWebView *webview, WKNavigationAction *action);
+
 /**  Use this property to enable an app to become and IdentityProvider for other apps
  *
  */
@@ -353,6 +361,16 @@ NS_SWIFT_NAME(UserAccountManager)
  *
  */
 @property (nonatomic,strong) SFSDKLoginViewControllerConfig *loginViewControllerConfig;
+
+/**
+ * Indicates that that web based authentication should be used instead of native login.
+ */
+@property (nonatomic, assign) BOOL shouldFallbackToWebAuthentication;
+
+/**
+ *  If true, present the auth window while the webview is loading. Otherwise wait to present the auth window until the webview has finished loading
+ */
+@property (nonatomic, assign) BOOL showAuthWindowWhileLoading;
 
 /** Shared singleton
  */
@@ -389,6 +407,11 @@ NS_SWIFT_NAME(UserAccountManager)
  */
 - (SFUserAccount*)createUserAccount:(SFOAuthCredentials *)credentials NS_SWIFT_NAME(createUserAccount(with:));
 
+/** Create an account when necessary using token endpoint response data.  This function is intented for internal use only.
+  @param data The token endpoint response to use.
+  @param scene Optional scene to identify Native Login View Controller.
+ */
+- (void)createNativeUserAccount:(NSData *)data scene:(nullable UIScene *)scene NS_SWIFT_NAME(createNativeUserAccount(with:scene:));
 
 /** Allows you to look up the user account associated with a given user identity.
  @param userIdentity The user identity of the user account to be looked up
@@ -501,11 +524,19 @@ Use this method to stop/clear any authentication which is has already been start
 @param completionBlock The completion block is called with YES if a session was cleared successfully. 
 */
 - (void)stopCurrentAuthentication:(nullable void (^)(BOOL))completionBlock;
+
 /**
  Forces a logout from the current account, redirecting the user to the login process.
  This throws out the OAuth refresh token.
  */
 - (void)logout;
+
+/**
+ Forces a logout from the current account, redirecting the user to the login process.
+ This throws out the OAuth refresh token.
+ @param reason The reason that log out was initiated.
+ */
+- (void)logout:(SFLogoutReason)reason;
 
 /**
  Performs a logout on the specified user.  Note that if the user is not the current user of the app, the
@@ -514,6 +545,15 @@ Use this method to stop/clear any authentication which is has already been start
  @param user The user to log out.
  */
 - (void)logoutUser:(SFUserAccount *)user NS_SWIFT_NAME(logout(_:));
+
+/**
+ Performs a logout on the specified user.  Note that if the user is not the current user of the app, the
+ specified user's authenticated state will be removed, but no other action will otherwise interrupt the
+ current app state.
+ @param user The user to log out.
+ @param reason The reason that log out was initiated.
+ */
+- (void)logoutUser:(SFUserAccount *)user reason:(SFLogoutReason)reason NS_SWIFT_NAME(logout(_:reason:));
 
 /**
  Performs a logout for all users of the app, including the current user.

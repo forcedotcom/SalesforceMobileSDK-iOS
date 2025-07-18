@@ -65,6 +65,7 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
 #else
         self.isSimulator = NO;
 #endif
+        _registerOnForeground = YES;
         // Queue for requests
         _queue = [[NSOperationQueue alloc] init];
         
@@ -152,6 +153,11 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
     if (rsaPublicKey) {
         bodyDict[@"RsaPublicKey"] = rsaPublicKey;
     }
+    // TODO remove once MSDK default api version is 61 or greater
+    if ([[SFRestAPI sharedInstance].apiVersion compare:@"v61.0"] >= 0) {
+        bodyDict[@"CipherName"] = @"RSA_OAEP_SHA256";
+    }
+
     [request setCustomRequestBodyDictionary:bodyDict contentType:@"application/json"];
     __weak typeof(self) weakSelf = self;
     [[SFRestAPI sharedInstance] sendRequest:request failureBlock:^(id response, NSError *e, NSURLResponse *rawResponse) {
@@ -266,10 +272,14 @@ static NSString * const kSFAppFeaturePushNotifications = @"PN";
 }
 
 - (void)onAppWillEnterForeground:(NSNotification *)notification {
-    // Re-registering with Salesforce if we have a device token unless we are logging out
+    // If enabled, re-registering with Salesforce if we have a device token unless we are logging out
     if (![SFUserAccountManager sharedInstance].logoutSettingEnabled && self.deviceToken) {
-        [SFSDKCoreLogger i:[self class] format:@"Re-registering for Salesforce notification because application is being foregrounded"];
-        [self registerSalesforceNotificationsWithCompletionBlock:nil failBlock:nil];
+        if (self.registerOnForeground) {
+            [SFSDKCoreLogger i:[self class] format:@"Re-registering for Salesforce notification because application is being foregrounded"];
+            [self registerSalesforceNotificationsWithCompletionBlock:nil failBlock:nil];
+        } else {
+            [SFSDKCoreLogger i:[self class] format:@"Skipping push notification re-registration on foreground because it's disabled"];
+        }
     }
 }
 

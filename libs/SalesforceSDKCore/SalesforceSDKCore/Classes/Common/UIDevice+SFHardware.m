@@ -10,8 +10,6 @@
 #include <net/if.h>
 #include <net/if_dl.h>
 #import <mach/mach.h>
-#import <CoreTelephony/CTTelephonyNetworkInfo.h>
-#import <CoreTelephony/CTCarrier.h>
 #import "UIDevice+SFHardware.h"
 #import "UIScreen+SFAdditions.h"
 #import "SFApplicationHelper.h"
@@ -102,30 +100,12 @@
     return results;
 }
 
-- (nullable NSString *)platform {
-    return [self sfsdk_platform];
-}
-
 - (NSString *)sfsdk_platform {
     static NSString *result = nil;
     if (!result) {
         result = [self getSysInfoByName:"hw.machine"];
     }
     return result;
-}
-
-
-// Thanks, Tom Harrington (Atomicbird)
-- (NSString *)hwmodel {
-    static NSString *result = nil;
-    if (!result) {
-        result = [self getSysInfoByName:"hw.model"];
-    }
-    return result;
-}
-
-- (double)systemVersionNumber {
-    return [self sfsdk_systemVersionNumber];
 }
 
 - (double)sfsdk_systemVersionNumber {
@@ -146,97 +126,12 @@
     return (NSUInteger) results;
 }
 
-- (NSUInteger)cpuFrequency {
-    return [self getSysInfo:HW_CPU_FREQ];
-}
-
-- (NSUInteger)busFrequency {
-    return [self getSysInfo:HW_BUS_FREQ];
-}
-
-- (NSUInteger)cpuCount {
-    return [self getSysInfo:HW_NCPU];
-}
-
-- (float)totalCPU {
-    kern_return_t kr;
-    task_info_data_t tinfo;
-    mach_msg_type_number_t task_info_count;
-    
-    task_info_count = TASK_INFO_MAX;
-    kr = task_info(mach_task_self(), TASK_BASIC_INFO, (task_info_t)tinfo, &task_info_count);
-    if (kr != KERN_SUCCESS) {
-        return -1;
-    }
-    
-    task_basic_info_t      basic_info;
-    thread_array_t         thread_list;
-    mach_msg_type_number_t thread_count;
-    
-    thread_info_data_t     thinfo;
-    mach_msg_type_number_t thread_info_count;
-    
-    thread_basic_info_t basic_info_th;
-    uint32_t stat_thread = 0; // Mach threads
-    
-    basic_info = (task_basic_info_t)tinfo;
-    
-    // get threads in the task
-    kr = task_threads(mach_task_self(), &thread_list, &thread_count);
-    if (kr != KERN_SUCCESS) {
-        return -1;
-    }
-    if (thread_count > 0)
-        stat_thread += thread_count;
-    
-    long tot_sec = 0;
-    long tot_usec = 0;
-    float tot_cpu = 0;
-    int j;
-    
-    for (j = 0; j < thread_count; j++)
-    {
-        thread_info_count = THREAD_INFO_MAX;
-        kr = thread_info(thread_list[j], THREAD_BASIC_INFO,
-                         (thread_info_t)thinfo, &thread_info_count);
-        if (kr != KERN_SUCCESS) {
-            return -1;
-        }
-        
-        basic_info_th = (thread_basic_info_t)thinfo;
-        
-        if (!(basic_info_th->flags & TH_FLAGS_IDLE)) {
-            tot_sec = tot_sec + basic_info_th->user_time.seconds + basic_info_th->system_time.seconds;
-            tot_usec = tot_usec + basic_info_th->user_time.microseconds + basic_info_th->system_time.microseconds;
-            tot_cpu = tot_cpu + basic_info_th->cpu_usage / (float)TH_USAGE_SCALE * 100.0;
-        }
-        
-    } // for each thread
-    
-    kr = vm_deallocate(mach_task_self(), (vm_offset_t)thread_list, thread_count * sizeof(thread_t));
-    assert(kr == KERN_SUCCESS);
-    
-    return tot_cpu;
-}
-
-- (NSUInteger)totalMemory {
-    return [self sfsdk_totalMemory];
-}
-
 - (NSUInteger)sfsdk_totalMemory {
     return [self getSysInfo:HW_PHYSMEM];
 }
 
-- (NSUInteger)userMemory {
-    return [self sfsdk_userMemory];
-}
-
 - (NSUInteger)sfsdk_userMemory {
     return [self getSysInfo:HW_USERMEM];
-}
-
-- (NSUInteger)applicationMemory {
-    return [self sfsdk_applicationMemory];
 }
 
 - (NSUInteger)sfsdk_applicationMemory {
@@ -248,10 +143,6 @@
                                    &size);
     
     return (kerr == KERN_SUCCESS) ? info.resident_size : 0;
-}
-
-- (NSUInteger)freeMemory {
-    return [self sfsdk_freeMemory];
 }
 
 /**Free VM page space available to application*/
@@ -279,18 +170,10 @@
 
 #pragma mark file system -- Thanks Joachim Bean!
 
-- (NSNumber *)totalDiskSpace {
-    return [self sfsdk_totalDiskSpace];
-}
-
 - (NSNumber *)sfsdk_totalDiskSpace {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSDictionary *fattributes = [fileManager attributesOfFileSystemForPath:NSHomeDirectory() error:nil];
     return [fattributes objectForKey:NSFileSystemSize];
-}
-
-- (NSNumber *)freeDiskSpace {
-    return [self sfsdk_freeDiskSpace];
 }
 
 - (NSNumber *)sfsdk_freeDiskSpace {
@@ -300,10 +183,6 @@
 }
 
 #pragma mark platform type and name utils
-
-- (UIDevicePlatform)platformType {
-    return [self sfsdk_platformType];
-}
 
 - (UIDevicePlatform)sfsdk_platformType {
     NSString *platform = [self sfsdk_platform];
@@ -413,23 +292,14 @@
     if ([platform hasPrefix:@"AppleTV"])                return UIDeviceUnknownAppleTV;
     
     // Simulator thanks Jordan Breeding
-    if ([platform hasSuffix:@"86"] || [platform isEqual:@"x86_64"])
-    {
-        if ([self hasIphone6ScreenSize]) {
-            return UIDeviceSimulatoriPhone6;
-        } else if ([self hasIphone6PlusScreenSize]) {
-            return UIDeviceSimulatoriPhone6Plus;
-        } else {
+    #if !TARGET_OS_VISION
+        if ([platform hasSuffix:@"86"] || [platform isEqual:@"x86_64"]) {
             BOOL smallerScreen = [[UIScreen mainScreen] bounds].size.width < 768;
             return smallerScreen ? UIDeviceSimulatoriPhone : UIDeviceSimulatoriPad;
         }
-    }
-    
-    return UIDeviceUnknown;
-}
+    #endif
 
-- (BOOL)hasNeuralEngine {
-    return [self sfsdk_hasNeuralEngine];
+    return UIDeviceUnknown;
 }
 
 - (BOOL)sfsdk_hasNeuralEngine {
@@ -477,10 +347,6 @@
         default:
             return YES;
     }
-}
-
-- (NSString *)platformString {
-    return [self sfsdk_platformString];
 }
 
 - (NSString *)sfsdk_platformString {
@@ -556,15 +422,6 @@
     }
 }
 
-- (BOOL)hasRetinaDisplay {
-    return ([UIScreen mainScreen].scale > 1.0f);
-}
-
-
-- (UIDeviceFamily)deviceFamily {
-    return [self sfsdk_deviceFamily];
-}
-
 - (UIDeviceFamily)sfsdk_deviceFamily {
     NSString *platform = [self sfsdk_platform];
     if ([platform hasPrefix:@"iPhone"]) return UIDeviceFamilyiPhone;
@@ -573,63 +430,6 @@
     if ([platform hasPrefix:@"AppleTV"]) return UIDeviceFamilyAppleTV;
     
     return UIDeviceFamilyUnknown;
-}
-
-#pragma mark MAC addy
-// Return the local MAC addy
-// Courtesy of FreeBSD hackers email list
-// Accidentally munged during previous update. Fixed thanks to mlamb.
-- (NSString *)macaddress {
-    int                 mib[6];
-    size_t              len;
-    char                *buf;
-    unsigned char       *ptr;
-    struct if_msghdr    *ifm;
-    struct sockaddr_dl  *sdl;
-    
-    mib[0] = CTL_NET;
-    mib[1] = AF_ROUTE;
-    mib[2] = 0;
-    mib[3] = AF_LINK;
-    mib[4] = NET_RT_IFLIST;
-    
-    if ((mib[5] = if_nametoindex("en0")) == 0) {
-        // we've only seen this case when running on Jenkins where the simulator shares the server's ifaces (ifconfig)
-        // to fix this, we will try to find en1 which hopefully also exists.
-        [SFSDKCoreLogger w:[self class] format:@"if_nametoindex could not find en0, trying en1"];
-        if ((mib[5] = if_nametoindex("en1")) == 0) {
-            [SFSDKCoreLogger e:[self class] format:@"if_nametoindex error"];
-            return NULL;
-        }
-    }
-    
-    if (sysctl(mib, 6, NULL, &len, NULL, 0) < 0) {
-        [SFSDKCoreLogger e:[self class] format:@"sysctl, take 1"];
-        return NULL;
-    }
-    
-    if ((buf = malloc(len)) == NULL) {
-        [SFSDKCoreLogger e:[self class] format:@"Memory allocation error"];
-        return NULL;
-    }
-    
-    if (sysctl(mib, 6, buf, &len, NULL, 0) < 0) {
-        [SFSDKCoreLogger e:[self class] format:@"sysctl, take 2"];
-        free(buf); // Thanks, Remy "Psy" Demerest
-        return NULL;
-    }
-    
-    ifm = (struct if_msghdr *)buf;
-    sdl = (struct sockaddr_dl *)(ifm + 1);
-    ptr = (unsigned char *)LLADDR(sdl);
-    NSString *outstring = [NSString stringWithFormat:@"%02X:%02X:%02X:%02X:%02X:%02X", *ptr, *(ptr+1), *(ptr+2), *(ptr+3), *(ptr+4), *(ptr+5)];
-    
-    free(buf);
-    return outstring;
-}
-
-- (UIInterfaceOrientation)interfaceOrientation {
-    return [self sfsdk_interfaceOrientation];
 }
 
 - (UIInterfaceOrientation)sfsdk_interfaceOrientation {
@@ -641,24 +441,12 @@
     return orientation;
 }
 
-+ (BOOL)currentDeviceIsIPad {
-    return [self sfsdk_currentDeviceIsIPad];
-}
-
 + (BOOL)sfsdk_currentDeviceIsIPad {
     return (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad);
 }
 
-+ (BOOL)currentDeviceIsIPhone {
-    return [self sfsdk_currentDeviceIsIPhone];
-}
-
 + (BOOL)sfsdk_currentDeviceIsIPhone {
     return (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPhone);
-}
-
-- (BOOL)isSimulator {
-    return [self sfsdk_isSimulator];
 }
 
 - (BOOL)sfsdk_isSimulator {
@@ -667,33 +455,6 @@
     #else
     return NO;
     #endif
-}
-
-- (BOOL)hasIphone6ScreenSize {
-   return  CGRectGetHeight([[UIScreen mainScreen] sfsdk_portraitScreenBounds]) == 667.0f && CGRectGetWidth([[UIScreen mainScreen] sfsdk_portraitScreenBounds]) == 375.0f;
-}
-
-- (BOOL)hasIphone6PlusScreenSize {
-    return  CGRectGetHeight([[UIScreen mainScreen] sfsdk_portraitScreenBounds]) == 736.0f && CGRectGetWidth([[UIScreen mainScreen] sfsdk_portraitScreenBounds]) == 414.0f;
-}
-
-- (BOOL)hasIphoneXScreenSize {
-    return  CGRectGetHeight([[UIScreen mainScreen] sfsdk_portraitScreenBounds]) == 812.0f && CGRectGetWidth([[UIScreen mainScreen] sfsdk_portraitScreenBounds]) == 375.0f;
-}
-
-#pragma mark - 
-
-- (BOOL)canDevicePlaceAPhoneCall {
-    BOOL canPlaceCall = NO;
-    // Check if the device can place a phone call
-    if ([[SFApplicationHelper sharedApplication] canOpenURL:[NSURL URLWithString:@"tel://"]]) {
-        // Confirm it can make a phone call right now
-        CTTelephonyNetworkInfo *netInfo = [[CTTelephonyNetworkInfo alloc] init];
-        CTCarrier *carrier = netInfo.serviceSubscriberCellularProviders.allValues.firstObject;
-        NSString *mnc = [carrier mobileNetworkCode];
-        canPlaceCall = [mnc length] != 0;
-    }
-    return canPlaceCall;
 }
 
 @end

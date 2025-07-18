@@ -87,6 +87,8 @@ public class DecryptStream: InputStream {
         
         let numberOfBlocks = len < CryptStream.chunkSize ? 1 : len / CryptStream.chunkSize
         let encryptedBuffer = UnsafeMutablePointer<UInt8>.allocate(capacity: CryptStream.sealedBoxSize)
+        defer { encryptedBuffer.deallocate() }
+
         var readCount = 0
         for _ in 1...numberOfBlocks {
             let bytesRead = stream.read(encryptedBuffer, maxLength: CryptStream.sealedBoxSize)

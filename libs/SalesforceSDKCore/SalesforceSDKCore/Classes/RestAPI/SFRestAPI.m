@@ -39,7 +39,7 @@
 #import "SFLoginViewController.h"
 #import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 
-NSString* const kSFRestDefaultAPIVersion = @"v55.0";
+NSString* const kSFRestDefaultAPIVersion = @"v60.0";
 NSString* const kSFRestIfUnmodifiedSince = @"If-Unmodified-Since";
 NSString* const kSFRestErrorDomain = @"com.salesforce.RestAPI.ErrorDomain";
 NSString* const kSFDefaultContentType = @"application/json";
@@ -255,7 +255,7 @@ static dispatch_once_t pred;
             attributes[@"errorCode"] = [NSNumber numberWithInteger:error.code];
             attributes[@"errorDescription"] = error.localizedDescription;
             [SFSDKEventBuilderHelper createAndStoreEvent:@"userLogout" userAccount:nil className:NSStringFromClass([strongSelf class]) attributes:attributes];
-            [[SFUserAccountManager sharedInstance] logout];
+            [[SFUserAccountManager sharedInstance] logout:SFLogoutReasonUnexpected];
         }];
     } else {
         [self enqueueRequest:request requestDelegate:requestDelegate shouldRetry:shouldRetry];
@@ -312,9 +312,7 @@ static dispatch_once_t pred;
                 id dataForDelegate = [strongSelf prepareDataForDelegate:data request:request response:response];
                 [strongSelf notifyDelegateOfSuccess:requestDelegate request:request data:dataForDelegate rawResponse:response];
             } else {
-                // Do not refresh token if biometric authentiction lock is enabled
-                if (shouldRetry && statusCode == 401 && ![[SFBiometricAuthenticationManagerInternal shared] locked]) {
-                    // 401 indicates refresh is required.
+                if (shouldRetry && [self shouldRefresh:statusCode responseData:data request:request]) {
                     [strongSelf replayRequest:request response:response requestDelegate:requestDelegate];
                 } else {
                     // Other status codes indicate failure.
@@ -327,6 +325,27 @@ static dispatch_once_t pred;
         request.sessionDataTask = dataTask;
     }
 }
+
+- (BOOL)shouldRefresh:(NSInteger)statusCode responseData:(NSData *)responseData request:(SFRestRequest *)request {
+    // most calls return 401 if oauth access token is not valid
+    BOOL isNotAuthorized = statusCode == 401;
+    
+    // service/oauth2 calls return 403 with Bad_OAuth_Token response if oauth access is not valid
+    BOOL hasBadOAuthToken = statusCode == 403
+    && [request.path hasPrefix:@"/services/oauth2"]
+    && [[[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding] isEqualToString:@"Bad_OAuth_Token"];
+    
+    if (isNotAuthorized || hasBadOAuthToken) {
+        [SFSDKCoreLogger d:[self class] format:@"response request path: %@", request.path];
+        [SFSDKCoreLogger i:[self class] format:@"response code: %ld", (long) statusCode];
+        
+        // Do not refresh token if biometric authentiction lock is enabled
+        return ![[SFBiometricAuthenticationManagerInternal shared] locked];
+    } else {
+        return false;
+    }
+}
+
 
 - (SFNetwork *)networkForRequest:(SFRestRequest *)request {
     if (request.networkServiceType == SFNetworkServiceTypeBackground) {
@@ -429,7 +448,7 @@ static dispatch_once_t pred;
                     // Make sure we call logout on the main thread.
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [strongSelf createAndStoreLogoutEvent:refreshError user:strongSelf.user];
-                        [[SFUserAccountManager sharedInstance] logoutUser:strongSelf.user];
+                        [[SFUserAccountManager sharedInstance] logoutUser:strongSelf.user reason:SFLogoutReasonTokenExpired];
                     });
                 }
             }];
@@ -486,6 +505,16 @@ static dispatch_once_t pred;
     request.endpoint = @"";
     return request;
 }
+
+- (SFRestRequest *)requestForSingleAccess:(NSString*) redirectUri {
+    NSString *path = @"/services/oauth2/singleaccess";
+    NSString *bodyStr = [@"redirect_uri=" stringByAppendingString:[redirectUri sfsdk_stringByURLEncoding]];
+    SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPOST serviceHostType:SFSDKRestServiceHostTypeInstance path:path queryParams:nil];
+    [request setCustomRequestBodyString:bodyStr contentType:kHttpPostContentType];
+    request.endpoint = @"";
+    return request;
+}
+
 
 - (SFRestRequest *)requestForVersions {
     NSString *path = @"/";

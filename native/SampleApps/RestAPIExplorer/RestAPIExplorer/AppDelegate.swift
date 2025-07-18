@@ -42,6 +42,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       
         SalesforceManager.initializeSDK()
         SalesforceManager.shared.appDisplayName = "Rest API Explorer"
+        UserAccountManager.shared.navigationPolicyForAction = { webView, action in
+            if let url = action.request.url, url.absoluteString == "https://www.salesforce.com/us/company/privacy" {
+                SFApplicationHelper.open(url, options: [:], completionHandler: nil)
+                return .cancel
+            }
+            return .allow
+        }
         
         //Uncomment following block to enable IDP Login flow.
         //SalesforceManager.shared.identityProviderURLScheme = "sampleidpapp"

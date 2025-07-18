@@ -60,10 +60,7 @@ extension UIColor {
     }
     
     class var appSecondarySystemGroupedBackground: UIColor {
-        if #available(iOS 13, *) {
-            return UIColor.secondarySystemGroupedBackground
-        }
-        return UIColor.white
+        return UIColor.secondarySystemGroupedBackground
     }
 
     class var appContentBackground: UIColor {

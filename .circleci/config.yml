@@ -1,10 +1,14 @@
+orbs:
+  codecov: codecov/codecov@4.1.0
+
+
 #  Xcode version announcments can be found here: https://discuss.circleci.com/c/announcements/
 #  Each post contains a full image manifest, including iOS runtimes, devices, CocoaPods version, etc.
 anchors:
-  - &latest-xcode    "14.3.1"
-  - &latest-ios      "16.4"
-  - &min-ios         "15.5"
-  - &requres-string  "test << matrix.lib >> iOS 15.5"  # Keep this min version up to date
+  - &latest-xcode    "15.3.0"
+  - &latest-ios      "17.4"
+  - &min-ios         "16.4"
+  - &requres-string  "test << matrix.lib >> iOS 16.4"  # Keep this min version up to date
   - &device          "iPhone-SE-3rd-generation"
   - &invalid         ""
 
@@ -39,9 +43,10 @@ jobs:
     environment:
       DEVICE: << parameters.device >>
       IOS_VERSION: << parameters.ios >>
-      FASTLANE_SKIP_UPDATE_CHECK: "true"
       LIB: << parameters.lib >>
       NIGHTLY_TEST: << parameters.nightly-test >>
+      FASTLANE_SKIP_UPDATE_CHECK: "true"
+      HOMEBREW_NO_AUTO_UPDATE: 1
     steps:
       - checkout
       - restore_cache: 
@@ -56,6 +61,8 @@ jobs:
             ./build/pre-build
             cd .circleci
             bundle check || sudo bundle install --path vendor/bundle
+            brew install xcbeautify
+            mkdir -p ~/.gnupg
       - save_cache: 
           key: v1-gem-cahce{{ checksum ".circleci/Gemfile.lock" }}
           paths:
@@ -64,7 +71,7 @@ jobs:
           name: Run Tests
           command:  |
             cd .circleci
-            bundle exec fastlane PR lib:<< parameters.lib >> 
+            fastlane PR lib:<< parameters.lib >> 
           no_output_timeout: 20m
       - run: 
           name: Danger Lib
@@ -72,6 +79,8 @@ jobs:
             danger --dangerfile=.circleci/Dangerfile-Lib.rb --danger_id="${LIB}" --verbose
           background: true
           when: always
+      - codecov/upload:
+          flags: << parameters.lib >>
       - store_test_results:
           path: /Users/distiller/SalesforceMobileSDK-iOS/test_output/
       - store_artifacts:

@@ -27,17 +27,9 @@
 
 @implementation NSData (SFSDKUtils)
 
-- (NSString *)msdkBase64UrlString {
-    return [self sfsdk_base64UrlString];
-}
-
 - (NSString *)sfsdk_base64UrlString {
     NSString *base64String = [self base64EncodedStringWithOptions:0];
     return [[self class] sfsdk_replaceBase64CharsForBase64UrlString:base64String];
-}
-
-- (nullable NSData *)msdkSha256Data {
-    return [self sfsdk_sha256Data];
 }
 
 - (NSData *)sfsdk_sha256Data {

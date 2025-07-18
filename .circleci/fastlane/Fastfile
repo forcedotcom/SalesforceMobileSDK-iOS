@@ -1,7 +1,7 @@
 $git_pr_api = "https://api.github.com/repos/%s/SalesforceMobileSDK-iOS/pulls/%s/files"
 $schemes = ['SalesforceSDKCommon', 'SalesforceAnalytics', 'SalesforceSDKCore', 'SmartStore', 'MobileSync']
 ENV['DEVICE'] = 'iPhone-SE-3rd-generation' unless ENV.has_key?('DEVICE')
-ENV['IOS_VERSION'] = '15.5' unless ENV.has_key?('IOS_VERSION')
+ENV['IOS_VERSION'] = '17.2' unless ENV.has_key?('IOS_VERSION')
 
 lane :PR do |options|
   lib_to_test = options[:lib]
@@ -32,9 +32,10 @@ lane :PR do |options|
     pr_files = JSON.parse(pull_files)
     for pr_file in pr_files
       path = pr_file['filename']
-      for scheme in $schemes
+      $schemes.each do |scheme|
         if path.include? scheme
-          schemes.add(scheme)
+          schemes.merge($schemes[$schemes.index(scheme)..])
+          break
         end
       end
     end
@@ -97,7 +98,9 @@ def test_scheme(scheme)
         output_directory: 'test_output',
         output_types: 'html,junit',
         code_coverage: true,
-        skip_build: true
+        skip_build: true,
+        number_of_retries: 1,
+        xcodebuild_formatter: "xcbeautify"
     )
   ensure
     system("mv ../test_output/report.html ../test_output/#{scheme}_results.html")

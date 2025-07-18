@@ -55,6 +55,18 @@ def signposts_post_install(installer)
   end
 end
 
+
+# Post Install: Enable visionOS support
+def vision_os_post_install(installer)
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      config.build_settings['SUPPORTED_PLATFORMS'] = 'iphoneos iphonesimulator xros xrsimulator'
+      config.build_settings['TARGETED_DEVICE_FAMILY'] = '1,2,7'
+    end
+  end
+end
+
+
 # Post Install: fix deployment targets
 def mobile_sdk_post_install(installer)
   installer.pods_project.targets.each do |target|
@@ -67,7 +79,7 @@ def mobile_sdk_post_install(installer)
     # Mobile SDK targets
     is_mobile_sdk_target = ['SalesforceAnalytics', 'SalesforceSDKCommon', 'SalesforceSDKCore', 'SmartStore', 'MobileSync', 'SalesforceReact', 'FMDB'].include?(target.name)
     if is_mobile_sdk_target
-      change_deployment_target(target, '15.0')
+      change_deployment_target(target, '16.0')
     end
   end
 end

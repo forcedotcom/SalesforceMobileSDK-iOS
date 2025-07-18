@@ -27,7 +27,7 @@
 #import <SalesforceSDKCore/SalesforceSDKCoreDefines.h>
 #import <SalesforceSDKCore/SalesforceSDKConstants.h>
 @class SFUserAccount, SFSDKAppConfig, SFScreenLockManager, SFBiometricAuthenticationManager;
-@protocol SFScreenLockManager, SFBiometricAuthenticationManager;
+@protocol SFScreenLockManager, SFBiometricAuthenticationManager, SFNativeLoginManager;
 
 /**
  Block typedef for creating a custom snapshot view controller.
@@ -57,12 +57,12 @@ NSString *SFAppTypeGetDescription(SFAppType appType) NS_SWIFT_NAME(getter:SFAppT
 /**
  Block typedef for presenting the snapshot view controller.
  */
-typedef void (^SFSnapshotViewControllerPresentationBlock)(UIViewController* snapshotViewController) NS_SWIFT_NAME(SalesforceManager.SnapshotViewDisplayBlock);
+typedef void (^SFSnapshotViewControllerPresentationBlock)(UIViewController* snapshotViewController) NS_SWIFT_NAME(SalesforceManager.SnapshotViewDisplayBlock) API_UNAVAILABLE(visionos);
 
 /**
  Block typedef for dismissing the snapshot view controller.
  */
-typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapshotViewController) NS_SWIFT_NAME(SalesforceManager.SnapshotViewDismissBlock);
+typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapshotViewController) NS_SWIFT_NAME(SalesforceManager.SnapshotViewDismissBlock) API_UNAVAILABLE(visionos);
 
 NS_SWIFT_NAME(DevAction)
 @interface SFSDKDevAction : NSObject
@@ -191,14 +191,14 @@ NS_SWIFT_NAME(SalesforceManager)
  @discussion
  This block is only invoked if the dismissal action is also set.
  */
-@property (nonatomic, copy, nullable) SFSnapshotViewControllerPresentationBlock snapshotPresentationAction NS_SWIFT_NAME(snapshotViewPresentationHandler);
+@property (nonatomic, copy, nullable) SFSnapshotViewControllerPresentationBlock snapshotPresentationAction NS_SWIFT_NAME(snapshotViewPresentationHandler) API_UNAVAILABLE(visionos);
 
 /**
  The block to execute to dismiss the snapshot viewcontroller.
  @discussion
  This block is only invoked if the presentation action is also set.
  */
-@property (nonatomic, copy, nullable) SFSnapshotViewControllerDismissalBlock snapshotDismissalAction NS_SWIFT_NAME(snapshotViewDismissalHandler);
+@property (nonatomic, copy, nullable) SFSnapshotViewControllerDismissalBlock snapshotDismissalAction NS_SWIFT_NAME(snapshotViewDismissalHandler) API_UNAVAILABLE(visionos);
 
 /**
  Gets or sets a block that will return a user agent string, created with an optional qualifier.
@@ -224,6 +224,13 @@ NS_SWIFT_NAME(SalesforceManager)
 /** Use this flag to indicate if the dev support dialog should be enabled in the APP
  */
 @property (nonatomic, assign) BOOL isDevSupportEnabled;
+
+/** Use this flag to indicate if the login webview should be inspectable (NB: only applies to iOS 16.4 and above)
+ */
+@property (nonatomic, assign) BOOL isLoginWebviewInspectable;
+
+/*** Indicates if login via QR Code and UI bridge API is enabled */
+@property (nonatomic, assign) BOOL isQrCodeLoginEnabled;
 
 /** The type of cache used for the shared URL cache, defaults to kSFURLCacheTypeEncrypted.
 */
@@ -298,18 +305,53 @@ NS_SWIFT_NAME(SalesforceManager)
 - (nonnull NSString *)devInfoTitleString;
 
 /**
- * Returns the ScreenLockManager instance.
+ * Returns The ScreenLockManager instance.
  *
- * @return the Screen Lock Manager
+ * @return The Screen Lock Manager.
  */
 - (id <SFScreenLockManager>)screenLockManager;
 
 /**
- * Returns the BiometricAuthenticationManager instance.
+ * Returns The BiometricAuthenticationManager instance.
  *
- * @return the Biometric Authentication Manager
+ * @return The Biometric Authentication Manager.
  */
 - (id <SFBiometricAuthenticationManager>)biometricAuthenticationManager;
+
+/**
+ * Creates the NativeLoginManager instance.
+ *
+ * @param consumerKey The Connected App consumer key.
+ * @param callbackUrl The Connected App redirect URI.
+ * @param communityUrl The login url for native login
+ * @param nativeLoginViewController The view presented to the user and responsible for using the
+ * returned Native Login Manager to initiate either of the authorization code and credentials login flow or the
+ * headless, password-less login flow.
+ * @param scene Optional UIScene to enable multi-window support.
+ *
+ * @return The Native Login Manager.
+ */
+- (id <SFNativeLoginManager>)useNativeLoginWithConsumerKey:(nonnull NSString *)consumerKey
+                                               callbackUrl:(nonnull NSString *)callbackUrl
+                                              communityUrl:(nonnull NSString *)communityUrl
+                                 nativeLoginViewController:(nonnull UIViewController *)nativeLoginViewController
+                                                     scene:(nullable UIScene *)scene;
+
+- (id <SFNativeLoginManager>)useNativeLoginWithConsumerKey:(nonnull NSString *)consumerKey
+                                               callbackUrl:(nonnull NSString *)callbackUrl
+                                              communityUrl:(nonnull NSString *)communityUrl
+                                        reCaptchaSiteKeyId:(nullable NSString *)reCaptchaSiteKeyId
+                                      googleCloudProjectId:(nullable NSString *)googleCloudProjectId
+                                     isReCaptchaEnterprise:(BOOL)isReCaptchaEnterprise
+                                 nativeLoginViewController:(nonnull UIViewController *)nativeLoginViewController
+                                                     scene:(nullable UIScene *)scene;
+
+/**
+ * Returns The NativeLoginManager instance.
+ *
+ * @return The Native Login Manager.
+ */
+- (id <SFNativeLoginManager>)nativeLoginManager;
 
 @end
 
