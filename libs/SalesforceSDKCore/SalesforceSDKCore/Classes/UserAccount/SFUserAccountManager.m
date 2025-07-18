@@ -810,7 +810,6 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 
 #pragma mark - SFOAuthCoordinatorDelegate
 - (void)oauthCoordinatorWillBeginAuthentication:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info {
-    coordinator.authSession.authInfo  = info;
     NSDictionary *userInfo = @{ kSFNotificationUserInfoCredentialsKey: coordinator.credentials,
                                 kSFNotificationUserInfoAuthTypeKey: coordinator.authInfo };
     [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserWillLogIn
@@ -819,13 +818,11 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 }
 
 - (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info {
-     coordinator.authSession.authInfo  = info;
      [self loggedIn:NO coordinator:coordinator notifyDelegatesOfFailure:YES];
 }
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(nullable SFOAuthInfo *)info {
     coordinator.authSession.authError = error;
-    coordinator.authSession.authInfo  = info;
 
     // check if the request was initiated by spapp (idp scenario only)
     if (coordinator.authSession.oauthRequest.authenticateRequestFromSPApp) {
@@ -884,8 +881,6 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 }
 // IDP related code fetched as an identity provider app
 - (void)oauthCoordinatorDidFetchAuthCode:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)authInfo {
-    coordinator.authSession.authInfo = authInfo;
-    
     SFSDKAuthCommand *authCommand;
     NSString *keychainReference = coordinator.authSession.oauthRequest.keychainReference;
     if (keychainReference) { // IDP request to SP
@@ -1752,7 +1747,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         NSString *okButton = [SFSDKResourceUtils localizedString:kAlertOkButtonKey];
         [strongSelf showErrorAlertWithMessage:alertMessage buttonTitle:okButton scene:session.oauthRequest.scene andCompletion:^() {
             [session.oauthCoordinator stopAuthentication];
-            [strongSelf notifyUserCancelledOrDismissedAuth:session.oauthCoordinator.credentials andAuthInfo:session.authInfo];
+            [strongSelf notifyUserCancelledOrDismissedAuth:session.oauthCoordinator.credentials andAuthInfo:session.oauthCoordinator.authInfo];
             NSString *host = [[SFSDKLoginHostStorage sharedInstance] loginHostAtIndex:0].host;
             session.oauthRequest.loginHost = host;
             strongSelf.loginHost = host;
@@ -1856,7 +1851,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
           __strong typeof(weakSelf) strongSelf = weakSelf;
         [strongSelf finalizeAuthCompletion:authSession];
 
-        if (authSession.authInfo.authType != SFOAuthTypeRefresh) {
+        if (authSession.oauthCoordinator.authInfo.authType != SFOAuthTypeRefresh) {
             if (hasBioAuthPolicy) {
                 if ([bioAuthManager locked]) {
                     [bioAuthManager unlockPostProcessing];
@@ -1881,7 +1876,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 
 - (void)handleFailure:(NSError *)error session:(SFSDKAuthSession *)authSession {
     if (authSession.authFailureCallback) {
-        authSession.authFailureCallback(authSession.authInfo, error);
+        authSession.authFailureCallback(authSession.oauthCoordinator.authInfo, error);
     }
   
     if (authSession.notifiesDelegatesOfFailure) {
@@ -1889,7 +1884,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         __weak typeof(self) weakSelf = self;
         [self enumerateDelegates:^(id <SFUserAccountManagerDelegate> delegate) {
             if ([delegate respondsToSelector:@selector(userAccountManager:error:info:)]) {
-                BOOL returnVal = [delegate userAccountManager:weakSelf error:error info:authSession.authInfo];
+                BOOL returnVal = [delegate userAccountManager:weakSelf error:error info:authSession.oauthCoordinator.authInfo];
                 errorWasHandledByDelegate |= returnVal;
             }
         }];
@@ -1908,7 +1903,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     [_accountsLock lock];
     for (NSString *key in self.authSessions.allKeys) {
         SFSDKAuthSession *authSession = self.authSessions[key];
-        if (authSession.authInfo.authType == SFOAuthTypeUserAgent) {
+        if (authSession.oauthCoordinator.authInfo.authType == SFOAuthTypeUserAgent) {
             [authSession.oauthCoordinator.view removeFromSuperview];
         }
         NSString *sceneId = authSession.sceneId;
@@ -1929,7 +1924,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     }
     
     [_accountsLock lock];
-    if (authSession.authInfo.authType == SFOAuthTypeUserAgent) {
+    if (authSession.oauthCoordinator.authInfo.authType == SFOAuthTypeUserAgent) {
         [authSession.oauthCoordinator.view removeFromSuperview];
     }
     NSString *sceneId = authSession.sceneId;
@@ -1972,10 +1967,10 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     }
 
     shouldNotify = authSession.oauthRequest.authenticateRequestFromSPApp?(authSession.oauthRequest.authenticateRequestFromSPApp && self.currentUser == nil):YES;
-    SFOAuthInfo *authInfo = authSession.authInfo;
+    SFOAuthInfo *authInfo = authSession.oauthCoordinator.authInfo;
     
     if (authSession.authSuccessCallback) {
-        authSession.authSuccessCallback(authSession.authInfo, userAccount);
+        authSession.authSuccessCallback(authInfo, userAccount);
     }
     //notify for all login flows except during an SP apps login request.
     if (shouldNotify) {
@@ -2022,7 +2017,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 }
 
 - (void)handleAnalyticsAddUserEvent:(SFSDKAuthSession *)authSession account:(SFUserAccount *) userAccount {
-    if (authSession.authInfo.authType == SFOAuthTypeRefresh) {
+    if (authSession.oauthCoordinator.authInfo.authType == SFOAuthTypeRefresh) {
         [SFSDKEventBuilderHelper createAndStoreEvent:@"tokenRefresh" userAccount:userAccount className:NSStringFromClass([self class]) attributes:nil];
     } else {
 
