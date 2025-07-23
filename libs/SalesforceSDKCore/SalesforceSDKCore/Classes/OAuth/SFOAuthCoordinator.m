@@ -83,7 +83,6 @@
 
 
 - (id)init {
-    _domainDiscoveryCoordinator = [[DomainDiscoveryCoordinator alloc] init];
     return [self initWithCredentials:nil];
 }
 
@@ -95,6 +94,7 @@
         _timeout = kSFOAuthDefaultTimeout;
         _view = nil;
         _authClient = [[SFSDKOAuth2 alloc] init];
+        _domainDiscoveryCoordinator = [[DomainDiscoveryCoordinator alloc] init];
     }
     return self;
 }
@@ -108,6 +108,7 @@
         _timeout = kSFOAuthDefaultTimeout;
         _view = nil;
         _authClient = [[SFSDKOAuth2 alloc] init];
+        _domainDiscoveryCoordinator = [[DomainDiscoveryCoordinator alloc] init];
     }
     return self;
 }
@@ -123,6 +124,7 @@
     _scopes = nil;
     _view = nil;
     _authSession = nil;
+    _domainDiscoveryCoordinator = nil;
 }
 
 - (void)authenticate {

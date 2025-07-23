@@ -1,10 +1,20 @@
 import Foundation
 import WebKit
 
-public enum DomainDiscoveryConstants {
+enum DomainDiscovery: String {
     /// The callback URL used for domain discovery.
-    public static let callbackURL = "sfdc://discocallback"
-    public static let discoveryDomain = "welcome.salesforce.com"
+    case callbackURL = "sfdc://discocallback"
+    
+    enum URLComponent: String {
+        case path = "/discovery"
+        case scheme = "https"
+        
+        enum QueryItem: String {
+            case clientID = "client_id"
+            case clientVersion = "client_version"
+            case callbackURL = "callback_url"
+        }
+    }
 }
 
 /// Represents the result of a domain discovery operation.
@@ -39,11 +49,11 @@ public class DomainDiscoveryCoordinator: NSObject {
         guard let clientId = credentials.clientId,
               let clientVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String,
               let domain = credentials.domain else {
-            SFSDKCoreLogger().e(classForCoder, message: "Missing required credentials")
+            SFSDKCoreLogger.e(classForCoder, message: "Missing required credentials")
             return
         }
         guard let url = Self.buildDiscoveryURL(clientId: clientId, clientVersion: clientVersion, domain: domain) as URL? else {
-            SFSDKCoreLogger().e(classForCoder, message: "Failed to construct discovery URL")
+            SFSDKCoreLogger.e(classForCoder, message: "Failed to construct discovery URL")
             return
         }
         webview.load(URLRequest(url: url))
@@ -70,27 +80,27 @@ public class DomainDiscoveryCoordinator: NSObject {
     @objc
     public func isDisoveryDomain(_ domain: String?) -> Bool {
         guard let domain = domain else { return false }
-        return domain.lowercased().contains(DomainDiscoveryConstants.discoveryDomain)
+        return domain.lowercased().contains(DomainDiscovery.URLComponent.path.rawValue)
     }
 }
 
 extension DomainDiscoveryCoordinator {
-    private static func buildDiscoveryURL(clientId: String, clientVersion: String, domain: String, callbackURL: String = DomainDiscoveryConstants.callbackURL) -> NSURL? {
+    private static func buildDiscoveryURL(clientId: String, clientVersion: String, domain: String, callbackURL: String = DomainDiscovery.callbackURL.rawValue) -> NSURL? {
         var components = URLComponents()
-        components.scheme = "https"
-        components.host = domain
-        components.path = "/discovery"
+        components.scheme = DomainDiscovery.URLComponent.scheme.rawValue
+        components.host = domain.components(separatedBy: "/").first
+        components.path = DomainDiscovery.URLComponent.path.rawValue
         components.queryItems = [
-            URLQueryItem(name: "client_id", value: clientId),
-            URLQueryItem(name: "client_version", value: clientVersion),
-            URLQueryItem(name: "callback_url", value: callbackURL)
+            URLQueryItem(name: DomainDiscovery.URLComponent.QueryItem.clientID.rawValue, value: clientId),
+            URLQueryItem(name: DomainDiscovery.URLComponent.QueryItem.clientVersion.rawValue, value: clientVersion),
+            URLQueryItem(name: DomainDiscovery.URLComponent.QueryItem.callbackURL.rawValue, value: callbackURL)
         ]
         return components.url as NSURL?
     }
     
     private func isDomainDiscoveryCallbackURL(_ url: URL?) -> Bool {
         guard let url = url as URL? else { return false }
-        return url.absoluteString.lowercased().hasPrefix(DomainDiscoveryConstants.callbackURL.lowercased())
+        return url.absoluteString.lowercased().hasPrefix(DomainDiscovery.callbackURL.rawValue.lowercased())
     }
     
     private func parseDiscoveryCallbackURL(_ url: URL?) -> DomainDiscoveryResult? {

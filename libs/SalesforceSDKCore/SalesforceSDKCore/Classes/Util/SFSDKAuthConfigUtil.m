@@ -33,7 +33,7 @@
 static NSString * const kSFOAuthEndPointAuthConfiguration = @"/.well-known/auth-configuration";
 static NSString * const kSandboxLoginURL = @"test.salesforce.com";
 static NSString * const kProductionLoginURL = @"login.salesforce.com";
-static NSString * const kWelcomeLoginURL = @"welcome.salesforce.com";
+static NSString * const kWelcomeLoginURL = @"welcome.salesforce.com/discovery";
 
 @implementation SFSDKAuthConfigUtil
 
