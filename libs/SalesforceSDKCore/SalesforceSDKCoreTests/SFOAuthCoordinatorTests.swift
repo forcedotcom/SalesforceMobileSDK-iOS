@@ -17,7 +17,7 @@ class SFOAuthCoordinatorTests: XCTestCase {
         let credentials = OAuthCredentials(identifier: "test",
                                            clientId: "client",
                                            encrypted: false)
-        credentials?.testDomain = DomainDiscoveryConstants.discoveryDomain
+        credentials?.testDomain = "foo.bar.com/discovery"
         coordinator.credentials = credentials
         
         // When
