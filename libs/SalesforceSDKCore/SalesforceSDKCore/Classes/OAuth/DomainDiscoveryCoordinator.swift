@@ -15,6 +15,11 @@ enum DomainDiscovery: String {
             case callbackURL = "callback_url"
         }
     }
+
+    static let supportedClientIds: Set<String> = [
+        "SfdcMobileChatterAndroid",
+        "SfdcMobileChatteriOS"
+    ]
 }
 
 /// Represents the result of a domain discovery operation.
@@ -78,9 +83,11 @@ public class DomainDiscoveryCoordinator: NSObject {
     }
     
     @objc
-    public func isDisoveryDomain(_ domain: String?) -> Bool {
-        guard let domain = domain else { return false }
-        return domain.lowercased().contains(DomainDiscovery.URLComponent.path.rawValue)
+    public func isDisoveryDomain(_ domain: String?, clientId: String?) -> Bool {
+        guard let domain = domain, let clientId = clientId else { return false }
+        let isDiscovery = domain.lowercased().contains(DomainDiscovery.URLComponent.path.rawValue)
+        let isSupportedClient = DomainDiscovery.supportedClientIds.contains(clientId)
+        return isDiscovery && isSupportedClient
     }
 }
 

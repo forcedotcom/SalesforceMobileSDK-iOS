@@ -210,15 +210,12 @@
 
 - (void)authenticateWithCredentials:(SFOAuthCredentials *)credentials {
     self.credentials = credentials;
-    if ([self isDiscoveryDomain:self.credentials.domain]) {
+    if ([self.domainDiscoveryCoordinator isDisoveryDomain:self.credentials.domain
+                                                 clientId:self.credentials.clientId]) {
         [self runMyDomainDiscoveryAndAuthenticate];
         return;
     }
     [self authenticate];
-}
-
-- (BOOL)isDiscoveryDomain:(NSString *)domain {
-    return [self.domainDiscoveryCoordinator isDisoveryDomain:domain];
 }
 
 - (void)runMyDomainDiscoveryAndAuthenticate {
