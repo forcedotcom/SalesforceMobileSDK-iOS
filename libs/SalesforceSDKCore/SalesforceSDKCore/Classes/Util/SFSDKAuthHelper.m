@@ -85,7 +85,7 @@
         }
     }];
 
-    if ([self isDeepLink:loginHint host:loginHost] || [self shouldAuthenticateNewUser]) {
+    if (frontDoorBridgeUrl || [self isDeepLink:loginHost] || [self shouldAuthenticateNewUser]) {
         SFUserAccountManagerFailureCallbackBlock failureBlock = ^(SFOAuthInfo *authInfo, NSError *authError) {
             [SFSDKCoreLogger e:[self class] format:@"Authentication failed: %@.", [authError localizedDescription]];
         };
@@ -114,8 +114,8 @@
     }
 }
 
-+ (BOOL)isDeepLink:(NSString *)hint host:(NSString *)host {
-    return ([hint length] > 0 && [host length] > 0);
++ (BOOL)isDeepLink:(NSString *)host {
+    return [host length] > 0;
 }
 
 + (BOOL)shouldAuthenticateNewUser {
