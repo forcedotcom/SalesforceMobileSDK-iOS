@@ -56,7 +56,7 @@
 @interface SFOAuthCoordinator()
 
 @property (nonatomic) NSString *networkIdentifier;
-@property (nonatomic, strong) DomainDiscoveryCoordinator *domainDiscoveryCoordinator;
+@property (nonatomic, strong) SFDomainDiscoveryCoordinator *domainDiscoveryCoordinator;
 
 @end
 
@@ -94,7 +94,7 @@
         _timeout = kSFOAuthDefaultTimeout;
         _view = nil;
         _authClient = [[SFSDKOAuth2 alloc] init];
-        _domainDiscoveryCoordinator = [[DomainDiscoveryCoordinator alloc] init];
+        _domainDiscoveryCoordinator = [[SFDomainDiscoveryCoordinator alloc] init];
     }
     return self;
 }
@@ -108,7 +108,7 @@
         _timeout = kSFOAuthDefaultTimeout;
         _view = nil;
         _authClient = [[SFSDKOAuth2 alloc] init];
-        _domainDiscoveryCoordinator = [[DomainDiscoveryCoordinator alloc] init];
+        _domainDiscoveryCoordinator = [[SFDomainDiscoveryCoordinator alloc] init];
     }
     return self;
 }

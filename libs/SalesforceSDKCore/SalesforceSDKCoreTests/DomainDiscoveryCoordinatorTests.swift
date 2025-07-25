@@ -58,8 +58,7 @@ final class DomainDiscoveryCoordinatorTests: XCTestCase {
         let results = coordinator.handle(action: mockWebView.mockAction!)
         
         // Then
-        XCTAssertEqual(results?.myDomain, "")
-        XCTAssertEqual(results?.loginHint, expectedLoginHint)
+        XCTAssertNil(results)
     }
 
     func testMissingLoginHint() async throws {
@@ -78,8 +77,7 @@ final class DomainDiscoveryCoordinatorTests: XCTestCase {
         let results = coordinator.handle(action: mockWebView.mockAction!)
         
         // Then
-        XCTAssertEqual(results?.myDomain, expectedDomain)
-        XCTAssertEqual(results?.loginHint, "")
+        XCTAssertNil(results)
     }
 
     func testMalformedCallbackURL() async throws {

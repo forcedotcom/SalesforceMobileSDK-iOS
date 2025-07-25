@@ -16,6 +16,10 @@ enum DomainDiscovery: String {
         }
     }
 
+    /* TODO: Keep this list of client ids up to date with those
+     * supported by Salesforce Welcome Discovery or remove it
+     * when no longer required.
+     */
     static let supportedClientIds: Set<String> = [
         "SfdcMobileChatterAndroid",
         "SfdcMobileChatteriOS"
@@ -39,7 +43,7 @@ public class DomainDiscoveryResult: NSObject {
 /// Coordinator for My Domain discovery via WKWebView before OAuth login.
 ///
 /// This class loads a discovery URL in a WKWebView and waits for a callback URL to be hit, returning the discovered domain and login hint.
-@objcMembers
+@objc(SFDomainDiscoveryCoordinator)
 public class DomainDiscoveryCoordinator: NSObject {
     /// Starts the domain discovery process by loading the discovery URL in the provided WKWebView.
     ///
@@ -111,13 +115,14 @@ extension DomainDiscoveryCoordinator {
     }
     
     private func parseDiscoveryCallbackURL(_ url: URL?) -> DomainDiscoveryResult? {
-        guard let url = url as URL? else { return nil }
+        guard let url = url else { return nil }
         let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
-        let loginHint = components?.queryItems?.first(where: { $0.name == "login_hint" })?.value
-        var myDomain = components?.queryItems?.first(where: { $0.name == "my_domain" })?.value
-        if let domain = myDomain, domain.hasPrefix("https://") {
-            myDomain = String(domain.dropFirst("https://".count))
+        guard let loginHint = components?.queryItems?.first(where: { $0.name == "login_hint" })?.value,
+              let myDomainRaw = components?.queryItems?.first(where: { $0.name == "my_domain" })?.value else {
+            SFSDKCoreLogger.e(classForCoder, message: "Domain discovery callback URL is missing required parameter(s): login_hint and/or my_domain.")
+            return nil
         }
-        return DomainDiscoveryResult(loginHint: loginHint ?? "", myDomain: myDomain ?? "")
+        let myDomain = myDomainRaw.hasPrefix("https://") ? String(myDomainRaw.dropFirst("https://".count)) : myDomainRaw
+        return DomainDiscoveryResult(loginHint: loginHint, myDomain: myDomain)
     }
 }
