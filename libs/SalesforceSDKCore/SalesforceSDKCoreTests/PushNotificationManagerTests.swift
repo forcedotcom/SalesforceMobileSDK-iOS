@@ -167,25 +167,25 @@ class PushNotificationManagerTests: XCTestCase {
         wait(for: [expectation], timeout: 1.0)
     }
     
-//    func testRegisterForSalesforceNotifications_NoCurrentUser() {
-//        // Given
-//        let expectation = XCTestExpectation(description: "Registration completion")
-//        UserAccountManager.shared.currentUserAccount = nil
-//        
-//        // When
-//        pushNotificationManager.registerForSalesforceNotifications { result in
-//            // Then
-//            switch result {
-//            case .success:
-//                XCTFail("Should fail")
-//            case .failure(let error):
-//                XCTAssertEqual(error, .currentUserNotDetected)
-//            }
-//            expectation.fulfill()
-//        }
-//        
-//        wait(for: [expectation], timeout: 1.0)
-//    }
+    func testRegisterForSalesforceNotifications_NoCurrentUser() {
+        // Given
+        let expectation = XCTestExpectation(description: "Registration completion")
+        UserAccountManager.shared.currentUserAccount = nil
+        
+        // When
+        pushNotificationManager.registerForSalesforceNotifications { result in
+            // Then
+            switch result {
+            case .success:
+                XCTFail("Should fail")
+            case .failure(let error):
+                XCTAssertEqual(error, .currentUserNotDetected)
+            }
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 1.0)
+    }
     
     func testUnregisterForSalesforceNotifications_Success() {
         // Given
