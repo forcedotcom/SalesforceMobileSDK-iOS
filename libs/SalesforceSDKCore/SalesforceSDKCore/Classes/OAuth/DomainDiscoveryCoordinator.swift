@@ -91,6 +91,9 @@ public class DomainDiscoveryCoordinator: NSObject {
         guard let domain = domain, let clientId = clientId else { return false }
         let isDiscovery = domain.lowercased().contains(DomainDiscovery.URLComponent.path.rawValue)
         let isSupportedClient = DomainDiscovery.supportedClientIds.contains(clientId)
+        if isDiscovery && !isSupportedClient {
+            SFSDKCoreLogger.e(classForCoder, message: "\(domain) is a discovery domain, but client ID '\(clientId)' is not supported.")
+        }
         return isDiscovery && isSupportedClient
     }
 }
