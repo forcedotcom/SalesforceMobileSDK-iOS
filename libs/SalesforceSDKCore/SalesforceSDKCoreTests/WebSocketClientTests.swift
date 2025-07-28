@@ -136,18 +136,20 @@ final class WebSocketClientTests: XCTestCase {
     }
     
     func testListenReceivesSuccessMessage() {
-        
         // Given
         mockTask = MockWebSocket()
         client = WebSocketClient(task: mockTask!)
         let expectation = self.expectation(description: "Message received")
-        
+        var fulfilled = false
         // When
         client?.listen { result in
             switch result {
             case .success(_):
                 // Then
-                expectation.fulfill()
+                if !fulfilled {
+                    fulfilled = true
+                    expectation.fulfill()
+                }
             case .failure(_):
                 XCTFail("Expected success")
             }
@@ -167,7 +169,7 @@ final class WebSocketClientTests: XCTestCase {
                                  network: mockNetwork,
                                  accountManager: mockAccountManager)
         let expectation = self.expectation(description: "Success received")
-        
+        var fulfilled = false
         // When
         client?.listen { result in
             self.mockTask?.keepReceivingMessages.toggle()
@@ -175,7 +177,10 @@ final class WebSocketClientTests: XCTestCase {
             case .success(let message):
                 // Then
                 XCTAssertNotNil(message)
-                expectation.fulfill()
+                if !fulfilled {
+                    fulfilled = true
+                    expectation.fulfill()
+                }
             default: break
             }
         }
@@ -196,7 +201,6 @@ final class WebSocketClientTests: XCTestCase {
                                  accountManager: mockAccountManager)
         let expectation = self.expectation(description: "Error received")
         var fulfilled = false
-        
         // When
         client?.listen { result in
             switch result {
