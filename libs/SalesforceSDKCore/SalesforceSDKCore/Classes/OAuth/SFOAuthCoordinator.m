@@ -210,7 +210,7 @@
 
 - (void)authenticateWithCredentials:(SFOAuthCredentials *)credentials {
     self.credentials = credentials;
-    if ([self.domainDiscoveryCoordinator isDisoveryDomain:self.credentials.domain
+    if ([self.domainDiscoveryCoordinator isDiscoveryDomain:self.credentials.domain
                                                  clientId:self.credentials.clientId]) {
         [self runMyDomainDiscoveryAndAuthenticate];
         return;
@@ -835,17 +835,16 @@
 #pragma mark - WKNavigationDelegate (User-Agent Token Flow)
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     
-    SFDomainDiscoveryResult *result = [self.domainDiscoveryCoordinator handleWithWebAction:navigationAction];
-    if (result) {
-        [self handleCustomDomainUpdateWithLoginHint:result.loginHint
-                                           myDomain:result.myDomain];
-        decisionHandler(WKNavigationActionPolicyCancel);
-        return;
-    }
-    
     NSURL *url = navigationAction.request.URL;
     NSString *requestUrl = [url absoluteString];
-    if ([self isRedirectURL:requestUrl]) {
+    
+    // Determine if presence of discovery domain, then handle if present.
+    SFDomainDiscoveryResult *discoveryResult = [self.domainDiscoveryCoordinator handleWithWebAction:navigationAction];
+    if (discoveryResult) {
+        [self handleCustomDomainUpdateWithLoginHint:discoveryResult.loginHint
+                                           myDomain:discoveryResult.myDomain];
+        decisionHandler(WKNavigationActionPolicyCancel);
+    } else if ([self isRedirectURL:requestUrl]) {
         // Determine if presence of override parameters require the user agent flow.
         BOOL overrideWithUserAgentFlow = self.frontdoorBridgeLoginOverride.frontdoorBridgeUrl && !self.frontdoorBridgeLoginOverride.codeVerifier;
         if ( [[SalesforceSDKManager sharedManager] useWebServerAuthentication] && !overrideWithUserAgentFlow) {

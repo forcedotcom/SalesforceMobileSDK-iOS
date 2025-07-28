@@ -87,7 +87,7 @@ public class DomainDiscoveryCoordinator: NSObject {
     }
     
     @objc
-    public func isDisoveryDomain(_ domain: String?, clientId: String?) -> Bool {
+    public func isDiscoveryDomain(_ domain: String?, clientId: String?) -> Bool {
         guard let domain = domain, let clientId = clientId else { return false }
         let isDiscovery = domain.lowercased().contains(DomainDiscovery.URLComponent.path.rawValue)
         let isSupportedClient = DomainDiscovery.supportedClientIds.contains(clientId)
