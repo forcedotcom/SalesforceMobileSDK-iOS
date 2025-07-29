@@ -149,6 +149,8 @@ final class WebSocketClientTests: XCTestCase {
                 if !fulfilled {
                     fulfilled = true
                     expectation.fulfill()
+                } else {
+                    print("[testListenReceivesSuccessMessage] fulfill() called more than once.")
                 }
             case .failure(_):
                 XCTFail("Expected success")
@@ -180,6 +182,8 @@ final class WebSocketClientTests: XCTestCase {
                 if !fulfilled {
                     fulfilled = true
                     expectation.fulfill()
+                } else {
+                    print("[testListenReceivesFailureAndPerformRetryToSuccess] fulfill() called more than once.")
                 }
             default: break
             }
@@ -210,6 +214,8 @@ final class WebSocketClientTests: XCTestCase {
                 if !fulfilled {
                     fulfilled = true
                     expectation.fulfill()
+                } else {
+                    print("[testListenReceivesFailureAndPerformRetryToFailure] fulfill() called more than once.")
                 }
             default:
                 XCTFail("Expected Failure")
