@@ -30,18 +30,6 @@ class MockWebSocket: WebSocketClientTaskProtocol {
         completionHandler(nil)
     }
     
-    func receive(completionHandler: @escaping @Sendable (Result<URLSessionWebSocketTask.Message, any Error>) -> Void) {
-        
-        guard keepReceivingMessages else { return }
-        
-        if !shouldError {
-            completionHandler(.success(URLSessionWebSocketTask.Message.string("incoming")))
-        } else {
-            let error = NSError(domain: "test", code: 1, userInfo: nil)
-            completionHandler(.failure(error))
-        }
-    }
-    
     func cancel(with closeCode: URLSessionWebSocketTask.CloseCode, reason: Data?) {
         didCancel = true
     }
@@ -140,20 +128,15 @@ final class WebSocketClientTests: XCTestCase {
         mockTask = MockWebSocket()
         client = WebSocketClient(task: mockTask!)
         let expectation = self.expectation(description: "Message received")
-        var fulfilled = false
         // When
         client?.listen { result in
+            self.mockTask?.keepReceivingMessages.toggle()
             switch result {
             case .success(_):
                 // Then
-                if !fulfilled {
-                    fulfilled = true
-                    expectation.fulfill()
-                } else {
-                    print("[testListenReceivesSuccessMessage] fulfill() called more than once.")
-                }
-            case .failure(_):
-                XCTFail("Expected success")
+                expectation.fulfill()
+            case .failure(let error):
+                XCTAssertNotNil(error as? CancellationError)
             }
         }
         wait(for: [expectation], timeout: 5.0)
@@ -171,7 +154,7 @@ final class WebSocketClientTests: XCTestCase {
                                  network: mockNetwork,
                                  accountManager: mockAccountManager)
         let expectation = self.expectation(description: "Success received")
-        var fulfilled = false
+        
         // When
         client?.listen { result in
             self.mockTask?.keepReceivingMessages.toggle()
@@ -179,12 +162,7 @@ final class WebSocketClientTests: XCTestCase {
             case .success(let message):
                 // Then
                 XCTAssertNotNil(message)
-                if !fulfilled {
-                    fulfilled = true
-                    expectation.fulfill()
-                } else {
-                    print("[testListenReceivesFailureAndPerformRetryToSuccess] fulfill() called more than once.")
-                }
+                expectation.fulfill()
             default: break
             }
         }
@@ -204,19 +182,14 @@ final class WebSocketClientTests: XCTestCase {
                                  network: mockNetwork,
                                  accountManager: mockAccountManager)
         let expectation = self.expectation(description: "Error received")
-        var fulfilled = false
+
         // When
         client?.listen { result in
             switch result {
             case .failure(let error):
                 // Then
                 XCTAssertNotNil(error)
-                if !fulfilled {
-                    fulfilled = true
-                    expectation.fulfill()
-                } else {
-                    print("[testListenReceivesFailureAndPerformRetryToFailure] fulfill() called more than once.")
-                }
+                expectation.fulfill()
             default:
                 XCTFail("Expected Failure")
             }
