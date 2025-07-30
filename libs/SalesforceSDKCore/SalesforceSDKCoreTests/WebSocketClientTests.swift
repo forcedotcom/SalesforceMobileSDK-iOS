@@ -30,18 +30,6 @@ class MockWebSocket: WebSocketClientTaskProtocol {
         completionHandler(nil)
     }
     
-    func receive(completionHandler: @escaping @Sendable (Result<URLSessionWebSocketTask.Message, any Error>) -> Void) {
-        
-        guard keepReceivingMessages else { return }
-        
-        if !shouldError {
-            completionHandler(.success(URLSessionWebSocketTask.Message.string("incoming")))
-        } else {
-            let error = NSError(domain: "test", code: 1, userInfo: nil)
-            completionHandler(.failure(error))
-        }
-    }
-    
     func cancel(with closeCode: URLSessionWebSocketTask.CloseCode, reason: Data?) {
         didCancel = true
     }
@@ -136,20 +124,19 @@ final class WebSocketClientTests: XCTestCase {
     }
     
     func testListenReceivesSuccessMessage() {
-        
         // Given
         mockTask = MockWebSocket()
         client = WebSocketClient(task: mockTask!)
         let expectation = self.expectation(description: "Message received")
-        
         // When
         client?.listen { result in
+            self.mockTask?.keepReceivingMessages.toggle()
             switch result {
             case .success(_):
                 // Then
                 expectation.fulfill()
-            case .failure(_):
-                XCTFail("Expected success")
+            case .failure(let error):
+                XCTAssertNotNil(error as? CancellationError)
             }
         }
         wait(for: [expectation], timeout: 5.0)
@@ -195,18 +182,14 @@ final class WebSocketClientTests: XCTestCase {
                                  network: mockNetwork,
                                  accountManager: mockAccountManager)
         let expectation = self.expectation(description: "Error received")
-        var fulfilled = false
-        
+
         // When
         client?.listen { result in
             switch result {
             case .failure(let error):
                 // Then
                 XCTAssertNotNil(error)
-                if !fulfilled {
-                    fulfilled = true
-                    expectation.fulfill()
-                }
+                expectation.fulfill()
             default:
                 XCTFail("Expected Failure")
             }
