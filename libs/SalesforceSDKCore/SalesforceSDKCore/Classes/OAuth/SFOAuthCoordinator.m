@@ -864,6 +864,7 @@
             [bioAuthManager presentBiometricWithScene:self.view.window.windowScene];
         }
     } else if ([self shouldUpdateDomain:url]) {
+        // To support case where my domain is entered through "Use Custom Domain"
         [self handleCustomDomainUpdateWithLoginHint:self.loginHint
                                            myDomain:url.host];
         decisionHandler(WKNavigationActionPolicyCancel);

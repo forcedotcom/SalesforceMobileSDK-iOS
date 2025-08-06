@@ -49,7 +49,7 @@ public class DomainDiscoveryCoordinator: NSObject {
     ///
     /// - Parameters:
     ///   - webview: The WKWebView in which to load the discovery URL for domain discovery.
-    ///   - credentials: The OAuth credentials containing clientId, clientVersion, and domain.
+    ///   - credentials: The OAuth credentials containing clientId and domain.
     ///
     /// This method loads the discovery URL in the given webview. The result of the discovery should be handled by monitoring navigation actions and calling `handle(webAction:)`.
     @MainActor
