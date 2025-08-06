@@ -67,7 +67,7 @@ static NSString * const SFSDKLoginHostNameKey = @"SalesforceLoginHostNameKey";
         SFManagedPreferences *managedPreferences = [SFManagedPreferences sharedPreferences];
         SFSDKLoginHost *production = [SFSDKLoginHost hostWithName:[SFSDKResourceUtils localizedString:@"LOGIN_SERVER_PRODUCTION"] host:@"login.salesforce.com" deletable:NO];
         SFSDKLoginHost *sandbox = [SFSDKLoginHost hostWithName:[SFSDKResourceUtils localizedString:@"LOGIN_SERVER_SANDBOX"] host:@"test.salesforce.com" deletable:NO];
-        SFSDKLoginHost *welcome = [SFSDKLoginHost hostWithName:[SFSDKResourceUtils localizedString:@"LOGIN_SERVER_WELCOME"] host:@"welcome.salesforce.com" deletable:NO];
+        SFSDKLoginHost *welcome = [SFSDKLoginHost hostWithName:[SFSDKResourceUtils localizedString:@"LOGIN_SERVER_WELCOME"] host:@"welcome.salesforce.com/discovery" deletable:NO];
 
         // Add the Production, Sandbox and Welcome login hosts, unless an MDM policy explicitly forbids this.
         if (!(managedPreferences.hasManagedPreferences && managedPreferences.onlyShowAuthorizedHosts)) {

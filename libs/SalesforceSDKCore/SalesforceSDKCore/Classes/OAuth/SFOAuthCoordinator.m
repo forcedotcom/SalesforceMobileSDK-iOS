@@ -56,6 +56,7 @@
 @interface SFOAuthCoordinator()
 
 @property (nonatomic) NSString *networkIdentifier;
+@property (nonatomic, strong) SFDomainDiscoveryCoordinator *domainDiscoveryCoordinator;
 
 @end
 
@@ -93,6 +94,7 @@
         _timeout = kSFOAuthDefaultTimeout;
         _view = nil;
         _authClient = [[SFSDKOAuth2 alloc] init];
+        _domainDiscoveryCoordinator = [[SFDomainDiscoveryCoordinator alloc] init];
     }
     return self;
 }
@@ -106,6 +108,7 @@
         _timeout = kSFOAuthDefaultTimeout;
         _view = nil;
         _authClient = [[SFSDKOAuth2 alloc] init];
+        _domainDiscoveryCoordinator = [[SFDomainDiscoveryCoordinator alloc] init];
     }
     return self;
 }
@@ -121,6 +124,7 @@
     _scopes = nil;
     _view = nil;
     _authSession = nil;
+    _domainDiscoveryCoordinator = nil;
 }
 
 - (void)authenticate {
@@ -206,7 +210,17 @@
 
 - (void)authenticateWithCredentials:(SFOAuthCredentials *)credentials {
     self.credentials = credentials;
+    if ([self.domainDiscoveryCoordinator isDiscoveryDomain:self.credentials.domain
+                                                 clientId:self.credentials.clientId]) {
+        [self runMyDomainDiscoveryAndAuthenticate];
+        return;
+    }
     [self authenticate];
+}
+
+- (void)runMyDomainDiscoveryAndAuthenticate {
+    [self startWebviewAuthenticationIfNeeded];
+    [self.domainDiscoveryCoordinator runMyDomainsDiscoveryOn:self.view with:self.credentials];
 }
 
 - (BOOL)isAuthenticating {
@@ -218,7 +232,6 @@
     [self.session invalidateAndCancel];
     _session = nil;
     self.networkIdentifier = nil;
-    
     self.authenticating = NO;
 }
 
@@ -665,7 +678,6 @@
         if ([self.delegate respondsToSelector:@selector(oauthCoordinatorDidFetchAuthCode:authInfo:)]) {
             [self.delegate oauthCoordinatorDidFetchAuthCode:self authInfo:self.authInfo];
         }
-        
     }
 }
 
@@ -811,11 +823,28 @@
     return _session;
 }
 
+- (void)handleCustomDomainUpdateWithLoginHint:(NSString *)loginHint myDomain:(NSString *)myDomain {
+    self.domainUpdated = YES;
+    [self stopAuthentication];
+    self.loginHint = loginHint;
+    self.credentials.domain = myDomain;
+    [[SFUserAccountManager sharedInstance] setLoginHost:myDomain];
+    [self authenticate];
+}
+
 #pragma mark - WKNavigationDelegate (User-Agent Token Flow)
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
+    
     NSURL *url = navigationAction.request.URL;
     NSString *requestUrl = [url absoluteString];
-    if ([self isRedirectURL:requestUrl]) {
+    
+    // Determine if presence of discovery domain, then handle if present.
+    SFDomainDiscoveryResult *discoveryResult = [self.domainDiscoveryCoordinator handleWithWebAction:navigationAction];
+    if (discoveryResult) {
+        [self handleCustomDomainUpdateWithLoginHint:discoveryResult.loginHint
+                                           myDomain:discoveryResult.myDomain];
+        decisionHandler(WKNavigationActionPolicyCancel);
+    } else if ([self isRedirectURL:requestUrl]) {
         // Determine if presence of override parameters require the user agent flow.
         BOOL overrideWithUserAgentFlow = self.frontdoorBridgeLoginOverride.frontdoorBridgeUrl && !self.frontdoorBridgeLoginOverride.codeVerifier;
         if ( [[SalesforceSDKManager sharedManager] useWebServerAuthentication] && !overrideWithUserAgentFlow) {
@@ -836,12 +865,9 @@
         }
     } else if ([self shouldUpdateDomain:url]) {
         // To support case where my domain is entered through "Use Custom Domain"
-        self.domainUpdated = YES;
+        [self handleCustomDomainUpdateWithLoginHint:self.loginHint
+                                           myDomain:url.host];
         decisionHandler(WKNavigationActionPolicyCancel);
-        [self stopAuthentication];
-        [[SFUserAccountManager sharedInstance] setLoginHost:url.host];
-        self.credentials.domain = url.host;
-        [self authenticate];
     } else if ([SFUserAccountManager sharedInstance].navigationPolicyForAction) {
         decisionHandler([SFUserAccountManager sharedInstance].navigationPolicyForAction(webView, navigationAction));
     } else {
@@ -877,10 +903,16 @@
 - (void)startWebviewAuthenticationIfNeeded {
     if (!self.initialRequestLoaded) {
         self.initialRequestLoaded = YES;
-        [self.delegate oauthCoordinator:self didBeginAuthenticationWithView:self.view];
+        [self startAuthenticationWithView:self.view];
     }
 }
 
+- (void)startAuthenticationWithView:(WKWebView *)view {
+    if ([self.delegate respondsToSelector:@selector(oauthCoordinator:didBeginAuthenticationWithView:)]) {
+        [self.delegate oauthCoordinator:self
+         didBeginAuthenticationWithView:view];
+    }
+}
 - (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error {
     [self sfwebView:webView didFailLoadWithError:error];
 }
@@ -979,5 +1011,4 @@
     }
     return brandedAuthorizeURL;
 }
-
 @end

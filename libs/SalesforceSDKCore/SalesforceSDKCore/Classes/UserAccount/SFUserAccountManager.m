@@ -613,7 +613,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [SFSDKWebViewStateManager removeSessionForcefullyWithCompletionHandler:^{
-            [authSession.oauthCoordinator authenticate];
+            [authSession.oauthCoordinator authenticateWithCredentials:authSession.credentials];
         }];
             
     });
