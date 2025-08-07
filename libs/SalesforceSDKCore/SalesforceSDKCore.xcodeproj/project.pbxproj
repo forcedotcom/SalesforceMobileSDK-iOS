@@ -33,6 +33,7 @@
 		2365097E2DAD6B1B002BCFA9 /* RemoteNotificationRegistering.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236509782DAD6AF8002BCFA9 /* RemoteNotificationRegistering.swift */; };
 		23705EC02DF35D5600E644A0 /* Network+WebSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23705EBF2DF35D5600E644A0 /* Network+WebSocket.swift */; };
 		23705EC22DF35D6C00E644A0 /* WebSocketClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23705EC12DF35D6C00E644A0 /* WebSocketClient.swift */; };
+		237C186C2E44FCAE0008015C /* EncryptStreamTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237C186B2E44FCAE0008015C /* EncryptStreamTests.swift */; };
 		238AA5802D827AF80036667C /* PushNotificationManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238AA57F2D827AF80036667C /* PushNotificationManagerTests.swift */; };
 		23945B712D78E4A60060B195 /* NotificationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23945B702D78E4A60060B195 /* NotificationType.swift */; };
 		2394F4702D9307D300B9686A /* WebViewStateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2394F46F2D9307D300B9686A /* WebViewStateManager.swift */; };
@@ -549,6 +550,7 @@
 		236509782DAD6AF8002BCFA9 /* RemoteNotificationRegistering.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteNotificationRegistering.swift; sourceTree = "<group>"; };
 		23705EBF2DF35D5600E644A0 /* Network+WebSocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Network+WebSocket.swift"; sourceTree = "<group>"; };
 		23705EC12DF35D6C00E644A0 /* WebSocketClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketClient.swift; sourceTree = "<group>"; };
+		237C186B2E44FCAE0008015C /* EncryptStreamTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EncryptStreamTests.swift; path = SalesforceSDKCoreTests/EncryptStreamTests.swift; sourceTree = SOURCE_ROOT; };
 		238AA57F2D827AF80036667C /* PushNotificationManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PushNotificationManagerTests.swift; path = SalesforceSDKCoreTests/PushNotificationManagerTests.swift; sourceTree = SOURCE_ROOT; };
 		23945B702D78E4A60060B195 /* NotificationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationType.swift; sourceTree = "<group>"; };
 		2394F46F2D9307D300B9686A /* WebViewStateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewStateManager.swift; sourceTree = "<group>"; };
@@ -1036,6 +1038,7 @@
 			children = (
 				23EED8892E2ACD3300646B10 /* SFOAuthCoordinatorTests.swift */,
 				23D96B752E145B400004B06A /* DomainDiscoveryCoordinatorTests.swift */,
+				237C186B2E44FCAE0008015C /* EncryptStreamTests.swift */,
 				230834872DF8A8F300C7CBF7 /* WebSocketClientTests.swift */,
 				230834852DF8938D00C7CBF7 /* URLSessionTask+RetryPolicyTests.swift */,
 				23EDDF012DE0F9EF0024AD39 /* URLRequest+RestRequestTests.swift */,
@@ -1792,7 +1795,6 @@
 				B7FB26E21F78096300FB25A2 /* SFSDKURLHandler.h in Headers */,
 				CE4CE39D1C0E5272009F6029 /* SFSDKTestRequestListener.h in Headers */,
 				B7895D1523450E8E00765D85 /* SFSDKCompositeRequest+Internal.h in Headers */,
-
 				CE4CE3131C0E523B009F6029 /* NSString+SFAdditions.h in Headers */,
 				CE145A9C1D138386003BCC20 /* SFSDKSalesforceAnalyticsManager.h in Headers */,
 				B7FB26D81F78096300FB25A2 /* SFSDKAdvancedAuthURLHandler.h in Headers */,
@@ -2250,6 +2252,7 @@
 				69848CB82364035300893E57 /* SFSDKEncryptedPushNotificationTests.m in Sources */,
 				4F9E05322DD6A08000548985 /* SFSDKOAuthTokenEndpointResponseTests.m in Sources */,
 				4F06AF8D1C49A18E00F70798 /* SalesforceSDKManagerTests.m in Sources */,
+				237C186C2E44FCAE0008015C /* EncryptStreamTests.swift in Sources */,
 				4F06AF8F1C49A18E00F70798 /* SFOAuthSessionRefresherTests.m in Sources */,
 				4F9E05342DD7BE1500548985 /* SFOAuthCredentialsTests.m in Sources */,
 				CEB98EE31F86E7DC0083AB9C /* SFSDKURLHandlerManagerTest.m in Sources */,

@@ -95,7 +95,10 @@ public class EncryptStream: OutputStream {
     }
     
     override public func open () {
-        assert(key != nil, "EncryptStream - you must call setupEncryptionKey first")
+        if key == nil {
+            _streamError = NSError(domain: "EncryptStream", code: 1, userInfo: [NSLocalizedDescriptionKey: "Encryption key not set."])
+            return
+        }
         _streamError = nil
         self.stream.open()
     }
