@@ -87,7 +87,7 @@ class EncryptStreamTests: XCTestCase {
             return
         }
         // Decrypt and verify
-        let decrypted = try AES.GCM.open(
+        _ = try AES.GCM.open(
             try AES.GCM.SealedBox(combined: encrypted),
             using: key
         )

@@ -34,6 +34,7 @@
 		23705EC02DF35D5600E644A0 /* Network+WebSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23705EBF2DF35D5600E644A0 /* Network+WebSocket.swift */; };
 		23705EC22DF35D6C00E644A0 /* WebSocketClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23705EC12DF35D6C00E644A0 /* WebSocketClient.swift */; };
 		237C186C2E44FCAE0008015C /* EncryptStreamTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237C186B2E44FCAE0008015C /* EncryptStreamTests.swift */; };
+		237C18732E450B710008015C /* DecryptStreamTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237C18722E450B710008015C /* DecryptStreamTests.swift */; };
 		238AA5802D827AF80036667C /* PushNotificationManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238AA57F2D827AF80036667C /* PushNotificationManagerTests.swift */; };
 		23945B712D78E4A60060B195 /* NotificationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23945B702D78E4A60060B195 /* NotificationType.swift */; };
 		2394F4702D9307D300B9686A /* WebViewStateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2394F46F2D9307D300B9686A /* WebViewStateManager.swift */; };
@@ -551,6 +552,7 @@
 		23705EBF2DF35D5600E644A0 /* Network+WebSocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Network+WebSocket.swift"; sourceTree = "<group>"; };
 		23705EC12DF35D6C00E644A0 /* WebSocketClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketClient.swift; sourceTree = "<group>"; };
 		237C186B2E44FCAE0008015C /* EncryptStreamTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EncryptStreamTests.swift; path = SalesforceSDKCoreTests/EncryptStreamTests.swift; sourceTree = SOURCE_ROOT; };
+		237C18722E450B710008015C /* DecryptStreamTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DecryptStreamTests.swift; path = SalesforceSDKCoreTests/DecryptStreamTests.swift; sourceTree = SOURCE_ROOT; };
 		238AA57F2D827AF80036667C /* PushNotificationManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PushNotificationManagerTests.swift; path = SalesforceSDKCoreTests/PushNotificationManagerTests.swift; sourceTree = SOURCE_ROOT; };
 		23945B702D78E4A60060B195 /* NotificationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationType.swift; sourceTree = "<group>"; };
 		2394F46F2D9307D300B9686A /* WebViewStateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewStateManager.swift; sourceTree = "<group>"; };
@@ -1038,6 +1040,7 @@
 			children = (
 				23EED8892E2ACD3300646B10 /* SFOAuthCoordinatorTests.swift */,
 				23D96B752E145B400004B06A /* DomainDiscoveryCoordinatorTests.swift */,
+				237C18722E450B710008015C /* DecryptStreamTests.swift */,
 				237C186B2E44FCAE0008015C /* EncryptStreamTests.swift */,
 				230834872DF8A8F300C7CBF7 /* WebSocketClientTests.swift */,
 				230834852DF8938D00C7CBF7 /* URLSessionTask+RetryPolicyTests.swift */,
@@ -2263,6 +2266,7 @@
 				B7E8A2AA1E7455FA007C0D92 /* SFUserAccountManagerTests.m in Sources */,
 				4F06AF8B1C49A18E00F70798 /* SalesforceOAuthUnitTestsCoordinatorDelegate.m in Sources */,
 				69DFE06B2B969C22000906E4 /* CryptoUtilsTests.swift in Sources */,
+				237C18732E450B710008015C /* DecryptStreamTests.swift in Sources */,
 				CED452EF1D808E0A009266EB /* SFNativeRestRequestListener.m in Sources */,
 				230834862DF8938D00C7CBF7 /* URLSessionTask+RetryPolicyTests.swift in Sources */,
 			);

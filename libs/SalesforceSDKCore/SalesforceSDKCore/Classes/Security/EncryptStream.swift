@@ -95,7 +95,7 @@ public class EncryptStream: OutputStream {
     }
     
     override public func open () {
-        if key == nil {
+        guard key != nil else {
             _streamError = NSError(domain: "EncryptStream", code: 1, userInfo: [NSLocalizedDescriptionKey: "Encryption key not set."])
             return
         }
@@ -154,6 +154,7 @@ public class EncryptStream: OutputStream {
             }
         } catch {
             SalesforceLogger.e(EncryptStream.self, message: "Error encrypting data to stream: \(error)")
+            _streamError = error
         }
     }
 }
