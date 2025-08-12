@@ -38,6 +38,7 @@ public class EncryptStream: OutputStream {
     private var key: SymmetricKey?
     private let stream: OutputStream
     private var remainder: Data?
+    private var _streamError: Error?
     
     override public var streamStatus: Stream.Status {
         return stream.streamStatus
@@ -45,6 +46,10 @@ public class EncryptStream: OutputStream {
 
     override public var hasSpaceAvailable: Bool {
         return stream.hasSpaceAvailable
+    }
+
+    override public var streamError: Error? {
+        return _streamError ?? stream.streamError
     }
 
     override public init(toMemory: ()) {
@@ -90,12 +95,19 @@ public class EncryptStream: OutputStream {
     }
     
     override public func open () {
-        assert(key != nil, "EncryptStream - you must call setupEncryptionKey first")
+        guard key != nil else {
+            _streamError = NSError(domain: "EncryptStream", code: 1, userInfo: [NSLocalizedDescriptionKey: "Encryption key not set."])
+            return
+        }
+        _streamError = nil
         self.stream.open()
     }
 
     override public func write(_ buffer: UnsafePointer<UInt8>, maxLength len: Int) -> Int {
-        guard let key = key else { return -1 }
+        guard let key = key else { 
+            _streamError = NSError(domain: "EncryptStream", code: 1, userInfo: [NSLocalizedDescriptionKey: "Encryption key not set."])
+            return -1 
+        }
         
         var bufferSlice = UnsafeBufferPointer<UInt8>(start: buffer, count: len).prefix(len)
         while (!bufferSlice.isEmpty) {
@@ -119,6 +131,7 @@ public class EncryptStream: OutputStream {
                     bufferSlice = bufferSlice.dropFirst(sliceSize)
                 } catch {
                     SalesforceLogger.e(EncryptStream.self, message: "Error encrypting data: \(error)")
+                    _streamError = error
                     return -1
                 }
             } else {
@@ -131,6 +144,7 @@ public class EncryptStream: OutputStream {
 
     override public func close() {
         defer { stream.close() }
+        _streamError = nil
         guard let key = key else { return }
 
         do {
@@ -140,6 +154,7 @@ public class EncryptStream: OutputStream {
             }
         } catch {
             SalesforceLogger.e(EncryptStream.self, message: "Error encrypting data to stream: \(error)")
+            _streamError = error
         }
     }
 }
