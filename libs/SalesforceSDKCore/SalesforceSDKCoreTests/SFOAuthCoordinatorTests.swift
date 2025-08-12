@@ -18,6 +18,7 @@ class SFOAuthCoordinatorTests: XCTestCase {
                                            clientId: "client",
                                            encrypted: false)
         credentials?.testDomain = "foo.bar.com/discovery"
+        credentials?.testRedirectURI = "sfdc://callback"
         coordinator.credentials = credentials
         
         // When
@@ -51,6 +52,11 @@ extension OAuthCredentials {
     var testDomain: String? {
         get { return self.domain }
         set { self.setValue(newValue, forKey: "domain") }
+    }
+    
+    var testRedirectURI: String? {
+        get { return self.redirectUri }
+        set { self.setValue(newValue, forKey: "redirectUri") }
     }
 }
 
