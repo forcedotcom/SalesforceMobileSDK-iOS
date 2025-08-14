@@ -26,8 +26,7 @@
 #import "SFSoupIndex.h"
 #import <SalesforceSDKCommon/SFJsonUtils.h>
 #import "SFSmartStore+Internal.h"
-#import "FMDatabaseQueue.h"
-#import "FMDatabase.h"
+@import FMDB;
 @interface SFOAuthCredentials ()
 @property (nonatomic, readwrite, nullable) NSURL *identityUrl;
 

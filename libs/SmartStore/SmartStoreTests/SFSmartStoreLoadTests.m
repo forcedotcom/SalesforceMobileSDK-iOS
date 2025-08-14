@@ -26,8 +26,7 @@
 #import "SFSoupIndex.h"
 #import "SFQuerySpec.h"
 #import <SalesforceSDKCommon/SFJsonUtils.h>
-#import "FMDatabaseQueue.h"
-#import "FMDatabase.h"
+@import FMDB;
 #import "SFSmartStoreTestCase.h"
 
 @interface SFSmartStoreLoadTests : SFSmartStoreTestCase

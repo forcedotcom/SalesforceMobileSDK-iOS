@@ -25,9 +25,7 @@
 #import "SFSmartStoreTests.h"
 #import <SalesforceSDKCommon/SalesforceSDKCommon-Swift.h>
 #import <SalesforceSDKCommon/SFJsonUtils.h>
-#import "FMDatabase.h"
-#import "FMDatabaseAdditions.h"
-#import "FMDatabaseQueue.h"
+@import FMDB;
 #import "SFQuerySpec.h"
 #import "SFStoreCursor.h"
 #import "SFSmartStoreDatabaseManager.h"
@@ -36,7 +34,7 @@
 #import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 #import <SalesforceSDKCore/NSString+SFAdditions.h>
 #import <SalesforceSDKCore/NSData+SFAdditions.h>
-#import "sqlite3.h"
+@import SQLCipher;
 
 #define kTestSmartStoreName  @"testSmartStore"
 #define kTestSoupName        @"testSoup"
@@ -106,19 +104,19 @@
 - (void) testSqliteVersion
 {
     NSString* version = [NSString stringWithUTF8String:sqlite3_libversion()];
-    XCTAssertEqualObjects(version, @"3.49.2");
+    XCTAssertEqualObjects(version, @"3.50.4");
 }
 
 - (void) testSqlCipherVersion
 {
     NSString* version = [self.store getSQLCipherVersion];
-    XCTAssertEqualObjects(version, @"4.9.0 community");
+    XCTAssertEqualObjects(version, @"4.10.0 community");
 }
 
 - (void) testCipherProviderVersion
 {
     NSString* cipherProviderVersion = [self.store getCipherProviderVersion];
-    XCTAssertEqualObjects(cipherProviderVersion, @"unknown");
+    XCTAssertEqualObjects(cipherProviderVersion, @"");
 }
 
 - (void) testCipherFIPSStatus

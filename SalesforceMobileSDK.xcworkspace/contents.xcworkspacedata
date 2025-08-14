@@ -51,24 +51,6 @@
    </Group>
    <Group
       location = "container:"
-      name = "External">
-   </Group>
-   <Group
-      location = "group:external/ThirdPartyDependencies"
-      name = "ThirdPartyDependencies">
-      <Group
-         location = "group:sqlcipher"
-         name = "sqlcipher">
-         <FileRef
-            location = "group:SQLCipher.xcframework">
-         </FileRef>
-         <FileRef
-            location = "group:LICENSE">
-         </FileRef>
-      </Group>
-   </Group>
-   <Group
-      location = "container:"
       name = "shared">
       <Group
          location = "group:shared/resources"
