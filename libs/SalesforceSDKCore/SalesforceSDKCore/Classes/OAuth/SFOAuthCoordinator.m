@@ -348,6 +348,12 @@
     return _view;
 }
 
+- (SFOAuthInfo *)authInfo {
+    if (_authInfo == nil) {
+        _authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeUnknown];
+    }
+    return _authInfo;
+}
 
 #pragma mark - Private Methods
 
@@ -359,7 +365,7 @@
            [self.delegate oauthCoordinator:self didFailWithError:error authInfo:info];
         });
     }
-    self.authInfo = nil;
+    _authInfo = nil;
     [self clearFrontDoorBridgeLoginOverride];
 }
 
@@ -369,7 +375,7 @@
     if ([self.delegate respondsToSelector:@selector(oauthCoordinatorDidAuthenticate:authInfo:)]) {
         [self.delegate oauthCoordinatorDidAuthenticate:self authInfo:authInfo];
     }
-    self.authInfo = nil;
+    _authInfo = nil;
     [self clearFrontDoorBridgeLoginOverride];
 }
 
