@@ -21,9 +21,10 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		4F00C2BF2E4FE5320096DBD6 /* SQLCipher in Frameworks */ = {isa = PBXBuildFile; productRef = 4F00C2BE2E4FE5320096DBD6 /* SQLCipher */; };
+		4F00C2C12E4FE5380096DBD6 /* FMDB in Frameworks */ = {isa = PBXBuildFile; productRef = 4F00C2C02E4FE5380096DBD6 /* FMDB */; };
 		4F05414E2E4E8F540064F92B /* FMDB in Frameworks */ = {isa = PBXBuildFile; productRef = 4F05414D2E4E8F540064F92B /* FMDB */; };
 		4F0541622E4E998A0064F92B /* SQLCipher in Frameworks */ = {isa = PBXBuildFile; productRef = 4F0541612E4E998A0064F92B /* SQLCipher */; };
-		4F0541642E4E99B20064F92B /* FMDB in Frameworks */ = {isa = PBXBuildFile; productRef = 4F0541632E4E99B20064F92B /* FMDB */; };
 		4F06AF0D1C499EB600F70798 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F06AF0C1C499EB600F70798 /* main.m */; };
 		4F06AF101C499EB600F70798 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F06AF0F1C499EB600F70798 /* AppDelegate.m */; };
 		4F06AF131C499EB600F70798 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F06AF121C499EB600F70798 /* ViewController.m */; };
@@ -32,7 +33,6 @@
 		4F06AF1B1C499EB600F70798 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F06AF191C499EB600F70798 /* LaunchScreen.storyboard */; };
 		4F06AFF01C49D53D00F70798 /* SmartStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2B91C0E4581009F6029 /* SmartStore.framework */; };
 		4F06AFF11C49D53D00F70798 /* SmartStore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2B91C0E4581009F6029 /* SmartStore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		4F5B92802E4E635700A71495 /* SQLCipher in Frameworks */ = {isa = PBXBuildFile; productRef = 4F5B927F2E4E635700A71495 /* SQLCipher */; };
 		4F5BBB9D23592EBB00E6D619 /* SmartStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F5BBB9C23592EBB00E6D619 /* SmartStore.swift */; };
 		4F5BBBB4235E1FD900E6D619 /* SmartStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F5BBBB3235E1FD900E6D619 /* SmartStoreTests.swift */; };
 		4F75745222B9A96900528BE2 /* SFSmartSqlCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F75745122B9A96900528BE2 /* SFSmartSqlCache.h */; };
@@ -325,7 +325,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4F5B92802E4E635700A71495 /* SQLCipher in Frameworks */,
 				B716A3D7218F6AD6009D407F /* SalesforceAnalytics.framework in Frameworks */,
 				B716A3D8218F6AD6009D407F /* SalesforceSDKCommon.framework in Frameworks */,
 				B716A3D9218F6AD6009D407F /* SalesforceSDKCore.framework in Frameworks */,
@@ -346,12 +345,13 @@
 				CEAAAE58195911E600CBBFE9 /* Foundation.framework in Frameworks */,
 				CE1F0B0419ACF95B0007F22F /* ImageIO.framework in Frameworks */,
 				CE1F0B0519ACF95B0007F22F /* CFNetwork.framework in Frameworks */,
+				4F00C2BF2E4FE5320096DBD6 /* SQLCipher in Frameworks */,
 				CE1F0B0619ACF95B0007F22F /* CoreData.framework in Frameworks */,
 				CE1F0B0719ACF95B0007F22F /* CoreGraphics.framework in Frameworks */,
 				CE1F0B0819ACF95B0007F22F /* MessageUI.framework in Frameworks */,
+				4F00C2C12E4FE5380096DBD6 /* FMDB in Frameworks */,
 				CE1F0B0A19ACF95B0007F22F /* QuartzCore.framework in Frameworks */,
 				CE1F0B0B19ACF95B0007F22F /* Security.framework in Frameworks */,
-				4F0541642E4E99B20064F92B /* FMDB in Frameworks */,
 				CE1F0B0C19ACF95B0007F22F /* SystemConfiguration.framework in Frameworks */,
 				CE1F0B0D19ACF95B0007F22F /* UIKit.framework in Frameworks */,
 			);
@@ -1072,8 +1072,6 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				LIBRARY_SEARCH_PATHS = "";
-				"LIBRARY_SEARCH_PATHS[arch=*]" = "";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SmartStore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1116,7 +1114,6 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				LIBRARY_SEARCH_PATHS = "";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SmartStore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1386,40 +1383,27 @@
 				version = 4.10.0;
 			};
 		};
-		4F5B92742E4E601300A71495 /* XCRemoteSwiftPackageReference "SQLCipher" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/sqlcipher/SQLCipher.swift";
-			requirement = {
-				kind = exactVersion;
-				version = 4.10.0;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		4F00C2BE2E4FE5320096DBD6 /* SQLCipher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4F0541602E4E998A0064F92B /* XCRemoteSwiftPackageReference "SQLCipher" */;
+			productName = SQLCipher;
+		};
+		4F00C2C02E4FE5380096DBD6 /* FMDB */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4F05415D2E4E997D0064F92B /* XCRemoteSwiftPackageReference "fmdb" */;
+			productName = FMDB;
+		};
 		4F05414D2E4E8F540064F92B /* FMDB */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 4F05414C2E4E8F540064F92B /* XCRemoteSwiftPackageReference "fmdb" */;
 			productName = FMDB;
 		};
-		4F05415E2E4E997D0064F92B /* FMDB */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 4F05415D2E4E997D0064F92B /* XCRemoteSwiftPackageReference "fmdb" */;
-			productName = FMDB;
-		};
 		4F0541612E4E998A0064F92B /* SQLCipher */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 4F0541602E4E998A0064F92B /* XCRemoteSwiftPackageReference "SQLCipher" */;
-			productName = SQLCipher;
-		};
-		4F0541632E4E99B20064F92B /* FMDB */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 4F05415D2E4E997D0064F92B /* XCRemoteSwiftPackageReference "fmdb" */;
-			productName = FMDB;
-		};
-		4F5B927F2E4E635700A71495 /* SQLCipher */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 4F5B92742E4E601300A71495 /* XCRemoteSwiftPackageReference "SQLCipher" */;
 			productName = SQLCipher;
 		};
 /* End XCSwiftPackageProductDependency section */
