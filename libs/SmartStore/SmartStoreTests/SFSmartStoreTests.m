@@ -116,7 +116,7 @@
 - (void) testCipherProviderVersion
 {
     NSString* cipherProviderVersion = [self.store getCipherProviderVersion];
-    XCTAssertEqualObjects(cipherProviderVersion, @"");
+    XCTAssertEqualObjects(cipherProviderVersion, @"61439.122.1");
 }
 
 - (void) testCipherFIPSStatus
