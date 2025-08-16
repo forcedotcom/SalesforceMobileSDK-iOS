@@ -21,10 +21,6 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		4F00C2BF2E4FE5320096DBD6 /* SQLCipher in Frameworks */ = {isa = PBXBuildFile; productRef = 4F00C2BE2E4FE5320096DBD6 /* SQLCipher */; };
-		4F00C2C12E4FE5380096DBD6 /* FMDB in Frameworks */ = {isa = PBXBuildFile; productRef = 4F00C2C02E4FE5380096DBD6 /* FMDB */; };
-		4F05414E2E4E8F540064F92B /* FMDB in Frameworks */ = {isa = PBXBuildFile; productRef = 4F05414D2E4E8F540064F92B /* FMDB */; };
-		4F0541622E4E998A0064F92B /* SQLCipher in Frameworks */ = {isa = PBXBuildFile; productRef = 4F0541612E4E998A0064F92B /* SQLCipher */; };
 		4F06AF0D1C499EB600F70798 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F06AF0C1C499EB600F70798 /* main.m */; };
 		4F06AF101C499EB600F70798 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F06AF0F1C499EB600F70798 /* AppDelegate.m */; };
 		4F06AF131C499EB600F70798 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F06AF121C499EB600F70798 /* ViewController.m */; };
@@ -44,6 +40,8 @@
 		4FAB7D791F8D888400226249 /* userstore.json in Resources */ = {isa = PBXBuildFile; fileRef = 4FAB7D781F8D888400226249 /* userstore.json */; };
 		4FAB7D7E1F8D88C100226249 /* globalstore.json in Resources */ = {isa = PBXBuildFile; fileRef = 4FAB7D7D1F8D88C100226249 /* globalstore.json */; };
 		4FAB7D811F8D8C3C00226249 /* SFSDKStoreConfigTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FAB7D801F8D8C3C00226249 /* SFSDKStoreConfigTests.m */; };
+		4FC72E702E500C9300A8AA8D /* FMDB in Frameworks */ = {isa = PBXBuildFile; productRef = 4FC72E6F2E500C9300A8AA8D /* FMDB */; };
+		4FC72E722E500CAD00A8AA8D /* FMDB in Frameworks */ = {isa = PBXBuildFile; productRef = 4FC72E712E500CAD00A8AA8D /* FMDB */; };
 		4FEE44861BFD5CD200F09C43 /* SFSmartStoreAlterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F9601561BFD33B30022F021 /* SFSmartStoreAlterTests.m */; };
 		4FEE44871BFD5CD500F09C43 /* SFSmartStoreFullTextSearchSpeedTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F9601581BFD33B30022F021 /* SFSmartStoreFullTextSearchSpeedTests.m */; };
 		4FEE44881BFD5CD900F09C43 /* SFSmartStoreFullTextSearchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96015A1BFD33B30022F021 /* SFSmartStoreFullTextSearchTests.m */; };
@@ -274,8 +272,6 @@
 		4FF4DC661CF51D9300385C2C /* SFQuerySpecTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFQuerySpecTests.m; sourceTree = "<group>"; };
 		4FFEE6341BFE98B600B7AA8A /* SmartStoreTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "SmartStoreTests-Info.plist"; path = "SmartStoreTests/SmartStoreTests-Info.plist"; sourceTree = SOURCE_ROOT; };
 		696E91232AD0975B00205884 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		69B2B322261D2C9B00AB86C2 /* SQLCipher.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = SQLCipher.xcframework; path = ../../external/ThirdPartyDependencies/sqlcipher/SQLCipher.xcframework; sourceTree = "<group>"; };
-		828917AC1C52DB6B002F9981 /* libsqlcipher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlcipher.a; path = ../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a; sourceTree = "<group>"; };
 		829DA2A91C1266F70040F5F1 /* SmartStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmartStore.h; sourceTree = "<group>"; };
 		82D0AB331C497FD90081F833 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B716A3A9218F6AAC009D407F /* SalesforceAnalytics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceAnalytics.xcodeproj; path = ../SalesforceAnalytics/SalesforceAnalytics.xcodeproj; sourceTree = "<group>"; };
@@ -326,10 +322,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				B716A3D7218F6AD6009D407F /* SalesforceAnalytics.framework in Frameworks */,
+				4FC72E702E500C9300A8AA8D /* FMDB in Frameworks */,
 				B716A3D8218F6AD6009D407F /* SalesforceSDKCommon.framework in Frameworks */,
 				B716A3D9218F6AD6009D407F /* SalesforceSDKCore.framework in Frameworks */,
-				4F05414E2E4E8F540064F92B /* FMDB in Frameworks */,
-				4F0541622E4E998A0064F92B /* SQLCipher in Frameworks */,
 				CE4CE5851C0FB648009F6029 /* libz.tbd in Frameworks */,
 				CE4CE48D1C0E5F6D009F6029 /* Foundation.framework in Frameworks */,
 			);
@@ -345,13 +340,12 @@
 				CEAAAE58195911E600CBBFE9 /* Foundation.framework in Frameworks */,
 				CE1F0B0419ACF95B0007F22F /* ImageIO.framework in Frameworks */,
 				CE1F0B0519ACF95B0007F22F /* CFNetwork.framework in Frameworks */,
-				4F00C2BF2E4FE5320096DBD6 /* SQLCipher in Frameworks */,
 				CE1F0B0619ACF95B0007F22F /* CoreData.framework in Frameworks */,
 				CE1F0B0719ACF95B0007F22F /* CoreGraphics.framework in Frameworks */,
 				CE1F0B0819ACF95B0007F22F /* MessageUI.framework in Frameworks */,
-				4F00C2C12E4FE5380096DBD6 /* FMDB in Frameworks */,
 				CE1F0B0A19ACF95B0007F22F /* QuartzCore.framework in Frameworks */,
 				CE1F0B0B19ACF95B0007F22F /* Security.framework in Frameworks */,
+				4FC72E722E500CAD00A8AA8D /* FMDB in Frameworks */,
 				CE1F0B0C19ACF95B0007F22F /* SystemConfiguration.framework in Frameworks */,
 				CE1F0B0D19ACF95B0007F22F /* UIKit.framework in Frameworks */,
 			);
@@ -473,9 +467,7 @@
 				F238E04125B9201F0036E9DB /* CoreServices.framework */,
 				B716A3C5218F6ABA009D407F /* SalesforceSDKCore.xcodeproj */,
 				B716A3B9218F6AB3009D407F /* SalesforceSDKCommon.xcodeproj */,
-				69B2B322261D2C9B00AB86C2 /* SQLCipher.xcframework */,
 				B716A3A9218F6AAC009D407F /* SalesforceAnalytics.xcodeproj */,
-				828917AC1C52DB6B002F9981 /* libsqlcipher.a */,
 				CE0AB0771C10D3B500BFAEED /* libxml2.tbd */,
 				CE4CE5841C0FB648009F6029 /* libz.tbd */,
 				CE1F0AFA19ACF95B0007F22F /* ImageIO.framework */,
@@ -713,8 +705,7 @@
 			);
 			mainGroup = CEAAAE3C195911E600CBBFE9;
 			packageReferences = (
-				4F05415D2E4E997D0064F92B /* XCRemoteSwiftPackageReference "fmdb" */,
-				4F0541602E4E998A0064F92B /* XCRemoteSwiftPackageReference "SQLCipher" */,
+				4FC72E662E500C7100A8AA8D /* XCRemoteSwiftPackageReference "fmdb" */,
 			);
 			productRefGroup = CEAAAE46195911E600CBBFE9 /* Products */;
 			projectDirPath = "";
@@ -1359,52 +1350,26 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		4F05414C2E4E8F540064F92B /* XCRemoteSwiftPackageReference "fmdb" */ = {
+		4FC72E662E500C7100A8AA8D /* XCRemoteSwiftPackageReference "fmdb" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ccgus/fmdb";
+			repositoryURL = "https://github.com/wmathurin/fmdb";
 			requirement = {
-				kind = exactVersion;
-				version = 2.7.12;
-			};
-		};
-		4F05415D2E4E997D0064F92B /* XCRemoteSwiftPackageReference "fmdb" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ccgus/fmdb";
-			requirement = {
-				kind = exactVersion;
-				version = 2.7.12;
-			};
-		};
-		4F0541602E4E998A0064F92B /* XCRemoteSwiftPackageReference "SQLCipher" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/sqlcipher/SQLCipher.swift";
-			requirement = {
-				kind = exactVersion;
-				version = 4.10.0;
+				branch = spm_with_sqlcipher;
+				kind = branch;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		4F00C2BE2E4FE5320096DBD6 /* SQLCipher */ = {
+		4FC72E6F2E500C9300A8AA8D /* FMDB */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 4F0541602E4E998A0064F92B /* XCRemoteSwiftPackageReference "SQLCipher" */;
-			productName = SQLCipher;
-		};
-		4F00C2C02E4FE5380096DBD6 /* FMDB */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 4F05415D2E4E997D0064F92B /* XCRemoteSwiftPackageReference "fmdb" */;
+			package = 4FC72E662E500C7100A8AA8D /* XCRemoteSwiftPackageReference "fmdb" */;
 			productName = FMDB;
 		};
-		4F05414D2E4E8F540064F92B /* FMDB */ = {
+		4FC72E712E500CAD00A8AA8D /* FMDB */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 4F05414C2E4E8F540064F92B /* XCRemoteSwiftPackageReference "fmdb" */;
+			package = 4FC72E662E500C7100A8AA8D /* XCRemoteSwiftPackageReference "fmdb" */;
 			productName = FMDB;
-		};
-		4F0541612E4E998A0064F92B /* SQLCipher */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 4F0541602E4E998A0064F92B /* XCRemoteSwiftPackageReference "SQLCipher" */;
-			productName = SQLCipher;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
