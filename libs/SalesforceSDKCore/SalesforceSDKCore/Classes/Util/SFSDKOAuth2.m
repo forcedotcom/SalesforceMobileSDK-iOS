@@ -253,11 +253,11 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
 
 /* Handle a 'token' endpoint (e.g. refresh, advanced auth) response.
  Example response:
- { "id":"https://login.salesforce.com/id/00DD0000000FH54SBH/005D0000001GZXmIAO",
+ { "id":"https://login.salesforce.com/id/org-id/user-id",
  "issued_at":"1309481030001",
  "instance_url":"https://na1.salesforce.com",
- "signature":"YEguoQhgIvJ3apLALB93vRsq/pUxwG2klsyHp9zX9Wg=",
- "access_token":"00DD0000000FH84!AQwAQKS7WDhWO9k6YrhbiWBZiDAZC5RzN2dpleOKGKf5dFsatyAN8kck7mtrNvxRGIgN.wE.Z0ZN_No7h6HNqrq828nL6E2J" }
+ "signature":"signature-hash",
+ "access_token":"access-token-value" }
  
  Example error response:
  { "error":"invalid_grant","error_description":"authentication failure - Invalid Password" }
