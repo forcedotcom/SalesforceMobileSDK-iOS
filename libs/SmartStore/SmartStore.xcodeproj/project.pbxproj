@@ -42,6 +42,7 @@
 		4FAB7D811F8D8C3C00226249 /* SFSDKStoreConfigTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FAB7D801F8D8C3C00226249 /* SFSDKStoreConfigTests.m */; };
 		4FC72E702E500C9300A8AA8D /* FMDB in Frameworks */ = {isa = PBXBuildFile; productRef = 4FC72E6F2E500C9300A8AA8D /* FMDB */; };
 		4FC72E722E500CAD00A8AA8D /* FMDB in Frameworks */ = {isa = PBXBuildFile; productRef = 4FC72E712E500CAD00A8AA8D /* FMDB */; };
+		4FE34A4E2E5527A0000D6367 /* SQLCipher in Frameworks */ = {isa = PBXBuildFile; productRef = 4FE34A4D2E5527A0000D6367 /* SQLCipher */; };
 		4FEE44861BFD5CD200F09C43 /* SFSmartStoreAlterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F9601561BFD33B30022F021 /* SFSmartStoreAlterTests.m */; };
 		4FEE44871BFD5CD500F09C43 /* SFSmartStoreFullTextSearchSpeedTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F9601581BFD33B30022F021 /* SFSmartStoreFullTextSearchSpeedTests.m */; };
 		4FEE44881BFD5CD900F09C43 /* SFSmartStoreFullTextSearchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96015A1BFD33B30022F021 /* SFSmartStoreFullTextSearchTests.m */; };
@@ -327,6 +328,7 @@
 				B716A3D9218F6AD6009D407F /* SalesforceSDKCore.framework in Frameworks */,
 				CE4CE5851C0FB648009F6029 /* libz.tbd in Frameworks */,
 				CE4CE48D1C0E5F6D009F6029 /* Foundation.framework in Frameworks */,
+				4FE34A4E2E5527A0000D6367 /* SQLCipher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -706,6 +708,7 @@
 			mainGroup = CEAAAE3C195911E600CBBFE9;
 			packageReferences = (
 				4FC72E662E500C7100A8AA8D /* XCRemoteSwiftPackageReference "fmdb" */,
+				4FE34A4C2E5527A0000D6367 /* XCRemoteSwiftPackageReference "SQLCipher" */,
 			);
 			productRefGroup = CEAAAE46195911E600CBBFE9 /* Products */;
 			projectDirPath = "";
@@ -1352,10 +1355,18 @@
 /* Begin XCRemoteSwiftPackageReference section */
 		4FC72E662E500C7100A8AA8D /* XCRemoteSwiftPackageReference "fmdb" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/wmathurin/fmdb";
+			repositoryURL = "https://github.com/forcedotcom/fmdb";
 			requirement = {
-				branch = spm_with_sqlcipher;
+				branch = spm;
 				kind = branch;
+			};
+		};
+		4FE34A4C2E5527A0000D6367 /* XCRemoteSwiftPackageReference "SQLCipher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sqlcipher/SQLCipher.swift";
+			requirement = {
+				kind = exactVersion;
+				version = 4.10.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -1370,6 +1381,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 4FC72E662E500C7100A8AA8D /* XCRemoteSwiftPackageReference "fmdb" */;
 			productName = FMDB;
+		};
+		4FE34A4D2E5527A0000D6367 /* SQLCipher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4FE34A4C2E5527A0000D6367 /* XCRemoteSwiftPackageReference "SQLCipher" */;
+			productName = SQLCipher;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
