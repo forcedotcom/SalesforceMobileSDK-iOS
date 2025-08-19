@@ -23,8 +23,7 @@
  */
 
 #import "SFAlterSoupLongOperation.h"
-#import "FMDatabase.h"
-#import "FMDatabaseQueue.h"
+@import FMDB;
 #import "SFSmartStore+Internal.h"
 #import "SFSoupIndex.h"
 #import <SalesforceSDKCommon/SFJsonUtils.h>

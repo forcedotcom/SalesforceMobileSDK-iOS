@@ -24,10 +24,8 @@
 
 //required for UIApplicationProtectedDataDidBecomeAvailable
 #import <UIKit/UIKit.h>
-#import "sqlite3.h"
-#import "FMDatabase.h"
-#import "FMDatabaseAdditions.h"
-#import "FMDatabaseQueue.h"
+@import SQLCipher;
+@import FMDB;
 #import "SFSmartStore+Internal.h"
 #import "SFSmartStoreUtils.h"
 #import "SFSmartSqlHelper.h"

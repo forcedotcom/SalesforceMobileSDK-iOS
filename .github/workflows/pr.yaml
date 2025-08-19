@@ -6,7 +6,7 @@ on:
 
 jobs:
   static-analysis:
-    runs-on: macos-15
+    runs-on: macos-16
     env:
       BUNDLE_GEMFILE: ${{ github.workspace }}/.github/DangerFiles/Gemfile
     steps:
@@ -55,7 +55,7 @@ jobs:
         run: bundle exec danger --dangerfile=.github/DangerFiles/StaticAnalysis.rb --danger_id=StaticAnalysis
 
   test-orchestrator:
-    runs-on: macos-15
+    runs-on: macos-16
     env:
       BUNDLE_GEMFILE: ${{ github.workspace }}/.github/DangerFiles/Gemfile
     outputs:

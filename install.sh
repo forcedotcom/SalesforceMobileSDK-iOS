@@ -40,27 +40,6 @@ then
     exit 4
 fi
 
-# Sync submodules
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-cd "$SCRIPT_DIR"
-git submodule init
-git submodule sync
-git submodule update --init --recursive
-
-# Remove the old Xcode templates, if they still exist.
-hybrid_template_dir="${HOME}/Library/Developer/Xcode/Templates/Project Templates/Application/Hybrid Force.com App.xctemplate"
-native_template_dir="${HOME}/Library/Developer/Xcode/Templates/Project Templates/Application/Native Force.com REST App.xctemplate"
-if [[ -d "${hybrid_template_dir}" ]]
-then
-    echo 'Removing old hybrid template from Xcode.'
-    rm -rf "${hybrid_template_dir}"
-fi
-if [[ -d "${native_template_dir}" ]]
-then
-    echo 'Removing old native template from Xcode.'
-    rm -rf "${native_template_dir}"
-fi
-
 # Create test_credentials.json if needed to avoid build errors
 if [ ! -f "shared/test/test_credentials.json" ]
 then

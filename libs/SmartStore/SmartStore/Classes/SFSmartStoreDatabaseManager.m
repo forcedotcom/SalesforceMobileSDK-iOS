@@ -33,11 +33,9 @@
 #import <SalesforceSDKCore/SFUserAccount.h>
 #import <SalesforceSDKCore/SFDirectoryManager.h>
 #import <SalesforceSDKCommon/SFPathUtil.h>
-#import <sqlite3.h>
 #import "SFSmartStoreUtils.h"
-#import "FMDatabase.h"
-#import "FMDatabaseQueue.h"
-#import "FMResultSet.h"
+@import FMDB;
+@import SQLCipher;
 
 static NSMutableDictionary *sDatabaseManagers;
 
