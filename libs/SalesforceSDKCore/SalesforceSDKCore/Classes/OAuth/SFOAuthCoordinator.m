@@ -851,9 +851,13 @@
                                            myDomain:discoveryResult.myDomain];
         decisionHandler(WKNavigationActionPolicyCancel);
     } else if ([self isRedirectURL:requestUrl]) {
-        // Determine if presence of override parameters require the user agent flow.
-        BOOL overrideWithUserAgentFlow = self.frontdoorBridgeLoginOverride.frontdoorBridgeUrl && !self.frontdoorBridgeLoginOverride.codeVerifier;
-        if ( [[SalesforceSDKManager sharedManager] useWebServerAuthentication] && !overrideWithUserAgentFlow) {
+        // First, choose user agent or web server authentication from Salesforce SDK's properties.
+        BOOL isUsingWebServerAuthentication = [[SalesforceSDKManager sharedManager] useWebServerAuthentication];
+        // Second, switch authentication based on the in-use Salesforce Identity API UI Bridge front-door URL and code verifier.
+        if (self.frontdoorBridgeLoginOverride.frontdoorBridgeUrl) {
+            isUsingWebServerAuthentication = self.frontdoorBridgeLoginOverride.codeVerifier;
+        }
+        if (isUsingWebServerAuthentication) {
             [self handleWebServerResponse:url]; // Web server flow/URLs with query string parameters.
         } else {
             [self handleUserAgentResponse:url]; // User agent flow/URLs with the fragment component.
