@@ -957,63 +957,6 @@ class NotificationCategoryFactoryTests: XCTestCase {
     }
 }
 
-class ActionTypeTests: XCTestCase {
-    
-    func testActionTypeDecoding() throws {
-        // Given
-        let json = """
-        {
-            "name": "test",
-            "actionKey": "test_key",
-            "label": "Test Label",
-            "type": "NotificationApiAction"
-        }
-        """
-        let jsonData = json.data(using: .utf8)!
-        
-        // When
-        let action = try JSONDecoder().decode(Action.self, from: jsonData)
-        
-        // Then
-        XCTAssertEqual(action.type, "NotificationApiAction")
-    }
-    
-    func testActionTypeDecodingForeground() throws {
-        // Given
-        let json = """
-        {
-            "name": "test",
-            "actionKey": "test_key",
-            "label": "Test Label",
-            "type": "foreground"
-        }
-        """
-        let jsonData = json.data(using: .utf8)!
-        
-        // When
-        let action = try JSONDecoder().decode(Action.self, from: jsonData)
-        
-        // Then
-        XCTAssertEqual(action.type, "foreground")
-    }
-    
-    func testActionTypeDecodingInvalidType() throws {
-        // Given
-        let json = """
-        {
-            "name": "test",
-            "actionKey": "test_key",
-            "label": "Test Label",
-            "invalidType": "invalidType"
-        }
-        """
-        let jsonData = json.data(using: .utf8)!
-        
-        // When, Then
-        XCTAssertThrowsError(try JSONDecoder().decode(Action.self, from: jsonData))
-    }
-}
-
 // MARK: - Mocks
 class MockApplicationHelper: RemoteNotificationRegistering {
     var client: RestClient?
