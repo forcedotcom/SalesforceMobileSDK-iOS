@@ -136,8 +136,9 @@ internal extension PushNotificationManager {
         }
     }
     
-    func storeNotification(types: [NotificationType], with account: UserAccount) {
+    func storeNotification(types: [NotificationType], with account: UserAccount) throws {
         account.notificationTypes = types
+        try UserAccountManager.shared.upsert(account)
     }
     
     func setNotificationCategories(types: [NotificationType]) {

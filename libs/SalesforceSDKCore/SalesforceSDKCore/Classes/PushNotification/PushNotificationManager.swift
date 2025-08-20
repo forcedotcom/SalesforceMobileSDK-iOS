@@ -364,7 +364,7 @@ public class PushNotificationManager: NSObject {
         
         do {
             let types = try await fetchNotificationTypesFromAPI(with: restClient)
-            storeNotification(types: types, with: account)
+            try storeNotification(types: types, with: account)
             setNotificationCategories(types: types)
         } catch {
             SFSDKCoreLogger.d(PushNotificationManager.self, message: "API fetch failed: \(error.localizedDescription). Trying cache...")
