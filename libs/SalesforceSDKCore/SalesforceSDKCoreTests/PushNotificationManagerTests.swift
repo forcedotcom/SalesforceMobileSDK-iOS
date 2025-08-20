@@ -538,10 +538,19 @@ class PushNotificationManagerTests: XCTestCase {
         // When
         try await pushNotificationManager.fetchAndStoreNotificationTypes(restClient: mockRestClient)
         
+        // ** Archive and unarchive the user account to test NSSecureCoding **//
+        let data = try NSKeyedArchiver.archivedData(withRootObject: mockUserAccount!, requiringSecureCoding: true)
+        let unarchivedAccount = try NSKeyedUnarchiver.unarchivedObject(ofClass: UserAccount.self, from: data)
+  
         // Then
         XCTAssertNotNil(mockUserAccount.notificationTypes)
         XCTAssertEqual(mockUserAccount.notificationTypes?.count, 11)
         
+       
+        // ** Assert notificationTypes are preserved ** //
+        XCTAssertNotNil(unarchivedAccount?.notificationTypes)
+        XCTAssertEqual(unarchivedAccount?.notificationTypes?.count, mockUserAccount.notificationTypes?.count)
+        XCTAssertEqual(unarchivedAccount?.notificationTypes?.first?.apiName, mockUserAccount.notificationTypes?.first?.apiName)
     }
     
     func testFetchAndStoreNotificationTypes_NoAccount() async {
