@@ -55,6 +55,7 @@
 		23EDDF022DE0F9EF0024AD39 /* URLRequest+RestRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EDDF012DE0F9EF0024AD39 /* URLRequest+RestRequestTests.swift */; };
 		23EED88A2E2ACD3300646B10 /* SFOAuthCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EED8892E2ACD3300646B10 /* SFOAuthCoordinatorTests.swift */; };
 		23EED8912E2ACF3900646B10 /* MockNavigationAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EED8902E2ACF3100646B10 /* MockNavigationAction.swift */; };
+		23F200AC2E551C890091C5F5 /* ActionTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F200AB2E551C890091C5F5 /* ActionTypeTests.swift */; };
 		444B95D01E83251900908C61 /* UIColor+SFColorsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 444B95CF1E83251900908C61 /* UIColor+SFColorsTests.m */; };
 		4F06AF731C49A16A00F70798 /* NSURL+SFStringUtilsTests.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F06AF5D1C49A16A00F70798 /* NSURL+SFStringUtilsTests.h */; };
 		4F06AF751C49A16A00F70798 /* SalesforceOAuthUnitTests.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F06AF5F1C49A16A00F70798 /* SalesforceOAuthUnitTests.h */; };
@@ -573,6 +574,7 @@
 		23EDDF012DE0F9EF0024AD39 /* URLRequest+RestRequestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "URLRequest+RestRequestTests.swift"; path = "SalesforceSDKCoreTests/URLRequest+RestRequestTests.swift"; sourceTree = SOURCE_ROOT; };
 		23EED8892E2ACD3300646B10 /* SFOAuthCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SFOAuthCoordinatorTests.swift; path = SalesforceSDKCoreTests/SFOAuthCoordinatorTests.swift; sourceTree = SOURCE_ROOT; };
 		23EED8902E2ACF3100646B10 /* MockNavigationAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNavigationAction.swift; sourceTree = "<group>"; };
+		23F200AB2E551C890091C5F5 /* ActionTypeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ActionTypeTests.swift; path = SalesforceSDKCoreTests/ActionTypeTests.swift; sourceTree = SOURCE_ROOT; };
 		444B95CF1E83251900908C61 /* UIColor+SFColorsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+SFColorsTests.m"; path = "SalesforceSDKCoreTests/UIColor+SFColorsTests.m"; sourceTree = SOURCE_ROOT; };
 		4F06AF5D1C49A16A00F70798 /* NSURL+SFStringUtilsTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSURL+SFStringUtilsTests.h"; path = "SalesforceSDKCoreTests/NSURL+SFStringUtilsTests.h"; sourceTree = SOURCE_ROOT; };
 		4F06AF5E1C49A16A00F70798 /* NSURL+SFStringUtilsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSURL+SFStringUtilsTests.m"; path = "SalesforceSDKCoreTests/NSURL+SFStringUtilsTests.m"; sourceTree = SOURCE_ROOT; };
@@ -1038,6 +1040,7 @@
 		4F7EB3F61BFFC84700768720 /* SalesforceSDKCoreTests */ = {
 			isa = PBXGroup;
 			children = (
+				23F200AB2E551C890091C5F5 /* ActionTypeTests.swift */,
 				23EED8892E2ACD3300646B10 /* SFOAuthCoordinatorTests.swift */,
 				23D96B752E145B400004B06A /* DomainDiscoveryCoordinatorTests.swift */,
 				237C18722E450B710008015C /* DecryptStreamTests.swift */,
@@ -2233,6 +2236,7 @@
 				69DFE06C2B969C25000906E4 /* PushNotificationDecryptionTests.swift in Sources */,
 				4F7EB4161BFFC8D700768720 /* SDKCommonNSDataTests.m in Sources */,
 				CE81A9C81E9C26F900F3D0AD /* SFUserAccountManagerNotificationsTests.m in Sources */,
+				23F200AC2E551C890091C5F5 /* ActionTypeTests.swift in Sources */,
 				4F7EB4171BFFC8D700768720 /* SFEncryptionKeyTests.m in Sources */,
 				69848CBD2364063E00893E57 /* SFSDKPushNotificationDataProvider.m in Sources */,
 				23A4C7492D0CAFCF00DF55EB /* NativeLoginManagerTests.swift in Sources */,

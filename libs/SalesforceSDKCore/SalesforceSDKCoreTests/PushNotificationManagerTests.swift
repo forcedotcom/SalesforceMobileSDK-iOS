@@ -538,10 +538,19 @@ class PushNotificationManagerTests: XCTestCase {
         // When
         try await pushNotificationManager.fetchAndStoreNotificationTypes(restClient: mockRestClient)
         
+        // ** Archive and unarchive the user account to test NSSecureCoding **//
+        let data = try NSKeyedArchiver.archivedData(withRootObject: mockUserAccount!, requiringSecureCoding: true)
+        let unarchivedAccount = try NSKeyedUnarchiver.unarchivedObject(ofClass: UserAccount.self, from: data)
+  
         // Then
         XCTAssertNotNil(mockUserAccount.notificationTypes)
         XCTAssertEqual(mockUserAccount.notificationTypes?.count, 11)
         
+       
+        // ** Assert notificationTypes are preserved ** //
+        XCTAssertNotNil(unarchivedAccount?.notificationTypes)
+        XCTAssertEqual(unarchivedAccount?.notificationTypes?.count, mockUserAccount.notificationTypes?.count)
+        XCTAssertEqual(unarchivedAccount?.notificationTypes?.first?.apiName, mockUserAccount.notificationTypes?.first?.apiName)
     }
     
     func testFetchAndStoreNotificationTypes_NoAccount() async {
@@ -954,63 +963,6 @@ class NotificationCategoryFactoryTests: XCTestCase {
         }
         XCTAssertTrue(options.contains(.foreground))
         XCTAssertFalse(options.contains(.authenticationRequired))
-    }
-}
-
-class ActionTypeTests: XCTestCase {
-    
-    func testActionTypeDecoding() throws {
-        // Given
-        let json = """
-        {
-            "name": "test",
-            "actionKey": "test_key",
-            "label": "Test Label",
-            "type": "NotificationApiAction"
-        }
-        """
-        let jsonData = json.data(using: .utf8)!
-        
-        // When
-        let action = try JSONDecoder().decode(Action.self, from: jsonData)
-        
-        // Then
-        XCTAssertEqual(action.type, "NotificationApiAction")
-    }
-    
-    func testActionTypeDecodingForeground() throws {
-        // Given
-        let json = """
-        {
-            "name": "test",
-            "actionKey": "test_key",
-            "label": "Test Label",
-            "type": "foreground"
-        }
-        """
-        let jsonData = json.data(using: .utf8)!
-        
-        // When
-        let action = try JSONDecoder().decode(Action.self, from: jsonData)
-        
-        // Then
-        XCTAssertEqual(action.type, "foreground")
-    }
-    
-    func testActionTypeDecodingInvalidType() throws {
-        // Given
-        let json = """
-        {
-            "name": "test",
-            "actionKey": "test_key",
-            "label": "Test Label",
-            "invalidType": "invalidType"
-        }
-        """
-        let jsonData = json.data(using: .utf8)!
-        
-        // When, Then
-        XCTAssertThrowsError(try JSONDecoder().decode(Action.self, from: jsonData))
     }
 }
 

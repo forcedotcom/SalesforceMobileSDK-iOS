@@ -12,7 +12,8 @@ public class NotificationTypesResponse: NSObject, Codable {
 
 @objc(SFSDKNotificationType)
 @objcMembers
-public class NotificationType: NSObject, Codable {
+public class NotificationType: NSObject, Codable, NSSecureCoding {
+    public static var supportsSecureCoding: Bool { true }
     public let type: String
     public let apiName: String
     public let label: String
@@ -23,6 +24,24 @@ public class NotificationType: NSObject, Codable {
         self.apiName = apiName
         self.label = label
         self.actionGroups = actionGroups
+    }
+    
+    // Required by NSSecureCoding (Objective-C protocol)
+    public required convenience init?(coder aDecoder: NSCoder) {
+        guard let type = aDecoder.decodeObject(of: NSString.self, forKey: "type") as String?,
+              let apiName = aDecoder.decodeObject(of: NSString.self, forKey: "apiName") as String?,
+              let label = aDecoder.decodeObject(of: NSString.self, forKey: "label") as String? else {
+            return nil
+        }
+        let actionGroups = aDecoder.decodeObject(of: [NSArray.self, ActionGroup.self], forKey: "actionGroups") as? [ActionGroup]
+        self.init(type: type, apiName: apiName, label: label, actionGroups: actionGroups)
+    }
+
+    public func encode(with aCoder: NSCoder) {
+        aCoder.encode(type, forKey: "type")
+        aCoder.encode(apiName, forKey: "apiName")
+        aCoder.encode(label, forKey: "label")
+        aCoder.encode(actionGroups, forKey: "actionGroups")
     }
     
     /** Creates a new NotificationType with only the specified actions
@@ -54,19 +73,35 @@ public class NotificationType: NSObject, Codable {
 
 @objc(SFSDKActionGroup)
 @objcMembers
-public class ActionGroup: NSObject, Codable {
+public class ActionGroup: NSObject, Codable, NSSecureCoding {
     public let name: String
     public let actions: [Action]
-    
+    public static var supportsSecureCoding: Bool { true }
+
     public init(name: String, actions: [Action]) {
         self.name = name
         self.actions = actions
+    }
+    
+    // Required by NSSecureCoding (Objective-C protocol)
+    public required convenience init?(coder aDecoder: NSCoder) {
+        guard let name = aDecoder.decodeObject(of: NSString.self, forKey: "name") as String?,
+              let actions = aDecoder.decodeObject(of: [NSArray.self, Action.self], forKey: "actions") as? [Action] else {
+            return nil
+        }
+        self.init(name: name, actions: actions)
+    }
+
+    public func encode(with aCoder: NSCoder) {
+        aCoder.encode(name, forKey: "name")
+        aCoder.encode(actions, forKey: "actions")
     }
 }
 
 @objc(SFSDKAction)
 @objcMembers
-public class Action: NSObject, Codable {
+public class Action: NSObject, Codable, NSSecureCoding {
+    public static var supportsSecureCoding: Bool { true }
     public let name: String
     public let identifier: String
     public let label: String
@@ -82,6 +117,24 @@ public class Action: NSObject, Codable {
         self.identifier = identifier
         self.label = label
         self.type = type
+    }
+    
+    // Required by NSSecureCoding (Objective-C protocol)
+    public required convenience init?(coder aDecoder: NSCoder) {
+        guard let name = aDecoder.decodeObject(of: NSString.self, forKey: "name") as String?,
+              let identifier = aDecoder.decodeObject(of: NSString.self, forKey: "identifier") as String?,
+              let label = aDecoder.decodeObject(of: NSString.self, forKey: "label") as String?,
+              let type = aDecoder.decodeObject(of: NSString.self, forKey: "type") as String? else {
+            return nil
+        }
+        self.init(name: name, identifier: identifier, label: label, type: type)
+    }
+
+    public func encode(with aCoder: NSCoder) {
+        aCoder.encode(name, forKey: "name")
+        aCoder.encode(identifier, forKey: "identifier")
+        aCoder.encode(label, forKey: "label")
+        aCoder.encode(type, forKey: "type")
     }
 }
 
