@@ -33,8 +33,11 @@ public class AuthCoordinatorFrontdoorBridgeLoginOverride: NSObject {
     /// For Salesforce Identity UI Bridge API support, the optional web server flow code verifier accompanying the front door bridge URL.  This can only be used with `overrideWithfrontDoorBridgeUrl`.
     @objc public var codeVerifier: String?
     
-    /// For Salesforce Identity UI Bridge API support, indicates if overriding front door bridge URL has a consumer key value that matches the app config, which is also known as the boot config.
+    /// For Salesforce Identity UI Bridge API support, indicates if the overriding front door bridge URL has a consumer key value that matches the app config, which is also known as the boot config.
     @objc public var matchesConsumerKey: Bool = false
+    
+    /// For Salesforce Identity UI Bridge API support, indicates if the overriding front door bridge URL has a host that matches the app's selected login host.
+    @objc public var matchesLoginHost: Bool = false
     
     @objc public init(frontdoorBridgeUrl: URL, codeVerifier: String?) {
         super.init()
@@ -69,10 +72,13 @@ public class AuthCoordinatorFrontdoorBridgeLoginOverride: NSObject {
         }
         self.matchesConsumerKey = frontdoorBridgeUrlClientId == appConsumerKey
         
-        // Only set the properties if the consumer key matches
-        if self.matchesConsumerKey {
+        // Check if the front door URL host matches the app's selected login host
+        self.matchesLoginHost = frontdoorBridgeUrl.host() == UserAccountManager.shared.loginHost
+        
+        // Only set the properties if the front door URL host and the start URL consumer key matche the app's current values.
+        if self.matchesLoginHost && self.matchesConsumerKey {
             self.codeVerifier = codeVerifier
             self.frontdoorBridgeUrl = frontdoorBridgeUrl
         }
     }
-} 
+}
