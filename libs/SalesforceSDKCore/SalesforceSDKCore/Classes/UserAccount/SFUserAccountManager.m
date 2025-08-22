@@ -931,7 +931,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
                                                       alertControllerWithTitle:errorTitle
                                                       message:errorMessage
                                                       preferredStyle:UIAlertControllerStyleAlert];
-                [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
+                [alertController addAction:[UIAlertAction actionWithTitle:[SFSDKResourceUtils localizedString:@"OK"] style:UIAlertActionStyleDefault handler:nil]];
                 [loginViewController
                  presentViewController:alertController
                  animated:true
