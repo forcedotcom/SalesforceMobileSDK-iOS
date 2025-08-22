@@ -920,10 +920,10 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
             NSString *errorTitle = nil;
             NSString *errorMessage = nil;
             if (!coordinator.frontdoorBridgeLoginOverride.matchesConsumerKey) {
-                errorTitle = @"Error";
+                errorTitle = [SFSDKResourceUtils localizedString:@"Error"];
                 errorMessage = [SFSDKResourceUtils localizedString:@"authAlertFrontdoorLoginUrlConsumerKeyMismatch"];
             } else if (!coordinator.frontdoorBridgeLoginOverride.matchesLoginHost) {
-                errorTitle = @"Error";
+                errorTitle = [SFSDKResourceUtils localizedString:@"Error"];
                 errorMessage = [SFSDKResourceUtils localizedString:@"authAlertFrontdoorLoginUrlLoginHostMismatch"];
             }
             if (errorTitle && errorMessage) {
