@@ -23,7 +23,6 @@
  */
 
 #import "SFOAuthTestFlowCoordinatorDelegate.h"
-#import "SFOAuthInfo.h"
 
 static NSString * const kWebNotSupportedExceptionName = @"com.salesforce.oauth.tests.WebNotSupported";
 static NSString * const kWebNotSupportedReasonFormat  = @"%@ WKWebView transactions not supported in unit test framework.";

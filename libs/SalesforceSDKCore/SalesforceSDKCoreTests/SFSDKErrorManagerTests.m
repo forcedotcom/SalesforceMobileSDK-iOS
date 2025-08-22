@@ -23,7 +23,6 @@
  */
 #import <XCTest/XCTest.h>
 #import "SFSDKAuthErrorManager.h"
-#import "SFOAuthInfo.h"
 #import "SFOAuthCoordinator+Internal.h"
 #import "SFUserAccountManager+Internal.h"
 #import "SFOAuthCredentials+Internal.h"
