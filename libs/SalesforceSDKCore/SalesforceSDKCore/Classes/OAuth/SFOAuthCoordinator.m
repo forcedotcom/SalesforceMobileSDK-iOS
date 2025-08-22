@@ -851,9 +851,12 @@
                                            myDomain:discoveryResult.myDomain];
         decisionHandler(WKNavigationActionPolicyCancel);
     } else if ([self isRedirectURL:requestUrl]) {
-        // Determine if presence of override parameters require the user agent flow.
-        BOOL overrideWithUserAgentFlow = self.frontdoorBridgeLoginOverride.frontdoorBridgeUrl && !self.frontdoorBridgeLoginOverride.codeVerifier;
-        if ( [[SalesforceSDKManager sharedManager] useWebServerAuthentication] && !overrideWithUserAgentFlow) {
+        // If a front door bridge URL override is present, use its code verifier to choose between user agent or web server authentication.
+        if (self.frontdoorBridgeLoginOverride.frontdoorBridgeUrl // Check if an override is provided
+            ? self.frontdoorBridgeLoginOverride.codeVerifier != nil // If yes, only proceed if it's a web server flow as indicated by a code verifier.
+            : [[SalesforceSDKManager sharedManager] useWebServerAuthentication] // If there's no override use the default SDK setting.
+            )
+        {
             [self handleWebServerResponse:url]; // Web server flow/URLs with query string parameters.
         } else {
             [self handleUserAgentResponse:url]; // User agent flow/URLs with the fragment component.
