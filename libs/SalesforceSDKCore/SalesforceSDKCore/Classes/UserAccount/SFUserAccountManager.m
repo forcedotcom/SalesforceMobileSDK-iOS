@@ -916,16 +916,27 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     void (^authViewDisplayBlock)(void) = ^{
         
         self.authViewHandler.authViewDisplayBlock(viewHolder);
-        if (coordinator.frontdoorBridgeLoginOverride && !coordinator.frontdoorBridgeLoginOverride.matchesConsumerKey) {
-            UIAlertController* alertController = [UIAlertController
-                                                  alertControllerWithTitle:@"Error"
-                                                  message:[SFSDKResourceUtils localizedString:@"authAlertFrontdoorLoginUrlConsumerKeyMismatch"]
-                                                  preferredStyle:UIAlertControllerStyleAlert];
-            [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
-            [loginViewController
-             presentViewController:alertController
-             animated:true
-             completion:nil];
+        if (coordinator.frontdoorBridgeLoginOverride) {
+            NSString *errorTitle = nil;
+            NSString *errorMessage = nil;
+            if (!coordinator.frontdoorBridgeLoginOverride.matchesConsumerKey) {
+                errorTitle = [SFSDKResourceUtils localizedString:@"Error"];
+                errorMessage = [SFSDKResourceUtils localizedString:@"authAlertFrontdoorLoginUrlConsumerKeyMismatch"];
+            } else if (!coordinator.frontdoorBridgeLoginOverride.matchesLoginHost) {
+                errorTitle = [SFSDKResourceUtils localizedString:@"Error"];
+                errorMessage = [SFSDKResourceUtils localizedString:@"authAlertFrontdoorLoginUrlLoginHostMismatch"];
+            }
+            if (errorTitle && errorMessage) {
+                UIAlertController* alertController = [UIAlertController
+                                                      alertControllerWithTitle:errorTitle
+                                                      message:errorMessage
+                                                      preferredStyle:UIAlertControllerStyleAlert];
+                [alertController addAction:[UIAlertAction actionWithTitle:[SFSDKResourceUtils localizedString:@"OK"] style:UIAlertActionStyleDefault handler:nil]];
+                [loginViewController
+                 presentViewController:alertController
+                 animated:true
+                 completion:nil];
+            }
         }
     };
     
