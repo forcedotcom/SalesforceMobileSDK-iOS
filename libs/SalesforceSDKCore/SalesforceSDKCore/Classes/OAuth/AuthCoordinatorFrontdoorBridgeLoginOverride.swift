@@ -75,7 +75,7 @@ public class AuthCoordinatorFrontdoorBridgeLoginOverride: NSObject {
         // Check if the front door URL host matches the app's selected login host
         self.matchesLoginHost = frontdoorBridgeUrl.host() == UserAccountManager.shared.loginHost
         
-        // Only set the properties if the front door URL host and the start URL consumer key matche the app's current values.
+        // Only set the properties if the front door URL host and the start URL consumer key match the app's current values.
         if self.matchesLoginHost && self.matchesConsumerKey {
             self.codeVerifier = codeVerifier
             self.frontdoorBridgeUrl = frontdoorBridgeUrl
