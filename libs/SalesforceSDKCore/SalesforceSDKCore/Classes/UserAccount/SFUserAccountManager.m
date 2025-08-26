@@ -397,7 +397,15 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 }
 
 - (BOOL)loginWithCompletion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
-    BOOL result = NO;
+    __block BOOL result = NO;
+    if (![NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            result = [self loginWithCompletion:completionBlock failure:failureBlock];
+        });
+        
+        return  result;
+    }
+    
     for (UIScene *scene in [SFApplicationHelper sharedApplication].connectedScenes) {
         result |= [self loginWithCompletion:completionBlock failure:failureBlock scene:scene];
     }
@@ -1219,7 +1227,11 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 
 #pragma mark Account management
 - (NSArray *)allUserAccounts {
-    return [self.userAccountMap allValues];
+    NSArray *accounts = nil;
+    [_accountsLock lock];
+    accounts = [self.userAccountMap allValues];
+    [_accountsLock unlock];
+    return accounts;
 }
 
 - (NSArray *)allUserIdentities {
