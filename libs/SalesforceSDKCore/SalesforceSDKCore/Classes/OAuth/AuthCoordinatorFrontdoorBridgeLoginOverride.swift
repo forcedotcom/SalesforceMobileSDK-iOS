@@ -73,12 +73,79 @@ public class AuthCoordinatorFrontdoorBridgeLoginOverride: NSObject {
         self.matchesConsumerKey = frontdoorBridgeUrlClientId == appConsumerKey
         
         // Check if the front door URL host matches the app's selected login host
-        self.matchesLoginHost = frontdoorBridgeUrl.host() == UserAccountManager.shared.loginHost
+        var appLoginHost = appLoginHostForFrontdoorBridgeUrl(frontdoorBridgeUrl)
+        if (appLoginHost == nil && addingAndSwitchingLoginHostsAllowed) {
+            appLoginHost = addAppLoginHostForFrontdoorBridgeUrl(frontdoorBridgeUrl)
+        }
+        if let appLoginHost = appLoginHost {
+            self.matchesLoginHost = true
+            UserAccountManager.shared.loginHost = appLoginHost
+        }
         
         // Only set the properties if the front door URL host and the start URL consumer key match the app's current values.
         if self.matchesLoginHost && self.matchesConsumerKey {
             self.codeVerifier = codeVerifier
             self.frontdoorBridgeUrl = frontdoorBridgeUrl
         }
+    }
+    
+    private var addingAndSwitchingLoginHostsAllowed: Bool {
+        !SFManagedPreferences.shared().onlyShowAuthorizedHosts && SFManagedPreferences.shared().loginHosts.count == 0
+    }
+    
+    private var loginHostStorage: SFSDKLoginHostStorage {
+        SFSDKLoginHostStorage.sharedInstance()
+    }
+    
+    private func addAppLoginHostForFrontdoorBridgeUrl(_ frontdoorBridgeUrl: URL) -> String? {
+        guard let frontdoorBridgeUrlHost = frontdoorBridgeUrl.host() else {
+            return nil
+        }
+        
+        loginHostStorage.add(SalesforceLoginHost(
+            name: frontdoorBridgeUrlHost,
+            host: frontdoorBridgeUrl.absoluteString,
+            deletable: true))
+        return frontdoorBridgeUrlHost
+    }
+    
+    private func appLoginHostForFrontdoorBridgeUrl(_ frontdoorBridgeUrl: URL) -> String? {
+        guard let frontdoorBridgeUrlHost = frontdoorBridgeUrl.host() else {
+            return nil
+        }
+        
+        let frontdoorBridgeUrlIsMyDomain = frontdoorBridgeUrlHost.contains(".my.")
+        
+        var eligibleAppLoginHosts : [String] = []
+        if (addingAndSwitchingLoginHostsAllowed) {
+            for i in 0..<loginHostStorage.numberOfLoginHosts() {
+                eligibleAppLoginHosts.append(loginHostStorage.loginHost(at: i).host)
+            }
+        }
+        else {
+            eligibleAppLoginHosts = [UserAccountManager.shared.loginHost]
+        }
+        
+        if (frontdoorBridgeUrlIsMyDomain) {
+            guard let startIndex = frontdoorBridgeUrlHost.range(of: ".my.")?.upperBound else { return nil }
+            let frontdoorBridgeUrlMyDomainSuffix = frontdoorBridgeUrlHost.suffix(from: startIndex)
+            
+            for eligibleAppLoginHost in eligibleAppLoginHosts {
+                if (eligibleAppLoginHost.hasSuffix(frontdoorBridgeUrlMyDomainSuffix)) {
+                    return eligibleAppLoginHost
+                }
+            }
+        }
+        
+        else {
+            
+            for eligibleAppLoginHost in eligibleAppLoginHosts {
+                if (frontdoorBridgeUrlHost == eligibleAppLoginHost) {
+                    return eligibleAppLoginHost
+                }
+            }
+        }
+        
+        return nil
     }
 }
