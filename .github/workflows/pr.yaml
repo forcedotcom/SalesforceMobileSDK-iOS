@@ -103,13 +103,14 @@ jobs:
       matrix:
         lib: ${{ fromJson(needs.test-orchestrator.outputs.libs) }}
         macos: [macos-15]
-        include:
-          # iOS 18 on Xcode 16
-          - ios: ^18
-            xcode: ^16
-          # iOS 26 on Xcode 26
-          - ios: ^26
-            xcode: ^26
+        ios: [^18, ^26]
+        xcode: [^16, ^26]
+        # Valid combinations that will run:
+        # - iOS ^18 + Xcode ^16
+        # - iOS ^26 + Xcode ^26
+        exclude:
+          - { ios: ^18, xcode: ^26 }
+          - { ios: ^26, xcode: ^16 }
     uses: ./.github/workflows/reusable-workflow.yaml
     with:
       lib: ${{ matrix.lib }}
