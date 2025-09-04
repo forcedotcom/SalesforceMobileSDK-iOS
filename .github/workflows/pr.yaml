@@ -102,8 +102,19 @@ jobs:
       fail-fast: false
       matrix:
         lib: ${{ fromJson(needs.test-orchestrator.outputs.libs) }}
+        macos: [macos-15]
+        include:
+          # iOS 18 on Xcode 16
+          - ios: ^18
+            xcode: ^16
+          # iOS 26 on Xcode 26
+          - ios: ^26
+            xcode: ^26
     uses: ./.github/workflows/reusable-workflow.yaml
     with:
       lib: ${{ matrix.lib }}
+      ios: ${{ matrix.ios }}
+      xcode: ${{ matrix.xcode }}
+      macos: ${{ matrix.macos }}
       is_pr: true
     secrets: inherit

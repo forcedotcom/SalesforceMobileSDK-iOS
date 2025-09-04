@@ -12,11 +12,18 @@ jobs:
       fail-fast: false
       matrix:
         lib: [SalesforceSDKCommon, SalesforceAnalytics, SalesforceSDKCore, SmartStore, MobileSync]
-        ios: [^18, ^17]
         macos: [macos-15]
         include:
+          # iOS 26 on Xcode 26 (will fail until both versions become available)
+          - ios: ^26
+            xcode: ^26
+          # iOS 18 on Xcode 26 (will fail until Xcode 26 becomes available)
+          - ios: ^18
+            xcode: ^26
+          # iOS 18 on Xcode 16
           - ios: ^18
             xcode: ^16
+          # iOS 17 (latest) on Xcode 15 (latest)
           - ios: ^17
             xcode: ^15
     uses: ./.github/workflows/reusable-workflow.yaml
