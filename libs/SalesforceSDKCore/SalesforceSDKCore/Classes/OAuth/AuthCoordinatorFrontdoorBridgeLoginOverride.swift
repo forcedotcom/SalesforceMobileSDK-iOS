@@ -75,7 +75,7 @@ public class AuthCoordinatorFrontdoorBridgeLoginOverride: NSObject {
         // Check if the front door URL host matches the app's selected login host
         var appLoginHost = appLoginHostForFrontdoorBridgeUrl(frontdoorBridgeUrl)
         if (appLoginHost == nil && addingAndSwitchingLoginHostsAllowed) {
-            appLoginHost = addAppLoginHostForFrontdoorBridgeUrl(frontdoorBridgeUrl)
+            appLoginHost = frontdoorBridgeUrl.host()
         }
         if let appLoginHost = appLoginHost {
             self.matchesLoginHost = true
@@ -95,18 +95,6 @@ public class AuthCoordinatorFrontdoorBridgeLoginOverride: NSObject {
     
     private var loginHostStorage: SFSDKLoginHostStorage {
         SFSDKLoginHostStorage.sharedInstance()
-    }
-    
-    private func addAppLoginHostForFrontdoorBridgeUrl(_ frontdoorBridgeUrl: URL) -> String? {
-        guard let frontdoorBridgeUrlHost = frontdoorBridgeUrl.host() else {
-            return nil
-        }
-        
-        loginHostStorage.add(SalesforceLoginHost(
-            name: frontdoorBridgeUrlHost,
-            host: frontdoorBridgeUrl.absoluteString,
-            deletable: true))
-        return frontdoorBridgeUrlHost
     }
     
     private func appLoginHostForFrontdoorBridgeUrl(_ frontdoorBridgeUrl: URL) -> String? {
