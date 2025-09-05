@@ -416,6 +416,7 @@
 		CED452EF1D808E0A009266EB /* SFNativeRestRequestListener.m in Sources */ = {isa = PBXBuildFile; fileRef = CED452EA1D808DEE009266EB /* SFNativeRestRequestListener.m */; };
 		CED452F01D808E0F009266EB /* SalesforceRestAPITests.m in Sources */ = {isa = PBXBuildFile; fileRef = CED452E81D808DEE009266EB /* SalesforceRestAPITests.m */; };
 		D36056492E6A4F1B00E3366B /* FrontdoorBridgeUrlAppLoginHostMatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = D36056482E6A4F1B00E3366B /* FrontdoorBridgeUrlAppLoginHostMatch.swift */; };
+		D37A60AD2E6A5CB2007404E7 /* FrontdoorBridgeUrlAppLoginHostMatchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D37A60AC2E6A5CB2007404E7 /* FrontdoorBridgeUrlAppLoginHostMatchTests.swift */; };
 		D3B1519F2E1DA6EB00914EF1 /* AuthCoordinatorFrontdoorBridgeLoginOverride.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3B1519E2E1DA6EB00914EF1 /* AuthCoordinatorFrontdoorBridgeLoginOverride.swift */; };
 		D3D675DB2D39EF01008E468E /* ChatGenerationsRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D675CF2D39EF01008E468E /* ChatGenerationsRequestBody.swift */; };
 		D3D675DC2D39EF01008E468E /* EmbeddingsRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D675D12D39EF01008E468E /* EmbeddingsRequestBody.swift */; };
@@ -958,6 +959,7 @@
 		CED452E91D808DEE009266EB /* SFNativeRestRequestListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFNativeRestRequestListener.h; path = SalesforceSDKCoreTests/SFNativeRestRequestListener.h; sourceTree = SOURCE_ROOT; };
 		CED452EA1D808DEE009266EB /* SFNativeRestRequestListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFNativeRestRequestListener.m; path = SalesforceSDKCoreTests/SFNativeRestRequestListener.m; sourceTree = SOURCE_ROOT; };
 		D36056482E6A4F1B00E3366B /* FrontdoorBridgeUrlAppLoginHostMatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrontdoorBridgeUrlAppLoginHostMatch.swift; sourceTree = "<group>"; };
+		D37A60AC2E6A5CB2007404E7 /* FrontdoorBridgeUrlAppLoginHostMatchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FrontdoorBridgeUrlAppLoginHostMatchTests.swift; path = SalesforceSDKCoreTests/FrontdoorBridgeUrlAppLoginHostMatchTests.swift; sourceTree = SOURCE_ROOT; };
 		D3B1519E2E1DA6EB00914EF1 /* AuthCoordinatorFrontdoorBridgeLoginOverride.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCoordinatorFrontdoorBridgeLoginOverride.swift; sourceTree = "<group>"; };
 		D3D675CF2D39EF01008E468E /* ChatGenerationsRequestBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatGenerationsRequestBody.swift; sourceTree = "<group>"; };
 		D3D675D02D39EF01008E468E /* ChatGenerationsResponseBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatGenerationsResponseBody.swift; sourceTree = "<group>"; };
@@ -1042,6 +1044,7 @@
 		4F7EB3F61BFFC84700768720 /* SalesforceSDKCoreTests */ = {
 			isa = PBXGroup;
 			children = (
+				D37A60AC2E6A5CB2007404E7 /* FrontdoorBridgeUrlAppLoginHostMatchTests.swift */,
 				23F200AB2E551C890091C5F5 /* ActionTypeTests.swift */,
 				23EED8892E2ACD3300646B10 /* SFOAuthCoordinatorTests.swift */,
 				23D96B752E145B400004B06A /* DomainDiscoveryCoordinatorTests.swift */,
@@ -2238,6 +2241,7 @@
 				B7A4AE4922E8CA780060E737 /* SFSDKAuthUtilTests.swift in Sources */,
 				69DFE06C2B969C25000906E4 /* PushNotificationDecryptionTests.swift in Sources */,
 				4F7EB4161BFFC8D700768720 /* SDKCommonNSDataTests.m in Sources */,
+				D37A60AD2E6A5CB2007404E7 /* FrontdoorBridgeUrlAppLoginHostMatchTests.swift in Sources */,
 				CE81A9C81E9C26F900F3D0AD /* SFUserAccountManagerNotificationsTests.m in Sources */,
 				23F200AC2E551C890091C5F5 /* ActionTypeTests.swift in Sources */,
 				4F7EB4171BFFC8D700768720 /* SFEncryptionKeyTests.m in Sources */,
