@@ -102,12 +102,13 @@ jobs:
       fail-fast: false
       matrix:
         lib: ${{ fromJson(needs.test-orchestrator.outputs.libs) }}
-        macos: [macos-15]
-        ios: [^18]
-        xcode: [^16, ^26]
-        # Valid combinations that will run:
-        # - iOS ^18 + Xcode ^16
-        # - iOS ^18 + Xcode ^26
+        include:
+          - macos: macos-15
+            ios: ^18
+            xcode: ^16
+          - macos: macos-15
+            ios: ^26
+            xcode: ^26
     uses: ./.github/workflows/reusable-workflow.yaml
     with:
       lib: ${{ matrix.lib }}
@@ -122,12 +123,13 @@ jobs:
       fail-fast: false
       matrix:
         app: [RestAPIExplorer, MobileSyncExplorer]
-        macos: [macos-15]
-        ios: [^18]
-        xcode: [^16, ^26]
-        # Valid combinations that will run:
-        # - iOS ^18 + Xcode ^16
-        # - iOS ^18 + Xcode ^26
+        include:
+          - macos: macos-15
+            ios: ^18
+            xcode: ^16
+          - macos: macos-15
+            ios: ^26
+            xcode: ^26
     uses: ./.github/workflows/reusable-workflow.yaml
     with:
       lib: ${{ matrix.app }}
