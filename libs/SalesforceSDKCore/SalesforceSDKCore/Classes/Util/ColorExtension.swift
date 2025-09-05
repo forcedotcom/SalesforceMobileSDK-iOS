@@ -27,6 +27,7 @@
 
 import SwiftUI
 
+/// Extension to provide convenience initializers for SwiftUI Colors with light/dark mode support
 public extension Color {
     init(lightStyle: Color, darkStyle: Color) {
         let uiColor = UIColor.sfsdk_color(forLightStyle: UIColor(lightStyle), darkStyle: UIColor(darkStyle))

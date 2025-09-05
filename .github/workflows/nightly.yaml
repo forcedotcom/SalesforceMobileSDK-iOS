@@ -12,13 +12,20 @@ jobs:
       fail-fast: false
       matrix:
         lib: [SalesforceSDKCommon, SalesforceAnalytics, SalesforceSDKCore, SmartStore, MobileSync]
-        ios: [^18, ^17]
         macos: [macos-15]
-        include:
-          - ios: ^18
-            xcode: ^16
-          - ios: ^17
-            xcode: ^15
+        ios: [^26, ^18, ^17]
+        xcode: [^26, ^16, ^15]
+        # Valid combinations that will run:
+        # - iOS ^26 + Xcode ^26
+        # - iOS ^18 + Xcode ^26
+        # - iOS ^18 + Xcode ^16
+        # - iOS ^17 + Xcode ^15
+        exclude:
+          - { ios: ^26, xcode: ^16 }
+          - { ios: ^26, xcode: ^15 }
+          - { ios: ^18, xcode: ^15 }
+          - { ios: ^17, xcode: ^26 }
+          - { ios: ^17, xcode: ^16 }
     uses: ./.github/workflows/reusable-workflow.yaml
     with:
       lib: ${{ matrix.lib }}
