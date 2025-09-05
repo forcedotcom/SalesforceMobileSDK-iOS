@@ -19,6 +19,9 @@ on:
       is_pr:
         type: boolean
         default: false
+      build_only:
+        type: boolean
+        default: false
 
 jobs:
   test-ios:
@@ -45,7 +48,8 @@ jobs:
           platform-version: ${{ inputs.ios }}
           workspace: SalesforceMobileSDK.xcworkspace
           scheme: ${{ inputs.lib }}
-          code-coverage: true
+          action: ${{ inputs.build_only && 'build' || 'test' }}
+          code-coverage: ${{ ! inputs.build_only }}
           verbosity: xcbeautify
       - uses: slidoapp/xcresulttool@v3.1.0
         with:
@@ -54,10 +58,10 @@ jobs:
           show-code-coverage: false
           upload-bundles: false
           show-passed-tests: false
-        if: success() || failure()
+        if: ${{ ! inputs.build_only && (success() || failure()) }}
       - uses: codecov/codecov-action@v4
         with:
           flags: ${{ inputs.lib }}
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-        if: success() || failure()
+        if: ${{ ! inputs.build_only && (success() || failure()) }}

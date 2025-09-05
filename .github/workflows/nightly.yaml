@@ -47,4 +47,5 @@ jobs:
       ios: ${{ matrix.ios }}
       xcode: ${{ matrix.xcode }}
       macos: ${{ matrix.macos }}
+      build_only: true
     secrets: inherit
