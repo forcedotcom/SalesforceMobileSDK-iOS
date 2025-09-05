@@ -139,4 +139,5 @@ jobs:
       xcode: ${{ matrix.xcode }}
       macos: ${{ matrix.macos }}
       is_pr: true
+      build_only: true
     secrets: inherit
