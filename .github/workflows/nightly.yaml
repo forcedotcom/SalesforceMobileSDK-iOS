@@ -13,17 +13,33 @@ jobs:
       matrix:
         lib: [SalesforceSDKCommon, SalesforceAnalytics, SalesforceSDKCore, SmartStore, MobileSync]
         macos: [macos-15]
-        ios: [^26, ^18]
+        ios: [^18]
         xcode: [^26, ^16]
         # Valid combinations that will run:
-        # - iOS ^26 + Xcode ^26
         # - iOS ^18 + Xcode ^26
         # - iOS ^18 + Xcode ^16
-        exclude:
-          - { ios: ^26, xcode: ^16 }
     uses: ./.github/workflows/reusable-workflow.yaml
     with:
       lib: ${{ matrix.lib }}
+      ios: ${{ matrix.ios }}
+      xcode: ${{ matrix.xcode }}
+      macos: ${{ matrix.macos }}
+    secrets: inherit
+
+  native-samples-nightly:
+    strategy:
+      fail-fast: false
+      matrix:
+        app: [RestAPIExplorer, MobileSyncExplorer]
+        macos: [macos-15]
+        ios: [^18]
+        xcode: [^26, ^16]
+        # Valid combinations that will run:
+        # - iOS ^18 + Xcode ^26
+        # - iOS ^18 + Xcode ^16
+    uses: ./.github/workflows/reusable-workflow.yaml
+    with:
+      lib: ${{ matrix.app }}
       ios: ${{ matrix.ios }}
       xcode: ${{ matrix.xcode }}
       macos: ${{ matrix.macos }}
