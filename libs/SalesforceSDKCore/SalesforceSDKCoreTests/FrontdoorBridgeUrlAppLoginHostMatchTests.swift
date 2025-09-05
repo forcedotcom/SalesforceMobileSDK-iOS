@@ -454,3 +454,4 @@ class FrontdoorBridgeUrlAppLoginHostMatchTests: XCTestCase {
         XCTAssertEqual(result1, "test.my.salesforce.com")
     }
 }
+

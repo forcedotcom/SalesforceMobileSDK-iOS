@@ -600,8 +600,11 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     // Only allow use of front door bridge URLs with matching consumer keys.
     if (frontDoorBridgeUrl != nil) {
         authSession.oauthCoordinator.frontdoorBridgeLoginOverride = [[SFSDKAuthCoordinatorFrontdoorBridgeLoginOverride alloc]
-                                                        initWithFrontdoorBridgeUrl:frontDoorBridgeUrl
-                                                        codeVerifier:codeVerifier];
+                                                                     initWithFrontdoorBridgeUrl:frontDoorBridgeUrl
+                                                                     codeVerifier:codeVerifier
+                                                                     selectedAppLoginHost: [[SFUserAccountManager sharedInstance] loginHost] /** Test only parameter - Remove on Swift migration **/
+                                                                     addingAndSwitchingLoginHostsPerMdm:YES /** Test only parameter - Remove on Swift migration **/
+                                                                     addingAndSwitchingLoginHostsOverride:YES /** Test only parameter - Remove on Swift migration **/ ];
         authSession.credentials.domain = frontDoorBridgeUrl.host;
     }
     authSession.oauthCoordinator.loginHint = loginHint;

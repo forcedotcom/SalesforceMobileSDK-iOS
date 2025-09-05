@@ -39,7 +39,13 @@ public class AuthCoordinatorFrontdoorBridgeLoginOverride: NSObject {
     /// For Salesforce Identity UI Bridge API support, indicates if the overriding front door bridge URL has a host that matches the app's selected login host.
     @objc public var matchesLoginHost: Bool = false
     
-    @objc public init(frontdoorBridgeUrl: URL, codeVerifier: String?) {
+    @objc public init(
+        frontdoorBridgeUrl: URL,
+        codeVerifier: String?,
+        selectedAppLoginHost: String = UserAccountManager.shared.loginHost,
+        addingAndSwitchingLoginHostsPerMdm: Bool = true,
+        addingAndSwitchingLoginHostsOverride: Bool = false
+    ) {
         super.init()
         
         guard let frontdoorBridgeUrlComponents = URLComponents(url: frontdoorBridgeUrl, resolvingAgainstBaseURL: true),
@@ -73,14 +79,18 @@ public class AuthCoordinatorFrontdoorBridgeLoginOverride: NSObject {
         self.matchesConsumerKey = frontdoorBridgeUrlClientId == appConsumerKey
         
         // Check if the front door URL host matches the app's selected login host
+        var addingAndSwitchingLoginHostsAllowedResolved = addingAndSwitchingLoginHostsAllowed
+        if (!addingAndSwitchingLoginHostsPerMdm) {
+            addingAndSwitchingLoginHostsAllowedResolved = addingAndSwitchingLoginHostsOverride
+        }
         var frontdoorBridgeUrlAppLoginHostMatch = FrontdoorBridgeUrlAppLoginHostMatch(
             frontdoorBridgeUrl: frontdoorBridgeUrl,
             loginHostStore: loginHostStore,
-            addingAndSwitchingLoginHostsAllowed: addingAndSwitchingLoginHostsAllowed,
-            selectedAppLoginHost: UserAccountManager.shared.loginHost
+            addingAndSwitchingLoginHostsAllowed: addingAndSwitchingLoginHostsAllowedResolved,
+            selectedAppLoginHost: selectedAppLoginHost
         )
         var appLoginHost = frontdoorBridgeUrlAppLoginHostMatch.appLoginHostMatch
-        if (appLoginHost == nil && addingAndSwitchingLoginHostsAllowed) {
+        if (appLoginHost == nil && addingAndSwitchingLoginHostsAllowedResolved) {
             appLoginHost = frontdoorBridgeUrl.host()
         }
         if let appLoginHost = appLoginHost {
