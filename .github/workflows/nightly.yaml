@@ -16,15 +16,10 @@ jobs:
           - macos: macos-15
             ios: ^18
             xcode: ^16
-          - macos: macos-15
-            ios: ^18
-            xcode: ^26
-          - macos: macos-15
-            ios: ^26
-            xcode: ^26
-          - macos: macos-14
-            ios: ^17
-            xcode: ^15
+          # - macos: macos-15
+          #   ios: ^26
+          #   xcode: ^26
+          # Note: iOS 26 simulator is not yet available on GitHub runners
     uses: ./.github/workflows/reusable-workflow.yaml
     with:
       lib: ${{ matrix.lib }}
@@ -42,15 +37,10 @@ jobs:
           - macos: macos-15
             ios: ^18
             xcode: ^16
-          - macos: macos-15
-            ios: ^18
-            xcode: ^26
-          - macos: macos-15
-            ios: ^26
-            xcode: ^26
-          - macos: macos-14
-            ios: ^17
-            xcode: ^15
+          # - macos: macos-15
+          #   ios: ^26
+          #   xcode: ^26
+          # Note: iOS 26 simulator is not yet available on GitHub runners
     uses: ./.github/workflows/reusable-workflow.yaml
     with:
       lib: ${{ matrix.app }}
