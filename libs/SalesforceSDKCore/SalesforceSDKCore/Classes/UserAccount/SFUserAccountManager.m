@@ -602,6 +602,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         authSession.oauthCoordinator.frontdoorBridgeLoginOverride = [[SFSDKAuthCoordinatorFrontdoorBridgeLoginOverride alloc]
                                                         initWithFrontdoorBridgeUrl:frontDoorBridgeUrl
                                                         codeVerifier:codeVerifier];
+        authSession.credentials.domain = frontDoorBridgeUrl.host;
     }
     authSession.oauthCoordinator.loginHint = loginHint;
     NSString *sceneId = authSession.sceneId;
