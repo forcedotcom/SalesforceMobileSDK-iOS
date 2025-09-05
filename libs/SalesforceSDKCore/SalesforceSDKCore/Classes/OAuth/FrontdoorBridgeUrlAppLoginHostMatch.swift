@@ -51,15 +51,19 @@ public struct FrontdoorBridgeUrlAppLoginHostMatch {
             return nil
         }
         
-        let frontdoorBridgeUrlIsMyDomain = frontdoorBridgeUrlHost.contains(".my.")
-        
         let eligibleAppLoginHosts = eligibleAppLoginHostsForFrontdoorBridgeUrl(
             loginHostStore: loginHostStore,
             addingAndSwitchingLoginHostsAllowed: addingAndSwitchingLoginHostsAllowed,
             selectedAppLoginHost: selectedAppLoginHost
         )
         
-        if (frontdoorBridgeUrlIsMyDomain) {
+        for eligibleAppLoginHost in eligibleAppLoginHosts {
+            if (frontdoorBridgeUrlHost == eligibleAppLoginHost) {
+                return eligibleAppLoginHost
+            }
+        }
+        
+        if (frontdoorBridgeUrl.isMyDomain) {
             guard let startIndex = frontdoorBridgeUrlHost.range(of: ".my.")?.upperBound else { return nil }
             let frontdoorBridgeUrlMyDomainSuffix = frontdoorBridgeUrlHost.suffix(from: startIndex)
             if (frontdoorBridgeUrlMyDomainSuffix.isEmpty) {
@@ -68,14 +72,6 @@ public struct FrontdoorBridgeUrlAppLoginHostMatch {
             
             for eligibleAppLoginHost in eligibleAppLoginHosts {
                 if (eligibleAppLoginHost.hasSuffix(frontdoorBridgeUrlMyDomainSuffix)) {
-                    return eligibleAppLoginHost
-                }
-            }
-        }
-        
-        else {
-            for eligibleAppLoginHost in eligibleAppLoginHosts {
-                if (frontdoorBridgeUrlHost == eligibleAppLoginHost) {
                     return eligibleAppLoginHost
                 }
             }
@@ -100,5 +96,11 @@ public struct FrontdoorBridgeUrlAppLoginHostMatch {
         }
         
         return results
+    }
+}
+
+fileprivate extension URL {
+    var isMyDomain: Bool {
+        return host?.contains(".my.") ?? false
     }
 }
