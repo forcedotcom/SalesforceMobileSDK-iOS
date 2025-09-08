@@ -39,7 +39,13 @@ public class AuthCoordinatorFrontdoorBridgeLoginOverride: NSObject {
     /// For Salesforce Identity UI Bridge API support, indicates if the overriding front door bridge URL has a host that matches the app's selected login host.
     @objc public var matchesLoginHost: Bool = false
     
-    @objc public init(frontdoorBridgeUrl: URL, codeVerifier: String?) {
+    @objc public init(
+        frontdoorBridgeUrl: URL,
+        codeVerifier: String?,
+        selectedAppLoginHost: String = UserAccountManager.shared.loginHost,
+        addingAndSwitchingLoginHostsPerMdm: Bool = true,
+        addingAndSwitchingLoginHostsOverride: Bool = false
+    ) {
         super.init()
         
         guard let frontdoorBridgeUrlComponents = URLComponents(url: frontdoorBridgeUrl, resolvingAgainstBaseURL: true),
@@ -73,12 +79,37 @@ public class AuthCoordinatorFrontdoorBridgeLoginOverride: NSObject {
         self.matchesConsumerKey = frontdoorBridgeUrlClientId == appConsumerKey
         
         // Check if the front door URL host matches the app's selected login host
-        self.matchesLoginHost = frontdoorBridgeUrl.host() == UserAccountManager.shared.loginHost
+        var addingAndSwitchingLoginHostsAllowedResolved = addingAndSwitchingLoginHostsAllowed
+        if (!addingAndSwitchingLoginHostsPerMdm) {
+            addingAndSwitchingLoginHostsAllowedResolved = addingAndSwitchingLoginHostsOverride
+        }
+        var frontdoorBridgeUrlAppLoginHostMatch = FrontdoorBridgeUrlAppLoginHostMatch(
+            frontdoorBridgeUrl: frontdoorBridgeUrl,
+            loginHostStore: loginHostStore,
+            addingAndSwitchingLoginHostsAllowed: addingAndSwitchingLoginHostsAllowedResolved,
+            selectedAppLoginHost: selectedAppLoginHost
+        )
+        var appLoginHost = frontdoorBridgeUrlAppLoginHostMatch.appLoginHostMatch
+        if (appLoginHost == nil && addingAndSwitchingLoginHostsAllowedResolved) {
+            appLoginHost = frontdoorBridgeUrl.host()
+        }
+        if let appLoginHost = appLoginHost {
+            self.matchesLoginHost = true
+            UserAccountManager.shared.loginHost = appLoginHost
+        }
         
         // Only set the properties if the front door URL host and the start URL consumer key match the app's current values.
         if self.matchesLoginHost && self.matchesConsumerKey {
             self.codeVerifier = codeVerifier
             self.frontdoorBridgeUrl = frontdoorBridgeUrl
         }
+    }
+    
+    private var addingAndSwitchingLoginHostsAllowed: Bool {
+        !SFManagedPreferences.shared().onlyShowAuthorizedHosts && SFManagedPreferences.shared().loginHosts.count == 0
+    }
+    
+    private var loginHostStore: SFSDKLoginHostStoring {
+        SFSDKLoginHostStorage.sharedInstance()
     }
 }

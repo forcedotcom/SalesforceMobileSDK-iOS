@@ -178,7 +178,7 @@
                 [strongSelf notifyDelegateOfBeginAuthentication];
                 [strongSelf beginHeadlessNativeLoginFlow];
             });
-        } else if (self.useBrowserAuth) {
+        } else if (!self.frontdoorBridgeLoginOverride && self.useBrowserAuth) {
             [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSafariBrowserForLogin];
             dispatch_async(dispatch_get_main_queue(), ^{
                 __strong typeof(weakSelf) strongSelf = weakSelf;
@@ -187,12 +187,16 @@
                 [strongSelf beginNativeBrowserFlowWithSharedBrowserSessionEnabled:false];
             });
         } else {
+            NSString *loginDomain = self.credentials.domain;
+            if (self.frontdoorBridgeLoginOverride.frontdoorBridgeUrl) {
+                loginDomain = _frontdoorBridgeLoginOverride.frontdoorBridgeUrl.host;
+            }
             [SFSDKAuthConfigUtil getMyDomainAuthConfig:^(SFOAuthOrgAuthConfiguration *authConfig, NSError *error) {
                 __strong typeof(weakSelf) strongSelf = weakSelf;
                 dispatch_async(dispatch_get_main_queue(), ^{
                     // Ignore any errors why retrieving authconfig. Default to WKWebView
                     // Errors should have already been logged.
-                    if (authConfig.useNativeBrowserForAuth) {
+                    if (!self.frontdoorBridgeLoginOverride && authConfig.useNativeBrowserForAuth) {
                         [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSafariBrowserForLogin];
                         strongSelf.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeAdvancedBrowser];
                         [strongSelf notifyDelegateOfBeginAuthentication];
@@ -203,7 +207,7 @@
                         [strongSelf beginWebViewFlow];
                     }
                 });
-            } loginDomain:self.credentials.domain];
+            } loginDomain:loginDomain];
         }
     }
 }
