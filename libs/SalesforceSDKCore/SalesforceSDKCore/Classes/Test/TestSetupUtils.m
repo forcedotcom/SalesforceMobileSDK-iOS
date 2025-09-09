@@ -32,6 +32,7 @@
 #import "SFSDKTestCredentialsData.h"
 #import "SFOAuthCredentials+Internal.h"
 #import "SFSDKAppConfig.h"
+#import "NSString+SFAdditions.h"
 static SFOAuthCredentials *credentials = nil;
 
 @implementation TestSetupUtils
@@ -82,7 +83,10 @@ static SFOAuthCredentials *credentials = nil;
     [SFUserAccountManager sharedInstance].loginHost = credsData.loginHost;
     credentials = [self newClientCredentials];
     credentials.instanceUrl = [NSURL URLWithString:credsData.instanceUrl];
-    credentials.apiInstanceUrl = [NSURL URLWithString:credsData.apiInstanceUrl];
+    // apiInstanceUrl is only defined if the sfap_api scope is used
+    if (![NSString sfsdk_isEmpty:credsData.apiInstanceUrl]) {
+        credentials.apiInstanceUrl = [NSURL URLWithString:credsData.apiInstanceUrl];
+    }
     credentials.identityUrl = [NSURL URLWithString:credsData.identityUrl];
     NSString *communityUrlString = credsData.communityUrl;
     if (communityUrlString.length > 0) {

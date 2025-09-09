@@ -63,6 +63,10 @@ class BriefcaseSyncDownTests: SyncManagerTestCase {
         let records = try startFetch(target: target, syncManager: syncManager, maxTimestamp: timestamp)
         XCTAssert(records.isEmpty)
         
+        // Timestamp are rounded to the second so sleep so we need to sleep a bit
+        // before creating new accounts
+        Thread.sleep(forTimeInterval: 1.0)
+
         // Make records newer than timestamp
         let newAccounts = try XCTUnwrap(createRecords(onServer: numberAccounts, objectType: ACCOUNT_TYPE))
         XCTAssertEqual(Int(numberAccounts), newAccounts.count)
