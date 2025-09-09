@@ -137,10 +137,8 @@ public class PushNotificationManager: NSObject {
         notificationRegister.registerForRemoteNotifications()
     }
     
-    /**
-     * Call this method from your app delegate's didRegisterForRemoteNotificationsWithDeviceToken
-     * @param deviceTokenData The device token returned by APNS.
-     */
+    /// Call this method from your app delegate's didRegisterForRemoteNotificationsWithDeviceToken
+    /// - Parameter withDeviceToken: The device token returned by APNS.
     @objc(didRegisterForRemoteNotificationsWithDeviceToken:)
     public func didRegisterForRemoteNotifications(withDeviceToken: Data) {
         
