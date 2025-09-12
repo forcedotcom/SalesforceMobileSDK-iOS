@@ -922,9 +922,6 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
             if (!coordinator.frontdoorBridgeLoginOverride.matchesConsumerKey) {
                 errorTitle = [SFSDKResourceUtils localizedString:@"Error"];
                 errorMessage = [SFSDKResourceUtils localizedString:@"authAlertFrontdoorLoginUrlConsumerKeyMismatch"];
-            } else if (!coordinator.frontdoorBridgeLoginOverride.matchesLoginHost) {
-                errorTitle = [SFSDKResourceUtils localizedString:@"Error"];
-                errorMessage = [SFSDKResourceUtils localizedString:@"authAlertFrontdoorLoginUrlLoginHostMismatch"];
             }
             if (errorTitle && errorMessage) {
                 UIAlertController* alertController = [UIAlertController

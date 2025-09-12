@@ -36,9 +36,6 @@ public class AuthCoordinatorFrontdoorBridgeLoginOverride: NSObject {
     /// For Salesforce Identity UI Bridge API support, indicates if the overriding front door bridge URL has a consumer key value that matches the app config, which is also known as the boot config.
     @objc public var matchesConsumerKey: Bool = false
     
-    /// For Salesforce Identity UI Bridge API support, indicates if the overriding front door bridge URL has a host that matches the app's selected login host.
-    @objc public var matchesLoginHost: Bool = false
-    
     @objc public init(frontdoorBridgeUrl: URL, codeVerifier: String?) {
         super.init()
         
@@ -72,11 +69,8 @@ public class AuthCoordinatorFrontdoorBridgeLoginOverride: NSObject {
         }
         self.matchesConsumerKey = frontdoorBridgeUrlClientId == appConsumerKey
         
-        // Check if the front door URL host matches the app's selected login host
-        self.matchesLoginHost = frontdoorBridgeUrl.host() == UserAccountManager.shared.loginHost
-        
-        // Only set the properties if the front door URL host and the start URL consumer key match the app's current values.
-        if self.matchesLoginHost && self.matchesConsumerKey {
+        // Only set the properties if the front door start URL's consumer key matches the app's current value.
+        if self.matchesConsumerKey {
             self.codeVerifier = codeVerifier
             self.frontdoorBridgeUrl = frontdoorBridgeUrl
         }
