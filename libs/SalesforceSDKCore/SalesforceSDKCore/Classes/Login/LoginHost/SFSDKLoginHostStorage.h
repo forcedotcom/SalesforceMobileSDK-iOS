@@ -32,21 +32,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class SFSDKLoginHost;
 
-@protocol SFSDKLoginHostStoring <NSObject>
-
-@required
-- (SFSDKLoginHost *)loginHostAtIndex:(NSUInteger)index;
-
-@required
-- (NSUInteger)numberOfLoginHosts;
-
-@end
-
 /**
  * This class manages the list of login hosts as well its persistence.
  * Currently this list is persisted in the user defaults.
  */
-@interface SFSDKLoginHostStorage : NSObject<SFSDKLoginHostStoring>
+@interface SFSDKLoginHostStorage : NSObject
 
 /**
  * Returns the shared instance of this class.
