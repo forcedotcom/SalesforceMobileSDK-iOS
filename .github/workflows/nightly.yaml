@@ -12,20 +12,19 @@ jobs:
       fail-fast: false
       matrix:
         lib: [SalesforceSDKCommon, SalesforceAnalytics, SalesforceSDKCore, SmartStore, MobileSync]
+        ios: [^26, ^18, ^17]
         include:
-          - macos: macos-15
-            ios: ^18
+          - ios: ^26
+            xcode: ^26
+          - ios: ^18
             xcode: ^16
-          # - macos: macos-15
-          #   ios: ^26
-          #   xcode: ^26
-          # Note: iOS 26 simulator is not yet available on GitHub runners
+          - ios: ^17
+            xcode: ^16
     uses: ./.github/workflows/reusable-workflow.yaml
     with:
       lib: ${{ matrix.lib }}
       ios: ${{ matrix.ios }}
       xcode: ${{ matrix.xcode }}
-      macos: ${{ matrix.macos }}
     secrets: inherit
 
   native-samples-nightly:
@@ -33,19 +32,18 @@ jobs:
       fail-fast: false
       matrix:
         app: [RestAPIExplorer, MobileSyncExplorer]
+        ios: [^26, ^18, ^17]
         include:
-          - macos: macos-15
-            ios: ^18
+          - ios: ^26
+            xcode: ^26
+          - ios: ^18
             xcode: ^16
-          # - macos: macos-15
-          #   ios: ^26
-          #   xcode: ^26
-          # Note: iOS 26 simulator is not yet available on GitHub runners
+          - ios: ^17
+            xcode: ^16
     uses: ./.github/workflows/reusable-workflow.yaml
     with:
       lib: ${{ matrix.app }}
       ios: ${{ matrix.ios }}
       xcode: ${{ matrix.xcode }}
-      macos: ${{ matrix.macos }}
       build_only: true
     secrets: inherit
