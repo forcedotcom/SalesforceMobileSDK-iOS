@@ -53,7 +53,6 @@
 "authAlertVersionMismatchError" = "Your app has been updated, and you will need to log in again to continue using the app.";
 "authAlertBrowserFlowTitle" = "Log In";
 "authAlertFrontdoorLoginUrlConsumerKeyMismatch" = "Cannot use another app's login QR Code.  Please log in to this app.";
-"authAlertFrontdoorLoginUrlLoginHostMismatch" = "Cannot use another login host's login QR Code.  Please log in to this app.";
 
 // LoginViewController
 "TITLE_LOGIN" = "Log In";

@@ -600,12 +600,8 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     // Only allow use of front door bridge URLs with matching consumer keys.
     if (frontDoorBridgeUrl != nil) {
         authSession.oauthCoordinator.frontdoorBridgeLoginOverride = [[SFSDKAuthCoordinatorFrontdoorBridgeLoginOverride alloc]
-                                                                     initWithFrontdoorBridgeUrl:frontDoorBridgeUrl
-                                                                     codeVerifier:codeVerifier
-                                                                     selectedAppLoginHost: [[SFUserAccountManager sharedInstance] loginHost] /** Test only parameter - Remove on Swift migration **/
-                                                                     addingAndSwitchingLoginHostsPerMdm:YES /** Test only parameter - Remove on Swift migration **/
-                                                                     addingAndSwitchingLoginHostsOverride:YES /** Test only parameter - Remove on Swift migration **/ ];
-        authSession.credentials.domain = frontDoorBridgeUrl.host;
+                                                        initWithFrontdoorBridgeUrl:frontDoorBridgeUrl
+                                                        codeVerifier:codeVerifier];
     }
     authSession.oauthCoordinator.loginHint = loginHint;
     NSString *sceneId = authSession.sceneId;
@@ -926,9 +922,6 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
             if (!coordinator.frontdoorBridgeLoginOverride.matchesConsumerKey) {
                 errorTitle = [SFSDKResourceUtils localizedString:@"Error"];
                 errorMessage = [SFSDKResourceUtils localizedString:@"authAlertFrontdoorLoginUrlConsumerKeyMismatch"];
-            } else if (!coordinator.frontdoorBridgeLoginOverride.matchesLoginHost) {
-                errorTitle = [SFSDKResourceUtils localizedString:@"Error"];
-                errorMessage = [SFSDKResourceUtils localizedString:@"authAlertFrontdoorLoginUrlLoginHostMismatch"];
             }
             if (errorTitle && errorMessage) {
                 UIAlertController* alertController = [UIAlertController
