@@ -69,10 +69,12 @@
 
         // Gets current number of events stored.
         self.eventCountMutex = [[NSObject alloc] init];
-        self.numStoredEvents = 0;
-        NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.storeDirectory error:nil];
-        if (files) {
-            self.numStoredEvents = files.count;
+        @synchronized (self.eventCountMutex) {
+            self.numStoredEvents = 0;
+            NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.storeDirectory error:nil];
+            if (files) {
+                self.numStoredEvents = files.count;
+            }
         }
     }
     return self;
@@ -198,7 +200,11 @@
 }
 
 - (BOOL) shouldStoreEvent {
-    return (self.isLoggingEnabled && (self.numStoredEvents < self.maxEvents));
+    BOOL result;
+    @synchronized (self.eventCountMutex) {
+        result = (self.isLoggingEnabled && (self.numStoredEvents < self.maxEvents));
+    }
+    return result;
 }
 
 - (BOOL) isLoggingEnabled {
