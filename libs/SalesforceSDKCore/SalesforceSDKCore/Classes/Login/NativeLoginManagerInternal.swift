@@ -489,7 +489,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         )
         
         let completePasswordResetResponse = await handleResponseForRequest {
-            try await RestClient.shared.send(request: completePasswordResetRequest)
+            try await RestClient.sharedGlobal.send(request: completePasswordResetRequest)
         }
         
         // React to the complete password reset response.
