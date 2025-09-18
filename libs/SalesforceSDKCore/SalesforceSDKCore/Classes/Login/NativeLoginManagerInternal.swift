@@ -255,11 +255,11 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
                         recaptcha: reCaptchaParameterGenerationResult.nonEnterpriseReCaptchaToken,
                         recaptchaEvent: reCaptchaParameterGenerationResult.enterpriseReCaptchaEvent,
                         userData: UserData(
-                            email: email,
-                            username: username,
-                            password: newPassword,
+                            email: trimmedEmail,
+                            username: trimmedUsername,
                             firstName: firstName,
                             lastName: lastName),
+                        password: trimmedPassword,
                         otpVerificationMethod: otpVerificationMethodString)
                 ),
                 encoding: .utf8)
@@ -340,6 +340,9 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         /// The start registration request user data
         var userData: UserData
         
+        /// The user-entered new password
+        var password: String
+        
         /// The one-time-password's delivery method for verification in "email" or "sms"
         var otpVerificationMethod: String
         
@@ -347,7 +350,8 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
             case recaptcha = "recaptcha"
             case recaptchaEvent = "recaptchaevent"
             case userData = "userdata"
-            case otpVerificationMethod = "verificationMethod"
+            case password = "password"
+            case otpVerificationMethod = "verificationmethod"
         }
     }
     
@@ -361,9 +365,6 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         /// A valid Salesforce username or email
         var username: String
         
-        /// The user-entered new password
-        var password: String
-        
         /// The user-entered first name
         var firstName: String
         
@@ -373,7 +374,6 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         enum CodingKeys: String, CodingKey {
             case email = "email"
             case username = "username"
-            case password = "password"
             case firstName = "firstName"
             case lastName = "lastName"
         }
@@ -489,7 +489,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         )
         
         let completePasswordResetResponse = await handleResponseForRequest {
-            try await RestClient.shared.send(request: completePasswordResetRequest)
+            try await RestClient.sharedGlobal.send(request: completePasswordResetRequest)
         }
         
         // React to the complete password reset response.
