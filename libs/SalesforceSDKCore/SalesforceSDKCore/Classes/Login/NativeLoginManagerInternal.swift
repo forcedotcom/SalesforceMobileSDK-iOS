@@ -351,7 +351,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
             case recaptchaEvent = "recaptchaevent"
             case userData = "userdata"
             case password = "password"
-            case otpVerificationMethod = "verificationMethod"
+            case otpVerificationMethod = "verificationmethod"
         }
     }
     
