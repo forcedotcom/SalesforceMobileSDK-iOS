@@ -45,7 +45,6 @@ static NSString* const kTestAppName = @"OverridenAppName";
     id<SalesforceSDKManagerFlow> _origSdkManagerFlow;
     SFTestSDKManagerFlow *_currentSdkManagerFlow;
     NSString *_origAppName;
-    WKProcessPool *_origProcessPool;
     NSString *_origBrandLoginPath;
 }
 
@@ -315,23 +314,10 @@ static NSString* const kTestAppName = @"OverridenAppName";
 
 #pragma mark - Process Pool Tests
 
-- (void)testDefaultProcessPoolIsNotNil
+- (void)testProcessPoolIsNil
 {
-    XCTAssertNotNil(SFSDKWebViewStateManager.sharedProcessPool);
-}
-
-- (void)testProcessPoolCannotBeNil
-{
-    XCTAssertNotNil(SFSDKWebViewStateManager.sharedProcessPool);
-    SFSDKWebViewStateManager.sharedProcessPool = nil;
-    XCTAssertNotNil(SFSDKWebViewStateManager.sharedProcessPool);
-}
-
-- (void)testProcessPoolIsAssignable
-{
-    WKProcessPool *newPool = [[WKProcessPool alloc] init];
-    SFSDKWebViewStateManager.sharedProcessPool = newPool;
-    XCTAssertEqualObjects(newPool, SFSDKWebViewStateManager.sharedProcessPool);
+    // TODO remove this test in 14.0 when we remove sharedProcessPool from SFSDKWebViewStateManager
+    XCTAssertNil(SFSDKWebViewStateManager.sharedProcessPool);
 }
 
 - (void)testBrandedLoginPath
@@ -462,7 +448,6 @@ static NSString* const kTestAppName = @"OverridenAppName";
     _origCurrentUser = [SFUserAccountManager sharedInstance].currentUser;
     [[SFUserAccountManager sharedInstance] setCurrentUserInternal:nil];
     _origAppName = SalesforceSDKManager.ailtnAppName;
-    _origProcessPool = SFSDKWebViewStateManager.sharedProcessPool;
     _origBrandLoginPath = [SalesforceSDKManager sharedManager].brandLoginPath;
 }
 
@@ -475,7 +460,6 @@ static NSString* const kTestAppName = @"OverridenAppName";
     [SalesforceSDKManager sharedManager].appConfig.shouldAuthenticate = _origAuthenticateAtLaunch;
     [[SFUserAccountManager sharedInstance] setCurrentUserInternal:_origCurrentUser];
     SalesforceSDKManager.ailtnAppName = _origAppName;
-    SFSDKWebViewStateManager.sharedProcessPool = _origProcessPool;
     [SalesforceSDKManager sharedManager].brandLoginPath = _origBrandLoginPath;
 }
 
