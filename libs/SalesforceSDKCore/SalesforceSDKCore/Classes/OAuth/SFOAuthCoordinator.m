@@ -26,7 +26,6 @@
 #import <WebKit/WebKit.h>
 #import "SFOAuthCredentials+Internal.h"
 #import "SFOAuthCoordinator+Internal.h"
-#import "SFOAuthInfo.h"
 #import "SFSDKAuthConfigUtil.h"
 #import "SFSDKCryptoUtils.h"
 #import "NSData+SFSDKUtils.h"

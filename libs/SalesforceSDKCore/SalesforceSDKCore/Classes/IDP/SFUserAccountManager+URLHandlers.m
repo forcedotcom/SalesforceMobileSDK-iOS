@@ -44,6 +44,7 @@
 #import "SFSDKLoginFlowSelectionView.h"
 #import "SFSDKLoginFlowSelectionViewController.h"
 #import "SFSDKAuthRequest.h"
+#import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 
 @implementation SFUserAccountManager (URLHandlers)
 

@@ -48,6 +48,7 @@
 		23CAB0F92DCBE51F00B8929B /* MockRestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23CAB0F72DCBE51F00B8929B /* MockRestClient.swift */; };
 		23CAB1312DD515B500B8929B /* SFLoginViewController+Deep-Linking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23CAB1302DD515B500B8929B /* SFLoginViewController+Deep-Linking.swift */; };
 		23CE44212DEE258800ADC770 /* RestClient+WebSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23CE44202DEE257900ADC770 /* RestClient+WebSocket.swift */; };
+		23D206052E578E5D000AF5E3 /* AuthInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D206042E578E5D000AF5E3 /* AuthInfo.swift */; };
 		23D626992DF9DF2D00B898D0 /* URLSessionWebSocketTask+WebSocketClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D626982DF9DF1E00B898D0 /* URLSessionWebSocketTask+WebSocketClient.swift */; };
 		23D96B6F2E145AC20004B06A /* DomainDiscoveryCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D96B6E2E145AC20004B06A /* DomainDiscoveryCoordinator.swift */; };
 		23D96B762E145B400004B06A /* DomainDiscoveryCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D96B752E145B400004B06A /* DomainDiscoveryCoordinatorTests.swift */; };
@@ -320,8 +321,6 @@
 		CE4CE3451C0E5252009F6029 /* SFOAuthCredentials+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FCC81BFD32130022F021 /* SFOAuthCredentials+Internal.h */; };
 		CE4CE3461C0E5252009F6029 /* SFOAuthCredentials.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FCC91BFD32130022F021 /* SFOAuthCredentials.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE4CE3471C0E5252009F6029 /* SFOAuthCredentials.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FCCA1BFD32130022F021 /* SFOAuthCredentials.m */; };
-		CE4CE34A1C0E5252009F6029 /* SFOAuthInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FCCD1BFD32130022F021 /* SFOAuthInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CE4CE34B1C0E5252009F6029 /* SFOAuthInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FCCE1BFD32130022F021 /* SFOAuthInfo.m */; };
 		CE4CE34C1C0E5252009F6029 /* SFOAuthKeychainCredentials.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FCCF1BFD32130022F021 /* SFOAuthKeychainCredentials.h */; };
 		CE4CE34D1C0E5252009F6029 /* SFOAuthKeychainCredentials.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FCD01BFD32130022F021 /* SFOAuthKeychainCredentials.m */; };
 		CE4CE34E1C0E5252009F6029 /* SFOAuthOrgAuthConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FCD11BFD32130022F021 /* SFOAuthOrgAuthConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -567,6 +566,7 @@
 		23CAB0F72DCBE51F00B8929B /* MockRestClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockRestClient.swift; sourceTree = "<group>"; };
 		23CAB1302DD515B500B8929B /* SFLoginViewController+Deep-Linking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "SFLoginViewController+Deep-Linking.swift"; path = "Login/SFLoginViewController+Deep-Linking.swift"; sourceTree = "<group>"; };
 		23CE44202DEE257900ADC770 /* RestClient+WebSocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RestClient+WebSocket.swift"; sourceTree = "<group>"; };
+		23D206042E578E5D000AF5E3 /* AuthInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthInfo.swift; sourceTree = "<group>"; };
 		23D626982DF9DF1E00B898D0 /* URLSessionWebSocketTask+WebSocketClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSessionWebSocketTask+WebSocketClient.swift"; sourceTree = "<group>"; };
 		23D96B6E2E145AC20004B06A /* DomainDiscoveryCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainDiscoveryCoordinator.swift; sourceTree = "<group>"; };
 		23D96B752E145B400004B06A /* DomainDiscoveryCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DomainDiscoveryCoordinatorTests.swift; path = SalesforceSDKCoreTests/DomainDiscoveryCoordinatorTests.swift; sourceTree = SOURCE_ROOT; };
@@ -639,8 +639,6 @@
 		4F96FCC81BFD32130022F021 /* SFOAuthCredentials+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFOAuthCredentials+Internal.h"; sourceTree = "<group>"; };
 		4F96FCC91BFD32130022F021 /* SFOAuthCredentials.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFOAuthCredentials.h; sourceTree = "<group>"; };
 		4F96FCCA1BFD32130022F021 /* SFOAuthCredentials.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFOAuthCredentials.m; sourceTree = "<group>"; };
-		4F96FCCD1BFD32130022F021 /* SFOAuthInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFOAuthInfo.h; sourceTree = "<group>"; };
-		4F96FCCE1BFD32130022F021 /* SFOAuthInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFOAuthInfo.m; sourceTree = "<group>"; };
 		4F96FCCF1BFD32130022F021 /* SFOAuthKeychainCredentials.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFOAuthKeychainCredentials.h; sourceTree = "<group>"; };
 		4F96FCD01BFD32130022F021 /* SFOAuthKeychainCredentials.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFOAuthKeychainCredentials.m; sourceTree = "<group>"; };
 		4F96FCD11BFD32130022F021 /* SFOAuthOrgAuthConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFOAuthOrgAuthConfiguration.h; sourceTree = "<group>"; };
@@ -1207,6 +1205,7 @@
 		4F96FCC41BFD32130022F021 /* OAuth */ = {
 			isa = PBXGroup;
 			children = (
+				23D206042E578E5D000AF5E3 /* AuthInfo.swift */,
 				23D96B6E2E145AC20004B06A /* DomainDiscoveryCoordinator.swift */,
 				4F8A3B002CEC202F00ECDC76 /* JwtAccessToken.swift */,
 				4F96FCC61BFD32130022F021 /* SFOAuthCoordinator.h */,
@@ -1216,8 +1215,6 @@
 				4F96FCC91BFD32130022F021 /* SFOAuthCredentials.h */,
 				4F96FCCA1BFD32130022F021 /* SFOAuthCredentials.m */,
 				4F96FCC81BFD32130022F021 /* SFOAuthCredentials+Internal.h */,
-				4F96FCCD1BFD32130022F021 /* SFOAuthInfo.h */,
-				4F96FCCE1BFD32130022F021 /* SFOAuthInfo.m */,
 				4F96FCCF1BFD32130022F021 /* SFOAuthKeychainCredentials.h */,
 				4F96FCD01BFD32130022F021 /* SFOAuthKeychainCredentials.m */,
 				4F96FCD11BFD32130022F021 /* SFOAuthOrgAuthConfiguration.h */,
@@ -1919,7 +1916,6 @@
 				B711290F1F8A780800436CFB /* SFSDKAlertView.h in Headers */,
 				CE4CE32B1C0E523B009F6029 /* SalesforceSDKManager+Internal.h in Headers */,
 				6931E954248B5C7100417362 /* SFDirectoryManager+Internal.h in Headers */,
-				CE4CE34A1C0E5252009F6029 /* SFOAuthInfo.h in Headers */,
 				B72171522353BFD90022510F /* SFSDKAuthSession.h in Headers */,
 				CE4CE36A1C0E526A009F6029 /* SFDefaultUserManagementViewController.h in Headers */,
 				4F06AF7A1C49A16A00F70798 /* SalesforceSDKIdentityTests.h in Headers */,
@@ -2390,7 +2386,6 @@
 				A3C7475C29F7047400D72B7F /* ScreenLockManager.swift in Sources */,
 				B75233E01F4DF0B700040B6E /* SFSDKAuthPreferences.m in Sources */,
 				B767369320A4AB0200F04103 /* SFSDKNavigationController.m in Sources */,
-				CE4CE34B1C0E5252009F6029 /* SFOAuthInfo.m in Sources */,
 				69B36F492D30C34F00EFF84A /* ColorExtension.swift in Sources */,
 				23B2FDEC2DB03496006ADC07 /* NotificationCategoryFactory.swift in Sources */,
 				69EA56CC264B1FAA007FE339 /* SFSDKMacDetectUtil.m in Sources */,
@@ -2453,6 +2448,7 @@
 				B7677051223AE5E400545C90 /* SFUserAccountManager+Instrumentation.m in Sources */,
 				E1C80CF01C5AEE31001B3A21 /* SFSDKLoginHostListViewController.m in Sources */,
 				B773CCF81F8200BD00D2D1B2 /* SFSDKIDPLoginRequestCommand.m in Sources */,
+				23D206052E578E5D000AF5E3 /* AuthInfo.swift in Sources */,
 				CE4CE3931C0E526A009F6029 /* SFUserAccountIdentity.m in Sources */,
 				23945B712D78E4A60060B195 /* NotificationType.swift in Sources */,
 				D3B1519F2E1DA6EB00914EF1 /* AuthCoordinatorFrontdoorBridgeLoginOverride.swift in Sources */,

@@ -35,7 +35,6 @@
 #import "SFSDKResourceUtils.h"
 #import "SFUserAccountManager+Internal.h"
 #import "SFSDKLoginViewControllerConfig.h"
-#import "SFOAuthInfo.h"
 #import "SFSDKWindowManager.h"
 #import "SFSDKNavigationController.h"
 #import "SFSDKViewUtils.h"

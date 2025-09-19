@@ -26,7 +26,6 @@
 
 #import <SalesforceSDKCore/SFIdentityCoordinator.h>
 #import <SalesforceSDKCore/SFOAuthCoordinator.h>
-#import <SalesforceSDKCore/SFOAuthInfo.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
