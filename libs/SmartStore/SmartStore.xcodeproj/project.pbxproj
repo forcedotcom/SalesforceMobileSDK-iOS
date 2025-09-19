@@ -1357,8 +1357,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/forcedotcom/fmdb";
 			requirement = {
-				branch = spm;
-				kind = branch;
+				kind = exactVersion;
+				version = "2.7.12-sqlcipher";
 			};
 		};
 		4FE34A4C2E5527A0000D6367 /* XCRemoteSwiftPackageReference "SQLCipher" */ = {
