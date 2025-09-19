@@ -7,9 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F6852742E7CE50800D37B27 /* FMDB in Frameworks */ = {isa = PBXBuildFile; productRef = 4F6852732E7CE50800D37B27 /* FMDB */; };
 		4F941E951F8C43370035EB03 /* userstore.json in Resources */ = {isa = PBXBuildFile; fileRef = 4F941E941F8C43370035EB03 /* userstore.json */; };
 		4FADBCB51BA0CEDA00D01855 /* ImagesMobileSyncExplorer.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FADBCB41BA0CEDA00D01855 /* ImagesMobileSyncExplorer.xcassets */; };
 		4FCA4A9D1FBE61C300F081B3 /* usersyncs.json in Resources */ = {isa = PBXBuildFile; fileRef = 4FCA4A9C1FBE61C300F081B3 /* usersyncs.json */; };
+		4FE34A4E2E5527A0000D6367 /* SQLCipher in Frameworks */ = {isa = PBXBuildFile; productRef = 4FE34A4D2E5527A0000D6367 /* SQLCipher */; };
 		4FEAC2451B97C65C00B08512 /* ActionsPopupController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FEAC2421B97C65C00B08512 /* ActionsPopupController.m */; };
 		6931EAD92490097D00417362 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6931EAD82490097D00417362 /* CoreServices.framework */; };
 		696A8B6A2AD0F7B300A85A1D /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 696A8B692AD0F7B300A85A1D /* PrivacyInfo.xcprivacy */; };
@@ -337,7 +339,9 @@
 				820C8B2719E6091100E9BE5C /* SystemConfiguration.framework in Frameworks */,
 				827C631919E6018C00027484 /* UIKit.framework in Frameworks */,
 				82D0AC121C49A7F60081F833 /* SmartStore.framework in Frameworks */,
+				4F6852742E7CE50800D37B27 /* FMDB in Frameworks */,
 				827C631519E6018C00027484 /* Foundation.framework in Frameworks */,
+				4FE34A4E2E5527A0000D6367 /* SQLCipher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -564,6 +568,10 @@
 				A3D23095219749D4009F433D /* PBXTargetDependency */,
 			);
 			name = MobileSyncExplorer;
+			packageProductDependencies = (
+				4FE34A4D2E5527A0000D6367 /* SQLCipher */,
+				4F6852732E7CE50800D37B27 /* FMDB */,
+			);
 			productName = MobileSyncExplorer;
 			productReference = 827C631119E6018C00027484 /* MobileSyncExplorer.app */;
 			productType = "com.apple.product-type.application";
@@ -624,6 +632,10 @@
 				Base,
 			);
 			mainGroup = 827C630819E6018C00027484;
+			packageReferences = (
+				4FE34A4C2E5527A0000D6367 /* XCRemoteSwiftPackageReference "SQLCipher" */,
+				4F6852722E7CE50800D37B27 /* XCRemoteSwiftPackageReference "fmdb" */,
+			);
 			productRefGroup = 827C631219E6018C00027484 /* Products */;
 			projectDirPath = "";
 			projectReferences = (
@@ -1145,6 +1157,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4F6852722E7CE50800D37B27 /* XCRemoteSwiftPackageReference "fmdb" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/wmathurin/fmdb";
+			requirement = {
+				kind = exactVersion;
+				version = "2.7.12-sqlcipher";
+			};
+		};
+		4FE34A4C2E5527A0000D6367 /* XCRemoteSwiftPackageReference "SQLCipher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sqlcipher/SQLCipher.swift";
+			requirement = {
+				kind = exactVersion;
+				version = 4.10.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		4F6852732E7CE50800D37B27 /* FMDB */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4F6852722E7CE50800D37B27 /* XCRemoteSwiftPackageReference "fmdb" */;
+			productName = FMDB;
+		};
+		4FE34A4D2E5527A0000D6367 /* SQLCipher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4FE34A4C2E5527A0000D6367 /* XCRemoteSwiftPackageReference "SQLCipher" */;
+			productName = SQLCipher;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 827C630919E6018C00027484 /* Project object */;
 }
