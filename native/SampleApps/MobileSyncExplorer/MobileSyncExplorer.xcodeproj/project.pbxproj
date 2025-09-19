@@ -1161,7 +1161,7 @@
 /* Begin XCRemoteSwiftPackageReference section */
 		4F6852722E7CE50800D37B27 /* XCRemoteSwiftPackageReference "fmdb" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/wmathurin/fmdb";
+			repositoryURL = "https://github.com/forcedotcom/fmdb";
 			requirement = {
 				kind = exactVersion;
 				version = "2.7.12-sqlcipher";
