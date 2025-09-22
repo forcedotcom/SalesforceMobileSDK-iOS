@@ -11,12 +11,8 @@
 		696A8B5A2AD0F75900A85A1D /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 696A8B592AD0F75900A85A1D /* PrivacyInfo.xcprivacy */; };
 		A3D23079219749C3009F433D /* SalesforceSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7D641C8218F429D006DF5F0 /* SalesforceSDKCommon.framework */; };
 		A3D2307A219749C3009F433D /* SalesforceSDKCommon.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B7D641C8218F429D006DF5F0 /* SalesforceSDKCommon.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		B79F072320EA936D00BC7D6F /* MobileSync.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B79F06E520EA931200BC7D6F /* MobileSync.framework */; };
-		B79F072420EA936D00BC7D6F /* MobileSync.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B79F06E520EA931200BC7D6F /* MobileSync.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B79F072720EA938300BC7D6F /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B79F070520EA931F00BC7D6F /* SalesforceAnalytics.framework */; };
 		B79F072820EA938300BC7D6F /* SalesforceAnalytics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B79F070520EA931F00BC7D6F /* SalesforceAnalytics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		B79F07C720EA941700BC7D6F /* SmartStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B79F071520EA932400BC7D6F /* SmartStore.framework */; };
-		B79F07C820EA941700BC7D6F /* SmartStore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B79F071520EA932400BC7D6F /* SmartStore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B79F07CB20EA943400BC7D6F /* SalesforceSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B79F06F520EA931900BC7D6F /* SalesforceSDKCore.framework */; };
 		B79F07CC20EA943400BC7D6F /* SalesforceSDKCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B79F06F520EA931900BC7D6F /* SalesforceSDKCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B7C5120A20C084B100B39DAA /* bootconfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = B7C5120920C084B100B39DAA /* bootconfig.plist */; };
@@ -133,26 +129,12 @@
 			remoteGlobalIDString = CEAAAE55195911E600CBBFE9;
 			remoteInfo = SmartStoreTests;
 		};
-		B79F072520EA936D00BC7D6F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B79F06DC20EA931200BC7D6F /* MobileSync.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = CE4CE2C81C0E463C009F6029;
-			remoteInfo = MobileSync;
-		};
 		B79F072920EA938300BC7D6F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B79F06FC20EA931F00BC7D6F /* SalesforceAnalytics.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = CE2B8BCE1CE900F500C6FC6A;
 			remoteInfo = SalesforceAnalytics;
-		};
-		B79F07C920EA941700BC7D6F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B79F070C20EA932400BC7D6F /* SmartStore.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = CE4CE2B81C0E4581009F6029;
-			remoteInfo = SmartStore;
 		};
 		B79F07CD20EA943400BC7D6F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -191,9 +173,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				B79F07C820EA941700BC7D6F /* SmartStore.framework in Embed Frameworks */,
 				B79F072820EA938300BC7D6F /* SalesforceAnalytics.framework in Embed Frameworks */,
-				B79F072420EA936D00BC7D6F /* MobileSync.framework in Embed Frameworks */,
 				B79F07CC20EA943400BC7D6F /* SalesforceSDKCore.framework in Embed Frameworks */,
 				A3D2307A219749C3009F433D /* SalesforceSDKCommon.framework in Embed Frameworks */,
 			);
@@ -233,9 +213,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B79F07C720EA941700BC7D6F /* SmartStore.framework in Frameworks */,
 				B79F072720EA938300BC7D6F /* SalesforceAnalytics.framework in Frameworks */,
-				B79F072320EA936D00BC7D6F /* MobileSync.framework in Frameworks */,
 				B79F07CB20EA943400BC7D6F /* SalesforceSDKCore.framework in Frameworks */,
 				A3D23079219749C3009F433D /* SalesforceSDKCommon.framework in Frameworks */,
 			);
@@ -411,9 +389,7 @@
 			);
 			dependencies = (
 				B7D641DA218F42C0006DF5F0 /* PBXTargetDependency */,
-				B79F072620EA936D00BC7D6F /* PBXTargetDependency */,
 				B79F072A20EA938300BC7D6F /* PBXTargetDependency */,
-				B79F07CA20EA941700BC7D6F /* PBXTargetDependency */,
 				B79F07CE20EA943400BC7D6F /* PBXTargetDependency */,
 				A3D2307C219749C3009F433D /* PBXTargetDependency */,
 			);
@@ -627,20 +603,10 @@
 			name = SalesforceSDKCommon;
 			targetProxy = A3D2307B219749C3009F433D /* PBXContainerItemProxy */;
 		};
-		B79F072620EA936D00BC7D6F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = MobileSync;
-			targetProxy = B79F072520EA936D00BC7D6F /* PBXContainerItemProxy */;
-		};
 		B79F072A20EA938300BC7D6F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = SalesforceAnalytics;
 			targetProxy = B79F072920EA938300BC7D6F /* PBXContainerItemProxy */;
-		};
-		B79F07CA20EA941700BC7D6F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = SmartStore;
-			targetProxy = B79F07C920EA941700BC7D6F /* PBXContainerItemProxy */;
 		};
 		B79F07CE20EA943400BC7D6F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
