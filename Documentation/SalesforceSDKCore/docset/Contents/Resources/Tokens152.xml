@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/NSURL+SFStringUtils.html">
+	<File path="Categories/NSURLResponse+SFAdditions.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/NSURL(SFStringUtils)</TokenIdentifier>
-			<Abstract type="html">Utilities for interacting with NSURL objects.</Abstract>
-			<DeclaredIn>NSURL+SFStringUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/NSURLResponse(SFAdditions)</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>NSURLResponse+SFAdditions.h</DeclaredIn>
             
 			
 			<NodeRef refid="152"/>
@@ -13,22 +13,14 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSURL/sfsdk_redactedAbsoluteString:</TokenIdentifier>
-			<Abstract type="html">Will return the absolute string of a URL, with potentially sensitive querystring
-parameter values redacted.  Useful for logging URL values without sensitive data
-included.</Abstract>
-			<DeclaredIn>NSURL+SFStringUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSURLResponse/sfsdk_asDictionary</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>NSURLResponse+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)sfsdk_redactedAbsoluteString:(NSArray *)queryStringParamsToRedact</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>queryStringParamsToRedact</Name>
-					<Abstract type="html">An array of querystring parameter names whose values
-should be redacted.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The redacted version of the absolute string value.</Abstract></ReturnValue>
-			<Anchor>//api/name/sfsdk_redactedAbsoluteString:</Anchor>
+			<Declaration>- (nonnull NSDictionary *)sfsdk_asDictionary</Declaration>
+			
+			
+			<Anchor>//api/name/sfsdk_asDictionary</Anchor>
             <NodeRef refid="152"/>
 		</Token>
 		

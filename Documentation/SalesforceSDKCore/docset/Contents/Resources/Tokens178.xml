@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFAppType.html">
+	<File path="Constants/SFEntityIdLength.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFAppType</TokenIdentifier>
-			<Abstract type="html">Block typedef for creating a custom snapshot view controller.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFEntityIdLength</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
             
 			
 			<NodeRef refid="178"/>
@@ -14,41 +14,41 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFAppTypeNative</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFEntityIdLength15</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>kSFAppTypeNative</Declaration>
+            <Declaration>SFEntityIdLength15</Declaration>
             
-            <DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+            <DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
             
             <NodeRef refid="178"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFAppTypeHybrid</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFEntityIdLength18</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>kSFAppTypeHybrid</Declaration>
+            <Declaration>SFEntityIdLength18</Declaration>
             
-            <DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+            <DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
             
             <NodeRef refid="178"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFAppTypeReactNative</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFEntityIdLengthMin</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>kSFAppTypeReactNative</Declaration>
+            <Declaration>SFEntityIdLengthMin</Declaration>
             
-            <DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+            <DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
             
             <NodeRef refid="178"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFAppTypeNativeSwift</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFEntityIdLengthMax</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>kSFAppTypeNativeSwift</Declaration>
+            <Declaration>SFEntityIdLengthMax</Declaration>
             
-            <DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+            <DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
             
             <NodeRef refid="178"/>
         </Token>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFRestRequestDelegate.html">
+	<File path="Protocols/SFSDKAnalyticsPublisher.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFRestRequestDelegate</TokenIdentifier>
-			<Abstract type="html">Lifecycle events for REST requests.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSDKAnalyticsPublisher</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAnalyticsPublisher.h</DeclaredIn>
             
 			
 			<NodeRef refid="161"/>
@@ -13,55 +13,25 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFRestRequestDelegate/request:didSucceed:rawResponse:</TokenIdentifier>
-			<Abstract type="html">Called when a request was successful.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKAnalyticsPublisher/publish:user:publishCompleteBlock:</TokenIdentifier>
+			<Abstract type="html">Publishes events to a network endpoint.</Abstract>
+			<DeclaredIn>SFSDKAnalyticsPublisher.h</DeclaredIn>
 			
-			<Declaration>- (void)request:(SFRestRequest *)request didSucceed:(id)dataResponse rawResponse:(NSURLResponse *)rawResponse</Declaration>
+			<Declaration>- (void)publish:(nonnull NSArray *)events user:(nonnull SFUserAccount *)user publishCompleteBlock:(nonnull PublishCompleteBlock)publishCompleteBlock</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>request</Name>
-					<Abstract type="html">REST request.</Abstract>
+					<Name>events</Name>
+					<Abstract type="html">Events to be published.</Abstract>
 				</Parameter><Parameter>
-					<Name>dataResponse</Name>
-					<Abstract type="html">The data from the response.  By default, this will be an object
-containing the parsed JSON response.  However, if the response is not JSON,
-the data will be contained in a binary NSData object.</Abstract>
+					<Name>user</Name>
+					<Abstract type="html">SFUserAccount to use to determine where events are to be published.</Abstract>
 				</Parameter><Parameter>
-					<Name>rawResponse</Name>
-					<Abstract type="html">Raw response returned by the server.</Abstract>
+					<Name>publishCompleteBlock</Name>
+					<Abstract type="html">Completion block invoked once network publish is complete.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/request:didSucceed:rawResponse:</Anchor>
-            <NodeRef refid="161"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFRestRequestDelegate/request:didFail:rawResponse:error:</TokenIdentifier>
-			<Abstract type="html">Called when a request failed.</Abstract>
-			<DeclaredIn>SFRestRequest.h</DeclaredIn>
-			
-			<Declaration>- (void)request:(SFRestRequest *)request didFail:(id)dataResponse rawResponse:(NSURLResponse *)rawResponse error:(NSError *)error</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>request</Name>
-					<Abstract type="html">REST request.</Abstract>
-				</Parameter><Parameter>
-					<Name>dataResponse</Name>
-					<Abstract type="html">The data from the response.  By default, this will be an object
-containing the parsed JSON response.  However, if the response is not JSON,
-the data will be contained in a binary NSData object.</Abstract>
-				</Parameter><Parameter>
-					<Name>rawResponse</Name>
-					<Abstract type="html">Raw response returned by the server.</Abstract>
-				</Parameter><Parameter>
-					<Name>error</Name>
-					<Abstract type="html">Error received.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/request:didFail:rawResponse:error:</Anchor>
+			<Anchor>//api/name/publish:user:publishCompleteBlock:</Anchor>
             <NodeRef refid="161"/>
 		</Token>
 		

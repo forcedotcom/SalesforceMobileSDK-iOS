@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKURLHandlerManager.html">
+	<File path="Classes/SFSDKUpdateNotificationsRequestBuilder.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKURLHandlerManager</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKURLHandlerManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKUpdateNotificationsRequestBuilder</TokenIdentifier>
+			<Abstract type="html">Use this interface to create a PATCH RestRequest object that calls the Notifications REST API.</Abstract>
+			<DeclaredIn>SFRestAPI+Notifications.h</DeclaredIn>
             
 			
 			<NodeRef refid="118"/>
@@ -13,38 +13,104 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKURLHandlerManager/canHandleRequest:options:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKURLHandlerManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUpdateNotificationsRequestBuilder/setNotificationId:</TokenIdentifier>
+			<Abstract type="html">Sets the notification to update. Shouldn&apos;t be used with setNotificationIds or setBefore.</Abstract>
+			<DeclaredIn>SFRestAPI+Notifications.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)canHandleRequest:(NSURL *)url options:(NSDictionary *)options</Declaration>
+			<Declaration>- (SFSDKUpdateNotificationsRequestBuilder *)setNotificationId:(NSString *)notificationId</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>notificationId</Name>
+					<Abstract type="html">ID of notification to update.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/canHandleRequest:options:</Anchor>
+			<Anchor>//api/name/setNotificationId:</Anchor>
             <NodeRef refid="118"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKURLHandlerManager/processRequest:options:completion:failure:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKURLHandlerManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUpdateNotificationsRequestBuilder/setNotificationIds:</TokenIdentifier>
+			<Abstract type="html">Sets a list of notifications to update (max 50). Shouldn&apos;t be used with setNotificationId or setBefore.</Abstract>
+			<DeclaredIn>SFRestAPI+Notifications.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)processRequest:(NSURL *)url options:(NSDictionary *)options completion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock</Declaration>
+			<Declaration>- (SFSDKUpdateNotificationsRequestBuilder *)setNotificationIds:(NSArray&lt;NSString*&gt; *)notificationIds</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>notificationIds</Name>
+					<Abstract type="html">Array of notifications IDs to update.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/processRequest:options:completion:failure:</Anchor>
+			<Anchor>//api/name/setNotificationIds:</Anchor>
             <NodeRef refid="118"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKURLHandlerManager/sharedInstance</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKURLHandlerManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUpdateNotificationsRequestBuilder/setBefore:</TokenIdentifier>
+			<Abstract type="html">Notifications occurring before the provided date will be updated. Shouldn&apos;t be used with setNotificationId or setNotificationIds.</Abstract>
+			<DeclaredIn>SFRestAPI+Notifications.h</DeclaredIn>
 			
-			<Declaration>+ (instancetype)sharedInstance</Declaration>
+			<Declaration>- (SFSDKUpdateNotificationsRequestBuilder *)setBefore:(NSDate *)date</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>date</Name>
+					<Abstract type="html">Before date. If unspecified, defaults to current date and time.</Abstract>
+				</Parameter>
+			</Parameters>
 			
+			<Anchor>//api/name/setBefore:</Anchor>
+            <NodeRef refid="118"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUpdateNotificationsRequestBuilder/setSeen:</TokenIdentifier>
+			<Abstract type="html">Marks the notification(s) as seen (true) or unseen (false)</Abstract>
+			<DeclaredIn>SFRestAPI+Notifications.h</DeclaredIn>
 			
-			<Anchor>//api/name/sharedInstance</Anchor>
+			<Declaration>- (SFSDKUpdateNotificationsRequestBuilder *)setSeen:(BOOL)seen</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>seen</Name>
+					<Abstract type="html">If the notification is seen or not.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setSeen:</Anchor>
+            <NodeRef refid="118"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUpdateNotificationsRequestBuilder/setRead:</TokenIdentifier>
+			<Abstract type="html">Marks the notification(s) as read (true) or unread (false)</Abstract>
+			<DeclaredIn>SFRestAPI+Notifications.h</DeclaredIn>
+			
+			<Declaration>- (SFSDKUpdateNotificationsRequestBuilder *)setRead:(BOOL)read</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>read</Name>
+					<Abstract type="html">If the notification is read or not.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setRead:</Anchor>
+            <NodeRef refid="118"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUpdateNotificationsRequestBuilder/buildUpdateNotificationsRequest:</TokenIdentifier>
+			<Abstract type="html">Returns a request to update notifications based on values from the builder.</Abstract>
+			<DeclaredIn>SFRestAPI+Notifications.h</DeclaredIn>
+			
+			<Declaration>- (SFRestRequest *)buildUpdateNotificationsRequest:(NSString *)apiVersion</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>apiVersion</Name>
+					<Abstract type="html">API version.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/buildUpdateNotificationsRequest:</Anchor>
             <NodeRef refid="118"/>
 		</Token>
 		

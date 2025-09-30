@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSDKWindowType.html">
+	<File path="Constants/SFSPLoginError.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSDKWindowType</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSPLoginError</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="191"/>
@@ -14,51 +14,41 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeMain</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSPLoginErrorNoScheme</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKWindowTypeMain</Declaration>
+            <Declaration>SFSPLoginErrorNoScheme</Declaration>
             
-            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountManager.h</DeclaredIn>
             
             <NodeRef refid="191"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeAuth</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSPLoginErrorNoUserIdentity</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKWindowTypeAuth</Declaration>
+            <Declaration>SFSPLoginErrorNoUserIdentity</Declaration>
             
-            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountManager.h</DeclaredIn>
             
             <NodeRef refid="191"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeScreenLock</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSPLoginErrorKeychainWriteFailed</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKWindowTypeScreenLock</Declaration>
+            <Declaration>SFSPLoginErrorKeychainWriteFailed</Declaration>
             
-            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountManager.h</DeclaredIn>
             
             <NodeRef refid="191"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeSnapshot</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSPLoginErrorCredentialRefreshFailed</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKWindowTypeSnapshot</Declaration>
+            <Declaration>SFSPLoginErrorCredentialRefreshFailed</Declaration>
             
-            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-            
-            <NodeRef refid="191"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeOther</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSDKWindowTypeOther</Declaration>
-            
-            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountManager.h</DeclaredIn>
             
             <NodeRef refid="191"/>
         </Token>

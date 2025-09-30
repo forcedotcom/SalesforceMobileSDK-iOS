@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKPrimingRecordsResponse.html">
+	<File path="Classes/SFSDKPrimingRuleError.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKPrimingRecordsResponse</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKPrimingRuleError</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
             
@@ -13,151 +13,79 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingRecordsResponse/setPrimingRecords:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingRuleError/setDict:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSDictionary&lt;NSString*NSDictionary&lt;NSString*NSArray&lt;SFSDKPrimingRecord*&gt; *&gt; *&gt; *primingRecords</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSDictionary *dict</Declaration>
 			
 			
-			<Anchor>//api/name/primingRecords</Anchor>
+			<Anchor>//api/name/dict</Anchor>
             <NodeRef refid="97"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingRecordsResponse/primingRecords</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingRuleError/dict</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSDictionary&lt;NSString*NSDictionary&lt;NSString*NSArray&lt;SFSDKPrimingRecord*&gt; *&gt; *&gt; *primingRecords</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSDictionary *dict</Declaration>
 			
 			
-			<Anchor>//api/name/primingRecords</Anchor>
+			<Anchor>//api/name/dict</Anchor>
             <NodeRef refid="97"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPrimingRecordsResponse/primingRecords</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPrimingRuleError/dict</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSDictionary&lt;NSString*NSDictionary&lt;NSString*NSArray&lt;SFSDKPrimingRecord*&gt; *&gt; *&gt; *primingRecords</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSDictionary *dict</Declaration>
 			
 			
-			<Anchor>//api/name/primingRecords</Anchor>
+			<Anchor>//api/name/dict</Anchor>
             <NodeRef refid="97"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingRecordsResponse/setRelayToken:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingRuleError/setRuleId:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, nullable) NSString *relayToken</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *ruleId</Declaration>
 			
 			
-			<Anchor>//api/name/relayToken</Anchor>
+			<Anchor>//api/name/ruleId</Anchor>
             <NodeRef refid="97"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingRecordsResponse/relayToken</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingRuleError/ruleId</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, nullable) NSString *relayToken</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *ruleId</Declaration>
 			
 			
-			<Anchor>//api/name/relayToken</Anchor>
+			<Anchor>//api/name/ruleId</Anchor>
             <NodeRef refid="97"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPrimingRecordsResponse/relayToken</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPrimingRuleError/ruleId</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, nullable) NSString *relayToken</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSString *ruleId</Declaration>
 			
 			
-			<Anchor>//api/name/relayToken</Anchor>
+			<Anchor>//api/name/ruleId</Anchor>
             <NodeRef refid="97"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingRecordsResponse/setRuleErrors:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSArray&lt;SFSDKPrimingRuleError*&gt; *ruleErrors</Declaration>
-			
-			
-			<Anchor>//api/name/ruleErrors</Anchor>
-            <NodeRef refid="97"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingRecordsResponse/ruleErrors</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSArray&lt;SFSDKPrimingRuleError*&gt; *ruleErrors</Declaration>
-			
-			
-			<Anchor>//api/name/ruleErrors</Anchor>
-            <NodeRef refid="97"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPrimingRecordsResponse/ruleErrors</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSArray&lt;SFSDKPrimingRuleError*&gt; *ruleErrors</Declaration>
-			
-			
-			<Anchor>//api/name/ruleErrors</Anchor>
-            <NodeRef refid="97"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingRecordsResponse/setStats:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) SFSDKPrimingStats *stats</Declaration>
-			
-			
-			<Anchor>//api/name/stats</Anchor>
-            <NodeRef refid="97"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingRecordsResponse/stats</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) SFSDKPrimingStats *stats</Declaration>
-			
-			
-			<Anchor>//api/name/stats</Anchor>
-            <NodeRef refid="97"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPrimingRecordsResponse/stats</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) SFSDKPrimingStats *stats</Declaration>
-			
-			
-			<Anchor>//api/name/stats</Anchor>
-            <NodeRef refid="97"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingRecordsResponse/initWith:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingRuleError/initWith:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
 			

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKAlertView.html">
+	<File path="Classes/SFSDKAnalyticsTransformPublisherPair.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAlertView</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKAnalyticsTransformPublisherPair</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertView.h</DeclaredIn>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager+Internal.h</DeclaredIn>
             
 			
 			<NodeRef refid="39"/>
@@ -13,98 +13,86 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertView/setController:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAnalyticsTransformPublisherPair/setTransform:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertView.h</DeclaredIn>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) UIAlertController *controller</Declaration>
+			<Declaration>@property (nonnull, nonatomic, readonly, strong) id&lt;SFSDKTransform&gt; transform</Declaration>
 			
 			
-			<Anchor>//api/name/controller</Anchor>
+			<Anchor>//api/name/transform</Anchor>
             <NodeRef refid="39"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertView/controller</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAnalyticsTransformPublisherPair/transform</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertView.h</DeclaredIn>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) UIAlertController *controller</Declaration>
+			<Declaration>@property (nonnull, nonatomic, readonly, strong) id&lt;SFSDKTransform&gt; transform</Declaration>
 			
 			
-			<Anchor>//api/name/controller</Anchor>
+			<Anchor>//api/name/transform</Anchor>
             <NodeRef refid="39"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAlertView/controller</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAnalyticsTransformPublisherPair/transform</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertView.h</DeclaredIn>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) UIAlertController *controller</Declaration>
+			<Declaration>@property (nonnull, nonatomic, readonly, strong) id&lt;SFSDKTransform&gt; transform</Declaration>
 			
 			
-			<Anchor>//api/name/controller</Anchor>
+			<Anchor>//api/name/transform</Anchor>
             <NodeRef refid="39"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertView/setWindow:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAnalyticsTransformPublisherPair/setPublisher:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertView.h</DeclaredIn>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, weak) SFSDKWindowContainer *window</Declaration>
+			<Declaration>@property (nonnull, nonatomic, readonly, strong) id&lt;SFSDKAnalyticsPublisher&gt; publisher</Declaration>
 			
 			
-			<Anchor>//api/name/window</Anchor>
+			<Anchor>//api/name/publisher</Anchor>
             <NodeRef refid="39"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertView/window</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAnalyticsTransformPublisherPair/publisher</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertView.h</DeclaredIn>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, weak) SFSDKWindowContainer *window</Declaration>
+			<Declaration>@property (nonnull, nonatomic, readonly, strong) id&lt;SFSDKAnalyticsPublisher&gt; publisher</Declaration>
 			
 			
-			<Anchor>//api/name/window</Anchor>
+			<Anchor>//api/name/publisher</Anchor>
             <NodeRef refid="39"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAlertView/window</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKAnalyticsTransformPublisherPair/publisher</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertView.h</DeclaredIn>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly, weak) SFSDKWindowContainer *window</Declaration>
+			<Declaration>@property (nonnull, nonatomic, readonly, strong) id&lt;SFSDKAnalyticsPublisher&gt; publisher</Declaration>
 			
 			
-			<Anchor>//api/name/window</Anchor>
+			<Anchor>//api/name/publisher</Anchor>
             <NodeRef refid="39"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertView/presentViewController:completion:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAnalyticsTransformPublisherPair/initWithTransform:publisher:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertView.h</DeclaredIn>
+			<DeclaredIn>SFSDKSalesforceAnalyticsManager+Internal.h</DeclaredIn>
 			
-			<Declaration>- (void)presentViewController:(BOOL)animated completion:(void ( ^ __nullable ) ( void ))completion</Declaration>
-			
-			
-			<Anchor>//api/name/presentViewController:completion:</Anchor>
-            <NodeRef refid="39"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKAlertView/initWithMessage:window:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAlertView.h</DeclaredIn>
-			
-			<Declaration>- (instancetype)initWithMessage:(SFSDKAlertMessage *)message window:(SFSDKWindowContainer *)window</Declaration>
+			<Declaration>- (nonnull instancetype)initWithTransform:(nonnull id&lt;SFSDKTransform&gt;)transform publisher:(nonnull id&lt;SFSDKAnalyticsPublisher&gt;)publisher</Declaration>
 			
 			
-			<Anchor>//api/name/initWithMessage:window:</Anchor>
+			<Anchor>//api/name/initWithTransform:publisher:</Anchor>
             <NodeRef refid="39"/>
 		</Token>
 		

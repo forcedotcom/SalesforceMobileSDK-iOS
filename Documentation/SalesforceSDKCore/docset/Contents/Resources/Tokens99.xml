@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKPrimingStats.html">
+	<File path="Classes/SFSDKPushNotificationDataProvider.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKPrimingStats</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKPushNotificationDataProvider</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
+			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
             
 			
 			<NodeRef refid="99"/>
@@ -13,194 +13,98 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingStats/setDict:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPushNotificationDataProvider/setUserInfoDict:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
+			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSDictionary *dict</Declaration>
+			<Declaration>@property (nonnull, nonatomic, readonly) NSDictionary *userInfoDict</Declaration>
 			
 			
-			<Anchor>//api/name/dict</Anchor>
+			<Anchor>//api/name/userInfoDict</Anchor>
             <NodeRef refid="99"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingStats/dict</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPushNotificationDataProvider/userInfoDict</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
+			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSDictionary *dict</Declaration>
+			<Declaration>@property (nonnull, nonatomic, readonly) NSDictionary *userInfoDict</Declaration>
 			
 			
-			<Anchor>//api/name/dict</Anchor>
+			<Anchor>//api/name/userInfoDict</Anchor>
             <NodeRef refid="99"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPrimingStats/dict</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPushNotificationDataProvider/userInfoDict</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
+			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSDictionary *dict</Declaration>
+			<Declaration>@property (nonnull, nonatomic, readonly) NSDictionary *userInfoDict</Declaration>
 			
 			
-			<Anchor>//api/name/dict</Anchor>
+			<Anchor>//api/name/userInfoDict</Anchor>
             <NodeRef refid="99"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingStats/setRuleCountTotal:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPushNotificationDataProvider/setContentJSONData:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
+			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSUInteger ruleCountTotal</Declaration>
+			<Declaration>@property (nullable, nonatomic, readonly) NSData *contentJSONData</Declaration>
 			
 			
-			<Anchor>//api/name/ruleCountTotal</Anchor>
+			<Anchor>//api/name/contentJSONData</Anchor>
             <NodeRef refid="99"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingStats/ruleCountTotal</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPushNotificationDataProvider/contentJSONData</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
+			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSUInteger ruleCountTotal</Declaration>
+			<Declaration>@property (nullable, nonatomic, readonly) NSData *contentJSONData</Declaration>
 			
 			
-			<Anchor>//api/name/ruleCountTotal</Anchor>
+			<Anchor>//api/name/contentJSONData</Anchor>
             <NodeRef refid="99"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPrimingStats/ruleCountTotal</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPushNotificationDataProvider/contentJSONData</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
+			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSUInteger ruleCountTotal</Declaration>
+			<Declaration>@property (nullable, nonatomic, readonly) NSData *contentJSONData</Declaration>
 			
 			
-			<Anchor>//api/name/ruleCountTotal</Anchor>
+			<Anchor>//api/name/contentJSONData</Anchor>
             <NodeRef refid="99"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingStats/setRecordCountTotal:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPushNotificationDataProvider/initWithContentObj:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
+			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSUInteger recordCountTotal</Declaration>
+			<Declaration>- (instancetype)initWithContentObj:(nullable id)contentObj</Declaration>
 			
 			
-			<Anchor>//api/name/recordCountTotal</Anchor>
+			<Anchor>//api/name/initWithContentObj:</Anchor>
             <NodeRef refid="99"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingStats/recordCountTotal</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPushNotificationDataProvider/initWithContentJSON:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
+			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSUInteger recordCountTotal</Declaration>
-			
-			
-			<Anchor>//api/name/recordCountTotal</Anchor>
-            <NodeRef refid="99"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPrimingStats/recordCountTotal</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSUInteger recordCountTotal</Declaration>
+			<Declaration>- (instancetype)initWithContentJSON:(nullable NSString *)contentJSON</Declaration>
 			
 			
-			<Anchor>//api/name/recordCountTotal</Anchor>
-            <NodeRef refid="99"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingStats/setRuleCountServed:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSUInteger ruleCountServed</Declaration>
-			
-			
-			<Anchor>//api/name/ruleCountServed</Anchor>
-            <NodeRef refid="99"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingStats/ruleCountServed</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSUInteger ruleCountServed</Declaration>
-			
-			
-			<Anchor>//api/name/ruleCountServed</Anchor>
-            <NodeRef refid="99"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPrimingStats/ruleCountServed</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSUInteger ruleCountServed</Declaration>
-			
-			
-			<Anchor>//api/name/ruleCountServed</Anchor>
-            <NodeRef refid="99"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingStats/setRecordCountServed:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSUInteger recordCountServed</Declaration>
-			
-			
-			<Anchor>//api/name/recordCountServed</Anchor>
-            <NodeRef refid="99"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingStats/recordCountServed</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSUInteger recordCountServed</Declaration>
-			
-			
-			<Anchor>//api/name/recordCountServed</Anchor>
-            <NodeRef refid="99"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPrimingStats/recordCountServed</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSUInteger recordCountServed</Declaration>
-			
-			
-			<Anchor>//api/name/recordCountServed</Anchor>
-            <NodeRef refid="99"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingStats/initWith:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
-			
-			<Declaration>- (instancetype)initWith:(NSDictionary *)dict</Declaration>
-			
-			
-			<Anchor>//api/name/initWith:</Anchor>
+			<Anchor>//api/name/initWithContentJSON:</Anchor>
             <NodeRef refid="99"/>
 		</Token>
 		

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFUserAccountScope.html">
+	<File path="Constants/SFUserManagementAction.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFUserAccountScope</TokenIdentifier>
-			<Abstract type="html">The various scopes related to a user account</Abstract>
-			<DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFUserManagementAction</TokenIdentifier>
+			<Abstract type="html">The various actions that may have been taken for account management.</Abstract>
+			<DeclaredIn>SFDefaultUserManagementViewController.h</DeclaredIn>
             
 			
 			<NodeRef refid="199"/>
@@ -14,45 +14,45 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountScopeGlobal</TokenIdentifier>
-            <Abstract type="html">Global scope (one per application)
+            <TokenIdentifier>//apple_ref/c/econst/SFUserManagementActionCancel</TokenIdentifier>
+            <Abstract type="html">No action was taken.
      </Abstract>
-            <Declaration>SFUserAccountScopeGlobal</Declaration>
+            <Declaration>SFUserManagementActionCancel</Declaration>
             
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+            <DeclaredIn>SFDefaultUserManagementViewController.h</DeclaredIn>
             
             <NodeRef refid="199"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountScopeOrg</TokenIdentifier>
-            <Abstract type="html">Scope by organization
+            <TokenIdentifier>//apple_ref/c/econst/SFUserManagementActionLogoutUser</TokenIdentifier>
+            <Abstract type="html">A user was logged out.
      </Abstract>
-            <Declaration>SFUserAccountScopeOrg</Declaration>
+            <Declaration>SFUserManagementActionLogoutUser</Declaration>
             
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+            <DeclaredIn>SFDefaultUserManagementViewController.h</DeclaredIn>
             
             <NodeRef refid="199"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountScopeUser</TokenIdentifier>
-            <Abstract type="html">Scope by user
+            <TokenIdentifier>//apple_ref/c/econst/SFUserManagementActionSwitchUser</TokenIdentifier>
+            <Abstract type="html">Switched from one user to another.
      </Abstract>
-            <Declaration>SFUserAccountScopeUser</Declaration>
+            <Declaration>SFUserManagementActionSwitchUser</Declaration>
             
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+            <DeclaredIn>SFDefaultUserManagementViewController.h</DeclaredIn>
             
             <NodeRef refid="199"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountScopeCommunity</TokenIdentifier>
-            <Abstract type="html">Scope by community
+            <TokenIdentifier>//apple_ref/c/econst/SFUserManagementActionCreateNewUser</TokenIdentifier>
+            <Abstract type="html">Logging in as a new user.
      </Abstract>
-            <Declaration>SFUserAccountScopeCommunity</Declaration>
+            <Declaration>SFUserManagementActionCreateNewUser</Declaration>
             
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+            <DeclaredIn>SFDefaultUserManagementViewController.h</DeclaredIn>
             
             <NodeRef refid="199"/>
         </Token>

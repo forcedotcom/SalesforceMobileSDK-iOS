@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKCollectionErrorResponse.html">
+	<File path="Classes/SFSDKCollectionResponse.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKCollectionErrorResponse</TokenIdentifier>
-			<Abstract type="html">Class to represent response for a sobject collection create/update/upsert or delete request.</Abstract>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKCollectionResponse</TokenIdentifier>
+			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSDKCollectionResponse.h</DeclaredIn>
             
 			
@@ -13,155 +13,47 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCollectionErrorResponse/setStatusCode:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCollectionResponse/setSubResponses:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSDKCollectionResponse.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *statusCode</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSArray&lt;SFSDKCollectionSubResponse*&gt; *subResponses</Declaration>
 			
 			
-			<Anchor>//api/name/statusCode</Anchor>
+			<Anchor>//api/name/subResponses</Anchor>
             <NodeRef refid="58"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCollectionErrorResponse/statusCode</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCollectionResponse/subResponses</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSDKCollectionResponse.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *statusCode</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSArray&lt;SFSDKCollectionSubResponse*&gt; *subResponses</Declaration>
 			
 			
-			<Anchor>//api/name/statusCode</Anchor>
+			<Anchor>//api/name/subResponses</Anchor>
             <NodeRef refid="58"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKCollectionErrorResponse/statusCode</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKCollectionResponse/subResponses</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSDKCollectionResponse.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *statusCode</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSArray&lt;SFSDKCollectionSubResponse*&gt; *subResponses</Declaration>
 			
 			
-			<Anchor>//api/name/statusCode</Anchor>
+			<Anchor>//api/name/subResponses</Anchor>
             <NodeRef refid="58"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCollectionErrorResponse/setMessage:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCollectionResponse/initWith:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSDKCollectionResponse.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *message</Declaration>
-			
-			
-			<Anchor>//api/name/message</Anchor>
-            <NodeRef refid="58"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCollectionErrorResponse/message</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCollectionResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *message</Declaration>
-			
-			
-			<Anchor>//api/name/message</Anchor>
-            <NodeRef refid="58"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKCollectionErrorResponse/message</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCollectionResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *message</Declaration>
-			
-			
-			<Anchor>//api/name/message</Anchor>
-            <NodeRef refid="58"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCollectionErrorResponse/setFields:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCollectionResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSArray&lt;NSString*&gt; *fields</Declaration>
-			
-			
-			<Anchor>//api/name/fields</Anchor>
-            <NodeRef refid="58"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCollectionErrorResponse/fields</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCollectionResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSArray&lt;NSString*&gt; *fields</Declaration>
-			
-			
-			<Anchor>//api/name/fields</Anchor>
-            <NodeRef refid="58"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKCollectionErrorResponse/fields</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCollectionResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSArray&lt;NSString*&gt; *fields</Declaration>
-			
-			
-			<Anchor>//api/name/fields</Anchor>
-            <NodeRef refid="58"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCollectionErrorResponse/setJson:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCollectionResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSDictionary&lt;NSString*id&gt; *json</Declaration>
-			
-			
-			<Anchor>//api/name/json</Anchor>
-            <NodeRef refid="58"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCollectionErrorResponse/json</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCollectionResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSDictionary&lt;NSString*id&gt; *json</Declaration>
-			
-			
-			<Anchor>//api/name/json</Anchor>
-            <NodeRef refid="58"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKCollectionErrorResponse/json</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCollectionResponse.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSDictionary&lt;NSString*id&gt; *json</Declaration>
-			
-			
-			<Anchor>//api/name/json</Anchor>
-            <NodeRef refid="58"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKCollectionErrorResponse/initWith:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKCollectionResponse.h</DeclaredIn>
-			
-			<Declaration>- (instancetype)initWith:(NSDictionary *)dict</Declaration>
+			<Declaration>- (instancetype)initWith:(NSArray *)array</Declaration>
 			
 			
 			<Anchor>//api/name/initWith:</Anchor>

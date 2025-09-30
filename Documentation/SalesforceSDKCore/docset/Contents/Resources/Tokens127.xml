@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKWindowContainer.html">
+	<File path="Classes/SFSDKWindowManager.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKWindowContainer</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKWindowManager</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="127"/>
@@ -13,387 +13,242 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/setWindow:</TokenIdentifier>
-			<Abstract type="html">Underlying Window that is wrapped by this container</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/setUserInterfaceStyle:</TokenIdentifier>
+			<Abstract type="html">Sets overrideUserInterfaceStyle on managed windows. Default is UIUserInterfaceStyleUnspecified.</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UIWindow *window</Declaration>
+			<Declaration>@property (nonatomic, assign) UIUserInterfaceStyle userInterfaceStyle</Declaration>
 			
 			
-			<Anchor>//api/name/window</Anchor>
+			<Anchor>//api/name/userInterfaceStyle</Anchor>
             <NodeRef refid="127"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/window</TokenIdentifier>
-			<Abstract type="html">Underlying Window that is wrapped by this container</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/userInterfaceStyle</TokenIdentifier>
+			<Abstract type="html">Sets overrideUserInterfaceStyle on managed windows. Default is UIUserInterfaceStyleUnspecified.</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UIWindow *window</Declaration>
+			<Declaration>@property (nonatomic, assign) UIUserInterfaceStyle userInterfaceStyle</Declaration>
 			
 			
-			<Anchor>//api/name/window</Anchor>
+			<Anchor>//api/name/userInterfaceStyle</Anchor>
             <NodeRef refid="127"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKWindowContainer/window</TokenIdentifier>
-			<Abstract type="html">Underlying Window that is wrapped by this container</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKWindowManager/userInterfaceStyle</TokenIdentifier>
+			<Abstract type="html">Sets overrideUserInterfaceStyle on managed windows. Default is UIUserInterfaceStyleUnspecified.</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UIWindow *window</Declaration>
+			<Declaration>@property (nonatomic, assign) UIUserInterfaceStyle userInterfaceStyle</Declaration>
 			
 			
-			<Anchor>//api/name/window</Anchor>
+			<Anchor>//api/name/userInterfaceStyle</Anchor>
             <NodeRef refid="127"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/setWindowType:</TokenIdentifier>
-			<Abstract type="html">SFSDKWindowType for the window</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/screenLockWindow</TokenIdentifier>
+			<Abstract type="html">SDK uses this window to present the screen lock view.</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) SFSDKWindowType windowType</Declaration>
+			<Declaration>- (nonnull SFSDKWindowContainer *)screenLockWindow</Declaration>
 			
 			
-			<Anchor>//api/name/windowType</Anchor>
+			<Anchor>//api/name/screenLockWindow</Anchor>
             <NodeRef refid="127"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/windowType</TokenIdentifier>
-			<Abstract type="html">SFSDKWindowType for the window</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/authWindow:</TokenIdentifier>
+			<Abstract type="html">SDK uses this window to present the login flow for the given scene. Defaults a connected scene if one isn&apos;t provided.</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) SFSDKWindowType windowType</Declaration>
+			<Declaration>- (nonnull SFSDKWindowContainer *)authWindow:(nullable UIScene *)scene</Declaration>
 			
 			
-			<Anchor>//api/name/windowType</Anchor>
+			<Anchor>//api/name/authWindow:</Anchor>
             <NodeRef refid="127"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKWindowContainer/windowType</TokenIdentifier>
-			<Abstract type="html">SFSDKWindowType for the window</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/snapshotWindow:</TokenIdentifier>
+			<Abstract type="html">SDK uses this window to present the snapshot view for a given scene. Defaults to a connected scene if one isn&apos;t provided.</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) SFSDKWindowType windowType</Declaration>
+			<Declaration>- (nonnull SFSDKWindowContainer *)snapshotWindow:(nullable UIScene *)scene</Declaration>
 			
 			
-			<Anchor>//api/name/windowType</Anchor>
+			<Anchor>//api/name/snapshotWindow:</Anchor>
             <NodeRef refid="127"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/setWindowName:</TokenIdentifier>
-			<Abstract type="html">SFSDKWindowType windowName</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/mainWindow:</TokenIdentifier>
+			<Abstract type="html">Returns the SFSDKWindowContainer window representing the mainWindow that has been set for a given scene. Defaults to a connected scene if one isn&apos;t provided.</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, readonly) NSString *windowName</Declaration>
+			<Declaration>- (nonnull SFSDKWindowContainer *)mainWindow:(nullable UIScene *)scene</Declaration>
 			
 			
-			<Anchor>//api/name/windowName</Anchor>
+			<Anchor>//api/name/mainWindow:</Anchor>
             <NodeRef refid="127"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/windowName</TokenIdentifier>
-			<Abstract type="html">SFSDKWindowType windowName</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/activeWindow:</TokenIdentifier>
+			<Abstract type="html">Returns the SFSDKWindowContainer window representing the active presented window that has been set for a given scene. Defaults to a connected scene if one isn&apos;t provided.</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, readonly) NSString *windowName</Declaration>
+			<Declaration>- (nullable SFSDKWindowContainer *)activeWindow:(nullable UIScene *)scene</Declaration>
 			
 			
-			<Anchor>//api/name/windowName</Anchor>
+			<Anchor>//api/name/activeWindow:</Anchor>
             <NodeRef refid="127"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKWindowContainer/windowName</TokenIdentifier>
-			<Abstract type="html">SFSDKWindowType windowName</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/setMainUIWindow:</TokenIdentifier>
+			<Abstract type="html">Used to setup the main application window.</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, readonly) NSString *windowName</Declaration>
+			<Declaration>- (void)setMainUIWindow:(UIWindow *_Nonnull)window</Declaration>
 			
 			
-			<Anchor>//api/name/windowName</Anchor>
+			<Anchor>//api/name/setMainUIWindow:</Anchor>
             <NodeRef refid="127"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/setWindowLevel:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/setMainUIWindow:scene:</TokenIdentifier>
+			<Abstract type="html">Used to setup the main window for a given scene. Defaults to a connected scene if one isn&apos;t provided.</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			
+			<Declaration>- (void)setMainUIWindow:(nonnull UIWindow *)window scene:(nullable UIScene *)scene</Declaration>
+			
+			
+			<Anchor>//api/name/setMainUIWindow:scene:</Anchor>
+            <NodeRef refid="127"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/createNewNamedWindow:</TokenIdentifier>
+			<Abstract type="html">Used to create a new Window keyed by a specified name</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			
+			<Declaration>- (SFSDKWindowContainer *_Nullable)createNewNamedWindow:(NSString *_Nonnull)windowName</Declaration>
+			
+			
+			<Anchor>//api/name/createNewNamedWindow:</Anchor>
+            <NodeRef refid="127"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/createNewNamedWindow:scene:</TokenIdentifier>
+			<Abstract type="html">Used to create a new window keyed by a specified name for a given scene. Defaults to a  connected scene if one isn&apos;t provided.</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			
+			<Declaration>- (nullable SFSDKWindowContainer *)createNewNamedWindow:(nonnull NSString *)windowName scene:(nullable UIScene *)scene</Declaration>
+			
+			
+			<Anchor>//api/name/createNewNamedWindow:scene:</Anchor>
+            <NodeRef refid="127"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/removeNamedWindow:</TokenIdentifier>
+			<Abstract type="html">Used to remove a Window by a specified name</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)removeNamedWindow:(NSString *_Nonnull)windowName</Declaration>
+			
+			
+			<Anchor>//api/name/removeNamedWindow:</Anchor>
+            <NodeRef refid="127"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/removeNamedWindow:scene:</TokenIdentifier>
+			<Abstract type="html">Used to remove a window by a specified name for a given scene. Defaults to a connected scene if one isn&apos;t provided.</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)removeNamedWindow:(nonnull NSString *)windowName scene:(nullable UIScene *)scene</Declaration>
+			
+			
+			<Anchor>//api/name/removeNamedWindow:scene:</Anchor>
+            <NodeRef refid="127"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/windowWithName:</TokenIdentifier>
+			<Abstract type="html">Used to retrieve a Window by a specified name</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			
+			<Declaration>- (SFSDKWindowContainer *_Nullable)windowWithName:(NSString *_Nonnull)name</Declaration>
+			
+			
+			<Anchor>//api/name/windowWithName:</Anchor>
+            <NodeRef refid="127"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/windowWithName:scene:</TokenIdentifier>
+			<Abstract type="html">Used to retrieve a window by a specified name for a given scene. Defaults to a connected scene if one isn&apos;t provided.</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			
+			<Declaration>- (nullable SFSDKWindowContainer *)windowWithName:(nonnull NSString *)name scene:(nullable UIScene *)scene</Declaration>
+			
+			
+			<Anchor>//api/name/windowWithName:scene:</Anchor>
+            <NodeRef refid="127"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/addDelegate:</TokenIdentifier>
+			<Abstract type="html">Add a Window Manager Delegate</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			
+			<Declaration>- (void)addDelegate:(id&lt;SFSDKWindowManagerDelegate&gt; _Nonnull)delegate</Declaration>
+			
+			
+			<Anchor>//api/name/addDelegate:</Anchor>
+            <NodeRef refid="127"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/removeDelegate:</TokenIdentifier>
+			<Abstract type="html">Remove a Window Manager Delegate</Abstract>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			
+			<Declaration>- (void)removeDelegate:(id&lt;SFSDKWindowManagerDelegate&gt; _Nonnull)delegate</Declaration>
+			
+			
+			<Anchor>//api/name/removeDelegate:</Anchor>
+            <NodeRef refid="127"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKWindowManager/sharedManager</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) UIWindowLevel windowLevel</Declaration>
+			<Declaration>+ (instancetype _Nonnull)sharedManager</Declaration>
 			
 			
-			<Anchor>//api/name/windowLevel</Anchor>
+			<Anchor>//api/name/sharedManager</Anchor>
             <NodeRef refid="127"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/windowLevel</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowManager/defaultScene</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+			<DeclaredIn>SFSDKWindowManager+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) UIWindowLevel windowLevel</Declaration>
-			
-			
-			<Anchor>//api/name/windowLevel</Anchor>
-            <NodeRef refid="127"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKWindowContainer/windowLevel</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) UIWindowLevel windowLevel</Declaration>
+			<Declaration>- (UIScene *)defaultScene</Declaration>
 			
 			
-			<Anchor>//api/name/windowLevel</Anchor>
-            <NodeRef refid="127"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/setViewController:</TokenIdentifier>
-			<Abstract type="html">UIViewController viewController</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) UIViewController *viewController</Declaration>
-			
-			
-			<Anchor>//api/name/viewController</Anchor>
-            <NodeRef refid="127"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/viewController</TokenIdentifier>
-			<Abstract type="html">UIViewController viewController</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) UIViewController *viewController</Declaration>
-			
-			
-			<Anchor>//api/name/viewController</Anchor>
-            <NodeRef refid="127"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKWindowContainer/viewController</TokenIdentifier>
-			<Abstract type="html">UIViewController viewController</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) UIViewController *viewController</Declaration>
-			
-			
-			<Anchor>//api/name/viewController</Anchor>
-            <NodeRef refid="127"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/setWindowDelegate:</TokenIdentifier>
-			<Abstract type="html">SFSDKWindowContainerDelegate window Delegate</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKWindowContainerDelegate&gt; _Nullable windowDelegate</Declaration>
-			
-			
-			<Anchor>//api/name/windowDelegate</Anchor>
-            <NodeRef refid="127"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/windowDelegate</TokenIdentifier>
-			<Abstract type="html">SFSDKWindowContainerDelegate window Delegate</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKWindowContainerDelegate&gt; _Nullable windowDelegate</Declaration>
-			
-			
-			<Anchor>//api/name/windowDelegate</Anchor>
-            <NodeRef refid="127"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKWindowContainer/windowDelegate</TokenIdentifier>
-			<Abstract type="html">SFSDKWindowContainerDelegate window Delegate</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKWindowContainerDelegate&gt; _Nullable windowDelegate</Declaration>
-			
-			
-			<Anchor>//api/name/windowDelegate</Anchor>
-            <NodeRef refid="127"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/initWithWindow:name:</TokenIdentifier>
-			<Abstract type="html">Create an instance of a Window</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-			
-			<Declaration>- (instancetype)initWithWindow:(UIWindow *)window name:(NSString *)windowName</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>window</Name>
-					<Abstract type="html">An instance of UIWindow</Abstract>
-				</Parameter><Parameter>
-					<Name>windowName</Name>
-					<Abstract type="html">key for the UIWindow</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">SFSDKWindowComtainer</Abstract></ReturnValue>
-			<Anchor>//api/name/initWithWindow:name:</Anchor>
-            <NodeRef refid="127"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/initWithName:</TokenIdentifier>
-			<Abstract type="html">Create an instance of a Window</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-			
-			<Declaration>- (instancetype)initWithName:(NSString *)windowName</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>windowName</Name>
-					<Abstract type="html">key for the UIWindow</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">SFSDKWindowComtainer</Abstract></ReturnValue>
-			<Anchor>//api/name/initWithName:</Anchor>
-            <NodeRef refid="127"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/isEnabled</TokenIdentifier>
-			<Abstract type="html">Returns true if window alpha is set to 1.0</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)isEnabled</Declaration>
-			
-			
-			<Anchor>//api/name/isEnabled</Anchor>
-            <NodeRef refid="127"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/presentWindow</TokenIdentifier>
-			<Abstract type="html">Make window visible, set alpha to 1.0</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-			
-			<Declaration>- (void)presentWindow</Declaration>
-			
-			
-			<Anchor>//api/name/presentWindow</Anchor>
-            <NodeRef refid="127"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/presentWindowAnimated:withCompletion:</TokenIdentifier>
-			<Abstract type="html">Make window visible, set alpha to 1.0 invoke completion block</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-			
-			<Declaration>- (void)presentWindowAnimated:(BOOL)animated withCompletion:(void ( ^ _Nullable ) ( void ))completion</Declaration>
-			
-			
-			<Anchor>//api/name/presentWindowAnimated:withCompletion:</Anchor>
-            <NodeRef refid="127"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/dismissWindowAnimated:withCompletion:</TokenIdentifier>
-			<Abstract type="html">Make window visible</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-			
-			<Declaration>- (void)dismissWindowAnimated:(BOOL)animated withCompletion:(void ( ^ _Nullable ) ( void ))completion</Declaration>
-			
-			
-			<Anchor>//api/name/dismissWindowAnimated:withCompletion:</Anchor>
-            <NodeRef refid="127"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/dismissWindow</TokenIdentifier>
-			<Abstract type="html">Make window invisible</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-			
-			<Declaration>- (void)dismissWindow</Declaration>
-			
-			
-			<Anchor>//api/name/dismissWindow</Anchor>
-            <NodeRef refid="127"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/isMainWindow</TokenIdentifier>
-			<Abstract type="html">Convenience API returns true if the SFSDKWindowType is main</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)isMainWindow</Declaration>
-			
-			<ReturnValue><Abstract type="html">YES if this is the main Window</Abstract></ReturnValue>
-			<Anchor>//api/name/isMainWindow</Anchor>
-            <NodeRef refid="127"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/isAuthWindow</TokenIdentifier>
-			<Abstract type="html">Convenience API returns true if the SFSDKWindowType is auth</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)isAuthWindow</Declaration>
-			
-			<ReturnValue><Abstract type="html">YES if this is the auth Window</Abstract></ReturnValue>
-			<Anchor>//api/name/isAuthWindow</Anchor>
-            <NodeRef refid="127"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/isSnapshotWindow</TokenIdentifier>
-			<Abstract type="html">Convenience API returns true if the SFSDKWindowType is snapshot</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)isSnapshotWindow</Declaration>
-			
-			<ReturnValue><Abstract type="html">YES if this is the snapshot Window</Abstract></ReturnValue>
-			<Anchor>//api/name/isSnapshotWindow</Anchor>
-            <NodeRef refid="127"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/isScreenLockWindow</TokenIdentifier>
-			<Abstract type="html">Convenience API returns true if the SFSDKWindowType is screen lock</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)isScreenLockWindow</Declaration>
-			
-			<ReturnValue><Abstract type="html">YES if this is the screen lock Window</Abstract></ReturnValue>
-			<Anchor>//api/name/isScreenLockWindow</Anchor>
-            <NodeRef refid="127"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKWindowContainer/topViewController</TokenIdentifier>
-			<Abstract type="html">Tries to return top view controller of this window</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-			
-			<Declaration>- (UIViewController *)topViewController</Declaration>
-			
-			
-			<Anchor>//api/name/topViewController</Anchor>
-            <NodeRef refid="127"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKWindowContainer/topViewControllerWithRootViewController:</TokenIdentifier>
-			<Abstract type="html">Tries to return top view controller given a rootViewcontroller</Abstract>
-			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
-			
-			<Declaration>+ (UIViewController *)topViewControllerWithRootViewController:(UIViewController *)viewController</Declaration>
-			
-			
-			<Anchor>//api/name/topViewControllerWithRootViewController:</Anchor>
+			<Anchor>//api/name/defaultScene</Anchor>
             <NodeRef refid="127"/>
 		</Token>
 		

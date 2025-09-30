@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/UIDeviceFamily.html">
+	<File path="Constants/UIDevicePlatform.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/UIDeviceFamily</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/UIDevicePlatform</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
             
@@ -14,9 +14,9 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/UIDeviceFamilyiPhone</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/UIDeviceUnknown</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>UIDeviceFamilyiPhone</Declaration>
+            <Declaration>UIDeviceUnknown</Declaration>
             
             <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
             
@@ -24,9 +24,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/UIDeviceFamilyiPod</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/UIDeviceIFPGA</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>UIDeviceFamilyiPod</Declaration>
+            <Declaration>UIDeviceIFPGA</Declaration>
             
             <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
             
@@ -34,9 +34,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/UIDeviceFamilyiPad</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/UIDeviceSimulator</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>UIDeviceFamilyiPad</Declaration>
+            <Declaration>UIDeviceSimulator</Declaration>
             
             <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
             
@@ -44,9 +44,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/UIDeviceFamilyAppleTV</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/UIDeviceSimulatoriPhone</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>UIDeviceFamilyAppleTV</Declaration>
+            <Declaration>UIDeviceSimulatoriPhone</Declaration>
             
             <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
             
@@ -54,9 +54,599 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/UIDeviceFamilyUnknown</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/UIDeviceSimulatoriPad</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>UIDeviceFamilyUnknown</Declaration>
+            <Declaration>UIDeviceSimulatoriPad</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDeviceSimulatorAppleTV</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDeviceSimulatorAppleTV</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDeviceSE2iPhone</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDeviceSE2iPhone</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDeviceSE3iPhone</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDeviceSE3iPhone</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDeviceXRiPhone</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDeviceXRiPhone</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDeviceXsiPhone</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDeviceXsiPhone</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDeviceXsMaxiPhone</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDeviceXsMaxiPhone</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDevice11iPhone</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDevice11iPhone</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDevice11ProiPhone</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDevice11ProiPhone</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDevice11ProMaxiPhone</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDevice11ProMaxiPhone</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDevice12MiniiPhone</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDevice12MiniiPhone</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDevice12iPhone</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDevice12iPhone</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDevice12ProiPhone</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDevice12ProiPhone</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDevice12ProMaxiPhone</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDevice12ProMaxiPhone</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDevice13MiniiPhone</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDevice13MiniiPhone</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDevice13iPhone</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDevice13iPhone</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDevice13ProiPhone</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDevice13ProiPhone</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDevice13ProMaxiPhone</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDevice13ProMaxiPhone</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDevice14iPhone</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDevice14iPhone</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDevice14PlusiPhone</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDevice14PlusiPhone</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDevice14ProiPhone</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDevice14ProiPhone</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDevice14ProMaxiPhone</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDevice14ProMaxiPhone</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDevice15iPhone</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDevice15iPhone</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDevice15PlusiPhone</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDevice15PlusiPhone</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDevice15ProiPhone</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDevice15ProiPhone</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDevice15ProMaxiPhone</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDevice15ProMaxiPhone</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDevice16ProiPhone</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDevice16ProiPhone</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDevice16ProMaxiPhone</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDevice16ProMaxiPhone</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDevice16iPhone</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDevice16iPhone</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDevice16PlusiPhone</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDevice16PlusiPhone</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDevice5GiPadMini</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDevice5GiPadMini</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDevice6GiPadMini</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDevice6GiPadMini</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDevice3GiPadAir</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDevice3GiPadAir</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDevice4GiPadAir</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDevice4GiPadAir</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDevice5GiPadAir</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDevice5GiPadAir</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDevice7GiPad</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDevice7GiPad</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDevice8GiPad</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDevice8GiPad</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDevice9GiPad</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDevice9GiPad</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDevice10GiPad</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDevice10GiPad</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDeviceM1iPadPro129Inch</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDeviceM1iPadPro129Inch</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDevice3G129InchiPadPro</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDevice3G129InchiPadPro</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDevice4G129InchiPadPro</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDevice4G129InchiPadPro</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDevice5G129InchiPadPro</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDevice5G129InchiPadPro</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDevice6G129InchiPadPro</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDevice6G129InchiPadPro</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDevice11InchiPadPro</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDevice11InchiPadPro</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDevice11Inch2GiPadPro</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDevice11Inch2GiPadPro</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDevice11Inch3GiPadPro</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDevice11Inch3GiPadPro</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDevice11Inch4GiPadPro</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDevice11Inch4GiPadPro</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDevice6GiPadAir</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDevice6GiPadAir</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDevice7GiPadAir</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDevice7GiPadAir</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDevice7GiPadMini</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDevice7GiPadMini</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDevice11Inch5GiPadPro</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDevice11Inch5GiPadPro</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDevice12Inch7GiPadPro</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDevice12Inch7GiPadPro</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDeviceAppleTV4</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDeviceAppleTV4</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDeviceAppleTV4k</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDeviceAppleTV4k</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDeviceAppleTV4k2G</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDeviceAppleTV4k2G</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDeviceAppleTV4k3G</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDeviceAppleTV4k3G</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDeviceUnknowniPhone</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDeviceUnknowniPhone</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDeviceUnknowniPad</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDeviceUnknowniPad</Declaration>
+            
+            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            
+            <NodeRef refid="201"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/UIDeviceUnknownAppleTV</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>UIDeviceUnknownAppleTV</Declaration>
             
             <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
             

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/NSData+SFSHA.html">
+	<File path="Categories/NSData+SFzlib.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/NSData(SFSHA)</TokenIdentifier>
-			<Abstract type="html">Provides MD5 conversion support.</Abstract>
+			<TokenIdentifier>//apple_ref/occ/cat/NSData(SFzlib)</TokenIdentifier>
+			<Abstract type="html">Provides gzip uncompressed conversion support.</Abstract>
 			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
             
 			
@@ -13,14 +13,26 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSData/sfsdk_sha256</TokenIdentifier>
-			<Abstract type="html">Derives  a  sha256  hex encoded string.</Abstract>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/sfsdk_gzipInflate</TokenIdentifier>
+			<Abstract type="html">Converts this data to gzip uncompressed format.</Abstract>
 			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)sfsdk_sha256</Declaration>
+			<Declaration>- (nullable NSData *)sfsdk_gzipInflate</Declaration>
 			
-			<ReturnValue><Abstract type="html">md5 version of data.</Abstract></ReturnValue>
-			<Anchor>//api/name/sfsdk_sha256</Anchor>
+			<ReturnValue><Abstract type="html">This data in gzip uncompressed format.</Abstract></ReturnValue>
+			<Anchor>//api/name/sfsdk_gzipInflate</Anchor>
+            <NodeRef refid="147"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/sfsdk_gzipDeflate</TokenIdentifier>
+			<Abstract type="html">Converts this data to gzip compressed format.</Abstract>
+			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
+			
+			<Declaration>- (nullable NSData *)sfsdk_gzipDeflate</Declaration>
+			
+			<ReturnValue><Abstract type="html">This data in gzip compressed format.</Abstract></ReturnValue>
+			<Anchor>//api/name/sfsdk_gzipDeflate</Anchor>
             <NodeRef refid="147"/>
 		</Token>
 		

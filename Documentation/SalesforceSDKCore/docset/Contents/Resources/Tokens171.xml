@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSDKUserSelectionViewDelegate.html">
+	<File path="Protocols/SFSDKWindowContainerDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSDKUserSelectionViewDelegate</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSDKWindowContainerDelegate</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
+			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
             
 			
 			<NodeRef refid="171"/>
@@ -13,38 +13,36 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionViewDelegate/createNewUser:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKWindowContainerDelegate/presentWindow:animated:withCompletion:</TokenIdentifier>
+			<Abstract type="html">Called when the window has to be enabled</Abstract>
+			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
 			
-			<Declaration>- (void)createNewUser:(NSDictionary *)spAppOptions</Declaration>
+			<Declaration>- (void)presentWindow:(SFSDKWindowContainer *)window animated:(BOOL)animated withCompletion:(void ( ^ _Nullable ) ( void ))completion</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>window</Name>
+					<Abstract type="html">The window</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/createNewUser:</Anchor>
+			<Anchor>//api/name/presentWindow:animated:withCompletion:</Anchor>
             <NodeRef refid="171"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionViewDelegate/selectedUser:spAppContext:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKWindowContainerDelegate/dismissWindow:animated:withCompletion:</TokenIdentifier>
+			<Abstract type="html">Called when the window has to be disabled</Abstract>
+			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
 			
-			<Declaration>- (void)selectedUser:(SFUserAccount *)user spAppContext:(NSDictionary *)spAppOptions</Declaration>
+			<Declaration>- (void)dismissWindow:(SFSDKWindowContainer *)window animated:(BOOL)animated withCompletion:(void ( ^ _Nullable ) ( void ))completion</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>window</Name>
+					<Abstract type="html">The window</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/selectedUser:spAppContext:</Anchor>
-            <NodeRef refid="171"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKUserSelectionViewDelegate/cancel:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionView.h</DeclaredIn>
-			
-			<Declaration>- (void)cancel:(NSDictionary *)spAppOptions</Declaration>
-			
-			
-			<Anchor>//api/name/cancel:</Anchor>
+			<Anchor>//api/name/dismissWindow:animated:withCompletion:</Anchor>
             <NodeRef refid="171"/>
 		</Token>
 		

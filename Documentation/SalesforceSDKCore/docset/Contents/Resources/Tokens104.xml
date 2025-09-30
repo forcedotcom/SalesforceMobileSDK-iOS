@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKSPLoginRequestCommand.html">
+	<File path="Classes/SFSDKSPLoginResponseCommand.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKSPLoginRequestCommand</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKSPLoginResponseCommand</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSPLoginRequestCommand.h</DeclaredIn>
+			<DeclaredIn>SFSDKSPLoginResponseCommand.h</DeclaredIn>
             
 			
 			<NodeRef refid="104"/>
@@ -13,290 +13,110 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSPLoginRequestCommand/setSpState:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSPLoginResponseCommand/setState:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSPLoginRequestCommand.h</DeclaredIn>
+			<DeclaredIn>SFSDKSPLoginResponseCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *spState</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *state</Declaration>
 			
 			
-			<Anchor>//api/name/spState</Anchor>
+			<Anchor>//api/name/state</Anchor>
             <NodeRef refid="104"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSPLoginRequestCommand/spState</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSPLoginResponseCommand/state</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSPLoginRequestCommand.h</DeclaredIn>
+			<DeclaredIn>SFSDKSPLoginResponseCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *spState</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *state</Declaration>
 			
 			
-			<Anchor>//api/name/spState</Anchor>
+			<Anchor>//api/name/state</Anchor>
             <NodeRef refid="104"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKSPLoginRequestCommand/spState</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKSPLoginResponseCommand/state</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSPLoginRequestCommand.h</DeclaredIn>
+			<DeclaredIn>SFSDKSPLoginResponseCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *spState</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *state</Declaration>
 			
 			
-			<Anchor>//api/name/spState</Anchor>
+			<Anchor>//api/name/state</Anchor>
             <NodeRef refid="104"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSPLoginRequestCommand/setSpClientId:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSPLoginResponseCommand/setAuthCode:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSPLoginRequestCommand.h</DeclaredIn>
+			<DeclaredIn>SFSDKSPLoginResponseCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *spClientId</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *authCode</Declaration>
 			
 			
-			<Anchor>//api/name/spClientId</Anchor>
+			<Anchor>//api/name/authCode</Anchor>
             <NodeRef refid="104"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSPLoginRequestCommand/spClientId</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSPLoginResponseCommand/authCode</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSPLoginRequestCommand.h</DeclaredIn>
+			<DeclaredIn>SFSDKSPLoginResponseCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *spClientId</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *authCode</Declaration>
 			
 			
-			<Anchor>//api/name/spClientId</Anchor>
+			<Anchor>//api/name/authCode</Anchor>
             <NodeRef refid="104"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKSPLoginRequestCommand/spClientId</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKSPLoginResponseCommand/authCode</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSPLoginRequestCommand.h</DeclaredIn>
+			<DeclaredIn>SFSDKSPLoginResponseCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *spClientId</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *authCode</Declaration>
 			
 			
-			<Anchor>//api/name/spClientId</Anchor>
+			<Anchor>//api/name/authCode</Anchor>
             <NodeRef refid="104"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSPLoginRequestCommand/setSpRedirectURI:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSPLoginResponseCommand/setDomain:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSPLoginRequestCommand.h</DeclaredIn>
+			<DeclaredIn>SFSDKSPLoginResponseCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *spRedirectURI</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *domain</Declaration>
 			
 			
-			<Anchor>//api/name/spRedirectURI</Anchor>
+			<Anchor>//api/name/domain</Anchor>
             <NodeRef refid="104"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSPLoginRequestCommand/spRedirectURI</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSPLoginResponseCommand/domain</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSPLoginRequestCommand.h</DeclaredIn>
+			<DeclaredIn>SFSDKSPLoginResponseCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *spRedirectURI</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *domain</Declaration>
 			
 			
-			<Anchor>//api/name/spRedirectURI</Anchor>
+			<Anchor>//api/name/domain</Anchor>
             <NodeRef refid="104"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKSPLoginRequestCommand/spRedirectURI</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKSPLoginResponseCommand/domain</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSPLoginRequestCommand.h</DeclaredIn>
+			<DeclaredIn>SFSDKSPLoginResponseCommand.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *spRedirectURI</Declaration>
-			
-			
-			<Anchor>//api/name/spRedirectURI</Anchor>
-            <NodeRef refid="104"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSPLoginRequestCommand/setSpCodeChallenge:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSPLoginRequestCommand.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *spCodeChallenge</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *domain</Declaration>
 			
 			
-			<Anchor>//api/name/spCodeChallenge</Anchor>
-            <NodeRef refid="104"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSPLoginRequestCommand/spCodeChallenge</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSPLoginRequestCommand.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *spCodeChallenge</Declaration>
-			
-			
-			<Anchor>//api/name/spCodeChallenge</Anchor>
-            <NodeRef refid="104"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKSPLoginRequestCommand/spCodeChallenge</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSPLoginRequestCommand.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *spCodeChallenge</Declaration>
-			
-			
-			<Anchor>//api/name/spCodeChallenge</Anchor>
-            <NodeRef refid="104"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSPLoginRequestCommand/setSpUserHint:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSPLoginRequestCommand.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *spUserHint</Declaration>
-			
-			
-			<Anchor>//api/name/spUserHint</Anchor>
-            <NodeRef refid="104"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSPLoginRequestCommand/spUserHint</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSPLoginRequestCommand.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *spUserHint</Declaration>
-			
-			
-			<Anchor>//api/name/spUserHint</Anchor>
-            <NodeRef refid="104"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKSPLoginRequestCommand/spUserHint</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSPLoginRequestCommand.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *spUserHint</Declaration>
-			
-			
-			<Anchor>//api/name/spUserHint</Anchor>
-            <NodeRef refid="104"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSPLoginRequestCommand/setSpAppName:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSPLoginRequestCommand.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *spAppName</Declaration>
-			
-			
-			<Anchor>//api/name/spAppName</Anchor>
-            <NodeRef refid="104"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSPLoginRequestCommand/spAppName</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSPLoginRequestCommand.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *spAppName</Declaration>
-			
-			
-			<Anchor>//api/name/spAppName</Anchor>
-            <NodeRef refid="104"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKSPLoginRequestCommand/spAppName</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSPLoginRequestCommand.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *spAppName</Declaration>
-			
-			
-			<Anchor>//api/name/spAppName</Anchor>
-            <NodeRef refid="104"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSPLoginRequestCommand/setSpLoginHost:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSPLoginRequestCommand.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *spLoginHost</Declaration>
-			
-			
-			<Anchor>//api/name/spLoginHost</Anchor>
-            <NodeRef refid="104"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSPLoginRequestCommand/spLoginHost</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSPLoginRequestCommand.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *spLoginHost</Declaration>
-			
-			
-			<Anchor>//api/name/spLoginHost</Anchor>
-            <NodeRef refid="104"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKSPLoginRequestCommand/spLoginHost</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSPLoginRequestCommand.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *spLoginHost</Declaration>
-			
-			
-			<Anchor>//api/name/spLoginHost</Anchor>
-            <NodeRef refid="104"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSPLoginRequestCommand/setSpAppScopes:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSPLoginRequestCommand.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *spAppScopes</Declaration>
-			
-			
-			<Anchor>//api/name/spAppScopes</Anchor>
-            <NodeRef refid="104"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKSPLoginRequestCommand/spAppScopes</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSPLoginRequestCommand.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *spAppScopes</Declaration>
-			
-			
-			<Anchor>//api/name/spAppScopes</Anchor>
-            <NodeRef refid="104"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKSPLoginRequestCommand/spAppScopes</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKSPLoginRequestCommand.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *spAppScopes</Declaration>
-			
-			
-			<Anchor>//api/name/spAppScopes</Anchor>
+			<Anchor>//api/name/domain</Anchor>
             <NodeRef refid="104"/>
 		</Token>
 		

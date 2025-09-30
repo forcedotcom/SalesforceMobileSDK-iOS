@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKBatchRequest.html">
+	<File path="Classes/SFSDKBatchRequestBuilder.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKBatchRequest</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKBatchRequestBuilder</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSDKBatchRequest.h</DeclaredIn>
             
@@ -13,74 +13,38 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBatchRequest/setHaltOnError:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBatchRequestBuilder/setHaltOnError:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSDKBatchRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL haltOnError</Declaration>
+			<Declaration>- (SFSDKBatchRequestBuilder *)setHaltOnError:(BOOL)haltOnError</Declaration>
 			
 			
-			<Anchor>//api/name/haltOnError</Anchor>
+			<Anchor>//api/name/setHaltOnError:</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBatchRequest/haltOnError</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBatchRequestBuilder/addRequest:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSDKBatchRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL haltOnError</Declaration>
+			<Declaration>- (SFSDKBatchRequestBuilder *)addRequest:(SFRestRequest *)request</Declaration>
 			
 			
-			<Anchor>//api/name/haltOnError</Anchor>
+			<Anchor>//api/name/addRequest:</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKBatchRequest/haltOnError</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBatchRequestBuilder/buildBatchRequest:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSDKBatchRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL haltOnError</Declaration>
+			<Declaration>- (SFSDKBatchRequest *)buildBatchRequest:(NSString *)apiVersion</Declaration>
 			
 			
-			<Anchor>//api/name/haltOnError</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBatchRequest/setBatchRequests:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBatchRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSArray&lt;SFRestRequest*&gt; *batchRequests</Declaration>
-			
-			
-			<Anchor>//api/name/batchRequests</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBatchRequest/batchRequests</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBatchRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSArray&lt;SFRestRequest*&gt; *batchRequests</Declaration>
-			
-			
-			<Anchor>//api/name/batchRequests</Anchor>
-            <NodeRef refid="55"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKBatchRequest/batchRequests</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBatchRequest.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSArray&lt;SFRestRequest*&gt; *batchRequests</Declaration>
-			
-			
-			<Anchor>//api/name/batchRequests</Anchor>
+			<Anchor>//api/name/buildBatchRequest:</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		

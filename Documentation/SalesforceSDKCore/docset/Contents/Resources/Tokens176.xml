@@ -1,101 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SalesforceSDKManagerFlow.html">
+	<File path="Constants/SFAccountManagerServiceType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SalesforceSDKManagerFlow</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/SFAccountManagerServiceType</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			<DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
             
 			
 			<NodeRef refid="176"/>
 		</Token>
 		
 		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleAppForeground:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)handleAppForeground:(nonnull NSNotification *)notification</Declaration>
-			
-			
-			<Anchor>//api/name/handleAppForeground:</Anchor>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFAccountManagerServiceTypeNone</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFAccountManagerServiceTypeNone</Declaration>
+            
+            <DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+            
             <NodeRef refid="176"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleAppBackground:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)handleAppBackground:(nonnull NSNotification *)notification</Declaration>
-			
-			
-			<Anchor>//api/name/handleAppBackground:</Anchor>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFAccountManagerServiceTypeOAuth</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFAccountManagerServiceTypeOAuth</Declaration>
+            
+            <DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+            
             <NodeRef refid="176"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleAppTerminate:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)handleAppTerminate:(nonnull NSNotification *)notification</Declaration>
-			
-			
-			<Anchor>//api/name/handleAppTerminate:</Anchor>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFAccountManagerServiceTypeIdentity</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFAccountManagerServiceTypeIdentity</Declaration>
+            
+            <DeclaredIn>SFSDKTestRequestListener.h</DeclaredIn>
+            
             <NodeRef refid="176"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handlePostLogout</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)handlePostLogout</Declaration>
-			
-			
-			<Anchor>//api/name/handlePostLogout</Anchor>
-            <NodeRef refid="176"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleAuthCompleted:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)handleAuthCompleted:(nonnull NSNotification *)notification</Declaration>
-			
-			
-			<Anchor>//api/name/handleAuthCompleted:</Anchor>
-            <NodeRef refid="176"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleIDPInitiatedAuthCompleted:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)handleIDPInitiatedAuthCompleted:(nonnull NSNotification *)notification</Declaration>
-			
-			
-			<Anchor>//api/name/handleIDPInitiatedAuthCompleted:</Anchor>
-            <NodeRef refid="176"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleUserDidLogout:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)handleUserDidLogout:(nonnull NSNotification *)notification</Declaration>
-			
-			
-			<Anchor>//api/name/handleUserDidLogout:</Anchor>
-            <NodeRef refid="176"/>
-		</Token>
-		
+        </Token>
         
         
 	</File>

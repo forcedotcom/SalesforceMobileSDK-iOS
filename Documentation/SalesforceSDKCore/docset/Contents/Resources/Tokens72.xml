@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKFetchNotificationsRequestBuilder.html">
+	<File path="Classes/SFSDKIDPAuthCodeLoginRequestCommand.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKFetchNotificationsRequestBuilder</TokenIdentifier>
-			<Abstract type="html">Use this interface to create a RestRequest object that calls the Notifications REST API.</Abstract>
-			<DeclaredIn>SFRestAPI+Notifications.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKIDPAuthCodeLoginRequestCommand</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKIDPAuthCodeLoginRequestCommand.h</DeclaredIn>
             
 			
 			<NodeRef refid="72"/>
@@ -13,70 +13,146 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKFetchNotificationsRequestBuilder/setSize:</TokenIdentifier>
-			<Abstract type="html">Sets the number of notifications to fetch. Max and default are 20.</Abstract>
-			<DeclaredIn>SFRestAPI+Notifications.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKIDPAuthCodeLoginRequestCommand/setUserHint:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKIDPAuthCodeLoginRequestCommand.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKFetchNotificationsRequestBuilder *)setSize:(NSUInteger)size</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>size</Name>
-					<Abstract type="html">Number of notifications to fetch.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, copy) NSString *userHint</Declaration>
 			
-			<Anchor>//api/name/setSize:</Anchor>
+			
+			<Anchor>//api/name/userHint</Anchor>
             <NodeRef refid="72"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKFetchNotificationsRequestBuilder/setBefore:</TokenIdentifier>
-			<Abstract type="html">Notifications occurring before the provided date will be fetched. Shouldn&apos;t be used with setAfter.</Abstract>
-			<DeclaredIn>SFRestAPI+Notifications.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKIDPAuthCodeLoginRequestCommand/userHint</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKIDPAuthCodeLoginRequestCommand.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKFetchNotificationsRequestBuilder *)setBefore:(NSDate *)date</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>date</Name>
-					<Abstract type="html">Before date. If unspecified, defaults to current date and time.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, copy) NSString *userHint</Declaration>
 			
-			<Anchor>//api/name/setBefore:</Anchor>
+			
+			<Anchor>//api/name/userHint</Anchor>
             <NodeRef refid="72"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKFetchNotificationsRequestBuilder/setAfter:</TokenIdentifier>
-			<Abstract type="html">Notifications occurring after the provided date will be fetched. Shouldn&apos;t be used with setBefore.</Abstract>
-			<DeclaredIn>SFRestAPI+Notifications.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKIDPAuthCodeLoginRequestCommand/userHint</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKIDPAuthCodeLoginRequestCommand.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKFetchNotificationsRequestBuilder *)setAfter:(NSDate *)date</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>date</Name>
-					<Abstract type="html">After date.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, copy) NSString *userHint</Declaration>
 			
-			<Anchor>//api/name/setAfter:</Anchor>
+			
+			<Anchor>//api/name/userHint</Anchor>
             <NodeRef refid="72"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKFetchNotificationsRequestBuilder/buildFetchNotificationsRequest:</TokenIdentifier>
-			<Abstract type="html">Returns a request to fetch notifications based on values from the builder.</Abstract>
-			<DeclaredIn>SFRestAPI+Notifications.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKIDPAuthCodeLoginRequestCommand/setKeychainGroup:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKIDPAuthCodeLoginRequestCommand.h</DeclaredIn>
 			
-			<Declaration>- (SFRestRequest *)buildFetchNotificationsRequest:(NSString *)apiVersion</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>apiVersion</Name>
-					<Abstract type="html">API version.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, copy) NSString *keychainGroup</Declaration>
 			
-			<Anchor>//api/name/buildFetchNotificationsRequest:</Anchor>
+			
+			<Anchor>//api/name/keychainGroup</Anchor>
+            <NodeRef refid="72"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKIDPAuthCodeLoginRequestCommand/keychainGroup</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKIDPAuthCodeLoginRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *keychainGroup</Declaration>
+			
+			
+			<Anchor>//api/name/keychainGroup</Anchor>
+            <NodeRef refid="72"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKIDPAuthCodeLoginRequestCommand/keychainGroup</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKIDPAuthCodeLoginRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *keychainGroup</Declaration>
+			
+			
+			<Anchor>//api/name/keychainGroup</Anchor>
+            <NodeRef refid="72"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKIDPAuthCodeLoginRequestCommand/setKeychainReference:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKIDPAuthCodeLoginRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *keychainReference</Declaration>
+			
+			
+			<Anchor>//api/name/keychainReference</Anchor>
+            <NodeRef refid="72"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKIDPAuthCodeLoginRequestCommand/keychainReference</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKIDPAuthCodeLoginRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *keychainReference</Declaration>
+			
+			
+			<Anchor>//api/name/keychainReference</Anchor>
+            <NodeRef refid="72"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKIDPAuthCodeLoginRequestCommand/keychainReference</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKIDPAuthCodeLoginRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *keychainReference</Declaration>
+			
+			
+			<Anchor>//api/name/keychainReference</Anchor>
+            <NodeRef refid="72"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKIDPAuthCodeLoginRequestCommand/setAuthCode:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKIDPAuthCodeLoginRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *authCode</Declaration>
+			
+			
+			<Anchor>//api/name/authCode</Anchor>
+            <NodeRef refid="72"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKIDPAuthCodeLoginRequestCommand/authCode</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKIDPAuthCodeLoginRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *authCode</Declaration>
+			
+			
+			<Anchor>//api/name/authCode</Anchor>
+            <NodeRef refid="72"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKIDPAuthCodeLoginRequestCommand/authCode</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKIDPAuthCodeLoginRequestCommand.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *authCode</Declaration>
+			
+			
+			<Anchor>//api/name/authCode</Anchor>
             <NodeRef refid="72"/>
 		</Token>
 		

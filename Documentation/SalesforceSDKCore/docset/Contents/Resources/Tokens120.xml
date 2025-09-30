@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKUserSelectionNavViewController.html">
+	<File path="Classes/SFSDKUserSelectionTableViewController.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKUserSelectionNavViewController</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKUserSelectionTableViewController</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionNavViewController.h</DeclaredIn>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
             
 			
 			<NodeRef refid="120"/>
@@ -13,45 +13,81 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionNavViewController/setUserSelectionDelegate:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/setSelectedAccount:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionNavViewController.h</DeclaredIn>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKUserSelectionViewDelegate&gt; userSelectionDelegate</Declaration>
+			<Declaration>@property (nonatomic, strong) SFUserAccount *selectedAccount</Declaration>
 			
 			
-			<Anchor>//api/name/userSelectionDelegate</Anchor>
+			<Anchor>//api/name/selectedAccount</Anchor>
             <NodeRef refid="120"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionNavViewController/userSelectionDelegate</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/selectedAccount</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionNavViewController.h</DeclaredIn>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKUserSelectionViewDelegate&gt; userSelectionDelegate</Declaration>
+			<Declaration>@property (nonatomic, strong) SFUserAccount *selectedAccount</Declaration>
 			
 			
-			<Anchor>//api/name/userSelectionDelegate</Anchor>
+			<Anchor>//api/name/selectedAccount</Anchor>
             <NodeRef refid="120"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUserSelectionNavViewController/userSelectionDelegate</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUserSelectionTableViewController/selectedAccount</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionNavViewController.h</DeclaredIn>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKUserSelectionViewDelegate&gt; userSelectionDelegate</Declaration>
+			<Declaration>@property (nonatomic, strong) SFUserAccount *selectedAccount</Declaration>
 			
 			
-			<Anchor>//api/name/userSelectionDelegate</Anchor>
+			<Anchor>//api/name/selectedAccount</Anchor>
             <NodeRef refid="120"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionNavViewController/setSpAppOptions:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/setListViewDelegate:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionNavViewController.h</DeclaredIn>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;SFSDKUserSelectionTableViewControllerDelegate&gt; listViewDelegate</Declaration>
+			
+			
+			<Anchor>//api/name/listViewDelegate</Anchor>
+            <NodeRef refid="120"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/listViewDelegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;SFSDKUserSelectionTableViewControllerDelegate&gt; listViewDelegate</Declaration>
+			
+			
+			<Anchor>//api/name/listViewDelegate</Anchor>
+            <NodeRef refid="120"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUserSelectionTableViewController/listViewDelegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;SFSDKUserSelectionTableViewControllerDelegate&gt; listViewDelegate</Declaration>
+			
+			
+			<Anchor>//api/name/listViewDelegate</Anchor>
+            <NodeRef refid="120"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/setSpAppOptions:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, strong) NSDictionary *spAppOptions</Declaration>
 			
@@ -61,9 +97,9 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionNavViewController/spAppOptions</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/spAppOptions</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionNavViewController.h</DeclaredIn>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, strong) NSDictionary *spAppOptions</Declaration>
 			
@@ -73,9 +109,9 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUserSelectionNavViewController/spAppOptions</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUserSelectionTableViewController/spAppOptions</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionNavViewController.h</DeclaredIn>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, strong) NSDictionary *spAppOptions</Declaration>
 			
@@ -85,14 +121,98 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionNavViewController/createUserSelectionController</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/setNavigationBar:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKUserSelectionNavViewController.h</DeclaredIn>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKUserSelectionTableViewController *)createUserSelectionController</Declaration>
+			<Declaration>@property (nonatomic, strong) UINavigationBar *navigationBar</Declaration>
 			
 			
-			<Anchor>//api/name/createUserSelectionController</Anchor>
+			<Anchor>//api/name/navigationBar</Anchor>
+            <NodeRef refid="120"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/navigationBar</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UINavigationBar *navigationBar</Declaration>
+			
+			
+			<Anchor>//api/name/navigationBar</Anchor>
+            <NodeRef refid="120"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUserSelectionTableViewController/navigationBar</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UINavigationBar *navigationBar</Declaration>
+			
+			
+			<Anchor>//api/name/navigationBar</Anchor>
+            <NodeRef refid="120"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/setTableView:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UITableView *tableView</Declaration>
+			
+			
+			<Anchor>//api/name/tableView</Anchor>
+            <NodeRef refid="120"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/tableView</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UITableView *tableView</Declaration>
+			
+			
+			<Anchor>//api/name/tableView</Anchor>
+            <NodeRef refid="120"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUserSelectionTableViewController/tableView</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UITableView *tableView</Declaration>
+			
+			
+			<Anchor>//api/name/tableView</Anchor>
+            <NodeRef refid="120"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/createFooterView</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			
+			<Declaration>- (UIView *)createFooterView</Declaration>
+			
+			
+			<Anchor>//api/name/createFooterView</Anchor>
+            <NodeRef refid="120"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUserSelectionTableViewController/createHeaderView</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKUserSelectionTableViewController.h</DeclaredIn>
+			
+			<Declaration>- (UIView *)createHeaderView</Declaration>
+			
+			
+			<Anchor>//api/name/createHeaderView</Anchor>
             <NodeRef refid="120"/>
 		</Token>
 		

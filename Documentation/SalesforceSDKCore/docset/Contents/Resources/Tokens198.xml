@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFUserAccountLoginState.html">
+	<File path="Constants/SFUserAccountScope.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFUserAccountLoginState</TokenIdentifier>
-			<Abstract type="html">Enumeration of the potential login states of the user account.</Abstract>
-			<DeclaredIn>SFUserAccount.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFUserAccountScope</TokenIdentifier>
+			<Abstract type="html">The various scopes related to a user account</Abstract>
+			<DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
 			
 			<NodeRef refid="198"/>
@@ -14,34 +14,45 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountLoginStateNotLoggedIn</TokenIdentifier>
-            <Abstract type="html">     User account is not logged in.
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountScopeGlobal</TokenIdentifier>
+            <Abstract type="html">Global scope (one per application)
      </Abstract>
-            <Declaration>SFUserAccountLoginStateNotLoggedIn</Declaration>
+            <Declaration>SFUserAccountScopeGlobal</Declaration>
             
-            <DeclaredIn>SFUserAccount.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
             <NodeRef refid="198"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountLoginStateLoggedIn</TokenIdentifier>
-            <Abstract type="html">     User account is logged in.
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountScopeOrg</TokenIdentifier>
+            <Abstract type="html">Scope by organization
      </Abstract>
-            <Declaration>SFUserAccountLoginStateLoggedIn</Declaration>
+            <Declaration>SFUserAccountScopeOrg</Declaration>
             
-            <DeclaredIn>SFUserAccount.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
             <NodeRef refid="198"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountLoginStateLoggingOut</TokenIdentifier>
-            <Abstract type="html">     User account is in the process of logging out.
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountScopeUser</TokenIdentifier>
+            <Abstract type="html">Scope by user
      </Abstract>
-            <Declaration>SFUserAccountLoginStateLoggingOut</Declaration>
+            <Declaration>SFUserAccountScopeUser</Declaration>
             
-            <DeclaredIn>SFUserAccount.h</DeclaredIn>
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+            
+            <NodeRef refid="198"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountScopeCommunity</TokenIdentifier>
+            <Abstract type="html">Scope by community
+     </Abstract>
+            <Declaration>SFUserAccountScopeCommunity</Declaration>
+            
+            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
             
             <NodeRef refid="198"/>
         </Token>

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFLogoutReason.html">
+	<File path="Constants/SFOAuthCredentialsStorageType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFLogoutReason</TokenIdentifier>
-			<Abstract type="html">@enum SFOAuthErrorDomain related error codes
-Constants used by SFOAuthCoordinator to indicate errors in the SFOAuth domain</Abstract>
-			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthCredentialsStorageType</TokenIdentifier>
+			<Abstract type="html">@enum OAuth credential storage type</Abstract>
+			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
             
 			
 			<NodeRef refid="180"/>
@@ -15,91 +14,23 @@ Constants used by SFOAuthCoordinator to indicate errors in the SFOAuth domain</A
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFLogoutReasonCorruptState</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFLogoutReasonCorruptState</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthCredentialsStorageTypeNone</TokenIdentifier>
+            <Abstract type="html">     No storage or persistence of OAuth credentials will be attempted
+     </Abstract>
+            <Declaration>SFOAuthCredentialsStorageTypeNone</Declaration>
             
-            <DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
-            
-            <NodeRef refid="180"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFLogoutReasonTokenExpired</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFLogoutReasonTokenExpired</Declaration>
-            
-            <DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+            <DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
             
             <NodeRef refid="180"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFLogoutReasonSSDKPolicy</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFLogoutReasonSSDKPolicy</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthCredentialsStorageTypeKeychain</TokenIdentifier>
+            <Abstract type="html">     OAuth credentials will be stored securely within the keychain.
+     </Abstract>
+            <Declaration>SFOAuthCredentialsStorageTypeKeychain</Declaration>
             
-            <DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
-            
-            <NodeRef refid="180"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFLogoutReasonTimeout</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFLogoutReasonTimeout</Declaration>
-            
-            <DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
-            
-            <NodeRef refid="180"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFLogoutReasonUnexpected</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFLogoutReasonUnexpected</Declaration>
-            
-            <DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
-            
-            <NodeRef refid="180"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFLogoutReasonUnexpectedResponse</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFLogoutReasonUnexpectedResponse</Declaration>
-            
-            <DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
-            
-            <NodeRef refid="180"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFLogoutReasonUnknown</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFLogoutReasonUnknown</Declaration>
-            
-            <DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
-            
-            <NodeRef refid="180"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFLogoutReasonUserInitiated</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFLogoutReasonUserInitiated</Declaration>
-            
-            <DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
-            
-            <NodeRef refid="180"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFLogoutReasonRefreshTokenRotated</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFLogoutReasonRefreshTokenRotated</Declaration>
-            
-            <DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+            <DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
             
             <NodeRef refid="180"/>
         </Token>

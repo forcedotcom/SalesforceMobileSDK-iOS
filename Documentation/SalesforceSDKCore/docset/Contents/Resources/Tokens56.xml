@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKBatchRequestBuilder.html">
+	<File path="Classes/SFSDKBatchResponse.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKBatchRequestBuilder</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKBatchResponse</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBatchRequest.h</DeclaredIn>
+			<DeclaredIn>SFSDKBatchResponse.h</DeclaredIn>
             
 			
 			<NodeRef refid="56"/>
@@ -13,38 +13,86 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBatchRequestBuilder/setHaltOnError:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBatchResponse/setHasErrors:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBatchRequest.h</DeclaredIn>
+			<DeclaredIn>SFSDKBatchResponse.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKBatchRequestBuilder *)setHaltOnError:(BOOL)haltOnError</Declaration>
+			<Declaration>@property (nonatomic, readonly) BOOL hasErrors</Declaration>
 			
 			
-			<Anchor>//api/name/setHaltOnError:</Anchor>
+			<Anchor>//api/name/hasErrors</Anchor>
             <NodeRef refid="56"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBatchRequestBuilder/addRequest:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBatchResponse/hasErrors</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBatchRequest.h</DeclaredIn>
+			<DeclaredIn>SFSDKBatchResponse.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKBatchRequestBuilder *)addRequest:(SFRestRequest *)request</Declaration>
+			<Declaration>@property (nonatomic, readonly) BOOL hasErrors</Declaration>
 			
 			
-			<Anchor>//api/name/addRequest:</Anchor>
+			<Anchor>//api/name/hasErrors</Anchor>
             <NodeRef refid="56"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBatchRequestBuilder/buildBatchRequest:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKBatchResponse/hasErrors</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKBatchRequest.h</DeclaredIn>
+			<DeclaredIn>SFSDKBatchResponse.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKBatchRequest *)buildBatchRequest:(NSString *)apiVersion</Declaration>
+			<Declaration>@property (nonatomic, readonly) BOOL hasErrors</Declaration>
 			
 			
-			<Anchor>//api/name/buildBatchRequest:</Anchor>
+			<Anchor>//api/name/hasErrors</Anchor>
+            <NodeRef refid="56"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBatchResponse/setResults:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKBatchResponse.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSArray&lt;id&gt; *results</Declaration>
+			
+			
+			<Anchor>//api/name/results</Anchor>
+            <NodeRef refid="56"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBatchResponse/results</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKBatchResponse.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSArray&lt;id&gt; *results</Declaration>
+			
+			
+			<Anchor>//api/name/results</Anchor>
+            <NodeRef refid="56"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKBatchResponse/results</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKBatchResponse.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSArray&lt;id&gt; *results</Declaration>
+			
+			
+			<Anchor>//api/name/results</Anchor>
+            <NodeRef refid="56"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKBatchResponse/initWith:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKBatchResponse.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWith:(NSDictionary *)dict</Declaration>
+			
+			
+			<Anchor>//api/name/initWith:</Anchor>
             <NodeRef refid="56"/>
 		</Token>
 		

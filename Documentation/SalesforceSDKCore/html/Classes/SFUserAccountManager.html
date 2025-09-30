@@ -88,6 +88,8 @@
 		
 		<option value="//api/name/errorManager">errorManager</option>
 		
+		<option value="//api/name/filterSupportedNotificationTypes">filterSupportedNotificationTypes</option>
+		
 		<option value="//api/name/idpAppURIScheme">idpAppURIScheme</option>
 		
 		<option value="//api/name/idpLoginFlowSelectionAction">idpLoginFlowSelectionAction</option>
@@ -146,7 +148,7 @@
 		
 		<option value="//api/name/authenticateUsingIDP:completion:failure:">- authenticateUsingIDP:completion:failure:</option>
 		
-		<option value="//api/name/authenticateWithRequest:completion:failure:frontDoorBridgeUrl:codeVerifier:">- authenticateWithRequest:completion:failure:frontDoorBridgeUrl:codeVerifier:</option>
+		<option value="//api/name/authenticateWithRequest:loginHint:completion:failure:frontDoorBridgeUrl:codeVerifier:">- authenticateWithRequest:loginHint:completion:failure:frontDoorBridgeUrl:codeVerifier:</option>
 		
 		<option value="//api/name/clearAllAccountState">- clearAllAccountState</option>
 		
@@ -157,6 +159,8 @@
 		<option value="//api/name/decodeUserIdentity:">- decodeUserIdentity:</option>
 		
 		<option value="//api/name/defaultAuthRequest">- defaultAuthRequest</option>
+		
+		<option value="//api/name/defaultAuthRequestWithLoginHost:">- defaultAuthRequestWithLoginHost:</option>
 		
 		<option value="//api/name/deleteAccountForUser:error:">- deleteAccountForUser:error:</option>
 		
@@ -188,7 +192,7 @@
 		
 		<option value="//api/name/loginWithCompletion:failure:scene:">- loginWithCompletion:failure:scene:</option>
 		
-		<option value="//api/name/loginWithCompletion:failure:scene:frontDoorBridgeUrl:codeVerifier:">- loginWithCompletion:failure:scene:frontDoorBridgeUrl:codeVerifier:</option>
+		<option value="//api/name/loginWithCompletion:failure:scene:loginHint:loginHost:frontDoorBridgeUrl:codeVerifier:">- loginWithCompletion:failure:scene:loginHint:loginHost:frontDoorBridgeUrl:codeVerifier:</option>
 		
 		<option value="//api/name/loginWithJwtToken:completion:failure:">- loginWithJwtToken:completion:failure:</option>
 		
@@ -1011,6 +1015,49 @@ in the user selection view of the identity provider app.</p>
 		    
 
 			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL showAuthWindowWhileLoading</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/filterSupportedNotificationTypes" title="filterSupportedNotificationTypes"></a>
+	<h3 class="method-title"><code><a href="#//api/name/filterSupportedNotificationTypes">&nbsp;&nbsp;filterSupportedNotificationTypes</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Use this to provide a custom filter for supported notification types.
+The app can use this to return only the notification types it supports,
+so that unsupported types are not registered with the system.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, nullable) NSArray&lt;NotificationType*&gt; *^ ) ( NSArray&lt;NotificationType*&gt; *notificationTypes ) filterSupportedNotificationTypes</code></div>
 
 		    
 			
@@ -2704,6 +2751,267 @@ current app state.</p>
 						</div>
 						
 
+						<a title="URLHandlers Methods" name="task_URLHandlers Methods"></a>
+						<h2 class="task-title">URLHandlers Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/handleIdpAuthError:" title="handleIdpAuthError:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/handleIdpAuthError:">&ndash;&nbsp;handleIdpAuthError:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Handle an error situation that occured in the IDP flow.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)handleIdpAuthError:(SFSDKAuthErrorCommand *_Nonnull)<em>command</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>command</code></th>
+						<td><p>The Error URL request from the idp or SP App.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES if this is request is handled, NO otherwise.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager+URLHandlers.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/handleIdpInitiatedAuth:" title="handleIdpInitiatedAuth:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/handleIdpInitiatedAuth:">&ndash;&nbsp;handleIdpInitiatedAuth:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Handle an IDP initiated auth flow.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)handleIdpInitiatedAuth:(SFSDKIDPLoginRequestCommand *_Nonnull)<em>command</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>command</code></th>
+						<td><p>The URL request from the IDP APP.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES if this is request is handled, NO otherwise.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager+URLHandlers.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/handleAuthRequestFromSPApp:" title="handleAuthRequestFromSPApp:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/handleAuthRequestFromSPApp:">&ndash;&nbsp;handleAuthRequestFromSPApp:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Handle an IDP request initiated from an SP APP.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)handleAuthRequestFromSPApp:(SFSDKSPLoginRequestCommand *_Nonnull)<em>request</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>request</code></th>
+						<td><p>The  request from the SP APP.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES if this request is handled, NO otherwise.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager+URLHandlers.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/handleIdpResponse:sceneId:" title="handleIdpResponse:sceneId:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/handleIdpResponse:sceneId:">&ndash;&nbsp;handleIdpResponse:sceneId:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Handle an IDP response received from an IDP APP.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)handleIdpResponse:(SFSDKSPLoginResponseCommand *_Nonnull)<em>response</em> sceneId:(nullable NSString *)<em>sceneId</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>response</code></th>
+						<td><p>The URL response from the IDP APP.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>sceneId</code></th>
+						<td><p>The identifier for the scene that&rsquo;s handling the response.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES if this is request is handled, NO otherwise.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager+URLHandlers.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/handleIdpRequest:sceneId:completion:failure:" title="handleIdpRequest:sceneId:completion:failure:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/handleIdpRequest:sceneId:completion:failure:">&ndash;&nbsp;handleIdpRequest:sceneId:completion:failure:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)handleIdpRequest:(SFSDKIDPAuthCodeLoginRequestCommand *_Nonnull)<em>response</em> sceneId:(nullable NSString *)<em>sceneId</em> completion:(nullable SFUserAccountManagerSuccessCallbackBlock)<em>completionBlock</em> failure:(nullable SFUserAccountManagerFailureCallbackBlock)<em>failureBlock</em></code></div>
+
+		    
+		</div>
+	</div>
+</div>
+						</div>
+						
+
 						<a title="Extension Methods" name="task_Extension Methods"></a>
 						<h2 class="task-title">Extension Methods</h2>
 
@@ -3666,8 +3974,8 @@ This will post user update notification.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/authenticateWithRequest:completion:failure:frontDoorBridgeUrl:codeVerifier:" title="authenticateWithRequest:completion:failure:frontDoorBridgeUrl:codeVerifier:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/authenticateWithRequest:completion:failure:frontDoorBridgeUrl:codeVerifier:">&ndash;&nbsp;authenticateWithRequest:completion:failure:frontDoorBridgeUrl:codeVerifier:</a></code>
+	<a name="//api/name/authenticateWithRequest:loginHint:completion:failure:frontDoorBridgeUrl:codeVerifier:" title="authenticateWithRequest:loginHint:completion:failure:frontDoorBridgeUrl:codeVerifier:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/authenticateWithRequest:loginHint:completion:failure:frontDoorBridgeUrl:codeVerifier:">&ndash;&nbsp;authenticateWithRequest:loginHint:completion:failure:frontDoorBridgeUrl:codeVerifier:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -3676,7 +3984,7 @@ This will post user update notification.</p>
 		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>- (BOOL)authenticateWithRequest:(SFSDKAuthRequest *)<em>request</em> completion:(SFUserAccountManagerSuccessCallbackBlock)<em>completionBlock</em> failure:(SFUserAccountManagerFailureCallbackBlock)<em>failureBlock</em> frontDoorBridgeUrl:(nullable NSURL *)<em>frontDoorBridgeUrl</em> codeVerifier:(nullable NSString *)<em>codeVerifier</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (BOOL)authenticateWithRequest:(SFSDKAuthRequest *)<em>request</em> loginHint:(nullable NSString *)<em>loginHint</em> completion:(SFUserAccountManagerSuccessCallbackBlock)<em>completionBlock</em> failure:(SFUserAccountManagerFailureCallbackBlock)<em>failureBlock</em> frontDoorBridgeUrl:(nullable NSURL *)<em>frontDoorBridgeUrl</em> codeVerifier:(nullable NSString *)<em>codeVerifier</em></code></div>
 
 		    
 		</div>
@@ -3698,6 +4006,22 @@ This will post user update notification.</p>
 		</div>
 	</div>
 </div><div class="section-method">
+	<a name="//api/name/defaultAuthRequestWithLoginHost:" title="defaultAuthRequestWithLoginHost:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/defaultAuthRequestWithLoginHost:">&ndash;&nbsp;defaultAuthRequestWithLoginHost:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (SFSDKAuthRequest *)defaultAuthRequestWithLoginHost:(nullable NSString *)<em>loginHost</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/loginWithCompletion:failure:scene:" title="loginWithCompletion:failure:scene:"></a>
 	<h3 class="method-title"><code><a href="#//api/name/loginWithCompletion:failure:scene:">&ndash;&nbsp;loginWithCompletion:failure:scene:</a></code>
 </h3>
@@ -3714,8 +4038,8 @@ This will post user update notification.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/loginWithCompletion:failure:scene:frontDoorBridgeUrl:codeVerifier:" title="loginWithCompletion:failure:scene:frontDoorBridgeUrl:codeVerifier:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/loginWithCompletion:failure:scene:frontDoorBridgeUrl:codeVerifier:">&ndash;&nbsp;loginWithCompletion:failure:scene:frontDoorBridgeUrl:codeVerifier:</a></code>
+	<a name="//api/name/loginWithCompletion:failure:scene:loginHint:loginHost:frontDoorBridgeUrl:codeVerifier:" title="loginWithCompletion:failure:scene:loginHint:loginHost:frontDoorBridgeUrl:codeVerifier:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/loginWithCompletion:failure:scene:loginHint:loginHost:frontDoorBridgeUrl:codeVerifier:">&ndash;&nbsp;loginWithCompletion:failure:scene:loginHint:loginHost:frontDoorBridgeUrl:codeVerifier:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -3724,268 +4048,7 @@ This will post user update notification.</p>
 		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>- (BOOL)loginWithCompletion:(nullable SFUserAccountManagerSuccessCallbackBlock)<em>completionBlock</em> failure:(nullable SFUserAccountManagerFailureCallbackBlock)<em>failureBlock</em> scene:(UIScene *)<em>scene</em> frontDoorBridgeUrl:(nullable NSURL *)<em>frontDoorBridgeUrl</em> codeVerifier:(nullable NSString *)<em>codeVerifier</em></code></div>
-
-		    
-		</div>
-	</div>
-</div>
-						</div>
-						
-
-						<a title="URLHandlers Methods" name="task_URLHandlers Methods"></a>
-						<h2 class="task-title">URLHandlers Methods</h2>
-
-						<div class="task-list">
-							<div class="section-method">
-	<a name="//api/name/handleIdpAuthError:" title="handleIdpAuthError:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/handleIdpAuthError:">&ndash;&nbsp;handleIdpAuthError:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Handle an error situation that occured in the IDP flow.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (BOOL)handleIdpAuthError:(SFSDKAuthErrorCommand *_Nonnull)<em>command</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>command</code></th>
-						<td><p>The Error URL request from the idp or SP App.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>YES if this is request is handled, NO otherwise.</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccountManager+URLHandlers.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/handleIdpInitiatedAuth:" title="handleIdpInitiatedAuth:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/handleIdpInitiatedAuth:">&ndash;&nbsp;handleIdpInitiatedAuth:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Handle an IDP initiated auth flow.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (BOOL)handleIdpInitiatedAuth:(SFSDKIDPLoginRequestCommand *_Nonnull)<em>command</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>command</code></th>
-						<td><p>The URL request from the IDP APP.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>YES if this is request is handled, NO otherwise.</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccountManager+URLHandlers.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/handleAuthRequestFromSPApp:" title="handleAuthRequestFromSPApp:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/handleAuthRequestFromSPApp:">&ndash;&nbsp;handleAuthRequestFromSPApp:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Handle an IDP request initiated from an SP APP.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (BOOL)handleAuthRequestFromSPApp:(SFSDKSPLoginRequestCommand *_Nonnull)<em>request</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>request</code></th>
-						<td><p>The  request from the SP APP.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>YES if this request is handled, NO otherwise.</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccountManager+URLHandlers.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/handleIdpResponse:sceneId:" title="handleIdpResponse:sceneId:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/handleIdpResponse:sceneId:">&ndash;&nbsp;handleIdpResponse:sceneId:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Handle an IDP response received from an IDP APP.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (BOOL)handleIdpResponse:(SFSDKSPLoginResponseCommand *_Nonnull)<em>response</em> sceneId:(nullable NSString *)<em>sceneId</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>response</code></th>
-						<td><p>The URL response from the IDP APP.</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>sceneId</code></th>
-						<td><p>The identifier for the scene that&rsquo;s handling the response.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>YES if this is request is handled, NO otherwise.</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccountManager+URLHandlers.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/handleIdpRequest:sceneId:completion:failure:" title="handleIdpRequest:sceneId:completion:failure:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/handleIdpRequest:sceneId:completion:failure:">&ndash;&nbsp;handleIdpRequest:sceneId:completion:failure:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>- (BOOL)handleIdpRequest:(SFSDKIDPAuthCodeLoginRequestCommand *_Nonnull)<em>response</em> sceneId:(nullable NSString *)<em>sceneId</em> completion:(nullable SFUserAccountManagerSuccessCallbackBlock)<em>completionBlock</em> failure:(nullable SFUserAccountManagerFailureCallbackBlock)<em>failureBlock</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (BOOL)loginWithCompletion:(nullable SFUserAccountManagerSuccessCallbackBlock)<em>completionBlock</em> failure:(nullable SFUserAccountManagerFailureCallbackBlock)<em>failureBlock</em> scene:(UIScene *)<em>scene</em> loginHint:(nullable NSString *)<em>loginHint</em> loginHost:(nullable NSString *)<em>loginHost</em> frontDoorBridgeUrl:(nullable NSURL *)<em>frontDoorBridgeUrl</em> codeVerifier:(nullable NSString *)<em>codeVerifier</em></code></div>
 
 		    
 		</div>
@@ -4005,7 +4068,7 @@ This will post user update notification.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2025 Salesforce.com. All rights reserved. Updated: 2025-09-02</p>
+						<p class="copyright">Copyright &copy; 2025 Salesforce.com. All rights reserved. Updated: 2025-09-29</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

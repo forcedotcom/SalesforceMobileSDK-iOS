@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/NSDictionary+SFAdditions.html">
+	<File path="Categories/NSString+SFAdditions.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/NSDictionary(SFAdditions)</TokenIdentifier>
-			<Abstract type="html">Extension to NSDictionary object</Abstract>
-			<DeclaredIn>NSDictionary+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/NSString(SFAdditions)</TokenIdentifier>
+			<Abstract type="html">Extension to NSString object</Abstract>
+			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
             
 			
 			<NodeRef refid="149"/>
@@ -13,48 +13,197 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSDictionary/sfsdk_objectAtPath:</TokenIdentifier>
-			<Abstract type="html">Get object from NSDictionary with &quot;/&quot; separated path.</Abstract>
-			<DeclaredIn>NSDictionary+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSString/sfsdk_stringWithHexData:</TokenIdentifier>
+			<Abstract type="html">A hex string representation of the supplied data; or nil if data is nil or empty.</Abstract>
+			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>- (nullable id)sfsdk_objectAtPath:(nullable NSString *)path</Declaration>
+			<Declaration>+ (nullable NSString *)sfsdk_stringWithHexData:(nullable NSData *)data</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>path</Name>
-					<Abstract type="html">Path for the object to retrieve. Use &quot;/&quot; to separate between levels. For example, root/child/valueKey will retrieve value from the root NSDictionary object to its child dictionary&apos;s value with key &quot;valueKey&quot;</Abstract>
+					<Name>data</Name>
+					<Abstract type="html">NSData to be represented as a base 16 string.</Abstract>
 				</Parameter>
 			</Parameters>
-			
-			<Anchor>//api/name/sfsdk_objectAtPath:</Anchor>
+			<ReturnValue><Abstract type="html">A hex string representation of the supplied data; or nil if data is nil or empty.</Abstract></ReturnValue>
+			<Anchor>//api/name/sfsdk_stringWithHexData:</Anchor>
             <NodeRef refid="149"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSDictionary/sfsdk_nonNullObjectForKey:</TokenIdentifier>
-			<Abstract type="html">Returns an object whose ID is key, or nil.</Abstract>
-			<DeclaredIn>NSDictionary+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSString/sfsdk_sha256</TokenIdentifier>
+			<Abstract type="html">Returns an SHA 256 hash of the current string</Abstract>
+			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>- (nullable id)sfsdk_nonNullObjectForKey:(nullable id)key</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The ID of an object, or a null value</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">An object whose ID is key, or else nil if the key has a value of NSNull or an NSString value of &quot;&lt;nil&gt;&quot; or &quot;&lt;null&gt;&quot;.</Abstract></ReturnValue>
-			<Anchor>//api/name/sfsdk_nonNullObjectForKey:</Anchor>
+			<Declaration>- (NSData *)sfsdk_sha256</Declaration>
+			
+			
+			<Anchor>//api/name/sfsdk_sha256</Anchor>
             <NodeRef refid="149"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSDictionary/sfsdk_jsonString</TokenIdentifier>
-			<Abstract type="html">Returns the dictionary&apos;s contents reformatted as a JSON string.</Abstract>
-			<DeclaredIn>NSDictionary+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSString/sfsdk_escapeXMLCharacter:</TokenIdentifier>
+			<Abstract type="html">Escape XML entities</Abstract>
+			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>- (nullable NSString *)sfsdk_jsonString</Declaration>
+			<Declaration>+ (nullable NSString *)sfsdk_escapeXMLCharacter:(nullable NSString *)value</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>value</Name>
+					<Abstract type="html">String value to escape. If nil is passed, this method will return nil.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/sfsdk_escapeXMLCharacter:</Anchor>
+            <NodeRef refid="149"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSString/sfsdk_unescapeXMLCharacter:</TokenIdentifier>
+			<Abstract type="html">unescape XML entities</Abstract>
+			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+			
+			<Declaration>+ (nullable NSString *)sfsdk_unescapeXMLCharacter:(nullable NSString *)value</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>value</Name>
+					<Abstract type="html">String value to unescape. If nil is passed, this method will return nil.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/sfsdk_unescapeXMLCharacter:</Anchor>
+            <NodeRef refid="149"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSString/sfsdk_trim</TokenIdentifier>
+			<Abstract type="html">Trim string by taking out beginning and ending space.</Abstract>
+			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)sfsdk_trim</Declaration>
 			
 			
-			<Anchor>//api/name/sfsdk_jsonString</Anchor>
+			<Anchor>//api/name/sfsdk_trim</Anchor>
+            <NodeRef refid="149"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSString/sfsdk_redacted</TokenIdentifier>
+			<Abstract type="html">Returns the string in debug build or a redacted version of it
+for production build</Abstract>
+			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)sfsdk_redacted</Declaration>
+			
+			
+			<Anchor>//api/name/sfsdk_redacted</Anchor>
+            <NodeRef refid="149"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSString/sfsdk_redactedWithPrefix:</TokenIdentifier>
+			<Abstract type="html">Returns the string in debug build or a redacted version of it
+for production build. The prefix length is the number of characters
+that won&apos;t be redacted from the beginning of the string.</Abstract>
+			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)sfsdk_redactedWithPrefix:(NSUInteger)prefixLength</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>prefixLength</Name>
+					<Abstract type="html">The number of characters to preserve at the beginning of the string.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/sfsdk_redactedWithPrefix:</Anchor>
+            <NodeRef refid="149"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSString/sfsdk_isEmpty:</TokenIdentifier>
+			<Abstract type="html">Return YES if string is nil or length is 0 or with white space only</Abstract>
+			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)sfsdk_isEmpty:(nullable NSString *)string</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>string</Name>
+					<Abstract type="html">String to check</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/sfsdk_isEmpty:</Anchor>
+            <NodeRef refid="149"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSString/sfsdk_stringByURLEncoding</TokenIdentifier>
+			<Abstract type="html">A string with all non-legal URL characters (per RFC 3986) escaped.</Abstract>
+			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)sfsdk_stringByURLEncoding</Declaration>
+			
+			<ReturnValue><Abstract type="html">A string with all non-legal URL characters (per RFC 3986) escaped.</Abstract></ReturnValue>
+			<Anchor>//api/name/sfsdk_stringByURLEncoding</Anchor>
+            <NodeRef refid="149"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSString/sfsdk_stringByStrippingHTML</TokenIdentifier>
+			<Abstract type="html">Strips any HTML markup from the source string.</Abstract>
+			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)sfsdk_stringByStrippingHTML</Declaration>
+			
+			
+			<Anchor>//api/name/sfsdk_stringByStrippingHTML</Anchor>
+            <NodeRef refid="149"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSString/sfsdk_isEmptyOrWhitespaceAndNewlines</TokenIdentifier>
+			<Abstract type="html">Returns YES if the string is empty of contains only whitespance or newline characters.</Abstract>
+			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)sfsdk_isEmptyOrWhitespaceAndNewlines</Declaration>
+			
+			
+			<Anchor>//api/name/sfsdk_isEmptyOrWhitespaceAndNewlines</Anchor>
+            <NodeRef refid="149"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSString/sfsdk_entityId18</TokenIdentifier>
+			<Abstract type="html">The 18 character case-insensitive entity ID representing the receiver.
+Returns nil if the receiver is not a valid Salesforce entity ID.</Abstract>
+			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+			
+			<Declaration>- (nullable NSString *)sfsdk_entityId18</Declaration>
+			
+			<ReturnValue><Abstract type="html">The 18 character case-insensitive entity ID representing the receiver.
+Returns nil if the receiver is not a valid Salesforce entity ID.</Abstract></ReturnValue>
+			<Anchor>//api/name/sfsdk_entityId18</Anchor>
+            <NodeRef refid="149"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSString/sfsdk_isEqualToEntityId:</TokenIdentifier>
+			<Abstract type="html">Returns a Boolean value that indicates if the given entity ID is equal to the
+receiver. The comparison properly handles comparing 15 character case-sensitive
+ID&apos;s against 18 character case-insensitive ID&apos;s.</Abstract>
+			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)sfsdk_isEqualToEntityId:(NSString *)entityId</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>entityId</Name>
+					<Abstract type="html">The entity ID to compare with the receiver.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">Returns YES if the given entityId is semantically equal to the receiver,
+otherwise returns NO. Returns NO if either the given ID or receiver are not
+valid Salesforce entity ID&apos;s.</Abstract></ReturnValue>
+			<Anchor>//api/name/sfsdk_isEqualToEntityId:</Anchor>
             <NodeRef refid="149"/>
 		</Token>
 		

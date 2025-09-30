@@ -738,6 +738,78 @@
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/setBeaconChildConsumerKey:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *beaconChildConsumerKey</Declaration>
+			
+			
+			<Anchor>//api/name/beaconChildConsumerKey</Anchor>
+            <NodeRef refid="25"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/beaconChildConsumerKey</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *beaconChildConsumerKey</Declaration>
+			
+			
+			<Anchor>//api/name/beaconChildConsumerKey</Anchor>
+            <NodeRef refid="25"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCredentials/beaconChildConsumerKey</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *beaconChildConsumerKey</Declaration>
+			
+			
+			<Anchor>//api/name/beaconChildConsumerKey</Anchor>
+            <NodeRef refid="25"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/setBeaconChildConsumerSecret:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *beaconChildConsumerSecret</Declaration>
+			
+			
+			<Anchor>//api/name/beaconChildConsumerSecret</Anchor>
+            <NodeRef refid="25"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/beaconChildConsumerSecret</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *beaconChildConsumerSecret</Declaration>
+			
+			
+			<Anchor>//api/name/beaconChildConsumerSecret</Anchor>
+            <NodeRef refid="25"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCredentials/beaconChildConsumerSecret</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, nullable) NSString *beaconChildConsumerSecret</Declaration>
+			
+			
+			<Anchor>//api/name/beaconChildConsumerSecret</Anchor>
+            <NodeRef refid="25"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/setOrganizationId:</TokenIdentifier>
 			<Abstract type="html">A readonly convenience property returning the Salesforce Organization ID provided in the path component of the identityUrl.</Abstract>
 			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
@@ -812,6 +884,42 @@ See communityid and communityurl.</Abstract>
 			
 			
 			<Anchor>//api/name/instanceUrl</Anchor>
+            <NodeRef refid="25"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/setApiInstanceUrl:</TokenIdentifier>
+			<Abstract type="html">The URL of the  SFAP  server instance for this session.</Abstract>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, nullable) NSURL *apiInstanceUrl</Declaration>
+			
+			
+			<Anchor>//api/name/apiInstanceUrl</Anchor>
+            <NodeRef refid="25"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/apiInstanceUrl</TokenIdentifier>
+			<Abstract type="html">The URL of the  SFAP  server instance for this session.</Abstract>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, nullable) NSURL *apiInstanceUrl</Declaration>
+			
+			
+			<Anchor>//api/name/apiInstanceUrl</Anchor>
+            <NodeRef refid="25"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCredentials/apiInstanceUrl</TokenIdentifier>
+			<Abstract type="html">The URL of the  SFAP  server instance for this session.</Abstract>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, nullable) NSURL *apiInstanceUrl</Declaration>
+			
+			
+			<Anchor>//api/name/apiInstanceUrl</Anchor>
             <NodeRef refid="25"/>
 		</Token>
 		
@@ -1311,6 +1419,19 @@ If a key does not match a value in the parsed response, then it will not exist i
 			
 			
 			<Anchor>//api/name/updateCredentials:</Anchor>
+            <NodeRef refid="25"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCredentials/getClientIdForRefresh</TokenIdentifier>
+			<Abstract type="html">Returns the oauth client id to use for refresh
+In the case of beacon app, the beacon child consumer key returned during login should be used instead of the configured consumer key</Abstract>
+			<DeclaredIn>SFOAuthCredentials.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)getClientIdForRefresh</Declaration>
+			
+			
+			<Anchor>//api/name/getClientIdForRefresh</Anchor>
             <NodeRef refid="25"/>
 		</Token>
 		

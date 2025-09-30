@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKUIWindow.html">
+	<File path="Classes/SFSDKURLHandlerManager.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKUIWindow</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKURLHandlerManager</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKURLHandlerManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="117"/>
@@ -13,98 +13,38 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUIWindow/initWithFrame:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKURLHandlerManager/canHandleRequest:options:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKURLHandlerManager.h</DeclaredIn>
 			
-			<Declaration>- (instancetype _Nonnull)initWithFrame:(CGRect)frame</Declaration>
+			<Declaration>- (BOOL)canHandleRequest:(NSURL *)url options:(NSDictionary *)options</Declaration>
 			
 			
-			<Anchor>//api/name/initWithFrame:</Anchor>
+			<Anchor>//api/name/canHandleRequest:options:</Anchor>
             <NodeRef refid="117"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUIWindow/initWithFrame:andName:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKURLHandlerManager/processRequest:options:completion:failure:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKURLHandlerManager.h</DeclaredIn>
 			
-			<Declaration>- (instancetype _Nonnull)initWithFrame:(CGRect)frame andName:(NSString *_Nonnull)windowName</Declaration>
+			<Declaration>- (BOOL)processRequest:(NSURL *)url options:(NSDictionary *)options completion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock</Declaration>
 			
 			
-			<Anchor>//api/name/initWithFrame:andName:</Anchor>
+			<Anchor>//api/name/processRequest:options:completion:failure:</Anchor>
             <NodeRef refid="117"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUIWindow/setStashedController:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKURLHandlerManager/sharedInstance</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
+			<DeclaredIn>SFSDKURLHandlerManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UIViewController *stashedController</Declaration>
-			
-			
-			<Anchor>//api/name/stashedController</Anchor>
-            <NodeRef refid="117"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUIWindow/stashedController</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) UIViewController *stashedController</Declaration>
+			<Declaration>+ (instancetype)sharedInstance</Declaration>
 			
 			
-			<Anchor>//api/name/stashedController</Anchor>
-            <NodeRef refid="117"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUIWindow/stashedController</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) UIViewController *stashedController</Declaration>
-			
-			
-			<Anchor>//api/name/stashedController</Anchor>
-            <NodeRef refid="117"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUIWindow/setWindowName:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *windowName</Declaration>
-			
-			
-			<Anchor>//api/name/windowName</Anchor>
-            <NodeRef refid="117"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKUIWindow/windowName</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *windowName</Declaration>
-			
-			
-			<Anchor>//api/name/windowName</Anchor>
-            <NodeRef refid="117"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKUIWindow/windowName</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKWindowManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *windowName</Declaration>
-			
-			
-			<Anchor>//api/name/windowName</Anchor>
+			<Anchor>//api/name/sharedInstance</Anchor>
             <NodeRef refid="117"/>
 		</Token>
 		

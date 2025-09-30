@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSDKUserAccountManagerErrorCode.html">
+	<File path="Constants/SFSDKWindowType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSDKUserAccountManagerErrorCode</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSDKWindowType</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			<DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
             
 			
 			<NodeRef refid="190"/>
@@ -14,21 +14,51 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKUserAccountManagerError</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeMain</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKUserAccountManagerError</Declaration>
+            <Declaration>SFSDKWindowTypeMain</Declaration>
             
-            <DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
             
             <NodeRef refid="190"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKUserAccountManagerCannotEncrypt</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeAuth</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKUserAccountManagerCannotEncrypt</Declaration>
+            <Declaration>SFSDKWindowTypeAuth</Declaration>
             
-            <DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+            
+            <NodeRef refid="190"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeScreenLock</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKWindowTypeScreenLock</Declaration>
+            
+            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+            
+            <NodeRef refid="190"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeSnapshot</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKWindowTypeSnapshot</Declaration>
+            
+            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
+            
+            <NodeRef refid="190"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSDKWindowTypeOther</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSDKWindowTypeOther</Declaration>
+            
+            <DeclaredIn>SFSDKWindowContainer.h</DeclaredIn>
             
             <NodeRef refid="190"/>
         </Token>

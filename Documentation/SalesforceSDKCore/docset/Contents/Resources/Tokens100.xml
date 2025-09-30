@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKPushNotificationDataProvider.html">
+	<File path="Classes/SFSDKPushNotificationDecryption.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKPushNotificationDataProvider</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKPushNotificationDecryption</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
+			<DeclaredIn>SFSDKPushNotificationDecryption.h</DeclaredIn>
             
 			
 			<NodeRef refid="100"/>
@@ -13,98 +13,58 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPushNotificationDataProvider/setUserInfoDict:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKPushNotificationDecryption/decryptNotificationContent:error:</TokenIdentifier>
+			<Abstract type="html">Decrypts the given notification content. Leaves the content unchanged if it&apos;s not encrypted.</Abstract>
+			<DeclaredIn>SFSDKPushNotificationDecryption.h</DeclaredIn>
 			
-			<Declaration>@property (nonnull, nonatomic, readonly) NSDictionary *userInfoDict</Declaration>
-			
-			
-			<Anchor>//api/name/userInfoDict</Anchor>
+			<Declaration>+ (BOOL)decryptNotificationContent:(nonnull UNMutableNotificationContent *)notificationContent error:(NSError *_Nullable *_Nullable)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>notificationContent</Name>
+					<Abstract type="html">Content to decrypt.</Abstract>
+				</Parameter><Parameter>
+					<Name>error</Name>
+					<Abstract type="html">The error associated with decryption, if an error occurs.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES on success, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/decryptNotificationContent:error:</Anchor>
             <NodeRef refid="100"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPushNotificationDataProvider/userInfoDict</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKPushNotificationDecryption/validateNotificationUserInfo:error:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
+			<DeclaredIn>SFSDKPushNotificationDecryption+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonnull, nonatomic, readonly) NSDictionary *userInfoDict</Declaration>
+			<Declaration>+ (BOOL)validateNotificationUserInfo:(nonnull NSDictionary *)userInfo error:(NSError *_Nullable *_Nullable)error</Declaration>
 			
 			
-			<Anchor>//api/name/userInfoDict</Anchor>
+			<Anchor>//api/name/validateNotificationUserInfo:error:</Anchor>
             <NodeRef refid="100"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPushNotificationDataProvider/userInfoDict</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKPushNotificationDecryption/getAESKeyFromSecret:error:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
+			<DeclaredIn>SFSDKPushNotificationDecryption+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonnull, nonatomic, readonly) NSDictionary *userInfoDict</Declaration>
+			<Declaration>+ (nullable SFEncryptionKey *)getAESKeyFromSecret:(nonnull NSString *)secret error:(NSError *_Nullable *_Nullable)error</Declaration>
 			
 			
-			<Anchor>//api/name/userInfoDict</Anchor>
+			<Anchor>//api/name/getAESKeyFromSecret:error:</Anchor>
             <NodeRef refid="100"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPushNotificationDataProvider/setContentJSONData:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKPushNotificationDecryption/aesDecryptString:withKey:error:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
+			<DeclaredIn>SFSDKPushNotificationDecryption+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nullable, nonatomic, readonly) NSData *contentJSONData</Declaration>
-			
-			
-			<Anchor>//api/name/contentJSONData</Anchor>
-            <NodeRef refid="100"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPushNotificationDataProvider/contentJSONData</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, nonatomic, readonly) NSData *contentJSONData</Declaration>
+			<Declaration>+ (nullable NSString *)aesDecryptString:(nonnull NSString *)encryptedString withKey:(nonnull SFEncryptionKey *)key error:(NSError *_Nullable *_Nullable)error</Declaration>
 			
 			
-			<Anchor>//api/name/contentJSONData</Anchor>
-            <NodeRef refid="100"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPushNotificationDataProvider/contentJSONData</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
-			
-			<Declaration>@property (nullable, nonatomic, readonly) NSData *contentJSONData</Declaration>
-			
-			
-			<Anchor>//api/name/contentJSONData</Anchor>
-            <NodeRef refid="100"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPushNotificationDataProvider/initWithContentObj:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
-			
-			<Declaration>- (instancetype)initWithContentObj:(nullable id)contentObj</Declaration>
-			
-			
-			<Anchor>//api/name/initWithContentObj:</Anchor>
-            <NodeRef refid="100"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPushNotificationDataProvider/initWithContentJSON:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKPushNotificationDataProvider.h</DeclaredIn>
-			
-			<Declaration>- (instancetype)initWithContentJSON:(nullable NSString *)contentJSON</Declaration>
-			
-			
-			<Anchor>//api/name/initWithContentJSON:</Anchor>
+			<Anchor>//api/name/aesDecryptString:withKey:error:</Anchor>
             <NodeRef refid="100"/>
 		</Token>
 		

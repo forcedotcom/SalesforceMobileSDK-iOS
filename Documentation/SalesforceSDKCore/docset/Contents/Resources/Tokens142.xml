@@ -1,16 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/ViewController.html">
+	<File path="Categories/NSData+SFBase64.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/ViewController</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>ViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/NSData(SFBase64)</TokenIdentifier>
+			<Abstract type="html">Extension to NSData class to provide common functions. Added functionality includes:
+--base64 encoding of an NSData object
+--MD5 version of an NSData object
+--Gzip deflated representation of a gzip-compressed NSData object
+--Hex version of an NSData object</Abstract>
+			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
             
 			
 			<NodeRef refid="142"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/sfsdk_randomDataOfLength:</TokenIdentifier>
+			<Abstract type="html">Returns a specified number of random bytes.</Abstract>
+			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
+			
+			<Declaration>- (nullable NSData *)sfsdk_randomDataOfLength:(size_t)length</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>length</Name>
+					<Abstract type="html">The number of bytes of random data to return.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The specified quantity of random bytes or nil if an error occurs.</Abstract></ReturnValue>
+			<Anchor>//api/name/sfsdk_randomDataOfLength:</Anchor>
+            <NodeRef refid="142"/>
+		</Token>
 		
         
         

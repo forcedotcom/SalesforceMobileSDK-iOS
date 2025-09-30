@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSDKAppConfigErrorCode.html">
+	<File path="Constants/SFSDKNetworkServiceType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSDKAppConfigErrorCode</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSDKNetworkServiceType</TokenIdentifier>
+			<Abstract type="html">Network Service Types.</Abstract>
+			<DeclaredIn>SFRestRequest.h</DeclaredIn>
             
 			
 			<NodeRef refid="187"/>
@@ -14,31 +14,31 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKAppConfigErrorCodeNoConsumerKey</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFNetworkServiceTypeDefault</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKAppConfigErrorCodeNoConsumerKey</Declaration>
+            <Declaration>SFNetworkServiceTypeDefault</Declaration>
             
-            <DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
+            <DeclaredIn>SFRestRequest.h</DeclaredIn>
             
             <NodeRef refid="187"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKAppConfigErrorCodeNoRedirectURI</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFNetworkServiceTypeResponsiveData</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKAppConfigErrorCodeNoRedirectURI</Declaration>
+            <Declaration>SFNetworkServiceTypeResponsiveData</Declaration>
             
-            <DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
+            <DeclaredIn>SFRestRequest.h</DeclaredIn>
             
             <NodeRef refid="187"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKAppConfigErrorCodeNoOAuthScopes</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFNetworkServiceTypeBackground</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKAppConfigErrorCodeNoOAuthScopes</Declaration>
+            <Declaration>SFNetworkServiceTypeBackground</Declaration>
             
-            <DeclaredIn>SFSDKAppConfig.h</DeclaredIn>
+            <DeclaredIn>SFRestRequest.h</DeclaredIn>
             
             <NodeRef refid="187"/>
         </Token>

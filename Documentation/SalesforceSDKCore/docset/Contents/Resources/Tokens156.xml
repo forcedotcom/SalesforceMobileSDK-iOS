@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/UIFont+SFSDKIDP.html">
+	<File path="Categories/UIScreen+SFAdditions.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/UIFont(SFSDKIDP)</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIFont+SFSDKIDP.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/UIScreen(SFAdditions)</TokenIdentifier>
+			<Abstract type="html">Salesforce Mobile SDK additions to the UIScreen class.</Abstract>
+			<DeclaredIn>UIScreen+SFAdditions.h</DeclaredIn>
             
 			
 			<NodeRef refid="156"/>
@@ -13,26 +13,14 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIFont/sfsdk_textRegular:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIFont+SFSDKIDP.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/UIScreen/sfsdk_portraitScreenBounds</TokenIdentifier>
+			<Abstract type="html">Returns the rectangle that describes the screen boundaries in portrait orientation.</Abstract>
+			<DeclaredIn>UIScreen+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>+ (UIFont *)sfsdk_textRegular:(CGFloat)size</Declaration>
+			<Declaration>- (CGRect)sfsdk_portraitScreenBounds</Declaration>
 			
-			
-			<Anchor>//api/name/sfsdk_textRegular:</Anchor>
-            <NodeRef refid="156"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIFont/sfsdk_textBold:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIFont+SFSDKIDP.h</DeclaredIn>
-			
-			<Declaration>+ (UIFont *)sfsdk_textBold:(CGFloat)size</Declaration>
-			
-			
-			<Anchor>//api/name/sfsdk_textBold:</Anchor>
+			<ReturnValue><Abstract type="html">Screen boundaries in portrait orientation.</Abstract></ReturnValue>
+			<Anchor>//api/name/sfsdk_portraitScreenBounds</Anchor>
             <NodeRef refid="156"/>
 		</Token>
 		

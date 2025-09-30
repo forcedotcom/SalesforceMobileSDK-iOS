@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/NSData+SFSDKUtils.html">
+	<File path="Categories/NSData+SFSDKUtilsInternal.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/NSData(SFSDKUtils)</TokenIdentifier>
-			<Abstract type="html">Mobile SDK utility additions to NSData.</Abstract>
-			<DeclaredIn>NSData+SFSDKUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/NSData(SFSDKUtilsInternal)</TokenIdentifier>
+			<Abstract type="html">Internal definitions for the Mobile SDK NSData utilities.</Abstract>
+			<DeclaredIn>NSData+SFSDKUtils_Internal.h</DeclaredIn>
             
 			
 			<NodeRef refid="145"/>
@@ -13,26 +13,19 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSData/sfsdk_base64UrlString</TokenIdentifier>
-			<Abstract type="html">Creates a base64url string based on the data.  See RFC 4648.</Abstract>
-			<DeclaredIn>NSData+SFSDKUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/sfsdk_replaceBase64CharsForBase64UrlString:</TokenIdentifier>
+			<Abstract type="html">Replace the base64 characters that are invalid in a base64url string.</Abstract>
+			<DeclaredIn>NSData+SFSDKUtils_Internal.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)sfsdk_base64UrlString</Declaration>
-			
-			<ReturnValue><Abstract type="html">The base64url string based on the data.</Abstract></ReturnValue>
-			<Anchor>//api/name/sfsdk_base64UrlString</Anchor>
-            <NodeRef refid="145"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSData/sfsdk_sha256Data</TokenIdentifier>
-			<Abstract type="html">Creates an SHA256 hash of the given data.</Abstract>
-			<DeclaredIn>NSData+SFSDKUtils.h</DeclaredIn>
-			
-			<Declaration>- (nullable NSData *)sfsdk_sha256Data</Declaration>
-			
-			<ReturnValue><Abstract type="html">The SHA256 hash of the given data.</Abstract></ReturnValue>
-			<Anchor>//api/name/sfsdk_sha256Data</Anchor>
+			<Declaration>+ (NSString *)sfsdk_replaceBase64CharsForBase64UrlString:(NSString *)base64String</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>base64String</Name>
+					<Abstract type="html">The input string with characters to replace.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The base64 string with the URL chars replaced (i.e. the base64url string).</Abstract></ReturnValue>
+			<Anchor>//api/name/sfsdk_replaceBase64CharsForBase64UrlString:</Anchor>
             <NodeRef refid="145"/>
 		</Token>
 		

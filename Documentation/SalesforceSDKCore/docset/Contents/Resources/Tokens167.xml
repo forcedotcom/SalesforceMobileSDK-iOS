@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFSDKOAuthSessionManaging.html">
+	<File path="Protocols/SFSDKURLHandler.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFSDKOAuthSessionManaging</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSDKURLHandler</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			<DeclaredIn>SFSDKURLHandler.h</DeclaredIn>
             
 			
 			<NodeRef refid="167"/>
@@ -13,14 +13,38 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKOAuthSessionManaging/createURLSessionWithIdentifier:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKURLHandler/canHandleRequest:options:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKOAuth2.h</DeclaredIn>
+			<DeclaredIn>SFSDKURLHandler.h</DeclaredIn>
 			
-			<Declaration>- (NSURLSession *)createURLSessionWithIdentifier:(nonnull NSString *)identifier</Declaration>
+			<Declaration>- (BOOL)canHandleRequest:(nonnull NSURL *)url options:(nullable NSDictionary *)options</Declaration>
 			
 			
-			<Anchor>//api/name/createURLSessionWithIdentifier:</Anchor>
+			<Anchor>//api/name/canHandleRequest:options:</Anchor>
+            <NodeRef refid="167"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKURLHandler/processRequest:options:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKURLHandler.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)processRequest:(nonnull NSURL *)url options:(nullable NSDictionary *)options</Declaration>
+			
+			
+			<Anchor>//api/name/processRequest:options:</Anchor>
+            <NodeRef refid="167"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKURLHandler/processRequest:options:completion:failure:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKURLHandler.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)processRequest:(nonnull NSURL *)url options:(nullable NSDictionary *)options completion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock</Declaration>
+			
+			
+			<Anchor>//api/name/processRequest:options:completion:failure:</Anchor>
             <NodeRef refid="167"/>
 		</Token>
 		

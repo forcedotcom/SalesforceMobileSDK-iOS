@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSPLoginStatus.html">
+	<File path="Constants/SFURLCacheType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSPLoginStatus</TokenIdentifier>
-			<Abstract type="html">  Key used to provide triggering scene info for IDP flow from a scene delegate.</Abstract>
-			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFURLCacheType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="193"/>
@@ -14,31 +14,31 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSPLoginStatusLaunchingSPWithUserHint</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/kSFURLCacheTypeEncrypted</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSPLoginStatusLaunchingSPWithUserHint</Declaration>
+            <Declaration>kSFURLCacheTypeEncrypted</Declaration>
             
-            <DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+            <DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
             
             <NodeRef refid="193"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSPLoginStatusCodeVerifierStoredInKeychain</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/kSFURLCacheTypeNull</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSPLoginStatusCodeVerifierStoredInKeychain</Declaration>
+            <Declaration>kSFURLCacheTypeNull</Declaration>
             
-            <DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+            <DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
             
             <NodeRef refid="193"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSPLoginStatusGettingAuthCodeFromServer</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/kSFURLCacheTypeStandard</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSPLoginStatusGettingAuthCodeFromServer</Declaration>
+            <Declaration>kSFURLCacheTypeStandard</Declaration>
             
-            <DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+            <DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
             
             <NodeRef refid="193"/>
         </Token>

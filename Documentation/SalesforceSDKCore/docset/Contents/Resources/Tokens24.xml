@@ -932,7 +932,7 @@ should handle, NO otherwise.</Abstract></ReturnValue>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) SFOAuthInfo *authInfo</Declaration>
+			<Declaration>@property (nonatomic, strong, nonnull) SFOAuthInfo *authInfo</Declaration>
 			
 			
 			<Anchor>//api/name/authInfo</Anchor>
@@ -944,7 +944,7 @@ should handle, NO otherwise.</Abstract></ReturnValue>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) SFOAuthInfo *authInfo</Declaration>
+			<Declaration>@property (nonatomic, strong, nonnull) SFOAuthInfo *authInfo</Declaration>
 			
 			
 			<Anchor>//api/name/authInfo</Anchor>
@@ -956,7 +956,7 @@ should handle, NO otherwise.</Abstract></ReturnValue>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) SFOAuthInfo *authInfo</Declaration>
+			<Declaration>@property (nonatomic, strong, nonnull) SFOAuthInfo *authInfo</Declaration>
 			
 			
 			<Anchor>//api/name/authInfo</Anchor>
@@ -1072,74 +1072,74 @@ should handle, NO otherwise.</Abstract></ReturnValue>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/setOverrideWithFrontDoorBridgeUrl:</TokenIdentifier>
-			<Abstract type="html">For Salesforce Identity UI Bridge API support, an overriding front door bridge URL to use in place of the default initial URL.</Abstract>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/setFrontdoorBridgeLoginOverride:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) NSURL *overrideWithFrontDoorBridgeUrl</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) SFSDKAuthCoordinatorFrontdoorBridgeLoginOverride *frontdoorBridgeLoginOverride</Declaration>
 			
 			
-			<Anchor>//api/name/overrideWithFrontDoorBridgeUrl</Anchor>
+			<Anchor>//api/name/frontdoorBridgeLoginOverride</Anchor>
             <NodeRef refid="24"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/overrideWithFrontDoorBridgeUrl</TokenIdentifier>
-			<Abstract type="html">For Salesforce Identity UI Bridge API support, an overriding front door bridge URL to use in place of the default initial URL.</Abstract>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/frontdoorBridgeLoginOverride</TokenIdentifier>
+			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) NSURL *overrideWithFrontDoorBridgeUrl</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) SFSDKAuthCoordinatorFrontdoorBridgeLoginOverride *frontdoorBridgeLoginOverride</Declaration>
 			
 			
-			<Anchor>//api/name/overrideWithFrontDoorBridgeUrl</Anchor>
+			<Anchor>//api/name/frontdoorBridgeLoginOverride</Anchor>
             <NodeRef refid="24"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCoordinator/overrideWithFrontDoorBridgeUrl</TokenIdentifier>
-			<Abstract type="html">For Salesforce Identity UI Bridge API support, an overriding front door bridge URL to use in place of the default initial URL.</Abstract>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCoordinator/frontdoorBridgeLoginOverride</TokenIdentifier>
+			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) NSURL *overrideWithFrontDoorBridgeUrl</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) SFSDKAuthCoordinatorFrontdoorBridgeLoginOverride *frontdoorBridgeLoginOverride</Declaration>
 			
 			
-			<Anchor>//api/name/overrideWithFrontDoorBridgeUrl</Anchor>
+			<Anchor>//api/name/frontdoorBridgeLoginOverride</Anchor>
             <NodeRef refid="24"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/setOverrideWithCodeVerifier:</TokenIdentifier>
-			<Abstract type="html">For Salesforce Identity UI Bridge API support, the optional web server flow code verififer accompaning the front door bridge URL.  This can only be used with overrideWithfrontDoorBridgeUrl.</Abstract>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/setLoginHint:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) NSString *overrideWithCodeVerifier</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) NSString *loginHint</Declaration>
 			
 			
-			<Anchor>//api/name/overrideWithCodeVerifier</Anchor>
+			<Anchor>//api/name/loginHint</Anchor>
             <NodeRef refid="24"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/overrideWithCodeVerifier</TokenIdentifier>
-			<Abstract type="html">For Salesforce Identity UI Bridge API support, the optional web server flow code verififer accompaning the front door bridge URL.  This can only be used with overrideWithfrontDoorBridgeUrl.</Abstract>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/loginHint</TokenIdentifier>
+			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) NSString *overrideWithCodeVerifier</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) NSString *loginHint</Declaration>
 			
 			
-			<Anchor>//api/name/overrideWithCodeVerifier</Anchor>
+			<Anchor>//api/name/loginHint</Anchor>
             <NodeRef refid="24"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCoordinator/overrideWithCodeVerifier</TokenIdentifier>
-			<Abstract type="html">For Salesforce Identity UI Bridge API support, the optional web server flow code verififer accompaning the front door bridge URL.  This can only be used with overrideWithfrontDoorBridgeUrl.</Abstract>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCoordinator/loginHint</TokenIdentifier>
+			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, nullable) NSString *overrideWithCodeVerifier</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) NSString *loginHint</Declaration>
 			
 			
-			<Anchor>//api/name/overrideWithCodeVerifier</Anchor>
+			<Anchor>//api/name/loginHint</Anchor>
             <NodeRef refid="24"/>
 		</Token>
 		

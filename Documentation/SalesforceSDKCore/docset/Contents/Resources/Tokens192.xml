@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSPLoginError.html">
+	<File path="Constants/SFSPLoginStatus.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSPLoginError</TokenIdentifier>
-			<Abstract type="html"></Abstract>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSPLoginStatus</TokenIdentifier>
+			<Abstract type="html">  Key used to provide triggering scene info for IDP flow from a scene delegate.</Abstract>
 			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
             
 			
@@ -14,9 +14,9 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSPLoginErrorNoScheme</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSPLoginStatusLaunchingSPWithUserHint</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSPLoginErrorNoScheme</Declaration>
+            <Declaration>SFSPLoginStatusLaunchingSPWithUserHint</Declaration>
             
             <DeclaredIn>SFUserAccountManager.h</DeclaredIn>
             
@@ -24,9 +24,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSPLoginErrorNoUserIdentity</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSPLoginStatusCodeVerifierStoredInKeychain</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSPLoginErrorNoUserIdentity</Declaration>
+            <Declaration>SFSPLoginStatusCodeVerifierStoredInKeychain</Declaration>
             
             <DeclaredIn>SFUserAccountManager.h</DeclaredIn>
             
@@ -34,19 +34,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSPLoginErrorKeychainWriteFailed</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSPLoginStatusGettingAuthCodeFromServer</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSPLoginErrorKeychainWriteFailed</Declaration>
-            
-            <DeclaredIn>SFUserAccountManager.h</DeclaredIn>
-            
-            <NodeRef refid="192"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSPLoginErrorCredentialRefreshFailed</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSPLoginErrorCredentialRefreshFailed</Declaration>
+            <Declaration>SFSPLoginStatusGettingAuthCodeFromServer</Declaration>
             
             <DeclaredIn>SFUserAccountManager.h</DeclaredIn>
             

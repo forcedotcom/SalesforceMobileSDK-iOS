@@ -1,16 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKIDPRequestHandler.html">
+	<File path="Classes/SFSDKInstrumentationHelper.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKIDPRequestHandler</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKIDPRequestHandler.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKInstrumentationHelper</TokenIdentifier>
+			<Abstract type="html">Signpost logging is deprecated and this helper will be removed in version 14.0. (&lt;b class=&quot;deprecated&quot;&gt;Deprecated:&lt;/b&gt;&lt;span class=&quot;deprecated&quot;&gt; Signpost logging is deprecated and this helper will be removed in version 14.0.&lt;/span&gt;)</Abstract>
+			<DeclaredIn>SFSDKInstrumentationHelper.h</DeclaredIn>
             
 			
 			<NodeRef refid="80"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationHelper/setIsEnabled:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKInstrumentationHelper.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) BOOL isEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/isEnabled</Anchor>
+            <NodeRef refid="80"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInstrumentationHelper/isEnabled</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKInstrumentationHelper.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) BOOL isEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/isEnabled</Anchor>
+            <NodeRef refid="80"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKInstrumentationHelper/isEnabled</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKInstrumentationHelper.h</DeclaredIn>
+			
+			<Declaration>@property (class, nonatomic, readonly) BOOL isEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/isEnabled</Anchor>
+            <NodeRef refid="80"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKInstrumentationHelper/swizzleMethod:with:forClass:isInstanceMethod:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKInstrumentationHelper.h</DeclaredIn>
+			
+			<Declaration>+ (void)swizzleMethod:(SEL)originalSelector with:(SEL)swizzledSelector forClass:(Class)clazz isInstanceMethod:(BOOL)isInstanceMethod</Declaration>
+			
+			
+			<Anchor>//api/name/swizzleMethod:with:forClass:isInstanceMethod:</Anchor>
+            <NodeRef refid="80"/>
+		</Token>
 		
         
         

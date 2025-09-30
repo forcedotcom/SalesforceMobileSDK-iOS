@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKPrimingRuleError.html">
+	<File path="Classes/SFSDKPrimingStats.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKPrimingRuleError</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKPrimingStats</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
             
@@ -13,7 +13,7 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingRuleError/setDict:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingStats/setDict:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
 			
@@ -25,7 +25,7 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingRuleError/dict</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingStats/dict</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
 			
@@ -37,7 +37,7 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPrimingRuleError/dict</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPrimingStats/dict</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
 			
@@ -49,43 +49,151 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingRuleError/setRuleId:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingStats/setRuleCountTotal:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *ruleId</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSUInteger ruleCountTotal</Declaration>
 			
 			
-			<Anchor>//api/name/ruleId</Anchor>
+			<Anchor>//api/name/ruleCountTotal</Anchor>
             <NodeRef refid="98"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingRuleError/ruleId</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingStats/ruleCountTotal</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *ruleId</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSUInteger ruleCountTotal</Declaration>
 			
 			
-			<Anchor>//api/name/ruleId</Anchor>
+			<Anchor>//api/name/ruleCountTotal</Anchor>
             <NodeRef refid="98"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPrimingRuleError/ruleId</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPrimingStats/ruleCountTotal</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *ruleId</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSUInteger ruleCountTotal</Declaration>
 			
 			
-			<Anchor>//api/name/ruleId</Anchor>
+			<Anchor>//api/name/ruleCountTotal</Anchor>
             <NodeRef refid="98"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingRuleError/initWith:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingStats/setRecordCountTotal:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSUInteger recordCountTotal</Declaration>
+			
+			
+			<Anchor>//api/name/recordCountTotal</Anchor>
+            <NodeRef refid="98"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingStats/recordCountTotal</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSUInteger recordCountTotal</Declaration>
+			
+			
+			<Anchor>//api/name/recordCountTotal</Anchor>
+            <NodeRef refid="98"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPrimingStats/recordCountTotal</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSUInteger recordCountTotal</Declaration>
+			
+			
+			<Anchor>//api/name/recordCountTotal</Anchor>
+            <NodeRef refid="98"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingStats/setRuleCountServed:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSUInteger ruleCountServed</Declaration>
+			
+			
+			<Anchor>//api/name/ruleCountServed</Anchor>
+            <NodeRef refid="98"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingStats/ruleCountServed</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSUInteger ruleCountServed</Declaration>
+			
+			
+			<Anchor>//api/name/ruleCountServed</Anchor>
+            <NodeRef refid="98"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPrimingStats/ruleCountServed</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSUInteger ruleCountServed</Declaration>
+			
+			
+			<Anchor>//api/name/ruleCountServed</Anchor>
+            <NodeRef refid="98"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingStats/setRecordCountServed:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSUInteger recordCountServed</Declaration>
+			
+			
+			<Anchor>//api/name/recordCountServed</Anchor>
+            <NodeRef refid="98"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingStats/recordCountServed</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSUInteger recordCountServed</Declaration>
+			
+			
+			<Anchor>//api/name/recordCountServed</Anchor>
+            <NodeRef refid="98"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKPrimingStats/recordCountServed</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSUInteger recordCountServed</Declaration>
+			
+			
+			<Anchor>//api/name/recordCountServed</Anchor>
+            <NodeRef refid="98"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKPrimingStats/initWith:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFSDKPrimingRecordsResponse.h</DeclaredIn>
 			
