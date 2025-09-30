@@ -24,8 +24,9 @@
 
 #import <XCTest/XCTest.h>
 #import <SmartStore/SmartStore.h>
-#import "FMResultSet.h"
 #import <SalesforceSDKCore/SFUserAccountManager.h>
+
+@class FMResultSet;
 
 @interface SFUserAccount(SmartStoreTest)
 - (BOOL)transitionToLoginState:(SFUserAccountLoginState)newLoginState;

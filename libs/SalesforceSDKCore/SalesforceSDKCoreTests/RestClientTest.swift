@@ -657,9 +657,146 @@ class RestClientTests: XCTestCase {
         }
     }
     
+    func testSendCompositeRequest_ThrowsOnInvalidResponseFormat() async {
+        // Arrange: create a composite request with one valid subrequest
+        let builder = CompositeRequestBuilder()
+        let dummyRequest = RestRequest(method: .GET, path: "/dummy", queryParams: nil)
+        let composite = builder
+            .add(dummyRequest, referenceId: "ref1")
+            .buildCompositeRequest("v56.0")
+
+        // Inject mock client with bad response
+        let mockClient = MockRestClient()
+        mockClient.jsonResponse = """
+            [ { "shouldBe": "a dictionary" } ]
+        """.data(using: .utf8)! // Invalid top-level type
+        
+        // Act + Assert
+        do {
+            _ = try await mockClient.send(compositeRequest: composite)
+            XCTFail("Expected an error for invalid response format")
+        } catch let error as RestClientError {
+            switch error {
+            case .apiFailed(_, let underlyingError, _):
+                let nsError = underlyingError as NSError
+                XCTAssertEqual(nsError.localizedDescription, "CompositeResponse format invalid")
+                XCTAssertEqual(nsError.domain, "API Error")
+                XCTAssertEqual(nsError.code, 42)
+            default:
+                XCTFail("Unexpected RestClientError case: \(error)")
+            }
+        } catch {
+            XCTFail("Unexpected error: \(error)")
+        }
+    }
+    
+    func testSendURLRequestSuccess() async throws {
+        // Given
+        let request = URLRequest(url: URL(string: "https://test.salesforce.com")!)
+        
+        // When
+        let (data, response) = try await RestClient.shared.send(urlRequest: request)
+        
+        // Then
+        XCTAssertNotNil(data, "Response data should not be nil")
+        XCTAssertEqual((response as? HTTPURLResponse)?.statusCode, 200)
+    }
+    
+    func testSendURLRequestNetworkError() async {
+        // Given
+        let request = URLRequest(url: URL(string: "https://invalid.salesforce.com")!)
+        
+        // When/Then
+        do {
+            _ = try await RestClient.shared.send(urlRequest: request)
+            XCTFail("Expected error to be thrown")
+        } catch {
+            // Verify it's a RestClientError
+            XCTAssertTrue(error is RestClientError, "Error should be RestClientError")
+        }
+    }
+    
+    func testSendURLRequestHTTPError() async {
+        // Given
+        let request = URLRequest(url: URL(string: "https://test.salesforce.com/services/data/v56.0/sobjects/InvalidObject")!)
+        
+        // When/Then
+        do {
+            _ = try await RestClient.shared.send(urlRequest: request)
+            XCTFail("Expected error to be thrown")
+        } catch let error as RestClientError {
+            switch error {
+            case .apiFailed(_, let underlyingError, let urlResponse):
+                XCTAssertNotNil(underlyingError, "Underlying error should not be nil")
+                XCTAssertNotNil(urlResponse, "URL response should not be nil")
+                XCTAssertEqual((urlResponse as? HTTPURLResponse)?.statusCode, 400)
+            default:
+                XCTFail("Unexpected error type: \(error)")
+            }
+        } catch {
+            XCTFail("Unexpected error: \(error)")
+        }
+    }
+    
+    func testSendBatchRequest_ThrowsOnInvalidResponseFormat() async {
+        // Arrange: create a composite request with one valid subrequest
+        let builder = BatchRequestBuilder()
+        let dummyRequest = RestRequest(method: .GET, path: "/dummy", queryParams: nil)
+        let batch = builder
+            .add(dummyRequest)
+            .buildBatchRequest("v56.0")
+
+        // Inject mock client with bad response
+        let mockClient = MockRestClient()
+        mockClient.jsonResponse = """
+            [ { "shouldBe": "a dictionary" } ]
+        """.data(using: .utf8)! // Invalid top-level type
+        
+        // Act + Assert
+        do {
+            _ = try await mockClient.send(batchRequest: batch)
+            XCTFail("Expected an error for invalid response format")
+        } catch let error as RestClientError {
+            switch error {
+            case .apiFailed(_, let underlyingError, _):
+                let nsError = underlyingError as NSError
+                XCTAssertEqual(nsError.localizedDescription, "BatchResponse format invalid")
+                XCTAssertEqual(nsError.domain, "API Error")
+                XCTAssertEqual(nsError.code, 42)
+            default:
+                XCTFail("Unexpected RestClientError case: \(error)")
+            }
+        } catch {
+            XCTFail("Unexpected error: \(error)")
+        }
+    }
+    
     private func generateRecordName() -> String {
         let timecode = Date.timeIntervalSinceReferenceDate
         return "SwiftTestsiOS\(timecode)"
     }
     
+}
+
+final class RestClientWebSocketTests: XCTestCase {
+
+    func testNewWebSocketFromURLRequest() async throws {
+        // Given
+        let request = RestRequest(method: .GET,
+                                  serviceHostType: .login,
+                                  path: "/a",
+                                  queryParams: nil)
+        
+        
+        guard let urlRequest = request.prepare(forSend: RestClient.shared.userAccount) else {
+            XCTFail("Failed to prepare URLRequest from RestRequest")
+            return
+        }
+
+        // When
+        let socket = try await RestClient.shared.newWebSocket(from: urlRequest)
+
+        // Then
+        XCTAssertNotNil(socket, "WebSocket should not be nil")
+    }
 }

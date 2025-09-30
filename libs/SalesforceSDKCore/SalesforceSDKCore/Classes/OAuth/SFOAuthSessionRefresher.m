@@ -79,7 +79,7 @@
     SFSDKOAuthTokenEndpointRequest *request = [[SFSDKOAuthTokenEndpointRequest alloc] init];
     request.additionalOAuthParameterKeys = [SFUserAccountManager sharedInstance].additionalOAuthParameterKeys;
     request.additionalTokenRefreshParams = [SFUserAccountManager sharedInstance].additionalTokenRefreshParams;
-    request.clientID = self.credentials.clientId;
+    request.clientID = [self.credentials getClientIdForRefresh];
     request.refreshToken = self.credentials.refreshToken;
     request.redirectURI = self.credentials.redirectUri;
     request.serverURL = [self.credentials overrideDomainIfNeeded];

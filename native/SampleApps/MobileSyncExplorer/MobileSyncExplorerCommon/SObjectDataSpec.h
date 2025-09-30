@@ -23,8 +23,9 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <SmartStore/SFSoupIndex.h>
 #import <MobileSyncExplorerCommon/SObjectDataFieldSpec.h>
+
+@import SmartStore;
 
 extern NSString * const kSObjectIdField;
 

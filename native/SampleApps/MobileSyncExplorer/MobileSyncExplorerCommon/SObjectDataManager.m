@@ -23,14 +23,9 @@
  */
 
 #import "SObjectDataManager.h"
-#import <SmartStore/SFSmartStore.h>
-#import <SmartStore/SFQuerySpec.h>
-#import <SalesforceSDKCore/SFUserAccountManager.h>
-#import <MobileSync/SFSDKMobileSyncLogger.h>
 
-// Will go away once we are done refactoring SFSyncTarget
-#import <SalesforceSDKCore/SalesforceSDKManager.h>
-#import <MobileSync/MobileSyncSDKManager.h>
+@import SalesforceSDKCore;
+@import SmartStore;
 
 static NSUInteger kMaxQueryPageSize = 1000;
 static char* const kSearchFilterQueueName = "com.salesforce.mobileSyncExplorer.searchFilterQueue";

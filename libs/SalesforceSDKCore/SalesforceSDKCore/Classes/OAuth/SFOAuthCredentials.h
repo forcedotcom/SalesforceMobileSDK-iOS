@@ -138,6 +138,8 @@ NS_SWIFT_NAME(OAuthCredentials)
 @property (nonatomic, readonly, nullable) NSString *sidCookieName;
 @property (nonatomic, readonly, nullable) NSString *parentSid;
 @property (nonatomic, readonly, nullable) NSString *tokenFormat;
+@property (nonatomic, readonly, nullable) NSString *beaconChildConsumerKey;
+@property (nonatomic, readonly, nullable) NSString *beaconChildConsumerSecret;
 
 
 /** A readonly convenience property returning the Salesforce Organization ID provided in the path component of the identityUrl.
@@ -159,6 +161,16 @@ NS_SWIFT_NAME(OAuthCredentials)
  @warning The setter for this property is exposed publicly only for unit tests. Client code should not set this property.
  */
 @property (nonatomic, readonly, nullable) NSURL *instanceUrl;
+
+/** The URL of the  SFAP  server instance for this session.
+ 
+ This is the URL that client SFAP requests should be made to after authentication completes.
+ This property is set by the `SFOAuthCoordinator` after authentication has successfully completed.
+ This URL is only defined when sfap_api scope is used.
+ 
+ @warning The setter for this property is exposed publicly only for unit tests. Client code should not set this property.
+ */
+@property (nonatomic, readonly, nullable) NSURL *apiInstanceUrl;
 
 /** The community ID the user choose to log into. This usually happens when the user
  logs into the app using a community-based login page
@@ -271,6 +283,11 @@ NS_SWIFT_NAME(OAuthCredentials)
 - (NSURL *)overrideDomainIfNeeded;
 
 - (void)updateCredentials:(NSDictionary *)params;
+
+/** Returns the oauth client id to use for refresh
+ In the case of beacon app, the beacon child consumer key returned during login should be used instead of the configured consumer key
+ */
+- (NSString*)getClientIdForRefresh;
 
 @end
 

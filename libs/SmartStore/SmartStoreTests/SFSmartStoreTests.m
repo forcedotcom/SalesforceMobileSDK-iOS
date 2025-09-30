@@ -25,9 +25,7 @@
 #import "SFSmartStoreTests.h"
 #import <SalesforceSDKCommon/SalesforceSDKCommon-Swift.h>
 #import <SalesforceSDKCommon/SFJsonUtils.h>
-#import "FMDatabase.h"
-#import "FMDatabaseAdditions.h"
-#import "FMDatabaseQueue.h"
+@import FMDB;
 #import "SFQuerySpec.h"
 #import "SFStoreCursor.h"
 #import "SFSmartStoreDatabaseManager.h"
@@ -36,7 +34,7 @@
 #import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 #import <SalesforceSDKCore/NSString+SFAdditions.h>
 #import <SalesforceSDKCore/NSData+SFAdditions.h>
-#import "sqlite3.h"
+@import SQLCipher;
 
 #define kTestSmartStoreName  @"testSmartStore"
 #define kTestSoupName        @"testSoup"
@@ -106,19 +104,20 @@
 - (void) testSqliteVersion
 {
     NSString* version = [NSString stringWithUTF8String:sqlite3_libversion()];
-    XCTAssertEqualObjects(version, @"3.46.1");
+    XCTAssertEqualObjects(version, @"3.50.4");
 }
 
 - (void) testSqlCipherVersion
 {
     NSString* version = [self.store getSQLCipherVersion];
-    XCTAssertEqualObjects(version, @"4.6.1 community");
+    XCTAssertEqualObjects(version, @"4.10.0 community");
 }
 
 - (void) testCipherProviderVersion
 {
-    NSString* cipherProviderVersion = [self.store getCipherProviderVersion];
-    XCTAssertEqualObjects(cipherProviderVersion, @"unknown");
+    NSString *cipherProviderVersion = [self.store getCipherProviderVersion];
+    XCTAssertNotNil(cipherProviderVersion);
+    XCTAssertTrue(cipherProviderVersion.length > 0, @"cipherProviderVersion should not be an empty string");
 }
 
 - (void) testCipherFIPSStatus
@@ -358,7 +357,7 @@
         [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newAllQuerySpec:kTestSoupName withSelectPaths:@[@"key"] withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderAscending withPageSize:10]
                                             page:0
                                  expectedResults:@[@[@"ka1"], @[@"ka2"], @[@"ka3"]]
-                                        covering:![indexType isEqualToString:kSoupIndexTypeJSON1] //interestingly the explain plan doesn't use a covering index with a functional index
+                                        covering:YES
                              expectedDbOperation:@"SCAN"
                                            store:store];
 
@@ -427,7 +426,7 @@
         [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newRangeQuerySpec:kTestSoupName withSelectPaths:@[@"key"] withPath:@"key" withBeginKey:@"ka2" withEndKey:@"ka3" withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderDescending withPageSize:10]
                                             page:0
                                  expectedResults:@[@[@"ka3"], @[@"ka2"]]
-                                        covering:![indexType isEqualToString:kSoupIndexTypeJSON1] // interestingly the explain plan doesn't use a covering index with a functional index
+                                        covering:YES
                              expectedDbOperation:@"SEARCH"
                                            store:store];
         
@@ -534,7 +533,7 @@
         [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newLikeQuerySpec:kTestSoupName withSelectPaths:@[@"key"] withPath:@"key" withLikeKey:@"%bc%" withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderDescending withPageSize:10]
                                             page:0
                                  expectedResults:@[@[@"bbcd"], @[@"abcd"], @[@"abcc"]]
-                                        covering:![indexType isEqualToString:kSoupIndexTypeJSON1] // interestingly the explain plan doesn't use a covering index with a functional index
+                                        covering:YES
                              expectedDbOperation:@"SCAN"
                                            store:store];
     
@@ -589,7 +588,7 @@
         [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newSmartQuerySpec:smartSql withPageSize:10]
                                             page:0
                                  expectedResults:@[@[@"abcc"], @[@"abcd"]]
-                                        covering:![indexType isEqualToString:kSoupIndexTypeJSON1] // interestingly the explain plan doesn't use a covering index with a functional index
+                                        covering:YES
                              expectedDbOperation:@"SCAN"
                                            store:store];
         // Anoter smart query
@@ -597,7 +596,7 @@
         [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newSmartQuerySpec:smartSql withPageSize:2]
                                             page:0
                                  expectedResults:@[@[@"abcc"], @[@"abcd"]]
-                                        covering:![indexType isEqualToString:kSoupIndexTypeJSON1] // interestingly the explain plan doesn't use a covering index with a functional index
+                                        covering:YES
                              expectedDbOperation:@"SCAN"
                                            store:store];
     }

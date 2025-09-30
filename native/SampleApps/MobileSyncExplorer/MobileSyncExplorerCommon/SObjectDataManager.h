@@ -23,10 +23,10 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <MobileSync/SFMobileSyncSyncManager.h>
 #import <MobileSyncExplorerCommon/SObjectDataSpec.h>
 #import <MobileSyncExplorerCommon/SObjectData.h>
 
+@import MobileSync;
 
 @interface SObjectDataManager : NSObject
 

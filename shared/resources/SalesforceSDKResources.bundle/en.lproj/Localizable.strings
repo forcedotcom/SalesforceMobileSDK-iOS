@@ -43,20 +43,22 @@
 "bioPromtpCancel" = "Use Password";
 
 // OAuth flow
-"authAlertContinueButton"="Continue";
+"authAlertContinueButton" = "Continue";
 "authAlertErrorTitle" = "Server Error";
 "authAlertOkButton" = "OK";
-"authAlertCancelButton"="Cancel";
+"authAlertCancelButton" = "Cancel";
 "authAlertRetryButton" = "Retry";
 "authAlertDismissButton" = "Dismiss";
 "authAlertConnectionErrorFormatString" = "Can't connect to the server: %@";
 "authAlertVersionMismatchError" = "Your app has been updated, and you will need to log in again to continue using the app.";
-"authAlertBrowserFlowTitle"="Log In";
+"authAlertBrowserFlowTitle" = "Log In";
+"authAlertFrontdoorLoginUrlConsumerKeyMismatch" = "Cannot use another app's login QR Code.  Please log in to this app.";
 
 // LoginViewController
 "TITLE_LOGIN" = "Log In";
 "LOGIN_SERVER_PRODUCTION" = "Production";
 "LOGIN_SERVER_SANDBOX" = "Sandbox";
+"LOGIN_SERVER_WELCOME" = "Welcome";
 "LOGIN_CHOOSE_SERVER" = "Choose Connection";
 "LOGIN_ADD_SERVER" = "Add Connection";
 "LOGIN_SERVER_URL" = "Host";
@@ -65,7 +67,7 @@
 "LOGIN_SERVER_NAME_PLACEHOLDER" = "Optional";
 "DONE_BUTTON" = "Done";
 
-//Account Switcher
+// Account Switcher
 "ACCOUNT_SWITCHER_TITLE" = "Manage Accounts";
 "LOG_OUT" = "Log Out";
 "ADD_NEW_ACCOUNT" = "Add New Account";
@@ -105,12 +107,12 @@
 "devInfoOKKey" = "OK";
 "devInfoCancelKey" = "Cancel";
 
-//IDP User Selection Screen
+// IDP User Selection Screen
 "idpSelectUserLabel" = "Select your account to log in to";
 "idpAddNewAccountLabel" = "Add new account";
 "idpSelectUserTitleLabel" = "Select user";
 
-//IDP Login Selection Screen
+// IDP Login Selection Screen
 "idpLoginFlowInfoLabel" = "Select the flow to use for log in";
 "idpLoginLocalFlowDescriptionLabel" = "Local - Host App will be used for authentication";
 "idpLoginIdpFlowDescriptionLabel" = "IDP - Identity Provider App will be launched for authentication";
@@ -126,3 +128,7 @@
 "Copy key to clipboard" = "Copy key to clipboard";
 "Key-Value Store Inspector" = "Key-Value Store Inspector";
 " (global)" = " (global)";
+
+// General
+"Error" = "Error";
+"OK" = "OK";

@@ -84,14 +84,17 @@ for headerFile in `ls -1 "${publicHeaderDirectory}"`; do
 	fi
 done
 
-# Make sure none of the public header files are in the exclude files list
+# Sort public header files and make sure none are in the exclude files list
+publicHeaderFileListSortedWithNewLines=`echo "${publicHeaderFileList}" | sed 's/ *//g' | tr , '\n' | sort`
 if grep -q "${SUBSPEC_NAME}.exclude_files" ${podSpecFile}
 then
-    echo "${publicHeaderFileList}" | sed 's/ *//g' | tr , '\n' | sort > "${podSpecFile}.public_header_files_list"
     cat "${podSpecFile}" | grep "${SUBSPEC_NAME}.exclude_files"  | sed 's/.*=//' | sed 's/ *//g' | tr , '\n' | sort > "${podSpecFile}.exclude_files_list"
-    publicHeaderFileList=`comm -23 ${podSpecFile}.public_header_files_list ${podSpecFile}.exclude_files_list | tr '\n' , | sed 's/,$//'`
+    echo "${publicHeaderFileListSortedWithNewLines}" > "${podSpecFile}.public_header_files_list"
+    publicHeaderFileListSortedWithNewLines=`comm -23 "${podSpecFile}.public_header_files_list" "${podSpecFile}.exclude_files_list"`
     rm "${podSpecFile}.public_header_files_list" "${podSpecFile}.exclude_files_list"
 fi
+publicHeaderFileList=`echo "${publicHeaderFileListSortedWithNewLines}" | tr '\n' ',' | sed -e 's/,/, /g' -e 's/, $//'`
+
 
 # Replace the old headers with the new ones.
 searchPattern='^( *'"${SUBSPEC_NAME}"'\.public_header_files = ).*$'

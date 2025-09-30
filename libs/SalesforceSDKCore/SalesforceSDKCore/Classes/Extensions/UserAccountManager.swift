@@ -37,7 +37,17 @@ public enum UserAccountManagerError: Error {
     case userSwitchFailedUnknown
 }
 
-extension UserAccountManager {
+protocol UserAccountManaging {
+    func account() -> UserAccount?
+    
+    func refresh(credentials: OAuthCredentials, _ completionBlock: @escaping (Result<(UserAccount, AuthInfo), UserAccountManagerError>) -> Void) -> Bool
+}
+
+extension UserAccountManager: UserAccountManaging {
+    // Current User Account
+    func account() -> UserAccount? {
+        return UserAccountManager.shared.currentUserAccount
+    }
     
     ///  Kick off the login process for credentials that's previously configured.
     /// - Parameter completionBlock: completion block to invoke with a success tuple (UserAccount, AuthInfo) or   UserAccountManagerError for failure wrapped in a Result type.

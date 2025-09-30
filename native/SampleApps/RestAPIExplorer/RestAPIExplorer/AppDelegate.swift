@@ -142,6 +142,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             "test_redirect_uri": SalesforceManager.shared.bootConfig?.oauthRedirectURI,
             "refresh_token": creds.refreshToken,
             "instance_url": instance.absoluteString,
+            "api_instance_url": creds.apiInstanceUrl?.absoluteString,
             "identity_url": identity.absoluteString,
             "access_token": "__NOT_REQUIRED__",
             "organization_id": creds.organizationId,

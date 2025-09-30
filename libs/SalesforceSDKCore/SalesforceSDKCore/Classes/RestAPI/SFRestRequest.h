@@ -39,7 +39,7 @@ typedef NS_ENUM(NSInteger, SFRestMethod) {
 } NS_SWIFT_NAME(RestRequest.Method);
 
 /**
- * HTTP methods for requests.
+ * Network Service Types.
  */
 typedef NS_ENUM(NSInteger, SFSDKNetworkServiceType) {
     SFNetworkServiceTypeDefault,

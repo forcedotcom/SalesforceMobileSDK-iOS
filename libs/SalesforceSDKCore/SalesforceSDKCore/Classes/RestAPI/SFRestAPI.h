@@ -30,6 +30,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef void (^SFRestRequestFailBlock) (id _Nullable response, NSError * _Nullable e, NSURLResponse * _Nullable rawResponse) NS_SWIFT_NAME(RestRequestFailBlock);
+typedef void (^SFRestResponseBlock) (id _Nullable response, NSURLResponse * _Nullable rawResponse) NS_SWIFT_NAME(RestResponseBlock);
 /*
  * Domain used for errors reported by the rest API (non HTTP errors)
  * (for example, passing an invalid SOQL string when doing a query)
@@ -128,6 +130,17 @@ NS_SWIFT_NAME(RestClient)
  * @param requestDelegate Delegate object that handles the server response.
  */
 - (void)send:(SFRestRequest *)request requestDelegate:(nullable id<SFRestRequestDelegate>)requestDelegate;
+
+/**
+ * Sends a REST request to the Salesforce server
+ *
+ * @param request `SFRestRequest` object to be sent.
+ * @param failureBlock Block that is called back for failure of request
+ * @param successBlock Block that is called back for success of request
+ */
+- (void)send:(SFRestRequest *_Nonnull)request
+failureBlock:(SFRestRequestFailBlock _Nonnull )failureBlock
+successBlock:(SFRestResponseBlock _Nonnull )successBlock;
 
 ///---------------------------------------------------------------------------------------
 /// @name SFRestRequest factory methods

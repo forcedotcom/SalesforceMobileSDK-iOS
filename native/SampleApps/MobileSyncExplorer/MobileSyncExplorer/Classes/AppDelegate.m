@@ -25,18 +25,12 @@
 #import "AppDelegate.h"
 #import "InitialViewController.h"
 #import "ContactListViewController.h"
-#import <SalesforceSDKCore/SFPushNotificationManager.h>
-#import <SalesforceSDKCore/SalesforceSDKManager.h>
-#import <SalesforceSDKCore/SFSDKAppConfig.h>
-#import <SalesforceSDKcore/SFSDKWindowManager.h>
-#import <SalesforceSDKCore/SFSDKAuthHelper.h>
-#import <MobileSync/MobileSyncSDKManager.h>
-#import <SalesforceSDKCommon/SFSDKDatasharingHelper.h>
-#import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 #import <MobileSyncExplorerCommon/MobileSyncExplorerConfig.h>
-#import <SalesforceSDKCore/SFSDKNavigationController.h>
-#import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <UserNotifications/UserNotifications.h>
+
+@import SalesforceSDKCommon;
+@import SalesforceSDKCore;
+@import MobileSync;
 
 @interface AppDelegate ()
 

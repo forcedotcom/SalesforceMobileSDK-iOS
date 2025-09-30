@@ -51,6 +51,22 @@ static BOOL _sessionCookieManagementDisabled = NO;
   
 }
 
++ (void)forceRemoveSession {
+        
+        if (![NSThread isMainThread]) {
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                [SFSDKWebViewStateManager forceRemoveSession];
+            });
+            return;
+        }
+        
+        self.sharedProcessPool = nil;
+        
+        //reset WKWebView related state if any
+        [self removeWKWebViewCookies];
+      
+}
+
 + (WKProcessPool *)sharedProcessPool {
     if (!_processPool) {
         [SFSDKCoreLogger i:self format:@"[%@ %@]: No process pool exists.  Creating new instance.", NSStringFromClass(self), NSStringFromSelector(_cmd)];

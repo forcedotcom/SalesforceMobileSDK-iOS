@@ -31,6 +31,7 @@
 #import "TestSyncUpTarget.h"
 #import "SyncManagerTestCase.h"
 #import <MobileSync/MobileSync-Swift.h>
+#import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 
 static NSException *authException = nil;
 

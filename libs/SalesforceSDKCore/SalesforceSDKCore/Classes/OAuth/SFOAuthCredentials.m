@@ -37,6 +37,8 @@ NSString * const kSFOAuthServiceVfSid           = @"com.salesforce.mobilesdk.oau
 NSString * const kSFOAuthServiceContentSid      = @"com.salesforce.mobilesdk.oauth.contentSid";
 NSString * const kSFOAuthServiceCsrf            = @"com.salesforce.mobilesdk.oauth.csrf";
 NSString * const kSFOAuthServiceParentSid       = @"com.salesforce.mobilesdk.oauth.parentSid";
+NSString * const kSFOAuthServiceBeaconChildConsumerKey    = @"com.salesforce.mobilesdk.oauth.beaconChildConsumerKey";
+NSString * const kSFOAuthServiceBeaconChildConsumerSecret = @"com.salesforce.mobilesdk.oauth.beaconChildConsumerSecret";
 
 NSString * const kSFOAuthServiceLegacyAccess    = @"com.salesforce.oauth.access";
 NSString * const kSFOAuthServiceLegacyRefresh   = @"com.salesforce.oauth.refresh";
@@ -60,6 +62,7 @@ NSException * SFOAuthInvalidIdentifierException(void) {
 @synthesize identityUrl               = _identityUrl;
 @synthesize userId                    = _userId;         // cached user ID derived from identityURL
 @synthesize instanceUrl               = _instanceUrl;
+@synthesize apiInstanceUrl            = _apiInstanceUrl;
 @synthesize issuedAt                  = _issuedAt;
 @synthesize protocol                  = _protocol;
 @synthesize encrypted                 = _encrypted;
@@ -89,6 +92,7 @@ NSException * SFOAuthInvalidIdentifierException(void) {
             self.organizationId = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthOrganizationId"];
             self.identityUrl    = [coder decodeObjectOfClass:[NSURL class]    forKey:@"SFOAuthIdentityUrl"];
             self.instanceUrl    = [coder decodeObjectOfClass:[NSURL class]    forKey:@"SFOAuthInstanceUrl"];
+            self.apiInstanceUrl = [coder decodeObjectOfClass:[NSURL class]    forKey:@"SFOAuthApiInstanceUrl"];
             self.communityId    = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthCommunityId"];
             self.communityUrl   = [coder decodeObjectOfClass:[NSURL class]    forKey:@"SFOAuthCommunityUrl"];
             self.issuedAt       = [coder decodeObjectOfClass:[NSDate class]   forKey:@"SFOAuthIssuedAt"];
@@ -121,6 +125,8 @@ NSException * SFOAuthInvalidIdentifierException(void) {
                 self.contentSid  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthContentSID"];
                 self.csrfToken  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthCSRFToken"];
                 self.parentSid = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthParentSID"];
+                self.beaconChildConsumerKey  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthBeaconChildConsumerKey"];
+                self.beaconChildConsumerSecret  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthBeaconChildConsumerSecret"];
             }
         }
     } else {
@@ -138,6 +144,7 @@ NSException * SFOAuthInvalidIdentifierException(void) {
     [coder encodeObject:self.organizationId     forKey:@"SFOAuthOrganizationId"];
     [coder encodeObject:self.identityUrl        forKey:@"SFOAuthIdentityUrl"];
     [coder encodeObject:self.instanceUrl        forKey:@"SFOAuthInstanceUrl"];
+    [coder encodeObject:self.apiInstanceUrl     forKey:@"SFOAuthApiInstanceUrl"];
     [coder encodeObject:self.communityId        forKey:@"SFOAuthCommunityId"];
     [coder encodeObject:self.communityUrl       forKey:@"SFOAuthCommunityUrl"];
     [coder encodeObject:self.issuedAt           forKey:@"SFOAuthIssuedAt"];
@@ -196,6 +203,7 @@ NSException * SFOAuthInvalidIdentifierException(void) {
     copyCreds.refreshToken = self.refreshToken;
     copyCreds.accessToken = self.accessToken;
     copyCreds.instanceUrl = self.instanceUrl;
+    copyCreds.apiInstanceUrl = self.apiInstanceUrl;
     copyCreds.communityId = self.communityId;
     copyCreds.communityUrl = self.communityUrl;
     copyCreds.issuedAt = self.issuedAt;
@@ -217,6 +225,8 @@ NSException * SFOAuthInvalidIdentifierException(void) {
     copyCreds.sidCookieName = self.sidCookieName;
     copyCreds.parentSid = self.parentSid;
     copyCreds.tokenFormat = self.tokenFormat;
+    copyCreds.beaconChildConsumerKey = self.beaconChildConsumerKey;
+    copyCreds.beaconChildConsumerSecret = self.beaconChildConsumerSecret;
     copyCreds.additionalOAuthFields = [self.additionalOAuthFields copy];
     return copyCreds;
 }
@@ -286,11 +296,11 @@ NSException * SFOAuthInvalidIdentifierException(void) {
 }
 
 - (NSString *)description {
-    NSString *format = @"<%@: %p, identifier=\"%@\" clientId=\"%@\" domain=\"%@\" identityUrl=\"%@\" instanceUrl=\"%@\" "
+    NSString *format = @"<%@: %p, identifier=\"%@\" clientId=\"%@\" domain=\"%@\" identityUrl=\"%@\" instanceUrl=\"%@\" apiInstanceUrl=\"%@\" "
                        @"communityId=\"%@\" communityUrl=\"%@\" "
                        @"issuedAt=\"%@\" organizationId=\"%@\" protocol=\"%@\" redirectUri=\"%@\">";
     return [NSString stringWithFormat:format, NSStringFromClass(self.class), self,
-            self.identifier, self.clientId, self.domain, self.identityUrl, self.instanceUrl,
+            self.identifier, self.clientId, self.domain, self.identityUrl, self.instanceUrl, self.apiInstanceUrl,
             self.communityId, self.communityUrl,
             self.issuedAt, self.organizationId, self.protocol, self.redirectUri];
 }
@@ -311,6 +321,7 @@ NSException * SFOAuthInvalidIdentifierException(void) {
     [SFSDKCoreLogger d:[self class] format:@"%@:revokeRefreshToken: refresh token revoked. Cleared identityUrl, instanceUrl, issuedAt fields", [self class]];
     self.refreshToken = nil;
     self.instanceUrl  = nil;
+    self.apiInstanceUrl = nil;
     self.communityId  = nil;
     self.communityUrl = nil;
     self.issuedAt     = nil;
@@ -327,6 +338,8 @@ NSException * SFOAuthInvalidIdentifierException(void) {
     self.sidCookieName = nil;
     self.parentSid = nil;
     self.tokenFormat = nil;
+    self.beaconChildConsumerKey = nil;
+    self.beaconChildConsumerSecret = nil;
 }
 
 - (void)setPropertyForKey:(NSString *) propertyName withValue:(id) newValue {
@@ -361,12 +374,28 @@ NSException * SFOAuthInvalidIdentifierException(void) {
 
 /** Update the credentials using the provided oauth parameters.
  This method only update the following parameters:
- - identityUrl
  - accessToken
- - instanceUrl
  - issuedAt
+ - instanceUrl
+ - apiInstanceUrl
+ - identityUrl
  - communityId
  - communityUrl
+ - refreshToken
+ - lightningDomain
+ - lightningSid
+ - vfDomain
+ - vfSid
+ - contentDomain
+ - contentSid
+ - csrfToken
+ - cookieClientSrc
+ - cookieSidClient
+ - sidCookieName
+ - parentSid
+ - tokenFormat
+ - beaconChildConsumerKey
+ - beaconChildConsumerSecret
  */
 - (void)updateCredentials:(NSDictionary *) params {
     if (params[kSFOAuthAccessToken]) {
@@ -377,6 +406,9 @@ NSException * SFOAuthInvalidIdentifierException(void) {
     }
     if (params[kSFOAuthInstanceUrl]) {
         [self setPropertyForKey:@"instanceUrl" withValue:[NSURL URLWithString:params[kSFOAuthInstanceUrl]]];
+    }
+    if (params[kSFOAuthApiInstanceUrl]) {
+        [self setPropertyForKey:@"apiInstanceUrl" withValue:[NSURL URLWithString:params[kSFOAuthApiInstanceUrl]]];
     }
     if (params[kSFOAuthId]) {
         [self setPropertyForKey:@"identityUrl" withValue:[NSURL URLWithString:params[kSFOAuthId]]];
@@ -426,7 +458,16 @@ NSException * SFOAuthInvalidIdentifierException(void) {
     if (params[kSFOAuthTokenFormat]) {
         self.tokenFormat = params[kSFOAuthTokenFormat];
     }
+    if (params[kSFOAuthBeaconChildConsumerKey]) {
+        self.beaconChildConsumerKey = params[kSFOAuthBeaconChildConsumerKey];
+    }
+    if (params[kSFOAuthBeaconChildConsumerSecret]) {
+        self.beaconChildConsumerSecret = params[kSFOAuthBeaconChildConsumerSecret];
+    }
+}
 
+- (NSString*)getClientIdForRefresh {
+    return self.beaconChildConsumerKey.length != 0 ? self.beaconChildConsumerKey : self.clientId;
 }
 
 @end

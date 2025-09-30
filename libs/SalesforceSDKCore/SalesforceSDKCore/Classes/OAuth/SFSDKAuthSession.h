@@ -43,7 +43,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) SFIdentityCoordinator *identityCoordinator;
 @property (nonatomic, assign) BOOL notifiesDelegatesOfFailure;
 @property (nonatomic, strong, nullable)NSError *authError;
-@property (nonatomic, strong) SFOAuthInfo *authInfo;
 @property (nonatomic, copy, nullable) void (^authCoordinatorBrowserBlock)(BOOL);
 @property (nonatomic) BOOL nativeLogin;
 //idp related

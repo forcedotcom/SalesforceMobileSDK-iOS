@@ -3073,6 +3073,64 @@ static NSException *authException = nil;
     XCTAssertEqualObjects(notificationIds, requestNotificationIds);
 }
 
+#pragma mark - Notification API Tests
+- (void)testRequestForNotificationTypes {
+    // Given
+    SFRestAPI *api = [SFRestAPI sharedInstance];
+    SFRestRequest *request = [api requestForNotificationTypes];
+
+    // Then
+    XCTAssertNotNil(request, @"Expected request object to be created.");
+    XCTAssertEqual(request.method, SFRestMethodGET, @"Expected GET method.");
+    NSString *expectedPath = [NSString stringWithFormat:@"/%@/connect/notifications/types", api.apiVersion];
+    XCTAssertEqualObjects(request.path, expectedPath);
+}
+
+- (void)testRequestForNotificationTypesWithVersion {
+    // Given
+    NSString *customAPIVersion = @"v64.0";
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForNotificationTypesWithVersion:customAPIVersion];
+
+    // Then
+    XCTAssertNotNil(request, @"Expected request object to be created.");
+    XCTAssertEqual(request.method, SFRestMethodGET, @"Expected GET method.");
+    NSString *expectedPath = [NSString stringWithFormat:@"/%@/connect/notifications/types", customAPIVersion];
+    XCTAssertEqualObjects(request.path, expectedPath);
+}
+
+- (void)testRequestForInvokeNotificationAction {
+    // Given
+    NSString *notificationId = @"12345";
+    NSString *actionIdentifier = @"approve_action";
+    SFRestAPI *api = [SFRestAPI sharedInstance];
+    SFRestRequest *request = [api requestForInvokeNotificationAction:notificationId
+                                                                           actionIdentifier:actionIdentifier];
+
+    // Then
+    XCTAssertNotNil(request, @"Expected request object to be created.");
+    XCTAssertEqual(request.method, SFRestMethodPOST, @"Expected POST method.");
+    NSString *expectedPath = [NSString stringWithFormat:@"/%@/connect/notifications/%@/actions/%@", api.apiVersion, notificationId, actionIdentifier];
+    XCTAssertEqualObjects(request.path, expectedPath);
+}
+
+- (void)testRequestForInvokeNotificationActionWithVersion {
+    // Given
+    NSString *notificationId = @"67890";
+    NSString *actionIdentifier = @"deny_action";
+    NSString *customAPIVersion = @"v64.0";
+    SFRestAPI *api = [SFRestAPI sharedInstance];
+    
+    SFRestRequest *request = [api requestForInvokeNotificationAction:notificationId
+                                                    actionIdentifier:actionIdentifier
+                                                          apiVersion:customAPIVersion];
+    
+    // Then
+    XCTAssertNotNil(request, @"Expected request object to be created.");
+    XCTAssertEqual(request.method, SFRestMethodPOST, @"Expected POST method.");
+    NSString *expectedPath = [NSString stringWithFormat:@"/%@/connect/notifications/%@/actions/%@", customAPIVersion, notificationId, actionIdentifier];
+    XCTAssertEqualObjects(request.path, expectedPath);
+}
+
 #pragma mark - Helper methods
 
 - (void)checkKeysInJsonObject:(NSDictionary *)jsonObject expectedKeys:(NSArray<NSString *> *)expectedKeys {

@@ -38,6 +38,7 @@ static NSString * const kUser_CUSTOM_DATA         = @"customData";
 static NSString * const kUser_ACCESS_RESTRICTIONS = @"accessRestrictions";
 static NSString * const kCredentialsUserIdPropName = @"userId";
 static NSString * const kCredentialsOrgIdPropName = @"organizationId";
+static NSString * const kUser_NOTIFICATION_TYPES = @"notificationTypes";
 static NSString * const kSFAppFeatureOAuth = @"UA";
 
 static const char * kSyncQueue = "com.salesforce.mobilesdk.sfuseraccount.syncqueue";
@@ -62,6 +63,7 @@ NSString * const kUserAccountPhotoEncryptionKeyLabel = @"com.salesforce.userAcco
 @synthesize credentials = _credentials;
 @synthesize accessScopes = _accessScopes;
 @synthesize idData = _idData;
+@synthesize notificationTypes = _notificationTypes;
 
 + (BOOL)supportsSecureCoding {
     return YES;
@@ -99,6 +101,7 @@ NSString * const kUserAccountPhotoEncryptionKeyLabel = @"com.salesforce.userAcco
     [encoder encodeObject:_idData forKey:kUser_ID_DATA];
     [encoder encodeObject:_customData forKey:kUser_CUSTOM_DATA];
     [encoder encodeInteger:_accessRestrictions forKey:kUser_ACCESS_RESTRICTIONS];
+    [encoder encodeObject:_notificationTypes forKey:kUser_NOTIFICATION_TYPES];
 }
 
 - (id)initWithCoder:(NSCoder*)decoder {
@@ -116,6 +119,7 @@ NSString * const kUserAccountPhotoEncryptionKeyLabel = @"com.salesforce.userAcco
         if (_loginState == SFUserAccountLoginStateLoggedIn) {
             [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureOAuth];
         }
+        _notificationTypes = [decoder decodeObjectOfClasses:[NSSet setWithObjects:[NSArray class], [SFSDKNotificationType class], nil] forKey:kUser_NOTIFICATION_TYPES];
     }
     return self;
 }
@@ -133,6 +137,15 @@ NSString * const kUserAccountPhotoEncryptionKeyLabel = @"com.salesforce.userAcco
     dispatch_barrier_async(_syncQueue, ^{
         self->_accessScopes = accessScopes;
     });
+}
+
+
+- (NSArray<NotificationType *> *)notificationTypes {
+    return _notificationTypes;
+}
+
+- (void)setNotificationTypes:(NSArray<NotificationType *> *)notificationTypes {
+    _notificationTypes = [notificationTypes copy];
 }
 
 - (NSString *)userPhotoDirectory {

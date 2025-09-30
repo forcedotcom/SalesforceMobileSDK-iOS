@@ -23,7 +23,8 @@
  */
 
 #import "SObjectData+Internal.h"
-#import <SalesforceSDKCore/NSDictionary+SFAdditions.h>
+
+@import SalesforceSDKCore;
 
 @implementation SObjectData
 

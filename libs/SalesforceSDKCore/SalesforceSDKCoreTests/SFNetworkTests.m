@@ -26,6 +26,7 @@
 #import <XCTest/XCTest.h>
 #import "SalesforceSDKCore/SFNetwork.h"
 #import "SalesforceSDKCore/SFRestAPI+Blocks.h"
+#import "SalesforceSDKCore/SalesforceSDKCore-Swift.h"
 
 @interface SFNetwork (Testing)
 

@@ -72,6 +72,22 @@ NS_SWIFT_NAME(AuthHelper)
            codeVerifier:(nullable NSString *)codeVerifier
              completion:(void (^)(void))completionBlock;
 
+/**
+ Initiate a login flow if the user is not already logged in to Salesforce and if the app config's
+ `shouldAuthenticate` flag is set to false.
+ 
+ @param scene Scene that login is initiated for.
+ @param loginHint Optional login hint to pre-fill the username field.
+ @param loginHost Optional login host URL to use for authentication.
+ @param completionBlock Block that executes immediately if the user is already logged in or if the app
+ config's `shouldAuthenticate` is set to false. Otherwise, this block executes successfully after if login is
+ required.
+ */
++ (void)loginIfRequired:(nullable UIScene *)scene
+              loginHint:(nullable NSString *)loginHint
+              loginHost:(nullable NSString *)loginHost
+             completion:(void (^)(void))completionBlock;
+
 + (void)handleLogout:(nullable void (^)(void))completionBlock;
 
 + (void)handleLogout:(UIScene *)scene completion:(nullable void (^)(void))completionBlock;

@@ -6,32 +6,71 @@ codecov:
 coverage:
   precision: 2
   round: down
-  range: "25...75"
+  range: "60...80"
 
   status:
+    # Overall Libarary Requirements
     project:
       default: false  # disable the default status that measures entire project
       SalesforceAnalytics:
+        threshold: 0%
         paths: 
           - "libs/SalesforceAnalytics/SalesforceAnalytics/"
         flags: 
           - SalesforceAnalytics
       SalesforceSDKCommon:
+        threshold: 0%
         paths: 
           - "libs/SalesforceSDKCore/SalesforceSDKCommon/"
         flags: 
           - SalesforceSDKCommon
       SalesforceSDKCore:
+        threshold: 0%
         paths: 
           - "libs/SalesforceSDKCore/SalesforceSDKCore/"
         flags: 
           - SalesforceSDKCore
       SmartStore:
+        threshold: 0%
         paths: 
           - "libs/SmartStore/SmartStore/"
         flags: 
           - SmartStore
       MobileSync:
+        threshold: 0%
+        paths: 
+          - "libs/MobileSync/MobileSync/"
+        flags: 
+          - MobileSync
+
+    # Pull Request Requirements
+    patch: 
+      SalesforceAnalytics:
+        target: 80%
+        paths: 
+          - "libs/SalesforceAnalytics/SalesforceAnalytics/"
+        flags: 
+          - SalesforceAnalytics
+      SalesforceSDKCommon:
+        target: 80%
+        paths: 
+          - "libs/SalesforceSDKCore/SalesforceSDKCommon/"
+        flags: 
+          - SalesforceSDKCommon
+      SalesforceSDKCore:
+        target: 80%
+        paths: 
+          - "libs/SalesforceSDKCore/SalesforceSDKCore/"
+        flags: 
+          - SalesforceSDKCore
+      SmartStore:
+        target: 80%
+        paths: 
+          - "libs/SmartStore/SmartStore/"
+        flags: 
+          - SmartStore
+      MobileSync:
+        target: 80%
         paths: 
           - "libs/MobileSync/MobileSync/"
         flags: 

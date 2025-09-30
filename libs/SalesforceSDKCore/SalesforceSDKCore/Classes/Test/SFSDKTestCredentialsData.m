@@ -63,6 +63,11 @@
     return _credentialsDict[@"instance_url"];
 }
 
+- (NSString *)apiInstanceUrl
+{
+    return _credentialsDict[@"api_instance_url"];
+}
+
 - (NSString *)clientId
 {
     return _credentialsDict[@"test_client_id"];

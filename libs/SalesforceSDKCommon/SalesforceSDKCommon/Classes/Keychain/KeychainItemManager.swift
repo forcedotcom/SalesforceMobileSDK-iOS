@@ -71,22 +71,19 @@ internal class KeychainItemManager: NSObject {
     /// - KeychainResult: success or error.
     func setValue(_ data: Data) -> KeychainResult {
         var query = self.secureStoreQueryable.query
-        var status = SecItemCopyMatching(query as CFDictionary, nil)
+        var status = SecItemOperations.copyMatching(query, nil)
         guard status == errSecSuccess || status == errSecItemNotFound else {
             return KeychainResult(error: KeychainItemManager.mapError(from: status), status: status)
         }
 
         if status == errSecItemNotFound {
             query[String(kSecValueData)] = data
-            query[String(kSecAttrCreator)] = KeychainItemManager.tag
-            status = SecItemAdd(query as CFDictionary, nil)
+            status = SecItemOperations.add(query, nil)
         } else {
             let attributesToUpdate: [String: Any] = [String(kSecValueData): data,
-                                                     String(kSecAttrAccessible): self.accessibleAttribute,
-                                                     String(kSecAttrCreator): KeychainItemManager.tag]
+                                                     String(kSecAttrAccessible): self.accessibleAttribute]
 
-            status = SecItemUpdate(query as CFDictionary,
-                                   attributesToUpdate as CFDictionary)
+            status = SecItemOperations.update(query, attributesToUpdate)
         }
 
         //failure to add or update
@@ -103,8 +100,7 @@ internal class KeychainItemManager: NSObject {
     /// - KeychainResult: success or error.
     func addEmptyValue() -> KeychainResult {
         var query = self.secureStoreQueryable.query
-        query[String(kSecAttrCreator)] = KeychainItemManager.tag
-        var status = SecItemCopyMatching(query as CFDictionary, nil)
+        var status = SecItemOperations.copyMatching(query, nil)
 
         guard status == errSecSuccess || status == errSecItemNotFound else {
             return KeychainResult(error: KeychainItemManager.mapError(from: status), status: status)
@@ -112,7 +108,7 @@ internal class KeychainItemManager: NSObject {
 
         if status == errSecItemNotFound {
             query[String(kSecAttrAccessible)] = self.accessibleAttribute
-            status = SecItemAdd(query as CFDictionary, nil)
+            status = SecItemOperations.add(query, nil)
         }
 
         //failure to add or update
@@ -134,7 +130,7 @@ internal class KeychainItemManager: NSObject {
         query.merge(additions) { (current, _) in current }
 
         var queryResult: CFTypeRef?
-        let status = SecItemCopyMatching(query as CFDictionary, &queryResult)
+        let status = SecItemOperations.copyMatching(query, &queryResult)
 
         guard errSecSuccess == status else {
             return KeychainResult(error: KeychainItemManager.mapError(from: status), status: status)
@@ -154,7 +150,7 @@ internal class KeychainItemManager: NSObject {
     func removeValue() -> KeychainResult {
         let query = secureStoreQueryable.query
 
-        let status = SecItemDelete(query as CFDictionary)
+        let status = SecItemOperations.delete(query)
         guard status == errSecSuccess || status == errSecItemNotFound else {
             let error = KeychainItemManager.mapError(from: status)
             return KeychainResult(error: error, status: status)
