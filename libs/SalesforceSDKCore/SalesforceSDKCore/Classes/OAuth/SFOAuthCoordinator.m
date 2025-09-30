@@ -330,7 +330,6 @@
 - (WKWebView *)view {
     if (_view == nil) {
         WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
-        config.processPool = SFSDKWebViewStateManager.sharedProcessPool;
         UIWindowScene *scene = (UIWindowScene *)self.authSession.oauthRequest.scene;
         CGRect bounds = scene.coordinateSpace.bounds;
         #if !TARGET_OS_VISION

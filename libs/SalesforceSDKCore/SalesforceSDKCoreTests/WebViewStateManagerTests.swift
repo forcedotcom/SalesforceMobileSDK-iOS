@@ -14,29 +14,14 @@ final class WebViewStateManagerTests: XCTestCase {
     }
 
     @MainActor
-    func testSharedProcessPoolIsCreated() {
-        let pool = SFSDKWebViewStateManager.sharedProcessPool
-        XCTAssertNotNil(pool)
-        XCTAssertEqual(pool, SFSDKWebViewStateManager.sharedProcessPool)
-    }
-
-    @MainActor
-    func testSetSharedProcessPoolUpdatesPool() {
-        let customPool = WKProcessPool()
-        SFSDKWebViewStateManager.sharedProcessPool = customPool
-        XCTAssertEqual(SFSDKWebViewStateManager.sharedProcessPool, customPool)
+    func testProcessPoolIsNil() {
+        // TODO remove this test in 14.0 when we remove sharedProcessPool from SFSDKWebViewStateManager
+        XCTAssertNil(SFSDKWebViewStateManager.sharedProcessPool)
     }
 
     @MainActor
     func testRemoveSessionForcefullyCallsCompletion() async {
-        // Set a custom pool to verify it's cleared
-        SFSDKWebViewStateManager.sharedProcessPool = WKProcessPool()
-
         await SFSDKWebViewStateManager.removeSessionForcefully()
-
-        // Check that shared process pool is cleared (should not match the one we just set)
-        let currentPool = SFSDKWebViewStateManager.sharedProcessPool
-        XCTAssertNotNil(currentPool)
 
         // Check that cookies were cleared
         let records = await WKWebsiteDataStore.default().dataRecords(ofTypes: [WKWebsiteDataTypeCookies])
