@@ -69,7 +69,7 @@ public class SFSDKWebViewStateManager: NSObject {
     }
 
     
-    @available(*, deprecated, message: "Deprecated in Salesforce Mobile SDK 13.1 and will be removed in Salesforce Mobile SDK 14.0. WKProcessPool creation has no effect on iOS 15+ and this property will be removed.")
+    @available(*, deprecated, message: "Deprecated in Salesforce Mobile SDK 13.2 and will be removed in Salesforce Mobile SDK 14.0. WKProcessPool creation has no effect on iOS 15+ and this property will be removed.")
     @objc
     @MainActor
     public static var sharedProcessPool: WKProcessPool? {
