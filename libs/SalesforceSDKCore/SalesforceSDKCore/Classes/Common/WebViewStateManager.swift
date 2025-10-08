@@ -38,6 +38,7 @@ public class SFSDKWebViewStateManager: NSObject {
 
     @objc
     @MainActor
+    @available(*, deprecated, renamed: "resetSessionCookie", message: "Deprecated in Salesforce Mobile SDK 13.2 and will be removed in Salesforce Mobile SDK 14.0. Use resetSessionCookie instead.")
     public static func removeSession() {
         if sessionCookieManagementDisabled {
             SFSDKCoreLogger.d(SFSDKWebViewStateManager.self, message: "[\(Self.self) removeSession]: Cookie Management disabled. Will do nothing.")
@@ -60,6 +61,14 @@ public class SFSDKWebViewStateManager: NSObject {
         Task {
             await removeWKWebViewCookies()
         }
+    }
+    
+    @objc
+    @MainActor
+    public static func clearCache() async {
+        let dataStore = WKWebsiteDataStore.default()
+        let websiteDataTypes: Set<String> = [WKWebsiteDataTypeFetchCache, WKWebsiteDataTypeMemoryCache, WKWebsiteDataTypeDiskCache, WKWebsiteDataTypeOfflineWebApplicationCache]
+        await dataStore.removeData(ofTypes: websiteDataTypes, modifiedSince: Date.distantPast)
     }
     
     @objc

@@ -48,6 +48,12 @@ NS_SWIFT_NAME(SalesforceLoginViewControllerDelegate)
  */
 - (void)loginViewController:(nonnull SFLoginViewController *)loginViewController didChangeLoginHost:(nonnull SFSDKLoginHost *)newLoginHost;
 
+- (void)loginViewControllerDidClearCache:(nonnull SFLoginViewController *)loginViewController;
+
+- (void)loginViewControllerDidClearCookies:(nonnull SFLoginViewController *)loginViewController;
+
+- (void)loginViewControllerDidReload:(nonnull SFLoginViewController *)loginViewController;
+
 @end
 
 /** The Salesforce login screen view.

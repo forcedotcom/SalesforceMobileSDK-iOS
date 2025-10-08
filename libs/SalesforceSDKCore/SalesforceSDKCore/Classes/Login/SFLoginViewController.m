@@ -200,20 +200,10 @@
     if (self.showNavbar) {
         self.navBar = self.navigationController.navigationBar;
         self.navBar.topItem.titleView = [self createTitleItem];
-        // Hides the gear icon if there are no hosts to switch to.
-        SFManagedPreferences *managedPreferences = [SFManagedPreferences sharedPreferences];
-        if (managedPreferences.onlyShowAuthorizedHosts && managedPreferences.loginHosts.count == 0) {
-            self.config.showSettingsIcon = NO;
-        }
+        
         if(self.showSettingsIcon) {
             // Setup right bar button.
             UIBarButtonItem *button = [self createSettingsButton];
-            if (!button.target){
-                [button setTarget:self];
-            }
-            if (!button.action){
-                [button setAction:@selector(showLoginHost:)];
-            }
             self.navBar.topItem.rightBarButtonItem = button;
         }
         [self styleNavigationBar:self.navBar];
@@ -265,9 +255,53 @@
 
 - (UIBarButtonItem *)createSettingsButton {
     UIImage *image = [[SFSDKResourceUtils imageNamed:@"login-window-gear"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(showLoginHost:)];
-    settingsButton.accessibilityLabel = [SFSDKResourceUtils localizedString:@"LOGIN_CHOOSE_SERVER"];
-    settingsButton.accessibilityIdentifier = @"choose connection button";
+    
+    NSMutableArray  *menuActions = [[NSMutableArray alloc] initWithCapacity:3];
+
+    // Don't show the change server option if there are no hosts to switch to.
+    SFManagedPreferences *managedPreferences = [SFManagedPreferences sharedPreferences];
+    if (!managedPreferences.onlyShowAuthorizedHosts || managedPreferences.loginHosts.count != 0) {
+        [menuActions addObject:[UIAction actionWithTitle:[SFSDKResourceUtils localizedString:@"LOGIN_CHOOSE_SERVER"]
+                                                   image:nil
+                                              identifier:nil
+                                                 handler:^(__kindof UIAction* _Nonnull action) {
+            [self showLoginHost:self];
+        }]];
+    }
+
+
+    [menuActions addObject:[UIAction actionWithTitle:[SFSDKResourceUtils localizedString:@"LOGIN_CLEAR_COOKIES"]
+                                               image:nil
+                                          identifier:nil
+                                             handler:^(__kindof UIAction* _Nonnull action) {
+        if ([self.delegate respondsToSelector:@selector(loginViewControllerDidClearCookies:)]) {
+            [self.delegate loginViewControllerDidClearCookies:self];
+        }
+    }]];
+
+    [menuActions addObject:[UIAction actionWithTitle:[SFSDKResourceUtils localizedString:@"LOGIN_CLEAR_CACHE"]
+                                                 image:nil
+                                            identifier:nil
+                                               handler:^(__kindof UIAction* _Nonnull action) {
+        if ([self.delegate respondsToSelector:@selector(loginViewControllerDidClearCache:)]) {
+            [self.delegate loginViewControllerDidClearCache:self];
+        }
+    }]];
+
+    [menuActions addObject:[UIAction actionWithTitle:[SFSDKResourceUtils localizedString:@"LOGIN_RELOAD"]
+                                               image:nil
+                                          identifier:nil
+                                             handler:^(__kindof UIAction* _Nonnull action) {
+        if ([self.delegate respondsToSelector:@selector(loginViewControllerDidReload:)]) {
+            [self.delegate loginViewControllerDidReload:self];
+        }
+    }]];
+    
+    UIMenu *menu = [UIMenu menuWithTitle:@"" // No title
+                                children:menuActions];
+    UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:image menu:menu];
+    settingsButton.accessibilityLabel = [SFSDKResourceUtils localizedString:@"LOGIN_SETTINGS_BUTTON"];
+    settingsButton.accessibilityIdentifier = @"settings";
     return settingsButton;
 }
 
