@@ -59,7 +59,7 @@
 "LOGIN_SERVER_PRODUCTION" = "Production";
 "LOGIN_SERVER_SANDBOX" = "Sandbox";
 "LOGIN_SERVER_WELCOME" = "Welcome";
-"LOGIN_CHOOSE_SERVER" = "Choose Connection";
+"LOGIN_CHOOSE_SERVER" = "Change Server";
 "LOGIN_ADD_SERVER" = "Add Connection";
 "LOGIN_SERVER_URL" = "Host";
 "LOGIN_SERVER_NAME" = "Label";
@@ -67,6 +67,7 @@
 "LOGIN_SERVER_NAME_PLACEHOLDER" = "Optional";
 "DONE_BUTTON" = "Done";
 "LOGIN_SETTINGS_BUTTON" = "Settings";
+
 "LOGIN_CLEAR_COOKIES" = "Clear Cookies";
 "LOGIN_CLEAR_CACHE" = "Clear Cache";
 "LOGIN_RELOAD" = "Reload";
