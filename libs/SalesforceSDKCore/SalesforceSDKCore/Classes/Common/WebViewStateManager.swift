@@ -67,8 +67,16 @@ public class SFSDKWebViewStateManager: NSObject {
     @MainActor
     public static func clearCache() async {
         let dataStore = WKWebsiteDataStore.default()
-        let websiteDataTypes: Set<String> = [WKWebsiteDataTypeFetchCache, WKWebsiteDataTypeMemoryCache, WKWebsiteDataTypeDiskCache, WKWebsiteDataTypeOfflineWebApplicationCache]
-        await dataStore.removeData(ofTypes: websiteDataTypes, modifiedSince: Date.distantPast)
+        let nonCookieDataTypes: Set<String> = [WKWebsiteDataTypeDiskCache,
+                                               WKWebsiteDataTypeMemoryCache,
+                                               WKWebsiteDataTypeFetchCache,
+                                               WKWebsiteDataTypeLocalStorage,
+                                               WKWebsiteDataTypeSessionStorage,
+                                               WKWebsiteDataTypeIndexedDBDatabases,
+                                               WKWebsiteDataTypeWebSQLDatabases,
+                                               WKWebsiteDataTypeOfflineWebApplicationCache,
+                                               WKWebsiteDataTypeServiceWorkerRegistrations]
+        await dataStore.removeData(ofTypes: nonCookieDataTypes, modifiedSince: Date.distantPast)
     }
     
     @objc
