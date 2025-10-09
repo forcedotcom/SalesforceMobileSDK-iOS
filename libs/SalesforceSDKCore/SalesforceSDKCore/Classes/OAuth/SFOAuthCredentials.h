@@ -146,7 +146,6 @@ NS_SWIFT_NAME(OAuthCredentials)
  
  This property is available after authentication has successfully completed.
  
- @warning The setter for this property is exposed publicly only for unit tests. Client code should not set this property.
  @exception NSInternalInconsistencyException If accessed while the identifier property is `nil`.
  */
 @property (nonatomic, readonly, nullable) NSString *organizationId;
@@ -157,8 +156,6 @@ NS_SWIFT_NAME(OAuthCredentials)
  
  This is the URL that client requests should be made to after authentication completes.
  This property is set by the `SFOAuthCoordinator` after authentication has successfully completed.
- 
- @warning The setter for this property is exposed publicly only for unit tests. Client code should not set this property.
  */
 @property (nonatomic, readonly, nullable) NSURL *instanceUrl;
 
@@ -167,8 +164,6 @@ NS_SWIFT_NAME(OAuthCredentials)
  This is the URL that client SFAP requests should be made to after authentication completes.
  This property is set by the `SFOAuthCoordinator` after authentication has successfully completed.
  This URL is only defined when sfap_api scope is used.
- 
- @warning The setter for this property is exposed publicly only for unit tests. Client code should not set this property.
  */
 @property (nonatomic, readonly, nullable) NSURL *apiInstanceUrl;
 
@@ -176,8 +171,6 @@ NS_SWIFT_NAME(OAuthCredentials)
  
  This property contains the list of OAuth scopes that were granted during authentication.
  This property is set by the `SFOAuthCoordinator` after authentication has successfully completed.
- 
- @warning The setter for this property is exposed publicly only for unit tests. Client code should not set this property.
  */
 @property (nonatomic, readonly, nullable) NSArray<NSString *> *scopes;
 
@@ -198,8 +191,6 @@ NS_SWIFT_NAME(OAuthCredentials)
 /** The timestamp when the session access token was issued.
  
  This property is set by the `SFOAuthCoordinator` after authentication has successfully completed.
- 
- @warning The setter for this property is exposed publicly only for unit tests. Client code should not set this property.
  */
 @property (nonatomic, readonly, nullable) NSDate *issuedAt;
 
@@ -208,8 +199,6 @@ NS_SWIFT_NAME(OAuthCredentials)
  that the user belongs to, and userID is the Salesforce user ID.
  
  This property is set by the `SFOAuthCoordinator` after authentication has successfully completed.
- 
- @warning The setter for this property is exposed publicly only for unit tests. Client code should not set this property.
  */
 @property (nonatomic, readonly, nullable) NSURL *identityUrl;
 
@@ -221,8 +210,6 @@ NS_SWIFT_NAME(OAuthCredentials)
  component of the identityUrl.
  
  This property is available after authentication has successfully completed.
- 
- @warning The setter for this property is exposed publicly only for unit tests. Client code should not set this property.
  */
 @property (nonatomic, readonly, nullable) NSString *userId;
 
