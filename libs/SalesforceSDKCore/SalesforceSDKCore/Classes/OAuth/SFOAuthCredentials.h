@@ -172,6 +172,15 @@ NS_SWIFT_NAME(OAuthCredentials)
  */
 @property (nonatomic, readonly, nullable) NSURL *apiInstanceUrl;
 
+/** The OAuth scopes granted for this session.
+ 
+ This property contains the list of OAuth scopes that were granted during authentication.
+ This property is set by the `SFOAuthCoordinator` after authentication has successfully completed.
+ 
+ @warning The setter for this property is exposed publicly only for unit tests. Client code should not set this property.
+ */
+@property (nonatomic, readonly, nullable) NSArray<NSString *> *scopes;
+
 /** The community ID the user choose to log into. This usually happens when the user
  logs into the app using a community-based login page
  
