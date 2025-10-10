@@ -100,10 +100,6 @@ static BOOL const kDefaultShouldAuthenticate = YES;
         [[self class] createError:error withCode:SFSDKAppConfigErrorCodeNoRedirectURI message:[SFSDKResourceUtils localizedString:@"appConfigValidationErrorNoRedirectURI"]];
         return NO;
     }
-    if (self.oauthScopes.count == 0) {
-        [[self class] createError:error withCode:SFSDKAppConfigErrorCodeNoOAuthScopes message:[SFSDKResourceUtils localizedString:@"appConfigValidationErrorNoOAuthScopes"]];
-        return NO;
-    }
     
     return YES;
 }

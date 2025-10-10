@@ -77,6 +77,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)beginWebViewFlow;
 
+/**
+ * Returns the scope query parameter string for OAuth requests.
+ * @return A properly formatted scope parameter string, or empty string if no scopes provided.
+ */
+- (NSString *)scopeQueryParamString;
+
 @end
 
 NS_ASSUME_NONNULL_END

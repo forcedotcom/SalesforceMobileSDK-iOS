@@ -30,6 +30,7 @@
 #import "SFNetwork.h"
 #import "SFSDKAuthSession.h"
 #import "SFIdentityData+Internal.h"
+#import "SalesforceSDKCore/SalesforceSDKCore-Swift.h"
 
 // Public constants
 
@@ -133,6 +134,11 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
     if ([[self.credentials.identityUrl absoluteString] length] == 0) {
         if ([invalidParameters length] > 0) [invalidParameters appendString:@", "];
         [invalidParameters appendString:@"identity URL"];
+    }
+    SFScopeParser *scopeParser = [[SFScopeParser alloc] initWithScopes:self.credentials.scopes];
+    if (![scopeParser hasIdentityScope]) {
+        if ([invalidParameters length] > 0) [invalidParameters appendString:@", "];
+        [invalidParameters appendString:@"identity scope"];
     }
     
     NSString *invalidParametersError = nil;
