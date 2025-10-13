@@ -492,6 +492,7 @@ SFNativeLoginManagerInternal *nativeLogin;
             @"IDP Enabled", [self idpEnabled] ? @"YES" : @"NO",
             @"Identity Provider", [self isIdentityProvider] ? @"YES" : @"NO",
             @"Current User", [self userToString:userAccountManager.currentUser],
+            @"Scopes", [userAccountManager.currentUser.credentials.scopes componentsJoinedByString:@" "],
             @"Access Token Expiration", [self accessTokenExpiration],
             @"Authenticated Users", [self usersToString:userAccountManager.allUserAccounts],
             @"User Key-Value Stores", [self safeJoin:[SFSDKKeyValueEncryptedFileStore allStoreNames] separator:@", "],
