@@ -75,7 +75,6 @@
 // App config validation
 "appConfigValidationErrorNoConsumerKey" = "Your app config does not specify a Connected App Consumer Key.";
 "appConfigValidationErrorNoRedirectURI" = "Your app config does not specify a Connected App Redirect URI.";
-"appConfigValidationErrorNoOAuthScopes" = "Your app config does not specify any Connected App OAuth Scopes.";
 "appConfigValidationErrorNoStartPage" = "No start page configured.";
 "appConfigValidationErrorStartPageAbsoluteURL" = "Start page should not be absolute URL.";
 "appConfigValidationErrorUnauthenticatedStartPageNotAbsoluteURL" = "Unauthenticated start page should be absolute URL.";
