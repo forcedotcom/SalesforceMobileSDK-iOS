@@ -30,6 +30,7 @@
 #import "SalesforceOAuthUnitTests.h"
 #import "SFSDKCryptoUtils.h"
 #import "SFUserAccountManager.h"
+#import "SFOAuthCoordinator+Internal.h"
 
 static NSString * const kIdentifier = @"com.salesforce.ios.oauth.test";
 static NSString * const kClientId   = @"SfdcMobileChatteriOS";
@@ -456,6 +457,71 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     XCTAssertEqualObjects(csrfToken, csrfTokenVerify, @"csrf token should decrypt to the same value.");
     
     [credentials revoke];
+}
+
+#pragma mark - scopeQueryParamString Tests
+
+- (void)testScopeQueryParamStringEmptyScopes {
+    // Given
+    SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] init];
+    coordinator.scopes = [NSSet set];
+    
+    // When
+    NSString *result = [coordinator scopeQueryParamString];
+    
+    // Then
+    XCTAssertEqualObjects(result, @"", @"Empty scopes should return empty string");
+}
+
+- (void)testScopeQueryParamStringNilScopes {
+    // Given
+    SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] init];
+    coordinator.scopes = nil;
+    
+    // When
+    NSString *result = [coordinator scopeQueryParamString];
+    
+    // Then
+    XCTAssertEqualObjects(result, @"", @"Nil scopes should return empty string");
+}
+
+- (void)testScopeQueryParamStringSingleScope {
+    // Given
+    SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] init];
+    coordinator.scopes = [NSSet setWithObject:@"web"];
+    
+    // When
+    NSString *result = [coordinator scopeQueryParamString];
+    
+    // Then
+    // Should include refresh_token and the provided scope, URL encoded
+    XCTAssertEqualObjects(result, @"&scope=refresh_token%20web", @"Single scope should include refresh_token and be URL encoded");
+}
+
+- (void)testScopeQueryParamStringMultipleScopes {
+    // Given
+    SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] init];
+    coordinator.scopes = [NSSet setWithObjects:@"web", @"api", @"id", nil];
+    
+    // When
+    NSString *result = [coordinator scopeQueryParamString];
+    
+    // Then
+    // Should include refresh_token and all provided scopes, sorted and URL encoded
+    XCTAssertEqualObjects(result, @"&scope=api%20id%20refresh_token%20web", @"Multiple scopes should be sorted alphabetically and include refresh_token");
+}
+
+- (void)testScopeQueryParamStringWithRefreshTokenAlreadyPresent {
+    // Given
+    SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] init];
+    coordinator.scopes = [NSSet setWithObjects:@"web", @"api", @"refresh_token", nil];
+    
+    // When
+    NSString *result = [coordinator scopeQueryParamString];
+    
+    // Then
+    // Should still work correctly even if refresh_token is already present
+    XCTAssertEqualObjects(result, @"&scope=api%20refresh_token%20web", @"Should handle duplicate refresh_token gracefully and maintain sorted order");
 }
 
 @end

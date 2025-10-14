@@ -51,7 +51,6 @@
 #import "SFSDKAuthRequest.h"
 #import <SalesforceSDKCommon/SalesforceSDKCommon-Swift.h>
 #import <SalesforceSDKCommon/SFSDKDatasharingHelper.h>
-#import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 #import <LocalAuthentication/LocalAuthentication.h>
 @interface SFOAuthCoordinator()
 
@@ -630,6 +629,11 @@
          
 - (void)handleResponse:(SFSDKOAuthTokenEndpointResponse *)response {
      if (!response.hasError) {
+          // Check if refresh token scope is present in the response
+          SFScopeParser *scopeParser = [[SFScopeParser alloc] initWithScopes:response.scopes];
+          if (![scopeParser hasRefreshTokenScope]) {
+              [SFSDKCoreLogger w:[self class] format:@"Missing refresh token scope."];
+          }
           [self.credentials updateCredentials:[response asDictionary]];
           if (response.additionalOAuthFields)
             self.credentials.additionalOAuthFields = response.additionalOAuthFields;
@@ -796,7 +800,7 @@
     
     // OAuth scopes
     NSString *scopeString = [self scopeQueryParamString];
-    if (scopeString != nil) {
+    if (scopeString.length > 0) {
         [approvalUrlString appendString:scopeString];
     }
     
@@ -817,10 +821,12 @@
 }
 
 - (NSString *)scopeQueryParamString {
-    NSMutableSet *scopes = (self.scopes.count > 0 ? [NSMutableSet setWithSet:self.scopes] : [NSMutableSet set]);
-    [scopes addObject:kSFOAuthRefreshToken];
-    NSString *scopeStr = [[[scopes allObjects] componentsJoinedByString:@" "] sfsdk_stringByURLEncoding];
-    return [NSString stringWithFormat:@"&%@=%@", kSFOAuthScope, scopeStr];
+    if (self.scopes.count > 0) {
+        NSString *scopeStr = [SFScopeParser computeScopeParameterWithURLEncodingWithScopes:self.scopes];
+        return [NSString stringWithFormat:@"&%@=%@", kSFOAuthScope, scopeStr];
+    } else {
+        return @"";
+    }
 }
 
 - (NSURLSession*)session {
