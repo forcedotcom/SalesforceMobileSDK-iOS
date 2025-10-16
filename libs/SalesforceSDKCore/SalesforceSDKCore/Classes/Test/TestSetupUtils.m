@@ -55,47 +55,14 @@ static SFOAuthCredentials *credentials = nil;
     NSFileManager *fm = [NSFileManager defaultManager];
     NSData *tokenJson = [fm contentsAtPath:tokenPath];
     id jsonResponse = [SFJsonUtils objectFromJSONData:tokenJson];
-    NSAssert(jsonResponse != nil, @"Error parsing JSON from config file: %@", [SFJsonUtils lastError]);
-    NSDictionary *dictResponse = (NSDictionary *)jsonResponse;
-    SFSDKTestCredentialsData *credsData = [[SFSDKTestCredentialsData alloc] initWithDict:dictResponse];
-    NSAssert1(nil != credsData.refreshToken &&
-              nil != credsData.clientId &&
-              nil != credsData.redirectUri &&
-              nil != credsData.loginHost &&
-              nil != credsData.identityUrl &&
-              nil != credsData.instanceUrl, @"config credentials are missing! %@",
-              dictResponse);
+    
+    return [TestSetupUtils authCredentialsFromJson:jsonResponse];
+    
+}
 
-    // check whether the test config file has never been edited
-    NSAssert(![credsData.refreshToken isEqualToString:@"__INSERT_TOKEN_HERE__"],
-             @"You need to obtain credentials for your test org and replace test_credentials.json");
-    [SalesforceSDKManager initializeSDK];
-
-    // Note: We need to fix this inconsistency for tests in the long run.There should be a clean way to refresh appConfigs for tests. The configs should apply across all components that need the  config.
-    SFSDKAppConfig *appconfig  = [[SFSDKAppConfig alloc] init];
-    appconfig.oauthRedirectURI = credsData.redirectUri;
-    appconfig.remoteAccessConsumerKey = credsData.clientId;
-    appconfig.oauthScopes = [NSSet setWithObjects:@"web", @"api", @"openid", nil];
-    [SalesforceSDKManager sharedManager].appConfig = appconfig;
-    [SFUserAccountManager sharedInstance].oauthClientId = credsData.clientId;
-    [SFUserAccountManager sharedInstance].oauthCompletionUrl = credsData.redirectUri;
-    [SFUserAccountManager sharedInstance].scopes = [NSSet setWithObjects:@"web", @"api", nil];
-    [SFUserAccountManager sharedInstance].loginHost = credsData.loginHost;
-    credentials = [self newClientCredentials];
-    credentials.instanceUrl = [NSURL URLWithString:credsData.instanceUrl];
-    // apiInstanceUrl is only defined if the sfap_api scope is used
-    if (![NSString sfsdk_isEmpty:credsData.apiInstanceUrl]) {
-        credentials.apiInstanceUrl = [NSURL URLWithString:credsData.apiInstanceUrl];
-    }
-    credentials.identityUrl = [NSURL URLWithString:credsData.identityUrl];
-    NSString *communityUrlString = credsData.communityUrl;
-    if (communityUrlString.length > 0) {
-        credentials.communityUrl = [NSURL URLWithString:communityUrlString];
-    }
-    credentials.accessToken = credsData.accessToken;
-    credentials.refreshToken = credsData.refreshToken;
-    [[SFUserAccountManager sharedInstance] currentUser].credentials = credentials;
-    return credsData;
++ (SFSDKTestCredentialsData *)populateAuthCredentialsFromString:(NSString *)testCredentialsJsonString {
+    
+    return [TestSetupUtils authCredentialsFromJson:[SFJsonUtils objectFromJSONString:testCredentialsJsonString]];
 }
 
 + (void)synchronousAuthRefresh
@@ -135,4 +102,49 @@ static SFOAuthCredentials *credentials = nil;
     creds.accessToken = nil;
     return creds;
 }
+
++ (SFSDKTestCredentialsData *)authCredentialsFromJson:(id)jsonResponse {
+    NSAssert(jsonResponse != nil, @"Error parsing JSON from config file: %@", [SFJsonUtils lastError]);
+    NSDictionary *dictResponse = (NSDictionary *)jsonResponse;
+    SFSDKTestCredentialsData *credsData = [[SFSDKTestCredentialsData alloc] initWithDict:dictResponse];
+    NSAssert1(nil != credsData.refreshToken &&
+              nil != credsData.clientId &&
+              nil != credsData.redirectUri &&
+              nil != credsData.loginHost &&
+              nil != credsData.identityUrl &&
+              nil != credsData.instanceUrl, @"config credentials are missing! %@",
+              dictResponse);
+    
+    // check whether the test config file has never been edited
+    NSAssert(![credsData.refreshToken isEqualToString:@"__INSERT_TOKEN_HERE__"],
+             @"You need to obtain credentials for your test org and replace test_credentials.json");
+    [SalesforceSDKManager initializeSDK];
+    
+    // Note: We need to fix this inconsistency for tests in the long run.There should be a clean way to refresh appConfigs for tests. The configs should apply across all components that need the  config.
+    SFSDKAppConfig *appconfig  = [[SFSDKAppConfig alloc] init];
+    appconfig.oauthRedirectURI = credsData.redirectUri;
+    appconfig.remoteAccessConsumerKey = credsData.clientId;
+    appconfig.oauthScopes = [NSSet setWithObjects:@"web", @"api", @"openid", nil];
+    [SalesforceSDKManager sharedManager].appConfig = appconfig;
+    [SFUserAccountManager sharedInstance].oauthClientId = credsData.clientId;
+    [SFUserAccountManager sharedInstance].oauthCompletionUrl = credsData.redirectUri;
+    [SFUserAccountManager sharedInstance].scopes = [NSSet setWithObjects:@"web", @"api", nil];
+    [SFUserAccountManager sharedInstance].loginHost = credsData.loginHost;
+    credentials = [self newClientCredentials];
+    credentials.instanceUrl = [NSURL URLWithString:credsData.instanceUrl];
+    // apiInstanceUrl is only defined if the sfap_api scope is used
+    if (![NSString sfsdk_isEmpty:credsData.apiInstanceUrl]) {
+        credentials.apiInstanceUrl = [NSURL URLWithString:credsData.apiInstanceUrl];
+    }
+    credentials.identityUrl = [NSURL URLWithString:credsData.identityUrl];
+    NSString *communityUrlString = credsData.communityUrl;
+    if (communityUrlString.length > 0) {
+        credentials.communityUrl = [NSURL URLWithString:communityUrlString];
+    }
+    credentials.accessToken = credsData.accessToken;
+    credentials.refreshToken = credsData.refreshToken;
+    [[SFUserAccountManager sharedInstance] currentUser].credentials = credentials;
+    return credsData;
+}
+
 @end

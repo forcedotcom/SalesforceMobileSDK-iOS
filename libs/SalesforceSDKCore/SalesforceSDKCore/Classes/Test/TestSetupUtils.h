@@ -53,6 +53,15 @@ NS_ASSUME_NONNULL_BEGIN
 + (SFSDKTestCredentialsData *)populateAuthCredentialsFromConfigFileForClass:(Class)testClass;
 
 /**
+ Loads a set of auth credentials from the provided JSON string, and configures
+ SFUserAccountManager and the current account with the data from that JSON.
+ @param testCredentialsJsonString The test credentials JSON as a string.
+ @return The configuration data used to configure SFUserAccountManager (useful e.g. for hybrid
+ apps which need the data to bootstrap SFHybridViewController).
+ */
++ (SFSDKTestCredentialsData *)populateAuthCredentialsFromString:(NSString *)testCredentialsJsonString;
+
+/**
  Performs a synchronous refresh of the OAuth credentials, which will stage the remaining auth
  data (access token, User ID, Org ID, etc.) in SFUserAccountManager.
  `populateAuthCredentialsFromConfigFile` is required to run once before this method will attempt
