@@ -184,6 +184,14 @@
     self.config.showSettingsIcon = showSettingsIcon;
 }
 
+- (BOOL)showServerPicker {
+    return self.config.showServerPicker;
+}
+
+- (void)setShowServerPicker:(BOOL)showServerPicker {
+    self.config.showServerPicker = showServerPicker;
+}
+
 - (SFSDKLoginViewControllerConfig *)config {
     return _config;
 }
@@ -260,7 +268,11 @@
 
     // Don't show the change server option if there are no hosts to switch to.
     SFManagedPreferences *managedPreferences = [SFManagedPreferences sharedPreferences];
-    if (!managedPreferences.onlyShowAuthorizedHosts || managedPreferences.loginHosts.count != 0) {
+    if (managedPreferences.onlyShowAuthorizedHosts && managedPreferences.loginHosts.count == 0) {
+        self.showServerPicker = NO;
+    }
+    
+    if (self.showServerPicker) {
         [menuActions addObject:[UIAction actionWithTitle:[SFSDKResourceUtils localizedString:@"LOGIN_CHOOSE_SERVER"]
                                                    image:nil
                                               identifier:nil

@@ -91,8 +91,11 @@ NS_SWIFT_NAME(SalesforceLoginViewController)
 /** Specify visibility of nav bar. This property will be used to hide/show the nav bar*/
 @property (nonatomic) BOOL showNavbar NS_SWIFT_NAME(showsNavigationBar);
 
-/** Specifiy the visibility of the settings icon. This property will be used to hide/show the settings icon*/
+/** Specify the visibility of the settings icon. This property will be used to hide/show the settings icon*/
 @property (nonatomic) BOOL showSettingsIcon NS_SWIFT_NAME(showsSettingsIcon);
+
+/// Specify the visibility of the server picker option in the settings menu.
+@property (nonatomic) BOOL showServerPicker NS_SWIFT_NAME(showsServerPicker);
 
 /** Specify all display properties in a config. All the above properties are backed by
  a config object */
