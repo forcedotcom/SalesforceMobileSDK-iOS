@@ -28,6 +28,7 @@
 import Foundation
 import UIKit
 import SalesforceSDKCore
+import SwiftUI
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -44,9 +45,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             }
         }
         self.initializeAppViewState()
-        AuthHelper.loginIfRequired(scene) {
-            self.setupRootViewController()
-        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -93,7 +91,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
            return
        }
        
-       self.window?.rootViewController = InitialViewController(nibName: nil, bundle: nil)
+       self.window?.rootViewController = UIHostingController(rootView: InitialView(onConfigurationCompleted: onConfigurationCompleted))
        self.window?.makeKeyAndVisible()
    }
    
@@ -111,5 +109,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
            }
        }
        postResetBlock()
+   }
+   
+   func onConfigurationCompleted() {
+       guard let windowScene = self.window?.windowScene else { return }
+       AuthHelper.loginIfRequired(windowScene) {
+           self.setupRootViewController()
+       }
    }
 }
