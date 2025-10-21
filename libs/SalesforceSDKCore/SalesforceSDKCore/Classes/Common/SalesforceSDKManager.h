@@ -335,6 +335,19 @@ NS_SWIFT_NAME(SalesforceManager)
                                                      scene:(nullable UIScene *)scene;
 
 /**
+  * Call this method before initiating a login if the application needs to revert back to the consumer key/callback url statically configured in bootconfig.plist
+  */
+- (void) revertToBootConfig;
+
+/**
+  * Call this method before initiating a login if the application needs to use a consumer key/callback url different from the one statically configured in bootconfig.plist
+  * @param consumerKey The Connected App consumer key.
+  * @param callbackUrl The Connected App redirect URI.
+  */
+- (void) overrideBootConfigWithConsumerKey:(nonnull NSString *)consumerKey
+                               callbackUrl:(nonnull NSString *)callbackUrl NS_SWIFT_NAME(overrideBootConfig(consumerKey:callbackUrl:));
+
+/**
  * Returns The NativeLoginManager instance.
  *
  * @return The Native Login Manager.
