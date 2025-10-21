@@ -195,6 +195,16 @@ SFNativeLoginManagerInternal *nativeLogin;
 
 + (void)initializeSDK {
     [self initializeSDKWithClass:InstanceClass];
+#ifdef DEBUG
+    // For debug app builds only, use test instant log in if applicable.
+    NSArray<NSString *> *arguments = [[NSProcessInfo processInfo] arguments];
+    if ([arguments containsObject:@"-creds"]) {
+        NSString *creds = arguments[[arguments indexOfObject:@"-creds"] + 1];
+        
+        [TestSetupUtils populateAuthCredentialsFromString:creds initializeSdk:NO];
+        [TestSetupUtils synchronousAuthRefreshWithUserDidLoginNotification:YES];
+    }
+#endif
 }
 
 + (void)initializeSDKWithClass:(Class)className {
@@ -231,17 +241,6 @@ SFNativeLoginManagerInternal *nativeLogin;
 + (void)load {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-
-#ifdef DEBUG
-        // For debug app builds only, use test instant log in if applicable.
-        NSArray<NSString *> *arguments = [[NSProcessInfo processInfo] arguments];
-        if ([arguments containsObject:@"-creds"]) {
-            NSString *creds = arguments[[arguments indexOfObject:@"-creds"] + 1];
-            
-            [TestSetupUtils populateAuthCredentialsFromString:creds];
-            [TestSetupUtils synchronousAuthRefresh];
-        }
-#endif
         
         // For dev support
         Method sfsdkMotionEndedMethod = class_getInstanceMethod([UIWindow class], @selector(sfsdk_motionEnded:withEvent:));

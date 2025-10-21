@@ -56,16 +56,24 @@ static SFOAuthCredentials *credentials = nil;
     NSData *tokenJson = [fm contentsAtPath:tokenPath];
     id jsonResponse = [SFJsonUtils objectFromJSONData:tokenJson];
     
-    return [TestSetupUtils authCredentialsFromJson:jsonResponse];
+    return [TestSetupUtils authCredentialsFromJson:jsonResponse initializeSdk:YES];
     
 }
 
 + (SFSDKTestCredentialsData *)populateAuthCredentialsFromString:(NSString *)testCredentialsJsonString {
-    
-    return [TestSetupUtils authCredentialsFromJson:[SFJsonUtils objectFromJSONString:testCredentialsJsonString]];
+    return [self populateAuthCredentialsFromString:testCredentialsJsonString initializeSdk:YES];
 }
 
-+ (void)synchronousAuthRefresh
++ (SFSDKTestCredentialsData *)populateAuthCredentialsFromString:(NSString *)testCredentialsJsonString initializeSdk:(BOOL)initializeSdk {
+    
+    return [TestSetupUtils authCredentialsFromJson:[SFJsonUtils objectFromJSONString:testCredentialsJsonString] initializeSdk:initializeSdk];
+}
+
++ (void)synchronousAuthRefresh {
+    [self synchronousAuthRefreshWithUserDidLoginNotification:NO];
+}
+
++ (void)synchronousAuthRefreshWithUserDidLoginNotification:(BOOL)postUserDidLogIn
 {
     // All of the setup and validation of prerequisite auth state is done in populateAuthCredentialsFromConfigFile.
     // Make sure that method has run before this one.
@@ -75,16 +83,24 @@ static SFOAuthCredentials *credentials = nil;
     [[SFUserAccountManager sharedInstance]
      refreshCredentials:credentials
      completion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
-         authListener.returnStatus = kTestRequestStatusDidLoad;
-         user = userAccount;
-         // Ensure tests don't change/corrupt the current user credentials.  
-         if(user.credentials.refreshToken == nil) {
-             user.credentials = credentials;
-         }
-     } failure:^(SFOAuthInfo *authInfo, NSError *error) {
-         authListener.lastError = error;
-         authListener.returnStatus = kTestRequestStatusDidFail;
-     }];
+        authListener.returnStatus = kTestRequestStatusDidLoad;
+        user = userAccount;
+        // Ensure tests don't change/corrupt the current user credentials.
+        if (user.credentials.refreshToken == nil) {
+            user.credentials = credentials;
+        }
+        if (postUserDidLogIn) {
+            NSDictionary *userInfo = @{kSFNotificationUserInfoAccountKey: userAccount,
+                                       kSFNotificationUserInfoAuthTypeKey: authInfo};
+            [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserDidLogIn
+                                                                object:[SFUserAccountManager sharedInstance]
+                                                              userInfo:userInfo];
+            [[SFUserAccountManager sharedInstance] stopCurrentAuthentication:^(BOOL result){}];
+        }
+    } failure:^(SFOAuthInfo *authInfo, NSError *error) {
+        authListener.lastError = error;
+        authListener.returnStatus = kTestRequestStatusDidFail;
+    }];
     [authListener waitForCompletion];
     [[SFUserAccountManager sharedInstance] setCurrentUserInternal:user];
     NSAssert([authListener.returnStatus isEqualToString:kTestRequestStatusDidLoad], @"After auth attempt, expected status '%@', got '%@'",
@@ -103,7 +119,7 @@ static SFOAuthCredentials *credentials = nil;
     return creds;
 }
 
-+ (SFSDKTestCredentialsData *)authCredentialsFromJson:(id)jsonResponse {
++ (SFSDKTestCredentialsData *)authCredentialsFromJson:(id)jsonResponse initializeSdk:(BOOL)initializeSdk {
     NSAssert(jsonResponse != nil, @"Error parsing JSON from config file: %@", [SFJsonUtils lastError]);
     NSDictionary *dictResponse = (NSDictionary *)jsonResponse;
     SFSDKTestCredentialsData *credsData = [[SFSDKTestCredentialsData alloc] initWithDict:dictResponse];
@@ -118,7 +134,9 @@ static SFOAuthCredentials *credentials = nil;
     // check whether the test config file has never been edited
     NSAssert(![credsData.refreshToken isEqualToString:@"__INSERT_TOKEN_HERE__"],
              @"You need to obtain credentials for your test org and replace test_credentials.json");
-    [SalesforceSDKManager initializeSDK];
+    if (initializeSdk) {
+        [SalesforceSDKManager initializeSDK];
+    }
     
     // Note: We need to fix this inconsistency for tests in the long run.There should be a clean way to refresh appConfigs for tests. The configs should apply across all components that need the  config.
     SFSDKAppConfig *appconfig  = [[SFSDKAppConfig alloc] init];
