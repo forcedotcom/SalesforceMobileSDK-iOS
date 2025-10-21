@@ -27,109 +27,32 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import SwiftUI
-import SalesforceSDKCore
+import UIKit
+import SalesforceSDKCore.UIColor_SFColors
 
-struct InitialView: View {
-    @State private var isLoading = false
-    let onConfigurationCompleted: () -> Void
-    
-    var body: some View {
-        VStack(spacing: 30) {
-            // App name label
-            Text(appName)
-                .font(.largeTitle)
-                .fontWeight(.bold)
-                .foregroundColor(.primary)
-                .padding(.top, 100)
-            
-            Spacer()
-            
-            // Buttons container
-            VStack(spacing: 20) {
-                // Static bootconfig button
-                Button(action: handleStaticBootconfig) {
-                    Text("Use static bootconfig")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .frame(width: 200, height: 44)
-                        .background(Color.blue)
-                        .cornerRadius(8)
-                }
-                .disabled(isLoading)
-                
-                // Dynamic bootconfig button
-                Button(action: handleDynamicBootconfig) {
-                    Text("Use dynamic bootconfig")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .frame(width: 200, height: 44)
-                        .background(Color.green)
-                        .cornerRadius(8)
-                }
-                .disabled(isLoading)
-            }
-            
-            Spacer()
-            
-            // Loading indicator
-            if isLoading {
-                ProgressView("Authenticating...")
-                    .padding()
-            }
-        }
-        .background(Color(.systemBackground))
-        .onAppear {
-            // Any setup that needs to happen when the view appears
-        }
-    }
-    
-    // MARK: - Computed Properties
-    
-    private var appName: String {
-        guard let info = Bundle.main.infoDictionary,
-              let name = info[kCFBundleNameKey as String] as? String else {
-            return "RestAPIExplorer"
-        }
-        return name
-    }
-    
-    // MARK: - Button Actions
-    
-    private func handleStaticBootconfig() {
-        isLoading = true
-        
-        SalesforceManager.shared.revertToBootConfig()
-        
-        // Use static bootconfig - no additional setup needed
-        onConfigurationCompleted()
-    }
-    
-    private func handleDynamicBootconfig() {
-        isLoading = true
-        
-        // Use the dynamic bootconfig method
-        SalesforceManager.shared.overrideBootConfig(
-            // ECA without refresh scope
-            consumerKey: "3MVG9SemV5D80oBcXZ2EUzbcJw.BPBV7Nd7htOt2IMVa3r5Zb_UgI92gVmxnVoCLfysf3.tIkrYAJF8mHsJxB",
-            callbackUrl: "testsfdc:///mobilesdk/detect/oauth/done"
-        )
-        
-        // Proceed with login
-        onConfigurationCompleted()
-    }
-}
+class InitialViewController: UIViewController {
 
-// MARK: - UIViewControllerRepresentable
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.view.backgroundColor = UIColor.salesforceSystemBackground
+        
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        guard let info = Bundle.main.infoDictionary, let name = info[kCFBundleNameKey as String] else { return }
+        label.font = UIFont.systemFont(ofSize: 29)
+        label.textColor = UIColor.black
+        label.text = name as? String
+        
+        self.view.addSubview(label)
+        label.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        label.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+        // Do any additional setup after loading the view, typically from a nib.
+    }
 
-struct InitialViewController: UIViewControllerRepresentable {
-    let onConfigurationCompleted: () -> Void
-    
-    func makeUIViewController(context: Context) -> UIHostingController<InitialView> {
-        return UIHostingController(rootView: InitialView(onConfigurationCompleted: onConfigurationCompleted))
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
-    
-    func updateUIViewController(_ uiViewController: UIHostingController<InitialView>, context: Context) {
-        // No updates needed
-    }
+
 }
