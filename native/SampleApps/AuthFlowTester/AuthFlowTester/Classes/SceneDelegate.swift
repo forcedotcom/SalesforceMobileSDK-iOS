@@ -91,12 +91,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
            return
        }
        
-       self.window?.rootViewController = UIHostingController(rootView: InitialView(onConfigurationCompleted: onConfigurationCompleted))
+       // Check if user is already logged in
+       if UserAccountManager.shared.currentUserAccount != nil {
+           // User is already logged in, go directly to session detail
+           self.setupRootViewController()
+       } else {
+           // User is not logged in, show config picker
+           self.window?.rootViewController = UIHostingController(rootView: ConfigPickerView(onConfigurationCompleted: onConfigurationCompleted))
+       }
        self.window?.makeKeyAndVisible()
    }
    
    func setupRootViewController() {
-        let rootVC = RootViewController()
+        let rootVC = SessionDetailViewController()
         let navVC = UINavigationController(rootViewController: rootVC)
         self.window!.rootViewController = navVC
     }

@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>remoteAccessConsumerKey</key>
-	<string>3MVG98dostKihXN53TYStBIiS8NRTXcbDzn9nHPb3piMElfQDD.kTyHeXjKV9JNUbe5sZeSQ4CVY1Onzpq21N</string>
+	<string>3MVG98dostKihXN53TYStBIiS8FC2a3tE3XhGId0hQ37iQjF0xe4fxMSb2mFaWZn9e3GiLs1q67TNlyRji.Xw</string>
 	<key>oauthRedirectURI</key>
-	<string>com.salesforce.mobilesdk.sample.authflowtester://oauth/success</string>
+	<string>testsfdc:///mobilesdk/detect/oauth/done</string>
 	<key>shouldAuthenticate</key>
 	<true/>
 </dict>

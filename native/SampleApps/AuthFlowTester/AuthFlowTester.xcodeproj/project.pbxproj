@@ -15,9 +15,10 @@
 		4F95A8A22EA806EA00C98D18 /* SalesforceSDKCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4F95A89A2EA801DC00C98D18 /* SalesforceSDKCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		AUTH001 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AUTH002 /* AppDelegate.swift */; };
 		AUTH003 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AUTH004 /* SceneDelegate.swift */; };
-		AUTH005 /* InitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AUTH006 /* InitialViewController.swift */; };
-		AUTH007 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AUTH008 /* RootViewController.swift */; };
+		AUTH005 /* ConfigPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AUTH006 /* ConfigPickerViewController.swift */; };
+		AUTH007 /* SessionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AUTH008 /* SessionDetailViewController.swift */; };
 		AUTH009 /* bootconfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = AUTH010 /* bootconfig.plist */; };
+		AUTH011 /* bootconfig2.plist in Resources */ = {isa = PBXBuildFile; fileRef = AUTH036 /* bootconfig2.plist */; };
 		AUTH013 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = AUTH014 /* PrivacyInfo.xcprivacy */; };
 		AUTH033 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AUTH034 /* Images.xcassets */; };
 /* End PBXBuildFile section */
@@ -42,14 +43,15 @@
 		4F95A89A2EA801DC00C98D18 /* SalesforceSDKCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SalesforceSDKCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AUTH002 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AUTH004 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		AUTH006 /* InitialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialViewController.swift; sourceTree = "<group>"; };
-		AUTH008 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
+		AUTH006 /* ConfigPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigPickerViewController.swift; sourceTree = "<group>"; };
+		AUTH008 /* SessionDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailViewController.swift; sourceTree = "<group>"; };
 		AUTH010 /* bootconfig.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = bootconfig.plist; sourceTree = "<group>"; };
 		AUTH012 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AUTH014 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		AUTH014 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		AUTH016 /* AuthFlowTester.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AuthFlowTester.entitlements; sourceTree = "<group>"; };
 		AUTH017 /* AuthFlowTester.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AuthFlowTester.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AUTH034 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../../../../shared/resources/Images.xcassets; sourceTree = "<group>"; };
+		AUTH036 /* bootconfig2.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = bootconfig2.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +76,18 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		4FF0EF9E2EA8568C005E4474 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				AUTH010 /* bootconfig.plist */,
+				AUTH036 /* bootconfig2.plist */,
+				AUTH012 /* Info.plist */,
+				AUTH014 /* PrivacyInfo.xcprivacy */,
+				AUTH016 /* AuthFlowTester.entitlements */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		AUTH019 = {
 			isa = PBXGroup;
 			children = (
@@ -86,14 +100,9 @@
 		AUTH020 /* AuthFlowTester */ = {
 			isa = PBXGroup;
 			children = (
-				AUTH002 /* AppDelegate.swift */,
-				AUTH004 /* SceneDelegate.swift */,
-				AUTH022 /* ViewControllers */,
+				AUTH022 /* Classes */,
 				AUTH035 /* Resources */,
-				AUTH010 /* bootconfig.plist */,
-				AUTH012 /* Info.plist */,
-				AUTH014 /* PrivacyInfo.xcprivacy */,
-				AUTH016 /* AuthFlowTester.entitlements */,
+				4FF0EF9E2EA8568C005E4474 /* Supporting Files */,
 			);
 			path = AuthFlowTester;
 			sourceTree = "<group>";
@@ -106,13 +115,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		AUTH022 /* ViewControllers */ = {
+		AUTH022 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				AUTH006 /* InitialViewController.swift */,
-				AUTH008 /* RootViewController.swift */,
+				AUTH002 /* AppDelegate.swift */,
+				AUTH004 /* SceneDelegate.swift */,
+				AUTH006 /* ConfigPickerViewController.swift */,
+				AUTH008 /* SessionDetailViewController.swift */,
 			);
-			path = ViewControllers;
+			path = Classes;
 			sourceTree = "<group>";
 		};
 		AUTH035 /* Resources */ = {
@@ -180,6 +191,7 @@
 			isa = PBXResourcesBuildPhase;
 			files = (
 				AUTH009 /* bootconfig.plist in Resources */,
+				AUTH011 /* bootconfig2.plist in Resources */,
 				AUTH013 /* PrivacyInfo.xcprivacy in Resources */,
 				AUTH033 /* Images.xcassets in Resources */,
 			);
@@ -192,8 +204,8 @@
 			files = (
 				AUTH001 /* AppDelegate.swift in Sources */,
 				AUTH003 /* SceneDelegate.swift in Sources */,
-				AUTH005 /* InitialViewController.swift in Sources */,
-				AUTH007 /* RootViewController.swift in Sources */,
+				AUTH005 /* ConfigPickerViewController.swift in Sources */,
+				AUTH007 /* SessionDetailViewController.swift in Sources */,
 			);
 		};
 /* End PBXSourcesBuildPhase section */
@@ -325,13 +337,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = AuthFlowTester/AuthFlowTester.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "AuthFlowTester/Supporting Files/AuthFlowTester.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = AuthFlowTester/Info.plist;
+				INFOPLIST_FILE = "AuthFlowTester/Supporting Files/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -355,13 +367,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = AuthFlowTester/AuthFlowTester.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "AuthFlowTester/Supporting Files/AuthFlowTester.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = AuthFlowTester/Info.plist;
+				INFOPLIST_FILE = "AuthFlowTester/Supporting Files/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

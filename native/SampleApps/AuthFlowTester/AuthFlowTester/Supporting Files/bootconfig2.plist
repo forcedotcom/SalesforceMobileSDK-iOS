@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>remoteAccessConsumerKey</key>
+	<string>3MVG9SemV5D80oBcXZ2EUzbcJw.BPBV7Nd7htOt2IMVa3r5Zb_UgI92gVmxnVoCLfysf3.tIkrYAJF8mHsJxB</string>
+	<key>oauthRedirectURI</key>
+	<string>testsfdc:///mobilesdk/detect/oauth/done</string>
+	<key>shouldAuthenticate</key>
+	<true/>
+</dict>
+</plist>
+
