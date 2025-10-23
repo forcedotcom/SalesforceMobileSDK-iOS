@@ -18,7 +18,15 @@
 		AUTH005 /* ConfigPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AUTH006 /* ConfigPickerViewController.swift */; };
 		AUTH007 /* SessionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AUTH008 /* SessionDetailViewController.swift */; };
 		AUTH009 /* bootconfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = AUTH010 /* bootconfig.plist */; };
+		AUTH037 /* UserCredentialsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AUTH038 /* UserCredentialsView.swift */; };
 		AUTH011 /* bootconfig2.plist in Resources */ = {isa = PBXBuildFile; fileRef = AUTH036 /* bootconfig2.plist */; };
+		AUTH040 /* RestApiTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AUTH041 /* RestApiTestView.swift */; };
+		AUTH042 /* OAuthConfigurationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AUTH043 /* OAuthConfigurationView.swift */; };
+		AUTH045 /* DefaultConfigView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AUTH046 /* DefaultConfigView.swift */; };
+		AUTH047 /* DynamicConfigView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AUTH048 /* DynamicConfigView.swift */; };
+		AUTH049 /* JwtAccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AUTH050 /* JwtAccessView.swift */; };
+		AUTH051 /* InfoRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AUTH052 /* InfoRowView.swift */; };
+		AUTH053 /* FlowTypesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AUTH054 /* FlowTypesView.swift */; };
 		AUTH013 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = AUTH014 /* PrivacyInfo.xcprivacy */; };
 		AUTH033 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AUTH034 /* Images.xcassets */; };
 /* End PBXBuildFile section */
@@ -46,6 +54,14 @@
 		AUTH006 /* ConfigPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigPickerViewController.swift; sourceTree = "<group>"; };
 		AUTH008 /* SessionDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailViewController.swift; sourceTree = "<group>"; };
 		AUTH010 /* bootconfig.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = bootconfig.plist; sourceTree = "<group>"; };
+		AUTH038 /* UserCredentialsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCredentialsView.swift; sourceTree = "<group>"; };
+		AUTH041 /* RestApiTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestApiTestView.swift; sourceTree = "<group>"; };
+		AUTH043 /* OAuthConfigurationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthConfigurationView.swift; sourceTree = "<group>"; };
+		AUTH046 /* DefaultConfigView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultConfigView.swift; sourceTree = "<group>"; };
+		AUTH048 /* DynamicConfigView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicConfigView.swift; sourceTree = "<group>"; };
+		AUTH050 /* JwtAccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JwtAccessView.swift; sourceTree = "<group>"; };
+		AUTH052 /* InfoRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoRowView.swift; sourceTree = "<group>"; };
+		AUTH054 /* FlowTypesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowTypesView.swift; sourceTree = "<group>"; };
 		AUTH012 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AUTH014 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		AUTH016 /* AuthFlowTester.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AuthFlowTester.entitlements; sourceTree = "<group>"; };
@@ -101,6 +117,8 @@
 			isa = PBXGroup;
 			children = (
 				AUTH022 /* Classes */,
+				AUTH044 /* ViewControllers */,
+				AUTH039 /* Views */,
 				AUTH035 /* Resources */,
 				4FF0EF9E2EA8568C005E4474 /* Supporting Files */,
 			);
@@ -120,10 +138,17 @@
 			children = (
 				AUTH002 /* AppDelegate.swift */,
 				AUTH004 /* SceneDelegate.swift */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		AUTH044 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
 				AUTH006 /* ConfigPickerViewController.swift */,
 				AUTH008 /* SessionDetailViewController.swift */,
 			);
-			path = Classes;
+			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 		AUTH035 /* Resources */ = {
@@ -132,6 +157,21 @@
 				AUTH034 /* Images.xcassets */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		AUTH039 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				AUTH038 /* UserCredentialsView.swift */,
+				AUTH041 /* RestApiTestView.swift */,
+				AUTH043 /* OAuthConfigurationView.swift */,
+				AUTH046 /* DefaultConfigView.swift */,
+				AUTH048 /* DynamicConfigView.swift */,
+				AUTH050 /* JwtAccessView.swift */,
+				AUTH052 /* InfoRowView.swift */,
+				AUTH054 /* FlowTypesView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -206,6 +246,14 @@
 				AUTH003 /* SceneDelegate.swift in Sources */,
 				AUTH005 /* ConfigPickerViewController.swift in Sources */,
 				AUTH007 /* SessionDetailViewController.swift in Sources */,
+				AUTH037 /* UserCredentialsView.swift in Sources */,
+				AUTH040 /* RestApiTestView.swift in Sources */,
+				AUTH042 /* OAuthConfigurationView.swift in Sources */,
+				AUTH045 /* DefaultConfigView.swift in Sources */,
+				AUTH047 /* DynamicConfigView.swift in Sources */,
+				AUTH049 /* JwtAccessView.swift in Sources */,
+				AUTH051 /* InfoRowView.swift in Sources */,
+				AUTH053 /* FlowTypesView.swift in Sources */,
 			);
 		};
 /* End PBXSourcesBuildPhase section */
