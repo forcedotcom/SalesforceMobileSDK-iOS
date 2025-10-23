@@ -38,13 +38,6 @@
 			remoteGlobalIDString = B716A3E4218F6EEA009D407F;
 			remoteInfo = SalesforceSDKCommonTestApp;
 		};
-		A3D2307B219749C3009F433D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B7D641C1218F429C006DF5F0 /* SalesforceSDKCommon.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = B7136CFD216684A700F6A221;
-			remoteInfo = SalesforceSDKCommon;
-		};
 		B79F06E420EA931200BC7D6F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B79F06DC20EA931200BC7D6F /* MobileSync.xcodeproj */;
@@ -391,7 +384,6 @@
 				B7D641DA218F42C0006DF5F0 /* PBXTargetDependency */,
 				B79F072A20EA938300BC7D6F /* PBXTargetDependency */,
 				B79F07CE20EA943400BC7D6F /* PBXTargetDependency */,
-				A3D2307C219749C3009F433D /* PBXTargetDependency */,
 			);
 			name = RestAPIExplorer;
 			productName = RestAPIExplorer;
@@ -598,11 +590,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		A3D2307C219749C3009F433D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = SalesforceSDKCommon;
-			targetProxy = A3D2307B219749C3009F433D /* PBXContainerItemProxy */;
-		};
 		B79F072A20EA938300BC7D6F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = SalesforceAnalytics;
