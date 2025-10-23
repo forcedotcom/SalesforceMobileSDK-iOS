@@ -42,8 +42,8 @@ struct InfoRowView: View {
             
             if isSensitive && !isRevealed {
                 HStack {
-                    Text("••••••••")
-                        .font(.system(.body, design: .monospaced))
+                    Text(maskedValue)
+                        .font(.system(.caption, design: .monospaced))
                     Spacer()
                     Button(action: { isRevealed.toggle() }) {
                         Image(systemName: "eye")
@@ -53,7 +53,7 @@ struct InfoRowView: View {
             } else {
                 HStack {
                     Text(value.isEmpty ? "(empty)" : value)
-                        .font(.system(.body, design: .monospaced))
+                        .font(.system(.caption, design: .monospaced))
                         .foregroundColor(value.isEmpty ? .secondary : .primary)
                     Spacer()
                     if isSensitive {
@@ -66,6 +66,18 @@ struct InfoRowView: View {
             }
         }
         .padding(.vertical, 4)
+    }
+    
+    // MARK: - Computed Properties
+    
+    private var maskedValue: String {
+        guard value.count >= 10 else {
+            return "••••••••"
+        }
+        
+        let firstFive = value.prefix(5)
+        let lastFive = value.suffix(5)
+        return "\(firstFive)...\(lastFive)"
     }
 }
 

@@ -32,6 +32,9 @@ struct SessionDetailView: View {
     @State private var refreshTrigger = UUID()
     @State private var showNotImplementedAlert = false
     @State private var showLogoutConfigPicker = false
+    @State private var isUserCredentialsExpanded = false
+    @State private var isJwtDetailsExpanded = false
+    @State private var isOAuthConfigExpanded = false
     
     var onChangeConsumerKey: () -> Void
     var onSwitchUser: () -> Void
@@ -40,18 +43,33 @@ struct SessionDetailView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
-                // REST API Request Section (moved to top)
+                // Revoke Access Token Section
+                RevokeView(onRevokeCompleted: {
+                    refreshTrigger = UUID()
+                })
+                
+                // REST API Request Section
                 RestApiTestView(onRequestCompleted: {
                     refreshTrigger = UUID()
                 })
                 
+                // User Credentials Section
+                UserCredentialsView(isExpanded: $isUserCredentialsExpanded)
+                    .id(refreshTrigger)
+                
+                // JWT Access Token Details Section (if applicable)
+                if let credentials = UserAccountManager.shared.currentUserAccount?.credentials,
+                   credentials.tokenFormat?.lowercased() == "jwt",
+                   let accessToken = credentials.accessToken,
+                   let jwtToken = try? JwtAccessToken(jwt: accessToken) {
+                    JwtAccessView(jwtToken: jwtToken, isExpanded: $isJwtDetailsExpanded)
+                        .id(refreshTrigger)
+                }
+
                 // OAuth Configuration Section
-                OAuthConfigurationView()
+                OAuthConfigurationView(isExpanded: $isOAuthConfigExpanded)
                     .id(refreshTrigger)
                                 
-                // User Credentials Section
-                UserCredentialsView()
-                    .id(refreshTrigger)
             }
             .padding()
         }

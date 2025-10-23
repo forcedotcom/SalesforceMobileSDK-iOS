@@ -29,17 +29,34 @@ import SwiftUI
 import SalesforceSDKCore
 
 struct OAuthConfigurationView: View {
+    @Binding var isExpanded: Bool
+    
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text("OAuth Configuration")
-                .font(.title2)
-                .fontWeight(.bold)
+        VStack(alignment: .leading, spacing: 8) {
+            Button(action: {
+                withAnimation {
+                    isExpanded.toggle()
+                }
+            }) {
+                HStack {
+                    Text("OAuth Configuration")
+                        .font(.headline)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.primary)
+                    Spacer()
+                    Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+            }
             
-            InfoRowView(label: configuredConsumerKeyLabel, 
-                   value: configuredConsumerKey)
-            
-            InfoRowView(label: "Configured Callback URL:", 
-                   value: configuredCallbackUrl)
+            if isExpanded {
+                InfoRowView(label: configuredConsumerKeyLabel, 
+                       value: configuredConsumerKey, isSensitive: true)
+                
+                InfoRowView(label: "Configured Callback URL:", 
+                       value: configuredCallbackUrl)
+            }
         }
         .padding()
         .background(Color(.secondarySystemBackground))

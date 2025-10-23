@@ -29,25 +29,37 @@ import SwiftUI
 import SalesforceSDKCore
 
 struct UserCredentialsView: View {
+    @Binding var isExpanded: Bool
+    
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text("User Credentials")
-                .font(.title2)
-                .fontWeight(.bold)
-            
-            InfoRowView(label: "Client ID:", value: clientId)
-            InfoRowView(label: "Redirect URI:", value: redirectUri)
-            InfoRowView(label: "Instance URL:", value: instanceUrl)
-            InfoRowView(label: "Username:", value: username)
-            InfoRowView(label: "Scopes:", value: credentialsScopes)
-            InfoRowView(label: "Beacon Child Consumer Key:", value: beaconChildConsumerKey)            
-            InfoRowView(label: "Refresh Token:", value: refreshToken, isSensitive: true)
-            InfoRowView(label: "Token Format:", value: tokenFormat)
-            InfoRowView(label: "Access Token:", value: accessToken, isSensitive: true)
+        VStack(alignment: .leading, spacing: 8) {
+            Button(action: {
+                withAnimation {
+                    isExpanded.toggle()
+                }
+            }) {
+                HStack {
+                    Text("User Credentials")
+                        .font(.headline)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.primary)
+                    Spacer()
+                    Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+            }
 
-            // JWT Access Token Details (if applicable)
-            if tokenFormat.lowercased() == "jwt", let jwtToken = try? JwtAccessToken(jwt: accessToken) {
-                JwtAccessView(jwtToken: jwtToken)
+            if isExpanded {
+                InfoRowView(label: "Username:", value: username)
+                InfoRowView(label: "Access Token:", value: accessToken, isSensitive: true)
+                InfoRowView(label: "Token Format:", value: tokenFormat)
+                InfoRowView(label: "Refresh Token:", value: refreshToken, isSensitive: true)
+                InfoRowView(label: "Client ID:", value: clientId, isSensitive: true)
+                InfoRowView(label: "Redirect URI:", value: redirectUri)
+                InfoRowView(label: "Instance URL:", value: instanceUrl)
+                InfoRowView(label: "Scopes:", value: credentialsScopes)
+                InfoRowView(label: "Beacon Child Consumer Key:", value: beaconChildConsumerKey)
             }
         }
         .padding()

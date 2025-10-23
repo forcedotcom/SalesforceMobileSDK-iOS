@@ -37,10 +37,6 @@ struct RestApiTestView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("REST API Test")
-                .font(.title2)
-                .fontWeight(.bold)
-            
             Button(action: {
                 Task {
                     await makeRestRequest()

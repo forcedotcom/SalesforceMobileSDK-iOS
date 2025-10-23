@@ -30,31 +30,47 @@ import SalesforceSDKCore
 
 struct JwtAccessView: View {
     let jwtToken: JwtAccessToken
+    @Binding var isExpanded: Bool
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Divider()
+        VStack(alignment: .leading, spacing: 8) {
+            Button(action: {
+                withAnimation {
+                    isExpanded.toggle()
+                }
+            }) {
+                HStack {
+                    Text("JWT Access Token Details")
+                        .font(.headline)
+                        .foregroundColor(.primary)
+                    Spacer()
+                    Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+            }
             
-            Text("JWT Access Token Details")
-                .font(.headline)
-                .padding(.top, 8)
-            
-            // JWT Header
-            Text("Header:")
-                .font(.subheadline)
-                .fontWeight(.semibold)
-                .padding(.top, 4)
-            
-            JwtHeaderView(token: jwtToken)
-            
-            // JWT Payload
-            Text("Payload:")
-                .font(.subheadline)
-                .fontWeight(.semibold)
-                .padding(.top, 8)
-            
-            JwtPayloadView(token: jwtToken)
+            if isExpanded {
+                // JWT Header
+                Text("Header:")
+                    .font(.subheadline)
+                    .fontWeight(.semibold)
+                    .padding(.top, 4)
+                
+                JwtHeaderView(token: jwtToken)
+                
+                // JWT Payload
+                Text("Payload:")
+                    .font(.subheadline)
+                    .fontWeight(.semibold)
+                    .padding(.top, 8)
+                
+                JwtPayloadView(token: jwtToken)
+            }
         }
+        .padding()
+        .background(Color(.secondarySystemBackground))
+        .cornerRadius(8)
     }
 }
 
