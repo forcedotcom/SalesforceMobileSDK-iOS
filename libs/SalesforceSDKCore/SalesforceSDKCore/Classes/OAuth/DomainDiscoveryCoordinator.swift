@@ -15,15 +15,6 @@ enum DomainDiscovery: String {
             case callbackURL = "callback_url"
         }
     }
-
-    /* TODO: Keep this list of client ids up to date with those
-     * supported by Salesforce Welcome Discovery or remove it
-     * when no longer required.
-     */
-    static let supportedClientIds: Set<String> = [
-        "SfdcMobileChatterAndroid",
-        "SfdcMobileChatteriOS"
-    ]
 }
 
 /// Represents the result of a domain discovery operation.
@@ -88,13 +79,13 @@ public class DomainDiscoveryCoordinator: NSObject {
     
     @objc
     public func isDiscoveryDomain(_ domain: String?, clientId: String?) -> Bool {
-        guard let domain = domain, let clientId = clientId else { return false }
+        guard let domain = domain else { return false }
         let isDiscovery = domain.lowercased().contains(DomainDiscovery.URLComponent.path.rawValue)
-        let isSupportedClient = DomainDiscovery.supportedClientIds.contains(clientId)
-        if isDiscovery && !isSupportedClient {
-            SFSDKCoreLogger.e(classForCoder, message: "\(domain) is a discovery domain, but client ID '\(clientId)' is not supported.")
+        let discoveryEnabled = SalesforceManager.shared.useWelcomeDiscovery
+        if isDiscovery && !discoveryEnabled {
+            SFSDKCoreLogger.w(classForCoder, message: "\(domain) is a discovery domain, but welcome discovery isn't enabled.")
         }
-        return isDiscovery && isSupportedClient
+        return isDiscovery && discoveryEnabled
     }
 }
 
