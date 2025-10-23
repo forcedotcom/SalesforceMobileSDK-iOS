@@ -78,7 +78,13 @@ public class DomainDiscoveryCoordinator: NSObject {
     }
     
     @objc
+    @available(*, deprecated, renamed: "isDiscoveryDomain(domain:)")
     public func isDiscoveryDomain(_ domain: String?, clientId: String?) -> Bool {
+       return isDiscoveryDomain(domain)
+    }
+    
+    @objc
+    public func isDiscoveryDomain(_ domain: String?) -> Bool {
         guard let domain = domain else { return false }
         let isDiscovery = domain.lowercased().contains(DomainDiscovery.URLComponent.path.rawValue)
         let discoveryEnabled = SalesforceManager.shared.useWelcomeDiscovery
