@@ -53,12 +53,44 @@ NS_ASSUME_NONNULL_BEGIN
 + (SFSDKTestCredentialsData *)populateAuthCredentialsFromConfigFileForClass:(Class)testClass;
 
 /**
- Performs a synchronous refresh of the OAuth credentials, which will stage the remaining auth
- data (access token, User ID, Org ID, etc.) in SFUserAccountManager.
- `populateAuthCredentialsFromConfigFile` is required to run once before this method will attempt
- to refresh authentication.
+ Loads a set of auth credentials from the provided JSON string, and configures
+ SFUserAccountManager and the current account with the data from that JSON.
+ Salesforce Mobile SDK will be initialized while populating test credentials.
+ @param testCredentialsJsonString The test credentials JSON as a string.
+ @return The configuration data used to configure SFUserAccountManager (useful
+ e.g. for hybrid apps which need the data to bootstrap SFHybridViewController).
+ */
++ (SFSDKTestCredentialsData *)populateAuthCredentialsFromString:(NSString *)testCredentialsJsonString;
+
+/**
+ Loads a set of auth credentials from the provided JSON string, and configures
+ SFUserAccountManager and the current account with the data from that JSON.
+ @param testCredentialsJsonString The test credentials JSON as a string.
+ @param initializeSdk Indicates if Salesfore Mobile SDK should be initialized
+ while populating test credentials.
+ @return The configuration data used to configure SFUserAccountManager (useful
+ e.g. for hybrid apps which need the data to bootstrap SFHybridViewController).
+ */
++ (SFSDKTestCredentialsData *)populateAuthCredentialsFromString:(NSString *)testCredentialsJsonString initializeSdk:(BOOL)initializeSdk;
+
+/**
+ Performs a synchronous refresh of the OAuth credentials, which will stage the
+ remaining auth data (access token, User ID, Org ID, etc.) in
+ SFUserAccountManager. `populateAuthCredentialsFromConfigFile`
+ is required to run once before this method will attempt to refresh authentication.
+ The "user did log in" notification will not be posted.
  */
 + (void)synchronousAuthRefresh;
+
+/**
+ Performs a synchronous refresh of the OAuth credentials, which will stage the
+ remaining auth data (access token, User ID, Org ID, etc.) in
+ SFUserAccountManager. `populateAuthCredentialsFromConfigFile`
+ is required to run once before this method will attempt to refresh authentication.
+ @param postUserDidLogIn Indicates if the "user did log in" notification should
+ be posted.
+ */
++ (void)synchronousAuthRefreshWithUserDidLoginNotification:(BOOL)postUserDidLogIn;
 
 + (SFOAuthCredentials *)newClientCredentials;
 
