@@ -315,7 +315,7 @@ SFNativeLoginManagerInternal *nativeLogin;
         self.useWebServerAuthentication = YES;
         self.blockSalesforceIntegrationUser = NO;
         self.useHybridAuthentication = YES;
-        self.useWelcomeDiscovery = NO;
+        self.supportsWelcomeDiscovery = NO;
         [self setupServiceConfiguration];
         _snapshotViewControllers = [SFSDKSafeMutableDictionary new];
         _nativeLoginViewControllers = [SFSDKSafeMutableDictionary new];

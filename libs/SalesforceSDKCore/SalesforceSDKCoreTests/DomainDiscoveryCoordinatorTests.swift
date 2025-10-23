@@ -160,10 +160,10 @@ final class DomainDiscoveryCoordinatorTests: XCTestCase {
         let coordinator = DomainDiscoveryCoordinator()
         let domain = "welcome.salesforce.com/discovery"
         
-        SalesforceManager.shared.useWelcomeDiscovery = false
+        SalesforceManager.shared.supportsWelcomeDiscovery = false
         XCTAssertFalse(coordinator.isDiscoveryDomain(domain))
         
-        SalesforceManager.shared.useWelcomeDiscovery = true
+        SalesforceManager.shared.supportsWelcomeDiscovery = true
         XCTAssertTrue(coordinator.isDiscoveryDomain(domain)) 
     }
 }
