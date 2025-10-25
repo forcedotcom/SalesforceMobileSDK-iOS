@@ -91,12 +91,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
            return
        }
        
+       // Check ProcessInfo arguments for CONFIG_PICKER flag
+       let shouldShowConfigPicker = ProcessInfo.processInfo.arguments.contains("CONFIG_PICKER")
+       
        // Check if user is already logged in
-       if UserAccountManager.shared.currentUserAccount != nil {
-           // User is already logged in, go directly to session detail
+       if UserAccountManager.shared.currentUserAccount != nil && !shouldShowConfigPicker {
+           // User is already logged in and not in config picker mode, go directly to session detail
            self.setupRootViewController()
        } else {
-           // User is not logged in, show config picker
+           // User is not logged in or config picker mode is enabled, show config picker
            self.window?.rootViewController = UIHostingController(rootView: ConfigPickerView(onConfigurationCompleted: onConfigurationCompleted))
        }
        self.window?.makeKeyAndVisible()
