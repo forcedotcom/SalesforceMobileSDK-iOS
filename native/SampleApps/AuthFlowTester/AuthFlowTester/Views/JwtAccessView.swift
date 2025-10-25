@@ -83,12 +83,24 @@ struct JwtHeaderView: View {
         VStack(alignment: .leading, spacing: 8) {
             let header = token.header
             
-            JwtFieldRow(label: "Algorithm (alg):", value: header.algorithm)
-            JwtFieldRow(label: "Type (typ):", value: header.type)
-            JwtFieldRow(label: "Key ID (kid):", value: header.keyId)
-            JwtFieldRow(label: "Token Type (tty):", value: header.tokenType)
-            JwtFieldRow(label: "Tenant Key (tnk):", value: header.tenantKey)
-            JwtFieldRow(label: "Version (ver):", value: header.version)
+            if let algorithm = header.algorithm {
+                InfoRowView(label: "Algorithm (alg):", value: algorithm)
+            }
+            if let type = header.type {
+                InfoRowView(label: "Type (typ):", value: type)
+            }
+            if let keyId = header.keyId {
+                InfoRowView(label: "Key ID (kid):", value: keyId)
+            }
+            if let tokenType = header.tokenType {
+                InfoRowView(label: "Token Type (tty):", value: tokenType)
+            }
+            if let tenantKey = header.tenantKey {
+                InfoRowView(label: "Tenant Key (tnk):", value: tenantKey)
+            }
+            if let version = header.version {
+                InfoRowView(label: "Version (ver):", value: version)
+            }
         }
         .padding(8)
         .background(Color(.systemGray6))
@@ -106,17 +118,25 @@ struct JwtPayloadView: View {
             let payload = token.payload
             
             if let audience = payload.audience {
-                JwtFieldRow(label: "Audience (aud):", value: audience.joined(separator: ", "))
+                InfoRowView(label: "Audience (aud):", value: audience.joined(separator: ", "))
             }
             
             if let expirationDate = token.expirationDate() {
-                JwtFieldRow(label: "Expiration Date (exp):", value: formatDate(expirationDate))
+                InfoRowView(label: "Expiration Date (exp):", value: formatDate(expirationDate))
             }
             
-            JwtFieldRow(label: "Issuer (iss):", value: payload.issuer)
-            JwtFieldRow(label: "Subject (sub):", value: payload.subject)
-            JwtFieldRow(label: "Scopes (scp):", value: payload.scopes)
-            JwtFieldRow(label: "Client ID (client_id):", value: payload.clientId)
+            if let issuer = payload.issuer {
+                InfoRowView(label: "Issuer (iss):", value: issuer)
+            }
+            if let subject = payload.subject {
+                InfoRowView(label: "Subject (sub):", value: subject)
+            }
+            if let scopes = payload.scopes {
+                InfoRowView(label: "Scopes (scp):", value: scopes)
+            }
+            if let clientId = payload.clientId {
+                InfoRowView(label: "Client ID (client_id):", value: clientId, isSensitive: true)
+            }
         }
         .padding(8)
         .background(Color(.systemGray6))
@@ -131,23 +151,4 @@ struct JwtPayloadView: View {
     }
 }
 
-// MARK: - Helper Views
-
-struct JwtFieldRow: View {
-    let label: String
-    let value: String?
-    
-    var body: some View {
-        if let value = value, !value.isEmpty {
-            VStack(alignment: .leading, spacing: 2) {
-                Text(label)
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-                Text(value)
-                    .font(.system(.caption, design: .monospaced))
-                    .foregroundColor(.primary)
-            }
-        }
-    }
-}
 
