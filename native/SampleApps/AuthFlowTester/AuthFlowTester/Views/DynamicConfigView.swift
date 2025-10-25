@@ -31,6 +31,7 @@ import SalesforceSDKCore
 struct DynamicConfigView: View {
     @Binding var consumerKey: String
     @Binding var callbackUrl: String
+    @Binding var scopes: String
     let isLoading: Bool
     let onUseConfig: () -> Void
     @State private var isExpanded: Bool = false
@@ -72,12 +73,21 @@ struct DynamicConfigView: View {
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .autocapitalization(.none)
                         .disableAutocorrection(true)
+                    
+                    Text("Scopes (space-separated):")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    TextField("e.g. id api refresh_token", text: $scopes)
+                        .font(.system(.caption, design: .monospaced))
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .autocapitalization(.none)
+                        .disableAutocorrection(true)
                 }
                 .padding(.horizontal)
             }
             
             Button(action: onUseConfig) {
-                Text("Use dynamic bootconfig")
+                Text("Use dynamic config")
                     .font(.headline)
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)

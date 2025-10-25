@@ -56,6 +56,9 @@ struct OAuthConfigurationView: View {
                 
                 InfoRowView(label: "Configured Callback URL:", 
                        value: configuredCallbackUrl)
+                
+                InfoRowView(label: "Configured Scopes:", 
+                       value: configuredScopes)
             }
         }
         .padding()
@@ -80,6 +83,11 @@ struct OAuthConfigurationView: View {
     
     private var configuredCallbackUrl: String {
         return UserAccountManager.shared.oauthCompletionURL ?? ""
+    }
+    
+    private var configuredScopes: String {
+        let scopes = UserAccountManager.shared.scopes
+        return scopes.isEmpty ? "(none)" : scopes.sorted().joined(separator: ", ")
     }
 }
 

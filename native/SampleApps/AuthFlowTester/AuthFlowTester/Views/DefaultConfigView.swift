@@ -72,6 +72,16 @@ struct DefaultConfigView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .background(Color(.systemGray6))
                         .cornerRadius(4)
+                    
+                    Text("Scopes:")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    Text(defaultScopes)
+                        .font(.system(.caption, design: .monospaced))
+                        .padding(8)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .background(Color(.systemGray6))
+                        .cornerRadius(4)
                 }
                 .padding(.horizontal)
             }
@@ -99,6 +109,13 @@ struct DefaultConfigView: View {
     
     private var defaultCallbackUrl: String {
         return SalesforceManager.shared.bootConfig?.oauthRedirectURI ?? ""
+    }
+    
+    private var defaultScopes: String {
+        guard let scopes = SalesforceManager.shared.bootConfig?.oauthScopes else {
+            return "(none)"
+        }
+        return scopes.isEmpty ? "(none)" : scopes.sorted().joined(separator: ", ")
     }
 }
 

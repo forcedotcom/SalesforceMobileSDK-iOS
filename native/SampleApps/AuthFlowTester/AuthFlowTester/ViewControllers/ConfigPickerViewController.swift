@@ -32,6 +32,7 @@ struct ConfigPickerView: View {
     @State private var isLoading = false
     @State private var dynamicConsumerKey = ""
     @State private var dynamicCallbackUrl = ""
+    @State private var dynamicScopes = ""
     
     let onConfigurationCompleted: () -> Void
     
@@ -57,6 +58,7 @@ struct ConfigPickerView: View {
                     DynamicConfigView(
                         consumerKey: $dynamicConsumerKey,
                         callbackUrl: $dynamicCallbackUrl,
+                        scopes: $dynamicScopes,
                         isLoading: isLoading,
                         onUseConfig: handleDynamicBootconfig
                     )
@@ -94,8 +96,9 @@ struct ConfigPickerView: View {
     private func loadDynamicConfigDefaults() {
         // Load initial values from bootconfig2.plist
         if let config = BootConfig("/bootconfig2.plist") {
-            dynamicConsumerKey = config.remoteAccessConsumerKey ?? ""
-            dynamicCallbackUrl = config.oauthRedirectURI ?? ""
+            dynamicConsumerKey = config.remoteAccessConsumerKey
+            dynamicCallbackUrl = config.oauthRedirectURI
+            dynamicScopes = config.oauthScopes.sorted().joined(separator: " ")
         }
     }
     
@@ -104,7 +107,7 @@ struct ConfigPickerView: View {
     private func handleDefaultConfig() {
         isLoading = true
         
-        SalesforceManager.shared.revertToBootConfig()
+        SalesforceManager.shared.bootConfigRuntimeSelector = nil
         
         // Use default bootconfig - no additional setup needed
         onConfigurationCompleted()
@@ -113,11 +116,27 @@ struct ConfigPickerView: View {
     private func handleDynamicBootconfig() {
         isLoading = true
         
-        // Use the values from the text fields
-        SalesforceManager.shared.overrideBootConfig(
-            consumerKey: dynamicConsumerKey,
-            callbackUrl: dynamicCallbackUrl
-        )
+        SalesforceManager.shared.bootConfigRuntimeSelector = { _ in
+            // Create dynamic BootConfig from user-entered values
+            // Parse scopes from space-separated string
+            let scopesArray = self.dynamicScopes
+                .split(separator: " ")
+                .map { String($0) }
+                .filter { !$0.isEmpty }
+            
+            var configDict: [String: Any] = [
+                "remoteAccessConsumerKey": self.dynamicConsumerKey,
+                "oauthRedirectURI": self.dynamicCallbackUrl,
+                "shouldAuthenticate": true
+            ]
+            
+            // Only add scopes if not empty
+            if !scopesArray.isEmpty {
+                configDict["oauthScopes"] = scopesArray
+            }
+            
+            return BootConfig(configDict)
+        }
         
         // Proceed with login
         onConfigurationCompleted()
