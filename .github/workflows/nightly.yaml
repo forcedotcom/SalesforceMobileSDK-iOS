@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        lib: [SalesforceSDKCommon, SalesforceAnalytics, SalesforceSDKCore, SmartStore, MobileSync]
+        lib: [SalesforceSDKCommon, SalesforceAnalytics, SalesforceSDKCore, SmartStore, MobileSync, AuthFlowTester]
         ios: [^26, ^18, ^17]
         include:
           - ios: ^26
@@ -31,7 +31,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        app: [RestAPIExplorer, MobileSyncExplorer]
+        app: [RestAPIExplorer, MobileSyncExplorer, AuthFlowTester]
         ios: [^26, ^18, ^17]
         include:
           - ios: ^26

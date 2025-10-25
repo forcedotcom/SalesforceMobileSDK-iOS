@@ -7,12 +7,22 @@ warn("Big PR, try to keep changes smaller if you can.", sticky: true) if git.lin
 fail("Please re-submit this PR to the dev branch, we may have already fixed your issue.", sticky: true) if github.branch_for_base != "dev"
 
 # List of supported xcode schemes for testing
-SCHEMES = ['SalesforceSDKCommon', 'SalesforceAnalytics', 'SalesforceSDKCore', 'SmartStore', 'MobileSync']
+SCHEMES = ['SalesforceSDKCommon', 'SalesforceAnalytics', 'SalesforceSDKCore', 'SmartStore', 'MobileSync', 'AuthFlowTester']
 
 modifed_libs = Set[]
+
 for file in (git.modified_files + git.added_files);
-    scheme = file.split("libs/").last.split("/").first
-    if SCHEMES.include?(scheme) 
+    scheme = nil
+    
+    # Check if SDK libs are modified
+    if file.include?("libs/")
+        scheme = file.split("libs/").last.split("/").first
+    # Check if sample apps are modified
+    elsif file.include?("native/SampleApps/")
+        scheme = file.split("native/SampleApps/").last.split("/").first
+    end
+    
+    if scheme && SCHEMES.include?(scheme)
         modifed_libs.add(scheme)
     end
 end
