@@ -203,6 +203,11 @@ NS_SWIFT_NAME(SalesforceManager)
  */
 @property (nonatomic, copy) SFSDKUserAgentCreationBlock userAgentString NS_SWIFT_NAME(userAgentGenerator);
 
+/**
+ Block to dynamically select the app config at runtime based on login host.
+ */
+ @property (nonatomic, copy, nullable) SFSDKAppConfigRuntimeSelectorBlock appConfigRuntimeSelectorBlock NS_SWIFT_NAME(bootConfigRuntimeSelector);
+
 /** Use this flag to indicate if the APP will be an identity provider. When enabled this flag allows this application to perform authentication on behalf of another app.
  */
 @property (nonatomic,assign) BOOL isIdentityProvider NS_SWIFT_NAME(isIdentityProvider);
@@ -307,6 +312,13 @@ NS_SWIFT_NAME(SalesforceManager)
 - (id <SFBiometricAuthenticationManager>)biometricAuthenticationManager;
 
 /**
+ * Returns app config (aka boot config) at runtime based on login host
+ *
+ * @param loginHost The selected login host
+ */
+- (SFSDKAppConfig*)runtimeSelectedAppConfig:(nullable NSString *)loginHost NS_SWIFT_NAME(runtimeSelectedBootConfig( loginHost:));
+
+/**
  * Creates the NativeLoginManager instance.
  *
  * @param consumerKey The Connected App consumer key.
@@ -333,19 +345,6 @@ NS_SWIFT_NAME(SalesforceManager)
                                      isReCaptchaEnterprise:(BOOL)isReCaptchaEnterprise
                                  nativeLoginViewController:(nonnull UIViewController *)nativeLoginViewController
                                                      scene:(nullable UIScene *)scene;
-
-/**
-  * Call this method before initiating a login if the application needs to revert back to the consumer key/callback url statically configured in bootconfig.plist
-  */
-- (void) revertToBootConfig;
-
-/**
-  * Call this method before initiating a login if the application needs to use a consumer key/callback url different from the one statically configured in bootconfig.plist
-  * @param consumerKey The Connected App consumer key.
-  * @param callbackUrl The Connected App redirect URI.
-  */
-- (void) overrideBootConfigWithConsumerKey:(nonnull NSString *)consumerKey
-                               callbackUrl:(nonnull NSString *)callbackUrl NS_SWIFT_NAME(overrideBootConfig(consumerKey:callbackUrl:));
 
 /**
  * Returns The NativeLoginManager instance.

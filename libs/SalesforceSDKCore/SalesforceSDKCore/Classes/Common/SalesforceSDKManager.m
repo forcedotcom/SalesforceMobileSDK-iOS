@@ -914,6 +914,16 @@ void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t b
     return [SFScreenLockManagerInternal shared];
 }
 
+#pragma mark - Dynamic Boot Config
+
+- (SFSDKAppConfig*) runtimeSelectedAppConfig:(nullable NSString *)loginHost {
+    if (self.appConfigRuntimeSelectorBlock) {
+        return self.appConfigRuntimeSelectorBlock(loginHost);
+    } else {
+        return nil;
+    }
+}
+
 #pragma mark - Native Login
 
 - (id <SFNativeLoginManager>)useNativeLoginWithConsumerKey:(nonnull NSString *)consumerKey
@@ -964,27 +974,7 @@ void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t b
     
     return nativeLogin;
 }
-
-#pragma - Dynamic boot config
-
-- (void) revertToBootConfig {
-    _appConfig = nil; // next access will read from default bootconfig
-    [self setupServiceConfiguration];
-}
-
-- (void) overrideBootConfigWithConsumerKey:(nonnull NSString *)consumerKey
-                               callbackUrl:(nonnull NSString *)callbackUrl {
     
-    NSDictionary *dict = @{
-        @"remoteAccessConsumerKey": consumerKey,
-        @"oauthRedirectURI": callbackUrl
-    };
-    
-    SFSDKAppConfig *config = [[SFSDKAppConfig alloc] initWithDict:dict];
-    _appConfig = config;
-    [self setupServiceConfiguration];
-}
-
 @end
 
 NSString *SFAppTypeGetDescription(SFAppType appType){

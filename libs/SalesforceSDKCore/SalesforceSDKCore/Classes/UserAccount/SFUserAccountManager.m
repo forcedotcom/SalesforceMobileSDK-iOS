@@ -534,7 +534,9 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     if (self.nativeLoginEnabled && !self.shouldFallbackToWebAuthentication) {
         request = [self nativeLoginAuthRequest];
     } else {
-        request = [self defaultAuthRequestWithLoginHost:loginHost];
+        // NB: Will be nil if application did not provide a appConfigRuntimeSelectorBlock
+        SFSDKAppConfig* appConfig = [[SalesforceSDKManager sharedManager] runtimeSelectedAppConfig:loginHost];
+        request = [self authRequestWithLoginHost:loginHost appConfig:appConfig];
     }
     
     if (scene) {
@@ -552,15 +554,17 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
                             codeVerifier:codeVerifier];
 }
 
--(SFSDKAuthRequest *)defaultAuthRequestWithLoginHost:(nullable NSString *)loginHost {
+-(SFSDKAuthRequest *)authRequestWithLoginHost:(nullable NSString *)loginHost
+                                    appConfig:(nullable SFSDKAppConfig *)appConfig
+{
     SFSDKAuthRequest *request = [[SFSDKAuthRequest alloc] init];
     request.loginHost = loginHost != nil ? loginHost : self.loginHost;
     request.additionalOAuthParameterKeys = self.additionalOAuthParameterKeys;
     request.loginViewControllerConfig = self.loginViewControllerConfig;
     request.brandLoginPath = self.brandLoginPath;
-    request.oauthClientId = self.oauthClientId;
-    request.oauthCompletionUrl = self.oauthCompletionUrl;
-    request.scopes = self.scopes;
+    request.oauthClientId = appConfig != nil ? appConfig.remoteAccessConsumerKey : self.oauthClientId;
+    request.oauthCompletionUrl = appConfig != nil ? appConfig.oauthRedirectURI : self.oauthCompletionUrl;
+    request.scopes = appConfig != nil ? appConfig.oauthScopes : self.scopes;
     request.retryLoginAfterFailure = self.retryLoginAfterFailure;
     request.useBrowserAuth = self.useBrowserAuth;
     request.spAppLoginFlowSelectionAction = self.idpLoginFlowSelectionAction;
@@ -570,7 +574,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 }
 
 -(SFSDKAuthRequest *)defaultAuthRequest {
-    return [self defaultAuthRequestWithLoginHost:nil];
+    return [self authRequestWithLoginHost:nil appConfig:nil];
 }
 
 -(SFSDKAuthRequest *)nativeLoginAuthRequest {
