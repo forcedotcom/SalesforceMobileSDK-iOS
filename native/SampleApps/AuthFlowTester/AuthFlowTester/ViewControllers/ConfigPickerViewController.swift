@@ -30,6 +30,9 @@ import SalesforceSDKCore
 
 struct ConfigPickerView: View {
     @State private var isLoading = false
+    @State private var staticConsumerKey = ""
+    @State private var staticCallbackUrl = ""
+    @State private var staticScopes = ""
     @State private var dynamicConsumerKey = ""
     @State private var dynamicCallbackUrl = ""
     @State private var dynamicScopes = ""
@@ -46,16 +49,25 @@ struct ConfigPickerView: View {
                     
                     Divider()
                     
-                    // Default config section
-                    DefaultConfigView(
+                    // Static config section
+                    BootConfigEditor(
+                        title: "Static Configuration",
+                        buttonLabel: "Use static config",
+                        buttonColor: .blue,
+                        consumerKey: $staticConsumerKey,
+                        callbackUrl: $staticCallbackUrl,
+                        scopes: $staticScopes,
                         isLoading: isLoading,
-                        onUseConfig: handleDefaultConfig
+                        onUseConfig: handleStaticConfig
                     )
                     
                     Divider()
                     
                     // Dynamic config section
-                    DynamicConfigView(
+                    BootConfigEditor(
+                        title: "Dynamic Configuration",
+                        buttonLabel: "Use dynamic config",
+                        buttonColor: .green,
                         consumerKey: $dynamicConsumerKey,
                         callbackUrl: $dynamicCallbackUrl,
                         scopes: $dynamicScopes,
@@ -77,7 +89,7 @@ struct ConfigPickerView: View {
         }
         .navigationViewStyle(.stack)
         .onAppear {
-            loadDynamicConfigDefaults()
+            loadConfigDefaults()
         }
     }
     
@@ -93,8 +105,15 @@ struct ConfigPickerView: View {
     
     // MARK: - Helper Methods
     
-    private func loadDynamicConfigDefaults() {
-        // Load initial values from bootconfig2.plist
+    private func loadConfigDefaults() {
+        // Load static config from bootconfig.plist (via SalesforceManager)
+        if let config = SalesforceManager.shared.bootConfig {
+            staticConsumerKey = config.remoteAccessConsumerKey
+            staticCallbackUrl = config.oauthRedirectURI
+            staticScopes = config.oauthScopes.sorted().joined(separator: " ")
+        }
+        
+        // Load dynamic config defaults from bootconfig2.plist
         if let config = BootConfig("/bootconfig2.plist") {
             dynamicConsumerKey = config.remoteAccessConsumerKey
             dynamicCallbackUrl = config.oauthRedirectURI
@@ -104,12 +123,37 @@ struct ConfigPickerView: View {
     
     // MARK: - Button Actions
     
-    private func handleDefaultConfig() {
+    private func handleStaticConfig() {
         isLoading = true
         
+        // Parse scopes from space-separated string
+        let scopesArray = staticScopes
+            .split(separator: " ")
+            .map { String($0) }
+            .filter { !$0.isEmpty }
+        
+        // Create BootConfig with values from the editor
+        var configDict: [String: Any] = [
+            "remoteAccessConsumerKey": staticConsumerKey,
+            "oauthRedirectURI": staticCallbackUrl,
+            "shouldAuthenticate": true
+        ]
+        
+        // Only add scopes if not empty
+        if !scopesArray.isEmpty {
+            configDict["oauthScopes"] = scopesArray
+        }
+        
+        // Set as the bootConfig
+        SalesforceManager.shared.bootConfig = BootConfig(configDict)
         SalesforceManager.shared.bootConfigRuntimeSelector = nil
         
-        // Use default bootconfig - no additional setup needed
+        // Update UserAccountManager properties
+        UserAccountManager.shared.oauthClientID = staticConsumerKey
+        UserAccountManager.shared.oauthCompletionURL = staticCallbackUrl
+        UserAccountManager.shared.scopes = scopesArray.isEmpty ? [] : Set(scopesArray)
+        
+        // Proceed with login
         onConfigurationCompleted()
     }
     

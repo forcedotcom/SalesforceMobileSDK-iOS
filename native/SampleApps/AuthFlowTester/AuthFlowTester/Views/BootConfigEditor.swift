@@ -1,5 +1,5 @@
 /*
- DynamicConfigView.swift
+ BootConfigEditor.swift
  AuthFlowTester
 
  Copyright (c) 2025-present, salesforce.com, inc. All rights reserved.
@@ -28,7 +28,10 @@
 import SwiftUI
 import SalesforceSDKCore
 
-struct DynamicConfigView: View {
+struct BootConfigEditor: View {
+    let title: String
+    let buttonLabel: String
+    let buttonColor: Color
     @Binding var consumerKey: String
     @Binding var callbackUrl: String
     @Binding var scopes: String
@@ -44,7 +47,7 @@ struct DynamicConfigView: View {
                 }
             }) {
                 HStack {
-                    Text("Dynamic Configuration")
+                    Text(title)
                         .font(.headline)
                         .foregroundColor(.primary)
                     Spacer()
@@ -64,6 +67,7 @@ struct DynamicConfigView: View {
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .autocapitalization(.none)
                         .disableAutocorrection(true)
+                        .accessibilityIdentifier("consumerKeyTextField")
                     
                     Text("Callback URL:")
                         .font(.caption)
@@ -73,6 +77,7 @@ struct DynamicConfigView: View {
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .autocapitalization(.none)
                         .disableAutocorrection(true)
+                        .accessibilityIdentifier("callbackUrlTextField")
                     
                     Text("Scopes (space-separated):")
                         .font(.caption)
@@ -82,17 +87,18 @@ struct DynamicConfigView: View {
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .autocapitalization(.none)
                         .disableAutocorrection(true)
+                        .accessibilityIdentifier("scopesTextField")
                 }
                 .padding(.horizontal)
             }
             
             Button(action: onUseConfig) {
-                Text("Use dynamic config")
+                Text(buttonLabel)
                     .font(.headline)
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
                     .frame(height: 44)
-                    .background(Color.green)
+                    .background(buttonColor)
                     .cornerRadius(8)
             }
             .disabled(isLoading)

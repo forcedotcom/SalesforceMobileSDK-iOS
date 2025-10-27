@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4F1A8CCA2EAB16450037DC89 /* bootconfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = AUTH010 /* bootconfig.plist */; };
 		4F1A8CCB2EAB16490037DC89 /* bootconfig2.plist in Resources */ = {isa = PBXBuildFile; fileRef = AUTH036 /* bootconfig2.plist */; };
+		4F1A8CCD2EAFEA7C0037DC89 /* BootConfigEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1A8CCC2EAFEA7C0037DC89 /* BootConfigEditor.swift */; };
 		4F95A89B2EAAD00000000001 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 4F95A89A2EAAD00000000001 /* test_credentials.json */; };
 		4F95A89C2EA806E700C98D18 /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F95A8962EA801DC00C98D18 /* SalesforceAnalytics.framework */; };
 		4F95A89D2EA806E700C98D18 /* SalesforceAnalytics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4F95A8962EA801DC00C98D18 /* SalesforceAnalytics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -28,8 +29,6 @@
 		AUTH037 /* UserCredentialsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AUTH038 /* UserCredentialsView.swift */; };
 		AUTH040 /* RestApiTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AUTH041 /* RestApiTestView.swift */; };
 		AUTH042 /* OAuthConfigurationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AUTH043 /* OAuthConfigurationView.swift */; };
-		AUTH045 /* DefaultConfigView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AUTH046 /* DefaultConfigView.swift */; };
-		AUTH047 /* DynamicConfigView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AUTH048 /* DynamicConfigView.swift */; };
 		AUTH049 /* JwtAccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AUTH050 /* JwtAccessView.swift */; };
 		AUTH051 /* InfoRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AUTH052 /* InfoRowView.swift */; };
 		AUTH053 /* FlowTypesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AUTH054 /* FlowTypesView.swift */; };
@@ -60,6 +59,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4F1A8CCC2EAFEA7C0037DC89 /* BootConfigEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BootConfigEditor.swift; sourceTree = "<group>"; };
 		4F95A8962EA801DC00C98D18 /* SalesforceAnalytics.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SalesforceAnalytics.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F95A8982EA801DC00C98D18 /* SalesforceSDKCommon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SalesforceSDKCommon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F95A89A2EA801DC00C98D18 /* SalesforceSDKCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SalesforceSDKCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -80,8 +80,6 @@
 		AUTH038 /* UserCredentialsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCredentialsView.swift; sourceTree = "<group>"; };
 		AUTH041 /* RestApiTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestApiTestView.swift; sourceTree = "<group>"; };
 		AUTH043 /* OAuthConfigurationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthConfigurationView.swift; sourceTree = "<group>"; };
-		AUTH046 /* DefaultConfigView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultConfigView.swift; sourceTree = "<group>"; };
-		AUTH048 /* DynamicConfigView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicConfigView.swift; sourceTree = "<group>"; };
 		AUTH050 /* JwtAccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JwtAccessView.swift; sourceTree = "<group>"; };
 		AUTH052 /* InfoRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoRowView.swift; sourceTree = "<group>"; };
 		AUTH054 /* FlowTypesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowTypesView.swift; sourceTree = "<group>"; };
@@ -195,12 +193,11 @@
 		AUTH039 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				4F1A8CCC2EAFEA7C0037DC89 /* BootConfigEditor.swift */,
 				4FEBAF282EA9B91500D4880A /* RevokeView.swift */,
 				AUTH038 /* UserCredentialsView.swift */,
 				AUTH041 /* RestApiTestView.swift */,
 				AUTH043 /* OAuthConfigurationView.swift */,
-				AUTH046 /* DefaultConfigView.swift */,
-				AUTH048 /* DynamicConfigView.swift */,
 				AUTH050 /* JwtAccessView.swift */,
 				AUTH052 /* InfoRowView.swift */,
 				AUTH054 /* FlowTypesView.swift */,
@@ -331,11 +328,10 @@
 				AUTH037 /* UserCredentialsView.swift in Sources */,
 				AUTH040 /* RestApiTestView.swift in Sources */,
 				AUTH042 /* OAuthConfigurationView.swift in Sources */,
-				AUTH045 /* DefaultConfigView.swift in Sources */,
-				AUTH047 /* DynamicConfigView.swift in Sources */,
 				4FEBAF292EA9B91500D4880A /* RevokeView.swift in Sources */,
 				AUTH049 /* JwtAccessView.swift in Sources */,
 				AUTH051 /* InfoRowView.swift in Sources */,
+				4F1A8CCD2EAFEA7C0037DC89 /* BootConfigEditor.swift in Sources */,
 				AUTH053 /* FlowTypesView.swift in Sources */,
 			);
 		};

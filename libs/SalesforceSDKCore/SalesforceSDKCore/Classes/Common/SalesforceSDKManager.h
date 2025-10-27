@@ -205,6 +205,14 @@ NS_SWIFT_NAME(SalesforceManager)
 
 /**
  Block to dynamically select the app config at runtime based on login host.
+ 
+ NB: SFUserAccountManager stores the consumer key, callback URL, etc. in its shared
+ instance, backed by shared prefs and initialized from the static boot config.
+ Previously, the app always used these shared instance values for login.
+ Now, the app can inject alternate values instead — in that case, the shared
+ instance and prefs are left untouched (not read or overwritten).
+ The consumer key and related values used for login are saved in the user
+ account credentials (as before) and therefore used later for token refresh.
  */
  @property (nonatomic, copy, nullable) SFSDKAppConfigRuntimeSelectorBlock appConfigRuntimeSelectorBlock NS_SWIFT_NAME(bootConfigRuntimeSelector);
 

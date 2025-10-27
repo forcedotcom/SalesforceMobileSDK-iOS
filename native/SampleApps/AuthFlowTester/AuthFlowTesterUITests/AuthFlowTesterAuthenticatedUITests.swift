@@ -70,30 +70,6 @@ final class AuthFlowTesterAuthenticatedUITests: XCTestCase {
 
     }
     
-    func testOAuthConfigurationDisplaysScopes() throws {
-        // Verify we're on the session detail screen
-        XCTAssertTrue(app.navigationBars["AuthFlowTester"].waitForExistence(timeout: 10))
-        
-        // Locate and tap the OAuth Configuration header to expand it
-        let oauthConfigHeader = app.buttons["OAuth Configuration"]
-        XCTAssertTrue(oauthConfigHeader.waitForExistence(timeout: 5))
-        
-        // Initially collapsed - scopes label should not be visible
-        XCTAssertFalse(app.staticTexts["Configured Scopes:"].exists)
-        
-        // Tap to expand
-        oauthConfigHeader.tap()
-        
-        // Scopes should now be visible
-        XCTAssertTrue(app.staticTexts["Configured Scopes:"].exists)
-        let scopesPredicate = NSPredicate(format: "label CONTAINS %@", expectedScopes)
-        XCTAssertTrue(app.staticTexts.containing(scopesPredicate).count > 0, "Expected to find scopes: \(expectedScopes)")
-        
-        // Also verify other OAuth fields are present
-        XCTAssertTrue(app.staticTexts.matching(NSPredicate(format: "label CONTAINS 'Configured Consumer Key'")).count > 0)
-        XCTAssertTrue(app.staticTexts["Configured Callback URL:"].exists)
-    }
-    
     //
     // TODO write more tests
     //

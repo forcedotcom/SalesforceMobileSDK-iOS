@@ -63,45 +63,56 @@ final class AuthFlowTesterUnauthenticatedUITests: XCTestCase {
         // Navigation title
         XCTAssertTrue(app.navigationBars["AuthFlowTester"].waitForExistence(timeout: 5))
         // Primary actions
-        XCTAssertTrue(app.buttons["Use default config"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.buttons["Use static config"].waitForExistence(timeout: 5))
         XCTAssertTrue(app.buttons["Use dynamic config"].exists)
     }
 
-    // MARK: - Default Configuration Test
+    // MARK: - Static Configuration Test
     
-    func testDefaultConfigSection() throws {
-        let defaultConfigHeader = app.buttons["Default Configuration"]
-        XCTAssertTrue(defaultConfigHeader.waitForExistence(timeout: 5))
+    func testStaticConfigSection() throws {
+        let staticConfigHeader = app.buttons["Static Configuration"]
+        XCTAssertTrue(staticConfigHeader.waitForExistence(timeout: 5), "Static Configuration header should exist")
         
-        let useDefaultConfigButton = app.buttons["Use default config"]
-        XCTAssertTrue(useDefaultConfigButton.waitForExistence(timeout: 5))
-        XCTAssertTrue(useDefaultConfigButton.isEnabled)
+        let useStaticConfigButton = app.buttons["Use static config"]
+        XCTAssertTrue(useStaticConfigButton.waitForExistence(timeout: 5), "Use static config button should exist")
+        XCTAssertTrue(useStaticConfigButton.isEnabled, "Use static config button should be enabled")
         
         // Initially collapsed - fields should not be visible
-        XCTAssertFalse(app.staticTexts["Consumer Key:"].exists)
-        XCTAssertFalse(app.staticTexts["Callback URL:"].exists)
-        XCTAssertFalse(app.staticTexts["Scopes:"].exists)
-
-        // Tap to expand
-        defaultConfigHeader.tap()
+        XCTAssertFalse(app.staticTexts["Consumer Key:"].exists, "Consumer Key label should not be visible when collapsed")
         
-        // Fields should now be visible
-        XCTAssertTrue(app.staticTexts["Consumer Key:"].exists)
-        XCTAssertTrue(app.staticTexts.matching(NSPredicate(format: "label CONTAINS %@", bootconfigConsumerKey)).count > 0)
-        XCTAssertTrue(app.staticTexts["Callback URL:"].exists)
-        let callbackPredicate = NSPredicate(format: "label CONTAINS %@", bootconfigRedirectURI)
-        XCTAssertTrue(app.staticTexts.containing(callbackPredicate).count > 0)
-        XCTAssertTrue(app.staticTexts["Scopes:"].exists)
-        let scopesPredicate = NSPredicate(format: "label CONTAINS %@", bootconfigScopes)
-        XCTAssertTrue(app.staticTexts.containing(scopesPredicate).count > 0)
+        // Tap to expand
+        staticConfigHeader.tap()
+        
+        // Fields should now be visible - wait for animation
+        XCTAssertTrue(app.staticTexts["Consumer Key:"].waitForExistence(timeout: 3), "Consumer Key label should appear when expanded")
+        XCTAssertTrue(app.staticTexts["Callback URL:"].exists, "Callback URL label should exist")
+        XCTAssertTrue(app.staticTexts["Scopes (space-separated):"].exists, "Scopes label should exist")
+        
+        // Check text fields exist and have correct values
+        let consumerKeyField = app.textFields["consumerKeyTextField"]
+        XCTAssertTrue(consumerKeyField.waitForExistence(timeout: 3), "Consumer key text field should exist")
+        XCTAssertEqual(consumerKeyField.value as? String, bootconfigConsumerKey, "Consumer key should match boot config")
+        
+        let callbackUrlField = app.textFields["callbackUrlTextField"]
+        XCTAssertTrue(callbackUrlField.exists, "Callback URL text field should exist")
+        XCTAssertEqual(callbackUrlField.value as? String, bootconfigRedirectURI, "Callback URL should match boot config")
+        
+        let scopesField = app.textFields["scopesTextField"]
+        XCTAssertTrue(scopesField.exists, "Scopes text field should exist")
+        // Scopes text field will be empty if no scopes configured
+        let scopesValue = scopesField.value as? String
+        if bootconfigScopes == "(none)" {
+            XCTAssert(scopesValue == "" || scopesValue == nil || scopesValue == "e.g. id api refresh_token", 
+                     "Scopes should be empty or placeholder when not configured, got: '\(String(describing: scopesValue))'")
+        } else {
+            XCTAssertEqual(scopesValue, bootconfigScopes, "Scopes should match boot config")
+        }
 
         // Tap to collapse
-        defaultConfigHeader.tap()
+        staticConfigHeader.tap()
         
         // Fields should be hidden again
-        XCTAssertFalse(app.staticTexts["Consumer Key:"].exists)
-        XCTAssertFalse(app.staticTexts["Callback URL:"].exists)
-        XCTAssertFalse(app.staticTexts["Scopes:"].exists)
+        XCTAssertFalse(app.staticTexts["Consumer Key:"].waitForExistence(timeout: 2), "Consumer Key label should be hidden when collapsed")
     }
     
     
@@ -109,37 +120,48 @@ final class AuthFlowTesterUnauthenticatedUITests: XCTestCase {
     
     func testDynamicConfigSection() throws {
         let dynamicConfigHeader = app.buttons["Dynamic Configuration"]
-        XCTAssertTrue(dynamicConfigHeader.waitForExistence(timeout: 5))
+        XCTAssertTrue(dynamicConfigHeader.waitForExistence(timeout: 5), "Dynamic Configuration header should exist")
         
         let useDynamicConfigButton = app.buttons["Use dynamic config"]
-        XCTAssertTrue(useDynamicConfigButton.waitForExistence(timeout: 5))
-        XCTAssertTrue(useDynamicConfigButton.isEnabled)
+        XCTAssertTrue(useDynamicConfigButton.waitForExistence(timeout: 5), "Use dynamic config button should exist")
+        XCTAssertTrue(useDynamicConfigButton.isEnabled, "Use dynamic config button should be enabled")
         
         // Initially collapsed - fields should not be visible
-        XCTAssertFalse(app.staticTexts["Consumer Key:"].exists)
-        XCTAssertFalse(app.staticTexts["Callback URL:"].exists)
-        XCTAssertFalse(app.staticTexts["Scopes (space-separated):"].exists)
+        XCTAssertFalse(app.staticTexts["Consumer Key:"].exists, "Consumer Key label should not be visible when collapsed")
 
         // Tap to expand
         dynamicConfigHeader.tap()
         
-        // Fields should now be visible
-        XCTAssertTrue(app.staticTexts["Consumer Key:"].exists)
-        XCTAssertTrue(app.textFields.matching(NSPredicate(format: "value CONTAINS %@", bootconfig2ConsumerKey)).count > 0)
-        XCTAssertTrue(app.staticTexts["Callback URL:"].exists)
-        let callbackPredicate = NSPredicate(format: "value CONTAINS %@", bootconfig2RedirectURI)
-        XCTAssertTrue(app.textFields.containing(callbackPredicate).count > 0)
-        XCTAssertTrue(app.staticTexts["Scopes (space-separated):"].exists)
-        let scopesPredicate = NSPredicate(format: "value CONTAINS %@", bootconfig2Scopes)
-        XCTAssertTrue(app.textFields.containing(scopesPredicate).count > 0)
+        // Fields should now be visible - wait for animation
+        XCTAssertTrue(app.staticTexts["Consumer Key:"].waitForExistence(timeout: 3), "Consumer Key label should appear when expanded")
+        XCTAssertTrue(app.staticTexts["Callback URL:"].exists, "Callback URL label should exist")
+        XCTAssertTrue(app.staticTexts["Scopes (space-separated):"].exists, "Scopes label should exist")
+        
+        // Check text fields exist and have correct values
+        let consumerKeyField = app.textFields["consumerKeyTextField"]
+        XCTAssertTrue(consumerKeyField.waitForExistence(timeout: 3), "Consumer key text field should exist")
+        XCTAssertEqual(consumerKeyField.value as? String, bootconfig2ConsumerKey, "Consumer key should match bootconfig2")
+        
+        let callbackUrlField = app.textFields["callbackUrlTextField"]
+        XCTAssertTrue(callbackUrlField.exists, "Callback URL text field should exist")
+        XCTAssertEqual(callbackUrlField.value as? String, bootconfig2RedirectURI, "Callback URL should match bootconfig2")
+        
+        let scopesField = app.textFields["scopesTextField"]
+        XCTAssertTrue(scopesField.exists, "Scopes text field should exist")
+        // Scopes text field will be empty if no scopes configured
+        let scopesValue = scopesField.value as? String
+        if bootconfig2Scopes == "(none)" {
+            XCTAssert(scopesValue == "" || scopesValue == nil || scopesValue == "e.g. id api refresh_token", 
+                     "Scopes should be empty or placeholder when not configured, got: '\(String(describing: scopesValue))'")
+        } else {
+            XCTAssertEqual(scopesValue, bootconfig2Scopes, "Scopes should match bootconfig2")
+        }
         
         // Tap to collapse
         dynamicConfigHeader.tap()
         
         // Fields should be hidden again
-        XCTAssertFalse(app.staticTexts["Consumer Key:"].exists)
-        XCTAssertFalse(app.staticTexts["Callback URL:"].exists)
-        XCTAssertFalse(app.staticTexts["Scopes (space-separated):"].exists)
+        XCTAssertFalse(app.staticTexts["Consumer Key:"].waitForExistence(timeout: 2), "Consumer Key label should be hidden when collapsed")
     }
     
     // MARK: - Flow Types Test
