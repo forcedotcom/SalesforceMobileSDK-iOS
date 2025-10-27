@@ -534,9 +534,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     if (self.nativeLoginEnabled && !self.shouldFallbackToWebAuthentication) {
         request = [self nativeLoginAuthRequest];
     } else {
-        // NB: Will be nil if application did not provide a appConfigRuntimeSelectorBlock
-        SFSDKAppConfig* appConfig = [[SalesforceSDKManager sharedManager] runtimeSelectedAppConfig:loginHost];
-        request = [self authRequestWithLoginHost:loginHost appConfig:appConfig];
+        request = [self defaultAuthRequestWithLoginHost:loginHost];
     }
     
     if (scene) {
@@ -554,17 +552,15 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
                             codeVerifier:codeVerifier];
 }
 
--(SFSDKAuthRequest *)authRequestWithLoginHost:(nullable NSString *)loginHost
-                                    appConfig:(nullable SFSDKAppConfig *)appConfig
-{
+-(SFSDKAuthRequest *)defaultAuthRequestWithLoginHost:(nullable NSString *)loginHost {
     SFSDKAuthRequest *request = [[SFSDKAuthRequest alloc] init];
     request.loginHost = loginHost != nil ? loginHost : self.loginHost;
     request.additionalOAuthParameterKeys = self.additionalOAuthParameterKeys;
     request.loginViewControllerConfig = self.loginViewControllerConfig;
     request.brandLoginPath = self.brandLoginPath;
-    request.oauthClientId = appConfig != nil ? appConfig.remoteAccessConsumerKey : self.oauthClientId;
-    request.oauthCompletionUrl = appConfig != nil ? appConfig.oauthRedirectURI : self.oauthCompletionUrl;
-    request.scopes = appConfig != nil ? appConfig.oauthScopes : self.scopes;
+    request.oauthClientId = self.oauthClientId;
+    request.oauthCompletionUrl = self.oauthCompletionUrl;
+    request.scopes = self.scopes;
     request.retryLoginAfterFailure = self.retryLoginAfterFailure;
     request.useBrowserAuth = self.useBrowserAuth;
     request.spAppLoginFlowSelectionAction = self.idpLoginFlowSelectionAction;
@@ -574,7 +570,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 }
 
 -(SFSDKAuthRequest *)defaultAuthRequest {
-    return [self authRequestWithLoginHost:nil appConfig:nil];
+    return [self defaultAuthRequestWithLoginHost:nil];
 }
 
 -(SFSDKAuthRequest *)nativeLoginAuthRequest {
@@ -617,9 +613,16 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [SFSDKWebViewStateManager removeSessionForcefullyWithCompletionHandler:^{
-            [authSession.oauthCoordinator authenticateWithCredentials:authSession.credentials];
+            // Get app config for the login host. If appConfigRuntimeSelectorBlock is set,
+            // it will be invoked to select the appropriate config. Otherwise, returns the default appConfig.
+            [[SalesforceSDKManager sharedManager] appConfigForLoginHost:request.loginHost callback:^(SFSDKAppConfig* appConfig) {
+                authSession.credentials.clientId = appConfig.remoteAccessConsumerKey;
+                authSession.credentials.redirectUri = appConfig.oauthRedirectURI;
+                authSession.credentials.scopes = [appConfig.oauthScopes allObjects];
+                [authSession.oauthCoordinator authenticateWithCredentials:authSession.credentials];
+            }];
         }];
-            
+        
     });
     return self.authSessions[sceneId].isAuthenticating;
 }

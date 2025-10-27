@@ -57,7 +57,8 @@ typedef UIViewController<SFSDKUserSelectionView>*_Nonnull (^SFIDPUserSelectionBl
 
 /**
  Block to select an app config at runtime based on the login host.
+ The block takes a login host and a callback. The callback should be invoked with the selected app config.
  */
- typedef SFSDKAppConfig* _Nullable (^SFSDKAppConfigRuntimeSelectorBlock)(NSString * _Nonnull loginHost) NS_SWIFT_NAME(BootConfigRuntimeSelector);
+ typedef void (^SFSDKAppConfigRuntimeSelectorBlock)(NSString * _Nonnull loginHost, void (^_Nonnull callback)(SFSDKAppConfig * _Nullable)) NS_SWIFT_NAME(BootConfigRuntimeSelector);
 
 NS_ASSUME_NONNULL_END

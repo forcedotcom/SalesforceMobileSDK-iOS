@@ -160,7 +160,7 @@ struct ConfigPickerView: View {
     private func handleDynamicBootconfig() {
         isLoading = true
         
-        SalesforceManager.shared.bootConfigRuntimeSelector = { _ in
+        SalesforceManager.shared.bootConfigRuntimeSelector = { _, callback in
             // Create dynamic BootConfig from user-entered values
             // Parse scopes from space-separated string
             let scopesArray = self.dynamicScopes
@@ -179,7 +179,7 @@ struct ConfigPickerView: View {
                 configDict["oauthScopes"] = scopesArray
             }
             
-            return BootConfig(configDict)
+            callback(BootConfig(configDict))
         }
         
         // Proceed with login

@@ -320,11 +320,15 @@ NS_SWIFT_NAME(SalesforceManager)
 - (id <SFBiometricAuthenticationManager>)biometricAuthenticationManager;
 
 /**
- * Returns app config (aka boot config) at runtime based on login host
+ * Asynchronously retrieves the app config (aka boot config) for the specified login host.
+ *
+ * If an appConfigRuntimeSelectorBlock is set, it will be invoked to select the appropriate config.
+ * If the block is not set or returns nil, the default appConfig will be returned.
  *
  * @param loginHost The selected login host
+ * @param callback The callback invoked with the selected app config
  */
-- (SFSDKAppConfig*)runtimeSelectedAppConfig:(nullable NSString *)loginHost NS_SWIFT_NAME(runtimeSelectedBootConfig( loginHost:));
+- (void)appConfigForLoginHost:(nullable NSString *)loginHost callback:(nonnull void (^)(SFSDKAppConfig * _Nullable))callback NS_SWIFT_NAME(bootConfig(forLoginHost:callback:));
 
 /**
  * Creates the NativeLoginManager instance.
