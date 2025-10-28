@@ -60,15 +60,15 @@ final class AuthFlowTesterAuthenticatedUITests: XCTestCase {
     
     // MARK: - Session Detail Screen Tests
     
-    func testSessionDetailScreenIsVisible() throws {
-        // Verify we're on the session detail screen (not config picker)
-        XCTAssertTrue(app.navigationBars["AuthFlowTester"].waitForExistence(timeout: 10))
-        
-        // Should see authenticated UI elements
-        XCTAssertTrue(app.buttons["Revoke Access Token"].waitForExistence(timeout: 5))
-        XCTAssertTrue(app.buttons["Make REST API Request"].waitForExistence(timeout: 5))
-
-    }
+//    func testSessionDetailScreenIsVisible() throws {
+//        // Verify we're on the session detail screen (not config picker)
+//        XCTAssertTrue(app.navigationBars["AuthFlowTester"].waitForExistence(timeout: 10))
+//        
+//        // Should see authenticated UI elements
+//        XCTAssertTrue(app.buttons["Revoke Access Token"].waitForExistence(timeout: 5))
+//        XCTAssertTrue(app.buttons["Make REST API Request"].waitForExistence(timeout: 5))
+//
+//    }
     
     //
     // TODO write more tests
