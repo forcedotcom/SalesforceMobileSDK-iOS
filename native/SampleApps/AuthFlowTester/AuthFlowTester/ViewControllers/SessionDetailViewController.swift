@@ -30,11 +30,17 @@ import SalesforceSDKCore
 
 struct SessionDetailView: View {
     @State private var refreshTrigger = UUID()
-    @State private var showNotImplementedAlert = false
+    @State private var showMigrateRefreshToken = false
     @State private var showLogoutConfigPicker = false
     @State private var isUserCredentialsExpanded = false
     @State private var isJwtDetailsExpanded = false
     @State private var isOAuthConfigExpanded = false
+    @State private var migrateConsumerKey = ""
+    @State private var migrateCallbackUrl = ""
+    @State private var migrateScopes = ""
+    @State private var isMigrating = false
+    @State private var migrationError: String?
+    @State private var showMigrationError = false
     
     var onChangeConsumerKey: () -> Void
     var onSwitchUser: () -> Void
@@ -79,7 +85,8 @@ struct SessionDetailView: View {
         .toolbar {
             ToolbarItemGroup(placement: .bottomBar) {
                 Button(action: {
-                    showNotImplementedAlert = true
+                    loadCurrentCredentials()
+                    showMigrateRefreshToken = true
                 }) {
                     Label("Change Key", systemImage: "key.horizontal.fill")
                 }
@@ -118,11 +125,109 @@ struct SessionDetailView: View {
                 }
             }
         }
-        .alert("Change Consumer Key", isPresented: $showNotImplementedAlert) {
+        .sheet(isPresented: $showMigrateRefreshToken) {
+            NavigationView {
+                VStack {
+                    BootConfigEditor(
+                        title: "New App Configuration",
+                        buttonLabel: "Migrate refresh token",
+                        buttonColor: .blue,
+                        consumerKey: $migrateConsumerKey,
+                        callbackUrl: $migrateCallbackUrl,
+                        scopes: $migrateScopes,
+                        isLoading: isMigrating,
+                        onUseConfig: {
+                            handleMigrateRefreshToken()
+                        }
+                    )
+                    .padding()
+                    Spacer()
+                }
+                .navigationTitle("Migrate to New App")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button("Cancel") {
+                            showMigrateRefreshToken = false
+                        }
+                    }
+                }
+            }
+        }
+        .alert("Migration Error", isPresented: $showMigrationError) {
             Button("OK", role: .cancel) { }
         } message: {
-            Text("Not implemented yet!")
+            Text(migrationError ?? "Unknown error occurred")
         }
+    }
+    
+    private func loadCurrentCredentials() {
+        guard let credentials = UserAccountManager.shared.currentUserAccount?.credentials else {
+            return
+        }
+        
+        migrateConsumerKey = credentials.clientId ?? ""
+        migrateCallbackUrl = credentials.redirectUri ?? ""
+        
+        // Convert scopes array to space-separated string
+        if let scopes = credentials.scopes, !scopes.isEmpty {
+            migrateScopes = scopes.joined(separator: " ")
+        } else {
+            migrateScopes = ""
+        }
+    }
+    
+    private func handleMigrateRefreshToken() {
+        guard let user = UserAccountManager.shared.currentUserAccount else {
+            migrationError = "No current user found"
+            showMigrationError = true
+            return
+        }
+        
+        // Parse scopes from space-separated string
+        let scopesArray = migrateScopes
+            .split(separator: " ")
+            .map { String($0) }
+            .filter { !$0.isEmpty }
+        
+        // Build config dictionary
+        var configDict: [String: Any] = [
+            "remoteAccessConsumerKey": migrateConsumerKey,
+            "oauthRedirectURI": migrateCallbackUrl,
+            "shouldAuthenticate": true
+        ]
+        
+        // Only add scopes if not empty
+        if !scopesArray.isEmpty {
+            configDict["oauthScopes"] = scopesArray
+        }
+        
+        guard let newAppConfig = BootConfig(configDict) else {
+            migrationError = "Failed to create app configuration"
+            showMigrationError = true
+            return
+        }
+        
+        isMigrating = true
+        
+        UserAccountManager.shared.migrateRefreshToken(
+            for: user,
+            newAppConfig: newAppConfig,
+            success: { [self] _, _ in
+                DispatchQueue.main.async {
+                    isMigrating = false
+                    showMigrateRefreshToken = false
+                    refreshTrigger = UUID()
+                }
+            },
+            failure: { [self] _, error in
+                DispatchQueue.main.async {
+                    isMigrating = false
+                    migrationError = error.localizedDescription
+                    showMigrationError = true
+                }
+            }
+        )
     }
 }
 

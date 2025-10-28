@@ -815,6 +815,65 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     }
 }
 
+- (void)migrateRefreshToken:(SFUserAccount *)user
+               newAppConfig:(SFSDKAppConfig *)newAppConfig
+                    success:(SFUserAccountManagerSuccessCallbackBlock)completionBlock
+                    failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
+    
+    // Creating SFOAuthCredentials for the app we want to migrate to
+    NSData *codeVerifier = [SFSDKCryptoUtils randomByteDataWithLength:kSFVerifierByteLength];
+    NSString *challengeString = [[[codeVerifier sfsdk_base64UrlString] sfsdk_sha256] sfsdk_base64UrlString];
+    SFOAuthCredentials *newAppCreds = [[SFOAuthCredentials alloc] initWithIdentifier:newAppConfig.remoteAccessConsumerKey clientId:newAppConfig.remoteAccessConsumerKey encrypted:NO];
+    newAppCreds.redirectUri = newAppConfig.oauthRedirectURI;
+    newAppCreds.challengeString = challengeString;
+    newAppCreds.accessToken = nil;
+    newAppCreds.domain = user.credentials.domain;
+    newAppCreds.scopes = [newAppConfig.oauthScopes allObjects];
+    
+    // Creating a SFSDKAuthRequest and SFSDKAuthSession
+    SFSDKAuthRequest *request = [self defaultAuthRequest];
+    SFSDKAuthSession *authSession = [[SFSDKAuthSession alloc] initWith:request credentials:user.credentials spAppCredentials:newAppCreds];
+    authSession.isAuthenticating = YES;
+    authSession.authSuccessCallback = completionBlock;
+    authSession.authFailureCallback = failureBlock;
+    authSession.oauthCoordinator.delegate = self;
+    authSession.identityCoordinator.delegate = self;
+    self.authSessions[authSession.sceneId] = authSession;
+    
+    // Kicking off the actual migration (will load front-door approval URL in web view)
+    __weak typeof(self) weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        [strongSelf dismissAuthViewControllerIfPresentForScene:authSession.oauthRequest.scene completion:^{
+            SFSDKAuthSession *session = strongSelf.authSessions[authSession.sceneId];
+            [session.oauthCoordinator migrateRefreshToken:user
+             success:^{
+                // Migration successful - update user credentials with new app credentials
+                user.credentials.clientId = newAppCreds.clientId;
+                user.credentials.redirectUri = newAppCreds.redirectUri;
+                user.credentials.scopes = newAppCreds.scopes;
+                
+                // Save updated user account
+                NSError *saveError = nil;
+                [strongSelf saveAccountForUser:user error:&saveError];
+                
+                // Clean up auth session and invoke callback
+                [strongSelf.authSessions removeObject:session.sceneId];
+                if (session.authSuccessCallback) {
+                    session.authSuccessCallback(session.oauthCoordinator.authInfo, user);
+                }
+            } failure:^(NSError *error) {
+                // Migration failed - clean up auth session and invoke failure callback
+                [strongSelf.authSessions removeObject:session.sceneId];
+                if (session.authFailureCallback) {
+                    session.authFailureCallback(session.oauthCoordinator.authInfo, error);
+                }
+            }];
+        }];
+    });
+}
+
+
 #pragma mark - SFOAuthCoordinatorDelegate
 - (void)oauthCoordinatorWillBeginAuthentication:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info {
     NSDictionary *userInfo = @{ kSFNotificationUserInfoCredentialsKey: coordinator.credentials,

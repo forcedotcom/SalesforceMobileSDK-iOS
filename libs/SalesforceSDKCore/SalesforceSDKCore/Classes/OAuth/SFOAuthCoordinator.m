@@ -519,6 +519,27 @@
     [[self.session dataTaskWithRequest:request completionHandler:completionHandler] resume];
 }
 
+// Refresh token migration
+- (void)migrateRefreshToken:(SFUserAccount *)user success:(void(^)(void))successBlock failure:(void(^)(NSError *))failureBlock {
+    self.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefreshTokenMigration];
+    self.initialRequestLoaded = NO;
+    
+    // Use the existing user's access token to get a front door URL for the new app
+    NSString* approvalPathForSP = [self computeAuthorizationPathForSP];
+    SFRestRequest* singleAccessRequest = [[SFRestAPI sharedInstanceWithUser:user] requestForSingleAccess:approvalPathForSP];
+    __weak typeof (self) weakSelf = self;
+    [[SFRestAPI sharedInstanceWithUser:user] sendRequest:singleAccessRequest failureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
+        failureBlock(error);
+    } successBlock:^(id response, NSURLResponse *rawResponse) {
+        __strong typeof (self) strongSelf = weakSelf;
+        if (successBlock) {
+            successBlock();
+        }
+        NSString *frontDoorUrlString = ((NSDictionary*) response)[@"frontdoor_uri"];
+        [strongSelf loadWebViewWithUrlString:frontDoorUrlString cookie:YES];
+    }];
+}
+
 // IDP related
 - (void)beginIDPFlow:(SFUserAccount *)user success:(void(^)(void))successBlock failure:(void(^)(NSError *))failureBlock {
     self.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeIDP];
