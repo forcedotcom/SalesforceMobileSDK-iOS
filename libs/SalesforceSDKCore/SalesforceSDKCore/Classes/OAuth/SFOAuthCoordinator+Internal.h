@@ -46,7 +46,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, nonnull) SFOAuthInfo *authInfo;
 @property (nonatomic, copy) NSString *origWebUserAgent;
 @property (nonatomic, strong ,nullable) SFOAuthCredentials *spAppCredentials;
-@property (nonatomic, strong ,nullable) SFOAuthCredentials *migrationAppCredentials;
 @property (nonatomic, weak, nullable) SFSDKAuthSession *authSession;
 
 @property (nonatomic, strong, nullable) SFSDKAuthCoordinatorFrontdoorBridgeLoginOverride *frontdoorBridgeLoginOverride;

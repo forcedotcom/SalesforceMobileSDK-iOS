@@ -706,7 +706,7 @@
         }
         [self notifyDelegateOfFailure:finalError authInfo:self.authInfo];
     } else {
-        // Should have a valid reponse here. Must be a fragment or query. No Errors in response,no ec=*
+        // Should have a valid reponse here.Must be a fragment or query. No Errors in response,no ec=*
         response = [requestUrl fragment]?:[requestUrl query];
         NSDictionary *params = [SFSDKOAuth2 parseQueryString:response decodeParams:NO];
         self.spAppCredentials.authCode = params[kSFOAuthApprovalCode];
@@ -979,11 +979,6 @@
 - (BOOL) isSPAppRedirectURL:(NSString *)requestUrlString
 {
     return (self.spAppCredentials.redirectUri && [[requestUrlString lowercaseString] hasPrefix:[self.spAppCredentials.redirectUri lowercaseString]]);
-}
-
-- (BOOL) isMigrationAppRedirectURL:(NSString *)requestUrlString
-{
-    return (self.migrationAppCredentials.redirectUri && [[requestUrlString lowercaseString] hasPrefix:[self.migrationAppCredentials.redirectUri lowercaseString]]);
 }
 
 - (BOOL) isBiometricPromptURL:(NSString *)requestedUrlString

@@ -574,9 +574,8 @@ Use this method to stop/clear any authentication which is has already been start
 /**
  Migrates the refresh token for the specified user to a new app configuration.
  
- This method builds an approval URL for the new app using its configuration and single access
- bridges into it. This causes the approve/deny screen to be presented to the user to authorize the
- new app. If the user approves, a new set of credentials (refresh token, access token) are obtained
+ This might cause the approve/deny screen to be presented to the user to authorize the
+ new app. If successful a new set of credentials (refresh token, access token) are obtained
  and replace the existing credentials for the user.
  
  @param user The user account whose refresh token should be migrated.
