@@ -520,13 +520,18 @@
 }
 
 // Refresh token migration
-- (void)migrateRefreshToken:(SFUserAccount *)user success:(void(^)(void))successBlock failure:(void(^)(NSError *))failureBlock {
+- (void)migrateRefreshToken:(SFUserAccount *)user
+                    success:(void(^)(void))successBlock
+                    failure:(void(^)(NSError *))failureBlock {
+    
     self.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefreshTokenMigration];
     self.initialRequestLoaded = NO;
     
-    // Use the existing user's access token to get a front door URL for the new app
-    NSString* approvalPathForSP = [self computeAuthorizationPathForSP];
-    SFRestRequest* singleAccessRequest = [[SFRestAPI sharedInstanceWithUser:user] requestForSingleAccess:approvalPathForSP];
+    // Use the single access bridge API to get a front door URL for the new app
+    NSURL *approvalUrl = [NSURL URLWithString:[self generateApprovalUrlString]];
+    NSString *approvalPath = [[approvalUrl path] stringByAppendingString:approvalUrl.query ? [@"?" stringByAppendingString:approvalUrl.query] : @""];
+
+    SFRestRequest* singleAccessRequest = [[SFRestAPI sharedInstanceWithUser:user] requestForSingleAccess:approvalPath];
     __weak typeof (self) weakSelf = self;
     [[SFRestAPI sharedInstanceWithUser:user] sendRequest:singleAccessRequest failureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
         failureBlock(error);
@@ -705,7 +710,7 @@
         }
         [self notifyDelegateOfFailure:finalError authInfo:self.authInfo];
     } else {
-        // Should have a valid reponse here.Must be a fragment or query. No Errors in response,no ec=*
+        // Should have a valid reponse here. Must be a fragment or query. No Errors in response,no ec=*
         response = [requestUrl fragment]?:[requestUrl query];
         NSDictionary *params = [SFSDKOAuth2 parseQueryString:response decodeParams:NO];
         self.spAppCredentials.authCode = params[kSFOAuthApprovalCode];
@@ -978,6 +983,11 @@
 - (BOOL) isSPAppRedirectURL:(NSString *)requestUrlString
 {
     return (self.spAppCredentials.redirectUri && [[requestUrlString lowercaseString] hasPrefix:[self.spAppCredentials.redirectUri lowercaseString]]);
+}
+
+- (BOOL) isMigrationAppRedirectURL:(NSString *)requestUrlString
+{
+    return (self.migrationAppCredentials.redirectUri && [[requestUrlString lowercaseString] hasPrefix:[self.migrationAppCredentials.redirectUri lowercaseString]]);
 }
 
 - (BOOL) isBiometricPromptURL:(NSString *)requestedUrlString

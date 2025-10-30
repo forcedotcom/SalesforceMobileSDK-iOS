@@ -138,7 +138,8 @@ struct SessionDetailView: View {
                         isLoading: isMigrating,
                         onUseConfig: {
                             handleMigrateRefreshToken()
-                        }
+                        },
+                        initiallyExpanded: true
                     )
                     .padding()
                     Spacer()
@@ -166,14 +167,34 @@ struct SessionDetailView: View {
             return
         }
         
-        migrateConsumerKey = credentials.clientId ?? ""
-        migrateCallbackUrl = credentials.redirectUri ?? ""
+        let currentClientId = credentials.clientId ?? ""
+        let currentRedirectUri = credentials.redirectUri ?? ""
+        let currentScopes = credentials.scopes?.joined(separator: " ") ?? ""
         
-        // Convert scopes array to space-separated string
-        if let scopes = credentials.scopes, !scopes.isEmpty {
-            migrateScopes = scopes.joined(separator: " ")
-        } else {
-            migrateScopes = ""
+        // Load static config
+        let bootconfig = SalesforceManager.shared.bootConfig
+        let bootconfigClientId = bootconfig?.remoteAccessConsumerKey ?? ""
+        let bootconfigRedirectUri = bootconfig?.oauthRedirectURI ?? ""
+        let bootconfigScopes = bootconfig?.oauthScopes.sorted().joined(separator: " ") ?? ""
+        
+        // Load bootconfig2.plist (dynamic config)
+        let bootconfig2 = BootConfig("/bootconfig2.plist")
+        let bootconfig2ClientId = bootconfig2?.remoteAccessConsumerKey ?? ""
+        let bootconfig2RedirectUri = bootconfig2?.oauthRedirectURI ?? ""
+        let bootconfig2Scopes = bootconfig2?.oauthScopes.sorted().joined(separator: " ") ?? ""
+        
+        // If current credentials match bootconfig.plist, populate with bootconfig2.plist
+        if currentClientId == bootconfigClientId && 
+           currentRedirectUri == bootconfigRedirectUri {
+            migrateConsumerKey = bootconfig2ClientId
+            migrateCallbackUrl = bootconfig2RedirectUri
+            migrateScopes = bootconfig2Scopes
+        } 
+        // Otherwise populate with static config
+        else {
+            migrateConsumerKey = bootconfigClientId
+            migrateCallbackUrl = bootconfigRedirectUri
+            migrateScopes = bootconfigScopes
         }
     }
     

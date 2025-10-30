@@ -37,6 +37,7 @@ struct BootConfigEditor: View {
     @Binding var scopes: String
     let isLoading: Bool
     let onUseConfig: () -> Void
+    let initiallyExpanded: Bool
     @State private var isExpanded: Bool = false
     
     var body: some View {
@@ -105,6 +106,9 @@ struct BootConfigEditor: View {
             .padding(.horizontal)
         }
         .padding(.vertical)
+        .onAppear {
+            isExpanded = initiallyExpanded
+        }
     }
 }
 

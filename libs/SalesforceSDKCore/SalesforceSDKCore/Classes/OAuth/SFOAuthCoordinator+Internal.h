@@ -46,6 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, nonnull) SFOAuthInfo *authInfo;
 @property (nonatomic, copy) NSString *origWebUserAgent;
 @property (nonatomic, strong ,nullable) SFOAuthCredentials *spAppCredentials;
+@property (nonatomic, strong ,nullable) SFOAuthCredentials *migrationAppCredentials;
 @property (nonatomic, weak, nullable) SFSDKAuthSession *authSession;
 
 @property (nonatomic, strong, nullable) SFSDKAuthCoordinatorFrontdoorBridgeLoginOverride *frontdoorBridgeLoginOverride;
@@ -82,6 +83,13 @@ NS_ASSUME_NONNULL_BEGIN
  * @return A properly formatted scope parameter string, or empty string if no scopes provided.
  */
 - (NSString *)scopeQueryParamString;
+
+/**
+ Migrates the refresh token for a user to a new app configuration.
+ */
+- (void)migrateRefreshToken:(SFUserAccount *)user
+                    success:(void(^)(void))successBlock
+                    failure:(void(^)(NSError *))failureBlock;
 
 @end
 

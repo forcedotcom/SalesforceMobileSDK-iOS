@@ -353,20 +353,6 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
 
 - (void)beginIDPFlow:(SFUserAccount *)user success:(void(^)(void))successBlock failure:(void(^)(NSError *))failureBlock;
 
-/**
- Migrates the refresh token for a user to a new app configuration.
- 
- This method uses the existing user's access token to obtain a front door URL for the new app
- (configured via spAppCredentials), then loads that URL in a web view. This causes the approve/deny
- screen to be presented to the user. If approved, new credentials (refresh token, access token)
- are obtained for the new app.
- 
- @param user The user account whose refresh token should be migrated.
- @param successBlock Called when the front door URL is successfully obtained and loaded.
- @param failureBlock Called if the migration fails with an error.
- */
-- (void)migrateRefreshToken:(SFUserAccount *)user success:(void(^)(void))successBlock failure:(void(^)(NSError *))failureBlock;
-
 @end
 
 NS_ASSUME_NONNULL_END

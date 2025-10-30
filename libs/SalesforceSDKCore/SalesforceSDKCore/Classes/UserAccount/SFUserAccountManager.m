@@ -573,6 +573,16 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     return [self defaultAuthRequestWithLoginHost:nil];
 }
 
+-(SFSDKAuthRequest *)migrateRefreshAuthRequest:(SFSDKAppConfig *)newAppConfig {
+    SFSDKAuthRequest *request = [[SFSDKAuthRequest alloc] init];
+    request.loginHost = self.loginHost;
+    request.additionalOAuthParameterKeys = self.additionalOAuthParameterKeys;
+    request.oauthClientId = newAppConfig.remoteAccessConsumerKey;
+    request.oauthCompletionUrl = newAppConfig.oauthRedirectURI;
+    request.scene = [[SFSDKWindowManager sharedManager] defaultScene];
+    return request;
+}
+
 -(SFSDKAuthRequest *)nativeLoginAuthRequest {
     SFNativeLoginManagerInternal *nativeLoginManager = (SFNativeLoginManagerInternal *)[[SalesforceSDKManager sharedManager] nativeLoginManager];
     SFSDKAuthRequest *request = [[SFSDKAuthRequest alloc] init];
@@ -820,19 +830,9 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
                     success:(SFUserAccountManagerSuccessCallbackBlock)completionBlock
                     failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
     
-    // Creating SFOAuthCredentials for the app we want to migrate to
-    NSData *codeVerifier = [SFSDKCryptoUtils randomByteDataWithLength:kSFVerifierByteLength];
-    NSString *challengeString = [[[codeVerifier sfsdk_base64UrlString] sfsdk_sha256] sfsdk_base64UrlString];
-    SFOAuthCredentials *newAppCreds = [[SFOAuthCredentials alloc] initWithIdentifier:newAppConfig.remoteAccessConsumerKey clientId:newAppConfig.remoteAccessConsumerKey encrypted:NO];
-    newAppCreds.redirectUri = newAppConfig.oauthRedirectURI;
-    newAppCreds.challengeString = challengeString;
-    newAppCreds.accessToken = nil;
-    newAppCreds.domain = user.credentials.domain;
-    newAppCreds.scopes = [newAppConfig.oauthScopes allObjects];
-    
     // Creating a SFSDKAuthRequest and SFSDKAuthSession
-    SFSDKAuthRequest *request = [self defaultAuthRequest];
-    SFSDKAuthSession *authSession = [[SFSDKAuthSession alloc] initWith:request credentials:user.credentials spAppCredentials:newAppCreds];
+    SFSDKAuthRequest *request = [self migrateRefreshAuthRequest:newAppConfig];
+    SFSDKAuthSession *authSession = [[SFSDKAuthSession alloc] initWith:request credentials:nil];
     authSession.isAuthenticating = YES;
     authSession.authSuccessCallback = completionBlock;
     authSession.authFailureCallback = failureBlock;
@@ -846,17 +846,9 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         __strong typeof(weakSelf) strongSelf = weakSelf;
         [strongSelf dismissAuthViewControllerIfPresentForScene:authSession.oauthRequest.scene completion:^{
             SFSDKAuthSession *session = strongSelf.authSessions[authSession.sceneId];
-            [session.oauthCoordinator migrateRefreshToken:user
+            [session.oauthCoordinator
+             migrateRefreshToken:user
              success:^{
-                // Migration successful - update user credentials with new app credentials
-                user.credentials.clientId = newAppCreds.clientId;
-                user.credentials.redirectUri = newAppCreds.redirectUri;
-                user.credentials.scopes = newAppCreds.scopes;
-                
-                // Save updated user account
-                NSError *saveError = nil;
-                [strongSelf saveAccountForUser:user error:&saveError];
-                
                 // Clean up auth session and invoke callback
                 [strongSelf.authSessions removeObject:session.sceneId];
                 if (session.authSuccessCallback) {
