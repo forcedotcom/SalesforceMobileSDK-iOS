@@ -87,9 +87,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Migrates the refresh token for a user to a new app configuration.
  */
-- (void)migrateRefreshToken:(SFUserAccount *)user
-                    success:(void(^)(void))successBlock
-                    failure:(void(^)(NSError *))failureBlock;
+- (void)migrateRefreshToken:(SFUserAccount *)user;
 
 @end
 

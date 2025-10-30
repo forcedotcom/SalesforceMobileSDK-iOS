@@ -845,22 +845,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     dispatch_async(dispatch_get_main_queue(), ^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
         [strongSelf dismissAuthViewControllerIfPresentForScene:authSession.oauthRequest.scene completion:^{
-            SFSDKAuthSession *session = strongSelf.authSessions[authSession.sceneId];
-            [session.oauthCoordinator
-             migrateRefreshToken:user
-             success:^{
-                // Clean up auth session and invoke callback
-                [strongSelf.authSessions removeObject:session.sceneId];
-                if (session.authSuccessCallback) {
-                    session.authSuccessCallback(session.oauthCoordinator.authInfo, user);
-                }
-            } failure:^(NSError *error) {
-                // Migration failed - clean up auth session and invoke failure callback
-                [strongSelf.authSessions removeObject:session.sceneId];
-                if (session.authFailureCallback) {
-                    session.authFailureCallback(session.oauthCoordinator.authInfo, error);
-                }
-            }];
+            [authSession.oauthCoordinator migrateRefreshToken:user];
         }];
     });
 }

@@ -520,10 +520,7 @@
 }
 
 // Refresh token migration
-- (void)migrateRefreshToken:(SFUserAccount *)user
-                    success:(void(^)(void))successBlock
-                    failure:(void(^)(NSError *))failureBlock {
-    
+- (void)migrateRefreshToken:(SFUserAccount *)user {    
     self.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefreshTokenMigration];
     self.initialRequestLoaded = NO;
     
@@ -534,12 +531,11 @@
     SFRestRequest* singleAccessRequest = [[SFRestAPI sharedInstanceWithUser:user] requestForSingleAccess:approvalPath];
     __weak typeof (self) weakSelf = self;
     [[SFRestAPI sharedInstanceWithUser:user] sendRequest:singleAccessRequest failureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
-        failureBlock(error);
+        if (self.authSession.authFailureCallback) {
+            self.authSession.authFailureCallback(self.authInfo, error);
+        }
     } successBlock:^(id response, NSURLResponse *rawResponse) {
         __strong typeof (self) strongSelf = weakSelf;
-        if (successBlock) {
-            successBlock();
-        }
         NSString *frontDoorUrlString = ((NSDictionary*) response)[@"frontdoor_uri"];
         [strongSelf loadWebViewWithUrlString:frontDoorUrlString cookie:YES];
     }];
