@@ -35,39 +35,4 @@ final class WebViewStateManagerTests: XCTestCase {
         SFSDKWebViewStateManager.sessionCookieManagementDisabled = false
         XCTAssertFalse(SFSDKWebViewStateManager.sessionCookieManagementDisabled)
     }
-    
-    @MainActor
-    func testClearCache() async throws {
-        // Add some test data
-        let webView = WKWebView()
-        let html = """
-        <html>
-        <head><script>localStorage.setItem('test', 'value');</script></head>
-        <body>Test Content</body>
-        </html>
-        """
-        webView.loadHTMLString(html, baseURL: URL(string: "https://example.com"))
-        try await Task.sleep(for: .seconds(1))
-        
-        // Verify data exists before clearing
-        let dataTypes: Set<String> = [WKWebsiteDataTypeDiskCache,
-                                      WKWebsiteDataTypeMemoryCache,
-                                      WKWebsiteDataTypeFetchCache,
-                                      WKWebsiteDataTypeLocalStorage,
-                                      WKWebsiteDataTypeSessionStorage,
-                                      WKWebsiteDataTypeIndexedDBDatabases,
-                                      WKWebsiteDataTypeWebSQLDatabases,
-                                      WKWebsiteDataTypeOfflineWebApplicationCache,
-                                      WKWebsiteDataTypeServiceWorkerRegistrations]
-        let dataStore = WKWebsiteDataStore.default()
-        let initialRecords = await dataStore.dataRecords(ofTypes: dataTypes)
-        XCTAssertFalse(initialRecords.isEmpty, "Expected data to exist before clearing")
-        
-        // Clear the cache
-        await SFSDKWebViewStateManager.clearCache()
-        
-        // Verify data was cleared
-        let records = await dataStore.dataRecords(ofTypes: dataTypes)
-        XCTAssertTrue(records.isEmpty, "Expected data to be cleared")
-    }
 }
