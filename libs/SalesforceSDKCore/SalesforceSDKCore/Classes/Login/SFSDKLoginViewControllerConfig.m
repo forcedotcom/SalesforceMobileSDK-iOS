@@ -45,6 +45,7 @@
         self.navBarFont = nil;
         _showNavbar = YES;
         _showSettingsIcon = YES;
+        _showServerPicker = YES;
     }
     return self;
 }

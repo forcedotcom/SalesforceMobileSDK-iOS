@@ -49,6 +49,7 @@
 #import "SFSDKIDPConstants.h"
 #import "SFSDKAuthSession.h"
 #import "SFSDKAuthRequest.h"
+#import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 #import <SalesforceSDKCommon/SalesforceSDKCommon-Swift.h>
 #import <SalesforceSDKCommon/SFSDKDatasharingHelper.h>
 #import <LocalAuthentication/LocalAuthentication.h>
@@ -213,8 +214,7 @@
 
 - (void)authenticateWithCredentials:(SFOAuthCredentials *)credentials {
     self.credentials = credentials;
-    if ([self.domainDiscoveryCoordinator isDiscoveryDomain:self.credentials.domain
-                                                 clientId:self.credentials.clientId]) {
+    if ([self.domainDiscoveryCoordinator isDiscoveryDomain:self.credentials.domain]) {
         [self runMyDomainDiscoveryAndAuthenticate];
         return;
     }

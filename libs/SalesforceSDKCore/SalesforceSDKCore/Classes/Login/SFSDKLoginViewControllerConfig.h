@@ -43,14 +43,17 @@ NS_SWIFT_NAME(SalesforceLoginViewControllerConfig)
 /** Specify visibility of nav bar. This property will be used to hide/show the nav bar*/
 @property (nonatomic) BOOL showNavbar NS_SWIFT_NAME(showsNavigationBar);
 
-/** Specifiy the visibility of the settings icon. This property will be used to hide/show the settings icon*/
+/** Specify the visibility of the settings icon. This property will be used to hide/show the settings icon*/
 @property (nonatomic) BOOL showSettingsIcon NS_SWIFT_NAME(showsSettingsIcon);
 
-/** Specifiy the visibility of the back icon. This property value can be changed by changing the value of shouldAuthenticate in bootconfig or by subclasssing SFLoginViewController.
+/// Specify the visibility of the server picker option in the settings menu.
+@property (nonatomic) BOOL showServerPicker NS_SWIFT_NAME(showsServerPicker);
+
+/** Specify the visibility of the back icon. This property value can be changed by changing the value of shouldAuthenticate in bootconfig or by subclasssing SFLoginViewController.
  */
 @property (nonatomic,readonly) BOOL shouldDisplayBackButton NS_SWIFT_NAME(showsBackButton);
 
-/** Specifiy a delegate for LoginViewController. */
+/** Specify a delegate for LoginViewController. */
 @property (nonatomic, weak, nullable) id<SFLoginViewControllerDelegate> delegate;
 
 @property (nonatomic, copy, nullable) SFLoginViewControllerCreationBlock loginViewControllerCreationBlock;
