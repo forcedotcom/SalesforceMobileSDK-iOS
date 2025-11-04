@@ -107,7 +107,7 @@ static NSString * const SFSDKLoginHostNameKey = @"SalesforceLoginHostNameKey";
              */
             if (![self loginHostForHostAddress:customHost]) {
                 [self.loginHostList removeAllObjects];
-                if ([SFUserAccountManager sharedInstance].loginViewControllerConfig.showSettingsIcon) {
+                if ([SFUserAccountManager sharedInstance].loginViewControllerConfig.showSettingsIcon && [SFUserAccountManager sharedInstance].loginViewControllerConfig.showServerPicker) {
                     [self.loginHostList addObject:production];
                     [self.loginHostList addObject:sandbox];
                 }
