@@ -39,14 +39,17 @@ final class WebViewStateManagerTests: XCTestCase {
     @MainActor
     func testClearCache() async throws {
         // Add some test data
-        let html = "<html><body><script>localStorage.setItem('test', 'value');</script></body></html>"
-        let webView = WKWebView(frame: CGRect(x: 0, y: 0, width: 100, height: 100), configuration: WKWebViewConfiguration())
-        
-        // Load HTML and wait for JavaScript to execute
-        webView.loadHTMLString(html, baseURL: URL(string: "https://test.salesforce.com"))
+        let webView = WKWebView()
+        let html = """
+        <html>
+        <head><script>localStorage.setItem('test', 'value');</script></head>
+        <body>Test Content</body>
+        </html>
+        """
+        webView.loadHTMLString(html, baseURL: URL(string: "https://example.com"))
         try await Task.sleep(for: .seconds(1))
         
-        // Define data types to check
+        // Verify data exists before clearing
         let dataTypes: Set<String> = [WKWebsiteDataTypeDiskCache,
                                       WKWebsiteDataTypeMemoryCache,
                                       WKWebsiteDataTypeFetchCache,
@@ -56,9 +59,7 @@ final class WebViewStateManagerTests: XCTestCase {
                                       WKWebsiteDataTypeWebSQLDatabases,
                                       WKWebsiteDataTypeOfflineWebApplicationCache,
                                       WKWebsiteDataTypeServiceWorkerRegistrations]
-        
         let dataStore = WKWebsiteDataStore.default()
-        // Verify data exists before clearing
         let initialRecords = await dataStore.dataRecords(ofTypes: dataTypes)
         XCTAssertFalse(initialRecords.isEmpty, "Expected data to exist before clearing")
         
