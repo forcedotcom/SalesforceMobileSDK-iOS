@@ -664,4 +664,30 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     XCTAssertEqual(userIn.accessRestrictions, userOut.accessRestrictions, @"accessRestrictions mismatch");
 }
 
+- (void)testMigrateRefreshAuthRequest {
+    // Setup SFSDKAppConfig with test data
+    NSString *testConsumerKey = @"TestConsumerKey123";
+    NSString *testRedirectURI = @"testapp://oauth/callback";
+    
+    NSDictionary *configDict = @{
+        @"remoteAccessConsumerKey": testConsumerKey,
+        @"oauthRedirectURI": testRedirectURI,
+        @"oauthScopes": @[@"api", @"refresh_token"]
+    };
+    
+    SFSDKAppConfig *appConfig = [[SFSDKAppConfig alloc] initWithDict:configDict];
+    XCTAssertNotNil(appConfig, @"Failed to create SFSDKAppConfig");
+    
+    // Call migrateRefreshAuthRequest
+    SFSDKAuthRequest *request = [self.uam migrateRefreshAuthRequest:appConfig];
+    
+    // Verify the request properties
+    XCTAssertNotNil(request, @"Request should not be nil");
+    XCTAssertEqualObjects(request.oauthClientId, testConsumerKey, @"OAuth client ID should match app config");
+    XCTAssertEqualObjects(request.oauthCompletionUrl, testRedirectURI, @"OAuth redirect URI should match app config");
+    XCTAssertEqualObjects(request.loginHost, self.uam.loginHost, @"Login host should match user account manager");
+    XCTAssertEqualObjects(request.additionalOAuthParameterKeys, self.uam.additionalOAuthParameterKeys, @"Additional OAuth parameter keys should match user account manager");
+    XCTAssertNotNil(request.scene, @"Scene should be set");
+}
+
 @end
