@@ -10,6 +10,7 @@ fail("Please re-submit this PR to the dev branch, we may have already fixed your
 SCHEMES = ['SalesforceSDKCommon', 'SalesforceAnalytics', 'SalesforceSDKCore', 'SmartStore', 'MobileSync']
 
 modifed_libs = Set[]
+
 for file in (git.modified_files + git.added_files);
     scheme = file.split("libs/").last.split("/").first
     if SCHEMES.include?(scheme) 

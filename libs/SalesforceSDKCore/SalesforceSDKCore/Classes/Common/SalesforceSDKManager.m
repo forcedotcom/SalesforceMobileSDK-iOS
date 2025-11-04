@@ -915,6 +915,19 @@ void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t b
     return [SFScreenLockManagerInternal shared];
 }
 
+#pragma mark - Runtime App Config (aka Bootconfig) Override
+
+- (void) appConfigForLoginHost:(nullable NSString *)loginHost callback:(nonnull void (^)(SFSDKAppConfig * _Nullable))callback {
+    if (self.appConfigRuntimeSelectorBlock) {
+        self.appConfigRuntimeSelectorBlock(loginHost, ^(SFSDKAppConfig *config) {
+            // Fall back to default appConfig if the selector block returns nil
+            callback(config ?: self.appConfig);
+        });
+    } else {
+        callback(self.appConfig);
+    }
+}
+
 #pragma mark - Native Login
 
 - (id <SFNativeLoginManager>)useNativeLoginWithConsumerKey:(nonnull NSString *)consumerKey
@@ -965,7 +978,7 @@ void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t b
     
     return nativeLogin;
 }
-
+    
 @end
 
 NSString *SFAppTypeGetDescription(SFAppType appType){

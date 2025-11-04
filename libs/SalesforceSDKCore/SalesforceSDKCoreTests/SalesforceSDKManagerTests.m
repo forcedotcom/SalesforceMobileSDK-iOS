@@ -485,4 +485,118 @@ static NSString* const kTestAppName = @"OverridenAppName";
     XCTAssertTrue([userAgent containsString:expectedAppName], @"App names should match");
 }
 
+#pragma mark - Runtime Selected App Config Tests
+
+- (void)verifyAppConfigForLoginHost:(NSString *)loginHost
+                        description:(NSString *)description
+                         assertions:(void (^)(SFSDKAppConfig *config))assertions {
+    XCTestExpectation *expectation = [self expectationWithDescription:description];
+    [[SalesforceSDKManager sharedManager] appConfigForLoginHost:loginHost callback:^(SFSDKAppConfig *config) {
+        assertions(config);
+        [expectation fulfill];
+    }];
+    [self waitForExpectations:@[expectation] timeout:1.0];
+}
+
+- (void)testAppConfigForLoginHostReturnsDefaultWhenBlockNotSet {
+    // Clear any existing block
+    [SalesforceSDKManager sharedManager].appConfigRuntimeSelectorBlock = nil;
+    
+    // Get the default app config for comparison
+    SFSDKAppConfig *defaultConfig = [SalesforceSDKManager sharedManager].appConfig;
+    
+    // Test with nil loginHost - should return default config
+    [self verifyAppConfigForLoginHost:nil
+                          description:@"Callback should be called with default config"
+                           assertions:^(SFSDKAppConfig *config) {
+        XCTAssertEqual(config, defaultConfig, @"Should return default appConfig when no selector block is set");
+    }];
+    
+    // Test with a loginHost - should still return default config
+    [self verifyAppConfigForLoginHost:@"https://test.salesforce.com"
+                          description:@"Callback should be called with default config"
+                           assertions:^(SFSDKAppConfig *config) {
+        XCTAssertEqual(config, defaultConfig, @"Should return default appConfig when no selector block is set, regardless of loginHost");
+    }];
+}
+
+- (void)testAppConfigForLoginHostWithDifferentLoginHosts {
+    NSString *loginHost1 = @"https://login.salesforce.com";
+    NSString *loginHost2 = @"https://test.salesforce.com";
+    
+    NSDictionary *config1Dict = @{
+        @"remoteAccessConsumerKey": @"clientId1",
+        @"oauthRedirectURI": @"app1://oauth/done",
+        @"shouldAuthenticate": @YES
+    };
+    SFSDKAppConfig *config1 = [[SFSDKAppConfig alloc] initWithDict:config1Dict];
+    
+    NSDictionary *config2Dict = @{
+        @"remoteAccessConsumerKey": @"clientId2",
+        @"oauthRedirectURI": @"app2://oauth/done",
+        @"shouldAuthenticate": @YES
+    };
+    SFSDKAppConfig *config2 = [[SFSDKAppConfig alloc] initWithDict:config2Dict];
+    
+    // Get the default app config for comparison
+    SFSDKAppConfig *defaultConfig = [SalesforceSDKManager sharedManager].appConfig;
+    
+    // Set the selector block to return different configs based on loginHost
+    [SalesforceSDKManager sharedManager].appConfigRuntimeSelectorBlock = ^(NSString *loginHost, void (^callback)(SFSDKAppConfig *)) {
+        if ([loginHost isEqualToString:loginHost1]) {
+            callback(config1);
+        } else if ([loginHost isEqualToString:loginHost2]) {
+            callback(config2);
+        } else {
+            callback(nil);
+        }
+    };
+    
+    // Test first loginHost
+    [self verifyAppConfigForLoginHost:loginHost1
+                          description:@"First callback should be called"
+                           assertions:^(SFSDKAppConfig *result1) {
+        XCTAssertNotNil(result1, @"Should return config for loginHost1");
+        XCTAssertEqual(result1, config1, @"Should return config1 for loginHost1");
+        XCTAssertEqualObjects(result1.remoteAccessConsumerKey, @"clientId1", @"Should have correct client ID for config1");
+    }];
+    
+    // Test second loginHost
+    [self verifyAppConfigForLoginHost:loginHost2
+                          description:@"Second callback should be called"
+                           assertions:^(SFSDKAppConfig *result2) {
+        XCTAssertNotNil(result2, @"Should return config for loginHost2");
+        XCTAssertEqual(result2, config2, @"Should return config2 for loginHost2");
+        XCTAssertEqualObjects(result2.remoteAccessConsumerKey, @"clientId2", @"Should have correct client ID for config2");
+    }];
+    
+    // Test with nil loginHost - should return default config
+    [self verifyAppConfigForLoginHost:nil
+                          description:@"Callback should be called with default config"
+                           assertions:^(SFSDKAppConfig *config) {
+        XCTAssertEqual(config, defaultConfig, @"Should return default appConfig when nil loginHost is passed");
+    }];
+}
+
+- (void)testAppConfigForLoginHostReturnsDefaultWhenBlockReturnsNil {
+    __block BOOL blockWasCalled = NO;
+    
+    // Get the default app config for comparison
+    SFSDKAppConfig *defaultConfig = [SalesforceSDKManager sharedManager].appConfig;
+    
+    // Set the selector block to return nil via callback
+    [SalesforceSDKManager sharedManager].appConfigRuntimeSelectorBlock = ^(NSString *loginHost, void (^callback)(SFSDKAppConfig *)) {
+        blockWasCalled = YES;
+        callback(nil);
+    };
+    
+    // Call the method - should fall back to default config even though block returns nil
+    [self verifyAppConfigForLoginHost:@"https://test.salesforce.com"
+                          description:@"Callback should be called"
+                           assertions:^(SFSDKAppConfig *config) {
+        XCTAssertTrue(blockWasCalled, @"Block should have been called");
+        XCTAssertEqual(config, defaultConfig, @"Should return default appConfig when block returns nil");
+    }];
+}
+
 @end

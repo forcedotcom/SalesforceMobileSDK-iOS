@@ -1,0 +1,162 @@
+/*
+ RestApiTestView.swift
+ AuthFlowTester
+
+ Copyright (c) 2025-present, salesforce.com, inc. All rights reserved.
+ 
+ Redistribution and use of this software in source and binary forms, with or without modification,
+ are permitted provided that the following conditions are met:
+ * Redistributions of source code must retain the above copyright notice, this list of conditions
+ and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice, this list of
+ conditions and the following disclaimer in the documentation and/or other materials provided
+ with the distribution.
+ * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
+ endorse or promote products derived from this software without specific prior written
+ permission of salesforce.com, inc.
+ 
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+ IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+import SwiftUI
+import SalesforceSDKCore
+
+struct RestApiTestView: View {
+    @State private var isLoading = false
+    @State private var lastRequestResult: String = ""
+    @State private var isResultExpanded = false
+    
+    let onRequestCompleted: () -> Void
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Button(action: {
+                Task {
+                    await makeRestRequest()
+                }
+            }) {
+                HStack {
+                    if isLoading {
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                            .scaleEffect(0.8)
+                    }
+                    Text(isLoading ? "Making Request..." : "Make REST API Request")
+                        .font(.headline)
+                }
+                .foregroundColor(.white)
+                .frame(maxWidth: .infinity)
+                .frame(height: 44)
+                .background(isLoading ? Color.gray : Color.blue)
+                .cornerRadius(8)
+            }
+            .disabled(isLoading)
+            
+            // Result section - always visible
+            VStack(alignment: .leading, spacing: 8) {
+                Button(action: {
+                    if !lastRequestResult.isEmpty {
+                        withAnimation {
+                            isResultExpanded.toggle()
+                        }
+                    }
+                }) {
+                    HStack {
+                        Text("Last Request Result:")
+                            .font(.subheadline)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.primary)
+                        Spacer()
+                        if !lastRequestResult.isEmpty {
+                            Image(systemName: isResultExpanded ? "chevron.up" : "chevron.down")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
+                    }
+                }
+                .disabled(lastRequestResult.isEmpty)
+                
+                if lastRequestResult.isEmpty {
+                    Text("No request made yet")
+                        .font(.system(.caption, design: .monospaced))
+                        .foregroundColor(.secondary)
+                        .padding(8)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .background(Color(.systemGray6))
+                        .cornerRadius(4)
+                } else if isResultExpanded {
+                    ScrollView([.vertical, .horizontal], showsIndicators: true) {
+                        Text(lastRequestResult)
+                            .font(.system(.caption, design: .monospaced))
+                            .foregroundColor(lastRequestResult.hasPrefix("✓") ? .green : .red)
+                            .padding(8)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .textSelection(.enabled)
+                    }
+                    .frame(minHeight: 200, maxHeight: 400)
+                    .background(Color(.systemGray6))
+                    .cornerRadius(4)
+                }
+            }
+            .padding(.vertical, 4)
+        }
+        .padding()
+        .background(Color(.secondarySystemBackground))
+        .cornerRadius(8)
+    }
+    
+    // MARK: - REST API Request
+    
+    @MainActor
+    private func makeRestRequest() async {
+        isLoading = true
+        lastRequestResult = ""
+        
+        do {
+            let request = RestClient.shared.cheapRequest("v63.0")
+            let response = try await RestClient.shared.send(request: request)
+            
+            // Request succeeded - pretty print the JSON
+            let prettyJSON = prettyPrintJSON(response.asString())
+            lastRequestResult = "✓ Success:\n\n\(prettyJSON)"
+            isResultExpanded = true // Auto-expand on new result
+            
+            // Notify parent to refresh fields
+            onRequestCompleted()
+        } catch {
+            // Request failed
+            lastRequestResult = "✗ Error: \(error.localizedDescription)"
+            isResultExpanded = true // Auto-expand on error
+        }
+        
+        isLoading = false
+    }
+    
+    private func prettyPrintJSON(_ jsonString: String) -> String {
+        guard let jsonData = jsonString.data(using: .utf8) else {
+            return jsonString
+        }
+        
+        do {
+            let jsonObject = try JSONSerialization.jsonObject(with: jsonData, options: [])
+            let prettyData = try JSONSerialization.data(withJSONObject: jsonObject, options: [.prettyPrinted, .sortedKeys])
+            
+            if let prettyString = String(data: prettyData, encoding: .utf8) {
+                return prettyString
+            }
+        } catch {
+            // If parsing fails, return original string
+            return jsonString
+        }
+        
+        return jsonString
+    }
+}
+

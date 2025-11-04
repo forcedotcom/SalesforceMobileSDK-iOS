@@ -613,9 +613,16 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [SFSDKWebViewStateManager removeSessionForcefullyWithCompletionHandler:^{
-            [authSession.oauthCoordinator authenticateWithCredentials:authSession.credentials];
+            // Get app config for the login host. If appConfigRuntimeSelectorBlock is set,
+            // it will be invoked to select the appropriate config. Otherwise, returns the default appConfig.
+            [[SalesforceSDKManager sharedManager] appConfigForLoginHost:request.loginHost callback:^(SFSDKAppConfig* appConfig) {
+                authSession.credentials.clientId = appConfig.remoteAccessConsumerKey;
+                authSession.credentials.redirectUri = appConfig.oauthRedirectURI;
+                authSession.credentials.scopes = [appConfig.oauthScopes allObjects];
+                [authSession.oauthCoordinator authenticateWithCredentials:authSession.credentials];
+            }];
         }];
-            
+        
     });
     return self.authSessions[sceneId].isAuthenticating;
 }
