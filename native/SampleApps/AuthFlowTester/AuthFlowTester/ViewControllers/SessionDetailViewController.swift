@@ -169,7 +169,6 @@ struct SessionDetailView: View {
         
         let currentClientId = credentials.clientId ?? ""
         let currentRedirectUri = credentials.redirectUri ?? ""
-        let currentScopes = credentials.scopes?.joined(separator: " ") ?? ""
         
         // Load static config
         let bootconfig = SalesforceManager.shared.bootConfig

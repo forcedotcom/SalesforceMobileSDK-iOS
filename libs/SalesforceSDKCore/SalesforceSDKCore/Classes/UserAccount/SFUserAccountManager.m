@@ -830,11 +830,24 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
                     success:(SFUserAccountManagerSuccessCallbackBlock)completionBlock
                     failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
     
+    // Store current user credentials to revoke them once migration completes
+    SFOAuthCredentials *preMigrationCredentials = self.currentUser.credentials;
+
     // Creating a SFSDKAuthRequest and SFSDKAuthSession
     SFSDKAuthRequest *request = [self migrateRefreshAuthRequest:newAppConfig];
     SFSDKAuthSession *authSession = [[SFSDKAuthSession alloc] initWith:request credentials:nil];
     authSession.isAuthenticating = YES;
-    authSession.authSuccessCallback = completionBlock;
+    authSession.authSuccessCallback = ^(SFOAuthInfo *authInfo, SFUserAccount *newUserAccount) {
+        if (preMigrationCredentials != nil && ![preMigrationCredentials.refreshToken isEqualToString:newUserAccount.credentials.refreshToken]) {
+            
+            id<SFSDKOAuthProtocol> authClient = self.authClient();
+            [authClient revokeRefreshToken:preMigrationCredentials reason:SFLogoutReasonRefreshTokenRotated];
+        }
+
+        if (completionBlock) {
+            completionBlock(authInfo, newUserAccount);
+        }
+    };
     authSession.authFailureCallback = failureBlock;
     authSession.oauthCoordinator.delegate = self;
     authSession.identityCoordinator.delegate = self;
