@@ -690,4 +690,117 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     XCTAssertNotNil(request.scene, @"Scene should be set");
 }
 
+- (void)testMigrateRefreshToken {
+    // Create a test user account
+    SFUserAccount *testUser = [self createNewUserWithIndex:0];
+    testUser.credentials.refreshToken = @"oldRefreshToken123";
+    [self.uam setCurrentUserInternal:testUser];
+    
+    // Setup SFSDKAppConfig
+    NSString *testConsumerKey = @"NewConsumerKey456";
+    NSString *testRedirectURI = @"newapp://oauth/callback";
+    NSDictionary *configDict = @{
+        @"remoteAccessConsumerKey": testConsumerKey,
+        @"oauthRedirectURI": testRedirectURI,
+        @"oauthScopes": @[@"api", @"refresh_token"]
+    };
+    SFSDKAppConfig *appConfig = [[SFSDKAppConfig alloc] initWithDict:configDict];
+    
+    __block BOOL successCallbackInvoked = NO;
+    __block BOOL failureCallbackInvoked = NO;
+    __block SFOAuthInfo *capturedAuthInfo = nil;
+    __block SFUserAccount *capturedUserAccount = nil;
+    __block NSError *capturedError = nil;
+    
+    // Call migrateRefreshToken - this sets up the auth session but doesn't execute the async dispatch
+    [self.uam migrateRefreshToken:testUser
+                     newAppConfig:appConfig
+                          success:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
+                              successCallbackInvoked = YES;
+                              capturedAuthInfo = authInfo;
+                              capturedUserAccount = userAccount;
+                          }
+                          failure:^(SFOAuthInfo *authInfo, NSError *error) {
+                              failureCallbackInvoked = YES;
+                              capturedError = error;
+                          }];
+    
+    // Get the auth session that was created - use the first one in the dictionary
+    NSArray *allKeys = self.uam.authSessions.allKeys;
+    XCTAssertTrue(allKeys.count > 0, @"Auth session should have been created");
+    NSString *sceneId = allKeys.firstObject;
+    SFSDKAuthSession *authSession = self.uam.authSessions[sceneId];
+    
+    // Verify the auth session was created and configured correctly
+    XCTAssertNotNil(authSession, @"Auth session should be created");
+    XCTAssertTrue(authSession.isAuthenticating, @"Auth session should be in authenticating state");
+    XCTAssertNotNil(authSession.authSuccessCallback, @"Success callback should be set");
+    XCTAssertNotNil(authSession.authFailureCallback, @"Failure callback should be set");
+    XCTAssertEqualObjects(authSession.oauthRequest.oauthClientId, testConsumerKey, @"OAuth client ID should match");
+    XCTAssertEqualObjects(authSession.oauthRequest.oauthCompletionUrl, testRedirectURI, @"OAuth redirect URI should match");
+    XCTAssertEqual(authSession.oauthCoordinator.delegate, self.uam, @"OAuth coordinator delegate should be user account manager");
+    
+    // Test the success callback with same refresh token (no revocation)
+    SFOAuthInfo *testAuthInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefresh];
+    SFUserAccount *newUserAccount = [self createNewUserWithIndex:1];
+    newUserAccount.credentials.refreshToken = @"oldRefreshToken123"; // Same token
+    
+    authSession.authSuccessCallback(testAuthInfo, newUserAccount);
+    
+    XCTAssertTrue(successCallbackInvoked, @"Success callback should be invoked");
+    XCTAssertEqual(capturedAuthInfo, testAuthInfo, @"Auth info should be passed through");
+    XCTAssertEqual(capturedUserAccount, newUserAccount, @"User account should be passed through");
+    XCTAssertFalse(failureCallbackInvoked, @"Failure callback should not be invoked");
+    
+    // Reset for next test
+    successCallbackInvoked = NO;
+    capturedAuthInfo = nil;
+    capturedUserAccount = nil;
+    
+    // Test the success callback with different refresh token (should trigger revocation)
+    // Clean up previous session
+    [self.uam.authSessions removeObject:sceneId];
+    
+    // Create a new session since we need to test fresh callback
+    [self.uam migrateRefreshToken:testUser
+                     newAppConfig:appConfig
+                          success:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
+                              successCallbackInvoked = YES;
+                              capturedAuthInfo = authInfo;
+                              capturedUserAccount = userAccount;
+                          }
+                          failure:^(SFOAuthInfo *authInfo, NSError *error) {
+                              failureCallbackInvoked = YES;
+                              capturedError = error;
+                          }];
+    
+    // Get the new auth session
+    allKeys = self.uam.authSessions.allKeys;
+    sceneId = allKeys.firstObject;
+    authSession = self.uam.authSessions[sceneId];
+    
+    SFUserAccount *newUserAccountWithDifferentToken = [self createNewUserWithIndex:2];
+    newUserAccountWithDifferentToken.credentials.refreshToken = @"newRefreshToken789"; // Different token
+    
+    authSession.authSuccessCallback(testAuthInfo, newUserAccountWithDifferentToken);
+    
+    XCTAssertTrue(successCallbackInvoked, @"Success callback should be invoked");
+    XCTAssertEqual(capturedAuthInfo, testAuthInfo, @"Auth info should be passed through");
+    XCTAssertEqual(capturedUserAccount, newUserAccountWithDifferentToken, @"User account should be passed through");
+    
+    // Test the failure callback
+    failureCallbackInvoked = NO;
+    successCallbackInvoked = NO;
+    
+    NSError *testError = [NSError errorWithDomain:@"TestErrorDomain" code:123 userInfo:@{@"message": @"Test error"}];
+    authSession.authFailureCallback(testAuthInfo, testError);
+    
+    XCTAssertTrue(failureCallbackInvoked, @"Failure callback should be invoked");
+    XCTAssertEqual(capturedError, testError, @"Error should be passed through");
+    XCTAssertFalse(successCallbackInvoked, @"Success callback should not be invoked");
+    
+    // Clean up
+    [self.uam.authSessions removeObject:sceneId];
+}
+
 @end
