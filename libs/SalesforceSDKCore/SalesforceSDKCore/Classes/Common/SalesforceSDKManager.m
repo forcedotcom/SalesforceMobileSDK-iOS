@@ -502,13 +502,21 @@ SFNativeLoginManagerInternal *nativeLogin;
             @"Use Web Server Authentication", [self useWebServerAuthentication]  ? @"YES" : @"NO",
             @"Browser Login Enabled", [SFUserAccountManager sharedInstance].useBrowserAuth? @"YES" : @"NO",
             @"IDP Enabled", [self idpEnabled] ? @"YES" : @"NO",
-            @"Identity Provider", [self isIdentityProvider] ? @"YES" : @"NO",
+            @"Identity Provider", [self isIdentityProvider] ? @"YES" : @"NO"
+    ]];
+    
+    SFUserAccount* currentUser = userAccountManager.currentUser;
+    if (currentUser) {
+        [devInfos addObjectsFromArray: @[
             @"Current User", [self userToString:userAccountManager.currentUser],
-            @"Scopes", [userAccountManager.currentUser.credentials.scopes componentsJoinedByString:@" "],
+            @"Scopes", [self scopesToString:userAccountManager.currentUser],
             @"Access Token Expiration", [self accessTokenExpiration],
             @"Authenticated Users", [self usersToString:userAccountManager.allUserAccounts],
             @"User Key-Value Stores", [self safeJoin:[SFSDKKeyValueEncryptedFileStore allStoreNames] separator:@", "],
-            @"Global Key-Value Stores", [self safeJoin:[SFSDKKeyValueEncryptedFileStore allGlobalStoreNames] separator:@", "]
+        ]];
+    }
+    
+    [devInfos addObjectsFromArray: @[@"Global Key-Value Stores", [self safeJoin:[SFSDKKeyValueEncryptedFileStore allGlobalStoreNames] separator:@", "]
     ]];
 
     [devInfos addObjectsFromArray:[self dictToDevInfos:self.appConfig.configDict keyPrefix:@"BootConfig"]];
@@ -543,6 +551,10 @@ SFNativeLoginManagerInternal *nativeLogin;
 
 - (NSString*) userToString:(SFUserAccount*)user {
     return user ? user.idData.username : @"";
+}
+
+- (NSString*) scopesToString:(SFUserAccount*)user {
+    return user ? [user.credentials.scopes componentsJoinedByString:@" "] : @"";
 }
 
 - (NSString*) usersToString:(NSArray<SFUserAccount*>*)userAccounts {
