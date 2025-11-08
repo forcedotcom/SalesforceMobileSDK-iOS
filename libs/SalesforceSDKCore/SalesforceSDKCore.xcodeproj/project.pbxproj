@@ -96,7 +96,7 @@
 		4F8A3B012CEC202F00ECDC76 /* JwtAccessToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8A3B002CEC202F00ECDC76 /* JwtAccessToken.swift */; };
 		4F9E05322DD6A08000548985 /* SFSDKOAuthTokenEndpointResponseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F9E052C2DD6A06F00548985 /* SFSDKOAuthTokenEndpointResponseTests.m */; };
 		4F9E05342DD7BE1500548985 /* SFOAuthCredentialsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F9E05332DD7BE0A00548985 /* SFOAuthCredentialsTests.m */; };
-		4FE006B12EBEB65900CFD66F /* FlowTypesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE006B02EBEB65900CFD66F /* FlowTypesView.swift */; };
+		4FE006B12EBEB65900CFD66F /* AuthFlowTypesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE006B02EBEB65900CFD66F /* AuthFlowTypesView.swift */; };
 		4FE006B22EBEB65900CFD66F /* BootConfigEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE006AE2EBEB65900CFD66F /* BootConfigEditor.swift */; };
 		4FE006B32EBEB65900CFD66F /* BootConfigPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE006AF2EBEB65900CFD66F /* BootConfigPickerViewController.swift */; };
 		4FE006D42EBEBBF300CFD66F /* SFSDKLoginHostListViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FE006CE2EBEBBF300CFD66F /* SFSDKLoginHostListViewController.h */; };
@@ -709,7 +709,7 @@
 		4F9E05332DD7BE0A00548985 /* SFOAuthCredentialsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFOAuthCredentialsTests.m; path = ../SalesforceSDKCoreTests/SFOAuthCredentialsTests.m; sourceTree = "<group>"; };
 		4FE006AE2EBEB65900CFD66F /* BootConfigEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BootConfigEditor.swift; path = SalesforceSDKCore/Classes/Login/DevConfig/BootConfigEditor.swift; sourceTree = SOURCE_ROOT; };
 		4FE006AF2EBEB65900CFD66F /* BootConfigPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BootConfigPickerViewController.swift; path = SalesforceSDKCore/Classes/Login/DevConfig/BootConfigPickerViewController.swift; sourceTree = SOURCE_ROOT; };
-		4FE006B02EBEB65900CFD66F /* FlowTypesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FlowTypesView.swift; path = SalesforceSDKCore/Classes/Login/DevConfig/FlowTypesView.swift; sourceTree = SOURCE_ROOT; };
+		4FE006B02EBEB65900CFD66F /* AuthFlowTypesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AuthFlowTypesView.swift; path = SalesforceSDKCore/Classes/Login/DevConfig/AuthFlowTypesView.swift; sourceTree = SOURCE_ROOT; };
 		4FE006CA2EBEBBF300CFD66F /* NewLoginHostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewLoginHostView.swift; sourceTree = "<group>"; };
 		4FE006CB2EBEBBF300CFD66F /* SFSDKLoginHost.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKLoginHost.h; sourceTree = "<group>"; };
 		4FE006CC2EBEBBF300CFD66F /* SFSDKLoginHost.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKLoginHost.m; sourceTree = "<group>"; };
@@ -1363,7 +1363,7 @@
 			children = (
 				4FE006AE2EBEB65900CFD66F /* BootConfigEditor.swift */,
 				4FE006AF2EBEB65900CFD66F /* BootConfigPickerViewController.swift */,
-				4FE006B02EBEB65900CFD66F /* FlowTypesView.swift */,
+				4FE006B02EBEB65900CFD66F /* AuthFlowTypesView.swift */,
 			);
 			path = DevConfig;
 			sourceTree = "<group>";
@@ -2350,7 +2350,7 @@
 				B78A238D21014FCA00B19AB3 /* SFSDKAuthHelper.m in Sources */,
 				A3C7475F29F7087B00D72B7F /* BiometricAuthenticationManager.swift in Sources */,
 				CE4CE33F1C0E524B009F6029 /* SFInstrumentation.m in Sources */,
-				4FE006B12EBEB65900CFD66F /* FlowTypesView.swift in Sources */,
+				4FE006B12EBEB65900CFD66F /* AuthFlowTypesView.swift in Sources */,
 				4FE006B22EBEB65900CFD66F /* BootConfigEditor.swift in Sources */,
 				4FE006B32EBEB65900CFD66F /* BootConfigPickerViewController.swift in Sources */,
 				697A91A12363C3D800D2836F /* SFSDKPushNotificationDecryption.m in Sources */,

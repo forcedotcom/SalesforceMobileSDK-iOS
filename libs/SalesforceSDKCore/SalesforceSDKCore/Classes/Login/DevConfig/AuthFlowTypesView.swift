@@ -1,5 +1,5 @@
 /*
- FlowTypesView.swift
+ AuthFlowTypesView.swift
  SalesforceSDKCore
 
  Copyright (c) 2025-present, salesforce.com, inc. All rights reserved.
@@ -27,13 +27,15 @@
 
 import SwiftUI
 
-public struct FlowTypesView: View {
+public struct AuthFlowTypesView: View {
     @State private var useWebServerFlow: Bool
     @State private var useHybridFlow: Bool
+    @State private var supportsWelcomeDiscovery: Bool
     
     public init() {
         _useWebServerFlow = State(initialValue: SalesforceManager.shared.useWebServerAuthentication)
         _useHybridFlow = State(initialValue: SalesforceManager.shared.useHybridAuthentication)
+        _supportsWelcomeDiscovery = State(initialValue: SalesforceManager.shared.supportsWelcomeDiscovery)
     }
     
     public var body: some View {
@@ -58,6 +60,15 @@ public struct FlowTypesView: View {
                 }
                 .onChange(of: useHybridFlow) { newValue in
                     SalesforceManager.shared.useHybridAuthentication = newValue
+                }
+                .padding(.horizontal)
+                
+                Toggle(isOn: $supportsWelcomeDiscovery) {
+                    Text("Support Welcome Discovery")
+                        .font(.body)
+                }
+                .onChange(of: supportsWelcomeDiscovery) { newValue in
+                    SalesforceManager.shared.supportsWelcomeDiscovery = newValue
                 }
                 .padding(.horizontal)
             }

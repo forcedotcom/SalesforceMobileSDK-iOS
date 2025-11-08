@@ -54,7 +54,7 @@ public struct BootConfigPickerView: View {
             ScrollView {
                     VStack(spacing: 30) {
                         // Flow types section
-                        FlowTypesView()
+                        AuthFlowTypesView()
                             .padding(.top, 20)
                         
                         Divider()
