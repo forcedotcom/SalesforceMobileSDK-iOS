@@ -573,6 +573,16 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     return [self defaultAuthRequestWithLoginHost:nil];
 }
 
+-(SFSDKAuthRequest *)migrateRefreshAuthRequest:(SFSDKAppConfig *)newAppConfig {
+    SFSDKAuthRequest *request = [[SFSDKAuthRequest alloc] init];
+    request.loginHost = self.loginHost;
+    request.additionalOAuthParameterKeys = self.additionalOAuthParameterKeys;
+    request.oauthClientId = newAppConfig.remoteAccessConsumerKey;
+    request.oauthCompletionUrl = newAppConfig.oauthRedirectURI;
+    request.scene = [[SFSDKWindowManager sharedManager] defaultScene];
+    return request;
+}
+
 -(SFSDKAuthRequest *)nativeLoginAuthRequest {
     SFNativeLoginManagerInternal *nativeLoginManager = (SFNativeLoginManagerInternal *)[[SalesforceSDKManager sharedManager] nativeLoginManager];
     SFSDKAuthRequest *request = [[SFSDKAuthRequest alloc] init];
@@ -814,6 +824,45 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         }];
     }
 }
+
+- (void)migrateRefreshToken:(SFUserAccount *)user
+               newAppConfig:(SFSDKAppConfig *)newAppConfig
+                    success:(SFUserAccountManagerSuccessCallbackBlock)completionBlock
+                    failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
+    
+    // Store current user credentials to revoke them once migration completes
+    SFOAuthCredentials *preMigrationCredentials = self.currentUser.credentials;
+
+    // Creating a SFSDKAuthRequest and SFSDKAuthSession
+    SFSDKAuthRequest *request = [self migrateRefreshAuthRequest:newAppConfig];
+    SFSDKAuthSession *authSession = [[SFSDKAuthSession alloc] initWith:request credentials:nil];
+    authSession.isAuthenticating = YES;
+    authSession.authSuccessCallback = ^(SFOAuthInfo *authInfo, SFUserAccount *newUserAccount) {
+        if (preMigrationCredentials != nil && ![preMigrationCredentials.refreshToken isEqualToString:newUserAccount.credentials.refreshToken]) {
+            
+            id<SFSDKOAuthProtocol> authClient = self.authClient();
+            [authClient revokeRefreshToken:preMigrationCredentials reason:SFLogoutReasonRefreshTokenRotated];
+        }
+
+        if (completionBlock) {
+            completionBlock(authInfo, newUserAccount);
+        }
+    };
+    authSession.authFailureCallback = failureBlock;
+    authSession.oauthCoordinator.delegate = self;
+    authSession.identityCoordinator.delegate = self;
+    self.authSessions[authSession.sceneId] = authSession;
+    
+    // Kicking off the actual migration (will load front-door approval URL in web view)
+    __weak typeof(self) weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        [strongSelf dismissAuthViewControllerIfPresentForScene:authSession.oauthRequest.scene completion:^{
+            [authSession.oauthCoordinator migrateRefreshToken:user];
+        }];
+    });
+}
+
 
 #pragma mark - SFOAuthCoordinatorDelegate
 - (void)oauthCoordinatorWillBeginAuthentication:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info {

@@ -58,7 +58,8 @@ struct ConfigPickerView: View {
                         callbackUrl: $staticCallbackUrl,
                         scopes: $staticScopes,
                         isLoading: isLoading,
-                        onUseConfig: handleStaticConfig
+                        onUseConfig: handleStaticConfig,
+                        initiallyExpanded: false
                     )
                     
                     Divider()
@@ -72,7 +73,8 @@ struct ConfigPickerView: View {
                         callbackUrl: $dynamicCallbackUrl,
                         scopes: $dynamicScopes,
                         isLoading: isLoading,
-                        onUseConfig: handleDynamicBootconfig
+                        onUseConfig: handleDynamicBootconfig,
+                        initiallyExpanded: false
                     )
                     
                     // Loading indicator

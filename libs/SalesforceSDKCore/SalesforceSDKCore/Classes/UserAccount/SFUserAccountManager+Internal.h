@@ -216,6 +216,8 @@ Set this block to handle presentation of the Authentication View Controller.
          frontDoorBridgeUrl:(nullable NSURL * )frontDoorBridgeUrl
                codeVerifier:(nullable NSString *)codeVerifier;
 
+- (SFSDKAuthRequest *)migrateRefreshAuthRequest:(SFSDKAppConfig *)newAppConfig;
+
 @end
 
 NS_ASSUME_NONNULL_END

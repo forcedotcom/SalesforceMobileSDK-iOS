@@ -83,6 +83,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (NSString *)scopeQueryParamString;
 
+/**
+ Migrates the refresh token for a user to a new app configuration.
+ */
+- (void)migrateRefreshToken:(SFUserAccount *)user;
+
 @end
 
 NS_ASSUME_NONNULL_END

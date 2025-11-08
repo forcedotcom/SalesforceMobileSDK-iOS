@@ -519,6 +519,28 @@
     [[self.session dataTaskWithRequest:request completionHandler:completionHandler] resume];
 }
 
+// Refresh token migration
+- (void)migrateRefreshToken:(SFUserAccount *)user {    
+    self.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefreshTokenMigration];
+    self.initialRequestLoaded = NO;
+    
+    // Use the single access bridge API to get a front door URL for the new app
+    NSURL *approvalUrl = [NSURL URLWithString:[self generateApprovalUrlString]];
+    NSString *approvalPath = [[approvalUrl path] stringByAppendingString:approvalUrl.query ? [@"?" stringByAppendingString:approvalUrl.query] : @""];
+
+    SFRestRequest* singleAccessRequest = [[SFRestAPI sharedInstanceWithUser:user] requestForSingleAccess:approvalPath];
+    __weak typeof (self) weakSelf = self;
+    [[SFRestAPI sharedInstanceWithUser:user] sendRequest:singleAccessRequest failureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
+        if (self.authSession.authFailureCallback) {
+            self.authSession.authFailureCallback(self.authInfo, error);
+        }
+    } successBlock:^(id response, NSURLResponse *rawResponse) {
+        __strong typeof (self) strongSelf = weakSelf;
+        NSString *frontDoorUrlString = ((NSDictionary*) response)[@"frontdoor_uri"];
+        [strongSelf loadWebViewWithUrlString:frontDoorUrlString cookie:YES];
+    }];
+}
+
 // IDP related
 - (void)beginIDPFlow:(SFUserAccount *)user success:(void(^)(void))successBlock failure:(void(^)(NSError *))failureBlock {
     self.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeIDP];
