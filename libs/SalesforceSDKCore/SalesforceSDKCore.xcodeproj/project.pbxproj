@@ -99,11 +99,10 @@
 		4FE006B12EBEB65900CFD66F /* AuthFlowTypesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE006B02EBEB65900CFD66F /* AuthFlowTypesView.swift */; };
 		4FE006B22EBEB65900CFD66F /* BootConfigEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE006AE2EBEB65900CFD66F /* BootConfigEditor.swift */; };
 		4FE006B32EBEB65900CFD66F /* BootConfigPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE006AF2EBEB65900CFD66F /* BootConfigPickerViewController.swift */; };
-		4FE006D42EBEBBF300CFD66F /* SFSDKLoginHostListViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FE006CE2EBEBBF300CFD66F /* SFSDKLoginHostListViewController.h */; };
+		4FE006D42EBEBBF300CFD66F /* SFSDKLoginHostListViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FE006CE2EBEBBF300CFD66F /* SFSDKLoginHostListViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4FE006D52EBEBBF300CFD66F /* SFSDKTextFieldTableViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FE006D22EBEBBF300CFD66F /* SFSDKTextFieldTableViewCell.h */; };
-		4FE006D62EBEBBF300CFD66F /* SFSDKLoginHostStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FE006D02EBEBBF300CFD66F /* SFSDKLoginHostStorage.h */; };
-		4FE006D72EBEBBF300CFD66F /* SFSDKLoginHost.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FE006CB2EBEBBF300CFD66F /* SFSDKLoginHost.h */; };
-		4FE006D82EBEBBF300CFD66F /* SFSDKLoginHostDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FE006CD2EBEBBF300CFD66F /* SFSDKLoginHostDelegate.h */; };
+		4FE006D62EBEBBF300CFD66F /* SFSDKLoginHostStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FE006D02EBEBBF300CFD66F /* SFSDKLoginHostStorage.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4FE006D82EBEBBF300CFD66F /* SFSDKLoginHostDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FE006CD2EBEBBF300CFD66F /* SFSDKLoginHostDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4FE006D92EBEBBF300CFD66F /* SFSDKTextFieldTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE006D32EBEBBF300CFD66F /* SFSDKTextFieldTableViewCell.m */; };
 		4FE006DA2EBEBBF300CFD66F /* NewLoginHostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE006CA2EBEBBF300CFD66F /* NewLoginHostView.swift */; };
 		4FE006DB2EBEBBF300CFD66F /* SFSDKLoginHost.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE006CC2EBEBBF300CFD66F /* SFSDKLoginHost.m */; };
@@ -111,6 +110,7 @@
 		4FE006DD2EBEBBF300CFD66F /* SFSDKLoginHostStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE006D12EBEBBF300CFD66F /* SFSDKLoginHostStorage.m */; };
 		4FE006E02EBEBC0000CFD66F /* NativeLoginManagerInternal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE006DF2EBEBC0000CFD66F /* NativeLoginManagerInternal.swift */; };
 		4FE006E12EBEBC0000CFD66F /* NativeLoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE006DE2EBEBC0000CFD66F /* NativeLoginManager.swift */; };
+		4FE0070F2EBED6C000CFD66F /* SFSDKLoginHost.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FE006CB2EBEBBF300CFD66F /* SFSDKLoginHost.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4FE5332A1BFFE70600814D2A /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F7EB4981BFFCEF600768720 /* Main_iPad.storyboard */; };
 		4FE5332B1BFFE70600814D2A /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F7EB49A1BFFCEF600768720 /* Main_iPhone.storyboard */; };
 		6900B62C24B64DD800500923 /* NSURLResponse+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6900B62A24B64DD800500923 /* NSURLResponse+SFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1895,6 +1895,7 @@
 				4F5727E327F27F1A0008CDA4 /* SFSDKPrimingRecordsResponse.h in Headers */,
 				8214D96D205317BC0007349E /* SFSDKSalesforceAnalyticsManager+Internal.h in Headers */,
 				B7A20F871F25850E00D1E4B0 /* SFSDKWindowManager.h in Headers */,
+				4FE0070F2EBED6C000CFD66F /* SFSDKLoginHost.h in Headers */,
 				CE4CE3B11C0E5279009F6029 /* SFSDKWebUtils.h in Headers */,
 				B79F03F520D4684600BC7D6F /* UIFont+SFSDKIDP.h in Headers */,
 				CE4CE35F1C0E526A009F6029 /* SFAuthErrorHandlerList.h in Headers */,
@@ -1948,7 +1949,6 @@
 				4FE006D42EBEBBF300CFD66F /* SFSDKLoginHostListViewController.h in Headers */,
 				4FE006D52EBEBBF300CFD66F /* SFSDKTextFieldTableViewCell.h in Headers */,
 				4FE006D62EBEBBF300CFD66F /* SFSDKLoginHostStorage.h in Headers */,
-				4FE006D72EBEBBF300CFD66F /* SFSDKLoginHost.h in Headers */,
 				4FE006D82EBEBBF300CFD66F /* SFSDKLoginHostDelegate.h in Headers */,
 				B711290F1F8A780800436CFB /* SFSDKAlertView.h in Headers */,
 				CE4CE32B1C0E523B009F6029 /* SalesforceSDKManager+Internal.h in Headers */,
