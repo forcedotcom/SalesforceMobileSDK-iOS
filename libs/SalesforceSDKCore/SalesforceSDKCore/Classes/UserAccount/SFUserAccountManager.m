@@ -1104,13 +1104,15 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 }
 
 - (void)loginViewControllerDidClearCache:(SFLoginViewController *)loginViewController {
-    [SFSDKWebViewStateManager clearCacheWithCompletionHandler:^{}];
-    [self restartAuthenticationForViewController:loginViewController];
+    [SFSDKWebViewStateManager clearCacheWithCompletionHandler:^{
+        [self restartAuthenticationForViewController:loginViewController];
+    }];
 }
 
 - (void)loginViewControllerDidClearCookies:(SFLoginViewController *)loginViewController {
-    [SFSDKWebViewStateManager removeSessionForcefullyWithCompletionHandler:^{}];
-    [self restartAuthenticationForViewController:loginViewController];
+    [SFSDKWebViewStateManager removeSessionForcefullyWithCompletionHandler:^{
+        [self restartAuthenticationForViewController:loginViewController];
+    }];
 }
 
 - (void)loginViewControllerDidReload:(SFLoginViewController *)loginViewController {
