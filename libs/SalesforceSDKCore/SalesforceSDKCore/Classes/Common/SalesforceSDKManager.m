@@ -31,6 +31,7 @@
 #import "SFSDKAppFeatureMarkers.h"
 #import "SFSDKDevInfoViewController.h"
 #import "SFDefaultUserManagementViewController.h"
+#import "SFSDKAuthRootController.h"
 #import <SalesforceSDKCommon/SFSwiftDetectUtil.h>
 #import "SFSDKEncryptedURLCache.h"
 #import "SFSDKNullURLCache.h"
@@ -474,7 +475,10 @@ SFNativeLoginManagerInternal *nativeLogin;
     NSMutableArray<SFSDKDevAction *> *actions = [NSMutableArray array];
     SFUserAccountManager *userAccountManager = [SFUserAccountManager sharedInstance];
     SFUserAccount *currentUser = userAccountManager.currentUser;
-    BOOL isShowingLoginViewController = [presentedViewController isKindOfClass:[SFLoginViewController class]];
+    
+    // Check if we're showing the login screen
+    BOOL isShowingLogin = [presentedViewController isKindOfClass:[SFLoginViewController class]] ||
+                          [presentedViewController.presentingViewController isKindOfClass:[SFSDKAuthRootController class]];
     
     // Show dev info - always available
     [actions addObject:[[SFSDKDevAction alloc]initWith:@"Show dev info" handler:^{
@@ -482,8 +486,8 @@ SFNativeLoginManagerInternal *nativeLogin;
         [presentedViewController presentViewController:devInfo animated:NO completion:nil];
     }]];
     
-    // Login Options - only show on SFLoginViewController
-    if (isShowingLoginViewController) {
+    // Login Options - only show on login screen
+    if (isShowingLogin) {
         [actions addObject:[[SFSDKDevAction alloc]initWith:@"Login Options" handler:^{
             UIViewController *configPicker = [BootConfigPickerViewController makeViewControllerOnConfigurationCompleted:^{
                 [presentedViewController dismissViewControllerAnimated:YES completion:nil];
@@ -493,14 +497,14 @@ SFNativeLoginManagerInternal *nativeLogin;
     }
     
     // Logout - only show if there's a current user and not on login screen
-    if (currentUser && !isShowingLoginViewController) {
+    if (currentUser && !isShowingLogin) {
         [actions addObject:[[SFSDKDevAction alloc]initWith:@"Logout" handler:^{
             [[SFUserAccountManager sharedInstance] logout:SFLogoutReasonUserInitiated];
         }]];
     }
     
     // Switch user - only show if there's a current user and not on login screen
-    if (currentUser && !isShowingLoginViewController) {
+    if (currentUser && !isShowingLogin) {
         [actions addObject:[[SFSDKDevAction alloc]initWith:@"Switch user" handler:^{
             SFDefaultUserManagementViewController *umvc = [[SFDefaultUserManagementViewController alloc] initWithCompletionBlock:^(SFUserManagementAction action) {
                 [presentedViewController dismissViewControllerAnimated:YES completion:nil];
