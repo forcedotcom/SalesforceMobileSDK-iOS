@@ -34,4 +34,6 @@ API_UNAVAILABLE(visionos)
 - (BOOL)isSnapshotPresented:(nonnull UIScene *)scene API_UNAVAILABLE(visionos);
 - (void)dismissSnapshot:(nonnull UIScene *)scene completion:(void (^ __nullable)(void))completion API_UNAVAILABLE(visionos);
 
+- (nonnull NSArray<SFSDKDevAction *> *)getDevActions:(nonnull UIViewController *)presentedViewController;
+
 @end

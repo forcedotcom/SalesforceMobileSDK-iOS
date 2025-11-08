@@ -589,7 +589,7 @@ SFNativeLoginManagerInternal *nativeLogin;
 }
 
 - (NSString*) scopesToString:(SFUserAccount*)user {
-    return user ? [user.credentials.scopes componentsJoinedByString:@" "] : @"";
+    return user.credentials.scopes != nil ? [user.credentials.scopes componentsJoinedByString:@" "] : @"";
 }
 
 - (NSString*) usersToString:(NSArray<SFUserAccount*>*)userAccounts {

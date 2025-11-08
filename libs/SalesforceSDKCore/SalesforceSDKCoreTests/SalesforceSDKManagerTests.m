@@ -32,6 +32,8 @@
 #import "SFUserAccount+Internal.h"
 #import "SFOAuthCredentials+Internal.h"
 #import "SFOAuthTestFlowCoordinatorDelegate.h"
+#import "SFLoginViewController.h"
+#import "SFSDKAuthRootController.h"
 
 static NSString* const kTestAppName = @"OverridenAppName";
 
@@ -430,6 +432,18 @@ static NSString* const kTestAppName = @"OverridenAppName";
     NSString *userId = [NSString stringWithFormat:@"user_%u", userIdentifier];
     NSString *orgId = [NSString stringWithFormat:@"org_%u", userIdentifier];
     user.credentials.identityUrl = [NSURL URLWithString:[NSString stringWithFormat:@"https://login.salesforce.com/id/%@/%@", orgId, userId]];
+    
+    // Set id data using JSON dictionary
+    NSDictionary *idDataDict = @{
+        @"user_id": userId,
+        @"organization_id": orgId,
+        @"username": [NSString stringWithFormat:@"testuser_%u@example.com", userIdentifier],
+        @"email": [NSString stringWithFormat:@"testuser_%u@example.com", userIdentifier],
+        @"first_name": @"Test",
+        @"last_name": [NSString stringWithFormat:@"User%u", userIdentifier]
+    };
+    user.idData = [[SFIdentityData alloc] initWithJsonDict:idDataDict];
+    
     [user transitionToLoginState:SFUserAccountLoginStateLoggedIn];
     NSError *error = nil;
     [[SFUserAccountManager sharedInstance] saveAccountForUser:user error:&error];
@@ -597,6 +611,275 @@ static NSString* const kTestAppName = @"OverridenAppName";
         XCTAssertTrue(blockWasCalled, @"Block should have been called");
         XCTAssertEqual(config, defaultConfig, @"Should return default appConfig when block returns nil");
     }];
+}
+
+#pragma mark - Dev Actions Tests
+
+- (void)testGetDevActionsAlwaysShowsDevInfo {
+    [self createTestAppIdentity];
+    
+    // Test with a regular view controller (not login)
+    UIViewController *regularVC = [[UIViewController alloc] init];
+    NSArray<SFSDKDevAction *> *actions = [[SalesforceSDKManager sharedManager] getDevActions:regularVC];
+    
+    XCTAssertGreaterThan(actions.count, 0, @"Should have at least one action");
+    XCTAssertEqualObjects(actions[0].name, @"Show dev info", @"First action should always be dev info");
+}
+
+- (void)testGetDevActionsShowsLoginOptionsOnLoginViewController {
+    [self createTestAppIdentity];
+    
+    // Test with SFLoginViewController
+    SFLoginViewController *loginVC = [[SFLoginViewController alloc] init];
+    NSArray<SFSDKDevAction *> *actions = [[SalesforceSDKManager sharedManager] getDevActions:loginVC];
+    
+    // Find "Login Options" action
+    BOOL hasLoginOptions = NO;
+    for (SFSDKDevAction *action in actions) {
+        if ([action.name isEqualToString:@"Login Options"]) {
+            hasLoginOptions = YES;
+            break;
+        }
+    }
+    
+    XCTAssertTrue(hasLoginOptions, @"Should show Login Options when on login view controller");
+}
+
+- (void)testGetDevActionsDoesNotShowLoginOptionsOnRegularViewController {
+    [self createTestAppIdentity];
+    
+    // Test with a regular view controller
+    UIViewController *regularVC = [[UIViewController alloc] init];
+    NSArray<SFSDKDevAction *> *actions = [[SalesforceSDKManager sharedManager] getDevActions:regularVC];
+    
+    // Check that "Login Options" is not present
+    BOOL hasLoginOptions = NO;
+    for (SFSDKDevAction *action in actions) {
+        if ([action.name isEqualToString:@"Login Options"]) {
+            hasLoginOptions = YES;
+            break;
+        }
+    }
+    
+    XCTAssertFalse(hasLoginOptions, @"Should not show Login Options on regular view controller");
+}
+
+- (void)testGetDevActionsShowsLogoutWhenUserLoggedIn {
+    [self createTestAppIdentity];
+    
+    // Create and set a current user
+    SFUserAccount *user = [self createUserAccount];
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:user];
+    
+    // Test with a regular view controller (not login)
+    UIViewController *regularVC = [[UIViewController alloc] init];
+    NSArray<SFSDKDevAction *> *actions = [[SalesforceSDKManager sharedManager] getDevActions:regularVC];
+    
+    // Find "Logout" action
+    BOOL hasLogout = NO;
+    for (SFSDKDevAction *action in actions) {
+        if ([action.name isEqualToString:@"Logout"]) {
+            hasLogout = YES;
+            break;
+        }
+    }
+    
+    XCTAssertTrue(hasLogout, @"Should show Logout when user is logged in and not on login screen");
+    
+    // Clean up
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:nil];
+}
+
+- (void)testGetDevActionsDoesNotShowLogoutOnLoginViewController {
+    [self createTestAppIdentity];
+    
+    // Create and set a current user
+    SFUserAccount *user = [self createUserAccount];
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:user];
+    
+    // Test with SFLoginViewController
+    SFLoginViewController *loginVC = [[SFLoginViewController alloc] init];
+    NSArray<SFSDKDevAction *> *actions = [[SalesforceSDKManager sharedManager] getDevActions:loginVC];
+    
+    // Check that "Logout" is not present
+    BOOL hasLogout = NO;
+    for (SFSDKDevAction *action in actions) {
+        if ([action.name isEqualToString:@"Logout"]) {
+            hasLogout = YES;
+            break;
+        }
+    }
+    
+    XCTAssertFalse(hasLogout, @"Should not show Logout when on login view controller");
+    
+    // Clean up
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:nil];
+}
+
+- (void)testGetDevActionsDoesNotShowLogoutWhenNoUser {
+    [self createTestAppIdentity];
+    
+    // Ensure no current user
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:nil];
+    
+    // Test with a regular view controller
+    UIViewController *regularVC = [[UIViewController alloc] init];
+    NSArray<SFSDKDevAction *> *actions = [[SalesforceSDKManager sharedManager] getDevActions:regularVC];
+    
+    // Check that "Logout" is not present
+    BOOL hasLogout = NO;
+    for (SFSDKDevAction *action in actions) {
+        if ([action.name isEqualToString:@"Logout"]) {
+            hasLogout = YES;
+            break;
+        }
+    }
+    
+    XCTAssertFalse(hasLogout, @"Should not show Logout when no user is logged in");
+}
+
+- (void)testGetDevActionsShowsSwitchUserWhenUserLoggedIn {
+    [self createTestAppIdentity];
+    
+    // Create and set a current user
+    SFUserAccount *user = [self createUserAccount];
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:user];
+    
+    // Test with a regular view controller (not login)
+    UIViewController *regularVC = [[UIViewController alloc] init];
+    NSArray<SFSDKDevAction *> *actions = [[SalesforceSDKManager sharedManager] getDevActions:regularVC];
+    
+    // Find "Switch user" action
+    BOOL hasSwitchUser = NO;
+    for (SFSDKDevAction *action in actions) {
+        if ([action.name isEqualToString:@"Switch user"]) {
+            hasSwitchUser = YES;
+            break;
+        }
+    }
+    
+    XCTAssertTrue(hasSwitchUser, @"Should show Switch user when user is logged in and not on login screen");
+    
+    // Clean up
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:nil];
+}
+
+- (void)testGetDevActionsDoesNotShowSwitchUserOnLoginViewController {
+    [self createTestAppIdentity];
+    
+    // Create and set a current user
+    SFUserAccount *user = [self createUserAccount];
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:user];
+    
+    // Test with SFLoginViewController
+    SFLoginViewController *loginVC = [[SFLoginViewController alloc] init];
+    NSArray<SFSDKDevAction *> *actions = [[SalesforceSDKManager sharedManager] getDevActions:loginVC];
+    
+    // Check that "Switch user" is not present
+    BOOL hasSwitchUser = NO;
+    for (SFSDKDevAction *action in actions) {
+        if ([action.name isEqualToString:@"Switch user"]) {
+            hasSwitchUser = YES;
+            break;
+        }
+    }
+    
+    XCTAssertFalse(hasSwitchUser, @"Should not show Switch user when on login view controller");
+    
+    // Clean up
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:nil];
+}
+
+#pragma mark - Dev Support Infos Tests
+
+- (void)testGetDevSupportInfosReturnsArray {
+    [self createTestAppIdentity];
+    
+    NSArray<NSString *> *infos = [[SalesforceSDKManager sharedManager] getDevSupportInfos];
+    
+    XCTAssertNotNil(infos, @"Dev support infos should not be nil");
+    XCTAssertGreaterThan(infos.count, 0, @"Should have at least some info entries");
+}
+
+- (void)testGetDevSupportInfosContainsSDKVersion {
+    [self createTestAppIdentity];
+    
+    NSArray<NSString *> *infos = [[SalesforceSDKManager sharedManager] getDevSupportInfos];
+    
+    // Find SDK Version in the array
+    BOOL hasSDKVersion = NO;
+    for (NSUInteger i = 0; i < infos.count - 1; i++) {
+        if ([infos[i] isEqualToString:@"SDK Version"]) {
+            hasSDKVersion = YES;
+            XCTAssertNotNil(infos[i + 1], @"SDK Version value should not be nil");
+            break;
+        }
+    }
+    
+    XCTAssertTrue(hasSDKVersion, @"Dev support infos should contain SDK Version");
+}
+
+- (void)testGetDevSupportInfosContainsAppType {
+    [self createTestAppIdentity];
+    
+    NSArray<NSString *> *infos = [[SalesforceSDKManager sharedManager] getDevSupportInfos];
+    
+    // Find App Type in the array
+    BOOL hasAppType = NO;
+    for (NSUInteger i = 0; i < infos.count - 1; i++) {
+        if ([infos[i] isEqualToString:@"App Type"]) {
+            hasAppType = YES;
+            XCTAssertNotNil(infos[i + 1], @"App Type value should not be nil");
+            break;
+        }
+    }
+    
+    XCTAssertTrue(hasAppType, @"Dev support infos should contain App Type");
+}
+
+- (void)testGetDevSupportInfosContainsUserInfoWhenLoggedIn {
+    [self createTestAppIdentity];
+    
+    // Create and set a current user
+    SFUserAccount *user = [self createUserAccount];
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:user];
+    
+    NSArray<NSString *> *infos = [[SalesforceSDKManager sharedManager] getDevSupportInfos];
+    
+    // Find Current User in the array
+    BOOL hasCurrentUser = NO;
+    for (NSUInteger i = 0; i < infos.count - 1; i++) {
+        if ([infos[i] isEqualToString:@"Current User"]) {
+            hasCurrentUser = YES;
+            XCTAssertNotNil(infos[i + 1], @"Current User value should not be nil");
+            break;
+        }
+    }
+    
+    XCTAssertTrue(hasCurrentUser, @"Dev support infos should contain Current User when logged in");
+    
+    // Clean up
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:nil];
+}
+
+- (void)testGetDevSupportInfosDoesNotContainUserInfoWhenNotLoggedIn {
+    [self createTestAppIdentity];
+    
+    // Ensure no current user
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:nil];
+    
+    NSArray<NSString *> *infos = [[SalesforceSDKManager sharedManager] getDevSupportInfos];
+    
+    // Check that Current User is not in the array
+    BOOL hasCurrentUser = NO;
+    for (NSUInteger i = 0; i < infos.count; i++) {
+        if ([infos[i] isEqualToString:@"Current User"]) {
+            hasCurrentUser = YES;
+            break;
+        }
+    }
+    
+    XCTAssertFalse(hasCurrentUser, @"Dev support infos should not contain Current User when not logged in");
 }
 
 @end
