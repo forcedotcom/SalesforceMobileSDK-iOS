@@ -31,7 +31,7 @@ import SalesforceSDKCore
 struct SessionDetailView: View {
     @State private var refreshTrigger = UUID()
     @State private var showMigrateRefreshToken = false
-    @State private var showLogoutConfigPicker = false
+    @State private var showLogoutConfirmation = false
     @State private var isUserCredentialsExpanded = false
     @State private var isJwtDetailsExpanded = false
     @State private var isOAuthConfigExpanded = false
@@ -102,28 +102,19 @@ struct SessionDetailView: View {
                 Spacer()
                 
                 Button(action: {
-                    showLogoutConfigPicker = true
+                    showLogoutConfirmation = true
                 }) {
                     Label("Logout", systemImage: "rectangle.portrait.and.arrow.right")
                 }
             }
         }
-        .sheet(isPresented: $showLogoutConfigPicker) {
-            NavigationView {
-                ConfigPickerView(onConfigurationCompleted: {
-                    showLogoutConfigPicker = false
-                    onLogout()
-                })
-                .navigationTitle("Select Config for Re-login")
-                .navigationBarTitleDisplayMode(.inline)
-                .toolbar {
-                    ToolbarItem(placement: .cancellationAction) {
-                        Button("Cancel") {
-                            showLogoutConfigPicker = false
-                        }
-                    }
-                }
+        .alert("Logout", isPresented: $showLogoutConfirmation) {
+            Button("Cancel", role: .cancel) { }
+            Button("Logout", role: .destructive) {
+                onLogout()
             }
+        } message: {
+            Text("Are you sure you want to logout?")
         }
         .sheet(isPresented: $showMigrateRefreshToken) {
             NavigationView {
@@ -135,7 +126,7 @@ struct SessionDetailView: View {
                         consumerKey: $migrateConsumerKey,
                         callbackUrl: $migrateCallbackUrl,
                         scopes: $migrateScopes,
-                        isLoading: isMigrating,
+                        isLoading: false,
                         onUseConfig: {
                             handleMigrateRefreshToken()
                         },

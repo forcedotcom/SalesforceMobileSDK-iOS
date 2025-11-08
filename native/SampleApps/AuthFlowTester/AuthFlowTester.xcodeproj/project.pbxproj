@@ -7,17 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4F1A8CCD2EAFEA7C0037DC89 /* BootConfigEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1A8CCC2EAFEA7C0037DC89 /* BootConfigEditor.swift */; };
 		4F95A89C2EA806E700C98D18 /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F95A8962EA801DC00C98D18 /* SalesforceAnalytics.framework */; };
 		4F95A89D2EA806E700C98D18 /* SalesforceAnalytics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4F95A8962EA801DC00C98D18 /* SalesforceAnalytics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4F95A89F2EA806E900C98D18 /* SalesforceSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F95A8982EA801DC00C98D18 /* SalesforceSDKCommon.framework */; };
 		4F95A8A02EA806E900C98D18 /* SalesforceSDKCommon.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4F95A8982EA801DC00C98D18 /* SalesforceSDKCommon.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4F95A8A12EA806EA00C98D18 /* SalesforceSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F95A89A2EA801DC00C98D18 /* SalesforceSDKCore.framework */; };
 		4F95A8A22EA806EA00C98D18 /* SalesforceSDKCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4F95A89A2EA801DC00C98D18 /* SalesforceSDKCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4FE006B52EBEB94700CFD66F /* InitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE006B42EBEB94100CFD66F /* InitialViewController.swift */; };
 		4FEBAF292EA9B91500D4880A /* RevokeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FEBAF282EA9B91500D4880A /* RevokeView.swift */; };
 		AUTH001 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AUTH002 /* AppDelegate.swift */; };
 		AUTH003 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AUTH004 /* SceneDelegate.swift */; };
-		AUTH005 /* ConfigPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AUTH006 /* ConfigPickerViewController.swift */; };
 		AUTH007 /* SessionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AUTH008 /* SessionDetailViewController.swift */; };
 		AUTH009 /* bootconfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = AUTH010 /* bootconfig.plist */; };
 		AUTH011 /* bootconfig2.plist in Resources */ = {isa = PBXBuildFile; fileRef = AUTH036 /* bootconfig2.plist */; };
@@ -28,7 +27,6 @@
 		AUTH042 /* OAuthConfigurationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AUTH043 /* OAuthConfigurationView.swift */; };
 		AUTH049 /* JwtAccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AUTH050 /* JwtAccessView.swift */; };
 		AUTH051 /* InfoRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AUTH052 /* InfoRowView.swift */; };
-		AUTH053 /* FlowTypesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AUTH054 /* FlowTypesView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -46,14 +44,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		4F1A8CCC2EAFEA7C0037DC89 /* BootConfigEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BootConfigEditor.swift; sourceTree = "<group>"; };
 		4F95A8962EA801DC00C98D18 /* SalesforceAnalytics.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SalesforceAnalytics.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F95A8982EA801DC00C98D18 /* SalesforceSDKCommon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SalesforceSDKCommon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F95A89A2EA801DC00C98D18 /* SalesforceSDKCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SalesforceSDKCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4FE006B42EBEB94100CFD66F /* InitialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialViewController.swift; sourceTree = "<group>"; };
 		4FEBAF282EA9B91500D4880A /* RevokeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevokeView.swift; sourceTree = "<group>"; };
 		AUTH002 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AUTH004 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		AUTH006 /* ConfigPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigPickerViewController.swift; sourceTree = "<group>"; };
 		AUTH008 /* SessionDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailViewController.swift; sourceTree = "<group>"; };
 		AUTH010 /* bootconfig.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = bootconfig.plist; sourceTree = "<group>"; };
 		AUTH012 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -67,7 +64,6 @@
 		AUTH043 /* OAuthConfigurationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthConfigurationView.swift; sourceTree = "<group>"; };
 		AUTH050 /* JwtAccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JwtAccessView.swift; sourceTree = "<group>"; };
 		AUTH052 /* InfoRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoRowView.swift; sourceTree = "<group>"; };
-		AUTH054 /* FlowTypesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowTypesView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,14 +149,12 @@
 		AUTH039 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				4F1A8CCC2EAFEA7C0037DC89 /* BootConfigEditor.swift */,
 				4FEBAF282EA9B91500D4880A /* RevokeView.swift */,
 				AUTH038 /* UserCredentialsView.swift */,
 				AUTH041 /* RestApiTestView.swift */,
 				AUTH043 /* OAuthConfigurationView.swift */,
 				AUTH050 /* JwtAccessView.swift */,
 				AUTH052 /* InfoRowView.swift */,
-				AUTH054 /* FlowTypesView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -168,7 +162,7 @@
 		AUTH044 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				AUTH006 /* ConfigPickerViewController.swift */,
+				4FE006B42EBEB94100CFD66F /* InitialViewController.swift */,
 				AUTH008 /* SessionDetailViewController.swift */,
 			);
 			path = ViewControllers;
@@ -244,16 +238,14 @@
 			files = (
 				AUTH001 /* AppDelegate.swift in Sources */,
 				AUTH003 /* SceneDelegate.swift in Sources */,
-				AUTH005 /* ConfigPickerViewController.swift in Sources */,
 				AUTH007 /* SessionDetailViewController.swift in Sources */,
 				AUTH037 /* UserCredentialsView.swift in Sources */,
 				AUTH040 /* RestApiTestView.swift in Sources */,
+				4FE006B52EBEB94700CFD66F /* InitialViewController.swift in Sources */,
 				AUTH042 /* OAuthConfigurationView.swift in Sources */,
 				4FEBAF292EA9B91500D4880A /* RevokeView.swift in Sources */,
 				AUTH049 /* JwtAccessView.swift in Sources */,
 				AUTH051 /* InfoRowView.swift in Sources */,
-				4F1A8CCD2EAFEA7C0037DC89 /* BootConfigEditor.swift in Sources */,
-				AUTH053 /* FlowTypesView.swift in Sources */,
 			);
 		};
 /* End PBXSourcesBuildPhase section */

@@ -1,6 +1,6 @@
 /*
- ConfigPickerViewController.swift
- AuthFlowTester
+ BootConfigPickerViewController.swift
+ SalesforceSDKCore
 
  Copyright (c) 2025-present, salesforce.com, inc. All rights reserved.
  
@@ -26,83 +26,74 @@
  */
 
 import SwiftUI
-import SalesforceSDKCore
+import UIKit
 
-struct ConfigPickerView: View {
-    @State private var isLoading = false
+public struct BootConfigPickerView: View {
     @State private var staticConsumerKey = ""
     @State private var staticCallbackUrl = ""
     @State private var staticScopes = ""
     @State private var dynamicConsumerKey = ""
     @State private var dynamicCallbackUrl = ""
     @State private var dynamicScopes = ""
+    @Environment(\.dismiss) private var dismiss
     
     let onConfigurationCompleted: () -> Void
     
-    var body: some View {
-        NavigationView {
+    public init(onConfigurationCompleted: @escaping () -> Void) {
+        self.onConfigurationCompleted = onConfigurationCompleted
+    }
+    
+    public var body: some View {
+        VStack(spacing: 0) {
+            // Custom title bar with close button
+            TitleBarView(title: "Login Options", onDismiss: {
+                dismiss()
+            })
+            
+            // Content
             ScrollView {
-                VStack(spacing: 30) {
-                    // Flow types section
-                    FlowTypesView()
-                        .padding(.top, 20)
-                    
-                    Divider()
-                    
-                    // Static config section
-                    BootConfigEditor(
-                        title: "Static Configuration",
-                        buttonLabel: "Use static config",
-                        buttonColor: .blue,
-                        consumerKey: $staticConsumerKey,
-                        callbackUrl: $staticCallbackUrl,
-                        scopes: $staticScopes,
-                        isLoading: isLoading,
-                        onUseConfig: handleStaticConfig,
-                        initiallyExpanded: false
-                    )
-                    
-                    Divider()
-                    
-                    // Dynamic config section
-                    BootConfigEditor(
-                        title: "Dynamic Configuration",
-                        buttonLabel: "Use dynamic config",
-                        buttonColor: .green,
-                        consumerKey: $dynamicConsumerKey,
-                        callbackUrl: $dynamicCallbackUrl,
-                        scopes: $dynamicScopes,
-                        isLoading: isLoading,
-                        onUseConfig: handleDynamicBootconfig,
-                        initiallyExpanded: false
-                    )
-                    
-                    // Loading indicator
-                    if isLoading {
-                        ProgressView("Authenticating...")
-                            .padding()
+                    VStack(spacing: 30) {
+                        // Flow types section
+                        FlowTypesView()
+                            .padding(.top, 20)
+                        
+                        Divider()
+                        
+                        // Static config section
+                        BootConfigEditor(
+                            title: "Static Configuration",
+                            buttonLabel: "Use static config",
+                            buttonColor: .blue,
+                            consumerKey: $staticConsumerKey,
+                            callbackUrl: $staticCallbackUrl,
+                            scopes: $staticScopes,
+                            isLoading: false,
+                            onUseConfig: handleStaticConfig,
+                            initiallyExpanded: false
+                        )
+                        
+                        Divider()
+                        
+                        // Dynamic config section
+                        BootConfigEditor(
+                            title: "Dynamic Configuration",
+                            buttonLabel: "Use dynamic config",
+                            buttonColor: .green,
+                            consumerKey: $dynamicConsumerKey,
+                            callbackUrl: $dynamicCallbackUrl,
+                            scopes: $dynamicScopes,
+                            isLoading: false,
+                            onUseConfig: handleDynamicBootconfig,
+                            initiallyExpanded: false
+                        )
                     }
+                    .padding(.bottom, 40)
                 }
-                .padding(.bottom, 40)
+                .background(Color(.systemBackground))
             }
-            .background(Color(.systemBackground))
-            .navigationTitle(appName)
-            .navigationBarTitleDisplayMode(.large)
-        }
-        .navigationViewStyle(.stack)
         .onAppear {
             loadConfigDefaults()
         }
-    }
-    
-    // MARK: - Computed Properties
-    
-    private var appName: String {
-        guard let info = Bundle.main.infoDictionary,
-              let name = info[kCFBundleNameKey as String] as? String else {
-            return "AuthFlowTester"
-        }
-        return name
     }
     
     // MARK: - Helper Methods
@@ -126,8 +117,6 @@ struct ConfigPickerView: View {
     // MARK: - Button Actions
     
     private func handleStaticConfig() {
-        isLoading = true
-        
         // Parse scopes from space-separated string
         let scopesArray = staticScopes
             .split(separator: " ")
@@ -160,8 +149,6 @@ struct ConfigPickerView: View {
     }
     
     private func handleDynamicBootconfig() {
-        isLoading = true
-        
         SalesforceManager.shared.bootConfigRuntimeSelector = { _, callback in
             // Create dynamic BootConfig from user-entered values
             // Parse scopes from space-separated string
@@ -189,16 +176,60 @@ struct ConfigPickerView: View {
     }
 }
 
-// MARK: - UIViewControllerRepresentable
+// MARK: - Title Bar View
 
-struct ConfigPickerViewController: UIViewControllerRepresentable {
-    let onConfigurationCompleted: () -> Void
+struct TitleBarView: View {
+    let title: String
+    let onDismiss: () -> Void
     
-    func makeUIViewController(context: Context) -> UIHostingController<ConfigPickerView> {
-        return UIHostingController(rootView: ConfigPickerView(onConfigurationCompleted: onConfigurationCompleted))
-    }
-    
-    func updateUIViewController(_ uiViewController: UIHostingController<ConfigPickerView>, context: Context) {
-        // No updates needed
+    var body: some View {
+        ZStack {
+            Color(UIColor.salesforceBlue)
+            
+            HStack {
+                Spacer()
+                
+                Text(title)
+                    .font(.system(size: 18, weight: .regular))
+                    .foregroundColor(.white)
+                
+                Spacer()
+            }
+            
+            HStack {
+                Spacer()
+                
+                Button(action: onDismiss) {
+                    Image(systemName: "xmark")
+                        .font(.system(size: 16, weight: .medium))
+                        .foregroundColor(.white)
+                        .padding(12)
+                }
+            }
+        }
+        .frame(height: 44)
+        .frame(maxWidth: .infinity)
     }
 }
+
+// MARK: - Objective-C Bridge
+
+@objc public class BootConfigPickerViewController: NSObject {
+    
+    @objc public static func makeViewController(onConfigurationCompleted: @escaping () -> Void) -> UIViewController {
+        let view = BootConfigPickerView(onConfigurationCompleted: onConfigurationCompleted)
+        let hostingController = UIHostingController(rootView: view)
+        
+        // Use pageSheet for slide-up presentation on iOS
+        if #available(iOS 15.0, *) {
+            if let sheet = hostingController.sheetPresentationController {
+                sheet.detents = [.medium(), .large()]
+                sheet.prefersGrabberVisible = true
+                sheet.preferredCornerRadius = 16
+            }
+        }
+        
+        return hostingController
+    }
+}
+

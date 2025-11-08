@@ -471,25 +471,56 @@ SFNativeLoginManagerInternal *nativeLogin;
 
 - (NSArray<SFSDKDevAction *>*) getDevActions:(UIViewController *)presentedViewController
 {
-    return @[
-             [[SFSDKDevAction alloc]initWith:@"Show dev info" handler:^{
-                 SFSDKDevInfoViewController *devInfo = [[SFSDKDevInfoViewController alloc] init];
-                 [presentedViewController presentViewController:devInfo animated:NO completion:nil];
-             }],
-             [[SFSDKDevAction alloc]initWith:@"Logout" handler:^{
-                 [[SFUserAccountManager  sharedInstance] logout:SFLogoutReasonUserInitiated];
-             }],
-             [[SFSDKDevAction alloc]initWith:@"Switch user" handler:^{
-                 SFDefaultUserManagementViewController *umvc = [[SFDefaultUserManagementViewController alloc] initWithCompletionBlock:^(SFUserManagementAction action) {
-                     [presentedViewController dismissViewControllerAnimated:YES completion:nil];
-                 }];
-                 [presentedViewController presentViewController:umvc animated:YES completion:nil];
-             }],
-             [[SFSDKDevAction alloc]initWith:@"Inspect Key-Value Store" handler:^{
-                 UIViewController *keyValueStoreInspector = [[SFSDKKeyValueEncryptedFileStoreViewController new] createUI];
-                 [presentedViewController presentViewController:keyValueStoreInspector animated:YES completion:nil];
-             }]
-    ];
+    NSMutableArray<SFSDKDevAction *> *actions = [NSMutableArray array];
+    SFUserAccountManager *userAccountManager = [SFUserAccountManager sharedInstance];
+    SFUserAccount *currentUser = userAccountManager.currentUser;
+    BOOL isShowingLoginViewController = [presentedViewController isKindOfClass:[SFLoginViewController class]];
+    
+    // Show dev info - always available
+    [actions addObject:[[SFSDKDevAction alloc]initWith:@"Show dev info" handler:^{
+        SFSDKDevInfoViewController *devInfo = [[SFSDKDevInfoViewController alloc] init];
+        [presentedViewController presentViewController:devInfo animated:NO completion:nil];
+    }]];
+    
+    // Login Options - only show on SFLoginViewController
+    if (isShowingLoginViewController) {
+        [actions addObject:[[SFSDKDevAction alloc]initWith:@"Login Options" handler:^{
+            UIViewController *configPicker = [BootConfigPickerViewController makeViewControllerOnConfigurationCompleted:^{
+                [presentedViewController dismissViewControllerAnimated:YES completion:nil];
+            }];
+            [presentedViewController presentViewController:configPicker animated:YES completion:nil];
+        }]];
+    }
+    
+    // Logout - only show if there's a current user and not on login screen
+    if (currentUser && !isShowingLoginViewController) {
+        [actions addObject:[[SFSDKDevAction alloc]initWith:@"Logout" handler:^{
+            [[SFUserAccountManager sharedInstance] logout:SFLogoutReasonUserInitiated];
+        }]];
+    }
+    
+    // Switch user - only show if there's a current user and not on login screen
+    if (currentUser && !isShowingLoginViewController) {
+        [actions addObject:[[SFSDKDevAction alloc]initWith:@"Switch user" handler:^{
+            SFDefaultUserManagementViewController *umvc = [[SFDefaultUserManagementViewController alloc] initWithCompletionBlock:^(SFUserManagementAction action) {
+                [presentedViewController dismissViewControllerAnimated:YES completion:nil];
+            }];
+            [presentedViewController presentViewController:umvc animated:YES completion:nil];
+        }]];
+    }
+    
+    // Inspect Key-Value Store - only show if there are stores
+    BOOL hasGlobalStores = [SFSDKKeyValueEncryptedFileStore allGlobalStoreNames].count > 0;
+    BOOL hasUserStores = currentUser && [SFSDKKeyValueEncryptedFileStore allStoreNames].count > 0;
+    
+    if (hasGlobalStores || hasUserStores) {
+        [actions addObject:[[SFSDKDevAction alloc]initWith:@"Inspect Key-Value Store" handler:^{
+            UIViewController *keyValueStoreInspector = [[SFSDKKeyValueEncryptedFileStoreViewController new] createUI];
+            [presentedViewController presentViewController:keyValueStoreInspector animated:YES completion:nil];
+        }]];
+    }
+    
+    return [actions copy];
 }
 
 - (NSArray<NSString *>*) getDevSupportInfos
