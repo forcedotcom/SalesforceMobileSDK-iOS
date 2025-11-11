@@ -49,7 +49,7 @@ public struct AuthFlowTypesView: View {
                     Text("Use Web Server Flow")
                         .font(.body)
                 }
-                .onChange(of: useWebServerFlow) { newValue in
+                .onChange(of: useWebServerFlow) { _, newValue in
                     SalesforceManager.shared.useWebServerAuthentication = newValue
                 }
                 .padding(.horizontal)
@@ -58,7 +58,7 @@ public struct AuthFlowTypesView: View {
                     Text("Use Hybrid Flow")
                         .font(.body)
                 }
-                .onChange(of: useHybridFlow) { newValue in
+                .onChange(of: useHybridFlow) { _, newValue in
                     SalesforceManager.shared.useHybridAuthentication = newValue
                 }
                 .padding(.horizontal)
@@ -67,7 +67,7 @@ public struct AuthFlowTypesView: View {
                     Text("Support Welcome Discovery")
                         .font(.body)
                 }
-                .onChange(of: supportsWelcomeDiscovery) { newValue in
+                .onChange(of: supportsWelcomeDiscovery) { _, newValue in
                     SalesforceManager.shared.supportsWelcomeDiscovery = newValue
                 }
                 .padding(.horizontal)
