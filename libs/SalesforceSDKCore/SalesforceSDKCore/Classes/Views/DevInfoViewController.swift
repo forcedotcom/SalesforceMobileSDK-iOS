@@ -25,12 +25,26 @@
 import SwiftUI
 import UIKit
 
+// MARK: - Data Model
+
+struct DevInfoRow: Identifiable {
+    let id = UUID()
+    let headline: String
+    let text: String
+}
+
+struct DevInfoSection: Identifiable {
+    let id = UUID()
+    let title: String?
+    let rows: [DevInfoRow]
+}
+
 // MARK: - SwiftUI View
 
 public struct SFSDKDevInfoView: View {
     @Environment(\.dismiss) private var dismiss
     
-    let infoData: [String]
+    let sections: [DevInfoSection]
     let title: String
     
     @State private var showingAlert = false
@@ -38,8 +52,51 @@ public struct SFSDKDevInfoView: View {
     @State private var alertMessage = ""
     
     public init(infoData: [String], title: String) {
-        self.infoData = infoData
+        self.sections = Self.extractSections(from: infoData)
         self.title = title
+    }
+    
+    private static func extractSections(from infoData: [String]) -> [DevInfoSection] {
+        var sections: [DevInfoSection] = []
+        var currentSectionTitle: String? = nil
+        var currentRows: [DevInfoRow] = []
+        var index = 0
+        
+        while index < infoData.count {
+            let item = infoData[index]
+            
+            // Check if this is a section marker
+            if item.hasPrefix("section:") {
+                // Save previous section if it has rows
+                if !currentRows.isEmpty {
+                    sections.append(DevInfoSection(title: currentSectionTitle, rows: currentRows))
+                    currentRows = []
+                }
+                
+                // Extract section title (everything after "section:")
+                let sectionTitle = String(item.dropFirst("section:".count))
+                currentSectionTitle = sectionTitle.isEmpty ? nil : sectionTitle
+                index += 1
+            } else {
+                // This should be a headline, followed by text
+                if index + 1 < infoData.count {
+                    let headline = infoData[index]
+                    let text = infoData[index + 1]
+                    currentRows.append(DevInfoRow(headline: headline, text: text))
+                    index += 2
+                } else {
+                    // Odd number of items, skip the last one
+                    index += 1
+                }
+            }
+        }
+        
+        // Add the last section if it has rows
+        if !currentRows.isEmpty {
+            sections.append(DevInfoSection(title: currentSectionTitle, rows: currentRows))
+        }
+        
+        return sections
     }
     
     public var body: some View {
@@ -49,26 +106,24 @@ public struct SFSDKDevInfoView: View {
                 dismiss()
             }
             
-            // Info List
+            // Info List with Sections
             List {
-                ForEach(0..<(infoData.count / 2), id: \.self) { index in
-                    let labelIndex = index * 2
-                    let valueIndex = index * 2 + 1
-                    
-                    if labelIndex < infoData.count && valueIndex < infoData.count {
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(infoData[labelIndex])
+                ForEach(sections) { section in
+                    if let sectionTitle = section.title {
+                        // Section with title - collapsible
+                        DisclosureGroup {
+                            ForEach(section.rows) { row in
+                                rowView(for: row)
+                            }
+                        } label: {
+                            Text(sectionTitle)
                                 .font(.headline)
-                            Text(infoData[valueIndex])
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
+                                .foregroundColor(.primary)
                         }
-                        .padding(.vertical, 4)
-                        .contentShape(Rectangle())
-                        .onTapGesture {
-                            alertTitle = nil
-                            alertMessage = infoData[valueIndex]
-                            showingAlert = true
+                    } else {
+                        // Title-less section - no header
+                        ForEach(section.rows) { row in
+                            rowView(for: row)
                         }
                     }
                 }
@@ -81,6 +136,24 @@ public struct SFSDKDevInfoView: View {
             }
         } message: {
             Text(alertMessage)
+        }
+    }
+    
+    @ViewBuilder
+    private func rowView(for row: DevInfoRow) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(row.headline)
+                .font(.headline)
+            Text(row.text)
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+        }
+        .padding(.vertical, 4)
+        .contentShape(Rectangle())
+        .onTapGesture {
+            alertTitle = nil
+            alertMessage = row.text
+            showingAlert = true
         }
     }
 }
