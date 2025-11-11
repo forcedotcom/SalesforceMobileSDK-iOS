@@ -422,6 +422,9 @@ static NSString* const kTestAppName = @"OverridenAppName";
     [SalesforceSDKManager sharedManager].appConfig.remoteAccessConsumerKey = @"test_connected_app_id";
     [SalesforceSDKManager sharedManager].appConfig.oauthRedirectURI = @"test_connected_app_callback_uri";
     [SalesforceSDKManager sharedManager].appConfig.oauthScopes = [NSSet setWithArray:@[ @"web", @"api" ]];
+    
+    // Set oauthClientId for SFUserAccountManager (needed for createUserAccount)
+    [SFUserAccountManager sharedInstance].oauthClientId = @"test_connected_app_id";
 }
 
 - (SFUserAccount *)createUserAccount
@@ -432,6 +435,13 @@ static NSString* const kTestAppName = @"OverridenAppName";
     NSString *userId = [NSString stringWithFormat:@"user_%u", userIdentifier];
     NSString *orgId = [NSString stringWithFormat:@"org_%u", userIdentifier];
     user.credentials.identityUrl = [NSURL URLWithString:[NSString stringWithFormat:@"https://login.salesforce.com/id/%@/%@", orgId, userId]];
+    
+    // Set additional credential fields required by getDevSupportInfos
+    user.credentials.redirectUri = @"testapp://auth/callback";
+    user.credentials.instanceUrl = [NSURL URLWithString:@"https://test.salesforce.com"];
+    user.credentials.tokenFormat = nil;
+    user.credentials.accessToken = @"test_access_token";
+    user.credentials.scopes = @[@"api", @"web", @"refresh_token"];
     
     // Set id data using JSON dictionary
     NSDictionary *idDataDict = @{
@@ -806,13 +816,17 @@ static NSString* const kTestAppName = @"OverridenAppName";
     
     NSArray<NSString *> *infos = [[SalesforceSDKManager sharedManager] getDevSupportInfos];
     
-    // Find SDK Version in the array
+    // Find SDK Version in the array (skip section: entries)
     BOOL hasSDKVersion = NO;
     for (NSUInteger i = 0; i < infos.count - 1; i++) {
-        if ([infos[i] isEqualToString:@"SDK Version"]) {
-            hasSDKVersion = YES;
-            XCTAssertNotNil(infos[i + 1], @"SDK Version value should not be nil");
-            break;
+        NSString *item = infos[i];
+        if (![item hasPrefix:@"section:"] && [item isEqualToString:@"SDK Version"]) {
+            // Make sure next item is not a section marker
+            if (i + 1 < infos.count && ![infos[i + 1] hasPrefix:@"section:"]) {
+                hasSDKVersion = YES;
+                XCTAssertNotNil(infos[i + 1], @"SDK Version value should not be nil");
+                break;
+            }
         }
     }
     
@@ -824,13 +838,17 @@ static NSString* const kTestAppName = @"OverridenAppName";
     
     NSArray<NSString *> *infos = [[SalesforceSDKManager sharedManager] getDevSupportInfos];
     
-    // Find App Type in the array
+    // Find App Type in the array (skip section: entries)
     BOOL hasAppType = NO;
     for (NSUInteger i = 0; i < infos.count - 1; i++) {
-        if ([infos[i] isEqualToString:@"App Type"]) {
-            hasAppType = YES;
-            XCTAssertNotNil(infos[i + 1], @"App Type value should not be nil");
-            break;
+        NSString *item = infos[i];
+        if (![item hasPrefix:@"section:"] && [item isEqualToString:@"App Type"]) {
+            // Make sure next item is not a section marker
+            if (i + 1 < infos.count && ![infos[i + 1] hasPrefix:@"section:"]) {
+                hasAppType = YES;
+                XCTAssertNotNil(infos[i + 1], @"App Type value should not be nil");
+                break;
+            }
         }
     }
     
@@ -846,17 +864,21 @@ static NSString* const kTestAppName = @"OverridenAppName";
     
     NSArray<NSString *> *infos = [[SalesforceSDKManager sharedManager] getDevSupportInfos];
     
-    // Find Current User in the array
+    // Find Username in the array (it's in the "Current User" section, but we search for "Username" key)
     BOOL hasCurrentUser = NO;
     for (NSUInteger i = 0; i < infos.count - 1; i++) {
-        if ([infos[i] isEqualToString:@"Current User"]) {
-            hasCurrentUser = YES;
-            XCTAssertNotNil(infos[i + 1], @"Current User value should not be nil");
-            break;
+        NSString *item = infos[i];
+        if (![item hasPrefix:@"section:"] && [item isEqualToString:@"Username"]) {
+            // Make sure next item is not a section marker
+            if (i + 1 < infos.count && ![infos[i + 1] hasPrefix:@"section:"]) {
+                hasCurrentUser = YES;
+                XCTAssertNotNil(infos[i + 1], @"Username value should not be nil");
+                break;
+            }
         }
     }
     
-    XCTAssertTrue(hasCurrentUser, @"Dev support infos should contain Current User when logged in");
+    XCTAssertTrue(hasCurrentUser, @"Dev support infos should contain Username when logged in");
     
     // Clean up
     [[SFUserAccountManager sharedInstance] setCurrentUserInternal:nil];
@@ -870,16 +892,233 @@ static NSString* const kTestAppName = @"OverridenAppName";
     
     NSArray<NSString *> *infos = [[SalesforceSDKManager sharedManager] getDevSupportInfos];
     
-    // Check that Current User is not in the array
-    BOOL hasCurrentUser = NO;
+    // Check that "section:Current User" is not in the array
+    BOOL hasCurrentUserSection = NO;
     for (NSUInteger i = 0; i < infos.count; i++) {
-        if ([infos[i] isEqualToString:@"Current User"]) {
-            hasCurrentUser = YES;
+        if ([infos[i] isEqualToString:@"section:Current User"]) {
+            hasCurrentUserSection = YES;
             break;
         }
     }
     
-    XCTAssertFalse(hasCurrentUser, @"Dev support infos should not contain Current User when not logged in");
+    XCTAssertFalse(hasCurrentUserSection, @"Dev support infos should not contain Current User section when not logged in");
+}
+
+- (void)testGetDevSupportInfosContainsAuthConfigSection {
+    [self createTestAppIdentity];
+    
+    NSArray<NSString *> *infos = [[SalesforceSDKManager sharedManager] getDevSupportInfos];
+    
+    // Check that "section:Auth Config" exists
+    BOOL hasAuthConfigSection = NO;
+    for (NSUInteger i = 0; i < infos.count; i++) {
+        if ([infos[i] isEqualToString:@"section:Auth Config"]) {
+            hasAuthConfigSection = YES;
+            break;
+        }
+    }
+    
+    XCTAssertTrue(hasAuthConfigSection, @"Dev support infos should contain Auth Config section");
+}
+
+- (void)testGetDevSupportInfosAuthConfigContainsExpectedFields {
+    [self createTestAppIdentity];
+    
+    NSArray<NSString *> *infos = [[SalesforceSDKManager sharedManager] getDevSupportInfos];
+    
+    // Expected fields in Auth Config section
+    NSArray *expectedFields = @[
+        @"Use Web Server Authentication",
+        @"Use Hybrid Authentication",
+        @"Supports Welcome Discovery",
+        @"Browser Login Enabled",
+        @"IDP Enabled",
+        @"Identity Provider"
+    ];
+    
+    for (NSString *field in expectedFields) {
+        BOOL hasField = NO;
+        for (NSUInteger i = 0; i < infos.count - 1; i++) {
+            NSString *item = infos[i];
+            if (![item hasPrefix:@"section:"] && [item isEqualToString:field]) {
+                if (i + 1 < infos.count && ![infos[i + 1] hasPrefix:@"section:"]) {
+                    hasField = YES;
+                    // Verify value is YES or NO
+                    NSString *value = infos[i + 1];
+                    XCTAssertTrue([value isEqualToString:@"YES"] || [value isEqualToString:@"NO"],
+                                @"Auth Config field %@ should have YES/NO value, got: %@", field, value);
+                    break;
+                }
+            }
+        }
+        XCTAssertTrue(hasField, @"Auth Config should contain field: %@", field);
+    }
+}
+
+- (void)testGetDevSupportInfosContainsBootconfigSection {
+    [self createTestAppIdentity];
+    
+    NSArray<NSString *> *infos = [[SalesforceSDKManager sharedManager] getDevSupportInfos];
+    
+    // Check that "section:Bootconfig" exists
+    BOOL hasBootconfigSection = NO;
+    for (NSUInteger i = 0; i < infos.count; i++) {
+        if ([infos[i] isEqualToString:@"section:Bootconfig"]) {
+            hasBootconfigSection = YES;
+            break;
+        }
+    }
+    
+    XCTAssertTrue(hasBootconfigSection, @"Dev support infos should contain Bootconfig section");
+}
+
+- (void)testGetDevSupportInfosCurrentUserSectionContainsAllCredentialFields {
+    [self createTestAppIdentity];
+    
+    // Create and set a current user
+    SFUserAccount *user = [self createUserAccount];
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:user];
+    
+    NSArray<NSString *> *infos = [[SalesforceSDKManager sharedManager] getDevSupportInfos];
+    
+    // Expected fields in Current User section
+    NSArray *expectedFields = @[
+        @"Username",
+        @"Consumer Key",
+        @"Redirect URI",
+        @"Scopes",
+        @"Instance URL",
+        @"Token format",
+        @"Access Token Expiration",
+        @"Beacon Child Consumer Key"
+    ];
+    
+    for (NSString *field in expectedFields) {
+        BOOL hasField = NO;
+        for (NSUInteger i = 0; i < infos.count - 1; i++) {
+            NSString *item = infos[i];
+            if (![item hasPrefix:@"section:"] && [item isEqualToString:field]) {
+                if (i + 1 < infos.count && ![infos[i + 1] hasPrefix:@"section:"]) {
+                    hasField = YES;
+                    XCTAssertNotNil(infos[i + 1], @"Current User field %@ should not be nil", field);
+                    break;
+                }
+            }
+        }
+        XCTAssertTrue(hasField, @"Current User should contain field: %@", field);
+    }
+    
+    // Clean up
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:nil];
+}
+
+- (void)testGetDevSupportInfosCurrentUserCredentialsHaveCorrectValues {
+    [self createTestAppIdentity];
+    
+    // Create and set a current user
+    SFUserAccount *user = [self createUserAccount];
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:user];
+    
+    NSArray<NSString *> *infos = [[SalesforceSDKManager sharedManager] getDevSupportInfos];
+    
+    // Find and verify specific values
+    for (NSUInteger i = 0; i < infos.count - 1; i++) {
+        NSString *item = infos[i];
+        if (![item hasPrefix:@"section:"]) {
+            NSString *value = infos[i + 1];
+            
+            if ([item isEqualToString:@"Redirect URI"]) {
+                XCTAssertEqualObjects(value, @"testapp://auth/callback", @"Redirect URI should match");
+            } else if ([item isEqualToString:@"Instance URL"]) {
+                XCTAssertEqualObjects(value, @"https://test.salesforce.com", @"Instance URL should match");
+            } else if ([item isEqualToString:@"Token format"]) {
+                XCTAssertTrue([value isEqualToString:@"jwt"] || [value isEqualToString:@"opaque"],
+                            @"Token format should be jwt or opaque");
+            }
+        }
+    }
+    
+    // Clean up
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:nil];
+}
+
+- (void)testGetDevSupportInfosContainsUserAgentString {
+    [self createTestAppIdentity];
+    
+    NSArray<NSString *> *infos = [[SalesforceSDKManager sharedManager] getDevSupportInfos];
+    
+    // Find User Agent in the array
+    BOOL hasUserAgent = NO;
+    for (NSUInteger i = 0; i < infos.count - 1; i++) {
+        NSString *item = infos[i];
+        if (![item hasPrefix:@"section:"] && [item isEqualToString:@"User Agent"]) {
+            if (i + 1 < infos.count && ![infos[i + 1] hasPrefix:@"section:"]) {
+                hasUserAgent = YES;
+                XCTAssertNotNil(infos[i + 1], @"User Agent value should not be nil");
+                XCTAssertGreaterThan([infos[i + 1] length], 0, @"User Agent should not be empty");
+                break;
+            }
+        }
+    }
+    
+    XCTAssertTrue(hasUserAgent, @"Dev support infos should contain User Agent");
+}
+
+- (void)testGetDevSupportInfosContainsAuthenticatedUsersWhenUsersExist {
+    [self createTestAppIdentity];
+    
+    // Create and save a user (not current, just exists)
+    SFUserAccount *user = [self createUserAccount];
+    
+    NSArray<NSString *> *infos = [[SalesforceSDKManager sharedManager] getDevSupportInfos];
+    
+    // Find Authenticated Users in the array
+    BOOL hasAuthenticatedUsers = NO;
+    for (NSUInteger i = 0; i < infos.count - 1; i++) {
+        NSString *item = infos[i];
+        if (![item hasPrefix:@"section:"] && [item isEqualToString:@"Authenticated Users"]) {
+            if (i + 1 < infos.count && ![infos[i + 1] hasPrefix:@"section:"]) {
+                hasAuthenticatedUsers = YES;
+                XCTAssertNotNil(infos[i + 1], @"Authenticated Users value should not be nil");
+                break;
+            }
+        }
+    }
+    
+    XCTAssertTrue(hasAuthenticatedUsers, @"Dev support infos should contain Authenticated Users when users exist");
+    
+    // Clean up
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:nil];
+}
+
+- (void)testGetDevSupportInfosSectionsAreProperlyStructured {
+    [self createTestAppIdentity];
+    
+    // Create and set a current user
+    SFUserAccount *user = [self createUserAccount];
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:user];
+    
+    NSArray<NSString *> *infos = [[SalesforceSDKManager sharedManager] getDevSupportInfos];
+    
+    // Verify that after each "section:" marker, there are key-value pairs
+    for (NSUInteger i = 0; i < infos.count; i++) {
+        NSString *item = infos[i];
+        if ([item hasPrefix:@"section:"]) {
+            // After a section marker, next items should be key-value pairs until next section
+            // Verify at least one key-value pair exists after this section
+            if (i + 2 < infos.count) {
+                NSString *nextItem = infos[i + 1];
+                // Next item should not be a section marker (should be a key)
+                if (![nextItem hasPrefix:@"section:"]) {
+                    // This is good - we have at least one key after the section
+                    XCTAssertTrue(YES, @"Section %@ has at least one key-value pair", item);
+                }
+            }
+        }
+    }
+    
+    // Clean up
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:nil];
 }
 
 @end

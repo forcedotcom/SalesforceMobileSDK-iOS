@@ -27,6 +27,7 @@
 		230834842DF7838200C7CBF7 /* URLSessionTask+RetryPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230834832DF7837400C7CBF7 /* URLSessionTask+RetryPolicy.swift */; };
 		230834862DF8938D00C7CBF7 /* URLSessionTask+RetryPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230834852DF8938D00C7CBF7 /* URLSessionTask+RetryPolicyTests.swift */; };
 		230834882DF8A8F300C7CBF7 /* WebSocketClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230834872DF8A8F300C7CBF7 /* WebSocketClientTests.swift */; };
+		4FDEVINFO001234567890ABCD /* DevInfoViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FDEVINFO112345678901ABCD /* DevInfoViewControllerTests.swift */; };
 		23350C562DCAB19D009A10DE /* RestClient+Blocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23350C552DCAB190009A10DE /* RestClient+Blocks.swift */; };
 		233755942D95F2F80040E414 /* PushNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233755932D95F2F80040E414 /* PushNotificationManager.swift */; };
 		2337559D2D9738AB0040E414 /* PushNotificationManager+ActionableNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2337559C2D9738AB0040E414 /* PushNotificationManager+ActionableNotifications.swift */; };
@@ -553,6 +554,7 @@
 		230834832DF7837400C7CBF7 /* URLSessionTask+RetryPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSessionTask+RetryPolicy.swift"; sourceTree = "<group>"; };
 		230834852DF8938D00C7CBF7 /* URLSessionTask+RetryPolicyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "URLSessionTask+RetryPolicyTests.swift"; path = "SalesforceSDKCoreTests/URLSessionTask+RetryPolicyTests.swift"; sourceTree = SOURCE_ROOT; };
 		230834872DF8A8F300C7CBF7 /* WebSocketClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = WebSocketClientTests.swift; path = SalesforceSDKCoreTests/WebSocketClientTests.swift; sourceTree = SOURCE_ROOT; };
+		4FDEVINFO112345678901ABCD /* DevInfoViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DevInfoViewControllerTests.swift; path = SalesforceSDKCoreTests/DevInfoViewControllerTests.swift; sourceTree = SOURCE_ROOT; };
 		23350C552DCAB190009A10DE /* RestClient+Blocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RestClient+Blocks.swift"; sourceTree = "<group>"; };
 		233755932D95F2F80040E414 /* PushNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationManager.swift; sourceTree = "<group>"; };
 		2337559C2D9738AB0040E414 /* PushNotificationManager+ActionableNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PushNotificationManager+ActionableNotifications.swift"; sourceTree = "<group>"; };
@@ -1054,6 +1056,7 @@
 		4F7EB3F61BFFC84700768720 /* SalesforceSDKCoreTests */ = {
 			isa = PBXGroup;
 			children = (
+				4FDEVINFO112345678901ABCD /* DevInfoViewControllerTests.swift */,
 				4F3ECD8B2EBBD182005020A6 /* SFOAuthInfoTests.m */,
 				4F3ECD892EBBD150005020A6 /* SFOAuthCoordinatorTests.m */,
 				4F5A49572E98B0F800C89DDD /* ScopeParserTests.swift */,
@@ -2304,6 +2307,7 @@
 				237C18732E450B710008015C /* DecryptStreamTests.swift in Sources */,
 				CED452EF1D808E0A009266EB /* SFNativeRestRequestListener.m in Sources */,
 				230834862DF8938D00C7CBF7 /* URLSessionTask+RetryPolicyTests.swift in Sources */,
+				4FDEVINFO001234567890ABCD /* DevInfoViewControllerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
