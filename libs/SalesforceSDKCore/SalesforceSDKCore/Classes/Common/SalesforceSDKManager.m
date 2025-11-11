@@ -489,7 +489,13 @@ SFNativeLoginManagerInternal *nativeLogin;
     if (isShowingLogin) {
         [actions addObject:[[SFSDKDevAction alloc]initWith:@"Login Options" handler:^{
             UIViewController *configPicker = [BootConfigPickerViewController makeViewControllerOnConfigurationCompleted:^{
-                [presentedViewController dismissViewControllerAnimated:YES completion:nil];
+                [presentedViewController dismissViewControllerAnimated:YES completion:^{
+                    // Restart authentication with the updated configuration
+                    if ([presentedViewController isKindOfClass:[SFLoginViewController class]]) {
+                        [[SFUserAccountManager sharedInstance] restartAuthenticationForViewController:(SFLoginViewController *)presentedViewController];
+                    }
+                    // TODO what about the advance auth case ??
+                }];
             }];
             [presentedViewController presentViewController:configPicker animated:YES completion:nil];
         }]];

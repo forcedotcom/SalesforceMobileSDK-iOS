@@ -218,6 +218,8 @@ Set this block to handle presentation of the Authentication View Controller.
 
 - (SFSDKAuthRequest *)migrateRefreshAuthRequest:(SFSDKAppConfig *)newAppConfig;
 
+- (void)restartAuthenticationForViewController:(SFLoginViewController *)loginViewController;
+
 @end
 
 NS_ASSUME_NONNULL_END
