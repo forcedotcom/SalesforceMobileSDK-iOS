@@ -476,8 +476,9 @@ SFNativeLoginManagerInternal *nativeLogin;
     SFUserAccount *currentUser = userAccountManager.currentUser;
     
     // Check if we're showing the login screen
-    BOOL isShowingLogin = [presentedViewController isKindOfClass:[SFLoginViewController class]] ||
-                          [presentedViewController.presentingViewController isKindOfClass:[SFSDKAuthRootController class]];
+    BOOL isShowingLogin = [presentedViewController isKindOfClass:[SFLoginViewController class]];
+    // TODO uncomment to support advanced auth case (once we add code to restart auth in that case below)
+    // || [presentedViewController.presentingViewController isKindOfClass:[SFSDKAuthRootController class]];
     
     // Show dev info - always available
     [actions addObject:[[SFSDKDevAction alloc]initWith:@"Show dev info" handler:^{
@@ -494,7 +495,7 @@ SFNativeLoginManagerInternal *nativeLogin;
                     if ([presentedViewController isKindOfClass:[SFLoginViewController class]]) {
                         [[SFUserAccountManager sharedInstance] restartAuthenticationForViewController:(SFLoginViewController *)presentedViewController];
                     }
-                    // TODO what about the advance auth case ??
+                    // TODO support advanced auth case
                 }];
             }];
             [presentedViewController presentViewController:configPicker animated:YES completion:nil];
