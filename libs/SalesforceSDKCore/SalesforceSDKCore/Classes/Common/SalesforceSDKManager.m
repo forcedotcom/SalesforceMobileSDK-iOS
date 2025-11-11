@@ -532,33 +532,62 @@ SFNativeLoginManagerInternal *nativeLogin;
     NSMutableArray * devInfos = [NSMutableArray arrayWithArray:@[
             @"SDK Version", SALESFORCE_SDK_VERSION,
             @"App Type", [self getAppTypeAsString],
-            @"User Agent", self.userAgentString(@""),
+            @"User Agent", self.userAgentString(@"")
+    ]];
+    NSArray* allUsers = userAccountManager.allUserAccounts;
+    if ([allUsers count] > 0) {
+        [devInfos addObjectsFromArray: @[
+            @"Authenticated Users", [self usersToString:allUsers]
+        ]];
+    }
+    
+    // Auth configuration
+    [devInfos addObject:@"section:Auth Config"];
+    [devInfos addObjectsFromArray: @[
             @"Use Web Server Authentication", [self useWebServerAuthentication]  ? @"YES" : @"NO",
+            @"Use Hybrid Authentication", [self useHybridAuthentication]  ? @"YES" : @"NO",
+            @"Supports Welcome Discovery", [self supportsWelcomeDiscovery]  ? @"YES" : @"NO",
             @"Browser Login Enabled", [SFUserAccountManager sharedInstance].useBrowserAuth? @"YES" : @"NO",
             @"IDP Enabled", [self idpEnabled] ? @"YES" : @"NO",
             @"Identity Provider", [self isIdentityProvider] ? @"YES" : @"NO"
     ]];
+
+    // Static bootconfig
+    [devInfos addObject:@"section:Bootconfig"];
+    [devInfos addObjectsFromArray:[self dictToDevInfos:self.appConfig.configDict]];
     
+    // Current user info
     SFUserAccount* currentUser = userAccountManager.currentUser;
     if (currentUser) {
+        SFOAuthCredentials* creds = currentUser.credentials;
+        [devInfos addObject:@"section:Current User"];
         [devInfos addObjectsFromArray: @[
-            @"Current User", [self userToString:userAccountManager.currentUser],
-            @"Scopes", [self scopesToString:userAccountManager.currentUser],
+            @"Username", [self userToString:currentUser],
+            @"Consumer Key", creds.clientId,
+            @"Redirect URI", creds.redirectUri,
+            @"Scopes", [self scopesToString:currentUser],
+            @"Instance URL", [creds.instanceUrl absoluteString],
+            @"Token format", [creds.tokenFormat isEqualToString:@"jwt"] ? @"jwt" : @"opaque",
             @"Access Token Expiration", [self accessTokenExpiration],
-            @"Authenticated Users", [self usersToString:userAccountManager.allUserAccounts],
-            @"User Key-Value Stores", [self safeJoin:[SFSDKKeyValueEncryptedFileStore allStoreNames] separator:@", "],
+            @"Beacon Child Consumer Key", creds.beaconChildConsumerKey != nil ? creds.beaconChildConsumerKey : @"(empty)"
         ]];
     }
     
-    [devInfos addObjectsFromArray: @[@"Global Key-Value Stores", [self safeJoin:[SFSDKKeyValueEncryptedFileStore allGlobalStoreNames] separator:@", "]
-    ]];
+    // Key Value Stores
+    NSArray<NSString*>* globalKeyValueStores = [SFSDKKeyValueEncryptedFileStore allGlobalStoreNames];
+    NSArray<NSString*>* userKeyValueStores = [SFSDKKeyValueEncryptedFileStore allStoreNames];
+    if ([userKeyValueStores count] > 0 || [globalKeyValueStores count] > 0) {
+        [devInfos addObject:@"section:Key Value Stores"];
+        [devInfos addObjectsFromArray: @[@"Global stores", [self safeJoin:globalKeyValueStores separator:@", "]]];
+        [devInfos addObjectsFromArray: @[@"User stores", [self safeJoin:globalKeyValueStores separator:@", "]]];
+    }
 
-    [devInfos addObjectsFromArray:[self dictToDevInfos:self.appConfig.configDict keyPrefix:@"BootConfig"]];
-    
+    // Managed prefs
     SFManagedPreferences *managedPreferences = [SFManagedPreferences sharedPreferences];
-    [devInfos addObjectsFromArray:@[@"Managed", [managedPreferences hasManagedPreferences] ? @"YES" : @"NO"]];
     if ([managedPreferences hasManagedPreferences]) {
-        [devInfos addObjectsFromArray:[self dictToDevInfos:managedPreferences.rawPreferences keyPrefix:@"Managed Pref"]];
+        [devInfos addObject:@"section:Managed Pref"];
+        [devInfos addObjectsFromArray:@[@"Managed", [managedPreferences hasManagedPreferences] ? @"YES" : @"NO"]];
+        [devInfos addObjectsFromArray:[self dictToDevInfos:managedPreferences.rawPreferences]];
     }
     
     return devInfos;
@@ -599,10 +628,10 @@ SFNativeLoginManagerInternal *nativeLogin;
     return [usernames componentsJoinedByString:@", "];
 }
 
-- (NSArray*) dictToDevInfos:(NSDictionary*)dict keyPrefix:(NSString*)keyPrefix {
+- (NSArray*) dictToDevInfos:(NSDictionary*)dict {
     NSMutableArray * devInfos = [NSMutableArray new];
     [dict enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        [devInfos addObject:[NSString stringWithFormat:@"%@ - %@", keyPrefix, key]];
+        [devInfos addObject:key];
         [devInfos addObject:[[NSString stringWithFormat:@"%@", obj] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
     }];
     return devInfos;
