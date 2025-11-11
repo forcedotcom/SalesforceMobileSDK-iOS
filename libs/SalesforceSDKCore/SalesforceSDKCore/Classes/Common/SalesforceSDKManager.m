@@ -29,7 +29,6 @@
 #import "SFManagedPreferences.h"
 #import "SFApplicationHelper.h"
 #import "SFSDKAppFeatureMarkers.h"
-#import "SFSDKDevInfoViewController.h"
 #import "SFDefaultUserManagementViewController.h"
 #import "SFSDKAuthRootController.h"
 #import <SalesforceSDKCommon/SFSwiftDetectUtil.h>
@@ -482,8 +481,8 @@ SFNativeLoginManagerInternal *nativeLogin;
     
     // Show dev info - always available
     [actions addObject:[[SFSDKDevAction alloc]initWith:@"Show dev info" handler:^{
-        SFSDKDevInfoViewController *devInfo = [[SFSDKDevInfoViewController alloc] init];
-        [presentedViewController presentViewController:devInfo animated:NO completion:nil];
+        UIViewController *devInfo = [SFSDKDevInfoViewController makeViewController];
+        [presentedViewController presentViewController:devInfo animated:YES completion:nil];
     }]];
     
     // Login Options - only show on login screen

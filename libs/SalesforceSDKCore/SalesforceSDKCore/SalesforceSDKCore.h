@@ -38,7 +38,6 @@
 #import <SalesforceSDKCore/SFSDKSalesforceAnalyticsManager.h>
 #import <SalesforceSDKCore/NSURL+SFAdditions.h>
 #import <SalesforceSDKCore/SFLoginViewController.h>
-#import <SalesforceSDKCore/SFSDKDevInfoViewController.h>
 #import <SalesforceSDKCore/SFSDKUserSelectionNavViewController.h>
 #import <SalesforceSDKCore/SFRestAPI+Notifications.h>
 #import <SalesforceSDKCore/SFSDKInstrumentationHelper.h>

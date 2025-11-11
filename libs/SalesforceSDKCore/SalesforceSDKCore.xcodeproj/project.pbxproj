@@ -451,8 +451,7 @@
 		E1DDC1441CAEEB34002F51DD /* SFSDKLoginHostTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E1DDC1431CAEEB34002F51DD /* SFSDKLoginHostTests.m */; };
 		FDCEC95C5AD1CFAD130DDCCF /* SFSObjectTree.h in Headers */ = {isa = PBXBuildFile; fileRef = FDCEC40C4B860474C90D02AF /* SFSObjectTree.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FDCECBC89437CBD2378AC8CC /* SFSObjectTree.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCECBE6688B51C1B9BDC524 /* SFSObjectTree.m */; };
-		FDCECC6D14B002687225A4E6 /* SFSDKDevInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDCEC75DBDF00FBA8810BA72 /* SFSDKDevInfoViewController.m */; };
-		FDCECE47E9586450F036FD3B /* SFSDKDevInfoViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = FDCEC2F8558C9BA9D9684E4A /* SFSDKDevInfoViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FDCECF001234567890ABCDEF /* DevInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDCECF112345678901ABCDEF /* DevInfoViewController.swift */; };
 		FDD7D7A1232039D000F5FB2D /* SFUserAccountPhotoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD7D7A0232039D000F5FB2D /* SFUserAccountPhotoTests.m */; };
 		FDED97271CAA16EB009D80F2 /* SFApplicationHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = FDED971D1CAA16EB009D80F2 /* SFApplicationHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FDED97291CAA16EB009D80F2 /* SFApplicationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = FDED971E1CAA16EB009D80F2 /* SFApplicationHelper.m */; };
@@ -999,10 +998,9 @@
 		E1DDC0EE1CAA29A1002F51DD /* UIColor+SFColors.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+SFColors.h"; sourceTree = "<group>"; };
 		E1DDC0FD1CAA2A8B002F51DD /* UIColor+SFColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+SFColors.m"; sourceTree = "<group>"; };
 		E1DDC1431CAEEB34002F51DD /* SFSDKLoginHostTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSDKLoginHostTests.m; path = SalesforceSDKCoreTests/SFSDKLoginHostTests.m; sourceTree = SOURCE_ROOT; };
-		FDCEC2F8558C9BA9D9684E4A /* SFSDKDevInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKDevInfoViewController.h; sourceTree = "<group>"; };
 		FDCEC40C4B860474C90D02AF /* SFSObjectTree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSObjectTree.h; sourceTree = "<group>"; };
-		FDCEC75DBDF00FBA8810BA72 /* SFSDKDevInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKDevInfoViewController.m; sourceTree = "<group>"; };
 		FDCECBE6688B51C1B9BDC524 /* SFSObjectTree.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSObjectTree.m; sourceTree = "<group>"; };
+		FDCECF112345678901ABCDEF /* DevInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevInfoViewController.swift; sourceTree = "<group>"; };
 		FDD7D7A0232039D000F5FB2D /* SFUserAccountPhotoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFUserAccountPhotoTests.m; path = SalesforceSDKCoreTests/SFUserAccountPhotoTests.m; sourceTree = SOURCE_ROOT; };
 		FDED971D1CAA16EB009D80F2 /* SFApplicationHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFApplicationHelper.h; sourceTree = "<group>"; };
 		FDED971E1CAA16EB009D80F2 /* SFApplicationHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFApplicationHelper.m; sourceTree = "<group>"; };
@@ -1632,6 +1630,7 @@
 		B7A20F7C1F25850E00D1E4B0 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				FDCECF112345678901ABCDEF /* DevInfoViewController.swift */,
 				B711290A1F8A780800436CFB /* SFSDKAlertMessage.h */,
 				B711290C1F8A780800436CFB /* SFSDKAlertMessage.m */,
 				B71129081F8A780800436CFB /* SFSDKAlertMessageBuilder.h */,
@@ -1645,8 +1644,6 @@
 				B7A20F821F25850E00D1E4B0 /* SFSDKWindowManager.m */,
 				B7A20FAB1F26C39700D1E4B0 /* SFSDKRootController.h */,
 				B7A20FAC1F26C39700D1E4B0 /* SFSDKRootController.m */,
-				FDCEC75DBDF00FBA8810BA72 /* SFSDKDevInfoViewController.m */,
-				FDCEC2F8558C9BA9D9684E4A /* SFSDKDevInfoViewController.h */,
 				B767368F20A4AB0200F04103 /* SFSDKNavigationController.h */,
 				B767369020A4AB0200F04103 /* SFSDKNavigationController.m */,
 				B7C5125720C188AE00B39DAA /* SFSDKViewController.h */,
@@ -1787,12 +1784,12 @@
 			isa = PBXGroup;
 			children = (
 				4FE006A82EBEB5E900CFD66F /* DevConfig */,
+				E13950A21C53620B00575C03 /* LoginHost */,
 				A37530152B2A6C6B006DFE69 /* NativeLogin */,
 				E1C80CDD1C5AEBFA001B3A21 /* SFLoginViewController.h */,
 				E1C80CDE1C5AEBFA001B3A21 /* SFLoginViewController.m */,
 				69D03E252D2C6D0B004381EC /* SFLoginViewController+QrCodeLogin.swift */,
 				23CAB1302DD515B500B8929B /* SFLoginViewController+Deep-Linking.swift */,
-				E13950A21C53620B00575C03 /* LoginHost */,
 				B78C27B71FBCFFCB00742CD5 /* SFSDKLoginViewControllerConfig.h */,
 				B78C27B81FBCFFCB00742CD5 /* SFSDKLoginViewControllerConfig.m */,
 			);
@@ -1986,7 +1983,6 @@
 				CE675A351E0B2CC6002DBF5A /* SFSDKSoslBuilder.h in Headers */,
 				B7FB26E01F78096300FB25A2 /* SFSDKSPLoginResponseHandler.h in Headers */,
 				FDCEC95C5AD1CFAD130DDCCF /* SFSObjectTree.h in Headers */,
-				FDCECE47E9586450F036FD3B /* SFSDKDevInfoViewController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2499,7 +2495,7 @@
 				CE4CE3101C0E523B009F6029 /* NSDictionary+SFAdditions.m in Sources */,
 				B7FB26DD1F78096300FB25A2 /* SFSDKIDPLoginRequestHandler.m in Sources */,
 				FDCECBC89437CBD2378AC8CC /* SFSObjectTree.m in Sources */,
-				FDCECC6D14B002687225A4E6 /* SFSDKDevInfoViewController.m in Sources */,
+				FDCECF001234567890ABCDEF /* DevInfoViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
