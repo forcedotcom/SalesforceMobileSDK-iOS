@@ -220,13 +220,11 @@ struct TitleBarView: View {
         let view = BootConfigPickerView(onConfigurationCompleted: onConfigurationCompleted)
         let hostingController = UIHostingController(rootView: view)
         
-        // Use pageSheet for slide-up presentation on iOS
-        if #available(iOS 15.0, *) {
-            if let sheet = hostingController.sheetPresentationController {
-                sheet.detents = [.medium(), .large()]
-                sheet.prefersGrabberVisible = true
-                sheet.preferredCornerRadius = 16
-            }
+        // Use pageSheet for slide-up presentation
+        if let sheet = hostingController.sheetPresentationController {
+            sheet.detents = [.medium(), .large()]
+            sheet.prefersGrabberVisible = true
+            sheet.preferredCornerRadius = 16
         }
         
         return hostingController
