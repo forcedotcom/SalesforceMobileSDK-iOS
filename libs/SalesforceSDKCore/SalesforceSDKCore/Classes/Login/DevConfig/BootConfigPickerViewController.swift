@@ -221,11 +221,13 @@ struct TitleBarView: View {
         let hostingController = UIHostingController(rootView: view)
         
         // Use pageSheet for slide-up presentation
+        #if !os(visionOS)
         if let sheet = hostingController.sheetPresentationController {
             sheet.detents = [.medium(), .large()]
             sheet.prefersGrabberVisible = true
             sheet.preferredCornerRadius = 16
         }
+        #endif
         
         return hostingController
     }
