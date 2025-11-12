@@ -533,6 +533,17 @@ SFNativeLoginManagerInternal *nativeLogin;
     return [actions copy];
 }
 
+- (void)addToDevInfos:(NSMutableArray *)devInfos infos:(NSArray *)infos
+{
+    for (id info in infos) {
+        if (info == nil || [info isEqual:[NSNull null]]) {
+            [devInfos addObject:@"(nil)"];
+        } else {
+            [devInfos addObject:info];
+        }
+    }
+}
+
 - (NSArray<NSString *>*) getDevSupportInfos
 {
     SFUserAccountManager* userAccountManager = [SFUserAccountManager sharedInstance];
@@ -543,14 +554,14 @@ SFNativeLoginManagerInternal *nativeLogin;
     ]];
     NSArray* allUsers = userAccountManager.allUserAccounts;
     if ([allUsers count] > 0) {
-        [devInfos addObjectsFromArray: @[
+        [self addToDevInfos:devInfos infos:@[
             @"Authenticated Users", [self usersToString:allUsers]
         ]];
     }
     
     // Auth configuration
     [devInfos addObject:@"section:Auth Config"];
-    [devInfos addObjectsFromArray: @[
+    [self addToDevInfos:devInfos infos:@[
             @"Use Web Server Authentication", [self useWebServerAuthentication]  ? @"YES" : @"NO",
             @"Use Hybrid Authentication", [self useHybridAuthentication]  ? @"YES" : @"NO",
             @"Supports Welcome Discovery", [self supportsWelcomeDiscovery]  ? @"YES" : @"NO",
@@ -561,14 +572,14 @@ SFNativeLoginManagerInternal *nativeLogin;
 
     // Static bootconfig
     [devInfos addObject:@"section:Bootconfig"];
-    [devInfos addObjectsFromArray:[self dictToDevInfos:self.appConfig.configDict]];
+    [self addToDevInfos:devInfos infos:[self dictToDevInfos:self.appConfig.configDict]];
     
     // Current user info
     SFUserAccount* currentUser = userAccountManager.currentUser;
     if (currentUser) {
         SFOAuthCredentials* creds = currentUser.credentials;
         [devInfos addObject:@"section:Current User"];
-        [devInfos addObjectsFromArray: @[
+        [self addToDevInfos:devInfos infos:@[
             @"Username", [self userToString:currentUser],
             @"Consumer Key", creds.clientId,
             @"Redirect URI", creds.redirectUri,
@@ -585,16 +596,16 @@ SFNativeLoginManagerInternal *nativeLogin;
     NSArray<NSString*>* userKeyValueStores = [SFSDKKeyValueEncryptedFileStore allStoreNames];
     if ([userKeyValueStores count] > 0 || [globalKeyValueStores count] > 0) {
         [devInfos addObject:@"section:Key Value Stores"];
-        [devInfos addObjectsFromArray: @[@"Global stores", [self safeJoin:globalKeyValueStores separator:@", "]]];
-        [devInfos addObjectsFromArray: @[@"User stores", [self safeJoin:globalKeyValueStores separator:@", "]]];
+        [self addToDevInfos:devInfos infos:@[@"Global stores", [self safeJoin:globalKeyValueStores separator:@", "]]];
+        [self addToDevInfos:devInfos infos:@[@"User stores", [self safeJoin:globalKeyValueStores separator:@", "]]];
     }
 
     // Managed prefs
     SFManagedPreferences *managedPreferences = [SFManagedPreferences sharedPreferences];
     if ([managedPreferences hasManagedPreferences]) {
         [devInfos addObject:@"section:Managed Pref"];
-        [devInfos addObjectsFromArray:@[@"Managed", [managedPreferences hasManagedPreferences] ? @"YES" : @"NO"]];
-        [devInfos addObjectsFromArray:[self dictToDevInfos:managedPreferences.rawPreferences]];
+        [self addToDevInfos:devInfos infos:@[@"Managed", [managedPreferences hasManagedPreferences] ? @"YES" : @"NO"]];
+        [self addToDevInfos:devInfos infos:[self dictToDevInfos:managedPreferences.rawPreferences]];
     }
     
     return devInfos;
@@ -620,7 +631,7 @@ SFNativeLoginManagerInternal *nativeLogin;
 }
 
 - (NSString*) userToString:(SFUserAccount*)user {
-    return user ? user.idData.username : @"";
+    return user.idData.username != nil ? user.idData.username : @"";
 }
 
 - (NSString*) scopesToString:(SFUserAccount*)user {
@@ -628,6 +639,9 @@ SFNativeLoginManagerInternal *nativeLogin;
 }
 
 - (NSString*) usersToString:(NSArray<SFUserAccount*>*)userAccounts {
+    if (userAccounts == nil) {
+        return @"";
+    }
     NSMutableArray* usernames = [NSMutableArray new];
     for (SFUserAccount *userAccount in userAccounts) {
         [usernames addObject:[self userToString:userAccount]];
@@ -636,6 +650,9 @@ SFNativeLoginManagerInternal *nativeLogin;
 }
 
 - (NSArray*) dictToDevInfos:(NSDictionary*)dict {
+    if (dict == nil) {
+        return @[];
+    }
     NSMutableArray * devInfos = [NSMutableArray new];
     [dict enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         [devInfos addObject:key];
