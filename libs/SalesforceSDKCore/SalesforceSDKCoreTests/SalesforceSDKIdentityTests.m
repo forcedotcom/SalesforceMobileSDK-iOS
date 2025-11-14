@@ -127,7 +127,7 @@ static NSException *authException = nil;
 
 - (void)validateIdentityData
 {
-    SFIdentityData *idData = [SFUserAccountManager sharedInstance].currentUser.idData;
+    SFIdentityData *idData = self.account.idData;
     XCTAssertNotNil(idData, @"Identity data is nil.");
     XCTAssertNotNil(idData.dictRepresentation, @"idData.dictRepresentation should not be nil.");
     XCTAssertNotNil(idData.idUrl, @"idUrl should not be nil.");
