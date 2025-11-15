@@ -96,6 +96,7 @@
 		4F8A3B012CEC202F00ECDC76 /* JwtAccessToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8A3B002CEC202F00ECDC76 /* JwtAccessToken.swift */; };
 		4F9E05322DD6A08000548985 /* SFSDKOAuthTokenEndpointResponseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F9E052C2DD6A06F00548985 /* SFSDKOAuthTokenEndpointResponseTests.m */; };
 		4F9E05342DD7BE1500548985 /* SFOAuthCredentialsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F9E05332DD7BE0A00548985 /* SFOAuthCredentialsTests.m */; };
+		4FAUTHFLOW001234567890ABC /* AuthFlowTypesViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FAUTHFLOW112345678901ABC /* AuthFlowTypesViewTests.swift */; };
 		4FBOOTCP001234567890ABCD /* BootConfigPickerViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FBOOTCP112345678901ABCD /* BootConfigPickerViewControllerTests.swift */; };
 		4FDEVINFO001234567890ABCD /* DevInfoViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FDEVINFO112345678901ABCD /* DevInfoViewControllerTests.swift */; };
 		4FE006B12EBEB65900CFD66F /* AuthFlowTypesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE006B02EBEB65900CFD66F /* AuthFlowTypesView.swift */; };
@@ -708,6 +709,7 @@
 		4F96FD491BFD32140022F021 /* SFSDKWebUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKWebUtils.m; sourceTree = "<group>"; };
 		4F9E052C2DD6A06F00548985 /* SFSDKOAuthTokenEndpointResponseTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFSDKOAuthTokenEndpointResponseTests.m; path = ../SalesforceSDKCoreTests/SFSDKOAuthTokenEndpointResponseTests.m; sourceTree = "<group>"; };
 		4F9E05332DD7BE0A00548985 /* SFOAuthCredentialsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFOAuthCredentialsTests.m; path = ../SalesforceSDKCoreTests/SFOAuthCredentialsTests.m; sourceTree = "<group>"; };
+		4FAUTHFLOW112345678901ABC /* AuthFlowTypesViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AuthFlowTypesViewTests.swift; path = SalesforceSDKCoreTests/AuthFlowTypesViewTests.swift; sourceTree = SOURCE_ROOT; };
 		4FBOOTCP112345678901ABCD /* BootConfigPickerViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BootConfigPickerViewControllerTests.swift; path = SalesforceSDKCoreTests/BootConfigPickerViewControllerTests.swift; sourceTree = SOURCE_ROOT; };
 		4FDEVINFO112345678901ABCD /* DevInfoViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DevInfoViewControllerTests.swift; path = SalesforceSDKCoreTests/DevInfoViewControllerTests.swift; sourceTree = SOURCE_ROOT; };
 		4FE006AE2EBEB65900CFD66F /* BootConfigEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BootConfigEditor.swift; path = SalesforceSDKCore/Classes/Login/DevConfig/BootConfigEditor.swift; sourceTree = SOURCE_ROOT; };
@@ -1059,6 +1061,7 @@
 			isa = PBXGroup;
 			children = (
 				23F200AB2E551C890091C5F5 /* ActionTypeTests.swift */,
+				4FAUTHFLOW112345678901ABC /* AuthFlowTypesViewTests.swift */,
 				696E91452AD0A14A00205884 /* BiometricAuthenticationManagerTests.swift */,
 				4FBOOTCP112345678901ABCD /* BootConfigPickerViewControllerTests.swift */,
 				23F200AD2E551C890091C5F5 /* BootconfigTests.swift */,
@@ -2272,6 +2275,7 @@
 				4F7EB4161BFFC8D700768720 /* SDKCommonNSDataTests.m in Sources */,
 				CE81A9C81E9C26F900F3D0AD /* SFUserAccountManagerNotificationsTests.m in Sources */,
 				23F200AC2E551C890091C5F5 /* ActionTypeTests.swift in Sources */,
+				4FAUTHFLOW001234567890ABC /* AuthFlowTypesViewTests.swift in Sources */,
 				23F200AE2E551C890091C5F5 /* BootconfigTests.swift in Sources */,
 				4FBOOTCP001234567890ABCD /* BootConfigPickerViewControllerTests.swift in Sources */,
 				4F7EB4171BFFC8D700768720 /* SFEncryptionKeyTests.m in Sources */,
