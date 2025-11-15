@@ -533,17 +533,6 @@ SFNativeLoginManagerInternal *nativeLogin;
     return [actions copy];
 }
 
-- (void)addToDevInfos:(NSMutableArray *)devInfos infos:(NSArray *)infos
-{
-    for (id info in infos) {
-        if (info == nil || [info isEqual:[NSNull null]]) {
-            [devInfos addObject:@"(nil)"];
-        } else {
-            [devInfos addObject:info];
-        }
-    }
-}
-
 - (NSArray<NSString *>*) getDevSupportInfos
 {
     SFUserAccountManager* userAccountManager = [SFUserAccountManager sharedInstance];
@@ -554,14 +543,14 @@ SFNativeLoginManagerInternal *nativeLogin;
     ]];
     NSArray* allUsers = userAccountManager.allUserAccounts;
     if ([allUsers count] > 0) {
-        [self addToDevInfos:devInfos infos:@[
+        [devInfos addObjectsFromArray:@[
             @"Authenticated Users", [self usersToString:allUsers]
         ]];
     }
     
     // Auth configuration
     [devInfos addObject:@"section:Auth Config"];
-    [self addToDevInfos:devInfos infos:@[
+    [devInfos addObjectsFromArray:@[
             @"Use Web Server Authentication", [self useWebServerAuthentication]  ? @"YES" : @"NO",
             @"Use Hybrid Authentication", [self useHybridAuthentication]  ? @"YES" : @"NO",
             @"Supports Welcome Discovery", [self supportsWelcomeDiscovery]  ? @"YES" : @"NO",
@@ -572,22 +561,22 @@ SFNativeLoginManagerInternal *nativeLogin;
 
     // Static bootconfig
     [devInfos addObject:@"section:Bootconfig"];
-    [self addToDevInfos:devInfos infos:[self dictToDevInfos:self.appConfig.configDict]];
+    [devInfos addObjectsFromArray:[self dictToDevInfos:self.appConfig.configDict]];
     
     // Current user info
     SFUserAccount* currentUser = userAccountManager.currentUser;
     if (currentUser) {
         SFOAuthCredentials* creds = currentUser.credentials;
         [devInfos addObject:@"section:Current User"];
-        [self addToDevInfos:devInfos infos:@[
+        [devInfos addObjectsFromArray:@[
             @"Username", [self userToString:currentUser],
-            @"Consumer Key", creds.clientId,
-            @"Redirect URI", creds.redirectUri,
+            @"Consumer Key", creds.clientId ?: @"(nil)",
+            @"Redirect URI", creds.redirectUri ?: @"(nil)",
             @"Scopes", [self scopesToString:currentUser],
-            @"Instance URL", [creds.instanceUrl absoluteString],
+            @"Instance URL", [creds.instanceUrl absoluteString] ?: @"(nil)",
             @"Token format", [creds.tokenFormat isEqualToString:@"jwt"] ? @"jwt" : @"opaque",
             @"Access Token Expiration", [self accessTokenExpiration],
-            @"Beacon Child Consumer Key", creds.beaconChildConsumerKey != nil ? creds.beaconChildConsumerKey : @"(empty)"
+            @"Beacon Child Consumer Key", creds.beaconChildConsumerKey ?: @"(empty)"
         ]];
     }
     
@@ -596,16 +585,16 @@ SFNativeLoginManagerInternal *nativeLogin;
     NSArray<NSString*>* userKeyValueStores = [SFSDKKeyValueEncryptedFileStore allStoreNames];
     if ([userKeyValueStores count] > 0 || [globalKeyValueStores count] > 0) {
         [devInfos addObject:@"section:Key Value Stores"];
-        [self addToDevInfos:devInfos infos:@[@"Global stores", [self safeJoin:globalKeyValueStores separator:@", "]]];
-        [self addToDevInfos:devInfos infos:@[@"User stores", [self safeJoin:globalKeyValueStores separator:@", "]]];
+        [devInfos addObjectsFromArray:@[@"Global stores", [self safeJoin:globalKeyValueStores separator:@", "]]];
+        [devInfos addObjectsFromArray:@[@"User stores", [self safeJoin:globalKeyValueStores separator:@", "]]];
     }
 
     // Managed prefs
     SFManagedPreferences *managedPreferences = [SFManagedPreferences sharedPreferences];
     if ([managedPreferences hasManagedPreferences]) {
         [devInfos addObject:@"section:Managed Pref"];
-        [self addToDevInfos:devInfos infos:@[@"Managed", [managedPreferences hasManagedPreferences] ? @"YES" : @"NO"]];
-        [self addToDevInfos:devInfos infos:[self dictToDevInfos:managedPreferences.rawPreferences]];
+        [devInfos addObjectsFromArray:@[@"Managed", [managedPreferences hasManagedPreferences] ? @"YES" : @"NO"]];
+        [devInfos addObjectsFromArray:[self dictToDevInfos:managedPreferences.rawPreferences]];
     }
     
     return devInfos;
