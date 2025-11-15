@@ -41,7 +41,7 @@ struct DevInfoSection: Identifiable {
 
 // MARK: - SwiftUI View
 
-public struct SFSDKDevInfoView: View {
+public struct DevInfoView: View {
     @Environment(\.dismiss) private var dismiss
     
     let sections: [DevInfoSection]
@@ -196,12 +196,13 @@ struct DevInfoTitleBarView: View {
 
 // MARK: - Objective-C Bridge
 
-@objc public class SFSDKDevInfoViewController: NSObject {
+@objc(SFSDKDevInfoViewController)
+public class DevInfoViewController: NSObject {
     
     @objc public static func makeViewController() -> UIViewController {
         let infoData = SalesforceManager.shared.devSupportInfoList()
         let title = SalesforceManager.shared.devInfoTitleString()
-        let view = SFSDKDevInfoView(infoData: infoData, title: title)
+        let view = DevInfoView(infoData: infoData, title: title)
         let hostingController = UIHostingController(rootView: view)
         
         // Use pageSheet for slide-up presentation

@@ -29,18 +29,37 @@ import SwiftUI
 import UIKit
 
 public struct BootConfigPickerView: View {
-    @State private var staticConsumerKey = ""
-    @State private var staticCallbackUrl = ""
-    @State private var staticScopes = ""
-    @State private var dynamicConsumerKey = ""
-    @State private var dynamicCallbackUrl = ""
-    @State private var dynamicScopes = ""
+    @State internal var staticConsumerKey = ""
+    @State internal var staticCallbackUrl = ""
+    @State internal var staticScopes = ""
+    @State internal var dynamicConsumerKey = ""
+    @State internal var dynamicCallbackUrl = ""
+    @State internal var dynamicScopes = ""
     @Environment(\.dismiss) private var dismiss
     
     let onConfigurationCompleted: () -> Void
     
     public init(onConfigurationCompleted: @escaping () -> Void) {
         self.onConfigurationCompleted = onConfigurationCompleted
+    }
+    
+    // Internal initializer for testing with pre-set state values
+    internal init(
+        onConfigurationCompleted: @escaping () -> Void,
+        staticConsumerKey: String = "",
+        staticCallbackUrl: String = "",
+        staticScopes: String = "",
+        dynamicConsumerKey: String = "",
+        dynamicCallbackUrl: String = "",
+        dynamicScopes: String = ""
+    ) {
+        self.onConfigurationCompleted = onConfigurationCompleted
+        self._staticConsumerKey = State(initialValue: staticConsumerKey)
+        self._staticCallbackUrl = State(initialValue: staticCallbackUrl)
+        self._staticScopes = State(initialValue: staticScopes)
+        self._dynamicConsumerKey = State(initialValue: dynamicConsumerKey)
+        self._dynamicCallbackUrl = State(initialValue: dynamicCallbackUrl)
+        self._dynamicScopes = State(initialValue: dynamicScopes)
     }
     
     public var body: some View {
@@ -116,7 +135,7 @@ public struct BootConfigPickerView: View {
     
     // MARK: - Button Actions
     
-    private func handleStaticConfig() {
+    internal func handleStaticConfig() {
         // Parse scopes from space-separated string
         let scopesArray = staticScopes
             .split(separator: " ")
@@ -148,7 +167,7 @@ public struct BootConfigPickerView: View {
         onConfigurationCompleted()
     }
     
-    private func handleDynamicBootconfig() {
+    internal func handleDynamicBootconfig() {
         SalesforceManager.shared.bootConfigRuntimeSelector = { _, callback in
             // Create dynamic BootConfig from user-entered values
             // Parse scopes from space-separated string
