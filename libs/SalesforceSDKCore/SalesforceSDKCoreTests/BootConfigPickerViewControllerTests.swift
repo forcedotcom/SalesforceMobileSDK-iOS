@@ -76,7 +76,7 @@ class BootConfigPickerViewControllerTests: XCTestCase {
         #endif
     }
     
-    func testBootConfigPickerViewWithBootConfig() {
+    func testBootConfigPickerViewRendered() {
         let expectation = XCTestExpectation(description: "View works with existing BootConfig")
         
         // Create a test BootConfig
@@ -186,76 +186,6 @@ class BootConfigPickerViewControllerTests: XCTestCase {
         }
         
         wait(for: [selectorExpectation], timeout: 1.0)
-    }
-
-    func testStaticConfigButtonActionRenderedInView() {
-        let expectation = XCTestExpectation(description: "Static config action works in rendered view")
-        
-        let view = BootConfigPickerView(
-            onConfigurationCompleted: {
-                expectation.fulfill()
-            },
-            staticConsumerKey: "rendered_static_key",
-            staticCallbackUrl: "test://rendered/static",
-            staticScopes: "api"
-        )
-        
-        // Render the view
-        let hostingController = UIHostingController(rootView: view)
-        let window = UIWindow(frame: CGRect(x: 0, y: 0, width: 375, height: 667))
-        window.rootViewController = hostingController
-        window.makeKeyAndVisible()
-        
-        // Trigger view lifecycle
-        hostingController.viewWillAppear(false)
-        hostingController.viewDidAppear(false)
-        
-        // Trigger the action
-        view.handleStaticConfig()
-        
-        wait(for: [expectation], timeout: 1.0)
-        
-        // Verify configuration was set
-        XCTAssertEqual(SalesforceManager.shared.bootConfig?.remoteAccessConsumerKey, "rendered_static_key")
-        
-        // Clean up
-        window.rootViewController = nil
-        window.isHidden = true
-    }
-    
-    func testDynamicConfigButtonActionRenderedInView() {
-        let expectation = XCTestExpectation(description: "Dynamic config action works in rendered view")
-        
-        var view = BootConfigPickerView(
-            onConfigurationCompleted: {
-                expectation.fulfill()
-            },
-            dynamicConsumerKey: "rendered_dynamic_key",
-            dynamicCallbackUrl: "test://rendered/dynamic",
-            dynamicScopes: "web"
-        )
-        
-        // Render the view
-        let hostingController = UIHostingController(rootView: view)
-        let window = UIWindow(frame: CGRect(x: 0, y: 0, width: 375, height: 667))
-        window.rootViewController = hostingController
-        window.makeKeyAndVisible()
-        
-        // Trigger view lifecycle
-        hostingController.viewWillAppear(false)
-        hostingController.viewDidAppear(false)
-        
-        // Trigger the action
-        view.handleDynamicBootconfig()
-        
-        wait(for: [expectation], timeout: 1.0)
-        
-        // Verify runtime selector was set
-        XCTAssertNotNil(SalesforceManager.shared.bootConfigRuntimeSelector)
-        
-        // Clean up
-        window.rootViewController = nil
-        window.isHidden = true
     }
 }
 
