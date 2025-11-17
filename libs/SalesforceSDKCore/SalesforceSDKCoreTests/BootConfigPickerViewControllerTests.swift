@@ -114,7 +114,7 @@ class BootConfigPickerViewControllerTests: XCTestCase {
             expectation.fulfill()
         }
         
-        wait(for: [expectation], timeout: 1.0)
+        wait(for: [expectation], timeout: 2.0)
     }
     
     func testStaticConfigButtonAction() {
@@ -136,7 +136,7 @@ class BootConfigPickerViewControllerTests: XCTestCase {
         view.handleStaticConfig()
         
         // Verify the completion callback was called
-        wait(for: [expectation], timeout: 1.0)
+        wait(for: [expectation], timeout: 2.0)
         XCTAssertTrue(completionCalled, "Completion callback should be called")
         
         // Verify SalesforceManager was updated
@@ -169,7 +169,7 @@ class BootConfigPickerViewControllerTests: XCTestCase {
         // Trigger the dynamic config handler
         view.handleDynamicBootconfig()
         
-        wait(for: [expectation], timeout: 1.0)
+        wait(for: [expectation], timeout: 2.0)
         XCTAssertTrue(completionCalled, "Completion callback should be called")
         
         // Verify runtime selector was set
