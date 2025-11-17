@@ -59,7 +59,6 @@
 		4F06AF731C49A16A00F70798 /* NSURL+SFStringUtilsTests.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F06AF5D1C49A16A00F70798 /* NSURL+SFStringUtilsTests.h */; };
 		4F06AF751C49A16A00F70798 /* SalesforceOAuthUnitTests.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F06AF5F1C49A16A00F70798 /* SalesforceOAuthUnitTests.h */; };
 		4F06AF771C49A16A00F70798 /* SalesforceOAuthUnitTestsCoordinatorDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F06AF611C49A16A00F70798 /* SalesforceOAuthUnitTestsCoordinatorDelegate.h */; };
-		4F06AF7A1C49A16A00F70798 /* SalesforceSDKIdentityTests.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F06AF641C49A16A00F70798 /* SalesforceSDKIdentityTests.h */; };
 		4F06AF811C49A16A00F70798 /* SFOAuthTestFlowCoordinatorDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F06AF6B1C49A16A00F70798 /* SFOAuthTestFlowCoordinatorDelegate.h */; };
 		4F06AF861C49A16A00F70798 /* SFTestSDKManagerFlow.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F06AF701C49A16A00F70798 /* SFTestSDKManagerFlow.h */; };
 		4F06AF891C49A18E00F70798 /* NSURL+SFStringUtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F06AF5E1C49A16A00F70798 /* NSURL+SFStringUtilsTests.m */; };
@@ -591,7 +590,6 @@
 		4F06AF601C49A16A00F70798 /* SalesforceOAuthUnitTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SalesforceOAuthUnitTests.m; path = SalesforceSDKCoreTests/SalesforceOAuthUnitTests.m; sourceTree = SOURCE_ROOT; };
 		4F06AF611C49A16A00F70798 /* SalesforceOAuthUnitTestsCoordinatorDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SalesforceOAuthUnitTestsCoordinatorDelegate.h; path = SalesforceSDKCoreTests/SalesforceOAuthUnitTestsCoordinatorDelegate.h; sourceTree = SOURCE_ROOT; };
 		4F06AF621C49A16A00F70798 /* SalesforceOAuthUnitTestsCoordinatorDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SalesforceOAuthUnitTestsCoordinatorDelegate.m; path = SalesforceSDKCoreTests/SalesforceOAuthUnitTestsCoordinatorDelegate.m; sourceTree = SOURCE_ROOT; };
-		4F06AF641C49A16A00F70798 /* SalesforceSDKIdentityTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SalesforceSDKIdentityTests.h; path = SalesforceSDKCoreTests/SalesforceSDKIdentityTests.h; sourceTree = SOURCE_ROOT; };
 		4F06AF651C49A16A00F70798 /* SalesforceSDKIdentityTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SalesforceSDKIdentityTests.m; path = SalesforceSDKCoreTests/SalesforceSDKIdentityTests.m; sourceTree = SOURCE_ROOT; };
 		4F06AF661C49A16A00F70798 /* SalesforceSDKManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SalesforceSDKManagerTests.m; path = SalesforceSDKCoreTests/SalesforceSDKManagerTests.m; sourceTree = SOURCE_ROOT; };
 		4F06AF681C49A16A00F70798 /* SFOAuthSessionRefresherTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFOAuthSessionRefresherTests.m; path = SalesforceSDKCoreTests/SFOAuthSessionRefresherTests.m; sourceTree = SOURCE_ROOT; };
@@ -1089,7 +1087,6 @@
 				CED452E71D808DEE009266EB /* SalesforceRestAPITests.h */,
 				CED452E81D808DEE009266EB /* SalesforceRestAPITests.m */,
 				B7156B8722DE3603003AB69D /* SalesforceSDKCoreTests-Bridging-Header.h */,
-				4F06AF641C49A16A00F70798 /* SalesforceSDKIdentityTests.h */,
 				4F06AF651C49A16A00F70798 /* SalesforceSDKIdentityTests.m */,
 				4F06AF661C49A16A00F70798 /* SalesforceSDKManagerTests.m */,
 				4F5A49572E98B0F800C89DDD /* ScopeParserTests.swift */,
@@ -1962,7 +1959,6 @@
 				CE4CE34A1C0E5252009F6029 /* SFOAuthInfo.h in Headers */,
 				B72171522353BFD90022510F /* SFSDKAuthSession.h in Headers */,
 				CE4CE36A1C0E526A009F6029 /* SFDefaultUserManagementViewController.h in Headers */,
-				4F06AF7A1C49A16A00F70798 /* SalesforceSDKIdentityTests.h in Headers */,
 				B7FB26C21F78094A00FB25A2 /* SFSDKLoginFlowSelectionView.h in Headers */,
 				B7FB26DE1F78096300FB25A2 /* SFSDKIDPRequestHandler.h in Headers */,
 				B7C2744E1F814E7200CE539D /* SFSDKAuthCommand+Internal.h in Headers */,

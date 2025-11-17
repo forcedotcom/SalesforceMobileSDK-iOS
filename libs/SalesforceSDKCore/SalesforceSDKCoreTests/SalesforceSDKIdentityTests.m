@@ -22,145 +22,84 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SalesforceSDKIdentityTests.h"
-#import "SFSDKTestRequestListener.h"
-#import "TestSetupUtils.h"
-#import "SFOAuthCoordinator.h"
+#import <XCTest/XCTest.h>
 #import "SFIdentityCoordinator.h"
 #import "SFUserAccountManager.h"
 #import "SFIdentityData.h"
 
-/**
- * Private interface for this tests module.
- */
-@interface SalesforceSDKIdentityTests()
-/**
- * Synchronous wrapper around the asynchronous request to the identity service.
- */
-- (void)sendSyncIdentityRequest;
+@interface SFIdentityCoordinator ()
 
-/**
- * Does a cursory pass on the identity data, to sanity check values.
- */
-- (void)validateIdentityData;
-
-
-@property (nonatomic,strong) SFUserAccount *account;
-
-@property (nonatomic,strong) XCTestExpectation *expectation;
-
-@property (nonatomic,assign) BOOL requestHasFailed;
-
+- (void)processResponse:(NSData *)data;
 
 @end
 
-static NSException *authException = nil;
+
+@interface SalesforceSDKIdentityTests : XCTestCase
+@end
 
 @implementation SalesforceSDKIdentityTests
 
-#pragma mark - Test / class setup
-
-+ (void)setUp
-{
-    @try {
-        [TestSetupUtils populateAuthCredentialsFromConfigFileForClass:[self class]];
-        [TestSetupUtils synchronousAuthRefresh];
-        
-    }
-    @catch (NSException *exception) {
-        authException = exception;
-    }
-    [super setUp];
-}
-
-- (void)setUp
-{
-    if (authException) {
-        XCTFail(@"Setting up authentication failed: %@", authException);
-    }
-    
-    // Set-up code here.
-    _requestListener = nil;
-    self.expectation = nil;
-    self.account = nil;
-    [super setUp];
-}
-
-#pragma mark - Helper methods
-
-- (void)sendSyncIdentityRequest
-{
-    XCTestExpectation *expectation = [self expectationWithDescription:@"retrieveIdentityData"];
-    self.expectation = expectation;
-    self.account = [SFUserAccountManager sharedInstance].currentUser;
-    SFIdentityCoordinator *idCoordinator = [[SFIdentityCoordinator alloc] initWithCredentials:self.account.credentials];
-    idCoordinator.delegate = self;
-    [idCoordinator initiateIdentityDataRetrieval];
-    [self waitForExpectations:@[expectation] timeout:10];
-    XCTAssertFalse(self.requestHasFailed);
-   
-}
-
-#pragma mark - Tests
-
 /**
- * Tests that identity data can be successfully retrieved with valid credentials.
+ * Tests that identity data can be successfully processed
  */
-- (void)testRetrieveIdentitySuccess
+- (void)testProcessIdentityData
 {
-    [self sendSyncIdentityRequest];
-    [self validateIdentityData];
-}
+    NSString *identityResponse = @"{\"id\":\"https://login.salesforce.com/id/some-org-id/some-user-id\",\"asserted_user\":true,\"user_id\":\"some-user-id\",\"organization_id\":\"some-org-id\",\"username\":\"user@example.com\",\"nick_name\":\"nickname\",\"display_name\":\"Example User\",\"email\":\"user@example.com\",\"email_verified\":true,\"first_name\":\"Example\",\"last_name\":\"User\",\"timezone\":\"America/Los_Angeles\",\"photos\":{\"picture\":\"https://example.com/profilephoto/full\",\"thumbnail\":\"https://example.com/profilephoto/thumb\"},\"addr_street\":null,\"addr_city\":null,\"addr_state\":null,\"addr_country\":null,\"addr_zip\":null,\"mobile_phone\":null,\"mobile_phone_verified\":false,\"is_lightning_login_user\":false,\"status\":{\"created_date\":null,\"body\":null},\"urls\":{\"enterprise\":\"https://example.my.salesforce.com/services/Soap/c/some-version/some-org-id\",\"metadata\":\"https://example.my.salesforce.com/services/Soap/m/some-version/some-org-id\",\"partner\":\"https://example.my.salesforce.com/services/Soap/u/some-version/some-org-id\",\"rest\":\"https://example.my.salesforce.com/services/data/vsome-version/\",\"sobjects\":\"https://example.my.salesforce.com/services/data/vsome-version/sobjects/\",\"search\":\"https://example.my.salesforce.com/services/data/vsome-version/search/\",\"query\":\"https://example.my.salesforce.com/services/data/vsome-version/query/\",\"recent\":\"https://example.my.salesforce.com/services/data/vsome-version/recent/\",\"tooling_soap\":\"https://example.my.salesforce.com/services/Soap/T/some-version/some-org-id\",\"tooling_rest\":\"https://example.my.salesforce.com/services/data/vsome-version/tooling/\",\"profile\":\"https://example.my.salesforce.com/some-user-id\",\"feeds\":\"https://example.my.salesforce.com/services/data/vsome-version/chatter/feeds\",\"groups\":\"https://example.my.salesforce.com/services/data/vsome-version/chatter/groups\",\"users\":\"https://example.my.salesforce.com/services/data/vsome-version/chatter/users\",\"feed_items\":\"https://example.my.salesforce.com/services/data/vsome-version/chatter/feed-items\",\"feed_elements\":\"https://example.my.salesforce.com/services/data/vsome-version/chatter/feed-elements\",\"custom_domain\":\"https://example.my.salesforce.com\"},\"active\":true,\"user_type\":\"STANDARD\",\"language\":\"en_US\",\"locale\":\"en_US\",\"utcOffset\":-28800000,\"last_modified_date\":\"2024-12-23T18:40:50Z\"}";
 
-
-- (void)identityCoordinator:(nonnull SFIdentityCoordinator *)coordinator didFailWithError:(nonnull NSError *)error {
-    self.requestHasFailed = true;
-    [self.expectation fulfill];
-}
-
-- (void)identityCoordinatorRetrievedData:(nonnull SFIdentityCoordinator *)coordinator {
-    self.account.idData = coordinator.idData;
-    [self.expectation fulfill];
-}
-
-#pragma mark - Private helper methods
-
-- (void)validateIdentityData
-{
-    SFIdentityData *idData = self.account.idData;
-    XCTAssertNotNil(idData, @"Identity data is nil.");
-    XCTAssertNotNil(idData.dictRepresentation, @"idData.dictRepresentation should not be nil.");
-    XCTAssertNotNil(idData.idUrl, @"idUrl should not be nil.");
-    XCTAssertTrue(idData.assertedUser, @"assertedUser should be true.");
-    XCTAssertNotNil(idData.userId, @"userId should not be nil.");
-    XCTAssertNotNil(idData.orgId, @"orgId should not be nil.");
-    XCTAssertNotNil(idData.username, @"username should not be nil.");
-    XCTAssertNotNil(idData.nickname, @"nickname should not be nil.");
-    XCTAssertNotNil(idData.displayName, @"displayName should not be nil.");
-    XCTAssertNotNil(idData.email, @"email should not be nil.");
-    XCTAssertNotNil(idData.firstName, @"firstName should not be nil.");
-    XCTAssertNotNil(idData.lastName, @"lastName should not be nil.");
-    XCTAssertNotNil(idData.pictureUrl, @"pictureUrl should not be nil.");
-    XCTAssertNotNil(idData.thumbnailUrl, @"thumbnailUrl should not be nil.");
-    XCTAssertNotNil(idData.enterpriseSoapUrl, @"enterpriseSoapUrl should not be nil.");
-    XCTAssertNotNil(idData.metadataSoapUrl, @"metadataSoapUrl should not be nil.");
-    XCTAssertNotNil(idData.partnerSoapUrl, @"partnerSoapUrl should not be nil.");
-    XCTAssertNotNil(idData.restUrl, @"restUrl should not be nil.");
-    XCTAssertNotNil(idData.restSObjectsUrl, @"restSObjectsUrl should not be nil.");
-    XCTAssertNotNil(idData.restSearchUrl, @"restSearchUrl should not be nil.");
-    XCTAssertNotNil(idData.restQueryUrl, @"restQueryUrl should not be nil.");
-    XCTAssertNotNil(idData.restRecentUrl, @"restRecentUrl should not be nil.");
-    XCTAssertNotNil(idData.profileUrl, @"profileUrl should not be nil.");
-    XCTAssertNotNil(idData.chatterFeedsUrl, @"chatterFeedsUrl should not be nil.");
-    XCTAssertNotNil(idData.chatterGroupsUrl, @"chatterGroupsUrl should not be nil.");
-    XCTAssertNotNil(idData.chatterUsersUrl, @"chatterUsersUrl should not be nil.");
-    XCTAssertNotNil(idData.chatterFeedItemsUrl, @"chatterFeedItemsUrl should not be nil.");
-    XCTAssertTrue(idData.isActive, @"isActive should be true.");
-    XCTAssertNotNil(idData.userType, @"userType should not be nil.");
-    XCTAssertNotNil(idData.language, @"language should not be nil.");
-    XCTAssertNotNil(idData.locale, @"locale should not be nil.");
-    XCTAssertFalse(idData.utcOffset == -1, @"No value determined for utcOffset.");
-    XCTAssertNotNil(idData.lastModifiedDate, @"lastModifiedDate should not be nil.");
+    
+    SFIdentityCoordinator* coordinator = [[SFIdentityCoordinator alloc] init];
+    NSData* identityResponseData = [identityResponse dataUsingEncoding:NSUTF8StringEncoding];
+    [coordinator processResponse:identityResponseData];
+    SFIdentityData *idData = coordinator.idData;
+    
+    
+    // Basic identity fields
+    XCTAssertEqualObjects(idData.idUrl, [NSURL URLWithString:@"https://login.salesforce.com/id/some-org-id/some-user-id"], @"idUrl should match");
+    XCTAssertTrue(idData.assertedUser, @"assertedUser should be true");
+    XCTAssertEqualObjects(idData.userId, @"some-user-id", @"userId should match");
+    XCTAssertEqualObjects(idData.orgId, @"some-org-id", @"orgId should match");
+    
+    // User information
+    XCTAssertEqualObjects(idData.username, @"user@example.com", @"username should match");
+    XCTAssertEqualObjects(idData.nickname, @"nickname", @"nickname should match");
+    XCTAssertEqualObjects(idData.displayName, @"Example User", @"displayName should match");
+    XCTAssertEqualObjects(idData.email, @"user@example.com", @"email should match");
+    XCTAssertEqualObjects(idData.firstName, @"Example", @"firstName should match");
+    XCTAssertEqualObjects(idData.lastName, @"User", @"lastName should match");
+    
+    // Photos (NSURL* properties)
+    XCTAssertEqualObjects(idData.pictureUrl, [NSURL URLWithString:@"https://example.com/profilephoto/full"], @"pictureUrl should match");
+    XCTAssertEqualObjects(idData.thumbnailUrl, [NSURL URLWithString:@"https://example.com/profilephoto/thumb"], @"thumbnailUrl should match");
+    
+    // SOAP URLs
+    XCTAssertEqualObjects(idData.enterpriseSoapUrl, @"https://example.my.salesforce.com/services/Soap/c/some-version/some-org-id", @"enterpriseSoapUrl should match");
+    XCTAssertEqualObjects(idData.metadataSoapUrl, @"https://example.my.salesforce.com/services/Soap/m/some-version/some-org-id", @"metadataSoapUrl should match");
+    XCTAssertEqualObjects(idData.partnerSoapUrl, @"https://example.my.salesforce.com/services/Soap/u/some-version/some-org-id", @"partnerSoapUrl should match");
+    
+    // REST URLs
+    XCTAssertEqualObjects(idData.restUrl, @"https://example.my.salesforce.com/services/data/vsome-version/", @"restUrl should match");
+    XCTAssertEqualObjects(idData.restSObjectsUrl, @"https://example.my.salesforce.com/services/data/vsome-version/sobjects/", @"restSObjectsUrl should match");
+    XCTAssertEqualObjects(idData.restSearchUrl, @"https://example.my.salesforce.com/services/data/vsome-version/search/", @"restSearchUrl should match");
+    XCTAssertEqualObjects(idData.restQueryUrl, @"https://example.my.salesforce.com/services/data/vsome-version/query/", @"restQueryUrl should match");
+    XCTAssertEqualObjects(idData.restRecentUrl, @"https://example.my.salesforce.com/services/data/vsome-version/recent/", @"restRecentUrl should match");
+    
+    // Profile and Chatter URLs
+    XCTAssertEqualObjects(idData.profileUrl, [NSURL URLWithString:@"https://example.my.salesforce.com/some-user-id"], @"profileUrl should match (NSURL)");
+    XCTAssertEqualObjects(idData.chatterFeedsUrl, @"https://example.my.salesforce.com/services/data/vsome-version/chatter/feeds", @"chatterFeedsUrl should match");
+    XCTAssertEqualObjects(idData.chatterGroupsUrl, @"https://example.my.salesforce.com/services/data/vsome-version/chatter/groups", @"chatterGroupsUrl should match");
+    XCTAssertEqualObjects(idData.chatterUsersUrl, @"https://example.my.salesforce.com/services/data/vsome-version/chatter/users", @"chatterUsersUrl should match");
+    XCTAssertEqualObjects(idData.chatterFeedItemsUrl, @"https://example.my.salesforce.com/services/data/vsome-version/chatter/feed-items", @"chatterFeedItemsUrl should match");
+    
+    // User status and preferences
+    XCTAssertTrue(idData.isActive, @"isActive should be true");
+    XCTAssertEqualObjects(idData.userType, @"STANDARD", @"userType should match");
+    XCTAssertEqualObjects(idData.language, @"en_US", @"language should match");
+    XCTAssertEqualObjects(idData.locale, @"en_US", @"locale should match");
+    XCTAssertEqual(idData.utcOffset, -28800000, @"utcOffset should match");
+    
+    // Date parsing
+    XCTAssertNotNil(idData.lastModifiedDate, @"lastModifiedDate should not be nil");
+    // Note: lastModifiedDate is parsed from "2024-12-23T18:40:50Z", exact value comparison would need date formatter
 }
 
 @end

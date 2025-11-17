@@ -1068,7 +1068,7 @@ static NSString* const kTestAppName = @"OverridenAppName";
     [self createTestAppIdentity];
     
     // Create and save a user (not current, just exists)
-    SFUserAccount *user = [self createUserAccount];
+    [self createUserAccount];
     
     NSArray<NSString *> *infos = [[SalesforceSDKManager sharedManager] getDevSupportInfos];
     
