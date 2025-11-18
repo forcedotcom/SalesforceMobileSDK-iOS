@@ -2,7 +2,7 @@
  SalesforceSDKCore.h
  SalesforceSDKCore
 
- Created by Riley Crebs on Thu Apr 17 11:54:18 MDT 2025.
+ Created by Wolfgang Mathurin on Fri Nov  7 17:40:48 PST 2025.
 
  Copyright (c) 2025-present, salesforce.com, inc. All rights reserved.
  
@@ -38,7 +38,6 @@
 #import <SalesforceSDKCore/SFSDKSalesforceAnalyticsManager.h>
 #import <SalesforceSDKCore/NSURL+SFAdditions.h>
 #import <SalesforceSDKCore/SFLoginViewController.h>
-#import <SalesforceSDKCore/SFSDKDevInfoViewController.h>
 #import <SalesforceSDKCore/SFSDKUserSelectionNavViewController.h>
 #import <SalesforceSDKCore/SFRestAPI+Notifications.h>
 #import <SalesforceSDKCore/SFSDKInstrumentationHelper.h>

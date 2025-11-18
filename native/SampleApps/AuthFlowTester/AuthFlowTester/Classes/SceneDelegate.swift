@@ -3,7 +3,7 @@
 //  AuthFlowTester
 //
 //  Copyright (c) 2025-present, salesforce.com, inc. All rights reserved.
-// 
+//
 //  Redistribution and use of this software in source and binary forms, with or without modification,
 //  are permitted provided that the following conditions are met:
 //  * Redistributions of source code must retain the above copyright notice, this list of conditions
@@ -14,7 +14,7 @@
 //  * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
 //  endorse or promote products derived from this software without specific prior written
 //  permission of salesforce.com, inc.
-// 
+//
 //  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
 //  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
 //  FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -31,7 +31,7 @@ import SalesforceSDKCore
 import SwiftUI
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
+    
     public var window: UIWindow?
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -45,30 +45,33 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             }
         }
         self.initializeAppViewState()
+        AuthHelper.loginIfRequired(scene) {
+            self.setupRootViewController()
+        }
     }
-
+    
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
         // This occurs shortly after the scene enters the background, or when its session is discarded.
         // Release any resources associated with this scene that can be re-created the next time the scene connects.
         // The scene may re-connect later, as its session was not neccessarily discarded (see `application:didDiscardSceneSessions` instead).
     }
-
+    
     func sceneDidBecomeActive(_ scene: UIScene) {
         // Called when the scene has moved from an inactive state to an active state.
         // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
     }
-
+    
     func sceneWillResignActive(_ scene: UIScene) {
         // Called when the scene will move from an active state to an inactive state.
         // This may occur due to temporary interruptions (ex. an incoming phone call).
     }
-
+    
     func sceneWillEnterForeground(_ scene: UIScene) {
         // Called as the scene transitions from the background to the foreground.
         // Use this method to undo the changes made on entering the background.
     }
-
+    
     func sceneDidEnterBackground(_ scene: UIScene) {
         // Called as the scene transitions from the foreground to the background.
         // Use this method to save data, release shared resources, and store enough scene-specific state information
@@ -77,54 +80,37 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
         // Uncomment following block to enable IDP Login flow
-//        if let urlContext = URLContexts.first {
-//            UserAccountManager.shared.handleIdentityProviderResponse(from: urlContext.url, with: [UserAccountManager.IDPSceneKey: scene.session.persistentIdentifier])
-//        }
+        //        if let urlContext = URLContexts.first {
+        //            UserAccountManager.shared.handleIdentityProviderResponse(from: urlContext.url, with: [UserAccountManager.IDPSceneKey: scene.session.persistentIdentifier])
+        //        }
     }
     
     // MARK: - Private methods
-   func initializeAppViewState() {
-       if (!Thread.isMainThread) {
-           DispatchQueue.main.async {
-               self.initializeAppViewState()
-           }
-           return
-       }
-       
-       // Check ProcessInfo arguments for CONFIG_PICKER flag
-       let shouldShowConfigPicker = ProcessInfo.processInfo.arguments.contains("CONFIG_PICKER")
-       
-       // Check if user is already logged in
-       if UserAccountManager.shared.currentUserAccount != nil && !shouldShowConfigPicker {
-           // User is already logged in and not in config picker mode, go directly to session detail
-           self.setupRootViewController()
-       } else {
-           // User is not logged in or config picker mode is enabled, show config picker
-           self.window?.rootViewController = UIHostingController(rootView: ConfigPickerView(onConfigurationCompleted: onConfigurationCompleted))
-       }
-       self.window?.makeKeyAndVisible()
-   }
-   
-   func setupRootViewController() {
+    func initializeAppViewState() {
+        if (!Thread.isMainThread) {
+            DispatchQueue.main.async {
+                self.initializeAppViewState()
+            }
+            return
+        }
+        
+        self.window?.rootViewController = InitialViewController(nibName: nil, bundle: nil)
+        self.window?.makeKeyAndVisible()
+    }
+    
+    func setupRootViewController() {
         let rootVC = SessionDetailViewController()
         let navVC = UINavigationController(rootViewController: rootVC)
         self.window!.rootViewController = navVC
     }
-   
-   func resetViewState(_ postResetBlock: @escaping () -> ()) {
-       if let rootViewController = self.window?.rootViewController {
-           if let _ = rootViewController.presentedViewController {
-               rootViewController.dismiss(animated: false, completion: postResetBlock)
-               return
-           }
-       }
-       postResetBlock()
-   }
-   
-   func onConfigurationCompleted() {
-       guard let windowScene = self.window?.windowScene else { return }
-       AuthHelper.loginIfRequired(windowScene) {
-           self.setupRootViewController()
-       }
-   }
+    
+    func resetViewState(_ postResetBlock: @escaping () -> ()) {
+        if let rootViewController = self.window?.rootViewController {
+            if let _ = rootViewController.presentedViewController {
+                rootViewController.dismiss(animated: false, completion: postResetBlock)
+                return
+            }
+        }
+        postResetBlock()
+    }
 }

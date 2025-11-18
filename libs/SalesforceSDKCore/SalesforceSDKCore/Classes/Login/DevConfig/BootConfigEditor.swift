@@ -1,6 +1,6 @@
 /*
  BootConfigEditor.swift
- AuthFlowTester
+ SalesforceSDKCore
 
  Copyright (c) 2025-present, salesforce.com, inc. All rights reserved.
  
@@ -26,9 +26,8 @@
  */
 
 import SwiftUI
-import SalesforceSDKCore
 
-struct BootConfigEditor: View {
+public struct BootConfigEditor: View {
     let title: String
     let buttonLabel: String
     let buttonColor: Color
@@ -40,7 +39,29 @@ struct BootConfigEditor: View {
     let initiallyExpanded: Bool
     @State private var isExpanded: Bool = false
     
-    var body: some View {
+    public init(
+        title: String,
+        buttonLabel: String,
+        buttonColor: Color,
+        consumerKey: Binding<String>,
+        callbackUrl: Binding<String>,
+        scopes: Binding<String>,
+        isLoading: Bool,
+        onUseConfig: @escaping () -> Void,
+        initiallyExpanded: Bool
+    ) {
+        self.title = title
+        self.buttonLabel = buttonLabel
+        self.buttonColor = buttonColor
+        self._consumerKey = consumerKey
+        self._callbackUrl = callbackUrl
+        self._scopes = scopes
+        self.isLoading = isLoading
+        self.onUseConfig = onUseConfig
+        self.initiallyExpanded = initiallyExpanded
+    }
+    
+    public var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Button(action: {
                 withAnimation {

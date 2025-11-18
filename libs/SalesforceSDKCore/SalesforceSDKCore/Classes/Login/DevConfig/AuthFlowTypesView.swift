@@ -1,6 +1,6 @@
 /*
- FlowTypesView.swift
- AuthFlowTester
+ AuthFlowTypesView.swift
+ SalesforceSDKCore
 
  Copyright (c) 2025-present, salesforce.com, inc. All rights reserved.
  
@@ -26,18 +26,19 @@
  */
 
 import SwiftUI
-import SalesforceSDKCore
 
-struct FlowTypesView: View {
+public struct AuthFlowTypesView: View {
     @State private var useWebServerFlow: Bool
     @State private var useHybridFlow: Bool
+    @State private var supportsWelcomeDiscovery: Bool
     
-    init() {
+    public init() {
         _useWebServerFlow = State(initialValue: SalesforceManager.shared.useWebServerAuthentication)
         _useHybridFlow = State(initialValue: SalesforceManager.shared.useHybridAuthentication)
+        _supportsWelcomeDiscovery = State(initialValue: SalesforceManager.shared.supportsWelcomeDiscovery)
     }
     
-    var body: some View {
+    public var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Authentication Flow Types")
                 .font(.headline)
@@ -48,7 +49,7 @@ struct FlowTypesView: View {
                     Text("Use Web Server Flow")
                         .font(.body)
                 }
-                .onChange(of: useWebServerFlow) { newValue in
+                .onChange(of: useWebServerFlow) { _, newValue in
                     SalesforceManager.shared.useWebServerAuthentication = newValue
                 }
                 .padding(.horizontal)
@@ -57,8 +58,17 @@ struct FlowTypesView: View {
                     Text("Use Hybrid Flow")
                         .font(.body)
                 }
-                .onChange(of: useHybridFlow) { newValue in
+                .onChange(of: useHybridFlow) { _, newValue in
                     SalesforceManager.shared.useHybridAuthentication = newValue
+                }
+                .padding(.horizontal)
+                
+                Toggle(isOn: $supportsWelcomeDiscovery) {
+                    Text("Support Welcome Discovery")
+                        .font(.body)
+                }
+                .onChange(of: supportsWelcomeDiscovery) { _, newValue in
+                    SalesforceManager.shared.supportsWelcomeDiscovery = newValue
                 }
                 .padding(.horizontal)
             }

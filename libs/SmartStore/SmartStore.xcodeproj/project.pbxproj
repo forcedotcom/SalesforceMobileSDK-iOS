@@ -48,6 +48,7 @@
 		4FEE44881BFD5CD900F09C43 /* SFSmartStoreFullTextSearchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96015A1BFD33B30022F021 /* SFSmartStoreFullTextSearchTests.m */; };
 		4FEE44891BFD5CDC00F09C43 /* SFSmartStoreTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96015C1BFD33B30022F021 /* SFSmartStoreTestCase.m */; };
 		4FEE448A1BFD5CE500F09C43 /* SFSmartStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96015E1BFD33B30022F021 /* SFSmartStoreTests.m */; };
+		4FSSSDKMGR001234567890AB /* SmartStoreSDKManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FSSSDKMGR112345678901AB /* SmartStoreSDKManagerTests.m */; };
 		4FF4DC671CF51D9300385C2C /* SFQuerySpecTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF4DC661CF51D9300385C2C /* SFQuerySpecTests.m */; };
 		4FFEE6351BFE98E100B7AA8A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CEAAAE61195911E600CBBFE9 /* InfoPlist.strings */; };
 		696E912D2AD0977600205884 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 696E91232AD0975B00205884 /* PrivacyInfo.xcprivacy */; };
@@ -243,6 +244,7 @@
 		4F96015C1BFD33B30022F021 /* SFSmartStoreTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSmartStoreTestCase.m; path = SmartStoreTests/SFSmartStoreTestCase.m; sourceTree = SOURCE_ROOT; };
 		4F96015D1BFD33B30022F021 /* SFSmartStoreTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSmartStoreTests.h; path = SmartStoreTests/SFSmartStoreTests.h; sourceTree = SOURCE_ROOT; };
 		4F96015E1BFD33B30022F021 /* SFSmartStoreTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSmartStoreTests.m; path = SmartStoreTests/SFSmartStoreTests.m; sourceTree = SOURCE_ROOT; };
+		4FSSSDKMGR112345678901AB /* SmartStoreSDKManagerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SmartStoreSDKManagerTests.m; path = SmartStoreTests/SmartStoreSDKManagerTests.m; sourceTree = SOURCE_ROOT; };
 		4F96FBC21BFD30030022F021 /* SFAlterSoupLongOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFAlterSoupLongOperation.h; path = SmartStore/Classes/SFAlterSoupLongOperation.h; sourceTree = SOURCE_ROOT; };
 		4F96FBC31BFD30030022F021 /* SFAlterSoupLongOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFAlterSoupLongOperation.m; path = SmartStore/Classes/SFAlterSoupLongOperation.m; sourceTree = SOURCE_ROOT; };
 		4F96FBC41BFD30030022F021 /* SFQuerySpec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFQuerySpec.h; path = SmartStore/Classes/SFQuerySpec.h; sourceTree = SOURCE_ROOT; };
@@ -525,6 +527,7 @@
 				4F96015C1BFD33B30022F021 /* SFSmartStoreTestCase.m */,
 				4F96015D1BFD33B30022F021 /* SFSmartStoreTests.h */,
 				4F96015E1BFD33B30022F021 /* SFSmartStoreTests.m */,
+				4FSSSDKMGR112345678901AB /* SmartStoreSDKManagerTests.m */,
 				CEAAAE5F195911E600CBBFE9 /* Supporting Files */,
 				4F75747122B9BA9000528BE2 /* SFSmartSqlCacheTests.m */,
 				4F5BBBB3235E1FD900E6D619 /* SmartStoreTests.swift */,
@@ -925,6 +928,7 @@
 				C03DE7E11D1B6B8E00BFA6BD /* SFSmartSqlTests.m in Sources */,
 				4FEE44881BFD5CD900F09C43 /* SFSmartStoreFullTextSearchTests.m in Sources */,
 				4FEE448A1BFD5CE500F09C43 /* SFSmartStoreTests.m in Sources */,
+				4FSSSDKMGR001234567890AB /* SmartStoreSDKManagerTests.m in Sources */,
 				4FEE44871BFD5CD500F09C43 /* SFSmartStoreFullTextSearchSpeedTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1066,6 +1070,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SmartStore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1108,6 +1113,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SmartStore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
