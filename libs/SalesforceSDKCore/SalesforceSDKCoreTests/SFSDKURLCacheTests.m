@@ -27,16 +27,16 @@
 #import "SFSDKEncryptedURLCache.h"
 #import "SFSDKNullURLCache.h"
 #import "SFRestAPI.h"
-#import "SFNativeRestRequestListener.h"
 #import "SFNetwork.h"
 #import "SalesforceSDKManager.h"
 #import <SalesforceSDKCore/SFDirectoryManager.h>
 #import <SalesforceSDKCore/TestSetupUtils.h>
 #import "SFSDKTestCredentialsData.h"
+#import "SFSDKTestRequestListener.h"
 #import "SFRestAPI+Blocks.h"
 #import "SFRestRequest+Internal.h"
 #import "SalesforceSDKCore/SalesforceSDKCore-Swift.h"
-
+#import "SFSDKTestRequestListener.h"
 
 @interface SFRestAPI (Testing)
 
@@ -315,23 +315,31 @@
 }
 
 - (void)sendRequest:(SFRestRequest *)request {
-    SFSDKTestRequestListener *listener = [[SFSDKTestRequestListener alloc] init];
+    __block NSData *responseData = nil;
+    __block NSError *responseError = nil;
+    __block NSString *status = kTestRequestStatusWaiting;
+    
+    XCTestExpectation *expectation = [self expectationWithDescription:@"REST request completed"];
+    
     SFRestRequestFailBlock failBlock = ^(id response, NSError *error, NSURLResponse *rawResponse) {
-        listener.lastError = error;
-        listener.returnStatus = kTestRequestStatusDidFail;
+        responseError = error;
+        status = kTestRequestStatusDidFail;
+        [expectation fulfill];
     };
     
     // Use SFRestDataResponseBlock for binary data (images) instead of dictionary response
     SFRestDataResponseBlock completeBlock = ^(NSData *data, NSURLResponse *rawResponse) {
-        listener.dataResponse = data;
-        listener.returnStatus = kTestRequestStatusDidLoad;
+        responseData = data;
+        status = kTestRequestStatusDidLoad;
+        [expectation fulfill];
     };
     
     [[SFRestAPI sharedGlobalInstance] sendRequest:request
                                      failureBlock:failBlock
                                      successBlock:completeBlock];
-    [listener waitForCompletion];
-    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    
+    [self waitForExpectations:@[expectation] timeout:30.0];
+    XCTAssertEqualObjects(status, kTestRequestStatusDidLoad, @"request failed");
 }
 
 @end

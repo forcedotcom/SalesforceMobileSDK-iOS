@@ -205,9 +205,7 @@ static dispatch_once_t pred;
     SFRestRequest *toCancel = (nil != req ? req : [self.activeRequests anyObject]);
     if (nil != toCancel) {
         found = YES;
-        if (req.failureBlock) {
-            req.failureBlock(nil, nil, nil);
-        }
+        // Cancel the request - this will trigger the failureBlock via the network error callback
         [toCancel cancel];
     }
     return found;
