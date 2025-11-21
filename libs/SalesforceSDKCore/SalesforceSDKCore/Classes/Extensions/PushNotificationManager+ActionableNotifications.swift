@@ -114,6 +114,8 @@ public extension PushNotificationManager {
         do {
             let response = try await client.send(request: request)
             return try response.asDecodable(type: ActionResultRepresentation.self)
+        } catch RestClientError.apiFailed(_, let underlyingError, _) {
+            throw underlyingError
         } catch {
             throw PushNotificationManagerError.notificationActionInvocationFailed(error.localizedDescription)
         }
