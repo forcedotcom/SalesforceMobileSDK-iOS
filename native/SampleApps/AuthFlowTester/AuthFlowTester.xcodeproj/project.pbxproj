@@ -29,6 +29,16 @@
 		AUTH051 /* InfoRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AUTH052 /* InfoRowView.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		4F8E4AF72ED13CE800DA7B7A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AUTH027 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AUTH023;
+			remoteInfo = AuthFlowTester;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		4F95A89E2EA806E700C98D18 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -44,6 +54,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4F8E4AF12ED13CE800DA7B7A /* AuthFlowTesterUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AuthFlowTesterUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F95A8962EA801DC00C98D18 /* SalesforceAnalytics.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SalesforceAnalytics.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F95A8982EA801DC00C98D18 /* SalesforceSDKCommon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SalesforceSDKCommon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F95A89A2EA801DC00C98D18 /* SalesforceSDKCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SalesforceSDKCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -66,7 +77,20 @@
 		AUTH052 /* InfoRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoRowView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		4F8E4AF22ED13CE800DA7B7A /* AuthFlowTesterUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = AuthFlowTesterUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
+		4F8E4AEE2ED13CE800DA7B7A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+			);
+		};
 		AUTH018 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			files = (
@@ -104,6 +128,7 @@
 			isa = PBXGroup;
 			children = (
 				AUTH020 /* AuthFlowTester */,
+				4F8E4AF22ED13CE800DA7B7A /* AuthFlowTesterUITests */,
 				4F95A8952EA801DC00C98D18 /* Frameworks */,
 				AUTH021 /* Products */,
 			);
@@ -125,6 +150,7 @@
 			isa = PBXGroup;
 			children = (
 				AUTH017 /* AuthFlowTester.app */,
+				4F8E4AF12ED13CE800DA7B7A /* AuthFlowTesterUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -171,6 +197,27 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		4F8E4AF02ED13CE800DA7B7A /* AuthFlowTesterUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4F8E4AFB2ED13CE800DA7B7A /* Build configuration list for PBXNativeTarget "AuthFlowTesterUITests" */;
+			buildPhases = (
+				4F8E4AED2ED13CE800DA7B7A /* Sources */,
+				4F8E4AEE2ED13CE800DA7B7A /* Frameworks */,
+				4F8E4AEF2ED13CE800DA7B7A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4F8E4AF82ED13CE800DA7B7A /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				4F8E4AF22ED13CE800DA7B7A /* AuthFlowTesterUITests */,
+			);
+			name = AuthFlowTesterUITests;
+			productName = AuthFlowTesterUITests;
+			productReference = 4F8E4AF12ED13CE800DA7B7A /* AuthFlowTesterUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		AUTH023 /* AuthFlowTester */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = AUTH024 /* Build configuration list for PBXNativeTarget "AuthFlowTester" */;
@@ -194,9 +241,13 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 2600;
+				LastSwiftUpdateCheck = 2610;
 				LastUpgradeCheck = 2600;
 				TargetAttributes = {
+					4F8E4AF02ED13CE800DA7B7A = {
+						CreatedOnToolsVersion = 26.1.1;
+						TestTargetID = AUTH023;
+					};
 					AUTH023 = {
 						CreatedOnToolsVersion = 15.0;
 					};
@@ -216,11 +267,17 @@
 			projectRoot = "";
 			targets = (
 				AUTH023 /* AuthFlowTester */,
+				4F8E4AF02ED13CE800DA7B7A /* AuthFlowTesterUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		4F8E4AEF2ED13CE800DA7B7A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+			);
+		};
 		AUTH026 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			files = (
@@ -233,6 +290,11 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		4F8E4AED2ED13CE800DA7B7A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+			);
+		};
 		AUTH025 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			files = (
@@ -250,7 +312,55 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		4F8E4AF82ED13CE800DA7B7A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AUTH023 /* AuthFlowTester */;
+			targetProxy = 4F8E4AF72ED13CE800DA7B7A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		4F8E4AF92ED13CE800DA7B7A /* Debug configuration for PBXNativeTarget "AuthFlowTesterUITests" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.salesforce.AuthFlowTesterUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = AuthFlowTester;
+			};
+			name = Debug;
+		};
+		4F8E4AFA2ED13CE800DA7B7A /* Release configuration for PBXNativeTarget "AuthFlowTesterUITests" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.salesforce.AuthFlowTesterUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = AuthFlowTester;
+			};
+			name = Release;
+		};
 		AUTH029 /* Debug configuration for PBXProject "AuthFlowTester" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -435,6 +545,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		4F8E4AFB2ED13CE800DA7B7A /* Build configuration list for PBXNativeTarget "AuthFlowTesterUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4F8E4AF92ED13CE800DA7B7A /* Debug configuration for PBXNativeTarget "AuthFlowTesterUITests" */,
+				4F8E4AFA2ED13CE800DA7B7A /* Release configuration for PBXNativeTarget "AuthFlowTesterUITests" */,
+			);
+			defaultConfigurationName = Release;
+		};
 		AUTH024 /* Build configuration list for PBXNativeTarget "AuthFlowTester" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
