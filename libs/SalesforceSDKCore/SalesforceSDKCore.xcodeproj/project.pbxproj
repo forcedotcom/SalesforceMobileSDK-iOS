@@ -430,9 +430,6 @@
 		CED452C21D808D0C009266EB /* SFRestRequest+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = CED452B41D808D0C009266EB /* SFRestRequest+Internal.h */; };
 		CED452C31D808D0C009266EB /* SFRestRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = CED452B51D808D0C009266EB /* SFRestRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CED452C41D808D0C009266EB /* SFRestRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CED452B61D808D0C009266EB /* SFRestRequest.m */; };
-		CED452EB1D808DEE009266EB /* SalesforceRestAPITests.h in Headers */ = {isa = PBXBuildFile; fileRef = CED452E71D808DEE009266EB /* SalesforceRestAPITests.h */; };
-		CED452ED1D808DEE009266EB /* SFNativeRestRequestListener.h in Headers */ = {isa = PBXBuildFile; fileRef = CED452E91D808DEE009266EB /* SFNativeRestRequestListener.h */; };
-		CED452EF1D808E0A009266EB /* SFNativeRestRequestListener.m in Sources */ = {isa = PBXBuildFile; fileRef = CED452EA1D808DEE009266EB /* SFNativeRestRequestListener.m */; };
 		CED452F01D808E0F009266EB /* SalesforceRestAPITests.m in Sources */ = {isa = PBXBuildFile; fileRef = CED452E81D808DEE009266EB /* SalesforceRestAPITests.m */; };
 		D3B1519F2E1DA6EB00914EF1 /* AuthCoordinatorFrontdoorBridgeLoginOverride.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3B1519E2E1DA6EB00914EF1 /* AuthCoordinatorFrontdoorBridgeLoginOverride.swift */; };
 		D3D675DB2D39EF01008E468E /* ChatGenerationsRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D675CF2D39EF01008E468E /* ChatGenerationsRequestBody.swift */; };
@@ -980,10 +977,7 @@
 		CED452B41D808D0C009266EB /* SFRestRequest+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFRestRequest+Internal.h"; sourceTree = "<group>"; };
 		CED452B51D808D0C009266EB /* SFRestRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFRestRequest.h; sourceTree = "<group>"; };
 		CED452B61D808D0C009266EB /* SFRestRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFRestRequest.m; sourceTree = "<group>"; };
-		CED452E71D808DEE009266EB /* SalesforceRestAPITests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SalesforceRestAPITests.h; path = SalesforceSDKCoreTests/SalesforceRestAPITests.h; sourceTree = SOURCE_ROOT; };
 		CED452E81D808DEE009266EB /* SalesforceRestAPITests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SalesforceRestAPITests.m; path = SalesforceSDKCoreTests/SalesforceRestAPITests.m; sourceTree = SOURCE_ROOT; };
-		CED452E91D808DEE009266EB /* SFNativeRestRequestListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFNativeRestRequestListener.h; path = SalesforceSDKCoreTests/SFNativeRestRequestListener.h; sourceTree = SOURCE_ROOT; };
-		CED452EA1D808DEE009266EB /* SFNativeRestRequestListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFNativeRestRequestListener.m; path = SalesforceSDKCoreTests/SFNativeRestRequestListener.m; sourceTree = SOURCE_ROOT; };
 		D3B1519E2E1DA6EB00914EF1 /* AuthCoordinatorFrontdoorBridgeLoginOverride.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCoordinatorFrontdoorBridgeLoginOverride.swift; sourceTree = "<group>"; };
 		D3D675CF2D39EF01008E468E /* ChatGenerationsRequestBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatGenerationsRequestBody.swift; sourceTree = "<group>"; };
 		D3D675D02D39EF01008E468E /* ChatGenerationsResponseBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatGenerationsResponseBody.swift; sourceTree = "<group>"; };
@@ -1084,7 +1078,6 @@
 				4F06AF601C49A16A00F70798 /* SalesforceOAuthUnitTests.m */,
 				4F06AF611C49A16A00F70798 /* SalesforceOAuthUnitTestsCoordinatorDelegate.h */,
 				4F06AF621C49A16A00F70798 /* SalesforceOAuthUnitTestsCoordinatorDelegate.m */,
-				CED452E71D808DEE009266EB /* SalesforceRestAPITests.h */,
 				CED452E81D808DEE009266EB /* SalesforceRestAPITests.m */,
 				B7156B8722DE3603003AB69D /* SalesforceSDKCoreTests-Bridging-Header.h */,
 				4F06AF651C49A16A00F70798 /* SalesforceSDKIdentityTests.m */,
@@ -1098,8 +1091,6 @@
 				010A9B521CC1A131002AF4D3 /* SFCryptoStreamTestUtils.m */,
 				4F7EB3F81BFFC87600768720 /* SFEncryptionKeyTests.m */,
 				B7352CA422761D8400DA2CFF /* SFManagedPreferencesTest.m */,
-				CED452E91D808DEE009266EB /* SFNativeRestRequestListener.h */,
-				CED452EA1D808DEE009266EB /* SFNativeRestRequestListener.m */,
 				69CEBC7D22F368CF00F16218 /* SFNetworkTests.m */,
 				4F3ECD892EBBD150005020A6 /* SFOAuthCoordinatorTests.m */,
 				23EED8892E2ACD3300646B10 /* SFOAuthCoordinatorTests.swift */,
@@ -1845,7 +1836,6 @@
 				CE4CE3501C0E5252009F6029 /* SFOAuthSessionRefresher+Internal.h in Headers */,
 				B7FB26DA1F78096300FB25A2 /* SFSDKIDPErrorHandler.h in Headers */,
 				CE4CE3451C0E5252009F6029 /* SFOAuthCredentials+Internal.h in Headers */,
-				CED452ED1D808DEE009266EB /* SFNativeRestRequestListener.h in Headers */,
 				CE4CE3431C0E5252009F6029 /* SFOAuthCoordinator.h in Headers */,
 				B7C5125920C188AE00B39DAA /* SFSDKViewController.h in Headers */,
 				B7895D192345304800765D85 /* SFSDKCompositeResponse.h in Headers */,
@@ -1891,7 +1881,6 @@
 				697A91A02363C3D800D2836F /* SFSDKPushNotificationDecryption.h in Headers */,
 				B7E8A2A51E7369DB007C0D92 /* SFDefaultUserAccountPersister.h in Headers */,
 				CE4CE3941C0E526A009F6029 /* SFUserAccountManager+Internal.h in Headers */,
-				CED452EB1D808DEE009266EB /* SalesforceRestAPITests.h in Headers */,
 				4F06AF731C49A16A00F70798 /* NSURL+SFStringUtilsTests.h in Headers */,
 				69EA56CB264B1FAA007FE339 /* SFSDKMacDetectUtil.h in Headers */,
 				B7895D0D2345015B00765D85 /* SFSDKCompositeRequest.h in Headers */,
@@ -2309,7 +2298,6 @@
 				4F06AF8B1C49A18E00F70798 /* SalesforceOAuthUnitTestsCoordinatorDelegate.m in Sources */,
 				69DFE06B2B969C22000906E4 /* CryptoUtilsTests.swift in Sources */,
 				237C18732E450B710008015C /* DecryptStreamTests.swift in Sources */,
-				CED452EF1D808E0A009266EB /* SFNativeRestRequestListener.m in Sources */,
 				230834862DF8938D00C7CBF7 /* URLSessionTask+RetryPolicyTests.swift in Sources */,
 				4FDEVINFO001234567890ABCD /* DevInfoViewControllerTests.swift in Sources */,
 			);
