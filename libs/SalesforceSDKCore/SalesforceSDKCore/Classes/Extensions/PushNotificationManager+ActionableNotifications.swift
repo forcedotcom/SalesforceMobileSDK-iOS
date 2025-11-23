@@ -151,7 +151,7 @@ internal extension PushNotificationManager {
         }
         
         let categories = filterTypes
-            .flatMap { createNotificationCategories(from: $0) }
+            .flatMap { NotificationCategoryFactory.shared.createCategories(from: [$0]) }
         UNUserNotificationCenter.current().setNotificationCategories(Set(categories))
     }
     
@@ -161,34 +161,7 @@ internal extension PushNotificationManager {
 }
 
 private extension PushNotificationManager {
-    
-    func createNotificationCategories(from type: NotificationType) -> [UNNotificationCategory] {
-        guard let actionGroups = type.actionGroups else { return [] }
 
-        return actionGroups.map { group in
-            let actions = createActions(from: group)
-            return UNNotificationCategory(
-                identifier: group.name,
-                actions: actions,
-                intentIdentifiers: []
-            )
-        }
-    }
-    
-    func createActions(from actionGroup: ActionGroup?) -> [UNNotificationAction] {
-        guard let actionGroup = actionGroup else {
-            return []
-        }
-        
-        return actionGroup.actions.compactMap { action in
-            UNNotificationAction(
-                identifier: action.identifier,
-                title: action.label,
-                options: [.foreground] // Ensures the app opens if needed
-            )
-        }
-    }
-    
     func getNotificationType(apiName: String, account: UserAccount) -> NotificationType? {
         guard let notificationTypes = account.notificationTypes else { return nil }
         return notificationTypes.first { $0.apiName == apiName }
