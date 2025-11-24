@@ -1,5 +1,5 @@
 /*
- InfoRowView.swift
+ InfoSectionView.swift
  AuthFlowTester
 
  Copyright (c) 2025-present, salesforce.com, inc. All rights reserved.
@@ -27,56 +27,45 @@
 
 import SwiftUI
 
-struct InfoRowView: View {
-    let label: String
-    let value: String
-    var isSensitive: Bool = false
+struct InfoSectionView<Content: View>: View {
+    let title: String
+    @Binding var isExpanded: Bool
+    let content: Content
     
-    @State private var isRevealed = false
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            Text(label)
-                .font(.caption)
-                .foregroundColor(.secondary)
-            
-            if isSensitive && !isRevealed && !value.isEmpty {
-                HStack {
-                    Text(maskedValue)
-                        .font(.system(.caption, design: .monospaced))
-                    Spacer()
-                    Button(action: { isRevealed.toggle() }) {
-                        Image(systemName: "eye")
-                            .foregroundColor(.blue)
-                    }
-                }
-            } else {
-                HStack {
-                    Text(value.isEmpty ? "(empty)" : value)
-                        .font(.system(.caption, design: .monospaced))
-                    Spacer()
-                    if isSensitive && !value.isEmpty {
-                        Button(action: { isRevealed.toggle() }) {
-                            Image(systemName: "eye.slash")
-                                .foregroundColor(.blue)
-                        }
-                    }
-                }
-            }
-        }
-        .padding(.vertical, 4)
+    init(title: String, isExpanded: Binding<Bool>, @ViewBuilder content: () -> Content) {
+        self.title = title
+        self._isExpanded = isExpanded
+        self.content = content()
     }
     
-    // MARK: - Computed Properties
-    
-    private var maskedValue: String {
-        guard value.count >= 10 else {
-            return "••••••••"
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Button(action: {
+                withAnimation {
+                    isExpanded.toggle()
+                }
+            }) {
+                HStack {
+                    Text(title)
+                        .font(.subheadline)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.primary)
+                    Spacer()
+                    Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
+                        .font(.caption2)
+                        .foregroundColor(.secondary)
+                }
+            }
+            .padding(.horizontal, 8)
+            .padding(.vertical, 6)
+            .background(Color(.tertiarySystemBackground))
+            .cornerRadius(6)
+            
+            if isExpanded {
+                content
+                    .padding(.leading, 8)
+            }
         }
-        
-        let firstFive = value.prefix(5)
-        let lastFive = value.suffix(5)
-        return "\(firstFive)...\(lastFive)"
     }
 }
 
