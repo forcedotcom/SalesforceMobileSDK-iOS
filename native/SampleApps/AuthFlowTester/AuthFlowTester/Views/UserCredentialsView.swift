@@ -30,8 +30,9 @@ import SalesforceSDKCore
 
 struct UserCredentialsView: View {
     @Binding var isExpanded: Bool
+    let refreshTrigger: UUID
     
-    // Section expansion states - all start expanded
+    // Section expansion states - all start collapsed
     @State private var userIdentityExpanded = false
     @State private var oauthConfigExpanded = false
     @State private var tokensExpanded = false
@@ -62,69 +63,71 @@ struct UserCredentialsView: View {
             }
 
             if isExpanded {
-                InfoSectionView(title: "User Identity", isExpanded: $userIdentityExpanded) {
-                    InfoRowView(label: "Username:", value: username)
-                    InfoRowView(label: "User ID:", value: userId)
-                    InfoRowView(label: "Organization ID:", value: organizationId)
+                VStack(spacing: 8) {
+                    InfoSectionView(title: "User Identity", isExpanded: $userIdentityExpanded) {
+                        InfoRowView(label: "Username:", value: username)
+                        InfoRowView(label: "User ID:", value: userId)
+                        InfoRowView(label: "Organization ID:", value: organizationId)
+                    }
+                    
+                    InfoSectionView(title: "OAuth Client Configuration", isExpanded: $oauthConfigExpanded) {
+                        InfoRowView(label: "Client ID:", value: clientId, isSensitive: true)
+                        InfoRowView(label: "Redirect URI:", value: redirectUri)
+                        InfoRowView(label: "Protocol:", value: authProtocol)
+                        InfoRowView(label: "Domain:", value: domain)
+                        InfoRowView(label: "Identifier:", value: identifier)
+                    }
+                    
+                    InfoSectionView(title: "Tokens", isExpanded: $tokensExpanded) {
+                        InfoRowView(label: "Access Token:", value: accessToken, isSensitive: true)
+                        InfoRowView(label: "Refresh Token:", value: refreshToken, isSensitive: true)
+                        InfoRowView(label: "Token Format:", value: tokenFormat)
+                        InfoRowView(label: "JWT:", value: jwt, isSensitive: true)
+                        InfoRowView(label: "Auth Code:", value: authCode, isSensitive: true)
+                        InfoRowView(label: "Challenge String:", value: challengeString, isSensitive: true)
+                        InfoRowView(label: "Issued At:", value: issuedAt)
+                        InfoRowView(label: "Scopes:", value: credentialsScopes)
+                    }
+                    
+                    InfoSectionView(title: "URLs", isExpanded: $urlsExpanded) {
+                        InfoRowView(label: "Instance URL:", value: instanceUrl)
+                        InfoRowView(label: "API Instance URL:", value: apiInstanceUrl)
+                        InfoRowView(label: "API URL:", value: apiUrl)
+                        InfoRowView(label: "Identity URL:", value: identityUrl)
+                    }
+                    
+                    InfoSectionView(title: "Community", isExpanded: $communityExpanded) {
+                        InfoRowView(label: "Community ID:", value: communityId)
+                        InfoRowView(label: "Community URL:", value: communityUrl)
+                    }
+                    
+                    InfoSectionView(title: "Domains and SIDs", isExpanded: $domainsAndSidsExpanded) {
+                        InfoRowView(label: "Lightning Domain:", value: lightningDomain)
+                        InfoRowView(label: "Lightning SID:", value: lightningSid, isSensitive: true)
+                        InfoRowView(label: "VF Domain:", value: vfDomain)
+                        InfoRowView(label: "VF SID:", value: vfSid, isSensitive: true)
+                        InfoRowView(label: "Content Domain:", value: contentDomain)
+                        InfoRowView(label: "Content SID:", value: contentSid, isSensitive: true)
+                        InfoRowView(label: "Parent SID:", value: parentSid, isSensitive: true)
+                        InfoRowView(label: "SID Cookie Name:", value: sidCookieName)
+                    }
+                    
+                    InfoSectionView(title: "Cookies and Security", isExpanded: $cookiesAndSecurityExpanded) {
+                        InfoRowView(label: "CSRF Token:", value: csrfToken, isSensitive: true)
+                        InfoRowView(label: "Cookie Client Src:", value: cookieClientSrc)
+                        InfoRowView(label: "Cookie SID Client:", value: cookieSidClient, isSensitive: true)
+                    }
+                    
+                    InfoSectionView(title: "Beacon", isExpanded: $beaconExpanded) {
+                        InfoRowView(label: "Beacon Child Consumer Key:", value: beaconChildConsumerKey)
+                        InfoRowView(label: "Beacon Child Consumer Secret:", value: beaconChildConsumerSecret, isSensitive: true)
+                    }
+                    
+                    InfoSectionView(title: "Other", isExpanded: $otherExpanded) {
+                        InfoRowView(label: "Additional OAuth Fields:", value: additionalOAuthFields)
+                    }
                 }
-                
-                InfoSectionView(title: "OAuth Client Configuration", isExpanded: $oauthConfigExpanded) {
-                    InfoRowView(label: "Client ID:", value: clientId, isSensitive: true)
-                    InfoRowView(label: "Redirect URI:", value: redirectUri)
-                    InfoRowView(label: "Protocol:", value: authProtocol)
-                    InfoRowView(label: "Domain:", value: domain)
-                    InfoRowView(label: "Identifier:", value: identifier)
-                }
-                
-                InfoSectionView(title: "Tokens", isExpanded: $tokensExpanded) {
-                    InfoRowView(label: "Access Token:", value: accessToken, isSensitive: true)
-                    InfoRowView(label: "Refresh Token:", value: refreshToken, isSensitive: true)
-                    InfoRowView(label: "Token Format:", value: tokenFormat)
-                    InfoRowView(label: "JWT:", value: jwt, isSensitive: true)
-                    InfoRowView(label: "Auth Code:", value: authCode, isSensitive: true)
-                    InfoRowView(label: "Challenge String:", value: challengeString, isSensitive: true)
-                    InfoRowView(label: "Issued At:", value: issuedAt)
-                }
-                
-                InfoSectionView(title: "URLs", isExpanded: $urlsExpanded) {
-                    InfoRowView(label: "Instance URL:", value: instanceUrl)
-                    InfoRowView(label: "API Instance URL:", value: apiInstanceUrl)
-                    InfoRowView(label: "API URL:", value: apiUrl)
-                    InfoRowView(label: "Identity URL:", value: identityUrl)
-                }
-                
-                InfoSectionView(title: "Community", isExpanded: $communityExpanded) {
-                    InfoRowView(label: "Community ID:", value: communityId)
-                    InfoRowView(label: "Community URL:", value: communityUrl)
-                }
-                
-                InfoSectionView(title: "Domains and SIDs", isExpanded: $domainsAndSidsExpanded) {
-                    InfoRowView(label: "Lightning Domain:", value: lightningDomain)
-                    InfoRowView(label: "Lightning SID:", value: lightningSid, isSensitive: true)
-                    InfoRowView(label: "VF Domain:", value: vfDomain)
-                    InfoRowView(label: "VF SID:", value: vfSid, isSensitive: true)
-                    InfoRowView(label: "Content Domain:", value: contentDomain)
-                    InfoRowView(label: "Content SID:", value: contentSid, isSensitive: true)
-                    InfoRowView(label: "Parent SID:", value: parentSid, isSensitive: true)
-                    InfoRowView(label: "SID Cookie Name:", value: sidCookieName)
-                }
-                
-                InfoSectionView(title: "Cookies and Security", isExpanded: $cookiesAndSecurityExpanded) {
-                    InfoRowView(label: "CSRF Token:", value: csrfToken, isSensitive: true)
-                    InfoRowView(label: "Cookie Client Src:", value: cookieClientSrc)
-                    InfoRowView(label: "Cookie SID Client:", value: cookieSidClient, isSensitive: true)
-                }
-                
-                InfoSectionView(title: "Beacon", isExpanded: $beaconExpanded) {
-                    InfoRowView(label: "Beacon Child Consumer Key:", value: beaconChildConsumerKey)
-                    InfoRowView(label: "Beacon Child Consumer Secret:", value: beaconChildConsumerSecret, isSensitive: true)
-                }
-                
-                InfoSectionView(title: "Other", isExpanded: $otherExpanded) {
-                    InfoRowView(label: "Scopes:", value: credentialsScopes)
-                    InfoRowView(label: "Encrypted:", value: encrypted)
-                    InfoRowView(label: "Additional OAuth Fields:", value: additionalOAuthFields)
-                }
+                .id(refreshTrigger)
             }
         }
         .padding()
@@ -203,6 +206,13 @@ struct UserCredentialsView: View {
         formatter.dateStyle = .medium
         formatter.timeStyle = .medium
         return formatter.string(from: date)
+    }
+
+    private var credentialsScopes: String {
+        guard let scopes = credentials?.scopes else {
+            return ""
+        }
+        return scopes.joined(separator: " ")
     }
     
     // URLs
@@ -287,18 +297,6 @@ struct UserCredentialsView: View {
     }
     
     // Other
-    private var credentialsScopes: String {
-        guard let scopes = credentials?.scopes else {
-            return ""
-        }
-        return scopes.joined(separator: " ")
-    }
-    
-    private var encrypted: String {
-        guard let creds = credentials else { return "" }
-        return creds.isEncrypted ? "Yes" : "No"
-    }
-    
     private var additionalOAuthFields: String {
         guard let fields = credentials?.additionalOAuthFields,
               let jsonData = try? JSONSerialization.data(withJSONObject: fields, options: .prettyPrinted),

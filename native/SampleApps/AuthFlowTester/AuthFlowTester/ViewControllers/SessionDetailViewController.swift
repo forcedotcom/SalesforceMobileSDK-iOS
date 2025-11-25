@@ -60,8 +60,7 @@ struct SessionDetailView: View {
                 })
                 
                 // User Credentials Section
-                UserCredentialsView(isExpanded: $isUserCredentialsExpanded)
-                    .id(refreshTrigger)
+                UserCredentialsView(isExpanded: $isUserCredentialsExpanded, refreshTrigger: refreshTrigger)
                 
                 // JWT Access Token Details Section (if applicable)
                 if let credentials = UserAccountManager.shared.currentUserAccount?.credentials,

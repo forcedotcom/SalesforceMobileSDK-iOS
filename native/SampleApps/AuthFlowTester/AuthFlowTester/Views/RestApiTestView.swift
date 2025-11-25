@@ -29,9 +29,15 @@ import SwiftUI
 import SalesforceSDKCore
 
 struct RestApiTestView: View {
+    enum AlertType {
+        case success
+        case error(String)
+    }
+    
     @State private var isLoading = false
     @State private var lastRequestResult: String = ""
     @State private var isResultExpanded = false
+    @State private var alertType: AlertType?
     
     let onRequestCompleted: () -> Void
     
@@ -59,57 +65,73 @@ struct RestApiTestView: View {
             }
             .disabled(isLoading)
             
-            // Result section - always visible
-            VStack(alignment: .leading, spacing: 8) {
-                Button(action: {
-                    if !lastRequestResult.isEmpty {
+            // Response details section - collapsible
+            if !lastRequestResult.isEmpty {
+                VStack(alignment: .leading, spacing: 8) {
+                    Button(action: {
                         withAnimation {
                             isResultExpanded.toggle()
                         }
-                    }
-                }) {
-                    HStack {
-                        Text("Last Request Result:")
-                            .font(.subheadline)
-                            .fontWeight(.semibold)
-                            .foregroundColor(.primary)
-                        Spacer()
-                        if !lastRequestResult.isEmpty {
+                    }) {
+                        HStack {
+                            Text("Response Details")
+                                .font(.subheadline)
+                                .fontWeight(.semibold)
+                                .foregroundColor(.primary)
+                            Spacer()
                             Image(systemName: isResultExpanded ? "chevron.up" : "chevron.down")
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                         }
-                    }
-                }
-                .disabled(lastRequestResult.isEmpty)
-                
-                if lastRequestResult.isEmpty {
-                    Text("No request made yet")
-                        .font(.system(.caption, design: .monospaced))
-                        .foregroundColor(.secondary)
                         .padding(8)
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .background(Color(.tertiarySystemBackground))
+                        .cornerRadius(6)
+                    }
+                    
+                    if isResultExpanded {
+                        ScrollView([.vertical, .horizontal], showsIndicators: true) {
+                            Text(lastRequestResult)
+                                .font(.system(.caption, design: .monospaced))
+                                .foregroundColor(.primary)
+                                .padding(8)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .textSelection(.enabled)
+                        }
+                        .frame(minHeight: 200, maxHeight: 400)
                         .background(Color(.systemGray6))
                         .cornerRadius(4)
-                } else if isResultExpanded {
-                    ScrollView([.vertical, .horizontal], showsIndicators: true) {
-                        Text(lastRequestResult)
-                            .font(.system(.caption, design: .monospaced))
-                            .foregroundColor(lastRequestResult.hasPrefix("✓") ? .green : .red)
-                            .padding(8)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .textSelection(.enabled)
                     }
-                    .frame(minHeight: 200, maxHeight: 400)
-                    .background(Color(.systemGray6))
-                    .cornerRadius(4)
                 }
+                .padding(.vertical, 4)
             }
-            .padding(.vertical, 4)
         }
         .padding()
         .background(Color(.secondarySystemBackground))
         .cornerRadius(8)
+        .alert(item: Binding(
+            get: { alertType.map { AlertItem(type: $0) } },
+            set: { alertType = $0?.type }
+        )) { alertItem in
+            switch alertItem.type {
+            case .success:
+                return Alert(
+                    title: Text("Request Successful"),
+                    message: Text("The REST API request completed successfully. Expand 'Response Details' below to see the full response."),
+                    dismissButton: .default(Text("OK"))
+                )
+            case .error(let message):
+                return Alert(
+                    title: Text("Request Failed"),
+                    message: Text(message),
+                    dismissButton: .default(Text("OK"))
+                )
+            }
+        }
+    }
+    
+    struct AlertItem: Identifiable {
+        let id = UUID()
+        let type: AlertType
     }
     
     // MARK: - REST API Request
@@ -118,6 +140,7 @@ struct RestApiTestView: View {
     private func makeRestRequest() async {
         isLoading = true
         lastRequestResult = ""
+        isResultExpanded = false // Start collapsed
         
         do {
             let request = RestClient.shared.cheapRequest("v63.0")
@@ -125,15 +148,17 @@ struct RestApiTestView: View {
             
             // Request succeeded - pretty print the JSON
             let prettyJSON = prettyPrintJSON(response.asString())
-            lastRequestResult = "✓ Success:\n\n\(prettyJSON)"
-            isResultExpanded = true // Auto-expand on new result
+            lastRequestResult = prettyJSON
+            alertType = .success
+            // Response starts collapsed - user can expand to see details
             
             // Notify parent to refresh fields
             onRequestCompleted()
         } catch {
             // Request failed
-            lastRequestResult = "✗ Error: \(error.localizedDescription)"
-            isResultExpanded = true // Auto-expand on error
+            lastRequestResult = error.localizedDescription
+            alertType = .error(error.localizedDescription)
+            // Error details start collapsed - user can expand to see details
         }
         
         isLoading = false
