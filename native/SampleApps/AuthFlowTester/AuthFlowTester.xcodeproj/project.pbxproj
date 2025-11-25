@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F5945B82ED51C00003C5BDE /* InfoSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F5945B72ED51C00003C5BDE /* InfoSectionView.swift */; };
 		4F95A89C2EA806E700C98D18 /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F95A8962EA801DC00C98D18 /* SalesforceAnalytics.framework */; };
 		4F95A89D2EA806E700C98D18 /* SalesforceAnalytics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4F95A8962EA801DC00C98D18 /* SalesforceAnalytics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4F95A89F2EA806E900C98D18 /* SalesforceSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F95A8982EA801DC00C98D18 /* SalesforceSDKCommon.framework */; };
@@ -54,6 +55,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4F5945B72ED51C00003C5BDE /* InfoSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoSectionView.swift; sourceTree = "<group>"; };
 		4F8E4AF12ED13CE800DA7B7A /* AuthFlowTesterUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AuthFlowTesterUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F95A8962EA801DC00C98D18 /* SalesforceAnalytics.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SalesforceAnalytics.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F95A8982EA801DC00C98D18 /* SalesforceSDKCommon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SalesforceSDKCommon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -175,6 +177,7 @@
 		AUTH039 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				4F5945B72ED51C00003C5BDE /* InfoSectionView.swift */,
 				4FEBAF282EA9B91500D4880A /* RevokeView.swift */,
 				AUTH038 /* UserCredentialsView.swift */,
 				AUTH041 /* RestApiTestView.swift */,
@@ -308,6 +311,7 @@
 				4FEBAF292EA9B91500D4880A /* RevokeView.swift in Sources */,
 				AUTH049 /* JwtAccessView.swift in Sources */,
 				AUTH051 /* InfoRowView.swift in Sources */,
+				4F5945B82ED51C00003C5BDE /* InfoSectionView.swift in Sources */,
 			);
 		};
 /* End PBXSourcesBuildPhase section */
