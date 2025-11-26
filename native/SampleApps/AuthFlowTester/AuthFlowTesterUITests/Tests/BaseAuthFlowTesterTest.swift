@@ -40,7 +40,10 @@ class BaseAuthFlowTesterTest: XCTestCase {
     var host: String = TestConfigUtils.shared.loginHostNoProtocol ?? ""
     var username: String = TestConfigUtils.shared.firstUser?.username ?? ""
     var password: String = TestConfigUtils.shared.firstUser?.password ?? ""
-    
+    var consumerKey: String = TestConfigUtils.shared.firstApp?.consumerKey ?? ""
+    var redirectUri: String = TestConfigUtils.shared.firstApp?.redirectUri ?? ""
+    var scopes: String = TestConfigUtils.shared.firstApp?.scopes ?? ""
+
     override func setUp() {
         super.setUp()
         continueAfterFailure = false
@@ -63,18 +66,15 @@ class BaseAuthFlowTesterTest: XCTestCase {
         app = XCUIApplication()
         loginPage = LoginPageObject(testApp: app)
         mainPage = AuthFlowTesterMainPageObject(testApp: app)
-        
         app.launch()
-        login()
     }
     
     override func tearDown() {
-        logout()
         super.tearDown()
     }
     
     func login() {
-        // TODO configure static boot config first
+        loginPage.configureAppConfig(consumerKey: consumerKey, redirectUri: redirectUri, scopes: scopes)
         loginPage.configureLoginHost(host: host)
         loginPage.performLogin(username: username, password: password)
     }

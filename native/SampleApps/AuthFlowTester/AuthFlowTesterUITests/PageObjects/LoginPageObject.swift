@@ -41,30 +41,35 @@ class LoginPageObject {
     }
     
     func configureLoginHost(host: String) -> Void {
-        tapSettings()
-        tapChangeServer()
+        tap(settingsButton())
+        tap(changeServerButton())
         
         if (hasHost(host: host)) {
             // Select host if it exists already
-            tapHost(host: host)
+            tap(hostRow(host: host))
         } else {
             // Add host if it does not exist
-            tapAddConnectionButton()
-            setConnectionHost(host: host)
-            tapDoneOnAddConnection()
+            tap(addConnectionButton())
+            setTextField(hostInputField(), value: host)
+            tap(doneOnAddConnectionButton())
         }
     }
     
     func performLogin(username: String, password: String) {
-        setUsername(name: username)
-        setPassword(password: password)
-        tapLogin()
-        tapAllowIfPresent()
+        setTextField(usernameField(), value: username)
+        setTextField(passwordField(), value: password)
+        tap(loginButton())
+        tapIfPresent(allowButton())
     }
     
-    func configureAppConfig() -> Void {
-        performShake()
-        tapLoginOptionsButton()
+    func configureAppConfig(consumerKey: String, redirectUri: String, scopes: String) -> Void {
+        tap(settingsButton())
+        tap(loginOptionsButton())
+        tap(staticConfigurationSection())
+        setTextField(consumerKeyField(), value: consumerKey)
+        setTextField(callbackUrlField(), value: redirectUri)
+        setTextField(scopesField(), value: scopes)
+        tap(useStaticConfigButton())
     }
     
     // MARK: - UI Element Accessors
@@ -79,6 +84,10 @@ class LoginPageObject {
     
     private func changeServerButton() -> XCUIElement {
         return app.buttons["Change Server"]
+    }
+    
+    private func loginOptionsButton() -> XCUIElement {
+        return app.buttons["Login Options"]
     }
     
     private func changeServerNavigationBar() -> XCUIElement {
@@ -125,103 +134,59 @@ class LoginPageObject {
         return app.toolbars.matching(identifier: "Toolbar").buttons["selected"]
     }
     
-    private func loginOptionsAlert() -> XCUIElement {
-        return app.alerts.firstMatch
+    private func staticConfigurationSection() -> XCUIElement {
+        return app.buttons["Static Configuration"]
     }
     
-    private func loginOptionsButton() -> XCUIElement {
-        return loginOptionsAlert().buttons["Login Options"]
+    private func consumerKeyField() -> XCUIElement {
+        return app.textFields["consumerKeyTextField"]
     }
     
-    private func loginOptionsActionSheet() -> XCUIElement {
-        return app.sheets.firstMatch
+    private func callbackUrlField() -> XCUIElement {
+        return app.textFields["callbackUrlTextField"]
     }
     
+    private func scopesField() -> XCUIElement {
+        return app.textFields["scopesTextField"]
+    }
+    
+    private func useStaticConfigButton() -> XCUIElement {
+        return app.buttons["Use static config"]
+    }
+
     // MARK: - Actions
     
-    private func setUsername(name: String) -> Void {
-        let nameField = usernameField()
-        _ = nameField.waitForExistence(timeout: timeout)
-        nameField.tap()
-        sleep(1)
-        nameField.typeText(name)
+    private func tap(_ element: XCUIElement) {
+        _ = element.waitForExistence(timeout: timeout)
+        element.tap()
     }
     
-    private func setPassword(password: String) -> Void {
-        let field = passwordField()
-        _ = field.waitForExistence(timeout: timeout)
-        field.tap()
-        sleep(1)
-        field.typeText(password)
-        hideToolbar()
-    }
-    
-    private func tapLogin() -> Void {
-        let button = loginButton()
-        _ = button.waitForExistence(timeout: timeout)
-        button.tap()
-    }
-    
-    private func tapAllowIfPresent() {
-        let button = allowButton()
-        if (button.waitForExistence(timeout: timeout)) {
-            button.tap()
+    private func tapIfPresent(_ element: XCUIElement) {
+        if (element.waitForExistence(timeout: timeout)) {
+            element.tap()
         }
     }
     
-    private func tapSettings() -> Void {
-        let button = settingsButton()
-        _ = button.waitForExistence(timeout: timeout)
-        button.tap()
-    }
-    
-    private func tapChangeServer() -> Void {
-        let button = changeServerButton()
-        _ = button.waitForExistence(timeout: timeout)
-        button.tap()
-    }
-    
-    private func tapAddConnectionButton() -> Void {
-        let button = addConnectionButton()
-        _ = button.waitForExistence(timeout: timeout)
-        button.tap()
-    }
-    
-    private func setConnectionHost(host: String) -> Void {
-        let hostField = hostInputField()
-        _ = hostField.waitForExistence(timeout: timeout)
-        hostField.tap()
-        sleep(1)
-        hostField.typeText(host)
-    }
-    
-    private func tapDoneOnAddConnection() -> Void {
-        let button = doneOnAddConnectionButton()
-        _ = button.waitForExistence(timeout: timeout)
-        button.tap()
-    }
-    
-    private func tapHost(host: String) {
-        let row = hostRow(host: host)
-        _ = row.waitForExistence(timeout: timeout)
-        row.tap()
-    }
-    
-    private func hideToolbar() -> Void {
-        let button = toolbarDoneButton()
-        if button.exists {
-            button.tap()
+    private func setTextField(_ textField: XCUIElement, value: String) {
+        tap(textField)
+        
+        // Return if the value is already set
+        if textField.value as? String == value {
+            return
         }
-    }
-    
-    private func performShake() -> Void {
-        // TODO is it possible with a UI test
-    }
-    
-    private func tapLoginOptionsButton() -> Void {
-        let button = loginOptionsButton()
-        _ = button.waitForExistence(timeout: timeout)
-        button.tap()
+
+        // Clear any existing text
+        if let currentValue = textField.value as? String, !currentValue.isEmpty {
+            tap(textField) // second tap should bring up menu
+            let selectAll = app.menuItems["Select All"]
+            if selectAll.waitForExistence(timeout: 1) {
+                selectAll.tap()
+                textField.typeText(XCUIKeyboardKey.delete.rawValue)
+            }
+        }
+        
+        textField.typeText(value)
+        tapIfPresent(toolbarDoneButton())
     }
     
     // MARK: - Other

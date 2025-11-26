@@ -29,18 +29,26 @@ import XCTest
 
 class AuthFlowTesterLoginTests: BaseAuthFlowTesterTest {
     
-    func testLoginAndLogout() {
+    override func tearDown() {
+        logout()
+        super.tearDown()
+    }
+    
+    func testLogin() {
+        login()
         assertMainPageLoaded()
         assertUser()
     }
     
-    func testLoginAndMakeRestRequestAndLogout() {
+    func testLoginAndMakeRestRequest() {
+        login()
         assertMainPageLoaded()
         assertRestRequestWorks()
 
     }
     
-    func testLoginAndRevokeAndRefreshAndLogout() {
+    func testLoginAndRevokeAndRefresh() {
+        login()
         assertMainPageLoaded()
         assertRevokeWorks()
         assertRestRequestWorks()
