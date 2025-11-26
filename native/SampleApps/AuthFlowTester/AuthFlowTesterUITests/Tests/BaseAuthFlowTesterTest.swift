@@ -33,74 +33,70 @@ class BaseAuthFlowTesterTest: XCTestCase {
 
     // App Pages
     var loginPage: LoginPageObject!
-    var authPage: AuthorizationPageObject!
     var mainPage: AuthFlowTesterMainPageObject!
 
-    // Login credentials
-    var username: String = ""
-    var password: String = ""
+    // Test configuration
+    let testConfig = TestConfigUtils.shared
+    var host: String = TestConfigUtils.shared.loginHostNoProtocol ?? ""
+    var username: String = TestConfigUtils.shared.firstUser?.username ?? ""
+    var password: String = TestConfigUtils.shared.firstUser?.password ?? ""
     
-    // Default timeout
-    var timeout: double_t = 10
-
     override func setUp() {
         super.setUp()
         continueAfterFailure = false
         
-        // Get credentials from environment variables
-//        let envUsername = ProcessInfo.processInfo.environment["USERNAME"] ?? ""
-//        username = envUsername.isEmpty ? "circleci@mobilesdk.com" : envUsername
-//        password = ProcessInfo.processInfo.environment["PASSWORD"] ?? ""
+        guard host != "" else {
+            XCTFail("No login host configured")
+            return
+        }
         
-        // XXX do not check in
-        username = "wmathurin@gs0.mobilesdk.com"
-        password = "test123456"
+        guard username != "" else {
+            XCTFail("No username configured")
+            return
+        }
+        
+        guard password != "" else {
+            XCTFail("No password configured")
+            return
+        }
         
         app = XCUIApplication()
         loginPage = LoginPageObject(testApp: app)
-        authPage = AuthorizationPageObject(testApp: app)
         mainPage = AuthFlowTesterMainPageObject(testApp: app)
+        
+        app.launch()
+        login()
     }
     
     override func tearDown() {
-        
-        // TODO should we logout
-        
+        logout()
         super.tearDown()
     }
     
-    func performLogin() {
-
-        app.launch()
-        
-        // Remove this check once we can get login to run without 2FA
-        if (!mainPage.waitForMainScreen()) {            
-            loginPage.setUsername(name: username)
-            loginPage.setPassword(password: password)
-            loginPage.tapLogin()
-            
-            authPage.tapAllowIfPresent()
-        }
+    func login() {
+        // TODO configure static boot config first
+        loginPage.configureLoginHost(host: host)
+        loginPage.performLogin(username: username, password: password)
     }
     
-    func assertAuthFlowTesterLoads(mainPage: AuthFlowTesterMainPageObject) {
-        XCTAssert(mainPage.waitForMainScreen(), "AuthFlowTester did not load.")
+    func logout() {
+        mainPage.performLogout()
     }
     
-    func assertUserLoggedIn(mainPage: AuthFlowTesterMainPageObject, username: String) {
-        // Expand the User Credentials section
-        mainPage.expandUserCredentials()
-        
-        // Verify username appears in the UI
-        XCTAssert(mainPage.waitForUsername(username: username), "Username '\(username)' not found in User Credentials")
+    func assertMainPageLoaded() {
+        XCTAssert(mainPage.isShowing(), "AuthFlowTester is not loaded")
     }
     
-    func assertRestRequestWorks(mainPage: AuthFlowTesterMainPageObject) {
-        // Tap the Make REST API Request button
-        mainPage.tapMakeRestRequest()
-        
-        // Wait for request to complete and verify success
-        XCTAssert(mainPage.isRestRequestSuccessful(), "REST API request did not succeed")
+    func assertUser() {
+        XCTAssert(mainPage.hasUser(username: username), "Username \(username) not found")
+    }
+    
+    func assertRestRequestWorks() {
+        XCTAssert(mainPage.makeRestRequest(), "Failed to make REST request")
+    }
+    
+    func assertRevokeWorks() {
+        XCTAssert(mainPage.reokveAccessToken(), "Failed to revoke access token")
     }
 }
 

@@ -79,9 +79,22 @@
 		AUTH052 /* InfoRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoRowView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		4F5946272ED670C7003C5BDE /* Exceptions for "AuthFlowTesterUITests" folder in "AuthFlowTesterUITests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				test_config.json.sample,
+			);
+			target = 4F8E4AF02ED13CE800DA7B7A /* AuthFlowTesterUITests */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		4F8E4AF22ED13CE800DA7B7A /* AuthFlowTesterUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				4F5946272ED670C7003C5BDE /* Exceptions for "AuthFlowTesterUITests" folder in "AuthFlowTesterUITests" target */,
+			);
 			path = AuthFlowTesterUITests;
 			sourceTree = "<group>";
 		};
@@ -331,9 +344,9 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.salesforce.AuthFlowTesterUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.AuthFlowTesterUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -351,9 +364,9 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.salesforce.AuthFlowTesterUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.AuthFlowTesterUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;

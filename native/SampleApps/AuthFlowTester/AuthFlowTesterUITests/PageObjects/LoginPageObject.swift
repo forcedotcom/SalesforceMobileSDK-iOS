@@ -36,48 +36,200 @@ class LoginPageObject {
         app = testApp
     }
     
-    func setUsername(name: String) -> Void {
-        sleep(3)
-        hideKeyboard()
-        let nameField = app.descendants(matching: .textField).element
-        _ = nameField.waitForExistence(timeout: timeout * 12)
+    func isShowing() -> Bool {
+        return loginNavigationBar().waitForExistence(timeout: timeout)
+    }
+    
+    func configureLoginHost(host: String) -> Void {
+        tapSettings()
+        tapChangeServer()
+        
+        if (hasHost(host: host)) {
+            // Select host if it exists already
+            tapHost(host: host)
+        } else {
+            // Add host if it does not exist
+            tapAddConnectionButton()
+            setConnectionHost(host: host)
+            tapDoneOnAddConnection()
+        }
+    }
+    
+    func performLogin(username: String, password: String) {
+        setUsername(name: username)
+        setPassword(password: password)
+        tapLogin()
+        tapAllowIfPresent()
+    }
+    
+    func configureAppConfig() -> Void {
+        performShake()
+        tapLoginOptionsButton()
+    }
+    
+    // MARK: - UI Element Accessors
+    
+    private func loginNavigationBar() -> XCUIElement {
+        return app.navigationBars["Log In"]
+    }
+    
+    private func settingsButton() -> XCUIElement {
+        return loginNavigationBar().buttons["Settings"]
+    }
+    
+    private func changeServerButton() -> XCUIElement {
+        return app.buttons["Change Server"]
+    }
+    
+    private func changeServerNavigationBar() -> XCUIElement {
+        return app.navigationBars["Change Server"]
+    }
+    
+    private func addConnectionButton() -> XCUIElement {
+        return changeServerNavigationBar().buttons["Add"]
+    }
+    
+    private func addConnectionNavigationBar() -> XCUIElement {
+        return app.navigationBars["Add Connection"]
+    }
+    
+    private func hostInputField() -> XCUIElement {
+        return app.textFields["addconn_hostInput"]
+    }
+    
+    private func doneOnAddConnectionButton() -> XCUIElement {
+        return addConnectionNavigationBar().buttons["Done"]
+    }
+    
+    private func hostRow(host: String) -> XCUIElement {
+        return app.staticTexts[host].firstMatch
+    }
+    
+    private func usernameField() -> XCUIElement {
+        return app.descendants(matching: .textField).element
+    }
+    
+    private func passwordField() -> XCUIElement {
+        return app.descendants(matching: .secureTextField).element
+    }
+    
+    private func loginButton() -> XCUIElement {
+        return app.webViews.webViews.webViews.buttons["Log In"]
+    }
+    
+    private func allowButton() -> XCUIElement {
+        return app.webViews.webViews.webViews.buttons[" Allow "]
+    }
+    
+    private func toolbarDoneButton() -> XCUIElement {
+        return app.toolbars.matching(identifier: "Toolbar").buttons["selected"]
+    }
+    
+    private func loginOptionsAlert() -> XCUIElement {
+        return app.alerts.firstMatch
+    }
+    
+    private func loginOptionsButton() -> XCUIElement {
+        return loginOptionsAlert().buttons["Login Options"]
+    }
+    
+    private func loginOptionsActionSheet() -> XCUIElement {
+        return app.sheets.firstMatch
+    }
+    
+    // MARK: - Actions
+    
+    private func setUsername(name: String) -> Void {
+        let nameField = usernameField()
+        _ = nameField.waitForExistence(timeout: timeout)
         nameField.tap()
         sleep(1)
         nameField.typeText(name)
     }
     
-    func setPassword(password: String) -> Void {
-        hideKeyboard()
-        let passwordField = app.descendants(matching: .secureTextField).element
-        _ = passwordField.waitForExistence(timeout: timeout)
-        passwordField.tap()
+    private func setPassword(password: String) -> Void {
+        let field = passwordField()
+        _ = field.waitForExistence(timeout: timeout)
+        field.tap()
         sleep(1)
-        passwordField.typeText(password)
+        field.typeText(password)
+        hideToolbar()
     }
     
-    func tapLogin() -> Void {
-        hideKeyboard()
-        let loginButton = app.webViews.webViews.webViews.buttons["Log In"]
-        _ = loginButton.waitForExistence(timeout: timeout)
-        loginButton.tap()
+    private func tapLogin() -> Void {
+        let button = loginButton()
+        _ = button.waitForExistence(timeout: timeout)
+        button.tap()
     }
     
-    func tapBack() -> Void {
-        let backButton = app.navigationBars["Log In"].children(matching: .button).element(boundBy: 0)
-        _ = backButton.waitForExistence(timeout: timeout)
-        backButton.tap()
-    }
-    
-    func hideKeyboard() -> Void {
-        let continueButton = app.staticTexts["Continue"]
-        if continueButton.exists {
-            continueButton.tap()
-        }
-        
-        let doneButton = app.toolbars.matching(identifier: "Toolbar").buttons["Done"]
-        if doneButton.exists {
-            doneButton.tap()
+    private func tapAllowIfPresent() {
+        let button = allowButton()
+        if (button.waitForExistence(timeout: timeout)) {
+            button.tap()
         }
     }
+    
+    private func tapSettings() -> Void {
+        let button = settingsButton()
+        _ = button.waitForExistence(timeout: timeout)
+        button.tap()
+    }
+    
+    private func tapChangeServer() -> Void {
+        let button = changeServerButton()
+        _ = button.waitForExistence(timeout: timeout)
+        button.tap()
+    }
+    
+    private func tapAddConnectionButton() -> Void {
+        let button = addConnectionButton()
+        _ = button.waitForExistence(timeout: timeout)
+        button.tap()
+    }
+    
+    private func setConnectionHost(host: String) -> Void {
+        let hostField = hostInputField()
+        _ = hostField.waitForExistence(timeout: timeout)
+        hostField.tap()
+        sleep(1)
+        hostField.typeText(host)
+    }
+    
+    private func tapDoneOnAddConnection() -> Void {
+        let button = doneOnAddConnectionButton()
+        _ = button.waitForExistence(timeout: timeout)
+        button.tap()
+    }
+    
+    private func tapHost(host: String) {
+        let row = hostRow(host: host)
+        _ = row.waitForExistence(timeout: timeout)
+        row.tap()
+    }
+    
+    private func hideToolbar() -> Void {
+        let button = toolbarDoneButton()
+        if button.exists {
+            button.tap()
+        }
+    }
+    
+    private func performShake() -> Void {
+        // TODO is it possible with a UI test
+    }
+    
+    private func tapLoginOptionsButton() -> Void {
+        let button = loginOptionsButton()
+        _ = button.waitForExistence(timeout: timeout)
+        button.tap()
+    }
+    
+    // MARK: - Other
+
+    private func hasHost(host: String) -> Bool {
+        let row = hostRow(host: host)
+        return row.waitForExistence(timeout: timeout)
+    }
+    
 }
 

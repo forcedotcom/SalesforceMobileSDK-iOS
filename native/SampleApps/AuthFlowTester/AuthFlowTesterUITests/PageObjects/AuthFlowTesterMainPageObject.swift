@@ -30,121 +30,104 @@ import XCTest
 
 class AuthFlowTesterMainPageObject {
     let app: XCUIApplication
-    let timeout: double_t = 60
+    let timeout: double_t = 5
     
     init(testApp: XCUIApplication) {
         app = testApp
     }
     
+    func isShowing() -> Bool {
+        return navigationTitle().waitForExistence(timeout: timeout)
+    }
+    
+    func performLogout() {
+        tap(bottomBarLogoutButton())
+        tap(alertLogoutButton())
+    }
+    
+    func hasUser(username: String) -> Bool {
+        tap(userCredentialsSection())
+        tap(userIdentitySection())
+        let hasUser = hasStaticText(username)
+        tap(userIdentitySection())
+        tap(userCredentialsSection())
+        return hasUser
+    }
+    
+    func makeRestRequest() -> Bool {
+        tap(makeRestRequestButton())
+        let alert = app.alerts["Request Successful"]
+        if (alert.waitForExistence(timeout: timeout)) {
+            alert.buttons["OK"].tap()
+            return true
+        }
+        return false
+    }
+    
+    func reokveAccessToken() -> Bool {
+        tap(revokeButton())
+        let alert = app.alerts["Access Token Revoked"]
+        if (alert.waitForExistence(timeout: timeout)) {
+            alert.buttons["OK"].tap()
+            return true
+        }
+        return false
+    }
+    
     // MARK: - UI Element Accessors
     
-    func navigationTitle() -> XCUIElement {
+    private func navigationTitle() -> XCUIElement {
         return app.navigationBars["AuthFlowTester"]
     }
     
-    func revokeButton() -> XCUIElement {
+    private func revokeButton() -> XCUIElement {
         return app.buttons["Revoke Access Token"]
     }
     
-    func makeRestRequestButton() -> XCUIElement {
+    private func makeRestRequestButton() -> XCUIElement {
         return app.buttons["Make REST API Request"]
     }
     
-    func changeKeyButton() -> XCUIElement {
+    private func bottomBarChangeKeyButton() -> XCUIElement {
         return app.buttons["Change Key"]
     }
     
-    func switchUserButton() -> XCUIElement {
+    private func bottomBarSwitchUserButton() -> XCUIElement {
         return app.buttons["Switch User"]
     }
     
-    func logoutButton() -> XCUIElement {
+    private func bottomBarLogoutButton() -> XCUIElement {
         return app.buttons["Logout"]
     }
     
-    func userCredentialsSection() -> XCUIElement {
+    private func alertLogoutButton() -> XCUIElement {
+        return app.alerts["Logout"].buttons["Logout"]
+    }
+    
+    private func userCredentialsSection() -> XCUIElement {
         return app.buttons["User Credentials"]
     }
     
-    func oauthConfigSection() -> XCUIElement {
+    private func userIdentitySection() -> XCUIElement {
+        return app.buttons["User Identity"]
+    }
+    
+    private func oauthConfigSection() -> XCUIElement {
         return app.buttons["OAuth Configuration"]
     }
     
     // MARK: - Actions
     
-    func waitForMainScreen() -> Bool {
-        return navigationTitle().waitForExistence(timeout: timeout)
+    private func tap(_ element: XCUIElement) {
+        _ = element.waitForExistence(timeout: timeout)
+        element.tap()
     }
     
-    func tapRevokeAccessToken() -> Void {
-        let button = revokeButton()
-        _ = button.waitForExistence(timeout: timeout)
-        button.tap()
-    }
+    // MARK: - Other
     
-    func tapMakeRestRequest() -> Void {
-        let button = makeRestRequestButton()
-        _ = button.waitForExistence(timeout: timeout)
-        button.tap()
-    }
-    
-    func tapChangeKey() -> Void {
-        let button = changeKeyButton()
-        _ = button.waitForExistence(timeout: timeout)
-        button.tap()
-    }
-    
-    func tapSwitchUser() -> Void {
-        let button = switchUserButton()
-        _ = button.waitForExistence(timeout: timeout)
-        button.tap()
-    }
-    
-    func tapLogout() -> Void {
-        let button = logoutButton()
-        _ = button.waitForExistence(timeout: timeout)
-        button.tap()
-    }
-    
-    func confirmLogout() -> Void {
-        let logoutConfirmButton = app.buttons["Logout"]
-        _ = logoutConfirmButton.waitForExistence(timeout: 5)
-        logoutConfirmButton.tap()
-    }
-    
-    func expandUserCredentials() -> Void {
-        let section = userCredentialsSection()
-        if section.waitForExistence(timeout: timeout) {
-            section.tap()
-            sleep(1)
-        }
-    }
-    
-    func expandOAuthConfig() -> Void {
-        let section = oauthConfigSection()
-        if section.waitForExistence(timeout: timeout) {
-            section.tap()
-            sleep(1)
-        }
-    }
-    
-    func waitForUsername(username: String) -> Bool {
-        let usernameText = app.staticTexts.containing(NSPredicate(format: "label CONTAINS '\(username)'"))
-        return usernameText.firstMatch.waitForExistence(timeout: timeout)
-    }
-    
-    func isRestRequestSuccessful() -> Bool {
-        let successIndicator = app.staticTexts.containing(NSPredicate(format: "label BEGINSWITH '✓ Success:'")).firstMatch
-        return successIndicator.waitForExistence(timeout: timeout)
-    }
-    
-    func isAccessTokenRevoked() -> Bool {
-        let alert = app.alerts["Access Token Revoked"]
-        if alert.waitForExistence(timeout: 10) {
-            alert.buttons["OK"].tap()
-            return true
-        }
-        return false
+    private func hasStaticText(_ text: String) -> Bool {
+        let staticText = app.staticTexts.containing(NSPredicate(format: "label CONTAINS '\(text)'"))
+        return staticText.firstMatch.waitForExistence(timeout: timeout)
     }
 }
 

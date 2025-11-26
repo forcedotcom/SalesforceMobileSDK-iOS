@@ -1,0 +1,40 @@
+{
+    "loginHost": "https://login.salesforce.com",
+    "apps": [
+        {
+            "type": "ca",
+            "name": "your_app_name",
+            "consumerKey": "your_consumer_key_here",
+            "redirectUri": "your_redirect_uri://callback",
+            "scopes": "api web refresh_token",
+            "issuesJwt": false
+        },
+        {
+            "type": "eca",
+            "name": "your_eca_app_name",
+            "consumerKey": "your_eca_consumer_key_here",
+            "redirectUri": "your_redirect_uri://callback",
+            "scopes": "api web refresh_token sfap_api",
+            "issuesJwt": true
+        },
+        {
+            "type": "beacon",
+            "name": "your_beacon_app_name",
+            "consumerKey": "your_beacon_consumer_key_here",
+            "redirectUri": "your_redirect_uri://callback",
+            "scopes": "api web refresh_token",
+            "issuesJwt": false
+        }
+    ],
+    "users": [
+        {
+            "username": "test@example.com",
+            "password": "yourPasswordHere"
+        },
+        {
+            "username": "admin@example.com",
+            "password": "anotherPasswordHere"
+        }
+    ]
+}
+

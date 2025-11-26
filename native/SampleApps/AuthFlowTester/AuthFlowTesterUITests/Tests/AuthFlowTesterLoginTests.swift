@@ -29,53 +29,21 @@ import XCTest
 
 class AuthFlowTesterLoginTests: BaseAuthFlowTesterTest {
     
-    func testBasicLogin() {
-        performLogin()
-        
-        // Assert AuthFlowTester main screen loads
-        assertAuthFlowTesterLoads(mainPage: mainPage)
-        
-        // Assert user is logged in
-        assertUserLoggedIn(mainPage: mainPage, username: username)
+    func testLoginAndLogout() {
+        assertMainPageLoaded()
+        assertUser()
     }
     
-    func testLoginAndMakeRestRequest() {
-        performLogin()
-        
-        // Assert AuthFlowTester main screen loads
-        assertAuthFlowTesterLoads(mainPage: mainPage)
-        
-        // Make a REST API request
-        assertRestRequestWorks(mainPage: mainPage)
+    func testLoginAndMakeRestRequestAndLogout() {
+        assertMainPageLoaded()
+        assertRestRequestWorks()
+
     }
     
-    func testLoginRevokeAndRefresh() {
-        performLogin()
-        
-        // Assert AuthFlowTester main screen loads
-        assertAuthFlowTesterLoads(mainPage: mainPage)
-        
-        // Revoke access token
-        mainPage.tapRevokeAccessToken()
-        XCTAssert(mainPage.isAccessTokenRevoked(), "Access token was not revoked successfully")
-        
-        // Make a REST request - this should trigger token refresh
-        assertRestRequestWorks(mainPage: mainPage)
+    func testLoginAndRevokeAndRefreshAndLogout() {
+        assertMainPageLoaded()
+        assertRevokeWorks()
+        assertRestRequestWorks()
     }
-    
-//    func testLoginAndLogout() {
-//        performLogin()
-//        
-//        // Assert AuthFlowTester main screen loads
-//        assertAuthFlowTesterLoads(mainPage: mainPage)
-//        
-//        // Perform logout
-//        mainPage.tapLogout()
-//        mainPage.confirmLogout()
-//        
-//        // Wait for login screen to appear again
-//        let usernameField = app.descendants(matching: .textField).element
-//        XCTAssert(usernameField.waitForExistence(timeout: timeout), "Login screen did not appear after logout")
-//    }
 }
 
