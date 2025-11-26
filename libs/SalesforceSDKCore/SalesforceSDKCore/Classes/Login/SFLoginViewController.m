@@ -309,6 +309,23 @@
         }
     }]];
     
+    
+    if ([[SalesforceSDKManager sharedManager] isDevSupportEnabled]) {
+        [menuActions addObject:[UIAction actionWithTitle:[SFSDKResourceUtils localizedString:@"LOGIN_OPTIONS"]
+                                                   image:nil
+                                              identifier:nil
+                                                 handler:^(__kindof UIAction* _Nonnull action) {
+            UIViewController *configPicker = [BootConfigPickerViewController makeViewControllerOnConfigurationCompleted:^{
+                [self dismissViewControllerAnimated:YES completion:^{
+                    if ([self.delegate respondsToSelector:@selector(loginViewControllerDidReload:)]) {
+                        [self.delegate loginViewControllerDidReload:self];
+                    }
+                }];
+            }];
+            [self presentViewController:configPicker animated:YES completion:nil];
+        }]];
+    }
+    
     UIMenu *menu = [UIMenu menuWithTitle:@"" // No title
                                 children:menuActions];
     UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:image menu:menu];
