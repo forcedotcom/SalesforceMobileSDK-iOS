@@ -289,14 +289,14 @@ successBlock:(SFRestResponseBlock)successBlock
         [[SFUserAccountManager sharedInstance] loginWithCompletion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             strongSelf.user = userAccount;
-            [strongSelf enqueueRequest:request failureBlock:failureBlock successBlock:successBlock shouldRetry:shouldRetry];
+            [strongSelf enqueueRequest:request shouldRetry:shouldRetry];
         } failure:^(SFOAuthInfo *authInfo, NSError *error) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             [SFSDKCoreLogger e:[strongSelf class] format:@"Authentication failed in SFRestAPI: %@. Logging out.", error];
             [[SFUserAccountManager sharedInstance] logout:SFLogoutReasonUnexpected];
         }];
     } else {
-        [self enqueueRequest:request failureBlock:failureBlock successBlock:successBlock shouldRetry:shouldRetry];
+        [self enqueueRequest:request shouldRetry:shouldRetry];
     }
 }
 
@@ -314,10 +314,7 @@ successBlock:(SFRestResponseBlock)successBlock
     return self.oauthSessionRefresher;
 }
 
-- (void)enqueueRequest:(SFRestRequest *)request
-          failureBlock:(SFRestRequestFailBlock)failureBlock
-          successBlock:(SFRestResponseBlock)successBlock
-           shouldRetry:(BOOL)shouldRetry {
+- (void)enqueueRequest:(SFRestRequest *)request shouldRetry:(BOOL)shouldRetry {
     __weak __typeof(self) weakSelf = self;
     NSURLRequest *finalRequest = [request prepareRequestForSend:self.user];
     if (finalRequest) {
@@ -337,16 +334,16 @@ successBlock:(SFRestResponseBlock)successBlock
             if (error) {
                 [SFSDKCoreLogger d:[strongSelf class] format:@"REST request failed with error: Error Code: %ld, Description: %@, URL: %@", (long) error.code, error.localizedDescription, finalRequest.URL];
                 id dataForDelegate = [strongSelf prepareDataForDelegate:data request:request response:response];
-                if (failureBlock) {
-                    failureBlock(dataForDelegate, error, response);
+                if (request.failureBlock) {
+                    request.failureBlock(dataForDelegate, error, response);
                 }
                 return;
             }
             
             // Timeout.
             if (!response) {
-                if (failureBlock) {
-                    failureBlock(nil, nil, nil);
+                if (request.failureBlock) {
+                    request.failureBlock(nil, nil, nil);
                 }
                 return;
             }
@@ -355,18 +352,18 @@ successBlock:(SFRestResponseBlock)successBlock
             // 2xx indicates success.
             if ([SFRestAPI isStatusCodeSuccess:statusCode]) {
                 id dataForDelegate = [strongSelf prepareDataForDelegate:data request:request response:response];
-                if (successBlock) {
-                    successBlock(dataForDelegate, response);
+                if (request.successBlock) {
+                    request.successBlock(dataForDelegate, response);
                 }
             } else {
                 if (shouldRetry && [self shouldRetryTask:dataTask withData:data]) {
-                    [strongSelf replayRequest:request response:response failureBlock:failureBlock successBlock:successBlock];
+                    [strongSelf replayRequest:request response:response];
                 } else {
                     // Other status codes indicate failure.
                     NSError *errorForDelegate = [strongSelf prepareErrorForDelegate:data response:response];
                     id dataForDelegate = [strongSelf prepareDataForDelegate:data request:request response:response];
-                    if (failureBlock) {
-                        failureBlock(dataForDelegate, errorForDelegate, response);
+                    if (request.failureBlock) {
+                        request.failureBlock(dataForDelegate, errorForDelegate, response);
                     }
                 }
             }
@@ -446,10 +443,7 @@ successBlock:(SFRestResponseBlock)successBlock
     return [[NSError alloc] initWithDomain:kSFRestErrorDomain code:statusCode userInfo:errorDict];
 }
 
-- (void)replayRequest:(SFRestRequest *)request
-             response:(NSURLResponse *)response
-         failureBlock:(SFRestRequestFailBlock)failureBlock
-         successBlock:(SFRestResponseBlock)successBlock {
+- (void)replayRequest:(SFRestRequest *)request response:(NSURLResponse *)response {
     [SFSDKCoreLogger i:[self class] format:@"%@: REST request failed due to expired credentials. Attempting to refresh credentials.", NSStringFromSelector(_cmd)];
     
     /*
@@ -469,8 +463,7 @@ successBlock:(SFRestResponseBlock)successBlock
                 @synchronized (strongSelf) {
                     if (!strongSelf.pendingRequestsBeingProcessed) {
                         strongSelf.pendingRequestsBeingProcessed = YES;
-                        [strongSelf resendActiveRequestsRequiringAuthenticationWithFailureBlock:failureBlock
-                                                                                   successBlock:successBlock];
+                        [strongSelf resendActiveRequestsRequiringAuthentication];
                     }
                 }
             } error:^(NSError *refreshError) {
@@ -478,8 +471,8 @@ successBlock:(SFRestResponseBlock)successBlock
                 [SFSDKCoreLogger e:[strongSelf class] format:@"Failed to refresh expired session. Error: %@", refreshError];
                 
                 // Call the failure block for the triggering request first
-                if (failureBlock) {
-                    failureBlock(nil, refreshError, response);
+                if (request.failureBlock) {
+                    request.failureBlock(nil, refreshError, response);
                 }
                 
                 strongSelf.pendingRequestsBeingProcessed = YES;
@@ -513,14 +506,13 @@ successBlock:(SFRestResponseBlock)successBlock
     }
 }
 
-- (void)resendActiveRequestsRequiringAuthenticationWithFailureBlock:(SFRestRequestFailBlock)failureBlock
-                                                   successBlock:(SFRestResponseBlock)successBlock  {
+- (void)resendActiveRequestsRequiringAuthentication {
     @synchronized (self) {
         NSSet *pendingRequests = [self.activeRequests asSet];
         for (SFRestRequest *request in pendingRequests) {
             [self send:request
-          failureBlock:failureBlock
-          successBlock:successBlock
+          failureBlock:request.failureBlock
+          successBlock:request.successBlock
            shouldRetry:NO];
         }
         self.pendingRequestsBeingProcessed = NO;
