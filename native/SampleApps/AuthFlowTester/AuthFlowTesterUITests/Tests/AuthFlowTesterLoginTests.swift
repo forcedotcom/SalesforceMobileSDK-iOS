@@ -34,24 +34,207 @@ class AuthFlowTesterLoginTests: BaseAuthFlowTesterTest {
         super.tearDown()
     }
     
-    func testLogin() {
-        login()
+    private func loginValidateAndRevokeAndRefresh(
+        userConfig: UserConfig,
+        appConfig: AppConfig,
+        scopesToRequest: String,
+        useWebServerFlow: Bool = true,
+        useHybridFlow: Bool = true
+    ) {
+        let expectedScopesGranted = scopesToRequest == "" ? appConfig.scopes : scopesToRequest
+        
+        // Perform login
+        login(
+            userConfig: userConfig,
+            appConfig: appConfig,
+            scopesToRequest: scopesToRequest,
+            useWebServerFlow: useWebServerFlow,
+            useHybridFlow: useHybridFlow
+        )
+        
+        // Check that app loads and shows the expected user credentials etc
         assertMainPageLoaded()
-        assertUser()
-    }
-    
-    func testLoginAndMakeRestRequest() {
-        login()
-        assertMainPageLoaded()
-        assertRestRequestWorks()
-
-    }
-    
-    func testLoginAndRevokeAndRefresh() {
-        login()
-        assertMainPageLoaded()
+        
+        assertUserCredentials(
+            username: userConfig.username,
+            userConsumerKey: appConfig.consumerKey,
+            userRedirectUri: appConfig.consumerKey,
+            grantedScopes: expectedScopesGranted
+        )
+        
+        assertOauthConfiguration(
+            configuredConsumerKey: appConfig.consumerKey,
+            configuredCallbackUrl: appConfig.redirectUri,
+            requestedScopes: scopesToRequest
+        )
+        
+        if (appConfig.issuesJwt) {
+            assertJwtDetails(
+                clientId: appConfig.consumerKey,
+                scopes: expectedScopesGranted
+            )
+        }
+        
+        // Attempting revoke / refresh
+//        let accessTokenBeforeRevoke = mainPage.getUserCredentials().accessToken
+        
         assertRevokeWorks()
+        
+//        let accessTokenAfterRevoke = mainPage.getUserCredentials().accessToken
+        
+//        XCTAssertNotEqual(accessTokenBeforeRevoke, accessTokenAfterRevoke, "Access token should have been refreshed")
+        
         assertRestRequestWorks()
     }
+    
+    // MARK: - ECA Basic Opaque Tests
+    
+    func testECABasicOpaque_EmptyScopes_WebServerFlow() throws {
+        let user = try testConfig.getPrimaryUser()
+        let app = try testConfig.getECABasicOpaque()
+        
+        loginValidateAndRevokeAndRefresh(
+            userConfig: user,
+            appConfig: app,
+            scopesToRequest: "",
+            useWebServerFlow: true,
+            useHybridFlow: true
+        )
+    }
+    
+    func testECABasicOpaque_EmptyScopes_UserAgentFlow() throws {
+        let user = try testConfig.getPrimaryUser()
+        let app = try testConfig.getECABasicOpaque()
+        
+        loginValidateAndRevokeAndRefresh(
+            userConfig: user,
+            appConfig: app,
+            scopesToRequest: "",
+            useWebServerFlow: false,
+            useHybridFlow: true
+        )
+    }
+    
+    func testECABasicOpaque_AllScopes_WebServerFlow() throws {
+        let user = try testConfig.getPrimaryUser()
+        let app = try testConfig.getECABasicOpaque()
+        
+        loginValidateAndRevokeAndRefresh(
+            userConfig: user,
+            appConfig: app,
+            scopesToRequest: app.scopes,
+            useWebServerFlow: true,
+            useHybridFlow: true
+        )
+    }
+    
+    func testECABasicOpaque_AllScopes_UserAgentFlow() throws {
+        let user = try testConfig.getPrimaryUser()
+        let app = try testConfig.getECABasicOpaque()
+        
+        loginValidateAndRevokeAndRefresh(
+            userConfig: user,
+            appConfig: app,
+            scopesToRequest: app.scopes,
+            useWebServerFlow: false,
+            useHybridFlow: true
+        )
+    }
+    
+    // MARK: - ECA Basic JWT Tests
+    
+    func testECABasicJwt_EmptyScopes_WebServerFlow() throws {
+        let user = try testConfig.getPrimaryUser()
+        let app = try testConfig.getECABasicJwt()
+        
+        loginValidateAndRevokeAndRefresh(
+            userConfig: user,
+            appConfig: app,
+            scopesToRequest: "",
+            useWebServerFlow: true,
+            useHybridFlow: true
+        )
+    }
+    
+    func testECABasicJwt_EmptyScopes_UserAgentFlow() throws {
+        let user = try testConfig.getPrimaryUser()
+        let app = try testConfig.getECABasicJwt()
+        
+        loginValidateAndRevokeAndRefresh(
+            userConfig: user,
+            appConfig: app,
+            scopesToRequest: "",
+            useWebServerFlow: false,
+            useHybridFlow: true
+        )
+    }
+    
+    func testECABasicJwt_AllScopes_WebServerFlow() throws {
+        let user = try testConfig.getPrimaryUser()
+        let app = try testConfig.getECABasicJwt()
+        
+        loginValidateAndRevokeAndRefresh(
+            userConfig: user,
+            appConfig: app,
+            scopesToRequest: app.scopes,
+            useWebServerFlow: true,
+            useHybridFlow: true
+        )
+    }
+    
+    func testECABasicJwt_AllScopes_UserAgentFlow() throws {
+        let user = try testConfig.getPrimaryUser()
+        let app = try testConfig.getECABasicJwt()
+        
+        loginValidateAndRevokeAndRefresh(
+            userConfig: user,
+            appConfig: app,
+            scopesToRequest: app.scopes,
+            useWebServerFlow: false,
+            useHybridFlow: true
+        )
+    }
+    
+    // MARK: - ECA Advanced JWT Tests
+    
+    func testECAAdvancedJwt_EmptyScopes_WebServerFlow() throws {
+        let user = try testConfig.getPrimaryUser()
+        let app = try testConfig.getECAAdvancedJwt()
+        
+        loginValidateAndRevokeAndRefresh(
+            userConfig: user,
+            appConfig: app,
+            scopesToRequest: "",
+            useWebServerFlow: true,
+            useHybridFlow: true
+        )
+    }
+    
+    func testECAAdvancedJwt_ApiIdRefreshScopes_WebServerFlow() throws {
+        let user = try testConfig.getPrimaryUser()
+        let app = try testConfig.getECAAdvancedJwt()
+        
+        loginValidateAndRevokeAndRefresh(
+            userConfig: user,
+            appConfig: app,
+            scopesToRequest: "api id refresh_token",
+            useWebServerFlow: true,
+            useHybridFlow: true
+        )
+    }
+    
+    func testECAAdvancedJwt_AllScopes_WebServerFlow() throws {
+        let user = try testConfig.getPrimaryUser()
+        let app = try testConfig.getECAAdvancedJwt()
+        
+        loginValidateAndRevokeAndRefresh(
+            userConfig: user,
+            appConfig: app,
+            scopesToRequest: app.scopes,
+            useWebServerFlow: true,
+            useHybridFlow: true
+        )
+    }
+
 }
 

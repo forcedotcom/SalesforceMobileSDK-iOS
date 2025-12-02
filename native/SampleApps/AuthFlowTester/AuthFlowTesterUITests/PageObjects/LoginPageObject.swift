@@ -62,9 +62,19 @@ class LoginPageObject {
         tapIfPresent(allowButton())
     }
     
-    func configureAppConfig(consumerKey: String, redirectUri: String, scopes: String) -> Void {
+    func configureLoginOptions(
+        consumerKey: String,
+        redirectUri: String,
+        scopes: String,
+        useWebServerFlow: Bool = true,
+        useHybridFlow: Bool = true,
+        supportWelcomeDiscovery: Bool = false
+    ) -> Void {
         tap(settingsButton())
         tap(loginOptionsButton())
+        setSwitchField(useWebServerFlowSwitch(), value: useWebServerFlow)
+        setSwitchField(useHybridSwitch(), value: useHybridFlow)
+        setSwitchField(supportWelcomeDiscoverySwitch(), value: supportWelcomeDiscovery)
         tap(staticConfigurationSection())
         setTextField(consumerKeyField(), value: consumerKey)
         setTextField(callbackUrlField(), value: redirectUri)
@@ -134,6 +144,18 @@ class LoginPageObject {
         return app.toolbars.matching(identifier: "Toolbar").buttons["selected"]
     }
     
+    private func useWebServerFlowSwitch() -> XCUIElement {
+        return app.switches["Use Web Server Flow"]
+    }
+
+    private func useHybridSwitch() -> XCUIElement {
+        return app.switches["Use Hybrid Flow"]
+    }
+
+    private func supportWelcomeDiscoverySwitch() -> XCUIElement {
+        return app.switches["Support Welcome Discovery"]
+    }
+
     private func staticConfigurationSection() -> XCUIElement {
         return app.buttons["Static Configuration"]
     }
@@ -153,7 +175,7 @@ class LoginPageObject {
     private func useStaticConfigButton() -> XCUIElement {
         return app.buttons["Use static config"]
     }
-
+    
     // MARK: - Actions
     
     private func tap(_ element: XCUIElement) {
@@ -187,6 +209,18 @@ class LoginPageObject {
         
         textField.typeText(value)
         tapIfPresent(toolbarDoneButton())
+    }
+    
+    private func setSwitchField(_ switchField: XCUIElement, value: Bool) {
+        _ = switchField.waitForExistence(timeout: timeout)
+        
+        // Switch values are "0" (off) or "1" (on) in XCTest
+        let currentValue = (switchField.value as? String) == "1"
+        
+        // Only tap if the current state differs from desired state
+        if currentValue != value {
+            tap(switchField)
+        }
     }
     
     // MARK: - Other

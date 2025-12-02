@@ -27,6 +27,37 @@
 
 import Foundation
 
+// MARK: - Errors
+
+enum TestConfigError: Error, CustomStringConvertible {
+    case noPrimaryUser
+    case noSecondaryUser
+    case appNotFound(String)
+    
+    var description: String {
+        switch self {
+        case .noPrimaryUser:
+            return "No primary user found in test_config.json"
+        case .noSecondaryUser:
+            return "No secondary user found in test_config.json"
+        case .appNotFound(let appName):
+            return "App '\(appName)' not found in test_config.json"
+        }
+    }
+}
+
+// MARK: - App Names
+
+enum KnownAppName: String {
+    case ecaBasicOpaque = "eca_basic_opaque"
+    case ecaBasicJwt = "eca_basic_jwt"
+    case ecaAdvancedJwt = "eca_advanced_jwt"
+    case beaconBasic = "beacon_basic"
+    case beaconAdvanced = "beacon_advanced"
+    case caBasicOpaque = "ca_basic_opaque"
+    case caAdvancedOpaque = "ca_advanced_opaque"
+}
+
 // MARK: - Configuration Models
 
 /// Represents an app configuration for testing
@@ -145,62 +176,66 @@ class TestConfigUtils {
         return config?.users ?? []
     }
     
-    /// Returns the first user (convenience method)
-    var firstUser: UserConfig? {
-        return config?.users.first
-    }
+    // MARK: - Throwing Accessors
     
-    /// Returns the first app (convenience method)
-    var firstApp: AppConfig? {
-        return config?.apps.first
-    }
-    
-    /// Returns app of a specific type
-    func app(ofType type: AppConfig.AppType) -> AppConfig? {
-        return config?.apps.first { $0.type == type }
-    }
-    
-    /// Returns app by consumer key
-    func app(withConsumerKey consumerKey: String) -> AppConfig? {
-        return config?.apps.first { $0.consumerKey == consumerKey }
-    }
-    
-    /// Returns app by name
-    func app(withName name: String) -> AppConfig? {
-        return config?.apps.first { $0.name == name }
-    }
-    
-    /// Returns user by username
-    func user(withUsername username: String) -> UserConfig? {
-        return config?.users.first { $0.username == username }
-    }
-    
-    // MARK: - Debug Helpers
-    
-    /// Prints the current configuration (for debugging)
-    func printConfiguration() {
-        guard let config = config else {
-            print("No configuration loaded")
-            return
+    /// Returns the primary (first) user or throws an error if not found
+    func getPrimaryUser() throws -> UserConfig {
+        guard let user = config?.users.first else {
+            throw TestConfigError.noPrimaryUser
         }
-        
-        print("=== Test Configuration ===")
-        print("Login Host: \(config.loginHost)")
-        print("\nApps (\(config.apps.count)):")
-        for (index, app) in config.apps.enumerated() {
-            print("  [\(index)] Name: \(app.name)")
-            print("      Type: \(app.type.rawValue)")
-            print("      Consumer Key: \(app.consumerKey)")
-            print("      Redirect URI: \(app.redirectUri)")
-            print("      Scopes: \(app.scopes.isEmpty ? "(none)" : app.scopes)")
-            print("      Issues JWT: \(app.issuesJwt)")
-        }
-        print("\nUsers (\(config.users.count)):")
-        for (index, user) in config.users.enumerated() {
-            print("  [\(index)] Username: \(user.username)")
-            print("      Password: [REDACTED]")
-        }
-        print("==========================")
+        return user
     }
+    
+    /// Returns the secondary (second) user or throws an error if not found
+    func getSecondaryUser() throws -> UserConfig {
+        guard let users = config?.users, users.count >= 2 else {
+            throw TestConfigError.noSecondaryUser
+        }
+        return users[1]
+    }
+    
+    /// Returns an app by its name or throws an error if not found
+    func getApp(named name: KnownAppName) throws -> AppConfig {
+        guard let app = config?.apps.first(where: { $0.name == name.rawValue }) else {
+            throw TestConfigError.appNotFound(name.rawValue)
+        }
+        return app
+    }
+    
+    /// Returns the ECA Basic Opaque app or throws an error if not found
+    func getECABasicOpaque() throws -> AppConfig {
+        return try getApp(named: .ecaBasicOpaque)
+    }
+    
+    /// Returns the ECA Basic JWT app or throws an error if not found
+    func getECABasicJwt() throws -> AppConfig {
+        return try getApp(named: .ecaBasicJwt)
+    }
+    
+    /// Returns the ECA Advanced JWT app or throws an error if not found
+    func getECAAdvancedJwt() throws -> AppConfig {
+        return try getApp(named: .ecaAdvancedJwt)
+    }
+
+    /// Returns the Beacon Basic app or throws an error if not found
+    func getBeaconBasic() throws -> AppConfig {
+        return try getApp(named: .beaconBasic)
+    }
+    
+    /// Returns the Beacon Advanced app or throws an error if not found
+    func getBeaconAdvanced() throws -> AppConfig {
+        return try getApp(named: .beaconAdvanced)
+    }
+    
+    /// Returns the Connected App Basic Opaque app or throws an error if not found
+    func getCABasicOpaque() throws -> AppConfig {
+        return try getApp(named: .caBasicOpaque)
+    }
+    
+    /// Returns the Connected App Advanced Opaque app or throws an error if not found
+    func getCAAdvancedOpaque() throws -> AppConfig {
+        return try getApp(named: .caAdvancedOpaque)
+    }
+
 }
 

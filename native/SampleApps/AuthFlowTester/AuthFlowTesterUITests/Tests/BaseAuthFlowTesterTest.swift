@@ -38,11 +38,6 @@ class BaseAuthFlowTesterTest: XCTestCase {
     // Test configuration
     let testConfig = TestConfigUtils.shared
     var host: String = TestConfigUtils.shared.loginHostNoProtocol ?? ""
-    var username: String = TestConfigUtils.shared.firstUser?.username ?? ""
-    var password: String = TestConfigUtils.shared.firstUser?.password ?? ""
-    var consumerKey: String = TestConfigUtils.shared.firstApp?.consumerKey ?? ""
-    var redirectUri: String = TestConfigUtils.shared.firstApp?.redirectUri ?? ""
-    var scopes: String = TestConfigUtils.shared.firstApp?.scopes ?? ""
 
     override func setUp() {
         super.setUp()
@@ -52,17 +47,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
             XCTFail("No login host configured")
             return
         }
-        
-        guard username != "" else {
-            XCTFail("No username configured")
-            return
-        }
-        
-        guard password != "" else {
-            XCTFail("No password configured")
-            return
-        }
-        
+                
         app = XCUIApplication()
         loginPage = LoginPageObject(testApp: app)
         mainPage = AuthFlowTesterMainPageObject(testApp: app)
@@ -73,10 +58,16 @@ class BaseAuthFlowTesterTest: XCTestCase {
         super.tearDown()
     }
     
-    func login() {
-        loginPage.configureAppConfig(consumerKey: consumerKey, redirectUri: redirectUri, scopes: scopes)
+    func login(
+        userConfig: UserConfig,
+        appConfig: AppConfig,
+        scopesToRequest: String = "",
+        useWebServerFlow: Bool = true,
+        useHybridFlow: Bool = true,
+    ) {
+        loginPage.configureLoginOptions(consumerKey: appConfig.consumerKey, redirectUri: appConfig.redirectUri, scopes: scopesToRequest)
         loginPage.configureLoginHost(host: host)
-        loginPage.performLogin(username: username, password: password)
+        loginPage.performLogin(username: userConfig.username, password: userConfig.password)
     }
     
     func logout() {
@@ -87,8 +78,28 @@ class BaseAuthFlowTesterTest: XCTestCase {
         XCTAssert(mainPage.isShowing(), "AuthFlowTester is not loaded")
     }
     
-    func assertUser() {
-        XCTAssert(mainPage.hasUser(username: username), "Username \(username) not found")
+    func assertUserCredentials(username: String, userConsumerKey: String, userRedirectUri: String, grantedScopes: String) {
+        let userCredentials = mainPage.getUserCredentials()
+        XCTAssertEqual(userCredentials.username, username)
+        XCTAssertEqual(userCredentials.clientId, userConsumerKey)
+        XCTAssertEqual(userCredentials.redirectUri, userRedirectUri)
+        XCTAssertEqual(userCredentials.credentialsScopes, grantedScopes)
+    }
+    
+    func assertOauthConfiguration(configuredConsumerKey: String, configuredCallbackUrl: String, requestedScopes: String) {
+        let oauthConfiguration = mainPage.getOAuthConfiguration()
+        XCTAssertEqual(oauthConfiguration.configuredConsumerKey, configuredConsumerKey)
+        XCTAssertEqual(oauthConfiguration.configuredCallbackUrl, configuredCallbackUrl)
+        XCTAssertEqual(oauthConfiguration.configuredScopes, requestedScopes)
+    }
+    
+    func assertJwtDetails(clientId:String, scopes: String) {
+        guard let jwtDetails = mainPage.getJwtDetails() else {
+            XCTFail("No JWT details found")
+            return
+        }
+        XCTAssertEqual(jwtDetails.clientId, clientId)
+        XCTAssertEqual(jwtDetails.scopes, scopes)
     }
     
     func assertRestRequestWorks() {
@@ -96,7 +107,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
     }
     
     func assertRevokeWorks() {
-        XCTAssert(mainPage.reokveAccessToken(), "Failed to revoke access token")
+        XCTAssert(mainPage.revokeAccessToken(), "Failed to revoke access token")
     }
 }
 

@@ -65,6 +65,8 @@ struct InfoRowView: View {
             }
         }
         .padding(.vertical, 4)
+        .accessibilityElement(children: .contain)
+        .accessibilityIdentifier("\(label)_row")
     }
     
     // MARK: - Computed Properties
