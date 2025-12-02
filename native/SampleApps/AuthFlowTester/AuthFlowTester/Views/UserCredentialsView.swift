@@ -32,22 +32,24 @@ struct UserCredentialsView: View {
     @Binding var isExpanded: Bool
     let refreshTrigger: UUID
     
-    // Section expansion states - all start collapsed
-    @State private var userIdentityExpanded = false
-    @State private var oauthConfigExpanded = false
-    @State private var tokensExpanded = false
-    @State private var urlsExpanded = false
-    @State private var communityExpanded = false
-    @State private var domainsAndSidsExpanded = false
-    @State private var cookiesAndSecurityExpanded = false
-    @State private var beaconExpanded = false
-    @State private var otherExpanded = false
+    // Section expansion states - all expand/collapse together with parent
+    @State private var userIdentityExpanded = true
+    @State private var oauthConfigExpanded = true
+    @State private var tokensExpanded = true
+    @State private var urlsExpanded = true
+    @State private var communityExpanded = true
+    @State private var domainsAndSidsExpanded = true
+    @State private var cookiesAndSecurityExpanded = true
+    @State private var beaconExpanded = true
+    @State private var otherExpanded = true
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Button(action: {
                 withAnimation {
                     isExpanded.toggle()
+                    // Expand/collapse all subsections with the parent
+                    expandAllSubsections(isExpanded)
                 }
             }) {
                 HStack {
@@ -135,6 +137,20 @@ struct UserCredentialsView: View {
         .cornerRadius(8)
     }
     
+    // MARK: - Helper Methods
+    
+    private func expandAllSubsections(_ expand: Bool) {
+        userIdentityExpanded = expand
+        oauthConfigExpanded = expand
+        tokensExpanded = expand
+        urlsExpanded = expand
+        communityExpanded = expand
+        domainsAndSidsExpanded = expand
+        cookiesAndSecurityExpanded = expand
+        beaconExpanded = expand
+        otherExpanded = expand
+    }
+    
     // MARK: - Computed Properties
     
     private var credentials: OAuthCredentials? {
@@ -212,7 +228,7 @@ struct UserCredentialsView: View {
         guard let scopes = credentials?.scopes else {
             return ""
         }
-        return scopes.joined(separator: " ")
+        return scopes.sorted().joined(separator: " ")
     }
     
     // URLs

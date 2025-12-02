@@ -55,36 +55,41 @@ class AuthFlowTesterLoginTests: BaseAuthFlowTesterTest {
         // Check that app loads and shows the expected user credentials etc
         assertMainPageLoaded()
         
-        assertUserCredentials(
+        let userCredentials = checkUserCredentials(
             username: userConfig.username,
             userConsumerKey: appConfig.consumerKey,
-            userRedirectUri: appConfig.consumerKey,
+            userRedirectUri: appConfig.redirectUri,
             grantedScopes: expectedScopesGranted
         )
         
-        assertOauthConfiguration(
+        _ = checkOauthConfiguration(
             configuredConsumerKey: appConfig.consumerKey,
             configuredCallbackUrl: appConfig.redirectUri,
             requestedScopes: scopesToRequest
         )
         
         if (appConfig.issuesJwt) {
-            assertJwtDetails(
+            _ = checkJwtDetails(
                 clientId: appConfig.consumerKey,
                 scopes: expectedScopesGranted
             )
         }
         
-        // Attempting revoke / refresh
-//        let accessTokenBeforeRevoke = mainPage.getUserCredentials().accessToken
+        assertSIDs(userCredentialsData: userCredentials, useHybridFlow: useHybridFlow)
         
+        // Attempting revoke / refresh
         assertRevokeWorks()
         
-//        let accessTokenAfterRevoke = mainPage.getUserCredentials().accessToken
-        
-//        XCTAssertNotEqual(accessTokenBeforeRevoke, accessTokenAfterRevoke, "Access token should have been refreshed")
-        
+        let userCredentialsAfterRevoke = mainPage.getUserCredentials()
+
         assertRestRequestWorks()
+
+        // Making sure the access token changed
+        XCTAssertNotEqual(
+            userCredentials.accessToken,
+            userCredentialsAfterRevoke.accessToken,
+            "Access token should have been refreshed"
+        )
     }
     
     // MARK: - ECA Basic Opaque Tests

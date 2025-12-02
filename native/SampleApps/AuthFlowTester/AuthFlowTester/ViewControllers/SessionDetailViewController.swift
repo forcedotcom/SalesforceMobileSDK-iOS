@@ -67,7 +67,7 @@ struct SessionDetailView: View {
                    credentials.tokenFormat?.lowercased() == "jwt",
                    let accessToken = credentials.accessToken,
                    let jwtToken = try? JwtAccessToken(jwt: accessToken) {
-                    JwtAccessView(jwtToken: jwtToken, isExpanded: $isJwtDetailsExpanded)
+                    JwtTokenView(jwtToken: jwtToken, isExpanded: $isJwtDetailsExpanded)
                         .id(refreshTrigger)
                 }
 

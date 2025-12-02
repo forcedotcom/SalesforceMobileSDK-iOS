@@ -78,28 +78,59 @@ class BaseAuthFlowTesterTest: XCTestCase {
         XCTAssert(mainPage.isShowing(), "AuthFlowTester is not loaded")
     }
     
-    func assertUserCredentials(username: String, userConsumerKey: String, userRedirectUri: String, grantedScopes: String) {
+    func checkUserCredentials(username: String, userConsumerKey: String, userRedirectUri: String, grantedScopes: String) -> UserCredentialsData {
         let userCredentials = mainPage.getUserCredentials()
         XCTAssertEqual(userCredentials.username, username)
-        XCTAssertEqual(userCredentials.clientId, userConsumerKey)
+        XCTAssertEqual(userCredentials.clientId, maskedValue(userConsumerKey))
         XCTAssertEqual(userCredentials.redirectUri, userRedirectUri)
         XCTAssertEqual(userCredentials.credentialsScopes, grantedScopes)
+        return userCredentials
     }
     
-    func assertOauthConfiguration(configuredConsumerKey: String, configuredCallbackUrl: String, requestedScopes: String) {
+    func checkOauthConfiguration(configuredConsumerKey: String, configuredCallbackUrl: String, requestedScopes: String) -> OAuthConfigurationData {
         let oauthConfiguration = mainPage.getOAuthConfiguration()
-        XCTAssertEqual(oauthConfiguration.configuredConsumerKey, configuredConsumerKey)
+        XCTAssertEqual(oauthConfiguration.configuredConsumerKey, maskedValue(configuredConsumerKey))
         XCTAssertEqual(oauthConfiguration.configuredCallbackUrl, configuredCallbackUrl)
-        XCTAssertEqual(oauthConfiguration.configuredScopes, requestedScopes)
+        XCTAssertEqual(oauthConfiguration.configuredScopes, requestedScopes == "" ? "(none)" : requestedScopes)
+        return oauthConfiguration
     }
     
-    func assertJwtDetails(clientId:String, scopes: String) {
+    func checkJwtDetails(clientId:String, scopes: String) -> JwtDetailsData? {
         guard let jwtDetails = mainPage.getJwtDetails() else {
             XCTFail("No JWT details found")
-            return
+            return nil
         }
-        XCTAssertEqual(jwtDetails.clientId, clientId)
-        XCTAssertEqual(jwtDetails.scopes, scopes)
+        XCTAssertEqual(jwtDetails.clientId, maskedValue(clientId))
+        XCTAssertEqual(sortedScopes(jwtDetails.scopes), scopes)
+        return jwtDetails
+    }
+    
+    func assertSIDs(userCredentialsData: UserCredentialsData, useHybridFlow: Bool) {
+        if (useHybridFlow) {
+            if (userCredentialsData.credentialsScopes.contains("content")) {
+                XCTAssertNotEqual(userCredentialsData.contentDomain, "(empty)")
+                XCTAssertNotEqual(userCredentialsData.contentSid, "(empty)")
+            }
+            if (userCredentialsData.credentialsScopes.contains("lightning")) {
+                XCTAssertNotEqual(userCredentialsData.lightningDomain, "(empty)")
+                XCTAssertNotEqual(userCredentialsData.lightningSid, "(empty)")
+            }
+            if (userCredentialsData.credentialsScopes.contains("visualforce")) {
+                XCTAssertNotEqual(userCredentialsData.vfDomain, "(empty)")
+                XCTAssertNotEqual(userCredentialsData.vfSid, "(empty)")
+            }
+            if (userCredentialsData.credentialsScopes.contains("web")) {
+                XCTAssertNotEqual(userCredentialsData.parentSid, "(empty)")
+            }
+        } else {
+            XCTAssertEqual(userCredentialsData.contentDomain, "(empty)")
+            XCTAssertEqual(userCredentialsData.contentSid, "(empty)")
+            XCTAssertEqual(userCredentialsData.lightningDomain, "(empty)")
+            XCTAssertEqual(userCredentialsData.lightningSid, "(empty)")
+            XCTAssertEqual(userCredentialsData.vfDomain, "(empty)")
+            XCTAssertEqual(userCredentialsData.vfSid, "(empty)")
+            XCTAssertEqual(userCredentialsData.parentSid, "(empty)")
+        }
     }
     
     func assertRestRequestWorks() {
@@ -108,6 +139,21 @@ class BaseAuthFlowTesterTest: XCTestCase {
     
     func assertRevokeWorks() {
         XCTAssert(mainPage.revokeAccessToken(), "Failed to revoke access token")
+    }
+    
+    private func maskedValue(_ value: String) -> String {
+        let firstFive = value.prefix(5)
+        let lastFive = value.suffix(5)
+        return "\(firstFive)...\(lastFive)"
+    }
+    
+    private func sortedScopes(_ value: String) -> String {
+        let scopes = value
+            .split(separator: " ")
+            .map { String($0) }
+            .filter { !$0.isEmpty }
+            .sorted()
+        return scopes.joined(separator: " ")
     }
 }
 

@@ -26,7 +26,7 @@
 		AUTH037 /* UserCredentialsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AUTH038 /* UserCredentialsView.swift */; };
 		AUTH040 /* RestApiTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AUTH041 /* RestApiTestView.swift */; };
 		AUTH042 /* OAuthConfigurationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AUTH043 /* OAuthConfigurationView.swift */; };
-		AUTH049 /* JwtAccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AUTH050 /* JwtAccessView.swift */; };
+		AUTH049 /* JwtTokenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AUTH050 /* JwtTokenView.swift */; };
 		AUTH051 /* InfoRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AUTH052 /* InfoRowView.swift */; };
 /* End PBXBuildFile section */
 
@@ -75,7 +75,7 @@
 		AUTH038 /* UserCredentialsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCredentialsView.swift; sourceTree = "<group>"; };
 		AUTH041 /* RestApiTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestApiTestView.swift; sourceTree = "<group>"; };
 		AUTH043 /* OAuthConfigurationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthConfigurationView.swift; sourceTree = "<group>"; };
-		AUTH050 /* JwtAccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JwtAccessView.swift; sourceTree = "<group>"; };
+		AUTH050 /* JwtTokenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JwtTokenView.swift; sourceTree = "<group>"; };
 		AUTH052 /* InfoRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoRowView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -195,7 +195,7 @@
 				AUTH038 /* UserCredentialsView.swift */,
 				AUTH041 /* RestApiTestView.swift */,
 				AUTH043 /* OAuthConfigurationView.swift */,
-				AUTH050 /* JwtAccessView.swift */,
+				AUTH050 /* JwtTokenView.swift */,
 				AUTH052 /* InfoRowView.swift */,
 			);
 			path = Views;
@@ -322,7 +322,7 @@
 				4FE006B52EBEB94700CFD66F /* InitialViewController.swift in Sources */,
 				AUTH042 /* OAuthConfigurationView.swift in Sources */,
 				4FEBAF292EA9B91500D4880A /* RevokeView.swift in Sources */,
-				AUTH049 /* JwtAccessView.swift in Sources */,
+				AUTH049 /* JwtTokenView.swift in Sources */,
 				AUTH051 /* InfoRowView.swift in Sources */,
 				4F5945B82ED51C00003C5BDE /* InfoSectionView.swift in Sources */,
 			);

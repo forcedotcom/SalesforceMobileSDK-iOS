@@ -181,49 +181,12 @@ class AuthFlowTesterMainPageObject {
         return app.buttons["User Credentials"]
     }
     
-    private func userIdentitySection() -> XCUIElement {
-        return app.buttons["User Identity"]
-    }
-    
     private func oauthConfigSection() -> XCUIElement {
         return app.buttons["OAuth Configuration"]
     }
     
     private func jwtDetailsSection() -> XCUIElement {
         return app.buttons["JWT Access Token Details"]
-    }
-    
-    // UserCredentialsView subsections
-    private func oauthClientConfigSection() -> XCUIElement {
-        return app.buttons["OAuth Client Configuration"]
-    }
-    
-    private func tokensSection() -> XCUIElement {
-        return app.buttons["Tokens"]
-    }
-    
-    private func urlsSection() -> XCUIElement {
-        return app.buttons["URLs"]
-    }
-    
-    private func communitySection() -> XCUIElement {
-        return app.buttons["Community"]
-    }
-    
-    private func domainsAndSidsSection() -> XCUIElement {
-        return app.buttons["Domains and SIDs"]
-    }
-    
-    private func cookiesAndSecuritySection() -> XCUIElement {
-        return app.buttons["Cookies and Security"]
-    }
-    
-    private func beaconSection() -> XCUIElement {
-        return app.buttons["Beacon"]
-    }
-    
-    private func otherSection() -> XCUIElement {
-        return app.buttons["Other"]
     }
     
     // MARK: - Actions
@@ -236,69 +199,106 @@ class AuthFlowTesterMainPageObject {
     // MARK: - Data Extraction Methods
     
     func getUserCredentials() -> UserCredentialsData {
-        // Expand User Credentials if not already expanded
+        // Expand User Credentials (all subsections expand automatically)
         tap(userCredentialsSection())
         
-        // Extract data from each section
-        let userIdentity = extractUserIdentityData()
-        let oauthClientConfig = extractOAuthClientConfigData()
-        let tokens = extractTokensData()
-        let urls = extractURLsData()
-        let community = extractCommunityData()
-        let domainsAndSids = extractDomainsAndSidsData()
-        let cookiesAndSecurity = extractCookiesAndSecurityData()
-        let beacon = extractBeaconData()
-        let other = extractOtherData()
+        // Collect all static texts once
+        let allLabels = collectAllStaticTextLabels()
+        
+        // Extract all data from the collected list - User Identity
+        let username = extractFieldValue(from: allLabels, label: "Username:")
+        let userId = extractFieldValue(from: allLabels, label: "User ID:")
+        let organizationId = extractFieldValue(from: allLabels, label: "Organization ID:")
+        
+        // OAuth Client Configuration
+        let clientId = extractFieldValue(from: allLabels, label: "Client ID:")
+        let redirectUri = extractFieldValue(from: allLabels, label: "Redirect URI:")
+        let authProtocol = extractFieldValue(from: allLabels, label: "Protocol:")
+        let domain = extractFieldValue(from: allLabels, label: "Domain:")
+        let identifier = extractFieldValue(from: allLabels, label: "Identifier:")
+        
+        // Tokens
+        let accessToken = extractFieldValue(from: allLabels, label: "Access Token:")
+        let refreshToken = extractFieldValue(from: allLabels, label: "Refresh Token:")
+        let tokenFormat = extractFieldValue(from: allLabels, label: "Token Format:")
+        let jwt = extractFieldValue(from: allLabels, label: "JWT:")
+        let authCode = extractFieldValue(from: allLabels, label: "Auth Code:")
+        let challengeString = extractFieldValue(from: allLabels, label: "Challenge String:")
+        let issuedAt = extractFieldValue(from: allLabels, label: "Issued At:")
+        let credentialsScopes = extractFieldValue(from: allLabels, label: "Scopes:")
+        
+        // URLs
+        let instanceUrl = extractFieldValue(from: allLabels, label: "Instance URL:")
+        let apiInstanceUrl = extractFieldValue(from: allLabels, label: "API Instance URL:")
+        let apiUrl = extractFieldValue(from: allLabels, label: "API URL:")
+        let identityUrl = extractFieldValue(from: allLabels, label: "Identity URL:")
+        
+        // Community
+        let communityId = extractFieldValue(from: allLabels, label: "Community ID:")
+        let communityUrl = extractFieldValue(from: allLabels, label: "Community URL:")
+        
+        // Domains and SIDs
+        let lightningDomain = extractFieldValue(from: allLabels, label: "Lightning Domain:")
+        let lightningSid = extractFieldValue(from: allLabels, label: "Lightning SID:")
+        let vfDomain = extractFieldValue(from: allLabels, label: "VF Domain:")
+        let vfSid = extractFieldValue(from: allLabels, label: "VF SID:")
+        let contentDomain = extractFieldValue(from: allLabels, label: "Content Domain:")
+        let contentSid = extractFieldValue(from: allLabels, label: "Content SID:")
+        let parentSid = extractFieldValue(from: allLabels, label: "Parent SID:")
+        let sidCookieName = extractFieldValue(from: allLabels, label: "SID Cookie Name:")
+        
+        // Cookies and Security
+        let csrfToken = extractFieldValue(from: allLabels, label: "CSRF Token:")
+        let cookieClientSrc = extractFieldValue(from: allLabels, label: "Cookie Client Src:")
+        let cookieSidClient = extractFieldValue(from: allLabels, label: "Cookie SID Client:")
+        
+        // Beacon
+        let beaconChildConsumerKey = extractFieldValue(from: allLabels, label: "Beacon Child Consumer Key:")
+        let beaconChildConsumerSecret = extractFieldValue(from: allLabels, label: "Beacon Child Consumer Secret:")
+        
+        // Other
+        let additionalOAuthFields = extractFieldValue(from: allLabels, label: "Additional OAuth Fields:")
         
         // Collapse User Credentials
         tap(userCredentialsSection())
         
         return UserCredentialsData(
-            // User Identity
-            username: userIdentity.0,
-            userId: userIdentity.1,
-            organizationId: userIdentity.2,
-            // OAuth Client Configuration
-            clientId: oauthClientConfig.0,
-            redirectUri: oauthClientConfig.1,
-            authProtocol: oauthClientConfig.2,
-            domain: oauthClientConfig.3,
-            identifier: oauthClientConfig.4,
-            // Tokens
-            accessToken: tokens.0,
-            refreshToken: tokens.1,
-            tokenFormat: tokens.2,
-            jwt: tokens.3,
-            authCode: tokens.4,
-            challengeString: tokens.5,
-            issuedAt: tokens.6,
-            credentialsScopes: tokens.7,
-            // URLs
-            instanceUrl: urls.0,
-            apiInstanceUrl: urls.1,
-            apiUrl: urls.2,
-            identityUrl: urls.3,
-            // Community
-            communityId: community.0,
-            communityUrl: community.1,
-            // Domains and SIDs
-            lightningDomain: domainsAndSids.0,
-            lightningSid: domainsAndSids.1,
-            vfDomain: domainsAndSids.2,
-            vfSid: domainsAndSids.3,
-            contentDomain: domainsAndSids.4,
-            contentSid: domainsAndSids.5,
-            parentSid: domainsAndSids.6,
-            sidCookieName: domainsAndSids.7,
-            // Cookies and Security
-            csrfToken: cookiesAndSecurity.0,
-            cookieClientSrc: cookiesAndSecurity.1,
-            cookieSidClient: cookiesAndSecurity.2,
-            // Beacon
-            beaconChildConsumerKey: beacon.0,
-            beaconChildConsumerSecret: beacon.1,
-            // Other
-            additionalOAuthFields: other
+            username: username,
+            userId: userId,
+            organizationId: organizationId,
+            clientId: clientId,
+            redirectUri: redirectUri,
+            authProtocol: authProtocol,
+            domain: domain,
+            identifier: identifier,
+            accessToken: accessToken,
+            refreshToken: refreshToken,
+            tokenFormat: tokenFormat,
+            jwt: jwt,
+            authCode: authCode,
+            challengeString: challengeString,
+            issuedAt: issuedAt,
+            credentialsScopes: credentialsScopes,
+            instanceUrl: instanceUrl,
+            apiInstanceUrl: apiInstanceUrl,
+            apiUrl: apiUrl,
+            identityUrl: identityUrl,
+            communityId: communityId,
+            communityUrl: communityUrl,
+            lightningDomain: lightningDomain,
+            lightningSid: lightningSid,
+            vfDomain: vfDomain,
+            vfSid: vfSid,
+            contentDomain: contentDomain,
+            contentSid: contentSid,
+            parentSid: parentSid,
+            sidCookieName: sidCookieName,
+            csrfToken: csrfToken,
+            cookieClientSrc: cookieClientSrc,
+            cookieSidClient: cookieSidClient,
+            beaconChildConsumerKey: beaconChildConsumerKey,
+            beaconChildConsumerSecret: beaconChildConsumerSecret,
+            additionalOAuthFields: additionalOAuthFields
         )
     }
     
@@ -306,10 +306,16 @@ class AuthFlowTesterMainPageObject {
         // Expand OAuth Configuration if not already expanded
         tap(oauthConfigSection())
         
+        // Collect all static texts once
+        let allLabels = collectAllStaticTextLabels()
+        
         // Extract values - note that consumer key label may have "(default)" suffix
-        let consumerKey = extractFieldValue(label: "Configured Consumer Key:")
-        let callbackUrl = extractFieldValue(label: "Configured Callback URL:")
-        let scopes = extractFieldValue(label: "Configured Scopes:")
+        var consumerKey = extractFieldValue(from: allLabels, label: "Configured Consumer Key:")
+        if consumerKey.isEmpty {
+            consumerKey = extractFieldValue(from: allLabels, label: "Configured Consumer Key: (default)")
+        }
+        let callbackUrl = extractFieldValue(from: allLabels, label: "Configured Callback URL:")
+        let scopes = extractFieldValue(from: allLabels, label: "Configured Scopes:")
         
         // Collapse OAuth Configuration
         tap(oauthConfigSection())
@@ -331,21 +337,24 @@ class AuthFlowTesterMainPageObject {
         // Expand JWT Details if not already expanded
         tap(jwtSection)
         
+        // Collect all static texts once
+        let allLabels = collectAllStaticTextLabels()
+        
         // Extract header values
-        let algorithm = extractFieldValue(label: "Algorithm (alg):")
-        let type = extractFieldValue(label: "Type (typ):")
-        let keyId = extractFieldValue(label: "Key ID (kid):")
-        let tokenType = extractFieldValue(label: "Token Type (tty):")
-        let tenantKey = extractFieldValue(label: "Tenant Key (tnk):")
-        let version = extractFieldValue(label: "Version (ver):")
+        let algorithm = extractFieldValue(from: allLabels, label: "Algorithm (alg):")
+        let type = extractFieldValue(from: allLabels, label: "Type (typ):")
+        let keyId = extractFieldValue(from: allLabels, label: "Key ID (kid):")
+        let tokenType = extractFieldValue(from: allLabels, label: "Token Type (tty):")
+        let tenantKey = extractFieldValue(from: allLabels, label: "Tenant Key (tnk):")
+        let version = extractFieldValue(from: allLabels, label: "Version (ver):")
         
         // Extract payload values
-        let audience = extractFieldValue(label: "Audience (aud):")
-        let expirationDate = extractFieldValue(label: "Expiration Date (exp):")
-        let issuer = extractFieldValue(label: "Issuer (iss):")
-        let subject = extractFieldValue(label: "Subject (sub):")
-        let scopes = extractFieldValue(label: "Scopes (scp):")
-        let clientId = extractFieldValue(label: "Client ID (client_id):")
+        let audience = extractFieldValue(from: allLabels, label: "Audience (aud):")
+        let expirationDate = extractFieldValue(from: allLabels, label: "Expiration Date (exp):")
+        let issuer = extractFieldValue(from: allLabels, label: "Issuer (iss):")
+        let subject = extractFieldValue(from: allLabels, label: "Subject (sub):")
+        let scopes = extractFieldValue(from: allLabels, label: "Scopes (scp):")
+        let clientId = extractFieldValue(from: allLabels, label: "Client ID (client_id):")
         
         // Collapse JWT Details
         tap(jwtSection)
@@ -368,122 +377,48 @@ class AuthFlowTesterMainPageObject {
     
     // MARK: - Private Helper Methods for Data Extraction
     
-    private func extractUserIdentityData() -> (String, String, String) {
-        tap(userIdentitySection())
-        let username = extractFieldValue(label: "Username:")
-        let userId = extractFieldValue(label: "User ID:")
-        let organizationId = extractFieldValue(label: "Organization ID:")
-        tap(userIdentitySection())
-        return (username, userId, organizationId)
-    }
-    
-    private func extractOAuthClientConfigData() -> (String, String, String, String, String) {
-        tap(oauthClientConfigSection())
-        let clientId = extractFieldValue(label: "Client ID:")
-        let redirectUri = extractFieldValue(label: "Redirect URI:")
-        let authProtocol = extractFieldValue(label: "Protocol:")
-        let domain = extractFieldValue(label: "Domain:")
-        let identifier = extractFieldValue(label: "Identifier:")
-        tap(oauthClientConfigSection())
-        return (clientId, redirectUri, authProtocol, domain, identifier)
-    }
-    
-    private func extractTokensData() -> (String, String, String, String, String, String, String, String) {
-        tap(tokensSection())
-        let accessToken = extractFieldValue(label: "Access Token:")
-        let refreshToken = extractFieldValue(label: "Refresh Token:")
-        let tokenFormat = extractFieldValue(label: "Token Format:")
-        let jwt = extractFieldValue(label: "JWT:")
-        let authCode = extractFieldValue(label: "Auth Code:")
-        let challengeString = extractFieldValue(label: "Challenge String:")
-        let issuedAt = extractFieldValue(label: "Issued At:")
-        let scopes = extractFieldValue(label: "Scopes:")
-        tap(tokensSection())
-        return (accessToken, refreshToken, tokenFormat, jwt, authCode, challengeString, issuedAt, scopes)
-    }
-    
-    private func extractURLsData() -> (String, String, String, String) {
-        tap(urlsSection())
-        let instanceUrl = extractFieldValue(label: "Instance URL:")
-        let apiInstanceUrl = extractFieldValue(label: "API Instance URL:")
-        let apiUrl = extractFieldValue(label: "API URL:")
-        let identityUrl = extractFieldValue(label: "Identity URL:")
-        tap(urlsSection())
-        return (instanceUrl, apiInstanceUrl, apiUrl, identityUrl)
-    }
-    
-    private func extractCommunityData() -> (String, String) {
-        tap(communitySection())
-        let communityId = extractFieldValue(label: "Community ID:")
-        let communityUrl = extractFieldValue(label: "Community URL:")
-        tap(communitySection())
-        return (communityId, communityUrl)
-    }
-    
-    private func extractDomainsAndSidsData() -> (String, String, String, String, String, String, String, String) {
-        tap(domainsAndSidsSection())
-        let lightningDomain = extractFieldValue(label: "Lightning Domain:")
-        let lightningSid = extractFieldValue(label: "Lightning SID:")
-        let vfDomain = extractFieldValue(label: "VF Domain:")
-        let vfSid = extractFieldValue(label: "VF SID:")
-        let contentDomain = extractFieldValue(label: "Content Domain:")
-        let contentSid = extractFieldValue(label: "Content SID:")
-        let parentSid = extractFieldValue(label: "Parent SID:")
-        let sidCookieName = extractFieldValue(label: "SID Cookie Name:")
-        tap(domainsAndSidsSection())
-        return (lightningDomain, lightningSid, vfDomain, vfSid, contentDomain, contentSid, parentSid, sidCookieName)
-    }
-    
-    private func extractCookiesAndSecurityData() -> (String, String, String) {
-        tap(cookiesAndSecuritySection())
-        let csrfToken = extractFieldValue(label: "CSRF Token:")
-        let cookieClientSrc = extractFieldValue(label: "Cookie Client Src:")
-        let cookieSidClient = extractFieldValue(label: "Cookie SID Client:")
-        tap(cookiesAndSecuritySection())
-        return (csrfToken, cookieClientSrc, cookieSidClient)
-    }
-    
-    private func extractBeaconData() -> (String, String) {
-        tap(beaconSection())
-        let beaconChildConsumerKey = extractFieldValue(label: "Beacon Child Consumer Key:")
-        let beaconChildConsumerSecret = extractFieldValue(label: "Beacon Child Consumer Secret:")
-        tap(beaconSection())
-        return (beaconChildConsumerKey, beaconChildConsumerSecret)
-    }
-    
-    private func extractOtherData() -> String {
-        tap(otherSection())
-        let additionalOAuthFields = extractFieldValue(label: "Additional OAuth Fields:")
-        tap(otherSection())
-        return (additionalOAuthFields)
-    }
-    
-    private func extractFieldValue(label: String) -> String {
-        // InfoRowView uses accessibility identifier "\(label)_row"
-        let rowIdentifier = "\(label)_row"
-        let row = app.otherElements[rowIdentifier]
+    /// Collects all static text labels from the current screen once
+    private func collectAllStaticTextLabels() -> [String] {
+        // Wait a moment for UI to settle
+        sleep(1)
         
-        // Wait for the row to exist
-        guard row.waitForExistence(timeout: timeout) else {
+        // Get all static texts from the app
+        let allStaticTexts = app.staticTexts.allElementsBoundByIndex
+        
+        // Extract all labels into an array
+        var labels: [String] = []
+        for element in allStaticTexts {
+            let label = element.label
+            if !label.isEmpty {
+                labels.append(label)
+            }
+        }
+        
+        return labels
+    }
+    
+    /// Extracts a field value from a list of labels by finding the value after the given label
+    private func extractFieldValue(from labels: [String], label: String) -> String {
+        // Find the index of the label
+        guard let labelIndex = labels.firstIndex(of: label) else {
             return ""
         }
         
-        // Get all static texts in the row
-        let staticTexts = row.staticTexts.allElementsBoundByIndex
-        
-        // The first text is the label, the second is the value
-        // Skip the label and get the value text
-        for text in staticTexts {
-            let textLabel = text.label
-            // Skip if it's the label itself
-            if textLabel == label || textLabel.isEmpty {
-                continue
-            }
-            // Return the value (could be actual value, masked value, or "(empty)")
-            return textLabel
+        // The value should be the next element after the label
+        let valueIndex = labelIndex + 1
+        guard valueIndex < labels.count else {
+            return ""
         }
         
-        return ""
+        let value = labels[valueIndex]
+        
+        // Skip if the next element is another label (ends with colon) or a section title
+        // This handles cases where a field is empty and the next label immediately follows
+        if value.hasSuffix(":") || value == label {
+            return ""
+        }
+        
+        return value
     }
     
     // MARK: - Other
