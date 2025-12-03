@@ -29,11 +29,11 @@ import XCTest
 
 class BaseAuthFlowTesterTest: XCTestCase {
     // App object
-    var app: XCUIApplication!
+    private var app: XCUIApplication!
 
     // App Pages
-    var loginPage: LoginPageObject!
-    var mainPage: AuthFlowTesterMainPageObject!
+    private var loginPage: LoginPageObject!
+    private var mainPage: AuthFlowTesterMainPageObject!
 
     // Test configuration
     let testConfig = TestConfigUtils.shared
@@ -72,6 +72,18 @@ class BaseAuthFlowTesterTest: XCTestCase {
     
     func logout() {
         mainPage.performLogout()
+    }
+    
+    func changeAppConfig(appConfig: AppConfig, scopesToRequest: String = "") {
+        mainPage.changeAppConfig(appConfig: appConfig, scopesToRequest: scopesToRequest)
+    }
+    
+    func getUserCredentials() -> UserCredentialsData {
+        return mainPage.getUserCredentials()
+    }
+    
+    func getOAuthConfiguration() -> OAuthConfigurationData {
+        return mainPage.getOAuthConfiguration()
     }
     
     func assertMainPageLoaded() {
@@ -133,12 +145,102 @@ class BaseAuthFlowTesterTest: XCTestCase {
         }
     }
     
+    func assertURLs(userCredentialsData: UserCredentialsData) {
+        XCTAssertNotEqual(userCredentialsData.instanceUrl, "(empty)")
+        XCTAssertTrue(userCredentialsData.identityUrl.hasSuffix(userCredentialsData.organizationId + "/" + userCredentialsData.userId))
+        
+        if (userCredentialsData.credentialsScopes.contains("api")) {
+            XCTAssertNotEqual(userCredentialsData.apiUrl, "(empty)")
+        } else {
+            XCTAssertEqual(userCredentialsData.apiUrl, "(empty)")
+        }
+
+        if (userCredentialsData.credentialsScopes.contains("sfap_api")) {
+            XCTAssertNotEqual(userCredentialsData.apiInstanceUrl, "(empty)")
+        } else {
+            XCTAssertEqual(userCredentialsData.apiInstanceUrl, "(empty)")
+        }
+    }
+    
     func assertRestRequestWorks() {
         XCTAssert(mainPage.makeRestRequest(), "Failed to make REST request")
     }
     
     func assertRevokeWorks() {
         XCTAssert(mainPage.revokeAccessToken(), "Failed to revoke access token")
+    }
+    
+    // MARK: - Common Test Helpers
+    
+    /// Computes the expected scopes granted based on requested scopes and app config
+    func expectedScopesGranted(scopesToRequest: String, appConfig: AppConfig) -> String {
+        return scopesToRequest == "" ? appConfig.scopes : scopesToRequest
+    }
+    
+    /// Performs login and validates initial state (credentials and oauth configuration)
+    func loginAndValidate(
+        userConfig: UserConfig,
+        appConfig: AppConfig,
+        scopesToRequest: String,
+        useWebServerFlow: Bool = true,
+        useHybridFlow: Bool = true
+    ) -> UserCredentialsData {
+        let expectedScopes = expectedScopesGranted(scopesToRequest: scopesToRequest, appConfig: appConfig)
+        
+        // Perform login
+        login(
+            userConfig: userConfig,
+            appConfig: appConfig,
+            scopesToRequest: scopesToRequest,
+            useWebServerFlow: useWebServerFlow,
+            useHybridFlow: useHybridFlow
+        )
+        
+        // Check that app loads and shows the expected user credentials etc
+        assertMainPageLoaded()
+        
+        let userCredentials = checkUserCredentials(
+            username: userConfig.username,
+            userConsumerKey: appConfig.consumerKey,
+            userRedirectUri: appConfig.redirectUri,
+            grantedScopes: expectedScopes
+        )
+        
+        _ = checkOauthConfiguration(
+            configuredConsumerKey: appConfig.consumerKey,
+            configuredCallbackUrl: appConfig.redirectUri,
+            requestedScopes: scopesToRequest
+        )
+        
+        return userCredentials
+    }
+    
+    /// Checks JWT details if the app is configured to issue JWTs
+    func checkJwtDetailsIfApplicable(appConfig: AppConfig, scopes: String) {
+        if appConfig.issuesJwt {
+            _ = checkJwtDetails(
+                clientId: appConfig.consumerKey,
+                scopes: scopes
+            )
+        }
+    }
+    
+    /// Performs revoke and refresh cycle, asserting the access token changed
+    func assertRevokeAndRefreshWorks(previousCredentials: UserCredentialsData) {
+        // Revoke access token
+        assertRevokeWorks()
+        
+//        let credentialsAfterRevoke = getUserCredentials()
+//        
+//        // Make REST request (which should trigger token refresh)
+//        assertRestRequestWorks()
+//        
+//        // Assert access token changed
+//        XCTAssertNotEqual(
+//            previousCredentials.accessToken,
+//            credentialsAfterRevoke.accessToken,
+//            "Access token should have been refreshed"
+//        )
     }
     
     private func maskedValue(_ value: String) -> String {

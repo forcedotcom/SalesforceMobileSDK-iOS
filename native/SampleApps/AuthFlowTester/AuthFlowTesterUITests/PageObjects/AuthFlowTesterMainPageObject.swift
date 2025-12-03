@@ -147,6 +147,22 @@ class AuthFlowTesterMainPageObject {
         return false
     }
     
+    func changeAppConfig(appConfig: AppConfig, scopesToRequest: String = "") {
+        // Tap Change Key button to open the sheet
+        tap(bottomBarChangeKeyButton())
+        
+        // Fill in the text fields
+        setTextField(consumerKeyTextField(), value: appConfig.consumerKey)
+        setTextField(callbackUrlTextField(), value: appConfig.redirectUri)
+        setTextField(scopesTextField(), value: scopesToRequest)
+        
+        // Tap the migrate button
+        tap(migrateRefreshTokenButton())
+        
+        // Tap the allow button if it appears
+        tapIfPresent(allowButton())
+    }
+    
     // MARK: - UI Element Accessors
     
     private func navigationTitle() -> XCUIElement {
@@ -189,11 +205,60 @@ class AuthFlowTesterMainPageObject {
         return app.buttons["JWT Access Token Details"]
     }
     
+    // BootConfigEditor fields (for Change Key sheet)
+    private func consumerKeyTextField() -> XCUIElement {
+        return app.textFields["consumerKeyTextField"]
+    }
+    
+    private func callbackUrlTextField() -> XCUIElement {
+        return app.textFields["callbackUrlTextField"]
+    }
+    
+    private func scopesTextField() -> XCUIElement {
+        return app.textFields["scopesTextField"]
+    }
+    
+    private func migrateRefreshTokenButton() -> XCUIElement {
+        return app.buttons["Migrate refresh token"]
+    }
+    
+    private func newAppConfigurationSection() -> XCUIElement {
+        return app.buttons["New App Configuration"]
+    }
+    
+    // Refresh token migration
+    private func allowButton() -> XCUIElement {
+        return app.webViews.webViews.webViews.buttons[" Allow "]
+    }
+    
     // MARK: - Actions
     
     private func tap(_ element: XCUIElement) {
         _ = element.waitForExistence(timeout: timeout)
         element.tap()
+    }
+    
+    private func tapIfPresent(_ element: XCUIElement) {
+        if (element.waitForExistence(timeout: timeout)) {
+            element.tap()
+        }
+    }
+    
+    private func setTextField(_ textField: XCUIElement, value: String) {
+        _ = textField.waitForExistence(timeout: timeout)
+        textField.tap()
+        
+        // Clear any existing text
+        if let currentValue = textField.value as? String, !currentValue.isEmpty {
+            textField.tap()
+            let selectAll = app.menuItems["Select All"]
+            if selectAll.waitForExistence(timeout: 1) {
+                selectAll.tap()
+                textField.typeText(XCUIKeyboardKey.delete.rawValue)
+            }
+        }
+        
+        textField.typeText(value)
     }
     
     // MARK: - Data Extraction Methods

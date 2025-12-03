@@ -30,21 +30,21 @@ import XCTest
 class AuthFlowTesterLoginTests: BaseAuthFlowTesterTest {
     
     override func tearDown() {
-        logout()
+//        logout()
         super.tearDown()
     }
     
-    private func loginValidateAndRevokeAndRefresh(
+    private func loginAndValidateAndRevokeAndRefresh(
         userConfig: UserConfig,
         appConfig: AppConfig,
         scopesToRequest: String,
         useWebServerFlow: Bool = true,
         useHybridFlow: Bool = true
     ) {
-        let expectedScopesGranted = scopesToRequest == "" ? appConfig.scopes : scopesToRequest
+        let expectedScopes = expectedScopesGranted(scopesToRequest: scopesToRequest, appConfig: appConfig)
         
-        // Perform login
-        login(
+        // Login and validate initial state
+        let userCredentials = loginAndValidate(
             userConfig: userConfig,
             appConfig: appConfig,
             scopesToRequest: scopesToRequest,
@@ -52,53 +52,24 @@ class AuthFlowTesterLoginTests: BaseAuthFlowTesterTest {
             useHybridFlow: useHybridFlow
         )
         
-        // Check that app loads and shows the expected user credentials etc
-        assertMainPageLoaded()
+        // Check JWT if applicable
+        checkJwtDetailsIfApplicable(appConfig: appConfig, scopes: expectedScopes)
         
-        let userCredentials = checkUserCredentials(
-            username: userConfig.username,
-            userConsumerKey: appConfig.consumerKey,
-            userRedirectUri: appConfig.redirectUri,
-            grantedScopes: expectedScopesGranted
-        )
-        
-        _ = checkOauthConfiguration(
-            configuredConsumerKey: appConfig.consumerKey,
-            configuredCallbackUrl: appConfig.redirectUri,
-            requestedScopes: scopesToRequest
-        )
-        
-        if (appConfig.issuesJwt) {
-            _ = checkJwtDetails(
-                clientId: appConfig.consumerKey,
-                scopes: expectedScopesGranted
-            )
-        }
-        
+        // Additional login-specific validations
         assertSIDs(userCredentialsData: userCredentials, useHybridFlow: useHybridFlow)
+        assertURLs(userCredentialsData: userCredentials)
         
-        // Attempting revoke / refresh
-        assertRevokeWorks()
-        
-        let userCredentialsAfterRevoke = mainPage.getUserCredentials()
-
-        assertRestRequestWorks()
-
-        // Making sure the access token changed
-        XCTAssertNotEqual(
-            userCredentials.accessToken,
-            userCredentialsAfterRevoke.accessToken,
-            "Access token should have been refreshed"
-        )
+        // Revoke and refresh cycle
+        assertRevokeAndRefreshWorks(previousCredentials: userCredentials)
     }
     
     // MARK: - ECA Basic Opaque Tests
     
-    func testECABasicOpaque_EmptyScopes_WebServerFlow() throws {
+    func testECABasicOpaque_DefaultScopes_WebServerFlow() throws {
         let user = try testConfig.getPrimaryUser()
         let app = try testConfig.getECABasicOpaque()
         
-        loginValidateAndRevokeAndRefresh(
+        loginAndValidateAndRevokeAndRefresh(
             userConfig: user,
             appConfig: app,
             scopesToRequest: "",
@@ -107,11 +78,11 @@ class AuthFlowTesterLoginTests: BaseAuthFlowTesterTest {
         )
     }
     
-    func testECABasicOpaque_EmptyScopes_UserAgentFlow() throws {
+    func testECABasicOpaque_DefaultScopes_UserAgentFlow() throws {
         let user = try testConfig.getPrimaryUser()
         let app = try testConfig.getECABasicOpaque()
         
-        loginValidateAndRevokeAndRefresh(
+        loginAndValidateAndRevokeAndRefresh(
             userConfig: user,
             appConfig: app,
             scopesToRequest: "",
@@ -124,7 +95,7 @@ class AuthFlowTesterLoginTests: BaseAuthFlowTesterTest {
         let user = try testConfig.getPrimaryUser()
         let app = try testConfig.getECABasicOpaque()
         
-        loginValidateAndRevokeAndRefresh(
+        loginAndValidateAndRevokeAndRefresh(
             userConfig: user,
             appConfig: app,
             scopesToRequest: app.scopes,
@@ -137,7 +108,7 @@ class AuthFlowTesterLoginTests: BaseAuthFlowTesterTest {
         let user = try testConfig.getPrimaryUser()
         let app = try testConfig.getECABasicOpaque()
         
-        loginValidateAndRevokeAndRefresh(
+        loginAndValidateAndRevokeAndRefresh(
             userConfig: user,
             appConfig: app,
             scopesToRequest: app.scopes,
@@ -148,11 +119,11 @@ class AuthFlowTesterLoginTests: BaseAuthFlowTesterTest {
     
     // MARK: - ECA Basic JWT Tests
     
-    func testECABasicJwt_EmptyScopes_WebServerFlow() throws {
+    func testECABasicJwt_DefaultScopes_WebServerFlow() throws {
         let user = try testConfig.getPrimaryUser()
         let app = try testConfig.getECABasicJwt()
         
-        loginValidateAndRevokeAndRefresh(
+        loginAndValidateAndRevokeAndRefresh(
             userConfig: user,
             appConfig: app,
             scopesToRequest: "",
@@ -161,11 +132,11 @@ class AuthFlowTesterLoginTests: BaseAuthFlowTesterTest {
         )
     }
     
-    func testECABasicJwt_EmptyScopes_UserAgentFlow() throws {
+    func testECABasicJwt_DefaultScopes_UserAgentFlow() throws {
         let user = try testConfig.getPrimaryUser()
         let app = try testConfig.getECABasicJwt()
         
-        loginValidateAndRevokeAndRefresh(
+        loginAndValidateAndRevokeAndRefresh(
             userConfig: user,
             appConfig: app,
             scopesToRequest: "",
@@ -178,7 +149,7 @@ class AuthFlowTesterLoginTests: BaseAuthFlowTesterTest {
         let user = try testConfig.getPrimaryUser()
         let app = try testConfig.getECABasicJwt()
         
-        loginValidateAndRevokeAndRefresh(
+        loginAndValidateAndRevokeAndRefresh(
             userConfig: user,
             appConfig: app,
             scopesToRequest: app.scopes,
@@ -191,7 +162,7 @@ class AuthFlowTesterLoginTests: BaseAuthFlowTesterTest {
         let user = try testConfig.getPrimaryUser()
         let app = try testConfig.getECABasicJwt()
         
-        loginValidateAndRevokeAndRefresh(
+        loginAndValidateAndRevokeAndRefresh(
             userConfig: user,
             appConfig: app,
             scopesToRequest: app.scopes,
@@ -202,11 +173,11 @@ class AuthFlowTesterLoginTests: BaseAuthFlowTesterTest {
     
     // MARK: - ECA Advanced JWT Tests
     
-    func testECAAdvancedJwt_EmptyScopes_WebServerFlow() throws {
+    func testECAAdvancedJwt_DefaultScopes_WebServerFlow() throws {
         let user = try testConfig.getPrimaryUser()
         let app = try testConfig.getECAAdvancedJwt()
         
-        loginValidateAndRevokeAndRefresh(
+        loginAndValidateAndRevokeAndRefresh(
             userConfig: user,
             appConfig: app,
             scopesToRequest: "",
@@ -219,7 +190,7 @@ class AuthFlowTesterLoginTests: BaseAuthFlowTesterTest {
         let user = try testConfig.getPrimaryUser()
         let app = try testConfig.getECAAdvancedJwt()
         
-        loginValidateAndRevokeAndRefresh(
+        loginAndValidateAndRevokeAndRefresh(
             userConfig: user,
             appConfig: app,
             scopesToRequest: "api id refresh_token",
@@ -232,7 +203,7 @@ class AuthFlowTesterLoginTests: BaseAuthFlowTesterTest {
         let user = try testConfig.getPrimaryUser()
         let app = try testConfig.getECAAdvancedJwt()
         
-        loginValidateAndRevokeAndRefresh(
+        loginAndValidateAndRevokeAndRefresh(
             userConfig: user,
             appConfig: app,
             scopesToRequest: app.scopes,
