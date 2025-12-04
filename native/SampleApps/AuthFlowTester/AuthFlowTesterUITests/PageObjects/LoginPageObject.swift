@@ -137,7 +137,9 @@ class LoginPageObject {
     }
     
     private func allowButton() -> XCUIElement {
-        return app.webViews.webViews.webViews.buttons[" Allow "]
+        let buttons = app.webViews.webViews.webViews.buttons
+        let predicate = NSPredicate(format: "label CONTAINS[c] 'Allow'")
+        return buttons.matching(predicate).firstMatch
     }
     
     private func toolbarDoneButton() -> XCUIElement {

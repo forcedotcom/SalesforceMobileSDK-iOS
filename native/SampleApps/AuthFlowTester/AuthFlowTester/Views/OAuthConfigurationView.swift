@@ -78,16 +78,16 @@ struct OAuthConfigurationView: View {
     }
     
     private var configuredConsumerKey: String {
-        return UserAccountManager.shared.oauthClientID ?? ""
+        return UserAccountManager.shared.oauthClientID
     }
     
     private var configuredCallbackUrl: String {
-        return UserAccountManager.shared.oauthCompletionURL ?? ""
+        return UserAccountManager.shared.oauthCompletionURL
     }
     
     private var configuredScopes: String {
         let scopes = UserAccountManager.shared.scopes
-        return scopes.isEmpty ? "(none)" : scopes.sorted().joined(separator: ", ")
+        return scopes.isEmpty ? "(none)" : scopes.sorted().joined(separator: " ")
     }
 }
 

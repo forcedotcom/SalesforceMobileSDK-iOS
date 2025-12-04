@@ -33,6 +33,7 @@ enum TestConfigError: Error, CustomStringConvertible {
     case noPrimaryUser
     case noSecondaryUser
     case appNotFound(String)
+    case appNotConfigured(String)
     
     var description: String {
         switch self {
@@ -42,6 +43,8 @@ enum TestConfigError: Error, CustomStringConvertible {
             return "No secondary user found in test_config.json"
         case .appNotFound(let appName):
             return "App '\(appName)' not found in test_config.json"
+        case .appNotConfigured(let appName):
+            return "App '\(appName)' has empty consumerKey in test_config.json"
         }
     }
 }
@@ -51,29 +54,31 @@ enum TestConfigError: Error, CustomStringConvertible {
 enum KnownAppName: String {
     case ecaBasicOpaque = "eca_basic_opaque"
     case ecaBasicJwt = "eca_basic_jwt"
+    case ecaAdvancedOpaque = "eca_advanced_opaque"
     case ecaAdvancedJwt = "eca_advanced_jwt"
-    case beaconBasic = "beacon_basic"
-    case beaconAdvanced = "beacon_advanced"
+    case beaconBasicOpaque = "beacon_basic_opaque"
+    case beaconBasicJwt = "beacon_basic_jwt"
+    case beaconAdvancedOpaque = "beacon_advanced_opaque"
+    case beaconAdvancedJwt = "beacon_advanced_jwt"
     case caBasicOpaque = "ca_basic_opaque"
+    case caBasicJwt = "ca_basic_jwt"
     case caAdvancedOpaque = "ca_advanced_opaque"
+    case caAdvancedJwt = "ca_advanced_jwt"
 }
 
 // MARK: - Configuration Models
 
 /// Represents an app configuration for testing
 struct AppConfig: Codable {
-    enum AppType: String, Codable {
-        case ca = "ca"
-        case eca = "eca"
-        case beacon = "beacon"
-    }
-    
-    let type: AppType
     let name: String
     let consumerKey: String
     let redirectUri: String
     let scopes: String
-    let issuesJwt: Bool
+    
+    /// Returns true if the app issues JWT tokens (name contains "_jwt")
+    var issuesJwt: Bool {
+        return name.contains("_jwt")
+    }
     
     /// Returns scopes as an array
     var scopesArray: [String] {
@@ -194,47 +199,15 @@ class TestConfigUtils {
         return users[1]
     }
     
-    /// Returns an app by its name or throws an error if not found
+    /// Returns an app by its name or throws an error if not found or not configured
     func getApp(named name: KnownAppName) throws -> AppConfig {
         guard let app = config?.apps.first(where: { $0.name == name.rawValue }) else {
             throw TestConfigError.appNotFound(name.rawValue)
         }
+        guard !app.consumerKey.isEmpty else {
+            throw TestConfigError.appNotConfigured(name.rawValue)
+        }
         return app
-    }
-    
-    /// Returns the ECA Basic Opaque app or throws an error if not found
-    func getECABasicOpaque() throws -> AppConfig {
-        return try getApp(named: .ecaBasicOpaque)
-    }
-    
-    /// Returns the ECA Basic JWT app or throws an error if not found
-    func getECABasicJwt() throws -> AppConfig {
-        return try getApp(named: .ecaBasicJwt)
-    }
-    
-    /// Returns the ECA Advanced JWT app or throws an error if not found
-    func getECAAdvancedJwt() throws -> AppConfig {
-        return try getApp(named: .ecaAdvancedJwt)
-    }
-
-    /// Returns the Beacon Basic app or throws an error if not found
-    func getBeaconBasic() throws -> AppConfig {
-        return try getApp(named: .beaconBasic)
-    }
-    
-    /// Returns the Beacon Advanced app or throws an error if not found
-    func getBeaconAdvanced() throws -> AppConfig {
-        return try getApp(named: .beaconAdvanced)
-    }
-    
-    /// Returns the Connected App Basic Opaque app or throws an error if not found
-    func getCABasicOpaque() throws -> AppConfig {
-        return try getApp(named: .caBasicOpaque)
-    }
-    
-    /// Returns the Connected App Advanced Opaque app or throws an error if not found
-    func getCAAdvancedOpaque() throws -> AppConfig {
-        return try getApp(named: .caAdvancedOpaque)
     }
 
 }
