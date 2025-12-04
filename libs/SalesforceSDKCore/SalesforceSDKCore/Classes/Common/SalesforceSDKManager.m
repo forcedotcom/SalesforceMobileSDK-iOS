@@ -493,7 +493,7 @@ SFNativeLoginManagerInternal *nativeLogin;
                 [presentedViewController dismissViewControllerAnimated:YES completion:^{
                     // Restart authentication with the updated configuration
                     if ([presentedViewController isKindOfClass:[SFLoginViewController class]]) {
-                        [[SFUserAccountManager sharedInstance] restartAuthenticationForViewController:(SFLoginViewController *)presentedViewController];
+                        [[SFUserAccountManager sharedInstance] restartAuthenticationForViewController:(SFLoginViewController *)presentedViewController recreateAuthRequest:YES];
                     }
                     // TODO support advanced auth case
                 }];

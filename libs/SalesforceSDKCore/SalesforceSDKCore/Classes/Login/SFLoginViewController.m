@@ -317,8 +317,8 @@
                                                  handler:^(__kindof UIAction* _Nonnull action) {
             UIViewController *configPicker = [BootConfigPickerViewController makeViewControllerOnConfigurationCompleted:^{
                 [self dismissViewControllerAnimated:YES completion:^{
-                    if ([self.delegate respondsToSelector:@selector(loginViewControllerDidReload:)]) {
-                        [self.delegate loginViewControllerDidReload:self];
+                    if ([self.delegate respondsToSelector:@selector(loginViewControllerDidChangeLoginOptions:)]) {
+                        [self.delegate loginViewControllerDidChangeLoginOptions:self];
                     }
                 }];
             }];

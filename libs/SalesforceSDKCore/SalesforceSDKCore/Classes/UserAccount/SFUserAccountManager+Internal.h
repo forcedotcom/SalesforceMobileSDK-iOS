@@ -218,6 +218,9 @@ Set this block to handle presentation of the Authentication View Controller.
 
 - (void)restartAuthenticationForViewController:(SFLoginViewController *)loginViewController;
 
+- (void)restartAuthenticationForViewController:(SFLoginViewController *)loginViewController recreateAuthRequest:(BOOL)recreateAuthRequest;
+
+
 @end
 
 NS_ASSUME_NONNULL_END

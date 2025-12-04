@@ -298,14 +298,14 @@ class BaseAuthFlowTesterTest: XCTestCase {
     ) {
         let appConfig = getAppConfig(named: appConfigName)
         let resolvedUserConfig = userConfig ?? getPrimaryUser()
-        let resolvedScopes = useAllScopes ? appConfig.scopes : scopesToRequest
-        let expectedScopes = expectedScopesGranted(scopesToRequest: resolvedScopes, appConfig: appConfig)
+        let actualScopesToRequest = useAllScopes ? appConfig.scopes : scopesToRequest
+        let expectedScopes = expectedScopesGranted(scopesToRequest: actualScopesToRequest, appConfig: appConfig)
         
         // Login and validate initial state
         let userCredentials = loginAndValidate(
             userConfig: resolvedUserConfig,
             appConfig: appConfig,
-            scopesToRequest: resolvedScopes,
+            scopesToRequest: actualScopesToRequest,
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow
         )
