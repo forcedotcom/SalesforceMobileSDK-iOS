@@ -28,48 +28,95 @@
 import SwiftUI
 import SalesforceSDKCore
 
+// MARK: - Labels Constants
+public struct OAuthConfigLabels {
+    public static let consumerKey = "Configured Consumer Key"
+    public static let callbackUrl = "Configured Callback URL"
+    public static let scopes = "Configured Scopes"
+}
+
 struct OAuthConfigurationView: View {
     @Binding var isExpanded: Bool
     
+    // Export alert state
+    @State private var showExportAlert = false
+    @State private var exportedJSON = ""
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Button(action: {
-                withAnimation {
-                    isExpanded.toggle()
+            HStack {
+                Button(action: {
+                    withAnimation {
+                        isExpanded.toggle()
+                    }
+                }) {
+                    HStack {
+                        Text("OAuth Configuration")
+                            .font(.headline)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.primary)
+                        Spacer()
+                        Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
                 }
-            }) {
-                HStack {
-                    Text("OAuth Configuration")
-                        .font(.headline)
-                        .fontWeight(.semibold)
-                        .foregroundColor(.primary)
-                    Spacer()
-                    Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
+                Button(action: {
+                    exportedJSON = generateConfigJSON()
+                    showExportAlert = true
+                }) {
+                    Image(systemName: "square.and.arrow.up")
+                        .font(.subheadline)
+                        .foregroundColor(.blue)
                 }
+                .accessibilityIdentifier("exportOAuthConfigButton")
             }
             
             if isExpanded {
                 InfoRowView(label: configuredConsumerKeyLabel, 
                        value: configuredConsumerKey, isSensitive: true)
                 
-                InfoRowView(label: "Configured Callback URL:", 
+                InfoRowView(label: "\(OAuthConfigLabels.callbackUrl):", 
                        value: configuredCallbackUrl)
                 
-                InfoRowView(label: "Configured Scopes:", 
+                InfoRowView(label: "\(OAuthConfigLabels.scopes):", 
                        value: configuredScopes)
             }
         }
         .padding()
         .background(Color(.secondarySystemBackground))
         .cornerRadius(8)
+        .alert("OAuth Configuration JSON", isPresented: $showExportAlert) {
+            Button("Copy to Clipboard") {
+                UIPasteboard.general.string = exportedJSON
+            }
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text(exportedJSON)
+        }
+    }
+    
+    // MARK: - Helper Methods
+    
+    private func generateConfigJSON() -> String {
+        let result: [String: String] = [
+            OAuthConfigLabels.consumerKey: configuredConsumerKey,
+            OAuthConfigLabels.callbackUrl: configuredCallbackUrl,
+            OAuthConfigLabels.scopes: configuredScopes
+        ]
+        
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: result, options: [.prettyPrinted]),
+              let jsonString = String(data: jsonData, encoding: .utf8) else {
+            return "{}"
+        }
+        
+        return jsonString
     }
     
     // MARK: - Computed Properties
     
     private var configuredConsumerKeyLabel: String {
-        let label = "Configured Consumer Key:"
+        let label = "\(OAuthConfigLabels.consumerKey):"
         if let defaultKey = SalesforceManager.shared.bootConfig?.remoteAccessConsumerKey,
            configuredConsumerKey == defaultKey {
             return "\(label) (default)"

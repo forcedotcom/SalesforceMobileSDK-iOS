@@ -27,6 +27,13 @@
 
 import SwiftUI
 
+// MARK: - JSON Import Labels
+public struct BootConfigJSONKeys {
+    public static let consumerKey = "remoteAccessConsumerKey"
+    public static let redirectUri = "oauthRedirectURI"
+    public static let scopes = "scopes"
+}
+
 public struct BootConfigEditor: View {
     let title: String
     let buttonLabel: String
@@ -38,6 +45,8 @@ public struct BootConfigEditor: View {
     let onUseConfig: () -> Void
     let initiallyExpanded: Bool
     @State private var isExpanded: Bool = false
+    @State private var showImportAlert: Bool = false
+    @State private var importJSONText: String = ""
     
     public init(
         title: String,
@@ -63,21 +72,32 @@ public struct BootConfigEditor: View {
     
     public var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Button(action: {
-                withAnimation {
-                    isExpanded.toggle()
+            HStack {
+                Button(action: {
+                    withAnimation {
+                        isExpanded.toggle()
+                    }
+                }) {
+                    HStack {
+                        Text(title)
+                            .font(.headline)
+                            .foregroundColor(.primary)
+                        Spacer()
+                        Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
+                            .foregroundColor(.secondary)
+                    }
                 }
-            }) {
-                HStack {
-                    Text(title)
-                        .font(.headline)
-                        .foregroundColor(.primary)
-                    Spacer()
-                    Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
-                        .foregroundColor(.secondary)
+                Button(action: {
+                    importJSONText = ""
+                    showImportAlert = true
+                }) {
+                    Image(systemName: "square.and.arrow.down")
+                        .font(.subheadline)
+                        .foregroundColor(.blue)
                 }
-                .padding(.horizontal)
+                .accessibilityIdentifier("importConfigButton")
             }
+            .padding(.horizontal)
             
             if isExpanded {
                 VStack(alignment: .leading, spacing: 8) {
@@ -129,6 +149,34 @@ public struct BootConfigEditor: View {
         .padding(.vertical)
         .onAppear {
             isExpanded = initiallyExpanded
+        }
+        .alert("Import Configuration", isPresented: $showImportAlert) {
+            TextField("Paste JSON here", text: $importJSONText)
+            Button("Import") {
+                importConfigFromJSON()
+            }
+            Button("Cancel", role: .cancel) { }
+        } message: {
+            Text("Paste JSON with remoteAccessConsumerKey, oauthRedirectURI, and scopes")
+        }
+    }
+    
+    // MARK: - Helper Methods
+    
+    private func importConfigFromJSON() {
+        guard let jsonData = importJSONText.data(using: .utf8),
+              let json = try? JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any] else {
+            return
+        }
+        
+        if let key = json[BootConfigJSONKeys.consumerKey] as? String {
+            consumerKey = key
+        }
+        if let uri = json[BootConfigJSONKeys.redirectUri] as? String {
+            callbackUrl = uri
+        }
+        if let scopesValue = json[BootConfigJSONKeys.scopes] as? String {
+            scopes = scopesValue
         }
     }
 }

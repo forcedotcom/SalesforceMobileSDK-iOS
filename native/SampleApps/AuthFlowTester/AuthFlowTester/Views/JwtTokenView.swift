@@ -28,31 +28,69 @@
 import SwiftUI
 import SalesforceSDKCore
 
+// MARK: - Labels Constants
+public struct JwtTokenLabels {
+    // Section titles
+    public static let header = "Header"
+    public static let payload = "Payload"
+    
+    // Header fields
+    public static let algorithm = "Algorithm (alg)"
+    public static let type = "Type (typ)"
+    public static let keyId = "Key ID (kid)"
+    public static let tokenType = "Token Type (tty)"
+    public static let tenantKey = "Tenant Key (tnk)"
+    public static let version = "Version (ver)"
+    
+    // Payload fields
+    public static let audience = "Audience (aud)"
+    public static let expirationDate = "Expiration Date (exp)"
+    public static let issuer = "Issuer (iss)"
+    public static let subject = "Subject (sub)"
+    public static let scopes = "Scopes (scp)"
+    public static let clientId = "Client ID (client_id)"
+}
+
 struct JwtTokenView: View {
     let jwtToken: JwtAccessToken
     @Binding var isExpanded: Bool
     
+    // Export alert state
+    @State private var showExportAlert = false
+    @State private var exportedJSON = ""
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Button(action: {
-                withAnimation {
-                    isExpanded.toggle()
+            HStack {
+                Button(action: {
+                    withAnimation {
+                        isExpanded.toggle()
+                    }
+                }) {
+                    HStack {
+                        Text("JWT Access Token Details")
+                            .font(.headline)
+                            .foregroundColor(.primary)
+                        Spacer()
+                        Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
                 }
-            }) {
-                HStack {
-                    Text("JWT Access Token Details")
-                        .font(.headline)
-                        .foregroundColor(.primary)
-                    Spacer()
-                    Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
+                Button(action: {
+                    exportedJSON = generateJwtJSON()
+                    showExportAlert = true
+                }) {
+                    Image(systemName: "square.and.arrow.up")
+                        .font(.subheadline)
+                        .foregroundColor(.blue)
                 }
+                .accessibilityIdentifier("exportJwtTokenButton")
             }
             
             if isExpanded {
                 // JWT Header
-                Text("Header:")
+                Text("\(JwtTokenLabels.header):")
                     .font(.subheadline)
                     .fontWeight(.semibold)
                     .padding(.top, 4)
@@ -60,7 +98,7 @@ struct JwtTokenView: View {
                 JwtHeaderView(token: jwtToken)
                 
                 // JWT Payload
-                Text("Payload:")
+                Text("\(JwtTokenLabels.payload):")
                     .font(.subheadline)
                     .fontWeight(.semibold)
                     .padding(.top, 8)
@@ -71,6 +109,80 @@ struct JwtTokenView: View {
         .padding()
         .background(Color(.secondarySystemBackground))
         .cornerRadius(8)
+        .alert("JWT Token JSON", isPresented: $showExportAlert) {
+            Button("Copy to Clipboard") {
+                UIPasteboard.general.string = exportedJSON
+            }
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text(exportedJSON)
+        }
+    }
+    
+    // MARK: - Helper Methods
+    
+    private func generateJwtJSON() -> String {
+        var result: [String: [String: String]] = [:]
+        
+        // Header section
+        var headerDict: [String: String] = [:]
+        let header = jwtToken.header
+        if let algorithm = header.algorithm {
+            headerDict[JwtTokenLabels.algorithm] = algorithm
+        }
+        if let type = header.type {
+            headerDict[JwtTokenLabels.type] = type
+        }
+        if let keyId = header.keyId {
+            headerDict[JwtTokenLabels.keyId] = keyId
+        }
+        if let tokenType = header.tokenType {
+            headerDict[JwtTokenLabels.tokenType] = tokenType
+        }
+        if let tenantKey = header.tenantKey {
+            headerDict[JwtTokenLabels.tenantKey] = tenantKey
+        }
+        if let version = header.version {
+            headerDict[JwtTokenLabels.version] = version
+        }
+        result[JwtTokenLabels.header] = headerDict
+        
+        // Payload section
+        var payloadDict: [String: String] = [:]
+        let payload = jwtToken.payload
+        if let audience = payload.audience {
+            payloadDict[JwtTokenLabels.audience] = audience.joined(separator: ", ")
+        }
+        if let expirationDate = jwtToken.expirationDate() {
+            payloadDict[JwtTokenLabels.expirationDate] = formatDate(expirationDate)
+        }
+        if let issuer = payload.issuer {
+            payloadDict[JwtTokenLabels.issuer] = issuer
+        }
+        if let subject = payload.subject {
+            payloadDict[JwtTokenLabels.subject] = subject
+        }
+        if let scopes = payload.scopes {
+            payloadDict[JwtTokenLabels.scopes] = scopes
+        }
+        if let clientId = payload.clientId {
+            payloadDict[JwtTokenLabels.clientId] = clientId
+        }
+        result[JwtTokenLabels.payload] = payloadDict
+        
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: result, options: [.prettyPrinted]),
+              let jsonString = String(data: jsonData, encoding: .utf8) else {
+            return "{}"
+        }
+        
+        return jsonString
+    }
+    
+    private func formatDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .medium
+        return formatter.string(from: date)
     }
 }
 
@@ -84,22 +196,22 @@ struct JwtHeaderView: View {
             let header = token.header
             
             if let algorithm = header.algorithm {
-                InfoRowView(label: "Algorithm (alg):", value: algorithm)
+                InfoRowView(label: "\(JwtTokenLabels.algorithm):", value: algorithm)
             }
             if let type = header.type {
-                InfoRowView(label: "Type (typ):", value: type)
+                InfoRowView(label: "\(JwtTokenLabels.type):", value: type)
             }
             if let keyId = header.keyId {
-                InfoRowView(label: "Key ID (kid):", value: keyId)
+                InfoRowView(label: "\(JwtTokenLabels.keyId):", value: keyId)
             }
             if let tokenType = header.tokenType {
-                InfoRowView(label: "Token Type (tty):", value: tokenType)
+                InfoRowView(label: "\(JwtTokenLabels.tokenType):", value: tokenType)
             }
             if let tenantKey = header.tenantKey {
-                InfoRowView(label: "Tenant Key (tnk):", value: tenantKey)
+                InfoRowView(label: "\(JwtTokenLabels.tenantKey):", value: tenantKey)
             }
             if let version = header.version {
-                InfoRowView(label: "Version (ver):", value: version)
+                InfoRowView(label: "\(JwtTokenLabels.version):", value: version)
             }
         }
         .padding(8)
@@ -118,24 +230,24 @@ struct JwtPayloadView: View {
             let payload = token.payload
             
             if let audience = payload.audience {
-                InfoRowView(label: "Audience (aud):", value: audience.joined(separator: ", "))
+                InfoRowView(label: "\(JwtTokenLabels.audience):", value: audience.joined(separator: ", "))
             }
             
             if let expirationDate = token.expirationDate() {
-                InfoRowView(label: "Expiration Date (exp):", value: formatDate(expirationDate))
+                InfoRowView(label: "\(JwtTokenLabels.expirationDate):", value: formatDate(expirationDate))
             }
             
             if let issuer = payload.issuer {
-                InfoRowView(label: "Issuer (iss):", value: issuer)
+                InfoRowView(label: "\(JwtTokenLabels.issuer):", value: issuer)
             }
             if let subject = payload.subject {
-                InfoRowView(label: "Subject (sub):", value: subject)
+                InfoRowView(label: "\(JwtTokenLabels.subject):", value: subject)
             }
             if let scopes = payload.scopes {
-                InfoRowView(label: "Scopes (scp):", value: scopes)
+                InfoRowView(label: "\(JwtTokenLabels.scopes):", value: scopes)
             }
             if let clientId = payload.clientId {
-                InfoRowView(label: "Client ID (client_id):", value: clientId, isSensitive: true)
+                InfoRowView(label: "\(JwtTokenLabels.clientId):", value: clientId, isSensitive: true)
             }
         }
         .padding(8)

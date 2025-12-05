@@ -27,6 +27,7 @@
 
 import Foundation
 import XCTest
+import SalesforceSDKCore
 
 class LoginPageObject {
     let app: XCUIApplication
@@ -75,11 +76,39 @@ class LoginPageObject {
         setSwitchField(useWebServerFlowSwitch(), value: useWebServerFlow)
         setSwitchField(useHybridSwitch(), value: useHybridFlow)
         setSwitchField(supportWelcomeDiscoverySwitch(), value: supportWelcomeDiscovery)
-        tap(staticConfigurationSection())
-        setTextField(consumerKeyField(), value: consumerKey)
-        setTextField(callbackUrlField(), value: redirectUri)
-        setTextField(scopesField(), value: scopes)
+        
+        // Use import button to set config values via JSON
+        let configJSON = buildConfigJSON(consumerKey: consumerKey, redirectUri: redirectUri, scopes: scopes)
+        importConfig(configJSON)
+        
         tap(useStaticConfigButton())
+    }
+    
+    private func buildConfigJSON(consumerKey: String, redirectUri: String, scopes: String) -> String {
+        let config: [String: String] = [
+            BootConfigJSONKeys.consumerKey: consumerKey,
+            BootConfigJSONKeys.redirectUri: redirectUri,
+            BootConfigJSONKeys.scopes: scopes
+        ]
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: config, options: []),
+              let jsonString = String(data: jsonData, encoding: .utf8) else {
+            return "{}"
+        }
+        return jsonString
+    }
+    
+    private func importConfig(_ jsonString: String) {
+        tap(importConfigButton())
+        
+        // Wait for alert to appear
+        let alert = importConfigAlert()
+        _ = alert.waitForExistence(timeout: timeout)
+        
+        // Type into the alert's text field
+        let textField = importConfigTextField()
+        textField.typeText(jsonString)
+        
+        tap(importAlertButton())
     }
     
     // MARK: - UI Element Accessors
@@ -176,6 +205,23 @@ class LoginPageObject {
     
     private func useStaticConfigButton() -> XCUIElement {
         return app.buttons["Use static config"]
+    }
+    
+    private func importConfigButton() -> XCUIElement {
+        return app.buttons["importConfigButton"].firstMatch
+    }
+    
+    private func importConfigAlert() -> XCUIElement {
+        return app.alerts["Import Configuration"]
+    }
+    
+    private func importConfigTextField() -> XCUIElement {
+        // Access text field through the alert - SwiftUI alert TextFields are accessed this way
+        return importConfigAlert().textFields.firstMatch
+    }
+    
+    private func importAlertButton() -> XCUIElement {
+        return importConfigAlert().buttons["Import"]
     }
     
     // MARK: - Actions

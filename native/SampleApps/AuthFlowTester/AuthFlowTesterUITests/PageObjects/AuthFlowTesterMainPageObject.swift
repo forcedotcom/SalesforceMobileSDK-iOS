@@ -28,6 +28,103 @@
 import Foundation
 import XCTest
 
+// MARK: - Label Constants (matching the app's Labels structs)
+
+struct CredentialsLabels {
+    // Section titles
+    static let userIdentity = "User Identity"
+    static let oauthClientConfiguration = "OAuth Client Configuration"
+    static let tokens = "Tokens"
+    static let urls = "URLs"
+    static let community = "Community"
+    static let domainsAndSids = "Domains and SIDs"
+    static let cookiesAndSecurity = "Cookies and Security"
+    static let beacon = "Beacon"
+    static let other = "Other"
+    
+    // User Identity fields
+    static let username = "Username"
+    static let userIdLabel = "User ID"
+    static let organizationId = "Organization ID"
+    
+    // OAuth Client Configuration fields
+    static let clientId = "Client ID"
+    static let redirectUri = "Redirect URI"
+    static let protocolLabel = "Protocol"
+    static let domain = "Domain"
+    static let identifier = "Identifier"
+    
+    // Tokens fields
+    static let accessToken = "Access Token"
+    static let refreshToken = "Refresh Token"
+    static let tokenFormat = "Token Format"
+    static let jwt = "JWT"
+    static let authCode = "Auth Code"
+    static let challengeString = "Challenge String"
+    static let issuedAt = "Issued At"
+    static let scopes = "Scopes"
+    
+    // URLs fields
+    static let instanceUrl = "Instance URL"
+    static let apiInstanceUrl = "API Instance URL"
+    static let apiUrl = "API URL"
+    static let identityUrl = "Identity URL"
+    
+    // Community fields
+    static let communityId = "Community ID"
+    static let communityUrl = "Community URL"
+    
+    // Domains and SIDs fields
+    static let lightningDomain = "Lightning Domain"
+    static let lightningSid = "Lightning SID"
+    static let vfDomain = "VF Domain"
+    static let vfSid = "VF SID"
+    static let contentDomain = "Content Domain"
+    static let contentSid = "Content SID"
+    static let parentSid = "Parent SID"
+    static let sidCookieName = "SID Cookie Name"
+    
+    // Cookies and Security fields
+    static let csrfToken = "CSRF Token"
+    static let cookieClientSrc = "Cookie Client Src"
+    static let cookieSidClient = "Cookie SID Client"
+    
+    // Beacon fields
+    static let beaconChildConsumerKey = "Beacon Child Consumer Key"
+    static let beaconChildConsumerSecret = "Beacon Child Consumer Secret"
+    
+    // Other fields
+    static let additionalOAuthFields = "Additional OAuth Fields"
+}
+
+struct OAuthConfigLabels {
+    static let consumerKey = "Configured Consumer Key"
+    static let callbackUrl = "Configured Callback URL"
+    static let scopes = "Configured Scopes"
+}
+
+struct JwtTokenLabels {
+    // Section titles
+    static let header = "Header"
+    static let payload = "Payload"
+    
+    // Header fields
+    static let algorithm = "Algorithm (alg)"
+    static let type = "Type (typ)"
+    static let keyId = "Key ID (kid)"
+    static let tokenType = "Token Type (tty)"
+    static let tenantKey = "Tenant Key (tnk)"
+    static let version = "Version (ver)"
+    
+    // Payload fields
+    static let audience = "Audience (aud)"
+    static let expirationDate = "Expiration Date (exp)"
+    static let issuer = "Issuer (iss)"
+    static let subject = "Subject (sub)"
+    static let scopes = "Scopes (scp)"
+    static let clientId = "Client ID (client_id)"
+}
+
 // MARK: - Data Structures
 
 struct UserCredentialsData {
@@ -112,7 +209,7 @@ struct JwtDetailsData {
 
 class AuthFlowTesterMainPageObject {
     let app: XCUIApplication
-    let timeout: double_t = 5
+    let timeout: double_t = 3
     
     init(testApp: XCUIApplication) {
         app = testApp
@@ -205,7 +302,26 @@ class AuthFlowTesterMainPageObject {
         return app.buttons["JWT Access Token Details"]
     }
     
-    // BootConfigEditor fields (for Change Key sheet)
+    // Export buttons
+    
+    private func exportCredentialsButton() -> XCUIElement {
+        return app.buttons["exportCredentialsButton"].firstMatch
+    }
+    
+    private func exportOAuthConfigButton() -> XCUIElement {
+        return app.buttons["exportOAuthConfigButton"].firstMatch
+    }
+    
+    private func exportJwtTokenButton() -> XCUIElement {
+        return app.buttons["exportJwtTokenButton"].firstMatch
+    }
+    
+    // Refresh token migration
+    
+    private func newAppConfigurationSection() -> XCUIElement {
+        return app.buttons["New App Configuration"]
+    }
+
     private func consumerKeyTextField() -> XCUIElement {
         return app.textFields["consumerKeyTextField"]
     }
@@ -222,13 +338,10 @@ class AuthFlowTesterMainPageObject {
         return app.buttons["Migrate refresh token"]
     }
     
-    private func newAppConfigurationSection() -> XCUIElement {
-        return app.buttons["New App Configuration"]
-    }
-    
-    // Refresh token migration
     private func allowButton() -> XCUIElement {
-        return app.webViews.webViews.webViews.buttons[" Allow "]
+        let buttons = app.webViews.webViews.webViews.buttons
+        let predicate = NSPredicate(format: "label CONTAINS[c] 'Allow'")
+        return buttons.matching(predicate).firstMatch
     }
     
     // MARK: - Actions
@@ -264,226 +377,126 @@ class AuthFlowTesterMainPageObject {
     // MARK: - Data Extraction Methods
     
     func getUserCredentials() -> UserCredentialsData {
-        // Expand User Credentials (all subsections expand automatically)
-        tap(userCredentialsSection())
+        // Tap export button and get JSON
+        let json = tapExportAndGetJSON(exportCredentialsButton(), alertTitle: "Credentials JSON")
         
-        // Collect all static texts once
-        let allLabels = collectAllStaticTextLabels()
-        
-        // Extract all data from the collected list - User Identity
-        let username = extractFieldValue(from: allLabels, label: "Username:")
-        let userId = extractFieldValue(from: allLabels, label: "User ID:")
-        let organizationId = extractFieldValue(from: allLabels, label: "Organization ID:")
-        
-        // OAuth Client Configuration
-        let clientId = extractFieldValue(from: allLabels, label: "Client ID:")
-        let redirectUri = extractFieldValue(from: allLabels, label: "Redirect URI:")
-        let authProtocol = extractFieldValue(from: allLabels, label: "Protocol:")
-        let domain = extractFieldValue(from: allLabels, label: "Domain:")
-        let identifier = extractFieldValue(from: allLabels, label: "Identifier:")
-        
-        // Tokens
-        let accessToken = extractFieldValue(from: allLabels, label: "Access Token:")
-        let refreshToken = extractFieldValue(from: allLabels, label: "Refresh Token:")
-        let tokenFormat = extractFieldValue(from: allLabels, label: "Token Format:")
-        let jwt = extractFieldValue(from: allLabels, label: "JWT:")
-        let authCode = extractFieldValue(from: allLabels, label: "Auth Code:")
-        let challengeString = extractFieldValue(from: allLabels, label: "Challenge String:")
-        let issuedAt = extractFieldValue(from: allLabels, label: "Issued At:")
-        let credentialsScopes = extractFieldValue(from: allLabels, label: "Scopes:")
-        
-        // URLs
-        let instanceUrl = extractFieldValue(from: allLabels, label: "Instance URL:")
-        let apiInstanceUrl = extractFieldValue(from: allLabels, label: "API Instance URL:")
-        let apiUrl = extractFieldValue(from: allLabels, label: "API URL:")
-        let identityUrl = extractFieldValue(from: allLabels, label: "Identity URL:")
-        
-        // Community
-        let communityId = extractFieldValue(from: allLabels, label: "Community ID:")
-        let communityUrl = extractFieldValue(from: allLabels, label: "Community URL:")
-        
-        // Domains and SIDs
-        let lightningDomain = extractFieldValue(from: allLabels, label: "Lightning Domain:")
-        let lightningSid = extractFieldValue(from: allLabels, label: "Lightning SID:")
-        let vfDomain = extractFieldValue(from: allLabels, label: "VF Domain:")
-        let vfSid = extractFieldValue(from: allLabels, label: "VF SID:")
-        let contentDomain = extractFieldValue(from: allLabels, label: "Content Domain:")
-        let contentSid = extractFieldValue(from: allLabels, label: "Content SID:")
-        let parentSid = extractFieldValue(from: allLabels, label: "Parent SID:")
-        let sidCookieName = extractFieldValue(from: allLabels, label: "SID Cookie Name:")
-        
-        // Cookies and Security
-        let csrfToken = extractFieldValue(from: allLabels, label: "CSRF Token:")
-        let cookieClientSrc = extractFieldValue(from: allLabels, label: "Cookie Client Src:")
-        let cookieSidClient = extractFieldValue(from: allLabels, label: "Cookie SID Client:")
-        
-        // Beacon
-        let beaconChildConsumerKey = extractFieldValue(from: allLabels, label: "Beacon Child Consumer Key:")
-        let beaconChildConsumerSecret = extractFieldValue(from: allLabels, label: "Beacon Child Consumer Secret:")
-        
-        // Other
-        let additionalOAuthFields = extractFieldValue(from: allLabels, label: "Additional OAuth Fields:")
-        
-        // Collapse User Credentials
-        tap(userCredentialsSection())
+        // Parse JSON sections
+        let userIdentity = json[CredentialsLabels.userIdentity] as? [String: String] ?? [:]
+        let oauthConfig = json[CredentialsLabels.oauthClientConfiguration] as? [String: String] ?? [:]
+        let tokens = json[CredentialsLabels.tokens] as? [String: String] ?? [:]
+        let urls = json[CredentialsLabels.urls] as? [String: String] ?? [:]
+        let community = json[CredentialsLabels.community] as? [String: String] ?? [:]
+        let domainsAndSids = json[CredentialsLabels.domainsAndSids] as? [String: String] ?? [:]
+        let cookiesAndSecurity = json[CredentialsLabels.cookiesAndSecurity] as? [String: String] ?? [:]
+        let beacon = json[CredentialsLabels.beacon] as? [String: String] ?? [:]
+        let other = json[CredentialsLabels.other] as? [String: String] ?? [:]
         
         return UserCredentialsData(
-            username: username,
-            userId: userId,
-            organizationId: organizationId,
-            clientId: clientId,
-            redirectUri: redirectUri,
-            authProtocol: authProtocol,
-            domain: domain,
-            identifier: identifier,
-            accessToken: accessToken,
-            refreshToken: refreshToken,
-            tokenFormat: tokenFormat,
-            jwt: jwt,
-            authCode: authCode,
-            challengeString: challengeString,
-            issuedAt: issuedAt,
-            credentialsScopes: credentialsScopes,
-            instanceUrl: instanceUrl,
-            apiInstanceUrl: apiInstanceUrl,
-            apiUrl: apiUrl,
-            identityUrl: identityUrl,
-            communityId: communityId,
-            communityUrl: communityUrl,
-            lightningDomain: lightningDomain,
-            lightningSid: lightningSid,
-            vfDomain: vfDomain,
-            vfSid: vfSid,
-            contentDomain: contentDomain,
-            contentSid: contentSid,
-            parentSid: parentSid,
-            sidCookieName: sidCookieName,
-            csrfToken: csrfToken,
-            cookieClientSrc: cookieClientSrc,
-            cookieSidClient: cookieSidClient,
-            beaconChildConsumerKey: beaconChildConsumerKey,
-            beaconChildConsumerSecret: beaconChildConsumerSecret,
-            additionalOAuthFields: additionalOAuthFields
+            username: userIdentity[CredentialsLabels.username] ?? "",
+            userId: userIdentity[CredentialsLabels.userIdLabel] ?? "",
+            organizationId: userIdentity[CredentialsLabels.organizationId] ?? "",
+            clientId: oauthConfig[CredentialsLabels.clientId] ?? "",
+            redirectUri: oauthConfig[CredentialsLabels.redirectUri] ?? "",
+            authProtocol: oauthConfig[CredentialsLabels.protocolLabel] ?? "",
+            domain: oauthConfig[CredentialsLabels.domain] ?? "",
+            identifier: oauthConfig[CredentialsLabels.identifier] ?? "",
+            accessToken: tokens[CredentialsLabels.accessToken] ?? "",
+            refreshToken: tokens[CredentialsLabels.refreshToken] ?? "",
+            tokenFormat: tokens[CredentialsLabels.tokenFormat] ?? "",
+            jwt: tokens[CredentialsLabels.jwt] ?? "",
+            authCode: tokens[CredentialsLabels.authCode] ?? "",
+            challengeString: tokens[CredentialsLabels.challengeString] ?? "",
+            issuedAt: tokens[CredentialsLabels.issuedAt] ?? "",
+            credentialsScopes: tokens[CredentialsLabels.scopes] ?? "",
+            instanceUrl: urls[CredentialsLabels.instanceUrl] ?? "",
+            apiInstanceUrl: urls[CredentialsLabels.apiInstanceUrl] ?? "",
+            apiUrl: urls[CredentialsLabels.apiUrl] ?? "",
+            identityUrl: urls[CredentialsLabels.identityUrl] ?? "",
+            communityId: community[CredentialsLabels.communityId] ?? "",
+            communityUrl: community[CredentialsLabels.communityUrl] ?? "",
+            lightningDomain: domainsAndSids[CredentialsLabels.lightningDomain] ?? "",
+            lightningSid: domainsAndSids[CredentialsLabels.lightningSid] ?? "",
+            vfDomain: domainsAndSids[CredentialsLabels.vfDomain] ?? "",
+            vfSid: domainsAndSids[CredentialsLabels.vfSid] ?? "",
+            contentDomain: domainsAndSids[CredentialsLabels.contentDomain] ?? "",
+            contentSid: domainsAndSids[CredentialsLabels.contentSid] ?? "",
+            parentSid: domainsAndSids[CredentialsLabels.parentSid] ?? "",
+            sidCookieName: domainsAndSids[CredentialsLabels.sidCookieName] ?? "",
+            csrfToken: cookiesAndSecurity[CredentialsLabels.csrfToken] ?? "",
+            cookieClientSrc: cookiesAndSecurity[CredentialsLabels.cookieClientSrc] ?? "",
+            cookieSidClient: cookiesAndSecurity[CredentialsLabels.cookieSidClient] ?? "",
+            beaconChildConsumerKey: beacon[CredentialsLabels.beaconChildConsumerKey] ?? "",
+            beaconChildConsumerSecret: beacon[CredentialsLabels.beaconChildConsumerSecret] ?? "",
+            additionalOAuthFields: other[CredentialsLabels.additionalOAuthFields] ?? ""
         )
     }
     
     func getOAuthConfiguration() -> OAuthConfigurationData {
-        // Expand OAuth Configuration if not already expanded
-        tap(oauthConfigSection())
-        
-        // Collect all static texts once
-        let allLabels = collectAllStaticTextLabels()
-        
-        // Extract values - note that consumer key label may have "(default)" suffix
-        var consumerKey = extractFieldValue(from: allLabels, label: "Configured Consumer Key:")
-        if consumerKey.isEmpty {
-            consumerKey = extractFieldValue(from: allLabels, label: "Configured Consumer Key: (default)")
-        }
-        let callbackUrl = extractFieldValue(from: allLabels, label: "Configured Callback URL:")
-        let scopes = extractFieldValue(from: allLabels, label: "Configured Scopes:")
-        
-        // Collapse OAuth Configuration
-        tap(oauthConfigSection())
+        // Tap export button and get JSON
+        let json = tapExportAndGetJSON(exportOAuthConfigButton(), alertTitle: "OAuth Configuration JSON")
         
         return OAuthConfigurationData(
-            configuredConsumerKey: consumerKey,
-            configuredCallbackUrl: callbackUrl,
-            configuredScopes: scopes
+            configuredConsumerKey: json[OAuthConfigLabels.consumerKey] as? String ?? "",
+            configuredCallbackUrl: json[OAuthConfigLabels.callbackUrl] as? String ?? "",
+            configuredScopes: json[OAuthConfigLabels.scopes] as? String ?? ""
         )
     }
     
     func getJwtDetails() -> JwtDetailsData? {
-        // Check if JWT section exists
-        let jwtSection = jwtDetailsSection()
-        guard jwtSection.waitForExistence(timeout: 1) else {
+        // Check if JWT export button exists (indicates JWT token is available)
+        guard exportJwtTokenButton().waitForExistence(timeout: 1) else {
             return nil
         }
         
-        // Expand JWT Details if not already expanded
-        tap(jwtSection)
+        // Tap export button and get JSON
+        let json = tapExportAndGetJSON(exportJwtTokenButton(), alertTitle: "JWT Token JSON")
         
-        // Collect all static texts once
-        let allLabels = collectAllStaticTextLabels()
-        
-        // Extract header values
-        let algorithm = extractFieldValue(from: allLabels, label: "Algorithm (alg):")
-        let type = extractFieldValue(from: allLabels, label: "Type (typ):")
-        let keyId = extractFieldValue(from: allLabels, label: "Key ID (kid):")
-        let tokenType = extractFieldValue(from: allLabels, label: "Token Type (tty):")
-        let tenantKey = extractFieldValue(from: allLabels, label: "Tenant Key (tnk):")
-        let version = extractFieldValue(from: allLabels, label: "Version (ver):")
-        
-        // Extract payload values
-        let audience = extractFieldValue(from: allLabels, label: "Audience (aud):")
-        let expirationDate = extractFieldValue(from: allLabels, label: "Expiration Date (exp):")
-        let issuer = extractFieldValue(from: allLabels, label: "Issuer (iss):")
-        let subject = extractFieldValue(from: allLabels, label: "Subject (sub):")
-        let scopes = extractFieldValue(from: allLabels, label: "Scopes (scp):")
-        let clientId = extractFieldValue(from: allLabels, label: "Client ID (client_id):")
-        
-        // Collapse JWT Details
-        tap(jwtSection)
+        // Parse JSON sections
+        let header = json[JwtTokenLabels.header] as? [String: String] ?? [:]
+        let payload = json[JwtTokenLabels.payload] as? [String: String] ?? [:]
         
         return JwtDetailsData(
-            algorithm: algorithm,
-            type: type,
-            keyId: keyId,
-            tokenType: tokenType,
-            tenantKey: tenantKey,
-            version: version,
-            audience: audience,
-            expirationDate: expirationDate,
-            issuer: issuer,
-            subject: subject,
-            scopes: scopes,
-            clientId: clientId
+            algorithm: header[JwtTokenLabels.algorithm] ?? "",
+            type: header[JwtTokenLabels.type] ?? "",
+            keyId: header[JwtTokenLabels.keyId] ?? "",
+            tokenType: header[JwtTokenLabels.tokenType] ?? "",
+            tenantKey: header[JwtTokenLabels.tenantKey] ?? "",
+            version: header[JwtTokenLabels.version] ?? "",
+            audience: payload[JwtTokenLabels.audience] ?? "",
+            expirationDate: payload[JwtTokenLabels.expirationDate] ?? "",
+            issuer: payload[JwtTokenLabels.issuer] ?? "",
+            subject: payload[JwtTokenLabels.subject] ?? "",
+            scopes: payload[JwtTokenLabels.scopes] ?? "",
+            clientId: payload[JwtTokenLabels.clientId] ?? ""
         )
     }
     
     // MARK: - Private Helper Methods for Data Extraction
     
-    /// Collects all static text labels from the current screen once
-    private func collectAllStaticTextLabels() -> [String] {
-        // Wait a moment for UI to settle
-        sleep(1)
+    /// Taps the export button and returns the parsed JSON from the alert
+    private func tapExportAndGetJSON(_ exportButton: XCUIElement, alertTitle: String) -> [String: Any] {
+        // Tap the export button
+        tap(exportButton)
         
-        // Get all static texts from the app
-        let allStaticTexts = app.staticTexts.allElementsBoundByIndex
-        
-        // Extract all labels into an array
-        var labels: [String] = []
-        for element in allStaticTexts {
-            let label = element.label
-            if !label.isEmpty {
-                labels.append(label)
-            }
+        // Wait for and get the alert
+        let alert = app.alerts[alertTitle]
+        guard alert.waitForExistence(timeout: timeout) else {
+            return [:]
         }
         
-        return labels
-    }
-    
-    /// Extracts a field value from a list of labels by finding the value after the given label
-    private func extractFieldValue(from labels: [String], label: String) -> String {
-        // Find the index of the label
-        guard let labelIndex = labels.firstIndex(of: label) else {
-            return ""
+        // Get the message text from the alert (contains the JSON)
+        let jsonString = alert.staticTexts.element(boundBy: 1).label
+        
+        // Dismiss the alert
+        alert.buttons["OK"].tap()
+        
+        // Parse the JSON
+        guard let jsonData = jsonString.data(using: .utf8),
+              let json = try? JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any] else {
+            return [:]
         }
         
-        // The value should be the next element after the label
-        let valueIndex = labelIndex + 1
-        guard valueIndex < labels.count else {
-            return ""
-        }
-        
-        let value = labels[valueIndex]
-        
-        // Skip if the next element is another label (ends with colon) or a section title
-        // This handles cases where a field is empty and the next label immediately follows
-        if value.hasSuffix(":") || value == label {
-            return ""
-        }
-        
-        return value
+        return json
     }
     
     // MARK: - Other

@@ -104,7 +104,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
     func checkUserCredentials(username: String, userConsumerKey: String, userRedirectUri: String, grantedScopes: String) -> UserCredentialsData {
         let userCredentials = mainPage.getUserCredentials()
         XCTAssertEqual(userCredentials.username, username)
-        XCTAssertEqual(userCredentials.clientId, maskedValue(userConsumerKey))
+        XCTAssertEqual(userCredentials.clientId, userConsumerKey)
         XCTAssertEqual(userCredentials.redirectUri, userRedirectUri)
         XCTAssertEqual(userCredentials.credentialsScopes, grantedScopes)
         return userCredentials
@@ -112,7 +112,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
     
     func checkOauthConfiguration(configuredConsumerKey: String, configuredCallbackUrl: String, requestedScopes: String) -> OAuthConfigurationData {
         let oauthConfiguration = mainPage.getOAuthConfiguration()
-        XCTAssertEqual(oauthConfiguration.configuredConsumerKey, maskedValue(configuredConsumerKey))
+        XCTAssertEqual(oauthConfiguration.configuredConsumerKey, configuredConsumerKey)
         XCTAssertEqual(oauthConfiguration.configuredCallbackUrl, configuredCallbackUrl)
         XCTAssertEqual(oauthConfiguration.configuredScopes, requestedScopes == "" ? "(none)" : requestedScopes)
         return oauthConfiguration
@@ -123,7 +123,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
             XCTFail("No JWT details found")
             return nil
         }
-        XCTAssertEqual(jwtDetails.clientId, maskedValue(clientId))
+        XCTAssertEqual(jwtDetails.clientId, clientId)
         XCTAssertEqual(sortedScopes(jwtDetails.scopes), scopes)
         return jwtDetails
     }
@@ -374,12 +374,6 @@ class BaseAuthFlowTesterTest: XCTestCase {
         
         // Revoke and refresh cycle
         assertRevokeAndRefreshWorks(previousCredentials: migratedUserCredentials)
-    }
-    
-    private func maskedValue(_ value: String) -> String {
-        let firstFive = value.prefix(5)
-        let lastFive = value.suffix(5)
-        return "\(firstFive)...\(lastFive)"
     }
     
     private func sortedScopes(_ value: String) -> String {
