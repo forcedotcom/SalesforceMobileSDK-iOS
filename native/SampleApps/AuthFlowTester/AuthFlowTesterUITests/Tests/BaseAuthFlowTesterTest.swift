@@ -66,7 +66,13 @@ class BaseAuthFlowTesterTest: XCTestCase {
         useWebServerFlow: Bool = true,
         useHybridFlow: Bool = true,
     ) {
-        loginPage.configureLoginOptions(consumerKey: appConfig.consumerKey, redirectUri: appConfig.redirectUri, scopes: scopesToRequest)
+        loginPage.configureLoginOptions(
+            consumerKey: appConfig.consumerKey,
+            redirectUri: appConfig.redirectUri,
+            scopes: scopesToRequest,
+            useWebServerFlow: useWebServerFlow,
+            useHybridFlow: useHybridFlow
+        )
         // To speed up things a bit - only configuring login host once (it never changes)
         if (!loginHostConfiguredAlready) {
             loginPage.configureLoginHost(host: host)
@@ -128,48 +134,38 @@ class BaseAuthFlowTesterTest: XCTestCase {
         return jwtDetails
     }
     
-    func assertSIDs(userCredentialsData: UserCredentialsData, useHybridFlow: Bool) {
-        if (useHybridFlow) {
-            if (userCredentialsData.credentialsScopes.contains("content")) {
-                XCTAssertNotEqual(userCredentialsData.contentDomain, "", "Content domain should be set when content scope is granted with hybrid flow")
-                XCTAssertNotEqual(userCredentialsData.contentSid, "", "Content SID should be set when content scope is granted with hybrid flow")
-            }
-            if (userCredentialsData.credentialsScopes.contains("lightning")) {
-                XCTAssertNotEqual(userCredentialsData.lightningDomain, "", "Lightning domain should be set when lightning scope is granted with hybrid flow")
-                XCTAssertNotEqual(userCredentialsData.lightningSid, "", "Lightning SID should be set when lightning scope is granted with hybrid flow")
-            }
-            if (userCredentialsData.credentialsScopes.contains("visualforce")) {
-                XCTAssertNotEqual(userCredentialsData.vfDomain, "", "VF domain should be set when visualforce scope is granted with hybrid flow")
-                XCTAssertNotEqual(userCredentialsData.vfSid, "", "VF SID should be set when visualforce scope is granted with hybrid flow")
-            }
-            if (userCredentialsData.credentialsScopes.contains("web")) {
-                XCTAssertNotEqual(userCredentialsData.parentSid, "", "Parent SID should be set when web scope is granted with hybrid flow")
-            }
-        } else {
-            XCTAssertEqual(userCredentialsData.contentDomain, "", "Content domain should be empty without hybrid flow")
-            XCTAssertEqual(userCredentialsData.contentSid, "", "Content SID should be empty without hybrid flow")
-            XCTAssertEqual(userCredentialsData.lightningDomain, "", "Lightning domain should be empty without hybrid flow")
-            XCTAssertEqual(userCredentialsData.lightningSid, "", "Lightning SID should be empty without hybrid flow")
-            XCTAssertEqual(userCredentialsData.vfDomain, "", "VF domain should be empty without hybrid flow")
-            XCTAssertEqual(userCredentialsData.vfSid, "", "VF SID should be empty without hybrid flow")
-            XCTAssertEqual(userCredentialsData.parentSid, "", "Parent SID should be empty without hybrid flow")
-        }
+    func assertSIDs(userCredentialsData: UserCredentialsData, useHybridFlow: Bool, useJwt: Bool) {
+        let hasContentScope = userCredentialsData.credentialsScopes.contains("content")
+        let hasLightningScope = userCredentialsData.credentialsScopes.contains("lightning")
+        let hasVisualforceScope = userCredentialsData.credentialsScopes.contains("visualforce")
+        
+        assertNotEmpty(userCredentialsData.contentDomain, shouldNotBeEmpty: hasContentScope && useHybridFlow, "Content domain")
+        assertNotEmpty(userCredentialsData.contentSid, shouldNotBeEmpty: hasContentScope && useHybridFlow, "Content SID")
+        
+        assertNotEmpty(userCredentialsData.lightningDomain, shouldNotBeEmpty: hasLightningScope && useHybridFlow, "Lightning domain")
+        assertNotEmpty(userCredentialsData.lightningSid, shouldNotBeEmpty: hasLightningScope && useHybridFlow, "Lightning SID")
+        
+        assertNotEmpty(userCredentialsData.vfDomain, shouldNotBeEmpty: hasVisualforceScope && useHybridFlow, "VF domain")
+        assertNotEmpty(userCredentialsData.vfSid, shouldNotBeEmpty: hasVisualforceScope && useHybridFlow, "VF SID")
+        
+        assertNotEmpty(userCredentialsData.parentSid, shouldNotBeEmpty: useJwt && useHybridFlow, "Parent SID")
     }
     
     func assertURLs(userCredentialsData: UserCredentialsData) {
-        XCTAssertNotEqual(userCredentialsData.instanceUrl, "", "Instance URL should be set")
-        XCTAssertTrue(userCredentialsData.identityUrl.hasSuffix(userCredentialsData.organizationId + "/" + userCredentialsData.userId), "Identity URL should end with orgId/userId")
+        let hasApiScope = userCredentialsData.credentialsScopes.contains("api")
+        let hasSfapApiScope = userCredentialsData.credentialsScopes.contains("sfap_api")
         
-        if (userCredentialsData.credentialsScopes.contains("api")) {
-            XCTAssertNotEqual(userCredentialsData.apiUrl, "", "API URL should be set when api scope is granted")
+        assertNotEmpty(userCredentialsData.instanceUrl, shouldNotBeEmpty: true, "Instance URL")
+        XCTAssertTrue(userCredentialsData.identityUrl.hasSuffix(userCredentialsData.organizationId + "/" + userCredentialsData.userId), "Identity URL should end with orgId/userId")
+        assertNotEmpty(userCredentialsData.apiUrl, shouldNotBeEmpty: hasApiScope, "API URL")
+        assertNotEmpty(userCredentialsData.apiInstanceUrl, shouldNotBeEmpty: hasSfapApiScope, "API Instance URL")
+    }
+    
+    private func assertNotEmpty(_ value: String, shouldNotBeEmpty: Bool, _ name: String) {
+        if shouldNotBeEmpty {
+            XCTAssertNotEqual(value, "", "\(name) should not be empty")
         } else {
-            XCTAssertEqual(userCredentialsData.apiUrl, "", "API URL should be empty when api scope is not granted")
-        }
-
-        if (userCredentialsData.credentialsScopes.contains("sfap_api")) {
-            XCTAssertNotEqual(userCredentialsData.apiInstanceUrl, "", "API Instance URL should be set when sfap_api scope is granted")
-        } else {
-            XCTAssertEqual(userCredentialsData.apiInstanceUrl, "", "API Instance URL should be empty when sfap_api scope is not granted")
+            XCTAssertEqual(value, "", "\(name) should be empty")
         }
     }
     
@@ -260,16 +256,16 @@ class BaseAuthFlowTesterTest: XCTestCase {
     func assertRevokeAndRefreshWorks(previousCredentials: UserCredentialsData) {
         // Revoke access token
         assertRevokeWorks()
-        
-        let credentialsAfterRevoke = getUserCredentials()
-        
+                
         // Make REST request (which should trigger token refresh)
         assertRestRequestWorks()
+        
+        let credentialsAfterRefresh = getUserCredentials()
         
         // Assert access token changed
         XCTAssertNotEqual(
             previousCredentials.accessToken,
-            credentialsAfterRevoke.accessToken,
+            credentialsAfterRefresh.accessToken,
             "Access token should have been refreshed"
         )
     }
@@ -314,7 +310,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
         checkJwtDetailsIfApplicable(appConfig: appConfig, scopes: expectedScopes)
         
         // Additional login-specific validations
-        assertSIDs(userCredentialsData: userCredentials, useHybridFlow: useHybridFlow)
+        assertSIDs(userCredentialsData: userCredentials, useHybridFlow: useHybridFlow, useJwt: appConfig.issuesJwt)
         assertURLs(userCredentialsData: userCredentials)
         
         // Revoke and refresh cycle
