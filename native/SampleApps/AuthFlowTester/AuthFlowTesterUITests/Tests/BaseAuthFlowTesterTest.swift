@@ -103,18 +103,18 @@ class BaseAuthFlowTesterTest: XCTestCase {
     
     func checkUserCredentials(username: String, userConsumerKey: String, userRedirectUri: String, grantedScopes: String) -> UserCredentialsData {
         let userCredentials = mainPage.getUserCredentials()
-        XCTAssertEqual(userCredentials.username, username)
-        XCTAssertEqual(userCredentials.clientId, userConsumerKey)
-        XCTAssertEqual(userCredentials.redirectUri, userRedirectUri)
-        XCTAssertEqual(userCredentials.credentialsScopes, grantedScopes)
+        XCTAssertEqual(userCredentials.username, username, "Username in credentials should match expected username")
+        XCTAssertEqual(userCredentials.clientId, userConsumerKey, "Client ID in credentials should match expected consumer key")
+        XCTAssertEqual(userCredentials.redirectUri, userRedirectUri, "Redirect URI in credentials should match expected redirect URI")
+        XCTAssertEqual(userCredentials.credentialsScopes, grantedScopes, "Scopes in credentials should match expected granted scopes")
         return userCredentials
     }
     
     func checkOauthConfiguration(configuredConsumerKey: String, configuredCallbackUrl: String, requestedScopes: String) -> OAuthConfigurationData {
         let oauthConfiguration = mainPage.getOAuthConfiguration()
-        XCTAssertEqual(oauthConfiguration.configuredConsumerKey, configuredConsumerKey)
-        XCTAssertEqual(oauthConfiguration.configuredCallbackUrl, configuredCallbackUrl)
-        XCTAssertEqual(oauthConfiguration.configuredScopes, requestedScopes == "" ? "(none)" : requestedScopes)
+        XCTAssertEqual(oauthConfiguration.configuredConsumerKey, configuredConsumerKey, "Configured consumer key should match expected value")
+        XCTAssertEqual(oauthConfiguration.configuredCallbackUrl, configuredCallbackUrl, "Configured callback URL should match expected value")
+        XCTAssertEqual(oauthConfiguration.configuredScopes, requestedScopes == "" ? "(none)" : requestedScopes, "Configured scopes should match requested scopes")
         return oauthConfiguration
     }
     
@@ -123,53 +123,53 @@ class BaseAuthFlowTesterTest: XCTestCase {
             XCTFail("No JWT details found")
             return nil
         }
-        XCTAssertEqual(jwtDetails.clientId, clientId)
-        XCTAssertEqual(sortedScopes(jwtDetails.scopes), scopes)
+        XCTAssertEqual(jwtDetails.clientId, clientId, "JWT client ID should match expected consumer key")
+        XCTAssertEqual(sortedScopes(jwtDetails.scopes), scopes, "JWT scopes should match expected scopes")
         return jwtDetails
     }
     
     func assertSIDs(userCredentialsData: UserCredentialsData, useHybridFlow: Bool) {
         if (useHybridFlow) {
             if (userCredentialsData.credentialsScopes.contains("content")) {
-                XCTAssertNotEqual(userCredentialsData.contentDomain, "(empty)")
-                XCTAssertNotEqual(userCredentialsData.contentSid, "(empty)")
+                XCTAssertNotEqual(userCredentialsData.contentDomain, "", "Content domain should be set when content scope is granted with hybrid flow")
+                XCTAssertNotEqual(userCredentialsData.contentSid, "", "Content SID should be set when content scope is granted with hybrid flow")
             }
             if (userCredentialsData.credentialsScopes.contains("lightning")) {
-                XCTAssertNotEqual(userCredentialsData.lightningDomain, "(empty)")
-                XCTAssertNotEqual(userCredentialsData.lightningSid, "(empty)")
+                XCTAssertNotEqual(userCredentialsData.lightningDomain, "", "Lightning domain should be set when lightning scope is granted with hybrid flow")
+                XCTAssertNotEqual(userCredentialsData.lightningSid, "", "Lightning SID should be set when lightning scope is granted with hybrid flow")
             }
             if (userCredentialsData.credentialsScopes.contains("visualforce")) {
-                XCTAssertNotEqual(userCredentialsData.vfDomain, "(empty)")
-                XCTAssertNotEqual(userCredentialsData.vfSid, "(empty)")
+                XCTAssertNotEqual(userCredentialsData.vfDomain, "", "VF domain should be set when visualforce scope is granted with hybrid flow")
+                XCTAssertNotEqual(userCredentialsData.vfSid, "", "VF SID should be set when visualforce scope is granted with hybrid flow")
             }
             if (userCredentialsData.credentialsScopes.contains("web")) {
-                XCTAssertNotEqual(userCredentialsData.parentSid, "(empty)")
+                XCTAssertNotEqual(userCredentialsData.parentSid, "", "Parent SID should be set when web scope is granted with hybrid flow")
             }
         } else {
-            XCTAssertEqual(userCredentialsData.contentDomain, "(empty)")
-            XCTAssertEqual(userCredentialsData.contentSid, "(empty)")
-            XCTAssertEqual(userCredentialsData.lightningDomain, "(empty)")
-            XCTAssertEqual(userCredentialsData.lightningSid, "(empty)")
-            XCTAssertEqual(userCredentialsData.vfDomain, "(empty)")
-            XCTAssertEqual(userCredentialsData.vfSid, "(empty)")
-            XCTAssertEqual(userCredentialsData.parentSid, "(empty)")
+            XCTAssertEqual(userCredentialsData.contentDomain, "", "Content domain should be empty without hybrid flow")
+            XCTAssertEqual(userCredentialsData.contentSid, "", "Content SID should be empty without hybrid flow")
+            XCTAssertEqual(userCredentialsData.lightningDomain, "", "Lightning domain should be empty without hybrid flow")
+            XCTAssertEqual(userCredentialsData.lightningSid, "", "Lightning SID should be empty without hybrid flow")
+            XCTAssertEqual(userCredentialsData.vfDomain, "", "VF domain should be empty without hybrid flow")
+            XCTAssertEqual(userCredentialsData.vfSid, "", "VF SID should be empty without hybrid flow")
+            XCTAssertEqual(userCredentialsData.parentSid, "", "Parent SID should be empty without hybrid flow")
         }
     }
     
     func assertURLs(userCredentialsData: UserCredentialsData) {
-        XCTAssertNotEqual(userCredentialsData.instanceUrl, "(empty)")
-        XCTAssertTrue(userCredentialsData.identityUrl.hasSuffix(userCredentialsData.organizationId + "/" + userCredentialsData.userId))
+        XCTAssertNotEqual(userCredentialsData.instanceUrl, "", "Instance URL should be set")
+        XCTAssertTrue(userCredentialsData.identityUrl.hasSuffix(userCredentialsData.organizationId + "/" + userCredentialsData.userId), "Identity URL should end with orgId/userId")
         
         if (userCredentialsData.credentialsScopes.contains("api")) {
-            XCTAssertNotEqual(userCredentialsData.apiUrl, "(empty)")
+            XCTAssertNotEqual(userCredentialsData.apiUrl, "", "API URL should be set when api scope is granted")
         } else {
-            XCTAssertEqual(userCredentialsData.apiUrl, "(empty)")
+            XCTAssertEqual(userCredentialsData.apiUrl, "", "API URL should be empty when api scope is not granted")
         }
 
         if (userCredentialsData.credentialsScopes.contains("sfap_api")) {
-            XCTAssertNotEqual(userCredentialsData.apiInstanceUrl, "(empty)")
+            XCTAssertNotEqual(userCredentialsData.apiInstanceUrl, "", "API Instance URL should be set when sfap_api scope is granted")
         } else {
-            XCTAssertEqual(userCredentialsData.apiInstanceUrl, "(empty)")
+            XCTAssertEqual(userCredentialsData.apiInstanceUrl, "", "API Instance URL should be empty when sfap_api scope is not granted")
         }
     }
     
