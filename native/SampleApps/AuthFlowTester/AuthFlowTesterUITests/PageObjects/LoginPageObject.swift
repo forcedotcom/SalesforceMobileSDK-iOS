@@ -29,6 +29,8 @@ import Foundation
 import XCTest
 import SalesforceSDKCore
 
+/// Page object for interacting with the Salesforce login screen during UI tests.
+/// Provides methods to configure login hosts, set OAuth options, and perform user authentication.
 class LoginPageObject {
     let app: XCUIApplication
     let timeout: double_t = 5

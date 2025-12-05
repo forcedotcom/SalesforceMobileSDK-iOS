@@ -28,7 +28,7 @@
 import Foundation
 import XCTest
 
-// MARK: - Label Constants (matching the app's Labels structs)
+// MARK: - Label Constants (mirroring the app's Labels structs for JSON parsing)
 
 struct CredentialsLabels {
     // Section titles
@@ -207,6 +207,9 @@ struct JwtDetailsData {
     var clientId: String
 }
 
+/// Page object for interacting with the AuthFlowTester main screen during UI tests.
+/// Provides methods to perform actions (revoke access token, make REST requests, change consumer key, change users, logout).
+/// and extract data (user credentials, OAuth configuration, JWT details) from the UI.
 class AuthFlowTesterMainPageObject {
     let app: XCUIApplication
     let timeout: double_t = 3

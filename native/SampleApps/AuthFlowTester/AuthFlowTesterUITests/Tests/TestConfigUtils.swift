@@ -101,7 +101,7 @@ struct TestConfig: Codable {
 
 // MARK: - Configuration Utility
 
-/// Utility class to parse and access test configuration from command-line arguments
+/// Utility class to parse and access test configuration from test_config.json in the test bundle
 class TestConfigUtils {
     
     /// Shared singleton instance
