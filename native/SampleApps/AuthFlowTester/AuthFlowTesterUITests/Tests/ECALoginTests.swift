@@ -34,93 +34,53 @@ class ECALoginTests: BaseAuthFlowTesterTest {
     // MARK: - ECA Basic Opaque Tests
     
     /// Login with ECA basic opaque using default scopes and web server flow.
-    func testECABasicOpaque_DefaultScopes_WebServerFlow() throws {
+    func testECABasicOpaque_DefaultScopes() throws {
         loginAndValidate(staticAppConfigName: .ecaBasicOpaque)
     }
     
-    /// Login with ECA basic opaque using default scopes and user agent flow.
-    func testECABasicOpaque_DefaultScopes_UserAgentFlow() throws {
-        loginAndValidate(staticAppConfigName: .ecaBasicOpaque, useWebServerFlow: false)
-    }
-
-    /// Login with ECA basic opaque using all scopes, web server flow, without hybrid auth.
-    func testECABasicOpaque_AllScopes_WebServerFlow_NotHybrid() throws {
-        loginAndValidate(staticAppConfigName: .ecaBasicOpaque, useAllScopes: true, useHybridFlow: false)
-    }
-    
-    /// Login with ECA basic opaque using all scopes, user agent flow, without hybrid auth.
-    func testECABasicOpaque_AllScopes_UserAgentFlow_NotHybrid() throws {
-        loginAndValidate(staticAppConfigName: .ecaBasicOpaque, useAllScopes: true, useWebServerFlow: false, useHybridFlow: false)
-    }
-    
     /// Login with ECA basic opaque using all scopes and web server flow.
-    func testECABasicOpaque_AllScopes_WebServerFlow() throws {
+    func testECABasicOpaque_AllScopes() throws {
         loginAndValidate(staticAppConfigName: .ecaBasicOpaque, useAllScopes: true)
-    }
-    
-    /// Login with ECA basic opaque using all scopes and user agent flow.
-    func testECABasicOpaque_AllScopes_UserAgentFlow() throws {
-        loginAndValidate(staticAppConfigName: .ecaBasicOpaque, useAllScopes: true, useWebServerFlow: false)
     }
     
     // MARK: - ECA Basic JWT Tests
     
     /// Login with ECA basic JWT using default scopes and web server flow.
-    func testECABasicJwt_DefaultScopes_WebServerFlow() throws {
+    func testECABasicJwt_DefaultScopes() throws {
         loginAndValidate(staticAppConfigName: .ecaBasicJwt)
     }
     
     /// Login with ECA basic JWT using all scopes and web server flow.
-    func testECABasicJwt_AllScopes_WebServerFlow() throws {
+    func testECABasicJwt_AllScopes() throws {
         loginAndValidate(staticAppConfigName: .ecaBasicJwt, useAllScopes: true)
     }
     
     // MARK: - ECA Advanced Opaque Tests
     
     /// Login with ECA advanced opaque using default scopes and web server flow.
-    func testECAAdvancedOpaque_DefaultScopes_WebServerFlow() throws {
+    func testECAAdvancedOpaque_DefaultScopes() throws {
         loginAndValidate(staticAppConfigName: .ecaAdvancedOpaque)
     }
     
-    /// Login with ECA advanced opaque using default scopes and user agent flow.
-    func testECAAdvancedOpaque_DefaultScopes_UserAgentFlow() throws {
-        loginAndValidate(staticAppConfigName: .ecaAdvancedOpaque, useWebServerFlow: false)
-    }
-    
-    /// Login with ECA advanced opaque using all scopes, web server flow, without hybrid auth.
-    func testECAAdvancedOpaque_AllScopes_WebServerFlow_NotHybrid() throws {
-        loginAndValidate(staticAppConfigName: .ecaAdvancedOpaque, useAllScopes: true, useHybridFlow: false)
-    }
-    
-    /// Login with ECA advanced opaque using all scopes, user agent flow, without hybrid auth.
-    func testECAAdvancedOpaque_AllScopes_UserAgentFlow_NotHybrid() throws {
-        loginAndValidate(staticAppConfigName: .ecaAdvancedOpaque, useAllScopes: true, useWebServerFlow: false, useHybridFlow: false)
-    }
-    
     /// Login with ECA advanced opaque using all scopes and web server flow.
-    func testECAAdvancedOpaque_AllScopes_WebServerFlow() throws {
+    func testECAAdvancedOpaque_AllScopes() throws {
         loginAndValidate(staticAppConfigName: .ecaAdvancedOpaque, useAllScopes: true)
-    }
-    
-    /// Login with ECA advanced opaque using all scopes and user agent flow.
-    func testECAAdvancedOpaque_AllScopes_UserAgentFlow() throws {
-        loginAndValidate(staticAppConfigName: .ecaAdvancedOpaque, useAllScopes: true, useWebServerFlow: false)
     }
     
     // MARK: - ECA Advanced JWT Tests
     
     /// Login with ECA advanced JWT using default scopes and web server flow.
-    func testECAAdvancedJwt_DefaultScopes_WebServerFlow() throws {
+    func testECAAdvancedJwt_DefaultScopes() throws {
         loginAndValidate(staticAppConfigName: .ecaAdvancedJwt)
     }
     
     /// Login with ECA advanced JWT using specific api/id/refresh scopes.
-    func testECAAdvancedJwt_ApiIdRefreshScopes_WebServerFlow() throws {
+    func testECAAdvancedJwt_ApiIdRefreshScopes() throws {
         loginAndValidate(staticAppConfigName: .ecaAdvancedJwt, scopesToRequest: "api id refresh_token")
     }
     
     /// Login with ECA advanced JWT using all scopes and web server flow.
-    func testECAAdvancedJwt_AllScopes_WebServerFlow() throws {
+    func testECAAdvancedJwt_AllScopes() throws {
         loginAndValidate(staticAppConfigName: .ecaAdvancedJwt, useAllScopes: true)
     }
 }

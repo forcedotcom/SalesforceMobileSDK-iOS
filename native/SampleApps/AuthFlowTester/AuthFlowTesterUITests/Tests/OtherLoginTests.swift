@@ -32,24 +32,25 @@ import XCTest
 /// - using multiple users
 class OtherLoginTests: BaseAuthFlowTesterTest {
     
-    /// Login with Dynamic App Configuration and an App Restart
-    func testECADynamicConfiguration_Restart() throws {
+    /// Login with Dynamic App Configuration
+    func testLoginWithDynamicConfiguration() throws {
         loginAndValidate(staticAppConfigName: .ecaBasicJwt, dynamicAppConfigName: .ecaAdvancedJwt)
         restartAndValidate(staticAppConfigName: .ecaBasicJwt, dynamicAppConfigName: .ecaAdvancedJwt)
     }
     
-    /// Login with Additional User Using Dynamic Configuration
-    func testECALoginSecondUserUsing() throws {
+    /// Login with Second User Using Dynamic App Configuration
+    func testLoginSecondUserWithDynamicConfiguration() throws {
         loginAndValidate(staticAppConfigName: .ecaBasicJwt, dynamicAppConfigName: .ecaAdvancedJwt)
         
         loginOtherUserAndValidate(staticAppConfigName: .ecaBasicJwt, dynamicAppConfigName: .ecaAdvancedJwt)
         
-        switchToPrimaryUser()
-        
+        switchToUser(.first)
         validate(appConfigName: .ecaBasicJwt)
+
+        switchToUser(.second)
+        validate(user: .second, appConfigName: .ecaAdvancedJwt, staticAppConfigName: .ecaBasicJwt)
         
         // Logging out secondary user
-        switchToSecondaryUser()
         logout()
         
     }

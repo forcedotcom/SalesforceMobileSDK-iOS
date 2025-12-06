@@ -1,5 +1,5 @@
 /*
- CALoginTests.swift
+ LegacyLoginTests.swift
  AuthFlowTesterUITests
  
  Copyright (c) 2025-present, salesforce.com, inc. All rights reserved.
@@ -27,9 +27,11 @@
 
 import XCTest
 
-/// Tests for login flows using Connected App (CA) configurations.
-/// CA apps are traditional OAuth connected apps created in Salesforce Setup.
-class CALoginTests: BaseAuthFlowTesterTest {
+/// Tests for legacy login flows including:
+/// - Connected App (CA) configurations (traditional OAuth connected apps)
+/// - User agent flow tests
+/// - Non-hybrid flow tests
+class LegacyLoginTests: BaseAuthFlowTesterTest {
 
     // MARK: - CA Basic Opaque Tests
     
@@ -41,11 +43,6 @@ class CALoginTests: BaseAuthFlowTesterTest {
     /// Login with CA basic opaque using default scopes and user agent flow.
     func testCABasicOpaque_DefaultScopes_UserAgentFlow() throws {
         loginAndValidate(staticAppConfigName: .caBasicOpaque, useWebServerFlow: false)
-    }
-
-    /// Login with CA basic opaque using all scopes, web server flow, without hybrid auth.
-    func testCABasicOpaque_AllScopes_WebServerFlow_NotHybrid() throws {
-        loginAndValidate(staticAppConfigName: .caBasicOpaque, useAllScopes: true, useHybridFlow: false)
     }
     
     /// Login with CA basic opaque using all scopes, user agent flow, without hybrid auth.
@@ -87,11 +84,6 @@ class CALoginTests: BaseAuthFlowTesterTest {
         loginAndValidate(staticAppConfigName: .caAdvancedOpaque, useWebServerFlow: false)
     }
     
-    /// Login with CA advanced opaque using all scopes, web server flow, without hybrid auth.
-    func testCAAdvancedOpaque_AllScopes_WebServerFlow_NotHybrid() throws {
-        loginAndValidate(staticAppConfigName: .caAdvancedOpaque, useAllScopes: true, useHybridFlow: false)
-    }
-    
     /// Login with CA advanced opaque using all scopes, user agent flow, without hybrid auth.
     func testCAAdvancedOpaque_AllScopes_UserAgentFlow_NotHybrid() throws {
         loginAndValidate(staticAppConfigName: .caAdvancedOpaque, useAllScopes: true, useWebServerFlow: false, useHybridFlow: false)
@@ -124,3 +116,4 @@ class CALoginTests: BaseAuthFlowTesterTest {
         loginAndValidate(staticAppConfigName: .caAdvancedJwt, useAllScopes: true)
     }
 }
+

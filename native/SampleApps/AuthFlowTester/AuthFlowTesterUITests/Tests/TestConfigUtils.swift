@@ -49,9 +49,16 @@ enum TestConfigError: Error, CustomStringConvertible {
     }
 }
 
+// MARK: - Configured Users
+
+enum KnownUserConfig {
+    case first
+    case second
+}
+
 // MARK: - App Names
 
-enum KnownAppName: String {
+enum KnownAppConfig: String {
     case ecaBasicOpaque = "eca_basic_opaque"
     case ecaBasicJwt = "eca_basic_jwt"
     case ecaAdvancedOpaque = "eca_advanced_opaque"
@@ -183,24 +190,24 @@ class TestConfigUtils {
     
     // MARK: - Throwing Accessors
     
-    /// Returns the primary (first) user or throws an error if not found
-    func getPrimaryUser() throws -> UserConfig {
-        guard let user = config?.users.first else {
-            throw TestConfigError.noPrimaryUser
+    /// Returns a user by their position (first or second) or throws an error if not found
+    func getUser(_ user: KnownUserConfig) throws -> UserConfig {
+        switch user {
+        case .first:
+            guard let firstUser = config?.users.first else {
+                throw TestConfigError.noPrimaryUser
+            }
+            return firstUser
+        case .second:
+            guard let users = config?.users, users.count >= 2 else {
+                throw TestConfigError.noSecondaryUser
+            }
+            return users[1]
         }
-        return user
-    }
-    
-    /// Returns the secondary (second) user or throws an error if not found
-    func getSecondaryUser() throws -> UserConfig {
-        guard let users = config?.users, users.count >= 2 else {
-            throw TestConfigError.noSecondaryUser
-        }
-        return users[1]
     }
     
     /// Returns an app by its name or throws an error if not found or not configured
-    func getApp(named name: KnownAppName) throws -> AppConfig {
+    func getApp(named name: KnownAppConfig) throws -> AppConfig {
         guard let app = config?.apps.first(where: { $0.name == name.rawValue }) else {
             throw TestConfigError.appNotFound(name.rawValue)
         }

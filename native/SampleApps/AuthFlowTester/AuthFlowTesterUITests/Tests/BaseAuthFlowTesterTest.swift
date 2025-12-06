@@ -72,14 +72,9 @@ class BaseAuthFlowTesterTest: XCTestCase {
         mainPage.performLogout()
     }
     
-    /// Switch to primary user
-    func switchToPrimaryUser() {
-        mainPage.switchToUser(username: getPrimaryUser().username)
-    }
-    
-    /// Switch to secondary user
-    func switchToSecondaryUser() {
-        mainPage.switchToUser(username: getSecondaryUser().username)
+    /// Switch to a configured user
+    func switchToUser(_ user: KnownUserConfig) {
+        mainPage.switchToUser(username: getUser(user).username)
     }
 
     
@@ -87,27 +82,27 @@ class BaseAuthFlowTesterTest: XCTestCase {
     /// then performs a revoke/refresh cycle to ensure the session is fully functional.
     ///
     /// - Parameters:
-    ///   - userConfig: The user credentials to validate against. If nil, uses the primary user.
+    ///   - user: The configured user to validate against. Defaults to first user.
     ///   - appConfigName: The name of the app configuration used for authentication.
     ///   - requestedScopes: The scopes that were requested. If empty, uses all scopes from the app config.
     ///   - useHybridFlow: Whether hybrid authentication flow was used.
     @discardableResult
     func validate(
-        userConfig: UserConfig? = nil,
-        appConfigName: KnownAppName,
+        user: KnownUserConfig = .first,
+        appConfigName: KnownAppConfig,
         requestedScopes: String = "",
-        staticAppConfigName: KnownAppName? = nil,
-        staticScopes: String? = nil
+        staticAppConfigName: KnownAppConfig? = nil,
+        staticScopes: String? = nil,
         useHybridFlow: Bool = true
     ) -> UserCredentialsData {
-        let resolvedUserConfig = userConfig ?? getPrimaryUser()
+        let userConfig = getUser(user)
         let appConfig = getAppConfig(named: appConfigName)
         let expectedScopes = requestedScopes == "" ? appConfig.scopes : requestedScopes
         let resolvedStaticAppConfig = staticAppConfigName == nil ? appConfig : getAppConfig(named: staticAppConfigName!)
         let resolvedStaticScopes = staticScopes ?? resolvedStaticAppConfig.scopes
         
         return validate(
-            userConfig: resolvedUserConfig,
+            userConfig: userConfig,
             appConfig: appConfig,
             expectedScopes: expectedScopes,
             staticAppConfig: resolvedStaticAppConfig,
@@ -119,25 +114,30 @@ class BaseAuthFlowTesterTest: XCTestCase {
     /// Performs login with the specified configuration.
     ///
     /// - Parameters:
-    ///   - userConfig: The user credentials to use for login.
-    ///   - staticAppConfig: The app configuration to use as static configuration in login options.
+    ///   - user: The configured user to login as. Defaults to first user.
+    ///   - staticAppConfigName: The app configuration to use as static configuration in login options.
     ///   - staticScopes: Scopes to request in the static configuration.
-    ///   - dynamicAppConfig: The app configuration to use as dynamic configuration in login options (optional).
+    ///   - dynamicAppConfigName: The app configuration to use as dynamic configuration in login options (optional).
     ///   - dynamicScopes: Scopes to request in the dynamic configuration.
     ///   - useStaticConfiguration: Whether to use static (true) or dynamic (false) configuration for login.
     ///   - useWebServerFlow: Whether to use web server flow (true) or user agent flow (false).
     ///   - useHybridFlow: Whether to use hybrid authentication flow.
     func login(
-        userConfig: UserConfig,
-        staticAppConfig: AppConfig,
+        user: KnownUserConfig = .first,
+        staticAppConfigName: KnownAppConfig,
         staticScopes: String = "",
-        dynamicAppConfig: AppConfig?,
+        dynamicAppConfigName: KnownAppConfig? = nil,
         dynamicScopes: String = "",
         useStaticConfiguration: Bool = true,
         useWebServerFlow: Bool = true,
         useHybridFlow: Bool = true
     ) {
-        loginPage.configureLoginOptions(
+        let userConfig = getUser(user)
+        let staticAppConfig = getAppConfig(named: staticAppConfigName)
+        let dynamicAppConfig = dynamicAppConfigName == nil ? nil : getAppConfig(named: dynamicAppConfigName!)
+        
+        login(
+            userConfig: userConfig,
             staticAppConfig: staticAppConfig,
             staticScopes: staticScopes,
             dynamicAppConfig: dynamicAppConfig,
@@ -146,13 +146,6 @@ class BaseAuthFlowTesterTest: XCTestCase {
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow
         )
-        
-        // To speed up things a bit - only configuring login host once (it never changes)
-        if (!loginHostConfiguredAlready) {
-            loginPage.configureLoginHost(host: host)
-            loginHostConfiguredAlready = true
-        }
-        loginPage.performLogin(username: userConfig.username, password: userConfig.password)
     }
     
     /// Performs login, validates user credentials etc, then performs revoke/refresh cycle.
@@ -171,8 +164,8 @@ class BaseAuthFlowTesterTest: XCTestCase {
     /// When useAllScopes is used, we will request the scopes defined for the app in test_config.json.
     /// Otherwise we will use the value provided in the scopesToRequest parameter.
     func loginAndValidate(
-        staticAppConfigName: KnownAppName,
-        dynamicAppConfigName: KnownAppName? = nil,
+        staticAppConfigName: KnownAppConfig,
+        dynamicAppConfigName: KnownAppConfig? = nil,
         scopesToRequest: String = "",
         useAllScopes: Bool = false,
         useWebServerFlow: Bool = true,
@@ -192,7 +185,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
         let expectedScopes = expectedScopesGranted(scopesToRequest: actualScopesToRequest, appConfig: appConfig)
 
         // User
-        let userConfig = getPrimaryUser()
+        let userConfig = getUser(.first)
         
         // Login
         login(
@@ -228,8 +221,8 @@ class BaseAuthFlowTesterTest: XCTestCase {
     ///   - useWebServerFlow: Whether to use web server flow (true) or user agent flow (false).
     ///   - useHybridFlow: Whether to use hybrid authentication flow.
     func loginOtherUserAndValidate(
-        staticAppConfigName: KnownAppName,
-        dynamicAppConfigName: KnownAppName? = nil,
+        staticAppConfigName: KnownAppConfig,
+        dynamicAppConfigName: KnownAppConfig? = nil,
         scopesToRequest: String = "",
         useAllScopes: Bool = false,
         useWebServerFlow: Bool = true,
@@ -248,9 +241,8 @@ class BaseAuthFlowTesterTest: XCTestCase {
         let dynamicScopes = useStaticConfiguration ? "" : actualScopesToRequest
         let expectedScopes = expectedScopesGranted(scopesToRequest: actualScopesToRequest, appConfig: appConfig)
 
-        // Users
-        let originalUserConfig = getPrimaryUser()
-        let otherUserConfig = getSecondaryUser()
+        // User
+        let otherUserConfig = getUser(.second)
         
 
         // Switch to add new user
@@ -285,15 +277,15 @@ class BaseAuthFlowTesterTest: XCTestCase {
     /// - Parameters:
     ///   - staticAppConfigName: The app configuration used as static configuration during initial login.
     ///   - dynamicAppConfigName: The app configuration used as dynamic configuration during initial login (optional).
-    ///   - userConfig: The user credentials. If nil, uses the primary user from test config.
+    ///   - user: The configured user. Defaults to first user.
     ///   - scopesToRequest: The scopes that were requested during the initial login.
     ///   - useAllScopes: If true, uses all scopes defined in the app config.
     ///   - useWebServerFlow: Whether web server flow was used (true) or user agent flow (false).
     ///   - useHybridFlow: Whether hybrid authentication flow was used.
     func restartAndValidate(
-        staticAppConfigName: KnownAppName,
-        dynamicAppConfigName: KnownAppName? = nil,
-        userConfig: UserConfig? = nil,
+        staticAppConfigName: KnownAppConfig,
+        dynamicAppConfigName: KnownAppConfig? = nil,
+        user: KnownUserConfig = .first,
         scopesToRequest: String = "",
         useAllScopes: Bool = false,
         useWebServerFlow: Bool = true,
@@ -312,7 +304,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
         let expectedScopes = expectedScopesGranted(scopesToRequest: actualScopesToRequest, appConfig: appConfig)
 
         // User
-        let resolvedUserConfig = userConfig ?? getPrimaryUser()
+        let userConfig = getUser(user)
         
         // Restart
         app.terminate()
@@ -320,7 +312,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
         
         // Validate
         validate(
-            userConfig: resolvedUserConfig,
+            userConfig: userConfig,
             appConfig: appConfig,
             expectedScopes: expectedScopes,
             staticAppConfig: staticAppConfig,
@@ -340,14 +332,14 @@ class BaseAuthFlowTesterTest: XCTestCase {
     ///   - originalScopesToRequest: Scopes that were requested during the original login.
     ///   - migrationScopesToRequest: Scopes to request during the migration.
     func migrateAndValidate(
-        originalAppConfigName: KnownAppName,
-        migrationAppConfigName: KnownAppName,
+        originalAppConfigName: KnownAppConfig,
+        migrationAppConfigName: KnownAppConfig,
         originalScopesToRequest: String = "",
         migrationScopesToRequest: String = ""
     ) {
         let originalAppConfig = getAppConfig(named: originalAppConfigName)
         let migrationAppConfig = getAppConfig(named: migrationAppConfigName)
-        let userConfig = getPrimaryUser()
+        let userConfig = getUser(.first)
         let expectedMigratedScopes = expectedScopesGranted(scopesToRequest: migrationScopesToRequest, appConfig: migrationAppConfig)
         
         // Get original credentials before migration
@@ -414,6 +406,34 @@ class BaseAuthFlowTesterTest: XCTestCase {
         assertRevokeAndRefreshWorks(previousCredentials: userCredentials)
         
         return userCredentials
+    }
+    
+    private func login(
+        userConfig: UserConfig,
+        staticAppConfig: AppConfig,
+        staticScopes: String = "",
+        dynamicAppConfig: AppConfig?,
+        dynamicScopes: String = "",
+        useStaticConfiguration: Bool = true,
+        useWebServerFlow: Bool = true,
+        useHybridFlow: Bool = true
+    ) {
+        loginPage.configureLoginOptions(
+            staticAppConfig: staticAppConfig,
+            staticScopes: staticScopes,
+            dynamicAppConfig: dynamicAppConfig,
+            dynamicScopes: dynamicScopes,
+            useStaticConfiguration: useStaticConfiguration,
+            useWebServerFlow: useWebServerFlow,
+            useHybridFlow: useHybridFlow
+        )
+        
+        // To speed up things a bit - only configuring login host once (it never changes)
+        if (!loginHostConfiguredAlready) {
+            loginPage.configureLoginHost(host: host)
+            loginHostConfiguredAlready = true
+        }
+        loginPage.performLogin(username: userConfig.username, password: userConfig.password)
     }
     
     private func migrateRefreshToken(appConfig: AppConfig, scopesToRequest: String = "") {
@@ -498,7 +518,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
         XCTAssert(mainPage.revokeAccessToken(), "Failed to revoke access token")
     }
     
-    private func getAppConfig(named name: KnownAppName) -> AppConfig {
+    private func getAppConfig(named name: KnownAppConfig) -> AppConfig {
         do {
             return try testConfig.getApp(named: name)
         } catch {
@@ -507,21 +527,12 @@ class BaseAuthFlowTesterTest: XCTestCase {
         }
     }
     
-    private func getPrimaryUser() -> UserConfig {
+    private func getUser(_ user: KnownUserConfig) -> UserConfig {
         do {
-            return try testConfig.getPrimaryUser()
+            return try testConfig.getUser(user)
         } catch {
-            XCTFail("Failed to get primary user: \(error)")
-            fatalError("Failed to get primary user: \(error)")
-        }
-    }
-    
-    private func getSecondaryUser() -> UserConfig {
-        do {
-            return try testConfig.getSecondaryUser()
-        } catch {
-            XCTFail("Failed to get secondary user: \(error)")
-            fatalError("Failed to get secondary user: \(error)")
+            XCTFail("Failed to get user \(user): \(error)")
+            fatalError("Failed to get user \(user): \(error)")
         }
     }
     
