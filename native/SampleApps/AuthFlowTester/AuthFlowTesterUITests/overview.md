@@ -6,7 +6,7 @@ This document provides an overview of all UI tests in the AuthFlowTester test su
 
 | Class | Description |
 |-------|-------------|
-| `LegacyLoginTests` | Tests for legacy login flows (CA apps, user agent flow, non-hybrid flow) |
+| `LegacyLoginTests` | Tests for legacy login flows (connected apps, user agent flow, non-hybrid flow) |
 | `ECALoginTests` | Tests for External Client App (ECA) login flows |
 | `BeaconLoginTests` | Tests for Beacon app login flows |
 | `MigrationTests` | Tests for refresh token migration between app configurations |
@@ -98,17 +98,17 @@ Tests for login scenarios with two users using various configurations.
 
 | Scope Type | Description |
 |------------|-------------|
-| **Default** | Uses all scopes defined in the app config |
+| **Default** | Uses all scopes defined in the server config |
 | **Subset** | Uses `api id refresh_token` only |
-| **All** | Explicitly requests all scopes from app config |
+| **All** | Explicitly requests all scopes |
 
 ## App Configuration Types
 
 | App Type | Token Format | Description |
 |----------|--------------|-------------|
-| **CA** | Opaque/JWT | Connected App - Traditional OAuth connected apps |
-| **ECA** | Opaque/JWT | External Client App - Enhanced authentication flows |
-| **Beacon** | Opaque/JWT | Beacon App - Lightweight authentication apps |
+| **CA** | Opaque/JWT | Connected App |
+| **ECA** | Opaque/JWT | External Client App |
+| **Beacon** | Opaque/JWT | Beacon App |
 
 ## Available App Configurations
 
@@ -138,17 +138,6 @@ Tests for login scenarios with two users using various configurations.
 
 | Format | Description |
 |--------|-------------|
-| **Opaque** | Traditional opaque access tokens |
-| **JWT** | JSON Web Token format with embedded claims |
-
-## Test Summary
-
-| Category | Test Count |
-|----------|------------|
-| Legacy Login Tests | 9 |
-| ECA Login Tests | 6 |
-| Beacon Login Tests | 6 |
-| Migration Tests | 6 |
-| Multi-User Tests | 6 |
-| **Total** | **33** |
+| **Opaque** | Ppaque access tokens |
+| **JWT** | JSON Web Token based access tokens |
 
