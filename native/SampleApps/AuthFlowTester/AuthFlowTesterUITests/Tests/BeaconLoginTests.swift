@@ -30,23 +30,13 @@ import XCTest
 /// Tests for login flows using Beacon app configurations.
 /// Beacon apps are lightweight authentication apps for specific use cases.
 class BeaconLoginTests: BaseAuthFlowTesterTest {
-
-    override func setUp() {
-        super.setUp()
-        logoutIfNeeded()
-    }
-
-    override func tearDown() {
-        logout()
-        super.tearDown()
-    }
     
     // MARK: - Beacon Basic Opaque Tests
     
     /// Login with Beacon basic opaque using default scopes and web server flow.
     func testBeaconBasicOpaque_DefaultScopes_WebServerFlow() throws {
         loginAndValidateAndRevokeAndRefresh(
-            appConfigName: .beaconBasicOpaque,
+            staticAppConfigName: .beaconBasicOpaque,
             useWebServerFlow: true,
             useHybridFlow: true
         )
@@ -55,7 +45,7 @@ class BeaconLoginTests: BaseAuthFlowTesterTest {
     /// Login with Beacon basic opaque using default scopes and user agent flow.
     func testBeaconBasicOpaque_DefaultScopes_UserAgentFlow() throws {
         loginAndValidateAndRevokeAndRefresh(
-            appConfigName: .beaconBasicOpaque,
+            staticAppConfigName: .beaconBasicOpaque,
             useWebServerFlow: false,
             useHybridFlow: true
         )
@@ -64,7 +54,7 @@ class BeaconLoginTests: BaseAuthFlowTesterTest {
     /// Login with Beacon basic opaque using all scopes, web server flow, without hybrid auth.
     func testBeaconBasicOpaque_AllScopes_WebServerFlow_NotHybrid() throws {
         loginAndValidateAndRevokeAndRefresh(
-            appConfigName: .beaconBasicOpaque,
+            staticAppConfigName: .beaconBasicOpaque,
             useAllScopes: true,
             useWebServerFlow: true,
             useHybridFlow: false
@@ -74,7 +64,7 @@ class BeaconLoginTests: BaseAuthFlowTesterTest {
     /// Login with Beacon basic opaque using all scopes, user agent flow, without hybrid auth.
     func testBeaconBasicOpaque_AllScopes_UserAgentFlow_NotHybrid() throws {
         loginAndValidateAndRevokeAndRefresh(
-            appConfigName: .beaconBasicOpaque,
+            staticAppConfigName: .beaconBasicOpaque,
             useAllScopes: true,
             useWebServerFlow: false,
             useHybridFlow: false
@@ -84,7 +74,7 @@ class BeaconLoginTests: BaseAuthFlowTesterTest {
     /// Login with Beacon basic opaque using all scopes and web server flow.
     func testBeaconBasicOpaque_AllScopes_WebServerFlow() throws {
         loginAndValidateAndRevokeAndRefresh(
-            appConfigName: .beaconBasicOpaque,
+            staticAppConfigName: .beaconBasicOpaque,
             useAllScopes: true,
             useWebServerFlow: true,
             useHybridFlow: true
@@ -94,7 +84,7 @@ class BeaconLoginTests: BaseAuthFlowTesterTest {
     /// Login with Beacon basic opaque using all scopes and user agent flow.
     func testBeaconBasicOpaque_AllScopes_UserAgentFlow() throws {
         loginAndValidateAndRevokeAndRefresh(
-            appConfigName: .beaconBasicOpaque,
+            staticAppConfigName: .beaconBasicOpaque,
             useAllScopes: true,
             useWebServerFlow: false,
             useHybridFlow: true
@@ -106,7 +96,7 @@ class BeaconLoginTests: BaseAuthFlowTesterTest {
     /// Login with Beacon basic JWT using default scopes and web server flow.
     func testBeaconBasicJwt_DefaultScopes_WebServerFlow() throws {
         loginAndValidateAndRevokeAndRefresh(
-            appConfigName: .beaconBasicJwt,
+            staticAppConfigName: .beaconBasicJwt,
             useWebServerFlow: true,
             useHybridFlow: true
         )
@@ -115,7 +105,7 @@ class BeaconLoginTests: BaseAuthFlowTesterTest {
     /// Login with Beacon basic JWT using all scopes and web server flow.
     func testBeaconBasicJwt_AllScopes_WebServerFlow() throws {
         loginAndValidateAndRevokeAndRefresh(
-            appConfigName: .beaconBasicJwt,
+            staticAppConfigName: .beaconBasicJwt,
             useAllScopes: true,
             useWebServerFlow: true,
             useHybridFlow: true
@@ -127,7 +117,7 @@ class BeaconLoginTests: BaseAuthFlowTesterTest {
     /// Login with Beacon advanced opaque using default scopes and web server flow.
     func testBeaconAdvancedOpaque_DefaultScopes_WebServerFlow() throws {
         loginAndValidateAndRevokeAndRefresh(
-            appConfigName: .beaconAdvancedOpaque,
+            staticAppConfigName: .beaconAdvancedOpaque,
             useWebServerFlow: true,
             useHybridFlow: true
         )
@@ -136,7 +126,7 @@ class BeaconLoginTests: BaseAuthFlowTesterTest {
     /// Login with Beacon advanced opaque using default scopes and user agent flow.
     func testBeaconAdvancedOpaque_DefaultScopes_UserAgentFlow() throws {
         loginAndValidateAndRevokeAndRefresh(
-            appConfigName: .beaconAdvancedOpaque,
+            staticAppConfigName: .beaconAdvancedOpaque,
             useWebServerFlow: false,
             useHybridFlow: true
         )
@@ -145,7 +135,7 @@ class BeaconLoginTests: BaseAuthFlowTesterTest {
     /// Login with Beacon advanced opaque using all scopes, web server flow, without hybrid auth.
     func testBeaconAdvancedOpaque_AllScopes_WebServerFlow_NotHybrid() throws {
         loginAndValidateAndRevokeAndRefresh(
-            appConfigName: .beaconAdvancedOpaque,
+            staticAppConfigName: .beaconAdvancedOpaque,
             useAllScopes: true,
             useWebServerFlow: true,
             useHybridFlow: false
@@ -155,7 +145,7 @@ class BeaconLoginTests: BaseAuthFlowTesterTest {
     /// Login with Beacon advanced opaque using all scopes, user agent flow, without hybrid auth.
     func testBeaconAdvancedOpaque_AllScopes_UserAgentFlow_NotHybrid() throws {
         loginAndValidateAndRevokeAndRefresh(
-            appConfigName: .beaconAdvancedOpaque,
+            staticAppConfigName: .beaconAdvancedOpaque,
             useAllScopes: true,
             useWebServerFlow: false,
             useHybridFlow: false
@@ -165,7 +155,7 @@ class BeaconLoginTests: BaseAuthFlowTesterTest {
     /// Login with Beacon advanced opaque using all scopes and web server flow.
     func testBeaconAdvancedOpaque_AllScopes_WebServerFlow() throws {
         loginAndValidateAndRevokeAndRefresh(
-            appConfigName: .beaconAdvancedOpaque,
+            staticAppConfigName: .beaconAdvancedOpaque,
             useAllScopes: true,
             useWebServerFlow: true,
             useHybridFlow: true
@@ -175,7 +165,7 @@ class BeaconLoginTests: BaseAuthFlowTesterTest {
     /// Login with Beacon advanced opaque using all scopes and user agent flow.
     func testBeaconAdvancedOpaque_AllScopes_UserAgentFlow() throws {
         loginAndValidateAndRevokeAndRefresh(
-            appConfigName: .beaconAdvancedOpaque,
+            staticAppConfigName: .beaconAdvancedOpaque,
             useAllScopes: true,
             useWebServerFlow: false,
             useHybridFlow: true
@@ -187,7 +177,7 @@ class BeaconLoginTests: BaseAuthFlowTesterTest {
     /// Login with Beacon advanced JWT using default scopes and web server flow.
     func testBeaconAdvancedJwt_DefaultScopes_WebServerFlow() throws {
         loginAndValidateAndRevokeAndRefresh(
-            appConfigName: .beaconAdvancedJwt,
+            staticAppConfigName: .beaconAdvancedJwt,
             useWebServerFlow: true,
             useHybridFlow: true
         )
@@ -196,7 +186,7 @@ class BeaconLoginTests: BaseAuthFlowTesterTest {
     /// Login with Beacon advanced JWT using specific api/id/refresh scopes.
     func testBeaconAdvancedJwt_ApiIdRefreshScopes_WebServerFlow() throws {
         loginAndValidateAndRevokeAndRefresh(
-            appConfigName: .beaconAdvancedJwt,
+            staticAppConfigName: .beaconAdvancedJwt,
             scopesToRequest: "api id refresh_token",
             useWebServerFlow: true,
             useHybridFlow: true
@@ -206,8 +196,24 @@ class BeaconLoginTests: BaseAuthFlowTesterTest {
     /// Login with Beacon advanced JWT using all scopes and web server flow.
     func testBeaconAdvancedJwt_AllScopes_WebServerFlow() throws {
         loginAndValidateAndRevokeAndRefresh(
-            appConfigName: .beaconAdvancedJwt,
+            staticAppConfigName: .beaconAdvancedJwt,
             useAllScopes: true,
+            useWebServerFlow: true,
+            useHybridFlow: true
+        )
+    }
+    
+    // MARK: - Beacon Tests Using Dynamic App Configuration with an App Restart
+    func testBeaconDynamicConfiguration_Restart() throws {
+        loginAndValidateAndRevokeAndRefresh(
+            staticAppConfigName: .beaconBasicJwt,
+            dynamicAppConfigName: .beaconAdvancedJwt,
+            useWebServerFlow: true,
+            useHybridFlow: true
+        )
+        restartAndValidateAndRevokeAndRefresh(
+            staticAppConfigName: .beaconBasicJwt,
+            dynamicAppConfigName: .beaconAdvancedJwt,
             useWebServerFlow: true,
             useHybridFlow: true
         )

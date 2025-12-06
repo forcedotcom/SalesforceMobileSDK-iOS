@@ -30,7 +30,7 @@ import XCTest
 import SalesforceSDKCore
 
 /// Page object for interacting with the Salesforce login screen during UI tests.
-/// Provides methods to configure login hosts, set OAuth options, and perform user authentication.
+/// Provides methods to configure login servers, login options and perform user authentication.
 class LoginPageObject {
     let app: XCUIApplication
     let timeout: double_t = 5
@@ -66,12 +66,14 @@ class LoginPageObject {
     }
     
     func configureLoginOptions(
-        consumerKey: String,
-        redirectUri: String,
-        scopes: String,
+        staticAppConfig: AppConfig?,
+        staticScopes: String = "",
+        dynamicAppConfig: AppConfig?,
+        dynamicScopes: String = "",
+        useStaticConfiguration: Bool = true,
         useWebServerFlow: Bool = true,
         useHybridFlow: Bool = true,
-        supportWelcomeDiscovery: Bool = false
+        supportWelcomeDiscovery: Bool = false,
     ) -> Void {
         tap(settingsButton())
         tap(loginOptionsButton())
@@ -79,11 +81,21 @@ class LoginPageObject {
         setSwitchField(useHybridSwitch(), value: useHybridFlow)
         setSwitchField(supportWelcomeDiscoverySwitch(), value: supportWelcomeDiscovery)
         
-        // Use import button to set config values via JSON
-        let configJSON = buildConfigJSON(consumerKey: consumerKey, redirectUri: redirectUri, scopes: scopes)
-        importConfig(configJSON)
+        if let staticAppConfig = staticAppConfig {
+            let configJSON = buildConfigJSON(consumerKey: staticAppConfig.consumerKey, redirectUri: staticAppConfig.redirectUri, scopes: staticScopes)
+            importConfig(configJSON, isStaticConfiguration: true)
+        }
         
-        tap(useStaticConfigButton())
+        if let dynamicAppConfig = dynamicAppConfig {
+            let configJSON = buildConfigJSON(consumerKey: dynamicAppConfig.consumerKey, redirectUri: dynamicAppConfig.redirectUri, scopes: dynamicScopes)
+            importConfig(configJSON, isStaticConfiguration: false)
+        }
+        
+        if (useStaticConfiguration) {
+            tap(useStaticConfigButton())
+        } else {
+            tap(useDynamicConfigButton())
+        }
     }
     
     private func buildConfigJSON(consumerKey: String, redirectUri: String, scopes: String) -> String {
@@ -99,8 +111,8 @@ class LoginPageObject {
         return jsonString
     }
     
-    private func importConfig(_ jsonString: String) {
-        tap(importConfigButton())
+    private func importConfig(_ jsonString: String, isStaticConfiguration: Bool = true) {
+        tap(importConfigButton(useStaticConfiguration: isStaticConfiguration))
         
         // Wait for alert to appear
         let alert = importConfigAlert()
@@ -208,9 +220,17 @@ class LoginPageObject {
     private func useStaticConfigButton() -> XCUIElement {
         return app.buttons["Use static config"]
     }
+
+    private func useDynamicConfigButton() -> XCUIElement {
+        return app.buttons["Use dynamic config"]
+    }
     
-    private func importConfigButton() -> XCUIElement {
-        return app.buttons["importConfigButton"].firstMatch
+    /// Returns the import button for either the static or dynamic configuration section.
+    /// The BootConfigPickerView has two BootConfigEditor sections - the first for static config, the second for dynamic config.
+    private func importConfigButton(useStaticConfiguration: Bool = true) -> XCUIElement {
+        let buttons = app.buttons.matching(identifier: "importConfigButton")
+        let index = useStaticConfiguration ? 0 : 1
+        return buttons.element(boundBy: index)
     }
     
     private func importConfigAlert() -> XCUIElement {

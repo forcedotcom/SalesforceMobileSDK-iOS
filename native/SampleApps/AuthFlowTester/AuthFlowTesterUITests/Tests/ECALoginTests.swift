@@ -31,22 +31,12 @@ import XCTest
 /// ECA apps are first-party Salesforce apps that use enhanced authentication flows.
 class ECALoginTests: BaseAuthFlowTesterTest {
 
-    override func setUp() {
-        super.setUp()
-        logoutIfNeeded()
-    }
-
-    override func tearDown() {
-        logout()
-        super.tearDown()
-    }
-    
     // MARK: - ECA Basic Opaque Tests
     
     /// Login with ECA basic opaque using default scopes and web server flow.
     func testECABasicOpaque_DefaultScopes_WebServerFlow() throws {
         loginAndValidateAndRevokeAndRefresh(
-            appConfigName: .ecaBasicOpaque,
+            staticAppConfigName: .ecaBasicOpaque,
             useWebServerFlow: true,
             useHybridFlow: true
         )
@@ -55,7 +45,7 @@ class ECALoginTests: BaseAuthFlowTesterTest {
     /// Login with ECA basic opaque using default scopes and user agent flow.
     func testECABasicOpaque_DefaultScopes_UserAgentFlow() throws {
         loginAndValidateAndRevokeAndRefresh(
-            appConfigName: .ecaBasicOpaque,
+            staticAppConfigName: .ecaBasicOpaque,
             useWebServerFlow: false,
             useHybridFlow: true
         )
@@ -64,7 +54,7 @@ class ECALoginTests: BaseAuthFlowTesterTest {
     /// Login with ECA basic opaque using all scopes, web server flow, without hybrid auth.
     func testECABasicOpaque_AllScopes_WebServerFlow_NotHybrid() throws {
         loginAndValidateAndRevokeAndRefresh(
-            appConfigName: .ecaBasicOpaque,
+            staticAppConfigName: .ecaBasicOpaque,
             useAllScopes: true,
             useWebServerFlow: true,
             useHybridFlow: false
@@ -74,7 +64,7 @@ class ECALoginTests: BaseAuthFlowTesterTest {
     /// Login with ECA basic opaque using all scopes, user agent flow, without hybrid auth.
     func testECABasicOpaque_AllScopes_UserAgentFlow_NotHybrid() throws {
         loginAndValidateAndRevokeAndRefresh(
-            appConfigName: .ecaBasicOpaque,
+            staticAppConfigName: .ecaBasicOpaque,
             useAllScopes: true,
             useWebServerFlow: false,
             useHybridFlow: false
@@ -84,7 +74,7 @@ class ECALoginTests: BaseAuthFlowTesterTest {
     /// Login with ECA basic opaque using all scopes and web server flow.
     func testECABasicOpaque_AllScopes_WebServerFlow() throws {
         loginAndValidateAndRevokeAndRefresh(
-            appConfigName: .ecaBasicOpaque,
+            staticAppConfigName: .ecaBasicOpaque,
             useAllScopes: true,
             useWebServerFlow: true,
             useHybridFlow: true
@@ -94,7 +84,7 @@ class ECALoginTests: BaseAuthFlowTesterTest {
     /// Login with ECA basic opaque using all scopes and user agent flow.
     func testECABasicOpaque_AllScopes_UserAgentFlow() throws {
         loginAndValidateAndRevokeAndRefresh(
-            appConfigName: .ecaBasicOpaque,
+            staticAppConfigName: .ecaBasicOpaque,
             useAllScopes: true,
             useWebServerFlow: false,
             useHybridFlow: true
@@ -106,7 +96,7 @@ class ECALoginTests: BaseAuthFlowTesterTest {
     /// Login with ECA basic JWT using default scopes and web server flow.
     func testECABasicJwt_DefaultScopes_WebServerFlow() throws {
         loginAndValidateAndRevokeAndRefresh(
-            appConfigName: .ecaBasicJwt,
+            staticAppConfigName: .ecaBasicJwt,
             useWebServerFlow: true,
             useHybridFlow: true
         )
@@ -115,7 +105,7 @@ class ECALoginTests: BaseAuthFlowTesterTest {
     /// Login with ECA basic JWT using all scopes and web server flow.
     func testECABasicJwt_AllScopes_WebServerFlow() throws {
         loginAndValidateAndRevokeAndRefresh(
-            appConfigName: .ecaBasicJwt,
+            staticAppConfigName: .ecaBasicJwt,
             useAllScopes: true,
             useWebServerFlow: true,
             useHybridFlow: true
@@ -127,7 +117,7 @@ class ECALoginTests: BaseAuthFlowTesterTest {
     /// Login with ECA advanced opaque using default scopes and web server flow.
     func testECAAdvancedOpaque_DefaultScopes_WebServerFlow() throws {
         loginAndValidateAndRevokeAndRefresh(
-            appConfigName: .ecaAdvancedOpaque,
+            staticAppConfigName: .ecaAdvancedOpaque,
             useWebServerFlow: true,
             useHybridFlow: true
         )
@@ -136,7 +126,7 @@ class ECALoginTests: BaseAuthFlowTesterTest {
     /// Login with ECA advanced opaque using default scopes and user agent flow.
     func testECAAdvancedOpaque_DefaultScopes_UserAgentFlow() throws {
         loginAndValidateAndRevokeAndRefresh(
-            appConfigName: .ecaAdvancedOpaque,
+            staticAppConfigName: .ecaAdvancedOpaque,
             useWebServerFlow: false,
             useHybridFlow: true
         )
@@ -145,7 +135,7 @@ class ECALoginTests: BaseAuthFlowTesterTest {
     /// Login with ECA advanced opaque using all scopes, web server flow, without hybrid auth.
     func testECAAdvancedOpaque_AllScopes_WebServerFlow_NotHybrid() throws {
         loginAndValidateAndRevokeAndRefresh(
-            appConfigName: .ecaAdvancedOpaque,
+            staticAppConfigName: .ecaAdvancedOpaque,
             useAllScopes: true,
             useWebServerFlow: true,
             useHybridFlow: false
@@ -155,7 +145,7 @@ class ECALoginTests: BaseAuthFlowTesterTest {
     /// Login with ECA advanced opaque using all scopes, user agent flow, without hybrid auth.
     func testECAAdvancedOpaque_AllScopes_UserAgentFlow_NotHybrid() throws {
         loginAndValidateAndRevokeAndRefresh(
-            appConfigName: .ecaAdvancedOpaque,
+            staticAppConfigName: .ecaAdvancedOpaque,
             useAllScopes: true,
             useWebServerFlow: false,
             useHybridFlow: false
@@ -165,7 +155,7 @@ class ECALoginTests: BaseAuthFlowTesterTest {
     /// Login with ECA advanced opaque using all scopes and web server flow.
     func testECAAdvancedOpaque_AllScopes_WebServerFlow() throws {
         loginAndValidateAndRevokeAndRefresh(
-            appConfigName: .ecaAdvancedOpaque,
+            staticAppConfigName: .ecaAdvancedOpaque,
             useAllScopes: true,
             useWebServerFlow: true,
             useHybridFlow: true
@@ -175,7 +165,7 @@ class ECALoginTests: BaseAuthFlowTesterTest {
     /// Login with ECA advanced opaque using all scopes and user agent flow.
     func testECAAdvancedOpaque_AllScopes_UserAgentFlow() throws {
         loginAndValidateAndRevokeAndRefresh(
-            appConfigName: .ecaAdvancedOpaque,
+            staticAppConfigName: .ecaAdvancedOpaque,
             useAllScopes: true,
             useWebServerFlow: false,
             useHybridFlow: true
@@ -187,7 +177,7 @@ class ECALoginTests: BaseAuthFlowTesterTest {
     /// Login with ECA advanced JWT using default scopes and web server flow.
     func testECAAdvancedJwt_DefaultScopes_WebServerFlow() throws {
         loginAndValidateAndRevokeAndRefresh(
-            appConfigName: .ecaAdvancedJwt,
+            staticAppConfigName: .ecaAdvancedJwt,
             useWebServerFlow: true,
             useHybridFlow: true
         )
@@ -196,7 +186,7 @@ class ECALoginTests: BaseAuthFlowTesterTest {
     /// Login with ECA advanced JWT using specific api/id/refresh scopes.
     func testECAAdvancedJwt_ApiIdRefreshScopes_WebServerFlow() throws {
         loginAndValidateAndRevokeAndRefresh(
-            appConfigName: .ecaAdvancedJwt,
+            staticAppConfigName: .ecaAdvancedJwt,
             scopesToRequest: "api id refresh_token",
             useWebServerFlow: true,
             useHybridFlow: true
@@ -206,8 +196,24 @@ class ECALoginTests: BaseAuthFlowTesterTest {
     /// Login with ECA advanced JWT using all scopes and web server flow.
     func testECAAdvancedJwt_AllScopes_WebServerFlow() throws {
         loginAndValidateAndRevokeAndRefresh(
-            appConfigName: .ecaAdvancedJwt,
+            staticAppConfigName: .ecaAdvancedJwt,
             useAllScopes: true,
+            useWebServerFlow: true,
+            useHybridFlow: true
+        )
+    }
+    
+    // MARK: - ECA Tests Using Dynamic App Configuration with an App Restart
+    func testECADynamicConfiguration_Restart() throws {
+        loginAndValidateAndRevokeAndRefresh(
+            staticAppConfigName: .ecaBasicJwt,
+            dynamicAppConfigName: .ecaAdvancedJwt,
+            useWebServerFlow: true,
+            useHybridFlow: true
+        )
+        restartAndValidateAndRevokeAndRefresh(
+            staticAppConfigName: .ecaBasicJwt,
+            dynamicAppConfigName: .ecaAdvancedJwt,
             useWebServerFlow: true,
             useHybridFlow: true
         )
