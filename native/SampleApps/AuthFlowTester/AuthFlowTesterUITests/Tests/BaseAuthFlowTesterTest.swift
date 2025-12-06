@@ -72,201 +72,64 @@ class BaseAuthFlowTesterTest: XCTestCase {
         mainPage.performLogout()
     }
     
-    /// Performs login, validates user credentials etc, then performs revoke/refresh cycle.
+    /// Switch to primary user
+    func switchToPrimaryUser() {
+        mainPage.switchToUser(username: getPrimaryUser().username)
+    }
+    
+    /// Switch to secondary user
+    func switchToSecondaryUser() {
+        mainPage.switchToUser(username: getSecondaryUser().username)
+    }
+
+    
+    /// Validates user credentials, OAuth configuration, and JWT details (if applicable),
+    /// then performs a revoke/refresh cycle to ensure the session is fully functional.
     ///
     /// - Parameters:
-    ///   - staticAppConfigName: The app configuration to use as static configuration in login options.
-    ///   - dynamicAppConfigName: The app configuration to use as dynamic configuration in login options (optional).
-    ///   - userConfig: The user credentials. If nil, uses the primary user from test config.
-    ///   - scopesToRequest: Specific scopes to request (e.g., "api id refresh_token"). Ignored if `useAllScopes` is true.
-    ///   - useAllScopes: If true, requests all scopes defined in the app config. 
+    ///   - userConfig: The user credentials to validate against. If nil, uses the primary user.
+    ///   - appConfigName: The name of the app configuration used for authentication.
+    ///   - requestedScopes: The scopes that were requested. If empty, uses all scopes from the app config.
+    ///   - useHybridFlow: Whether hybrid authentication flow was used.
+    @discardableResult
+    func validate(
+        userConfig: UserConfig? = nil,
+        appConfigName: KnownAppName,
+        requestedScopes: String = "",
+        staticAppConfigName: KnownAppName? = nil,
+        staticScopes: String? = nil
+        useHybridFlow: Bool = true
+    ) -> UserCredentialsData {
+        let resolvedUserConfig = userConfig ?? getPrimaryUser()
+        let appConfig = getAppConfig(named: appConfigName)
+        let expectedScopes = requestedScopes == "" ? appConfig.scopes : requestedScopes
+        let resolvedStaticAppConfig = staticAppConfigName == nil ? appConfig : getAppConfig(named: staticAppConfigName!)
+        let resolvedStaticScopes = staticScopes ?? resolvedStaticAppConfig.scopes
+        
+        return validate(
+            userConfig: resolvedUserConfig,
+            appConfig: appConfig,
+            expectedScopes: expectedScopes,
+            staticAppConfig: resolvedStaticAppConfig,
+            staticScopes: resolvedStaticScopes,
+            useHybridFlow: useHybridFlow
+        )
+    }
+    
+    /// Performs login with the specified configuration.
+    ///
+    /// - Parameters:
+    ///   - userConfig: The user credentials to use for login.
+    ///   - staticAppConfig: The app configuration to use as static configuration in login options.
+    ///   - staticScopes: Scopes to request in the static configuration.
+    ///   - dynamicAppConfig: The app configuration to use as dynamic configuration in login options (optional).
+    ///   - dynamicScopes: Scopes to request in the dynamic configuration.
+    ///   - useStaticConfiguration: Whether to use static (true) or dynamic (false) configuration for login.
     ///   - useWebServerFlow: Whether to use web server flow (true) or user agent flow (false).
     ///   - useHybridFlow: Whether to use hybrid authentication flow.
-    ///
-    /// When a dynamicAppConfigName is specified, we will do the login using the dynamic configuration
-    /// and scopesToRequest will be used in the dynamic configuration.
-    ///
-    /// When useAllScopes is used, we will request the scopes defined for the app in test_config.json.
-    /// Otherwise we will use the value provided in the scopesToRequest parameter.
-    func loginAndValidateAndRevokeAndRefresh(
-        staticAppConfigName: KnownAppName,
-        dynamicAppConfigName: KnownAppName? = nil,
-        userConfig: UserConfig? = nil,
-        scopesToRequest: String = "",
-        useAllScopes: Bool = false,
-        useWebServerFlow: Bool = true,
-        useHybridFlow: Bool = true
-    ) {
-        let useStaticConfiguration = dynamicAppConfigName == nil
-        
-        // App configs
-        let staticAppConfig = getAppConfig(named: staticAppConfigName)
-        let dynamicAppConfig = dynamicAppConfigName == nil ? nil : getAppConfig(named: dynamicAppConfigName!)
-        let appConfig = dynamicAppConfig ?? staticAppConfig
-        
-        // Scopes
-        let actualScopesToRequest = useAllScopes ? appConfig.scopes : scopesToRequest
-        let staticScopes = useStaticConfiguration ? actualScopesToRequest : staticAppConfig.scopes
-        let dynamicScopes = useStaticConfiguration ? "" : actualScopesToRequest
-        let expectedScopes = expectedScopesGranted(scopesToRequest: actualScopesToRequest, appConfig: appConfig)
-
-        // User
-        let resolvedUserConfig = userConfig ?? getPrimaryUser()
-        
-        // Login
-        login(
-            userConfig: resolvedUserConfig,
-            staticAppConfig: staticAppConfig,
-            staticScopes: staticScopes,
-            dynamicAppConfig: dynamicAppConfig,
-            dynamicScopes: dynamicScopes,
-            useStaticConfiguration: useStaticConfiguration,
-            useWebServerFlow: useWebServerFlow,
-            useHybridFlow: useHybridFlow
-        )
-        
-        // Validate
-        let userCredentials = validate(
-            userConfig: resolvedUserConfig,
-            appConfig: appConfig,
-            expectedScopes: expectedScopes,
-            staticAppConfig: staticAppConfig,
-            staticScopes: staticScopes,
-            useHybridFlow: useHybridFlow
-        )
-        
-        // Revoke and refresh cycle
-        assertRevokeAndRefreshWorks(previousCredentials: userCredentials)
-    }
-    
-    /// Restarts the app, validates user credentials etc, then performs revoke/refresh cycle.
-    /// Use this after a prior login to verify the user session persists across app restarts.
-    ///
-    /// - Parameters:
-    ///   - staticAppConfigName: The app configuration used as static configuration during initial login.
-    ///   - dynamicAppConfigName: The app configuration used as dynamic configuration during initial login (optional).
-    ///   - userConfig: The user credentials. If nil, uses the primary user from test config.
-    ///   - scopesToRequest: The scopes that were requested during the initial login.
-    ///   - useAllScopes: If true, uses all scopes defined in the app config.
-    ///   - useWebServerFlow: Whether web server flow was used (true) or user agent flow (false).
-    ///   - useHybridFlow: Whether hybrid authentication flow was used.
-    func restartAndValidateAndRevokeAndRefresh(
-        staticAppConfigName: KnownAppName,
-        dynamicAppConfigName: KnownAppName? = nil,
-        userConfig: UserConfig? = nil,
-        scopesToRequest: String = "",
-        useAllScopes: Bool = false,
-        useWebServerFlow: Bool = true,
-        useHybridFlow: Bool = true
-    ) {
-        let useStaticConfiguration = dynamicAppConfigName == nil
-        
-        // App configs
-        let staticAppConfig = getAppConfig(named: staticAppConfigName)
-        let dynamicAppConfig = dynamicAppConfigName == nil ? nil : getAppConfig(named: dynamicAppConfigName!)
-        let appConfig = dynamicAppConfig ?? staticAppConfig
-        
-        // Scopes
-        let actualScopesToRequest = useAllScopes ? appConfig.scopes : scopesToRequest
-        let staticScopes = useStaticConfiguration ? actualScopesToRequest : staticAppConfig.scopes
-        let dynamicScopes = useStaticConfiguration ? "" : actualScopesToRequest
-        let expectedScopes = expectedScopesGranted(scopesToRequest: actualScopesToRequest, appConfig: appConfig)
-
-        // User
-        let resolvedUserConfig = userConfig ?? getPrimaryUser()
-        
-        // Restart
-        app.terminate()
-        app.launch()
-        
-        // Validate
-        let userCredentials = validate(
-            userConfig: resolvedUserConfig,
-            appConfig: appConfig,
-            expectedScopes: expectedScopes,
-            staticAppConfig: staticAppConfig,
-            staticScopes: staticScopes,
-            useHybridFlow: useHybridFlow
-        )
-        
-        // Revoke and refresh cycle
-        assertRevokeAndRefreshWorks(previousCredentials: userCredentials)
-    }
-    
-    /// Performs login, migrates refresh token to a new app configuration, validates user credentials etc,
-    /// then performs revoke/refresh cycle.
-    /// Tests the refresh token migration flow where a user's session is transferred to a different connected app.
-    ///
-    /// - Parameters:
-    ///   - initialAppConfigName: The app configuration to use for the initial login.
-    ///   - migrationAppConfigName: The app configuration to migrate the refresh token to.
-    ///   - userConfig: The user credentials. If nil, uses the primary user from test config.
-    ///   - initialScopesToRequest: Scopes to request during the initial login.
-    ///   - migrationScopesToRequest: Scopes to request during the migration.
-    func loginAndMigrateAndValidateAndRevokeAndRefresh(
-        initialAppConfigName: KnownAppName,
-        migrationAppConfigName: KnownAppName,
-        userConfig: UserConfig? = nil,
-        initialScopesToRequest: String = "",
-        migrationScopesToRequest: String = ""
-    ) {
-        let initialAppConfig = getAppConfig(named: initialAppConfigName)
-        let migrationAppConfig = getAppConfig(named: migrationAppConfigName)
-        let resolvedUserConfig = userConfig ?? getPrimaryUser()
-        let expectedInitialScopes = expectedScopesGranted(scopesToRequest: initialScopesToRequest, appConfig: initialAppConfig)
-        let expectedMigratedScopes = expectedScopesGranted(scopesToRequest: migrationScopesToRequest, appConfig: migrationAppConfig)
-        
-        // Login
-        login(
-            userConfig: resolvedUserConfig,
-            staticAppConfig: initialAppConfig,
-            staticScopes: initialScopesToRequest,
-            dynamicAppConfig: nil,
-            dynamicScopes: "",
-            useStaticConfiguration: true,
-            useWebServerFlow: true,
-            useHybridFlow: true
-        )
-        
-        // Validate initial state
-        let initialUserCredentials = validate(
-            userConfig: resolvedUserConfig,
-            appConfig: initialAppConfig,
-            expectedScopes: expectedInitialScopes,
-            staticAppConfig: initialAppConfig,
-            staticScopes: initialScopesToRequest,
-            useHybridFlow: true
-        )
-        
-        // Migrate refresh token
-        changeAppConfig(appConfig: migrationAppConfig, scopesToRequest: migrationScopesToRequest)
-
-        // Validate after migration (oauth config should still show initial config)
-        let migratedUserCredentials = validate(
-            userConfig: resolvedUserConfig,
-            appConfig: migrationAppConfig,
-            expectedScopes: expectedMigratedScopes,
-            staticAppConfig: initialAppConfig,
-            staticScopes: initialScopesToRequest,
-            useHybridFlow: true
-        )
-
-        // Making sure the refresh token changed
-        XCTAssertNotEqual(
-            initialUserCredentials.refreshToken,
-            migratedUserCredentials.refreshToken,
-            "Refresh token should have been migrated"
-        )
-        
-        // Revoke and refresh cycle
-        assertRevokeAndRefreshWorks(previousCredentials: migratedUserCredentials)
-    }
-    
-    // MARK: - Private Helpers
-    
-    private func login(
+    func login(
         userConfig: UserConfig,
-        staticAppConfig: AppConfig?,
+        staticAppConfig: AppConfig,
         staticScopes: String = "",
         dynamicAppConfig: AppConfig?,
         dynamicScopes: String = "",
@@ -292,7 +155,268 @@ class BaseAuthFlowTesterTest: XCTestCase {
         loginPage.performLogin(username: userConfig.username, password: userConfig.password)
     }
     
-    private func changeAppConfig(appConfig: AppConfig, scopesToRequest: String = "") {
+    /// Performs login, validates user credentials etc, then performs revoke/refresh cycle.
+    ///
+    /// - Parameters:
+    ///   - staticAppConfigName: The app configuration to use as static configuration in login options.
+    ///   - dynamicAppConfigName: The app configuration to use as dynamic configuration in login options (optional).
+    ///   - scopesToRequest: Specific scopes to request (e.g., "api id refresh_token"). Ignored if `useAllScopes` is true.
+    ///   - useAllScopes: If true, requests all scopes defined in the app config. 
+    ///   - useWebServerFlow: Whether to use web server flow (true) or user agent flow (false).
+    ///   - useHybridFlow: Whether to use hybrid authentication flow.
+    ///
+    /// When a dynamicAppConfigName is specified, we will do the login using the dynamic configuration
+    /// and scopesToRequest will be used in the dynamic configuration.
+    ///
+    /// When useAllScopes is used, we will request the scopes defined for the app in test_config.json.
+    /// Otherwise we will use the value provided in the scopesToRequest parameter.
+    func loginAndValidate(
+        staticAppConfigName: KnownAppName,
+        dynamicAppConfigName: KnownAppName? = nil,
+        scopesToRequest: String = "",
+        useAllScopes: Bool = false,
+        useWebServerFlow: Bool = true,
+        useHybridFlow: Bool = true
+    ) {
+        let useStaticConfiguration = dynamicAppConfigName == nil
+        
+        // App configs
+        let staticAppConfig = getAppConfig(named: staticAppConfigName)
+        let dynamicAppConfig = dynamicAppConfigName == nil ? nil : getAppConfig(named: dynamicAppConfigName!)
+        let appConfig = dynamicAppConfig ?? staticAppConfig
+        
+        // Scopes
+        let actualScopesToRequest = useAllScopes ? appConfig.scopes : scopesToRequest
+        let staticScopes = useStaticConfiguration ? actualScopesToRequest : staticAppConfig.scopes
+        let dynamicScopes = useStaticConfiguration ? "" : actualScopesToRequest
+        let expectedScopes = expectedScopesGranted(scopesToRequest: actualScopesToRequest, appConfig: appConfig)
+
+        // User
+        let userConfig = getPrimaryUser()
+        
+        // Login
+        login(
+            userConfig: userConfig,
+            staticAppConfig: staticAppConfig,
+            staticScopes: staticScopes,
+            dynamicAppConfig: dynamicAppConfig,
+            dynamicScopes: dynamicScopes,
+            useStaticConfiguration: useStaticConfiguration,
+            useWebServerFlow: useWebServerFlow,
+            useHybridFlow: useHybridFlow
+        )
+        
+        // Validate
+        validate(
+            userConfig: userConfig,
+            appConfig: appConfig,
+            expectedScopes: expectedScopes,
+            staticAppConfig: staticAppConfig,
+            staticScopes: staticScopes,
+            useHybridFlow: useHybridFlow
+        )
+    }
+    
+    /// Login as another user, then validates user credentials etc.
+    /// Use this to add another user when already logged in.
+    ///
+    /// - Parameters:
+    ///   - staticAppConfigName: The app configuration to use as static configuration in login options.
+    ///   - dynamicAppConfigName: The app configuration to use as dynamic configuration in login options (optional).
+    ///   - scopesToRequest: Specific scopes to request (e.g., "api id refresh_token"). Ignored if `useAllScopes` is true.
+    ///   - useAllScopes: If true, requests all scopes defined in the app config.
+    ///   - useWebServerFlow: Whether to use web server flow (true) or user agent flow (false).
+    ///   - useHybridFlow: Whether to use hybrid authentication flow.
+    func loginOtherUserAndValidate(
+        staticAppConfigName: KnownAppName,
+        dynamicAppConfigName: KnownAppName? = nil,
+        scopesToRequest: String = "",
+        useAllScopes: Bool = false,
+        useWebServerFlow: Bool = true,
+        useHybridFlow: Bool = true
+    ) {
+        let useStaticConfiguration = dynamicAppConfigName == nil
+        
+        // App configs
+        let staticAppConfig = getAppConfig(named: staticAppConfigName)
+        let dynamicAppConfig = dynamicAppConfigName == nil ? nil : getAppConfig(named: dynamicAppConfigName!)
+        let appConfig = dynamicAppConfig ?? staticAppConfig
+        
+        // Scopes
+        let actualScopesToRequest = useAllScopes ? appConfig.scopes : scopesToRequest
+        let staticScopes = useStaticConfiguration ? actualScopesToRequest : staticAppConfig.scopes
+        let dynamicScopes = useStaticConfiguration ? "" : actualScopesToRequest
+        let expectedScopes = expectedScopesGranted(scopesToRequest: actualScopesToRequest, appConfig: appConfig)
+
+        // Users
+        let originalUserConfig = getPrimaryUser()
+        let otherUserConfig = getSecondaryUser()
+        
+
+        // Switch to add new user
+        mainPage.performAddUser()
+        
+        // Login
+        login(
+            userConfig: otherUserConfig,
+            staticAppConfig: staticAppConfig,
+            staticScopes: staticScopes,
+            dynamicAppConfig: dynamicAppConfig,
+            dynamicScopes: dynamicScopes,
+            useStaticConfiguration: useStaticConfiguration,
+            useWebServerFlow: useWebServerFlow,
+            useHybridFlow: useHybridFlow
+        )
+        
+        // Validate
+        validate(
+            userConfig: otherUserConfig,
+            appConfig: appConfig,
+            expectedScopes: expectedScopes,
+            staticAppConfig: staticAppConfig,
+            staticScopes: staticScopes,
+            useHybridFlow: useHybridFlow
+        )
+    }
+    
+    /// Restarts the app, validates user credentials etc, then performs revoke/refresh cycle.
+    /// Use this after a prior login to verify the user session persists across app restarts.
+    ///
+    /// - Parameters:
+    ///   - staticAppConfigName: The app configuration used as static configuration during initial login.
+    ///   - dynamicAppConfigName: The app configuration used as dynamic configuration during initial login (optional).
+    ///   - userConfig: The user credentials. If nil, uses the primary user from test config.
+    ///   - scopesToRequest: The scopes that were requested during the initial login.
+    ///   - useAllScopes: If true, uses all scopes defined in the app config.
+    ///   - useWebServerFlow: Whether web server flow was used (true) or user agent flow (false).
+    ///   - useHybridFlow: Whether hybrid authentication flow was used.
+    func restartAndValidate(
+        staticAppConfigName: KnownAppName,
+        dynamicAppConfigName: KnownAppName? = nil,
+        userConfig: UserConfig? = nil,
+        scopesToRequest: String = "",
+        useAllScopes: Bool = false,
+        useWebServerFlow: Bool = true,
+        useHybridFlow: Bool = true
+    ) {
+        let useStaticConfiguration = dynamicAppConfigName == nil
+        
+        // App configs
+        let staticAppConfig = getAppConfig(named: staticAppConfigName)
+        let dynamicAppConfig = dynamicAppConfigName == nil ? nil : getAppConfig(named: dynamicAppConfigName!)
+        let appConfig = dynamicAppConfig ?? staticAppConfig
+        
+        // Scopes
+        let actualScopesToRequest = useAllScopes ? appConfig.scopes : scopesToRequest
+        let staticScopes = useStaticConfiguration ? actualScopesToRequest : staticAppConfig.scopes
+        let expectedScopes = expectedScopesGranted(scopesToRequest: actualScopesToRequest, appConfig: appConfig)
+
+        // User
+        let resolvedUserConfig = userConfig ?? getPrimaryUser()
+        
+        // Restart
+        app.terminate()
+        app.launch()
+        
+        // Validate
+        validate(
+            userConfig: resolvedUserConfig,
+            appConfig: appConfig,
+            expectedScopes: expectedScopes,
+            staticAppConfig: staticAppConfig,
+            staticScopes: staticScopes,
+            useHybridFlow: useHybridFlow
+        )
+    }
+    
+    /// Migrates refresh token to a new app configuration, validates user credentials etc,
+    /// then performs revoke/refresh cycle.
+    /// Tests the refresh token migration flow where a user's session is transferred to a different connected app.
+    /// Caller should perform login before calling this method.
+    ///
+    /// - Parameters:
+    ///   - originalAppConfigName: The app configuration used for the original login.
+    ///   - migrationAppConfigName: The app configuration to migrate the refresh token to.
+    ///   - originalScopesToRequest: Scopes that were requested during the original login.
+    ///   - migrationScopesToRequest: Scopes to request during the migration.
+    func migrateAndValidate(
+        originalAppConfigName: KnownAppName,
+        migrationAppConfigName: KnownAppName,
+        originalScopesToRequest: String = "",
+        migrationScopesToRequest: String = ""
+    ) {
+        let originalAppConfig = getAppConfig(named: originalAppConfigName)
+        let migrationAppConfig = getAppConfig(named: migrationAppConfigName)
+        let userConfig = getPrimaryUser()
+        let expectedMigratedScopes = expectedScopesGranted(scopesToRequest: migrationScopesToRequest, appConfig: migrationAppConfig)
+        
+        // Get original credentials before migration
+        let originalUserCredentials = mainPage.getUserCredentials()
+        
+        // Migrate refresh token
+        migrateRefreshToken(appConfig: migrationAppConfig, scopesToRequest: migrationScopesToRequest)
+
+        // Validate after migration (oauth config should still show original config)
+        let migratedUserCredentials = validate(
+            userConfig: userConfig,
+            appConfig: migrationAppConfig,
+            expectedScopes: expectedMigratedScopes,
+            staticAppConfig: originalAppConfig,
+            staticScopes: originalScopesToRequest,
+            useHybridFlow: true
+        )
+
+        // Making sure the refresh token changed
+        XCTAssertNotEqual(
+            originalUserCredentials.refreshToken,
+            migratedUserCredentials.refreshToken,
+            "Refresh token should have been migrated"
+        )
+    }
+    
+    // MARK: - Private Helpers
+    
+    private func validate(
+        userConfig: UserConfig,
+        appConfig: AppConfig,
+        expectedScopes: String,
+        staticAppConfig: AppConfig,
+        staticScopes: String,
+        useHybridFlow: Bool
+    ) -> UserCredentialsData {
+        // Check that app loads and shows the expected user credentials etc
+        assertMainPageLoaded()
+        
+        // Check the user credentials (consumer key should match the app config used)
+        let userCredentials = checkUserCredentials(
+            username: userConfig.username,
+            userConsumerKey: appConfig.consumerKey,
+            userRedirectUri: appConfig.redirectUri,
+            grantedScopes: expectedScopes
+        )
+        
+        // Check the oauth configuration
+        // NB: Consumer key should match the static app config regardless of whether it was used or not
+        _ = checkOauthConfiguration(
+            configuredConsumerKey: staticAppConfig.consumerKey,
+            configuredCallbackUrl: staticAppConfig.redirectUri,
+            requestedScopes: staticScopes
+        )
+        
+        // Check JWT if applicable
+        checkJwtDetailsIfApplicable(appConfig: appConfig, scopes: expectedScopes)
+        
+        // Additional login-specific validations
+        assertSIDs(userCredentialsData: userCredentials, useHybridFlow: useHybridFlow, useJwt: appConfig.issuesJwt)
+        assertURLs(userCredentialsData: userCredentials)
+        
+        // Revoke and refresh cycle
+        assertRevokeAndRefreshWorks(previousCredentials: userCredentials)
+        
+        return userCredentials
+    }
+    
+    private func migrateRefreshToken(appConfig: AppConfig, scopesToRequest: String = "") {
         mainPage.changeAppConfig(appConfig: appConfig, scopesToRequest: scopesToRequest)
     }
     
@@ -367,7 +491,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
     }
     
     private func assertRestRequestWorks() {
-        XCTAssert(mainPage.makeRestRequest(), "Failed to make REST request")
+            XCTAssert(mainPage.makeRestRequest(), "Failed to make REST request")
     }
     
     private func assertRevokeWorks() {
@@ -392,46 +516,19 @@ class BaseAuthFlowTesterTest: XCTestCase {
         }
     }
     
+    private func getSecondaryUser() -> UserConfig {
+        do {
+            return try testConfig.getSecondaryUser()
+        } catch {
+            XCTFail("Failed to get secondary user: \(error)")
+            fatalError("Failed to get secondary user: \(error)")
+        }
+    }
+    
     private func expectedScopesGranted(scopesToRequest: String, appConfig: AppConfig) -> String {
         return scopesToRequest == "" ? appConfig.scopes : scopesToRequest
     }
     
-    private func validate(
-        userConfig: UserConfig,
-        appConfig: AppConfig,
-        expectedScopes: String,
-        staticAppConfig: AppConfig,
-        staticScopes: String,
-        useHybridFlow: Bool
-    ) -> UserCredentialsData {
-        // Check that app loads and shows the expected user credentials etc
-        assertMainPageLoaded()
-        
-        // Check the user credentials (consumer key should match the app config used)
-        let userCredentials = checkUserCredentials(
-            username: userConfig.username,
-            userConsumerKey: appConfig.consumerKey,
-            userRedirectUri: appConfig.redirectUri,
-            grantedScopes: expectedScopes
-        )
-        
-        // Check the oauth configuration
-        // NB: Consumer key should match the static app config regardless of whether it was used or not
-        _ = checkOauthConfiguration(
-            configuredConsumerKey: staticAppConfig.consumerKey,
-            configuredCallbackUrl: staticAppConfig.redirectUri,
-            requestedScopes: staticScopes
-        )
-        
-        // Check JWT if applicable
-        checkJwtDetailsIfApplicable(appConfig: appConfig, scopes: expectedScopes)
-        
-        // Additional login-specific validations
-        assertSIDs(userCredentialsData: userCredentials, useHybridFlow: useHybridFlow, useJwt: appConfig.issuesJwt)
-        assertURLs(userCredentialsData: userCredentials)
-        
-        return userCredentials
-    }
     
     private func checkJwtDetailsIfApplicable(appConfig: AppConfig, scopes: String) {
         if appConfig.issuesJwt {
@@ -445,7 +542,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
     private func assertRevokeAndRefreshWorks(previousCredentials: UserCredentialsData) {
         // Revoke access token
         assertRevokeWorks()
-                
+        
         // Make REST request (which should trigger token refresh)
         assertRestRequestWorks()
         

@@ -247,6 +247,22 @@ class AuthFlowTesterMainPageObject {
         return false
     }
     
+    func performAddUser() {
+        // Tap Switch User button to open the user management screen
+        tap(bottomBarSwitchUserButton())
+        
+        // Tap "New User" button in the user list navigation bar
+        tap(newUserButton())
+    }
+    
+    func switchToUser(username: String) {
+        // Tap Switch User button to open the user management screen
+        tap(bottomBarSwitchUserButton())
+        
+        // Tap the row containing the username
+        tap(userRow(username: username))
+    }
+    
     func changeAppConfig(appConfig: AppConfig, scopesToRequest: String = "") {
         // Tap Change Key button to open the sheet
         tap(bottomBarChangeKeyButton())
@@ -346,6 +362,19 @@ class AuthFlowTesterMainPageObject {
         let predicate = NSPredicate(format: "label CONTAINS[c] 'Allow'")
         return buttons.matching(predicate).firstMatch
     }
+    
+    // User switching
+    
+    private func newUserButton() -> XCUIElement {
+        return app.navigationBars["User List"].buttons["New User"]
+    }
+    
+    private func userRow(username: String) -> XCUIElement {
+        let predicate = NSPredicate(format: "label CONTAINS %@", username)
+        return app.cells.matching(predicate).firstMatch
+    }
+    
+
     
     // MARK: - Actions
     

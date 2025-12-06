@@ -35,187 +35,92 @@ class CALoginTests: BaseAuthFlowTesterTest {
     
     /// Login with CA basic opaque using default scopes and web server flow.
     func testCABasicOpaque_DefaultScopes_WebServerFlow() throws {
-        loginAndValidateAndRevokeAndRefresh(
-            staticAppConfigName: .caBasicOpaque,
-            useWebServerFlow: true,
-            useHybridFlow: true
-        )
+        loginAndValidate(staticAppConfigName: .caBasicOpaque)
     }
     
     /// Login with CA basic opaque using default scopes and user agent flow.
     func testCABasicOpaque_DefaultScopes_UserAgentFlow() throws {
-        loginAndValidateAndRevokeAndRefresh(
-            staticAppConfigName: .caBasicOpaque,
-            useWebServerFlow: false,
-            useHybridFlow: true
-        )
+        loginAndValidate(staticAppConfigName: .caBasicOpaque, useWebServerFlow: false)
     }
 
     /// Login with CA basic opaque using all scopes, web server flow, without hybrid auth.
     func testCABasicOpaque_AllScopes_WebServerFlow_NotHybrid() throws {
-        loginAndValidateAndRevokeAndRefresh(
-            staticAppConfigName: .caBasicOpaque,
-            useAllScopes: true,
-            useWebServerFlow: true,
-            useHybridFlow: false
-        )
+        loginAndValidate(staticAppConfigName: .caBasicOpaque, useAllScopes: true, useHybridFlow: false)
     }
     
     /// Login with CA basic opaque using all scopes, user agent flow, without hybrid auth.
     func testCABasicOpaque_AllScopes_UserAgentFlow_NotHybrid() throws {
-        loginAndValidateAndRevokeAndRefresh(
-            staticAppConfigName: .caBasicOpaque,
-            useAllScopes: true,
-            useWebServerFlow: false,
-            useHybridFlow: false
-        )
+        loginAndValidate(staticAppConfigName: .caBasicOpaque, useAllScopes: true, useWebServerFlow: false, useHybridFlow: false)
     }
     
     /// Login with CA basic opaque using all scopes and web server flow.
     func testCABasicOpaque_AllScopes_WebServerFlow() throws {
-        loginAndValidateAndRevokeAndRefresh(
-            staticAppConfigName: .caBasicOpaque,
-            useAllScopes: true,
-            useWebServerFlow: true,
-            useHybridFlow: true
-        )
+        loginAndValidate(staticAppConfigName: .caBasicOpaque, useAllScopes: true)
     }
     
     /// Login with CA basic opaque using all scopes and user agent flow.
     func testCABasicOpaque_AllScopes_UserAgentFlow() throws {
-        loginAndValidateAndRevokeAndRefresh(
-            staticAppConfigName: .caBasicOpaque,
-            useAllScopes: true,
-            useWebServerFlow: false,
-            useHybridFlow: true
-        )
+        loginAndValidate(staticAppConfigName: .caBasicOpaque, useAllScopes: true, useWebServerFlow: false)
     }
     
     // MARK: - CA Basic JWT Tests
     
     /// Login with CA basic JWT using default scopes and web server flow.
     func testCABasicJwt_DefaultScopes_WebServerFlow() throws {
-        loginAndValidateAndRevokeAndRefresh(
-            staticAppConfigName: .caBasicJwt,
-            useWebServerFlow: true,
-            useHybridFlow: true
-        )
+        loginAndValidate(staticAppConfigName: .caBasicJwt)
     }
     
     /// Login with CA basic JWT using all scopes and web server flow.
     func testCABasicJwt_AllScopes_WebServerFlow() throws {
-        loginAndValidateAndRevokeAndRefresh(
-            staticAppConfigName: .caBasicJwt,
-            useAllScopes: true,
-            useWebServerFlow: true,
-            useHybridFlow: true
-        )
+        loginAndValidate(staticAppConfigName: .caBasicJwt, useAllScopes: true)
     }
     
     // MARK: - CA Advanced Opaque Tests
     
     /// Login with CA advanced opaque using default scopes and web server flow.
     func testCAAdvancedOpaque_DefaultScopes_WebServerFlow() throws {
-        loginAndValidateAndRevokeAndRefresh(
-            staticAppConfigName: .caAdvancedOpaque,
-            useWebServerFlow: true,
-            useHybridFlow: true
-        )
+        loginAndValidate(staticAppConfigName: .caAdvancedOpaque)
     }
     
     /// Login with CA advanced opaque using default scopes and user agent flow.
     func testCAAdvancedOpaque_DefaultScopes_UserAgentFlow() throws {
-        loginAndValidateAndRevokeAndRefresh(
-            staticAppConfigName: .caAdvancedOpaque,
-            useWebServerFlow: false,
-            useHybridFlow: true
-        )
+        loginAndValidate(staticAppConfigName: .caAdvancedOpaque, useWebServerFlow: false)
     }
     
     /// Login with CA advanced opaque using all scopes, web server flow, without hybrid auth.
     func testCAAdvancedOpaque_AllScopes_WebServerFlow_NotHybrid() throws {
-        loginAndValidateAndRevokeAndRefresh(
-            staticAppConfigName: .caAdvancedOpaque,
-            useAllScopes: true,
-            useWebServerFlow: true,
-            useHybridFlow: false
-        )
+        loginAndValidate(staticAppConfigName: .caAdvancedOpaque, useAllScopes: true, useHybridFlow: false)
     }
     
     /// Login with CA advanced opaque using all scopes, user agent flow, without hybrid auth.
     func testCAAdvancedOpaque_AllScopes_UserAgentFlow_NotHybrid() throws {
-        loginAndValidateAndRevokeAndRefresh(
-            staticAppConfigName: .caAdvancedOpaque,
-            useAllScopes: true,
-            useWebServerFlow: false,
-            useHybridFlow: false
-        )
+        loginAndValidate(staticAppConfigName: .caAdvancedOpaque, useAllScopes: true, useWebServerFlow: false, useHybridFlow: false)
     }
     
     /// Login with CA advanced opaque using all scopes and web server flow.
     func testCAAdvancedOpaque_AllScopes_WebServerFlow() throws {
-        loginAndValidateAndRevokeAndRefresh(
-            staticAppConfigName: .caAdvancedOpaque,
-            useAllScopes: true,
-            useWebServerFlow: true,
-            useHybridFlow: true
-        )
+        loginAndValidate(staticAppConfigName: .caAdvancedOpaque, useAllScopes: true)
     }
     
     /// Login with CA advanced opaque using all scopes and user agent flow.
     func testCAAdvancedOpaque_AllScopes_UserAgentFlow() throws {
-        loginAndValidateAndRevokeAndRefresh(
-            staticAppConfigName: .caAdvancedOpaque,
-            useAllScopes: true,
-            useWebServerFlow: false,
-            useHybridFlow: true
-        )
+        loginAndValidate(staticAppConfigName: .caAdvancedOpaque, useAllScopes: true, useWebServerFlow: false)
     }
     
     // MARK: - CA Advanced JWT Tests
     
     /// Login with CA advanced JWT using default scopes and web server flow.
     func testCAAdvancedJwt_DefaultScopes_WebServerFlow() throws {
-        loginAndValidateAndRevokeAndRefresh(
-            staticAppConfigName: .caAdvancedJwt,
-            useWebServerFlow: true,
-            useHybridFlow: true
-        )
+        loginAndValidate(staticAppConfigName: .caAdvancedJwt)
     }
     
     /// Login with CA advanced JWT using specific api/id/refresh scopes.
     func testCAAdvancedJwt_ApiIdRefreshScopes_WebServerFlow() throws {
-        loginAndValidateAndRevokeAndRefresh(
-            staticAppConfigName: .caAdvancedJwt,
-            scopesToRequest: "api id refresh_token",
-            useWebServerFlow: true,
-            useHybridFlow: true
-        )
+        loginAndValidate(staticAppConfigName: .caAdvancedJwt, scopesToRequest: "api id refresh_token")
     }
     
     /// Login with CA advanced JWT using all scopes and web server flow.
     func testCAAdvancedJwt_AllScopes_WebServerFlow() throws {
-        loginAndValidateAndRevokeAndRefresh(
-            staticAppConfigName: .caAdvancedJwt,
-            useAllScopes: true,
-            useWebServerFlow: true,
-            useHybridFlow: true
-        )
-    }
-
-    // MARK: - CA Tests Using Dynamic App Configuration with an App Restart
-    func testCADynamicConfiguration_Restart() throws {
-        loginAndValidateAndRevokeAndRefresh(
-            staticAppConfigName: .caBasicJwt,
-            dynamicAppConfigName: .caAdvancedJwt,
-            useWebServerFlow: true,
-            useHybridFlow: true
-        )
-        restartAndValidateAndRevokeAndRefresh(
-            staticAppConfigName: .caBasicJwt,
-            dynamicAppConfigName: .caAdvancedJwt,
-            useWebServerFlow: true,
-            useHybridFlow: true
-        )
+        loginAndValidate(staticAppConfigName: .caAdvancedJwt, useAllScopes: true)
     }
 }

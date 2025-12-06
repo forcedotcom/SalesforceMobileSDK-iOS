@@ -41,47 +41,52 @@ class MigrationTests: BaseAuthFlowTesterTest {
     
     /// Migrate from ECA basic opaque to ECA basic JWT token format.
     func testMigrateECA_BasicOpaqueToBasicJwt() throws {
-        loginAndMigrateAndValidateAndRevokeAndRefresh(
-            initialAppConfigName: .ecaBasicOpaque,
+        loginAndValidate(staticAppConfigName: .ecaBasicOpaque, scopesToRequest: "api id refresh_token")
+        migrateAndValidate(
+            originalAppConfigName: .ecaBasicOpaque,
             migrationAppConfigName: .ecaBasicJwt,
-            initialScopesToRequest: "api id refresh_token"
+            originalScopesToRequest: "api id refresh_token"
         )
     }
     
     /// Migrate from ECA advanced opaque to ECA advanced JWT token format.
     func testMigrateECA_AdvancedOpaqueToAdvancedJwt() throws {
-        loginAndMigrateAndValidateAndRevokeAndRefresh(
-            initialAppConfigName: .ecaAdvancedOpaque,
+        loginAndValidate(staticAppConfigName: .ecaAdvancedOpaque, scopesToRequest: "api id refresh_token")
+        migrateAndValidate(
+            originalAppConfigName: .ecaAdvancedOpaque,
             migrationAppConfigName: .ecaAdvancedJwt,
-            initialScopesToRequest: "api id refresh_token"
+            originalScopesToRequest: "api id refresh_token"
         )
     }
     
     /// Migrate from ECA basic opaque to ECA advanced opaque (scope upgrade).
     func testMigrateECA_BasicOpaqueToAdvancedOpaque() throws {
-        loginAndMigrateAndValidateAndRevokeAndRefresh(
-            initialAppConfigName: .ecaBasicOpaque,
+        loginAndValidate(staticAppConfigName: .ecaBasicOpaque, scopesToRequest: "api id refresh_token")
+        migrateAndValidate(
+            originalAppConfigName: .ecaBasicOpaque,
             migrationAppConfigName: .ecaAdvancedOpaque,
-            initialScopesToRequest: "api id refresh_token"
+            originalScopesToRequest: "api id refresh_token"
         )
     }
     
     /// Migrate within same ECA advanced opaque app, requesting additional sfap_api scope.
     func testMigrateECA_AdvancedOpaqueToAdvancedOpaque_WithSfapApiScope() throws {
-        loginAndMigrateAndValidateAndRevokeAndRefresh(
-            initialAppConfigName: .ecaAdvancedOpaque,
+        loginAndValidate(staticAppConfigName: .ecaAdvancedOpaque, scopesToRequest: "api id refresh_token")
+        migrateAndValidate(
+            originalAppConfigName: .ecaAdvancedOpaque,
             migrationAppConfigName: .ecaAdvancedOpaque,
-            initialScopesToRequest: "api id refresh_token",
+            originalScopesToRequest: "api id refresh_token",
             migrationScopesToRequest: "api id refresh_token sfap_api"
         )
     }
     
     /// Migrate within same ECA advanced JWT app, requesting additional sfap_api scope.
     func testMigrateECA_AdvancedJwtToAdvancedJwt_WithSfapApiScope() throws {
-        loginAndMigrateAndValidateAndRevokeAndRefresh(
-            initialAppConfigName: .ecaAdvancedJwt,
+        loginAndValidate(staticAppConfigName: .ecaAdvancedJwt, scopesToRequest: "api id refresh_token")
+        migrateAndValidate(
+            originalAppConfigName: .ecaAdvancedJwt,
             migrationAppConfigName: .ecaAdvancedJwt,
-            initialScopesToRequest: "api id refresh_token",
+            originalScopesToRequest: "api id refresh_token",
             migrationScopesToRequest: "api id refresh_token sfap_api"
         )
     }
@@ -90,47 +95,52 @@ class MigrationTests: BaseAuthFlowTesterTest {
     
     /// Migrate from CA basic opaque to CA basic JWT token format.
     func testMigrateCA_BasicOpaqueToBasicJwt() throws {
-        loginAndMigrateAndValidateAndRevokeAndRefresh(
-            initialAppConfigName: .caBasicOpaque,
+        loginAndValidate(staticAppConfigName: .caBasicOpaque, scopesToRequest: "api id refresh_token")
+        migrateAndValidate(
+            originalAppConfigName: .caBasicOpaque,
             migrationAppConfigName: .caBasicJwt,
-            initialScopesToRequest: "api id refresh_token"
+            originalScopesToRequest: "api id refresh_token"
         )
     }
     
     /// Migrate from CA advanced opaque to CA advanced JWT token format.
     func testMigrateCA_AdvancedOpaqueToAdvancedJwt() throws {
-        loginAndMigrateAndValidateAndRevokeAndRefresh(
-            initialAppConfigName: .caAdvancedOpaque,
+        loginAndValidate(staticAppConfigName: .caAdvancedOpaque, scopesToRequest: "api id refresh_token")
+        migrateAndValidate(
+            originalAppConfigName: .caAdvancedOpaque,
             migrationAppConfigName: .caAdvancedJwt,
-            initialScopesToRequest: "api id refresh_token"
+            originalScopesToRequest: "api id refresh_token"
         )
     }
     
     /// Migrate from CA basic opaque to CA advanced opaque (scope upgrade).
     func testMigrateCA_BasicOpaqueToAdvancedOpaque() throws {
-        loginAndMigrateAndValidateAndRevokeAndRefresh(
-            initialAppConfigName: .caBasicOpaque,
+        loginAndValidate(staticAppConfigName: .caBasicOpaque, scopesToRequest: "api id refresh_token")
+        migrateAndValidate(
+            originalAppConfigName: .caBasicOpaque,
             migrationAppConfigName: .caAdvancedOpaque,
-            initialScopesToRequest: "api id refresh_token"
+            originalScopesToRequest: "api id refresh_token"
         )
     }
     
     /// Migrate within same CA advanced opaque app, requesting additional sfap_api scope.
     func testMigrateCA_AdvancedOpaqueToAdvancedOpaque_WithSfapApiScope() throws {
-        loginAndMigrateAndValidateAndRevokeAndRefresh(
-            initialAppConfigName: .caAdvancedOpaque,
+        loginAndValidate(staticAppConfigName: .caAdvancedOpaque, scopesToRequest: "api id refresh_token")
+        migrateAndValidate(
+            originalAppConfigName: .caAdvancedOpaque,
             migrationAppConfigName: .caAdvancedOpaque,
-            initialScopesToRequest: "api id refresh_token",
+            originalScopesToRequest: "api id refresh_token",
             migrationScopesToRequest: "api id refresh_token sfap_api"
         )
     }
     
     /// Migrate within same CA advanced JWT app, requesting additional sfap_api scope.
     func testMigrateCA_AdvancedJwtToAdvancedJwt_WithSfapApiScope() throws {
-        loginAndMigrateAndValidateAndRevokeAndRefresh(
-            initialAppConfigName: .caAdvancedJwt,
+        loginAndValidate(staticAppConfigName: .caAdvancedJwt, scopesToRequest: "api id refresh_token")
+        migrateAndValidate(
+            originalAppConfigName: .caAdvancedJwt,
             migrationAppConfigName: .caAdvancedJwt,
-            initialScopesToRequest: "api id refresh_token",
+            originalScopesToRequest: "api id refresh_token",
             migrationScopesToRequest: "api id refresh_token sfap_api"
         )
     }
@@ -139,47 +149,52 @@ class MigrationTests: BaseAuthFlowTesterTest {
     
     /// Migrate from Beacon basic opaque to Beacon basic JWT token format.
     func testMigrateBeacon_BasicOpaqueToBasicJwt() throws {
-        loginAndMigrateAndValidateAndRevokeAndRefresh(
-            initialAppConfigName: .beaconBasicOpaque,
+        loginAndValidate(staticAppConfigName: .beaconBasicOpaque, scopesToRequest: "api id refresh_token")
+        migrateAndValidate(
+            originalAppConfigName: .beaconBasicOpaque,
             migrationAppConfigName: .beaconBasicJwt,
-            initialScopesToRequest: "api id refresh_token"
+            originalScopesToRequest: "api id refresh_token"
         )
     }
     
     /// Migrate from Beacon advanced opaque to Beacon advanced JWT token format.
     func testMigrateBeacon_AdvancedOpaqueToAdvancedJwt() throws {
-        loginAndMigrateAndValidateAndRevokeAndRefresh(
-            initialAppConfigName: .beaconAdvancedOpaque,
+        loginAndValidate(staticAppConfigName: .beaconAdvancedOpaque, scopesToRequest: "api id refresh_token")
+        migrateAndValidate(
+            originalAppConfigName: .beaconAdvancedOpaque,
             migrationAppConfigName: .beaconAdvancedJwt,
-            initialScopesToRequest: "api id refresh_token"
+            originalScopesToRequest: "api id refresh_token"
         )
     }
     
     /// Migrate from Beacon basic opaque to Beacon advanced opaque (scope upgrade).
     func testMigrateBeacon_BasicOpaqueToAdvancedOpaque() throws {
-        loginAndMigrateAndValidateAndRevokeAndRefresh(
-            initialAppConfigName: .beaconBasicOpaque,
+        loginAndValidate(staticAppConfigName: .beaconBasicOpaque, scopesToRequest: "api id refresh_token")
+        migrateAndValidate(
+            originalAppConfigName: .beaconBasicOpaque,
             migrationAppConfigName: .beaconAdvancedOpaque,
-            initialScopesToRequest: "api id refresh_token"
+            originalScopesToRequest: "api id refresh_token"
         )
     }
     
     /// Migrate within same Beacon advanced opaque app, requesting additional sfap_api scope.
     func testMigrateBeacon_AdvancedOpaqueToAdvancedOpaque_WithSfapApiScope() throws {
-        loginAndMigrateAndValidateAndRevokeAndRefresh(
-            initialAppConfigName: .beaconAdvancedOpaque,
+        loginAndValidate(staticAppConfigName: .beaconAdvancedOpaque, scopesToRequest: "api id refresh_token")
+        migrateAndValidate(
+            originalAppConfigName: .beaconAdvancedOpaque,
             migrationAppConfigName: .beaconAdvancedOpaque,
-            initialScopesToRequest: "api id refresh_token",
+            originalScopesToRequest: "api id refresh_token",
             migrationScopesToRequest: "api id refresh_token sfap_api"
         )
     }
     
     /// Migrate within same Beacon advanced JWT app, requesting additional sfap_api scope.
     func testMigrateBeacon_AdvancedJwtToAdvancedJwt_WithSfapApiScope() throws {
-        loginAndMigrateAndValidateAndRevokeAndRefresh(
-            initialAppConfigName: .beaconAdvancedJwt,
+        loginAndValidate(staticAppConfigName: .beaconAdvancedJwt, scopesToRequest: "api id refresh_token")
+        migrateAndValidate(
+            originalAppConfigName: .beaconAdvancedJwt,
             migrationAppConfigName: .beaconAdvancedJwt,
-            initialScopesToRequest: "api id refresh_token",
+            originalScopesToRequest: "api id refresh_token",
             migrationScopesToRequest: "api id refresh_token sfap_api"
         )
     }
@@ -188,19 +203,21 @@ class MigrationTests: BaseAuthFlowTesterTest {
     
     /// Migrate from CA advanced opaque to ECA advanced opaque (app type change).
     func testMigrateCAToECA_AdvancedOpaqueToAdvancedOpaque() throws {
-        loginAndMigrateAndValidateAndRevokeAndRefresh(
-            initialAppConfigName: .caAdvancedOpaque,
+        loginAndValidate(staticAppConfigName: .caAdvancedOpaque, scopesToRequest: "api id refresh_token")
+        migrateAndValidate(
+            originalAppConfigName: .caAdvancedOpaque,
             migrationAppConfigName: .ecaAdvancedOpaque,
-            initialScopesToRequest: "api id refresh_token"
+            originalScopesToRequest: "api id refresh_token"
         )
     }
     
     /// Migrate from CA advanced JWT to ECA advanced JWT (app type change).
     func testMigrateCAToECA_AdvancedJwtToAdvancedJwt() throws {
-        loginAndMigrateAndValidateAndRevokeAndRefresh(
-            initialAppConfigName: .caAdvancedJwt,
+        loginAndValidate(staticAppConfigName: .caAdvancedJwt, scopesToRequest: "api id refresh_token")
+        migrateAndValidate(
+            originalAppConfigName: .caAdvancedJwt,
             migrationAppConfigName: .ecaAdvancedJwt,
-            initialScopesToRequest: "api id refresh_token"
+            originalScopesToRequest: "api id refresh_token"
         )
     }
     
@@ -208,19 +225,21 @@ class MigrationTests: BaseAuthFlowTesterTest {
     
     /// Migrate from CA advanced opaque to Beacon advanced opaque (app type change).
     func testMigrateCAToBeacon_AdvancedOpaqueToAdvancedOpaque() throws {
-        loginAndMigrateAndValidateAndRevokeAndRefresh(
-            initialAppConfigName: .caAdvancedOpaque,
+        loginAndValidate(staticAppConfigName: .caAdvancedOpaque, scopesToRequest: "api id refresh_token")
+        migrateAndValidate(
+            originalAppConfigName: .caAdvancedOpaque,
             migrationAppConfigName: .beaconAdvancedOpaque,
-            initialScopesToRequest: "api id refresh_token"
+            originalScopesToRequest: "api id refresh_token"
         )
     }
     
     /// Migrate from CA advanced JWT to Beacon advanced JWT (app type change).
     func testMigrateCAToBeacon_AdvancedJwtToAdvancedJwt() throws {
-        loginAndMigrateAndValidateAndRevokeAndRefresh(
-            initialAppConfigName: .caAdvancedJwt,
+        loginAndValidate(staticAppConfigName: .caAdvancedJwt, scopesToRequest: "api id refresh_token")
+        migrateAndValidate(
+            originalAppConfigName: .caAdvancedJwt,
             migrationAppConfigName: .beaconAdvancedJwt,
-            initialScopesToRequest: "api id refresh_token"
+            originalScopesToRequest: "api id refresh_token"
         )
     }
     
