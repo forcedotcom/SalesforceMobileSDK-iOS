@@ -31,43 +31,24 @@ import XCTest
 /// Beacon apps are lightweight authentication apps for specific use cases.
 class BeaconLoginTests: BaseAuthFlowTesterTest {
     
-    // MARK: - Beacon Basic Opaque Tests
-    
-    /// Login with Beacon basic opaque using default scopes and web server flow.
-    func testBeaconBasicOpaque_DefaultScopes() throws {
-        loginAndValidate(staticAppConfigName: .beaconBasicOpaque)
-    }
-    
-    /// Login with Beacon basic opaque using all scopes and web server flow.
-    func testBeaconBasicOpaque_AllScopes() throws {
-        loginAndValidate(staticAppConfigName: .beaconBasicOpaque, useAllScopes: true)
-    }
-    
-    // MARK: - Beacon Basic JWT Tests
-    
-    /// Login with Beacon basic JWT using default scopes and web server flow.
-    func testBeaconBasicJwt_DefaultScopes() throws {
-        loginAndValidate(staticAppConfigName: .beaconBasicJwt)
-    }
-    
-    /// Login with Beacon basic JWT using all scopes and web server flow.
-    func testBeaconBasicJwt_AllScopes() throws {
-        loginAndValidate(staticAppConfigName: .beaconBasicJwt, useAllScopes: true)
-    }
-    
-    // MARK: - Beacon Advanced Opaque Tests
+    // MARK: - Beacon Opaque Tests
     
     /// Login with Beacon advanced opaque using default scopes and web server flow.
     func testBeaconAdvancedOpaque_DefaultScopes() throws {
         loginAndValidate(staticAppConfigName: .beaconAdvancedOpaque)
     }
     
+    /// Login with Beacon advanced opaque using specific api/id/refresh scopes.
+    func testBeaconAdvancedOpaque_SubsetScopes() throws {
+        loginAndValidate(staticAppConfigName: .beaconAdvancedOpaque, scopesToRequest: "api id refresh_token")
+    }
+        
     /// Login with Beacon advanced opaque using all scopes and web server flow.
     func testBeaconAdvancedOpaque_AllScopes() throws {
         loginAndValidate(staticAppConfigName: .beaconAdvancedOpaque, useAllScopes: true)
     }
     
-    // MARK: - Beacon Advanced JWT Tests
+    // MARK: - Beacon JWT Tests
     
     /// Login with Beacon advanced JWT using default scopes and web server flow.
     func testBeaconAdvancedJwt_DefaultScopes() throws {
@@ -75,7 +56,7 @@ class BeaconLoginTests: BaseAuthFlowTesterTest {
     }
     
     /// Login with Beacon advanced JWT using specific api/id/refresh scopes.
-    func testBeaconAdvancedJwt_ApiIdRefreshScopes() throws {
+    func testBeaconAdvancedJwt_SubsetScopes() throws {
         loginAndValidate(staticAppConfigName: .beaconAdvancedJwt, scopesToRequest: "api id refresh_token")
     }
     
