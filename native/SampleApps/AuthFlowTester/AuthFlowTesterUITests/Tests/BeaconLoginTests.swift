@@ -35,33 +35,33 @@ class BeaconLoginTests: BaseAuthFlowTesterTest {
     
     /// Login with Beacon advanced opaque using default scopes and web server flow.
     func testBeaconAdvancedOpaque_DefaultScopes() throws {
-        loginAndValidate(staticAppConfigName: .beaconAdvancedOpaque)
+        launchLoginAndValidate(staticAppConfigName: .beaconAdvancedOpaque)
     }
     
     /// Login with Beacon advanced opaque using specific api/id/refresh scopes.
     func testBeaconAdvancedOpaque_SubsetScopes() throws {
-        loginAndValidate(staticAppConfigName: .beaconAdvancedOpaque, scopesToRequest: "api id refresh_token")
+        launchLoginAndValidate(staticAppConfigName: .beaconAdvancedOpaque, scopesToRequest: "api id refresh_token")
     }
         
     /// Login with Beacon advanced opaque using all scopes and web server flow.
     func testBeaconAdvancedOpaque_AllScopes() throws {
-        loginAndValidate(staticAppConfigName: .beaconAdvancedOpaque, useAllScopes: true)
+        launchLoginAndValidate(staticAppConfigName: .beaconAdvancedOpaque, useAllScopes: true)
     }
     
     // MARK: - Beacon JWT Tests
     
     /// Login with Beacon advanced JWT using default scopes and web server flow.
     func testBeaconAdvancedJwt_DefaultScopes() throws {
-        loginAndValidate(staticAppConfigName: .beaconAdvancedJwt)
+        launchLoginAndValidate(staticAppConfigName: .beaconAdvancedJwt)
     }
     
     /// Login with Beacon advanced JWT using specific api/id/refresh scopes.
     func testBeaconAdvancedJwt_SubsetScopes() throws {
-        loginAndValidate(staticAppConfigName: .beaconAdvancedJwt, scopesToRequest: "api id refresh_token")
+        launchLoginAndValidate(staticAppConfigName: .beaconAdvancedJwt, scopesToRequest: "api id refresh_token")
     }
     
     /// Login with Beacon advanced JWT using all scopes and web server flow.
     func testBeaconAdvancedJwt_AllScopes() throws {
-        loginAndValidate(staticAppConfigName: .beaconAdvancedJwt, useAllScopes: true)
+        launchLoginAndValidate(staticAppConfigName: .beaconAdvancedJwt, useAllScopes: true)
     }    
 }

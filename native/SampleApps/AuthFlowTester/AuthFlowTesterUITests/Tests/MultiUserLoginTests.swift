@@ -39,7 +39,7 @@ class MultiUserLoginTests: BaseAuthFlowTesterTest {
     /// Both users use static config, same app type (opaque), same scopes (default).
     func testBothStatic_SameApp_SameScopes() throws {
         // First user
-        loginAndValidate(staticAppConfigName: .ecaAdvancedOpaque)
+        launchLoginAndValidate(staticAppConfigName: .ecaAdvancedOpaque)
         
         // Second user
         loginOtherUserAndValidate(staticAppConfigName: .ecaAdvancedOpaque)
@@ -58,7 +58,7 @@ class MultiUserLoginTests: BaseAuthFlowTesterTest {
     /// Both users use static config, different app types (opaque + jwt), same scopes (default).
     func testBothStatic_DifferentApps() throws {
         // First user with opaque
-        loginAndValidate(staticAppConfigName: .ecaAdvancedOpaque)
+        launchLoginAndValidate(staticAppConfigName: .ecaAdvancedOpaque)
         
         // Second user with jwt
         loginOtherUserAndValidate(staticAppConfigName: .ecaAdvancedJwt)
@@ -77,7 +77,7 @@ class MultiUserLoginTests: BaseAuthFlowTesterTest {
     /// Both users use static config, same app type, different scopes (first subset, second default).
     func testBothStatic_SameApp_DifferentScopes() throws {
         // First user with subset scopes
-        loginAndValidate(staticAppConfigName: .ecaAdvancedOpaque, scopesToRequest: "api id refresh_token")
+        launchLoginAndValidate(staticAppConfigName: .ecaAdvancedOpaque, scopesToRequest: "api id refresh_token")
         
         // Second user with default scopes
         loginOtherUserAndValidate(staticAppConfigName: .ecaAdvancedOpaque)
@@ -98,7 +98,7 @@ class MultiUserLoginTests: BaseAuthFlowTesterTest {
     /// First user static config, second user dynamic config, different apps, same scopes (default).
     func testFirstStatic_SecondDynamic_DifferentApps() throws {
         // First user with static config
-        loginAndValidate(staticAppConfigName: .ecaAdvancedOpaque)
+        launchLoginAndValidate(staticAppConfigName: .ecaAdvancedOpaque)
         
         // Second user with dynamic config
         loginOtherUserAndValidate(staticAppConfigName: .ecaBasicOpaque, dynamicAppConfigName: .ecaAdvancedJwt)
@@ -120,7 +120,7 @@ class MultiUserLoginTests: BaseAuthFlowTesterTest {
     /// First user dynamic config, second user static config, different apps, same scopes (default).
     func testFirstDynamic_SecondStatic_DifferentApps() throws {
         // First user with dynamic config
-        loginAndValidate(staticAppConfigName: .ecaBasicOpaque, dynamicAppConfigName: .ecaAdvancedOpaque)
+        launchLoginAndValidate(staticAppConfigName: .ecaBasicOpaque, dynamicAppConfigName: .ecaAdvancedOpaque)
         
         // Second user with static config
         loginOtherUserAndValidate(staticAppConfigName: .ecaAdvancedJwt)
@@ -144,7 +144,7 @@ class MultiUserLoginTests: BaseAuthFlowTesterTest {
     /// Both users use dynamic config, different apps, same scopes (default).
     func testBothDynamic_DifferentApps() throws {
         // First user with dynamic config
-        loginAndValidate(staticAppConfigName: .ecaBasicOpaque, dynamicAppConfigName: .ecaAdvancedOpaque)
+        launchLoginAndValidate(staticAppConfigName: .ecaBasicOpaque, dynamicAppConfigName: .ecaAdvancedOpaque)
         
         // Second user with dynamic config
         loginOtherUserAndValidate(staticAppConfigName: .ecaBasicOpaque, dynamicAppConfigName: .ecaAdvancedJwt)
