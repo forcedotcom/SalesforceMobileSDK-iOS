@@ -51,9 +51,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
     }
     
     override func tearDown() {
-        if app != nil {
-            logout()
-        }
+        logout()
         super.tearDown()
     }
     
@@ -74,7 +72,9 @@ class BaseAuthFlowTesterTest: XCTestCase {
     
     /// Logs out the current user by tapping the logout button and confirming.
     func logout() {
-        mainPage.performLogout()
+        if (app != nil) {
+            mainPage.performLogout()
+        }
     }
     
     /// Switch to a configured user
@@ -318,7 +318,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
         app.launch()
         
         // Validate
-        validate(
+        _ = validate(
             userConfig: userConfig,
             appConfig: appConfig,
             expectedScopes: expectedScopes,

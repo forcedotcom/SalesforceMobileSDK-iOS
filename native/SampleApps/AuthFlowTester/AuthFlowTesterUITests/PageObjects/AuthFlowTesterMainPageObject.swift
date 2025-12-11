@@ -261,6 +261,9 @@ class AuthFlowTesterMainPageObject {
         
         // Tap the row containing the username
         tap(userRow(username: username))
+        
+        // Tap "Switch to User" button
+        tap(swithToUserButton())
     }
     
     func changeAppConfig(appConfig: AppConfig, scopesToRequest: String = "") {
@@ -370,11 +373,12 @@ class AuthFlowTesterMainPageObject {
     }
     
     private func userRow(username: String) -> XCUIElement {
-        let predicate = NSPredicate(format: "label CONTAINS %@", username)
-        return app.cells.matching(predicate).firstMatch
+        return app.staticTexts[username]
     }
     
-
+    private func swithToUserButton() -> XCUIElement {
+        return app.buttons["Switch to User"]
+    }
     
     // MARK: - Actions
     
