@@ -49,6 +49,13 @@ enum TestConfigError: Error, CustomStringConvertible {
     }
 }
 
+// MAKR: - ScopeSelection
+enum ScopeSelection {
+    case empty // will not send scopes param - should be granted all the scopes defined on the server
+    case all // will send all the scopes defined in test_config.json
+    case subset // will send a subset of the scopes defined in test_config.json
+}
+
 // MARK: - Configured Users
 
 enum KnownUserConfig {
@@ -217,5 +224,22 @@ class TestConfigUtils {
         return app
     }
 
+    /// Returns scopes to request
+    func getScopesToRequest(for appConfig: AppConfig, _ scopesParam: ScopeSelection) -> String {
+        switch(scopesParam) {
+        case .empty: return ""
+        case .subset: return "api id refresh_token"
+        case .all: return appConfig.scopes
+        }
+    }
+
+    /// Returns expected scopes granted
+    func getExpectedScopesGranted(for appConfig:AppConfig, _ scopeSelection: ScopeSelection) -> String {
+        switch(scopeSelection) {
+        case .empty: return appConfig.scopes // that assumes the scopes in test_config.json match the server config
+        case .subset: return "api id refresh_token"
+        case .all: return appConfig.scopes
+        }
+    }
 }
 

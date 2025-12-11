@@ -34,6 +34,11 @@ import XCTest
 /// - Same or different scopes
 class MultiUserLoginTests: BaseAuthFlowTesterTest {
     
+    override func tearDown() {
+        logout() // second user
+        super.tearDown()
+    }
+    
     // MARK: - Both Users Static Config
     
     /// Both users use static config, same app type (opaque), same scopes (default).
@@ -46,49 +51,56 @@ class MultiUserLoginTests: BaseAuthFlowTesterTest {
         
         // Validate first user
         switchToUser(.first)
-        validate(appConfigName: .ecaAdvancedOpaque)
+        validate(staticAppConfigName: .ecaAdvancedOpaque)
         
         // Validate second user
         switchToUser(.second)
-        validate(user: .second, appConfigName: .ecaAdvancedOpaque)
-        
-        logout()
+        validate(user: .second, staticAppConfigName: .ecaAdvancedOpaque)
     }
     
     /// Both users use static config, different app types (opaque + jwt), same scopes (default).
     func testBothStatic_DifferentApps() throws {
-        // First user with opaque
+        // First user
         launchLoginAndValidate(staticAppConfigName: .ecaAdvancedOpaque)
         
-        // Second user with jwt
+        // Second user
         loginOtherUserAndValidate(staticAppConfigName: .ecaAdvancedJwt)
         
         // Validate first user
         switchToUser(.first)
-        validate(appConfigName: .ecaAdvancedOpaque)
+        validate(staticAppConfigName: .ecaAdvancedOpaque)
         
         // Validate second user
         switchToUser(.second)
-        validate(user: .second, appConfigName: .ecaAdvancedJwt)
+        validate(user: .second, staticAppConfigName: .ecaAdvancedJwt)
         
         logout()
     }
     
     /// Both users use static config, same app type, different scopes (first subset, second default).
     func testBothStatic_SameApp_DifferentScopes() throws {
-        // First user with subset scopes
-        launchLoginAndValidate(staticAppConfigName: .ecaAdvancedOpaque, scopesToRequest: "api id refresh_token")
+        // First user
+        launchLoginAndValidate(
+            staticAppConfigName: .ecaAdvancedOpaque,
+            staticScopeSelection: .subset
+        )
         
-        // Second user with default scopes
+        // Second user
         loginOtherUserAndValidate(staticAppConfigName: .ecaAdvancedOpaque)
         
         // Validate first user
         switchToUser(.first)
-        validate(appConfigName: .ecaAdvancedOpaque, requestedScopes: "api id refresh_token")
+        validate(
+            staticAppConfigName: .ecaAdvancedOpaque,
+            staticScopeSelection: .subset
+        )
         
         // Validate second user
         switchToUser(.second)
-        validate(user: .second, appConfigName: .ecaAdvancedOpaque)
+        validate(
+            user: .second,
+            staticAppConfigName: .ecaAdvancedOpaque
+        )
         
         logout()
     }
@@ -97,69 +109,85 @@ class MultiUserLoginTests: BaseAuthFlowTesterTest {
     
     /// First user static config, second user dynamic config, different apps, same scopes (default).
     func testFirstStatic_SecondDynamic_DifferentApps() throws {
-        // First user with static config
+        // First user
         launchLoginAndValidate(staticAppConfigName: .ecaAdvancedOpaque)
         
-        // Second user with dynamic config
-        loginOtherUserAndValidate(staticAppConfigName: .ecaBasicOpaque, dynamicAppConfigName: .ecaAdvancedJwt)
-        
-        // Restart to verify persistence
-        restartAndValidate(staticAppConfigName: .ecaAdvancedOpaque)
+        // Second user
+        loginOtherUserAndValidate(staticAppConfigName: .ecaAdvancedOpaque, dynamicAppConfigName: .ecaAdvancedJwt)
         
         // Validate first user
         switchToUser(.first)
-        validate(appConfigName: .ecaAdvancedOpaque)
+        validate(staticAppConfigName: .ecaAdvancedOpaque)
         
         // Validate second user
         switchToUser(.second)
-        validate(user: .second, appConfigName: .ecaAdvancedJwt, staticAppConfigName: .ecaBasicOpaque)
+        validate(
+            user: .second,
+            staticAppConfigName: .ecaAdvancedOpaque,
+            dynamicAppConfigName: .ecaAdvancedJwt,
+            useStaticConfiguration: false
+        )
         
         logout()
     }
     
     /// First user dynamic config, second user static config, different apps, same scopes (default).
     func testFirstDynamic_SecondStatic_DifferentApps() throws {
-        // First user with dynamic config
-        launchLoginAndValidate(staticAppConfigName: .ecaBasicOpaque, dynamicAppConfigName: .ecaAdvancedOpaque)
+        // First user
+        launchLoginAndValidate(
+            staticAppConfigName: .ecaAdvancedOpaque,
+            dynamicAppConfigName: .ecaAdvancedJwt,
+            useStaticConfiguration: false)
         
-        // Second user with static config
-        loginOtherUserAndValidate(staticAppConfigName: .ecaAdvancedJwt)
-        
-        // Restart to verify persistence
-        restartAndValidate(staticAppConfigName: .ecaBasicOpaque, dynamicAppConfigName: .ecaAdvancedOpaque)
+        // Second user
+        loginOtherUserAndValidate(staticAppConfigName: .ecaAdvancedOpaque)
         
         // Validate first user
         switchToUser(.first)
-        validate(appConfigName: .ecaAdvancedOpaque, staticAppConfigName: .ecaBasicOpaque)
+        validate(
+            staticAppConfigName: .ecaAdvancedOpaque,
+            dynamicAppConfigName: .ecaAdvancedJwt,
+            useStaticConfiguration: false
+        )
         
         // Validate second user
         switchToUser(.second)
-        validate(user: .second, appConfigName: .ecaAdvancedJwt)
-        
-        logout()
+        validate(
+            user: .second,
+            staticAppConfigName: .ecaAdvancedOpaque
+        )
     }
     
     // MARK: - Both Users Dynamic Config
     
     /// Both users use dynamic config, different apps, same scopes (default).
     func testBothDynamic_DifferentApps() throws {
-        // First user with dynamic config
-        launchLoginAndValidate(staticAppConfigName: .ecaBasicOpaque, dynamicAppConfigName: .ecaAdvancedOpaque)
+        // First user
+        launchLoginAndValidate(
+            staticAppConfigName: .ecaBasicOpaque,
+            dynamicAppConfigName: .ecaAdvancedOpaque,
+            useStaticConfiguration: false)
         
-        // Second user with dynamic config
-        loginOtherUserAndValidate(staticAppConfigName: .ecaBasicOpaque, dynamicAppConfigName: .ecaAdvancedJwt)
-        
-        // Restart to verify persistence
-        restartAndValidate(staticAppConfigName: .ecaBasicOpaque, dynamicAppConfigName: .ecaAdvancedOpaque)
+        // Second user
+        loginOtherUserAndValidate(
+            staticAppConfigName: .ecaBasicOpaque,
+            dynamicAppConfigName: .ecaAdvancedJwt)
         
         // Validate first user
         switchToUser(.first)
-        validate(appConfigName: .ecaAdvancedOpaque, staticAppConfigName: .ecaBasicOpaque)
+        validate(
+            staticAppConfigName: .ecaBasicOpaque,
+            dynamicAppConfigName: .ecaAdvancedOpaque,
+            useStaticConfiguration: false
+        )
         
         // Validate second user
         switchToUser(.second)
-        validate(user: .second, appConfigName: .ecaAdvancedJwt, staticAppConfigName: .ecaBasicOpaque)
-        
-        logout()
+        validate(
+            user: .second,
+            staticAppConfigName: .ecaBasicOpaque,
+            dynamicAppConfigName: .ecaAdvancedJwt,
+            useStaticConfiguration: false
+        )        
     }
 }

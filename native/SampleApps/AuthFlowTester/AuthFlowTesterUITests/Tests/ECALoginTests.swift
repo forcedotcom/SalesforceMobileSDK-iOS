@@ -38,14 +38,14 @@ class ECALoginTests: BaseAuthFlowTesterTest {
         launchLoginAndValidate(staticAppConfigName: .ecaAdvancedOpaque)
     }
     
-    /// Login with ECA advanced opaque using specific api/id/refresh scopes.
+    /// Login with ECA advanced opaque using subset of scopes.
     func testECAAdvancedOpaque_SubsetScopes() throws {
-        launchLoginAndValidate(staticAppConfigName: .ecaAdvancedOpaque, scopesToRequest: "api id refresh_token")
+        launchLoginAndValidate(staticAppConfigName: .ecaAdvancedOpaque, staticScopeSelection: .subset)
     }
     
     /// Login with ECA advanced opaque using all scopes and web server flow.
     func testECAAdvancedOpaque_AllScopes() throws {
-        launchLoginAndValidate(staticAppConfigName: .ecaAdvancedOpaque, useAllScopes: true)
+        launchLoginAndValidate(staticAppConfigName: .ecaAdvancedOpaque, staticScopeSelection: .all)
     }
     
     // MARK: - ECA JWT Tests
@@ -55,13 +55,13 @@ class ECALoginTests: BaseAuthFlowTesterTest {
         launchLoginAndValidate(staticAppConfigName: .ecaAdvancedJwt)
     }
     
-    /// Login with ECA advanced JWT using specific api/id/refresh scopes.
+    /// Login with ECA advanced JWT using subset of scopes.
     func testECAAdvancedJwt_SubsetScopes() throws {
-        launchLoginAndValidate(staticAppConfigName: .ecaAdvancedJwt, scopesToRequest: "api id refresh_token")
+        launchLoginAndValidate(staticAppConfigName: .ecaAdvancedJwt, staticScopeSelection: .subset)
     }
     
     /// Login with ECA advanced JWT using all scopes and web server flow.
     func testECAAdvancedJwt_AllScopes() throws {
-        launchLoginAndValidate(staticAppConfigName: .ecaAdvancedJwt, useAllScopes: true)
+        launchLoginAndValidate(staticAppConfigName: .ecaAdvancedJwt, staticScopeSelection: .all)
     }
 }

@@ -40,12 +40,12 @@ class BeaconLoginTests: BaseAuthFlowTesterTest {
     
     /// Login with Beacon advanced opaque using specific api/id/refresh scopes.
     func testBeaconAdvancedOpaque_SubsetScopes() throws {
-        launchLoginAndValidate(staticAppConfigName: .beaconAdvancedOpaque, scopesToRequest: "api id refresh_token")
+        launchLoginAndValidate(staticAppConfigName: .beaconAdvancedOpaque, staticScopeSelection: .subset)
     }
         
     /// Login with Beacon advanced opaque using all scopes and web server flow.
     func testBeaconAdvancedOpaque_AllScopes() throws {
-        launchLoginAndValidate(staticAppConfigName: .beaconAdvancedOpaque, useAllScopes: true)
+        launchLoginAndValidate(staticAppConfigName: .beaconAdvancedOpaque, staticScopeSelection: .all)
     }
     
     // MARK: - Beacon JWT Tests
@@ -57,11 +57,11 @@ class BeaconLoginTests: BaseAuthFlowTesterTest {
     
     /// Login with Beacon advanced JWT using specific api/id/refresh scopes.
     func testBeaconAdvancedJwt_SubsetScopes() throws {
-        launchLoginAndValidate(staticAppConfigName: .beaconAdvancedJwt, scopesToRequest: "api id refresh_token")
+        launchLoginAndValidate(staticAppConfigName: .beaconAdvancedJwt, staticScopeSelection: .subset)
     }
     
     /// Login with Beacon advanced JWT using all scopes and web server flow.
     func testBeaconAdvancedJwt_AllScopes() throws {
-        launchLoginAndValidate(staticAppConfigName: .beaconAdvancedJwt, useAllScopes: true)
+        launchLoginAndValidate(staticAppConfigName: .beaconAdvancedJwt, staticScopeSelection: .all)
     }    
 }

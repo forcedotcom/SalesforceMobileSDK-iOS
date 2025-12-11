@@ -41,46 +41,41 @@ class MigrationTests: BaseAuthFlowTesterTest {
     
     /// Migrate from ECA basic opaque to ECA basic JWT token format.
     func testMigrateECA_BasicOpaqueToBasicJwt() throws {
-        launchLoginAndValidate(staticAppConfigName: .ecaBasicOpaque, scopesToRequest: "api id refresh_token")
+        launchLoginAndValidate(staticAppConfigName: .ecaBasicOpaque)
         migrateAndValidate(
-            originalAppConfigName: .ecaBasicOpaque,
-            migrationAppConfigName: .ecaBasicJwt,
-            originalScopesToRequest: "api id refresh_token"
+            staticAppConfigName: .ecaBasicOpaque,
+            migrationAppConfigName: .ecaBasicJwt
         )
     }
     
     /// Migrate within same ECA advanced JWT app (scope upgrade).
     func testMigrateECA_AdvancedJwtToAdvancedJwt_WithMoreScopes() throws {
-        launchLoginAndValidate(staticAppConfigName: .ecaAdvancedJwt, scopesToRequest: "api id refresh_token")
+        launchLoginAndValidate(staticAppConfigName: .ecaAdvancedJwt, staticScopeSelection: .subset)
         migrateAndValidate(
-            originalAppConfigName: .ecaAdvancedJwt,
-            migrationAppConfigName: .ecaAdvancedJwt,
-            originalScopesToRequest: "api id refresh_token",
-            migrationScopesToRequest: "api id refresh_token sfap_api"
+            staticAppConfigName: .ecaAdvancedJwt,
+            staticScopeSelection: .subset,
+            migrationAppConfigName: .ecaAdvancedJwt
         )
     }
-    
 
     // MARK: - Beacon Migrations (within same app type)
     
     /// Migrate from Beacon basic opaque to Beacon basic JWT token format.
     func testMigrateBeacon_BasicOpaqueToBasicJwt() throws {
-        launchLoginAndValidate(staticAppConfigName: .beaconBasicOpaque, scopesToRequest: "api id refresh_token")
+        launchLoginAndValidate(staticAppConfigName: .beaconBasicOpaque)
         migrateAndValidate(
-            originalAppConfigName: .beaconBasicOpaque,
-            migrationAppConfigName: .beaconBasicJwt,
-            originalScopesToRequest: "api id refresh_token"
+            staticAppConfigName: .beaconBasicOpaque,
+            migrationAppConfigName: .beaconBasicJwt
         )
     }
     
     /// Migrate within same Beacon advanced JWT app (scope upgrade).
     func testMigrateBeacon_AdvancedJwtToAdvancedJwt_WithMoreScopes() throws {
-        launchLoginAndValidate(staticAppConfigName: .beaconAdvancedJwt, scopesToRequest: "api id refresh_token")
+        launchLoginAndValidate(staticAppConfigName: .beaconAdvancedJwt, staticScopeSelection: .subset)
         migrateAndValidate(
-            originalAppConfigName: .beaconAdvancedJwt,
-            migrationAppConfigName: .beaconAdvancedJwt,
-            originalScopesToRequest: "api id refresh_token",
-            migrationScopesToRequest: "api id refresh_token sfap_api"
+            staticAppConfigName: .beaconAdvancedJwt,
+            staticScopeSelection: .subset,
+            migrationAppConfigName: .beaconAdvancedJwt
         )
     }
     
@@ -88,21 +83,19 @@ class MigrationTests: BaseAuthFlowTesterTest {
     
     /// Migrate from CA advanced opaque to ECA advanced opaque (app type change).
     func testMigrateCAToECA_AdvancedOpaqueToAdvancedOpaque() throws {
-        launchLoginAndValidate(staticAppConfigName: .caAdvancedOpaque, scopesToRequest: "api id refresh_token")
+        launchLoginAndValidate(staticAppConfigName: .caAdvancedOpaque)
         migrateAndValidate(
-            originalAppConfigName: .caAdvancedOpaque,
-            migrationAppConfigName: .ecaAdvancedOpaque,
-            originalScopesToRequest: "api id refresh_token"
+            staticAppConfigName: .caAdvancedOpaque,
+            migrationAppConfigName: .ecaAdvancedOpaque
         )
     }
     
     /// Migrate from CA advanced opaque to Beacon advanced opaque (app type change).
     func testMigrateCAToBeacon_AdvancedOpaqueToAdvancedOpaque() throws {
-        launchLoginAndValidate(staticAppConfigName: .caAdvancedOpaque, scopesToRequest: "api id refresh_token")
+        launchLoginAndValidate(staticAppConfigName: .caAdvancedOpaque)
         migrateAndValidate(
-            originalAppConfigName: .caAdvancedOpaque,
-            migrationAppConfigName: .beaconAdvancedOpaque,
-            originalScopesToRequest: "api id refresh_token"
+            staticAppConfigName: .caAdvancedOpaque,
+            migrationAppConfigName: .beaconAdvancedOpaque
         )
     }
 }

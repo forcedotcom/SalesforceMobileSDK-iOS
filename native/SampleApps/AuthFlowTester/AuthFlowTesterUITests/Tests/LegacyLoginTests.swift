@@ -40,14 +40,14 @@ class LegacyLoginTests: BaseAuthFlowTesterTest {
         launchLoginAndValidate(staticAppConfigName: .caAdvancedOpaque)
     }
     
-    /// Login with CA advanced opaque using specific api/id/refresh scopes and web server flow.
+    /// Login with CA advanced opaque using subset of scopes and web server flow.
     func testCAAdvancedOpaque_SubsetScopes_WebServerFlow() throws {
-        launchLoginAndValidate(staticAppConfigName: .caAdvancedOpaque, scopesToRequest: "api id refresh_token")
+        launchLoginAndValidate(staticAppConfigName: .caAdvancedOpaque, staticScopeSelection: .subset)
     }
 
     /// Login with CA advanced opaque using all scopes and web server flow.
     func testCAAdvancedOpaque_AllScopes_WebServerFlow() throws {
-        launchLoginAndValidate(staticAppConfigName: .caAdvancedOpaque, useAllScopes: true)
+        launchLoginAndValidate(staticAppConfigName: .caAdvancedOpaque, staticScopeSelection: .all)
     }
     
     // MARK: - CA User Agent Flow Tests
@@ -57,14 +57,14 @@ class LegacyLoginTests: BaseAuthFlowTesterTest {
         launchLoginAndValidate(staticAppConfigName: .caAdvancedOpaque, useWebServerFlow: false)
     }
     
-    /// Login with CA advanced opaque using specific api/id/refresh scopes and user agent flow.
+    /// Login with CA advanced opaque using subset of scopes and user agent flow.
     func testCAAdvancedOpaque_SubsetScopes_UserAgentFlow() throws {
-        launchLoginAndValidate(staticAppConfigName: .caAdvancedOpaque, scopesToRequest: "api id refresh_token", useWebServerFlow: false)
+        launchLoginAndValidate(staticAppConfigName: .caAdvancedOpaque, staticScopeSelection: .subset, useWebServerFlow: false)
     }
 
     /// Login with CA advanced opaque using all scopes and user agent flow.
     func testCAAdvancedOpaque_AllScopes_UserAgentFlow() throws {
-        launchLoginAndValidate(staticAppConfigName: .caAdvancedOpaque, useAllScopes: true, useWebServerFlow: false)
+        launchLoginAndValidate(staticAppConfigName: .caAdvancedOpaque, staticScopeSelection: .all, useWebServerFlow: false)
     }
     
     // MARK: - CA User Agent Flow Not Hybrid Tests
@@ -74,14 +74,14 @@ class LegacyLoginTests: BaseAuthFlowTesterTest {
         launchLoginAndValidate(staticAppConfigName: .caAdvancedOpaque, useWebServerFlow: false, useHybridFlow: false)
     }
     
-    /// Login with CA advanced opaque using specific api/id/refresh scopes and user agent flow / not hybrid.
+    /// Login with CA advanced opaque using subset of scopes and user agent flow / not hybrid.
     func testCAAdvancedOpaque_SubsetScopes_UserAgentFlow_NotHybrid() throws {
-        launchLoginAndValidate(staticAppConfigName: .caAdvancedOpaque, scopesToRequest: "api id refresh_token", useWebServerFlow: false, useHybridFlow: false)
+        launchLoginAndValidate(staticAppConfigName: .caAdvancedOpaque, staticScopeSelection: .subset, useWebServerFlow: false, useHybridFlow: false)
     }
 
     /// Login with CA advanced opaque using all scopes and user agent flow / not hybrid.
     func testCAAdvancedOpaque_AllScopes_UserAgentFlow_NotHybrid() throws {
-        launchLoginAndValidate(staticAppConfigName: .caAdvancedOpaque, useAllScopes: true, useWebServerFlow: false, useHybridFlow: false)
+        launchLoginAndValidate(staticAppConfigName: .caAdvancedOpaque, staticScopeSelection: .all, useWebServerFlow: false, useHybridFlow: false)
     }
 }
 

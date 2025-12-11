@@ -67,13 +67,13 @@ class LoginPageObject {
     
     func configureLoginOptions(
         staticAppConfig: AppConfig?,
-        staticScopes: String = "",
+        staticScopes: String,
         dynamicAppConfig: AppConfig?,
-        dynamicScopes: String = "",
-        useStaticConfiguration: Bool = true,
-        useWebServerFlow: Bool = true,
-        useHybridFlow: Bool = true,
-        supportWelcomeDiscovery: Bool = false,
+        dynamicScopes: String,
+        useStaticConfiguration: Bool,
+        useWebServerFlow: Bool,
+        useHybridFlow: Bool,
+        supportWelcomeDiscovery: Bool,
     ) -> Void {
         tap(settingsButton())
         tap(loginOptionsButton())
