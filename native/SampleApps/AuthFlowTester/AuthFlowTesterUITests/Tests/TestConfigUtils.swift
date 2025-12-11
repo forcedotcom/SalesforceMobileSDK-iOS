@@ -32,6 +32,7 @@ import Foundation
 enum TestConfigError: Error, CustomStringConvertible {
     case noPrimaryUser
     case noSecondaryUser
+    case userNotFound(String)
     case appNotFound(String)
     case appNotConfigured(String)
     
@@ -41,6 +42,8 @@ enum TestConfigError: Error, CustomStringConvertible {
             return "No primary user found in test_config.json"
         case .noSecondaryUser:
             return "No secondary user found in test_config.json"
+        case .userNotFound(let username):
+            return "User '\(username)' not found in test_config.json"
         case .appNotFound(let appName):
             return "App '\(appName)' not found in test_config.json"
         case .appNotConfigured(let appName):
@@ -210,6 +213,19 @@ class TestConfigUtils {
                 throw TestConfigError.noSecondaryUser
             }
             return users[1]
+        }
+    }
+    
+    /// Returns a known user config by their username or throws an error if not found
+    func getKnownUserConfig(byUsername username: String) throws -> KnownUserConfig {
+        guard let users = config?.users,
+              let index = users.firstIndex(where: { $0.username == username }) else {
+            throw TestConfigError.userNotFound(username)
+        }
+        switch index {
+        case 0: return .first
+        case 1: return .second
+        default: throw TestConfigError.userNotFound(username)
         }
     }
     

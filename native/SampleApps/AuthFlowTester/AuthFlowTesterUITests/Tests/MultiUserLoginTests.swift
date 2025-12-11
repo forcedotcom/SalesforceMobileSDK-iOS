@@ -33,12 +33,7 @@ import XCTest
 /// - Same or different app types (opaque vs JWT)
 /// - Same or different scopes
 class MultiUserLoginTests: BaseAuthFlowTesterTest {
-    
-    override func tearDown() {
-        logout() // second user
-        super.tearDown()
-    }
-    
+        
     // MARK: - Both Users Static Config
     
     /// Both users use static config, same app type (opaque), same scopes (default).
@@ -50,12 +45,19 @@ class MultiUserLoginTests: BaseAuthFlowTesterTest {
         loginOtherUserAndValidate(staticAppConfigName: .ecaAdvancedOpaque)
         
         // Validate first user
-        switchToUser(.first)
-        validate(staticAppConfigName: .ecaAdvancedOpaque)
+        switchToUserAndValidate(
+            user: .first,
+            staticAppConfigName: .ecaAdvancedOpaque,
+            userAppConfigName: .ecaAdvancedOpaque)
         
         // Validate second user
-        switchToUser(.second)
-        validate(user: .second, staticAppConfigName: .ecaAdvancedOpaque)
+        switchToUserAndValidate(
+            user: .second,
+            staticAppConfigName: .ecaAdvancedOpaque,
+            userAppConfigName: .ecaAdvancedOpaque)
+        
+        // Logout second user
+        logout()
     }
     
     /// Both users use static config, different app types (opaque + jwt), same scopes (default).
@@ -67,13 +69,18 @@ class MultiUserLoginTests: BaseAuthFlowTesterTest {
         loginOtherUserAndValidate(staticAppConfigName: .ecaAdvancedJwt)
         
         // Validate first user
-        switchToUser(.first)
-        validate(staticAppConfigName: .ecaAdvancedOpaque)
+        switchToUserAndValidate(
+            user: .first,
+            staticAppConfigName: .ecaAdvancedJwt, // static config overwritten
+            userAppConfigName: .ecaAdvancedOpaque)
         
         // Validate second user
-        switchToUser(.second)
-        validate(user: .second, staticAppConfigName: .ecaAdvancedJwt)
-        
+        switchToUserAndValidate(
+            user: .second,
+            staticAppConfigName: .ecaAdvancedJwt,
+            userAppConfigName: .ecaAdvancedJwt)
+
+        // Logout second user
         logout()
     }
     
@@ -89,19 +96,24 @@ class MultiUserLoginTests: BaseAuthFlowTesterTest {
         loginOtherUserAndValidate(staticAppConfigName: .ecaAdvancedOpaque)
         
         // Validate first user
-        switchToUser(.first)
-        validate(
+        switchToUserAndValidate(
+            user: .first,
             staticAppConfigName: .ecaAdvancedOpaque,
-            staticScopeSelection: .subset
+            staticScopeSelection: .empty, // static config overwritten
+            userAppConfigName: .ecaAdvancedOpaque,
+            userScopeSelection: .subset
         )
         
         // Validate second user
-        switchToUser(.second)
-        validate(
+        switchToUserAndValidate(
             user: .second,
-            staticAppConfigName: .ecaAdvancedOpaque
+            staticAppConfigName: .ecaAdvancedOpaque,
+            staticScopeSelection: .empty,
+            userAppConfigName: .ecaAdvancedOpaque,
+            userScopeSelection: .empty
         )
-        
+
+        // Logout second user
         logout()
     }
     
@@ -113,21 +125,27 @@ class MultiUserLoginTests: BaseAuthFlowTesterTest {
         launchLoginAndValidate(staticAppConfigName: .ecaAdvancedOpaque)
         
         // Second user
-        loginOtherUserAndValidate(staticAppConfigName: .ecaAdvancedOpaque, dynamicAppConfigName: .ecaAdvancedJwt)
-        
-        // Validate first user
-        switchToUser(.first)
-        validate(staticAppConfigName: .ecaAdvancedOpaque)
-        
-        // Validate second user
-        switchToUser(.second)
-        validate(
-            user: .second,
+        loginOtherUserAndValidate(
             staticAppConfigName: .ecaAdvancedOpaque,
             dynamicAppConfigName: .ecaAdvancedJwt,
             useStaticConfiguration: false
         )
         
+        // Validate first user
+        switchToUserAndValidate(
+            user: .first,
+            staticAppConfigName: .ecaAdvancedOpaque,
+            userAppConfigName: .ecaAdvancedOpaque
+        )
+        
+        // Validate second user
+        switchToUserAndValidate(
+            user: .second,
+            staticAppConfigName: .ecaAdvancedOpaque,
+            userAppConfigName: .ecaAdvancedJwt,
+        )
+        
+        // Logout second user
         logout()
     }
     
@@ -137,25 +155,28 @@ class MultiUserLoginTests: BaseAuthFlowTesterTest {
         launchLoginAndValidate(
             staticAppConfigName: .ecaAdvancedOpaque,
             dynamicAppConfigName: .ecaAdvancedJwt,
-            useStaticConfiguration: false)
+            useStaticConfiguration: false
+        )
         
         // Second user
         loginOtherUserAndValidate(staticAppConfigName: .ecaAdvancedOpaque)
         
         // Validate first user
-        switchToUser(.first)
-        validate(
+        switchToUserAndValidate(
+            user: .first,
             staticAppConfigName: .ecaAdvancedOpaque,
-            dynamicAppConfigName: .ecaAdvancedJwt,
-            useStaticConfiguration: false
+            userAppConfigName: .ecaAdvancedJwt
         )
         
         // Validate second user
-        switchToUser(.second)
-        validate(
+        switchToUserAndValidate(
             user: .second,
-            staticAppConfigName: .ecaAdvancedOpaque
+            staticAppConfigName: .ecaAdvancedOpaque,
+            userAppConfigName: .ecaAdvancedOpaque,
         )
+        
+        // Logout second user
+        logout()
     }
     
     // MARK: - Both Users Dynamic Config
@@ -165,29 +186,32 @@ class MultiUserLoginTests: BaseAuthFlowTesterTest {
         // First user
         launchLoginAndValidate(
             staticAppConfigName: .ecaBasicOpaque,
-            dynamicAppConfigName: .ecaAdvancedOpaque,
-            useStaticConfiguration: false)
+            dynamicAppConfigName: .ecaBasicJwt,
+            useStaticConfiguration: false
+        )
         
         // Second user
         loginOtherUserAndValidate(
             staticAppConfigName: .ecaBasicOpaque,
-            dynamicAppConfigName: .ecaAdvancedJwt)
-        
-        // Validate first user
-        switchToUser(.first)
-        validate(
-            staticAppConfigName: .ecaBasicOpaque,
-            dynamicAppConfigName: .ecaAdvancedOpaque,
+            dynamicAppConfigName: .ecaAdvancedJwt,
             useStaticConfiguration: false
+        )
+
+        // Validate first user
+        switchToUserAndValidate(
+            user: .first,
+            staticAppConfigName: .ecaBasicOpaque,
+            userAppConfigName: .ecaBasicJwt
         )
         
         // Validate second user
-        switchToUser(.second)
-        validate(
+        switchToUserAndValidate(
             user: .second,
             staticAppConfigName: .ecaBasicOpaque,
-            dynamicAppConfigName: .ecaAdvancedJwt,
-            useStaticConfiguration: false
-        )        
+            userAppConfigName: .ecaAdvancedJwt,
+        )
+        
+        // Logout second user
+        logout()
     }
 }
