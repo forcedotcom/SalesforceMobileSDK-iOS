@@ -99,7 +99,7 @@ class MultiUserLoginTests: BaseAuthFlowTesterTest {
         switchToUserAndValidate(
             user: .first,
             staticAppConfigName: .ecaAdvancedOpaque,
-            staticScopeSelection: .empty, // static config overwritten
+            staticScopeSelection: .empty,
             userAppConfigName: .ecaAdvancedOpaque,
             userScopeSelection: .subset
         )
@@ -153,7 +153,7 @@ class MultiUserLoginTests: BaseAuthFlowTesterTest {
     func testFirstDynamic_SecondStatic_DifferentApps() throws {
         // First user
         launchLoginAndValidate(
-            staticAppConfigName: .ecaAdvancedOpaque,
+            staticAppConfigName: .ecaBasicOpaque,
             dynamicAppConfigName: .ecaAdvancedJwt,
             useStaticConfiguration: false
         )

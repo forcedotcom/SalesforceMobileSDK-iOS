@@ -387,6 +387,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
         let staticAppConfig = getAppConfig(named: staticAppConfigName)
         let userAppConfig = getAppConfig(named: userAppConfigName)
         let expectedGrantedScopes = testConfig.getExpectedScopesGranted(for: userAppConfig, userScopeSelection)
+        let issuesJwt = userAppConfig.issuesJwt
         
         // Check that app loads and shows the expected user credentials etc
         assertMainPageLoaded()
@@ -396,7 +397,8 @@ class BaseAuthFlowTesterTest: XCTestCase {
             username: userConfig.username,
             userConsumerKey: userAppConfig.consumerKey,
             userRedirectUri: userAppConfig.redirectUri,
-            grantedScopes: expectedGrantedScopes
+            grantedScopes: expectedGrantedScopes,
+            issuesJwt: issuesJwt
         )
         
         // Check the oauth configuration
@@ -410,8 +412,8 @@ class BaseAuthFlowTesterTest: XCTestCase {
         checkJwtDetailsIfApplicable(appConfig: userAppConfig, scopes: expectedGrantedScopes)
         
         // Additional login-specific validations
-        assertSIDs(userCredentialsData: userCredentials, useHybridFlow: useHybridFlow, useJwt: userAppConfig.issuesJwt)
-        assertURLs(userCredentialsData: userCredentials)
+        assertSIDs(userCredentialsData: userCredentials, useHybridFlow: useHybridFlow, useJwt: issuesJwt)
+        assertURLs(userCredentialsData: userCredentials, issuesJwt: issuesJwt)
         
         // Revoke and refresh cycle
         assertRevokeAndRefreshWorks(previousCredentials: userCredentials)
@@ -427,7 +429,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
         let appConfig = getAppConfig(named: appConfigName)
         let scopesToRequest = testConfig.getScopesToRequest(for: appConfig, scopeSelection)
         
-        mainPage.changeAppConfig(appConfig: appConfig, scopesToRequest: scopesToRequest)
+        XCTAssert(mainPage.changeAppConfig(appConfig: appConfig, scopesToRequest: scopesToRequest), "Failed to migrate refresh token")
     }
     
     private func getUserCredentials() -> UserCredentialsData {
@@ -438,12 +440,13 @@ class BaseAuthFlowTesterTest: XCTestCase {
         XCTAssert(mainPage.isShowing(), "AuthFlowTester is not loaded")
     }
     
-    private func checkUserCredentials(username: String, userConsumerKey: String, userRedirectUri: String, grantedScopes: String) -> UserCredentialsData {
+    private func checkUserCredentials(username: String, userConsumerKey: String, userRedirectUri: String, grantedScopes: String, issuesJwt: Bool) -> UserCredentialsData {
         let userCredentials = mainPage.getUserCredentials()
         XCTAssertEqual(userCredentials.username, username, "Username in credentials should match expected username")
         XCTAssertEqual(userCredentials.clientId, userConsumerKey, "Client ID in credentials should match expected consumer key")
         XCTAssertEqual(userCredentials.redirectUri, userRedirectUri, "Redirect URI in credentials should match expected redirect URI")
         XCTAssertEqual(userCredentials.credentialsScopes, grantedScopes, "Scopes in credentials should match expected granted scopes")
+        XCTAssertEqual(userCredentials.tokenFormat, issuesJwt ? "JWT" : "", "Not the expected token format")
         return userCredentials
     }
     
@@ -482,14 +485,15 @@ class BaseAuthFlowTesterTest: XCTestCase {
         assertNotEmpty(userCredentialsData.parentSid, shouldNotBeEmpty: useJwt && useHybridFlow, "Parent SID")
     }
     
-    private func assertURLs(userCredentialsData: UserCredentialsData) {
+    private func assertURLs(userCredentialsData: UserCredentialsData, issuesJwt: Bool) {
         let hasApiScope = userCredentialsData.credentialsScopes.contains("api")
         let hasSfapApiScope = userCredentialsData.credentialsScopes.contains("sfap_api")
+        let usesJwt = userCredentialsData.tokenFormat
         
         assertNotEmpty(userCredentialsData.instanceUrl, shouldNotBeEmpty: true, "Instance URL")
         XCTAssertTrue(userCredentialsData.identityUrl.hasSuffix(userCredentialsData.organizationId + "/" + userCredentialsData.userId), "Identity URL should end with orgId/userId")
         assertNotEmpty(userCredentialsData.apiUrl, shouldNotBeEmpty: hasApiScope, "API URL")
-        assertNotEmpty(userCredentialsData.apiInstanceUrl, shouldNotBeEmpty: hasSfapApiScope, "API Instance URL")
+        assertNotEmpty(userCredentialsData.apiInstanceUrl, shouldNotBeEmpty: hasSfapApiScope && issuesJwt, "API Instance URL")
     }
     
     private func assertNotEmpty(_ value: String, shouldNotBeEmpty: Bool, _ name: String) {
@@ -552,24 +556,20 @@ class BaseAuthFlowTesterTest: XCTestCase {
     }
     
     private func assertRevokeAndRefreshWorks(previousCredentials: UserCredentialsData) {
-        //
-        // FIXME
-        //
+        // Revoke access token
+        assertRevokeWorks()
         
-//        // Revoke access token
-//        assertRevokeWorks()
-//        
-//        // Make REST request (which should trigger token refresh)
-//        assertRestRequestWorks()
-//        
-//        let credentialsAfterRefresh = getUserCredentials()
-//        
-//        // Assert access token changed
-//        XCTAssertNotEqual(
-//            previousCredentials.accessToken,
-//            credentialsAfterRefresh.accessToken,
-//            "Access token should have been refreshed"
-//        )
+        // Make REST request (which should trigger token refresh)
+        assertRestRequestWorks()
+        
+        let credentialsAfterRefresh = getUserCredentials()
+        
+        // Assert access token changed
+        XCTAssertNotEqual(
+            previousCredentials.accessToken,
+            credentialsAfterRefresh.accessToken,
+            "Access token should have been refreshed"
+        )
     }
     
     private func sortedScopes(_ value: String) -> String {

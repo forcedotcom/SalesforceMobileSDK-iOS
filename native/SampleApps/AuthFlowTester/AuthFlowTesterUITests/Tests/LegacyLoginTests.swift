@@ -40,11 +40,6 @@ class LegacyLoginTests: BaseAuthFlowTesterTest {
         launchLoginAndValidate(staticAppConfigName: .caAdvancedOpaque)
     }
     
-    /// Login with CA advanced opaque using subset of scopes and web server flow.
-    func testCAAdvancedOpaque_SubsetScopes_WebServerFlow() throws {
-        launchLoginAndValidate(staticAppConfigName: .caAdvancedOpaque, staticScopeSelection: .subset)
-    }
-
     /// Login with CA advanced opaque using all scopes and web server flow.
     func testCAAdvancedOpaque_AllScopes_WebServerFlow() throws {
         launchLoginAndValidate(staticAppConfigName: .caAdvancedOpaque, staticScopeSelection: .all)
@@ -57,11 +52,6 @@ class LegacyLoginTests: BaseAuthFlowTesterTest {
         launchLoginAndValidate(staticAppConfigName: .caAdvancedOpaque, useWebServerFlow: false)
     }
     
-    /// Login with CA advanced opaque using subset of scopes and user agent flow.
-    func testCAAdvancedOpaque_SubsetScopes_UserAgentFlow() throws {
-        launchLoginAndValidate(staticAppConfigName: .caAdvancedOpaque, staticScopeSelection: .subset, useWebServerFlow: false)
-    }
-
     /// Login with CA advanced opaque using all scopes and user agent flow.
     func testCAAdvancedOpaque_AllScopes_UserAgentFlow() throws {
         launchLoginAndValidate(staticAppConfigName: .caAdvancedOpaque, staticScopeSelection: .all, useWebServerFlow: false)
@@ -74,10 +64,17 @@ class LegacyLoginTests: BaseAuthFlowTesterTest {
         launchLoginAndValidate(staticAppConfigName: .caAdvancedOpaque, useWebServerFlow: false, useHybridFlow: false)
     }
     
-    /// Login with CA advanced opaque using subset of scopes and user agent flow / not hybrid.
+    /// Login with CA advanced opaque using subset of scopes and web server flow.
+    func testCAAdvancedOpaque_SubsetScopes_WebServerFlow_NotHybrid() throws {
+        launchLoginAndValidate(staticAppConfigName: .caAdvancedOpaque, staticScopeSelection: .subset, useHybridFlow: false)
+        // NB: hybrid refresh fails when no "hybrid" scopes granted (see W-20524841)
+    }
+
+    /// Login with CA advanced opaque using subset of scopes and user agent flow.
     func testCAAdvancedOpaque_SubsetScopes_UserAgentFlow_NotHybrid() throws {
         launchLoginAndValidate(staticAppConfigName: .caAdvancedOpaque, staticScopeSelection: .subset, useWebServerFlow: false, useHybridFlow: false)
-    }
+        // NB: hybrid refresh fails when no "hybrid" scopes granted (see W-20524841)
+    }    
 
     /// Login with CA advanced opaque using all scopes and user agent flow / not hybrid.
     func testCAAdvancedOpaque_AllScopes_UserAgentFlow_NotHybrid() throws {

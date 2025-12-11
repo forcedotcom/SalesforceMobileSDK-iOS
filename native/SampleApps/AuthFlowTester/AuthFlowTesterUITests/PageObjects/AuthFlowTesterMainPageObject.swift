@@ -266,7 +266,7 @@ class AuthFlowTesterMainPageObject {
         tap(swithToUserButton())
     }
     
-    func changeAppConfig(appConfig: AppConfig, scopesToRequest: String = "") {
+    func changeAppConfig(appConfig: AppConfig, scopesToRequest: String = "") -> Bool {
         // Tap Change Key button to open the sheet
         tap(bottomBarChangeKeyButton())
         
@@ -280,6 +280,13 @@ class AuthFlowTesterMainPageObject {
         
         // Tap the allow button if it appears
         tapIfPresent(allowButton())
+        
+        let alert = app.alerts["Migration Error"]
+        if (alert.waitForExistence(timeout: timeout)) {
+            alert.buttons["OK"].tap()
+            return false
+        }
+        return true
     }
     
     // MARK: - UI Element Accessors
