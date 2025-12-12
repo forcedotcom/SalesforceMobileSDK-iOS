@@ -413,7 +413,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
         
         // Additional login-specific validations
         assertSIDs(userCredentialsData: userCredentials, useHybridFlow: useHybridFlow, useJwt: issuesJwt)
-        assertURLs(userCredentialsData: userCredentials, issuesJwt: issuesJwt)
+        assertURLs(userCredentialsData: userCredentials)
         
         // Revoke and refresh cycle
         assertRevokeAndRefreshWorks(previousCredentials: userCredentials)
@@ -446,7 +446,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
         XCTAssertEqual(userCredentials.clientId, userConsumerKey, "Client ID in credentials should match expected consumer key")
         XCTAssertEqual(userCredentials.redirectUri, userRedirectUri, "Redirect URI in credentials should match expected redirect URI")
         XCTAssertEqual(userCredentials.credentialsScopes, grantedScopes, "Scopes in credentials should match expected granted scopes")
-        XCTAssertEqual(userCredentials.tokenFormat, issuesJwt ? "JWT" : "", "Not the expected token format")
+        XCTAssertEqual(userCredentials.tokenFormat, issuesJwt ? "jwt" : "", "Not the expected token format")
         return userCredentials
     }
     
@@ -485,15 +485,14 @@ class BaseAuthFlowTesterTest: XCTestCase {
         assertNotEmpty(userCredentialsData.parentSid, shouldNotBeEmpty: useJwt && useHybridFlow, "Parent SID")
     }
     
-    private func assertURLs(userCredentialsData: UserCredentialsData, issuesJwt: Bool) {
+    private func assertURLs(userCredentialsData: UserCredentialsData) {
         let hasApiScope = userCredentialsData.credentialsScopes.contains("api")
         let hasSfapApiScope = userCredentialsData.credentialsScopes.contains("sfap_api")
-        let usesJwt = userCredentialsData.tokenFormat
         
         assertNotEmpty(userCredentialsData.instanceUrl, shouldNotBeEmpty: true, "Instance URL")
         XCTAssertTrue(userCredentialsData.identityUrl.hasSuffix(userCredentialsData.organizationId + "/" + userCredentialsData.userId), "Identity URL should end with orgId/userId")
         assertNotEmpty(userCredentialsData.apiUrl, shouldNotBeEmpty: hasApiScope, "API URL")
-        assertNotEmpty(userCredentialsData.apiInstanceUrl, shouldNotBeEmpty: hasSfapApiScope && issuesJwt, "API Instance URL")
+        assertNotEmpty(userCredentialsData.apiInstanceUrl, shouldNotBeEmpty: hasSfapApiScope, "API Instance URL")
     }
     
     private func assertNotEmpty(_ value: String, shouldNotBeEmpty: Bool, _ name: String) {
