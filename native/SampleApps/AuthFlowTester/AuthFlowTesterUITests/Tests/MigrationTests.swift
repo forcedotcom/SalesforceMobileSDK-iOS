@@ -37,65 +37,56 @@ class MigrationTests: BaseAuthFlowTesterTest {
         super.tearDown()
     }
     
-    // MARK: - ECA Migrations (within same app type)
+    // MARK: - Migration within same app (scope upgrade)
     
-    /// Migrate from ECA basic opaque to ECA basic JWT token format.
-    func testMigrateECA_BasicOpaqueToBasicJwt() throws {
-        launchLoginAndValidate(staticAppConfigName: .ecaBasicOpaque)
-        migrateAndValidate(
-            staticAppConfigName: .ecaBasicOpaque,
-            migrationAppConfigName: .ecaBasicJwt
-        )
-    }
-    
-    /// Migrate within same ECA advanced JWT app (scope upgrade).
-    func testMigrateECA_AdvancedJwtToAdvancedJwt_WithMoreScopes() throws {
+    /// Migrate within same ECA (scope upgrade).
+    func testMigrateECA_AddMoreScopes() throws {
         launchLoginAndValidate(staticAppConfigName: .ecaAdvancedJwt, staticScopeSelection: .subset)
         migrateAndValidate(
             staticAppConfigName: .ecaAdvancedJwt,
             staticScopeSelection: .subset,
-            migrationAppConfigName: .ecaAdvancedJwt
+            migrationAppConfigName: .ecaAdvancedJwt,
+            migrationScopeSelection: .all
         )
     }
 
-    // MARK: - Beacon Migrations (within same app type)
-    
-    /// Migrate from Beacon basic opaque to Beacon basic JWT token format.
-    func testMigrateBeacon_BasicOpaqueToBasicJwt() throws {
-        launchLoginAndValidate(staticAppConfigName: .beaconBasicOpaque)
-        migrateAndValidate(
-            staticAppConfigName: .beaconBasicOpaque,
-            migrationAppConfigName: .beaconBasicJwt
-        )
-    }
-    
-    /// Migrate within same Beacon advanced JWT app (scope upgrade).
-    func testMigrateBeacon_AdvancedJwtToAdvancedJwt_WithMoreScopes() throws {
+    /// Migrate within same Beacon (scope upgrade).
+    func testMigrateBeacon_AddMoreScopes() throws {
         launchLoginAndValidate(staticAppConfigName: .beaconAdvancedJwt, staticScopeSelection: .subset)
         migrateAndValidate(
             staticAppConfigName: .beaconAdvancedJwt,
             staticScopeSelection: .subset,
-            migrationAppConfigName: .beaconAdvancedJwt
+            migrationAppConfigName: .beaconAdvancedJwt,
+            migrationScopeSelection: .all
         )
     }
     
-    // MARK: - Cross-App Type Migrations
-    
-    /// Migrate from CA advanced opaque to ECA advanced opaque (app type change).
-    func testMigrateCAToECA_AdvancedOpaqueToAdvancedOpaque() throws {
+    // MARK: - Cross-App Migrations
+
+    /// Migrate from CA to ECA
+    func testMigrateCAToECA() throws {
         launchLoginAndValidate(staticAppConfigName: .caAdvancedOpaque)
         migrateAndValidate(
             staticAppConfigName: .caAdvancedOpaque,
             migrationAppConfigName: .ecaAdvancedOpaque
         )
     }
-    
-    /// Migrate from CA advanced opaque to Beacon advanced opaque (app type change).
-    func testMigrateCAToBeacon_AdvancedOpaqueToAdvancedOpaque() throws {
+        
+    /// Migrate from CA to Beacon
+    func testMigrateCAToBeacon() throws {
         launchLoginAndValidate(staticAppConfigName: .caAdvancedOpaque)
         migrateAndValidate(
             staticAppConfigName: .caAdvancedOpaque,
             migrationAppConfigName: .beaconAdvancedOpaque
+        )
+    }
+    
+    /// Migrate from Beacon opaque to Beacon JWT
+    func testMigrateCAOpaqueToJWT() throws {
+        launchLoginAndValidate(staticAppConfigName: .beaconAdvancedOpaque)
+        migrateAndValidate(
+            staticAppConfigName: .beaconAdvancedOpaque,
+            migrationAppConfigName: .beaconAdvancedJwt
         )
     }
 }

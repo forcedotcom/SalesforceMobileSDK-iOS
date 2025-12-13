@@ -38,10 +38,9 @@ class BeaconLoginTests: BaseAuthFlowTesterTest {
         launchLoginAndValidate(staticAppConfigName: .beaconAdvancedOpaque)
     }
     
-    /// Login with Beacon advanced opaque using specific api/id/refresh scopes.
-    func testBeaconAdvancedOpaque_SubsetScopes_NotHybrid() throws {
-        launchLoginAndValidate(staticAppConfigName: .beaconAdvancedOpaque, staticScopeSelection: .subset, useHybridFlow: false)
-        // NB: hybrid refresh fails when no "hybrid" scopes granted (see W-20524841)
+    /// Login with Beacon advanced opaque using subset of scopes and web server flow.
+    func testBeaconAdvancedOpaque_SubsetScopes() throws {
+        launchLoginAndValidate(staticAppConfigName: .beaconAdvancedOpaque, staticScopeSelection: .subset)
     }
         
     /// Login with Beacon advanced opaque using all scopes and web server flow.
@@ -56,10 +55,9 @@ class BeaconLoginTests: BaseAuthFlowTesterTest {
         launchLoginAndValidate(staticAppConfigName: .beaconAdvancedJwt)
     }
     
-    /// Login with Beacon advanced JWT using specific api/id/refresh scopes.
-    func testBeaconAdvancedJwt_SubsetScopes_NotHybrid() throws {
-        launchLoginAndValidate(staticAppConfigName: .beaconAdvancedJwt, staticScopeSelection: .subset, useHybridFlow: false)
-        // NB: hybrid refresh fails when no "hybrid" scopes granted (see W-20524841)
+    /// Login with Beacon advanced JWT using subset of scopes and web server flow.
+    func testBeaconAdvancedJwt_SubsetScopes() throws {
+        launchLoginAndValidate(staticAppConfigName: .beaconAdvancedJwt, staticScopeSelection: .subset)
     }
     
     /// Login with Beacon advanced JWT using all scopes and web server flow.

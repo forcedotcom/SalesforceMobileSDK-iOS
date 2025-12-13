@@ -38,10 +38,9 @@ class ECALoginTests: BaseAuthFlowTesterTest {
         launchLoginAndValidate(staticAppConfigName: .ecaAdvancedOpaque)
     }
     
-    /// Login with ECA advanced opaque using subset of scopes.
-    func testECAAdvancedOpaque_SubsetScopes_NotHybrid() throws {
-        launchLoginAndValidate(staticAppConfigName: .ecaAdvancedOpaque, staticScopeSelection: .subset, useHybridFlow: false)
-        // NB: hybrid refresh fails when no "hybrid" scopes granted (see W-20524841)
+    /// Login with ECA advanced opaque using subset of scopes and web server flow.
+    func testECAAdvancedOpaque_SubsetScopes() throws {
+        launchLoginAndValidate(staticAppConfigName: .ecaAdvancedOpaque, staticScopeSelection: .subset)
     }
     
     /// Login with ECA advanced opaque using all scopes and web server flow.
@@ -56,10 +55,9 @@ class ECALoginTests: BaseAuthFlowTesterTest {
         launchLoginAndValidate(staticAppConfigName: .ecaAdvancedJwt)
     }
     
-    /// Login with ECA advanced JWT using subset of scopes.
+    /// Login with ECA advanced JWT using subset of scopes and web server flow.
     func testECAAdvancedJwt_SubsetScopes_NotHybrid() throws {
-        launchLoginAndValidate(staticAppConfigName: .ecaAdvancedJwt, staticScopeSelection: .subset, useHybridFlow: false)
-        // NB: hybrid refresh fails when no "hybrid" scopes granted (see W-20524841)
+        launchLoginAndValidate(staticAppConfigName: .ecaAdvancedJwt, staticScopeSelection: .subset)
     }
     
     /// Login with ECA advanced JWT using all scopes and web server flow.

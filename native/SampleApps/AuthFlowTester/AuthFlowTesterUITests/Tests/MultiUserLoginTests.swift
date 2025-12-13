@@ -186,7 +186,7 @@ class MultiUserLoginTests: BaseAuthFlowTesterTest {
         // First user
         launchLoginAndValidate(
             staticAppConfigName: .ecaBasicOpaque,
-            dynamicAppConfigName: .ecaBasicJwt,
+            dynamicAppConfigName: .ecaAdvancedOpaque,
             useStaticConfiguration: false
         )
         
@@ -201,7 +201,7 @@ class MultiUserLoginTests: BaseAuthFlowTesterTest {
         switchToUserAndValidate(
             user: .first,
             staticAppConfigName: .ecaBasicOpaque,
-            userAppConfigName: .ecaBasicJwt
+            userAppConfigName: .ecaAdvancedOpaque
         )
         
         // Validate second user

@@ -186,7 +186,7 @@ class LoginPageObject {
     }
     
     private func toolbarDoneButton() -> XCUIElement {
-        return app.toolbars.matching(identifier: "Toolbar").buttons["selected"]
+        return app.toolbars["Toolbar"].buttons["Done"]
     }
     
     private func useWebServerFlowSwitch() -> XCUIElement {

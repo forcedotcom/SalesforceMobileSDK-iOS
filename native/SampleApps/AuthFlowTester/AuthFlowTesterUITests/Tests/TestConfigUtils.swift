@@ -244,7 +244,7 @@ class TestConfigUtils {
     func getScopesToRequest(for appConfig: AppConfig, _ scopesParam: ScopeSelection) -> String {
         switch(scopesParam) {
         case .empty: return ""
-        case .subset: return "api id refresh_token"
+        case .subset: return "api content id lightning refresh_token visualforce web" // that assumes the selected ca/eca/beacon has those scopes and more
         case .all: return appConfig.scopes
         }
     }
@@ -253,7 +253,7 @@ class TestConfigUtils {
     func getExpectedScopesGranted(for appConfig:AppConfig, _ scopeSelection: ScopeSelection) -> String {
         switch(scopeSelection) {
         case .empty: return appConfig.scopes // that assumes the scopes in test_config.json match the server config
-        case .subset: return "api id refresh_token"
+        case .subset: return "api content id lightning refresh_token visualforce web" // that assumes the selected ca/eca/beacon has those scopes and more
         case .all: return appConfig.scopes
         }
     }
