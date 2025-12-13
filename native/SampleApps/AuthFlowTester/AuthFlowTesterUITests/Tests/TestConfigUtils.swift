@@ -198,6 +198,25 @@ class TestConfigUtils {
         return config?.users ?? []
     }
     
+    // MARK: - Scope Utilities
+    
+    /// Removes a scope from a space-separated scope string.
+    ///
+    /// - Parameters:
+    ///   - scopes: Space-separated scope string.
+    ///   - scopeToRemove: The scope to remove from the string.
+    /// - Returns: Space-separated scope string with the specified scope removed.
+    func removeScope(scopes: String, scopeToRemove: String) -> String {
+        // Split the scopes string into an array
+        let scopesArray = scopes.split(separator: " ")
+        
+        // Remove the specified scope
+        let filteredScopes = scopesArray.filter { $0 != scopeToRemove }
+        
+        // Join the remaining scopes with space delimiter
+        return filteredScopes.joined(separator: " ")
+    }
+    
     // MARK: - Throwing Accessors
     
     /// Returns a user by their position (first or second) or throws an error if not found
@@ -244,7 +263,7 @@ class TestConfigUtils {
     func getScopesToRequest(for appConfig: AppConfig, _ scopesParam: ScopeSelection) -> String {
         switch(scopesParam) {
         case .empty: return ""
-        case .subset: return "api content id lightning refresh_token visualforce web" // that assumes the selected ca/eca/beacon has those scopes and more
+        case .subset: return removeScope(scopes: appConfig.scopes, scopeToRemove: "sfap_api") // that assumes the selected ca/eca/beacon has the sfap_api scope
         case .all: return appConfig.scopes
         }
     }
@@ -253,7 +272,7 @@ class TestConfigUtils {
     func getExpectedScopesGranted(for appConfig:AppConfig, _ scopeSelection: ScopeSelection) -> String {
         switch(scopeSelection) {
         case .empty: return appConfig.scopes // that assumes the scopes in test_config.json match the server config
-        case .subset: return "api content id lightning refresh_token visualforce web" // that assumes the selected ca/eca/beacon has those scopes and more
+        case .subset: return removeScope(scopes: appConfig.scopes, scopeToRemove: "sfap_api") // that assumes the selected ca/eca/beacon has the sfap_api scope
         case .all: return appConfig.scopes
         }
     }
