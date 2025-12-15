@@ -469,15 +469,7 @@ successBlock:(SFRestResponseBlock)successBlock
             } error:^(NSError *refreshError) {
                 __strong typeof(weakSelf) strongSelf = weakSelf;
                 [SFSDKCoreLogger e:[strongSelf class] format:@"Failed to refresh expired session. Error: %@", refreshError];
-                
-                // Call the failure block for the triggering request first
-                if (request.failureBlock) {
-                    request.failureBlock(nil, refreshError, response);
-                }
-                
                 strongSelf.pendingRequestsBeingProcessed = YES;
-                // Remove the triggering request from active requests to avoid double callback
-                [strongSelf.activeRequests removeObject:request];
                 [strongSelf flushPendingRequestQueue:refreshError rawResponse:response];
                 strongSelf.sessionRefreshInProgress = NO;
                 strongSelf.oauthSessionRefresher = nil;
