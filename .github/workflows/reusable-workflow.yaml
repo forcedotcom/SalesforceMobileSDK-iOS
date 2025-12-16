@@ -65,7 +65,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: test-results-${{ inputs.lib }}
+          name: test-results-${{ inputs.lib }}-ios${{ inputs.ios }}
           path: test.xcresult
         if: ${{ ! inputs.build_only && (success() || failure()) }}
       - uses: codecov/codecov-action@v4

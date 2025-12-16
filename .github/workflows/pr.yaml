@@ -6,7 +6,7 @@ on:
 
 jobs:
   static-analysis:
-    runs-on: macos-26
+    runs-on: macos-latest
     env:
       BUNDLE_GEMFILE: ${{ github.workspace }}/.github/DangerFiles/Gemfile
     steps:
@@ -55,7 +55,7 @@ jobs:
         run: bundle exec danger --dangerfile=.github/DangerFiles/StaticAnalysis.rb --danger_id=StaticAnalysis
 
   test-orchestrator:
-    runs-on: macos-26
+    runs-on: macos-latest
     env:
       BUNDLE_GEMFILE: ${{ github.workspace }}/.github/DangerFiles/Gemfile
     outputs:
@@ -106,10 +106,8 @@ jobs:
         include:
           - ios: ^26
             xcode: ^26
-            macos: macos-26
           - ios: ^18
             xcode: ^16
-            macos: macos-latest
     uses: ./.github/workflows/reusable-workflow.yaml
     with:
       lib: ${{ matrix.lib }}
@@ -127,10 +125,8 @@ jobs:
         include:
           - ios: ^26
             xcode: ^26
-            macos: macos-26
           - ios: ^18
-            xcode: ^16
-            macos: macos-latest
+            xcode: ^16  
     uses: ./.github/workflows/reusable-workflow.yaml
     with:
       lib: ${{ matrix.app }}
