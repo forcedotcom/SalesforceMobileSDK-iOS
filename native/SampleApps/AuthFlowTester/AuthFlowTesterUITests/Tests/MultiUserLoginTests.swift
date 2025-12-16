@@ -127,8 +127,7 @@ class MultiUserLoginTests: BaseAuthFlowTesterTest {
         // Second user
         loginOtherUserAndValidate(
             staticAppConfigName: .ecaAdvancedOpaque,
-            dynamicAppConfigName: .ecaAdvancedJwt,
-            useStaticConfiguration: false
+            dynamicAppConfigName: .ecaAdvancedJwt
         )
         
         // Validate first user
@@ -154,8 +153,7 @@ class MultiUserLoginTests: BaseAuthFlowTesterTest {
         // First user
         launchLoginAndValidate(
             staticAppConfigName: .ecaBasicOpaque,
-            dynamicAppConfigName: .ecaAdvancedJwt,
-            useStaticConfiguration: false
+            dynamicAppConfigName: .ecaAdvancedJwt
         )
         
         // Second user
@@ -186,15 +184,13 @@ class MultiUserLoginTests: BaseAuthFlowTesterTest {
         // First user
         launchLoginAndValidate(
             staticAppConfigName: .ecaBasicOpaque,
-            dynamicAppConfigName: .ecaAdvancedOpaque,
-            useStaticConfiguration: false
+            dynamicAppConfigName: .ecaAdvancedOpaque
         )
         
         // Second user
         loginOtherUserAndValidate(
             staticAppConfigName: .ecaBasicOpaque,
-            dynamicAppConfigName: .ecaAdvancedJwt,
-            useStaticConfiguration: false
+            dynamicAppConfigName: .ecaAdvancedJwt
         )
 
         // Validate first user

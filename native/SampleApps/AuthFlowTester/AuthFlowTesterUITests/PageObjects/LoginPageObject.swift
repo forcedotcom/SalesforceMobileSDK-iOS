@@ -70,7 +70,6 @@ class LoginPageObject {
         staticScopes: String,
         dynamicAppConfig: AppConfig?,
         dynamicScopes: String,
-        useStaticConfiguration: Bool,
         useWebServerFlow: Bool,
         useHybridFlow: Bool,
         supportWelcomeDiscovery: Bool,
@@ -85,15 +84,15 @@ class LoginPageObject {
             let configJSON = buildConfigJSON(consumerKey: staticAppConfig.consumerKey, redirectUri: staticAppConfig.redirectUri, scopes: staticScopes)
             importConfig(configJSON, isStaticConfiguration: true)
         }
-        
+        // In all cases - we want the static config to be set
+        tap(useStaticConfigButton())
+
+        // Setting dynamic config when provided
         if let dynamicAppConfig = dynamicAppConfig {
+            tap(settingsButton())
+            tap(loginOptionsButton())
             let configJSON = buildConfigJSON(consumerKey: dynamicAppConfig.consumerKey, redirectUri: dynamicAppConfig.redirectUri, scopes: dynamicScopes)
             importConfig(configJSON, isStaticConfiguration: false)
-        }
-        
-        if (useStaticConfiguration) {
-            tap(useStaticConfigButton())
-        } else {
             tap(useDynamicConfigButton())
         }
     }

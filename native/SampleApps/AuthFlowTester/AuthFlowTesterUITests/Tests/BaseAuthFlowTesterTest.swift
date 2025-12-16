@@ -83,7 +83,6 @@ class BaseAuthFlowTesterTest: XCTestCase {
     ///   - staticScopeSelection: The scope selection for static configuration. Defaults to `.empty`.
     ///   - dynamicAppConfigName: Optional dynamic app configuration name (provided at runtime).
     ///   - dynamicScopeSelection: The scope selection for dynamic configuration. Defaults to `.empty`.
-    ///   - useStaticConfiguration: Whether to use static or dynamic configuration. Defaults to `true`.
     ///   - useWebServerFlow: Whether to use web server OAuth flow. Defaults to `true`.
     ///   - useHybridFlow: Whether to use hybrid authentication flow. Defaults to `true`.
     ///   - supportWelcomeDiscovery: Whether to support welcome/discovery screen. Defaults to `false`.
@@ -93,13 +92,10 @@ class BaseAuthFlowTesterTest: XCTestCase {
         staticScopeSelection: ScopeSelection = .empty,
         dynamicAppConfigName: KnownAppConfig? = nil,
         dynamicScopeSelection: ScopeSelection = .empty,
-        useStaticConfiguration: Bool = true,
         useWebServerFlow: Bool = true,
         useHybridFlow: Bool = true,
         supportWelcomeDiscovery: Bool = false
     ) {
-        requireDynamicConfigIfNotUsingStatic(dynamicAppConfigName: dynamicAppConfigName, useStaticConfiguration: useStaticConfiguration)
-        
         let userConfig = getUser(user)
         let staticAppConfig = getAppConfig(named: staticAppConfigName)
         let dynamicAppConfig = dynamicAppConfigName == nil ? nil : getAppConfig(named: dynamicAppConfigName!)
@@ -111,7 +107,6 @@ class BaseAuthFlowTesterTest: XCTestCase {
             staticScopes: staticScopes,
             dynamicAppConfig: dynamicAppConfig,
             dynamicScopes: dynamicScopes,
-            useStaticConfiguration: useStaticConfiguration,
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow,
             supportWelcomeDiscovery: supportWelcomeDiscovery
@@ -183,7 +178,6 @@ class BaseAuthFlowTesterTest: XCTestCase {
     ///   - staticScopeSelection: The scope selection for static configuration. Defaults to `.empty`.
     ///   - dynamicAppConfigName: Optional dynamic app configuration name (provided at runtime).
     ///   - dynamicScopeSelection: The scope selection for dynamic configuration. Defaults to `.empty`.
-    ///   - useStaticConfiguration: Whether to use static or dynamic configuration. Defaults to `true`.
     ///   - useWebServerFlow: Whether to use web server OAuth flow. Defaults to `true`.
     ///   - useHybridFlow: Whether to use hybrid authentication flow. Defaults to `true`.
     ///   - supportWelcomeDiscovery: Whether to support welcome/discovery screen. Defaults to `false`.
@@ -193,13 +187,11 @@ class BaseAuthFlowTesterTest: XCTestCase {
         staticScopeSelection: ScopeSelection = .empty,
         dynamicAppConfigName: KnownAppConfig? = nil,
         dynamicScopeSelection: ScopeSelection = .empty,
-        useStaticConfiguration: Bool = true,
         useWebServerFlow: Bool = true,
         useHybridFlow: Bool = true,
         supportWelcomeDiscovery: Bool = false
     ) {
-        requireDynamicConfigIfNotUsingStatic(dynamicAppConfigName: dynamicAppConfigName, useStaticConfiguration: useStaticConfiguration)
-
+        let useStaticConfiguration = dynamicAppConfigName == nil
         let userAppConfigName = useStaticConfiguration ? staticAppConfigName : dynamicAppConfigName!
         let userScopeSelection = useStaticConfiguration ? staticScopeSelection : dynamicScopeSelection
         
@@ -213,7 +205,6 @@ class BaseAuthFlowTesterTest: XCTestCase {
             staticScopeSelection: staticScopeSelection,
             dynamicAppConfigName: dynamicAppConfigName,
             dynamicScopeSelection: dynamicScopeSelection,
-            useStaticConfiguration: useStaticConfiguration,
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow,
             supportWelcomeDiscovery: supportWelcomeDiscovery
@@ -240,9 +231,8 @@ class BaseAuthFlowTesterTest: XCTestCase {
     ///   - user: The user to log in with. Defaults to `.second`.
     ///   - staticAppConfigName: The static app configuration name (compiled into the app).
     ///   - staticScopeSelection: The scope selection for static configuration. Defaults to `.empty`.
-    ///   - dynamicAppConfigName: Optional dynamic app configuration name (provided at runtime).
+    ///   - dynamicAppConfigName: Optional dynamic app configuration name (provided at runtime). Is used when provided.
     ///   - dynamicScopeSelection: The scope selection for dynamic configuration. Defaults to `.empty`.
-    ///   - useStaticConfiguration: Whether to use static or dynamic configuration. Defaults to `true`.
     ///   - useWebServerFlow: Whether to use web server OAuth flow. Defaults to `true`.
     ///   - useHybridFlow: Whether to use hybrid authentication flow. Defaults to `true`.
     ///   - supportWelcomeDiscovery: Whether to support welcome/discovery screen. Defaults to `false`.
@@ -252,13 +242,11 @@ class BaseAuthFlowTesterTest: XCTestCase {
         staticScopeSelection: ScopeSelection = .empty,
         dynamicAppConfigName: KnownAppConfig? = nil,
         dynamicScopeSelection: ScopeSelection = .empty,
-        useStaticConfiguration: Bool = true,
         useWebServerFlow: Bool = true,
         useHybridFlow: Bool = true,
         supportWelcomeDiscovery: Bool = false
     ) {
-        requireDynamicConfigIfNotUsingStatic(dynamicAppConfigName: dynamicAppConfigName, useStaticConfiguration: useStaticConfiguration)
-
+        let useStaticConfiguration = dynamicAppConfigName == nil
         let userAppConfigName = useStaticConfiguration ? staticAppConfigName : dynamicAppConfigName!
         let userScopeSelection = useStaticConfiguration ? staticScopeSelection : dynamicScopeSelection
         
@@ -272,7 +260,6 @@ class BaseAuthFlowTesterTest: XCTestCase {
             staticScopeSelection: staticScopeSelection,
             dynamicAppConfigName: dynamicAppConfigName,
             dynamicScopeSelection: dynamicScopeSelection,
-            useStaticConfiguration: useStaticConfiguration,
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow,
             supportWelcomeDiscovery: supportWelcomeDiscovery
@@ -558,13 +545,6 @@ class BaseAuthFlowTesterTest: XCTestCase {
                 clientId: beaconChildConsumerKey == "" ? appConfig.consumerKey : beaconChildConsumerKey,
                 scopes: scopes
             )
-        }
-    }
-    
-    private func requireDynamicConfigIfNotUsingStatic(dynamicAppConfigName: KnownAppConfig?, useStaticConfiguration: Bool) {
-        guard dynamicAppConfigName != nil || useStaticConfiguration else {
-            XCTFail("Cannot do login using dynamic config without a dynamic config")
-            fatalError("Cannot do login using dynamic config without a dynamic config")
         }
     }
     

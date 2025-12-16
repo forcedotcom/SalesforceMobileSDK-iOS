@@ -32,11 +32,6 @@ import XCTest
 /// (CA, ECA, Beacon) and token formats (opaque, JWT) without re-authentication.
 class MigrationTests: BaseAuthFlowTesterTest {
     
-    override func tearDown() {
-        logout()
-        super.tearDown()
-    }
-    
     // MARK: - Migration within same app (scope upgrade)
     
     /// Migrate within same ECA (scope upgrade).
@@ -82,7 +77,31 @@ class MigrationTests: BaseAuthFlowTesterTest {
     }
     
     /// Migrate from Beacon opaque to Beacon JWT
-    func testMigrateCAOpaqueToJWT() throws {
+    func testMigrateBeaconOpaqueToJWT() throws {
+        launchLoginAndValidate(staticAppConfigName: .beaconAdvancedOpaque)
+        migrateAndValidate(
+            staticAppConfigName: .beaconAdvancedOpaque,
+            migrationAppConfigName: .beaconAdvancedJwt
+        )
+    }
+    
+    // MARK: - Migration followed by rollback
+
+    // Migrate from CA to Beacon and back to CA
+    func testMigrateCAToBeaconAndBack() throws {
+        launchLoginAndValidate(staticAppConfigName: .caAdvancedOpaque)
+        migrateAndValidate(
+            staticAppConfigName: .caAdvancedOpaque,
+            migrationAppConfigName: .beaconAdvancedOpaque
+        )
+        migrateAndValidate(
+            staticAppConfigName: .beaconAdvancedOpaque,
+            migrationAppConfigName: .caAdvancedOpaque
+        )
+    }
+    
+    /// Migrate from Beacon opaque to Beacon JWT and back to Beacon opaque
+    func testMigrateBeaconOpaqueToJWTAndBack() throws {
         launchLoginAndValidate(staticAppConfigName: .beaconAdvancedOpaque)
         migrateAndValidate(
             staticAppConfigName: .beaconAdvancedOpaque,
