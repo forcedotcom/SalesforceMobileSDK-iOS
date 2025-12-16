@@ -55,6 +55,8 @@ jobs:
       - name: Test Report
         uses: mikepenz/action-junit-report@v5
         if: success() || failure()
+        env:
+          SHOW_SUMMARY: ${{ failure() }}
         with:
           check_name: ${{ inputs.lib }} iOS ${{ inputs.ios }} Test Results
           job_name: ${{ inputs.lib }} iOS ${{ inputs.ios }} Test Results
@@ -63,7 +65,7 @@ jobs:
           simplified_summary: true
           detailed_summary: true
           comment: true
-          job_summary: ${{ failure() }}
+          job_summary: ${{ env.SHOW_SUMMARY }}
           report_paths: 'test-results-${{ inputs.lib }}-ios${{ inputs.ios }}.xml'
       - uses: codecov/codecov-action@v4
         if: success() || failure()
