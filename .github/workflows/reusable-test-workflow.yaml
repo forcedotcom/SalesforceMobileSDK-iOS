@@ -16,23 +16,17 @@ on:
         default: macos-latest
         required: false
         type: string
-      is_pr:
-        type: boolean
-        default: false
-      build_only:
-        type: boolean
-        default: false
 
 jobs:
   test-ios:
     runs-on: ${{ inputs.macos }}
     steps:
       - uses: actions/checkout@v4
-        if: ${{ inputs.is_pr }}
+        if: github.event_name == 'pull_request'
         with:
           ref: ${{ github.event.pull_request.head.sha }}
       - uses: actions/checkout@v4
-        if: ${{ ! inputs.is_pr }}
+        if: github.event_name != 'pull_request'
         with:
           ref: ${{ github.head_ref }}
       - name: Install Dependencies
@@ -51,27 +45,32 @@ jobs:
           platform-version: ${{ inputs.ios }}
           workspace: SalesforceMobileSDK.xcworkspace
           scheme: ${{ inputs.lib }}
-          action: ${{ inputs.build_only && 'build' || 'test' }}
-          code-coverage: ${{ ! inputs.build_only }}
+          code-coverage: true
           verbosity: xcbeautify
-      - uses: slidoapp/xcresulttool@v3.1.0
+      - name: Parse test results
+        run: |
+          brew install xcresultparser
+          xcresultparser -o junit test.xcresult > test-results-${{ inputs.lib }}-ios${{ inputs.ios }}.xml
+      - name: Test Report
+        uses: mikepenz/action-junit-report@v5
+        if: success() || failure()
         with:
-          path: test.xcresult
-          title: "${{ inputs.lib }} iOS ${{ inputs.ios }}"
-          show-code-coverage: false
-          upload-bundles: false
-          show-passed-tests: false
-        # xcresulttool currently fails for iOS 26
-        if: ${{ ! inputs.build_only && (success() || failure()) && inputs.ios != '^26' }}
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-results-${{ inputs.lib }}-ios${{ inputs.ios }}
-          path: test.xcresult
-        if: ${{ ! inputs.build_only && (success() || failure()) }}
+          check_name: ${{ inputs.lib }} iOS ${{ inputs.ios }} Test Results
+          job_name: ${{ inputs.lib }} iOS ${{ inputs.ios }} Test Results
+          require_tests: true
+          include_passed: true
+          include_empty_in_summary: false
+          simplified_summary: true
+          report_paths: 'test-results-${{ inputs.lib }}-ios${{ inputs.ios }}.xml'
       - uses: codecov/codecov-action@v4
+        if: success() || failure()
         with:
           flags: ${{ inputs.lib }}
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-        if: ${{ ! inputs.build_only && (success() || failure()) }}
+      - name: Upload test results artifact
+        if: success() || failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-${{ inputs.lib }}-ios${{ inputs.ios }}
+          path: test-results-${{ inputs.lib }}-ios${{ inputs.ios }}.xml

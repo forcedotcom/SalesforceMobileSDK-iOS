@@ -45,7 +45,7 @@ jobs:
         run:
           xcodebuild analyze -workspace SalesforceMobileSDK.xcworkspace -scheme MobileSync -sdk 'iphonesimulator' \
           CLANG_ANALYZER_OUTPUT=plist-html CLANG_ANALYZER_OUTPUT_DIR=./clangReport RUN_CLANG_STATIC_ANALYZER=YES
-      - uses: ruby/setup-ruby@v1
+      - uses: ruby/setup-ruby@v1 &setup-ruby
         with:
           ruby-version: '3.3'
           bundler-cache: true
@@ -86,10 +86,7 @@ jobs:
           fetch-depth: 100
           # This is dangerous without the member check
           ref: ${{ github.event.pull_request.head.sha }}
-      - uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '3.3'
-          bundler-cache: true
+      - uses: ruby/setup-ruby@v1 &setup-ruby
       - name: Determine Tests to Run
         id: test-orchestrator
         env:
@@ -108,12 +105,11 @@ jobs:
             xcode: ^26
           - ios: ^18
             xcode: ^16
-    uses: ./.github/workflows/reusable-workflow.yaml
+    uses: ./.github/workflows/reusable-test-workflow.yaml
     with:
       lib: ${{ matrix.lib }}
       ios: ${{ matrix.ios }}
       xcode: ${{ matrix.xcode }}
-      is_pr: true
     secrets: inherit
 
   native-samples-pr:
@@ -127,11 +123,9 @@ jobs:
             xcode: ^26
           - ios: ^18
             xcode: ^16  
-    uses: ./.github/workflows/reusable-workflow.yaml
+    uses: ./.github/workflows/reusable-build-workflow.yaml
     with:
-      lib: ${{ matrix.app }}
+      app: ${{ matrix.app }}
       ios: ${{ matrix.ios }}
       xcode: ${{ matrix.xcode }}
-      is_pr: true
-      build_only: true
     secrets: inherit
