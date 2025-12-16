@@ -54,14 +54,15 @@ jobs:
           action: ${{ inputs.build_only && 'build' || 'test' }}
           code-coverage: ${{ ! inputs.build_only }}
           verbosity: xcbeautify
-      - uses: tibo9/xcresulttool@v3.1.1
+      - uses: slidoapp/xcresulttool@v3.1.0
         with:
           path: test.xcresult
           title: "${{ inputs.lib }} iOS ${{ inputs.ios }}"
           show-code-coverage: false
           upload-bundles: false
           show-passed-tests: false
-        if: ${{ ! inputs.build_only && (success() || failure()) }}
+        # xcresulttool currently fails for iOS 26
+        if: ${{ ! inputs.build_only && (success() || failure()) && inputs.ios != '^26' }}
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
