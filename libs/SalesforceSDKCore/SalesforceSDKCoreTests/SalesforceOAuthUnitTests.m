@@ -464,10 +464,10 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
 - (void)testScopeQueryParamStringEmptyScopes {
     // Given
     SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] init];
-    coordinator.scopes = [NSSet set];
+    NSArray<NSString*> *scopes = [NSArray array];
     
     // When
-    NSString *result = [coordinator scopeQueryParamString];
+    NSString *result = [coordinator scopeQueryParamString:scopes];
     
     // Then
     XCTAssertEqualObjects(result, @"", @"Empty scopes should return empty string");
@@ -476,10 +476,10 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
 - (void)testScopeQueryParamStringNilScopes {
     // Given
     SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] init];
-    coordinator.scopes = nil;
+    NSArray<NSString*> *scopes = nil;
     
     // When
-    NSString *result = [coordinator scopeQueryParamString];
+    NSString *result = [coordinator scopeQueryParamString:scopes];
     
     // Then
     XCTAssertEqualObjects(result, @"", @"Nil scopes should return empty string");
@@ -488,10 +488,10 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
 - (void)testScopeQueryParamStringSingleScope {
     // Given
     SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] init];
-    coordinator.scopes = [NSSet setWithObject:@"web"];
+    NSArray<NSString*> *scopes = @[@"web"];
     
     // When
-    NSString *result = [coordinator scopeQueryParamString];
+    NSString *result = [coordinator scopeQueryParamString:scopes];
     
     // Then
     // Should include refresh_token and the provided scope, URL encoded
@@ -501,10 +501,10 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
 - (void)testScopeQueryParamStringMultipleScopes {
     // Given
     SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] init];
-    coordinator.scopes = [NSSet setWithObjects:@"web", @"api", @"id", nil];
+    NSArray<NSString*> *scopes = @[@"web", @"api", @"id"];
     
     // When
-    NSString *result = [coordinator scopeQueryParamString];
+    NSString *result = [coordinator scopeQueryParamString:scopes];
     
     // Then
     // Should include refresh_token and all provided scopes, sorted and URL encoded
@@ -514,10 +514,10 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
 - (void)testScopeQueryParamStringWithRefreshTokenAlreadyPresent {
     // Given
     SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] init];
-    coordinator.scopes = [NSSet setWithObjects:@"web", @"api", @"refresh_token", nil];
-    
+    NSArray<NSString*> *scopes = @[@"web", @"api", @"refresh_token"];
+
     // When
-    NSString *result = [coordinator scopeQueryParamString];
+    NSString *result = [coordinator scopeQueryParamString:scopes];
     
     // Then
     // Should still work correctly even if refresh_token is already present

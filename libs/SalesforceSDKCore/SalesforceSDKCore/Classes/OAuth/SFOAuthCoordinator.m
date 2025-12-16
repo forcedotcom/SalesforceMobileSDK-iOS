@@ -821,7 +821,7 @@
     }
     
     // OAuth scopes
-    NSString *scopeString = [self scopeQueryParamString];
+    NSString *scopeString = [self scopeQueryParamString:self.credentials.scopes];
     if (scopeString.length > 0) {
         [approvalUrlString appendString:scopeString];
     }
@@ -842,9 +842,9 @@
     self.frontdoorBridgeLoginOverride = nil;
 }
 
-- (NSString *)scopeQueryParamString {
-    if (self.scopes.count > 0) {
-        NSString *scopeStr = [SFScopeParser computeScopeParameterWithURLEncodingWithScopes:self.scopes];
+- (NSString *)scopeQueryParamString:(NSArray<NSString*>*)scopes {
+    if (scopes.count > 0) {
+        NSString *scopeStr = [SFScopeParser computeScopeParameterWithURLEncodingWithScopes:[NSSet setWithArray:scopes]];
         return [NSString stringWithFormat:@"&%@=%@", kSFOAuthScope, scopeStr];
     } else {
         return @"";
