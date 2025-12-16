@@ -11,8 +11,8 @@ class MockWKWebView: WKWebView {
             mockAction = MockNavigationAction(url: callbackURL) as WKNavigationAction
         }
         
-        if let delegate = self.navigationDelegate {
-            delegate.webView?(self, decidePolicyFor: mockAction!, decisionHandler: { _ in })
+        if let delegate = self.navigationDelegate, let action = mockAction {
+            delegate.webView?(self, decidePolicyFor: action, decisionHandler: { _ in })
         }
         return nil
     }
@@ -25,18 +25,21 @@ final class DomainDiscoveryCoordinatorTests: XCTestCase {
         // Given
         let mockWebView = MockWKWebView()
         let coordinator = DomainDiscoveryCoordinator()
-        let credentials = OAuthCredentials(identifier: "test", clientId: "client123", encrypted: false)!
+        let credentials = try XCTUnwrap(OAuthCredentials(identifier: "test", clientId: "client123", encrypted: false))
         
         let expectedDomain = "foo.my.salesforce.com"
         let mockDomain = "https://\(expectedDomain)"
         let expectedLoginHint = "testuser@example.com"
-        let callbackURLString = "sfdc://discocallback?my_domain=\(mockDomain.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)&login_hint=\(expectedLoginHint.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)"
-        let callbackURL = URL(string: callbackURLString)!
+        let encodedDomain = try XCTUnwrap(mockDomain.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed))
+        let encodedHint = try XCTUnwrap(expectedLoginHint.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed))
+        let callbackURLString = "sfdc://discocallback?my_domain=\(encodedDomain)&login_hint=\(encodedHint)"
+        let callbackURL = try XCTUnwrap(URL(string: callbackURLString))
         mockWebView.simulatedCallbackURL = callbackURL
         
         // When
         coordinator.runMyDomainsDiscovery(on: mockWebView, with: credentials)
-        let results = coordinator.handle(action: mockWebView.mockAction!)
+        let mockAction = try XCTUnwrap(mockWebView.mockAction)
+        let results = coordinator.handle(action: mockAction)
         
         // Then
         XCTAssertEqual(results?.myDomain, expectedDomain)
@@ -47,15 +50,17 @@ final class DomainDiscoveryCoordinatorTests: XCTestCase {
         // Given
         let mockWebView = MockWKWebView()
         let coordinator = DomainDiscoveryCoordinator()
-        let credentials = OAuthCredentials(identifier: "test", clientId: "client123", encrypted: false)!
+        let credentials = try XCTUnwrap(OAuthCredentials(identifier: "test", clientId: "client123", encrypted: false))
         let expectedLoginHint = "testuser@example.com"
-        let callbackURLString = "sfdc://discocallback?login_hint=\(expectedLoginHint.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)"
-        let callbackURL = URL(string: callbackURLString)!
+        let encodedHint = try XCTUnwrap(expectedLoginHint.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed))
+        let callbackURLString = "sfdc://discocallback?login_hint=\(encodedHint)"
+        let callbackURL = try XCTUnwrap(URL(string: callbackURLString))
         mockWebView.simulatedCallbackURL = callbackURL
         
         // When
         coordinator.runMyDomainsDiscovery(on: mockWebView, with: credentials)
-        let results = coordinator.handle(action: mockWebView.mockAction!)
+        let mockAction = try XCTUnwrap(mockWebView.mockAction)
+        let results = coordinator.handle(action: mockAction)
         
         // Then
         XCTAssertNil(results)
@@ -65,16 +70,18 @@ final class DomainDiscoveryCoordinatorTests: XCTestCase {
         // Given
         let mockWebView = MockWKWebView()
         let coordinator = DomainDiscoveryCoordinator()
-        let credentials = OAuthCredentials(identifier: "test", clientId: "client123", encrypted: false)!
+        let credentials = try XCTUnwrap(OAuthCredentials(identifier: "test", clientId: "client123", encrypted: false))
         let expectedDomain = "foo.my.salesforce.com"
         let mockDomain = "https://\(expectedDomain)"
-        let callbackURLString = "sfdc://discocallback?my_domain=\(mockDomain.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)"
-        let callbackURL = URL(string: callbackURLString)!
+        let encodedDomain = try XCTUnwrap(mockDomain.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed))
+        let callbackURLString = "sfdc://discocallback?my_domain=\(encodedDomain)"
+        let callbackURL = try XCTUnwrap(URL(string: callbackURLString))
         mockWebView.simulatedCallbackURL = callbackURL
 
         // When
         coordinator.runMyDomainsDiscovery(on: mockWebView, with: credentials)
-        let results = coordinator.handle(action: mockWebView.mockAction!)
+        let mockAction = try XCTUnwrap(mockWebView.mockAction)
+        let results = coordinator.handle(action: mockAction)
         
         // Then
         XCTAssertNil(results)
@@ -84,14 +91,15 @@ final class DomainDiscoveryCoordinatorTests: XCTestCase {
         // Given
         let mockWebView = MockWKWebView()
         let coordinator = DomainDiscoveryCoordinator()
-        let credentials = OAuthCredentials(identifier: "test", clientId: "client123", encrypted: false)!
+        let credentials = try XCTUnwrap(OAuthCredentials(identifier: "test", clientId: "client123", encrypted: false))
         let callbackURLString = "sfdc://discocallback?my_domain=&login_hint="
-        let callbackURL = URL(string: callbackURLString)!
+        let callbackURL = try XCTUnwrap(URL(string: callbackURLString))
         mockWebView.simulatedCallbackURL = callbackURL
 
         // When
         coordinator.runMyDomainsDiscovery(on: mockWebView, with: credentials)
-        let results = coordinator.handle(action: mockWebView.mockAction!)
+        let mockAction = try XCTUnwrap(mockWebView.mockAction)
+        let results = coordinator.handle(action: mockAction)
         
         // Then
         XCTAssertEqual(results?.myDomain, "")
@@ -102,13 +110,14 @@ final class DomainDiscoveryCoordinatorTests: XCTestCase {
         // Given
         let mockWebView = MockWKWebView()
         let coordinator = DomainDiscoveryCoordinator()
-        let credentials = OAuthCredentials(identifier: "test", clientId: "client123", encrypted: false)!
-        let nonCallbackURL = URL(string: "https://example.com")!
+        let credentials = try XCTUnwrap(OAuthCredentials(identifier: "test", clientId: "client123", encrypted: false))
+        let nonCallbackURL = try XCTUnwrap(URL(string: "https://example.com"))
         mockWebView.simulatedCallbackURL = nonCallbackURL
 
         // When
         coordinator.runMyDomainsDiscovery(on: mockWebView, with: credentials)
-        let results = coordinator.handle(action: mockWebView.mockAction!)
+        let mockAction = try XCTUnwrap(mockWebView.mockAction)
+        let results = coordinator.handle(action: mockAction)
         
         // Then
         XCTAssertNil(results)
@@ -118,17 +127,20 @@ final class DomainDiscoveryCoordinatorTests: XCTestCase {
         // Given
         let mockWebView = MockWKWebView()
         let coordinator = DomainDiscoveryCoordinator()
-        let credentials = OAuthCredentials(identifier: "test", clientId: "client123", encrypted: false)!
+        let credentials = try XCTUnwrap(OAuthCredentials(identifier: "test", clientId: "client123", encrypted: false))
         let expectedDomain = "foo.my.salesforce.com"
         let mockDomain = "https://\(expectedDomain)"
         let expectedLoginHint = "user+test@example.com"
-        let callbackURLString = "sfdc://discocallback?my_domain=\(mockDomain.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)&login_hint=\(expectedLoginHint.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)"
-        let callbackURL = URL(string: callbackURLString)!
+        let encodedDomain = try XCTUnwrap(mockDomain.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed))
+        let encodedHint = try XCTUnwrap(expectedLoginHint.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed))
+        let callbackURLString = "sfdc://discocallback?my_domain=\(encodedDomain)&login_hint=\(encodedHint)"
+        let callbackURL = try XCTUnwrap(URL(string: callbackURLString))
         mockWebView.simulatedCallbackURL = callbackURL
 
         // When
         coordinator.runMyDomainsDiscovery(on: mockWebView, with: credentials)
-        let results = coordinator.handle(action: mockWebView.mockAction!)
+        let mockAction = try XCTUnwrap(mockWebView.mockAction)
+        let results = coordinator.handle(action: mockAction)
     
         // Then
         XCTAssertEqual(results?.myDomain, expectedDomain)
@@ -139,21 +151,25 @@ final class DomainDiscoveryCoordinatorTests: XCTestCase {
         // Given
         let mockWebView = MockWKWebView()
         let coordinator = DomainDiscoveryCoordinator()
-        let credentials = OAuthCredentials(identifier: "test", clientId: "client123", encrypted: false)!
+        let credentials = try XCTUnwrap(OAuthCredentials(identifier: "test", clientId: "client123", encrypted: false))
         let expectedDomain = "foo.my.salesforce.com"
         let mockDomain = "https://\(expectedDomain)"
         let expectedLoginHint = "testuser@example.com"
-        let callbackURLString = "sfdc://discocallback?my_domain=\(mockDomain.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)&login_hint=\(expectedLoginHint.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)&extra=foo&another=bar"
-        let callbackURL = URL(string: callbackURLString)!
+        let encodedDomain = try XCTUnwrap(mockDomain.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed))
+        let encodedHint = try XCTUnwrap(expectedLoginHint.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed))
+        let callbackURLString = "sfdc://discocallback?my_domain=\(encodedDomain)&login_hint=\(encodedHint)&extra=foo&another=bar"
+        let callbackURL = try XCTUnwrap(URL(string: callbackURLString))
         mockWebView.simulatedCallbackURL = callbackURL
 
         // When
         coordinator.runMyDomainsDiscovery(on: mockWebView, with: credentials)
-        let results = coordinator.handle(action: mockWebView.mockAction!)
+    
+        let populatedAction = try XCTUnwrap(mockWebView.mockAction)
+        let results = try XCTUnwrap(coordinator.handle(action: populatedAction))
     
         // Then
-        XCTAssertEqual(results?.myDomain, expectedDomain)
-        XCTAssertEqual(results?.loginHint, expectedLoginHint)
+        XCTAssertEqual(results.myDomain, expectedDomain)
+        XCTAssertEqual(results.loginHint, expectedLoginHint)
     }
     
     func testDiscoveryFlag() throws {
