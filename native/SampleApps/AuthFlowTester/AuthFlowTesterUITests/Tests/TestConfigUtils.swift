@@ -32,6 +32,9 @@ import Foundation
 enum TestConfigError: Error, CustomStringConvertible {
     case noPrimaryUser
     case noSecondaryUser
+    case noThirdUser
+    case noFourthUser
+    case noFifthUser
     case userNotFound(String)
     case appNotFound(String)
     case appNotConfigured(String)
@@ -42,6 +45,12 @@ enum TestConfigError: Error, CustomStringConvertible {
             return "No primary user found in test_config.json"
         case .noSecondaryUser:
             return "No secondary user found in test_config.json"
+        case .noThirdUser:
+            return "No third user found in test_config.json"
+        case .noFourthUser:
+            return "No fourth user found in test_config.json"
+        case .noFifthUser:
+            return "No fifth user found in test_config.json"
         case .userNotFound(let username):
             return "User '\(username)' not found in test_config.json"
         case .appNotFound(let appName):
@@ -64,6 +73,9 @@ enum ScopeSelection {
 enum KnownUserConfig {
     case first
     case second
+    case third
+    case fourth
+    case fifth
 }
 
 // MARK: - App Names
@@ -232,6 +244,21 @@ class TestConfigUtils {
                 throw TestConfigError.noSecondaryUser
             }
             return users[1]
+        case .third:
+            guard let users = config?.users, users.count >= 3 else {
+                throw TestConfigError.noThirdUser
+            }
+            return users[2]
+        case .fourth:
+            guard let users = config?.users, users.count >= 4 else {
+                throw TestConfigError.noFourthUser
+            }
+            return users[3]
+        case .fifth:
+            guard let users = config?.users, users.count >= 5 else {
+                throw TestConfigError.noFifthUser
+            }
+            return users[4]
         }
     }
     
@@ -244,6 +271,9 @@ class TestConfigUtils {
         switch index {
         case 0: return .first
         case 1: return .second
+        case 2: return .third
+        case 3: return .fourth
+        case 4: return .fifth
         default: throw TestConfigError.userNotFound(username)
         }
     }

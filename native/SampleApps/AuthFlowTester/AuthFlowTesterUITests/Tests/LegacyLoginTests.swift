@@ -31,6 +31,9 @@ import XCTest
 /// - Connected App (CA) configurations (traditional OAuth connected apps)
 /// - User agent flow tests
 /// - Non-hybrid flow tests
+///
+/// NB: Tests use the first user from test_config.json
+///
 class LegacyLoginTests: BaseAuthFlowTesterTest {
 
     // MARK: - CA Web Server Flow Tests

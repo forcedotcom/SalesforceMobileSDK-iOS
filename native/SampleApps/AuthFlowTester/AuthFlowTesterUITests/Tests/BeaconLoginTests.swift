@@ -29,6 +29,9 @@ import XCTest
 
 /// Tests for login flows using Beacon app configurations.
 /// Beacon apps are lightweight authentication apps for specific use cases.
+///
+/// NB: Tests use the first user from test_config.json
+///
 class BeaconLoginTests: BaseAuthFlowTesterTest {
     
     // MARK: - Beacon Opaque Tests

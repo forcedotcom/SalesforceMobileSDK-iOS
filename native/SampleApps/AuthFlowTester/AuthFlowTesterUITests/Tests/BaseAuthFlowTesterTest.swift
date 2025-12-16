@@ -78,7 +78,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
     /// Must be called after `launch()`.
     ///
     /// - Parameters:
-    ///   - user: The user to log in with. Defaults to `.first`.
+    ///   - user: The user to log in with.
     ///   - staticAppConfigName: The static app configuration name.
     ///   - staticScopeSelection: The scope selection for static configuration. Defaults to `.empty`.
     ///   - dynamicAppConfigName: Optional dynamic app configuration name (provided at runtime).
@@ -87,7 +87,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
     ///   - useHybridFlow: Whether to use hybrid authentication flow. Defaults to `true`.
     ///   - supportWelcomeDiscovery: Whether to support welcome/discovery screen. Defaults to `false`.
     func login(
-        user: KnownUserConfig = .first,
+        user: KnownUserConfig,
         staticAppConfigName: KnownAppConfig,
         staticScopeSelection: ScopeSelection = .empty,
         dynamicAppConfigName: KnownAppConfig? = nil,
@@ -173,7 +173,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
     /// Use this for the initial login flow in tests.
     ///
     /// - Parameters:
-    ///   - user: The user to log in with. Defaults to `.first`.
+    ///   - user: The user to log in with.
     ///   - staticAppConfigName: The static app configuration name.
     ///   - staticScopeSelection: The scope selection for static configuration. Defaults to `.empty`.
     ///   - dynamicAppConfigName: Optional dynamic app configuration name (provided at runtime).
@@ -182,7 +182,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
     ///   - useHybridFlow: Whether to use hybrid authentication flow. Defaults to `true`.
     ///   - supportWelcomeDiscovery: Whether to support welcome/discovery screen. Defaults to `false`.
     func launchAndLogin(
-        user: KnownUserConfig = .first,
+        user: KnownUserConfig,
         staticAppConfigName: KnownAppConfig,
         staticScopeSelection: ScopeSelection = .empty,
         dynamicAppConfigName: KnownAppConfig? = nil,
@@ -268,7 +268,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
     /// Taps the "Add User" button before performing login.
     ///
     /// - Parameters:
-    ///   - user: The user to log in with. Defaults to `.second`.
+    ///   - user: The user to log in with.
     ///   - staticAppConfigName: The static app configuration name.
     ///   - staticScopeSelection: The scope selection for static configuration. Defaults to `.empty`.
     ///   - dynamicAppConfigName: Optional dynamic app configuration name (provided at runtime). Is used when provided.
@@ -277,7 +277,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
     ///   - useHybridFlow: Whether to use hybrid authentication flow. Defaults to `true`.
     ///   - supportWelcomeDiscovery: Whether to support welcome/discovery screen. Defaults to `false`.
     func loginOtherUserAndValidate(
-        user: KnownUserConfig = .second,
+        user: KnownUserConfig,
         staticAppConfigName: KnownAppConfig,
         staticScopeSelection: ScopeSelection = .empty,
         dynamicAppConfigName: KnownAppConfig? = nil,
