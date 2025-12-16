@@ -79,7 +79,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
     ///
     /// - Parameters:
     ///   - user: The user to log in with. Defaults to `.first`.
-    ///   - staticAppConfigName: The static app configuration name (compiled into the app).
+    ///   - staticAppConfigName: The static app configuration name.
     ///   - staticScopeSelection: The scope selection for static configuration. Defaults to `.empty`.
     ///   - dynamicAppConfigName: Optional dynamic app configuration name (provided at runtime).
     ///   - dynamicScopeSelection: The scope selection for dynamic configuration. Defaults to `.empty`.
@@ -96,6 +96,12 @@ class BaseAuthFlowTesterTest: XCTestCase {
         useHybridFlow: Bool = true,
         supportWelcomeDiscovery: Bool = false
     ) {
+        // To speed up things a bit - only configuring login host once (it never changes)
+        if (!loginHostConfiguredAlready) {
+            loginPage.configureLoginHost(host: host)
+            loginHostConfiguredAlready = true
+        }
+        
         let userConfig = getUser(user)
         let staticAppConfig = getAppConfig(named: staticAppConfigName)
         let dynamicAppConfig = dynamicAppConfigName == nil ? nil : getAppConfig(named: dynamicAppConfigName!)
@@ -111,12 +117,6 @@ class BaseAuthFlowTesterTest: XCTestCase {
             useHybridFlow: useHybridFlow,
             supportWelcomeDiscovery: supportWelcomeDiscovery
         )
-        
-        // To speed up things a bit - only configuring login host once (it never changes)
-        if (!loginHostConfiguredAlready) {
-            loginPage.configureLoginHost(host: host)
-            loginHostConfiguredAlready = true
-        }
         
         loginPage.performLogin(username: userConfig.username, password: userConfig.password)
     }
@@ -137,7 +137,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
     ///
     /// - Parameters:
     ///   - user: The user to switch to.
-    ///   - staticAppConfigName: The static app configuration name (compiled into the app).
+    ///   - staticAppConfigName: The static app configuration name.
     ///   - staticScopeSelection: The scope selection for static configuration. Defaults to `.empty`.
     ///   - userAppConfigName: The app configuration the user was logged in with.
     ///   - userScopeSelection: The scope selection the user was logged in with. Defaults to `.empty`.
@@ -167,6 +167,46 @@ class BaseAuthFlowTesterTest: XCTestCase {
         )
     }
     
+    /// Launches the app and performs login.
+    ///
+    /// This is a convenience method that combines `launch()` and `login()` in one call.
+    /// Use this for the initial login flow in tests.
+    ///
+    /// - Parameters:
+    ///   - user: The user to log in with. Defaults to `.first`.
+    ///   - staticAppConfigName: The static app configuration name.
+    ///   - staticScopeSelection: The scope selection for static configuration. Defaults to `.empty`.
+    ///   - dynamicAppConfigName: Optional dynamic app configuration name (provided at runtime).
+    ///   - dynamicScopeSelection: The scope selection for dynamic configuration. Defaults to `.empty`.
+    ///   - useWebServerFlow: Whether to use web server OAuth flow. Defaults to `true`.
+    ///   - useHybridFlow: Whether to use hybrid authentication flow. Defaults to `true`.
+    ///   - supportWelcomeDiscovery: Whether to support welcome/discovery screen. Defaults to `false`.
+    func launchAndLogin(
+        user: KnownUserConfig = .first,
+        staticAppConfigName: KnownAppConfig,
+        staticScopeSelection: ScopeSelection = .empty,
+        dynamicAppConfigName: KnownAppConfig? = nil,
+        dynamicScopeSelection: ScopeSelection = .empty,
+        useWebServerFlow: Bool = true,
+        useHybridFlow: Bool = true,
+        supportWelcomeDiscovery: Bool = false
+    ) {
+        // Launch
+        launch()
+        
+        // Login
+        login(
+            user: user,
+            staticAppConfigName: staticAppConfigName,
+            staticScopeSelection: staticScopeSelection,
+            dynamicAppConfigName: dynamicAppConfigName,
+            dynamicScopeSelection: dynamicScopeSelection,
+            useWebServerFlow: useWebServerFlow,
+            useHybridFlow: useHybridFlow,
+            supportWelcomeDiscovery: supportWelcomeDiscovery
+        )
+    }
+    
     /// Launches the app, performs login, and validates the resulting credentials.
     ///
     /// This is a convenience method that combines `launch()`, `login()`, and validation in one call.
@@ -174,7 +214,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
     ///
     /// - Parameters:
     ///   - user: The user to log in with. Defaults to `.first`.
-    ///   - staticAppConfigName: The static app configuration name (compiled into the app).
+    ///   - staticAppConfigName: The static app configuration name.
     ///   - staticScopeSelection: The scope selection for static configuration. Defaults to `.empty`.
     ///   - dynamicAppConfigName: Optional dynamic app configuration name (provided at runtime).
     ///   - dynamicScopeSelection: The scope selection for dynamic configuration. Defaults to `.empty`.
@@ -229,7 +269,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
     ///
     /// - Parameters:
     ///   - user: The user to log in with. Defaults to `.second`.
-    ///   - staticAppConfigName: The static app configuration name (compiled into the app).
+    ///   - staticAppConfigName: The static app configuration name.
     ///   - staticScopeSelection: The scope selection for static configuration. Defaults to `.empty`.
     ///   - dynamicAppConfigName: Optional dynamic app configuration name (provided at runtime). Is used when provided.
     ///   - dynamicScopeSelection: The scope selection for dynamic configuration. Defaults to `.empty`.
@@ -284,7 +324,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
     ///
     /// - Parameters:
     ///   - user: The user that should still be logged in after restart.
-    ///   - staticAppConfigName: The static app configuration name (compiled into the app).
+    ///   - staticAppConfigName: The static app configuration name.
     ///   - staticScopeSelection: The scope selection for static configuration. Defaults to `.empty`.
     ///   - userAppConfigName: The app configuration the user was logged in with.
     ///   - userScopeSelection: The scope selection the user was logged in with. Defaults to `.empty`.
@@ -321,7 +361,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
     /// then validates that the credentials are updated correctly and the refresh token has changed.
     ///
     /// - Parameters:
-    ///   - staticAppConfigName: The static app configuration name (compiled into the app).
+    ///   - staticAppConfigName: The static app configuration name.
     ///   - staticScopeSelection: The scope selection for static configuration. Defaults to `.empty`.
     ///   - migrationAppConfigName: The app configuration to migrate to.
     ///   - migrationScopeSelection: The scope selection for the migration target. Defaults to `.empty`.

@@ -63,5 +63,23 @@ class BeaconLoginTests: BaseAuthFlowTesterTest {
     /// Login with Beacon advanced JWT using all scopes and web server flow.
     func testBeaconAdvancedJwt_AllScopes() throws {
         launchLoginAndValidate(staticAppConfigName: .beaconAdvancedJwt, staticScopeSelection: .all)
-    }    
+    }
+    
+    // MARK: - Using dynamic config
+    
+    /// Login with Beacon advanced JWT using default scopes and web server flow provided as dynamic configuration.
+    func testBeaconAdvancedJwt_DefaultScopes_DynamicConfiguration() throws {
+        launchLoginAndValidate(
+            staticAppConfigName: .beaconAdvancedOpaque,
+            dynamicAppConfigName: .beaconAdvancedJwt
+        )
+    }
+
+    /// Login with Beacon advanced JWT using subset of scopes and web server flow provided as dynamic configuration.
+    func testBeaconAdvancedJwt_SubsetScopes_DynamicConfiguration() throws {
+        launchLoginAndValidate(
+            staticAppConfigName: .beaconAdvancedOpaque,
+            dynamicAppConfigName: .beaconAdvancedJwt,
+            dynamicScopeSelection: .subset)
+    }
 }
