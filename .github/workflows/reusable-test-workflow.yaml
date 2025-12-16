@@ -61,8 +61,9 @@ jobs:
           require_tests: true
           include_empty_in_summary: false
           simplified_summary: true
-          skip_success_summary: true
           detailed_summary: true
+          comment: true
+          job_summary: ${{ failure() }}
           report_paths: 'test-results-${{ inputs.lib }}-ios${{ inputs.ios }}.xml'
       - uses: codecov/codecov-action@v4
         if: success() || failure()
