@@ -59,9 +59,10 @@ jobs:
           check_name: ${{ inputs.lib }} iOS ${{ inputs.ios }} Test Results
           job_name: ${{ inputs.lib }} iOS ${{ inputs.ios }} Test Results
           require_tests: true
-          include_passed: true
           include_empty_in_summary: false
           simplified_summary: true
+          skip_success_summary: true
+          detailed_summary: true
           report_paths: 'test-results-${{ inputs.lib }}-ios${{ inputs.ios }}.xml'
       - uses: codecov/codecov-action@v4
         if: success() || failure()
