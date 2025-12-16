@@ -409,7 +409,11 @@ class BaseAuthFlowTesterTest: XCTestCase {
         )
         
         // Check JWT if applicable
-        checkJwtDetailsIfApplicable(appConfig: userAppConfig, scopes: expectedGrantedScopes)
+        checkJwtDetailsIfApplicable(
+            appConfig: userAppConfig,
+            scopes: expectedGrantedScopes,
+            beaconChildConsumerKey: userCredentials.beaconChildConsumerKey
+        )
         
         // Additional login-specific validations
         assertSIDs(userCredentialsData: userCredentials, useHybridFlow: useHybridFlow, useJwt: issuesJwt)
@@ -538,10 +542,10 @@ class BaseAuthFlowTesterTest: XCTestCase {
         }
     }
     
-    private func checkJwtDetailsIfApplicable(appConfig: AppConfig, scopes: String) {
+    private func checkJwtDetailsIfApplicable(appConfig: AppConfig, scopes: String, beaconChildConsumerKey: String = "") {
         if appConfig.issuesJwt {
             _ = checkJwtDetails(
-                clientId: appConfig.consumerKey,
+                clientId: beaconChildConsumerKey == "" ? appConfig.consumerKey : beaconChildConsumerKey,
                 scopes: scopes
             )
         }
