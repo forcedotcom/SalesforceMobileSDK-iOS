@@ -16,15 +16,18 @@ This document provides an overview of all UI tests in the AuthFlowTester test su
 
 ## Login Tests
 
-### LegacyLoginTests (9 tests)
+### LegacyLoginTests (12 tests)
 
 Tests for Connected App (CA) configurations including user agent flow and non-hybrid flow options.
 
 | Test Name | App Config | Scopes | Flow | Hybrid |
 |-----------|------------|--------|------|--------|
 | `testCAAdvancedOpaque_DefaultScopes_WebServerFlow` | CA Advanced Opaque | Default | Web Server | Yes |
-| `testCAAdvancedOpaque_SubsetScopes_WebServerFlow` | CA Advanced Opaque | Subset | Web Server | Yes |
+| `testCAAdvancedOpaque_SubsetScopes_WebServerFlow` | CA Advanced Opaque | Subset | Web Server | No |
 | `testCAAdvancedOpaque_AllScopes_WebServerFlow` | CA Advanced Opaque | All | Web Server | Yes |
+| `testCAAdvancedOpaque_DefaultScopes_WebServerFlow_NotHybrid` | CA Advanced Opaque | Default | Web Server | No |
+| `testCAAdvancedOpaque_SubsetScopes_WebServerFlow_NotHybrid` | CA Advanced Opaque | Subset | Web Server | No |
+| `testCAAdvancedOpaque_AllScopes_WebServerFlow_NotHybrid` | CA Advanced Opaque | All | Web Server | No |
 | `testCAAdvancedOpaque_DefaultScopes_UserAgentFlow` | CA Advanced Opaque | Default | User Agent | Yes |
 | `testCAAdvancedOpaque_SubsetScopes_UserAgentFlow` | CA Advanced Opaque | Subset | User Agent | Yes |
 | `testCAAdvancedOpaque_AllScopes_UserAgentFlow` | CA Advanced Opaque | All | User Agent | Yes |
@@ -42,7 +45,7 @@ Tests for External Client App (ECA) configurations using web server flow with hy
 | `testECAAdvancedOpaque_SubsetScopes` | ECA Advanced Opaque | Subset |
 | `testECAAdvancedOpaque_AllScopes` | ECA Advanced Opaque | All |
 | `testECAAdvancedJwt_DefaultScopes` | ECA Advanced JWT | Default |
-| `testECAAdvancedJwt_SubsetScopes` | ECA Advanced JWT | Subset |
+| `testECAAdvancedJwt_SubsetScopes_NotHybrid` | ECA Advanced JWT | Subset |
 | `testECAAdvancedJwt_AllScopes` | ECA Advanced JWT | All |
 
 ### BeaconLoginTests (6 tests)
@@ -62,18 +65,19 @@ Tests for Beacon app configurations using web server flow with hybrid auth.
 
 ## Migration Tests
 
-### MigrationTests (6 tests)
+### MigrationTests (7 tests)
 
 Tests for migrating refresh tokens between different app configurations without re-authentication.
 
 | Test Name | Original App | Migration App | Scope Change |
 |-----------|--------------|---------------|--------------|
-| `testMigrateECA_BasicOpaqueToBasicJwt` | ECA Basic Opaque | ECA Basic JWT | No |
-| `testMigrateECA_AdvancedJwtToAdvancedJwt_WithMoreScopes` | ECA Advanced JWT | ECA Advanced JWT | Yes (add sfap_api) |
-| `testMigrateBeacon_BasicOpaqueToBasicJwt` | Beacon Basic Opaque | Beacon Basic JWT | No |
-| `testMigrateBeacon_AdvancedJwtToAdvancedJwt_WithMoreScopes` | Beacon Advanced JWT | Beacon Advanced JWT | Yes (add sfap_api) |
-| `testMigrateCAToECA_AdvancedOpaqueToAdvancedOpaque` | CA Advanced Opaque | ECA Advanced Opaque | No |
-| `testMigrateCAToBeacon_AdvancedOpaqueToAdvancedOpaque` | CA Advanced Opaque | Beacon Advanced Opaque | No |
+| `testMigrateECA_AddMoreScopes` | ECA Advanced JWT (subset) | ECA Advanced JWT (all) | Yes (add more scopes) |
+| `testMigrateBeacon_AddMoreScopes` | Beacon Advanced JWT (subset) | Beacon Advanced JWT (all) | Yes (add more scopes) |
+| `testMigrateCAToECA` | CA Advanced Opaque | ECA Advanced Opaque | No |
+| `testMigrateCAToBeacon` | CA Advanced Opaque | Beacon Advanced Opaque | No |
+| `testMigrateBeaconOpaqueToJWT` | Beacon Advanced Opaque | Beacon Advanced JWT | No |
+| `testMigrateCAToBeaconAndBack` | CA Advanced Opaque → Beacon Advanced Opaque → CA Advanced Opaque | Multi-step migration | No |
+| `testMigrateBeaconOpaqueToJWTAndBack` | Beacon Advanced Opaque → Beacon Advanced JWT | Token format migration (note: test name suggests rollback but only migrates forward) | No |
 
 ---
 
@@ -88,9 +92,9 @@ Tests for login scenarios with two users using various configurations.
 | `testBothStatic_SameApp_SameScopes` | Static (Opaque) | Static (Opaque) | Yes | Yes | No |
 | `testBothStatic_DifferentApps` | Static (Opaque) | Static (JWT) | No | Yes | No |
 | `testBothStatic_SameApp_DifferentScopes` | Static (Opaque, subset) | Static (Opaque, default) | Yes | No | No |
-| `testFirstStatic_SecondDynamic_DifferentApps` | Static (Opaque) | Dynamic (JWT) | No | Yes | Yes |
-| `testFirstDynamic_SecondStatic_DifferentApps` | Dynamic (Opaque) | Static (JWT) | No | Yes | Yes |
-| `testBothDynamic_DifferentApps` | Dynamic (Opaque) | Dynamic (JWT) | No | Yes | Yes |
+| `testFirstStatic_SecondDynamic_DifferentApps` | Static (Opaque) | Dynamic (JWT) | No | Yes | No |
+| `testFirstDynamic_SecondStatic_DifferentApps` | Dynamic (JWT) | Static (Opaque) | No | Yes | No |
+| `testBothDynamic_DifferentApps` | Dynamic (Opaque) | Dynamic (JWT) | No | Yes | No |
 
 ---
 
@@ -138,6 +142,6 @@ Tests for login scenarios with two users using various configurations.
 
 | Format | Description |
 |--------|-------------|
-| **Opaque** | Ppaque access tokens |
+| **Opaque** | Opaque access tokens |
 | **JWT** | JSON Web Token based access tokens |
 
