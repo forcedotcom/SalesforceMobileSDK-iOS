@@ -16,10 +16,13 @@ jobs:
         include:
           - ios: ^26
             xcode: ^26
+            macos: macos-26
           - ios: ^18
             xcode: ^16
+            macos: macos-latest
           - ios: ^17
             xcode: ^16
+            macos: macos-latest
     uses: ./.github/workflows/reusable-workflow.yaml
     with:
       lib: ${{ matrix.lib }}
@@ -36,10 +39,13 @@ jobs:
         include:
           - ios: ^26
             xcode: ^26
+            macos: macos-26
           - ios: ^18
             xcode: ^16
+            macos: macos-latest
           - ios: ^17
             xcode: ^16
+            macos: macos-latest
     uses: ./.github/workflows/reusable-workflow.yaml
     with:
       lib: ${{ matrix.app }}
