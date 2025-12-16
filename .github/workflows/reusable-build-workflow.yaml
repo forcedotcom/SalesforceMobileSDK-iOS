@@ -1,0 +1,45 @@
+on:
+  workflow_call:
+    inputs:
+      app:
+        required: true
+        type: string
+      ios:
+        default: "^18"
+        required: false
+        type: string
+      xcode:
+        default: "^16"
+        required: false
+        type: string
+      macos:
+        default: macos-latest
+        required: false
+        type: string
+
+jobs:
+  build-sample-app:
+    runs-on: ${{ inputs.macos }}
+    steps:
+      - uses: actions/checkout@v4
+        if: github.event_name == 'pull_request'
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/checkout@v4
+        if: github.event_name != 'pull_request'
+        with:
+          ref: ${{ github.head_ref }}
+      - name: Install Dependencies
+        run: ./install.sh
+      - name: Install iOS 17 runtime if needed
+        if: ${{ inputs.ios == '^17' }}
+        run: xcodes runtimes install "iOS 17.5"
+      - uses: mxcl/xcodebuild@v3
+        with:
+          xcode: ${{ inputs.xcode }}
+          platform: iOS
+          platform-version: ${{ inputs.ios }}
+          workspace: SalesforceMobileSDK.xcworkspace
+          scheme: ${{ inputs.app }}
+          action: 'build'
+          verbosity: xcbeautify
