@@ -13,7 +13,7 @@ on:
         required: false
         type: string
       macos:
-        default: macos-26
+        default: macos-latest
         required: false
         type: string
       is_pr:
@@ -63,6 +63,12 @@ jobs:
           show-passed-tests: false
         # xcresulttool currently fails for iOS 26
         if: ${{ ! inputs.build_only && (success() || failure()) && inputs.ios != '^26' }}
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-${{ inputs.lib }}-ios${{ inputs.ios }}
+          path: test.xcresult
+        if: ${{ ! inputs.build_only && (success() || failure()) }}
       - uses: codecov/codecov-action@v4
         with:
           flags: ${{ inputs.lib }}
