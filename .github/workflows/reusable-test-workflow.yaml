@@ -48,6 +48,7 @@ jobs:
           code-coverage: true
           verbosity: xcbeautify
       - name: Parse test results
+        if: success() || failure()
         run: |
           brew install xcresultparser
           xcresultparser -o junit test.xcresult > test-results-${{ inputs.lib }}-ios${{ inputs.ios }}.xml
