@@ -146,6 +146,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
     ///   - staticScopeSelection: The scope selection for static configuration. Defaults to `.empty`.
     ///   - userAppConfigName: The app configuration the user was logged in with.
     ///   - userScopeSelection: The scope selection the user was logged in with. Defaults to `.empty`.
+    ///   - useWebServerFlow: Whether web server OAuth flow was used. Defaults to `true`.
     ///   - useHybridFlow: Whether hybrid authentication flow was used. Defaults to `true`.
     func switchToUserAndValidate(
         user: KnownUserConfig,
@@ -153,6 +154,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
         staticScopeSelection: ScopeSelection = .empty,
         userAppConfigName: KnownAppConfig,
         userScopeSelection: ScopeSelection = .empty,
+        useWebServerFlow: Bool = true,
         useHybridFlow: Bool = true
     ) {
         // Switch user
@@ -165,6 +167,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
             staticScopeSelection: staticScopeSelection,
             userAppConfigName: userAppConfigName,
             userScopeSelection: userScopeSelection,
+            useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow
         )
     }
@@ -223,6 +226,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
             staticScopeSelection: staticScopeSelection,
             userAppConfigName: userAppConfigName,
             userScopeSelection: userScopeSelection,
+            useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow
         )
     }
@@ -281,6 +285,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
             staticScopeSelection: staticScopeSelection,
             userAppConfigName: userAppConfigName,
             userScopeSelection: userScopeSelection,
+            useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow
         )
     }
@@ -296,6 +301,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
     ///   - staticScopeSelection: The scope selection for static configuration. Defaults to `.empty`.
     ///   - userAppConfigName: The app configuration the user was logged in with.
     ///   - userScopeSelection: The scope selection the user was logged in with. Defaults to `.empty`.
+    ///   - useWebServerFlow: Whether web server OAuth flow was used. Defaults to `true`.
     ///   - useHybridFlow: Whether hybrid authentication flow was used. Defaults to `true`.
     func restartAndValidate(
         user: KnownUserConfig,
@@ -303,6 +309,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
         staticScopeSelection: ScopeSelection = .empty,
         userAppConfigName: KnownAppConfig,
         userScopeSelection: ScopeSelection = .empty,
+        useWebServerFlow: Bool = true,
         useHybridFlow: Bool = true
     ) {
         // Restart
@@ -316,6 +323,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
             staticScopeSelection: staticScopeSelection,
             userAppConfigName: userAppConfigName,
             userScopeSelection: userScopeSelection,
+            useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow
         )
     }
@@ -360,6 +368,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
             staticScopeSelection: staticScopeSelection,
             userAppConfigName: migrationAppConfigName,
             userScopeSelection: migrationScopeSelection,
+            useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow
         )
 
@@ -380,7 +389,8 @@ class BaseAuthFlowTesterTest: XCTestCase {
         staticScopeSelection: ScopeSelection,
         userAppConfigName: KnownAppConfig,
         userScopeSelection: ScopeSelection,
-        useHybridFlow: Bool = true
+        useWebServerFlow: Bool,
+        useHybridFlow: Bool
     ) -> UserCredentialsData {
 
         let userConfig = getUser(user)
@@ -417,7 +427,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
         
         // Additional login-specific validations
         assertSIDs(userCredentialsData: userCredentials, useHybridFlow: useHybridFlow, useJwt: issuesJwt)
-        assertURLs(userCredentialsData: userCredentials)
+        assertURLs(userCredentialsData: userCredentials, useWebServerFlow: useWebServerFlow)
         
         // Revoke and refresh cycle
         assertRevokeAndRefreshWorks(previousCredentials: userCredentials)
@@ -489,14 +499,14 @@ class BaseAuthFlowTesterTest: XCTestCase {
         assertNotEmpty(userCredentialsData.parentSid, shouldNotBeEmpty: useJwt && useHybridFlow, "Parent SID")
     }
     
-    private func assertURLs(userCredentialsData: UserCredentialsData) {
+    private func assertURLs(userCredentialsData: UserCredentialsData, useWebServerFlow: Bool) {
         let hasApiScope = userCredentialsData.credentialsScopes.contains("api")
         let hasSfapApiScope = userCredentialsData.credentialsScopes.contains("sfap_api")
         
         assertNotEmpty(userCredentialsData.instanceUrl, shouldNotBeEmpty: true, "Instance URL")
         XCTAssertTrue(userCredentialsData.identityUrl.hasSuffix(userCredentialsData.organizationId + "/" + userCredentialsData.userId), "Identity URL should end with orgId/userId")
         assertNotEmpty(userCredentialsData.apiUrl, shouldNotBeEmpty: hasApiScope, "API URL")
-        assertNotEmpty(userCredentialsData.apiInstanceUrl, shouldNotBeEmpty: hasSfapApiScope, "API Instance URL")
+        assertNotEmpty(userCredentialsData.apiInstanceUrl, shouldNotBeEmpty: hasSfapApiScope && useWebServerFlow /* not returned with user agent flow */, "API Instance URL")
     }
     
     private func assertNotEmpty(_ value: String, shouldNotBeEmpty: Bool, _ name: String) {
