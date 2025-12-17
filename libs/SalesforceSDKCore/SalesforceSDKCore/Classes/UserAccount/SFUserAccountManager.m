@@ -579,6 +579,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     request.additionalOAuthParameterKeys = self.additionalOAuthParameterKeys;
     request.oauthClientId = newAppConfig.remoteAccessConsumerKey;
     request.oauthCompletionUrl = newAppConfig.oauthRedirectURI;
+    request.scopes = newAppConfig.oauthScopes;
     request.scene = [[SFSDKWindowManager sharedManager] defaultScene];
     return request;
 }

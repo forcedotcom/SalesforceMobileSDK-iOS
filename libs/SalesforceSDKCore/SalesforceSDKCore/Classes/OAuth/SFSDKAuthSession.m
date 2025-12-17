@@ -73,6 +73,7 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
     creds.clientId = self.oauthRequest.oauthClientId;
     creds.redirectUri = self.oauthRequest.oauthCompletionUrl;
     creds.domain = self.oauthRequest.loginHost;
+    creds.scopes = [self.oauthRequest.scopes allObjects];
     creds.accessToken = nil;
     return creds;
 }

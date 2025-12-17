@@ -821,7 +821,7 @@
     }
     
     // OAuth scopes
-    NSString *scopeString = [self scopeQueryParamString:self.credentials.scopes];
+    NSString *scopeString = [self scopeQueryParamString:credentials.scopes];
     if (scopeString.length > 0) {
         [approvalUrlString appendString:scopeString];
     }
