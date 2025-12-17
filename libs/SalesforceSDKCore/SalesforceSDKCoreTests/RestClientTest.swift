@@ -771,6 +771,60 @@ class RestClientTests: XCTestCase {
         }
     }
     
+    func testRefreshWithSuccesfulRequests() async throws {
+        // Revoke access token
+        try await revokeAccessToken()
+        
+        // Send multiple requests for replay and verify completion block is only called once per request
+        let resourcesRequest = RestClient.shared.request(forResources: nil)
+        let resourcesExpectation = XCTestExpectation(description: "Resources request")
+        resourcesExpectation.assertForOverFulfill = true
+        RestClient.shared.send(resourcesRequest) { _, error, _  in
+            XCTFail("Request unexpectedly failed with error: \(error.debugDescription)")
+        } successBlock: { _,_ in
+            resourcesExpectation.fulfill()
+        }
+        
+        let describeRequest = RestClient.shared.request(forDescribeGlobal: nil)
+        let describeExpectation = XCTestExpectation(description: "Describe request")
+        describeExpectation.assertForOverFulfill = true
+        RestClient.shared.send(describeRequest) { _, error, _  in
+            XCTFail("Request unexpectedly failed with error: \(error.debugDescription)")
+        } successBlock: { _,_ in
+            describeExpectation.fulfill()
+        }
+        
+        let contactRequest = RestClient.shared.requestForDescribe(withObjectType: "Contact", apiVersion: nil)
+        let contactExpectation = XCTestExpectation(description: "Contact request")
+        contactExpectation.assertForOverFulfill = true
+        RestClient.shared.send(contactRequest) { _, error, _ in
+            XCTFail("Request unexpectedly failed with error: \(error.debugDescription)")
+        } successBlock: { _,_ in
+           contactExpectation.fulfill()
+        }
+
+        await fulfillment(of: [resourcesExpectation, describeExpectation, contactExpectation])
+    }
+    
+    private func revokeAccessToken() async throws  {
+        guard let currentUser = UserAccountManager.shared.currentUserAccount,
+              let accessToken = currentUser.credentials.accessToken,
+              let encodedToken = accessToken.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
+            XCTFail("No current user access token")
+            return
+        }
+        
+        let request = RestRequest(method: .POST, path: "/services/oauth2/revoke", queryParams: nil)
+        request.endpoint = ""
+        
+        // Set the request body with URL-encoded token
+        let bodyString = "token=\(encodedToken)"
+        request.setCustomRequestBodyString(bodyString, contentType: "application/x-www-form-urlencoded")
+        
+        // Send the request
+        _ = try await RestClient.shared.send(request: request)
+    }
+    
     private func generateRecordName() -> String {
         let timecode = Date.timeIntervalSinceReferenceDate
         return "SwiftTestsiOS\(timecode)"
