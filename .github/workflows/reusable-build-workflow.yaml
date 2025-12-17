@@ -16,17 +16,20 @@ on:
         default: macos-latest
         required: false
         type: string
+      is_pr:
+        type: boolean
+        default: false
 
 jobs:
   build-sample-app:
     runs-on: ${{ inputs.macos }}
     steps:
       - uses: actions/checkout@v4
-        if: github.event_name == 'pull_request'
+        if: ${{ inputs.is_pr }}
         with:
           ref: ${{ github.event.pull_request.head.sha }}
       - uses: actions/checkout@v4
-        if: github.event_name != 'pull_request'
+        if: ${{ !inputs.is_pr }}
         with:
           ref: ${{ github.head_ref }}
       - name: Install Dependencies

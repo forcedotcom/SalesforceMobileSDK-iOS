@@ -113,6 +113,7 @@ jobs:
       lib: ${{ matrix.lib }}
       ios: ${{ matrix.ios }}
       xcode: ${{ matrix.xcode }}
+      is_pr: true
     secrets: inherit
 
   native-samples-pr:
@@ -131,4 +132,5 @@ jobs:
       app: ${{ matrix.app }}
       ios: ${{ matrix.ios }}
       xcode: ${{ matrix.xcode }}
+      is_pr: true
     secrets: inherit
