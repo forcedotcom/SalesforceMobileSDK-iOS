@@ -67,7 +67,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
         app.launch()
         
         // Start logged out
-        if (!loginPage.isShowing()) {
+        if (mainPage.isShowing()) {
             logout()
         }
     }
@@ -323,17 +323,13 @@ class BaseAuthFlowTesterTest: XCTestCase {
     /// with the expected credentials. Use this to test session persistence.
     ///
     /// - Parameters:
-    ///   - user: The user that should still be logged in after restart.
-    ///   - staticAppConfigName: The static app configuration name.
-    ///   - staticScopeSelection: The scope selection for static configuration. Defaults to `.empty`.
+    ///   - user: The user that should still be logged in after restart. Defaults to `.first`.
     ///   - userAppConfigName: The app configuration the user was logged in with.
     ///   - userScopeSelection: The scope selection the user was logged in with. Defaults to `.empty`.
     ///   - useWebServerFlow: Whether web server OAuth flow was used. Defaults to `true`.
     ///   - useHybridFlow: Whether hybrid authentication flow was used. Defaults to `true`.
     func restartAndValidate(
-        user: KnownUserConfig,
-        staticAppConfigName: KnownAppConfig,
-        staticScopeSelection: ScopeSelection = .empty,
+        user: KnownUserConfig = .first,
         userAppConfigName: KnownAppConfig,
         userScopeSelection: ScopeSelection = .empty,
         useWebServerFlow: Bool = true,
@@ -343,11 +339,10 @@ class BaseAuthFlowTesterTest: XCTestCase {
         app.terminate()
         app.launch()
         
-        // Validate
-        validate(
+        // Validate user
+        // Not checking static app config since it will depend on the bootconfig of the target app
+        validateUser(
             user: user,
-            staticAppConfigName: staticAppConfigName,
-            staticScopeSelection: staticScopeSelection,
             userAppConfigName: userAppConfigName,
             userScopeSelection: userScopeSelection,
             useWebServerFlow: useWebServerFlow,
@@ -410,24 +405,23 @@ class BaseAuthFlowTesterTest: XCTestCase {
     // MARK: - Private Helpers
     
     @discardableResult
-    private func validate(
+    private func validateUser(
         user: KnownUserConfig,
-        staticAppConfigName: KnownAppConfig,
-        staticScopeSelection: ScopeSelection,
         userAppConfigName: KnownAppConfig,
         userScopeSelection: ScopeSelection,
         useWebServerFlow: Bool,
-        useHybridFlow: Bool
+        useHybridFlow: Bool,
     ) -> UserCredentialsData {
-
+        
         let userConfig = getUser(user)
-        let staticAppConfig = getAppConfig(named: staticAppConfigName)
         let userAppConfig = getAppConfig(named: userAppConfigName)
         let expectedGrantedScopes = testConfig.getExpectedScopesGranted(for: userAppConfig, userScopeSelection)
         let issuesJwt = userAppConfig.issuesJwt
         
         // Check that app loads and shows the expected user credentials etc
         assertMainPageLoaded()
+        
+        
         
         // Check the user credentials (consumer key should match the app config used)
         let userCredentials = checkUserCredentials(
@@ -436,13 +430,6 @@ class BaseAuthFlowTesterTest: XCTestCase {
             userRedirectUri: userAppConfig.redirectUri,
             grantedScopes: expectedGrantedScopes,
             issuesJwt: issuesJwt
-        )
-        
-        // Check the oauth configuration
-        _ = checkOauthConfiguration(
-            staticConsumerKey: staticAppConfig.consumerKey,
-            staticCallbackUrl: staticAppConfig.redirectUri,
-            staticScopes: testConfig.getScopesToRequest(for: staticAppConfig, staticScopeSelection)
         )
         
         // Check JWT if applicable
@@ -462,6 +449,39 @@ class BaseAuthFlowTesterTest: XCTestCase {
         return userCredentials
     }
     
+    @discardableResult
+    private func validate(
+        user: KnownUserConfig,
+        staticAppConfigName: KnownAppConfig,
+        staticScopeSelection: ScopeSelection,
+        userAppConfigName: KnownAppConfig,
+        userScopeSelection: ScopeSelection,
+        useWebServerFlow: Bool,
+        useHybridFlow: Bool,
+    ) -> UserCredentialsData {
+        
+        let staticAppConfig = getAppConfig(named: staticAppConfigName)
+        
+        // Check that app loads and shows the expected user credentials etc
+        assertMainPageLoaded()
+        
+        let userCredentials = validateUser(
+            user: user,
+            userAppConfigName: userAppConfigName,
+            userScopeSelection: userScopeSelection,
+            useWebServerFlow: useWebServerFlow,
+            useHybridFlow: useHybridFlow
+        )
+
+        // Check the oauth configuration
+        _ = checkOauthConfiguration(
+            staticConsumerKey: staticAppConfig.consumerKey,
+            staticCallbackUrl: staticAppConfig.redirectUri,
+            staticScopes: testConfig.getScopesToRequest(for: staticAppConfig, staticScopeSelection)
+        )
+                
+        return userCredentials
+    }
 
     private func migrateRefreshToken(
         appConfigName: KnownAppConfig,

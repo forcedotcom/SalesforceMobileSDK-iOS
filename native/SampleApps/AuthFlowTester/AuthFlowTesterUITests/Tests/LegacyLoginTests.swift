@@ -107,19 +107,28 @@ class LegacyLoginTests: BaseAuthFlowTesterTest {
     // MARK: - Using dynamic config
     
     /// Login with CA advanced JWT using default scopes and web server flow provided as dynamic configuration.
-    func testCAAdvancedJwt_DefaultScopes_DynamicConfiguration() throws {
+    /// Restart the application and validate it still works afterwards
+    func testCAAdvancedJwt_DefaultScopes_DynamicConfiguration_WithRestart() throws {
         launchLoginAndValidate(
             staticAppConfigName: .caAdvancedOpaque,
             dynamicAppConfigName: .caAdvancedJwt
         )
+        restartAndValidate(
+            userAppConfigName: .caAdvancedJwt
+        )
     }
 
     /// Login with CA advanced JWT using subset of scopes and web server flow provided as dynamic configuration.
-    func testCAAdvancedJwt_SubsetScopes_DynamicConfiguration() throws {
+    /// Restart the application and validate it still works afterwards
+    func testCAAdvancedJwt_SubsetScopes_DynamicConfiguration_WithRestart() throws {
         launchLoginAndValidate(
             staticAppConfigName: .caAdvancedOpaque,
             dynamicAppConfigName: .caAdvancedJwt,
             dynamicScopeSelection: .subset)
+        restartAndValidate(
+            userAppConfigName: .caAdvancedJwt,
+            userScopeSelection: .subset
+        )
     }
 
 }

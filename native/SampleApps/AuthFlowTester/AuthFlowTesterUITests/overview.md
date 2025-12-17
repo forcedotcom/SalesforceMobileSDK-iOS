@@ -34,8 +34,8 @@ Tests for Connected App (CA) configurations including user agent flow and non-hy
 | `testCAAdvancedOpaque_DefaultScopes_UserAgentFlow_NotHybrid` | CA Advanced Opaque | Default | User Agent | No | No |
 | `testCAAdvancedOpaque_SubsetScopes_UserAgentFlow_NotHybrid` | CA Advanced Opaque | Subset | User Agent | No | No |
 | `testCAAdvancedOpaque_AllScopes_UserAgentFlow_NotHybrid` | CA Advanced Opaque | All | User Agent | No | No |
-| `testCAAdvancedJwt_DefaultScopes_DynamicConfiguration` | CA Advanced JWT | Default | Web Server | Yes | Yes |
-| `testCAAdvancedJwt_SubsetScopes_DynamicConfiguration` | CA Advanced JWT | Subset | Web Server | Yes | Yes |
+| `testCAAdvancedJwt_DefaultScopes_DynamicConfiguration_WithRestart` | CA Advanced JWT | Default | Web Server | Yes | Yes |
+| `testCAAdvancedJwt_SubsetScopes_DynamicConfiguration_WithRestart` | CA Advanced JWT | Subset | Web Server | Yes | Yes |
 
 ### ECALoginTests (8 tests)
 
@@ -49,8 +49,8 @@ Tests for External Client App (ECA) configurations using web server flow with hy
 | `testECAAdvancedJwt_DefaultScopes` | ECA Advanced JWT | Default | No |
 | `testECAAdvancedJwt_SubsetScopes_NotHybrid` | ECA Advanced JWT | Subset | No |
 | `testECAAdvancedJwt_AllScopes` | ECA Advanced JWT | All | No |
-| `testECAAdvancedJwt_DefaultScopes_DynamicConfiguration` | ECA Advanced JWT | Default | Yes |
-| `testECAAdvancedJwt_SubsetScopes_DynamicConfiguration` | ECA Advanced JWT | Subset | Yes |
+| `testECAAdvancedJwt_DefaultScopes_DynamicConfiguration_WithRestart` | ECA Advanced JWT | Default | Yes |
+| `testECAAdvancedJwt_SubsetScopes_DynamicConfiguration_WithRestart` | ECA Advanced JWT | Subset | Yes |
 
 ### BeaconLoginTests (8 tests)
 
@@ -64,26 +64,25 @@ Tests for Beacon app configurations using web server flow with hybrid auth.
 | `testBeaconAdvancedJwt_DefaultScopes` | Beacon Advanced JWT | Default | No |
 | `testBeaconAdvancedJwt_SubsetScopes` | Beacon Advanced JWT | Subset | No |
 | `testBeaconAdvancedJwt_AllScopes` | Beacon Advanced JWT | All | No |
-| `testBeaconAdvancedJwt_DefaultScopes_DynamicConfiguration` | Beacon Advanced JWT | Default | Yes |
-| `testBeaconAdvancedJwt_SubsetScopes_DynamicConfiguration` | Beacon Advanced JWT | Subset | Yes |
+| `testBeaconAdvancedJwt_DefaultScopes_DynamicConfiguration_WithRestart` | Beacon Advanced JWT | Default | Yes |
+| `testBeaconAdvancedJwt_SubsetScopes_DynamicConfiguration_WithRestart` | Beacon Advanced JWT | Subset | Yes |
 
 ---
 
 ## Migration Tests
 
-### MigrationTests (7 tests)
+### MigrationTests (6 tests)
 
 Tests for migrating refresh tokens between different app configurations without re-authentication.
 
 | Test Name | Original App | Migration App | Scope Change |
 |-----------|--------------|---------------|--------------|
+| `testMigrateCA_AddMoreScopes` | CA Advanced JWT (subset) | CA Advanced JWT (all) | Yes (add more scopes) |
 | `testMigrateECA_AddMoreScopes` | ECA Advanced JWT (subset) | ECA Advanced JWT (all) | Yes (add more scopes) |
 | `testMigrateBeacon_AddMoreScopes` | Beacon Advanced JWT (subset) | Beacon Advanced JWT (all) | Yes (add more scopes) |
-| `testMigrateCAToECA` | CA Advanced Opaque | ECA Advanced Opaque | No |
-| `testMigrateCAToBeacon` | CA Advanced Opaque | Beacon Advanced Opaque | No |
-| `testMigrateBeaconOpaqueToJWT` | Beacon Advanced Opaque | Beacon Advanced JWT | No |
+| `testMigrateCAToECA` | CA Advanced Opaque → ECA Advanced Opaque → CA Advanced Opaque | Migration with rollback | No |
 | `testMigrateCAToBeaconAndBack` | CA Advanced Opaque → Beacon Advanced Opaque → CA Advanced Opaque | Migration with rollback | No |
-| `testMigrateBeaconOpaqueToJWTAndBack` | Beacon Advanced Opaque → Beacon Advanced JWT | Migration with rollback | No |
+| `testMigrateBeaconOpaqueToJWTAndBack` | Beacon Advanced Opaque → Beacon Advanced JWT → Beacon Advanced Opaque | Migration with rollback | No |
 
 ---
 

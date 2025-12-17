@@ -36,6 +36,21 @@ import XCTest
 class MigrationTests: BaseAuthFlowTesterTest {
     
     // MARK: - Migration within same app (scope upgrade)
+
+    /// Migrate within same CA (scope upgrade).
+    func testMigrateCA_AddMoreScopes() throws {
+        launchAndLogin(
+            user:.second,
+            staticAppConfigName: .caAdvancedJwt,
+            staticScopeSelection: .subset
+        )
+        migrateAndValidate(
+            staticAppConfigName: .caAdvancedJwt,
+            staticScopeSelection: .subset,
+            migrationAppConfigName: .caAdvancedJwt,
+            migrationScopeSelection: .all
+        )
+    }
     
     /// Migrate within same ECA (scope upgrade).
     func testMigrateECA_AddMoreScopes() throws {
@@ -67,9 +82,9 @@ class MigrationTests: BaseAuthFlowTesterTest {
         )
     }
     
-    // MARK: - Cross-App Migrations
+    // MARK: - Cross-App Migrations with rollbacks
 
-    /// Migrate from CA to ECA
+    /// Migrate from CA to ECA and back to CA
     func testMigrateCAToECA() throws {
         launchAndLogin(
             user:.second,
@@ -79,34 +94,12 @@ class MigrationTests: BaseAuthFlowTesterTest {
             staticAppConfigName: .caAdvancedOpaque,
             migrationAppConfigName: .ecaAdvancedOpaque
         )
-    }
-        
-    /// Migrate from CA to Beacon
-    func testMigrateCAToBeacon() throws {
-        launchAndLogin(
-            user:.second,
-            staticAppConfigName: .caAdvancedOpaque
-        )
         migrateAndValidate(
-            staticAppConfigName: .caAdvancedOpaque,
-            migrationAppConfigName: .beaconAdvancedOpaque
+            staticAppConfigName: .caAdvancedOpaque, // should not have changed
+            migrationAppConfigName: .caAdvancedOpaque
         )
     }
     
-    /// Migrate from Beacon opaque to Beacon JWT
-    func testMigrateBeaconOpaqueToJWT() throws {
-        launchAndLogin(
-            user:.second,
-            staticAppConfigName: .beaconAdvancedOpaque
-        )
-        migrateAndValidate(
-            staticAppConfigName: .beaconAdvancedOpaque,
-            migrationAppConfigName: .beaconAdvancedJwt
-        )
-    }
-    
-    // MARK: - Migration followed by rollback
-
     // Migrate from CA to Beacon and back to CA
     func testMigrateCAToBeaconAndBack() throws {
         launchAndLogin(
