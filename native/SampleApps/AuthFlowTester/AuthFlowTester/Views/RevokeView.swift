@@ -96,31 +96,17 @@ struct RevokeView: View {
     
     @MainActor
     private func revokeAccessToken() async {
-        guard let credentials = UserAccountManager.shared.currentUserAccount?.credentials else {
-            alertType = .error("No credentials found")
-            return
-        }
-        
-        guard let accessToken = credentials.accessToken,
-              let encodedToken = accessToken.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
-            alertType = .error("Invalid access token")
+        guard let request = RestClient.shared.requestForRevokeAccessToken() else {
+            alertType = .error("Token revoke request couldn't be generated")
             return
         }
         
         isRevoking = true
         
         do {
-            // Create POST request to revoke endpoint
-            let request = RestRequest(method: .POST, path: "/services/oauth2/revoke", queryParams: nil)
-            request.endpoint = ""
-            
-            // Set the request body with URL-encoded token
-            let bodyString = "token=\(encodedToken)"
-            request.setCustomRequestBodyString(bodyString, contentType: "application/x-www-form-urlencoded")
-            
             // Send the request
             _ = try await RestClient.shared.send(request: request)
-            
+           
             alertType = .success
             
             // Notify parent to refresh fields

@@ -329,3 +329,28 @@ extension RestClient {
         return self.records(forRequest: request, withDecoder: decoder)
     }
 }
+
+// MARK: Requests
+extension RestClient {
+    
+    /// Creates a RestRequest object that revokes the access token for a user
+    /// - Parameters:
+    ///   - user: User to revoken the token for, current user will be used if none provided
+    /// - Returns: A `RestRequest` object to revoke the access token if access token is present, nil otherwise
+    @objc
+    public func requestForRevokeAccessToken(user: UserAccount? = UserAccountManager.shared.currentUserAccount) -> RestRequest? {
+        guard let user = user ?? UserAccountManager.shared.currentUserAccount,
+              let accessToken = user.credentials.accessToken,
+              let encodedToken = accessToken.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
+            return nil
+        }
+        
+        let request = RestRequest(method: .POST, path: "/services/oauth2/revoke", queryParams: nil)
+        request.endpoint = ""
+        
+        // Set the request body with URL-encoded token
+        let bodyString = "token=\(encodedToken)"
+        request.setCustomRequestBodyString(bodyString, contentType: "application/x-www-form-urlencoded")
+        return request
+    }
+}
