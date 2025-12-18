@@ -579,6 +579,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     request.additionalOAuthParameterKeys = self.additionalOAuthParameterKeys;
     request.oauthClientId = newAppConfig.remoteAccessConsumerKey;
     request.oauthCompletionUrl = newAppConfig.oauthRedirectURI;
+    request.scopes = newAppConfig.oauthScopes;
     request.scene = [[SFSDKWindowManager sharedManager] defaultScene];
     return request;
 }
@@ -1119,9 +1120,26 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     [self restartAuthenticationForViewController:loginViewController];
 }
 
+- (void)loginViewControllerDidChangeLoginOptions:(SFLoginViewController *)loginViewController {
+    [self restartAuthenticationForViewController:loginViewController recreateAuthRequest:YES];
+}
+
 - (void)restartAuthenticationForViewController:(SFLoginViewController *)loginViewController {
+    [self restartAuthenticationForViewController:loginViewController recreateAuthRequest:NO];
+}
+
+- (void)restartAuthenticationForViewController:(SFLoginViewController *)loginViewController recreateAuthRequest:(BOOL)recreateAuthRequest {
     NSString *sceneId = loginViewController.view.window.windowScene.session.persistentIdentifier;
-    [self restartAuthentication:self.authSessions[sceneId]];
+
+    SFSDKAuthSession* session = self.authSessions[sceneId];
+
+    // Recreate the oauth request
+    // Otherwise changes to consumer key / callback url or scopes will not get picked up
+    if (recreateAuthRequest) {
+        session.oauthRequest = [self defaultAuthRequestWithLoginHost:session.oauthRequest.loginHost];
+    }
+    
+    [self restartAuthentication:session];
 }
 
 #pragma mark - SFSDKLoginHostDelegate

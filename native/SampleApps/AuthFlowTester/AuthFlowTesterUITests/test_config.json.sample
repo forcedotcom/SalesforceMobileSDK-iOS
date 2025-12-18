@@ -1,0 +1,87 @@
+{
+    "loginHost": "https://testorg.my.salesforce.com",
+    "apps": [
+        {
+            "name": "ca_basic_opaque",
+            "consumerKey": "your_consumer_key_here",
+            "redirectUri": "cabasicopaque://success/done",
+            "scopes": "api id refresh_token"
+        },
+        {
+            "name": "ca_basic_jwt",
+            "consumerKey": "your_consumer_key_here",
+            "redirectUri": "cabasicjwt://success/done",
+            "scopes": "api id refresh_token"
+        },
+        {
+            "name": "ca_advanced_opaque",
+            "consumerKey": "your_consumer_key_here",
+            "redirectUri": "caadvancedopaque://success/done",
+            "scopes": "api content id lightning refresh_token sfap_api visualforce web"
+        },
+        {
+            "name": "ca_advanced_jwt",
+            "consumerKey": "your_consumer_key_here",
+            "redirectUri": "caadvancedjwt://success/done",
+            "scopes": "api content id lightning refresh_token sfap_api visualforce web"
+        },
+        {
+            "name": "eca_basic_opaque",
+            "consumerKey": "your_consumer_key_here",
+            "redirectUri": "ecabasicopaque://success/done",
+            "scopes": "api id refresh_token"
+        },
+        {
+            "name": "eca_basic_jwt",
+            "consumerKey": "your_consumer_key_here",
+            "redirectUri": "ecabasicjwt://success/done",
+            "scopes": "api id refresh_token"
+        },
+        {
+            "name": "eca_advanced_opaque",
+            "consumerKey": "your_consumer_key_here",
+            "redirectUri": "ecaadvancedopaque://success/done",
+            "scopes": "api content id lightning refresh_token sfap_api visualforce web"
+        },
+        {
+            "name": "eca_advanced_jwt",
+            "consumerKey": "your_consumer_key_here",
+            "redirectUri": "ecaadvancedjwt://success/done",
+            "scopes": "api content id lightning refresh_token sfap_api visualforce web"
+        },
+        {
+            "name": "beacon_basic_opaque",
+            "consumerKey": "your_consumer_key_here",
+            "redirectUri": "beaconbasicopaque://success/done",
+            "scopes": "api id refresh_token"
+        },
+        {
+            "name": "beacon_basic_jwt",
+            "consumerKey": "your_consumer_key_here",
+            "redirectUri": "beaconbasicjwt://success/done",
+            "scopes": "api id refresh_token"
+        },
+        {
+            "name": "beacon_advanced_opaque",
+            "consumerKey": "your_consumer_key_here",
+            "redirectUri": "beaconadvancedopaque://success/done",
+            "scopes": "api content id lightning refresh_token sfap_api visualforce web"
+        },
+        {
+            "name": "beacon_advanced_jwt",
+            "consumerKey": "your_consumer_key_here",
+            "redirectUri": "beaconadvancedjwt://success/done",
+            "scopes": "api content id lightning refresh_token sfap_api visualforce web"
+        }
+    ],
+    "users": [
+        {
+            "username": "testios1@testorg.com",
+            "password": "yourPasswordHere"
+        },
+        {
+            "username": "testios2@testorg.com",
+            "password": "yourPasswordHere"
+        }
+    ]
+}

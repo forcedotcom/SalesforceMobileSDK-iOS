@@ -54,6 +54,9 @@ NS_SWIFT_NAME(SalesforceLoginViewControllerDelegate)
 
 - (void)loginViewControllerDidReload:(nonnull SFLoginViewController *)loginViewController;
 
+- (void)loginViewControllerDidChangeLoginOptions:(nonnull SFLoginViewController *)loginViewController;
+
+
 @end
 
 /** The Salesforce login screen view.
