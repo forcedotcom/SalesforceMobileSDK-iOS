@@ -82,8 +82,34 @@ class MigrationTests: BaseAuthFlowTesterTest {
         )
     }
     
-    // MARK: - Cross-App Migrations with rollbacks
+    // MARK: - Migration to or from beacon
 
+    // Migrate from CA to Beacon
+    func testMigrateCAToBeacon() throws {
+        launchAndLogin(
+            user:.second,
+            staticAppConfigName: .caAdvancedOpaque
+        )
+        migrateAndValidate(
+            staticAppConfigName: .caAdvancedOpaque,
+            migrationAppConfigName: .beaconAdvancedOpaque
+        )
+    }
+
+    // Migrate from Beacon to CA
+    func testMigrateBeaconToCA() throws {
+        launchAndLogin(
+            user:.second,
+            staticAppConfigName: .beaconAdvancedOpaque
+        )
+        migrateAndValidate(
+            staticAppConfigName: .beaconAdvancedOpaque,
+            migrationAppConfigName: .caAdvancedOpaque
+        )
+    }
+
+    // MARK: - Cross-App Migrations with rollbacks
+    
     /// Migrate from CA to ECA and back to CA
     func testMigrateCAToECA() throws {
         launchAndLogin(

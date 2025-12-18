@@ -71,7 +71,7 @@ Tests for Beacon app configurations using web server flow with hybrid auth.
 
 ## Migration Tests
 
-### MigrationTests (6 tests)
+### MigrationTests (8 tests)
 
 Tests for migrating refresh tokens between different app configurations without re-authentication.
 
@@ -80,8 +80,10 @@ Tests for migrating refresh tokens between different app configurations without 
 | `testMigrateCA_AddMoreScopes` | CA Advanced JWT (subset) | CA Advanced JWT (all) | Yes (add more scopes) |
 | `testMigrateECA_AddMoreScopes` | ECA Advanced JWT (subset) | ECA Advanced JWT (all) | Yes (add more scopes) |
 | `testMigrateBeacon_AddMoreScopes` | Beacon Advanced JWT (subset) | Beacon Advanced JWT (all) | Yes (add more scopes) |
+| `testMigrateCAToBeacon` | CA Advanced Opaque | Beacon Advanced Opaque | No |
+| `testMigrateBeaconToCA` | Beacon Advanced Opaque | CA Advanced Opaque | No |
 | `testMigrateCAToECA` | CA Advanced Opaque → ECA Advanced Opaque → CA Advanced Opaque | Migration with rollback | No |
-| `testMigrateCAToBeaconAndBack` | CA Advanced Opaque → Beacon Advanced Opaque → CA Advanced Opaque | Migration with rollback | No |
+| `testMigrateCAToBeaconAndBack` | CA Advanced Opaque → Beacon Advanced Opaque | Migration to Beacon | No |
 | `testMigrateBeaconOpaqueToJWTAndBack` | Beacon Advanced Opaque → Beacon Advanced JWT → Beacon Advanced Opaque | Migration with rollback | No |
 
 ---
