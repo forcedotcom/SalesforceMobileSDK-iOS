@@ -771,6 +771,42 @@ class RestClientTests: XCTestCase {
         }
     }
     
+    func testRefreshWithSuccesfulRequests() async throws {
+        // Revoke access token
+        let request = try XCTUnwrap(RestClient.shared.requestForRevokeAccessToken())
+        _ = try await RestClient.shared.send(request: request)
+        
+        // Send multiple requests for replay and verify completion block is only called once per request
+        let resourcesRequest = RestClient.shared.request(forResources: nil)
+        let resourcesExpectation = XCTestExpectation(description: "Resources request")
+        resourcesExpectation.assertForOverFulfill = true
+        RestClient.shared.send(resourcesRequest) { _, error, _  in
+            XCTFail("Request unexpectedly failed with error: \(error.debugDescription)")
+        } successBlock: { _,_ in
+            resourcesExpectation.fulfill()
+        }
+        
+        let describeRequest = RestClient.shared.request(forDescribeGlobal: nil)
+        let describeExpectation = XCTestExpectation(description: "Describe request")
+        describeExpectation.assertForOverFulfill = true
+        RestClient.shared.send(describeRequest) { _, error, _  in
+            XCTFail("Request unexpectedly failed with error: \(error.debugDescription)")
+        } successBlock: { _,_ in
+            describeExpectation.fulfill()
+        }
+        
+        let contactRequest = RestClient.shared.requestForDescribe(withObjectType: "Contact", apiVersion: nil)
+        let contactExpectation = XCTestExpectation(description: "Contact request")
+        contactExpectation.assertForOverFulfill = true
+        RestClient.shared.send(contactRequest) { _, error, _ in
+            XCTFail("Request unexpectedly failed with error: \(error.debugDescription)")
+        } successBlock: { _,_ in
+           contactExpectation.fulfill()
+        }
+
+        await fulfillment(of: [resourcesExpectation, describeExpectation, contactExpectation])
+    }
+    
     private func generateRecordName() -> String {
         let timecode = Date.timeIntervalSinceReferenceDate
         return "SwiftTestsiOS\(timecode)"
