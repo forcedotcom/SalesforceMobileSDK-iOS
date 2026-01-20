@@ -237,10 +237,6 @@ NS_SWIFT_NAME(SalesforceManager)
  */
 @property (nonatomic, assign) BOOL useWebServerAuthentication;
 
-/** Whether or not the app supports welcome discovery, this should only be enabled if the connected app is supported.
- */
-@property (nonatomic, assign) BOOL supportsWelcomeDiscovery;
-
 /** Whether hybrid authentication flow should be used. Defaults to YES.
  */
 @property (nonatomic, assign) BOOL useHybridAuthentication;
