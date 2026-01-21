@@ -930,7 +930,6 @@ static NSString* const kTestAppName = @"OverridenAppName";
     NSArray *expectedFields = @[
         @"Use Web Server Authentication",
         @"Use Hybrid Authentication",
-        @"Supports Welcome Discovery",
         @"Browser Login Enabled",
         @"IDP Enabled",
         @"Identity Provider"

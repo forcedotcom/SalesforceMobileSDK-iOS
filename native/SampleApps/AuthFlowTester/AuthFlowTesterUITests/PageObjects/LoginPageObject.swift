@@ -72,13 +72,11 @@ class LoginPageObject {
         dynamicScopes: String,
         useWebServerFlow: Bool,
         useHybridFlow: Bool,
-        supportWelcomeDiscovery: Bool,
     ) -> Void {
         tap(settingsButton())
         tap(loginOptionsButton())
         setSwitchField(useWebServerFlowSwitch(), value: useWebServerFlow)
         setSwitchField(useHybridSwitch(), value: useHybridFlow)
-        setSwitchField(supportWelcomeDiscoverySwitch(), value: supportWelcomeDiscovery)
         
         if let staticAppConfig = staticAppConfig {
             let configJSON = buildConfigJSON(consumerKey: staticAppConfig.consumerKey, redirectUri: staticAppConfig.redirectUri, scopes: staticScopes)
@@ -194,10 +192,6 @@ class LoginPageObject {
 
     private func useHybridSwitch() -> XCUIElement {
         return app.switches["Use Hybrid Flow"]
-    }
-
-    private func supportWelcomeDiscoverySwitch() -> XCUIElement {
-        return app.switches["Support Welcome Discovery"]
     }
 
     private func staticConfigurationSection() -> XCUIElement {

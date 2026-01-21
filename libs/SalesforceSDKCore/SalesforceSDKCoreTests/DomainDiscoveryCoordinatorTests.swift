@@ -171,15 +171,4 @@ final class DomainDiscoveryCoordinatorTests: XCTestCase {
         XCTAssertEqual(results.myDomain, expectedDomain)
         XCTAssertEqual(results.loginHint, expectedLoginHint)
     }
-    
-    func testDiscoveryFlag() throws {
-        let coordinator = DomainDiscoveryCoordinator()
-        let domain = "welcome.salesforce.com/discovery"
-        
-        SalesforceManager.shared.supportsWelcomeDiscovery = false
-        XCTAssertFalse(coordinator.isDiscoveryDomain(domain))
-        
-        SalesforceManager.shared.supportsWelcomeDiscovery = true
-        XCTAssertTrue(coordinator.isDiscoveryDomain(domain)) 
-    }
 }

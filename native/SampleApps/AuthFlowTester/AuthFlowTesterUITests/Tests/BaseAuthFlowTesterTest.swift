@@ -85,7 +85,6 @@ class BaseAuthFlowTesterTest: XCTestCase {
     ///   - dynamicScopeSelection: The scope selection for dynamic configuration. Defaults to `.empty`.
     ///   - useWebServerFlow: Whether to use web server OAuth flow. Defaults to `true`.
     ///   - useHybridFlow: Whether to use hybrid authentication flow. Defaults to `true`.
-    ///   - supportWelcomeDiscovery: Whether to support welcome/discovery screen. Defaults to `false`.
     func login(
         user: KnownUserConfig,
         staticAppConfigName: KnownAppConfig,
@@ -94,7 +93,6 @@ class BaseAuthFlowTesterTest: XCTestCase {
         dynamicScopeSelection: ScopeSelection = .empty,
         useWebServerFlow: Bool = true,
         useHybridFlow: Bool = true,
-        supportWelcomeDiscovery: Bool = false
     ) {
         // To speed up things a bit - only configuring login host once (it never changes)
         if (!loginHostConfiguredAlready) {
@@ -115,7 +113,6 @@ class BaseAuthFlowTesterTest: XCTestCase {
             dynamicScopes: dynamicScopes,
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow,
-            supportWelcomeDiscovery: supportWelcomeDiscovery
         )
         
         loginPage.performLogin(username: userConfig.username, password: userConfig.password)
@@ -180,7 +177,6 @@ class BaseAuthFlowTesterTest: XCTestCase {
     ///   - dynamicScopeSelection: The scope selection for dynamic configuration. Defaults to `.empty`.
     ///   - useWebServerFlow: Whether to use web server OAuth flow. Defaults to `true`.
     ///   - useHybridFlow: Whether to use hybrid authentication flow. Defaults to `true`.
-    ///   - supportWelcomeDiscovery: Whether to support welcome/discovery screen. Defaults to `false`.
     func launchAndLogin(
         user: KnownUserConfig,
         staticAppConfigName: KnownAppConfig,
@@ -189,7 +185,6 @@ class BaseAuthFlowTesterTest: XCTestCase {
         dynamicScopeSelection: ScopeSelection = .empty,
         useWebServerFlow: Bool = true,
         useHybridFlow: Bool = true,
-        supportWelcomeDiscovery: Bool = false
     ) {
         // Launch
         launch()
@@ -203,7 +198,6 @@ class BaseAuthFlowTesterTest: XCTestCase {
             dynamicScopeSelection: dynamicScopeSelection,
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow,
-            supportWelcomeDiscovery: supportWelcomeDiscovery
         )
     }
     
@@ -220,7 +214,6 @@ class BaseAuthFlowTesterTest: XCTestCase {
     ///   - dynamicScopeSelection: The scope selection for dynamic configuration. Defaults to `.empty`.
     ///   - useWebServerFlow: Whether to use web server OAuth flow. Defaults to `true`.
     ///   - useHybridFlow: Whether to use hybrid authentication flow. Defaults to `true`.
-    ///   - supportWelcomeDiscovery: Whether to support welcome/discovery screen. Defaults to `false`.
     func launchLoginAndValidate(
         user: KnownUserConfig = .first,
         staticAppConfigName: KnownAppConfig,
@@ -229,7 +222,6 @@ class BaseAuthFlowTesterTest: XCTestCase {
         dynamicScopeSelection: ScopeSelection = .empty,
         useWebServerFlow: Bool = true,
         useHybridFlow: Bool = true,
-        supportWelcomeDiscovery: Bool = false
     ) {
         let useStaticConfiguration = dynamicAppConfigName == nil
         let userAppConfigName = useStaticConfiguration ? staticAppConfigName : dynamicAppConfigName!
@@ -247,7 +239,6 @@ class BaseAuthFlowTesterTest: XCTestCase {
             dynamicScopeSelection: dynamicScopeSelection,
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow,
-            supportWelcomeDiscovery: supportWelcomeDiscovery
         )
         
         // Validate
@@ -275,7 +266,6 @@ class BaseAuthFlowTesterTest: XCTestCase {
     ///   - dynamicScopeSelection: The scope selection for dynamic configuration. Defaults to `.empty`.
     ///   - useWebServerFlow: Whether to use web server OAuth flow. Defaults to `true`.
     ///   - useHybridFlow: Whether to use hybrid authentication flow. Defaults to `true`.
-    ///   - supportWelcomeDiscovery: Whether to support welcome/discovery screen. Defaults to `false`.
     func loginOtherUserAndValidate(
         user: KnownUserConfig,
         staticAppConfigName: KnownAppConfig,
@@ -284,7 +274,6 @@ class BaseAuthFlowTesterTest: XCTestCase {
         dynamicScopeSelection: ScopeSelection = .empty,
         useWebServerFlow: Bool = true,
         useHybridFlow: Bool = true,
-        supportWelcomeDiscovery: Bool = false
     ) {
         let useStaticConfiguration = dynamicAppConfigName == nil
         let userAppConfigName = useStaticConfiguration ? staticAppConfigName : dynamicAppConfigName!
@@ -302,7 +291,6 @@ class BaseAuthFlowTesterTest: XCTestCase {
             dynamicScopeSelection: dynamicScopeSelection,
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow,
-            supportWelcomeDiscovery: supportWelcomeDiscovery
         )
         
         // Validate

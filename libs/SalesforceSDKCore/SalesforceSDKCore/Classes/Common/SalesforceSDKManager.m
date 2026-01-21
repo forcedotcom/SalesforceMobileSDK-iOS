@@ -315,7 +315,6 @@ SFNativeLoginManagerInternal *nativeLogin;
         self.useWebServerAuthentication = YES;
         self.blockSalesforceIntegrationUser = NO;
         self.useHybridAuthentication = YES;
-        self.supportsWelcomeDiscovery = NO;
         [self setupServiceConfiguration];
         _snapshotViewControllers = [SFSDKSafeMutableDictionary new];
         _nativeLoginViewControllers = [SFSDKSafeMutableDictionary new];
@@ -553,7 +552,6 @@ SFNativeLoginManagerInternal *nativeLogin;
     [devInfos addObjectsFromArray:@[
             @"Use Web Server Authentication", [self useWebServerAuthentication]  ? @"YES" : @"NO",
             @"Use Hybrid Authentication", [self useHybridAuthentication]  ? @"YES" : @"NO",
-            @"Supports Welcome Discovery", [self supportsWelcomeDiscovery]  ? @"YES" : @"NO",
             @"Browser Login Enabled", [SFUserAccountManager sharedInstance].useBrowserAuth? @"YES" : @"NO",
             @"IDP Enabled", [self idpEnabled] ? @"YES" : @"NO",
             @"Identity Provider", [self isIdentityProvider] ? @"YES" : @"NO"
