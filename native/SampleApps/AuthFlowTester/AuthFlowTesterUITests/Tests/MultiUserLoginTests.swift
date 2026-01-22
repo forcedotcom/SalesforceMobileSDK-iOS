@@ -33,7 +33,7 @@ import XCTest
 /// - Same or different app types (opaque vs JWT)
 /// - Same or different scopes
 ///
-/// NB: Tests use the fourth and fifth user from test_config.json
+/// NB: Tests use the fourth and fifth user from ui_test_config.json
 ///
 class MultiUserLoginTests: BaseAuthFlowTesterTest {
         
@@ -43,24 +43,28 @@ class MultiUserLoginTests: BaseAuthFlowTesterTest {
     func testBothStatic_SameApp_SameScopes() throws {
         // Initial user
         launchAndLogin(
+            loginHost: .regularAuth,
             user: .fourth,
             staticAppConfigName: .ecaAdvancedOpaque
         )
         
         // Other user
         loginOtherUserAndValidate(
+            loginHost: .regularAuth,
             user: .fifth,
             staticAppConfigName: .ecaAdvancedOpaque
         )
         
         // Switch back to initial user
         switchToUserAndValidate(
+            loginHost: .regularAuth,
             user: .fourth,
             staticAppConfigName: .ecaAdvancedOpaque,
             userAppConfigName: .ecaAdvancedOpaque)
         
         // Switch back to other user
         switchToUserAndValidate(
+            loginHost: .regularAuth,
             user: .fifth,
             staticAppConfigName: .ecaAdvancedOpaque,
             userAppConfigName: .ecaAdvancedOpaque)
@@ -73,24 +77,28 @@ class MultiUserLoginTests: BaseAuthFlowTesterTest {
     func testBothStatic_DifferentApps() throws {
         // Initial user
         launchAndLogin(
+            loginHost: .regularAuth,
             user: .fourth,
             staticAppConfigName: .ecaAdvancedOpaque
         )
         
         // Other user
         loginOtherUserAndValidate(
+            loginHost: .regularAuth,
             user: .fifth,
             staticAppConfigName: .ecaAdvancedJwt
         )
         
         // Switch back to initial user
         switchToUserAndValidate(
+            loginHost: .regularAuth,
             user: .fourth,
             staticAppConfigName: .ecaAdvancedJwt, // static config overwritten
             userAppConfigName: .ecaAdvancedOpaque)
         
         // Switch back to other user
         switchToUserAndValidate(
+            loginHost: .regularAuth,
             user: .fifth,
             staticAppConfigName: .ecaAdvancedJwt,
             userAppConfigName: .ecaAdvancedJwt)
@@ -103,6 +111,7 @@ class MultiUserLoginTests: BaseAuthFlowTesterTest {
     func testBothStatic_SameApp_DifferentScopes() throws {
         // Initial user
         launchAndLogin(
+            loginHost: .regularAuth,
             user: .fourth,
             staticAppConfigName: .ecaAdvancedOpaque,
             staticScopeSelection: .subset
@@ -110,12 +119,14 @@ class MultiUserLoginTests: BaseAuthFlowTesterTest {
         
         // Other user
         loginOtherUserAndValidate(
+            loginHost: .regularAuth,
             user: .fifth,
             staticAppConfigName: .ecaAdvancedOpaque
         )
         
         // Switch back to initial user
         switchToUserAndValidate(
+            loginHost: .regularAuth,
             user: .fourth,
             staticAppConfigName: .ecaAdvancedOpaque,
             staticScopeSelection: .empty,
@@ -125,6 +136,7 @@ class MultiUserLoginTests: BaseAuthFlowTesterTest {
         
         // Switch back to other user
         switchToUserAndValidate(
+            loginHost: .regularAuth,
             user: .fifth,
             staticAppConfigName: .ecaAdvancedOpaque,
             staticScopeSelection: .empty,
@@ -142,12 +154,14 @@ class MultiUserLoginTests: BaseAuthFlowTesterTest {
     func testFirstStatic_SecondDynamic_DifferentApps() throws {
         // Initial user
         launchAndLogin(
+            loginHost: .regularAuth,
             user: .fourth,
             staticAppConfigName: .ecaAdvancedOpaque
         )
         
         // Other user
         loginOtherUserAndValidate(
+            loginHost: .regularAuth,
             user: .fifth,
             staticAppConfigName: .ecaAdvancedOpaque,
             dynamicAppConfigName: .ecaAdvancedJwt
@@ -155,6 +169,7 @@ class MultiUserLoginTests: BaseAuthFlowTesterTest {
         
         // Switch back to initial user
         switchToUserAndValidate(
+            loginHost: .regularAuth,
             user: .fourth,
             staticAppConfigName: .ecaAdvancedOpaque,
             userAppConfigName: .ecaAdvancedOpaque
@@ -162,6 +177,7 @@ class MultiUserLoginTests: BaseAuthFlowTesterTest {
         
         // Switch back to other user
         switchToUserAndValidate(
+            loginHost: .regularAuth,
             user: .fifth,
             staticAppConfigName: .ecaAdvancedOpaque,
             userAppConfigName: .ecaAdvancedJwt,
@@ -175,6 +191,7 @@ class MultiUserLoginTests: BaseAuthFlowTesterTest {
     func testFirstDynamic_SecondStatic_DifferentApps() throws {
         // Initial user
         launchAndLogin(
+            loginHost: .regularAuth,
             user: .fourth,
             staticAppConfigName: .ecaBasicOpaque,
             dynamicAppConfigName: .ecaAdvancedJwt
@@ -182,12 +199,14 @@ class MultiUserLoginTests: BaseAuthFlowTesterTest {
         
         // Other user
         loginOtherUserAndValidate(
+            loginHost: .regularAuth,
             user: .fifth,
             staticAppConfigName: .ecaAdvancedOpaque
         )
         
         // Switch back to initial user
         switchToUserAndValidate(
+            loginHost: .regularAuth,
             user: .fourth,
             staticAppConfigName: .ecaAdvancedOpaque,
             userAppConfigName: .ecaAdvancedJwt
@@ -195,6 +214,7 @@ class MultiUserLoginTests: BaseAuthFlowTesterTest {
         
         // Switch back to other user
         switchToUserAndValidate(
+            loginHost: .regularAuth,
             user: .fifth,
             staticAppConfigName: .ecaAdvancedOpaque,
             userAppConfigName: .ecaAdvancedOpaque,
@@ -210,6 +230,7 @@ class MultiUserLoginTests: BaseAuthFlowTesterTest {
     func testBothDynamic_DifferentApps() throws {
         // Initial user
         launchAndLogin(
+            loginHost: .regularAuth,
             user: .fourth,
             staticAppConfigName: .ecaBasicOpaque,
             dynamicAppConfigName: .ecaAdvancedOpaque
@@ -217,6 +238,7 @@ class MultiUserLoginTests: BaseAuthFlowTesterTest {
         
         // Other user
         loginOtherUserAndValidate(
+            loginHost: .regularAuth,
             user: .fifth,
             staticAppConfigName: .ecaBasicOpaque,
             dynamicAppConfigName: .ecaAdvancedJwt
@@ -224,6 +246,7 @@ class MultiUserLoginTests: BaseAuthFlowTesterTest {
 
         // Switch back to initial user
         switchToUserAndValidate(
+            loginHost: .regularAuth,
             user: .fourth,
             staticAppConfigName: .ecaBasicOpaque,
             userAppConfigName: .ecaAdvancedOpaque
@@ -231,6 +254,7 @@ class MultiUserLoginTests: BaseAuthFlowTesterTest {
         
         // Switch back to other user
         switchToUserAndValidate(
+            loginHost: .regularAuth,
             user: .fifth,
             staticAppConfigName: .ecaBasicOpaque,
             userAppConfigName: .ecaAdvancedJwt,

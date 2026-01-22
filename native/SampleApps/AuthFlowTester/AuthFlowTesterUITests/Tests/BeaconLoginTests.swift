@@ -30,42 +30,50 @@ import XCTest
 /// Tests for login flows using Beacon app configurations.
 /// Beacon apps are lightweight authentication apps for specific use cases.
 ///
-/// NB: Tests use the first user from test_config.json
+/// NB: Tests use the first user from ui_test_config.json
 ///
 class BeaconLoginTests: BaseAuthFlowTesterTest {
+    
+    // MARK: - Login Host Configuration
+    
+    /// Returns the login host configuration to use for tests.
+    /// Subclasses can override this to use a different login host.
+    func loginHostConfig() -> KnownLoginHostConfig {
+        return .regularAuth
+    }
     
     // MARK: - Beacon Opaque Tests
     
     /// Login with Beacon advanced opaque using default scopes and web server flow.
     func testBeaconAdvancedOpaque_DefaultScopes() throws {
-        launchLoginAndValidate(staticAppConfigName: .beaconAdvancedOpaque)
+        launchLoginAndValidate(loginHost: loginHostConfig(), staticAppConfigName: .beaconAdvancedOpaque)
     }
     
     /// Login with Beacon advanced opaque using subset of scopes and web server flow.
     func testBeaconAdvancedOpaque_SubsetScopes() throws {
-        launchLoginAndValidate(staticAppConfigName: .beaconAdvancedOpaque, staticScopeSelection: .subset)
+        launchLoginAndValidate(loginHost: loginHostConfig(), staticAppConfigName: .beaconAdvancedOpaque, staticScopeSelection: .subset)
     }
         
     /// Login with Beacon advanced opaque using all scopes and web server flow.
     func testBeaconAdvancedOpaque_AllScopes() throws {
-        launchLoginAndValidate(staticAppConfigName: .beaconAdvancedOpaque, staticScopeSelection: .all)
+        launchLoginAndValidate(loginHost: loginHostConfig(), staticAppConfigName: .beaconAdvancedOpaque, staticScopeSelection: .all)
     }
     
     // MARK: - Beacon JWT Tests
     
     /// Login with Beacon advanced JWT using default scopes and web server flow.
     func testBeaconAdvancedJwt_DefaultScopes() throws {
-        launchLoginAndValidate(staticAppConfigName: .beaconAdvancedJwt)
+        launchLoginAndValidate(loginHost: loginHostConfig(), staticAppConfigName: .beaconAdvancedJwt)
     }
     
     /// Login with Beacon advanced JWT using subset of scopes and web server flow.
     func testBeaconAdvancedJwt_SubsetScopes() throws {
-        launchLoginAndValidate(staticAppConfigName: .beaconAdvancedJwt, staticScopeSelection: .subset)
+        launchLoginAndValidate(loginHost: loginHostConfig(), staticAppConfigName: .beaconAdvancedJwt, staticScopeSelection: .subset)
     }
     
     /// Login with Beacon advanced JWT using all scopes and web server flow.
     func testBeaconAdvancedJwt_AllScopes() throws {
-        launchLoginAndValidate(staticAppConfigName: .beaconAdvancedJwt, staticScopeSelection: .all)
+        launchLoginAndValidate(loginHost: loginHostConfig(), staticAppConfigName: .beaconAdvancedJwt, staticScopeSelection: .all)
     }
     
     // MARK: - Using dynamic config
@@ -74,10 +82,12 @@ class BeaconLoginTests: BaseAuthFlowTesterTest {
     /// Restart the application and validate it still works afterwards
     func testBeaconAdvancedJwt_DefaultScopes_DynamicConfiguration_WithRestart() throws {
         launchLoginAndValidate(
+            loginHost: loginHostConfig(),
             staticAppConfigName: .beaconAdvancedOpaque,
             dynamicAppConfigName: .beaconAdvancedJwt
         )
         restartAndValidate(
+            loginHost: loginHostConfig(),
             userAppConfigName: .beaconAdvancedJwt
         )
     }
@@ -86,11 +96,13 @@ class BeaconLoginTests: BaseAuthFlowTesterTest {
     /// Restart the application and validate it still works afterwards
     func testBeaconAdvancedJwt_SubsetScopes_DynamicConfiguration_WithRestart() throws {
         launchLoginAndValidate(
+            loginHost: loginHostConfig(),
             staticAppConfigName: .beaconAdvancedOpaque,
             dynamicAppConfigName: .beaconAdvancedJwt,
             dynamicScopeSelection: .subset
         )
         restartAndValidate(
+            loginHost: loginHostConfig(),
             userAppConfigName: .beaconAdvancedJwt,
             userScopeSelection: .subset
         )

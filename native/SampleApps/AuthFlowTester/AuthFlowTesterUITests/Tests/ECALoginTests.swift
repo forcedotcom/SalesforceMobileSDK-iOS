@@ -30,7 +30,7 @@ import XCTest
 /// Tests for login flows using External Client App (ECA) configurations.
 /// ECA apps are first-party Salesforce apps that use enhanced authentication flows.
 ///
-/// NB: Tests use the first user from test_config.json
+/// NB: Tests use the first user from ui_test_config.json
 ///
 class ECALoginTests: BaseAuthFlowTesterTest {
     

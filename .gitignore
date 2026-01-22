@@ -20,6 +20,7 @@ shared/test/test_credentials.json
 /libs/MobileSync/build/
 /libs/SalesforceSDKCommon/build/
 /native/SampleApps/RestAPIExplorer/build/
+/native/SampleApps/AuthFlowTester/AuthFlowTesterUITests/ui_test_config.json
 node_modules/
 .idea/
 package-lock.json

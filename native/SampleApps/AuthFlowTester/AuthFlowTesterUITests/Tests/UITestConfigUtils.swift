@@ -1,5 +1,5 @@
 /*
- TestConfigUtils.swift
+ UITestConfigUtils.swift
  AuthFlowTesterUITests
  
  Copyright (c) 2025-present, salesforce.com, inc. All rights reserved.
@@ -38,34 +38,37 @@ enum TestConfigError: Error, CustomStringConvertible {
     case userNotFound(String)
     case appNotFound(String)
     case appNotConfigured(String)
+    case loginHostNotFound(String)
     
     var description: String {
         switch self {
         case .noPrimaryUser:
-            return "No primary user found in test_config.json"
+            return "No primary user found in ui_test_config.json"
         case .noSecondaryUser:
-            return "No secondary user found in test_config.json"
+            return "No secondary user found in ui_test_config.json"
         case .noThirdUser:
-            return "No third user found in test_config.json"
+            return "No third user found in ui_test_config.json"
         case .noFourthUser:
-            return "No fourth user found in test_config.json"
+            return "No fourth user found in ui_test_config.json"
         case .noFifthUser:
-            return "No fifth user found in test_config.json"
+            return "No fifth user found in ui_test_config.json"
         case .userNotFound(let username):
-            return "User '\(username)' not found in test_config.json"
+            return "User '\(username)' not found in ui_test_config.json"
         case .appNotFound(let appName):
-            return "App '\(appName)' not found in test_config.json"
+            return "App '\(appName)' not found in ui_test_config.json"
         case .appNotConfigured(let appName):
-            return "App '\(appName)' has empty consumerKey in test_config.json"
+            return "App '\(appName)' has empty consumerKey in ui_test_config.json"
+        case .loginHostNotFound(let hostName):
+            return "Login host '\(hostName)' not found in ui_test_config.json"
         }
     }
 }
 
-// MAKR: - ScopeSelection
+// MARK: - ScopeSelection
 enum ScopeSelection {
     case empty // will not send scopes param - should be granted all the scopes defined on the server
-    case all // will send all the scopes defined in test_config.json
-    case subset // will send a subset of the scopes defined in test_config.json
+    case all // will send all the scopes defined in ui_test_config.json
+    case subset // will send a subset of the scopes defined in ui_test_config.json
 }
 
 // MARK: - Configured Users
@@ -76,6 +79,13 @@ enum KnownUserConfig {
     case third
     case fourth
     case fifth
+}
+
+// MARK: - Login Host Names
+
+enum KnownLoginHostConfig: String {
+    case regularAuth = "regular_auth"
+    case advancedAuth = "advanced_auth"
 }
 
 // MARK: - App Names
@@ -96,6 +106,20 @@ enum KnownAppConfig: String {
 }
 
 // MARK: - Configuration Models
+
+/// Represents a login host configuration for testing
+struct LoginHostConfig: Codable {
+    let name: String
+    let url: String
+    let users: [UserConfig]
+    
+    /// Returns URL without protocol (https:// or http://)
+    var urlNoProtocol: String {
+        return url
+            .replacingOccurrences(of: "https://", with: "")
+            .replacingOccurrences(of: "http://", with: "")
+    }
+}
 
 /// Represents an app configuration for testing
 struct AppConfig: Codable {
@@ -123,18 +147,17 @@ struct UserConfig: Codable {
 
 /// Represents the complete test configuration
 struct TestConfig: Codable {
-    let loginHost: String
+    let loginHosts: [LoginHostConfig]
     let apps: [AppConfig]
-    let users: [UserConfig]
 }
 
 // MARK: - Configuration Utility
 
-/// Utility class to parse and access test configuration from test_config.json in the test bundle
-class TestConfigUtils {
+/// Utility class to parse and access test configuration from ui_test_config.json in the test bundle
+class UITestConfigUtils {
     
     /// Shared singleton instance
-    static let shared = TestConfigUtils()
+    static let shared = UITestConfigUtils()
     
     /// Parsed test configuration (nil if not provided or parsing failed)
     private(set) var config: TestConfig?
@@ -148,23 +171,23 @@ class TestConfigUtils {
     
     // MARK: - Configuration Parsing
     
-    /// Parses the test configuration from test_config.json file in the test bundle
+    /// Parses the test configuration from ui_test_config.json file in the test bundle
     private func parseConfiguration() {
         // Get the bundle for this class
-        let bundle = Bundle(for: TestConfigUtils.self)
+        let bundle = Bundle(for: UITestConfigUtils.self)
         
-        // Look for test_config.json file
-        guard let configPath = bundle.path(forResource: "test_config", ofType: "json") else {
-            print("⚠️ test_config.json file not found in test bundle")
+        // Look for ui_test_config.json file
+        guard let configPath = bundle.path(forResource: "ui_test_config", ofType: "json") else {
+            print("⚠️ ui_test_config.json file not found in test bundle")
             return
         }
         
         // Read the file contents
         guard let jsonData = try? Data(contentsOf: URL(fileURLWithPath: configPath)) else {
-            let error = NSError(domain: "TestConfigUtils", code: 1,
-                              userInfo: [NSLocalizedDescriptionKey: "Failed to read test_config.json file"])
+            let error = NSError(domain: "UITestConfigUtils", code: 1,
+                              userInfo: [NSLocalizedDescriptionKey: "Failed to read ui_test_config.json file"])
             parseError = error
-            print("❌ Failed to read test_config.json file")
+            print("❌ Failed to read ui_test_config.json file")
             return
         }
         
@@ -172,10 +195,9 @@ class TestConfigUtils {
         do {
             let decoder = JSONDecoder()
             config = try decoder.decode(TestConfig.self, from: jsonData)
-            print("✅ Test configuration loaded successfully from test_config.json")
-            print("   Login Host: \(config?.loginHost ?? "none")")
+            print("✅ Test configuration loaded successfully from ui_test_config.json")
+            print("   Login Hosts: \(config?.loginHosts.count ?? 0)")
             print("   Apps: \(config?.apps.count ?? 0)")
-            print("   Users: \(config?.users.count ?? 0)")
         } catch {
             parseError = error
             print("❌ Failed to parse test configuration: \(error.localizedDescription)")
@@ -189,25 +211,14 @@ class TestConfigUtils {
         return config != nil
     }
     
-    /// Returns the login host from configuration
-    var loginHost: String? {
-        return config?.loginHost
-    }
-    
-    var loginHostNoProtocol: String? {
-        return loginHost?
-            .replacingOccurrences(of: "https://", with: "")
-            .replacingOccurrences(of: "http://", with: "")
+    /// Returns all login hosts from configuration
+    var loginHosts: [LoginHostConfig] {
+        return config?.loginHosts ?? []
     }
     
     /// Returns all apps from configuration
     var apps: [AppConfig] {
         return config?.apps ?? []
-    }
-    
-    /// Returns all users from configuration
-    var users: [UserConfig] {
-        return config?.users ?? []
     }
     
     // MARK: - Scope Utilities
@@ -231,41 +242,51 @@ class TestConfigUtils {
     
     // MARK: - Throwing Accessors
     
-    /// Returns a user by their position (first or second) or throws an error if not found
-    func getUser(_ user: KnownUserConfig) throws -> UserConfig {
+    /// Returns a login host configuration by its name or throws an error if not found
+    func getLoginHost(_ loginHost: KnownLoginHostConfig) throws -> LoginHostConfig {
+        guard let hostConfig = config?.loginHosts.first(where: { $0.name == loginHost.rawValue }) else {
+            throw TestConfigError.loginHostNotFound(loginHost.rawValue)
+        }
+        return hostConfig
+    }
+    
+    /// Returns a user by their position (first, second, etc.) for a specific login host or throws an error if not found
+    func getUser(_ loginHost: KnownLoginHostConfig, _ user: KnownUserConfig) throws -> UserConfig {
+        let hostConfig = try getLoginHost(loginHost)
+        
         switch user {
         case .first:
-            guard let firstUser = config?.users.first else {
+            guard let firstUser = hostConfig.users.first else {
                 throw TestConfigError.noPrimaryUser
             }
             return firstUser
         case .second:
-            guard let users = config?.users, users.count >= 2 else {
+            guard hostConfig.users.count >= 2 else {
                 throw TestConfigError.noSecondaryUser
             }
-            return users[1]
+            return hostConfig.users[1]
         case .third:
-            guard let users = config?.users, users.count >= 3 else {
+            guard hostConfig.users.count >= 3 else {
                 throw TestConfigError.noThirdUser
             }
-            return users[2]
+            return hostConfig.users[2]
         case .fourth:
-            guard let users = config?.users, users.count >= 4 else {
+            guard hostConfig.users.count >= 4 else {
                 throw TestConfigError.noFourthUser
             }
-            return users[3]
+            return hostConfig.users[3]
         case .fifth:
-            guard let users = config?.users, users.count >= 5 else {
+            guard hostConfig.users.count >= 5 else {
                 throw TestConfigError.noFifthUser
             }
-            return users[4]
+            return hostConfig.users[4]
         }
     }
     
-    /// Returns a known user config by their username or throws an error if not found
-    func getKnownUserConfig(byUsername username: String) throws -> KnownUserConfig {
-        guard let users = config?.users,
-              let index = users.firstIndex(where: { $0.username == username }) else {
+    /// Returns a known user config by their username for a specific login host or throws an error if not found
+    func getKnownUserConfig(_ loginHost: KnownLoginHostConfig, byUsername username: String) throws -> KnownUserConfig {
+        let hostConfig = try getLoginHost(loginHost)
+        guard let index = hostConfig.users.firstIndex(where: { $0.username == username }) else {
             throw TestConfigError.userNotFound(username)
         }
         switch index {
@@ -301,10 +322,9 @@ class TestConfigUtils {
     /// Returns expected scopes granted
     func getExpectedScopesGranted(for appConfig:AppConfig, _ scopeSelection: ScopeSelection) -> String {
         switch(scopeSelection) {
-        case .empty: return appConfig.scopes // that assumes the scopes in test_config.json match the server config
+        case .empty: return appConfig.scopes // that assumes the scopes in ui_test_config.json match the server config
         case .subset: return removeScope(scopes: appConfig.scopes, scopeToRemove: "sfap_api") // that assumes the selected ca/eca/beacon has the sfap_api scope
         case .all: return appConfig.scopes
         }
     }
 }
-
