@@ -30,7 +30,6 @@ class AuthFlowTypesViewTests: XCTestCase {
     
     var originalUseWebServerAuth: Bool!
     var originalUseHybridAuth: Bool!
-    var originalSupportsWelcomeDiscovery: Bool!
     
     override func setUp() {
         super.setUp()
@@ -38,14 +37,12 @@ class AuthFlowTypesViewTests: XCTestCase {
         // Save original state to restore in tearDown
         originalUseWebServerAuth = SalesforceManager.shared.useWebServerAuthentication
         originalUseHybridAuth = SalesforceManager.shared.useHybridAuthentication
-        originalSupportsWelcomeDiscovery = SalesforceManager.shared.supportsWelcomeDiscovery
     }
     
     override func tearDown() {
         // Restore original state
         SalesforceManager.shared.useWebServerAuthentication = originalUseWebServerAuth
         SalesforceManager.shared.useHybridAuthentication = originalUseHybridAuth
-        SalesforceManager.shared.supportsWelcomeDiscovery = originalSupportsWelcomeDiscovery
         
         super.tearDown()
     }
@@ -56,8 +53,7 @@ class AuthFlowTypesViewTests: XCTestCase {
         // Set specific toggle states before creating the view
         SalesforceManager.shared.useWebServerAuthentication = true
         SalesforceManager.shared.useHybridAuthentication = false
-        SalesforceManager.shared.supportsWelcomeDiscovery = true
-        
+
         let view = AuthFlowTypesView()
         let hostingController = UIHostingController(rootView: view)
         
@@ -79,8 +75,6 @@ class AuthFlowTypesViewTests: XCTestCase {
                          "Web server authentication should be enabled")
             XCTAssertFalse(SalesforceManager.shared.useHybridAuthentication, 
                           "Hybrid authentication should be disabled")
-            XCTAssertTrue(SalesforceManager.shared.supportsWelcomeDiscovery, 
-                         "Welcome discovery should be enabled")
             
             // Clean up
             window.rootViewController = nil

@@ -30,12 +30,10 @@ import SwiftUI
 public struct AuthFlowTypesView: View {
     @State private var useWebServerFlow: Bool
     @State private var useHybridFlow: Bool
-    @State private var supportsWelcomeDiscovery: Bool
     
     public init() {
         _useWebServerFlow = State(initialValue: SalesforceManager.shared.useWebServerAuthentication)
         _useHybridFlow = State(initialValue: SalesforceManager.shared.useHybridAuthentication)
-        _supportsWelcomeDiscovery = State(initialValue: SalesforceManager.shared.supportsWelcomeDiscovery)
     }
     
     public var body: some View {
@@ -60,15 +58,6 @@ public struct AuthFlowTypesView: View {
                 }
                 .onChange(of: useHybridFlow) { _, newValue in
                     SalesforceManager.shared.useHybridAuthentication = newValue
-                }
-                .padding(.horizontal)
-                
-                Toggle(isOn: $supportsWelcomeDiscovery) {
-                    Text("Support Welcome Discovery")
-                        .font(.body)
-                }
-                .onChange(of: supportsWelcomeDiscovery) { _, newValue in
-                    SalesforceManager.shared.supportsWelcomeDiscovery = newValue
                 }
                 .padding(.horizontal)
             }

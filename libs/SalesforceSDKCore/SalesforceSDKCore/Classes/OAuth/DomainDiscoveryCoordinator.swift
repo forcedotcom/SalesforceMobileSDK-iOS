@@ -87,11 +87,7 @@ public class DomainDiscoveryCoordinator: NSObject {
     public func isDiscoveryDomain(_ domain: String?) -> Bool {
         guard let domain = domain else { return false }
         let isDiscovery = domain.lowercased().contains(DomainDiscovery.URLComponent.path.rawValue)
-        let discoveryEnabled = SalesforceManager.shared.supportsWelcomeDiscovery
-        if isDiscovery && !discoveryEnabled {
-            SFSDKCoreLogger.w(classForCoder, message: "\(domain) is a discovery domain, but welcome discovery isn't enabled.")
-        }
-        return isDiscovery && discoveryEnabled
+        return isDiscovery
     }
 }
 
