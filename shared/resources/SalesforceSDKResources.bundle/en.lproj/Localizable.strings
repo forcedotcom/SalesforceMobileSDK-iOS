@@ -58,7 +58,6 @@
 "TITLE_LOGIN" = "Log In";
 "LOGIN_SERVER_PRODUCTION" = "Production";
 "LOGIN_SERVER_SANDBOX" = "Sandbox";
-"LOGIN_SERVER_WELCOME" = "Welcome";
 "LOGIN_CHOOSE_SERVER" = "Choose Connection";
 "LOGIN_ADD_SERVER" = "Add Connection";
 "LOGIN_SERVER_URL" = "Host";
