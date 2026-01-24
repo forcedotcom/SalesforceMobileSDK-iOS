@@ -27,6 +27,7 @@
 
 import Foundation
 import XCTest
+import SalesforceSDKCore
 
 // MARK: - Label Constants (mirroring the app's Labels structs for JSON parsing)
 
@@ -270,10 +271,9 @@ class AuthFlowTesterMainPageObject {
         // Tap Change Key button to open the sheet
         tap(bottomBarChangeKeyButton())
         
-        // Fill in the text fields
-        setTextField(consumerKeyTextField(), value: appConfig.consumerKey)
-        setTextField(callbackUrlTextField(), value: appConfig.redirectUri)
-        setTextField(scopesTextField(), value: scopesToRequest)
+        // Build JSON config and import it
+        let configJSON = buildConfigJSON(consumerKey: appConfig.consumerKey, redirectUri: appConfig.redirectUri, scopes: scopesToRequest)
+        importConfig(configJSON)
         
         // Tap the migrate button
         tap(migrateRefreshTokenButton())
@@ -287,6 +287,35 @@ class AuthFlowTesterMainPageObject {
             return false
         }
         return true
+    }
+    
+    // MARK: - Config Import Helpers
+    
+    private func buildConfigJSON(consumerKey: String, redirectUri: String, scopes: String) -> String {
+        let config: [String: String] = [
+            BootConfigJSONKeys.consumerKey: consumerKey,
+            BootConfigJSONKeys.redirectUri: redirectUri,
+            BootConfigJSONKeys.scopes: scopes
+        ]
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: config, options: []),
+              let jsonString = String(data: jsonData, encoding: .utf8) else {
+            return "{}"
+        }
+        return jsonString
+    }
+    
+    private func importConfig(_ jsonString: String) {
+        tap(importConfigButton())
+        
+        // Wait for alert to appear
+        let alert = importConfigAlert()
+        _ = alert.waitForExistence(timeout: timeout)
+        
+        // Type into the alert's text field
+        let textField = importConfigTextField()
+        textField.typeText(jsonString)
+        
+        tap(importAlertButton())
     }
     
     // MARK: - UI Element Accessors
@@ -371,6 +400,25 @@ class AuthFlowTesterMainPageObject {
         let buttons = app.webViews.webViews.webViews.buttons
         let predicate = NSPredicate(format: "label CONTAINS[c] 'Allow'")
         return buttons.matching(predicate).firstMatch
+    }
+    
+    // Config import
+    
+    private func importConfigButton() -> XCUIElement {
+        return app.buttons.matching(identifier: "importConfigButton").firstMatch
+    }
+    
+    private func importConfigAlert() -> XCUIElement {
+        return app.alerts["Import Configuration"]
+    }
+    
+    private func importConfigTextField() -> XCUIElement {
+        // Access text field through the alert - SwiftUI alert TextFields are accessed this way
+        return importConfigAlert().textFields.firstMatch
+    }
+    
+    private func importAlertButton() -> XCUIElement {
+        return importConfigAlert().buttons["Import"]
     }
     
     // User switching
