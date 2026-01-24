@@ -292,6 +292,7 @@ class LoginPageObject {
         }
         
         textField.typeText(value)
+        tapIfPresent(toolbarDoneButton())
     }
     
     private func setSwitchField(_ switchField: XCUIElement, value: Bool) {

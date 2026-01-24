@@ -37,7 +37,6 @@ class BaseAuthFlowTesterTest: XCTestCase {
 
     // Test configuration
     private let testConfig = UITestConfigUtils.shared
-    private var loginHostConfiguredAlready = false
 
     override func setUp() {
         super.setUp()
@@ -46,7 +45,12 @@ class BaseAuthFlowTesterTest: XCTestCase {
     
     override func tearDown() {
         logout()
+        postLogoutCleanup()
         super.tearDown()
+    }
+    
+    func postLogoutCleanup() {
+        // Some tests might need to do more e.g. switch back to login host that uses regular auth so that login settings is shown
     }
     
     // MARK: - Public API for Subclasses
@@ -90,11 +94,6 @@ class BaseAuthFlowTesterTest: XCTestCase {
         useWebServerFlow: Bool = true,
         useHybridFlow: Bool = true,
     ) {
-        // The login settings button is shown only for regular authentication
-        // If the configured login host uses advanced authentication
-        // we need to switch a login host that does not use it (login.salesforce.com)
-        loginPage.switchToLSCIfShowingAdvancedAuthentication()
-        
         let userConfig = getUser(loginHost: loginHost, user: user)
         let staticAppConfig = getAppConfig(named: staticAppConfigName)
         let dynamicAppConfig = dynamicAppConfigName == nil ? nil : getAppConfig(named: dynamicAppConfigName!)
@@ -110,7 +109,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
             useHybridFlow: useHybridFlow,
         )
         
-        // NBL Configuring login host last
+        // Configuring login host last
         // When the configured login host requires advanced authentication
         // the login settings button is no longer available on the screen
         let hostConfig = try! testConfig.getLoginHost(loginHost)
@@ -409,6 +408,10 @@ class BaseAuthFlowTesterTest: XCTestCase {
             migratedUserCredentials.refreshToken,
             "Refresh token should have been migrated"
         )
+    }
+    
+    func switchToLSCIfShowingAdvancedAuthentication() {
+        loginPage.switchToLSCIfShowingAdvancedAuthentication()
     }
     
     // MARK: - Private Helpers

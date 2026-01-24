@@ -40,4 +40,8 @@ class AdvancedAuthBeaconLoginTests: BeaconLoginTests {
     override func loginHostConfig() -> KnownLoginHostConfig {
         return .advancedAuth
     }
+    
+    override func postLogoutCleanup() {
+        switchToLSCIfShowingAdvancedAuthentication()
+    }
 }
