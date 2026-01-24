@@ -265,7 +265,7 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
  the lifetime of the coordinator object, the user agent configured for the system will be reset back to
  its original value in between authentication requests.
  */
-@property (nonatomic, copy) NSString *userAgentForAuth;
+@property (nonatomic, copy) NSString *userAgentForAuth SFSDK_DEPRECATED(13.2, 14.0, "Not used, will be removed.");
 
 /**
  An array of additional keys (NSString) to parse during OAuth
