@@ -315,7 +315,7 @@ class LoginPageObject {
     }
     
     private func isShowingAdvancedAuth() -> Bool {
-        return advancedAuthCloseButton().waitForExistence(timeout: timeout)
+        return advancedAuthCloseButton().waitForExistence(timeout: 1)
     }
     
 }

@@ -45,12 +45,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
     
     override func tearDown() {
         logout()
-        postLogoutCleanup()
         super.tearDown()
-    }
-    
-    func postLogoutCleanup() {
-        // Some tests might need to do more e.g. switch back to login host that uses regular auth so that login settings is shown
     }
     
     // MARK: - Public API for Subclasses
@@ -68,6 +63,9 @@ class BaseAuthFlowTesterTest: XCTestCase {
         if (mainPage.isShowing()) {
             logout()
         }
+        
+        // Switch login server if advanced authentication is showing
+        loginPage.switchToLSCIfShowingAdvancedAuthentication()
     }
     
     /// Performs login with the specified configuration.
@@ -408,10 +406,6 @@ class BaseAuthFlowTesterTest: XCTestCase {
             migratedUserCredentials.refreshToken,
             "Refresh token should have been migrated"
         )
-    }
-    
-    func switchToLSCIfShowingAdvancedAuthentication() {
-        loginPage.switchToLSCIfShowingAdvancedAuthentication()
     }
     
     // MARK: - Private Helpers
