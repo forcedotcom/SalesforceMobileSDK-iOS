@@ -32,7 +32,7 @@ import XCTest
 /// - User agent flow tests
 /// - Non-hybrid flow tests
 ///
-/// NB: Tests use the first user from test_config.json
+/// NB: Tests use the first user from ui_test_config.json
 ///
 class LegacyLoginTests: BaseAuthFlowTesterTest {
 

@@ -31,7 +31,7 @@ import XCTest
 /// These tests verify that users can seamlessly transition between app types
 /// (CA, ECA, Beacon) and token formats (opaque, JWT) without re-authentication.
 ///
-/// NB: Tests use the second user from test_config.json
+/// NB: Tests use the second user from ui_test_config.json
 ///
 class MigrationTests: BaseAuthFlowTesterTest {
     
@@ -40,11 +40,13 @@ class MigrationTests: BaseAuthFlowTesterTest {
     /// Migrate within same CA (scope upgrade).
     func testMigrateCA_AddMoreScopes() throws {
         launchAndLogin(
+            loginHost: .regularAuth,
             user:.second,
             staticAppConfigName: .caAdvancedJwt,
             staticScopeSelection: .subset
         )
         migrateAndValidate(
+            loginHost: .regularAuth,
             staticAppConfigName: .caAdvancedJwt,
             staticScopeSelection: .subset,
             migrationAppConfigName: .caAdvancedJwt,
@@ -55,11 +57,13 @@ class MigrationTests: BaseAuthFlowTesterTest {
     /// Migrate within same ECA (scope upgrade).
     func testMigrateECA_AddMoreScopes() throws {
         launchAndLogin(
+            loginHost: .regularAuth,
             user:.second,
             staticAppConfigName: .ecaAdvancedJwt,
             staticScopeSelection: .subset
         )
         migrateAndValidate(
+            loginHost: .regularAuth,
             staticAppConfigName: .ecaAdvancedJwt,
             staticScopeSelection: .subset,
             migrationAppConfigName: .ecaAdvancedJwt,
@@ -70,11 +74,13 @@ class MigrationTests: BaseAuthFlowTesterTest {
     /// Migrate within same Beacon (scope upgrade).
     func testMigrateBeacon_AddMoreScopes() throws {
         launchAndLogin(
+            loginHost: .regularAuth,
             user:.second,
             staticAppConfigName: .beaconAdvancedJwt,
             staticScopeSelection: .subset
         )
         migrateAndValidate(
+            loginHost: .regularAuth,
             staticAppConfigName: .beaconAdvancedJwt,
             staticScopeSelection: .subset,
             migrationAppConfigName: .beaconAdvancedJwt,
@@ -87,10 +93,12 @@ class MigrationTests: BaseAuthFlowTesterTest {
     // Migrate from CA to Beacon
     func testMigrateCAToBeacon() throws {
         launchAndLogin(
+            loginHost: .regularAuth,
             user:.second,
             staticAppConfigName: .caAdvancedOpaque
         )
         migrateAndValidate(
+            loginHost: .regularAuth,
             staticAppConfigName: .caAdvancedOpaque,
             migrationAppConfigName: .beaconAdvancedOpaque
         )
@@ -99,10 +107,12 @@ class MigrationTests: BaseAuthFlowTesterTest {
     // Migrate from Beacon to CA
     func testMigrateBeaconToCA() throws {
         launchAndLogin(
+            loginHost: .regularAuth,
             user:.second,
             staticAppConfigName: .beaconAdvancedOpaque
         )
         migrateAndValidate(
+            loginHost: .regularAuth,
             staticAppConfigName: .beaconAdvancedOpaque,
             migrationAppConfigName: .caAdvancedOpaque
         )
@@ -113,14 +123,17 @@ class MigrationTests: BaseAuthFlowTesterTest {
     /// Migrate from CA to ECA and back to CA
     func testMigrateCAToECA() throws {
         launchAndLogin(
+            loginHost: .regularAuth,
             user:.second,
             staticAppConfigName: .caAdvancedOpaque
         )
         migrateAndValidate(
+            loginHost: .regularAuth,
             staticAppConfigName: .caAdvancedOpaque,
             migrationAppConfigName: .ecaAdvancedOpaque
         )
         migrateAndValidate(
+            loginHost: .regularAuth,
             staticAppConfigName: .caAdvancedOpaque, // should not have changed
             migrationAppConfigName: .caAdvancedOpaque
         )
@@ -129,14 +142,17 @@ class MigrationTests: BaseAuthFlowTesterTest {
     // Migrate from CA to Beacon and back to CA
     func testMigrateCAToBeaconAndBack() throws {
         launchAndLogin(
+            loginHost: .regularAuth,
             user:.second,
             staticAppConfigName: .caAdvancedOpaque
         )
         migrateAndValidate(
+            loginHost: .regularAuth,
             staticAppConfigName: .caAdvancedOpaque,
             migrationAppConfigName: .beaconAdvancedOpaque
         )
         migrateAndValidate(
+            loginHost: .regularAuth,
             staticAppConfigName: .caAdvancedOpaque, // should not have changed
             migrationAppConfigName: .caAdvancedOpaque
         )
@@ -145,14 +161,17 @@ class MigrationTests: BaseAuthFlowTesterTest {
     /// Migrate from Beacon opaque to Beacon JWT and back to Beacon opaque
     func testMigrateBeaconOpaqueToJWTAndBack() throws {
         launchAndLogin(
+            loginHost: .regularAuth,
             user:.second,
             staticAppConfigName: .beaconAdvancedOpaque
         )
         migrateAndValidate(
+            loginHost: .regularAuth,
             staticAppConfigName: .beaconAdvancedOpaque,
             migrationAppConfigName: .beaconAdvancedJwt
         )
         migrateAndValidate(
+            loginHost: .regularAuth,
             staticAppConfigName: .beaconAdvancedOpaque, // should not have changed
             migrationAppConfigName: .beaconAdvancedOpaque
         )

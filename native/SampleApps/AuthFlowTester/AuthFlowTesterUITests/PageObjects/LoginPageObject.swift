@@ -43,6 +43,13 @@ class LoginPageObject {
         return loginNavigationBar().waitForExistence(timeout: timeout)
     }
     
+    func switchToLSCIfShowingAdvancedAuthentication() -> Void {
+        if (isShowingAdvancedAuth()) {
+            tap(advancedAuthCloseButton())
+            tap(hostRow(host: "Production"))
+        }
+    }
+    
     func configureLoginHost(host: String) -> Void {
         tap(settingsButton())
         tap(changeServerButton())
@@ -60,7 +67,9 @@ class LoginPageObject {
     
     func performLogin(username: String, password: String) {
         setTextField(usernameField(), value: username)
+        tap(passwordFieldLabel()) // click on label to hide keyboard
         setTextField(passwordField(), value: password)
+        tap(usernameFieldLabel()) // click on label to hide keyboard
         tap(loginButton())
         tapIfPresent(allowButton())
     }
@@ -163,9 +172,17 @@ class LoginPageObject {
     private func hostRow(host: String) -> XCUIElement {
         return app.staticTexts[host].firstMatch
     }
+
+    private func usernameFieldLabel() -> XCUIElement {
+        return app.staticTexts["Username"]
+    }
     
     private func usernameField() -> XCUIElement {
         return app.descendants(matching: .textField).element
+    }
+    
+    private func passwordFieldLabel() -> XCUIElement {
+        return app.staticTexts["Password"]
     }
     
     private func passwordField() -> XCUIElement {
@@ -239,6 +256,10 @@ class LoginPageObject {
         return importConfigAlert().buttons["Import"]
     }
     
+    private func advancedAuthCloseButton() -> XCUIElement {
+        return app.otherElements["TopBrowserBar"].buttons["Close"]
+    }
+    
     // MARK: - Actions
     
     private func tap(_ element: XCUIElement) {
@@ -291,6 +312,10 @@ class LoginPageObject {
     private func hasHost(host: String) -> Bool {
         let row = hostRow(host: host)
         return row.waitForExistence(timeout: timeout)
+    }
+    
+    private func isShowingAdvancedAuth() -> Bool {
+        return advancedAuthCloseButton().waitForExistence(timeout: 1)
     }
     
 }

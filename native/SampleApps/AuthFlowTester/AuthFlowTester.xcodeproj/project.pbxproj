@@ -83,7 +83,7 @@
 		4F5946272ED670C7003C5BDE /* Exceptions for "AuthFlowTesterUITests" folder in "AuthFlowTesterUITests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				test_config.json.sample,
+				ui_test_config.json.sample,
 			);
 			target = 4F8E4AF02ED13CE800DA7B7A /* AuthFlowTesterUITests */;
 		};

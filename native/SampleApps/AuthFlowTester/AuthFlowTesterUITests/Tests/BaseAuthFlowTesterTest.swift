@@ -36,18 +36,11 @@ class BaseAuthFlowTesterTest: XCTestCase {
     private var mainPage: AuthFlowTesterMainPageObject!
 
     // Test configuration
-    private let testConfig = TestConfigUtils.shared
-    private let host: String = TestConfigUtils.shared.loginHostNoProtocol ?? ""
-    private var loginHostConfiguredAlready = false
+    private let testConfig = UITestConfigUtils.shared
 
     override func setUp() {
         super.setUp()
         continueAfterFailure = false
-        
-        guard host != "" else {
-            XCTFail("No login host configured")
-            fatalError("No login host configured")
-        }
     }
     
     override func tearDown() {
@@ -70,6 +63,9 @@ class BaseAuthFlowTesterTest: XCTestCase {
         if (mainPage.isShowing()) {
             logout()
         }
+        
+        // Switch login server if advanced authentication is showing
+        loginPage.switchToLSCIfShowingAdvancedAuthentication()
     }
     
     /// Performs login with the specified configuration.
@@ -78,6 +74,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
     /// Must be called after `launch()`.
     ///
     /// - Parameters:
+    ///   - loginHost: The login host configuration to use.
     ///   - user: The user to log in with.
     ///   - staticAppConfigName: The static app configuration name.
     ///   - staticScopeSelection: The scope selection for static configuration. Defaults to `.empty`.
@@ -86,6 +83,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
     ///   - useWebServerFlow: Whether to use web server OAuth flow. Defaults to `true`.
     ///   - useHybridFlow: Whether to use hybrid authentication flow. Defaults to `true`.
     func login(
+        loginHost: KnownLoginHostConfig,
         user: KnownUserConfig,
         staticAppConfigName: KnownAppConfig,
         staticScopeSelection: ScopeSelection = .empty,
@@ -94,13 +92,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
         useWebServerFlow: Bool = true,
         useHybridFlow: Bool = true,
     ) {
-        // To speed up things a bit - only configuring login host once (it never changes)
-        if (!loginHostConfiguredAlready) {
-            loginPage.configureLoginHost(host: host)
-            loginHostConfiguredAlready = true
-        }
-        
-        let userConfig = getUser(user)
+        let userConfig = getUser(loginHost: loginHost, user: user)
         let staticAppConfig = getAppConfig(named: staticAppConfigName)
         let dynamicAppConfig = dynamicAppConfigName == nil ? nil : getAppConfig(named: dynamicAppConfigName!)
         let staticScopes = testConfig.getScopesToRequest(for: staticAppConfig, staticScopeSelection)
@@ -114,6 +106,12 @@ class BaseAuthFlowTesterTest: XCTestCase {
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow,
         )
+        
+        // Configuring login host last
+        // When the configured login host requires advanced authentication
+        // the login settings button is no longer available on the screen
+        let hostConfig = try! testConfig.getLoginHost(loginHost)
+        loginPage.configureLoginHost(host: hostConfig.urlNoProtocol)
         
         loginPage.performLogin(username: userConfig.username, password: userConfig.password)
     }
@@ -133,6 +131,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
     /// Use this method when multiple users are logged in and you want to switch between them.
     ///
     /// - Parameters:
+    ///   - loginHost: The login host configuration to use.
     ///   - user: The user to switch to.
     ///   - staticAppConfigName: The static app configuration name.
     ///   - staticScopeSelection: The scope selection for static configuration. Defaults to `.empty`.
@@ -141,6 +140,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
     ///   - useWebServerFlow: Whether web server OAuth flow was used. Defaults to `true`.
     ///   - useHybridFlow: Whether hybrid authentication flow was used. Defaults to `true`.
     func switchToUserAndValidate(
+        loginHost: KnownLoginHostConfig,
         user: KnownUserConfig,
         staticAppConfigName: KnownAppConfig,
         staticScopeSelection: ScopeSelection = .empty,
@@ -150,10 +150,11 @@ class BaseAuthFlowTesterTest: XCTestCase {
         useHybridFlow: Bool = true
     ) {
         // Switch user
-        mainPage.switchToUser(username: getUser(user).username)
+        mainPage.switchToUser(username: getUser(loginHost: loginHost, user: user).username)
         
         // Validate
         validate(
+            loginHost: loginHost,
             user: user,
             staticAppConfigName: staticAppConfigName,
             staticScopeSelection: staticScopeSelection,
@@ -170,6 +171,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
     /// Use this for the initial login flow in tests.
     ///
     /// - Parameters:
+    ///   - loginHost: The login host configuration to use.
     ///   - user: The user to log in with.
     ///   - staticAppConfigName: The static app configuration name.
     ///   - staticScopeSelection: The scope selection for static configuration. Defaults to `.empty`.
@@ -178,6 +180,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
     ///   - useWebServerFlow: Whether to use web server OAuth flow. Defaults to `true`.
     ///   - useHybridFlow: Whether to use hybrid authentication flow. Defaults to `true`.
     func launchAndLogin(
+        loginHost: KnownLoginHostConfig,
         user: KnownUserConfig,
         staticAppConfigName: KnownAppConfig,
         staticScopeSelection: ScopeSelection = .empty,
@@ -191,6 +194,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
         
         // Login
         login(
+            loginHost: loginHost,
             user: user,
             staticAppConfigName: staticAppConfigName,
             staticScopeSelection: staticScopeSelection,
@@ -207,6 +211,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
     /// Use this for the initial login flow in tests.
     ///
     /// - Parameters:
+    ///   - loginHost: The login host configuration to use. Defaults to `.regularAuth`.
     ///   - user: The user to log in with. Defaults to `.first`.
     ///   - staticAppConfigName: The static app configuration name.
     ///   - staticScopeSelection: The scope selection for static configuration. Defaults to `.empty`.
@@ -215,6 +220,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
     ///   - useWebServerFlow: Whether to use web server OAuth flow. Defaults to `true`.
     ///   - useHybridFlow: Whether to use hybrid authentication flow. Defaults to `true`.
     func launchLoginAndValidate(
+        loginHost: KnownLoginHostConfig = .regularAuth,
         user: KnownUserConfig = .first,
         staticAppConfigName: KnownAppConfig,
         staticScopeSelection: ScopeSelection = .empty,
@@ -232,6 +238,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
         
         // Login
         login(
+            loginHost: loginHost,
             user: user,
             staticAppConfigName: staticAppConfigName,
             staticScopeSelection: staticScopeSelection,
@@ -243,6 +250,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
         
         // Validate
         validate(
+            loginHost: loginHost,
             user: user,
             staticAppConfigName: staticAppConfigName,
             staticScopeSelection: staticScopeSelection,
@@ -259,6 +267,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
     /// Taps the "Add User" button before performing login.
     ///
     /// - Parameters:
+    ///   - loginHost: The login host configuration to use.
     ///   - user: The user to log in with.
     ///   - staticAppConfigName: The static app configuration name.
     ///   - staticScopeSelection: The scope selection for static configuration. Defaults to `.empty`.
@@ -267,6 +276,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
     ///   - useWebServerFlow: Whether to use web server OAuth flow. Defaults to `true`.
     ///   - useHybridFlow: Whether to use hybrid authentication flow. Defaults to `true`.
     func loginOtherUserAndValidate(
+        loginHost: KnownLoginHostConfig,
         user: KnownUserConfig,
         staticAppConfigName: KnownAppConfig,
         staticScopeSelection: ScopeSelection = .empty,
@@ -284,6 +294,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
         
         // Login
         login(
+            loginHost: loginHost,
             user: user,
             staticAppConfigName: staticAppConfigName,
             staticScopeSelection: staticScopeSelection,
@@ -295,6 +306,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
         
         // Validate
         validate(
+            loginHost: loginHost,
             user: user,
             staticAppConfigName: staticAppConfigName,
             staticScopeSelection: staticScopeSelection,
@@ -311,12 +323,14 @@ class BaseAuthFlowTesterTest: XCTestCase {
     /// with the expected credentials. Use this to test session persistence.
     ///
     /// - Parameters:
+    ///   - loginHost: The login host configuration to use. Defaults to `.regularAuth`.
     ///   - user: The user that should still be logged in after restart. Defaults to `.first`.
     ///   - userAppConfigName: The app configuration the user was logged in with.
     ///   - userScopeSelection: The scope selection the user was logged in with. Defaults to `.empty`.
     ///   - useWebServerFlow: Whether web server OAuth flow was used. Defaults to `true`.
     ///   - useHybridFlow: Whether hybrid authentication flow was used. Defaults to `true`.
     func restartAndValidate(
+        loginHost: KnownLoginHostConfig = .regularAuth,
         user: KnownUserConfig = .first,
         userAppConfigName: KnownAppConfig,
         userScopeSelection: ScopeSelection = .empty,
@@ -330,6 +344,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
         // Validate user
         // Not checking static app config since it will depend on the bootconfig of the target app
         validateUser(
+            loginHost: loginHost,
             user: user,
             userAppConfigName: userAppConfigName,
             userScopeSelection: userScopeSelection,
@@ -344,6 +359,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
     /// then validates that the credentials are updated correctly and the refresh token has changed.
     ///
     /// - Parameters:
+    ///   - loginHost: The login host configuration to use.
     ///   - staticAppConfigName: The static app configuration name.
     ///   - staticScopeSelection: The scope selection for static configuration. Defaults to `.empty`.
     ///   - migrationAppConfigName: The app configuration to migrate to.
@@ -351,6 +367,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
     ///   - useWebServerFlow: Whether to use web server OAuth flow. Defaults to `true`.
     ///   - useHybridFlow: Whether to use hybrid authentication flow. Defaults to `true`.
     func migrateAndValidate(
+        loginHost: KnownLoginHostConfig,
         staticAppConfigName: KnownAppConfig,
         staticScopeSelection: ScopeSelection = .empty,
         migrationAppConfigName: KnownAppConfig,
@@ -362,7 +379,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
         let originalUserCredentials = mainPage.getUserCredentials()
         
         // Get current user
-        let user = getKnownUserConfig(byUsername: originalUserCredentials.username)
+        let user = getKnownUserConfig(loginHost: loginHost, byUsername: originalUserCredentials.username)
         
         
         // Migrate refresh token
@@ -373,6 +390,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
 
         // Validate after migration
         let migratedUserCredentials = validate(
+            loginHost: loginHost,
             user: user,
             staticAppConfigName: staticAppConfigName,
             staticScopeSelection: staticScopeSelection,
@@ -394,6 +412,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
     
     @discardableResult
     private func validateUser(
+        loginHost: KnownLoginHostConfig,
         user: KnownUserConfig,
         userAppConfigName: KnownAppConfig,
         userScopeSelection: ScopeSelection,
@@ -401,7 +420,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
         useHybridFlow: Bool,
     ) -> UserCredentialsData {
         
-        let userConfig = getUser(user)
+        let userConfig = getUser(loginHost: loginHost, user: user)
         let userAppConfig = getAppConfig(named: userAppConfigName)
         let expectedGrantedScopes = testConfig.getExpectedScopesGranted(for: userAppConfig, userScopeSelection)
         let issuesJwt = userAppConfig.issuesJwt
@@ -439,6 +458,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
     
     @discardableResult
     private func validate(
+        loginHost: KnownLoginHostConfig,
         user: KnownUserConfig,
         staticAppConfigName: KnownAppConfig,
         staticScopeSelection: ScopeSelection,
@@ -454,6 +474,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
         assertMainPageLoaded()
         
         let userCredentials = validateUser(
+            loginHost: loginHost,
             user: user,
             userAppConfigName: userAppConfigName,
             userScopeSelection: userScopeSelection,
@@ -569,21 +590,21 @@ class BaseAuthFlowTesterTest: XCTestCase {
         }
     }
     
-    private func getUser(_ user: KnownUserConfig) -> UserConfig {
+    private func getUser(loginHost: KnownLoginHostConfig, user: KnownUserConfig) -> UserConfig {
         do {
-            return try testConfig.getUser(user)
+            return try testConfig.getUser(loginHost, user)
         } catch {
-            XCTFail("Failed to get user \(user): \(error)")
-            fatalError("Failed to get user \(user): \(error)")
+            XCTFail("Failed to get user \(user) from login host \(loginHost): \(error)")
+            fatalError("Failed to get user \(user) from login host \(loginHost): \(error)")
         }
     }
     
-    private func getKnownUserConfig(byUsername username: String) -> KnownUserConfig {
+    private func getKnownUserConfig(loginHost: KnownLoginHostConfig, byUsername username: String) -> KnownUserConfig {
         do {
-            return try testConfig.getKnownUserConfig(byUsername: username)
+            return try testConfig.getKnownUserConfig(loginHost, byUsername: username)
         } catch {
-            XCTFail("Failed to get user \(username): \(error)")
-            fatalError("Failed to get user \(username): \(error)")
+            XCTFail("Failed to get user \(username) from login host \(loginHost): \(error)")
+            fatalError("Failed to get user \(username) from login host \(loginHost): \(error)")
         }
     }
     
