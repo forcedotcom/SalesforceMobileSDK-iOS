@@ -8,7 +8,8 @@ This document provides an overview of all UI tests in the AuthFlowTester test su
 |-------|-------------|
 | `LegacyLoginTests` | Tests for legacy login flows (connected apps, user agent flow, non-hybrid flow) |
 | `ECALoginTests` | Tests for External Client App (ECA) login flows |
-| `BeaconLoginTests` | Tests for Beacon app login flows |
+| `BeaconLoginTests` | Tests for Beacon app login flows (using regular_auth login host) |
+| `AdvancedAuthBeaconLoginTests` | Tests for Beacon app login flows (using advanced_auth login host) |
 | `MigrationTests` | Tests for refresh token migration between app configurations |
 | `MultiUserLoginTests` | Tests for multi-user login scenarios |
 
@@ -54,7 +55,7 @@ Tests for External Client App (ECA) configurations using web server flow with hy
 
 ### BeaconLoginTests (8 tests)
 
-Tests for Beacon app configurations using web server flow with hybrid auth.
+Tests for Beacon app configurations using web server flow with hybrid auth. Uses `regular_auth` login host.
 
 | Test Name | App Config | Scopes | Dynamic Config |
 |-----------|------------|--------|----------------|
@@ -66,6 +67,21 @@ Tests for Beacon app configurations using web server flow with hybrid auth.
 | `testBeaconAdvancedJwt_AllScopes` | Beacon Advanced JWT | All | No |
 | `testBeaconAdvancedJwt_DefaultScopes_DynamicConfiguration_WithRestart` | Beacon Advanced JWT | Default | Yes |
 | `testBeaconAdvancedJwt_SubsetScopes_DynamicConfiguration_WithRestart` | Beacon Advanced JWT | Subset | Yes |
+
+### AdvancedAuthBeaconLoginTests (8 tests)
+
+Tests for Beacon app configurations using web server flow with hybrid auth. Uses `advanced_auth` login host. Inherits all tests from `BeaconLoginTests` but runs them with advanced authentication.
+
+| Test Name | App Config | Scopes | Dynamic Config | Login Host |
+|-----------|------------|--------|----------------|------------|
+| `testBeaconAdvancedOpaque_DefaultScopes` | Beacon Advanced Opaque | Default | No | advanced_auth |
+| `testBeaconAdvancedOpaque_SubsetScopes` | Beacon Advanced Opaque | Subset | No | advanced_auth |
+| `testBeaconAdvancedOpaque_AllScopes` | Beacon Advanced Opaque | All | No | advanced_auth |
+| `testBeaconAdvancedJwt_DefaultScopes` | Beacon Advanced JWT | Default | No | advanced_auth |
+| `testBeaconAdvancedJwt_SubsetScopes` | Beacon Advanced JWT | Subset | No | advanced_auth |
+| `testBeaconAdvancedJwt_AllScopes` | Beacon Advanced JWT | All | No | advanced_auth |
+| `testBeaconAdvancedJwt_DefaultScopes_DynamicConfiguration_WithRestart` | Beacon Advanced JWT | Default | Yes | advanced_auth |
+| `testBeaconAdvancedJwt_SubsetScopes_DynamicConfiguration_WithRestart` | Beacon Advanced JWT | Subset | Yes | advanced_auth |
 
 ---
 
@@ -134,23 +150,23 @@ Tests for login scenarios with two users using various configurations.
 |-------------|----------|-------|------|--------|
 | `ecaBasicOpaque` | ECA | Opaque | Basic | `api id refresh_token` |
 | `ecaBasicJwt` | ECA | JWT | Basic | `api id refresh_token` |
-| `ecaAdvancedOpaque` | ECA | Opaque | Advanced | `api id refresh_token content lightning visualforce sfap_api` |
-| `ecaAdvancedJwt` | ECA | JWT | Advanced | `api id refresh_token content lightning visualforce sfap_api` |
-| `beaconBasicOpaque` | Beacon | Opaque | Basic | `api id refresh_token` |
+| `ecaAdvancedOpaque` | ECA | Opaque | Advanced | `api content id lightning refresh_token sfap_api visualforce web` |
+| `ecaAdvancedJwt` | ECA | JWT | Advanced | `api content id lightning refresh_token sfap_api visualforce web` |
+| `beaconBasicOpaque` | Beacon | Opaque | Basic | `api profile refresh_token` |
 | `beaconBasicJwt` | Beacon | JWT | Basic | `api id refresh_token` |
-| `beaconAdvancedOpaque` | Beacon | Opaque | Advanced | `api id refresh_token content lightning visualforce sfap_api` |
-| `beaconAdvancedJwt` | Beacon | JWT | Advanced | `api id refresh_token content lightning visualforce sfap_api` |
+| `beaconAdvancedOpaque` | Beacon | Opaque | Advanced | `api content id lightning refresh_token sfap_api web` |
+| `beaconAdvancedJwt` | Beacon | JWT | Advanced | `api content id lightning refresh_token sfap_api web` |
 | `caBasicOpaque` | CA | Opaque | Basic | `api id refresh_token` |
 | `caBasicJwt` | CA | JWT | Basic | `api id refresh_token` |
-| `caAdvancedOpaque` | CA | Opaque | Advanced | `api id refresh_token content lightning visualforce sfap_api` |
-| `caAdvancedJwt` | CA | JWT | Advanced | `api id refresh_token content lightning visualforce sfap_api` |
+| `caAdvancedOpaque` | CA | Opaque | Advanced | `api content id lightning refresh_token sfap_api visualforce web` |
+| `caAdvancedJwt` | CA | JWT | Advanced | `api content id lightning refresh_token sfap_api visualforce web` |
 
 ### Configuration Tiers
 
 | Tier | Description | Scopes Included |
 |------|-------------|-----------------|
-| **Basic** | Minimal scopes for basic API access | `api id refresh_token` |
-| **Advanced** | Full scopes including hybrid auth capabilities | `api id refresh_token content lightning visualforce sfap_api` |
+| **Basic** | Minimal scopes for basic API access | CA/ECA: `api id refresh_token`<br>Beacon Opaque: `api profile refresh_token`<br>Beacon JWT: `api id refresh_token` |
+| **Advanced** | Full scopes including hybrid auth capabilities | CA/ECA: `api content id lightning refresh_token sfap_api visualforce web`<br>Beacon: `api content id lightning refresh_token sfap_api web` |
 
 ### Token Formats
 
@@ -158,4 +174,15 @@ Tests for login scenarios with two users using various configurations.
 |--------|-------------|
 | **Opaque** | Opaque access tokens |
 | **JWT** | JSON Web Token based access tokens |
+
+## Login Hosts
+
+The test suite supports testing against different Salesforce org configurations with different authentication mechanisms. The login host configuration is specified in `ui_test_config.json` under the `loginHosts` array.
+
+| Login Host | Description | Authentication Mechanism |
+|------------|-------------|-------------------------|
+| **regular_auth** | Org configured to use regular authentication | Authentication through web view |
+| **advanced_auth** | Org configured to use native browser for authentication | Chrome Custom Tab on Android and ASWebAuthenticationSession on iOS |
+
+Most tests use the `regular_auth` login host by default. The `AdvancedAuthBeaconLoginTests` class runs the same Beacon login tests but uses the `advanced_auth` login host to verify authentication flows work correctly with native browser authentication.
 
