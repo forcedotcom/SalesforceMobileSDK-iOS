@@ -43,7 +43,6 @@ static NSString * const kManagedKeyConnectedAppCallbackUri    = @"ManagedAppCall
 static NSString * const kManagedKeyClearClipboardOnBackground = @"ClearClipboardOnBackground";
 static NSString * const kManagedKeyOnlyShowAuthorizedHosts    = @"OnlyShowAuthorizedHosts";
 static NSString * const kManagedKeyIDPAppURLScheme = @"IDPAppURLScheme";
-static NSString * const kSFAppFeatureManagedByMDM   = @"MM";
 static NSString * const kSFDisableExternalPaste = @"DISABLE_EXTERNAL_PASTE";
 
 @interface SFManagedPreferences ()

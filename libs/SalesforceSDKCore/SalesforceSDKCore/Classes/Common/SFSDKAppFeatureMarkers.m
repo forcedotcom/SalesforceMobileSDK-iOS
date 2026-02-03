@@ -24,6 +24,22 @@
 
 #import "SFSDKAppFeatureMarkers.h"
 
+// App Feature Marker Constants
+NSString * const kSFAppFeatureSwiftApp = @"SW";
+NSString * const kSFAppFeatureMultiUser = @"MU";
+NSString * const kSFAppFeatureMacApp = @"MC";
+NSString * const kSFAppFeatureNativeLogin = @"NL";
+NSString * const kSFAppFeatureWelcomeDiscovery = @"WC";
+NSString * const kSFAppFeatureSafariBrowserForLogin = @"BW";
+NSString * const kSFAppFeatureScreenLock = @"SL";
+NSString * const kSFAppFeatureBioAuth = @"BA";
+NSString * const kSFAppFeatureManagedByMDM = @"MM";
+NSString * const kSFAppFeatureOAuth = @"UA";
+NSString * const kSFAppFeatureAiltnEnabled = @"AI";
+NSString * const kSFSPAppFeatureIDPLogin = @"SP";
+NSString * const kSFIDPAppFeatureIDPLogin = @"IP";
+NSString * const kSFAppFeatureQrCodeLogin = @"QR";
+
 static NSMutableSet<NSString *> *SFSDKAppFeatureMarkersSet = nil;
 static dispatch_queue_t SFSDKAppFeatureDispatchQueue = nil;
 

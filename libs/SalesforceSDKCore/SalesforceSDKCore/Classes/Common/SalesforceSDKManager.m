@@ -43,11 +43,6 @@
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 #import "SFSDKWindowManager+Internal.h"
 
-static NSString * const kSFAppFeatureSwiftApp    = @"SW";
-static NSString * const kSFAppFeatureMultiUser   = @"MU";
-static NSString * const kSFAppFeatureMacApp      = @"MC";
-static NSString * const kSFAppFeatureNativeLogin = @"NL";
-
 // Error constants
 NSString * const kSalesforceSDKManagerErrorDomain     = @"com.salesforce.sdkmanager.error";
 NSString * const kSalesforceSDKManagerErrorDetailsKey = @"SalesforceSDKManagerErrorDetails";

@@ -114,7 +114,6 @@ NSString * const SFUserAccountManagerUserChangeUserKey       = @"user";
 // Persistence Keys
 static NSString * const kUserDefaultsLastUserIdentityKey = @"LastUserIdentity";
 static NSString * const kUserDefaultsLastUserCommunityIdKey = @"LastUserCommunityId";
-static NSString * const kSFAppFeatureMultiUser   = @"MU";
 static NSString * const kAlertErrorTitleKey = @"authAlertErrorTitle";
 static NSString * const kAlertOkButtonKey = @"authAlertOkButton";
 static NSString * const kAlertRetryButtonKey = @"authAlertRetryButton";
@@ -123,12 +122,6 @@ static NSString * const kAlertConnectionErrorFormatStringKey = @"authAlertConnec
 static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismatchError";
 static NSString * const kErroredClientKey = @"SFErroredOAuthClientKey";
 static NSString * const kOptionsClientKey          = @"clientIdentifier";
-
-// App Feature Markers
-static NSString * const kSFSPAppFeatureIDPLogin    = @"SP";
-static NSString * const kSFIDPAppFeatureIDPLogin   = @"IP";
-static NSString * const kSFAppFeatureScreenLock    = @"SL";
-static NSString * const kSFAppFeatureBioAuth       = @"BA";
 
 NSString * const kSFSDKUserAccountManagerErrorDomain = @"com.salesforce.mobilesdk.SFUserAccountManager";
 NSString * const kSFIDPSceneIdKey = @"sceneIdentifier";
