@@ -64,10 +64,14 @@ for bootconfig in "${BOOTCONFIG_PATHS[@]}"; do
     
     # Substitute env vars if set (use gsed with | delimiter so / in URLs is safe; escape \ and & for sed)
     if [ -n "${MSDK_IOS_REMOTE_ACCESS_CLIENT_ID:-}" ]; then
-        gsed -i "s|__INSERT_REMOTE_ACCESS_CLIENT_ID_HERE__|${MSDK_IOS_REMOTE_ACCESS_CLIENT_ID}|g" "$bootconfig"
+        key_escaped="${MSDK_IOS_REMOTE_ACCESS_CLIENT_ID//\\/\\\\}"
+        key_escaped="${key_escaped//&/\\&}"
+        gsed -i "s|__CONSUMER_KEY__|${key_escaped}|g" "$bootconfig"
     fi
     if [ -n "${MSDK_IOS_REMOTE_ACCESS_CALLBACK_URL:-}" ]; then
-        gsed -i "s|__INSERT_REMOTE_ACCESS_CALLBACK_URL_HERE__|${MSDK_IOS_REMOTE_ACCESS_CALLBACK_URL}|g" "$bootconfig"
+        url_escaped="${MSDK_IOS_REMOTE_ACCESS_CALLBACK_URL//\\/\\\\}"
+        url_escaped="${url_escaped//&/\\&}"
+        gsed -i "s|__REDIRECT_URI__|${url_escaped}|g" "$bootconfig"
     fi
 done
 
