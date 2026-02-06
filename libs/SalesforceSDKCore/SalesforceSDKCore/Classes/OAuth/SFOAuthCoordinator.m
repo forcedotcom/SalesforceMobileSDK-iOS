@@ -215,8 +215,11 @@
 - (void)authenticateWithCredentials:(SFOAuthCredentials *)credentials {
     self.credentials = credentials;
     if ([self.domainDiscoveryCoordinator isDiscoveryDomain:self.credentials.domain]) {
+        [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureWelcomeDiscovery];
         [self runMyDomainDiscoveryAndAuthenticate];
         return;
+    } else {
+        [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureWelcomeDiscovery];
     }
     [self authenticate];
 }
