@@ -60,16 +60,12 @@ for bootconfig in "${BOOTCONFIG_PATHS[@]}"; do
     mkdir -p "$(dirname "$bootconfig")"
     cp "$BOOTCONFIG_SAMPLE" "$bootconfig"
     
-    # Substitute env vars if set (use gsed with | delimiter so / in URLs is safe; escape \ and & for sed)
+    # Substitute env vars if set
     if [ -n "${MSDK_IOS_REMOTE_ACCESS_CLIENT_ID:-}" ]; then
-        key_escaped="${MSDK_IOS_REMOTE_ACCESS_CLIENT_ID//\\/\\\\}"
-        key_escaped="${key_escaped//&/\\&}"
-        gsed -i "s|__CONSUMER_KEY__|${key_escaped}|g" "$bootconfig"
+        gsed -i "s|__CONSUMER_KEY__|${MSDK_IOS_REMOTE_ACCESS_CLIENT_ID}|g" "$bootconfig"
     fi
     if [ -n "${MSDK_IOS_REMOTE_ACCESS_CALLBACK_URL:-}" ]; then
-        url_escaped="${MSDK_IOS_REMOTE_ACCESS_CALLBACK_URL//\\/\\\\}"
-        url_escaped="${url_escaped//&/\\&}"
-        gsed -i "s|__REDIRECT_URI__|${url_escaped}|g" "$bootconfig"
+        gsed -i "s|__REDIRECT_URI__|${MSDK_IOS_REMOTE_ACCESS_CALLBACK_URL}|g" "$bootconfig"
     fi
 done
 
