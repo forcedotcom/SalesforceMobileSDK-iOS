@@ -61,17 +61,17 @@ for bootconfig in "${BOOTCONFIG_PATHS[@]}"; do
     cp "$BOOTCONFIG_SAMPLE" "$bootconfig"
     
     # Substitute env vars if set
-    if [ -n "${MSDK_IOS_REMOTE_ACCESS_CLIENT_ID:-}" ]; then
-        gsed -i "s|__CLIENT_ID__|${MSDK_IOS_REMOTE_ACCESS_CLIENT_ID}|g" "$bootconfig"
+    if [ -n "${MSDK_IOS_REMOTE_ACCESS_CONSUMER_KEY:-}" ]; then
+        gsed -i "s|__CONSUMER_KEY__|${MSDK_IOS_REMOTE_ACCESS_CONSUMER_KEY}|g" "$bootconfig"
     fi
     if [ -n "${MSDK_IOS_REMOTE_ACCESS_CALLBACK_URL:-}" ]; then
         gsed -i "s|__REDIRECT_URI__|${MSDK_IOS_REMOTE_ACCESS_CALLBACK_URL}|g" "$bootconfig"
     fi
 done
 
-if [ -z "${MSDK_IOS_REMOTE_ACCESS_CLIENT_ID:-}" ] || [ -z "${MSDK_IOS_REMOTE_ACCESS_CALLBACK_URL:-}" ]; then
+if [ -z "${MSDK_IOS_REMOTE_ACCESS_CONSUMER_KEY:-}" ] || [ -z "${MSDK_IOS_REMOTE_ACCESS_CALLBACK_URL:-}" ]; then
     echo ""
-    echo "Note: MSDK_IOS_REMOTE_ACCESS_CLIENT_ID and/or MSDK_IOS_REMOTE_ACCESS_CALLBACK_URL are not set."
+    echo "Note: MSDK_IOS_REMOTE_ACCESS_CONSUMER_KEY and/or MSDK_IOS_REMOTE_ACCESS_CALLBACK_URL are not set."
     echo "To run the sample applications, define these environment variables or manually provide"
     echo "a bootconfig.plist (with remoteAccessConsumerKey and oauthRedirectURI) in each sample app."
     echo ""
