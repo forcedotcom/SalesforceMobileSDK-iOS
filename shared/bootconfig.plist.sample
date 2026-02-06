@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>remoteAccessConsumerKey</key>
-	<string>__CONSUMER_KEY__</string>
+	<string>__CLIENT_ID__</string>
 	<key>oauthRedirectURI</key>
 	<string>__REDIRECT_URI__</string>
 	<key>shouldAuthenticate</key>

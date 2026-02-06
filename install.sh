@@ -62,7 +62,7 @@ for bootconfig in "${BOOTCONFIG_PATHS[@]}"; do
     
     # Substitute env vars if set
     if [ -n "${MSDK_IOS_REMOTE_ACCESS_CLIENT_ID:-}" ]; then
-        gsed -i "s|__CONSUMER_KEY__|${MSDK_IOS_REMOTE_ACCESS_CLIENT_ID}|g" "$bootconfig"
+        gsed -i "s|__CLIENT_ID__|${MSDK_IOS_REMOTE_ACCESS_CLIENT_ID}|g" "$bootconfig"
     fi
     if [ -n "${MSDK_IOS_REMOTE_ACCESS_CALLBACK_URL:-}" ]; then
         gsed -i "s|__REDIRECT_URI__|${MSDK_IOS_REMOTE_ACCESS_CALLBACK_URL}|g" "$bootconfig"
