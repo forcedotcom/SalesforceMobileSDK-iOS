@@ -49,7 +49,7 @@ then
     cp shared/test/test_credentials.json.sample shared/test/test_credentials.json
 fi
 
-# Create bootconfig.plist from shared sample where missing
+# Create bootconfig.plist from shared sample
 BOOTCONFIG_SAMPLE="shared/bootconfig.plist.sample"
 BOOTCONFIG_PATHS=(
     "native/SampleApps/AuthFlowTester/AuthFlowTester/Supporting Files/bootconfig.plist"
@@ -57,10 +57,8 @@ BOOTCONFIG_PATHS=(
     "native/SampleApps/MobileSyncExplorer/MobileSyncExplorer/bootconfig.plist"
 )
 for bootconfig in "${BOOTCONFIG_PATHS[@]}"; do
-    if [ ! -f "$bootconfig" ]; then
-        mkdir -p "$(dirname "$bootconfig")"
-        cp "$BOOTCONFIG_SAMPLE" "$bootconfig"
-    fi
+    mkdir -p "$(dirname "$bootconfig")"
+    cp "$BOOTCONFIG_SAMPLE" "$bootconfig"
     
     # Substitute env vars if set (use gsed with | delimiter so / in URLs is safe; escape \ and & for sed)
     if [ -n "${MSDK_IOS_REMOTE_ACCESS_CLIENT_ID:-}" ]; then
