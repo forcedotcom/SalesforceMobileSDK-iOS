@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>remoteAccessConsumerKey</key>
-	<string>3MVG9SemV5D80oBcXZ2EUzbcJwzJCe2n4LaHH_Z2JSpIJqJ1MzFK_XRlHrupqNdeus8.NRonkpx0sAAWKzfK8</string>
+	<string>__CONSUMER_KEY__</string>
 	<key>oauthRedirectURI</key>
-	<string>testeropaque://mobilesdk/done</string>
+	<string>__REDIRECT_URI__</string>
 	<key>shouldAuthenticate</key>
 	<true/>
 </dict>
