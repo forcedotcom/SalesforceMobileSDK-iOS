@@ -143,7 +143,7 @@ struct RestApiTestView: View {
         isResultExpanded = false // Start collapsed
         
         do {
-            let request = RestClient.shared.cheapRequest("v63.0")
+            let request = RestClient.shared.cheapRequest(nil)
             let response = try await RestClient.shared.send(request: request)
             
             // Request succeeded - pretty print the JSON
