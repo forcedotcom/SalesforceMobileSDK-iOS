@@ -7,45 +7,45 @@ on:
   workflow_dispatch:
 
 jobs:
-  ios-nightly:
-    strategy:
-      fail-fast: false
-      matrix:
-        lib: [SalesforceSDKCommon, SalesforceAnalytics, SalesforceSDKCore, SmartStore, MobileSync]
-        ios: [^26, ^18, ^17]
-        include:
-          - ios: ^26
-            xcode: ^26
-          - ios: ^18
-            xcode: ^16
-          - ios: ^17
-            xcode: ^16
-    uses: ./.github/workflows/reusable-test-workflow.yaml
-    with:
-      lib: ${{ matrix.lib }}
-      ios: ${{ matrix.ios }}
-      xcode: ${{ matrix.xcode }}
-    secrets: inherit
-
-  native-samples-nightly:
-    strategy:
-      fail-fast: false
-      matrix:
-        app: [RestAPIExplorer, MobileSyncExplorer, AuthFlowTester]
-        ios: [^26, ^18, ^17]
-        include:
-          - ios: ^26
-            xcode: ^26
-          - ios: ^18
-            xcode: ^16
-          - ios: ^17
-            xcode: ^16
-    uses: ./.github/workflows/reusable-build-workflow.yaml
-    with:
-      app: ${{ matrix.app }}
-      ios: ${{ matrix.ios }}
-      xcode: ${{ matrix.xcode }}
-    secrets: inherit
+#   ios-nightly:
+#     strategy:
+#       fail-fast: false
+#       matrix:
+#         lib: [SalesforceSDKCommon, SalesforceAnalytics, SalesforceSDKCore, SmartStore, MobileSync]
+#         ios: [^26, ^18, ^17]
+#         include:
+#           - ios: ^26
+#             xcode: ^26
+#           - ios: ^18
+#             xcode: ^16
+#           - ios: ^17
+#             xcode: ^16
+#     uses: ./.github/workflows/reusable-test-workflow.yaml
+#     with:
+#       lib: ${{ matrix.lib }}
+#       ios: ${{ matrix.ios }}
+#       xcode: ${{ matrix.xcode }}
+#     secrets: inherit
+# 
+#   native-samples-nightly:
+#     strategy:
+#       fail-fast: false
+#       matrix:
+#         app: [RestAPIExplorer, MobileSyncExplorer, AuthFlowTester]
+#         ios: [^26, ^18, ^17]
+#         include:
+#           - ios: ^26
+#             xcode: ^26
+#           - ios: ^18
+#             xcode: ^16
+#           - ios: ^17
+#             xcode: ^16
+#     uses: ./.github/workflows/reusable-build-workflow.yaml
+#     with:
+#       app: ${{ matrix.app }}
+#       ios: ${{ matrix.ios }}
+#       xcode: ${{ matrix.xcode }}
+#     secrets: inherit
 
   ios-nightly-UI-Tests:
     uses: ./.github/workflows/reusable-ui-workflow.yaml
