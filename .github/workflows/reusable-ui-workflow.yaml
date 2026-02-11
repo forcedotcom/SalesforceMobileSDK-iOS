@@ -54,6 +54,8 @@ jobs:
       - name: Run UI tests
         id: xcodebuild
         run: |
+          # Use a concrete simulator (xcodebuild cannot use "Any iOS Simulator Device")
+          DESTINATION='platform=iOS Simulator,name=iPhone 16,OS=18.0'
           RETRY_ARGS=()
           if [ "${{ inputs.test-retry-iterations }}" -gt 0 ]; then
             RETRY_ARGS=(-retry-tests-on-failure -test-iterations "${{ inputs.test-retry-iterations }}")
@@ -65,7 +67,7 @@ jobs:
           xcodebuild test \
             -workspace SalesforceMobileSDK.xcworkspace \
             -scheme AuthFlowTester \
-            -destination 'generic/platform=iOS Simulator' \
+            -destination "$DESTINATION" \
             "${ONLY_TESTING_ARGS[@]}" \
             "${RETRY_ARGS[@]}" \
             -resultBundlePath test \
