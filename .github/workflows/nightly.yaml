@@ -46,3 +46,7 @@ jobs:
       ios: ${{ matrix.ios }}
       xcode: ${{ matrix.xcode }}
     secrets: inherit
+
+  ios-nightly-UI-Tests:
+    uses: ./.github/workflows/reusable-ui-workflow.yaml
+    secrets: inherit
