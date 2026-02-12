@@ -60,6 +60,10 @@ jobs:
           - MultiUserLoginTests
     uses: ./.github/workflows/reusable-ui-workflow.yaml
     with:
+      macos: macos-26-arm64
+      ios: "^26"
+      xcode: "^26"
+      destination: "platform=iOS Simulator,name=iPhone 17,OS=26.0"
       test_suite: ${{ matrix.test_suite }}
-      test-retry-iterations: 2
+      test-retry-iterations: 1
     secrets: inherit

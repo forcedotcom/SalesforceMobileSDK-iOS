@@ -26,6 +26,11 @@ on:
         default: ""
         required: false
         type: string
+      destination:
+        description: "xcodebuild -destination (e.g. 'platform=iOS Simulator,name=iPhone 17,OS=26.0'). Empty = use default for iOS 18."
+        default: ""
+        required: false
+        type: string
 
 jobs:
   test-ui:
@@ -60,8 +65,12 @@ jobs:
         id: xcodebuild
         run: |
           # Use a concrete simulator (xcodebuild cannot use "Any iOS Simulator Device")
-          # Runner has iPhone 16 on 18.5/18.6, not 18.0
-          DESTINATION='platform=iOS Simulator,name=iPhone 16,OS=18.5'
+          if [ -n "${{ inputs.destination }}" ]; then
+            DESTINATION="${{ inputs.destination }}"
+          else
+            # Default for macos-latest (iPhone 16 on 18.5/18.6)
+            DESTINATION='platform=iOS Simulator,name=iPhone 16,OS=18.5'
+          fi
           RETRY_ARGS=()
           if [ "${{ inputs.test-retry-iterations }}" -gt 0 ]; then
             RETRY_ARGS=(-retry-tests-on-failure -test-iterations "${{ inputs.test-retry-iterations }}")
