@@ -31,6 +31,11 @@ on:
         default: ""
         required: false
         type: string
+      parallel-testing-worker-count:
+        description: "xcodebuild -parallel-testing-worker-count (0 = do not set; parallel testing uses xcodebuild default)."
+        default: 6
+        required: false
+        type: number
 
 jobs:
   test-ui:
@@ -81,10 +86,15 @@ jobs:
           elif [ -n "${{ inputs.test_suite }}" ]; then
             ONLY_TESTING_ARGS=(-only-testing "AuthFlowTesterUITests/${{ inputs.test_suite }}")
           fi
+          PARALLEL_ARGS=()
+          if [ "${{ inputs.parallel-testing-worker-count }}" -gt 0 ]; then
+            PARALLEL_ARGS=(-parallel-testing-enabled YES -parallel-testing-worker-count "${{ inputs.parallel-testing-worker-count }}")
+          fi
           xcodebuild test \
             -workspace SalesforceMobileSDK.xcworkspace \
             -scheme AuthFlowTester \
             -destination "$DESTINATION" \
+            "${PARALLEL_ARGS[@]}" \
             "${ONLY_TESTING_ARGS[@]}" \
             "${RETRY_ARGS[@]}" \
             -resultBundlePath test \

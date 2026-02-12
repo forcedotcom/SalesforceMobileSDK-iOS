@@ -48,22 +48,12 @@ jobs:
 #     secrets: inherit
 
   ios-nightly-UI-Tests:
-    strategy:
-      fail-fast: false
-      matrix:
-        test_suite:
-          - LegacyLoginTests
-          - ECALoginTests
-          - BeaconLoginTests
-          - AdvancedAuthBeaconLoginTests
-          - MigrationTests
-          - MultiUserLoginTests
     uses: ./.github/workflows/reusable-ui-workflow.yaml
     with:
       macos: macos-26-arm64
       ios: "^26"
       xcode: "^26"
       destination: "platform=iOS Simulator,name=iPhone 17,OS=26.0"
-      test_suite: ${{ matrix.test_suite }}
       test-retry-iterations: 1
+      parallel-testing-worker-count: 6
     secrets: inherit
