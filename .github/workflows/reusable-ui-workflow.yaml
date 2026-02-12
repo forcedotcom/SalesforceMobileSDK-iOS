@@ -66,16 +66,32 @@ jobs:
           platform: iOS
           platform-version: ${{ inputs.ios }}
           action: none
+      - name: Resolve simulator destination
+        id: resolve_destination
+        run: |
+          if [ -n "${{ inputs.destination }}" ]; then
+            echo "destination=${{ inputs.destination }}" >> "$GITHUB_OUTPUT"
+          else
+            UID=$(xcrun simctl list devices available -j | python3 -c '
+          import sys, json
+          d = json.load(sys.stdin)
+          for devices in d.get("devices", {}).values():
+            for dev in devices:
+              if dev.get("isAvailable", True) and "iPhone" in dev.get("name", ""):
+                print(dev["udid"])
+                sys.exit(0)
+          sys.exit(1)
+            ')
+            if [ -z "$UID" ]; then
+              echo "::error::No available iPhone simulator found"
+              exit 1
+            fi
+            echo "destination=platform=iOS Simulator,id=$UID" >> "$GITHUB_OUTPUT"
+          fi
       - name: Run UI tests
         id: xcodebuild
         run: |
-          # Use a concrete simulator (xcodebuild cannot use "Any iOS Simulator Device")
-          if [ -n "${{ inputs.destination }}" ]; then
-            DESTINATION="${{ inputs.destination }}"
-          else
-            # Default for macos-latest (iPhone 16 on 18.5/18.6)
-            DESTINATION='platform=iOS Simulator,name=iPhone 16,OS=18.5'
-          fi
+          DESTINATION="${{ steps.resolve_destination.outputs.destination }}"
           RETRY_ARGS=()
           if [ "${{ inputs.test-retry-iterations }}" -gt 0 ]; then
             RETRY_ARGS=(-retry-tests-on-failure -test-iterations "${{ inputs.test-retry-iterations }}")
