@@ -21,6 +21,11 @@ on:
         default: 3
         required: false
         type: number
+      test_suite:
+        description: "Test class to run only (e.g. ECALoginTests). Empty = run all. Ignored when is_pr (PR runs single smoke test)."
+        default: ""
+        required: false
+        type: string
 
 jobs:
   test-ui:
@@ -64,6 +69,8 @@ jobs:
           ONLY_TESTING_ARGS=()
           if [ "$IS_PR" = "true" ]; then
             ONLY_TESTING_ARGS=(-only-testing 'AuthFlowTesterUITests/ECALoginTests/testECAAdvancedJwt_DefaultScopes')
+          elif [ -n "${{ inputs.test_suite }}" ]; then
+            ONLY_TESTING_ARGS=(-only-testing "AuthFlowTesterUITests/${{ inputs.test_suite }}")
           fi
           xcodebuild test \
             -workspace SalesforceMobileSDK.xcworkspace \
@@ -82,13 +89,16 @@ jobs:
         run: |
           brew install xcresultparser
           mkdir -p firebase_results
-          xcresultparser -o junit test.xcresult > firebase_results/authflowtester-ui-test_result.xml
+          SUITE="${{ inputs.test_suite }}"
+          [ -z "$SUITE" ] && SUITE=all
+          [ "$IS_PR" = "true" ] && SUITE=pr
+          xcresultparser -o junit test.xcresult > firebase_results/authflowtester-ui-${SUITE}-test_result.xml
       - name: Test Report
         uses: mikepenz/action-junit-report@v5
         if: success() || failure()
         with:
-          check_name: AuthFlowTester UI Test Results
-          job_name: AuthFlowTester UI Test Results
+          check_name: AuthFlowTester UI Test Results ${{ inputs.test_suite && format('({0})', inputs.test_suite) || '' }}
+          job_name: AuthFlowTester UI Test Results ${{ inputs.test_suite && format('({0})', inputs.test_suite) || '' }}
           require_tests: true
           check_retries: true
           flaky_summary: true
@@ -109,5 +119,5 @@ jobs:
         if: success() || failure()
         uses: actions/upload-artifact@v4
         with:
-          name: test-results-authflowtester-ui-ios${{ inputs.ios }}
+          name: test-results-authflowtester-ui-${{ inputs.test_suite || 'all' }}-ios${{ inputs.ios }}
           path: firebase_results/
