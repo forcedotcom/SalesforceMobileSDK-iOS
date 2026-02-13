@@ -5,11 +5,11 @@ on:
         type: boolean
         default: false
       ios:
-        default: "^18"
+        default: "^26"
         required: false
         type: string
       xcode:
-        default: "^16"
+        default: "^26"
         required: false
         type: string
       macos:
@@ -17,8 +17,8 @@ on:
         required: false
         type: string
       test-retry-iterations:
-        description: "Max retries per test on failure (0 = no retry). Uses xcodebuild -retry-tests-on-failure -test-iterations."
-        default: 3
+        description: "Max retries per test on failure (1 = no retry)."
+        default: 2
         required: false
         type: number
       test_suite:
@@ -27,13 +27,13 @@ on:
         required: false
         type: string
       destination:
-        description: "xcodebuild -destination (e.g. 'platform=iOS Simulator,name=iPhone 17,OS=26.0'). Empty = use default for iOS 18."
+        description: "xcodebuild -destination (e.g. 'platform=iOS Simulator,name=iPhone 17,OS=26.0'). Empty = use default for iOS 26."
         default: ""
         required: false
         type: string
       parallel-testing-worker-count:
         description: "xcodebuild -parallel-testing-worker-count (0 = do not set; parallel testing uses xcodebuild default)."
-        default: 6
+        default: 0
         required: false
         type: number
 
