@@ -72,7 +72,7 @@ jobs:
           if [ -n "${{ inputs.destination }}" ]; then
             echo "destination=${{ inputs.destination }}" >> "$GITHUB_OUTPUT"
           else
-            UID=$(xcrun simctl list devices available -j | python3 -c '
+            SIM_UDID=$(xcrun simctl list devices available -j | python3 -c '
           import sys, json
           d = json.load(sys.stdin)
           for devices in d.get("devices", {}).values():
@@ -82,11 +82,11 @@ jobs:
                 sys.exit(0)
           sys.exit(1)
             ')
-            if [ -z "$UID" ]; then
+            if [ -z "$SIM_UDID" ]; then
               echo "::error::No available iPhone simulator found"
               exit 1
             fi
-            echo "destination=platform=iOS Simulator,id=$UID" >> "$GITHUB_OUTPUT"
+            echo "destination=platform=iOS Simulator,id=$SIM_UDID" >> "$GITHUB_OUTPUT"
           fi
       - name: Run UI tests
         id: xcodebuild
