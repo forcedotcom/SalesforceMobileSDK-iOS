@@ -52,5 +52,4 @@ jobs:
     with:
       ios: "^26"
       xcode: "^26"
-      test-retry-iterations: 1
     secrets: inherit
