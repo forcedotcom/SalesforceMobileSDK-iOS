@@ -93,7 +93,7 @@ jobs:
         run: |
           DESTINATION="${{ steps.resolve_destination.outputs.destination }}"
           RETRY_ARGS=()
-          if [ "${{ inputs.test-retry-iterations }}" -gt 0 ]; then
+          if [ "${{ inputs.test-retry-iterations }}" -gt 1 ]; then
             RETRY_ARGS=(-retry-tests-on-failure -test-iterations "${{ inputs.test-retry-iterations }}")
           fi
           ONLY_TESTING_ARGS=()
