@@ -100,7 +100,8 @@
 		4FDEVINFO001234567890ABCD /* DevInfoViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FDEVINFO112345678901ABCD /* DevInfoViewControllerTests.swift */; };
 		4FE006B12EBEB65900CFD66F /* AuthFlowTypesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE006B02EBEB65900CFD66F /* AuthFlowTypesView.swift */; };
 		4FE006B22EBEB65900CFD66F /* BootConfigEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE006AE2EBEB65900CFD66F /* BootConfigEditor.swift */; };
-		4FE006B32EBEB65900CFD66F /* BootConfigPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE006AF2EBEB65900CFD66F /* BootConfigPickerViewController.swift */; };
+		4FE006B32EBEB65900CFD66F /* LoginOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE006AF2EBEB65900CFD66F /* LoginOptionsViewController.swift */; };
+		4FE006B52EBEB65900CFD66F /* DiscoveryResultEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE006B42EBEB65900CFD66F /* DiscoveryResultEditor.swift */; };
 		4FE006D42EBEBBF300CFD66F /* SFSDKLoginHostListViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FE006CE2EBEBBF300CFD66F /* SFSDKLoginHostListViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4FE006D52EBEBBF300CFD66F /* SFSDKTextFieldTableViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FE006D22EBEBBF300CFD66F /* SFSDKTextFieldTableViewCell.h */; };
 		4FE006D62EBEBBF300CFD66F /* SFSDKLoginHostStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FE006D02EBEBBF300CFD66F /* SFSDKLoginHostStorage.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -708,7 +709,8 @@
 		4FBOOTCP112345678901ABCD /* BootConfigPickerViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BootConfigPickerViewControllerTests.swift; path = SalesforceSDKCoreTests/BootConfigPickerViewControllerTests.swift; sourceTree = SOURCE_ROOT; };
 		4FDEVINFO112345678901ABCD /* DevInfoViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DevInfoViewControllerTests.swift; path = SalesforceSDKCoreTests/DevInfoViewControllerTests.swift; sourceTree = SOURCE_ROOT; };
 		4FE006AE2EBEB65900CFD66F /* BootConfigEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BootConfigEditor.swift; path = SalesforceSDKCore/Classes/Login/DevConfig/BootConfigEditor.swift; sourceTree = SOURCE_ROOT; };
-		4FE006AF2EBEB65900CFD66F /* BootConfigPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BootConfigPickerViewController.swift; path = SalesforceSDKCore/Classes/Login/DevConfig/BootConfigPickerViewController.swift; sourceTree = SOURCE_ROOT; };
+		4FE006AF2EBEB65900CFD66F /* LoginOptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LoginOptionsViewController.swift; path = SalesforceSDKCore/Classes/Login/DevConfig/LoginOptionsViewController.swift; sourceTree = SOURCE_ROOT; };
+		4FE006B42EBEB65900CFD66F /* DiscoveryResultEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DiscoveryResultEditor.swift; path = SalesforceSDKCore/Classes/Login/DevConfig/DiscoveryResultEditor.swift; sourceTree = SOURCE_ROOT; };
 		4FE006B02EBEB65900CFD66F /* AuthFlowTypesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AuthFlowTypesView.swift; path = SalesforceSDKCore/Classes/Login/DevConfig/AuthFlowTypesView.swift; sourceTree = SOURCE_ROOT; };
 		4FE006CA2EBEBBF300CFD66F /* NewLoginHostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewLoginHostView.swift; sourceTree = "<group>"; };
 		4FE006CB2EBEBBF300CFD66F /* SFSDKLoginHost.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKLoginHost.h; sourceTree = "<group>"; };
@@ -1357,7 +1359,8 @@
 			isa = PBXGroup;
 			children = (
 				4FE006AE2EBEB65900CFD66F /* BootConfigEditor.swift */,
-				4FE006AF2EBEB65900CFD66F /* BootConfigPickerViewController.swift */,
+				4FE006B42EBEB65900CFD66F /* DiscoveryResultEditor.swift */,
+				4FE006AF2EBEB65900CFD66F /* LoginOptionsViewController.swift */,
 				4FE006B02EBEB65900CFD66F /* AuthFlowTypesView.swift */,
 			);
 			path = DevConfig;
@@ -2344,7 +2347,8 @@
 				CE4CE33F1C0E524B009F6029 /* SFInstrumentation.m in Sources */,
 				4FE006B12EBEB65900CFD66F /* AuthFlowTypesView.swift in Sources */,
 				4FE006B22EBEB65900CFD66F /* BootConfigEditor.swift in Sources */,
-				4FE006B32EBEB65900CFD66F /* BootConfigPickerViewController.swift in Sources */,
+				4FE006B32EBEB65900CFD66F /* LoginOptionsViewController.swift in Sources */,
+				4FE006B52EBEB65900CFD66F /* DiscoveryResultEditor.swift in Sources */,
 				697A91A12363C3D800D2836F /* SFSDKPushNotificationDecryption.m in Sources */,
 				CE675A341E0B2CC6002DBF5A /* SFSDKSoqlBuilder.m in Sources */,
 				69E2FD9F22FB937F008E0AF0 /* SFSDKEncryptedURLCache.m in Sources */,

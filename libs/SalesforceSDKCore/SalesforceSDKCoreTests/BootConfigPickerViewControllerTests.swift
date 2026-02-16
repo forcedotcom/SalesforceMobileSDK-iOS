@@ -26,7 +26,7 @@ import XCTest
 import SwiftUI
 @testable import SalesforceSDKCore
 
-class BootConfigPickerViewControllerTests: XCTestCase {
+class LoginOptionsViewControllerTests: XCTestCase {
     
     var originalBootConfig: BootConfig?
     var originalRuntimeSelector: BootConfigRuntimeSelector?
@@ -57,7 +57,7 @@ class BootConfigPickerViewControllerTests: XCTestCase {
     }
     
     func testMakeViewControllerHasSheetPresentationConfiguration() {
-        let viewController = BootConfigPickerViewController.makeViewController {
+        let viewController = LoginOptionsViewController.makeViewController {
             // No-op callback
         }
         
@@ -88,7 +88,7 @@ class BootConfigPickerViewControllerTests: XCTestCase {
         ]
         SalesforceManager.shared.bootConfig = BootConfig(testConfig)
         
-        let view = BootConfigPickerView {
+        let view = LoginOptionsView {
             // No-op callback
         }
         
@@ -122,7 +122,7 @@ class BootConfigPickerViewControllerTests: XCTestCase {
         var completionCalled = false
         
         // Create view with test static config values
-        let view = BootConfigPickerView(
+        let view = LoginOptionsView(
             onConfigurationCompleted: {
                 completionCalled = true
                 expectation.fulfill()
@@ -156,7 +156,7 @@ class BootConfigPickerViewControllerTests: XCTestCase {
         let expectation = XCTestExpectation(description: "Dynamic config button triggers handler")
         var completionCalled = false
         
-        let view = BootConfigPickerView(
+        let view = LoginOptionsView(
             onConfigurationCompleted: {
                 completionCalled = true
                 expectation.fulfill()

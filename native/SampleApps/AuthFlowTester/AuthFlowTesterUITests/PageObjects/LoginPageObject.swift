@@ -236,7 +236,7 @@ class LoginPageObject {
     }
     
     /// Returns the import button for either the static or dynamic configuration section.
-    /// The BootConfigPickerView has two BootConfigEditor sections - the first for static config, the second for dynamic config.
+    /// The LoginOptionsView has two BootConfigEditor sections - the first for static config, the second for dynamic config.
     private func importConfigButton(useStaticConfiguration: Bool = true) -> XCUIElement {
         let buttons = app.buttons.matching(identifier: "importConfigButton")
         let index = useStaticConfiguration ? 0 : 1
