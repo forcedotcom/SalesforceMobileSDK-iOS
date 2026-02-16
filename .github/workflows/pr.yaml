@@ -137,7 +137,7 @@ jobs:
 
   ui-tests-pr:
     needs: [test-orchestrator]
-    uses: ./.github/workflows/reusable-ui-workflow.yaml
+    uses: ./.github/workflows/reusable-ui-test-workflow.yaml
     with:
       is_pr: true
     secrets: inherit

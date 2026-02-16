@@ -1,0 +1,14 @@
+name: UI Nightly Tests
+
+on:
+  schedule:
+    - cron: "0 5 * * 3,5"  # cron is UTC, this translates to 10 PM PST Tues and Thur.
+  workflow_dispatch:
+
+jobs:
+  ios-ui-test-nightly:
+    uses: ./.github/workflows/reusable-ui-test-workflow.yaml
+    with:
+      ios: "^26"
+      xcode: "^26"
+    secrets: inherit
