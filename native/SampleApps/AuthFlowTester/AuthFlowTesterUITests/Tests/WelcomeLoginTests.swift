@@ -43,7 +43,7 @@ class WelcomeLoginTests: BaseAuthFlowTester {
     func testWelcomeDiscoveryWithAdvancedAuthLoginHost() {
         launchLoginAndValidate(
             loginHost: .advancedAuth,
-            staticAppConfigName: .ecaAdvancedOpaque,
+            staticAppConfigName: .beaconAdvancedOpaque,
             useWelcomeDiscovery: true
         )
     }
@@ -62,8 +62,8 @@ class WelcomeLoginTests: BaseAuthFlowTester {
     func testWelcomeDiscoveryWithAdvancedAuthLoginHostAndDynamicConfig() throws {
         launchLoginAndValidate(
             loginHost: .advancedAuth,
-            staticAppConfigName: .ecaAdvancedOpaque,
-            dynamicAppConfigName: .ecaAdvancedJwt,
+            staticAppConfigName: .beaconAdvancedOpaque,
+            dynamicAppConfigName: .beaconAdvancedJwt,
             useWelcomeDiscovery: true
         )
     }
