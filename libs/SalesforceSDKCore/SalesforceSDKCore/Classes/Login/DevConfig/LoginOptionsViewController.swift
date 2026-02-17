@@ -72,7 +72,7 @@ public struct LoginOptionsView: View {
         VStack(spacing: 0) {
             // Custom title bar with close button
             TitleBarView(title: "Login Options", onDismiss: {
-                dismiss()
+                onConfigurationCompleted()
             })
 
             // Content
@@ -87,7 +87,7 @@ public struct LoginOptionsView: View {
                         // Static config section
                         BootConfigEditor(
                             title: "Static Configuration",
-                            buttonLabel: "Use static config",
+                            buttonLabel: "Save static config",
                             buttonColor: .blue,
                             consumerKey: $staticConsumerKey,
                             callbackUrl: $staticCallbackUrl,
@@ -102,7 +102,7 @@ public struct LoginOptionsView: View {
                         // Dynamic config section
                         BootConfigEditor(
                             title: "Dynamic Configuration",
-                            buttonLabel: "Use dynamic config",
+                            buttonLabel: "Save dynamic config",
                             buttonColor: .green,
                             consumerKey: $dynamicConsumerKey,
                             callbackUrl: $dynamicCallbackUrl,
@@ -184,9 +184,6 @@ public struct LoginOptionsView: View {
         UserAccountManager.shared.oauthClientID = staticConsumerKey
         UserAccountManager.shared.oauthCompletionURL = staticCallbackUrl
         UserAccountManager.shared.scopes = scopesArray.isEmpty ? [] : Set(scopesArray)
-
-        // Proceed with login
-        onConfigurationCompleted()
     }
 
     internal func handleDynamicBootconfig() {
@@ -211,16 +208,10 @@ public struct LoginOptionsView: View {
 
             callback(BootConfig(configDict))
         }
-
-        // Proceed with login
-        onConfigurationCompleted()
     }
 
     internal func handleSimulatedDomainDiscovery(result: DomainDiscoveryResult?) {
         SalesforceManager.shared.simulatedDomainDiscoveryResult = result
-        
-        // Proceed with login
-        onConfigurationCompleted()
     }
 }
 
@@ -253,6 +244,7 @@ struct TitleBarView: View {
                         .foregroundColor(.white)
                         .padding(12)
                 }
+                .accessibilityIdentifier("loginOptionsCloseButton")
             }
         }
         .frame(height: 44)

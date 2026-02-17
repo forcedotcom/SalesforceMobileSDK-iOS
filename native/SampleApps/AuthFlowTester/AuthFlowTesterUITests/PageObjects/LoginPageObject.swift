@@ -104,24 +104,19 @@ class LoginPageObject {
             let configJSON = buildConfigJSON(consumerKey: staticAppConfig.consumerKey, redirectUri: staticAppConfig.redirectUri, scopes: staticScopes)
             importConfig(configJSON, isStaticConfiguration: true)
         }
-        // In all cases - we want the static config to be set
-        tap(useStaticConfigButton())
+        tap(saveStaticConfigButton())
         
-        // Setting dynamic config when provided
         if let dynamicAppConfig = dynamicAppConfig {
-            tap(settingsButton())
-            tap(loginOptionsButton())
             let configJSON = buildConfigJSON(consumerKey: dynamicAppConfig.consumerKey, redirectUri: dynamicAppConfig.redirectUri, scopes: dynamicScopes)
             importConfig(configJSON, isStaticConfiguration: false)
-            tap(useDynamicConfigButton())
+            tap(saveDynamicConfigButton())
         }
         
-        // Setting (or unsetting) simulated domain discovery
-        tap(settingsButton())
-        tap(loginOptionsButton())
         let discoveryResultJSON = buildDiscoveryResultJSON(loginHost: discoveryLoginHost, username: discoveryUsername)
         importDiscoveryResult(discoveryResultJSON)
-        tap(useForDomainDiscoverySimulationButton())
+        tap(saveSimulatedResultButton())
+        
+        tap(loginOptionsCloseButton())
     }
     
     private func buildConfigJSON(consumerKey: String, redirectUri: String, scopes: String) -> String {
@@ -268,12 +263,12 @@ class LoginPageObject {
         return app.textFields["scopesTextField"]
     }
     
-    private func useStaticConfigButton() -> XCUIElement {
-        return app.buttons["Use static config"]
+    private func saveStaticConfigButton() -> XCUIElement {
+        return app.buttons["Save static config"]
     }
 
-    private func useDynamicConfigButton() -> XCUIElement {
-        return app.buttons["Use dynamic config"]
+    private func saveDynamicConfigButton() -> XCUIElement {
+        return app.buttons["Save dynamic config"]
     }
     
     /// Returns the import button for either the static or dynamic configuration section.
@@ -309,8 +304,12 @@ class LoginPageObject {
         return importDiscoveryResultAlert().buttons["Import"]
     }
 
-    private func useForDomainDiscoverySimulationButton() -> XCUIElement {
-        return app.buttons["useForDomainDiscoverySimulationButton"]
+    private func saveSimulatedResultButton() -> XCUIElement {
+        return app.buttons["saveSimulatedResultButton"]
+    }
+
+    private func loginOptionsCloseButton() -> XCUIElement {
+        return app.buttons["loginOptionsCloseButton"]
     }
     
     private func advancedAuthCloseButton() -> XCUIElement {

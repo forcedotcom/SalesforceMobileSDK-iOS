@@ -111,7 +111,7 @@ public struct DiscoveryResultEditor: View {
             }
 
             Button(action: applySimulatedResult) {
-                Text("Use for domain discovery simulation")
+                Text("Save simulated result")
                     .font(.headline)
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
@@ -119,7 +119,7 @@ public struct DiscoveryResultEditor: View {
                     .background(Color.orange)
                     .cornerRadius(8)
             }
-            .accessibilityIdentifier("useForDomainDiscoverySimulationButton")
+            .accessibilityIdentifier("saveSimulatedResultButton")
             .padding(.horizontal)
         }
         .padding(.vertical)
