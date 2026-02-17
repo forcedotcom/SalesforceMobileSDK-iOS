@@ -115,8 +115,8 @@ class BaseAuthFlowTester: XCTestCase {
         // Configuring login host last
         // When the configured login host requires advanced authentication
         // the login settings button is no longer available on the screen
-        // When useWelcomeDiscovery is true, use welcome.salesforce.com as the login server
-        let loginHostToUse = useWelcomeDiscovery ? "welcome.salesforce.com" : hostConfig.urlNoProtocol
+        // When useWelcomeDiscovery is true, use welcome.salesforce.com/discovery as the login server
+        let loginHostToUse = useWelcomeDiscovery ? "welcome.salesforce.com/discovery" : hostConfig.urlNoProtocol
         loginPage.configureLoginHost(host: loginHostToUse)
         
         if (useWelcomeDiscovery) {
