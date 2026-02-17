@@ -150,7 +150,8 @@ public struct DiscoveryResultEditor: View {
         }
     }
 
-    private func applySimulatedResult() {
+    /// Applies current field values and invokes the callback. Internal for unit testing.
+    internal func applySimulatedResult() {
         let trimmedHost = loginHost.trimmingCharacters(in: .whitespacesAndNewlines)
         let trimmedUser = userName.trimmingCharacters(in: .whitespacesAndNewlines)
         if trimmedHost.isEmpty {

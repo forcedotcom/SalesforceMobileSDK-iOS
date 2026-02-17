@@ -211,4 +211,3 @@ class LoginOptionsViewControllerTests: XCTestCase {
         XCTAssertTrue(completionCalled, "Completion handler should be called when closing the sheet")
     }
 }
-
