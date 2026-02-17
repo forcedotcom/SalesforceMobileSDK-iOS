@@ -119,7 +119,12 @@ class BaseAuthFlowTester: XCTestCase {
         let loginHostToUse = useWelcomeDiscovery ? "welcome.salesforce.com" : hostConfig.urlNoProtocol
         loginPage.configureLoginHost(host: loginHostToUse)
         
-        loginPage.performLogin(username: userConfig.username, password: userConfig.password)
+        if (useWelcomeDiscovery) {
+            XCTAssertTrue(loginPage.hasFilledUsernameField(username: userConfig.username), "Login page should have pre-filled username")
+            loginPage.performWelcomeLogin(password: userConfig.password)
+        } else {
+            loginPage.performLogin(username: userConfig.username, password: userConfig.password)
+        }
     }
     
     /// Logs out the current user by tapping the logout button and confirming.

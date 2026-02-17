@@ -80,7 +80,7 @@ class LoginPageObject {
     
     func performWelcomeLogin(password: String) {
         setTextField(passwordField(), value: password)
-        tap(passwordFieldLabel()) // click on label to hide keyboard
+        tap(usernameFieldLabel()) // click on label to hide keyboard
         tap(loginButton())
         tapIfPresent(allowButton())
     }
