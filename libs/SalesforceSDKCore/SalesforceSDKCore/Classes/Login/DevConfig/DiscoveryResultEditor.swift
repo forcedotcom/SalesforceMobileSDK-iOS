@@ -37,7 +37,7 @@ public enum DiscoveryResultJSONKeys {
 public struct DiscoveryResultEditor: View {
     @Binding var loginHost: String
     @Binding var userName: String
-    let onUseForSimulation: (DomainDiscoveryResult) -> Void
+    let onUseForSimulation: (DomainDiscoveryResult?) -> Void
     @State private var isExpanded: Bool = false
     @State private var showImportAlert: Bool = false
     @State private var importJSONText: String = ""
@@ -46,7 +46,7 @@ public struct DiscoveryResultEditor: View {
     public init(
         loginHost: Binding<String>,
         userName: Binding<String>,
-        onUseForSimulation: @escaping (DomainDiscoveryResult) -> Void,
+        onUseForSimulation: @escaping (DomainDiscoveryResult?) -> Void,
         initiallyExpanded: Bool = false
     ) {
         self._loginHost = loginHost
@@ -119,6 +119,7 @@ public struct DiscoveryResultEditor: View {
                     .background(Color.orange)
                     .cornerRadius(8)
             }
+            .accessibilityIdentifier("useForDomainDiscoverySimulationButton")
             .padding(.horizontal)
         }
         .padding(.vertical)
@@ -152,7 +153,10 @@ public struct DiscoveryResultEditor: View {
     private func applySimulatedResult() {
         let trimmedHost = loginHost.trimmingCharacters(in: .whitespacesAndNewlines)
         let trimmedUser = userName.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmedHost.isEmpty, !trimmedUser.isEmpty else { return }
+        if trimmedHost.isEmpty {
+            onUseForSimulation(nil)
+            return
+        }
         let result = DomainDiscoveryResult(loginHint: trimmedUser, myDomain: trimmedHost)
         onUseForSimulation(result)
     }

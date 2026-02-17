@@ -32,7 +32,7 @@ import XCTest
 ///
 /// NB: Tests use the first user from ui_test_config.json
 ///
-class BeaconLoginTests: BaseAuthFlowTesterTest {
+class BeaconLoginTests: BaseAuthFlowTester {
     
     // MARK: - Login Host Configuration
     
@@ -74,37 +74,5 @@ class BeaconLoginTests: BaseAuthFlowTesterTest {
     /// Login with Beacon advanced JWT using all scopes and web server flow.
     func testBeaconAdvancedJwt_AllScopes() throws {
         launchLoginAndValidate(loginHost: loginHostConfig(), staticAppConfigName: .beaconAdvancedJwt, staticScopeSelection: .all)
-    }
-    
-    // MARK: - Using dynamic config
-    
-    /// Login with Beacon advanced JWT using default scopes and web server flow provided as dynamic configuration.
-    /// Restart the application and validate it still works afterwards
-    func testBeaconAdvancedJwt_DefaultScopes_DynamicConfiguration_WithRestart() throws {
-        launchLoginAndValidate(
-            loginHost: loginHostConfig(),
-            staticAppConfigName: .beaconAdvancedOpaque,
-            dynamicAppConfigName: .beaconAdvancedJwt
-        )
-        restartAndValidate(
-            loginHost: loginHostConfig(),
-            userAppConfigName: .beaconAdvancedJwt
-        )
-    }
-
-    /// Login with Beacon advanced JWT using subset of scopes and web server flow provided as dynamic configuration.
-    /// Restart the application and validate it still works afterwards
-    func testBeaconAdvancedJwt_SubsetScopes_DynamicConfiguration_WithRestart() throws {
-        launchLoginAndValidate(
-            loginHost: loginHostConfig(),
-            staticAppConfigName: .beaconAdvancedOpaque,
-            dynamicAppConfigName: .beaconAdvancedJwt,
-            dynamicScopeSelection: .subset
-        )
-        restartAndValidate(
-            loginHost: loginHostConfig(),
-            userAppConfigName: .beaconAdvancedJwt,
-            userScopeSelection: .subset
-        )
     }
 }

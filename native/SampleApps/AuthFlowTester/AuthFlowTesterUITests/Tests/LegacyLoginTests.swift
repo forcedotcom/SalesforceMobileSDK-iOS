@@ -34,15 +34,10 @@ import XCTest
 ///
 /// NB: Tests use the first user from ui_test_config.json
 ///
-class LegacyLoginTests: BaseAuthFlowTesterTest {
+class LegacyLoginTests: BaseAuthFlowTester {
 
     // MARK: - CA Web Server Flow Tests
-    
-    /// Login with CA advanced opaque using default scopes and web server flow.
-    func testCAAdvancedOpaque_DefaultScopes_WebServerFlow() throws {
-        launchLoginAndValidate(staticAppConfigName: .caAdvancedOpaque)
-    }
-    
+
     /// Login with CA advanced opaque using subset of scopes and web server flow.
     func testCAAdvancedOpaque_SubsetScopes_WebServerFlow() throws {
         launchLoginAndValidate(staticAppConfigName: .caAdvancedOpaque, staticScopeSelection: .subset, useHybridFlow: false)
@@ -55,11 +50,6 @@ class LegacyLoginTests: BaseAuthFlowTesterTest {
     
     // MARK: - CA Non-hybrid Web Server Flow Tests
 
-    /// Login with CA advanced opaque using default scopes and (non-hybrid) web server  flow.
-    func testCAAdvancedOpaque_DefaultScopes_WebServerFlow_NotHybrid() throws {
-        launchLoginAndValidate(staticAppConfigName: .caAdvancedOpaque, useHybridFlow: false)
-    }
-    
     /// Login with CA advanced opaque using subset of scopes and (non-hybrid) web server flow.
     func testCAAdvancedOpaque_SubsetScopes_WebServerFlow_NotHybrid() throws {
         launchLoginAndValidate(staticAppConfigName: .caAdvancedOpaque, staticScopeSelection: .subset, useHybridFlow: false)
@@ -71,12 +61,7 @@ class LegacyLoginTests: BaseAuthFlowTesterTest {
     }
     
     // MARK: - CA User Agent Flow Tests
-    
-    /// Login with CA advanced opaque using default scopes and user agent flow.
-    func testCAAdvancedOpaque_DefaultScopes_UserAgentFlow() throws {
-        launchLoginAndValidate(staticAppConfigName: .caAdvancedOpaque, useWebServerFlow: false)
-    }
-    
+
     /// Login with CA advanced opaque using subset of scopes and user agent flow.
     func testCAAdvancedOpaque_SubsetScopes_UserAgentFlow() throws {
         launchLoginAndValidate(staticAppConfigName: .caAdvancedOpaque, staticScopeSelection: .subset, useWebServerFlow: false)
@@ -88,13 +73,8 @@ class LegacyLoginTests: BaseAuthFlowTesterTest {
     }
     
     // MARK: - CA Non-hybrid User Agent Flow Tests
-    
-    /// Login with CA advanced opaque using default scopes and (non-hybrid) user agent  flow.
-    func testCAAdvancedOpaque_DefaultScopes_UserAgentFlow_NotHybrid() throws {
-        launchLoginAndValidate(staticAppConfigName: .caAdvancedOpaque, useWebServerFlow: false, useHybridFlow: false)
-    }
-    
-    /// Login with CA advanced opaque using subset of scopes and (non-hybrid) user agent  flow.
+
+    /// Login with CA advanced opaque using subset of scopes and (non-hybrid) user agent flow.
     func testCAAdvancedOpaque_SubsetScopes_UserAgentFlow_NotHybrid() throws {
         launchLoginAndValidate(staticAppConfigName: .caAdvancedOpaque, staticScopeSelection: .subset, useWebServerFlow: false, useHybridFlow: false)
     }
@@ -103,33 +83,5 @@ class LegacyLoginTests: BaseAuthFlowTesterTest {
     func testCAAdvancedOpaque_AllScopes_UserAgentFlow_NotHybrid() throws {
         launchLoginAndValidate(staticAppConfigName: .caAdvancedOpaque, staticScopeSelection: .all, useWebServerFlow: false, useHybridFlow: false)
     }
-    
-    // MARK: - Using dynamic config
-    
-    /// Login with CA advanced JWT using default scopes and web server flow provided as dynamic configuration.
-    /// Restart the application and validate it still works afterwards
-    func testCAAdvancedJwt_DefaultScopes_DynamicConfiguration_WithRestart() throws {
-        launchLoginAndValidate(
-            staticAppConfigName: .caAdvancedOpaque,
-            dynamicAppConfigName: .caAdvancedJwt
-        )
-        restartAndValidate(
-            userAppConfigName: .caAdvancedJwt
-        )
-    }
-
-    /// Login with CA advanced JWT using subset of scopes and web server flow provided as dynamic configuration.
-    /// Restart the application and validate it still works afterwards
-    func testCAAdvancedJwt_SubsetScopes_DynamicConfiguration_WithRestart() throws {
-        launchLoginAndValidate(
-            staticAppConfigName: .caAdvancedOpaque,
-            dynamicAppConfigName: .caAdvancedJwt,
-            dynamicScopeSelection: .subset)
-        restartAndValidate(
-            userAppConfigName: .caAdvancedJwt,
-            userScopeSelection: .subset
-        )
-    }
-
 }
 

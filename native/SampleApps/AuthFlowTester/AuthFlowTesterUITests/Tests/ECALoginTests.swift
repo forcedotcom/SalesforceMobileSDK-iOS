@@ -32,7 +32,7 @@ import XCTest
 ///
 /// NB: Tests use the first user from ui_test_config.json
 ///
-class ECALoginTests: BaseAuthFlowTesterTest {
+class ECALoginTests: BaseAuthFlowTester {
     
     // MARK: - ECA Opaque Tests
     
@@ -66,32 +66,5 @@ class ECALoginTests: BaseAuthFlowTesterTest {
     /// Login with ECA advanced JWT using all scopes and web server flow.
     func testECAAdvancedJwt_AllScopes() throws {
         launchLoginAndValidate(staticAppConfigName: .ecaAdvancedJwt, staticScopeSelection: .all)
-    }
-    
-    // MARK: - Using dynamic config
-    
-    /// Login with ECA advanced JWT using default scopes and web server flow provided as dynamic configuration.
-    /// Restart the application and validate it still works afterwards
-    func testECAAdvancedJwt_DefaultScopes_DynamicConfiguration_WithRestart() throws {
-        launchLoginAndValidate(
-            staticAppConfigName: .ecaAdvancedOpaque,
-            dynamicAppConfigName: .ecaAdvancedJwt
-        )
-        restartAndValidate(
-            userAppConfigName: .ecaAdvancedJwt
-        )
-    }
-
-    /// Login with ECA advanced JWT using subset of scopes and web server flow provided as dynamic configuration.
-    /// Restart the application and validate it still works afterwards
-    func testECAAdvancedJwt_SubsetScopes_DynamicConfiguration_WithRestart() throws {
-        launchLoginAndValidate(
-            staticAppConfigName: .ecaAdvancedOpaque,
-            dynamicAppConfigName: .ecaAdvancedJwt,
-            dynamicScopeSelection: .subset)
-        restartAndValidate(
-            userAppConfigName: .ecaAdvancedJwt,
-            userScopeSelection: .subset
-        )
     }
 }

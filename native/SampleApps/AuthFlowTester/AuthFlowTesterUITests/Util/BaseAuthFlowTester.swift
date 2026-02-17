@@ -1,9 +1,9 @@
 /*
- BaseAuthFlowTesterTest.swift
+ BaseAuthFlowTester.swift
  AuthFlowTesterUITests
- 
+
  Copyright (c) 2025-present, salesforce.com, inc. All rights reserved.
- 
+
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
  * Redistributions of source code must retain the above copyright notice, this list of conditions
@@ -14,7 +14,7 @@
  * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
  endorse or promote products derived from this software without specific prior written
  permission of salesforce.com, inc.
- 
+
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
  FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -27,7 +27,7 @@
 
 import XCTest
 
-class BaseAuthFlowTesterTest: XCTestCase {
+class BaseAuthFlowTester: XCTestCase {
     // App object
     private var app: XCUIApplication!
 
@@ -82,6 +82,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
     ///   - dynamicScopeSelection: The scope selection for dynamic configuration. Defaults to `.empty`.
     ///   - useWebServerFlow: Whether to use web server OAuth flow. Defaults to `true`.
     ///   - useHybridFlow: Whether to use hybrid authentication flow. Defaults to `true`.
+    ///   - useWelcomeDiscovery: When true, configures simulated domain discovery. Defaults to `false`.
     func login(
         loginHost: KnownLoginHostConfig,
         user: KnownUserConfig,
@@ -91,8 +92,10 @@ class BaseAuthFlowTesterTest: XCTestCase {
         dynamicScopeSelection: ScopeSelection = .empty,
         useWebServerFlow: Bool = true,
         useHybridFlow: Bool = true,
+        useWelcomeDiscovery: Bool = false,
     ) {
         let userConfig = getUser(loginHost: loginHost, user: user)
+        let hostConfig = try! testConfig.getLoginHost(loginHost)
         let staticAppConfig = getAppConfig(named: staticAppConfigName)
         let dynamicAppConfig = dynamicAppConfigName == nil ? nil : getAppConfig(named: dynamicAppConfigName!)
         let staticScopes = testConfig.getScopesToRequest(for: staticAppConfig, staticScopeSelection)
@@ -105,13 +108,16 @@ class BaseAuthFlowTesterTest: XCTestCase {
             dynamicScopes: dynamicScopes,
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow,
+            discoveryLoginHost: useWelcomeDiscovery ? hostConfig.urlNoProtocol : "",
+            discoveryUsername: useWelcomeDiscovery ? userConfig.username : "",
         )
         
         // Configuring login host last
         // When the configured login host requires advanced authentication
         // the login settings button is no longer available on the screen
-        let hostConfig = try! testConfig.getLoginHost(loginHost)
-        loginPage.configureLoginHost(host: hostConfig.urlNoProtocol)
+        // When useWelcomeDiscovery is true, use welcome.salesforce.com as the login server
+        let loginHostToUse = useWelcomeDiscovery ? "welcome.salesforce.com" : hostConfig.urlNoProtocol
+        loginPage.configureLoginHost(host: loginHostToUse)
         
         loginPage.performLogin(username: userConfig.username, password: userConfig.password)
     }
@@ -219,6 +225,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
     ///   - dynamicScopeSelection: The scope selection for dynamic configuration. Defaults to `.empty`.
     ///   - useWebServerFlow: Whether to use web server OAuth flow. Defaults to `true`.
     ///   - useHybridFlow: Whether to use hybrid authentication flow. Defaults to `true`.
+    ///   - useWelcomeDiscovery: When true, configures simulated domain discovery. Defaults to `false`.
     func launchLoginAndValidate(
         loginHost: KnownLoginHostConfig = .regularAuth,
         user: KnownUserConfig = .first,
@@ -228,6 +235,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
         dynamicScopeSelection: ScopeSelection = .empty,
         useWebServerFlow: Bool = true,
         useHybridFlow: Bool = true,
+        useWelcomeDiscovery: Bool = false,
     ) {
         let useStaticConfiguration = dynamicAppConfigName == nil
         let userAppConfigName = useStaticConfiguration ? staticAppConfigName : dynamicAppConfigName!
@@ -246,6 +254,7 @@ class BaseAuthFlowTesterTest: XCTestCase {
             dynamicScopeSelection: dynamicScopeSelection,
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow,
+            useWelcomeDiscovery: useWelcomeDiscovery
         )
         
         // Validate

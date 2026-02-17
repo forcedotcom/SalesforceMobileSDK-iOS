@@ -33,7 +33,7 @@ import XCTest
 ///
 /// NB: Tests use the second user from ui_test_config.json
 ///
-class MigrationTests: BaseAuthFlowTesterTest {
+class MigrationTests: BaseAuthFlowTester {
     
     // MARK: - Migration within same app (scope upgrade)
 

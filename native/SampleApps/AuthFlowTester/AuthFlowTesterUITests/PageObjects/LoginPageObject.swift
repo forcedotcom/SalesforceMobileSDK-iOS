@@ -43,6 +43,10 @@ class LoginPageObject {
         return loginNavigationBar().waitForExistence(timeout: timeout)
     }
     
+    func hasFilledUsernameField(username: String) -> Bool {
+        return app.staticTexts[username].waitForExistence(timeout: timeout)
+    }
+    
     func switchToLSCIfShowingAdvancedAuthentication() -> Void {
         if (isShowingAdvancedAuth()) {
             tap(advancedAuthCloseButton())
@@ -74,6 +78,13 @@ class LoginPageObject {
         tapIfPresent(allowButton())
     }
     
+    func performWelcomeLogin(password: String) {
+        setTextField(passwordField(), value: password)
+        tap(passwordFieldLabel()) // click on label to hide keyboard
+        tap(loginButton())
+        tapIfPresent(allowButton())
+    }
+    
     func configureLoginOptions(
         staticAppConfig: AppConfig?,
         staticScopes: String,
@@ -81,6 +92,8 @@ class LoginPageObject {
         dynamicScopes: String,
         useWebServerFlow: Bool,
         useHybridFlow: Bool,
+        discoveryLoginHost: String,
+        discoveryUsername: String,
     ) -> Void {
         tap(settingsButton())
         tap(loginOptionsButton())
@@ -93,7 +106,7 @@ class LoginPageObject {
         }
         // In all cases - we want the static config to be set
         tap(useStaticConfigButton())
-
+        
         // Setting dynamic config when provided
         if let dynamicAppConfig = dynamicAppConfig {
             tap(settingsButton())
@@ -102,6 +115,13 @@ class LoginPageObject {
             importConfig(configJSON, isStaticConfiguration: false)
             tap(useDynamicConfigButton())
         }
+        
+        // Setting (or unsetting) simulated domain discovery
+        tap(settingsButton())
+        tap(loginOptionsButton())
+        let discoveryResultJSON = buildDiscoveryResultJSON(loginHost: discoveryLoginHost, username: discoveryUsername)
+        importDiscoveryResult(discoveryResultJSON)
+        tap(useForDomainDiscoverySimulationButton())
     }
     
     private func buildConfigJSON(consumerKey: String, redirectUri: String, scopes: String) -> String {
@@ -109,6 +129,18 @@ class LoginPageObject {
             BootConfigJSONKeys.consumerKey: consumerKey,
             BootConfigJSONKeys.redirectUri: redirectUri,
             BootConfigJSONKeys.scopes: scopes
+        ]
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: config, options: []),
+              let jsonString = String(data: jsonData, encoding: .utf8) else {
+            return "{}"
+        }
+        return jsonString
+    }
+
+    private func buildDiscoveryResultJSON(loginHost: String, username: String) -> String {
+        let config: [String: String] = [
+            "login_hint": username,
+            "my_domain": loginHost
         ]
         guard let jsonData = try? JSONSerialization.data(withJSONObject: config, options: []),
               let jsonString = String(data: jsonData, encoding: .utf8) else {
@@ -129,6 +161,15 @@ class LoginPageObject {
         textField.typeText(jsonString)
         
         tap(importAlertButton())
+    }
+
+    private func importDiscoveryResult(_ jsonString: String) {
+        tap(importDiscoveryResultButton())
+        let alert = importDiscoveryResultAlert()
+        _ = alert.waitForExistence(timeout: timeout)
+        let textField = alert.textFields.firstMatch
+        textField.typeText(jsonString)
+        tap(importDiscoveryResultAlertImportButton())
     }
     
     // MARK: - UI Element Accessors
@@ -255,6 +296,22 @@ class LoginPageObject {
     private func importAlertButton() -> XCUIElement {
         return importConfigAlert().buttons["Import"]
     }
+
+    private func importDiscoveryResultButton() -> XCUIElement {
+        return app.buttons["importDiscoveryResultButton"]
+    }
+
+    private func importDiscoveryResultAlert() -> XCUIElement {
+        return app.alerts["Import Discovery Result"]
+    }
+
+    private func importDiscoveryResultAlertImportButton() -> XCUIElement {
+        return importDiscoveryResultAlert().buttons["Import"]
+    }
+
+    private func useForDomainDiscoverySimulationButton() -> XCUIElement {
+        return app.buttons["useForDomainDiscoverySimulationButton"]
+    }
     
     private func advancedAuthCloseButton() -> XCUIElement {
         return app.otherElements["TopBrowserBar"].buttons["Close"]
@@ -308,7 +365,7 @@ class LoginPageObject {
     }
     
     // MARK: - Other
-
+    
     private func hasHost(host: String) -> Bool {
         let row = hostRow(host: host)
         return row.waitForExistence(timeout: timeout)

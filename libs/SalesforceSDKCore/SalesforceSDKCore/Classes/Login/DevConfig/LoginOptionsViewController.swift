@@ -216,8 +216,10 @@ public struct LoginOptionsView: View {
         onConfigurationCompleted()
     }
 
-    internal func handleSimulatedDomainDiscovery(result: DomainDiscoveryResult) {
+    internal func handleSimulatedDomainDiscovery(result: DomainDiscoveryResult?) {
         SalesforceManager.shared.simulatedDomainDiscoveryResult = result
+        
+        // Proceed with login
         onConfigurationCompleted()
     }
 }
