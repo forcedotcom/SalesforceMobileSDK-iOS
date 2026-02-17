@@ -33,6 +33,7 @@ class LoginOptionsViewControllerTests: XCTestCase {
     var originalOAuthClientID: String!
     var originalOAuthCompletionURL: String!
     var originalScopes: Set<String>!
+    var originalSimulatedDomainDiscoveryResult: DomainDiscoveryResult?
     
     override func setUp() {
         super.setUp()
@@ -43,6 +44,7 @@ class LoginOptionsViewControllerTests: XCTestCase {
         originalOAuthClientID = UserAccountManager.shared.oauthClientID
         originalOAuthCompletionURL = UserAccountManager.shared.oauthCompletionURL
         originalScopes = UserAccountManager.shared.scopes
+        originalSimulatedDomainDiscoveryResult = SalesforceManager.shared.simulatedDomainDiscoveryResult
     }
     
     override func tearDown() {
@@ -52,6 +54,7 @@ class LoginOptionsViewControllerTests: XCTestCase {
         UserAccountManager.shared.oauthClientID = originalOAuthClientID
         UserAccountManager.shared.oauthCompletionURL = originalOAuthCompletionURL
         UserAccountManager.shared.scopes = originalScopes
+        SalesforceManager.shared.simulatedDomainDiscoveryResult = originalSimulatedDomainDiscoveryResult
         
         super.tearDown()
     }
@@ -118,26 +121,16 @@ class LoginOptionsViewControllerTests: XCTestCase {
     }
     
     func testStaticConfigButtonAction() {
-        let expectation = XCTestExpectation(description: "Static config button triggers handler")
-        var completionCalled = false
-        
-        // Create view with test static config values
+        // Create view with test static config values (save buttons do not call onConfigurationCompleted)
         let view = LoginOptionsView(
-            onConfigurationCompleted: {
-                completionCalled = true
-                expectation.fulfill()
-            },
+            onConfigurationCompleted: {},
             staticConsumerKey: "test_static_key",
             staticCallbackUrl: "test://static/callback",
             staticScopes: "api refresh_token web"
         )
         
-        // Trigger the static config handler
+        // Trigger the static config handler (saves config only; does not dismiss)
         view.handleStaticConfig()
-        
-        // Verify the completion callback was called
-        wait(for: [expectation], timeout: 2.0)
-        XCTAssertTrue(completionCalled, "Completion callback should be called")
         
         // Verify SalesforceManager was updated
         XCTAssertNotNil(SalesforceManager.shared.bootConfig, "BootConfig should be set")
@@ -153,24 +146,16 @@ class LoginOptionsViewControllerTests: XCTestCase {
     }
     
     func testDynamicConfigButtonAction() {
-        let expectation = XCTestExpectation(description: "Dynamic config button triggers handler")
-        var completionCalled = false
-        
+        // Save dynamic config does not call onConfigurationCompleted
         let view = LoginOptionsView(
-            onConfigurationCompleted: {
-                completionCalled = true
-                expectation.fulfill()
-            },
+            onConfigurationCompleted: {},
             dynamicConsumerKey: "test_dynamic_key",
             dynamicCallbackUrl: "test://dynamic/callback",
             dynamicScopes: "api id"
         )
         
-        // Trigger the dynamic config handler
+        // Trigger the dynamic config handler (saves config only; does not dismiss)
         view.handleDynamicBootconfig()
-        
-        wait(for: [expectation], timeout: 2.0)
-        XCTAssertTrue(completionCalled, "Completion callback should be called")
         
         // Verify runtime selector was set
         XCTAssertNotNil(SalesforceManager.shared.bootConfigRuntimeSelector, "Runtime selector should be set for dynamic config")
@@ -186,6 +171,44 @@ class LoginOptionsViewControllerTests: XCTestCase {
         }
         
         wait(for: [selectorExpectation], timeout: 1.0)
+    }
+
+    func testSimulatedDomainDiscoveryButtonAction() {
+        // Save simulated result does not call onConfigurationCompleted
+        let view = LoginOptionsView(
+            onConfigurationCompleted: {},
+            discoveryLoginHost: "test.my.salesforce.com",
+            discoveryUserName: "user@example.com"
+        )
+        
+        // Trigger the simulated domain discovery handler (saves result only; does not dismiss)
+        let result = DomainDiscoveryResult(loginHint: "user@example.com", myDomain: "test.my.salesforce.com")
+        view.handleSimulatedDomainDiscovery(result: result)
+        
+        // Verify SalesforceManager was updated
+        XCTAssertNotNil(SalesforceManager.shared.simulatedDomainDiscoveryResult, "Simulated domain discovery result should be set")
+        XCTAssertEqual(SalesforceManager.shared.simulatedDomainDiscoveryResult?.loginHint, "user@example.com")
+        XCTAssertEqual(SalesforceManager.shared.simulatedDomainDiscoveryResult?.myDomain, "test.my.salesforce.com")
+        
+        // Clearing the simulated result (e.g. empty login host in editor)
+        view.handleSimulatedDomainDiscovery(result: nil)
+        XCTAssertNil(SalesforceManager.shared.simulatedDomainDiscoveryResult, "Simulated result should be cleared when passing nil")
+    }
+
+    func testCompletionHandlerCalledWhenClosingSheet() {
+        let expectation = XCTestExpectation(description: "Completion handler called when sheet is closed")
+        var completionCalled = false
+
+        let view = LoginOptionsView(onConfigurationCompleted: {
+            completionCalled = true
+            expectation.fulfill()
+        })
+
+        // Simulate user tapping the title bar close button (same code path)
+        view.closeSheet()
+
+        wait(for: [expectation], timeout: 2.0)
+        XCTAssertTrue(completionCalled, "Completion handler should be called when closing the sheet")
     }
 }
 

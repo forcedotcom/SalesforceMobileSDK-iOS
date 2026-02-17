@@ -70,10 +70,8 @@ public struct LoginOptionsView: View {
 
     public var body: some View {
         VStack(spacing: 0) {
-            // Custom title bar with close button
-            TitleBarView(title: "Login Options", onDismiss: {
-                onConfigurationCompleted()
-            })
+            // Custom title bar with close button – trigger handler then dismiss so presenter can run its callback
+            TitleBarView(title: "Login Options", onDismiss: closeSheet)
 
             // Content
             ScrollView {
@@ -155,7 +153,13 @@ public struct LoginOptionsView: View {
         }
     }
 
-    // MARK: - Button Actions
+    // MARK: - Close / Button Actions
+
+    /// Invoked when the title bar close button is tapped. Call from tests to verify completion handler is run.
+    internal func closeSheet() {
+        onConfigurationCompleted()
+        dismiss()
+    }
 
     internal func handleStaticConfig() {
         // Parse scopes from space-separated string
