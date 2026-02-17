@@ -117,6 +117,7 @@ jobs:
     secrets: inherit
 
   native-samples-pr:
+    needs: [test-orchestrator]
     strategy:
       fail-fast: false
       matrix:
