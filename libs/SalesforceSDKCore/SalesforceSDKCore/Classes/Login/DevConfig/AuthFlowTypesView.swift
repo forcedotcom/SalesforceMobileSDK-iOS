@@ -38,13 +38,13 @@ public struct AuthFlowTypesView: View {
     
     public var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("Authentication Flow Types")
+            Text(SFSDKResourceUtils.localizedString("LOGIN_OPTIONS_AUTH_FLOW_TYPES_TITLE"))
                 .font(.headline)
                 .padding(.horizontal)
             
             VStack(alignment: .leading, spacing: 8) {
                 Toggle(isOn: $useWebServerFlow) {
-                    Text("Use Web Server Flow")
+                    Text(SFSDKResourceUtils.localizedString("LOGIN_OPTIONS_USE_WEB_SERVER_FLOW"))
                         .font(.body)
                 }
                 .onChange(of: useWebServerFlow) { _, newValue in
@@ -53,7 +53,7 @@ public struct AuthFlowTypesView: View {
                 .padding(.horizontal)
                 
                 Toggle(isOn: $useHybridFlow) {
-                    Text("Use Hybrid Flow")
+                    Text(SFSDKResourceUtils.localizedString("LOGIN_OPTIONS_USE_HYBRID_FLOW"))
                         .font(.body)
                 }
                 .onChange(of: useHybridFlow) { _, newValue in

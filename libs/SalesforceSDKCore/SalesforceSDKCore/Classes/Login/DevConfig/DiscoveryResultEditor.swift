@@ -1,9 +1,9 @@
 /*
- BootConfigEditor.swift
+ DiscoveryResultEditor.swift
  SalesforceSDKCore
 
- Copyright (c) 2025-present, salesforce.com, inc. All rights reserved.
- 
+ Copyright (c) 2026-present, salesforce.com, inc. All rights reserved.
+
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
  * Redistributions of source code must retain the above copyright notice, this list of conditions
@@ -14,7 +14,7 @@
  * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
  endorse or promote products derived from this software without specific prior written
  permission of salesforce.com, inc.
- 
+
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
  FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -27,49 +27,34 @@
 
 import SwiftUI
 
-// MARK: - JSON Import Labels
-public struct BootConfigJSONKeys {
-    public static let consumerKey = "remoteAccessConsumerKey"
-    public static let redirectUri = "oauthRedirectURI"
-    public static let scopes = "scopes"
+/// JSON keys for importing a discovery result.
+public enum DiscoveryResultJSONKeys {
+    public static let loginHint = "login_hint"
+    public static let myDomain = "my_domain"
 }
 
-public struct BootConfigEditor: View {
-    let title: String
-    let buttonLabel: String
-    let buttonColor: Color
-    @Binding var consumerKey: String
-    @Binding var callbackUrl: String
-    @Binding var scopes: String
-    let isLoading: Bool
-    let onUseConfig: () -> Void
-    let initiallyExpanded: Bool
+/// Editor for simulating a domain discovery result (login host and username). Used in debug to bypass the real discovery flow.
+public struct DiscoveryResultEditor: View {
+    @Binding var loginHost: String
+    @Binding var userName: String
+    let onUseForSimulation: (DomainDiscoveryResult?) -> Void
     @State private var isExpanded: Bool = false
     @State private var showImportAlert: Bool = false
     @State private var importJSONText: String = ""
-    
+    let initiallyExpanded: Bool
+
     public init(
-        title: String,
-        buttonLabel: String,
-        buttonColor: Color,
-        consumerKey: Binding<String>,
-        callbackUrl: Binding<String>,
-        scopes: Binding<String>,
-        isLoading: Bool,
-        onUseConfig: @escaping () -> Void,
-        initiallyExpanded: Bool
+        loginHost: Binding<String>,
+        userName: Binding<String>,
+        onUseForSimulation: @escaping (DomainDiscoveryResult?) -> Void,
+        initiallyExpanded: Bool = false
     ) {
-        self.title = title
-        self.buttonLabel = buttonLabel
-        self.buttonColor = buttonColor
-        self._consumerKey = consumerKey
-        self._callbackUrl = callbackUrl
-        self._scopes = scopes
-        self.isLoading = isLoading
-        self.onUseConfig = onUseConfig
+        self._loginHost = loginHost
+        self._userName = userName
+        self.onUseForSimulation = onUseForSimulation
         self.initiallyExpanded = initiallyExpanded
     }
-    
+
     public var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
@@ -79,7 +64,7 @@ public struct BootConfigEditor: View {
                     }
                 }) {
                     HStack {
-                        Text(title)
+                        Text(SFSDKResourceUtils.localizedString("DISCOVERY_SIMULATE_TITLE"))
                             .font(.headline)
                             .foregroundColor(.primary)
                         Spacer()
@@ -95,89 +80,85 @@ public struct BootConfigEditor: View {
                         .font(.subheadline)
                         .foregroundColor(.blue)
                 }
-                .accessibilityIdentifier("importConfigButton")
+                .accessibilityIdentifier("importDiscoveryResultButton")
             }
             .padding(.horizontal)
-            
+
             if isExpanded {
                 VStack(alignment: .leading, spacing: 8) {
-                    Text(SFSDKResourceUtils.localizedString("BOOTCONFIG_CONSUMER_KEY_LABEL"))
+                    Text(SFSDKResourceUtils.localizedString("DISCOVERY_LOGIN_HOST_LABEL"))
                         .font(.caption)
                         .foregroundColor(.secondary)
-                    TextField(SFSDKResourceUtils.localizedString("BOOTCONFIG_CONSUMER_KEY_PLACEHOLDER"), text: $consumerKey)
+                    TextField(SFSDKResourceUtils.localizedString("DISCOVERY_LOGIN_HOST_PLACEHOLDER"), text: $loginHost)
                         .font(.system(.caption, design: .monospaced))
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .autocapitalization(.none)
                         .disableAutocorrection(true)
-                        .accessibilityIdentifier("consumerKeyTextField")
-                    
-                    Text(SFSDKResourceUtils.localizedString("BOOTCONFIG_CALLBACK_URL_LABEL"))
+                        .accessibilityIdentifier("discoveryLoginHostTextField")
+
+                    Text(SFSDKResourceUtils.localizedString("DISCOVERY_USER_NAME_LABEL"))
                         .font(.caption)
                         .foregroundColor(.secondary)
-                    TextField(SFSDKResourceUtils.localizedString("BOOTCONFIG_CALLBACK_URL_PLACEHOLDER"), text: $callbackUrl)
+                    TextField(SFSDKResourceUtils.localizedString("DISCOVERY_USER_NAME_PLACEHOLDER"), text: $userName)
                         .font(.system(.caption, design: .monospaced))
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .autocapitalization(.none)
                         .disableAutocorrection(true)
-                        .accessibilityIdentifier("callbackUrlTextField")
-                    
-                    Text(SFSDKResourceUtils.localizedString("BOOTCONFIG_SCOPES_LABEL"))
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                    TextField(SFSDKResourceUtils.localizedString("BOOTCONFIG_SCOPES_PLACEHOLDER"), text: $scopes)
-                        .font(.system(.caption, design: .monospaced))
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .autocapitalization(.none)
-                        .disableAutocorrection(true)
-                        .accessibilityIdentifier("scopesTextField")
+                        .keyboardType(.emailAddress)
+                        .accessibilityIdentifier("discoveryUserNameTextField")
                 }
                 .padding(.horizontal)
             }
-            
-            Button(action: onUseConfig) {
-                Text(buttonLabel)
+
+            Button(action: applySimulatedResult) {
+                Text(SFSDKResourceUtils.localizedString("DISCOVERY_SAVE_SIMULATED_RESULT"))
                     .font(.headline)
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
                     .frame(height: 44)
-                    .background(buttonColor)
+                    .background(Color.orange)
                     .cornerRadius(8)
             }
-            .disabled(isLoading)
+            .accessibilityIdentifier("saveSimulatedResultButton")
             .padding(.horizontal)
         }
         .padding(.vertical)
         .onAppear {
             isExpanded = initiallyExpanded
         }
-        .alert(SFSDKResourceUtils.localizedString("BOOTCONFIG_IMPORT_ALERT_TITLE"), isPresented: $showImportAlert) {
-            TextField(SFSDKResourceUtils.localizedString("BOOTCONFIG_IMPORT_PLACEHOLDER"), text: $importJSONText)
-            Button(SFSDKResourceUtils.localizedString("BOOTCONFIG_IMPORT_BUTTON")) {
-                importConfigFromJSON()
+        .alert(SFSDKResourceUtils.localizedString("DISCOVERY_IMPORT_ALERT_TITLE"), isPresented: $showImportAlert) {
+            TextField(SFSDKResourceUtils.localizedString("DISCOVERY_IMPORT_PLACEHOLDER"), text: $importJSONText)
+            Button(SFSDKResourceUtils.localizedString("DISCOVERY_IMPORT_BUTTON")) {
+                importDiscoveryResultFromJSON()
             }
-            Button(SFSDKResourceUtils.localizedString("BOOTCONFIG_IMPORT_CANCEL"), role: .cancel) { }
+            Button(SFSDKResourceUtils.localizedString("DISCOVERY_IMPORT_CANCEL"), role: .cancel) { }
         } message: {
-            Text(SFSDKResourceUtils.localizedString("BOOTCONFIG_IMPORT_MESSAGE"))
+            Text(SFSDKResourceUtils.localizedString("DISCOVERY_IMPORT_MESSAGE"))
         }
     }
-    
-    // MARK: - Helper Methods
-    
-    private func importConfigFromJSON() {
+
+    private func importDiscoveryResultFromJSON() {
         guard let jsonData = importJSONText.data(using: .utf8),
               let json = try? JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any] else {
             return
         }
-        
-        if let key = json[BootConfigJSONKeys.consumerKey] as? String {
-            consumerKey = key
+        if let hint = json[DiscoveryResultJSONKeys.loginHint] as? String {
+            userName = hint
         }
-        if let uri = json[BootConfigJSONKeys.redirectUri] as? String {
-            callbackUrl = uri
-        }
-        if let scopesValue = json[BootConfigJSONKeys.scopes] as? String {
-            scopes = scopesValue
+        if let domain = json[DiscoveryResultJSONKeys.myDomain] as? String {
+            loginHost = domain
         }
     }
-}
 
+    /// Applies current field values and invokes the callback. Internal for unit testing.
+    internal func applySimulatedResult() {
+        let trimmedHost = loginHost.trimmingCharacters(in: .whitespacesAndNewlines)
+        let trimmedUser = userName.trimmingCharacters(in: .whitespacesAndNewlines)
+        if trimmedHost.isEmpty {
+            onUseForSimulation(nil)
+            return
+        }
+        let result = DomainDiscoveryResult(loginHint: trimmedUser, myDomain: trimmedHost)
+        onUseForSimulation(result)
+    }
+}

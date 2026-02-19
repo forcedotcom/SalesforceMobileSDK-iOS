@@ -1,9 +1,9 @@
 /*
- BootConfigPickerViewController.swift
+ LoginOptionsViewController.swift
  SalesforceSDKCore
 
  Copyright (c) 2025-present, salesforce.com, inc. All rights reserved.
- 
+
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
  * Redistributions of source code must retain the above copyright notice, this list of conditions
@@ -14,7 +14,7 @@
  * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
  endorse or promote products derived from this software without specific prior written
  permission of salesforce.com, inc.
- 
+
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
  FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -28,21 +28,23 @@
 import SwiftUI
 import UIKit
 
-public struct BootConfigPickerView: View {
+public struct LoginOptionsView: View {
     @State internal var staticConsumerKey = ""
     @State internal var staticCallbackUrl = ""
     @State internal var staticScopes = ""
     @State internal var dynamicConsumerKey = ""
     @State internal var dynamicCallbackUrl = ""
     @State internal var dynamicScopes = ""
+    @State internal var discoveryLoginHost = ""
+    @State internal var discoveryUserName = ""
     @Environment(\.dismiss) private var dismiss
-    
+
     let onConfigurationCompleted: () -> Void
-    
+
     public init(onConfigurationCompleted: @escaping () -> Void) {
         self.onConfigurationCompleted = onConfigurationCompleted
     }
-    
+
     // Internal initializer for testing with pre-set state values
     internal init(
         onConfigurationCompleted: @escaping () -> Void,
@@ -51,7 +53,9 @@ public struct BootConfigPickerView: View {
         staticScopes: String = "",
         dynamicConsumerKey: String = "",
         dynamicCallbackUrl: String = "",
-        dynamicScopes: String = ""
+        dynamicScopes: String = "",
+        discoveryLoginHost: String = "",
+        discoveryUserName: String = ""
     ) {
         self.onConfigurationCompleted = onConfigurationCompleted
         self._staticConsumerKey = State(initialValue: staticConsumerKey)
@@ -60,28 +64,28 @@ public struct BootConfigPickerView: View {
         self._dynamicConsumerKey = State(initialValue: dynamicConsumerKey)
         self._dynamicCallbackUrl = State(initialValue: dynamicCallbackUrl)
         self._dynamicScopes = State(initialValue: dynamicScopes)
+        self._discoveryLoginHost = State(initialValue: discoveryLoginHost)
+        self._discoveryUserName = State(initialValue: discoveryUserName)
     }
-    
+
     public var body: some View {
         VStack(spacing: 0) {
-            // Custom title bar with close button
-            TitleBarView(title: "Login Options", onDismiss: {
-                dismiss()
-            })
-            
+            // Custom title bar with close button – trigger handler then dismiss so presenter can run its callback
+            TitleBarView(title: SFSDKResourceUtils.localizedString("LOGIN_OPTIONS"), onDismiss: closeSheet)
+
             // Content
             ScrollView {
                     VStack(spacing: 30) {
                         // Flow types section
                         AuthFlowTypesView()
                             .padding(.top, 20)
-                        
+
                         Divider()
-                        
+
                         // Static config section
                         BootConfigEditor(
-                            title: "Static Configuration",
-                            buttonLabel: "Use static config",
+                            title: SFSDKResourceUtils.localizedString("LOGIN_OPTIONS_STATIC_CONFIG_TITLE"),
+                            buttonLabel: SFSDKResourceUtils.localizedString("LOGIN_OPTIONS_SAVE_STATIC_CONFIG"),
                             buttonColor: .blue,
                             consumerKey: $staticConsumerKey,
                             callbackUrl: $staticCallbackUrl,
@@ -90,13 +94,13 @@ public struct BootConfigPickerView: View {
                             onUseConfig: handleStaticConfig,
                             initiallyExpanded: false
                         )
-                        
+
                         Divider()
-                        
+
                         // Dynamic config section
                         BootConfigEditor(
-                            title: "Dynamic Configuration",
-                            buttonLabel: "Use dynamic config",
+                            title: SFSDKResourceUtils.localizedString("LOGIN_OPTIONS_DYNAMIC_CONFIG_TITLE"),
+                            buttonLabel: SFSDKResourceUtils.localizedString("LOGIN_OPTIONS_SAVE_DYNAMIC_CONFIG"),
                             buttonColor: .green,
                             consumerKey: $dynamicConsumerKey,
                             callbackUrl: $dynamicCallbackUrl,
@@ -105,68 +109,87 @@ public struct BootConfigPickerView: View {
                             onUseConfig: handleDynamicBootconfig,
                             initiallyExpanded: false
                         )
+
+                        Divider()
+
+                        // Simulate domain discovery – sets simulatedDomainDiscoveryResult so the next discovery navigation uses this result
+                        DiscoveryResultEditor(
+                            loginHost: $discoveryLoginHost,
+                            userName: $discoveryUserName,
+                            onUseForSimulation: handleSimulatedDomainDiscovery,
+                            initiallyExpanded: false
+                        )
                     }
                     .padding(.bottom, 40)
                 }
                 .background(Color(.systemBackground))
             }
         .onAppear {
-            loadConfigDefaults()
+            logDefaults()
         }
     }
-    
+
     // MARK: - Helper Methods
-    
-    private func loadConfigDefaults() {
+
+    private func logDefaults() {
         // Load static config from bootconfig.plist (via SalesforceManager)
         if let config = SalesforceManager.shared.bootConfig {
             staticConsumerKey = config.remoteAccessConsumerKey
             staticCallbackUrl = config.oauthRedirectURI
             staticScopes = config.oauthScopes.sorted().joined(separator: " ")
         }
-        
+
         // Load dynamic config defaults from bootconfig2.plist
         if let config = BootConfig("/bootconfig2.plist") {
             dynamicConsumerKey = config.remoteAccessConsumerKey
             dynamicCallbackUrl = config.oauthRedirectURI
             dynamicScopes = config.oauthScopes.sorted().joined(separator: " ")
         }
+
+        // Load discovery simulation defaults from simulatedDomainDiscoveryResult
+        if let simulated = SalesforceManager.shared.simulatedDomainDiscoveryResult {
+            discoveryLoginHost = simulated.myDomain
+            discoveryUserName = simulated.loginHint
+        }
     }
-    
-    // MARK: - Button Actions
-    
+
+    // MARK: - Close / Button Actions
+
+    /// Invoked when the title bar close button is tapped. Call from tests to verify completion handler is run.
+    internal func closeSheet() {
+        onConfigurationCompleted()
+        dismiss()
+    }
+
     internal func handleStaticConfig() {
         // Parse scopes from space-separated string
         let scopesArray = staticScopes
             .split(separator: " ")
             .map { String($0) }
             .filter { !$0.isEmpty }
-        
+
         // Create BootConfig with values from the editor
         var configDict: [String: Any] = [
             "remoteAccessConsumerKey": staticConsumerKey,
             "oauthRedirectURI": staticCallbackUrl,
             "shouldAuthenticate": true
         ]
-        
+
         // Only add scopes if not empty
         if !scopesArray.isEmpty {
             configDict["oauthScopes"] = scopesArray
         }
-        
+
         // Set as the bootConfig
         SalesforceManager.shared.bootConfig = BootConfig(configDict)
         SalesforceManager.shared.bootConfigRuntimeSelector = nil
-        
+
         // Update UserAccountManager properties
         UserAccountManager.shared.oauthClientID = staticConsumerKey
         UserAccountManager.shared.oauthCompletionURL = staticCallbackUrl
         UserAccountManager.shared.scopes = scopesArray.isEmpty ? [] : Set(scopesArray)
-        
-        // Proceed with login
-        onConfigurationCompleted()
     }
-    
+
     internal func handleDynamicBootconfig() {
         SalesforceManager.shared.bootConfigRuntimeSelector = { _, callback in
             // Create dynamic BootConfig from user-entered values
@@ -175,23 +198,24 @@ public struct BootConfigPickerView: View {
                 .split(separator: " ")
                 .map { String($0) }
                 .filter { !$0.isEmpty }
-            
+
             var configDict: [String: Any] = [
                 "remoteAccessConsumerKey": self.dynamicConsumerKey,
                 "oauthRedirectURI": self.dynamicCallbackUrl,
                 "shouldAuthenticate": true
             ]
-            
+
             // Only add scopes if not empty
             if !scopesArray.isEmpty {
                 configDict["oauthScopes"] = scopesArray
             }
-            
+
             callback(BootConfig(configDict))
         }
-        
-        // Proceed with login
-        onConfigurationCompleted()
+    }
+
+    internal func handleSimulatedDomainDiscovery(result: DomainDiscoveryResult?) {
+        SalesforceManager.shared.simulatedDomainDiscoveryResult = result
     }
 }
 
@@ -200,30 +224,31 @@ public struct BootConfigPickerView: View {
 struct TitleBarView: View {
     let title: String
     let onDismiss: () -> Void
-    
+
     var body: some View {
         ZStack {
             Color(UIColor.salesforceBlue)
-            
+
             HStack {
                 Spacer()
-                
+
                 Text(title)
                     .font(.system(size: 18, weight: .regular))
                     .foregroundColor(.white)
-                
+
                 Spacer()
             }
-            
+
             HStack {
                 Spacer()
-                
+
                 Button(action: onDismiss) {
                     Image(systemName: "xmark")
                         .font(.system(size: 16, weight: .medium))
                         .foregroundColor(.white)
                         .padding(12)
                 }
+                .accessibilityIdentifier("loginOptionsCloseButton")
             }
         }
         .frame(height: 44)
@@ -233,12 +258,13 @@ struct TitleBarView: View {
 
 // MARK: - Objective-C Bridge
 
-@objc public class BootConfigPickerViewController: NSObject {
-    
-    @objc public static func makeViewController(onConfigurationCompleted: @escaping () -> Void) -> UIViewController {
-        let view = BootConfigPickerView(onConfigurationCompleted: onConfigurationCompleted)
+@objc public class LoginOptionsViewController: NSObject {
+
+    @objc(makeViewControllerOnConfigurationCompleted:)
+    public static func makeViewController(onConfigurationCompleted: @escaping () -> Void) -> UIViewController {
+        let view = LoginOptionsView(onConfigurationCompleted: onConfigurationCompleted)
         let hostingController = UIHostingController(rootView: view)
-        
+
         // Use pageSheet for slide-up presentation
         #if !os(visionOS)
         if let sheet = hostingController.sheetPresentationController {
@@ -247,8 +273,7 @@ struct TitleBarView: View {
             sheet.preferredCornerRadius = 16
         }
         #endif
-        
+
         return hostingController
     }
 }
-
