@@ -141,4 +141,17 @@ jobs:
     uses: ./.github/workflows/reusable-ui-test-workflow.yaml
     with:
       is_pr: true
+      # First test in each AuthFlowTesterUITests suite (same order as ui-test-nightly matrix)
+      pr_tests: |
+        [
+          "AuthFlowTesterUITests/AdvancedAuthBeaconLoginTests/testBeaconAdvancedOpaque_DefaultScopes",
+          "AuthFlowTesterUITests/BeaconLoginTests/testBeaconAdvancedOpaque_DefaultScopes",
+          "AuthFlowTesterUITests/DefaultScopesLegacyLoginTests/testCAAdvancedOpaque_DefaultScopes_WebServerFlow",
+          "AuthFlowTesterUITests/DynamicConfigLoginTests/testCAAdvancedJwt_DefaultScopes_DynamicConfiguration_WithRestart",
+          "AuthFlowTesterUITests/ECALoginTests/testECAAdvancedOpaque_DefaultScopes",
+          "AuthFlowTesterUITests/LegacyLoginTests/testCAAdvancedOpaque_SubsetScopes_WebServerFlow",
+          "AuthFlowTesterUITests/MigrationTests/testMigrateCA_AddMoreScopes",
+          "AuthFlowTesterUITests/MultiUserLoginTests/testBothStatic_SameApp_SameScopes",
+          "AuthFlowTesterUITests/WelcomeLoginTests/testWelcomeDiscoveryWithRegularAuthLoginHost"
+        ]
     secrets: inherit

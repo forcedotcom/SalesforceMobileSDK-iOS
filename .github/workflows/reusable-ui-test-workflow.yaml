@@ -22,8 +22,13 @@ on:
         required: false
         type: number
       test_suite:
-        description: "Test class to run only (e.g. ECALoginTests). Empty = run all. Ignored when is_pr (PR runs single smoke test)."
+        description: "Test class to run only (e.g. ECALoginTests). Empty = run all. Ignored when is_pr (PR uses pr_tests instead)."
         default: ""
+        required: false
+        type: string
+      pr_tests:
+        description: "JSON array of test identifiers to run (e.g. ['AuthFlowTesterUITests/ECALoginTests/testECA...']). Used when is_pr is true; empty = use default PR smoke test."
+        default: "[]"
         required: false
         type: string
       destination:
@@ -98,7 +103,14 @@ jobs:
           fi
           ONLY_TESTING_ARGS=()
           if [ "$IS_PR" = "true" ]; then
-            ONLY_TESTING_ARGS=(-only-testing 'AuthFlowTesterUITests/ECALoginTests/testECAAdvancedJwt_DefaultScopes')
+            PR_TESTS='${{ inputs.pr_tests }}'
+            if [ -n "$PR_TESTS" ] && [ "$PR_TESTS" != "[]" ]; then
+              while IFS= read -r t; do
+                ONLY_TESTING_ARGS+=(-only-testing "$t")
+              done < <(echo "$PR_TESTS" | python3 -c "import sys, json; [print(t) for t in json.load(sys.stdin)]")
+            else
+              ONLY_TESTING_ARGS=(-only-testing 'AuthFlowTesterUITests/ECALoginTests/testECAAdvancedJwt_DefaultScopes')
+            fi
           elif [ -n "${{ inputs.test_suite }}" ]; then
             ONLY_TESTING_ARGS=(-only-testing "AuthFlowTesterUITests/${{ inputs.test_suite }}")
           fi

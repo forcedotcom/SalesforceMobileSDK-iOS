@@ -11,12 +11,15 @@ jobs:
       fail-fast: false
       matrix:
         test_suite:
-          - ECALoginTests
-          - BeaconLoginTests
           - AdvancedAuthBeaconLoginTests
+          - BeaconLoginTests
+          - DefaultScopesLegacyLoginTests
+          - DynamicConfigLoginTests
+          - ECALoginTests
           - LegacyLoginTests
-          - MultiUserLoginTests
           - MigrationTests
+          - MultiUserLoginTests
+          - WelcomeLoginTests
     uses: ./.github/workflows/reusable-ui-test-workflow.yaml
     with:
       ios: "^26"
