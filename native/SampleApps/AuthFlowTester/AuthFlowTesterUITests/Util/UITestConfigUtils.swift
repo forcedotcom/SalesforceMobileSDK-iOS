@@ -91,18 +91,12 @@ enum KnownLoginHostConfig: String {
 // MARK: - App Names
 
 enum KnownAppConfig: String {
-    case ecaBasicOpaque = "eca_basic_opaque"
-    case ecaBasicJwt = "eca_basic_jwt"
-    case ecaAdvancedOpaque = "eca_advanced_opaque"
-    case ecaAdvancedJwt = "eca_advanced_jwt"
-    case beaconBasicOpaque = "beacon_basic_opaque"
-    case beaconBasicJwt = "beacon_basic_jwt"
-    case beaconAdvancedOpaque = "beacon_advanced_opaque"
-    case beaconAdvancedJwt = "beacon_advanced_jwt"
-    case caBasicOpaque = "ca_basic_opaque"
-    case caBasicJwt = "ca_basic_jwt"
-    case caAdvancedOpaque = "ca_advanced_opaque"
-    case caAdvancedJwt = "ca_advanced_jwt"
+    case ecaOpaque = "eca_opaque"
+    case ecaJwt = "eca_jwt"
+    case beaconOpaque = "beacon_opaque"
+    case beaconJwt = "beacon_jwt"
+    case caOpaque = "ca_opaque"
+    case caJwt = "ca_jwt"
 }
 
 // MARK: - Configuration Models

@@ -33,80 +33,80 @@ class DynamicConfigLoginTests: BaseAuthFlowTester {
 
     // MARK: - CA Dynamic Configuration
 
-    /// Login with CA advanced JWT using default scopes and web server flow provided as dynamic configuration. Restart and validate.
-    func testCAAdvancedJwt_DefaultScopes_DynamicConfiguration_WithRestart() throws {
+    /// Login with CA JWT using default scopes and web server flow provided as dynamic configuration. Restart and validate.
+    func testCAJwt_DefaultScopes_DynamicConfiguration_WithRestart() throws {
         launchLoginAndValidate(
-            staticAppConfigName: .caAdvancedOpaque,
-            dynamicAppConfigName: .caAdvancedJwt
+            staticAppConfigName: .caOpaque,
+            dynamicAppConfigName: .caJwt
         )
         restartAndValidate(
-            userAppConfigName: .caAdvancedJwt
+            userAppConfigName: .caJwt
         )
     }
 
-    /// Login with CA advanced JWT using subset of scopes and web server flow provided as dynamic configuration. Restart and validate.
-    func testCAAdvancedJwt_SubsetScopes_DynamicConfiguration_WithRestart() throws {
+    /// Login with CA JWT using subset of scopes and web server flow provided as dynamic configuration. Restart and validate.
+    func testCAJwt_SubsetScopes_DynamicConfiguration_WithRestart() throws {
         launchLoginAndValidate(
-            staticAppConfigName: .caAdvancedOpaque,
-            dynamicAppConfigName: .caAdvancedJwt,
+            staticAppConfigName: .caOpaque,
+            dynamicAppConfigName: .caJwt,
             dynamicScopeSelection: .subset)
         restartAndValidate(
-            userAppConfigName: .caAdvancedJwt,
+            userAppConfigName: .caJwt,
             userScopeSelection: .subset
         )
     }
 
     // MARK: - ECA Dynamic Configuration
 
-    /// Login with ECA advanced JWT using default scopes and web server flow provided as dynamic configuration. Restart and validate.
-    func testECAAdvancedJwt_DefaultScopes_DynamicConfiguration_WithRestart() throws {
+    /// Login with ECA JWT using default scopes and web server flow provided as dynamic configuration. Restart and validate.
+    func testECAJwt_DefaultScopes_DynamicConfiguration_WithRestart() throws {
         launchLoginAndValidate(
-            staticAppConfigName: .ecaAdvancedOpaque,
-            dynamicAppConfigName: .ecaAdvancedJwt
+            staticAppConfigName: .ecaOpaque,
+            dynamicAppConfigName: .ecaJwt
         )
         restartAndValidate(
-            userAppConfigName: .ecaAdvancedJwt
+            userAppConfigName: .ecaJwt
         )
     }
 
-    /// Login with ECA advanced JWT using subset of scopes and web server flow provided as dynamic configuration. Restart and validate.
-    func testECAAdvancedJwt_SubsetScopes_DynamicConfiguration_WithRestart() throws {
+    /// Login with ECA JWT using subset of scopes and web server flow provided as dynamic configuration. Restart and validate.
+    func testECAJwt_SubsetScopes_DynamicConfiguration_WithRestart() throws {
         launchLoginAndValidate(
-            staticAppConfigName: .ecaAdvancedOpaque,
-            dynamicAppConfigName: .ecaAdvancedJwt,
+            staticAppConfigName: .ecaOpaque,
+            dynamicAppConfigName: .ecaJwt,
             dynamicScopeSelection: .subset)
         restartAndValidate(
-            userAppConfigName: .ecaAdvancedJwt,
+            userAppConfigName: .ecaJwt,
             userScopeSelection: .subset
         )
     }
 
     // MARK: - Beacon Dynamic Configuration
 
-    /// Login with Beacon advanced JWT using default scopes and web server flow provided as dynamic configuration. Restart and validate.
-    func testBeaconAdvancedJwt_DefaultScopes_DynamicConfiguration_WithRestart() throws {
+    /// Login with Beacon JWT using default scopes and web server flow provided as dynamic configuration. Restart and validate.
+    func testBeaconJwt_DefaultScopes_DynamicConfiguration_WithRestart() throws {
         launchLoginAndValidate(
             loginHost: .regularAuth,
-            staticAppConfigName: .beaconAdvancedOpaque,
-            dynamicAppConfigName: .beaconAdvancedJwt
+            staticAppConfigName: .beaconOpaque,
+            dynamicAppConfigName: .beaconJwt
         )
         restartAndValidate(
             loginHost: .regularAuth,
-            userAppConfigName: .beaconAdvancedJwt
+            userAppConfigName: .beaconJwt
         )
     }
 
-    /// Login with Beacon advanced JWT using subset of scopes and web server flow provided as dynamic configuration. Restart and validate.
-    func testBeaconAdvancedJwt_SubsetScopes_DynamicConfiguration_WithRestart() throws {
+    /// Login with Beacon JWT using subset of scopes and web server flow provided as dynamic configuration. Restart and validate.
+    func testBeaconJwt_SubsetScopes_DynamicConfiguration_WithRestart() throws {
         launchLoginAndValidate(
             loginHost: .regularAuth,
-            staticAppConfigName: .beaconAdvancedOpaque,
-            dynamicAppConfigName: .beaconAdvancedJwt,
+            staticAppConfigName: .beaconOpaque,
+            dynamicAppConfigName: .beaconJwt,
             dynamicScopeSelection: .subset
         )
         restartAndValidate(
             loginHost: .regularAuth,
-            userAppConfigName: .beaconAdvancedJwt,
+            userAppConfigName: .beaconJwt,
             userScopeSelection: .subset
         )
     }

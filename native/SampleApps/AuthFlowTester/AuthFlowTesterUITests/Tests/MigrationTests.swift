@@ -36,20 +36,20 @@ import XCTest
 class MigrationTests: BaseAuthFlowTester {
     
     // MARK: - Migration within same app (scope upgrade)
-
+    
     /// Migrate within same CA (scope upgrade).
     func testMigrateCA_AddMoreScopes() throws {
         launchAndLogin(
             loginHost: .regularAuth,
             user:.second,
-            staticAppConfigName: .caAdvancedJwt,
+            staticAppConfigName: .caJwt,
             staticScopeSelection: .subset
         )
         migrateAndValidate(
             loginHost: .regularAuth,
-            staticAppConfigName: .caAdvancedJwt,
+            staticAppConfigName: .caJwt,
             staticScopeSelection: .subset,
-            migrationAppConfigName: .caAdvancedJwt,
+            migrationAppConfigName: .caJwt,
             migrationScopeSelection: .all
         )
     }
@@ -59,65 +59,65 @@ class MigrationTests: BaseAuthFlowTester {
         launchAndLogin(
             loginHost: .regularAuth,
             user:.second,
-            staticAppConfigName: .ecaAdvancedJwt,
+            staticAppConfigName: .ecaJwt,
             staticScopeSelection: .subset
         )
         migrateAndValidate(
             loginHost: .regularAuth,
-            staticAppConfigName: .ecaAdvancedJwt,
+            staticAppConfigName: .ecaJwt,
             staticScopeSelection: .subset,
-            migrationAppConfigName: .ecaAdvancedJwt,
+            migrationAppConfigName: .ecaJwt,
             migrationScopeSelection: .all
         )
     }
-
+    
     /// Migrate within same Beacon (scope upgrade).
     func testMigrateBeacon_AddMoreScopes() throws {
         launchAndLogin(
             loginHost: .regularAuth,
             user:.second,
-            staticAppConfigName: .beaconAdvancedJwt,
+            staticAppConfigName: .beaconJwt,
             staticScopeSelection: .subset
         )
         migrateAndValidate(
             loginHost: .regularAuth,
-            staticAppConfigName: .beaconAdvancedJwt,
+            staticAppConfigName: .beaconJwt,
             staticScopeSelection: .subset,
-            migrationAppConfigName: .beaconAdvancedJwt,
+            migrationAppConfigName: .beaconJwt,
             migrationScopeSelection: .all
         )
     }
     
     // MARK: - Migration to or from beacon
-
+    
     // Migrate from CA to Beacon
     func testMigrateCAToBeacon() throws {
         launchAndLogin(
             loginHost: .regularAuth,
             user:.second,
-            staticAppConfigName: .caAdvancedOpaque
+            staticAppConfigName: .caOpaque
         )
         migrateAndValidate(
             loginHost: .regularAuth,
-            staticAppConfigName: .caAdvancedOpaque,
-            migrationAppConfigName: .beaconAdvancedOpaque
+            staticAppConfigName: .caOpaque,
+            migrationAppConfigName: .beaconOpaque
         )
     }
-
+    
     // Migrate from Beacon to CA
     func testMigrateBeaconToCA() throws {
         launchAndLogin(
             loginHost: .regularAuth,
             user:.second,
-            staticAppConfigName: .beaconAdvancedOpaque
+            staticAppConfigName: .beaconOpaque
         )
         migrateAndValidate(
             loginHost: .regularAuth,
-            staticAppConfigName: .beaconAdvancedOpaque,
-            migrationAppConfigName: .caAdvancedOpaque
+            staticAppConfigName: .beaconOpaque,
+            migrationAppConfigName: .caOpaque
         )
     }
-
+    
     // MARK: - Cross-App Migrations with rollbacks
     
     /// Migrate from CA to ECA and back to CA
@@ -125,17 +125,17 @@ class MigrationTests: BaseAuthFlowTester {
         launchAndLogin(
             loginHost: .regularAuth,
             user:.second,
-            staticAppConfigName: .caAdvancedOpaque
+            staticAppConfigName: .caOpaque
         )
         migrateAndValidate(
             loginHost: .regularAuth,
-            staticAppConfigName: .caAdvancedOpaque,
-            migrationAppConfigName: .ecaAdvancedOpaque
+            staticAppConfigName: .caOpaque,
+            migrationAppConfigName: .ecaOpaque
         )
         migrateAndValidate(
             loginHost: .regularAuth,
-            staticAppConfigName: .caAdvancedOpaque, // should not have changed
-            migrationAppConfigName: .caAdvancedOpaque
+            staticAppConfigName: .caOpaque, // should not have changed
+            migrationAppConfigName: .caOpaque
         )
     }
     
@@ -144,17 +144,17 @@ class MigrationTests: BaseAuthFlowTester {
         launchAndLogin(
             loginHost: .regularAuth,
             user:.second,
-            staticAppConfigName: .caAdvancedOpaque
+            staticAppConfigName: .caOpaque
         )
         migrateAndValidate(
             loginHost: .regularAuth,
-            staticAppConfigName: .caAdvancedOpaque,
-            migrationAppConfigName: .beaconAdvancedOpaque
+            staticAppConfigName: .caOpaque,
+            migrationAppConfigName: .beaconOpaque
         )
         migrateAndValidate(
             loginHost: .regularAuth,
-            staticAppConfigName: .caAdvancedOpaque, // should not have changed
-            migrationAppConfigName: .caAdvancedOpaque
+            staticAppConfigName: .caOpaque, // should not have changed
+            migrationAppConfigName: .caOpaque
         )
     }
     
@@ -163,17 +163,17 @@ class MigrationTests: BaseAuthFlowTester {
         launchAndLogin(
             loginHost: .regularAuth,
             user:.second,
-            staticAppConfigName: .beaconAdvancedOpaque
+            staticAppConfigName: .beaconOpaque
         )
         migrateAndValidate(
             loginHost: .regularAuth,
-            staticAppConfigName: .beaconAdvancedOpaque,
-            migrationAppConfigName: .beaconAdvancedJwt
+            staticAppConfigName: .beaconOpaque,
+            migrationAppConfigName: .beaconJwt
         )
         migrateAndValidate(
             loginHost: .regularAuth,
-            staticAppConfigName: .beaconAdvancedOpaque, // should not have changed
-            migrationAppConfigName: .beaconAdvancedOpaque
+            staticAppConfigName: .beaconOpaque, // should not have changed
+            migrationAppConfigName: .beaconOpaque
         )
     }
 }

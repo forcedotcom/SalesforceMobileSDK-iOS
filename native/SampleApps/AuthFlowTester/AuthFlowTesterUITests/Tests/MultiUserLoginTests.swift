@@ -45,29 +45,29 @@ class MultiUserLoginTests: BaseAuthFlowTester {
         launchAndLogin(
             loginHost: .regularAuth,
             user: .fourth,
-            staticAppConfigName: .ecaAdvancedOpaque
+            staticAppConfigName: .ecaOpaque
         )
         
         // Other user
         loginOtherUserAndValidate(
             loginHost: .regularAuth,
             user: .fifth,
-            staticAppConfigName: .ecaAdvancedOpaque
+            staticAppConfigName: .ecaOpaque
         )
         
         // Switch back to initial user
         switchToUserAndValidate(
             loginHost: .regularAuth,
             user: .fourth,
-            staticAppConfigName: .ecaAdvancedOpaque,
-            userAppConfigName: .ecaAdvancedOpaque)
+            staticAppConfigName: .ecaOpaque,
+            userAppConfigName: .ecaOpaque)
         
         // Switch back to other user
         switchToUserAndValidate(
             loginHost: .regularAuth,
             user: .fifth,
-            staticAppConfigName: .ecaAdvancedOpaque,
-            userAppConfigName: .ecaAdvancedOpaque)
+            staticAppConfigName: .ecaOpaque,
+            userAppConfigName: .ecaOpaque)
         
         // Logout second user
         logout()
@@ -79,29 +79,29 @@ class MultiUserLoginTests: BaseAuthFlowTester {
         launchAndLogin(
             loginHost: .regularAuth,
             user: .fourth,
-            staticAppConfigName: .ecaAdvancedOpaque
+            staticAppConfigName: .ecaOpaque
         )
         
         // Other user
         loginOtherUserAndValidate(
             loginHost: .regularAuth,
             user: .fifth,
-            staticAppConfigName: .ecaAdvancedJwt
+            staticAppConfigName: .ecaJwt
         )
         
         // Switch back to initial user
         switchToUserAndValidate(
             loginHost: .regularAuth,
             user: .fourth,
-            staticAppConfigName: .ecaAdvancedJwt, // static config overwritten
-            userAppConfigName: .ecaAdvancedOpaque)
+            staticAppConfigName: .ecaJwt, // static config overwritten
+            userAppConfigName: .ecaOpaque)
         
         // Switch back to other user
         switchToUserAndValidate(
             loginHost: .regularAuth,
             user: .fifth,
-            staticAppConfigName: .ecaAdvancedJwt,
-            userAppConfigName: .ecaAdvancedJwt)
+            staticAppConfigName: .ecaJwt,
+            userAppConfigName: .ecaJwt)
 
         // Logout second user
         logout()
@@ -113,7 +113,7 @@ class MultiUserLoginTests: BaseAuthFlowTester {
         launchAndLogin(
             loginHost: .regularAuth,
             user: .fourth,
-            staticAppConfigName: .ecaAdvancedOpaque,
+            staticAppConfigName: .ecaOpaque,
             staticScopeSelection: .subset
         )
         
@@ -121,16 +121,16 @@ class MultiUserLoginTests: BaseAuthFlowTester {
         loginOtherUserAndValidate(
             loginHost: .regularAuth,
             user: .fifth,
-            staticAppConfigName: .ecaAdvancedOpaque
+            staticAppConfigName: .ecaOpaque
         )
         
         // Switch back to initial user
         switchToUserAndValidate(
             loginHost: .regularAuth,
             user: .fourth,
-            staticAppConfigName: .ecaAdvancedOpaque,
+            staticAppConfigName: .ecaOpaque,
             staticScopeSelection: .empty,
-            userAppConfigName: .ecaAdvancedOpaque,
+            userAppConfigName: .ecaOpaque,
             userScopeSelection: .subset
         )
         
@@ -138,9 +138,9 @@ class MultiUserLoginTests: BaseAuthFlowTester {
         switchToUserAndValidate(
             loginHost: .regularAuth,
             user: .fifth,
-            staticAppConfigName: .ecaAdvancedOpaque,
+            staticAppConfigName: .ecaOpaque,
             staticScopeSelection: .empty,
-            userAppConfigName: .ecaAdvancedOpaque,
+            userAppConfigName: .ecaOpaque,
             userScopeSelection: .empty
         )
 
@@ -156,31 +156,31 @@ class MultiUserLoginTests: BaseAuthFlowTester {
         launchAndLogin(
             loginHost: .regularAuth,
             user: .fourth,
-            staticAppConfigName: .ecaAdvancedOpaque
+            staticAppConfigName: .ecaOpaque
         )
         
         // Other user
         loginOtherUserAndValidate(
             loginHost: .regularAuth,
             user: .fifth,
-            staticAppConfigName: .ecaAdvancedOpaque,
-            dynamicAppConfigName: .ecaAdvancedJwt
+            staticAppConfigName: .ecaOpaque,
+            dynamicAppConfigName: .ecaJwt
         )
         
         // Switch back to initial user
         switchToUserAndValidate(
             loginHost: .regularAuth,
             user: .fourth,
-            staticAppConfigName: .ecaAdvancedOpaque,
-            userAppConfigName: .ecaAdvancedOpaque
+            staticAppConfigName: .ecaOpaque,
+            userAppConfigName: .ecaOpaque
         )
         
         // Switch back to other user
         switchToUserAndValidate(
             loginHost: .regularAuth,
             user: .fifth,
-            staticAppConfigName: .ecaAdvancedOpaque,
-            userAppConfigName: .ecaAdvancedJwt,
+            staticAppConfigName: .ecaOpaque,
+            userAppConfigName: .ecaJwt,
         )
         
         // Logout second user
@@ -193,31 +193,31 @@ class MultiUserLoginTests: BaseAuthFlowTester {
         launchAndLogin(
             loginHost: .regularAuth,
             user: .fourth,
-            staticAppConfigName: .ecaBasicOpaque,
-            dynamicAppConfigName: .ecaAdvancedJwt
+            staticAppConfigName: .caOpaque, // not used - but using other config for validation
+            dynamicAppConfigName: .ecaJwt
         )
         
         // Other user
         loginOtherUserAndValidate(
             loginHost: .regularAuth,
             user: .fifth,
-            staticAppConfigName: .ecaAdvancedOpaque
+            staticAppConfigName: .ecaOpaque
         )
         
         // Switch back to initial user
         switchToUserAndValidate(
             loginHost: .regularAuth,
             user: .fourth,
-            staticAppConfigName: .ecaAdvancedOpaque,
-            userAppConfigName: .ecaAdvancedJwt
+            staticAppConfigName: .ecaOpaque,
+            userAppConfigName: .ecaJwt
         )
         
         // Switch back to other user
         switchToUserAndValidate(
             loginHost: .regularAuth,
             user: .fifth,
-            staticAppConfigName: .ecaAdvancedOpaque,
-            userAppConfigName: .ecaAdvancedOpaque,
+            staticAppConfigName: .ecaOpaque,
+            userAppConfigName: .ecaOpaque,
         )
         
         // Logout second user
@@ -232,32 +232,32 @@ class MultiUserLoginTests: BaseAuthFlowTester {
         launchAndLogin(
             loginHost: .regularAuth,
             user: .fourth,
-            staticAppConfigName: .ecaBasicOpaque,
-            dynamicAppConfigName: .ecaAdvancedOpaque
+            staticAppConfigName: .caOpaque, // not used - but using other config for validation
+            dynamicAppConfigName: .ecaOpaque
         )
         
         // Other user
         loginOtherUserAndValidate(
             loginHost: .regularAuth,
             user: .fifth,
-            staticAppConfigName: .ecaBasicOpaque,
-            dynamicAppConfigName: .ecaAdvancedJwt
+            staticAppConfigName: .caOpaque, // not used - but using other config for validation
+            dynamicAppConfigName: .ecaJwt
         )
 
         // Switch back to initial user
         switchToUserAndValidate(
             loginHost: .regularAuth,
             user: .fourth,
-            staticAppConfigName: .ecaBasicOpaque,
-            userAppConfigName: .ecaAdvancedOpaque
+            staticAppConfigName: .caOpaque, // not used - but using other config for validation
+            userAppConfigName: .ecaOpaque
         )
         
         // Switch back to other user
         switchToUserAndValidate(
             loginHost: .regularAuth,
             user: .fifth,
-            staticAppConfigName: .ecaBasicOpaque,
-            userAppConfigName: .ecaAdvancedJwt,
+            staticAppConfigName: .caOpaque, // not used - but using other config for validation
+            userAppConfigName: .ecaJwt,
         )
         
         // Logout second user

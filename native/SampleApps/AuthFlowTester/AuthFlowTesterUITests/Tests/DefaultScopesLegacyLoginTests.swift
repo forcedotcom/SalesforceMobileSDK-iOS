@@ -27,27 +27,27 @@
 
 import XCTest
 
-/// Legacy login tests using default scopes (CA advanced opaque).
+/// Legacy login tests using default scopes (CA opaque).
 /// NB: Tests use the first user from ui_test_config.json
 class DefaultScopesLegacyLoginTests: BaseAuthFlowTester {
 
-    /// Login with CA advanced opaque using default scopes and web server flow.
-    func testCAAdvancedOpaque_DefaultScopes_WebServerFlow() throws {
-        launchLoginAndValidate(staticAppConfigName: .caAdvancedOpaque)
+    /// Login with CA opaque using default scopes and web server flow.
+    func testCAOpaque_DefaultScopes_WebServerFlow() throws {
+        launchLoginAndValidate(staticAppConfigName: .caOpaque)
     }
 
-    /// Login with CA advanced opaque using default scopes and (non-hybrid) web server flow.
-    func testCAAdvancedOpaque_DefaultScopes_WebServerFlow_NotHybrid() throws {
-        launchLoginAndValidate(staticAppConfigName: .caAdvancedOpaque, useHybridFlow: false)
+    /// Login with CA opaque using default scopes and (non-hybrid) web server flow.
+    func testCAOpaque_DefaultScopes_WebServerFlow_NotHybrid() throws {
+        launchLoginAndValidate(staticAppConfigName: .caOpaque, useHybridFlow: false)
     }
 
-    /// Login with CA advanced opaque using default scopes and user agent flow.
-    func testCAAdvancedOpaque_DefaultScopes_UserAgentFlow() throws {
-        launchLoginAndValidate(staticAppConfigName: .caAdvancedOpaque, useWebServerFlow: false)
+    /// Login with CA opaque using default scopes and user agent flow.
+    func testCAOpaque_DefaultScopes_UserAgentFlow() throws {
+        launchLoginAndValidate(staticAppConfigName: .caOpaque, useWebServerFlow: false)
     }
 
-    /// Login with CA advanced opaque using default scopes and (non-hybrid) user agent flow.
-    func testCAAdvancedOpaque_DefaultScopes_UserAgentFlow_NotHybrid() throws {
-        launchLoginAndValidate(staticAppConfigName: .caAdvancedOpaque, useWebServerFlow: false, useHybridFlow: false)
+    /// Login with CA opaque using default scopes and (non-hybrid) user agent flow.
+    func testCAOpaque_DefaultScopes_UserAgentFlow_NotHybrid() throws {
+        launchLoginAndValidate(staticAppConfigName: .caOpaque, useWebServerFlow: false, useHybridFlow: false)
     }
 }

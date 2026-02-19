@@ -31,39 +31,39 @@ import XCTest
 class WelcomeLoginTests: BaseAuthFlowTester {
 
     /// Welcome discovery with regular auth host and static config.
-    func testWelcomeDiscoveryWithRegularAuthLoginHost() {
+    func testWelcomeDiscovery_RegularAuthLoginHost() {
         launchLoginAndValidate(
             loginHost: .regularAuth,
-            staticAppConfigName: .ecaAdvancedOpaque,
+            staticAppConfigName: .ecaOpaque,
             useWelcomeDiscovery: true
         )
     }
 
     /// Welcome discovery with advanced auth host and static config.
-    func testWelcomeDiscoveryWithAdvancedAuthLoginHost() {
+    func testWelcomeDiscovery_AdvancedAuthLoginHost() {
         launchLoginAndValidate(
             loginHost: .advancedAuth,
-            staticAppConfigName: .beaconAdvancedOpaque,
+            staticAppConfigName: .beaconOpaque,
             useWelcomeDiscovery: true
         )
     }
 
     /// Welcome discovery with regular auth host and dynamic config selection.
-    func testWelcomeDiscoveryWithRegularAuthLoginHostAndDynamicConfig() throws {
+    func testWelcomeDiscovery_RegularAuthLoginHost_DynamicConfig() throws {
         launchLoginAndValidate(
             loginHost: .regularAuth,
-            staticAppConfigName: .ecaAdvancedOpaque,
-            dynamicAppConfigName: .ecaAdvancedJwt,
+            staticAppConfigName: .ecaOpaque,
+            dynamicAppConfigName: .ecaJwt,
             useWelcomeDiscovery: true
         )
     }
 
     /// Welcome discovery with advanced auth host and dynamic config selection.
-    func testWelcomeDiscoveryWithAdvancedAuthLoginHostAndDynamicConfig() throws {
+    func testWelcomeDiscovery_AdvancedAuthLoginHost_DynamicConfig() throws {
         launchLoginAndValidate(
             loginHost: .advancedAuth,
-            staticAppConfigName: .beaconAdvancedOpaque,
-            dynamicAppConfigName: .beaconAdvancedJwt,
+            staticAppConfigName: .beaconOpaque,
+            dynamicAppConfigName: .beaconJwt,
             useWelcomeDiscovery: true
         )
     }
