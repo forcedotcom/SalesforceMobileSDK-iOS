@@ -6,10 +6,13 @@ This document provides an overview of all UI tests in the AuthFlowTester test su
 
 | Class | Description |
 |-------|-------------|
-| `LegacyLoginTests` | Tests for legacy login flows (connected apps, user agent flow, non-hybrid flow) |
+| `LegacyLoginTests` | Tests for legacy login flows with subset and all scopes (CA, user agent flow, non-hybrid flow) |
+| `DefaultScopesLegacyLoginTests` | Legacy login tests using default scopes (CA advanced opaque) |
 | `ECALoginTests` | Tests for External Client App (ECA) login flows |
 | `BeaconLoginTests` | Tests for Beacon app login flows (using regular_auth login host) |
 | `AdvancedAuthBeaconLoginTests` | Tests for Beacon app login flows (using advanced_auth login host) |
+| `DynamicConfigLoginTests` | Tests for login with dynamic (runtime-selected) app configuration; CA, ECA, and Beacon with restart validation |
+| `WelcomeLoginTests` | Tests for welcome (domain discovery) login flows using simulated domain discovery |
 | `MigrationTests` | Tests for refresh token migration between app configurations |
 | `MultiUserLoginTests` | Tests for multi-user login scenarios |
 
@@ -17,28 +20,33 @@ This document provides an overview of all UI tests in the AuthFlowTester test su
 
 ## Login Tests
 
-### LegacyLoginTests (14 tests)
+### LegacyLoginTests (8 tests)
 
-Tests for Connected App (CA) configurations including user agent flow and non-hybrid flow options.
+Tests for Connected App (CA) configurations with subset and all scopes, including user agent flow and non-hybrid flow options.
 
 | Test Name | App Config | Scopes | Flow | Hybrid | Dynamic Config |
 |-----------|------------|--------|------|--------|----------------|
-| `testCAAdvancedOpaque_DefaultScopes_WebServerFlow` | CA Advanced Opaque | Default | Web Server | Yes | No |
 | `testCAAdvancedOpaque_SubsetScopes_WebServerFlow` | CA Advanced Opaque | Subset | Web Server | No | No |
 | `testCAAdvancedOpaque_AllScopes_WebServerFlow` | CA Advanced Opaque | All | Web Server | Yes | No |
-| `testCAAdvancedOpaque_DefaultScopes_WebServerFlow_NotHybrid` | CA Advanced Opaque | Default | Web Server | No | No |
 | `testCAAdvancedOpaque_SubsetScopes_WebServerFlow_NotHybrid` | CA Advanced Opaque | Subset | Web Server | No | No |
 | `testCAAdvancedOpaque_AllScopes_WebServerFlow_NotHybrid` | CA Advanced Opaque | All | Web Server | No | No |
-| `testCAAdvancedOpaque_DefaultScopes_UserAgentFlow` | CA Advanced Opaque | Default | User Agent | Yes | No |
 | `testCAAdvancedOpaque_SubsetScopes_UserAgentFlow` | CA Advanced Opaque | Subset | User Agent | Yes | No |
 | `testCAAdvancedOpaque_AllScopes_UserAgentFlow` | CA Advanced Opaque | All | User Agent | Yes | No |
-| `testCAAdvancedOpaque_DefaultScopes_UserAgentFlow_NotHybrid` | CA Advanced Opaque | Default | User Agent | No | No |
 | `testCAAdvancedOpaque_SubsetScopes_UserAgentFlow_NotHybrid` | CA Advanced Opaque | Subset | User Agent | No | No |
 | `testCAAdvancedOpaque_AllScopes_UserAgentFlow_NotHybrid` | CA Advanced Opaque | All | User Agent | No | No |
-| `testCAAdvancedJwt_DefaultScopes_DynamicConfiguration_WithRestart` | CA Advanced JWT | Default | Web Server | Yes | Yes |
-| `testCAAdvancedJwt_SubsetScopes_DynamicConfiguration_WithRestart` | CA Advanced JWT | Subset | Web Server | Yes | Yes |
 
-### ECALoginTests (8 tests)
+### DefaultScopesLegacyLoginTests (4 tests)
+
+Legacy login tests using default scopes (CA advanced opaque).
+
+| Test Name | App Config | Scopes | Flow | Hybrid |
+|-----------|------------|--------|------|--------|
+| `testCAAdvancedOpaque_DefaultScopes_WebServerFlow` | CA Advanced Opaque | Default | Web Server | Yes |
+| `testCAAdvancedOpaque_DefaultScopes_WebServerFlow_NotHybrid` | CA Advanced Opaque | Default | Web Server | No |
+| `testCAAdvancedOpaque_DefaultScopes_UserAgentFlow` | CA Advanced Opaque | Default | User Agent | Yes |
+| `testCAAdvancedOpaque_DefaultScopes_UserAgentFlow_NotHybrid` | CA Advanced Opaque | Default | User Agent | No |
+
+### ECALoginTests (6 tests)
 
 Tests for External Client App (ECA) configurations using web server flow with hybrid auth.
 
@@ -50,10 +58,8 @@ Tests for External Client App (ECA) configurations using web server flow with hy
 | `testECAAdvancedJwt_DefaultScopes` | ECA Advanced JWT | Default | No |
 | `testECAAdvancedJwt_SubsetScopes_NotHybrid` | ECA Advanced JWT | Subset | No |
 | `testECAAdvancedJwt_AllScopes` | ECA Advanced JWT | All | No |
-| `testECAAdvancedJwt_DefaultScopes_DynamicConfiguration_WithRestart` | ECA Advanced JWT | Default | Yes |
-| `testECAAdvancedJwt_SubsetScopes_DynamicConfiguration_WithRestart` | ECA Advanced JWT | Subset | Yes |
 
-### BeaconLoginTests (8 tests)
+### BeaconLoginTests (6 tests)
 
 Tests for Beacon app configurations using web server flow with hybrid auth. Uses `regular_auth` login host.
 
@@ -65,23 +71,43 @@ Tests for Beacon app configurations using web server flow with hybrid auth. Uses
 | `testBeaconAdvancedJwt_DefaultScopes` | Beacon Advanced JWT | Default | No |
 | `testBeaconAdvancedJwt_SubsetScopes` | Beacon Advanced JWT | Subset | No |
 | `testBeaconAdvancedJwt_AllScopes` | Beacon Advanced JWT | All | No |
-| `testBeaconAdvancedJwt_DefaultScopes_DynamicConfiguration_WithRestart` | Beacon Advanced JWT | Default | Yes |
-| `testBeaconAdvancedJwt_SubsetScopes_DynamicConfiguration_WithRestart` | Beacon Advanced JWT | Subset | Yes |
 
-### AdvancedAuthBeaconLoginTests (8 tests)
+### AdvancedAuthBeaconLoginTests (6 tests)
 
 Tests for Beacon app configurations using web server flow with hybrid auth. Uses `advanced_auth` login host. Inherits all tests from `BeaconLoginTests` but runs them with advanced authentication.
 
-| Test Name | App Config | Scopes | Dynamic Config | Login Host |
-|-----------|------------|--------|----------------|------------|
-| `testBeaconAdvancedOpaque_DefaultScopes` | Beacon Advanced Opaque | Default | No | advanced_auth |
-| `testBeaconAdvancedOpaque_SubsetScopes` | Beacon Advanced Opaque | Subset | No | advanced_auth |
-| `testBeaconAdvancedOpaque_AllScopes` | Beacon Advanced Opaque | All | No | advanced_auth |
-| `testBeaconAdvancedJwt_DefaultScopes` | Beacon Advanced JWT | Default | No | advanced_auth |
-| `testBeaconAdvancedJwt_SubsetScopes` | Beacon Advanced JWT | Subset | No | advanced_auth |
-| `testBeaconAdvancedJwt_AllScopes` | Beacon Advanced JWT | All | No | advanced_auth |
-| `testBeaconAdvancedJwt_DefaultScopes_DynamicConfiguration_WithRestart` | Beacon Advanced JWT | Default | Yes | advanced_auth |
-| `testBeaconAdvancedJwt_SubsetScopes_DynamicConfiguration_WithRestart` | Beacon Advanced JWT | Subset | Yes | advanced_auth |
+| Test Name | App Config | Scopes | Login Host |
+|-----------|------------|--------|------------|
+| `testBeaconAdvancedOpaque_DefaultScopes` | Beacon Advanced Opaque | Default | advanced_auth |
+| `testBeaconAdvancedOpaque_SubsetScopes` | Beacon Advanced Opaque | Subset | advanced_auth |
+| `testBeaconAdvancedOpaque_AllScopes` | Beacon Advanced Opaque | All | advanced_auth |
+| `testBeaconAdvancedJwt_DefaultScopes` | Beacon Advanced JWT | Default | advanced_auth |
+| `testBeaconAdvancedJwt_SubsetScopes` | Beacon Advanced JWT | Subset | advanced_auth |
+| `testBeaconAdvancedJwt_AllScopes` | Beacon Advanced JWT | All | advanced_auth |
+
+### DynamicConfigLoginTests (6 tests)
+
+Tests for login using dynamic (runtime-selected) app configuration. Each test logs in with a dynamic config then restarts the app and validates the session.
+
+| Test Name | Static Config | Dynamic Config | Scopes |
+|-----------|---------------|----------------|--------|
+| `testCAAdvancedJwt_DefaultScopes_DynamicConfiguration_WithRestart` | CA Advanced Opaque | CA Advanced JWT | Default |
+| `testCAAdvancedJwt_SubsetScopes_DynamicConfiguration_WithRestart` | CA Advanced Opaque | CA Advanced JWT | Subset |
+| `testECAAdvancedJwt_DefaultScopes_DynamicConfiguration_WithRestart` | ECA Advanced Opaque | ECA Advanced JWT | Default |
+| `testECAAdvancedJwt_SubsetScopes_DynamicConfiguration_WithRestart` | ECA Advanced Opaque | ECA Advanced JWT | Subset |
+| `testBeaconAdvancedJwt_DefaultScopes_DynamicConfiguration_WithRestart` | Beacon Advanced Opaque | Beacon Advanced JWT | Default |
+| `testBeaconAdvancedJwt_SubsetScopes_DynamicConfiguration_WithRestart` | Beacon Advanced Opaque | Beacon Advanced JWT | Subset |
+
+### WelcomeLoginTests (4 tests)
+
+Tests for welcome (domain discovery) login flows. Uses simulated domain discovery with welcome.salesforce.com as the login server.
+
+| Test Name | Login Host | Dynamic Config |
+|-----------|------------|----------------|
+| `testWelcomeDiscoveryWithRegularAuthLoginHost` | regular_auth (simulated) | No |
+| `testWelcomeDiscoveryWithAdvancedAuthLoginHost` | advanced_auth (simulated) | No |
+| `testWelcomeDiscoveryWithRegularAuthLoginHostAndDynamicConfig` | regular_auth (simulated) | Yes |
+| `testWelcomeDiscoveryWithAdvancedAuthLoginHostAndDynamicConfig` | advanced_auth (simulated) | Yes |
 
 ---
 
@@ -184,5 +210,4 @@ The test suite supports testing against different Salesforce org configurations 
 | **regular_auth** | Org configured to use regular authentication | Authentication through web view |
 | **advanced_auth** | Org configured to use native browser for authentication | Chrome Custom Tab on Android and ASWebAuthenticationSession on iOS |
 
-Most tests use the `regular_auth` login host by default. The `AdvancedAuthBeaconLoginTests` class runs the same Beacon login tests but uses the `advanced_auth` login host to verify authentication flows work correctly with native browser authentication.
-
+Most tests use the `regular_auth` login host by default. The `AdvancedAuthBeaconLoginTests` class runs the same Beacon login tests but uses the `advanced_auth` login host to verify authentication flows work correctly with native browser authentication. The `WelcomeLoginTests` use simulated domain discovery with welcome.salesforce.com as the login server to test the welcome/domain discovery flow.

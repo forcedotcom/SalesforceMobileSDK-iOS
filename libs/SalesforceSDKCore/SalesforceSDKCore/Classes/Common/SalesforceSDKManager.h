@@ -26,7 +26,7 @@
 #import <UIKit/UIKit.h>
 #import <SalesforceSDKCore/SalesforceSDKCoreDefines.h>
 #import <SalesforceSDKCore/SalesforceSDKConstants.h>
-@class SFUserAccount, SFSDKAppConfig, SFScreenLockManager, SFBiometricAuthenticationManager;
+@class SFUserAccount, SFSDKAppConfig, SFScreenLockManager, SFBiometricAuthenticationManager, SFDomainDiscoveryResult;
 @protocol SFScreenLockManager, SFBiometricAuthenticationManager, SFNativeLoginManager;
 
 /**
@@ -237,6 +237,10 @@ NS_SWIFT_NAME(SalesforceManager)
 /** Use this flag to indicate if the login webview should be inspectable
  */
 @property (nonatomic, assign) BOOL isLoginWebviewInspectable;
+
+/** When set (DEBUG builds only; setter is a no-op in Release), a callback URL is built from this result to trigger the domain discovery callback handler when welcome.salesforce.com is the login server. Used by tests to simulate domain discovery.
+ */
+@property (nonatomic, strong, nullable) SFDomainDiscoveryResult *simulatedDomainDiscoveryResult;
 
 /** The type of cache used for the shared URL cache, defaults to kSFURLCacheTypeEncrypted.
 */

@@ -67,7 +67,18 @@ public class DomainDiscoveryCoordinator: NSObject {
     /// Call this from your WKNavigationDelegate when a navigation action occurs to detect and extract the result from the domain discovery callback URL.
     @objc(handleWithWebAction:)
     public func handle(action: WKNavigationAction) -> DomainDiscoveryResult? {
-        guard let url = action.request.url else {
+        let url: URL?
+        // When simulatedDomainDiscoveryResult is set and the login server is welcome.salesforce.com,
+        // we build a callback URL to trigger the code that handles the domain discovery callback,
+        // simulating the user picking a specific domain/username.
+        let requestHost = action.request.url?.host?.lowercased()
+        if let simulated = SalesforceManager.shared.simulatedDomainDiscoveryResult,
+           requestHost == "welcome.salesforce.com" {
+            url = Self.buildSimulatedCallbackURL(loginHint: simulated.loginHint, myDomain: simulated.myDomain)
+        } else {
+            url = action.request.url
+        }
+        guard let url = url else {
             return nil
         }
         if isDomainDiscoveryCallbackURL(url) {
@@ -92,6 +103,17 @@ public class DomainDiscoveryCoordinator: NSObject {
 }
 
 extension DomainDiscoveryCoordinator {
+    private static func buildSimulatedCallbackURL(loginHint: String, myDomain: String) -> URL? {
+        var components = URLComponents()
+        components.scheme = "sfdc"
+        components.host = "discocallback"
+        components.queryItems = [
+            URLQueryItem(name: "login_hint", value: loginHint),
+            URLQueryItem(name: "my_domain", value: myDomain)
+        ]
+        return components.url
+    }
+
     private static func buildDiscoveryURL(clientId: String, clientVersion: String, domain: String, callbackURL: String = DomainDiscovery.callbackURL.rawValue) -> NSURL? {
         var components = URLComponents()
         components.scheme = DomainDiscovery.URLComponent.scheme.rawValue

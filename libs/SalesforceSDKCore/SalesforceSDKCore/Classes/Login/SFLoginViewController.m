@@ -315,7 +315,7 @@
                                                    image:nil
                                               identifier:nil
                                                  handler:^(__kindof UIAction* _Nonnull action) {
-            UIViewController *configPicker = [BootConfigPickerViewController makeViewControllerOnConfigurationCompleted:^{
+            UIViewController *configPicker = [LoginOptionsViewController makeViewControllerOnConfigurationCompleted:^{
                 [self dismissViewControllerAnimated:YES completion:^{
                     if ([self.delegate respondsToSelector:@selector(loginViewControllerDidChangeLoginOptions:)]) {
                         [self.delegate loginViewControllerDidChangeLoginOptions:self];

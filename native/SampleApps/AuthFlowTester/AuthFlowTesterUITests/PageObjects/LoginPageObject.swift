@@ -43,6 +43,10 @@ class LoginPageObject {
         return loginNavigationBar().waitForExistence(timeout: timeout)
     }
     
+    func hasFilledUsernameField(username: String) -> Bool {
+        return app.staticTexts[username].waitForExistence(timeout: timeout)
+    }
+    
     func switchToLSCIfShowingAdvancedAuthentication() -> Void {
         if (isShowingAdvancedAuth()) {
             tap(advancedAuthCloseButton())
@@ -74,6 +78,13 @@ class LoginPageObject {
         tapIfPresent(allowButton())
     }
     
+    func performWelcomeLogin(password: String) {
+        setTextField(passwordField(), value: password)
+        tap(usernameFieldLabel()) // click on label to hide keyboard
+        tap(loginButton())
+        tapIfPresent(allowButton())
+    }
+    
     func configureLoginOptions(
         staticAppConfig: AppConfig?,
         staticScopes: String,
@@ -81,56 +92,24 @@ class LoginPageObject {
         dynamicScopes: String,
         useWebServerFlow: Bool,
         useHybridFlow: Bool,
+        discoveryLoginHost: String,
+        discoveryUsername: String,
     ) -> Void {
         tap(settingsButton())
         tap(loginOptionsButton())
-        setSwitchField(useWebServerFlowSwitch(), value: useWebServerFlow)
-        setSwitchField(useHybridSwitch(), value: useHybridFlow)
-        
-        if let staticAppConfig = staticAppConfig {
-            let configJSON = buildConfigJSON(consumerKey: staticAppConfig.consumerKey, redirectUri: staticAppConfig.redirectUri, scopes: staticScopes)
-            importConfig(configJSON, isStaticConfiguration: true)
-        }
-        // In all cases - we want the static config to be set
-        tap(useStaticConfigButton())
+        let loginOptionsPage = LoginOptionsPageObject(testApp: app)
+        loginOptionsPage.configure(
+            staticAppConfig: staticAppConfig,
+            staticScopes: staticScopes,
+            dynamicAppConfig: dynamicAppConfig,
+            dynamicScopes: dynamicScopes,
+            useWebServerFlow: useWebServerFlow,
+            useHybridFlow: useHybridFlow,
+            discoveryLoginHost: discoveryLoginHost,
+            discoveryUsername: discoveryUsername
+        )
+    }
 
-        // Setting dynamic config when provided
-        if let dynamicAppConfig = dynamicAppConfig {
-            tap(settingsButton())
-            tap(loginOptionsButton())
-            let configJSON = buildConfigJSON(consumerKey: dynamicAppConfig.consumerKey, redirectUri: dynamicAppConfig.redirectUri, scopes: dynamicScopes)
-            importConfig(configJSON, isStaticConfiguration: false)
-            tap(useDynamicConfigButton())
-        }
-    }
-    
-    private func buildConfigJSON(consumerKey: String, redirectUri: String, scopes: String) -> String {
-        let config: [String: String] = [
-            BootConfigJSONKeys.consumerKey: consumerKey,
-            BootConfigJSONKeys.redirectUri: redirectUri,
-            BootConfigJSONKeys.scopes: scopes
-        ]
-        guard let jsonData = try? JSONSerialization.data(withJSONObject: config, options: []),
-              let jsonString = String(data: jsonData, encoding: .utf8) else {
-            return "{}"
-        }
-        return jsonString
-    }
-    
-    private func importConfig(_ jsonString: String, isStaticConfiguration: Bool = true) {
-        tap(importConfigButton(useStaticConfiguration: isStaticConfiguration))
-        
-        // Wait for alert to appear
-        let alert = importConfigAlert()
-        _ = alert.waitForExistence(timeout: timeout)
-        
-        // Type into the alert's text field
-        let textField = importConfigTextField()
-        textField.typeText(jsonString)
-        
-        tap(importAlertButton())
-    }
-    
     // MARK: - UI Element Accessors
     
     private func loginNavigationBar() -> XCUIElement {
@@ -202,60 +181,7 @@ class LoginPageObject {
     private func toolbarDoneButton() -> XCUIElement {
         return app.toolbars["Toolbar"].buttons["Done"]
     }
-    
-    private func useWebServerFlowSwitch() -> XCUIElement {
-        return app.switches["Use Web Server Flow"]
-    }
 
-    private func useHybridSwitch() -> XCUIElement {
-        return app.switches["Use Hybrid Flow"]
-    }
-
-    private func staticConfigurationSection() -> XCUIElement {
-        return app.buttons["Static Configuration"]
-    }
-    
-    private func consumerKeyField() -> XCUIElement {
-        return app.textFields["consumerKeyTextField"]
-    }
-    
-    private func callbackUrlField() -> XCUIElement {
-        return app.textFields["callbackUrlTextField"]
-    }
-    
-    private func scopesField() -> XCUIElement {
-        return app.textFields["scopesTextField"]
-    }
-    
-    private func useStaticConfigButton() -> XCUIElement {
-        return app.buttons["Use static config"]
-    }
-
-    private func useDynamicConfigButton() -> XCUIElement {
-        return app.buttons["Use dynamic config"]
-    }
-    
-    /// Returns the import button for either the static or dynamic configuration section.
-    /// The BootConfigPickerView has two BootConfigEditor sections - the first for static config, the second for dynamic config.
-    private func importConfigButton(useStaticConfiguration: Bool = true) -> XCUIElement {
-        let buttons = app.buttons.matching(identifier: "importConfigButton")
-        let index = useStaticConfiguration ? 0 : 1
-        return buttons.element(boundBy: index)
-    }
-    
-    private func importConfigAlert() -> XCUIElement {
-        return app.alerts["Import Configuration"]
-    }
-    
-    private func importConfigTextField() -> XCUIElement {
-        // Access text field through the alert - SwiftUI alert TextFields are accessed this way
-        return importConfigAlert().textFields.firstMatch
-    }
-    
-    private func importAlertButton() -> XCUIElement {
-        return importConfigAlert().buttons["Import"]
-    }
-    
     private func advancedAuthCloseButton() -> XCUIElement {
         return app.otherElements["TopBrowserBar"].buttons["Close"]
     }
@@ -295,20 +221,8 @@ class LoginPageObject {
         tapIfPresent(toolbarDoneButton())
     }
     
-    private func setSwitchField(_ switchField: XCUIElement, value: Bool) {
-        _ = switchField.waitForExistence(timeout: timeout)
-        
-        // Switch values are "0" (off) or "1" (on) in XCTest
-        let currentValue = (switchField.value as? String) == "1"
-        
-        // Only tap if the current state differs from desired state
-        if currentValue != value {
-            tap(switchField)
-        }
-    }
-    
     // MARK: - Other
-
+    
     private func hasHost(host: String) -> Bool {
         let row = hostRow(host: host)
         return row.waitForExistence(timeout: timeout)

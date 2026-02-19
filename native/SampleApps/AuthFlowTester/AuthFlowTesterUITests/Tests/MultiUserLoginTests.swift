@@ -35,7 +35,7 @@ import XCTest
 ///
 /// NB: Tests use the fourth and fifth user from ui_test_config.json
 ///
-class MultiUserLoginTests: BaseAuthFlowTesterTest {
+class MultiUserLoginTests: BaseAuthFlowTester {
         
     // MARK: - Both Users Static Config
     

@@ -131,6 +131,12 @@ SFNativeLoginManagerInternal *nativeLogin;
 
 @synthesize webViewUserAgent = _webViewUserAgent;
 
+- (void)setSimulatedDomainDiscoveryResult:(SFDomainDiscoveryResult *)simulatedDomainDiscoveryResult {
+#ifdef DEBUG
+    _simulatedDomainDiscoveryResult = simulatedDomainDiscoveryResult;
+#endif
+}
+
 + (void)setInstanceClass:(Class)className {
     InstanceClass = className;
 }
@@ -483,7 +489,7 @@ SFNativeLoginManagerInternal *nativeLogin;
     // Login Options - only show on login screen
     if (isShowingLogin) {
         [actions addObject:[[SFSDKDevAction alloc]initWith:@"Login Options" handler:^{
-            UIViewController *configPicker = [BootConfigPickerViewController makeViewControllerOnConfigurationCompleted:^{
+            UIViewController *configPicker = [LoginOptionsViewController makeViewControllerOnConfigurationCompleted:^{
                 [presentedViewController dismissViewControllerAnimated:YES completion:^{
                     // Restart authentication with the updated configuration
                     if ([presentedViewController isKindOfClass:[SFLoginViewController class]]) {
