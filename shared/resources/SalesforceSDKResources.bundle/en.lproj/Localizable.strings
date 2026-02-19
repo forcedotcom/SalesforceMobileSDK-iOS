@@ -72,6 +72,43 @@
 "LOGIN_CLEAR_CACHE" = "Clear Cache";
 "LOGIN_RELOAD" = "Reload";
 
+// Login Options (sheet title and sections)
+"LOGIN_OPTIONS_STATIC_CONFIG_TITLE" = "Static Configuration";
+"LOGIN_OPTIONS_SAVE_STATIC_CONFIG" = "Save static config";
+"LOGIN_OPTIONS_DYNAMIC_CONFIG_TITLE" = "Dynamic Configuration";
+"LOGIN_OPTIONS_SAVE_DYNAMIC_CONFIG" = "Save dynamic config";
+
+// Boot Config Editor (Login Options)
+"BOOTCONFIG_CONSUMER_KEY_LABEL" = "Consumer Key:";
+"BOOTCONFIG_CONSUMER_KEY_PLACEHOLDER" = "Consumer Key";
+"BOOTCONFIG_CALLBACK_URL_LABEL" = "Callback URL:";
+"BOOTCONFIG_CALLBACK_URL_PLACEHOLDER" = "Callback URL";
+"BOOTCONFIG_SCOPES_LABEL" = "Scopes (space-separated):";
+"BOOTCONFIG_SCOPES_PLACEHOLDER" = "e.g. id api refresh_token";
+"BOOTCONFIG_IMPORT_ALERT_TITLE" = "Import Configuration";
+"BOOTCONFIG_IMPORT_PLACEHOLDER" = "Paste JSON here";
+"BOOTCONFIG_IMPORT_BUTTON" = "Import";
+"BOOTCONFIG_IMPORT_CANCEL" = "Cancel";
+"BOOTCONFIG_IMPORT_MESSAGE" = "Paste JSON with remoteAccessConsumerKey, oauthRedirectURI, and scopes";
+
+// Discovery Result Editor (Login Options)
+"DISCOVERY_SIMULATE_TITLE" = "Simulate Domain Discovery";
+"DISCOVERY_LOGIN_HOST_LABEL" = "Login host (My Domain):";
+"DISCOVERY_LOGIN_HOST_PLACEHOLDER" = "e.g. mycompany.my.salesforce.com";
+"DISCOVERY_USER_NAME_LABEL" = "User name (login hint):";
+"DISCOVERY_USER_NAME_PLACEHOLDER" = "e.g. user@company.com";
+"DISCOVERY_SAVE_SIMULATED_RESULT" = "Save simulated result";
+"DISCOVERY_IMPORT_ALERT_TITLE" = "Import Discovery Result";
+"DISCOVERY_IMPORT_PLACEHOLDER" = "Paste JSON here";
+"DISCOVERY_IMPORT_BUTTON" = "Import";
+"DISCOVERY_IMPORT_CANCEL" = "Cancel";
+"DISCOVERY_IMPORT_MESSAGE" = "Paste JSON with login_hint and my_domain";
+
+// Auth Flow Types (Login Options)
+"LOGIN_OPTIONS_AUTH_FLOW_TYPES_TITLE" = "Authentication Flow Types";
+"LOGIN_OPTIONS_USE_WEB_SERVER_FLOW" = "Use Web Server Flow";
+"LOGIN_OPTIONS_USE_HYBRID_FLOW" = "Use Hybrid Flow";
+
 // Account Switcher
 "ACCOUNT_SWITCHER_TITLE" = "Manage Accounts";
 "LOG_OUT" = "Log Out";

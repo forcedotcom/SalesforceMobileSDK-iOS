@@ -71,7 +71,7 @@ public struct LoginOptionsView: View {
     public var body: some View {
         VStack(spacing: 0) {
             // Custom title bar with close button – trigger handler then dismiss so presenter can run its callback
-            TitleBarView(title: "Login Options", onDismiss: closeSheet)
+            TitleBarView(title: SFSDKResourceUtils.localizedString("LOGIN_OPTIONS"), onDismiss: closeSheet)
 
             // Content
             ScrollView {
@@ -84,8 +84,8 @@ public struct LoginOptionsView: View {
 
                         // Static config section
                         BootConfigEditor(
-                            title: "Static Configuration",
-                            buttonLabel: "Save static config",
+                            title: SFSDKResourceUtils.localizedString("LOGIN_OPTIONS_STATIC_CONFIG_TITLE"),
+                            buttonLabel: SFSDKResourceUtils.localizedString("LOGIN_OPTIONS_SAVE_STATIC_CONFIG"),
                             buttonColor: .blue,
                             consumerKey: $staticConsumerKey,
                             callbackUrl: $staticCallbackUrl,
@@ -99,8 +99,8 @@ public struct LoginOptionsView: View {
 
                         // Dynamic config section
                         BootConfigEditor(
-                            title: "Dynamic Configuration",
-                            buttonLabel: "Save dynamic config",
+                            title: SFSDKResourceUtils.localizedString("LOGIN_OPTIONS_DYNAMIC_CONFIG_TITLE"),
+                            buttonLabel: SFSDKResourceUtils.localizedString("LOGIN_OPTIONS_SAVE_DYNAMIC_CONFIG"),
                             buttonColor: .green,
                             consumerKey: $dynamicConsumerKey,
                             callbackUrl: $dynamicCallbackUrl,
