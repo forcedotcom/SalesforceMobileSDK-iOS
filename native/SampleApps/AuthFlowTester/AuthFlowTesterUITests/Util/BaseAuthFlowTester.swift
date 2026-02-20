@@ -95,7 +95,7 @@ class BaseAuthFlowTester: XCTestCase {
         useWelcomeDiscovery: Bool = false,
     ) {
         let userConfig = getUser(loginHost: loginHost, user: user)
-        let hostConfig = try! testConfig.getLoginHost(loginHost)
+        let hostConfig = getLoginHost(loginHost: loginHost)
         let staticAppConfig = getAppConfig(named: staticAppConfigName)
         let dynamicAppConfig = dynamicAppConfigName == nil ? nil : getAppConfig(named: dynamicAppConfigName!)
         let staticScopes = testConfig.getScopesToRequest(for: staticAppConfig, staticScopeSelection)
@@ -601,6 +601,15 @@ class BaseAuthFlowTester: XCTestCase {
         } catch {
             XCTFail("Failed to get app config for \(name): \(error)")
             fatalError("Failed to get app config for \(name): \(error)")
+        }
+    }
+    
+    private func getLoginHost(loginHost: KnownLoginHostConfig) -> LoginHostConfig {
+        do {
+            return try testConfig.getLoginHost(loginHost)
+        } catch {
+            XCTFail("Failed to get login host \(loginHost): \(error)")
+            fatalError("Failed to get login host \(loginHost): \(error)")
         }
     }
     

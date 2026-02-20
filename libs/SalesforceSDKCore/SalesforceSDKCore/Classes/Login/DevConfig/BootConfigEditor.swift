@@ -101,30 +101,30 @@ public struct BootConfigEditor: View {
             
             if isExpanded {
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("Consumer Key:")
+                    Text(SFSDKResourceUtils.localizedString("BOOTCONFIG_CONSUMER_KEY_LABEL"))
                         .font(.caption)
                         .foregroundColor(.secondary)
-                    TextField("Consumer Key", text: $consumerKey)
+                    TextField(SFSDKResourceUtils.localizedString("BOOTCONFIG_CONSUMER_KEY_PLACEHOLDER"), text: $consumerKey)
                         .font(.system(.caption, design: .monospaced))
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .autocapitalization(.none)
                         .disableAutocorrection(true)
                         .accessibilityIdentifier("consumerKeyTextField")
                     
-                    Text("Callback URL:")
+                    Text(SFSDKResourceUtils.localizedString("BOOTCONFIG_CALLBACK_URL_LABEL"))
                         .font(.caption)
                         .foregroundColor(.secondary)
-                    TextField("Callback URL", text: $callbackUrl)
+                    TextField(SFSDKResourceUtils.localizedString("BOOTCONFIG_CALLBACK_URL_PLACEHOLDER"), text: $callbackUrl)
                         .font(.system(.caption, design: .monospaced))
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .autocapitalization(.none)
                         .disableAutocorrection(true)
                         .accessibilityIdentifier("callbackUrlTextField")
                     
-                    Text("Scopes (space-separated):")
+                    Text(SFSDKResourceUtils.localizedString("BOOTCONFIG_SCOPES_LABEL"))
                         .font(.caption)
                         .foregroundColor(.secondary)
-                    TextField("e.g. id api refresh_token", text: $scopes)
+                    TextField(SFSDKResourceUtils.localizedString("BOOTCONFIG_SCOPES_PLACEHOLDER"), text: $scopes)
                         .font(.system(.caption, design: .monospaced))
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .autocapitalization(.none)
@@ -150,14 +150,14 @@ public struct BootConfigEditor: View {
         .onAppear {
             isExpanded = initiallyExpanded
         }
-        .alert("Import Configuration", isPresented: $showImportAlert) {
-            TextField("Paste JSON here", text: $importJSONText)
-            Button("Import") {
+        .alert(SFSDKResourceUtils.localizedString("BOOTCONFIG_IMPORT_ALERT_TITLE"), isPresented: $showImportAlert) {
+            TextField(SFSDKResourceUtils.localizedString("BOOTCONFIG_IMPORT_PLACEHOLDER"), text: $importJSONText)
+            Button(SFSDKResourceUtils.localizedString("BOOTCONFIG_IMPORT_BUTTON")) {
                 importConfigFromJSON()
             }
-            Button("Cancel", role: .cancel) { }
+            Button(SFSDKResourceUtils.localizedString("BOOTCONFIG_IMPORT_CANCEL"), role: .cancel) { }
         } message: {
-            Text("Paste JSON with remoteAccessConsumerKey, oauthRedirectURI, and scopes")
+            Text(SFSDKResourceUtils.localizedString("BOOTCONFIG_IMPORT_MESSAGE"))
         }
     }
     

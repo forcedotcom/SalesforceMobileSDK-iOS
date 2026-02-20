@@ -64,7 +64,7 @@ public struct DiscoveryResultEditor: View {
                     }
                 }) {
                     HStack {
-                        Text("Simulate Domain Discovery")
+                        Text(SFSDKResourceUtils.localizedString("DISCOVERY_SIMULATE_TITLE"))
                             .font(.headline)
                             .foregroundColor(.primary)
                         Spacer()
@@ -86,20 +86,20 @@ public struct DiscoveryResultEditor: View {
 
             if isExpanded {
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("Login host (My Domain):")
+                    Text(SFSDKResourceUtils.localizedString("DISCOVERY_LOGIN_HOST_LABEL"))
                         .font(.caption)
                         .foregroundColor(.secondary)
-                    TextField("e.g. mycompany.my.salesforce.com", text: $loginHost)
+                    TextField(SFSDKResourceUtils.localizedString("DISCOVERY_LOGIN_HOST_PLACEHOLDER"), text: $loginHost)
                         .font(.system(.caption, design: .monospaced))
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .autocapitalization(.none)
                         .disableAutocorrection(true)
                         .accessibilityIdentifier("discoveryLoginHostTextField")
 
-                    Text("User name (login hint):")
+                    Text(SFSDKResourceUtils.localizedString("DISCOVERY_USER_NAME_LABEL"))
                         .font(.caption)
                         .foregroundColor(.secondary)
-                    TextField("e.g. user@company.com", text: $userName)
+                    TextField(SFSDKResourceUtils.localizedString("DISCOVERY_USER_NAME_PLACEHOLDER"), text: $userName)
                         .font(.system(.caption, design: .monospaced))
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .autocapitalization(.none)
@@ -111,7 +111,7 @@ public struct DiscoveryResultEditor: View {
             }
 
             Button(action: applySimulatedResult) {
-                Text("Save simulated result")
+                Text(SFSDKResourceUtils.localizedString("DISCOVERY_SAVE_SIMULATED_RESULT"))
                     .font(.headline)
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
@@ -126,14 +126,14 @@ public struct DiscoveryResultEditor: View {
         .onAppear {
             isExpanded = initiallyExpanded
         }
-        .alert("Import Discovery Result", isPresented: $showImportAlert) {
-            TextField("Paste JSON here", text: $importJSONText)
-            Button("Import") {
+        .alert(SFSDKResourceUtils.localizedString("DISCOVERY_IMPORT_ALERT_TITLE"), isPresented: $showImportAlert) {
+            TextField(SFSDKResourceUtils.localizedString("DISCOVERY_IMPORT_PLACEHOLDER"), text: $importJSONText)
+            Button(SFSDKResourceUtils.localizedString("DISCOVERY_IMPORT_BUTTON")) {
                 importDiscoveryResultFromJSON()
             }
-            Button("Cancel", role: .cancel) { }
+            Button(SFSDKResourceUtils.localizedString("DISCOVERY_IMPORT_CANCEL"), role: .cancel) { }
         } message: {
-            Text("Paste JSON with login_hint and my_domain")
+            Text(SFSDKResourceUtils.localizedString("DISCOVERY_IMPORT_MESSAGE"))
         }
     }
 
