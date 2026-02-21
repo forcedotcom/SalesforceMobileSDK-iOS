@@ -81,9 +81,13 @@ public class DomainDiscoveryCoordinator: NSObject {
         guard let url = url else {
             return nil
         }
+        return handle(callbackURL: url)
+    }
+    
+    /// Parses a callback URL if it matches the domain discovery callback scheme. Used by `handle(action:)` and by tests to avoid WKNavigationAction subclassing (which can abort in WebKit on CI).
+    internal func handle(callbackURL url: URL) -> DomainDiscoveryResult? {
         if isDomainDiscoveryCallbackURL(url) {
-            let result = parseDiscoveryCallbackURL(url)
-            return result
+            return parseDiscoveryCallbackURL(url)
         }
         return nil
     }

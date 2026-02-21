@@ -1,11 +1,9 @@
 import XCTest
 @testable import SalesforceSDKCore
-import WebKit
 
-/// Tests for DomainDiscoveryCoordinator. We avoid creating WKWebView and calling load(_:)
-/// in the parsing tests because WKWebView initialization in a unit test context can be
-/// fragile and cause intermittent crashes. Instead we build a MockNavigationAction
-/// and call coordinator.handle(action:) directly.
+/// Tests for DomainDiscoveryCoordinator. We call `handle(callbackURL:)` directly with a URL
+/// instead of building a MockNavigationAction, because subclassing WKNavigationAction and
+/// calling super.init() can trigger an abort in WebKit on CI (signal abrt).
 @MainActor
 final class DomainDiscoveryCoordinatorTests: XCTestCase {
 
@@ -19,10 +17,9 @@ final class DomainDiscoveryCoordinatorTests: XCTestCase {
         let encodedHint = try XCTUnwrap(expectedLoginHint.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed))
         let callbackURLString = "sfdc://discocallback?my_domain=\(encodedDomain)&login_hint=\(encodedHint)"
         let callbackURL = try XCTUnwrap(URL(string: callbackURLString))
-        let action = MockNavigationAction(url: callbackURL)
 
         // When
-        let results = coordinator.handle(action: action)
+        let results = coordinator.handle(callbackURL: callbackURL)
 
         // Then
         XCTAssertEqual(results?.myDomain, expectedDomain)
@@ -36,10 +33,9 @@ final class DomainDiscoveryCoordinatorTests: XCTestCase {
         let encodedHint = try XCTUnwrap(expectedLoginHint.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed))
         let callbackURLString = "sfdc://discocallback?login_hint=\(encodedHint)"
         let callbackURL = try XCTUnwrap(URL(string: callbackURLString))
-        let action = MockNavigationAction(url: callbackURL)
 
         // When
-        let results = coordinator.handle(action: action)
+        let results = coordinator.handle(callbackURL: callbackURL)
 
         // Then
         XCTAssertNil(results)
@@ -53,10 +49,9 @@ final class DomainDiscoveryCoordinatorTests: XCTestCase {
         let encodedDomain = try XCTUnwrap(mockDomain.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed))
         let callbackURLString = "sfdc://discocallback?my_domain=\(encodedDomain)"
         let callbackURL = try XCTUnwrap(URL(string: callbackURLString))
-        let action = MockNavigationAction(url: callbackURL)
 
         // When
-        let results = coordinator.handle(action: action)
+        let results = coordinator.handle(callbackURL: callbackURL)
 
         // Then
         XCTAssertNil(results)
@@ -67,10 +62,9 @@ final class DomainDiscoveryCoordinatorTests: XCTestCase {
         let coordinator = DomainDiscoveryCoordinator()
         let callbackURLString = "sfdc://discocallback?my_domain=&login_hint="
         let callbackURL = try XCTUnwrap(URL(string: callbackURLString))
-        let action = MockNavigationAction(url: callbackURL)
 
         // When
-        let results = coordinator.handle(action: action)
+        let results = coordinator.handle(callbackURL: callbackURL)
 
         // Then
         XCTAssertEqual(results?.myDomain, "")
@@ -81,10 +75,9 @@ final class DomainDiscoveryCoordinatorTests: XCTestCase {
         // Given
         let coordinator = DomainDiscoveryCoordinator()
         let nonCallbackURL = try XCTUnwrap(URL(string: "https://example.com"))
-        let action = MockNavigationAction(url: nonCallbackURL)
 
         // When
-        let results = coordinator.handle(action: action)
+        let results = coordinator.handle(callbackURL: nonCallbackURL)
 
         // Then
         XCTAssertNil(results)
@@ -100,10 +93,9 @@ final class DomainDiscoveryCoordinatorTests: XCTestCase {
         let encodedHint = try XCTUnwrap(expectedLoginHint.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed))
         let callbackURLString = "sfdc://discocallback?my_domain=\(encodedDomain)&login_hint=\(encodedHint)"
         let callbackURL = try XCTUnwrap(URL(string: callbackURLString))
-        let action = MockNavigationAction(url: callbackURL)
 
         // When
-        let results = coordinator.handle(action: action)
+        let results = coordinator.handle(callbackURL: callbackURL)
 
         // Then
         XCTAssertEqual(results?.myDomain, expectedDomain)
@@ -120,10 +112,9 @@ final class DomainDiscoveryCoordinatorTests: XCTestCase {
         let encodedHint = try XCTUnwrap(expectedLoginHint.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed))
         let callbackURLString = "sfdc://discocallback?my_domain=\(encodedDomain)&login_hint=\(encodedHint)&extra=foo&another=bar"
         let callbackURL = try XCTUnwrap(URL(string: callbackURLString))
-        let action = MockNavigationAction(url: callbackURL)
 
         // When
-        let results = try XCTUnwrap(coordinator.handle(action: action))
+        let results = try XCTUnwrap(coordinator.handle(callbackURL: callbackURL))
 
         // Then
         XCTAssertEqual(results.myDomain, expectedDomain)
