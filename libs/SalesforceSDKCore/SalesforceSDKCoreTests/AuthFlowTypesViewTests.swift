@@ -62,9 +62,9 @@ class AuthFlowTypesViewTests: XCTestCase {
         window.rootViewController = hostingController
         window.makeKeyAndVisible()
         
-        // Trigger view lifecycle
-        hostingController.viewWillAppear(false)
-        hostingController.viewDidAppear(false)
+        // Trigger view lifecycle (use appearance transition APIs to avoid callback misuse warning)
+        hostingController.beginAppearanceTransition(true, animated: false)
+        hostingController.endAppearanceTransition()
         
         // Give the view a moment to render
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
