@@ -141,7 +141,6 @@ extension DomainDiscoveryCoordinator {
         let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
         guard let loginHint = components?.queryItems?.first(where: { $0.name == "login_hint" })?.value,
               let myDomainRaw = components?.queryItems?.first(where: { $0.name == "my_domain" })?.value else {
-            SFSDKCoreLogger.e(classForCoder, message: "Domain discovery callback URL is missing required parameter(s): login_hint and/or my_domain.")
             return nil
         }
         let myDomain = myDomainRaw.hasPrefix("https://") ? String(myDomainRaw.dropFirst("https://".count)) : myDomainRaw

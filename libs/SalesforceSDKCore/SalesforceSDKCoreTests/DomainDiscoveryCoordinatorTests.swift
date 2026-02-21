@@ -42,13 +42,13 @@ final class DomainDiscoveryCoordinatorTests: XCTestCase {
     }
 
     func testMissingLoginHint() async throws {
-        // Given
+        // Given: callback URL with my_domain only (no login_hint). Build via URLComponents so parsing is deterministic on all platforms.
         let coordinator = DomainDiscoveryCoordinator()
-        let expectedDomain = "foo.my.salesforce.com"
-        let mockDomain = "https://\(expectedDomain)"
-        let encodedDomain = try XCTUnwrap(mockDomain.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed))
-        let callbackURLString = "sfdc://discocallback?my_domain=\(encodedDomain)"
-        let callbackURL = try XCTUnwrap(URL(string: callbackURLString))
+        var components = URLComponents()
+        components.scheme = "sfdc"
+        components.host = "discocallback"
+        components.queryItems = [URLQueryItem(name: "my_domain", value: "https://foo.my.salesforce.com")]
+        let callbackURL = try XCTUnwrap(components.url)
 
         // When
         let results = coordinator.handle(callbackURL: callbackURL)
@@ -72,9 +72,12 @@ final class DomainDiscoveryCoordinatorTests: XCTestCase {
     }
 
     func testNonCallbackURL() async throws {
-        // Given
+        // Given: URL that is not a domain discovery callback. Build via URLComponents so parsing is deterministic on all platforms.
         let coordinator = DomainDiscoveryCoordinator()
-        let nonCallbackURL = try XCTUnwrap(URL(string: "https://example.com"))
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = "example.com"
+        let nonCallbackURL = try XCTUnwrap(components.url)
 
         // When
         let results = coordinator.handle(callbackURL: nonCallbackURL)
