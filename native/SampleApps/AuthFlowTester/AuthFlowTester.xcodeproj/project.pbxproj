@@ -28,6 +28,7 @@
 		AUTH042 /* OAuthConfigurationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AUTH043 /* OAuthConfigurationView.swift */; };
 		AUTH049 /* JwtTokenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AUTH050 /* JwtTokenView.swift */; };
 		AUTH051 /* InfoRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AUTH052 /* InfoRowView.swift */; };
+		AUTH054 /* ui_test_config.json in Resources */ = {isa = PBXBuildFile; fileRef = AUTH053 /* ui_test_config.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,13 +78,14 @@
 		AUTH043 /* OAuthConfigurationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthConfigurationView.swift; sourceTree = "<group>"; };
 		AUTH050 /* JwtTokenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JwtTokenView.swift; sourceTree = "<group>"; };
 		AUTH052 /* InfoRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoRowView.swift; sourceTree = "<group>"; };
+		AUTH053 /* ui_test_config.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ui_test_config.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		4F5946272ED670C7003C5BDE /* Exceptions for "AuthFlowTesterUITests" folder in "AuthFlowTesterUITests" target */ = {
+		4F1B50CF2F3D35BB0025A685 /* Exceptions for "AuthFlowTesterUITests" folder in "AuthFlowTesterUITests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				ui_test_config.json.sample,
+				overview.md,
 			);
 			target = 4F8E4AF02ED13CE800DA7B7A /* AuthFlowTesterUITests */;
 		};
@@ -93,7 +95,7 @@
 		4F8E4AF22ED13CE800DA7B7A /* AuthFlowTesterUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				4F5946272ED670C7003C5BDE /* Exceptions for "AuthFlowTesterUITests" folder in "AuthFlowTesterUITests" target */,
+				4F1B50CF2F3D35BB0025A685 /* Exceptions for "AuthFlowTesterUITests" folder in "AuthFlowTesterUITests" target */,
 			);
 			path = AuthFlowTesterUITests;
 			sourceTree = "<group>";
@@ -144,10 +146,20 @@
 			children = (
 				AUTH020 /* AuthFlowTester */,
 				4F8E4AF22ED13CE800DA7B7A /* AuthFlowTesterUITests */,
+				AUTH055 /* Shared Test */,
 				4F95A8952EA801DC00C98D18 /* Frameworks */,
 				AUTH021 /* Products */,
 			);
 			sourceTree = "<group>";
+		};
+		AUTH055 /* Shared Test */ = {
+			isa = PBXGroup;
+			children = (
+				AUTH053 /* ui_test_config.json */,
+			);
+			path = ../../../shared/test;
+			sourceTree = "<group>";
+			name = "Shared Test";
 		};
 		AUTH020 /* AuthFlowTester */ = {
 			isa = PBXGroup;
@@ -292,6 +304,7 @@
 		4F8E4AEF2ED13CE800DA7B7A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			files = (
+				AUTH054 /* ui_test_config.json in Resources */,
 			);
 		};
 		AUTH026 /* Resources */ = {

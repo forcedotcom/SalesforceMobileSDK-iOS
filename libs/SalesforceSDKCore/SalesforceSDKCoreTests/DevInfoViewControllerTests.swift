@@ -466,8 +466,9 @@ class DevInfoViewControllerTests: XCTestCase {
     }
     
     func testDevInfoViewRendersRealWorldData() {
-        let expectation = XCTestExpectation(description: "View renders real-world SDK data")
-        
+        // Verify DevInfoView correctly parses and structures real-world-shaped SDK data.
+        // We only assert on view/sections to avoid loading the view hierarchy, which can
+        // trigger the SDK's auth flow and SFOAuthCoordinator assertions in the test environment.
         let infoData = [
             "SDK Version", "13.0.0",
             "App Type", "Native iOS",
@@ -482,28 +483,39 @@ class DevInfoViewControllerTests: XCTestCase {
             "Scopes", "api web refresh_token"
         ]
         let view = DevInfoView(infoData: infoData, title: "Dev Support")
-        let hostingController = UIHostingController(rootView: view)
         
-        let window = UIWindow(frame: CGRect(x: 0, y: 0, width: 375, height: 667))
-        window.rootViewController = hostingController
-        window.makeKeyAndVisible()
+        XCTAssertEqual(view.title, "Dev Support")
+        XCTAssertEqual(view.sections.count, 3)
         
-        hostingController.viewWillAppear(false)
-        hostingController.viewDidAppear(false)
+        // First section (no title): SDK Version, App Type
+        XCTAssertNil(view.sections[0].title)
+        XCTAssertEqual(view.sections[0].rows.count, 2)
+        XCTAssertEqual(view.sections[0].rows[0].headline, "SDK Version")
+        XCTAssertEqual(view.sections[0].rows[0].text, "13.0.0")
+        XCTAssertEqual(view.sections[0].rows[1].headline, "App Type")
+        XCTAssertEqual(view.sections[0].rows[1].text, "Native iOS")
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            // Verify the complex real-world view renders successfully
-            XCTAssertNotNil(hostingController.view)
-            XCTAssertNotNil(hostingController.view.superview)
-            
-            // Clean up
-            window.rootViewController = nil
-            window.isHidden = true
-            
-            expectation.fulfill()
-        }
+        // Section "Current User"
+        XCTAssertEqual(view.sections[1].title, "Current User")
+        XCTAssertEqual(view.sections[1].rows.count, 4)
+        XCTAssertEqual(view.sections[1].rows[0].headline, "Username")
+        XCTAssertEqual(view.sections[1].rows[0].text, "test@salesforce.com")
+        XCTAssertEqual(view.sections[1].rows[1].headline, "User ID")
+        XCTAssertEqual(view.sections[1].rows[1].text, "005xx000001X8Uz")
+        XCTAssertEqual(view.sections[1].rows[2].headline, "Org ID")
+        XCTAssertEqual(view.sections[1].rows[2].text, "00Dxx0000001gPL")
+        XCTAssertEqual(view.sections[1].rows[3].headline, "Instance URL")
+        XCTAssertEqual(view.sections[1].rows[3].text, "https://na1.salesforce.com")
         
-        wait(for: [expectation], timeout: 2.0)
+        // Section "OAuth Configuration"
+        XCTAssertEqual(view.sections[2].title, "OAuth Configuration")
+        XCTAssertEqual(view.sections[2].rows.count, 3)
+        XCTAssertEqual(view.sections[2].rows[0].headline, "Client ID")
+        XCTAssertEqual(view.sections[2].rows[0].text, "3MVG9PhR6g6B7ps6aoQEJ8h_")
+        XCTAssertEqual(view.sections[2].rows[1].headline, "Redirect URI")
+        XCTAssertEqual(view.sections[2].rows[1].text, "testapp://mobilesdk/detect/oauth/done")
+        XCTAssertEqual(view.sections[2].rows[2].headline, "Scopes")
+        XCTAssertEqual(view.sections[2].rows[2].text, "api web refresh_token")
     }
 }
 

@@ -135,3 +135,15 @@ jobs:
       xcode: ${{ matrix.xcode }}
       is_pr: true
     secrets: inherit
+
+  ui-tests-pr:
+    needs: [test-orchestrator]
+    uses: ./.github/workflows/reusable-ui-test-workflow.yaml
+    with:
+      is_pr: true
+      pr_tests: |
+        [
+          "AuthFlowTesterUITests/AdvancedAuthBeaconLoginTests/testBeaconAdvancedOpaque_DefaultScopes",
+          "AuthFlowTesterUITests/ECALoginTests/testECAAdvancedOpaque_DefaultScopes"
+        ]
+    secrets: inherit
