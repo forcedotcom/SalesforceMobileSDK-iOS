@@ -109,7 +109,7 @@ jobs:
                 ONLY_TESTING_ARGS+=(-only-testing "$t")
               done < <(echo "$PR_TESTS" | python3 -c "import sys, json; [print(t) for t in json.load(sys.stdin)]")
             else
-              ONLY_TESTING_ARGS=(-only-testing 'AuthFlowTesterUITests/ECALoginTests/testECAAdvancedJwt_DefaultScopes')
+              ONLY_TESTING_ARGS=(-only-testing 'AuthFlowTesterUITests/ECALoginTests/testECAJwt_DefaultScopes')
             fi
           elif [ -n "${{ inputs.test_suite }}" ]; then
             ONLY_TESTING_ARGS=(-only-testing "AuthFlowTesterUITests/${{ inputs.test_suite }}")

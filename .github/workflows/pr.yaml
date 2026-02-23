@@ -143,7 +143,7 @@ jobs:
       is_pr: true
       pr_tests: |
         [
-          "AuthFlowTesterUITests/AdvancedAuthBeaconLoginTests/testBeaconAdvancedOpaque_DefaultScopes",
-          "AuthFlowTesterUITests/ECALoginTests/testECAAdvancedOpaque_DefaultScopes"
+          "AuthFlowTesterUITests/AdvancedAuthBeaconLoginTests/testBeaconOpaque_DefaultScopes",
+          "AuthFlowTesterUITests/ECALoginTests/testECAOpaque_DefaultScopes"
         ]
     secrets: inherit
