@@ -65,7 +65,7 @@ class BaseAuthFlowTester: XCTestCase {
         }
         
         // Switch login server if advanced authentication is showing
-        loginPage.switchToLSCIfShowingAdvancedAuthentication()
+        loginPage.switchToLSCIfShowingAdvancedAuthentication()        
     }
     
     /// Performs login with the specified configuration.

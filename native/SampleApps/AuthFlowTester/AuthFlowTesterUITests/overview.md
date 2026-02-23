@@ -7,7 +7,7 @@ This document provides an overview of all UI tests in the AuthFlowTester test su
 | Class | Description |
 |-------|-------------|
 | `LegacyLoginTests` | Tests for legacy login flows with subset and all scopes (CA, user agent flow, non-hybrid flow) |
-| `DefaultScopesLegacyLoginTests` | Legacy login tests using default scopes (CA advanced opaque) |
+| `DefaultScopesLegacyLoginTests` | Legacy login tests using default scopes (CA opaque) |
 | `ECALoginTests` | Tests for External Client App (ECA) login flows |
 | `BeaconLoginTests` | Tests for Beacon app login flows (using regular_auth login host) |
 | `AdvancedAuthBeaconLoginTests` | Tests for Beacon app login flows (using advanced_auth login host) |
@@ -26,25 +26,25 @@ Tests for Connected App (CA) configurations with subset and all scopes, includin
 
 | Test Name | App Config | Scopes | Flow | Hybrid | Dynamic Config |
 |-----------|------------|--------|------|--------|----------------|
-| `testCAAdvancedOpaque_SubsetScopes_WebServerFlow` | CA Advanced Opaque | Subset | Web Server | No | No |
-| `testCAAdvancedOpaque_AllScopes_WebServerFlow` | CA Advanced Opaque | All | Web Server | Yes | No |
-| `testCAAdvancedOpaque_SubsetScopes_WebServerFlow_NotHybrid` | CA Advanced Opaque | Subset | Web Server | No | No |
-| `testCAAdvancedOpaque_AllScopes_WebServerFlow_NotHybrid` | CA Advanced Opaque | All | Web Server | No | No |
-| `testCAAdvancedOpaque_SubsetScopes_UserAgentFlow` | CA Advanced Opaque | Subset | User Agent | Yes | No |
-| `testCAAdvancedOpaque_AllScopes_UserAgentFlow` | CA Advanced Opaque | All | User Agent | Yes | No |
-| `testCAAdvancedOpaque_SubsetScopes_UserAgentFlow_NotHybrid` | CA Advanced Opaque | Subset | User Agent | No | No |
-| `testCAAdvancedOpaque_AllScopes_UserAgentFlow_NotHybrid` | CA Advanced Opaque | All | User Agent | No | No |
+| `testCAOpaque_SubsetScopes_WebServerFlow` | CA Opaque | Subset | Web Server | No | No |
+| `testCAOpaque_AllScopes_WebServerFlow` | CA Opaque | All | Web Server | Yes | No |
+| `testCAOpaque_SubsetScopes_WebServerFlow_NotHybrid` | CA Opaque | Subset | Web Server | No | No |
+| `testCAOpaque_AllScopes_WebServerFlow_NotHybrid` | CA Opaque | All | Web Server | No | No |
+| `testCAOpaque_SubsetScopes_UserAgentFlow` | CA Opaque | Subset | User Agent | Yes | No |
+| `testCAOpaque_AllScopes_UserAgentFlow` | CA Opaque | All | User Agent | Yes | No |
+| `testCAOpaque_SubsetScopes_UserAgentFlow_NotHybrid` | CA Opaque | Subset | User Agent | No | No |
+| `testCAOpaque_AllScopes_UserAgentFlow_NotHybrid` | CA Opaque | All | User Agent | No | No |
 
 ### DefaultScopesLegacyLoginTests (4 tests)
 
-Legacy login tests using default scopes (CA advanced opaque).
+Legacy login tests using default scopes (CA opaque).
 
 | Test Name | App Config | Scopes | Flow | Hybrid |
 |-----------|------------|--------|------|--------|
-| `testCAAdvancedOpaque_DefaultScopes_WebServerFlow` | CA Advanced Opaque | Default | Web Server | Yes |
-| `testCAAdvancedOpaque_DefaultScopes_WebServerFlow_NotHybrid` | CA Advanced Opaque | Default | Web Server | No |
-| `testCAAdvancedOpaque_DefaultScopes_UserAgentFlow` | CA Advanced Opaque | Default | User Agent | Yes |
-| `testCAAdvancedOpaque_DefaultScopes_UserAgentFlow_NotHybrid` | CA Advanced Opaque | Default | User Agent | No |
+| `testCAOpaque_DefaultScopes_WebServerFlow` | CA Opaque | Default | Web Server | Yes |
+| `testCAOpaque_DefaultScopes_WebServerFlow_NotHybrid` | CA Opaque | Default | Web Server | No |
+| `testCAOpaque_DefaultScopes_UserAgentFlow` | CA Opaque | Default | User Agent | Yes |
+| `testCAOpaque_DefaultScopes_UserAgentFlow_NotHybrid` | CA Opaque | Default | User Agent | No |
 
 ### ECALoginTests (6 tests)
 
@@ -52,12 +52,12 @@ Tests for External Client App (ECA) configurations using web server flow with hy
 
 | Test Name | App Config | Scopes | Dynamic Config |
 |-----------|------------|--------|----------------|
-| `testECAAdvancedOpaque_DefaultScopes` | ECA Advanced Opaque | Default | No |
-| `testECAAdvancedOpaque_SubsetScopes` | ECA Advanced Opaque | Subset | No |
-| `testECAAdvancedOpaque_AllScopes` | ECA Advanced Opaque | All | No |
-| `testECAAdvancedJwt_DefaultScopes` | ECA Advanced JWT | Default | No |
-| `testECAAdvancedJwt_SubsetScopes_NotHybrid` | ECA Advanced JWT | Subset | No |
-| `testECAAdvancedJwt_AllScopes` | ECA Advanced JWT | All | No |
+| `testECAOpaque_DefaultScopes` | ECA Opaque | Default | No |
+| `testECAOpaque_SubsetScopes` | ECA Opaque | Subset | No |
+| `testECAOpaque_AllScopes` | ECA Opaque | All | No |
+| `testECAJwt_DefaultScopes` | ECA JWT | Default | No |
+| `testECAJwt_SubsetScopes_NotHybrid` | ECA JWT | Subset | No |
+| `testECAJwt_AllScopes` | ECA JWT | All | No |
 
 ### BeaconLoginTests (6 tests)
 
@@ -65,12 +65,12 @@ Tests for Beacon app configurations using web server flow with hybrid auth. Uses
 
 | Test Name | App Config | Scopes | Dynamic Config |
 |-----------|------------|--------|----------------|
-| `testBeaconAdvancedOpaque_DefaultScopes` | Beacon Advanced Opaque | Default | No |
-| `testBeaconAdvancedOpaque_SubsetScopes` | Beacon Advanced Opaque | Subset | No |
-| `testBeaconAdvancedOpaque_AllScopes` | Beacon Advanced Opaque | All | No |
-| `testBeaconAdvancedJwt_DefaultScopes` | Beacon Advanced JWT | Default | No |
-| `testBeaconAdvancedJwt_SubsetScopes` | Beacon Advanced JWT | Subset | No |
-| `testBeaconAdvancedJwt_AllScopes` | Beacon Advanced JWT | All | No |
+| `testBeaconOpaque_DefaultScopes` | Beacon Opaque | Default | No |
+| `testBeaconOpaque_SubsetScopes` | Beacon Opaque | Subset | No |
+| `testBeaconOpaque_AllScopes` | Beacon Opaque | All | No |
+| `testBeaconJwt_DefaultScopes` | Beacon JWT | Default | No |
+| `testBeaconJwt_SubsetScopes` | Beacon JWT | Subset | No |
+| `testBeaconJwt_AllScopes` | Beacon JWT | All | No |
 
 ### AdvancedAuthBeaconLoginTests (6 tests)
 
@@ -78,12 +78,12 @@ Tests for Beacon app configurations using web server flow with hybrid auth. Uses
 
 | Test Name | App Config | Scopes | Login Host |
 |-----------|------------|--------|------------|
-| `testBeaconAdvancedOpaque_DefaultScopes` | Beacon Advanced Opaque | Default | advanced_auth |
-| `testBeaconAdvancedOpaque_SubsetScopes` | Beacon Advanced Opaque | Subset | advanced_auth |
-| `testBeaconAdvancedOpaque_AllScopes` | Beacon Advanced Opaque | All | advanced_auth |
-| `testBeaconAdvancedJwt_DefaultScopes` | Beacon Advanced JWT | Default | advanced_auth |
-| `testBeaconAdvancedJwt_SubsetScopes` | Beacon Advanced JWT | Subset | advanced_auth |
-| `testBeaconAdvancedJwt_AllScopes` | Beacon Advanced JWT | All | advanced_auth |
+| `testBeaconOpaque_DefaultScopes` | Beacon Opaque | Default | advanced_auth |
+| `testBeaconOpaque_SubsetScopes` | Beacon Opaque | Subset | advanced_auth |
+| `testBeaconOpaque_AllScopes` | Beacon Opaque | All | advanced_auth |
+| `testBeaconJwt_DefaultScopes` | Beacon JWT | Default | advanced_auth |
+| `testBeaconJwt_SubsetScopes` | Beacon JWT | Subset | advanced_auth |
+| `testBeaconJwt_AllScopes` | Beacon JWT | All | advanced_auth |
 
 ### DynamicConfigLoginTests (6 tests)
 
@@ -91,12 +91,12 @@ Tests for login using dynamic (runtime-selected) app configuration. Each test lo
 
 | Test Name | Static Config | Dynamic Config | Scopes |
 |-----------|---------------|----------------|--------|
-| `testCAAdvancedJwt_DefaultScopes_DynamicConfiguration_WithRestart` | CA Advanced Opaque | CA Advanced JWT | Default |
-| `testCAAdvancedJwt_SubsetScopes_DynamicConfiguration_WithRestart` | CA Advanced Opaque | CA Advanced JWT | Subset |
-| `testECAAdvancedJwt_DefaultScopes_DynamicConfiguration_WithRestart` | ECA Advanced Opaque | ECA Advanced JWT | Default |
-| `testECAAdvancedJwt_SubsetScopes_DynamicConfiguration_WithRestart` | ECA Advanced Opaque | ECA Advanced JWT | Subset |
-| `testBeaconAdvancedJwt_DefaultScopes_DynamicConfiguration_WithRestart` | Beacon Advanced Opaque | Beacon Advanced JWT | Default |
-| `testBeaconAdvancedJwt_SubsetScopes_DynamicConfiguration_WithRestart` | Beacon Advanced Opaque | Beacon Advanced JWT | Subset |
+| `testCAJwt_DefaultScopes_DynamicConfiguration_WithRestart` | CA Opaque | CA JWT | Default |
+| `testCAJwt_SubsetScopes_DynamicConfiguration_WithRestart` | CA Opaque | CA JWT | Subset |
+| `testECAJwt_DefaultScopes_DynamicConfiguration_WithRestart` | ECA Opaque | ECA JWT | Default |
+| `testECAJwt_SubsetScopes_DynamicConfiguration_WithRestart` | ECA Opaque | ECA JWT | Subset |
+| `testBeaconJwt_DefaultScopes_DynamicConfiguration_WithRestart` | Beacon Opaque | Beacon JWT | Default |
+| `testBeaconJwt_SubsetScopes_DynamicConfiguration_WithRestart` | Beacon Opaque | Beacon JWT | Subset |
 
 ### WelcomeLoginTests (4 tests)
 
@@ -119,14 +119,14 @@ Tests for migrating refresh tokens between different app configurations without 
 
 | Test Name | Original App | Migration App | Scope Change |
 |-----------|--------------|---------------|--------------|
-| `testMigrateCA_AddMoreScopes` | CA Advanced JWT (subset) | CA Advanced JWT (all) | Yes (add more scopes) |
-| `testMigrateECA_AddMoreScopes` | ECA Advanced JWT (subset) | ECA Advanced JWT (all) | Yes (add more scopes) |
-| `testMigrateBeacon_AddMoreScopes` | Beacon Advanced JWT (subset) | Beacon Advanced JWT (all) | Yes (add more scopes) |
-| `testMigrateCAToBeacon` | CA Advanced Opaque | Beacon Advanced Opaque | No |
-| `testMigrateBeaconToCA` | Beacon Advanced Opaque | CA Advanced Opaque | No |
-| `testMigrateCAToECA` | CA Advanced Opaque → ECA Advanced Opaque → CA Advanced Opaque | Migration with rollback | No |
-| `testMigrateCAToBeaconAndBack` | CA Advanced Opaque → Beacon Advanced Opaque | Migration to Beacon | No |
-| `testMigrateBeaconOpaqueToJWTAndBack` | Beacon Advanced Opaque → Beacon Advanced JWT → Beacon Advanced Opaque | Migration with rollback | No |
+| `testMigrateCA_AddMoreScopes` | CA JWT (subset) | CA JWT (all) | Yes (add more scopes) |
+| `testMigrateECA_AddMoreScopes` | ECA JWT (subset) | ECA JWT (all) | Yes (add more scopes) |
+| `testMigrateBeacon_AddMoreScopes` | Beacon JWT (subset) | Beacon JWT (all) | Yes (add more scopes) |
+| `testMigrateCAToBeacon` | CA Opaque | Beacon Opaque | No |
+| `testMigrateBeaconToCA` | Beacon Opaque | CA Opaque | No |
+| `testMigrateCAToECA` | CA Opaque → ECA Opaque → CA Opaque | Migration with rollback | No |
+| `testMigrateCAToBeaconAndBack` | CA Opaque → Beacon Opaque | Migration to Beacon | No |
+| `testMigrateBeaconOpaqueToJWTAndBack` | Beacon Opaque → Beacon JWT → Beacon Opaque | Migration with rollback | No |
 
 ---
 
@@ -172,27 +172,14 @@ Tests for login scenarios with two users using various configurations.
 
 ## Available App Configurations
 
-| Config Name | App Type | Token | Tier | Scopes |
-|-------------|----------|-------|------|--------|
-| `ecaBasicOpaque` | ECA | Opaque | Basic | `api id refresh_token` |
-| `ecaBasicJwt` | ECA | JWT | Basic | `api id refresh_token` |
-| `ecaAdvancedOpaque` | ECA | Opaque | Advanced | `api content id lightning refresh_token sfap_api visualforce web` |
-| `ecaAdvancedJwt` | ECA | JWT | Advanced | `api content id lightning refresh_token sfap_api visualforce web` |
-| `beaconBasicOpaque` | Beacon | Opaque | Basic | `api profile refresh_token` |
-| `beaconBasicJwt` | Beacon | JWT | Basic | `api id refresh_token` |
-| `beaconAdvancedOpaque` | Beacon | Opaque | Advanced | `api content id lightning refresh_token sfap_api web` |
-| `beaconAdvancedJwt` | Beacon | JWT | Advanced | `api content id lightning refresh_token sfap_api web` |
-| `caBasicOpaque` | CA | Opaque | Basic | `api id refresh_token` |
-| `caBasicJwt` | CA | JWT | Basic | `api id refresh_token` |
-| `caAdvancedOpaque` | CA | Opaque | Advanced | `api content id lightning refresh_token sfap_api visualforce web` |
-| `caAdvancedJwt` | CA | JWT | Advanced | `api content id lightning refresh_token sfap_api visualforce web` |
-
-### Configuration Tiers
-
-| Tier | Description | Scopes Included |
-|------|-------------|-----------------|
-| **Basic** | Minimal scopes for basic API access | CA/ECA: `api id refresh_token`<br>Beacon Opaque: `api profile refresh_token`<br>Beacon JWT: `api id refresh_token` |
-| **Advanced** | Full scopes including hybrid auth capabilities | CA/ECA: `api content id lightning refresh_token sfap_api visualforce web`<br>Beacon: `api content id lightning refresh_token sfap_api web` |
+| Config Name | App Type | Token | Scopes |
+|-------------|----------|-------|--------|
+| `ecaOpaque` | ECA | Opaque | `api content id lightning refresh_token sfap_api visualforce web` |
+| `ecaJwt` | ECA | JWT | `api content id lightning refresh_token sfap_api visualforce web` |
+| `beaconOpaque` | Beacon | Opaque | `api content id lightning refresh_token sfap_api web` |
+| `beaconJwt` | Beacon | JWT | `api content id lightning refresh_token sfap_api web` |
+| `caOpaque` | CA | Opaque | `api content id lightning refresh_token sfap_api visualforce web` |
+| `caJwt` | CA | JWT | `api content id lightning refresh_token sfap_api visualforce web` |
 
 ### Token Formats
 

@@ -44,35 +44,35 @@ class BeaconLoginTests: BaseAuthFlowTester {
     
     // MARK: - Beacon Opaque Tests
     
-    /// Login with Beacon advanced opaque using default scopes and web server flow.
-    func testBeaconAdvancedOpaque_DefaultScopes() throws {
-        launchLoginAndValidate(loginHost: loginHostConfig(), staticAppConfigName: .beaconAdvancedOpaque)
+    /// Login with Beacon opaque using default scopes and web server flow.
+    func testBeaconOpaque_DefaultScopes() throws {
+        launchLoginAndValidate(loginHost: loginHostConfig(), staticAppConfigName: .beaconOpaque)
     }
     
-    /// Login with Beacon advanced opaque using subset of scopes and web server flow.
-    func testBeaconAdvancedOpaque_SubsetScopes() throws {
-        launchLoginAndValidate(loginHost: loginHostConfig(), staticAppConfigName: .beaconAdvancedOpaque, staticScopeSelection: .subset)
+    /// Login with Beacon opaque using subset of scopes and web server flow.
+    func testBeaconOpaque_SubsetScopes() throws {
+        launchLoginAndValidate(loginHost: loginHostConfig(), staticAppConfigName: .beaconOpaque, staticScopeSelection: .subset)
     }
         
-    /// Login with Beacon advanced opaque using all scopes and web server flow.
-    func testBeaconAdvancedOpaque_AllScopes() throws {
-        launchLoginAndValidate(loginHost: loginHostConfig(), staticAppConfigName: .beaconAdvancedOpaque, staticScopeSelection: .all)
+    /// Login with Beacon opaque using all scopes and web server flow.
+    func testBeaconOpaque_AllScopes() throws {
+        launchLoginAndValidate(loginHost: loginHostConfig(), staticAppConfigName: .beaconOpaque, staticScopeSelection: .all)
     }
     
     // MARK: - Beacon JWT Tests
     
-    /// Login with Beacon advanced JWT using default scopes and web server flow.
-    func testBeaconAdvancedJwt_DefaultScopes() throws {
-        launchLoginAndValidate(loginHost: loginHostConfig(), staticAppConfigName: .beaconAdvancedJwt)
+    /// Login with Beacon JWT using default scopes and web server flow.
+    func testBeaconJwt_DefaultScopes() throws {
+        launchLoginAndValidate(loginHost: loginHostConfig(), staticAppConfigName: .beaconJwt)
     }
     
-    /// Login with Beacon advanced JWT using subset of scopes and web server flow.
-    func testBeaconAdvancedJwt_SubsetScopes() throws {
-        launchLoginAndValidate(loginHost: loginHostConfig(), staticAppConfigName: .beaconAdvancedJwt, staticScopeSelection: .subset)
+    /// Login with Beacon JWT using subset of scopes and web server flow.
+    func testBeaconJwt_SubsetScopes() throws {
+        launchLoginAndValidate(loginHost: loginHostConfig(), staticAppConfigName: .beaconJwt, staticScopeSelection: .subset)
     }
     
-    /// Login with Beacon advanced JWT using all scopes and web server flow.
-    func testBeaconAdvancedJwt_AllScopes() throws {
-        launchLoginAndValidate(loginHost: loginHostConfig(), staticAppConfigName: .beaconAdvancedJwt, staticScopeSelection: .all)
+    /// Login with Beacon JWT using all scopes and web server flow.
+    func testBeaconJwt_AllScopes() throws {
+        launchLoginAndValidate(loginHost: loginHostConfig(), staticAppConfigName: .beaconJwt, staticScopeSelection: .all)
     }
 }

@@ -36,35 +36,35 @@ class ECALoginTests: BaseAuthFlowTester {
     
     // MARK: - ECA Opaque Tests
     
-    /// Login with ECA advanced opaque using default scopes and web server flow.
-    func testECAAdvancedOpaque_DefaultScopes() throws {
-        launchLoginAndValidate(staticAppConfigName: .ecaAdvancedOpaque)
+    /// Login with ECA opaque using default scopes and web server flow.
+    func testECAOpaque_DefaultScopes() throws {
+        launchLoginAndValidate(staticAppConfigName: .ecaOpaque)
     }
     
-    /// Login with ECA advanced opaque using subset of scopes and web server flow.
-    func testECAAdvancedOpaque_SubsetScopes() throws {
-        launchLoginAndValidate(staticAppConfigName: .ecaAdvancedOpaque, staticScopeSelection: .subset)
+    /// Login with ECA opaque using subset of scopes and web server flow.
+    func testECAOpaque_SubsetScopes() throws {
+        launchLoginAndValidate(staticAppConfigName: .ecaOpaque, staticScopeSelection: .subset)
     }
     
-    /// Login with ECA advanced opaque using all scopes and web server flow.
-    func testECAAdvancedOpaque_AllScopes() throws {
-        launchLoginAndValidate(staticAppConfigName: .ecaAdvancedOpaque, staticScopeSelection: .all)
+    /// Login with ECA opaque using all scopes and web server flow.
+    func testECAOpaque_AllScopes() throws {
+        launchLoginAndValidate(staticAppConfigName: .ecaOpaque, staticScopeSelection: .all)
     }
     
     // MARK: - ECA JWT Tests
     
-    /// Login with ECA advanced JWT using default scopes and web server flow.
-    func testECAAdvancedJwt_DefaultScopes() throws {
-        launchLoginAndValidate(staticAppConfigName: .ecaAdvancedJwt)
+    /// Login with ECA JWT using default scopes and web server flow.
+    func testECAJwt_DefaultScopes() throws {
+        launchLoginAndValidate(staticAppConfigName: .ecaJwt)
     }
     
-    /// Login with ECA advanced JWT using subset of scopes and web server flow.
-    func testECAAdvancedJwt_SubsetScopes_NotHybrid() throws {
-        launchLoginAndValidate(staticAppConfigName: .ecaAdvancedJwt, staticScopeSelection: .subset)
+    /// Login with ECA JWT using subset of scopes and web server flow.
+    func testECAJwt_SubsetScopes_NotHybrid() throws {
+        launchLoginAndValidate(staticAppConfigName: .ecaJwt, staticScopeSelection: .subset)
     }
     
-    /// Login with ECA advanced JWT using all scopes and web server flow.
-    func testECAAdvancedJwt_AllScopes() throws {
-        launchLoginAndValidate(staticAppConfigName: .ecaAdvancedJwt, staticScopeSelection: .all)
+    /// Login with ECA JWT using all scopes and web server flow.
+    func testECAJwt_AllScopes() throws {
+        launchLoginAndValidate(staticAppConfigName: .ecaJwt, staticScopeSelection: .all)
     }
 }
