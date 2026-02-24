@@ -1,9 +1,9 @@
 /*
- MigrationTests.swift
+ RefreshTokenMigrationTests.swift
  AuthFlowTesterUITests
- 
+
  Copyright (c) 2025-present, salesforce.com, inc. All rights reserved.
- 
+
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
  * Redistributions of source code must retain the above copyright notice, this list of conditions
@@ -14,7 +14,7 @@
  * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
  endorse or promote products derived from this software without specific prior written
  permission of salesforce.com, inc.
- 
+
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
  FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -33,7 +33,7 @@ import XCTest
 ///
 /// NB: Tests use the second user from ui_test_config.json
 ///
-class MigrationTests: BaseAuthFlowTester {
+class RefreshTokenMigrationTests: BaseAuthFlowTester {
     
     // MARK: - Migration within same app (scope upgrade)
     
@@ -175,6 +175,61 @@ class MigrationTests: BaseAuthFlowTester {
             staticAppConfigName: .beaconOpaque, // should not have changed
             migrationAppConfigName: .beaconOpaque
         )
+    }
+
+    // MARK: - Multi-User Migration Scenarios
+
+    /// Migrate User A while User B remains unchanged.
+    /// Tests that migrating one user does not affect other logged-in users.
+    func testMigrateOneUserOnly() throws {
+        // Login User A with CA Opaque
+        launchAndLogin(
+            loginHost: .regularAuth,
+            user: .fourth,
+            staticAppConfigName: .caOpaque
+        )
+
+        // Login User B with CA Opaque
+        loginOtherUserAndValidate(
+            loginHost: .regularAuth,
+            user: .fifth,
+            staticAppConfigName: .caOpaque
+        )
+
+        // Switch to User A
+        switchToUser(loginHost: .regularAuth, user: .fourth)
+
+        // Migrate User A to ECA Opaque
+        migrateAndValidate(
+            loginHost: .regularAuth,
+            staticAppConfigName: .caOpaque,
+            migrationAppConfigName: .ecaOpaque
+        )
+
+        // Switch to User B and verify unchanged (still CA Opaque)
+        switchToUserAndValidate(
+            loginHost: .regularAuth,
+            user: .fifth,
+            staticAppConfigName: .caOpaque,
+            userAppConfigName: .caOpaque
+        )
+
+        // Switch back to User A and verify migration persisted (ECA Opaque)
+        switchToUserAndValidate(
+            loginHost: .regularAuth,
+            user: .fourth,
+            staticAppConfigName: .caOpaque,
+            userAppConfigName: .ecaOpaque
+        )
+
+        // Test API calls for both users
+        XCTAssertTrue(makeRestRequest(), "User A API should work")
+
+        switchToUser(loginHost: .regularAuth, user: .fifth)
+        XCTAssertTrue(makeRestRequest(), "User B API should work")
+
+        // Logout second user
+        logout()
     }
 }
 

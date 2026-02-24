@@ -30,14 +30,19 @@ import XCTest
 /// Tests for login flows using Beacon app configurations with advanced authentication.
 /// This class runs the same tests as BeaconLoginTests but uses the advanced_auth login host.
 ///
-/// NB: Tests use the first user from ui_test_config.json (advanced_auth host)
+/// NB: Tests use the second user from ui_test_config.json (advanced_auth host)
 ///
 class AdvancedAuthBeaconLoginTests: BeaconLoginTests {
-    
-    // MARK: - Login Host Configuration
-    
+
+    // MARK: - Test Configuration
+
     /// Override to use advanced authentication login host.
     override func loginHostConfig() -> KnownLoginHostConfig {
         return .advancedAuth
+    }
+
+    /// Override to use second user to avoid login conflicts when running in parallel.
+    override func userConfig() -> KnownUserConfig {
+        return .second
     }
 }

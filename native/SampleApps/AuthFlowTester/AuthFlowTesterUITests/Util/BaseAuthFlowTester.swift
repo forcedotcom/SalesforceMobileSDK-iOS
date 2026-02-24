@@ -422,16 +422,84 @@ class BaseAuthFlowTester: XCTestCase {
         )
     }
     
-    // MARK: - Private Helpers
-    
+    // MARK: - Protected Helpers for Subclasses
+
+    /// Restarts the application.
+    /// Use this for testing session persistence across app restarts.
+    func restart() {
+        app.terminate()
+        app.launch()
+    }
+
+    /// Switches to a different user account.
+    func switchToUser(loginHost: KnownLoginHostConfig, user: KnownUserConfig) {
+        let userConfig = getUser(loginHost: loginHost, user: user)
+        switchToUser(username: userConfig.username)
+    }
+
+    /// Switches to a different user account by username.
+    private func switchToUser(username: String) {
+        mainPage.switchToUser(username: username)
+    }
+
+    /// Gets the current user's credentials.
+    func getUserCredentials() -> UserCredentialsData {
+        return mainPage.getUserCredentials()
+    }
+
+    /// Revokes the current user's access token.
     @discardableResult
-    private func validateUser(
+    func revokeAccessToken() -> Bool {
+        return mainPage.revokeAccessToken()
+    }
+
+    /// Makes a REST API request with the current user's credentials.
+    @discardableResult
+    func makeRestRequest() -> Bool {
+        return mainPage.makeRestRequest()
+    }
+
+    /// Returns the user configuration for the specified login host and user.
+    private func getUser(loginHost: KnownLoginHostConfig, user: KnownUserConfig) -> UserConfig {
+        do {
+            return try testConfig.getUser(loginHost, user)
+        } catch {
+            XCTFail("Failed to get user \(user) from login host \(loginHost): \(error)")
+            fatalError("Failed to get user \(user) from login host \(loginHost): \(error)")
+        }
+    }
+
+    /// Validates user credentials without checking static configuration.
+    /// Use this for advanced scenarios like multi-user restart tests.
+    @discardableResult
+    func validateUser(
         loginHost: KnownLoginHostConfig,
         user: KnownUserConfig,
         userAppConfigName: KnownAppConfig,
         userScopeSelection: ScopeSelection,
         useWebServerFlow: Bool,
-        useHybridFlow: Bool,
+        useHybridFlow: Bool
+    ) -> UserCredentialsData {
+        return privateValidateUser(
+            loginHost: loginHost,
+            user: user,
+            userAppConfigName: userAppConfigName,
+            userScopeSelection: userScopeSelection,
+            useWebServerFlow: useWebServerFlow,
+            useHybridFlow: useHybridFlow
+        )
+    }
+
+    // MARK: - Private Helpers
+
+    @discardableResult
+    private func privateValidateUser(
+        loginHost: KnownLoginHostConfig,
+        user: KnownUserConfig,
+        userAppConfigName: KnownAppConfig,
+        userScopeSelection: ScopeSelection,
+        useWebServerFlow: Bool,
+        useHybridFlow: Bool
     ) -> UserCredentialsData {
         
         let userConfig = getUser(loginHost: loginHost, user: user)
@@ -486,8 +554,8 @@ class BaseAuthFlowTester: XCTestCase {
         
         // Check that app loads and shows the expected user credentials etc
         assertMainPageLoaded()
-        
-        let userCredentials = validateUser(
+
+        let userCredentials = privateValidateUser(
             loginHost: loginHost,
             user: user,
             userAppConfigName: userAppConfigName,
@@ -515,12 +583,9 @@ class BaseAuthFlowTester: XCTestCase {
         
         XCTAssert(mainPage.changeAppConfig(appConfig: appConfig, scopesToRequest: scopesToRequest), "Failed to migrate refresh token")
     }
-    
-    private func getUserCredentials() -> UserCredentialsData {
-        return mainPage.getUserCredentials()
-    }
-    
-    private func assertMainPageLoaded() {
+
+    /// Asserts that the main page is loaded and showing.
+    func assertMainPageLoaded() {
         XCTAssert(mainPage.isShowing(), "AuthFlowTester is not loaded")
     }
     
@@ -610,15 +675,6 @@ class BaseAuthFlowTester: XCTestCase {
         } catch {
             XCTFail("Failed to get login host \(loginHost): \(error)")
             fatalError("Failed to get login host \(loginHost): \(error)")
-        }
-    }
-    
-    private func getUser(loginHost: KnownLoginHostConfig, user: KnownUserConfig) -> UserConfig {
-        do {
-            return try testConfig.getUser(loginHost, user)
-        } catch {
-            XCTFail("Failed to get user \(user) from login host \(loginHost): \(error)")
-            fatalError("Failed to get user \(user) from login host \(loginHost): \(error)")
         }
     }
     

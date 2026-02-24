@@ -1,8 +1,8 @@
 /*
- DynamicConfigLoginTests.swift
+ LoginWithRestartTests.swift
  AuthFlowTesterUITests
 
- Copyright (c) 2025-present, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2026-present, salesforce.com, inc. All rights reserved.
 
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -27,32 +27,61 @@
 
 import XCTest
 
-/// Tests for login flows using dynamic (runtime-selected) app configuration.
-/// Covers CA, ECA, and Beacon configs with dynamic config selection and restart validation.
-class DynamicConfigLoginTests: BaseAuthFlowTester {
+/// Tests for verifying that user sessions persist across app restarts.
+/// Includes tests for CA, ECA, and Beacon configurations with both static and dynamic settings.
+///
+/// NB: Tests use the second, third, fourth, and fifth users from ui_test_config.json
+///
+class LoginWithRestartTests: BaseAuthFlowTester {
 
-    // MARK: - CA Dynamic Configuration
+    // MARK: - Legacy Login Persistence
 
-    /// Login with CA JWT using default scopes and web server flow provided as dynamic configuration. Restart and validate.
-    func testCAJwt_DefaultScopes_DynamicConfiguration_WithRestart() throws {
+    /// Login with CA, restart app, and verify session persists.
+    func testCAOpaque_DefaultScopes_WithRestart() throws {
         launchLoginAndValidate(
-            staticAppConfigName: .caOpaque,
-            dynamicAppConfigName: .caJwt
+            loginHost: .regularAuth,
+            user: .third,
+            staticAppConfigName: .caOpaque
         )
+
         restartAndValidate(
-            userAppConfigName: .caJwt
+            loginHost: .regularAuth,
+            user: .third,
+            userAppConfigName: .caOpaque
         )
     }
 
-    /// Login with CA JWT using subset of scopes and web server flow provided as dynamic configuration. Restart and validate.
-    func testCAJwt_SubsetScopes_DynamicConfiguration_WithRestart() throws {
+    // MARK: - ECA Login Persistence
+
+    /// Login with ECA, restart app, and verify session persists.
+    func testECAOpaque_DefaultScopes_WithRestart() throws {
         launchLoginAndValidate(
-            staticAppConfigName: .caOpaque,
-            dynamicAppConfigName: .caJwt,
-            dynamicScopeSelection: .subset)
+            loginHost: .regularAuth,
+            user: .third,
+            staticAppConfigName: .ecaOpaque
+        )
+
         restartAndValidate(
-            userAppConfigName: .caJwt,
-            userScopeSelection: .subset
+            loginHost: .regularAuth,
+            user: .third,
+            userAppConfigName: .ecaOpaque
+        )
+    }
+
+    // MARK: - Beacon Login Persistence
+
+    /// Login with Beacon, restart app, and verify session and child key persist.
+    func testBeaconOpaque_DefaultScopes_WithRestart() throws {
+        launchLoginAndValidate(
+            loginHost: .regularAuth,
+            user: .third,
+            staticAppConfigName: .beaconOpaque
+        )
+
+        restartAndValidate(
+            loginHost: .regularAuth,
+            user: .third,
+            userAppConfigName: .beaconOpaque
         )
     }
 
@@ -61,10 +90,12 @@ class DynamicConfigLoginTests: BaseAuthFlowTester {
     /// Login with ECA JWT using default scopes and web server flow provided as dynamic configuration. Restart and validate.
     func testECAJwt_DefaultScopes_DynamicConfiguration_WithRestart() throws {
         launchLoginAndValidate(
+            user: .second,
             staticAppConfigName: .ecaOpaque,
             dynamicAppConfigName: .ecaJwt
         )
         restartAndValidate(
+            user: .second,
             userAppConfigName: .ecaJwt
         )
     }
@@ -72,10 +103,12 @@ class DynamicConfigLoginTests: BaseAuthFlowTester {
     /// Login with ECA JWT using subset of scopes and web server flow provided as dynamic configuration. Restart and validate.
     func testECAJwt_SubsetScopes_DynamicConfiguration_WithRestart() throws {
         launchLoginAndValidate(
+            user: .second,
             staticAppConfigName: .ecaOpaque,
             dynamicAppConfigName: .ecaJwt,
             dynamicScopeSelection: .subset)
         restartAndValidate(
+            user: .second,
             userAppConfigName: .ecaJwt,
             userScopeSelection: .subset
         )
@@ -87,11 +120,13 @@ class DynamicConfigLoginTests: BaseAuthFlowTester {
     func testBeaconJwt_DefaultScopes_DynamicConfiguration_WithRestart() throws {
         launchLoginAndValidate(
             loginHost: .regularAuth,
+            user: .second,
             staticAppConfigName: .beaconOpaque,
             dynamicAppConfigName: .beaconJwt
         )
         restartAndValidate(
             loginHost: .regularAuth,
+            user: .second,
             userAppConfigName: .beaconJwt
         )
     }
@@ -100,14 +135,69 @@ class DynamicConfigLoginTests: BaseAuthFlowTester {
     func testBeaconJwt_SubsetScopes_DynamicConfiguration_WithRestart() throws {
         launchLoginAndValidate(
             loginHost: .regularAuth,
+            user: .second,
             staticAppConfigName: .beaconOpaque,
             dynamicAppConfigName: .beaconJwt,
             dynamicScopeSelection: .subset
         )
         restartAndValidate(
             loginHost: .regularAuth,
+            user: .second,
             userAppConfigName: .beaconJwt,
             userScopeSelection: .subset
         )
+    }
+
+    // MARK: - Multi-User Restart
+
+    /// Login multiple users with dynamic config, restart app, and verify all users persist correctly.
+    func testMultiUserRestart() throws {
+        // Login User A with dynamic config (ECA-Opaque)
+        launchAndLogin(
+            loginHost: .regularAuth,
+            user: .fourth,
+            staticAppConfigName: .caOpaque,
+            dynamicAppConfigName: .ecaOpaque
+        )
+
+        // Login User B with static config (ECA-JWT)
+        loginOtherUserAndValidate(
+            loginHost: .regularAuth,
+            user: .fifth,
+            staticAppConfigName: .ecaJwt
+        )
+
+        // Restart app
+        restart()
+
+        // Verify main page loads
+        assertMainPageLoaded()
+
+        // Verify and switch to User A
+        switchToUserAndValidate(
+            loginHost: .regularAuth,
+            user: .fourth,
+            staticAppConfigName: .ecaOpaque,
+            userAppConfigName: .ecaOpaque,
+            userScopeSelection: .empty
+        )
+
+        // Test API call for User A
+        XCTAssertTrue(makeRestRequest(), "User A API should work after restart")
+
+        // Verify and switch to User B
+        switchToUserAndValidate(
+            loginHost: .regularAuth,
+            user: .fifth,
+            staticAppConfigName: .ecaOpaque,
+            userAppConfigName: .ecaJwt,
+            userScopeSelection: .empty
+        )
+
+        // Test API call for User B
+        XCTAssertTrue(makeRestRequest(), "User B API should work after restart")
+
+        // Logout second user
+        logout()
     }
 }
