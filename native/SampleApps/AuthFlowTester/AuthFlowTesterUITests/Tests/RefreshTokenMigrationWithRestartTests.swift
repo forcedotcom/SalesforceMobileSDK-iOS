@@ -52,7 +52,7 @@ class RefreshTokenMigrationWithRestartTests: BaseAuthFlowTester {
         )
 
         // Restart and validate migration persisted
-        restartAndValidate(
+        restartAndValidateUser(
             loginHost: .regularAuth,
             user: .third,
             userAppConfigName: .ecaOpaque
@@ -76,7 +76,7 @@ class RefreshTokenMigrationWithRestartTests: BaseAuthFlowTester {
         )
 
         // Restart and validate migration persisted
-        restartAndValidate(
+        restartAndValidateUser(
             loginHost: .regularAuth,
             user: .third,
             userAppConfigName: .beaconOpaque
@@ -103,7 +103,7 @@ class RefreshTokenMigrationWithRestartTests: BaseAuthFlowTester {
         )
 
         // Restart and validate scope migration persisted
-        restartAndValidate(
+        restartAndValidateUser(
             loginHost: .regularAuth,
             user: .third,
             userAppConfigName: .ecaJwt,
@@ -131,7 +131,7 @@ class RefreshTokenMigrationWithRestartTests: BaseAuthFlowTester {
         )
 
         // Restart and validate scope migration persisted
-        restartAndValidate(
+        restartAndValidateUser(
             loginHost: .regularAuth,
             user: .third,
             userAppConfigName: .beaconJwt,
@@ -169,19 +169,17 @@ class RefreshTokenMigrationWithRestartTests: BaseAuthFlowTester {
         assertMainPageLoaded()
 
         // Switch to User A and validate
-        switchToUserAndValidate(
+        switchToUserAndValidateUser(
             loginHost: .regularAuth,
             user: .third,
-            staticAppConfigName: .caOpaque,
             userAppConfigName: .ecaOpaque,
             userScopeSelection: .empty
         )
 
         // Switch to User B and validate
-        switchToUserAndValidate(
+        switchToUserAndValidateUser(
             loginHost: .regularAuth,
             user: .fourth,
-            staticAppConfigName: .caOpaque,
             userAppConfigName: .beaconOpaque,
             userScopeSelection: .empty
         )

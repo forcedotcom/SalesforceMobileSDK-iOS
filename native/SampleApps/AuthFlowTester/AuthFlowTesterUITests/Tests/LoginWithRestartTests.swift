@@ -44,7 +44,7 @@ class LoginWithRestartTests: BaseAuthFlowTester {
             staticAppConfigName: .caOpaque
         )
 
-        restartAndValidate(
+        restartAndValidateUser(
             loginHost: .regularAuth,
             user: .third,
             userAppConfigName: .caOpaque
@@ -61,7 +61,7 @@ class LoginWithRestartTests: BaseAuthFlowTester {
             staticAppConfigName: .ecaOpaque
         )
 
-        restartAndValidate(
+        restartAndValidateUser(
             loginHost: .regularAuth,
             user: .third,
             userAppConfigName: .ecaOpaque
@@ -78,7 +78,7 @@ class LoginWithRestartTests: BaseAuthFlowTester {
             staticAppConfigName: .beaconOpaque
         )
 
-        restartAndValidate(
+        restartAndValidateUser(
             loginHost: .regularAuth,
             user: .third,
             userAppConfigName: .beaconOpaque
@@ -94,7 +94,7 @@ class LoginWithRestartTests: BaseAuthFlowTester {
             staticAppConfigName: .ecaOpaque,
             dynamicAppConfigName: .ecaJwt
         )
-        restartAndValidate(
+        restartAndValidateUser(
             user: .second,
             userAppConfigName: .ecaJwt
         )
@@ -107,7 +107,7 @@ class LoginWithRestartTests: BaseAuthFlowTester {
             staticAppConfigName: .ecaOpaque,
             dynamicAppConfigName: .ecaJwt,
             dynamicScopeSelection: .subset)
-        restartAndValidate(
+        restartAndValidateUser(
             user: .second,
             userAppConfigName: .ecaJwt,
             userScopeSelection: .subset
@@ -124,7 +124,7 @@ class LoginWithRestartTests: BaseAuthFlowTester {
             staticAppConfigName: .beaconOpaque,
             dynamicAppConfigName: .beaconJwt
         )
-        restartAndValidate(
+        restartAndValidateUser(
             loginHost: .regularAuth,
             user: .second,
             userAppConfigName: .beaconJwt
@@ -140,7 +140,7 @@ class LoginWithRestartTests: BaseAuthFlowTester {
             dynamicAppConfigName: .beaconJwt,
             dynamicScopeSelection: .subset
         )
-        restartAndValidate(
+        restartAndValidateUser(
             loginHost: .regularAuth,
             user: .second,
             userAppConfigName: .beaconJwt,
@@ -174,10 +174,9 @@ class LoginWithRestartTests: BaseAuthFlowTester {
         assertMainPageLoaded()
 
         // Verify and switch to User A
-        switchToUserAndValidate(
+        switchToUserAndValidateUser(
             loginHost: .regularAuth,
             user: .fourth,
-            staticAppConfigName: .ecaOpaque,
             userAppConfigName: .ecaOpaque,
             userScopeSelection: .empty
         )
@@ -186,10 +185,9 @@ class LoginWithRestartTests: BaseAuthFlowTester {
         XCTAssertTrue(makeRestRequest(), "User A API should work after restart")
 
         // Verify and switch to User B
-        switchToUserAndValidate(
+        switchToUserAndValidateUser(
             loginHost: .regularAuth,
             user: .fifth,
-            staticAppConfigName: .ecaOpaque,
             userAppConfigName: .ecaJwt,
             userScopeSelection: .empty
         )

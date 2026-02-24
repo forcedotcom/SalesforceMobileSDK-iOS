@@ -337,12 +337,7 @@ class MultiUserLoginTests: BaseAuthFlowTester {
         XCTAssertTrue(revokeAccessToken(), "Failed to revoke User B's access token")
 
         // Switch to User A
-        switchToUserAndValidate(
-            loginHost: .regularAuth,
-            user: .fourth,
-            staticAppConfigName: .ecaOpaque,
-            userAppConfigName: .ecaOpaque
-        )
+        switchToUser(loginHost: .regularAuth, user: .fourth)
 
         // Verify User A's access token unchanged
         let userACredentialsAfter = getUserCredentials()

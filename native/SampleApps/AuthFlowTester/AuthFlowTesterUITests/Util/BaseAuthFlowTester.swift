@@ -186,6 +186,40 @@ class BaseAuthFlowTester: XCTestCase {
         )
     }
     
+    /// Switches to an already logged-in user and validates the user credentials.
+    ///
+    /// Use this method when multiple users are logged in and you want to switch between them.
+    /// This method does not validate the oauth configuration.
+    ///
+    /// - Parameters:
+    ///   - loginHost: The login host configuration to use.
+    ///   - user: The user to switch to.
+    ///   - userAppConfigName: The app configuration the user was logged in with.
+    ///   - userScopeSelection: The scope selection the user was logged in with. Defaults to `.empty`.
+    ///   - useWebServerFlow: Whether web server OAuth flow was used. Defaults to `true`.
+    ///   - useHybridFlow: Whether hybrid authentication flow was used. Defaults to `true`.
+    func switchToUserAndValidateUser(
+        loginHost: KnownLoginHostConfig,
+        user: KnownUserConfig,
+        userAppConfigName: KnownAppConfig,
+        userScopeSelection: ScopeSelection = .empty,
+        useWebServerFlow: Bool = true,
+        useHybridFlow: Bool = true
+    ) {
+        // Switch user
+        mainPage.switchToUser(username: getUser(loginHost: loginHost, user: user).username)
+        
+        // Validate
+        validateUser(
+            loginHost: loginHost,
+            user: user,
+            userAppConfigName: userAppConfigName,
+            userScopeSelection: userScopeSelection,
+            useWebServerFlow: useWebServerFlow,
+            useHybridFlow: useHybridFlow
+        )
+    }
+    
     /// Launches the app and performs login.
     ///
     /// This is a convenience method that combines `launch()` and `login()` in one call.
@@ -353,7 +387,7 @@ class BaseAuthFlowTester: XCTestCase {
     ///   - userScopeSelection: The scope selection the user was logged in with. Defaults to `.empty`.
     ///   - useWebServerFlow: Whether web server OAuth flow was used. Defaults to `true`.
     ///   - useHybridFlow: Whether hybrid authentication flow was used. Defaults to `true`.
-    func restartAndValidate(
+    func restartAndValidateUser(
         loginHost: KnownLoginHostConfig = .regularAuth,
         user: KnownUserConfig = .first,
         userAppConfigName: KnownAppConfig,
@@ -479,8 +513,7 @@ class BaseAuthFlowTester: XCTestCase {
         }
     }
 
-    /// Validates user credentials without checking static configuration.
-    /// Use this for advanced scenarios like multi-user restart tests.
+    /// Validates user credentials
     @discardableResult
     func validateUser(
         loginHost: KnownLoginHostConfig,
@@ -490,28 +523,7 @@ class BaseAuthFlowTester: XCTestCase {
         useWebServerFlow: Bool,
         useHybridFlow: Bool
     ) -> UserCredentialsData {
-        return privateValidateUser(
-            loginHost: loginHost,
-            user: user,
-            userAppConfigName: userAppConfigName,
-            userScopeSelection: userScopeSelection,
-            useWebServerFlow: useWebServerFlow,
-            useHybridFlow: useHybridFlow
-        )
-    }
 
-    // MARK: - Private Helpers
-
-    @discardableResult
-    private func privateValidateUser(
-        loginHost: KnownLoginHostConfig,
-        user: KnownUserConfig,
-        userAppConfigName: KnownAppConfig,
-        userScopeSelection: ScopeSelection,
-        useWebServerFlow: Bool,
-        useHybridFlow: Bool
-    ) -> UserCredentialsData {
-        
         let userConfig = getUser(loginHost: loginHost, user: user)
         let userAppConfig = getAppConfig(named: userAppConfigName)
         let expectedGrantedScopes = testConfig.getExpectedScopesGranted(for: userAppConfig, userScopeSelection)
@@ -519,8 +531,6 @@ class BaseAuthFlowTester: XCTestCase {
         
         // Check that app loads and shows the expected user credentials etc
         assertMainPageLoaded()
-        
-        
         
         // Check the user credentials (consumer key should match the app config used)
         let userCredentials = checkUserCredentials(
@@ -542,12 +552,12 @@ class BaseAuthFlowTester: XCTestCase {
         assertSIDs(userCredentialsData: userCredentials, useHybridFlow: useHybridFlow, useJwt: issuesJwt)
         assertURLs(userCredentialsData: userCredentials, useWebServerFlow: useWebServerFlow)
         
-        // Revoke and refresh cycle
-        assertRevokeAndRefreshWorks(previousCredentials: userCredentials)
-        
         return userCredentials
     }
     
+    // MARK: - Private Helpers
+    
+    /// Validates user credentials, do a revoke refesh cycle and validate oauth configuration
     @discardableResult
     private func validate(
         loginHost: KnownLoginHostConfig,
@@ -565,7 +575,7 @@ class BaseAuthFlowTester: XCTestCase {
         // Check that app loads and shows the expected user credentials etc
         assertMainPageLoaded()
 
-        let userCredentials = privateValidateUser(
+        let userCredentials = validateUser(
             loginHost: loginHost,
             user: user,
             userAppConfigName: userAppConfigName,
@@ -573,6 +583,9 @@ class BaseAuthFlowTester: XCTestCase {
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow
         )
+        
+        // Revoke and refresh cycle
+        assertRevokeAndRefreshWorks(previousCredentials: userCredentials)
 
         // Check the oauth configuration
         _ = checkOauthConfiguration(
@@ -662,14 +675,6 @@ class BaseAuthFlowTester: XCTestCase {
         }
     }
     
-    private func assertRestRequestWorks() {
-            XCTAssert(mainPage.makeRestRequest(), "Failed to make REST request")
-    }
-    
-    private func assertRevokeWorks() {
-        XCTAssert(mainPage.revokeAccessToken(), "Failed to revoke access token")
-    }
-    
     private func getAppConfig(named name: KnownAppConfig) -> AppConfig {
         do {
             return try testConfig.getApp(named: name)
@@ -708,10 +713,10 @@ class BaseAuthFlowTester: XCTestCase {
     
     private func assertRevokeAndRefreshWorks(previousCredentials: UserCredentialsData) {
         // Revoke access token
-        assertRevokeWorks()
-        
+        XCTAssert(mainPage.revokeAccessToken(), "Failed to revoke access token")
+
         // Make REST request (which should trigger token refresh)
-        assertRestRequestWorks()
+        XCTAssert(mainPage.makeRestRequest(), "Failed to make REST request")
         
         let credentialsAfterRefresh = getUserCredentials()
         
