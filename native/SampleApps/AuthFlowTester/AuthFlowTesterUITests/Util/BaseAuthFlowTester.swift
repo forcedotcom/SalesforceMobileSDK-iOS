@@ -55,17 +55,27 @@ class BaseAuthFlowTester: XCTestCase {
     /// Initializes the app and page objects, launches the app, and logs out if a user is already logged in.
     func launch() {
         app = XCUIApplication()
+
+        // Pass launch argument to speed up UI tests by disabling animations
+        app.launchArguments = ["-UITesting"]
+
+        // Additional environment variables to speed up UI tests
+        app.launchEnvironment = [
+            // Disable keyboard autocorrect and predictions
+            "AutomaticTextCompletionEnabled": "0"
+        ]
+
         loginPage = LoginPageObject(testApp: app)
         mainPage = AuthFlowTesterMainPageObject(testApp: app)
         app.launch()
-        
+
         // Start logged out
         if (mainPage.isShowing()) {
             logout()
         }
-        
+
         // Switch login server if advanced authentication is showing
-        loginPage.switchToLSCIfShowingAdvancedAuthentication()        
+        loginPage.switchToLSCIfShowingAdvancedAuthentication()
     }
     
     /// Performs login with the specified configuration.
