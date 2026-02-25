@@ -75,7 +75,7 @@ class LoginPageObject {
         setTextField(usernameField(), value: username)
         tap(passwordFieldLabel()) // click on label to hide keyboard
         setTextField(passwordField(), value: password)
-        tap(usernameFieldLabel()) // click on label to hide keyboard
+        tap(passwordFieldLabel()) // click on label to hide keyboard
         tap(loginButton())
         tapIfPresent(allowButton())
     }

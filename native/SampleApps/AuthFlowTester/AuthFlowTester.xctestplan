@@ -9,11 +9,6 @@
             "all"
           ]
         },
-        "commandLineArgumentEntries" : [
-          {
-            "argument" : "-UITesting"
-          }
-        ],
         "environmentVariableEntries" : [
           {
             "key" : "AutomaticTextCompletionEnabled",
@@ -42,11 +37,6 @@
         "all"
       ]
     },
-    "commandLineArgumentEntries" : [
-      {
-        "argument" : "-UITesting"
-      }
-    ],
     "environmentVariableEntries" : [
       {
         "key" : "AutomaticTextCompletionEnabled",

@@ -56,8 +56,8 @@ class BaseAuthFlowTester: XCTestCase {
     func launch() {
         app = XCUIApplication()
 
-        // Note: Launch arguments and environment variables are configured in AuthFlowTester.xctestplan
-        // (-UITesting flag, AutomaticTextCompletionEnabled=0)
+        // Note: Environment variables are configured in AuthFlowTester.xctestplan
+        // (AutomaticTextCompletionEnabled=0)
 
         loginPage = LoginPageObject(testApp: app)
         mainPage = AuthFlowTesterMainPageObject(testApp: app)

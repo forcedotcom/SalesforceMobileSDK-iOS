@@ -99,12 +99,11 @@ class LoginOptionsPageObject {
         // Tap import button to show alert
         tap(importConfigButton(useStaticConfiguration: isStaticConfiguration))
 
-        // Wait for alert and enter JSON
+        // Wait for alert and enter JSON (text field is automatically focused)
         let alert = app.alerts["Import Configuration"]
         _ = alert.waitForExistence(timeout: timeout)
 
         let textField = alert.textFields.firstMatch
-        textField.tap()
         textField.typeText(jsonString)
 
         // Tap Import button in alert
@@ -115,12 +114,11 @@ class LoginOptionsPageObject {
         // Tap import button to show alert
         tap(importDiscoveryResultButton())
 
-        // Wait for alert and enter JSON
+        // Wait for alert and enter JSON (text field is automatically focused)
         let alert = app.alerts["Import Discovery Result"]
         _ = alert.waitForExistence(timeout: timeout)
 
         let textField = alert.textFields.firstMatch
-        textField.tap()
         textField.typeText(jsonString)
 
         // Tap Import button in alert

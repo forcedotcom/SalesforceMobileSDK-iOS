@@ -128,7 +128,9 @@ public struct DiscoveryResultEditor: View {
         .alert("Import Discovery Result", isPresented: $showImportAlert) {
             TextField("Paste JSON here", text: $importJSONText)
             Button("Import") {
-                importDiscoveryResultFromJSON()
+                if importDiscoveryResultFromJSON() {
+                    applySimulatedResult()
+                }
             }
             Button("Cancel", role: .cancel) { }
         } message: {
@@ -136,17 +138,24 @@ public struct DiscoveryResultEditor: View {
         }
     }
 
-    private func importDiscoveryResultFromJSON() {
+    private func importDiscoveryResultFromJSON() -> Bool {
         guard let jsonData = importJSONText.data(using: .utf8),
               let json = try? JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any] else {
-            return
+            return false
         }
+
+        var discoveryChanged = false
+
         if let hint = json[DiscoveryResultJSONKeys.loginHint] as? String {
             userName = hint
+            discoveryChanged = true
         }
         if let domain = json[DiscoveryResultJSONKeys.myDomain] as? String {
             loginHost = domain
+            discoveryChanged = true
         }
+
+        return discoveryChanged
     }
 
     /// Applies current field values and invokes the callback. Internal for unit testing.

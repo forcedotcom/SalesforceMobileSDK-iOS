@@ -152,7 +152,9 @@ public struct BootConfigEditor: View {
         .alert("Import Configuration", isPresented: $showImportAlert) {
             TextField("Paste JSON here", text: $importJSONText)
             Button("Import") {
-                importConfigFromJSON()
+                if importConfigFromJSON() {
+                    onConfigChanged()
+                }
             }
             Button("Cancel", role: .cancel) { }
         } message: {
@@ -162,21 +164,28 @@ public struct BootConfigEditor: View {
 
     // MARK: - Helper Methods
 
-    private func importConfigFromJSON() {
+    private func importConfigFromJSON() -> Bool {
         guard let jsonData = importJSONText.data(using: .utf8),
               let json = try? JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any] else {
-            return
+            return false
         }
+
+        var configChanged = false
 
         if let key = json[BootConfigJSONKeys.consumerKey] as? String {
             consumerKey = key
+            configChanged = true
         }
         if let uri = json[BootConfigJSONKeys.redirectUri] as? String {
             callbackUrl = uri
+            configChanged = true
         }
         if let scopesValue = json[BootConfigJSONKeys.scopes] as? String {
             scopes = scopesValue
+            configChanged = true
         }
+
+        return configChanged
     }
 }
 
