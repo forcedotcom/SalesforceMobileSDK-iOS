@@ -126,7 +126,7 @@ struct SessionDetailView: View {
                         callbackUrl: $migrateCallbackUrl,
                         scopes: $migrateScopes,
                         isLoading: false,
-                        onUseConfig: {
+                        onConfigChanged: {
                             handleMigrateRefreshToken()
                         },
                         initiallyExpanded: true

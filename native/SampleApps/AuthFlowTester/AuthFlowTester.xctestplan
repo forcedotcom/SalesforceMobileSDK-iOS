@@ -1,0 +1,78 @@
+{
+  "configurations" : [
+    {
+      "id" : "12345678-1234-1234-1234-123456789012",
+      "name" : "AuthFlowTester UI Tests",
+      "options" : {
+        "appPrivacyConfiguration" : {
+          "allowedPrivacyPermissions" : [
+            "all"
+          ]
+        },
+        "commandLineArgumentEntries" : [
+          {
+            "argument" : "-UITesting"
+          }
+        ],
+        "environmentVariableEntries" : [
+          {
+            "key" : "AutomaticTextCompletionEnabled",
+            "value" : "0"
+          }
+        ],
+        "language" : "en",
+        "locationScenario" : {
+          "identifier" : "com.apple.dt.IDEFoundation.CurrentLocationScenarioIdentifier"
+        },
+        "region" : "US",
+        "targetForVariableExpansion" : {
+          "containerPath" : "container:AuthFlowTester.xcodeproj",
+          "identifier" : "PRODUCT_BUNDLE_IDENTIFIER",
+          "name" : "AuthFlowTester"
+        },
+        "testExecutionOrdering" : "random",
+        "testRepetitionMode" : "none",
+        "uiTestingScreenshotsLifetime" : "keepNever"
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "appPrivacyConfiguration" : {
+      "allowedPrivacyPermissions" : [
+        "all"
+      ]
+    },
+    "commandLineArgumentEntries" : [
+      {
+        "argument" : "-UITesting"
+      }
+    ],
+    "environmentVariableEntries" : [
+      {
+        "key" : "AutomaticTextCompletionEnabled",
+        "value" : "0"
+      }
+    ],
+    "language" : "en",
+    "locationScenario" : {
+      "identifier" : "com.apple.dt.IDEFoundation.CurrentLocationScenarioIdentifier"
+    },
+    "region" : "US",
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:AuthFlowTester.xcodeproj",
+      "identifier" : "PRODUCT_BUNDLE_IDENTIFIER",
+      "name" : "AuthFlowTester"
+    },
+    "testExecutionOrdering" : "random"
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:AuthFlowTester.xcodeproj",
+        "identifier" : "4F8E4AF02ED13CE800DA7B7A",
+        "name" : "AuthFlowTesterUITests"
+      }
+    }
+  ],
+  "version" : 1
+}

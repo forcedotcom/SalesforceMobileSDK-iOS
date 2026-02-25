@@ -91,7 +91,7 @@ public struct LoginOptionsView: View {
                             callbackUrl: $staticCallbackUrl,
                             scopes: $staticScopes,
                             isLoading: false,
-                            onUseConfig: handleStaticConfig,
+                            onConfigChanged: handleStaticConfig,
                             initiallyExpanded: false
                         )
 
@@ -106,7 +106,7 @@ public struct LoginOptionsView: View {
                             callbackUrl: $dynamicCallbackUrl,
                             scopes: $dynamicScopes,
                             isLoading: false,
-                            onUseConfig: handleDynamicBootconfig,
+                            onConfigChanged: handleDynamicBootconfig,
                             initiallyExpanded: false
                         )
 

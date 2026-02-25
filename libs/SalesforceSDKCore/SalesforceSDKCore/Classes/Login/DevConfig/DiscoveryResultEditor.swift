@@ -39,8 +39,6 @@ public struct DiscoveryResultEditor: View {
     @Binding var userName: String
     let onUseForSimulation: (DomainDiscoveryResult?) -> Void
     @State private var isExpanded: Bool = false
-    @State private var showImportAlert: Bool = false
-    @State private var importJSONText: String = ""
     let initiallyExpanded: Bool
 
     public init(
@@ -73,8 +71,8 @@ public struct DiscoveryResultEditor: View {
                     }
                 }
                 Button(action: {
-                    importJSONText = ""
-                    showImportAlert = true
+                    importDiscoveryResultFromJSON()
+                    applySimulatedResult()
                 }) {
                     Image(systemName: "square.and.arrow.down")
                         .font(.subheadline)
@@ -106,39 +104,30 @@ public struct DiscoveryResultEditor: View {
                         .disableAutocorrection(true)
                         .keyboardType(.emailAddress)
                         .accessibilityIdentifier("discoveryUserNameTextField")
+
+                    Button(action: applySimulatedResult) {
+                        Text(SFSDKResourceUtils.localizedString("DISCOVERY_SAVE_SIMULATED_RESULT"))
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 44)
+                            .background(Color.orange)
+                            .cornerRadius(8)
+                    }
+                    .accessibilityIdentifier("saveSimulatedResultButton")
                 }
                 .padding(.horizontal)
             }
-
-            Button(action: applySimulatedResult) {
-                Text(SFSDKResourceUtils.localizedString("DISCOVERY_SAVE_SIMULATED_RESULT"))
-                    .font(.headline)
-                    .foregroundColor(.white)
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 44)
-                    .background(Color.orange)
-                    .cornerRadius(8)
-            }
-            .accessibilityIdentifier("saveSimulatedResultButton")
-            .padding(.horizontal)
         }
         .padding(.vertical)
         .onAppear {
             isExpanded = initiallyExpanded
         }
-        .alert(SFSDKResourceUtils.localizedString("DISCOVERY_IMPORT_ALERT_TITLE"), isPresented: $showImportAlert) {
-            TextField(SFSDKResourceUtils.localizedString("DISCOVERY_IMPORT_PLACEHOLDER"), text: $importJSONText)
-            Button(SFSDKResourceUtils.localizedString("DISCOVERY_IMPORT_BUTTON")) {
-                importDiscoveryResultFromJSON()
-            }
-            Button(SFSDKResourceUtils.localizedString("DISCOVERY_IMPORT_CANCEL"), role: .cancel) { }
-        } message: {
-            Text(SFSDKResourceUtils.localizedString("DISCOVERY_IMPORT_MESSAGE"))
-        }
     }
 
     private func importDiscoveryResultFromJSON() {
-        guard let jsonData = importJSONText.data(using: .utf8),
+        guard let pasteboardString = UIPasteboard.general.string,
+              let jsonData = pasteboardString.data(using: .utf8),
               let json = try? JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any] else {
             return
         }

@@ -58,17 +58,14 @@ class LoginOptionsPageObject {
             let configJSON = buildConfigJSON(consumerKey: staticAppConfig.consumerKey, redirectUri: staticAppConfig.redirectUri, scopes: staticScopes)
             importConfig(configJSON, isStaticConfiguration: true)
         }
-        tap(saveStaticConfigButton())
 
         if let dynamicAppConfig = dynamicAppConfig {
             let configJSON = buildConfigJSON(consumerKey: dynamicAppConfig.consumerKey, redirectUri: dynamicAppConfig.redirectUri, scopes: dynamicScopes)
             importConfig(configJSON, isStaticConfiguration: false)
-            tap(saveDynamicConfigButton())
         }
 
         let discoveryResultJSON = buildDiscoveryResultJSON(loginHost: discoveryLoginHost, username: discoveryUsername)
         importDiscoveryResult(discoveryResultJSON)
-        tap(saveSimulatedResultButton())
 
         tap(loginOptionsCloseButton())
     }
@@ -99,26 +96,42 @@ class LoginOptionsPageObject {
     }
 
     private func importConfig(_ jsonString: String, isStaticConfiguration: Bool = true) {
-        tap(importConfigButton(useStaticConfiguration: isStaticConfiguration))
+        // Copy JSON to pasteboard
+        UIPasteboard.general.string = jsonString
 
-        // Wait for alert to appear
-        let alert = importConfigAlert()
-        _ = alert.waitForExistence(timeout: timeout)
-
-        // Type into the alert's text field
-        let textField = importConfigTextField()
-        textField.typeText(jsonString)
-
-        tap(importAlertButton())
+        // Tap import button with concurrent alert handling
+        tapWithPastePermissionHandling(importConfigButton(useStaticConfiguration: isStaticConfiguration))
     }
 
     private func importDiscoveryResult(_ jsonString: String) {
-        tap(importDiscoveryResultButton())
-        let alert = importDiscoveryResultAlert()
-        _ = alert.waitForExistence(timeout: timeout)
-        let textField = alert.textFields.firstMatch
-        textField.typeText(jsonString)
-        tap(importDiscoveryResultAlertImportButton())
+        // Copy JSON to pasteboard
+        UIPasteboard.general.string = jsonString
+
+        // Tap import button with concurrent alert handling
+        tapWithPastePermissionHandling(importDiscoveryResultButton())
+    }
+
+    private func tapWithPastePermissionHandling(_ element: XCUIElement) {
+        // Set up concurrent alert handler before tapping
+        let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
+        let semaphore = DispatchSemaphore(value: 0)
+
+        DispatchQueue.global().async {
+            let allowButton = springboard.buttons["Allow Paste"]
+            if allowButton.waitForExistence(timeout: 5) {
+                // Tap must happen on main thread
+                DispatchQueue.main.async {
+                    allowButton.tap()
+                }
+            }
+            semaphore.signal()
+        }
+
+        // Tap the element which will trigger the app to read from pasteboard
+        tap(element)
+
+        // Wait for alert handler to complete
+        _ = semaphore.wait(timeout: .now() + 6)
     }
 
     // MARK: - UI Element Accessors (LoginOptionsView)
@@ -131,14 +144,6 @@ class LoginOptionsPageObject {
         return app.switches["Use Hybrid Flow"]
     }
 
-    private func saveStaticConfigButton() -> XCUIElement {
-        return app.buttons["Save static config"]
-    }
-
-    private func saveDynamicConfigButton() -> XCUIElement {
-        return app.buttons["Save dynamic config"]
-    }
-
     /// Returns the import button for either the static or dynamic configuration section.
     private func importConfigButton(useStaticConfiguration: Bool = true) -> XCUIElement {
         let buttons = app.buttons.matching(identifier: "importConfigButton")
@@ -146,32 +151,8 @@ class LoginOptionsPageObject {
         return buttons.element(boundBy: index)
     }
 
-    private func importConfigAlert() -> XCUIElement {
-        return app.alerts["Import Configuration"]
-    }
-
-    private func importConfigTextField() -> XCUIElement {
-        return importConfigAlert().textFields.firstMatch
-    }
-
-    private func importAlertButton() -> XCUIElement {
-        return importConfigAlert().buttons["Import"]
-    }
-
     private func importDiscoveryResultButton() -> XCUIElement {
         return app.buttons["importDiscoveryResultButton"]
-    }
-
-    private func importDiscoveryResultAlert() -> XCUIElement {
-        return app.alerts["Import Discovery Result"]
-    }
-
-    private func importDiscoveryResultAlertImportButton() -> XCUIElement {
-        return importDiscoveryResultAlert().buttons["Import"]
-    }
-
-    private func saveSimulatedResultButton() -> XCUIElement {
-        return app.buttons["saveSimulatedResultButton"]
     }
 
     private func loginOptionsCloseButton() -> XCUIElement {

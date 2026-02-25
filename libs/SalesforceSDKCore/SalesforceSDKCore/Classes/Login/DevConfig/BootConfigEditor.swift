@@ -42,12 +42,10 @@ public struct BootConfigEditor: View {
     @Binding var callbackUrl: String
     @Binding var scopes: String
     let isLoading: Bool
-    let onUseConfig: () -> Void
+    let onConfigChanged: () -> Void
     let initiallyExpanded: Bool
     @State private var isExpanded: Bool = false
-    @State private var showImportAlert: Bool = false
-    @State private var importJSONText: String = ""
-    
+
     public init(
         title: String,
         buttonLabel: String,
@@ -56,7 +54,7 @@ public struct BootConfigEditor: View {
         callbackUrl: Binding<String>,
         scopes: Binding<String>,
         isLoading: Bool,
-        onUseConfig: @escaping () -> Void,
+        onConfigChanged: @escaping () -> Void,
         initiallyExpanded: Bool
     ) {
         self.title = title
@@ -66,7 +64,7 @@ public struct BootConfigEditor: View {
         self._callbackUrl = callbackUrl
         self._scopes = scopes
         self.isLoading = isLoading
-        self.onUseConfig = onUseConfig
+        self.onConfigChanged = onConfigChanged
         self.initiallyExpanded = initiallyExpanded
     }
     
@@ -88,8 +86,9 @@ public struct BootConfigEditor: View {
                     }
                 }
                 Button(action: {
-                    importJSONText = ""
-                    showImportAlert = true
+                    if importConfigFromJSON() {
+                        onConfigChanged()
+                    }
                 }) {
                     Image(systemName: "square.and.arrow.down")
                         .font(.subheadline)
@@ -98,7 +97,7 @@ public struct BootConfigEditor: View {
                 .accessibilityIdentifier("importConfigButton")
             }
             .padding(.horizontal)
-            
+
             if isExpanded {
                 VStack(alignment: .leading, spacing: 8) {
                     Text(SFSDKResourceUtils.localizedString("BOOTCONFIG_CONSUMER_KEY_LABEL"))
@@ -110,7 +109,7 @@ public struct BootConfigEditor: View {
                         .autocapitalization(.none)
                         .disableAutocorrection(true)
                         .accessibilityIdentifier("consumerKeyTextField")
-                    
+
                     Text(SFSDKResourceUtils.localizedString("BOOTCONFIG_CALLBACK_URL_LABEL"))
                         .font(.caption)
                         .foregroundColor(.secondary)
@@ -120,7 +119,7 @@ public struct BootConfigEditor: View {
                         .autocapitalization(.none)
                         .disableAutocorrection(true)
                         .accessibilityIdentifier("callbackUrlTextField")
-                    
+
                     Text(SFSDKResourceUtils.localizedString("BOOTCONFIG_SCOPES_LABEL"))
                         .font(.caption)
                         .foregroundColor(.secondary)
@@ -130,54 +129,52 @@ public struct BootConfigEditor: View {
                         .autocapitalization(.none)
                         .disableAutocorrection(true)
                         .accessibilityIdentifier("scopesTextField")
+
+                    Button(action: onConfigChanged) {
+                        Text(buttonLabel)
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 44)
+                            .background(buttonColor)
+                            .cornerRadius(8)
+                    }
+                    .disabled(isLoading)
                 }
                 .padding(.horizontal)
             }
-            
-            Button(action: onUseConfig) {
-                Text(buttonLabel)
-                    .font(.headline)
-                    .foregroundColor(.white)
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 44)
-                    .background(buttonColor)
-                    .cornerRadius(8)
-            }
-            .disabled(isLoading)
-            .padding(.horizontal)
         }
         .padding(.vertical)
         .onAppear {
             isExpanded = initiallyExpanded
         }
-        .alert(SFSDKResourceUtils.localizedString("BOOTCONFIG_IMPORT_ALERT_TITLE"), isPresented: $showImportAlert) {
-            TextField(SFSDKResourceUtils.localizedString("BOOTCONFIG_IMPORT_PLACEHOLDER"), text: $importJSONText)
-            Button(SFSDKResourceUtils.localizedString("BOOTCONFIG_IMPORT_BUTTON")) {
-                importConfigFromJSON()
-            }
-            Button(SFSDKResourceUtils.localizedString("BOOTCONFIG_IMPORT_CANCEL"), role: .cancel) { }
-        } message: {
-            Text(SFSDKResourceUtils.localizedString("BOOTCONFIG_IMPORT_MESSAGE"))
-        }
     }
     
     // MARK: - Helper Methods
-    
-    private func importConfigFromJSON() {
-        guard let jsonData = importJSONText.data(using: .utf8),
+
+    private func importConfigFromJSON() -> Bool {
+        guard let pasteboardString = UIPasteboard.general.string,
+              let jsonData = pasteboardString.data(using: .utf8),
               let json = try? JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any] else {
-            return
+            return false
         }
-        
+
+        var configChanged = false
+
         if let key = json[BootConfigJSONKeys.consumerKey] as? String {
             consumerKey = key
+            configChanged = true
         }
         if let uri = json[BootConfigJSONKeys.redirectUri] as? String {
             callbackUrl = uri
+            configChanged = true
         }
         if let scopesValue = json[BootConfigJSONKeys.scopes] as? String {
             scopes = scopesValue
+            configChanged = true
         }
+
+        return configChanged
     }
 }
 
