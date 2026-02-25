@@ -58,17 +58,14 @@ class LoginOptionsPageObject {
             let configJSON = buildConfigJSON(consumerKey: staticAppConfig.consumerKey, redirectUri: staticAppConfig.redirectUri, scopes: staticScopes)
             importConfig(configJSON, isStaticConfiguration: true)
         }
-        tap(saveStaticConfigButton())
 
         if let dynamicAppConfig = dynamicAppConfig {
             let configJSON = buildConfigJSON(consumerKey: dynamicAppConfig.consumerKey, redirectUri: dynamicAppConfig.redirectUri, scopes: dynamicScopes)
             importConfig(configJSON, isStaticConfiguration: false)
-            tap(saveDynamicConfigButton())
         }
 
         let discoveryResultJSON = buildDiscoveryResultJSON(loginHost: discoveryLoginHost, username: discoveryUsername)
         importDiscoveryResult(discoveryResultJSON)
-        tap(saveSimulatedResultButton())
 
         tap(loginOptionsCloseButton())
     }
@@ -131,14 +128,6 @@ class LoginOptionsPageObject {
         return app.switches["Use Hybrid Flow"]
     }
 
-    private func saveStaticConfigButton() -> XCUIElement {
-        return app.buttons["Save static config"]
-    }
-
-    private func saveDynamicConfigButton() -> XCUIElement {
-        return app.buttons["Save dynamic config"]
-    }
-
     /// Returns the import button for either the static or dynamic configuration section.
     private func importConfigButton(useStaticConfiguration: Bool = true) -> XCUIElement {
         let buttons = app.buttons.matching(identifier: "importConfigButton")
@@ -168,10 +157,6 @@ class LoginOptionsPageObject {
 
     private func importDiscoveryResultAlertImportButton() -> XCUIElement {
         return importDiscoveryResultAlert().buttons["Import"]
-    }
-
-    private func saveSimulatedResultButton() -> XCUIElement {
-        return app.buttons["saveSimulatedResultButton"]
     }
 
     private func loginOptionsCloseButton() -> XCUIElement {
