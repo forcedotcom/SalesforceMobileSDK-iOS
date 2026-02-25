@@ -45,6 +45,8 @@ public struct BootConfigEditor: View {
     let onConfigChanged: () -> Void
     let initiallyExpanded: Bool
     @State private var isExpanded: Bool = false
+    @State private var showImportAlert: Bool = false
+    @State private var importJSONText: String = ""
 
     public init(
         title: String,
@@ -86,9 +88,8 @@ public struct BootConfigEditor: View {
                     }
                 }
                 Button(action: {
-                    if importConfigFromJSON() {
-                        onConfigChanged()
-                    }
+                    importJSONText = ""
+                    showImportAlert = true
                 }) {
                     Image(systemName: "square.and.arrow.down")
                         .font(.subheadline)
@@ -148,33 +149,34 @@ public struct BootConfigEditor: View {
         .onAppear {
             isExpanded = initiallyExpanded
         }
+        .alert("Import Configuration", isPresented: $showImportAlert) {
+            TextField("Paste JSON here", text: $importJSONText)
+            Button("Import") {
+                importConfigFromJSON()
+            }
+            Button("Cancel", role: .cancel) { }
+        } message: {
+            Text("Paste JSON with remoteAccessConsumerKey, oauthRedirectURI, and scopes")
+        }
     }
-    
+
     // MARK: - Helper Methods
 
-    private func importConfigFromJSON() -> Bool {
-        guard let pasteboardString = UIPasteboard.general.string,
-              let jsonData = pasteboardString.data(using: .utf8),
+    private func importConfigFromJSON() {
+        guard let jsonData = importJSONText.data(using: .utf8),
               let json = try? JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any] else {
-            return false
+            return
         }
-
-        var configChanged = false
 
         if let key = json[BootConfigJSONKeys.consumerKey] as? String {
             consumerKey = key
-            configChanged = true
         }
         if let uri = json[BootConfigJSONKeys.redirectUri] as? String {
             callbackUrl = uri
-            configChanged = true
         }
         if let scopesValue = json[BootConfigJSONKeys.scopes] as? String {
             scopes = scopesValue
-            configChanged = true
         }
-
-        return configChanged
     }
 }
 

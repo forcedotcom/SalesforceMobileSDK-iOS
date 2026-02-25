@@ -39,6 +39,8 @@ public struct DiscoveryResultEditor: View {
     @Binding var userName: String
     let onUseForSimulation: (DomainDiscoveryResult?) -> Void
     @State private var isExpanded: Bool = false
+    @State private var showImportAlert: Bool = false
+    @State private var importJSONText: String = ""
     let initiallyExpanded: Bool
 
     public init(
@@ -71,8 +73,8 @@ public struct DiscoveryResultEditor: View {
                     }
                 }
                 Button(action: {
-                    importDiscoveryResultFromJSON()
-                    applySimulatedResult()
+                    importJSONText = ""
+                    showImportAlert = true
                 }) {
                     Image(systemName: "square.and.arrow.down")
                         .font(.subheadline)
@@ -123,11 +125,19 @@ public struct DiscoveryResultEditor: View {
         .onAppear {
             isExpanded = initiallyExpanded
         }
+        .alert("Import Discovery Result", isPresented: $showImportAlert) {
+            TextField("Paste JSON here", text: $importJSONText)
+            Button("Import") {
+                importDiscoveryResultFromJSON()
+            }
+            Button("Cancel", role: .cancel) { }
+        } message: {
+            Text("Paste JSON with login_hint and my_domain")
+        }
     }
 
     private func importDiscoveryResultFromJSON() {
-        guard let pasteboardString = UIPasteboard.general.string,
-              let jsonData = pasteboardString.data(using: .utf8),
+        guard let jsonData = importJSONText.data(using: .utf8),
               let json = try? JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any] else {
             return
         }

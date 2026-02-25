@@ -56,14 +56,8 @@ class BaseAuthFlowTester: XCTestCase {
     func launch() {
         app = XCUIApplication()
 
-        // Pass launch argument to speed up UI tests by disabling animations
-        app.launchArguments = ["-UITesting"]
-
-        // Additional environment variables to speed up UI tests
-        app.launchEnvironment = [
-            // Disable keyboard autocorrect and predictions
-            "AutomaticTextCompletionEnabled": "0"
-        ]
+        // Note: Launch arguments and environment variables are configured in AuthFlowTester.xctestplan
+        // (-UITesting flag, AutomaticTextCompletionEnabled=0)
 
         loginPage = LoginPageObject(testApp: app)
         mainPage = AuthFlowTesterMainPageObject(testApp: app)
@@ -74,8 +68,10 @@ class BaseAuthFlowTester: XCTestCase {
             logout()
         }
 
-        // Switch login server if advanced authentication is showing
-        loginPage.switchToLSCIfShowingAdvancedAuthentication()
+        // Close advanced authentication is showing
+        if (loginPage.isShowingAdvancedAuth()) {
+            loginPage.closeAdvancedAuth()
+        }
     }
     
     /// Performs login with the specified configuration.

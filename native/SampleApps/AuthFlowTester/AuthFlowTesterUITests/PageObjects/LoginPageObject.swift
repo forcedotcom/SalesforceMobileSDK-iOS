@@ -33,7 +33,7 @@ import SalesforceSDKCore
 /// Provides methods to configure login servers, login options and perform user authentication.
 class LoginPageObject {
     let app: XCUIApplication
-    let timeout: double_t = 5
+    let timeout: double_t = 3
     
     init(testApp: XCUIApplication) {
         app = testApp
@@ -47,11 +47,13 @@ class LoginPageObject {
         return app.staticTexts[username].waitForExistence(timeout: timeout)
     }
     
-    func switchToLSCIfShowingAdvancedAuthentication() -> Void {
-        if (isShowingAdvancedAuth()) {
-            tap(advancedAuthCloseButton())
-            tap(hostRow(host: "Production"))
-        }
+    func isShowingAdvancedAuth() -> Bool {
+        return advancedAuthCloseButton().waitForExistence(timeout: 1)
+    }
+    
+    func closeAdvancedAuth() -> Void {
+        tap(advancedAuthCloseButton())
+        tap(hostRow(host: "Production"))
     }
     
     func configureLoginHost(host: String) -> Void {
@@ -177,10 +179,6 @@ class LoginPageObject {
         let predicate = NSPredicate(format: "label CONTAINS[c] 'Allow'")
         return buttons.matching(predicate).firstMatch
     }
-    
-    private func toolbarDoneButton() -> XCUIElement {
-        return app.toolbars["Toolbar"].buttons["Done"]
-    }
 
     private func advancedAuthCloseButton() -> XCUIElement {
         return app.otherElements["TopBrowserBar"].buttons["Close"]
@@ -218,7 +216,6 @@ class LoginPageObject {
         }
         
         textField.typeText(value)
-        tapIfPresent(toolbarDoneButton())
     }
     
     // MARK: - Other
@@ -227,10 +224,5 @@ class LoginPageObject {
         let row = hostRow(host: host)
         return row.waitForExistence(timeout: timeout)
     }
-    
-    private func isShowingAdvancedAuth() -> Bool {
-        return advancedAuthCloseButton().waitForExistence(timeout: 1)
-    }
-    
 }
 

@@ -33,7 +33,7 @@ import SalesforceSDKCore
 /// Use after navigating to Login Options from the login screen (e.g. via Settings → Login Options).
 class LoginOptionsPageObject {
     let app: XCUIApplication
-    let timeout: double_t = 5
+    let timeout: double_t = 2
 
     init(testApp: XCUIApplication) {
         app = testApp
@@ -96,42 +96,35 @@ class LoginOptionsPageObject {
     }
 
     private func importConfig(_ jsonString: String, isStaticConfiguration: Bool = true) {
-        // Copy JSON to pasteboard
-        UIPasteboard.general.string = jsonString
+        // Tap import button to show alert
+        tap(importConfigButton(useStaticConfiguration: isStaticConfiguration))
 
-        // Tap import button with concurrent alert handling
-        tapWithPastePermissionHandling(importConfigButton(useStaticConfiguration: isStaticConfiguration))
+        // Wait for alert and enter JSON
+        let alert = app.alerts["Import Configuration"]
+        _ = alert.waitForExistence(timeout: timeout)
+
+        let textField = alert.textFields.firstMatch
+        textField.tap()
+        textField.typeText(jsonString)
+
+        // Tap Import button in alert
+        alert.buttons["Import"].tap()
     }
 
     private func importDiscoveryResult(_ jsonString: String) {
-        // Copy JSON to pasteboard
-        UIPasteboard.general.string = jsonString
+        // Tap import button to show alert
+        tap(importDiscoveryResultButton())
 
-        // Tap import button with concurrent alert handling
-        tapWithPastePermissionHandling(importDiscoveryResultButton())
-    }
+        // Wait for alert and enter JSON
+        let alert = app.alerts["Import Discovery Result"]
+        _ = alert.waitForExistence(timeout: timeout)
 
-    private func tapWithPastePermissionHandling(_ element: XCUIElement) {
-        // Set up concurrent alert handler before tapping
-        let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
-        let semaphore = DispatchSemaphore(value: 0)
+        let textField = alert.textFields.firstMatch
+        textField.tap()
+        textField.typeText(jsonString)
 
-        DispatchQueue.global().async {
-            let allowButton = springboard.buttons["Allow Paste"]
-            if allowButton.waitForExistence(timeout: 5) {
-                // Tap must happen on main thread
-                DispatchQueue.main.async {
-                    allowButton.tap()
-                }
-            }
-            semaphore.signal()
-        }
-
-        // Tap the element which will trigger the app to read from pasteboard
-        tap(element)
-
-        // Wait for alert handler to complete
-        _ = semaphore.wait(timeout: .now() + 6)
+        // Tap Import button in alert
+        alert.buttons["Import"].tap()
     }
 
     // MARK: - UI Element Accessors (LoginOptionsView)

@@ -67,6 +67,7 @@
   },
   "testTargets" : [
     {
+      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:AuthFlowTester.xcodeproj",
         "identifier" : "4F8E4AF02ED13CE800DA7B7A",
