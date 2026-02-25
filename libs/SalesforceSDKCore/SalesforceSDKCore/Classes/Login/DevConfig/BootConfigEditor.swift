@@ -110,7 +110,7 @@ public struct BootConfigEditor: View {
                         .autocapitalization(.none)
                         .disableAutocorrection(true)
                         .accessibilityIdentifier("consumerKeyTextField")
-
+                    
                     Text(SFSDKResourceUtils.localizedString("BOOTCONFIG_CALLBACK_URL_LABEL"))
                         .font(.caption)
                         .foregroundColor(.secondary)
@@ -120,7 +120,7 @@ public struct BootConfigEditor: View {
                         .autocapitalization(.none)
                         .disableAutocorrection(true)
                         .accessibilityIdentifier("callbackUrlTextField")
-
+                    
                     Text(SFSDKResourceUtils.localizedString("BOOTCONFIG_SCOPES_LABEL"))
                         .font(.caption)
                         .foregroundColor(.secondary)
@@ -132,19 +132,19 @@ public struct BootConfigEditor: View {
                         .accessibilityIdentifier("scopesTextField")
                 }
                 .padding(.horizontal)
-
-                Button(action: onUseConfig) {
-                    Text(buttonLabel)
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 44)
-                        .background(buttonColor)
-                        .cornerRadius(8)
-                }
-                .disabled(isLoading)
-                .padding(.horizontal)
             }
+            
+            Button(action: onUseConfig) {
+                Text(buttonLabel)
+                    .font(.headline)
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 44)
+                    .background(buttonColor)
+                    .cornerRadius(8)
+            }
+            .disabled(isLoading)
+            .padding(.horizontal)
         }
         .padding(.vertical)
         .onAppear {
@@ -168,7 +168,7 @@ public struct BootConfigEditor: View {
               let json = try? JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any] else {
             return
         }
-
+        
         if let key = json[BootConfigJSONKeys.consumerKey] as? String {
             consumerKey = key
         }
@@ -178,9 +178,6 @@ public struct BootConfigEditor: View {
         if let scopesValue = json[BootConfigJSONKeys.scopes] as? String {
             scopes = scopesValue
         }
-
-        // Automatically apply the imported configuration
-        onUseConfig()
     }
 }
 

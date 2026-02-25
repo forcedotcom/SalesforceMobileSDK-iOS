@@ -106,9 +106,7 @@ class LoginWithRestartTests: BaseAuthFlowTester {
             user: .second,
             staticAppConfigName: .ecaOpaque,
             dynamicAppConfigName: .ecaJwt,
-            dynamicScopeSelection: .subset
-        )
-        
+            dynamicScopeSelection: .subset)
         restartAndValidateUser(
             user: .second,
             userAppConfigName: .ecaJwt,

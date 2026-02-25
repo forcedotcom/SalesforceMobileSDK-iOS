@@ -108,19 +108,19 @@ public struct DiscoveryResultEditor: View {
                         .accessibilityIdentifier("discoveryUserNameTextField")
                 }
                 .padding(.horizontal)
-
-                Button(action: applySimulatedResult) {
-                    Text(SFSDKResourceUtils.localizedString("DISCOVERY_SAVE_SIMULATED_RESULT"))
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 44)
-                        .background(Color.orange)
-                        .cornerRadius(8)
-                }
-                .accessibilityIdentifier("saveSimulatedResultButton")
-                .padding(.horizontal)
             }
+
+            Button(action: applySimulatedResult) {
+                Text(SFSDKResourceUtils.localizedString("DISCOVERY_SAVE_SIMULATED_RESULT"))
+                    .font(.headline)
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 44)
+                    .background(Color.orange)
+                    .cornerRadius(8)
+            }
+            .accessibilityIdentifier("saveSimulatedResultButton")
+            .padding(.horizontal)
         }
         .padding(.vertical)
         .onAppear {
@@ -148,9 +148,6 @@ public struct DiscoveryResultEditor: View {
         if let domain = json[DiscoveryResultJSONKeys.myDomain] as? String {
             loginHost = domain
         }
-
-        // Automatically apply the imported discovery result
-        applySimulatedResult()
     }
 
     /// Applies current field values and invokes the callback. Internal for unit testing.
