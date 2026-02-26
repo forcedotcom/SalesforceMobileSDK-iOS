@@ -30,6 +30,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// @deprecated Signpost logging is deprecated and this category will be removed in version 14.0.
+SFSDK_DEPRECATED(13.2, 14.0, "Signpost logging is deprecated and will be removed.");
 @interface SFMobileSyncSyncManager (Instrumentation)
 
 @end

@@ -63,6 +63,8 @@ typedef void(^SFMethodInterceptorInvocationAfterCallback)(NSInvocation *invocati
  instance method or a class method and forward message
  to the original method if needed.
  */
+/// @deprecated SFMethodInterceptor is deprecated and this class will be removed in version 14.0.
+SFSDK_DEPRECATED(13.2, 14.0, "Signpost logging is deprecated and will be removed.");
 @interface SFMethodInterceptor : NSObject
 
 /** Class to intercept
