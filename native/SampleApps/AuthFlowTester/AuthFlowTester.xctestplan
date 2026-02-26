@@ -19,6 +19,7 @@
         "locationScenario" : {
           "identifier" : "com.apple.dt.IDEFoundation.CurrentLocationScenarioIdentifier"
         },
+        "maximumTestExecutionTimeAllowance" : 360,
         "region" : "US",
         "targetForVariableExpansion" : {
           "containerPath" : "container:AuthFlowTester.xcodeproj",
@@ -26,8 +27,10 @@
           "name" : "AuthFlowTester"
         },
         "testExecutionOrdering" : "random",
-        "testRepetitionMode" : "none",
-        "uiTestingScreenshotsLifetime" : "keepNever"
+        "testRepetitionMode" : "retryOnFailure",
+        "maximumTestRepetitions" : 3,
+        "testTimeoutsEnabled" : true,
+        "uiTestingScreenshotsLifetime" : "deleteOnSuccess"
       }
     }
   ],
@@ -47,13 +50,18 @@
     "locationScenario" : {
       "identifier" : "com.apple.dt.IDEFoundation.CurrentLocationScenarioIdentifier"
     },
+    "maximumTestExecutionTimeAllowance" : 360,
     "region" : "US",
     "targetForVariableExpansion" : {
       "containerPath" : "container:AuthFlowTester.xcodeproj",
       "identifier" : "PRODUCT_BUNDLE_IDENTIFIER",
       "name" : "AuthFlowTester"
     },
-    "testExecutionOrdering" : "random"
+    "testExecutionOrdering" : "random",
+    "testRepetitionMode" : "retryOnFailure",
+    "maximumTestRepetitions" : 3,
+    "testTimeoutsEnabled" : true,
+    "uiTestingScreenshotsLifetime" : "deleteOnSuccess"
   },
   "testTargets" : [
     {
