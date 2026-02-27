@@ -38,6 +38,12 @@
 static NSString * const kUserIdFormatString = @"005R0000000Dsl%lu";
 static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 
+@interface SFUserAccountManager ()
+
+- (void)notifyLoginCompletion:(SFUserAccount *)userAccount authInfo:(SFOAuthInfo *)authInfo;
+
+@end
+
 @interface TestUserAccountManagerDelegate : NSObject <SFUserAccountManagerDelegate>
 
 @property (nonatomic, strong) SFUserAccount *willSwitchOrigUserAccount;
@@ -803,4 +809,34 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     [self.uam.authSessions removeObject:sceneId];
 }
 
+- (void)testNotifyLoginCompletion_PostsMigrateRefreshTokenNotification {
+    // Given
+    SFUserAccount *testUser = [self createNewUserWithIndex:0];
+
+    SFOAuthInfo *authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefreshTokenMigration];
+
+    __block BOOL notificationReceived = NO;
+    __block NSDictionary *receivedUserInfo = nil;
+
+    // Set up notification observer
+    id observer = [[NSNotificationCenter defaultCenter] addObserverForName:kSFNotificationUserDidMigrateRefreshToken
+                                                                    object:self.uam
+                                                                     queue:nil
+                                                                usingBlock:^(NSNotification *notification) {
+        notificationReceived = YES;
+        receivedUserInfo = notification.userInfo;
+    }];
+
+    // When
+    [self.uam notifyLoginCompletion:testUser authInfo:authInfo];
+
+    // Then
+    XCTAssertTrue(notificationReceived, @"Should have received kSFNotificationUserDidMigrateRefreshToken notification");
+    XCTAssertNotNil(receivedUserInfo, @"Notification userInfo should not be nil");
+    XCTAssertEqual(receivedUserInfo[kSFNotificationUserInfoAccountKey], testUser, @"User account should match in notification userInfo");
+    XCTAssertEqual(receivedUserInfo[kSFNotificationUserInfoAuthTypeKey], authInfo, @"Auth info should match in notification userInfo");
+
+    // Clean up
+    [[NSNotificationCenter defaultCenter] removeObserver:observer];
+}
 @end

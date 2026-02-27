@@ -15,8 +15,17 @@ class MockRestClient: RestClient {
         ]
     }
     """.data(using: .utf8)! // Default mock JSON response
-    
+
+    // Add tracking for test verification
+    var sendCallCount = 0
+    var lastRequest: RestRequest?
+    var allRequests: [RestRequest] = []
+
     override func send(_ request: RestRequest, failureBlock: @escaping RestRequestFailBlock, successBlock: @escaping RestResponseBlock) {
+        sendCallCount += 1
+        lastRequest = request
+        allRequests.append(request)
+
         let mockURLResponse = HTTPURLResponse(url: URL(string: "https://example.com")!,
                                               mimeType: "application/json",
                                               expectedContentLength: 0,

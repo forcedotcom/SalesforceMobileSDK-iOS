@@ -528,8 +528,87 @@ class PushNotificationManagerTests: XCTestCase {
         XCTAssertNotEqual(error1, error3)
     }
 
+    // MARK: - Refresh Token Migration Tests
+
+    func testOnUserMigratedRefreshToken_WithDeviceToken_TriggersRegistration() {
+        // Given
+        pushNotificationManager.deviceToken = "test-device-token"
+        UserAccountManager.shared.currentUserAccount = mockUserAccount
+        mockRestClient.jsonResponse = """
+        {
+            "success": true,
+            "id": "test-sf-id"
+        }
+        """.data(using: .utf8)!
+
+        let initialCallCount = mockRestClient.sendCallCount
+
+        // When
+        let expectation = XCTestExpectation(description: "Registration triggered")
+        NotificationCenter.default.post(
+            name: UserAccountManager.didMigrateRefreshToken,
+            object: nil
+        )
+
+        // Then - Verify the REST client was actually called
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            XCTAssertGreaterThan(
+                self.mockRestClient.sendCallCount,
+                initialCallCount,
+                "REST client should have been called to register"
+            )
+
+            // Find the registration request (there may be multiple requests including fetchNotificationTypes)
+            let expectedPath = "/\(self.mockRestClient.apiVersion)/sobjects/MobilePushServiceDevice"
+            let registrationRequest = self.mockRestClient.allRequests.first { request in
+                request.path == expectedPath && request.method == RestRequest.Method.POST
+            }
+
+            guard let regRequest = registrationRequest else {
+                let paths = self.mockRestClient.allRequests.map { $0.path ?? "nil" }.joined(separator: ", ")
+                XCTFail("Should have made a registration request to \(expectedPath). Found requests to: \(paths)")
+                expectation.fulfill()
+                return
+            }
+
+            XCTAssertEqual(regRequest.method, RestRequest.Method.POST, "Should be a POST request")
+            XCTAssertEqual(
+                regRequest.path,
+                expectedPath,
+                "Request should be sent to the push notification registration endpoint"
+            )
+
+            expectation.fulfill()
+        }
+
+        wait(for: [expectation], timeout: 1.0)
+    }
+
+    func testMigrateRefreshTokenObserver_ProperlyRemoved_OnDeinit() {
+        // Given - Create a manager instance with a weak reference
+        var manager: PushNotificationManager? = PushNotificationManager(notificationRegister: mockApplicationHelper)
+        manager?.deviceToken = "test-token"
+        weak var weakManager = manager
+
+        // Verify manager exists
+        XCTAssertNotNil(weakManager, "Manager should exist initially")
+
+        // When - Release the strong reference
+        manager = nil
+
+        // Then - Verify manager was deallocated (no retain cycle from observer)
+        XCTAssertNil(weakManager, "PushNotificationManager should be deallocated, indicating observer doesn't create retain cycle")
+
+        // Also verify posting notification after dealloc doesn't crash
+        NotificationCenter.default.post(
+            name: UserAccountManager.didMigrateRefreshToken,
+            object: nil
+        )
+        // If we get here without crashing, the weak reference in the observer worked correctly
+    }
+
     // MARK: - Fetch and Store Notification Types Tests
-    
+
     func testFetchAndStoreNotificationTypes_Success() async throws {
         // Given
         mockRestClient.apiVersion = "v64.0"
