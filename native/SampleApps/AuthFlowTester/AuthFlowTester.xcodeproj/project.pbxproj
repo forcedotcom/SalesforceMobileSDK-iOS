@@ -79,6 +79,7 @@
 		AUTH050 /* JwtTokenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JwtTokenView.swift; sourceTree = "<group>"; };
 		AUTH052 /* InfoRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoRowView.swift; sourceTree = "<group>"; };
 		AUTH053 /* ui_test_config.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ui_test_config.json; sourceTree = "<group>"; };
+		AUTH056 /* AuthFlowTester.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = AuthFlowTester.xctestplan; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -148,6 +149,7 @@
 				AUTH020 /* AuthFlowTester */,
 				4F8E4AF22ED13CE800DA7B7A /* AuthFlowTesterUITests */,
 				AUTH055 /* Shared Test */,
+				AUTH056 /* AuthFlowTester.xctestplan */,
 				4F95A8952EA801DC00C98D18 /* Frameworks */,
 				AUTH021 /* Products */,
 			);

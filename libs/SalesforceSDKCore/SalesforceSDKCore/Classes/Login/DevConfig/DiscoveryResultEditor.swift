@@ -106,48 +106,56 @@ public struct DiscoveryResultEditor: View {
                         .disableAutocorrection(true)
                         .keyboardType(.emailAddress)
                         .accessibilityIdentifier("discoveryUserNameTextField")
+
+                    Button(action: applySimulatedResult) {
+                        Text(SFSDKResourceUtils.localizedString("DISCOVERY_SAVE_SIMULATED_RESULT"))
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 44)
+                            .background(Color.orange)
+                            .cornerRadius(8)
+                    }
+                    .accessibilityIdentifier("saveSimulatedResultButton")
                 }
                 .padding(.horizontal)
             }
-
-            Button(action: applySimulatedResult) {
-                Text(SFSDKResourceUtils.localizedString("DISCOVERY_SAVE_SIMULATED_RESULT"))
-                    .font(.headline)
-                    .foregroundColor(.white)
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 44)
-                    .background(Color.orange)
-                    .cornerRadius(8)
-            }
-            .accessibilityIdentifier("saveSimulatedResultButton")
-            .padding(.horizontal)
         }
         .padding(.vertical)
         .onAppear {
             isExpanded = initiallyExpanded
         }
-        .alert(SFSDKResourceUtils.localizedString("DISCOVERY_IMPORT_ALERT_TITLE"), isPresented: $showImportAlert) {
-            TextField(SFSDKResourceUtils.localizedString("DISCOVERY_IMPORT_PLACEHOLDER"), text: $importJSONText)
-            Button(SFSDKResourceUtils.localizedString("DISCOVERY_IMPORT_BUTTON")) {
-                importDiscoveryResultFromJSON()
+        .alert("Import Discovery Result", isPresented: $showImportAlert) {
+            TextField("Paste JSON here", text: $importJSONText)
+            Button("Import") {
+                if importDiscoveryResultFromJSON() {
+                    applySimulatedResult()
+                }
             }
-            Button(SFSDKResourceUtils.localizedString("DISCOVERY_IMPORT_CANCEL"), role: .cancel) { }
+            Button("Cancel", role: .cancel) { }
         } message: {
-            Text(SFSDKResourceUtils.localizedString("DISCOVERY_IMPORT_MESSAGE"))
+            Text("Paste JSON with login_hint and my_domain")
         }
     }
 
-    private func importDiscoveryResultFromJSON() {
+    private func importDiscoveryResultFromJSON() -> Bool {
         guard let jsonData = importJSONText.data(using: .utf8),
               let json = try? JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any] else {
-            return
+            return false
         }
+
+        var discoveryChanged = false
+
         if let hint = json[DiscoveryResultJSONKeys.loginHint] as? String {
             userName = hint
+            discoveryChanged = true
         }
         if let domain = json[DiscoveryResultJSONKeys.myDomain] as? String {
             loginHost = domain
+            discoveryChanged = true
         }
+
+        return discoveryChanged
     }
 
     /// Applies current field values and invokes the callback. Internal for unit testing.

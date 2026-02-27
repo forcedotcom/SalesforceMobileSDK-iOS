@@ -33,7 +33,7 @@ import SalesforceSDKCore
 /// Use after navigating to Login Options from the login screen (e.g. via Settings → Login Options).
 class LoginOptionsPageObject {
     let app: XCUIApplication
-    let timeout: double_t = 5
+    let timeout: double_t = 2
 
     init(testApp: XCUIApplication) {
         app = testApp
@@ -58,17 +58,14 @@ class LoginOptionsPageObject {
             let configJSON = buildConfigJSON(consumerKey: staticAppConfig.consumerKey, redirectUri: staticAppConfig.redirectUri, scopes: staticScopes)
             importConfig(configJSON, isStaticConfiguration: true)
         }
-        tap(saveStaticConfigButton())
 
         if let dynamicAppConfig = dynamicAppConfig {
             let configJSON = buildConfigJSON(consumerKey: dynamicAppConfig.consumerKey, redirectUri: dynamicAppConfig.redirectUri, scopes: dynamicScopes)
             importConfig(configJSON, isStaticConfiguration: false)
-            tap(saveDynamicConfigButton())
         }
 
         let discoveryResultJSON = buildDiscoveryResultJSON(loginHost: discoveryLoginHost, username: discoveryUsername)
         importDiscoveryResult(discoveryResultJSON)
-        tap(saveSimulatedResultButton())
 
         tap(loginOptionsCloseButton())
     }
@@ -99,26 +96,33 @@ class LoginOptionsPageObject {
     }
 
     private func importConfig(_ jsonString: String, isStaticConfiguration: Bool = true) {
+        // Tap import button to show alert
         tap(importConfigButton(useStaticConfiguration: isStaticConfiguration))
 
-        // Wait for alert to appear
-        let alert = importConfigAlert()
+        // Wait for alert and enter JSON (text field is automatically focused)
+        let alert = app.alerts["Import Configuration"]
         _ = alert.waitForExistence(timeout: timeout)
 
-        // Type into the alert's text field
-        let textField = importConfigTextField()
+        let textField = alert.textFields.firstMatch
         textField.typeText(jsonString)
 
-        tap(importAlertButton())
+        // Tap Import button in alert
+        alert.buttons["Import"].tap()
     }
 
     private func importDiscoveryResult(_ jsonString: String) {
+        // Tap import button to show alert
         tap(importDiscoveryResultButton())
-        let alert = importDiscoveryResultAlert()
+
+        // Wait for alert and enter JSON (text field is automatically focused)
+        let alert = app.alerts["Import Discovery Result"]
         _ = alert.waitForExistence(timeout: timeout)
+
         let textField = alert.textFields.firstMatch
         textField.typeText(jsonString)
-        tap(importDiscoveryResultAlertImportButton())
+
+        // Tap Import button in alert
+        alert.buttons["Import"].tap()
     }
 
     // MARK: - UI Element Accessors (LoginOptionsView)
@@ -131,14 +135,6 @@ class LoginOptionsPageObject {
         return app.switches["Use Hybrid Flow"]
     }
 
-    private func saveStaticConfigButton() -> XCUIElement {
-        return app.buttons["Save static config"]
-    }
-
-    private func saveDynamicConfigButton() -> XCUIElement {
-        return app.buttons["Save dynamic config"]
-    }
-
     /// Returns the import button for either the static or dynamic configuration section.
     private func importConfigButton(useStaticConfiguration: Bool = true) -> XCUIElement {
         let buttons = app.buttons.matching(identifier: "importConfigButton")
@@ -146,32 +142,8 @@ class LoginOptionsPageObject {
         return buttons.element(boundBy: index)
     }
 
-    private func importConfigAlert() -> XCUIElement {
-        return app.alerts["Import Configuration"]
-    }
-
-    private func importConfigTextField() -> XCUIElement {
-        return importConfigAlert().textFields.firstMatch
-    }
-
-    private func importAlertButton() -> XCUIElement {
-        return importConfigAlert().buttons["Import"]
-    }
-
     private func importDiscoveryResultButton() -> XCUIElement {
         return app.buttons["importDiscoveryResultButton"]
-    }
-
-    private func importDiscoveryResultAlert() -> XCUIElement {
-        return app.alerts["Import Discovery Result"]
-    }
-
-    private func importDiscoveryResultAlertImportButton() -> XCUIElement {
-        return importDiscoveryResultAlert().buttons["Import"]
-    }
-
-    private func saveSimulatedResultButton() -> XCUIElement {
-        return app.buttons["saveSimulatedResultButton"]
     }
 
     private func loginOptionsCloseButton() -> XCUIElement {

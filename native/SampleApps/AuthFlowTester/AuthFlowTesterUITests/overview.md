@@ -6,71 +6,64 @@ This document provides an overview of all UI tests in the AuthFlowTester test su
 
 | Class | Description |
 |-------|-------------|
-| `LegacyLoginTests` | Tests for legacy login flows with subset and all scopes (CA, user agent flow, non-hybrid flow) |
-| `DefaultScopesLegacyLoginTests` | Legacy login tests using default scopes (CA opaque) |
+| `LegacyLoginTests` | Tests for legacy login flows (CA, user agent flow, non-hybrid flow) with default, subset, and all scopes |
 | `ECALoginTests` | Tests for External Client App (ECA) login flows |
 | `BeaconLoginTests` | Tests for Beacon app login flows (using regular_auth login host) |
 | `AdvancedAuthBeaconLoginTests` | Tests for Beacon app login flows (using advanced_auth login host) |
-| `DynamicConfigLoginTests` | Tests for login with dynamic (runtime-selected) app configuration; CA, ECA, and Beacon with restart validation |
 | `WelcomeLoginTests` | Tests for welcome (domain discovery) login flows using simulated domain discovery |
-| `MigrationTests` | Tests for refresh token migration between app configurations |
-| `MultiUserLoginTests` | Tests for multi-user login scenarios |
+| `LoginWithRestartTests` | Tests for verifying that user sessions persist across app restarts |
+| `RefreshTokenMigrationTests` | Tests for refresh token migration between app configurations without re-authentication |
+| `RefreshTokenMigrationWithRestartTests` | Tests for verifying that migrated refresh tokens persist across app restarts |
+| `MultiUserLoginTests` | Tests for multi-user login scenarios with various configurations, including token revocation |
 
 ---
 
 ## Login Tests
 
-### LegacyLoginTests (8 tests)
+### LegacyLoginTests (12 tests)
 
-Tests for Connected App (CA) configurations with subset and all scopes, including user agent flow and non-hybrid flow options.
-
-| Test Name | App Config | Scopes | Flow | Hybrid | Dynamic Config |
-|-----------|------------|--------|------|--------|----------------|
-| `testCAOpaque_SubsetScopes_WebServerFlow` | CA Opaque | Subset | Web Server | No | No |
-| `testCAOpaque_AllScopes_WebServerFlow` | CA Opaque | All | Web Server | Yes | No |
-| `testCAOpaque_SubsetScopes_WebServerFlow_NotHybrid` | CA Opaque | Subset | Web Server | No | No |
-| `testCAOpaque_AllScopes_WebServerFlow_NotHybrid` | CA Opaque | All | Web Server | No | No |
-| `testCAOpaque_SubsetScopes_UserAgentFlow` | CA Opaque | Subset | User Agent | Yes | No |
-| `testCAOpaque_AllScopes_UserAgentFlow` | CA Opaque | All | User Agent | Yes | No |
-| `testCAOpaque_SubsetScopes_UserAgentFlow_NotHybrid` | CA Opaque | Subset | User Agent | No | No |
-| `testCAOpaque_AllScopes_UserAgentFlow_NotHybrid` | CA Opaque | All | User Agent | No | No |
-
-### DefaultScopesLegacyLoginTests (4 tests)
-
-Legacy login tests using default scopes (CA opaque).
+Tests for Connected App (CA) configurations with default, subset, and all scopes, including user agent flow and non-hybrid flow options.
 
 | Test Name | App Config | Scopes | Flow | Hybrid |
 |-----------|------------|--------|------|--------|
 | `testCAOpaque_DefaultScopes_WebServerFlow` | CA Opaque | Default | Web Server | Yes |
+| `testCAOpaque_SubsetScopes_WebServerFlow` | CA Opaque | Subset | Web Server | No |
+| `testCAOpaque_AllScopes_WebServerFlow` | CA Opaque | All | Web Server | Yes |
 | `testCAOpaque_DefaultScopes_WebServerFlow_NotHybrid` | CA Opaque | Default | Web Server | No |
+| `testCAOpaque_SubsetScopes_WebServerFlow_NotHybrid` | CA Opaque | Subset | Web Server | No |
+| `testCAOpaque_AllScopes_WebServerFlow_NotHybrid` | CA Opaque | All | Web Server | No |
 | `testCAOpaque_DefaultScopes_UserAgentFlow` | CA Opaque | Default | User Agent | Yes |
+| `testCAOpaque_SubsetScopes_UserAgentFlow` | CA Opaque | Subset | User Agent | Yes |
+| `testCAOpaque_AllScopes_UserAgentFlow` | CA Opaque | All | User Agent | Yes |
 | `testCAOpaque_DefaultScopes_UserAgentFlow_NotHybrid` | CA Opaque | Default | User Agent | No |
+| `testCAOpaque_SubsetScopes_UserAgentFlow_NotHybrid` | CA Opaque | Subset | User Agent | No |
+| `testCAOpaque_AllScopes_UserAgentFlow_NotHybrid` | CA Opaque | All | User Agent | No |
 
 ### ECALoginTests (6 tests)
 
 Tests for External Client App (ECA) configurations using web server flow with hybrid auth.
 
-| Test Name | App Config | Scopes | Dynamic Config |
-|-----------|------------|--------|----------------|
-| `testECAOpaque_DefaultScopes` | ECA Opaque | Default | No |
-| `testECAOpaque_SubsetScopes` | ECA Opaque | Subset | No |
-| `testECAOpaque_AllScopes` | ECA Opaque | All | No |
-| `testECAJwt_DefaultScopes` | ECA JWT | Default | No |
-| `testECAJwt_SubsetScopes_NotHybrid` | ECA JWT | Subset | No |
-| `testECAJwt_AllScopes` | ECA JWT | All | No |
+| Test Name | App Config | Scopes |
+|-----------|------------|--------|
+| `testECAOpaque_DefaultScopes` | ECA Opaque | Default |
+| `testECAOpaque_SubsetScopes` | ECA Opaque | Subset |
+| `testECAOpaque_AllScopes` | ECA Opaque | All |
+| `testECAJwt_DefaultScopes` | ECA JWT | Default |
+| `testECAJwt_SubsetScopes_NotHybrid` | ECA JWT | Subset |
+| `testECAJwt_AllScopes` | ECA JWT | All |
 
 ### BeaconLoginTests (6 tests)
 
 Tests for Beacon app configurations using web server flow with hybrid auth. Uses `regular_auth` login host.
 
-| Test Name | App Config | Scopes | Dynamic Config |
-|-----------|------------|--------|----------------|
-| `testBeaconOpaque_DefaultScopes` | Beacon Opaque | Default | No |
-| `testBeaconOpaque_SubsetScopes` | Beacon Opaque | Subset | No |
-| `testBeaconOpaque_AllScopes` | Beacon Opaque | All | No |
-| `testBeaconJwt_DefaultScopes` | Beacon JWT | Default | No |
-| `testBeaconJwt_SubsetScopes` | Beacon JWT | Subset | No |
-| `testBeaconJwt_AllScopes` | Beacon JWT | All | No |
+| Test Name | App Config | Scopes |
+|-----------|------------|--------|
+| `testBeaconOpaque_DefaultScopes` | Beacon Opaque | Default |
+| `testBeaconOpaque_SubsetScopes` | Beacon Opaque | Subset |
+| `testBeaconOpaque_AllScopes` | Beacon Opaque | All |
+| `testBeaconJwt_DefaultScopes` | Beacon JWT | Default |
+| `testBeaconJwt_SubsetScopes` | Beacon JWT | Subset |
+| `testBeaconJwt_AllScopes` | Beacon JWT | All |
 
 ### AdvancedAuthBeaconLoginTests (6 tests)
 
@@ -85,19 +78,6 @@ Tests for Beacon app configurations using web server flow with hybrid auth. Uses
 | `testBeaconJwt_SubsetScopes` | Beacon JWT | Subset | advanced_auth |
 | `testBeaconJwt_AllScopes` | Beacon JWT | All | advanced_auth |
 
-### DynamicConfigLoginTests (6 tests)
-
-Tests for login using dynamic (runtime-selected) app configuration. Each test logs in with a dynamic config then restarts the app and validates the session.
-
-| Test Name | Static Config | Dynamic Config | Scopes |
-|-----------|---------------|----------------|--------|
-| `testCAJwt_DefaultScopes_DynamicConfiguration_WithRestart` | CA Opaque | CA JWT | Default |
-| `testCAJwt_SubsetScopes_DynamicConfiguration_WithRestart` | CA Opaque | CA JWT | Subset |
-| `testECAJwt_DefaultScopes_DynamicConfiguration_WithRestart` | ECA Opaque | ECA JWT | Default |
-| `testECAJwt_SubsetScopes_DynamicConfiguration_WithRestart` | ECA Opaque | ECA JWT | Subset |
-| `testBeaconJwt_DefaultScopes_DynamicConfiguration_WithRestart` | Beacon Opaque | Beacon JWT | Default |
-| `testBeaconJwt_SubsetScopes_DynamicConfiguration_WithRestart` | Beacon Opaque | Beacon JWT | Subset |
-
 ### WelcomeLoginTests (4 tests)
 
 Tests for welcome (domain discovery) login flows. Uses simulated domain discovery with welcome.salesforce.com as the login server.
@@ -109,41 +89,72 @@ Tests for welcome (domain discovery) login flows. Uses simulated domain discover
 | `testWelcomeDiscoveryWithRegularAuthLoginHostAndDynamicConfig` | regular_auth (simulated) | Yes |
 | `testWelcomeDiscoveryWithAdvancedAuthLoginHostAndDynamicConfig` | advanced_auth (simulated) | Yes |
 
+### LoginWithRestartTests (8 tests)
+
+Tests for verifying that user sessions persist across app restarts. Includes CA, ECA, and Beacon configurations with both static and dynamic settings.
+
+| Test Name | App Config | Scopes | Config Type | Multi-User |
+|-----------|------------|--------|-------------|------------|
+| `testCAOpaque_DefaultScopes_WithRestart` | CA Opaque | Default | Static | No |
+| `testECAOpaque_DefaultScopes_WithRestart` | ECA Opaque | Default | Static | No |
+| `testBeaconOpaque_DefaultScopes_WithRestart` | Beacon Opaque | Default | Static | No |
+| `testECAJwt_DefaultScopes_DynamicConfiguration_WithRestart` | ECA JWT | Default | Dynamic | No |
+| `testECAJwt_SubsetScopes_DynamicConfiguration_WithRestart` | ECA JWT | Subset | Dynamic | No |
+| `testBeaconJwt_DefaultScopes_DynamicConfiguration_WithRestart` | Beacon JWT | Default | Dynamic | No |
+| `testBeaconJwt_SubsetScopes_DynamicConfiguration_WithRestart` | Beacon JWT | Subset | Dynamic | No |
+| `testMultiUserRestart` | ECA Opaque + ECA JWT | Default | Dynamic + Static | Yes |
+
 ---
 
 ## Migration Tests
 
-### MigrationTests (8 tests)
+### RefreshTokenMigrationTests (9 tests)
 
 Tests for migrating refresh tokens between different app configurations without re-authentication.
 
-| Test Name | Original App | Migration App | Scope Change |
-|-----------|--------------|---------------|--------------|
-| `testMigrateCA_AddMoreScopes` | CA JWT (subset) | CA JWT (all) | Yes (add more scopes) |
-| `testMigrateECA_AddMoreScopes` | ECA JWT (subset) | ECA JWT (all) | Yes (add more scopes) |
-| `testMigrateBeacon_AddMoreScopes` | Beacon JWT (subset) | Beacon JWT (all) | Yes (add more scopes) |
-| `testMigrateCAToBeacon` | CA Opaque | Beacon Opaque | No |
-| `testMigrateBeaconToCA` | Beacon Opaque | CA Opaque | No |
-| `testMigrateCAToECA` | CA Opaque → ECA Opaque → CA Opaque | Migration with rollback | No |
-| `testMigrateCAToBeaconAndBack` | CA Opaque → Beacon Opaque | Migration to Beacon | No |
-| `testMigrateBeaconOpaqueToJWTAndBack` | Beacon Opaque → Beacon JWT → Beacon Opaque | Migration with rollback | No |
+| Test Name | Original App | Migration App | Scope Change | Multi-User |
+|-----------|--------------|---------------|--------------|------------|
+| `testMigrateCA_AddMoreScopes` | CA JWT (subset) | CA JWT (all) | Yes | No |
+| `testMigrateECA_AddMoreScopes` | ECA JWT (subset) | ECA JWT (all) | Yes | No |
+| `testMigrateBeacon_AddMoreScopes` | Beacon JWT (subset) | Beacon JWT (all) | Yes | No |
+| `testMigrateCAToBeacon` | CA Opaque | Beacon Opaque | No | No |
+| `testMigrateBeaconToCA` | Beacon Opaque | CA Opaque | No | No |
+| `testMigrateCAToECA` | CA Opaque → ECA Opaque → CA Opaque | No | No |
+| `testMigrateCAToBeaconAndBack` | CA Opaque → Beacon Opaque → CA Opaque | No | No |
+| `testMigrateBeaconOpaqueToJWTAndBack` | Beacon Opaque → Beacon JWT → Beacon Opaque | No | No |
+| `testMigrateOneUserOnly` | User A: CA→ECA, User B: CA (unchanged) | No | Yes |
+
+### RefreshTokenMigrationWithRestartTests (5 tests)
+
+Tests for verifying that migrated refresh tokens persist across app restarts. Combines migration scenarios with app restart validation.
+
+| Test Name | Original App | Migration App | Scope Change | Multi-User |
+|-----------|--------------|---------------|--------------|------------|
+| `testMigrateCAToECA_WithRestart` | CA Opaque | ECA Opaque | No | No |
+| `testMigrateCAToBeacon_WithRestart` | CA Opaque | Beacon Opaque | No | No |
+| `testMigrateScopeAddition_WithRestart` | ECA JWT (subset) | ECA JWT (all) | Yes | No |
+| `testMigrateBeaconScopeAddition_WithRestart` | Beacon JWT (subset) | Beacon JWT (all) | Yes | No |
+| `testMigrateMultipleUsers_WithRestart` | User A: CA→ECA, User B: Beacon | No | Yes |
 
 ---
 
 ## Multi-User Tests
 
-### MultiUserLoginTests (6 tests)
+### MultiUserLoginTests (9 tests)
 
-Tests for login scenarios with two users using various configurations.
+Tests for login scenarios with two users using various configurations, including token revocation scenarios.
 
-| Test Name | User 1 Config | User 2 Config | Same App | Same Scopes |
-|-----------|---------------|---------------|----------|-------------|
-| `testBothStatic_SameApp_SameScopes` | Static (Opaque) | Static (Opaque) | Yes | Yes |
-| `testBothStatic_DifferentApps` | Static (Opaque) | Static (JWT) | No | Yes |
-| `testBothStatic_SameApp_DifferentScopes` | Static (Opaque, subset) | Static (Opaque, default) | Yes | No |
-| `testFirstStatic_SecondDynamic_DifferentApps` | Static (Opaque) | Dynamic (JWT) | No | Yes |
-| `testFirstDynamic_SecondStatic_DifferentApps` | Dynamic (JWT) | Static (Opaque) | No | Yes |
-| `testBothDynamic_DifferentApps` | Dynamic (Opaque) | Dynamic (JWT) | No | Yes |
+| Test Name | User 1 Config | User 2 Config | Same App | Same Scopes | Beacon | Token Revocation |
+|-----------|---------------|---------------|----------|-------------|--------|------------------|
+| `testBothStatic_SameApp_SameScopes` | Static (Opaque) | Static (Opaque) | Yes | Yes | No | No |
+| `testBothStatic_DifferentApps` | Static (Opaque) | Static (JWT) | No | Yes | No | No |
+| `testBothStatic_SameApp_DifferentScopes` | Static (Opaque, subset) | Static (Opaque, default) | Yes | No | No | No |
+| `testFirstStatic_SecondDynamic_DifferentApps` | Static (Opaque) | Dynamic (JWT) | No | Yes | No | No |
+| `testFirstDynamic_SecondStatic_DifferentApps` | Dynamic (JWT) | Static (Opaque) | No | Yes | No | No |
+| `testBothDynamic_DifferentApps` | Dynamic (Opaque) | Dynamic (JWT) | No | Yes | No | No |
+| `testBeaconAndNonBeacon_MultiUser` | Beacon (Opaque) | CA (Opaque) | No | Yes | Yes | No |
+| `testRevokeUserWithDynamicConfig_OtherUserUnaffected` | ECA (Opaque) static | ECA (JWT) dynamic | No | Yes | No | Yes (User B) |
+| `testDifferentAppTypes_RevokeCaUser_EcaUserUnaffected` | CA (Opaque) | ECA (Opaque) | No | Yes | No | Yes (User A) |
 
 ---
 

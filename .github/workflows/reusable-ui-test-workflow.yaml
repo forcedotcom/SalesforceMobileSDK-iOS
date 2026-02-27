@@ -121,6 +121,7 @@ jobs:
           xcodebuild test \
             -workspace SalesforceMobileSDK.xcworkspace \
             -scheme AuthFlowTester \
+            -testPlan AuthFlowTester \
             -destination "$DESTINATION" \
             "${PARALLEL_ARGS[@]}" \
             "${ONLY_TESTING_ARGS[@]}" \

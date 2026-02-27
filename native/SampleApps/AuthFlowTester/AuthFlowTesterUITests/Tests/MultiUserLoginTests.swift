@@ -32,6 +32,7 @@ import XCTest
 /// - Static vs dynamic app configuration
 /// - Same or different app types (opaque vs JWT)
 /// - Same or different scopes
+/// - Token revocation scenarios with multiple users
 ///
 /// NB: Tests use the fourth and fifth user from ui_test_config.json
 ///
@@ -260,6 +261,189 @@ class MultiUserLoginTests: BaseAuthFlowTester {
             userAppConfigName: .ecaJwt,
         )
         
+        // Logout second user
+        logout()
+    }
+
+    // MARK: - Beacon and Non-Beacon Multi-User
+
+    /// Login User A with Beacon and User B with CA (non-beacon).
+    /// Tests that beacon child key is properly isolated per user.
+    func testBeaconAndNonBeacon_MultiUser() throws {
+        // Login User A with Beacon Opaque
+        launchAndLogin(
+            loginHost: .regularAuth,
+            user: .fourth,
+            staticAppConfigName: .beaconOpaque
+        )
+
+        // Verify User A has beacon child key
+        var userACredentials = getUserCredentials()
+        XCTAssertNotEqual(userACredentials.beaconChildConsumerKey, "", "User A should have beacon child key")
+
+        // Login User B with CA Opaque (non-beacon)
+        loginOtherUserAndValidate(
+            loginHost: .regularAuth,
+            user: .fifth,
+            staticAppConfigName: .caOpaque
+        )
+
+        // Verify User B has no beacon child key
+        let userBCredentials = getUserCredentials()
+        XCTAssertEqual(userBCredentials.beaconChildConsumerKey, "", "User B should not have beacon child key")
+
+        // Switch to User A
+        switchToUser(loginHost: .regularAuth, user: .fourth)
+
+        // Verify User A still has beacon child key
+        userACredentials = getUserCredentials()
+        XCTAssertNotEqual(userACredentials.beaconChildConsumerKey, "", "User A should still have beacon child key after switch")
+
+        // Switch to User B
+        switchToUser(loginHost: .regularAuth, user: .fifth)
+
+        // Verify User B still has no beacon child key
+        let userBCredentialsAfter = getUserCredentials()
+        XCTAssertEqual(userBCredentialsAfter.beaconChildConsumerKey, "", "User B should still not have beacon child key after switch")
+
+        // Logout second user
+        logout()
+    }
+
+    // MARK: - Token Revocation Tests
+
+    /// Revoke user's access token (who uses dynamic config) and verify other user is unaffected.
+    /// Tests token isolation when one user uses dynamic consumer key selection.
+    func testRevokeUserWithDynamicConfig_OtherUserUnaffected() throws {
+        // Login User A with static config
+        launchAndLogin(
+            loginHost: .regularAuth,
+            user: .fourth,
+            staticAppConfigName: .ecaOpaque
+        )
+
+        // Get User A credentials before adding User B
+        let userACredentialsBefore = getUserCredentials()
+
+        // Login User B with dynamic config (overrides consumer key at runtime)
+        loginOtherUserAndValidate(
+            loginHost: .regularAuth,
+            user: .fifth,
+            staticAppConfigName: .ecaOpaque,
+            dynamicAppConfigName: .ecaJwt
+        )
+
+        // Revoke User B's access token
+        XCTAssertTrue(revokeAccessToken(), "Failed to revoke User B's access token")
+
+        // Switch to User A
+        switchToUser(loginHost: .regularAuth, user: .fourth)
+
+        // Verify User A's access token unchanged
+        let userACredentialsAfter = getUserCredentials()
+        XCTAssertEqual(
+            userACredentialsBefore.accessToken,
+            userACredentialsAfter.accessToken,
+            "User A's access token should not change when User B's token is revoked"
+        )
+
+        // Make API call for User A (should succeed without refresh)
+        XCTAssertTrue(makeRestRequest(), "User A's API call should succeed")
+
+        // Verify User A's access token still unchanged (no refresh occurred)
+        let userACredentialsAfterAPI = getUserCredentials()
+        XCTAssertEqual(
+            userACredentialsAfter.accessToken,
+            userACredentialsAfterAPI.accessToken,
+            "User A's access token should not refresh (User B's revocation should not affect User A)"
+        )
+
+        // Switch back to User B
+        switchToUser(loginHost: .regularAuth, user: .fifth)
+
+        // Get User B credentials before API call
+        let userBCredentialsBeforeAPI = getUserCredentials()
+
+        // Make API call for User B (should trigger refresh and succeed)
+        XCTAssertTrue(makeRestRequest(), "User B's API call should succeed after refresh")
+
+        // Verify User B's access token changed (refresh occurred)
+        let userBCredentialsAfterAPI = getUserCredentials()
+        XCTAssertNotEqual(
+            userBCredentialsBeforeAPI.accessToken,
+            userBCredentialsAfterAPI.accessToken,
+            "User B's access token should refresh after revocation"
+        )
+
+        // Logout second user
+        logout()
+    }
+
+    /// Revoke CA user's access token and verify ECA user is unaffected.
+    /// Tests token isolation between users with different app types (CA vs ECA).
+    func testDifferentAppTypes_RevokeCaUser_EcaUserUnaffected() throws {
+        // Login User A with CA Opaque
+        launchAndLogin(
+            loginHost: .regularAuth,
+            user: .fourth,
+            staticAppConfigName: .caOpaque
+        )
+
+        // Login User B with ECA Opaque
+        loginOtherUserAndValidate(
+            loginHost: .regularAuth,
+            user: .fifth,
+            staticAppConfigName: .ecaOpaque
+        )
+
+        // Get User B credentials before switching
+        let userBCredentialsBefore = getUserCredentials()
+
+        // Switch to User A
+        switchToUser(loginHost: .regularAuth, user: .fourth)
+
+        // Revoke User A's access token
+        XCTAssertTrue(revokeAccessToken(), "Failed to revoke User A's access token")
+
+        // Switch to User B
+        switchToUser(loginHost: .regularAuth, user: .fifth)
+
+        // Verify User B's access token unchanged
+        let userBCredentialsAfter = getUserCredentials()
+        XCTAssertEqual(
+            userBCredentialsBefore.accessToken,
+            userBCredentialsAfter.accessToken,
+            "User B's access token should not change when User A's token is revoked"
+        )
+
+        // Make API call for User B (should succeed without refresh)
+        XCTAssertTrue(makeRestRequest(), "User B's API call should succeed")
+
+        // Verify User B's access token still unchanged (no refresh occurred)
+        let userBCredentialsAfterAPI = getUserCredentials()
+        XCTAssertEqual(
+            userBCredentialsAfter.accessToken,
+            userBCredentialsAfterAPI.accessToken,
+            "User B's access token should not refresh (User A's revocation should not affect User B)"
+        )
+
+        // Switch to User A
+        switchToUser(loginHost: .regularAuth, user: .fourth)
+
+        // Get User A credentials before API call
+        let userACredentialsBeforeAPI = getUserCredentials()
+
+        // Make API call for User A (should trigger refresh and succeed)
+        XCTAssertTrue(makeRestRequest(), "User A's API call should succeed after refresh")
+
+        // Verify User A's access token changed (refresh occurred)
+        let userACredentialsAfterAPI = getUserCredentials()
+        XCTAssertNotEqual(
+            userACredentialsBeforeAPI.accessToken,
+            userACredentialsAfterAPI.accessToken,
+            "User A's access token should refresh after revocation"
+        )
+
         // Logout second user
         logout()
     }

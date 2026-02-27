@@ -51,15 +51,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     // MARK: - App delegate lifecycle
-    
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         self.window = UIWindow(frame: UIScreen.main.bounds)
-        
+
         // If you wish to register for push notifications, uncomment the line below.  Note that,
         // if you want to receive push notifications from Salesforce, you will also need to
         // implement the application:didRegisterForRemoteNotificationsWithDeviceToken: method (below).
         // self.registerForRemotePushNotifications()
-        
+
         return true
     }
     
