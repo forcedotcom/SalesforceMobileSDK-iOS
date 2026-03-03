@@ -125,7 +125,7 @@ extension RestClient {
     @available(*, deprecated, message: "Deprecated in Salesforce Mobile SDK 13.0 and will be removed in Salesforce Mobile SDK 14.0. Use the async/await version of `send(request:)` instead.")
     public func send(request: RestRequest, _ completionBlock: @escaping (Result<RestResponse, RestClientError>) -> Void) {
         request.parseResponse = false
-        send(request, failureBlock: { (rawResponse, error, urlResponse) in
+        __send(request, failureBlock: { (rawResponse, error, urlResponse) in
             let apiError = RestClientError.apiFailed(response: rawResponse, underlyingError: error ?? RestClientError.apiResponseIsEmpty, urlResponse: urlResponse)
             completionBlock(Result.failure(apiError))
         }, successBlock: { (rawResponse, urlResponse) in

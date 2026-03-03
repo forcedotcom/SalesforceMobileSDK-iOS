@@ -138,7 +138,7 @@ extension RestClient {
         request.parseResponse = false
         
         return try await withCheckedThrowingContinuation { continuation in
-            send(request,
+            __send(request,
                  failureBlock: { rawResponse, error, urlResponse in
                 let apiError = RestClientError.apiFailed(
                     response: rawResponse,
@@ -163,7 +163,7 @@ extension RestClient {
         compositeRequest.parseResponse = false
         
         return try await withCheckedThrowingContinuation { continuation in
-            sendCompositeRequest(compositeRequest, failureBlock: { (response, error, urlResponse) in
+            __send(compositeRequest, failureBlock: { (response, error, urlResponse) in
                 let apiError = RestClientError.apiFailed(response: response, underlyingError: error ?? RestClientError.apiResponseIsEmpty, urlResponse: urlResponse)
                 continuation.resume(throwing: apiError)
             }, successBlock: { (response, _) in
@@ -182,7 +182,7 @@ extension RestClient {
         batchRequest.parseResponse = false
         
         return try await withCheckedThrowingContinuation { continuation in
-            sendBatchRequest(batchRequest,
+            __send(batchRequest,
                              failureBlock: { response, error, urlResponse in
                 let apiError = RestClientError.apiFailed(
                     response: response,

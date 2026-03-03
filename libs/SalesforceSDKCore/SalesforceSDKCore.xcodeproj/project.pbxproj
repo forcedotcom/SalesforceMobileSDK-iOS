@@ -97,8 +97,8 @@
 		4F9E05342DD7BE1500548985 /* SFOAuthCredentialsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F9E05332DD7BE0A00548985 /* SFOAuthCredentialsTests.m */; };
 		4FAUTHFLOW001234567890ABC /* AuthFlowTypesViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FAUTHFLOW112345678901ABC /* AuthFlowTypesViewTests.swift */; };
 		4FBOOTCP001234567890ABCD /* LoginOptionsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FBOOTCP112345678901ABCD /* LoginOptionsViewControllerTests.swift */; };
-		4FDISCOV001234567890ABCD /* DiscoveryResultEditorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FDISCOV112345678901ABCD /* DiscoveryResultEditorTests.swift */; };
 		4FDEVINFO001234567890ABCD /* DevInfoViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FDEVINFO112345678901ABCD /* DevInfoViewControllerTests.swift */; };
+		4FDISCOV001234567890ABCD /* DiscoveryResultEditorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FDISCOV112345678901ABCD /* DiscoveryResultEditorTests.swift */; };
 		4FE006B12EBEB65900CFD66F /* AuthFlowTypesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE006B02EBEB65900CFD66F /* AuthFlowTypesView.swift */; };
 		4FE006B22EBEB65900CFD66F /* BootConfigEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE006AE2EBEB65900CFD66F /* BootConfigEditor.swift */; };
 		4FE006B32EBEB65900CFD66F /* LoginOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE006AF2EBEB65900CFD66F /* LoginOptionsViewController.swift */; };
@@ -153,6 +153,7 @@
 		69848CBD2364063E00893E57 /* SFSDKPushNotificationDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 69848CBC2364063E00893E57 /* SFSDKPushNotificationDataProvider.m */; };
 		6990CBC029F5AF56004A5F8D /* SFSDKIDPAuthCodeLoginRequestCommandTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6990CBBF29F5AF56004A5F8D /* SFSDKIDPAuthCodeLoginRequestCommandTest.m */; };
 		69B36F492D30C34F00EFF84A /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B36F482D30C34F00EFF84A /* ColorExtension.swift */; };
+		69B7C08F2F56D31C00C8370D /* SFRestAPI+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 69B7C08E2F56D31C00C8370D /* SFRestAPI+Blocks.m */; };
 		69BDD7E926F16C9000C26D77 /* SFSDKSalesforceSDKUpgradeManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 69BDD7E226F16C9000C26D77 /* SFSDKSalesforceSDKUpgradeManager.h */; };
 		69BDD7EA26F16C9000C26D77 /* SFSDKSalesforceSDKUpgradeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 69BDD7E826F16C9000C26D77 /* SFSDKSalesforceSDKUpgradeManager.m */; };
 		69BDD82F26F90AA400C26D77 /* DecryptStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BDD82D26F90AA400C26D77 /* DecryptStream.swift */; };
@@ -708,12 +709,12 @@
 		4F9E05332DD7BE0A00548985 /* SFOAuthCredentialsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFOAuthCredentialsTests.m; path = ../SalesforceSDKCoreTests/SFOAuthCredentialsTests.m; sourceTree = "<group>"; };
 		4FAUTHFLOW112345678901ABC /* AuthFlowTypesViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AuthFlowTypesViewTests.swift; path = SalesforceSDKCoreTests/AuthFlowTypesViewTests.swift; sourceTree = SOURCE_ROOT; };
 		4FBOOTCP112345678901ABCD /* LoginOptionsViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LoginOptionsViewControllerTests.swift; path = SalesforceSDKCoreTests/LoginOptionsViewControllerTests.swift; sourceTree = SOURCE_ROOT; };
-		4FDISCOV112345678901ABCD /* DiscoveryResultEditorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DiscoveryResultEditorTests.swift; path = SalesforceSDKCoreTests/DiscoveryResultEditorTests.swift; sourceTree = SOURCE_ROOT; };
 		4FDEVINFO112345678901ABCD /* DevInfoViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DevInfoViewControllerTests.swift; path = SalesforceSDKCoreTests/DevInfoViewControllerTests.swift; sourceTree = SOURCE_ROOT; };
+		4FDISCOV112345678901ABCD /* DiscoveryResultEditorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DiscoveryResultEditorTests.swift; path = SalesforceSDKCoreTests/DiscoveryResultEditorTests.swift; sourceTree = SOURCE_ROOT; };
 		4FE006AE2EBEB65900CFD66F /* BootConfigEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BootConfigEditor.swift; path = SalesforceSDKCore/Classes/Login/DevConfig/BootConfigEditor.swift; sourceTree = SOURCE_ROOT; };
 		4FE006AF2EBEB65900CFD66F /* LoginOptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LoginOptionsViewController.swift; path = SalesforceSDKCore/Classes/Login/DevConfig/LoginOptionsViewController.swift; sourceTree = SOURCE_ROOT; };
-		4FE006B42EBEB65900CFD66F /* DiscoveryResultEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DiscoveryResultEditor.swift; path = SalesforceSDKCore/Classes/Login/DevConfig/DiscoveryResultEditor.swift; sourceTree = SOURCE_ROOT; };
 		4FE006B02EBEB65900CFD66F /* AuthFlowTypesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AuthFlowTypesView.swift; path = SalesforceSDKCore/Classes/Login/DevConfig/AuthFlowTypesView.swift; sourceTree = SOURCE_ROOT; };
+		4FE006B42EBEB65900CFD66F /* DiscoveryResultEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DiscoveryResultEditor.swift; path = SalesforceSDKCore/Classes/Login/DevConfig/DiscoveryResultEditor.swift; sourceTree = SOURCE_ROOT; };
 		4FE006CA2EBEBBF300CFD66F /* NewLoginHostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewLoginHostView.swift; sourceTree = "<group>"; };
 		4FE006CB2EBEBBF300CFD66F /* SFSDKLoginHost.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKLoginHost.h; sourceTree = "<group>"; };
 		4FE006CC2EBEBBF300CFD66F /* SFSDKLoginHost.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKLoginHost.m; sourceTree = "<group>"; };
@@ -779,6 +780,7 @@
 		6990CBBF29F5AF56004A5F8D /* SFSDKIDPAuthCodeLoginRequestCommandTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFSDKIDPAuthCodeLoginRequestCommandTest.m; path = SalesforceSDKCoreTests/SFSDKIDPAuthCodeLoginRequestCommandTest.m; sourceTree = SOURCE_ROOT; };
 		69B2B4F2261EA6F500AB86C2 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/System/Library/Frameworks/CoreTelephony.framework; sourceTree = DEVELOPER_DIR; };
 		69B36F482D30C34F00EFF84A /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
+		69B7C08E2F56D31C00C8370D /* SFRestAPI+Blocks.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "SFRestAPI+Blocks.m"; sourceTree = "<group>"; };
 		69BDD7E226F16C9000C26D77 /* SFSDKSalesforceSDKUpgradeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKSalesforceSDKUpgradeManager.h; sourceTree = "<group>"; };
 		69BDD7E826F16C9000C26D77 /* SFSDKSalesforceSDKUpgradeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKSalesforceSDKUpgradeManager.m; sourceTree = "<group>"; };
 		69BDD82D26F90AA400C26D77 /* DecryptStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DecryptStream.swift; sourceTree = "<group>"; };
@@ -1731,6 +1733,7 @@
 				CED452B01D808D0C009266EB /* SFRestAPI.h */,
 				CED452B11D808D0C009266EB /* SFRestAPI.m */,
 				CED452A91D808D0C009266EB /* SFRestAPI+Blocks.h */,
+				69B7C08E2F56D31C00C8370D /* SFRestAPI+Blocks.m */,
 				CED452AB1D808D0C009266EB /* SFRestAPI+Files.h */,
 				CED452AC1D808D0C009266EB /* SFRestAPI+Files.m */,
 				CED452AD1D808D0C009266EB /* SFRestAPI+Internal.h */,
@@ -2485,6 +2488,7 @@
 				CE4CE3961C0E526A009F6029 /* SFUserAccountManager.m in Sources */,
 				CE4CE36B1C0E526A009F6029 /* SFDefaultUserManagementViewController.m in Sources */,
 				CEA8C9711F02F79F00448B51 /* SFSDKCoreLogger.m in Sources */,
+				69B7C08F2F56D31C00C8370D /* SFRestAPI+Blocks.m in Sources */,
 				B711290D1F8A780800436CFB /* SFSDKAlertView.m in Sources */,
 				B7460C1C2347E1A100C7512E /* SFSDKBatchResponse.m in Sources */,
 				A3C7476129F709EB00D72B7F /* BiometricAuthenticationManagerInternal.swift in Sources */,
