@@ -82,6 +82,7 @@ NSNotificationName kSFNotificationUserWillLogout = @"SFNotificationUserWillLogou
 NSNotificationName kSFNotificationUserDidLogout  = @"SFNotificationUserDidLogout";
 NSNotificationName kSFNotificationOrgDidLogout   = @"SFNotificationOrgDidLogout";
 NSNotificationName kSFNotificationUserDidRefreshToken   = @"SFNotificationOAuthUserDidRefreshToken";
+NSNotificationName kSFNotificationUserDidMigrateRefreshToken   = @"SFNotificationUserDidMigrateRefreshToken";
 
 NSNotificationName kSFNotificationUserWillSwitch  = @"SFNotificationUserWillSwitch";
 NSNotificationName kSFNotificationUserDidSwitch   = @"SFNotificationUserDidSwitch";
@@ -2082,16 +2083,19 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
      
      NSDictionary *userInfo = @{kSFNotificationUserInfoAccountKey: userAccount,
                                 kSFNotificationUserInfoAuthTypeKey: authInfo};
-    if (authInfo.authType != SFOAuthTypeRefresh) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserDidLogIn
-                                                            object:self
-                                                          userInfo:userInfo];
-     }  else if (authInfo.authType == SFOAuthTypeRefresh) {
+     if (authInfo.authType == SFOAuthTypeRefresh) {
          [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserDidRefreshToken
                                                              object:self
                                                            userInfo:userInfo];
+     } else if (authInfo.authType == SFOAuthTypeRefreshTokenMigration) {
+         [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserDidMigrateRefreshToken
+                                                             object:self
+                                                           userInfo:userInfo];
+     } else {
+         [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserDidLogIn
+                                                             object:self
+                                                           userInfo:userInfo];
      }
-    
 }
 
 - (void)retrieveUserPhotoIfNeeded:(SFUserAccount *)account {

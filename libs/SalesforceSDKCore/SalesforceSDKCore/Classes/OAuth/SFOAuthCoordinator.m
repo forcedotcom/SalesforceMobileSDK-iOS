@@ -239,6 +239,7 @@
     _session = nil;
     self.networkIdentifier = nil;
     self.authenticating = NO;
+    _authInfo = nil;
 }
 
 - (void)revokeAuthentication {
@@ -370,7 +371,6 @@
            [self.delegate oauthCoordinator:self didFailWithError:error authInfo:info];
         });
     }
-    _authInfo = nil;
     [self clearFrontDoorBridgeLoginOverride];
 }
 
@@ -380,7 +380,6 @@
     if ([self.delegate respondsToSelector:@selector(oauthCoordinatorDidAuthenticate:authInfo:)]) {
         [self.delegate oauthCoordinatorDidAuthenticate:self authInfo:authInfo];
     }
-    _authInfo = nil;
     [self clearFrontDoorBridgeLoginOverride];
 }
 

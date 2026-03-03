@@ -81,6 +81,7 @@ public class PushNotificationManager: NSObject {
     private let notificationRegister: RemoteNotificationRegistering
     private var loginObserver: NSObjectProtocol?
     private var enterForegroundObserver: NSObjectProtocol?
+    private var migrateRefreshTokenObserver: NSObjectProtocol?
     
     /// Convenience initializer that sets up the PushNotificationManager with default values:
     /// - notificationRegister: DefaultRemoteNotificationRegistrar() - Handles APNS registration
@@ -120,6 +121,9 @@ public class PushNotificationManager: NSObject {
         }
         if let enterForegroundObserver = enterForegroundObserver {
             center.removeObserver(enterForegroundObserver)
+        }
+        if let migrateRefreshTokenObserver = migrateRefreshTokenObserver {
+            center.removeObserver(migrateRefreshTokenObserver)
         }
     }
     
@@ -452,6 +456,12 @@ private extension PushNotificationManager {
             object: nil,
             queue: .main
         ) { [weak self] in self?.onAppWillEnterForeground($0) }
+        
+        migrateRefreshTokenObserver = NotificationCenter.default.addObserver(
+            forName: UserAccountManager.didMigrateRefreshToken,
+            object: nil,
+            queue: .main
+        ) { [weak self] in self?.onUserMigratedRefreshToken($0) }
     }
     
     @objc private func onUserLoggedIn(_ notification: Notification) {
@@ -470,5 +480,12 @@ private extension PushNotificationManager {
         
         SFSDKCoreLogger.i(Self.self, message: "App entering foreground, re-registering push")
         registerSalesforceNotifications(completionBlock: nil, failBlock: nil)
+    }
+    
+    @objc private func onUserMigratedRefreshToken(_ notification: Notification) {
+        if deviceToken != nil {
+            SFSDKCoreLogger.i(Self.self, message: "User migrated refresh token, registering push")
+            _ = registerSalesforceNotifications(completionBlock: nil, failBlock: nil)
+        }
     }
 }
