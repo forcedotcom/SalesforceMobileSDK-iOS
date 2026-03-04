@@ -16,9 +16,9 @@ on:
         default: macos-latest
         required: false
         type: string
-      test-plan-configuration:
-        description: "Test plan configuration to run (e.g. 'Smoke' or 'All Tests'). Passed to xcodebuild -testPlanConfiguration."
-        default: "All Tests"
+      pr_test:
+        description: "Test identifier to run for PR (e.g. 'AuthFlowTesterUITests/LegacyLoginTests/testMethod'). Empty = run all tests."
+        default: ""
         required: false
         type: string
       destination:
@@ -82,11 +82,15 @@ jobs:
         id: xcodebuild
         run: |
           DESTINATION="${{ steps.resolve_destination.outputs.destination }}"
+          ONLY_TESTING_ARGS=()
+          if [ -n "${{ inputs.pr_test }}" ]; then
+            ONLY_TESTING_ARGS+=(-only-testing "${{ inputs.pr_test }}")
+          fi
           xcodebuild test \
             -workspace SalesforceMobileSDK.xcworkspace \
             -scheme AuthFlowTester \
             -testPlan AuthFlowTester \
-            -only-test-configuration "${{ inputs.test-plan-configuration }}" \
+            "${ONLY_TESTING_ARGS[@]}" \
             -destination "$DESTINATION" \
             -resultBundlePath test \
             -enableCodeCoverage YES \
@@ -99,7 +103,7 @@ jobs:
         with:
           path: test.xcresult
           show-passed-tests: true
-          title: AuthFlowTester UI Test Results (${{ inputs.test-plan-configuration }})
+          title: AuthFlowTester UI Test Results
       - uses: codecov/codecov-action@v4
         if: success() || failure()
         with:
@@ -110,6 +114,6 @@ jobs:
         if: success() || failure()
         uses: actions/upload-artifact@v4
         with:
-          name: xcresult-authflowtester-ui-${{ inputs.test-plan-configuration }}-ios${{ inputs.ios }}
+          name: xcresult-authflowtester-ui-ios${{ inputs.ios }}
           path: test.xcresult/
           retention-days: 30

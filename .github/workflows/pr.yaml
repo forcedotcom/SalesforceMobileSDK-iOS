@@ -141,5 +141,5 @@ jobs:
     uses: ./.github/workflows/reusable-ui-test-workflow.yaml
     with:
       is_pr: true
-      test-plan-configuration: "Smoke"
+      pr_test: "AuthFlowTesterUITests/LegacyLoginTests/testCAOpaque_DefaultScopes_WebServerFlow"
     secrets: inherit

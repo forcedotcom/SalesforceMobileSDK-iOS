@@ -20,6 +20,7 @@
           "identifier" : "com.apple.dt.IDEFoundation.CurrentLocationScenarioIdentifier"
         },
         "maximumTestExecutionTimeAllowance" : 360,
+        "maximumTestRepetitions" : 3,
         "region" : "US",
         "targetForVariableExpansion" : {
           "containerPath" : "container:AuthFlowTester.xcodeproj",
@@ -28,56 +29,9 @@
         },
         "testExecutionOrdering" : "random",
         "testRepetitionMode" : "retryOnFailure",
-        "maximumTestRepetitions" : 3,
         "testTimeoutsEnabled" : true,
         "uiTestingScreenshotsLifetime" : "deleteOnSuccess"
       }
-    },
-    {
-      "id" : "87654321-4321-4321-4321-210987654321",
-      "name" : "Smoke",
-      "options" : {
-        "appPrivacyConfiguration" : {
-          "allowedPrivacyPermissions" : [
-            "all"
-          ]
-        },
-        "environmentVariableEntries" : [
-          {
-            "key" : "AutomaticTextCompletionEnabled",
-            "value" : "0"
-          }
-        ],
-        "language" : "en",
-        "locationScenario" : {
-          "identifier" : "com.apple.dt.IDEFoundation.CurrentLocationScenarioIdentifier"
-        },
-        "maximumTestExecutionTimeAllowance" : 360,
-        "region" : "US",
-        "targetForVariableExpansion" : {
-          "containerPath" : "container:AuthFlowTester.xcodeproj",
-          "identifier" : "PRODUCT_BUNDLE_IDENTIFIER",
-          "name" : "AuthFlowTester"
-        },
-        "testExecutionOrdering" : "random",
-        "testRepetitionMode" : "retryOnFailure",
-        "maximumTestRepetitions" : 3,
-        "testTimeoutsEnabled" : true,
-        "uiTestingScreenshotsLifetime" : "deleteOnSuccess"
-      },
-      "testTargets" : [
-        {
-          "parallelizable" : true,
-          "selectedTests" : [
-            "AuthFlowTesterUITests/LegacyLoginTests/testCAOpaque_DefaultScopes_WebServerFlow"
-          ],
-          "target" : {
-            "containerPath" : "container:AuthFlowTester.xcodeproj",
-            "identifier" : "4F8E4AF02ED13CE800DA7B7A",
-            "name" : "AuthFlowTesterUITests"
-          }
-        }
-      ]
     }
   ],
   "defaultOptions" : {
@@ -97,6 +51,7 @@
       "identifier" : "com.apple.dt.IDEFoundation.CurrentLocationScenarioIdentifier"
     },
     "maximumTestExecutionTimeAllowance" : 360,
+    "maximumTestRepetitions" : 3,
     "region" : "US",
     "targetForVariableExpansion" : {
       "containerPath" : "container:AuthFlowTester.xcodeproj",
@@ -105,7 +60,6 @@
     },
     "testExecutionOrdering" : "random",
     "testRepetitionMode" : "retryOnFailure",
-    "maximumTestRepetitions" : 3,
     "testTimeoutsEnabled" : true,
     "uiTestingScreenshotsLifetime" : "deleteOnSuccess"
   },

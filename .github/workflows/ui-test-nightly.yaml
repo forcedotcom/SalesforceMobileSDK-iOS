@@ -11,5 +11,4 @@ jobs:
     with:
       ios: "^26"
       xcode: "^26"
-      test-plan-configuration: "All Tests"
     secrets: inherit
