@@ -16,19 +16,9 @@ on:
         default: macos-latest
         required: false
         type: string
-      test-retry-iterations:
-        description: "Max retries per test on failure (1 = no retry)."
-        default: 2
-        required: false
-        type: number
-      test_suite:
-        description: "Test class to run only (e.g. ECALoginTests). Empty = run all. Ignored when is_pr (PR uses pr_tests instead)."
+      pr_test:
+        description: "Test identifier to run for PR (e.g. 'AuthFlowTesterUITests/LegacyLoginTests/testMethod'). Empty = run all tests."
         default: ""
-        required: false
-        type: string
-      pr_tests:
-        description: "JSON array of test identifiers to run (e.g. ['AuthFlowTesterUITests/ECALoginTests/testECA...']). Used when is_pr is true; empty = use default PR smoke test."
-        default: "[]"
         required: false
         type: string
       destination:
@@ -36,11 +26,6 @@ on:
         default: ""
         required: false
         type: string
-      parallel-testing-worker-count:
-        description: "xcodebuild -parallel-testing-worker-count (0 = do not set; parallel testing uses xcodebuild default)."
-        default: 0
-        required: false
-        type: number
 
 jobs:
   test-ui:
@@ -97,75 +82,38 @@ jobs:
         id: xcodebuild
         run: |
           DESTINATION="${{ steps.resolve_destination.outputs.destination }}"
-          RETRY_ARGS=()
-          if [ "${{ inputs.test-retry-iterations }}" -gt 1 ]; then
-            RETRY_ARGS=(-retry-tests-on-failure -test-iterations "${{ inputs.test-retry-iterations }}")
-          fi
           ONLY_TESTING_ARGS=()
-          if [ "$IS_PR" = "true" ]; then
-            PR_TESTS='${{ inputs.pr_tests }}'
-            if [ -n "$PR_TESTS" ] && [ "$PR_TESTS" != "[]" ]; then
-              while IFS= read -r t; do
-                ONLY_TESTING_ARGS+=(-only-testing "$t")
-              done < <(echo "$PR_TESTS" | python3 -c "import sys, json; [print(t) for t in json.load(sys.stdin)]")
-            else
-              ONLY_TESTING_ARGS=(-only-testing 'AuthFlowTesterUITests/ECALoginTests/testECAJwt_DefaultScopes')
-            fi
-          elif [ -n "${{ inputs.test_suite }}" ]; then
-            ONLY_TESTING_ARGS=(-only-testing "AuthFlowTesterUITests/${{ inputs.test_suite }}")
-          fi
-          PARALLEL_ARGS=()
-          if [ "${{ inputs.parallel-testing-worker-count }}" -gt 0 ]; then
-            PARALLEL_ARGS=(-parallel-testing-enabled YES -parallel-testing-worker-count "${{ inputs.parallel-testing-worker-count }}")
+          if [ -n "${{ inputs.pr_test }}" ]; then
+            ONLY_TESTING_ARGS+=(-only-testing "${{ inputs.pr_test }}")
           fi
           xcodebuild test \
             -workspace SalesforceMobileSDK.xcworkspace \
             -scheme AuthFlowTester \
             -testPlan AuthFlowTester \
-            -destination "$DESTINATION" \
-            "${PARALLEL_ARGS[@]}" \
             "${ONLY_TESTING_ARGS[@]}" \
-            "${RETRY_ARGS[@]}" \
+            -destination "$DESTINATION" \
             -resultBundlePath test \
             -enableCodeCoverage YES \
             | xcbeautify
         env:
           CODE_COVERAGE: YES
-          IS_PR: ${{ inputs.is_pr }}
-      - name: Parse test results
-        if: success() || failure()
-        run: |
-          brew install xcresultparser
-          mkdir -p firebase_results
-          SUITE="${{ inputs.test_suite }}"
-          [ -z "$SUITE" ] && SUITE=all
-          [ "$IS_PR" = "true" ] && SUITE=pr
-          xcresultparser -o junit test.xcresult > firebase_results/authflowtester-ui-${SUITE}-test_result.xml
-      - name: Test Report
-        uses: mikepenz/action-junit-report@v5
+      - name: Publish test results
+        uses: kishikawakatsumi/xcresulttool@v1
         if: success() || failure()
         with:
-          check_name: AuthFlowTester UI Test Results ${{ inputs.test_suite && format('({0})', inputs.test_suite) || '' }}
-          job_name: AuthFlowTester UI Test Results ${{ inputs.test_suite && format('({0})', inputs.test_suite) || '' }}
-          require_tests: true
-          check_retries: true
-          flaky_summary: true
-          fail_on_failure: true
-          group_reports: false
-          include_passed: true
-          include_empty_in_summary: false
-          simplified_summary: true
-          job_summary: ${{ steps.xcodebuild.outcome == 'failure' }}
-          report_paths: 'firebase_results/**.xml'
+          path: test.xcresult
+          show-passed-tests: true
+          title: AuthFlowTester UI Test Results
       - uses: codecov/codecov-action@v4
         if: success() || failure()
         with:
           flags: AuthFlowTesterUI
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-      - name: Upload test results artifact
+      - name: Upload xcresult bundle
         if: success() || failure()
         uses: actions/upload-artifact@v4
         with:
-          name: test-results-authflowtester-ui-${{ inputs.test_suite || 'all' }}-ios${{ inputs.ios }}
-          path: firebase_results/
+          name: xcresult-authflowtester-ui-ios${{ inputs.ios }}
+          path: test.xcresult/
+          retention-days: 30

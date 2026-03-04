@@ -129,7 +129,11 @@ class BaseAuthFlowTester: XCTestCase {
             XCTAssertTrue(loginPage.hasFilledUsernameField(username: userConfig.username), "Login page should have pre-filled username")
             loginPage.performWelcomeLogin(password: userConfig.password)
         } else {
-            loginPage.performLogin(username: userConfig.username, password: userConfig.password)
+            if (loginHost == .regularAuth) {
+                loginPage.performLogin(username: userConfig.username, password: userConfig.password)
+            } else {
+                loginPage.performAdvancedLogin(username: userConfig.username, password: userConfig.password)
+            }
         }
     }
     

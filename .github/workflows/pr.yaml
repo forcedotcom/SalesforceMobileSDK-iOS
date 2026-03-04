@@ -141,8 +141,5 @@ jobs:
     uses: ./.github/workflows/reusable-ui-test-workflow.yaml
     with:
       is_pr: true
-      pr_tests: |
-        [
-          "AuthFlowTesterUITests/ECALoginTests/testECAOpaque_DefaultScopes"
-        ]
+      pr_test: "AuthFlowTesterUITests/LegacyLoginTests/testCAOpaque_DefaultScopes_WebServerFlow"
     secrets: inherit
