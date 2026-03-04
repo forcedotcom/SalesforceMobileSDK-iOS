@@ -73,9 +73,18 @@ class LoginPageObject {
     
     func performLogin(username: String, password: String) {
         setTextField(usernameField(), value: username)
-        tap(passwordFieldLabel()) // click on label to hide keyboard
+        tap(toolbarDoneButton())
         setTextField(passwordField(), value: password)
-        tap(passwordFieldLabel()) // click on label to hide keyboard
+        tap(toolbarDoneButton())
+        tap(loginButton())
+        tapIfPresent(allowButton())
+    }
+
+    func performAdvancedLogin(username: String, password: String) {
+        setTextField(usernameField(), value: username)
+        tap(passwordFieldLabel())
+        setTextField(passwordField(), value: password)
+        tap(usernameFieldLabel())
         tap(loginButton())
         tapIfPresent(allowButton())
     }
@@ -152,6 +161,10 @@ class LoginPageObject {
     
     private func hostRow(host: String) -> XCUIElement {
         return app.staticTexts[host].firstMatch
+    }
+    
+    private func toolbarDoneButton() -> XCUIElement {
+        return app.toolbars["Toolbar"].buttons["Done"]
     }
 
     private func usernameFieldLabel() -> XCUIElement {
