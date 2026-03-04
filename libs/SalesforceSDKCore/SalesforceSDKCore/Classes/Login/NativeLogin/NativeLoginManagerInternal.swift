@@ -219,7 +219,8 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
     private func generateChallenge(codeVerifier: String) -> String? {
         guard let data = codeVerifier.data(using: .utf8) else { return nil }
         let hash = SHA256.hash(data: data)
-        return urlSafeBase64Encode(data: hash.dataRepresentation)
+        let hashData = Data(hash)  // Explicitly copy bytes into a new Data on the heap
+        return urlSafeBase64Encode(data: hashData)
     }
     
     // MARK: Salesforce Identity API Headless Registration Flow
