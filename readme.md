@@ -41,11 +41,11 @@ The Salesforce Mobile SDK provides the essential libraries for quickly building 
 Documentation
 ==
 
-* [SalesforceSDKCommon Library Reference](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceSDKCommon/)
-* [SalesforceAnalytics Library Reference](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceAnalytics/)
-* [SalesforceSDKCore Library Reference](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceSDKCore/)
-* [SmartStore Library Reference](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SmartStore/)
-* [MobileSync Library Reference](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/MobileSync/)
+* [SalesforceSDKCommon Library Reference](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceSDKCommon/documentation/salesforcesdkcommon/)
+* [SalesforceAnalytics Library Reference](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceAnalytics/documentation/salesforceanalytics/)
+* [SalesforceSDKCore Library Reference](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceSDKCore/documentation/salesforcesdkcore/)
+* [SmartStore Library Reference](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SmartStore/documentation/smartstore/)
+* [MobileSync Library Reference](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/MobileSync/documentation/mobilesync/)
 * Salesforce Mobile SDK Development Guide -- [HTML](https://developer.salesforce.com/docs/atlas.en-us.mobile_sdk.meta/mobile_sdk/preface_intro.htm)
 * [Mobile SDK Trail](https://trailhead.salesforce.com/en/content/learn/trails/start-ios-appdev)
 
