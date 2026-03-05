@@ -82,8 +82,10 @@ jobs:
         id: xcodebuild
         run: |
           DESTINATION="${{ steps.resolve_destination.outputs.destination }}"
-          # Hardcoded for faster CI run - revert to inputs.pr_test when done
-          ONLY_TESTING_ARGS=(-only-testing "AuthFlowTesterUITests/WelcomeLoginTests/testWelcomeDiscovery_RegularAuthLoginHost")
+          ONLY_TESTING_ARGS=()
+          if [ -n "${{ inputs.pr_test }}" ]; then
+            ONLY_TESTING_ARGS+=(-only-testing "${{ inputs.pr_test }}")
+          fi
           set -o pipefail
           xcodebuild test \
             -workspace SalesforceMobileSDK.xcworkspace \
