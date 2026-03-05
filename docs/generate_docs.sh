@@ -194,59 +194,6 @@ a:hover {{ text-decoration: underline; }}
 </html>"""
 out_path.write_text(body, encoding="utf-8")
 PYTHON_SCRIPT
-    else
-        # No module JSON or discovery failed: create minimal static page with link to interactive app
-        MODULE_ID=$(echo "$lib" | tr '[:upper:]' '[:lower:]')
-        cat > "$STATIC_HTML" << STATICEOF
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>$lib — Documentation</title>
-<style>
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 900px; margin: 2rem auto; padding: 0 1.5rem; line-height: 1.5; }
-h1 { color: #032e61; }
-.pill { display: inline-block; background: #e8f4fc; color: #0070d2; padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.9rem; margin-bottom: 1rem; }
-a { color: #0070d2; text-decoration: none; }
-a:hover { text-decoration: underline; }
-</style>
-</head>
-<body>
-<h1>$lib</h1>
-<p><a class="pill" href="$HOSTING_BASE/$lib/documentation/$MODULE_ID/">Browse full documentation</a></p>
-<p>API reference is available via the link above (requires JavaScript).</p>
-<hr>
-<p><a href="$HOSTING_BASE/">← Documentation index</a></p>
-</body>
-</html>
-STATICEOF
-    fi
-    # If Python failed or produced nothing, ensure we have at least a minimal static page
-    if [ ! -f "$STATIC_HTML" ] && [ -f "$OUTPUT_DIR/$lib/index.html" ]; then
-        MODULE_ID=$(echo "$lib" | tr '[:upper:]' '[:lower:]')
-        cat > "$STATIC_HTML" << STATICEOF
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>$lib — Documentation</title>
-<style>
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 900px; margin: 2rem auto; padding: 0 1.5rem; }
-h1 { color: #032e61; }
-.pill { display: inline-block; background: #e8f4fc; color: #0070d2; padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.9rem; margin-bottom: 1rem; }
-a { color: #0070d2; }
-</style>
-</head>
-<body>
-<h1>$lib</h1>
-<p><a class="pill" href="$HOSTING_BASE/$lib/documentation/$MODULE_ID/">Browse full documentation</a></p>
-<hr>
-<p><a href="$HOSTING_BASE/">← Documentation index</a></p>
-</body>
-</html>
-STATICEOF
     fi
     # Replace the DocC root index with the static one so the library URL shows content without JS
     BASE_PREFIX="$HOSTING_BASE/$lib"
