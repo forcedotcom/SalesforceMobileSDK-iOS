@@ -330,6 +330,7 @@ successBlock:(SFRestResponseBlock)successBlock
 
             // Guard: ignore callbacks from stale dataTasks superseded by retry.
             if (dataTask != request.sessionDataTask) {
+                [SFSDKCoreLogger d:[strongSelf class] format:@"Ignoring callback from stale task for request: %@", request.path];
                 return;
             }
 
