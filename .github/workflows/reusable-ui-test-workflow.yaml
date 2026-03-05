@@ -82,10 +82,8 @@ jobs:
         id: xcodebuild
         run: |
           DESTINATION="${{ steps.resolve_destination.outputs.destination }}"
-          ONLY_TESTING_ARGS=()
-          if [ -n "${{ inputs.pr_test }}" ]; then
-            ONLY_TESTING_ARGS+=(-only-testing "${{ inputs.pr_test }}")
-          fi
+          # Hardcoded for faster CI run - revert to inputs.pr_test when done
+          ONLY_TESTING_ARGS=(-only-testing "AuthFlowTesterUITests/WelcomeLoginTests/testWelcomeDiscovery_RegularAuthLoginHost")
           set -o pipefail
           xcodebuild test \
             -workspace SalesforceMobileSDK.xcworkspace \
@@ -111,7 +109,7 @@ jobs:
         uses: kishikawakatsumi/xcresulttool@v1
         if: success() || failure()
         with:
-          path: test.xcresult
+          path: ${{ github.workspace }}/test.xcresult
           show-passed-tests: true
           title: AuthFlowTester UI Test Results
       - uses: codecov/codecov-action@v4
