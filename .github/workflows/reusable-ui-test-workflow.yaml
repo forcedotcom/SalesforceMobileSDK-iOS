@@ -105,14 +105,24 @@ jobs:
           fi
           echo "xcresult bundle exists and contains:"
           ls -lh test.xcresult/
-      - name: Publish test results
+      - name: Parse test results
         if: success() || failure()
         run: |
-          XCRESULT_PATH="${{ github.workspace }}/test.xcresult"
-          echo "## AuthFlowTester UI Test Results" >> "$GITHUB_STEP_SUMMARY"
-          echo '```' >> "$GITHUB_STEP_SUMMARY"
-          xcrun xcresulttool get object --legacy --path "$XCRESULT_PATH" >> "$GITHUB_STEP_SUMMARY" 2>&1 || true
-          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          brew install xcresultparser
+          xcresultparser -o junit test.xcresult > test-results-authflowtester-ui-ios${{ inputs.ios }}.xml
+      - name: Test Report
+        uses: mikepenz/action-junit-report@v5
+        if: success() || failure()
+        with:
+          check_name: AuthFlowTester UI Test Results
+          job_name: AuthFlowTester UI Test Results
+          require_tests: true
+          include_empty_in_summary: false
+          simplified_summary: true
+          detailed_summary: true
+          comment: true
+          job_summary: true
+          report_paths: 'test-results-authflowtester-ui-ios${{ inputs.ios }}.xml'
       - uses: codecov/codecov-action@v4
         if: success() || failure()
         with:
