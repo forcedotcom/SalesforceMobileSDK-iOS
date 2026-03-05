@@ -26,14 +26,8 @@ LIBS_DIR="libs"
 OUTPUT_DIR="build/artifacts/doc"
 DERIVED_DATA_DIR="build/DerivedData"
 DESTINATION="generic/platform=iOS Simulator"
-# Default to GitHub Pages base path so release (release.js) works without extra env.
-# Set DOCS_BASE_PATH= to use /Documentation/... only (e.g. local testing at domain root).
-DOCS_BASE_PATH="${DOCS_BASE_PATH:-SalesforceMobileSDK-iOS}"
-if [ -n "$DOCS_BASE_PATH" ]; then
-    HOSTING_BASE="/${DOCS_BASE_PATH#/}/Documentation"
-else
-    HOSTING_BASE="/Documentation"
-fi
+# GitHub Pages base path (forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/...)
+HOSTING_BASE="/SalesforceMobileSDK-iOS/Documentation"
 
 # Libraries to document
 LIBRARIES=(
@@ -332,13 +326,4 @@ for lib in "${LIBRARIES[@]}"; do
 done
 echo -e "  - $OUTPUT_DIR/index.html (navigation page)"
 
-echo -e "\n${YELLOW}Note:${NC} Documentation is generated for GitHub Pages (e.g. forcedotcom.github.io/SalesforceMobileSDK-iOS/)."
-echo -e "Hosting base: ${GREEN}${HOSTING_BASE}/${NC}"
-if [ -z "$DOCS_BASE_PATH" ]; then
-    echo -e "Using root-only paths (local test). For GitHub Pages use default or: ${GREEN}DOCS_BASE_PATH=SalesforceMobileSDK-iOS${NC}"
-fi
-echo -e "\nTo test locally (simulating GitHub Pages structure):"
-echo -e "  1. Create a test directory: ${GREEN}mkdir -p /tmp/ghpages/Documentation${NC}"
-echo -e "  2. Copy docs: ${GREEN}cp -r $OUTPUT_DIR/* /tmp/ghpages/Documentation/${NC}"
-echo -e "  3. Start server: ${GREEN}cd /tmp/ghpages && python3 -m http.server 8080${NC}"
-echo -e "  4. Open: ${GREEN}http://localhost:8080/Documentation/${NC}"
+echo -e "\n${YELLOW}Note:${NC} Documentation is generated for GitHub Pages at ${GREEN}${HOSTING_BASE}/${NC}"
