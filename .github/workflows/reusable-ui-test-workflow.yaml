@@ -105,31 +105,14 @@ jobs:
           fi
           echo "xcresult bundle exists and contains:"
           ls -lh test.xcresult/
-      - name: Debug xcresult bundle for xcresulttool
+      - name: Publish test results
         if: success() || failure()
         run: |
           XCRESULT_PATH="${{ github.workspace }}/test.xcresult"
-          echo "::group::xcresult path and existence"
-          echo "Path: $XCRESULT_PATH"
-          echo "Exists: $([ -d "$XCRESULT_PATH" ] && echo yes || echo no)"
-          echo "::endgroup::"
-          echo "::group::xcresult bundle contents"
-          ls -laR "$XCRESULT_PATH" 2>&1 || true
-          echo "::endgroup::"
-          echo "::group::xcrun xcresulttool get (raw output)"
-          xcrun xcresulttool get --path "$XCRESULT_PATH" 2>&1; echo "xcrun exit code: $?"
-          echo "::endgroup::"
-          echo "::group::xcrun version and SDK"
-          xcrun --version
-          xcrun --sdk iphonesimulator --show-sdk-path
-          echo "::endgroup::"
-      - name: Publish test results
-        uses: kishikawakatsumi/xcresulttool@v1
-        if: success() || failure()
-        with:
-          path: ${{ github.workspace }}/test.xcresult
-          show-passed-tests: true
-          title: AuthFlowTester UI Test Results
+          echo "## AuthFlowTester UI Test Results" >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          xcrun xcresulttool get object --legacy --path "$XCRESULT_PATH" >> "$GITHUB_STEP_SUMMARY" 2>&1 || true
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
       - uses: codecov/codecov-action@v4
         if: success() || failure()
         with:
