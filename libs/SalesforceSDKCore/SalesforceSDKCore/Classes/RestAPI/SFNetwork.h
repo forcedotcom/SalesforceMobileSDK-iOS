@@ -48,6 +48,21 @@ typedef void (^SFSDKMetricsCollectedBlock)(NSURLSession * _Nonnull session, NSUR
 @property (class, nonatomic, copy, nullable) SFSDKMetricsCollectedBlock metricsCollectedAction;
 
 /**
+ An optional block invoked on every newly created NSURLSessionConfiguration before it is used to
+ build a session. Set this in tests to inject custom protocol classes (e.g. a mock URLProtocol)
+ into all sessions created by SFNetwork, including the per-request ephemeral sessions used for
+ custom-host requests.
+
+ Example:
+ @code
+ Network.sessionConfigurationCustomizer = { config in
+     config.protocolClasses = [MockURLProtocol.self]
+ }
+ @endcode
+ */
+@property (class, nonatomic, copy, nullable) void (^sessionConfigurationCustomizer)(NSURLSessionConfiguration * _Nonnull config);
+
+/**
  * Returns an instance of this class with the default ephemeral session configuration.
  *
  * @return Instance of this class.

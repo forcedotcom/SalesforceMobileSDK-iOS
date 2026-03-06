@@ -35,6 +35,7 @@ NSString * const kSFNetworkEphemeralInstanceIdentifier = @"com.salesforce.networ
 NSString * const kSFNetworkBackgroundInstanceIdentifier = @"com.salesforce.network.backgroundSession";
 static SFSDKSafeMutableDictionary *sharedInstances = nil;
 static SFSDKMetricsCollectedBlock _metricsCollectedAction = nil;
+static void (^_sessionConfigurationCustomizer)(NSURLSessionConfiguration *) = nil;
 
 @interface SFNetwork()<NSURLSessionDelegate, NSURLSessionTaskDelegate>
 
@@ -70,6 +71,10 @@ static SFSDKMetricsCollectedBlock _metricsCollectedAction = nil;
 
     SFNetwork *network = sharedInstances[identifier];
     if (!network) {
+        if (_sessionConfigurationCustomizer) {
+            _sessionConfigurationCustomizer(sessionConfiguration);
+        }
+        
         network = [[self alloc] initWithSessionConfiguration:sessionConfiguration];
         sharedInstances[identifier] = network;
     }
@@ -140,6 +145,14 @@ static SFSDKMetricsCollectedBlock _metricsCollectedAction = nil;
 
 + (SFSDKMetricsCollectedBlock)metricsCollectedAction {
     return _metricsCollectedAction;
+}
+
++ (void)setSessionConfigurationCustomizer:(void (^)(NSURLSessionConfiguration *))customizer {
+    _sessionConfigurationCustomizer = customizer;
+}
+
++ (void (^)(NSURLSessionConfiguration *))sessionConfigurationCustomizer {
+    return _sessionConfigurationCustomizer;
 }
 
 #pragma mark - NSURLSessionDelegate

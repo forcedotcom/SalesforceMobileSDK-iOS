@@ -97,8 +97,8 @@
 		4F9E05342DD7BE1500548985 /* SFOAuthCredentialsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F9E05332DD7BE0A00548985 /* SFOAuthCredentialsTests.m */; };
 		4FAUTHFLOW001234567890ABC /* AuthFlowTypesViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FAUTHFLOW112345678901ABC /* AuthFlowTypesViewTests.swift */; };
 		4FBOOTCP001234567890ABCD /* LoginOptionsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FBOOTCP112345678901ABCD /* LoginOptionsViewControllerTests.swift */; };
-		4FDISCOV001234567890ABCD /* DiscoveryResultEditorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FDISCOV112345678901ABCD /* DiscoveryResultEditorTests.swift */; };
 		4FDEVINFO001234567890ABCD /* DevInfoViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FDEVINFO112345678901ABCD /* DevInfoViewControllerTests.swift */; };
+		4FDISCOV001234567890ABCD /* DiscoveryResultEditorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FDISCOV112345678901ABCD /* DiscoveryResultEditorTests.swift */; };
 		4FE006B12EBEB65900CFD66F /* AuthFlowTypesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE006B02EBEB65900CFD66F /* AuthFlowTypesView.swift */; };
 		4FE006B22EBEB65900CFD66F /* BootConfigEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE006AE2EBEB65900CFD66F /* BootConfigEditor.swift */; };
 		4FE006B32EBEB65900CFD66F /* LoginOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE006AF2EBEB65900CFD66F /* LoginOptionsViewController.swift */; };
@@ -131,6 +131,7 @@
 		693E623124A287DB0017B222 /* KeyValueEncryptedFileStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693E623024A287DB0017B222 /* KeyValueEncryptedFileStore.swift */; };
 		693E623B24A29B6B0017B222 /* SFSDKKeyValueEncryptedFileStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 693E623A24A29B6B0017B222 /* SFSDKKeyValueEncryptedFileStoreTests.m */; };
 		694490D025B8F4C4007747CD /* SFSDKWindowManager+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 694490C725B8E567007747CD /* SFSDKWindowManager+Internal.h */; };
+		694E06FE2F5B90E00042ABF1 /* SFRestAPITokenRefreshStressTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694E06FD2F5B90E00042ABF1 /* SFRestAPITokenRefreshStressTests.swift */; };
 		695E86A829EE24D0002BDEA6 /* SPConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695E86A729EE24D0002BDEA6 /* SPConfig.swift */; };
 		695E86B929EF8D6E002BDEA6 /* SFSDKIDPAuthCodeLoginRequestCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = 695E86B729EF8D6E002BDEA6 /* SFSDKIDPAuthCodeLoginRequestCommand.h */; };
 		695E86BA29EF8D6E002BDEA6 /* SFSDKIDPAuthCodeLoginRequestCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 695E86B829EF8D6E002BDEA6 /* SFSDKIDPAuthCodeLoginRequestCommand.m */; };
@@ -708,12 +709,12 @@
 		4F9E05332DD7BE0A00548985 /* SFOAuthCredentialsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFOAuthCredentialsTests.m; path = ../SalesforceSDKCoreTests/SFOAuthCredentialsTests.m; sourceTree = "<group>"; };
 		4FAUTHFLOW112345678901ABC /* AuthFlowTypesViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AuthFlowTypesViewTests.swift; path = SalesforceSDKCoreTests/AuthFlowTypesViewTests.swift; sourceTree = SOURCE_ROOT; };
 		4FBOOTCP112345678901ABCD /* LoginOptionsViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LoginOptionsViewControllerTests.swift; path = SalesforceSDKCoreTests/LoginOptionsViewControllerTests.swift; sourceTree = SOURCE_ROOT; };
-		4FDISCOV112345678901ABCD /* DiscoveryResultEditorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DiscoveryResultEditorTests.swift; path = SalesforceSDKCoreTests/DiscoveryResultEditorTests.swift; sourceTree = SOURCE_ROOT; };
 		4FDEVINFO112345678901ABCD /* DevInfoViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DevInfoViewControllerTests.swift; path = SalesforceSDKCoreTests/DevInfoViewControllerTests.swift; sourceTree = SOURCE_ROOT; };
+		4FDISCOV112345678901ABCD /* DiscoveryResultEditorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DiscoveryResultEditorTests.swift; path = SalesforceSDKCoreTests/DiscoveryResultEditorTests.swift; sourceTree = SOURCE_ROOT; };
 		4FE006AE2EBEB65900CFD66F /* BootConfigEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BootConfigEditor.swift; path = SalesforceSDKCore/Classes/Login/DevConfig/BootConfigEditor.swift; sourceTree = SOURCE_ROOT; };
 		4FE006AF2EBEB65900CFD66F /* LoginOptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LoginOptionsViewController.swift; path = SalesforceSDKCore/Classes/Login/DevConfig/LoginOptionsViewController.swift; sourceTree = SOURCE_ROOT; };
-		4FE006B42EBEB65900CFD66F /* DiscoveryResultEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DiscoveryResultEditor.swift; path = SalesforceSDKCore/Classes/Login/DevConfig/DiscoveryResultEditor.swift; sourceTree = SOURCE_ROOT; };
 		4FE006B02EBEB65900CFD66F /* AuthFlowTypesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AuthFlowTypesView.swift; path = SalesforceSDKCore/Classes/Login/DevConfig/AuthFlowTypesView.swift; sourceTree = SOURCE_ROOT; };
+		4FE006B42EBEB65900CFD66F /* DiscoveryResultEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DiscoveryResultEditor.swift; path = SalesforceSDKCore/Classes/Login/DevConfig/DiscoveryResultEditor.swift; sourceTree = SOURCE_ROOT; };
 		4FE006CA2EBEBBF300CFD66F /* NewLoginHostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewLoginHostView.swift; sourceTree = "<group>"; };
 		4FE006CB2EBEBBF300CFD66F /* SFSDKLoginHost.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKLoginHost.h; sourceTree = "<group>"; };
 		4FE006CC2EBEBBF300CFD66F /* SFSDKLoginHost.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKLoginHost.m; sourceTree = "<group>"; };
@@ -756,6 +757,7 @@
 		693E623024A287DB0017B222 /* KeyValueEncryptedFileStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyValueEncryptedFileStore.swift; sourceTree = "<group>"; };
 		693E623A24A29B6B0017B222 /* SFSDKKeyValueEncryptedFileStoreTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFSDKKeyValueEncryptedFileStoreTests.m; path = SalesforceSDKCoreTests/SFSDKKeyValueEncryptedFileStoreTests.m; sourceTree = SOURCE_ROOT; };
 		694490C725B8E567007747CD /* SFSDKWindowManager+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SFSDKWindowManager+Internal.h"; sourceTree = "<group>"; };
+		694E06FD2F5B90E00042ABF1 /* SFRestAPITokenRefreshStressTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFRestAPITokenRefreshStressTests.swift; sourceTree = "<group>"; };
 		695E86A729EE24D0002BDEA6 /* SPConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPConfig.swift; sourceTree = "<group>"; };
 		695E86B729EF8D6E002BDEA6 /* SFSDKIDPAuthCodeLoginRequestCommand.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKIDPAuthCodeLoginRequestCommand.h; sourceTree = "<group>"; };
 		695E86B829EF8D6E002BDEA6 /* SFSDKIDPAuthCodeLoginRequestCommand.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKIDPAuthCodeLoginRequestCommand.m; sourceTree = "<group>"; };
@@ -1056,6 +1058,7 @@
 		4F7EB3F61BFFC84700768720 /* SalesforceSDKCoreTests */ = {
 			isa = PBXGroup;
 			children = (
+				694E06FD2F5B90E00042ABF1 /* SFRestAPITokenRefreshStressTests.swift */,
 				23F200AB2E551C890091C5F5 /* ActionTypeTests.swift */,
 				4FAUTHFLOW112345678901ABC /* AuthFlowTypesViewTests.swift */,
 				696E91452AD0A14A00205884 /* BiometricAuthenticationManagerTests.swift */,
@@ -2273,6 +2276,7 @@
 				4F7EB4171BFFC8D700768720 /* SFEncryptionKeyTests.m in Sources */,
 				69848CBD2364063E00893E57 /* SFSDKPushNotificationDataProvider.m in Sources */,
 				23A4C7492D0CAFCF00DF55EB /* NativeLoginManagerTests.swift in Sources */,
+				694E06FE2F5B90E00042ABF1 /* SFRestAPITokenRefreshStressTests.swift in Sources */,
 				23A4C74A2D0CAFCF00DF55EB /* JwtAccessTokenTests.swift in Sources */,
 				FDD7D7A1232039D000F5FB2D /* SFUserAccountPhotoTests.m in Sources */,
 				444B95D01E83251900908C61 /* UIColor+SFColorsTests.m in Sources */,
