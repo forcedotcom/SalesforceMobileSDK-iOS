@@ -115,8 +115,9 @@ jobs:
             | xcbeautify
         env:
           CODE_COVERAGE: YES
-          UI_TEST_SHORT_TIMEOUT: ${{ inputs.short_timeout }}
-          UI_TEST_LONG_TIMEOUT: ${{ inputs.long_timeout }}
+          # Xcode 15.3+ only forwards env vars prefixed with TEST_RUNNER_ to the test runner (prefix is stripped).
+          TEST_RUNNER_UI_TEST_SHORT_TIMEOUT: ${{ inputs.short_timeout }}
+          TEST_RUNNER_UI_TEST_LONG_TIMEOUT: ${{ inputs.long_timeout }}
       - name: Verify xcresult bundle exists
         if: success() || failure()
         run: |
