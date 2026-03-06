@@ -26,6 +26,16 @@ on:
         default: ""
         required: false
         type: string
+      short_timeout:
+        description: "UI test short timeout in seconds (env UI_TEST_SHORT_TIMEOUT). Empty = use code default (1)."
+        default: ""
+        required: false
+        type: string
+      long_timeout:
+        description: "UI test long timeout in seconds (env UI_TEST_LONG_TIMEOUT). Empty = use code default (3)."
+        default: ""
+        required: false
+        type: string
 
 jobs:
   test-ui:
@@ -62,18 +72,25 @@ jobs:
           if [ -n "${{ inputs.destination }}" ]; then
             echo "destination=${{ inputs.destination }}" >> "$GITHUB_OUTPUT"
           else
+            # Extract major iOS version from input (e.g. ^26 -> 26, 26.0 -> 26)
+            IOS_VERSION="${{ inputs.ios }}"
+            IOS_MAJOR=$(echo "$IOS_VERSION" | sed 's/^\^//' | cut -d. -f1)
             SIM_UDID=$(xcrun simctl list devices available -j | python3 -c '
           import sys, json
+          major = sys.argv[1]
           d = json.load(sys.stdin)
-          for devices in d.get("devices", {}).values():
+          runtime_prefix = "iOS-" + major + "-"
+          for runtime_key, devices in d.get("devices", {}).items():
+            if runtime_prefix not in runtime_key:
+              continue
             for dev in devices:
               if dev.get("isAvailable", True) and "iPhone" in dev.get("name", ""):
                 print(dev["udid"])
                 sys.exit(0)
           sys.exit(1)
-            ')
+            ' "$IOS_MAJOR")
             if [ -z "$SIM_UDID" ]; then
-              echo "::error::No available iPhone simulator found"
+              echo "::error::No available iPhone simulator found for iOS $IOS_MAJOR"
               exit 1
             fi
             echo "destination=platform=iOS Simulator,id=$SIM_UDID" >> "$GITHUB_OUTPUT"
@@ -98,6 +115,8 @@ jobs:
             | xcbeautify
         env:
           CODE_COVERAGE: YES
+          UI_TEST_SHORT_TIMEOUT: ${{ inputs.short_timeout }}
+          UI_TEST_LONG_TIMEOUT: ${{ inputs.long_timeout }}
       - name: Verify xcresult bundle exists
         if: success() || failure()
         run: |

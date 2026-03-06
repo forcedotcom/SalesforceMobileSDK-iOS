@@ -213,14 +213,13 @@ struct JwtDetailsData {
 /// and extract data (user credentials, OAuth configuration, JWT details) from the UI.
 class AuthFlowTesterMainPageObject {
     let app: XCUIApplication
-    let timeout: double_t = 3
-    
+
     init(testApp: XCUIApplication) {
         app = testApp
     }
     
     func isShowing() -> Bool {
-        return navigationTitle().waitForExistence(timeout: 1)
+        return navigationTitle().waitForExistence(timeout: UITestTimeouts.short)
     }
     
     func performLogout() {
@@ -231,7 +230,7 @@ class AuthFlowTesterMainPageObject {
     func makeRestRequest() -> Bool {
         tap(makeRestRequestButton())
         let alert = app.alerts["Request Successful"]
-        if (alert.waitForExistence(timeout: timeout)) {
+        if (alert.waitForExistence(timeout: UITestTimeouts.long)) {
             alert.buttons["OK"].tap()
             return true
         }
@@ -241,7 +240,7 @@ class AuthFlowTesterMainPageObject {
     func revokeAccessToken() -> Bool {
         tap(revokeButton())
         let alert = app.alerts["Access Token Revoked"]
-        if (alert.waitForExistence(timeout: timeout)) {
+        if (alert.waitForExistence(timeout: UITestTimeouts.long)) {
             alert.buttons["OK"].tap()
             return true
         }
@@ -282,7 +281,7 @@ class AuthFlowTesterMainPageObject {
         tapIfPresent(allowButton())
         
         let alert = app.alerts["Migration Error"]
-        if (alert.waitForExistence(timeout: timeout)) {
+        if (alert.waitForExistence(timeout: UITestTimeouts.long)) {
             alert.buttons["OK"].tap()
             return false
         }
@@ -309,7 +308,7 @@ class AuthFlowTesterMainPageObject {
         
         // Wait for alert to appear
         let alert = importConfigAlert()
-        _ = alert.waitForExistence(timeout: timeout)
+        _ = alert.waitForExistence(timeout: UITestTimeouts.long)
         
         // Type into the alert's text field
         let textField = importConfigTextField()
@@ -438,25 +437,25 @@ class AuthFlowTesterMainPageObject {
     // MARK: - Actions
     
     private func tap(_ element: XCUIElement) {
-        _ = element.waitForExistence(timeout: timeout)
+        _ = element.waitForExistence(timeout: UITestTimeouts.long)
         element.tap()
     }
     
     private func tapIfPresent(_ element: XCUIElement) {
-        if (element.waitForExistence(timeout: timeout)) {
+        if (element.waitForExistence(timeout: UITestTimeouts.long)) {
             element.tap()
         }
     }
     
     private func setTextField(_ textField: XCUIElement, value: String) {
-        _ = textField.waitForExistence(timeout: timeout)
+        _ = textField.waitForExistence(timeout: UITestTimeouts.long)
         textField.tap()
         
         // Clear any existing text
         if let currentValue = textField.value as? String, !currentValue.isEmpty {
             textField.tap()
             let selectAll = app.menuItems["Select All"]
-            if selectAll.waitForExistence(timeout: 1) {
+            if selectAll.waitForExistence(timeout: UITestTimeouts.short) {
                 selectAll.tap()
                 textField.typeText(XCUIKeyboardKey.delete.rawValue)
             }
@@ -535,7 +534,7 @@ class AuthFlowTesterMainPageObject {
     
     func getJwtDetails() -> JwtDetailsData? {
         // Check if JWT export button exists (indicates JWT token is available)
-        guard exportJwtTokenButton().waitForExistence(timeout: 1) else {
+        guard exportJwtTokenButton().waitForExistence(timeout: UITestTimeouts.short) else {
             return nil
         }
         
@@ -571,7 +570,7 @@ class AuthFlowTesterMainPageObject {
         
         // Wait for and get the alert
         let alert = app.alerts[alertTitle]
-        guard alert.waitForExistence(timeout: timeout) else {
+        guard alert.waitForExistence(timeout: UITestTimeouts.long) else {
             return [:]
         }
         
@@ -594,7 +593,7 @@ class AuthFlowTesterMainPageObject {
     
     private func hasStaticText(_ text: String) -> Bool {
         let staticText = app.staticTexts.containing(NSPredicate(format: "label CONTAINS '\(text)'"))
-        return staticText.firstMatch.waitForExistence(timeout: timeout)
+        return staticText.firstMatch.waitForExistence(timeout: UITestTimeouts.long)
     }
 }
 
