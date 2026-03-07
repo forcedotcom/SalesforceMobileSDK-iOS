@@ -72,9 +72,9 @@ class LoginPageObject {
     
     func performLogin(username: String, password: String) {
         setTextField(usernameField(), value: username)
-        tap(toolbarDoneButton())
+        dismissKeyboardAfterTyping()
         setTextField(passwordField(), value: password)
-        tap(toolbarDoneButton())
+        dismissKeyboardAfterTyping()
         tap(loginButton())
         tapIfPresent(allowButton())
     }
@@ -162,6 +162,15 @@ class LoginPageObject {
         return app.staticTexts[host].firstMatch
     }
     
+    /// Dismisses the keyboard after typing in a field. Tries the toolbar "Done" button first;
+    /// if not found (e.g. on some simulators it is exposed as a Key, not Button), taps the
+    /// password label to dismiss. 
+    private func dismissKeyboardAfterTyping() {
+        if !tapIfPresent(toolbarDoneButton()) {
+            tap(passwordFieldLabel())
+        }
+    }
+
     private func toolbarDoneButton() -> XCUIElement {
         return app.toolbars["Toolbar"].buttons["Done"]
     }
@@ -203,10 +212,13 @@ class LoginPageObject {
         element.tap()
     }
     
-    private func tapIfPresent(_ element: XCUIElement) {
-        if (element.waitForExistence(timeout: UITestTimeouts.long)) {
+    @discardableResult
+    private func tapIfPresent(_ element: XCUIElement) -> Bool {
+        if element.waitForExistence(timeout: UITestTimeouts.long) {
             element.tap()
+            return true
         }
+        return false
     }
     
     private func setTextField(_ textField: XCUIElement, value: String) {
