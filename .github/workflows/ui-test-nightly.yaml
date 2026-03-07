@@ -7,24 +7,10 @@ on:
 
 jobs:
   ios-ui-test-nightly:
-    strategy:
-      fail-fast: false
-      matrix:
-        test_suite:
-          - AuthFlowTesterUITests/AdvancedAuthBeaconLoginTests
-          - AuthFlowTesterUITests/BeaconLoginTests
-          - AuthFlowTesterUITests/ECALoginTests
-          - AuthFlowTesterUITests/LegacyLoginTests
-          - AuthFlowTesterUITests/LoginWithRestartTests
-          - AuthFlowTesterUITests/MultiUserLoginTests
-          - AuthFlowTesterUITests/RefreshTokenMigrationTests
-          - AuthFlowTesterUITests/RefreshTokenMigrationWithRestartTests
-          - AuthFlowTesterUITests/WelcomeLoginTests
     uses: ./.github/workflows/reusable-ui-test-workflow.yaml
     with:
       ios: "^26"
       xcode: "^26"
       short_timeout: "2"
       long_timeout: "7"
-      test_suite: ${{ matrix.test_suite }}
     secrets: inherit
