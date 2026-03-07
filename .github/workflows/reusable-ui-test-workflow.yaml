@@ -21,6 +21,11 @@ on:
         default: ""
         required: false
         type: string
+      test_suite:
+        description: "Test suite to run (e.g. 'AuthFlowTesterUITests/BeaconLoginTests'). Empty = run all tests. Used with matrix for parallel nightly runs."
+        default: ""
+        required: false
+        type: string
       destination:
         description: "xcodebuild -destination (e.g. 'platform=iOS Simulator,name=iPhone 17,OS=26.0'). Empty = use default for iOS 26."
         default: ""
@@ -41,6 +46,14 @@ jobs:
   test-ui:
     runs-on: ${{ inputs.macos }}
     steps:
+      - name: Set result suffix for matrix runs
+        id: result_suffix
+        run: |
+          if [ -n "${{ inputs.test_suite }}" ]; then
+            echo "suffix=$(echo '${{ inputs.test_suite }}' | tr '/' '-')" >> "$GITHUB_OUTPUT"
+          else
+            echo "suffix=all" >> "$GITHUB_OUTPUT"
+          fi
       - uses: actions/checkout@v4
         if: ${{ inputs.is_pr }}
         with:
@@ -102,6 +115,8 @@ jobs:
           ONLY_TESTING_ARGS=()
           if [ -n "${{ inputs.pr_test }}" ]; then
             ONLY_TESTING_ARGS+=(-only-testing "${{ inputs.pr_test }}")
+          elif [ -n "${{ inputs.test_suite }}" ]; then
+            ONLY_TESTING_ARGS+=(-only-testing "${{ inputs.test_suite }}")
           fi
           set -o pipefail
           xcodebuild test \
@@ -131,20 +146,20 @@ jobs:
         if: success() || failure()
         run: |
           brew install xcresultparser
-          xcresultparser -o junit test.xcresult > test-results-authflowtester-ui-ios${{ inputs.ios }}.xml
+          xcresultparser -o junit test.xcresult > test-results-authflowtester-ui-ios${{ inputs.ios }}-${{ steps.result_suffix.outputs.suffix }}.xml
       - name: Test Report
         uses: mikepenz/action-junit-report@v5
         if: success() || failure()
         with:
-          check_name: AuthFlowTester UI Test Results
-          job_name: AuthFlowTester UI Test Results
+          check_name: AuthFlowTester UI Test Results ${{ steps.result_suffix.outputs.suffix }}
+          job_name: AuthFlowTester UI Test Results ${{ steps.result_suffix.outputs.suffix }}
           require_tests: true
           include_empty_in_summary: false
           simplified_summary: true
           detailed_summary: true
           comment: true
           job_summary: true
-          report_paths: 'test-results-authflowtester-ui-ios${{ inputs.ios }}.xml'
+          report_paths: 'test-results-authflowtester-ui-ios${{ inputs.ios }}-${{ steps.result_suffix.outputs.suffix }}.xml'
       - uses: codecov/codecov-action@v4
         if: success() || failure()
         with:
@@ -155,6 +170,6 @@ jobs:
         if: success() || failure()
         uses: actions/upload-artifact@v4
         with:
-          name: xcresult-authflowtester-ui-ios${{ inputs.ios }}
+          name: xcresult-authflowtester-ui-ios${{ inputs.ios }}-${{ steps.result_suffix.outputs.suffix }}
           path: test.xcresult/
           retention-days: 30
