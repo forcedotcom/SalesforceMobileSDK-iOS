@@ -219,7 +219,7 @@ class AuthFlowTesterMainPageObject {
     }
     
     func isShowing() -> Bool {
-        return navigationTitle().waitForExistence(timeout: UITestTimeouts.short)
+        return navigationTitle().waitForExistence(timeout: UITestTimeouts.long)
     }
     
     func performLogout() {

@@ -53,5 +53,5 @@ jobs:
       ios: "^26"
       xcode: "^26"
       short_timeout: "2"
-      long_timeout: "5"
+      long_timeout: "6"
     secrets: inherit

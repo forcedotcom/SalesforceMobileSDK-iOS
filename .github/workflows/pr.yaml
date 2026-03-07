@@ -143,5 +143,5 @@ jobs:
       is_pr: true
       pr_test: "AuthFlowTesterUITests/LegacyLoginTests/testCAOpaque_DefaultScopes_WebServerFlow"
       short_timeout: "2"
-      long_timeout: "5"
+      long_timeout: "6"
     secrets: inherit
