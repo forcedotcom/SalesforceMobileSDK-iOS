@@ -2,7 +2,7 @@ name: UI Nightly Tests
 
 on:
   schedule:
-    - cron: "0 5 * * 3,5"  # cron is UTC, this translates to 10 PM PST Tues and Thur.
+    - cron: "0 5 * * 2,4"  # cron is UTC, this translates to 10 PM PST Mon and Wed.
   workflow_dispatch:
 
 jobs:
