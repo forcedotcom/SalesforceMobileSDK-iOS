@@ -33,7 +33,6 @@ import SalesforceSDKCore
 /// Use after navigating to Login Options from the login screen (e.g. via Settings → Login Options).
 class LoginOptionsPageObject {
     let app: XCUIApplication
-    let timeout: double_t = 2
 
     init(testApp: XCUIApplication) {
         app = testApp
@@ -101,7 +100,7 @@ class LoginOptionsPageObject {
 
         // Wait for alert and enter JSON (text field is automatically focused)
         let alert = app.alerts["Import Configuration"]
-        _ = alert.waitForExistence(timeout: timeout)
+        _ = alert.waitForExistence(timeout: UITestTimeouts.long)
 
         let textField = alert.textFields.firstMatch
         textField.typeText(jsonString)
@@ -116,7 +115,7 @@ class LoginOptionsPageObject {
 
         // Wait for alert and enter JSON (text field is automatically focused)
         let alert = app.alerts["Import Discovery Result"]
-        _ = alert.waitForExistence(timeout: timeout)
+        _ = alert.waitForExistence(timeout: UITestTimeouts.long)
 
         let textField = alert.textFields.firstMatch
         textField.typeText(jsonString)
@@ -153,12 +152,12 @@ class LoginOptionsPageObject {
     // MARK: - Actions
 
     private func tap(_ element: XCUIElement) {
-        _ = element.waitForExistence(timeout: timeout)
+        _ = element.waitForExistence(timeout: UITestTimeouts.long)
         element.tap()
     }
 
     private func setSwitchField(_ switchField: XCUIElement, value: Bool) {
-        _ = switchField.waitForExistence(timeout: timeout)
+        _ = switchField.waitForExistence(timeout: UITestTimeouts.long)
 
         // Switch values are "0" (off) or "1" (on) in XCTest
         let currentValue = (switchField.value as? String) == "1"
