@@ -33,22 +33,21 @@ import SalesforceSDKCore
 /// Provides methods to configure login servers, login options and perform user authentication.
 class LoginPageObject {
     let app: XCUIApplication
-    let timeout: double_t = 3
-    
+
     init(testApp: XCUIApplication) {
         app = testApp
     }
     
     func isShowing() -> Bool {
-        return loginNavigationBar().waitForExistence(timeout: timeout)
+        return loginNavigationBar().waitForExistence(timeout: UITestTimeouts.long)
     }
     
     func hasFilledUsernameField(username: String) -> Bool {
-        return app.staticTexts[username].waitForExistence(timeout: timeout)
+        return app.staticTexts[username].waitForExistence(timeout: UITestTimeouts.long)
     }
     
     func isShowingAdvancedAuth() -> Bool {
-        return advancedAuthCloseButton().waitForExistence(timeout: 1)
+        return advancedAuthCloseButton().waitForExistence(timeout: UITestTimeouts.short)
     }
     
     func closeAdvancedAuth() -> Void {
@@ -73,9 +72,9 @@ class LoginPageObject {
     
     func performLogin(username: String, password: String) {
         setTextField(usernameField(), value: username)
-        tap(toolbarDoneButton())
+        dismissKeyboardAfterTyping()
         setTextField(passwordField(), value: password)
-        tap(toolbarDoneButton())
+        dismissKeyboardAfterTyping()
         tap(loginButton())
         tapIfPresent(allowButton())
     }
@@ -163,6 +162,15 @@ class LoginPageObject {
         return app.staticTexts[host].firstMatch
     }
     
+    /// Dismisses the keyboard after typing in a field. Tries the toolbar "Done" button first;
+    /// if not found (e.g. on some simulators it is exposed as a Key, not Button), taps the
+    /// password label to dismiss. 
+    private func dismissKeyboardAfterTyping() {
+        if !tapIfPresent(toolbarDoneButton()) {
+            tap(passwordFieldLabel())
+        }
+    }
+
     private func toolbarDoneButton() -> XCUIElement {
         return app.toolbars["Toolbar"].buttons["Done"]
     }
@@ -200,14 +208,17 @@ class LoginPageObject {
     // MARK: - Actions
     
     private func tap(_ element: XCUIElement) {
-        _ = element.waitForExistence(timeout: timeout)
+        _ = element.waitForExistence(timeout: UITestTimeouts.long)
         element.tap()
     }
     
-    private func tapIfPresent(_ element: XCUIElement) {
-        if (element.waitForExistence(timeout: timeout)) {
+    @discardableResult
+    private func tapIfPresent(_ element: XCUIElement) -> Bool {
+        if element.waitForExistence(timeout: UITestTimeouts.long) {
             element.tap()
+            return true
         }
+        return false
     }
     
     private func setTextField(_ textField: XCUIElement, value: String) {
@@ -222,7 +233,7 @@ class LoginPageObject {
         if let currentValue = textField.value as? String, !currentValue.isEmpty {
             tap(textField) // second tap should bring up menu
             let selectAll = app.menuItems["Select All"]
-            if selectAll.waitForExistence(timeout: 1) {
+            if selectAll.waitForExistence(timeout: UITestTimeouts.short) {
                 selectAll.tap()
                 textField.typeText(XCUIKeyboardKey.delete.rawValue)
             }
@@ -235,7 +246,7 @@ class LoginPageObject {
     
     private func hasHost(host: String) -> Bool {
         let row = hostRow(host: host)
-        return row.waitForExistence(timeout: timeout)
+        return row.waitForExistence(timeout: UITestTimeouts.long)
     }
 }
 
