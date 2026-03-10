@@ -30,79 +30,55 @@ import XCTest
 /// Tests for legacy login flows including:
 /// - Connected App (CA) configurations (traditional OAuth connected apps)
 /// - User agent flow tests
-/// - Non-hybrid flow tests
 /// - Default, subset, and all scope variations
+/// - Hybrid flow (default behavior)
+///
+/// For non-hybrid flow tests, see LegacyLoginTestsNotHybrid which extends this class.
 ///
 /// NB: Tests use the first user from ui_test_config.json
 ///
 class LegacyLoginTests: BaseAuthFlowTester {
 
+    // MARK: - Test Configuration
+
+    /// Returns whether to use hybrid flow for tests.
+    /// Subclasses can override this to test non-hybrid flows.
+    func useHybridFlow() -> Bool {
+        return true
+    }
+
     // MARK: - CA Web Server Flow Tests
 
     /// Login with CA opaque using default scopes and web server flow.
     func testCAOpaque_DefaultScopes_WebServerFlow() throws {
-        launchLoginAndValidate(staticAppConfigName: .caOpaque)
+        launchLoginAndValidate(staticAppConfigName: .caOpaque, useHybridFlow: useHybridFlow())
     }
 
     /// Login with CA opaque using subset of scopes and web server flow.
     func testCAOpaque_SubsetScopes_WebServerFlow() throws {
-        launchLoginAndValidate(staticAppConfigName: .caOpaque, staticScopeSelection: .subset, useHybridFlow: false)
+        launchLoginAndValidate(staticAppConfigName: .caOpaque, staticScopeSelection: .subset, useHybridFlow: useHybridFlow())
     }
 
     /// Login with CA opaque using all scopes and web server flow.
     func testCAOpaque_AllScopes_WebServerFlow() throws {
-        launchLoginAndValidate(staticAppConfigName: .caOpaque, staticScopeSelection: .all)
-    }
-
-    // MARK: - CA Non-hybrid Web Server Flow Tests
-
-    /// Login with CA opaque using default scopes and (non-hybrid) web server flow.
-    func testCAOpaque_DefaultScopes_WebServerFlow_NotHybrid() throws {
-        launchLoginAndValidate(staticAppConfigName: .caOpaque, useHybridFlow: false)
-    }
-
-    /// Login with CA opaque using subset of scopes and (non-hybrid) web server flow.
-    func testCAOpaque_SubsetScopes_WebServerFlow_NotHybrid() throws {
-        launchLoginAndValidate(staticAppConfigName: .caOpaque, staticScopeSelection: .subset, useHybridFlow: false)
-    }
-
-    /// Login with CA opaque using all scopes and (non-hybrid) web server  flow.
-    func testCAOpaque_AllScopes_WebServerFlow_NotHybrid() throws {
-        launchLoginAndValidate(staticAppConfigName: .caOpaque, staticScopeSelection: .all, useHybridFlow: false)
+        launchLoginAndValidate(staticAppConfigName: .caOpaque, staticScopeSelection: .all, useHybridFlow: useHybridFlow())
     }
 
     // MARK: - CA User Agent Flow Tests
 
     /// Login with CA opaque using default scopes and user agent flow.
     func testCAOpaque_DefaultScopes_UserAgentFlow() throws {
-        launchLoginAndValidate(staticAppConfigName: .caOpaque, useWebServerFlow: false)
+        launchLoginAndValidate(staticAppConfigName: .caOpaque, useWebServerFlow: false, useHybridFlow: useHybridFlow())
     }
 
     /// Login with CA opaque using subset of scopes and user agent flow.
     func testCAOpaque_SubsetScopes_UserAgentFlow() throws {
-        launchLoginAndValidate(staticAppConfigName: .caOpaque, staticScopeSelection: .subset, useWebServerFlow: false)
+        launchLoginAndValidate(staticAppConfigName: .caOpaque, staticScopeSelection: .subset, useWebServerFlow: false, useHybridFlow: useHybridFlow())
     }
 
     /// Login with CA opaque using all scopes and user agent flow.
     func testCAOpaque_AllScopes_UserAgentFlow() throws {
-        launchLoginAndValidate(staticAppConfigName: .caOpaque, staticScopeSelection: .all, useWebServerFlow: false)
-    }
-
-    // MARK: - CA Non-hybrid User Agent Flow Tests
-
-    /// Login with CA opaque using default scopes and (non-hybrid) user agent flow.
-    func testCAOpaque_DefaultScopes_UserAgentFlow_NotHybrid() throws {
-        launchLoginAndValidate(staticAppConfigName: .caOpaque, useWebServerFlow: false, useHybridFlow: false)
-    }
-
-    /// Login with CA opaque using subset of scopes and (non-hybrid) user agent flow.
-    func testCAOpaque_SubsetScopes_UserAgentFlow_NotHybrid() throws {
-        launchLoginAndValidate(staticAppConfigName: .caOpaque, staticScopeSelection: .subset, useWebServerFlow: false, useHybridFlow: false)
-    }
-
-    /// Login with CA opaque using all scopes and (non-hybrid) user agent  flow.
-    func testCAOpaque_AllScopes_UserAgentFlow_NotHybrid() throws {
-        launchLoginAndValidate(staticAppConfigName: .caOpaque, staticScopeSelection: .all, useWebServerFlow: false, useHybridFlow: false)
+        launchLoginAndValidate(staticAppConfigName: .caOpaque, staticScopeSelection: .all, useWebServerFlow: false, useHybridFlow: useHybridFlow())
     }
 }
 

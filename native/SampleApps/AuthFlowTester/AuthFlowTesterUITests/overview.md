@@ -6,7 +6,8 @@ This document provides an overview of all UI tests in the AuthFlowTester test su
 
 | Class | Description |
 |-------|-------------|
-| `LegacyLoginTests` | Tests for legacy login flows (CA, user agent flow, non-hybrid flow) with default, subset, and all scopes |
+| `LegacyLoginTests` | Tests for legacy login flows (CA, user agent flow, hybrid flow) with default, subset, and all scopes |
+| `LegacyLoginTestsNotHybrid` | Tests for legacy login flows (CA, user agent flow, non-hybrid flow) - extends LegacyLoginTests |
 | `ECALoginTests` | Tests for External Client App (ECA) login flows |
 | `BeaconLoginTests` | Tests for Beacon app login flows (using regular_auth login host) |
 | `AdvancedAuthBeaconLoginTests` | Tests for Beacon app login flows (using advanced_auth login host) |
@@ -20,24 +21,31 @@ This document provides an overview of all UI tests in the AuthFlowTester test su
 
 ## Login Tests
 
-### LegacyLoginTests (12 tests)
+### LegacyLoginTests (6 tests)
 
-Tests for Connected App (CA) configurations with default, subset, and all scopes, including user agent flow and non-hybrid flow options.
+Tests for Connected App (CA) configurations with default, subset, and all scopes using hybrid authentication flow. Tests both web server and user agent OAuth flows.
 
 | Test Name | App Config | Scopes | Flow | Hybrid |
 |-----------|------------|--------|------|--------|
 | `testCAOpaque_DefaultScopes_WebServerFlow` | CA Opaque | Default | Web Server | Yes |
-| `testCAOpaque_SubsetScopes_WebServerFlow` | CA Opaque | Subset | Web Server | No |
+| `testCAOpaque_SubsetScopes_WebServerFlow` | CA Opaque | Subset | Web Server | Yes |
 | `testCAOpaque_AllScopes_WebServerFlow` | CA Opaque | All | Web Server | Yes |
-| `testCAOpaque_DefaultScopes_WebServerFlow_NotHybrid` | CA Opaque | Default | Web Server | No |
-| `testCAOpaque_SubsetScopes_WebServerFlow_NotHybrid` | CA Opaque | Subset | Web Server | No |
-| `testCAOpaque_AllScopes_WebServerFlow_NotHybrid` | CA Opaque | All | Web Server | No |
 | `testCAOpaque_DefaultScopes_UserAgentFlow` | CA Opaque | Default | User Agent | Yes |
 | `testCAOpaque_SubsetScopes_UserAgentFlow` | CA Opaque | Subset | User Agent | Yes |
 | `testCAOpaque_AllScopes_UserAgentFlow` | CA Opaque | All | User Agent | Yes |
-| `testCAOpaque_DefaultScopes_UserAgentFlow_NotHybrid` | CA Opaque | Default | User Agent | No |
-| `testCAOpaque_SubsetScopes_UserAgentFlow_NotHybrid` | CA Opaque | Subset | User Agent | No |
-| `testCAOpaque_AllScopes_UserAgentFlow_NotHybrid` | CA Opaque | All | User Agent | No |
+
+### LegacyLoginTestsNotHybrid (6 tests)
+
+Tests for Connected App (CA) configurations with non-hybrid authentication flow. Extends `LegacyLoginTests` and runs the same tests with `useHybridFlow` set to false. Non-hybrid flow means the app does not receive front-door session cookies (SIDs) during authentication.
+
+| Test Name | App Config | Scopes | Flow | Hybrid |
+|-----------|------------|--------|------|--------|
+| `testCAOpaque_DefaultScopes_WebServerFlow` | CA Opaque | Default | Web Server | No |
+| `testCAOpaque_SubsetScopes_WebServerFlow` | CA Opaque | Subset | Web Server | No |
+| `testCAOpaque_AllScopes_WebServerFlow` | CA Opaque | All | Web Server | No |
+| `testCAOpaque_DefaultScopes_UserAgentFlow` | CA Opaque | Default | User Agent | No |
+| `testCAOpaque_SubsetScopes_UserAgentFlow` | CA Opaque | Subset | User Agent | No |
+| `testCAOpaque_AllScopes_UserAgentFlow` | CA Opaque | All | User Agent | No |
 
 ### ECALoginTests (6 tests)
 

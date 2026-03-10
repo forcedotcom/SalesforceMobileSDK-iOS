@@ -59,7 +59,7 @@ class ECALoginTests: BaseAuthFlowTester {
     }
     
     /// Login with ECA JWT using subset of scopes and web server flow.
-    func testECAJwt_SubsetScopes_NotHybrid() throws {
+    func testECAJwt_SubsetScopes() throws {
         launchLoginAndValidate(staticAppConfigName: .ecaJwt, staticScopeSelection: .subset)
     }
     
