@@ -213,9 +213,11 @@ struct JwtDetailsData {
 /// and extract data (user credentials, OAuth configuration, JWT details) from the UI.
 class AuthFlowTesterMainPageObject {
     let app: XCUIApplication
+    let authFlowTypesPageObject: AuthFlowTypesPageObject
 
     init(testApp: XCUIApplication) {
         app = testApp
+        authFlowTypesPageObject = AuthFlowTypesPageObject(testApp: testApp)
     }
     
     func isShowing() -> Bool {
@@ -270,9 +272,11 @@ class AuthFlowTesterMainPageObject {
         // Tap Change Key button to open the sheet
         tap(bottomBarChangeKeyButton())
 
-        // Set the auth flow switches
-        setSwitchField(useWebServerFlowSwitch(), value: useWebServerFlow)
-        setSwitchField(useHybridSwitch(), value: useHybridFlow)
+        // Set auth flow types using the dedicated page object
+        authFlowTypesPageObject.setAuthFlowTypes(
+            useWebServerFlow: useWebServerFlow,
+            useHybridFlow: useHybridFlow
+        )
 
         // Build JSON config and import it
         let configJSON = buildConfigJSON(consumerKey: appConfig.consumerKey, redirectUri: appConfig.redirectUri, scopes: scopesToRequest)
@@ -309,15 +313,15 @@ class AuthFlowTesterMainPageObject {
     
     private func importConfig(_ jsonString: String) {
         tap(importConfigButton())
-        
+
         // Wait for alert to appear
         let alert = importConfigAlert()
         _ = alert.waitForExistence(timeout: UITestTimeouts.long)
-        
+
         // Type into the alert's text field
         let textField = importConfigTextField()
         textField.typeText(jsonString)
-        
+
         tap(importAlertButton())
     }
     
@@ -438,16 +442,6 @@ class AuthFlowTesterMainPageObject {
         return app.buttons["Switch to User"]
     }
 
-    // Auth flow switches
-
-    private func useWebServerFlowSwitch() -> XCUIElement {
-        return app.switches["useWebServerFlowToggle"]
-    }
-
-    private func useHybridSwitch() -> XCUIElement {
-        return app.switches["useHybridFlowToggle"]
-    }
-
     // MARK: - Actions
     
     private func tap(_ element: XCUIElement) {
@@ -476,17 +470,6 @@ class AuthFlowTesterMainPageObject {
         }
 
         textField.typeText(value)
-    }
-
-    private func setSwitchField(_ switchField: XCUIElement, value: Bool) {
-        _ = switchField.waitForExistence(timeout: UITestTimeouts.long)
-
-        // Switch values are "0" (off) or "1" (on) in XCTest
-        let currentValue = (switchField.value as? String) == "1"
-
-        if currentValue != value {
-            switchField.tap()
-        }
     }
 
     // MARK: - Data Extraction Methods
