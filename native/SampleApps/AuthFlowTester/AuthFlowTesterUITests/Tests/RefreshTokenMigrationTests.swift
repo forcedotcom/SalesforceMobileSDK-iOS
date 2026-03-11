@@ -104,6 +104,22 @@ class RefreshTokenMigrationTests: BaseAuthFlowTester {
         )
     }
     
+    // Migrate from CA (user agent) to Beacon (web server)
+    func testMigrateCAUserAgentToBeaconWebServer() throws {
+        launchAndLogin(
+            loginHost: .regularAuth,
+            user:.second,
+            staticAppConfigName: .caOpaque,
+            useWebServerFlow: false
+        )
+        migrateAndValidate(
+            loginHost: .regularAuth,
+            staticAppConfigName: .caOpaque,
+            migrationAppConfigName: .beaconOpaque,
+            migrationUseWebServerFlow: true
+        )
+    }
+    
     // Migrate from Beacon to CA
     func testMigrateBeaconToCA() throws {
         launchAndLogin(

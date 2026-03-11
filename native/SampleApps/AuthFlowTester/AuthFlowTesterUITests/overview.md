@@ -118,7 +118,7 @@ Tests for verifying that user sessions persist across app restarts. Includes CA,
 
 ### RefreshTokenMigrationTests (9 tests)
 
-Tests for migrating refresh tokens between different app configurations without re-authentication.
+Tests for migrating refresh tokens between different app configurations without re-authentication. Tests can optionally specify the OAuth flow type (web server vs user agent) and hybrid flow setting to use during migration.
 
 | Test Name | Original App | Migration App | Scope Change | Multi-User |
 |-----------|--------------|---------------|--------------|------------|
@@ -206,6 +206,20 @@ Tests for login scenarios with two users using various configurations, including
 |--------|-------------|
 | **Opaque** | Opaque access tokens |
 | **JWT** | JSON Web Token based access tokens |
+
+### OAuth Flow Types
+
+| Flow Type | Description |
+|-----------|-------------|
+| **Web Server Flow** | OAuth 2.0 web server flow (authorization code flow) - default |
+| **User Agent Flow** | OAuth 2.0 user agent flow (implicit flow) |
+
+### Hybrid Flow
+
+| Setting | Description |
+|---------|-------------|
+| **Hybrid** | Authentication includes front-door session cookies (SIDs) for Lightning, Visualforce, and Content domains |
+| **Non-Hybrid** | Authentication without front-door session cookies |
 
 ## Login Hosts
 

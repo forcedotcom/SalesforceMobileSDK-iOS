@@ -266,20 +266,24 @@ class AuthFlowTesterMainPageObject {
         tap(swithToUserButton())
     }
     
-    func changeAppConfig(appConfig: AppConfig, scopesToRequest: String = "") -> Bool {
+    func changeAppConfig(appConfig: AppConfig, scopesToRequest: String = "", useWebServerFlow: Bool, useHybridFlow: Bool) -> Bool {
         // Tap Change Key button to open the sheet
         tap(bottomBarChangeKeyButton())
-        
+
+        // Set the auth flow switches
+        setSwitchField(useWebServerFlowSwitch(), value: useWebServerFlow)
+        setSwitchField(useHybridSwitch(), value: useHybridFlow)
+
         // Build JSON config and import it
         let configJSON = buildConfigJSON(consumerKey: appConfig.consumerKey, redirectUri: appConfig.redirectUri, scopes: scopesToRequest)
         importConfig(configJSON)
-        
+
         // Tap the migrate button
         tap(migrateRefreshTokenButton())
-        
+
         // Tap the allow button if it appears
         tapIfPresent(allowButton())
-        
+
         let alert = app.alerts["Migration Error"]
         if (alert.waitForExistence(timeout: UITestTimeouts.long)) {
             alert.buttons["OK"].tap()
@@ -433,7 +437,17 @@ class AuthFlowTesterMainPageObject {
     private func swithToUserButton() -> XCUIElement {
         return app.buttons["Switch to User"]
     }
-    
+
+    // Auth flow switches
+
+    private func useWebServerFlowSwitch() -> XCUIElement {
+        return app.switches["Use Web Server Flow"]
+    }
+
+    private func useHybridSwitch() -> XCUIElement {
+        return app.switches["Use Hybrid Flow"]
+    }
+
     // MARK: - Actions
     
     private func tap(_ element: XCUIElement) {
@@ -450,7 +464,7 @@ class AuthFlowTesterMainPageObject {
     private func setTextField(_ textField: XCUIElement, value: String) {
         _ = textField.waitForExistence(timeout: UITestTimeouts.long)
         textField.tap()
-        
+
         // Clear any existing text
         if let currentValue = textField.value as? String, !currentValue.isEmpty {
             textField.tap()
@@ -460,10 +474,21 @@ class AuthFlowTesterMainPageObject {
                 textField.typeText(XCUIKeyboardKey.delete.rawValue)
             }
         }
-        
+
         textField.typeText(value)
     }
-    
+
+    private func setSwitchField(_ switchField: XCUIElement, value: Bool) {
+        _ = switchField.waitForExistence(timeout: UITestTimeouts.long)
+
+        // Switch values are "0" (off) or "1" (on) in XCTest
+        let currentValue = (switchField.value as? String) == "1"
+
+        if currentValue != value {
+            tap(switchField)
+        }
+    }
+
     // MARK: - Data Extraction Methods
     
     func getUserCredentials() -> UserCredentialsData {

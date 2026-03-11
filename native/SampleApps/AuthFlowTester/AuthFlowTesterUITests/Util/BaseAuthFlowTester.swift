@@ -422,28 +422,30 @@ class BaseAuthFlowTester: XCTestCase {
     ///   - staticScopeSelection: The scope selection for static configuration. Defaults to `.empty`.
     ///   - migrationAppConfigName: The app configuration to migrate to.
     ///   - migrationScopeSelection: The scope selection for the migration target. Defaults to `.empty`.
-    ///   - useWebServerFlow: Whether to use web server OAuth flow. Defaults to `true`.
-    ///   - useHybridFlow: Whether to use hybrid authentication flow. Defaults to `true`.
+    ///   - migrationUseWebServerFlow: Whether to use web server OAuth flow for migration. Defaults to `true`.
+    ///   - migrationUseHybridFlow: Whether to use hybrid authentication flow for migration. Defaults to `true`.
     func migrateAndValidate(
         loginHost: KnownLoginHostConfig,
         staticAppConfigName: KnownAppConfig,
         staticScopeSelection: ScopeSelection = .empty,
         migrationAppConfigName: KnownAppConfig,
         migrationScopeSelection: ScopeSelection = .empty,
-        useWebServerFlow: Bool = true,
-        useHybridFlow: Bool = true
+        migrationUseWebServerFlow: Bool = true,
+        migrationUseHybridFlow: Bool = true,
     ) {
         // Get original credentials before migration
         let originalUserCredentials = mainPage.getUserCredentials()
         
         // Get current user
         let user = getKnownUserConfig(loginHost: loginHost, byUsername: originalUserCredentials.username)
-        
-        
+
+
         // Migrate refresh token
         migrateRefreshToken(
             appConfigName: migrationAppConfigName,
-            scopeSelection: migrationScopeSelection
+            scopeSelection: migrationScopeSelection,
+            useWebServerFlow: migrationUseWebServerFlow,
+            useHybridFlow: migrationUseHybridFlow
         )
 
         // Validate after migration
@@ -454,8 +456,8 @@ class BaseAuthFlowTester: XCTestCase {
             staticScopeSelection: staticScopeSelection,
             userAppConfigName: migrationAppConfigName,
             userScopeSelection: migrationScopeSelection,
-            useWebServerFlow: useWebServerFlow,
-            useHybridFlow: useHybridFlow
+            useWebServerFlow: migrationUseWebServerFlow,
+            useHybridFlow: migrationUseHybridFlow
         )
 
         // Making sure the refresh token changed
@@ -599,12 +601,14 @@ class BaseAuthFlowTester: XCTestCase {
 
     private func migrateRefreshToken(
         appConfigName: KnownAppConfig,
-        scopeSelection: ScopeSelection
+        scopeSelection: ScopeSelection,
+        useWebServerFlow: Bool,
+        useHybridFlow: Bool
     ) {
         let appConfig = getAppConfig(named: appConfigName)
         let scopesToRequest = testConfig.getScopesToRequest(for: appConfig, scopeSelection)
-        
-        XCTAssert(mainPage.changeAppConfig(appConfig: appConfig, scopesToRequest: scopesToRequest), "Failed to migrate refresh token")
+
+        XCTAssert(mainPage.changeAppConfig(appConfig: appConfig, scopesToRequest: scopesToRequest, useWebServerFlow: useWebServerFlow, useHybridFlow: useHybridFlow), "Failed to migrate refresh token")
     }
 
     /// Asserts that the main page is loaded and showing.
