@@ -59,8 +59,9 @@ class BaseAuthFlowTester: XCTestCase {
     func launch() {
         app = XCUIApplication()
 
-        // Note: Environment variables are configured in AuthFlowTester.xctestplan
-        // (AutomaticTextCompletionEnabled=0)
+        // Set environment variable to indicate we're running UI tests
+        // This is used to show/hide certain UI elements like DiscoveryResultEditor
+        app.launchEnvironment["IS_UI_TESTING"] = "1"
 
         loginPage = LoginPageObject(testApp: app)
         mainPage = AuthFlowTesterMainPageObject(testApp: app)
