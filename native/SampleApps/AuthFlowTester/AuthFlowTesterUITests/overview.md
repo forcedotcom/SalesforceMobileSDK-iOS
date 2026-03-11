@@ -118,7 +118,7 @@ Tests for verifying that user sessions persist across app restarts. Includes CA,
 
 ## Migration Tests
 
-### RefreshTokenMigrationTests (9 tests)
+### RefreshTokenMigrationTests (11 tests)
 
 Tests for migrating refresh tokens between different app configurations without re-authentication. Tests can optionally specify the OAuth flow type (web server vs user agent) and hybrid flow setting to use during migration.
 
@@ -129,6 +129,8 @@ Tests for migrating refresh tokens between different app configurations without 
 | `testMigrateBeacon_AddMoreScopes` | Beacon JWT (subset) | Beacon JWT (all) | Yes | No |
 | `testMigrateCAToBeacon` | CA Opaque | Beacon Opaque | No | No |
 | `testMigrateBeaconToCA` | Beacon Opaque | CA Opaque | No | No |
+| `testMigrateCAUserAgentToECAWebServer` | CA Opaque (user agent) | ECA Opaque (web server) | No | No |
+| `testMigrateCAUserAgentToBeaconWebServer` | CA Opaque (user agent) | Beacon Opaque (web server) | No | No |
 | `testMigrateCAToECA` | CA Opaque → ECA Opaque → CA Opaque | No | No |
 | `testMigrateCAToBeaconAndBack` | CA Opaque → Beacon Opaque → CA Opaque | No | No |
 | `testMigrateBeaconOpaqueToJWTAndBack` | Beacon Opaque → Beacon JWT → Beacon Opaque | No | No |
@@ -150,21 +152,23 @@ Tests for verifying that migrated refresh tokens persist across app restarts. Co
 
 ## Multi-User Tests
 
-### MultiUserLoginTests (9 tests)
+### MultiUserLoginTests (11 tests)
 
-Tests for login scenarios with two users using various configurations, including token revocation scenarios.
+Tests for login scenarios with two users using various configurations, including token revocation and user logout scenarios.
 
-| Test Name | User 1 Config | User 2 Config | Same App | Same Scopes | Beacon | Token Revocation |
-|-----------|---------------|---------------|----------|-------------|--------|------------------|
-| `testBothStatic_SameApp_SameScopes` | Static (Opaque) | Static (Opaque) | Yes | Yes | No | No |
-| `testBothStatic_DifferentApps` | Static (Opaque) | Static (JWT) | No | Yes | No | No |
-| `testBothStatic_SameApp_DifferentScopes` | Static (Opaque, subset) | Static (Opaque, default) | Yes | No | No | No |
-| `testFirstStatic_SecondDynamic_DifferentApps` | Static (Opaque) | Dynamic (JWT) | No | Yes | No | No |
-| `testFirstDynamic_SecondStatic_DifferentApps` | Dynamic (JWT) | Static (Opaque) | No | Yes | No | No |
-| `testBothDynamic_DifferentApps` | Dynamic (Opaque) | Dynamic (JWT) | No | Yes | No | No |
-| `testBeaconAndNonBeacon_MultiUser` | Beacon (Opaque) | CA (Opaque) | No | Yes | Yes | No |
-| `testRevokeUserWithDynamicConfig_OtherUserUnaffected` | ECA (Opaque) static | ECA (JWT) dynamic | No | Yes | No | Yes (User B) |
-| `testDifferentAppTypes_RevokeCaUser_EcaUserUnaffected` | CA (Opaque) | ECA (Opaque) | No | Yes | No | Yes (User A) |
+| Test Name | User 1 Config | User 2 Config | Same App | Same Scopes | Beacon | Action |
+|-----------|---------------|---------------|----------|-------------|--------|--------|
+| `testBothStatic_SameApp_SameScopes` | Static (Opaque) | Static (Opaque) | Yes | Yes | No | None |
+| `testBothStatic_DifferentApps` | Static (Opaque) | Static (JWT) | No | Yes | No | None |
+| `testBothStatic_SameApp_DifferentScopes` | Static (Opaque, subset) | Static (Opaque, default) | Yes | No | No | None |
+| `testFirstStatic_SecondDynamic_DifferentApps` | Static (Opaque) | Dynamic (JWT) | No | Yes | No | None |
+| `testFirstDynamic_SecondStatic_DifferentApps` | Dynamic (JWT) | Static (Opaque) | No | Yes | No | None |
+| `testBothDynamic_DifferentApps` | Dynamic (Opaque) | Dynamic (JWT) | No | Yes | No | None |
+| `testBeaconAndNonBeacon_MultiUser` | Beacon (Opaque) | CA (Opaque) | No | Yes | Yes | None |
+| `testRevokeAccessForUserWithDynamicConfig_OtherUserUnaffected` | ECA (Opaque) static | ECA (JWT) dynamic | No | Yes | No | Revoke User B |
+| `testDifferentAppTypes_RevokeAccessForCaUser_EcaUserUnaffected` | CA (Opaque) | ECA (Opaque) | No | Yes | No | Revoke User A |
+| `testLogoutUserWithDynamicConfig_OtherUserUnaffected` | ECA (Opaque) static | ECA (JWT) dynamic | No | Yes | No | Logout User B |
+| `testDifferentAppTypes_LogoutCaUser_EcaUserUnaffected` | CA (Opaque) | ECA (Opaque) | No | Yes | No | Logout User A |
 
 ---
 

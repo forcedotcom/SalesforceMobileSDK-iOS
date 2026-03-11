@@ -47,15 +47,17 @@ public struct AuthFlowTypesView: View {
                     Text(SFSDKResourceUtils.localizedString("LOGIN_OPTIONS_USE_WEB_SERVER_FLOW"))
                         .font(.body)
                 }
+                .accessibilityIdentifier("useWebServerFlowToggle")
                 .onChange(of: useWebServerFlow) { _, newValue in
                     SalesforceManager.shared.useWebServerAuthentication = newValue
                 }
                 .padding(.horizontal)
-                
+
                 Toggle(isOn: $useHybridFlow) {
                     Text(SFSDKResourceUtils.localizedString("LOGIN_OPTIONS_USE_HYBRID_FLOW"))
                         .font(.body)
                 }
+                .accessibilityIdentifier("useHybridFlowToggle")
                 .onChange(of: useHybridFlow) { _, newValue in
                     SalesforceManager.shared.useHybridAuthentication = newValue
                 }

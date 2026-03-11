@@ -441,11 +441,11 @@ class AuthFlowTesterMainPageObject {
     // Auth flow switches
 
     private func useWebServerFlowSwitch() -> XCUIElement {
-        return app.switches["Use Web Server Flow"]
+        return app.switches["useWebServerFlowToggle"]
     }
 
     private func useHybridSwitch() -> XCUIElement {
-        return app.switches["Use Hybrid Flow"]
+        return app.switches["useHybridFlowToggle"]
     }
 
     // MARK: - Actions
@@ -485,7 +485,7 @@ class AuthFlowTesterMainPageObject {
         let currentValue = (switchField.value as? String) == "1"
 
         if currentValue != value {
-            tap(switchField)
+            switchField.tap()
         }
     }
 

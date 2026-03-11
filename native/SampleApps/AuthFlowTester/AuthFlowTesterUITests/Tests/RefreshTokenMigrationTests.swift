@@ -104,6 +104,39 @@ class RefreshTokenMigrationTests: BaseAuthFlowTester {
         )
     }
     
+    // Migrate from Beacon to CA
+    func testMigrateBeaconToCA() throws {
+        launchAndLogin(
+            loginHost: .regularAuth,
+            user:.second,
+            staticAppConfigName: .beaconOpaque
+        )
+        migrateAndValidate(
+            loginHost: .regularAuth,
+            staticAppConfigName: .beaconOpaque,
+            migrationAppConfigName: .caOpaque
+        )
+    }
+    
+    // MARK: - Migration with auth flow type change (user agent to web server flow)
+    
+    
+    // Migrate from CA (user agent) to ECA (web server)
+    func testMigrateCAUserAgentToECAWebServer() throws {
+        launchAndLogin(
+            loginHost: .regularAuth,
+            user:.second,
+            staticAppConfigName: .caOpaque,
+            useWebServerFlow: false
+        )
+        migrateAndValidate(
+            loginHost: .regularAuth,
+            staticAppConfigName: .caOpaque,
+            migrationAppConfigName: .ecaOpaque,
+            migrationUseWebServerFlow: true
+        )
+    }
+    
     // Migrate from CA (user agent) to Beacon (web server)
     func testMigrateCAUserAgentToBeaconWebServer() throws {
         launchAndLogin(
@@ -117,20 +150,6 @@ class RefreshTokenMigrationTests: BaseAuthFlowTester {
             staticAppConfigName: .caOpaque,
             migrationAppConfigName: .beaconOpaque,
             migrationUseWebServerFlow: true
-        )
-    }
-    
-    // Migrate from Beacon to CA
-    func testMigrateBeaconToCA() throws {
-        launchAndLogin(
-            loginHost: .regularAuth,
-            user:.second,
-            staticAppConfigName: .beaconOpaque
-        )
-        migrateAndValidate(
-            loginHost: .regularAuth,
-            staticAppConfigName: .beaconOpaque,
-            migrationAppConfigName: .caOpaque
         )
     }
     

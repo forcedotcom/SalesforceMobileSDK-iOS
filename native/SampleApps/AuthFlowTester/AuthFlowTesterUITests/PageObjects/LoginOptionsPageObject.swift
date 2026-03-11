@@ -127,11 +127,11 @@ class LoginOptionsPageObject {
     // MARK: - UI Element Accessors (LoginOptionsView)
 
     private func useWebServerFlowSwitch() -> XCUIElement {
-        return app.switches["Use Web Server Flow"]
+        return app.switches["useWebServerFlowToggle"]
     }
 
     private func useHybridSwitch() -> XCUIElement {
-        return app.switches["Use Hybrid Flow"]
+        return app.switches["useHybridFlowToggle"]
     }
 
     /// Returns the import button for either the static or dynamic configuration section.
@@ -163,7 +163,7 @@ class LoginOptionsPageObject {
         let currentValue = (switchField.value as? String) == "1"
 
         if currentValue != value {
-            tap(switchField)
+            switchField.tap()
         }
     }
 }
