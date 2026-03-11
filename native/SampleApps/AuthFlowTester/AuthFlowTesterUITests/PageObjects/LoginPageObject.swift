@@ -50,6 +50,14 @@ class LoginPageObject {
         return advancedAuthCloseButton().waitForExistence(timeout: UITestTimeouts.short)
     }
     
+    func isShowingInvalidClientIdError() -> Bool {
+        return invalidClientIdText().waitForExistence(timeout: UITestTimeouts.long)
+    }
+
+    func isShowingUnexpectedOauthError() -> Bool {
+        return unexpectedOauthErrorText().waitForExistence(timeout: UITestTimeouts.long)
+    }
+    
     func closeAdvancedAuth() -> Void {
         tap(advancedAuthCloseButton())
         tap(hostRow(host: "Production"))
@@ -173,6 +181,14 @@ class LoginPageObject {
 
     private func toolbarDoneButton() -> XCUIElement {
         return app.toolbars["Toolbar"].buttons["Done"]
+    }
+    
+    private func invalidClientIdText() -> XCUIElement {
+        return app.staticTexts["error=invalid_client_id&error_description=client%20identifier%20invalid"]
+    }
+    
+    private func unexpectedOauthErrorText() -> XCUIElement {
+        return app.staticTexts["OAUTH_APPROVAL_ERROR_GENERIC : An unexpected error has occurred during authentication. Please try again."]
     }
 
     private func usernameFieldLabel() -> XCUIElement {

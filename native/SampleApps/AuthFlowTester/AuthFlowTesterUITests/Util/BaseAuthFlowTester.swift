@@ -34,6 +34,7 @@ class BaseAuthFlowTester: XCTestCase {
     // App Pages
     private var loginPage: LoginPageObject!
     private var mainPage: AuthFlowTesterMainPageObject!
+    private var logoutAtTearDown: Bool = true
 
     // Test configuration
     private let testConfig = UITestConfigUtils.shared
@@ -44,7 +45,9 @@ class BaseAuthFlowTester: XCTestCase {
     }
     
     override func tearDown() {
-        logout()
+        if (logoutAtTearDown) {
+            logout()
+        }
         super.tearDown()
     }
     
@@ -125,15 +128,31 @@ class BaseAuthFlowTester: XCTestCase {
         let loginHostToUse = useWelcomeDiscovery ? "welcome.salesforce.com/discovery" : hostConfig.urlNoProtocol
         loginPage.configureLoginHost(host: loginHostToUse)
         
+        // Invalid app config
+        if (dynamicAppConfigName == .invalid || (dynamicAppConfigName == nil && staticAppConfigName == .invalid)) {
+            XCTAssertTrue(loginPage.isShowingInvalidClientIdError(), "Login page should show invalid client id error")
+            logoutAtTearDown = false
+            return
+        }
+        
+        // Welcome login
         if (useWelcomeDiscovery) {
             XCTAssertTrue(loginPage.hasFilledUsernameField(username: userConfig.username), "Login page should have pre-filled username")
             loginPage.performWelcomeLogin(password: userConfig.password)
-        } else {
-            if (loginHost == .regularAuth) {
-                loginPage.performLogin(username: userConfig.username, password: userConfig.password)
-            } else {
-                loginPage.performAdvancedLogin(username: userConfig.username, password: userConfig.password)
-            }
+        }
+        // Regular auth
+        else if (loginHost == .regularAuth) {
+            loginPage.performLogin(username: userConfig.username, password: userConfig.password)
+        }
+        // Advanced auth
+        else if (loginHost == .advancedAuth) {
+            loginPage.performAdvancedLogin(username: userConfig.username, password: userConfig.password)
+        }
+        
+        // Invalid scope
+        if (dynamicScopeSelection == .invalid || (dynamicAppConfig == nil && staticScopeSelection == .invalid)) {
+            XCTAssertTrue(loginPage.isShowingUnexpectedOauthError(), "Screen should show OAuth Error")
+            logoutAtTearDown = false
         }
     }
     

@@ -66,9 +66,10 @@ enum TestConfigError: Error, CustomStringConvertible {
 
 // MARK: - ScopeSelection
 enum ScopeSelection {
-    case empty // will not send scopes param - should be granted all the scopes defined on the server
-    case all // will send all the scopes defined in ui_test_config.json
-    case subset // will send a subset of the scopes defined in ui_test_config.json
+    case empty // Will not send scopes param - should be granted all the scopes defined on the server
+    case all // Will send all the scopes defined in ui_test_config.json
+    case subset // Will send a subset of the scopes defined in ui_test_config.json (all except sfap_api)
+    case invalid // Will send "invalid_scope" for negative testing scenarios
 }
 
 // MARK: - Configured Users
@@ -97,6 +98,7 @@ enum KnownAppConfig: String {
     case beaconJwt = "beacon_jwt"
     case caOpaque = "ca_opaque"
     case caJwt = "ca_jwt"
+    case invalid = "invalid" // Returns hard-coded invalid app config for negative testing
 }
 
 // MARK: - Configuration Models
@@ -293,8 +295,24 @@ class UITestConfigUtils {
         }
     }
     
-    /// Returns an app by its name or throws an error if not found or not configured
+    /// Returns an app by its name or throws an error if not found or not configured.
+    ///
+    /// - Parameter name: The known app configuration name to retrieve.
+    /// - Returns: The app configuration for the specified name.
+    /// - Throws: `TestConfigError.appNotFound` if the app doesn't exist in ui_test_config.json,
+    ///           or `TestConfigError.appNotConfigured` if the app has an empty consumer key.
+    /// - Note: For `.invalid`, returns a hard-coded invalid configuration for negative testing scenarios.
     func getApp(named name: KnownAppConfig) throws -> AppConfig {
+        // Return hard-coded invalid app config for negative testing scenarios
+        if name == .invalid {
+            return AppConfig(
+                name: "invalid",
+                consumerKey: "invalid_consumer_key",
+                redirectUri: "invalid://callback",
+                scopes: "invalid_scope"
+            )
+        }
+
         guard let app = config?.apps.first(where: { $0.name == name.rawValue }) else {
             throw TestConfigError.appNotFound(name.rawValue)
         }
@@ -304,21 +322,36 @@ class UITestConfigUtils {
         return app
     }
 
-    /// Returns scopes to request
+    /// Returns scopes to request based on the scope selection strategy.
+    ///
+    /// - Parameters:
+    ///   - appConfig: The app configuration containing available scopes.
+    ///   - scopesParam: The scope selection strategy to apply.
+    /// - Returns: A space-separated string of scopes to request, or empty string for `.empty`,
+    ///            or "invalid_scope" for `.invalid` testing scenarios.
     func getScopesToRequest(for appConfig: AppConfig, _ scopesParam: ScopeSelection) -> String {
         switch(scopesParam) {
         case .empty: return ""
-        case .subset: return removeScope(scopes: appConfig.scopes, scopeToRemove: "sfap_api") // that assumes the selected ca/eca/beacon has the sfap_api scope
+        case .subset: return removeScope(scopes: appConfig.scopes, scopeToRemove: "sfap_api") // Assumes the app has sfap_api scope
         case .all: return appConfig.scopes
+        case .invalid: return "invalid_scope" // For negative testing
         }
     }
 
-    /// Returns expected scopes granted
+    /// Returns expected scopes that should be granted based on the scope selection.
+    ///
+    /// - Parameters:
+    ///   - appConfig: The app configuration containing available scopes.
+    ///   - scopeSelection: The scope selection strategy that was used during login.
+    /// - Returns: A space-separated string of scopes expected to be granted.
+    ///            Returns empty string for `.invalid` as invalid scopes should not be granted.
+    /// - Note: For `.empty`, assumes scopes in ui_test_config.json match server configuration.
     func getExpectedScopesGranted(for appConfig:AppConfig, _ scopeSelection: ScopeSelection) -> String {
         switch(scopeSelection) {
-        case .empty: return appConfig.scopes // that assumes the scopes in ui_test_config.json match the server config
-        case .subset: return removeScope(scopes: appConfig.scopes, scopeToRemove: "sfap_api") // that assumes the selected ca/eca/beacon has the sfap_api scope
+        case .empty: return appConfig.scopes // Assumes scopes in config match server
+        case .subset: return removeScope(scopes: appConfig.scopes, scopeToRemove: "sfap_api") // Assumes app has sfap_api scope
         case .all: return appConfig.scopes
+        case .invalid: return "" // Invalid scopes should not be granted
         }
     }
 }

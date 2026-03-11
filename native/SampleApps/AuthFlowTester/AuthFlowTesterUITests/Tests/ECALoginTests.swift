@@ -67,4 +67,17 @@ class ECALoginTests: BaseAuthFlowTester {
     func testECAJwt_AllScopes() throws {
         launchLoginAndValidate(staticAppConfigName: .ecaJwt, staticScopeSelection: .all)
     }
+    
+    // MARK: - Negative testing
+    
+    /// Login with invalid client id in dynamic configuration
+    func testDynamicConfigurationWithInvalidClientId() throws {
+        launchAndLogin(loginHost: .regularAuth, user: .first, staticAppConfigName: .ecaOpaque, dynamicAppConfigName: .invalid)
+    }
+    
+    /// Login with invalid scope in dynamic configuration
+    func testDynamicConfigurationWithInvalidScope() throws {
+        launchAndLogin(loginHost: .regularAuth, user: .first, staticAppConfigName: .ecaOpaque, dynamicAppConfigName: .ecaJwt, dynamicScopeSelection: .invalid)
+    }
+
 }

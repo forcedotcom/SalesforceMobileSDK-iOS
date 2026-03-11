@@ -8,7 +8,7 @@ This document provides an overview of all UI tests in the AuthFlowTester test su
 |-------|-------------|
 | `LegacyLoginTests` | Tests for legacy login flows (CA, user agent flow, hybrid flow) with default, subset, and all scopes |
 | `LegacyLoginTestsNotHybrid` | Tests for legacy login flows (CA, user agent flow, non-hybrid flow) - extends LegacyLoginTests |
-| `ECALoginTests` | Tests for External Client App (ECA) login flows |
+| `ECALoginTests` | Tests for External Client App (ECA) login flows including negative testing with invalid configurations |
 | `BeaconLoginTests` | Tests for Beacon app login flows (using regular_auth login host) |
 | `AdvancedAuthBeaconLoginTests` | Tests for Beacon app login flows (using advanced_auth login host) |
 | `WelcomeLoginTests` | Tests for welcome (domain discovery) login flows using simulated domain discovery |
@@ -47,18 +47,20 @@ Tests for Connected App (CA) configurations with non-hybrid authentication flow.
 | `testCAOpaque_SubsetScopes_UserAgentFlow` | CA Opaque | Subset | User Agent | No |
 | `testCAOpaque_AllScopes_UserAgentFlow` | CA Opaque | All | User Agent | No |
 
-### ECALoginTests (6 tests)
+### ECALoginTests (8 tests)
 
-Tests for External Client App (ECA) configurations using web server flow with hybrid auth.
+Tests for External Client App (ECA) configurations using web server flow with hybrid auth. Includes negative testing scenarios for invalid client ID and invalid scopes.
 
-| Test Name | App Config | Scopes |
-|-----------|------------|--------|
-| `testECAOpaque_DefaultScopes` | ECA Opaque | Default |
-| `testECAOpaque_SubsetScopes` | ECA Opaque | Subset |
-| `testECAOpaque_AllScopes` | ECA Opaque | All |
-| `testECAJwt_DefaultScopes` | ECA JWT | Default |
-| `testECAJwt_SubsetScopes_NotHybrid` | ECA JWT | Subset |
-| `testECAJwt_AllScopes` | ECA JWT | All |
+| Test Name | App Config | Scopes | Description |
+|-----------|------------|--------|-------------|
+| `testECAOpaque_DefaultScopes` | ECA Opaque | Default | Standard login with default scopes |
+| `testECAOpaque_SubsetScopes` | ECA Opaque | Subset | Standard login with subset scopes |
+| `testECAOpaque_AllScopes` | ECA Opaque | All | Standard login with all scopes |
+| `testECAJwt_DefaultScopes` | ECA JWT | Default | Standard login with default scopes |
+| `testECAJwt_SubsetScopes` | ECA JWT | Subset | Standard login with subset scopes |
+| `testECAJwt_AllScopes` | ECA JWT | All | Standard login with all scopes |
+| `testDynamicConfigurationWithInvalidClientId` | Invalid (dynamic) | Default | Negative test: invalid client ID in dynamic config |
+| `testDynamicConfigurationWithInvalidScope` | ECA JWT (dynamic) | Invalid | Negative test: invalid scope in dynamic config |
 
 ### BeaconLoginTests (6 tests)
 
@@ -173,6 +175,7 @@ Tests for login scenarios with two users using various configurations, including
 | **Default** | No scopes requested (all scopes defined in server config should be granted) |
 | **Subset** | Explicitly requests all scopes except for sfap_api |
 | **All** | Explicitly requests all scopes |
+| **Invalid** | Requests "invalid_scope" for negative testing scenarios |
 
 ## App Configuration Types
 
@@ -199,6 +202,7 @@ Tests for login scenarios with two users using various configurations, including
 | `beaconJwt` | Beacon | JWT | `api content id lightning refresh_token sfap_api web` |
 | `caOpaque` | CA | Opaque | `api content id lightning refresh_token sfap_api visualforce web` |
 | `caJwt` | CA | JWT | `api content id lightning refresh_token sfap_api visualforce web` |
+| `invalid` | Invalid | N/A | `invalid_scope` (for negative testing) |
 
 ### Token Formats
 
