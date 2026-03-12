@@ -88,7 +88,7 @@ public struct AuthFlowTypesView: View {
         .alert("Import Auth Flow Types", isPresented: $showImportAlert) {
             TextField("Paste JSON here", text: $importJSONText)
             Button("Import") {
-                importAuthFlowTypesFromJSON()
+                applyAuthFlowTypesFromJSON(importJSONText)
             }
             Button("Cancel", role: .cancel) { }
         } message: {
@@ -98,8 +98,8 @@ public struct AuthFlowTypesView: View {
 
     // MARK: - Helper Methods
 
-    private func importAuthFlowTypesFromJSON() {
-        guard let jsonData = importJSONText.data(using: .utf8),
+    internal func applyAuthFlowTypesFromJSON(_ jsonString: String) {
+        guard let jsonData = jsonString.data(using: .utf8),
               let json = try? JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any] else {
             return
         }
