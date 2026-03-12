@@ -327,7 +327,13 @@ successBlock:(SFRestResponseBlock)successBlock
         __block NSURLSessionDataTask *dataTask = [network sendRequest:finalRequest dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             [SFNetwork removeSharedInstanceForIdentifier:instanceIdentifier];
-            
+
+            // Guard: ignore callbacks from stale dataTasks superseded by retry.
+            if (dataTask != request.sessionDataTask) {
+                [SFSDKCoreLogger d:[strongSelf class] format:@"Ignoring callback from stale task for request: %@", request.path];
+                return;
+            }
+
             // Network error.
             if (error) {
                 [SFSDKCoreLogger d:[strongSelf class] format:@"REST request failed with error: Error Code: %ld, Description: %@, URL: %@", (long) error.code, error.localizedDescription, finalRequest.URL];
@@ -490,6 +496,9 @@ successBlock:(SFRestResponseBlock)successBlock
     @synchronized (self) {
         NSSet *pendingRequests = [self.activeRequests asSet];
         for (SFRestRequest *request in pendingRequests) {
+            NSURLSessionDataTask *oldTask = request.sessionDataTask;
+            request.sessionDataTask = nil;
+            [oldTask cancel];
             if (request.failureBlock) {
                 request.failureBlock(nil, error, rawResponse);
             }
@@ -502,10 +511,12 @@ successBlock:(SFRestResponseBlock)successBlock
     @synchronized (self) {
         NSSet *pendingRequests = [self.activeRequests asSet];
         for (SFRestRequest *request in pendingRequests) {
+            NSURLSessionDataTask *oldTask = request.sessionDataTask;
             [self send:request
           failureBlock:request.failureBlock
           successBlock:request.successBlock
            shouldRetry:NO];
+            [oldTask cancel];
         }
         self.pendingRequestsBeingProcessed = NO;
     }
