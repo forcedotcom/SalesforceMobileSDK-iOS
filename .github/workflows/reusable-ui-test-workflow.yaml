@@ -160,6 +160,8 @@ jobs:
           comment: true
           job_summary: true
           report_paths: 'test-results-authflowtester-ui-ios${{ inputs.ios }}-${{ steps.result_suffix.outputs.suffix }}.xml'
+          check_retries: false
+          group_suite: true
       - uses: codecov/codecov-action@v4
         if: success() || failure()
         with:
