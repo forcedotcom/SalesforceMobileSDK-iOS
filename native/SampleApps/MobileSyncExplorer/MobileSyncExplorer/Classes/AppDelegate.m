@@ -23,8 +23,6 @@
  */
 
 #import "AppDelegate.h"
-#import "InitialViewController.h"
-#import "ContactListViewController.h"
 #import <MobileSyncExplorerCommon/MobileSyncExplorerConfig.h>
 #import <UserNotifications/UserNotifications.h>
 
@@ -33,17 +31,6 @@
 @import MobileSync;
 
 @interface AppDelegate ()
-
-/**
- * Convenience method for setting up the main UIViewController and setting self.window's rootViewController
- * property accordingly.
- */
-- (void)setupRootViewController;
-
-/**
- * (Re-)sets the view state when the app first loads (or post-logout).
- */
-- (void)initializeAppViewState;
 
 @end
 
@@ -60,20 +47,11 @@
         [SFSDKDatasharingHelper sharedInstance].appGroupEnabled = config.appGroupsEnabled;
 
         [MobileSyncSDKManager initializeSDK];
-        
-        //App Setup for any changes to the current authenticated user
-        __weak typeof (self) weakSelf = self;
-        [SFSDKAuthHelper registerBlockForCurrentUserChangeNotifications:^{
-            __strong typeof (weakSelf) strongSelf = weakSelf;
-            [strongSelf resetUserloginStatus];
-            [strongSelf resetViewState:^{
-                [strongSelf setupRootViewController];
-            }];
-        }];
+
         //Uncomment following lines to enable IDP Login flow. Set scheme of idpAppp & display name (optional)
         //[MobileSyncSDKManager sharedManager].idpAppURIScheme = @"sampleidpapp";
         //[MobileSyncSDKManager sharedManager].appDisplayName = @"SampleAppOne";
-        
+
     }
     return self;
 }
@@ -81,24 +59,11 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // The Mobile SDK uses multiple UIWindow's inorder to present views. Having
-    // Multiple windows with different controllers varying rotational behaviors
-    // lead to weird UIWindow behaviors. To avoid such rotation and other issues
-    // between visible and hidden windows use the SFSDKUIWindow instead of  
-    // UIWindow.
-    self.window = [[SFSDKUIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    [self initializeAppViewState];
-    
     // If you wish to register for push notifications, uncomment the line below.  Note that,
     // if you want to receive push notifications from Salesforce, you will also need to
     // implement the application:didRegisterForRemoteNotificationsWithDeviceToken: method (below).
 //    [self registerForRemotePushNotifications];
-    
-    __weak typeof (self) weakSelf = self;
-    [SFSDKAuthHelper loginIfRequired:^{
-        [weakSelf resetUserloginStatus];
-        [weakSelf setupRootViewController];
-    }];
+
     return YES;
 }
 
@@ -143,39 +108,6 @@
     // return [[SFUserAccountManager sharedInstance] handleIDPAuthenticationResponse:url options:options];
     return NO;
 
-}
-
-#pragma mark - Private methods
-- (void)resetUserloginStatus {
-    BOOL loggedIn = [SFUserAccountManager.sharedInstance currentUser] != nil;
-    [[NSUserDefaults msdkUserDefaults] setBool:loggedIn forKey:@"userLoggedIn"];
-    [[NSUserDefaults msdkUserDefaults] synchronize];
-    [SFSDKMobileSyncLogger log:[self class] level:SFLogLevelDebug format:@"%d userLoggedIn", [[NSUserDefaults msdkUserDefaults] boolForKey:@"userLoggedIn"] ];
-}
-
-- (void)initializeAppViewState
-{
-    self.window.rootViewController = [[InitialViewController alloc] initWithNibName:nil bundle:nil];
-    [self.window makeKeyAndVisible];
-}
-
-- (void)setupRootViewController
-{
-    ContactListViewController *rootVC = [[ContactListViewController alloc] initWithStyle:UITableViewStylePlain];
-    SFSDKNavigationController *navVC = [[SFSDKNavigationController alloc] initWithRootViewController:rootVC];
-    self.window.rootViewController = navVC;
-    [self.window makeKeyAndVisible];
-}
-
-- (void)resetViewState:(void (^)(void))postResetBlock
-{
-    if ([self.window.rootViewController presentedViewController]) {
-        [self.window.rootViewController dismissViewControllerAnimated:NO completion:^{
-            postResetBlock();
-        }];
-    } else {
-        postResetBlock();
-    }
 }
 
 @end
