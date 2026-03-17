@@ -312,9 +312,9 @@ class MultiUserLoginTests: BaseAuthFlowTester {
 
     // MARK: - Token Revocation Tests
 
-    /// Revoke user's access token (who uses dynamic config) and verify other user is unaffected.
+    /// Revoke access for user with dynamic config and verify other user is unaffected.
     /// Tests token isolation when one user uses dynamic consumer key selection.
-    func testRevokeUserWithDynamicConfig_OtherUserUnaffected() throws {
+    func testRevokeAccessForUserWithDynamicConfig_OtherUserUnaffected() throws {
         // Login User A with static config
         launchAndLogin(
             loginHost: .regularAuth,
@@ -379,9 +379,9 @@ class MultiUserLoginTests: BaseAuthFlowTester {
         logout()
     }
 
-    /// Revoke CA user's access token and verify ECA user is unaffected.
+    /// Revoke access for CA user and verify ECA user is unaffected.
     /// Tests token isolation between users with different app types (CA vs ECA).
-    func testDifferentAppTypes_RevokeCaUser_EcaUserUnaffected() throws {
+    func testDifferentAppTypes_RevokeAccessForCaUser_EcaUserUnaffected() throws {
         // Login User A with CA Opaque
         launchAndLogin(
             loginHost: .regularAuth,
@@ -446,5 +446,95 @@ class MultiUserLoginTests: BaseAuthFlowTester {
 
         // Logout second user
         logout()
+    }
+
+    // MARK: - User Logout Tests
+
+    /// Logout user with dynamic config and verify other user is unaffected.
+    /// Tests that logging out one user automatically switches to the other user.
+    func testLogoutUserWithDynamicConfig_OtherUserUnaffected() throws {
+        // Login User A with static config
+        launchAndLogin(
+            loginHost: .regularAuth,
+            user: .fourth,
+            staticAppConfigName: .ecaOpaque
+        )
+
+        // Get User A credentials
+        let userACredentials = getUserCredentials()
+
+        // Login User B with dynamic config (overrides consumer key at runtime)
+        loginOtherUserAndValidate(
+            loginHost: .regularAuth,
+            user: .fifth,
+            staticAppConfigName: .ecaOpaque,
+            dynamicAppConfigName: .ecaJwt
+        )
+
+        // Logout User B (should automatically switch to User A)
+        logout()
+
+        // Verify we're automatically on User A after User B logout
+        let currentUserCredentials = getUserCredentials()
+        XCTAssertEqual(
+            currentUserCredentials.username,
+            userACredentials.username,
+            "Should automatically be on User A after User B logout"
+        )
+
+        // Verify User A's credentials are intact
+        XCTAssertEqual(
+            currentUserCredentials.accessToken,
+            userACredentials.accessToken,
+            "User A's access token should be unchanged after User B logout"
+        )
+
+        // Make API call for User A (should succeed)
+        XCTAssertTrue(makeRestRequest(), "User A's API call should succeed")
+    }
+
+    /// Logout CA user and verify ECA user is unaffected.
+    /// Tests that logging out one user automatically switches to the other user with different app types.
+    func testDifferentAppTypes_LogoutCaUser_EcaUserUnaffected() throws {
+        // Login User A with CA Opaque
+        launchAndLogin(
+            loginHost: .regularAuth,
+            user: .fourth,
+            staticAppConfigName: .caOpaque
+        )
+
+        // Login User B with ECA Opaque
+        loginOtherUserAndValidate(
+            loginHost: .regularAuth,
+            user: .fifth,
+            staticAppConfigName: .ecaOpaque
+        )
+
+        // Get User B credentials
+        let userBCredentials = getUserCredentials()
+
+        // Switch to User A
+        switchToUser(loginHost: .regularAuth, user: .fourth)
+
+        // Logout User A (should automatically switch to User B)
+        logout()
+
+        // Verify we're automatically on User B after User A logout
+        let currentUserCredentials = getUserCredentials()
+        XCTAssertEqual(
+            currentUserCredentials.username,
+            userBCredentials.username,
+            "Should automatically be on User B after User A logout"
+        )
+
+        // Verify User B's credentials are intact
+        XCTAssertEqual(
+            currentUserCredentials.accessToken,
+            userBCredentials.accessToken,
+            "User B's access token should be unchanged after User A logout"
+        )
+
+        // Make API call for User B (should succeed)
+        XCTAssertTrue(makeRestRequest(), "User B's API call should succeed")
     }
 }

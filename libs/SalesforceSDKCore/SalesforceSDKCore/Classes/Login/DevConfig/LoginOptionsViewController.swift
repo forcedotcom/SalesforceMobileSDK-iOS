@@ -69,6 +69,8 @@ public struct LoginOptionsView: View {
     }
 
     public var body: some View {
+        let isUITesting = ProcessInfo.processInfo.environment["IS_UI_TESTING"] == "1"
+
         VStack(spacing: 0) {
             // Custom title bar with close button – trigger handler then dismiss so presenter can run its callback
             TitleBarView(title: SFSDKResourceUtils.localizedString("LOGIN_OPTIONS"), onDismiss: closeSheet)
@@ -110,15 +112,18 @@ public struct LoginOptionsView: View {
                             initiallyExpanded: false
                         )
 
-                        Divider()
+                        // Only show DiscoveryResultEditor during UI tests
+                        if isUITesting {
+                            Divider()
 
-                        // Simulate domain discovery – sets simulatedDomainDiscoveryResult so the next discovery navigation uses this result
-                        DiscoveryResultEditor(
-                            loginHost: $discoveryLoginHost,
-                            userName: $discoveryUserName,
-                            onUseForSimulation: handleSimulatedDomainDiscovery,
-                            initiallyExpanded: false
-                        )
+                            // Simulate domain discovery – sets simulatedDomainDiscoveryResult so the next discovery navigation uses this result
+                            DiscoveryResultEditor(
+                                loginHost: $discoveryLoginHost,
+                                userName: $discoveryUserName,
+                                onUseForSimulation: handleSimulatedDomainDiscovery,
+                                initiallyExpanded: false
+                            )
+                        }
                     }
                     .padding(.bottom, 40)
                 }

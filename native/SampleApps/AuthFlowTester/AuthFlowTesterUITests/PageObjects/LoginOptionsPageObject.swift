@@ -33,9 +33,11 @@ import SalesforceSDKCore
 /// Use after navigating to Login Options from the login screen (e.g. via Settings → Login Options).
 class LoginOptionsPageObject {
     let app: XCUIApplication
+    let authFlowTypesPageObject: AuthFlowTypesPageObject
 
     init(testApp: XCUIApplication) {
         app = testApp
+        authFlowTypesPageObject = AuthFlowTypesPageObject(testApp: testApp)
     }
 
     /// Configures login options: flow switches, static/dynamic app config, and discovery result.
@@ -50,8 +52,11 @@ class LoginOptionsPageObject {
         discoveryLoginHost: String,
         discoveryUsername: String,
     ) -> Void {
-        setSwitchField(useWebServerFlowSwitch(), value: useWebServerFlow)
-        setSwitchField(useHybridSwitch(), value: useHybridFlow)
+        // Set auth flow types using the dedicated page object
+        authFlowTypesPageObject.setAuthFlowTypes(
+            useWebServerFlow: useWebServerFlow,
+            useHybridFlow: useHybridFlow
+        )
 
         if let staticAppConfig = staticAppConfig {
             let configJSON = buildConfigJSON(consumerKey: staticAppConfig.consumerKey, redirectUri: staticAppConfig.redirectUri, scopes: staticScopes)
@@ -126,14 +131,6 @@ class LoginOptionsPageObject {
 
     // MARK: - UI Element Accessors (LoginOptionsView)
 
-    private func useWebServerFlowSwitch() -> XCUIElement {
-        return app.switches["Use Web Server Flow"]
-    }
-
-    private func useHybridSwitch() -> XCUIElement {
-        return app.switches["Use Hybrid Flow"]
-    }
-
     /// Returns the import button for either the static or dynamic configuration section.
     private func importConfigButton(useStaticConfiguration: Bool = true) -> XCUIElement {
         let buttons = app.buttons.matching(identifier: "importConfigButton")
@@ -154,16 +151,5 @@ class LoginOptionsPageObject {
     private func tap(_ element: XCUIElement) {
         _ = element.waitForExistence(timeout: UITestTimeouts.long)
         element.tap()
-    }
-
-    private func setSwitchField(_ switchField: XCUIElement, value: Bool) {
-        _ = switchField.waitForExistence(timeout: UITestTimeouts.long)
-
-        // Switch values are "0" (off) or "1" (on) in XCTest
-        let currentValue = (switchField.value as? String) == "1"
-
-        if currentValue != value {
-            tap(switchField)
-        }
     }
 }

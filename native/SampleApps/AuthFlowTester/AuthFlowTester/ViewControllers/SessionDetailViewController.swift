@@ -117,7 +117,10 @@ struct SessionDetailView: View {
         }
         .sheet(isPresented: $showMigrateRefreshToken) {
             NavigationView {
-                VStack {
+                VStack(spacing: 20) {
+                    AuthFlowTypesView()
+                        .padding(.top)
+
                     BootConfigEditor(
                         title: "New App Configuration",
                         buttonLabel: "Migrate refresh token",

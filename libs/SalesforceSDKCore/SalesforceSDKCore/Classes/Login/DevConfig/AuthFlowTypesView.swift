@@ -27,35 +27,57 @@
 
 import SwiftUI
 
+// MARK: - JSON Import Labels
+public struct AuthFlowTypesJSONKeys {
+    public static let useWebServerFlow = "useWebServerFlow"
+    public static let useHybridFlow = "useHybridFlow"
+}
+
 public struct AuthFlowTypesView: View {
     @State private var useWebServerFlow: Bool
     @State private var useHybridFlow: Bool
-    
+    @State private var showImportAlert: Bool = false
+    @State private var importJSONText: String = ""
+
     public init() {
         _useWebServerFlow = State(initialValue: SalesforceManager.shared.useWebServerAuthentication)
         _useHybridFlow = State(initialValue: SalesforceManager.shared.useHybridAuthentication)
     }
-    
+
     public var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text(SFSDKResourceUtils.localizedString("LOGIN_OPTIONS_AUTH_FLOW_TYPES_TITLE"))
-                .font(.headline)
-                .padding(.horizontal)
+            HStack {
+                Text(SFSDKResourceUtils.localizedString("LOGIN_OPTIONS_AUTH_FLOW_TYPES_TITLE"))
+                    .font(.headline)
+                Spacer()
+                Button(action: {
+                    importJSONText = ""
+                    showImportAlert = true
+                }) {
+                    Image(systemName: "square.and.arrow.down")
+                        .font(.subheadline)
+                        .foregroundColor(.blue)
+                }
+                .accessibilityIdentifier("importAuthFlowTypesButton")
+            }
+            .padding(.horizontal)
             
             VStack(alignment: .leading, spacing: 8) {
                 Toggle(isOn: $useWebServerFlow) {
                     Text(SFSDKResourceUtils.localizedString("LOGIN_OPTIONS_USE_WEB_SERVER_FLOW"))
                         .font(.body)
                 }
+                .accessibilityIdentifier("useWebServerFlowToggle")
                 .onChange(of: useWebServerFlow) { _, newValue in
                     SalesforceManager.shared.useWebServerAuthentication = newValue
                 }
                 .padding(.horizontal)
-                
+
                 Toggle(isOn: $useHybridFlow) {
                     Text(SFSDKResourceUtils.localizedString("LOGIN_OPTIONS_USE_HYBRID_FLOW"))
                         .font(.body)
                 }
+                .accessibilityIdentifier("useHybridFlowToggle")
                 .onChange(of: useHybridFlow) { _, newValue in
                     SalesforceManager.shared.useHybridAuthentication = newValue
                 }
@@ -63,6 +85,33 @@ public struct AuthFlowTypesView: View {
             }
         }
         .padding(.vertical)
+        .alert("Import Auth Flow Types", isPresented: $showImportAlert) {
+            TextField("Paste JSON here", text: $importJSONText)
+            Button("Import") {
+                applyAuthFlowTypesFromJSON(importJSONText)
+            }
+            Button("Cancel", role: .cancel) { }
+        } message: {
+            Text("Paste JSON with useWebServerFlow and useHybridFlow")
+        }
+    }
+
+    // MARK: - Helper Methods
+
+    internal func applyAuthFlowTypesFromJSON(_ jsonString: String) {
+        guard let jsonData = jsonString.data(using: .utf8),
+              let json = try? JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any] else {
+            return
+        }
+
+        if let webServerFlow = json[AuthFlowTypesJSONKeys.useWebServerFlow] as? Bool {
+            useWebServerFlow = webServerFlow
+            SalesforceManager.shared.useWebServerAuthentication = webServerFlow
+        }
+        if let hybridFlow = json[AuthFlowTypesJSONKeys.useHybridFlow] as? Bool {
+            useHybridFlow = hybridFlow
+            SalesforceManager.shared.useHybridAuthentication = hybridFlow
+        }
     }
 }
 

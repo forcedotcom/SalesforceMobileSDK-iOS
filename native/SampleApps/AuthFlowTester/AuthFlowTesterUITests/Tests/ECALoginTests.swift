@@ -59,7 +59,7 @@ class ECALoginTests: BaseAuthFlowTester {
     }
     
     /// Login with ECA JWT using subset of scopes and web server flow.
-    func testECAJwt_SubsetScopes_NotHybrid() throws {
+    func testECAJwt_SubsetScopes() throws {
         launchLoginAndValidate(staticAppConfigName: .ecaJwt, staticScopeSelection: .subset)
     }
     
@@ -67,4 +67,17 @@ class ECALoginTests: BaseAuthFlowTester {
     func testECAJwt_AllScopes() throws {
         launchLoginAndValidate(staticAppConfigName: .ecaJwt, staticScopeSelection: .all)
     }
+    
+    // MARK: - Negative testing
+    
+    /// Login with invalid client id in dynamic configuration
+    func testDynamicConfigurationWithInvalidClientId() throws {
+        launchAndLogin(loginHost: .regularAuth, user: .first, staticAppConfigName: .ecaOpaque, dynamicAppConfigName: .invalid)
+    }
+    
+    /// Login with invalid scope in dynamic configuration
+    func testDynamicConfigurationWithInvalidScope() throws {
+        launchAndLogin(loginHost: .regularAuth, user: .first, staticAppConfigName: .ecaOpaque, dynamicAppConfigName: .ecaJwt, dynamicScopeSelection: .invalid)
+    }
+
 }

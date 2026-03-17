@@ -85,5 +85,121 @@ class AuthFlowTypesViewTests: XCTestCase {
         
         wait(for: [expectation], timeout: 2.0)
     }
+
+    func testImportAuthFlowTypesFromJSON() {
+        // Set initial state
+        SalesforceManager.shared.useWebServerAuthentication = true
+        SalesforceManager.shared.useHybridAuthentication = true
+
+        // Create the view
+        var view = AuthFlowTypesView()
+
+        // Verify initial state
+        XCTAssertTrue(SalesforceManager.shared.useWebServerAuthentication,
+                     "Web server authentication should initially be true")
+        XCTAssertTrue(SalesforceManager.shared.useHybridAuthentication,
+                     "Hybrid authentication should initially be true")
+
+        // Create JSON string
+        let json: [String: Any] = [
+            AuthFlowTypesJSONKeys.useWebServerFlow: false,
+            AuthFlowTypesJSONKeys.useHybridFlow: false
+        ]
+
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: json, options: []),
+              let jsonString = String(data: jsonData, encoding: .utf8) else {
+            XCTFail("Failed to create JSON string")
+            return
+        }
+
+        // Call the internal method to apply the JSON
+        view.applyAuthFlowTypesFromJSON(jsonString)
+
+        // Verify the values were updated
+        XCTAssertFalse(SalesforceManager.shared.useWebServerAuthentication,
+                      "Web server authentication should be false after import")
+        XCTAssertFalse(SalesforceManager.shared.useHybridAuthentication,
+                      "Hybrid authentication should be false after import")
+    }
+
+    func testImportAuthFlowTypesFromJSONPartialUpdate() {
+        // Set initial state
+        SalesforceManager.shared.useWebServerAuthentication = true
+        SalesforceManager.shared.useHybridAuthentication = true
+
+        // Create the view
+        let view = AuthFlowTypesView()
+
+        // Test importing only one value
+        let json: [String: Any] = [
+            AuthFlowTypesJSONKeys.useWebServerFlow: false
+            // Note: useHybridFlow is not included
+        ]
+
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: json, options: []),
+              let jsonString = String(data: jsonData, encoding: .utf8) else {
+            XCTFail("Failed to create JSON string")
+            return
+        }
+
+        // Call the internal method to apply the JSON
+        view.applyAuthFlowTypesFromJSON(jsonString)
+
+        // Verify only the specified value was updated
+        XCTAssertFalse(SalesforceManager.shared.useWebServerAuthentication,
+                      "Web server authentication should be false after import")
+        XCTAssertTrue(SalesforceManager.shared.useHybridAuthentication,
+                     "Hybrid authentication should remain true (not in JSON)")
+    }
+
+    func testAuthFlowTypesJSONKeys() {
+        // Test that the JSON keys are correctly defined
+        XCTAssertEqual(AuthFlowTypesJSONKeys.useWebServerFlow, "useWebServerFlow",
+                      "useWebServerFlow key should match expected value")
+        XCTAssertEqual(AuthFlowTypesJSONKeys.useHybridFlow, "useHybridFlow",
+                      "useHybridFlow key should match expected value")
+    }
+
+    func testImportAuthFlowTypesFromInvalidJSON() {
+        // Set initial state
+        SalesforceManager.shared.useWebServerAuthentication = true
+        SalesforceManager.shared.useHybridAuthentication = true
+
+        // Create the view
+        let view = AuthFlowTypesView()
+
+        // Test with invalid JSON
+        let invalidJSON = "{ this is not valid JSON }"
+
+        // Call the internal method with invalid JSON
+        view.applyAuthFlowTypesFromJSON(invalidJSON)
+
+        // Verify nothing changed (method should handle invalid JSON gracefully)
+        XCTAssertTrue(SalesforceManager.shared.useWebServerAuthentication,
+                     "Web server authentication should remain true after invalid JSON")
+        XCTAssertTrue(SalesforceManager.shared.useHybridAuthentication,
+                     "Hybrid authentication should remain true after invalid JSON")
+    }
+
+    func testImportAuthFlowTypesFromEmptyJSON() {
+        // Set initial state
+        SalesforceManager.shared.useWebServerAuthentication = true
+        SalesforceManager.shared.useHybridAuthentication = false
+
+        // Create the view
+        let view = AuthFlowTypesView()
+
+        // Test with empty JSON object
+        let emptyJSON = "{}"
+
+        // Call the internal method with empty JSON
+        view.applyAuthFlowTypesFromJSON(emptyJSON)
+
+        // Verify nothing changed
+        XCTAssertTrue(SalesforceManager.shared.useWebServerAuthentication,
+                     "Web server authentication should remain unchanged after empty JSON")
+        XCTAssertFalse(SalesforceManager.shared.useHybridAuthentication,
+                      "Hybrid authentication should remain unchanged after empty JSON")
+    }
 }
 

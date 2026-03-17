@@ -213,9 +213,11 @@ struct JwtDetailsData {
 /// and extract data (user credentials, OAuth configuration, JWT details) from the UI.
 class AuthFlowTesterMainPageObject {
     let app: XCUIApplication
+    let authFlowTypesPageObject: AuthFlowTypesPageObject
 
     init(testApp: XCUIApplication) {
         app = testApp
+        authFlowTypesPageObject = AuthFlowTypesPageObject(testApp: testApp)
     }
     
     func isShowing() -> Bool {
@@ -266,20 +268,26 @@ class AuthFlowTesterMainPageObject {
         tap(swithToUserButton())
     }
     
-    func changeAppConfig(appConfig: AppConfig, scopesToRequest: String = "") -> Bool {
+    func changeAppConfig(appConfig: AppConfig, scopesToRequest: String = "", useWebServerFlow: Bool, useHybridFlow: Bool) -> Bool {
         // Tap Change Key button to open the sheet
         tap(bottomBarChangeKeyButton())
-        
+
+        // Set auth flow types using the dedicated page object
+        authFlowTypesPageObject.setAuthFlowTypes(
+            useWebServerFlow: useWebServerFlow,
+            useHybridFlow: useHybridFlow
+        )
+
         // Build JSON config and import it
         let configJSON = buildConfigJSON(consumerKey: appConfig.consumerKey, redirectUri: appConfig.redirectUri, scopes: scopesToRequest)
         importConfig(configJSON)
-        
+
         // Tap the migrate button
         tap(migrateRefreshTokenButton())
-        
+
         // Tap the allow button if it appears
         tapIfPresent(allowButton())
-        
+
         let alert = app.alerts["Migration Error"]
         if (alert.waitForExistence(timeout: UITestTimeouts.long)) {
             alert.buttons["OK"].tap()
@@ -305,15 +313,15 @@ class AuthFlowTesterMainPageObject {
     
     private func importConfig(_ jsonString: String) {
         tap(importConfigButton())
-        
+
         // Wait for alert to appear
         let alert = importConfigAlert()
         _ = alert.waitForExistence(timeout: UITestTimeouts.long)
-        
+
         // Type into the alert's text field
         let textField = importConfigTextField()
         textField.typeText(jsonString)
-        
+
         tap(importAlertButton())
     }
     
@@ -433,7 +441,7 @@ class AuthFlowTesterMainPageObject {
     private func swithToUserButton() -> XCUIElement {
         return app.buttons["Switch to User"]
     }
-    
+
     // MARK: - Actions
     
     private func tap(_ element: XCUIElement) {
@@ -450,7 +458,7 @@ class AuthFlowTesterMainPageObject {
     private func setTextField(_ textField: XCUIElement, value: String) {
         _ = textField.waitForExistence(timeout: UITestTimeouts.long)
         textField.tap()
-        
+
         // Clear any existing text
         if let currentValue = textField.value as? String, !currentValue.isEmpty {
             textField.tap()
@@ -460,10 +468,10 @@ class AuthFlowTesterMainPageObject {
                 textField.typeText(XCUIKeyboardKey.delete.rawValue)
             }
         }
-        
+
         textField.typeText(value)
     }
-    
+
     // MARK: - Data Extraction Methods
     
     func getUserCredentials() -> UserCredentialsData {

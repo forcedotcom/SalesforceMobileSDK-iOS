@@ -87,7 +87,6 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				overview.md,
-				ui_test_config.json,
 			);
 			target = 4F8E4AF02ED13CE800DA7B7A /* AuthFlowTesterUITests */;
 		};
