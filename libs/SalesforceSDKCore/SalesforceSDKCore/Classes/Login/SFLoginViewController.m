@@ -451,9 +451,13 @@
 #pragma mark - Login Host
 
 - (void)showHostListView {
-    SFSDKNavigationController *navController = [[SFSDKNavigationController alloc] initWithRootViewController:self.loginHostListViewController];
+    // Create a FRESH instance each time instead of reusing the cached one
+    SFSDKLoginHostListViewController *hostListVC = [self createLoginHostListViewController];
+    hostListVC.delegate = self;
+
+    SFSDKNavigationController *navController = [[SFSDKNavigationController alloc] initWithRootViewController:hostListVC];
     navController.modalPresentationStyle = UIModalPresentationPageSheet;
-    
+
     [self presentViewController:navController animated:YES completion:nil];
 }
 
