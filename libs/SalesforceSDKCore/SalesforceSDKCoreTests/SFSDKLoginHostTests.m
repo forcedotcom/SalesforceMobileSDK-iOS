@@ -173,10 +173,14 @@
     XCTAssertNotEqual(instance2, instance3, "Second and third instances should be different objects");
     XCTAssertNotEqual(instance1, instance3, "First and third instances should be different objects");
 
-    // Verify each instance is properly configured
+    // Verify each instance is properly configured with config and delegate
     XCTAssertNotNil(instance1.config, "First instance should have config");
     XCTAssertNotNil(instance2.config, "Second instance should have config");
     XCTAssertNotNil(instance3.config, "Third instance should have config");
+
+    XCTAssertEqual(instance1.delegate, loginViewController, "First instance delegate should be set to loginViewController");
+    XCTAssertEqual(instance2.delegate, loginViewController, "Second instance delegate should be set to loginViewController");
+    XCTAssertEqual(instance3.delegate, loginViewController, "Third instance delegate should be set to loginViewController");
 }
 
 @end
