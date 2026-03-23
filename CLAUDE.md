@@ -2,13 +2,6 @@
 
 ---
 
-## About This Project
-
-The Salesforce Mobile SDK is a public, open-source SDK that enables developers to build native, hybrid, and React Native mobile apps that integrate with the Salesforce platform. It is consumed by ISVs, SI partners, and internal Salesforce teams.
-
-**Key constraint**: This is a **public SDK**. Every change is visible to external developers. Backward compatibility, deprecation cycles, and semver discipline are non-negotiable.
-
-
 ## iOS Library Architecture
 
 Workspace: `SalesforceMobileSDK.xcworkspace`
@@ -91,7 +84,7 @@ xcodebuild test -workspace SalesforceMobileSDK.xcworkspace \
 
 ### iOS-Specific
 - **Swift for all new code**. No new Objective-C files.
-- **No force unwraps (`!`)** outside of test code.
+- **No force unwraps (`!`)**
 - **Async/await preferred** over completion handlers. Completion-based methods are being deprecated in favor of async/await (ongoing since 13.0).
 - **`RestClient`** is the single entry point for REST API calls. As of 13.1, direct `URLRequest` is also supported. Don't create custom `URLSession` instances.
 - **Prefix public ObjC-visible types** with `SF` (legacy) or use Swift namespacing for new types.
@@ -158,7 +151,6 @@ When reviewing PRs (or acting as an AI reviewer), verify:
 - [ ] **Tests included**: New/changed behavior has corresponding test coverage in the correct test target.
 - [ ] **No regressions**: Full test suite for the affected library passes.
 - [ ] **Multi-user**: Does this work correctly with multiple logged-in accounts?
-- [ ] **Encryption**: If touching SmartStore, does this work across all SQLCipher editions (Community, Commercial, Enterprise, FIPS)?
 - [ ] **Localization**: Are new user-facing strings added to localization files? Are they called out in the PR description?
 - [ ] **Security**: No hardcoded credentials, no PII logging, tokens handled securely, no new `NSAllowsArbitraryLoads` or cleartext traffic exceptions.
 - [ ] **Performance**: No unnecessary main-thread work, no unbounded memory growth, no blocking network calls.
@@ -173,8 +165,7 @@ When reviewing PRs (or acting as an AI reviewer), verify:
 These rules apply when Claude Code operates as an agent in these repos:
 
 ### Do
-- Always run the test suite for the affected library before creating a commit.
-- Create small, focused commits with descriptive messages in the format: `[Library] Description (#TICKET)`
+- Always run the test suite for the affected library before creating a commit. Before running the suite, check that test_credentials.json or ui_test_config.json (for UI tests) exists in `shared/test`.
 - When fixing a bug, write a failing test first, then fix the code.
 - Check both iOS and Android repos when investigating a feature — the behavior should be consistent across platforms.
 - Reference the public developer documentation at https://developer.salesforce.com/docs/platform/mobile-sdk/guide when understanding expected behavior.
@@ -186,7 +177,7 @@ These rules apply when Claude Code operates as an agent in these repos:
 - Don't modify `Podfile`, `*.podspec`, `.xcodeproj`/`.xcworkspace`, or CI configuration files without explicit human request.
 - Don't add new third-party dependencies without flagging for human review and legal/license check.
 - Don't suppress lint warnings, deprecation warnings, or test failures.
-- Don't modify `install.sh` or `install.vbs` setup scripts.
+- Don't modify `install.sh` setup script.
 - Don't remove deprecated APIs — they follow a release-cycle deprecation process. Only remove in major versions after the deprecation notice period.
 - Don't bump minimum iOS version without team discussion.
 
