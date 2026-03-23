@@ -356,6 +356,7 @@
 - (SFSDKLoginHostListViewController *)createLoginHostListViewController {
     SFSDKLoginHostListViewController *loginHostListViewController = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
     loginHostListViewController.config = self.config;
+    loginHostListViewController.delegate = self;
     return loginHostListViewController;
 }
 
@@ -400,7 +401,6 @@
 - (SFSDKLoginHostListViewController *)loginHostListViewController {
     if (!_loginHostListViewController) {
         _loginHostListViewController = [self createLoginHostListViewController];
-        _loginHostListViewController.delegate = self;
     }
     return _loginHostListViewController;
 }
@@ -451,9 +451,12 @@
 #pragma mark - Login Host
 
 - (void)showHostListView {
-    SFSDKNavigationController *navController = [[SFSDKNavigationController alloc] initWithRootViewController:self.loginHostListViewController];
+    // Create a FRESH instance each time instead of reusing the cached one
+    SFSDKLoginHostListViewController *hostListVC = [self createLoginHostListViewController];
+
+    SFSDKNavigationController *navController = [[SFSDKNavigationController alloc] initWithRootViewController:hostListVC];
     navController.modalPresentationStyle = UIModalPresentationPageSheet;
-    
+
     [self presentViewController:navController animated:YES completion:nil];
 }
 
