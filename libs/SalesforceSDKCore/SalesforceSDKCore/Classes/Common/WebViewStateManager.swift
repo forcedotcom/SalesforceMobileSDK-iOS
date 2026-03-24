@@ -53,13 +53,21 @@ public class SFSDKWebViewStateManager: NSObject {
     @objc
     @MainActor
     public static func resetSessionCookie() {
+        resetSessionCookie(completion: {})
+    }
+
+    @objc
+    @MainActor
+    public static func resetSessionCookie(completion: @escaping () -> Void) {
         if sessionCookieManagementDisabled {
             SFSDKCoreLogger.d(SFSDKWebViewStateManager.self, message: "[\(Self.self) resetSessionCookie]: Cookie Management disabled. Will do nothing.")
+            completion()
             return
         }
-        
+
         Task {
             await removeWKWebViewCookies()
+            completion()
         }
     }
     
