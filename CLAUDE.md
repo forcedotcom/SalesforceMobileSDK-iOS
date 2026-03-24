@@ -2,6 +2,12 @@
 
 ---
 
+## About This Project
+
+The Salesforce Mobile SDK is a public, open-source SDK that enables developers to build mobile apps that integrate with the Salesforce platform. It is consumed by ISVs, SI partners, and internal Salesforce teams.
+
+**Key constraint**: This is a **public SDK**. Every change is visible to external developers. Backward compatibility, deprecation cycles, and semver discipline are non-negotiable.
+
 ## iOS Library Architecture
 
 Workspace: `SalesforceMobileSDK.xcworkspace`
