@@ -88,11 +88,14 @@ class LoginPageObject {
     }
 
     func performAdvancedLogin(username: String, password: String) {
-        setTextField(usernameField(), value: username)
-        tap(passwordFieldLabel())
+        // Fill password first so username field remains visible above the keyboard
+        tap(passwordField())
         setTextField(passwordField(), value: password)
-        tap(usernameFieldLabel())
-        tap(loginButton())
+        // Now tap username field (visible above keyboard) and fill it
+        tap(usernameField())
+        setTextField(usernameField(), value: username)
+        // Press Return to submit the form
+        usernameField().typeText(XCUIKeyboardKey.return.rawValue)
         tapIfPresent(allowButton())
     }
     
