@@ -23,6 +23,7 @@
  */
 
 #import "SFSDKSafeMutableDictionary.h"
+#import "SFLogger.h"
 
 @interface SFSDKSafeMutableDictionary()
 
@@ -89,6 +90,10 @@
 #pragma Mark - Mutating Methods
 
 - (void)setObject:(id)object forKey:(id<NSCopying>)aKey {
+    if (aKey == nil) {
+        [SFLogger w:[self class] format:@"Attempted to set object with nil key in safe dictionary"];
+        return;
+    }
     dispatch_barrier_async(self.queue, ^{
         self.backingDictionary[aKey] = object;
     });
@@ -99,6 +104,10 @@
 }
 
 - (void)removeObject:(id<NSCopying>)aKey {
+    if (aKey == nil) {
+        [SFLogger w:[self class] format:@"Attempted to remove nil key from safe dictionary"];
+        return;
+    }
     dispatch_barrier_async(self.queue, ^{
         [self.backingDictionary removeObjectForKey:aKey];
     });
