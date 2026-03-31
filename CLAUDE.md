@@ -6,6 +6,8 @@
 
 The Salesforce Mobile SDK is a public, open-source SDK that enables developers to build mobile apps that integrate with the Salesforce platform. It is consumed by ISVs, SI partners, and internal Salesforce teams.
 
+**For user-facing overview and quick start**: See [readme.md](readme.md)
+
 **Key constraint**: This is a **public SDK**. Every change is visible to external developers. Backward compatibility, deprecation cycles, and semver discipline are non-negotiable.
 
 ## iOS Library Architecture
@@ -49,6 +51,9 @@ MobileSync
 - **Schemes**: Individual per library (`SalesforceSDKCore`, `SmartStore`, `MobileSync`, etc.) plus test schemes
 
 ### iOS Build & Test Commands
+
+See [readme.md](readme.md) for basic setup. Commands below are for contributors running tests and analysis.
+
 ```bash
 # Initial setup (after clone)
 ./install.sh
