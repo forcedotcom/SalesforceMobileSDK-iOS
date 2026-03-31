@@ -40,24 +40,38 @@ The Salesforce Mobile SDK provides the essential libraries for quickly building 
 
 ## Libraries
 
-The SDK consists of five core libraries:
+| Library | Purpose |
+|---------|---------|
+| **SalesforceSDKCommon** | Shared utilities and base protocols |
+| **SalesforceAnalytics** | Telemetry and event tracking |
+| **SalesforceSDKCore** | OAuth2 authentication, REST API, account management |
+| **SmartStore** | Encrypted local storage (SQLCipher) |
+| **MobileSync** | Data synchronization framework |
 
-| Library | Purpose | Key Features |
-|---------|---------|--------------|
-| **SalesforceSDKCommon** | Shared utilities and base protocols | Crypto helpers, logging, extensions |
-| **SalesforceAnalytics** | Telemetry and analytics | Event tracking, instrumentation |
-| **SalesforceSDKCore** | Authentication and REST API | OAuth2, REST client, account management, identity, push notifications |
-| **SmartStore** | Encrypted local storage | SQLCipher-backed storage, indexing, Smart SQL queries |
-| **MobileSync** | Data synchronization | Sync up/down, conflict resolution, offline-first patterns |
+## Getting Started
 
-### Library Dependencies
+### Using the SDK (via forceios)
 
+```bash
+# Install CLI
+npm install -g forceios
+
+# Create app from template
+forceios create --appname MyApp --packagename com.mycompany.myapp --organization "My Company"
 ```
-MobileSync
-  └── SmartStore
-       └── SalesforceSDKCore
-            └── SalesforceAnalytics
-                 └── SalesforceSDKCommon
+
+See templates for complete usage examples.
+
+### Building from Source
+
+```bash
+# Clone and setup
+git clone https://github.com/forcedotcom/SalesforceMobileSDK-iOS.git
+cd SalesforceMobileSDK-iOS
+./install.sh
+
+# Open in Xcode
+open SalesforceMobileSDK.xcworkspace
 ```
 
 ## Usage
