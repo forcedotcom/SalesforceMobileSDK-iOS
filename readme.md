@@ -64,15 +64,7 @@ See templates for complete usage examples.
 
 ### Building from Source
 
-```bash
-# Clone and setup
-git clone https://github.com/forcedotcom/SalesforceMobileSDK-iOS.git
-cd SalesforceMobileSDK-iOS
-./install.sh
-
-# Open in Xcode
-open SalesforceMobileSDK.xcworkspace
-```
+See [Setting up the repo](#setting-up-the-repo) above for clone and setup instructions. Once setup is complete, open `SalesforceMobileSDK.xcworkspace` in Xcode.
 
 Documentation
 ==
