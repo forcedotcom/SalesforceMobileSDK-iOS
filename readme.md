@@ -38,6 +38,34 @@ See [release notes](https://github.com/forcedotcom/SalesforceMobileSDK-iOS/relea
 ### Native Applications
 The Salesforce Mobile SDK provides the essential libraries for quickly building native mobile apps that interact with the Salesforce cloud platform. The OAuth2 library abstracts away the complexity of securely storing the refresh token or fetching a new session ID when it expires. The SDK also provides wrappers for the Salesforce REST API that you can use from both Swift and Objective-C.
 
+## Libraries
+
+| Library | Purpose |
+|---------|---------|
+| **SalesforceSDKCommon** | Shared utilities and base protocols |
+| **SalesforceAnalytics** | Telemetry and event tracking |
+| **SalesforceSDKCore** | OAuth2 authentication, REST API, account management |
+| **SmartStore** | Encrypted local storage (SQLCipher) |
+| **MobileSync** | Data synchronization framework |
+
+## Getting Started
+
+### Using the SDK (via forceios)
+
+```bash
+# Install CLI
+npm install -g forceios
+
+# Create app from template
+forceios create --appname MyApp --packagename com.mycompany.myapp --organization "My Company"
+```
+
+See templates for complete usage examples.
+
+### Building from Source
+
+See [Setting up the repo](#setting-up-the-repo) above for clone and setup instructions. Once setup is complete, open `SalesforceMobileSDK.xcworkspace` in Xcode.
+
 Documentation
 ==
 

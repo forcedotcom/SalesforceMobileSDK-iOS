@@ -6,6 +6,8 @@
 
 The Salesforce Mobile SDK is a public, open-source SDK that enables developers to build mobile apps that integrate with the Salesforce platform. It is consumed by ISVs, SI partners, and internal Salesforce teams.
 
+**For user-facing overview and quick start**: See [readme.md](readme.md)
+
 **Key constraint**: This is a **public SDK**. Every change is visible to external developers. Backward compatibility, deprecation cycles, and semver discipline are non-negotiable.
 
 ## iOS Library Architecture
@@ -49,6 +51,9 @@ MobileSync
 - **Schemes**: Individual per library (`SalesforceSDKCore`, `SmartStore`, `MobileSync`, etc.) plus test schemes
 
 ### iOS Build & Test Commands
+
+See [readme.md](readme.md) for basic setup. Commands below are for contributors running tests and analysis.
+
 ```bash
 # Initial setup (after clone)
 ./install.sh
@@ -143,7 +148,7 @@ xcodebuild test -workspace SalesforceMobileSDK.xcworkspace \
 3. Follow BDD naming: `test_given[Precondition]_when[Action]_then[Expected]`
 4. Use existing test utilities and mocks already in the test targets. Don't create parallel mock infrastructure.
 5. Run the full test suite for the affected library after generation. Fix failures before committing.
-6. If the code under test requires a Connected App or sandbox org, note this clearly in the test documentation.
+6. If the code under test requires an External Client App or sandbox org, note this clearly in the test documentation.
 7. If test generation reveals tightly coupled or untestable code, flag this in the PR description as a refactoring opportunity — do not restructure production code just to make tests pass.
 
 ---
@@ -204,12 +209,12 @@ These rules apply when Claude Code operates as an agent in these repos:
 
 Understanding these concepts is essential for working in this codebase:
 
-- **Connected App or External Client App**: A Salesforce configuration that defines OAuth2 client credentials (consumer key, callback URI, scopes). Every Mobile SDK app requires one.
+- **External Client App or Connected App (legacy)**: A Salesforce configuration that defines OAuth2 client credentials (consumer key, callback URI, scopes). Every Mobile SDK app requires one. External Client Apps are the preferred model.
 - **Soup**: SmartStore's unit of storage — analogous to a database table. Has a name, index specs, and entries (JSON blobs).
 - **Smart SQL**: SmartStore's SQL dialect for querying across soups. Uses `{soupName:fieldPath}` syntax.
 - **Sync Target**: MobileSync's abstraction for defining what data to sync and how. Includes SOQL down targets, SOSL down targets, MRU targets, layout targets, metadata targets, and various up targets (standard, batch, advanced).
 - **User Agent**: The SDK constructs a specific user agent string that identifies the SDK version, app type, and platform. Don't override this.
-- **SalesforceSDKManager**: The singleton entry point for SDK configuration and lifecycle. Manages connected app settings, auth scopes, login behavior, and user account events.
+- **SalesforceSDKManager**: The singleton entry point for SDK configuration and lifecycle. Manages OAuth configuration settings, auth scopes, login behavior, and user account events.
 - **Hybrid Authentication**: Uses session IDs from login/refresh endpoints (instead of frontdoor URLs) for loading app content in WebViews.
 - **UI Bridge API**: Used to construct frontdoor URLs for opening Salesforce UIs in WebViews without re-authentication.
 - **Advanced Authentication**: Native browser login, bypassing the standard WKWebView for orgs requiring it.
