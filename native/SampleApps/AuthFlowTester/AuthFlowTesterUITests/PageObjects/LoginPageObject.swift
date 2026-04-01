@@ -226,7 +226,7 @@ class LoginPageObject {
         if closeButton.exists {
             return closeButton
         }
-        // Earlier iOS versions use "Close", iOS 18+ uses "Cancel"
+        // Earlier iOS versions use "Cancel"
         return topBar.buttons["Cancel"]
     }
     
