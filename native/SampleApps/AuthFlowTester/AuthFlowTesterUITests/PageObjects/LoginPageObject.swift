@@ -221,7 +221,13 @@ class LoginPageObject {
     }
 
     private func advancedAuthCloseButton() -> XCUIElement {
-        return app.otherElements["TopBrowserBar"].buttons["Close"]
+        let topBar = app.otherElements["TopBrowserBar"]
+        let closeButton = topBar.buttons["Close"]
+        if closeButton.exists {
+            return closeButton
+        }
+        // Earlier iOS versions use "Close", iOS 18+ uses "Cancel"
+        return topBar.buttons["Cancel"]
     }
     
     // MARK: - Actions
