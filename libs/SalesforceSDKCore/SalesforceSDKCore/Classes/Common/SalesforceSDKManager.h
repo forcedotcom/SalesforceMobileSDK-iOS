@@ -26,7 +26,7 @@
 #import <UIKit/UIKit.h>
 #import <SalesforceSDKCore/SalesforceSDKCoreDefines.h>
 #import <SalesforceSDKCore/SalesforceSDKConstants.h>
-@class SFUserAccount, SFSDKAppConfig, SFScreenLockManager, SFBiometricAuthenticationManager;
+@class SFUserAccount, SFSDKAppConfig, SFScreenLockManager, SFBiometricAuthenticationManager, SFDomainDiscoveryResult;
 @protocol SFScreenLockManager, SFBiometricAuthenticationManager, SFNativeLoginManager;
 
 /**
@@ -203,6 +203,19 @@ NS_SWIFT_NAME(SalesforceManager)
  */
 @property (nonatomic, copy) SFSDKUserAgentCreationBlock userAgentString NS_SWIFT_NAME(userAgentGenerator);
 
+/**
+ Block to dynamically select the app config at runtime based on login host.
+ 
+ NB: SFUserAccountManager stores the consumer key, callback URL, etc. in its shared
+ instance, backed by shared prefs and initialized from the static boot config.
+ Previously, the app always used these shared instance values for login.
+ Now, the app can inject alternate values instead — in that case, the shared
+ instance and prefs are left untouched (not read or overwritten).
+ The consumer key and related values used for login are saved in the user
+ account credentials (as before) and therefore used later for token refresh.
+ */
+ @property (nonatomic, copy, nullable) SFSDKAppConfigRuntimeSelectorBlock appConfigRuntimeSelectorBlock NS_SWIFT_NAME(bootConfigRuntimeSelector);
+
 /** Use this flag to indicate if the APP will be an identity provider. When enabled this flag allows this application to perform authentication on behalf of another app.
  */
 @property (nonatomic,assign) BOOL isIdentityProvider NS_SWIFT_NAME(isIdentityProvider);
@@ -224,6 +237,10 @@ NS_SWIFT_NAME(SalesforceManager)
 /** Use this flag to indicate if the login webview should be inspectable
  */
 @property (nonatomic, assign) BOOL isLoginWebviewInspectable;
+
+/** When set (DEBUG builds only; setter is a no-op in Release), a callback URL is built from this result to trigger the domain discovery callback handler when welcome.salesforce.com is the login server. Used by tests to simulate domain discovery.
+ */
+@property (nonatomic, strong, nullable) SFDomainDiscoveryResult *simulatedDomainDiscoveryResult;
 
 /** The type of cache used for the shared URL cache, defaults to kSFURLCacheTypeEncrypted.
 */
@@ -305,6 +322,17 @@ NS_SWIFT_NAME(SalesforceManager)
  * @return The Biometric Authentication Manager.
  */
 - (id <SFBiometricAuthenticationManager>)biometricAuthenticationManager;
+
+/**
+ * Asynchronously retrieves the app config (aka boot config) for the specified login host.
+ *
+ * If an appConfigRuntimeSelectorBlock is set, it will be invoked to select the appropriate config.
+ * If the block is not set or returns nil, the default appConfig will be returned.
+ *
+ * @param loginHost The selected login host
+ * @param callback The callback invoked with the selected app config
+ */
+- (void)appConfigForLoginHost:(nullable NSString *)loginHost callback:(nonnull void (^)(SFSDKAppConfig * _Nullable))callback NS_SWIFT_NAME(bootConfig(forLoginHost:callback:));
 
 /**
  * Creates the NativeLoginManager instance.

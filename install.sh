@@ -6,6 +6,9 @@
 # Run this script before working with the SalesforceMobileSDK Xcode workspace.
 #
 
+# Run from repo root so relative paths work regardless of invocation directory
+cd "$(dirname "$0")"
+
 # Check for iOS SDK minimum version
 IOS_MIN_VERSION_NUM=170
 IOS_MIN_VERSION_STR="iOS 17.0"
@@ -44,4 +47,32 @@ fi
 if [ ! -f "shared/test/test_credentials.json" ]
 then
     cp shared/test/test_credentials.json.sample shared/test/test_credentials.json
+fi
+
+# Create bootconfig.plist from shared sample
+BOOTCONFIG_SAMPLE="shared/bootconfig.plist.sample"
+BOOTCONFIG_PATHS=(
+    "native/SampleApps/AuthFlowTester/AuthFlowTester/Supporting Files/bootconfig.plist"
+    "native/SampleApps/RestAPIExplorer/RestAPIExplorer/bootconfig.plist"
+    "native/SampleApps/MobileSyncExplorer/MobileSyncExplorer/bootconfig.plist"
+)
+for bootconfig in "${BOOTCONFIG_PATHS[@]}"; do
+    mkdir -p "$(dirname "$bootconfig")"
+    cp "$BOOTCONFIG_SAMPLE" "$bootconfig"
+    
+    # Substitute env vars if set
+    if [ -n "${MSDK_IOS_REMOTE_ACCESS_CONSUMER_KEY:-}" ]; then
+        gsed -i "s|__CONSUMER_KEY__|${MSDK_IOS_REMOTE_ACCESS_CONSUMER_KEY}|g" "$bootconfig"
+    fi
+    if [ -n "${MSDK_IOS_REMOTE_ACCESS_CALLBACK_URL:-}" ]; then
+        gsed -i "s|__REDIRECT_URI__|${MSDK_IOS_REMOTE_ACCESS_CALLBACK_URL}|g" "$bootconfig"
+    fi
+done
+
+if [ -z "${MSDK_IOS_REMOTE_ACCESS_CONSUMER_KEY:-}" ] || [ -z "${MSDK_IOS_REMOTE_ACCESS_CALLBACK_URL:-}" ]; then
+    echo ""
+    echo "Note: MSDK_IOS_REMOTE_ACCESS_CONSUMER_KEY and/or MSDK_IOS_REMOTE_ACCESS_CALLBACK_URL are not set."
+    echo "To run the sample applications, define these environment variables or manually provide"
+    echo "a bootconfig.plist (with remoteAccessConsumerKey and oauthRedirectURI) in each sample app."
+    echo ""
 fi

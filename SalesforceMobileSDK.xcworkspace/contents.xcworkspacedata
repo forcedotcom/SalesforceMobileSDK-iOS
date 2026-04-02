@@ -48,6 +48,9 @@
       <FileRef
          location = "group:native/SampleApps/MobileSyncExplorer/MobileSyncExplorer.xcodeproj">
       </FileRef>
+      <FileRef
+         location = "group:native/SampleApps/AuthFlowTester/AuthFlowTester.xcodeproj">
+      </FileRef>
    </Group>
    <Group
       location = "container:"

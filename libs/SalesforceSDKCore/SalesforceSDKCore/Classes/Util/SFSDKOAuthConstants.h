@@ -131,7 +131,6 @@ static NSString * const kHttpPostContentType                        = @"applicat
 static NSString * const kHttpPostApplicationJsonContentType         = @"application/json";
 static NSString * const kHttpHeaderUserAgent                        = @"User-Agent";
 static NSString * const kOAuthUserAgentUserDefaultsKey              = @"UserAgent";
-static NSString * const kSFAppFeatureSafariBrowserForLogin          = @"BW";
 static NSString * const kSFECParameter                              = @"ec";
 
 // Endpoint path for Salesforce Identity API initialize headless, password-less login flow

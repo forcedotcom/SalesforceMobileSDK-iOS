@@ -1,0 +1,177 @@
+on:
+  workflow_call:
+    inputs:
+      is_pr:
+        type: boolean
+        default: false
+      ios:
+        default: "^26"
+        required: false
+        type: string
+      xcode:
+        default: "^26"
+        required: false
+        type: string
+      macos:
+        default: macos-latest
+        required: false
+        type: string
+      pr_test:
+        description: "Test identifier to run for PR (e.g. 'AuthFlowTesterUITests/LegacyLoginTests/testMethod'). Empty = run all tests."
+        default: ""
+        required: false
+        type: string
+      test_suite:
+        description: "Test suite to run (e.g. 'AuthFlowTesterUITests/BeaconLoginTests'). Empty = run all tests. Used with matrix for parallel nightly runs."
+        default: ""
+        required: false
+        type: string
+      destination:
+        description: "xcodebuild -destination (e.g. 'platform=iOS Simulator,name=iPhone 17,OS=26.0'). Empty = use default for iOS 26."
+        default: ""
+        required: false
+        type: string
+      short_timeout:
+        description: "UI test short timeout in seconds (env UI_TEST_SHORT_TIMEOUT). Empty = use code default (1)."
+        default: ""
+        required: false
+        type: string
+      long_timeout:
+        description: "UI test long timeout in seconds (env UI_TEST_LONG_TIMEOUT). Empty = use code default (3)."
+        default: ""
+        required: false
+        type: string
+
+jobs:
+  test-ui:
+    runs-on: ${{ inputs.macos }}
+    steps:
+      - name: Set result suffix for matrix runs
+        id: result_suffix
+        run: |
+          if [ -n "${{ inputs.test_suite }}" ]; then
+            echo "suffix=$(echo '${{ inputs.test_suite }}' | tr '/' '-')" >> "$GITHUB_OUTPUT"
+          else
+            echo "suffix=all" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: actions/checkout@v4
+        if: ${{ inputs.is_pr }}
+        with:
+          fetch-depth: 100
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/checkout@v4
+        if: ${{ !inputs.is_pr }}
+        with:
+          ref: ${{ github.head_ref }}
+      - name: Install Dependencies
+        env:
+          UI_TEST_CONFIG: ${{ secrets.UI_TEST_CONFIG }}
+        run: |
+          ./install.sh
+          echo "$UI_TEST_CONFIG" > ./shared/test/ui_test_config.json
+      - name: Install iOS 17 runtime if needed
+        if: ${{ inputs.ios == '^17' }}
+        run: xcodes runtimes install "iOS 17.5"
+      # Select Xcode only (mxcl action does not support -retry-tests-on-failure)
+      - uses: mxcl/xcodebuild@v3
+        with:
+          xcode: ${{ inputs.xcode }}
+          platform: iOS
+          platform-version: ${{ inputs.ios }}
+          action: none
+      - name: Resolve simulator destination
+        id: resolve_destination
+        run: |
+          if [ -n "${{ inputs.destination }}" ]; then
+            echo "destination=${{ inputs.destination }}" >> "$GITHUB_OUTPUT"
+          else
+            # Extract major iOS version from input (e.g. ^26 -> 26, 26.0 -> 26)
+            IOS_VERSION="${{ inputs.ios }}"
+            IOS_MAJOR=$(echo "$IOS_VERSION" | sed 's/^\^//' | cut -d. -f1)
+            SIM_UDID=$(xcrun simctl list devices available -j | python3 -c '
+          import sys, json
+          major = sys.argv[1]
+          d = json.load(sys.stdin)
+          runtime_prefix = "iOS-" + major + "-"
+          for runtime_key, devices in d.get("devices", {}).items():
+            if runtime_prefix not in runtime_key:
+              continue
+            for dev in devices:
+              if dev.get("isAvailable", True) and "iPhone" in dev.get("name", ""):
+                print(dev["udid"])
+                sys.exit(0)
+          sys.exit(1)
+            ' "$IOS_MAJOR")
+            if [ -z "$SIM_UDID" ]; then
+              echo "::error::No available iPhone simulator found for iOS $IOS_MAJOR"
+              exit 1
+            fi
+            echo "destination=platform=iOS Simulator,id=$SIM_UDID" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Run UI tests
+        id: xcodebuild
+        run: |
+          DESTINATION="${{ steps.resolve_destination.outputs.destination }}"
+          ONLY_TESTING_ARGS=()
+          if [ -n "${{ inputs.pr_test }}" ]; then
+            ONLY_TESTING_ARGS+=(-only-testing "${{ inputs.pr_test }}")
+          elif [ -n "${{ inputs.test_suite }}" ]; then
+            ONLY_TESTING_ARGS+=(-only-testing "${{ inputs.test_suite }}")
+          fi
+          set -o pipefail
+          xcodebuild test \
+            -workspace SalesforceMobileSDK.xcworkspace \
+            -scheme AuthFlowTester \
+            -testPlan AuthFlowTester \
+            "${ONLY_TESTING_ARGS[@]}" \
+            -destination "$DESTINATION" \
+            -resultBundlePath test \
+            -enableCodeCoverage YES \
+            | xcbeautify
+        env:
+          CODE_COVERAGE: YES
+          # Xcode 15.3+ only forwards env vars prefixed with TEST_RUNNER_ to the test runner (prefix is stripped).
+          TEST_RUNNER_UI_TEST_SHORT_TIMEOUT: ${{ inputs.short_timeout }}
+          TEST_RUNNER_UI_TEST_LONG_TIMEOUT: ${{ inputs.long_timeout }}
+      - name: Verify xcresult bundle exists
+        if: success() || failure()
+        run: |
+          if [ ! -d "test.xcresult" ]; then
+            echo "::error::test.xcresult bundle was not created"
+            exit 1
+          fi
+          echo "xcresult bundle exists and contains:"
+          ls -lh test.xcresult/
+      - name: Parse test results
+        if: success() || failure()
+        run: |
+          brew install xcresultparser
+          xcresultparser -o junit test.xcresult > test-results-authflowtester-ui-ios${{ inputs.ios }}-${{ steps.result_suffix.outputs.suffix }}.xml
+      - name: Test Report
+        uses: mikepenz/action-junit-report@v5
+        if: success() || failure()
+        with:
+          check_name: AuthFlowTester UI Test Results ${{ steps.result_suffix.outputs.suffix }}
+          job_name: AuthFlowTester UI Test Results ${{ steps.result_suffix.outputs.suffix }}
+          require_tests: true
+          include_empty_in_summary: false
+          simplified_summary: true
+          detailed_summary: true
+          comment: true
+          job_summary: true
+          report_paths: 'test-results-authflowtester-ui-ios${{ inputs.ios }}-${{ steps.result_suffix.outputs.suffix }}.xml'
+          check_retries: false
+          group_suite: true
+      - uses: codecov/codecov-action@v4
+        if: success() || failure()
+        with:
+          flags: AuthFlowTesterUI
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      - name: Upload xcresult bundle
+        if: success() || failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: xcresult-authflowtester-ui-ios${{ inputs.ios }}-${{ steps.result_suffix.outputs.suffix }}
+          path: test.xcresult/
+          retention-days: 30

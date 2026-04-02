@@ -39,6 +39,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) NSString *redirectUri;
 @property (nonatomic, readonly) NSString *loginHost;
 @property (nonatomic, readonly) NSString *communityUrl;
+@property (nonatomic, readonly) NSString *username;
+@property (nonatomic, readonly) NSString *displayName;
 
 @end
 

@@ -30,6 +30,7 @@
 #import "SalesforceOAuthUnitTests.h"
 #import "SFSDKCryptoUtils.h"
 #import "SFUserAccountManager.h"
+#import "SFOAuthCoordinator+Internal.h"
 
 static NSString * const kIdentifier = @"com.salesforce.ios.oauth.test";
 static NSString * const kClientId   = @"SfdcMobileChatteriOS";
@@ -130,6 +131,7 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     credsIn.identityUrl     = [NSURL URLWithString:@"https://login.salesforce.com/ID/orgID/eighteenCharUsrXYZ"];
     credsIn.instanceUrl     = [NSURL URLWithString:@"http://www.salesforce.com"];
     credsIn.apiInstanceUrl  = [NSURL URLWithString:@"http://api.salesforce.com"];
+    credsIn.scopes          = @[@"api", @"refresh_token"];
     credsIn.issuedAt        = [NSDate date];
     credsIn.contentDomain   = @"mobilesdk.my.salesforce.com";
     credsIn.contentSid      = @"contentsid";
@@ -173,6 +175,7 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     XCTAssertEqualObjects(expectedUserId,              credsOut.userId,              @"userId mismatch");
     XCTAssertEqualObjects(credsIn.instanceUrl,         credsOut.instanceUrl,         @"instanceUrl mismatch");
     XCTAssertEqualObjects(credsIn.apiInstanceUrl,      credsOut.apiInstanceUrl,      @"apiInstanceUrl mismatch");
+    XCTAssertEqualObjects(credsIn.scopes,              credsOut.scopes,              @"scopes mismatch");
     XCTAssertEqualObjects(credsIn.issuedAt,            credsOut.issuedAt,            @"issuedAt mismatch");
     XCTAssertEqualObjects(credsIn.contentDomain,       credsOut.contentDomain,       @"contentDomain mismatch");
     XCTAssertEqualObjects(credsIn.contentSid,          credsOut.contentSid,          @"contentSid mismatch");
@@ -202,6 +205,7 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     NSString *orgIdToCheck = @"orgID";
     NSURL *instanceUrlToCheck = [NSURL URLWithString:@"https://na1.salesforce.com"];
     NSURL *apiInstanceUrlToCheck = [NSURL URLWithString:@"https://api.salesforce.com"];
+    NSArray<NSString *> *scopesToCheck = @[@"api", @"refresh_token"];
     NSString *communityIdToCheck = @"communityID";
     NSURL *communityUrlToCheck = [NSURL URLWithString:@"https://mycomm.my.salesforce.com/customers"];
     NSDate *issuedAtToCheck = [NSDate date];
@@ -231,6 +235,7 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     origCreds.accessToken = accessTokenToCheck;
     origCreds.instanceUrl = instanceUrlToCheck;
     origCreds.apiInstanceUrl = apiInstanceUrlToCheck;
+    origCreds.scopes = scopesToCheck;
     origCreds.communityId = communityIdToCheck;
     origCreds.communityUrl = communityUrlToCheck;
     origCreds.issuedAt = issuedAtToCheck;
@@ -267,6 +272,7 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     origCreds.organizationId = nil;
     origCreds.instanceUrl = nil;
     origCreds.apiInstanceUrl = nil;
+    origCreds.scopes = nil;
     origCreds.communityId = nil;
     origCreds.communityUrl = nil;
     origCreds.issuedAt = nil;
@@ -322,6 +328,8 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     XCTAssertNotEqual(origCreds.instanceUrl, copiedCreds.instanceUrl);
     XCTAssertEqual(copiedCreds.apiInstanceUrl, apiInstanceUrlToCheck);
     XCTAssertNotEqual(origCreds.apiInstanceUrl, copiedCreds.apiInstanceUrl);
+    XCTAssertEqual(copiedCreds.scopes, scopesToCheck);
+    XCTAssertNotEqual(origCreds.scopes, copiedCreds.scopes);
     XCTAssertEqual(copiedCreds.communityId, communityIdToCheck);
     XCTAssertNotEqual(origCreds.communityId, copiedCreds.communityId);
     XCTAssertEqual(copiedCreds.communityUrl, communityUrlToCheck);
@@ -449,6 +457,71 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     XCTAssertEqualObjects(csrfToken, csrfTokenVerify, @"csrf token should decrypt to the same value.");
     
     [credentials revoke];
+}
+
+#pragma mark - scopeQueryParamString Tests
+
+- (void)testScopeQueryParamStringEmptyScopes {
+    // Given
+    SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] init];
+    NSArray<NSString*> *scopes = [NSArray array];
+    
+    // When
+    NSString *result = [coordinator scopeQueryParamString:scopes];
+    
+    // Then
+    XCTAssertEqualObjects(result, @"", @"Empty scopes should return empty string");
+}
+
+- (void)testScopeQueryParamStringNilScopes {
+    // Given
+    SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] init];
+    NSArray<NSString*> *scopes = nil;
+    
+    // When
+    NSString *result = [coordinator scopeQueryParamString:scopes];
+    
+    // Then
+    XCTAssertEqualObjects(result, @"", @"Nil scopes should return empty string");
+}
+
+- (void)testScopeQueryParamStringSingleScope {
+    // Given
+    SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] init];
+    NSArray<NSString*> *scopes = @[@"web"];
+    
+    // When
+    NSString *result = [coordinator scopeQueryParamString:scopes];
+    
+    // Then
+    // Should include refresh_token and the provided scope, URL encoded
+    XCTAssertEqualObjects(result, @"&scope=refresh_token%20web", @"Single scope should include refresh_token and be URL encoded");
+}
+
+- (void)testScopeQueryParamStringMultipleScopes {
+    // Given
+    SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] init];
+    NSArray<NSString*> *scopes = @[@"web", @"api", @"id"];
+    
+    // When
+    NSString *result = [coordinator scopeQueryParamString:scopes];
+    
+    // Then
+    // Should include refresh_token and all provided scopes, sorted and URL encoded
+    XCTAssertEqualObjects(result, @"&scope=api%20id%20refresh_token%20web", @"Multiple scopes should be sorted alphabetically and include refresh_token");
+}
+
+- (void)testScopeQueryParamStringWithRefreshTokenAlreadyPresent {
+    // Given
+    SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] init];
+    NSArray<NSString*> *scopes = @[@"web", @"api", @"refresh_token"];
+
+    // When
+    NSString *result = [coordinator scopeQueryParamString:scopes];
+    
+    // Then
+    // Should still work correctly even if refresh_token is already present
+    XCTAssertEqualObjects(result, @"&scope=api%20refresh_token%20web", @"Should handle duplicate refresh_token gracefully and maintain sorted order");
 }
 
 @end

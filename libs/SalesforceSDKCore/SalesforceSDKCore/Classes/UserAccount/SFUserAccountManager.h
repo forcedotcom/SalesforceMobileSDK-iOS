@@ -88,6 +88,10 @@ FOUNDATION_EXTERN NSNotificationName kSFNotificationOrgDidLogout NS_SWIFT_NAME(U
  */
 FOUNDATION_EXTERN NSNotificationName kSFNotificationUserDidRefreshToken  NS_SWIFT_NAME(UserAccountManager.didRefreshToken);
 
+/** Notification sent when a migrate refresh flow succeeds.
+ */
+FOUNDATION_EXTERN NSNotificationName kSFNotificationUserDidMigrateRefreshToken  NS_SWIFT_NAME(UserAccountManager.didMigrateRefreshToken);
+
 /** Notification sent prior to display of Auth View. In swift access this constant using Notification.Name.SFUserAccountManagerWillShowAuthenticationView
  */
 FOUNDATION_EXTERN NSNotificationName kSFNotificationUserWillShowAuthView NS_SWIFT_NAME(UserAccountManager.willShowAuthenticationView);
@@ -570,6 +574,23 @@ Use this method to stop/clear any authentication which is has already been start
  Performs a logout for all users of the app, including the current user.
  */
 - (void)logoutAllUsers;
+
+/**
+ Migrates the refresh token for the specified user to a new app configuration.
+ 
+ This might cause the approve/deny screen to be presented to the user to authorize the
+ new app. If successful a new set of credentials (refresh token, access token) are obtained
+ and replace the existing credentials for the user.
+ 
+ @param user The user account whose refresh token should be migrated.
+ @param newAppConfig The new app configuration to migrate to.
+ @param completionBlock Called on successful migration with the updated user account and auth info.
+ @param failureBlock Called if the migration fails with an error and optional auth info.
+ */
+- (void)migrateRefreshToken:(SFUserAccount *)user
+               newAppConfig:(SFSDKAppConfig *)newAppConfig
+                    success:(SFUserAccountManagerSuccessCallbackBlock)completionBlock
+                    failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock NS_SWIFT_NAME(migrateRefreshToken(for:newAppConfig:success:failure:));
 
 /**
  Handle an authentication response from the IDP application

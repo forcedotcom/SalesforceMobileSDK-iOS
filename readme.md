@@ -32,20 +32,48 @@ The Salesforce Mobile SDK for iOS requires iOS 17.0 or greater.  The install.sh 
 Introduction
 ==
 
-### What's New in 13.1.1
+### What's New in 13.2.0
 See [release notes](https://github.com/forcedotcom/SalesforceMobileSDK-iOS/releases).
 
 ### Native Applications
 The Salesforce Mobile SDK provides the essential libraries for quickly building native mobile apps that interact with the Salesforce cloud platform. The OAuth2 library abstracts away the complexity of securely storing the refresh token or fetching a new session ID when it expires. The SDK also provides wrappers for the Salesforce REST API that you can use from both Swift and Objective-C.
 
+## Libraries
+
+| Library | Purpose |
+|---------|---------|
+| **SalesforceSDKCommon** | Shared utilities and base protocols |
+| **SalesforceAnalytics** | Telemetry and event tracking |
+| **SalesforceSDKCore** | OAuth2 authentication, REST API, account management |
+| **SmartStore** | Encrypted local storage (SQLCipher) |
+| **MobileSync** | Data synchronization framework |
+
+## Getting Started
+
+### Using the SDK (via forceios)
+
+```bash
+# Install CLI
+npm install -g forceios
+
+# Create app from template
+forceios create --appname MyApp --packagename com.mycompany.myapp --organization "My Company"
+```
+
+See templates for complete usage examples.
+
+### Building from Source
+
+See [Setting up the repo](#setting-up-the-repo) above for clone and setup instructions. Once setup is complete, open `SalesforceMobileSDK.xcworkspace` in Xcode.
+
 Documentation
 ==
 
-* [SalesforceSDKCommon Library Reference](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceSDKCommon/html/index.html)
-* [SalesforceAnalytics Library Reference](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceAnalytics/html/index.html)
-* [SalesforceSDKCore Library Reference](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceSDKCore/html/index.html)
-* [SmartStore Library Reference](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SmartStore/html/index.html)
-* [MobileSync Library Reference](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/MobileSync/html/index.html)
+* [SalesforceSDKCommon Library Reference](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceSDKCommon/documentation/salesforcesdkcommon/)
+* [SalesforceAnalytics Library Reference](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceAnalytics/documentation/salesforceanalytics/)
+* [SalesforceSDKCore Library Reference](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceSDKCore/documentation/salesforcesdkcore/)
+* [SmartStore Library Reference](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SmartStore/documentation/smartstore/)
+* [MobileSync Library Reference](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/MobileSync/documentation/mobilesync/)
 * Salesforce Mobile SDK Development Guide -- [HTML](https://developer.salesforce.com/docs/atlas.en-us.mobile_sdk.meta/mobile_sdk/preface_intro.htm)
 * [Mobile SDK Trail](https://trailhead.salesforce.com/en/content/learn/trails/start-ios-appdev)
 

@@ -29,8 +29,8 @@
 #import "SFManagedPreferences.h"
 #import "SFApplicationHelper.h"
 #import "SFSDKAppFeatureMarkers.h"
-#import "SFSDKDevInfoViewController.h"
 #import "SFDefaultUserManagementViewController.h"
+#import "SFSDKAuthRootController.h"
 #import <SalesforceSDKCommon/SFSwiftDetectUtil.h>
 #import "SFSDKEncryptedURLCache.h"
 #import "SFSDKNullURLCache.h"
@@ -42,11 +42,6 @@
 #import "SFSDKSalesforceSDKUpgradeManager.h"
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 #import "SFSDKWindowManager+Internal.h"
-
-static NSString * const kSFAppFeatureSwiftApp    = @"SW";
-static NSString * const kSFAppFeatureMultiUser   = @"MU";
-static NSString * const kSFAppFeatureMacApp      = @"MC";
-static NSString * const kSFAppFeatureNativeLogin = @"NL";
 
 // Error constants
 NSString * const kSalesforceSDKManagerErrorDomain     = @"com.salesforce.sdkmanager.error";
@@ -136,6 +131,12 @@ SFNativeLoginManagerInternal *nativeLogin;
 
 @synthesize webViewUserAgent = _webViewUserAgent;
 
+- (void)setSimulatedDomainDiscoveryResult:(SFDomainDiscoveryResult *)simulatedDomainDiscoveryResult {
+#ifdef DEBUG
+    _simulatedDomainDiscoveryResult = simulatedDomainDiscoveryResult;
+#endif
+}
+
 + (void)setInstanceClass:(Class)className {
     InstanceClass = className;
 }
@@ -195,6 +196,16 @@ SFNativeLoginManagerInternal *nativeLogin;
 
 + (void)initializeSDK {
     [self initializeSDKWithClass:InstanceClass];
+#ifdef DEBUG
+    // For debug app builds only, use test instant log in if applicable.
+    NSArray<NSString *> *arguments = [[NSProcessInfo processInfo] arguments];
+    if ([arguments containsObject:@"-creds"]) {
+        NSString *creds = arguments[[arguments indexOfObject:@"-creds"] + 1];
+        
+        [TestSetupUtils populateAuthCredentialsFromString:creds initializeSdk:NO];
+        [TestSetupUtils synchronousAuthRefreshWithUserDidLoginNotification:YES];
+    }
+#endif
 }
 
 + (void)initializeSDKWithClass:(Class)className {
@@ -231,6 +242,7 @@ SFNativeLoginManagerInternal *nativeLogin;
 + (void)load {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
+        
         // For dev support
         Method sfsdkMotionEndedMethod = class_getInstanceMethod([UIWindow class], @selector(sfsdk_motionEnded:withEvent:));
         IMP sfsdkMotionEndedImplementation = method_getImplementation(sfsdkMotionEndedMethod);
@@ -459,25 +471,66 @@ SFNativeLoginManagerInternal *nativeLogin;
 
 - (NSArray<SFSDKDevAction *>*) getDevActions:(UIViewController *)presentedViewController
 {
-    return @[
-             [[SFSDKDevAction alloc]initWith:@"Show dev info" handler:^{
-                 SFSDKDevInfoViewController *devInfo = [[SFSDKDevInfoViewController alloc] init];
-                 [presentedViewController presentViewController:devInfo animated:NO completion:nil];
-             }],
-             [[SFSDKDevAction alloc]initWith:@"Logout" handler:^{
-                 [[SFUserAccountManager  sharedInstance] logout:SFLogoutReasonUserInitiated];
-             }],
-             [[SFSDKDevAction alloc]initWith:@"Switch user" handler:^{
-                 SFDefaultUserManagementViewController *umvc = [[SFDefaultUserManagementViewController alloc] initWithCompletionBlock:^(SFUserManagementAction action) {
-                     [presentedViewController dismissViewControllerAnimated:YES completion:nil];
-                 }];
-                 [presentedViewController presentViewController:umvc animated:YES completion:nil];
-             }],
-             [[SFSDKDevAction alloc]initWith:@"Inspect Key-Value Store" handler:^{
-                 UIViewController *keyValueStoreInspector = [[SFSDKKeyValueEncryptedFileStoreViewController new] createUI];
-                 [presentedViewController presentViewController:keyValueStoreInspector animated:YES completion:nil];
-             }]
-    ];
+    NSMutableArray<SFSDKDevAction *> *actions = [NSMutableArray array];
+    SFUserAccountManager *userAccountManager = [SFUserAccountManager sharedInstance];
+    SFUserAccount *currentUser = userAccountManager.currentUser;
+    
+    // Check if we're showing the login screen
+    BOOL isShowingLogin = [presentedViewController isKindOfClass:[SFLoginViewController class]];
+    // TODO uncomment to support advanced auth case (once we add code to restart auth in that case below)
+    // || [presentedViewController.presentingViewController isKindOfClass:[SFSDKAuthRootController class]];
+    
+    // Show dev info - always available
+    [actions addObject:[[SFSDKDevAction alloc]initWith:@"Show dev info" handler:^{
+        UIViewController *devInfo = [SFSDKDevInfoViewController makeViewController];
+        [presentedViewController presentViewController:devInfo animated:YES completion:nil];
+    }]];
+    
+    // Login Options - only show on login screen
+    if (isShowingLogin) {
+        [actions addObject:[[SFSDKDevAction alloc]initWith:@"Login Options" handler:^{
+            UIViewController *configPicker = [LoginOptionsViewController makeViewControllerOnConfigurationCompleted:^{
+                [presentedViewController dismissViewControllerAnimated:YES completion:^{
+                    // Restart authentication with the updated configuration
+                    if ([presentedViewController isKindOfClass:[SFLoginViewController class]]) {
+                        [[SFUserAccountManager sharedInstance] restartAuthenticationForViewController:(SFLoginViewController *)presentedViewController recreateAuthRequest:YES];
+                    }
+                    // TODO support advanced auth case
+                }];
+            }];
+            [presentedViewController presentViewController:configPicker animated:YES completion:nil];
+        }]];
+    }
+    
+    // Logout - only show if there's a current user and not on login screen
+    if (currentUser && !isShowingLogin) {
+        [actions addObject:[[SFSDKDevAction alloc]initWith:@"Logout" handler:^{
+            [[SFUserAccountManager sharedInstance] logout:SFLogoutReasonUserInitiated];
+        }]];
+    }
+    
+    // Switch user - only show if there's a current user and not on login screen
+    if (currentUser && !isShowingLogin) {
+        [actions addObject:[[SFSDKDevAction alloc]initWith:@"Switch user" handler:^{
+            SFDefaultUserManagementViewController *umvc = [[SFDefaultUserManagementViewController alloc] initWithCompletionBlock:^(SFUserManagementAction action) {
+                [presentedViewController dismissViewControllerAnimated:YES completion:nil];
+            }];
+            [presentedViewController presentViewController:umvc animated:YES completion:nil];
+        }]];
+    }
+    
+    // Inspect Key-Value Store - only show if there are stores
+    BOOL hasGlobalStores = [SFSDKKeyValueEncryptedFileStore allGlobalStoreNames].count > 0;
+    BOOL hasUserStores = currentUser && [SFSDKKeyValueEncryptedFileStore allStoreNames].count > 0;
+    
+    if (hasGlobalStores || hasUserStores) {
+        [actions addObject:[[SFSDKDevAction alloc]initWith:@"Inspect Key-Value Store" handler:^{
+            UIViewController *keyValueStoreInspector = [[SFSDKKeyValueEncryptedFileStoreViewController new] createUI];
+            [presentedViewController presentViewController:keyValueStoreInspector animated:YES completion:nil];
+        }]];
+    }
+    
+    return [actions copy];
 }
 
 - (NSArray<NSString *>*) getDevSupportInfos
@@ -486,24 +539,61 @@ SFNativeLoginManagerInternal *nativeLogin;
     NSMutableArray * devInfos = [NSMutableArray arrayWithArray:@[
             @"SDK Version", SALESFORCE_SDK_VERSION,
             @"App Type", [self getAppTypeAsString],
-            @"User Agent", self.userAgentString(@""),
+            @"User Agent", self.userAgentString(@"")
+    ]];
+    NSArray* allUsers = userAccountManager.allUserAccounts;
+    if ([allUsers count] > 0) {
+        [devInfos addObjectsFromArray:@[
+            @"Authenticated Users", [self usersToString:allUsers]
+        ]];
+    }
+    
+    // Auth configuration
+    [devInfos addObject:@"section:Auth Config"];
+    [devInfos addObjectsFromArray:@[
             @"Use Web Server Authentication", [self useWebServerAuthentication]  ? @"YES" : @"NO",
+            @"Use Hybrid Authentication", [self useHybridAuthentication]  ? @"YES" : @"NO",
             @"Browser Login Enabled", [SFUserAccountManager sharedInstance].useBrowserAuth? @"YES" : @"NO",
             @"IDP Enabled", [self idpEnabled] ? @"YES" : @"NO",
-            @"Identity Provider", [self isIdentityProvider] ? @"YES" : @"NO",
-            @"Current User", [self userToString:userAccountManager.currentUser],
-            @"Access Token Expiration", [self accessTokenExpiration],
-            @"Authenticated Users", [self usersToString:userAccountManager.allUserAccounts],
-            @"User Key-Value Stores", [self safeJoin:[SFSDKKeyValueEncryptedFileStore allStoreNames] separator:@", "],
-            @"Global Key-Value Stores", [self safeJoin:[SFSDKKeyValueEncryptedFileStore allGlobalStoreNames] separator:@", "]
+            @"Identity Provider", [self isIdentityProvider] ? @"YES" : @"NO"
     ]];
 
-    [devInfos addObjectsFromArray:[self dictToDevInfos:self.appConfig.configDict keyPrefix:@"BootConfig"]];
+    // Static bootconfig
+    [devInfos addObject:@"section:Bootconfig"];
+    [devInfos addObjectsFromArray:[self dictToDevInfos:self.appConfig.configDict]];
     
+    // Current user info
+    SFUserAccount* currentUser = userAccountManager.currentUser;
+    if (currentUser) {
+        SFOAuthCredentials* creds = currentUser.credentials;
+        [devInfos addObject:@"section:Current User"];
+        [devInfos addObjectsFromArray:@[
+            @"Username", [self userToString:currentUser],
+            @"Consumer Key", creds.clientId ?: @"(nil)",
+            @"Redirect URI", creds.redirectUri ?: @"(nil)",
+            @"Scopes", [self scopesToString:currentUser],
+            @"Instance URL", [creds.instanceUrl absoluteString] ?: @"(nil)",
+            @"Token format", [creds.tokenFormat isEqualToString:@"jwt"] ? @"jwt" : @"opaque",
+            @"Access Token Expiration", [self accessTokenExpiration],
+            @"Beacon Child Consumer Key", creds.beaconChildConsumerKey ?: @"(empty)"
+        ]];
+    }
+    
+    // Key Value Stores
+    NSArray<NSString*>* globalKeyValueStores = [SFSDKKeyValueEncryptedFileStore allGlobalStoreNames];
+    NSArray<NSString*>* userKeyValueStores = [SFSDKKeyValueEncryptedFileStore allStoreNames];
+    if ([userKeyValueStores count] > 0 || [globalKeyValueStores count] > 0) {
+        [devInfos addObject:@"section:Key Value Stores"];
+        [devInfos addObjectsFromArray:@[@"Global stores", [self safeJoin:globalKeyValueStores separator:@", "]]];
+        [devInfos addObjectsFromArray:@[@"User stores", [self safeJoin:globalKeyValueStores separator:@", "]]];
+    }
+
+    // Managed prefs
     SFManagedPreferences *managedPreferences = [SFManagedPreferences sharedPreferences];
-    [devInfos addObjectsFromArray:@[@"Managed", [managedPreferences hasManagedPreferences] ? @"YES" : @"NO"]];
     if ([managedPreferences hasManagedPreferences]) {
-        [devInfos addObjectsFromArray:[self dictToDevInfos:managedPreferences.rawPreferences keyPrefix:@"Managed Pref"]];
+        [devInfos addObject:@"section:Managed Pref"];
+        [devInfos addObjectsFromArray:@[@"Managed", [managedPreferences hasManagedPreferences] ? @"YES" : @"NO"]];
+        [devInfos addObjectsFromArray:[self dictToDevInfos:managedPreferences.rawPreferences]];
     }
     
     return devInfos;
@@ -529,10 +619,17 @@ SFNativeLoginManagerInternal *nativeLogin;
 }
 
 - (NSString*) userToString:(SFUserAccount*)user {
-    return user ? user.idData.username : @"";
+    return user.idData.username != nil ? user.idData.username : @"";
+}
+
+- (NSString*) scopesToString:(SFUserAccount*)user {
+    return user.credentials.scopes != nil ? [user.credentials.scopes componentsJoinedByString:@" "] : @"";
 }
 
 - (NSString*) usersToString:(NSArray<SFUserAccount*>*)userAccounts {
+    if (userAccounts == nil) {
+        return @"";
+    }
     NSMutableArray* usernames = [NSMutableArray new];
     for (SFUserAccount *userAccount in userAccounts) {
         [usernames addObject:[self userToString:userAccount]];
@@ -540,10 +637,13 @@ SFNativeLoginManagerInternal *nativeLogin;
     return [usernames componentsJoinedByString:@", "];
 }
 
-- (NSArray*) dictToDevInfos:(NSDictionary*)dict keyPrefix:(NSString*)keyPrefix {
+- (NSArray*) dictToDevInfos:(NSDictionary*)dict {
+    if (dict == nil) {
+        return @[];
+    }
     NSMutableArray * devInfos = [NSMutableArray new];
     [dict enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        [devInfos addObject:[NSString stringWithFormat:@"%@ - %@", keyPrefix, key]];
+        [devInfos addObject:key];
         [devInfos addObject:[[NSString stringWithFormat:@"%@", obj] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
     }];
     return devInfos;
@@ -902,6 +1002,19 @@ void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t b
     return [SFScreenLockManagerInternal shared];
 }
 
+#pragma mark - Runtime App Config (aka Bootconfig) Override
+
+- (void) appConfigForLoginHost:(nullable NSString *)loginHost callback:(nonnull void (^)(SFSDKAppConfig * _Nullable))callback {
+    if (self.appConfigRuntimeSelectorBlock) {
+        self.appConfigRuntimeSelectorBlock(loginHost, ^(SFSDKAppConfig *config) {
+            // Fall back to default appConfig if the selector block returns nil
+            callback(config ?: self.appConfig);
+        });
+    } else {
+        callback(self.appConfig);
+    }
+}
+
 #pragma mark - Native Login
 
 - (id <SFNativeLoginManager>)useNativeLoginWithConsumerKey:(nonnull NSString *)consumerKey
@@ -952,7 +1065,7 @@ void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t b
     
     return nativeLogin;
 }
-
+    
 @end
 
 NSString *SFAppTypeGetDescription(SFAppType appType){

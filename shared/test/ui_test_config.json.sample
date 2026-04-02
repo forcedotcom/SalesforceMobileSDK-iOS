@@ -1,0 +1,94 @@
+{
+    "loginHosts": [
+        {
+            "name": "regular_auth",
+            "url": "https://your-test-org.my.salesforce.com",
+            "users": [
+                {
+                    "username": "testios1@testorg.com",
+                    "password": "yourPasswordHere"
+                },
+                {
+                    "username": "testios2@testorg.com",
+                    "password": "yourPasswordHere"
+                },
+                {
+                    "username": "testios3@testorg.com",
+                    "password": "yourPasswordHere"
+                },
+                {
+                    "username": "testios4@testorg.com",
+                    "password": "yourPasswordHere"
+                },
+                {
+                    "username": "testios5@testorg.com",
+                    "password": "yourPasswordHere"
+                }
+            ]
+        },
+        {
+            "name": "advanced_auth",
+            "url": "https://your-advanced-test-org.my.salesforce.com",
+            "users": [
+                {
+                    "username": "testios1@advancedtestorg.com",
+                    "password": "yourPasswordHere"
+                },
+                {
+                    "username": "testios2@advancedtestorg.com",
+                    "password": "yourPasswordHere"
+                },
+                {
+                    "username": "testios3@advancedtestorg.com",
+                    "password": "yourPasswordHere"
+                },
+                {
+                    "username": "testios4@advancedtestorg.com",
+                    "password": "yourPasswordHere"
+                },
+                {
+                    "username": "testios5@advancedtestorg.com",
+                    "password": "yourPasswordHere"
+                }
+            ]
+        }
+    ],
+    "apps": [
+        {
+            "name": "ca_opaque",
+            "consumerKey": "your_consumer_key_here",
+            "redirectUri": "caadvancedopaque://success/done",
+            "scopes": "api content id lightning refresh_token sfap_api visualforce web"
+        },
+        {
+            "name": "ca_jwt",
+            "consumerKey": "your_consumer_key_here",
+            "redirectUri": "caadvancedjwt://success/done",
+            "scopes": "api content id lightning refresh_token sfap_api visualforce web"
+        },
+        {
+            "name": "eca_opaque",
+            "consumerKey": "your_consumer_key_here",
+            "redirectUri": "ecaadvancedopaque://success/done",
+            "scopes": "api content id lightning refresh_token sfap_api visualforce web"
+        },
+        {
+            "name": "eca_jwt",
+            "consumerKey": "your_consumer_key_here",
+            "redirectUri": "ecaadvancedjwt://success/done",
+            "scopes": "api content id lightning refresh_token sfap_api visualforce web"
+        },
+        {
+            "name": "beacon_opaque",
+            "consumerKey": "your_consumer_key_here",
+            "redirectUri": "beaconadvancedopaque://success/done",
+            "scopes": "api content id lightning refresh_token sfap_api web"
+        },
+        {
+            "name": "beacon_jwt",
+            "consumerKey": "your_consumer_key_here",
+            "redirectUri": "beaconadvancedjwt://success/done",
+            "scopes": "api content id lightning refresh_token sfap_api web"
+        }
+    ]
+}

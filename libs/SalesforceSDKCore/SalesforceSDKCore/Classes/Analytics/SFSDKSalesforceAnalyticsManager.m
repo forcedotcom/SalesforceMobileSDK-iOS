@@ -47,7 +47,6 @@ static NSString * const kAnalyticsUnauthenticatedManagerKey = @"-unauthenticated
 static NSString * const kEventStoresDirectory = @"event_stores";
 static NSString * const kEventStoreEncryptionKeyLabel = @"com.salesforce.eventStore.encryptionKey";
 static NSString * const kAnalyticsOnOffKey = @"ailtn_enabled";
-static NSString * const kSFAppFeatureAiltnEnabled = @"AI";
 static NSString * const kEventStoreGCMEncryptedKey = @"com.salesforce.eventStore.encryption.GCM";
 
 static NSMutableDictionary *analyticsManagerList = nil;

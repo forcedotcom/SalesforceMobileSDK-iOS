@@ -20,7 +20,7 @@ jobs:
             xcode: ^16
           - ios: ^17
             xcode: ^16
-    uses: ./.github/workflows/reusable-workflow.yaml
+    uses: ./.github/workflows/reusable-test-workflow.yaml
     with:
       lib: ${{ matrix.lib }}
       ios: ${{ matrix.ios }}
@@ -31,7 +31,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        app: [RestAPIExplorer, MobileSyncExplorer]
+        app: [RestAPIExplorer, MobileSyncExplorer, AuthFlowTester]
         ios: [^26, ^18, ^17]
         include:
           - ios: ^26
@@ -40,10 +40,9 @@ jobs:
             xcode: ^16
           - ios: ^17
             xcode: ^16
-    uses: ./.github/workflows/reusable-workflow.yaml
+    uses: ./.github/workflows/reusable-build-workflow.yaml
     with:
-      lib: ${{ matrix.app }}
+      app: ${{ matrix.app }}
       ios: ${{ matrix.ios }}
       xcode: ${{ matrix.xcode }}
-      build_only: true
     secrets: inherit

@@ -67,12 +67,27 @@ public class DomainDiscoveryCoordinator: NSObject {
     /// Call this from your WKNavigationDelegate when a navigation action occurs to detect and extract the result from the domain discovery callback URL.
     @objc(handleWithWebAction:)
     public func handle(action: WKNavigationAction) -> DomainDiscoveryResult? {
-        guard let url = action.request.url else {
+        let url: URL?
+        // When simulatedDomainDiscoveryResult is set and the login server is welcome.salesforce.com,
+        // we build a callback URL to trigger the code that handles the domain discovery callback,
+        // simulating the user picking a specific domain/username.
+        let requestHost = action.request.url?.host?.lowercased()
+        if let simulated = SalesforceManager.shared.simulatedDomainDiscoveryResult,
+           requestHost == "welcome.salesforce.com" {
+            url = Self.buildSimulatedCallbackURL(loginHint: simulated.loginHint, myDomain: simulated.myDomain)
+        } else {
+            url = action.request.url
+        }
+        guard let url = url else {
             return nil
         }
+        return handle(callbackURL: url)
+    }
+    
+    /// Parses a callback URL if it matches the domain discovery callback scheme. Used by `handle(action:)` and by tests to avoid WKNavigationAction subclassing (which can abort in WebKit on CI).
+    internal func handle(callbackURL url: URL) -> DomainDiscoveryResult? {
         if isDomainDiscoveryCallbackURL(url) {
-            let result = parseDiscoveryCallbackURL(url)
-            return result
+            return parseDiscoveryCallbackURL(url)
         }
         return nil
     }
@@ -92,6 +107,17 @@ public class DomainDiscoveryCoordinator: NSObject {
 }
 
 extension DomainDiscoveryCoordinator {
+    private static func buildSimulatedCallbackURL(loginHint: String, myDomain: String) -> URL? {
+        var components = URLComponents()
+        components.scheme = "sfdc"
+        components.host = "discocallback"
+        components.queryItems = [
+            URLQueryItem(name: "login_hint", value: loginHint),
+            URLQueryItem(name: "my_domain", value: myDomain)
+        ]
+        return components.url
+    }
+
     private static func buildDiscoveryURL(clientId: String, clientVersion: String, domain: String, callbackURL: String = DomainDiscovery.callbackURL.rawValue) -> NSURL? {
         var components = URLComponents()
         components.scheme = DomainDiscovery.URLComponent.scheme.rawValue
@@ -115,7 +141,6 @@ extension DomainDiscoveryCoordinator {
         let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
         guard let loginHint = components?.queryItems?.first(where: { $0.name == "login_hint" })?.value,
               let myDomainRaw = components?.queryItems?.first(where: { $0.name == "my_domain" })?.value else {
-            SFSDKCoreLogger.e(classForCoder, message: "Domain discovery callback URL is missing required parameter(s): login_hint and/or my_domain.")
             return nil
         }
         let myDomain = myDomainRaw.hasPrefix("https://") ? String(myDomainRaw.dropFirst("https://".count)) : myDomainRaw

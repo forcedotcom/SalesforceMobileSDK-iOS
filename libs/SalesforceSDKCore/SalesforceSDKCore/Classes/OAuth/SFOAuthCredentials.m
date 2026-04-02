@@ -63,6 +63,7 @@ NSException * SFOAuthInvalidIdentifierException(void) {
 @synthesize userId                    = _userId;         // cached user ID derived from identityURL
 @synthesize instanceUrl               = _instanceUrl;
 @synthesize apiInstanceUrl            = _apiInstanceUrl;
+@synthesize scopes                    = _scopes;
 @synthesize issuedAt                  = _issuedAt;
 @synthesize protocol                  = _protocol;
 @synthesize encrypted                 = _encrypted;
@@ -93,6 +94,7 @@ NSException * SFOAuthInvalidIdentifierException(void) {
             self.identityUrl    = [coder decodeObjectOfClass:[NSURL class]    forKey:@"SFOAuthIdentityUrl"];
             self.instanceUrl    = [coder decodeObjectOfClass:[NSURL class]    forKey:@"SFOAuthInstanceUrl"];
             self.apiInstanceUrl = [coder decodeObjectOfClass:[NSURL class]    forKey:@"SFOAuthApiInstanceUrl"];
+            self.scopes         = [coder decodeObjectOfClasses:[NSSet setWithObjects:[NSArray class], [NSString class], nil] forKey:@"SFOAuthScopes"];
             self.communityId    = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthCommunityId"];
             self.communityUrl   = [coder decodeObjectOfClass:[NSURL class]    forKey:@"SFOAuthCommunityUrl"];
             self.issuedAt       = [coder decodeObjectOfClass:[NSDate class]   forKey:@"SFOAuthIssuedAt"];
@@ -145,6 +147,7 @@ NSException * SFOAuthInvalidIdentifierException(void) {
     [coder encodeObject:self.identityUrl        forKey:@"SFOAuthIdentityUrl"];
     [coder encodeObject:self.instanceUrl        forKey:@"SFOAuthInstanceUrl"];
     [coder encodeObject:self.apiInstanceUrl     forKey:@"SFOAuthApiInstanceUrl"];
+    [coder encodeObject:self.scopes             forKey:@"SFOAuthScopes"];
     [coder encodeObject:self.communityId        forKey:@"SFOAuthCommunityId"];
     [coder encodeObject:self.communityUrl       forKey:@"SFOAuthCommunityUrl"];
     [coder encodeObject:self.issuedAt           forKey:@"SFOAuthIssuedAt"];
@@ -204,6 +207,7 @@ NSException * SFOAuthInvalidIdentifierException(void) {
     copyCreds.accessToken = self.accessToken;
     copyCreds.instanceUrl = self.instanceUrl;
     copyCreds.apiInstanceUrl = self.apiInstanceUrl;
+    copyCreds.scopes = self.scopes;
     copyCreds.communityId = self.communityId;
     copyCreds.communityUrl = self.communityUrl;
     copyCreds.issuedAt = self.issuedAt;
@@ -297,11 +301,11 @@ NSException * SFOAuthInvalidIdentifierException(void) {
 
 - (NSString *)description {
     NSString *format = @"<%@: %p, identifier=\"%@\" clientId=\"%@\" domain=\"%@\" identityUrl=\"%@\" instanceUrl=\"%@\" apiInstanceUrl=\"%@\" "
-                       @"communityId=\"%@\" communityUrl=\"%@\" "
+                       @"communityId=\"%@\" communityUrl=\"%@\" scopes=\"%@\" "
                        @"issuedAt=\"%@\" organizationId=\"%@\" protocol=\"%@\" redirectUri=\"%@\">";
     return [NSString stringWithFormat:format, NSStringFromClass(self.class), self,
             self.identifier, self.clientId, self.domain, self.identityUrl, self.instanceUrl, self.apiInstanceUrl,
-            self.communityId, self.communityUrl,
+            self.communityId, self.communityUrl, self.scopes,
             self.issuedAt, self.organizationId, self.protocol, self.redirectUri];
 }
 
@@ -322,6 +326,7 @@ NSException * SFOAuthInvalidIdentifierException(void) {
     self.refreshToken = nil;
     self.instanceUrl  = nil;
     self.apiInstanceUrl = nil;
+    self.scopes       = nil;
     self.communityId  = nil;
     self.communityUrl = nil;
     self.issuedAt     = nil;
@@ -378,6 +383,7 @@ NSException * SFOAuthInvalidIdentifierException(void) {
  - issuedAt
  - instanceUrl
  - apiInstanceUrl
+ - scopes
  - identityUrl
  - communityId
  - communityUrl
@@ -409,6 +415,11 @@ NSException * SFOAuthInvalidIdentifierException(void) {
     }
     if (params[kSFOAuthApiInstanceUrl]) {
         [self setPropertyForKey:@"apiInstanceUrl" withValue:[NSURL URLWithString:params[kSFOAuthApiInstanceUrl]]];
+    }
+    if (params[kSFOAuthScope]) {
+        NSString *rawScope = params[kSFOAuthScope];
+        NSArray<NSString *> *scopesArray = [rawScope componentsSeparatedByString:@" "];
+        [self setPropertyForKey:@"scopes" withValue:scopesArray];
     }
     if (params[kSFOAuthId]) {
         [self setPropertyForKey:@"identityUrl" withValue:[NSURL URLWithString:params[kSFOAuthId]]];

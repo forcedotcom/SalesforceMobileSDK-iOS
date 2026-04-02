@@ -199,7 +199,7 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
     }
 
     CFRelease(privateKeyRef);
-    if (decryptedData == nil) {
+    if (decryptedData == nil || [decryptedData length] != 32) {
         if (error) {
             *error = [self pushErrorWithCode:SFSDKPushNotificationErrorSecretDecryptionFailed description:@"Failed to decrypt secret with RSA private key."];
         }

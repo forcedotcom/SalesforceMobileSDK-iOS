@@ -201,7 +201,6 @@ Set this block to handle presentation of the Authentication View Controller.
 
 - (SFSDKAuthRequest *)defaultAuthRequest;
 
-- (SFSDKAuthRequest *)defaultAuthRequestWithLoginHost:(nullable NSString *)loginHost;
 
 - (BOOL)loginWithCompletion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock
                     failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock
@@ -214,6 +213,13 @@ Set this block to handle presentation of the Authentication View Controller.
                   loginHost:(nullable NSString *)loginHost
          frontDoorBridgeUrl:(nullable NSURL * )frontDoorBridgeUrl
                codeVerifier:(nullable NSString *)codeVerifier;
+
+- (SFSDKAuthRequest *)migrateRefreshAuthRequest:(SFSDKAppConfig *)newAppConfig;
+
+- (void)restartAuthenticationForViewController:(SFLoginViewController *)loginViewController;
+
+- (void)restartAuthenticationForViewController:(SFLoginViewController *)loginViewController recreateAuthRequest:(BOOL)recreateAuthRequest;
+
 
 @end
 

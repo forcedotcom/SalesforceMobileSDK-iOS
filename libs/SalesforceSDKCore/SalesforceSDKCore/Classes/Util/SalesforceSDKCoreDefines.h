@@ -24,7 +24,9 @@
 
 #import <Foundation/Foundation.h>
 @class SFUserAccount;
+@class SFSDKAppConfig;
 @class UIViewController;
+@class SFSDKAppConfig;
 @protocol SFSDKLoginFlowSelectionView;
 @protocol SFSDKUserSelectionView;
 
@@ -52,5 +54,11 @@ typedef UIViewController<SFSDKLoginFlowSelectionView>*_Nonnull (^SFIDPLoginFlowS
  Block typedef for creating a custom user selection flow for idp provider app.
  */
 typedef UIViewController<SFSDKUserSelectionView>*_Nonnull (^SFIDPUserSelectionBlock)(void) NS_SWIFT_NAME(IDPUserSelectionBlock);
+
+/**
+ Block to select an app config at runtime based on the login host.
+ The block takes a login host and a callback. The callback should be invoked with the selected app config.
+ */
+ typedef void (^SFSDKAppConfigRuntimeSelectorBlock)(NSString * _Nonnull loginHost, void (^_Nonnull callback)(SFSDKAppConfig * _Nullable)) NS_SWIFT_NAME(BootConfigRuntimeSelector);
 
 NS_ASSUME_NONNULL_END

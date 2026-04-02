@@ -27,7 +27,6 @@
 typedef NS_ENUM(NSInteger, SFSDKAppConfigErrorCode) {
     SFSDKAppConfigErrorCodeNoConsumerKey = 966,
     SFSDKAppConfigErrorCodeNoRedirectURI,
-    SFSDKAppConfigErrorCodeNoOAuthScopes
 } NS_SWIFT_NAME(BootConfig.ErrorCode);
 
 extern NSString * _Nonnull const SFSDKAppConfigErrorDomain NS_SWIFT_NAME(BootConfig.errorDomain);

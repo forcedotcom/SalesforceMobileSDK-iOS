@@ -32,6 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**Helps determine whether we're currently running tests or not.
  */
+__attribute__((deprecated("Deprecated in Salesforce Mobile SDK 13.2 and will be removed in Salesforce Mobile SDK 14.0.")));
 @interface SFTestContext : NSObject {
 
 }

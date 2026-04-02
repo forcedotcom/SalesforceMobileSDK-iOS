@@ -77,6 +77,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)beginWebViewFlow;
 
+/**
+ * Returns the scope query parameter string for OAuth requests.
+ * @return A properly formatted scope parameter string, or empty string if no scopes provided.
+ */
+- (NSString *)scopeQueryParamString:(NSArray<NSString*>*)scopes;
+
+/**
+ Migrates the refresh token for a user to a new app configuration.
+ */
+- (void)migrateRefreshToken:(SFUserAccount *)user;
+
 @end
 
 NS_ASSUME_NONNULL_END

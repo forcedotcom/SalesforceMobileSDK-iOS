@@ -34,6 +34,8 @@ typedef BOOL (^SFInstrumentationSelectorFilter)(SEL selector, BOOL isInstanceSel
  method call and introspect the object being intercepted.
  It can be used to record timing & usage information for example.
  */
+/// @deprecated SFInstrumentation is deprecated and this class will be removed in version 14.0.
+SFSDK_DEPRECATED(13.2, 14.0, "SFInstrumentation is deprecated and will be removed.");
 @interface SFInstrumentation : NSObject
 
 /** Enable or disable this instrumentation instance

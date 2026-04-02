@@ -643,8 +643,11 @@ class RootViewController: UIViewController {
         }
         alert.addAction(cancel)
         alert.addAction(logout)
-        self.present(alert, animated: true, completion: nil)
-        self.logoutAlert = alert
+        
+        dismissPopover() {
+            self.present(alert, animated: true, completion: nil)
+            self.logoutAlert = alert
+        }
     }
     
     @objc func clearPopoversForPasscode() {
@@ -657,9 +660,9 @@ class RootViewController: UIViewController {
         self.dismissPopover()
     }
     
-    func dismissPopover() {
+    func dismissPopover(completion: (() -> ())? = nil) {
         if let pAction = self.presentedActions {
-            pAction.dismiss(animated: true, completion: nil)
+            pAction.dismiss(animated: true, completion: completion)
         }
     }
     
@@ -867,7 +870,9 @@ extension RootViewController: ActionTableViewDelegate {
             let umvc = SalesforceUserManagementViewController.init(completionBlock: { _ in
                 self.dismiss(animated: true, completion: nil)
             })
-            self.present(umvc, animated: true, completion: nil)
+            dismissPopover {
+                self.present(umvc, animated: true, completion: nil)
+            }
             return
         case .exportCredentials:
             self.exportTestingCredentials()

@@ -23,9 +23,11 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
+SFSDK_DEPRECATED(13.2, 14.0, "No longer used, will be removed")
 @interface SFSDKAsyncProcessListener : NSObject
 
 /**

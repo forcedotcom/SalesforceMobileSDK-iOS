@@ -266,7 +266,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B716A3E3218F6EEA009D407F"
+               BlueprintIdentifier = "F27137B928405BB8003B3D69"
                BuildableName = "SalesforceSDKCommonTestApp.app"
                BlueprintName = "SalesforceSDKCommonTestApp"
                ReferencedContainer = "container:libs/SalesforceSDKCommon/SalesforceSDKCommon.xcodeproj">

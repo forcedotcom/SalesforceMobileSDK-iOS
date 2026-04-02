@@ -1,0 +1,191 @@
+/*
+ BootConfigEditor.swift
+ SalesforceSDKCore
+
+ Copyright (c) 2025-present, salesforce.com, inc. All rights reserved.
+ 
+ Redistribution and use of this software in source and binary forms, with or without modification,
+ are permitted provided that the following conditions are met:
+ * Redistributions of source code must retain the above copyright notice, this list of conditions
+ and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice, this list of
+ conditions and the following disclaimer in the documentation and/or other materials provided
+ with the distribution.
+ * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
+ endorse or promote products derived from this software without specific prior written
+ permission of salesforce.com, inc.
+ 
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+ IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+import SwiftUI
+
+// MARK: - JSON Import Labels
+public struct BootConfigJSONKeys {
+    public static let consumerKey = "remoteAccessConsumerKey"
+    public static let redirectUri = "oauthRedirectURI"
+    public static let scopes = "scopes"
+}
+
+public struct BootConfigEditor: View {
+    let title: String
+    let buttonLabel: String
+    let buttonColor: Color
+    @Binding var consumerKey: String
+    @Binding var callbackUrl: String
+    @Binding var scopes: String
+    let isLoading: Bool
+    let onConfigChanged: () -> Void
+    let initiallyExpanded: Bool
+    @State private var isExpanded: Bool = false
+    @State private var showImportAlert: Bool = false
+    @State private var importJSONText: String = ""
+
+    public init(
+        title: String,
+        buttonLabel: String,
+        buttonColor: Color,
+        consumerKey: Binding<String>,
+        callbackUrl: Binding<String>,
+        scopes: Binding<String>,
+        isLoading: Bool,
+        onConfigChanged: @escaping () -> Void,
+        initiallyExpanded: Bool
+    ) {
+        self.title = title
+        self.buttonLabel = buttonLabel
+        self.buttonColor = buttonColor
+        self._consumerKey = consumerKey
+        self._callbackUrl = callbackUrl
+        self._scopes = scopes
+        self.isLoading = isLoading
+        self.onConfigChanged = onConfigChanged
+        self.initiallyExpanded = initiallyExpanded
+    }
+    
+    public var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                Button(action: {
+                    withAnimation {
+                        isExpanded.toggle()
+                    }
+                }) {
+                    HStack {
+                        Text(title)
+                            .font(.headline)
+                            .foregroundColor(.primary)
+                        Spacer()
+                        Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
+                            .foregroundColor(.secondary)
+                    }
+                }
+                Button(action: {
+                    importJSONText = ""
+                    showImportAlert = true
+                }) {
+                    Image(systemName: "square.and.arrow.down")
+                        .font(.subheadline)
+                        .foregroundColor(.blue)
+                }
+                .accessibilityIdentifier("importConfigButton")
+            }
+            .padding(.horizontal)
+
+            if isExpanded {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text(SFSDKResourceUtils.localizedString("BOOTCONFIG_CONSUMER_KEY_LABEL"))
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    TextField(SFSDKResourceUtils.localizedString("BOOTCONFIG_CONSUMER_KEY_PLACEHOLDER"), text: $consumerKey)
+                        .font(.system(.caption, design: .monospaced))
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .autocapitalization(.none)
+                        .disableAutocorrection(true)
+                        .accessibilityIdentifier("consumerKeyTextField")
+
+                    Text(SFSDKResourceUtils.localizedString("BOOTCONFIG_CALLBACK_URL_LABEL"))
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    TextField(SFSDKResourceUtils.localizedString("BOOTCONFIG_CALLBACK_URL_PLACEHOLDER"), text: $callbackUrl)
+                        .font(.system(.caption, design: .monospaced))
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .autocapitalization(.none)
+                        .disableAutocorrection(true)
+                        .accessibilityIdentifier("callbackUrlTextField")
+
+                    Text(SFSDKResourceUtils.localizedString("BOOTCONFIG_SCOPES_LABEL"))
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    TextField(SFSDKResourceUtils.localizedString("BOOTCONFIG_SCOPES_PLACEHOLDER"), text: $scopes)
+                        .font(.system(.caption, design: .monospaced))
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .autocapitalization(.none)
+                        .disableAutocorrection(true)
+                        .accessibilityIdentifier("scopesTextField")
+
+                    Button(action: onConfigChanged) {
+                        Text(buttonLabel)
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 44)
+                            .background(buttonColor)
+                            .cornerRadius(8)
+                    }
+                    .disabled(isLoading)
+                }
+                .padding(.horizontal)
+            }
+        }
+        .padding(.vertical)
+        .onAppear {
+            isExpanded = initiallyExpanded
+        }
+        .alert("Import Configuration", isPresented: $showImportAlert) {
+            TextField("Paste JSON here", text: $importJSONText)
+            Button("Import") {
+                if importConfigFromJSON() {
+                    onConfigChanged()
+                }
+            }
+            Button("Cancel", role: .cancel) { }
+        } message: {
+            Text("Paste JSON with remoteAccessConsumerKey, oauthRedirectURI, and scopes")
+        }
+    }
+
+    // MARK: - Helper Methods
+
+    private func importConfigFromJSON() -> Bool {
+        guard let jsonData = importJSONText.data(using: .utf8),
+              let json = try? JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any] else {
+            return false
+        }
+
+        var configChanged = false
+
+        if let key = json[BootConfigJSONKeys.consumerKey] as? String {
+            consumerKey = key
+            configChanged = true
+        }
+        if let uri = json[BootConfigJSONKeys.redirectUri] as? String {
+            callbackUrl = uri
+            configChanged = true
+        }
+        if let scopesValue = json[BootConfigJSONKeys.scopes] as? String {
+            scopes = scopesValue
+            configChanged = true
+        }
+
+        return configChanged
+    }
+}
+

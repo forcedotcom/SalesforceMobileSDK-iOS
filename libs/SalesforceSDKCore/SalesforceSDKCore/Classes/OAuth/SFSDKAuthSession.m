@@ -61,7 +61,13 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
     self.oauthCoordinator.scopes = self.oauthRequest.scopes;
     self.oauthCoordinator.brandLoginPath = self.oauthRequest.brandLoginPath;
     self.oauthCoordinator.useBrowserAuth = self.oauthRequest.useBrowserAuth;
+    
+    // TODO: Remove in Mobile SDK 14.0
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
     self.oauthCoordinator.userAgentForAuth = self.oauthRequest.userAgentForAuth;
+    #pragma clang diagnostic pop
+    
     if (_spAppCredentials && _spAppCredentials.domain) {
         self.oauthCoordinator.credentials.domain = _spAppCredentials.domain;
     }
@@ -73,6 +79,7 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
     creds.clientId = self.oauthRequest.oauthClientId;
     creds.redirectUri = self.oauthRequest.oauthCompletionUrl;
     creds.domain = self.oauthRequest.loginHost;
+    creds.scopes = [self.oauthRequest.scopes allObjects];
     creds.accessToken = nil;
     return creds;
 }

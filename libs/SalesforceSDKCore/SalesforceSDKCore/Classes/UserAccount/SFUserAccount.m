@@ -39,7 +39,6 @@ static NSString * const kUser_ACCESS_RESTRICTIONS = @"accessRestrictions";
 static NSString * const kCredentialsUserIdPropName = @"userId";
 static NSString * const kCredentialsOrgIdPropName = @"organizationId";
 static NSString * const kUser_NOTIFICATION_TYPES = @"notificationTypes";
-static NSString * const kSFAppFeatureOAuth = @"UA";
 
 static const char * kSyncQueue = "com.salesforce.mobilesdk.sfuseraccount.syncqueue";
 /** Key that identifies the global scope

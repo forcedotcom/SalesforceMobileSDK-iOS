@@ -30,12 +30,12 @@ import Foundation
 
 /// Struct representing a JWT Header
 public struct JwtHeader: Codable {
-    let algorithm: String?
-    let type: String?
-    let keyId: String?
-    let tokenType: String?
-    let tenantKey: String?
-    let version: String?
+    public let algorithm: String?
+    public let type: String?
+    public let keyId: String?
+    public let tokenType: String?
+    public let tenantKey: String?
+    public let version: String?
 
     enum CodingKeys: String, CodingKey {
         case algorithm = "alg"
@@ -49,13 +49,13 @@ public struct JwtHeader: Codable {
 
 /// Struct representing a JWT Payload
 public struct JwtPayload: Codable {
-    let audience: [String]?
-    let expirationTime: Int?
-    let issuer: String?
-    let notBeforeTime: Int?
-    let subject: String?
-    let scopes: String?
-    let clientId: String?
+    public let audience: [String]?
+    public let expirationTime: Int?
+    public let issuer: String?
+    public let notBeforeTime: Int?
+    public let subject: String?
+    public let scopes: String?
+    public let clientId: String?
 
     enum CodingKeys: String, CodingKey {
         case audience = "aud"
@@ -71,9 +71,9 @@ public struct JwtPayload: Codable {
 /// Class representing a JWT Access Token
 @objc(SFSDKJwtAccessToken)
 public class JwtAccessToken : NSObject {
-    let rawJwt: String
-    let header: JwtHeader
-    let payload: JwtPayload
+    public let rawJwt: String
+    public let header: JwtHeader
+    public let payload: JwtPayload
 
     /// Initializer to parse and decode the JWT string
     @objc public init(jwt: String) throws {
@@ -116,7 +116,7 @@ public class JwtAccessToken : NSObject {
     }
 
     /// Helper method to decode Base64 URL-encoded strings
-    private static func decodeBase64Url(_ string: String) throws -> String {
+    public static func decodeBase64Url(_ string: String) throws -> String {
         var base64 = string
             .replacingOccurrences(of: "-", with: "+")
             .replacingOccurrences(of: "_", with: "/")
@@ -133,7 +133,7 @@ public class JwtAccessToken : NSObject {
     }
 
     /// Custom errors for JWT decoding
-    enum JwtError: Error {
+    public enum JwtError: Error {
         case invalidFormat
         case invalidBase64
     }

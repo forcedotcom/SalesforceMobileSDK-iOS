@@ -145,11 +145,15 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)revokeRefreshToken:(SFOAuthCredentials *)credentials reason:(SFLogoutReason)reason;
 @end
 
+SFSDK_DEPRECATED(13.2, 14.0, "Will be removed.")
 @protocol SFSDKOAuthSessionManaging<NSObject>
 - (NSURLSession *)createURLSessionWithIdentifier:(nonnull NSString *)identifier;
 @end
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 @interface SFSDKOAuth2 : NSObject<SFSDKOAuthProtocol, SFSDKOAuthSessionManaging>
+#pragma clang diagnostic pop
 
 + (NSMutableURLRequest *)requestForRevokeRefreshToken:(SFOAuthCredentials *)credentials reason:(SFLogoutReason)reason;
 

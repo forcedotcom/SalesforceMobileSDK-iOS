@@ -1,0 +1,27 @@
+name: UI Nightly Tests
+
+on:
+  schedule:
+    - cron: "0 5 * * 2,4"  # cron is UTC, this translates to 10 PM PST Mon and Wed.
+  workflow_dispatch:
+
+jobs:
+  ios-ui-test-nightly:
+    strategy:
+      fail-fast: false
+      matrix:
+        ios: [^26, ^18, ^17]
+        include:
+          - ios: ^26
+            xcode: ^26
+          - ios: ^18
+            xcode: ^16
+          - ios: ^17
+            xcode: ^16
+    uses: ./.github/workflows/reusable-ui-test-workflow.yaml
+    with:
+      ios: ${{ matrix.ios }}
+      xcode: ${{ matrix.xcode }}
+      short_timeout: "2"
+      long_timeout: "7"
+    secrets: inherit

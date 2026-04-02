@@ -32,6 +32,11 @@
 #import "SFSDKLoginHostStorage.h"
 #import "SFSDKLoginHost.h"
 
+// Expose private method for testing
+@interface SFLoginViewController (Testing)
+- (SFSDKLoginHostListViewController *)createLoginHostListViewController;
+@end
+
 @interface SFSDKLoginHostTests : XCTestCase
 
 @property (nonatomic, strong) NSString *productionUrl;
@@ -144,6 +149,38 @@
     XCTAssertEqual(4, [loginHostStorage numberOfLoginHosts], "Number of login hosts should be equal to 4");
     XCTAssertEqualObjects(self.customName2, loginHost.name, @"%@ Should be equal to %@", self.customName2, loginHost.name);
     XCTAssertEqualObjects(self.customUrl2, loginHost.host, @"%@ Should be equal to %@", self.customUrl2, loginHost.host);
+}
+
+- (void) testLoginHostListViewControllerCreatesUniqueInstances {
+    // This test verifies the fix for the swipe dismissal race condition crash.
+    // Each call to createLoginHostListViewController should return a fresh instance,
+    // preventing the "nested navigation controllers" error when rapidly opening/closing
+    // the connection screen with swipe gestures.
+
+    SFLoginViewController *loginViewController = [[SFLoginViewController alloc] init];
+
+    // Create multiple instances
+    SFSDKLoginHostListViewController *instance1 = [loginViewController createLoginHostListViewController];
+    SFSDKLoginHostListViewController *instance2 = [loginViewController createLoginHostListViewController];
+    SFSDKLoginHostListViewController *instance3 = [loginViewController createLoginHostListViewController];
+
+    // Verify each call creates a unique instance (different memory addresses)
+    XCTAssertNotNil(instance1, "First instance should not be nil");
+    XCTAssertNotNil(instance2, "Second instance should not be nil");
+    XCTAssertNotNil(instance3, "Third instance should not be nil");
+
+    XCTAssertNotEqual(instance1, instance2, "First and second instances should be different objects");
+    XCTAssertNotEqual(instance2, instance3, "Second and third instances should be different objects");
+    XCTAssertNotEqual(instance1, instance3, "First and third instances should be different objects");
+
+    // Verify each instance is properly configured with config and delegate
+    XCTAssertNotNil(instance1.config, "First instance should have config");
+    XCTAssertNotNil(instance2.config, "Second instance should have config");
+    XCTAssertNotNil(instance3.config, "Third instance should have config");
+
+    XCTAssertEqual(instance1.delegate, loginViewController, "First instance delegate should be set to loginViewController");
+    XCTAssertEqual(instance2.delegate, loginViewController, "Second instance delegate should be set to loginViewController");
+    XCTAssertEqual(instance3.delegate, loginViewController, "Third instance delegate should be set to loginViewController");
 }
 
 @end

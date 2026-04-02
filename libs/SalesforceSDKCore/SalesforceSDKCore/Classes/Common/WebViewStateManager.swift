@@ -24,7 +24,6 @@ import Foundation
 import WebKit
 
 public class SFSDKWebViewStateManager: NSObject {
-    private static var processPool: WKProcessPool?
     private static var managementDisabled = false
     
     @objc
@@ -39,9 +38,8 @@ public class SFSDKWebViewStateManager: NSObject {
 
     @objc
     @MainActor
+    @available(*, deprecated, renamed: "resetSessionCookie", message: "Deprecated in Salesforce Mobile SDK 13.2 and will be removed in Salesforce Mobile SDK 14.0. Use resetSessionCookie instead.")
     public static func removeSession() {
-        sharedProcessPool = nil
-        
         if sessionCookieManagementDisabled {
             SFSDKCoreLogger.d(SFSDKWebViewStateManager.self, message: "[\(Self.self) removeSession]: Cookie Management disabled. Will do nothing.")
             return
@@ -55,39 +53,57 @@ public class SFSDKWebViewStateManager: NSObject {
     @objc
     @MainActor
     public static func resetSessionCookie() {
+        resetSessionCookie(completion: {})
+    }
+
+    @objc
+    @MainActor
+    public static func resetSessionCookie(completion: @escaping () -> Void) {
         if sessionCookieManagementDisabled {
             SFSDKCoreLogger.d(SFSDKWebViewStateManager.self, message: "[\(Self.self) resetSessionCookie]: Cookie Management disabled. Will do nothing.")
+            completion()
             return
         }
-        
+
         Task {
             await removeWKWebViewCookies()
+            completion()
         }
+    }
+    
+    @objc
+    @MainActor
+    public static func clearCache() async {
+        let dataStore = WKWebsiteDataStore.default()
+        let nonCookieDataTypes: Set<String> = [WKWebsiteDataTypeDiskCache,
+                                               WKWebsiteDataTypeMemoryCache,
+                                               WKWebsiteDataTypeFetchCache,
+                                               WKWebsiteDataTypeLocalStorage,
+                                               WKWebsiteDataTypeSessionStorage,
+                                               WKWebsiteDataTypeIndexedDBDatabases,
+                                               WKWebsiteDataTypeWebSQLDatabases,
+                                               WKWebsiteDataTypeOfflineWebApplicationCache,
+                                               WKWebsiteDataTypeServiceWorkerRegistrations]
+        await dataStore.removeData(ofTypes: nonCookieDataTypes, modifiedSince: Date.distantPast)
     }
     
     @objc
     @MainActor
     public static func removeSessionForcefully() async {
-        sharedProcessPool = nil
         await removeWKWebViewCookies()
     }
 
     
+    @available(*, deprecated, message: "Deprecated in Salesforce Mobile SDK 13.2 and will be removed in Salesforce Mobile SDK 14.0. WKProcessPool creation has no effect on iOS 15+ and this property will be removed.")
     @objc
     @MainActor
     public static var sharedProcessPool: WKProcessPool? {
         get {
-            if processPool == nil {
-                SFSDKCoreLogger.i(SFSDKWebViewStateManager.self, message: "[\(Self.self) sharedProcessPool]: No process pool exists. Creating new instance.")
-                processPool = WKProcessPool()
-            }
-            return processPool
+            // WKProcessPool creation is deprecated since iOS 15 and has no effect.
+            return nil
         }
         set {
-            if newValue !== processPool {
-                SFSDKCoreLogger.i(SFSDKWebViewStateManager.self, message: "[\(Self.self) setSharedProcessPool]: Changing from \(String(describing: processPool)) to \(String(describing: newValue))")
-                processPool = newValue
-            }
+            // Do nothing
         }
     }
 

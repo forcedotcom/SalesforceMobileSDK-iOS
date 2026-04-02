@@ -80,6 +80,7 @@ ignore:
   - "shared"
   - "native"
   - "libs/**/*Test*/*"
+  - "**/TestSetupUtils*"
 
 flag_management:
   default_rules: # the rules that will be followed for any flag added, generally

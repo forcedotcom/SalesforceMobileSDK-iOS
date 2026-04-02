@@ -27,6 +27,7 @@
 #import "SalesforceSDKCore/SFNetwork.h"
 #import "SalesforceSDKCore/SFRestAPI+Blocks.h"
 #import "SalesforceSDKCore/SalesforceSDKCore-Swift.h"
+#import "SalesforceSDKCore/SalesforceSDKManager.h"
 
 @interface SFNetwork (Testing)
 
@@ -140,6 +141,16 @@
     };
     
     [self waitForExpectations:@[getExpectation, metricsExpectation] timeout:30];
+}
+
+- (void)testRequestUserAgent {
+    SFNetwork *network = [SFNetwork sharedEphemeralInstance];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://www.salesforce.com"]];
+    [network sendRequest:request dataResponseBlock:nil];
+    
+    NSString *userAgent = request.allHTTPHeaderFields[@"User-Agent"];
+    NSString *expectedUserAgent = [SalesforceSDKManager sharedManager].userAgentString(@"");
+    XCTAssertEqualObjects(userAgent, expectedUserAgent, @"User-Agent header should match SDK manager's user agent");
 }
 
 @end

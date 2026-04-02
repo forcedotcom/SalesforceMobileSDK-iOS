@@ -88,4 +88,14 @@
     return _credentialsDict[@"community_url"];
 }
 
+- (NSString *)username
+{
+    return _credentialsDict[@"username"];
+}
+
+- (NSString *)displayName
+{
+    return _credentialsDict[@"display_name"];
+}
+
 @end

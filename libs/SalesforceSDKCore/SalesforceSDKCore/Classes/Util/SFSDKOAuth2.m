@@ -235,11 +235,11 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
     NSData *encodedBody = [params dataUsingEncoding:NSUTF8StringEncoding];
     [request setHTTPBody:encodedBody];
     
-    __block NSString *instanceIdentifier = [SFNetwork uniqueInstanceIdentifier];
-    NSURLSession *session = [self createURLSessionWithIdentifier:instanceIdentifier];
+    __block NSString *networkIdentifier = [SFNetwork uniqueInstanceIdentifier];
+    SFNetwork *network = [SFNetwork sharedEphemeralInstanceWithIdentifier:networkIdentifier];
     __weak typeof(self) weakSelf = self;
-    [[session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *urlResponse, NSError *error) {
-        [SFNetwork removeSharedInstanceForIdentifier:instanceIdentifier];
+    [network sendRequest:request dataResponseBlock:^(NSData * data, NSURLResponse *urlResponse, NSError *error) {
+        [SFNetwork removeSharedInstanceForIdentifier:networkIdentifier];
         __strong typeof(weakSelf) strongSelf = weakSelf;
         SFSDKOAuthTokenEndpointResponse *endpointResponse = nil;
         if (error) {
@@ -260,7 +260,7 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
             return;
         }
         [strongSelf handleTokenEndpointResponse:completionBlock request:endpointReq data:data urlResponse:urlResponse];
-    }] resume];
+    }];
 }
 
 /* Handle a 'token' endpoint (e.g. refresh, advanced auth) response.
@@ -290,11 +290,11 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
     NSData *encodedBody = [params dataUsingEncoding:NSUTF8StringEncoding];
     [request setHTTPBody:encodedBody];
     __block NSString *instanceIdentifier = [SFNetwork uniqueInstanceIdentifier];
-    NSURLSession *session = [self createURLSessionWithIdentifier:instanceIdentifier];
+    SFNetwork *network = [SFNetwork sharedEphemeralInstanceWithIdentifier:instanceIdentifier];
 
     __weak typeof(self) weakSelf = self;
     NSString *className = NSStringFromClass([self class]);
-    [[session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *urlResponse, NSError *error) {
+    [network sendRequest:request dataResponseBlock:^(NSData *data, NSURLResponse *urlResponse, NSError *error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         SFSDKOAuthTokenEndpointResponse *endpointResponse = nil;
         [SFNetwork removeSharedInstanceForIdentifier:instanceIdentifier];
@@ -329,7 +329,7 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
                 }
             });
         }
-    }] resume];
+    }];
 }
 
 - (void)openIDTokenForRefresh:(SFSDKOAuthTokenEndpointRequest *)endpointReq completion:(void (^)(NSString *))completionBlock {

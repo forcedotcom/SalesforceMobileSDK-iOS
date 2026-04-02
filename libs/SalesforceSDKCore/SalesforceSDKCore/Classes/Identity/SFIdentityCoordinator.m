@@ -30,6 +30,7 @@
 #import "SFNetwork.h"
 #import "SFSDKAuthSession.h"
 #import "SFIdentityData+Internal.h"
+#import "SalesforceSDKCore/SalesforceSDKCore-Swift.h"
 
 // Public constants
 

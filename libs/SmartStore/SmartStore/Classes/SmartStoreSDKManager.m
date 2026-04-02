@@ -95,6 +95,7 @@
 {
     SFSmartStore *store = [SFSmartStore sharedGlobalStoreWithName:kDefaultSmartStoreName];
     NSMutableArray * devInfos = [NSMutableArray arrayWithArray:[super getDevSupportInfos]];
+    [devInfos addObject:@"section:SmartStore"];
     [devInfos addObjectsFromArray:@[
             @"SQLCipher version", [store getSQLCipherVersion],
             @"SQLCipher Compile Options", [[store getCompileOptions] componentsJoinedByString:@", "],

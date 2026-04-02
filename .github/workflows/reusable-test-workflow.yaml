@@ -1,0 +1,83 @@
+on:
+  workflow_call:
+    inputs:
+      lib:
+        required: true
+        type: string
+      ios:
+        default: "^18"
+        required: false
+        type: string
+      xcode:
+        default: "^16"
+        required: false
+        type: string
+      macos:
+        default: macos-latest
+        required: false
+        type: string
+      is_pr:
+        type: boolean
+        default: false
+
+jobs:
+  test-ios:
+    runs-on: ${{ inputs.macos }}
+    steps:
+      - uses: actions/checkout@v4
+        if: ${{ inputs.is_pr }}
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/checkout@v4
+        if: ${{ !inputs.is_pr }}
+        with:
+          ref: ${{ github.head_ref }}
+      - name: Install Dependencies
+        env:
+          TEST_CREDENTIALS: ${{ secrets.TEST_CREDENTIALS }}
+        run: |
+          ./install.sh
+          echo $TEST_CREDENTIALS > ./shared/test/test_credentials.json
+      - name: Install iOS 17 runtime if needed
+        if: ${{ inputs.ios == '^17' }}
+        run: xcodes runtimes install "iOS 17.5"
+      - uses: mxcl/xcodebuild@v3
+        id: xcodebuild
+        with:
+          xcode: ${{ inputs.xcode }}
+          platform: iOS
+          platform-version: ${{ inputs.ios }}
+          workspace: SalesforceMobileSDK.xcworkspace
+          scheme: ${{ inputs.lib }}
+          code-coverage: true
+          verbosity: xcbeautify
+      - name: Parse test results
+        if: success() || failure()
+        run: |
+          brew install xcresultparser
+          xcresultparser -o junit test.xcresult > test-results-${{ inputs.lib }}-ios${{ inputs.ios }}.xml
+      - name: Test Report
+        uses: mikepenz/action-junit-report@v5
+        if: success() || failure()
+        with:
+          check_name: ${{ inputs.lib }} iOS ${{ inputs.ios }} Test Results
+          job_name: ${{ inputs.lib }} iOS ${{ inputs.ios }} Test Results
+          require_tests: true
+          include_empty_in_summary: false
+          simplified_summary: true
+          detailed_summary: true
+          comment: true
+          job_summary: ${{ steps.xcodebuild.outcome == 'failure' }}
+          report_paths: 'test-results-${{ inputs.lib }}-ios${{ inputs.ios }}.xml'
+      - uses: codecov/codecov-action@v4
+        if: success() || failure()
+        with:
+          flags: ${{ inputs.lib }}
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      - name: Upload test results artifact
+        if: success() || failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-${{ inputs.lib }}-ios${{ inputs.ios }}
+          path: test-results-${{ inputs.lib }}-ios${{ inputs.ios }}.xml

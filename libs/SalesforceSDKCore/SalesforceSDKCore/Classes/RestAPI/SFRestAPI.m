@@ -39,7 +39,7 @@
 #import "SFLoginViewController.h"
 #import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 
-NSString* const kSFRestDefaultAPIVersion = @"v63.0";
+NSString* const kSFRestDefaultAPIVersion = @"v66.0";
 NSString* const kSFRestIfUnmodifiedSince = @"If-Unmodified-Since";
 NSString* const kSFRestErrorDomain = @"com.salesforce.RestAPI.ErrorDomain";
 NSString* const kSFDefaultContentType = @"application/json";
@@ -205,9 +205,7 @@ static dispatch_once_t pred;
     SFRestRequest *toCancel = (nil != req ? req : [self.activeRequests anyObject]);
     if (nil != toCancel) {
         found = YES;
-        if (req.failureBlock) {
-            req.failureBlock(nil, nil, nil);
-        }
+        // Cancel the request - this will trigger the failureBlock via the network error callback
         [toCancel cancel];
     }
     return found;
@@ -329,7 +327,13 @@ successBlock:(SFRestResponseBlock)successBlock
         __block NSURLSessionDataTask *dataTask = [network sendRequest:finalRequest dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             [SFNetwork removeSharedInstanceForIdentifier:instanceIdentifier];
-            
+
+            // Guard: ignore callbacks from stale dataTasks superseded by retry.
+            if (dataTask != request.sessionDataTask) {
+                [SFSDKCoreLogger d:[strongSelf class] format:@"Ignoring callback from stale task for request: %@", request.path];
+                return;
+            }
+
             // Network error.
             if (error) {
                 [SFSDKCoreLogger d:[strongSelf class] format:@"REST request failed with error: Error Code: %ld, Description: %@, URL: %@", (long) error.code, error.localizedDescription, finalRequest.URL];
@@ -356,7 +360,7 @@ successBlock:(SFRestResponseBlock)successBlock
                     request.successBlock(dataForDelegate, response);
                 }
             } else {
-                if (shouldRetry && [self shouldRetryTask:dataTask withData:data]) {
+                if (shouldRetry && [strongSelf shouldRetryTask:dataTask withData:data]) {
                     [strongSelf replayRequest:request response:response];
                 } else {
                     // Other status codes indicate failure.
@@ -458,9 +462,9 @@ successBlock:(SFRestResponseBlock)successBlock
             [sessionRefresher refreshSessionWithCompletion:^(SFOAuthCredentials *updatedCredentials) {
                 __strong typeof(weakSelf) strongSelf = weakSelf;
                 [SFSDKCoreLogger i:[strongSelf class] format:@"%@: Credentials refresh successful. Replaying original REST request.", NSStringFromSelector(_cmd)];
-                strongSelf.sessionRefreshInProgress = NO;
-                strongSelf.oauthSessionRefresher = nil;
                 @synchronized (strongSelf) {
+                    strongSelf.sessionRefreshInProgress = NO;
+                    strongSelf.oauthSessionRefresher = nil;
                     if (!strongSelf.pendingRequestsBeingProcessed) {
                         strongSelf.pendingRequestsBeingProcessed = YES;
                         [strongSelf resendActiveRequestsRequiringAuthentication];
@@ -469,10 +473,12 @@ successBlock:(SFRestResponseBlock)successBlock
             } error:^(NSError *refreshError) {
                 __strong typeof(weakSelf) strongSelf = weakSelf;
                 [SFSDKCoreLogger e:[strongSelf class] format:@"Failed to refresh expired session. Error: %@", refreshError];
-                strongSelf.pendingRequestsBeingProcessed = YES;
-                [strongSelf flushPendingRequestQueue:refreshError rawResponse:response];
-                strongSelf.sessionRefreshInProgress = NO;
-                strongSelf.oauthSessionRefresher = nil;
+                @synchronized (strongSelf) {
+                    strongSelf.pendingRequestsBeingProcessed = YES;
+                    [strongSelf flushPendingRequestQueue:refreshError rawResponse:response];
+                    strongSelf.sessionRefreshInProgress = NO;
+                    strongSelf.oauthSessionRefresher = nil;
+                }
                 if ([refreshError.domain isEqualToString:kSFOAuthErrorDomain] && refreshError.code == kSFOAuthErrorInvalidGrant) {
                     [SFSDKCoreLogger i:[strongSelf class] format:@"%@ Invalid grant error received, triggering logout.", NSStringFromSelector(_cmd)];
                     
@@ -490,6 +496,9 @@ successBlock:(SFRestResponseBlock)successBlock
     @synchronized (self) {
         NSSet *pendingRequests = [self.activeRequests asSet];
         for (SFRestRequest *request in pendingRequests) {
+            NSURLSessionDataTask *oldTask = request.sessionDataTask;
+            request.sessionDataTask = nil;
+            [oldTask cancel];
             if (request.failureBlock) {
                 request.failureBlock(nil, error, rawResponse);
             }
@@ -502,10 +511,12 @@ successBlock:(SFRestResponseBlock)successBlock
     @synchronized (self) {
         NSSet *pendingRequests = [self.activeRequests asSet];
         for (SFRestRequest *request in pendingRequests) {
+            NSURLSessionDataTask *oldTask = request.sessionDataTask;
             [self send:request
           failureBlock:request.failureBlock
           successBlock:request.successBlock
            shouldRetry:NO];
+            [oldTask cancel];
         }
         self.pendingRequestsBeingProcessed = NO;
     }

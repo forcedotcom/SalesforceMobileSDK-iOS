@@ -10,12 +10,16 @@ fail("Please re-submit this PR to the dev branch, we may have already fixed your
 SCHEMES = ['SalesforceSDKCommon', 'SalesforceAnalytics', 'SalesforceSDKCore', 'SmartStore', 'MobileSync']
 
 modifed_libs = Set[]
+
 for file in (git.modified_files + git.added_files);
     scheme = file.split("libs/").last.split("/").first
-    if SCHEMES.include?(scheme) 
+    if SCHEMES.include?(scheme)
         modifed_libs.add(scheme)
     end
 end
+
+# Matrix must have at least one value; run SalesforceSDKCore when no libs are modified
+modifed_libs.add(SCHEMES[2]) if modifed_libs.empty?
 
 # Set Github Job output so we know which tests to run
 json_libs = modifed_libs.map { |l| "'#{l}'"}.join(", ")
