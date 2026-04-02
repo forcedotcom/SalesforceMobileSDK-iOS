@@ -138,9 +138,20 @@ jobs:
 
   ui-tests-pr:
     needs: [test-orchestrator]
+    strategy:
+      fail-fast: false
+      matrix:
+        ios: [^26, ^18]
+        include:
+          - ios: ^26
+            xcode: ^26
+          - ios: ^18
+            xcode: ^16
     uses: ./.github/workflows/reusable-ui-test-workflow.yaml
     with:
       is_pr: true
+      ios: ${{ matrix.ios }}
+      xcode: ${{ matrix.xcode }}
       pr_test: "AuthFlowTesterUITests/LegacyLoginTests/testCAOpaque_DefaultScopes_WebServerFlow"
       short_timeout: "2"
       long_timeout: "7"
