@@ -135,11 +135,6 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
         if ([invalidParameters length] > 0) [invalidParameters appendString:@", "];
         [invalidParameters appendString:@"identity URL"];
     }
-    SFScopeParser *scopeParser = [[SFScopeParser alloc] initWithScopes:self.credentials.scopes];
-    if (![scopeParser hasIdentityScope]) {
-        if ([invalidParameters length] > 0) [invalidParameters appendString:@", "];
-        [invalidParameters appendString:@"identity scope"];
-    }
     
     NSString *invalidParametersError = nil;
     if ([invalidParameters length] > 0) {
