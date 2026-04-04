@@ -16,8 +16,9 @@ Updates the iOS deployment target in all necessary locations:
 4. **Installation Scripts** - Updates version checks in install.sh
 5. **Documentation** - Updates readme.md with new minimum version
 6. **Helper Scripts** - Updates mobilesdk_pods.rb deployment target
-7. **Code Cleanup** - Identifies and removes obsolete version checks in source code
-8. **Comment Updates** - Updates version references in code comments
+7. **GitHub Actions Workflows** - Updates CI workflow matrices and runtime installation steps
+8. **Code Cleanup** - Identifies and removes obsolete version checks in source code
+9. **Comment Updates** - Updates version references in code comments
 
 ## Usage
 
@@ -62,7 +63,19 @@ Find all .pbxproj files and update `IPHONEOS_DEPLOYMENT_TARGET`:
 - libs/SmartStore/SmartStore.xcodeproj/project.pbxproj
 - Sample apps (MobileSyncExplorer, RestAPIExplorer, etc.)
 
-### 7. Code Cleanup - Remove Obsolete Version Checks
+### 7. Update GitHub Actions Workflows
+Remove the old minimum iOS version from CI workflows and clean up runtime installation steps:
+
+In `.github/workflows/nightly.yaml`:
+- Remove old iOS version from test matrix (e.g., `ios: [^26, ^18, ^17]` → `ios: [^26, ^18]`)
+- Remove old iOS version from build matrix
+- Remove corresponding Xcode version mapping from matrix.include
+
+In `.github/workflows/ui-test-nightly.yaml`:
+- Remove old iOS version from test matrix
+- Remove corresponding Xcode version mapping from matrix.include
+
+### 8. Code Cleanup - Remove Obsolete Version Checks
 Search for and review code with version-specific conditional compilation:
 - `#if __IPHONE_OS_VERSION_MAX_ALLOWED >= [OLD_VERSION]`
 - `@available(iOS X.Y, *)`
@@ -85,7 +98,7 @@ grep -r "@available(iOS" libs/
 grep -r "respondsToSelector" libs/
 ```
 
-### 8. Update Version References in Comments
+### 9. Update Version References in Comments
 Search for and update comments that reference the old minimum version:
 ```bash
 grep -r "iOS [OLD_VERSION]" libs/ --include="*.swift" --include="*.m" --include="*.h"
