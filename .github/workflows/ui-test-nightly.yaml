@@ -10,13 +10,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ios: [^26, ^18, ^17]
+        ios: [^26, ^18]
         include:
           - ios: ^26
             xcode: ^26
           - ios: ^18
-            xcode: ^16
-          - ios: ^17
             xcode: ^16
     uses: ./.github/workflows/reusable-ui-test-workflow.yaml
     with:

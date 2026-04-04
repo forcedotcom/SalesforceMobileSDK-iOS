@@ -69,9 +69,6 @@ jobs:
         run: |
           ./install.sh
           echo "$UI_TEST_CONFIG" > ./shared/test/ui_test_config.json
-      - name: Install iOS 17 runtime if needed
-        if: ${{ inputs.ios == '^17' }}
-        run: xcodes runtimes install "iOS 17.5"
       # Select Xcode only (mxcl action does not support -retry-tests-on-failure)
       - uses: mxcl/xcodebuild@v3
         with:
