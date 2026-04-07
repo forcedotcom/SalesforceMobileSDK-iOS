@@ -34,9 +34,6 @@ jobs:
           ref: ${{ github.head_ref }}
       - name: Install Dependencies
         run: ./install.sh
-      - name: Install iOS 17 runtime if needed
-        if: ${{ inputs.ios == '^17' }}
-        run: xcodes runtimes install "iOS 17.5"
       - uses: mxcl/xcodebuild@v3
         with:
           xcode: ${{ inputs.xcode }}

@@ -42,7 +42,7 @@ MobileSync
 - [MobileSync](https://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/MobileSync/html/index.html)
 
 ### iOS Build Details
-- **Minimum target**: iOS 17.0
+- **Minimum target**: iOS 18.0
 - **Workspace**: `SalesforceMobileSDK.xcworkspace` (open this, not individual `.xcodeproj` files)
 - **Setup**: Run `./install.sh` after cloning to pull submodule dependencies
 - **Dependency management**: CocoaPods (podspecs at repo root) + Swift Package Manager

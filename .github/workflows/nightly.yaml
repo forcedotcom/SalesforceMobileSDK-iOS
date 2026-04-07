@@ -12,13 +12,11 @@ jobs:
       fail-fast: false
       matrix:
         lib: [SalesforceSDKCommon, SalesforceAnalytics, SalesforceSDKCore, SmartStore, MobileSync]
-        ios: [^26, ^18, ^17]
+        ios: [^26, ^18]
         include:
           - ios: ^26
             xcode: ^26
           - ios: ^18
-            xcode: ^16
-          - ios: ^17
             xcode: ^16
     uses: ./.github/workflows/reusable-test-workflow.yaml
     with:
@@ -32,13 +30,11 @@ jobs:
       fail-fast: false
       matrix:
         app: [RestAPIExplorer, MobileSyncExplorer, AuthFlowTester]
-        ios: [^26, ^18, ^17]
+        ios: [^26, ^18]
         include:
           - ios: ^26
             xcode: ^26
           - ios: ^18
-            xcode: ^16
-          - ios: ^17
             xcode: ^16
     uses: ./.github/workflows/reusable-build-workflow.yaml
     with:
