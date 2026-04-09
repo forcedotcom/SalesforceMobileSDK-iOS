@@ -126,8 +126,6 @@ private func logout() {
     }
 }
 
-struct ScreenLockUIView_Previews: PreviewProvider {
-    static var previews: some View {
-        ScreenLockUIView()
-    }
+#Preview {
+    ScreenLockUIView()
 }
