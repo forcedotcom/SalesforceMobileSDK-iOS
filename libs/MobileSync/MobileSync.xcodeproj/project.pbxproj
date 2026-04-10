@@ -127,8 +127,6 @@
 		CE1F0B0C19ACF95B0007F22F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0B0219ACF95B0007F22F /* SystemConfiguration.framework */; };
 		CE1F0B0D19ACF95B0007F22F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0B0319ACF95B0007F22F /* UIKit.framework */; };
 		CE1F0B1919ACFD260007F22F /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = CE1F0B1819ACFD260007F22F /* test_credentials.json */; };
-		CE2BCCF4224A86C100C98308 /* SFMobileSyncSyncManager+Instrumentation.h in Headers */ = {isa = PBXBuildFile; fileRef = CE2BCCF2224A86C000C98308 /* SFMobileSyncSyncManager+Instrumentation.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CE2BCCF5224A86C100C98308 /* SFMobileSyncSyncManager+Instrumentation.m in Sources */ = {isa = PBXBuildFile; fileRef = CE2BCCF3224A86C000C98308 /* SFMobileSyncSyncManager+Instrumentation.m */; };
 		CE4CE4221C0E5A35009F6029 /* SFMobileSyncSyncManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F22155A19DF4BAD00FF2D26 /* SFMobileSyncSyncManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE4CE4231C0E5A35009F6029 /* SFMobileSyncSyncManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F22155B19DF4BAD00FF2D26 /* SFMobileSyncSyncManager.m */; };
 		CE4CE4281C0E5A49009F6029 /* SFObject+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = CEF50A7B196B3EB60076264C /* SFObject+Internal.h */; };
@@ -436,8 +434,6 @@
 		CE1F0B0219ACF95B0007F22F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		CE1F0B0319ACF95B0007F22F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		CE1F0B1819ACFD260007F22F /* test_credentials.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = test_credentials.json; path = ../../../shared/test/test_credentials.json; sourceTree = "<group>"; };
-		CE2BCCF2224A86C000C98308 /* SFMobileSyncSyncManager+Instrumentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SFMobileSyncSyncManager+Instrumentation.h"; path = "Instrumentation/SFMobileSyncSyncManager+Instrumentation.h"; sourceTree = "<group>"; };
-		CE2BCCF3224A86C000C98308 /* SFMobileSyncSyncManager+Instrumentation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "SFMobileSyncSyncManager+Instrumentation.m"; path = "Instrumentation/SFMobileSyncSyncManager+Instrumentation.m"; sourceTree = "<group>"; };
 		CE4CE2C91C0E463C009F6029 /* MobileSync.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MobileSync.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE617397196F469A00C63BDE /* SFMobileSyncConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFMobileSyncConstants.h; sourceTree = "<group>"; };
 		CE617398196F469A00C63BDE /* SFMobileSyncConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFMobileSyncConstants.m; sourceTree = "<group>"; };
@@ -652,8 +648,6 @@
 		CE2BCCF1224A86AF00C98308 /* Instrumentation */ = {
 			isa = PBXGroup;
 			children = (
-				CE2BCCF2224A86C000C98308 /* SFMobileSyncSyncManager+Instrumentation.h */,
-				CE2BCCF3224A86C000C98308 /* SFMobileSyncSyncManager+Instrumentation.m */,
 			);
 			name = Instrumentation;
 			sourceTree = "<group>";
@@ -876,7 +870,6 @@
 				CE4CE4381C0E5A75009F6029 /* SFMobileSyncNetworkUtils.h in Headers */,
 				4F307E331EBD49250040CFC4 /* SFParentChildrenSyncHelper.h in Headers */,
 				4FAA9B6222545FE00006810D /* SFSyncDownTask.h in Headers */,
-				CE2BCCF4224A86C100C98308 /* SFMobileSyncSyncManager+Instrumentation.h in Headers */,
 				4FCA4A981FBE4E0A00F081B3 /* SFSDKSyncsConfig.h in Headers */,
 				CE4CE4311C0E5A49009F6029 /* SFMobileSyncPersistableObject+Internal.h in Headers */,
 				4FDCBD561E8DDC5C008F8FCE /* SFSyncTarget.h in Headers */,
@@ -1269,7 +1262,6 @@
 				6927E23F283C3E1400A16668 /* SyncTarget.swift in Sources */,
 				4F307E2A1EBA92450040CFC4 /* SFParentInfo.m in Sources */,
 				4FDCBD571E8DDC5C008F8FCE /* SFSyncDownTarget.m in Sources */,
-				CE2BCCF5224A86C100C98308 /* SFMobileSyncSyncManager+Instrumentation.m in Sources */,
 				4FCDFF7528402D510045CD29 /* CollectionSyncUpTarget.swift in Sources */,
 				4FAA9B6E225461910006810D /* SFCleanSyncGhostsTask.m in Sources */,
 				FDCEC3CBF6FA262ACF305285 /* MobileSyncSDKManager.m in Sources */,
