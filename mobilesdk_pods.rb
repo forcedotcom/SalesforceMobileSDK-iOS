@@ -43,19 +43,6 @@ def mobile_sdk_pre_install(installer)
 end
   
 
-# Post Install: Enable sign posts
-def signposts_post_install(installer)
-  installer.pods_project.targets.each do |target|
-    target.build_configurations.each do |config|
-      if config.name == 'Debug'
-        config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] ||= ['$(inherited)', 'DEBUG=1','SIGNPOST_ENABLED=1']
-        config.build_settings['OTHER_SWIFT_FLAGS'] = ['$(inherited)', '-DDEBUG','-DSIGNPOST_ENABLED']
-      end
-    end
-  end
-end
-
-
 # Post Install: Enable visionOS support
 def vision_os_post_install(installer)
   installer.pods_project.targets.each do |target|
