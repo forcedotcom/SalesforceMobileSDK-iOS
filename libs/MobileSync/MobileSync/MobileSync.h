@@ -39,7 +39,6 @@
 #import <MobileSync/SFMetadata.h>
 #import <MobileSync/SFMetadataSyncManager.h>
 #import <MobileSync/SFMobileSyncPersistableObject.h>
-#import <MobileSync/SFMobileSyncSyncManager+Instrumentation.h>
 #import <MobileSync/SFBatchSyncUpTarget.h>
 #import <MobileSync/SFSoslSyncDownTarget.h>
 #import <MobileSync/SFChildrenInfo.h>
