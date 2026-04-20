@@ -38,20 +38,6 @@ public class SFSDKWebViewStateManager: NSObject {
 
     @objc
     @MainActor
-    @available(*, deprecated, renamed: "resetSessionCookie", message: "Deprecated in Salesforce Mobile SDK 13.2 and will be removed in Salesforce Mobile SDK 14.0. Use resetSessionCookie instead.")
-    public static func removeSession() {
-        if sessionCookieManagementDisabled {
-            SFSDKCoreLogger.d(SFSDKWebViewStateManager.self, message: "[\(Self.self) removeSession]: Cookie Management disabled. Will do nothing.")
-            return
-        }
-        
-        Task {
-            await removeWKWebViewCookies()
-        }
-    }
-
-    @objc
-    @MainActor
     public static func resetSessionCookie() {
         resetSessionCookie(completion: {})
     }
@@ -91,20 +77,6 @@ public class SFSDKWebViewStateManager: NSObject {
     @MainActor
     public static func removeSessionForcefully() async {
         await removeWKWebViewCookies()
-    }
-
-    
-    @available(*, deprecated, message: "Deprecated in Salesforce Mobile SDK 13.2 and will be removed in Salesforce Mobile SDK 14.0. WKProcessPool creation has no effect on iOS 15+ and this property will be removed.")
-    @objc
-    @MainActor
-    public static var sharedProcessPool: WKProcessPool? {
-        get {
-            // WKProcessPool creation is deprecated since iOS 15 and has no effect.
-            return nil
-        }
-        set {
-            // Do nothing
-        }
     }
 
     @MainActor

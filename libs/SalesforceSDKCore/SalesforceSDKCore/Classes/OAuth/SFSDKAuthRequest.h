@@ -43,7 +43,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong) SFSDKLoginViewControllerConfig *loginViewControllerConfig;
 @property (nullable, nonatomic, strong) UIScene *scene;
 @property (nonatomic, copy) NSString *jwtToken;
-@property (nonatomic, copy, nullable) NSString *userAgentForAuth;
 
 //IDP flow related properties (SPApp related properties)
 @property (nonatomic, readonly, assign) BOOL idpEnabled;

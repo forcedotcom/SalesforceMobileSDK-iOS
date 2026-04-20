@@ -341,13 +341,13 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
     }];
 }
 
-#pragma mark - SFSDKOAuthSessionManaging
+#pragma mark - private
+
 - (NSURLSession *)createURLSessionWithIdentifier:(NSString *)identifier {
     SFNetwork *network = [SFNetwork sharedEphemeralInstanceWithIdentifier:identifier];
     return network.activeSession;
 }
 
-#pragma mark - private
 - (NSMutableURLRequest *)prepareBasicRequest:(SFSDKOAuthTokenEndpointRequest *)endpointReq {
     NSString *protocolHost = endpointReq.serverURL.absoluteString;
     NSMutableString *url = [[NSMutableString alloc] initWithFormat:@"%@%@", protocolHost, kSFOAuthEndPointToken];
@@ -359,9 +359,6 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
                                                             timeoutInterval:endpointReq.timeout];
     [request setHTTPMethod:kHttpMethodPost];
     [request setValue:kHttpPostContentType forHTTPHeaderField:kHttpHeaderContentType];
-    if (endpointReq.userAgentForAuth != nil) {
-        [request setValue:endpointReq.userAgentForAuth forHTTPHeaderField:kHttpHeaderUserAgent];
-    }
     [request setHTTPShouldHandleCookies:NO];
     return request;
 }
