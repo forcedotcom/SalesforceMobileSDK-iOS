@@ -178,9 +178,9 @@
     XCTAssertNotNil(instance2.config, "Second instance should have config");
     XCTAssertNotNil(instance3.config, "Third instance should have config");
 
-    XCTAssertEqual(instance1.delegate, loginViewController, "First instance delegate should be set to loginViewController");
-    XCTAssertEqual(instance2.delegate, loginViewController, "Second instance delegate should be set to loginViewController");
-    XCTAssertEqual(instance3.delegate, loginViewController, "Third instance delegate should be set to loginViewController");
+    XCTAssertEqual((SFLoginViewController *)instance1.delegate, loginViewController, "First instance delegate should be set to loginViewController");
+    XCTAssertEqual((SFLoginViewController *)instance2.delegate, loginViewController, "Second instance delegate should be set to loginViewController");
+    XCTAssertEqual((SFLoginViewController *)instance3.delegate, loginViewController, "Third instance delegate should be set to loginViewController");
 }
 
 @end
