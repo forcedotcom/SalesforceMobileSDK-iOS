@@ -57,6 +57,14 @@ NS_SWIFT_NAME(SalesforceLoginViewControllerDelegate)
 - (void)loginViewControllerDidChangeLoginOptions:(nonnull SFLoginViewController *)loginViewController;
 
 
+/**
+ * Notifies the delegate that the user selected "Login for Admin" from the settings menu.
+ * This forces browser-based (advanced) authentication via ASWebAuthenticationSession,
+ * regardless of org configuration, to support phishing-resistant MFA.
+ * @param loginViewController The instance sending this message.
+ */
+- (void)loginViewControllerDidSelectLoginForAdmin:(nonnull SFLoginViewController *)loginViewController;
+
 @end
 
 /** The Salesforce login screen view.

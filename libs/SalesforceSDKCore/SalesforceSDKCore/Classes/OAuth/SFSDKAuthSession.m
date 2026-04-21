@@ -60,7 +60,7 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
     self.oauthCoordinator.additionalTokenRefreshParams = self.oauthRequest.additionalTokenRefreshParams;
     self.oauthCoordinator.scopes = self.oauthRequest.scopes;
     self.oauthCoordinator.brandLoginPath = self.oauthRequest.brandLoginPath;
-    self.oauthCoordinator.useBrowserAuth = self.oauthRequest.useBrowserAuth;
+    self.oauthCoordinator.useBrowserAuth = self.oauthRequest.useBrowserAuth || self.oauthRequest.loginAsAdmin;
     
     // TODO: Remove in Mobile SDK 14.0
     #pragma clang diagnostic push
