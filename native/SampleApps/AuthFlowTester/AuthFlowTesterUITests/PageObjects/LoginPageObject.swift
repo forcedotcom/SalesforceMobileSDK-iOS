@@ -95,6 +95,26 @@ class LoginPageObject {
         passwordField().typeText(XCUIKeyboardKey.return.rawValue)
         tapIfPresent(allowButton())
     }
+
+    /// Performs login via the "Login for Admin" flow.
+    /// Taps Settings → "Login for Admin" which triggers ASWebAuthenticationSession (native browser),
+    /// then completes authentication in the browser.
+    func performLoginForAdmin(username: String, password: String) {
+        // Tap Settings gear icon → "Login for Admin" menu item
+        tap(settingsButton())
+        tap(loginForAdminButton())
+
+        // Wait for ASWebAuthenticationSession browser to appear
+        let topBar = app.otherElements["TopBrowserBar"]
+        _ = topBar.waitForExistence(timeout: UITestTimeouts.long)
+
+        // Complete login in the browser (same interaction as advanced auth)
+        setTextField(usernameField(), value: username)
+        usernameField().typeText(XCUIKeyboardKey.return.rawValue)
+        setTextField(passwordField(), value: password)
+        passwordField().typeText(XCUIKeyboardKey.return.rawValue)
+        tapIfPresent(allowButton())
+    }
     
     func performWelcomeLogin(password: String) {
         tap(loginButton())
@@ -145,6 +165,10 @@ class LoginPageObject {
     
     private func loginOptionsButton() -> XCUIElement {
         return app.buttons["Login Options"]
+    }
+
+    private func loginForAdminButton() -> XCUIElement {
+        return app.buttons["Login for Admin"]
     }
     
     private func changeServerNavigationBar() -> XCUIElement {
