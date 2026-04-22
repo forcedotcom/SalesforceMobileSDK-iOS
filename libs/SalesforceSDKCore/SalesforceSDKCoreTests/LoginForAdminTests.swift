@@ -393,6 +393,95 @@ class LoginForAdminTests: XCTestCase {
         UserAccountManager.shared.authCancelledByUserHandlerBlock = nil
     }
 
+    // MARK: - SFUserAccountManager Cancel Browser Auth (nativeLogin fallback path)
+
+    func testGivenNativeLoginFallback_whenBrowserAuthCancelled_thenFallbackConsumedAndRestartsNativeLogin() {
+        let request = makeAuthRequest()
+        request.loginAsAdmin = false
+
+        let session = SFSDKAuthSession(request, credentials: nil)
+        session.oauthCoordinator.delegate = UserAccountManager.shared
+
+        let uam = UserAccountManager.shared
+        let originalNativeLoginEnabled = uam.nativeLoginEnabled
+        let originalShouldFallback = uam.shouldFallbackToWebAuthentication
+
+        // Simulate: native login set shouldFallbackToWebAuthentication = YES,
+        // which caused browser auth. The user is now cancelling that browser session.
+        uam.nativeLoginEnabled = true
+        uam.shouldFallbackToWebAuthentication = true
+
+        var notificationPosted = false
+        let observer = NotificationCenter.default.addObserver(
+            forName: UserAccountManager.userCancelledAuthentication,
+            object: nil, queue: nil
+        ) { _ in
+            notificationPosted = true
+        }
+
+        var handlerCalled = false
+        uam.authCancelledByUserHandlerBlock = {
+            handlerCalled = true
+        }
+
+        uam.oauthCoordinatorDidCancelBrowserAuthentication(session.oauthCoordinator)
+
+        // The fallback flag is consumed (set to NO) so the next loginWithCompletion:
+        // call returns to native login instead of launching another browser session.
+        XCTAssertFalse(uam.shouldFallbackToWebAuthentication,
+                       "shouldFallbackToWebAuthentication should be consumed so next login attempt uses native login")
+        // This path returns early — no cancelled notification and no handler block call.
+        XCTAssertFalse(notificationPosted,
+                       "kSFNotificationUserCancelledAuth should NOT be posted for native login fallback path")
+        XCTAssertFalse(handlerCalled,
+                       "authCancelledByUserHandlerBlock should NOT be called for native login fallback path")
+
+        NotificationCenter.default.removeObserver(observer)
+        uam.authCancelledByUserHandlerBlock = nil
+        uam.nativeLoginEnabled = originalNativeLoginEnabled
+        uam.shouldFallbackToWebAuthentication = originalShouldFallback
+    }
+
+    // MARK: - SFUserAccountManager loginViewControllerDidSelectLoginForAdmin
+
+    func testGivenAuthSession_whenLoginForAdminSelected_thenLoginAsAdminSetAndAuthRestarted() {
+        let uam = UserAccountManager.shared
+
+        // Get the test app's active window scene to obtain a real sceneId
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
+            XCTFail("Test requires a UIWindowScene from the running test app")
+            return
+        }
+        let sceneId = windowScene.session.persistentIdentifier
+
+        // Create an auth session and seed it into authSessions with the real sceneId
+        let request = makeAuthRequest()
+        request.loginAsAdmin = false
+        let session = SFSDKAuthSession(request, credentials: nil)
+        uam.authSessions[sceneId as NSString] = session
+
+        XCTAssertFalse(session.oauthRequest.loginAsAdmin, "loginAsAdmin should be false before selecting Login for Admin")
+
+        // Create a SalesforceLoginViewController and place it in the window so its
+        // view.window.windowScene resolves to the same scene
+        let loginVC = SalesforceLoginViewController()
+        let window = windowScene.windows.first ?? UIWindow(windowScene: windowScene)
+        window.rootViewController = loginVC
+        window.makeKeyAndVisible()
+        loginVC.loadViewIfNeeded()
+
+        // Call the delegate method via performSelector since the protocol conformance is internal
+        let selector = NSSelectorFromString("loginViewControllerDidSelectLoginForAdmin:")
+        uam.perform(selector, with: loginVC)
+
+        XCTAssertTrue(session.oauthRequest.loginAsAdmin,
+                      "loginAsAdmin should be true after loginViewControllerDidSelectLoginForAdmin:")
+
+        // Clean up
+        uam.authSessions.removeObject(sceneId as NSString)
+        window.rootViewController = nil
+    }
+
     // MARK: - Private Helpers
 
     private func makeAuthRequest() -> SFSDKAuthRequest {
