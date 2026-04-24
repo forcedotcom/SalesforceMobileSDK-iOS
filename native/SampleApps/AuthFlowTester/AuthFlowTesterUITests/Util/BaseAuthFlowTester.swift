@@ -338,7 +338,7 @@ class BaseAuthFlowTester: XCTestCase {
 
         // Validate
         // Login for Admin always uses web server flow regardless of the useWebServerFlow setting
-        let effectiveUseWebServerFlow = loginForAdmin ? true : useWebServerFlow
+        let effectiveUseWebServerFlow = loginForAdmin || useWebServerFlow
         validate(
             loginHost: loginHost,
             user: user,
