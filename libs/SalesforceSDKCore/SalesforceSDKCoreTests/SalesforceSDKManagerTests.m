@@ -316,12 +316,6 @@ static NSString* const kTestAppName = @"OverridenAppName";
 
 #pragma mark - Process Pool Tests
 
-- (void)testProcessPoolIsNil
-{
-    // TODO remove this test in 14.0 when we remove sharedProcessPool from SFSDKWebViewStateManager
-    XCTAssertNil(SFSDKWebViewStateManager.sharedProcessPool);
-}
-
 - (void)testBrandedLoginPath
 {
     NSString *brandPath = @"/BRAND/";

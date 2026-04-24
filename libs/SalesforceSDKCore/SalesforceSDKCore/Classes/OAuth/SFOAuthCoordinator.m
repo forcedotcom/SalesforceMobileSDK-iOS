@@ -78,7 +78,6 @@
 @synthesize scopes                      = _scopes;
 @synthesize codeVerifier                = _codeVerifier;
 @synthesize authInfo                    = _authInfo;
-@synthesize userAgentForAuth            = _userAgentForAuth;
 @synthesize origWebUserAgent            = _origWebUserAgent;
 
 
@@ -621,12 +620,6 @@
     request.refreshToken = self.credentials.refreshToken;
     request.redirectURI = self.credentials.redirectUri;
     request.serverURL = [self.credentials overrideDomainIfNeeded];
-   
-    // TODO: Remove in Mobile SDK 14.0
-    #pragma clang diagnostic push
-    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    request.userAgentForAuth = self.userAgentForAuth;
-    #pragma clang diagnostic pop
     
     __weak typeof (self) weakSelf = self;
     if (self.approvalCode) {

@@ -38,8 +38,6 @@
 		B77F5D152170FFEE004F3005 /* SFFileProtectionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B77F5D102170FFED004F3005 /* SFFileProtectionHelper.m */; };
 		B77F5D172170FFEE004F3005 /* SFPathUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = B77F5D112170FFED004F3005 /* SFPathUtil.m */; };
 		B77F5D192170FFEE004F3005 /* SFFileProtectionHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = B77F5D122170FFEE004F3005 /* SFFileProtectionHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B77F5D1F2171021F004F3005 /* SFTestContext.m in Sources */ = {isa = PBXBuildFile; fileRef = B77F5D1B2171021E004F3005 /* SFTestContext.m */; };
-		B77F5D212171021F004F3005 /* SFTestContext.h in Headers */ = {isa = PBXBuildFile; fileRef = B77F5D1C2171021E004F3005 /* SFTestContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B77F5D232171021F004F3005 /* SFSwiftDetectUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = B77F5D1D2171021F004F3005 /* SFSwiftDetectUtil.m */; };
 		B77F5D252171021F004F3005 /* SFSwiftDetectUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = B77F5D1E2171021F004F3005 /* SFSwiftDetectUtil.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B78898BC218D0329006E0C77 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B78898BB218D0329006E0C77 /* Foundation.framework */; };
@@ -107,8 +105,6 @@
 		B77F5D102170FFED004F3005 /* SFFileProtectionHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFFileProtectionHelper.m; sourceTree = "<group>"; };
 		B77F5D112170FFED004F3005 /* SFPathUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFPathUtil.m; sourceTree = "<group>"; };
 		B77F5D122170FFEE004F3005 /* SFFileProtectionHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFFileProtectionHelper.h; sourceTree = "<group>"; };
-		B77F5D1B2171021E004F3005 /* SFTestContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFTestContext.m; sourceTree = "<group>"; };
-		B77F5D1C2171021E004F3005 /* SFTestContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFTestContext.h; sourceTree = "<group>"; };
 		B77F5D1D2171021F004F3005 /* SFSwiftDetectUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSwiftDetectUtil.m; sourceTree = "<group>"; };
 		B77F5D1E2171021F004F3005 /* SFSwiftDetectUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSwiftDetectUtil.h; sourceTree = "<group>"; };
 		B78898BB218D0329006E0C77 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -236,8 +232,6 @@
 				4F5DDEB421A4B2520024E7F3 /* SFJsonUtils.m */,
 				B77F5D1E2171021F004F3005 /* SFSwiftDetectUtil.h */,
 				B77F5D1D2171021F004F3005 /* SFSwiftDetectUtil.m */,
-				B77F5D1C2171021E004F3005 /* SFTestContext.h */,
-				B77F5D1B2171021E004F3005 /* SFTestContext.m */,
 				B77F5D122170FFEE004F3005 /* SFFileProtectionHelper.h */,
 				B77F5D102170FFED004F3005 /* SFFileProtectionHelper.m */,
 				B77F5D0F2170FFED004F3005 /* SFPathUtil.h */,
@@ -316,7 +310,6 @@
 				B7136D31216686EB00F6A221 /* SFSDKReachability.h in Headers */,
 				B7136D34216686EB00F6A221 /* SFSDKDatasharingHelper.h in Headers */,
 				B77F5CF22170FF74004F3005 /* SFSDKSafeMutableDictionary.h in Headers */,
-				B77F5D212171021F004F3005 /* SFTestContext.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -505,7 +498,6 @@
 				B7136D5821669F7C00F6A221 /* SFDefaultLogger.m in Sources */,
 				B7136D32216686EB00F6A221 /* NSUserDefaults+SFAdditions.m in Sources */,
 				B77F5D172170FFEE004F3005 /* SFPathUtil.m in Sources */,
-				B77F5D1F2171021F004F3005 /* SFTestContext.m in Sources */,
 				B77F5CF82170FF74004F3005 /* SFSDKSafeMutableArray.m in Sources */,
 				B77B6CA4260D261C0074BA3C /* KeychainHelper.swift in Sources */,
 				F2F4222528B6CBF40010EF0F /* KeychainItemManager.swift in Sources */,

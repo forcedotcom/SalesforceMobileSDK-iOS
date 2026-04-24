@@ -28,7 +28,6 @@
  */
 
 #import <SalesforceSDKCommon/SFSDKSafeMutableSet.h>
-#import <SalesforceSDKCommon/SFTestContext.h>
 #import <SalesforceSDKCommon/SFSDKSafeMutableDictionary.h>
 #import <SalesforceSDKCommon/SFPathUtil.h>
 #import <SalesforceSDKCommon/SFSwiftDetectUtil.h>
