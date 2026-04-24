@@ -32,6 +32,11 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SFSDKAuthRequest : NSObject
 
 @property (nonatomic, assign) BOOL useBrowserAuth;
+
+/// Indicates that browser auth was initiated by the "Login for Admin" action.
+/// When YES, cancelling the browser session returns to the WebView login instead of showing the server picker.
+@property (nonatomic, assign) BOOL loginAsAdmin;
+
 @property (nonatomic, strong) NSArray<NSString *> *additionalOAuthParameterKeys;
 @property (nonatomic, strong) NSDictionary<NSString *,id> * additionalTokenRefreshParams;
 @property (nonatomic, copy) NSString *loginHost;

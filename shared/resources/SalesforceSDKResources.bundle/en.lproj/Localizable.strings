@@ -68,6 +68,7 @@
 "LOGIN_SETTINGS_BUTTON" = "Settings";
 "LOGIN_OPTIONS" = "Login Options";
 
+"LOGIN_FOR_ADMIN" = "Login for Admin";
 "LOGIN_CLEAR_COOKIES" = "Clear Cookies";
 "LOGIN_CLEAR_CACHE" = "Clear Cache";
 "LOGIN_RELOAD" = "Reload";

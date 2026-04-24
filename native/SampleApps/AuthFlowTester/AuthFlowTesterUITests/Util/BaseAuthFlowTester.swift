@@ -93,6 +93,7 @@ class BaseAuthFlowTester: XCTestCase {
     ///   - useWebServerFlow: Whether to use web server OAuth flow. Defaults to `true`.
     ///   - useHybridFlow: Whether to use hybrid authentication flow. Defaults to `true`.
     ///   - useWelcomeDiscovery: When true, configures simulated domain discovery. Defaults to `false`.
+    ///   - loginForAdmin: When true, uses the "Login for Admin" flow (browser-based auth via Settings menu). Defaults to `false`.
     func login(
         loginHost: KnownLoginHostConfig,
         user: KnownUserConfig,
@@ -103,6 +104,7 @@ class BaseAuthFlowTester: XCTestCase {
         useWebServerFlow: Bool = true,
         useHybridFlow: Bool = true,
         useWelcomeDiscovery: Bool = false,
+        loginForAdmin: Bool = false,
     ) {
         let userConfig = getUser(loginHost: loginHost, user: user)
         let hostConfig = getLoginHost(loginHost: loginHost)
@@ -136,8 +138,12 @@ class BaseAuthFlowTester: XCTestCase {
             return
         }
         
+        // Login for Admin (browser-based auth via Settings menu)
+        if (loginForAdmin) {
+            loginPage.performLoginForAdmin(username: userConfig.username, password: userConfig.password)
+        }
         // Welcome login
-        if (useWelcomeDiscovery) {
+        else if (useWelcomeDiscovery) {
             XCTAssertTrue(loginPage.hasFilledUsernameField(username: userConfig.username), "Login page should have pre-filled username")
             loginPage.performWelcomeLogin(password: userConfig.password)
         }
@@ -263,10 +269,11 @@ class BaseAuthFlowTester: XCTestCase {
         dynamicScopeSelection: ScopeSelection = .empty,
         useWebServerFlow: Bool = true,
         useHybridFlow: Bool = true,
+        loginForAdmin: Bool = false,
     ) {
         // Launch
         launch()
-        
+
         // Login
         login(
             loginHost: loginHost,
@@ -277,6 +284,7 @@ class BaseAuthFlowTester: XCTestCase {
             dynamicScopeSelection: dynamicScopeSelection,
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow,
+            loginForAdmin: loginForAdmin,
         )
     }
     
@@ -305,14 +313,15 @@ class BaseAuthFlowTester: XCTestCase {
         useWebServerFlow: Bool = true,
         useHybridFlow: Bool = true,
         useWelcomeDiscovery: Bool = false,
+        loginForAdmin: Bool = false,
     ) {
         let useStaticConfiguration = dynamicAppConfigName == nil
         let userAppConfigName = useStaticConfiguration ? staticAppConfigName : dynamicAppConfigName!
         let userScopeSelection = useStaticConfiguration ? staticScopeSelection : dynamicScopeSelection
-        
+
         // Launch
         launch()
-        
+
         // Login
         login(
             loginHost: loginHost,
@@ -323,10 +332,13 @@ class BaseAuthFlowTester: XCTestCase {
             dynamicScopeSelection: dynamicScopeSelection,
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow,
-            useWelcomeDiscovery: useWelcomeDiscovery
+            useWelcomeDiscovery: useWelcomeDiscovery,
+            loginForAdmin: loginForAdmin
         )
-        
+
         // Validate
+        // Login for Admin always uses web server flow regardless of the useWebServerFlow setting
+        let effectiveUseWebServerFlow = loginForAdmin || useWebServerFlow
         validate(
             loginHost: loginHost,
             user: user,
@@ -334,7 +346,7 @@ class BaseAuthFlowTester: XCTestCase {
             staticScopeSelection: staticScopeSelection,
             userAppConfigName: userAppConfigName,
             userScopeSelection: userScopeSelection,
-            useWebServerFlow: useWebServerFlow,
+            useWebServerFlow: effectiveUseWebServerFlow,
             useHybridFlow: useHybridFlow
         )
     }

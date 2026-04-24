@@ -325,7 +325,17 @@
             [self presentViewController:configPicker animated:YES completion:nil];
         }]];
     }
-    
+
+    // Login for Admin - forces browser-based (advanced) authentication to support phishing-resistant MFA.
+    [menuActions addObject:[UIAction actionWithTitle:[SFSDKResourceUtils localizedString:@"LOGIN_FOR_ADMIN"]
+                                               image:nil
+                                          identifier:nil
+                                             handler:^(__kindof UIAction* _Nonnull action) {
+        if ([self.delegate respondsToSelector:@selector(loginViewControllerDidSelectLoginForAdmin:)]) {
+            [self.delegate loginViewControllerDidSelectLoginForAdmin:self];
+        }
+    }]];
+
     UIMenu *menu = [UIMenu menuWithTitle:@"" // No title
                                 children:menuActions];
     UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:image menu:menu];
