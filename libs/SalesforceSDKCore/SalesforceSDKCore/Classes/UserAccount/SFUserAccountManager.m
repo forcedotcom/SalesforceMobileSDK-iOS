@@ -1030,14 +1030,22 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         });
         return;
     }
-    
+
+    // When "Login for Admin" initiated the browser auth, clear the flag and
+    // restart the WebView login flow instead of showing the server picker.
+    if (coordinator.authSession.oauthRequest.loginAsAdmin) {
+        coordinator.authSession.oauthRequest.loginAsAdmin = NO;
+        [self restartAuthentication:coordinator.authSession];
+        return;
+    }
+
     if (self.nativeLoginEnabled && self.shouldFallbackToWebAuthentication) {
         self.shouldFallbackToWebAuthentication = NO;
         [self stopCurrentAuthentication:nil];
         [self loginWithCompletion:^(SFOAuthInfo* authInfo, SFUserAccount* user) { } failure:^(SFOAuthInfo* authInfo, NSError* error) { }];
         return;
     }
-    
+
     SFOAuthInfo *authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeAdvancedBrowser];
     NSDictionary *userInfo = @{ kSFNotificationUserInfoCredentialsKey: coordinator.credentials,
                                kSFNotificationUserInfoAuthTypeKey: authInfo };
@@ -1111,6 +1119,13 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 }
 
 - (void)loginViewControllerDidReload:(SFLoginViewController *)loginViewController {
+    [self restartAuthenticationForViewController:loginViewController];
+}
+
+- (void)loginViewControllerDidSelectLoginForAdmin:(SFLoginViewController *)loginViewController {
+    NSString *sceneId = loginViewController.view.window.windowScene.session.persistentIdentifier;
+    SFSDKAuthSession *session = self.authSessions[sceneId];
+    session.oauthRequest.loginAsAdmin = YES;
     [self restartAuthenticationForViewController:loginViewController];
 }
 
