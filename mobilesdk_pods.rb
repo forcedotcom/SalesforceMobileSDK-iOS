@@ -23,7 +23,9 @@
 def use_mobile_sdk!(options={})
   path = options[:path] ||= "./mobile_sdk/SalesforceMobileSDK-iOS"
 
-  pod 'SalesforceSDKCommon', :path => path
+  source 'https://www.github.com/bbirman/SalesforceMobileSDK-iOS-Specs'
+
+  pod 'SQLCipher', '4.15.0'
   pod 'SalesforceAnalytics', :path => path
   pod 'SalesforceSDKCore', :path => path
   pod 'SmartStore', :path => path
