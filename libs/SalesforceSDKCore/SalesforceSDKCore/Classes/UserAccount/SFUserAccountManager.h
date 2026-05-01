@@ -31,6 +31,7 @@
 #import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
 @class SFSDKSPConfig;
+@class SFLoginViewController;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -624,6 +625,19 @@ Use this method to stop/clear any authentication which is has already been start
 - (void)kickOffIDPInitiatedLoginFlowForSP:(SFSDKSPConfig *)config
                              statusUpdate:(void(^)(SFSPLoginStatus))statusBlock
                                   failure:(void(^)(SFSPLoginError))failureBlock;
+
+/**
+ Triggers the "Login for Admin" flow for the active login session associated with the given
+ login view controller. Forces browser-based (advanced) authentication via ASWebAuthenticationSession,
+ regardless of org configuration, to support phishing-resistant MFA.
+
+ This performs the same action as selecting "Login for Admin" from the login screen's settings
+ menu. Apps that hide the settings menu (e.g. by setting `showSettingsIcon = NO`) can call this
+ to expose the feature from their own UI.
+ @param loginViewController The login view controller whose scene's active auth session should
+ switch to "Login for Admin". Its window's scene is used to locate the session.
+ */
+- (void)loginViewControllerDidSelectLoginForAdmin:(SFLoginViewController *)loginViewController NS_SWIFT_NAME(loginViewControllerDidSelectLoginForAdmin(_:)) SFSDK_DEPRECATED(13.2.1, 14.0, "Will be removed in 14.0 when a permanent solution if provided.");
 
 @end
 

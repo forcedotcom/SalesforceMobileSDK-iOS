@@ -79,7 +79,7 @@
 		4F3139682331C5C7007B3705 /* SFSDKAuthRootController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F3139672331C5B9007B3705 /* SFSDKAuthRootController.h */; };
 		4F3ECD8A2EBBD150005020A6 /* SFOAuthCoordinatorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3ECD892EBBD150005020A6 /* SFOAuthCoordinatorTests.m */; };
 		4F3ECD8C2EBBD182005020A6 /* SFOAuthInfoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3ECD8B2EBBD182005020A6 /* SFOAuthInfoTests.m */; };
-		4FA1B2C32F0E000000000001 /* LoginForAdminTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1B2C32F0E000000000002 /* LoginForAdminTests.m */; };
+		4FA1B2C32F0E000000000001 /* LoginForAdminTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1B2C32F0E000000000002 /* LoginForAdminTests.swift */; };
 		4F5727E327F27F1A0008CDA4 /* SFSDKPrimingRecordsResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F5727DC27F27F1A0008CDA4 /* SFSDKPrimingRecordsResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4F5727E427F27F1A0008CDA4 /* SFSDKPrimingRecordsResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F5727E227F27F1A0008CDA4 /* SFSDKPrimingRecordsResponse.m */; };
 		4F5A49502E98711600C89DDD /* ScopeParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F5A494F2E98711600C89DDD /* ScopeParser.swift */; };
