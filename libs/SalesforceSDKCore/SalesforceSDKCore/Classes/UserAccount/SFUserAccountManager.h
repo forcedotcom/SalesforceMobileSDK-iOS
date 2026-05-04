@@ -634,10 +634,25 @@ Use this method to stop/clear any authentication which is has already been start
  This performs the same action as selecting "Login for Admin" from the login screen's settings
  menu. Apps that hide the settings menu (e.g. by setting `showSettingsIcon = NO`) can call this
  to expose the feature from their own UI.
+
+ To obtain a reference to the currently presented `SFLoginViewController`, either:
+
+ 1. Capture it from `SFSDKLoginViewControllerConfig.loginViewControllerCreationBlock`, which
+    the SDK invokes each time it constructs the login view:
+
+        UserAccountManager.shared.loginViewControllerConfig.loginViewControllerCreationBlock = { [weak self] in
+            let vc = SalesforceLoginViewController()
+            self?.currentLoginVC = vc  // retain weakly for later
+            return vc
+        }
+
+ 2. Walk the key window's view hierarchy and locate the `SFLoginViewController` presented
+    inside the SDK's navigation controller.
+
  @param loginViewController The login view controller whose scene's active auth session should
  switch to "Login for Admin". Its window's scene is used to locate the session.
  */
-- (void)loginViewControllerDidSelectLoginForAdmin:(SFLoginViewController *)loginViewController NS_SWIFT_NAME(loginViewControllerDidSelectLoginForAdmin(_:)) SFSDK_DEPRECATED(13.2.1, 14.0, "Will be removed in 14.0 when a permanent solution if provided.");
+- (void)loginViewControllerDidSelectLoginForAdmin:(SFLoginViewController *)loginViewController NS_SWIFT_NAME(loginViewControllerDidSelectLoginForAdmin(_:)) SFSDK_DEPRECATED(13.2.1, 14.0, "Will be removed in 14.0 when a permanent solution is provided.");
 
 @end
 
