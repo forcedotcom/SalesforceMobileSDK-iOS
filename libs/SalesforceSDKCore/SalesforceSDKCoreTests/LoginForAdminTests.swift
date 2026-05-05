@@ -482,6 +482,40 @@ class LoginForAdminTests: XCTestCase {
         window.rootViewController = nil
     }
 
+    @available(*, deprecated, message: "Exercises deprecated public API")
+    func testGivenAuthSession_whenPublicLoginForAdminCalled_thenLoginAsAdminSet() {
+        let uam = UserAccountManager.shared
+
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
+            XCTFail("Test requires a UIWindowScene from the running test app")
+            return
+        }
+        let sceneId = windowScene.session.persistentIdentifier
+
+        let request = makeAuthRequest()
+        request.loginAsAdmin = false
+        let session = SFSDKAuthSession(request, credentials: nil)
+        uam.authSessions[sceneId as NSString] = session
+
+        XCTAssertFalse(session.oauthRequest.loginAsAdmin, "loginAsAdmin should be false before invoking public API")
+
+        let loginVC = SalesforceLoginViewController()
+        let window = windowScene.windows.first ?? UIWindow(windowScene: windowScene)
+        window.rootViewController = loginVC
+        window.makeKeyAndVisible()
+        loginVC.loadViewIfNeeded()
+
+        // Invoke directly via the public Swift binding (not performSelector) to confirm the
+        // method is exposed on UserAccountManager for SDK consumers.
+        uam.loginViewControllerDidSelectLoginForAdmin(loginVC)
+
+        XCTAssertTrue(session.oauthRequest.loginAsAdmin,
+                      "loginAsAdmin should be true after calling the public loginViewControllerDidSelectLoginForAdmin")
+
+        uam.authSessions.removeObject(sceneId as NSString)
+        window.rootViewController = nil
+    }
+
     // MARK: - Private Helpers
 
     private func makeAuthRequest() -> SFSDKAuthRequest {
