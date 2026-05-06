@@ -102,12 +102,7 @@ public class PushNotificationManager: NSObject {
         get { foregroundRegistrationMode != .none }
         set { foregroundRegistrationMode = newValue ? .allUsers : .none }
     }
-
-    /// Set to `true` to allow push notification registration in the iOS Simulator.
-    /// Requires Simulator push notifications to be enabled (Xcode 14+).
-    /// Default is `false`.
-    public var allowSimulatorRegistration: Bool = false
-
+    
     var isSimulator: Bool = false
     private let notificationRegister: RemoteNotificationRegistering
     private var loginObserver: NSObjectProtocol?
