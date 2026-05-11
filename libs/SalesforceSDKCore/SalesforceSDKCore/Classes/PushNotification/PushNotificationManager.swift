@@ -41,6 +41,19 @@ public class PushNotificationManagerConstants: NSObject {
     public static let kPNEncryptionKeyLength: UInt = 2048
 }
 
+/// Controls which users are re-registered for push notifications when the app returns to the foreground.
+public enum PushNotificationForegroundRegistrationMode {
+    /// No re-registration occurs on foreground.
+    case none
+    /// Only the current user is re-registered on foreground. Use this to preserve the previous SDK behavior.
+    case currentUser
+    /// All logged-in users are re-registered on foreground. This is the default.
+    ///
+    /// - Note: Apps that are billed per login (e.g. some Publisher customers) may prefer `.currentUser`
+    ///   to avoid triggering token refreshes—and thus billable login events—for background users.
+    case allUsers
+}
+
 public enum PushNotificationManagerError: Error, Equatable {
     case registrationFailed
     case currentUserNotDetected
@@ -75,7 +88,20 @@ public class PushNotificationManager: NSObject {
     public var deviceToken: String?
     public var deviceSalesforceId: String?
     public var customPushRegistrationBody: [String: Any]?
-    public var registerOnForeground: Bool = true
+
+    /// Controls which users are re-registered for push notifications when the app returns to the foreground.
+    /// Defaults to `.allUsers`.
+    ///
+    /// Set to `.currentUser` to preserve the pre-14.0 behavior of only re-registering the current user,
+    /// or to `.none` to disable foreground re-registration entirely.
+    public var foregroundRegistrationMode: PushNotificationForegroundRegistrationMode = .allUsers
+
+    @available(*, deprecated, renamed: "foregroundRegistrationMode",
+               message: "Use foregroundRegistrationMode instead. Set .none for false, .allUsers for true.")
+    public var registerOnForeground: Bool {
+        get { foregroundRegistrationMode != .none }
+        set { foregroundRegistrationMode = newValue ? .allUsers : .none }
+    }
     
     var isSimulator: Bool = false
     private let notificationRegister: RemoteNotificationRegistering
@@ -472,14 +498,22 @@ private extension PushNotificationManager {
     }
     
     @objc private func onAppWillEnterForeground(_ notification: Notification) {
-        guard registerOnForeground,
+        guard foregroundRegistrationMode != .none,
               !UserAccountManager.shared.isLogoutSettingEnabled,
               deviceToken != nil else {
             return
         }
-        
-        SFSDKCoreLogger.i(Self.self, message: "App entering foreground, re-registering push")
-        registerSalesforceNotifications(completionBlock: nil, failBlock: nil)
+
+        if foregroundRegistrationMode == .allUsers,
+           let allUsers = UserAccountManager.shared.userAccounts(), !allUsers.isEmpty {
+            SFSDKCoreLogger.i(Self.self, message: "App entering foreground, re-registering push for all users")
+            for user in allUsers {
+                registerSalesforceNotifications(for: user, completionBlock: nil, failBlock: nil)
+            }
+        } else {
+            SFSDKCoreLogger.i(Self.self, message: "App entering foreground, re-registering push for current user")
+            registerSalesforceNotifications(completionBlock: nil, failBlock: nil)
+        }
     }
     
     @objc private func onUserMigratedRefreshToken(_ notification: Notification) {
