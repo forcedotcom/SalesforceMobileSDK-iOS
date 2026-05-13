@@ -27,7 +27,7 @@ Use this skill when you need to:
 SQLCipher is an open-source extension to SQLite that provides transparent 256-bit AES encryption of database files. The SDK uses it in the SmartStore library for secure local data storage.
 
 ## Parameters
-- `NEW_VERSION`: The new SQLCipher version (e.g., "4.6.1", "4.6.2")
+- `NEW_VERSION`: The new SQLCipher version (e.g., "4.6.1", "4.6.2", "4.16.0")
 - `OLD_VERSION`: The current SQLCipher version (default: check podspecs)
 - `NEW_PROVIDER_VERSION`: The cipher provider version bundled with the new SQLCipher (check SQLCipher release notes)
 
