@@ -12,6 +12,7 @@ This document provides an overview of all UI tests in the AuthFlowTester test su
 | `BeaconLoginTests` | Tests for Beacon app login flows (using regular_auth login host) |
 | `AdvancedAuthBeaconLoginTests` | Tests for Beacon app login flows (using advanced_auth login host) |
 | `WelcomeLoginTests` | Tests for welcome (domain discovery) login flows using simulated domain discovery |
+| `RTRLoginTests` | Tests for ECA login flows with Refresh Token Rotation (RTR), with and without hybrid flow, with and without app restart |
 | `LoginWithRestartTests` | Tests for verifying that user sessions persist across app restarts |
 | `RefreshTokenMigrationTests` | Tests for refresh token migration between app configurations without re-authentication |
 | `RefreshTokenMigrationWithRestartTests` | Tests for verifying that migrated refresh tokens persist across app restarts |
@@ -61,6 +62,21 @@ Tests for External Client App (ECA) configurations using web server flow with hy
 | `testECAJwt_AllScopes` | ECA JWT | All | Standard login with all scopes |
 | `testDynamicConfigurationWithInvalidClientId` | Invalid (dynamic) | Default | Negative test: invalid client ID in dynamic config |
 | `testDynamicConfigurationWithInvalidScope` | ECA JWT (dynamic) | Invalid | Negative test: invalid scope in dynamic config |
+
+### RTRLoginTests (8 tests)
+
+Tests for ECA configurations with Refresh Token Rotation (RTR) enabled. Verifies that the refresh token rotates on each token refresh (RTR apps) and that sessions survive app restarts. The `assertRevokeAndRefreshWorks` check asserts the refresh token **changes** after a revoke/refresh cycle for RTR apps, and **stays the same** for non-RTR apps.
+
+| Test Name | App Config | Hybrid | Restart |
+|-----------|------------|--------|---------|
+| `testECAJwtRtr_Hybrid` | ECA JWT RTR | Yes | No |
+| `testECAJwtRtr_Hybrid_WithRestart` | ECA JWT RTR | Yes | Yes |
+| `testECAJwtRtr_NoHybrid` | ECA JWT RTR | No | No |
+| `testECAJwtRtr_NoHybrid_WithRestart` | ECA JWT RTR | No | Yes |
+| `testECAOpaqueRtr_Hybrid` | ECA Opaque RTR | Yes | No |
+| `testECAOpaqueRtr_Hybrid_WithRestart` | ECA Opaque RTR | Yes | Yes |
+| `testECAOpaqueRtr_NoHybrid` | ECA Opaque RTR | No | No |
+| `testECAOpaqueRtr_NoHybrid_WithRestart` | ECA Opaque RTR | No | Yes |
 
 ### BeaconLoginTests (6 tests)
 
@@ -187,6 +203,7 @@ Tests for login scenarios with two users using various configurations, including
 |----------|--------------|-------------|
 | **CA** | Opaque/JWT | Connected App |
 | **ECA** | Opaque/JWT | External Client App |
+| **ECA RTR** | Opaque/JWT | External Client App with Refresh Token Rotation enabled |
 | **Beacon** | Opaque/JWT | Beacon App |
 
 ### Configuration Modes
@@ -202,6 +219,8 @@ Tests for login scenarios with two users using various configurations, including
 |-------------|----------|-------|--------|
 | `ecaOpaque` | ECA | Opaque | `api content id lightning refresh_token sfap_api visualforce web` |
 | `ecaJwt` | ECA | JWT | `api content id lightning refresh_token sfap_api visualforce web` |
+| `ecaOpaqueRtr` | ECA RTR | Opaque | `api content id lightning refresh_token sfap_api web` |
+| `ecaJwtRtr` | ECA RTR | JWT | `api content id lightning refresh_token sfap_api web` |
 | `beaconOpaque` | Beacon | Opaque | `api content id lightning refresh_token sfap_api web` |
 | `beaconJwt` | Beacon | JWT | `api content id lightning refresh_token sfap_api web` |
 | `caOpaque` | CA | Opaque | `api content id lightning refresh_token sfap_api visualforce web` |
