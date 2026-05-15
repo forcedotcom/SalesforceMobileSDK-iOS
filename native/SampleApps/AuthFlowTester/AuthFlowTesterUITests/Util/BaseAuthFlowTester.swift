@@ -748,6 +748,11 @@ class BaseAuthFlowTester: XCTestCase {
         }
     }
     
+    /// Captures current credentials then performs a revoke/refresh cycle and validates the result.
+    func assertRevokeAndRefreshWorks(isRtr: Bool) {
+        assertRevokeAndRefreshWorks(previousCredentials: getUserCredentials(), isRtr: isRtr)
+    }
+
     private func assertRevokeAndRefreshWorks(previousCredentials: UserCredentialsData, isRtr: Bool) {
         // Revoke access token
         XCTAssert(mainPage.revokeAccessToken(), "Failed to revoke access token")
