@@ -78,21 +78,21 @@ class LoginPageObject {
         }
     }
     
-    func performLogin(username: String, password: String) {
+    func performLogin(username: String, password: String, advancedAuth: Bool = false) {
         setTextField(usernameField(), value: username)
-        dismissKeyboardAfterTyping()
-        tap(loginButton())
+        if advancedAuth {
+            usernameField().typeText(XCUIKeyboardKey.return.rawValue)
+        } else {
+            dismissKeyboardAfterTyping()
+            tap(loginButton())
+        }
         setTextField(passwordField(), value: password)
-        dismissKeyboardAfterTyping()
-        tap(loginButton())
-        tapIfPresent(allowButton())
-    }
-
-    func performAdvancedLogin(username: String, password: String) {
-        setTextField(usernameField(), value: username)
-        usernameField().typeText(XCUIKeyboardKey.return.rawValue)
-        setTextField(passwordField(), value: password)
-        passwordField().typeText(XCUIKeyboardKey.return.rawValue)
+        if advancedAuth {
+            passwordField().typeText(XCUIKeyboardKey.return.rawValue)
+        } else {
+            dismissKeyboardAfterTyping()
+            tap(loginButton())
+        }
         tapIfPresent(allowButton())
     }
 
@@ -100,7 +100,6 @@ class LoginPageObject {
     /// Taps Settings → "Login for Admin" which triggers ASWebAuthenticationSession (native browser),
     /// then completes authentication in the browser.
     func performLoginForAdmin(username: String, password: String) {
-        // Tap Settings gear icon → "Login for Admin" menu item
         tap(settingsButton())
         tap(loginForAdminButton())
 
@@ -108,19 +107,18 @@ class LoginPageObject {
         let topBar = app.otherElements["TopBrowserBar"]
         _ = topBar.waitForExistence(timeout: UITestTimeouts.long)
 
-        // Complete login in the browser (same interaction as advanced auth)
-        setTextField(usernameField(), value: username)
-        usernameField().typeText(XCUIKeyboardKey.return.rawValue)
-        setTextField(passwordField(), value: password)
-        passwordField().typeText(XCUIKeyboardKey.return.rawValue)
-        tapIfPresent(allowButton())
+        performLogin(username: username, password: password, advancedAuth: true)
     }
-    
-    func performWelcomeLogin(password: String) {
+
+    func performWelcomeLogin(password: String, advancedAuth: Bool = false) {
         tap(loginButton())
         setTextField(passwordField(), value: password)
-        dismissKeyboardAfterTyping()
-        tap(loginButton())
+        if advancedAuth {
+            passwordField().typeText(XCUIKeyboardKey.return.rawValue)
+        } else {
+            dismissKeyboardAfterTyping()
+            tap(loginButton())
+        }
         tapIfPresent(allowButton())
     }
     

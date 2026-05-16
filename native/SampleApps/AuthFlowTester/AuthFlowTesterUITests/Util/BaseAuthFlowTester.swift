@@ -145,15 +145,11 @@ class BaseAuthFlowTester: XCTestCase {
         // Welcome login
         else if (useWelcomeDiscovery) {
             XCTAssertTrue(loginPage.hasFilledUsernameField(username: userConfig.username), "Login page should have pre-filled username")
-            loginPage.performWelcomeLogin(password: userConfig.password)
+            loginPage.performWelcomeLogin(password: userConfig.password, advancedAuth: loginHost == .advancedAuth)
         }
-        // Regular auth
-        else if (loginHost == .regularAuth) {
-            loginPage.performLogin(username: userConfig.username, password: userConfig.password)
-        }
-        // Advanced auth
-        else if (loginHost == .advancedAuth) {
-            loginPage.performAdvancedLogin(username: userConfig.username, password: userConfig.password)
+        // Regular or advanced auth
+        else {
+            loginPage.performLogin(username: userConfig.username, password: userConfig.password, advancedAuth: loginHost == .advancedAuth)
         }
         
         // Invalid scope
