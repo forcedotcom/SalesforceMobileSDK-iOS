@@ -430,7 +430,10 @@ class BaseAuthFlowTester: XCTestCase {
         // Restart
         app.terminate()
         app.launch()
-        
+
+        // Restore auth flow settings lost on restart
+        mainPage.setAuthFlowTypes(useWebServerFlow: useWebServerFlow, useHybridFlow: useHybridFlow)
+
         // Validate user
         // Not checking static app config since it will depend on the bootconfig of the target app
         validateUser(
