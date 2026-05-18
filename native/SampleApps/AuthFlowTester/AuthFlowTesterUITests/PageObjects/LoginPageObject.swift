@@ -81,6 +81,7 @@ class LoginPageObject {
     func performLogin(username: String, password: String) {
         setTextField(usernameField(), value: username)
         dismissKeyboardAfterTyping()
+        tap(loginButton())
         setTextField(passwordField(), value: password)
         dismissKeyboardAfterTyping()
         tap(loginButton())
@@ -88,14 +89,10 @@ class LoginPageObject {
     }
 
     func performAdvancedLogin(username: String, password: String) {
-        // Fill password first so username field remains visible above the keyboard
-        tap(passwordField())
-        setTextField(passwordField(), value: password)
-        // Now tap username field (visible above keyboard) and fill it
-        tap(usernameField())
         setTextField(usernameField(), value: username)
-        // Press Return to submit the form
         usernameField().typeText(XCUIKeyboardKey.return.rawValue)
+        setTextField(passwordField(), value: password)
+        passwordField().typeText(XCUIKeyboardKey.return.rawValue)
         tapIfPresent(allowButton())
     }
 
@@ -120,8 +117,9 @@ class LoginPageObject {
     }
     
     func performWelcomeLogin(password: String) {
+        tap(loginButton())
         setTextField(passwordField(), value: password)
-        tap(usernameFieldLabel()) // click on label to hide keyboard
+        dismissKeyboardAfterTyping()
         tap(loginButton())
         tapIfPresent(allowButton())
     }
@@ -199,10 +197,15 @@ class LoginPageObject {
     
     /// Dismisses the keyboard after typing in a field. Tries the toolbar "Done" button first;
     /// if not found (e.g. on some simulators it is exposed as a Key, not Button), taps the
-    /// password label to dismiss. 
+    /// password label or username label to dismiss.
     private func dismissKeyboardAfterTyping() {
         if !tapIfPresent(toolbarDoneButton()) {
-            tap(passwordFieldLabel())
+            let passwordLabel = passwordFieldLabel()
+            if passwordLabel.exists {
+                passwordLabel.tap()
+            } else {
+                tap(usernameFieldLabel())
+            }
         }
     }
 
