@@ -145,15 +145,11 @@ class BaseAuthFlowTester: XCTestCase {
         // Welcome login
         else if (useWelcomeDiscovery) {
             XCTAssertTrue(loginPage.hasFilledUsernameField(username: userConfig.username), "Login page should have pre-filled username")
-            loginPage.performWelcomeLogin(password: userConfig.password)
+            loginPage.performWelcomeLogin(password: userConfig.password, advancedAuth: loginHost == .advancedAuth)
         }
-        // Regular auth
-        else if (loginHost == .regularAuth) {
-            loginPage.performLogin(username: userConfig.username, password: userConfig.password)
-        }
-        // Advanced auth
-        else if (loginHost == .advancedAuth) {
-            loginPage.performAdvancedLogin(username: userConfig.username, password: userConfig.password)
+        // Regular or advanced auth
+        else {
+            loginPage.performLogin(username: userConfig.username, password: userConfig.password, advancedAuth: loginHost == .advancedAuth)
         }
         
         // Invalid scope
@@ -430,7 +426,10 @@ class BaseAuthFlowTester: XCTestCase {
         // Restart
         app.terminate()
         app.launch()
-        
+
+        // Restore auth flow settings lost on restart
+        mainPage.setAuthFlowTypes(useWebServerFlow: useWebServerFlow, useHybridFlow: useHybridFlow)
+
         // Validate user
         // Not checking static app config since it will depend on the bootconfig of the target app
         validateUser(
@@ -619,7 +618,8 @@ class BaseAuthFlowTester: XCTestCase {
         )
         
         // Revoke and refresh cycle
-        assertRevokeAndRefreshWorks(previousCredentials: userCredentials)
+        let userAppConfig = getAppConfig(named: userAppConfigName)
+        assertRevokeAndRefreshWorks(previousCredentials: userCredentials, isRtr: userAppConfig.isRtr)
 
         // Check the oauth configuration
         _ = checkOauthConfiguration(
@@ -747,21 +747,41 @@ class BaseAuthFlowTester: XCTestCase {
         }
     }
     
-    private func assertRevokeAndRefreshWorks(previousCredentials: UserCredentialsData) {
+    /// Captures current credentials then performs a revoke/refresh cycle and validates the result.
+    func assertRevokeAndRefreshWorks(isRtr: Bool) {
+        assertRevokeAndRefreshWorks(previousCredentials: getUserCredentials(), isRtr: isRtr)
+    }
+
+    private func assertRevokeAndRefreshWorks(previousCredentials: UserCredentialsData, isRtr: Bool) {
         // Revoke access token
         XCTAssert(mainPage.revokeAccessToken(), "Failed to revoke access token")
 
         // Make REST request (which should trigger token refresh)
         XCTAssert(mainPage.makeRestRequest(), "Failed to make REST request")
-        
+
         let credentialsAfterRefresh = getUserCredentials()
-        
+
         // Assert access token changed
         XCTAssertNotEqual(
             previousCredentials.accessToken,
             credentialsAfterRefresh.accessToken,
             "Access token should have been refreshed"
         )
+
+        // Assert refresh token rotated (RTR) or stayed the same (non-RTR)
+        if isRtr {
+            XCTAssertNotEqual(
+                previousCredentials.refreshToken,
+                credentialsAfterRefresh.refreshToken,
+                "Refresh token should have rotated (RTR app)"
+            )
+        } else {
+            XCTAssertEqual(
+                previousCredentials.refreshToken,
+                credentialsAfterRefresh.refreshToken,
+                "Refresh token should not have changed (non-RTR app)"
+            )
+        }
     }
     
     private func sortedScopes(_ value: String) -> String {

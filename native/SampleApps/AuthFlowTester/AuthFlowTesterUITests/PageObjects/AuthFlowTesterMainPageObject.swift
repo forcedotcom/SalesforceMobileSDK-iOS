@@ -268,6 +268,15 @@ class AuthFlowTesterMainPageObject {
         tap(swithToUserButton())
     }
     
+    func setAuthFlowTypes(useWebServerFlow: Bool, useHybridFlow: Bool) {
+        tap(bottomBarAuthFlowTypesButton())
+        authFlowTypesPageObject.setAuthFlowTypes(
+            useWebServerFlow: useWebServerFlow,
+            useHybridFlow: useHybridFlow
+        )
+        tap(authFlowTypesDoneButton())
+    }
+
     func changeAppConfig(appConfig: AppConfig, scopesToRequest: String = "", useWebServerFlow: Bool, useHybridFlow: Bool) -> Bool {
         // Tap Change Key button to open the sheet
         tap(bottomBarChangeKeyButton())
@@ -343,6 +352,14 @@ class AuthFlowTesterMainPageObject {
         return app.buttons["Change Key"]
     }
     
+    private func bottomBarAuthFlowTypesButton() -> XCUIElement {
+        return app.buttons["authFlowTypesButton"]
+    }
+
+    private func authFlowTypesDoneButton() -> XCUIElement {
+        return app.buttons["Done"]
+    }
+
     private func bottomBarSwitchUserButton() -> XCUIElement {
         return app.buttons["Switch User"]
     }

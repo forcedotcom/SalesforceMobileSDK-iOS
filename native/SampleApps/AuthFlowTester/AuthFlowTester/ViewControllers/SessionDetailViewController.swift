@@ -31,6 +31,7 @@ import SalesforceSDKCore
 struct SessionDetailView: View {
     @State private var refreshTrigger = UUID()
     @State private var showMigrateRefreshToken = false
+    @State private var showAuthFlowTypes = false
     @State private var showLogoutConfirmation = false
     @State private var isUserCredentialsExpanded = false
     @State private var isJwtDetailsExpanded = false
@@ -89,17 +90,26 @@ struct SessionDetailView: View {
                 }) {
                     Label("Change Key", systemImage: "key.horizontal.fill")
                 }
-                
+
                 Spacer()
-                
+
+                Button(action: {
+                    showAuthFlowTypes = true
+                }) {
+                    Label("Auth Flow", systemImage: "arrow.triangle.2.circlepath")
+                }
+                .accessibilityIdentifier("authFlowTypesButton")
+
+                Spacer()
+
                 Button(action: {
                     onSwitchUser()
                 }) {
                     Label("Switch User", systemImage: "person.2.fill")
                 }
-                
+
                 Spacer()
-                
+
                 Button(action: {
                     showLogoutConfirmation = true
                 }) {
@@ -146,6 +156,21 @@ struct SessionDetailView: View {
                         }
                     }
                 }
+            }
+        }
+        .sheet(isPresented: $showAuthFlowTypes) {
+            NavigationView {
+                AuthFlowTypesView()
+                    .padding()
+                    .navigationTitle("Auth Flow Types")
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar {
+                        ToolbarItem(placement: .confirmationAction) {
+                            Button("Done") {
+                                showAuthFlowTypes = false
+                            }
+                        }
+                    }
             }
         }
         .alert("Migration Error", isPresented: $showMigrationError) {
