@@ -125,6 +125,47 @@ final class NativeLoginManagerTests: XCTestCase {
         bioAuthManager.locked = false
     }
     
+    func testNativeLoginPresentationHidesNavigationBar() {
+        // Verify that when native login is enabled and the auth view is presented,
+        // the wrapping SFSDKNavigationController has its navigation bar hidden.
+        // This prevents an unwanted Salesforce-blue nav bar from appearing on top
+        // of custom native login views (especially on re-presentation after
+        // fallback-to-web-auth → back).
+        let accountManager = UserAccountManager.shared
+
+        // Native login is already configured via `nativeLoginManager` property.
+        XCTAssertTrue(accountManager.nativeLoginEnabled, "Native login should be enabled.")
+        accountManager.shouldFallbackToWebAuthentication = false
+
+        let expectation = self.expectation(description: "Auth view presented")
+        var presentedController: UIViewController?
+
+        // Set up auth window with a mock VC that captures presentViewController: calls.
+        // This lets the real presentLoginView: execute end-to-end.
+        let mockPresenter = MockPresenterViewController()
+        mockPresenter.onPresent = { controller in
+            presentedController = controller
+            expectation.fulfill()
+        }
+        SFSDKWindowManager.shared().authWindow(nil).viewController = mockPresenter
+
+        // Directly invoke the default authViewHandler's display block with an
+        // AuthViewHolder configured for the native login path (no loginController,
+        // not advanced auth). This triggers presentLoginView: in production code.
+        let viewHolder = AuthViewHolder()
+        viewHolder.isAdvancedAuthFlow = false
+        accountManager.authViewHandler.authViewDisplayBlock(viewHolder)
+
+        waitForExpectations(timeout: 5)
+
+        // Verify the navigation bar is hidden on the presented SFSDKNavigationController
+        if let navController = presentedController as? UINavigationController {
+            XCTAssertTrue(navController.isNavigationBarHidden, "Navigation bar should be hidden for native login presentation.")
+        } else {
+            XCTFail("Expected a UINavigationController to be presented for native login.")
+        }
+    }
+
     private func createUser() -> UserAccount {
         let credentials = OAuthCredentials(identifier: "identifier-0", clientId: "fakeClientIdForTesting", encrypted: true)!
         let user = UserAccount(credentials: credentials)

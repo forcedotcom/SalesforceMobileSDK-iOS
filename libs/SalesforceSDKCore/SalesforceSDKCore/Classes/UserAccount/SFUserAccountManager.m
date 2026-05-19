@@ -2293,6 +2293,10 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
             UIViewController *multiWindowNativeLoginVC = [[SalesforceSDKManager sharedManager].nativeLoginViewControllers objectForKey:viewHandler.scene.session.persistentIdentifier];
             UIViewController *nativeLogin = multiWindowNativeLoginVC ? multiWindowNativeLoginVC : [[[SalesforceSDKManager sharedManager] nativeLoginViewControllers] objectForKey:kSFDefaultNativeLoginViewControllerKey];
             UIViewController *controllerToPresent = [[SFSDKNavigationController alloc] initWithRootViewController:nativeLogin];
+            // Hide the nav bar for custom native login views. SFLoginViewController hides it
+            // internally, but custom VCs don't — without this, a Salesforce-blue nav bar appears
+            // on top of the native login view on re-presentation (e.g. after fallback to web auth).
+            [(UINavigationController *)controllerToPresent setNavigationBarHidden:YES animated:NO];
             controllerToPresent.modalPresentationStyle = UIModalPresentationFullScreen;
             [[[SFSDKWindowManager sharedManager] authWindow:viewHandler.scene].viewController presentViewController:controllerToPresent animated:NO completion:^{ }];
         }
