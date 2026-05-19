@@ -377,9 +377,11 @@ NS_SWIFT_NAME(UserAccountManager)
 @property (nonatomic, assign) BOOL shouldFallbackToWebAuthentication;
 
 /**
- *  If true, present the auth window while the webview is loading. Otherwise wait to present the auth window until the webview has finished loading
+ *  If true, present the auth window while the webview is loading. Otherwise wait to present the auth window until the webview has finished loading.
+ *  Defaults to YES.
+ *  @deprecated This property is deprecated in 14.0 and will be removed in 15.0.
  */
-@property (nonatomic, assign) BOOL showAuthWindowWhileLoading;
+@property (nonatomic, assign) BOOL showAuthWindowWhileLoading SFSDK_DEPRECATED(14.0, 15.0, "This property will be removed in 15.0. The auth window will always be shown while loading.");
 
 /** Shared singleton
  */
