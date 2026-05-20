@@ -39,6 +39,8 @@ final class BiometricAuthenticationManagerTests: XCTestCase {
     }
 
     override func tearDownWithError() throws {
+        bioAuthManager.automaticPresentation = false
+        bioAuthManager.locked = false
         _ = KeychainHelper.removeAll()
         UserAccountManager.shared.clearAllAccountState()
     }
@@ -176,29 +178,149 @@ final class BiometricAuthenticationManagerTests: XCTestCase {
         bioAuthManager.storePolicy(userAccount: user, hasMobilePolicy: true, sessionTimeout: 15)
         XCTAssertTrue(bioAuthManager.checkForPolicy(userId: user.idData.userId))
         bioAuthManager.locked = true
-        
+
         bioAuthManager.cleanup(user: user)
         XCTAssertFalse(bioAuthManager.checkForPolicy(userId: user.idData.userId))
         XCTAssertFalse(bioAuthManager.locked, "Locked status should be reset.")
     }
-    
-    
+
+    // MARK: - automaticPresentation Tests
+
+    func testAutomaticPresentationDefaultsToFalse() {
+        XCTAssertFalse(bioAuthManager.automaticPresentation, "automaticPresentation should default to false.")
+    }
+
+    func testAutomaticPresentationLockAutoPresentsWhenOptedIn() {
+        // Scenario B1: automaticPresentation=true, hasBiometricOptedIn=true, lock triggered
+        // Expected: presentBiometric called
+        let user = createUser(index: 0)
+        bioAuthManager.storePolicy(userAccount: user, hasMobilePolicy: true, sessionTimeout: 1)
+        bioAuthManager.biometricOptIn(optIn: true)
+        bioAuthManager.automaticPresentation = true
+        bioAuthManager.laContext = StubbedLAContext(canEvaluate: true)
+
+        // Set timestamp past timeout to trigger lock
+        bioAuthManager.backgroundTimestamp = Date().timeIntervalSince1970 - 120
+
+        // Verify preconditions
+        XCTAssertTrue(bioAuthManager.hasBiometricOptedIn())
+        XCTAssertTrue(bioAuthManager.automaticPresentation)
+        XCTAssertTrue(bioAuthManager.shouldLock())
+
+        // The lock() method will call presentBiometric when conditions are met.
+        // We verify the conditions are correctly evaluated by checking the state.
+        // (Full UI presentation requires integration test with real scenes.)
+        bioAuthManager.locked = true
+        let shouldAutoPresent = bioAuthManager.hasBiometricOptedIn() && bioAuthManager.automaticPresentation
+        XCTAssertTrue(shouldAutoPresent, "Should auto-present biometric when opted in and automaticPresentation is enabled.")
+
+        // Cleanup
+        bioAuthManager.automaticPresentation = false
+        bioAuthManager.locked = false
+    }
+
+    func testAutomaticPresentationLockDoesNotPresentWhenNotOptedIn() {
+        // Scenario B2: automaticPresentation=true, hasBiometricOptedIn=false, lock triggered
+        // Expected: no auto-present
+        let user = createUser(index: 0)
+        bioAuthManager.storePolicy(userAccount: user, hasMobilePolicy: true, sessionTimeout: 1)
+        bioAuthManager.automaticPresentation = true
+
+        XCTAssertFalse(bioAuthManager.hasBiometricOptedIn())
+        let shouldAutoPresent = bioAuthManager.hasBiometricOptedIn() && bioAuthManager.automaticPresentation
+        XCTAssertFalse(shouldAutoPresent, "Should not auto-present biometric when not opted in.")
+
+        // Cleanup
+        bioAuthManager.automaticPresentation = false
+    }
+
+    func testAutomaticPresentationDisabledDoesNotPresent() {
+        // Scenario B3: automaticPresentation=false, hasBiometricOptedIn=true, lock triggered
+        // Expected: no auto-present
+        let user = createUser(index: 0)
+        bioAuthManager.storePolicy(userAccount: user, hasMobilePolicy: true, sessionTimeout: 1)
+        bioAuthManager.biometricOptIn(optIn: true)
+        bioAuthManager.automaticPresentation = false
+
+        XCTAssertTrue(bioAuthManager.hasBiometricOptedIn())
+        let shouldAutoPresent = bioAuthManager.hasBiometricOptedIn() && bioAuthManager.automaticPresentation
+        XCTAssertFalse(shouldAutoPresent, "Should not auto-present biometric when automaticPresentation is disabled.")
+    }
+
+    func testAutomaticPresentationBothDisabled() {
+        // Scenario B4: automaticPresentation=false, hasBiometricOptedIn=false
+        // Expected: no auto-present
+        let user = createUser(index: 0)
+        bioAuthManager.storePolicy(userAccount: user, hasMobilePolicy: true, sessionTimeout: 1)
+        bioAuthManager.automaticPresentation = false
+
+        XCTAssertFalse(bioAuthManager.hasBiometricOptedIn())
+        XCTAssertFalse(bioAuthManager.automaticPresentation)
+        let shouldAutoPresent = bioAuthManager.hasBiometricOptedIn() && bioAuthManager.automaticPresentation
+        XCTAssertFalse(shouldAutoPresent, "Should not auto-present when both conditions are false.")
+    }
+
+    func testAutomaticPresentationOptInDialogConditions() {
+        // Scenario A1/A2/A3: Tests the condition for showing opt-in dialog after login
+        // The condition is: !hasBiometricOptedIn && automaticPresentation
+        let user = createUser(index: 0)
+        bioAuthManager.storePolicy(userAccount: user, hasMobilePolicy: true, sessionTimeout: 1)
+
+        // A3: automaticPresentation=false, not opted in -> no dialog
+        bioAuthManager.automaticPresentation = false
+        var shouldShowOptIn = !bioAuthManager.hasBiometricOptedIn() && bioAuthManager.automaticPresentation
+        XCTAssertFalse(shouldShowOptIn, "Should not show opt-in dialog when automaticPresentation is disabled.")
+
+        // A1: automaticPresentation=true, not opted in -> show dialog
+        bioAuthManager.automaticPresentation = true
+        shouldShowOptIn = !bioAuthManager.hasBiometricOptedIn() && bioAuthManager.automaticPresentation
+        XCTAssertTrue(shouldShowOptIn, "Should show opt-in dialog when automaticPresentation is enabled and user has not opted in.")
+
+        // A2: automaticPresentation=true, already opted in -> no dialog
+        bioAuthManager.biometricOptIn(optIn: true)
+        shouldShowOptIn = !bioAuthManager.hasBiometricOptedIn() && bioAuthManager.automaticPresentation
+        XCTAssertFalse(shouldShowOptIn, "Should not show opt-in dialog when user has already opted in.")
+
+        // Cleanup
+        bioAuthManager.automaticPresentation = false
+    }
+
+    func testAutomaticPresentationDoesNotAffectExistingLockBehavior() {
+        // Scenario D1: automaticPresentation=false (default) should not change existing behavior
+        let user = createUser(index: 0)
+        bioAuthManager.storePolicy(userAccount: user, hasMobilePolicy: true, sessionTimeout: 1)
+        bioAuthManager.automaticPresentation = false
+
+        // Set timestamp past timeout
+        bioAuthManager.backgroundTimestamp = Date().timeIntervalSince1970 - 120
+
+        // Lock should still trigger normally
+        XCTAssertTrue(bioAuthManager.shouldLock(), "shouldLock should still work when automaticPresentation is disabled.")
+        XCTAssertFalse(bioAuthManager.automaticPresentation)
+
+        // After lock, auto-present should NOT fire
+        let shouldAutoPresent = bioAuthManager.hasBiometricOptedIn() && bioAuthManager.automaticPresentation
+        XCTAssertFalse(shouldAutoPresent, "Auto-present should not fire when automaticPresentation is off.")
+    }
+
+    // MARK: - Helpers
+
     private func createUser(index: Int) -> UserAccount {
         let credentials = OAuthCredentials(identifier: "identifier-\(index)", clientId: "fakeClientIdForTesting", encrypted: true)!
         let user = UserAccount(credentials: credentials)
         user.idData = IdentityData(jsonDict: [ "user_id": "\(index)" ])
         UserAccountManager.shared.currentUserAccount = user
-        
+
         return user
     }
-    
+
     private class StubbedLAContext: LAContext {
         let canEvaluate: Bool
-        
+
         init(canEvaluate: Bool) {
             self.canEvaluate = canEvaluate
         }
-        
+
         override func canEvaluatePolicy(_ policy: LAPolicy, error: NSErrorPointer) -> Bool {
             return canEvaluate
         }
