@@ -136,7 +136,7 @@ public class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthenti
     public func lock() {
         locked = true
         NotificationCenter.default.post(name: Notification.Name(rawValue: kSFBiometricAuthenticationFlowWillBegin), object: nil)
-
+        
         // Open the Login Screen
         _ = UserAccountManager.shared.login { result in
             switch result {

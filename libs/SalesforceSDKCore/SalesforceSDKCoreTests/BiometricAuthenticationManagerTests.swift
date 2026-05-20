@@ -178,7 +178,7 @@ final class BiometricAuthenticationManagerTests: XCTestCase {
         bioAuthManager.storePolicy(userAccount: user, hasMobilePolicy: true, sessionTimeout: 15)
         XCTAssertTrue(bioAuthManager.checkForPolicy(userId: user.idData.userId))
         bioAuthManager.locked = true
-
+        
         bioAuthManager.cleanup(user: user)
         XCTAssertFalse(bioAuthManager.checkForPolicy(userId: user.idData.userId))
         XCTAssertFalse(bioAuthManager.locked, "Locked status should be reset.")
@@ -310,17 +310,17 @@ final class BiometricAuthenticationManagerTests: XCTestCase {
         let user = UserAccount(credentials: credentials)
         user.idData = IdentityData(jsonDict: [ "user_id": "\(index)" ])
         UserAccountManager.shared.currentUserAccount = user
-
+        
         return user
     }
-
+    
     private class StubbedLAContext: LAContext {
         let canEvaluate: Bool
-
+        
         init(canEvaluate: Bool) {
             self.canEvaluate = canEvaluate
         }
-
+        
         override func canEvaluatePolicy(_ policy: LAPolicy, error: NSErrorPointer) -> Bool {
             return canEvaluate
         }
