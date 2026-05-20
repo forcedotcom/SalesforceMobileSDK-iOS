@@ -178,3 +178,14 @@ final class NativeLoginManagerTests: XCTestCase {
         return user
     }
 }
+
+// MARK: - Test Helpers
+
+private class MockPresenterViewController: UIViewController {
+    var onPresent: ((UIViewController) -> Void)?
+
+    override func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)? = nil) {
+        onPresent?(viewControllerToPresent)
+        completion?()
+    }
+}
