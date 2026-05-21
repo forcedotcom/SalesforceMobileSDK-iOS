@@ -167,6 +167,8 @@ final class BiometricAuthenticationManagerTests: XCTestCase {
         XCTAssertFalse(bioAuthManager.showNativeLoginButton(), "Button should show until user opts in.")
         
         bioAuthManager.biometricOptIn(optIn: true)
+        // showNativeLoginButton() requires hasPolicy && locked && hasBiometricOptedIn
+        bioAuthManager.locked = true
         XCTAssertTrue(bioAuthManager.showNativeLoginButton())
         
         bioAuthManager.enableNativeBiometricLoginButton(enabled: false)
