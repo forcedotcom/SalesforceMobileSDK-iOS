@@ -192,7 +192,7 @@ final class BiometricAuthenticationManagerTests: XCTestCase {
 
     func testAutomaticPresentationLockAutoPresentsWhenOptedIn() {
         // Scenario B1: automaticPresentation=true, hasBiometricOptedIn=true, lock triggered
-        // Expected: presentBiometric called
+        // Expected: lock() enters the auto-present branch (presentBiometric called for each scene)
         let user = createUser(index: 0)
         bioAuthManager.storePolicy(userAccount: user, hasMobilePolicy: true, sessionTimeout: 1)
         bioAuthManager.biometricOptIn(optIn: true)
@@ -207,12 +207,12 @@ final class BiometricAuthenticationManagerTests: XCTestCase {
         XCTAssertTrue(bioAuthManager.automaticPresentation)
         XCTAssertTrue(bioAuthManager.shouldLock())
 
-        // The lock() method will call presentBiometric when conditions are met.
-        // We verify the conditions are correctly evaluated by checking the state.
-        // (Full UI presentation requires integration test with real scenes.)
-        bioAuthManager.locked = true
-        let shouldAutoPresent = bioAuthManager.hasBiometricOptedIn() && bioAuthManager.automaticPresentation
-        XCTAssertTrue(shouldAutoPresent, "Should auto-present biometric when opted in and automaticPresentation is enabled.")
+        // Trigger the full lock flow via handleAppForeground().
+        // This calls lock() which exercises the automaticPresentation branch.
+        // presentBiometric(scene:) is a no-op in test (no connected scenes / LAContext
+        // cannot evaluate in unit test sandbox), but the code path is exercised.
+        bioAuthManager.handleAppForeground()
+        XCTAssertTrue(bioAuthManager.locked, "App should be locked after timeout.")
 
         // Cleanup
         bioAuthManager.automaticPresentation = false
