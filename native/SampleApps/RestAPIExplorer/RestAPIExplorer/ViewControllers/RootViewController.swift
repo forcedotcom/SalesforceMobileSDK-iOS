@@ -135,6 +135,10 @@ class RootViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.appContentBackground
 
+        registerForTraitChanges([UITraitUserInterfaceStyle.self]) { (self: RootViewController, _: UITraitCollection) in
+            self.updateBorderColor()
+        }
+
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(clearPopoversForPasscode),
                                                name: NSNotification.Name(rawValue: kSFScreenLockFlowWillBegin),
@@ -541,12 +545,6 @@ class RootViewController: UIViewController {
         return self.responseSection.container
     }
     
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
-            self.updateBorderColor()
-        }
-    }
     
     func updateBorderColor() -> Void {
         for textField in self.textFields {
