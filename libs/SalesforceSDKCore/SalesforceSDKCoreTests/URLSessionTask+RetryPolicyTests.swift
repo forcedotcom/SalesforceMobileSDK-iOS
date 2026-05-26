@@ -8,7 +8,7 @@ class URLSessionTaskRetryPolicyTests: XCTestCase {
         
         var locked: Bool
 
-        var automaticPresentation: Bool = false
+        var automaticPresentation: Bool = true
 
         func lock() {
             locked = true

@@ -46,7 +46,7 @@ public class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthenti
     
     public var locked = false
 
-    public var automaticPresentation = false
+    public var automaticPresentation = true
 
     internal var backgroundTimestamp: Double = 0
     // This is a local var so it can be stubbed for tests

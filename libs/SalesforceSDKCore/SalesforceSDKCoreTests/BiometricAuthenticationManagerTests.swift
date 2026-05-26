@@ -39,7 +39,7 @@ final class BiometricAuthenticationManagerTests: XCTestCase {
     }
 
     override func tearDownWithError() throws {
-        bioAuthManager.automaticPresentation = false
+        bioAuthManager.automaticPresentation = true
         bioAuthManager.locked = false
         _ = KeychainHelper.removeAll()
         UserAccountManager.shared.clearAllAccountState()
@@ -188,8 +188,8 @@ final class BiometricAuthenticationManagerTests: XCTestCase {
 
     // MARK: - automaticPresentation Tests
 
-    func testAutomaticPresentationDefaultsToFalse() {
-        XCTAssertFalse(bioAuthManager.automaticPresentation, "automaticPresentation should default to false.")
+    func testAutomaticPresentationDefaultsToTrue() {
+        XCTAssertTrue(bioAuthManager.automaticPresentation, "automaticPresentation should default to true.")
     }
 
     func testAutomaticPresentationLockAutoPresentsWhenOptedIn() {
