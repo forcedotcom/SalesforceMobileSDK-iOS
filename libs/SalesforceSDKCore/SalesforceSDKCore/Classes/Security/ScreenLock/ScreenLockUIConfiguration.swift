@@ -1,10 +1,10 @@
 //
-//  ScreenLockManager.swift
+//  ScreenLockUIConfiguration.swift
 //  SalesforceSDKCore
 //
-//  Created by Brandon Page on 4/24/23.
-//  Copyright (c) 2023-present, salesforce.com, inc. All rights reserved.
-// 
+//  Created by Claude on 5/21/26.
+//  Copyright (c) 2026-present, salesforce.com, inc. All rights reserved.
+//
 //  Redistribution and use of this software in source and binary forms, with or without modification,
 //  are permitted provided that the following conditions are met:
 //  * Redistributions of source code must retain the above copyright notice, this list of conditions
@@ -15,7 +15,7 @@
 //  * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
 //  endorse or promote products derived from this software without specific prior written
 //  permission of salesforce.com, inc.
-// 
+//
 //  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
 //  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
 //  FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -25,20 +25,31 @@
 //  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
 //  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import Foundation
+import UIKit
 
-@objc(SFScreenLockManager)
-public protocol ScreenLockManager {
-    
-    /// If the feature is enabled for the current user.
-    var enabled: Bool { get }
-    
-    /// Locks the device immediately. 
-    func lock()
-
-    /// Configuration for the lock screen's visual appearance.
+/// Configuration for the appearance of the screen lock view.
+///
+/// Set this on ``ScreenLockManager/configuration`` to customize the lock screen's visual elements.
+@objc(SFSDKScreenLockUIConfiguration)
+public class ScreenLockUIConfiguration: NSObject {
+    /// The icon displayed at the center of the lock screen.
     ///
-    /// Set this property before the lock screen is presented to customize its appearance.
-    /// Changes take effect the next time the lock screen is shown.
-    var configuration: ScreenLockUIConfiguration { get set }
+    /// When `nil` (the default), the lock screen uses the app's primary icon from
+    /// `CFBundleIcons`, falling back to the Salesforce logo if unavailable.
+    @objc public var icon: UIImage?
+
+    /// The size at which the icon is rendered.
+    ///
+    /// Defaults to 125x125 points. The image will be scaled using aspect-fit to this size.
+    @objc public var iconSize = CGSize(width: 125, height: 125)
+
+    /// Creates a configuration with default values.
+    ///
+    /// The default configuration reproduces the existing lock screen appearance:
+    /// - Icon: app's primary icon or Salesforce logo
+    /// - Size: 125x125 points
+    @objc public override init() {
+        self.icon = nil
+        super.init()
+    }
 }
