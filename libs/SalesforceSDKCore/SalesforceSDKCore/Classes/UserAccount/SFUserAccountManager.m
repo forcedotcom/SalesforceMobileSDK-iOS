@@ -1971,7 +1971,10 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
                 
                 [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureBioAuth];
                 [bioAuthManager storePolicyWithUserAccount:self.currentUser hasMobilePolicy:hasBioAuthPolicy sessionTimeout:sessionTimeout];
-                
+                if (![bioAuthManager hasBiometricOptedIn] && bioAuthManager.automaticPresentation) {
+                    [bioAuthManager presentOptInDialogWithViewController:[[SFSDKWindowManager sharedManager] mainWindow:authSession.oauthRequest.scene].topViewController];
+                }
+
                 if (preLoginCredentials != nil && ![preLoginCredentials.refreshToken isEqualToString:self.currentUser.credentials.refreshToken]) {
                     
                     id<SFSDKOAuthProtocol> authClient = self.authClient();
