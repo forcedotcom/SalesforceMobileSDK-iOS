@@ -1708,7 +1708,10 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
                 BOOL isNativeLogin = self.nativeLoginEnabled && !self.shouldFallbackToWebAuthentication;
                 // Native Login uses a secondary Connected App tied to a specifc community url.  If the
                 // next login is web based it should not try to use that url.
-                if (user.credentials.domain && !isNativeLogin)
+                // Also skip if the app uses a Welcome/Discovery domain — persisting the My Domain
+                // would pollute the server picker and prevent returning to the discovery page on logout.
+                BOOL isDiscoveryLogin = [[[SFDomainDiscoveryCoordinator alloc] init] isDiscoveryDomain:self.loginHost];
+                if (user.credentials.domain && !isNativeLogin && !isDiscoveryLogin)
                     self.loginHost = user.credentials.domain;
                 [self didChangeValueForKey:@"currentUser"];
                 userChanged = YES;

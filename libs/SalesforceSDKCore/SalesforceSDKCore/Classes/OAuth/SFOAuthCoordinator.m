@@ -868,7 +868,10 @@
     [self stopAuthentication];
     self.loginHint = loginHint;
     self.credentials.domain = myDomain;
-    [[SFUserAccountManager sharedInstance] setLoginHost:myDomain];
+    // Don't call setLoginHost: here — doing so would persist the My Domain into
+    // SFSDKLoginHostStorage and NSUserDefaults, polluting the server picker list
+    // and causing the login screen to show the My Domain after logout instead of
+    // the Welcome/Discovery page.  credentials.domain is all the auth flow needs.
     [self authenticate];
 }
 
