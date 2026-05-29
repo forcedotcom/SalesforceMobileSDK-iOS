@@ -20,21 +20,27 @@ on:
         type: boolean
         default: false
 
+permissions:
+  contents: read
+
 jobs:
   build-sample-app:
     runs-on: ${{ inputs.macos }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4.3.1
         if: ${{ inputs.is_pr }}
         with:
+          persist-credentials: false
           ref: ${{ github.event.pull_request.head.sha }}
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4.3.1
         if: ${{ !inputs.is_pr }}
         with:
+          persist-credentials: false
           ref: ${{ github.head_ref }}
       - name: Install Dependencies
         run: ./install.sh
-      - uses: mxcl/xcodebuild@v3
+      - uses: mxcl/xcodebuild@d3ee9b419c1be9a988086c58fe0988f32d99cfc5  # v3.6.0
+        id: build
         with:
           xcode: ${{ inputs.xcode }}
           platform: iOS
@@ -43,3 +49,13 @@ jobs:
           scheme: ${{ inputs.app }}
           action: 'build'
           verbosity: xcbeautify
+      - name: Archive build logs on failure
+        if: failure() && steps.build.outcome == 'failure'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02  # v4.6.2
+        with:
+          name: xcode-build-logs-${{ inputs.app }}-ios${{ inputs.ios }}
+          path: |
+            ~/Library/Developer/Xcode/DerivedData/**/Logs/Build/*.xcactivitylog
+            ~/Library/Logs/DiagnosticReports/**
+          if-no-files-found: ignore
+          retention-days: 14
