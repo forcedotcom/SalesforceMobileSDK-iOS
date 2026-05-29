@@ -19,18 +19,29 @@ on:
       is_pr:
         type: boolean
         default: false
+    secrets:
+      TEST_CREDENTIALS:
+        required: true
+      CODECOV_TOKEN:
+        required: true
+
+permissions:
+  contents: read
+  pull-requests: write
 
 jobs:
   test-ios:
     runs-on: ${{ inputs.macos }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4.3.1
         if: ${{ inputs.is_pr }}
         with:
+          persist-credentials: false
           ref: ${{ github.event.pull_request.head.sha }}
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4.3.1
         if: ${{ !inputs.is_pr }}
         with:
+          persist-credentials: false
           ref: ${{ github.head_ref }}
       - name: Install Dependencies
         env:
@@ -38,7 +49,7 @@ jobs:
         run: |
           ./install.sh
           echo $TEST_CREDENTIALS > ./shared/test/test_credentials.json
-      - uses: mxcl/xcodebuild@v3
+      - uses: mxcl/xcodebuild@d3ee9b419c1be9a988086c58fe0988f32d99cfc5  # v3.6.0
         id: xcodebuild
         with:
           xcode: ${{ inputs.xcode }}
@@ -50,11 +61,23 @@ jobs:
           verbosity: xcbeautify
       - name: Parse test results
         if: success() || failure()
+        env:
+          LIB: ${{ inputs.lib }}
+          IOS: ${{ inputs.ios }}
         run: |
           brew install xcresultparser
-          xcresultparser -o junit test.xcresult > test-results-${{ inputs.lib }}-ios${{ inputs.ios }}.xml
+          xcresultparser -o junit test.xcresult > "test-results-${LIB}-ios${IOS}.xml"
+      - name: Archive xcodebuild logs on build failure
+        if: failure() && steps.xcodebuild.outcome == 'failure'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02  # v4.6.2
+        with:
+          name: xcodebuild-logs-${{ inputs.lib }}-ios${{ inputs.ios }}
+          path: |
+            ~/Library/Developer/Xcode/DerivedData/**/Logs/Build/*.xcactivitylog
+          if-no-files-found: ignore
+          retention-days: 14
       - name: Test Report
-        uses: mikepenz/action-junit-report@v5
+        uses: mikepenz/action-junit-report@3585e9575db828022551b4231f165eb59a0e74e3  # v5.6.2
         if: success() || failure()
         with:
           check_name: ${{ inputs.lib }} iOS ${{ inputs.ios }} Test Results
@@ -66,7 +89,7 @@ jobs:
           comment: true
           job_summary: ${{ steps.xcodebuild.outcome == 'failure' }}
           report_paths: 'test-results-${{ inputs.lib }}-ios${{ inputs.ios }}.xml'
-      - uses: codecov/codecov-action@v4
+      - uses: codecov/codecov-action@b9fd7d16f6d7d1b5d2bec1a2887e65ceed900238  # v4.6.0
         if: success() || failure()
         with:
           flags: ${{ inputs.lib }}
@@ -74,7 +97,7 @@ jobs:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       - name: Upload test results artifact
         if: success() || failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02  # v4.6.2
         with:
           name: test-results-${{ inputs.lib }}-ios${{ inputs.ios }}
           path: test-results-${{ inputs.lib }}-ios${{ inputs.ios }}.xml
