@@ -80,7 +80,10 @@
 
 - (NSString *)loginHost
 {
-    return _credentialsDict[@"test_login_domain"];
+    NSString *value = _credentialsDict[@"test_login_domain"];
+    if ([value hasPrefix:@"https://"]) return [value substringFromIndex:8];
+    if ([value hasPrefix:@"http://"]) return [value substringFromIndex:7];
+    return value;
 }
 
 - (NSString *)communityUrl
