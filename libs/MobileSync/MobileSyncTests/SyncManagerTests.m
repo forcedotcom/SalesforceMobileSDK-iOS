@@ -277,7 +277,8 @@
     }
 
     // Builds MRU sync down target and performs initial sync.
-    NSNumber* syncId = [NSNumber numberWithInteger:[self trySyncDown:SFSyncStateMergeModeLeaveIfChanged target:[SFMruSyncDownTarget newSyncTarget:ACCOUNT_TYPE fieldlist:@[ID, NAME, DESCRIPTION]] soupName:ACCOUNTS_SOUP totalSize:accountIds.count numberFetches:1]];
+    // Using TOTAL_SIZE_UNKNOWN because MRU totalSize can vary when concurrent CI jobs modify the shared org.
+    NSNumber* syncId = [NSNumber numberWithInteger:[self trySyncDown:SFSyncStateMergeModeLeaveIfChanged target:[SFMruSyncDownTarget newSyncTarget:ACCOUNT_TYPE fieldlist:@[ID, NAME, DESCRIPTION]] soupName:ACCOUNTS_SOUP totalSize:TOTAL_SIZE_UNKNOWN numberFetches:1]];
     [self checkDbExists:ACCOUNTS_SOUP ids:accountIds idField:@"Id"];
 
     // Deletes 1 account on the server and verifies the ghost record is cleared from the soup.
