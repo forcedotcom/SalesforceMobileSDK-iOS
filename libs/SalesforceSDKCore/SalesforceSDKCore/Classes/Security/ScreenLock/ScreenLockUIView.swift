@@ -33,7 +33,9 @@ struct ScreenLockUIView: View {
     @State private var hasError = false
     @State private var canEvaluatePolicy = false
     @State private var errorText = ""
-    
+
+    let configuration: ScreenLockUIConfiguration
+
     var body: some View {
         VStack(alignment: .center, content: {
             HStack {
@@ -47,10 +49,11 @@ struct ScreenLockUIView: View {
                 Spacer()
             }
             Spacer()
-            
-            Image(uiImage: getIcon())
+
+            Image(uiImage: resolvedIcon)
                 .resizable()
-                .frame(width: 125, height: 125, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                .aspectRatio(contentMode: .fit)
+                .frame(width: configuration.iconSize.width, height: configuration.iconSize.height, alignment: .center)
                 .offset(y: getImageOffset())
                 .padding()
             
@@ -74,7 +77,15 @@ struct ScreenLockUIView: View {
             showBiometic()
         })
     }
-    
+
+    /// Resolves the icon using configuration or the default fallback logic.
+    private var resolvedIcon: UIImage {
+        if let customIcon = configuration.icon {
+            return customIcon
+        }
+        return getIcon()
+    }
+
     func showBiometic() {
         let context = LAContext()
         var error: NSError?
@@ -127,5 +138,5 @@ private func logout() {
 }
 
 #Preview {
-    ScreenLockUIView()
+    ScreenLockUIView(configuration: ScreenLockUIConfiguration())
 }
