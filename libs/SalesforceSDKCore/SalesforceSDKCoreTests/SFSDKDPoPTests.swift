@@ -36,21 +36,21 @@ class SFSDKDPoPTests: XCTestCase {
 
     override func setUpWithError() throws {
         try super.setUpWithError()
-        SFSDKDPoPKeyStore.shared.delete(forScope: testScope)
-        SFSDKDPoPNonceCache.shared.clear(forScope: testScope)
+        DPoPKeyStore.shared.delete(forScope: testScope)
+        DPoPNonceCache.shared.clear(forScope: testScope)
     }
 
     override func tearDownWithError() throws {
-        SFSDKDPoPKeyStore.shared.delete(forScope: testScope)
-        SFSDKDPoPNonceCache.shared.clear(forScope: testScope)
+        DPoPKeyStore.shared.delete(forScope: testScope)
+        DPoPNonceCache.shared.clear(forScope: testScope)
         try super.tearDownWithError()
     }
 
     // MARK: - Proof builder
 
     func test_givenValidKeyPair_whenBuildProof_thenJwsHasThreeSegmentsAndValidHeader() throws {
-        let pair = try SFSDKDPoPKeyStore.shared.keyPair(forScope: testScope)
-        let proof = try SFSDKDPoPProofBuilder.buildProof(httpMethod: "POST",
+        let pair = try DPoPKeyStore.shared.keyPair(forScope: testScope)
+        let proof = try DPoPProofBuilder.buildProof(httpMethod: "POST",
                                                          htu: tokenURL,
                                                          nonce: nil,
                                                          keyPair: pair,
@@ -68,8 +68,8 @@ class SFSDKDPoPTests: XCTestCase {
     }
 
     func test_givenNonceProvided_whenBuildProof_thenPayloadIncludesNonce() throws {
-        let pair = try SFSDKDPoPKeyStore.shared.keyPair(forScope: testScope)
-        let proof = try SFSDKDPoPProofBuilder.buildProof(httpMethod: "POST",
+        let pair = try DPoPKeyStore.shared.keyPair(forScope: testScope)
+        let proof = try DPoPProofBuilder.buildProof(httpMethod: "POST",
                                                          htu: tokenURL,
                                                          nonce: "abc123",
                                                          keyPair: pair)
@@ -83,9 +83,9 @@ class SFSDKDPoPTests: XCTestCase {
     }
 
     func test_givenURLWithQueryAndFragment_whenBuildProof_thenHtuIsCanonicalized() throws {
-        let pair = try SFSDKDPoPKeyStore.shared.keyPair(forScope: testScope)
+        let pair = try DPoPKeyStore.shared.keyPair(forScope: testScope)
         let messy = URL(string: "https://login.salesforce.com/services/oauth2/token?foo=bar#frag")!
-        let proof = try SFSDKDPoPProofBuilder.buildProof(httpMethod: "POST",
+        let proof = try DPoPProofBuilder.buildProof(httpMethod: "POST",
                                                          htu: messy,
                                                          nonce: nil,
                                                          keyPair: pair)
@@ -95,9 +95,9 @@ class SFSDKDPoPTests: XCTestCase {
     }
 
     func test_givenSamePair_whenBuildProofTwice_thenJtisDiffer() throws {
-        let pair = try SFSDKDPoPKeyStore.shared.keyPair(forScope: testScope)
-        let p1 = try SFSDKDPoPProofBuilder.buildProof(httpMethod: "POST", htu: tokenURL, nonce: nil, keyPair: pair)
-        let p2 = try SFSDKDPoPProofBuilder.buildProof(httpMethod: "POST", htu: tokenURL, nonce: nil, keyPair: pair)
+        let pair = try DPoPKeyStore.shared.keyPair(forScope: testScope)
+        let p1 = try DPoPProofBuilder.buildProof(httpMethod: "POST", htu: tokenURL, nonce: nil, keyPair: pair)
+        let p2 = try DPoPProofBuilder.buildProof(httpMethod: "POST", htu: tokenURL, nonce: nil, keyPair: pair)
         let jti1 = try decodeBase64UrlJSON(String(p1.split(separator: ".")[1]))["jti"] as? String
         let jti2 = try decodeBase64UrlJSON(String(p2.split(separator: ".")[1]))["jti"] as? String
         XCTAssertNotNil(jti1)
@@ -106,8 +106,8 @@ class SFSDKDPoPTests: XCTestCase {
     }
 
     func test_givenProof_whenSignatureIsVerified_thenItValidatesAgainstPublicKey() throws {
-        let pair = try SFSDKDPoPKeyStore.shared.keyPair(forScope: testScope)
-        let proof = try SFSDKDPoPProofBuilder.buildProof(httpMethod: "POST", htu: tokenURL, nonce: nil, keyPair: pair)
+        let pair = try DPoPKeyStore.shared.keyPair(forScope: testScope)
+        let proof = try DPoPProofBuilder.buildProof(httpMethod: "POST", htu: tokenURL, nonce: nil, keyPair: pair)
         let segments = proof.split(separator: ".")
         let signingInput = "\(segments[0]).\(segments[1])"
         let inputData = signingInput.data(using: .utf8)!
@@ -126,8 +126,8 @@ class SFSDKDPoPTests: XCTestCase {
     // MARK: - Key store
 
     func test_givenSameScope_whenKeyPairCalledTwice_thenSameKeyIsReturned() throws {
-        let p1 = try SFSDKDPoPKeyStore.shared.keyPair(forScope: testScope)
-        let p2 = try SFSDKDPoPKeyStore.shared.keyPair(forScope: testScope)
+        let p1 = try DPoPKeyStore.shared.keyPair(forScope: testScope)
+        let p2 = try DPoPKeyStore.shared.keyPair(forScope: testScope)
         // The SecKey backing the same keychain entry should sign identically; sign+compare.
         let payload = "hello".data(using: .utf8)!
         let s1 = try XCTUnwrap(SFSDKCryptoUtils.signDataES256(payload, withKeyRef: p1.privateKey))
@@ -144,19 +144,19 @@ class SFSDKDPoPTests: XCTestCase {
     }
 
     func test_givenEmptyScope_whenKeyPairRequested_thenThrowsMissingScopeIdentifier() {
-        XCTAssertThrowsError(try SFSDKDPoPKeyStore.shared.keyPair(forScope: "")) { error in
-            XCTAssertEqual(error as? SFSDKDPoPKeyStoreError, .missingScopeIdentifier)
+        XCTAssertThrowsError(try DPoPKeyStore.shared.keyPair(forScope: "")) { error in
+            XCTAssertEqual(error as? DPoPKeyStoreError, .missingScopeIdentifier)
         }
     }
 
     func test_givenScopedKey_whenDeleted_thenSubsequentLookupGeneratesFreshKey() throws {
-        let pair1 = try SFSDKDPoPKeyStore.shared.keyPair(forScope: testScope)
+        let pair1 = try DPoPKeyStore.shared.keyPair(forScope: testScope)
         let payload = "hello".data(using: .utf8)!
         let sig1 = try XCTUnwrap(SFSDKCryptoUtils.signDataES256(payload, withKeyRef: pair1.privateKey))
 
-        SFSDKDPoPKeyStore.shared.delete(forScope: testScope)
+        DPoPKeyStore.shared.delete(forScope: testScope)
 
-        let pair2 = try SFSDKDPoPKeyStore.shared.keyPair(forScope: testScope)
+        let pair2 = try DPoPKeyStore.shared.keyPair(forScope: testScope)
         // pair2's public key should NOT verify signatures from pair1.
         let der = try derEncodeRawECSignature(sig1)
         var error: Unmanaged<CFError>?
@@ -171,47 +171,47 @@ class SFSDKDPoPTests: XCTestCase {
     // MARK: - Nonce cache
 
     func test_givenScopedNonce_whenSameUrlSameScope_thenReturnsCachedValue() {
-        SFSDKDPoPNonceCache.shared.setNonce("nonceA", htu: tokenURL, scope: testScope)
-        XCTAssertEqual(SFSDKDPoPNonceCache.shared.nonce(htu: tokenURL, scope: testScope), "nonceA")
+        DPoPNonceCache.shared.setNonce("nonceA", htu: tokenURL, scope: testScope)
+        XCTAssertEqual(DPoPNonceCache.shared.nonce(htu: tokenURL, scope: testScope), "nonceA")
     }
 
     func test_givenScopedNonce_whenDifferentScope_thenReturnsNil() {
-        SFSDKDPoPNonceCache.shared.setNonce("nonceA", htu: tokenURL, scope: testScope)
-        XCTAssertNil(SFSDKDPoPNonceCache.shared.nonce(htu: tokenURL, scope: "other-scope"))
+        DPoPNonceCache.shared.setNonce("nonceA", htu: tokenURL, scope: testScope)
+        XCTAssertNil(DPoPNonceCache.shared.nonce(htu: tokenURL, scope: "other-scope"))
     }
 
     func test_givenNonceForUrlWithQuery_whenLookedUpByCleanUrl_thenMatches() {
         let messy = URL(string: tokenURL.absoluteString + "?foo=bar")!
-        SFSDKDPoPNonceCache.shared.setNonce("nonceB", htu: messy, scope: testScope)
-        XCTAssertEqual(SFSDKDPoPNonceCache.shared.nonce(htu: tokenURL, scope: testScope), "nonceB")
+        DPoPNonceCache.shared.setNonce("nonceB", htu: messy, scope: testScope)
+        XCTAssertEqual(DPoPNonceCache.shared.nonce(htu: tokenURL, scope: testScope), "nonceB")
     }
 
     func test_givenNoncesAcrossScopes_whenClearForScope_thenOnlyMatchingScopeIsRemoved() {
-        SFSDKDPoPNonceCache.shared.setNonce("nA", htu: tokenURL, scope: testScope)
-        SFSDKDPoPNonceCache.shared.setNonce("nB", htu: tokenURL, scope: "other-scope")
-        SFSDKDPoPNonceCache.shared.clear(forScope: testScope)
-        XCTAssertNil(SFSDKDPoPNonceCache.shared.nonce(htu: tokenURL, scope: testScope))
-        XCTAssertEqual(SFSDKDPoPNonceCache.shared.nonce(htu: tokenURL, scope: "other-scope"), "nB")
-        SFSDKDPoPNonceCache.shared.clear(forScope: "other-scope")
+        DPoPNonceCache.shared.setNonce("nA", htu: tokenURL, scope: testScope)
+        DPoPNonceCache.shared.setNonce("nB", htu: tokenURL, scope: "other-scope")
+        DPoPNonceCache.shared.clear(forScope: testScope)
+        XCTAssertNil(DPoPNonceCache.shared.nonce(htu: tokenURL, scope: testScope))
+        XCTAssertEqual(DPoPNonceCache.shared.nonce(htu: tokenURL, scope: "other-scope"), "nB")
+        DPoPNonceCache.shared.clear(forScope: "other-scope")
     }
 
     // MARK: - Decorator gating + nonce challenge detection
 
     func test_givenUseDPoPDisabled_whenDecorate_thenNoHeaderAttached() throws {
-        SalesforceSDKManager.shared().useDPoP = false
+        SalesforceManager.shared.usesDPoP = false
         let req = NSMutableURLRequest(url: tokenURL)
         req.httpMethod = "POST"
-        try SFSDKDPoPRequestDecorator.decorate(req, scope: testScope)
+        try DPoPRequestDecorator.decorate(req, scope: testScope)
         XCTAssertNil(req.value(forHTTPHeaderField: "DPoP"))
     }
 
     func test_givenUseDPoPEnabled_whenDecorate_thenDPoPHeaderAttached() throws {
-        let prior = SalesforceSDKManager.shared().useDPoP
-        SalesforceSDKManager.shared().useDPoP = true
-        defer { SalesforceSDKManager.shared().useDPoP = prior }
+        let prior = SalesforceManager.shared.usesDPoP
+        SalesforceManager.shared.usesDPoP = true
+        defer { SalesforceManager.shared.usesDPoP = prior }
         let req = NSMutableURLRequest(url: tokenURL)
         req.httpMethod = "POST"
-        try SFSDKDPoPRequestDecorator.decorate(req, scope: testScope)
+        try DPoPRequestDecorator.decorate(req, scope: testScope)
         let header = try XCTUnwrap(req.value(forHTTPHeaderField: "DPoP"))
         XCTAssertEqual(header.split(separator: ".").count, 3)
     }
@@ -221,18 +221,18 @@ class SFSDKDPoPTests: XCTestCase {
                                    statusCode: 401,
                                    httpVersion: nil,
                                    headerFields: ["DPoP-Nonce": "fresh-nonce"])
-        XCTAssertTrue(SFSDKDPoPRequestDecorator.isNonceChallenge(statusCode: 401, body: nil, response: resp))
+        XCTAssertTrue(DPoPRequestDecorator.isNonceChallenge(statusCode: 401, body: nil, response: resp))
     }
 
     func test_given400WithUseDPoPNonceErrorBody_whenIsNonceChallenge_thenTrue() {
         let body = "{\"error\":\"use_dpop_nonce\"}".data(using: .utf8)
         let resp = HTTPURLResponse(url: tokenURL, statusCode: 400, httpVersion: nil, headerFields: nil)
-        XCTAssertTrue(SFSDKDPoPRequestDecorator.isNonceChallenge(statusCode: 400, body: body, response: resp))
+        XCTAssertTrue(DPoPRequestDecorator.isNonceChallenge(statusCode: 400, body: body, response: resp))
     }
 
     func test_given200OK_whenIsNonceChallenge_thenFalse() {
         let resp = HTTPURLResponse(url: tokenURL, statusCode: 200, httpVersion: nil, headerFields: nil)
-        XCTAssertFalse(SFSDKDPoPRequestDecorator.isNonceChallenge(statusCode: 200, body: nil, response: resp))
+        XCTAssertFalse(DPoPRequestDecorator.isNonceChallenge(statusCode: 200, body: nil, response: resp))
     }
 
     func test_givenResponseWithDPoPNonce_whenHarvest_thenCacheUpdated() {
@@ -240,8 +240,8 @@ class SFSDKDPoPTests: XCTestCase {
                                    statusCode: 200,
                                    httpVersion: nil,
                                    headerFields: ["DPoP-Nonce": "harvested-nonce"])
-        SFSDKDPoPRequestDecorator.harvestNonce(from: resp, requestURL: tokenURL, scope: testScope)
-        XCTAssertEqual(SFSDKDPoPNonceCache.shared.nonce(htu: tokenURL, scope: testScope), "harvested-nonce")
+        DPoPRequestDecorator.harvestNonce(from: resp, requestURL: tokenURL, scope: testScope)
+        XCTAssertEqual(DPoPNonceCache.shared.nonce(htu: tokenURL, scope: testScope), "harvested-nonce")
     }
 
     // MARK: - Helpers

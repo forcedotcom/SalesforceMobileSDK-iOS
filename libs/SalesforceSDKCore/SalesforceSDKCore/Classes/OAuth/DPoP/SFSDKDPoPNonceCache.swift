@@ -31,9 +31,9 @@ import Foundation
 ///  - reactive 400 / 401 challenges (RFC 9449 §8)
 ///  - proactive `DPoP-Nonce` response headers on 200 OK (Salesforce backend rotation).
 @objc(SFSDKDPoPNonceCache)
-public final class SFSDKDPoPNonceCache: NSObject {
+public final class DPoPNonceCache: NSObject {
 
-    @objc public static let shared = SFSDKDPoPNonceCache()
+    @objc public static let shared = DPoPNonceCache()
 
     private let queue = DispatchQueue(label: "com.salesforce.dpop.nonceCache", attributes: .concurrent)
     private var storage: [String: String] = [:]

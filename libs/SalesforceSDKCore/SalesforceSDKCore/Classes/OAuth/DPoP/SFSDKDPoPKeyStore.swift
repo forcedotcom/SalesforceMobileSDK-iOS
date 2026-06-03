@@ -28,7 +28,7 @@ import Foundation
 import Security
 
 @objc(SFSDKDPoPKeyPair)
-public final class SFSDKDPoPKeyPair: NSObject {
+public final class DPoPKeyPair: NSObject {
     @objc public let publicKey: SecKey
     @objc public let privateKey: SecKey
 
@@ -39,7 +39,7 @@ public final class SFSDKDPoPKeyPair: NSObject {
 }
 
 @objc(SFSDKDPoPKeyStoreError)
-public enum SFSDKDPoPKeyStoreError: Int, Error {
+public enum DPoPKeyStoreError: Int, Error {
     case missingScopeIdentifier = 1
     case keyGenerationFailed = 2
     case keyLookupFailed = 3
@@ -51,9 +51,9 @@ public enum SFSDKDPoPKeyStoreError: Int, Error {
 /// uses the Secure Enclave when available; otherwise falls back to software-backed
 /// keychain storage.
 @objc(SFSDKDPoPKeyStore)
-public final class SFSDKDPoPKeyStore: NSObject {
+public final class DPoPKeyStore: NSObject {
 
-    @objc public static let shared = SFSDKDPoPKeyStore()
+    @objc public static let shared = DPoPKeyStore()
 
     private let queue = DispatchQueue(label: "com.salesforce.dpop.keystore", attributes: .concurrent)
 
@@ -61,9 +61,9 @@ public final class SFSDKDPoPKeyStore: NSObject {
 
     /// Returns the keypair bound to the given scope identifier, generating it on first call.
     @objc(keyPairForScope:error:)
-    public func keyPair(forScope scope: String) throws -> SFSDKDPoPKeyPair {
+    public func keyPair(forScope scope: String) throws -> DPoPKeyPair {
         guard !scope.isEmpty else {
-            throw SFSDKDPoPKeyStoreError.missingScopeIdentifier
+            throw DPoPKeyStoreError.missingScopeIdentifier
         }
         let name = Self.keyName(for: scope)
         return try queue.sync(flags: .barrier) {
@@ -73,7 +73,7 @@ public final class SFSDKDPoPKeyStore: NSObject {
 
     /// Convenience: scope on `credentials.identifier`.
     @objc(keyPairForCredentials:error:)
-    public func keyPair(forCredentials credentials: SFOAuthCredentials) throws -> SFSDKDPoPKeyPair {
+    public func keyPair(forCredentials credentials: OAuthCredentials) throws -> DPoPKeyPair {
         return try keyPair(forScope: credentials.identifier)
     }
 
@@ -88,7 +88,7 @@ public final class SFSDKDPoPKeyStore: NSObject {
     }
 
     @objc(deleteForCredentials:)
-    public func delete(forCredentials credentials: SFOAuthCredentials) {
+    public func delete(forCredentials credentials: OAuthCredentials) {
         delete(forScope: credentials.identifier)
     }
 
@@ -98,7 +98,7 @@ public final class SFSDKDPoPKeyStore: NSObject {
         return "dpop_" + scope
     }
 
-    private func fetchOrCreate(name: String) throws -> SFSDKDPoPKeyPair {
+    private func fetchOrCreate(name: String) throws -> DPoPKeyPair {
         if let pair = lookup(name: name) {
             return pair
         }
@@ -117,28 +117,28 @@ public final class SFSDKDPoPKeyStore: NSObject {
                                                              accessibleAttribute: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly,
                                                              useSecureEnclave: false)
                 if !retry {
-                    throw SFSDKDPoPKeyStoreError.keyGenerationFailed
+                    throw DPoPKeyStoreError.keyGenerationFailed
                 }
             } else {
-                throw SFSDKDPoPKeyStoreError.keyGenerationFailed
+                throw DPoPKeyStoreError.keyGenerationFailed
             }
         }
         guard let pair = lookup(name: name) else {
-            throw SFSDKDPoPKeyStoreError.keyLookupFailed
+            throw DPoPKeyStoreError.keyLookupFailed
         }
         return pair
     }
 
-    private func lookup(name: String) -> SFSDKDPoPKeyPair? {
+    private func lookup(name: String) -> DPoPKeyPair? {
         guard let priv = SFSDKCryptoUtils.getECPrivateKeyRef(withName: name)?.takeRetainedValue() else {
             return nil
         }
         if let pub = SFSDKCryptoUtils.getECPublicKeyRef(withName: name)?.takeRetainedValue() {
-            return SFSDKDPoPKeyPair(publicKey: pub, privateKey: priv)
+            return DPoPKeyPair(publicKey: pub, privateKey: priv)
         }
         // Public key entry can be missing on Secure-Enclave-backed pairs; derive from private.
         if let derived = SecKeyCopyPublicKey(priv) {
-            return SFSDKDPoPKeyPair(publicKey: derived, privateKey: priv)
+            return DPoPKeyPair(publicKey: derived, privateKey: priv)
         }
         return nil
     }

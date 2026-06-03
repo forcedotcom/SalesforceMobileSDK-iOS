@@ -28,7 +28,7 @@ import Foundation
 import Security
 
 @objc(SFSDKDPoPProofBuilderError)
-public enum SFSDKDPoPProofBuilderError: Int, Error {
+public enum DPoPProofBuilderError: Int, Error {
     case jwkExportFailed = 1
     case serializationFailed = 2
     case signingFailed = 3
@@ -36,7 +36,7 @@ public enum SFSDKDPoPProofBuilderError: Int, Error {
 
 /// Builds an RFC 9449 §4 DPoP proof JWS for a single token-endpoint request.
 @objc(SFSDKDPoPProofBuilder)
-public final class SFSDKDPoPProofBuilder: NSObject {
+public final class DPoPProofBuilder: NSObject {
 
     /// Build a compact-serialized JWS suitable for the `DPoP` HTTP header.
     /// - Parameters:
@@ -48,10 +48,10 @@ public final class SFSDKDPoPProofBuilder: NSObject {
     @objc public static func buildProof(httpMethod: String,
                                         htu: URL,
                                         nonce: String?,
-                                        keyPair: SFSDKDPoPKeyPair,
+                                        keyPair: DPoPKeyPair,
                                         now: Date = Date()) throws -> String {
         guard let jwk = SFSDKCryptoUtils.jwkExport(fromPublicKeyRef: keyPair.publicKey) else {
-            throw SFSDKDPoPProofBuilderError.jwkExportFailed
+            throw DPoPProofBuilderError.jwkExportFailed
         }
         let header: [String: Any] = [
             "typ": "dpop+jwt",
@@ -69,12 +69,12 @@ public final class SFSDKDPoPProofBuilder: NSObject {
         }
         guard let headerSegment = encode(json: header),
               let payloadSegment = encode(json: payload) else {
-            throw SFSDKDPoPProofBuilderError.serializationFailed
+            throw DPoPProofBuilderError.serializationFailed
         }
         let signingInput = "\(headerSegment).\(payloadSegment)"
         guard let signingData = signingInput.data(using: .utf8),
               let signature = SFSDKCryptoUtils.signDataES256(signingData, withKeyRef: keyPair.privateKey) else {
-            throw SFSDKDPoPProofBuilderError.signingFailed
+            throw DPoPProofBuilderError.signingFailed
         }
         let signatureSegment = (signature as NSData).sfsdk_base64UrlString()
         return "\(signingInput).\(signatureSegment)"

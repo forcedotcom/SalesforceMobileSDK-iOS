@@ -27,7 +27,7 @@
 import Foundation
 
 @objc(SFSDKDPoPRequestDecorator)
-public final class SFSDKDPoPRequestDecorator: NSObject {
+public final class DPoPRequestDecorator: NSObject {
 
     @objc public static let dpopHeaderName = "DPoP"
     @objc public static let dpopNonceHeaderName = "DPoP-Nonce"
@@ -39,7 +39,7 @@ public final class SFSDKDPoPRequestDecorator: NSObject {
     /// are isolated per-account, even before an `SFUserAccount` exists.
     @objc(decorateRequest:scope:error:)
     public static func decorate(_ request: NSMutableURLRequest, scope: String) throws {
-        guard SalesforceSDKManager.shared().useDPoP else { return }
+        guard SalesforceManager.shared.usesDPoP else { return }
         guard !scope.isEmpty else {
             SFSDKCoreLogger.i(self, message: "DPoP decorator skipped: empty scope identifier")
             return
@@ -47,9 +47,9 @@ public final class SFSDKDPoPRequestDecorator: NSObject {
         guard let url = request.url else { return }
         let method = request.httpMethod
 
-        let keyPair = try SFSDKDPoPKeyStore.shared.keyPair(forScope: scope)
-        let nonce = SFSDKDPoPNonceCache.shared.nonce(htu: url, scope: scope)
-        let proof = try SFSDKDPoPProofBuilder.buildProof(httpMethod: method,
+        let keyPair = try DPoPKeyStore.shared.keyPair(forScope: scope)
+        let nonce = DPoPNonceCache.shared.nonce(htu: url, scope: scope)
+        let proof = try DPoPProofBuilder.buildProof(httpMethod: method,
                                                          htu: url,
                                                          nonce: nonce,
                                                          keyPair: keyPair)
@@ -69,7 +69,7 @@ public final class SFSDKDPoPRequestDecorator: NSObject {
               !nonce.isEmpty else {
             return
         }
-        SFSDKDPoPNonceCache.shared.setNonce(nonce, htu: url, scope: scope)
+        DPoPNonceCache.shared.setNonce(nonce, htu: url, scope: scope)
     }
 
     /// Returns true if the response is a DPoP nonce challenge per RFC 9449 §8 — either a 401
