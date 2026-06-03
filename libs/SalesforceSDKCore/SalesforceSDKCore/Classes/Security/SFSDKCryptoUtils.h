@@ -203,6 +203,26 @@ extern NSUInteger const kSFPBKDFDefaultSaltByteLength;
  */
 + (nullable NSData*)decryptUsingECforData:(NSData * )data withKeyRef:(SecKeyRef)keyRef;
 
+/**
+ * Sign data with a P-256 private key and return a 64-byte fixed-length R||S signature
+ * suitable for the JWS ES256 alg per RFC 7515 §3.4. The underlying iOS API
+ * `SecKeyCreateSignature` returns ASN.1 DER; this method strips the DER envelope
+ * and pads R and S to 32 bytes each.
+ * @param data Data to sign.
+ * @param privateKeyRef P-256 private key handle.
+ * @return 64-byte R||S signature, or `nil` on failure.
+ */
++ (nullable NSData *)signDataES256:(NSData *)data withKeyRef:(SecKeyRef)privateKeyRef;
+
+/**
+ * Export a P-256 public key as a JWK dictionary per RFC 7518 §6.2.
+ * Keys returned: `kty=EC`, `crv=P-256`, `x` and `y` as base64url-encoded
+ * 32-byte big-endian coordinates.
+ * @param publicKeyRef P-256 public key handle.
+ * @return JWK dictionary, or `nil` on failure.
+ */
++ (nullable NSDictionary<NSString *, NSString *> *)jwkExportFromPublicKeyRef:(SecKeyRef)publicKeyRef;
+
 @end
 
 NS_ASSUME_NONNULL_END

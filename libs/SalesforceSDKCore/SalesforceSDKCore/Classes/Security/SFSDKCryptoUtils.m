@@ -25,6 +25,7 @@
 #import "SFSDKCryptoUtils.h"
 #import <CommonCrypto/CommonCrypto.h>
 #import "NSData+SFAdditions.h"
+#import "NSData+SFSDKUtils.h"
 #import <Security/Security.h>
 #import "TargetConditionals.h"
 #import <LocalAuthentication/LocalAuthentication.h>
@@ -317,11 +318,140 @@ static NSString * const kSFECPrivateKeyTagPrefix = @"com.salesforce.eckey.privat
         // Handle the error. . .
         [SFSDKCoreLogger e:[self class] format:@"Error decrypting data with EC key. Error code: %@", err.localizedDescription];
     }
-    
+
     return (__bridge_transfer NSData*) decryptedData;
 }
 
++ (nullable NSData *)signDataES256:(NSData *)data withKeyRef:(SecKeyRef)privateKeyRef
+{
+    if (data == nil || privateKeyRef == NULL) {
+        return nil;
+    }
+    CFErrorRef error = NULL;
+    CFDataRef derSignature = SecKeyCreateSignature(privateKeyRef,
+                                                   kSecKeyAlgorithmECDSASignatureMessageX962SHA256,
+                                                   (__bridge CFDataRef)data,
+                                                   &error);
+    if (derSignature == NULL) {
+        NSError *err = CFBridgingRelease(error);
+        [SFSDKCoreLogger e:[self class] format:@"ES256 signing failed: %@", err.localizedDescription];
+        return nil;
+    }
+    NSData *der = (__bridge_transfer NSData *)derSignature;
+    return [self jwsRawSignatureFromDER:der componentLength:32];
+}
+
++ (nullable NSDictionary<NSString *, NSString *> *)jwkExportFromPublicKeyRef:(SecKeyRef)publicKeyRef
+{
+    if (publicKeyRef == NULL) {
+        return nil;
+    }
+    CFErrorRef error = NULL;
+    CFDataRef external = SecKeyCopyExternalRepresentation(publicKeyRef, &error);
+    if (external == NULL) {
+        NSError *err = CFBridgingRelease(error);
+        [SFSDKCoreLogger e:[self class] format:@"JWK export failed: %@", err.localizedDescription];
+        return nil;
+    }
+    NSData *raw = (__bridge_transfer NSData *)external;
+    // Uncompressed P-256: 0x04 || X(32) || Y(32) = 65 bytes.
+    if (raw.length != 65) {
+        return nil;
+    }
+    const uint8_t *bytes = raw.bytes;
+    if (bytes[0] != 0x04) {
+        return nil;
+    }
+    NSData *x = [raw subdataWithRange:NSMakeRange(1, 32)];
+    NSData *y = [raw subdataWithRange:NSMakeRange(33, 32)];
+    return @{ @"kty": @"EC",
+              @"crv": @"P-256",
+              @"x": [x sfsdk_base64UrlString],
+              @"y": [y sfsdk_base64UrlString] };
+}
+
 #pragma mark - Private methods
+
+// Convert ASN.1 DER ECDSA signature (SEQUENCE of two INTEGERs) into the
+// fixed-length R||S concatenation that JWS ES256 (RFC 7515 §3.4) expects.
+// componentLength is 32 for P-256.
++ (nullable NSData *)jwsRawSignatureFromDER:(NSData *)der componentLength:(NSUInteger)componentLength
+{
+    const uint8_t *p = der.bytes;
+    NSUInteger len = der.length;
+    if (len < 8 || p[0] != 0x30) {
+        return nil;
+    }
+    NSUInteger idx = 1;
+    NSUInteger seqLen;
+    if ((p[idx] & 0x80) == 0) {
+        seqLen = p[idx];
+        idx += 1;
+    } else {
+        NSUInteger lenBytes = p[idx] & 0x7F;
+        idx += 1;
+        if (lenBytes == 0 || lenBytes > 2 || idx + lenBytes > len) {
+            return nil;
+        }
+        seqLen = 0;
+        for (NSUInteger i = 0; i < lenBytes; i++) {
+            seqLen = (seqLen << 8) | p[idx + i];
+        }
+        idx += lenBytes;
+    }
+    if (idx + seqLen > len) {
+        return nil;
+    }
+    NSData *r = [self readASN1IntegerAt:p length:len cursor:&idx];
+    if (r == nil) return nil;
+    NSData *s = [self readASN1IntegerAt:p length:len cursor:&idx];
+    if (s == nil) return nil;
+    if (r.length > componentLength || s.length > componentLength) {
+        return nil;
+    }
+    NSMutableData *raw = [NSMutableData dataWithLength:componentLength * 2];
+    uint8_t *out = raw.mutableBytes;
+    memcpy(out + (componentLength - r.length), r.bytes, r.length);
+    memcpy(out + componentLength + (componentLength - s.length), s.bytes, s.length);
+    return raw;
+}
+
+// Reads one ASN.1 INTEGER, advancing *cursor. Strips leading 0x00 sign byte.
++ (nullable NSData *)readASN1IntegerAt:(const uint8_t *)buf length:(NSUInteger)len cursor:(NSUInteger *)cursor
+{
+    NSUInteger idx = *cursor;
+    if (idx + 2 > len || buf[idx] != 0x02) {
+        return nil;
+    }
+    idx += 1;
+    NSUInteger intLen;
+    if ((buf[idx] & 0x80) == 0) {
+        intLen = buf[idx];
+        idx += 1;
+    } else {
+        NSUInteger lenBytes = buf[idx] & 0x7F;
+        idx += 1;
+        if (lenBytes == 0 || lenBytes > 2 || idx + lenBytes > len) {
+            return nil;
+        }
+        intLen = 0;
+        for (NSUInteger i = 0; i < lenBytes; i++) {
+            intLen = (intLen << 8) | buf[idx + i];
+        }
+        idx += lenBytes;
+    }
+    if (idx + intLen > len || intLen == 0) {
+        return nil;
+    }
+    NSUInteger start = idx;
+    if (buf[start] == 0x00 && intLen > 1) {
+        start += 1;
+        intLen -= 1;
+    }
+    NSData *value = [NSData dataWithBytes:buf + start length:intLen];
+    *cursor = idx + (start - idx) + intLen;
+    return value;
+}
 
 + (BOOL)executeCrypt:(NSData *)inData cryptor:(CCCryptorRef)cryptor resultData:(NSData **)resultData
 {

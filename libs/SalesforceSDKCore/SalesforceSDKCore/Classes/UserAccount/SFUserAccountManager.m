@@ -438,7 +438,8 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     request.refreshToken = credentials.refreshToken;
     request.redirectURI = credentials.redirectUri;
     request.serverURL = [credentials overrideDomainIfNeeded];
-    
+    request.credentialsIdentifier = credentials.identifier;
+
     __weak typeof(self) weakSelf = self;
     id<SFSDKOAuthProtocol> authClient = self.authClient();
     [authClient accessTokenForRefresh:request completion:^(SFSDKOAuthTokenEndpointResponse * response) {
@@ -735,6 +736,10 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
                                                        userInfo:userInfo];
 
     [self deleteAccountForUser:user error:nil];
+    if (user.credentials.identifier.length > 0) {
+        [SFSDKDPoPKeyStore.shared deleteForCredentials:user.credentials];
+        [SFSDKDPoPNonceCache.shared clearForScope:user.credentials.identifier];
+    }
     id<SFSDKOAuthProtocol> authClient = self.authClient();
     [authClient revokeRefreshToken:user.credentials reason:reason];
     BOOL isCurrentUser = [user isEqual:self.currentUser];

@@ -34,6 +34,7 @@
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 #import <SalesforceSDKCommon/SFJsonUtils.h>
 #import "NSData+SFAdditions.h"
+#import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 
 NSString * const  kSFOAuthErrorDomain  = @"com.salesforce.OAuth.ErrorDomain";
 const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
@@ -234,12 +235,12 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
     [params appendFormat:@"&%@=%@&%@=%@", kSFOAuthGrantType, grantType, kSFOAuthApprovalCode, endpointReq.approvalCode];
     NSData *encodedBody = [params dataUsingEncoding:NSUTF8StringEncoding];
     [request setHTTPBody:encodedBody];
-    
-    __block NSString *networkIdentifier = [SFNetwork uniqueInstanceIdentifier];
-    SFNetwork *network = [SFNetwork sharedEphemeralInstanceWithIdentifier:networkIdentifier];
+
     __weak typeof(self) weakSelf = self;
-    [network sendRequest:request dataResponseBlock:^(NSData * data, NSURLResponse *urlResponse, NSError *error) {
-        [SFNetwork removeSharedInstanceForIdentifier:networkIdentifier];
+    [self sendTokenEndpointRequest:request
+                forEndpointRequest:endpointReq
+             retryOnNonceChallenge:YES
+                 dataResponseBlock:^(NSData *data, NSURLResponse *urlResponse, NSError *error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         SFSDKOAuthTokenEndpointResponse *endpointResponse = nil;
         if (error) {
@@ -289,15 +290,15 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
     }
     NSData *encodedBody = [params dataUsingEncoding:NSUTF8StringEncoding];
     [request setHTTPBody:encodedBody];
-    __block NSString *instanceIdentifier = [SFNetwork uniqueInstanceIdentifier];
-    SFNetwork *network = [SFNetwork sharedEphemeralInstanceWithIdentifier:instanceIdentifier];
 
     __weak typeof(self) weakSelf = self;
     NSString *className = NSStringFromClass([self class]);
-    [network sendRequest:request dataResponseBlock:^(NSData *data, NSURLResponse *urlResponse, NSError *error) {
+    [self sendTokenEndpointRequest:request
+                forEndpointRequest:endpointReq
+             retryOnNonceChallenge:YES
+                 dataResponseBlock:^(NSData *data, NSURLResponse *urlResponse, NSError *error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         SFSDKOAuthTokenEndpointResponse *endpointResponse = nil;
-        [SFNetwork removeSharedInstanceForIdentifier:instanceIdentifier];
         if (error) {
             NSURL *requestUrl = [request URL];
             NSString *errorUrlString = [NSString stringWithFormat:@"%@://%@%@", [requestUrl scheme], [requestUrl host], [requestUrl relativePath]];
@@ -360,7 +361,54 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
     [request setHTTPMethod:kHttpMethodPost];
     [request setValue:kHttpPostContentType forHTTPHeaderField:kHttpHeaderContentType];
     [request setHTTPShouldHandleCookies:NO];
+    [self attachDPoPHeaderIfNeeded:request scope:endpointReq.credentialsIdentifier];
     return request;
+}
+
+- (void)attachDPoPHeaderIfNeeded:(NSMutableURLRequest *)request scope:(NSString *)scope {
+    if (scope.length == 0) return;
+    NSError *err = nil;
+    [SFSDKDPoPRequestDecorator decorateRequest:request scope:scope error:&err];
+    if (err) {
+        [SFSDKCoreLogger e:[self class] format:@"DPoP attach failed (code=%ld); proceeding without DPoP header.", (long)err.code];
+    }
+}
+
+// Sends a token-endpoint request, harvesting DPoP-Nonce headers from the response and
+// retrying exactly once if the server returns a use_dpop_nonce / 401-with-DPoP-Nonce
+// challenge (RFC 9449 §8). When DPoP is disabled this is a thin pass-through.
+- (void)sendTokenEndpointRequest:(NSMutableURLRequest *)request
+              forEndpointRequest:(SFSDKOAuthTokenEndpointRequest *)endpointReq
+           retryOnNonceChallenge:(BOOL)retryOnNonceChallenge
+               dataResponseBlock:(void (^)(NSData *, NSURLResponse *, NSError *))block {
+    __block NSString *networkIdentifier = [SFNetwork uniqueInstanceIdentifier];
+    SFNetwork *network = [SFNetwork sharedEphemeralInstanceWithIdentifier:networkIdentifier];
+    __weak typeof(self) weakSelf = self;
+    [network sendRequest:request dataResponseBlock:^(NSData *data, NSURLResponse *urlResponse, NSError *error) {
+        [SFNetwork removeSharedInstanceForIdentifier:networkIdentifier];
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (error == nil && endpointReq.credentialsIdentifier.length > 0) {
+            [SFSDKDPoPRequestDecorator harvestNonceFromResponse:urlResponse
+                                                     requestURL:request.URL
+                                                          scope:endpointReq.credentialsIdentifier];
+            NSInteger statusCode = 0;
+            if ([urlResponse isKindOfClass:[NSHTTPURLResponse class]]) {
+                statusCode = ((NSHTTPURLResponse *)urlResponse).statusCode;
+            }
+            if (retryOnNonceChallenge &&
+                [SFSDKDPoPRequestDecorator isNonceChallengeWithStatusCode:statusCode body:data response:urlResponse]) {
+                [SFSDKCoreLogger i:[strongSelf class] format:@"DPoP nonce challenge received; retrying token-endpoint request once."];
+                [request setValue:nil forHTTPHeaderField:@"DPoP"];
+                [strongSelf attachDPoPHeaderIfNeeded:request scope:endpointReq.credentialsIdentifier];
+                [strongSelf sendTokenEndpointRequest:request
+                                  forEndpointRequest:endpointReq
+                               retryOnNonceChallenge:NO
+                                   dataResponseBlock:block];
+                return;
+            }
+        }
+        block(data, urlResponse, error);
+    }];
 }
 
 - (void)handleTokenEndpointResponse:(void (^)(SFSDKOAuthTokenEndpointResponse *))completionBlock request:(SFSDKOAuthTokenEndpointRequest *)endpointReq data:(NSData *)data urlResponse:(NSURLResponse *)response {
