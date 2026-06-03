@@ -196,20 +196,22 @@ SFNativeLoginManagerInternal *nativeLogin;
 
 + (void)initializeSDK {
     [self initializeSDKWithClass:InstanceClass];
+}
+
++ (void)initializeSDKWithClass:(Class)className {
+    [self setInstanceClass:className];
+
 #ifdef DEBUG
     // For debug app builds only, use test instant log in if applicable.
     NSArray<NSString *> *arguments = [[NSProcessInfo processInfo] arguments];
     if ([arguments containsObject:@"-creds"]) {
         NSString *creds = arguments[[arguments indexOfObject:@"-creds"] + 1];
-        
+
         [TestSetupUtils populateAuthCredentialsFromString:creds initializeSdk:NO];
         [TestSetupUtils synchronousAuthRefreshWithUserDidLoginNotification:YES];
     }
 #endif
-}
 
-+ (void)initializeSDKWithClass:(Class)className {
-    [self setInstanceClass:className];
     [SalesforceSDKManager sharedManager];
 }
 
