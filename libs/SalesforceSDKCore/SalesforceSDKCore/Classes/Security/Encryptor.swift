@@ -36,6 +36,9 @@ public class Encryptor: NSObject {
         case encryptionFailed(underlyingError: Error?)
         case decryptionFailed(underlyingError: Error?)
         case noEncryptionKey
+        case signingFailed(underlyingError: Error?)
+        case publicKeyExportFailed(underlyingError: Error?)
+        case unsupportedPublicKeyFormat
     }
 
     // MARK: Symmetric Encrypt/Decrypt
@@ -137,6 +140,50 @@ public class Encryptor: NSObject {
         }
         return decryptedData as Data
     }
+
+    // MARK: ES256 / JWK (P-256)
+
+    /// Signs `data` with a P-256 private key using JWS `ES256`. Returns a 64-byte raw `R‖S`
+    /// signature suitable for the JWS compact signature segment per RFC 7515 §3.4. The
+    /// underlying `SecKeyCreateSignature` returns ASN.1 DER; this method strips the DER
+    /// envelope and pads `R` and `S` to 32 bytes each.
+    public static func signES256(_ data: Data, with privateKey: SecKey) throws -> Data {
+        var error: Unmanaged<CFError>?
+        guard let der = SecKeyCreateSignature(privateKey,
+                                              .ecdsaSignatureMessageX962SHA256,
+                                              data as CFData,
+                                              &error) else {
+            throw EncryptorError.signingFailed(underlyingError: error?.takeRetainedValue())
+        }
+        do {
+            let signature = try P256.Signing.ECDSASignature(derRepresentation: der as Data)
+            return signature.rawRepresentation
+        } catch {
+            throw EncryptorError.signingFailed(underlyingError: error)
+        }
+    }
+
+    /// Exports a P-256 public key as a JWK dictionary per RFC 7517 / RFC 7518 §6.2:
+    /// `{kty: "EC", crv: "P-256", x: <base64url>, y: <base64url>}`. `x` and `y` are the
+    /// 32-byte big-endian affine coordinates from the uncompressed point representation.
+    public static func jwkP256(from publicKey: SecKey) throws -> [String: String] {
+        var error: Unmanaged<CFError>?
+        guard let raw = SecKeyCopyExternalRepresentation(publicKey, &error) as Data? else {
+            throw EncryptorError.publicKeyExportFailed(underlyingError: error?.takeRetainedValue())
+        }
+        // Uncompressed P-256: 0x04 || X(32) || Y(32) = 65 bytes.
+        guard raw.count == 65, raw[0] == 0x04 else {
+            throw EncryptorError.unsupportedPublicKeyFormat
+        }
+        let x = raw.subdata(in: 1..<33)
+        let y = raw.subdata(in: 33..<65)
+        return [
+            "kty": "EC",
+            "crv": "P-256",
+            "x": (x as NSData).sfsdk_base64UrlString(),
+            "y": (y as NSData).sfsdk_base64UrlString()
+        ]
+    }
 }
 
 @objc(SFSDKKeyGenerator)
@@ -156,9 +203,9 @@ public class KeyGenerator: NSObject {
         case invalidQueryResult
     }
     
-    struct KeyPair {
-        let publicKey: SecKey
-        let privateKey: SecKey
+    public struct KeyPair {
+        public let publicKey: SecKey
+        public let privateKey: SecKey
     }
     
     /// Returns an encryption key for the given label. If the key doesn't already exist, it
@@ -220,7 +267,10 @@ public class KeyGenerator: NSObject {
         }
     }
     
-    static func ecKeyPair(name: String) throws -> KeyPair {
+    /// Returns a P-256 EC keypair stored in the keychain under `name`. If a keypair already
+    /// exists for the given name it is returned; otherwise a new one is generated (using
+    /// the Secure Enclave when available). The keypair is `kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly`.
+    public static func ecKeyPair(name: String) throws -> KeyPair {
         let privateTag = try keyTag(name: name, prefix: ecPrivateKeyTagPrefix)
         let publicTag = try keyTag(name: name, prefix: ecPublicKeyTagPrefix)
 
@@ -228,9 +278,19 @@ public class KeyGenerator: NSObject {
            let publicKey = try? ecKey(tag: publicTag) {
             return KeyPair(publicKey: publicKey, privateKey: privateKey)
         }
-    
+
         removeECKeyPair(privateTag: privateTag, publicTag: publicTag)
         return try createECKeyPair(privateTag: privateTag, publicTag: publicTag)
+    }
+
+    /// Removes the EC keypair stored under `name`. Idempotent — returns `true` even if no
+    /// keypair existed. Returns `false` only when a keychain delete fails for a reason
+    /// other than `errSecItemNotFound`.
+    @discardableResult
+    public static func removeECKeyPair(name: String) throws -> Bool {
+        let privateTag = try keyTag(name: name, prefix: ecPrivateKeyTagPrefix)
+        let publicTag = try keyTag(name: name, prefix: ecPublicKeyTagPrefix)
+        return removeECKeyPair(privateTag: privateTag, publicTag: publicTag)
     }
     
     static func keyTag(name: String, prefix: String) throws -> Data {
