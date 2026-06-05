@@ -101,6 +101,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSURL *serverURL;
 @property (nonatomic, strong, nullable) NSDictionary * additionalTokenRefreshParams;
 @property (nonatomic, strong, nullable) NSArray<NSString *> *additionalOAuthParameterKeys;
+/// `SFOAuthCredentials.identifier` for the in-flight account. Used by the DPoP layer to
+/// scope the per-account keypair and nonce cache. Optional; when nil, DPoP is skipped.
+@property (nonatomic, copy, nullable) NSString *credentialsIdentifier;
 @end
 
 @interface SFSDKOAuthTokenEndpointResponse : NSObject

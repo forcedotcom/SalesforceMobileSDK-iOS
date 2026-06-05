@@ -518,8 +518,39 @@
     [request setHTTPBody:body];
     [request setHTTPMethod:kHttpMethodPost];
     [request setValue:kHttpPostContentType forHTTPHeaderField:kHttpHeaderContentType];
-    
-    [[self.session dataTaskWithRequest:request completionHandler:completionHandler] resume];
+    [self attachDPoPHeaderIfNeeded:request];
+
+    __weak typeof(self) weakSelf = self;
+    [[self.session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (error == nil && strongSelf.credentials.identifier.length > 0) {
+            [SFSDKDPoPRequestDecorator harvestNonceFromResponse:response
+                                                     requestURL:request.URL
+                                                          scope:strongSelf.credentials.identifier];
+            NSInteger statusCode = 0;
+            if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+                statusCode = ((NSHTTPURLResponse *)response).statusCode;
+            }
+            if ([SFSDKDPoPRequestDecorator isNonceChallengeWithStatusCode:statusCode body:data response:response]) {
+                [SFSDKCoreLogger i:[strongSelf class] format:@"DPoP nonce challenge received on JWT swap; retrying once."];
+                [request setValue:nil forHTTPHeaderField:@"DPoP"];
+                [strongSelf attachDPoPHeaderIfNeeded:request];
+                [[strongSelf.session dataTaskWithRequest:request completionHandler:completionHandler] resume];
+                return;
+            }
+        }
+        completionHandler(data, response, error);
+    }] resume];
+}
+
+- (void)attachDPoPHeaderIfNeeded:(NSMutableURLRequest *)request {
+    NSString *scope = self.credentials.identifier;
+    if (scope.length == 0) return;
+    NSError *err = nil;
+    [SFSDKDPoPRequestDecorator decorateRequest:request scope:scope error:&err];
+    if (err) {
+        [SFSDKCoreLogger e:[self class] format:@"DPoP attach failed on JWT swap (code=%ld); proceeding without DPoP header.", (long)err.code];
+    }
 }
 
 // Refresh token migration
@@ -620,7 +651,8 @@
     request.refreshToken = self.credentials.refreshToken;
     request.redirectURI = self.credentials.redirectUri;
     request.serverURL = [self.credentials overrideDomainIfNeeded];
-    
+    request.credentialsIdentifier = self.credentials.identifier;
+
     __weak typeof (self) weakSelf = self;
     if (self.approvalCode) {
         [SFSDKCoreLogger i:[self class] format:@"%@: Initiating authorization code flow.", NSStringFromSelector(_cmd)];
