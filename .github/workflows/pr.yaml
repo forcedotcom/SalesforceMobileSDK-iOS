@@ -4,7 +4,9 @@ on:
   # pull_request_target is used so secrets are available to fork PRs.
   # Mitigated by per-job Member Check (see "Check Write Permission" / "Validate Write Permission").
   pull_request_target:  # zizmor: ignore[dangerous-triggers]
-    branches: [dev, master]
+    # feature/dpopBehavior is a temporary entry: PRs in the multi-PR DPoP
+    # rollout target this branch. Remove once DPoP is merged back to dev.
+    branches: [dev, master, feature/dpopBehavior]
 
 permissions:
   contents: read
