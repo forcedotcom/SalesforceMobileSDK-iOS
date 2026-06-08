@@ -93,7 +93,7 @@ public final class DPoPKeyStore: NSObject {
         let name = Self.keyName(for: scope)
         queue.sync(flags: .barrier) {
             do {
-                _ = try KeyGenerator.removeECKeyPair(name: name)
+                try KeyGenerator.removeECKeyPair(name: name)
             } catch {
                 SFSDKCoreLogger.e(Self.self, message: "DPoP keypair deletion failed: \(error.localizedDescription)")
             }

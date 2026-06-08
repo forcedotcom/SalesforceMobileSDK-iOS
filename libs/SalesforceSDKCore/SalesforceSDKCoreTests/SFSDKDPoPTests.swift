@@ -168,6 +168,74 @@ class SFSDKDPoPTests: XCTestCase {
         XCTAssertFalse(ok, "Fresh keypair should not verify signatures from rotated-out key.")
     }
 
+    func test_givenSameScope_whenKeyPairRequestedConcurrently_thenAllReturnTheSameKey() throws {
+        let iterations = 50
+        var pairs: [DPoPKeyPair?] = Array(repeating: nil, count: iterations)
+        let lock = NSLock()
+
+        DispatchQueue.concurrentPerform(iterations: iterations) { i in
+            if let pair = try? DPoPKeyStore.shared.keyPair(forScope: testScope) {
+                lock.lock()
+                pairs[i] = pair
+                lock.unlock()
+            }
+        }
+
+        let resolved = pairs.compactMap { $0 }
+        XCTAssertEqual(resolved.count, iterations, "every concurrent caller should get a keypair")
+
+        // All concurrent callers must resolve to the same underlying keychain entry.
+        // Verify by signing with one and validating with every other.
+        let payload = "concurrent".data(using: .utf8)!
+        let sig = try Encryptor.signES256(payload, with: resolved[0].privateKey)
+        let der = try derEncodeRawECSignature(sig)
+        for pair in resolved {
+            var error: Unmanaged<CFError>?
+            let ok = SecKeyVerifySignature(pair.publicKey,
+                                           .ecdsaSignatureMessageX962SHA256,
+                                           payload as CFData,
+                                           der as CFData,
+                                           &error)
+            XCTAssertTrue(ok, "all concurrent callers should yield the same keypair (no double-create)")
+        }
+    }
+
+    func test_givenDifferentScopes_whenKeyPairRequestedConcurrently_thenEachScopeGetsItsOwnKey() throws {
+        let iterations = 20
+        let scopes = (0..<iterations).map { "concurrent-scope-\(UUID().uuidString)-\($0)" }
+        defer { scopes.forEach { DPoPKeyStore.shared.delete(forScope: $0) } }
+
+        var publicKeys: [SecKey?] = Array(repeating: nil, count: iterations)
+        let lock = NSLock()
+
+        DispatchQueue.concurrentPerform(iterations: iterations) { i in
+            if let pair = try? DPoPKeyStore.shared.keyPair(forScope: scopes[i]) {
+                lock.lock()
+                publicKeys[i] = pair.publicKey
+                lock.unlock()
+            }
+        }
+
+        let resolved = publicKeys.compactMap { $0 }
+        XCTAssertEqual(resolved.count, iterations)
+
+        // Each per-scope public key should be distinct: a signature from one scope's key
+        // must not verify against another scope's public key.
+        let payload = "scope-isolation".data(using: .utf8)!
+        let firstScopePair = try DPoPKeyStore.shared.keyPair(forScope: scopes[0])
+        let sig = try Encryptor.signES256(payload, with: firstScopePair.privateKey)
+        let der = try derEncodeRawECSignature(sig)
+        for (i, key) in resolved.enumerated() where i != 0 {
+            var error: Unmanaged<CFError>?
+            let ok = SecKeyVerifySignature(key,
+                                           .ecdsaSignatureMessageX962SHA256,
+                                           payload as CFData,
+                                           der as CFData,
+                                           &error)
+            XCTAssertFalse(ok, "scope \(i)'s key should not verify scope 0's signature")
+        }
+    }
+
     // MARK: - Nonce cache
 
     func test_givenScopedNonce_whenSameUrlSameScope_thenReturnsCachedValue() {
@@ -193,6 +261,34 @@ class SFSDKDPoPTests: XCTestCase {
         XCTAssertNil(DPoPNonceCache.shared.nonce(htu: tokenURL, scope: testScope))
         XCTAssertEqual(DPoPNonceCache.shared.nonce(htu: tokenURL, scope: "other-scope"), "nB")
         DPoPNonceCache.shared.clear(forScope: "other-scope")
+    }
+
+    func test_givenConcurrentReadsAndWrites_whenNonceCacheAccessed_thenStateRemainsConsistent() {
+        let iterations = 200
+        let urls = (0..<10).map { URL(string: "https://login.salesforce.com/services/oauth2/token?path=\($0)")! }
+        let scopes = (0..<5).map { "concurrent-nonce-scope-\($0)" }
+        defer { scopes.forEach { DPoPNonceCache.shared.clear(forScope: $0) } }
+
+        DispatchQueue.concurrentPerform(iterations: iterations) { i in
+            let url = urls[i % urls.count]
+            let scope = scopes[i % scopes.count]
+            switch i % 3 {
+            case 0:
+                DPoPNonceCache.shared.setNonce("nonce-\(i)", htu: url, scope: scope)
+            case 1:
+                _ = DPoPNonceCache.shared.nonce(htu: url, scope: scope)
+            default:
+                DPoPNonceCache.shared.clear(forScope: scope)
+            }
+        }
+
+        // After the storm, write a known value and verify it round-trips. The point of
+        // this test is to surface data races / crashes under TSan; the final assertion
+        // is just a liveness check.
+        let url = urls[0]
+        let scope = scopes[0]
+        DPoPNonceCache.shared.setNonce("final", htu: url, scope: scope)
+        XCTAssertEqual(DPoPNonceCache.shared.nonce(htu: url, scope: scope), "final")
     }
 
     // MARK: - Decorator gating + nonce challenge detection
