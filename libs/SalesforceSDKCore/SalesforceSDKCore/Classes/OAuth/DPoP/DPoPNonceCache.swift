@@ -30,18 +30,40 @@ import Foundation
 /// `scope` is typically `SFOAuthCredentials.identifier`. Fed by:
 ///  - reactive 400 / 401 challenges (RFC 9449 §8)
 ///  - proactive `DPoP-Nonce` response headers on 200 OK (Salesforce backend rotation).
+///
+/// Read semantics (`nonce(htu:scope:)`) are intentionally non-destructive: the cache
+/// returns the most recently observed nonce for a given `(htu, scope)` and does NOT
+/// invalidate it on read. Rationale:
+///  - The Salesforce backend rotates the nonce on every response, so a successful
+///    request's response brings the next nonce via `harvestNonce(...)` — staleness
+///    is bounded to "exactly one outbound request" in the steady state.
+///  - The server is the authority on freshness: a stale nonce produces a
+///    `use_dpop_nonce` challenge that the caller already retries once.
+///  - Read-and-remove would force concurrent callers to race for a single nonce,
+///    causing all-but-one to fall back to the unauthenticated path and incur an
+///    extra round-trip per concurrent call.
+///
+/// This PR uses the cache only at the token endpoint, where requests are serial,
+/// so the read-doesn't-remove choice has no observable effect today. The model
+/// will be revisited when DPoP is extended to API calls in a later phase: with
+/// concurrent REST calls, the right policy might be "one-use-per-write" or
+/// "serialize on rotation."
 @objc(SFSDKDPoPNonceCache)
 public final class DPoPNonceCache: NSObject {
 
     @objc public static let shared = DPoPNonceCache()
 
     private let queue = DispatchQueue(label: "com.salesforce.dpop.nonceCache", attributes: .concurrent)
-    
+
     // Nonces are ephemeral by spec.
     private var storage: [String: String] = [:]
 
     private override init() { super.init() }
 
+    /// Returns the most recently observed nonce for `(htu, scope)`, or `nil` if none.
+    /// Non-destructive — see class doc comment for rationale.
+    // TODO: Revisit read semantics when DPoP extends to API calls. Concurrent REST callers may
+    // need one-use-per-write or serialize-on-rotation to avoid all-but-one hitting use_dpop_nonce.
     @objc(nonceForHtu:scope:)
     public func nonce(htu: URL, scope: String?) -> String? {
         let key = Self.cacheKey(htu: htu, scope: scope)

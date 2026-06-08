@@ -59,6 +59,17 @@ public final class DPoPRequestDecorator: NSObject {
     /// Reads `DPoP-Nonce` from a response and stores it in the cache for the next outbound
     /// request to the same `htu`. Per backend design doc, harvest from both 200 OK responses
     /// (proactive rotation) and 400/401 challenges (reactive).
+    ///
+    /// Concurrency note: the token endpoint is called serially, so this PR's caller pattern
+    /// is "request → harvest → next request" with no overlap. When DPoP is extended to REST
+    /// API calls in a later phase, in-flight concurrent calls will all carry the same nonce
+    /// and only one will rotate it cleanly; the others will see a `use_dpop_nonce` challenge
+    /// and retry. At that point, this site needs to decide between accepting the extra
+    /// round-trip, serializing requests through a per-`htu` lock, or pre-fetching a nonce.
+    /// Out of scope for the token-endpoint PR.
+    // TODO: Handle concurrent REST callers when DPoP extends to API calls. Today's serial
+    // token-endpoint caller pattern means harvest-then-next-request never overlaps; with
+    // concurrent REST, decide between extra-round-trip, per-htu serialization, or pre-fetch.
     @objc(harvestNonceFromResponse:requestURL:scope:)
     public static func harvestNonce(from response: URLResponse?,
                                     requestURL: URL?,
