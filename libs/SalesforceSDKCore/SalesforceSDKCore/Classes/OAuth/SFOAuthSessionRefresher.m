@@ -83,6 +83,7 @@
     request.refreshToken = self.credentials.refreshToken;
     request.redirectURI = self.credentials.redirectUri;
     request.serverURL = [self.credentials overrideDomainIfNeeded];
+    request.credentialsIdentifier = self.credentials.identifier;
     __weak typeof(self) weakSelf = self;
     id<SFSDKOAuthProtocol> authClient = [SFUserAccountManager sharedInstance].authClient();
     [authClient accessTokenForRefresh:request completion:^(SFSDKOAuthTokenEndpointResponse * response) {
