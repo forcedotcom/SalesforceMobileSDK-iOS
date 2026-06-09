@@ -398,7 +398,7 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
             if (retryOnNonceChallenge &&
                 [SFSDKDPoPRequestDecorator isNonceChallengeWithStatusCode:statusCode body:data response:urlResponse]) {
                 [SFSDKCoreLogger i:[strongSelf class] format:@"DPoP nonce challenge received; retrying token-endpoint request once."];
-                [request setValue:nil forHTTPHeaderField:@"DPoP"];
+                [request setValue:nil forHTTPHeaderField:kHttpHeaderDPoP];
                 [strongSelf attachDPoPHeaderIfNeeded:request scope:endpointReq.credentialsIdentifier];
                 [strongSelf sendTokenEndpointRequest:request
                                   forEndpointRequest:endpointReq

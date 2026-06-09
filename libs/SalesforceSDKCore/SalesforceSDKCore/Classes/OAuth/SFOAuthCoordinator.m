@@ -533,7 +533,7 @@
             }
             if ([SFSDKDPoPRequestDecorator isNonceChallengeWithStatusCode:statusCode body:data response:response]) {
                 [SFSDKCoreLogger i:[strongSelf class] format:@"DPoP nonce challenge received on JWT swap; retrying once."];
-                [request setValue:nil forHTTPHeaderField:@"DPoP"];
+                [request setValue:nil forHTTPHeaderField:kHttpHeaderDPoP];
                 [strongSelf attachDPoPHeaderIfNeeded:request];
                 [[strongSelf.session dataTaskWithRequest:request completionHandler:completionHandler] resume];
                 return;
