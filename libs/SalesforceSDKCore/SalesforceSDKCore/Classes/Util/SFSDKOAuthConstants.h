@@ -78,8 +78,8 @@ static NSString * const kSFOAuthCookieSidClient                 = @"cookie-sid_C
 static NSString * const kSFOAuthSidCookieName                   = @"sidCookieName";
 static NSString * const kSFOAuthParentSid                       = @"parent_sid";
 static NSString * const kSFOAuthTokenFormat                     = @"token_format";
-static NSString * const kSFOAuthBeaconChildConsumerKey          = @"beacon_child_consumer_key";
-static NSString * const kSFOAuthBeaconChildConsumerSecret       = @"beacon_child_consumer_secret";
+static NSString * const kSFOAuthBeaconChildConsumerKey          = @"auto_installed_app_org_consumer_key";
+static NSString * const kSFOAuthBeaconChildConsumerSecret       = @"auto_installed_app_org_consumer_secret";
 
 
 // Used for the IP bypass flow, Advanced auth flow

@@ -63,8 +63,8 @@
     [params setObject:@"test-sid-cookie-name" forKey:@"sidCookieName"];
     [params setObject:@"test-parent-sid" forKey:@"parent_sid"];
     [params setObject:@"test-token-format" forKey:@"token_format"];
-    [params setObject:@"test-beacon-child-consumer-key" forKey:@"beacon_child_consumer_key"];
-    [params setObject:@"test-beacon-child-consumer-secret" forKey:@"beacon_child_consumer_secret"];
+    [params setObject:@"test-beacon-child-consumer-key" forKey:@"auto_installed_app_org_consumer_key"];
+    [params setObject:@"test-beacon-child-consumer-secret" forKey:@"auto_installed_app_org_consumer_secret"];
 
     // Additional fields
     NSArray<NSString *>* additionalFields = @[ @"additional-1", @"additional-2" ];
