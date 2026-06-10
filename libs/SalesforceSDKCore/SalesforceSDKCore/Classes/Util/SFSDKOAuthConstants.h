@@ -80,6 +80,9 @@ static NSString * const kSFOAuthParentSid                       = @"parent_sid";
 static NSString * const kSFOAuthTokenFormat                     = @"token_format";
 static NSString * const kSFOAuthBeaconChildConsumerKey          = @"auto_installed_app_org_consumer_key";
 static NSString * const kSFOAuthBeaconChildConsumerSecret       = @"auto_installed_app_org_consumer_secret";
+// TODO: Remove legacy fallback constants once server version 264 has rolled out everywhere.
+static NSString * const kSFOAuthLegacyBeaconChildConsumerKey    = @"beacon_child_consumer_key";
+static NSString * const kSFOAuthLegacyBeaconChildConsumerSecret = @"beacon_child_consumer_secret";
 
 
 // Used for the IP bypass flow, Advanced auth flow
