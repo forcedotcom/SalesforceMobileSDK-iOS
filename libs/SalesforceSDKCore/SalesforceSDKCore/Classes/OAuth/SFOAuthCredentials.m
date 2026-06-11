@@ -469,11 +469,16 @@ NSException * SFOAuthInvalidIdentifierException(void) {
     if (params[kSFOAuthTokenFormat]) {
         self.tokenFormat = params[kSFOAuthTokenFormat];
     }
+    // TODO: Remove kSFOAuthLegacyBeaconChildConsumer* fallback once server version 264 has rolled out everywhere.
     if (params[kSFOAuthBeaconChildConsumerKey]) {
         self.beaconChildConsumerKey = params[kSFOAuthBeaconChildConsumerKey];
+    } else if (params[kSFOAuthLegacyBeaconChildConsumerKey]) {
+        self.beaconChildConsumerKey = params[kSFOAuthLegacyBeaconChildConsumerKey];
     }
     if (params[kSFOAuthBeaconChildConsumerSecret]) {
         self.beaconChildConsumerSecret = params[kSFOAuthBeaconChildConsumerSecret];
+    } else if (params[kSFOAuthLegacyBeaconChildConsumerSecret]) {
+        self.beaconChildConsumerSecret = params[kSFOAuthLegacyBeaconChildConsumerSecret];
     }
 }
 
