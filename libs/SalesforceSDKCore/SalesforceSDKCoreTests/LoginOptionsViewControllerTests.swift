@@ -79,6 +79,7 @@ class LoginOptionsViewControllerTests: XCTestCase {
         #endif
     }
     
+    // Flaky test stabilization - W-22954918
     func testBootConfigPickerViewRendered() {
         let expectation = XCTestExpectation(description: "View works with existing BootConfig")
         
