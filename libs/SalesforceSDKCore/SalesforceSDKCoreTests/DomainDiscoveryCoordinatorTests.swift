@@ -41,6 +41,7 @@ final class DomainDiscoveryCoordinatorTests: XCTestCase {
         XCTAssertNil(results)
     }
 
+    // Flaky test stabilization - W-22954921
     func testMissingLoginHint() async throws {
         // Given: callback URL with my_domain only (no login_hint). Build via URLComponents so parsing is deterministic on all platforms.
         let coordinator = DomainDiscoveryCoordinator()
