@@ -9,3 +9,12 @@
 #import "SFOAuthCoordinator+Internal.h"
 #import "SFUserAccountManager+Internal.h"
 #import "SFOAuthCredentials+Internal.h"
+#import "SFSDKOAuth2.h"
+
+@interface SFOAuthCoordinator (LightningURLTesting)
+- (void)handleResponse:(SFSDKOAuthTokenEndpointResponse *)response;
+@end
+
+@interface SFSDKOAuthTokenEndpointResponse (Testing)
+- (instancetype)initWithDictionary:(NSDictionary *)nvPairs parseAdditionalFields:(NSArray<NSString *> *)additionalOAuthParameterKeys;
+@end

@@ -121,6 +121,7 @@ static NSString * const kSFOAuthErrorTypeInactiveUser               = @"inactive
 static NSString * const kSFOAuthErrorTypeInactiveOrg                = @"inactive_org";
 static NSString * const kSFOAuthErrorTypeRateLimitExceeded          = @"rate_limit_exceeded";
 static NSString * const kSFOAuthErrorTypeUnsupportedResponseType    = @"unsupported_response_type";
+static NSString * const kSFOAuthErrorTypeUnsupportedGrantType       = @"unsupported_grant_type";
 static NSString * const kSFOAuthErrorTypeTimeout                    = @"auth_timeout";
 static NSString * const kSFOAuthErrorTypeWrongVersion               = @"wrong_version";     // credentials do not match current Connected App version in the org
 static NSString * const kSFOAuthErrorTypeBrowserLaunchFailed        = @"browser_launch_failed";
