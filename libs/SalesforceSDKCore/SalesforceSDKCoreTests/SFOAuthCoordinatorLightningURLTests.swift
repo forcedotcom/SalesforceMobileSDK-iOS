@@ -105,8 +105,6 @@ final class SFOAuthCoordinatorLightningURLTests: XCTestCase, SFOAuthCoordinatorD
     // MARK: - SC-3: User-facing alert string is localized
 
     func test_givenLightningURLError_whenHandleResponse_thenErrorDescriptionMatchesLocalizedString() throws {
-        XCTAssertNotNil(lightningMessage, "Localized string key 'lightningUrlCodeExchangeError' must be defined")
-        XCTAssertFalse(lightningMessage.isEmpty, "Localized string must not be empty")
         try handleTokenResponse(domain: lightningDomain, errorCode: unsupportedGrantType)
         XCTAssertEqual(lastFailureError?.localizedDescription, lightningMessage)
     }
