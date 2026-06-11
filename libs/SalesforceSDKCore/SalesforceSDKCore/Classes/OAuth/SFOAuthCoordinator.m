@@ -673,7 +673,7 @@
              BOOL isUnsupportedGrantType = [response.error.tokenEndpointErrorCode isEqualToString:kSFOAuthErrorTypeUnsupportedGrantType];
              BOOL isLightningURL = [self.credentials.domain containsString:@".lightning."];
              if (isUnsupportedGrantType && isLightningURL) {
-                 [SFSDKCoreLogger w:[self class] format:@"Code exchange failed with unsupported_grant_type against Lightning URL: %@. Lightning URLs do not support authorization_code grant type. Use a My Domain login server URL instead.", self.credentials.domain];
+                 [SFSDKCoreLogger e:[self class] format:@"Code exchange failed with unsupported_grant_type against Lightning URL: %@. Lightning URLs do not support authorization_code grant type. Use a My Domain login server URL instead.", self.credentials.domain];
                  NSString *localizedMessage = [SFSDKResourceUtils localizedString:@"lightningUrlCodeExchangeError"];
                  NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithDictionary:response.error.error.userInfo ?: @{}];
                  userInfo[NSLocalizedDescriptionKey] = localizedMessage;
