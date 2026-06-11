@@ -94,6 +94,44 @@ class SFSDKDPoPTests: XCTestCase {
         XCTAssertEqual(payload["htu"] as? String, "https://login.salesforce.com/services/oauth2/token")
     }
 
+    func test_givenAccessTokenProvided_whenBuildProof_thenPayloadIncludesAth() throws {
+        let pair = try DPoPKeyStore.shared.keyPair(forScope: testScope)
+        let accessToken = "00DXX0000000000!ARQAQGyAccessTokenLiteralValue"
+        let proof = try DPoPProofBuilder.buildProof(httpMethod: "GET",
+                                                    htu: URL(string: "https://example.salesforce.com/services/data/v60.0/sobjects/Account")!,
+                                                    nonce: nil,
+                                                    accessToken: accessToken,
+                                                    keyPair: pair)
+        let payload = try decodeBase64UrlJSON(String(proof.split(separator: ".")[1]))
+        let ath = try XCTUnwrap(payload["ath"] as? String)
+
+        // ath = base64url(SHA-256(access_token)) per RFC 9449 §4.2.
+        let expected = (((accessToken.data(using: .utf8)! as NSData)
+                            .sfsdk_sha256()!) as NSData).sfsdk_base64UrlString()
+        XCTAssertEqual(ath, expected)
+    }
+
+    func test_givenNoAccessToken_whenBuildProof_thenPayloadOmitsAth() throws {
+        let pair = try DPoPKeyStore.shared.keyPair(forScope: testScope)
+        let proof = try DPoPProofBuilder.buildProof(httpMethod: "POST",
+                                                    htu: tokenURL,
+                                                    nonce: nil,
+                                                    keyPair: pair)
+        let payload = try decodeBase64UrlJSON(String(proof.split(separator: ".")[1]))
+        XCTAssertNil(payload["ath"], "Token-endpoint proofs must not include ath (regression for W-22695307 callers)")
+    }
+
+    func test_givenEmptyAccessToken_whenBuildProof_thenPayloadOmitsAth() throws {
+        let pair = try DPoPKeyStore.shared.keyPair(forScope: testScope)
+        let proof = try DPoPProofBuilder.buildProof(httpMethod: "GET",
+                                                    htu: tokenURL,
+                                                    nonce: nil,
+                                                    accessToken: "",
+                                                    keyPair: pair)
+        let payload = try decodeBase64UrlJSON(String(proof.split(separator: ".")[1]))
+        XCTAssertNil(payload["ath"])
+    }
+
     func test_givenSamePair_whenBuildProofTwice_thenJtisDiffer() throws {
         let pair = try DPoPKeyStore.shared.keyPair(forScope: testScope)
         let p1 = try DPoPProofBuilder.buildProof(httpMethod: "POST", htu: tokenURL, nonce: nil, keyPair: pair)
@@ -340,6 +378,222 @@ class SFSDKDPoPTests: XCTestCase {
         XCTAssertEqual(DPoPNonceCache.shared.nonce(htu: tokenURL, scope: testScope), "harvested-nonce")
     }
 
+    // MARK: - applyAuthHeaders
+
+    func test_givenDPoPTokenType_whenApplyAuthHeaders_thenDPoPSchemeAndProofAttached() throws {
+        let prior = SalesforceManager.shared.usesDPoP
+        SalesforceManager.shared.usesDPoP = true
+        defer { SalesforceManager.shared.usesDPoP = prior }
+
+        let req = NSMutableURLRequest(url: URL(string: "https://example.salesforce.com/services/data/v60.0/sobjects/Account")!)
+        req.httpMethod = "GET"
+        let token = "00DXX0000000000!ARQAQGyAccessTokenLiteralValue"
+        try DPoPRequestDecorator.applyAuthHeaders(req,
+                                                  scope: testScope,
+                                                  accessToken: token,
+                                                  tokenType: "DPoP")
+        XCTAssertEqual(req.value(forHTTPHeaderField: "Authorization"), "DPoP \(token)")
+        let proof = try XCTUnwrap(req.value(forHTTPHeaderField: "DPoP"))
+        XCTAssertEqual(proof.split(separator: ".").count, 3)
+
+        let payload = try decodeBase64UrlJSON(String(proof.split(separator: ".")[1]))
+        let ath = try XCTUnwrap(payload["ath"] as? String)
+        let expected = (((token.data(using: .utf8)! as NSData)
+                            .sfsdk_sha256()!) as NSData).sfsdk_base64UrlString()
+        XCTAssertEqual(ath, expected)
+    }
+
+    func test_givenBearerTokenType_whenApplyAuthHeaders_thenBearerSchemeNoProof() throws {
+        let prior = SalesforceManager.shared.usesDPoP
+        SalesforceManager.shared.usesDPoP = true
+        defer { SalesforceManager.shared.usesDPoP = prior }
+
+        let req = NSMutableURLRequest(url: tokenURL)
+        req.httpMethod = "GET"
+        try DPoPRequestDecorator.applyAuthHeaders(req,
+                                                  scope: testScope,
+                                                  accessToken: "tok-abc",
+                                                  tokenType: "Bearer")
+        XCTAssertEqual(req.value(forHTTPHeaderField: "Authorization"), "Bearer tok-abc")
+        XCTAssertNil(req.value(forHTTPHeaderField: "DPoP"))
+    }
+
+    func test_givenNilTokenType_whenApplyAuthHeaders_thenBearerSchemeNoProof() throws {
+        let req = NSMutableURLRequest(url: tokenURL)
+        req.httpMethod = "GET"
+        try DPoPRequestDecorator.applyAuthHeaders(req,
+                                                  scope: testScope,
+                                                  accessToken: "tok-abc",
+                                                  tokenType: nil)
+        XCTAssertEqual(req.value(forHTTPHeaderField: "Authorization"), "Bearer tok-abc")
+        XCTAssertNil(req.value(forHTTPHeaderField: "DPoP"))
+    }
+
+    func test_givenEmptyAccessToken_whenApplyAuthHeaders_thenNoHeadersStamped() throws {
+        let req = NSMutableURLRequest(url: tokenURL)
+        req.httpMethod = "GET"
+        try DPoPRequestDecorator.applyAuthHeaders(req,
+                                                  scope: testScope,
+                                                  accessToken: "",
+                                                  tokenType: "DPoP")
+        XCTAssertNil(req.value(forHTTPHeaderField: "Authorization"))
+        XCTAssertNil(req.value(forHTTPHeaderField: "DPoP"))
+    }
+
+    func test_givenDPoPDisabledButTokenTypeDPoP_whenApplyAuthHeaders_thenDPoPSchemeButNoProof() throws {
+        let prior = SalesforceManager.shared.usesDPoP
+        SalesforceManager.shared.usesDPoP = false
+        defer { SalesforceManager.shared.usesDPoP = prior }
+
+        let req = NSMutableURLRequest(url: tokenURL)
+        req.httpMethod = "GET"
+        try DPoPRequestDecorator.applyAuthHeaders(req,
+                                                  scope: testScope,
+                                                  accessToken: "tok-abc",
+                                                  tokenType: "DPoP")
+        // The Authorization scheme follows tokenType (server-driven). The DPoP proof
+        // header itself follows SalesforceManager.shared.usesDPoP (client opt-in).
+        XCTAssertEqual(req.value(forHTTPHeaderField: "Authorization"), "DPoP tok-abc")
+        XCTAssertNil(req.value(forHTTPHeaderField: "DPoP"))
+    }
+
+    // MARK: - SFRestRequest end-to-end (covers SC-1 + SC-4 for the REST site)
+
+    func test_givenDPoPCredentials_whenPrepareRestRequest_thenAuthorizationIsDPoPAndProofAttached() throws {
+        let prior = SalesforceManager.shared.usesDPoP
+        SalesforceManager.shared.usesDPoP = true
+        defer { SalesforceManager.shared.usesDPoP = prior }
+
+        let scope = "rest-dpop-\(UUID().uuidString)"
+        let creds = OAuthCredentials(identifier: scope,
+                                     clientId: "CLIENT_ID",
+                                     encrypted: false)!
+        creds.accessToken = "00DXX0000000000!ARQ.dpop.access.token"
+        creds.tokenType = "DPoP"
+        creds.instanceUrl = URL(string: "https://example.salesforce.com")
+        creds.userId = "USERID"
+        creds.organizationId = "ORGID"
+        defer { DPoPKeyStore.shared.delete(forScope: scope) }
+
+        let account = UserAccount(credentials: creds)
+        let request = RestRequest(method: .GET,
+                                  path: "/services/data/v60.0/sobjects/Account",
+                                  queryParams: nil)
+        let urlRequest = try XCTUnwrap(request.prepare(forSend: account))
+
+        XCTAssertEqual(urlRequest.value(forHTTPHeaderField: "Authorization"),
+                       "DPoP \(creds.accessToken!)")
+        let proof = try XCTUnwrap(urlRequest.value(forHTTPHeaderField: "DPoP"))
+        XCTAssertEqual(proof.split(separator: ".").count, 3)
+        let payload = try decodeBase64UrlJSON(String(proof.split(separator: ".")[1]))
+        let ath = try XCTUnwrap(payload["ath"] as? String)
+        let expected = (((creds.accessToken!.data(using: .utf8)! as NSData)
+                            .sfsdk_sha256()!) as NSData).sfsdk_base64UrlString()
+        XCTAssertEqual(ath, expected)
+    }
+
+    func test_givenBearerCredentials_whenPrepareRestRequest_thenAuthorizationIsBearerNoProof() throws {
+        let creds = OAuthCredentials(identifier: "rest-bearer-\(UUID().uuidString)",
+                                     clientId: "CLIENT_ID",
+                                     encrypted: false)!
+        creds.accessToken = "bearer-only-access-token"
+        // tokenType left nil — the Bearer baseline.
+        creds.instanceUrl = URL(string: "https://example.salesforce.com")
+        creds.userId = "USERID"
+        creds.organizationId = "ORGID"
+
+        let account = UserAccount(credentials: creds)
+        let request = RestRequest(method: .GET,
+                                  path: "/services/data/v60.0/sobjects/Account",
+                                  queryParams: nil)
+        let urlRequest = try XCTUnwrap(request.prepare(forSend: account))
+
+        XCTAssertEqual(urlRequest.value(forHTTPHeaderField: "Authorization"),
+                       "Bearer \(creds.accessToken!)")
+        XCTAssertNil(urlRequest.value(forHTTPHeaderField: "DPoP"),
+                     "Bearer credentials must not attach a DPoP header (SC-4)")
+    }
+
+    // MARK: - SC-5 log redaction
+
+    /// Captures every line submitted to `SFSDKCoreLogger` during the four-site DPoP flow
+    /// and asserts none contain the access token, the proof JWT, the embedded JWK
+    /// (`jwk`/`jkt`/coordinate `x`/`y`), or the `ath` thumbprint. Per CLAUDE.md the SDK must
+    /// never log credentials; SC-5 makes this explicit for the DPoP path.
+    func test_givenDPoPBoundFlow_whenAllSitesStampHeaders_thenLoggerCapturesNoSecrets() throws {
+        let prior = SalesforceManager.shared.usesDPoP
+        SalesforceManager.shared.usesDPoP = true
+        defer {
+            SalesforceManager.shared.usesDPoP = prior
+            // Install a discard-everything factory and flush cached loggers so the recorder
+            // doesn't continue collecting messages emitted by other tests in this run.
+            SalesforceLogger.setLogReceiverFactory(NoOpLogReceiverFactory())
+            SalesforceLogger.clearAllComponents()
+        }
+
+        let recorder = RecordingLogReceiver()
+        let factory = RecordingLogReceiverFactory(receiver: recorder)
+        SalesforceLogger.setLogReceiverFactory(factory)
+        SalesforceLogger.clearAllComponents()
+
+        let scope = "redaction-\(UUID().uuidString)"
+        let token = "00DXX0000000000!ARQ.redactionTestSecret.AccessTokenLiteralValue"
+        defer { DPoPKeyStore.shared.delete(forScope: scope) }
+
+        // Site 1 — REST (SFRestRequest.prepare)
+        let creds = OAuthCredentials(identifier: scope, clientId: "CLIENT_ID", encrypted: false)!
+        creds.accessToken = token
+        creds.tokenType = "DPoP"
+        creds.instanceUrl = URL(string: "https://example.salesforce.com")
+        creds.userId = "USERID"
+        creds.organizationId = "ORGID"
+        let account = UserAccount(credentials: creds)
+        let restRequest = RestRequest(method: .GET,
+                                      path: "/services/data/v60.0/sobjects/Account",
+                                      queryParams: nil)
+        let restURLRequest = try XCTUnwrap(restRequest.prepare(forSend: account))
+        let restProof = try XCTUnwrap(restURLRequest.value(forHTTPHeaderField: "DPoP"))
+
+        // Sites 2, 3, 4 — Identity / photo / userinfo all funnel through applyAuthHeaders.
+        // Run the helper directly to exercise the same code path the production sites use.
+        for path in ["/id/00D000000000000/005000000000000",
+                     "/profilephoto/Q3a000000000000/F",
+                     "/services/oauth2/userinfo"] {
+            let req = NSMutableURLRequest(url: URL(string: "https://example.salesforce.com\(path)")!)
+            req.httpMethod = "GET"
+            try DPoPRequestDecorator.applyAuthHeaders(req,
+                                                     scope: scope,
+                                                     accessToken: token,
+                                                     tokenType: "DPoP")
+        }
+
+        let proofSegments = restProof.split(separator: ".")
+        XCTAssertEqual(proofSegments.count, 3)
+        let header = try decodeBase64UrlJSON(String(proofSegments[0]))
+        let payload = try decodeBase64UrlJSON(String(proofSegments[1]))
+        let jwk = try XCTUnwrap(header["jwk"] as? [String: String])
+        let jwkX = try XCTUnwrap(jwk["x"])
+        let jwkY = try XCTUnwrap(jwk["y"])
+        let ath = try XCTUnwrap(payload["ath"] as? String)
+
+        // Forbidden substrings: the access token, the full proof, and the JWK material that
+        // (when hashed) becomes the `jkt` thumbprint binding the token.
+        let forbidden: [(String, String)] = [
+            ("access token", token),
+            ("DPoP proof JWS", restProof),
+            ("ath claim", ath),
+            ("JWK x coordinate", jwkX),
+            ("JWK y coordinate", jwkY),
+        ]
+        let allLines = recorder.snapshot()
+        for line in allLines {
+            for (label, secret) in forbidden {
+                XCTAssertFalse(line.contains(secret),
+                               "\(label) leaked into log line: \(line)")
+            }
+        }
+    }
+
     // MARK: - Helpers
 
     private func decodeBase64UrlJSON(_ segment: String) throws -> [String: Any] {
@@ -395,4 +649,46 @@ class SFSDKDPoPTests: XCTestCase {
         while v > 0 { bytes.insert(UInt8(v & 0xff), at: 0); v >>= 8 }
         return [UInt8(0x80 | bytes.count)] + bytes
     }
+}
+
+// MARK: - Log capture support
+
+/// Thread-safe accumulator for log lines emitted during a test.
+private final class RecordingLogReceiver: NSObject, SalesforceLogReceiver {
+    private let lock = NSLock()
+    private var lines: [String] = []
+
+    func receive(level: SalesforceLogger.Level,
+                 cls: AnyClass,
+                 component: String,
+                 message: String) {
+        lock.lock()
+        lines.append("[\(component)] \(NSStringFromClass(cls)): \(message)")
+        lock.unlock()
+    }
+
+    func snapshot() -> [String] {
+        lock.lock()
+        defer { lock.unlock() }
+        return lines
+    }
+}
+
+private final class RecordingLogReceiverFactory: NSObject, SalesforceLogReceiverFactory {
+    private let receiver: RecordingLogReceiver
+    init(receiver: RecordingLogReceiver) { self.receiver = receiver }
+    func create(componentName: String) -> SalesforceLogReceiver { receiver }
+}
+
+/// Discards everything; used to detach the recorder after the test runs.
+private final class NoOpLogReceiverFactory: NSObject, SalesforceLogReceiverFactory {
+    private let sink = NoOpLogReceiver()
+    func create(componentName: String) -> SalesforceLogReceiver { sink }
+}
+
+private final class NoOpLogReceiver: NSObject, SalesforceLogReceiver {
+    func receive(level: SalesforceLogger.Level,
+                 cls: AnyClass,
+                 component: String,
+                 message: String) {}
 }

@@ -117,6 +117,7 @@ NSException * SFOAuthInvalidIdentifierException(void) {
             self.cookieSidClient  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthCookieSidClient"];
             self.sidCookieName  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthSidCookieName"];
             self.tokenFormat  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthTokenFormat"];
+            self.tokenType  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthTokenType"];
 
             if ([self isMemberOfClass:[SFOAuthCredentials class]]) {
                 // Otherwise they are stored in keychain
@@ -159,6 +160,7 @@ NSException * SFOAuthInvalidIdentifierException(void) {
     [coder encodeObject:self.cookieSidClient    forKey:@"SFOAuthCookieSidClient"];
     [coder encodeObject:self.sidCookieName      forKey:@"SFOAuthSidCookieName"];
     [coder encodeObject:self.tokenFormat        forKey:@"SFOAuthTokenFormat"];
+    [coder encodeObject:self.tokenType          forKey:@"SFOAuthTokenType"];
     [coder encodeObject:kSFOAuthArchiveVersion  forKey:@"SFOAuthArchiveVersion"];
     [coder encodeObject:@(self.isEncrypted)     forKey:@"SFOAuthEncrypted"];
     [coder encodeObject:self.additionalOAuthFields forKey:@"SFOAuthAdditionalFields"];
@@ -229,6 +231,7 @@ NSException * SFOAuthInvalidIdentifierException(void) {
     copyCreds.sidCookieName = self.sidCookieName;
     copyCreds.parentSid = self.parentSid;
     copyCreds.tokenFormat = self.tokenFormat;
+    copyCreds.tokenType = self.tokenType;
     copyCreds.beaconChildConsumerKey = self.beaconChildConsumerKey;
     copyCreds.beaconChildConsumerSecret = self.beaconChildConsumerSecret;
     copyCreds.additionalOAuthFields = [self.additionalOAuthFields copy];
@@ -343,6 +346,7 @@ NSException * SFOAuthInvalidIdentifierException(void) {
     self.sidCookieName = nil;
     self.parentSid = nil;
     self.tokenFormat = nil;
+    self.tokenType = nil;
     self.beaconChildConsumerKey = nil;
     self.beaconChildConsumerSecret = nil;
 }
@@ -468,6 +472,9 @@ NSException * SFOAuthInvalidIdentifierException(void) {
     }
     if (params[kSFOAuthTokenFormat]) {
         self.tokenFormat = params[kSFOAuthTokenFormat];
+    }
+    if (params[kSFOAuthTokenType]) {
+        self.tokenType = params[kSFOAuthTokenType];
     }
     if (params[kSFOAuthBeaconChildConsumerKey]) {
         self.beaconChildConsumerKey = params[kSFOAuthBeaconChildConsumerKey];

@@ -77,6 +77,7 @@
     [params setObject:@"test-sid-cookie-name" forKey:@"sidCookieName"];
     [params setObject:@"test-parent-sid" forKey:@"parent_sid"];
     [params setObject:@"test-token-format" forKey:@"token_format"];
+    [params setObject:@"test-token-type" forKey:@"token_type"];
     [params setObject:@"test-beacon-child-consumer-key" forKey:@"beacon_child_consumer_key"];
     [params setObject:@"test-beacon-child-consumer-secret" forKey:@"beacon_child_consumer_secret"];
     [creds updateCredentials:params];
@@ -102,6 +103,7 @@
     XCTAssertEqualObjects(creds.sidCookieName, @"test-sid-cookie-name");
     XCTAssertEqualObjects(creds.parentSid, @"test-parent-sid");
     XCTAssertEqualObjects(creds.tokenFormat, @"test-token-format");
+    XCTAssertEqualObjects(creds.tokenType, @"test-token-type");
     XCTAssertEqualObjects(creds.beaconChildConsumerKey, @"test-beacon-child-consumer-key");
     XCTAssertEqualObjects(creds.beaconChildConsumerSecret, @"test-beacon-child-consumer-secret");
 }

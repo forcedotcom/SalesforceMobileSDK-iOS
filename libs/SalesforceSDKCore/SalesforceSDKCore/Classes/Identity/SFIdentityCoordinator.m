@@ -150,9 +150,23 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
                                                                 cachePolicy:NSURLRequestReloadIgnoringCacheData
                                                             timeoutInterval:self.timeout];
     [request setHTTPMethod:@"GET"];
-    [request setValue:[NSString stringWithFormat:kHttpAuthHeaderFormatString, self.credentials.accessToken] forHTTPHeaderField:kHttpHeaderAuthorization];
+    NSError *authError = nil;
+    BOOL ok = [SFSDKDPoPRequestDecorator applyAuthHeaders:request
+                                                    scope:self.credentials.identifier
+                                              accessToken:self.credentials.accessToken ?: @""
+                                                tokenType:self.credentials.tokenType
+                                                    error:&authError];
+    if (!ok) {
+        [SFSDKCoreLogger e:[self class] format:@"SFIdentityCoordinator: Failed to stamp authorization headers: %@", authError.localizedDescription];
+    }
     [request setTimeoutInterval:self.timeout];
     [request setHTTPShouldHandleCookies:NO];
+    // TEMP debug — confirm what headers actually go on the wire.
+    NSString *authHdr = [request valueForHTTPHeaderField:@"Authorization"];
+    NSString *dpopHdr = [request valueForHTTPHeaderField:@"DPoP"];
+    NSString *authPreview = authHdr ? [NSString stringWithFormat:@"%@…(%lu chars)", [authHdr substringToIndex:MIN((NSUInteger)10, authHdr.length)], (unsigned long)authHdr.length] : @"<nil>";
+    NSString *dpopPreview = dpopHdr ? [NSString stringWithFormat:@"<%lu chars, %lu segments>", (unsigned long)dpopHdr.length, (unsigned long)[[dpopHdr componentsSeparatedByString:@"."] count]] : @"<nil>";
+    [SFSDKCoreLogger i:[self class] format:@"Identity outbound probe: Authorization=%@ DPoP=%@", authPreview, dpopPreview];
     [SFSDKCoreLogger d:[self class] format:@"SFIdentityCoordinator:Starting identity request at %@", self.credentials.identityUrl.absoluteString];
     __weak __typeof(self) weakSelf = self;
     self.networkIdentifier = [SFNetwork uniqueInstanceIdentifier];
@@ -169,6 +183,14 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
         // The connection can succeed, but the actual HTTP response is a failure.  Check for that.
         NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
         if (statusCode == 401 || statusCode == 403) {
+            // TEMP debug — characterize the 401 to distinguish expired-creds from DPoP nonce challenge.
+            NSDictionary *hdrs = [(NSHTTPURLResponse *)response allHeaderFields];
+            NSString *bodyStr = data ? [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] : @"<nil>";
+            [SFSDKCoreLogger i:[self class] format:@"Identity 401 probe: status=%ld www-authenticate=%@ dpop-nonce=%@ body=%@",
+                (long)statusCode,
+                hdrs[@"WWW-Authenticate"] ?: hdrs[@"Www-Authenticate"] ?: @"<nil>",
+                hdrs[@"DPoP-Nonce"] ?: hdrs[@"Dpop-Nonce"] ?: @"<nil>",
+                bodyStr];
             // The session timed out.  Identity service tends to send 403s for session timeouts.  Try to refresh.
             [SFSDKCoreLogger i:[self class] format:@"%@: Identity request failed due to expired credentials.  Attempting to refresh credentials.", NSStringFromSelector(_cmd)];
             strongSelf.oauthSessionRefresher = [[SFOAuthSessionRefresher alloc] initWithCredentials:strongSelf.credentials];

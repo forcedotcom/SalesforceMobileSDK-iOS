@@ -2128,7 +2128,15 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     if (account.idData.thumbnailUrl) {
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:account.idData.thumbnailUrl];
         [request setHTTPMethod:@"GET"];
-        [request setValue:[NSString stringWithFormat:kHttpAuthHeaderFormatString, account.credentials.accessToken] forHTTPHeaderField:kHttpHeaderAuthorization];
+        NSError *authError = nil;
+        BOOL ok = [SFSDKDPoPRequestDecorator applyAuthHeaders:request
+                                                        scope:account.credentials.identifier
+                                                  accessToken:account.credentials.accessToken ?: @""
+                                                    tokenType:account.credentials.tokenType
+                                                        error:&authError];
+        if (!ok) {
+            [SFSDKCoreLogger e:[self class] format:@"User photo: failed to stamp authorization headers: %@", authError.localizedDescription];
+        }
         SFNetwork *network = [SFNetwork sharedEphemeralInstance];
         [network sendRequest:request  dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error){
             if (error) {
@@ -2385,7 +2393,15 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     request.cachePolicy = NSURLRequestReloadIgnoringCacheData;
     request.HTTPMethod = @"GET";
     request.HTTPShouldHandleCookies = NO;
-    [request setValue:[NSString stringWithFormat:kHttpAuthHeaderFormatString, credentials.accessToken] forHTTPHeaderField:kHttpHeaderAuthorization];
+    NSError *authError = nil;
+    BOOL ok = [SFSDKDPoPRequestDecorator applyAuthHeaders:request
+                                                    scope:credentials.identifier
+                                              accessToken:credentials.accessToken ?: @""
+                                                tokenType:credentials.tokenType
+                                                    error:&authError];
+    if (!ok) {
+        [SFSDKCoreLogger e:[self class] format:@"shouldBlockUser: failed to stamp authorization headers: %@", authError.localizedDescription];
+    }
 
     __block NSString *networkIdentifier = [SFNetwork uniqueInstanceIdentifier];
     SFNetwork *network = [SFNetwork sharedEphemeralInstanceWithIdentifier:networkIdentifier];

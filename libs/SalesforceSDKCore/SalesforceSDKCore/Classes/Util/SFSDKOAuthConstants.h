@@ -78,6 +78,7 @@ static NSString * const kSFOAuthCookieSidClient                 = @"cookie-sid_C
 static NSString * const kSFOAuthSidCookieName                   = @"sidCookieName";
 static NSString * const kSFOAuthParentSid                       = @"parent_sid";
 static NSString * const kSFOAuthTokenFormat                     = @"token_format";
+static NSString * const kSFOAuthTokenType                       = @"token_type";
 static NSString * const kSFOAuthBeaconChildConsumerKey          = @"beacon_child_consumer_key";
 static NSString * const kSFOAuthBeaconChildConsumerSecret       = @"beacon_child_consumer_secret";
 
@@ -131,6 +132,7 @@ static NSString * const kHttpPostContentType                        = @"applicat
 static NSString * const kHttpPostApplicationJsonContentType         = @"application/json";
 static NSString * const kHttpHeaderUserAgent                        = @"User-Agent";
 static NSString * const kHttpHeaderDPoP                             = @"DPoP";
+static NSString * const kHttpAuthHeaderDPoPFormatString             = @"DPoP %@";
 static NSString * const kOAuthUserAgentUserDefaultsKey              = @"UserAgent";
 static NSString * const kSFECParameter                              = @"ec";
 

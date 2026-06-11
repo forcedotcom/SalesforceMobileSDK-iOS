@@ -43,11 +43,16 @@ public final class DPoPProofBuilder: NSObject {
     ///   - httpMethod: HTTP verb (`"POST"` for token endpoint).
     ///   - htu: Full request URL with no query and no fragment, per RFC 9449 §4.2.
     ///   - nonce: Optional `nonce` claim from a prior `DPoP-Nonce` server hint.
+    ///   - accessToken: Optional access token bound to the request. When non-nil and
+    ///     non-empty, the payload includes the `ath` claim per RFC 9449 §4.2,
+    ///     computed as `base64url(SHA-256(accessToken))`. Required for resource-server
+    ///     calls; omitted for token-endpoint calls.
     ///   - keyPair: Public key is embedded in the JWS header `jwk`; private key signs.
     ///   - now: Injected clock for deterministic tests; defaults to `Date()`.
     @objc public static func buildProof(httpMethod: String,
                                         htu: URL,
                                         nonce: String?,
+                                        accessToken: String? = nil,
                                         keyPair: DPoPKeyPair,
                                         now: Date = Date()) throws -> String {
         let jwk: [String: String]
@@ -69,6 +74,10 @@ public final class DPoPProofBuilder: NSObject {
         ]
         if let nonce = nonce, !nonce.isEmpty {
             payload["nonce"] = nonce
+        }
+        if let accessToken = accessToken, !accessToken.isEmpty,
+           let ath = athClaim(for: accessToken) {
+            payload["ath"] = ath
         }
         guard let headerSegment = encode(json: header),
               let payloadSegment = encode(json: payload) else {
@@ -94,6 +103,18 @@ public final class DPoPProofBuilder: NSObject {
     private static func newJti() -> String {
         let raw = SFSDKCryptoUtils.randomByteData(withLength: 12)
         return (raw as NSData).sfsdk_base64UrlString()
+    }
+
+    /// `ath = base64url(SHA-256(access_token))` per RFC 9449 §4.2. The input is the
+    /// literal access-token string the SDK sends in the `Authorization: DPoP <token>`
+    /// header — confirmed by backend (Salesforce, 2026-06-10) as the exact `<token>`
+    /// value, byte-for-byte, no encoding or canonicalization.
+    private static func athClaim(for accessToken: String) -> String? {
+        guard let tokenData = accessToken.data(using: .utf8),
+              let digest = (tokenData as NSData).sfsdk_sha256() else {
+            return nil
+        }
+        return (digest as NSData).sfsdk_base64UrlString()
     }
 
     private static func encode(json: [String: Any]) -> String? {
