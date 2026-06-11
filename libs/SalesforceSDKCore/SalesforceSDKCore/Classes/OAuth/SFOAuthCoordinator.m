@@ -670,7 +670,7 @@
                  [SFSDKCoreLogger d:[self class] format:@"Refresh attempt timed out after %f seconds.", self.timeout];
                  [self stopAuthentication];
              }
-             BOOL isUnsupportedGrantType = [response.error.tokenEndpointErrorCode isEqualToString:@"unsupported_grant_type"];
+             BOOL isUnsupportedGrantType = [response.error.tokenEndpointErrorCode isEqualToString:kSFOAuthErrorTypeUnsupportedGrantType];
              BOOL isLightningURL = [self.credentials.domain containsString:@".lightning."];
              if (isUnsupportedGrantType && isLightningURL) {
                  [SFSDKCoreLogger w:[self class] format:@"Code exchange failed with unsupported_grant_type against Lightning URL: %@. Lightning URLs do not support authorization_code grant type. Use a My Domain login server URL instead.", self.credentials.domain];
