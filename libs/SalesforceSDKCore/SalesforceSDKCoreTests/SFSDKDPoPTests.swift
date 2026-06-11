@@ -118,7 +118,7 @@ class SFSDKDPoPTests: XCTestCase {
                                                     nonce: nil,
                                                     keyPair: pair)
         let payload = try decodeBase64UrlJSON(String(proof.split(separator: ".")[1]))
-        XCTAssertNil(payload["ath"], "Token-endpoint proofs must not include ath (regression for W-22695307 callers)")
+        XCTAssertNil(payload["ath"], "Token-endpoint proofs must not include ath")
     }
 
     func test_givenEmptyAccessToken_whenBuildProof_thenPayloadOmitsAth() throws {
@@ -440,6 +440,51 @@ class SFSDKDPoPTests: XCTestCase {
         XCTAssertNil(req.value(forHTTPHeaderField: "DPoP"))
     }
 
+    func test_givenNilAccessToken_whenApplyAuthHeaders_thenNoHeadersStamped() throws {
+        let req = NSMutableURLRequest(url: tokenURL)
+        req.httpMethod = "GET"
+        try DPoPRequestDecorator.applyAuthHeaders(req,
+                                                  scope: testScope,
+                                                  accessToken: nil,
+                                                  tokenType: "DPoP")
+        XCTAssertNil(req.value(forHTTPHeaderField: "Authorization"))
+        XCTAssertNil(req.value(forHTTPHeaderField: "DPoP"))
+    }
+
+    // MARK: - Identity service loop-prevention
+
+    /// Loop regression: under DPoP-bound credentials, an identity request must go out
+    /// stamped `Authorization: DPoP <token>` with a valid `ath` claim — the same outbound
+    /// shape any other DPoP-aware site uses. The loop happened previously when the
+    /// identity site stamped `Bearer <dpop-bound-token>` instead, and the server returned
+    /// 401, the SDK refreshed, retried with `Bearer` again, and looped.
+    func test_givenDPoPCredentials_whenIdentityRequestStamped_thenAuthorizationIsDPoPAndAthMatches() throws {
+        let prior = SalesforceManager.shared.usesDPoP
+        SalesforceManager.shared.usesDPoP = true
+        defer { SalesforceManager.shared.usesDPoP = prior }
+
+        let scope = "sc3-\(UUID().uuidString)"
+        let token = "00DXX0000000000!ARQAQGyAccessTokenLiteralValue"
+        defer { DPoPKeyStore.shared.delete(forScope: scope) }
+
+        let identityURL = URL(string: "https://login.salesforce.com/id/00D000000000000/005000000000000")!
+        let req = NSMutableURLRequest(url: identityURL)
+        req.httpMethod = "GET"
+        try DPoPRequestDecorator.applyAuthHeaders(req,
+                                                  scope: scope,
+                                                  accessToken: token,
+                                                  tokenType: "DPoP")
+
+        XCTAssertEqual(req.value(forHTTPHeaderField: "Authorization"), "DPoP \(token)",
+                       "Identity must use DPoP scheme under a DPoP-bound token; Bearer here is what produced the original loop.")
+        let proof = try XCTUnwrap(req.value(forHTTPHeaderField: "DPoP"))
+        let payload = try decodeBase64UrlJSON(String(proof.split(separator: ".")[1]))
+        let ath = try XCTUnwrap(payload["ath"] as? String)
+        let expected = (((token.data(using: .utf8)! as NSData)
+                            .sfsdk_sha256()!) as NSData).sfsdk_base64UrlString()
+        XCTAssertEqual(ath, expected)
+    }
+
     func test_givenDPoPDisabledButTokenTypeDPoP_whenApplyAuthHeaders_thenDPoPSchemeButNoProof() throws {
         let prior = SalesforceManager.shared.usesDPoP
         SalesforceManager.shared.usesDPoP = false
@@ -457,7 +502,7 @@ class SFSDKDPoPTests: XCTestCase {
         XCTAssertNil(req.value(forHTTPHeaderField: "DPoP"))
     }
 
-    // MARK: - SFRestRequest end-to-end (covers SC-1 + SC-4 for the REST site)
+    // MARK: - SFRestRequest end-to-end
 
     func test_givenDPoPCredentials_whenPrepareRestRequest_thenAuthorizationIsDPoPAndProofAttached() throws {
         let prior = SalesforceManager.shared.usesDPoP
@@ -511,15 +556,15 @@ class SFSDKDPoPTests: XCTestCase {
         XCTAssertEqual(urlRequest.value(forHTTPHeaderField: "Authorization"),
                        "Bearer \(creds.accessToken!)")
         XCTAssertNil(urlRequest.value(forHTTPHeaderField: "DPoP"),
-                     "Bearer credentials must not attach a DPoP header (SC-4)")
+                     "Bearer credentials must not attach a DPoP header")
     }
 
-    // MARK: - SC-5 log redaction
+    // MARK: - Log redaction
 
     /// Captures every line submitted to `SFSDKCoreLogger` during the four-site DPoP flow
     /// and asserts none contain the access token, the proof JWT, the embedded JWK
     /// (`jwk`/`jkt`/coordinate `x`/`y`), or the `ath` thumbprint. Per CLAUDE.md the SDK must
-    /// never log credentials; SC-5 makes this explicit for the DPoP path.
+    /// never log credentials.
     func test_givenDPoPBoundFlow_whenAllSitesStampHeaders_thenLoggerCapturesNoSecrets() throws {
         let prior = SalesforceManager.shared.usesDPoP
         SalesforceManager.shared.usesDPoP = true

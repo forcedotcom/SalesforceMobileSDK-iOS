@@ -424,11 +424,6 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
     NSString *responseString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
     NSDictionary *json = [SFJsonUtils objectFromJSONData:responseData];
     if (json) {
-        // TEMP debug — remove once token-endpoint DPoP signal field is confirmed.
-        [SFSDKCoreLogger i:[self class] format:@"DPoP token endpoint probe: keys=%@ token_type=%@ token_format=%@",
-            [[json allKeys] componentsJoinedByString:@","],
-            json[@"token_type"] ?: @"<nil>",
-            json[@"token_format"] ?: @"<nil>"];
         endpointResponse  = [[SFSDKOAuthTokenEndpointResponse alloc] initWithDictionary:json  parseAdditionalFields:endpointReq.additionalOAuthParameterKeys];
         if (!endpointResponse.hasError){
            // Adds the refresh token to the response for consistency.

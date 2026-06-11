@@ -94,11 +94,9 @@ public final class DPoPRequestDecorator: NSObject {
     @objc(applyAuthHeaders:scope:accessToken:tokenType:error:)
     public static func applyAuthHeaders(_ request: NSMutableURLRequest,
                                         scope: String,
-                                        accessToken: String,
+                                        accessToken: String?,
                                         tokenType: String?) throws {
-        guard !accessToken.isEmpty else { return }
-        // TEMP debug — remove once gate value is confirmed.
-        SFSDKCoreLogger.i(self, message: "DPoP gate probe: tokenType=\(tokenType ?? "<nil>") usesDPoP=\(SalesforceManager.shared.usesDPoP) host=\(request.url?.host ?? "<nohost>") path=\(request.url?.path ?? "<nopath>")")
+        guard let accessToken, !accessToken.isEmpty else { return }
         if tokenType == dpopTokenType {
             request.setValue("DPoP \(accessToken)", forHTTPHeaderField: "Authorization")
             try decorate(request, scope: scope, accessToken: accessToken)

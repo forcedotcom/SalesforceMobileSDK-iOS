@@ -2131,7 +2131,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         NSError *authError = nil;
         BOOL ok = [SFSDKDPoPRequestDecorator applyAuthHeaders:request
                                                         scope:account.credentials.identifier
-                                                  accessToken:account.credentials.accessToken ?: @""
+                                                  accessToken:account.credentials.accessToken
                                                     tokenType:account.credentials.tokenType
                                                         error:&authError];
         if (!ok) {
@@ -2396,7 +2396,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     NSError *authError = nil;
     BOOL ok = [SFSDKDPoPRequestDecorator applyAuthHeaders:request
                                                     scope:credentials.identifier
-                                              accessToken:credentials.accessToken ?: @""
+                                              accessToken:credentials.accessToken
                                                 tokenType:credentials.tokenType
                                                     error:&authError];
     if (!ok) {

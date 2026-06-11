@@ -132,7 +132,6 @@ static NSString * const kHttpPostContentType                        = @"applicat
 static NSString * const kHttpPostApplicationJsonContentType         = @"application/json";
 static NSString * const kHttpHeaderUserAgent                        = @"User-Agent";
 static NSString * const kHttpHeaderDPoP                             = @"DPoP";
-static NSString * const kHttpAuthHeaderDPoPFormatString             = @"DPoP %@";
 static NSString * const kOAuthUserAgentUserDefaultsKey              = @"UserAgent";
 static NSString * const kSFECParameter                              = @"ec";
 
