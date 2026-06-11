@@ -46,9 +46,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         SalesforceManager.initializeSDK()
         SalesforceManager.shared.appDisplayName = "Rest API Explorer"
-        
-        SalesforceManager.shared.usesDPoP = true
-        
         UserAccountManager.shared.navigationPolicyForAction = { webView, action in
             if let url = action.request.url, url.absoluteString == "https://www.salesforce.com/us/company/privacy" {
                 SFApplicationHelper.open(url, options: [:], completionHandler: nil)
