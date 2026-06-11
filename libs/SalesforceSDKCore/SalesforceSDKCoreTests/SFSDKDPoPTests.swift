@@ -570,8 +570,9 @@ class SFSDKDPoPTests: XCTestCase {
         SalesforceManager.shared.usesDPoP = true
         defer {
             SalesforceManager.shared.usesDPoP = prior
-            // Install a discard-everything factory and flush cached loggers so the recorder
-            // doesn't continue collecting messages emitted by other tests in this run.
+            // SFLogger caches per-component loggers; swapping the factory alone won't
+            // re-route messages from already-cached components. Flush so the recorder
+            // installed by this test stops receiving messages emitted by sibling tests.
             SalesforceLogger.setLogReceiverFactory(NoOpLogReceiverFactory())
             SalesforceLogger.clearAllComponents()
         }
@@ -579,6 +580,9 @@ class SFSDKDPoPTests: XCTestCase {
         let recorder = RecordingLogReceiver()
         let factory = RecordingLogReceiverFactory(receiver: recorder)
         SalesforceLogger.setLogReceiverFactory(factory)
+        // Force cached per-component loggers to re-bind to the recording factory above.
+        // Without this flush, components that logged earlier in the run would keep
+        // their old receiver and the recorder would silently observe nothing.
         SalesforceLogger.clearAllComponents()
 
         let scope = "redaction-\(UUID().uuidString)"
