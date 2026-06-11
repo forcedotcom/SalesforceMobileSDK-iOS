@@ -204,7 +204,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
     // Stamps the Authorization header (Bearer or DPoP, depending on credentials.tokenType),
     // and on the DPoP branch attaches a per-request proof header. Skipped when the caller
     // has pre-stamped Authorization themselves.
-    if (self.requiresAuthentication && user && user.credentials.accessToken
+    if (self.requiresAuthentication && user
             && ![self.request.allHTTPHeaderFields.allKeys containsObject:@"Authorization"]) {
         NSError *authError = nil;
         BOOL ok = [SFSDKDPoPRequestDecorator applyAuthHeaders:self.request
