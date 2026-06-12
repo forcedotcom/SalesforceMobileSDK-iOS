@@ -35,11 +35,11 @@ MobileSync
 | **MobileSync** | `libs/MobileSync/` | Bidirectional data sync between device (SmartStore) and Salesforce cloud. Sync targets, sync managers, layout/metadata sync. `MobileSyncSDKManager` |
 
 ### iOS Reference Docs
-- [SalesforceAnalytics](https://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceAnalytics/html/index.html)
-- [SalesforceSDKCommon](https://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceSDKCommon/html/index.html)
-- [SalesforceSDKCore](https://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceSDKCore/html/index.html)
-- [SmartStore](https://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SmartStore/html/index.html)
-- [MobileSync](https://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/MobileSync/html/index.html)
+- [SalesforceAnalytics](https://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceAnalytics/documentation/salesforceanalytics/)
+- [SalesforceSDKCommon](https://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceSDKCommon/documentation/salesforcesdkcommon/)
+- [SalesforceSDKCore](https://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceSDKCore/documentation/salesforcesdkcore/)
+- [SmartStore](https://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SmartStore/documentation/smartstore/)
+- [MobileSync](https://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/MobileSync/documentation/mobilesync/)
 
 ### iOS Build Details
 - **Minimum target**: iOS 18.0
