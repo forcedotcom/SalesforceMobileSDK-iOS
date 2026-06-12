@@ -1,13 +1,11 @@
 import XCTest
 @testable import SalesforceSDKCore
 
-/// Tests for DomainDiscoveryCoordinator. We call `handle(callbackURL:)` directly with a URL
-/// instead of building a MockNavigationAction, because subclassing WKNavigationAction and
-/// calling super.init() can trigger an abort in WebKit on CI (signal abrt).
-@MainActor
+/// Tests for DomainDiscoveryCoordinator. These exercise synchronous URL-parsing logic
+/// via `handle(callbackURL:)` directly.
 final class DomainDiscoveryCoordinatorTests: XCTestCase {
 
-    func testCallbackSuccess() async throws {
+    func testCallbackSuccess() throws {
         // Given
         let coordinator = DomainDiscoveryCoordinator()
         let expectedDomain = "foo.my.salesforce.com"
@@ -26,7 +24,7 @@ final class DomainDiscoveryCoordinatorTests: XCTestCase {
         XCTAssertEqual(results?.loginHint, expectedLoginHint)
     }
 
-    func testMissingMyDomain() async throws {
+    func testMissingMyDomain() throws {
         // Given
         let coordinator = DomainDiscoveryCoordinator()
         let expectedLoginHint = "testuser@example.com"
@@ -41,8 +39,8 @@ final class DomainDiscoveryCoordinatorTests: XCTestCase {
         XCTAssertNil(results)
     }
 
-    func testMissingLoginHint() async throws {
-        // Given: callback URL with my_domain only (no login_hint). Build via URLComponents so parsing is deterministic on all platforms.
+    func testMissingLoginHint() throws {
+        // Given: callback URL with my_domain but no login_hint
         let coordinator = DomainDiscoveryCoordinator()
         var components = URLComponents()
         components.scheme = "sfdc"
@@ -57,7 +55,7 @@ final class DomainDiscoveryCoordinatorTests: XCTestCase {
         XCTAssertNil(results)
     }
 
-    func testMalformedCallbackURL() async throws {
+    func testMalformedCallbackURL() throws {
         // Given
         let coordinator = DomainDiscoveryCoordinator()
         let callbackURLString = "sfdc://discocallback?my_domain=&login_hint="
@@ -71,8 +69,8 @@ final class DomainDiscoveryCoordinatorTests: XCTestCase {
         XCTAssertEqual(results?.loginHint, "")
     }
 
-    func testNonCallbackURL() async throws {
-        // Given: URL that is not a domain discovery callback. Build via URLComponents so parsing is deterministic on all platforms.
+    func testNonCallbackURL() throws {
+        // Given: URL that is not a domain discovery callback
         let coordinator = DomainDiscoveryCoordinator()
         var components = URLComponents()
         components.scheme = "https"
@@ -86,7 +84,7 @@ final class DomainDiscoveryCoordinatorTests: XCTestCase {
         XCTAssertNil(results)
     }
 
-    func testSpecialCharactersInLoginHint() async throws {
+    func testSpecialCharactersInLoginHint() throws {
         // Given
         let coordinator = DomainDiscoveryCoordinator()
         let expectedDomain = "foo.my.salesforce.com"
@@ -105,7 +103,7 @@ final class DomainDiscoveryCoordinatorTests: XCTestCase {
         XCTAssertEqual(results?.loginHint, expectedLoginHint)
     }
 
-    func testExtraQueryParameters() async throws {
+    func testExtraQueryParameters() throws {
         // Given
         let coordinator = DomainDiscoveryCoordinator()
         let expectedDomain = "foo.my.salesforce.com"
