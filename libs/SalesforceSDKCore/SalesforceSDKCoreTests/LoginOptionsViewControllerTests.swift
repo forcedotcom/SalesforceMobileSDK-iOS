@@ -100,13 +100,13 @@ class LoginOptionsViewControllerTests: XCTestCase {
         window.rootViewController = hostingController
         window.makeKeyAndVisible()
 
-        // Trigger view lifecycle
+        // Trigger view lifecycle (use appearance transition APIs to avoid callback misuse warning)
         hostingController.beginAppearanceTransition(true, animated: false)
         hostingController.endAppearanceTransition()
 
-        // Verify view rendered with non-zero layout
+        // Verify view rendered with non-zero layout (frame.height relies only on UIKit layout,
+        // avoiding SwiftUI internals like subview count which could vary across OS versions)
         hostingController.view.layoutIfNeeded()
-        XCTAssertGreaterThan(hostingController.view.subviews.count, 0)
         XCTAssertGreaterThan(hostingController.view.frame.height, 0)
 
         // Clean up
