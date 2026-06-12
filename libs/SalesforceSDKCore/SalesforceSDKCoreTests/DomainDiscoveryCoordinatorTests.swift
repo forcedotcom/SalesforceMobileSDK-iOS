@@ -1,12 +1,8 @@
 import XCTest
 @testable import SalesforceSDKCore
 
-/// Tests for DomainDiscoveryCoordinator. We call `handle(callbackURL:)` directly with a URL
-/// instead of building a MockNavigationAction, because subclassing WKNavigationAction and
-/// calling super.init() can trigger an abort in WebKit on CI (signal abrt).
-///
-/// These tests exercise only synchronous URL-parsing logic, so they avoid @MainActor and async
-/// to prevent main-actor contention with WebKit-using tests running in the same bundle.
+/// Tests for DomainDiscoveryCoordinator. These exercise synchronous URL-parsing logic
+/// via `handle(callbackURL:)` directly.
 final class DomainDiscoveryCoordinatorTests: XCTestCase {
 
     func testCallbackSuccess() throws {
@@ -44,7 +40,7 @@ final class DomainDiscoveryCoordinatorTests: XCTestCase {
     }
 
     func testMissingLoginHint() throws {
-        // Given
+        // Given: callback URL with my_domain but no login_hint
         let coordinator = DomainDiscoveryCoordinator()
         var components = URLComponents()
         components.scheme = "sfdc"
@@ -74,7 +70,7 @@ final class DomainDiscoveryCoordinatorTests: XCTestCase {
     }
 
     func testNonCallbackURL() throws {
-        // Given
+        // Given: URL that is not a domain discovery callback
         let coordinator = DomainDiscoveryCoordinator()
         var components = URLComponents()
         components.scheme = "https"
