@@ -39,7 +39,7 @@ class LoginPageObject {
     }
     
     func isShowing() -> Bool {
-        return loginNavigationBar().waitForExistence(timeout: UITestTimeouts.long)
+        return loginNavigationBar().waitForExistence(timeout: UITestTimeouts.network)
     }
     
     func hasFilledUsernameField(username: String) -> Bool {
@@ -84,16 +84,16 @@ class LoginPageObject {
             usernameField().typeText(XCUIKeyboardKey.return.rawValue)
         } else {
             dismissKeyboardAfterTyping()
-            tap(loginButton())
+            tap(loginButton(), timeout: UITestTimeouts.network)
         }
         setTextField(passwordField(), value: password)
         if advancedAuth {
             passwordField().typeText(XCUIKeyboardKey.return.rawValue)
         } else {
             dismissKeyboardAfterTyping()
-            tap(loginButton())
+            tap(loginButton(), timeout: UITestTimeouts.network)
         }
-        tapIfPresent(allowButton())
+        tapIfPresent(allowButton(), timeout: UITestTimeouts.network)
     }
 
     /// Performs login via the "Login for Admin" flow.
@@ -111,15 +111,15 @@ class LoginPageObject {
     }
 
     func performWelcomeLogin(password: String, advancedAuth: Bool = false) {
-        tap(loginButton())
+        tap(loginButton(), timeout: UITestTimeouts.network)
         setTextField(passwordField(), value: password)
         if advancedAuth {
             passwordField().typeText(XCUIKeyboardKey.return.rawValue)
         } else {
             dismissKeyboardAfterTyping()
-            tap(loginButton())
+            tap(loginButton(), timeout: UITestTimeouts.network)
         }
-        tapIfPresent(allowButton())
+        tapIfPresent(allowButton(), timeout: UITestTimeouts.network)
     }
     
     func configureLoginOptions(
@@ -257,14 +257,15 @@ class LoginPageObject {
     
     // MARK: - Actions
     
-    private func tap(_ element: XCUIElement) {
-        _ = element.waitForExistence(timeout: UITestTimeouts.long)
+    private func tap(_ element: XCUIElement, timeout: TimeInterval = UITestTimeouts.long, file: StaticString = #file, line: UInt = #line) {
+        let exists = element.waitForExistence(timeout: timeout)
+        XCTAssertTrue(exists, "Element \(element.debugDescription) did not appear within \(timeout)s", file: file, line: line)
         element.tap()
     }
-    
+
     @discardableResult
-    private func tapIfPresent(_ element: XCUIElement) -> Bool {
-        if element.waitForExistence(timeout: UITestTimeouts.long) {
+    private func tapIfPresent(_ element: XCUIElement, timeout: TimeInterval = UITestTimeouts.long) -> Bool {
+        if element.waitForExistence(timeout: timeout) {
             element.tap()
             return true
         }

@@ -183,8 +183,8 @@ jobs:
       ios: ${{ matrix.ios }}
       xcode: ${{ matrix.xcode }}
       pr_test: "AuthFlowTesterUITests/LegacyLoginTests/testCAOpaque_DefaultScopes_WebServerFlow"
-      short_timeout: "2"
-      long_timeout: "7"
+      short_timeout: "3"
+      long_timeout: "15"
     secrets:
       UI_TEST_CONFIG: ${{ secrets.UI_TEST_CONFIG }}
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
