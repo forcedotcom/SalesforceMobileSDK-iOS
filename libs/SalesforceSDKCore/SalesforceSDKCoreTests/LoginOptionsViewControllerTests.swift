@@ -104,8 +104,10 @@ class LoginOptionsViewControllerTests: XCTestCase {
         hostingController.beginAppearanceTransition(true, animated: false)
         hostingController.endAppearanceTransition()
 
-        // Verify view rendered with BootConfig
-        XCTAssertNotNil(hostingController.view)
+        // Verify view rendered with non-zero layout
+        hostingController.view.layoutIfNeeded()
+        XCTAssertGreaterThan(hostingController.view.subviews.count, 0)
+        XCTAssertGreaterThan(hostingController.view.frame.height, 0)
 
         // Clean up
         window.rootViewController = nil
