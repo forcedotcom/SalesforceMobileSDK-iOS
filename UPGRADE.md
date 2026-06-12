@@ -6,4 +6,6 @@ This approach ensures you get the latest SDK features, dependency versions, and 
 
 See the [release notes](https://github.com/forcedotcom/SalesforceMobileSDK-iOS/releases) for details on what's new in each version.
 
-If you have questions, or encounter any issues, we'd love to hear from you. Post any feedback you have on [Salesforce StackExchange](https://salesforce.stackexchange.com/questions/tagged/mobilesdk).
+See the [Mobile SDK Development Guide](https://developer.salesforce.com/docs/atlas.en-us.mobile_sdk.meta/mobile_sdk/preface_intro.htm) for more information about developing apps with the Mobile SDK.
+
+If you have questions, or encounter any issues, we'd love to hear from you. Post any feedback you have on [Trailblazer Community](https://trailhead.salesforce.com/en/trailblazer-community/groups/0F94S000000kH0HSAU?tab=discussion&sort=LAST_MODIFIED_DATE_DESC).
