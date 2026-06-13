@@ -5,6 +5,11 @@ on:
   # Mitigated by per-job Member Check (see "Check Write Permission" / "Validate Write Permission").
   pull_request_target:  # zizmor: ignore[dangerous-triggers]
     branches: [dev, master]
+    paths-ignore:
+      - '**/*.md'
+      - 'LICENSE'
+      - '.gitignore'
+      - 'CODEOWNERS'
 
 permissions:
   contents: read
