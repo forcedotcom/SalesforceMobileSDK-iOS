@@ -539,45 +539,47 @@ class PushNotificationManagerTests: XCTestCase {
         pushNotificationManager.foregroundRegistrationMode = .none
         let initialCallCount = mockRestClient.sendCallCount
 
+        let unexpectedSend = XCTestExpectation(description: "send should not be called")
+        unexpectedSend.isInverted = true
+        mockRestClient.onSend = {
+            unexpectedSend.fulfill()
+        }
+
         // When
         NotificationCenter.default.post(name: UIApplication.willEnterForegroundNotification, object: nil)
 
-        // Then
-        let expectation = XCTestExpectation(description: "No registration triggered")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            XCTAssertEqual(self.mockRestClient.sendCallCount, initialCallCount,
-                           "REST client should not be called when mode is .none")
-            expectation.fulfill()
-        }
-        wait(for: [expectation], timeout: 1.0)
+        // Then — wait briefly to confirm no call occurs
+        wait(for: [unexpectedSend], timeout: 0.5)
+        XCTAssertEqual(mockRestClient.sendCallCount, initialCallCount,
+                       "REST client should not be called when mode is .none")
     }
 
     func test_givenModeCurrentUser_whenAppEntersForeground_thenOnlyCurrentUserIsRegistered() {
         // Given
         pushNotificationManager.deviceToken = "test-device-token"
         pushNotificationManager.foregroundRegistrationMode = .currentUser
-        // .utf8 encoding of a string literal never returns nil; Data() is an unreachable fallback to avoid force unwrap.
         mockRestClient.jsonResponse = """
         {"success": true, "id": "test-sf-id"}
         """.data(using: .utf8) ?? Data()
+
         let initialCallCount = mockRestClient.sendCallCount
+        let expectation = XCTestExpectation(description: "Current user registration triggered")
+        mockRestClient.onSend = {
+            expectation.fulfill()
+        }
 
         // When
         NotificationCenter.default.post(name: UIApplication.willEnterForegroundNotification, object: nil)
 
         // Then
-        let expectation = XCTestExpectation(description: "Current user registration triggered")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            let registrationRequests = self.mockRestClient.allRequests.filter {
-                $0.path == "/\(self.mockRestClient.apiVersion)/sobjects/MobilePushServiceDevice"
-                    && $0.method == .POST
-            }
-            let newRegistrationCount = registrationRequests.count - initialCallCount
-            XCTAssertEqual(newRegistrationCount, 1,
-                           "Should register exactly once (current user only)")
-            expectation.fulfill()
+        wait(for: [expectation], timeout: 2.0)
+        let registrationRequests = mockRestClient.allRequests.filter {
+            $0.path == "/\(self.mockRestClient.apiVersion)/sobjects/MobilePushServiceDevice"
+                && $0.method == .POST
         }
-        wait(for: [expectation], timeout: 1.0)
+        let newRegistrationCount = registrationRequests.count - initialCallCount
+        XCTAssertEqual(newRegistrationCount, 1,
+                       "Should register exactly once (current user only)")
     }
 
     func test_givenModeAllUsers_whenAppEntersForeground_thenAllUsersAreRegistered() {
