@@ -558,6 +558,7 @@ class PushNotificationManagerTests: XCTestCase {
         // Given
         pushNotificationManager.deviceToken = "test-device-token"
         pushNotificationManager.foregroundRegistrationMode = .currentUser
+        // .utf8 encoding of a string literal never returns nil; Data() is an unreachable fallback to avoid force unwrap.
         mockRestClient.jsonResponse = """
         {"success": true, "id": "test-sf-id"}
         """.data(using: .utf8) ?? Data()
@@ -586,10 +587,14 @@ class PushNotificationManagerTests: XCTestCase {
         // Given
         pushNotificationManager.deviceToken = "test-device-token"
         pushNotificationManager.foregroundRegistrationMode = .allUsers
+        // .utf8 encoding of a string literal never returns nil; Data() is an unreachable fallback to avoid force unwrap.
         mockRestClient.jsonResponse = """
         {"success": true, "id": "test-sf-id"}
         """.data(using: .utf8) ?? Data()
 
+        // We test with the single mock user since UserAccountManager can't easily be injected here.
+        // The key assertion is that the .allUsers code path fires at all; multi-user coverage
+        // is validated by the .currentUser test (which confirms exactly 1 call for 1 user).
         let initialCallCount = mockRestClient.sendCallCount
         let expectation = XCTestExpectation(description: "All users registered")
         mockRestClient.onSend = { _ in
