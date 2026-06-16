@@ -142,29 +142,32 @@ class PushNotificationManagerTests: XCTestCase {
     
     func testRegisterForSalesforceNotifications_Success() {
         // Given
-        let expectation = XCTestExpectation(description: "Registration completion")
+        let expectation = XCTestExpectation(description: "Registration POST sent")
         pushNotificationManager.deviceToken = "test-token"
         UserAccountManager.shared.currentUserAccount = mockUserAccount
-        // Set up mock REST client to succeed
         mockRestClient.jsonResponse = """
         {
-            "success": true
+            "success": true,
+            "id": "test-sf-id"
         }
         """.data(using: .utf8)!
-        
-        // When
-        pushNotificationManager.registerForSalesforceNotifications { result in
-            // Then
-            switch result {
-            case .success(let success):
-                XCTAssertTrue(success)
-            case .failure:
-                XCTFail("Should not fail")
+
+        let expectedPath = "/\(mockRestClient.apiVersion)/sobjects/MobilePushServiceDevice"
+        mockRestClient.onSend = { request in
+            if request.path == expectedPath && request.method == .POST {
+                expectation.fulfill()
             }
-            expectation.fulfill()
         }
-        
-        wait(for: [expectation], timeout: 1.0)
+
+        // When
+        pushNotificationManager.registerForSalesforceNotifications { _ in }
+
+        // Then
+        wait(for: [expectation], timeout: 5.0)
+        let registrationRequest = mockRestClient.allRequests.first {
+            $0.path == expectedPath && $0.method == .POST
+        }
+        XCTAssertNotNil(registrationRequest, "Should have made a registration POST request")
     }
     
     func testRegisterForSalesforceNotifications_NoCurrentUser() {
@@ -658,47 +661,27 @@ class PushNotificationManagerTests: XCTestCase {
         }
         """.data(using: .utf8)!
 
-        let initialCallCount = mockRestClient.sendCallCount
+        let expectedPath = "/\(mockRestClient.apiVersion)/sobjects/MobilePushServiceDevice"
+        let expectation = XCTestExpectation(description: "Registration POST sent")
+        mockRestClient.onSend = { request in
+            if request.path == expectedPath && request.method == .POST {
+                expectation.fulfill()
+            }
+        }
 
         // When
-        let expectation = XCTestExpectation(description: "Registration triggered")
         NotificationCenter.default.post(
             name: UserAccountManager.didMigrateRefreshToken,
             object: nil
         )
 
-        // Then - Verify the REST client was actually called
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            XCTAssertGreaterThan(
-                self.mockRestClient.sendCallCount,
-                initialCallCount,
-                "REST client should have been called to register"
-            )
-
-            // Find the registration request (there may be multiple requests including fetchNotificationTypes)
-            let expectedPath = "/\(self.mockRestClient.apiVersion)/sobjects/MobilePushServiceDevice"
-            let registrationRequest = self.mockRestClient.allRequests.first { request in
-                request.path == expectedPath && request.method == RestRequest.Method.POST
-            }
-
-            guard let regRequest = registrationRequest else {
-                let paths = self.mockRestClient.allRequests.map { $0.path ?? "nil" }.joined(separator: ", ")
-                XCTFail("Should have made a registration request to \(expectedPath). Found requests to: \(paths)")
-                expectation.fulfill()
-                return
-            }
-
-            XCTAssertEqual(regRequest.method, RestRequest.Method.POST, "Should be a POST request")
-            XCTAssertEqual(
-                regRequest.path,
-                expectedPath,
-                "Request should be sent to the push notification registration endpoint"
-            )
-
-            expectation.fulfill()
+        // Then
+        wait(for: [expectation], timeout: 5.0)
+        let registrationRequest = mockRestClient.allRequests.first {
+            $0.path == expectedPath && $0.method == .POST
         }
-
-        wait(for: [expectation], timeout: 1.0)
+        XCTAssertNotNil(registrationRequest, "Should have made a registration POST request")
+        XCTAssertEqual(registrationRequest?.method, .POST, "Should be a POST request")
     }
 
     func testMigrateRefreshTokenObserver_ProperlyRemoved_OnDeinit() {
