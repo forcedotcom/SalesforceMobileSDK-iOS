@@ -541,7 +541,7 @@ class PushNotificationManagerTests: XCTestCase {
 
         let unexpectedSend = XCTestExpectation(description: "send should not be called")
         unexpectedSend.isInverted = true
-        mockRestClient.onSend = {
+        mockRestClient.onSend = { _ in
             unexpectedSend.fulfill()
         }
 
@@ -565,7 +565,7 @@ class PushNotificationManagerTests: XCTestCase {
 
         let initialCallCount = mockRestClient.sendCallCount
         let expectation = XCTestExpectation(description: "Current user registration triggered")
-        mockRestClient.onSend = {
+        mockRestClient.onSend = { _ in
             expectation.fulfill()
         }
 
