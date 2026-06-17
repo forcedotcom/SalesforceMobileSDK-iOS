@@ -106,19 +106,9 @@ public final class DPoPRequestDecorator: NSObject {
     }
 
     /// Reads `DPoP-Nonce` from a response and stores it in the cache for the next outbound
-    /// request to the same `htu`. Per backend design doc, harvest from both 200 OK responses
-    /// (proactive rotation) and 400/401 challenges (reactive).
-    ///
-    /// Concurrency note: the token endpoint is called serially, so this PR's caller pattern
-    /// is "request → harvest → next request" with no overlap. When DPoP is extended to REST
-    /// API calls in a later phase, in-flight concurrent calls will all carry the same nonce
-    /// and only one will rotate it cleanly; the others will see a `use_dpop_nonce` challenge
-    /// and retry. At that point, this site needs to decide between accepting the extra
-    /// round-trip, serializing requests through a per-`htu` lock, or pre-fetching a nonce.
-    /// Out of scope for the token-endpoint PR.
-    // TODO: Handle concurrent REST callers when DPoP extends to API calls. Today's serial
-    // token-endpoint caller pattern means harvest-then-next-request never overlaps; with
-    // concurrent REST, decide between extra-round-trip, per-htu serialization, or pre-fetch.
+    /// request to the same `htu`. Per RFC 9449 §8/§9, harvest from both 2xx responses
+    /// (proactive rotation) and 400/401 nonce challenges (reactive). Safe to call on every
+    /// response — a missing or empty header is a no-op.
     @objc(harvestNonceFromResponse:requestURL:scope:)
     public static func harvestNonce(from response: URLResponse?,
                                     requestURL: URL?,
@@ -130,6 +120,89 @@ public final class DPoPRequestDecorator: NSObject {
             return
         }
         DPoPNonceCache.shared.setNonce(nonce, htu: url, scope: scope)
+    }
+
+    /// Sends a request through `network`, harvesting any `DPoP-Nonce` from the response and
+    /// retrying exactly once if the server returns a `use_dpop_nonce` challenge (RFC 9449 §8).
+    ///
+    /// - Bearer / non-DPoP path: pass-through to `network.sendRequest`. No harvest, no retry.
+    /// - DPoP path: harvest on every response (success or challenge). On the first nonce
+    ///   challenge, drop the stale `DPoP` header, re-stamp via `applyAuthHeaders`, and resend.
+    ///   On a second consecutive challenge, deliver
+    ///   `NSError(domain: kSFOAuthErrorDomain, code: kSFOAuthErrorDPoPNonceExhausted)` to the
+    ///   caller — RFC 9449 §8 mandates the client give up rather than loop.
+    ///
+    /// `accessTokenProvider` is invoked once at retry time to read the current access token
+    /// from the credentials store. The retry's `Authorization: DPoP <token>` header and proof
+    /// `ath` claim must bind to whatever the credentials currently hold — a token refresh may
+    /// have raced in between the initial send and the retry, and reusing a captured stale
+    /// token would either be rejected by the server or, worse, leak the prior token in the
+    /// `ath` thumbprint.
+    ///
+    /// `taskReceiver` is invoked synchronously each time a `URLSessionDataTask` is created
+    /// (once on the initial send, once again on retry). Callers who track in-flight tasks for
+    /// cancellation or stale-task guards should use this hook — the first task is replaced by
+    /// the retry task, and only the most recent value is "current".
+    @objc(sendRequestWithNonceRetry:scope:accessTokenProvider:tokenType:network:taskReceiver:dataResponseBlock:)
+    @discardableResult
+    public static func sendWithNonceRetry(_ request: NSMutableURLRequest,
+                                          scope: String,
+                                          accessTokenProvider: @escaping () -> String?,
+                                          tokenType: String?,
+                                          network: Network,
+                                          taskReceiver: ((URLSessionDataTask) -> Void)?,
+                                          dataResponseBlock: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
+        // Bearer / no-DPoP early-out: no harvest, no retry — byte-identical to a direct
+        // network.sendRequest call.
+        guard tokenType == dpopTokenType, SalesforceManager.shared.usesDPoP, !scope.isEmpty else {
+            let task = network.send(request as URLRequest, dataResponseBlock: dataResponseBlock)
+            taskReceiver?(task)
+            return task
+        }
+
+        let task = network.send(request as URLRequest) { data, response, error in
+            // Always harvest — proactive rotation on 2xx responses and on challenges alike.
+            harvestNonce(from: response, requestURL: request.url, scope: scope)
+
+            // No HTTP response (transport error, cancellation, etc.) — pass through.
+            guard error == nil, let http = response as? HTTPURLResponse else {
+                dataResponseBlock(data, response, error)
+                return
+            }
+            guard isNonceChallenge(statusCode: http.statusCode, body: data, response: response) else {
+                dataResponseBlock(data, response, error)
+                return
+            }
+
+            // Reactive retry: drop stale DPoP header, re-stamp using the freshly-harvested
+            // nonce (now in the cache) and the freshest access token (the credentials store
+            // may have rotated mid-flight — re-read via the provider, never via a captured
+            // local).
+            request.setValue(nil, forHTTPHeaderField: dpopHeaderName)
+            do {
+                try applyAuthHeaders(request, scope: scope, accessToken: accessTokenProvider(), tokenType: tokenType)
+            } catch {
+                dataResponseBlock(data, response, error)
+                return
+            }
+
+            let retryTask = network.send(request as URLRequest) { retryData, retryResponse, retryError in
+                harvestNonce(from: retryResponse, requestURL: request.url, scope: scope)
+                if retryError == nil,
+                   let retryHTTP = retryResponse as? HTTPURLResponse,
+                   isNonceChallenge(statusCode: retryHTTP.statusCode, body: retryData, response: retryResponse) {
+                    let exhaustedError = NSError(domain: kSFOAuthErrorDomain,
+                                                 code: kSFOAuthErrorDPoPNonceExhausted,
+                                                 userInfo: [NSLocalizedDescriptionKey: "DPoP nonce challenge received twice in a row; client gives up per RFC 9449 §8."])
+                    dataResponseBlock(retryData, retryResponse, exhaustedError)
+                    return
+                }
+                dataResponseBlock(retryData, retryResponse, retryError)
+            }
+            taskReceiver?(retryTask)
+        }
+        taskReceiver?(task)
+        return task
     }
 
     /// Returns true if the response is a DPoP nonce challenge per RFC 9449 §8 — either a 401

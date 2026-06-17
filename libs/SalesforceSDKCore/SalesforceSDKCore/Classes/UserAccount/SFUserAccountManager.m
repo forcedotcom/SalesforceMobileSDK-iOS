@@ -2139,6 +2139,14 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         }
         SFNetwork *network = [SFNetwork sharedEphemeralInstance];
         [network sendRequest:request  dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error){
+            // Gate harvest on DPoP credentials only — Bearer logins must not write to the
+            // DPoP nonce cache even if the photo origin returns a stray DPoP-Nonce header.
+            if ([account.credentials.tokenType isEqualToString:[SFSDKDPoPRequestDecorator dpopTokenType]]
+                && [[SalesforceSDKManager sharedManager] useDPoP]) {
+                [SFSDKDPoPRequestDecorator harvestNonceFromResponse:response
+                                                         requestURL:request.URL
+                                                              scope:account.credentials.identifier];
+            }
             if (error) {
                 [SFSDKCoreLogger w:[self class] format:@"Error while trying to retrieve user photo: %ld %@", (long) error.code, error.localizedDescription];
                 return;
@@ -2405,7 +2413,15 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 
     __block NSString *networkIdentifier = [SFNetwork uniqueInstanceIdentifier];
     SFNetwork *network = [SFNetwork sharedEphemeralInstanceWithIdentifier:networkIdentifier];
-    [network sendRequest:request dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
+    [SFSDKDPoPRequestDecorator sendRequestWithNonceRetry:request
+                                                   scope:credentials.identifier ?: @""
+                                     accessTokenProvider:^NSString * _Nullable {
+        return credentials.accessToken;
+    }
+                                               tokenType:credentials.tokenType
+                                                 network:network
+                                            taskReceiver:nil
+                                       dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error) {
             errorBlock(error);
         } else {

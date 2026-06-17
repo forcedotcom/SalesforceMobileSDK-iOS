@@ -354,7 +354,15 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
     self.networkIdentifier = [SFNetwork uniqueInstanceIdentifier];
     SFNetwork *network = [SFNetwork sharedEphemeralInstanceWithIdentifier:self.networkIdentifier];
     self.session = network.activeSession;
-    [network sendRequest:request dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
+    [SFSDKDPoPRequestDecorator sendRequestWithNonceRetry:request
+                                                   scope:self.credentials.identifier ?: @""
+                                     accessTokenProvider:^NSString * _Nullable {
+        return weakSelf.credentials.accessToken;
+    }
+                                               tokenType:self.credentials.tokenType
+                                                 network:network
+                                            taskReceiver:nil
+                                       dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (error) {
             [SFSDKCoreLogger d:[self class] format:@"SFIdentityCoordinator session failed with error: %@", error];

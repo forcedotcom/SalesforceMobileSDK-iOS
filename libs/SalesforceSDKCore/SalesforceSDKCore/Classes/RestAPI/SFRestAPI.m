@@ -324,7 +324,27 @@ successBlock:(SFRestResponseBlock)successBlock
         } else {
             network = [self networkForRequest:request];
         }
-        __block NSURLSessionDataTask *dataTask = [network sendRequest:finalRequest dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
+
+        // Mutable copy so the DPoP nonce-retry helper can re-stamp the DPoP header on the
+        // retry request after a use_dpop_nonce challenge.
+        NSMutableURLRequest *mutableRequest = [finalRequest mutableCopy];
+        SFOAuthCredentials *credentials = self.user.credentials;
+        // taskReceiver fires twice on a nonce-retry round-trip: once for the initial task,
+        // once for the retry task. The stale-task guard below compares against the
+        // most recent value, so we reseat both `request.sessionDataTask` and the local
+        // `dataTask` ref captured by the response block.
+        __block NSURLSessionDataTask *dataTask = nil;
+        [SFSDKDPoPRequestDecorator sendRequestWithNonceRetry:mutableRequest
+                                                       scope:credentials.identifier ?: @""
+                                         accessTokenProvider:^NSString * _Nullable {
+            return weakSelf.user.credentials.accessToken;
+        }
+                                                   tokenType:credentials.tokenType
+                                                     network:network
+                                                taskReceiver:^(NSURLSessionDataTask *task) {
+            dataTask = task;
+            request.sessionDataTask = task;
+        } dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             [SFNetwork removeSharedInstanceForIdentifier:instanceIdentifier];
 
@@ -372,7 +392,6 @@ successBlock:(SFRestResponseBlock)successBlock
                 }
             }
         }];
-        request.sessionDataTask = dataTask;
     }
 }
 
