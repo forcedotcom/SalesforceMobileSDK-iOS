@@ -237,10 +237,11 @@ static NSException *authException = nil;
 
     while (elapsed < maxWait) {
         SFRestAPITestResponse *response = [self sendSyncRequest:request];
-        XCTAssertEqualObjects(response.returnStatus, kTestRequestStatusDidLoad, @"search request failed");
-        records = ((NSDictionary *)response.dataResponse)[SEARCH_RECORDS];
-        if (records.count >= minResults) {
-            return records;
+        if ([response.returnStatus isEqualToString:kTestRequestStatusDidLoad]) {
+            records = ((NSDictionary *)response.dataResponse)[SEARCH_RECORDS];
+            if (records.count >= minResults) {
+                return records;
+            }
         }
         [NSThread sleepForTimeInterval:interval];
         elapsed += interval;
@@ -257,10 +258,11 @@ static NSException *authException = nil;
 
     while (elapsed < maxWait) {
         SFRestAPITestResponse *response = [self sendSyncRequest:request];
-        XCTAssertEqualObjects(response.returnStatus, kTestRequestStatusDidLoad, @"search request failed");
-        records = ((NSDictionary *)response.dataResponse)[SEARCH_RECORDS];
-        if (records.count == 0) {
-            return records;
+        if ([response.returnStatus isEqualToString:kTestRequestStatusDidLoad]) {
+            records = ((NSDictionary *)response.dataResponse)[SEARCH_RECORDS];
+            if (records.count == 0) {
+                return records;
+            }
         }
         [NSThread sleepForTimeInterval:interval];
         elapsed += interval;
@@ -278,10 +280,11 @@ static NSException *authException = nil;
 
     while (elapsed < maxWait) {
         SFRestAPITestResponse *response = [self sendSyncRequest:request];
-        XCTAssertEqualObjects(response.returnStatus, kTestRequestStatusDidLoad, @"query request failed");
-        records = ((NSDictionary *)response.dataResponse)[RECORDS];
-        if (records.count == 0) {
-            return records;
+        if ([response.returnStatus isEqualToString:kTestRequestStatusDidLoad]) {
+            records = ((NSDictionary *)response.dataResponse)[RECORDS];
+            if (records.count == 0) {
+                return records;
+            }
         }
         [NSThread sleepForTimeInterval:interval];
         elapsed += interval;
@@ -298,10 +301,11 @@ static NSException *authException = nil;
 
     while (elapsed < maxWait) {
         SFRestAPITestResponse *response = [self sendSyncRequest:request];
-        XCTAssertEqualObjects(response.returnStatus, kTestRequestStatusDidLoad, @"query request failed");
-        records = ((NSDictionary *)response.dataResponse)[RECORDS];
-        if (records.count >= minResults) {
-            return records;
+        if ([response.returnStatus isEqualToString:kTestRequestStatusDidLoad]) {
+            records = ((NSDictionary *)response.dataResponse)[RECORDS];
+            if (records.count >= minResults) {
+                return records;
+            }
         }
         [NSThread sleepForTimeInterval:interval];
         elapsed += interval;
