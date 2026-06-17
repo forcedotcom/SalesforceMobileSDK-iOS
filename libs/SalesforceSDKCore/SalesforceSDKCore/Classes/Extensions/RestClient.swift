@@ -29,37 +29,6 @@
 
 import Foundation
 import Combine
-import os
-
-/// Thread-safe wrapper that ensures a CheckedThrowingContinuation is resumed exactly once.
-private final class OnceGuard<T>: @unchecked Sendable {
-    private let lock = OSAllocatedUnfairLock(initialState: false)
-    private let continuation: CheckedContinuation<T, any Error>
-
-    init(_ continuation: CheckedContinuation<T, any Error>) {
-        self.continuation = continuation
-    }
-
-    func resume(returning value: T) {
-        let alreadyResumed = lock.withLock { state -> Bool in
-            if state { return true }
-            state = true
-            return false
-        }
-        guard !alreadyResumed else { return }
-        continuation.resume(returning: value)
-    }
-
-    func resume(throwing error: any Error) {
-        let alreadyResumed = lock.withLock { state -> Bool in
-            if state { return true }
-            state = true
-            return false
-        }
-        guard !alreadyResumed else { return }
-        continuation.resume(throwing: error)
-    }
-}
 
 /// Errors that can be thrown while using RestClient
 public enum RestClientError: Error {
@@ -167,9 +136,8 @@ extension RestClient {
     /// - Throws: A `RestClientError` if the request fails.
     public func send(request: RestRequest) async throws -> RestResponse {
         request.parseResponse = false
-
+        
         return try await withCheckedThrowingContinuation { continuation in
-            let guard_ = OnceGuard(continuation)
             send(request,
                  failureBlock: { rawResponse, error, urlResponse in
                 let apiError = RestClientError.apiFailed(
@@ -177,15 +145,15 @@ extension RestClient {
                     underlyingError: error ?? RestClientError.apiResponseIsEmpty,
                     urlResponse: urlResponse
                 )
-                guard_.resume(throwing: apiError)
+                continuation.resume(throwing: apiError)
             },
                  successBlock: { rawResponse, urlResponse in
                 if let data = rawResponse as? Data,
                    let urlResponse = urlResponse {
                     let result = RestResponse(data: data, urlResponse: urlResponse)
-                    guard_.resume(returning: result)
+                    continuation.resume(returning: result)
                 } else {
-                    guard_.resume(throwing: RestClientError.apiResponseIsEmpty)
+                    continuation.resume(throwing: RestClientError.apiResponseIsEmpty)
                 }
             })
         }
@@ -193,16 +161,16 @@ extension RestClient {
     
     public func send(compositeRequest: CompositeRequest) async throws -> CompositeResponse {
         compositeRequest.parseResponse = false
-
+        
         return try await withCheckedThrowingContinuation { continuation in
-            let guard_ = OnceGuard(continuation)
             sendCompositeRequest(compositeRequest, failureBlock: { (response, error, urlResponse) in
                 let apiError = RestClientError.apiFailed(response: response, underlyingError: error ?? RestClientError.apiResponseIsEmpty, urlResponse: urlResponse)
-                guard_.resume(throwing: apiError)
+                continuation.resume(throwing: apiError)
             }, successBlock: { (response, _) in
-                guard_.resume(returning: response)
+                continuation.resume(returning: response)
             })
         }
+        
     }
     
     /// Execute a prebuilt batch of requests.
@@ -212,9 +180,8 @@ extension RestClient {
     /// - See   [Batch](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_batch.htm).
     public func send(batchRequest: BatchRequest) async throws -> BatchResponse {
         batchRequest.parseResponse = false
-
+        
         return try await withCheckedThrowingContinuation { continuation in
-            let guard_ = OnceGuard(continuation)
             sendBatchRequest(batchRequest,
                              failureBlock: { response, error, urlResponse in
                 let apiError = RestClientError.apiFailed(
@@ -222,9 +189,9 @@ extension RestClient {
                     underlyingError: error ?? RestClientError.apiResponseIsEmpty,
                     urlResponse: urlResponse
                 )
-                guard_.resume(throwing: apiError)
+                continuation.resume(throwing: apiError)
             }, successBlock: { response, _ in
-                guard_.resume(returning: response)
+                continuation.resume(returning: response)
             })
         }
     }
