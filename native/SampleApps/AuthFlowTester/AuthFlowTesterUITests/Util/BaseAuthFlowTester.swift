@@ -42,6 +42,19 @@ class BaseAuthFlowTester: XCTestCase {
     override func setUp() {
         super.setUp()
         continueAfterFailure = false
+
+        addUIInterruptionMonitor(withDescription: "System Alert") { alert in
+            let dominated = ["Allow", "OK", "Continue", "Allow While Using App",
+                             "Don\u{2019}t Allow", "Allow Paste"]
+            for label in dominated {
+                let button = alert.buttons[label]
+                if button.exists {
+                    button.tap()
+                    return true
+                }
+            }
+            return false
+        }
     }
     
     override func tearDown() {
@@ -67,6 +80,11 @@ class BaseAuthFlowTester: XCTestCase {
         mainPage = AuthFlowTesterMainPageObject(testApp: app)
         app.launch()
 
+        // Tap the app to trigger any pending system alert interruption handlers.
+        // On CI, system alerts (tracking permission, paste confirmation) can block
+        // the UI if not dismissed before interacting with app elements.
+        app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
+
         // Start logged out
         if (mainPage.isShowing()) {
             logout()
@@ -76,8 +94,14 @@ class BaseAuthFlowTester: XCTestCase {
         if (loginPage.isShowingAdvancedAuth()) {
             loginPage.closeAdvancedAuth()
         }
+
+        // Pre-warm the WKWebView process pool by waiting for the initial login page
+        // to fully load. On the first test in a class, the WebView process hasn't
+        // been created yet — this absorbs the cold-start cost so subsequent
+        // host-change navigations don't time out.
+        loginPage.waitForWebViewReady()
     }
-    
+
     /// Performs login with the specified configuration.
     ///
     /// Configures the login options and performs authentication for the specified user.

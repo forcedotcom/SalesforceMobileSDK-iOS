@@ -79,6 +79,7 @@ class LoginPageObject {
     }
     
     func performLogin(username: String, password: String, advancedAuth: Bool = false) {
+        waitForLoginFormReady()
         setTextField(usernameField(), value: username)
         if advancedAuth {
             usernameField().typeText(XCUIKeyboardKey.return.rawValue)
@@ -147,8 +148,29 @@ class LoginPageObject {
         )
     }
 
+    // MARK: - Login Form Readiness
+
+    /// Pre-warms the WKWebView process pool by waiting for the initial login page to render.
+    /// Called once after app launch to absorb the cold-start cost of WKWebView process creation.
+    /// Uses a longer timeout than normal because the first WebView load includes process pool
+    /// initialization, TLS session setup, and initial page compilation.
+    func waitForWebViewReady() {
+        let webView = app.webViews.firstMatch
+        _ = webView.waitForExistence(timeout: UITestTimeouts.network * 2)
+    }
+
+    /// Waits for the WKWebView login form to be fully loaded and interactive.
+    /// After a login host change, the WebView navigates to a new URL and the form elements
+    /// are not immediately available. This method waits for the username text field inside
+    /// the WebView to become available, which signals the login form has fully rendered.
+    private func waitForLoginFormReady() {
+        let webViewTextField = app.webViews.webViews.webViews.textFields.firstMatch
+        let formReady = webViewTextField.waitForExistence(timeout: UITestTimeouts.network)
+        XCTAssertTrue(formReady, "Login form did not load within \(UITestTimeouts.network)s — WebView may not have finished loading the login page")
+    }
+
     // MARK: - UI Element Accessors
-    
+
     private func loginNavigationBar() -> XCUIElement {
         return app.navigationBars["Log In"]
     }
