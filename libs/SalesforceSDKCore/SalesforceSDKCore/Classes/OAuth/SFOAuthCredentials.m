@@ -372,8 +372,17 @@ NSException * SFOAuthInvalidIdentifierException(void) {
 }
 
 - (NSURL *)overrideDomainIfNeeded {
-    NSString *domain = self.communityId ? self.communityUrl.absoluteString : self.domain;
-    NSString *protocolHost = self.communityId ? domain : [NSString stringWithFormat:@"%@://%@", self.protocol, domain];
+    // Precedence: communityUrl > instanceUrl > domain. instanceUrl is populated only after the first
+    // token response, so a nil instanceUrl naturally identifies the code-exchange path.
+    if (self.communityId && self.communityUrl) {
+        return self.communityUrl;
+    }
+
+    if (self.instanceUrl) {
+        return self.instanceUrl;
+    }
+
+    NSString *protocolHost = [NSString stringWithFormat:@"%@://%@", self.protocol, self.domain];
     return [NSURL URLWithString:protocolHost];
 }
 

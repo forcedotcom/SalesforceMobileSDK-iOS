@@ -281,7 +281,9 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
                                kSFOAuthRedirectUri, endpointReq.redirectURI,
                                kSFOAuthClientId, endpointReq.clientID,
                                kSFOAuthDeviceId,[[[UIDevice currentDevice] identifierForVendor] UUIDString]];
-    [SFSDKCoreLogger i:[self class] format:@"%@: Initiating refresh token flow.", NSStringFromSelector(_cmd)];
+    NSURL *targetURL = endpointReq.serverURL;
+    NSString *targetHost = targetURL.host ?: @"<unknown>";
+    [SFSDKCoreLogger i:[self class] format:@"%@: Initiating refresh token flow to host: %@", NSStringFromSelector(_cmd), targetHost];
     NSString *grantType = [[SalesforceSDKManager sharedManager] useHybridAuthentication] ? kSFOAuthGrantTypeHybridRefresh : kSFOAuthGrantTypeRefresh;
     [params appendFormat:@"&%@=%@&%@=%@", kSFOAuthGrantType, grantType, kSFOAuthRefreshToken, endpointReq.refreshToken];
     for (NSString * key in endpointReq.additionalTokenRefreshParams) {
