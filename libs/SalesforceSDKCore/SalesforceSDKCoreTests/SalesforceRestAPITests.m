@@ -188,8 +188,8 @@ static NSException *authException = nil;
 // Generate a name that uses a known prefix
 // During tear down all records using that prefix in their name are deleted
 - (NSString*) generateRecordName {
-    NSTimeInterval timecode = [NSDate timeIntervalSinceReferenceDate];
-    return [NSString stringWithFormat:@"%@%f", ENTITY_PREFIX_NAME, timecode];
+    NSString *uuid = [[NSUUID UUID] UUIDString];
+    return [NSString stringWithFormat:@"%@%@", ENTITY_PREFIX_NAME, uuid];
 }
 
 // New block-based helper that returns response data
@@ -666,10 +666,6 @@ static NSException *authException = nil;
         // now query object — use retry since SOQL can have brief eventual consistency after create
         request = [[SFRestAPI sharedInstance] requestForQuery:[NSString stringWithFormat:@"select Id, FirstName from Contact where LastName='%@'", lastName] apiVersion:kSFRestDefaultAPIVersion];
         NSArray *records = [self sendSyncQueryRequestUntilFound:request expectedMinResults:1 maxWaitSeconds:30];
-        if (records.count == 0) {
-            // Record was deleted by concurrent test execution before it became queryable — skip remaining assertions
-            return;
-        }
         XCTAssertEqual((int)[records count], 1, @"expected just one query result");
 
         // now search object — use retry since SOSL indexing has server-side lag
@@ -869,20 +865,10 @@ static NSException *authException = nil;
                                  apiVersion:kSFRestDefaultAPIVersion];
      response = [self sendSyncRequest:updateRequest];
      if (![response.returnStatus isEqualToString:kTestRequestStatusDidLoad]) {
-         NSHTTPURLResponse *updateHttpResponse = (NSHTTPURLResponse *)response.rawResponse;
-         if (updateHttpResponse.statusCode == 404) {
-             // Entity was deleted by concurrent test execution or org cleanup — test premise invalid, skip remaining assertions
-             return;
-         }
          [NSThread sleepForTimeInterval:3.0f];
          response = [self sendSyncRequest:updateRequest];
-         updateHttpResponse = (NSHTTPURLResponse *)response.rawResponse;
-         if (updateHttpResponse.statusCode == 404) return;
-         XCTAssertEqualObjects(response.returnStatus, kTestRequestStatusDidLoad,
-             @"update request failed — HTTP %ld | error: %@ | body: %@",
-             (long)(updateHttpResponse ? updateHttpResponse.statusCode : 0),
-             response.lastError, response.dataResponse);
      }
+     XCTAssertEqualObjects(response.returnStatus, kTestRequestStatusDidLoad, @"request should have succeeded");
      if (![response.returnStatus isEqualToString:kTestRequestStatusDidLoad]) return;
 
      // Retrieve - expect updated name
