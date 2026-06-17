@@ -619,8 +619,8 @@ static NSException *authException = nil;
     //use a SOSL-safe format here to avoid problems with escaping characters for SOSL
     NSString *lastName = [self generateRecordName];
     //We updated lastName so that it's already SOSL-safe: if you change lastName, you may need to escape SOSL-unsafe characters!
-
-    NSDictionary *fields = @{FIRST_NAME: @"John",
+    
+    NSDictionary *fields = @{FIRST_NAME: @"John", 
                              LAST_NAME: lastName};
 
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForCreateWithObjectType:CONTACT fields:fields apiVersion:kSFRestDefaultAPIVersion];
