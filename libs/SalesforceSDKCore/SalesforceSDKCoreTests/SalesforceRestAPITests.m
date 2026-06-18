@@ -329,6 +329,7 @@ static NSException *authException = nil;
         }
         [NSThread sleepForTimeInterval:interval];
         elapsed += interval;
+        interval = MIN(interval * 1.5, 5.0);
     }
     return response;
 }
@@ -350,6 +351,7 @@ static NSException *authException = nil;
         if (!found) return response;
         [NSThread sleepForTimeInterval:interval];
         elapsed += interval;
+        interval = MIN(interval * 1.5, 5.0);
     }
     return response;
 }
@@ -677,8 +679,9 @@ static NSException *authException = nil;
         records = [self sendSyncSearchRequestWithRetry:request expectedMinResults:1 maxWaitSeconds:45];
     }
     @finally {
-        // Delete object. A 404/ENTITY_IS_DELETED response is acceptable — it means
-        // the record was already removed (e.g., first delete succeeded but response timed out).
+        // Delete cleanup. Single retry (not a polling loop) because delete is synchronous —
+        // the only observed failure mode is a timed-out response followed by 404 on retry.
+        // A 404/ENTITY_IS_DELETED is acceptable since it confirms the record is gone.
         request = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:CONTACT objectId:contactId apiVersion:kSFRestDefaultAPIVersion];
         response = [self sendSyncRequest:request];
         if (![response.returnStatus isEqualToString:kTestRequestStatusDidLoad]) {
@@ -768,11 +771,9 @@ static NSException *authException = nil;
     [SFLogger log:[self class] level:SFLogLevelDebug format:@"## contact created with id: %@", contactId];
     
     @try {
-        // now query object
+        // now query object — use retry since SOQL can have brief eventual consistency after create
         request = [[SFRestAPI sharedInstance] requestForQuery:[NSString stringWithFormat:@"select Id, FirstName from Contact where LastName='%@'", lastName] apiVersion:kSFRestDefaultAPIVersion];
-        response = [self sendSyncRequest:request];
-        XCTAssertEqualObjects(response.returnStatus, kTestRequestStatusDidLoad, @"query request failed");
-        NSArray *records = ((NSDictionary *)response.dataResponse)[RECORDS];
+        NSArray *records = [self sendSyncQueryRequestUntilFound:request expectedMinResults:1 maxWaitSeconds:30];
         XCTAssertEqual((int)[records count], 1, @"expected just one query result");
         
         // modify object
@@ -796,8 +797,9 @@ static NSException *authException = nil;
         XCTAssertEqual((int)[records count], 0, @"expected no result");
     }
     @finally {
-        // Delete object. A 404/ENTITY_IS_DELETED response is acceptable — it means
-        // the record was already removed (e.g., first delete succeeded but response timed out).
+        // Delete cleanup. Single retry (not a polling loop) because delete is synchronous —
+        // the only observed failure mode is a timed-out response followed by 404 on retry.
+        // A 404/ENTITY_IS_DELETED is acceptable since it confirms the record is gone.
         request = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:CONTACT objectId:contactId apiVersion:kSFRestDefaultAPIVersion];
         response = [self sendSyncRequest:request];
         if (![response.returnStatus isEqualToString:kTestRequestStatusDidLoad]) {
