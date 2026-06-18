@@ -699,6 +699,7 @@ static NSException *authException = nil;
     // well, let's do another query just to be sure — use retry since SOQL can briefly show stale results after delete
     request = [[SFRestAPI sharedInstance] requestForQuery:[NSString stringWithFormat:@"select Id, FirstName from Contact where LastName='%@'", lastName] apiVersion:kSFRestDefaultAPIVersion];
     NSArray *records = [self sendSyncQueryRequestUntilEmpty:request maxWaitSeconds:30];
+    XCTAssertNotNil(records, @"server was unreachable during post-delete query verification");
     XCTAssertEqual((int)[records count], 0, @"expected no result");
     
     // check the deleted object is here
@@ -712,6 +713,7 @@ static NSException *authException = nil;
     // now search object — use retry since SOSL de-indexing has server-side lag
     request = [[SFRestAPI sharedInstance] requestForSearch:[NSString stringWithFormat:@"Find {%@}", lastName] apiVersion:kSFRestDefaultAPIVersion];
     records = [self sendSyncSearchRequestUntilEmpty:request maxWaitSeconds:45];
+    XCTAssertNotNil(records, @"server was unreachable during post-delete search verification");
     XCTAssertEqual((int)[records count], 0, @"expected no result");
 }
 
