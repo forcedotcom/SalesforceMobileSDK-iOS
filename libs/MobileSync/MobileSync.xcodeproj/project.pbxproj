@@ -1356,6 +1356,7 @@
 /* Begin XCBuildConfiguration section */
 		4F06AF421C499FD100F70798 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CECB662A1C1BB8A9008038AE /* MobileSync-Dynamic-iOS-Debug.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1382,6 +1383,7 @@
 		};
 		4F06AF431C499FD100F70798 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CECB662B1C1BB8A9008038AE /* MobileSync-Dynamic-iOS-Release.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
