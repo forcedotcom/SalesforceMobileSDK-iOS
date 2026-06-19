@@ -159,11 +159,19 @@ class PushNotificationManagerTests: XCTestCase {
         {"success": true}
         """.data(using: .utf8) ?? Data()
 
+        let expectation = XCTestExpectation(description: "Request sent")
+        mockRestClient.onSend = { request in
+            expectation.fulfill()
+        }
+
         // When
         let result = pushNotificationManager.unregisterSalesforceNotifications(for: targetUser, completionBlock: nil)
 
         // Then
         XCTAssertTrue(result, "Unregistration should start successfully")
+
+        // Wait for the request
+        wait(for: [expectation], timeout: 2.0)
 
         // Verify the DELETE path uses the target user's deviceSalesforceId
         let deleteRequest = try XCTUnwrap(
