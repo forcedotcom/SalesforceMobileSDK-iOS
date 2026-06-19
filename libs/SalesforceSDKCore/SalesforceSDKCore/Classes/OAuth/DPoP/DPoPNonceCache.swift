@@ -67,6 +67,32 @@ public final class DPoPNonceCache: NSObject {
         return queue.sync { storage[key] }
     }
 
+    /// Returns the most recently observed nonce for `scope`, regardless of `htu`.
+    ///
+    /// RFC 9449 §8/§9 leaves it to the authorization server to decide whether resource
+    /// servers also emit `DPoP-Nonce`. Salesforce's deployment seeds the nonce only on
+    /// token-endpoint responses; resource-server responses do not refresh it. Clients
+    /// are expected to reuse that token-endpoint nonce on every DPoP-protected call for
+    /// the lifetime of the DPoP session, and re-authenticate (which mints a fresh nonce)
+    /// when the session expires or the server replies with `use_dpop_nonce`.
+    ///
+    /// `nonce(htu:scope:)` is the spec-correct per-resource lookup. This method is the
+    /// fall-through used by `DPoPRequestDecorator` when the per-`htu` slot is empty —
+    /// in practice the only populated slot for a given scope is the token endpoint, and
+    /// returning it lets the proof carry the server-issued nonce on resource-server
+    /// calls without an unnecessary `use_dpop_nonce` round-trip.
+    @objc(latestForScope:)
+    public func latest(forScope scope: String?) -> String? {
+        let scopeKey = (scope?.isEmpty == false) ? scope! : "anonymous"
+        let suffix = "|" + scopeKey
+        return queue.sync {
+            for (key, value) in storage where key.hasSuffix(suffix) {
+                return value
+            }
+            return nil
+        }
+    }
+
     @objc(setNonce:htu:scope:)
     public func setNonce(_ nonce: String, htu: URL, scope: String?) {
         let key = Self.cacheKey(htu: htu, scope: scope)

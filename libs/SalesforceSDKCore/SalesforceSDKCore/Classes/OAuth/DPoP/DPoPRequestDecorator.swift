@@ -62,7 +62,13 @@ public final class DPoPRequestDecorator: NSObject {
         let method = request.httpMethod
 
         let keyPair = try DPoPKeyStore.shared.keyPair(forScope: scope)
+        // Salesforce seeds DPoP-Nonce only on token-endpoint responses; resource-server
+        // responses don't refresh it. RFC 9449 §8/§9 permits this. Look up the per-htu
+        // entry first (spec-correct), then fall back to the latest nonce for the same
+        // scope so resource-server calls reuse the token-endpoint nonce instead of
+        // paying a `use_dpop_nonce` round-trip.
         let nonce = DPoPNonceCache.shared.nonce(htu: url, scope: scope)
+            ?? DPoPNonceCache.shared.latest(forScope: scope)
         let proof = try DPoPProofBuilder.buildProof(httpMethod: method,
                                                     htu: url,
                                                     nonce: nonce,
