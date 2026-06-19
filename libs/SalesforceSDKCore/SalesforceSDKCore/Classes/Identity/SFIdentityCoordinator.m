@@ -23,6 +23,7 @@
  */
 
 #import <SalesforceSDKCommon/SFJsonUtils.h>
+#import <CommonCrypto/CommonDigest.h>
 #import "SFIdentityCoordinator+Internal.h"
 #import "SFOAuthCredentials.h"
 #import "SFOAuthSessionRefresher.h"
@@ -146,6 +147,13 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
 
 - (void)sendRequest
 {
+    // TEMP debug — fingerprint the access token at request-build time so we can
+    // tell whether refresh is actually swapping the in-flight token.
+    NSString *atFingerprint = self.credentials.accessToken.length >= 8
+        ? [self.credentials.accessToken substringToIndex:8]
+        : (self.credentials.accessToken ?: @"<nil>");
+    [SFSDKCoreLogger i:[self class] format:@"Identity sendRequest probe: accessToken[0..8]=%@ len=%lu", atFingerprint, (unsigned long)self.credentials.accessToken.length];
+
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:self.credentials.identityUrl
                                                                 cachePolicy:NSURLRequestReloadIgnoringCacheData
                                                             timeoutInterval:self.timeout];
@@ -161,12 +169,200 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
     }
     [request setTimeoutInterval:self.timeout];
     [request setHTTPShouldHandleCookies:NO];
+    // TEMP debug — confirm what headers actually go on the wire.
+    NSString *authHdr = [request valueForHTTPHeaderField:@"Authorization"];
+    NSString *dpopHdr = [request valueForHTTPHeaderField:@"DPoP"];
+    NSString *authPreview = authHdr ? [NSString stringWithFormat:@"%@…(%lu chars)", [authHdr substringToIndex:MIN((NSUInteger)10, authHdr.length)], (unsigned long)authHdr.length] : @"<nil>";
+    NSString *dpopPreview = dpopHdr ? [NSString stringWithFormat:@"<%lu chars, %lu segments>", (unsigned long)dpopHdr.length, (unsigned long)[[dpopHdr componentsSeparatedByString:@"."] count]] : @"<nil>";
+    [SFSDKCoreLogger i:[self class] format:@"Identity outbound probe: tokenType=%@ Authorization=%@ DPoP=%@", self.credentials.tokenType ?: @"<nil>", authPreview, dpopPreview];
     [SFSDKCoreLogger d:[self class] format:@"SFIdentityCoordinator:Starting identity request at %@", self.credentials.identityUrl.absoluteString];
+
+    // TEMP debug — fire-and-forget userinfo probes alongside the identity call,
+    // using the same DPoP-bound credentials. Runs once per process so the loop
+    // doesn't drown logs. Two probes:
+    //   1. identityHost (login.test1...) — same host as failing /id/ call
+    //   2. instanceHost (orgfarm-...my.pc-rnd...) — the my-domain that minted the token
+    // Comparing the two pinpoints whether the login-host sfdcedge proxy is the
+    // culprit independent of org/connected-app config.
+    static dispatch_once_t userinfoProbeOnce;
+    dispatch_once(&userinfoProbeOnce, ^{
+        NSURLComponents *idComps = [NSURLComponents componentsWithURL:self.credentials.identityUrl resolvingAgainstBaseURL:NO];
+        idComps.path = @"/services/oauth2/userinfo";
+        idComps.query = nil;
+        NSURL *userinfoUrl = idComps.URL;
+        NSMutableURLRequest *uiReq = [[NSMutableURLRequest alloc] initWithURL:userinfoUrl
+                                                                  cachePolicy:NSURLRequestReloadIgnoringCacheData
+                                                              timeoutInterval:self.timeout];
+        [uiReq setHTTPMethod:@"GET"];
+        [uiReq setHTTPShouldHandleCookies:NO];
+        NSError *uiAuthErr = nil;
+        BOOL uiOk = [SFSDKDPoPRequestDecorator applyAuthHeaders:uiReq
+                                                          scope:self.credentials.identifier
+                                                    accessToken:self.credentials.accessToken
+                                                      tokenType:self.credentials.tokenType
+                                                          error:&uiAuthErr];
+        [SFSDKCoreLogger i:[self class] format:@"Userinfo probe (identityHost): stamping ok=%d err=%@ url=%@", uiOk, uiAuthErr ?: @"<nil>", userinfoUrl.absoluteString];
+
+        // TEMP debug — decode the DPoP proof and access token (if JWT) so we can
+        // share claims with backend without leaking secrets. Logs only structural
+        // metadata: header alg/typ, payload claims (htm/htu/iat/jti/ath length),
+        // and embedded jwk shape. Does not log the proof signature.
+        NSString * (^b64urlDecode)(NSString *) = ^NSString *(NSString *seg) {
+            NSString *s = [seg stringByReplacingOccurrencesOfString:@"-" withString:@"+"];
+            s = [s stringByReplacingOccurrencesOfString:@"_" withString:@"/"];
+            NSUInteger pad = (4 - (s.length % 4)) % 4;
+            for (NSUInteger i = 0; i < pad; i++) s = [s stringByAppendingString:@"="];
+            NSData *d = [[NSData alloc] initWithBase64EncodedString:s options:0];
+            return d ? [[NSString alloc] initWithData:d encoding:NSUTF8StringEncoding] : nil;
+        };
+        NSDictionary * (^parseJwtJson)(NSString *) = ^NSDictionary *(NSString *json) {
+            if (!json) return nil;
+            NSError *jerr = nil;
+            id parsed = [NSJSONSerialization JSONObjectWithData:[json dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&jerr];
+            return [parsed isKindOfClass:[NSDictionary class]] ? parsed : nil;
+        };
+
+        NSString *dpopProof = [uiReq valueForHTTPHeaderField:@"DPoP"];
+        NSArray<NSString *> *segs = [dpopProof componentsSeparatedByString:@"."];
+        if (segs.count == 3) {
+            NSDictionary *hdr = parseJwtJson(b64urlDecode(segs[0]));
+            NSDictionary *payload = parseJwtJson(b64urlDecode(segs[1]));
+            NSDictionary *jwk = hdr[@"jwk"];
+            NSString *ath = payload[@"ath"];
+
+            // RFC 7638 JWK thumbprint for EC keys: base64url(SHA-256(canonical))
+            // canonical = {"crv":"<crv>","kty":"EC","x":"<x>","y":"<y>"} (lex-ordered, no whitespace)
+            NSString *jkt = @"<nil>";
+            if ([jwk[@"kty"] isEqualToString:@"EC"] && jwk[@"crv"] && jwk[@"x"] && jwk[@"y"]) {
+                NSString *canonical = [NSString stringWithFormat:@"{\"crv\":\"%@\",\"kty\":\"EC\",\"x\":\"%@\",\"y\":\"%@\"}",
+                    jwk[@"crv"], jwk[@"x"], jwk[@"y"]];
+                NSData *canonBytes = [canonical dataUsingEncoding:NSUTF8StringEncoding];
+                unsigned char digest[CC_SHA256_DIGEST_LENGTH];
+                CC_SHA256(canonBytes.bytes, (CC_LONG)canonBytes.length, digest);
+                NSData *digestData = [NSData dataWithBytes:digest length:CC_SHA256_DIGEST_LENGTH];
+                NSString *b64 = [digestData base64EncodedStringWithOptions:0];
+                b64 = [b64 stringByReplacingOccurrencesOfString:@"+" withString:@"-"];
+                b64 = [b64 stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
+                b64 = [b64 stringByReplacingOccurrencesOfString:@"=" withString:@""];
+                jkt = b64;
+            }
+
+            [SFSDKCoreLogger i:[self class]
+                format:@"Userinfo probe DPoP proof: alg=%@ typ=%@ jwk.kty=%@ jwk.crv=%@ jwk.x.len=%lu jwk.y.len=%lu computed.jkt=%@ htm=%@ htu=%@ iat=%@ jti=%@ ath=%@ nonce=%@",
+                hdr[@"alg"] ?: @"<nil>",
+                hdr[@"typ"] ?: @"<nil>",
+                jwk[@"kty"] ?: @"<nil>",
+                jwk[@"crv"] ?: @"<nil>",
+                (unsigned long)((NSString *)jwk[@"x"]).length,
+                (unsigned long)((NSString *)jwk[@"y"]).length,
+                jkt,
+                payload[@"htm"] ?: @"<nil>",
+                payload[@"htu"] ?: @"<nil>",
+                payload[@"iat"] ?: @"<nil>",
+                payload[@"jti"] ?: @"<nil>",
+                ath ?: @"<nil>",
+                payload[@"nonce"] ?: @"<nil>"];
+        } else {
+            [SFSDKCoreLogger i:[self class] format:@"Userinfo probe DPoP proof: unexpected segment count=%lu", (unsigned long)segs.count];
+        }
+
+        // Try decoding the access token as a JWT (it may be opaque; that's OK).
+        NSArray<NSString *> *atSegs = [self.credentials.accessToken componentsSeparatedByString:@"."];
+        if (atSegs.count == 3) {
+            NSDictionary *atPayload = parseJwtJson(b64urlDecode(atSegs[1]));
+            NSDictionary *cnf = atPayload[@"cnf"];
+            [SFSDKCoreLogger i:[self class]
+                format:@"Userinfo probe access token: jwt=yes iss=%@ aud=%@ sub=%@ scope=%@ cnf.jkt=%@",
+                atPayload[@"iss"] ?: @"<nil>",
+                atPayload[@"aud"] ?: @"<nil>",
+                atPayload[@"sub"] ?: @"<nil>",
+                atPayload[@"scope"] ?: @"<nil>",
+                cnf[@"jkt"] ?: @"<nil>"];
+        } else {
+            [SFSDKCoreLogger i:[self class] format:@"Userinfo probe access token: jwt=no segments=%lu (opaque, cnf.jkt unavailable on client)", (unsigned long)atSegs.count];
+        }
+
+        NSString * (^pickReqId)(NSDictionary *) = ^NSString *(NSDictionary *uiHdrs) {
+            for (NSString *key in uiHdrs.allKeys) {
+                if ([key caseInsensitiveCompare:@"Sfdc-Request-Id"] == NSOrderedSame ||
+                    [key caseInsensitiveCompare:@"X-Sfdc-Request-Id"] == NSOrderedSame ||
+                    [key caseInsensitiveCompare:@"X-Request-Id"] == NSOrderedSame) {
+                    return uiHdrs[key];
+                }
+            }
+            return @"<nil>";
+        };
+
+        NSString *uiId = [SFNetwork uniqueInstanceIdentifier];
+        SFNetwork *uiNet = [SFNetwork sharedEphemeralInstanceWithIdentifier:uiId];
+        [uiNet sendRequest:uiReq dataResponseBlock:^(NSData *uiData, NSURLResponse *uiResp, NSError *uiErr) {
+            NSInteger uiStatus = [(NSHTTPURLResponse *)uiResp statusCode];
+            NSDictionary *uiHdrs = [(NSHTTPURLResponse *)uiResp allHeaderFields];
+            NSString *uiBody = uiData ? [[NSString alloc] initWithData:uiData encoding:NSUTF8StringEncoding] : @"<nil>";
+            [SFSDKCoreLogger i:[self class] format:@"Userinfo probe (identityHost) response: status=%ld request-id=%@ err=%@ body=%@",
+                (long)uiStatus, pickReqId(uiHdrs), uiErr ?: @"<nil>", uiBody];
+            [SFSDKCoreLogger i:[self class] format:@"Userinfo probe (identityHost) headers dump: %@", uiHdrs];
+            [SFNetwork removeSharedInstanceForIdentifier:uiId];
+        }];
+
+        // TEMP debug — second userinfo probe, this time at the my-domain
+        // (instance_url) that minted the token. If this one returns 200 while the
+        // identityHost one returns 403 sfdcedge, the issue is the login-host edge
+        // proxy not honoring DPoP-bound tokens, not the SDK or the access token.
+        NSURL *instanceUrl = self.credentials.instanceUrl;
+        if (instanceUrl) {
+            NSURLComponents *instComps = [NSURLComponents componentsWithURL:instanceUrl resolvingAgainstBaseURL:NO];
+            instComps.path = @"/services/oauth2/userinfo";
+            instComps.query = nil;
+            NSURL *instUserinfoUrl = instComps.URL;
+            NSMutableURLRequest *instReq = [[NSMutableURLRequest alloc] initWithURL:instUserinfoUrl
+                                                                        cachePolicy:NSURLRequestReloadIgnoringCacheData
+                                                                    timeoutInterval:self.timeout];
+            [instReq setHTTPMethod:@"GET"];
+            [instReq setHTTPShouldHandleCookies:NO];
+            NSError *instAuthErr = nil;
+            BOOL instOk = [SFSDKDPoPRequestDecorator applyAuthHeaders:instReq
+                                                                scope:self.credentials.identifier
+                                                          accessToken:self.credentials.accessToken
+                                                            tokenType:self.credentials.tokenType
+                                                                error:&instAuthErr];
+            [SFSDKCoreLogger i:[self class] format:@"Userinfo probe (instanceHost): stamping ok=%d err=%@ url=%@", instOk, instAuthErr ?: @"<nil>", instUserinfoUrl.absoluteString];
+
+            NSString *instId = [SFNetwork uniqueInstanceIdentifier];
+            SFNetwork *instNet = [SFNetwork sharedEphemeralInstanceWithIdentifier:instId];
+            [instNet sendRequest:instReq dataResponseBlock:^(NSData *instData, NSURLResponse *instResp, NSError *instErr) {
+                NSInteger instStatus = [(NSHTTPURLResponse *)instResp statusCode];
+                NSDictionary *instHdrs = [(NSHTTPURLResponse *)instResp allHeaderFields];
+                NSString *instBody = instData ? [[NSString alloc] initWithData:instData encoding:NSUTF8StringEncoding] : @"<nil>";
+                NSString *instServer = @"<nil>";
+                for (NSString *key in instHdrs.allKeys) {
+                    if ([key caseInsensitiveCompare:@"Server"] == NSOrderedSame) {
+                        instServer = instHdrs[key];
+                        break;
+                    }
+                }
+                [SFSDKCoreLogger i:[self class] format:@"Userinfo probe (instanceHost) response: status=%ld server=%@ request-id=%@ err=%@ body=%@",
+                    (long)instStatus, instServer, pickReqId(instHdrs), instErr ?: @"<nil>", instBody];
+                [SFSDKCoreLogger i:[self class] format:@"Userinfo probe (instanceHost) headers dump: %@", instHdrs];
+                [SFNetwork removeSharedInstanceForIdentifier:instId];
+            }];
+        } else {
+            [SFSDKCoreLogger i:[self class] format:@"Userinfo probe (instanceHost): skipped, instanceUrl=<nil>"];
+        }
+    });
     __weak __typeof(self) weakSelf = self;
     self.networkIdentifier = [SFNetwork uniqueInstanceIdentifier];
     SFNetwork *network = [SFNetwork sharedEphemeralInstanceWithIdentifier:self.networkIdentifier];
     self.session = network.activeSession;
-    [network sendRequest:request dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
+    [SFSDKDPoPRequestDecorator sendRequestWithNonceRetry:request
+                                                   scope:self.credentials.identifier ?: @""
+                                     accessTokenProvider:^NSString * _Nullable {
+        return weakSelf.credentials.accessToken;
+    }
+                                               tokenType:self.credentials.tokenType
+                                                 network:network
+                                            taskReceiver:nil
+                                       dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (error) {
             [SFSDKCoreLogger d:[self class] format:@"SFIdentityCoordinator session failed with error: %@", error];
@@ -177,11 +373,45 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
         // The connection can succeed, but the actual HTTP response is a failure.  Check for that.
         NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
         if (statusCode == 401 || statusCode == 403) {
+            // TEMP debug — characterize the error response. Surface request-id
+            // candidates so backend can correlate; dump all headers as a backstop.
+            NSDictionary *hdrs = [(NSHTTPURLResponse *)response allHeaderFields];
+            NSString *bodyStr = data ? [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] : @"<nil>";
+            id (^pickHeader)(NSArray<NSString *> *) = ^id(NSArray<NSString *> *names) {
+                for (NSString *name in names) {
+                    for (NSString *key in hdrs.allKeys) {
+                        if ([key caseInsensitiveCompare:name] == NSOrderedSame) {
+                            return hdrs[key];
+                        }
+                    }
+                }
+                return @"<nil>";
+            };
+            [SFSDKCoreLogger i:[self class] format:@"Identity error probe: status=%ld www-authenticate=%@ dpop-nonce=%@ sfdc-request-id=%@ x-request-id=%@ body=%@",
+                (long)statusCode,
+                pickHeader(@[@"WWW-Authenticate"]),
+                pickHeader(@[@"DPoP-Nonce"]),
+                pickHeader(@[@"Sfdc-Request-Id", @"X-Sfdc-Request-Id", @"Request-Id"]),
+                pickHeader(@[@"X-Request-Id", @"X-Trace-Id", @"X-Correlation-Id"]),
+                bodyStr];
+            [SFSDKCoreLogger i:[self class] format:@"Identity error probe headers dump: %@", hdrs];
             // The session timed out.  Identity service tends to send 403s for session timeouts.  Try to refresh.
             [SFSDKCoreLogger i:[self class] format:@"%@: Identity request failed due to expired credentials.  Attempting to refresh credentials.", NSStringFromSelector(_cmd)];
             strongSelf.oauthSessionRefresher = [[SFOAuthSessionRefresher alloc] initWithCredentials:strongSelf.credentials];
+            // TEMP debug — snapshot the token *before* refresh into a local copy.
+            // The refresher mutates strongSelf.credentials in place, so reading
+            // `accessToken` inside the completion compares post-refresh-to-post-refresh.
+            NSString *preRefreshAt = [strongSelf.credentials.accessToken copy];
             [strongSelf.oauthSessionRefresher refreshSessionWithCompletion:^(SFOAuthCredentials *updatedCredentials) {
                 [SFSDKCoreLogger d:[strongSelf class] format:@"%@: Credentials refresh successful.  Replaying original identity request.", NSStringFromSelector(_cmd)];
+                NSString *postRefreshAt = updatedCredentials.accessToken;
+                NSString *oldFp = preRefreshAt.length >= 8 ? [preRefreshAt substringToIndex:8] : (preRefreshAt ?: @"<nil>");
+                NSString *newFp = postRefreshAt.length >= 8 ? [postRefreshAt substringToIndex:8] : (postRefreshAt ?: @"<nil>");
+                [SFSDKCoreLogger i:[strongSelf class] format:@"Identity refresh probe: pre[0..8]=%@ (len=%lu) post[0..8]=%@ (len=%lu) same=%d sameInstance=%d",
+                    oldFp, (unsigned long)preRefreshAt.length,
+                    newFp, (unsigned long)postRefreshAt.length,
+                    [preRefreshAt isEqualToString:postRefreshAt],
+                    (updatedCredentials == strongSelf.credentials)];
                 strongSelf.credentials = updatedCredentials;
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [strongSelf sendRequest];

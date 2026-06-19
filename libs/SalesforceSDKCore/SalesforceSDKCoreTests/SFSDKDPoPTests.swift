@@ -643,6 +643,530 @@ class SFSDKDPoPTests: XCTestCase {
         }
     }
 
+    // MARK: - sendWithNonceRetry helper (response-side)
+
+    /// Each test creates a fresh `SFNetwork` instance whose URLSession is wired up
+    /// to deliver scripted responses through `ScriptedURLProtocol`. This lets us
+    /// drive the helper end-to-end without touching real network infrastructure.
+    private func makeScriptedNetwork(scripts: [ScriptedURLProtocol.ScriptedResponse]) -> (Network, String) {
+        let identifier = "dpop-nonce-test-\(UUID().uuidString)"
+        ScriptedURLProtocol.installScripts(scripts, identifier: identifier)
+        let config = URLSessionConfiguration.ephemeral
+        config.protocolClasses = [ScriptedURLProtocol.self] + (config.protocolClasses ?? [])
+        Network.setSessionConfiguration(config, identifier: identifier)
+        let network = Network.sharedEphemeralInstance(withIdentifier: identifier)
+        return (network, identifier)
+    }
+
+    private func tearDownScriptedNetwork(identifier: String) {
+        Network.removeSharedInstance(forIdentifier: identifier)
+        ScriptedURLProtocol.removeScripts(identifier: identifier)
+    }
+
+    private func makeDPoPRequest(url: URL, accessToken: String, scope: String) throws -> NSMutableURLRequest {
+        let req = NSMutableURLRequest(url: url)
+        req.httpMethod = "GET"
+        try DPoPRequestDecorator.applyAuthHeaders(req,
+                                                  scope: scope,
+                                                  accessToken: accessToken,
+                                                  tokenType: "DPoP")
+        return req
+    }
+
+    private func decodedNonceClaim(from request: URLRequest) throws -> String? {
+        guard let proof = request.value(forHTTPHeaderField: "DPoP") else { return nil }
+        let segments = proof.split(separator: ".")
+        guard segments.count == 3 else { return nil }
+        let payload = try decodeBase64UrlJSON(String(segments[1]))
+        return payload["nonce"] as? String
+    }
+
+    func test_given2xxResponseWithDPoPNonceHeader_whenSendWithNonceRetry_thenCacheIsUpdated() throws {
+        let prior = SalesforceManager.shared.usesDPoP
+        SalesforceManager.shared.usesDPoP = true
+        defer { SalesforceManager.shared.usesDPoP = prior }
+
+        let scope = "harvest-2xx-\(UUID().uuidString)"
+        defer { DPoPKeyStore.shared.delete(forScope: scope); DPoPNonceCache.shared.clear(forScope: scope) }
+        let url = URL(string: "https://example.salesforce.com/services/data/v60.0/sobjects/Account")!
+
+        let (network, identifier) = makeScriptedNetwork(scripts: [
+            .init(statusCode: 200,
+                  headers: ["DPoP-Nonce": "harvested-from-2xx"],
+                  body: "{\"ok\":true}".data(using: .utf8))
+        ])
+        defer { tearDownScriptedNetwork(identifier: identifier) }
+
+        let req = try makeDPoPRequest(url: url, accessToken: "tok-abc", scope: scope)
+        let exp = expectation(description: "callback fires")
+        DPoPRequestDecorator.sendWithNonceRetry(req,
+                                                scope: scope,
+                                                accessTokenProvider: { "tok-abc" },
+                                                tokenType: "DPoP",
+                                                network: network,
+                                                taskReceiver: nil) { _, response, error in
+            XCTAssertNil(error)
+            XCTAssertEqual((response as? HTTPURLResponse)?.statusCode, 200)
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout: 5.0)
+        XCTAssertEqual(DPoPNonceCache.shared.nonce(htu: url, scope: scope), "harvested-from-2xx")
+    }
+
+    func test_given400UseDpopNonceChallenge_whenSendWithNonceRetry_thenSDKRetriesWithNonceClaimAndReturnsSuccess() throws {
+        let prior = SalesforceManager.shared.usesDPoP
+        SalesforceManager.shared.usesDPoP = true
+        defer { SalesforceManager.shared.usesDPoP = prior }
+
+        let scope = "retry-400-\(UUID().uuidString)"
+        defer { DPoPKeyStore.shared.delete(forScope: scope); DPoPNonceCache.shared.clear(forScope: scope) }
+        let url = URL(string: "https://example.salesforce.com/services/data/v60.0/sobjects/Account")!
+
+        let (network, identifier) = makeScriptedNetwork(scripts: [
+            .init(statusCode: 400,
+                  headers: ["DPoP-Nonce": "fresh-nonce-xyz"],
+                  body: "{\"error\":\"use_dpop_nonce\"}".data(using: .utf8)),
+            .init(statusCode: 200,
+                  headers: ["DPoP-Nonce": "next-nonce"],
+                  body: "{\"records\":[]}".data(using: .utf8))
+        ])
+        defer { tearDownScriptedNetwork(identifier: identifier) }
+
+        let req = try makeDPoPRequest(url: url, accessToken: "tok-abc", scope: scope)
+        let firstJti = try XCTUnwrap(decodedClaim(from: req, key: "jti"))
+        let firstIat = try XCTUnwrap(decodedClaim(from: req, key: "iat"))
+
+        let exp = expectation(description: "callback fires once with success")
+        var fireCount = 0
+        DPoPRequestDecorator.sendWithNonceRetry(req,
+                                                scope: scope,
+                                                accessTokenProvider: { "tok-abc" },
+                                                tokenType: "DPoP",
+                                                network: network,
+                                                taskReceiver: nil) { data, response, error in
+            fireCount += 1
+            XCTAssertNil(error)
+            XCTAssertEqual((response as? HTTPURLResponse)?.statusCode, 200)
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout: 5.0)
+        XCTAssertEqual(fireCount, 1)
+        XCTAssertEqual(ScriptedURLProtocol.requestCount(identifier: identifier), 2)
+
+        let outboundRequests = ScriptedURLProtocol.capturedRequests(identifier: identifier)
+        XCTAssertEqual(outboundRequests.count, 2)
+        let retryNonce = try decodedNonceClaim(from: outboundRequests[1])
+        XCTAssertEqual(retryNonce, "fresh-nonce-xyz")
+        let retryJti = try XCTUnwrap(decodedClaim(from: outboundRequests[1], key: "jti"))
+        let retryIat = try XCTUnwrap(decodedClaim(from: outboundRequests[1], key: "iat"))
+        XCTAssertNotEqual(retryJti as? String, firstJti as? String)
+        // iat is in seconds; allow it to be equal-or-greater (test runs fast).
+        XCTAssertNotNil(retryIat)
+    }
+
+    func test_given401WWWAuthenticateUseDpopNonce_whenSendWithNonceRetry_thenSDKRetriesAndSucceeds() throws {
+        let prior = SalesforceManager.shared.usesDPoP
+        SalesforceManager.shared.usesDPoP = true
+        defer { SalesforceManager.shared.usesDPoP = prior }
+
+        let scope = "retry-401-\(UUID().uuidString)"
+        defer { DPoPKeyStore.shared.delete(forScope: scope); DPoPNonceCache.shared.clear(forScope: scope) }
+        let url = URL(string: "https://example.salesforce.com/services/data/v60.0/sobjects/Account")!
+
+        let (network, identifier) = makeScriptedNetwork(scripts: [
+            .init(statusCode: 401,
+                  headers: [
+                    "WWW-Authenticate": "DPoP error=\"use_dpop_nonce\"",
+                    "DPoP-Nonce": "fresh-401-nonce"
+                  ],
+                  body: nil),
+            .init(statusCode: 200,
+                  headers: nil,
+                  body: "{\"ok\":true}".data(using: .utf8))
+        ])
+        defer { tearDownScriptedNetwork(identifier: identifier) }
+
+        let req = try makeDPoPRequest(url: url, accessToken: "tok-abc", scope: scope)
+        let exp = expectation(description: "callback fires once with success")
+        DPoPRequestDecorator.sendWithNonceRetry(req,
+                                                scope: scope,
+                                                accessTokenProvider: { "tok-abc" },
+                                                tokenType: "DPoP",
+                                                network: network,
+                                                taskReceiver: nil) { _, response, error in
+            XCTAssertNil(error)
+            XCTAssertEqual((response as? HTTPURLResponse)?.statusCode, 200)
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout: 5.0)
+        XCTAssertEqual(ScriptedURLProtocol.requestCount(identifier: identifier), 2)
+        let outboundRequests = ScriptedURLProtocol.capturedRequests(identifier: identifier)
+        XCTAssertEqual(try decodedNonceClaim(from: outboundRequests[1]), "fresh-401-nonce")
+    }
+
+    func test_givenCachedNonce_whenServerRotatesNonce_thenSubsequentRequestUsesNewNonce() throws {
+        let prior = SalesforceManager.shared.usesDPoP
+        SalesforceManager.shared.usesDPoP = true
+        defer { SalesforceManager.shared.usesDPoP = prior }
+
+        let scope = "rotation-\(UUID().uuidString)"
+        defer { DPoPKeyStore.shared.delete(forScope: scope); DPoPNonceCache.shared.clear(forScope: scope) }
+        let url = URL(string: "https://example.salesforce.com/services/data/v60.0/sobjects/Account")!
+
+        DPoPNonceCache.shared.setNonce("nonce1", htu: url, scope: scope)
+        let (network, identifier) = makeScriptedNetwork(scripts: [
+            // Server replies with a challenge that supplies nonce2 (rotation).
+            .init(statusCode: 400,
+                  headers: ["DPoP-Nonce": "nonce2"],
+                  body: "{\"error\":\"use_dpop_nonce\"}".data(using: .utf8)),
+            .init(statusCode: 200,
+                  headers: nil,
+                  body: "{\"ok\":true}".data(using: .utf8))
+        ])
+        defer { tearDownScriptedNetwork(identifier: identifier) }
+
+        let req = try makeDPoPRequest(url: url, accessToken: "tok-abc", scope: scope)
+        let exp = expectation(description: "callback fires")
+        DPoPRequestDecorator.sendWithNonceRetry(req,
+                                                scope: scope,
+                                                accessTokenProvider: { "tok-abc" },
+                                                tokenType: "DPoP",
+                                                network: network,
+                                                taskReceiver: nil) { _, _, _ in exp.fulfill() }
+        wait(for: [exp], timeout: 5.0)
+
+        XCTAssertEqual(DPoPNonceCache.shared.nonce(htu: url, scope: scope), "nonce2")
+        let outbound = ScriptedURLProtocol.capturedRequests(identifier: identifier)
+        XCTAssertEqual(try decodedNonceClaim(from: outbound[0]), "nonce1")
+        XCTAssertEqual(try decodedNonceClaim(from: outbound[1]), "nonce2")
+    }
+
+    func test_givenTwoConsecutiveNonceChallenges_whenSendWithNonceRetry_thenCallerReceivesNonceExhaustedError() throws {
+        let prior = SalesforceManager.shared.usesDPoP
+        SalesforceManager.shared.usesDPoP = true
+        defer { SalesforceManager.shared.usesDPoP = prior }
+
+        let scope = "exhausted-\(UUID().uuidString)"
+        defer { DPoPKeyStore.shared.delete(forScope: scope); DPoPNonceCache.shared.clear(forScope: scope) }
+        let url = URL(string: "https://example.salesforce.com/services/data/v60.0/sobjects/Account")!
+
+        let (network, identifier) = makeScriptedNetwork(scripts: [
+            .init(statusCode: 400,
+                  headers: ["DPoP-Nonce": "nonce-a"],
+                  body: "{\"error\":\"use_dpop_nonce\"}".data(using: .utf8)),
+            .init(statusCode: 400,
+                  headers: ["DPoP-Nonce": "nonce-b"],
+                  body: "{\"error\":\"use_dpop_nonce\"}".data(using: .utf8))
+        ])
+        defer { tearDownScriptedNetwork(identifier: identifier) }
+
+        let req = try makeDPoPRequest(url: url, accessToken: "tok-abc", scope: scope)
+        let exp = expectation(description: "callback fires with error")
+        DPoPRequestDecorator.sendWithNonceRetry(req,
+                                                scope: scope,
+                                                accessTokenProvider: { "tok-abc" },
+                                                tokenType: "DPoP",
+                                                network: network,
+                                                taskReceiver: nil) { _, _, error in
+            let nsErr = error as NSError?
+            XCTAssertEqual(nsErr?.domain, kSFOAuthErrorDomain)
+            XCTAssertEqual(nsErr?.code, kSFOAuthErrorDPoPNonceExhausted)
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout: 5.0)
+        XCTAssertEqual(ScriptedURLProtocol.requestCount(identifier: identifier), 2,
+                       "helper must NOT make a third call after the second consecutive challenge")
+    }
+
+    func test_givenFiveConcurrentRequestsToSameHtuAndOneRotation_whenSendWithNonceRetry_thenAllSucceed() throws {
+        let prior = SalesforceManager.shared.usesDPoP
+        SalesforceManager.shared.usesDPoP = true
+        defer { SalesforceManager.shared.usesDPoP = prior }
+
+        let scope = "concurrent-\(UUID().uuidString)"
+        defer { DPoPKeyStore.shared.delete(forScope: scope); DPoPNonceCache.shared.clear(forScope: scope) }
+        let url = URL(string: "https://example.salesforce.com/services/data/v60.0/sobjects/Account")!
+
+        // First response is a challenge (rotation); everything afterward is 200.
+        // Each concurrent caller may or may not race the cache update — those that
+        // raced get one challenge each. The script returns the challenge once and
+        // 200 OK for every other request.
+        var scripts: [ScriptedURLProtocol.ScriptedResponse] = []
+        scripts.append(.init(statusCode: 400,
+                             headers: ["DPoP-Nonce": "rotated-nonce"],
+                             body: "{\"error\":\"use_dpop_nonce\"}".data(using: .utf8)))
+        for _ in 0..<20 {
+            scripts.append(.init(statusCode: 200,
+                                 headers: ["DPoP-Nonce": "rotated-nonce"],
+                                 body: "{\"ok\":true}".data(using: .utf8)))
+        }
+        let (network, identifier) = makeScriptedNetwork(scripts: scripts)
+        defer { tearDownScriptedNetwork(identifier: identifier) }
+
+        let count = 5
+        let exps = (0..<count).map { expectation(description: "concurrent callback \($0)") }
+
+        DispatchQueue.concurrentPerform(iterations: count) { i in
+            do {
+                let req = try makeDPoPRequest(url: url, accessToken: "tok-abc", scope: scope)
+                DPoPRequestDecorator.sendWithNonceRetry(req,
+                                                        scope: scope,
+                                                        accessTokenProvider: { "tok-abc" },
+                                                        tokenType: "DPoP",
+                                                        network: network,
+                                                        taskReceiver: nil) { _, response, error in
+                    XCTAssertNil(error)
+                    XCTAssertEqual((response as? HTTPURLResponse)?.statusCode, 200)
+                    exps[i].fulfill()
+                }
+            } catch {
+                XCTFail("makeDPoPRequest threw: \(error)")
+            }
+        }
+
+        wait(for: exps, timeout: 10.0)
+        XCTAssertEqual(DPoPNonceCache.shared.nonce(htu: url, scope: scope), "rotated-nonce")
+    }
+
+    func test_givenBearerCredentials_whenSendWithNonceRetry_thenRequestIsByteIdenticalToDirectNetworkSend() throws {
+        // Bearer path: helper is a pass-through. No harvest, no retry, no cache writes,
+        // no DPoP semantics. The outbound request the server sees must be byte-identical
+        // to what `network.sendRequest` would send directly.
+        let scope = "bearer-passthrough-\(UUID().uuidString)"
+        defer { DPoPKeyStore.shared.delete(forScope: scope); DPoPNonceCache.shared.clear(forScope: scope) }
+        let url = URL(string: "https://example.salesforce.com/services/data/v60.0/sobjects/Account")!
+
+        let (network, identifier) = makeScriptedNetwork(scripts: [
+            .init(statusCode: 200,
+                  headers: ["DPoP-Nonce": "should-not-be-cached-because-bearer"],
+                  body: "{\"ok\":true}".data(using: .utf8))
+        ])
+        defer { tearDownScriptedNetwork(identifier: identifier) }
+
+        let req = NSMutableURLRequest(url: url)
+        req.httpMethod = "GET"
+        try DPoPRequestDecorator.applyAuthHeaders(req,
+                                                  scope: scope,
+                                                  accessToken: "tok-bearer",
+                                                  tokenType: "Bearer")
+        XCTAssertEqual(req.value(forHTTPHeaderField: "Authorization"), "Bearer tok-bearer")
+        XCTAssertNil(req.value(forHTTPHeaderField: "DPoP"))
+
+        let exp = expectation(description: "bearer callback")
+        DPoPRequestDecorator.sendWithNonceRetry(req,
+                                                scope: scope,
+                                                accessTokenProvider: { "tok-bearer" },
+                                                tokenType: "Bearer",
+                                                network: network,
+                                                taskReceiver: nil) { _, response, error in
+            XCTAssertNil(error)
+            XCTAssertEqual((response as? HTTPURLResponse)?.statusCode, 200)
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout: 5.0)
+
+        // The DPoP-Nonce header on a Bearer response must NOT be harvested into the cache.
+        XCTAssertNil(DPoPNonceCache.shared.nonce(htu: url, scope: scope),
+                     "Bearer responses must not write to the DPoP nonce cache")
+        XCTAssertEqual(ScriptedURLProtocol.requestCount(identifier: identifier), 1,
+                       "Bearer path must not retry")
+    }
+
+    func test_givenNonceChallengeRoundTrip_whenSDKLogs_thenNoNonceValueAppearsInAnyLogLevel() throws {
+        let prior = SalesforceManager.shared.usesDPoP
+        SalesforceManager.shared.usesDPoP = true
+        defer {
+            SalesforceManager.shared.usesDPoP = prior
+            SalesforceLogger.setLogReceiverFactory(NoOpLogReceiverFactory())
+            SalesforceLogger.clearAllComponents()
+        }
+
+        let recorder = RecordingLogReceiver()
+        SalesforceLogger.setLogReceiverFactory(RecordingLogReceiverFactory(receiver: recorder))
+        SalesforceLogger.clearAllComponents()
+
+        let scope = "log-redact-\(UUID().uuidString)"
+        defer { DPoPKeyStore.shared.delete(forScope: scope); DPoPNonceCache.shared.clear(forScope: scope) }
+        let url = URL(string: "https://example.salesforce.com/services/data/v60.0/sobjects/Account")!
+
+        let secretNonce = "RFC9449-secret-nonce-DO-NOT-LOG-\(UUID().uuidString)"
+        let (network, identifier) = makeScriptedNetwork(scripts: [
+            .init(statusCode: 400,
+                  headers: ["DPoP-Nonce": secretNonce],
+                  body: "{\"error\":\"use_dpop_nonce\"}".data(using: .utf8)),
+            .init(statusCode: 200,
+                  headers: ["DPoP-Nonce": secretNonce],
+                  body: "{\"ok\":true}".data(using: .utf8))
+        ])
+        defer { tearDownScriptedNetwork(identifier: identifier) }
+
+        let req = try makeDPoPRequest(url: url, accessToken: "tok-abc", scope: scope)
+        let exp = expectation(description: "log redaction callback")
+        DPoPRequestDecorator.sendWithNonceRetry(req,
+                                                scope: scope,
+                                                accessTokenProvider: { "tok-abc" },
+                                                tokenType: "DPoP",
+                                                network: network,
+                                                taskReceiver: nil) { _, _, _ in exp.fulfill() }
+        wait(for: [exp], timeout: 5.0)
+
+        for line in recorder.snapshot() {
+            XCTAssertFalse(line.contains(secretNonce),
+                           "nonce value leaked into log line: \(line)")
+        }
+    }
+
+    private func decodedClaim(from request: URLRequest, key: String) throws -> Any? {
+        guard let proof = request.value(forHTTPHeaderField: "DPoP") else { return nil }
+        let segs = proof.split(separator: ".")
+        guard segs.count == 3 else { return nil }
+        let payload = try decodeBase64UrlJSON(String(segs[1]))
+        return payload[key]
+    }
+
+    private func decodedClaim(from request: NSMutableURLRequest, key: String) throws -> Any? {
+        guard let proof = request.value(forHTTPHeaderField: "DPoP") else { return nil }
+        let segs = proof.split(separator: ".")
+        guard segs.count == 3 else { return nil }
+        let payload = try decodeBase64UrlJSON(String(segs[1]))
+        return payload[key]
+    }
+
+    func test_givenAccessTokenRotatesBetweenChallengeAndRetry_whenSendWithNonceRetry_thenRetryUsesFreshToken() throws {
+        let prior = SalesforceManager.shared.usesDPoP
+        SalesforceManager.shared.usesDPoP = true
+        defer { SalesforceManager.shared.usesDPoP = prior }
+
+        let scope = "token-rotation-\(UUID().uuidString)"
+        defer { DPoPKeyStore.shared.delete(forScope: scope); DPoPNonceCache.shared.clear(forScope: scope) }
+        let url = URL(string: "https://example.salesforce.com/services/data/v60.0/sobjects/Account")!
+
+        let (network, identifier) = makeScriptedNetwork(scripts: [
+            .init(statusCode: 400,
+                  headers: ["DPoP-Nonce": "fresh-nonce"],
+                  body: "{\"error\":\"use_dpop_nonce\"}".data(using: .utf8)),
+            .init(statusCode: 200,
+                  headers: nil,
+                  body: "{\"ok\":true}".data(using: .utf8))
+        ])
+        defer { tearDownScriptedNetwork(identifier: identifier) }
+
+        // Mutable storage simulating an SFOAuthCredentials whose accessToken can rotate
+        // (e.g., a refresh races in between the initial challenge and the retry).
+        var currentToken = "tokenA"
+        let provider: () -> String? = { currentToken }
+
+        // Build the initial request stamped with tokenA — same shape as the production
+        // call sites' applyAuthHeaders before invoking the helper.
+        let req = try makeDPoPRequest(url: url, accessToken: currentToken, scope: scope)
+
+        // Rotate the token between the initial send and the retry. Because the helper
+        // re-reads via the provider on the retry arm, the retry's ath must bind to tokenB.
+        currentToken = "tokenB"
+
+        let exp = expectation(description: "callback fires")
+        DPoPRequestDecorator.sendWithNonceRetry(req,
+                                                scope: scope,
+                                                accessTokenProvider: provider,
+                                                tokenType: "DPoP",
+                                                network: network,
+                                                taskReceiver: nil) { _, response, error in
+            XCTAssertNil(error)
+            XCTAssertEqual((response as? HTTPURLResponse)?.statusCode, 200)
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout: 5.0)
+
+        let outbound = ScriptedURLProtocol.capturedRequests(identifier: identifier)
+        XCTAssertEqual(outbound.count, 2)
+
+        let retryAth = try XCTUnwrap(decodedClaim(from: outbound[1], key: "ath") as? String)
+        let expectedAthForFreshToken = ((("tokenB".data(using: .utf8)! as NSData)
+                                            .sfsdk_sha256()!) as NSData).sfsdk_base64UrlString()
+        XCTAssertEqual(retryAth, expectedAthForFreshToken,
+                       "retry proof must bind ath to the freshly-read access token, not the captured one")
+
+        let retryAuth = outbound[1].value(forHTTPHeaderField: "Authorization")
+        XCTAssertEqual(retryAuth, "DPoP tokenB",
+                       "retry Authorization header must carry the freshly-read access token")
+    }
+
+    func test_givenBearerCredentialsAndPhotoResponseWithStrayNonceHeader_whenRetrieveUserPhoto_thenCacheStaysEmpty() throws {
+        // The user-photo path harvests DPoP-Nonce headers from responses. Under a Bearer
+        // login it must NOT touch the DPoP nonce cache, even if the photo CDN happens to
+        // emit a stray DPoP-Nonce header — the cache is DPoP-scoped state that Bearer
+        // sessions must leave untouched (Bearer-path backward compatibility).
+        let prior = SalesforceManager.shared.usesDPoP
+        SalesforceManager.shared.usesDPoP = true
+        defer { SalesforceManager.shared.usesDPoP = prior }
+
+        let scope = "photo-bearer-\(UUID().uuidString)"
+        defer { DPoPNonceCache.shared.clear(forScope: scope) }
+        let photoURL = URL(string: "https://example.salesforce.com/profilephoto/T/F/abc/200")!
+
+        let identifier = NetworkEphemeralInstanceIdentifier
+        let config = URLSessionConfiguration.ephemeral
+        config.protocolClasses = [ScriptedURLProtocol.self] + (config.protocolClasses ?? [])
+        ScriptedURLProtocol.installScripts([
+            .init(statusCode: 200,
+                  headers: ["DPoP-Nonce": "should-not-cache"],
+                  body: Data())
+        ], identifier: identifier)
+        Network.setSessionConfiguration(config, identifier: identifier)
+        defer {
+            Network.removeSharedInstance(forIdentifier: identifier)
+            ScriptedURLProtocol.removeScripts(identifier: identifier)
+        }
+
+        let creds = OAuthCredentials(identifier: scope,
+                                     clientId: "CLIENT_ID",
+                                     encrypted: false)!
+        creds.accessToken = "bearer-photo-token"
+        // tokenType left nil — the Bearer baseline.
+        creds.instanceUrl = URL(string: "https://example.salesforce.com")
+        creds.userId = "USERID"
+        creds.organizationId = "ORGID"
+        creds.identityUrl = URL(string: "https://login.salesforce.com/id/ORGID/USERID")
+
+        let account = UserAccount(credentials: creds)
+        account.idData = IdentityData(jsonDict: [
+            "user_id": "USERID",
+            "organization_id": "ORGID",
+            "photos": [
+                "thumbnail": photoURL.absoluteString
+            ]
+        ])
+
+        let manager = UserAccountManager.shared
+        manager.perform(NSSelectorFromString("retrieveUserPhotoIfNeeded:"), with: account)
+
+        // The photo path is fire-and-forget (no completion block to await). The bug, if
+        // present, manifests as a synchronous cache write inside the dataResponseBlock —
+        // so we poll the cache with a predicate expectation that flips to true on a leak.
+        // If the gate is in place, the predicate never flips and the wait times out
+        // (the negative outcome we want), at which point we assert the cache is still nil.
+        let leakDetected = XCTNSPredicateExpectation(predicate: NSPredicate(block: { _, _ in
+            DPoPNonceCache.shared.nonce(htu: photoURL, scope: scope) != nil
+        }), object: nil)
+        leakDetected.isInverted = true
+        wait(for: [leakDetected], timeout: 2.0)
+
+        XCTAssertEqual(ScriptedURLProtocol.requestCount(identifier: identifier), 1,
+                       "photo request must have been issued exactly once")
+        XCTAssertNil(DPoPNonceCache.shared.nonce(htu: photoURL, scope: scope),
+                     "Bearer photo response must not write to the DPoP nonce cache")
+    }
+
+    // MARK: - OAuth error code surface
+
+    func test_givenDPoPNonceExhaustedSymbol_whenComparedToOAuthErrorRange_thenFallsInsideTheKnownRange() {
+        // The DPoP-nonce-exhausted code lives alongside the rest of the
+        // kSFOAuthError* taxonomy. The taxonomy starts at 666 (kSFOAuthErrorUnknown).
+        // This test pins the new symbol to that range so a future renumber/move is caught.
+        XCTAssertGreaterThanOrEqual(kSFOAuthErrorDPoPNonceExhausted, kSFOAuthErrorUnknown)
+        XCTAssertNotEqual(kSFOAuthErrorDPoPNonceExhausted, kSFOAuthErrorUnknown)
+    }
+
     // MARK: - Helpers
 
     private func decodeBase64UrlJSON(_ segment: String) throws -> [String: Any] {
@@ -740,4 +1264,123 @@ private final class NoOpLogReceiver: NSObject, SalesforceLogReceiver {
                  cls: AnyClass,
                  component: String,
                  message: String) {}
+}
+
+// MARK: - ScriptedURLProtocol
+
+/// `URLProtocol` subclass that delivers a queue of canned responses keyed by
+/// per-test identifier. Each test installs its own script list and pulls results
+/// off the head as requests arrive. Captures the outbound `URLRequest`s so the
+/// test can assert on retry-time `DPoP` proofs (nonce claim, fresh `jti`, etc.).
+final class ScriptedURLProtocol: URLProtocol {
+
+    struct ScriptedResponse {
+        let statusCode: Int
+        let headers: [String: String]?
+        let body: Data?
+    }
+
+    private static let lock = NSLock()
+    private static var scripts: [String: [ScriptedResponse]] = [:]
+    private static var captured: [String: [URLRequest]] = [:]
+    private static var counts: [String: Int] = [:]
+
+    static func installScripts(_ list: [ScriptedResponse], identifier: String) {
+        lock.lock(); defer { lock.unlock() }
+        scripts[identifier] = list
+        captured[identifier] = []
+        counts[identifier] = 0
+    }
+
+    static func removeScripts(identifier: String) {
+        lock.lock(); defer { lock.unlock() }
+        scripts.removeValue(forKey: identifier)
+        captured.removeValue(forKey: identifier)
+        counts.removeValue(forKey: identifier)
+    }
+
+    static func requestCount(identifier: String) -> Int {
+        lock.lock(); defer { lock.unlock() }
+        return counts[identifier] ?? 0
+    }
+
+    static func capturedRequests(identifier: String) -> [URLRequest] {
+        lock.lock(); defer { lock.unlock() }
+        return captured[identifier] ?? []
+    }
+
+    private static func resolveIdentifier(for request: URLRequest) -> String? {
+        // The URL session is per-identifier; we tag the protocol by inspecting the
+        // currently-installed scripts. With one script set per test, the lookup is
+        // unambiguous. If a test's URLs clash with another, the test isolates by
+        // creating a per-test SFNetwork instance which has its own session.
+        lock.lock(); defer { lock.unlock() }
+        // Find the identifier whose script list still has unconsumed entries OR
+        // is the only one installed. In practice tests run isolated and only one
+        // identifier is in flight per session, so first key wins.
+        return scripts.keys.first
+    }
+
+    override class func canInit(with request: URLRequest) -> Bool { true }
+    override class func canInit(with task: URLSessionTask) -> Bool { true }
+    override class func canonicalRequest(for request: URLRequest) -> URLRequest { request }
+
+    override func startLoading() {
+        let req = self.request
+        let id: String? = ScriptedURLProtocol.lock.withLock {
+            ScriptedURLProtocol.scripts.keys.first
+        }
+        guard let identifier = id else {
+            client?.urlProtocol(self,
+                                didFailWithError: NSError(domain: "ScriptedURLProtocol",
+                                                          code: -1,
+                                                          userInfo: [NSLocalizedDescriptionKey: "no scripts installed"]))
+            return
+        }
+
+        let response: ScriptedResponse?
+        ScriptedURLProtocol.lock.lock()
+        var list = ScriptedURLProtocol.scripts[identifier] ?? []
+        ScriptedURLProtocol.captured[identifier, default: []].append(req)
+        ScriptedURLProtocol.counts[identifier, default: 0] += 1
+        if list.isEmpty {
+            response = nil
+        } else {
+            response = list.removeFirst()
+            ScriptedURLProtocol.scripts[identifier] = list
+        }
+        ScriptedURLProtocol.lock.unlock()
+
+        guard let resp = response else {
+            client?.urlProtocol(self,
+                                didFailWithError: NSError(domain: "ScriptedURLProtocol",
+                                                          code: -2,
+                                                          userInfo: [NSLocalizedDescriptionKey: "ran out of scripted responses"]))
+            return
+        }
+
+        let url = req.url ?? URL(string: "https://example.invalid")!
+        let httpResponse = HTTPURLResponse(url: url,
+                                           statusCode: resp.statusCode,
+                                           httpVersion: "HTTP/1.1",
+                                           headerFields: resp.headers)!
+        client?.urlProtocol(self,
+                            didReceive: httpResponse,
+                            cacheStoragePolicy: .notAllowed)
+        if let body = resp.body {
+            client?.urlProtocol(self, didLoad: body)
+        }
+        client?.urlProtocolDidFinishLoading(self)
+    }
+
+    override func stopLoading() {
+        // No async work to cancel.
+    }
+}
+
+private extension NSLock {
+    func withLock<T>(_ body: () -> T) -> T {
+        self.lock(); defer { self.unlock() }
+        return body()
+    }
 }

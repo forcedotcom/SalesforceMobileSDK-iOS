@@ -370,9 +370,18 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
 }
 
 - (void)attachDPoPHeaderIfNeeded:(NSMutableURLRequest *)request scope:(NSString *)scope {
+    // TEMP debug — confirm token-endpoint DPoP attachment on auth-code-exchange.
+    [SFSDKCoreLogger i:[self class] format:@"Token-endpoint DPoP attach probe: scope=%@ usesDPoP=%d url=%@",
+        scope.length == 0 ? @"<empty>" : @"<set>",
+        (int)[[SalesforceSDKManager sharedManager] useDPoP],
+        request.URL.absoluteString];
     if (scope.length == 0) return;
     NSError *err = nil;
     [SFSDKDPoPRequestDecorator decorateRequest:request scope:scope error:&err];
+    NSString *dpop = [request valueForHTTPHeaderField:@"DPoP"];
+    [SFSDKCoreLogger i:[self class] format:@"Token-endpoint DPoP attach result: dpopAttached=%@ err=%@",
+        dpop ? [NSString stringWithFormat:@"<%lu chars, %lu segments>", (unsigned long)dpop.length, (unsigned long)[[dpop componentsSeparatedByString:@"."] count]] : @"<nil>",
+        err ?: @"<none>"];
     if (err) {
         [SFSDKCoreLogger e:[self class] format:@"DPoP attach failed (code=%ld); proceeding without DPoP header.", (long)err.code];
     }
