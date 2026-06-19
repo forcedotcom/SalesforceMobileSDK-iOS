@@ -651,6 +651,12 @@ Use this method to stop/clear any authentication which is has already been start
  2. Walk the key window's view hierarchy and locate the `SFLoginViewController` presented
     inside the SDK's navigation controller.
 
+ @note Welcome Discovery: when the active login host is a Welcome Discovery host
+ (e.g. `welcome.salesforce.com/discovery`) and the user has not yet selected an
+ account, "Login for Admin" is a no-op (there is no resolved My Domain to switch
+ to). After the user picks an account on the discovery page, this method may be
+ called again and will use the resolved My Domain for the browser session.
+
  @param loginViewController The login view controller whose scene's active auth session should
  switch to "Login for Admin". Its window's scene is used to locate the session.
  */

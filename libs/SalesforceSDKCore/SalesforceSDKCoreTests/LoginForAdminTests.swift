@@ -46,12 +46,12 @@ class LoginForAdminTests: XCTestCase {
 
     // MARK: - SFSDKAuthRequest loginAsAdmin Property
 
-    func testGivenNewAuthRequest_whenCreated_thenLoginAsAdminIsFalse() {
+    func testGivenNewAuthRequest_whenCreated_thenloginAsAdminIsFalse() {
         let request = SFSDKAuthRequest()
         XCTAssertFalse(request.loginAsAdmin, "loginAsAdmin should default to false")
     }
 
-    func testGivenAuthRequest_whenLoginAsAdminSet_thenUseBrowserAuthUnchanged() {
+    func testGivenAuthRequest_whenloginAsAdminSet_thenUseBrowserAuthUnchanged() {
         let request = SFSDKAuthRequest()
         XCTAssertFalse(request.useBrowserAuth, "useBrowserAuth should default to false")
 
@@ -63,7 +63,7 @@ class LoginForAdminTests: XCTestCase {
 
     // MARK: - SFSDKAuthSession Coordinator Initialization
 
-    func testGivenLoginAsAdmin_whenAuthSessionCreated_thenCoordinatorUsesBrowserAuth() {
+    func testGivenloginAsAdmin_whenAuthSessionCreated_thenCoordinatorUsesBrowserAuth() {
         let request = makeAuthRequest()
         request.loginAsAdmin = true
         request.useBrowserAuth = false
@@ -95,7 +95,7 @@ class LoginForAdminTests: XCTestCase {
 
     // MARK: - SFOAuthCoordinator Auth Info Type
 
-    func testGivenLoginAsAdmin_whenAuthenticate_thenAuthInfoIsAdvancedBrowser() {
+    func testGivenloginAsAdmin_whenAuthenticate_thenAuthInfoIsAdvancedBrowser() {
         createTestAppIdentity()
 
         let request = makeAuthRequest()
@@ -149,7 +149,7 @@ class LoginForAdminTests: XCTestCase {
 
     // MARK: - Approval URL Web Server Flow
 
-    func testGivenLoginAsAdmin_whenGenerateApprovalUrl_thenUsesWebServerFlow() {
+    func testGivenloginAsAdmin_whenGenerateApprovalUrl_thenUsesWebServerFlow() {
         createTestAppIdentity()
         SalesforceManager.shared.useWebServerAuthentication = false
 
@@ -165,7 +165,7 @@ class LoginForAdminTests: XCTestCase {
                        "Approval URL should not use response_type=token when loginAsAdmin is true")
     }
 
-    func testGivenNoLoginAsAdmin_whenWebServerAuthDisabled_thenUsesUserAgentFlow() {
+    func testGivenNologinAsAdmin_whenWebServerAuthDisabled_thenUsesUserAgentFlow() {
         createTestAppIdentity()
         SalesforceManager.shared.useWebServerAuthentication = false
         SalesforceManager.shared.useHybridAuthentication = false
@@ -183,7 +183,7 @@ class LoginForAdminTests: XCTestCase {
 
     // MARK: - No Global State Mutation
 
-    func testGivenLoginAsAdmin_whenSet_thenGlobalWebServerAuthUnchanged() {
+    func testGivenloginAsAdmin_whenSet_thenGlobalWebServerAuthUnchanged() {
         let originalValue = SalesforceManager.shared.useWebServerAuthentication
 
         let request = SFSDKAuthRequest()
@@ -193,7 +193,7 @@ class LoginForAdminTests: XCTestCase {
                        "Setting loginAsAdmin should not change the global useWebServerAuthentication")
     }
 
-    func testGivenLoginAsAdmin_whenAuthSessionCreated_thenGlobalStateUnchanged() {
+    func testGivenloginAsAdmin_whenAuthSessionCreated_thenGlobalStateUnchanged() {
         SalesforceManager.shared.useWebServerAuthentication = false
 
         let request = makeAuthRequest()
@@ -209,7 +209,7 @@ class LoginForAdminTests: XCTestCase {
 
     // MARK: - Cancel Flow: loginAsAdmin Clears on Cancel
 
-    func testGivenLoginAsAdmin_whenCancelled_thenLoginAsAdminCleared() {
+    func testGivenloginAsAdmin_whenCancelled_thenloginAsAdminCleared() {
         let request = makeAuthRequest()
         request.loginAsAdmin = true
 
@@ -226,7 +226,7 @@ class LoginForAdminTests: XCTestCase {
                        "Coordinator should not use browser auth after loginAsAdmin is cleared")
     }
 
-    func testGivenLoginAsAdminCancelled_whenNewSession_thenAuthInfoMatchesGlobalSetting() {
+    func testGivenloginAsAdminCancelled_whenNewSession_thenAuthInfoMatchesGlobalSetting() {
         createTestAppIdentity()
         SalesforceManager.shared.useWebServerAuthentication = true
 
@@ -270,7 +270,7 @@ class LoginForAdminTests: XCTestCase {
 
     // MARK: - useBrowserAuth Not Modified
 
-    func testGivenLoginAsAdmin_whenFullLifecycle_thenUseBrowserAuthNeverMutated() {
+    func testGivenloginAsAdmin_whenFullLifecycle_thenUseBrowserAuthNeverMutated() {
         let request = makeAuthRequest()
         request.useBrowserAuth = false
 
@@ -302,7 +302,7 @@ class LoginForAdminTests: XCTestCase {
 
     // MARK: - SFUserAccountManager Cancel Browser Auth (loginAsAdmin path)
 
-    func testGivenLoginAsAdmin_whenBrowserAuthCancelled_thenLoginAsAdminCleared() {
+    func testGivenloginAsAdmin_whenBrowserAuthCancelled_thenloginAsAdminCleared() {
         let request = makeAuthRequest()
         request.loginAsAdmin = true
 
@@ -317,7 +317,7 @@ class LoginForAdminTests: XCTestCase {
         XCTAssertFalse(session.oauthRequest.loginAsAdmin, "loginAsAdmin should be cleared after cancel")
     }
 
-    func testGivenLoginAsAdmin_whenBrowserAuthCancelled_thenUserCancelledNotificationNotPosted() {
+    func testGivenloginAsAdmin_whenBrowserAuthCancelled_thenUserCancelledNotificationNotPosted() {
         let request = makeAuthRequest()
         request.loginAsAdmin = true
 
@@ -340,7 +340,7 @@ class LoginForAdminTests: XCTestCase {
         NotificationCenter.default.removeObserver(observer)
     }
 
-    func testGivenNoLoginAsAdmin_whenBrowserAuthCancelled_thenUserCancelledNotificationPosted() {
+    func testGivenNologinAsAdmin_whenBrowserAuthCancelled_thenUserCancelledNotificationPosted() {
         let request = makeAuthRequest()
         request.loginAsAdmin = false
         request.useBrowserAuth = false
@@ -373,7 +373,7 @@ class LoginForAdminTests: XCTestCase {
         UserAccountManager.shared.authCancelledByUserHandlerBlock = nil
     }
 
-    func testGivenLoginAsAdmin_whenBrowserAuthCancelled_thenHandlerBlockNotCalled() {
+    func testGivenloginAsAdmin_whenBrowserAuthCancelled_thenHandlerBlockNotCalled() {
         let request = makeAuthRequest()
         request.loginAsAdmin = true
 
@@ -444,7 +444,7 @@ class LoginForAdminTests: XCTestCase {
 
     // MARK: - SFUserAccountManager loginViewControllerDidSelectLoginForAdmin
 
-    func testGivenAuthSession_whenLoginForAdminSelected_thenLoginAsAdminSetAndAuthRestarted() {
+    func testGivenAuthSession_whenLoginForAdminSelected_thenloginAsAdminSetAndAuthRestarted() {
         let uam = UserAccountManager.shared
 
         // Get the test app's active window scene to obtain a real sceneId
@@ -461,6 +461,9 @@ class LoginForAdminTests: XCTestCase {
         uam.authSessions[sceneId as NSString] = session
 
         XCTAssertFalse(session.oauthRequest.loginAsAdmin, "loginAsAdmin should be false before selecting Login for Admin")
+        let initialDomain = session.oauthCoordinator.credentials?.domain
+        XCTAssertEqual(session.oauthRequest.loginHost, initialDomain,
+                       "Test precondition: oauthRequest.loginHost should equal coordinator credentials.domain on a fresh non-discovery session")
 
         // Create a SalesforceLoginViewController and place it in the window so its
         // view.window.windowScene resolves to the same scene
@@ -476,14 +479,230 @@ class LoginForAdminTests: XCTestCase {
 
         XCTAssertTrue(session.oauthRequest.loginAsAdmin,
                       "loginAsAdmin should be true after loginViewControllerDidSelectLoginForAdmin:")
+        // The request's loginHost must NEVER be mutated — LFA carries its My Domain
+        // through the LFA-scoped override field instead. This is the invariant that
+        // keeps Reload / Clear Cache / post-cancel-restart pointed at the originally
+        // configured host.
+        XCTAssertEqual(session.oauthRequest.loginHost, initialDomain,
+                       "loginHost must remain unchanged regardless of LFA invocation")
+        XCTAssertEqual(session.oauthRequest.loginAsAdminMyDomain, initialDomain,
+                       "loginAsAdminMyDomain should be set from coordinator.credentials.domain on a non-discovery host")
 
         // Clean up
         uam.authSessions.removeObject(sceneId as NSString)
         window.rootViewController = nil
     }
 
+    func test_givenPhase1Discovery_whenLoginForAdminSelected_thenIsNoOp() {
+        let uam = UserAccountManager.shared
+
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
+            XCTFail("Test requires a UIWindowScene from the running test app")
+            return
+        }
+        let sceneId = windowScene.session.persistentIdentifier
+
+        // Phase 1 of Welcome Discovery: loginHost is the discovery domain and the
+        // coordinator has not yet observed a custom domain update.
+        let request = makeAuthRequest()
+        request.loginHost = "welcome.salesforce.com/discovery"
+        request.loginAsAdmin = false
+        let session = SFSDKAuthSession(request, credentials: nil)
+        XCTAssertFalse(session.oauthCoordinator.domainUpdated,
+                       "Test precondition: coordinator.domainUpdated should be NO in phase 1")
+        uam.authSessions[sceneId as NSString] = session
+
+        let loginVC = SalesforceLoginViewController()
+        let window = windowScene.windows.first ?? UIWindow(windowScene: windowScene)
+        window.rootViewController = loginVC
+        window.makeKeyAndVisible()
+        loginVC.loadViewIfNeeded()
+
+        let selector = NSSelectorFromString("loginViewControllerDidSelectLoginForAdmin:")
+        uam.perform(selector, with: loginVC)
+
+        XCTAssertFalse(session.oauthRequest.loginAsAdmin,
+                       "loginAsAdmin must remain false during phase-1 Welcome Discovery — Login for Admin is a no-op")
+        XCTAssertEqual(session.oauthRequest.loginHost, "welcome.salesforce.com/discovery",
+                       "loginHost must remain the discovery host")
+        XCTAssertNil(session.oauthRequest.loginAsAdminMyDomain,
+                     "loginAsAdminMyDomain must remain nil — no override during phase 1")
+        XCTAssertNil(session.oauthRequest.loginAsAdminLoginHint,
+                     "loginAsAdminLoginHint must remain nil — no override during phase 1")
+
+        uam.authSessions.removeObject(sceneId as NSString)
+        window.rootViewController = nil
+    }
+
+    func test_givenPhase2Discovery_whenLoginForAdminSelected_thenMyDomainOverrideSet() {
+        let uam = UserAccountManager.shared
+
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
+            XCTFail("Test requires a UIWindowScene from the running test app")
+            return
+        }
+        let sceneId = windowScene.session.persistentIdentifier
+
+        // Phase 2 of Welcome Discovery: the user has picked an account on the
+        // discovery page and the coordinator has updated credentials.domain to
+        // the resolved My Domain.
+        let request = makeAuthRequest()
+        request.loginHost = "welcome.salesforce.com/discovery"
+        request.loginAsAdmin = false
+        let session = SFSDKAuthSession(request, credentials: nil)
+        session.oauthCoordinator.domainUpdated = true
+        session.oauthCoordinator.credentials?.domain = "mycompany.my.salesforce.com"
+        session.oauthCoordinator.loginHint = "admin@mycompany.com"
+        uam.authSessions[sceneId as NSString] = session
+
+        let loginVC = SalesforceLoginViewController()
+        let window = windowScene.windows.first ?? UIWindow(windowScene: windowScene)
+        window.rootViewController = loginVC
+        window.makeKeyAndVisible()
+        loginVC.loadViewIfNeeded()
+
+        let selector = NSSelectorFromString("loginViewControllerDidSelectLoginForAdmin:")
+        uam.perform(selector, with: loginVC)
+
+        XCTAssertTrue(session.oauthRequest.loginAsAdmin,
+                      "loginAsAdmin should be true after Login for Admin in phase 2")
+        XCTAssertEqual(session.oauthRequest.loginHost, "welcome.salesforce.com/discovery",
+                       "loginHost must remain the discovery host — Reload / Clear Cache / cancel-restart depend on this invariant")
+        XCTAssertEqual(session.oauthRequest.loginAsAdminMyDomain, "mycompany.my.salesforce.com",
+                       "loginAsAdminMyDomain should record the resolved My Domain (in-memory only, not persisted)")
+        XCTAssertEqual(session.oauthRequest.loginAsAdminLoginHint, "admin@mycompany.com",
+                       "loginAsAdminLoginHint should record the discovery-resolved hint so authenticateWithRequest: can forward it")
+
+        uam.authSessions.removeObject(sceneId as NSString)
+        window.rootViewController = nil
+    }
+
+    func test_givenPhase2Discovery_whenLoginForAdminSelected_thenLoginHostStorageNotPolluted() {
+        // The brief explicitly forbids persisting the My Domain to SFSDKLoginHostStorage
+        // / NSUserDefaults during the discovery → admin transition.
+        let uam = UserAccountManager.shared
+
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
+            XCTFail("Test requires a UIWindowScene from the running test app")
+            return
+        }
+        let sceneId = windowScene.session.persistentIdentifier
+
+        let request = makeAuthRequest()
+        request.loginHost = "welcome.salesforce.com/discovery"
+        let session = SFSDKAuthSession(request, credentials: nil)
+        session.oauthCoordinator.domainUpdated = true
+        session.oauthCoordinator.credentials?.domain = "mycompany.my.salesforce.com"
+        uam.authSessions[sceneId as NSString] = session
+
+        let loginVC = SalesforceLoginViewController()
+        let window = windowScene.windows.first ?? UIWindow(windowScene: windowScene)
+        window.rootViewController = loginVC
+        window.makeKeyAndVisible()
+        loginVC.loadViewIfNeeded()
+
+        let selector = NSSelectorFromString("loginViewControllerDidSelectLoginForAdmin:")
+        uam.perform(selector, with: loginVC)
+
+        let storedHost = SFSDKLoginHostStorage.sharedInstance().loginHost(forHostAddress: "mycompany.my.salesforce.com")
+        XCTAssertNil(storedHost, "Login for Admin must not persist the My Domain into SFSDKLoginHostStorage")
+
+        uam.authSessions.removeObject(sceneId as NSString)
+        window.rootViewController = nil
+    }
+
+    func test_authRequestRoundTripsloginAsAdminOverrides() {
+        // The LFA-scoped override fields on SFSDKAuthRequest must round-trip so that
+        // restartAuthentication: can forward them through authenticateWithRequest:loginHint:
+        // without mutating the request's permanent loginHost.
+        let request = makeAuthRequest()
+        XCTAssertNil(request.loginAsAdminMyDomain, "loginAsAdminMyDomain should default to nil")
+        XCTAssertNil(request.loginAsAdminLoginHint, "loginAsAdminLoginHint should default to nil")
+
+        request.loginAsAdminMyDomain = "mycompany.my.salesforce.com"
+        request.loginAsAdminLoginHint = "admin@mycompany.com"
+        XCTAssertEqual(request.loginAsAdminMyDomain, "mycompany.my.salesforce.com")
+        XCTAssertEqual(request.loginAsAdminLoginHint, "admin@mycompany.com")
+
+        // After putting the request inside a session, the properties are still observable.
+        let session = SFSDKAuthSession(request, credentials: nil)
+        XCTAssertEqual(session.oauthRequest.loginAsAdminMyDomain, "mycompany.my.salesforce.com",
+                       "Session.oauthRequest.loginAsAdminMyDomain should match the value set on the request")
+        XCTAssertEqual(session.oauthRequest.loginAsAdminLoginHint, "admin@mycompany.com",
+                       "Session.oauthRequest.loginAsAdminLoginHint should match the value set on the request")
+    }
+
+    func test_givenLfaOverridesSet_whenBrowserAuthCancelled_thenOverridesCleared() {
+        // After the user backs out of the LFA browser session, both overrides and
+        // the loginAsAdmin flag must be cleared so subsequent settings actions
+        // (Reload, Clear Cache) and the next browser launch do not pick up stale state.
+        let uam = UserAccountManager.shared
+
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
+            XCTFail("Test requires a UIWindowScene from the running test app")
+            return
+        }
+        let sceneId = windowScene.session.persistentIdentifier
+
+        let request = makeAuthRequest()
+        request.loginHost = "welcome.salesforce.com/discovery"
+        request.loginAsAdmin = true
+        request.loginAsAdminMyDomain = "mycompany.my.salesforce.com"
+        request.loginAsAdminLoginHint = "admin@mycompany.com"
+        let session = SFSDKAuthSession(request, credentials: nil)
+        uam.authSessions[sceneId as NSString] = session
+
+        uam.oauthCoordinatorDidCancelBrowserAuthentication(session.oauthCoordinator)
+
+        XCTAssertFalse(session.oauthRequest.loginAsAdmin,
+                       "loginAsAdmin must be cleared after the LFA browser session is cancelled")
+        XCTAssertNil(session.oauthRequest.loginAsAdminMyDomain,
+                     "loginAsAdminMyDomain must be cleared on cancel so a subsequent restart uses the original loginHost")
+        XCTAssertNil(session.oauthRequest.loginAsAdminLoginHint,
+                     "loginAsAdminLoginHint must be cleared on cancel so a subsequent restart does not carry stale hint")
+        XCTAssertEqual(session.oauthRequest.loginHost, "welcome.salesforce.com/discovery",
+                       "loginHost must remain the originally configured discovery host across the cancel path")
+
+        uam.authSessions.removeObject(sceneId as NSString)
+    }
+
+    // MARK: - SFLoginViewController.shouldShowLoginForAdminForSession: helper
+
+    func test_givenNilSession_whenShouldShowLoginForAdmin_thenReturnsTrue() {
+        XCTAssertTrue(SalesforceLoginViewController.shouldShowLoginForAdmin(for: nil),
+                      "Should default to YES (show) when no session is available")
+    }
+
+    func test_givenNonDiscoveryHost_whenShouldShowLoginForAdmin_thenReturnsTrue() {
+        let request = makeAuthRequest()
+        request.loginHost = "login.salesforce.com"
+        let session = SFSDKAuthSession(request, credentials: nil)
+        XCTAssertTrue(SalesforceLoginViewController.shouldShowLoginForAdmin(for: session),
+                      "Login for Admin should be visible on a non-discovery host")
+    }
+
+    func test_givenPhase1DiscoveryHost_whenShouldShowLoginForAdmin_thenReturnsFalse() {
+        let request = makeAuthRequest()
+        request.loginHost = "welcome.salesforce.com/discovery"
+        let session = SFSDKAuthSession(request, credentials: nil)
+        XCTAssertFalse(session.oauthCoordinator.domainUpdated,
+                       "Test precondition: domainUpdated == NO for phase 1")
+        XCTAssertFalse(SalesforceLoginViewController.shouldShowLoginForAdmin(for: session),
+                       "Login for Admin should be hidden in phase 1 of Welcome Discovery")
+    }
+
+    func test_givenPhase2DiscoveryHost_whenShouldShowLoginForAdmin_thenReturnsTrue() {
+        let request = makeAuthRequest()
+        request.loginHost = "welcome.salesforce.com/discovery"
+        let session = SFSDKAuthSession(request, credentials: nil)
+        session.oauthCoordinator.domainUpdated = true
+        session.oauthCoordinator.credentials?.domain = "mycompany.my.salesforce.com"
+        XCTAssertTrue(SalesforceLoginViewController.shouldShowLoginForAdmin(for: session),
+                      "Login for Admin should be visible once Welcome Discovery has resolved a My Domain (phase 2)")
+    }
+
     @available(*, deprecated, message: "Exercises deprecated public API")
-    func testGivenAuthSession_whenPublicLoginForAdminCalled_thenLoginAsAdminSet() {
+    func testGivenAuthSession_whenPublicLoginForAdminCalled_thenloginAsAdminSet() {
         let uam = UserAccountManager.shared
 
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
@@ -511,6 +730,42 @@ class LoginForAdminTests: XCTestCase {
 
         XCTAssertTrue(session.oauthRequest.loginAsAdmin,
                       "loginAsAdmin should be true after calling the public loginViewControllerDidSelectLoginForAdmin")
+
+        uam.authSessions.removeObject(sceneId as NSString)
+        window.rootViewController = nil
+    }
+
+    @available(*, deprecated, message: "Exercises deprecated public API")
+    func test_givenPhase1Discovery_whenPublicLoginForAdminCalled_thenIsNoOp() {
+        let uam = UserAccountManager.shared
+
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
+            XCTFail("Test requires a UIWindowScene from the running test app")
+            return
+        }
+        let sceneId = windowScene.session.persistentIdentifier
+
+        let request = makeAuthRequest()
+        request.loginHost = "welcome.salesforce.com/discovery"
+        request.loginAsAdmin = false
+        let session = SFSDKAuthSession(request, credentials: nil)
+        XCTAssertFalse(session.oauthCoordinator.domainUpdated,
+                       "Test precondition: domainUpdated == NO for phase 1")
+        uam.authSessions[sceneId as NSString] = session
+
+        let loginVC = SalesforceLoginViewController()
+        let window = windowScene.windows.first ?? UIWindow(windowScene: windowScene)
+        window.rootViewController = loginVC
+        window.makeKeyAndVisible()
+        loginVC.loadViewIfNeeded()
+
+        // Public API should match the protocol method's no-op behavior in phase 1.
+        uam.loginViewControllerDidSelectLoginForAdmin(loginVC)
+
+        XCTAssertFalse(session.oauthRequest.loginAsAdmin,
+                       "Public loginViewControllerDidSelectLoginForAdmin must no-op during phase-1 discovery")
+        XCTAssertEqual(session.oauthRequest.loginHost, "welcome.salesforce.com/discovery",
+                       "loginHost must remain unchanged during phase-1 no-op")
 
         uam.authSessions.removeObject(sceneId as NSString)
         window.rootViewController = nil
