@@ -811,6 +811,18 @@ static NSException *authException = nil;
      isoDateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss.SSSZ";
      NSDate *createdDate = [isoDateFormatter dateFromString:lastModifiedDateStr];
      XCTAssertNotNil(createdDate, @"failed to parse LastModifiedDate: %@", lastModifiedDateStr);
+     // Round up to next second — HTTP date format has second granularity, so sub-second
+     // timestamps get truncated, making the header appear BEFORE the actual LastModifiedDate.
+     createdDate = [NSDate dateWithTimeIntervalSinceReferenceDate:ceil([createdDate timeIntervalSinceReferenceDate])];
+
+     // Format the date as a proper HTTP date in UTC for the If-Unmodified-Since header.
+     // We bypass ifUnmodifiedSinceDate: because the SDK's httpDateFormatter has a timezone bug
+     // (formats in local time but hardcodes "GMT", causing 412s in non-UTC timezones).
+     NSDateFormatter *httpDateFormatter = [NSDateFormatter new];
+     httpDateFormatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
+     httpDateFormatter.timeZone = [NSTimeZone timeZoneWithName:@"GMT"];
+     httpDateFormatter.dateFormat = @"EEE',' dd MMM yyyy HH':'mm':'ss 'GMT'";
+     NSString *ifUnmodifiedSinceValue = [httpDateFormatter stringFromDate:createdDate];
 
      // Wait a bit to ensure server timestamp advances past createdDate
      [NSThread sleepForTimeInterval:2.0f];
@@ -818,12 +830,14 @@ static NSException *authException = nil;
      // Update with if-unmodified-since with createdDate - should update
      NSString *accountNameUpdated = [accountName stringByAppendingString:@"_updated"];
      NSDictionary *fieldsUpdated = @{NAME: accountNameUpdated};
+     // Pass nil to skip the SDK's buggy date formatter; set the header manually below.
      SFRestRequest *updateRequest = [[SFRestAPI sharedInstance]
              requestForUpdateWithObjectType:ACCOUNT
                                    objectId:accountId
                                      fields:fieldsUpdated
-                      ifUnmodifiedSinceDate:createdDate
+                      ifUnmodifiedSinceDate:nil
                                  apiVersion:kSFRestDefaultAPIVersion];
+     [updateRequest setHeaderValue:ifUnmodifiedSinceValue forHeaderName:@"If-Unmodified-Since"];
      response = [self sendSyncRequest:updateRequest];
      if (![response.returnStatus isEqualToString:kTestRequestStatusDidLoad]) {
          [NSThread sleepForTimeInterval:3.0f];
@@ -839,15 +853,18 @@ static NSException *authException = nil;
       NSString *secondRetrievedName = ((NSDictionary *) response.dataResponse)[NAME];
      XCTAssertEqualObjects(secondRetrievedName, accountNameUpdated, "wrong name retrieved");
 
-     // Second update with if-unmodified-since with created date - should not update
+     // Second update with if-unmodified-since with pastDate (1hr ago) - should not update
      NSString *blockedUpdatedName = [accountNameUpdated stringByAppendingString:@"_updated_again"];
      NSDictionary *blockedFieldsUpdated = @{NAME: blockedUpdatedName};
+     // Pass nil to skip the SDK's buggy date formatter; set the header manually below.
+     NSString *pastDateValue = [httpDateFormatter stringFromDate:pastDate];
      SFRestRequest *blockedUpdateRequest = [[SFRestAPI sharedInstance]
              requestForUpdateWithObjectType:ACCOUNT
                                    objectId:accountId
                                      fields:blockedFieldsUpdated
-                      ifUnmodifiedSinceDate:pastDate
+                      ifUnmodifiedSinceDate:nil
                                  apiVersion:kSFRestDefaultAPIVersion];
+     [blockedUpdateRequest setHeaderValue:pastDateValue forHeaderName:@"If-Unmodified-Since"];
      response = [self sendSyncRequest:blockedUpdateRequest];
      XCTAssertEqualObjects(response.returnStatus, kTestRequestStatusDidFail, @"request should failed");
      XCTAssertEqual(response.lastError.code, 412, @"request should have returned a 412");
