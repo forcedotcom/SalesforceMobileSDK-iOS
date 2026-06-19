@@ -65,8 +65,7 @@
     XCTAssertFalse(result);
 }
 
-- (void)testRegisterSalesforceNotifications_NoDeviceToken {
-    // deviceToken is never set, so registration should fail
+- (void)testRegisterSalesforceNotifications_NoDeviceIdPref {
     BOOL result = [self.manager registerSalesforceNotificationsWithCompletionBlock:nil failBlock:nil];
     XCTAssertFalse(result);
 }
@@ -77,9 +76,7 @@
     XCTAssertFalse(result);
 }
 
-- (void)testUnregisterSalesforceNotifications_NoCurrentUser {
-    // When currentUserAccount cannot be resolved, unregister returns false
-    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:nil];
+- (void)testUnregisterSalesforceNotifications_NoDeviceIdPref {
     BOOL result = [self.manager unregisterSalesforceNotificationsWithCompletionBlock:nil];
     XCTAssertFalse(result);
 }
