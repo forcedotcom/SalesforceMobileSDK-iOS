@@ -229,90 +229,50 @@ static NSException *authException = nil;
     return result;
 }
 
-// Poll-based SOSL search that retries until records appear or maxWait is exceeded.
-// SOSL search indexing has a known delay on the server side.
+// Shared polling helper. Sends request repeatedly with exponential backoff until
+// the exit condition is satisfied or maxWait is exceeded.
+- (NSArray *)pollRequest:(SFRestRequest *)request recordsKey:(NSString *)key exitCondition:(BOOL (^)(NSArray *records))condition maxWaitSeconds:(NSTimeInterval)maxWait {
+    NSTimeInterval elapsed = 0;
+    NSTimeInterval interval = 2.0;
+    NSArray *records = nil;
+
+    while (elapsed < maxWait) {
+        SFRestAPITestResponse *response = [self sendSyncRequest:request];
+        if ([response.returnStatus isEqualToString:kTestRequestStatusDidLoad]) {
+            records = ((NSDictionary *)response.dataResponse)[key];
+            if (condition(records)) {
+                return records;
+            }
+        }
+        [NSThread sleepForTimeInterval:interval];
+        elapsed += interval;
+        interval = MIN(interval * 1.5, 5.0);
+    }
+    return records;
+}
+
 - (NSArray *)sendSyncSearchRequestWithRetry:(SFRestRequest *)request expectedMinResults:(NSUInteger)minResults maxWaitSeconds:(NSTimeInterval)maxWait {
-    NSTimeInterval elapsed = 0;
-    NSTimeInterval interval = 2.0;
-    NSArray *records = nil;
-
-    while (elapsed < maxWait) {
-        SFRestAPITestResponse *response = [self sendSyncRequest:request];
-        if ([response.returnStatus isEqualToString:kTestRequestStatusDidLoad]) {
-            records = ((NSDictionary *)response.dataResponse)[SEARCH_RECORDS];
-            if (records.count >= minResults) {
-                return records;
-            }
-        }
-        [NSThread sleepForTimeInterval:interval];
-        elapsed += interval;
-        interval = MIN(interval * 1.5, 5.0);
-    }
-    return records;
+    return [self pollRequest:request recordsKey:SEARCH_RECORDS exitCondition:^BOOL(NSArray *records) {
+        return records.count >= minResults;
+    } maxWaitSeconds:maxWait];
 }
 
-// Poll-based SOSL search that retries until no results are found (record removed from index).
 - (NSArray *)sendSyncSearchRequestUntilEmpty:(SFRestRequest *)request maxWaitSeconds:(NSTimeInterval)maxWait {
-    NSTimeInterval elapsed = 0;
-    NSTimeInterval interval = 2.0;
-    NSArray *records = nil;
-
-    while (elapsed < maxWait) {
-        SFRestAPITestResponse *response = [self sendSyncRequest:request];
-        if ([response.returnStatus isEqualToString:kTestRequestStatusDidLoad]) {
-            records = ((NSDictionary *)response.dataResponse)[SEARCH_RECORDS];
-            if (records.count == 0) {
-                return records;
-            }
-        }
-        [NSThread sleepForTimeInterval:interval];
-        elapsed += interval;
-        interval = MIN(interval * 1.5, 5.0);
-    }
-    return records;
+    return [self pollRequest:request recordsKey:SEARCH_RECORDS exitCondition:^BOOL(NSArray *records) {
+        return records.count == 0;
+    } maxWaitSeconds:maxWait];
 }
 
-// Poll-based SOQL query that retries until zero results are returned (record fully deleted).
-// SOQL can exhibit brief eventual consistency for deletes on some server configurations.
 - (NSArray *)sendSyncQueryRequestUntilEmpty:(SFRestRequest *)request maxWaitSeconds:(NSTimeInterval)maxWait {
-    NSTimeInterval elapsed = 0;
-    NSTimeInterval interval = 2.0;
-    NSArray *records = nil;
-
-    while (elapsed < maxWait) {
-        SFRestAPITestResponse *response = [self sendSyncRequest:request];
-        if ([response.returnStatus isEqualToString:kTestRequestStatusDidLoad]) {
-            records = ((NSDictionary *)response.dataResponse)[RECORDS];
-            if (records.count == 0) {
-                return records;
-            }
-        }
-        [NSThread sleepForTimeInterval:interval];
-        elapsed += interval;
-        interval = MIN(interval * 1.5, 5.0);
-    }
-    return records;
+    return [self pollRequest:request recordsKey:RECORDS exitCondition:^BOOL(NSArray *records) {
+        return records.count == 0;
+    } maxWaitSeconds:maxWait];
 }
 
-// Poll SOQL query until at least expectedMinResults records appear (eventual consistency after create).
 - (NSArray *)sendSyncQueryRequestUntilFound:(SFRestRequest *)request expectedMinResults:(NSUInteger)minResults maxWaitSeconds:(NSTimeInterval)maxWait {
-    NSTimeInterval elapsed = 0;
-    NSTimeInterval interval = 2.0;
-    NSArray *records = nil;
-
-    while (elapsed < maxWait) {
-        SFRestAPITestResponse *response = [self sendSyncRequest:request];
-        if ([response.returnStatus isEqualToString:kTestRequestStatusDidLoad]) {
-            records = ((NSDictionary *)response.dataResponse)[RECORDS];
-            if (records.count >= minResults) {
-                return records;
-            }
-        }
-        [NSThread sleepForTimeInterval:interval];
-        elapsed += interval;
-        interval = MIN(interval * 1.5, 5.0);
-    }
-    return records;
+    return [self pollRequest:request recordsKey:RECORDS exitCondition:^BOOL(NSArray *records) {
+        return records.count >= minResults;
+    } maxWaitSeconds:maxWait];
 }
 
 // Retry owned-files list until a specific file ID appears.
