@@ -86,7 +86,16 @@ public class PushNotificationManager: NSObject {
     }
     
     public var deviceToken: String?
-    public var deviceSalesforceId: String?
+
+    @available(*, deprecated,
+               message: "Deprecated in Salesforce Mobile SDK 14.0 and will be removed in Salesforce Mobile SDK 15.0. This value is managed internally by registerSalesforceNotifications and unregisterSalesforceNotifications. No replacement is needed.")
+    public var deviceSalesforceId: String? {
+        get { _deviceSalesforceId }
+        set { _deviceSalesforceId = newValue }
+    }
+    // Separate private variable to avoid deprecation warnings until the field is removed
+    private var _deviceSalesforceId: String?
+
     public var customPushRegistrationBody: [String: Any]?
 
     /// Controls which users are re-registered for push notifications when the app returns to the foreground.
@@ -135,7 +144,7 @@ public class PushNotificationManager: NSObject {
 #endif
         let preferences = notificationRegister.preferences(for: UserAccountManager.shared.currentUserAccount)
         self.deviceToken = preferences?.string(forKey: PushNotificationConstants.deviceToken)
-        self.deviceSalesforceId = preferences?.string(forKey: PushNotificationConstants.deviceSalesforceId)
+        self._deviceSalesforceId = preferences?.string(forKey: PushNotificationConstants.deviceSalesforceId)
         
         setupNotificationObservers()
     }
@@ -282,10 +291,11 @@ public class PushNotificationManager: NSObject {
                 }
                 
                 SFSDKCoreLogger.i(Self.self, message: "Registration succeeded")
-                self.deviceSalesforceId = json["id"] as? String
+                // TODO: Remove in Mobile SDK 15.0 and set value in preferences directly
+                self._deviceSalesforceId = json["id"] as? String
                 
-                let prefs = SFPreferences.currentUserLevel()
-                prefs?.setObject(self.deviceSalesforceId ?? "", forKey: PushNotificationConstants.deviceSalesforceId)
+                let prefs = notificationRegister.preferences(for: user)
+                prefs?.setObject(self._deviceSalesforceId ?? "", forKey: PushNotificationConstants.deviceSalesforceId)
                 prefs?.synchronize()
                 
                 SFSDKCoreLogger.i(Self.self, message: "Response: \(json)")
@@ -333,24 +343,20 @@ public class PushNotificationManager: NSObject {
     @objc(unregisterSalesforceNotificationsWithCompletionBlock:completionBlock:)
     public func unregisterSalesforceNotifications(for user: UserAccount,
                                                   completionBlock: (() -> Void)?) -> Bool {
-        guard deviceSalesforceId != nil else {
-            completionBlock?()
-            return true
-        }
-        
         if isSimulator {
             completionBlock?()
             return true
         }
-        let preferences = notificationRegister.preferences(for: UserAccountManager.shared.currentUserAccount)
-        guard let prefs = preferences else {
+        let preferences = notificationRegister.preferences(for: user)
+        guard let preferences else {
             SFSDKCoreLogger.e(Self.self, message: "Cannot unregister from notifications with Salesforce: no user prefs")
             return false
         }
-        
-        guard let sfId = prefs.string(forKey: PushNotificationConstants.deviceSalesforceId) else {
-            SFSDKCoreLogger.e(Self.self, message: "Cannot unregister from notifications with Salesforce: no deviceSalesforceId")
-            return false
+
+        guard let sfId = preferences.string(forKey: PushNotificationConstants.deviceSalesforceId) else {
+            // User has no registered device — nothing to unregister
+            completionBlock?()
+            return true
         }
         
         guard let restClient = notificationRegister.client(for: user) else {
