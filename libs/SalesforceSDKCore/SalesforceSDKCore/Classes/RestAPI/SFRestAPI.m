@@ -336,11 +336,11 @@ successBlock:(SFRestResponseBlock)successBlock
         __block NSURLSessionDataTask *dataTask = nil;
         [SFSDKDPoPRequestDecorator sendRequestWithNonceRetry:mutableRequest
                                                        scope:credentials.identifier ?: @""
+                                                   tokenType:credentials.tokenType
+                                                     network:network
                                          accessTokenProvider:^NSString * _Nullable {
             return weakSelf.user.credentials.accessToken;
         }
-                                                   tokenType:credentials.tokenType
-                                                     network:network
                                                 taskReceiver:^(NSURLSessionDataTask *task) {
             dataTask = task;
             request.sessionDataTask = task;

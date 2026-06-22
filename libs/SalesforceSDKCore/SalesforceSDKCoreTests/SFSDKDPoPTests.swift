@@ -701,9 +701,9 @@ class SFSDKDPoPTests: XCTestCase {
         let exp = expectation(description: "callback fires")
         DPoPRequestDecorator.sendWithNonceRetry(req,
                                                 scope: scope,
-                                                accessTokenProvider: { "tok-abc" },
                                                 tokenType: "DPoP",
                                                 network: network,
+                                                accessTokenProvider: { "tok-abc" },
                                                 taskReceiver: nil) { _, response, error in
             XCTAssertNil(error)
             XCTAssertEqual((response as? HTTPURLResponse)?.statusCode, 200)
@@ -740,9 +740,9 @@ class SFSDKDPoPTests: XCTestCase {
         var fireCount = 0
         DPoPRequestDecorator.sendWithNonceRetry(req,
                                                 scope: scope,
-                                                accessTokenProvider: { "tok-abc" },
                                                 tokenType: "DPoP",
                                                 network: network,
+                                                accessTokenProvider: { "tok-abc" },
                                                 taskReceiver: nil) { data, response, error in
             fireCount += 1
             XCTAssertNil(error)
@@ -790,9 +790,9 @@ class SFSDKDPoPTests: XCTestCase {
         let exp = expectation(description: "callback fires once with success")
         DPoPRequestDecorator.sendWithNonceRetry(req,
                                                 scope: scope,
-                                                accessTokenProvider: { "tok-abc" },
                                                 tokenType: "DPoP",
                                                 network: network,
+                                                accessTokenProvider: { "tok-abc" },
                                                 taskReceiver: nil) { _, response, error in
             XCTAssertNil(error)
             XCTAssertEqual((response as? HTTPURLResponse)?.statusCode, 200)
@@ -829,9 +829,9 @@ class SFSDKDPoPTests: XCTestCase {
         let exp = expectation(description: "callback fires")
         DPoPRequestDecorator.sendWithNonceRetry(req,
                                                 scope: scope,
-                                                accessTokenProvider: { "tok-abc" },
                                                 tokenType: "DPoP",
                                                 network: network,
+                                                accessTokenProvider: { "tok-abc" },
                                                 taskReceiver: nil) { _, _, _ in exp.fulfill() }
         wait(for: [exp], timeout: 5.0)
 
@@ -864,9 +864,9 @@ class SFSDKDPoPTests: XCTestCase {
         let exp = expectation(description: "callback fires with error")
         DPoPRequestDecorator.sendWithNonceRetry(req,
                                                 scope: scope,
-                                                accessTokenProvider: { "tok-abc" },
                                                 tokenType: "DPoP",
                                                 network: network,
+                                                accessTokenProvider: { "tok-abc" },
                                                 taskReceiver: nil) { _, _, error in
             let nsErr = error as NSError?
             XCTAssertEqual(nsErr?.domain, kSFOAuthErrorDomain)
@@ -911,9 +911,9 @@ class SFSDKDPoPTests: XCTestCase {
                 let req = try makeDPoPRequest(url: url, accessToken: "tok-abc", scope: scope)
                 DPoPRequestDecorator.sendWithNonceRetry(req,
                                                         scope: scope,
-                                                        accessTokenProvider: { "tok-abc" },
                                                         tokenType: "DPoP",
                                                         network: network,
+                                                        accessTokenProvider: { "tok-abc" },
                                                         taskReceiver: nil) { _, response, error in
                     XCTAssertNil(error)
                     XCTAssertEqual((response as? HTTPURLResponse)?.statusCode, 200)
@@ -955,9 +955,9 @@ class SFSDKDPoPTests: XCTestCase {
         let exp = expectation(description: "bearer callback")
         DPoPRequestDecorator.sendWithNonceRetry(req,
                                                 scope: scope,
-                                                accessTokenProvider: { "tok-bearer" },
                                                 tokenType: "Bearer",
                                                 network: network,
+                                                accessTokenProvider: { "tok-bearer" },
                                                 taskReceiver: nil) { _, response, error in
             XCTAssertNil(error)
             XCTAssertEqual((response as? HTTPURLResponse)?.statusCode, 200)
@@ -1004,9 +1004,9 @@ class SFSDKDPoPTests: XCTestCase {
         let exp = expectation(description: "log redaction callback")
         DPoPRequestDecorator.sendWithNonceRetry(req,
                                                 scope: scope,
-                                                accessTokenProvider: { "tok-abc" },
                                                 tokenType: "DPoP",
                                                 network: network,
+                                                accessTokenProvider: { "tok-abc" },
                                                 taskReceiver: nil) { _, _, _ in exp.fulfill() }
         wait(for: [exp], timeout: 5.0)
 
@@ -1067,9 +1067,9 @@ class SFSDKDPoPTests: XCTestCase {
         let exp = expectation(description: "callback fires")
         DPoPRequestDecorator.sendWithNonceRetry(req,
                                                 scope: scope,
-                                                accessTokenProvider: provider,
                                                 tokenType: "DPoP",
                                                 network: network,
+                                                accessTokenProvider: provider,
                                                 taskReceiver: nil) { _, response, error in
             XCTAssertNil(error)
             XCTAssertEqual((response as? HTTPURLResponse)?.statusCode, 200)

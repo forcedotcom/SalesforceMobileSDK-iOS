@@ -149,13 +149,13 @@ public final class DPoPRequestDecorator: NSObject {
     /// (once on the initial send, once again on retry). Callers who track in-flight tasks for
     /// cancellation or stale-task guards should use this hook — the first task is replaced by
     /// the retry task, and only the most recent value is "current".
-    @objc(sendRequestWithNonceRetry:scope:accessTokenProvider:tokenType:network:taskReceiver:dataResponseBlock:)
+    @objc(sendRequestWithNonceRetry:scope:tokenType:network:accessTokenProvider:taskReceiver:dataResponseBlock:)
     @discardableResult
     public static func sendWithNonceRetry(_ request: NSMutableURLRequest,
                                           scope: String,
-                                          accessTokenProvider: @escaping () -> String?,
                                           tokenType: String?,
                                           network: Network,
+                                          accessTokenProvider: @escaping () -> String?,
                                           taskReceiver: ((URLSessionDataTask) -> Void)?,
                                           dataResponseBlock: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
         // Bearer / no-DPoP early-out: no harvest, no retry — byte-identical to a direct

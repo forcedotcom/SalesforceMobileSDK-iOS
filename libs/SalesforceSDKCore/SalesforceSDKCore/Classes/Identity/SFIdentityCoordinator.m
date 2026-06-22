@@ -161,19 +161,19 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
     }
     [request setTimeoutInterval:self.timeout];
     [request setHTTPShouldHandleCookies:NO];
-    [SFSDKCoreLogger d:[self class] format:@"SFIdentityCoordinator:Starting identity request"];
+    [SFSDKCoreLogger d:[self class] format:@"SFIdentityCoordinator:Starting identity request at %@", self.credentials.identityUrl.absoluteString];
 
     __weak __typeof(self) weakSelf = self;
     self.networkIdentifier = [SFNetwork uniqueInstanceIdentifier];
     SFNetwork *network = [SFNetwork sharedEphemeralInstanceWithIdentifier:self.networkIdentifier];
     self.session = network.activeSession;
     [SFSDKDPoPRequestDecorator sendRequestWithNonceRetry:request
-                                                   scope:self.credentials.identifier ?: @""
+                                                   scope:self.credentials.identifier
+                                               tokenType:self.credentials.tokenType
+                                                 network:network
                                      accessTokenProvider:^NSString * _Nullable {
         return weakSelf.credentials.accessToken;
     }
-                                               tokenType:self.credentials.tokenType
-                                                 network:network
                                             taskReceiver:nil
                                        dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
