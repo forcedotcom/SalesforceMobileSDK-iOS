@@ -2136,6 +2136,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
                                                         error:&authError];
         if (!ok) {
             [SFSDKCoreLogger e:[self class] format:@"User photo: failed to stamp authorization headers: %@", authError.localizedDescription];
+            return;
         }
         SFNetwork *network = [SFNetwork sharedEphemeralInstance];
         [network sendRequest:request  dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error){
@@ -2409,6 +2410,8 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
                                                     error:&authError];
     if (!ok) {
         [SFSDKCoreLogger e:[self class] format:@"shouldBlockUser: failed to stamp authorization headers: %@", authError.localizedDescription];
+        errorBlock(authError);
+        return;
     }
 
     __block NSString *networkIdentifier = [SFNetwork uniqueInstanceIdentifier];

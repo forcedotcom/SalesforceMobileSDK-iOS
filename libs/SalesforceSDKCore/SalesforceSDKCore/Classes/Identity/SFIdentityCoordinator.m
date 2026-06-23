@@ -158,6 +158,8 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
                                                     error:&authError];
     if (!ok) {
         [SFSDKCoreLogger e:[self class] format:@"SFIdentityCoordinator: Failed to stamp authorization headers: %@", authError.localizedDescription];
+        [self notifyDelegateOfFailure:authError];
+        return;
     }
     [request setTimeoutInterval:self.timeout];
     [request setHTTPShouldHandleCookies:NO];
