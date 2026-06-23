@@ -2413,15 +2413,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 
     __block NSString *networkIdentifier = [SFNetwork uniqueInstanceIdentifier];
     SFNetwork *network = [SFNetwork sharedEphemeralInstanceWithIdentifier:networkIdentifier];
-    [SFSDKDPoPRequestDecorator sendRequestWithNonceRetry:request
-                                                   scope:credentials.identifier ?: @""
-                                               tokenType:credentials.tokenType
-                                                 network:network
-                                     accessTokenProvider:^NSString * _Nullable {
-        return credentials.accessToken;
-    }
-                                            taskReceiver:nil
-                                       dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
+    [network sendRequest:request dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error) {
             errorBlock(error);
         } else {

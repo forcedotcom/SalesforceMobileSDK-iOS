@@ -28,25 +28,26 @@ import Foundation
 
 /// Process-lifetime cache of `DPoP-Nonce` values, keyed by `(htu, scope)`.
 /// `scope` is typically `SFOAuthCredentials.identifier`. Fed by:
-///  - reactive 400 / 401 challenges (RFC 9449 §8)
-///  - proactive `DPoP-Nonce` response headers on 2xx responses (RFC 9449 §9 rotation).
+///  - proactive `DPoP-Nonce` harvest from token-endpoint responses (Salesforce only
+///    emits nonces from the token endpoint — resource-server responses don't carry
+///    `DPoP-Nonce` on 2xx or on challenges).
+///  - reactive 400 / 401 challenges at the token endpoint (RFC 9449 §8).
 ///
-/// Read semantics (`nonce(htu:scope:)`) are intentionally non-destructive: the cache
-/// returns the most recently observed nonce for a given `(htu, scope)` and does NOT
+/// Read semantics (`nonce(htu:scope:)`, `latest(forScope:)`) are intentionally
+/// non-destructive: the cache returns the most recently observed nonce and does NOT
 /// invalidate it on read. Rationale:
 ///  - Per RFC 9449 §9, a server-issued nonce is reusable until the server rotates it.
-///    Read-and-remove would force concurrent callers to race for a single nonce,
-///    making all-but-one fall through to a `use_dpop_nonce` challenge and pay an
-///    extra round-trip per concurrent call. The non-destructive read lets every
-///    concurrent caller use the most recently harvested value.
-///  - The server is the authority on freshness: a stale nonce simply produces a
-///    `use_dpop_nonce` challenge that `DPoPRequestDecorator.sendWithNonceRetry`
-///    handles transparently with one retry. With proactive harvest on every 2xx,
-///    steady-state staleness is bounded to a single outbound request.
+///    Read-and-remove would force concurrent callers to race for a single nonce.
+///    The non-destructive read lets every concurrent caller use the most recently
+///    harvested value.
+///  - Resource-server calls reuse the latest token-endpoint nonce via
+///    `latest(forScope:)`. When the access token's nonce ages out, the next refresh
+///    (driven by the existing 401-on-resource → refresh-on-token → retry-resource
+///    path) hits the token endpoint and harvests a fresh nonce on the way back, so
+///    the retried resource-server call picks up the new value.
 ///  - When the server rotates the nonce mid-flight, harvest from the in-flight
-///    response wins over harvest from the challenge response that lost the race;
-///    last-writer-wins is acceptable because both values are server-issued and
-///    the next request just picks up whichever landed last.
+///    response wins over harvest from a stale response that lost the race;
+///    last-writer-wins is acceptable because both values are server-issued.
 @objc(SFSDKDPoPNonceCache)
 public final class DPoPNonceCache: NSObject {
 

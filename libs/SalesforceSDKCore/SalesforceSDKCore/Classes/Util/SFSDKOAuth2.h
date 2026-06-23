@@ -64,7 +64,6 @@ enum {
     kSFOAuthErrorRequestCancelled,
     kSFOAuthErrorRefreshFailed, //generic error
     kSFOAuthErrorInvalidURL,
-    kSFOAuthErrorDPoPNonceExhausted     // server returned a DPoP nonce challenge twice in a row; client gives up
 };
 
 typedef NS_ENUM(NSInteger, SFLogoutReason) {
