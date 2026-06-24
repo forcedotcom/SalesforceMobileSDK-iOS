@@ -28,26 +28,26 @@ import Foundation
 
 /// Process-lifetime cache of `DPoP-Nonce` values, keyed by `(htu, scope)`.
 /// `scope` is typically `SFOAuthCredentials.identifier`. Fed by:
-///  - reactive 400 / 401 challenges (RFC 9449 §8)
-///  - proactive `DPoP-Nonce` response headers on 200 OK (Salesforce backend rotation).
+///  - proactive `DPoP-Nonce` harvest from token-endpoint responses (Salesforce only
+///    emits nonces from the token endpoint — resource-server responses don't carry
+///    `DPoP-Nonce` on 2xx or on challenges).
+///  - reactive 400 / 401 challenges at the token endpoint (RFC 9449 §8).
 ///
-/// Read semantics (`nonce(htu:scope:)`) are intentionally non-destructive: the cache
-/// returns the most recently observed nonce for a given `(htu, scope)` and does NOT
+/// Read semantics (`nonce(htu:scope:)`, `latest(forScope:)`) are intentionally
+/// non-destructive: the cache returns the most recently observed nonce and does NOT
 /// invalidate it on read. Rationale:
-///  - The Salesforce backend rotates the nonce on every response, so a successful
-///    request's response brings the next nonce via `harvestNonce(...)` — staleness
-///    is bounded to "exactly one outbound request" in the steady state.
-///  - The server is the authority on freshness: a stale nonce produces a
-///    `use_dpop_nonce` challenge that the caller already retries once.
-///  - Read-and-remove would force concurrent callers to race for a single nonce,
-///    causing all-but-one to fall back to the unauthenticated path and incur an
-///    extra round-trip per concurrent call.
-///
-/// This PR uses the cache only at the token endpoint, where requests are serial,
-/// so the read-doesn't-remove choice has no observable effect today. The model
-/// will be revisited when DPoP is extended to API calls in a later phase: with
-/// concurrent REST calls, the right policy might be "one-use-per-write" or
-/// "serialize on rotation."
+///  - Per RFC 9449 §9, a server-issued nonce is reusable until the server rotates it.
+///    Read-and-remove would force concurrent callers to race for a single nonce.
+///    The non-destructive read lets every concurrent caller use the most recently
+///    harvested value.
+///  - Resource-server calls reuse the latest token-endpoint nonce via
+///    `latest(forScope:)`. When the access token's nonce ages out, the next refresh
+///    (driven by the existing 401-on-resource → refresh-on-token → retry-resource
+///    path) hits the token endpoint and harvests a fresh nonce on the way back, so
+///    the retried resource-server call picks up the new value.
+///  - When the server rotates the nonce mid-flight, harvest from the in-flight
+///    response wins over harvest from a stale response that lost the race;
+///    last-writer-wins is acceptable because both values are server-issued.
 @objc(SFSDKDPoPNonceCache)
 public final class DPoPNonceCache: NSObject {
 
@@ -62,12 +62,36 @@ public final class DPoPNonceCache: NSObject {
 
     /// Returns the most recently observed nonce for `(htu, scope)`, or `nil` if none.
     /// Non-destructive — see class doc comment for rationale.
-    // TODO: Revisit read semantics when DPoP extends to API calls. Concurrent REST callers may
-    // need one-use-per-write or serialize-on-rotation to avoid all-but-one hitting use_dpop_nonce.
     @objc(nonceForHtu:scope:)
     public func nonce(htu: URL, scope: String?) -> String? {
         let key = Self.cacheKey(htu: htu, scope: scope)
         return queue.sync { storage[key] }
+    }
+
+    /// Returns the most recently observed nonce for `scope`, regardless of `htu`.
+    ///
+    /// RFC 9449 §8/§9 leaves it to the authorization server to decide whether resource
+    /// servers also emit `DPoP-Nonce`. Salesforce's deployment seeds the nonce only on
+    /// token-endpoint responses; resource-server responses do not refresh it. Clients
+    /// are expected to reuse that token-endpoint nonce on every DPoP-protected call for
+    /// the lifetime of the DPoP session, and re-authenticate (which mints a fresh nonce)
+    /// when the session expires or the server replies with `use_dpop_nonce`.
+    ///
+    /// `nonce(htu:scope:)` is the spec-correct per-resource lookup. This method is the
+    /// fall-through used by `DPoPRequestDecorator` when the per-`htu` slot is empty —
+    /// in practice the only populated slot for a given scope is the token endpoint, and
+    /// returning it lets the proof carry the server-issued nonce on resource-server
+    /// calls without an unnecessary `use_dpop_nonce` round-trip.
+    @objc(latestForScope:)
+    public func latest(forScope scope: String?) -> String? {
+        let scopeKey = (scope?.isEmpty == false) ? scope! : "anonymous"
+        let suffix = "|" + scopeKey
+        return queue.sync {
+            for (key, value) in storage where key.hasSuffix(suffix) {
+                return value
+            }
+            return nil
+        }
     }
 
     @objc(setNonce:htu:scope:)

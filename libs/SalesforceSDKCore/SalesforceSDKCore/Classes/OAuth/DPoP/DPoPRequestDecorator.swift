@@ -33,12 +33,26 @@ public final class DPoPRequestDecorator: NSObject {
     @objc public static let dpopNonceHeaderName = "DPoP-Nonce"
     @objc public static let nonceErrorCode = "use_dpop_nonce"
 
+    /// Authorization scheme value used when the token endpoint returns
+    /// `token_type: "DPoP"` (RFC 6749 §5.1 / RFC 9449 §6.1).
+    @objc public static let dpopTokenType = "DPoP"
+
     /// No-op when `SalesforceSDKManager.shared.useDPoP == NO`. Otherwise builds a fresh
     /// proof JWT (with cached nonce if any) and sets it on the `DPoP` header.
     /// `scope` is typically `SFOAuthCredentials.identifier` so the keypair and nonce cache
     /// are isolated per-account, even before an `SFUserAccount` exists.
     @objc(decorateRequest:scope:error:)
     public static func decorate(_ request: NSMutableURLRequest, scope: String) throws {
+        try decorate(request, scope: scope, accessToken: nil)
+    }
+
+    /// Same as `decorate(_:scope:)` but binds the proof to the given access token via the
+    /// `ath` claim (RFC 9449 §4.2). Use at resource-server call sites where the SDK already
+    /// holds a token; pass `nil` (or use the no-token overload) at the token endpoint.
+    @objc(decorateRequest:scope:accessToken:error:)
+    public static func decorate(_ request: NSMutableURLRequest,
+                                scope: String,
+                                accessToken: String?) throws {
         guard SalesforceManager.shared.usesDPoP else { return }
         guard !scope.isEmpty else {
             SFSDKCoreLogger.i(self, message: "DPoP decorator skipped: empty scope identifier")
@@ -48,28 +62,59 @@ public final class DPoPRequestDecorator: NSObject {
         let method = request.httpMethod
 
         let keyPair = try DPoPKeyStore.shared.keyPair(forScope: scope)
+        // Salesforce seeds DPoP-Nonce only on token-endpoint responses; resource-server
+        // responses don't refresh it. RFC 9449 §8/§9 permits this. Look up the per-htu
+        // entry first (spec-correct), then fall back to the latest nonce for the same
+        // scope so resource-server calls reuse the token-endpoint nonce instead of
+        // paying a `use_dpop_nonce` round-trip.
         let nonce = DPoPNonceCache.shared.nonce(htu: url, scope: scope)
+            ?? DPoPNonceCache.shared.latest(forScope: scope)
         let proof = try DPoPProofBuilder.buildProof(httpMethod: method,
-                                                         htu: url,
-                                                         nonce: nonce,
-                                                         keyPair: keyPair)
+                                                    htu: url,
+                                                    nonce: nonce,
+                                                    accessToken: accessToken,
+                                                    keyPair: keyPair)
         request.setValue(proof, forHTTPHeaderField: dpopHeaderName)
     }
 
-    /// Reads `DPoP-Nonce` from a response and stores it in the cache for the next outbound
-    /// request to the same `htu`. Per backend design doc, harvest from both 200 OK responses
-    /// (proactive rotation) and 400/401 challenges (reactive).
+    /// Central helper for stamping the Authorization header on authenticated outbound
+    /// requests. Decides scheme from `tokenType`:
     ///
-    /// Concurrency note: the token endpoint is called serially, so this PR's caller pattern
-    /// is "request → harvest → next request" with no overlap. When DPoP is extended to REST
-    /// API calls in a later phase, in-flight concurrent calls will all carry the same nonce
-    /// and only one will rotate it cleanly; the others will see a `use_dpop_nonce` challenge
-    /// and retry. At that point, this site needs to decide between accepting the extra
-    /// round-trip, serializing requests through a per-`htu` lock, or pre-fetching a nonce.
-    /// Out of scope for the token-endpoint PR.
-    // TODO: Handle concurrent REST callers when DPoP extends to API calls. Today's serial
-    // token-endpoint caller pattern means harvest-then-next-request never overlaps; with
-    // concurrent REST, decide between extra-round-trip, per-htu serialization, or pre-fetch.
+    /// - `"DPoP"` → `Authorization: DPoP <token>` and a fresh DPoP proof header bound
+    ///   to `accessToken` via the `ath` claim.
+    /// - anything else (including `nil` / `"Bearer"`) → `Authorization: Bearer <token>`,
+    ///   no DPoP header.
+    ///
+    /// No-op when `accessToken` is empty — preserves the existing "no token, skip stamp"
+    /// behavior of the four call sites.
+    ///
+    /// - Parameters:
+    ///   - request: the request to mutate. Existing `Authorization`/`DPoP` headers are
+    ///     overwritten by this method (callers should guard against double-stamping
+    ///     via their own checks).
+    ///   - scope: per-account isolation key, typically `SFOAuthCredentials.identifier`.
+    ///   - accessToken: the access token string sent in the Authorization header.
+    ///   - tokenType: `SFOAuthCredentials.tokenType` (the OAuth `token_type` returned
+    ///     by the token endpoint, RFC 6749 §5.1). Case-sensitive equality match against
+    ///     `"DPoP"` is the only positive branch.
+    @objc(applyAuthHeaders:scope:accessToken:tokenType:error:)
+    public static func applyAuthHeaders(_ request: NSMutableURLRequest,
+                                        scope: String,
+                                        accessToken: String?,
+                                        tokenType: String?) throws {
+        guard let accessToken, !accessToken.isEmpty else { return }
+        if tokenType == dpopTokenType {
+            request.setValue("DPoP \(accessToken)", forHTTPHeaderField: "Authorization")
+            try decorate(request, scope: scope, accessToken: accessToken)
+        } else {
+            request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+        }
+    }
+
+    /// Reads `DPoP-Nonce` from a response and stores it in the cache for the next outbound
+    /// request to the same `htu`. Per RFC 9449 §8/§9, harvest from both 2xx responses
+    /// (proactive rotation) and 400/401 nonce challenges (reactive). Safe to call on every
+    /// response — a missing or empty header is a no-op.
     @objc(harvestNonceFromResponse:requestURL:scope:)
     public static func harvestNonce(from response: URLResponse?,
                                     requestURL: URL?,

@@ -35,7 +35,7 @@
 
 @end
 
-// Expose private helper for byte-stability regression tests (SC-4).
+// Expose private helper for byte-stability regression tests.
 @interface SFSDKOAuth2 (TestingPrivate)
 - (NSMutableURLRequest *)prepareBasicRequest:(SFSDKOAuthTokenEndpointRequest *)endpointReq;
 @end
@@ -69,6 +69,7 @@
     [params setObject:@"test-sid-cookie-name" forKey:@"sidCookieName"];
     [params setObject:@"test-parent-sid" forKey:@"parent_sid"];
     [params setObject:@"test-token-format" forKey:@"token_format"];
+    [params setObject:@"test-token-type" forKey:@"token_type"];
     [params setObject:@"test-beacon-child-consumer-key" forKey:@"beacon_child_consumer_key"];
     [params setObject:@"test-beacon-child-consumer-secret" forKey:@"beacon_child_consumer_secret"];
 
@@ -103,6 +104,7 @@
     XCTAssertEqualObjects(response.sidCookieName, @"test-sid-cookie-name");
     XCTAssertEqualObjects(response.parentSid, @"test-parent-sid");
     XCTAssertEqualObjects(response.tokenFormat, @"test-token-format");
+    XCTAssertEqualObjects(response.tokenType, @"test-token-type");
     XCTAssertEqualObjects(response.beaconChildConsumerKey, @"test-beacon-child-consumer-key");
     XCTAssertEqualObjects(response.beaconChildConsumerSecret, @"test-beacon-child-consumer-secret");
 
@@ -114,7 +116,7 @@
 
 }
 
-// SC-4: with useDPoP == NO, the prepared token-endpoint request must be byte-identical
+// With useDPoP == NO, the prepared token-endpoint request must be byte-identical
 // to the pre-DPoP baseline — no DPoP header, same URL/method/headers, even when a
 // credentialsIdentifier is set on the endpoint request.
 - (void)test_givenUseDPoPDisabled_whenPrepareBasicRequest_thenNoDPoPHeaderAndCanonicalShape {

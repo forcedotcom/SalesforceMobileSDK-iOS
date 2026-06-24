@@ -201,6 +201,10 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
     return self.values[kSFOAuthTokenFormat];
 }
 
+- (NSString *)tokenType {
+    return self.values[kSFOAuthTokenType];
+}
+
 - (NSString *)beaconChildConsumerKey {
     return self.values[kSFOAuthBeaconChildConsumerKey];
 }

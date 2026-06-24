@@ -82,6 +82,7 @@ extern NSException * _Nullable SFOAuthInvalidIdentifierException(void);
 @property (nonatomic, readwrite, nullable) NSString *sidCookieName;
 @property (nonatomic, readwrite, nullable) NSString *parentSid;
 @property (nonatomic, readwrite, nullable) NSString *tokenFormat;
+@property (nonatomic, readwrite, nullable) NSString *tokenType;
 @property (nonatomic, readwrite, nullable) NSString *beaconChildConsumerKey;
 @property (nonatomic, readwrite, nullable) NSString *beaconChildConsumerSecret;
 

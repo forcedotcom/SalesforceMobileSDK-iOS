@@ -324,6 +324,7 @@ successBlock:(SFRestResponseBlock)successBlock
         } else {
             network = [self networkForRequest:request];
         }
+
         __block NSURLSessionDataTask *dataTask = [network sendRequest:finalRequest dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             [SFNetwork removeSharedInstanceForIdentifier:instanceIdentifier];

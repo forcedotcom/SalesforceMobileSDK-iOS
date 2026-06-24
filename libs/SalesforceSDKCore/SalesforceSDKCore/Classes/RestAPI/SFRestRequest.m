@@ -23,6 +23,7 @@
  */
 
 #import <SalesforceSDKCommon/SFJsonUtils.h>
+#import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 #import "SFRestRequest+Internal.h"
 #import "SFRestAPI+Internal.h"
 #import "NSString+SFAdditions.h"
@@ -200,11 +201,20 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
     [self.request setHTTPMethod:[SFRestRequest httpMethodFromSFRestMethod:self.method]];
 
 
-    // Sets OAuth Bearer token header on the request (if not already present).
-    // Allows Authenticated clients to make api calls that dont require access token.
-    if (self.requiresAuthentication && user && ![self.request.allHTTPHeaderFields.allKeys containsObject:@"Authorization"]) {
-        NSString *bearer = [NSString stringWithFormat:@"Bearer %@", user.credentials.accessToken];
-        [self.request setValue:bearer forHTTPHeaderField:@"Authorization"];
+    // Stamps the Authorization header (Bearer or DPoP, depending on credentials.tokenType),
+    // and on the DPoP branch attaches a per-request proof header. Skipped when the caller
+    // has pre-stamped Authorization themselves.
+    if (self.requiresAuthentication && user
+            && ![self.request.allHTTPHeaderFields.allKeys containsObject:@"Authorization"]) {
+        NSError *authError = nil;
+        BOOL ok = [SFSDKDPoPRequestDecorator applyAuthHeaders:self.request
+                                                        scope:user.credentials.identifier
+                                                  accessToken:user.credentials.accessToken
+                                                    tokenType:user.credentials.tokenType
+                                                        error:&authError];
+        if (!ok) {
+            [SFSDKCoreLogger e:[self class] format:@"Failed to stamp authorization headers: %@", authError.localizedDescription];
+        }
     }
 
     // Adds custom headers to the request if any are set.
