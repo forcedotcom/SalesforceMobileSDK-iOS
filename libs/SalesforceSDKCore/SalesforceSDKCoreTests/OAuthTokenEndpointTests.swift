@@ -1,5 +1,5 @@
 /*
- SFSDKAuthUtilTests.swift
+ OAuthTokenEndpointTests.swift
  SalesforceSDKCoreTests
  
  Created by Raj Rao on 7/25/19.
@@ -29,14 +29,14 @@
 import XCTest
 @testable import SalesforceSDKCore
 
-class SFSDKAuthUtilTests: XCTestCase {
+class OAuthTokenEndpointTests: XCTestCase {
 
     var currentUser: UserAccount?
 
     override class func setUp() {
         super.setUp()
         SFSDKLogoutBlocker.block()
-        TestSetupUtils.populateAuthCredentialsFromConfigFile(for: SFSDKAuthUtilTests.self)
+        TestSetupUtils.populateAuthCredentialsFromConfigFile(for: OAuthTokenEndpointTests.self)
         TestSetupUtils.synchronousAuthRefresh()
     }
 

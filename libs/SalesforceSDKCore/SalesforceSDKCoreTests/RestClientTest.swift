@@ -39,7 +39,7 @@ class RestClientTests: XCTestCase {
     override class func setUp() {
         super.setUp()
         SFSDKLogoutBlocker.block()
-        TestSetupUtils.populateAuthCredentialsFromConfigFile(for: SFSDKAuthUtilTests.self)
+        TestSetupUtils.populateAuthCredentialsFromConfigFile(for: RestClientTests.self)
         TestSetupUtils.synchronousAuthRefresh()
     }
     
