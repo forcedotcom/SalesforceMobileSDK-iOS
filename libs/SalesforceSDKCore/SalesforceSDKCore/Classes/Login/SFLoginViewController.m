@@ -376,8 +376,7 @@
     }
 
     NSString *loginHost = session.oauthRequest.loginHost;
-    SFDomainDiscoveryCoordinator *discoveryCoordinator = [[SFDomainDiscoveryCoordinator alloc] init];
-    BOOL isDiscoveryHost = [discoveryCoordinator isDiscoveryDomain:loginHost];
+    BOOL isDiscoveryHost = [SFDomainDiscoveryCoordinator isDiscoveryDomain:loginHost];
     // Hide only when we are mid-discovery (no My Domain selected yet).
     if (isDiscoveryHost && !coordinator.domainUpdated) {
         return NO;

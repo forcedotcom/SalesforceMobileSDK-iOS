@@ -100,6 +100,11 @@ public class DomainDiscoveryCoordinator: NSObject {
     
     @objc
     public func isDiscoveryDomain(_ domain: String?) -> Bool {
+        return Self.isDiscoveryDomain(domain)
+    }
+
+    /// Whether the given login host is a My Domain discovery host (e.g.`welcome.salesforce.com/discovery`).
+    public class func isDiscoveryDomain(_ domain: String?) -> Bool {
         guard let domain = domain else { return false }
         let isDiscovery = domain.lowercased().contains(DomainDiscovery.URLComponent.path.rawValue)
         return isDiscovery

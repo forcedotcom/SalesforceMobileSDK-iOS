@@ -46,12 +46,12 @@ class LoginForAdminTests: XCTestCase {
 
     // MARK: - SFSDKAuthRequest loginAsAdmin Property
 
-    func testGivenNewAuthRequest_whenCreated_thenloginAsAdminIsFalse() {
+    func testGivenNewAuthRequest_whenCreated_thenLoginAsAdminIsFalse() {
         let request = SFSDKAuthRequest()
         XCTAssertFalse(request.loginAsAdmin, "loginAsAdmin should default to false")
     }
 
-    func testGivenAuthRequest_whenloginAsAdminSet_thenUseBrowserAuthUnchanged() {
+    func testGivenAuthRequest_whenLoginAsAdminSet_thenUseBrowserAuthUnchanged() {
         let request = SFSDKAuthRequest()
         XCTAssertFalse(request.useBrowserAuth, "useBrowserAuth should default to false")
 
@@ -63,7 +63,7 @@ class LoginForAdminTests: XCTestCase {
 
     // MARK: - SFSDKAuthSession Coordinator Initialization
 
-    func testGivenloginAsAdmin_whenAuthSessionCreated_thenCoordinatorUsesBrowserAuth() {
+    func testGivenLoginAsAdmin_whenAuthSessionCreated_thenCoordinatorUsesBrowserAuth() {
         let request = makeAuthRequest()
         request.loginAsAdmin = true
         request.useBrowserAuth = false
@@ -95,7 +95,7 @@ class LoginForAdminTests: XCTestCase {
 
     // MARK: - SFOAuthCoordinator Auth Info Type
 
-    func testGivenloginAsAdmin_whenAuthenticate_thenAuthInfoIsAdvancedBrowser() {
+    func testGivenLoginAsAdmin_whenAuthenticate_thenAuthInfoIsAdvancedBrowser() {
         createTestAppIdentity()
 
         let request = makeAuthRequest()
@@ -149,7 +149,7 @@ class LoginForAdminTests: XCTestCase {
 
     // MARK: - Approval URL Web Server Flow
 
-    func testGivenloginAsAdmin_whenGenerateApprovalUrl_thenUsesWebServerFlow() {
+    func testGivenLoginAsAdmin_whenGenerateApprovalUrl_thenUsesWebServerFlow() {
         createTestAppIdentity()
         SalesforceManager.shared.useWebServerAuthentication = false
 
@@ -165,7 +165,7 @@ class LoginForAdminTests: XCTestCase {
                        "Approval URL should not use response_type=token when loginAsAdmin is true")
     }
 
-    func testGivenNologinAsAdmin_whenWebServerAuthDisabled_thenUsesUserAgentFlow() {
+    func testGivenNoLoginAsAdmin_whenWebServerAuthDisabled_thenUsesUserAgentFlow() {
         createTestAppIdentity()
         SalesforceManager.shared.useWebServerAuthentication = false
         SalesforceManager.shared.useHybridAuthentication = false
@@ -183,7 +183,7 @@ class LoginForAdminTests: XCTestCase {
 
     // MARK: - No Global State Mutation
 
-    func testGivenloginAsAdmin_whenSet_thenGlobalWebServerAuthUnchanged() {
+    func testGivenLoginAsAdmin_whenSet_thenGlobalWebServerAuthUnchanged() {
         let originalValue = SalesforceManager.shared.useWebServerAuthentication
 
         let request = SFSDKAuthRequest()
@@ -193,7 +193,7 @@ class LoginForAdminTests: XCTestCase {
                        "Setting loginAsAdmin should not change the global useWebServerAuthentication")
     }
 
-    func testGivenloginAsAdmin_whenAuthSessionCreated_thenGlobalStateUnchanged() {
+    func testGivenLoginAsAdmin_whenAuthSessionCreated_thenGlobalStateUnchanged() {
         SalesforceManager.shared.useWebServerAuthentication = false
 
         let request = makeAuthRequest()
@@ -209,7 +209,7 @@ class LoginForAdminTests: XCTestCase {
 
     // MARK: - Cancel Flow: loginAsAdmin Clears on Cancel
 
-    func testGivenloginAsAdmin_whenCancelled_thenloginAsAdminCleared() {
+    func testGivenLoginAsAdmin_whenCancelled_thenLoginAsAdminCleared() {
         let request = makeAuthRequest()
         request.loginAsAdmin = true
 
@@ -226,7 +226,7 @@ class LoginForAdminTests: XCTestCase {
                        "Coordinator should not use browser auth after loginAsAdmin is cleared")
     }
 
-    func testGivenloginAsAdminCancelled_whenNewSession_thenAuthInfoMatchesGlobalSetting() {
+    func testGivenLoginAsAdminCancelled_whenNewSession_thenAuthInfoMatchesGlobalSetting() {
         createTestAppIdentity()
         SalesforceManager.shared.useWebServerAuthentication = true
 
@@ -270,7 +270,7 @@ class LoginForAdminTests: XCTestCase {
 
     // MARK: - useBrowserAuth Not Modified
 
-    func testGivenloginAsAdmin_whenFullLifecycle_thenUseBrowserAuthNeverMutated() {
+    func testGivenLoginAsAdmin_whenFullLifecycle_thenUseBrowserAuthNeverMutated() {
         let request = makeAuthRequest()
         request.useBrowserAuth = false
 
@@ -302,7 +302,7 @@ class LoginForAdminTests: XCTestCase {
 
     // MARK: - SFUserAccountManager Cancel Browser Auth (loginAsAdmin path)
 
-    func testGivenloginAsAdmin_whenBrowserAuthCancelled_thenloginAsAdminCleared() {
+    func testGivenLoginAsAdmin_whenBrowserAuthCancelled_thenLoginAsAdminCleared() {
         let request = makeAuthRequest()
         request.loginAsAdmin = true
 
@@ -317,7 +317,7 @@ class LoginForAdminTests: XCTestCase {
         XCTAssertFalse(session.oauthRequest.loginAsAdmin, "loginAsAdmin should be cleared after cancel")
     }
 
-    func testGivenloginAsAdmin_whenBrowserAuthCancelled_thenUserCancelledNotificationNotPosted() {
+    func testGivenLoginAsAdmin_whenBrowserAuthCancelled_thenUserCancelledNotificationNotPosted() {
         let request = makeAuthRequest()
         request.loginAsAdmin = true
 
@@ -340,7 +340,7 @@ class LoginForAdminTests: XCTestCase {
         NotificationCenter.default.removeObserver(observer)
     }
 
-    func testGivenNologinAsAdmin_whenBrowserAuthCancelled_thenUserCancelledNotificationPosted() {
+    func testGivenNoLoginAsAdmin_whenBrowserAuthCancelled_thenUserCancelledNotificationPosted() {
         let request = makeAuthRequest()
         request.loginAsAdmin = false
         request.useBrowserAuth = false
@@ -373,7 +373,7 @@ class LoginForAdminTests: XCTestCase {
         UserAccountManager.shared.authCancelledByUserHandlerBlock = nil
     }
 
-    func testGivenloginAsAdmin_whenBrowserAuthCancelled_thenHandlerBlockNotCalled() {
+    func testGivenLoginAsAdmin_whenBrowserAuthCancelled_thenHandlerBlockNotCalled() {
         let request = makeAuthRequest()
         request.loginAsAdmin = true
 
@@ -444,7 +444,7 @@ class LoginForAdminTests: XCTestCase {
 
     // MARK: - SFUserAccountManager loginViewControllerDidSelectLoginForAdmin
 
-    func testGivenAuthSession_whenLoginForAdminSelected_thenloginAsAdminSetAndAuthRestarted() {
+    func testGivenAuthSession_whenLoginForAdminSelected_thenLoginAsAdminSetAndAuthRestarted() {
         let uam = UserAccountManager.shared
 
         // Get the test app's active window scene to obtain a real sceneId
@@ -611,7 +611,7 @@ class LoginForAdminTests: XCTestCase {
         window.rootViewController = nil
     }
 
-    func test_authRequestRoundTripsloginAsAdminOverrides() {
+    func test_authRequestRoundTripsLoginAsAdminOverrides() {
         // The LFA-scoped override fields on SFSDKAuthRequest must round-trip so that
         // restartAuthentication: can forward them through authenticateWithRequest:loginHint:
         // without mutating the request's permanent loginHost.
@@ -702,7 +702,7 @@ class LoginForAdminTests: XCTestCase {
     }
 
     @available(*, deprecated, message: "Exercises deprecated public API")
-    func testGivenAuthSession_whenPublicLoginForAdminCalled_thenloginAsAdminSet() {
+    func testGivenAuthSession_whenPublicLoginForAdminCalled_thenLoginAsAdminSet() {
         let uam = UserAccountManager.shared
 
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {

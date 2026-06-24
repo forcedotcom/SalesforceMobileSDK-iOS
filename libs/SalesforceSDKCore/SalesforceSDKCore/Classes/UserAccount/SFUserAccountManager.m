@@ -1152,8 +1152,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     // and we have no My Domain to advance to. Switching to ASWebAuthenticationSession
     // here would launch the browser against welcome.salesforce.com — wrong UX.
     // No-op until phase 2 lands.
-    SFDomainDiscoveryCoordinator *discoveryCoordinator = [[SFDomainDiscoveryCoordinator alloc] init];
-    if ([discoveryCoordinator isDiscoveryDomain:session.oauthRequest.loginHost] && !coordinator.domainUpdated) {
+    if ([SFDomainDiscoveryCoordinator isDiscoveryDomain:session.oauthRequest.loginHost] && !coordinator.domainUpdated) {
         [SFSDKCoreLogger w:[self class] format:@"%@: Login for Admin is not available before a My Domain has been selected on the Welcome Discovery page; ignoring.", NSStringFromSelector(_cmd)];
         return;
     }
@@ -1750,7 +1749,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
                 // next login is web based it should not try to use that url.
                 // Also skip if the app uses a Welcome/Discovery domain — persisting the My Domain
                 // would pollute the server picker and prevent returning to the discovery page on logout.
-                BOOL isDiscoveryLogin = [[[SFDomainDiscoveryCoordinator alloc] init] isDiscoveryDomain:self.loginHost];
+                BOOL isDiscoveryLogin = [SFDomainDiscoveryCoordinator isDiscoveryDomain:self.loginHost];
                 if (user.credentials.domain && !isNativeLogin && !isDiscoveryLogin)
                     self.loginHost = user.credentials.domain;
                 [self didChangeValueForKey:@"currentUser"];

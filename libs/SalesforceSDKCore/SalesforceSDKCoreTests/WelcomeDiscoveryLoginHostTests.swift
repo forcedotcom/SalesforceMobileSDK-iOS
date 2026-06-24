@@ -85,6 +85,36 @@ final class WelcomeDiscoveryLoginHostTests: XCTestCase {
         XCTAssertFalse(coordinator.isDiscoveryDomain(nil))
     }
 
+    // MARK: - DomainDiscoveryCoordinator.isDiscoveryDomain class method tests
+
+    func test_givenDiscoveryDomain_whenCheckingIsDiscoveryDomainClassMethod_thenReturnsTrue() {
+        XCTAssertTrue(DomainDiscoveryCoordinator.isDiscoveryDomain(discoveryDomain))
+        XCTAssertTrue(DomainDiscoveryCoordinator.isDiscoveryDomain("welcome.salesforce.com/discovery"))
+        XCTAssertTrue(DomainDiscoveryCoordinator.isDiscoveryDomain("mycompany.salesforce.com/discovery"))
+    }
+
+    func test_givenNonDiscoveryDomain_whenCheckingIsDiscoveryDomainClassMethod_thenReturnsFalse() {
+        XCTAssertFalse(DomainDiscoveryCoordinator.isDiscoveryDomain(myDomain))
+        XCTAssertFalse(DomainDiscoveryCoordinator.isDiscoveryDomain("login.salesforce.com"))
+        XCTAssertFalse(DomainDiscoveryCoordinator.isDiscoveryDomain("test.salesforce.com"))
+    }
+
+    func test_givenNilDomain_whenCheckingIsDiscoveryDomainClassMethod_thenReturnsFalse() {
+        XCTAssertFalse(DomainDiscoveryCoordinator.isDiscoveryDomain(nil))
+    }
+
+    func test_givenAnyDomain_whenComparingClassAndInstanceIsDiscoveryDomain_thenResultsMatch() {
+        // The instance method now delegates to the class method; both must agree so
+        // existing callers (e.g. SFOAuthCoordinator) and the new class-method callers
+        // stay in lockstep.
+        let coordinator = DomainDiscoveryCoordinator()
+        for domain in [discoveryDomain, myDomain, "login.salesforce.com", "x.salesforce.com/discovery", nil] {
+            XCTAssertEqual(coordinator.isDiscoveryDomain(domain),
+                           DomainDiscoveryCoordinator.isDiscoveryDomain(domain),
+                           "Instance and class isDiscoveryDomain must agree for \(domain ?? "nil")")
+        }
+    }
+
     // MARK: - Login host persistence tests
 
     func test_givenDiscoveryLoginHost_whenSetCurrentUser_thenLoginHostNotOverwritten() {
