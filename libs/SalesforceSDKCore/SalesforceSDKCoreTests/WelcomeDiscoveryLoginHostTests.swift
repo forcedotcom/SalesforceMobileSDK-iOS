@@ -64,8 +64,9 @@ final class WelcomeDiscoveryLoginHostTests: XCTestCase {
         }
     }
 
-    // MARK: - DomainDiscoveryCoordinator.isDiscoveryDomain tests
+    // MARK: - DomainDiscoveryCoordinator.isDiscoveryDomain instance method tests (deprecated)
 
+    @available(*, deprecated, message: "Exercises deprecated instance API")
     func test_givenDiscoveryDomain_whenCheckingIsDiscoveryDomain_thenReturnsTrue() {
         let coordinator = DomainDiscoveryCoordinator()
         XCTAssertTrue(coordinator.isDiscoveryDomain(discoveryDomain))
@@ -73,6 +74,7 @@ final class WelcomeDiscoveryLoginHostTests: XCTestCase {
         XCTAssertTrue(coordinator.isDiscoveryDomain("mycompany.salesforce.com/discovery"))
     }
 
+    @available(*, deprecated, message: "Exercises deprecated instance API")
     func test_givenNonDiscoveryDomain_whenCheckingIsDiscoveryDomain_thenReturnsFalse() {
         let coordinator = DomainDiscoveryCoordinator()
         XCTAssertFalse(coordinator.isDiscoveryDomain(myDomain))
@@ -80,6 +82,7 @@ final class WelcomeDiscoveryLoginHostTests: XCTestCase {
         XCTAssertFalse(coordinator.isDiscoveryDomain("test.salesforce.com"))
     }
 
+    @available(*, deprecated, message: "Exercises deprecated instance API")
     func test_givenNilDomain_whenCheckingIsDiscoveryDomain_thenReturnsFalse() {
         let coordinator = DomainDiscoveryCoordinator()
         XCTAssertFalse(coordinator.isDiscoveryDomain(nil))
@@ -103,10 +106,10 @@ final class WelcomeDiscoveryLoginHostTests: XCTestCase {
         XCTAssertFalse(DomainDiscoveryCoordinator.isDiscoveryDomain(nil))
     }
 
+    @available(*, deprecated, message: "Exercises deprecated instance API")
     func test_givenAnyDomain_whenComparingClassAndInstanceIsDiscoveryDomain_thenResultsMatch() {
-        // The instance method now delegates to the class method; both must agree so
-        // existing callers (e.g. SFOAuthCoordinator) and the new class-method callers
-        // stay in lockstep.
+        // The deprecated instance method delegates to the class method; both must agree
+        // so any remaining instance-method caller stays in lockstep with the class method.
         let coordinator = DomainDiscoveryCoordinator()
         for domain in [discoveryDomain, myDomain, "login.salesforce.com", "x.salesforce.com/discovery", nil] {
             XCTAssertEqual(coordinator.isDiscoveryDomain(domain),
