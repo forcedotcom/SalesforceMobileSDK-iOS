@@ -2517,8 +2517,10 @@ static NSException *authException = nil;
 - (void)testFailedRequestRemovedFromQueue {
     
     // Send a request that should fail before getting to the service.
+    // Use localhost with an unlikely port to get an immediate connection-refused error
+    // (non-existent DNS domains can hang for tens of seconds depending on the network).
     NSURL *origInstanceUrl = _currentUser.credentials.instanceUrl;
-    _currentUser.credentials.instanceUrl = [NSURL URLWithString:@"https://some.non-existent-domain-blafhsdfh"];
+    _currentUser.credentials.instanceUrl = [NSURL URLWithString:@"https://localhost:2"];
     self.currentExpectation = [self expectationWithDescription:@"performRequestToFail"];
     SFRestRequestFailBlock failWithExpectedFail = ^(id response, NSError *e, NSURLResponse *rawResponse) {
         [self.currentExpectation fulfill];
