@@ -525,7 +525,9 @@ class MultiUserLoginTests: BaseAuthFlowTester {
         switchToUser(loginHost: .advancedAuth, user: .third)
         validateUserAgent(loginHost: .advancedAuth, isMultiUser: true)
 
+        // Logout User B — app auto-switches to User A; MU must be gone
         logout()
+        validateUserAgent(loginHost: .regularAuth, isMultiUser: false)
     }
 
     /// Logout CA user and verify ECA user is unaffected.
