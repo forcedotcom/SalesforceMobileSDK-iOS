@@ -152,6 +152,30 @@
                   @"registerAppFeature:forUser: should save PS to user.persistedFeatureFlags");
 }
 
+- (void)test_givenNilUser_whenAppFeaturesForUser_thenReturnsGlobalSet {
+    [SFSDKAppFeatureMarkers registerAppFeature:@"GL"];
+    [SFSDKAppFeatureMarkers registerAppFeature:@"PU" forUser:self.userA];
+
+    NSSet<NSString *> *forNil = [SFSDKAppFeatureMarkers appFeaturesForUser:nil];
+    NSSet<NSString *> *global = [SFSDKAppFeatureMarkers appFeatures];
+
+    XCTAssertEqualObjects(forNil, global,
+                          @"appFeaturesForUser:nil should be identical to appFeatures");
+    XCTAssertFalse([forNil containsObject:@"PU"],
+                   @"appFeaturesForUser:nil should not include per-user features");
+}
+
+- (void)test_givenPersistedFlagsOnUser_whenUnregisterForUser_thenPersistedFlagsUpdated {
+    [SFSDKAppFeatureMarkers registerAppFeature:@"RM" forUser:self.userA];
+    XCTAssertTrue([self.userA.persistedFeatureFlags containsObject:@"RM"],
+                  @"Precondition: RM should be in persistedFeatureFlags after register");
+
+    [SFSDKAppFeatureMarkers unregisterAppFeature:@"RM" forUser:self.userA];
+
+    XCTAssertFalse([self.userA.persistedFeatureFlags containsObject:@"RM"],
+                   @"unregisterAppFeature:forUser: should remove RM from user.persistedFeatureFlags");
+}
+
 #pragma mark - Private helpers
 
 - (SFUserAccount *)fakeUserWithOrgId:(NSString *)orgId userId:(NSString *)userId credentialsIdentifier:(NSString *)identifier {
