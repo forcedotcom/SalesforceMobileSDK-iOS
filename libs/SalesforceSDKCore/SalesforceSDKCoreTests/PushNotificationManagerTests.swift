@@ -37,12 +37,12 @@ class PushNotificationManagerTests: XCTestCase {
             let originalSelector = #selector(SFPreferences.sharedPreferences(for:user:))
             class_replaceMethod(SFPreferences.self, originalSelector, originalMethod, "@@:@@")
         }
-
-        currentUserAccount = nil
         pushNotificationManager = nil
         mockRestClient = nil
         mockApplicationHelper = nil
-        UserAccountManager.shared.currentUserAccount = nil
+        currentUserAccount = nil
+        UserAccountManager.shared.setCurrentUserInternal(nil)
+        UserAccountManager.shared.clearAllAccountState()
         super.tearDown()
     }
 
@@ -91,11 +91,12 @@ class PushNotificationManagerTests: XCTestCase {
     
     func testRegisterSalesforceNotifications_NoCurrentUser() {
         // Given
-        UserAccountManager.shared.currentUserAccount = nil
-        
+        UserAccountManager.shared.setCurrentUserInternal(nil)
+        UserAccountManager.shared.clearAllAccountState()
+
         // When
         let result = pushNotificationManager.registerSalesforceNotifications(completionBlock: nil, failBlock: nil)
-        
+
         // Then
         XCTAssertFalse(result)
     }
@@ -113,11 +114,12 @@ class PushNotificationManagerTests: XCTestCase {
     
     func testUnregisterSalesforceNotifications_NoCurrentUser() {
         // Given
-        UserAccountManager.shared.currentUserAccount = nil
-        
+        UserAccountManager.shared.setCurrentUserInternal(nil)
+        UserAccountManager.shared.clearAllAccountState()
+
         // When
         let result = pushNotificationManager.unregisterSalesforceNotifications(completionBlock: nil)
-        
+
         // Then
         XCTAssertFalse(result)
     }
@@ -271,8 +273,9 @@ class PushNotificationManagerTests: XCTestCase {
     func testRegisterForSalesforceNotifications_NoCurrentUser() {
         // Given
         let expectation = XCTestExpectation(description: "Registration completion")
-        UserAccountManager.shared.currentUserAccount = nil
-        
+        UserAccountManager.shared.setCurrentUserInternal(nil)
+        UserAccountManager.shared.clearAllAccountState()
+
         // When
         pushNotificationManager.registerForSalesforceNotifications { result in
             // Then
@@ -833,12 +836,9 @@ class PushNotificationManagerTests: XCTestCase {
     }
     
     func testFetchAndStoreNotificationTypes_NoAccount() async {
-        // Given
-        UserAccountManager.shared.currentUserAccount = nil
-        
         // When/Then
         do {
-            try await pushNotificationManager.fetchAndStoreNotificationTypes(restClient: mockRestClient)
+            try await pushNotificationManager.fetchAndStoreNotificationTypes(restClient: mockRestClient, account: nil)
             XCTFail("Expected currentUserNotDetected error")
         } catch let error as PushNotificationManagerError {
             XCTAssertEqual(error, .currentUserNotDetected)
@@ -1277,3 +1277,4 @@ class MockPreferences: SFPreferences {
         objects[key] = object
     }
 }
+
