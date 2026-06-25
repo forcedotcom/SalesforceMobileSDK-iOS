@@ -493,6 +493,41 @@ class MultiUserLoginTests: BaseAuthFlowTester {
         XCTAssertTrue(makeRestRequest(), "User A's API call should succeed")
     }
 
+    // MARK: - Feature Flag User Agent Tests
+
+    /// Verifies that the BW (browser-web) feature flag is set in the user agent for advanced auth users
+    /// and absent for regular auth users. Also verifies the MU (multi-user) flag when multiple users
+    /// are logged in simultaneously.
+    ///
+    /// NB: Uses .fourth user from regular_auth and .third user from advanced_auth (beaconOpaque app)
+    ///     to avoid parallel conflicts with AdvancedAuthBeaconLoginTests which uses .second.
+    ///     loginOtherUser (no validate) is used for the advanced auth user because identity data
+    ///     may not be immediately available in a cross-host multi-user login.
+    func testAdvancedAuthUser_HasBWFlag_RegularAuthUser_DoesNot() throws {
+        // User A: regular auth — no BW
+        // Use launchLoginAndValidate to ensure credentials (including identity data) are fully loaded
+        // before calling validateUserAgent. launchLoginAndValidate also calls validateUserAgent
+        // internally, so the explicit call below is redundant but harmless.
+        launchLoginAndValidate(loginHost: .regularAuth, user: .fourth, staticAppConfigName: .ecaOpaque)
+        validateUserAgent(loginHost: .regularAuth, isMultiUser: false)
+
+        // User B: advanced auth — has BW, both users now logged in → MU
+        // Use loginOtherUser (without full credential validation) since identity data
+        // may not be immediately available in cross-host multi-user scenarios.
+        loginOtherUser(loginHost: .advancedAuth, user: .third, staticAppConfigName: .beaconOpaque)
+        validateUserAgent(loginHost: .advancedAuth, isMultiUser: true)
+
+        // Switch to User A — no BW, MU still set
+        switchToUser(loginHost: .regularAuth, user: .fourth)
+        validateUserAgent(loginHost: .regularAuth, isMultiUser: true)
+
+        // Switch back to User B — BW back, MU still set
+        switchToUser(loginHost: .advancedAuth, user: .third)
+        validateUserAgent(loginHost: .advancedAuth, isMultiUser: true)
+
+        logout()
+    }
+
     /// Logout CA user and verify ECA user is unaffected.
     /// Tests that logging out one user automatically switches to the other user with different app types.
     func testDifferentAppTypes_LogoutCaUser_EcaUserUnaffected() throws {

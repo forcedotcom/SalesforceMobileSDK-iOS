@@ -96,6 +96,10 @@ struct CredentialsLabels {
     
     // Other fields
     static let additionalOAuthFields = "Additional OAuth Fields"
+
+    // SDK section
+    static let sdk = "SDK"
+    static let userAgent = "User Agent"
 }
 
 struct OAuthConfigLabels {
@@ -547,6 +551,12 @@ class AuthFlowTesterMainPageObject {
         )
     }
     
+    func getUserAgent() -> String {
+        let json = tapExportAndGetJSON(exportCredentialsButton(), alertTitle: "Credentials JSON")
+        let sdk = json[CredentialsLabels.sdk] as? [String: String] ?? [:]
+        return sdk[CredentialsLabels.userAgent] ?? ""
+    }
+
     func getOAuthConfiguration() -> OAuthConfigurationData {
         // Tap export button and get JSON
         let json = tapExportAndGetJSON(exportOAuthConfigButton(), alertTitle: "OAuth Configuration JSON")

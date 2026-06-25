@@ -2077,12 +2077,15 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     [self handleAnalyticsAddUserEvent:authSession account:userAccount];
 
     // Promote auth-method feature flags to the now-known user account.
+    // Write the per-user flag and clear the transient global flag so it does not
+    // bleed into other users' User-Agent strings.
     SFOAuthType completedAuthType = authSession.oauthCoordinator.authInfo.authType;
     if (completedAuthType == SFOAuthTypeAdvancedBrowser) {
         [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSafariBrowserForLogin forUser:userAccount];
     } else {
         [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureSafariBrowserForLogin forUser:userAccount];
     }
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureSafariBrowserForLogin];
     if (completedAuthType != SFOAuthTypeRefresh) {
         BOOL usedWelcomeDiscovery = [[SFDomainDiscoveryCoordinator new] isDiscoveryDomain:authSession.oauthCoordinator.credentials.domain];
         if (usedWelcomeDiscovery) {
@@ -2090,6 +2093,8 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         } else {
             [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureWelcomeDiscovery forUser:userAccount];
         }
+        // WD: clear the transient global flag after promoting to per-user
+        [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureWelcomeDiscovery];
 
         // QR: write per-user and clear the transient global flag
         BOOL usedQrLogin = [[SFSDKAppFeatureMarkers appFeatures] containsObject:kSFAppFeatureQrCodeLogin];
