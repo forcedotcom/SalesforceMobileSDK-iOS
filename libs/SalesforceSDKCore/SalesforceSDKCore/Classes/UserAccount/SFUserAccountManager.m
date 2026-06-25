@@ -2087,7 +2087,9 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     }
     [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureSafariBrowserForLogin];
     if (completedAuthType != SFOAuthTypeRefresh) {
-        BOOL usedWelcomeDiscovery = [[SFDomainDiscoveryCoordinator new] isDiscoveryDomain:authSession.oauthCoordinator.credentials.domain];
+        // Check the transient global flag rather than re-deriving from credentials.domain, which by
+        // this point has been replaced with the resolved org domain (no longer contains "/discovery").
+        BOOL usedWelcomeDiscovery = [[SFSDKAppFeatureMarkers appFeatures] containsObject:kSFAppFeatureWelcomeDiscovery];
         if (usedWelcomeDiscovery) {
             [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureWelcomeDiscovery forUser:userAccount];
         } else {
