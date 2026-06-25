@@ -506,10 +506,8 @@ class MultiUserLoginTests: BaseAuthFlowTester {
     func testAdvancedAuthUser_HasBWFlag_RegularAuthUser_DoesNot() throws {
         // User A: regular auth — no BW
         // Use launchLoginAndValidate to ensure credentials (including identity data) are fully loaded
-        // before calling validateUserAgent. launchLoginAndValidate also calls validateUserAgent
-        // internally, so the explicit call below is redundant but harmless.
+        // before calling validateUserAgent. launchLoginAndValidate calls validateUserAgent internally.
         launchLoginAndValidate(loginHost: .regularAuth, user: .fourth, staticAppConfigName: .ecaOpaque)
-        validateUserAgent(loginHost: .regularAuth, isMultiUser: false)
 
         // User B: advanced auth — has BW, both users now logged in → MU
         // Use loginOtherUser (without full credential validation) since identity data

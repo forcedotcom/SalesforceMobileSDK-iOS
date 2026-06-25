@@ -230,13 +230,11 @@ class BaseAuthFlowTester: XCTestCase {
             userAppConfigName: userAppConfigName,
             userScopeSelection: userScopeSelection,
             useWebServerFlow: useWebServerFlow,
-            useHybridFlow: useHybridFlow
+            useHybridFlow: useHybridFlow,
+            isMultiUser: isMultiUser
         )
-
-        // Validate user agent
-        validateUserAgent(loginHost: loginHost, isMultiUser: isMultiUser)
     }
-    
+
     /// Switches to an already logged-in user and validates the user credentials.
     ///
     /// Use this method when multiple users are logged in and you want to switch between them.
@@ -377,11 +375,10 @@ class BaseAuthFlowTester: XCTestCase {
             userAppConfigName: userAppConfigName,
             userScopeSelection: userScopeSelection,
             useWebServerFlow: effectiveUseWebServerFlow,
-            useHybridFlow: useHybridFlow
+            useHybridFlow: useHybridFlow,
+            isMultiUser: isMultiUser,
+            usesWelcomeDiscovery: useWelcomeDiscovery
         )
-
-        // Validate user agent
-        validateUserAgent(loginHost: loginHost, usesWelcomeDiscovery: useWelcomeDiscovery, isMultiUser: isMultiUser)
     }
     
     /// Logs in an additional user (multi-user scenario) WITHOUT performing credential validation.
@@ -472,13 +469,11 @@ class BaseAuthFlowTester: XCTestCase {
             userAppConfigName: userAppConfigName,
             userScopeSelection: userScopeSelection,
             useWebServerFlow: useWebServerFlow,
-            useHybridFlow: useHybridFlow
+            useHybridFlow: useHybridFlow,
+            isMultiUser: isMultiUser
         )
-
-        // Validate user agent
-        validateUserAgent(loginHost: loginHost, isMultiUser: isMultiUser)
     }
-    
+
     /// Restarts the app and validates that the user session persists.
     ///
     /// Terminates and relaunches the app, then validates that the user is still logged in
@@ -610,17 +605,24 @@ class BaseAuthFlowTester: XCTestCase {
     }
 
     /// Validates the user agent string for the current user.
-    ///
-    /// Asserts that the user agent contains expected SDK prefix and feature flag segments
-    /// matching the login host and multi-user context.
+    /// Fetches the UA via the export button then delegates to the private overload.
     ///
     /// - Parameters:
     ///   - loginHost: The login host used for the current user.
     ///   - usesWelcomeDiscovery: Whether welcome domain discovery was used. Defaults to `false`.
     ///   - isMultiUser: Whether multiple users are currently logged in. Defaults to `false`.
     func validateUserAgent(loginHost: KnownLoginHostConfig, usesWelcomeDiscovery: Bool = false, isMultiUser: Bool = false) {
-        let ua = getUserAgent()
+        validateUserAgent(ua: getUserAgent(), loginHost: loginHost, usesWelcomeDiscovery: usesWelcomeDiscovery, isMultiUser: isMultiUser)
+    }
 
+    /// Validates a pre-fetched user agent string. Called from validate() which already has the UA.
+    ///
+    /// - Parameters:
+    ///   - ua: A pre-fetched user agent string.
+    ///   - loginHost: The login host used for the current user.
+    ///   - usesWelcomeDiscovery: Whether welcome domain discovery was used. Defaults to `false`.
+    ///   - isMultiUser: Whether multiple users are currently logged in. Defaults to `false`.
+    private func validateUserAgent(ua: String, loginHost: KnownLoginHostConfig, usesWelcomeDiscovery: Bool = false, isMultiUser: Bool = false) {
         XCTAssertTrue(ua.contains("SalesforceMobileSDK/"), "User agent should contain 'SalesforceMobileSDK/' prefix; got: \(ua)")
         XCTAssertTrue(ua.contains("ftr_"), "User agent should contain 'ftr_' feature flag segment; got: \(ua)")
 
@@ -726,10 +728,12 @@ class BaseAuthFlowTester: XCTestCase {
         userScopeSelection: ScopeSelection,
         useWebServerFlow: Bool,
         useHybridFlow: Bool,
+        isMultiUser: Bool = false,
+        usesWelcomeDiscovery: Bool = false,
     ) -> UserCredentialsData {
-        
+
         let staticAppConfig = getAppConfig(named: staticAppConfigName)
-        
+
         // Check that app loads and shows the expected user credentials etc
         assertMainPageLoaded()
 
@@ -741,7 +745,7 @@ class BaseAuthFlowTester: XCTestCase {
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow
         )
-        
+
         // Revoke and refresh cycle
         let userAppConfig = getAppConfig(named: userAppConfigName)
         assertRevokeAndRefreshWorks(previousCredentials: userCredentials, isRtr: userAppConfig.isRtr)
@@ -752,7 +756,10 @@ class BaseAuthFlowTester: XCTestCase {
             staticCallbackUrl: staticAppConfig.redirectUri,
             staticScopes: testConfig.getScopesToRequest(for: staticAppConfig, staticScopeSelection)
         )
-                
+
+        // Validate feature flags using pre-fetched UA
+        validateUserAgent(ua: getUserAgent(), loginHost: loginHost, usesWelcomeDiscovery: usesWelcomeDiscovery, isMultiUser: isMultiUser)
+
         return userCredentials
     }
 
