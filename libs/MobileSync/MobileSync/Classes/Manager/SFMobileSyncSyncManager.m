@@ -116,7 +116,7 @@ static NSMutableDictionary *syncMgrList = nil;
             syncMgr = [[self alloc] initWithStore:store];
             syncMgrList[key] = syncMgr;
         }
-        [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureMobileSync];
+        [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureMobileSync forUser:store.user];
         return syncMgr;
     }
 }

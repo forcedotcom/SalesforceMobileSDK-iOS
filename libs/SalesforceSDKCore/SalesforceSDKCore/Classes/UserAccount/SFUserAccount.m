@@ -39,6 +39,7 @@ static NSString * const kUser_ACCESS_RESTRICTIONS = @"accessRestrictions";
 static NSString * const kCredentialsUserIdPropName = @"userId";
 static NSString * const kCredentialsOrgIdPropName = @"organizationId";
 static NSString * const kUser_NOTIFICATION_TYPES = @"notificationTypes";
+static NSString * const kUser_FEATURE_FLAGS = @"featureFlags";
 
 static const char * kSyncQueue = "com.salesforce.mobilesdk.sfuseraccount.syncqueue";
 /** Key that identifies the global scope
@@ -102,6 +103,7 @@ NSString * const kUserAccountPhotoEncryptionKeyLabel = @"com.salesforce.userAcco
         [encoder encodeObject:self->_customData forKey:kUser_CUSTOM_DATA];
         [encoder encodeInteger:self->_accessRestrictions forKey:kUser_ACCESS_RESTRICTIONS];
         [encoder encodeObject:self->_notificationTypes forKey:kUser_NOTIFICATION_TYPES];
+        [encoder encodeObject:self->_persistedFeatureFlags forKey:kUser_FEATURE_FLAGS];
     });
 }
 
@@ -121,6 +123,7 @@ NSString * const kUserAccountPhotoEncryptionKeyLabel = @"com.salesforce.userAcco
             [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureOAuth];
         }
         _notificationTypes = [decoder decodeObjectOfClasses:[NSSet setWithObjects:[NSArray class], [SFSDKNotificationType class], nil] forKey:kUser_NOTIFICATION_TYPES];
+        _persistedFeatureFlags = [decoder decodeObjectOfClasses:[NSSet setWithObjects:[NSSet class], [NSString class], nil] forKey:kUser_FEATURE_FLAGS];
     }
     return self;
 }

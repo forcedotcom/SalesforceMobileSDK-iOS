@@ -1972,8 +1972,8 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
                     [bioAuthManager unlockPostProcessing];
                 }
                 
-                [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureBioAuth];
-                [bioAuthManager storePolicyWithUserAccount:self.currentUser hasMobilePolicy:hasBioAuthPolicy sessionTimeout:sessionTimeout];
+                [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureBioAuth forUser:strongSelf.currentUser];
+                [bioAuthManager storePolicyWithUserAccount:strongSelf.currentUser hasMobilePolicy:hasBioAuthPolicy sessionTimeout:sessionTimeout];
                 if (![bioAuthManager hasBiometricOptedIn] && bioAuthManager.automaticPresentation) {
                     [bioAuthManager presentOptInDialogWithViewController:[[SFSDKWindowManager sharedManager] mainWindow:authSession.oauthRequest.scene].topViewController];
                 }
@@ -1984,8 +1984,8 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
                     [authClient revokeRefreshToken:preLoginCredentials reason:SFLogoutReasonRefreshTokenRotated];
                 }
             } else if (hasMobilePolicy) {
-                [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureScreenLock];
-                [[SFScreenLockManagerInternal shared] storeMobilePolicyWithUserAccount:self.currentUser hasMobilePolicy:hasMobilePolicy lockTimeout:lockTimeout];
+                [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureScreenLock forUser:strongSelf.currentUser];
+                [[SFScreenLockManagerInternal shared] storeMobilePolicyWithUserAccount:strongSelf.currentUser hasMobilePolicy:hasMobilePolicy lockTimeout:lockTimeout];
             }
         }
     }];
@@ -2075,7 +2075,32 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     // Notify the session is ready.
     [self initAnalyticsManager];
     [self handleAnalyticsAddUserEvent:authSession account:userAccount];
-    
+
+    // Promote auth-method feature flags to the now-known user account.
+    SFOAuthType completedAuthType = authSession.oauthCoordinator.authInfo.authType;
+    if (completedAuthType == SFOAuthTypeAdvancedBrowser) {
+        [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSafariBrowserForLogin forUser:userAccount];
+    } else {
+        [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureSafariBrowserForLogin forUser:userAccount];
+    }
+    if (completedAuthType != SFOAuthTypeRefresh) {
+        BOOL usedWelcomeDiscovery = [[SFDomainDiscoveryCoordinator new] isDiscoveryDomain:authSession.oauthCoordinator.credentials.domain];
+        if (usedWelcomeDiscovery) {
+            [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureWelcomeDiscovery forUser:userAccount];
+        } else {
+            [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureWelcomeDiscovery forUser:userAccount];
+        }
+
+        // QR: write per-user and clear the transient global flag
+        BOOL usedQrLogin = [[SFSDKAppFeatureMarkers appFeatures] containsObject:kSFAppFeatureQrCodeLogin];
+        if (usedQrLogin) {
+            [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureQrCodeLogin forUser:userAccount];
+            [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureQrCodeLogin];
+        } else {
+            [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureQrCodeLogin forUser:userAccount];
+        }
+    }
+
     // Async call, ignore if theres a failure. If success save the user photo locally.
     [self retrieveUserPhotoIfNeeded:userAccount];
     BOOL shouldNotify = YES;
