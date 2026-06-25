@@ -255,11 +255,12 @@ class BaseAuthFlowTester: XCTestCase {
         userAppConfigName: KnownAppConfig,
         userScopeSelection: ScopeSelection = .empty,
         useWebServerFlow: Bool = true,
-        useHybridFlow: Bool = true
+        useHybridFlow: Bool = true,
+        isMultiUser: Bool = false
     ) {
         // Switch user
         mainPage.switchToUser(username: getUser(loginHost: loginHost, user: user).username)
-        
+
         // Validate
         validateUser(
             loginHost: loginHost,
@@ -269,6 +270,9 @@ class BaseAuthFlowTester: XCTestCase {
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow
         )
+
+        // Validate persisted feature flags survived the restart and user switch
+        validateUserAgent(loginHost: loginHost, isMultiUser: isMultiUser)
     }
     
     /// Launches the app and performs login.
@@ -493,7 +497,8 @@ class BaseAuthFlowTester: XCTestCase {
         userAppConfigName: KnownAppConfig,
         userScopeSelection: ScopeSelection = .empty,
         useWebServerFlow: Bool = true,
-        useHybridFlow: Bool = true
+        useHybridFlow: Bool = true,
+        isMultiUser: Bool = false
     ) {
         // Restart
         app.terminate()
@@ -512,6 +517,9 @@ class BaseAuthFlowTester: XCTestCase {
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow
         )
+
+        // Validate persisted feature flags are rehydrated after restart
+        validateUserAgent(loginHost: loginHost, isMultiUser: isMultiUser)
     }
     
     /// Migrates the refresh token to a new app configuration and validates the result.

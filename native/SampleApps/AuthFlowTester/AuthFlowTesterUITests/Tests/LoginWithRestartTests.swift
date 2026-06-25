@@ -178,7 +178,8 @@ class LoginWithRestartTests: BaseAuthFlowTester {
             loginHost: .regularAuth,
             user: .fourth,
             userAppConfigName: .ecaOpaque,
-            userScopeSelection: .empty
+            userScopeSelection: .empty,
+            isMultiUser: true
         )
 
         // Test API call for User A
@@ -189,7 +190,8 @@ class LoginWithRestartTests: BaseAuthFlowTester {
             loginHost: .regularAuth,
             user: .fifth,
             userAppConfigName: .ecaJwt,
-            userScopeSelection: .empty
+            userScopeSelection: .empty,
+            isMultiUser: true
         )
 
         // Test API call for User B
