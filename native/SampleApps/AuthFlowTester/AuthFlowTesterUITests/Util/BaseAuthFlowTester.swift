@@ -270,9 +270,9 @@ class BaseAuthFlowTester: XCTestCase {
         )
 
         // Validate persisted feature flags survived the restart and user switch
-        validateUserAgent(loginHost: loginHost, isMultiUser: isMultiUser)
+        validateUserAgent(loginHost: loginHost, expectAdvancedAuth: loginHost == .advancedAuth, isMultiUser: isMultiUser)
     }
-    
+
     /// Launches the app and performs login.
     ///
     /// This is a convenience method that combines `launch()` and `login()` in one call.
@@ -377,7 +377,8 @@ class BaseAuthFlowTester: XCTestCase {
             useWebServerFlow: effectiveUseWebServerFlow,
             useHybridFlow: useHybridFlow,
             isMultiUser: isMultiUser,
-            usesWelcomeDiscovery: useWelcomeDiscovery
+            usesWelcomeDiscovery: useWelcomeDiscovery,
+            loginForAdmin: loginForAdmin
         )
     }
     
@@ -514,7 +515,7 @@ class BaseAuthFlowTester: XCTestCase {
         )
 
         // Validate persisted feature flags are rehydrated after restart
-        validateUserAgent(loginHost: loginHost, isMultiUser: isMultiUser)
+        validateUserAgent(loginHost: loginHost, expectAdvancedAuth: loginHost == .advancedAuth, isMultiUser: isMultiUser)
     }
     
     /// Migrates the refresh token to a new app configuration and validates the result.
@@ -609,10 +610,11 @@ class BaseAuthFlowTester: XCTestCase {
     ///
     /// - Parameters:
     ///   - loginHost: The login host used for the current user.
+    ///   - expectAdvancedAuth: Whether advanced auth (browser-based) was used, which sets the BW flag. Defaults to `false`.
     ///   - usesWelcomeDiscovery: Whether welcome domain discovery was used. Defaults to `false`.
     ///   - isMultiUser: Whether multiple users are currently logged in. Defaults to `false`.
-    func validateUserAgent(loginHost: KnownLoginHostConfig, usesWelcomeDiscovery: Bool = false, isMultiUser: Bool = false) {
-        validateUserAgent(ua: getUserAgent(), loginHost: loginHost, usesWelcomeDiscovery: usesWelcomeDiscovery, isMultiUser: isMultiUser)
+    func validateUserAgent(loginHost: KnownLoginHostConfig, expectAdvancedAuth: Bool = false, usesWelcomeDiscovery: Bool = false, isMultiUser: Bool = false) {
+        validateUserAgent(ua: getUserAgent(), loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, usesWelcomeDiscovery: usesWelcomeDiscovery, isMultiUser: isMultiUser)
     }
 
     /// Validates a pre-fetched user agent string. Called from validate() which already has the UA.
@@ -620,9 +622,10 @@ class BaseAuthFlowTester: XCTestCase {
     /// - Parameters:
     ///   - ua: A pre-fetched user agent string.
     ///   - loginHost: The login host used for the current user.
+    ///   - expectAdvancedAuth: Whether advanced auth (browser-based) was used, which sets the BW flag. Defaults to `false`.
     ///   - usesWelcomeDiscovery: Whether welcome domain discovery was used. Defaults to `false`.
     ///   - isMultiUser: Whether multiple users are currently logged in. Defaults to `false`.
-    private func validateUserAgent(ua: String, loginHost: KnownLoginHostConfig, usesWelcomeDiscovery: Bool = false, isMultiUser: Bool = false) {
+    private func validateUserAgent(ua: String, loginHost: KnownLoginHostConfig, expectAdvancedAuth: Bool = false, usesWelcomeDiscovery: Bool = false, isMultiUser: Bool = false) {
         XCTAssertTrue(ua.contains("SalesforceMobileSDK/"), "User agent should contain 'SalesforceMobileSDK/' prefix; got: \(ua)")
         XCTAssertTrue(ua.contains("ftr_"), "User agent should contain 'ftr_' feature flag segment; got: \(ua)")
 
@@ -636,10 +639,10 @@ class BaseAuthFlowTester: XCTestCase {
             flagSet = []
         }
 
-        if loginHost == .advancedAuth {
-            XCTAssertTrue(flagSet.contains("BW"), "User agent should contain 'BW' flag for advancedAuth; flags: \(flagSet), ua: \(ua)")
+        if expectAdvancedAuth {
+            XCTAssertTrue(flagSet.contains("BW"), "User agent should contain 'BW' flag for advanced auth; flags: \(flagSet), ua: \(ua)")
         } else {
-            XCTAssertFalse(flagSet.contains("BW"), "User agent should NOT contain 'BW' flag for non-advancedAuth; flags: \(flagSet), ua: \(ua)")
+            XCTAssertFalse(flagSet.contains("BW"), "User agent should NOT contain 'BW' flag for non-advanced auth; flags: \(flagSet), ua: \(ua)")
         }
 
         if usesWelcomeDiscovery {
@@ -730,6 +733,7 @@ class BaseAuthFlowTester: XCTestCase {
         useHybridFlow: Bool,
         isMultiUser: Bool = false,
         usesWelcomeDiscovery: Bool = false,
+        loginForAdmin: Bool = false,
     ) -> UserCredentialsData {
 
         let staticAppConfig = getAppConfig(named: staticAppConfigName)
@@ -758,7 +762,7 @@ class BaseAuthFlowTester: XCTestCase {
         )
 
         // Validate feature flags using pre-fetched UA
-        validateUserAgent(ua: getUserAgent(), loginHost: loginHost, usesWelcomeDiscovery: usesWelcomeDiscovery, isMultiUser: isMultiUser)
+        validateUserAgent(ua: getUserAgent(), loginHost: loginHost, expectAdvancedAuth: loginForAdmin || loginHost == .advancedAuth, usesWelcomeDiscovery: usesWelcomeDiscovery, isMultiUser: isMultiUser)
 
         return userCredentials
     }

@@ -513,7 +513,7 @@ class MultiUserLoginTests: BaseAuthFlowTester {
         // Use loginOtherUser (without full credential validation) since identity data
         // may not be immediately available in cross-host multi-user scenarios.
         loginOtherUser(loginHost: .advancedAuth, user: .third, staticAppConfigName: .beaconOpaque)
-        validateUserAgent(loginHost: .advancedAuth, isMultiUser: true)
+        validateUserAgent(loginHost: .advancedAuth, expectAdvancedAuth: true, isMultiUser: true)
 
         // Switch to User A — no BW, MU still set
         switchToUser(loginHost: .regularAuth, user: .fourth)
@@ -521,7 +521,7 @@ class MultiUserLoginTests: BaseAuthFlowTester {
 
         // Switch back to User B — BW back, MU still set
         switchToUser(loginHost: .advancedAuth, user: .third)
-        validateUserAgent(loginHost: .advancedAuth, isMultiUser: true)
+        validateUserAgent(loginHost: .advancedAuth, expectAdvancedAuth: true, isMultiUser: true)
 
         // Logout User B — app auto-switches to User A; MU must be gone
         logout()
