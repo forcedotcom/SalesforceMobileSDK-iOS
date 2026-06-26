@@ -65,6 +65,7 @@
 "LOGIN_SERVER_NAME" = "Label";
 "LOGIN_SERVER_URL_PLACEHOLDER" = "Example: login.salesforce.com";
 "LOGIN_SERVER_NAME_PLACEHOLDER" = "Optional";
+"LOGIN_INVALID_HOST" = "Please enter a valid host (for example, login.salesforce.com).";
 "DONE_BUTTON" = "Done";
 "LOGIN_SETTINGS_BUTTON" = "Settings";
 "LOGIN_OPTIONS" = "Login Options";

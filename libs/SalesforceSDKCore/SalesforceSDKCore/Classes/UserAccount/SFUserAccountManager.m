@@ -1198,6 +1198,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 - (void)hostListViewController:(SFSDKLoginHostListViewController *)hostListViewController didChangeLoginHost:(SFSDKLoginHost *)newLoginHost {
     [_accountsLock lock];
     NSDictionary *userInfo = @{kSFNotificationPreviousLoginHost: self.loginHost, kSFNotificationCurrentLoginHost: newLoginHost.host};
+    self.previousLoginHost = self.loginHost;
     self.loginHost = newLoginHost.host;
     NSNotification *loginHostChangedNotification = [NSNotification notificationWithName:kSFNotificationDidChangeLoginHost object:self userInfo:userInfo];
     [[NSNotificationCenter defaultCenter] postNotification:loginHostChangedNotification];
@@ -1902,10 +1903,38 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         [strongSelf showErrorAlertWithMessage:alertMessage buttonTitle:okButton scene:session.oauthRequest.scene andCompletion:^() {
             [session.oauthCoordinator stopAuthentication];
             [strongSelf notifyUserCancelledOrDismissedAuth:session.oauthCoordinator.credentials andAuthInfo:session.oauthCoordinator.authInfo];
-            NSString *host = [[SFSDKLoginHostStorage sharedInstance] loginHostAtIndex:0].host;
-            session.oauthRequest.loginHost = host;
-            strongSelf.loginHost = host;
-            [strongSelf restartAuthentication:session];
+            NSString *failingHost = session.oauthRequest.loginHost;
+            SFSDKLoginHostStorage *storage = [SFSDKLoginHostStorage sharedInstance];
+            SFSDKLoginHost *failing = [storage loginHostForHostAddress:failingHost];
+            if (failing && failing.isDeletable) {
+                for (NSUInteger i = 0; i < [storage numberOfLoginHosts]; i++) {
+                    if ([[storage loginHostAtIndex:i].host isEqualToString:failingHost]) {
+                        [storage removeLoginHostAtIndex:i];
+                        break;
+                    }
+                }
+            } else if (!failing) {
+                [SFSDKCoreLogger d:[strongSelf class] format:@"Failing host not found in storage; skipping removal."];
+            }
+            // Choose a recovery host. Prefer the snapshot of the host the user was working on before
+            // the bad host change; fall back to the first entry in storage. The fallback can be unsafe
+            // in one edge case: if the failing host was just removed above AND it was the only entry,
+            // or if MDM `onlyShowAuthorizedHosts` is enabled with an empty MDM host list, storage may
+            // be empty here — `loginHostAtIndex:0` would raise NSRangeException. Guard the index call.
+            NSString *prev = strongSelf.previousLoginHost;
+            NSString *recoveryHost = nil;
+            if (prev && [storage loginHostForHostAddress:prev]) {
+                recoveryHost = prev;
+            } else if ([storage numberOfLoginHosts] > 0) {
+                recoveryHost = [storage loginHostAtIndex:0].host;
+            }
+            if (recoveryHost) {
+                session.oauthRequest.loginHost = recoveryHost;
+                strongSelf.loginHost = recoveryHost;
+                [strongSelf restartAuthentication:session];
+            } else {
+                [SFSDKCoreLogger d:[strongSelf class] format:@"No recovery host available; skipping restart."];
+            }
         }];
     };
     

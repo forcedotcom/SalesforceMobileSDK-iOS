@@ -68,6 +68,7 @@ struct NewLoginHostField: View {
 struct NewLoginHostView: View {
     @State var host = ""
     @State var hostLabel = ""
+    @State var hostError: String?
     private var saveAction: ((String, String?) -> Void)
     private var navBarTintColor: Color
     
@@ -87,6 +88,16 @@ struct NewLoginHostView: View {
             let scheme = components.scheme ?? ""
             hostToSave = String(hostToSave.dropFirst("\(scheme)://".count))
         }
+
+        let isValid = !hostToSave.isEmpty
+            && hostToSave.contains(".")
+            && hostToSave.rangeOfCharacter(from: .whitespaces) == nil
+            && URL(string: "https://\(hostToSave)") != nil
+        if !isValid {
+            self.hostError = SFSDKResourceUtils.localizedString("LOGIN_INVALID_HOST")
+            return
+        }
+        self.hostError = nil
         saveAction(hostToSave, hostLabel.trimmingCharacters(in: .whitespaces))
     }
     
@@ -100,6 +111,14 @@ struct NewLoginHostView: View {
                 .keyboardType(.URL)
                 .autocapitalization(.none)
                 .listRowSeparator(.hidden)
+
+            if let hostError {
+                Text(hostError)
+                    .foregroundStyle(.red)
+                    .font(.footnote)
+                    .accessibilityIdentifier("addconn_hostError")
+                    .listRowSeparator(.hidden)
+            }
 
             NewLoginHostField(fieldLabel: SFSDKResourceUtils.localizedString("LOGIN_SERVER_NAME"),
                               fieldLabelAccessibilityID: "addconn_nameLabel",
