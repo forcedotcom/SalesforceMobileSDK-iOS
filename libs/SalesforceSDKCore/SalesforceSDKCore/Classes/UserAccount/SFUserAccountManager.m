@@ -1906,15 +1906,37 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
             NSString *failingHost = session.oauthRequest.loginHost;
             SFSDKLoginHostStorage *storage = [SFSDKLoginHostStorage sharedInstance];
             SFSDKLoginHost *failing = [storage loginHostForHostAddress:failingHost];
-            if (failing && failing.isDeletable) {
-                for (NSUInteger i = 0; i < [storage numberOfLoginHosts]; i++) {
-                    if ([[storage loginHostAtIndex:i].host isEqualToString:failingHost]) {
-                        [storage removeLoginHostAtIndex:i];
+            // Only auto-remove the host when the error is a strong signal that the host itself
+            // is unusable (bad URL, DNS NXDOMAIN, ATS rejection, OAuth invalid URL). Ambiguous
+            // codes — timeout, cannot-connect, not-connected-to-internet, connection-lost,
+            // roaming-off, data-not-allowed — can fire for a perfectly valid host the user is
+            // temporarily unable to reach. Auto-removing on those would silently delete a
+            // legitimate custom host when the user is on flaky Wi-Fi or offline.
+            BOOL strongBadHostSignal = NO;
+            if ([error.domain isEqualToString:kSFOAuthErrorDomain] && error.code == kSFOAuthErrorInvalidURL) {
+                strongBadHostSignal = YES;
+            } else if ([error.domain isEqualToString:NSURLErrorDomain]) {
+                switch (error.code) {
+                    case NSURLErrorBadURL:
+                    case NSURLErrorUnsupportedURL:
+                    case NSURLErrorCannotFindHost:
+                    case NSURLErrorDNSLookupFailed:
+                    case NSURLErrorAppTransportSecurityRequiresSecureConnection:
+                        strongBadHostSignal = YES;
                         break;
-                    }
+                    default:
+                        break;
+                }
+            }
+            if (failing && failing.isDeletable && strongBadHostSignal) {
+                NSUInteger index = [storage indexOfLoginHost:failing];
+                if (index != NSNotFound) {
+                    [storage removeLoginHostAtIndex:index];
                 }
             } else if (!failing) {
                 [SFSDKCoreLogger d:[strongSelf class] format:@"Failing host not found in storage; skipping removal."];
+            } else if (failing && failing.isDeletable && !strongBadHostSignal) {
+                [SFSDKCoreLogger d:[strongSelf class] format:@"Failing host left in storage; error %@/%ld is ambiguous (likely transient).", error.domain, (long)error.code];
             }
             // Choose a recovery host. Prefer the snapshot of the host the user was working on before
             // the bad host change; fall back to the first entry in storage. The fallback can be unsafe

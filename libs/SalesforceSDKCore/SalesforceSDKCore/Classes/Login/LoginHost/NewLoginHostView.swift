@@ -41,6 +41,8 @@ struct NewLoginHostField: View {
     let fieldPlaceholder: String
     let fieldInputAccessibilityID: String
     @Binding var fieldValue: String
+    var errorMessage: String? = nil
+    var errorAccessibilityID: String? = nil
     
     func placeholderText() -> Text {
         let dynamicColor = Color(lightStyle: Color(red: 118/255, green: 118/255, blue: 118/255),
@@ -61,6 +63,12 @@ struct NewLoginHostField: View {
                     RoundedRectangle(cornerSize: CGSize(width: 10, height: 10))
                         .stroke(Color(uiColor: .label), lineWidth: 0.5)
                 )
+            if let errorMessage {
+                Text(errorMessage)
+                    .foregroundStyle(Color(uiColor: .systemRed))
+                    .font(.footnote)
+                    .accessibilityIdentifier(errorAccessibilityID ?? "")
+            }
         }
     }
 }
@@ -107,18 +115,15 @@ struct NewLoginHostView: View {
                               fieldLabelAccessibilityID: "addconn_hostLabel",
                               fieldPlaceholder: SFSDKResourceUtils.localizedString("LOGIN_SERVER_URL_PLACEHOLDER"),
                               fieldInputAccessibilityID: "addconn_hostInput",
-                              fieldValue: $host)
+                              fieldValue: $host,
+                              errorMessage: hostError,
+                              errorAccessibilityID: "addconn_hostError")
                 .keyboardType(.URL)
                 .autocapitalization(.none)
                 .listRowSeparator(.hidden)
-
-            if let hostError {
-                Text(hostError)
-                    .foregroundStyle(.red)
-                    .font(.footnote)
-                    .accessibilityIdentifier("addconn_hostError")
-                    .listRowSeparator(.hidden)
-            }
+                .onChange(of: host) { _, _ in
+                    hostError = nil
+                }
 
             NewLoginHostField(fieldLabel: SFSDKResourceUtils.localizedString("LOGIN_SERVER_NAME"),
                               fieldLabelAccessibilityID: "addconn_nameLabel",

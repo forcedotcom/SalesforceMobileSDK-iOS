@@ -94,9 +94,21 @@ static NSString * const kBuiltInProductionHost = @"login.salesforce.com";
     return [[SFSDKAuthSession alloc] initWith:request credentials:nil];
 }
 
-- (NSError *)makeHostConnectionError {
+/// Strong "host is unusable" signal — DNS NXDOMAIN. The new gate auto-removes on this.
+- (NSError *)makeStrongBadHostError {
     return [NSError errorWithDomain:NSURLErrorDomain
-                               code:-1001
+                               code:NSURLErrorCannotFindHost
+                           userInfo:@{
+        @"_kCFStreamErrorCodeKey": @(-72000),
+        @"_kCFStreamErrorDomainKey": @(12)
+    }];
+}
+
+/// Ambiguous signal — timeout. Could be transient (flaky Wi-Fi). The new gate must NOT
+/// auto-remove on this, even when the host is otherwise deletable.
+- (NSError *)makeAmbiguousHostError {
+    return [NSError errorWithDomain:NSURLErrorDomain
+                               code:NSURLErrorTimedOut
                            userInfo:@{
         @"_kCFStreamErrorCodeKey": @(-2103),
         @"_kCFStreamErrorDomainKey": @(4)
@@ -106,7 +118,7 @@ static NSString * const kBuiltInProductionHost = @"login.salesforce.com";
 /// Drives the error handler block and waits until the alert OK completion has run.
 /// Replaces alertDisplayBlock with a fake that immediately fires actionOneCompletion,
 /// so we never present a real alert and the recovery logic runs deterministically.
-- (void)fireHandlerBlockForSession:(SFSDKAuthSession *)session {
+- (void)fireHandlerBlockForSession:(SFSDKAuthSession *)session withError:(NSError *)error {
     SFUserAccountManager *mgr = [SFUserAccountManager sharedInstance];
     XCTestExpectation *completionRan = [self expectationWithDescription:@"alertCompletionRan"];
     mgr.alertDisplayBlock = ^(SFSDKAlertMessage *message, SFSDKWindowContainer *window) {
@@ -115,8 +127,12 @@ static NSString * const kBuiltInProductionHost = @"login.salesforce.com";
         }
         [completionRan fulfill];
     };
-    mgr.errorManager.hostConnectionErrorHandlerBlock([self makeHostConnectionError], session, @{});
+    mgr.errorManager.hostConnectionErrorHandlerBlock(error, session, @{});
     [self waitForExpectations:@[completionRan] timeout:5.0];
+}
+
+- (void)fireHandlerBlockForSession:(SFSDKAuthSession *)session {
+    [self fireHandlerBlockForSession:session withError:[self makeStrongBadHostError]];
 }
 
 #pragma mark - Tests
@@ -170,7 +186,7 @@ static NSString * const kBuiltInProductionHost = @"login.salesforce.com";
     XCTAssertEqualObjects(mgr.loginHost, expectedHost);
 }
 
-- (void)test_givenDeletableFailingHost_when_handlerCompletionRuns_then_failingHostRemovedFromStorage {
+- (void)test_givenDeletableFailingHostAndStrongBadHostSignal_when_handlerCompletionRuns_then_failingHostRemovedFromStorage {
     SFUserAccountManager *mgr = [SFUserAccountManager sharedInstance];
     mgr.previousLoginHost = kBuiltInProductionHost;
     mgr.loginHost = kBogusHost;
@@ -180,9 +196,27 @@ static NSString * const kBuiltInProductionHost = @"login.salesforce.com";
                     @"Precondition: fixture deletable host should be in storage before firing the handler.");
 
     SFSDKAuthSession *session = [self makeAuthSessionForLoginHost:kBogusHost];
-    [self fireHandlerBlockForSession:session];
+    [self fireHandlerBlockForSession:session withError:[self makeStrongBadHostError]];
 
     XCTAssertNil([storage loginHostForHostAddress:kBogusHost]);
+}
+
+- (void)test_givenDeletableFailingHostAndAmbiguousSignal_when_handlerCompletionRuns_then_failingHostKeptInStorage {
+    SFUserAccountManager *mgr = [SFUserAccountManager sharedInstance];
+    mgr.previousLoginHost = kBuiltInProductionHost;
+    mgr.loginHost = kBogusHost;
+
+    SFSDKLoginHostStorage *storage = [SFSDKLoginHostStorage sharedInstance];
+    XCTAssertNotNil([storage loginHostForHostAddress:kBogusHost],
+                    @"Precondition: fixture deletable host should be in storage before firing the handler.");
+
+    SFSDKAuthSession *session = [self makeAuthSessionForLoginHost:kBogusHost];
+    [self fireHandlerBlockForSession:session withError:[self makeAmbiguousHostError]];
+
+    XCTAssertNotNil([storage loginHostForHostAddress:kBogusHost],
+                    @"Deletable hosts must not be auto-removed on ambiguous (likely transient) errors.");
+    // Recovery should still happen.
+    XCTAssertEqualObjects(mgr.loginHost, kBuiltInProductionHost);
 }
 
 - (void)test_givenNonDeletableFailingHost_when_handlerCompletionRuns_then_failingHostKeptInStorage {
