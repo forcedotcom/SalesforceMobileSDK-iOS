@@ -252,11 +252,9 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
                 endpointResponse = [[SFSDKOAuthTokenEndpointResponse alloc] initWithError:error];
             }
             [SFSDKCoreLogger d:[strongSelf class] format:@"SFOAuth2 session failed with error: error code: %ld, description: %@, URL: %@", (long)error.code, [error localizedDescription], errorUrlString];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if (completionBlock) {
-                    completionBlock(endpointResponse);
-                }
-            });
+            if (completionBlock) {
+                completionBlock(endpointResponse);
+            }
             return;
         }
         [strongSelf handleTokenEndpointResponse:completionBlock request:endpointReq data:data urlResponse:urlResponse];
@@ -312,11 +310,9 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
             }
             
             [SFSDKCoreLogger d:[SFSDKOAuth2 class] format:@"SFOAuth2 session failed with error: error code: %ld, description: %@, URL: %@", (long)error.code, [error localizedDescription], errorUrlString];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if (completionBlock) {
-                    completionBlock(endpointResponse);
-                }
-            });
+            if (completionBlock) {
+                completionBlock(endpointResponse);
+            }
             return;
         }
         
@@ -325,11 +321,9 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
             [strongSelf handleTokenEndpointResponse:completionBlock request:endpointReq data:data urlResponse:urlResponse];
         } else {
             [SFSDKCoreLogger d:[SFSDKOAuth2 class] format:@"Token endpoint response handler skipped because self was deallocated."];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if (completionBlock) {
-                    completionBlock(nil);
-                }
-            });
+            if (completionBlock) {
+                completionBlock(nil);
+            }
         }
     }];
 }

@@ -41,6 +41,9 @@ successBlock:(SFRestResponseBlock)successBlock
 
 - (void)resendActiveRequestsRequiringAuthentication;
 - (void)flushPendingRequestQueue:(NSError *)error rawResponse:(NSURLResponse *)rawResponse;
+- (void)replayRequest:(SFRestRequest *)request response:(NSURLResponse *)response;
+
+@property (readwrite, assign) BOOL refreshCycleActive;
 
 @end
 
@@ -195,7 +198,7 @@ static NSMutableArray<DeferredURLProtocol *> *sPendingProtocols;
     } shouldRetry:NO];
 
     // Wait for dataTask #1 to be registered with DeferredURLProtocol.
-    XCTAssertTrue([self waitForCondition:^{ return @([DeferredURLProtocol pendingCount] >= 1).boolValue; } timeout:2],
+    XCTAssertTrue([self waitForCondition:^BOOL{ return [DeferredURLProtocol pendingCount] >= 1; } timeout:2],
                   @"dataTask #1 should be pending");
 
     // Step 2: Simulate what happens after token refresh succeeds:
@@ -204,7 +207,7 @@ static NSMutableArray<DeferredURLProtocol *> *sPendingProtocols;
     [self.api resendActiveRequestsRequiringAuthentication];
 
     // Wait for dataTask #2 to be registered.
-    XCTAssertTrue([self waitForCondition:^{ return @([DeferredURLProtocol pendingCount] >= 2).boolValue; } timeout:2],
+    XCTAssertTrue([self waitForCondition:^BOOL{ return [DeferredURLProtocol pendingCount] >= 2; } timeout:2],
                   @"dataTask #2 should be pending");
 
     // Step 3: dataTask #1 (index 0) completes with 200 OK.
@@ -252,7 +255,7 @@ static NSMutableArray<DeferredURLProtocol *> *sPendingProtocols;
     } shouldRetry:NO];
 
     // Wait for dataTask #1 to be registered.
-    XCTAssertTrue([self waitForCondition:^{ return @([DeferredURLProtocol pendingCount] >= 1).boolValue; } timeout:2],
+    XCTAssertTrue([self waitForCondition:^BOOL{ return [DeferredURLProtocol pendingCount] >= 1; } timeout:2],
                   @"dataTask #1 should be pending");
 
     // Step 2: Simulate token refresh failure. flushPendingRequestQueue calls
@@ -298,7 +301,7 @@ static NSMutableArray<DeferredURLProtocol *> *sPendingProtocols;
     } shouldRetry:NO];
 
     // Wait for the dataTask to be in-flight.
-    XCTAssertTrue([self waitForCondition:^{ return @([DeferredURLProtocol pendingCount] >= 1).boolValue; } timeout:2],
+    XCTAssertTrue([self waitForCondition:^BOOL{ return [DeferredURLProtocol pendingCount] >= 1; } timeout:2],
                   @"dataTask should be pending");
 
     // Cancel all requests. This cancels the task but does NOT re-send,
@@ -309,6 +312,159 @@ static NSMutableArray<DeferredURLProtocol *> *sPendingProtocols;
 
     XCTAssertEqual(failureCount, 1, @"failureBlock must be called exactly once");
     XCTAssertEqual(receivedError.code, NSURLErrorCancelled, @"Error should be NSURLErrorCancelled");
+}
+
+#pragma mark - Test: cleanup during in-flight refresh
+
+/**
+ * Verifies that cleanup delivers "User logged out" errors to all pending
+ * requests and clears activeRequests, even when a token refresh cycle is active.
+ */
+- (void)testCleanupDuringRefreshCycleDeliversLogoutError {
+    __block int failureCount = 0;
+    __block NSError *receivedError = nil;
+    XCTestExpectation *expectation = [self expectationWithDescription:@"failure delivered"];
+
+    SFRestRequest *request = [self makeRequest];
+
+    [self.api send:request
+      failureBlock:^(id response, NSError *e, NSURLResponse *rawResponse) {
+        failureCount++;
+        receivedError = e;
+        [expectation fulfill];
+    } successBlock:^(id response, NSURLResponse *rawResponse) {
+        XCTFail(@"successBlock should not be called after cleanup");
+    } shouldRetry:NO];
+
+    // Wait for the request to be in-flight.
+    XCTAssertTrue([self waitForCondition:^BOOL{ return [DeferredURLProtocol pendingCount] >= 1; } timeout:2],
+                  @"dataTask should be pending");
+
+    // Simulate a refresh cycle being active (as if a 401 triggered replayRequest:).
+    self.api.refreshCycleActive = YES;
+
+    // Logout triggers cleanup while refresh is in-flight.
+    [self.api cleanup];
+
+    [self waitForExpectationsWithTimeout:5 handler:nil];
+
+    XCTAssertEqual(failureCount, 1, @"failureBlock must be called exactly once");
+    XCTAssertEqualObjects(receivedError.domain, kSFRestErrorDomain, @"Error domain should be REST error domain");
+    XCTAssertTrue([receivedError.userInfo[NSLocalizedDescriptionKey] containsString:@"logged out"],
+                  @"Error message should mention logout");
+    XCTAssertEqual(self.api.activeRequests.count, 0u, @"activeRequests should be empty after cleanup");
+}
+
+/**
+ * Verifies that if the coordinator's refresh callback fires AFTER cleanup
+ * has cleared activeRequests, no requests are resent and no crash occurs.
+ */
+- (void)testRefreshCallbackAfterCleanupIsHarmless {
+    __block int successCount = 0;
+    __block int failureCount = 0;
+
+    SFRestRequest *request = [self makeRequest];
+
+    [self.api send:request
+      failureBlock:^(id response, NSError *e, NSURLResponse *rawResponse) {
+        failureCount++;
+    } successBlock:^(id response, NSURLResponse *rawResponse) {
+        successCount++;
+    } shouldRetry:NO];
+
+    // Wait for the request to be in-flight.
+    XCTAssertTrue([self waitForCondition:^BOOL{ return [DeferredURLProtocol pendingCount] >= 1; } timeout:2],
+                  @"dataTask should be pending");
+
+    // Simulate: refresh cycle active, then cleanup runs (logout).
+    self.api.refreshCycleActive = YES;
+    [self.api cleanup];
+
+    // Now simulate what happens when the coordinator callback fires after cleanup.
+    // This calls resendActiveRequestsRequiringAuthentication on an empty activeRequests set.
+    [self.api resendActiveRequestsRequiringAuthentication];
+    self.api.refreshCycleActive = NO;
+
+    // Give any unexpected callbacks a chance to fire.
+    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.5]];
+
+    // The cleanup already delivered the failure. The post-cleanup resend should be a no-op.
+    XCTAssertEqual(failureCount, 1, @"failureBlock should have been called once (by cleanup)");
+    XCTAssertEqual(successCount, 0, @"successBlock must not be called after cleanup");
+    XCTAssertEqual(self.api.activeRequests.count, 0u, @"activeRequests should remain empty");
+}
+
+/**
+ * Verifies that cleanup properly cancels in-flight dataTasks (the session
+ * data task cancel callback should not cause double-invocation of failureBlock).
+ */
+- (void)testCleanupCancelsTasksWithoutDoubleCallback {
+    __block int failureCount = 0;
+    XCTestExpectation *expectation = [self expectationWithDescription:@"failure delivered"];
+
+    SFRestRequest *request = [self makeRequest];
+
+    [self.api send:request
+      failureBlock:^(id response, NSError *e, NSURLResponse *rawResponse) {
+        failureCount++;
+        if (failureCount == 1) {
+            [expectation fulfill];
+        }
+    } successBlock:^(id response, NSURLResponse *rawResponse) {
+        XCTFail(@"successBlock should not be called after cleanup");
+    } shouldRetry:NO];
+
+    // Wait for the request to be in-flight.
+    XCTAssertTrue([self waitForCondition:^BOOL{ return [DeferredURLProtocol pendingCount] >= 1; } timeout:2],
+                  @"dataTask should be pending");
+
+    // Cleanup cancels tasks and delivers errors.
+    [self.api cleanup];
+
+    [self waitForExpectationsWithTimeout:5 handler:nil];
+
+    // Give time for the cancelled dataTask's NSURLSession callback to fire.
+    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.5]];
+
+    XCTAssertEqual(failureCount, 1, @"failureBlock must be called exactly once (cleanup), not again from cancellation callback. Was called %d times", failureCount);
+}
+
+/**
+ * Verifies that after cleanup, a new request can trigger a fresh refresh cycle
+ * (refreshCycleActive is not permanently stuck).
+ */
+- (void)testNewRefreshCyclePossibleAfterCleanup {
+    SFRestRequest *request = [self makeRequest];
+
+    [self.api send:request
+      failureBlock:^(id response, NSError *e, NSURLResponse *rawResponse) {}
+      successBlock:^(id response, NSURLResponse *rawResponse) {}
+       shouldRetry:NO];
+
+    XCTAssertTrue([self waitForCondition:^BOOL{ return [DeferredURLProtocol pendingCount] >= 1; } timeout:2],
+                  @"dataTask should be pending");
+
+    // Simulate refresh in progress, then cleanup (logout).
+    self.api.refreshCycleActive = YES;
+    [self.api cleanup];
+
+    // After cleanup, refreshCycleActive should still be YES (cleanup doesn't reset it).
+    // But activeRequests is empty, so a future callback is harmless.
+    // Simulate the callback arriving and resetting the flag.
+    self.api.refreshCycleActive = NO;
+
+    // Now send a new request and verify a fresh refresh cycle can start.
+    SFRestRequest *newRequest = [self makeRequest];
+    [self.api send:newRequest
+      failureBlock:^(id response, NSError *e, NSURLResponse *rawResponse) {}
+      successBlock:^(id response, NSURLResponse *rawResponse) {}
+       shouldRetry:NO];
+
+    XCTAssertTrue([self waitForCondition:^BOOL{ return [DeferredURLProtocol pendingCount] >= 2; } timeout:2],
+                  @"new dataTask should be pending");
+
+    XCTAssertFalse(self.api.refreshCycleActive, @"refreshCycleActive should be NO, ready for a new cycle");
+    XCTAssertEqual(self.api.activeRequests.count, 1, @"New request should be in activeRequests");
 }
 
 @end

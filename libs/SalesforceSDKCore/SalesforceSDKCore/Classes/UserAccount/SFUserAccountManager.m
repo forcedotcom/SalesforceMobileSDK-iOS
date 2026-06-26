@@ -57,6 +57,7 @@
 #import "SFNetwork.h"
 #import "SFSDKSalesforceAnalyticsManager.h"
 #import "SFApplicationHelper.h"
+#import "SFSDKTokenRefreshCoordinator.h"
 #import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 #import <SalesforceSDKCommon/SalesforceSDKCommon-Swift.h>
 #import "SFSDKSPLoginRequestCommand.h"
@@ -430,41 +431,23 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 
 - (BOOL)refreshCredentials:(SFOAuthCredentials *)credentials completion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
     NSAssert(credentials.refreshToken.length > 0, @"Refresh token required to refresh credentials.");
-    
-    SFSDKOAuthTokenEndpointRequest *request = [[SFSDKOAuthTokenEndpointRequest alloc] init];
-    request.additionalOAuthParameterKeys = self.additionalOAuthParameterKeys;
-    request.additionalTokenRefreshParams = self.additionalTokenRefreshParams;
-    request.clientID = credentials.clientId;
-    request.refreshToken = credentials.refreshToken;
-    request.redirectURI = credentials.redirectUri;
-    request.serverURL = [credentials overrideDomainIfNeeded];
-    
+
     __weak typeof(self) weakSelf = self;
-    id<SFSDKOAuthProtocol> authClient = self.authClient();
-    [authClient accessTokenForRefresh:request completion:^(SFSDKOAuthTokenEndpointResponse * response) {
-        __strong typeof (weakSelf) strongSelf = weakSelf;
+    [[SFSDKTokenRefreshCoordinator sharedInstance] refreshSessionForCredentials:credentials completion:^(SFOAuthCredentials *updatedCredentials) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
         SFOAuthInfo *authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefresh];
-        if (response.hasError) {
-            if (failureBlock) {
-                failureBlock(authInfo,response.error.error);
-            }
-        } else {
-            [credentials updateCredentials:[response asDictionary]];
-            if (response.additionalOAuthFields)
-                credentials.additionalOAuthFields = response.additionalOAuthFields;
-            SFUserAccount *userAccount = [strongSelf accountForCredentials:credentials];
-            if (!userAccount) {
-                userAccount = [self applyCredentials:credentials];
-            }
-            [self retrieveUserPhotoIfNeeded:userAccount];
-            NSDictionary *userInfo = @{kSFNotificationUserInfoAccountKey: userAccount,
-                                       kSFNotificationUserInfoAuthTypeKey: authInfo};
-            [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserDidRefreshToken
-                                                                object:strongSelf
-                                                              userInfo:userInfo];
-            if (completionBlock) {
-                completionBlock(authInfo,userAccount);
-            }
+        SFUserAccount *userAccount = [strongSelf accountForCredentials:updatedCredentials];
+        if (!userAccount) {
+            userAccount = [strongSelf applyCredentials:updatedCredentials];
+        }
+        [strongSelf retrieveUserPhotoIfNeeded:userAccount];
+        if (completionBlock) {
+            completionBlock(authInfo, userAccount);
+        }
+    } error:^(NSError *error) {
+        SFOAuthInfo *authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefresh];
+        if (failureBlock) {
+            failureBlock(authInfo, error);
         }
     }];
     return YES;
