@@ -513,19 +513,19 @@ class MultiUserLoginTests: BaseAuthFlowTester {
         // Use loginOtherUser (without full credential validation) since identity data
         // may not be immediately available in cross-host multi-user scenarios.
         loginOtherUser(loginHost: .advancedAuth, user: .third, staticAppConfigName: .beaconOpaque)
-        validateUserAgent(loginHost: .advancedAuth, expectAdvancedAuth: true, isMultiUser: true)
+        validateUserAgent(userCredentials: getUserCredentials(), loginHost: .advancedAuth, expectAdvancedAuth: true, isMultiUser: true)
 
         // Switch to User A — no BW, MU still set
         switchToUser(loginHost: .regularAuth, user: .fourth)
-        validateUserAgent(loginHost: .regularAuth, isMultiUser: true)
+        validateUserAgent(userCredentials: getUserCredentials(), loginHost: .regularAuth, isMultiUser: true)
 
         // Switch back to User B — BW back, MU still set
         switchToUser(loginHost: .advancedAuth, user: .third)
-        validateUserAgent(loginHost: .advancedAuth, expectAdvancedAuth: true, isMultiUser: true)
+        validateUserAgent(userCredentials: getUserCredentials(), loginHost: .advancedAuth, expectAdvancedAuth: true, isMultiUser: true)
 
         // Logout User B — app auto-switches to User A; MU must be gone
         logout()
-        validateUserAgent(loginHost: .regularAuth, isMultiUser: false)
+        validateUserAgent(userCredentials: getUserCredentials(), loginHost: .regularAuth, isMultiUser: false)
     }
 
     /// Logout CA user and verify ECA user is unaffected.

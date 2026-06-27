@@ -260,7 +260,7 @@ class BaseAuthFlowTester: XCTestCase {
         mainPage.switchToUser(username: getUser(loginHost: loginHost, user: user).username)
 
         // Validate
-        validateUser(
+        let userCredentials = validateUser(
             loginHost: loginHost,
             user: user,
             userAppConfigName: userAppConfigName,
@@ -270,7 +270,7 @@ class BaseAuthFlowTester: XCTestCase {
         )
 
         // Validate persisted feature flags survived the restart and user switch
-        validateUserAgent(loginHost: loginHost, expectAdvancedAuth: loginHost == .advancedAuth, isMultiUser: isMultiUser)
+        validateUserAgent(userCredentials: userCredentials, loginHost: loginHost, expectAdvancedAuth: loginHost == .advancedAuth, isMultiUser: isMultiUser)
     }
 
     /// Launches the app and performs login.
@@ -505,7 +505,7 @@ class BaseAuthFlowTester: XCTestCase {
 
         // Validate user
         // Not checking static app config since it will depend on the bootconfig of the target app
-        validateUser(
+        let userCredentials = validateUser(
             loginHost: loginHost,
             user: user,
             userAppConfigName: userAppConfigName,
@@ -515,7 +515,7 @@ class BaseAuthFlowTester: XCTestCase {
         )
 
         // Validate persisted feature flags are rehydrated after restart
-        validateUserAgent(loginHost: loginHost, expectAdvancedAuth: loginHost == .advancedAuth, isMultiUser: isMultiUser)
+        validateUserAgent(userCredentials: userCredentials, loginHost: loginHost, expectAdvancedAuth: loginHost == .advancedAuth, isMultiUser: isMultiUser)
     }
     
     /// Migrates the refresh token to a new app configuration and validates the result.
@@ -600,21 +600,16 @@ class BaseAuthFlowTester: XCTestCase {
         return mainPage.getUserCredentials()
     }
 
-    /// Gets the current user's User Agent string from the SDK section.
-    func getUserAgent() -> String {
-        return mainPage.getUserAgent()
-    }
-
-    /// Validates the user agent string for the current user.
-    /// Fetches the UA via the export button then delegates to the private overload.
+    /// Validates the user agent string from already-fetched credentials.
     ///
     /// - Parameters:
+    ///   - userCredentials: Credentials previously returned by `validateUser()`.
     ///   - loginHost: The login host used for the current user.
     ///   - expectAdvancedAuth: Whether advanced auth (browser-based) was used, which sets the BW flag. Defaults to `false`.
     ///   - usesWelcomeDiscovery: Whether welcome domain discovery was used. Defaults to `false`.
     ///   - isMultiUser: Whether multiple users are currently logged in. Defaults to `false`.
-    func validateUserAgent(loginHost: KnownLoginHostConfig, expectAdvancedAuth: Bool = false, usesWelcomeDiscovery: Bool = false, isMultiUser: Bool = false) {
-        validateUserAgent(ua: getUserAgent(), loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, usesWelcomeDiscovery: usesWelcomeDiscovery, isMultiUser: isMultiUser)
+    func validateUserAgent(userCredentials: UserCredentialsData, loginHost: KnownLoginHostConfig, expectAdvancedAuth: Bool = false, usesWelcomeDiscovery: Bool = false, isMultiUser: Bool = false) {
+        validateUserAgent(ua: userCredentials.userAgent, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, usesWelcomeDiscovery: usesWelcomeDiscovery, isMultiUser: isMultiUser)
     }
 
     /// Validates a pre-fetched user agent string. Called from validate() which already has the UA.
@@ -750,6 +745,9 @@ class BaseAuthFlowTester: XCTestCase {
             useHybridFlow: useHybridFlow
         )
 
+        // Validate feature flags using UA from the already-fetched credentials
+        validateUserAgent(ua: userCredentials.userAgent, loginHost: loginHost, expectAdvancedAuth: loginForAdmin || loginHost == .advancedAuth, usesWelcomeDiscovery: usesWelcomeDiscovery, isMultiUser: isMultiUser)
+
         // Revoke and refresh cycle
         let userAppConfig = getAppConfig(named: userAppConfigName)
         assertRevokeAndRefreshWorks(previousCredentials: userCredentials, isRtr: userAppConfig.isRtr)
@@ -760,9 +758,6 @@ class BaseAuthFlowTester: XCTestCase {
             staticCallbackUrl: staticAppConfig.redirectUri,
             staticScopes: testConfig.getScopesToRequest(for: staticAppConfig, staticScopeSelection)
         )
-
-        // Validate feature flags using pre-fetched UA
-        validateUserAgent(ua: getUserAgent(), loginHost: loginHost, expectAdvancedAuth: loginForAdmin || loginHost == .advancedAuth, usesWelcomeDiscovery: usesWelcomeDiscovery, isMultiUser: isMultiUser)
 
         return userCredentials
     }
