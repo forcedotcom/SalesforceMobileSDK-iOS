@@ -254,6 +254,7 @@ class BaseAuthFlowTester: XCTestCase {
         userScopeSelection: ScopeSelection = .empty,
         useWebServerFlow: Bool = true,
         useHybridFlow: Bool = true,
+        loginForAdmin: Bool = false,
         isMultiUser: Bool = false
     ) {
         // Switch user
@@ -267,7 +268,7 @@ class BaseAuthFlowTester: XCTestCase {
             userScopeSelection: userScopeSelection,
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow,
-            expectAdvancedAuth: loginHost == .advancedAuth,
+            expectAdvancedAuth: loginForAdmin || loginHost == .advancedAuth,
             isMultiUser: isMultiUser
         )
     }
@@ -486,6 +487,7 @@ class BaseAuthFlowTester: XCTestCase {
     ///   - userScopeSelection: The scope selection the user was logged in with. Defaults to `.empty`.
     ///   - useWebServerFlow: Whether web server OAuth flow was used. Defaults to `true`.
     ///   - useHybridFlow: Whether hybrid authentication flow was used. Defaults to `true`.
+    ///   - loginForAdmin: When true, Login for Admin was used (browser-based auth), which sets the BW flag. Defaults to `false`.
     func restartAndValidateUser(
         loginHost: KnownLoginHostConfig = .regularAuth,
         user: KnownUserConfig = .first,
@@ -493,6 +495,7 @@ class BaseAuthFlowTester: XCTestCase {
         userScopeSelection: ScopeSelection = .empty,
         useWebServerFlow: Bool = true,
         useHybridFlow: Bool = true,
+        loginForAdmin: Bool = false,
         isMultiUser: Bool = false
     ) {
         // Restart
@@ -511,7 +514,7 @@ class BaseAuthFlowTester: XCTestCase {
             userScopeSelection: userScopeSelection,
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow,
-            expectAdvancedAuth: loginHost == .advancedAuth,
+            expectAdvancedAuth: loginForAdmin || loginHost == .advancedAuth,
             isMultiUser: isMultiUser
         )
     }
