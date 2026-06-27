@@ -216,7 +216,7 @@
 
 - (void)authenticateWithCredentials:(SFOAuthCredentials *)credentials {
     self.credentials = credentials;
-    if ([self.domainDiscoveryCoordinator isDiscoveryDomain:self.credentials.domain]) {
+    if ([SFDomainDiscoveryCoordinator isDiscoveryDomain:self.credentials.domain]) {
         [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureWelcomeDiscovery];
         [self runMyDomainDiscoveryAndAuthenticate];
         return;

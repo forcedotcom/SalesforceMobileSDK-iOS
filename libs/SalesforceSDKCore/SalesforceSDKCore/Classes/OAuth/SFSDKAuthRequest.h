@@ -37,6 +37,18 @@ NS_ASSUME_NONNULL_BEGIN
 /// When YES, cancelling the browser session returns to the WebView login instead of showing the server picker.
 @property (nonatomic, assign) BOOL loginAsAdmin;
 
+/// Login-for-Admin override: the My Domain to authenticate against, set when
+/// LFA is invoked from phase 2 of Welcome Discovery. Consulted only while
+/// `loginAsAdmin == YES`; the request's `loginHost` is left unchanged so that
+/// other settings actions (Reload, Clear Cache) and the post-cancel restart
+/// continue to operate against the originally configured login host.
+/// Cleared together with `loginAsAdmin` when the LFA browser session is cancelled.
+@property (nonatomic, copy, nullable) NSString *loginAsAdminMyDomain;
+
+/// Login-for-Admin override: the login_hint OAuth parameter to pass to the
+/// browser session. Same scoping rules as `loginAsAdminMyDomain`.
+@property (nonatomic, copy, nullable) NSString *loginAsAdminLoginHint;
+
 @property (nonatomic, strong) NSArray<NSString *> *additionalOAuthParameterKeys;
 @property (nonatomic, strong) NSDictionary<NSString *,id> * additionalTokenRefreshParams;
 @property (nonatomic, copy) NSString *loginHost;
