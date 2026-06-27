@@ -505,8 +505,8 @@ class MultiUserLoginTests: BaseAuthFlowTester {
     ///     may not be immediately available in a cross-host multi-user login.
     func testAdvancedAuthUser_HasBWFlag_RegularAuthUser_DoesNot() throws {
         // User A: regular auth — no BW
-        // Use launchLoginAndValidate to ensure credentials (including identity data) are fully loaded
-        // before calling validateUserAgent. launchLoginAndValidate calls validateUserAgent internally.
+        // Use launchLoginAndValidate to ensure credentials (including identity data) are fully loaded.
+        // validateUser (called internally) validates the UA as part of credential validation.
         launchLoginAndValidate(loginHost: .regularAuth, user: .fourth, staticAppConfigName: .ecaOpaque)
 
         // User B: advanced auth — has BW, both users now logged in → MU

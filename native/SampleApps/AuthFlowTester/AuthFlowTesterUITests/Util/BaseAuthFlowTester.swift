@@ -259,18 +259,17 @@ class BaseAuthFlowTester: XCTestCase {
         // Switch user
         mainPage.switchToUser(username: getUser(loginHost: loginHost, user: user).username)
 
-        // Validate
-        let userCredentials = validateUser(
+        // Validate user and feature flags
+        validateUser(
             loginHost: loginHost,
             user: user,
             userAppConfigName: userAppConfigName,
             userScopeSelection: userScopeSelection,
             useWebServerFlow: useWebServerFlow,
-            useHybridFlow: useHybridFlow
+            useHybridFlow: useHybridFlow,
+            expectAdvancedAuth: loginHost == .advancedAuth,
+            isMultiUser: isMultiUser
         )
-
-        // Validate persisted feature flags survived the restart and user switch
-        validateUserAgent(userCredentials: userCredentials, loginHost: loginHost, expectAdvancedAuth: loginHost == .advancedAuth, isMultiUser: isMultiUser)
     }
 
     /// Launches the app and performs login.
@@ -503,19 +502,18 @@ class BaseAuthFlowTester: XCTestCase {
         // Restore auth flow settings lost on restart
         mainPage.setAuthFlowTypes(useWebServerFlow: useWebServerFlow, useHybridFlow: useHybridFlow)
 
-        // Validate user
+        // Validate user and feature flags
         // Not checking static app config since it will depend on the bootconfig of the target app
-        let userCredentials = validateUser(
+        validateUser(
             loginHost: loginHost,
             user: user,
             userAppConfigName: userAppConfigName,
             userScopeSelection: userScopeSelection,
             useWebServerFlow: useWebServerFlow,
-            useHybridFlow: useHybridFlow
+            useHybridFlow: useHybridFlow,
+            expectAdvancedAuth: loginHost == .advancedAuth,
+            isMultiUser: isMultiUser
         )
-
-        // Validate persisted feature flags are rehydrated after restart
-        validateUserAgent(userCredentials: userCredentials, loginHost: loginHost, expectAdvancedAuth: loginHost == .advancedAuth, isMultiUser: isMultiUser)
     }
     
     /// Migrates the refresh token to a new app configuration and validates the result.
@@ -671,7 +669,7 @@ class BaseAuthFlowTester: XCTestCase {
         }
     }
 
-    /// Validates user credentials
+    /// Validates user credentials and feature flags.
     @discardableResult
     func validateUser(
         loginHost: KnownLoginHostConfig,
@@ -679,17 +677,20 @@ class BaseAuthFlowTester: XCTestCase {
         userAppConfigName: KnownAppConfig,
         userScopeSelection: ScopeSelection,
         useWebServerFlow: Bool,
-        useHybridFlow: Bool
+        useHybridFlow: Bool,
+        expectAdvancedAuth: Bool = false,
+        usesWelcomeDiscovery: Bool = false,
+        isMultiUser: Bool = false
     ) -> UserCredentialsData {
 
         let userConfig = getUser(loginHost: loginHost, user: user)
         let userAppConfig = getAppConfig(named: userAppConfigName)
         let expectedGrantedScopes = testConfig.getExpectedScopesGranted(for: userAppConfig, userScopeSelection)
         let issuesJwt = userAppConfig.issuesJwt
-        
+
         // Check that app loads and shows the expected user credentials etc
         assertMainPageLoaded()
-        
+
         // Check the user credentials (consumer key should match the app config used)
         let userCredentials = checkUserCredentials(
             username: userConfig.username,
@@ -698,18 +699,21 @@ class BaseAuthFlowTester: XCTestCase {
             grantedScopes: expectedGrantedScopes,
             issuesJwt: issuesJwt
         )
-        
+
         // Check JWT if applicable
         checkJwtDetailsIfApplicable(
             appConfig: userAppConfig,
             scopes: expectedGrantedScopes,
             beaconChildConsumerKey: userCredentials.beaconChildConsumerKey
         )
-        
+
         // Additional login-specific validations
         assertSIDs(userCredentialsData: userCredentials, useHybridFlow: useHybridFlow, useJwt: issuesJwt)
         assertURLs(userCredentialsData: userCredentials, useWebServerFlow: useWebServerFlow)
-        
+
+        // Validate feature flags using UA already present in the fetched credentials
+        validateUserAgent(ua: userCredentials.userAgent, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, usesWelcomeDiscovery: usesWelcomeDiscovery, isMultiUser: isMultiUser)
+
         return userCredentials
     }
     
@@ -742,11 +746,11 @@ class BaseAuthFlowTester: XCTestCase {
             userAppConfigName: userAppConfigName,
             userScopeSelection: userScopeSelection,
             useWebServerFlow: useWebServerFlow,
-            useHybridFlow: useHybridFlow
+            useHybridFlow: useHybridFlow,
+            expectAdvancedAuth: loginForAdmin || loginHost == .advancedAuth,
+            usesWelcomeDiscovery: usesWelcomeDiscovery,
+            isMultiUser: isMultiUser
         )
-
-        // Validate feature flags using UA from the already-fetched credentials
-        validateUserAgent(ua: userCredentials.userAgent, loginHost: loginHost, expectAdvancedAuth: loginForAdmin || loginHost == .advancedAuth, usesWelcomeDiscovery: usesWelcomeDiscovery, isMultiUser: isMultiUser)
 
         // Revoke and refresh cycle
         let userAppConfig = getAppConfig(named: userAppConfigName)
