@@ -161,8 +161,7 @@ class LoginWithRestartTests: BaseAuthFlowTester {
         restartAndValidateUser(
             loginHost: .advancedAuth,
             user: .third,
-            userAppConfigName: .beaconOpaque,
-            expectAdvancedAuth: true
+            userAppConfigName: .beaconOpaque
         )
     }
 
