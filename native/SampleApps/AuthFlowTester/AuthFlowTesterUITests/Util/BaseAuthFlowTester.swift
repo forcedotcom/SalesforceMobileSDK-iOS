@@ -488,6 +488,7 @@ class BaseAuthFlowTester: XCTestCase {
     ///   - useWebServerFlow: Whether web server OAuth flow was used. Defaults to `true`.
     ///   - useHybridFlow: Whether hybrid authentication flow was used. Defaults to `true`.
     ///   - loginForAdmin: When true, Login for Admin was used (browser-based auth), which sets the BW flag. Defaults to `false`.
+    ///   - usesWelcomeDiscovery: When true, welcome discovery was used, which sets the WD flag. Defaults to `false`.
     func restartAndValidateUser(
         loginHost: KnownLoginHostConfig = .regularAuth,
         user: KnownUserConfig = .first,
@@ -496,6 +497,7 @@ class BaseAuthFlowTester: XCTestCase {
         useWebServerFlow: Bool = true,
         useHybridFlow: Bool = true,
         loginForAdmin: Bool = false,
+        usesWelcomeDiscovery: Bool = false,
         isMultiUser: Bool = false
     ) {
         // Restart
@@ -515,6 +517,7 @@ class BaseAuthFlowTester: XCTestCase {
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow,
             expectAdvancedAuth: loginForAdmin || loginHost == .advancedAuth,
+            usesWelcomeDiscovery: usesWelcomeDiscovery,
             isMultiUser: isMultiUser
         )
     }

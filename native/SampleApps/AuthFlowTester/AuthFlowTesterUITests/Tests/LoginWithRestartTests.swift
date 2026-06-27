@@ -148,6 +148,41 @@ class LoginWithRestartTests: BaseAuthFlowTester {
         )
     }
 
+    // MARK: - Feature Flag Persistence After Restart
+
+    /// Login via advanced auth (BW flag set), restart app, and verify BW flag persists in user agent.
+    func testAdvancedAuth_WithRestart() throws {
+        launchLoginAndValidate(
+            loginHost: .advancedAuth,
+            user: .third,
+            staticAppConfigName: .beaconOpaque
+        )
+
+        restartAndValidateUser(
+            loginHost: .advancedAuth,
+            user: .third,
+            userAppConfigName: .beaconOpaque,
+            expectAdvancedAuth: true
+        )
+    }
+
+    /// Login via welcome discovery (WD flag set), restart app, and verify WD flag persists in user agent.
+    func testWelcomeDiscovery_WithRestart() throws {
+        launchLoginAndValidate(
+            loginHost: .regularAuth,
+            user: .third,
+            staticAppConfigName: .ecaOpaque,
+            useWelcomeDiscovery: true
+        )
+
+        restartAndValidateUser(
+            loginHost: .regularAuth,
+            user: .third,
+            userAppConfigName: .ecaOpaque,
+            usesWelcomeDiscovery: true
+        )
+    }
+
     // MARK: - Multi-User Restart
 
     /// Login multiple users with dynamic config, restart app, and verify all users persist correctly.
