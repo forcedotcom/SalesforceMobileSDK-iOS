@@ -95,11 +95,8 @@ class BaseAuthFlowTester: XCTestCase {
             loginPage.closeAdvancedAuth()
         }
 
-        // Pre-warm the WKWebView process pool by waiting for the initial login page
-        // to fully load. On the first test in a class, the WebView process hasn't
-        // been created yet — this absorbs the cold-start cost so subsequent
-        // host-change navigations don't time out.
-        loginPage.waitForWebViewReady()
+        // Swith back to login.salesforce.com to be in a known state
+        loginPage.configureLoginHost(host: "login.salesforce.com")
     }
 
     /// Performs login with the specified configuration.
