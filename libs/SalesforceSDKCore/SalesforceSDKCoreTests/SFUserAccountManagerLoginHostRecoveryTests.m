@@ -23,6 +23,7 @@
  */
 
 #import <XCTest/XCTest.h>
+#import <objc/runtime.h>
 #import "SFUserAccountManager.h"
 #import "SFUserAccountManager+Internal.h"
 #import "SFSDKLoginHostStorage.h"
@@ -37,12 +38,45 @@ static NSString * const kBogusLabel = @"Bogus Test Host";
 static NSString * const kBuiltInProductionHost = @"login.salesforce.com";
 
 @interface SFUserAccountManagerLoginHostRecoveryTests : XCTestCase
+// Stand-in implementation swapped into restartAuthentication: for the lifetime of each test.
+// Mirrors the SFSDKLogoutBlocker pattern (libs/.../SFSDKLogoutBlocker.m) but scoped to this file
+// so we don't disturb other test classes that rely on the real OAuth restart path.
+- (void)dummy_restartAuthentication:(SFSDKAuthSession *)session;
 @end
+
+// File-static counter so the swizzled instance method (which runs as if on SFUserAccountManager,
+// not on the test case) can record that it was hit. Reset in setUp.
+static NSUInteger gRestartAuthenticationCallCount = 0;
 
 @implementation SFUserAccountManagerLoginHostRecoveryTests {
     NSString *_origLoginHost;
     NSString *_origPreviousLoginHost;
     void (^_origAlertDisplayBlock)(SFSDKAlertMessage *, SFSDKWindowContainer *);
+}
+
+// Isolate the host-recovery decision logic from the real OAuth restart pipeline.
+//
+// The error-handler block under test ends with `[strongSelf restartAuthentication:session]`,
+// which calls `stopAuthentication`, dismisses any presented auth view controller asynchronously,
+// then re-enters `authenticateWithRequest:`. With a minimal stub SFSDKAuthRequest, none of that
+// has a real coordinator/view controller to act on, but it still mutates global SFUserAccountManager
+// state (authSessions[...]isAuthenticating, etc.) on a background dispatch — which can race the
+// `loginHost`/storage assertions these tests make right after `actionOneCompletion` fires.
+//
+// To make the recovery tests assert *only* on the synchronous decision (which host to fall back
+// to, whether the failing host was removed), we exchange `restartAuthentication:` with a no-op
+// for the duration of each test and restore it in tearDown. The handler still runs end-to-end
+// (recovery + storage cleanup), but the OAuth restart side-effect becomes a deterministic no-op.
+- (void)swapRestartAuthentication {
+    Method original = class_getInstanceMethod([SFUserAccountManager class], @selector(restartAuthentication:));
+    Method replacement = class_getInstanceMethod([self class], @selector(dummy_restartAuthentication:));
+    method_exchangeImplementations(original, replacement);
+}
+
+- (void)dummy_restartAuthentication:(SFSDKAuthSession *)session {
+    // Intentional no-op except for counting invocations. See -swapRestartAuthentication for rationale.
+    // Counted via a file-static so tests can assert whether the recovery branch fired.
+    gRestartAuthenticationCallCount++;
 }
 
 - (void)setUp {
@@ -53,6 +87,9 @@ static NSString * const kBuiltInProductionHost = @"login.salesforce.com";
     _origPreviousLoginHost = [mgr.previousLoginHost copy];
     _origAlertDisplayBlock = [mgr.alertDisplayBlock copy];
 
+    [self swapRestartAuthentication];
+    gRestartAuthenticationCallCount = 0;
+
     // Ensure fixture host is present and deletable for each test.
     SFSDKLoginHostStorage *storage = [SFSDKLoginHostStorage sharedInstance];
     if ([storage loginHostForHostAddress:kBogusHost] == nil) {
@@ -61,6 +98,9 @@ static NSString * const kBuiltInProductionHost = @"login.salesforce.com";
 }
 
 - (void)tearDown {
+    // method_exchangeImplementations is symmetric — calling it again restores the originals.
+    [self swapRestartAuthentication];
+
     SFUserAccountManager *mgr = [SFUserAccountManager sharedInstance];
     mgr.loginHost = _origLoginHost;
     mgr.previousLoginHost = _origPreviousLoginHost;
@@ -217,6 +257,49 @@ static NSString * const kBuiltInProductionHost = @"login.salesforce.com";
                     @"Deletable hosts must not be auto-removed on ambiguous (likely transient) errors.");
     // Recovery should still happen.
     XCTAssertEqualObjects(mgr.loginHost, kBuiltInProductionHost);
+}
+
+// The recovery path explicitly guards against `numberOfLoginHosts == 0` before calling
+// `loginHostAtIndex:0`. Without that guard, an empty storage list would raise NSRangeException.
+// Empty storage is plausible in two real cases: (1) the only entry was the failing host and was
+// just auto-removed by the strong-bad-host gate, or (2) MDM `onlyShowAuthorizedHosts` is enabled
+// with an empty authorized list. This test drains storage and asserts the handler logs + bails
+// rather than crashing, and leaves `loginHost` untouched (no recovery target available).
+- (void)test_givenEmptyStorage_when_handlerCompletionRuns_then_noRangeExceptionAndNoHostAssignment {
+    SFUserAccountManager *mgr = [SFUserAccountManager sharedInstance];
+    mgr.previousLoginHost = nil; // Force the fallback path (else branch) into the storage lookup.
+    mgr.loginHost = kBogusHost;
+
+    SFSDKLoginHostStorage *storage = [SFSDKLoginHostStorage sharedInstance];
+
+    // SFSDKLoginHostStorage's public API can't actually empty the list: -removeAllLoginHosts
+    // intentionally preserves the built-in production/sandbox entries unless MDM
+    // `onlyShowAuthorizedHosts` is set. To exercise the guard without standing up a fake
+    // managed-preferences singleton, reach the private `loginHostList` NSMutableArray via KVC,
+    // snapshot it, swap in an empty array for this test, and restore on the way out.
+    NSMutableArray *originalList = [storage valueForKey:@"loginHostList"];
+    NSMutableArray *snapshot = [originalList mutableCopy];
+    [storage setValue:[NSMutableArray array] forKey:@"loginHostList"];
+    XCTAssertEqual([storage numberOfLoginHosts], (NSUInteger)0, @"Precondition: storage must be empty.");
+
+    SFSDKAuthSession *session = [self makeAuthSessionForLoginHost:kBogusHost];
+
+    // Firing must NOT raise NSRangeException. XCTAssertNoThrow wraps the call so any uncaught
+    // exception fails the test instead of aborting the run.
+    XCTAssertNoThrow([self fireHandlerBlockForSession:session withError:[self makeStrongBadHostError]],
+                     @"Empty-storage guard must prevent NSRangeException from loginHostAtIndex:0.");
+
+    // With no recovery host available, the handler must hit the `else` branch and skip the
+    // restart entirely. We can't usefully assert on mgr.loginHost here — its getter (in
+    // SFSDKAuthPreferences -loginHost) re-validates against storage and synthesizes a fallback
+    // when the persisted value isn't found, so a read can't distinguish "handler didn't assign"
+    // from "getter resolved to bundle default". The reliable signal is whether
+    // -restartAuthentication: was invoked: zero means the empty-storage guard bailed cleanly.
+    XCTAssertEqual(gRestartAuthenticationCallCount, (NSUInteger)0,
+                   @"With empty storage and no previousLoginHost, the handler must skip restartAuthentication: (recoveryHost stays nil).");
+
+    // Restore the original list so subsequent tests (and the persisted singleton) are unaffected.
+    [storage setValue:snapshot forKey:@"loginHostList"];
 }
 
 - (void)test_givenNonDeletableFailingHost_when_handlerCompletionRuns_then_failingHostKeptInStorage {

@@ -76,7 +76,7 @@ struct NewLoginHostField: View {
 struct NewLoginHostView: View {
     @State var host = ""
     @State var hostLabel = ""
-    @State var hostError: String?
+    @State private var hostError: String?
     private var saveAction: ((String, String?) -> Void)
     private var navBarTintColor: Color
     

@@ -1934,7 +1934,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
                     [storage removeLoginHostAtIndex:index];
                 }
             } else if (!failing) {
-                [SFSDKCoreLogger d:[strongSelf class] format:@"Failing host not found in storage; skipping removal."];
+                [SFSDKCoreLogger w:[strongSelf class] format:@"Failing host not found in storage; skipping removal."];
             } else if (failing && failing.isDeletable && !strongBadHostSignal) {
                 [SFSDKCoreLogger d:[strongSelf class] format:@"Failing host left in storage; error %@/%ld is ambiguous (likely transient).", error.domain, (long)error.code];
             }
@@ -1955,7 +1955,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
                 strongSelf.loginHost = recoveryHost;
                 [strongSelf restartAuthentication:session];
             } else {
-                [SFSDKCoreLogger d:[strongSelf class] format:@"No recovery host available; skipping restart."];
+                [SFSDKCoreLogger e:[strongSelf class] format:@"No recovery host available; skipping restart."];
             }
         }];
     };
