@@ -94,6 +94,10 @@ public struct CredentialsLabels {
     
     // Other fields
     public static let additionalOAuthFields = "Additional OAuth Fields"
+
+    // SDK section
+    public static let sdk = "SDK"
+    public static let userAgent = "User Agent"
 }
 
 struct UserCredentialsView: View {
@@ -110,6 +114,7 @@ struct UserCredentialsView: View {
     @State private var cookiesAndSecurityExpanded = true
     @State private var beaconExpanded = true
     @State private var otherExpanded = true
+    @State private var sdkSectionExpanded = false
     
     // Export alert state
     @State private var showExportAlert = false
@@ -211,6 +216,11 @@ struct UserCredentialsView: View {
                     InfoSectionView(title: CredentialsLabels.other, isExpanded: $otherExpanded) {
                         InfoRowView(label: "\(CredentialsLabels.additionalOAuthFields):", value: additionalOAuthFields)
                     }
+
+                    InfoSectionView(title: CredentialsLabels.sdk, isExpanded: $sdkSectionExpanded) {
+                        InfoRowView(label: "User Agent", value: userAgentString)
+                            .accessibilityIdentifier("userAgent")
+                    }
                 }
                 .id(refreshTrigger)
             }
@@ -240,6 +250,7 @@ struct UserCredentialsView: View {
         cookiesAndSecurityExpanded = expand
         beaconExpanded = expand
         otherExpanded = expand
+        sdkSectionExpanded = expand
     }
     
     private func generateCredentialsJSON() -> String {
@@ -316,7 +327,10 @@ struct UserCredentialsView: View {
         result[CredentialsLabels.other] = [
             CredentialsLabels.additionalOAuthFields: additionalOAuthFields
         ]
-        
+
+        // SDK section
+        result[CredentialsLabels.sdk] = [CredentialsLabels.userAgent: userAgentString]
+
         guard let jsonData = try? JSONSerialization.data(withJSONObject: result, options: [.prettyPrinted]),
               let jsonString = String(data: jsonData, encoding: .utf8) else {
             return "{}"
@@ -326,11 +340,16 @@ struct UserCredentialsView: View {
     }
     
     // MARK: - Computed Properties
-    
+
+    private var userAgentString: String {
+        guard let user = UserAccountManager.shared.currentUserAccount else { return "" }
+        return SalesforceManager.shared.userAgent(qualifier: "", for: user)
+    }
+
     private var credentials: OAuthCredentials? {
         return UserAccountManager.shared.currentUserAccount?.credentials
     }
-    
+
     // User Identity
     private var username: String {
         return UserAccountManager.shared.currentUserAccount?.idData.username ?? ""

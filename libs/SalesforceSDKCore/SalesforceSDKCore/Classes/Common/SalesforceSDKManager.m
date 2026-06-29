@@ -237,6 +237,7 @@ SFNativeLoginManagerInternal *nativeLogin;
         else{
             [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureMultiUser];
         }
+        [sdkManager hydratePerUserFeatureFlags];
     });
     return sdkManager;
 }
@@ -877,32 +878,46 @@ SFNativeLoginManagerInternal *nativeLogin;
     }
 }
 
-- (SFSDKUserAgentCreationBlock)defaultUserAgentString {
-    return ^NSString *(NSString *qualifier) {
-        UIDevice *curDevice = [UIDevice currentDevice];
-        NSString *appName = [SalesforceSDKManager appName];
-        NSString *prodAppVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-        NSString *buildNumber = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleVersionKey];
-        NSString *appVersion = [NSString stringWithFormat:@"%@(%@)", prodAppVersion, buildNumber];
+- (NSString *)userAgentString:(NSString *)qualifier forUser:(SFUserAccount *)user {
+    SFUserAccount *resolvedUser = user ?: [SFUserAccountManager sharedInstance].currentUser;
+    UIDevice *curDevice = [UIDevice currentDevice];
+    NSString *appName = [SalesforceSDKManager appName];
+    NSString *prodAppVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    NSString *buildNumber = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleVersionKey];
+    NSString *appVersion = [NSString stringWithFormat:@"%@(%@)", prodAppVersion, buildNumber];
+    NSString *appTypeStr = [self getAppTypeAsString];
+    NSString *ftr = [[[SFSDKAppFeatureMarkers appFeaturesForUser:resolvedUser].allObjects
+                      sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)]
+                     componentsJoinedByString:@"."];
+    return [NSString stringWithFormat:
+            @"SalesforceMobileSDK/%@ %@/%@ (%@) %@/%@ %@%@ uid_%@ ftr_%@ %@",
+            SALESFORCE_SDK_VERSION,
+            [curDevice systemName],
+            [curDevice systemVersion],
+            [curDevice model],
+            appName,
+            appVersion,
+            appTypeStr,
+            (qualifier != nil ? qualifier : @""),
+            uid,
+            ftr,
+            self.webViewUserAgent == nil ? @"" : self.webViewUserAgent];
+}
 
-        // App type.
-        NSString *appTypeStr = [self getAppTypeAsString];
-        NSString *myUserAgent = [NSString stringWithFormat:
-                                 @"SalesforceMobileSDK/%@ %@/%@ (%@) %@/%@ %@%@ uid_%@ ftr_%@ %@",
-                                 SALESFORCE_SDK_VERSION,
-                                 [curDevice systemName],
-                                 [curDevice systemVersion],
-                                 [curDevice model],
-                                 appName,
-                                 appVersion,
-                                 appTypeStr,
-                                 (qualifier != nil ? qualifier : @""),
-                                 uid,
-                                 [[[SFSDKAppFeatureMarkers appFeatures].allObjects sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] componentsJoinedByString:@"."],
-                                 self.webViewUserAgent == nil ? @"" : self.webViewUserAgent
-                                 ];
-        return myUserAgent;
+- (SFSDKUserAgentCreationBlock)defaultUserAgentString {
+    __weak typeof(self) weakSelf = self;
+    return ^NSString *(NSString *qualifier) {
+        return [weakSelf userAgentString:qualifier forUser:nil];
     };
+}
+
+- (void)hydratePerUserFeatureFlags {
+    NSArray *allUsers = [[SFUserAccountManager sharedInstance] allUserAccounts];
+    for (SFUserAccount *account in allUsers) {
+        if (account.persistedFeatureFlags.count > 0) {
+            [SFSDKAppFeatureMarkers loadPersistedFeatures:account.persistedFeatureFlags forUser:account];
+        }
+    }
 }
 
 - (void)computeWebViewUserAgent {

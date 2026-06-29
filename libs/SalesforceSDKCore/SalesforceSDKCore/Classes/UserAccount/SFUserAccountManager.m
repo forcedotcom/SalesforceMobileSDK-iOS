@@ -2011,8 +2011,8 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
                     [bioAuthManager unlockPostProcessing];
                 }
                 
-                [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureBioAuth];
-                [bioAuthManager storePolicyWithUserAccount:self.currentUser hasMobilePolicy:hasBioAuthPolicy sessionTimeout:sessionTimeout];
+                [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureBioAuth forUser:strongSelf.currentUser];
+                [bioAuthManager storePolicyWithUserAccount:strongSelf.currentUser hasMobilePolicy:hasBioAuthPolicy sessionTimeout:sessionTimeout];
                 if (![bioAuthManager hasBiometricOptedIn] && bioAuthManager.automaticPresentation) {
                     [bioAuthManager presentOptInDialogWithViewController:[[SFSDKWindowManager sharedManager] mainWindow:authSession.oauthRequest.scene].topViewController];
                 }
@@ -2023,8 +2023,8 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
                     [authClient revokeRefreshToken:preLoginCredentials reason:SFLogoutReasonRefreshTokenRotated];
                 }
             } else if (hasMobilePolicy) {
-                [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureScreenLock];
-                [[SFScreenLockManagerInternal shared] storeMobilePolicyWithUserAccount:self.currentUser hasMobilePolicy:hasMobilePolicy lockTimeout:lockTimeout];
+                [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureScreenLock forUser:strongSelf.currentUser];
+                [[SFScreenLockManagerInternal shared] storeMobilePolicyWithUserAccount:strongSelf.currentUser hasMobilePolicy:hasMobilePolicy lockTimeout:lockTimeout];
             }
         }
     }];
@@ -2114,7 +2114,39 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     // Notify the session is ready.
     [self initAnalyticsManager];
     [self handleAnalyticsAddUserEvent:authSession account:userAccount];
-    
+
+    // Promote auth-method feature flags to the now-known user account.
+    // Write the per-user flag and clear the transient global flag so it does not
+    // bleed into other users' User-Agent strings.
+    SFOAuthType completedAuthType = authSession.oauthCoordinator.authInfo.authType;
+    if (completedAuthType == SFOAuthTypeAdvancedBrowser) {
+        [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSafariBrowserForLogin forUser:userAccount];
+    } else {
+        [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureSafariBrowserForLogin forUser:userAccount];
+    }
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureSafariBrowserForLogin];
+    if (completedAuthType != SFOAuthTypeRefresh) {
+        // Check the transient global flag rather than re-deriving from credentials.domain, which by
+        // this point has been replaced with the resolved org domain (no longer contains "/discovery").
+        BOOL usedWelcomeDiscovery = [[SFSDKAppFeatureMarkers appFeatures] containsObject:kSFAppFeatureWelcomeDiscovery];
+        if (usedWelcomeDiscovery) {
+            [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureWelcomeDiscovery forUser:userAccount];
+        } else {
+            [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureWelcomeDiscovery forUser:userAccount];
+        }
+        // WD: clear the transient global flag after promoting to per-user
+        [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureWelcomeDiscovery];
+
+        // QR: write per-user and clear the transient global flag
+        BOOL usedQrLogin = [[SFSDKAppFeatureMarkers appFeatures] containsObject:kSFAppFeatureQrCodeLogin];
+        if (usedQrLogin) {
+            [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureQrCodeLogin forUser:userAccount];
+            [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureQrCodeLogin];
+        } else {
+            [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureQrCodeLogin forUser:userAccount];
+        }
+    }
+
     // Async call, ignore if theres a failure. If success save the user photo locally.
     [self retrieveUserPhotoIfNeeded:userAccount];
     BOOL shouldNotify = YES;
