@@ -145,11 +145,17 @@ NSString * const kUserAccountPhotoEncryptionKeyLabel = @"com.salesforce.userAcco
 
 
 - (NSArray<NotificationType *> *)notificationTypes {
-    return _notificationTypes;
+    __block NSArray<NotificationType *> *types = nil;
+    dispatch_sync(_syncQueue, ^{
+        types = self->_notificationTypes;
+    });
+    return types;
 }
 
 - (void)setNotificationTypes:(NSArray<NotificationType *> *)notificationTypes {
-    _notificationTypes = [notificationTypes copy];
+    dispatch_barrier_async(_syncQueue, ^{
+        self->_notificationTypes = [notificationTypes copy];
+    });
 }
 
 - (NSString *)userPhotoDirectory {
