@@ -1907,11 +1907,21 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
             SFSDKLoginHostStorage *storage = [SFSDKLoginHostStorage sharedInstance];
             SFSDKLoginHost *failing = [storage loginHostForHostAddress:failingHost];
             // Only auto-remove the host when the error is a strong signal that the host itself
-            // is unusable (bad URL, DNS NXDOMAIN, ATS rejection, OAuth invalid URL). Ambiguous
-            // codes — timeout, cannot-connect, not-connected-to-internet, connection-lost,
-            // roaming-off, data-not-allowed — can fire for a perfectly valid host the user is
-            // temporarily unable to reach. Auto-removing on those would silently delete a
-            // legitimate custom host when the user is on flaky Wi-Fi or offline.
+            // is unusable: a URL-syntax problem, an ATS rejection, or an OAuth invalid-URL.
+            // These are reliably under our control and not produced by network conditions.
+            //
+            // Codes that look host-specific but are actually ambiguous on real networks are
+            // intentionally NOT treated as strong signals:
+            //   - NSURLErrorCannotFindHost / NSURLErrorDNSLookupFailed — captive portals
+            //     (hotel / airport / coffee-shop Wi-Fi) routinely hijack DNS and return these
+            //     for perfectly valid enterprise hosts. Auto-removing on DNS errors would
+            //     silently and permanently delete a user's custom org host the first time
+            //     they open the app behind a captive portal.
+            //   - NSURLErrorTimedOut / NSURLErrorCannotConnectToHost / NSURLErrorNotConnectedToInternet
+            //     / NSURLErrorNetworkConnectionLost / roaming-off / data-not-allowed —
+            //     transient connectivity failures against a host that is otherwise fine.
+            //
+            // Both buckets fall through to the "leave the host in storage" branch.
             BOOL strongBadHostSignal = NO;
             if ([error.domain isEqualToString:kSFOAuthErrorDomain] && error.code == kSFOAuthErrorInvalidURL) {
                 strongBadHostSignal = YES;
@@ -1919,8 +1929,6 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
                 switch (error.code) {
                     case NSURLErrorBadURL:
                     case NSURLErrorUnsupportedURL:
-                    case NSURLErrorCannotFindHost:
-                    case NSURLErrorDNSLookupFailed:
                     case NSURLErrorAppTransportSecurityRequiresSecureConnection:
                         strongBadHostSignal = YES;
                         break;

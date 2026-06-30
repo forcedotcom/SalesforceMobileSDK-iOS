@@ -134,17 +134,16 @@ static NSUInteger gRestartAuthenticationCallCount = 0;
     return [[SFSDKAuthSession alloc] initWith:request credentials:nil];
 }
 
-/// Strong "host is unusable" signal — DNS NXDOMAIN. The new gate auto-removes on this.
+/// Strong "host is unusable" signal — the URL itself is malformed at the URL-loading layer.
+/// This class of error is reliably under our control (not produced by network conditions),
+/// so the gate auto-removes deletable hosts on it.
 - (NSError *)makeStrongBadHostError {
     return [NSError errorWithDomain:NSURLErrorDomain
-                               code:NSURLErrorCannotFindHost
-                           userInfo:@{
-        @"_kCFStreamErrorCodeKey": @(-72000),
-        @"_kCFStreamErrorDomainKey": @(12)
-    }];
+                               code:NSURLErrorBadURL
+                           userInfo:nil];
 }
 
-/// Ambiguous signal — timeout. Could be transient (flaky Wi-Fi). The new gate must NOT
+/// Ambiguous signal — timeout. Could be transient (flaky Wi-Fi). The gate must NOT
 /// auto-remove on this, even when the host is otherwise deletable.
 - (NSError *)makeAmbiguousHostError {
     return [NSError errorWithDomain:NSURLErrorDomain
@@ -152,6 +151,19 @@ static NSUInteger gRestartAuthenticationCallCount = 0;
                            userInfo:@{
         @"_kCFStreamErrorCodeKey": @(-2103),
         @"_kCFStreamErrorDomainKey": @(4)
+    }];
+}
+
+/// Ambiguous signal — DNS lookup failure. Despite the name, captive portals (hotel /
+/// airport / coffee-shop Wi-Fi) routinely hijack DNS and return this for valid enterprise
+/// hosts. The gate must NOT auto-remove on this — otherwise a user opening the app for
+/// the first time behind a captive portal would lose their custom org host permanently.
+- (NSError *)makeDNSLookupFailedError {
+    return [NSError errorWithDomain:NSURLErrorDomain
+                               code:NSURLErrorDNSLookupFailed
+                           userInfo:@{
+        @"_kCFStreamErrorCodeKey": @(-72000),
+        @"_kCFStreamErrorDomainKey": @(12)
     }];
 }
 
@@ -256,6 +268,29 @@ static NSUInteger gRestartAuthenticationCallCount = 0;
     XCTAssertNotNil([storage loginHostForHostAddress:kBogusHost],
                     @"Deletable hosts must not be auto-removed on ambiguous (likely transient) errors.");
     // Recovery should still happen.
+    XCTAssertEqualObjects(mgr.loginHost, kBuiltInProductionHost);
+}
+
+// Captive-portal regression: hotel / airport / coffee-shop Wi-Fi routinely hijacks DNS
+// and returns NSURLErrorDNSLookupFailed for perfectly valid enterprise hosts. Classifying
+// DNS errors as a strong "host is unusable" signal would silently delete a user's custom
+// org the first time they open the app behind a captive portal — they'd lose the host
+// permanently with no recovery path. DNS errors must be treated as ambiguous.
+- (void)test_givenDeletableFailingHostAndDNSLookupFailed_when_handlerCompletionRuns_then_failingHostKeptInStorage {
+    SFUserAccountManager *mgr = [SFUserAccountManager sharedInstance];
+    mgr.previousLoginHost = kBuiltInProductionHost;
+    mgr.loginHost = kBogusHost;
+
+    SFSDKLoginHostStorage *storage = [SFSDKLoginHostStorage sharedInstance];
+    XCTAssertNotNil([storage loginHostForHostAddress:kBogusHost],
+                    @"Precondition: fixture deletable host should be in storage before firing the handler.");
+
+    SFSDKAuthSession *session = [self makeAuthSessionForLoginHost:kBogusHost];
+    [self fireHandlerBlockForSession:session withError:[self makeDNSLookupFailedError]];
+
+    XCTAssertNotNil([storage loginHostForHostAddress:kBogusHost],
+                    @"DNS errors must not auto-remove hosts — captive portals routinely hijack DNS for valid hosts.");
+    // Recovery to the previous host should still happen.
     XCTAssertEqualObjects(mgr.loginHost, kBuiltInProductionHost);
 }
 

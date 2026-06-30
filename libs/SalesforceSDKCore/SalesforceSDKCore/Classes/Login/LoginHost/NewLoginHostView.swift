@@ -41,8 +41,8 @@ struct NewLoginHostField: View {
     let fieldPlaceholder: String
     let fieldInputAccessibilityID: String
     @Binding var fieldValue: String
-    var errorMessage: String? = nil
-    var errorAccessibilityID: String? = nil
+    let errorMessage: String?
+    let errorAccessibilityID: String?
     
     func placeholderText() -> Text {
         let dynamicColor = Color(lightStyle: Color(red: 118/255, green: 118/255, blue: 118/255),
@@ -129,7 +129,9 @@ struct NewLoginHostView: View {
                               fieldLabelAccessibilityID: "addconn_nameLabel",
                               fieldPlaceholder: SFSDKResourceUtils.localizedString("LOGIN_SERVER_NAME_PLACEHOLDER"),
                               fieldInputAccessibilityID: "addconn_nameInput",
-                              fieldValue: $hostLabel)
+                              fieldValue: $hostLabel,
+                              errorMessage: nil,
+                              errorAccessibilityID: nil)
                 .listRowSeparator(.hidden)
                 .padding(.bottom)
         }
