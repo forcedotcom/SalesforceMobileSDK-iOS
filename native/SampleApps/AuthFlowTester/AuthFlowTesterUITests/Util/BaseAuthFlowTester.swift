@@ -645,15 +645,22 @@ class BaseAuthFlowTester: XCTestCase {
 
         if usesWelcomeDiscovery {
             XCTAssertTrue(flagSet.contains("WD"), "User agent should contain 'WD' flag when welcome discovery is used; flags: \(flagSet), ua: \(ua)")
+        } else {
+            XCTAssertFalse(flagSet.contains("WD"), "User agent should NOT contain 'WD' flag when welcome discovery is not used; flags: \(flagSet), ua: \(ua)")
         }
 
         if isMultiUser {
             XCTAssertTrue(flagSet.contains("MU"), "User agent should contain 'MU' flag when multiple users are logged in; flags: \(flagSet), ua: \(ua)")
+        } else {
+            XCTAssertFalse(flagSet.contains("MU"), "User agent should NOT contain 'MU' flag when only one user is logged in; flags: \(flagSet), ua: \(ua)")
         }
 
         if isRtr {
             XCTAssertTrue(flagSet.contains("RT"),
                           "User agent should contain 'RT' flag after Refresh Token Rotation; flags: \(flagSet), ua: \(ua)")
+        } else {
+            XCTAssertFalse(flagSet.contains("RT"),
+                           "User agent should NOT contain 'RT' flag when Refresh Token Rotation has not occurred; flags: \(flagSet), ua: \(ua)")
         }
     }
 
