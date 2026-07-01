@@ -59,6 +59,7 @@
     [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureSafariBrowserForLogin forUser:self.userA];
     [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureWelcomeDiscovery forUser:self.userA];
     [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureQrCodeLogin forUser:self.userA];
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureRTR forUser:self.userA];
     self.userA = nil;
     self.userB = nil;
     [self clearExistingMarkers];
@@ -272,6 +273,27 @@
 
     XCTAssertFalse([[SFSDKAppFeatureMarkers appFeaturesForUser:self.userA] containsObject:kSFAppFeatureQrCodeLogin],
                    @"QR should NOT be per-user when global QR was not set");
+}
+
+#pragma mark - Refresh Token Rotation (RTR) flag tests
+
+- (void)test_givenRTRDetected_whenRTFlagRegistered_thenFlagAppearsInPerUserFeaturesNotGlobal {
+    // Arrange: use userA as the account that experienced token rotation
+
+    // Act: simulate RTR detection registering the flag
+    [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureRTR forUser:self.userA];
+
+    // Assert: RT in per-user features (union with global)
+    NSSet *features = [SFSDKAppFeatureMarkers appFeaturesForUser:self.userA];
+    XCTAssertTrue([features containsObject:kSFAppFeatureRTR],
+                  @"RT flag should appear in per-user feature set after rotation");
+
+    // Assert: RT NOT in global-only set
+    XCTAssertFalse([[SFSDKAppFeatureMarkers appFeatures] containsObject:kSFAppFeatureRTR],
+                   @"RT flag should not bleed into global feature set");
+
+    // Cleanup
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureRTR forUser:self.userA];
 }
 
 #pragma mark - Private helpers

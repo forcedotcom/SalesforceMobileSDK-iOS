@@ -27,6 +27,7 @@
 #import "SFOAuthCredentials+Internal.h"
 #import "SFOAuthInfo.h"
 #import "SFSDKOAuth2.h"
+#import "SFSDKAppFeatureMarkers.h"
 
 @interface SFOAuthSessionRefresher()
 
@@ -90,9 +91,21 @@
         if (response.hasError) {
             [strongSelf completeWithError:response.error.error];
         } else {
+            NSString *oldRefreshToken = strongSelf.credentials.refreshToken;
             [strongSelf.credentials updateCredentials:[response asDictionary]];
             if (response.additionalOAuthFields)
                 strongSelf.credentials.additionalOAuthFields = response.additionalOAuthFields;
+
+            // Detect Refresh Token Rotation: server sent a new, different refresh token
+            if (strongSelf.credentials.refreshToken.length > 0
+                && ![strongSelf.credentials.refreshToken isEqualToString:oldRefreshToken]) {
+                SFUserAccount *account = [[SFUserAccountManager sharedInstance]
+                                           accountForCredentials:strongSelf.credentials];
+                if (account) {
+                    [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureRTR forUser:account];
+                }
+            }
+
             [strongSelf completeWithSuccess];
         }
     }];

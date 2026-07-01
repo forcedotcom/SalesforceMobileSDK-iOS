@@ -43,6 +43,7 @@ extern NSString * const kSFAppFeatureAiltnEnabled;
 extern NSString * const kSFSPAppFeatureIDPLogin;
 extern NSString * const kSFIDPAppFeatureIDPLogin;
 extern NSString * const kSFAppFeatureQrCodeLogin;
+extern NSString * const kSFAppFeatureRTR;
 
 /**
  Class to register and unregister feature markers associated with SDK facilities being used in
