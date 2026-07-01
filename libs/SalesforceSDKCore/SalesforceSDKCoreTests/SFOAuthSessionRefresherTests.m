@@ -28,6 +28,31 @@
 #import "SFOAuthCoordinator+Internal.h"
 #import "SFUserAccount+Internal.h"
 #import "SFOAuthCredentials+Internal.h"
+#import "SFSDKOAuth2+Internal.h"
+#import "SFSDKAppFeatureMarkers.h"
+#import "SFSDKOAuthConstants.h"
+
+// Expose the private initializer used in production code.
+@interface SFSDKOAuthTokenEndpointResponse ()
+- (instancetype)initWithDictionary:(NSDictionary *)nvPairs parseAdditionalFields:(NSArray<NSString *> *)additionalOAuthParameterKeys;
+@end
+
+// Minimal SFSDKOAuthProtocol stub that immediately calls the completion block with a preset response.
+@interface SFSDKOAuthClientStub : NSObject <SFSDKOAuthProtocol>
+@property (nonatomic, strong) SFSDKOAuthTokenEndpointResponse *stubbedResponse;
+@end
+
+@implementation SFSDKOAuthClientStub
+- (void)accessTokenForRefresh:(SFSDKOAuthTokenEndpointRequest *)endpointReq
+                   completion:(void (^)(SFSDKOAuthTokenEndpointResponse *))completionBlock {
+    completionBlock(self.stubbedResponse);
+}
+- (void)accessTokenForApprovalCode:(SFSDKOAuthTokenEndpointRequest *)endpointReq
+                        completion:(void (^)(SFSDKOAuthTokenEndpointResponse *))completionBlock {}
+- (void)openIDTokenForRefresh:(SFSDKOAuthTokenEndpointRequest *)endpointReq
+                   completion:(void (^)(NSString *))completionBlock {}
+- (void)revokeRefreshToken:(SFOAuthCredentials *)credentials reason:(SFLogoutReason)reason {}
+@end
 
 @interface SFOAuthSessionRefresherTests : XCTestCase
 
@@ -123,6 +148,87 @@
     }];
 }
 
+- (void)test_givenRotatedRefreshToken_whenRefreshSucceeds_thenRTFlagRegisteredPerUser {
+    // Arrange: register a user account whose credentials match the refresher's.
+    SFOAuthCredentials *creds = self.oauthSessionRefresher.credentials;
+    SFUserAccount *account = [[SFUserAccount alloc] initWithCredentials:creds];
+    [[SFUserAccountManager sharedInstance] saveAccountForUser:account error:nil];
+
+    NSString *newRefreshToken = [NSString stringWithFormat:@"rotated_token_%u", arc4random()];
+    NSDictionary *responseDict = @{
+        kSFOAuthAccessToken: @"new_access_token",
+        kSFOAuthRefreshToken: newRefreshToken,
+    };
+    SFSDKOAuthTokenEndpointResponse *response = [[SFSDKOAuthTokenEndpointResponse alloc]
+                                                  initWithDictionary:responseDict
+                                                  parseAdditionalFields:nil];
+    SFSDKOAuthClientStub *stub = [[SFSDKOAuthClientStub alloc] init];
+    stub.stubbedResponse = response;
+    SFAuthClientFactoryBlock originalFactory = [SFUserAccountManager sharedInstance].authClient;
+    [SFUserAccountManager sharedInstance].authClient = ^{ return stub; };
+
+    // Pre-condition: RT flag not set
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureRTR forUser:account];
+
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Refresh with rotated token"];
+    [self.oauthSessionRefresher refreshSessionWithCompletion:^(SFOAuthCredentials *updatedCredentials) {
+        [expectation fulfill];
+    } error:^(NSError *error) {
+        XCTFail(@"Refresh should not fail: %@", error);
+        [expectation fulfill];
+    }];
+
+    [self waitForExpectationsWithTimeout:2.0 handler:nil];
+
+    // Assert: RT flag registered for the user
+    NSSet *features = [SFSDKAppFeatureMarkers appFeaturesForUser:account];
+    XCTAssertTrue([features containsObject:kSFAppFeatureRTR],
+                  @"RT flag should be registered after refresh token rotation");
+
+    // Cleanup
+    [SFUserAccountManager sharedInstance].authClient = originalFactory;
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureRTR forUser:account];
+    [[SFUserAccountManager sharedInstance] deleteAccountForUser:account error:nil];
+}
+
+- (void)test_givenUnchangedRefreshToken_whenRefreshSucceeds_thenRTFlagNotRegistered {
+    // Arrange: same refresh token in response — no rotation
+    SFOAuthCredentials *creds = self.oauthSessionRefresher.credentials;
+    SFUserAccount *account = [[SFUserAccount alloc] initWithCredentials:creds];
+    [[SFUserAccountManager sharedInstance] saveAccountForUser:account error:nil];
+
+    NSDictionary *responseDict = @{
+        kSFOAuthAccessToken: @"new_access_token",
+        kSFOAuthRefreshToken: creds.refreshToken,  // same token — no rotation
+    };
+    SFSDKOAuthTokenEndpointResponse *response = [[SFSDKOAuthTokenEndpointResponse alloc]
+                                                  initWithDictionary:responseDict
+                                                  parseAdditionalFields:nil];
+    SFSDKOAuthClientStub *stub = [[SFSDKOAuthClientStub alloc] init];
+    stub.stubbedResponse = response;
+    SFAuthClientFactoryBlock originalFactory = [SFUserAccountManager sharedInstance].authClient;
+    [SFUserAccountManager sharedInstance].authClient = ^{ return stub; };
+
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Refresh without rotation"];
+    [self.oauthSessionRefresher refreshSessionWithCompletion:^(SFOAuthCredentials *updatedCredentials) {
+        [expectation fulfill];
+    } error:^(NSError *error) {
+        XCTFail(@"Refresh should not fail: %@", error);
+        [expectation fulfill];
+    }];
+
+    [self waitForExpectationsWithTimeout:2.0 handler:nil];
+
+    // Assert: RT flag NOT registered
+    NSSet *features = [SFSDKAppFeatureMarkers appFeaturesForUser:account];
+    XCTAssertFalse([features containsObject:kSFAppFeatureRTR],
+                   @"RT flag should not be registered when refresh token did not rotate");
+
+    // Cleanup
+    [SFUserAccountManager sharedInstance].authClient = originalFactory;
+    [[SFUserAccountManager sharedInstance] deleteAccountForUser:account error:nil];
+}
+
 #pragma mark - Private methods
 
 - (void)setupCoordinatorFlow {
@@ -135,6 +241,10 @@
     creds.instanceUrl = [NSURL URLWithString:@"https://cs1.salesforce.com"];
     creds.accessToken = credsAccessToken;
     creds.refreshToken = credsRefreshToken;
+    // Set userId and orgId as valid 15-char Salesforce entity IDs so matchesCredentials: can compare them.
+    // (sfsdk_entityId18 returns nil for non-conforming strings, making isEqualToString:nil == NO.)
+    creds.userId = @"005000000000001";
+    creds.organizationId = @"00D000000000001";
     self.oauthSessionRefresher = [[SFOAuthSessionRefresher alloc] initWithCredentials:creds];
 }
 
