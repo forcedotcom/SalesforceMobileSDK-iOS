@@ -935,12 +935,9 @@ class BaseAuthFlowTester: XCTestCase {
             )
         }
 
-        if isRtr {
-            let credentialsAfterFlag = getUserCredentials()
-            validateUserAgent(userCredentials: credentialsAfterFlag,
-                              loginHost: loginHost,
-                              isRtr: true)
-        }
+        validateUserAgent(userCredentials: credentialsAfterRefresh,
+                          loginHost: loginHost,
+                          isRtr: isRtr)
     }
     
     private func sortedScopes(_ value: String) -> String {
