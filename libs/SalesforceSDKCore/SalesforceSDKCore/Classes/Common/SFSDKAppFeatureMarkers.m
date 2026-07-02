@@ -41,6 +41,7 @@ NSString * const kSFAppFeatureAiltnEnabled = @"AI";
 NSString * const kSFSPAppFeatureIDPLogin = @"SP";
 NSString * const kSFIDPAppFeatureIDPLogin = @"IP";
 NSString * const kSFAppFeatureQrCodeLogin = @"QR";
+NSString * const kSFAppFeatureRTR = @"RT";
 
 static NSMutableSet<NSString *> *SFSDKAppFeatureMarkersSet = nil;
 static dispatch_queue_t SFSDKAppFeatureDispatchQueue = nil;
