@@ -173,7 +173,8 @@ class RefreshTokenMigrationWithRestartTests: BaseAuthFlowTester {
             loginHost: .regularAuth,
             user: .third,
             userAppConfigName: .ecaOpaque,
-            userScopeSelection: .empty
+            userScopeSelection: .empty,
+            isMultiUser: true
         )
 
         // Switch to User B and validate
@@ -181,7 +182,8 @@ class RefreshTokenMigrationWithRestartTests: BaseAuthFlowTester {
             loginHost: .regularAuth,
             user: .fourth,
             userAppConfigName: .beaconOpaque,
-            userScopeSelection: .empty
+            userScopeSelection: .empty,
+            isMultiUser: true
         )
 
         // Logout second user

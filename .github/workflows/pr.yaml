@@ -83,6 +83,7 @@ jobs:
       BUNDLE_GEMFILE: ${{ github.workspace }}/.github/DangerFiles/Gemfile
     outputs:
       libs: ${{ steps.test-orchestrator.outputs.libs }}
+      run_all_ui_tests: ${{ steps.test-orchestrator.outputs.run_all_ui_tests }}
     steps:
       - name: Check Write Permission
         uses: octokit/request-action@dad4362715b7fb2ddedf9772c8670824af564f0d  # v2.4.0
@@ -136,6 +137,7 @@ jobs:
             xcode: ^26
           - ios: ^18
             xcode: ^16
+            macos: macos-15
     uses: ./.github/workflows/reusable-test-workflow.yaml
     permissions:
       contents: read
@@ -144,6 +146,7 @@ jobs:
       lib: ${{ matrix.lib }}
       ios: ${{ matrix.ios }}
       xcode: ${{ matrix.xcode }}
+      macos: ${{ matrix.macos }}
       is_pr: true
     secrets:
       TEST_CREDENTIALS: ${{ secrets.TEST_CREDENTIALS }}
@@ -161,6 +164,7 @@ jobs:
             xcode: ^26
           - ios: ^18
             xcode: ^16
+            macos: macos-15
     uses: ./.github/workflows/reusable-build-workflow.yaml
     permissions:
       contents: read
@@ -168,6 +172,7 @@ jobs:
       app: ${{ matrix.app }}
       ios: ${{ matrix.ios }}
       xcode: ${{ matrix.xcode }}
+      macos: ${{ matrix.macos }}
       is_pr: true
 
   ui-tests-pr:
@@ -181,6 +186,7 @@ jobs:
             xcode: ^26
           - ios: ^18
             xcode: ^16
+            macos: macos-15
     uses: ./.github/workflows/reusable-ui-test-workflow.yaml
     permissions:
       contents: read
@@ -189,6 +195,8 @@ jobs:
       is_pr: true
       ios: ${{ matrix.ios }}
       xcode: ${{ matrix.xcode }}
+      macos: ${{ matrix.macos }}
+      run_all_ui_tests: ${{ needs.test-orchestrator.outputs.run_all_ui_tests == 'true' }}
       pr_test: "AuthFlowTesterUITests/LegacyLoginTests/testCAOpaque_DefaultScopes_WebServerFlow"
       short_timeout: "3"
       long_timeout: "15"

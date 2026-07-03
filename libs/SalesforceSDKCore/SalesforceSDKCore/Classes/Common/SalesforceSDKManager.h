@@ -204,6 +204,14 @@ NS_SWIFT_NAME(SalesforceManager)
 @property (nonatomic, copy) SFSDKUserAgentCreationBlock userAgentString NS_SWIFT_NAME(userAgentGenerator);
 
 /**
+ Returns a user agent string that includes both global and per-user feature flags.
+ @param qualifier Optional string appended to the app type (e.g., "Local" for hybrid).
+ @param user The user account whose per-user flags to include, or nil to use the current user.
+ @return The user agent string for the given user.
+ */
+- (nonnull NSString *)userAgentString:(nonnull NSString *)qualifier forUser:(nullable SFUserAccount *)user NS_SWIFT_NAME(userAgent(qualifier:for:));
+
+/**
  Block to dynamically select the app config at runtime based on login host.
  
  NB: SFUserAccountManager stores the consumer key, callback URL, etc. in its shared

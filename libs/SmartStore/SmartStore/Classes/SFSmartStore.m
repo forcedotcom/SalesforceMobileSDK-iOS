@@ -167,7 +167,7 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
             [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSmartStoreGlobal];
         } else {
             _dbMgr = [SFSmartStoreDatabaseManager sharedManagerForUser:_user];
-            [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSmartStoreUser];
+            [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSmartStoreUser forUser:_user];
         }
         
         // Setup listening for data protection available / unavailable

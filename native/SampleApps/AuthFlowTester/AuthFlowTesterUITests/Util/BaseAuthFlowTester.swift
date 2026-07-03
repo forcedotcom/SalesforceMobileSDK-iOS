@@ -66,12 +66,14 @@ class BaseAuthFlowTester: XCTestCase {
     
     // MARK: - Public API for Subclasses
     
-    /// Launches the application and ensures it starts in a logged-out state.
+    /// Launches the application and ensures it starts in a logged-out state on a known login server.
     ///
     /// Initializes the app and page objects, launches the app, and logs out if a user is already
-    /// logged in. Leaves the app on whatever login surface the SDK presents (under the default,
-    /// advanced auth forced on, that is the external browser). `login()` is responsible for
-    /// navigating from there to the host list to configure and authenticate.
+    /// logged in. Then resets the login server to `login.salesforce.com`: the login host persists
+    /// across tests, so a prior test that selected a discovery or advanced-auth org would otherwise
+    /// strand the next test (its `login()` assumes the browser is showing on entry). Leaves the app
+    /// on the external browser surface (the default, advanced auth forced on) against the standard
+    /// server, which is exactly the state `login()` expects on entry.
     func launch() {
         app = XCUIApplication()
 
@@ -92,6 +94,19 @@ class BaseAuthFlowTester: XCTestCase {
         if (mainPage.isShowing()) {
             logout()
         }
+
+        // Reset to a known login server so a discovery or advanced-auth host leaked by a prior test
+        // cannot strand this one. A fresh launch re-defaults advanced auth on, so the external
+        // browser is normally showing; a leaked discovery host instead runs discovery in the in-app
+        // WebView. Reach the host list from whichever surface is up — the browser is the common case
+        // (probe it with the generous default timeout), the in-app WebView the fallback — then pin
+        // the standard server (selecting it relaunches the browser against login.salesforce.com).
+        if loginPage.isShowingBrowserLogin() {
+            loginPage.returnToHostList(expectingBrowser: true)
+        } else {
+            loginPage.returnToHostList(expectingBrowser: false)
+        }
+        loginPage.configureLoginHost(host: "login.salesforce.com")
     }
 
     /// Performs login with the specified configuration.
@@ -223,6 +238,7 @@ class BaseAuthFlowTester: XCTestCase {
     ///   - userScopeSelection: The scope selection the user was logged in with. Defaults to `.empty`.
     ///   - useWebServerFlow: Whether web server OAuth flow was used. Defaults to `true`.
     ///   - useHybridFlow: Whether hybrid authentication flow was used. Defaults to `true`.
+    ///   - isMultiUser: Whether multiple users are still logged in after the switch. Defaults to `false`.
     func switchToUserAndValidate(
         loginHost: KnownLoginHostConfig,
         user: KnownUserConfig,
@@ -231,11 +247,12 @@ class BaseAuthFlowTester: XCTestCase {
         userAppConfigName: KnownAppConfig,
         userScopeSelection: ScopeSelection = .empty,
         useWebServerFlow: Bool = true,
-        useHybridFlow: Bool = true
+        useHybridFlow: Bool = true,
+        isMultiUser: Bool = false
     ) {
         // Switch user
         mainPage.switchToUser(username: getUser(loginHost: loginHost, user: user).username)
-        
+
         // Validate
         validate(
             loginHost: loginHost,
@@ -245,10 +262,11 @@ class BaseAuthFlowTester: XCTestCase {
             userAppConfigName: userAppConfigName,
             userScopeSelection: userScopeSelection,
             useWebServerFlow: useWebServerFlow,
-            useHybridFlow: useHybridFlow
+            useHybridFlow: useHybridFlow,
+            isMultiUser: isMultiUser
         )
     }
-    
+
     /// Switches to an already logged-in user and validates the user credentials.
     ///
     /// Use this method when multiple users are logged in and you want to switch between them.
@@ -267,22 +285,26 @@ class BaseAuthFlowTester: XCTestCase {
         userAppConfigName: KnownAppConfig,
         userScopeSelection: ScopeSelection = .empty,
         useWebServerFlow: Bool = true,
-        useHybridFlow: Bool = true
+        useHybridFlow: Bool = true,
+        loginForAdmin: Bool = false,
+        isMultiUser: Bool = false
     ) {
         // Switch user
         mainPage.switchToUser(username: getUser(loginHost: loginHost, user: user).username)
-        
-        // Validate
+
+        // Validate user and feature flags
         validateUser(
             loginHost: loginHost,
             user: user,
             userAppConfigName: userAppConfigName,
             userScopeSelection: userScopeSelection,
             useWebServerFlow: useWebServerFlow,
-            useHybridFlow: useHybridFlow
+            useHybridFlow: useHybridFlow,
+            expectAdvancedAuth: loginForAdmin || loginHost == .advancedAuth,
+            isMultiUser: isMultiUser
         )
     }
-    
+
     /// Launches the app and performs login.
     ///
     /// This is a convenience method that combines `launch()` and `login()` in one call.
@@ -354,6 +376,7 @@ class BaseAuthFlowTester: XCTestCase {
         forceAdvancedAuthentication: Bool? = nil,
         useWelcomeDiscovery: Bool = false,
         loginForAdmin: Bool = false,
+        isMultiUser: Bool = false,
     ) {
         let useStaticConfiguration = dynamicAppConfigName == nil
         let userAppConfigName = useStaticConfiguration ? staticAppConfigName : dynamicAppConfigName!
@@ -388,10 +411,47 @@ class BaseAuthFlowTester: XCTestCase {
             userAppConfigName: userAppConfigName,
             userScopeSelection: userScopeSelection,
             useWebServerFlow: effectiveUseWebServerFlow,
-            useHybridFlow: useHybridFlow
+            useHybridFlow: useHybridFlow,
+            isMultiUser: isMultiUser,
+            usesWelcomeDiscovery: useWelcomeDiscovery,
+            loginForAdmin: loginForAdmin
         )
     }
     
+    /// Logs in an additional user (multi-user scenario) WITHOUT performing credential validation.
+    ///
+    /// Use this method when you need to add a second user account but don't need full credential
+    /// validation (e.g., when using advanced auth where identity data may not be immediately available).
+    ///
+    /// - Parameters:
+    ///   - loginHost: The login host configuration to use.
+    ///   - user: The user to log in with.
+    ///   - staticAppConfigName: The static app configuration name.
+    ///   - useWebServerFlow: Whether to use web server OAuth flow. Defaults to `true`.
+    ///   - useHybridFlow: Whether to use hybrid authentication flow. Defaults to `true`.
+    func loginOtherUser(
+        loginHost: KnownLoginHostConfig,
+        user: KnownUserConfig,
+        staticAppConfigName: KnownAppConfig,
+        useWebServerFlow: Bool = true,
+        useHybridFlow: Bool = true,
+    ) {
+        // Switch to add new user
+        mainPage.performAddUser()
+
+        // Login
+        login(
+            loginHost: loginHost,
+            user: user,
+            staticAppConfigName: staticAppConfigName,
+            useWebServerFlow: useWebServerFlow,
+            useHybridFlow: useHybridFlow,
+        )
+
+        // Wait for main page to show (user is logged in)
+        assertMainPageLoaded()
+    }
+
     /// Logs in an additional user (multi-user scenario) and validates the credentials.
     ///
     /// Use this method after an initial user is already logged in to add another user account.
@@ -406,6 +466,7 @@ class BaseAuthFlowTester: XCTestCase {
     ///   - dynamicScopeSelection: The scope selection for dynamic configuration. Defaults to `.empty`.
     ///   - useWebServerFlow: Whether to use web server OAuth flow. Defaults to `true`.
     ///   - useHybridFlow: Whether to use hybrid authentication flow. Defaults to `true`.
+    ///   - isMultiUser: Whether multiple users are logged in after this login. Defaults to `true`.
     func loginOtherUserAndValidate(
         loginHost: KnownLoginHostConfig,
         user: KnownUserConfig,
@@ -415,14 +476,15 @@ class BaseAuthFlowTester: XCTestCase {
         dynamicScopeSelection: ScopeSelection = .empty,
         useWebServerFlow: Bool = true,
         useHybridFlow: Bool = true,
+        isMultiUser: Bool = true,
     ) {
         let useStaticConfiguration = dynamicAppConfigName == nil
         let userAppConfigName = useStaticConfiguration ? staticAppConfigName : dynamicAppConfigName!
         let userScopeSelection = useStaticConfiguration ? staticScopeSelection : dynamicScopeSelection
-        
+
         // Switch to add new user
         mainPage.performAddUser()
-        
+
         // Login
         login(
             loginHost: loginHost,
@@ -434,7 +496,7 @@ class BaseAuthFlowTester: XCTestCase {
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow,
         )
-        
+
         // Validate
         validate(
             loginHost: loginHost,
@@ -444,10 +506,11 @@ class BaseAuthFlowTester: XCTestCase {
             userAppConfigName: userAppConfigName,
             userScopeSelection: userScopeSelection,
             useWebServerFlow: useWebServerFlow,
-            useHybridFlow: useHybridFlow
+            useHybridFlow: useHybridFlow,
+            isMultiUser: isMultiUser
         )
     }
-    
+
     /// Restarts the app and validates that the user session persists.
     ///
     /// Terminates and relaunches the app, then validates that the user is still logged in
@@ -460,13 +523,18 @@ class BaseAuthFlowTester: XCTestCase {
     ///   - userScopeSelection: The scope selection the user was logged in with. Defaults to `.empty`.
     ///   - useWebServerFlow: Whether web server OAuth flow was used. Defaults to `true`.
     ///   - useHybridFlow: Whether hybrid authentication flow was used. Defaults to `true`.
+    ///   - loginForAdmin: When true, Login for Admin was used (browser-based auth), which sets the BW flag. Defaults to `false`.
+    ///   - usesWelcomeDiscovery: When true, welcome discovery was used, which sets the WD flag. Defaults to `false`.
     func restartAndValidateUser(
         loginHost: KnownLoginHostConfig = .regularAuth,
         user: KnownUserConfig = .first,
         userAppConfigName: KnownAppConfig,
         userScopeSelection: ScopeSelection = .empty,
         useWebServerFlow: Bool = true,
-        useHybridFlow: Bool = true
+        useHybridFlow: Bool = true,
+        loginForAdmin: Bool = false,
+        usesWelcomeDiscovery: Bool = false,
+        isMultiUser: Bool = false
     ) {
         // Restart
         app.terminate()
@@ -475,7 +543,7 @@ class BaseAuthFlowTester: XCTestCase {
         // Restore auth flow settings lost on restart
         mainPage.setAuthFlowTypes(useWebServerFlow: useWebServerFlow, useHybridFlow: useHybridFlow)
 
-        // Validate user
+        // Validate user and feature flags
         // Not checking static app config since it will depend on the bootconfig of the target app
         validateUser(
             loginHost: loginHost,
@@ -483,7 +551,10 @@ class BaseAuthFlowTester: XCTestCase {
             userAppConfigName: userAppConfigName,
             userScopeSelection: userScopeSelection,
             useWebServerFlow: useWebServerFlow,
-            useHybridFlow: useHybridFlow
+            useHybridFlow: useHybridFlow,
+            expectAdvancedAuth: loginForAdmin || loginHost == .advancedAuth,
+            usesWelcomeDiscovery: usesWelcomeDiscovery,
+            isMultiUser: isMultiUser
         )
     }
     
@@ -567,6 +638,69 @@ class BaseAuthFlowTester: XCTestCase {
     /// Gets the current user's credentials.
     func getUserCredentials() -> UserCredentialsData {
         return mainPage.getUserCredentials()
+    }
+
+    /// Validates the user agent string from already-fetched credentials.
+    ///
+    /// - Parameters:
+    ///   - userCredentials: Credentials previously returned by `validateUser()`.
+    ///   - loginHost: The login host used for the current user.
+    ///   - expectAdvancedAuth: Whether advanced auth (browser-based) was used, which sets the BW flag. Defaults to `false`.
+    ///   - usesWelcomeDiscovery: Whether welcome domain discovery was used. Defaults to `false`.
+    ///   - isMultiUser: Whether multiple users are currently logged in. Defaults to `false`.
+    ///   - isRtr: Whether Refresh Token Rotation is enabled, which sets the RT flag. Defaults to `false`.
+    func validateUserAgent(userCredentials: UserCredentialsData, loginHost: KnownLoginHostConfig, expectAdvancedAuth: Bool = false, usesWelcomeDiscovery: Bool = false, isMultiUser: Bool = false, isRtr: Bool = false) {
+        validateUserAgent(ua: userCredentials.userAgent, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, usesWelcomeDiscovery: usesWelcomeDiscovery, isMultiUser: isMultiUser, isRtr: isRtr)
+    }
+
+    /// Validates a pre-fetched user agent string. Called from validate() which already has the UA.
+    ///
+    /// - Parameters:
+    ///   - ua: A pre-fetched user agent string.
+    ///   - loginHost: The login host used for the current user.
+    ///   - expectAdvancedAuth: Whether advanced auth (browser-based) was used, which sets the BW flag. Defaults to `false`.
+    ///   - usesWelcomeDiscovery: Whether welcome domain discovery was used. Defaults to `false`.
+    ///   - isMultiUser: Whether multiple users are currently logged in. Defaults to `false`.
+    ///   - isRtr: Whether Refresh Token Rotation is enabled, which sets the RT flag. Defaults to `false`.
+    private func validateUserAgent(ua: String, loginHost: KnownLoginHostConfig, expectAdvancedAuth: Bool = false, usesWelcomeDiscovery: Bool = false, isMultiUser: Bool = false, isRtr: Bool = false) {
+        XCTAssertTrue(ua.contains("SalesforceMobileSDK/"), "User agent should contain 'SalesforceMobileSDK/' prefix; got: \(ua)")
+        XCTAssertTrue(ua.contains("ftr_"), "User agent should contain 'ftr_' feature flag segment; got: \(ua)")
+
+        // Extract the flag string after "ftr_" up to the next space
+        let flagSet: Set<String>
+        if let ftrRange = ua.range(of: "ftr_") {
+            let afterFtr = String(ua[ftrRange.upperBound...])
+            let flagString = afterFtr.components(separatedBy: " ").first ?? ""
+            flagSet = Set(flagString.components(separatedBy: ".").filter { !$0.isEmpty })
+        } else {
+            flagSet = []
+        }
+
+        if expectAdvancedAuth {
+            XCTAssertTrue(flagSet.contains("BW"), "User agent should contain 'BW' flag for advanced auth; flags: \(flagSet), ua: \(ua)")
+        } else {
+            XCTAssertFalse(flagSet.contains("BW"), "User agent should NOT contain 'BW' flag for non-advanced auth; flags: \(flagSet), ua: \(ua)")
+        }
+
+        if usesWelcomeDiscovery {
+            XCTAssertTrue(flagSet.contains("WD"), "User agent should contain 'WD' flag when welcome discovery is used; flags: \(flagSet), ua: \(ua)")
+        } else {
+            XCTAssertFalse(flagSet.contains("WD"), "User agent should NOT contain 'WD' flag when welcome discovery is not used; flags: \(flagSet), ua: \(ua)")
+        }
+
+        if isMultiUser {
+            XCTAssertTrue(flagSet.contains("MU"), "User agent should contain 'MU' flag when multiple users are logged in; flags: \(flagSet), ua: \(ua)")
+        } else {
+            XCTAssertFalse(flagSet.contains("MU"), "User agent should NOT contain 'MU' flag when only one user is logged in; flags: \(flagSet), ua: \(ua)")
+        }
+
+        if isRtr {
+            XCTAssertTrue(flagSet.contains("RT"),
+                          "User agent should contain 'RT' flag after Refresh Token Rotation; flags: \(flagSet), ua: \(ua)")
+        } else {
+            XCTAssertFalse(flagSet.contains("RT"),
+                           "User agent should NOT contain 'RT' flag when Refresh Token Rotation has not occurred; flags: \(flagSet), ua: \(ua)")
+        }
     }
 
     /// Revokes the current user's access token.
@@ -702,7 +836,7 @@ class BaseAuthFlowTester: XCTestCase {
         }
     }
 
-    /// Validates user credentials
+    /// Validates user credentials and feature flags.
     @discardableResult
     func validateUser(
         loginHost: KnownLoginHostConfig,
@@ -710,17 +844,20 @@ class BaseAuthFlowTester: XCTestCase {
         userAppConfigName: KnownAppConfig,
         userScopeSelection: ScopeSelection,
         useWebServerFlow: Bool,
-        useHybridFlow: Bool
+        useHybridFlow: Bool,
+        expectAdvancedAuth: Bool = false,
+        usesWelcomeDiscovery: Bool = false,
+        isMultiUser: Bool = false
     ) -> UserCredentialsData {
 
         let userConfig = getUser(loginHost: loginHost, user: user)
         let userAppConfig = getAppConfig(named: userAppConfigName)
         let expectedGrantedScopes = testConfig.getExpectedScopesGranted(for: userAppConfig, userScopeSelection)
         let issuesJwt = userAppConfig.issuesJwt
-        
+
         // Check that app loads and shows the expected user credentials etc
         assertMainPageLoaded()
-        
+
         // Check the user credentials (consumer key should match the app config used)
         let userCredentials = checkUserCredentials(
             username: userConfig.username,
@@ -729,18 +866,21 @@ class BaseAuthFlowTester: XCTestCase {
             grantedScopes: expectedGrantedScopes,
             issuesJwt: issuesJwt
         )
-        
+
         // Check JWT if applicable
         checkJwtDetailsIfApplicable(
             appConfig: userAppConfig,
             scopes: expectedGrantedScopes,
             beaconChildConsumerKey: userCredentials.beaconChildConsumerKey
         )
-        
+
         // Additional login-specific validations
         assertSIDs(userCredentialsData: userCredentials, useHybridFlow: useHybridFlow, useJwt: issuesJwt)
         assertURLs(userCredentialsData: userCredentials, useWebServerFlow: useWebServerFlow)
-        
+
+        // Validate feature flags using UA already present in the fetched credentials
+        validateUserAgent(ua: userCredentials.userAgent, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, usesWelcomeDiscovery: usesWelcomeDiscovery, isMultiUser: isMultiUser)
+
         return userCredentials
     }
     
@@ -757,10 +897,13 @@ class BaseAuthFlowTester: XCTestCase {
         userScopeSelection: ScopeSelection,
         useWebServerFlow: Bool,
         useHybridFlow: Bool,
+        isMultiUser: Bool = false,
+        usesWelcomeDiscovery: Bool = false,
+        loginForAdmin: Bool = false,
     ) -> UserCredentialsData {
-        
+
         let staticAppConfig = getAppConfig(named: staticAppConfigName)
-        
+
         // Check that app loads and shows the expected user credentials etc
         assertMainPageLoaded()
 
@@ -770,12 +913,15 @@ class BaseAuthFlowTester: XCTestCase {
             userAppConfigName: userAppConfigName,
             userScopeSelection: userScopeSelection,
             useWebServerFlow: useWebServerFlow,
-            useHybridFlow: useHybridFlow
+            useHybridFlow: useHybridFlow,
+            expectAdvancedAuth: loginForAdmin || loginHost == .advancedAuth,
+            usesWelcomeDiscovery: usesWelcomeDiscovery,
+            isMultiUser: isMultiUser
         )
-        
+
         // Revoke and refresh cycle
         let userAppConfig = getAppConfig(named: userAppConfigName)
-        assertRevokeAndRefreshWorks(previousCredentials: userCredentials, isRtr: userAppConfig.isRtr)
+        assertRevokeAndRefreshWorks(previousCredentials: userCredentials, isRtr: userAppConfig.isRtr, loginHost: loginHost)
 
         // Check the oauth configuration
         _ = checkOauthConfiguration(
@@ -783,7 +929,7 @@ class BaseAuthFlowTester: XCTestCase {
             staticCallbackUrl: staticAppConfig.redirectUri,
             staticScopes: testConfig.getScopesToRequest(for: staticAppConfig, staticScopeSelection)
         )
-                
+
         return userCredentials
     }
 
@@ -904,11 +1050,11 @@ class BaseAuthFlowTester: XCTestCase {
     }
     
     /// Captures current credentials then performs a revoke/refresh cycle and validates the result.
-    func assertRevokeAndRefreshWorks(isRtr: Bool) {
-        assertRevokeAndRefreshWorks(previousCredentials: getUserCredentials(), isRtr: isRtr)
+    func assertRevokeAndRefreshWorks(isRtr: Bool, loginHost: KnownLoginHostConfig = .regularAuth) {
+        assertRevokeAndRefreshWorks(previousCredentials: getUserCredentials(), isRtr: isRtr, loginHost: loginHost)
     }
 
-    private func assertRevokeAndRefreshWorks(previousCredentials: UserCredentialsData, isRtr: Bool) {
+    private func assertRevokeAndRefreshWorks(previousCredentials: UserCredentialsData, isRtr: Bool, loginHost: KnownLoginHostConfig = .regularAuth) {
         // Revoke access token
         XCTAssert(mainPage.revokeAccessToken(), "Failed to revoke access token")
 
@@ -938,6 +1084,10 @@ class BaseAuthFlowTester: XCTestCase {
                 "Refresh token should not have changed (non-RTR app)"
             )
         }
+
+        validateUserAgent(userCredentials: credentialsAfterRefresh,
+                          loginHost: loginHost,
+                          isRtr: isRtr)
     }
     
     private func sortedScopes(_ value: String) -> String {

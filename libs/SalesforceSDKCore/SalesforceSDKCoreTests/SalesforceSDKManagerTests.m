@@ -31,6 +31,7 @@
 #import "SFSDKAppConfig.h"
 #import "SFUserAccount+Internal.h"
 #import "SFOAuthCredentials+Internal.h"
+#import "SFSDKAppFeatureMarkers.h"
 #import "SFOAuthTestFlowCoordinatorDelegate.h"
 #import "SFLoginViewController.h"
 #import "SFSDKAuthRootController.h"
@@ -665,6 +666,70 @@ static NSString* const kTestAppName = @"OverridenAppName";
                    @"Forced Advanced Auth must NEVER use response_type=token (User Agent / implicit flow)");
     XCTAssertFalse([nativeBrowserUrl containsString:@"response_type=hybrid_token"],
                    @"Forced Advanced Auth must NEVER use the hybrid User Agent token flow");
+}
+
+#pragma mark - Per-user user-agent tests
+
+- (void)test_givenUserWithPerUserFeature_whenUserAgentStringForUser_thenFtrContainsUserFlag {
+    [self createTestAppIdentity];
+    SFUserAccount *user = [self createUserAccount];
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:user];
+
+    // Register a per-user flag for our user and a different per-user flag for another user.
+    [SFSDKAppFeatureMarkers registerAppFeature:@"XY" forUser:user];
+
+    NSString *ua = [[SalesforceSDKManager sharedManager] userAgentString:@"" forUser:user];
+
+    XCTAssertTrue([ua containsString:@"ftr_"], @"User agent should contain the ftr_ segment");
+    XCTAssertTrue([ua containsString:@"XY"], @"User agent for user should include their per-user flag XY");
+
+    // Cleanup
+    [SFSDKAppFeatureMarkers unregisterAppFeature:@"XY" forUser:user];
+    NSError *error = nil;
+    [[SFUserAccountManager sharedInstance] deleteAccountForUser:user error:&error];
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:nil];
+}
+
+- (void)test_givenNilUser_whenUserAgentStringForUser_thenFallsBackToCurrentUser {
+    [self createTestAppIdentity];
+    SFUserAccount *user = [self createUserAccount];
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:user];
+
+    [SFSDKAppFeatureMarkers registerAppFeature:@"CU" forUser:user];
+
+    NSString *uaForNil = [[SalesforceSDKManager sharedManager] userAgentString:@"" forUser:nil];
+    NSString *uaForUser = [[SalesforceSDKManager sharedManager] userAgentString:@"" forUser:user];
+
+    XCTAssertEqualObjects(uaForNil, uaForUser,
+                          @"userAgentString:forUser:nil should produce same result as forUser:currentUser");
+
+    // Cleanup
+    [SFSDKAppFeatureMarkers unregisterAppFeature:@"CU" forUser:user];
+    NSError *error = nil;
+    [[SFUserAccountManager sharedInstance] deleteAccountForUser:user error:&error];
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:nil];
+}
+
+- (void)test_givenAccountWithPersistedFlags_whenHydratePerUserFeatureFlags_thenFlagsLoadedIntoMarkers {
+    [self createTestAppIdentity];
+    SFUserAccount *user = [self createUserAccount];
+    user.persistedFeatureFlags = [NSSet setWithObject:@"BW"];
+
+    // Simulate what happens on SDK startup: save the account then hydrate.
+    NSError *saveError = nil;
+    [[SFUserAccountManager sharedInstance] saveAccountForUser:user error:&saveError];
+    XCTAssertNil(saveError, @"Should save account without error");
+
+    [[SalesforceSDKManager sharedManager] hydratePerUserFeatureFlags];
+
+    NSSet<NSString *> *features = [SFSDKAppFeatureMarkers appFeaturesForUser:user];
+    XCTAssertTrue([features containsObject:@"BW"],
+                  @"BW should be in appFeaturesForUser: after hydratePerUserFeatureFlags");
+
+    // Cleanup
+    [SFSDKAppFeatureMarkers unregisterAppFeature:@"BW" forUser:user];
+    NSError *error = nil;
+    [[SFUserAccountManager sharedInstance] deleteAccountForUser:user error:&error];
 }
 
 #pragma mark - Dispaly Name Tests
