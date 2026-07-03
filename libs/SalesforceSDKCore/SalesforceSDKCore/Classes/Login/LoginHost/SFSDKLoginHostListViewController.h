@@ -58,6 +58,17 @@ NS_SWIFT_NAME(LoginHostListViewController)
  */
 @property (nonatomic,assign) BOOL hidesAddButton;
 
+/**
+ * Shows the navigation-bar back button and the gear / "Login Options" menu that
+ * otherwise live on the in-app login screen (SFLoginViewController). This is used
+ * when the host list is the screen the user lands on in the forced-advanced-auth
+ * path, where SFLoginViewController is never created. When set, the back button
+ * replaces the Cancel button in the add-user case and the gear coexists with the
+ * Add button. Defaults to NO so the transient "Choose Connection" sub-sheet and
+ * the IdP flow are unaffected.
+ */
+@property (nonatomic,assign) BOOL showsBackButtonAndLoginOptions;
+
 @property (nonatomic) SFSDKViewControllerConfig *config;
 
 /**

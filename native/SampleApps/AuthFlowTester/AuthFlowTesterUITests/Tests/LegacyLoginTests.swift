@@ -67,18 +67,14 @@ class LegacyLoginTests: BaseAuthFlowTester {
     // MARK: - CA User Agent Flow Tests
 
     /// Login with CA opaque using default scopes and user agent flow.
+    ///
+    /// The user agent (implicit) flow is incompatible with forced advanced authentication, which
+    /// always uses the web server flow. This test therefore disables advanced authentication so the
+    /// legacy in-app WebView / user agent path is exercised. It is intentionally the only user
+    /// agent flow test retained: scope-variation coverage lives on the web server flow (advanced
+    /// auth on) tests above, which is the default path for the vast majority of apps.
     func testCAOpaque_DefaultScopes_UserAgentFlow() throws {
-        launchLoginAndValidate(staticAppConfigName: .caOpaque, useWebServerFlow: false, useHybridFlow: useHybridFlow())
-    }
-
-    /// Login with CA opaque using subset of scopes and user agent flow.
-    func testCAOpaque_SubsetScopes_UserAgentFlow() throws {
-        launchLoginAndValidate(staticAppConfigName: .caOpaque, staticScopeSelection: .subset, useWebServerFlow: false, useHybridFlow: useHybridFlow())
-    }
-
-    /// Login with CA opaque using all scopes and user agent flow.
-    func testCAOpaque_AllScopes_UserAgentFlow() throws {
-        launchLoginAndValidate(staticAppConfigName: .caOpaque, staticScopeSelection: .all, useWebServerFlow: false, useHybridFlow: useHybridFlow())
+        launchLoginAndValidate(staticAppConfigName: .caOpaque, useWebServerFlow: false, useHybridFlow: useHybridFlow(), forceAdvancedAuthentication: false)
     }
 }
 

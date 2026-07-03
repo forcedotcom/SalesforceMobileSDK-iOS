@@ -58,15 +58,46 @@ class LoginPageObject {
         return unexpectedOauthErrorText().waitForExistence(timeout: UITestTimeouts.long)
     }
     
-    func closeAdvancedAuth() -> Void {
-        tap(advancedAuthCloseButton())
-        tap(hostRow(host: "Production"))
+    /// Returns to the login host list ("Change Server") — the landing screen under forced
+    /// advanced authentication and the screen from which the login host and login options are
+    /// configured.
+    ///
+    /// - If already on the host list, does nothing.
+    /// - When `expectingBrowser` is true (forced advanced auth, the default), the external browser
+    ///   (`ASWebAuthenticationSession`) is showing; cancelling it makes the SDK present the host
+    ///   list (`oauthCoordinatorDidCancelBrowserAuthentication:`).
+    /// - When `expectingBrowser` is false (flag imported OFF), the legacy in-app WebView is
+    ///   showing; open the host list from its Settings gear → "Change Server".
+    ///
+    /// - Parameter expectingBrowser: whether the external browser (rather than the in-app WebView)
+    ///   is the surface currently showing. Defaults to `true` since advanced auth is forced on by
+    ///   default. Callers that have imported `forceAdvancedAuthentication = false` pass `false`.
+    func returnToHostList(expectingBrowser: Bool = true) -> Void {
+        if (changeServerNavigationBar().waitForExistence(timeout: UITestTimeouts.short)) {
+            return
+        }
+
+        if (expectingBrowser) {
+            // Forced advanced auth: cancelling the browser lands on the host list.
+            if (advancedAuthCloseButton().waitForExistence(timeout: UITestTimeouts.network)) {
+                tap(advancedAuthCloseButton())
+            }
+        } else {
+            // Legacy WebView (flag OFF): reach the host list via the Settings gear.
+            if (loginNavigationBar().waitForExistence(timeout: UITestTimeouts.network)) {
+                tap(settingsButton())
+                tap(changeServerButton())
+            }
+        }
+
+        _ = changeServerNavigationBar().waitForExistence(timeout: UITestTimeouts.network)
     }
-    
+
+    /// Selects (or adds) the given login host. Assumes the host list ("Change Server") is already
+    /// showing — call `returnToHostList()` first. Selecting or adding a host causes the SDK to
+    /// restart authentication (relaunching the browser under forced advanced auth, or reloading
+    /// the in-app WebView when the flag is off).
     func configureLoginHost(host: String) -> Void {
-        tap(settingsButton())
-        tap(changeServerButton())
-        
         if (hasHost(host: host)) {
             // Select host if it exists already
             tap(hostRow(host: host))
@@ -78,7 +109,14 @@ class LoginPageObject {
         }
     }
     
-    func performLogin(username: String, password: String, advancedAuth: Bool = false) {
+    /// Enters credentials on the active login surface.
+    ///
+    /// - Parameter advancedAuth: when true the surface is the external browser
+    ///   (`ASWebAuthenticationSession`) — the default under forced advanced auth — where fields are
+    ///   submitted by pressing return. When false the surface is the in-app WebView, where the
+    ///   on-page "Log In" button is tapped instead. Defaults to `true` to match the SDK's default of
+    ///   forcing advanced authentication.
+    func performLogin(username: String, password: String, advancedAuth: Bool = true) {
         waitForLoginFormReady()
         setTextField(usernameField(), value: username)
         if advancedAuth {
@@ -130,6 +168,7 @@ class LoginPageObject {
         dynamicScopes: String,
         useWebServerFlow: Bool,
         useHybridFlow: Bool,
+        forceAdvancedAuthentication: Bool? = nil,
         discoveryLoginHost: String,
         discoveryUsername: String,
     ) -> Void {
@@ -143,26 +182,77 @@ class LoginPageObject {
             dynamicScopes: dynamicScopes,
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow,
+            forceAdvancedAuthentication: forceAdvancedAuthentication,
             discoveryLoginHost: discoveryLoginHost,
             discoveryUsername: discoveryUsername
         )
     }
 
-    // MARK: - Login Form Readiness
+    // MARK: - Presentation Probes
 
-    /// Pre-warms the WKWebView process pool by waiting for the initial login page to render.
-    /// Called once after app launch to absorb the cold-start cost of WKWebView process creation.
-    /// Uses a longer timeout than normal because the first WebView load includes process pool
-    /// initialization, TLS session setup, and initial page compilation.
-    func waitForWebViewReady() {
-        let webView = app.webViews.firstMatch
-        _ = webView.waitForExistence(timeout: UITestTimeouts.network * 2)
+    /// True when the external browser (`ASWebAuthenticationSession`) login surface is showing,
+    /// detected by the SDK's browser chrome ("TopBrowserBar"). For the positive assertion keep the
+    /// default (`long`) timeout, since selecting a host relaunches the browser and it takes a moment
+    /// to appear; for the negative "no external browser" assertion pass `short`.
+    func isShowingBrowserLogin(timeout: TimeInterval = UITestTimeouts.long) -> Bool {
+        return advancedAuthCloseButton().waitForExistence(timeout: timeout)
     }
 
-    /// Waits for the WKWebView login form to be fully loaded and interactive.
-    /// After a login host change, the WebView navigates to a new URL and the form elements
-    /// are not immediately available. This method waits for the username text field inside
-    /// the WebView to become available, which signals the login form has fully rendered.
+    /// True when the legacy in-app WebView login form is showing, detected by the username text
+    /// field inside the web content. Non-asserting sibling of `waitForLoginFormReady()`. Pass a
+    /// short timeout for the negative "no in-app WebView" assertion; keep the network default for
+    /// the positive case, which must wait for the real login page to load.
+    func isShowingInAppLoginForm(timeout: TimeInterval = UITestTimeouts.network) -> Bool {
+        return app.webViews.webViews.webViews.textFields.firstMatch.waitForExistence(timeout: timeout)
+    }
+
+    /// True when the Settings gear is present on the current login nav bar. Under forced advanced
+    /// auth the gear lives on the host list; on the legacy path it lives on the in-app WebView
+    /// ("Log In"). Both expose the same accessibility identifier "settings".
+    func isShowingSettingsGear() -> Bool {
+        return settingsButton().waitForExistence(timeout: UITestTimeouts.long)
+    }
+
+    /// Opens the Login Options screen from the Settings gear (gear → "Login Options").
+    func openLoginOptions() {
+        tap(settingsButton())
+        tap(loginOptionsButton())
+    }
+
+    /// True when the Authentication Flow Types dev screen — the harness's own flag-driving surface —
+    /// is showing, identified by its title and the force-advanced-auth toggle.
+    func isShowingAuthFlowTypesView() -> Bool {
+        let title = SFSDKResourceUtils.localizedString("LOGIN_OPTIONS_AUTH_FLOW_TYPES_TITLE")
+        let titleShown = app.staticTexts[title].waitForExistence(timeout: UITestTimeouts.long)
+        let toggleShown = forceAdvancedAuthToggle().waitForExistence(timeout: UITestTimeouts.short)
+        return titleShown && toggleShown
+    }
+
+    /// True when an accessible back control is present on the current login nav bar — the host list
+    /// under forced advanced auth (surfaced by the browser-cancel path) or the in-app WebView. Both
+    /// screens use the same image-only `globalheader-back-arrow` bar button, which carries no
+    /// accessibility identifier, so it is matched positionally as the leftmost nav-bar button and
+    /// disambiguated from the Cancel button (pre-fix left item) and the gear.
+    func isShowingBackButton() -> Bool {
+        let button = backButton()
+        guard button.waitForExistence(timeout: UITestTimeouts.long), button.isHittable else {
+            return false
+        }
+        return button.label != "Cancel" && button.identifier != "settings"
+    }
+
+    /// Taps the nav-bar back control (see `isShowingBackButton()`), which stops the in-flight
+    /// authentication and returns to the existing account list without completing login.
+    func tapBackButton() {
+        tap(backButton())
+    }
+
+    // MARK: - Login Form Readiness
+
+    /// Waits for the login form (external browser or in-app WKWebView) to be fully loaded and
+    /// interactive. After a login host change or an auth restart the surface navigates to a new
+    /// URL and the form elements are not immediately available. This waits for the username text
+    /// field inside the web content to appear, which signals the login form has fully rendered.
     private func waitForLoginFormReady() {
         let webViewTextField = app.webViews.webViews.webViews.textFields.firstMatch
         let formReady = webViewTextField.waitForExistence(timeout: UITestTimeouts.network)
@@ -175,8 +265,14 @@ class LoginPageObject {
         return app.navigationBars["Log In"]
     }
     
+    /// The Settings gear. Both the in-app WebView screen (`SFLoginViewController`, nav bar "Log In")
+    /// and the forced-advanced-auth host list (`SFSDKLoginHostListViewController`, nav bar
+    /// "Change Server") expose it with the same accessibility identifier "settings", so matching by
+    /// identifier across nav bars finds whichever screen is currently showing. The menu contents
+    /// differ per screen (the host-list gear exposes only "Login Options"; the WebView gear also
+    /// exposes Change Server / Clear Cookies / Reload / "Login for Admin").
     private func settingsButton() -> XCUIElement {
-        return loginNavigationBar().buttons["Settings"]
+        return app.navigationBars.buttons["settings"]
     }
     
     private func changeServerButton() -> XCUIElement {
@@ -190,7 +286,24 @@ class LoginPageObject {
     private func loginForAdminButton() -> XCUIElement {
         return app.buttons["Login for Admin"]
     }
-    
+
+    /// The force-advanced-auth toggle on the Authentication Flow Types dev screen. Used only to
+    /// confirm that screen is showing after opening Login Options — not to drive the flag (the
+    /// harness imports the flag via `AuthFlowTypesPageObject`).
+    private func forceAdvancedAuthToggle() -> XCUIElement {
+        return app.switches["forceAdvancedAuthToggle"]
+    }
+
+    /// The image-only back control on the current login nav bar. Both the host list
+    /// (`SFSDKLoginHostListViewController`, forced advanced auth) and the in-app WebView
+    /// (`SFLoginViewController`, flag off) render it from `globalheader-back-arrow` with no
+    /// accessibility identifier, so it is matched positionally as the leftmost nav-bar button.
+    /// Callers must disambiguate it from the pre-fix Cancel button and the gear (see
+    /// `isShowingBackButton()`).
+    private func backButton() -> XCUIElement {
+        return app.navigationBars.buttons.element(boundBy: 0)
+    }
+
     private func changeServerNavigationBar() -> XCUIElement {
         return app.navigationBars["Change Server"]
     }

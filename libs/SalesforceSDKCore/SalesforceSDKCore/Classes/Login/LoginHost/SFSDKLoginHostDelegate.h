@@ -74,6 +74,14 @@ NS_SWIFT_NAME(LoginHostDelegate)
  */
 - (void)hostListViewController:(SFSDKLoginHostListViewController *)hostListViewController didChangeLoginHost:(SFSDKLoginHost *)newLoginHost;
 
+/**
+ * Notifies the delegate that the user changed login options from the debug-only "Login Options"
+ * screen reached via the host list's gear menu. This is a good time to restart authentication so
+ * the new options take effect.
+ * @param hostListViewController The instance sending this message.
+ */
+- (void)hostListViewControllerDidChangeLoginOptions:(SFSDKLoginHostListViewController *)hostListViewController;
+
 
 @end
 

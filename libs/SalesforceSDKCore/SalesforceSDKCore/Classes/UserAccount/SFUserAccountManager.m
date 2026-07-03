@@ -1076,6 +1076,10 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
            hostListViewController.delegate = self;
            SFSDKNavigationController *controller = [[SFSDKNavigationController alloc] initWithRootViewController:hostListViewController];
            hostListViewController.hidesCancelButton = YES;
+           // This is the screen the user lands on in the forced-advanced-auth path (e.g. after
+           // cancelling the browser), where SFLoginViewController is never created. Surface the
+           // back button and gear / "Login Options" menu here so that chrome is not lost.
+           hostListViewController.showsBackButtonAndLoginOptions = YES;
            controller.modalPresentationStyle = UIModalPresentationFullScreen;
         [[[SFSDKWindowManager sharedManager] authWindow:coordinator.authSession.oauthRequest.scene] presentWindowAnimated:NO withCompletion:^{
             [[[SFSDKWindowManager sharedManager] authWindow:coordinator.authSession.oauthRequest.scene].viewController presentViewController:controller animated:NO completion:nil];
@@ -1208,6 +1212,16 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 
 - (void)hostListViewControllerDidAddLoginHost:(SFSDKLoginHostListViewController *)hostListViewController {
     [self loginHostSelected:hostListViewController];
+}
+
+- (void)hostListViewControllerDidChangeLoginOptions:(SFSDKLoginHostListViewController *)hostListViewController {
+    // Reached from the host list's gear menu in the forced-advanced-auth path. Recreate the
+    // auth request and restart so changed login options (e.g. forceAdvancedAuthentication) take
+    // effect, mirroring loginViewControllerDidChangeLoginOptions: on the WebView screen.
+    NSString *sceneId = hostListViewController.view.window.windowScene.session.persistentIdentifier;
+    SFSDKAuthSession *session = self.authSessions[sceneId];
+    session.oauthRequest = [self defaultAuthRequestWithLoginHost:session.oauthRequest.loginHost];
+    [self restartAuthentication:session];
 }
 
 - (void)loginHostSelected:(SFSDKLoginHostListViewController *)hostListViewController {

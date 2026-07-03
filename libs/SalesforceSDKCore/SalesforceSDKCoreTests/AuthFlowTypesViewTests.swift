@@ -30,20 +30,26 @@ class AuthFlowTypesViewTests: XCTestCase {
     
     var originalUseWebServerAuth: Bool!
     var originalUseHybridAuth: Bool!
-    
+    var originalForceAdvancedAuth: Bool!
+
+    // Touches the deprecated `forceAdvancedAuthentication` (removed in 15.0) to save/restore it.
+    @available(*, deprecated, message: "Exercises deprecated forceAdvancedAuthentication; remove with the property in 15.0.")
     override func setUp() {
         super.setUp()
-        
+
         // Save original state to restore in tearDown
         originalUseWebServerAuth = SalesforceManager.shared.useWebServerAuthentication
         originalUseHybridAuth = SalesforceManager.shared.useHybridAuthentication
+        originalForceAdvancedAuth = SalesforceManager.shared.forceAdvancedAuthentication
     }
-    
+
+    @available(*, deprecated, message: "Exercises deprecated forceAdvancedAuthentication; remove with the property in 15.0.")
     override func tearDown() {
         // Restore original state
         SalesforceManager.shared.useWebServerAuthentication = originalUseWebServerAuth
         SalesforceManager.shared.useHybridAuthentication = originalUseHybridAuth
-        
+        SalesforceManager.shared.forceAdvancedAuthentication = originalForceAdvancedAuth
+
         super.tearDown()
     }
     
@@ -158,6 +164,79 @@ class AuthFlowTypesViewTests: XCTestCase {
                       "useWebServerFlow key should match expected value")
         XCTAssertEqual(AuthFlowTypesJSONKeys.useHybridFlow, "useHybridFlow",
                       "useHybridFlow key should match expected value")
+        XCTAssertEqual(AuthFlowTypesJSONKeys.forceAdvancedAuthentication, "forceAdvancedAuthentication",
+                      "forceAdvancedAuthentication key should match expected value")
+    }
+
+    // MARK: - Forced Advanced Authentication dev-menu wiring (W-23126676)
+
+    /// The dev-menu JSON-import hook (driven by UI automation and manual testers) must write
+    /// `forceAdvancedAuthentication` onto the shared manager. This is the runtime toggle path.
+    @available(*, deprecated, message: "Exercises deprecated forceAdvancedAuthentication; remove with the property in 15.0.")
+    func test_givenForceAdvancedAuthOn_whenImportJSONSetsItFalse_thenManagerPropertyBecomesFalse() {
+        // Given: the flag starts ON (the shipping default)
+        SalesforceManager.shared.forceAdvancedAuthentication = true
+        let view = AuthFlowTypesView()
+        XCTAssertTrue(SalesforceManager.shared.forceAdvancedAuthentication,
+                     "Precondition: forceAdvancedAuthentication should start true")
+
+        // When: importing JSON that turns it OFF
+        let json: [String: Any] = [AuthFlowTypesJSONKeys.forceAdvancedAuthentication: false]
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: json, options: []),
+              let jsonString = String(data: jsonData, encoding: .utf8) else {
+            XCTFail("Failed to create JSON string")
+            return
+        }
+        view.applyAuthFlowTypesFromJSON(jsonString)
+
+        // Then: the manager property is written to false
+        XCTAssertFalse(SalesforceManager.shared.forceAdvancedAuthentication,
+                      "applyAuthFlowTypesFromJSON({forceAdvancedAuthentication:false}) must set the manager property to false")
+    }
+
+    /// Round-trip: importing the key back as true must restore the flag (proves the wiring is
+    /// bidirectional, not a one-way latch).
+    @available(*, deprecated, message: "Exercises deprecated forceAdvancedAuthentication; remove with the property in 15.0.")
+    func test_givenForceAdvancedAuthOff_whenImportJSONSetsItTrue_thenManagerPropertyBecomesTrue() {
+        // Given: the flag starts OFF
+        SalesforceManager.shared.forceAdvancedAuthentication = false
+        let view = AuthFlowTypesView()
+        XCTAssertFalse(SalesforceManager.shared.forceAdvancedAuthentication,
+                      "Precondition: forceAdvancedAuthentication should start false")
+
+        // When: importing JSON that turns it ON
+        let json: [String: Any] = [AuthFlowTypesJSONKeys.forceAdvancedAuthentication: true]
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: json, options: []),
+              let jsonString = String(data: jsonData, encoding: .utf8) else {
+            XCTFail("Failed to create JSON string")
+            return
+        }
+        view.applyAuthFlowTypesFromJSON(jsonString)
+
+        // Then: the manager property is written back to true
+        XCTAssertTrue(SalesforceManager.shared.forceAdvancedAuthentication,
+                     "applyAuthFlowTypesFromJSON({forceAdvancedAuthentication:true}) must set the manager property back to true")
+    }
+
+    /// A partial import that omits the key must NOT disturb the current force-flag value, so the
+    /// toggle is independent of the other auth-flow options.
+    @available(*, deprecated, message: "Exercises deprecated forceAdvancedAuthentication; remove with the property in 15.0.")
+    func test_givenForceAdvancedAuthOn_whenImportJSONOmitsKey_thenManagerPropertyUnchanged() {
+        // Given: force flag ON, importing JSON that only flips an unrelated option
+        SalesforceManager.shared.forceAdvancedAuthentication = true
+        let view = AuthFlowTypesView()
+
+        let json: [String: Any] = [AuthFlowTypesJSONKeys.useWebServerFlow: false]
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: json, options: []),
+              let jsonString = String(data: jsonData, encoding: .utf8) else {
+            XCTFail("Failed to create JSON string")
+            return
+        }
+        view.applyAuthFlowTypesFromJSON(jsonString)
+
+        // Then: the force flag is untouched (not in JSON)
+        XCTAssertTrue(SalesforceManager.shared.forceAdvancedAuthentication,
+                     "forceAdvancedAuthentication must remain true when it is not present in the imported JSON")
     }
 
     func testImportAuthFlowTypesFromInvalidJSON() {
