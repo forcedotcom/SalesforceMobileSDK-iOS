@@ -497,7 +497,7 @@ SFNativeLoginManagerInternal *nativeLogin;
     // list (SFSDKLoginHostListViewController) the user lands on.
     BOOL isShowingWebViewLogin = [presentedViewController isKindOfClass:[SFLoginViewController class]];
     BOOL isShowingHostList = [presentedViewController isKindOfClass:[SFSDKLoginHostListViewController class]]
-        && ((SFSDKLoginHostListViewController *)presentedViewController).showsBackButtonAndLoginOptions;
+        && ((SFSDKLoginHostListViewController *)presentedViewController).presentedAsLoginScreen;
     BOOL isShowingLogin = isShowingWebViewLogin || isShowingHostList;
 
     // Show dev info - always available

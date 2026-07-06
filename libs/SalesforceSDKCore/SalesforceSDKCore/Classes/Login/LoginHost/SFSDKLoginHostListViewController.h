@@ -59,15 +59,23 @@ NS_SWIFT_NAME(LoginHostListViewController)
 @property (nonatomic,assign) BOOL hidesAddButton;
 
 /**
- * Shows the navigation-bar back button and the gear / "Login Options" menu that
- * otherwise live on the in-app login screen (SFLoginViewController). This is used
- * when the host list is the screen the user lands on in the forced-advanced-auth
- * path, where SFLoginViewController is never created. When set, the back button
- * replaces the Cancel button in the add-user case and the gear coexists with the
- * Add button. Defaults to NO so the transient "Choose Connection" sub-sheet and
- * the IdP flow are unaffected.
+ * Marks this host list as a standalone login screen rather than a sub-sheet of
+ * another login screen. This is the case in the forced-advanced-auth path, where
+ * the host list is the screen the user lands on and SFLoginViewController (which
+ * would otherwise own this chrome) is never created.
+ *
+ * When set, this screen takes on the chrome that normally lives on
+ * SFLoginViewController: the navigation-bar back button (shown when there is an
+ * account or flow to return to) and the dev-only gear / "Login Options" menu.
+ * The two are gated independently — the back button by the account/flow logic in
+ * -shouldShowBackButton, the gear by dev-support being enabled — this flag only
+ * distinguishes the standalone-screen role from the sub-sheet role.
+ *
+ * Defaults to NO so the transient "Choose Connection" sub-sheet and the IdP flow,
+ * which are presented on top of a screen that already owns this chrome, are
+ * unaffected.
  */
-@property (nonatomic,assign) BOOL showsBackButtonAndLoginOptions;
+@property (nonatomic,assign) BOOL presentedAsLoginScreen;
 
 @property (nonatomic) SFSDKViewControllerConfig *config;
 

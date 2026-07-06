@@ -1077,9 +1077,10 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
            SFSDKNavigationController *controller = [[SFSDKNavigationController alloc] initWithRootViewController:hostListViewController];
            hostListViewController.hidesCancelButton = YES;
            // This is the screen the user lands on in the forced-advanced-auth path (e.g. after
-           // cancelling the browser), where SFLoginViewController is never created. Surface the
-           // back button and gear / "Login Options" menu here so that chrome is not lost.
-           hostListViewController.showsBackButtonAndLoginOptions = YES;
+           // cancelling the browser), where SFLoginViewController is never created. Mark it as the
+           // standalone login screen so it surfaces the back button and gear / "Login Options"
+           // menu that would otherwise live on SFLoginViewController.
+           hostListViewController.presentedAsLoginScreen = YES;
            controller.modalPresentationStyle = UIModalPresentationFullScreen;
         [[[SFSDKWindowManager sharedManager] authWindow:coordinator.authSession.oauthRequest.scene] presentWindowAnimated:NO withCompletion:^{
             [[[SFSDKWindowManager sharedManager] authWindow:coordinator.authSession.oauthRequest.scene].viewController presentViewController:controller animated:NO completion:nil];

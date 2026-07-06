@@ -861,8 +861,8 @@ class LoginForAdminTests: XCTestCase {
         let nav = authWindow.viewController?.presentedViewController as? UINavigationController
         let hostList = nav?.viewControllers.first as? LoginHostListViewController
         XCTAssertNotNil(hostList, "The host list should be presented on the auth window after cancelling browser auth")
-        XCTAssertTrue(hostList?.showsBackButtonAndLoginOptions ?? false,
-                      "The presented host list should surface the back button and Login Options chrome")
+        XCTAssertTrue(hostList?.presentedAsLoginScreen ?? false,
+                      "The presented host list should be marked as the standalone login screen so it surfaces the back button and Login Options chrome")
         XCTAssertTrue(hostList?.hidesCancelButton ?? false,
                       "The presented host list should hide the Cancel button in the forced-advanced-auth path")
 

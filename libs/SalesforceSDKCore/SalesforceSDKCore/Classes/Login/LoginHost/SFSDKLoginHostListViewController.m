@@ -156,7 +156,7 @@ static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCel
 
     // Left bar button. In the forced-advanced-auth path the back button replaces Cancel when
     // there is an account to return to (matching the WebView screen); otherwise Cancel is used.
-    if (self.showsBackButtonAndLoginOptions && [self shouldShowBackButton]) {
+    if (self.presentedAsLoginScreen && [self shouldShowBackButton]) {
         self.navigationItem.leftBarButtonItem = [self createBackButton];
     } else if (!self.hidesCancelButton) {
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelLoginPicker:)];
@@ -213,8 +213,10 @@ static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCel
 
 #pragma mark - Forced Advanced Auth Chrome
 // The back button and gear / "Login Options" menu below mirror SFLoginViewController. They are
-// added when showsBackButtonAndLoginOptions is set, i.e. when the host list is the screen the
-// user lands on in the forced-advanced-auth path (SFLoginViewController is never created there).
+// added when presentedAsLoginScreen is set, i.e. when the host list is the screen the user lands
+// on in the forced-advanced-auth path (SFLoginViewController is never created there). The two are
+// gated independently: the back button by -shouldShowBackButton (account/flow state), the gear by
+// dev support. presentedAsLoginScreen only gates whether this screen owns that chrome at all.
 
 /**
  * Mirrors SFLoginViewController -shouldShowBackButton: shows the back button when there is an
@@ -226,7 +228,7 @@ static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCel
     }
 
     SFUserAccountManager *accountManager = [SFUserAccountManager sharedInstance];
-    if (self.showsBackButtonAndLoginOptions
+    if (self.presentedAsLoginScreen
         && [self.config isKindOfClass:[SFSDKLoginViewControllerConfig class]]
         && ((SFSDKLoginViewControllerConfig *)self.config).shouldDisplayBackButton) {
         return YES;
@@ -273,7 +275,7 @@ static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCel
  * to the host list, where no in-app WebView is shown).
  */
 - (nullable UIBarButtonItem *)loginOptionsButton {
-    if (!self.showsBackButtonAndLoginOptions || ![[SalesforceSDKManager sharedManager] isDevSupportEnabled]) {
+    if (!self.presentedAsLoginScreen || ![[SalesforceSDKManager sharedManager] isDevSupportEnabled]) {
         return nil;
     }
 

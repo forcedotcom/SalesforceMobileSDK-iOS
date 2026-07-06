@@ -230,7 +230,7 @@
 // left item, matching the pre-existing behavior for the transient "Choose Connection" sub-sheet.
 - (void)test_givenChromeFlagOff_whenViewLoads_thenNoGearAndCancelShown {
     SFSDKLoginHostListViewController *vc = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
-    vc.showsBackButtonAndLoginOptions = NO;
+    vc.presentedAsLoginScreen = NO;
     [SalesforceSDKManager sharedManager].isDevSupportEnabled = YES;
 
     [vc loadViewIfNeeded];
@@ -244,7 +244,7 @@
 // viewDidLoad: with the flag on and dev support on, the gear is added to the right bar items.
 - (void)test_givenChromeFlagOnAndDevSupportOn_whenViewLoads_thenGearShownInRightItems {
     SFSDKLoginHostListViewController *vc = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
-    vc.showsBackButtonAndLoginOptions = YES;
+    vc.presentedAsLoginScreen = YES;
     [SalesforceSDKManager sharedManager].isDevSupportEnabled = YES;
 
     [vc loadViewIfNeeded];
@@ -265,7 +265,7 @@
 // loginOptionsButton returns nil when dev support is off even though the chrome flag is on.
 - (void)test_givenChromeFlagOnAndDevSupportOff_whenLoginOptionsButton_thenNil {
     SFSDKLoginHostListViewController *vc = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
-    vc.showsBackButtonAndLoginOptions = YES;
+    vc.presentedAsLoginScreen = YES;
     [SalesforceSDKManager sharedManager].isDevSupportEnabled = NO;
 
     XCTAssertNil([vc loginOptionsButton], @"Gear should be nil when dev support is disabled");
@@ -313,7 +313,7 @@
     [SFUserAccountManager sharedInstance].shouldFallbackToWebAuthentication = YES;
 
     SFSDKLoginHostListViewController *vc = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
-    vc.showsBackButtonAndLoginOptions = YES;
+    vc.presentedAsLoginScreen = YES;
 
     [vc loadViewIfNeeded];
 
