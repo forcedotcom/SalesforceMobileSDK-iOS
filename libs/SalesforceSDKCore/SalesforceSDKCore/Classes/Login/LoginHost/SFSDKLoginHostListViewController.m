@@ -226,7 +226,8 @@ static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCel
     }
 
     SFUserAccountManager *accountManager = [SFUserAccountManager sharedInstance];
-    if ([self.config isKindOfClass:[SFSDKLoginViewControllerConfig class]]
+    if (self.showsBackButtonAndLoginOptions
+        && [self.config isKindOfClass:[SFSDKLoginViewControllerConfig class]]
         && ((SFSDKLoginViewControllerConfig *)self.config).shouldDisplayBackButton) {
         return YES;
     }
