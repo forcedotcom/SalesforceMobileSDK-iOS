@@ -56,8 +56,8 @@ final class SFOAuthCoordinatorLightningURLTests: XCTestCase, SFOAuthCoordinatorD
     private let lightningDomain = "myorg.lightning.force.com"
     private let lightningSubdomain = "myorg.lightning.pc-rnd.force.com"
     private let myDomain = "myorg.my.salesforce.com"
-    private let unsupportedGrantType = "unsupported_grant_type"
-    private let invalidGrant = "invalid_grant"
+    private let unsupportedGrantType = SFOAuthErrorCode.unsupportedGrantType.wireValue!
+    private let invalidGrant = SFOAuthErrorCode.invalidGrant.wireValue!
     private let lightningMessage = SFSDKResourceUtils.localizedString("lightningUrlCodeExchangeError")
 
     // MARK: - Helpers

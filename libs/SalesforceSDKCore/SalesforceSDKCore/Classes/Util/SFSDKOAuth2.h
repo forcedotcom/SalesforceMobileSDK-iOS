@@ -89,6 +89,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property  (nonatomic, readonly) NSString *tokenEndpointErrorCode;
 @property  (nonatomic, readonly) NSString *tokenEndpointErrorDescription;
 @property  (nonatomic, readonly) NSError *error;
+/// Typed enum representation of ``tokenEndpointErrorCode``.
+/// The enum is declared in Swift as `SFOAuthErrorCode`; use that type when calling
+/// from Swift. From Objective-C, the type is `NSInteger`.
+/// Use this property instead of string-comparing ``tokenEndpointErrorCode``.
+@property  (nonatomic, readonly) NSInteger errorCode;
 @end
 
 @interface SFSDKOAuthTokenEndpointRequest : NSObject
