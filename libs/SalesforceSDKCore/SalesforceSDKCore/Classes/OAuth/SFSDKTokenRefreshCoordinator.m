@@ -171,19 +171,22 @@ SFSDK_USE_DEPRECATED_END
         entry.backgroundTaskId = UIBackgroundTaskInvalid;
     }
 
-    if (error) {
-        [SFSDKCoreLogger e:[self class] format:@"Token refresh failed for credential %@. Notifying %lu waiter(s). Error: %@",
-         key, (unsigned long)entry.errorBlocks.count, error];
-        for (void (^errorBlock)(NSError *) in entry.errorBlocks) {
-            errorBlock(error);
+    // Dispatch callbacks on the main queue as documented in the header.
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (error) {
+            [SFSDKCoreLogger e:[self class] format:@"Token refresh failed for credential %@. Notifying %lu waiter(s). Error: %@",
+             key, (unsigned long)entry.errorBlocks.count, error];
+            for (void (^errorBlock)(NSError *) in entry.errorBlocks) {
+                errorBlock(error);
+            }
+        } else {
+            [SFSDKCoreLogger i:[self class] format:@"Token refresh succeeded for credential %@. Notifying %lu waiter(s).",
+             key, (unsigned long)entry.completionBlocks.count];
+            for (void (^completionBlock)(SFOAuthCredentials *) in entry.completionBlocks) {
+                completionBlock(credentials);
+            }
         }
-    } else {
-        [SFSDKCoreLogger i:[self class] format:@"Token refresh succeeded for credential %@. Notifying %lu waiter(s).",
-         key, (unsigned long)entry.completionBlocks.count];
-        for (void (^completionBlock)(SFOAuthCredentials *) in entry.completionBlocks) {
-            completionBlock(credentials);
-        }
-    }
+    });
 }
 
 - (void)handleBackgroundExpirationForKey:(NSString *)key {
