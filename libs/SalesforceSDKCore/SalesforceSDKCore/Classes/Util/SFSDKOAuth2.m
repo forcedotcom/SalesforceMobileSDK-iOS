@@ -39,8 +39,6 @@
 NSString * const  kSFOAuthErrorDomain  = @"com.salesforce.OAuth.ErrorDomain";
 const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
 
-static const NSInteger kSFOAuthErrorClientBlocked = 667;
-static const NSInteger kSFOAuthErrorClientBlockedRetry = 668;
 
 @interface SFSDKOAuthTokenEndpointErrorResponse() {
     NSInteger _errorCode;
@@ -540,10 +538,6 @@ static const NSInteger kSFOAuthErrorClientBlockedRetry = 668;
         code = kSFOAuthErrorUnknownAdvancedAuthConfig;
     } else if ([type isEqualToString:@"jwt_launch_failed"]) {
         code = kSFOAuthErrorJWTInvalidGrant;
-    } else if ([type isEqualToString:@"client_blocked"]) {
-        code = kSFOAuthErrorClientBlocked;
-    } else if ([type isEqualToString:@"client_blocked_retry"]) {
-        code = kSFOAuthErrorClientBlockedRetry;
     }
     NSMutableDictionary *userInfoDict = [NSMutableDictionary dictionaryWithDictionary:@{kSFOAuthError: type, NSLocalizedDescriptionKey: description}];
     if (underlyingError != nil) {
