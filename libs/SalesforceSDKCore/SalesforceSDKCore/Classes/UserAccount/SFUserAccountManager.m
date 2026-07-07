@@ -1203,6 +1203,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 - (void)hostListViewController:(SFSDKLoginHostListViewController *)hostListViewController didChangeLoginHost:(SFSDKLoginHost *)newLoginHost {
     [_accountsLock lock];
     NSDictionary *userInfo = @{kSFNotificationPreviousLoginHost: self.loginHost, kSFNotificationCurrentLoginHost: newLoginHost.host};
+    self.previousLoginHost = self.loginHost;
     self.loginHost = newLoginHost.host;
     NSNotification *loginHostChangedNotification = [NSNotification notificationWithName:kSFNotificationDidChangeLoginHost object:self userInfo:userInfo];
     [[NSNotificationCenter defaultCenter] postNotification:loginHostChangedNotification];
@@ -1917,10 +1918,68 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         [strongSelf showErrorAlertWithMessage:alertMessage buttonTitle:okButton scene:session.oauthRequest.scene andCompletion:^() {
             [session.oauthCoordinator stopAuthentication];
             [strongSelf notifyUserCancelledOrDismissedAuth:session.oauthCoordinator.credentials andAuthInfo:session.oauthCoordinator.authInfo];
-            NSString *host = [[SFSDKLoginHostStorage sharedInstance] loginHostAtIndex:0].host;
-            session.oauthRequest.loginHost = host;
-            strongSelf.loginHost = host;
-            [strongSelf restartAuthentication:session];
+            NSString *failingHost = session.oauthRequest.loginHost;
+            SFSDKLoginHostStorage *storage = [SFSDKLoginHostStorage sharedInstance];
+            SFSDKLoginHost *failing = [storage loginHostForHostAddress:failingHost];
+            // Only auto-remove the host when the error is a strong signal that the host itself
+            // is unusable: a URL-syntax problem, an ATS rejection, or an OAuth invalid-URL.
+            // These are reliably under our control and not produced by network conditions.
+            //
+            // Codes that look host-specific but are actually ambiguous on real networks are
+            // intentionally NOT treated as strong signals:
+            //   - NSURLErrorCannotFindHost / NSURLErrorDNSLookupFailed — captive portals
+            //     (hotel / airport / coffee-shop Wi-Fi) routinely hijack DNS and return these
+            //     for perfectly valid enterprise hosts. Auto-removing on DNS errors would
+            //     silently and permanently delete a user's custom org host the first time
+            //     they open the app behind a captive portal.
+            //   - NSURLErrorTimedOut / NSURLErrorCannotConnectToHost / NSURLErrorNotConnectedToInternet
+            //     / NSURLErrorNetworkConnectionLost / roaming-off / data-not-allowed —
+            //     transient connectivity failures against a host that is otherwise fine.
+            //
+            // Both buckets fall through to the "leave the host in storage" branch.
+            BOOL strongBadHostSignal = NO;
+            if ([error.domain isEqualToString:kSFOAuthErrorDomain] && error.code == kSFOAuthErrorInvalidURL) {
+                strongBadHostSignal = YES;
+            } else if ([error.domain isEqualToString:NSURLErrorDomain]) {
+                switch (error.code) {
+                    case NSURLErrorBadURL:
+                    case NSURLErrorUnsupportedURL:
+                    case NSURLErrorAppTransportSecurityRequiresSecureConnection:
+                        strongBadHostSignal = YES;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            if (failing && failing.isDeletable && strongBadHostSignal) {
+                NSUInteger index = [storage indexOfLoginHost:failing];
+                if (index != NSNotFound) {
+                    [storage removeLoginHostAtIndex:index];
+                }
+            } else if (!failing) {
+                [SFSDKCoreLogger w:[strongSelf class] format:@"Failing host not found in storage; skipping removal."];
+            } else if (failing && failing.isDeletable && !strongBadHostSignal) {
+                [SFSDKCoreLogger d:[strongSelf class] format:@"Failing host left in storage; error %@/%ld is ambiguous (likely transient).", error.domain, (long)error.code];
+            }
+            // Choose a recovery host. Prefer the snapshot of the host the user was working on before
+            // the bad host change; fall back to the first entry in storage. The fallback can be unsafe
+            // in one edge case: if the failing host was just removed above AND it was the only entry,
+            // or if MDM `onlyShowAuthorizedHosts` is enabled with an empty MDM host list, storage may
+            // be empty here — `loginHostAtIndex:0` would raise NSRangeException. Guard the index call.
+            NSString *prev = strongSelf.previousLoginHost;
+            NSString *recoveryHost = nil;
+            if (prev && [storage loginHostForHostAddress:prev]) {
+                recoveryHost = prev;
+            } else if ([storage numberOfLoginHosts] > 0) {
+                recoveryHost = [storage loginHostAtIndex:0].host;
+            }
+            if (recoveryHost) {
+                session.oauthRequest.loginHost = recoveryHost;
+                strongSelf.loginHost = recoveryHost;
+                [strongSelf restartAuthentication:session];
+            } else {
+                [SFSDKCoreLogger e:[strongSelf class] format:@"No recovery host available; skipping restart."];
+            }
         }];
     };
     
