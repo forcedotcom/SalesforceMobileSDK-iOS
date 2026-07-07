@@ -30,8 +30,8 @@ import XCTest
 
 class SFOAuthErrorCodeTests: XCTestCase {
 
-    func testFrom_knownClientBlockedValue_returnsClientBlocked() {
-        XCTAssertEqual(SFOAuthErrorCode.from("client_blocked"), .clientBlocked)
+    func testFrom_knownClientBlockedValue_returnsAppAttestationFailed() {
+        XCTAssertEqual(SFOAuthErrorCode.from("client_blocked"), .appAttestationFailed)
     }
 
     func testFrom_knownUnsupportedGrantType_returnsUnsupportedGrantType() {
@@ -48,6 +48,14 @@ class SFOAuthErrorCodeTests: XCTestCase {
 
     func testFrom_emptyString_returnsUnknown() {
         XCTAssertEqual(SFOAuthErrorCode.from(""), .unknown)
+    }
+
+    func testFrom_invalidDpopProof_returnsInvalidDpopProof() {
+        XCTAssertEqual(SFOAuthErrorCode.from("invalid_dpop_proof"), .invalidDpopProof)
+    }
+
+    func testFrom_useDpopNonce_returnsUseDpopNonce() {
+        XCTAssertEqual(SFOAuthErrorCode.from("use_dpop_nonce"), .useDpopNonce)
     }
 
     func testFrom_allKnownValues_roundTrip() {

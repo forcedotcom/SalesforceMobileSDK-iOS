@@ -38,8 +38,8 @@ import Foundation
     case appNotFound
     case authorizationPending
     case badJtiClaim
-    case clientBlocked
-    case clientBlockedRetry
+    case appAttestationFailed
+    case appAttestationFailedRetry
     case ecAppPolicyNotFound
     case exceededRegistrationLimit
     case failCloseAppBlocked
@@ -51,6 +51,7 @@ import Foundation
     case invalidBasicAuthHeader
     case invalidClient
     case invalidClientId
+    case invalidDpopProof
     case invalidDistributionState
     case invalidExpid
     case invalidGrant
@@ -75,6 +76,7 @@ import Foundation
     case unsupportedGrantType
     case unsupportedResponseType
     case unsupportedTokenType
+    case useDpopNonce
 
     /// Returns the ``SFOAuthErrorCode`` whose wire value matches `string`,
     /// or `.unknown` if `string` is nil, empty, or not recognized.
@@ -105,8 +107,8 @@ public extension SFOAuthErrorCode {
         case .appNotFound: return "app_not_found"
         case .authorizationPending: return "authorization_pending"
         case .badJtiClaim: return "bad_jti_claim"
-        case .clientBlocked: return "client_blocked"
-        case .clientBlockedRetry: return "client_blocked_retry"
+        case .appAttestationFailed: return "client_blocked"
+        case .appAttestationFailedRetry: return "client_blocked_retry"
         case .ecAppPolicyNotFound: return "ecapp_policy_not_found"
         case .exceededRegistrationLimit: return "exceeded_registration_limit"
         case .failCloseAppBlocked: return "fail_close_app_blocked"
@@ -118,6 +120,7 @@ public extension SFOAuthErrorCode {
         case .invalidBasicAuthHeader: return "invalid_basic_auth_header"
         case .invalidClient: return "invalid_client"
         case .invalidClientId: return "invalid_client_id"
+        case .invalidDpopProof: return "invalid_dpop_proof"
         case .invalidDistributionState: return "invalid_distribution_state"
         case .invalidExpid: return "invalid_expid"
         case .invalidGrant: return "invalid_grant"
@@ -142,6 +145,7 @@ public extension SFOAuthErrorCode {
         case .unsupportedGrantType: return "unsupported_grant_type"
         case .unsupportedResponseType: return "unsupported_response_type"
         case .unsupportedTokenType: return "unsupported_token_type"
+        case .useDpopNonce: return "use_dpop_nonce"
         @unknown default: return nil
         }
     }
