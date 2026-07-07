@@ -189,8 +189,6 @@ class SFSDKAuthUtilTests: XCTestCase {
         XCTAssertNotEqual(account.credentials.accessToken, originalAccessToken,
                           "Access token should be rotated after refresh")
         XCTAssertNotNil(account.credentials.refreshToken)
-        print("original refresh token: \(originalRefreshToken)")
-        print("current refresh token: \(account.credentials.refreshToken)")
         XCTAssertNotEqual(account.credentials.refreshToken, originalRefreshToken,
                           "Refresh token should be rotated after refresh")
     }
@@ -242,7 +240,7 @@ class SFSDKAuthUtilTests: XCTestCase {
         let notificationCount = Mutex<Int>(0)
 
         let observer = NotificationCenter.default.addObserver(
-            forName: .init(rawValue: "SFNotificationOAuthUserDidRefreshToken"),
+            forName: UserAccountManager.didRefreshToken,
             object: nil,
             queue: nil
         ) { _ in

@@ -118,7 +118,7 @@ SFSDK_USE_DEPRECATED_BEGIN
         SFOAuthInfo *authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefresh];
         [userInfo setValue:authInfo forKey:kSFNotificationUserInfoAuthTypeKey];
         [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserDidRefreshToken
-                                                            object:self
+                                                            object:[SFUserAccountManager sharedInstance]
                                                           userInfo:userInfo];
         self.completionBlock(self.credentials);
     }

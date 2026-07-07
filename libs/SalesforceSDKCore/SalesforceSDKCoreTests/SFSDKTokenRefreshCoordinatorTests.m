@@ -95,7 +95,7 @@ SFSDK_USE_DEPRECATED_BEGIN
 
         NSMutableDictionary *userInfo = [NSMutableDictionary new];
         [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserDidRefreshToken
-                                                            object:self
+                                                            object:[SFUserAccountManager sharedInstance]
                                                           userInfo:userInfo];
         if (completionBlock) {
             completionBlock(self.credentials);
@@ -584,6 +584,9 @@ SFSDK_USE_DEPRECATED_BEGIN
 
     [self waitForExpectationsWithTimeout:5.0 handler:nil];
 
+    // Guard: verify the mock was actually exercised (not vacuously passing)
+    XCTAssertGreaterThan(mockClient.accessTokenForRefreshCallCount, 0,
+                         @"Mock authClient was never called — the test is not exercising the intended path");
     // THE KEY ASSERTION: Only one network call was made
     XCTAssertEqual(mockClient.accessTokenForRefreshCallCount, 1,
                    @"Only one accessTokenForRefresh: call should have been made despite 5 concurrent callers");
