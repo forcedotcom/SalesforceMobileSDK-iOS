@@ -478,7 +478,7 @@
         id json = nil;
         json = [SFJsonUtils objectFromJSONData:data];
         if (json == nil) {
-            NSError *error = [SFSDKOAuth2 errorWithType:kSFOAuthErrorTypeJWTLaunchFailed
+            NSError *error = [SFSDKOAuth2 errorWithType:@"jwt_launch_failed"
                                                  description:@"Error parsing JWT token exchange response."
                                              underlyingError:[SFJsonUtils lastError]];
                 [self notifyDelegateOfFailure:error authInfo:self.authInfo];
@@ -486,7 +486,7 @@
         }
         if (![json isKindOfClass:[NSDictionary class]]) {
             NSString *errorDesc = [NSString stringWithFormat:@"Expected NSDictionary for JWT token response, received %@ instance.", NSStringFromClass([json class])];
-                NSError *error = [SFSDKOAuth2 errorWithType:kSFOAuthErrorTypeJWTLaunchFailed
+                NSError *error = [SFSDKOAuth2 errorWithType:@"jwt_launch_failed"
                                                  description:errorDesc];
             [self notifyDelegateOfFailure:error authInfo:self.authInfo];
             return;
@@ -670,7 +670,7 @@
                  [SFSDKCoreLogger d:[self class] format:@"Refresh attempt timed out after %f seconds.", self.timeout];
                  [self stopAuthentication];
              }
-             BOOL isUnsupportedGrantType = [response.error.tokenEndpointErrorCode isEqualToString:kSFOAuthErrorTypeUnsupportedGrantType];
+             BOOL isUnsupportedGrantType = (response.error.errorCode == SFOAuthErrorCodeUnsupportedGrantType);
              BOOL isLightningURL = [self.credentials.domain containsString:@".lightning."];
              if (isUnsupportedGrantType && isLightningURL) {
                  [SFSDKCoreLogger e:[self class] format:@"Code exchange failed with unsupported_grant_type against Lightning URL: %@. Lightning URLs do not support authorization_code grant type. Use a My Domain login server URL instead.", self.credentials.domain];
@@ -697,12 +697,12 @@
     NSString *errorDescription = [requestUrl sfsdk_valueForParameterName:kSFOAuthErrorDescription];
     if (foundValidEcValue) {
         [SFSDKCoreLogger d:[self class] format:@"%@ IDP Authcode redirect response encountered an ec=301 or 302 redirect: %@", NSStringFromSelector(_cmd), requestUrl];
-        error = [SFSDKOAuth2 errorWithType:kSFOAuthErrorTypeMalformedResponse description:@"IDP Authcode redirect response encountered an ec=301 or 302 redirect"];
+        error = [SFSDKOAuth2 errorWithType:@"malformed_response" description:@"IDP Authcode redirect response encountered an ec=301 or 302 redirect"];
     } else if (errorCode) {
         error = [SFSDKOAuth2 errorWithType:errorCode description:errorDescription];
     } else if (![requestUrl fragment] && ![requestUrl query]){
         [SFSDKCoreLogger d:[self class] format:@"%@ Error: IDP Authcode response has no payload: %@", NSStringFromSelector(_cmd), requestUrl];
-        error = [SFSDKOAuth2 errorWithType:kSFOAuthErrorTypeMalformedResponse description:@"IDP Authcode redirect response has no payload"];
+        error = [SFSDKOAuth2 errorWithType:@"malformed_response" description:@"IDP Authcode redirect response has no payload"];
     }
     return error;
 }
@@ -743,7 +743,7 @@
         response = [requestUrl query];
     } else {
         [SFSDKCoreLogger d:[self class] format:@"%@ Error: response has no payload: %@", NSStringFromSelector(_cmd), requestUrl];
-        NSError *error = [SFSDKOAuth2 errorWithType:kSFOAuthErrorTypeMalformedResponse description:@"redirect response has no payload"];
+        NSError *error = [SFSDKOAuth2 errorWithType:@"malformed_response" description:@"redirect response has no payload"];
         [self notifyDelegateOfFailure:error authInfo:self.authInfo];
         response = nil;
     }

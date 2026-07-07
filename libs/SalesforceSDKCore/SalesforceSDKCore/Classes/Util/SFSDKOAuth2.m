@@ -34,11 +34,15 @@
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 #import <SalesforceSDKCommon/SFJsonUtils.h>
 #import "NSData+SFAdditions.h"
+#import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 
 NSString * const  kSFOAuthErrorDomain  = @"com.salesforce.OAuth.ErrorDomain";
 const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
 
-@interface SFSDKOAuthTokenEndpointErrorResponse()
+
+@interface SFSDKOAuthTokenEndpointErrorResponse() {
+    NSInteger _errorCode;
+}
 - (instancetype)initWithError:(NSString *)errorType description:(NSString*)errorDescription;
 - (instancetype)initWithError:(NSError *)error;
 @end
@@ -61,6 +65,7 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
         _tokenEndpointErrorCode = errorType;
         _tokenEndpointErrorDescription = errorDescription;
         _error = [SFSDKOAuth2 errorWithType:errorType description:errorDescription];
+        _errorCode = [SFOAuthErrorCodeHelper from:errorType];
     }
     return self;
 }
@@ -389,7 +394,7 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
     } else {
         NSError* jsonError = [SFJsonUtils lastError];
         [SFSDKCoreLogger d:[self class] format:@"%@: JSON parse error: %@", NSStringFromSelector(_cmd), jsonError];
-        NSError *error = [[self class] errorWithType:kSFOAuthErrorTypeMalformedResponse description:@"failed to parse response JSON"];
+        NSError *error = [[self class] errorWithType:@"malformed_response" description:@"failed to parse response JSON"];
         NSMutableDictionary *errorDict = [NSMutableDictionary dictionaryWithDictionary:jsonError.userInfo];
         if (responseString) {
             errorDict[@"response_data"] = responseString;
@@ -501,37 +506,37 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
 + (NSError *)errorWithType:(NSString *)type description:(NSString *)description underlyingError:(NSError *)underlyingError {
     NSAssert(type, @"error type can't be nil");
     NSInteger code = kSFOAuthErrorUnknown;
-    if ([type isEqualToString:kSFOAuthErrorTypeAccessDenied]) {
+    if ([type isEqualToString:@"access_denied"]) {
         code = kSFOAuthErrorAccessDenied;
-    } else if ([type isEqualToString:kSFOAuthErrorTypeMalformedResponse]) {
+    } else if ([type isEqualToString:@"malformed_response"]) {
         code = kSFOAuthErrorMalformed;
-    } else if ([type isEqualToString:KSFOAuthErrorTypeInvalidClientId]) {
+    } else if ([type isEqualToString:@"invalid_client_id"]) {
         code = kSFOAuthErrorInvalidClientId;
-    } else if ([type isEqualToString:kSFOAuthErrorTypeInvalidClient]) {
+    } else if ([type isEqualToString:@"invalid_client"]) {
         code = kSFOAuthErrorInvalidClientCredentials;
-    } else if ([type isEqualToString:kSFOAuthErrorTypeInvalidClientCredentials]) {
+    } else if ([type isEqualToString:@"invalid_client_credentials"]) {
         code = kSFOAuthErrorInvalidClientCredentials;
-    } else if ([type isEqualToString:kSFOAuthErrorTypeInvalidGrant]) {
+    } else if ([type isEqualToString:@"invalid_grant"]) {
         code = kSFOAuthErrorInvalidGrant;
-    } else if ([type isEqualToString:kSFOAuthErrorTypeInvalidRequest]) {
+    } else if ([type isEqualToString:@"invalid_request"]) {
         code = kSFOAuthErrorInvalidRequest;
-    } else if ([type isEqualToString:kSFOAuthErrorTypeInactiveUser]) {
+    } else if ([type isEqualToString:@"inactive_user"]) {
         code = kSFOAuthErrorInactiveUser;
-    }  else if ([type isEqualToString:kSFOAuthErrorTypeInactiveOrg]) {
+    } else if ([type isEqualToString:@"inactive_org"]) {
         code = kSFOAuthErrorInactiveOrg;
-    }  else if ([type isEqualToString:kSFOAuthErrorTypeRateLimitExceeded]) {
+    } else if ([type isEqualToString:@"rate_limit_exceeded"]) {
         code = kSFOAuthErrorRateLimitExceeded;
-    }  else if ([type isEqualToString:kSFOAuthErrorTypeUnsupportedResponseType]) {
+    } else if ([type isEqualToString:@"unsupported_response_type"]) {
         code = kSFOAuthErrorUnsupportedResponseType;
-    } else if ([type isEqualToString:kSFOAuthErrorTypeTimeout]) {
+    } else if ([type isEqualToString:@"auth_timeout"]) {
         code = kSFOAuthErrorTimeout;
-    } else if ([type isEqualToString:kSFOAuthErrorTypeWrongVersion]) {
+    } else if ([type isEqualToString:@"wrong_version"]) {
         code = kSFOAuthErrorWrongVersion;
-    } else if ([type isEqualToString:kSFOAuthErrorTypeBrowserLaunchFailed]) {
+    } else if ([type isEqualToString:@"browser_launch_failed"]) {
         code = kSFOAuthErrorBrowserLaunchFailed;
-    } else if ([type isEqualToString:kSFOAuthErrorTypeUnknownAdvancedAuthConfig]) {
+    } else if ([type isEqualToString:@"unknown_advanced_auth_config"]) {
         code = kSFOAuthErrorUnknownAdvancedAuthConfig;
-    } else if ([type isEqualToString:kSFOAuthErrorTypeJWTLaunchFailed]) {
+    } else if ([type isEqualToString:@"jwt_launch_failed"]) {
         code = kSFOAuthErrorJWTInvalidGrant;
     }
     NSMutableDictionary *userInfoDict = [NSMutableDictionary dictionaryWithDictionary:@{kSFOAuthError: type, NSLocalizedDescriptionKey: description}];
