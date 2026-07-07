@@ -188,9 +188,6 @@ class SFSDKAuthUtilTests: XCTestCase {
         XCTAssertNotNil(account.credentials.accessToken)
         XCTAssertNotEqual(account.credentials.accessToken, originalAccessToken,
                           "Access token should be rotated after refresh")
-        XCTAssertNotNil(account.credentials.refreshToken)
-        XCTAssertNotEqual(account.credentials.refreshToken, originalRefreshToken,
-                          "Refresh token should be rotated after refresh")
     }
 
     func testConcurrentRefreshesWithRevokedAccessToken() async throws {

@@ -112,6 +112,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
             }
         }
         [self.activeRequests removeAllObjects];
+        self.refreshCycleActive = NO;
     }
 }
 
