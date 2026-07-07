@@ -32,6 +32,7 @@
 #import "SFSDKLoginHostStorage.h"
 #import "SFSDKLoginHost.h"
 #import "SFUserAccountManager.h"
+#import "SFUserAccountManager+Internal.h"
 #import "SalesforceSDKManager.h"
 #import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 
@@ -77,6 +78,7 @@
 @property (nonatomic, assign) BOOL originalShouldFallbackToWebAuthentication;
 @property (nonatomic, assign) BOOL originalBiometricLocked;
 @property (nonatomic, copy, nullable) NSString *originalIdpAppURIScheme;
+@property (nonatomic, strong, nullable) SFUserAccount *originalCurrentUser;
 
 @end
 
@@ -96,6 +98,7 @@
     self.originalShouldFallbackToWebAuthentication = [SFUserAccountManager sharedInstance].shouldFallbackToWebAuthentication;
     self.originalBiometricLocked = [SFBiometricAuthenticationManagerInternal shared].locked;
     self.originalIdpAppURIScheme = [SFUserAccountManager sharedInstance].idpAppURIScheme;
+    self.originalCurrentUser = [SFUserAccountManager sharedInstance].currentUser;
 }
 
 - (void)tearDown {
@@ -106,6 +109,7 @@
     [SFUserAccountManager sharedInstance].shouldFallbackToWebAuthentication = self.originalShouldFallbackToWebAuthentication;
     [SFBiometricAuthenticationManagerInternal shared].locked = self.originalBiometricLocked;
     [SFUserAccountManager sharedInstance].idpAppURIScheme = self.originalIdpAppURIScheme;
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:self.originalCurrentUser];
     [[SFUserAccountManager sharedInstance] stopCurrentAuthentication:nil];
     [super tearDown];
 }
@@ -297,12 +301,18 @@
 - (void)test_givenUnlockedNoFlowNoAccount_whenShouldShowBackButton_thenNo {
     [SFBiometricAuthenticationManagerInternal shared].locked = NO;
     [SFUserAccountManager sharedInstance].shouldFallbackToWebAuthentication = NO;
+    // Establish the "no account to return to" precondition explicitly. The shared
+    // SFUserAccountManager is keychain-backed and can carry a currentUser left by other
+    // tests (or a prior run); clear it so the account-based branch is exercised deterministically.
+    // The original value is restored in tearDown.
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:nil];
 
     SFSDKLoginHostListViewController *vc = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
 
     // idp is disabled by default in the test environment; with no current user the account-based
     // branch returns NO.
     XCTAssertFalse([SFUserAccountManager sharedInstance].idpEnabled, @"Test precondition: idp should be disabled");
+    XCTAssertNil([SFUserAccountManager sharedInstance].currentUser, @"Test precondition: there should be no current user");
     XCTAssertFalse([vc shouldShowBackButton], @"Back button should not show when unlocked with no flow and no account to return to");
 }
 
