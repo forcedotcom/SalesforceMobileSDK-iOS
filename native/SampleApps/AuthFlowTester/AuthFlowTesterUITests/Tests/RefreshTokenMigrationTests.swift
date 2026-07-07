@@ -119,15 +119,21 @@ class RefreshTokenMigrationTests: BaseAuthFlowTester {
     }
     
     // MARK: - Migration with auth flow type change (user agent to web server flow)
-    
-    
+
+    // The initial login in these tests uses the user agent flow, which is incompatible with forced
+    // advanced authentication (advanced auth always uses the web server flow), so the initial login
+    // disables advanced auth to exercise the legacy in-app WebView path. The migration step is a
+    // refresh-token exchange (no interactive browser login), so the flag is irrelevant to it and the
+    // migration keeps its default web server flow.
+
     // Migrate from CA (user agent) to ECA (web server)
     func testMigrateCAUserAgentToECAWebServer() throws {
         launchAndLogin(
             loginHost: .regularAuth,
             user:.second,
             staticAppConfigName: .caOpaque,
-            useWebServerFlow: false
+            useWebServerFlow: false,
+            forceAdvancedAuthentication: false
         )
         migrateAndValidate(
             loginHost: .regularAuth,
@@ -136,14 +142,15 @@ class RefreshTokenMigrationTests: BaseAuthFlowTester {
             migrationUseWebServerFlow: true
         )
     }
-    
+
     // Migrate from CA (user agent) to Beacon (web server)
     func testMigrateCAUserAgentToBeaconWebServer() throws {
         launchAndLogin(
             loginHost: .regularAuth,
             user:.second,
             staticAppConfigName: .caOpaque,
-            useWebServerFlow: false
+            useWebServerFlow: false,
+            forceAdvancedAuthentication: false
         )
         migrateAndValidate(
             loginHost: .regularAuth,

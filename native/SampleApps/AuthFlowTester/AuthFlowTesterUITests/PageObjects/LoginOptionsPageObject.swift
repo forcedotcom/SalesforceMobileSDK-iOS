@@ -49,13 +49,15 @@ class LoginOptionsPageObject {
         dynamicScopes: String,
         useWebServerFlow: Bool,
         useHybridFlow: Bool,
+        forceAdvancedAuthentication: Bool? = nil,
         discoveryLoginHost: String,
         discoveryUsername: String,
     ) -> Void {
         // Set auth flow types using the dedicated page object
         authFlowTypesPageObject.setAuthFlowTypes(
             useWebServerFlow: useWebServerFlow,
-            useHybridFlow: useHybridFlow
+            useHybridFlow: useHybridFlow,
+            forceAdvancedAuthentication: forceAdvancedAuthentication
         )
 
         if let staticAppConfig = staticAppConfig {

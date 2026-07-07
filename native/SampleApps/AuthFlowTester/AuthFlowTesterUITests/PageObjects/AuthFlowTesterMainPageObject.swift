@@ -275,23 +275,25 @@ class AuthFlowTesterMainPageObject {
         tap(swithToUserButton())
     }
     
-    func setAuthFlowTypes(useWebServerFlow: Bool, useHybridFlow: Bool) {
+    func setAuthFlowTypes(useWebServerFlow: Bool, useHybridFlow: Bool, forceAdvancedAuthentication: Bool? = nil) {
         tap(bottomBarAuthFlowTypesButton())
         authFlowTypesPageObject.setAuthFlowTypes(
             useWebServerFlow: useWebServerFlow,
-            useHybridFlow: useHybridFlow
+            useHybridFlow: useHybridFlow,
+            forceAdvancedAuthentication: forceAdvancedAuthentication
         )
         tap(authFlowTypesDoneButton())
     }
 
-    func changeAppConfig(appConfig: AppConfig, scopesToRequest: String = "", useWebServerFlow: Bool, useHybridFlow: Bool) -> Bool {
+    func changeAppConfig(appConfig: AppConfig, scopesToRequest: String = "", useWebServerFlow: Bool, useHybridFlow: Bool, forceAdvancedAuthentication: Bool? = nil) -> Bool {
         // Tap Change Key button to open the sheet
         tap(bottomBarChangeKeyButton())
 
         // Set auth flow types using the dedicated page object
         authFlowTypesPageObject.setAuthFlowTypes(
             useWebServerFlow: useWebServerFlow,
-            useHybridFlow: useHybridFlow
+            useHybridFlow: useHybridFlow,
+            forceAdvancedAuthentication: forceAdvancedAuthentication
         )
 
         // Build JSON config and import it

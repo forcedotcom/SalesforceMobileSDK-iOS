@@ -266,6 +266,12 @@ NS_SWIFT_NAME(SalesforceManager)
  */
 @property (nonatomic, assign) BOOL useHybridAuthentication;
 
+/** Whether Advanced Authentication (browser-based OAuth) should always be used for interactive login, regardless of the target server's My Domain auth-configuration. When YES (the default), Advanced Auth is used even on standard login servers such as login.salesforce.com. When NO, Advanced Auth is used only when the server's My Domain auth-configuration opts into it (legacy behavior). Defaults to YES.
+
+ @deprecated Advanced Authentication is becoming mandatory; this flag no longer serves a durable purpose and will be removed in Salesforce Mobile SDK 15.0.
+ */
+@property (nonatomic, assign) BOOL forceAdvancedAuthentication SFSDK_DEPRECATED(14.0, 15.0, "Advanced Authentication is becoming mandatory; this flag will be removed.");
+
 /** Detect use of "Use Custom Domain" input from login web view using the given regex.
  *  Example for a specific org:
  *    "^https:\\/\\/mobilesdk\\.my\\.salesforce\\.com/\\?startURL=%2Fsetup%2Fsecur%2FRemoteAccessAuthorizationPage\\.apexp"

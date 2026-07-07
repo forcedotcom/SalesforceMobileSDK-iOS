@@ -110,6 +110,7 @@
 "LOGIN_OPTIONS_AUTH_FLOW_TYPES_TITLE" = "Authentication Flow Types";
 "LOGIN_OPTIONS_USE_WEB_SERVER_FLOW" = "Use Web Server Flow";
 "LOGIN_OPTIONS_USE_HYBRID_FLOW" = "Use Hybrid Flow";
+"LOGIN_OPTIONS_FORCE_ADVANCED_AUTH" = "Force Advanced Authentication";
 
 // Account Switcher
 "ACCOUNT_SWITCHER_TITLE" = "Manage Accounts";

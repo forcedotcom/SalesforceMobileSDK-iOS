@@ -771,6 +771,116 @@ class LoginForAdminTests: XCTestCase {
         window.rootViewController = nil
     }
 
+    // MARK: - SFUserAccountManager hostListViewControllerDidChangeLoginOptions (forced advanced auth)
+
+    func test_givenAuthSession_whenHostListChangesLoginOptions_thenAuthRequestRecreatedAndRestarted() {
+        let uam = UserAccountManager.shared
+
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
+            XCTFail("Test requires a UIWindowScene from the running test app")
+            return
+        }
+        let sceneId = windowScene.session.persistentIdentifier
+
+        let request = makeAuthRequest()
+        request.loginHost = "test.salesforce.com"
+        let session = SFSDKAuthSession(request, credentials: nil)
+        uam.authSessions[sceneId as NSString] = session
+
+        // Place a host list VC in the window so its view.window.windowScene resolves to the
+        // same scene the session is keyed under. It must live inside a UINavigationController —
+        // the host list styles its nav bar on appearance (self.navigationController), matching
+        // how production presents it in the auth window.
+        let hostListVC = LoginHostListViewController(style: .plain)
+        let navController = UINavigationController(rootViewController: hostListVC)
+        let window = windowScene.windows.first ?? UIWindow(windowScene: windowScene)
+        window.rootViewController = navController
+        window.makeKeyAndVisible()
+        hostListVC.loadViewIfNeeded()
+        // Force layout so the nav controller attaches the host list's view into the window
+        // hierarchy; production reads hostListViewController.view.window.windowScene to find
+        // the session, so view.window must be non-nil before we invoke the delegate.
+        window.layoutIfNeeded()
+        XCTAssertNotNil(hostListVC.view.window,
+                        "Test precondition: host list view must be attached to the window")
+        XCTAssertEqual(hostListVC.view.window?.windowScene?.session.persistentIdentifier, sceneId,
+                       "Test precondition: host list must resolve to the seeded scene")
+
+        // Invoke the delegate method via performSelector since the SFSDKLoginHostDelegate
+        // conformance on UserAccountManager is internal.
+        let selector = NSSelectorFromString("hostListViewControllerDidChangeLoginOptions:")
+        XCTAssertTrue(uam.responds(to: selector),
+                      "UserAccountManager should respond to hostListViewControllerDidChangeLoginOptions:")
+        uam.perform(selector, with: hostListVC)
+
+        // The session's request is recreated from the manager defaults (so changed login options
+        // take effect) while preserving the originally configured login host.
+        XCTAssertFalse(session.oauthRequest === request,
+                       "oauthRequest should be recreated (a fresh default request) when login options change")
+        XCTAssertEqual(session.oauthRequest.loginHost, "test.salesforce.com",
+                       "The recreated request must preserve the originally configured login host")
+
+        // Clean up
+        uam.stopCurrentAuthentication()
+        uam.authSessions.removeObject(sceneId as NSString)
+        window.rootViewController = nil
+    }
+
+    // MARK: - SFUserAccountManager Cancel Browser Auth (forced-advanced-auth host list landing)
+
+    func test_givenNoHandlerBlock_whenBrowserAuthCancelled_thenHostListPresentedWithChrome() {
+        let uam = UserAccountManager.shared
+
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
+            XCTFail("Test requires a UIWindowScene from the running test app")
+            return
+        }
+        let sceneId = windowScene.session.persistentIdentifier
+
+        // Reach the host-list branch: not loginAsAdmin, not native-login fallback, and no
+        // cancel handler block installed.
+        let originalHandler = uam.authCancelledByUserHandlerBlock
+        let originalNativeLogin = uam.nativeLoginEnabled
+        let originalFallback = uam.shouldFallbackToWebAuthentication
+        uam.authCancelledByUserHandlerBlock = nil
+        uam.nativeLoginEnabled = false
+        uam.shouldFallbackToWebAuthentication = false
+
+        let request = makeAuthRequest()
+        request.loginAsAdmin = false
+        request.useBrowserAuth = true
+        request.scene = windowScene
+        let session = SFSDKAuthSession(request, credentials: nil)
+        session.oauthCoordinator.delegate = uam
+        uam.authSessions[sceneId as NSString] = session
+
+        uam.oauthCoordinatorDidCancelBrowserAuthentication(session.oauthCoordinator)
+
+        // The host list is presented on the auth window with the forced-advanced-auth chrome.
+        let authWindow = SFSDKWindowManager.shared().authWindow(windowScene)
+        let nav = authWindow.viewController?.presentedViewController as? UINavigationController
+        let hostList = nav?.viewControllers.first as? LoginHostListViewController
+        XCTAssertNotNil(hostList, "The host list should be presented on the auth window after cancelling browser auth")
+        XCTAssertTrue(hostList?.presentedAsLoginScreen ?? false,
+                      "The presented host list should be marked as the standalone login screen so it surfaces the back button and Login Options chrome")
+        XCTAssertTrue(hostList?.hidesCancelButton ?? false,
+                      "The presented host list should hide the Cancel button in the forced-advanced-auth path")
+
+        // Drive the back button from the presented host list. With no idp flow this takes the
+        // non-idp branch, dismissing the presented view controller and then the auth window via
+        // its completion block. This exercises handleBackButtonAction end-to-end against a real
+        // presented VC (rather than the bare no-op case in SFSDKLoginHostTests).
+        hostList?.perform(NSSelectorFromString("handleBackButtonAction"))
+
+        // Clean up (idempotent even though the back action already dismisses)
+        authWindow.viewController?.dismiss(animated: false, completion: nil)
+        authWindow.dismissWindow()
+        uam.authSessions.removeObject(sceneId as NSString)
+        uam.authCancelledByUserHandlerBlock = originalHandler
+        uam.nativeLoginEnabled = originalNativeLogin
+        uam.shouldFallbackToWebAuthentication = originalFallback
+    }
+
     // MARK: - Private Helpers
 
     private func makeAuthRequest() -> SFSDKAuthRequest {

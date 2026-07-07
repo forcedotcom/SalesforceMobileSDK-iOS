@@ -66,9 +66,14 @@ class BaseAuthFlowTester: XCTestCase {
     
     // MARK: - Public API for Subclasses
     
-    /// Launches the application and ensures it starts in a logged-out state.
+    /// Launches the application and ensures it starts in a logged-out state on a known login server.
     ///
-    /// Initializes the app and page objects, launches the app, and logs out if a user is already logged in.
+    /// Initializes the app and page objects, launches the app, and logs out if a user is already
+    /// logged in. Then resets the login server to `login.salesforce.com`: the login host persists
+    /// across tests, so a prior test that selected a discovery or advanced-auth org would otherwise
+    /// strand the next test (its `login()` assumes the browser is showing on entry). Leaves the app
+    /// on the external browser surface (the default, advanced auth forced on) against the standard
+    /// server, which is exactly the state `login()` expects on entry.
     func launch() {
         app = XCUIApplication()
 
@@ -90,12 +95,17 @@ class BaseAuthFlowTester: XCTestCase {
             logout()
         }
 
-        // Close advanced authentication is showing
-        if (loginPage.isShowingAdvancedAuth()) {
-            loginPage.closeAdvancedAuth()
+        // Reset to a known login server so a discovery or advanced-auth host leaked by a prior test
+        // cannot strand this one. A fresh launch re-defaults advanced auth on, so the external
+        // browser is normally showing; a leaked discovery host instead runs discovery in the in-app
+        // WebView. Reach the host list from whichever surface is up — the browser is the common case
+        // (probe it with the generous default timeout), the in-app WebView the fallback — then pin
+        // the standard server (selecting it relaunches the browser against login.salesforce.com).
+        if loginPage.isShowingBrowserLogin() {
+            loginPage.returnToHostList(expectingBrowser: true)
+        } else {
+            loginPage.returnToHostList(expectingBrowser: false)
         }
-
-        // Swith back to login.salesforce.com to be in a known state
         loginPage.configureLoginHost(host: "login.salesforce.com")
     }
 
@@ -113,8 +123,14 @@ class BaseAuthFlowTester: XCTestCase {
     ///   - dynamicScopeSelection: The scope selection for dynamic configuration. Defaults to `.empty`.
     ///   - useWebServerFlow: Whether to use web server OAuth flow. Defaults to `true`.
     ///   - useHybridFlow: Whether to use hybrid authentication flow. Defaults to `true`.
+    ///   - forceAdvancedAuthentication: Overrides the SDK's process-global "force advanced
+    ///     authentication" setting for this login. Leave `nil` to inherit the production default
+    ///     (advanced auth forced on — the external browser is used for interactive login). Pass
+    ///     `false` to exercise the legacy in-app WebView path, or `true` to force it explicitly.
     ///   - useWelcomeDiscovery: When true, configures simulated domain discovery. Defaults to `false`.
-    ///   - loginForAdmin: When true, uses the "Login for Admin" flow (browser-based auth via Settings menu). Defaults to `false`.
+    ///   - loginForAdmin: When true, uses the "Login for Admin" flow (browser-based auth via the
+    ///     in-app WebView's Settings menu). Requires advanced auth disabled so the WebView — and its
+    ///     "Login for Admin" gear entry — is shown. Defaults to `false`.
     func login(
         loginHost: KnownLoginHostConfig,
         user: KnownUserConfig,
@@ -124,6 +140,7 @@ class BaseAuthFlowTester: XCTestCase {
         dynamicScopeSelection: ScopeSelection = .empty,
         useWebServerFlow: Bool = true,
         useHybridFlow: Bool = true,
+        forceAdvancedAuthentication: Bool? = nil,
         useWelcomeDiscovery: Bool = false,
         loginForAdmin: Bool = false,
     ) {
@@ -133,7 +150,20 @@ class BaseAuthFlowTester: XCTestCase {
         let dynamicAppConfig = dynamicAppConfigName == nil ? nil : getAppConfig(named: dynamicAppConfigName!)
         let staticScopes = testConfig.getScopesToRequest(for: staticAppConfig, staticScopeSelection)
         let dynamicScopes = dynamicAppConfig == nil ? "" : testConfig.getScopesToRequest(for: dynamicAppConfig!, dynamicScopeSelection)
-        
+
+        // Advanced auth is forced on by default; only an explicit `false` disables it. When it is
+        // on, interactive login happens in the external browser; when off, in the in-app WebView.
+        let advancedAuthEnabled = forceAdvancedAuthentication != false
+        // The surface used to enter credentials: the external browser under advanced auth (forced
+        // on, or a host that itself requires it), otherwise the in-app WebView. Login for Admin is
+        // special-cased below: it always finishes in the browser regardless of this value.
+        let usesBrowser = advancedAuthEnabled || loginHost == .advancedAuth
+
+        // A fresh login surface always starts under the process default (advanced auth on), so the
+        // external browser is showing. Cancel it to reach the host list, where login options and
+        // the login host are configured. (The flag re-defaults to on at every process launch.)
+        loginPage.returnToHostList(expectingBrowser: true)
+
         loginPage.configureLoginOptions(
             staticAppConfig: staticAppConfig,
             staticScopes: staticScopes,
@@ -141,38 +171,43 @@ class BaseAuthFlowTester: XCTestCase {
             dynamicScopes: dynamicScopes,
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow,
+            forceAdvancedAuthentication: forceAdvancedAuthentication,
             discoveryLoginHost: useWelcomeDiscovery ? hostConfig.urlNoProtocol : "",
             discoveryUsername: useWelcomeDiscovery ? userConfig.username : "",
         )
-        
-        // Configuring login host last
-        // When the configured login host requires advanced authentication
-        // the login settings button is no longer available on the screen
-        // When useWelcomeDiscovery is true, use welcome.salesforce.com/discovery as the login server
+
+        // Closing login options restarts authentication, so the login surface reappears — the
+        // browser when advanced auth is on, the in-app WebView when it was disabled. Return to the
+        // host list to select the login host. Configuring the host last matches how a real user
+        // arrives at the picker and keeps the login-options gear reachable until then.
+        // When useWelcomeDiscovery is true, use welcome.salesforce.com/discovery as the login server.
+        loginPage.returnToHostList(expectingBrowser: advancedAuthEnabled)
         let loginHostToUse = useWelcomeDiscovery ? "welcome.salesforce.com/discovery" : hostConfig.urlNoProtocol
         loginPage.configureLoginHost(host: loginHostToUse)
-        
+
         // Invalid app config
         if (dynamicAppConfigName == .invalid || (dynamicAppConfigName == nil && staticAppConfigName == .invalid)) {
             XCTAssertTrue(loginPage.isShowingInvalidClientIdError(), "Login page should show invalid client id error")
             logoutAtTearDown = false
             return
         }
-        
-        // Login for Admin (browser-based auth via Settings menu)
+
+        // Login for Admin (browser-based auth via the in-app WebView's Settings menu)
         if (loginForAdmin) {
             loginPage.performLoginForAdmin(username: userConfig.username, password: userConfig.password)
         }
-        // Welcome login
+        // Welcome login: discovery always begins in the in-app WebView; once the My Domain is
+        // resolved the SDK switches to the browser when advanced auth is on, so the password step
+        // uses whichever surface `usesBrowser` indicates.
         else if (useWelcomeDiscovery) {
             XCTAssertTrue(loginPage.hasFilledUsernameField(username: userConfig.username), "Login page should have pre-filled username")
-            loginPage.performWelcomeLogin(password: userConfig.password, advancedAuth: loginHost == .advancedAuth)
+            loginPage.performWelcomeLogin(password: userConfig.password, advancedAuth: usesBrowser)
         }
         // Regular or advanced auth
         else {
-            loginPage.performLogin(username: userConfig.username, password: userConfig.password, advancedAuth: loginHost == .advancedAuth)
+            loginPage.performLogin(username: userConfig.username, password: userConfig.password, advancedAuth: usesBrowser)
         }
-        
+
         // Invalid scope
         if (dynamicScopeSelection == .invalid || (dynamicAppConfig == nil && staticScopeSelection == .invalid)) {
             XCTAssertTrue(loginPage.isShowingUnexpectedOauthError(), "Screen should show OAuth Error")
@@ -293,6 +328,7 @@ class BaseAuthFlowTester: XCTestCase {
         dynamicScopeSelection: ScopeSelection = .empty,
         useWebServerFlow: Bool = true,
         useHybridFlow: Bool = true,
+        forceAdvancedAuthentication: Bool? = nil,
         loginForAdmin: Bool = false,
     ) {
         // Launch
@@ -308,6 +344,7 @@ class BaseAuthFlowTester: XCTestCase {
             dynamicScopeSelection: dynamicScopeSelection,
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow,
+            forceAdvancedAuthentication: forceAdvancedAuthentication,
             loginForAdmin: loginForAdmin,
         )
     }
@@ -336,6 +373,7 @@ class BaseAuthFlowTester: XCTestCase {
         dynamicScopeSelection: ScopeSelection = .empty,
         useWebServerFlow: Bool = true,
         useHybridFlow: Bool = true,
+        forceAdvancedAuthentication: Bool? = nil,
         useWelcomeDiscovery: Bool = false,
         loginForAdmin: Bool = false,
         isMultiUser: Bool = false,
@@ -357,6 +395,7 @@ class BaseAuthFlowTester: XCTestCase {
             dynamicScopeSelection: dynamicScopeSelection,
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow,
+            forceAdvancedAuthentication: forceAdvancedAuthentication,
             useWelcomeDiscovery: useWelcomeDiscovery,
             loginForAdmin: loginForAdmin
         )
@@ -674,6 +713,117 @@ class BaseAuthFlowTester: XCTestCase {
     @discardableResult
     func makeRestRequest() -> Bool {
         return mainPage.makeRestRequest()
+    }
+
+    // MARK: - Force Advanced Auth Test Support
+    //
+    // Thin wrappers exposing the login-page / main-page primitives to `ForceAdvancedAuthTests`,
+    // which asserts the login *modality* (external browser vs. in-app WebView) and the forced-
+    // advanced-auth presentation chrome (back button / gear) rather than driving a full
+    // `login()`/validate cycle. `app`, `loginPage`, and `mainPage` are private, so these give the
+    // subclass just enough surface without widening the general API.
+
+    /// Prevents `tearDown` from attempting a logout. Use in tests that intentionally stop on a
+    /// login surface (external browser, in-app WebView, or a dev-menu modal) rather than the main
+    /// page, where the logout button is not reachable. The next test's `launch()` self-heals any
+    /// residual session (it logs out if the main page is showing on relaunch).
+    func skipLogoutAtTearDown() {
+        logoutAtTearDown = false
+    }
+
+    /// Returns to the login host list ("Change Server"). Pass `expectingBrowser: true` when the
+    /// external browser is showing (forced advanced auth — cancel it to reach the list) and
+    /// `false` when the in-app WebView is showing (reach the list via its Settings gear).
+    func returnToLoginHostList(expectingBrowser: Bool) {
+        loginPage.returnToHostList(expectingBrowser: expectingBrowser)
+    }
+
+    /// Selects (or adds) the given login host by its display string. Assumes the host list is
+    /// already showing. For the built-in standard server pass its display name, e.g. "Production"
+    /// (`login.salesforce.com`).
+    func configureLoginHost(_ host: String) {
+        loginPage.configureLoginHost(host: host)
+    }
+
+    /// Selects the login host for a known configuration (resolving its URL from `ui_test_config`).
+    /// Assumes the host list is already showing.
+    func configureLoginHost(_ loginHost: KnownLoginHostConfig) {
+        loginPage.configureLoginHost(host: getLoginHost(loginHost: loginHost).urlNoProtocol)
+    }
+
+    /// Imports the `forceAdvancedAuthentication` flag (and a valid app config so the login form can
+    /// load) via the login screen's Settings gear → Login Options → Auth Flow Types JSON import —
+    /// the same hook `login()` uses. Assumes a screen with the Settings gear is showing (the host
+    /// list under forced advanced auth, or the in-app WebView). Closing Login Options restarts
+    /// authentication, so the login surface reappears in the modality the flag now selects.
+    func setForceAdvancedAuthentication(
+        _ value: Bool,
+        staticAppConfigName: KnownAppConfig,
+        staticScopeSelection: ScopeSelection = .empty,
+        useWebServerFlow: Bool = true,
+        useHybridFlow: Bool = true
+    ) {
+        let staticAppConfig = getAppConfig(named: staticAppConfigName)
+        let staticScopes = testConfig.getScopesToRequest(for: staticAppConfig, staticScopeSelection)
+        loginPage.configureLoginOptions(
+            staticAppConfig: staticAppConfig,
+            staticScopes: staticScopes,
+            dynamicAppConfig: nil,
+            dynamicScopes: "",
+            useWebServerFlow: useWebServerFlow,
+            useHybridFlow: useHybridFlow,
+            forceAdvancedAuthentication: value,
+            discoveryLoginHost: "",
+            discoveryUsername: ""
+        )
+    }
+
+    /// True when the external browser (`ASWebAuthenticationSession`) login surface is showing. Pass
+    /// `UITestTimeouts.short` for the negative "no external browser" assertion.
+    func isShowingBrowserLogin(timeout: TimeInterval = UITestTimeouts.long) -> Bool {
+        return loginPage.isShowingBrowserLogin(timeout: timeout)
+    }
+
+    /// True when the legacy in-app WebView login form is showing. Pass `UITestTimeouts.short` for
+    /// the negative "no in-app WebView" assertion.
+    func isShowingInAppLoginForm(timeout: TimeInterval = UITestTimeouts.network) -> Bool {
+        return loginPage.isShowingInAppLoginForm(timeout: timeout)
+    }
+
+    /// True when the Settings gear is present on the current login nav bar (host list under forced
+    /// advanced auth, or the in-app WebView on the legacy path).
+    func isShowingLoginSettingsGear() -> Bool {
+        return loginPage.isShowingSettingsGear()
+    }
+
+    /// True when an accessible back control is present on the current login nav bar (see
+    /// `LoginPageObject.isShowingBackButton()`).
+    func isShowingLoginBackButton() -> Bool {
+        return loginPage.isShowingBackButton()
+    }
+
+    /// Taps the login nav-bar back control, stopping the in-flight authentication and returning to
+    /// the existing account list without completing login.
+    func tapLoginBackButton() {
+        loginPage.tapBackButton()
+    }
+
+    /// Opens Login Options from the Settings gear (gear → "Login Options").
+    func openLoginOptions() {
+        loginPage.openLoginOptions()
+    }
+
+    /// True when the Authentication Flow Types dev screen — the harness's own flag-driving surface —
+    /// is showing.
+    func isShowingAuthFlowTypesView() -> Bool {
+        return loginPage.isShowingAuthFlowTypesView()
+    }
+
+    /// Triggers the add-new-account flow from the main page (Switch User → New User), which starts
+    /// a fresh authentication for an additional user while preserving the current user. Under forced
+    /// advanced auth the external browser launches; on the legacy path the in-app WebView is shown.
+    func triggerAddUser() {
+        mainPage.performAddUser()
     }
 
     /// Returns the user configuration for the specified login host and user.

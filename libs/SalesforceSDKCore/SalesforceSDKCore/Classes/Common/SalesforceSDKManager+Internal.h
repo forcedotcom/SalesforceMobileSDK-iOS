@@ -27,6 +27,13 @@ API_UNAVAILABLE(visionos)
 
 @property (nonatomic, assign) SFAppType appType;
 @property (nonatomic, weak, nullable) id<SalesforceSDKManagerFlow> sdkManagerFlow;
+
+/** Non-deprecated internal accessor for the same backing storage as the public
+ `forceAdvancedAuthentication` property (deprecated in 14.0, removed in 15.0). Internal SDK code
+ reads and writes the flag through this accessor so that its own use does not trip
+ -Wdeprecated-declarations. Delete this alongside the public property in 15.0.
+ */
+@property (nonatomic, assign) BOOL sdk_forceAdvancedAuthentication;
 @property (nonatomic, strong, nonnull) SFSDKSafeMutableDictionary<NSString *, UIViewController *> *snapshotViewControllers;
 @property (nonatomic, strong, nullable) SFSDKSafeMutableDictionary<NSString *, UIViewController *> *nativeLoginViewControllers;
 

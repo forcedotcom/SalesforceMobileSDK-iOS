@@ -39,6 +39,7 @@
 #import "SFSDKEventBuilderHelper.h"
 #import "SFSDKAppFeatureMarkers.h"
 #import "SalesforceSDKManager.h"
+#import "SalesforceSDKManager+Internal.h"
 #import "SFNetwork.h"
 #import "NSURL+SFAdditions.h"
 #import "SFSDKURLHandlerManager.h"
@@ -198,10 +199,14 @@
                 dispatch_async(dispatch_get_main_queue(), ^{
                     // Ignore any errors why retrieving authconfig. Default to WKWebView
                     // Errors should have already been logged.
-                    if (!self.frontdoorBridgeLoginOverride && authConfig.useNativeBrowserForAuth) {
+                    if (!self.frontdoorBridgeLoginOverride &&
+                        (authConfig.useNativeBrowserForAuth ||
+                         [SalesforceSDKManager sharedManager].sdk_forceAdvancedAuthentication)) {
                         [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSafariBrowserForLogin];
                         strongSelf.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeAdvancedBrowser];
                         [strongSelf notifyDelegateOfBeginAuthentication];
+                        // shareBrowserSession is honored for My Domain; nil-messaging yields false
+                        // for standard servers, which is the correct default there.
                         [strongSelf beginNativeBrowserFlowWithSharedBrowserSessionEnabled:authConfig.shareBrowserSession];
                     } else {
                         [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureSafariBrowserForLogin];
