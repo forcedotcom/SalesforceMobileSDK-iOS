@@ -94,10 +94,10 @@ Update the cipher provider version test:
 
 Note: The OpenSSL version format is typically like "OpenSSL 3.0.17 1 Jul 2025" and the LibTomCrypt format is like "1.18.2" - check the actual runtime value or SQLCipher release notes.
 
-Update the SQLLite version test:
+Update the SQLite version test:
 - (void) testSqliteVersion {
     NSString* version = [NSString stringWithUTF8String:sqlite3_libversion()];
-    XCTAssertEqualObjects(version, @"3.50.4");
+    XCTAssertEqualObjects(version, @"NEW_SQLITE_VERSION");
 }
 
 ### 4. Check for API Changes
