@@ -104,6 +104,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, nullable) NSString *codeVerifier;
 @property (nonatomic, assign) NSTimeInterval timeout;
 @property (nonatomic, strong) NSURL *serverURL;
+@property (nonatomic, copy, nullable) NSString *attestation;
 @property (nonatomic, strong, nullable) NSDictionary * additionalTokenRefreshParams;
 @property (nonatomic, strong, nullable) NSArray<NSString *> *additionalOAuthParameterKeys;
 @end

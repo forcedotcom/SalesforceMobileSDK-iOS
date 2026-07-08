@@ -78,12 +78,12 @@ static NSString * const kSFOAuthCookieSidClient                 = @"cookie-sid_C
 static NSString * const kSFOAuthSidCookieName                   = @"sidCookieName";
 static NSString * const kSFOAuthParentSid                       = @"parent_sid";
 static NSString * const kSFOAuthTokenFormat                     = @"token_format";
+static NSString * const kSFOAuthAttestation                     = @"attestation";
 static NSString * const kSFOAuthBeaconChildConsumerKey          = @"auto_installed_app_org_consumer_key";
 static NSString * const kSFOAuthBeaconChildConsumerSecret       = @"auto_installed_app_org_consumer_secret";
 // TODO: Remove legacy fallback constants once server version 264 has rolled out everywhere.
 static NSString * const kSFOAuthLegacyBeaconChildConsumerKey    = @"beacon_child_consumer_key";
 static NSString * const kSFOAuthLegacyBeaconChildConsumerSecret = @"beacon_child_consumer_secret";
-
 
 // Used for the IP bypass flow, Advanced auth flow
 static NSString * const kSFOAuthApprovalCode                     = @"code";
@@ -146,5 +146,10 @@ static NSString * const kSFOAuthEndPointHeadlessInitRegistration = @"services/au
 
 /// Endpoint path for Salesforce Identity API headless forgot password flow
 static NSString * const kSFOAuthEndPointHeadlessForgotPassword = @"services/auth/headless/forgot_password";
+
+// Standard login pool URLs (non-My Domain)
+static NSString * const kSFOAuthProductionLoginURL               = @"login.salesforce.com";
+static NSString * const kSFOAuthSandboxLoginURL                  = @"test.salesforce.com";
+static NSString * const kSFOAuthWelcomeLoginURL                  = @"welcome.salesforce.com/discovery";
 
 #endif /* SFSDKOAuthConstants_h */
