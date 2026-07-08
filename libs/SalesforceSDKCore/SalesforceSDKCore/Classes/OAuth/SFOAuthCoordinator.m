@@ -438,7 +438,10 @@
     _asWebAuthenticationSession = [[ASWebAuthenticationSession alloc] initWithURL:nativeBrowserUrl callbackURLScheme:[NSURL URLWithString:self.credentials.redirectUri].scheme completionHandler:^(NSURL *callbackURL, NSError *error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (!error && [[SFSDKURLHandlerManager sharedInstance] canHandleRequest:callbackURL options:nil]) {
-            NSDictionary *options = @{kSFIDPSceneIdKey : self.authSession.sceneId};
+            // Guard against a nil sceneId so we never insert nil into the options dictionary; omit the
+            // key and let the URL handler fall back to the default scene.
+            NSString *sceneId = self.authSession.sceneId;
+            NSDictionary *options = sceneId ? @{kSFIDPSceneIdKey : sceneId} : @{};
             [[SFSDKURLHandlerManager sharedInstance] processRequest:callbackURL options:options completion:nil failure:nil];
         } else {
             [strongSelf.delegate oauthCoordinatorDidCancelBrowserAuthentication:strongSelf];

@@ -100,5 +100,46 @@
     XCTAssertEqual(capturedAuthInfo.authType, SFOAuthTypeRefreshTokenMigration, @"AuthInfo type should be refresh token migration");
 }
 
+// Must match kSFSDKAuthSessionUnscopedSceneIdPrefix in SFSDKAuthSession.m.
+static NSString * const kExpectedUnscopedSceneIdPrefix = @"com.salesforce.mobilesdk.unscopedAuthSession-";
+
+// A session created before any UIScene connects must still expose a non-nil sceneId, otherwise the
+// advanced-auth browser callback crashes and the session is dropped from the authSessions store.
+- (void)test_givenNoConnectedScene_whenAuthSessionCreated_thenSceneIdIsNonNilWithUnscopedPrefix {
+    SFSDKAuthRequest *authRequest = [[SFSDKAuthRequest alloc] init];
+    authRequest.oauthClientId = @"testClientId";
+    authRequest.oauthCompletionUrl = @"testapp://callback";
+    authRequest.loginHost = @"login.salesforce.com";
+    XCTAssertNil(authRequest.scene, @"Precondition: no scene connected yet");
+
+    SFSDKAuthSession *authSession = [[SFSDKAuthSession alloc] initWith:authRequest credentials:nil];
+
+    XCTAssertNotNil(authSession.sceneId, @"sceneId must be non-nil so the advanced-auth callback options dictionary is safe to build and the session is stored under a valid key");
+    XCTAssertTrue([authSession.sceneId hasPrefix:kExpectedUnscopedSceneIdPrefix], @"A scene-less session should get the synthesized unscoped scene id, got: %@", authSession.sceneId);
+}
+
+// Two scene-less sessions must get distinct sceneIds so they cannot collide on a single authSessions[]
+// key, and each sceneId must be stable for the session's lifetime.
+- (void)test_givenTwoNoSceneAuthSessions_whenCreated_thenSceneIdsAreDistinctAndStable {
+    SFSDKAuthRequest *request1 = [[SFSDKAuthRequest alloc] init];
+    request1.oauthClientId = @"testClientId";
+    request1.oauthCompletionUrl = @"testapp://callback";
+    request1.loginHost = @"login.salesforce.com";
+
+    SFSDKAuthRequest *request2 = [[SFSDKAuthRequest alloc] init];
+    request2.oauthClientId = @"testClientId";
+    request2.oauthCompletionUrl = @"testapp://callback";
+    request2.loginHost = @"login.salesforce.com";
+
+    SFSDKAuthSession *session1 = [[SFSDKAuthSession alloc] initWith:request1 credentials:nil];
+    SFSDKAuthSession *session2 = [[SFSDKAuthSession alloc] initWith:request2 credentials:nil];
+
+    XCTAssertNotNil(session1.sceneId);
+    XCTAssertNotNil(session2.sceneId);
+    XCTAssertNotEqualObjects(session1.sceneId, session2.sceneId, @"Two scene-less sessions must get distinct scene ids so they cannot collide on a single authSessions[] key");
+    // Frozen for the session's lifetime: reading again yields the same value.
+    XCTAssertEqualObjects(session1.sceneId, session1.sceneId, @"sceneId must be stable for the session's lifetime");
+}
+
 @end
 
