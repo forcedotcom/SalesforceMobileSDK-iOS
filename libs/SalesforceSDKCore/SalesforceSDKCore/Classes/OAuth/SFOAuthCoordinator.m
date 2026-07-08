@@ -670,6 +670,12 @@
 }
 
 - (void)beginTokenEndpointFlow {
+    [SFSDKAppAttestation attestationIfEnabledFor:self.credentials.domain consumerKey:self.credentials.clientId completionHandler:^(NSString * _Nullable attestation) {
+        [self executeTokenEndpointFlowWithAttestation:attestation];
+    }];
+}
+
+- (void)executeTokenEndpointFlowWithAttestation:(NSString * _Nullable)attestation {
     self.responseData = [NSMutableData dataWithLength:512];
     SFSDKOAuthTokenEndpointRequest *request = [[SFSDKOAuthTokenEndpointRequest alloc] init];
     request.additionalOAuthParameterKeys = self.additionalOAuthParameterKeys;
@@ -679,6 +685,7 @@
     request.redirectURI = self.credentials.redirectUri;
     request.serverURL = [self.credentials overrideDomainIfNeeded];
     request.credentialsIdentifier = self.credentials.identifier;
+    request.attestation = attestation;
 
     __weak typeof (self) weakSelf = self;
     if (self.approvalCode) {
