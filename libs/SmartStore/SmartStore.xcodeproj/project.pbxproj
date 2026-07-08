@@ -1319,7 +1319,7 @@
 			repositoryURL = "https://github.com/sqlcipher/SQLCipher.swift";
 			requirement = {
 				kind = exactVersion;
-				version = 4.16.0;
+				version = 4.17.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

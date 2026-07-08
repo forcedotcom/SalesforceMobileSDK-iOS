@@ -97,6 +97,12 @@ Note: The OpenSSL version format is typically like "OpenSSL 3.0.17 1 Jul 2025" a
 Update the SQLLite version test:
 - (void) testSqliteVersion {
     NSString* version = [NSString stringWithUTF8String:sqlite3_libversion()];
+    XCTAssertEqualObjects(version, @"3.53.3");
+}
+
+Update the SQLLite version test:
+- (void) testSqliteVersion {
+    NSString* version = [NSString stringWithUTF8String:sqlite3_libversion()];
     XCTAssertEqualObjects(version, @"3.50.4");
 }
 
