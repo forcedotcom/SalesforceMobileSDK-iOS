@@ -214,36 +214,60 @@ class AppAttestationTests: XCTestCase {
                       "App attest key name constant should match expected value")
     }
 
-    // MARK: - Gating Logic Tests (attestationIfEnabled)
+    // MARK: - Gating Logic Tests (shouldAttemptAttestation)
 
-    func test_givenAttestationDisabled_whenCallingAttestationIfEnabled_thenReturnsNil() async {
+    func test_givenAllConditionsMet_whenCheckingShouldAttempt_thenReturnsTrue() {
+        UserAccountManager.shared.appAttestationEnabled = true
+        let result = AppAttestation.shouldAttemptAttestation(for: "mydomain.my.salesforce.com", consumerKey: "consumerKey123", isDeviceSupported: true)
+        XCTAssertTrue(result, "Should return true when all conditions are met")
+    }
+
+    func test_givenAttestationDisabled_whenCheckingShouldAttempt_thenReturnsFalse() {
         UserAccountManager.shared.appAttestationEnabled = false
-        let result = await AppAttestation.attestationIfEnabled(for: "mydomain.my.salesforce.com", consumerKey: "consumerKey123")
-        XCTAssertNil(result, "Should return nil when attestation is disabled")
+        let result = AppAttestation.shouldAttemptAttestation(for: "mydomain.my.salesforce.com", consumerKey: "consumerKey123", isDeviceSupported: true)
+        XCTAssertFalse(result, "Should return false when attestation is disabled")
     }
 
-    func test_givenLoginSalesforceDomain_whenCallingAttestationIfEnabled_thenReturnsNil() async {
+    func test_givenDeviceNotSupported_whenCheckingShouldAttempt_thenReturnsFalse() {
         UserAccountManager.shared.appAttestationEnabled = true
-        let result = await AppAttestation.attestationIfEnabled(for: "login.salesforce.com", consumerKey: "consumerKey123")
-        XCTAssertNil(result, "Should return nil for login.salesforce.com (login pool)")
+        let result = AppAttestation.shouldAttemptAttestation(for: "mydomain.my.salesforce.com", consumerKey: "consumerKey123", isDeviceSupported: false)
+        XCTAssertFalse(result, "Should return false when device does not support App Attest")
     }
 
-    func test_givenTestSalesforceDomain_whenCallingAttestationIfEnabled_thenReturnsNil() async {
+    func test_givenLoginSalesforceDomain_whenCheckingShouldAttempt_thenReturnsFalse() {
         UserAccountManager.shared.appAttestationEnabled = true
-        let result = await AppAttestation.attestationIfEnabled(for: "test.salesforce.com", consumerKey: "consumerKey123")
-        XCTAssertNil(result, "Should return nil for test.salesforce.com (login pool)")
+        let result = AppAttestation.shouldAttemptAttestation(for: "login.salesforce.com", consumerKey: "consumerKey123", isDeviceSupported: true)
+        XCTAssertFalse(result, "Should return false for login.salesforce.com (login pool)")
     }
 
-    func test_givenWelcomeDiscoveryDomain_whenCallingAttestationIfEnabled_thenReturnsNil() async {
+    func test_givenTestSalesforceDomain_whenCheckingShouldAttempt_thenReturnsFalse() {
         UserAccountManager.shared.appAttestationEnabled = true
-        let result = await AppAttestation.attestationIfEnabled(for: "welcome.salesforce.com/discovery", consumerKey: "consumerKey123")
-        XCTAssertNil(result, "Should return nil for welcome.salesforce.com/discovery (login pool)")
+        let result = AppAttestation.shouldAttemptAttestation(for: "test.salesforce.com", consumerKey: "consumerKey123", isDeviceSupported: true)
+        XCTAssertFalse(result, "Should return false for test.salesforce.com (login pool)")
     }
 
-    func test_givenEmptyConsumerKey_whenCallingAttestationIfEnabled_thenReturnsNil() async {
+    func test_givenWelcomeDiscoveryDomain_whenCheckingShouldAttempt_thenReturnsFalse() {
         UserAccountManager.shared.appAttestationEnabled = true
-        let result = await AppAttestation.attestationIfEnabled(for: "mydomain.my.salesforce.com", consumerKey: "")
-        XCTAssertNil(result, "Should return nil when consumer key is empty")
+        let result = AppAttestation.shouldAttemptAttestation(for: "welcome.salesforce.com/discovery", consumerKey: "consumerKey123", isDeviceSupported: true)
+        XCTAssertFalse(result, "Should return false for welcome.salesforce.com/discovery (login pool)")
+    }
+
+    func test_givenNilDomain_whenCheckingShouldAttempt_thenReturnsFalse() {
+        UserAccountManager.shared.appAttestationEnabled = true
+        let result = AppAttestation.shouldAttemptAttestation(for: nil, consumerKey: "consumerKey123", isDeviceSupported: true)
+        XCTAssertFalse(result, "Should return false when domain is nil")
+    }
+
+    func test_givenEmptyDomain_whenCheckingShouldAttempt_thenReturnsFalse() {
+        UserAccountManager.shared.appAttestationEnabled = true
+        let result = AppAttestation.shouldAttemptAttestation(for: "", consumerKey: "consumerKey123", isDeviceSupported: true)
+        XCTAssertFalse(result, "Should return false when domain is empty")
+    }
+
+    func test_givenEmptyConsumerKey_whenCheckingShouldAttempt_thenReturnsFalse() {
+        UserAccountManager.shared.appAttestationEnabled = true
+        let result = AppAttestation.shouldAttemptAttestation(for: "mydomain.my.salesforce.com", consumerKey: "", isDeviceSupported: true)
+        XCTAssertFalse(result, "Should return false when consumer key is empty")
     }
 
     // MARK: - existingKeyId Tests

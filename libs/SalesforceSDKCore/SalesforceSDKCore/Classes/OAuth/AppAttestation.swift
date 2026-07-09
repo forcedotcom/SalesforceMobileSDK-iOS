@@ -50,14 +50,9 @@ public class AppAttestation: NSObject {
     /// Returns an attestation string if attestation is enabled and the domain is a My Domain,
     /// otherwise returns nil. Callers do not need to check gating conditions themselves.
     @objc
-    public static func attestationIfEnabled(for domain: String, consumerKey: String) async -> String? {
-        let isLoginPool = domain == kSFOAuthProductionLoginURL
-            || domain == kSFOAuthSandboxLoginURL
-            || domain == kSFOAuthWelcomeLoginURL
-
-        guard UserAccountManager.shared.appAttestationEnabled,
-              !isLoginPool,
-              !consumerKey.isEmpty else {
+    public static func attestationIfEnabled(for domain: String?, consumerKey: String) async -> String? {
+        guard let domain,
+              shouldAttemptAttestation(for: domain, consumerKey: consumerKey, isDeviceSupported: DCAppAttestService.shared.isSupported) else {
             return nil
         }
 
@@ -68,6 +63,26 @@ public class AppAttestation: NSObject {
             // TODO: In coordination with error stories, if device error prevents attestation from being generated, should this throw and/or have a retry path like deleting old key?
             return nil
         }
+    }
+
+    // Internal for unit tests
+    static func shouldAttemptAttestation(for domain: String?, consumerKey: String, isDeviceSupported: Bool) -> Bool {
+        guard let domain, !domain.isEmpty else {
+            return false
+        }
+
+        let isLoginPool = domain == kSFOAuthProductionLoginURL
+            || domain == kSFOAuthSandboxLoginURL
+            || domain == kSFOAuthWelcomeLoginURL
+
+        guard UserAccountManager.shared.appAttestationEnabled,
+              isDeviceSupported,
+              !isLoginPool,
+              !consumerKey.isEmpty else {
+            return false
+        }
+
+        return true
     }
     
     // Internal for unit tests
