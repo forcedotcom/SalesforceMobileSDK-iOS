@@ -84,10 +84,8 @@ SFSDK_USE_DEPRECATED_BEGIN
         return;
     }
     
-    __weak typeof(self) weakSelf = self;
     [SFSDKAppAttestation attestationIfEnabledFor:self.credentials.domain consumerKey:self.credentials.clientId completionHandler:^(NSString * _Nullable attestation) {
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        [strongSelf executeRefreshWithAttestation:attestation];
+        [self executeRefreshWithAttestation:attestation];
     }];
 }
 

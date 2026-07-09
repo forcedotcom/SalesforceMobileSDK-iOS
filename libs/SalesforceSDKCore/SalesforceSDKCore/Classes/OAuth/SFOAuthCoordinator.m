@@ -670,8 +670,11 @@
 }
 
 - (void)beginTokenEndpointFlow {
+    __weak typeof(self) weakSelf = self;
     [SFSDKAppAttestation attestationIfEnabledFor:self.credentials.domain consumerKey:self.credentials.clientId completionHandler:^(NSString * _Nullable attestation) {
-        [self executeTokenEndpointFlowWithAttestation:attestation];
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (!strongSelf) return;
+        [strongSelf executeTokenEndpointFlowWithAttestation:attestation];
     }];
 }
 
