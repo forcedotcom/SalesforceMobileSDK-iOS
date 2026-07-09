@@ -88,6 +88,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)migrateRefreshToken:(SFUserAccount *)user;
 
+/**
+ Builds the options dictionary handed to the URL handler on the advanced-auth browser callback.
+ Guards against a nil sceneId so nil is never inserted into the dictionary.
+ @param sceneId The auth session's scene id, or nil if no scene was connected / the session deallocated.
+ @return A dictionary keyed by kSFIDPSceneIdKey when sceneId is non-nil, or an empty dictionary otherwise.
+ */
+- (NSDictionary *)browserCallbackOptionsForSceneId:(nullable NSString *)sceneId;
+
 @end
 
 NS_ASSUME_NONNULL_END

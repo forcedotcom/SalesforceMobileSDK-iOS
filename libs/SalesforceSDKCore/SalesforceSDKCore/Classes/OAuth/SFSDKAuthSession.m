@@ -29,6 +29,9 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 #import "SFOAuthCoordinator+Internal.h"
 #import "SFIdentityCoordinator.h"
 
+// Prefix for the synthesized scene id used when a login starts before any UIScene has connected.
+static NSString * const kSFSDKAuthSessionUnscopedSceneIdPrefix = @"com.salesforce.mobilesdk.unscopedAuthSession-";
+
 @interface SFSDKAuthSession()
 @end
 
@@ -47,7 +50,9 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
         _credentials = (creds == nil) ? [self newClientCredentials] : creds;
         _credentials.jwt = request.jwtToken;
         _spAppCredentials = spAppCredentials;
-        _sceneId = request.scene.session.persistentIdentifier; // Pass through for convenience
+        // When no scene is connected yet, persistentIdentifier is nil; synthesize a unique per-session id
+        // so this session gets its own authSessions[] key and the browser callback can key back to it.
+        _sceneId = request.scene.session.persistentIdentifier ?: [kSFSDKAuthSessionUnscopedSceneIdPrefix stringByAppendingString:[[NSUUID UUID] UUIDString]];
         [self initCoordinator];
     }
     return self;

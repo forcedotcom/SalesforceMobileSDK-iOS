@@ -433,7 +433,7 @@
     _asWebAuthenticationSession = [[ASWebAuthenticationSession alloc] initWithURL:nativeBrowserUrl callbackURLScheme:[NSURL URLWithString:self.credentials.redirectUri].scheme completionHandler:^(NSURL *callbackURL, NSError *error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (!error && [[SFSDKURLHandlerManager sharedInstance] canHandleRequest:callbackURL options:nil]) {
-            NSDictionary *options = @{kSFIDPSceneIdKey : self.authSession.sceneId};
+            NSDictionary *options = [self browserCallbackOptionsForSceneId:self.authSession.sceneId];
             [[SFSDKURLHandlerManager sharedInstance] processRequest:callbackURL options:options completion:nil failure:nil];
         } else {
             [strongSelf.delegate oauthCoordinatorDidCancelBrowserAuthentication:strongSelf];
@@ -441,6 +441,13 @@
     }];
     _asWebAuthenticationSession.prefersEphemeralWebBrowserSession = [SalesforceSDKManager sharedManager].useEphemeralSessionForAdvancedAuth;
     [self.delegate oauthCoordinator:self didBeginAuthenticationWithSession:_asWebAuthenticationSession];
+}
+
+- (NSDictionary *)browserCallbackOptionsForSceneId:(nullable NSString *)sceneId {
+    // Guard against a nil sceneId so we never insert nil into the options dictionary; omit the
+    // key and let the URL handler fall back to the default scene. sceneId can be nil if the weak
+    // authSession has deallocated by the time the browser callback fires.
+    return sceneId ? @{kSFIDPSceneIdKey : sceneId} : @{};
 }
 
 - (void)beginWebViewFlow {
