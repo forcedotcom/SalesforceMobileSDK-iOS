@@ -145,6 +145,7 @@ public class AppAttestation: NSObject {
         let keychainItem = AttestationKeychainItem(attestationId: attestationId, keyId: keyId)
         let keychainItemData = try JSONEncoder().encode(keychainItem)
         let keychainResult = KeychainHelper.write(service: appAttestKeyName, data: keychainItemData, account: nil)
+        // Intentional: prefer re-registration on next launch over blocking auth
         if !keychainResult.success {
             var message = "Unable to write attestation keyId to keychain"
             if let error = keychainResult.error {
