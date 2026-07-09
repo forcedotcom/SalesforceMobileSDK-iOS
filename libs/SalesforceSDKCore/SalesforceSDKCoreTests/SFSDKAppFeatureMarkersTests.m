@@ -61,6 +61,7 @@
     [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureQrCodeLogin forUser:self.userA];
     [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureRTR forUser:self.userA];
     [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureDPoP forUser:self.userA];
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureAppAttestation forUser:self.userA];
     self.userA = nil;
     self.userB = nil;
     [self clearExistingMarkers];
@@ -319,6 +320,26 @@
                    @"userB should not have DP if only userA had a DPoP session");
 
     // Cleanup handled in tearDown.
+}
+
+#pragma mark - App Attestation (AA) flag tests
+
+- (void)test_givenAttestationUsed_whenPerUserFlagRegistered_thenFlagAppearsInPerUserFeaturesNotGlobal {
+    // Act: simulate finalizeAuthCompletion persisting per-user and clearing global
+    [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureAppAttestation forUser:self.userA];
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureAppAttestation];
+
+    // Assert: AA in per-user features
+    NSSet *features = [SFSDKAppFeatureMarkers appFeaturesForUser:self.userA];
+    XCTAssertTrue([features containsObject:kSFAppFeatureAppAttestation],
+                  @"AA flag should appear in per-user feature set after attestation");
+
+    // Assert: AA NOT in global-only set
+    XCTAssertFalse([[SFSDKAppFeatureMarkers appFeatures] containsObject:kSFAppFeatureAppAttestation],
+                   @"AA flag should not remain in global feature set after finalization");
+
+    // Cleanup
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureAppAttestation forUser:self.userA];
 }
 
 #pragma mark - Private helpers
