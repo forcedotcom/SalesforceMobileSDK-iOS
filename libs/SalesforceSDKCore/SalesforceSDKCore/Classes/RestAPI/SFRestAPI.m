@@ -101,6 +101,10 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     @synchronized (self) {
         NSSet *pendingRequests = [self.activeRequests asSet];
         for (SFRestRequest *request in pendingRequests) {
+            // Nil sessionDataTask BEFORE cancelling: the network callback
+            // ignores responses where dataTask != request.sessionDataTask,
+            // so clearing this ensures the cancellation callback won't
+            // double-deliver failureBlock.
             NSURLSessionDataTask *oldTask = request.sessionDataTask;
             request.sessionDataTask = nil;
             [oldTask cancel];
