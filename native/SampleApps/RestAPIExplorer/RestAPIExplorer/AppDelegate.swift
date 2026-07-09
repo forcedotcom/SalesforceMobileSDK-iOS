@@ -54,6 +54,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return .allow
         }
         
+        // Uncomment following line to enable app attestation
+        // Need to add "App Attest" entitlement to project under "Signing & Capabilities"
+        // UserAccountManager.shared.appAttestationEnabled = true
+        
         // Uncomment following block to enable IDP Login flow.
         //SalesforceManager.shared.identityProviderURLScheme = "sampleidpapp"
     }

@@ -237,9 +237,13 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
     [params appendFormat:@"&%@=%@", kSFOAuthCodeVerifierParamName, endpointReq.codeVerifier];
     NSString *grantType = [[SalesforceSDKManager sharedManager] useHybridAuthentication] ? kSFOAuthGrantTypeHybridAuthorizationCode : kSFOAuthGrantTypeAuthorizationCode;
     [params appendFormat:@"&%@=%@&%@=%@", kSFOAuthGrantType, grantType, kSFOAuthApprovalCode, endpointReq.approvalCode];
+    if (endpointReq.attestation) {
+        [params appendFormat:@"&%@=%@", kSFOAuthAttestation, [endpointReq.attestation sfsdk_stringByURLEncoding]];
+    }
+
     NSData *encodedBody = [params dataUsingEncoding:NSUTF8StringEncoding];
     [request setHTTPBody:encodedBody];
-    
+
     __block NSString *networkIdentifier = [SFNetwork uniqueInstanceIdentifier];
     SFNetwork *network = [SFNetwork sharedEphemeralInstanceWithIdentifier:networkIdentifier];
     __weak typeof(self) weakSelf = self;
@@ -293,6 +297,9 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
     [params appendFormat:@"&%@=%@&%@=%@", kSFOAuthGrantType, grantType, kSFOAuthRefreshToken, endpointReq.refreshToken];
     for (NSString * key in endpointReq.additionalTokenRefreshParams) {
         [params appendFormat:@"&%@=%@", [key sfsdk_stringByURLEncoding], [endpointReq.additionalTokenRefreshParams[key] sfsdk_stringByURLEncoding]];
+    }
+    if (endpointReq.attestation) {
+        [params appendFormat:@"&%@=%@", kSFOAuthAttestation, [endpointReq.attestation sfsdk_stringByURLEncoding]];
     }
     NSData *encodedBody = [params dataUsingEncoding:NSUTF8StringEncoding];
     [request setHTTPBody:encodedBody];

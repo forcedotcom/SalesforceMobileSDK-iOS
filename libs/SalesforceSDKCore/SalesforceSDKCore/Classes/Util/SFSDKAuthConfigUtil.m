@@ -27,19 +27,17 @@
  */
 
 #import "SFSDKAuthConfigUtil.h"
+#import "SFSDKOAuthConstants.h"
 #import "SFNetwork.h"
 #import <SalesforceSDKCommon/SFJsonUtils.h>
 
 static NSString * const kSFOAuthEndPointAuthConfiguration = @"/.well-known/auth-configuration";
-static NSString * const kSandboxLoginURL = @"test.salesforce.com";
-static NSString * const kProductionLoginURL = @"login.salesforce.com";
-static NSString * const kWelcomeLoginURL = @"welcome.salesforce.com/discovery";
 
 @implementation SFSDKAuthConfigUtil
 
 + (void)getMyDomainAuthConfig:(MyDomainAuthConfigBlock)authConfigBlock loginDomain:(NSString *)loginDomain {
     NSString *orgConfigUrl = [NSString stringWithFormat:@"https://%@%@", loginDomain, kSFOAuthEndPointAuthConfiguration];
-    if ([loginDomain isEqualToString:kSandboxLoginURL] || [loginDomain isEqualToString:kProductionLoginURL] || [loginDomain isEqualToString:kWelcomeLoginURL]) {
+    if ([loginDomain isEqualToString:kSFOAuthSandboxLoginURL] || [loginDomain isEqualToString:kSFOAuthProductionLoginURL] || [loginDomain isEqualToString:kSFOAuthWelcomeLoginURL]) {
         [SFSDKCoreLogger d:[self class] format:@"%@ Skipping auth config retrieval for login pool URL", NSStringFromSelector(_cmd)];
         authConfigBlock(nil, nil);
         return;
