@@ -160,7 +160,10 @@ public class AppAttestation: NSObject {
         do {
             return try await operation()
         } catch let error as DCError {
-            SFSDKCoreLogger.log(AppAttestation.self, level: .error, message: "App Attest error: \(error.code.rawValue)")
+            SFSDKCoreLogger.log(AppAttestation.self, level: .error, message: "App Attest Device Check error: \(error.code.rawValue)")
+            throw error
+        } catch {
+            SFSDKCoreLogger.log(AppAttestation.self, level: .error, message: "App Attest error: \(error.localizedDescription)")
             throw error
         }
     }
