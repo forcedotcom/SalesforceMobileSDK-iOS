@@ -141,5 +141,38 @@ static NSString * const kExpectedUnscopedSceneIdPrefix = @"com.salesforce.mobile
     XCTAssertEqualObjects(session1.sceneId, session1.sceneId, @"sceneId must be stable for the session's lifetime");
 }
 
+// Helper to build a coordinator whose browser-callback options we can inspect.
+- (SFOAuthCoordinator *)browserFlowCoordinator {
+    SFSDKAuthRequest *authRequest = [[SFSDKAuthRequest alloc] init];
+    authRequest.oauthClientId = @"testClientId";
+    authRequest.oauthCompletionUrl = @"testapp://callback";
+    authRequest.loginHost = @"login.salesforce.com";
+    SFSDKAuthSession *authSession = [[SFSDKAuthSession alloc] initWith:authRequest credentials:nil];
+    return [[SFOAuthCoordinator alloc] initWithAuthSession:authSession];
+}
+
+// When a scene is connected, the advanced-auth browser callback must key its options dictionary by
+// the scene id so the URL handler routes the response to the originating scene.
+- (void)test_givenSceneId_whenBuildingBrowserCallbackOptions_thenOptionsAreKeyedBySceneId {
+    SFOAuthCoordinator *coordinator = [self browserFlowCoordinator];
+
+    NSDictionary *options = [coordinator browserCallbackOptionsForSceneId:@"scene-42"];
+
+    XCTAssertEqualObjects(options[kSFIDPSceneIdKey], @"scene-42", @"A non-nil sceneId must be carried under kSFIDPSceneIdKey so the callback routes to the originating scene");
+    XCTAssertEqual(options.count, (NSUInteger)1, @"Only the scene id key should be present");
+}
+
+// When no scene id is available (e.g. login started before a UIScene connected, or the weak
+// authSession deallocated before the callback), the options must be an empty dictionary rather than
+// crashing on a nil insert; the URL handler then falls back to the default scene.
+- (void)test_givenNilSceneId_whenBuildingBrowserCallbackOptions_thenOptionsAreEmptyAndDoNotCrash {
+    SFOAuthCoordinator *coordinator = [self browserFlowCoordinator];
+
+    NSDictionary *options = [coordinator browserCallbackOptionsForSceneId:nil];
+
+    XCTAssertNotNil(options, @"Options must never be nil");
+    XCTAssertEqual(options.count, (NSUInteger)0, @"A nil sceneId must yield an empty options dictionary so nil is never inserted and the handler falls back to the default scene");
+}
+
 @end
 
