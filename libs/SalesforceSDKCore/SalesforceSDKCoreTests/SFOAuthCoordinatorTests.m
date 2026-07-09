@@ -100,5 +100,79 @@
     XCTAssertEqual(capturedAuthInfo.authType, SFOAuthTypeRefreshTokenMigration, @"AuthInfo type should be refresh token migration");
 }
 
+// Must match kSFSDKAuthSessionUnscopedSceneIdPrefix in SFSDKAuthSession.m.
+static NSString * const kExpectedUnscopedSceneIdPrefix = @"com.salesforce.mobilesdk.unscopedAuthSession-";
+
+// A session created before any UIScene connects must still expose a non-nil sceneId, otherwise the
+// advanced-auth browser callback crashes and the session is dropped from the authSessions store.
+- (void)test_givenNoConnectedScene_whenAuthSessionCreated_thenSceneIdIsNonNilWithUnscopedPrefix {
+    SFSDKAuthRequest *authRequest = [[SFSDKAuthRequest alloc] init];
+    authRequest.oauthClientId = @"testClientId";
+    authRequest.oauthCompletionUrl = @"testapp://callback";
+    authRequest.loginHost = @"login.salesforce.com";
+    XCTAssertNil(authRequest.scene, @"Precondition: no scene connected yet");
+
+    SFSDKAuthSession *authSession = [[SFSDKAuthSession alloc] initWith:authRequest credentials:nil];
+
+    XCTAssertNotNil(authSession.sceneId, @"sceneId must be non-nil so the advanced-auth callback options dictionary is safe to build and the session is stored under a valid key");
+    XCTAssertTrue([authSession.sceneId hasPrefix:kExpectedUnscopedSceneIdPrefix], @"A scene-less session should get the synthesized unscoped scene id, got: %@", authSession.sceneId);
+}
+
+// Two scene-less sessions must get distinct sceneIds so they cannot collide on a single authSessions[]
+// key, and each sceneId must be stable for the session's lifetime.
+- (void)test_givenTwoNoSceneAuthSessions_whenCreated_thenSceneIdsAreDistinctAndStable {
+    SFSDKAuthRequest *request1 = [[SFSDKAuthRequest alloc] init];
+    request1.oauthClientId = @"testClientId";
+    request1.oauthCompletionUrl = @"testapp://callback";
+    request1.loginHost = @"login.salesforce.com";
+
+    SFSDKAuthRequest *request2 = [[SFSDKAuthRequest alloc] init];
+    request2.oauthClientId = @"testClientId";
+    request2.oauthCompletionUrl = @"testapp://callback";
+    request2.loginHost = @"login.salesforce.com";
+
+    SFSDKAuthSession *session1 = [[SFSDKAuthSession alloc] initWith:request1 credentials:nil];
+    SFSDKAuthSession *session2 = [[SFSDKAuthSession alloc] initWith:request2 credentials:nil];
+
+    XCTAssertNotNil(session1.sceneId);
+    XCTAssertNotNil(session2.sceneId);
+    XCTAssertNotEqualObjects(session1.sceneId, session2.sceneId, @"Two scene-less sessions must get distinct scene ids so they cannot collide on a single authSessions[] key");
+    // Frozen for the session's lifetime: reading again yields the same value.
+    XCTAssertEqualObjects(session1.sceneId, session1.sceneId, @"sceneId must be stable for the session's lifetime");
+}
+
+// Helper to build a coordinator whose browser-callback options we can inspect.
+- (SFOAuthCoordinator *)browserFlowCoordinator {
+    SFSDKAuthRequest *authRequest = [[SFSDKAuthRequest alloc] init];
+    authRequest.oauthClientId = @"testClientId";
+    authRequest.oauthCompletionUrl = @"testapp://callback";
+    authRequest.loginHost = @"login.salesforce.com";
+    SFSDKAuthSession *authSession = [[SFSDKAuthSession alloc] initWith:authRequest credentials:nil];
+    return [[SFOAuthCoordinator alloc] initWithAuthSession:authSession];
+}
+
+// When a scene is connected, the advanced-auth browser callback must key its options dictionary by
+// the scene id so the URL handler routes the response to the originating scene.
+- (void)test_givenSceneId_whenBuildingBrowserCallbackOptions_thenOptionsAreKeyedBySceneId {
+    SFOAuthCoordinator *coordinator = [self browserFlowCoordinator];
+
+    NSDictionary *options = [coordinator browserCallbackOptionsForSceneId:@"scene-42"];
+
+    XCTAssertEqualObjects(options[kSFIDPSceneIdKey], @"scene-42", @"A non-nil sceneId must be carried under kSFIDPSceneIdKey so the callback routes to the originating scene");
+    XCTAssertEqual(options.count, (NSUInteger)1, @"Only the scene id key should be present");
+}
+
+// When no scene id is available (e.g. login started before a UIScene connected, or the weak
+// authSession deallocated before the callback), the options must be an empty dictionary rather than
+// crashing on a nil insert; the URL handler then falls back to the default scene.
+- (void)test_givenNilSceneId_whenBuildingBrowserCallbackOptions_thenOptionsAreEmptyAndDoNotCrash {
+    SFOAuthCoordinator *coordinator = [self browserFlowCoordinator];
+
+    NSDictionary *options = [coordinator browserCallbackOptionsForSceneId:nil];
+
+    XCTAssertNotNil(options, @"Options must never be nil");
+    XCTAssertEqual(options.count, (NSUInteger)0, @"A nil sceneId must yield an empty options dictionary so nil is never inserted and the handler falls back to the default scene");
+}
+
 @end
 
