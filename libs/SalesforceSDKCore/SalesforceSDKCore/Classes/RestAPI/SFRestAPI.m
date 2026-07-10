@@ -481,12 +481,22 @@ successBlock:(SFRestResponseBlock)successBlock
             [strongSelf flushPendingRequestQueue:refreshError rawResponse:response];
             strongSelf.refreshCycleActive = NO;
         }
-        if ([refreshError.domain isEqualToString:kSFOAuthErrorDomain] && refreshError.code == kSFOAuthErrorInvalidGrant) {
-            [SFSDKCoreLogger i:[strongSelf class] format:@"%@ Invalid grant error received, triggering logout.", NSStringFromSelector(_cmd)];
-            // Make sure we call logout on the main thread.
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [[SFUserAccountManager sharedInstance] logoutUser:strongSelf.user reason:SFLogoutReasonTokenExpired];
-            });
+        if ([refreshError.domain isEqualToString:kSFOAuthErrorDomain]) {
+            SFUserAccount *user = strongSelf.user;
+            void (^triggerLogout)(SFLogoutReason, NSString *) = ^(SFLogoutReason reason, NSString *logMessage) {
+                [SFSDKCoreLogger i:[strongSelf class] format:@"%@ %@", NSStringFromSelector(_cmd), logMessage];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[SFUserAccountManager sharedInstance] logoutUser:user reason:reason];
+                });
+            };
+            NSInteger errorCode = [SFOAuthErrorCodeHelper from:refreshError.userInfo[kSFOAuthError]];
+            if (errorCode == SFOAuthErrorCodeInvalidGrant) {
+                triggerLogout(SFLogoutReasonTokenExpired, @"Invalid grant error received, triggering logout.");
+            } else if (errorCode == SFOAuthErrorCodeAppAttestationFailed) {
+                triggerLogout(SFLogoutReasonAppAttestationFailed, @"App attestation failed, triggering logout.");
+            } else if (errorCode == SFOAuthErrorCodeAppAttestationFailedRetry) {
+                [SFSDKCoreLogger i:[strongSelf class] format:@"%@ App attestation retry needed, no automatic logout.", NSStringFromSelector(_cmd)];
+            }
         }
     }];
 }

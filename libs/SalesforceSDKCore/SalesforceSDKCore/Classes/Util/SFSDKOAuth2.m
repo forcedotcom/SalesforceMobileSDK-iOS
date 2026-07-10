@@ -467,6 +467,8 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
             return @"unexpected_response";
         case SFLogoutReasonRefreshTokenRotated:
             return @"refresh_token_rotated";
+        case SFLogoutReasonAppAttestationFailed:
+            return @"app_attestation_failed";
     }
 }
 
@@ -532,6 +534,10 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
         code = kSFOAuthErrorUnknownAdvancedAuthConfig;
     } else if ([type isEqualToString:@"jwt_launch_failed"]) {
         code = kSFOAuthErrorJWTInvalidGrant;
+    } else if ([type isEqualToString:@"client_blocked"]) {
+        code = kSFOAuthErrorAppAttestationFailed;
+    } else if ([type isEqualToString:@"client_blocked_retry"]) {
+        code = kSFOAuthErrorAppAttestationFailedRetry;
     }
     NSMutableDictionary *userInfoDict = [NSMutableDictionary dictionaryWithDictionary:@{kSFOAuthError: type, NSLocalizedDescriptionKey: description}];
     if (underlyingError != nil) {
