@@ -163,5 +163,130 @@
     [creds revoke];
 }
 
+#pragma mark - App Attestation Forces Web Server Flow Tests
+
+- (void)test_givenAttestationEnabled_andWebServerFlowDisabled_whenAuthenticateCalled_thenUsesWebServerFlowType {
+    // Arrange
+    BOOL originalAttestation = [SFUserAccountManager sharedInstance].appAttestationEnabled;
+    BOOL originalWebServer = [[SalesforceSDKManager sharedManager] useWebServerAuthentication];
+    [SFUserAccountManager sharedInstance].appAttestationEnabled = YES;
+    [SalesforceSDKManager sharedManager].useWebServerAuthentication = NO;
+
+    SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:@"testFlowType" clientId:@"testClient" encrypted:NO];
+    creds.domain = @"mydomain.my.salesforce.com";
+    creds.redirectUri = @"testapp://callback";
+    creds.instanceUrl = [NSURL URLWithString:@"https://mydomain.my.salesforce.com"];
+    // No refresh token — forces the auth type selection path (not refresh flow)
+
+    SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:creds];
+    coordinator.useBrowserAuth = NO;
+    SFOAuthTestFlowCoordinatorDelegate *delegate = [[SFOAuthTestFlowCoordinatorDelegate alloc] init];
+    delegate.isNetworkAvailable = NO;
+    coordinator.delegate = delegate;
+
+    // Act
+    [coordinator authenticate];
+
+    // Assert: should select web server flow despite useWebServerAuthentication = NO
+    XCTAssertEqual(coordinator.authInfo.authType, SFOAuthTypeWebServer,
+                   @"Auth type should be WebServer when attestation is enabled, even if useWebServerAuthentication is NO");
+
+    // Cleanup
+    [SFUserAccountManager sharedInstance].appAttestationEnabled = originalAttestation;
+    [SalesforceSDKManager sharedManager].useWebServerAuthentication = originalWebServer;
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureAppAttestation];
+    [creds revoke];
+}
+
+- (void)test_givenAttestationDisabled_andWebServerFlowDisabled_whenAuthenticateCalled_thenUsesUserAgentFlowType {
+    // Arrange
+    BOOL originalAttestation = [SFUserAccountManager sharedInstance].appAttestationEnabled;
+    BOOL originalWebServer = [[SalesforceSDKManager sharedManager] useWebServerAuthentication];
+    [SFUserAccountManager sharedInstance].appAttestationEnabled = NO;
+    [SalesforceSDKManager sharedManager].useWebServerAuthentication = NO;
+
+    SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:@"testFlowType2" clientId:@"testClient2" encrypted:NO];
+    creds.domain = @"mydomain.my.salesforce.com";
+    creds.redirectUri = @"testapp://callback";
+    creds.instanceUrl = [NSURL URLWithString:@"https://mydomain.my.salesforce.com"];
+    // No refresh token — forces the auth type selection path
+
+    SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:creds];
+    coordinator.useBrowserAuth = NO;
+    SFOAuthTestFlowCoordinatorDelegate *delegate = [[SFOAuthTestFlowCoordinatorDelegate alloc] init];
+    delegate.isNetworkAvailable = NO;
+    coordinator.delegate = delegate;
+
+    // Act
+    [coordinator authenticate];
+
+    // Assert: should use user agent flow when both attestation and web server are off
+    XCTAssertEqual(coordinator.authInfo.authType, SFOAuthTypeUserAgent,
+                   @"Auth type should be UserAgent when both attestation and useWebServerAuthentication are disabled");
+
+    // Cleanup
+    [SFUserAccountManager sharedInstance].appAttestationEnabled = originalAttestation;
+    [SalesforceSDKManager sharedManager].useWebServerAuthentication = originalWebServer;
+    [creds revoke];
+}
+
+- (void)test_givenAttestationEnabled_whenGeneratingApprovalUrl_thenContainsResponseTypeCode {
+    // Arrange
+    BOOL originalAttestation = [SFUserAccountManager sharedInstance].appAttestationEnabled;
+    BOOL originalWebServer = [[SalesforceSDKManager sharedManager] useWebServerAuthentication];
+    [SFUserAccountManager sharedInstance].appAttestationEnabled = YES;
+    [SalesforceSDKManager sharedManager].useWebServerAuthentication = NO;
+
+    SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:@"testApprovalUrl" clientId:@"testClient" encrypted:NO];
+    creds.domain = @"mydomain.my.salesforce.com";
+    creds.redirectUri = @"testapp://callback";
+    creds.instanceUrl = [NSURL URLWithString:@"https://mydomain.my.salesforce.com"];
+
+    SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:creds];
+    coordinator.useBrowserAuth = NO;
+
+    // Act
+    NSString *approvalUrl = [coordinator generateApprovalUrlString];
+
+    // Assert: URL should contain response_type=code (web server flow)
+    XCTAssertTrue([approvalUrl containsString:@"response_type=code"],
+                  @"Approval URL should use response_type=code when attestation is enabled; got: %@", approvalUrl);
+    XCTAssertFalse([approvalUrl containsString:@"response_type=token"],
+                   @"Approval URL should NOT use response_type=token when attestation is enabled; got: %@", approvalUrl);
+
+    // Cleanup
+    [SFUserAccountManager sharedInstance].appAttestationEnabled = originalAttestation;
+    [SalesforceSDKManager sharedManager].useWebServerAuthentication = originalWebServer;
+    [creds revoke];
+}
+
+- (void)test_givenAttestationDisabled_andWebServerFlowDisabled_whenGeneratingApprovalUrl_thenDoesNotContainResponseTypeCode {
+    // Arrange
+    BOOL originalAttestation = [SFUserAccountManager sharedInstance].appAttestationEnabled;
+    BOOL originalWebServer = [[SalesforceSDKManager sharedManager] useWebServerAuthentication];
+    [SFUserAccountManager sharedInstance].appAttestationEnabled = NO;
+    [SalesforceSDKManager sharedManager].useWebServerAuthentication = NO;
+
+    SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:@"testApprovalUrl2" clientId:@"testClient2" encrypted:NO];
+    creds.domain = @"mydomain.my.salesforce.com";
+    creds.redirectUri = @"testapp://callback";
+    creds.instanceUrl = [NSURL URLWithString:@"https://mydomain.my.salesforce.com"];
+
+    SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:creds];
+    coordinator.useBrowserAuth = NO;
+
+    // Act
+    NSString *approvalUrl = [coordinator generateApprovalUrlString];
+
+    // Assert: URL should NOT contain response_type=code (user agent flow uses token or hybrid_token)
+    XCTAssertFalse([approvalUrl containsString:@"response_type=code"],
+                   @"Approval URL should NOT use response_type=code when attestation and web server flow are both disabled; got: %@", approvalUrl);
+
+    // Cleanup
+    [SFUserAccountManager sharedInstance].appAttestationEnabled = originalAttestation;
+    [SalesforceSDKManager sharedManager].useWebServerAuthentication = originalWebServer;
+    [creds revoke];
+}
+
 @end
 
