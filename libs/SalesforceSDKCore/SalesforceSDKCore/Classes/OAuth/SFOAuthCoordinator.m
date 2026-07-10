@@ -128,6 +128,10 @@
     _domainDiscoveryCoordinator = nil;
 }
 
+- (BOOL)shouldUseWebServerFlow {
+    return [[SalesforceSDKManager sharedManager] useWebServerAuthentication] || [SFUserAccountManager sharedInstance].appAttestationEnabled;
+}
+
 - (void)authenticate {
     NSAssert(nil != self.credentials, @"credentials cannot be nil");
     NSAssert(self.credentials.clientId.length > 0, @"credentials.clientId cannot be nil or empty");
@@ -151,7 +155,7 @@
         self.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefresh];
     } else if (self.useBrowserAuth) {
         self.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeAdvancedBrowser];
-    } else if ([[SalesforceSDKManager sharedManager] useWebServerAuthentication]) {
+    } else if (self.shouldUseWebServerFlow) {
         self.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeWebServer];
     } else {
         self.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeUserAgent];
@@ -804,7 +808,7 @@
 - (NSString *)generateApprovalUrlString {
     return [self approvalURLForEndpoint:[self brandedAuthorizeURL]
                             credentials:self.credentials
-                          webServerFlow:(self.useBrowserAuth || [[SalesforceSDKManager sharedManager] useWebServerAuthentication])
+                          webServerFlow:(self.useBrowserAuth || self.shouldUseWebServerFlow)
                                protocol:nil
                                  domain:nil
                           codeChallenge:nil];
@@ -923,7 +927,7 @@
         // If a front door bridge URL override is present, use its code verifier to choose between user agent or web server authentication.
         if (self.frontdoorBridgeLoginOverride.frontdoorBridgeUrl // Check if an override is provided
             ? self.frontdoorBridgeLoginOverride.codeVerifier != nil // If yes, only proceed if it's a web server flow as indicated by a code verifier.
-            : (self.useBrowserAuth || [[SalesforceSDKManager sharedManager] useWebServerAuthentication]) // If there's no override use browser auth or the default SDK setting.
+            : (self.useBrowserAuth || self.shouldUseWebServerFlow) // If there's no override use browser auth or the default SDK setting.
             )
         {
             [self handleWebServerResponse:url]; // Web server flow/URLs with query string parameters.
