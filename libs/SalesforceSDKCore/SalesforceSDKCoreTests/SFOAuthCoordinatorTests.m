@@ -29,6 +29,8 @@
 #import "SFOAuthCredentials+Internal.h"
 #import "SFSDKAuthSession.h"
 #import "SFSDKAuthRequest.h"
+#import "SFOAuthTestFlowCoordinatorDelegate.h"
+#import "SFSDKAppFeatureMarkers.h"
 
 @interface SFOAuthCoordinatorTests : XCTestCase
 
@@ -98,6 +100,67 @@
     XCTAssertTrue(failureCallbackInvoked, @"Failure callback should be invoked when REST API fails");
     XCTAssertNotNil(capturedError, @"Should have captured an error");
     XCTAssertEqual(capturedAuthInfo.authType, SFOAuthTypeRefreshTokenMigration, @"AuthInfo type should be refresh token migration");
+}
+
+#pragma mark - App Attestation Feature Flag Tests
+
+- (void)test_givenAttestationEnabled_whenAuthenticateCalled_thenAAFlagRegisteredGlobally {
+    // Arrange
+    BOOL originalValue = [SFUserAccountManager sharedInstance].appAttestationEnabled;
+    [SFUserAccountManager sharedInstance].appAttestationEnabled = YES;
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureAppAttestation];
+
+    SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:@"testAttest" clientId:@"testClient" encrypted:NO];
+    creds.domain = @"mydomain.my.salesforce.com";
+    creds.refreshToken = @"testRefreshToken";
+    creds.redirectUri = @"testapp://callback";
+    creds.instanceUrl = [NSURL URLWithString:@"https://mydomain.my.salesforce.com"];
+
+    SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:creds];
+    SFOAuthTestFlowCoordinatorDelegate *delegate = [[SFOAuthTestFlowCoordinatorDelegate alloc] init];
+    delegate.isNetworkAvailable = NO; // Prevent actual network calls
+    coordinator.delegate = delegate;
+
+    // Act
+    [coordinator authenticate];
+
+    // Assert: AA flag should be registered globally
+    XCTAssertTrue([[SFSDKAppFeatureMarkers appFeatures] containsObject:kSFAppFeatureAppAttestation],
+                  @"AA flag should be registered globally when attestation is enabled");
+
+    // Cleanup
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureAppAttestation];
+    [SFUserAccountManager sharedInstance].appAttestationEnabled = originalValue;
+    [creds revoke];
+}
+
+- (void)test_givenAttestationDisabled_whenAuthenticateCalled_thenAAFlagNotRegistered {
+    // Arrange
+    BOOL originalValue = [SFUserAccountManager sharedInstance].appAttestationEnabled;
+    [SFUserAccountManager sharedInstance].appAttestationEnabled = NO;
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureAppAttestation];
+
+    SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:@"testAttest2" clientId:@"testClient2" encrypted:NO];
+    creds.domain = @"mydomain.my.salesforce.com";
+    creds.refreshToken = @"testRefreshToken";
+    creds.redirectUri = @"testapp://callback";
+    creds.instanceUrl = [NSURL URLWithString:@"https://mydomain.my.salesforce.com"];
+
+    SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:creds];
+    SFOAuthTestFlowCoordinatorDelegate *delegate = [[SFOAuthTestFlowCoordinatorDelegate alloc] init];
+    delegate.isNetworkAvailable = NO; // Prevent actual network calls
+    coordinator.delegate = delegate;
+
+    // Act
+    [coordinator authenticate];
+
+    // Assert: AA flag should NOT be registered
+    XCTAssertFalse([[SFSDKAppFeatureMarkers appFeatures] containsObject:kSFAppFeatureAppAttestation],
+                   @"AA flag should not be registered when attestation is disabled");
+
+    // Cleanup
+    [SFUserAccountManager sharedInstance].appAttestationEnabled = originalValue;
+    [creds revoke];
 }
 
 @end

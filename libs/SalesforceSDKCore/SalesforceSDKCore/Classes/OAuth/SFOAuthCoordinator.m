@@ -144,6 +144,9 @@
          self.credentials.clientId, (nil == self.credentials.refreshToken ? @"without" : @"with"),
          self.credentials.protocol, self.credentials.domain];
     self.authenticating = YES;
+    if ([SFUserAccountManager sharedInstance].appAttestationEnabled) {
+        [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureAppAttestation];
+    }
     if (self.credentials.refreshToken) {
         self.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefresh];
     } else if (self.useBrowserAuth) {
