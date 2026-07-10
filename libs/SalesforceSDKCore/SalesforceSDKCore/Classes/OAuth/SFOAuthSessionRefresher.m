@@ -22,6 +22,12 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+
+#import "SalesforceSDKConstants.h"
+
+// TODO: Remove when the class is internal in Mobile SDK 15.0
+SFSDK_USE_DEPRECATED_BEGIN
+
 #import "SFOAuthSessionRefresher+Internal.h"
 #import "SFUserAccountManager.h"
 #import "SFOAuthCredentials+Internal.h"
@@ -115,19 +121,19 @@
 - (void)completeWithSuccess {
     [SFSDKCoreLogger i:[self class] format:@"%@ Session was successfully refreshed.", NSStringFromSelector(_cmd)];
     if (self.completionBlock) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            SFUserAccount *account = [[SFUserAccountManager sharedInstance] accountForCredentials:self.credentials];
-            NSMutableDictionary *userInfo = [NSMutableDictionary new];
-            if (account) {
-                [userInfo setValue:account forKey:kSFNotificationUserInfoAccountKey];
-            } else {
-                [SFSDKCoreLogger e:[self class] format:@"%@ No account for credentials", NSStringFromSelector(_cmd)];
-            }
-            [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserDidRefreshToken
-                                                                object:self
-                                                              userInfo:userInfo];
-            self.completionBlock(self.credentials);
-        });
+        SFUserAccount *account = [[SFUserAccountManager sharedInstance] accountForCredentials:self.credentials];
+        NSMutableDictionary *userInfo = [NSMutableDictionary new];
+        if (account) {
+            [userInfo setValue:account forKey:kSFNotificationUserInfoAccountKey];
+        } else {
+            [SFSDKCoreLogger e:[self class] format:@"%@ No account for credentials", NSStringFromSelector(_cmd)];
+        }
+        SFOAuthInfo *authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefresh];
+        [userInfo setValue:authInfo forKey:kSFNotificationUserInfoAuthTypeKey];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserDidRefreshToken
+                                                            object:[SFUserAccountManager sharedInstance]
+                                                          userInfo:userInfo];
+        self.completionBlock(self.credentials);
     }
 }
 
@@ -135,9 +141,7 @@
     [SFSDKCoreLogger e:[self class] format:@"%@ Refresh failed with error: %@", NSStringFromSelector(_cmd), error];
 
     if (self.errorBlock) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self.errorBlock(error);
-        });
+        self.errorBlock(error);
     }
 }
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithSession:(ASWebAuthenticationSession *)session {
@@ -161,3 +165,5 @@
 }
 
 @end
+
+SFSDK_USE_DEPRECATED_END

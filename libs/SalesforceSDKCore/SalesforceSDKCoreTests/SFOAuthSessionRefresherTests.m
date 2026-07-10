@@ -54,6 +54,9 @@
 - (void)revokeRefreshToken:(SFOAuthCredentials *)credentials reason:(SFLogoutReason)reason {}
 @end
 
+// TODO: Remove deprecated warning suppression when SFOAuthSessionRefresher is internal in Mobile SDK 15.0
+SFSDK_USE_DEPRECATED_BEGIN
+
 @interface SFOAuthSessionRefresherTests : XCTestCase
 
 @property (nonatomic, strong) SFOAuthSessionRefresher *oauthSessionRefresher;
@@ -254,3 +257,5 @@
 }
 
 @end
+
+SFSDK_USE_DEPRECATED_END

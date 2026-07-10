@@ -30,9 +30,7 @@ NSString* const kTestRequestStatusWaiting = @"waiting";
 NSString* const kTestRequestStatusDidLoad = @"didLoad";
 NSString* const kTestRequestStatusDidFail = @"didFail";
 
-@interface SFSDKTestRequestListener () {
-    dispatch_semaphore_t _completionSemaphore;
-}
+@interface SFSDKTestRequestListener ()
 @end
 
 @implementation SFSDKTestRequestListener
@@ -47,8 +45,7 @@ NSString* const kTestRequestStatusDidFail = @"didFail";
     self = [super init];
     if (nil != self) {
         self.maxWaitTime = 30.0;
-        self.returnStatus = kTestRequestStatusWaiting;
-        _completionSemaphore = dispatch_semaphore_create(0);
+        _returnStatus = kTestRequestStatusWaiting;
     }
     return self;
 }
@@ -61,18 +58,20 @@ NSString* const kTestRequestStatusDidFail = @"didFail";
 
 - (void)setReturnStatus:(NSString *)returnStatus {
     _returnStatus = returnStatus;
-    if (![returnStatus isEqualToString:kTestRequestStatusWaiting]) {
-        dispatch_semaphore_signal(_completionSemaphore);
-    }
 }
 
 - (NSString *)waitForCompletion {
-    // Wait for completion signal with timeout
-    dispatch_time_t timeout = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.maxWaitTime * NSEC_PER_SEC));
-    long result = dispatch_semaphore_wait(_completionSemaphore, timeout);
+    // Spin the run loop so that blocks dispatched to the main queue (e.g. by
+    // SFSDKTokenRefreshCoordinator) can execute while we wait. A plain
+    // dispatch_semaphore_wait would block the main thread and deadlock.
+    NSDate *timeoutDate = [NSDate dateWithTimeIntervalSinceNow:self.maxWaitTime];
+    while ([self.returnStatus isEqualToString:kTestRequestStatusWaiting]
+           && [timeoutDate timeIntervalSinceNow] > 0) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                                 beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+    }
 
-    if (result != 0) {
-        // Timeout occurred
+    if ([self.returnStatus isEqualToString:kTestRequestStatusWaiting]) {
         [SFSDKCoreLogger d:[self class] format:@"Request took too long (> %f secs) to complete.", self.maxWaitTime];
         return kTestRequestStatusDidFail;
     }

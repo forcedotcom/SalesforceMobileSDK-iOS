@@ -26,23 +26,27 @@
 
 import Foundation
 
-actor TokenRefreshCoordinator {
-    private var isRefreshing = false
+/// Coordinates WebSocket reconnection attempts for a single client instance.
+/// Prevents multiple simultaneous reconnect sequences (cancel → refresh → reconnect)
+/// for the same WebSocket connection. Token refresh deduplication across the process
+/// is handled by `SFSDKTokenRefreshCoordinator`; this actor only gates reconnection.
+actor WebSocketReconnectCoordinator {
+    private var isReconnecting = false
     private var waiters: [CheckedContinuation<Void, Never>] = []
-    
-    func beginRefreshIfNeeded() -> Bool {
-        guard !isRefreshing else { return false }
-        isRefreshing = true
+
+    func beginReconnectIfNeeded() -> Bool {
+        guard !isReconnecting else { return false }
+        isReconnecting = true
         return true
     }
-    
-    func notifyRefreshCompleted() {
-        isRefreshing = false
+
+    func notifyReconnectCompleted() {
+        isReconnecting = false
         waiters.forEach { $0.resume() }
         waiters.removeAll()
     }
-    
-    func waitUntilRefreshed() async {
+
+    func waitForReconnection() async {
         await withCheckedContinuation { continuation in
             waiters.append(continuation)
         }
@@ -53,7 +57,7 @@ public final class WebSocketClient {
     private var task: WebSocketClientTaskProtocol
     private var network: WebSocketNetworkProtocol
     private var accountManager: UserAccountManaging
-    private let tokenRefreshCoordinator = TokenRefreshCoordinator()
+    private let reconnectCoordinator = WebSocketReconnectCoordinator()
     
     deinit { task.cancel() }
     
@@ -111,18 +115,18 @@ public final class WebSocketClient {
             return error
         }
         
-        if await tokenRefreshCoordinator.beginRefreshIfNeeded() {
+        if await reconnectCoordinator.beginReconnectIfNeeded() {
             task.cancel(with: .goingAway, reason: nil)
             do {
                 try await self.refreshWebSocketToken(with: originalRequest)
-                await tokenRefreshCoordinator.notifyRefreshCompleted()
+                await reconnectCoordinator.notifyReconnectCompleted()
                 return nil
             } catch {
-                await tokenRefreshCoordinator.notifyRefreshCompleted()
+                await reconnectCoordinator.notifyReconnectCompleted()
                 return error
             }
         } else {
-            await tokenRefreshCoordinator.waitUntilRefreshed()
+            await reconnectCoordinator.waitForReconnection()
             return nil
         }
         
