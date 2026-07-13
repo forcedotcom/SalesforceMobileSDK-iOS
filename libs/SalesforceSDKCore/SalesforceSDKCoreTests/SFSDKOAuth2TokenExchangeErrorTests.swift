@@ -147,6 +147,26 @@ final class SFSDKOAuth2TokenExchangeErrorTests: XCTestCase {
         }
     }
 
+    // MARK: - App Attestation errors
+
+    func test_givenClientBlocked_whenInitDictionary_thenClassifiedAsAppAttestationFailed() {
+        let wire = SFOAuthErrorCode.appAttestationFailed.wireValue!
+        assertError(
+            wire: wire,
+            description: "app attestation failed",
+            expectedEnum: .appAttestationFailed
+        )
+    }
+
+    func test_givenClientBlockedRetry_whenInitDictionary_thenClassifiedAsAppAttestationFailedRetry() {
+        let wire = SFOAuthErrorCode.appAttestationFailedRetry.wireValue!
+        assertError(
+            wire: wire,
+            description: "app attestation retry needed",
+            expectedEnum: .appAttestationFailedRetry
+        )
+    }
+
     // MARK: - Control — success response has no error
 
     func test_givenSuccessResponse_whenInitDictionary_thenHasErrorIsFalse() {

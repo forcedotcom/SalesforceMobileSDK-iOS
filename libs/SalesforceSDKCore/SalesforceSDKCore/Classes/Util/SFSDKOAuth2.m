@@ -467,6 +467,8 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
             return @"unexpected_response";
         case SFLogoutReasonRefreshTokenRotated:
             return @"refresh_token_rotated";
+        case SFLogoutReasonAppAttestationFailed:
+            return @"app_attestation_failed";
     }
 }
 

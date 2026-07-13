@@ -71,6 +71,7 @@
 		4F06AF8C1C49A18E00F70798 /* SalesforceSDKIdentityTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F06AF651C49A16A00F70798 /* SalesforceSDKIdentityTests.m */; };
 		4F06AF8D1C49A18E00F70798 /* SalesforceSDKManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F06AF661C49A16A00F70798 /* SalesforceSDKManagerTests.m */; };
 		4F06AF8F1C49A18E00F70798 /* SFOAuthSessionRefresherTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F06AF681C49A16A00F70798 /* SFOAuthSessionRefresherTests.m */; };
+		80140EB81287479183C1C85F /* SFRestAPIReplayRequestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C89173392B44A0E88D09027 /* SFRestAPIReplayRequestTests.m */; };
 		4F06AF911C49A18E00F70798 /* SFOAuthTestFlowCoordinatorDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F06AF6C1C49A16A00F70798 /* SFOAuthTestFlowCoordinatorDelegate.m */; };
 		4F06AF921C49A18E00F70798 /* SFPreferencesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F06AF6D1C49A16A00F70798 /* SFPreferencesTests.m */; };
 		4F06AF941C49A18E00F70798 /* SFTestSDKManagerFlow.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F06AF711C49A16A00F70798 /* SFTestSDKManagerFlow.m */; };
@@ -593,6 +594,7 @@
 		4F06AF651C49A16A00F70798 /* SalesforceSDKIdentityTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SalesforceSDKIdentityTests.m; path = SalesforceSDKCoreTests/SalesforceSDKIdentityTests.m; sourceTree = SOURCE_ROOT; };
 		4F06AF661C49A16A00F70798 /* SalesforceSDKManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SalesforceSDKManagerTests.m; path = SalesforceSDKCoreTests/SalesforceSDKManagerTests.m; sourceTree = SOURCE_ROOT; };
 		4F06AF681C49A16A00F70798 /* SFOAuthSessionRefresherTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFOAuthSessionRefresherTests.m; path = SalesforceSDKCoreTests/SFOAuthSessionRefresherTests.m; sourceTree = SOURCE_ROOT; };
+		9C89173392B44A0E88D09027 /* SFRestAPIReplayRequestTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFRestAPIReplayRequestTests.m; path = SalesforceSDKCoreTests/SFRestAPIReplayRequestTests.m; sourceTree = SOURCE_ROOT; };
 		4F06AF6B1C49A16A00F70798 /* SFOAuthTestFlowCoordinatorDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFOAuthTestFlowCoordinatorDelegate.h; path = SalesforceSDKCoreTests/SFOAuthTestFlowCoordinatorDelegate.h; sourceTree = SOURCE_ROOT; };
 		4F06AF6C1C49A16A00F70798 /* SFOAuthTestFlowCoordinatorDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFOAuthTestFlowCoordinatorDelegate.m; path = SalesforceSDKCoreTests/SFOAuthTestFlowCoordinatorDelegate.m; sourceTree = SOURCE_ROOT; };
 		4F06AF6D1C49A16A00F70798 /* SFPreferencesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFPreferencesTests.m; path = SalesforceSDKCoreTests/SFPreferencesTests.m; sourceTree = SOURCE_ROOT; };
@@ -1102,6 +1104,7 @@
 				4F3ECD8B2EBBD182005020A6 /* SFOAuthInfoTests.m */,
 				3168ED77C1354C30BA9DB766 /* SFSDKOAuth2RefreshInstanceUrlTests.m */,
 				4F06AF681C49A16A00F70798 /* SFOAuthSessionRefresherTests.m */,
+				9C89173392B44A0E88D09027 /* SFRestAPIReplayRequestTests.m */,
 				4F06AF6B1C49A16A00F70798 /* SFOAuthTestFlowCoordinatorDelegate.h */,
 				4F06AF6C1C49A16A00F70798 /* SFOAuthTestFlowCoordinatorDelegate.m */,
 				4F06AF6D1C49A16A00F70798 /* SFPreferencesTests.m */,
@@ -2280,6 +2283,7 @@
 				4F06AF8D1C49A18E00F70798 /* SalesforceSDKManagerTests.m in Sources */,
 				237C186C2E44FCAE0008015C /* EncryptStreamTests.swift in Sources */,
 				4F06AF8F1C49A18E00F70798 /* SFOAuthSessionRefresherTests.m in Sources */,
+				80140EB81287479183C1C85F /* SFRestAPIReplayRequestTests.m in Sources */,
 				4F9E05342DD7BE1500548985 /* SFOAuthCredentialsTests.m in Sources */,
 				092F3EB14B5A4FFEA77B21BC /* SFSDKOAuth2RefreshInstanceUrlTests.m in Sources */,
 				CEB98EE31F86E7DC0083AB9C /* SFSDKURLHandlerManagerTest.m in Sources */,

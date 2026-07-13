@@ -80,7 +80,8 @@ typedef NS_ENUM(NSInteger, SFLogoutReason) {
     SFLogoutReasonUnexpectedResponse,               // Unexpected response from server
     SFLogoutReasonUnknown,                          // Unknown
     SFLogoutReasonUserInitiated,                    // User initiated logout
-    SFLogoutReasonRefreshTokenRotated               // Refresh token rotated
+    SFLogoutReasonRefreshTokenRotated,              // Refresh token rotated
+    SFLogoutReasonAppAttestationFailed              // App attestation permanently blocked this client
 };
 
 NS_ASSUME_NONNULL_BEGIN
