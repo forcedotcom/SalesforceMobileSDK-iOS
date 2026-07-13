@@ -63,9 +63,7 @@ enum {
     kSFOAuthErrorJWTInvalidGrant,
     kSFOAuthErrorRequestCancelled,
     kSFOAuthErrorRefreshFailed, //generic error
-    kSFOAuthErrorInvalidURL,
-    kSFOAuthErrorAppAttestationFailed,       // app attestation failed (terminal)
-    kSFOAuthErrorAppAttestationFailedRetry   // app attestation failed (client should retry)
+    kSFOAuthErrorInvalidURL
 };
 
 typedef NS_ENUM(NSInteger, SFLogoutReason) {

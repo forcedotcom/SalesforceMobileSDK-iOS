@@ -207,10 +207,12 @@ successBlock:(SFRestResponseBlock)successBlock
 
     [self waitForExpectations:@[failureExpectation] timeout:5.0];
 
-    // Assert
+    // Assert: wire value is preserved so replayRequest can parse it via SFOAuthErrorCode.from(_:)
     XCTAssertNotNil(receivedError, @"Request should receive error");
-    XCTAssertEqual(receivedError.code, kSFOAuthErrorAppAttestationFailed, @"Error code should be app attestation failed");
     XCTAssertEqualObjects(receivedError.userInfo[kSFOAuthError], @"client_blocked", @"Wire value should be preserved");
+    XCTAssertEqual([SFOAuthErrorCodeHelper from:receivedError.userInfo[kSFOAuthError]],
+                   SFOAuthErrorCodeAppAttestationFailed,
+                   @"Wire value should map to appAttestationFailed via typed enum");
 }
 
 - (void)test_given_clientBlockedRetry_when_replayRequest_then_doesNotLogout_andFlushesErrorToPending {
@@ -260,10 +262,12 @@ successBlock:(SFRestResponseBlock)successBlock
 
     [self waitForExpectations:@[failureExpectation] timeout:5.0];
 
-    // Assert
+    // Assert: wire value is preserved so replayRequest can parse it via SFOAuthErrorCode.from(_:)
     XCTAssertNotNil(receivedError, @"Request should receive error");
-    XCTAssertEqual(receivedError.code, kSFOAuthErrorAppAttestationFailedRetry, @"Error code should be app attestation retry");
     XCTAssertEqualObjects(receivedError.userInfo[kSFOAuthError], @"client_blocked_retry", @"Wire value should be preserved");
+    XCTAssertEqual([SFOAuthErrorCodeHelper from:receivedError.userInfo[kSFOAuthError]],
+                   SFOAuthErrorCodeAppAttestationFailedRetry,
+                   @"Wire value should map to appAttestationFailedRetry via typed enum");
 }
 
 @end
