@@ -138,11 +138,26 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     // Host connection error handler
     self.hostConnectionErrorHandler = [[SFAuthErrorHandler alloc] initWithName:kSFHostConnectionErrorHandler
                                      authSessionBlock:^BOOL(NSError *error, SFSDKAuthSession *authSession, NSDictionary *options) {
-                                        if ((error.userInfo[@"_kCFStreamErrorCodeKey"] && error.userInfo[@"_kCFStreamErrorDomainKey"]) ||
-                                            ([error.domain isEqualToString:kSFOAuthErrorDomain] && error.code == kSFOAuthErrorInvalidURL)) {
+                                        BOOL cfStreamHostError = (error.userInfo[@"_kCFStreamErrorCodeKey"] && error.userInfo[@"_kCFStreamErrorDomainKey"]);
+                                        BOOL oauthInvalidURL   = ([error.domain isEqualToString:kSFOAuthErrorDomain] && error.code == kSFOAuthErrorInvalidURL);
+                                        BOOL urlHostError      = NO;
+                                        if ([error.domain isEqualToString:NSURLErrorDomain]) {
+                                            switch (error.code) {
+                                                case NSURLErrorCannotFindHost:            // -1003
+                                                case NSURLErrorDNSLookupFailed:           // -1006
+                                                case NSURLErrorCannotConnectToHost:       // -1004
+                                                case NSURLErrorTimedOut:                  // -1001
+                                                case NSURLErrorNotConnectedToInternet:    // -1009
+                                                case NSURLErrorNetworkConnectionLost:     // -1005
+                                                    urlHostError = YES;
+                                                    break;
+                                                default: break;
+                                            }
+                                        }
+                                        if (cfStreamHostError || oauthInvalidURL || urlHostError) {
                                             if (self.hostConnectionErrorHandlerBlock) {
                                                 self.hostConnectionErrorHandlerBlock(error, authSession, options);
-                                                 return YES;
+                                                return YES;
                                             }
                                         }
                                         return NO;
