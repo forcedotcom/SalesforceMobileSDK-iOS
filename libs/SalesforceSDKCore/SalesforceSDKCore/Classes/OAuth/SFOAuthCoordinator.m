@@ -28,6 +28,7 @@
 #import "SFOAuthCoordinator+Internal.h"
 #import "SFOAuthInfo.h"
 #import "SFSDKAuthConfigUtil.h"
+#import "SFSDKAuthErrorManager.h"
 #import "SFSDKCryptoUtils.h"
 #import "NSData+SFSDKUtils.h"
 #import "NSString+SFAdditions.h"
@@ -55,6 +56,14 @@
 #import <SalesforceSDKCommon/SFSDKDatasharingHelper.h>
 #import <LocalAuthentication/LocalAuthentication.h>
 #import "SFSDKResourceUtils.h"
+// Forward declaration of the shared host-connection classifier so this file
+// stays in sync with the classifier block in SFSDKAuthErrorManager. Not in the
+// public header: this is an internal predicate, tested directly in
+// SFSDKErrorManagerTests.
+@interface SFSDKAuthErrorManager (SFOAuthCoordinatorInternalUse)
++ (BOOL)errorIsHostConnectionFailure:(NSError *)error;
+@end
+
 @interface SFOAuthCoordinator()
 
 @property (nonatomic) NSString *networkIdentifier;
@@ -197,8 +206,19 @@
             [SFSDKAuthConfigUtil getMyDomainAuthConfig:^(SFOAuthOrgAuthConfiguration *authConfig, NSError *error) {
                 __strong typeof(weakSelf) strongSelf = weakSelf;
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    // Ignore any errors why retrieving authconfig. Default to WKWebView
-                    // Errors should have already been logged.
+                    // A prefetch error against an unreachable login host is the earliest
+                    // authoritative signal that the host itself is bad. Falling through to
+                    // beginWebViewFlow would dispatch a WKWebView load against the same host
+                    // and hang silently, stranding the user on a blank screen and leaving the
+                    // bad host set as the sticky loginHost across app restarts. Surface it to
+                    // the failure delegate so the error manager's hostConnectionErrorHandler
+                    // can present an alert and roll loginHost back to the previous good host.
+                    // Non-host errors (parse failures, non-2xx responses, endpoint absent on
+                    // standard orgs) continue to fall through — auth-config is optional.
+                    if ([SFSDKAuthErrorManager errorIsHostConnectionFailure:error]) {
+                        [strongSelf notifyDelegateOfFailure:error authInfo:strongSelf.authInfo];
+                        return;
+                    }
                     if (!self.frontdoorBridgeLoginOverride &&
                         (authConfig.useNativeBrowserForAuth ||
                          [SalesforceSDKManager sharedManager].sdk_forceAdvancedAuthentication)) {

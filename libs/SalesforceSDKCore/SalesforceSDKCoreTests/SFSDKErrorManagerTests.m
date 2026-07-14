@@ -24,6 +24,13 @@
 #import <XCTest/XCTest.h>
 #import "SFSDKAuthErrorManager.h"
 #import "SFOAuthInfo.h"
+
+// Same shared-predicate forward declaration used by SFOAuthCoordinator.m. Keeps
+// the classifier tested at its public entry point without expanding the SDK's
+// public header surface for what is an internal helper.
+@interface SFSDKAuthErrorManager (SFSDKErrorManagerTestsInternalUse)
++ (BOOL)errorIsHostConnectionFailure:(NSError *)error;
+@end
 #import "SFOAuthCoordinator+Internal.h"
 #import "SFUserAccountManager+Internal.h"
 #import "SFOAuthCredentials+Internal.h"
@@ -330,6 +337,62 @@
     XCTAssertTrue(handled, @"Network Error Should have been handled by the ErrorManager on Refresh flow");
     [[SFUserAccountManager sharedInstance] deleteAccountForUser:account error:nil];
     [self waitForExpectationsWithTimeout:20.0 handler:nil];
+}
+
+#pragma mark - errorIsHostConnectionFailure predicate
+
+// The shared predicate is the single source of truth for what counts as a
+// host-connection failure. Both the classifier block and SFOAuthCoordinator's
+// auth-config prefetch callback consult it, so exercising it directly guards
+// both call sites against silent classification drift.
+
+- (void)testErrorIsHostConnectionFailure_NilInputs {
+    XCTAssertFalse([SFSDKAuthErrorManager errorIsHostConnectionFailure:nil]);
+    NSError *nilDomain = [NSError errorWithDomain:@"" code:0 userInfo:nil];
+    XCTAssertFalse([SFSDKAuthErrorManager errorIsHostConnectionFailure:nilDomain]);
+}
+
+- (void)testErrorIsHostConnectionFailure_LegacyCFStreamKeys {
+    NSError *error = [NSError errorWithDomain:NSURLErrorDomain
+                                         code:NSURLErrorCannotFindHost
+                                     userInfo:@{ @"_kCFStreamErrorCodeKey": @8,
+                                                 @"_kCFStreamErrorDomainKey": @12 }];
+    XCTAssertTrue([SFSDKAuthErrorManager errorIsHostConnectionFailure:error]);
+}
+
+- (void)testErrorIsHostConnectionFailure_SFOAuthInvalidURL {
+    NSError *error = [NSError errorWithDomain:kSFOAuthErrorDomain
+                                         code:kSFOAuthErrorInvalidURL
+                                     userInfo:nil];
+    XCTAssertTrue([SFSDKAuthErrorManager errorIsHostConnectionFailure:error]);
+}
+
+- (void)testErrorIsHostConnectionFailure_ModernNSURLCodes {
+    NSArray<NSNumber *> *codes = @[ @(NSURLErrorCannotFindHost),
+                                    @(NSURLErrorDNSLookupFailed),
+                                    @(NSURLErrorCannotConnectToHost),
+                                    @(NSURLErrorTimedOut),
+                                    @(NSURLErrorNotConnectedToInternet),
+                                    @(NSURLErrorNetworkConnectionLost) ];
+    for (NSNumber *code in codes) {
+        NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:code.integerValue userInfo:nil];
+        XCTAssertTrue([SFSDKAuthErrorManager errorIsHostConnectionFailure:error],
+                      @"Expected NSURLError %ld to be classified as a host connection failure", (long)code.integerValue);
+    }
+}
+
+- (void)testErrorIsHostConnectionFailure_UnrelatedCodesReturnNO {
+    NSError *cancelled = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorCancelled userInfo:nil];
+    XCTAssertFalse([SFSDKAuthErrorManager errorIsHostConnectionFailure:cancelled]);
+
+    NSError *userAuth = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorUserAuthenticationRequired userInfo:nil];
+    XCTAssertFalse([SFSDKAuthErrorManager errorIsHostConnectionFailure:userAuth]);
+
+    NSError *invalidGrant = [NSError errorWithDomain:kSFOAuthErrorDomain code:kSFOAuthErrorInvalidGrant userInfo:nil];
+    XCTAssertFalse([SFSDKAuthErrorManager errorIsHostConnectionFailure:invalidGrant]);
+
+    NSError *foreign = [NSError errorWithDomain:@"com.example.some-other-domain" code:-1001 userInfo:nil];
+    XCTAssertFalse([SFSDKAuthErrorManager errorIsHostConnectionFailure:foreign]);
 }
 
 @end

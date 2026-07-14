@@ -138,23 +138,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     // Host connection error handler
     self.hostConnectionErrorHandler = [[SFAuthErrorHandler alloc] initWithName:kSFHostConnectionErrorHandler
                                      authSessionBlock:^BOOL(NSError *error, SFSDKAuthSession *authSession, NSDictionary *options) {
-                                        BOOL cfStreamHostError = (error.userInfo[@"_kCFStreamErrorCodeKey"] && error.userInfo[@"_kCFStreamErrorDomainKey"]);
-                                        BOOL oauthInvalidURL   = ([error.domain isEqualToString:kSFOAuthErrorDomain] && error.code == kSFOAuthErrorInvalidURL);
-                                        BOOL urlHostError      = NO;
-                                        if ([error.domain isEqualToString:NSURLErrorDomain]) {
-                                            switch (error.code) {
-                                                case NSURLErrorCannotFindHost:            // -1003
-                                                case NSURLErrorDNSLookupFailed:           // -1006
-                                                case NSURLErrorCannotConnectToHost:       // -1004
-                                                case NSURLErrorTimedOut:                  // -1001
-                                                case NSURLErrorNotConnectedToInternet:    // -1009
-                                                case NSURLErrorNetworkConnectionLost:     // -1005
-                                                    urlHostError = YES;
-                                                    break;
-                                                default: break;
-                                            }
-                                        }
-                                        if (cfStreamHostError || oauthInvalidURL || urlHostError) {
+                                        if ([[weakSelf class] errorIsHostConnectionFailure:error]) {
                                             if (self.hostConnectionErrorHandlerBlock) {
                                                 self.hostConnectionErrorHandlerBlock(error, authSession, options);
                                                 return YES;
@@ -207,6 +191,37 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
  * @param error The NSError to evaluate.
  * @return YES if the error represents a network failure, NO otherwise.
  */
++ (BOOL)errorIsHostConnectionFailure:(NSError *)error
+{
+    if (error == nil || error.domain == nil) {
+        return NO;
+    }
+    // Legacy iOS <= 18 shape: CFNetwork stream stack attached _kCFStreamError* keys to userInfo.
+    if (error.userInfo[@"_kCFStreamErrorCodeKey"] && error.userInfo[@"_kCFStreamErrorDomainKey"]) {
+        return YES;
+    }
+    // OAuth invalid-URL is a bad-host signal.
+    if ([error.domain isEqualToString:kSFOAuthErrorDomain] && error.code == kSFOAuthErrorInvalidURL) {
+        return YES;
+    }
+    // iOS 26+ shape: DNS resolution moved to Network.framework, so the CFStream keys are absent.
+    // NSURLErrorDomain surfaces these codes with a bare userInfo instead.
+    if ([error.domain isEqualToString:NSURLErrorDomain]) {
+        switch (error.code) {
+            case NSURLErrorCannotFindHost:            // -1003
+            case NSURLErrorDNSLookupFailed:           // -1006
+            case NSURLErrorCannotConnectToHost:       // -1004
+            case NSURLErrorTimedOut:                  // -1001
+            case NSURLErrorNotConnectedToInternet:    // -1009
+            case NSURLErrorNetworkConnectionLost:     // -1005
+                return YES;
+            default:
+                break;
+        }
+    }
+    return NO;
+}
+
 + (BOOL)errorIsNetworkFailure:(NSError *)error
 {
     BOOL isNetworkFailure = NO;
