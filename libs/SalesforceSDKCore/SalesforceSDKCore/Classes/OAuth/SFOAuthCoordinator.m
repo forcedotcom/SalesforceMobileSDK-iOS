@@ -56,13 +56,7 @@
 #import <SalesforceSDKCommon/SFSDKDatasharingHelper.h>
 #import <LocalAuthentication/LocalAuthentication.h>
 #import "SFSDKResourceUtils.h"
-// Forward declaration of the shared host-connection classifier so this file
-// stays in sync with the classifier block in SFSDKAuthErrorManager. Not in the
-// public header: this is an internal predicate, tested directly in
-// SFSDKErrorManagerTests.
-@interface SFSDKAuthErrorManager (SFOAuthCoordinatorInternalUse)
-+ (BOOL)errorIsHostConnectionFailure:(NSError *)error;
-@end
+#import "SFSDKAuthErrorManager+Internal.h"
 
 @interface SFOAuthCoordinator()
 

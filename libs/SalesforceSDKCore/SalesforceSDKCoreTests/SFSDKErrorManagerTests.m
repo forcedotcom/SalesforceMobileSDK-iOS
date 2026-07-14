@@ -23,14 +23,8 @@
  */
 #import <XCTest/XCTest.h>
 #import "SFSDKAuthErrorManager.h"
+#import "SFSDKAuthErrorManager+Internal.h"
 #import "SFOAuthInfo.h"
-
-// Same shared-predicate forward declaration used by SFOAuthCoordinator.m. Keeps
-// the classifier tested at its public entry point without expanding the SDK's
-// public header surface for what is an internal helper.
-@interface SFSDKAuthErrorManager (SFSDKErrorManagerTestsInternalUse)
-+ (BOOL)errorIsHostConnectionFailure:(NSError *)error;
-@end
 #import "SFOAuthCoordinator+Internal.h"
 #import "SFUserAccountManager+Internal.h"
 #import "SFOAuthCredentials+Internal.h"
@@ -153,15 +147,13 @@
 - (void)assertHostConnectionClaimsDomain:(NSString *)domain code:(NSInteger)code description:(NSString *)description {
     SFSDKAuthErrorManager *errorManager = [[SFSDKAuthErrorManager alloc] init];
     SFSDKAuthSession *authSession = [[SFSDKAuthSession alloc] init];
-    XCTAssertNotNil(errorManager);
     XCTestExpectation *expectation = [self expectationWithDescription:description];
-    NSDictionary *userInfo = [[NSMutableDictionary alloc] init];
+    NSDictionary *userInfo = @{};
     NSError *error = [NSError errorWithDomain:domain code:code userInfo:userInfo];
 
     errorManager.hostConnectionErrorHandlerBlock = ^(NSError *e, SFSDKAuthSession *s, NSDictionary *o) {
         [expectation fulfill];
     };
-    XCTAssertNotNil(errorManager.hostConnectionErrorHandlerBlock);
     BOOL handled = [errorManager processAuthError:error authContext:authSession options:userInfo];
     XCTAssertTrue(handled, @"Host connection error should have been handled by the ErrorManager");
     [self waitForExpectationsWithTimeout:20.0 handler:nil];
@@ -210,7 +202,6 @@
 - (void)testHostConnectionError_LegacyCFStreamKeys {
     SFSDKAuthErrorManager *errorManager = [[SFSDKAuthErrorManager alloc] init];
     SFSDKAuthSession *authSession = [[SFSDKAuthSession alloc] init];
-    XCTAssertNotNil(errorManager);
     XCTestExpectation *expectation = [self expectationWithDescription:@"hostConnectionExpectation_LegacyCFStreamKeys"];
     NSDictionary *userInfo = @{ @"_kCFStreamErrorCodeKey": @8,
                                 @"_kCFStreamErrorDomainKey": @12 };
@@ -219,7 +210,6 @@
     errorManager.hostConnectionErrorHandlerBlock = ^(NSError *e, SFSDKAuthSession *s, NSDictionary *o) {
         [expectation fulfill];
     };
-    XCTAssertNotNil(errorManager.hostConnectionErrorHandlerBlock);
     BOOL handled = [errorManager processAuthError:error authContext:authSession options:userInfo];
     XCTAssertTrue(handled, @"Legacy CFStream-shaped host connection error should have been handled by the ErrorManager");
     [self waitForExpectationsWithTimeout:20.0 handler:nil];
@@ -229,15 +219,13 @@
 - (void)testHostConnectionError_SFOAuthInvalidURL {
     SFSDKAuthErrorManager *errorManager = [[SFSDKAuthErrorManager alloc] init];
     SFSDKAuthSession *authSession = [[SFSDKAuthSession alloc] init];
-    XCTAssertNotNil(errorManager);
     XCTestExpectation *expectation = [self expectationWithDescription:@"hostConnectionExpectation_SFOAuthInvalidURL"];
-    NSDictionary *userInfo = [[NSMutableDictionary alloc] init];
+    NSDictionary *userInfo = @{};
     NSError *error = [NSError errorWithDomain:kSFOAuthErrorDomain code:kSFOAuthErrorInvalidURL userInfo:userInfo];
 
     errorManager.hostConnectionErrorHandlerBlock = ^(NSError *e, SFSDKAuthSession *s, NSDictionary *o) {
         [expectation fulfill];
     };
-    XCTAssertNotNil(errorManager.hostConnectionErrorHandlerBlock);
     BOOL handled = [errorManager processAuthError:error authContext:authSession options:userInfo];
     XCTAssertTrue(handled, @"kSFOAuthErrorInvalidURL should have been handled by the ErrorManager host connection handler");
     [self waitForExpectationsWithTimeout:20.0 handler:nil];
@@ -247,9 +235,8 @@
 - (void)testGenericError_Cancelled {
     SFSDKAuthErrorManager *errorManager = [[SFSDKAuthErrorManager alloc] init];
     SFSDKAuthSession *authSession = [[SFSDKAuthSession alloc] init];
-    XCTAssertNotNil(errorManager);
     XCTestExpectation *expectation = [self expectationWithDescription:@"genericErrorExpectation_Cancelled"];
-    NSDictionary *userInfo = [[NSMutableDictionary alloc] init];
+    NSDictionary *userInfo = @{};
     NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorCancelled userInfo:userInfo];
 
     errorManager.hostConnectionErrorHandlerBlock = ^(NSError *e, SFSDKAuthSession *s, NSDictionary *o) {
@@ -266,9 +253,8 @@
 - (void)testGenericError_UserAuthRequired {
     SFSDKAuthErrorManager *errorManager = [[SFSDKAuthErrorManager alloc] init];
     SFSDKAuthSession *authSession = [[SFSDKAuthSession alloc] init];
-    XCTAssertNotNil(errorManager);
     XCTestExpectation *expectation = [self expectationWithDescription:@"genericErrorExpectation_UserAuthRequired"];
-    NSDictionary *userInfo = [[NSMutableDictionary alloc] init];
+    NSDictionary *userInfo = @{};
     NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorUserAuthenticationRequired userInfo:userInfo];
 
     errorManager.hostConnectionErrorHandlerBlock = ^(NSError *e, SFSDKAuthSession *s, NSDictionary *o) {
@@ -286,9 +272,8 @@
 - (void)testHostConnectionDoesNotClaim_SFOAuthInvalidGrant {
     SFSDKAuthErrorManager *errorManager = [[SFSDKAuthErrorManager alloc] init];
     SFSDKAuthSession *authSession = [[SFSDKAuthSession alloc] init];
-    XCTAssertNotNil(errorManager);
     XCTestExpectation *expectation = [self expectationWithDescription:@"invalidGrantExpectation"];
-    NSDictionary *userInfo = [[NSMutableDictionary alloc] init];
+    NSDictionary *userInfo = @{};
     NSError *error = [NSError errorWithDomain:kSFOAuthErrorDomain code:kSFOAuthErrorInvalidGrant userInfo:userInfo];
 
     errorManager.hostConnectionErrorHandlerBlock = ^(NSError *e, SFSDKAuthSession *s, NSDictionary *o) {
@@ -320,9 +305,8 @@
     SFSDKAuthSession *session = [[SFSDKAuthSession alloc] initWith:request credentials:credentials spAppCredentials:nil];
     session.oauthCoordinator.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefresh];
 
-    XCTAssertNotNil(errorManager);
     XCTestExpectation *networkErrorExpectation = [self expectationWithDescription:@"networkErrorExpectation_RefreshWithToken"];
-    NSDictionary *userInfo = [[NSMutableDictionary alloc] init];
+    NSDictionary *userInfo = @{};
     NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorTimedOut userInfo:userInfo];
 
     errorManager.networkErrorHandlerBlock = ^(NSError *e, SFSDKAuthSession *s, NSDictionary *o) {
@@ -332,11 +316,10 @@
         XCTFail(@"Host connection handler must not claim network errors on Refresh-with-token flows");
     };
 
-    XCTAssertNotNil(errorManager.networkErrorHandlerBlock);
     BOOL handled = [errorManager processAuthError:error authContext:session options:userInfo];
     XCTAssertTrue(handled, @"Network Error Should have been handled by the ErrorManager on Refresh flow");
-    [[SFUserAccountManager sharedInstance] deleteAccountForUser:account error:nil];
     [self waitForExpectationsWithTimeout:20.0 handler:nil];
+    [[SFUserAccountManager sharedInstance] deleteAccountForUser:account error:nil];
 }
 
 #pragma mark - errorIsHostConnectionFailure predicate
@@ -346,10 +329,14 @@
 // auth-config prefetch callback consult it, so exercising it directly guards
 // both call sites against silent classification drift.
 
-- (void)testErrorIsHostConnectionFailure_NilInputs {
+- (void)testErrorIsHostConnectionFailure_NilAndEmptyDomain {
     XCTAssertFalse([SFSDKAuthErrorManager errorIsHostConnectionFailure:nil]);
-    NSError *nilDomain = [NSError errorWithDomain:@"" code:0 userInfo:nil];
-    XCTAssertFalse([SFSDKAuthErrorManager errorIsHostConnectionFailure:nilDomain]);
+    // A truly nil domain cannot be constructed here: +errorWithDomain:code:userInfo:
+    // raises NSInvalidArgumentException on a nil domain. The nil-domain branch in
+    // +errorIsHostConnectionFailure: is exercised only via the nil-error path
+    // above; an empty-string domain covers the "unknown foreign domain" fallthrough.
+    NSError *emptyDomain = [NSError errorWithDomain:@"" code:0 userInfo:nil];
+    XCTAssertFalse([SFSDKAuthErrorManager errorIsHostConnectionFailure:emptyDomain]);
 }
 
 - (void)testErrorIsHostConnectionFailure_LegacyCFStreamKeys {

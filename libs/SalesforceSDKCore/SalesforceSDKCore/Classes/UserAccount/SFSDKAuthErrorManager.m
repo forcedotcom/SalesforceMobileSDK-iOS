@@ -28,6 +28,7 @@
  */
 
 #import "SFSDKAuthErrorManager.h"
+#import "SFSDKAuthErrorManager+Internal.h"
 #import "SFAuthErrorHandlerList.h"
 #import "SFAuthErrorHandler.h"
 #import "SFOAuthCoordinator+Internal.h"
@@ -135,7 +136,13 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
                                            }];
     [authHandlerList addAuthErrorHandler:self.networkFailureAuthErrorHandler];
     
-    // Host connection error handler
+    // Host connection error handler.
+    //
+    // NSURLErrorTimedOut / CannotConnectToHost / NetworkConnectionLost / NotConnectedToInternet
+    // also appear in +errorIsNetworkFailure:. NetworkFailureErrorHandler runs first in the chain
+    // and claims those codes only on Refresh flows with an existing access token; all other
+    // contexts return NO there and fall through to this handler. Ordering is guarded by
+    // testNetworkFailureClaimsFirst_RefreshWithToken.
     self.hostConnectionErrorHandler = [[SFAuthErrorHandler alloc] initWithName:kSFHostConnectionErrorHandler
                                      authSessionBlock:^BOOL(NSError *error, SFSDKAuthSession *authSession, NSDictionary *options) {
                                         if ([[weakSelf class] errorIsHostConnectionFailure:error]) {
@@ -186,10 +193,11 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 }
 
 /**
- * Evaluates an NSError object to see if it represents a network failure during
- * an attempted connection.
+ * Evaluates an NSError object to see if it represents a host-connection failure —
+ * an unreachable or non-existent login host — rather than a transient network
+ * failure on an otherwise reachable host.
  * @param error The NSError to evaluate.
- * @return YES if the error represents a network failure, NO otherwise.
+ * @return YES if the error should trigger the host-connection recovery path, NO otherwise.
  */
 + (BOOL)errorIsHostConnectionFailure:(NSError *)error
 {
