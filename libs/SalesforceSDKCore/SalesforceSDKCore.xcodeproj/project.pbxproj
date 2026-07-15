@@ -193,6 +193,7 @@
 		A3C7476129F709EB00D72B7F /* BiometricAuthenticationManagerInternal.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C7476029F709EB00D72B7F /* BiometricAuthenticationManagerInternal.swift */; };
 		AA9154482F59E3C900A0A41C /* SFRestAPIDataTaskRaceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9154472F59E3C900A0A41C /* SFRestAPIDataTaskRaceTests.m */; };
 		B70135621F87F63900995171 /* SFSDKAuthErrorManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B70135601F87F63900995171 /* SFSDKAuthErrorManager.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		B70135631F87F63900995171 /* SFSDKAuthErrorManager+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = B70135651F87F63900995171 /* SFSDKAuthErrorManager+Internal.h */; };
 		B70135641F87F63900995171 /* SFSDKAuthErrorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B70135611F87F63900995171 /* SFSDKAuthErrorManager.m */; };
 		B711290D1F8A780800436CFB /* SFSDKAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = B71129071F8A780700436CFB /* SFSDKAlertView.m */; };
 		B711290E1F8A780800436CFB /* SFSDKAlertMessageBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = B71129081F8A780800436CFB /* SFSDKAlertMessageBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -824,6 +825,7 @@
 		AA9154472F59E3C900A0A41C /* SFRestAPIDataTaskRaceTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFRestAPIDataTaskRaceTests.m; path = SalesforceSDKCoreTests/SFRestAPIDataTaskRaceTests.m; sourceTree = SOURCE_ROOT; };
 		B70135601F87F63900995171 /* SFSDKAuthErrorManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKAuthErrorManager.h; sourceTree = "<group>"; };
 		B70135611F87F63900995171 /* SFSDKAuthErrorManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKAuthErrorManager.m; sourceTree = "<group>"; };
+		B70135651F87F63900995171 /* SFSDKAuthErrorManager+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SFSDKAuthErrorManager+Internal.h"; sourceTree = "<group>"; };
 		B71129071F8A780700436CFB /* SFSDKAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKAlertView.m; sourceTree = "<group>"; };
 		B71129081F8A780800436CFB /* SFSDKAlertMessageBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKAlertMessageBuilder.h; sourceTree = "<group>"; };
 		B71129091F8A780800436CFB /* SFSDKAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKAlertView.h; sourceTree = "<group>"; };
@@ -1380,6 +1382,7 @@
 				4F96FCF41BFD32130022F021 /* SFAuthErrorHandlerList.h */,
 				4F96FCF51BFD32130022F021 /* SFAuthErrorHandlerList.m */,
 				B70135601F87F63900995171 /* SFSDKAuthErrorManager.h */,
+				B70135651F87F63900995171 /* SFSDKAuthErrorManager+Internal.h */,
 				B70135611F87F63900995171 /* SFSDKAuthErrorManager.m */,
 				6935FB9E23FDEC92002BEFCC /* ViewControllers */,
 			);
@@ -1858,6 +1861,7 @@
 				B7FB26E31F78096300FB25A2 /* SFSDKURLHandlerManager.h in Headers */,
 				CE4CE3091C0E523B009F6029 /* NSURL+SFAdditions.h in Headers */,
 				B70135621F87F63900995171 /* SFSDKAuthErrorManager.h in Headers */,
+				B70135631F87F63900995171 /* SFSDKAuthErrorManager+Internal.h in Headers */,
 				CE4CE32A1C0E523B009F6029 /* SalesforceSDKConstants.h in Headers */,
 				B7C274481F814BF500CE539D /* SFSDKSPLoginRequestCommand.h in Headers */,
 				CE4CE39B1C0E5272009F6029 /* SFSDKTestCredentialsData.h in Headers */,
