@@ -119,10 +119,16 @@ public final class DPoPProofBuilder: NSObject {
         } catch {
             throw DPoPProofBuilderError.jwkExportFailed
         }
-        // RFC 7638: canonical JSON with lexicographic key ordering, UTF-8, no whitespace.
+        // RFC 7638 §3.2: canonical JSON must contain ONLY the required members
+        // for the key type — for P-256 that is exactly {crv, kty, x, y}. If
+        // Encryptor.jwkP256 ever grows optional fields (kid, use, key_ops...)
+        // the thumbprint computed here will silently diverge from what the
+        // server derives off the DPoP proof's `jwk` claim, breaking the
+        // authorize↔token binding. Keep jwkP256's output minimal.
         guard let canonicalData = try? JSONSerialization.data(withJSONObject: jwk,
                                                               options: [.sortedKeys, .withoutEscapingSlashes]),
               let digest = (canonicalData as NSData).sfsdk_sha256() else {
+            SFSDKCoreLogger.w(Self.self, message: "DPoP jwkThumbprint: JWK canonicalization or SHA-256 hash failed")
             throw DPoPProofBuilderError.thumbprintFailed
         }
         return (digest as NSData).sfsdk_base64UrlString()
