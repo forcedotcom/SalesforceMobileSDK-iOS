@@ -866,7 +866,44 @@
       [approvalUrlString appendFormat:@"&%@=%@", @"login_hint", self.loginHint];
     }
 
+    [self appendDPoPJktIfNeededTo:approvalUrlString domain:domain credentials:credentials];
+
     return approvalUrlString;
+}
+
+// Appends `&dpop_jkt=<base64url-sha256>` to the approval URL when DPoP is enabled
+// and the login server is a my-domain server (RFC 9449 §10 authorization code
+// binding). Soft-fails on key-material / crypto errors: logs a warning and leaves
+// the URL untouched so login proceeds — the server will surface an RFC-shaped
+// `invalid_request` error if the ECA requires code binding.
+- (void)appendDPoPJktIfNeededTo:(NSMutableString *)approvalUrlString
+                         domain:(NSString *)domain
+                    credentials:(SFOAuthCredentials *)credentials {
+    if (![[SalesforceSDKManager sharedManager] useDPoP]) {
+        return;
+    }
+    if (domain == nil || [SFSDKAuthConfigUtil isPoolLoginHost:domain]) {
+        return;
+    }
+    if (credentials.identifier.length == 0) {
+        [SFSDKCoreLogger w:[self class] format:@"DPoP dpop_jkt skipped: missing credentials.identifier"];
+        return;
+    }
+
+    NSError *err = nil;
+    SFSDKDPoPKeyPair *pair = [SFSDKDPoPKeyStore.shared keyPairForCredentials:credentials error:&err];
+    if (!pair || err) {
+        [SFSDKCoreLogger w:[self class] format:@"DPoP dpop_jkt skipped: key pair load failed (%@)", err.localizedDescription];
+        return;
+    }
+
+    NSString *thumbprint = [SFSDKDPoPProofBuilder jwkThumbprintWithPublicKey:pair.publicKey error:&err];
+    if (thumbprint.length == 0 || err) {
+        [SFSDKCoreLogger w:[self class] format:@"DPoP dpop_jkt skipped: thumbprint failed (%@)", err.localizedDescription];
+        return;
+    }
+
+    [approvalUrlString appendFormat:@"&%@=%@", kSFOAuthDPoPJktParamName, thumbprint];
 }
 
 /**
