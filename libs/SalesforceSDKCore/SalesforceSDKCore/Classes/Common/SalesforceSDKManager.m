@@ -31,6 +31,7 @@
 #import "SFSDKAppFeatureMarkers.h"
 #import "SFDefaultUserManagementViewController.h"
 #import "SFSDKAuthRootController.h"
+#import "SFSDKLoginHostListViewController.h"
 #import <SalesforceSDKCommon/SFSwiftDetectUtil.h>
 #import "SFSDKEncryptedURLCache.h"
 #import "SFSDKNullURLCache.h"
@@ -137,6 +138,18 @@ SFNativeLoginManagerInternal *nativeLogin;
 #endif
 }
 
+// Non-deprecated internal accessor over the same backing ivar as the deprecated public
+// forceAdvancedAuthentication property (see SalesforceSDKManager+Internal.h). Lets internal SDK
+// code read/write the flag without tripping -Wdeprecated-declarations. Remove with the public
+// property in 15.0.
+- (BOOL)sdk_forceAdvancedAuthentication {
+    return _forceAdvancedAuthentication;
+}
+
+- (void)setSdk_forceAdvancedAuthentication:(BOOL)sdk_forceAdvancedAuthentication {
+    _forceAdvancedAuthentication = sdk_forceAdvancedAuthentication;
+}
+
 + (void)setInstanceClass:(Class)className {
     InstanceClass = className;
 }
@@ -237,6 +250,7 @@ SFNativeLoginManagerInternal *nativeLogin;
         else{
             [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureMultiUser];
         }
+        [sdkManager hydratePerUserFeatureFlags];
     });
     return sdkManager;
 }
@@ -319,6 +333,7 @@ SFNativeLoginManagerInternal *nativeLogin;
         self.blockSalesforceIntegrationUser = NO;
         self.useHybridAuthentication = YES;
         self.useDPoP = NO;
+        self.sdk_forceAdvancedAuthentication = YES;
         [self setupServiceConfiguration];
         _snapshotViewControllers = [SFSDKSafeMutableDictionary new];
         _nativeLoginViewControllers = [SFSDKSafeMutableDictionary new];
@@ -478,17 +493,20 @@ SFNativeLoginManagerInternal *nativeLogin;
     SFUserAccountManager *userAccountManager = [SFUserAccountManager sharedInstance];
     SFUserAccount *currentUser = userAccountManager.currentUser;
     
-    // Check if we're showing the login screen
-    BOOL isShowingLogin = [presentedViewController isKindOfClass:[SFLoginViewController class]];
-    // TODO uncomment to support advanced auth case (once we add code to restart auth in that case below)
-    // || [presentedViewController.presentingViewController isKindOfClass:[SFSDKAuthRootController class]];
-    
+    // Check if we're showing a login screen. This is the in-app WebView screen (SFLoginViewController)
+    // or, in the forced-advanced-auth path where SFLoginViewController is never created, the host
+    // list (SFSDKLoginHostListViewController) the user lands on.
+    BOOL isShowingWebViewLogin = [presentedViewController isKindOfClass:[SFLoginViewController class]];
+    BOOL isShowingHostList = [presentedViewController isKindOfClass:[SFSDKLoginHostListViewController class]]
+        && ((SFSDKLoginHostListViewController *)presentedViewController).presentedAsLoginScreen;
+    BOOL isShowingLogin = isShowingWebViewLogin || isShowingHostList;
+
     // Show dev info - always available
     [actions addObject:[[SFSDKDevAction alloc]initWith:@"Show dev info" handler:^{
         UIViewController *devInfo = [SFSDKDevInfoViewController makeViewController];
         [presentedViewController presentViewController:devInfo animated:YES completion:nil];
     }]];
-    
+
     // Login Options - only show on login screen
     if (isShowingLogin) {
         [actions addObject:[[SFSDKDevAction alloc]initWith:@"Login Options" handler:^{
@@ -497,8 +515,9 @@ SFNativeLoginManagerInternal *nativeLogin;
                     // Restart authentication with the updated configuration
                     if ([presentedViewController isKindOfClass:[SFLoginViewController class]]) {
                         [[SFUserAccountManager sharedInstance] restartAuthenticationForViewController:(SFLoginViewController *)presentedViewController recreateAuthRequest:YES];
+                    } else if ([presentedViewController isKindOfClass:[SFSDKLoginHostListViewController class]]) {
+                        [[SFUserAccountManager sharedInstance] hostListViewControllerDidChangeLoginOptions:(SFSDKLoginHostListViewController *)presentedViewController];
                     }
-                    // TODO support advanced auth case
                 }];
             }];
             [presentedViewController presentViewController:configPicker animated:YES completion:nil];
@@ -557,6 +576,7 @@ SFNativeLoginManagerInternal *nativeLogin;
             @"Use Web Server Authentication", [self useWebServerAuthentication]  ? @"YES" : @"NO",
             @"Use Hybrid Authentication", [self useHybridAuthentication]  ? @"YES" : @"NO",
             @"Use DPoP", [self useDPoP] ? @"YES" : @"NO",
+            @"Force Advanced Authentication", [self sdk_forceAdvancedAuthentication]  ? @"YES" : @"NO",
             @"Browser Login Enabled", [SFUserAccountManager sharedInstance].useBrowserAuth? @"YES" : @"NO",
             @"IDP Enabled", [self idpEnabled] ? @"YES" : @"NO",
             @"Identity Provider", [self isIdentityProvider] ? @"YES" : @"NO"
@@ -879,32 +899,46 @@ SFNativeLoginManagerInternal *nativeLogin;
     }
 }
 
-- (SFSDKUserAgentCreationBlock)defaultUserAgentString {
-    return ^NSString *(NSString *qualifier) {
-        UIDevice *curDevice = [UIDevice currentDevice];
-        NSString *appName = [SalesforceSDKManager appName];
-        NSString *prodAppVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-        NSString *buildNumber = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleVersionKey];
-        NSString *appVersion = [NSString stringWithFormat:@"%@(%@)", prodAppVersion, buildNumber];
+- (NSString *)userAgentString:(NSString *)qualifier forUser:(SFUserAccount *)user {
+    SFUserAccount *resolvedUser = user ?: [SFUserAccountManager sharedInstance].currentUser;
+    UIDevice *curDevice = [UIDevice currentDevice];
+    NSString *appName = [SalesforceSDKManager appName];
+    NSString *prodAppVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    NSString *buildNumber = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleVersionKey];
+    NSString *appVersion = [NSString stringWithFormat:@"%@(%@)", prodAppVersion, buildNumber];
+    NSString *appTypeStr = [self getAppTypeAsString];
+    NSString *ftr = [[[SFSDKAppFeatureMarkers appFeaturesForUser:resolvedUser].allObjects
+                      sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)]
+                     componentsJoinedByString:@"."];
+    return [NSString stringWithFormat:
+            @"SalesforceMobileSDK/%@ %@/%@ (%@) %@/%@ %@%@ uid_%@ ftr_%@ %@",
+            SALESFORCE_SDK_VERSION,
+            [curDevice systemName],
+            [curDevice systemVersion],
+            [curDevice model],
+            appName,
+            appVersion,
+            appTypeStr,
+            (qualifier != nil ? qualifier : @""),
+            uid,
+            ftr,
+            self.webViewUserAgent == nil ? @"" : self.webViewUserAgent];
+}
 
-        // App type.
-        NSString *appTypeStr = [self getAppTypeAsString];
-        NSString *myUserAgent = [NSString stringWithFormat:
-                                 @"SalesforceMobileSDK/%@ %@/%@ (%@) %@/%@ %@%@ uid_%@ ftr_%@ %@",
-                                 SALESFORCE_SDK_VERSION,
-                                 [curDevice systemName],
-                                 [curDevice systemVersion],
-                                 [curDevice model],
-                                 appName,
-                                 appVersion,
-                                 appTypeStr,
-                                 (qualifier != nil ? qualifier : @""),
-                                 uid,
-                                 [[[SFSDKAppFeatureMarkers appFeatures].allObjects sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] componentsJoinedByString:@"."],
-                                 self.webViewUserAgent == nil ? @"" : self.webViewUserAgent
-                                 ];
-        return myUserAgent;
+- (SFSDKUserAgentCreationBlock)defaultUserAgentString {
+    __weak typeof(self) weakSelf = self;
+    return ^NSString *(NSString *qualifier) {
+        return [weakSelf userAgentString:qualifier forUser:nil];
     };
+}
+
+- (void)hydratePerUserFeatureFlags {
+    NSArray *allUsers = [[SFUserAccountManager sharedInstance] allUserAccounts];
+    for (SFUserAccount *account in allUsers) {
+        if (account.persistedFeatureFlags.count > 0) {
+            [SFSDKAppFeatureMarkers loadPersistedFeatures:account.persistedFeatureFlags forUser:account];
+        }
+    }
 }
 
 - (void)computeWebViewUserAgent {

@@ -25,7 +25,7 @@
 #import <SalesforceSDKCommon/SFJsonUtils.h>
 #import "SFIdentityCoordinator+Internal.h"
 #import "SFOAuthCredentials.h"
-#import "SFOAuthSessionRefresher.h"
+#import "SFSDKTokenRefreshCoordinator.h"
 #import "SFUserAccountManager.h"
 #import "SFNetwork.h"
 #import "SFSDKAuthSession.h"
@@ -66,7 +66,6 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
 @synthesize timeout = _timeout;
 @synthesize retrievingData = _retrievingData;
 @synthesize session = _session;
-@synthesize oauthSessionRefresher = _oauthSessionRefresher;
 
 #pragma mark - init / dealloc
 
@@ -182,8 +181,7 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
         if (statusCode == 401 || statusCode == 403) {
             // The session timed out.  Identity service tends to send 403s for session timeouts.  Try to refresh.
             [SFSDKCoreLogger i:[self class] format:@"%@: Identity request failed due to expired credentials.  Attempting to refresh credentials.", NSStringFromSelector(_cmd)];
-            strongSelf.oauthSessionRefresher = [[SFOAuthSessionRefresher alloc] initWithCredentials:strongSelf.credentials];
-            [strongSelf.oauthSessionRefresher refreshSessionWithCompletion:^(SFOAuthCredentials *updatedCredentials) {
+            [[SFSDKTokenRefreshCoordinator sharedInstance] refreshSessionForCredentials:strongSelf.credentials completion:^(SFOAuthCredentials *updatedCredentials) {
                 [SFSDKCoreLogger d:[strongSelf class] format:@"%@: Credentials refresh successful.  Replaying original identity request.", NSStringFromSelector(_cmd)];
                 strongSelf.credentials = updatedCredentials;
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -232,7 +230,6 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
     self.session = nil;
     self.credentials = nil;
     self.idData = nil;
-    self.oauthSessionRefresher = nil;
 }
 
 - (void)cleanupData
@@ -240,7 +237,6 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
     [SFNetwork removeSharedInstanceForIdentifier:self.networkIdentifier];
     self.networkIdentifier = nil;
     self.session = nil;
-    self.oauthSessionRefresher = nil;
     self.retrievingData = NO;
 }
 

@@ -16,6 +16,11 @@ on:
         default: macos-latest
         required: false
         type: string
+      run_all_ui_tests:
+        description: "When true, ignore pr_test and run the full UI suite."
+        default: false
+        required: false
+        type: boolean
       pr_test:
         description: "Test identifier to run for PR (e.g. 'AuthFlowTesterUITests/LegacyLoginTests/testMethod'). Empty = run all tests."
         default: ""
@@ -123,6 +128,7 @@ jobs:
           fi
       - name: Run UI tests
         id: xcodebuild
+        if: ${{ !inputs.run_all_ui_tests }}
         env:
           CODE_COVERAGE: YES
           DESTINATION: ${{ steps.resolve_destination.outputs.destination }}
@@ -148,8 +154,26 @@ jobs:
             -resultBundlePath test \
             -enableCodeCoverage YES \
             | xcbeautify
+      - name: Run All UI Tests (AuthFlowTester changed in PR)
+        id: xcodebuild_all
+        if: ${{ inputs.run_all_ui_tests }}
+        env:
+          CODE_COVERAGE: YES
+          DESTINATION: ${{ steps.resolve_destination.outputs.destination }}
+          TEST_RUNNER_UI_TEST_SHORT_TIMEOUT: ${{ inputs.short_timeout }}
+          TEST_RUNNER_UI_TEST_LONG_TIMEOUT: ${{ inputs.long_timeout }}
+        run: |
+          set -o pipefail
+          xcodebuild test \
+            -workspace SalesforceMobileSDK.xcworkspace \
+            -scheme AuthFlowTester \
+            -testPlan AuthFlowTester \
+            -destination "$DESTINATION" \
+            -resultBundlePath test \
+            -enableCodeCoverage YES \
+            | xcbeautify
       - name: Archive xcodebuild logs on build failure
-        if: failure() && steps.xcodebuild.outcome == 'failure'
+        if: failure() && (steps.xcodebuild.outcome == 'failure' || steps.xcodebuild_all.outcome == 'failure')
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02  # v4.6.2
         with:
           name: xcodebuild-logs-authflowtester-ui-ios${{ inputs.ios }}-${{ steps.result_suffix.outputs.suffix }}

@@ -28,6 +28,7 @@
 #import "SFOAuthCoordinator+Internal.h"
 #import "SFOAuthInfo.h"
 #import "SFSDKAuthConfigUtil.h"
+#import "SFSDKAuthErrorManager.h"
 #import "SFSDKCryptoUtils.h"
 #import "NSData+SFSDKUtils.h"
 #import "NSString+SFAdditions.h"
@@ -39,6 +40,7 @@
 #import "SFSDKEventBuilderHelper.h"
 #import "SFSDKAppFeatureMarkers.h"
 #import "SalesforceSDKManager.h"
+#import "SalesforceSDKManager+Internal.h"
 #import "SFNetwork.h"
 #import "NSURL+SFAdditions.h"
 #import "SFSDKURLHandlerManager.h"
@@ -53,6 +55,9 @@
 #import <SalesforceSDKCommon/SalesforceSDKCommon-Swift.h>
 #import <SalesforceSDKCommon/SFSDKDatasharingHelper.h>
 #import <LocalAuthentication/LocalAuthentication.h>
+#import "SFSDKResourceUtils.h"
+#import "SFSDKAuthErrorManager+Internal.h"
+
 @interface SFOAuthCoordinator()
 
 @property (nonatomic) NSString *networkIdentifier;
@@ -195,12 +200,27 @@
             [SFSDKAuthConfigUtil getMyDomainAuthConfig:^(SFOAuthOrgAuthConfiguration *authConfig, NSError *error) {
                 __strong typeof(weakSelf) strongSelf = weakSelf;
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    // Ignore any errors why retrieving authconfig. Default to WKWebView
-                    // Errors should have already been logged.
-                    if (!self.frontdoorBridgeLoginOverride && authConfig.useNativeBrowserForAuth) {
+                    // A prefetch error against an unreachable login host is the earliest
+                    // authoritative signal that the host itself is bad. Falling through to
+                    // beginWebViewFlow would dispatch a WKWebView load against the same host
+                    // and hang silently, stranding the user on a blank screen and leaving the
+                    // bad host set as the sticky loginHost across app restarts. Surface it to
+                    // the failure delegate so the error manager's hostConnectionErrorHandler
+                    // can present an alert and roll loginHost back to the previous good host.
+                    // Non-host errors (parse failures, non-2xx responses, endpoint absent on
+                    // standard orgs) continue to fall through — auth-config is optional.
+                    if ([SFSDKAuthErrorManager errorIsHostConnectionFailure:error]) {
+                        [strongSelf notifyDelegateOfFailure:error authInfo:strongSelf.authInfo];
+                        return;
+                    }
+                    if (!self.frontdoorBridgeLoginOverride &&
+                        (authConfig.useNativeBrowserForAuth ||
+                         [SalesforceSDKManager sharedManager].sdk_forceAdvancedAuthentication)) {
                         [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSafariBrowserForLogin];
                         strongSelf.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeAdvancedBrowser];
                         [strongSelf notifyDelegateOfBeginAuthentication];
+                        // shareBrowserSession is honored for My Domain; nil-messaging yields false
+                        // for standard servers, which is the correct default there.
                         [strongSelf beginNativeBrowserFlowWithSharedBrowserSessionEnabled:authConfig.shareBrowserSession];
                     } else {
                         [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureSafariBrowserForLogin];
@@ -215,7 +235,7 @@
 
 - (void)authenticateWithCredentials:(SFOAuthCredentials *)credentials {
     self.credentials = credentials;
-    if ([self.domainDiscoveryCoordinator isDiscoveryDomain:self.credentials.domain]) {
+    if ([SFDomainDiscoveryCoordinator isDiscoveryDomain:self.credentials.domain]) {
         [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureWelcomeDiscovery];
         [self runMyDomainDiscoveryAndAuthenticate];
         return;
@@ -432,7 +452,7 @@
     _asWebAuthenticationSession = [[ASWebAuthenticationSession alloc] initWithURL:nativeBrowserUrl callbackURLScheme:[NSURL URLWithString:self.credentials.redirectUri].scheme completionHandler:^(NSURL *callbackURL, NSError *error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (!error && [[SFSDKURLHandlerManager sharedInstance] canHandleRequest:callbackURL options:nil]) {
-            NSDictionary *options = @{kSFIDPSceneIdKey : self.authSession.sceneId};
+            NSDictionary *options = [self browserCallbackOptionsForSceneId:self.authSession.sceneId];
             [[SFSDKURLHandlerManager sharedInstance] processRequest:callbackURL options:options completion:nil failure:nil];
         } else {
             [strongSelf.delegate oauthCoordinatorDidCancelBrowserAuthentication:strongSelf];
@@ -440,6 +460,13 @@
     }];
     _asWebAuthenticationSession.prefersEphemeralWebBrowserSession = [SalesforceSDKManager sharedManager].useEphemeralSessionForAdvancedAuth;
     [self.delegate oauthCoordinator:self didBeginAuthenticationWithSession:_asWebAuthenticationSession];
+}
+
+- (NSDictionary *)browserCallbackOptionsForSceneId:(nullable NSString *)sceneId {
+    // Guard against a nil sceneId so we never insert nil into the options dictionary; omit the
+    // key and let the URL handler fall back to the default scene. sceneId can be nil if the weak
+    // authSession has deallocated by the time the browser callback fires.
+    return sceneId ? @{kSFIDPSceneIdKey : sceneId} : @{};
 }
 
 - (void)beginWebViewFlow {
@@ -477,7 +504,7 @@
         id json = nil;
         json = [SFJsonUtils objectFromJSONData:data];
         if (json == nil) {
-            NSError *error = [SFSDKOAuth2 errorWithType:kSFOAuthErrorTypeJWTLaunchFailed
+            NSError *error = [SFSDKOAuth2 errorWithType:@"jwt_launch_failed"
                                                  description:@"Error parsing JWT token exchange response."
                                              underlyingError:[SFJsonUtils lastError]];
                 [self notifyDelegateOfFailure:error authInfo:self.authInfo];
@@ -485,7 +512,7 @@
         }
         if (![json isKindOfClass:[NSDictionary class]]) {
             NSString *errorDesc = [NSString stringWithFormat:@"Expected NSDictionary for JWT token response, received %@ instance.", NSStringFromClass([json class])];
-                NSError *error = [SFSDKOAuth2 errorWithType:kSFOAuthErrorTypeJWTLaunchFailed
+                NSError *error = [SFSDKOAuth2 errorWithType:@"jwt_launch_failed"
                                                  description:errorDesc];
             [self notifyDelegateOfFailure:error authInfo:self.authInfo];
             return;
@@ -701,7 +728,20 @@
                  [SFSDKCoreLogger d:[self class] format:@"Refresh attempt timed out after %f seconds.", self.timeout];
                  [self stopAuthentication];
              }
-             [self notifyDelegateOfFailure:response.error.error authInfo:self.authInfo];
+             BOOL isUnsupportedGrantType = (response.error.errorCode == SFOAuthErrorCodeUnsupportedGrantType);
+             BOOL isLightningURL = [self.credentials.domain containsString:@".lightning."];
+             if (isUnsupportedGrantType && isLightningURL) {
+                 [SFSDKCoreLogger e:[self class] format:@"Code exchange failed with unsupported_grant_type against Lightning URL: %@. Lightning URLs do not support authorization_code grant type. Use a My Domain login server URL instead.", self.credentials.domain];
+                 NSString *localizedMessage = [SFSDKResourceUtils localizedString:@"lightningUrlCodeExchangeError"];
+                 NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithDictionary:response.error.error.userInfo ?: @{}];
+                 userInfo[NSLocalizedDescriptionKey] = localizedMessage;
+                 NSError *diagnosticError = [NSError errorWithDomain:response.error.error.domain
+                                                                code:response.error.error.code
+                                                            userInfo:userInfo];
+                 [self notifyDelegateOfFailure:diagnosticError authInfo:self.authInfo];
+             } else {
+                 [self notifyDelegateOfFailure:response.error.error authInfo:self.authInfo];
+             }
              self.responseData = [NSMutableData dataWithCapacity:kSFOAuthReponseBufferLength];
          }
      }
@@ -715,12 +755,12 @@
     NSString *errorDescription = [requestUrl sfsdk_valueForParameterName:kSFOAuthErrorDescription];
     if (foundValidEcValue) {
         [SFSDKCoreLogger d:[self class] format:@"%@ IDP Authcode redirect response encountered an ec=301 or 302 redirect: %@", NSStringFromSelector(_cmd), requestUrl];
-        error = [SFSDKOAuth2 errorWithType:kSFOAuthErrorTypeMalformedResponse description:@"IDP Authcode redirect response encountered an ec=301 or 302 redirect"];
+        error = [SFSDKOAuth2 errorWithType:@"malformed_response" description:@"IDP Authcode redirect response encountered an ec=301 or 302 redirect"];
     } else if (errorCode) {
         error = [SFSDKOAuth2 errorWithType:errorCode description:errorDescription];
     } else if (![requestUrl fragment] && ![requestUrl query]){
         [SFSDKCoreLogger d:[self class] format:@"%@ Error: IDP Authcode response has no payload: %@", NSStringFromSelector(_cmd), requestUrl];
-        error = [SFSDKOAuth2 errorWithType:kSFOAuthErrorTypeMalformedResponse description:@"IDP Authcode redirect response has no payload"];
+        error = [SFSDKOAuth2 errorWithType:@"malformed_response" description:@"IDP Authcode redirect response has no payload"];
     }
     return error;
 }
@@ -761,7 +801,7 @@
         response = [requestUrl query];
     } else {
         [SFSDKCoreLogger d:[self class] format:@"%@ Error: response has no payload: %@", NSStringFromSelector(_cmd), requestUrl];
-        NSError *error = [SFSDKOAuth2 errorWithType:kSFOAuthErrorTypeMalformedResponse description:@"redirect response has no payload"];
+        NSError *error = [SFSDKOAuth2 errorWithType:@"malformed_response" description:@"redirect response has no payload"];
         [self notifyDelegateOfFailure:error authInfo:self.authInfo];
         response = nil;
     }
@@ -946,10 +986,10 @@
 
 #pragma mark - WKNavigationDelegate (User-Agent Token Flow)
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
-    
+
     NSURL *url = navigationAction.request.URL;
     NSString *requestUrl = [url absoluteString];
-    
+
     // Determine if presence of discovery domain, then handle if present.
     SFDomainDiscoveryResult *discoveryResult = [self.domainDiscoveryCoordinator handleWithWebAction:navigationAction];
     if (discoveryResult) {

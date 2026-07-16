@@ -264,46 +264,42 @@ class RestClientTests: XCTestCase {
     }
     
     func testAsyncBatchRequestStopOnFailure() async throws {
+        let accountName = self.generateRecordName()
+        let contactName = self.generateRecordName()
+        let apiVersion = RestClient.shared.apiVersion
+
+        let requestBuilder = BatchRequestBuilder()
+            .add(RestClient.shared.requestForCreate(withObjectType: "Account", fields: ["Name": accountName], apiVersion: apiVersion))
+            .add(RestClient.shared.requestForCreate(withObjectType: "Contact", fields: ["LastName": contactName], apiVersion: apiVersion))
+            .add(RestClient.shared.request(forQuery: "select Id from Account where Name ", apiVersion:  apiVersion)) // bad query
+            .add(RestClient.shared.request(forQuery: "select Id from Contact where Name = '\(contactName)'", apiVersion: apiVersion))
+            .setHaltOnError(true)
+
+        let batchRequest = requestBuilder.buildBatchRequest(apiVersion)
+        XCTAssertNotNil(batchRequest, "Batch Request should not be nil")
+        XCTAssertEqual(batchRequest.batchRequests.count, 4, "Batch Requests should have 4 requests")
+
+        let batchResponse: BatchResponse
         do {
-            // Create account
-            let accountName = self.generateRecordName()
-            let contactName = self.generateRecordName()
-            let apiVersion = RestClient.shared.apiVersion
-            
-            let requestBuilder = BatchRequestBuilder()
-                .add(RestClient.shared.requestForCreate(withObjectType: "Account", fields: ["Name": accountName], apiVersion: apiVersion))
-                .add(RestClient.shared.requestForCreate(withObjectType: "Contact", fields: ["LastName": contactName], apiVersion: apiVersion))
-                .add(RestClient.shared.request(forQuery: "select Id from Account where Name ", apiVersion:  apiVersion)) // bad query
-                .add(RestClient.shared.request(forQuery: "select Id from Contact where Name = '\(contactName)'", apiVersion: apiVersion))
-                .setHaltOnError(true)
-            
-            let batchRequest = requestBuilder.buildBatchRequest(apiVersion)
-            XCTAssertNotNil(batchRequest, "Batch Request should not be nil")
-            XCTAssertTrue(batchRequest.batchRequests.count == 4, "Batch Requests should have 4 requests")
-            
-            let batchResponse = try await RestClient.shared.send(batchRequest: batchRequest)
-            XCTAssertTrue(batchResponse.hasErrors, "BatchResponse results should not have any errors")
-            XCTAssertNotNil(batchResponse.results, "BatchResponse results should not be nil")
-            XCTAssertTrue(4 == batchResponse.results.count, "Wrong number of results")
-            
-            XCTAssertNotNil(batchResponse.results[0] as? [String: Any], "BatchResponse result should be a dictionary")
-            XCTAssertNotNil(batchResponse.results[1] as? [String: Any], "BatchResponse results should be a dictionary")
-            XCTAssertNotNil(batchResponse.results[2] as? [String: Any], "BatchResponse results should be a dictionary")
-            XCTAssertNotNil(batchResponse.results[3] as? [String: Any], "BatchResponse results should be a dictionary")
-            
-            
-            let resp1 = batchResponse.results[0] as! [String: Any]
-            let resp2 = batchResponse.results[1] as! [String: Any]
-            let resp3 = batchResponse.results[2] as! [String: Any]
-            let resp4 = batchResponse.results[3] as! [String: Any]
-            
-            XCTAssertTrue(resp1["statusCode"] as? Int == 201, "Wrong status for first request")
-            XCTAssertTrue(resp2["statusCode"] as? Int == 201, "Wrong status for first request")
-            XCTAssertTrue(resp3["statusCode"] as? Int == 400, "Wrong status for first request")
-            XCTAssertTrue(resp4["statusCode"] as? Int == 412, "Request processing should have stopped on error")
+            batchResponse = try await RestClient.shared.send(batchRequest: batchRequest)
         } catch {
-            XCTFail("Send Batch Request should not throw an error")
+            XCTFail("Send Batch Request should not throw an error: \(error)")
+            return
         }
+
+        XCTAssertTrue(batchResponse.hasErrors, "BatchResponse should have errors")
+        XCTAssertEqual(batchResponse.results.count, 4, "Wrong number of results")
+        guard batchResponse.results.count == 4 else { return }
+
+        let resp1 = try XCTUnwrap(batchResponse.results[0] as? [String: Any], "BatchResponse result should be a dictionary")
+        let resp2 = try XCTUnwrap(batchResponse.results[1] as? [String: Any], "BatchResponse result should be a dictionary")
+        let resp3 = try XCTUnwrap(batchResponse.results[2] as? [String: Any], "BatchResponse result should be a dictionary")
+        let resp4 = try XCTUnwrap(batchResponse.results[3] as? [String: Any], "BatchResponse result should be a dictionary")
+
+        XCTAssertEqual(resp1["statusCode"] as? Int, 201, "Wrong status for first request")
+        XCTAssertEqual(resp2["statusCode"] as? Int, 201, "Wrong status for second request")
+        XCTAssertEqual(resp3["statusCode"] as? Int, 400, "Wrong status for third request")
+        XCTAssertEqual(resp4["statusCode"] as? Int, 412, "Request processing should have stopped on error")
     }
     
     func testCompositeRequest() throws {

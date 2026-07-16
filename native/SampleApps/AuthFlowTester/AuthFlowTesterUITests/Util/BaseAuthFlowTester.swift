@@ -42,6 +42,19 @@ class BaseAuthFlowTester: XCTestCase {
     override func setUp() {
         super.setUp()
         continueAfterFailure = false
+
+        addUIInterruptionMonitor(withDescription: "System Alert") { alert in
+            let dominated = ["Allow", "OK", "Continue", "Allow While Using App",
+                             "Don\u{2019}t Allow", "Allow Paste"]
+            for label in dominated {
+                let button = alert.buttons[label]
+                if button.exists {
+                    button.tap()
+                    return true
+                }
+            }
+            return false
+        }
     }
     
     override func tearDown() {
@@ -53,9 +66,14 @@ class BaseAuthFlowTester: XCTestCase {
     
     // MARK: - Public API for Subclasses
     
-    /// Launches the application and ensures it starts in a logged-out state.
+    /// Launches the application and ensures it starts in a logged-out state on a known login server.
     ///
-    /// Initializes the app and page objects, launches the app, and logs out if a user is already logged in.
+    /// Initializes the app and page objects, launches the app, and logs out if a user is already
+    /// logged in. Then resets the login server to `login.salesforce.com`: the login host persists
+    /// across tests, so a prior test that selected a discovery or advanced-auth org would otherwise
+    /// strand the next test (its `login()` assumes the browser is showing on entry). Leaves the app
+    /// on the external browser surface (the default, advanced auth forced on) against the standard
+    /// server, which is exactly the state `login()` expects on entry.
     func launch() {
         app = XCUIApplication()
 
@@ -67,17 +85,30 @@ class BaseAuthFlowTester: XCTestCase {
         mainPage = AuthFlowTesterMainPageObject(testApp: app)
         app.launch()
 
+        // Tap the app to trigger any pending system alert interruption handlers.
+        // On CI, system alerts (tracking permission, paste confirmation) can block
+        // the UI if not dismissed before interacting with app elements.
+        app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
+
         // Start logged out
         if (mainPage.isShowing()) {
             logout()
         }
 
-        // Close advanced authentication is showing
-        if (loginPage.isShowingAdvancedAuth()) {
-            loginPage.closeAdvancedAuth()
+        // Reset to a known login server so a discovery or advanced-auth host leaked by a prior test
+        // cannot strand this one. A fresh launch re-defaults advanced auth on, so the external
+        // browser is normally showing; a leaked discovery host instead runs discovery in the in-app
+        // WebView. Reach the host list from whichever surface is up — the browser is the common case
+        // (probe it with the generous default timeout), the in-app WebView the fallback — then pin
+        // the standard server (selecting it relaunches the browser against login.salesforce.com).
+        if loginPage.isShowingBrowserLogin() {
+            loginPage.returnToHostList(expectingBrowser: true)
+        } else {
+            loginPage.returnToHostList(expectingBrowser: false)
         }
+        loginPage.configureLoginHost(host: "login.salesforce.com")
     }
-    
+
     /// Performs login with the specified configuration.
     ///
     /// Configures the login options and performs authentication for the specified user.
@@ -92,8 +123,14 @@ class BaseAuthFlowTester: XCTestCase {
     ///   - dynamicScopeSelection: The scope selection for dynamic configuration. Defaults to `.empty`.
     ///   - useWebServerFlow: Whether to use web server OAuth flow. Defaults to `true`.
     ///   - useHybridFlow: Whether to use hybrid authentication flow. Defaults to `true`.
+    ///   - forceAdvancedAuthentication: Overrides the SDK's process-global "force advanced
+    ///     authentication" setting for this login. Leave `nil` to inherit the production default
+    ///     (advanced auth forced on — the external browser is used for interactive login). Pass
+    ///     `false` to exercise the legacy in-app WebView path, or `true` to force it explicitly.
     ///   - useWelcomeDiscovery: When true, configures simulated domain discovery. Defaults to `false`.
-    ///   - loginForAdmin: When true, uses the "Login for Admin" flow (browser-based auth via Settings menu). Defaults to `false`.
+    ///   - loginForAdmin: When true, uses the "Login for Admin" flow (browser-based auth via the
+    ///     in-app WebView's Settings menu). Requires advanced auth disabled so the WebView — and its
+    ///     "Login for Admin" gear entry — is shown. Defaults to `false`.
     func login(
         loginHost: KnownLoginHostConfig,
         user: KnownUserConfig,
@@ -103,6 +140,7 @@ class BaseAuthFlowTester: XCTestCase {
         dynamicScopeSelection: ScopeSelection = .empty,
         useWebServerFlow: Bool = true,
         useHybridFlow: Bool = true,
+        forceAdvancedAuthentication: Bool? = nil,
         useWelcomeDiscovery: Bool = false,
         loginForAdmin: Bool = false,
     ) {
@@ -112,7 +150,20 @@ class BaseAuthFlowTester: XCTestCase {
         let dynamicAppConfig = dynamicAppConfigName == nil ? nil : getAppConfig(named: dynamicAppConfigName!)
         let staticScopes = testConfig.getScopesToRequest(for: staticAppConfig, staticScopeSelection)
         let dynamicScopes = dynamicAppConfig == nil ? "" : testConfig.getScopesToRequest(for: dynamicAppConfig!, dynamicScopeSelection)
-        
+
+        // Advanced auth is forced on by default; only an explicit `false` disables it. When it is
+        // on, interactive login happens in the external browser; when off, in the in-app WebView.
+        let advancedAuthEnabled = forceAdvancedAuthentication != false
+        // The surface used to enter credentials: the external browser under advanced auth (forced
+        // on, or a host that itself requires it), otherwise the in-app WebView. Login for Admin is
+        // special-cased below: it always finishes in the browser regardless of this value.
+        let usesBrowser = advancedAuthEnabled || loginHost == .advancedAuth
+
+        // A fresh login surface always starts under the process default (advanced auth on), so the
+        // external browser is showing. Cancel it to reach the host list, where login options and
+        // the login host are configured. (The flag re-defaults to on at every process launch.)
+        loginPage.returnToHostList(expectingBrowser: true)
+
         loginPage.configureLoginOptions(
             staticAppConfig: staticAppConfig,
             staticScopes: staticScopes,
@@ -120,38 +171,43 @@ class BaseAuthFlowTester: XCTestCase {
             dynamicScopes: dynamicScopes,
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow,
+            forceAdvancedAuthentication: forceAdvancedAuthentication,
             discoveryLoginHost: useWelcomeDiscovery ? hostConfig.urlNoProtocol : "",
             discoveryUsername: useWelcomeDiscovery ? userConfig.username : "",
         )
-        
-        // Configuring login host last
-        // When the configured login host requires advanced authentication
-        // the login settings button is no longer available on the screen
-        // When useWelcomeDiscovery is true, use welcome.salesforce.com/discovery as the login server
+
+        // Closing login options restarts authentication, so the login surface reappears — the
+        // browser when advanced auth is on, the in-app WebView when it was disabled. Return to the
+        // host list to select the login host. Configuring the host last matches how a real user
+        // arrives at the picker and keeps the login-options gear reachable until then.
+        // When useWelcomeDiscovery is true, use welcome.salesforce.com/discovery as the login server.
+        loginPage.returnToHostList(expectingBrowser: advancedAuthEnabled)
         let loginHostToUse = useWelcomeDiscovery ? "welcome.salesforce.com/discovery" : hostConfig.urlNoProtocol
         loginPage.configureLoginHost(host: loginHostToUse)
-        
+
         // Invalid app config
         if (dynamicAppConfigName == .invalid || (dynamicAppConfigName == nil && staticAppConfigName == .invalid)) {
             XCTAssertTrue(loginPage.isShowingInvalidClientIdError(), "Login page should show invalid client id error")
             logoutAtTearDown = false
             return
         }
-        
-        // Login for Admin (browser-based auth via Settings menu)
+
+        // Login for Admin (browser-based auth via the in-app WebView's Settings menu)
         if (loginForAdmin) {
             loginPage.performLoginForAdmin(username: userConfig.username, password: userConfig.password)
         }
-        // Welcome login
+        // Welcome login: discovery always begins in the in-app WebView; once the My Domain is
+        // resolved the SDK switches to the browser when advanced auth is on, so the password step
+        // uses whichever surface `usesBrowser` indicates.
         else if (useWelcomeDiscovery) {
             XCTAssertTrue(loginPage.hasFilledUsernameField(username: userConfig.username), "Login page should have pre-filled username")
-            loginPage.performWelcomeLogin(password: userConfig.password, advancedAuth: loginHost == .advancedAuth)
+            loginPage.performWelcomeLogin(password: userConfig.password, advancedAuth: usesBrowser)
         }
         // Regular or advanced auth
         else {
-            loginPage.performLogin(username: userConfig.username, password: userConfig.password, advancedAuth: loginHost == .advancedAuth)
+            loginPage.performLogin(username: userConfig.username, password: userConfig.password, advancedAuth: usesBrowser)
         }
-        
+
         // Invalid scope
         if (dynamicScopeSelection == .invalid || (dynamicAppConfig == nil && staticScopeSelection == .invalid)) {
             XCTAssertTrue(loginPage.isShowingUnexpectedOauthError(), "Screen should show OAuth Error")
@@ -182,6 +238,7 @@ class BaseAuthFlowTester: XCTestCase {
     ///   - userScopeSelection: The scope selection the user was logged in with. Defaults to `.empty`.
     ///   - useWebServerFlow: Whether web server OAuth flow was used. Defaults to `true`.
     ///   - useHybridFlow: Whether hybrid authentication flow was used. Defaults to `true`.
+    ///   - isMultiUser: Whether multiple users are still logged in after the switch. Defaults to `false`.
     func switchToUserAndValidate(
         loginHost: KnownLoginHostConfig,
         user: KnownUserConfig,
@@ -190,11 +247,12 @@ class BaseAuthFlowTester: XCTestCase {
         userAppConfigName: KnownAppConfig,
         userScopeSelection: ScopeSelection = .empty,
         useWebServerFlow: Bool = true,
-        useHybridFlow: Bool = true
+        useHybridFlow: Bool = true,
+        isMultiUser: Bool = false
     ) {
         // Switch user
         mainPage.switchToUser(username: getUser(loginHost: loginHost, user: user).username)
-        
+
         // Validate
         validate(
             loginHost: loginHost,
@@ -204,10 +262,11 @@ class BaseAuthFlowTester: XCTestCase {
             userAppConfigName: userAppConfigName,
             userScopeSelection: userScopeSelection,
             useWebServerFlow: useWebServerFlow,
-            useHybridFlow: useHybridFlow
+            useHybridFlow: useHybridFlow,
+            isMultiUser: isMultiUser
         )
     }
-    
+
     /// Switches to an already logged-in user and validates the user credentials.
     ///
     /// Use this method when multiple users are logged in and you want to switch between them.
@@ -226,22 +285,26 @@ class BaseAuthFlowTester: XCTestCase {
         userAppConfigName: KnownAppConfig,
         userScopeSelection: ScopeSelection = .empty,
         useWebServerFlow: Bool = true,
-        useHybridFlow: Bool = true
+        useHybridFlow: Bool = true,
+        loginForAdmin: Bool = false,
+        isMultiUser: Bool = false
     ) {
         // Switch user
         mainPage.switchToUser(username: getUser(loginHost: loginHost, user: user).username)
-        
-        // Validate
+
+        // Validate user and feature flags
         validateUser(
             loginHost: loginHost,
             user: user,
             userAppConfigName: userAppConfigName,
             userScopeSelection: userScopeSelection,
             useWebServerFlow: useWebServerFlow,
-            useHybridFlow: useHybridFlow
+            useHybridFlow: useHybridFlow,
+            expectAdvancedAuth: loginForAdmin || loginHost == .advancedAuth,
+            isMultiUser: isMultiUser
         )
     }
-    
+
     /// Launches the app and performs login.
     ///
     /// This is a convenience method that combines `launch()` and `login()` in one call.
@@ -265,6 +328,7 @@ class BaseAuthFlowTester: XCTestCase {
         dynamicScopeSelection: ScopeSelection = .empty,
         useWebServerFlow: Bool = true,
         useHybridFlow: Bool = true,
+        forceAdvancedAuthentication: Bool? = nil,
         loginForAdmin: Bool = false,
     ) {
         // Launch
@@ -280,6 +344,7 @@ class BaseAuthFlowTester: XCTestCase {
             dynamicScopeSelection: dynamicScopeSelection,
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow,
+            forceAdvancedAuthentication: forceAdvancedAuthentication,
             loginForAdmin: loginForAdmin,
         )
     }
@@ -308,8 +373,10 @@ class BaseAuthFlowTester: XCTestCase {
         dynamicScopeSelection: ScopeSelection = .empty,
         useWebServerFlow: Bool = true,
         useHybridFlow: Bool = true,
+        forceAdvancedAuthentication: Bool? = nil,
         useWelcomeDiscovery: Bool = false,
         loginForAdmin: Bool = false,
+        isMultiUser: Bool = false,
     ) {
         let useStaticConfiguration = dynamicAppConfigName == nil
         let userAppConfigName = useStaticConfiguration ? staticAppConfigName : dynamicAppConfigName!
@@ -328,6 +395,7 @@ class BaseAuthFlowTester: XCTestCase {
             dynamicScopeSelection: dynamicScopeSelection,
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow,
+            forceAdvancedAuthentication: forceAdvancedAuthentication,
             useWelcomeDiscovery: useWelcomeDiscovery,
             loginForAdmin: loginForAdmin
         )
@@ -343,10 +411,47 @@ class BaseAuthFlowTester: XCTestCase {
             userAppConfigName: userAppConfigName,
             userScopeSelection: userScopeSelection,
             useWebServerFlow: effectiveUseWebServerFlow,
-            useHybridFlow: useHybridFlow
+            useHybridFlow: useHybridFlow,
+            isMultiUser: isMultiUser,
+            usesWelcomeDiscovery: useWelcomeDiscovery,
+            loginForAdmin: loginForAdmin
         )
     }
     
+    /// Logs in an additional user (multi-user scenario) WITHOUT performing credential validation.
+    ///
+    /// Use this method when you need to add a second user account but don't need full credential
+    /// validation (e.g., when using advanced auth where identity data may not be immediately available).
+    ///
+    /// - Parameters:
+    ///   - loginHost: The login host configuration to use.
+    ///   - user: The user to log in with.
+    ///   - staticAppConfigName: The static app configuration name.
+    ///   - useWebServerFlow: Whether to use web server OAuth flow. Defaults to `true`.
+    ///   - useHybridFlow: Whether to use hybrid authentication flow. Defaults to `true`.
+    func loginOtherUser(
+        loginHost: KnownLoginHostConfig,
+        user: KnownUserConfig,
+        staticAppConfigName: KnownAppConfig,
+        useWebServerFlow: Bool = true,
+        useHybridFlow: Bool = true,
+    ) {
+        // Switch to add new user
+        mainPage.performAddUser()
+
+        // Login
+        login(
+            loginHost: loginHost,
+            user: user,
+            staticAppConfigName: staticAppConfigName,
+            useWebServerFlow: useWebServerFlow,
+            useHybridFlow: useHybridFlow,
+        )
+
+        // Wait for main page to show (user is logged in)
+        assertMainPageLoaded()
+    }
+
     /// Logs in an additional user (multi-user scenario) and validates the credentials.
     ///
     /// Use this method after an initial user is already logged in to add another user account.
@@ -361,6 +466,7 @@ class BaseAuthFlowTester: XCTestCase {
     ///   - dynamicScopeSelection: The scope selection for dynamic configuration. Defaults to `.empty`.
     ///   - useWebServerFlow: Whether to use web server OAuth flow. Defaults to `true`.
     ///   - useHybridFlow: Whether to use hybrid authentication flow. Defaults to `true`.
+    ///   - isMultiUser: Whether multiple users are logged in after this login. Defaults to `true`.
     func loginOtherUserAndValidate(
         loginHost: KnownLoginHostConfig,
         user: KnownUserConfig,
@@ -370,14 +476,15 @@ class BaseAuthFlowTester: XCTestCase {
         dynamicScopeSelection: ScopeSelection = .empty,
         useWebServerFlow: Bool = true,
         useHybridFlow: Bool = true,
+        isMultiUser: Bool = true,
     ) {
         let useStaticConfiguration = dynamicAppConfigName == nil
         let userAppConfigName = useStaticConfiguration ? staticAppConfigName : dynamicAppConfigName!
         let userScopeSelection = useStaticConfiguration ? staticScopeSelection : dynamicScopeSelection
-        
+
         // Switch to add new user
         mainPage.performAddUser()
-        
+
         // Login
         login(
             loginHost: loginHost,
@@ -389,7 +496,7 @@ class BaseAuthFlowTester: XCTestCase {
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow,
         )
-        
+
         // Validate
         validate(
             loginHost: loginHost,
@@ -399,10 +506,11 @@ class BaseAuthFlowTester: XCTestCase {
             userAppConfigName: userAppConfigName,
             userScopeSelection: userScopeSelection,
             useWebServerFlow: useWebServerFlow,
-            useHybridFlow: useHybridFlow
+            useHybridFlow: useHybridFlow,
+            isMultiUser: isMultiUser
         )
     }
-    
+
     /// Restarts the app and validates that the user session persists.
     ///
     /// Terminates and relaunches the app, then validates that the user is still logged in
@@ -415,13 +523,18 @@ class BaseAuthFlowTester: XCTestCase {
     ///   - userScopeSelection: The scope selection the user was logged in with. Defaults to `.empty`.
     ///   - useWebServerFlow: Whether web server OAuth flow was used. Defaults to `true`.
     ///   - useHybridFlow: Whether hybrid authentication flow was used. Defaults to `true`.
+    ///   - loginForAdmin: When true, Login for Admin was used (browser-based auth), which sets the BW flag. Defaults to `false`.
+    ///   - usesWelcomeDiscovery: When true, welcome discovery was used, which sets the WD flag. Defaults to `false`.
     func restartAndValidateUser(
         loginHost: KnownLoginHostConfig = .regularAuth,
         user: KnownUserConfig = .first,
         userAppConfigName: KnownAppConfig,
         userScopeSelection: ScopeSelection = .empty,
         useWebServerFlow: Bool = true,
-        useHybridFlow: Bool = true
+        useHybridFlow: Bool = true,
+        loginForAdmin: Bool = false,
+        usesWelcomeDiscovery: Bool = false,
+        isMultiUser: Bool = false
     ) {
         // Restart
         app.terminate()
@@ -430,7 +543,7 @@ class BaseAuthFlowTester: XCTestCase {
         // Restore auth flow settings lost on restart
         mainPage.setAuthFlowTypes(useWebServerFlow: useWebServerFlow, useHybridFlow: useHybridFlow)
 
-        // Validate user
+        // Validate user and feature flags
         // Not checking static app config since it will depend on the bootconfig of the target app
         validateUser(
             loginHost: loginHost,
@@ -438,7 +551,10 @@ class BaseAuthFlowTester: XCTestCase {
             userAppConfigName: userAppConfigName,
             userScopeSelection: userScopeSelection,
             useWebServerFlow: useWebServerFlow,
-            useHybridFlow: useHybridFlow
+            useHybridFlow: useHybridFlow,
+            expectAdvancedAuth: loginForAdmin || loginHost == .advancedAuth,
+            usesWelcomeDiscovery: usesWelcomeDiscovery,
+            isMultiUser: isMultiUser
         )
     }
     
@@ -524,6 +640,69 @@ class BaseAuthFlowTester: XCTestCase {
         return mainPage.getUserCredentials()
     }
 
+    /// Validates the user agent string from already-fetched credentials.
+    ///
+    /// - Parameters:
+    ///   - userCredentials: Credentials previously returned by `validateUser()`.
+    ///   - loginHost: The login host used for the current user.
+    ///   - expectAdvancedAuth: Whether advanced auth (browser-based) was used, which sets the BW flag. Defaults to `false`.
+    ///   - usesWelcomeDiscovery: Whether welcome domain discovery was used. Defaults to `false`.
+    ///   - isMultiUser: Whether multiple users are currently logged in. Defaults to `false`.
+    ///   - isRtr: Whether Refresh Token Rotation is enabled, which sets the RT flag. Defaults to `false`.
+    func validateUserAgent(userCredentials: UserCredentialsData, loginHost: KnownLoginHostConfig, expectAdvancedAuth: Bool = false, usesWelcomeDiscovery: Bool = false, isMultiUser: Bool = false, isRtr: Bool = false) {
+        validateUserAgent(ua: userCredentials.userAgent, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, usesWelcomeDiscovery: usesWelcomeDiscovery, isMultiUser: isMultiUser, isRtr: isRtr)
+    }
+
+    /// Validates a pre-fetched user agent string. Called from validate() which already has the UA.
+    ///
+    /// - Parameters:
+    ///   - ua: A pre-fetched user agent string.
+    ///   - loginHost: The login host used for the current user.
+    ///   - expectAdvancedAuth: Whether advanced auth (browser-based) was used, which sets the BW flag. Defaults to `false`.
+    ///   - usesWelcomeDiscovery: Whether welcome domain discovery was used. Defaults to `false`.
+    ///   - isMultiUser: Whether multiple users are currently logged in. Defaults to `false`.
+    ///   - isRtr: Whether Refresh Token Rotation is enabled, which sets the RT flag. Defaults to `false`.
+    private func validateUserAgent(ua: String, loginHost: KnownLoginHostConfig, expectAdvancedAuth: Bool = false, usesWelcomeDiscovery: Bool = false, isMultiUser: Bool = false, isRtr: Bool = false) {
+        XCTAssertTrue(ua.contains("SalesforceMobileSDK/"), "User agent should contain 'SalesforceMobileSDK/' prefix; got: \(ua)")
+        XCTAssertTrue(ua.contains("ftr_"), "User agent should contain 'ftr_' feature flag segment; got: \(ua)")
+
+        // Extract the flag string after "ftr_" up to the next space
+        let flagSet: Set<String>
+        if let ftrRange = ua.range(of: "ftr_") {
+            let afterFtr = String(ua[ftrRange.upperBound...])
+            let flagString = afterFtr.components(separatedBy: " ").first ?? ""
+            flagSet = Set(flagString.components(separatedBy: ".").filter { !$0.isEmpty })
+        } else {
+            flagSet = []
+        }
+
+        if expectAdvancedAuth {
+            XCTAssertTrue(flagSet.contains("BW"), "User agent should contain 'BW' flag for advanced auth; flags: \(flagSet), ua: \(ua)")
+        } else {
+            XCTAssertFalse(flagSet.contains("BW"), "User agent should NOT contain 'BW' flag for non-advanced auth; flags: \(flagSet), ua: \(ua)")
+        }
+
+        if usesWelcomeDiscovery {
+            XCTAssertTrue(flagSet.contains("WD"), "User agent should contain 'WD' flag when welcome discovery is used; flags: \(flagSet), ua: \(ua)")
+        } else {
+            XCTAssertFalse(flagSet.contains("WD"), "User agent should NOT contain 'WD' flag when welcome discovery is not used; flags: \(flagSet), ua: \(ua)")
+        }
+
+        if isMultiUser {
+            XCTAssertTrue(flagSet.contains("MU"), "User agent should contain 'MU' flag when multiple users are logged in; flags: \(flagSet), ua: \(ua)")
+        } else {
+            XCTAssertFalse(flagSet.contains("MU"), "User agent should NOT contain 'MU' flag when only one user is logged in; flags: \(flagSet), ua: \(ua)")
+        }
+
+        if isRtr {
+            XCTAssertTrue(flagSet.contains("RT"),
+                          "User agent should contain 'RT' flag after Refresh Token Rotation; flags: \(flagSet), ua: \(ua)")
+        } else {
+            XCTAssertFalse(flagSet.contains("RT"),
+                           "User agent should NOT contain 'RT' flag when Refresh Token Rotation has not occurred; flags: \(flagSet), ua: \(ua)")
+        }
+    }
+
     /// Revokes the current user's access token.
     @discardableResult
     func revokeAccessToken() -> Bool {
@@ -536,6 +715,117 @@ class BaseAuthFlowTester: XCTestCase {
         return mainPage.makeRestRequest()
     }
 
+    // MARK: - Force Advanced Auth Test Support
+    //
+    // Thin wrappers exposing the login-page / main-page primitives to `ForceAdvancedAuthTests`,
+    // which asserts the login *modality* (external browser vs. in-app WebView) and the forced-
+    // advanced-auth presentation chrome (back button / gear) rather than driving a full
+    // `login()`/validate cycle. `app`, `loginPage`, and `mainPage` are private, so these give the
+    // subclass just enough surface without widening the general API.
+
+    /// Prevents `tearDown` from attempting a logout. Use in tests that intentionally stop on a
+    /// login surface (external browser, in-app WebView, or a dev-menu modal) rather than the main
+    /// page, where the logout button is not reachable. The next test's `launch()` self-heals any
+    /// residual session (it logs out if the main page is showing on relaunch).
+    func skipLogoutAtTearDown() {
+        logoutAtTearDown = false
+    }
+
+    /// Returns to the login host list ("Change Server"). Pass `expectingBrowser: true` when the
+    /// external browser is showing (forced advanced auth — cancel it to reach the list) and
+    /// `false` when the in-app WebView is showing (reach the list via its Settings gear).
+    func returnToLoginHostList(expectingBrowser: Bool) {
+        loginPage.returnToHostList(expectingBrowser: expectingBrowser)
+    }
+
+    /// Selects (or adds) the given login host by its display string. Assumes the host list is
+    /// already showing. For the built-in standard server pass its display name, e.g. "Production"
+    /// (`login.salesforce.com`).
+    func configureLoginHost(_ host: String) {
+        loginPage.configureLoginHost(host: host)
+    }
+
+    /// Selects the login host for a known configuration (resolving its URL from `ui_test_config`).
+    /// Assumes the host list is already showing.
+    func configureLoginHost(_ loginHost: KnownLoginHostConfig) {
+        loginPage.configureLoginHost(host: getLoginHost(loginHost: loginHost).urlNoProtocol)
+    }
+
+    /// Imports the `forceAdvancedAuthentication` flag (and a valid app config so the login form can
+    /// load) via the login screen's Settings gear → Login Options → Auth Flow Types JSON import —
+    /// the same hook `login()` uses. Assumes a screen with the Settings gear is showing (the host
+    /// list under forced advanced auth, or the in-app WebView). Closing Login Options restarts
+    /// authentication, so the login surface reappears in the modality the flag now selects.
+    func setForceAdvancedAuthentication(
+        _ value: Bool,
+        staticAppConfigName: KnownAppConfig,
+        staticScopeSelection: ScopeSelection = .empty,
+        useWebServerFlow: Bool = true,
+        useHybridFlow: Bool = true
+    ) {
+        let staticAppConfig = getAppConfig(named: staticAppConfigName)
+        let staticScopes = testConfig.getScopesToRequest(for: staticAppConfig, staticScopeSelection)
+        loginPage.configureLoginOptions(
+            staticAppConfig: staticAppConfig,
+            staticScopes: staticScopes,
+            dynamicAppConfig: nil,
+            dynamicScopes: "",
+            useWebServerFlow: useWebServerFlow,
+            useHybridFlow: useHybridFlow,
+            forceAdvancedAuthentication: value,
+            discoveryLoginHost: "",
+            discoveryUsername: ""
+        )
+    }
+
+    /// True when the external browser (`ASWebAuthenticationSession`) login surface is showing. Pass
+    /// `UITestTimeouts.short` for the negative "no external browser" assertion.
+    func isShowingBrowserLogin(timeout: TimeInterval = UITestTimeouts.long) -> Bool {
+        return loginPage.isShowingBrowserLogin(timeout: timeout)
+    }
+
+    /// True when the legacy in-app WebView login form is showing. Pass `UITestTimeouts.short` for
+    /// the negative "no in-app WebView" assertion.
+    func isShowingInAppLoginForm(timeout: TimeInterval = UITestTimeouts.network) -> Bool {
+        return loginPage.isShowingInAppLoginForm(timeout: timeout)
+    }
+
+    /// True when the Settings gear is present on the current login nav bar (host list under forced
+    /// advanced auth, or the in-app WebView on the legacy path).
+    func isShowingLoginSettingsGear() -> Bool {
+        return loginPage.isShowingSettingsGear()
+    }
+
+    /// True when an accessible back control is present on the current login nav bar (see
+    /// `LoginPageObject.isShowingBackButton()`).
+    func isShowingLoginBackButton() -> Bool {
+        return loginPage.isShowingBackButton()
+    }
+
+    /// Taps the login nav-bar back control, stopping the in-flight authentication and returning to
+    /// the existing account list without completing login.
+    func tapLoginBackButton() {
+        loginPage.tapBackButton()
+    }
+
+    /// Opens Login Options from the Settings gear (gear → "Login Options").
+    func openLoginOptions() {
+        loginPage.openLoginOptions()
+    }
+
+    /// True when the Authentication Flow Types dev screen — the harness's own flag-driving surface —
+    /// is showing.
+    func isShowingAuthFlowTypesView() -> Bool {
+        return loginPage.isShowingAuthFlowTypesView()
+    }
+
+    /// Triggers the add-new-account flow from the main page (Switch User → New User), which starts
+    /// a fresh authentication for an additional user while preserving the current user. Under forced
+    /// advanced auth the external browser launches; on the legacy path the in-app WebView is shown.
+    func triggerAddUser() {
+        mainPage.performAddUser()
+    }
+
     /// Returns the user configuration for the specified login host and user.
     private func getUser(loginHost: KnownLoginHostConfig, user: KnownUserConfig) -> UserConfig {
         do {
@@ -546,7 +836,7 @@ class BaseAuthFlowTester: XCTestCase {
         }
     }
 
-    /// Validates user credentials
+    /// Validates user credentials and feature flags.
     @discardableResult
     func validateUser(
         loginHost: KnownLoginHostConfig,
@@ -554,17 +844,20 @@ class BaseAuthFlowTester: XCTestCase {
         userAppConfigName: KnownAppConfig,
         userScopeSelection: ScopeSelection,
         useWebServerFlow: Bool,
-        useHybridFlow: Bool
+        useHybridFlow: Bool,
+        expectAdvancedAuth: Bool = false,
+        usesWelcomeDiscovery: Bool = false,
+        isMultiUser: Bool = false
     ) -> UserCredentialsData {
 
         let userConfig = getUser(loginHost: loginHost, user: user)
         let userAppConfig = getAppConfig(named: userAppConfigName)
         let expectedGrantedScopes = testConfig.getExpectedScopesGranted(for: userAppConfig, userScopeSelection)
         let issuesJwt = userAppConfig.issuesJwt
-        
+
         // Check that app loads and shows the expected user credentials etc
         assertMainPageLoaded()
-        
+
         // Check the user credentials (consumer key should match the app config used)
         let userCredentials = checkUserCredentials(
             username: userConfig.username,
@@ -573,18 +866,21 @@ class BaseAuthFlowTester: XCTestCase {
             grantedScopes: expectedGrantedScopes,
             issuesJwt: issuesJwt
         )
-        
+
         // Check JWT if applicable
         checkJwtDetailsIfApplicable(
             appConfig: userAppConfig,
             scopes: expectedGrantedScopes,
             beaconChildConsumerKey: userCredentials.beaconChildConsumerKey
         )
-        
+
         // Additional login-specific validations
         assertSIDs(userCredentialsData: userCredentials, useHybridFlow: useHybridFlow, useJwt: issuesJwt)
         assertURLs(userCredentialsData: userCredentials, useWebServerFlow: useWebServerFlow)
-        
+
+        // Validate feature flags using UA already present in the fetched credentials
+        validateUserAgent(ua: userCredentials.userAgent, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, usesWelcomeDiscovery: usesWelcomeDiscovery, isMultiUser: isMultiUser)
+
         return userCredentials
     }
     
@@ -601,10 +897,13 @@ class BaseAuthFlowTester: XCTestCase {
         userScopeSelection: ScopeSelection,
         useWebServerFlow: Bool,
         useHybridFlow: Bool,
+        isMultiUser: Bool = false,
+        usesWelcomeDiscovery: Bool = false,
+        loginForAdmin: Bool = false,
     ) -> UserCredentialsData {
-        
+
         let staticAppConfig = getAppConfig(named: staticAppConfigName)
-        
+
         // Check that app loads and shows the expected user credentials etc
         assertMainPageLoaded()
 
@@ -614,12 +913,15 @@ class BaseAuthFlowTester: XCTestCase {
             userAppConfigName: userAppConfigName,
             userScopeSelection: userScopeSelection,
             useWebServerFlow: useWebServerFlow,
-            useHybridFlow: useHybridFlow
+            useHybridFlow: useHybridFlow,
+            expectAdvancedAuth: loginForAdmin || loginHost == .advancedAuth,
+            usesWelcomeDiscovery: usesWelcomeDiscovery,
+            isMultiUser: isMultiUser
         )
-        
+
         // Revoke and refresh cycle
         let userAppConfig = getAppConfig(named: userAppConfigName)
-        assertRevokeAndRefreshWorks(previousCredentials: userCredentials, isRtr: userAppConfig.isRtr)
+        assertRevokeAndRefreshWorks(previousCredentials: userCredentials, isRtr: userAppConfig.isRtr, loginHost: loginHost)
 
         // Check the oauth configuration
         _ = checkOauthConfiguration(
@@ -627,7 +929,7 @@ class BaseAuthFlowTester: XCTestCase {
             staticCallbackUrl: staticAppConfig.redirectUri,
             staticScopes: testConfig.getScopesToRequest(for: staticAppConfig, staticScopeSelection)
         )
-                
+
         return userCredentials
     }
 
@@ -748,11 +1050,11 @@ class BaseAuthFlowTester: XCTestCase {
     }
     
     /// Captures current credentials then performs a revoke/refresh cycle and validates the result.
-    func assertRevokeAndRefreshWorks(isRtr: Bool) {
-        assertRevokeAndRefreshWorks(previousCredentials: getUserCredentials(), isRtr: isRtr)
+    func assertRevokeAndRefreshWorks(isRtr: Bool, loginHost: KnownLoginHostConfig = .regularAuth) {
+        assertRevokeAndRefreshWorks(previousCredentials: getUserCredentials(), isRtr: isRtr, loginHost: loginHost)
     }
 
-    private func assertRevokeAndRefreshWorks(previousCredentials: UserCredentialsData, isRtr: Bool) {
+    private func assertRevokeAndRefreshWorks(previousCredentials: UserCredentialsData, isRtr: Bool, loginHost: KnownLoginHostConfig = .regularAuth) {
         // Revoke access token
         XCTAssert(mainPage.revokeAccessToken(), "Failed to revoke access token")
 
@@ -782,6 +1084,10 @@ class BaseAuthFlowTester: XCTestCase {
                 "Refresh token should not have changed (non-RTR app)"
             )
         }
+
+        validateUserAgent(userCredentials: credentialsAfterRefresh,
+                          loginHost: loginHost,
+                          isRtr: isRtr)
     }
     
     private func sortedScopes(_ value: String) -> String {

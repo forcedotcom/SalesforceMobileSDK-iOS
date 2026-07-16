@@ -22,6 +22,9 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import "SalesforceSDKConstants.h"
+
+SFSDK_USE_DEPRECATED_BEGIN
 #import "SFOAuthSessionRefresher.h"
 #import "SFOAuthCoordinator.h"
 
@@ -32,3 +35,5 @@
 @property (nonatomic, copy) void (^errorBlock)(NSError *);
 
 @end
+
+SFSDK_USE_DEPRECATED_END

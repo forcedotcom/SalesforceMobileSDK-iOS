@@ -35,14 +35,20 @@ final class WelcomeDiscoveryLoginHostTests: XCTestCase {
     let discoveryDomain = "welcome.salesforce.com/discovery"
     let myDomain = "mycompany.my.salesforce.com"
     let accountManager = UserAccountManager.shared
+    private var originalForceAdvancedAuth: Bool!
 
+    // Touches the deprecated `forceAdvancedAuthentication` (removed in 15.0) to save/restore it.
+    @available(*, deprecated, message: "Exercises deprecated forceAdvancedAuthentication; remove with the property in 15.0.")
     override func setUp() {
         super.setUp()
         _ = KeychainHelper.removeAll()
         removeCustomLoginHosts()
+        originalForceAdvancedAuth = SalesforceManager.shared.forceAdvancedAuthentication
     }
 
+    @available(*, deprecated, message: "Exercises deprecated forceAdvancedAuthentication; remove with the property in 15.0.")
     override func tearDown() {
+        SalesforceManager.shared.forceAdvancedAuthentication = originalForceAdvancedAuth
         accountManager.clearAllAccountState()
         _ = KeychainHelper.removeAll()
         removeCustomLoginHosts()
@@ -64,8 +70,9 @@ final class WelcomeDiscoveryLoginHostTests: XCTestCase {
         }
     }
 
-    // MARK: - DomainDiscoveryCoordinator.isDiscoveryDomain tests
+    // MARK: - DomainDiscoveryCoordinator.isDiscoveryDomain instance method tests (deprecated)
 
+    @available(*, deprecated, message: "Exercises deprecated instance API")
     func test_givenDiscoveryDomain_whenCheckingIsDiscoveryDomain_thenReturnsTrue() {
         let coordinator = DomainDiscoveryCoordinator()
         XCTAssertTrue(coordinator.isDiscoveryDomain(discoveryDomain))
@@ -73,6 +80,7 @@ final class WelcomeDiscoveryLoginHostTests: XCTestCase {
         XCTAssertTrue(coordinator.isDiscoveryDomain("mycompany.salesforce.com/discovery"))
     }
 
+    @available(*, deprecated, message: "Exercises deprecated instance API")
     func test_givenNonDiscoveryDomain_whenCheckingIsDiscoveryDomain_thenReturnsFalse() {
         let coordinator = DomainDiscoveryCoordinator()
         XCTAssertFalse(coordinator.isDiscoveryDomain(myDomain))
@@ -80,9 +88,40 @@ final class WelcomeDiscoveryLoginHostTests: XCTestCase {
         XCTAssertFalse(coordinator.isDiscoveryDomain("test.salesforce.com"))
     }
 
+    @available(*, deprecated, message: "Exercises deprecated instance API")
     func test_givenNilDomain_whenCheckingIsDiscoveryDomain_thenReturnsFalse() {
         let coordinator = DomainDiscoveryCoordinator()
         XCTAssertFalse(coordinator.isDiscoveryDomain(nil))
+    }
+
+    // MARK: - DomainDiscoveryCoordinator.isDiscoveryDomain class method tests
+
+    func test_givenDiscoveryDomain_whenCheckingIsDiscoveryDomainClassMethod_thenReturnsTrue() {
+        XCTAssertTrue(DomainDiscoveryCoordinator.isDiscoveryDomain(discoveryDomain))
+        XCTAssertTrue(DomainDiscoveryCoordinator.isDiscoveryDomain("welcome.salesforce.com/discovery"))
+        XCTAssertTrue(DomainDiscoveryCoordinator.isDiscoveryDomain("mycompany.salesforce.com/discovery"))
+    }
+
+    func test_givenNonDiscoveryDomain_whenCheckingIsDiscoveryDomainClassMethod_thenReturnsFalse() {
+        XCTAssertFalse(DomainDiscoveryCoordinator.isDiscoveryDomain(myDomain))
+        XCTAssertFalse(DomainDiscoveryCoordinator.isDiscoveryDomain("login.salesforce.com"))
+        XCTAssertFalse(DomainDiscoveryCoordinator.isDiscoveryDomain("test.salesforce.com"))
+    }
+
+    func test_givenNilDomain_whenCheckingIsDiscoveryDomainClassMethod_thenReturnsFalse() {
+        XCTAssertFalse(DomainDiscoveryCoordinator.isDiscoveryDomain(nil))
+    }
+
+    @available(*, deprecated, message: "Exercises deprecated instance API")
+    func test_givenAnyDomain_whenComparingClassAndInstanceIsDiscoveryDomain_thenResultsMatch() {
+        // The deprecated instance method delegates to the class method; both must agree
+        // so any remaining instance-method caller stays in lockstep with the class method.
+        let coordinator = DomainDiscoveryCoordinator()
+        for domain in [discoveryDomain, myDomain, "login.salesforce.com", "x.salesforce.com/discovery", nil] {
+            XCTAssertEqual(coordinator.isDiscoveryDomain(domain),
+                           DomainDiscoveryCoordinator.isDiscoveryDomain(domain),
+                           "Instance and class isDiscoveryDomain must agree for \(domain ?? "nil")")
+        }
     }
 
     // MARK: - Login host persistence tests
@@ -135,5 +174,42 @@ final class WelcomeDiscoveryLoginHostTests: XCTestCase {
         // no longer calls setLoginHost: (which would add it)
         let foundHost = storage.loginHost(forHostAddress: myDomain)
         XCTAssertNil(foundHost, "My Domain should not be in login host storage during discovery flow.")
+    }
+
+    // MARK: - Forced Advanced Auth + Welcome Discovery interaction (W-23126676)
+
+    // The auth-modality decision (and therefore the force flag) is only reached on the
+    // non-discovery `authenticate` path. `authenticateWithCredentials:` routes a discovery
+    // domain to `runMyDomainDiscoveryAndAuthenticate` (phase 1) WITHOUT calling `authenticate`,
+    // so the discovery request is never Advanced Auth; the resolved My Domain
+    // (`handleCustomDomainUpdateWithLoginHint:myDomain:`, phase 2) then calls `authenticate`,
+    // where the flag is honored. `isDiscoveryDomain(_:)` is the gate that distinguishes the two
+    // phases, so these tests assert that gate under a forced-ON flag.
+
+    @available(*, deprecated, message: "Exercises deprecated forceAdvancedAuthentication; remove with the property in 15.0.")
+    func test_givenForceFlagOn_whenWelcomeDiscoveryDomain_thenTreatedAsDiscoveryAndBypassesAuthModalityDecision() {
+        // Given: forced Advanced Auth is ON
+        SalesforceManager.shared.forceAdvancedAuthentication = true
+
+        // Then: the discovery domain is still recognized as discovery (phase 1), which routes to
+        // the in-app discovery request and never to the Advanced-Auth modality decision.
+        XCTAssertTrue(DomainDiscoveryCoordinator.isDiscoveryDomain(discoveryDomain),
+                      "Welcome discovery domain must remain a discovery domain even with the force flag ON, so phase 1 bypasses Advanced Auth")
+        XCTAssertTrue(DomainDiscoveryCoordinator.isDiscoveryDomain("welcome.salesforce.com/discovery"),
+                      "Welcome discovery host must be recognized regardless of the force flag")
+    }
+
+    @available(*, deprecated, message: "Exercises deprecated forceAdvancedAuthentication; remove with the property in 15.0.")
+    func test_givenForceFlagOn_whenResolvedMyDomain_thenNotDiscoveryDomainSoPhaseTwoHonorsFlag() {
+        // Given: forced Advanced Auth is ON
+        SalesforceManager.shared.forceAdvancedAuthentication = true
+
+        // Then: the My Domain resolved by discovery is NOT a discovery domain, so phase 2 falls
+        // through to `authenticate`, where the force flag selects Advanced Auth.
+        XCTAssertFalse(DomainDiscoveryCoordinator.isDiscoveryDomain(myDomain),
+                       "The resolved My Domain must NOT be a discovery domain, so phase 2 reaches the auth-modality decision that honors the force flag")
+        // The flag remains ON for phase-2's authenticate decision.
+        XCTAssertTrue(SalesforceManager.shared.forceAdvancedAuthentication,
+                      "Force flag must still be ON entering phase 2 so the resolved My Domain login uses Advanced Auth")
     }
 }

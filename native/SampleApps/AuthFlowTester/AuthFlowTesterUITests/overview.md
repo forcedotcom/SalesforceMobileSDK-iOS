@@ -13,7 +13,7 @@ This document provides an overview of all UI tests in the AuthFlowTester test su
 | `AdvancedAuthBeaconLoginTests` | Tests for Beacon app login flows (using advanced_auth login host) |
 | `WelcomeLoginTests` | Tests for welcome (domain discovery) login flows using simulated domain discovery |
 | `RTRLoginTests` | Tests for ECA login flows with Refresh Token Rotation (RTR), with and without hybrid flow, with and without app restart |
-| `LoginWithRestartTests` | Tests for verifying that user sessions persist across app restarts |
+| `LoginWithRestartTests` | Tests for verifying that user sessions and per-user feature flags (BW, WD) persist across app restarts |
 | `RefreshTokenMigrationTests` | Tests for refresh token migration between app configurations without re-authentication |
 | `RefreshTokenMigrationWithRestartTests` | Tests for verifying that migrated refresh tokens persist across app restarts |
 | `MultiUserLoginTests` | Tests for multi-user login scenarios with various configurations, including token revocation |
@@ -115,20 +115,22 @@ Tests for welcome (domain discovery) login flows. Uses simulated domain discover
 | `testWelcomeDiscoveryWithRegularAuthLoginHostAndDynamicConfig` | regular_auth (simulated) | Yes |
 | `testWelcomeDiscoveryWithAdvancedAuthLoginHostAndDynamicConfig` | advanced_auth (simulated) | Yes |
 
-### LoginWithRestartTests (8 tests)
+### LoginWithRestartTests (10 tests)
 
-Tests for verifying that user sessions persist across app restarts. Includes CA, ECA, and Beacon configurations with both static and dynamic settings.
+Tests for verifying that user sessions and per-user feature flags (BW, WD) persist across app restarts. Includes CA, ECA, and Beacon configurations with both static and dynamic settings. Each test logs in, terminates the app via `app.terminate()`, relaunches, and verifies that credentials and user-agent feature flags are reloaded correctly from disk.
 
-| Test Name | App Config | Scopes | Config Type | Multi-User |
-|-----------|------------|--------|-------------|------------|
-| `testCAOpaque_DefaultScopes_WithRestart` | CA Opaque | Default | Static | No |
-| `testECAOpaque_DefaultScopes_WithRestart` | ECA Opaque | Default | Static | No |
-| `testBeaconOpaque_DefaultScopes_WithRestart` | Beacon Opaque | Default | Static | No |
-| `testECAJwt_DefaultScopes_DynamicConfiguration_WithRestart` | ECA JWT | Default | Dynamic | No |
-| `testECAJwt_SubsetScopes_DynamicConfiguration_WithRestart` | ECA JWT | Subset | Dynamic | No |
-| `testBeaconJwt_DefaultScopes_DynamicConfiguration_WithRestart` | Beacon JWT | Default | Dynamic | No |
-| `testBeaconJwt_SubsetScopes_DynamicConfiguration_WithRestart` | Beacon JWT | Subset | Dynamic | No |
-| `testMultiUserRestart` | ECA Opaque + ECA JWT | Default | Dynamic + Static | Yes |
+| Test Name | App Config | Scopes | Config Type | Feature Flag | Multi-User |
+|-----------|------------|--------|-------------|--------------|------------|
+| `testCAOpaque_DefaultScopes_WithRestart` | CA Opaque | Default | Static | — | No |
+| `testECAOpaque_DefaultScopes_WithRestart` | ECA Opaque | Default | Static | — | No |
+| `testBeaconOpaque_DefaultScopes_WithRestart` | Beacon Opaque | Default | Static | — | No |
+| `testECAJwt_DefaultScopes_DynamicConfiguration_WithRestart` | ECA JWT | Default | Dynamic | — | No |
+| `testECAJwt_SubsetScopes_DynamicConfiguration_WithRestart` | ECA JWT | Subset | Dynamic | — | No |
+| `testBeaconJwt_DefaultScopes_DynamicConfiguration_WithRestart` | Beacon JWT | Default | Dynamic | — | No |
+| `testBeaconJwt_SubsetScopes_DynamicConfiguration_WithRestart` | Beacon JWT | Subset | Dynamic | — | No |
+| `testAdvancedAuth_WithRestart` | Beacon Opaque | Default | Static | BW | No |
+| `testWelcomeDiscovery_WithRestart` | ECA Opaque | Default | Static | WD | No |
+| `testMultiUserRestart` | ECA Opaque + ECA JWT | Default | Dynamic + Static | — | Yes |
 
 ---
 

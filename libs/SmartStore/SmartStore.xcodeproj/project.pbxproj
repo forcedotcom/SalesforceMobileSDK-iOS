@@ -21,12 +21,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		4F06AF0D1C499EB600F70798 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F06AF0C1C499EB600F70798 /* main.m */; };
-		4F06AF101C499EB600F70798 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F06AF0F1C499EB600F70798 /* AppDelegate.m */; };
-		4F06AF131C499EB600F70798 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F06AF121C499EB600F70798 /* ViewController.m */; };
-		4F06AF161C499EB600F70798 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F06AF141C499EB600F70798 /* Main.storyboard */; };
+		695583B12FE4DB6C0042CF83 /* SmartStoreTestApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695583B02FE4DB5E0042CF83 /* SmartStoreTestApp.swift */; };
 		4F06AF181C499EB600F70798 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F06AF171C499EB600F70798 /* Assets.xcassets */; };
-		4F06AF1B1C499EB600F70798 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F06AF191C499EB600F70798 /* LaunchScreen.storyboard */; };
 		4F06AFF01C49D53D00F70798 /* SmartStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2B91C0E4581009F6029 /* SmartStore.framework */; };
 		4F06AFF11C49D53D00F70798 /* SmartStore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2B91C0E4581009F6029 /* SmartStore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4F5BBB9D23592EBB00E6D619 /* SmartStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F5BBB9C23592EBB00E6D619 /* SmartStore.swift */; };
@@ -48,9 +44,9 @@
 		4FEE44881BFD5CD900F09C43 /* SFSmartStoreFullTextSearchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96015A1BFD33B30022F021 /* SFSmartStoreFullTextSearchTests.m */; };
 		4FEE44891BFD5CDC00F09C43 /* SFSmartStoreTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96015C1BFD33B30022F021 /* SFSmartStoreTestCase.m */; };
 		4FEE448A1BFD5CE500F09C43 /* SFSmartStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96015E1BFD33B30022F021 /* SFSmartStoreTests.m */; };
-		4FSSSDKMGR001234567890AB /* SmartStoreSDKManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FSSSDKMGR112345678901AB /* SmartStoreSDKManagerTests.m */; };
 		4FF4DC671CF51D9300385C2C /* SFQuerySpecTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF4DC661CF51D9300385C2C /* SFQuerySpecTests.m */; };
 		4FFEE6351BFE98E100B7AA8A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CEAAAE61195911E600CBBFE9 /* InfoPlist.strings */; };
+		4FSSSDKMGR001234567890AB /* SmartStoreSDKManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FSSSDKMGR112345678901AB /* SmartStoreSDKManagerTests.m */; };
 		696E912D2AD0977600205884 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 696E91232AD0975B00205884 /* PrivacyInfo.xcprivacy */; };
 		829DA2AA1C1266F70040F5F1 /* SmartStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 829DA2A91C1266F70040F5F1 /* SmartStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B716A3D7218F6AD6009D407F /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B716A3B2218F6AAC009D407F /* SalesforceAnalytics.framework */; };
@@ -217,14 +213,8 @@
 
 /* Begin PBXFileReference section */
 		4F06AF091C499EB600F70798 /* SmartStoreTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartStoreTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		4F06AF0C1C499EB600F70798 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		4F06AF0E1C499EB600F70798 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		4F06AF0F1C499EB600F70798 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		4F06AF111C499EB600F70798 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		4F06AF121C499EB600F70798 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		4F06AF151C499EB600F70798 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		695583B02FE4DB5E0042CF83 /* SmartStoreTestApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartStoreTestApp.swift; sourceTree = "<group>"; };
 		4F06AF171C499EB600F70798 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		4F06AF1A1C499EB600F70798 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4F06AF1C1C499EB600F70798 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4F230BC31BFEAE430030EEFA /* SmartStore-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SmartStore-Prefix.pch"; path = "SmartStore/SmartStore-Prefix.pch"; sourceTree = SOURCE_ROOT; };
 		4F5BBB9C23592EBB00E6D619 /* SmartStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartStore.swift; sourceTree = "<group>"; };
@@ -242,7 +232,6 @@
 		4F96015C1BFD33B30022F021 /* SFSmartStoreTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSmartStoreTestCase.m; path = SmartStoreTests/SFSmartStoreTestCase.m; sourceTree = SOURCE_ROOT; };
 		4F96015D1BFD33B30022F021 /* SFSmartStoreTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSmartStoreTests.h; path = SmartStoreTests/SFSmartStoreTests.h; sourceTree = SOURCE_ROOT; };
 		4F96015E1BFD33B30022F021 /* SFSmartStoreTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSmartStoreTests.m; path = SmartStoreTests/SFSmartStoreTests.m; sourceTree = SOURCE_ROOT; };
-		4FSSSDKMGR112345678901AB /* SmartStoreSDKManagerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SmartStoreSDKManagerTests.m; path = SmartStoreTests/SmartStoreSDKManagerTests.m; sourceTree = SOURCE_ROOT; };
 		4F96FBC21BFD30030022F021 /* SFAlterSoupLongOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFAlterSoupLongOperation.h; path = SmartStore/Classes/SFAlterSoupLongOperation.h; sourceTree = SOURCE_ROOT; };
 		4F96FBC31BFD30030022F021 /* SFAlterSoupLongOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFAlterSoupLongOperation.m; path = SmartStore/Classes/SFAlterSoupLongOperation.m; sourceTree = SOURCE_ROOT; };
 		4F96FBC41BFD30030022F021 /* SFQuerySpec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFQuerySpec.h; path = SmartStore/Classes/SFQuerySpec.h; sourceTree = SOURCE_ROOT; };
@@ -272,6 +261,7 @@
 		4FAB7D801F8D8C3C00226249 /* SFSDKStoreConfigTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKStoreConfigTests.m; sourceTree = "<group>"; };
 		4FF4DC661CF51D9300385C2C /* SFQuerySpecTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFQuerySpecTests.m; sourceTree = "<group>"; };
 		4FFEE6341BFE98B600B7AA8A /* SmartStoreTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "SmartStoreTests-Info.plist"; path = "SmartStoreTests/SmartStoreTests-Info.plist"; sourceTree = SOURCE_ROOT; };
+		4FSSSDKMGR112345678901AB /* SmartStoreSDKManagerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SmartStoreSDKManagerTests.m; path = SmartStoreTests/SmartStoreSDKManagerTests.m; sourceTree = SOURCE_ROOT; };
 		696E91232AD0975B00205884 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		829DA2A91C1266F70040F5F1 /* SmartStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmartStore.h; sourceTree = "<group>"; };
 		82D0AB331C497FD90081F833 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -357,28 +347,14 @@
 		4F06AF0A1C499EB600F70798 /* SmartStoreTestApp */ = {
 			isa = PBXGroup;
 			children = (
+				695583B02FE4DB5E0042CF83 /* SmartStoreTestApp.swift */,
 				B7282F441D8C713C00475F79 /* SmartStoreTestApp.entitlements */,
-				4F06AF0E1C499EB600F70798 /* AppDelegate.h */,
-				4F06AF0F1C499EB600F70798 /* AppDelegate.m */,
-				4F06AF111C499EB600F70798 /* ViewController.h */,
-				4F06AF121C499EB600F70798 /* ViewController.m */,
-				4F06AF141C499EB600F70798 /* Main.storyboard */,
 				4F06AF171C499EB600F70798 /* Assets.xcassets */,
-				4F06AF191C499EB600F70798 /* LaunchScreen.storyboard */,
 				4F06AF1C1C499EB600F70798 /* Info.plist */,
-				4F06AF0B1C499EB600F70798 /* Supporting Files */,
 				4FAB7D781F8D888400226249 /* userstore.json */,
 				4FAB7D7D1F8D88C100226249 /* globalstore.json */,
 			);
 			path = SmartStoreTestApp;
-			sourceTree = "<group>";
-		};
-		4F06AF0B1C499EB600F70798 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				4F06AF0C1C499EB600F70798 /* main.m */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		4F5BBB9323592E9600E6D619 /* Extensions */ = {
@@ -676,6 +652,7 @@
 				TargetAttributes = {
 					4F06AF081C499EB600F70798 = {
 						CreatedOnToolsVersion = 7.2;
+						LastSwiftMigration = 2630;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.Keychain = {
@@ -804,10 +781,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				4FAB7D7E1F8D88C100226249 /* globalstore.json in Resources */,
-				4F06AF1B1C499EB600F70798 /* LaunchScreen.storyboard in Resources */,
 				4F06AF181C499EB600F70798 /* Assets.xcassets in Resources */,
 				4FAB7D791F8D888400226249 /* userstore.json in Resources */,
-				4F06AF161C499EB600F70798 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -878,9 +853,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4F06AF131C499EB600F70798 /* ViewController.m in Sources */,
-				4F06AF101C499EB600F70798 /* AppDelegate.m in Sources */,
-				4F06AF0D1C499EB600F70798 /* main.m in Sources */,
+				695583B12FE4DB6C0042CF83 /* SmartStoreTestApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -956,22 +929,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		4F06AF141C499EB600F70798 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				4F06AF151C499EB600F70798 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		4F06AF191C499EB600F70798 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				4F06AF1A1C499EB600F70798 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
 		CEAAAE61195911E600CBBFE9 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1071,7 +1028,6 @@
 				SUPPORTS_MACCATALYST = YES;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,7";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1113,7 +1069,6 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
 				SUPPORTS_MACCATALYST = YES;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
-				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,7";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1171,6 +1126,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
 				XROS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
@@ -1219,6 +1175,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 				XROS_DEPLOYMENT_TARGET = 2.0;
 			};
@@ -1251,7 +1208,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.salesforce.mobilesdk.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartStoreTestApp.app/SmartStoreTestApp";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -1280,7 +1236,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.salesforce.mobilesdk.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartStoreTestApp.app/SmartStoreTestApp";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -1364,7 +1319,7 @@
 			repositoryURL = "https://github.com/sqlcipher/SQLCipher.swift";
 			requirement = {
 				kind = exactVersion;
-				version = 4.16.0;
+				version = 4.17.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

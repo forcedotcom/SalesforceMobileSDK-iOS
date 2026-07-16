@@ -21,6 +21,7 @@ jobs:
             xcode: ^26
           - ios: ^18
             xcode: ^16
+            macos: macos-15
     uses: ./.github/workflows/reusable-test-workflow.yaml
     permissions:
       contents: read
@@ -29,6 +30,7 @@ jobs:
       lib: ${{ matrix.lib }}
       ios: ${{ matrix.ios }}
       xcode: ${{ matrix.xcode }}
+      macos: ${{ matrix.macos }}
     secrets:
       TEST_CREDENTIALS: ${{ secrets.TEST_CREDENTIALS }}
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
@@ -44,6 +46,7 @@ jobs:
             xcode: ^26
           - ios: ^18
             xcode: ^16
+            macos: macos-15
     uses: ./.github/workflows/reusable-build-workflow.yaml
     permissions:
       contents: read
@@ -51,3 +54,4 @@ jobs:
       app: ${{ matrix.app }}
       ios: ${{ matrix.ios }}
       xcode: ${{ matrix.xcode }}
+      macos: ${{ matrix.macos }}

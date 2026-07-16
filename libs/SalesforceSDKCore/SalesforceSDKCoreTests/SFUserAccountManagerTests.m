@@ -473,7 +473,10 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     SFSDKAuthSession *session = [[SFSDKAuthSession alloc] initWith:request credentials:nil];
     SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithAuthSession:session];
     coordinator.delegate = [SFUserAccountManager sharedInstance];
-    [coordinator beginWebViewFlow];
+
+    // Invoke the delegate directly — no WKWebView needed since this test only verifies
+    // that loginViewControllerConfig propagates correctly to the presented controller.
+    [[SFUserAccountManager sharedInstance] oauthCoordinator:coordinator didBeginAuthenticationWithView:coordinator.view];
 
     [self waitForExpectations:@[expectation] timeout:20];
     XCTAssertTrue(success, @"SFSDKLoginViewController config should have changed" );
@@ -668,6 +671,29 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     XCTAssertEqualObjects(userIn.customData, userOut.customData, @"customData mismatch");
     XCTAssertEqual(userIn.accessScopes.count, userOut.accessScopes.count);
     XCTAssertEqual(userIn.accessRestrictions, userOut.accessRestrictions, @"accessRestrictions mismatch");
+}
+
+- (void)test_givenPersistedFeatureFlags_whenEncodeAndDecode_thenFlagsRoundtrip {
+    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"identifier-ff-roundtrip"
+                                                                            clientId:@"fakeClientIdForTesting"
+                                                                           encrypted:NO];
+    [credentials setIdentityUrl:[NSURL URLWithString:@"https://test.salesforce.com/id/00DS0000000IDdtWAH/005S0000004y9JkCAF"]];
+    SFUserAccount *userIn = [[SFUserAccount alloc] initWithCredentials:credentials];
+    userIn.persistedFeatureFlags = [NSSet setWithObjects:@"BW", @"QR", nil];
+
+    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initRequiringSecureCoding:YES];
+    [archiver encodeObject:userIn forKey:@"account"];
+    [archiver finishEncoding];
+    NSData *data = archiver.encodedData;
+
+    NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:data error:nil];
+    unarchiver.requiresSecureCoding = YES;
+    SFUserAccount *userOut = [unarchiver decodeObjectOfClass:[SFUserAccount class] forKey:@"account"];
+
+    XCTAssertNotNil(userOut, @"Should unarchive successfully");
+    XCTAssertEqual(userOut.persistedFeatureFlags.count, 2u, @"Should decode both feature flags");
+    XCTAssertTrue([userOut.persistedFeatureFlags containsObject:@"BW"], @"BW flag should roundtrip");
+    XCTAssertTrue([userOut.persistedFeatureFlags containsObject:@"QR"], @"QR flag should roundtrip");
 }
 
 - (void)testMigrateRefreshAuthRequest {

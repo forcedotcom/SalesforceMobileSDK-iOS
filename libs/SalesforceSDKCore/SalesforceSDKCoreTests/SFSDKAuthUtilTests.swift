@@ -27,7 +27,8 @@
  */
 
 import XCTest
-@testable import SalesforceSDKCore
+import Synchronization
+@testable @preconcurrency import SalesforceSDKCore
 
 class SFSDKAuthUtilTests: XCTestCase {
 
@@ -61,7 +62,7 @@ class SFSDKAuthUtilTests: XCTestCase {
             endpointResponse = response
             expectation.fulfill()
         }
-        self.wait(for: [expectation], timeout: 30)
+        self.wait(for: [expectation], timeout: 60)
         let response = try XCTUnwrap(endpointResponse)
         XCTAssertFalse(response.hasError)
         XCTAssertNotNil(response.accessToken)
@@ -170,4 +171,122 @@ class SFSDKAuthUtilTests: XCTestCase {
         let urlComponents = try XCTUnwrap(URLComponents(string: url))
         XCTAssertNil(urlComponents.queryItems)
     }
+    
+    // MARK: - Token Refresh Coordinator (End-to-End)
+
+    func testSingleRefreshWithRevokedAccessToken() async throws {
+        let credentials = try XCTUnwrap(currentUser?.credentials)
+        let originalAccessToken = credentials.accessToken
+        let originalRefreshToken = credentials.refreshToken
+
+        // Revoke original access token
+        let request = try XCTUnwrap(RestClient.shared.requestForRevokeAccessToken())
+        _ = try await RestClient.shared.send(request: request)
+
+        let (account, _) = try await UserAccountManager.shared.refresh(credentials: credentials)
+
+        XCTAssertNotNil(account.credentials.accessToken)
+        XCTAssertNotEqual(account.credentials.accessToken, originalAccessToken,
+                          "Access token should be rotated after refresh")
+    }
+
+    func testConcurrentRefreshesWithRevokedAccessToken() async throws {
+        let credentials = try XCTUnwrap(currentUser?.credentials)
+        let originalAccessToken = credentials.accessToken
+
+        let request = try XCTUnwrap(RestClient.shared.requestForRevokeAccessToken())
+        _ = try await RestClient.shared.send(request: request)
+
+        let concurrentCount = 5
+        let receivedTokens = Mutex<[String?]>(Array(repeating: nil, count: concurrentCount))
+        let expectations = (0..<concurrentCount).map {
+            XCTestExpectation(description: "Refresh \($0) completes")
+        }
+
+        DispatchQueue.concurrentPerform(iterations: concurrentCount) { i in
+            Task {
+                defer { expectations[i].fulfill() }
+                do {
+                    let (account, _) = try await UserAccountManager.shared.refresh(credentials: credentials)
+                    receivedTokens.withLock { $0[i] = account.credentials.accessToken }
+                } catch {
+                    XCTFail("Refresh \(i) should not fail: \(error)")
+                }
+            }
+        }
+
+        await fulfillment(of: expectations, timeout: 30)
+
+        receivedTokens.withLock { tokens in
+            // All callers should receive a non-nil token
+            for (i, token) in tokens.enumerated() {
+                XCTAssertNotNil(token, "Refresh \(i) should have received a token")
+            }
+
+            // All callers should receive the same token (coalesced into one refresh)
+            let uniqueTokens = Set(tokens.compactMap { $0 })
+            XCTAssertEqual(uniqueTokens.count, 1,
+                           "All concurrent callers should receive the same access token (coalescing). Got \(uniqueTokens.count) distinct tokens.")
+            XCTAssertNotEqual(uniqueTokens.first, originalAccessToken)
+        }
+    }
+
+    func testSingleNotificationForConcurrentRefreshes() async throws {
+        let credentials = try XCTUnwrap(currentUser?.credentials)
+
+        let notificationCount = Mutex<Int>(0)
+
+        let observer = NotificationCenter.default.addObserver(
+            forName: UserAccountManager.didRefreshToken,
+            object: nil,
+            queue: nil
+        ) { _ in
+            notificationCount.withLock { $0 += 1 }
+        }
+
+        let concurrentCount = 3
+        let expectations = (0..<concurrentCount).map {
+            XCTestExpectation(description: "Refresh \($0) completes")
+        }
+
+        DispatchQueue.concurrentPerform(iterations: concurrentCount) { i in
+            Task {
+                _ = try? await UserAccountManager.shared.refresh(credentials: credentials)
+                expectations[i].fulfill()
+            }
+        }
+
+        await fulfillment(of: expectations, timeout: 30)
+
+        // Small grace period for notification delivery
+        try await Task.sleep(nanoseconds: 500_000_000)
+
+        NotificationCenter.default.removeObserver(observer)
+
+        let count = notificationCount.withLock { $0 }
+        XCTAssertEqual(count, 1,
+                       "Only one refresh notification should fire for coalesced requests. Got \(count).")
+    }
+
+    func testSequentialRefreshes() async throws {
+        let credentials = try XCTUnwrap(currentUser?.credentials)
+
+        let sequentialCount = 3
+        var tokens: [String] = []
+
+        for i in 0..<sequentialCount {
+            let (account, _) = try await UserAccountManager.shared.refresh(credentials: credentials)
+            let token = try XCTUnwrap(account.credentials.accessToken, "Sequential refresh \(i) should produce a token")
+            tokens.append(token)
+        }
+
+        XCTAssertEqual(tokens.count, sequentialCount,
+                       "All sequential refreshes should succeed")
+
+        // Each refresh should produce a valid (non-empty) token
+        for (i, token) in tokens.enumerated() {
+            XCTAssertFalse(token.isEmpty, "Token \(i) should not be empty")
+        }
+    }
+
 }
