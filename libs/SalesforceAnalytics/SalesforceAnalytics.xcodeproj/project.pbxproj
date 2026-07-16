@@ -25,11 +25,9 @@
 		B716A37F218F5D9F009D407F /* SalesforceSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B716A378218F5D60009D407F /* SalesforceSDKCommon.framework */; };
 		CE1F09E4201A6C18006FA9D2 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F09D5201A6C17006FA9D2 /* CoreTelephony.framework */; platformFilters = (ios, maccatalyst, ); };
 		CE2B8BD31CE900F500C6FC6A /* SalesforceAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = CE2B8BD21CE900F500C6FC6A /* SalesforceAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CE2B8C2E1CE9218900C6FC6A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CE2B8C2D1CE9218900C6FC6A /* main.m */; };
-		CE2B8C311CE9218900C6FC6A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CE2B8C301CE9218900C6FC6A /* AppDelegate.m */; };
+		695583B12FE4DB6C0042CF82 /* SalesforceAnalyticsTestApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695583B02FE4DB5E0042CF82 /* SalesforceAnalyticsTestApp.swift */; };
 		CE2B8C441CE921E000C6FC6A /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8BCF1CE900F500C6FC6A /* SalesforceAnalytics.framework */; };
 		CE2B8C451CE921E000C6FC6A /* SalesforceAnalytics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8BCF1CE900F500C6FC6A /* SalesforceAnalytics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		CE2B8C4E1CE9243600C6FC6A /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE2B8C4D1CE9243600C6FC6A /* ViewController.m */; };
 		CE2B8E111CE9352B00C6FC6A /* en.lproj in Resources */ = {isa = PBXBuildFile; fileRef = CE2B8C501CE9245B00C6FC6A /* en.lproj */; };
 		CE2B8E131CE9352B00C6FC6A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE2B8C3B1CE9218900C6FC6A /* Assets.xcassets */; };
 		CE2B8FEB1CF5515E00C6FC6A /* SalesforceAnalytics-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = CE2B8FEA1CF5515E00C6FC6A /* SalesforceAnalytics-Prefix.pch */; };
@@ -48,8 +46,6 @@
 		CEF371AF1D0E58260004A237 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEF371A71D0E57ED0004A237 /* Foundation.framework */; };
 		CEF371B01D0E582C0004A237 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEF371A91D0E57F50004A237 /* UIKit.framework */; };
 		CEF371B41D0F6E6D0004A237 /* SFSDKInstrumentationEvent+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = CEF371B31D0F6E6D0004A237 /* SFSDKInstrumentationEvent+Internal.h */; };
-		CEF371E51D10D7E60004A237 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEF371E31D10D7E60004A237 /* Main_iPad.storyboard */; };
-		CEF371E61D10D7E60004A237 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEF371E41D10D7E60004A237 /* Main_iPhone.storyboard */; };
 		CEF371E81D11B76E0004A237 /* EventStoreManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF371E71D11B76E0004A237 /* EventStoreManagerTests.m */; };
 		CEF372461D12100D0004A237 /* AnalyticsTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF372451D12100D0004A237 /* AnalyticsTestUtil.m */; };
 		CEF372CB1D1324040004A237 /* SFSDKAILTNTransform.h in Headers */ = {isa = PBXBuildFile; fileRef = CEF372C81D1324040004A237 /* SFSDKAILTNTransform.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -131,13 +127,9 @@
 		CE2B8BD21CE900F500C6FC6A /* SalesforceAnalytics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SalesforceAnalytics.h; sourceTree = "<group>"; };
 		CE2B8BD91CE900F500C6FC6A /* SalesforceAnalyticsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SalesforceAnalyticsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE2B8C2A1CE9218900C6FC6A /* SalesforceAnalyticsTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SalesforceAnalyticsTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		CE2B8C2D1CE9218900C6FC6A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		CE2B8C2F1CE9218900C6FC6A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		CE2B8C301CE9218900C6FC6A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		695583B02FE4DB5E0042CF82 /* SalesforceAnalyticsTestApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesforceAnalyticsTestApp.swift; sourceTree = "<group>"; };
 		CE2B8C3B1CE9218900C6FC6A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CE2B8C4B1CE9243600C6FC6A /* SalesforceAnalyticsTestApp-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SalesforceAnalyticsTestApp-Prefix.pch"; sourceTree = "<group>"; };
-		CE2B8C4C1CE9243600C6FC6A /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		CE2B8C4D1CE9243600C6FC6A /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		CE2B8C501CE9245B00C6FC6A /* en.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = en.lproj; sourceTree = "<group>"; };
 		CE2B8C521CE9245B00C6FC6A /* SalesforceAnalyticsTestApp-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "SalesforceAnalyticsTestApp-Info.plist"; sourceTree = "<group>"; };
 		CE2B8CA71CE9281F00C6FC6A /* SalesforceAnalytics-Common-Dynamic.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceAnalytics-Common-Dynamic.xcconfig"; path = "Configuration/SalesforceAnalytics-Common-Dynamic.xcconfig"; sourceTree = "<group>"; };
@@ -158,8 +150,6 @@
 		CEF371A71D0E57ED0004A237 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CEF371A91D0E57F50004A237 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		CEF371B31D0F6E6D0004A237 /* SFSDKInstrumentationEvent+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SFSDKInstrumentationEvent+Internal.h"; path = "Classes/Model/SFSDKInstrumentationEvent+Internal.h"; sourceTree = "<group>"; };
-		CEF371E31D10D7E60004A237 /* Main_iPad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main_iPad.storyboard; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
-		CEF371E41D10D7E60004A237 /* Main_iPhone.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main_iPhone.storyboard; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
 		CEF371E71D11B76E0004A237 /* EventStoreManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventStoreManagerTests.m; sourceTree = "<group>"; };
 		CEF372441D120FEE0004A237 /* AnalyticsTestUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnalyticsTestUtil.h; sourceTree = "<group>"; };
 		CEF372451D12100D0004A237 /* AnalyticsTestUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnalyticsTestUtil.m; sourceTree = "<group>"; };
@@ -264,28 +254,14 @@
 		CE2B8C2B1CE9218900C6FC6A /* SalesforceAnalyticsTestApp */ = {
 			isa = PBXGroup;
 			children = (
+				695583B02FE4DB5E0042CF82 /* SalesforceAnalyticsTestApp.swift */,
 				B7282F401D8C711100475F79 /* SalesforceAnalyticsTestApp.entitlements */,
-				CEF371E31D10D7E60004A237 /* Main_iPad.storyboard */,
-				CEF371E41D10D7E60004A237 /* Main_iPhone.storyboard */,
 				CE2B8C501CE9245B00C6FC6A /* en.lproj */,
 				CE2B8C521CE9245B00C6FC6A /* SalesforceAnalyticsTestApp-Info.plist */,
 				CE2B8C4B1CE9243600C6FC6A /* SalesforceAnalyticsTestApp-Prefix.pch */,
-				CE2B8C4C1CE9243600C6FC6A /* ViewController.h */,
-				CE2B8C4D1CE9243600C6FC6A /* ViewController.m */,
-				CE2B8C2F1CE9218900C6FC6A /* AppDelegate.h */,
-				CE2B8C301CE9218900C6FC6A /* AppDelegate.m */,
 				CE2B8C3B1CE9218900C6FC6A /* Assets.xcassets */,
-				CE2B8C2C1CE9218900C6FC6A /* Supporting Files */,
 			);
 			path = SalesforceAnalyticsTestApp;
-			sourceTree = "<group>";
-		};
-		CE2B8C2C1CE9218900C6FC6A /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				CE2B8C2D1CE9218900C6FC6A /* main.m */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		CE2B8CA61CE9281300C6FC6A /* Configuration */ = {
@@ -490,6 +466,7 @@
 					};
 					CE2B8C291CE9218900C6FC6A = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 2630;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.Keychain = {
@@ -570,8 +547,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CEF371E51D10D7E60004A237 /* Main_iPad.storyboard in Resources */,
-				CEF371E61D10D7E60004A237 /* Main_iPhone.storyboard in Resources */,
 				CE2B8E111CE9352B00C6FC6A /* en.lproj in Resources */,
 				CE2B8E131CE9352B00C6FC6A /* Assets.xcassets in Resources */,
 			);
@@ -652,9 +627,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE2B8C4E1CE9243600C6FC6A /* ViewController.m in Sources */,
-				CE2B8C311CE9218900C6FC6A /* AppDelegate.m in Sources */,
-				CE2B8C2E1CE9218900C6FC6A /* main.m in Sources */,
+				695583B12FE4DB6C0042CF82 /* SalesforceAnalyticsTestApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

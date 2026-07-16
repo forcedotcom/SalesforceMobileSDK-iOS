@@ -21,12 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		4F06AF321C499FD100F70798 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F06AF311C499FD100F70798 /* main.m */; };
-		4F06AF351C499FD100F70798 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F06AF341C499FD100F70798 /* AppDelegate.m */; };
-		4F06AF381C499FD100F70798 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F06AF371C499FD100F70798 /* ViewController.m */; };
-		4F06AF3B1C499FD100F70798 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F06AF391C499FD100F70798 /* Main.storyboard */; };
 		4F06AF3D1C499FD100F70798 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F06AF3C1C499FD100F70798 /* Assets.xcassets */; };
-		4F06AF401C499FD100F70798 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F06AF3E1C499FD100F70798 /* LaunchScreen.storyboard */; };
 		4F06AFD51C49B19B00F70798 /* MobileSync.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2C91C0E463C009F6029 /* MobileSync.framework */; };
 		4F06AFD71C49BD8D00F70798 /* MobileSync.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2C91C0E463C009F6029 /* MobileSync.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4F0CFD892258643400C3DF2B /* TestSyncDownTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F0CFD882258643400C3DF2B /* TestSyncDownTarget.m */; };
@@ -99,6 +94,7 @@
 		6927E21E283BEFB700A16668 /* BriefcaseSyncDownTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6927E21D283BEFB700A16668 /* BriefcaseSyncDownTests.swift */; };
 		6927E22B283BF17800A16668 /* BriefcaseObjectInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6927E22A283BF17800A16668 /* BriefcaseObjectInfo.swift */; };
 		6927E23F283C3E1400A16668 /* SyncTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6927E23E283C3E1400A16668 /* SyncTarget.swift */; };
+		695583B12FE4DB6C0042CF84 /* MobileSyncTestApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695583B02FE4DB5E0042CF84 /* MobileSyncTestApp.swift */; };
 		696E913D2AD09E7600205884 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 696E913B2AD09E6200205884 /* PrivacyInfo.xcprivacy */; };
 		828E0E541AB398AA004E0AF2 /* TestSyncUpTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 828E0E531AB398AA004E0AF2 /* TestSyncUpTarget.m */; };
 		829DA2AF1C12674D0040F5F1 /* MobileSync.h in Headers */ = {isa = PBXBuildFile; fileRef = 829DA2AE1C12674D0040F5F1 /* MobileSync.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -307,14 +303,7 @@
 
 /* Begin PBXFileReference section */
 		4F06AF2E1C499FD100F70798 /* MobileSyncTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MobileSyncTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		4F06AF311C499FD100F70798 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		4F06AF331C499FD100F70798 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		4F06AF341C499FD100F70798 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		4F06AF361C499FD100F70798 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		4F06AF371C499FD100F70798 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		4F06AF3A1C499FD100F70798 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4F06AF3C1C499FD100F70798 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		4F06AF3F1C499FD100F70798 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4F06AF411C499FD100F70798 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4F0CFD792258643400C3DF2B /* TestSyncDownTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestSyncDownTarget.h; path = Targets/TestSyncDownTarget.h; sourceTree = "<group>"; };
 		4F0CFD882258643400C3DF2B /* TestSyncDownTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestSyncDownTarget.m; path = Targets/TestSyncDownTarget.m; sourceTree = "<group>"; };
@@ -399,6 +388,7 @@
 		6927E21D283BEFB700A16668 /* BriefcaseSyncDownTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BriefcaseSyncDownTests.swift; sourceTree = "<group>"; };
 		6927E22A283BF17800A16668 /* BriefcaseObjectInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BriefcaseObjectInfo.swift; sourceTree = "<group>"; };
 		6927E23E283C3E1400A16668 /* SyncTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncTarget.swift; sourceTree = "<group>"; };
+		695583B02FE4DB5E0042CF84 /* MobileSyncTestApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileSyncTestApp.swift; sourceTree = "<group>"; };
 		696E913B2AD09E6200205884 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		8207891D1A1BBC56009E9831 /* SFMobileSyncPersistableObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFMobileSyncPersistableObject.h; sourceTree = "<group>"; };
 		820789211A1D2555009E9831 /* SFMobileSyncPersistableObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFMobileSyncPersistableObject.m; sourceTree = "<group>"; };
@@ -514,27 +504,13 @@
 			isa = PBXGroup;
 			children = (
 				B7282F481D8C715400475F79 /* MobileSyncTestApp.entitlements */,
-				4F06AF331C499FD100F70798 /* AppDelegate.h */,
-				4F06AF341C499FD100F70798 /* AppDelegate.m */,
-				4F06AF361C499FD100F70798 /* ViewController.h */,
-				4F06AF371C499FD100F70798 /* ViewController.m */,
-				4F06AF391C499FD100F70798 /* Main.storyboard */,
+				695583B02FE4DB5E0042CF84 /* MobileSyncTestApp.swift */,
 				4F06AF3C1C499FD100F70798 /* Assets.xcassets */,
-				4F06AF3E1C499FD100F70798 /* LaunchScreen.storyboard */,
 				4F06AF411C499FD100F70798 /* Info.plist */,
-				4F06AF301C499FD100F70798 /* Supporting Files */,
 				4F3D60351FBFB0AF00D1830F /* globalsyncs.json */,
 				4F3D603A1FBFB11C00D1830F /* usersyncs.json */,
 			);
 			path = MobileSyncTestApp;
-			sourceTree = "<group>";
-		};
-		4F06AF301C499FD100F70798 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				4F06AF311C499FD100F70798 /* main.m */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		4F5BBBCD235F72C400E6D619 /* Extensions */ = {
@@ -988,6 +964,7 @@
 				TargetAttributes = {
 					4F06AF2D1C499FD100F70798 = {
 						CreatedOnToolsVersion = 7.2;
+						LastSwiftMigration = 2630;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.Keychain = {
@@ -1136,11 +1113,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4F06AF401C499FD100F70798 /* LaunchScreen.storyboard in Resources */,
 				4F3D60361FBFB0AF00D1830F /* globalsyncs.json in Resources */,
 				4F06AF3D1C499FD100F70798 /* Assets.xcassets in Resources */,
 				4F3D603B1FBFB11C00D1830F /* usersyncs.json in Resources */,
-				4F06AF3B1C499FD100F70798 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1212,9 +1187,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4F06AF381C499FD100F70798 /* ViewController.m in Sources */,
-				4F06AF351C499FD100F70798 /* AppDelegate.m in Sources */,
-				4F06AF321C499FD100F70798 /* main.m in Sources */,
+				695583B12FE4DB6C0042CF84 /* MobileSyncTestApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1327,22 +1300,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		4F06AF391C499FD100F70798 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				4F06AF3A1C499FD100F70798 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		4F06AF3E1C499FD100F70798 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				4F06AF3F1C499FD100F70798 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
 		CEAAAE61195911E600CBBFE9 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1356,6 +1313,7 @@
 /* Begin XCBuildConfiguration section */
 		4F06AF421C499FD100F70798 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CECB662A1C1BB8A9008038AE /* MobileSync-Dynamic-iOS-Debug.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1382,6 +1340,7 @@
 		};
 		4F06AF431C499FD100F70798 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CECB662B1C1BB8A9008038AE /* MobileSync-Dynamic-iOS-Release.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1437,7 +1396,6 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,7";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1475,7 +1433,6 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,7";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1613,7 +1570,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "MobileSyncTests/MobileSyncTests-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MobileSyncTestApp.app/MobileSyncTestApp";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -1644,7 +1600,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "MobileSyncTests/MobileSyncTests-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MobileSyncTestApp.app/MobileSyncTestApp";
 				WRAPPER_EXTENSION = xctest;
 			};

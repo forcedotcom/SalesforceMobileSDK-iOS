@@ -95,11 +95,18 @@ public class DomainDiscoveryCoordinator: NSObject {
     @objc
     @available(*, deprecated, renamed: "isDiscoveryDomain(domain:)")
     public func isDiscoveryDomain(_ domain: String?, clientId: String?) -> Bool {
-       return isDiscoveryDomain(domain)
+       return Self.isDiscoveryDomain(domain)
     }
-    
+
     @objc
+    @available(*, deprecated, message: "Deprecated in Salesforce Mobile SDK 14.0 and will be removed in 15.0. Use the class method DomainDiscoveryCoordinator.isDiscoveryDomain(_:) instead; the check is stateless and needs no instance.")
     public func isDiscoveryDomain(_ domain: String?) -> Bool {
+        return Self.isDiscoveryDomain(domain)
+    }
+
+    /// Whether the given login host is a My Domain discovery host (e.g.`welcome.salesforce.com/discovery`).
+    @objc
+    public class func isDiscoveryDomain(_ domain: String?) -> Bool {
         guard let domain = domain else { return false }
         let isDiscovery = domain.lowercased().contains(DomainDiscovery.URLComponent.path.rawValue)
         return isDiscovery

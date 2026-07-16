@@ -37,6 +37,13 @@ import XCTest
 /// - With web server flow enabled (default)
 /// - With web server flow disabled (user agent flow) - Login for Admin should still use web server flow
 ///
+/// The "Login for Admin" entry point is exposed only by the in-app WebView's Settings gear
+/// (`SFLoginViewController`). Under forced advanced authentication the landing screen is the login
+/// host list (`SFSDKLoginHostListViewController`), whose gear offers only "Login Options" — the
+/// admin entry point is not present. These tests therefore disable advanced authentication so the
+/// WebView (and its "Login for Admin" gear item) is shown; the admin flow itself still forces the
+/// native browser for the actual credential step, which is the behavior under test.
+///
 /// NB: Tests use the first user from ui_test_config.json
 ///
 class LoginForAdminTests: BaseAuthFlowTester {
@@ -48,6 +55,7 @@ class LoginForAdminTests: BaseAuthFlowTester {
     func testLoginForAdmin_WebServerFlowEnabled() throws {
         launchLoginAndValidate(
             staticAppConfigName: .ecaOpaque,
+            forceAdvancedAuthentication: false,
             loginForAdmin: true
         )
     }
@@ -61,6 +69,7 @@ class LoginForAdminTests: BaseAuthFlowTester {
         launchLoginAndValidate(
             staticAppConfigName: .ecaOpaque,
             useWebServerFlow: false,
+            forceAdvancedAuthentication: false,
             loginForAdmin: true
         )
     }

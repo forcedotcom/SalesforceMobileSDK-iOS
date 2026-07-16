@@ -6,6 +6,8 @@
 //
 //
 
+SWIFT_VERSION = 5.0
+
 ALWAYS_SEARCH_USER_PATHS = NO
 OTHER_LDFLAGS = -ObjC  -weak_framework Combine
 ENABLE_TESTABILITY = YES

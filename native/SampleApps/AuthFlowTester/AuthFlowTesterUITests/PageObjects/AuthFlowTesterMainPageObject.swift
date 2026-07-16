@@ -96,6 +96,10 @@ struct CredentialsLabels {
     
     // Other fields
     static let additionalOAuthFields = "Additional OAuth Fields"
+
+    // SDK section
+    static let sdk = "SDK"
+    static let userAgent = "User Agent"
 }
 
 struct OAuthConfigLabels {
@@ -182,6 +186,9 @@ struct UserCredentialsData {
     
     // Other
     var additionalOAuthFields: String
+
+    // SDK
+    var userAgent: String
 }
 
 struct OAuthConfigurationData {
@@ -221,7 +228,7 @@ class AuthFlowTesterMainPageObject {
     }
     
     func isShowing() -> Bool {
-        return navigationTitle().waitForExistence(timeout: UITestTimeouts.long)
+        return navigationTitle().waitForExistence(timeout: UITestTimeouts.network)
     }
     
     func performLogout() {
@@ -268,23 +275,25 @@ class AuthFlowTesterMainPageObject {
         tap(swithToUserButton())
     }
     
-    func setAuthFlowTypes(useWebServerFlow: Bool, useHybridFlow: Bool) {
+    func setAuthFlowTypes(useWebServerFlow: Bool, useHybridFlow: Bool, forceAdvancedAuthentication: Bool? = nil) {
         tap(bottomBarAuthFlowTypesButton())
         authFlowTypesPageObject.setAuthFlowTypes(
             useWebServerFlow: useWebServerFlow,
-            useHybridFlow: useHybridFlow
+            useHybridFlow: useHybridFlow,
+            forceAdvancedAuthentication: forceAdvancedAuthentication
         )
         tap(authFlowTypesDoneButton())
     }
 
-    func changeAppConfig(appConfig: AppConfig, scopesToRequest: String = "", useWebServerFlow: Bool, useHybridFlow: Bool) -> Bool {
+    func changeAppConfig(appConfig: AppConfig, scopesToRequest: String = "", useWebServerFlow: Bool, useHybridFlow: Bool, forceAdvancedAuthentication: Bool? = nil) -> Bool {
         // Tap Change Key button to open the sheet
         tap(bottomBarChangeKeyButton())
 
         // Set auth flow types using the dedicated page object
         authFlowTypesPageObject.setAuthFlowTypes(
             useWebServerFlow: useWebServerFlow,
-            useHybridFlow: useHybridFlow
+            useHybridFlow: useHybridFlow,
+            forceAdvancedAuthentication: forceAdvancedAuthentication
         )
 
         // Build JSON config and import it
@@ -461,13 +470,14 @@ class AuthFlowTesterMainPageObject {
 
     // MARK: - Actions
     
-    private func tap(_ element: XCUIElement) {
-        _ = element.waitForExistence(timeout: UITestTimeouts.long)
+    private func tap(_ element: XCUIElement, timeout: TimeInterval = UITestTimeouts.long, file: StaticString = #file, line: UInt = #line) {
+        let exists = element.waitForExistence(timeout: timeout)
+        XCTAssertTrue(exists, "Element \(element.debugDescription) did not appear within \(timeout)s", file: file, line: line)
         element.tap()
     }
-    
-    private func tapIfPresent(_ element: XCUIElement) {
-        if (element.waitForExistence(timeout: UITestTimeouts.long)) {
+
+    private func tapIfPresent(_ element: XCUIElement, timeout: TimeInterval = UITestTimeouts.long) {
+        if element.waitForExistence(timeout: timeout) {
             element.tap()
         }
     }
@@ -505,7 +515,8 @@ class AuthFlowTesterMainPageObject {
         let cookiesAndSecurity = json[CredentialsLabels.cookiesAndSecurity] as? [String: String] ?? [:]
         let beacon = json[CredentialsLabels.beacon] as? [String: String] ?? [:]
         let other = json[CredentialsLabels.other] as? [String: String] ?? [:]
-        
+        let sdk = json[CredentialsLabels.sdk] as? [String: String] ?? [:]
+
         return UserCredentialsData(
             username: userIdentity[CredentialsLabels.username] ?? "",
             userId: userIdentity[CredentialsLabels.userIdLabel] ?? "",
@@ -542,10 +553,11 @@ class AuthFlowTesterMainPageObject {
             cookieSidClient: cookiesAndSecurity[CredentialsLabels.cookieSidClient] ?? "",
             beaconChildConsumerKey: beacon[CredentialsLabels.beaconChildConsumerKey] ?? "",
             beaconChildConsumerSecret: beacon[CredentialsLabels.beaconChildConsumerSecret] ?? "",
-            additionalOAuthFields: other[CredentialsLabels.additionalOAuthFields] ?? ""
+            additionalOAuthFields: other[CredentialsLabels.additionalOAuthFields] ?? "",
+            userAgent: sdk[CredentialsLabels.userAgent] ?? ""
         )
     }
-    
+
     func getOAuthConfiguration() -> OAuthConfigurationData {
         // Tap export button and get JSON
         let json = tapExportAndGetJSON(exportOAuthConfigButton(), alertTitle: "OAuth Configuration JSON")

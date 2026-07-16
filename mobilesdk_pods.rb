@@ -25,7 +25,7 @@ def use_mobile_sdk!(options={})
 
   source 'https://www.github.com/forcedotcom/SalesforceMobileSDK-iOS-Specs'
 
-  pod 'SQLCipher', '4.16.0'
+  pod 'SQLCipher', '4.17.0'
   pod 'SalesforceSDKCommon', :path => path
   pod 'SalesforceAnalytics', :path => path
   pod 'SalesforceSDKCore', :path => path

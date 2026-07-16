@@ -19,6 +19,7 @@ jobs:
             xcode: ^26
           - ios: ^18
             xcode: ^16
+            macos: macos-15
     uses: ./.github/workflows/reusable-ui-test-workflow.yaml
     permissions:
       contents: read
@@ -26,8 +27,9 @@ jobs:
     with:
       ios: ${{ matrix.ios }}
       xcode: ${{ matrix.xcode }}
-      short_timeout: "2"
-      long_timeout: "7"
+      macos: ${{ matrix.macos }}
+      short_timeout: "3"
+      long_timeout: "15"
     secrets:
       UI_TEST_CONFIG: ${{ secrets.UI_TEST_CONFIG }}
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

@@ -49,13 +49,15 @@ class LoginOptionsPageObject {
         dynamicScopes: String,
         useWebServerFlow: Bool,
         useHybridFlow: Bool,
+        forceAdvancedAuthentication: Bool? = nil,
         discoveryLoginHost: String,
         discoveryUsername: String,
     ) -> Void {
         // Set auth flow types using the dedicated page object
         authFlowTypesPageObject.setAuthFlowTypes(
             useWebServerFlow: useWebServerFlow,
-            useHybridFlow: useHybridFlow
+            useHybridFlow: useHybridFlow,
+            forceAdvancedAuthentication: forceAdvancedAuthentication
         )
 
         if let staticAppConfig = staticAppConfig {
@@ -148,8 +150,9 @@ class LoginOptionsPageObject {
 
     // MARK: - Actions
 
-    private func tap(_ element: XCUIElement) {
-        _ = element.waitForExistence(timeout: UITestTimeouts.long)
+    private func tap(_ element: XCUIElement, timeout: TimeInterval = UITestTimeouts.long, file: StaticString = #file, line: UInt = #line) {
+        let exists = element.waitForExistence(timeout: timeout)
+        XCTAssertTrue(exists, "Element \(element.debugDescription) did not appear within \(timeout)s", file: file, line: line)
         element.tap()
     }
 }

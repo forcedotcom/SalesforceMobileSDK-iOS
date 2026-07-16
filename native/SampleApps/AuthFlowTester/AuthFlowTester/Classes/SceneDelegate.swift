@@ -45,8 +45,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             }
         }
         self.initializeAppViewState()
-        AuthHelper.loginIfRequired(scene) {
-            self.setupRootViewController()
+
+        // Defer login to the next run loop iteration so the scene finishes setup first.
+        // On iOS 26, XCTest requires the app to reach foreground-ready state quickly;
+        // starting the WKWebView-based login synchronously can exceed the background
+        // assertion timeout (~60 s on CI) and fail the launch.
+        DispatchQueue.main.async {
+            AuthHelper.loginIfRequired(scene) {
+                self.setupRootViewController()
+            }
         }
     }
 

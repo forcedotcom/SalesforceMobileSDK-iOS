@@ -1,6 +1,6 @@
 /*
- Copyright (c) 2016-present, salesforce.com, inc. All rights reserved.
- 
+ Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
+
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
  * Redistributions of source code must retain the above copyright notice, this list of conditions
@@ -11,7 +11,7 @@
  * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
  endorse or promote products derived from this software without specific prior written
  permission of salesforce.com, inc.
- 
+
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
  FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -22,8 +22,19 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
+#import "SFSDKAuthErrorManager.h"
 
-@interface ViewController : UIViewController
+NS_ASSUME_NONNULL_BEGIN
+
+// Internal-only surface for SFSDKAuthErrorManager. Not published in the umbrella
+// header — kept off the public API but shared between SFOAuthCoordinator.m (for
+// the auth-config prefetch gate) and SFSDKErrorManagerTests.m (for direct
+// predicate coverage). A single compiler-visible declaration keeps both call
+// sites in sync if the signature ever changes.
+@interface SFSDKAuthErrorManager (Internal)
+
++ (BOOL)errorIsHostConnectionFailure:(nullable NSError *)error;
 
 @end
+
+NS_ASSUME_NONNULL_END

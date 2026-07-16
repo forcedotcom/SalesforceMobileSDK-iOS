@@ -38,26 +38,40 @@ class AuthFlowTypesPageObject {
         app = testApp
     }
 
-    /// Sets the auth flow types (useWebServerFlow and useHybridFlow) using JSON import.
-    func setAuthFlowTypes(useWebServerFlow: Bool, useHybridFlow: Bool) {
+    /// Sets the auth flow types using JSON import.
+    ///
+    /// - Parameters:
+    ///   - useWebServerFlow: Whether to use the OAuth web server flow.
+    ///   - useHybridFlow: Whether to use the hybrid authentication flow.
+    ///   - forceAdvancedAuthentication: When non-nil, also imports the
+    ///     `forceAdvancedAuthentication` key to override the SDK's process-global default (ON).
+    ///     Leave `nil` to keep the SDK default (advanced auth forced ON) for the majority of tests;
+    ///     pass `false` for the legacy WebView path or `true` to force it explicitly.
+    func setAuthFlowTypes(useWebServerFlow: Bool, useHybridFlow: Bool, forceAdvancedAuthentication: Bool? = nil) {
         // Wait for the import button to be ready
         _ = importAuthFlowTypesButton().waitForExistence(timeout: UITestTimeouts.long)
 
         // Build and import JSON
         let authFlowTypesJSON = buildAuthFlowTypesJSON(
             useWebServerFlow: useWebServerFlow,
-            useHybridFlow: useHybridFlow
+            useHybridFlow: useHybridFlow,
+            forceAdvancedAuthentication: forceAdvancedAuthentication
         )
         importAuthFlowTypes(authFlowTypesJSON)
     }
 
     // MARK: - Private Helpers
 
-    private func buildAuthFlowTypesJSON(useWebServerFlow: Bool, useHybridFlow: Bool) -> String {
-        let config: [String: Bool] = [
+    private func buildAuthFlowTypesJSON(useWebServerFlow: Bool, useHybridFlow: Bool, forceAdvancedAuthentication: Bool?) -> String {
+        var config: [String: Bool] = [
             AuthFlowTypesJSONKeys.useWebServerFlow: useWebServerFlow,
             AuthFlowTypesJSONKeys.useHybridFlow: useHybridFlow
         ]
+        // Only emit the force-advanced-auth key when the test explicitly overrides the default,
+        // so the majority of tests inherit the production default (ON).
+        if let forceAdvancedAuthentication = forceAdvancedAuthentication {
+            config[AuthFlowTypesJSONKeys.forceAdvancedAuthentication] = forceAdvancedAuthentication
+        }
         guard let jsonData = try? JSONSerialization.data(withJSONObject: config, options: []),
               let jsonString = String(data: jsonData, encoding: .utf8) else {
             return "{}"
@@ -88,8 +102,9 @@ class AuthFlowTypesPageObject {
 
     // MARK: - Actions
 
-    private func tap(_ element: XCUIElement) {
-        _ = element.waitForExistence(timeout: UITestTimeouts.long)
+    private func tap(_ element: XCUIElement, timeout: TimeInterval = UITestTimeouts.long, file: StaticString = #file, line: UInt = #line) {
+        let exists = element.waitForExistence(timeout: timeout)
+        XCTAssertTrue(exists, "Element \(element.debugDescription) did not appear within \(timeout)s", file: file, line: line)
         element.tap()
     }
 }

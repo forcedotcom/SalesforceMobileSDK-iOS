@@ -24,10 +24,15 @@
 
 #import <XCTest/XCTest.h>
 #import "SFSDKAppFeatureMarkers.h"
+#import "SFUserAccount.h"
+#import "SFOAuthCredentials.h"
+#import "SFOAuthCredentials+Internal.h"
 
 @interface SFSDKAppFeatureMarkersTests : XCTestCase
 
 @property (nonatomic, strong) NSMutableSet<NSString *> *existingMarkers;
+@property (nonatomic, strong) SFUserAccount *userA;
+@property (nonatomic, strong) SFUserAccount *userB;
 
 @end
 
@@ -38,9 +43,25 @@
     self.existingMarkers = [NSMutableSet set];
     [self persistExistingMarkers];
     [self clearExistingMarkers];
+    self.userA = [self fakeUserWithOrgId:@"org1" userId:@"user1" credentialsIdentifier:@"test-creds-A"];
+    self.userB = [self fakeUserWithOrgId:@"org2" userId:@"user2" credentialsIdentifier:@"test-creds-B"];
 }
 
 - (void)tearDown {
+    [SFSDKAppFeatureMarkers unregisterAppFeature:@"XY" forUser:self.userA];
+    [SFSDKAppFeatureMarkers unregisterAppFeature:@"XY" forUser:self.userB];
+    [SFSDKAppFeatureMarkers unregisterAppFeature:@"GL" forUser:nil];
+    [SFSDKAppFeatureMarkers unregisterAppFeature:@"PU" forUser:self.userA];
+    [SFSDKAppFeatureMarkers unregisterAppFeature:@"NL" forUser:nil];
+    [SFSDKAppFeatureMarkers unregisterAppFeature:@"RM" forUser:self.userA];
+    [SFSDKAppFeatureMarkers unregisterAppFeature:@"HY" forUser:self.userA];
+    [SFSDKAppFeatureMarkers unregisterAppFeature:@"PS" forUser:self.userA];
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureSafariBrowserForLogin forUser:self.userA];
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureWelcomeDiscovery forUser:self.userA];
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureQrCodeLogin forUser:self.userA];
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureRTR forUser:self.userA];
+    self.userA = nil;
+    self.userB = nil;
     [self clearExistingMarkers];
     [self resetPreviousMarkers];
     self.existingMarkers = [NSMutableSet set];
@@ -68,7 +89,224 @@
     [SFSDKAppFeatureMarkers unregisterAppFeature:someFeature];
 }
 
+#pragma mark - Per-user feature flag tests
+
+- (void)test_givenTwoUsers_whenRegisterFeatureForUserA_thenOnlyUserAHasFlag {
+    [SFSDKAppFeatureMarkers registerAppFeature:@"XY" forUser:self.userA];
+
+    XCTAssertTrue([[SFSDKAppFeatureMarkers appFeaturesForUser:self.userA] containsObject:@"XY"],
+                  @"userA should have feature XY");
+    XCTAssertFalse([[SFSDKAppFeatureMarkers appFeaturesForUser:self.userB] containsObject:@"XY"],
+                   @"userB should NOT have feature XY");
+    XCTAssertFalse([[SFSDKAppFeatureMarkers appFeatures] containsObject:@"XY"],
+                   @"Global set should NOT contain per-user feature XY");
+}
+
+- (void)test_givenGlobalAndPerUserFlags_whenAppFeaturesForUser_thenUnionReturned {
+    [SFSDKAppFeatureMarkers registerAppFeature:@"GL"];
+    [SFSDKAppFeatureMarkers registerAppFeature:@"PU" forUser:self.userA];
+
+    NSSet<NSString *> *featuresForA = [SFSDKAppFeatureMarkers appFeaturesForUser:self.userA];
+    XCTAssertTrue([featuresForA containsObject:@"GL"],
+                  @"appFeaturesForUser:userA should include global feature GL");
+    XCTAssertTrue([featuresForA containsObject:@"PU"],
+                  @"appFeaturesForUser:userA should include per-user feature PU");
+
+    NSSet<NSString *> *featuresForB = [SFSDKAppFeatureMarkers appFeaturesForUser:self.userB];
+    XCTAssertTrue([featuresForB containsObject:@"GL"],
+                  @"appFeaturesForUser:userB should include global feature GL");
+    XCTAssertFalse([featuresForB containsObject:@"PU"],
+                   @"appFeaturesForUser:userB should NOT include userA's per-user feature PU");
+}
+
+- (void)test_givenNilUser_whenRegisterForUser_thenFlagGoesToGlobalSet {
+    [SFSDKAppFeatureMarkers registerAppFeature:@"NL" forUser:nil];
+
+    XCTAssertTrue([[SFSDKAppFeatureMarkers appFeatures] containsObject:@"NL"],
+                  @"Registering with nil user should fall back to global set");
+}
+
+- (void)test_givenUserWithFlag_whenUnregisterForUser_thenFlagRemovedFromUser {
+    // Register RM only per-user for userA; do not add to global set
+    [SFSDKAppFeatureMarkers registerAppFeature:@"RM" forUser:self.userA];
+    XCTAssertTrue([[SFSDKAppFeatureMarkers appFeaturesForUser:self.userA] containsObject:@"RM"],
+                  @"Feature RM should be present for userA before unregister");
+
+    [SFSDKAppFeatureMarkers unregisterAppFeature:@"RM" forUser:self.userA];
+
+    XCTAssertFalse([[SFSDKAppFeatureMarkers appFeaturesForUser:self.userA] containsObject:@"RM"],
+                   @"Feature RM should be removed from userA after per-user unregister");
+    XCTAssertFalse([[SFSDKAppFeatureMarkers appFeatures] containsObject:@"RM"],
+                  @"Global set should not contain RM (it was never registered globally)");
+}
+
+- (void)test_givenLoadPersistedFeatures_whenAppFeaturesForUser_thenFlagsPresent {
+    [SFSDKAppFeatureMarkers loadPersistedFeatures:[NSSet setWithObject:@"HY"] forUser:self.userA];
+
+    XCTAssertTrue([[SFSDKAppFeatureMarkers appFeaturesForUser:self.userA] containsObject:@"HY"],
+                  @"Hydrated feature HY should be visible via appFeaturesForUser:");
+    XCTAssertFalse([self.userA.persistedFeatureFlags containsObject:@"HY"],
+                   @"loadPersistedFeatures: should NOT write back to persistedFeatureFlags");
+}
+
+- (void)test_givenPersistedFlagsOnUser_whenRegisterForUser_thenPersistedFlagsUpdated {
+    [SFSDKAppFeatureMarkers registerAppFeature:@"PS" forUser:self.userA];
+
+    XCTAssertTrue([self.userA.persistedFeatureFlags containsObject:@"PS"],
+                  @"registerAppFeature:forUser: should save PS to user.persistedFeatureFlags");
+}
+
+- (void)test_givenNilUser_whenAppFeaturesForUser_thenReturnsGlobalSet {
+    [SFSDKAppFeatureMarkers registerAppFeature:@"GL"];
+    [SFSDKAppFeatureMarkers registerAppFeature:@"PU" forUser:self.userA];
+
+    NSSet<NSString *> *forNil = [SFSDKAppFeatureMarkers appFeaturesForUser:nil];
+    NSSet<NSString *> *global = [SFSDKAppFeatureMarkers appFeatures];
+
+    XCTAssertEqualObjects(forNil, global,
+                          @"appFeaturesForUser:nil should be identical to appFeatures");
+    XCTAssertFalse([forNil containsObject:@"PU"],
+                   @"appFeaturesForUser:nil should not include per-user features");
+}
+
+- (void)test_givenPersistedFlagsOnUser_whenUnregisterForUser_thenPersistedFlagsUpdated {
+    [SFSDKAppFeatureMarkers registerAppFeature:@"RM" forUser:self.userA];
+    XCTAssertTrue([self.userA.persistedFeatureFlags containsObject:@"RM"],
+                  @"Precondition: RM should be in persistedFeatureFlags after register");
+
+    [SFSDKAppFeatureMarkers unregisterAppFeature:@"RM" forUser:self.userA];
+
+    XCTAssertFalse([self.userA.persistedFeatureFlags containsObject:@"RM"],
+                   @"unregisterAppFeature:forUser: should remove RM from user.persistedFeatureFlags");
+}
+
+#pragma mark - Auth-completion promotion pattern tests
+
+- (void)test_givenAdvancedBrowserAuth_whenPromoteBW_thenUserHasBWAndGlobalCleared {
+    // Simulates: authType == SFOAuthTypeAdvancedBrowser path in auth completion
+    [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSafariBrowserForLogin];
+
+    // Promotion sequence from auth completion
+    [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSafariBrowserForLogin forUser:self.userA];
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureSafariBrowserForLogin];
+
+    XCTAssertTrue([[SFSDKAppFeatureMarkers appFeaturesForUser:self.userA] containsObject:kSFAppFeatureSafariBrowserForLogin],
+                  @"BW should be registered per-user after advanced browser auth");
+    XCTAssertFalse([[SFSDKAppFeatureMarkers appFeatures] containsObject:kSFAppFeatureSafariBrowserForLogin],
+                   @"BW should be cleared from global set after promotion");
+}
+
+- (void)test_givenNonAdvancedBrowserAuth_whenPromoteBW_thenUserLacksBWAndGlobalCleared {
+    // Simulates: authType != SFOAuthTypeAdvancedBrowser path in auth completion
+    [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSafariBrowserForLogin];
+
+    // Promotion sequence from auth completion (non-advanced path)
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureSafariBrowserForLogin forUser:self.userA];
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureSafariBrowserForLogin];
+
+    XCTAssertFalse([[SFSDKAppFeatureMarkers appFeaturesForUser:self.userA] containsObject:kSFAppFeatureSafariBrowserForLogin],
+                   @"BW should NOT be registered per-user after non-advanced auth");
+    XCTAssertFalse([[SFSDKAppFeatureMarkers appFeatures] containsObject:kSFAppFeatureSafariBrowserForLogin],
+                   @"BW should be cleared from global set regardless of auth type");
+}
+
+- (void)test_givenGlobalWDSet_whenPromoteWD_thenUserHasWDAndGlobalCleared {
+    // Simulates: WelcomeDiscovery was used globally, authType != refresh
+    [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureWelcomeDiscovery];
+
+    // Promotion sequence from auth completion
+    BOOL usedWelcomeDiscovery = [[SFSDKAppFeatureMarkers appFeatures] containsObject:kSFAppFeatureWelcomeDiscovery];
+    XCTAssertTrue(usedWelcomeDiscovery, @"Precondition: global WD should be set");
+
+    [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureWelcomeDiscovery forUser:self.userA];
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureWelcomeDiscovery];
+
+    XCTAssertTrue([[SFSDKAppFeatureMarkers appFeaturesForUser:self.userA] containsObject:kSFAppFeatureWelcomeDiscovery],
+                  @"WD should be promoted to per-user when global WD was set");
+    XCTAssertFalse([[SFSDKAppFeatureMarkers appFeatures] containsObject:kSFAppFeatureWelcomeDiscovery],
+                   @"WD should be cleared from global set after promotion");
+}
+
+- (void)test_givenGlobalWDNotSet_whenPromoteWD_thenUserLacksWDAndGlobalCleared {
+    // Simulates: WelcomeDiscovery was NOT used globally, authType != refresh
+    // Do NOT register WD globally
+
+    // Promotion sequence from auth completion
+    BOOL usedWelcomeDiscovery = [[SFSDKAppFeatureMarkers appFeatures] containsObject:kSFAppFeatureWelcomeDiscovery];
+    XCTAssertFalse(usedWelcomeDiscovery, @"Precondition: global WD should NOT be set");
+
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureWelcomeDiscovery forUser:self.userA];
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureWelcomeDiscovery];
+
+    XCTAssertFalse([[SFSDKAppFeatureMarkers appFeaturesForUser:self.userA] containsObject:kSFAppFeatureWelcomeDiscovery],
+                   @"WD should NOT be per-user when global WD was not set");
+    XCTAssertFalse([[SFSDKAppFeatureMarkers appFeatures] containsObject:kSFAppFeatureWelcomeDiscovery],
+                   @"Global WD should remain absent");
+}
+
+- (void)test_givenGlobalQRSet_whenPromoteQR_thenUserHasQRAndGlobalCleared {
+    // Simulates: QR login was used globally, authType != refresh
+    [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureQrCodeLogin];
+
+    // Promotion sequence from auth completion
+    BOOL usedQrLogin = [[SFSDKAppFeatureMarkers appFeatures] containsObject:kSFAppFeatureQrCodeLogin];
+    XCTAssertTrue(usedQrLogin, @"Precondition: global QR should be set");
+
+    [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureQrCodeLogin forUser:self.userA];
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureQrCodeLogin];
+
+    XCTAssertTrue([[SFSDKAppFeatureMarkers appFeaturesForUser:self.userA] containsObject:kSFAppFeatureQrCodeLogin],
+                  @"QR should be promoted to per-user when global QR was set");
+    XCTAssertFalse([[SFSDKAppFeatureMarkers appFeatures] containsObject:kSFAppFeatureQrCodeLogin],
+                   @"QR should be cleared from global set after promotion");
+}
+
+- (void)test_givenGlobalQRNotSet_whenPromoteQR_thenUserLacksQR {
+    // Simulates: QR login was NOT used globally, authType != refresh
+    // Do NOT register QR globally
+
+    // Promotion sequence from auth completion
+    BOOL usedQrLogin = [[SFSDKAppFeatureMarkers appFeatures] containsObject:kSFAppFeatureQrCodeLogin];
+    XCTAssertFalse(usedQrLogin, @"Precondition: global QR should NOT be set");
+
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureQrCodeLogin forUser:self.userA];
+
+    XCTAssertFalse([[SFSDKAppFeatureMarkers appFeaturesForUser:self.userA] containsObject:kSFAppFeatureQrCodeLogin],
+                   @"QR should NOT be per-user when global QR was not set");
+}
+
+#pragma mark - Refresh Token Rotation (RTR) flag tests
+
+- (void)test_givenRTRDetected_whenRTFlagRegistered_thenFlagAppearsInPerUserFeaturesNotGlobal {
+    // Arrange: use userA as the account that experienced token rotation
+
+    // Act: simulate RTR detection registering the flag
+    [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureRTR forUser:self.userA];
+
+    // Assert: RT in per-user features (union with global)
+    NSSet *features = [SFSDKAppFeatureMarkers appFeaturesForUser:self.userA];
+    XCTAssertTrue([features containsObject:kSFAppFeatureRTR],
+                  @"RT flag should appear in per-user feature set after rotation");
+
+    // Assert: RT NOT in global-only set
+    XCTAssertFalse([[SFSDKAppFeatureMarkers appFeatures] containsObject:kSFAppFeatureRTR],
+                   @"RT flag should not bleed into global feature set");
+
+    // Cleanup
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureRTR forUser:self.userA];
+}
+
 #pragma mark - Private helpers
+
+- (SFUserAccount *)fakeUserWithOrgId:(NSString *)orgId userId:(NSString *)userId credentialsIdentifier:(NSString *)identifier {
+    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:identifier
+                                                                             clientId:@"fakeClientIdForTesting"
+                                                                            encrypted:NO];
+    credentials.organizationId = orgId;
+    credentials.userId = userId;
+    SFUserAccount *user = [[SFUserAccount alloc] initWithCredentials:credentials];
+    return user;
+}
 
 - (void)persistExistingMarkers {
     for (NSString *marker in [SFSDKAppFeatureMarkers appFeatures]) {

@@ -461,6 +461,9 @@ class LoginForAdminTests: XCTestCase {
         uam.authSessions[sceneId as NSString] = session
 
         XCTAssertFalse(session.oauthRequest.loginAsAdmin, "loginAsAdmin should be false before selecting Login for Admin")
+        let initialDomain = session.oauthCoordinator.credentials?.domain
+        XCTAssertEqual(session.oauthRequest.loginHost, initialDomain,
+                       "Test precondition: oauthRequest.loginHost should equal coordinator credentials.domain on a fresh non-discovery session")
 
         // Create a SalesforceLoginViewController and place it in the window so its
         // view.window.windowScene resolves to the same scene
@@ -476,10 +479,226 @@ class LoginForAdminTests: XCTestCase {
 
         XCTAssertTrue(session.oauthRequest.loginAsAdmin,
                       "loginAsAdmin should be true after loginViewControllerDidSelectLoginForAdmin:")
+        // The request's loginHost must NEVER be mutated — LFA carries its My Domain
+        // through the LFA-scoped override field instead. This is the invariant that
+        // keeps Reload / Clear Cache / post-cancel-restart pointed at the originally
+        // configured host.
+        XCTAssertEqual(session.oauthRequest.loginHost, initialDomain,
+                       "loginHost must remain unchanged regardless of LFA invocation")
+        XCTAssertEqual(session.oauthRequest.loginAsAdminMyDomain, initialDomain,
+                       "loginAsAdminMyDomain should be set from coordinator.credentials.domain on a non-discovery host")
 
         // Clean up
         uam.authSessions.removeObject(sceneId as NSString)
         window.rootViewController = nil
+    }
+
+    func test_givenPhase1Discovery_whenLoginForAdminSelected_thenIsNoOp() {
+        let uam = UserAccountManager.shared
+
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
+            XCTFail("Test requires a UIWindowScene from the running test app")
+            return
+        }
+        let sceneId = windowScene.session.persistentIdentifier
+
+        // Phase 1 of Welcome Discovery: loginHost is the discovery domain and the
+        // coordinator has not yet observed a custom domain update.
+        let request = makeAuthRequest()
+        request.loginHost = "welcome.salesforce.com/discovery"
+        request.loginAsAdmin = false
+        let session = SFSDKAuthSession(request, credentials: nil)
+        XCTAssertFalse(session.oauthCoordinator.domainUpdated,
+                       "Test precondition: coordinator.domainUpdated should be NO in phase 1")
+        uam.authSessions[sceneId as NSString] = session
+
+        let loginVC = SalesforceLoginViewController()
+        let window = windowScene.windows.first ?? UIWindow(windowScene: windowScene)
+        window.rootViewController = loginVC
+        window.makeKeyAndVisible()
+        loginVC.loadViewIfNeeded()
+
+        let selector = NSSelectorFromString("loginViewControllerDidSelectLoginForAdmin:")
+        uam.perform(selector, with: loginVC)
+
+        XCTAssertFalse(session.oauthRequest.loginAsAdmin,
+                       "loginAsAdmin must remain false during phase-1 Welcome Discovery — Login for Admin is a no-op")
+        XCTAssertEqual(session.oauthRequest.loginHost, "welcome.salesforce.com/discovery",
+                       "loginHost must remain the discovery host")
+        XCTAssertNil(session.oauthRequest.loginAsAdminMyDomain,
+                     "loginAsAdminMyDomain must remain nil — no override during phase 1")
+        XCTAssertNil(session.oauthRequest.loginAsAdminLoginHint,
+                     "loginAsAdminLoginHint must remain nil — no override during phase 1")
+
+        uam.authSessions.removeObject(sceneId as NSString)
+        window.rootViewController = nil
+    }
+
+    func test_givenPhase2Discovery_whenLoginForAdminSelected_thenMyDomainOverrideSet() {
+        let uam = UserAccountManager.shared
+
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
+            XCTFail("Test requires a UIWindowScene from the running test app")
+            return
+        }
+        let sceneId = windowScene.session.persistentIdentifier
+
+        // Phase 2 of Welcome Discovery: the user has picked an account on the
+        // discovery page and the coordinator has updated credentials.domain to
+        // the resolved My Domain.
+        let request = makeAuthRequest()
+        request.loginHost = "welcome.salesforce.com/discovery"
+        request.loginAsAdmin = false
+        let session = SFSDKAuthSession(request, credentials: nil)
+        session.oauthCoordinator.domainUpdated = true
+        session.oauthCoordinator.credentials?.domain = "mycompany.my.salesforce.com"
+        session.oauthCoordinator.loginHint = "admin@mycompany.com"
+        uam.authSessions[sceneId as NSString] = session
+
+        let loginVC = SalesforceLoginViewController()
+        let window = windowScene.windows.first ?? UIWindow(windowScene: windowScene)
+        window.rootViewController = loginVC
+        window.makeKeyAndVisible()
+        loginVC.loadViewIfNeeded()
+
+        let selector = NSSelectorFromString("loginViewControllerDidSelectLoginForAdmin:")
+        uam.perform(selector, with: loginVC)
+
+        XCTAssertTrue(session.oauthRequest.loginAsAdmin,
+                      "loginAsAdmin should be true after Login for Admin in phase 2")
+        XCTAssertEqual(session.oauthRequest.loginHost, "welcome.salesforce.com/discovery",
+                       "loginHost must remain the discovery host — Reload / Clear Cache / cancel-restart depend on this invariant")
+        XCTAssertEqual(session.oauthRequest.loginAsAdminMyDomain, "mycompany.my.salesforce.com",
+                       "loginAsAdminMyDomain should record the resolved My Domain (in-memory only, not persisted)")
+        XCTAssertEqual(session.oauthRequest.loginAsAdminLoginHint, "admin@mycompany.com",
+                       "loginAsAdminLoginHint should record the discovery-resolved hint so authenticateWithRequest: can forward it")
+
+        uam.authSessions.removeObject(sceneId as NSString)
+        window.rootViewController = nil
+    }
+
+    func test_givenPhase2Discovery_whenLoginForAdminSelected_thenLoginHostStorageNotPolluted() {
+        // The brief explicitly forbids persisting the My Domain to SFSDKLoginHostStorage
+        // / NSUserDefaults during the discovery → admin transition.
+        let uam = UserAccountManager.shared
+
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
+            XCTFail("Test requires a UIWindowScene from the running test app")
+            return
+        }
+        let sceneId = windowScene.session.persistentIdentifier
+
+        let request = makeAuthRequest()
+        request.loginHost = "welcome.salesforce.com/discovery"
+        let session = SFSDKAuthSession(request, credentials: nil)
+        session.oauthCoordinator.domainUpdated = true
+        session.oauthCoordinator.credentials?.domain = "mycompany.my.salesforce.com"
+        uam.authSessions[sceneId as NSString] = session
+
+        let loginVC = SalesforceLoginViewController()
+        let window = windowScene.windows.first ?? UIWindow(windowScene: windowScene)
+        window.rootViewController = loginVC
+        window.makeKeyAndVisible()
+        loginVC.loadViewIfNeeded()
+
+        let selector = NSSelectorFromString("loginViewControllerDidSelectLoginForAdmin:")
+        uam.perform(selector, with: loginVC)
+
+        let storedHost = SFSDKLoginHostStorage.sharedInstance().loginHost(forHostAddress: "mycompany.my.salesforce.com")
+        XCTAssertNil(storedHost, "Login for Admin must not persist the My Domain into SFSDKLoginHostStorage")
+
+        uam.authSessions.removeObject(sceneId as NSString)
+        window.rootViewController = nil
+    }
+
+    func test_authRequestRoundTripsLoginAsAdminOverrides() {
+        // The LFA-scoped override fields on SFSDKAuthRequest must round-trip so that
+        // restartAuthentication: can forward them through authenticateWithRequest:loginHint:
+        // without mutating the request's permanent loginHost.
+        let request = makeAuthRequest()
+        XCTAssertNil(request.loginAsAdminMyDomain, "loginAsAdminMyDomain should default to nil")
+        XCTAssertNil(request.loginAsAdminLoginHint, "loginAsAdminLoginHint should default to nil")
+
+        request.loginAsAdminMyDomain = "mycompany.my.salesforce.com"
+        request.loginAsAdminLoginHint = "admin@mycompany.com"
+        XCTAssertEqual(request.loginAsAdminMyDomain, "mycompany.my.salesforce.com")
+        XCTAssertEqual(request.loginAsAdminLoginHint, "admin@mycompany.com")
+
+        // After putting the request inside a session, the properties are still observable.
+        let session = SFSDKAuthSession(request, credentials: nil)
+        XCTAssertEqual(session.oauthRequest.loginAsAdminMyDomain, "mycompany.my.salesforce.com",
+                       "Session.oauthRequest.loginAsAdminMyDomain should match the value set on the request")
+        XCTAssertEqual(session.oauthRequest.loginAsAdminLoginHint, "admin@mycompany.com",
+                       "Session.oauthRequest.loginAsAdminLoginHint should match the value set on the request")
+    }
+
+    func test_givenLfaOverridesSet_whenBrowserAuthCancelled_thenOverridesCleared() {
+        // After the user backs out of the LFA browser session, both overrides and
+        // the loginAsAdmin flag must be cleared so subsequent settings actions
+        // (Reload, Clear Cache) and the next browser launch do not pick up stale state.
+        let uam = UserAccountManager.shared
+
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
+            XCTFail("Test requires a UIWindowScene from the running test app")
+            return
+        }
+        let sceneId = windowScene.session.persistentIdentifier
+
+        let request = makeAuthRequest()
+        request.loginHost = "welcome.salesforce.com/discovery"
+        request.loginAsAdmin = true
+        request.loginAsAdminMyDomain = "mycompany.my.salesforce.com"
+        request.loginAsAdminLoginHint = "admin@mycompany.com"
+        let session = SFSDKAuthSession(request, credentials: nil)
+        uam.authSessions[sceneId as NSString] = session
+
+        uam.oauthCoordinatorDidCancelBrowserAuthentication(session.oauthCoordinator)
+
+        XCTAssertFalse(session.oauthRequest.loginAsAdmin,
+                       "loginAsAdmin must be cleared after the LFA browser session is cancelled")
+        XCTAssertNil(session.oauthRequest.loginAsAdminMyDomain,
+                     "loginAsAdminMyDomain must be cleared on cancel so a subsequent restart uses the original loginHost")
+        XCTAssertNil(session.oauthRequest.loginAsAdminLoginHint,
+                     "loginAsAdminLoginHint must be cleared on cancel so a subsequent restart does not carry stale hint")
+        XCTAssertEqual(session.oauthRequest.loginHost, "welcome.salesforce.com/discovery",
+                       "loginHost must remain the originally configured discovery host across the cancel path")
+
+        uam.authSessions.removeObject(sceneId as NSString)
+    }
+
+    // MARK: - SFLoginViewController.shouldShowLoginForAdminForSession: helper
+
+    func test_givenNilSession_whenShouldShowLoginForAdmin_thenReturnsTrue() {
+        XCTAssertTrue(SalesforceLoginViewController.shouldShowLoginForAdmin(for: nil),
+                      "Should default to YES (show) when no session is available")
+    }
+
+    func test_givenNonDiscoveryHost_whenShouldShowLoginForAdmin_thenReturnsTrue() {
+        let request = makeAuthRequest()
+        request.loginHost = "login.salesforce.com"
+        let session = SFSDKAuthSession(request, credentials: nil)
+        XCTAssertTrue(SalesforceLoginViewController.shouldShowLoginForAdmin(for: session),
+                      "Login for Admin should be visible on a non-discovery host")
+    }
+
+    func test_givenPhase1DiscoveryHost_whenShouldShowLoginForAdmin_thenReturnsFalse() {
+        let request = makeAuthRequest()
+        request.loginHost = "welcome.salesforce.com/discovery"
+        let session = SFSDKAuthSession(request, credentials: nil)
+        XCTAssertFalse(session.oauthCoordinator.domainUpdated,
+                       "Test precondition: domainUpdated == NO for phase 1")
+        XCTAssertFalse(SalesforceLoginViewController.shouldShowLoginForAdmin(for: session),
+                       "Login for Admin should be hidden in phase 1 of Welcome Discovery")
+    }
+
+    func test_givenPhase2DiscoveryHost_whenShouldShowLoginForAdmin_thenReturnsTrue() {
+        let request = makeAuthRequest()
+        request.loginHost = "welcome.salesforce.com/discovery"
+        let session = SFSDKAuthSession(request, credentials: nil)
+        session.oauthCoordinator.domainUpdated = true
+        session.oauthCoordinator.credentials?.domain = "mycompany.my.salesforce.com"
+        XCTAssertTrue(SalesforceLoginViewController.shouldShowLoginForAdmin(for: session),
+                      "Login for Admin should be visible once Welcome Discovery has resolved a My Domain (phase 2)")
     }
 
     @available(*, deprecated, message: "Exercises deprecated public API")
@@ -514,6 +733,152 @@ class LoginForAdminTests: XCTestCase {
 
         uam.authSessions.removeObject(sceneId as NSString)
         window.rootViewController = nil
+    }
+
+    @available(*, deprecated, message: "Exercises deprecated public API")
+    func test_givenPhase1Discovery_whenPublicLoginForAdminCalled_thenIsNoOp() {
+        let uam = UserAccountManager.shared
+
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
+            XCTFail("Test requires a UIWindowScene from the running test app")
+            return
+        }
+        let sceneId = windowScene.session.persistentIdentifier
+
+        let request = makeAuthRequest()
+        request.loginHost = "welcome.salesforce.com/discovery"
+        request.loginAsAdmin = false
+        let session = SFSDKAuthSession(request, credentials: nil)
+        XCTAssertFalse(session.oauthCoordinator.domainUpdated,
+                       "Test precondition: domainUpdated == NO for phase 1")
+        uam.authSessions[sceneId as NSString] = session
+
+        let loginVC = SalesforceLoginViewController()
+        let window = windowScene.windows.first ?? UIWindow(windowScene: windowScene)
+        window.rootViewController = loginVC
+        window.makeKeyAndVisible()
+        loginVC.loadViewIfNeeded()
+
+        // Public API should match the protocol method's no-op behavior in phase 1.
+        uam.loginViewControllerDidSelectLoginForAdmin(loginVC)
+
+        XCTAssertFalse(session.oauthRequest.loginAsAdmin,
+                       "Public loginViewControllerDidSelectLoginForAdmin must no-op during phase-1 discovery")
+        XCTAssertEqual(session.oauthRequest.loginHost, "welcome.salesforce.com/discovery",
+                       "loginHost must remain unchanged during phase-1 no-op")
+
+        uam.authSessions.removeObject(sceneId as NSString)
+        window.rootViewController = nil
+    }
+
+    // MARK: - SFUserAccountManager hostListViewControllerDidChangeLoginOptions (forced advanced auth)
+
+    func test_givenAuthSession_whenHostListChangesLoginOptions_thenAuthRequestRecreatedAndRestarted() {
+        let uam = UserAccountManager.shared
+
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
+            XCTFail("Test requires a UIWindowScene from the running test app")
+            return
+        }
+        let sceneId = windowScene.session.persistentIdentifier
+
+        let request = makeAuthRequest()
+        request.loginHost = "test.salesforce.com"
+        let session = SFSDKAuthSession(request, credentials: nil)
+        uam.authSessions[sceneId as NSString] = session
+
+        // Place a host list VC in the window so its view.window.windowScene resolves to the
+        // same scene the session is keyed under. It must live inside a UINavigationController —
+        // the host list styles its nav bar on appearance (self.navigationController), matching
+        // how production presents it in the auth window.
+        let hostListVC = LoginHostListViewController(style: .plain)
+        let navController = UINavigationController(rootViewController: hostListVC)
+        let window = windowScene.windows.first ?? UIWindow(windowScene: windowScene)
+        window.rootViewController = navController
+        window.makeKeyAndVisible()
+        hostListVC.loadViewIfNeeded()
+        // Force layout so the nav controller attaches the host list's view into the window
+        // hierarchy; production reads hostListViewController.view.window.windowScene to find
+        // the session, so view.window must be non-nil before we invoke the delegate.
+        window.layoutIfNeeded()
+        XCTAssertNotNil(hostListVC.view.window,
+                        "Test precondition: host list view must be attached to the window")
+        XCTAssertEqual(hostListVC.view.window?.windowScene?.session.persistentIdentifier, sceneId,
+                       "Test precondition: host list must resolve to the seeded scene")
+
+        // Invoke the delegate method via performSelector since the SFSDKLoginHostDelegate
+        // conformance on UserAccountManager is internal.
+        let selector = NSSelectorFromString("hostListViewControllerDidChangeLoginOptions:")
+        XCTAssertTrue(uam.responds(to: selector),
+                      "UserAccountManager should respond to hostListViewControllerDidChangeLoginOptions:")
+        uam.perform(selector, with: hostListVC)
+
+        // The session's request is recreated from the manager defaults (so changed login options
+        // take effect) while preserving the originally configured login host.
+        XCTAssertFalse(session.oauthRequest === request,
+                       "oauthRequest should be recreated (a fresh default request) when login options change")
+        XCTAssertEqual(session.oauthRequest.loginHost, "test.salesforce.com",
+                       "The recreated request must preserve the originally configured login host")
+
+        // Clean up
+        uam.stopCurrentAuthentication()
+        uam.authSessions.removeObject(sceneId as NSString)
+        window.rootViewController = nil
+    }
+
+    // MARK: - SFUserAccountManager Cancel Browser Auth (forced-advanced-auth host list landing)
+
+    func test_givenNoHandlerBlock_whenBrowserAuthCancelled_thenHostListPresentedWithChrome() {
+        let uam = UserAccountManager.shared
+
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
+            XCTFail("Test requires a UIWindowScene from the running test app")
+            return
+        }
+        let sceneId = windowScene.session.persistentIdentifier
+
+        // Reach the host-list branch: not loginAsAdmin, not native-login fallback, and no
+        // cancel handler block installed.
+        let originalHandler = uam.authCancelledByUserHandlerBlock
+        let originalNativeLogin = uam.nativeLoginEnabled
+        let originalFallback = uam.shouldFallbackToWebAuthentication
+        uam.authCancelledByUserHandlerBlock = nil
+        uam.nativeLoginEnabled = false
+        uam.shouldFallbackToWebAuthentication = false
+
+        let request = makeAuthRequest()
+        request.loginAsAdmin = false
+        request.useBrowserAuth = true
+        request.scene = windowScene
+        let session = SFSDKAuthSession(request, credentials: nil)
+        session.oauthCoordinator.delegate = uam
+        uam.authSessions[sceneId as NSString] = session
+
+        uam.oauthCoordinatorDidCancelBrowserAuthentication(session.oauthCoordinator)
+
+        // The host list is presented on the auth window with the forced-advanced-auth chrome.
+        let authWindow = SFSDKWindowManager.shared().authWindow(windowScene)
+        let nav = authWindow.viewController?.presentedViewController as? UINavigationController
+        let hostList = nav?.viewControllers.first as? LoginHostListViewController
+        XCTAssertNotNil(hostList, "The host list should be presented on the auth window after cancelling browser auth")
+        XCTAssertTrue(hostList?.presentedAsLoginScreen ?? false,
+                      "The presented host list should be marked as the standalone login screen so it surfaces the back button and Login Options chrome")
+        XCTAssertTrue(hostList?.hidesCancelButton ?? false,
+                      "The presented host list should hide the Cancel button in the forced-advanced-auth path")
+
+        // Drive the back button from the presented host list. With no idp flow this takes the
+        // non-idp branch, dismissing the presented view controller and then the auth window via
+        // its completion block. This exercises handleBackButtonAction end-to-end against a real
+        // presented VC (rather than the bare no-op case in SFSDKLoginHostTests).
+        hostList?.perform(NSSelectorFromString("handleBackButtonAction"))
+
+        // Clean up (idempotent even though the back action already dismisses)
+        authWindow.viewController?.dismiss(animated: false, completion: nil)
+        authWindow.dismissWindow()
+        uam.authSessions.removeObject(sceneId as NSString)
+        uam.authCancelledByUserHandlerBlock = originalHandler
+        uam.nativeLoginEnabled = originalNativeLogin
+        uam.shouldFallbackToWebAuthentication = originalFallback
     }
 
     // MARK: - Private Helpers
