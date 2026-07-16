@@ -2208,6 +2208,12 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         }
     }
 
+    // DPoP: register unconditionally on every completed session where the server issued
+    // a DPoP-bound token (initial login OR refresh) — token_type is a per-session property.
+    if ([userAccount.credentials.tokenType isEqualToString:@"DPoP"]) {
+        [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureDPoP forUser:userAccount];
+    }
+
     // Async call, ignore if theres a failure. If success save the user photo locally.
     [self retrieveUserPhotoIfNeeded:userAccount];
     BOOL shouldNotify = YES;
