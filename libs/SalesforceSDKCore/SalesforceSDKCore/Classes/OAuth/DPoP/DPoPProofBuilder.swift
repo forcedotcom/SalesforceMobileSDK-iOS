@@ -32,6 +32,7 @@ public enum DPoPProofBuilderError: Int, Error {
     case jwkExportFailed = 1
     case serializationFailed = 2
     case signingFailed = 3
+    case thumbprintFailed = 4
 }
 
 /// Builds an RFC 9449 §4 DPoP proof JWS for a single token-endpoint request.
@@ -95,6 +96,42 @@ public final class DPoPProofBuilder: NSObject {
         }
         let signatureSegment = (signature as NSData).sfsdk_base64UrlString()
         return "\(signingInput).\(signatureSegment)"
+    }
+
+    /// RFC 7638 JWK thumbprint of a P-256 EC public key.
+    ///
+    /// Computes: `base64url(SHA-256(canonical_json({crv:"P-256", kty:"EC", x:<...>, y:<...>})))`
+    /// where `canonical_json` is UTF-8, no whitespace, keys in lexicographic order.
+    ///
+    /// Used at `/authorize` time to bind the authorization code to the same DPoP
+    /// key pair that will prove possession at `/token` (RFC 9449 §10 authorization
+    /// code binding via `dpop_jkt`).
+    ///
+    /// - Parameter publicKey: The P-256 `SecKey` whose thumbprint to compute.
+    ///   Same key that will later populate the DPoP proof header's `jwk` claim.
+    /// - Returns: 43-character base64url string (SHA-256 hash, base64url-encoded, no padding).
+    /// - Throws: `DPoPProofBuilderError.jwkExportFailed` if `Encryptor.jwkP256` fails;
+    ///   `DPoPProofBuilderError.thumbprintFailed` if canonicalization or hashing fails.
+    @objc public static func jwkThumbprint(publicKey: SecKey) throws -> String {
+        let jwk: [String: String]
+        do {
+            jwk = try Encryptor.jwkP256(from: publicKey)
+        } catch {
+            throw DPoPProofBuilderError.jwkExportFailed
+        }
+        // RFC 7638 §3.2: canonical JSON must contain ONLY the required members
+        // for the key type — for P-256 that is exactly {crv, kty, x, y}. If
+        // Encryptor.jwkP256 ever grows optional fields (kid, use, key_ops...)
+        // the thumbprint computed here will silently diverge from what the
+        // server derives off the DPoP proof's `jwk` claim, breaking the
+        // authorize↔token binding. Keep jwkP256's output minimal.
+        guard let canonicalData = try? JSONSerialization.data(withJSONObject: jwk,
+                                                              options: [.sortedKeys, .withoutEscapingSlashes]),
+              let digest = (canonicalData as NSData).sfsdk_sha256() else {
+            SFSDKCoreLogger.w(Self.self, message: "DPoP jwkThumbprint: JWK canonicalization or SHA-256 hash failed")
+            throw DPoPProofBuilderError.thumbprintFailed
+        }
+        return (digest as NSData).sfsdk_base64UrlString()
     }
 
     // MARK: - Helpers

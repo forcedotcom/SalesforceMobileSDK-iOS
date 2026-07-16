@@ -38,6 +38,7 @@ static NSString * const kSFRevokePath                           = @"/services/oa
 static NSUInteger const kSFOAuthCodeVerifierByteLength          = 128;
 static NSString * const kSFOAuthCodeVerifierParamName           = @"code_verifier";
 static NSString * const kSFOAuthCodeChallengeParamName          = @"code_challenge";
+static NSString * const kSFOAuthDPoPJktParamName                = @"dpop_jkt";
 static NSString * const kSFOAuthResponseTypeCode                = @"code";
 static NSString * const kSFOAuthAccessToken                     = @"access_token";
 static NSString * const kSFOAuthClientId                        = @"client_id";

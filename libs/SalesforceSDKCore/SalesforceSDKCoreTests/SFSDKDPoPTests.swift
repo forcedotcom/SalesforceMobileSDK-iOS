@@ -161,6 +161,78 @@ class SFSDKDPoPTests: XCTestCase {
         XCTAssertTrue(ok, "Signature should verify against public key. error=\(String(describing: error))")
     }
 
+    // MARK: - JWK thumbprint (RFC 7638)
+
+    /// Precomputed RFC 7638 thumbprint for a fixed P-256 public key.
+    /// The point (X, Y) is drawn from RFC 6979 §A.2.5. The expected thumbprint
+    /// is computed offline as `base64url(SHA-256(canonical_json({crv:"P-256",
+    /// kty:"EC", x:<...>, y:<...>})))` where the canonical JSON has sorted keys,
+    /// UTF-8 encoding, and no whitespace. Any drift in canonicalization
+    /// (unsorted keys, added whitespace, wrong base64 flavor, or a bad SHA-256)
+    /// will make this fixture fail.
+    func test_givenFixedTestKeyPair_whenJwkThumbprint_thenMatchesPrecomputedRFC7638Value() throws {
+        let publicKey = try Self.makeTestPublicKey()
+        let thumbprint = try DPoPProofBuilder.jwkThumbprint(publicKey: publicKey)
+        XCTAssertEqual(thumbprint, Self.expectedThumbprintForTestKey)
+    }
+
+    /// Result must be a 43-character base64url string with no padding.
+    func test_givenFixedTestKeyPair_whenJwkThumbprint_thenMatchesBase64UrlShape() throws {
+        let publicKey = try Self.makeTestPublicKey()
+        let thumbprint = try DPoPProofBuilder.jwkThumbprint(publicKey: publicKey)
+        XCTAssertEqual(thumbprint.count, 43)
+        let pattern = try NSRegularExpression(pattern: "^[A-Za-z0-9_-]{43}$")
+        let range = NSRange(location: 0, length: thumbprint.utf16.count)
+        XCTAssertNotNil(pattern.firstMatch(in: thumbprint, options: [], range: range),
+                        "thumbprint must be a 43-char base64url string")
+    }
+
+    /// Two independent key pairs must produce different thumbprints — sanity
+    /// that the helper is actually reading key material, not returning a constant.
+    func test_givenTwoIndependentKeyPairs_whenJwkThumbprint_thenValuesDiffer() throws {
+        let scopeA = "thumbprint-a-\(UUID().uuidString)"
+        let scopeB = "thumbprint-b-\(UUID().uuidString)"
+        defer {
+            DPoPKeyStore.shared.delete(forScope: scopeA)
+            DPoPKeyStore.shared.delete(forScope: scopeB)
+        }
+        let pairA = try DPoPKeyStore.shared.keyPair(forScope: scopeA)
+        let pairB = try DPoPKeyStore.shared.keyPair(forScope: scopeB)
+        let thumbA = try DPoPProofBuilder.jwkThumbprint(publicKey: pairA.publicKey)
+        let thumbB = try DPoPProofBuilder.jwkThumbprint(publicKey: pairB.publicKey)
+        XCTAssertNotEqual(thumbA, thumbB)
+        XCTAssertEqual(thumbA.count, 43)
+        XCTAssertEqual(thumbB.count, 43)
+    }
+
+    /// The thumbprint of a key pair equals the RFC 7638
+    /// thumbprint recomputed from the `jwk` claim of a DPoP proof built with
+    /// the same key pair. This is the invariant that binds `/authorize` to
+    /// `/token`: whatever thumbprint the SDK sends in `dpop_jkt`, the server
+    /// will later independently compute from the proof's `jwk` claim and
+    /// compare byte-for-byte.
+    func test_givenSameKeyPair_whenJwkThumbprintAndProofJwkRehashed_thenValuesMatch() throws {
+        let pair = try DPoPKeyStore.shared.keyPair(forScope: testScope)
+        let thumbprint = try DPoPProofBuilder.jwkThumbprint(publicKey: pair.publicKey)
+
+        let proof = try DPoPProofBuilder.buildProof(httpMethod: "POST",
+                                                    htu: tokenURL,
+                                                    nonce: nil,
+                                                    keyPair: pair)
+        let segments = proof.split(separator: ".")
+        let header = try decodeBase64UrlJSON(String(segments[0]))
+        let jwk = try XCTUnwrap(header["jwk"] as? [String: String])
+
+        // Recompute the thumbprint from the proof's jwk claim using the same
+        // RFC 7638 canonicalization (sorted keys, no whitespace, UTF-8).
+        let canonicalData = try JSONSerialization.data(withJSONObject: jwk,
+                                                       options: [.sortedKeys, .withoutEscapingSlashes])
+        let digest = try XCTUnwrap((canonicalData as NSData).sfsdk_sha256())
+        let recomputed = (digest as NSData).sfsdk_base64UrlString()
+        XCTAssertEqual(thumbprint, recomputed,
+                       "dpop_jkt (authorize) must equal RFC 7638 thumbprint of jwk (token proof)")
+    }
+
     // MARK: - Key store
 
     func test_givenSameScope_whenKeyPairCalledTwice_thenSameKeyIsReturned() throws {
@@ -707,6 +779,65 @@ class SFSDKDPoPTests: XCTestCase {
                        "photo request must have been issued exactly once")
         XCTAssertNil(DPoPNonceCache.shared.nonce(htu: photoURL, scope: scope),
                      "Bearer photo response must not write to the DPoP nonce cache")
+    }
+
+    // MARK: - Test key fixture (RFC 6979 §A.2.5 P-256 point)
+
+    /// P-256 public key point (X, Y) from RFC 6979 §A.2.5. Fixed across all
+    /// runs, so tests derived from it can compare against a precomputed
+    /// RFC 7638 thumbprint fixture below.
+    private static let testKeyXHex =
+        "60FED4BA255A9D31C961EB74C6356D68C049B8923B61FA6CE669622E60F29FB6"
+    private static let testKeyYHex =
+        "7903FE1008B8BC99A41AE9E95628BC64F2F1B20C2D7E9F5177A3C294D4462299"
+
+    /// Precomputed offline (Python: base64url(SHA-256(canonical_json(jwk)))) using
+    /// the RFC 7638 canonical form `{"crv":"P-256","kty":"EC","x":"…","y":"…"}`.
+    /// If this value ever changes without a corresponding RFC 7638 spec change,
+    /// something canonicalization-related has drifted in the implementation.
+    private static let expectedThumbprintForTestKey =
+        "DOvxvJiAdIqVWIkFt5hDtCunXLF0BV4-JGv4f-ALSm0"
+
+    /// Builds a P-256 `SecKey` public key from the fixed test point above,
+    /// using the uncompressed SEC1 encoding `0x04 || X(32) || Y(32)`.
+    private static func makeTestPublicKey() throws -> SecKey {
+        let xBytes = try hexToBytes(testKeyXHex)
+        let yBytes = try hexToBytes(testKeyYHex)
+        var raw = Data([0x04])
+        raw.append(xBytes)
+        raw.append(yBytes)
+        let attrs: [String: Any] = [
+            String(kSecAttrKeyType): kSecAttrKeyTypeECSECPrimeRandom,
+            String(kSecAttrKeyClass): kSecAttrKeyClassPublic,
+            String(kSecAttrKeySizeInBits): 256
+        ]
+        var error: Unmanaged<CFError>?
+        guard let key = SecKeyCreateWithData(raw as CFData, attrs as CFDictionary, &error) else {
+            throw NSError(domain: "DPoPTest",
+                          code: -3,
+                          userInfo: [NSLocalizedDescriptionKey:
+                                     "SecKeyCreateWithData failed: \(String(describing: error?.takeRetainedValue()))"])
+        }
+        return key
+    }
+
+    private static func hexToBytes(_ hex: String) throws -> Data {
+        guard hex.count % 2 == 0 else {
+            throw NSError(domain: "DPoPTest", code: -4,
+                          userInfo: [NSLocalizedDescriptionKey: "odd-length hex"])
+        }
+        var data = Data(capacity: hex.count / 2)
+        var index = hex.startIndex
+        while index < hex.endIndex {
+            let next = hex.index(index, offsetBy: 2)
+            guard let byte = UInt8(hex[index..<next], radix: 16) else {
+                throw NSError(domain: "DPoPTest", code: -5,
+                              userInfo: [NSLocalizedDescriptionKey: "bad hex byte"])
+            }
+            data.append(byte)
+            index = next
+        }
+        return data
     }
 
     // MARK: - Helpers
