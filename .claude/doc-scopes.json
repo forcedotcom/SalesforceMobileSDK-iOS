@@ -24,6 +24,11 @@
       "doc": ".prizm/presubmits/skills/mobile-sdk-ios-pr-review/SKILL.md",
       "scope": ".prizm/presubmits/skills/mobile-sdk-ios-pr-review",
       "description": "mobile-sdk-ios-pr-review - Prizm skill for reviewing iOS SDK PRs for API breakage, OAuth safety, and platform concerns"
+    },
+    {
+      "doc": "docs/mobilesync/README.md",
+      "scope": "libs/MobileSync",
+      "description": "MobileSync library — iOS API reference: SFMobileSyncSyncManager, all sync targets, SFSyncState, SFSyncOptions, Swift/Combine extensions, JSON-driven configuration"
     }
   ]
 }
