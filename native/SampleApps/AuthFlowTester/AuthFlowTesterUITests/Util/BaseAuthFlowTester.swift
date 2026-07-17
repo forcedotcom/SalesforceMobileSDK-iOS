@@ -69,8 +69,14 @@ class BaseAuthFlowTester: XCTestCase {
     /// Resets the DPoP toggle to off by opening Login Options and disabling it if currently on.
     /// This prevents DPoP state from leaking between tests.
     private func resetDPoPToggle() {
-        // If not logged out, we can't access login options sheet, so skip the reset
-        // (the logout already clears keychain which resets SDK state)
+        // If not logged out, we can't reach the Login Options sheet from where the test stopped
+        // (it lives behind the login screen's Settings gear). Skip the UI-driven reset: the next
+        // test's `launch()` calls `XCUIApplication.launch()`, which per Apple's documentation
+        // terminates any running instance and starts a fresh process, so the in-memory
+        // `SalesforceManager.shared.usesDPoP` singleton is reset to its default (off) before the
+        // next test observes it. `configureLoginOptions` also unconditionally toggles the DPoP
+        // switch to match the incoming `useDPoP` value, so even a hypothetically leaked singleton
+        // would be force-set correctly on the very next login.
         if !logoutAtTearDown {
             return
         }
@@ -633,7 +639,14 @@ class BaseAuthFlowTester: XCTestCase {
             useHybridFlow: migrationUseHybridFlow
         )
 
-        // Validate after migration
+        // Validate after migration.
+        //
+        // NB on `useDPoP`: The SDK's Change Key sheet does not expose a DPoP toggle, so the
+        // migration refresh exchange inherits `SalesforceManager.shared.usesDPoP` from the initial
+        // login (matching Android's parity, where `migrateToNewApp` also does not re-invoke
+        // `enableDPoP`). We forward `useDPoP` here purely to strengthen the intermediate
+        // revoke/refresh assertion inside `validate` — without it, a DPoP regression during the
+        // post-migration refresh cycle would go undetected here.
         let migratedUserCredentials = validate(
             loginHost: loginHost,
             user: user,
@@ -642,7 +655,8 @@ class BaseAuthFlowTester: XCTestCase {
             userAppConfigName: migrationAppConfigName,
             userScopeSelection: migrationScopeSelection,
             useWebServerFlow: migrationUseWebServerFlow,
-            useHybridFlow: migrationUseHybridFlow
+            useHybridFlow: migrationUseHybridFlow,
+            useDPoP: useDPoP
         )
 
         // Making sure the refresh token changed
@@ -924,6 +938,11 @@ class BaseAuthFlowTester: XCTestCase {
         assertSIDs(userCredentialsData: userCredentials, useHybridFlow: useHybridFlow, useJwt: issuesJwt)
         assertURLs(userCredentialsData: userCredentials, useWebServerFlow: useWebServerFlow)
 
+        // DPoP token binding: assert on any DPoP-app path (login, switch, restart, migration)
+        if userAppConfig.isDPoP {
+            assertDPoPCredentials(userCredentials)
+        }
+
         // Validate feature flags using UA already present in the fetched credentials
         validateUserAgent(ua: userCredentials.userAgent, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, usesWelcomeDiscovery: usesWelcomeDiscovery, isMultiUser: isMultiUser, expectDP: userAppConfig.isDPoP)
 
@@ -946,6 +965,7 @@ class BaseAuthFlowTester: XCTestCase {
         isMultiUser: Bool = false,
         usesWelcomeDiscovery: Bool = false,
         loginForAdmin: Bool = false,
+        useDPoP: Bool = false,
     ) -> UserCredentialsData {
 
         let staticAppConfig = getAppConfig(named: staticAppConfigName)
@@ -967,7 +987,7 @@ class BaseAuthFlowTester: XCTestCase {
 
         // Revoke and refresh cycle
         let userAppConfig = getAppConfig(named: userAppConfigName)
-        assertRevokeAndRefreshWorks(previousCredentials: userCredentials, isRtr: userAppConfig.isRtr, loginHost: loginHost)
+        assertRevokeAndRefreshWorks(previousCredentials: userCredentials, isRtr: userAppConfig.isRtr, isDPoP: useDPoP, loginHost: loginHost)
 
         // Check the oauth configuration
         _ = checkOauthConfiguration(
@@ -1133,25 +1153,26 @@ class BaseAuthFlowTester: XCTestCase {
 
         // Assert DPoP token type and nonce presence if DPoP is enabled
         if isDPoP {
-            XCTAssertEqual(
-                credentialsAfterRefresh.dpopTokenType,
-                "DPoP",
-                "Token type should be DPoP after refresh"
-            )
-            XCTAssertNotNil(
-                credentialsAfterRefresh.dpopNonce,
-                "DPoP nonce should be present after refresh"
-            )
-            XCTAssertFalse(
-                credentialsAfterRefresh.dpopNonce?.isEmpty ?? true,
-                "DPoP nonce should not be empty after refresh"
-            )
+            assertDPoPCredentials(credentialsAfterRefresh, context: "after refresh")
         }
 
         validateUserAgent(userCredentials: credentialsAfterRefresh,
                           loginHost: loginHost,
                           isRtr: isRtr,
                           expectDP: isDPoP)
+    }
+
+    /// Asserts the DPoP token-type and nonce triad on a set of credentials.
+    ///
+    /// - Parameters:
+    ///   - credentials: Credentials fetched from the main page after a DPoP-bound event.
+    ///   - context: Optional context appended to failure messages (e.g. "after refresh",
+    ///     "after migration"). Kept short — surfaces which flow step failed at a glance.
+    private func assertDPoPCredentials(_ credentials: UserCredentialsData, context: String = "") {
+        let ctx = context.isEmpty ? "" : " (\(context))"
+        XCTAssertEqual(credentials.dpopTokenType, "DPoP", "Token type should be DPoP\(ctx)")
+        XCTAssertNotNil(credentials.dpopNonce, "DPoP nonce should be present\(ctx)")
+        XCTAssertFalse(credentials.dpopNonce?.isEmpty ?? true, "DPoP nonce should not be empty\(ctx)")
     }
     
     private func sortedScopes(_ value: String) -> String {

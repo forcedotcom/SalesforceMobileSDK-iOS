@@ -38,22 +38,18 @@ class DPoPLoginTests: BaseAuthFlowTester {
     /// Login with ECA JWT DPoP using hybrid flow and verify DPoP token binding.
     func test_givenDPoPHybrid_whenLogin_thenTokenTypeIsDPoPAndRefreshWorks() throws {
         launchLoginAndValidate(staticAppConfigName: .ecaJwtDpop, useDPoP: true)
-        let credentials = getUserCredentials()
-        XCTAssertEqual(credentials.dpopTokenType, "DPoP", "Token type should be DPoP")
-        XCTAssertNotNil(credentials.dpopNonce, "DPoP nonce should be present")
-        XCTAssertFalse(credentials.dpopNonce?.isEmpty ?? true, "DPoP nonce should not be empty")
-        validateUserAgent(userCredentials: credentials, loginHost: .regularAuth, expectDP: true)
+        // Two revoke/refresh cycles verify DPoP binding survives a second nonce rotation
+        // (parity with Android's `testECAJwtDPoP_Hybrid`).
+        assertRevokeAndRefreshWorks(isRtr: false, isDPoP: true)
         assertRevokeAndRefreshWorks(isRtr: false, isDPoP: true)
     }
 
     /// Login with ECA JWT DPoP without hybrid flow and verify DPoP token binding.
     func test_givenDPoPNoHybrid_whenLogin_thenTokenTypeIsDPoPAndRefreshWorks() throws {
         launchLoginAndValidate(staticAppConfigName: .ecaJwtDpop, useHybridFlow: false, useDPoP: true)
-        let credentials = getUserCredentials()
-        XCTAssertEqual(credentials.dpopTokenType, "DPoP", "Token type should be DPoP")
-        XCTAssertNotNil(credentials.dpopNonce, "DPoP nonce should be present")
-        XCTAssertFalse(credentials.dpopNonce?.isEmpty ?? true, "DPoP nonce should not be empty")
-        validateUserAgent(userCredentials: credentials, loginHost: .regularAuth, expectDP: true)
+        // Two revoke/refresh cycles verify DPoP binding survives a second nonce rotation
+        // (parity with Android's `testECAJwtDPoP_NoHybrid`).
+        assertRevokeAndRefreshWorks(isRtr: false, isDPoP: true)
         assertRevokeAndRefreshWorks(isRtr: false, isDPoP: true)
     }
 
@@ -62,17 +58,12 @@ class DPoPLoginTests: BaseAuthFlowTester {
     /// Login with ECA JWT DPoP+RTR using hybrid flow (pending server fix for Named JWTs + hybrid + RTR).
     // TODO: Re-enable when server enables Named JWTs for Hybrid Flows (Salesforce server bug — see internal tracker).
     func test_givenDPoPRtrHybrid_whenLogin_pendingServerFix() throws {
-        throw XCTSkip("Pending server fix for Named JWTs + RTR + hybrid flow")
+        throw XCTSkip("TODO: W-22512846 — Pending server fix for Named JWTs + RTR + hybrid flow")
     }
 
     /// Login with ECA JWT DPoP+RTR without hybrid flow and verify refresh token rotation and DPoP binding.
     func test_givenDPoPRtrNoHybrid_whenLogin_thenRefreshTokenRotatesAndDPoPBindingHolds() throws {
         launchLoginAndValidate(staticAppConfigName: .ecaJwtDpopRtr, useHybridFlow: false, useDPoP: true)
-        let credentials = getUserCredentials()
-        XCTAssertEqual(credentials.dpopTokenType, "DPoP", "Token type should be DPoP")
-        XCTAssertNotNil(credentials.dpopNonce, "DPoP nonce should be present")
-        XCTAssertFalse(credentials.dpopNonce?.isEmpty ?? true, "DPoP nonce should not be empty")
-        validateUserAgent(userCredentials: credentials, loginHost: .regularAuth, expectDP: true)
         assertRevokeAndRefreshWorks(isRtr: true, isDPoP: true)
     }
 
@@ -83,13 +74,11 @@ class DPoPLoginTests: BaseAuthFlowTester {
         // Login first user
         launchLoginAndValidate(user: .first, staticAppConfigName: .ecaJwtDpop, useDPoP: true)
         let userACredentialsBeforeSwitch = getUserCredentials()
-        XCTAssertEqual(userACredentialsBeforeSwitch.dpopTokenType, "DPoP", "User A token type should be DPoP")
         let userANonceBeforeSwitch = userACredentialsBeforeSwitch.dpopNonce
 
         // Login second user
         loginOtherUserAndValidate(loginHost: .regularAuth, user: .second, staticAppConfigName: .ecaJwtDpop, useDPoP: true)
         let userBCredentials = getUserCredentials()
-        XCTAssertEqual(userBCredentials.dpopTokenType, "DPoP", "User B token type should be DPoP")
         let userBNonce = userBCredentials.dpopNonce
 
         // Verify users have different tokens
@@ -126,12 +115,6 @@ class DPoPLoginTests: BaseAuthFlowTester {
             useDPoP: true
         )
 
-        // Verify DPoP binding after migration
-        let credentialsAfterMigration = getUserCredentials()
-        XCTAssertEqual(credentialsAfterMigration.dpopTokenType, "DPoP", "Token type should remain DPoP after migration")
-        XCTAssertNotNil(credentialsAfterMigration.dpopNonce, "DPoP nonce should be present after migration")
-        XCTAssertFalse(credentialsAfterMigration.dpopNonce?.isEmpty ?? true, "DPoP nonce should not be empty after migration")
-
         // Verify API call succeeds with DPoP binding
         XCTAssert(makeRestRequest(), "REST API request should succeed with DPoP binding after migration")
     }
@@ -161,14 +144,13 @@ class DPoPLoginTests: BaseAuthFlowTester {
         // Login with DPoP
         launchLoginAndValidate(staticAppConfigName: .ecaJwtDpop, useDPoP: true)
         let credentialsBeforeRestart = getUserCredentials()
-        XCTAssertEqual(credentialsBeforeRestart.dpopTokenType, "DPoP", "Token type should be DPoP before restart")
 
         // Restart app
         restartAndValidateUser(userAppConfigName: .ecaJwtDpop)
 
-        // Verify session persists
+        // Verify session persists (restart-specific asserts — the DPoP triad is checked in the
+        // base class's `validateUser()` via `restartAndValidateUser`).
         let credentialsAfterRestart = getUserCredentials()
-        XCTAssertEqual(credentialsAfterRestart.dpopTokenType, "DPoP", "Token type should remain DPoP after restart")
         XCTAssertEqual(credentialsAfterRestart.userId, credentialsBeforeRestart.userId, "User ID should match after restart")
         XCTAssertEqual(credentialsAfterRestart.accessToken, credentialsBeforeRestart.accessToken, "Access token should match after restart")
 
@@ -180,11 +162,9 @@ class DPoPLoginTests: BaseAuthFlowTester {
 
     /// Login with DPoP via Login for Admin (browser-based) and verify DPoP binding.
     func test_givenDPoPECA_whenAdminLogin_thenDPoPBindingWorksThroughSafariVC() throws {
-        // Launch app
-        launch()
-
-        // Login via Login for Admin with DPoP enabled
-        login(
+        // Login via Login for Admin with DPoP enabled (the DPoP triad is checked in the
+        // base class's `validateUser()` via `launchLoginAndValidate`).
+        launchLoginAndValidate(
             loginHost: .regularAuth,
             user: .first,
             staticAppConfigName: .ecaJwtDpop,
@@ -192,13 +172,6 @@ class DPoPLoginTests: BaseAuthFlowTester {
             loginForAdmin: true,
             useDPoP: true
         )
-
-        // Validate user credentials
-        assertMainPageLoaded()
-        let credentials = getUserCredentials()
-        XCTAssertEqual(credentials.dpopTokenType, "DPoP", "Token type should be DPoP after admin login")
-        XCTAssertNotNil(credentials.dpopNonce, "DPoP nonce should be present after admin login")
-        XCTAssertFalse(credentials.dpopNonce?.isEmpty ?? true, "DPoP nonce should not be empty after admin login")
 
         // Verify API call succeeds with DPoP binding through browser-based auth
         XCTAssert(makeRestRequest(), "REST API request should succeed with DPoP binding after admin login")
