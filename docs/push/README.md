@@ -391,7 +391,7 @@ To decrypt the notification **before it is displayed** (required for encrypted p
 }
 ```
 
-**Important:** The Notification Service Extension must share the same **App Group** as the main app so it can access the Keychain key pair. The key is stored with `kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly`.
+**Important:** The Notification Service Extension must share the same **Keychain Access Group** as the main app (add the Keychain Sharing capability to both targets with a matching group identifier) so the extension can access the RSA private key. The key is stored with `kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly`.
 
 Apex push notifications are **not** encrypted and are forwarded as-is.
 
@@ -419,13 +419,14 @@ UserAccountManager.shared.filterSupportedNotificationTypes = { types in
 // In UNUserNotificationCenterDelegate.userNotificationCenter(_:didReceive:withCompletionHandler:)
 if let notificationId = response.notification.request.content.userInfo["nid"] as? String {
     do {
-        try await PushNotificationManager.shared.invokeServerNotificationAction(
+        let result = try await PushNotificationManager.shared.invokeServerNotificationAction(
             client: restClient,
             notificationId: notificationId,
             actionIdentifier: response.actionIdentifier
         )
+        SalesforceLogger.d(AppDelegate.self, message: "Action result: \(result.message)")
     } catch {
-        // handle error
+        SalesforceLogger.e(AppDelegate.self, message: "Action invocation failed: \(error)")
     }
 }
 completionHandler()
