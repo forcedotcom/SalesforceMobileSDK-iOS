@@ -28,6 +28,26 @@
 				<string>com.salesforce.mobilesdk.sample.authflowtester</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>ecajwtdpop</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>ecajwtdpop</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>ecajwtdpoprtr</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>ecajwtdpoprtr</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>

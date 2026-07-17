@@ -171,6 +171,7 @@ class LoginPageObject {
         forceAdvancedAuthentication: Bool? = nil,
         discoveryLoginHost: String,
         discoveryUsername: String,
+        useDPoP: Bool = false
     ) -> Void {
         tap(settingsButton())
         tap(loginOptionsButton())
@@ -184,7 +185,8 @@ class LoginPageObject {
             useHybridFlow: useHybridFlow,
             forceAdvancedAuthentication: forceAdvancedAuthentication,
             discoveryLoginHost: discoveryLoginHost,
-            discoveryUsername: discoveryUsername
+            discoveryUsername: discoveryUsername,
+            useDPoP: useDPoP
         )
     }
 

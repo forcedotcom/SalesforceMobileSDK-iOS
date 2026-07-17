@@ -64,6 +64,8 @@ struct CredentialsLabels {
     static let challengeString = "Challenge String"
     static let issuedAt = "Issued At"
     static let scopes = "Scopes"
+    static let oauthTokenType = "OAuth Token Type"
+    static let dpopNonce = "DPoP Nonce"
     
     // URLs fields
     static let instanceUrl = "Instance URL"
@@ -189,6 +191,10 @@ struct UserCredentialsData {
 
     // SDK
     var userAgent: String
+
+    // DPoP
+    var dpopTokenType: String?
+    var dpopNonce: String?
 }
 
 struct OAuthConfigurationData {
@@ -554,7 +560,9 @@ class AuthFlowTesterMainPageObject {
             beaconChildConsumerKey: beacon[CredentialsLabels.beaconChildConsumerKey] ?? "",
             beaconChildConsumerSecret: beacon[CredentialsLabels.beaconChildConsumerSecret] ?? "",
             additionalOAuthFields: other[CredentialsLabels.additionalOAuthFields] ?? "",
-            userAgent: sdk[CredentialsLabels.userAgent] ?? ""
+            userAgent: sdk[CredentialsLabels.userAgent] ?? "",
+            dpopTokenType: tokens[CredentialsLabels.oauthTokenType],
+            dpopNonce: tokens[CredentialsLabels.dpopNonce]
         )
     }
 
