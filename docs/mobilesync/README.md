@@ -520,6 +520,59 @@ Max batch size: 1 (one parent + children per request). Uses `@{refId.id}` substi
 
 `isNewerThanServer:` checks parent and all children timestamps in a single SOQL.
 
+#### Fieldlist Configuration
+
+Both the parent and children fieldlists passed to `SFParentChildrenSyncUpTarget` must contain only **user-writable fields**. Salesforce will reject the Composite API request with `INVALID_FIELD_FOR_INSERT_UPDATE` if any of the following system/audit fields are included:
+
+- `Id`
+- `CreatedDate`
+- `LastModifiedDate`
+- `SystemModstamp`
+- `IsDeleted`
+
+**The child's `parentIdFieldName` must not appear in `childrenCreateFieldlist`.** When a child record is being created alongside a new parent, the SDK injects the parent reference automatically using `@{refId.id}` substitution in the Composite API request body. This tells Salesforce to resolve the child's lookup field to the server-assigned ID of the just-created parent record. If you also include that field name explicitly in `childrenCreateFieldlist`, the request will contain a conflicting explicit value alongside the reference substitution, and Salesforce will return `INVALID_FIELD_FOR_INSERT_UPDATE`.
+
+The `parentIdFieldName` **may** appear in `childrenUpdateFieldlist` when updating existing child records (where no reference substitution is used), provided the field is user-writable in that context.
+
+**Example — Account (parent) + Contact (child)**
+
+```objc
+// CORRECT
+SFParentInfo *parentInfo = [SFParentInfo newWithSObjectType:@"Account"
+                                                   soupName:@"accounts"
+                                                      idFieldName:@"Id"
+                                         modificationDateFieldName:@"LastModifiedDate"
+                                                        externalIdFieldName:nil];
+
+SFChildrenInfo *childrenInfo = [SFChildrenInfo newWithSObjectType:@"Contact"
+                                                   soupName:@"contacts"
+                                          parentIdFieldName:@"AccountId"  // lookup to Account
+                                                idFieldName:@"Id"
+                                   modificationDateFieldName:@"LastModifiedDate"];
+
+// AccountId is intentionally absent from childrenCreateFieldlist — the SDK substitutes it automatically.
+SFParentChildrenSyncUpTarget *target =
+    [SFParentChildrenSyncUpTarget newSyncTargetWithParentInfo:parentInfo
+                                         parentCreateFieldlist:@[@"Name", @"BillingCity"]     // no Id, CreatedDate, etc.
+                                         parentUpdateFieldlist:@[@"Name", @"BillingCity"]
+                                                  childrenInfo:childrenInfo
+                                       childrenCreateFieldlist:@[@"LastName", @"FirstName"]   // AccountId omitted
+                                       childrenUpdateFieldlist:@[@"LastName", @"FirstName", @"AccountId"]
+                                              relationshipType:SFParentChildrenRelationshipTypeMasterDetail];
+
+// INCORRECT — causes INVALID_FIELD_FOR_INSERT_UPDATE
+// childrenCreateFieldlist:@[@"LastName", @"FirstName", @"AccountId"]  // AccountId must NOT be here
+```
+
+**Summary of rules:**
+
+| Fieldlist | Exclude system fields | Exclude `parentIdFieldName`? |
+|---|---|---|
+| `parentCreateFieldlist` | Yes (`Id`, `CreatedDate`, `LastModifiedDate`, `SystemModstamp`, `IsDeleted`) | N/A |
+| `parentUpdateFieldlist` | Yes | N/A |
+| `childrenCreateFieldlist` | Yes | **Yes — always** |
+| `childrenUpdateFieldlist` | Yes | No (optional, if user-writable) |
+
 ---
 
 ## Layout and Metadata Sync
