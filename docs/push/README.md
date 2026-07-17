@@ -238,8 +238,13 @@ func application(_ application: UIApplication,
     if UserAccountManager.shared.currentUserAccount?.credentials.accessToken != nil {
         PushNotificationManager.shared.registerForSalesforceNotifications { result in
             switch result {
-            case .success: break
-            case .failure(let error): SalesforceLogger.e(AppDelegate.self, message: "Salesforce push registration failed: \(error)")
+            case .success:
+                // Fetch notification types to enable actionable notification buttons
+                Task {
+                    try? await PushNotificationManager.shared.fetchAndStoreNotificationTypes()
+                }
+            case .failure(let error):
+                SalesforceLogger.e(AppDelegate.self, message: "Salesforce push registration failed: \(error)")
             }
         }
     }
@@ -277,9 +282,19 @@ func application(_ application: UIApplication,
 }
 ```
 
-### 4. Handle Foreground and Tapped Notifications (Optional)
+### 4. Set the Notification Center Delegate
 
-Implement `UNUserNotificationCenterDelegate` to control display while the app is in the foreground and to respond to user taps:
+Set the delegate in `AppDelegate.init()` — **before** `application(_:didFinishLaunchingWithOptions:)` — to avoid a race condition where a notification arrives during launch before the delegate is assigned:
+
+```swift
+override init() {
+    super.init()
+    UNUserNotificationCenter.current().delegate = self
+    // SDK init (SalesforceSDKManager.initializeSDK() etc.) goes here or in didFinishLaunchingWithOptions
+}
+```
+
+Then implement `UNUserNotificationCenterDelegate` to control foreground display and handle taps. This is **required** for actionable notifications:
 
 ```swift
 extension AppDelegate: UNUserNotificationCenterDelegate {
@@ -292,15 +307,10 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
-        // Handle notification tap or action button here
+        // Handle notification tap or action button here — see Actionable Notifications
         completionHandler()
     }
 }
-```
-
-Set the delegate in `didFinishLaunchingWithOptions`:
-```swift
-UNUserNotificationCenter.current().delegate = self
 ```
 
 ---
@@ -373,8 +383,43 @@ The SDK automatically handles encrypted Salesforce Notification Builder payloads
    - `"secret"` — RSA-OAEP-SHA256-wrapped 32-byte value (16-byte AES key + 16-byte IV), base64-encoded
    - `"content"` — AES-128-CBC-encrypted JSON payload, base64-encoded
 
-To decrypt the notification **before it is displayed** (required for encrypted payloads), add a **Notification Service Extension** to your app target:
+To decrypt the notification **before it is displayed** (required for encrypted payloads), add a **Notification Service Extension** to your app target (File → New → Target → Notification Service Extension).
 
+**Swift (preferred):**
+```swift
+// NotificationService.swift
+import UserNotifications
+import SalesforceSDKCore
+
+class NotificationService: UNNotificationServiceExtension {
+    var contentHandler: ((UNNotificationContent) -> Void)?
+    var bestAttemptContent: UNMutableNotificationContent?
+
+    override func didReceive(_ request: UNNotificationRequest,
+                             withContentHandler contentHandler: @escaping (UNNotificationContent) -> Void) {
+        self.contentHandler = contentHandler
+        bestAttemptContent = request.content.mutableCopy() as? UNMutableNotificationContent
+        handleNotification(bestAttemptContent)
+    }
+
+    override func serviceExtensionTimeWillExpire() {
+        // Deliver best-attempt content if time runs out
+        handleNotification(bestAttemptContent)
+    }
+
+    private func handleNotification(_ content: UNMutableNotificationContent?) {
+        guard let contentHandler, let content else { return }
+        do {
+            try SFSDKPushNotificationDecryption.decryptNotificationContent(content)
+        } catch {
+            SalesforceLogger.e(NotificationService.self, message: "Decryption failed: \(error as NSError)")
+        }
+        contentHandler(content)
+    }
+}
+```
+
+**Objective-C:**
 ```objc
 // NotificationService.m
 #import <SalesforceSDKCore/SFSDKPushNotificationDecryption.h>
@@ -385,13 +430,27 @@ To decrypt the notification **before it is displayed** (required for encrypted p
     NSError *error;
     [SFSDKPushNotificationDecryption decryptNotificationContent:mutableContent error:&error];
     if (error) {
-        NSLog(@"Decryption error: %@", error);
+        SFSDKLogger.log(self.class, level:SFLogLevelError, message:
+            [NSString stringWithFormat:@"Decryption error: %@", error]);
     }
     contentHandler(mutableContent);
 }
 ```
 
-**Important:** The Notification Service Extension must share the same **Keychain Access Group** as the main app (add the Keychain Sharing capability to both targets with a matching group identifier) so the extension can access the RSA private key. The key is stored with `kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly`.
+**Podfile:** The NSE target uses `inherit! :search_paths` — it does not need its own explicit pod declaration:
+
+```ruby
+target 'YourApp' do
+  use_frameworks!
+  use_mobile_sdk!
+
+  target 'NotificationServiceExtension' do
+    inherit! :search_paths
+  end
+end
+```
+
+**Important:** The Notification Service Extension must share the same **Keychain Access Group** as the main app. Add the **Keychain Sharing** capability to both targets with an identical group identifier (e.g., `$(AppIdentifierPrefix)com.salesforce.mobilesdk.YourApp`). If the group names differ, `SFSDKPushNotificationDecryption` will fail with `SFSDKPushNotificationErrorPrivateRSAKeyNotFound`. When using `forceios createwithtemplate`, verify that the NSE `.entitlements` file has the generated app name — not the template name — as the keychain group suffix.
 
 Apex push notifications are **not** encrypted and are forwarded as-is.
 
@@ -401,12 +460,34 @@ Apex push notifications are **not** encrypted and are forwarded as-is.
 
 Requires Salesforce API version v64.0 or later.
 
-After successful Salesforce registration, the SDK automatically calls `fetchAndStoreNotificationTypes`, which:
+### 1. Fetch notification types after registration
+
+Call `fetchAndStoreNotificationTypes()` inside the `.success` case of `registerForSalesforceNotifications`. This:
 1. GETs `/vXX.0/connect/notifications/types`
 2. Stores the returned `[NotificationType]` on the `UserAccount` object (persisted via `NSSecureCoding`)
-3. Calls `UNUserNotificationCenter.current().setNotificationCategories(_:)` to register action buttons
+3. Calls `UNUserNotificationCenter.current().setNotificationCategories(_:)` to register action buttons with iOS
 
-**Filter which notification types your app supports:**
+iOS requires categories to be registered **before** a notification arrives for action buttons to render — calling this at registration time ensures they are in place.
+
+```swift
+PushNotificationManager.shared.registerForSalesforceNotifications { result in
+    switch result {
+    case .success:
+        Task {
+            do {
+                try await PushNotificationManager.shared.fetchAndStoreNotificationTypes()
+            } catch {
+                SalesforceLogger.e(AppDelegate.self, message: "Failed to fetch notification types: \(error)")
+            }
+        }
+    case .failure(let error):
+        SalesforceLogger.e(AppDelegate.self, message: "Salesforce push registration failed: \(error)")
+    }
+}
+```
+
+### 2. Filter which notification types your app supports (optional)
+
 ```swift
 UserAccountManager.shared.filterSupportedNotificationTypes = { types in
     types.filter { $0.apiName == "approval_request" }
@@ -414,22 +495,44 @@ UserAccountManager.shared.filterSupportedNotificationTypes = { types in
 }
 ```
 
-**Handle a tapped action:**
+Set this closure before calling `fetchAndStoreNotificationTypes()`.
+
+### 3. Handle a tapped action
+
+In `userNotificationCenter(_:didReceive:withCompletionHandler:)`:
+
 ```swift
-// In UNUserNotificationCenterDelegate.userNotificationCenter(_:didReceive:withCompletionHandler:)
-if let notificationId = response.notification.request.content.userInfo["nid"] as? String {
-    do {
-        let result = try await PushNotificationManager.shared.invokeServerNotificationAction(
-            client: restClient,
-            notificationId: notificationId,
-            actionIdentifier: response.actionIdentifier
-        )
-        SalesforceLogger.d(AppDelegate.self, message: "Action result: \(result.message)")
-    } catch {
-        SalesforceLogger.e(AppDelegate.self, message: "Action invocation failed: \(error)")
+func userNotificationCenter(_ center: UNUserNotificationCenter,
+                            didReceive response: UNNotificationResponse,
+                            withCompletionHandler completionHandler: @escaping () -> Void) {
+    let actionIdentifier = response.actionIdentifier
+    // Skip default tap and dismiss — only handle explicit action buttons
+    guard actionIdentifier != UNNotificationDefaultActionIdentifier,
+          actionIdentifier != UNNotificationDismissActionIdentifier else {
+        completionHandler()
+        return
+    }
+
+    // nid is nested under userInfo["sfdc"]["nid"], NOT at the top level of userInfo
+    let sfdc = response.notification.request.content.userInfo["sfdc"] as? [String: Any]
+    guard let nid = sfdc?["nid"] as? String else {
+        completionHandler()
+        return
+    }
+
+    Task {
+        do {
+            let result = try await PushNotificationManager.shared.invokeServerNotificationAction(
+                notificationId: nid,
+                actionIdentifier: actionIdentifier
+            )
+            SalesforceLogger.d(AppDelegate.self, message: "Action result: \(result.message)")
+        } catch {
+            SalesforceLogger.e(AppDelegate.self, message: "Action invocation failed: \(error)")
+        }
+        completionHandler()
     }
 }
-completionHandler()
 ```
 
 Action type `"NotificationApiAction"` receives `UNNotificationActionOptions.authenticationRequired`. All other types receive `.foreground`.
