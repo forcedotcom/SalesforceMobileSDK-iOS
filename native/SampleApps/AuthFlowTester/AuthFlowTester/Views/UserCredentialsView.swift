@@ -433,7 +433,7 @@ struct UserCredentialsView: View {
     }
 
     private var oauthTokenType: String {
-        return credentials?.tokenType ?? "Bearer"
+        return credentials?.tokenType ?? "Unknown"
     }
 
     private var dpopNonce: String {
