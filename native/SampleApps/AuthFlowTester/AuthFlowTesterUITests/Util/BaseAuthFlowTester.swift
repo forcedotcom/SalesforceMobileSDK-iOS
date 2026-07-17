@@ -455,7 +455,8 @@ class BaseAuthFlowTester: XCTestCase {
             useHybridFlow: useHybridFlow,
             isMultiUser: isMultiUser,
             usesWelcomeDiscovery: useWelcomeDiscovery,
-            loginForAdmin: loginForAdmin
+            loginForAdmin: loginForAdmin,
+            useDPoP: useDPoP
         )
     }
     
@@ -517,6 +518,7 @@ class BaseAuthFlowTester: XCTestCase {
         dynamicScopeSelection: ScopeSelection = .empty,
         useWebServerFlow: Bool = true,
         useHybridFlow: Bool = true,
+        forceAdvancedAuthentication: Bool? = nil,
         isMultiUser: Bool = true,
         useDPoP: Bool = false
     ) {
@@ -537,6 +539,7 @@ class BaseAuthFlowTester: XCTestCase {
             dynamicScopeSelection: dynamicScopeSelection,
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow,
+            forceAdvancedAuthentication: forceAdvancedAuthentication,
             useDPoP: useDPoP
         )
 
@@ -550,7 +553,8 @@ class BaseAuthFlowTester: XCTestCase {
             userScopeSelection: userScopeSelection,
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow,
-            isMultiUser: isMultiUser
+            isMultiUser: isMultiUser,
+            useDPoP: useDPoP
         )
     }
 
@@ -987,7 +991,7 @@ class BaseAuthFlowTester: XCTestCase {
 
         // Revoke and refresh cycle
         let userAppConfig = getAppConfig(named: userAppConfigName)
-        assertRevokeAndRefreshWorks(previousCredentials: userCredentials, isRtr: userAppConfig.isRtr, isDPoP: useDPoP, loginHost: loginHost)
+        assertRevokeAndRefreshWorks(previousCredentials: userCredentials, isRtr: userAppConfig.isRtr, isDPoP: useDPoP, loginHost: loginHost, expectAdvancedAuth: loginForAdmin || loginHost == .advancedAuth, isMultiUser: isMultiUser)
 
         // Check the oauth configuration
         _ = checkOauthConfiguration(
@@ -1116,11 +1120,11 @@ class BaseAuthFlowTester: XCTestCase {
     }
     
     /// Captures current credentials then performs a revoke/refresh cycle and validates the result.
-    func assertRevokeAndRefreshWorks(isRtr: Bool, isDPoP: Bool = false, loginHost: KnownLoginHostConfig = .regularAuth) {
-        assertRevokeAndRefreshWorks(previousCredentials: getUserCredentials(), isRtr: isRtr, isDPoP: isDPoP, loginHost: loginHost)
+    func assertRevokeAndRefreshWorks(isRtr: Bool, isDPoP: Bool = false, loginHost: KnownLoginHostConfig = .regularAuth, expectAdvancedAuth: Bool = false, isMultiUser: Bool = false) {
+        assertRevokeAndRefreshWorks(previousCredentials: getUserCredentials(), isRtr: isRtr, isDPoP: isDPoP, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, isMultiUser: isMultiUser)
     }
 
-    private func assertRevokeAndRefreshWorks(previousCredentials: UserCredentialsData, isRtr: Bool, isDPoP: Bool = false, loginHost: KnownLoginHostConfig = .regularAuth) {
+    private func assertRevokeAndRefreshWorks(previousCredentials: UserCredentialsData, isRtr: Bool, isDPoP: Bool = false, loginHost: KnownLoginHostConfig = .regularAuth, expectAdvancedAuth: Bool = false, isMultiUser: Bool = false) {
         // Revoke access token
         XCTAssert(mainPage.revokeAccessToken(), "Failed to revoke access token")
 
@@ -1158,6 +1162,8 @@ class BaseAuthFlowTester: XCTestCase {
 
         validateUserAgent(userCredentials: credentialsAfterRefresh,
                           loginHost: loginHost,
+                          expectAdvancedAuth: expectAdvancedAuth,
+                          isMultiUser: isMultiUser,
                           isRtr: isRtr,
                           expectDP: isDPoP)
     }
