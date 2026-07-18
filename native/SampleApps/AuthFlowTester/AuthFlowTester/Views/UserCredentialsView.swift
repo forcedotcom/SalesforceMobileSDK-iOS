@@ -402,7 +402,8 @@ struct UserCredentialsView: View {
     }
     
     private var tokenFormat: String {
-        return credentials?.tokenFormat ?? ""
+        let value = credentials?.tokenFormat ?? ""
+        return value.isEmpty ? "Opaque" : value
     }
     
     private var jwt: String {
@@ -433,7 +434,7 @@ struct UserCredentialsView: View {
     }
 
     private var oauthTokenType: String {
-        return credentials?.tokenType ?? "Unknown"
+        return credentials?.tokenType ?? "Bearer"
     }
 
     private var dpopNonce: String {

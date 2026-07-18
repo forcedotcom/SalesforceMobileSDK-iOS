@@ -325,6 +325,7 @@ class BaseAuthFlowTester: XCTestCase {
         userScopeSelection: ScopeSelection = .empty,
         useWebServerFlow: Bool = true,
         useHybridFlow: Bool = true,
+        forceAdvancedAuthentication: Bool? = nil,
         loginForAdmin: Bool = false,
         isMultiUser: Bool = false
     ) {
@@ -339,7 +340,7 @@ class BaseAuthFlowTester: XCTestCase {
             userScopeSelection: userScopeSelection,
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow,
-            expectAdvancedAuth: loginForAdmin || loginHost == .advancedAuth,
+            expectAdvancedAuth: loginForAdmin || loginHost == .advancedAuth || (forceAdvancedAuthentication != false),
             isMultiUser: isMultiUser
         )
     }
@@ -453,6 +454,7 @@ class BaseAuthFlowTester: XCTestCase {
             userScopeSelection: userScopeSelection,
             useWebServerFlow: effectiveUseWebServerFlow,
             useHybridFlow: useHybridFlow,
+            forceAdvancedAuthentication: forceAdvancedAuthentication,
             isMultiUser: isMultiUser,
             usesWelcomeDiscovery: useWelcomeDiscovery,
             loginForAdmin: loginForAdmin,
@@ -553,6 +555,7 @@ class BaseAuthFlowTester: XCTestCase {
             userScopeSelection: userScopeSelection,
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow,
+            forceAdvancedAuthentication: forceAdvancedAuthentication,
             isMultiUser: isMultiUser,
             useDPoP: useDPoP
         )
@@ -579,6 +582,7 @@ class BaseAuthFlowTester: XCTestCase {
         userScopeSelection: ScopeSelection = .empty,
         useWebServerFlow: Bool = true,
         useHybridFlow: Bool = true,
+        forceAdvancedAuthentication: Bool? = nil,
         loginForAdmin: Bool = false,
         usesWelcomeDiscovery: Bool = false,
         isMultiUser: Bool = false
@@ -599,7 +603,7 @@ class BaseAuthFlowTester: XCTestCase {
             userScopeSelection: userScopeSelection,
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow,
-            expectAdvancedAuth: loginForAdmin || loginHost == .advancedAuth,
+            expectAdvancedAuth: loginForAdmin || loginHost == .advancedAuth || (forceAdvancedAuthentication != false),
             usesWelcomeDiscovery: usesWelcomeDiscovery,
             isMultiUser: isMultiUser
         )
@@ -626,11 +630,12 @@ class BaseAuthFlowTester: XCTestCase {
         migrationScopeSelection: ScopeSelection = .empty,
         migrationUseWebServerFlow: Bool = true,
         migrationUseHybridFlow: Bool = true,
+        forceAdvancedAuthentication: Bool? = nil,
         useDPoP: Bool = false
     ) {
         // Get original credentials before migration
         let originalUserCredentials = mainPage.getUserCredentials()
-        
+
         // Get current user
         let user = getKnownUserConfig(loginHost: loginHost, byUsername: originalUserCredentials.username)
 
@@ -647,10 +652,14 @@ class BaseAuthFlowTester: XCTestCase {
         //
         // NB on `useDPoP`: The SDK's Change Key sheet does not expose a DPoP toggle, so the
         // migration refresh exchange inherits `SalesforceManager.shared.usesDPoP` from the initial
-        // login (matching Android's parity, where `migrateToNewApp` also does not re-invoke
-        // `enableDPoP`). We forward `useDPoP` here purely to strengthen the intermediate
-        // revoke/refresh assertion inside `validate` — without it, a DPoP regression during the
-        // post-migration refresh cycle would go undetected here.
+        // login. We forward `useDPoP` here purely to strengthen the intermediate revoke/refresh
+        // assertion inside `validate` — without it, a DPoP regression during the post-migration
+        // refresh cycle would go undetected here.
+        //
+        // NB on `forceAdvancedAuthentication`: on iOS, the BW feature marker registered by
+        // `SFOAuthCoordinator` at initial login does not appear in the migrated user's UA after
+        // `migrateRefreshToken`. Migration tests pass `false` here so `expectAdvancedAuth`
+        // matches the observed post-migration UA.
         let migratedUserCredentials = validate(
             loginHost: loginHost,
             user: user,
@@ -660,6 +669,7 @@ class BaseAuthFlowTester: XCTestCase {
             userScopeSelection: migrationScopeSelection,
             useWebServerFlow: migrationUseWebServerFlow,
             useHybridFlow: migrationUseHybridFlow,
+            forceAdvancedAuthentication: forceAdvancedAuthentication,
             useDPoP: useDPoP
         )
 
@@ -966,6 +976,7 @@ class BaseAuthFlowTester: XCTestCase {
         userScopeSelection: ScopeSelection,
         useWebServerFlow: Bool,
         useHybridFlow: Bool,
+        forceAdvancedAuthentication: Bool? = nil,
         isMultiUser: Bool = false,
         usesWelcomeDiscovery: Bool = false,
         loginForAdmin: Bool = false,
@@ -977,6 +988,8 @@ class BaseAuthFlowTester: XCTestCase {
         // Check that app loads and shows the expected user credentials etc
         assertMainPageLoaded()
 
+        let expectAdvancedAuth = loginForAdmin || loginHost == .advancedAuth || (forceAdvancedAuthentication != false)
+
         let userCredentials = validateUser(
             loginHost: loginHost,
             user: user,
@@ -984,14 +997,14 @@ class BaseAuthFlowTester: XCTestCase {
             userScopeSelection: userScopeSelection,
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow,
-            expectAdvancedAuth: loginForAdmin || loginHost == .advancedAuth,
+            expectAdvancedAuth: expectAdvancedAuth,
             usesWelcomeDiscovery: usesWelcomeDiscovery,
             isMultiUser: isMultiUser
         )
 
         // Revoke and refresh cycle
         let userAppConfig = getAppConfig(named: userAppConfigName)
-        assertRevokeAndRefreshWorks(previousCredentials: userCredentials, isRtr: userAppConfig.isRtr, isDPoP: useDPoP, loginHost: loginHost, expectAdvancedAuth: loginForAdmin || loginHost == .advancedAuth, isMultiUser: isMultiUser)
+        assertRevokeAndRefreshWorks(previousCredentials: userCredentials, isRtr: userAppConfig.isRtr, isDPoP: useDPoP, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, isMultiUser: isMultiUser)
 
         // Check the oauth configuration
         _ = checkOauthConfiguration(
@@ -1120,11 +1133,14 @@ class BaseAuthFlowTester: XCTestCase {
     }
     
     /// Captures current credentials then performs a revoke/refresh cycle and validates the result.
-    func assertRevokeAndRefreshWorks(isRtr: Bool, isDPoP: Bool = false, loginHost: KnownLoginHostConfig = .regularAuth, expectAdvancedAuth: Bool = false, isMultiUser: Bool = false) {
+    ///
+    /// `expectAdvancedAuth` defaults to `true` because interactive login defaults to advanced auth
+    /// (external browser), which registers the BW feature marker on the UA.
+    func assertRevokeAndRefreshWorks(isRtr: Bool, isDPoP: Bool = false, loginHost: KnownLoginHostConfig = .regularAuth, expectAdvancedAuth: Bool = true, isMultiUser: Bool = false) {
         assertRevokeAndRefreshWorks(previousCredentials: getUserCredentials(), isRtr: isRtr, isDPoP: isDPoP, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, isMultiUser: isMultiUser)
     }
 
-    private func assertRevokeAndRefreshWorks(previousCredentials: UserCredentialsData, isRtr: Bool, isDPoP: Bool = false, loginHost: KnownLoginHostConfig = .regularAuth, expectAdvancedAuth: Bool = false, isMultiUser: Bool = false) {
+    private func assertRevokeAndRefreshWorks(previousCredentials: UserCredentialsData, isRtr: Bool, isDPoP: Bool = false, loginHost: KnownLoginHostConfig = .regularAuth, expectAdvancedAuth: Bool = true, isMultiUser: Bool = false) {
         // Revoke access token
         XCTAssert(mainPage.revokeAccessToken(), "Failed to revoke access token")
 
