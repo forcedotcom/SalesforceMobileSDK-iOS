@@ -64,6 +64,8 @@ struct CredentialsLabels {
     static let challengeString = "Challenge String"
     static let issuedAt = "Issued At"
     static let scopes = "Scopes"
+    static let oauthTokenType = "OAuth Token Type"
+    static let dpopNonce = "DPoP Nonce"
     
     // URLs fields
     static let instanceUrl = "Instance URL"
@@ -189,6 +191,10 @@ struct UserCredentialsData {
 
     // SDK
     var userAgent: String
+
+    // DPoP
+    var dpopTokenType: String?
+    var dpopNonce: String?
 }
 
 struct OAuthConfigurationData {
@@ -308,6 +314,14 @@ class AuthFlowTesterMainPageObject {
 
         let alert = app.alerts["Migration Error"]
         if (alert.waitForExistence(timeout: UITestTimeouts.long)) {
+            // Surface the underlying error (from UserAccountManager.migrateRefreshToken's
+            // failure callback) via XCTFail before dismissing — otherwise the caller only sees
+            // a bare `false` return and the real cause disappears with the alert.
+            let message = alert.staticTexts.allElementsBoundByIndex
+                .map { $0.label }
+                .filter { $0 != "Migration Error" && !$0.isEmpty }
+                .joined(separator: " ")
+            XCTFail("Migration Error alert: \(message.isEmpty ? "<no message>" : message)")
             alert.buttons["OK"].tap()
             return false
         }
@@ -554,7 +568,9 @@ class AuthFlowTesterMainPageObject {
             beaconChildConsumerKey: beacon[CredentialsLabels.beaconChildConsumerKey] ?? "",
             beaconChildConsumerSecret: beacon[CredentialsLabels.beaconChildConsumerSecret] ?? "",
             additionalOAuthFields: other[CredentialsLabels.additionalOAuthFields] ?? "",
-            userAgent: sdk[CredentialsLabels.userAgent] ?? ""
+            userAgent: sdk[CredentialsLabels.userAgent] ?? "",
+            dpopTokenType: tokens[CredentialsLabels.oauthTokenType],
+            dpopNonce: tokens[CredentialsLabels.dpopNonce]
         )
     }
 

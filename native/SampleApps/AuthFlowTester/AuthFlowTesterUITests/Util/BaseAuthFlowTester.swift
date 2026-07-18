@@ -61,7 +61,44 @@ class BaseAuthFlowTester: XCTestCase {
         if (logoutAtTearDown) {
             logout()
         }
+        // Reset DPoP toggle to default (off) state for the next test
+        resetDPoPToggle()
         super.tearDown()
+    }
+
+    /// Resets the DPoP toggle to off by opening Login Options and disabling it if currently on.
+    /// This prevents DPoP state from leaking between tests.
+    private func resetDPoPToggle() {
+        // If not logged out, we can't reach the Login Options sheet from where the test stopped
+        // (it lives behind the login screen's Settings gear). Skip the UI-driven reset: the next
+        // test's `launch()` calls `XCUIApplication.launch()`, which per Apple's documentation
+        // terminates any running instance and starts a fresh process, so the in-memory
+        // `SalesforceManager.shared.usesDPoP` singleton is reset to its default (off) before the
+        // next test observes it. `configureLoginOptions` also unconditionally toggles the DPoP
+        // switch to match the incoming `useDPoP` value, so even a hypothetically leaked singleton
+        // would be force-set correctly on the very next login.
+        if !logoutAtTearDown {
+            return
+        }
+
+        // Navigate to login options to reset toggle
+        if let loginPage = loginPage, let app = app {
+            // Check if we're on the main screen by looking for a known element
+            if !app.navigationBars["AuthFlowTester"].waitForExistence(timeout: 1.0) {
+                // Not on main screen, can't reliably navigate to login options
+                return
+            }
+
+            // Go to login options and disable DPoP
+            if app.buttons["Settings"].waitForExistence(timeout: 1.0) {
+                app.buttons["Settings"].tap()
+                if app.buttons["Login Options"].waitForExistence(timeout: 1.0) {
+                    app.buttons["Login Options"].tap()
+                    LoginOptionsPageObject(testApp: app).disableDPoP()
+                    app.buttons["loginOptionsCloseButton"].tap()
+                }
+            }
+        }
     }
     
     // MARK: - Public API for Subclasses
@@ -143,6 +180,7 @@ class BaseAuthFlowTester: XCTestCase {
         forceAdvancedAuthentication: Bool? = nil,
         useWelcomeDiscovery: Bool = false,
         loginForAdmin: Bool = false,
+        useDPoP: Bool = false
     ) {
         let userConfig = getUser(loginHost: loginHost, user: user)
         let hostConfig = getLoginHost(loginHost: loginHost)
@@ -174,6 +212,7 @@ class BaseAuthFlowTester: XCTestCase {
             forceAdvancedAuthentication: forceAdvancedAuthentication,
             discoveryLoginHost: useWelcomeDiscovery ? hostConfig.urlNoProtocol : "",
             discoveryUsername: useWelcomeDiscovery ? userConfig.username : "",
+            useDPoP: useDPoP
         )
 
         // Closing login options restarts authentication, so the login surface reappears — the
@@ -286,6 +325,7 @@ class BaseAuthFlowTester: XCTestCase {
         userScopeSelection: ScopeSelection = .empty,
         useWebServerFlow: Bool = true,
         useHybridFlow: Bool = true,
+        forceAdvancedAuthentication: Bool? = nil,
         loginForAdmin: Bool = false,
         isMultiUser: Bool = false
     ) {
@@ -300,7 +340,7 @@ class BaseAuthFlowTester: XCTestCase {
             userScopeSelection: userScopeSelection,
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow,
-            expectAdvancedAuth: loginForAdmin || loginHost == .advancedAuth,
+            expectAdvancedAuth: loginForAdmin || loginHost == .advancedAuth || (forceAdvancedAuthentication != false),
             isMultiUser: isMultiUser
         )
     }
@@ -377,6 +417,7 @@ class BaseAuthFlowTester: XCTestCase {
         useWelcomeDiscovery: Bool = false,
         loginForAdmin: Bool = false,
         isMultiUser: Bool = false,
+        useDPoP: Bool = false
     ) {
         let useStaticConfiguration = dynamicAppConfigName == nil
         let userAppConfigName = useStaticConfiguration ? staticAppConfigName : dynamicAppConfigName!
@@ -397,7 +438,8 @@ class BaseAuthFlowTester: XCTestCase {
             useHybridFlow: useHybridFlow,
             forceAdvancedAuthentication: forceAdvancedAuthentication,
             useWelcomeDiscovery: useWelcomeDiscovery,
-            loginForAdmin: loginForAdmin
+            loginForAdmin: loginForAdmin,
+            useDPoP: useDPoP
         )
 
         // Validate
@@ -412,9 +454,11 @@ class BaseAuthFlowTester: XCTestCase {
             userScopeSelection: userScopeSelection,
             useWebServerFlow: effectiveUseWebServerFlow,
             useHybridFlow: useHybridFlow,
+            forceAdvancedAuthentication: forceAdvancedAuthentication,
             isMultiUser: isMultiUser,
             usesWelcomeDiscovery: useWelcomeDiscovery,
-            loginForAdmin: loginForAdmin
+            loginForAdmin: loginForAdmin,
+            useDPoP: useDPoP
         )
     }
     
@@ -476,7 +520,9 @@ class BaseAuthFlowTester: XCTestCase {
         dynamicScopeSelection: ScopeSelection = .empty,
         useWebServerFlow: Bool = true,
         useHybridFlow: Bool = true,
+        forceAdvancedAuthentication: Bool? = nil,
         isMultiUser: Bool = true,
+        useDPoP: Bool = false
     ) {
         let useStaticConfiguration = dynamicAppConfigName == nil
         let userAppConfigName = useStaticConfiguration ? staticAppConfigName : dynamicAppConfigName!
@@ -495,6 +541,8 @@ class BaseAuthFlowTester: XCTestCase {
             dynamicScopeSelection: dynamicScopeSelection,
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow,
+            forceAdvancedAuthentication: forceAdvancedAuthentication,
+            useDPoP: useDPoP
         )
 
         // Validate
@@ -507,7 +555,9 @@ class BaseAuthFlowTester: XCTestCase {
             userScopeSelection: userScopeSelection,
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow,
-            isMultiUser: isMultiUser
+            forceAdvancedAuthentication: forceAdvancedAuthentication,
+            isMultiUser: isMultiUser,
+            useDPoP: useDPoP
         )
     }
 
@@ -532,6 +582,7 @@ class BaseAuthFlowTester: XCTestCase {
         userScopeSelection: ScopeSelection = .empty,
         useWebServerFlow: Bool = true,
         useHybridFlow: Bool = true,
+        forceAdvancedAuthentication: Bool? = nil,
         loginForAdmin: Bool = false,
         usesWelcomeDiscovery: Bool = false,
         isMultiUser: Bool = false
@@ -552,7 +603,7 @@ class BaseAuthFlowTester: XCTestCase {
             userScopeSelection: userScopeSelection,
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow,
-            expectAdvancedAuth: loginForAdmin || loginHost == .advancedAuth,
+            expectAdvancedAuth: loginForAdmin || loginHost == .advancedAuth || (forceAdvancedAuthentication != false),
             usesWelcomeDiscovery: usesWelcomeDiscovery,
             isMultiUser: isMultiUser
         )
@@ -579,10 +630,12 @@ class BaseAuthFlowTester: XCTestCase {
         migrationScopeSelection: ScopeSelection = .empty,
         migrationUseWebServerFlow: Bool = true,
         migrationUseHybridFlow: Bool = true,
+        forceAdvancedAuthentication: Bool? = nil,
+        useDPoP: Bool = false
     ) {
         // Get original credentials before migration
         let originalUserCredentials = mainPage.getUserCredentials()
-        
+
         // Get current user
         let user = getKnownUserConfig(loginHost: loginHost, byUsername: originalUserCredentials.username)
 
@@ -595,7 +648,18 @@ class BaseAuthFlowTester: XCTestCase {
             useHybridFlow: migrationUseHybridFlow
         )
 
-        // Validate after migration
+        // Validate after migration.
+        //
+        // NB on `useDPoP`: The SDK's Change Key sheet does not expose a DPoP toggle, so the
+        // migration refresh exchange inherits `SalesforceManager.shared.usesDPoP` from the initial
+        // login. We forward `useDPoP` here purely to strengthen the intermediate revoke/refresh
+        // assertion inside `validate` — without it, a DPoP regression during the post-migration
+        // refresh cycle would go undetected here.
+        //
+        // NB on `forceAdvancedAuthentication`: on iOS, the BW feature marker registered by
+        // `SFOAuthCoordinator` at initial login does not appear in the migrated user's UA after
+        // `migrateRefreshToken`. Migration tests pass `false` here so `expectAdvancedAuth`
+        // matches the observed post-migration UA.
         let migratedUserCredentials = validate(
             loginHost: loginHost,
             user: user,
@@ -604,7 +668,9 @@ class BaseAuthFlowTester: XCTestCase {
             userAppConfigName: migrationAppConfigName,
             userScopeSelection: migrationScopeSelection,
             useWebServerFlow: migrationUseWebServerFlow,
-            useHybridFlow: migrationUseHybridFlow
+            useHybridFlow: migrationUseHybridFlow,
+            forceAdvancedAuthentication: forceAdvancedAuthentication,
+            useDPoP: useDPoP
         )
 
         // Making sure the refresh token changed
@@ -649,8 +715,8 @@ class BaseAuthFlowTester: XCTestCase {
     ///   - usesWelcomeDiscovery: Whether welcome domain discovery was used. Defaults to `false`.
     ///   - isMultiUser: Whether multiple users are currently logged in. Defaults to `false`.
     ///   - isRtr: Whether Refresh Token Rotation is enabled, which sets the RT flag. Defaults to `false`.
-    func validateUserAgent(userCredentials: UserCredentialsData, loginHost: KnownLoginHostConfig, expectAdvancedAuth: Bool = false, usesWelcomeDiscovery: Bool = false, isMultiUser: Bool = false, isRtr: Bool = false) {
-        validateUserAgent(ua: userCredentials.userAgent, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, usesWelcomeDiscovery: usesWelcomeDiscovery, isMultiUser: isMultiUser, isRtr: isRtr)
+    func validateUserAgent(userCredentials: UserCredentialsData, loginHost: KnownLoginHostConfig, expectAdvancedAuth: Bool = false, usesWelcomeDiscovery: Bool = false, isMultiUser: Bool = false, isRtr: Bool = false, expectDP: Bool = false) {
+        validateUserAgent(ua: userCredentials.userAgent, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, usesWelcomeDiscovery: usesWelcomeDiscovery, isMultiUser: isMultiUser, isRtr: isRtr, expectDP: expectDP)
     }
 
     /// Validates a pre-fetched user agent string. Called from validate() which already has the UA.
@@ -662,7 +728,7 @@ class BaseAuthFlowTester: XCTestCase {
     ///   - usesWelcomeDiscovery: Whether welcome domain discovery was used. Defaults to `false`.
     ///   - isMultiUser: Whether multiple users are currently logged in. Defaults to `false`.
     ///   - isRtr: Whether Refresh Token Rotation is enabled, which sets the RT flag. Defaults to `false`.
-    private func validateUserAgent(ua: String, loginHost: KnownLoginHostConfig, expectAdvancedAuth: Bool = false, usesWelcomeDiscovery: Bool = false, isMultiUser: Bool = false, isRtr: Bool = false) {
+    private func validateUserAgent(ua: String, loginHost: KnownLoginHostConfig, expectAdvancedAuth: Bool = false, usesWelcomeDiscovery: Bool = false, isMultiUser: Bool = false, isRtr: Bool = false, expectDP: Bool = false) {
         XCTAssertTrue(ua.contains("SalesforceMobileSDK/"), "User agent should contain 'SalesforceMobileSDK/' prefix; got: \(ua)")
         XCTAssertTrue(ua.contains("ftr_"), "User agent should contain 'ftr_' feature flag segment; got: \(ua)")
 
@@ -700,6 +766,14 @@ class BaseAuthFlowTester: XCTestCase {
         } else {
             XCTAssertFalse(flagSet.contains("RT"),
                            "User agent should NOT contain 'RT' flag when Refresh Token Rotation has not occurred; flags: \(flagSet), ua: \(ua)")
+        }
+
+        if expectDP {
+            XCTAssertTrue(flagSet.contains("DP"),
+                          "User agent should contain 'DP' flag for DPoP-bound session; flags: \(flagSet), ua: \(ua)")
+        } else {
+            XCTAssertFalse(flagSet.contains("DP"),
+                           "User agent should NOT contain 'DP' flag when DPoP is not enabled; flags: \(flagSet), ua: \(ua)")
         }
     }
 
@@ -878,8 +952,13 @@ class BaseAuthFlowTester: XCTestCase {
         assertSIDs(userCredentialsData: userCredentials, useHybridFlow: useHybridFlow, useJwt: issuesJwt)
         assertURLs(userCredentialsData: userCredentials, useWebServerFlow: useWebServerFlow)
 
+        // DPoP token binding: assert on any DPoP-app path (login, switch, restart, migration)
+        if userAppConfig.isDPoP {
+            assertDPoPCredentials(userCredentials)
+        }
+
         // Validate feature flags using UA already present in the fetched credentials
-        validateUserAgent(ua: userCredentials.userAgent, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, usesWelcomeDiscovery: usesWelcomeDiscovery, isMultiUser: isMultiUser)
+        validateUserAgent(ua: userCredentials.userAgent, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, usesWelcomeDiscovery: usesWelcomeDiscovery, isMultiUser: isMultiUser, expectDP: userAppConfig.isDPoP)
 
         return userCredentials
     }
@@ -897,15 +976,19 @@ class BaseAuthFlowTester: XCTestCase {
         userScopeSelection: ScopeSelection,
         useWebServerFlow: Bool,
         useHybridFlow: Bool,
+        forceAdvancedAuthentication: Bool? = nil,
         isMultiUser: Bool = false,
         usesWelcomeDiscovery: Bool = false,
         loginForAdmin: Bool = false,
+        useDPoP: Bool = false,
     ) -> UserCredentialsData {
 
         let staticAppConfig = getAppConfig(named: staticAppConfigName)
 
         // Check that app loads and shows the expected user credentials etc
         assertMainPageLoaded()
+
+        let expectAdvancedAuth = loginForAdmin || loginHost == .advancedAuth || (forceAdvancedAuthentication != false)
 
         let userCredentials = validateUser(
             loginHost: loginHost,
@@ -914,14 +997,14 @@ class BaseAuthFlowTester: XCTestCase {
             userScopeSelection: userScopeSelection,
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow,
-            expectAdvancedAuth: loginForAdmin || loginHost == .advancedAuth,
+            expectAdvancedAuth: expectAdvancedAuth,
             usesWelcomeDiscovery: usesWelcomeDiscovery,
             isMultiUser: isMultiUser
         )
 
         // Revoke and refresh cycle
         let userAppConfig = getAppConfig(named: userAppConfigName)
-        assertRevokeAndRefreshWorks(previousCredentials: userCredentials, isRtr: userAppConfig.isRtr, loginHost: loginHost)
+        assertRevokeAndRefreshWorks(previousCredentials: userCredentials, isRtr: userAppConfig.isRtr, isDPoP: useDPoP, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, isMultiUser: isMultiUser)
 
         // Check the oauth configuration
         _ = checkOauthConfiguration(
@@ -1050,11 +1133,14 @@ class BaseAuthFlowTester: XCTestCase {
     }
     
     /// Captures current credentials then performs a revoke/refresh cycle and validates the result.
-    func assertRevokeAndRefreshWorks(isRtr: Bool, loginHost: KnownLoginHostConfig = .regularAuth) {
-        assertRevokeAndRefreshWorks(previousCredentials: getUserCredentials(), isRtr: isRtr, loginHost: loginHost)
+    ///
+    /// `expectAdvancedAuth` defaults to `true` because interactive login defaults to advanced auth
+    /// (external browser), which registers the BW feature marker on the UA.
+    func assertRevokeAndRefreshWorks(isRtr: Bool, isDPoP: Bool = false, loginHost: KnownLoginHostConfig = .regularAuth, expectAdvancedAuth: Bool = true, isMultiUser: Bool = false) {
+        assertRevokeAndRefreshWorks(previousCredentials: getUserCredentials(), isRtr: isRtr, isDPoP: isDPoP, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, isMultiUser: isMultiUser)
     }
 
-    private func assertRevokeAndRefreshWorks(previousCredentials: UserCredentialsData, isRtr: Bool, loginHost: KnownLoginHostConfig = .regularAuth) {
+    private func assertRevokeAndRefreshWorks(previousCredentials: UserCredentialsData, isRtr: Bool, isDPoP: Bool = false, loginHost: KnownLoginHostConfig = .regularAuth, expectAdvancedAuth: Bool = true, isMultiUser: Bool = false) {
         // Revoke access token
         XCTAssert(mainPage.revokeAccessToken(), "Failed to revoke access token")
 
@@ -1085,9 +1171,30 @@ class BaseAuthFlowTester: XCTestCase {
             )
         }
 
+        // Assert DPoP token type and nonce presence if DPoP is enabled
+        if isDPoP {
+            assertDPoPCredentials(credentialsAfterRefresh, context: "after refresh")
+        }
+
         validateUserAgent(userCredentials: credentialsAfterRefresh,
                           loginHost: loginHost,
-                          isRtr: isRtr)
+                          expectAdvancedAuth: expectAdvancedAuth,
+                          isMultiUser: isMultiUser,
+                          isRtr: isRtr,
+                          expectDP: isDPoP)
+    }
+
+    /// Asserts the DPoP token-type and nonce triad on a set of credentials.
+    ///
+    /// - Parameters:
+    ///   - credentials: Credentials fetched from the main page after a DPoP-bound event.
+    ///   - context: Optional context appended to failure messages (e.g. "after refresh",
+    ///     "after migration"). Kept short — surfaces which flow step failed at a glance.
+    private func assertDPoPCredentials(_ credentials: UserCredentialsData, context: String = "") {
+        let ctx = context.isEmpty ? "" : " (\(context))"
+        XCTAssertEqual(credentials.dpopTokenType, "DPoP", "Token type should be DPoP\(ctx)")
+        XCTAssertNotNil(credentials.dpopNonce, "DPoP nonce should be present\(ctx)")
+        XCTAssertFalse(credentials.dpopNonce?.isEmpty ?? true, "DPoP nonce should not be empty\(ctx)")
     }
     
     private func sortedScopes(_ value: String) -> String {

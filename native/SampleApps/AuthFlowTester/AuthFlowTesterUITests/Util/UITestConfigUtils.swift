@@ -96,6 +96,8 @@ enum KnownAppConfig: String {
     case ecaJwt = "eca_jwt"
     case ecaOpaqueRtr = "eca_opaque_rtr"
     case ecaJwtRtr = "eca_jwt_rtr"
+    case ecaJwtDpop = "eca_jwt_dpop"
+    case ecaJwtDpopRtr = "eca_jwt_dpop_rtr"
     case beaconOpaque = "beacon_opaque"
     case beaconJwt = "beacon_jwt"
     case caOpaque = "ca_opaque"
@@ -135,7 +137,12 @@ struct AppConfig: Codable {
     var isRtr: Bool {
         return name.contains("_rtr")
     }
-    
+
+    /// Returns true if the app uses DPoP (name contains "_dpop")
+    var isDPoP: Bool {
+        return name.contains("_dpop")
+    }
+
     /// Returns scopes as an array
     var scopesArray: [String] {
         return scopes.split(separator: " ").map { String($0) }.filter { !$0.isEmpty }

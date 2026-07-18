@@ -62,6 +62,8 @@ public struct CredentialsLabels {
     public static let challengeString = "Challenge String"
     public static let issuedAt = "Issued At"
     public static let scopes = "Scopes"
+    public static let oauthTokenType = "OAuth Token Type"
+    public static let dpopNonce = "DPoP Nonce"
     
     // URLs fields
     public static let instanceUrl = "Instance URL"
@@ -177,6 +179,10 @@ struct UserCredentialsView: View {
                         InfoRowView(label: "\(CredentialsLabels.challengeString):", value: challengeString, isSensitive: true)
                         InfoRowView(label: "\(CredentialsLabels.issuedAt):", value: issuedAt)
                         InfoRowView(label: "\(CredentialsLabels.scopes):", value: credentialsScopes)
+                        InfoRowView(label: "\(CredentialsLabels.oauthTokenType):", value: oauthTokenType)
+                            .accessibilityIdentifier("oauthTokenTypeRow")
+                        InfoRowView(label: "\(CredentialsLabels.dpopNonce):", value: dpopNonce)
+                            .accessibilityIdentifier("dpopNonceRow")
                     }
                     
                     InfoSectionView(title: CredentialsLabels.urls, isExpanded: $urlsExpanded) {
@@ -281,7 +287,9 @@ struct UserCredentialsView: View {
             CredentialsLabels.authCode: authCode,
             CredentialsLabels.challengeString: challengeString,
             CredentialsLabels.issuedAt: issuedAt,
-            CredentialsLabels.scopes: credentialsScopes
+            CredentialsLabels.scopes: credentialsScopes,
+            CredentialsLabels.oauthTokenType: oauthTokenType,
+            CredentialsLabels.dpopNonce: dpopNonce
         ]
         
         // URLs section
@@ -394,7 +402,8 @@ struct UserCredentialsView: View {
     }
     
     private var tokenFormat: String {
-        return credentials?.tokenFormat ?? ""
+        let value = credentials?.tokenFormat ?? ""
+        return value.isEmpty ? "Opaque" : value
     }
     
     private var jwt: String {
@@ -423,7 +432,15 @@ struct UserCredentialsView: View {
         }
         return scopes.sorted().joined(separator: " ")
     }
-    
+
+    private var oauthTokenType: String {
+        return credentials?.tokenType ?? "Bearer"
+    }
+
+    private var dpopNonce: String {
+        return DPoPNonceCache.shared.latest(forScope: credentials?.identifier) ?? "None"
+    }
+
     // URLs
     private var instanceUrl: String {
         return credentials?.instanceUrl?.absoluteString ?? ""

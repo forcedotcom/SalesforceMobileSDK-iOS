@@ -52,6 +52,7 @@ class LoginOptionsPageObject {
         forceAdvancedAuthentication: Bool? = nil,
         discoveryLoginHost: String,
         discoveryUsername: String,
+        useDPoP: Bool = false
     ) -> Void {
         // Set auth flow types using the dedicated page object
         authFlowTypesPageObject.setAuthFlowTypes(
@@ -59,6 +60,13 @@ class LoginOptionsPageObject {
             useHybridFlow: useHybridFlow,
             forceAdvancedAuthentication: forceAdvancedAuthentication
         )
+
+        // Set DPoP toggle
+        if useDPoP {
+            enableDPoP()
+        } else {
+            disableDPoP()
+        }
 
         if let staticAppConfig = staticAppConfig {
             let configJSON = buildConfigJSON(consumerKey: staticAppConfig.consumerKey, redirectUri: staticAppConfig.redirectUri, scopes: staticScopes)
@@ -148,7 +156,33 @@ class LoginOptionsPageObject {
         return app.buttons["loginOptionsCloseButton"]
     }
 
+    private func useDPoPToggle() -> XCUIElement {
+        return app.switches["useDPoPToggle"]
+    }
+
     // MARK: - Actions
+
+    /// Enables the DPoP toggle idempotently (no-op if already on)
+    func enableDPoP() {
+        let toggle = useDPoPToggle()
+        let exists = toggle.waitForExistence(timeout: UITestTimeouts.long)
+        XCTAssertTrue(exists, "DPoP toggle did not appear within \(UITestTimeouts.long)s")
+
+        if toggle.value as? String == "0" {
+            toggle.tap()
+        }
+    }
+
+    /// Disables the DPoP toggle idempotently (no-op if already off)
+    func disableDPoP() {
+        let toggle = useDPoPToggle()
+        let exists = toggle.waitForExistence(timeout: UITestTimeouts.long)
+        XCTAssertTrue(exists, "DPoP toggle did not appear within \(UITestTimeouts.long)s")
+
+        if toggle.value as? String == "1" {
+            toggle.tap()
+        }
+    }
 
     private func tap(_ element: XCUIElement, timeout: TimeInterval = UITestTimeouts.long, file: StaticString = #file, line: UInt = #line) {
         let exists = element.waitForExistence(timeout: timeout)
