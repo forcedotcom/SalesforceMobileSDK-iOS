@@ -6,7 +6,7 @@ on:
   pull_request_target:  # zizmor: ignore[dangerous-triggers]
     # feature/dpopBehavior is a temporary entry: PRs in the multi-PR DPoP
     # rollout target this branch. Remove once DPoP is merged back to dev.
-    branches: [dev, master, dpop]
+    branches: [dev, master]
     paths-ignore:
       - '**/*.md'
       - 'LICENSE'
