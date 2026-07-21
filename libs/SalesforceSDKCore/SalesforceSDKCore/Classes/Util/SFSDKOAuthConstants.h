@@ -38,6 +38,7 @@ static NSString * const kSFRevokePath                           = @"/services/oa
 static NSUInteger const kSFOAuthCodeVerifierByteLength          = 128;
 static NSString * const kSFOAuthCodeVerifierParamName           = @"code_verifier";
 static NSString * const kSFOAuthCodeChallengeParamName          = @"code_challenge";
+static NSString * const kSFOAuthDPoPJktParamName                = @"dpop_jkt";
 static NSString * const kSFOAuthResponseTypeCode                = @"code";
 static NSString * const kSFOAuthAccessToken                     = @"access_token";
 static NSString * const kSFOAuthClientId                        = @"client_id";
@@ -78,6 +79,7 @@ static NSString * const kSFOAuthCookieSidClient                 = @"cookie-sid_C
 static NSString * const kSFOAuthSidCookieName                   = @"sidCookieName";
 static NSString * const kSFOAuthParentSid                       = @"parent_sid";
 static NSString * const kSFOAuthTokenFormat                     = @"token_format";
+static NSString * const kSFOAuthTokenType                       = @"token_type";
 static NSString * const kSFOAuthBeaconChildConsumerKey          = @"auto_installed_app_org_consumer_key";
 static NSString * const kSFOAuthBeaconChildConsumerSecret       = @"auto_installed_app_org_consumer_secret";
 // TODO: Remove legacy fallback constants once server version 264 has rolled out everywhere.
@@ -135,6 +137,7 @@ static NSString * const kHttpHeaderContentType                      = @"Content-
 static NSString * const kHttpPostContentType                        = @"application/x-www-form-urlencoded";
 static NSString * const kHttpPostApplicationJsonContentType         = @"application/json";
 static NSString * const kHttpHeaderUserAgent                        = @"User-Agent";
+static NSString * const kHttpHeaderDPoP                             = @"DPoP";
 static NSString * const kOAuthUserAgentUserDefaultsKey              = @"UserAgent";
 static NSString * const kSFECParameter                              = @"ec";
 

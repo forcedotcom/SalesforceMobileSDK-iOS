@@ -332,6 +332,7 @@ SFNativeLoginManagerInternal *nativeLogin;
         self.useWebServerAuthentication = YES;
         self.blockSalesforceIntegrationUser = NO;
         self.useHybridAuthentication = YES;
+        self.useDPoP = NO;
         self.sdk_forceAdvancedAuthentication = YES;
         [self setupServiceConfiguration];
         _snapshotViewControllers = [SFSDKSafeMutableDictionary new];
@@ -574,6 +575,7 @@ SFNativeLoginManagerInternal *nativeLogin;
     [devInfos addObjectsFromArray:@[
             @"Use Web Server Authentication", [self useWebServerAuthentication]  ? @"YES" : @"NO",
             @"Use Hybrid Authentication", [self useHybridAuthentication]  ? @"YES" : @"NO",
+            @"Use DPoP", [self useDPoP] ? @"YES" : @"NO",
             @"Force Advanced Authentication", [self sdk_forceAdvancedAuthentication]  ? @"YES" : @"NO",
             @"Browser Login Enabled", [SFUserAccountManager sharedInstance].useBrowserAuth? @"YES" : @"NO",
             @"IDP Enabled", [self idpEnabled] ? @"YES" : @"NO",
@@ -596,9 +598,30 @@ SFNativeLoginManagerInternal *nativeLogin;
             @"Scopes", [self scopesToString:currentUser],
             @"Instance URL", [creds.instanceUrl absoluteString] ?: @"(nil)",
             @"Token format", [creds.tokenFormat isEqualToString:@"jwt"] ? @"jwt" : @"opaque",
+            @"OAuth Token Type", creds.tokenType ?: @"Bearer",
             @"Access Token Expiration", [self accessTokenExpiration],
             @"Beacon Child Consumer Key", creds.beaconChildConsumerKey ?: @"(empty)"
         ]];
+
+        if ([creds.tokenType isEqualToString:@"DPoP"]) {
+            [devInfos addObjectsFromArray:@[
+                @"DPoP Nonce", [SFSDKDPoPNonceCache.shared latestForScope:creds.identifier] ?: @"None"
+            ]];
+
+            NSError *kpErr = nil;
+            SFSDKDPoPKeyPair *keyPair = [SFSDKDPoPKeyStore.shared keyPairForCredentials:creds error:&kpErr];
+            NSString *thumbprint = @"Unavailable";
+            if (keyPair && !kpErr) {
+                NSError *tpErr = nil;
+                NSString *computed = [SFSDKDPoPProofBuilder jwkThumbprintWithPublicKey:keyPair.publicKey error:&tpErr];
+                if (computed && !tpErr) {
+                    thumbprint = computed;
+                }
+            }
+            [devInfos addObjectsFromArray:@[
+                @"DPoP Key Thumbprint", thumbprint
+            ]];
+        }
     }
     
     // Key Value Stores

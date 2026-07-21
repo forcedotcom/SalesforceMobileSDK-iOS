@@ -120,6 +120,15 @@
 		4FE006E02EBEBC0000CFD66F /* NativeLoginManagerInternal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE006DF2EBEBC0000CFD66F /* NativeLoginManagerInternal.swift */; };
 		4FE006E12EBEBC0000CFD66F /* NativeLoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE006DE2EBEBC0000CFD66F /* NativeLoginManager.swift */; };
 		4FE0070F2EBED6C000CFD66F /* SFSDKLoginHost.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FE006CB2EBEBBF300CFD66F /* SFSDKLoginHost.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4FE5332A1BFFE70600814D2A /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F7EB4981BFFCEF600768720 /* Main_iPad.storyboard */; };
+		4FE5332B1BFFE70600814D2A /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F7EB49A1BFFCEF600768720 /* Main_iPhone.storyboard */; };
+		68FE80562FD0DE4E00947FFF /* DPoPNonceCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68FE80522FD0DE4E00947FFF /* DPoPNonceCache.swift */; };
+		68FE80572FD0DE4E00947FFF /* DPoPRequestDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68FE80542FD0DE4E00947FFF /* DPoPRequestDecorator.swift */; };
+		68FE80582FD0DE4E00947FFF /* DPoPProofBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68FE80532FD0DE4E00947FFF /* DPoPProofBuilder.swift */; };
+		68FE80592FD0DE4E00947FFF /* DPoPKeyStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68FE80512FD0DE4E00947FFF /* DPoPKeyStore.swift */; };
+		68FE805B2FD0DE4E00947FFF /* DPoPURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68FE805A2FD0DE4E00947FFF /* DPoPURL.swift */; };
+		68FE80602FD0E35D00947FFF /* SFSDKDPoPTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68FE805F2FD0E35D00947FFF /* SFSDKDPoPTests.swift */; };
+		68FE80622FD0E35D00947FFF /* EncryptorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68FE80612FD0E35D00947FFF /* EncryptorTests.swift */; };
 		6900B62C24B64DD800500923 /* NSURLResponse+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6900B62A24B64DD800500923 /* NSURLResponse+SFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6900B62D24B64DD800500923 /* NSURLResponse+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6900B62B24B64DD800500923 /* NSURLResponse+SFAdditions.m */; };
 		6900D804243D521C00888336 /* SFRestAPI+Notifications.h in Headers */ = {isa = PBXBuildFile; fileRef = 6900D802243D521C00888336 /* SFRestAPI+Notifications.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -735,6 +744,13 @@
 		4FF946221BFFF663005368C5 /* NSURL+SFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+SFAdditions.m"; sourceTree = "<group>"; };
 		4FF946251BFFF7AD005368C5 /* SFIdentityData+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFIdentityData+Internal.h"; sourceTree = "<group>"; };
 		4FFE4A001BFE522F00F15E01 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		68FE80512FD0DE4E00947FFF /* DPoPKeyStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DPoPKeyStore.swift; sourceTree = "<group>"; };
+		68FE80522FD0DE4E00947FFF /* DPoPNonceCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DPoPNonceCache.swift; sourceTree = "<group>"; };
+		68FE80532FD0DE4E00947FFF /* DPoPProofBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DPoPProofBuilder.swift; sourceTree = "<group>"; };
+		68FE80542FD0DE4E00947FFF /* DPoPRequestDecorator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DPoPRequestDecorator.swift; sourceTree = "<group>"; };
+		68FE805A2FD0DE4E00947FFF /* DPoPURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DPoPURL.swift; sourceTree = "<group>"; };
+		68FE805F2FD0E35D00947FFF /* SFSDKDPoPTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSDKDPoPTests.swift; sourceTree = "<group>"; };
+		68FE80612FD0E35D00947FFF /* EncryptorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncryptorTests.swift; sourceTree = "<group>"; };
 		6900B62A24B64DD800500923 /* NSURLResponse+SFAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSURLResponse+SFAdditions.h"; sourceTree = "<group>"; };
 		6900B62B24B64DD800500923 /* NSURLResponse+SFAdditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSURLResponse+SFAdditions.m"; sourceTree = "<group>"; };
 		6900D802243D521C00888336 /* SFRestAPI+Notifications.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SFRestAPI+Notifications.h"; sourceTree = "<group>"; };
@@ -1054,6 +1070,8 @@
 		4F7EB3F61BFFC84700768720 /* SalesforceSDKCoreTests */ = {
 			isa = PBXGroup;
 			children = (
+				68FE805F2FD0E35D00947FFF /* SFSDKDPoPTests.swift */,
+				68FE80612FD0E35D00947FFF /* EncryptorTests.swift */,
 				699202FC2FEF11D70032ECD7 /* SFSDKTokenRefreshCoordinatorTests.m */,
 				AA9154472F59E3C900A0A41C /* SFRestAPIDataTaskRaceTests.m */,
 				23F200AB2E551C890091C5F5 /* ActionTypeTests.swift */,
@@ -1218,6 +1236,7 @@
 		4F96FCC41BFD32130022F021 /* OAuth */ = {
 			isa = PBXGroup;
 			children = (
+				68FE80552FD0DE4E00947FFF /* DPoP */,
 				699203032FEF146F0032ECD7 /* SFSDKTokenRefreshCoordinator.h */,
 				699203042FEF146F0032ECD7 /* SFSDKTokenRefreshCoordinator.m */,
 				4F5A494F2E98711600C89DDD /* ScopeParser.swift */,
@@ -1360,6 +1379,18 @@
 				4FE006B02EBEB65900CFD66F /* AuthFlowTypesView.swift */,
 			);
 			path = DevConfig;
+			sourceTree = "<group>";
+		};
+		68FE80552FD0DE4E00947FFF /* DPoP */ = {
+			isa = PBXGroup;
+			children = (
+				68FE80512FD0DE4E00947FFF /* DPoPKeyStore.swift */,
+				68FE80522FD0DE4E00947FFF /* DPoPNonceCache.swift */,
+				68FE80532FD0DE4E00947FFF /* DPoPProofBuilder.swift */,
+				68FE80542FD0DE4E00947FFF /* DPoPRequestDecorator.swift */,
+				68FE805A2FD0DE4E00947FFF /* DPoPURL.swift */,
+			);
+			path = DPoP;
 			sourceTree = "<group>";
 		};
 		6935FB9823FDE919002BEFCC /* UserAccount */ = {
@@ -2243,6 +2274,8 @@
 				4F06AF941C49A18E00F70798 /* SFTestSDKManagerFlow.m in Sources */,
 				23CAB0F92DCBE51F00B8929B /* MockRestClient.swift in Sources */,
 				B7E66AE923763278005A652E /* RestClientPublisherTests.swift in Sources */,
+				68FE80602FD0E35D00947FFF /* SFSDKDPoPTests.swift in Sources */,
+				68FE80622FD0E35D00947FFF /* EncryptorTests.swift in Sources */,
 				697F5C4F267BE29A00F382A9 /* EncryptionTests.swift in Sources */,
 				23D96B762E145B400004B06A /* DomainDiscoveryCoordinatorTests.swift in Sources */,
 				00209E9DDE281C6B1FB7B75A /* WelcomeDiscoveryLoginHostTests.swift in Sources */,
@@ -2340,6 +2373,11 @@
 				B72171572353BFF20022510F /* SFSDKAuthRequest.m in Sources */,
 				B78A238D21014FCA00B19AB3 /* SFSDKAuthHelper.m in Sources */,
 				A3C7475F29F7087B00D72B7F /* BiometricAuthenticationManager.swift in Sources */,
+				68FE80562FD0DE4E00947FFF /* DPoPNonceCache.swift in Sources */,
+				68FE80572FD0DE4E00947FFF /* DPoPRequestDecorator.swift in Sources */,
+				68FE80582FD0DE4E00947FFF /* DPoPProofBuilder.swift in Sources */,
+				68FE80592FD0DE4E00947FFF /* DPoPKeyStore.swift in Sources */,
+				68FE805B2FD0DE4E00947FFF /* DPoPURL.swift in Sources */,
 				4FE006B12EBEB65900CFD66F /* AuthFlowTypesView.swift in Sources */,
 				4FE006B22EBEB65900CFD66F /* BootConfigEditor.swift in Sources */,
 				4FE006B32EBEB65900CFD66F /* LoginOptionsViewController.swift in Sources */,

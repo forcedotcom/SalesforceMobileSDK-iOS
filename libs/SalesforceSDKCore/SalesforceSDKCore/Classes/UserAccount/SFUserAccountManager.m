@@ -733,6 +733,10 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
                                                        userInfo:userInfo];
 
     [self deleteAccountForUser:user error:nil];
+    if (user.credentials.identifier.length > 0) {
+        [SFSDKDPoPKeyStore.shared deleteForCredentials:user.credentials];
+        [SFSDKDPoPNonceCache.shared clearForScope:user.credentials.identifier];
+    }
     id<SFSDKOAuthProtocol> authClient = self.authClient();
     [authClient revokeRefreshToken:user.credentials reason:reason];
     BOOL isCurrentUser = [user isEqual:self.currentUser];
@@ -2204,6 +2208,12 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         }
     }
 
+    // DPoP: register unconditionally on every completed session where the server issued
+    // a DPoP-bound token (initial login OR refresh) — token_type is a per-session property.
+    if ([userAccount.credentials.tokenType isEqualToString:@"DPoP"]) {
+        [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureDPoP forUser:userAccount];
+    }
+
     // Async call, ignore if theres a failure. If success save the user photo locally.
     [self retrieveUserPhotoIfNeeded:userAccount];
     BOOL shouldNotify = YES;
@@ -2251,9 +2261,26 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     if (account.idData.thumbnailUrl) {
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:account.idData.thumbnailUrl];
         [request setHTTPMethod:@"GET"];
-        [request setValue:[NSString stringWithFormat:kHttpAuthHeaderFormatString, account.credentials.accessToken] forHTTPHeaderField:kHttpHeaderAuthorization];
+        NSError *authError = nil;
+        BOOL ok = [SFSDKDPoPRequestDecorator applyAuthHeaders:request
+                                                        scope:account.credentials.identifier
+                                                  accessToken:account.credentials.accessToken
+                                                    tokenType:account.credentials.tokenType
+                                                        error:&authError];
+        if (!ok) {
+            [SFSDKCoreLogger e:[self class] format:@"User photo: failed to stamp authorization headers: %@", authError.localizedDescription];
+            return;
+        }
         SFNetwork *network = [SFNetwork sharedEphemeralInstance];
         [network sendRequest:request  dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error){
+            // Gate harvest on DPoP credentials only — Bearer logins must not write to the
+            // DPoP nonce cache even if the photo origin returns a stray DPoP-Nonce header.
+            if ([account.credentials.tokenType isEqualToString:[SFSDKDPoPRequestDecorator dpopTokenType]]
+                && [[SalesforceSDKManager sharedManager] useDPoP]) {
+                [SFSDKDPoPRequestDecorator harvestNonceFromResponse:response
+                                                         requestURL:request.URL
+                                                              scope:account.credentials.identifier];
+            }
             if (error) {
                 [SFSDKCoreLogger w:[self class] format:@"Error while trying to retrieve user photo: %ld %@", (long) error.code, error.localizedDescription];
                 return;
@@ -2508,7 +2535,17 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     request.cachePolicy = NSURLRequestReloadIgnoringCacheData;
     request.HTTPMethod = @"GET";
     request.HTTPShouldHandleCookies = NO;
-    [request setValue:[NSString stringWithFormat:kHttpAuthHeaderFormatString, credentials.accessToken] forHTTPHeaderField:kHttpHeaderAuthorization];
+    NSError *authError = nil;
+    BOOL ok = [SFSDKDPoPRequestDecorator applyAuthHeaders:request
+                                                    scope:credentials.identifier
+                                              accessToken:credentials.accessToken
+                                                tokenType:credentials.tokenType
+                                                    error:&authError];
+    if (!ok) {
+        [SFSDKCoreLogger e:[self class] format:@"shouldBlockUser: failed to stamp authorization headers: %@", authError.localizedDescription];
+        errorBlock(authError);
+        return;
+    }
 
     __block NSString *networkIdentifier = [SFNetwork uniqueInstanceIdentifier];
     SFNetwork *network = [SFNetwork sharedEphemeralInstanceWithIdentifier:networkIdentifier];

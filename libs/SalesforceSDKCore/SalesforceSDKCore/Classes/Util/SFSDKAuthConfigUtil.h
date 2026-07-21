@@ -30,10 +30,22 @@
 #import <SalesforceSDKCore/SFOAuthCredentials.h>
 #import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
+/// Salesforce pool-server host strings. Exact-match constants used by
+/// `SFSDKAuthConfigUtil` and by DPoP `dpop_jkt` gating to distinguish
+/// pool hosts from my-domain hosts.
+FOUNDATION_EXTERN NSString * _Nonnull const kSFSDKSandboxLoginURL;      // test.salesforce.com
+FOUNDATION_EXTERN NSString * _Nonnull const kSFSDKProductionLoginURL;   // login.salesforce.com
+FOUNDATION_EXTERN NSString * _Nonnull const kSFSDKWelcomeLoginURL;      // welcome.salesforce.com/discovery
+
 @interface SFSDKAuthConfigUtil : NSObject
 
 typedef void (^ _Nonnull MyDomainAuthConfigBlock)(SFOAuthOrgAuthConfiguration * _Nullable authConfig, NSError * _Nullable error);
 
 + (void)getMyDomainAuthConfig:(nonnull MyDomainAuthConfigBlock)authConfigBlock loginDomain:(nonnull NSString *)loginDomain;
+
+/// YES when `host` is one of the three Salesforce pool servers
+/// (login.salesforce.com, test.salesforce.com, welcome.salesforce.com/discovery).
+/// NO for my-domain servers. Exact string match; no normalization.
++ (BOOL)isPoolLoginHost:(nonnull NSString *)host;
 
 @end

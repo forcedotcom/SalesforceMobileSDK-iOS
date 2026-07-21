@@ -545,8 +545,39 @@
     [request setHTTPBody:body];
     [request setHTTPMethod:kHttpMethodPost];
     [request setValue:kHttpPostContentType forHTTPHeaderField:kHttpHeaderContentType];
-    
-    [[self.session dataTaskWithRequest:request completionHandler:completionHandler] resume];
+    [self attachDPoPHeaderIfNeeded:request];
+
+    __weak typeof(self) weakSelf = self;
+    [[self.session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (error == nil && strongSelf.credentials.identifier.length > 0) {
+            [SFSDKDPoPRequestDecorator harvestNonceFromResponse:response
+                                                     requestURL:request.URL
+                                                          scope:strongSelf.credentials.identifier];
+            NSInteger statusCode = 0;
+            if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+                statusCode = ((NSHTTPURLResponse *)response).statusCode;
+            }
+            if ([SFSDKDPoPRequestDecorator isNonceChallengeWithStatusCode:statusCode body:data response:response]) {
+                [SFSDKCoreLogger i:[strongSelf class] format:@"DPoP nonce challenge received on JWT swap; retrying once."];
+                [request setValue:nil forHTTPHeaderField:kHttpHeaderDPoP];
+                [strongSelf attachDPoPHeaderIfNeeded:request];
+                [[strongSelf.session dataTaskWithRequest:request completionHandler:completionHandler] resume];
+                return;
+            }
+        }
+        completionHandler(data, response, error);
+    }] resume];
+}
+
+- (void)attachDPoPHeaderIfNeeded:(NSMutableURLRequest *)request {
+    NSString *scope = self.credentials.identifier;
+    if (scope.length == 0) return;
+    NSError *err = nil;
+    [SFSDKDPoPRequestDecorator decorateRequest:request scope:scope error:&err];
+    if (err) {
+        [SFSDKCoreLogger e:[self class] format:@"DPoP attach failed on JWT swap (code=%ld); proceeding without DPoP header.", (long)err.code];
+    }
 }
 
 // Refresh token migration
@@ -647,6 +678,7 @@
     request.refreshToken = self.credentials.refreshToken;
     request.redirectURI = self.credentials.redirectUri;
     request.serverURL = [self.credentials overrideDomainIfNeeded];
+    request.credentialsIdentifier = self.credentials.identifier;
 
     __weak typeof (self) weakSelf = self;
     if (self.approvalCode) {
@@ -874,7 +906,44 @@
       [approvalUrlString appendFormat:@"&%@=%@", @"login_hint", self.loginHint];
     }
 
+    [self appendDPoPJktIfNeededTo:approvalUrlString domain:domain credentials:credentials];
+
     return approvalUrlString;
+}
+
+// Appends `&dpop_jkt=<base64url-sha256>` to the approval URL when DPoP is enabled
+// and the login server is a my-domain server (RFC 9449 §10 authorization code
+// binding). Soft-fails on key-material / crypto errors: logs a warning and leaves
+// the URL untouched so login proceeds — the server will surface an RFC-shaped
+// `invalid_request` error if the ECA requires code binding.
+- (void)appendDPoPJktIfNeededTo:(NSMutableString *)approvalUrlString
+                         domain:(NSString *)domain
+                    credentials:(SFOAuthCredentials *)credentials {
+    if (![[SalesforceSDKManager sharedManager] useDPoP]) {
+        return;
+    }
+    if (domain == nil || [SFSDKAuthConfigUtil isPoolLoginHost:domain]) {
+        return;
+    }
+    if (credentials.identifier.length == 0) {
+        [SFSDKCoreLogger w:[self class] format:@"DPoP dpop_jkt skipped: missing credentials.identifier"];
+        return;
+    }
+
+    NSError *err = nil;
+    SFSDKDPoPKeyPair *pair = [SFSDKDPoPKeyStore.shared keyPairForCredentials:credentials error:&err];
+    if (!pair || err) {
+        [SFSDKCoreLogger w:[self class] format:@"DPoP dpop_jkt skipped: key pair load failed (%@)", err.localizedDescription];
+        return;
+    }
+
+    NSString *thumbprint = [SFSDKDPoPProofBuilder jwkThumbprintWithPublicKey:pair.publicKey error:&err];
+    if (thumbprint.length == 0 || err) {
+        [SFSDKCoreLogger w:[self class] format:@"DPoP dpop_jkt skipped: thumbprint failed (%@)", err.localizedDescription];
+        return;
+    }
+
+    [approvalUrlString appendFormat:@"&%@=%@", kSFOAuthDPoPJktParamName, thumbprint];
 }
 
 /**

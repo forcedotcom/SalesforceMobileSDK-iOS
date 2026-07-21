@@ -63,7 +63,7 @@ enum {
     kSFOAuthErrorJWTInvalidGrant,
     kSFOAuthErrorRequestCancelled,
     kSFOAuthErrorRefreshFailed, //generic error
-    kSFOAuthErrorInvalidURL
+    kSFOAuthErrorInvalidURL,
 };
 
 typedef NS_ENUM(NSInteger, SFLogoutReason) {
@@ -107,6 +107,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSURL *serverURL;
 @property (nonatomic, strong, nullable) NSDictionary * additionalTokenRefreshParams;
 @property (nonatomic, strong, nullable) NSArray<NSString *> *additionalOAuthParameterKeys;
+/// `SFOAuthCredentials.identifier` for the in-flight account. Used by the DPoP layer to
+/// scope the per-account keypair and nonce cache. Optional; when nil, DPoP is skipped.
+@property (nonatomic, copy, nullable) NSString *credentialsIdentifier;
 @end
 
 @interface SFSDKOAuthTokenEndpointResponse : NSObject
@@ -137,6 +140,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, nullable) NSString *sidCookieName;
 @property (nonatomic, readonly, nullable) NSString *parentSid;
 @property (nonatomic, readonly, nullable) NSString *tokenFormat;
+@property (nonatomic, readonly, nullable) NSString *tokenType;
 @property (nonatomic, readonly, nullable) NSString *beaconChildConsumerKey;
 @property (nonatomic, readonly, nullable) NSString *beaconChildConsumerSecret;
 

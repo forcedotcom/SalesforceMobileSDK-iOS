@@ -60,6 +60,7 @@
     [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureWelcomeDiscovery forUser:self.userA];
     [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureQrCodeLogin forUser:self.userA];
     [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureRTR forUser:self.userA];
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureDPoP forUser:self.userA];
     self.userA = nil;
     self.userB = nil;
     [self clearExistingMarkers];
@@ -294,6 +295,30 @@
 
     // Cleanup
     [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureRTR forUser:self.userA];
+}
+
+#pragma mark - DPoP feature flag tests
+
+- (void)test_givenDPoPTokenType_whenDPFlagRegistered_thenFlagAppearsInPerUserFeaturesNotGlobal {
+    // Arrange: userA is the account whose session was DPoP-bound.
+
+    // Act: simulate finalizeAuthCompletion: registering DP on tokenType match.
+    [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureDPoP forUser:self.userA];
+
+    // Assert: DP in per-user features (union with global).
+    NSSet *features = [SFSDKAppFeatureMarkers appFeaturesForUser:self.userA];
+    XCTAssertTrue([features containsObject:kSFAppFeatureDPoP],
+                  @"DP flag should appear in per-user feature set for DPoP-bound sessions");
+
+    // Assert: DP NOT in global-only set.
+    XCTAssertFalse([[SFSDKAppFeatureMarkers appFeatures] containsObject:kSFAppFeatureDPoP],
+                   @"DP flag should not bleed into global feature set");
+
+    // Assert: per-user isolation — userB (no DPoP session) does not gain DP.
+    XCTAssertFalse([[SFSDKAppFeatureMarkers appFeaturesForUser:self.userB] containsObject:kSFAppFeatureDPoP],
+                   @"userB should not have DP if only userA had a DPoP session");
+
+    // Cleanup handled in tearDown.
 }
 
 #pragma mark - Private helpers

@@ -101,6 +101,18 @@
             "consumerKey": "your_consumer_key_here",
             "redirectUri": "ecaopaquertr://success/done",
             "scopes": "api content id lightning refresh_token sfap_api web"
+        },
+        {
+            "name": "eca_jwt_dpop",
+            "consumerKey": "your_consumer_key_here",
+            "redirectUri": "ecajwtdpop://success/done",
+            "scopes": "api content id lightning refresh_token sfap_api web"
+        },
+        {
+            "name": "eca_jwt_dpop_rtr",
+            "consumerKey": "your_consumer_key_here",
+            "redirectUri": "ecajwtdpoprtr://success/done",
+            "scopes": "api content id lightning refresh_token sfap_api web"
         }
     ]
 }

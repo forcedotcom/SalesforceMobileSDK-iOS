@@ -149,10 +149,21 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
                                                                 cachePolicy:NSURLRequestReloadIgnoringCacheData
                                                             timeoutInterval:self.timeout];
     [request setHTTPMethod:@"GET"];
-    [request setValue:[NSString stringWithFormat:kHttpAuthHeaderFormatString, self.credentials.accessToken] forHTTPHeaderField:kHttpHeaderAuthorization];
+    NSError *authError = nil;
+    BOOL ok = [SFSDKDPoPRequestDecorator applyAuthHeaders:request
+                                                    scope:self.credentials.identifier
+                                              accessToken:self.credentials.accessToken
+                                                tokenType:self.credentials.tokenType
+                                                    error:&authError];
+    if (!ok) {
+        [SFSDKCoreLogger e:[self class] format:@"SFIdentityCoordinator: Failed to stamp authorization headers: %@", authError.localizedDescription];
+        [self notifyDelegateOfFailure:authError];
+        return;
+    }
     [request setTimeoutInterval:self.timeout];
     [request setHTTPShouldHandleCookies:NO];
     [SFSDKCoreLogger d:[self class] format:@"SFIdentityCoordinator:Starting identity request at %@", self.credentials.identityUrl.absoluteString];
+
     __weak __typeof(self) weakSelf = self;
     self.networkIdentifier = [SFNetwork uniqueInstanceIdentifier];
     SFNetwork *network = [SFNetwork sharedEphemeralInstanceWithIdentifier:self.networkIdentifier];

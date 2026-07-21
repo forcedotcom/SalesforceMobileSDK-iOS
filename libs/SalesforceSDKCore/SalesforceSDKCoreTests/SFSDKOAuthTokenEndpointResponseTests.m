@@ -27,11 +27,17 @@
 
 #import <XCTest/XCTest.h>
 #import "SFSDKOAuth2.h"
+#import "SalesforceSDKManager.h"
 
 @interface SFSDKOAuthTokenEndpointResponse ()
 
 - (instancetype)initWithDictionary:(NSDictionary *)nvPairs parseAdditionalFields:(NSArray<NSString *> *)additionalOAuthParameterKeys;
 
+@end
+
+// Expose private helper for byte-stability regression tests.
+@interface SFSDKOAuth2 (TestingPrivate)
+- (NSMutableURLRequest *)prepareBasicRequest:(SFSDKOAuthTokenEndpointRequest *)endpointReq;
 @end
 
 @interface SFSDKOAuthTokenEndpointResponseTests : XCTestCase
@@ -63,6 +69,7 @@
     [params setObject:@"test-sid-cookie-name" forKey:@"sidCookieName"];
     [params setObject:@"test-parent-sid" forKey:@"parent_sid"];
     [params setObject:@"test-token-format" forKey:@"token_format"];
+    [params setObject:@"test-token-type" forKey:@"token_type"];
     [params setObject:@"test-beacon-child-consumer-key" forKey:@"auto_installed_app_org_consumer_key"];
     [params setObject:@"test-beacon-child-consumer-secret" forKey:@"auto_installed_app_org_consumer_secret"];
 
@@ -97,6 +104,7 @@
     XCTAssertEqualObjects(response.sidCookieName, @"test-sid-cookie-name");
     XCTAssertEqualObjects(response.parentSid, @"test-parent-sid");
     XCTAssertEqualObjects(response.tokenFormat, @"test-token-format");
+    XCTAssertEqualObjects(response.tokenType, @"test-token-type");
     XCTAssertEqualObjects(response.beaconChildConsumerKey, @"test-beacon-child-consumer-key");
     XCTAssertEqualObjects(response.beaconChildConsumerSecret, @"test-beacon-child-consumer-secret");
 
@@ -106,6 +114,30 @@
         XCTAssertEqualObjects(response.additionalOAuthFields[field], value);
     }
 
+}
+
+// With useDPoP == NO, the prepared token-endpoint request must be byte-identical
+// to the pre-DPoP baseline — no DPoP header, same URL/method/headers, even when a
+// credentialsIdentifier is set on the endpoint request.
+- (void)test_givenUseDPoPDisabled_whenPrepareBasicRequest_thenNoDPoPHeaderAndCanonicalShape {
+    BOOL prior = [[SalesforceSDKManager sharedManager] useDPoP];
+    [[SalesforceSDKManager sharedManager] setUseDPoP:NO];
+
+    SFSDKOAuthTokenEndpointRequest *endpointReq = [[SFSDKOAuthTokenEndpointRequest alloc] init];
+    endpointReq.serverURL = [NSURL URLWithString:@"https://login.salesforce.com"];
+    endpointReq.timeout = 60.0;
+    endpointReq.credentialsIdentifier = @"some-credentials-id";
+
+    SFSDKOAuth2 *oauth = [[SFSDKOAuth2 alloc] init];
+    NSMutableURLRequest *request = [oauth prepareBasicRequest:endpointReq];
+
+    XCTAssertEqualObjects(request.HTTPMethod, @"POST");
+    XCTAssertEqualObjects(request.URL.absoluteString, @"https://login.salesforce.com/services/oauth2/token");
+    XCTAssertEqualObjects([request valueForHTTPHeaderField:@"Content-Type"], @"application/x-www-form-urlencoded");
+    XCTAssertNil([request valueForHTTPHeaderField:@"DPoP"]);
+    XCTAssertFalse(request.HTTPShouldHandleCookies);
+
+    [[SalesforceSDKManager sharedManager] setUseDPoP:prior];
 }
 
 @end
