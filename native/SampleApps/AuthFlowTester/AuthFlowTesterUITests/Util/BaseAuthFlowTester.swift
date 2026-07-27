@@ -736,7 +736,7 @@ class BaseAuthFlowTester: XCTestCase {
         let flagSet: Set<String>
         if let ftrRange = ua.range(of: "ftr_") {
             let afterFtr = String(ua[ftrRange.upperBound...])
-            let flagString = afterFtr.components(separatedBy: " ").first ?? ""
+            let flagString = afterFtr.components(separatedBy: " ").first ?? "" 
             flagSet = Set(flagString.components(separatedBy: ".").filter { !$0.isEmpty })
         } else {
             flagSet = []
