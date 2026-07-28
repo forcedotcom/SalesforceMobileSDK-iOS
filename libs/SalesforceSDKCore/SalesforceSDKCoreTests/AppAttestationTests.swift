@@ -270,6 +270,12 @@ class AppAttestationTests: XCTestCase {
         XCTAssertFalse(result, "Should return false when consumer key is empty")
     }
 
+    func test_givenNilConsumerKey_whenCheckingShouldAttempt_thenReturnsFalse() {
+        UserAccountManager.shared.appAttestationEnabled = true
+        let result = AppAttestation.shouldAttemptAttestation(for: "mydomain.my.salesforce.com", consumerKey: nil, isDeviceSupported: true)
+        XCTAssertFalse(result, "Should return false when consumer key is nil")
+    }
+
     // MARK: - existingKeyId Tests
 
     func test_givenNoKeychainData_whenCallingExistingKeyId_thenReturnsNil() throws {

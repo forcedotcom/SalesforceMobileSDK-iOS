@@ -50,8 +50,9 @@ public class AppAttestation: NSObject {
     /// Returns an attestation string if attestation is enabled and the domain is a My Domain,
     /// otherwise returns nil. Callers do not need to check gating conditions themselves.
     @objc
-    public static func attestationIfEnabled(for domain: String?, consumerKey: String) async -> String? {
+    public static func attestationIfEnabled(for domain: String?, consumerKey: String?) async -> String? {
         guard let domain,
+              let consumerKey,
               shouldAttemptAttestation(for: domain, consumerKey: consumerKey, isDeviceSupported: DCAppAttestService.shared.isSupported) else {
             return nil
         }
@@ -66,7 +67,7 @@ public class AppAttestation: NSObject {
     }
 
     // Internal for unit tests
-    static func shouldAttemptAttestation(for domain: String?, consumerKey: String, isDeviceSupported: Bool) -> Bool {
+    static func shouldAttemptAttestation(for domain: String?, consumerKey: String?, isDeviceSupported: Bool) -> Bool {
         guard let domain, !domain.isEmpty else {
             return false
         }
@@ -78,7 +79,7 @@ public class AppAttestation: NSObject {
         guard UserAccountManager.shared.appAttestationEnabled,
               isDeviceSupported,
               !isLoginPool,
-              !consumerKey.isEmpty else {
+              let consumerKey, !consumerKey.isEmpty else {
             return false
         }
 
@@ -110,10 +111,7 @@ public class AppAttestation: NSObject {
         let keyId = try await keyId(for: attestationId, domain: domain, consumerKey: consumerKey)
 
         let challenge = try await requestChallengeFromSalesforce(domain: domain, consumerKey: consumerKey, attestationId: attestationId)
-        guard let challengeData = challenge.data(using: .utf8) else {
-            throw AppAttestationError.challengeEncodingFailed
-        }
-        let hash = Data(SHA256.hash(data: challengeData))
+        let hash = try sha256(of: challenge)
 
         let assertion = try await performAppAttestOperation {
             try await DCAppAttestService.shared.generateAssertion(keyId, clientDataHash: hash)
@@ -127,15 +125,19 @@ public class AppAttestation: NSObject {
 
 
     private static func generateAttestation(keyId: String, challenge: String) async throws -> String {
-        guard let challengeData = challenge.data(using: .utf8) else {
-            throw AppAttestationError.challengeEncodingFailed
-        }
-        let hash = Data(SHA256.hash(data: challengeData))
+        let hash = try sha256(of: challenge)
 
         let attestation = try await performAppAttestOperation {
             try await DCAppAttestService.shared.attestKey(keyId, clientDataHash: hash)
         }
         return attestation.base64EncodedString()
+    }
+
+    private static func sha256(of challenge: String) throws -> Data {
+        guard let challengeData = challenge.data(using: .utf8) else {
+            throw AppAttestationError.challengeEncodingFailed
+        }
+        return Data(SHA256.hash(data: challengeData))
     }
 
     //    1. Client creates a key pair

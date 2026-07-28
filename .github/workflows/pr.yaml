@@ -4,7 +4,7 @@ on:
   # pull_request_target is used so secrets are available to fork PRs.
   # Mitigated by per-job Member Check (see "Check Write Permission" / "Validate Write Permission").
   pull_request_target:  # zizmor: ignore[dangerous-triggers]
-    branches: [dev, master, app-attestation]
+    branches: [dev, master]
     paths-ignore:
       - '**/*.md'
       - 'LICENSE'
