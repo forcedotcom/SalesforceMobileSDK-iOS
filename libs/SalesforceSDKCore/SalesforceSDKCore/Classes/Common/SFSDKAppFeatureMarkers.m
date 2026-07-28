@@ -43,6 +43,7 @@ NSString * const kSFIDPAppFeatureIDPLogin = @"IP";
 NSString * const kSFAppFeatureQrCodeLogin = @"QR";
 NSString * const kSFAppFeatureRTR = @"RT";
 NSString * const kSFAppFeatureDPoP = @"DP";
+NSString * const kSFAppFeatureAppAttestation = @"AA";
 
 static NSMutableSet<NSString *> *SFSDKAppFeatureMarkersSet = nil;
 static dispatch_queue_t SFSDKAppFeatureDispatchQueue = nil;

@@ -27,6 +27,7 @@
  */
 
 #import "SFSDKAuthConfigUtil.h"
+#import "SFSDKOAuthConstants.h"
 #import "SFNetwork.h"
 #import <SalesforceSDKCommon/SFJsonUtils.h>
 

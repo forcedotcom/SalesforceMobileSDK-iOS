@@ -34,6 +34,7 @@ SFSDK_USE_DEPRECATED_BEGIN
 #import "SFOAuthInfo.h"
 #import "SFSDKOAuth2.h"
 #import "SFSDKAppFeatureMarkers.h"
+#import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 
 @interface SFOAuthSessionRefresher()
 
@@ -83,6 +84,15 @@ SFSDK_USE_DEPRECATED_BEGIN
         return;
     }
     
+    __weak typeof(self) weakSelf = self;
+    [SFSDKAppAttestation attestationIfEnabledFor:self.credentials.domain consumerKey:self.credentials.clientId completionHandler:^(NSString * _Nullable attestation) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (!strongSelf) return;
+        [strongSelf executeRefreshWithAttestation:attestation];
+    }];
+}
+
+- (void)executeRefreshWithAttestation:(NSString * _Nullable)attestation {
     SFSDKOAuthTokenEndpointRequest *request = [[SFSDKOAuthTokenEndpointRequest alloc] init];
     request.additionalOAuthParameterKeys = [SFUserAccountManager sharedInstance].additionalOAuthParameterKeys;
     request.additionalTokenRefreshParams = [SFUserAccountManager sharedInstance].additionalTokenRefreshParams;
@@ -91,6 +101,8 @@ SFSDK_USE_DEPRECATED_BEGIN
     request.redirectURI = self.credentials.redirectUri;
     request.serverURL = [self.credentials overrideDomainIfNeeded];
     request.credentialsIdentifier = self.credentials.identifier;
+    request.attestation = attestation;
+
     __weak typeof(self) weakSelf = self;
     id<SFSDKOAuthProtocol> authClient = [SFUserAccountManager sharedInstance].authClient();
     [authClient accessTokenForRefresh:request completion:^(SFSDKOAuthTokenEndpointResponse * response) {

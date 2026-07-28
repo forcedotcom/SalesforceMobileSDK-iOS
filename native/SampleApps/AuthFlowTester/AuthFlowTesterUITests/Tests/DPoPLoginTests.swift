@@ -112,6 +112,7 @@ class DPoPLoginTests: BaseAuthFlowTester {
             staticScopeSelection: .subset,
             migrationAppConfigName: .ecaJwtDpop,
             migrationScopeSelection: .all,
+            forceAdvancedAuthentication: false,
             useDPoP: true
         )
 
@@ -130,11 +131,12 @@ class DPoPLoginTests: BaseAuthFlowTester {
             staticAppConfigName: .ecaJwtDpop,
             migrationAppConfigName: .ecaJwtDpopRtr,
             migrationUseHybridFlow: false,
+            forceAdvancedAuthentication: false,
             useDPoP: true
         )
 
         // Verify RTR is enabled post-migration
-        assertRevokeAndRefreshWorks(isRtr: true, isDPoP: true)
+        assertRevokeAndRefreshWorks(isRtr: true, isDPoP: true, expectAdvancedAuth: false)
     }
 
     // MARK: - Restart
