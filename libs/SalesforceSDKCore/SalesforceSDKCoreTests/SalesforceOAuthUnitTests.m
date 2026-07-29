@@ -133,6 +133,7 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     credsIn.apiInstanceUrl  = [NSURL URLWithString:@"http://api.salesforce.com"];
     credsIn.scopes          = @[@"api", @"refresh_token"];
     credsIn.issuedAt        = [NSDate date];
+    credsIn.lastTokenRotationDate = [NSDate dateWithTimeIntervalSince1970:1700000000];
     credsIn.contentDomain   = @"mobilesdk.my.salesforce.com";
     credsIn.contentSid      = @"contentsid";
     credsIn.lightningDomain = @"mobilesdk.lightning.force.com";
@@ -178,6 +179,7 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     XCTAssertEqualObjects(credsIn.apiInstanceUrl,      credsOut.apiInstanceUrl,      @"apiInstanceUrl mismatch");
     XCTAssertEqualObjects(credsIn.scopes,              credsOut.scopes,              @"scopes mismatch");
     XCTAssertEqualObjects(credsIn.issuedAt,            credsOut.issuedAt,            @"issuedAt mismatch");
+    XCTAssertEqualObjects(credsIn.lastTokenRotationDate, credsOut.lastTokenRotationDate, @"lastTokenRotationDate mismatch");
     XCTAssertEqualObjects(credsIn.contentDomain,       credsOut.contentDomain,       @"contentDomain mismatch");
     XCTAssertEqualObjects(credsIn.contentSid,          credsOut.contentSid,          @"contentSid mismatch");
     XCTAssertEqualObjects(credsIn.lightningDomain,     credsOut.lightningDomain,     @"lightningDomain mismatch");
@@ -196,6 +198,21 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     XCTAssertEqualObjects(credsIn.additionalOAuthFields, credsOut.additionalOAuthFields, @"additionalFields mismatch");
     
     credsIn = nil;
+
+    // Test nil round-trip for lastTokenRotationDate
+    SFOAuthKeychainCredentials *nilCredsIn = [[SFOAuthKeychainCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
+    // Deliberately NOT setting lastTokenRotationDate
+
+    NSKeyedArchiver *nilArchiver = [[NSKeyedArchiver alloc] initRequiringSecureCoding:NO];
+    [nilArchiver encodeObject:nilCredsIn forKey:@"creds"];
+    [nilArchiver finishEncoding];
+    NSData *nilData = nilArchiver.encodedData;
+
+    NSKeyedUnarchiver *nilUnarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:nilData error:nil];
+    nilUnarchiver.requiresSecureCoding = YES;
+    SFOAuthCredentials *nilCredsOut = [nilUnarchiver decodeObjectOfClass:[SFOAuthCredentials class] forKey:@"creds"];
+
+    XCTAssertNil(nilCredsOut.lastTokenRotationDate, @"lastTokenRotationDate should be nil when not set");
 }
 
 - (void)testCredentialsCopying {
@@ -211,6 +228,7 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     NSString *communityIdToCheck = @"communityID";
     NSURL *communityUrlToCheck = [NSURL URLWithString:@"https://mycomm.my.salesforce.com/customers"];
     NSDate *issuedAtToCheck = [NSDate date];
+    NSDate *lastTokenRotationDateToCheck = [NSDate dateWithTimeIntervalSince1970:1700000000];
     NSURL *identityUrlToCheck = [NSURL URLWithString:@"https://login.salesforce.com/id/someOrg/someUser"];
     NSString *userIdToCheck = @"userID";
     NSString *contentDomainToCheck = @"mobilesdk.my.salesforce.com";
@@ -242,6 +260,7 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     origCreds.communityId = communityIdToCheck;
     origCreds.communityUrl = communityUrlToCheck;
     origCreds.issuedAt = issuedAtToCheck;
+    origCreds.lastTokenRotationDate = lastTokenRotationDateToCheck;
     origCreds.contentDomain = contentDomainToCheck;
     origCreds.contentSid = contentSidToCheck;
     origCreds.lightningDomain = lightningDomainToCheck;
@@ -280,6 +299,7 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     origCreds.communityId = nil;
     origCreds.communityUrl = nil;
     origCreds.issuedAt = nil;
+    origCreds.lastTokenRotationDate = nil;
     origCreds.identityUrl = nil;
     origCreds.userId = nil;
     origCreds.contentDomain = nil;
@@ -341,6 +361,8 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     XCTAssertNotEqual(origCreds.communityUrl, copiedCreds.communityUrl);
     XCTAssertEqual(copiedCreds.issuedAt, issuedAtToCheck);
     XCTAssertNotEqual(origCreds.issuedAt, copiedCreds.issuedAt);
+    XCTAssertEqual(copiedCreds.lastTokenRotationDate, lastTokenRotationDateToCheck);
+    XCTAssertNotEqual(origCreds.lastTokenRotationDate, copiedCreds.lastTokenRotationDate);
     XCTAssertEqual(copiedCreds.identityUrl, identityUrlToCheck);
     XCTAssertNotEqual(origCreds.identityUrl, copiedCreds.identityUrl);
     XCTAssertEqual(copiedCreds.userId, userIdToCheck);

@@ -63,6 +63,7 @@ extern NSException * _Nullable SFOAuthInvalidIdentifierException(void);
 @property (nonatomic, readwrite, nullable) NSString *communityId;
 @property (nonatomic, readwrite, nullable) NSURL *communityUrl;
 @property (nonatomic, readwrite, nullable) NSDate *issuedAt;
+@property (nonatomic, readwrite, nullable) NSDate *lastTokenRotationDate;
 @property (nonatomic, readwrite, nullable) NSURL *identityUrl;
 @property (nonatomic, readwrite, nullable) NSURL *apiUrl;
 @property (nonatomic, readwrite, nullable) NSString *userId;

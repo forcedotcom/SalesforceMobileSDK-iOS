@@ -188,6 +188,11 @@ SFSDK_USE_DEPRECATED_BEGIN
     XCTAssertTrue([features containsObject:kSFAppFeatureRTR],
                   @"RT flag should be registered after refresh token rotation");
 
+    // Assert: timestamp was stamped
+    XCTAssertNotNil(account.credentials.lastTokenRotationDate, @"Expected rotation timestamp to be stamped");
+    XCTAssertLessThan(fabs([account.credentials.lastTokenRotationDate timeIntervalSinceNow]), 5.0,
+                      @"Rotation timestamp should be within 5 seconds of now");
+
     // Cleanup
     [SFUserAccountManager sharedInstance].authClient = originalFactory;
     [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureRTR forUser:account];
@@ -199,6 +204,9 @@ SFSDK_USE_DEPRECATED_BEGIN
     SFOAuthCredentials *creds = self.oauthSessionRefresher.credentials;
     SFUserAccount *account = [[SFUserAccount alloc] initWithCredentials:creds];
     [[SFUserAccountManager sharedInstance] saveAccountForUser:account error:nil];
+
+    // Pre-seed a known prior timestamp
+    account.credentials.lastTokenRotationDate = [NSDate dateWithTimeIntervalSince1970:1234567890];
 
     NSDictionary *responseDict = @{
         kSFOAuthAccessToken: @"new_access_token",
@@ -226,6 +234,10 @@ SFSDK_USE_DEPRECATED_BEGIN
     NSSet *features = [SFSDKAppFeatureMarkers appFeaturesForUser:account];
     XCTAssertFalse([features containsObject:kSFAppFeatureRTR],
                    @"RT flag should not be registered when refresh token did not rotate");
+
+    // Assert: timestamp preserved
+    XCTAssertEqualWithAccuracy([account.credentials.lastTokenRotationDate timeIntervalSince1970], 1234567890, 0.001,
+                               @"Rotation timestamp must be preserved when no rotation occurred");
 
     // Cleanup
     [SFUserAccountManager sharedInstance].authClient = originalFactory;

@@ -121,6 +121,7 @@ SFSDK_USE_DEPRECATED_BEGIN
                 SFUserAccount *account = [[SFUserAccountManager sharedInstance]
                                            accountForCredentials:strongSelf.credentials];
                 if (account) {
+                    strongSelf.credentials.lastTokenRotationDate = [NSDate date];
                     [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureRTR forUser:account];
                 }
             }

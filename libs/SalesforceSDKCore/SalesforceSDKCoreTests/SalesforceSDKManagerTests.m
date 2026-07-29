@@ -1743,4 +1743,67 @@ static NSString* const kTestAppName = @"OverridenAppName";
     XCTAssertFalse(hasDPoPThumbprint, @"Dev support infos should not contain DPoP Key Thumbprint when not logged in");
 }
 
+#pragma mark - Dev Support Infos Tests - RTR
+
+- (void)test_givenRTRActiveWithTimestamp_whenGetDevSupportInfosInvoked_thenRTRSectionShowsYESAndTimestamp {
+    [self createTestAppIdentity];
+    SFUserAccount *user = [self createUserAccount];
+    NSDate *rotation = [NSDate dateWithTimeIntervalSince1970:1700000000]; // 2023-11-14T22:13:20Z
+    user.credentials.lastTokenRotationDate = rotation;
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:user];
+    [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureRTR forUser:user];
+
+    NSArray<NSString *> *infos = [[SalesforceSDKManager sharedManager] getDevSupportInfos];
+
+    NSUInteger sectionIdx = [infos indexOfObject:@"section:RTR"];
+    XCTAssertNotEqual(sectionIdx, NSNotFound, @"section:RTR must be present");
+    XCTAssertEqualObjects(infos[[infos indexOfObject:@"RTR Active"] + 1], @"YES");
+    XCTAssertEqualObjects(infos[[infos indexOfObject:@"Last Rotation"] + 1], @"2023-11-14T22:13:20Z");
+
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureRTR forUser:user];
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:nil];
+}
+
+- (void)test_givenRTRNotActive_whenGetDevSupportInfosInvoked_thenRTRSectionShowsNOAndNever {
+    [self createTestAppIdentity];
+    SFUserAccount *user = [self createUserAccount];
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:user];
+    // Do NOT register kSFAppFeatureRTR; do NOT set lastTokenRotationDate
+
+    NSArray<NSString *> *infos = [[SalesforceSDKManager sharedManager] getDevSupportInfos];
+
+    XCTAssertNotEqual([infos indexOfObject:@"section:RTR"], NSNotFound);
+    XCTAssertEqualObjects(infos[[infos indexOfObject:@"RTR Active"] + 1], @"NO");
+    XCTAssertEqualObjects(infos[[infos indexOfObject:@"Last Rotation"] + 1], @"Never");
+
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:nil];
+}
+
+- (void)test_givenNoCurrentUser_whenGetDevSupportInfosInvoked_thenRTRSectionShowsNAAndNever {
+    [self createTestAppIdentity];
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:nil];
+
+    NSArray<NSString *> *infos = [[SalesforceSDKManager sharedManager] getDevSupportInfos];
+
+    XCTAssertNotEqual([infos indexOfObject:@"section:RTR"], NSNotFound);
+    XCTAssertEqualObjects(infos[[infos indexOfObject:@"RTR Active"] + 1], @"N/A");
+    XCTAssertEqualObjects(infos[[infos indexOfObject:@"Last Rotation"] + 1], @"Never");
+}
+
+- (void)test_givenRTRActiveButNoTimestamp_whenGetDevSupportInfosInvoked_thenLastRotationIsNever {
+    [self createTestAppIdentity];
+    SFUserAccount *user = [self createUserAccount];
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:user];
+    [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureRTR forUser:user];
+    // Deliberately NOT setting lastTokenRotationDate
+
+    NSArray<NSString *> *infos = [[SalesforceSDKManager sharedManager] getDevSupportInfos];
+
+    XCTAssertEqualObjects(infos[[infos indexOfObject:@"RTR Active"] + 1], @"YES");
+    XCTAssertEqualObjects(infos[[infos indexOfObject:@"Last Rotation"] + 1], @"Never");
+
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureRTR forUser:user];
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:nil];
+}
+
 @end
