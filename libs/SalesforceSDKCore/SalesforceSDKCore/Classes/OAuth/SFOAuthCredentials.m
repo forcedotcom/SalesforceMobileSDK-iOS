@@ -65,6 +65,7 @@ NSException * SFOAuthInvalidIdentifierException(void) {
 @synthesize apiInstanceUrl            = _apiInstanceUrl;
 @synthesize scopes                    = _scopes;
 @synthesize issuedAt                  = _issuedAt;
+@synthesize lastTokenRotationDate     = _lastTokenRotationDate;
 @synthesize protocol                  = _protocol;
 @synthesize encrypted                 = _encrypted;
 @synthesize additionalOAuthFields     = _additionalOAuthFields;
@@ -98,6 +99,7 @@ NSException * SFOAuthInvalidIdentifierException(void) {
             self.communityId    = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthCommunityId"];
             self.communityUrl   = [coder decodeObjectOfClass:[NSURL class]    forKey:@"SFOAuthCommunityUrl"];
             self.issuedAt       = [coder decodeObjectOfClass:[NSDate class]   forKey:@"SFOAuthIssuedAt"];
+            self.lastTokenRotationDate = [coder decodeObjectOfClass:[NSDate class] forKey:@"SFOAuthLastTokenRotationDate"];
             self.additionalOAuthFields = [coder decodeObjectOfClasses:[NSSet setWithObjects:[NSDictionary class], [NSString class], nil] forKey:@"SFOAuthAdditionalFields"];
             NSString *protocolVal = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthProtocol"];
             if (nil != protocolVal) {
@@ -152,6 +154,7 @@ NSException * SFOAuthInvalidIdentifierException(void) {
     [coder encodeObject:self.communityId        forKey:@"SFOAuthCommunityId"];
     [coder encodeObject:self.communityUrl       forKey:@"SFOAuthCommunityUrl"];
     [coder encodeObject:self.issuedAt           forKey:@"SFOAuthIssuedAt"];
+    [coder encodeObject:self.lastTokenRotationDate forKey:@"SFOAuthLastTokenRotationDate"];
     [coder encodeObject:self.protocol           forKey:@"SFOAuthProtocol"];
     [coder encodeObject:self.lightningDomain    forKey:@"SFOAuthLightningDomain"];
     [coder encodeObject:self.vfDomain           forKey:@"SFOAuthVFDomain"];
@@ -213,6 +216,7 @@ NSException * SFOAuthInvalidIdentifierException(void) {
     copyCreds.communityId = self.communityId;
     copyCreds.communityUrl = self.communityUrl;
     copyCreds.issuedAt = self.issuedAt;
+    copyCreds.lastTokenRotationDate = self.lastTokenRotationDate;
 
     // NB: Intentionally ordering the copying of these, because setting the identity URL automatically
     // sets the OrgID and UserID.  This ensures the values stay in sync.

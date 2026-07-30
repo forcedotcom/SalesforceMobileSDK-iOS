@@ -190,10 +190,19 @@ NS_SWIFT_NAME(OAuthCredentials)
 @property (nonatomic, readonly, nullable) NSURL *communityUrl;
 
 /** The timestamp when the session access token was issued.
- 
+
  This property is set by the `SFOAuthCoordinator` after authentication has successfully completed.
  */
 @property (nonatomic, readonly, nullable) NSDate *issuedAt;
+
+/** The timestamp of the most recent refresh-token rotation observed for this credential.
+
+ Set by `SFOAuthSessionRefresher` when a token refresh returns a `refresh_token`
+ that differs from the previously-stored one. `nil` if no rotation has been observed
+ for this credential (or if this credential predates the field's introduction — older
+ archives decode this field as `nil`).
+ */
+@property (nonatomic, readonly, nullable) NSDate *lastTokenRotationDate;
 
 /** The identity URL for the user returned as part of a successful authentication response.
  The format of the URL is: _https://login.salesforce.com/ID/orgID/userID_ where orgId is the ID of the Salesforce organization 

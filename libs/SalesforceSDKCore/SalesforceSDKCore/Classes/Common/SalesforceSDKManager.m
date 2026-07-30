@@ -555,6 +555,19 @@ SFNativeLoginManagerInternal *nativeLogin;
     return [actions copy];
 }
 
+static NSString *SFSDKISO8601StringFromDate(NSDate *date) {
+    if (!date) return nil;
+    static NSDateFormatter *formatter = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        formatter = [[NSDateFormatter alloc] init];
+        formatter.locale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
+        formatter.timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
+        formatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss'Z'";
+    });
+    return [formatter stringFromDate:date];
+}
+
 - (NSArray<NSString *>*) getDevSupportInfos
 {
     SFUserAccountManager* userAccountManager = [SFUserAccountManager sharedInstance];
@@ -640,7 +653,31 @@ SFNativeLoginManagerInternal *nativeLogin;
         [devInfos addObjectsFromArray:@[@"Managed", [managedPreferences hasManagedPreferences] ? @"YES" : @"NO"]];
         [devInfos addObjectsFromArray:[self dictToDevInfos:managedPreferences.rawPreferences]];
     }
-    
+
+    // section:RTR — refresh-token-rotation observability
+    [devInfos addObject:@"section:RTR"];
+    {
+        SFUserAccount *rtrUser = [SFUserAccountManager sharedInstance].currentUser;
+        NSString *rtrActive;
+        if (!rtrUser) {
+            rtrActive = @"N/A";
+        } else {
+            NSSet<NSString *> *features = [SFSDKAppFeatureMarkers appFeaturesForUser:rtrUser];
+            rtrActive = [features containsObject:kSFAppFeatureRTR] ? @"YES" : @"NO";
+        }
+        NSString *lastRotation = @"Never";
+        if (rtrUser.credentials.lastTokenRotationDate) {
+            NSString *iso = SFSDKISO8601StringFromDate(rtrUser.credentials.lastTokenRotationDate);
+            if (iso.length > 0) {
+                lastRotation = iso;
+            }
+        }
+        [devInfos addObjectsFromArray:@[
+            @"RTR Active", rtrActive,
+            @"Last Rotation", lastRotation
+        ]];
+    }
+
     return devInfos;
 }
 
