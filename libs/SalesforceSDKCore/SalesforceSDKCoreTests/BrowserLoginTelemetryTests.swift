@@ -70,7 +70,7 @@ class BrowserLoginTelemetryTests: XCTestCase {
     /// B3: loginAsAdmin takes highest priority.
     func test_givenBrowserLoginViaLoginForAdmin_whenAuthCompletes_thenB3Returned() {
         let session = makeSession(loginAsAdmin: true, useBrowserAuth: false)
-        let marker = accountManager.computeBMarker(forAuthSession: session, completedAuthType: .advancedBrowser)
+        let marker = accountManager.computeBMarker(for: session, completedAuthType: .advancedBrowser)
         XCTAssertEqual(marker, kSFAppFeatureBrowserLoginForAdmin,
                        "loginAsAdmin should produce B3 (highest priority)")
     }
@@ -78,7 +78,7 @@ class BrowserLoginTelemetryTests: XCTestCase {
     /// B2: MDM-required browser auth (useBrowserAuth, no loginAsAdmin).
     func test_givenBrowserLoginViaMDM_whenAuthCompletes_thenB2Returned() {
         let session = makeSession(loginAsAdmin: false, useBrowserAuth: true)
-        let marker = accountManager.computeBMarker(forAuthSession: session, completedAuthType: .advancedBrowser)
+        let marker = accountManager.computeBMarker(for: session, completedAuthType: .advancedBrowser)
         XCTAssertEqual(marker, kSFAppFeatureBrowserLoginMDM,
                        "useBrowserAuth without loginAsAdmin should produce B2")
     }
@@ -87,7 +87,7 @@ class BrowserLoginTelemetryTests: XCTestCase {
     func test_givenBrowserLoginViaForceFlag_whenAuthCompletes_thenB4Returned() {
         setForceAdvancedAuthentication(true)
         let session = makeSession(loginAsAdmin: false, useBrowserAuth: false)
-        let marker = accountManager.computeBMarker(forAuthSession: session, completedAuthType: .advancedBrowser)
+        let marker = accountManager.computeBMarker(for: session, completedAuthType: .advancedBrowser)
         XCTAssertEqual(marker, kSFAppFeatureBrowserLoginForceFlag,
                        "sdk_forceAdvancedAuthentication=YES without MDM/LFA should produce B4")
     }
@@ -96,7 +96,7 @@ class BrowserLoginTelemetryTests: XCTestCase {
     func test_givenBrowserLoginViaServerAuthConfig_whenAuthCompletes_thenB1Returned() {
         setForceAdvancedAuthentication(false)
         let session = makeSession(loginAsAdmin: false, useBrowserAuth: false)
-        let marker = accountManager.computeBMarker(forAuthSession: session, completedAuthType: .advancedBrowser)
+        let marker = accountManager.computeBMarker(for: session, completedAuthType: .advancedBrowser)
         XCTAssertEqual(marker, kSFAppFeatureBrowserLoginServerAuthConfig,
                        "Browser login with no other reason flags should produce B1 (server auth-config)")
     }
@@ -105,7 +105,7 @@ class BrowserLoginTelemetryTests: XCTestCase {
     func test_givenRefreshFlow_whenAuthCompletes_thenNoBMarkerReturned() {
         setForceAdvancedAuthentication(true)
         let session = makeSession(loginAsAdmin: false, useBrowserAuth: true)
-        let marker = accountManager.computeBMarker(forAuthSession: session, completedAuthType: .refresh)
+        let marker = accountManager.computeBMarker(for: session, completedAuthType: .refresh)
         XCTAssertNil(marker, "Refresh flow should never produce a B-marker")
     }
 
@@ -113,7 +113,7 @@ class BrowserLoginTelemetryTests: XCTestCase {
     func test_givenNonBrowserLogin_whenAuthCompletes_thenNoBMarkerReturned() {
         setForceAdvancedAuthentication(false)
         let session = makeSession(loginAsAdmin: false, useBrowserAuth: false)
-        let marker = accountManager.computeBMarker(forAuthSession: session, completedAuthType: .userAgent)
+        let marker = accountManager.computeBMarker(for: session, completedAuthType: .userAgent)
         XCTAssertNil(marker, "Non-browser auth type should produce no B-marker")
     }
 
@@ -122,7 +122,7 @@ class BrowserLoginTelemetryTests: XCTestCase {
         // Note: SFSDKAuthSession sets coordinator.useBrowserAuth = request.useBrowserAuth || request.loginAsAdmin,
         // but the request properties are inspected separately in the helper.
         let session = makeSession(loginAsAdmin: true, useBrowserAuth: true)
-        let marker = accountManager.computeBMarker(forAuthSession: session, completedAuthType: .advancedBrowser)
+        let marker = accountManager.computeBMarker(for: session, completedAuthType: .advancedBrowser)
         XCTAssertEqual(marker, kSFAppFeatureBrowserLoginForAdmin, "B3 must win over B2 when both are set")
     }
 
@@ -130,7 +130,7 @@ class BrowserLoginTelemetryTests: XCTestCase {
     func test_givenLoginAsAdminAndForceFlagBothSet_whenAdvancedBrowser_thenB3Wins() {
         setForceAdvancedAuthentication(true)
         let session = makeSession(loginAsAdmin: true, useBrowserAuth: false)
-        let marker = accountManager.computeBMarker(forAuthSession: session, completedAuthType: .advancedBrowser)
+        let marker = accountManager.computeBMarker(for: session, completedAuthType: .advancedBrowser)
         XCTAssertEqual(marker, kSFAppFeatureBrowserLoginForAdmin, "B3 must win over B4 when both are set")
     }
 
@@ -212,7 +212,7 @@ class BrowserLoginTelemetryTests: XCTestCase {
             kSFAppFeatureBrowserLoginForceFlag
         ]
         let session = makeSession(loginAsAdmin: true, useBrowserAuth: true)
-        let result = accountManager.computeBMarker(forAuthSession: session, completedAuthType: .advancedBrowser)
+        let result = accountManager.computeBMarker(for: session, completedAuthType: .advancedBrowser)
         XCTAssertEqual(result, kSFAppFeatureBrowserLoginForAdmin)
         for code in allBCodes where code != kSFAppFeatureBrowserLoginForAdmin {
             XCTAssertNotEqual(result, code, "No other B-marker should be returned when loginAsAdmin is set")
