@@ -2157,7 +2157,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 /// Returns the single B-marker that best describes why browser login was used,
 /// or nil if browser login was not used (e.g. refresh flows or non-browser initial auth).
 /// Priority: B3 > B2 > B4 > B1.
-- (NSString *)_bMarkerForAuthSession:(SFSDKAuthSession *)authSession completedAuthType:(SFOAuthType)completedAuthType {
+- (NSString *)computeBMarkerForAuthSession:(SFSDKAuthSession *)authSession completedAuthType:(SFOAuthType)completedAuthType {
     if (completedAuthType != SFOAuthTypeAdvancedBrowser) {
         return nil;
     }
@@ -2175,7 +2175,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 
 /// Returns the single L-marker for the login server type used in this session.
 /// L3 must be evaluated before the WD global flag is cleared.
-- (NSString *)_lMarkerForDomain:(NSString *)domain usedWelcomeDiscovery:(BOOL)usedWelcomeDiscovery {
+- (NSString *)computeLMarkerForDomain:(NSString *)domain usedWelcomeDiscovery:(BOOL)usedWelcomeDiscovery {
     if (usedWelcomeDiscovery) {
         return kSFAppFeatureLoginServerWelcomeDiscovery;              // L3
     }
@@ -2231,7 +2231,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
                                          kSFAppFeatureBrowserLoginMDM,
                                          kSFAppFeatureBrowserLoginForAdmin,
                                          kSFAppFeatureBrowserLoginForceFlag];
-    NSString *bMarker = [self _bMarkerForAuthSession:authSession completedAuthType:completedAuthType];
+    NSString *bMarker = [self computeBMarkerForAuthSession:authSession completedAuthType:completedAuthType];
     for (NSString *marker in allBMarkers) {
         if (bMarker && [marker isEqualToString:bMarker]) {
             [SFSDKAppFeatureMarkers registerAppFeature:marker forUser:userAccount];
@@ -2257,8 +2257,8 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
                                               kSFAppFeatureLoginServerMyDomain,
                                               kSFAppFeatureLoginServerWelcomeDiscovery,
                                               kSFAppFeatureLoginServerOther];
-        NSString *lMarker = [self _lMarkerForDomain:authSession.oauthCoordinator.credentials.domain
-                                usedWelcomeDiscovery:usedWelcomeDiscovery];
+        NSString *lMarker = [self computeLMarkerForDomain:authSession.oauthCoordinator.credentials.domain
+                                  usedWelcomeDiscovery:usedWelcomeDiscovery];
         for (NSString *marker in allLMarkers) {
             if ([marker isEqualToString:lMarker]) {
                 [SFSDKAppFeatureMarkers registerAppFeature:marker forUser:userAccount];

@@ -37,6 +37,6 @@
 
 /// Exposes private browser-login telemetry helpers for unit testing.
 @interface SFUserAccountManager (BrowserLoginTelemetryTesting)
-- (nullable NSString *)_bMarkerForAuthSession:(nonnull SFSDKAuthSession *)authSession completedAuthType:(SFOAuthType)completedAuthType;
-- (nullable NSString *)_lMarkerForDomain:(nullable NSString *)domain usedWelcomeDiscovery:(BOOL)usedWelcomeDiscovery;
+- (nullable NSString *)computeBMarkerForAuthSession:(nonnull SFSDKAuthSession *)authSession completedAuthType:(SFOAuthType)completedAuthType;
+- (nullable NSString *)computeLMarkerForDomain:(nullable NSString *)domain usedWelcomeDiscovery:(BOOL)usedWelcomeDiscovery;
 @end
