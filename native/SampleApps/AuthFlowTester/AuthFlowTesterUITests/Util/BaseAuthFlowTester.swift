@@ -351,7 +351,7 @@ class BaseAuthFlowTester: XCTestCase {
             userScopeSelection: userScopeSelection,
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow,
-            expectAdvancedAuth: loginForAdmin || loginHost == .advancedAuth || (forceAdvancedAuthentication != false),
+            expectAdvancedAuth: loginForAdmin || loginHost == .advancedAuth || (forceAdvancedAuthentication == true),
             isMultiUser: isMultiUser
         )
     }
@@ -614,7 +614,7 @@ class BaseAuthFlowTester: XCTestCase {
             userScopeSelection: userScopeSelection,
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow,
-            expectAdvancedAuth: loginForAdmin || loginHost == .advancedAuth || (forceAdvancedAuthentication != false),
+            expectAdvancedAuth: loginForAdmin || loginHost == .advancedAuth || (forceAdvancedAuthentication == true),
             usesWelcomeDiscovery: usesWelcomeDiscovery,
             isMultiUser: isMultiUser
         )
@@ -1025,11 +1025,11 @@ class BaseAuthFlowTester: XCTestCase {
         // Check that app loads and shows the expected user credentials etc
         assertMainPageLoaded()
 
-        let expectAdvancedAuth = loginForAdmin || loginHost == .advancedAuth || (forceAdvancedAuthentication != false)
+        let expectAdvancedAuth = loginForAdmin || loginHost == .advancedAuth || (forceAdvancedAuthentication == true)
 
         let expectedBMarker: String? = expectAdvancedAuth ? (
             loginForAdmin ? kBrowserLoginForAdmin :
-            (forceAdvancedAuthentication != false) ? kBrowserLoginForceFlag :
+            (forceAdvancedAuthentication == true) ? kBrowserLoginForceFlag :
             kBrowserLoginServerAuthConfig
         ) : nil
 
