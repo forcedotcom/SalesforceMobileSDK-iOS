@@ -13,7 +13,7 @@ This document provides an overview of all UI tests in the AuthFlowTester test su
 | `AdvancedAuthBeaconLoginTests` | Tests for Beacon app login flows (using advanced_auth login host) |
 | `WelcomeLoginTests` | Tests for welcome (domain discovery) login flows using simulated domain discovery |
 | `RTRLoginTests` | Tests for ECA login flows with Refresh Token Rotation (RTR), with and without hybrid flow, with and without app restart |
-| `LoginWithRestartTests` | Tests for verifying that user sessions and per-user feature flags (BW, WD) persist across app restarts |
+| `LoginWithRestartTests` | Tests for verifying that user sessions and per-user feature flags (BW, WD, B-markers, L-markers) persist across app restarts |
 | `RefreshTokenMigrationTests` | Tests for refresh token migration between app configurations without re-authentication |
 | `RefreshTokenMigrationWithRestartTests` | Tests for verifying that migrated refresh tokens persist across app restarts |
 | `MultiUserLoginTests` | Tests for multi-user login scenarios with various configurations, including token revocation |
@@ -117,7 +117,7 @@ Tests for welcome (domain discovery) login flows. Uses simulated domain discover
 
 ### LoginWithRestartTests (10 tests)
 
-Tests for verifying that user sessions and per-user feature flags (BW, WD) persist across app restarts. Includes CA, ECA, and Beacon configurations with both static and dynamic settings. Each test logs in, terminates the app via `app.terminate()`, relaunches, and verifies that credentials and user-agent feature flags are reloaded correctly from disk.
+Tests for verifying that user sessions and per-user feature flags (BW, WD, B-markers, L-markers) persist across app restarts. Includes CA, ECA, and Beacon configurations with both static and dynamic settings. Each test logs in, terminates the app via `app.terminate()`, relaunches, and verifies that credentials and user-agent feature flags are reloaded correctly from disk.
 
 | Test Name | App Config | Scopes | Config Type | Feature Flag | Multi-User |
 |-----------|------------|--------|-------------|--------------|------------|
@@ -128,8 +128,8 @@ Tests for verifying that user sessions and per-user feature flags (BW, WD) persi
 | `testECAJwt_SubsetScopes_DynamicConfiguration_WithRestart` | ECA JWT | Subset | Dynamic | — | No |
 | `testBeaconJwt_DefaultScopes_DynamicConfiguration_WithRestart` | Beacon JWT | Default | Dynamic | — | No |
 | `testBeaconJwt_SubsetScopes_DynamicConfiguration_WithRestart` | Beacon JWT | Subset | Dynamic | — | No |
-| `testAdvancedAuth_WithRestart` | Beacon Opaque | Default | Static | BW | No |
-| `testWelcomeDiscovery_WithRestart` | ECA Opaque | Default | Static | WD | No |
+| `testAdvancedAuth_WithRestart` | Beacon Opaque | Default | Static | BW + B4 | No |
+| `testWelcomeDiscovery_WithRestart` | ECA Opaque | Default | Static | WD + L3 | No |
 | `testMultiUserRestart` | ECA Opaque + ECA JWT | Default | Dynamic + Static | — | Yes |
 
 ---
@@ -257,6 +257,41 @@ The test suite supports testing against different Salesforce org configurations 
 | Login Host | Description | Authentication Mechanism |
 |------------|-------------|-------------------------|
 | **regular_auth** | Org configured to use regular authentication | Authentication through web view |
-| **advanced_auth** | Org configured to use native browser for authentication | Chrome Custom Tab on Android and ASWebAuthenticationSession on iOS |
+| **advanced_auth** | Org configured to use native browser for authentication | ASWebAuthenticationSession on iOS |
 
 Most tests use the `regular_auth` login host by default. The `AdvancedAuthBeaconLoginTests` class runs the same Beacon login tests but uses the `advanced_auth` login host to verify authentication flows work correctly with native browser authentication. The `WelcomeLoginTests` use simulated domain discovery with welcome.salesforce.com as the login server to test the welcome/domain discovery flow.
+
+---
+
+## B- and L-markers in `ftr_`
+
+Each `validateUserAgent` call verifies two telemetry code families in the `ftr_` segment of the user-agent string (W-23701450).
+
+### B-markers — why browser login was used
+
+Registered once per user alongside the BW (browser-windows) flag. Exactly one is set when `ASWebAuthenticationSession` login occurred; none are set for in-app WKWebView login. When `expectedBMarker` is `nil` in `validateUserAgent`, the assertion is skipped.
+
+| Code | Constant | Meaning | Priority |
+|------|----------|---------|----------|
+| B1 | `kSFAppFeatureBrowserLoginServerAuthConfig` | Server auth-config required browser login | Lowest |
+| B2 | `kSFAppFeatureBrowserLoginMDM` | MDM (useBrowserAuth) required browser login | — |
+| B3 | `kSFAppFeatureBrowserLoginForAdmin` | "Login for Admin" flow used | Highest |
+| B4 | `kSFAppFeatureBrowserLoginForceFlag` | `SalesforceSDKManager.forceAdvancedAuthentication` was set | — |
+
+Priority order when multiple reasons apply: **B3 > B2 > B4 > B1**.
+
+### L-markers — which login server type was used
+
+Registered on every non-refresh login. Exactly one is set per login.
+
+| Code | Constant | Meaning |
+|------|----------|---------|
+| L1 | `kSFAppFeatureLoginServerProduction` | Production pool server (`login.salesforce.com` and internal pool equivalents) |
+| L2 | `kSFAppFeatureLoginServerSandbox` | Sandbox (`test.salesforce.com`) |
+| L3 | `kSFAppFeatureLoginServerWelcomeDiscovery` | Welcome Discovery flow was used |
+| L4 | `kSFAppFeatureLoginServerMyDomain` | My Domain org (`.my.` in the host) |
+| L5 | `kSFAppFeatureLoginServerOther` | Any other login server |
+
+L3 takes priority over the resolved domain: even if Welcome Discovery resolves to a My Domain org, the final L-marker is L3 (captured before the WD global flag is cleared).
+
+The marker constants are defined in `SFSDKAppFeatureMarkers.m`. Local string copies used in the UI test helper (`BaseAuthFlowTester.swift`) match those constants exactly.

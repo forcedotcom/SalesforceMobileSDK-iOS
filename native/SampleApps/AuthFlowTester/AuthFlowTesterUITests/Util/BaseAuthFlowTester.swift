@@ -1088,7 +1088,7 @@ class BaseAuthFlowTester: XCTestCase {
         XCTAssertEqual(userCredentials.clientId, userConsumerKey, "Client ID in credentials should match expected consumer key")
         XCTAssertEqual(userCredentials.redirectUri, userRedirectUri, "Redirect URI in credentials should match expected redirect URI")
         XCTAssertEqual(userCredentials.credentialsScopes, grantedScopes, "Scopes in credentials should match expected granted scopes")
-        XCTAssertEqual(userCredentials.tokenFormat, issuesJwt ? "jwt" : "", "Not the expected token format")
+        XCTAssertEqual(userCredentials.tokenFormat, issuesJwt ? "jwt" : "Opaque", "Not the expected token format")
         return userCredentials
     }
     
