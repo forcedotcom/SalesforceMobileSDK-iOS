@@ -50,8 +50,8 @@ NSString * const kSFAppFeatureBrowserLoginForAdmin         = @"B3";
 NSString * const kSFAppFeatureBrowserLoginForceFlag        = @"B4";
 NSString * const kSFAppFeatureLoginServerProduction        = @"L1";
 NSString * const kSFAppFeatureLoginServerSandbox           = @"L2";
-NSString * const kSFAppFeatureLoginServerMyDomain          = @"L3";
-NSString * const kSFAppFeatureLoginServerWelcomeDiscovery  = @"L4";
+NSString * const kSFAppFeatureLoginServerMyDomain          = @"L4";
+NSString * const kSFAppFeatureLoginServerWelcomeDiscovery  = @"L3";
 NSString * const kSFAppFeatureLoginServerCustom            = @"L5";
 
 static NSMutableSet<NSString *> *SFSDKAppFeatureMarkersSet = nil;

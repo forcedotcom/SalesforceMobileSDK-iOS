@@ -148,21 +148,21 @@ class BrowserLoginTelemetryTests: XCTestCase {
         XCTAssertEqual(marker, kSFAppFeatureLoginServerSandbox, "test.salesforce.com should produce L2")
     }
 
-    /// L3: My Domain server (non-pool host).
-    func test_givenMyDomainLoginServer_whenAuthCompletes_thenL3Returned() {
+    /// L4: My Domain server (.my.salesforce.com suffix).
+    func test_givenMyDomainLoginServer_whenAuthCompletes_thenL4Returned() {
         let marker = accountManager._lMarkerForDomain("acme.my.salesforce.com", usedWelcomeDiscovery: false)
-        XCTAssertEqual(marker, kSFAppFeatureLoginServerMyDomain, "My Domain host should produce L3")
+        XCTAssertEqual(marker, kSFAppFeatureLoginServerMyDomain, "My Domain host should produce L4")
     }
 
-    /// L4: Welcome Discovery was used (flag set before WD global is cleared).
-    func test_givenWelcomeDiscoveryLogin_whenAuthCompletes_thenL4Returned() {
-        // Regardless of the resolved domain, when WD was used, L4 takes priority.
+    /// L3: Welcome Discovery was used (flag set before WD global is cleared).
+    func test_givenWelcomeDiscoveryLogin_whenAuthCompletes_thenL3Returned() {
+        // Regardless of the resolved domain, when WD was used, L3 takes priority.
         let marker = accountManager._lMarkerForDomain("acme.my.salesforce.com", usedWelcomeDiscovery: true)
-        XCTAssertEqual(marker, kSFAppFeatureLoginServerWelcomeDiscovery, "WD flag set should produce L4")
+        XCTAssertEqual(marker, kSFAppFeatureLoginServerWelcomeDiscovery, "WD flag set should produce L3")
     }
 
-    /// L4 priority: even production domain yields L4 if WD was used (edge case).
-    func test_givenWelcomeDiscoveryWithProductionDomain_whenAuthCompletes_thenL4Returned() {
+    /// L3 priority: even production domain yields L3 if WD was used (edge case).
+    func test_givenWelcomeDiscoveryWithProductionDomain_whenAuthCompletes_thenL3Returned() {
         let marker = accountManager._lMarkerForDomain("login.salesforce.com", usedWelcomeDiscovery: true)
         XCTAssertEqual(marker, kSFAppFeatureLoginServerWelcomeDiscovery, "WD flag always takes priority (even over L1)")
     }
