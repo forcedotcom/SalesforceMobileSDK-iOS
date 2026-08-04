@@ -44,8 +44,18 @@ typedef void (^ _Nonnull MyDomainAuthConfigBlock)(SFOAuthOrgAuthConfiguration * 
 + (void)getMyDomainAuthConfig:(nonnull MyDomainAuthConfigBlock)authConfigBlock loginDomain:(nonnull NSString *)loginDomain;
 
 /// YES when `host` is one of the three Salesforce pool servers
-/// (login.salesforce.com, test.salesforce.com, welcome.salesforce.com/discovery).
-/// NO for my-domain servers. Exact string match; no normalization.
+/// (login.salesforce.com, test.salesforce.com, welcome.salesforce.com/discovery)
+/// or an internal production-pool variant (login.*.salesforce.com with no .my. component).
 + (BOOL)isPoolLoginHost:(nonnull NSString *)host;
+
+/// YES when `host` is the production login pool:
+/// exactly `login.salesforce.com` or matches `login.*.salesforce.com`
+/// without a `.my.` component (covers internal envs like `login.test1.pc-rnd.salesforce.com`).
++ (BOOL)isProductionLoginHost:(nonnull NSString *)host;
+
+/// YES when `host` is a My Domain server:
+/// ends with `.my.salesforce.com` or contains `.my.` before `.salesforce.com`
+/// (covers internal envs like `mobilesdksdb32.test1.my.pc-rnd.salesforce.com`).
++ (BOOL)isMyDomainHost:(nonnull NSString *)host;
 
 @end

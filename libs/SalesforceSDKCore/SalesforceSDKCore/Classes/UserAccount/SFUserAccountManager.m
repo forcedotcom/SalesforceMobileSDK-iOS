@@ -2177,18 +2177,18 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 /// L3 must be evaluated before the WD global flag is cleared.
 - (NSString *)_lMarkerForDomain:(NSString *)domain usedWelcomeDiscovery:(BOOL)usedWelcomeDiscovery {
     if (usedWelcomeDiscovery) {
-        return kSFAppFeatureLoginServerWelcomeDiscovery;   // L3 — Welcome / Discovery path
+        return kSFAppFeatureLoginServerWelcomeDiscovery;              // L3
     }
-    if ([domain isEqualToString:kSFSDKProductionLoginURL]) {
-        return kSFAppFeatureLoginServerProduction;         // L1 — login.salesforce.com
+    if ([SFSDKAuthConfigUtil isProductionLoginHost:domain]) {
+        return kSFAppFeatureLoginServerProduction;                    // L1 — login.salesforce.com or login.*.salesforce.com
     }
     if ([domain isEqualToString:kSFSDKSandboxLoginURL]) {
-        return kSFAppFeatureLoginServerSandbox;            // L2 — test.salesforce.com
+        return kSFAppFeatureLoginServerSandbox;                       // L2 — test.salesforce.com
     }
-    if ([domain hasSuffix:@".my.salesforce.com"]) {
-        return kSFAppFeatureLoginServerMyDomain;           // L4 — My Domain (.my.salesforce.com suffix)
+    if ([SFSDKAuthConfigUtil isMyDomainHost:domain]) {
+        return kSFAppFeatureLoginServerMyDomain;                      // L4 — *.my.salesforce.com or *.my.*.salesforce.com
     }
-    return kSFAppFeatureLoginServerCustom;                 // L5 — custom / unrecognised server
+    return kSFAppFeatureLoginServerOther;                             // L5
 }
 
 - (void)finalizeAuthCompletion:(SFSDKAuthSession *)authSession {
@@ -2251,12 +2251,12 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         }
 
         // L-markers: register exactly one "which login server" marker per-user.
-        // Must be evaluated before the WD global is cleared below so that L4 is detectable.
+        // Must be evaluated before the WD global is cleared below so that L3 is detectable.
         NSArray<NSString *> *allLMarkers = @[kSFAppFeatureLoginServerProduction,
                                               kSFAppFeatureLoginServerSandbox,
                                               kSFAppFeatureLoginServerMyDomain,
                                               kSFAppFeatureLoginServerWelcomeDiscovery,
-                                              kSFAppFeatureLoginServerCustom];
+                                              kSFAppFeatureLoginServerOther];
         NSString *lMarker = [self _lMarkerForDomain:authSession.oauthCoordinator.credentials.domain
                                 usedWelcomeDiscovery:usedWelcomeDiscovery];
         for (NSString *marker in allLMarkers) {

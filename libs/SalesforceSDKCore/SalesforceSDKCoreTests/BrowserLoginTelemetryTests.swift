@@ -70,7 +70,7 @@ class BrowserLoginTelemetryTests: XCTestCase {
     /// B3: loginAsAdmin takes highest priority.
     func test_givenBrowserLoginViaLoginForAdmin_whenAuthCompletes_thenB3Returned() {
         let session = makeSession(loginAsAdmin: true, useBrowserAuth: false)
-        let marker = accountManager._bMarkerForAuthSession(session, completedAuthType: SFOAuthTypeAdvancedBrowser)
+        let marker = accountManager._bMarker(for: session, completedAuthType: .advancedBrowser)
         XCTAssertEqual(marker, kSFAppFeatureBrowserLoginForAdmin,
                        "loginAsAdmin should produce B3 (highest priority)")
     }
@@ -78,7 +78,7 @@ class BrowserLoginTelemetryTests: XCTestCase {
     /// B2: MDM-required browser auth (useBrowserAuth, no loginAsAdmin).
     func test_givenBrowserLoginViaMDM_whenAuthCompletes_thenB2Returned() {
         let session = makeSession(loginAsAdmin: false, useBrowserAuth: true)
-        let marker = accountManager._bMarkerForAuthSession(session, completedAuthType: SFOAuthTypeAdvancedBrowser)
+        let marker = accountManager._bMarker(for: session, completedAuthType: .advancedBrowser)
         XCTAssertEqual(marker, kSFAppFeatureBrowserLoginMDM,
                        "useBrowserAuth without loginAsAdmin should produce B2")
     }
@@ -87,7 +87,7 @@ class BrowserLoginTelemetryTests: XCTestCase {
     func test_givenBrowserLoginViaForceFlag_whenAuthCompletes_thenB4Returned() {
         setForceAdvancedAuthentication(true)
         let session = makeSession(loginAsAdmin: false, useBrowserAuth: false)
-        let marker = accountManager._bMarkerForAuthSession(session, completedAuthType: SFOAuthTypeAdvancedBrowser)
+        let marker = accountManager._bMarker(for: session, completedAuthType: .advancedBrowser)
         XCTAssertEqual(marker, kSFAppFeatureBrowserLoginForceFlag,
                        "sdk_forceAdvancedAuthentication=YES without MDM/LFA should produce B4")
     }
@@ -96,7 +96,7 @@ class BrowserLoginTelemetryTests: XCTestCase {
     func test_givenBrowserLoginViaServerAuthConfig_whenAuthCompletes_thenB1Returned() {
         setForceAdvancedAuthentication(false)
         let session = makeSession(loginAsAdmin: false, useBrowserAuth: false)
-        let marker = accountManager._bMarkerForAuthSession(session, completedAuthType: SFOAuthTypeAdvancedBrowser)
+        let marker = accountManager._bMarker(for: session, completedAuthType: .advancedBrowser)
         XCTAssertEqual(marker, kSFAppFeatureBrowserLoginServerAuthConfig,
                        "Browser login with no other reason flags should produce B1 (server auth-config)")
     }
@@ -105,7 +105,7 @@ class BrowserLoginTelemetryTests: XCTestCase {
     func test_givenRefreshFlow_whenAuthCompletes_thenNoBMarkerReturned() {
         setForceAdvancedAuthentication(true)
         let session = makeSession(loginAsAdmin: false, useBrowserAuth: true)
-        let marker = accountManager._bMarkerForAuthSession(session, completedAuthType: SFOAuthTypeRefresh)
+        let marker = accountManager._bMarker(for: session, completedAuthType: .refresh)
         XCTAssertNil(marker, "Refresh flow should never produce a B-marker")
     }
 
@@ -113,7 +113,7 @@ class BrowserLoginTelemetryTests: XCTestCase {
     func test_givenNonBrowserLogin_whenAuthCompletes_thenNoBMarkerReturned() {
         setForceAdvancedAuthentication(false)
         let session = makeSession(loginAsAdmin: false, useBrowserAuth: false)
-        let marker = accountManager._bMarkerForAuthSession(session, completedAuthType: SFOAuthTypeUserAgent)
+        let marker = accountManager._bMarker(for: session, completedAuthType: .userAgent)
         XCTAssertNil(marker, "Non-browser auth type should produce no B-marker")
     }
 
@@ -122,7 +122,7 @@ class BrowserLoginTelemetryTests: XCTestCase {
         // Note: SFSDKAuthSession sets coordinator.useBrowserAuth = request.useBrowserAuth || request.loginAsAdmin,
         // but the request properties are inspected separately in the helper.
         let session = makeSession(loginAsAdmin: true, useBrowserAuth: true)
-        let marker = accountManager._bMarkerForAuthSession(session, completedAuthType: SFOAuthTypeAdvancedBrowser)
+        let marker = accountManager._bMarker(for: session, completedAuthType: .advancedBrowser)
         XCTAssertEqual(marker, kSFAppFeatureBrowserLoginForAdmin, "B3 must win over B2 when both are set")
     }
 
@@ -130,7 +130,7 @@ class BrowserLoginTelemetryTests: XCTestCase {
     func test_givenLoginAsAdminAndForceFlagBothSet_whenAdvancedBrowser_thenB3Wins() {
         setForceAdvancedAuthentication(true)
         let session = makeSession(loginAsAdmin: true, useBrowserAuth: false)
-        let marker = accountManager._bMarkerForAuthSession(session, completedAuthType: SFOAuthTypeAdvancedBrowser)
+        let marker = accountManager._bMarker(for: session, completedAuthType: .advancedBrowser)
         XCTAssertEqual(marker, kSFAppFeatureBrowserLoginForAdmin, "B3 must win over B4 when both are set")
     }
 
@@ -138,32 +138,32 @@ class BrowserLoginTelemetryTests: XCTestCase {
 
     /// L1: production login server.
     func test_givenProductionLoginServer_whenAuthCompletes_thenL1Returned() {
-        let marker = accountManager._lMarkerForDomain("login.salesforce.com", usedWelcomeDiscovery: false)
+        let marker = accountManager._lMarker(forDomain: "login.salesforce.com", usedWelcomeDiscovery: false)
         XCTAssertEqual(marker, kSFAppFeatureLoginServerProduction, "login.salesforce.com should produce L1")
     }
 
     /// L2: sandbox login server.
     func test_givenSandboxLoginServer_whenAuthCompletes_thenL2Returned() {
-        let marker = accountManager._lMarkerForDomain("test.salesforce.com", usedWelcomeDiscovery: false)
+        let marker = accountManager._lMarker(forDomain: "test.salesforce.com", usedWelcomeDiscovery: false)
         XCTAssertEqual(marker, kSFAppFeatureLoginServerSandbox, "test.salesforce.com should produce L2")
     }
 
     /// L4: My Domain server (.my.salesforce.com suffix).
     func test_givenMyDomainLoginServer_whenAuthCompletes_thenL4Returned() {
-        let marker = accountManager._lMarkerForDomain("acme.my.salesforce.com", usedWelcomeDiscovery: false)
+        let marker = accountManager._lMarker(forDomain: "acme.my.salesforce.com", usedWelcomeDiscovery: false)
         XCTAssertEqual(marker, kSFAppFeatureLoginServerMyDomain, "My Domain host should produce L4")
     }
 
     /// L3: Welcome Discovery was used (flag set before WD global is cleared).
     func test_givenWelcomeDiscoveryLogin_whenAuthCompletes_thenL3Returned() {
         // Regardless of the resolved domain, when WD was used, L3 takes priority.
-        let marker = accountManager._lMarkerForDomain("acme.my.salesforce.com", usedWelcomeDiscovery: true)
+        let marker = accountManager._lMarker(forDomain: "acme.my.salesforce.com", usedWelcomeDiscovery: true)
         XCTAssertEqual(marker, kSFAppFeatureLoginServerWelcomeDiscovery, "WD flag set should produce L3")
     }
 
     /// L3 priority: even production domain yields L3 if WD was used (edge case).
     func test_givenWelcomeDiscoveryWithProductionDomain_whenAuthCompletes_thenL3Returned() {
-        let marker = accountManager._lMarkerForDomain("login.salesforce.com", usedWelcomeDiscovery: true)
+        let marker = accountManager._lMarker(forDomain: "login.salesforce.com", usedWelcomeDiscovery: true)
         XCTAssertEqual(marker, kSFAppFeatureLoginServerWelcomeDiscovery, "WD flag always takes priority (even over L1)")
     }
 
@@ -174,15 +174,33 @@ class BrowserLoginTelemetryTests: XCTestCase {
             kSFAppFeatureLoginServerSandbox,
             kSFAppFeatureLoginServerMyDomain,
             kSFAppFeatureLoginServerWelcomeDiscovery,
-            kSFAppFeatureLoginServerCustom
+            kSFAppFeatureLoginServerOther
         ]
-        let result = accountManager._lMarkerForDomain("login.salesforce.com", usedWelcomeDiscovery: false)
+        let result = accountManager._lMarker(forDomain: "login.salesforce.com", usedWelcomeDiscovery: false)
         XCTAssertEqual(result, kSFAppFeatureLoginServerProduction)
         // The helper returns a single string — callers register exactly that one.
         // Verify no other code could match for this input.
         for code in allLCodes where code != kSFAppFeatureLoginServerProduction {
             XCTAssertNotEqual(result, code, "No other L-marker should be returned for production login server")
         }
+    }
+
+    /// L1: internal production pool server (login.test1.pc-rnd.salesforce.com).
+    func test_givenInternalProductionPoolServer_whenAuthCompletes_thenL1Returned() {
+        let marker = accountManager._lMarker(forDomain: "login.test1.pc-rnd.salesforce.com", usedWelcomeDiscovery: false)
+        XCTAssertEqual(marker, kSFAppFeatureLoginServerProduction, "Internal production pool host should produce L1")
+    }
+
+    /// L4: internal My Domain server (*.my.*.salesforce.com).
+    func test_givenInternalMyDomainServer_whenAuthCompletes_thenL4Returned() {
+        let marker = accountManager._lMarker(forDomain: "mobilesdksdb32.test1.my.pc-rnd.salesforce.com", usedWelcomeDiscovery: false)
+        XCTAssertEqual(marker, kSFAppFeatureLoginServerMyDomain, "Internal My Domain host should produce L4")
+    }
+
+    /// L1 must NOT match a My Domain host even when the subdomain starts with "login".
+    func test_givenMyDomainWithLoginPrefix_whenAuthCompletes_thenL4Returned() {
+        let marker = accountManager._lMarker(forDomain: "login-acme.my.salesforce.com", usedWelcomeDiscovery: false)
+        XCTAssertEqual(marker, kSFAppFeatureLoginServerMyDomain, "login-acme.my.salesforce.com is My Domain, not production pool")
     }
 
     /// Exactly one B-marker: no other B-markers should be returned for B3 scenario.
@@ -194,7 +212,7 @@ class BrowserLoginTelemetryTests: XCTestCase {
             kSFAppFeatureBrowserLoginForceFlag
         ]
         let session = makeSession(loginAsAdmin: true, useBrowserAuth: true)
-        let result = accountManager._bMarkerForAuthSession(session, completedAuthType: SFOAuthTypeAdvancedBrowser)
+        let result = accountManager._bMarker(for: session, completedAuthType: .advancedBrowser)
         XCTAssertEqual(result, kSFAppFeatureBrowserLoginForAdmin)
         for code in allBCodes where code != kSFAppFeatureBrowserLoginForAdmin {
             XCTAssertNotEqual(result, code, "No other B-marker should be returned when loginAsAdmin is set")

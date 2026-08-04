@@ -39,9 +39,24 @@ NSString * const kSFSDKWelcomeLoginURL    = @"welcome.salesforce.com/discovery";
 
 @implementation SFSDKAuthConfigUtil
 
++ (BOOL)isProductionLoginHost:(NSString *)host {
+    // Matches login.salesforce.com and internal pool variants like login.test1.pc-rnd.salesforce.com.
+    // My-domain hosts (containing .my.) are never production-pool hosts.
+    if (![host hasPrefix:@"login."] || ![host hasSuffix:@".salesforce.com"]) {
+        return NO;
+    }
+    return [host rangeOfString:@".my."].location == NSNotFound;
+}
+
++ (BOOL)isMyDomainHost:(NSString *)host {
+    // Matches *.my.salesforce.com and internal env variants like *.my.*.salesforce.com.
+    return [host hasSuffix:@".salesforce.com"]
+        && [host rangeOfString:@".my."].location != NSNotFound;
+}
+
 + (BOOL)isPoolLoginHost:(NSString *)host {
-    return [host isEqualToString:kSFSDKSandboxLoginURL]
-        || [host isEqualToString:kSFSDKProductionLoginURL]
+    return [self isProductionLoginHost:host]
+        || [host isEqualToString:kSFSDKSandboxLoginURL]
         || [host isEqualToString:kSFSDKWelcomeLoginURL];
 }
 

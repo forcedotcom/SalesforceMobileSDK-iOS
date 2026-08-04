@@ -56,9 +56,9 @@ extern NSString * const kSFAppFeatureBrowserLoginForceFlag;         // B4
 // "Which login server type" markers — registered per-user on every non-refresh login
 extern NSString * const kSFAppFeatureLoginServerProduction;         // L1
 extern NSString * const kSFAppFeatureLoginServerSandbox;            // L2
-extern NSString * const kSFAppFeatureLoginServerMyDomain;           // L3
-extern NSString * const kSFAppFeatureLoginServerWelcomeDiscovery;   // L4
-extern NSString * const kSFAppFeatureLoginServerCustom;             // L5
+extern NSString * const kSFAppFeatureLoginServerWelcomeDiscovery;   // L3
+extern NSString * const kSFAppFeatureLoginServerMyDomain;           // L4
+extern NSString * const kSFAppFeatureLoginServerOther;              // L5
 
 /**
  Class to register and unregister feature markers associated with SDK facilities being used in
