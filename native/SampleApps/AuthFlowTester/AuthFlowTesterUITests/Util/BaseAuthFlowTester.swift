@@ -807,6 +807,15 @@ class BaseAuthFlowTester: XCTestCase {
         return loginPage.isShowingInAppLoginForm(timeout: timeout)
     }
 
+    /// True when the in-app login view controller (`SFLoginViewController`) is showing, detected
+    /// by its "Log In" nav bar. Appears as soon as the view controller is presented — before the
+    /// WKWebView has loaded the login page — so it is faster and more reliable than
+    /// `isShowingInAppLoginForm()` for modality checks. Use when you need to confirm the SDK chose
+    /// the in-app WebView path rather than the external browser, without waiting for a real page load.
+    func isShowingLoginViewController(timeout: TimeInterval = UITestTimeouts.long) -> Bool {
+        return loginPage.isShowingLoginViewController(timeout: timeout)
+    }
+
     /// True when the Settings gear is present on the current login nav bar (host list under forced
     /// advanced auth, or the in-app WebView on the legacy path).
     func isShowingLoginSettingsGear() -> Bool {
