@@ -599,7 +599,8 @@ class BaseAuthFlowTester: XCTestCase {
         forceAdvancedAuthentication: Bool? = nil,
         loginForAdmin: Bool = false,
         usesWelcomeDiscovery: Bool = false,
-        isMultiUser: Bool = false
+        isMultiUser: Bool = false,
+        isRtr: Bool = false
     ) {
         // Restart
         app.terminate()
@@ -608,19 +609,45 @@ class BaseAuthFlowTester: XCTestCase {
         // Restore auth flow settings lost on restart
         mainPage.setAuthFlowTypes(useWebServerFlow: useWebServerFlow, useHybridFlow: useHybridFlow)
 
+        let expectAdvancedAuth = loginForAdmin || loginHost == .advancedAuth || (forceAdvancedAuthentication == true)
+
+        let expectedBMarker: String? = expectAdvancedAuth ? (
+            loginForAdmin ? kBrowserLoginForAdmin :
+            (forceAdvancedAuthentication == true) ? kBrowserLoginForceFlag :
+            kBrowserLoginServerAuthConfig
+        ) : nil
+
+        let expectedLMarker: String? = usesWelcomeDiscovery
+            ? kLoginServerWelcomeDiscovery
+            : kLoginServerMyDomain
+
         // Validate user and feature flags
         // Not checking static app config since it will depend on the bootconfig of the target app
-        validateUser(
+        let userCredentials = validateUser(
             loginHost: loginHost,
             user: user,
             userAppConfigName: userAppConfigName,
             userScopeSelection: userScopeSelection,
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow,
-            expectAdvancedAuth: loginForAdmin || loginHost == .advancedAuth || (forceAdvancedAuthentication == true),
+            expectAdvancedAuth: expectAdvancedAuth,
             usesWelcomeDiscovery: usesWelcomeDiscovery,
-            isMultiUser: isMultiUser
+            isMultiUser: isMultiUser,
+            expectedBMarker: expectedBMarker,
+            expectedLMarker: expectedLMarker
         )
+
+        if isRtr {
+            assertRevokeAndRefreshWorks(
+                previousCredentials: userCredentials,
+                isRtr: true,
+                loginHost: loginHost,
+                expectAdvancedAuth: expectAdvancedAuth,
+                isMultiUser: isMultiUser,
+                expectedBMarker: expectedBMarker,
+                expectedLMarker: expectedLMarker
+            )
+        }
     }
     
     /// Migrates the refresh token to a new app configuration and validates the result.

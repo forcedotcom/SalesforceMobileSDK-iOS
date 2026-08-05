@@ -173,21 +173,23 @@ class MultiUserLoginTests: BaseAuthFlowTester {
             loginHost: .regularAuth,
             user: .fourth,
             staticAppConfigName: .ecaOpaque,
-            userAppConfigName: .ecaOpaque
+            userAppConfigName: .ecaOpaque,
+            isMultiUser: true
         )
-        
+
         // Switch back to other user
         switchToUserAndValidate(
             loginHost: .regularAuth,
             user: .fifth,
             staticAppConfigName: .ecaOpaque,
             userAppConfigName: .ecaJwt,
+            isMultiUser: true
         )
-        
+
         // Logout second user
         logout()
     }
-    
+
     /// First user dynamic config, second user static config, different apps, same scopes (default).
     func testFirstDynamic_SecondStatic_DifferentApps() throws {
         // Initial user
@@ -197,30 +199,32 @@ class MultiUserLoginTests: BaseAuthFlowTester {
             staticAppConfigName: .caOpaque, // not used - but using other config for validation
             dynamicAppConfigName: .ecaJwt
         )
-        
+
         // Other user
         loginOtherUserAndValidate(
             loginHost: .regularAuth,
             user: .fifth,
             staticAppConfigName: .ecaOpaque
         )
-        
+
         // Switch back to initial user
         switchToUserAndValidate(
             loginHost: .regularAuth,
             user: .fourth,
             staticAppConfigName: .ecaOpaque,
-            userAppConfigName: .ecaJwt
+            userAppConfigName: .ecaJwt,
+            isMultiUser: true
         )
-        
+
         // Switch back to other user
         switchToUserAndValidate(
             loginHost: .regularAuth,
             user: .fifth,
             staticAppConfigName: .ecaOpaque,
             userAppConfigName: .ecaOpaque,
+            isMultiUser: true
         )
-        
+
         // Logout second user
         logout()
     }
@@ -250,17 +254,19 @@ class MultiUserLoginTests: BaseAuthFlowTester {
             loginHost: .regularAuth,
             user: .fourth,
             staticAppConfigName: .caOpaque, // not used - but using other config for validation
-            userAppConfigName: .ecaOpaque
+            userAppConfigName: .ecaOpaque,
+            isMultiUser: true
         )
-        
+
         // Switch back to other user
         switchToUserAndValidate(
             loginHost: .regularAuth,
             user: .fifth,
             staticAppConfigName: .caOpaque, // not used - but using other config for validation
             userAppConfigName: .ecaJwt,
+            isMultiUser: true
         )
-        
+
         // Logout second user
         logout()
     }
