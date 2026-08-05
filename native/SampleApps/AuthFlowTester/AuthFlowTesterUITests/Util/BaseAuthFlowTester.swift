@@ -785,20 +785,26 @@ class BaseAuthFlowTester: XCTestCase {
         loginPage.configureLoginHost(host: getLoginHost(loginHost: loginHost).urlNoProtocol)
     }
 
-    /// Imports the `forceAdvancedAuthentication` flag (and a valid app config so the login form can
-    /// load) via the login screen's Settings gear → Login Options → Auth Flow Types JSON import —
-    /// the same hook `login()` uses. Assumes a screen with the Settings gear is showing (the host
-    /// list under forced advanced auth, or the in-app WebView). Closing Login Options restarts
-    /// authentication, so the login surface reappears in the modality the flag now selects.
+    /// Imports the `forceAdvancedAuthentication` flag via the login screen's Settings gear →
+    /// Login Options → Auth Flow Types JSON import — the same hook `login()` uses. Assumes a
+    /// screen with the Settings gear is showing (the host list under forced advanced auth, or the
+    /// in-app WebView). Closing Login Options restarts authentication, so the login surface
+    /// reappears in the modality the flag now selects.
+    ///
+    /// - Parameter staticAppConfigName: When non-nil, imports the given app config so the WebView
+    ///   can load a real login page. Pass `nil` (the default) when testing against
+    ///   `login.salesforce.com` — the app's default `bootconfig.plist` consumer key is valid there
+    ///   and overriding it with a My-Domain-specific ECA config (e.g. `ecaOpaque`) would cause
+    ///   `invalid_client_id` on the standard server and prevent the login form from loading.
     func setForceAdvancedAuthentication(
         _ value: Bool,
-        staticAppConfigName: KnownAppConfig,
+        staticAppConfigName: KnownAppConfig? = nil,
         staticScopeSelection: ScopeSelection = .empty,
         useWebServerFlow: Bool = true,
         useHybridFlow: Bool = true
     ) {
-        let staticAppConfig = getAppConfig(named: staticAppConfigName)
-        let staticScopes = testConfig.getScopesToRequest(for: staticAppConfig, staticScopeSelection)
+        let staticAppConfig = staticAppConfigName.map { getAppConfig(named: $0) }
+        let staticScopes = staticAppConfig.map { testConfig.getScopesToRequest(for: $0, staticScopeSelection) } ?? ""
         loginPage.configureLoginOptions(
             staticAppConfig: staticAppConfig,
             staticScopes: staticScopes,
@@ -1095,13 +1101,13 @@ class BaseAuthFlowTester: XCTestCase {
     
     /// Captures current credentials then performs a revoke/refresh cycle and validates the result.
     ///
-    /// `expectAdvancedAuth` defaults to `true` because interactive login defaults to advanced auth
-    /// (external browser), which registers the BW feature marker on the UA.
-    func assertRevokeAndRefreshWorks(isRtr: Bool, isDPoP: Bool = false, loginHost: KnownLoginHostConfig = .regularAuth, expectAdvancedAuth: Bool = true, isMultiUser: Bool = false) {
+    /// `expectAdvancedAuth` defaults to `false`. Tests that explicitly used browser-based auth
+    /// (`.advancedAuth` host or `forceAdvancedAuthentication: true`) should pass `true`.
+    func assertRevokeAndRefreshWorks(isRtr: Bool, isDPoP: Bool = false, loginHost: KnownLoginHostConfig = .regularAuth, expectAdvancedAuth: Bool = false, isMultiUser: Bool = false) {
         assertRevokeAndRefreshWorks(previousCredentials: getUserCredentials(), isRtr: isRtr, isDPoP: isDPoP, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, isMultiUser: isMultiUser)
     }
 
-    private func assertRevokeAndRefreshWorks(previousCredentials: UserCredentialsData, isRtr: Bool, isDPoP: Bool = false, loginHost: KnownLoginHostConfig = .regularAuth, expectAdvancedAuth: Bool = true, isMultiUser: Bool = false) {
+    private func assertRevokeAndRefreshWorks(previousCredentials: UserCredentialsData, isRtr: Bool, isDPoP: Bool = false, loginHost: KnownLoginHostConfig = .regularAuth, expectAdvancedAuth: Bool = false, isMultiUser: Bool = false) {
         // Revoke access token
         XCTAssert(mainPage.revokeAccessToken(), "Failed to revoke access token")
 

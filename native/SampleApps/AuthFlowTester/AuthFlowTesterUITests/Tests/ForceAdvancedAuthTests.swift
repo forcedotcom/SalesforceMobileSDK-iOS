@@ -99,13 +99,15 @@ class ForceAdvancedAuthTests: BaseAuthFlowTester {
         launch()
 
         // Reach the host list (fresh launch shows the browser), pin the standard server, then
-        // import forceAdvancedAuthentication = false via the gear → Login Options JSON hook. A valid
-        // app config is imported alongside it so the WebView can load a real login page. Closing
-        // Login Options restarts authentication, now in the legacy WebView.
+        // import forceAdvancedAuthentication = false via the gear → Login Options JSON hook. No
+        // app config override — the default bootconfig.plist consumer key is valid for
+        // login.salesforce.com, so the WebView loads the real login form without importing a
+        // My-Domain-specific ECA key that would trigger invalid_client_id on the standard server.
+        // Closing Login Options restarts authentication, now in the legacy WebView.
         returnToLoginHostList(expectingBrowser: true)
         configureLoginHost(productionHostDisplayName)
         returnToLoginHostList(expectingBrowser: true)
-        setForceAdvancedAuthentication(false, staticAppConfigName: .ecaOpaque)
+        setForceAdvancedAuthentication(false)
 
         XCTAssertTrue(isShowingInAppLoginForm(),
                       "With advanced auth disabled, the standard server should use the in-app WebView login form")
