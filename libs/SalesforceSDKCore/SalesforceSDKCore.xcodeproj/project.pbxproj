@@ -27,6 +27,7 @@
 		010A9B591CC1A147002AF4D3 /* SFCryptoStreamTestUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 010A9B521CC1A131002AF4D3 /* SFCryptoStreamTestUtils.m */; };
 		092F3EB14B5A4FFEA77B21BC /* SFSDKOAuth2RefreshInstanceUrlTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3168ED77C1354C30BA9DB766 /* SFSDKOAuth2RefreshInstanceUrlTests.m */; };
 		1A31073F5F374B9EB1162F2E /* SFOAuthCoordinatorLightningURLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399A11508BCB47F490DFB724 /* SFOAuthCoordinatorLightningURLTests.swift */; };
+		B2C3D4E5F6A7B8C9D0E1F2A1 /* SFOAuthCoordinatorAppAttestationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6A7B8C9D0E1F2 /* SFOAuthCoordinatorAppAttestationTests.swift */; };
 		230834842DF7838200C7CBF7 /* URLSessionTask+RetryPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230834832DF7837400C7CBF7 /* URLSessionTask+RetryPolicy.swift */; };
 		3D012B381C4D4D97BCDA30E6 /* SFSDKOAuth2TokenExchangeErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4746050277064A9790E3470A /* SFSDKOAuth2TokenExchangeErrorTests.swift */; };
 		230834862DF8938D00C7CBF7 /* URLSessionTask+RetryPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230834852DF8938D00C7CBF7 /* URLSessionTask+RetryPolicyTests.swift */; };
@@ -595,6 +596,7 @@
 		23F200AD2E551C890091C5F5 /* BootconfigTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BootconfigTests.swift; path = SalesforceSDKCoreTests/BootconfigTests.swift; sourceTree = SOURCE_ROOT; };
 		3168ED77C1354C30BA9DB766 /* SFSDKOAuth2RefreshInstanceUrlTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFSDKOAuth2RefreshInstanceUrlTests.m; path = ../SalesforceSDKCoreTests/SFSDKOAuth2RefreshInstanceUrlTests.m; sourceTree = "<group>"; };
 		399A11508BCB47F490DFB724 /* SFOAuthCoordinatorLightningURLTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SFOAuthCoordinatorLightningURLTests.swift; path = ../SalesforceSDKCoreTests/SFOAuthCoordinatorLightningURLTests.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F6A7B8C9D0E1F2 /* SFOAuthCoordinatorAppAttestationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SFOAuthCoordinatorAppAttestationTests.swift; path = ../SalesforceSDKCoreTests/SFOAuthCoordinatorAppAttestationTests.swift; sourceTree = "<group>"; };
 		444B95CF1E83251900908C61 /* UIColor+SFColorsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+SFColorsTests.m"; path = "SalesforceSDKCoreTests/UIColor+SFColorsTests.m"; sourceTree = SOURCE_ROOT; };
 		4746050277064A9790E3470A /* SFSDKOAuth2TokenExchangeErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SFSDKOAuth2TokenExchangeErrorTests.swift; path = ../SalesforceSDKCoreTests/SFSDKOAuth2TokenExchangeErrorTests.swift; sourceTree = "<group>"; };
 		4F06AF5D1C49A16A00F70798 /* NSURL+SFStringUtilsTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSURL+SFStringUtilsTests.h"; path = "SalesforceSDKCoreTests/NSURL+SFStringUtilsTests.h"; sourceTree = SOURCE_ROOT; };
@@ -1149,6 +1151,7 @@
 				B7355248228E84AF001C7759 /* SFSDKLogoutBlocker.h */,
 				B7A901BD228E4DFA0036D749 /* SFSDKLogoutBlocker.m */,
 				399A11508BCB47F490DFB724 /* SFOAuthCoordinatorLightningURLTests.swift */,
+				A1B2C3D4E5F6A7B8C9D0E1F2 /* SFOAuthCoordinatorAppAttestationTests.swift */,
 				4FOAUTHECT002E98711600C89DDD /* SFOAuthErrorCodeTests.swift */,
 				4746050277064A9790E3470A /* SFSDKOAuth2TokenExchangeErrorTests.swift */,
 				4F9E052C2DD6A06F00548985 /* SFSDKOAuthTokenEndpointResponseTests.m */,
@@ -2321,6 +2324,7 @@
 				4F3ECD8A2EBBD150005020A6 /* SFOAuthCoordinatorTests.m in Sources */,
 				4FA1B2C32F0E000000000001 /* LoginForAdminTests.swift in Sources */,
 				1A31073F5F374B9EB1162F2E /* SFOAuthCoordinatorLightningURLTests.swift in Sources */,
+				B2C3D4E5F6A7B8C9D0E1F2A1 /* SFOAuthCoordinatorAppAttestationTests.swift in Sources */,
 				4FOAUTHECT012E98711600C89DDD /* SFOAuthErrorCodeTests.swift in Sources */,
 				3D012B381C4D4D97BCDA30E6 /* SFSDKOAuth2TokenExchangeErrorTests.swift in Sources */,
 				4F9E05322DD6A08000548985 /* SFSDKOAuthTokenEndpointResponseTests.m in Sources */,
