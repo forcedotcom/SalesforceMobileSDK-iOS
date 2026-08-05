@@ -727,7 +727,7 @@ class BaseAuthFlowTester: XCTestCase {
     ///   - isMultiUser: Whether multiple users are currently logged in. Defaults to `false`.
     ///   - isRtr: Whether Refresh Token Rotation is enabled, which sets the RT flag. Defaults to `false`.
     ///   - expectedBMarker: The single B-marker code expected in the UA (e.g. "B3", "B4"). Pass `nil` when no browser login occurred.
-    ///   - expectedLMarker: The single L-marker code expected in the UA (e.g. "L3", "L4"). Pass `nil` to skip the assertion.
+    ///   - expectedLMarker: The single L-marker code expected in the UA (e.g. "L3", "L4"). Pass `nil` to assert no L-markers are present.
     func validateUserAgent(userCredentials: UserCredentialsData, loginHost: KnownLoginHostConfig, expectAdvancedAuth: Bool = false, usesWelcomeDiscovery: Bool = false, isMultiUser: Bool = false, isRtr: Bool = false, expectDP: Bool = false, expectedBMarker: String? = nil, expectedLMarker: String? = nil) {
         validateUserAgent(ua: userCredentials.userAgent, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, usesWelcomeDiscovery: usesWelcomeDiscovery, isMultiUser: isMultiUser, isRtr: isRtr, expectDP: expectDP, expectedBMarker: expectedBMarker, expectedLMarker: expectedLMarker)
     }
@@ -808,6 +808,10 @@ class BaseAuthFlowTester: XCTestCase {
             XCTAssertTrue(flagSet.contains(lMarker), "Expected L-marker '\(lMarker)' in UA; flags: \(flagSet), ua: \(ua)")
             for other in kAllLMarkers where other != lMarker {
                 XCTAssertFalse(flagSet.contains(other), "Unexpected L-marker '\(other)' in UA; flags: \(flagSet), ua: \(ua)")
+            }
+        } else {
+            for marker in kAllLMarkers {
+                XCTAssertFalse(flagSet.contains(marker), "Unexpected L-marker '\(marker)' when no login server marker expected; flags: \(flagSet), ua: \(ua)")
             }
         }
     }
