@@ -282,7 +282,7 @@ struct UserCredentialsView: View {
         result[CredentialsLabels.tokens] = [
             CredentialsLabels.accessToken: accessToken,
             CredentialsLabels.refreshToken: refreshToken,
-            CredentialsLabels.tokenFormat: tokenFormat,
+            CredentialsLabels.tokenFormat: tokenFormatRaw,
             CredentialsLabels.jwt: jwt,
             CredentialsLabels.authCode: authCode,
             CredentialsLabels.challengeString: challengeString,
@@ -401,9 +401,12 @@ struct UserCredentialsView: View {
         return credentials?.refreshToken ?? ""
     }
     
+    private var tokenFormatRaw: String {
+        return credentials?.tokenFormat ?? ""
+    }
+
     private var tokenFormat: String {
-        let value = credentials?.tokenFormat ?? ""
-        return value.isEmpty ? "Opaque" : value
+        return tokenFormatRaw.isEmpty ? "Opaque" : tokenFormatRaw
     }
     
     private var jwt: String {
