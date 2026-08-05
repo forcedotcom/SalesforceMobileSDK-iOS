@@ -229,6 +229,15 @@ SFNativeLoginManagerInternal *nativeLogin;
     [SalesforceSDKManager sharedManager];
 }
 
+- (void)resetAuthFlags {
+    self.useEphemeralSessionForAdvancedAuth = YES;
+    self.useWebServerAuthentication = YES;
+    self.useHybridAuthentication = YES;
+    self.useDPoP = NO;
+    self.sdk_forceAdvancedAuthentication = YES;
+    self.blockSalesforceIntegrationUser = NO;
+}
+
 #if DEBUG
 + (void)resetForUITesting {
     // 1. Log out all users — clears on-disk account data, DPoP keychain keys, in-memory maps.
@@ -249,14 +258,9 @@ SFNativeLoginManagerInternal *nativeLogin;
     [storage removeAllLoginHosts];
     [storage save];
 
-    // 5. Reset all auth flags to the values set in -init.
+    // 5. Reset all auth flags to their -init defaults.
     SalesforceSDKManager *mgr = [SalesforceSDKManager sharedManager];
-    mgr.useEphemeralSessionForAdvancedAuth = YES;
-    mgr.useWebServerAuthentication = YES;
-    mgr.useHybridAuthentication = YES;
-    mgr.useDPoP = NO;
-    mgr.sdk_forceAdvancedAuthentication = YES;
-    mgr.blockSalesforceIntegrationUser = NO;
+    [mgr resetAuthFlags];
     mgr.simulatedDomainDiscoveryResult = nil;
 }
 #endif
@@ -361,12 +365,7 @@ SFNativeLoginManagerInternal *nativeLogin;
         [self computeWebViewUserAgent]; // web view user agent is computed asynchronously so very first call to self.userAgentString(...) will be missing it
         self.userAgentString = [self defaultUserAgentString];
         self.URLCacheType = kSFURLCacheTypeEncrypted;
-        self.useEphemeralSessionForAdvancedAuth = YES;
-        self.useWebServerAuthentication = YES;
-        self.blockSalesforceIntegrationUser = NO;
-        self.useHybridAuthentication = YES;
-        self.useDPoP = NO;
-        self.sdk_forceAdvancedAuthentication = YES;
+        [self resetAuthFlags];
         [self setupServiceConfiguration];
         _snapshotViewControllers = [SFSDKSafeMutableDictionary new];
         _nativeLoginViewControllers = [SFSDKSafeMutableDictionary new];
