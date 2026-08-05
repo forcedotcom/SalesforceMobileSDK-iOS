@@ -434,7 +434,7 @@ class LoginPageObject {
     
     private func hasHost(host: String) -> Bool {
         let row = hostRow(host: host)
-        return row.waitForExistence(timeout: UITestTimeouts.long)
+        return row.waitForExistence(timeout: UITestTimeouts.short)
     }
 }
 
