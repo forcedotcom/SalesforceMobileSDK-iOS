@@ -120,12 +120,13 @@ class ForceAdvancedAuthTests: BaseAuthFlowTester {
     /// `launchLoginAndValidate`). Advanced auth always pairs with the web server flow, so this is a
     /// web-server-flow login.
     func testForceAdvancedAuth_MyDomainRegularHost_RemainsBrowser() throws {
-        // Default flag (nil) inherits the production default (advanced auth ON), so login runs in the
-        // external browser; validation asserts credentials and a REST round-trip.
+        // Pass `true` to explicitly force advanced auth ON so login runs in the external browser;
+        // validation asserts credentials and a REST round-trip.
         launchLoginAndValidate(
             loginHost: .regularAuth,
             user: .first,
-            staticAppConfigName: .ecaOpaque
+            staticAppConfigName: .ecaOpaque,
+            forceAdvancedAuthentication: true
         )
     }
 
@@ -139,11 +140,12 @@ class ForceAdvancedAuthTests: BaseAuthFlowTester {
     /// Pre-fix regression this guards: the forced path created the picker with `hidesCancelButton =
     /// YES` and no back control, stranding the add-user flow.
     func testForceAdvancedAuth_AddAdditionalUser_BackButtonAccessible() throws {
-        // Log in the first user under the default flag (external browser).
+        // Log in the first user with advanced auth explicitly ON (external browser).
         launchAndLogin(
             loginHost: .regularAuth,
             user: .first,
-            staticAppConfigName: .ecaOpaque
+            staticAppConfigName: .ecaOpaque,
+            forceAdvancedAuthentication: true
         )
 
         // Trigger Add New Account (Switch User → New User): under forced advanced auth this launches

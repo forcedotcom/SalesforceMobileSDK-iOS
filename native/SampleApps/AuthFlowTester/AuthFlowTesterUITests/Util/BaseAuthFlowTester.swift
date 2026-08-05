@@ -135,9 +135,9 @@ class BaseAuthFlowTester: XCTestCase {
         let staticScopes = testConfig.getScopesToRequest(for: staticAppConfig, staticScopeSelection)
         let dynamicScopes = dynamicAppConfig == nil ? "" : testConfig.getScopesToRequest(for: dynamicAppConfig!, dynamicScopeSelection)
 
-        // Advanced auth is forced on by default; only an explicit `false` disables it. When it is
-        // on, interactive login happens in the external browser; when off, in the in-app WebView.
-        let advancedAuthEnabled = forceAdvancedAuthentication != false
+        // nil and false both mean "use the in-app WebView" (no browser, no BW markers).
+        // Only an explicit `true` enables the external browser path.
+        let advancedAuthEnabled = forceAdvancedAuthentication == true
         // The surface used to enter credentials: the external browser under advanced auth (forced
         // on, or a host that itself requires it), otherwise the in-app WebView. Login for Admin is
         // special-cased below: it always finishes in the browser regardless of this value.
@@ -155,7 +155,7 @@ class BaseAuthFlowTester: XCTestCase {
             dynamicScopes: dynamicScopes,
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow,
-            forceAdvancedAuthentication: forceAdvancedAuthentication,
+            forceAdvancedAuthentication: forceAdvancedAuthentication ?? false,
             discoveryLoginHost: useWelcomeDiscovery ? hostConfig.urlNoProtocol : "",
             discoveryUsername: useWelcomeDiscovery ? userConfig.username : "",
             useDPoP: useDPoP
@@ -284,7 +284,7 @@ class BaseAuthFlowTester: XCTestCase {
             userScopeSelection: userScopeSelection,
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow,
-            expectAdvancedAuth: loginForAdmin || loginHost == .advancedAuth || (forceAdvancedAuthentication != false),
+            expectAdvancedAuth: loginForAdmin || loginHost == .advancedAuth || (forceAdvancedAuthentication == true),
             isMultiUser: isMultiUser
         )
     }
@@ -546,7 +546,7 @@ class BaseAuthFlowTester: XCTestCase {
             userScopeSelection: userScopeSelection,
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow,
-            expectAdvancedAuth: loginForAdmin || loginHost == .advancedAuth || (forceAdvancedAuthentication != false),
+            expectAdvancedAuth: loginForAdmin || loginHost == .advancedAuth || (forceAdvancedAuthentication == true),
             usesWelcomeDiscovery: usesWelcomeDiscovery,
             isMultiUser: isMultiUser
         )
@@ -929,7 +929,7 @@ class BaseAuthFlowTester: XCTestCase {
         // Check that app loads and shows the expected user credentials etc
         assertMainPageLoaded()
 
-        let expectAdvancedAuth = loginForAdmin || loginHost == .advancedAuth || (forceAdvancedAuthentication != false)
+        let expectAdvancedAuth = loginForAdmin || loginHost == .advancedAuth || (forceAdvancedAuthentication == true)
 
         let userCredentials = validateUser(
             loginHost: loginHost,
