@@ -556,6 +556,10 @@ class BaseAuthFlowTester: XCTestCase {
     /// Performs a refresh token migration from the current app configuration to a new one,
     /// then validates that the credentials are updated correctly and the refresh token has changed.
     ///
+    /// `forceAdvancedAuthentication` defaults to `false` because migration is a silent token
+    /// exchange — the browser is never opened, so the BW feature marker is not present in the
+    /// post-migration UA regardless of how the initial login was performed.
+    ///
     /// - Parameters:
     ///   - loginHost: The login host configuration to use.
     ///   - staticAppConfigName: The static app configuration name.
@@ -564,6 +568,9 @@ class BaseAuthFlowTester: XCTestCase {
     ///   - migrationScopeSelection: The scope selection for the migration target. Defaults to `.empty`.
     ///   - migrationUseWebServerFlow: Whether to use web server OAuth flow for migration. Defaults to `true`.
     ///   - migrationUseHybridFlow: Whether to use hybrid authentication flow for migration. Defaults to `true`.
+    ///   - forceAdvancedAuthentication: Whether to expect the BW flag in the post-migration UA. Defaults to `false`.
+    ///   - useDPoP: Whether DPoP was enabled for this session. Defaults to `false`.
+    ///   - isMultiUser: Whether multiple users are logged in. Defaults to `false`.
     func migrateAndValidate(
         loginHost: KnownLoginHostConfig,
         staticAppConfigName: KnownAppConfig,
@@ -572,18 +579,13 @@ class BaseAuthFlowTester: XCTestCase {
         migrationScopeSelection: ScopeSelection = .empty,
         migrationUseWebServerFlow: Bool = true,
         migrationUseHybridFlow: Bool = true,
-        forceAdvancedAuthentication: Bool = true,
+        forceAdvancedAuthentication: Bool = false,
         useDPoP: Bool = false,
         isMultiUser: Bool = false
     ) {
-        // Get original credentials before migration
         let originalUserCredentials = mainPage.getUserCredentials()
-
-        // Get current user
         let user = getKnownUserConfig(loginHost: loginHost, byUsername: originalUserCredentials.username)
 
-
-        // Migrate refresh token
         migrateRefreshToken(
             appConfigName: migrationAppConfigName,
             scopeSelection: migrationScopeSelection,
@@ -591,18 +593,11 @@ class BaseAuthFlowTester: XCTestCase {
             useHybridFlow: migrationUseHybridFlow
         )
 
-        // Validate after migration.
-        //
-        // NB on `useDPoP`: The SDK's Change Key sheet does not expose a DPoP toggle, so the
-        // migration refresh exchange inherits `SalesforceManager.shared.usesDPoP` from the initial
-        // login. We forward `useDPoP` here purely to strengthen the intermediate revoke/refresh
-        // assertion inside `validate` — without it, a DPoP regression during the post-migration
-        // refresh cycle would go undetected here.
-        //
-        // NB on `forceAdvancedAuthentication`: the BW feature marker is not re-registered during
-        // `migrateRefreshToken` (migration is a silent refresh exchange, not an interactive login).
-        // Tests that logged in with browser auth should pass `false` here so `expectAdvancedAuth`
-        // matches the observed post-migration UA (BW absent).
+        // NB: The SDK's Change Key sheet does not expose a DPoP toggle, so the migration refresh
+        // exchange inherits `SalesforceManager.shared.usesDPoP` from the initial login. `useDPoP`
+        // is forwarded here to strengthen the intermediate revoke/refresh assertion inside
+        // `validate` — without it, a DPoP regression during the post-migration refresh cycle
+        // would go undetected.
         let migratedUserCredentials = validate(
             loginHost: loginHost,
             user: user,
