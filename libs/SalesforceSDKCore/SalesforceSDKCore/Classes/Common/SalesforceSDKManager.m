@@ -235,17 +235,21 @@ SFNativeLoginManagerInternal *nativeLogin;
     //    Refresh-token revocation fires asynchronously in the background.
     [[SFUserAccountManager sharedInstance] logoutAllUsers];
 
-    // 2. Reset selected login host to production default and persist it.
+    // 2. Clear per-user in-memory feature flags (RT, DP, etc.) so flags from the previous test
+    //    do not bleed into the next one when the same user logs in again.
+    [SFSDKAppFeatureMarkers resetPerUserFeaturesForUITesting];
+
+    // 3. Reset selected login host to production default and persist it.
     [SFUserAccountManager sharedInstance].loginHost = @"login.salesforce.com";
 
-    // 3. Remove custom login servers in-memory; save flushes the empty list to msdkUserDefaults
+    // 4. Remove custom login servers in-memory; save flushes the empty list to msdkUserDefaults
     //    (SalesforceLoginHostListPrefs) so custom hosts do not reappear on next cold start.
     //    Production (login.salesforce.com) and Sandbox (test.salesforce.com) are preserved.
     SFSDKLoginHostStorage *storage = [SFSDKLoginHostStorage sharedInstance];
     [storage removeAllLoginHosts];
     [storage save];
 
-    // 4. Reset all auth flags to the values set in -init.
+    // 5. Reset all auth flags to the values set in -init.
     SalesforceSDKManager *mgr = [SalesforceSDKManager sharedManager];
     mgr.useEphemeralSessionForAdvancedAuth = YES;
     mgr.useWebServerAuthentication = YES;
