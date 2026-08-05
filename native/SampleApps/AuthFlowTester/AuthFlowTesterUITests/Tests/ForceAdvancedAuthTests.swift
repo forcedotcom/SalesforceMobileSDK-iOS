@@ -88,9 +88,6 @@ class ForceAdvancedAuthTests: BaseAuthFlowTester {
                       "Forced advanced auth on the standard server should launch the external browser")
         XCTAssertFalse(isShowingInAppLoginForm(timeout: UITestTimeouts.short),
                        "The in-app WebView login form must NOT be shown when advanced auth is forced on")
-
-        // Never completed login — remain on the browser surface; the next launch() self-heals.
-        skipLogoutAtTearDown()
     }
 
     /// Flag OFF (imported explicitly), standard server.
@@ -114,8 +111,6 @@ class ForceAdvancedAuthTests: BaseAuthFlowTester {
                       "With advanced auth disabled, the standard server should use the in-app WebView login form")
         XCTAssertFalse(isShowingBrowserLogin(timeout: UITestTimeouts.short),
                        "The external browser must NOT be shown when advanced auth is disabled")
-
-        skipLogoutAtTearDown()
     }
 
     /// Flag ON (default), `regular_auth` My Domain that does NOT opt into browser login.
@@ -187,8 +182,6 @@ class ForceAdvancedAuthTests: BaseAuthFlowTester {
         openLoginOptions()
         XCTAssertTrue(isShowingAuthFlowTypesView(),
                       "The picker's Login Options entry should open the Auth Flow Types dev screen")
-
-        skipLogoutAtTearDown()
     }
 
     /// §5a/§5b parity — Flag OFF. With one user already logged in, adding another account on the
@@ -214,7 +207,5 @@ class ForceAdvancedAuthTests: BaseAuthFlowTester {
                       "On the legacy WebView path, adding a user should show the same accessible back control")
         XCTAssertTrue(isShowingLoginSettingsGear(),
                       "On the legacy WebView path, adding a user should show the same dev-menu gear")
-
-        skipLogoutAtTearDown()
     }
 }
