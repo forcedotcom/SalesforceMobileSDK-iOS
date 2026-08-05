@@ -172,9 +172,10 @@ class BaseAuthFlowTester: XCTestCase {
     ///   - useWebServerFlow: Whether to use web server OAuth flow. Defaults to `true`.
     ///   - useHybridFlow: Whether to use hybrid authentication flow. Defaults to `true`.
     ///   - forceAdvancedAuthentication: Overrides the SDK's process-global "force advanced
-    ///     authentication" setting for this login. Leave `nil` to inherit the production default
-    ///     (advanced auth forced on — the external browser is used for interactive login). Pass
-    ///     `false` to exercise the legacy in-app WebView path, or `true` to force it explicitly.
+    ///     authentication" setting for this login. Pass `true` to use the external browser (BW+B4
+    ///     markers registered). Pass `false` or leave `nil` to use the in-app WebView (no BW/B
+    ///     markers). Passing `nil` explicitly imports `nAuthentication = false` to clear any
+    ///     residual state from a prior test.
     ///   - useWelcomeDiscovery: When true, configures simulated domain discovery. Defaults to `false`.
     ///   - loginForAdmin: When true, uses the "Login for Admin" flow (browser-based auth via the
     ///     in-app WebView's Settings menu). Requires advanced auth disabled so the WebView — and its
@@ -200,12 +201,14 @@ class BaseAuthFlowTester: XCTestCase {
         let staticScopes = testConfig.getScopesToRequest(for: staticAppConfig, staticScopeSelection)
         let dynamicScopes = dynamicAppConfig == nil ? "" : testConfig.getScopesToRequest(for: dynamicAppConfig!, dynamicScopeSelection)
 
-        // Advanced auth is forced on by default; only an explicit `false` disables it. When it is
-        // on, interactive login happens in the external browser; when off, in the in-app WebView.
-        let advancedAuthEnabled = forceAdvancedAuthentication != false
+        // nil and false both mean "use the in-app WebView" (no browser, no BW/B-markers).
+        // Only an explicit `true` enables the external browser path.
+        // Passing `forceAdvancedAuthentication ?? false` to configureLoginOptions ensures any
+        // residual nAuthentication=true left by a prior test is always explicitly cleared.
+        let advancedAuthEnabled = forceAdvancedAuthentication == true
         // The surface used to enter credentials: the external browser under advanced auth (forced
-        // on, or a host that itself requires it), otherwise the in-app WebView. Login for Admin is
-        // special-cased below: it always finishes in the browser regardless of this value.
+        // true, or a host that itself requires it), otherwise the in-app WebView. Login for Admin
+        // is special-cased below: it always finishes in the browser regardless of this value.
         let usesBrowser = advancedAuthEnabled || loginHost == .advancedAuth
 
         // A fresh login surface always starts under the process default (advanced auth on), so the
@@ -220,7 +223,7 @@ class BaseAuthFlowTester: XCTestCase {
             dynamicScopes: dynamicScopes,
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow,
-            forceAdvancedAuthentication: forceAdvancedAuthentication,
+            forceAdvancedAuthentication: forceAdvancedAuthentication ?? false,
             discoveryLoginHost: useWelcomeDiscovery ? hostConfig.urlNoProtocol : "",
             discoveryUsername: useWelcomeDiscovery ? userConfig.username : "",
             useDPoP: useDPoP
