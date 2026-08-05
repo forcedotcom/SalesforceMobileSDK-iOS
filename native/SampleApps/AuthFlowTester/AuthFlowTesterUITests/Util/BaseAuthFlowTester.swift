@@ -516,6 +516,7 @@ class BaseAuthFlowTester: XCTestCase {
     ///   - useHybridFlow: Whether hybrid authentication flow was used. Defaults to `true`.
     ///   - loginForAdmin: When true, Login for Admin was used (browser-based auth), which sets the BW flag. Defaults to `false`.
     ///   - usesWelcomeDiscovery: When true, welcome discovery was used, which sets the WD flag. Defaults to `false`.
+    ///   - isRtr: When true, the RT flag is expected to be present after restart (RTR cycle completed before restart). Defaults to `false`.
     func restartAndValidateUser(
         loginHost: KnownLoginHostConfig = .regularAuth,
         user: KnownUserConfig = .first,
@@ -526,7 +527,8 @@ class BaseAuthFlowTester: XCTestCase {
         forceAdvancedAuthentication: Bool = true,
         loginForAdmin: Bool = false,
         usesWelcomeDiscovery: Bool = false,
-        isMultiUser: Bool = false
+        isMultiUser: Bool = false,
+        isRtr: Bool = false
     ) {
         // Restart without --resetSDKForUITesting so the session persists across the restart
         restart()
@@ -547,7 +549,8 @@ class BaseAuthFlowTester: XCTestCase {
             useHybridFlow: useHybridFlow,
             expectAdvancedAuth: expectAdvancedAuth,
             usesWelcomeDiscovery: usesWelcomeDiscovery,
-            isMultiUser: isMultiUser
+            isMultiUser: isMultiUser,
+            isRtr: isRtr
         )
     }
     
