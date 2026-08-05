@@ -241,11 +241,12 @@ class RefreshTokenMigrationTests: BaseAuthFlowTester {
         // Switch to User A
         switchToUser(loginHost: .regularAuth, user: .fourth)
 
-        // Migrate User A to ECA Opaque
+        // Migrate User A to ECA Opaque (User B is still logged in)
         migrateAndValidate(
             loginHost: .regularAuth,
             staticAppConfigName: .caOpaque,
-            migrationAppConfigName: .ecaOpaque
+            migrationAppConfigName: .ecaOpaque,
+            isMultiUser: true
         )
 
         // Switch to User B and verify unchanged (still CA Opaque)

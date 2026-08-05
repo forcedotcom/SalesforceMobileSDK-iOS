@@ -540,6 +540,8 @@ class BaseAuthFlowTester: XCTestCase {
 
         let expectAdvancedAuth = loginForAdmin || loginHost == .advancedAuth || (forceAdvancedAuthentication == true)
 
+        let userAppConfig = getAppConfig(named: userAppConfigName)
+
         // Validate user and feature flags
         // Not checking static app config since it will depend on the bootconfig of the target app
         let userCredentials = validateUser(
@@ -551,11 +553,11 @@ class BaseAuthFlowTester: XCTestCase {
             useHybridFlow: useHybridFlow,
             expectAdvancedAuth: expectAdvancedAuth,
             usesWelcomeDiscovery: usesWelcomeDiscovery,
-            isMultiUser: isMultiUser
+            isMultiUser: isMultiUser,
+            isRtr: isRtr
         )
 
         if isRtr {
-            let userAppConfig = getAppConfig(named: userAppConfigName)
             assertRevokeAndRefreshWorks(
                 previousCredentials: userCredentials,
                 isRtr: true,
@@ -589,7 +591,8 @@ class BaseAuthFlowTester: XCTestCase {
         migrationUseWebServerFlow: Bool = true,
         migrationUseHybridFlow: Bool = true,
         forceAdvancedAuthentication: Bool? = nil,
-        useDPoP: Bool = false
+        useDPoP: Bool = false,
+        isMultiUser: Bool = false
     ) {
         // Get original credentials before migration
         let originalUserCredentials = mainPage.getUserCredentials()
@@ -628,6 +631,7 @@ class BaseAuthFlowTester: XCTestCase {
             useWebServerFlow: migrationUseWebServerFlow,
             useHybridFlow: migrationUseHybridFlow,
             forceAdvancedAuthentication: forceAdvancedAuthentication,
+            isMultiUser: isMultiUser,
             useDPoP: useDPoP
         )
 
@@ -877,7 +881,8 @@ class BaseAuthFlowTester: XCTestCase {
         useHybridFlow: Bool,
         expectAdvancedAuth: Bool = false,
         usesWelcomeDiscovery: Bool = false,
-        isMultiUser: Bool = false
+        isMultiUser: Bool = false,
+        isRtr: Bool = false
     ) -> UserCredentialsData {
 
         let userConfig = getUser(loginHost: loginHost, user: user)
@@ -914,7 +919,7 @@ class BaseAuthFlowTester: XCTestCase {
         }
 
         // Validate feature flags using UA already present in the fetched credentials
-        validateUserAgent(ua: userCredentials.userAgent, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, usesWelcomeDiscovery: usesWelcomeDiscovery, isMultiUser: isMultiUser, expectDP: userAppConfig.isDPoP)
+        validateUserAgent(ua: userCredentials.userAgent, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, usesWelcomeDiscovery: usesWelcomeDiscovery, isMultiUser: isMultiUser, isRtr: isRtr, expectDP: userAppConfig.isDPoP)
 
         return userCredentials
     }
