@@ -529,7 +529,8 @@ class BaseAuthFlowTester: XCTestCase {
         forceAdvancedAuthentication: Bool? = nil,
         loginForAdmin: Bool = false,
         usesWelcomeDiscovery: Bool = false,
-        isMultiUser: Bool = false
+        isMultiUser: Bool = false,
+        isRtr: Bool = false
     ) {
         // Restart without --resetSDKForUITesting so the session persists across the restart
         restart()
@@ -537,19 +538,33 @@ class BaseAuthFlowTester: XCTestCase {
         // Restore auth flow settings lost on restart
         mainPage.setAuthFlowTypes(useWebServerFlow: useWebServerFlow, useHybridFlow: useHybridFlow)
 
+        let expectAdvancedAuth = loginForAdmin || loginHost == .advancedAuth || (forceAdvancedAuthentication == true)
+
         // Validate user and feature flags
         // Not checking static app config since it will depend on the bootconfig of the target app
-        validateUser(
+        let userCredentials = validateUser(
             loginHost: loginHost,
             user: user,
             userAppConfigName: userAppConfigName,
             userScopeSelection: userScopeSelection,
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow,
-            expectAdvancedAuth: loginForAdmin || loginHost == .advancedAuth || (forceAdvancedAuthentication == true),
+            expectAdvancedAuth: expectAdvancedAuth,
             usesWelcomeDiscovery: usesWelcomeDiscovery,
             isMultiUser: isMultiUser
         )
+
+        if isRtr {
+            let userAppConfig = getAppConfig(named: userAppConfigName)
+            assertRevokeAndRefreshWorks(
+                previousCredentials: userCredentials,
+                isRtr: true,
+                isDPoP: userAppConfig.isDPoP,
+                loginHost: loginHost,
+                expectAdvancedAuth: expectAdvancedAuth,
+                isMultiUser: isMultiUser
+            )
+        }
     }
     
     /// Migrates the refresh token to a new app configuration and validates the result.

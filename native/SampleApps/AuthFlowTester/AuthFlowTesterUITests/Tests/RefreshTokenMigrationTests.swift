@@ -253,7 +253,8 @@ class RefreshTokenMigrationTests: BaseAuthFlowTester {
             loginHost: .regularAuth,
             user: .fifth,
             staticAppConfigName: .caOpaque,
-            userAppConfigName: .caOpaque
+            userAppConfigName: .caOpaque,
+            isMultiUser: true
         )
 
         // Switch back to User A and verify migration persisted (ECA Opaque)
@@ -261,7 +262,8 @@ class RefreshTokenMigrationTests: BaseAuthFlowTester {
             loginHost: .regularAuth,
             user: .fourth,
             staticAppConfigName: .caOpaque,
-            userAppConfigName: .ecaOpaque
+            userAppConfigName: .ecaOpaque,
+            isMultiUser: true
         )
 
         // Test API calls for both users
