@@ -139,7 +139,8 @@ class RefreshTokenMigrationTests: BaseAuthFlowTester {
             loginHost: .regularAuth,
             staticAppConfigName: .caOpaque,
             migrationAppConfigName: .ecaOpaque,
-            migrationUseWebServerFlow: true
+            migrationUseWebServerFlow: true,
+            forceAdvancedAuthentication: false
         )
     }
 
@@ -156,7 +157,8 @@ class RefreshTokenMigrationTests: BaseAuthFlowTester {
             loginHost: .regularAuth,
             staticAppConfigName: .caOpaque,
             migrationAppConfigName: .beaconOpaque,
-            migrationUseWebServerFlow: true
+            migrationUseWebServerFlow: true,
+            forceAdvancedAuthentication: false
         )
     }
     
