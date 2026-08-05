@@ -531,9 +531,8 @@ class BaseAuthFlowTester: XCTestCase {
         usesWelcomeDiscovery: Bool = false,
         isMultiUser: Bool = false
     ) {
-        // Restart
-        app.terminate()
-        app.launch()
+        // Restart without --resetSDKForUITesting so the session persists across the restart
+        restart()
 
         // Restore auth flow settings lost on restart
         mainPage.setAuthFlowTypes(useWebServerFlow: useWebServerFlow, useHybridFlow: useHybridFlow)
