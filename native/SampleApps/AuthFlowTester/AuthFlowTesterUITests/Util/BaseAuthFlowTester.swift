@@ -34,7 +34,6 @@ class BaseAuthFlowTester: XCTestCase {
     // App Pages
     private var loginPage: LoginPageObject!
     private var mainPage: AuthFlowTesterMainPageObject!
-    private var logoutAtTearDown: Bool = true
 
     // Test configuration
     private let testConfig = UITestConfigUtils.shared
@@ -58,47 +57,7 @@ class BaseAuthFlowTester: XCTestCase {
     }
     
     override func tearDown() {
-        if (logoutAtTearDown) {
-            logout()
-        }
-        // Reset DPoP toggle to default (off) state for the next test
-        resetDPoPToggle()
         super.tearDown()
-    }
-
-    /// Resets the DPoP toggle to off by opening Login Options and disabling it if currently on.
-    /// This prevents DPoP state from leaking between tests.
-    private func resetDPoPToggle() {
-        // If not logged out, we can't reach the Login Options sheet from where the test stopped
-        // (it lives behind the login screen's Settings gear). Skip the UI-driven reset: the next
-        // test's `launch()` calls `XCUIApplication.launch()`, which per Apple's documentation
-        // terminates any running instance and starts a fresh process, so the in-memory
-        // `SalesforceManager.shared.usesDPoP` singleton is reset to its default (off) before the
-        // next test observes it. `configureLoginOptions` also unconditionally toggles the DPoP
-        // switch to match the incoming `useDPoP` value, so even a hypothetically leaked singleton
-        // would be force-set correctly on the very next login.
-        if !logoutAtTearDown {
-            return
-        }
-
-        // Navigate to login options to reset toggle
-        if let loginPage = loginPage, let app = app {
-            // Check if we're on the main screen by looking for a known element
-            if !app.navigationBars["AuthFlowTester"].waitForExistence(timeout: 1.0) {
-                // Not on main screen, can't reliably navigate to login options
-                return
-            }
-
-            // Go to login options and disable DPoP
-            if app.buttons["Settings"].waitForExistence(timeout: 1.0) {
-                app.buttons["Settings"].tap()
-                if app.buttons["Login Options"].waitForExistence(timeout: 1.0) {
-                    app.buttons["Login Options"].tap()
-                    LoginOptionsPageObject(testApp: app).disableDPoP()
-                    app.buttons["loginOptionsCloseButton"].tap()
-                }
-            }
-        }
     }
     
     // MARK: - Public API for Subclasses
@@ -118,6 +77,11 @@ class BaseAuthFlowTester: XCTestCase {
         // This is used to show/hide certain UI elements like DiscoveryResultEditor
         app.launchEnvironment["IS_UI_TESTING"] = "1"
 
+        // Instruct the app to reset all SDK auth state (users, login host, custom servers, flags)
+        // in-process at startup, before loginIfRequired fires. This replaces the UI-driven logout
+        // and host-reset that previously ran in tearDown and here in launch().
+        app.launchArguments = ["--resetSDKForUITesting"]
+
         loginPage = LoginPageObject(testApp: app)
         mainPage = AuthFlowTesterMainPageObject(testApp: app)
         app.launch()
@@ -126,24 +90,6 @@ class BaseAuthFlowTester: XCTestCase {
         // On CI, system alerts (tracking permission, paste confirmation) can block
         // the UI if not dismissed before interacting with app elements.
         app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
-
-        // Start logged out
-        if (mainPage.isShowing()) {
-            logout()
-        }
-
-        // Reset to a known login server so a discovery or advanced-auth host leaked by a prior test
-        // cannot strand this one. A fresh launch re-defaults advanced auth on, so the external
-        // browser is normally showing; a leaked discovery host instead runs discovery in the in-app
-        // WebView. Reach the host list from whichever surface is up — the browser is the common case
-        // (probe it with the generous default timeout), the in-app WebView the fallback — then pin
-        // the standard server (selecting it relaunches the browser against login.salesforce.com).
-        if loginPage.isShowingBrowserLogin() {
-            loginPage.returnToHostList(expectingBrowser: true)
-        } else {
-            loginPage.returnToHostList(expectingBrowser: false)
-        }
-        loginPage.configureLoginHost(host: "login.salesforce.com")
     }
 
     /// Performs login with the specified configuration.
@@ -227,7 +173,6 @@ class BaseAuthFlowTester: XCTestCase {
         // Invalid app config
         if (dynamicAppConfigName == .invalid || (dynamicAppConfigName == nil && staticAppConfigName == .invalid)) {
             XCTAssertTrue(loginPage.isShowingInvalidClientIdError(), "Login page should show invalid client id error")
-            logoutAtTearDown = false
             return
         }
 
@@ -250,7 +195,6 @@ class BaseAuthFlowTester: XCTestCase {
         // Invalid scope
         if (dynamicScopeSelection == .invalid || (dynamicAppConfig == nil && staticScopeSelection == .invalid)) {
             XCTAssertTrue(loginPage.isShowingUnexpectedOauthError(), "Screen should show OAuth Error")
-            logoutAtTearDown = false
         }
     }
     
@@ -685,8 +629,14 @@ class BaseAuthFlowTester: XCTestCase {
 
     /// Restarts the application.
     /// Use this for testing session persistence across app restarts.
+    /// A fresh XCUIApplication is created without --resetSDKForUITesting so the
+    /// existing user session is preserved across the restart.
     func restart() {
         app.terminate()
+        app = XCUIApplication()
+        app.launchEnvironment["IS_UI_TESTING"] = "1"
+        loginPage = LoginPageObject(testApp: app)
+        mainPage = AuthFlowTesterMainPageObject(testApp: app)
         app.launch()
     }
 
@@ -796,14 +746,6 @@ class BaseAuthFlowTester: XCTestCase {
     // advanced-auth presentation chrome (back button / gear) rather than driving a full
     // `login()`/validate cycle. `app`, `loginPage`, and `mainPage` are private, so these give the
     // subclass just enough surface without widening the general API.
-
-    /// Prevents `tearDown` from attempting a logout. Use in tests that intentionally stop on a
-    /// login surface (external browser, in-app WebView, or a dev-menu modal) rather than the main
-    /// page, where the logout button is not reachable. The next test's `launch()` self-heals any
-    /// residual session (it logs out if the main page is showing on relaunch).
-    func skipLogoutAtTearDown() {
-        logoutAtTearDown = false
-    }
 
     /// Returns to the login host list ("Change Server"). Pass `expectingBrowser: true` when the
     /// external browser is showing (forced advanced auth — cancel it to reach the list) and

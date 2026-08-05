@@ -391,6 +391,22 @@ NS_SWIFT_NAME(SalesforceManager)
  */
 - (id <SFNativeLoginManager>)nativeLoginManager;
 
+#if DEBUG
+/**
+ * Resets all local SDK auth state for UI testing.
+ *
+ * Logs out all users (including async server refresh-token revocation), resets the selected
+ * login host to login.salesforce.com, removes persisted custom login servers, and restores
+ * all SalesforceSDKManager auth flags to their post-init defaults.
+ *
+ * Call once at process startup when --resetSDKForUITesting is present in launch arguments,
+ * after initializeSDK and before the SDK's login flow begins.
+ *
+ * NOT FOR PRODUCTION USE.
+ */
++ (void)resetForUITesting NS_SWIFT_NAME(resetForUITesting());
+#endif
+
 @end
 
 NS_ASSUME_NONNULL_END

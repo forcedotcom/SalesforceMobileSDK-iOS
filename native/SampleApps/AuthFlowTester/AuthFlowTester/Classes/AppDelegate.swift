@@ -40,6 +40,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         super.init()
         
         SalesforceManager.initializeSDK()
+        #if DEBUG
+        if CommandLine.arguments.contains("--resetSDKForUITesting") {
+            SalesforceManager.resetForUITesting()
+        }
+        #endif
         SalesforceManager.shared.appDisplayName = "Auth Flow Tester"
         UserAccountManager.shared.navigationPolicyForAction = { webView, action in
             if let url = action.request.url, url.absoluteString == "https://www.salesforce.com/us/company/privacy" {

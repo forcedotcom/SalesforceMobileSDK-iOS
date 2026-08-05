@@ -43,6 +43,7 @@
 #import "SFSDKSalesforceSDKUpgradeManager.h"
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 #import "SFSDKWindowManager+Internal.h"
+#import "SFSDKLoginHostStorage.h"
 
 // Error constants
 NSString * const kSalesforceSDKManagerErrorDomain     = @"com.salesforce.sdkmanager.error";
@@ -227,6 +228,34 @@ SFNativeLoginManagerInternal *nativeLogin;
 
     [SalesforceSDKManager sharedManager];
 }
+
+#if DEBUG
++ (void)resetForUITesting {
+    // 1. Log out all users — clears on-disk account data, DPoP keychain keys, in-memory maps.
+    //    Refresh-token revocation fires asynchronously in the background.
+    [[SFUserAccountManager sharedInstance] logoutAllUsers];
+
+    // 2. Reset selected login host to production default and persist it.
+    [SFUserAccountManager sharedInstance].loginHost = @"login.salesforce.com";
+
+    // 3. Remove custom login servers in-memory; save flushes the empty list to msdkUserDefaults
+    //    (SalesforceLoginHostListPrefs) so custom hosts do not reappear on next cold start.
+    //    Production (login.salesforce.com) and Sandbox (test.salesforce.com) are preserved.
+    SFSDKLoginHostStorage *storage = [SFSDKLoginHostStorage sharedInstance];
+    [storage removeAllLoginHosts];
+    [storage save];
+
+    // 4. Reset all auth flags to the values set in -init.
+    SalesforceSDKManager *mgr = [SalesforceSDKManager sharedManager];
+    mgr.useEphemeralSessionForAdvancedAuth = YES;
+    mgr.useWebServerAuthentication = YES;
+    mgr.useHybridAuthentication = YES;
+    mgr.useDPoP = NO;
+    mgr.sdk_forceAdvancedAuthentication = YES;
+    mgr.blockSalesforceIntegrationUser = NO;
+    mgr.simulatedDomainDiscoveryResult = nil;
+}
+#endif
 
 + (instancetype)sharedManager {
     static dispatch_once_t pred;
