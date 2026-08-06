@@ -49,7 +49,7 @@ class RTRLoginTests: BaseAuthFlowTester {
     func testECAJwtRtr_Hybrid_WithRestart() throws {
         throw XCTSkip("TODO: W-22512846 — Re-enable when server enables Named JWTs for Hybrid Flows")
         launchLoginAndValidate(staticAppConfigName: .ecaJwtRtr)
-        restartAndValidateUser(userAppConfigName: .ecaJwtRtr)
+        restartAndValidateUser(userAppConfigName: .ecaJwtRtr, isRtr: true)
         assertRevokeAndRefreshWorks(isRtr: true)
     }
 

@@ -61,19 +61,21 @@ class MultiUserLoginTests: BaseAuthFlowTester {
             loginHost: .regularAuth,
             user: .fourth,
             staticAppConfigName: .ecaOpaque,
-            userAppConfigName: .ecaOpaque)
-        
+            userAppConfigName: .ecaOpaque,
+            isMultiUser: true)
+
         // Switch back to other user
         switchToUserAndValidate(
             loginHost: .regularAuth,
             user: .fifth,
             staticAppConfigName: .ecaOpaque,
-            userAppConfigName: .ecaOpaque)
-        
+            userAppConfigName: .ecaOpaque,
+            isMultiUser: true)
+
         // Logout second user
         logout()
     }
-    
+
     /// Both users use static config, different app types (opaque + jwt), same scopes (default).
     func testBothStatic_DifferentApps() throws {
         // Initial user
@@ -95,14 +97,16 @@ class MultiUserLoginTests: BaseAuthFlowTester {
             loginHost: .regularAuth,
             user: .fourth,
             staticAppConfigName: .ecaJwt, // static config overwritten
-            userAppConfigName: .ecaOpaque)
-        
+            userAppConfigName: .ecaOpaque,
+            isMultiUser: true)
+
         // Switch back to other user
         switchToUserAndValidate(
             loginHost: .regularAuth,
             user: .fifth,
             staticAppConfigName: .ecaJwt,
-            userAppConfigName: .ecaJwt)
+            userAppConfigName: .ecaJwt,
+            isMultiUser: true)
 
         // Logout second user
         logout()
@@ -132,9 +136,10 @@ class MultiUserLoginTests: BaseAuthFlowTester {
             staticAppConfigName: .ecaOpaque,
             staticScopeSelection: .empty,
             userAppConfigName: .ecaOpaque,
-            userScopeSelection: .subset
+            userScopeSelection: .subset,
+            isMultiUser: true
         )
-        
+
         // Switch back to other user
         switchToUserAndValidate(
             loginHost: .regularAuth,
@@ -142,7 +147,8 @@ class MultiUserLoginTests: BaseAuthFlowTester {
             staticAppConfigName: .ecaOpaque,
             staticScopeSelection: .empty,
             userAppConfigName: .ecaOpaque,
-            userScopeSelection: .empty
+            userScopeSelection: .empty,
+            isMultiUser: true
         )
 
         // Logout second user
@@ -199,14 +205,14 @@ class MultiUserLoginTests: BaseAuthFlowTester {
             staticAppConfigName: .caOpaque, // not used - but using other config for validation
             dynamicAppConfigName: .ecaJwt
         )
-        
+
         // Other user
         loginOtherUserAndValidate(
             loginHost: .regularAuth,
             user: .fifth,
             staticAppConfigName: .ecaOpaque
         )
-        
+
         // Switch back to initial user
         switchToUserAndValidate(
             loginHost: .regularAuth,
@@ -520,19 +526,19 @@ class MultiUserLoginTests: BaseAuthFlowTester {
         // Use loginOtherUser (without full credential validation) since identity data
         // may not be immediately available in cross-host multi-user scenarios.
         loginOtherUser(loginHost: .advancedAuth, user: .third, staticAppConfigName: .beaconOpaque)
-        validateUserAgent(userCredentials: getUserCredentials(), loginHost: .advancedAuth, expectAdvancedAuth: true, isMultiUser: true)
+        validateUserAgent(userCredentials: getUserCredentials(), loginHost: .advancedAuth, expectAdvancedAuth: true, isMultiUser: true, expectedBMarker: kBrowserLoginForceFlag, expectedLMarker: kLoginServerMyDomain)
 
         // Switch to User A — no BW, MU still set
         switchToUser(loginHost: .regularAuth, user: .fourth)
-        validateUserAgent(userCredentials: getUserCredentials(), loginHost: .regularAuth, isMultiUser: true)
+        validateUserAgent(userCredentials: getUserCredentials(), loginHost: .regularAuth, isMultiUser: true, expectedLMarker: kLoginServerMyDomain)
 
         // Switch back to User B — BW back, MU still set
         switchToUser(loginHost: .advancedAuth, user: .third)
-        validateUserAgent(userCredentials: getUserCredentials(), loginHost: .advancedAuth, expectAdvancedAuth: true, isMultiUser: true)
+        validateUserAgent(userCredentials: getUserCredentials(), loginHost: .advancedAuth, expectAdvancedAuth: true, isMultiUser: true, expectedBMarker: kBrowserLoginForceFlag, expectedLMarker: kLoginServerMyDomain)
 
         // Logout User B — app auto-switches to User A; MU must be gone
         logout()
-        validateUserAgent(userCredentials: getUserCredentials(), loginHost: .regularAuth, isMultiUser: false)
+        validateUserAgent(userCredentials: getUserCredentials(), loginHost: .regularAuth, isMultiUser: false, expectedLMarker: kLoginServerMyDomain)
     }
 
     /// Logout CA user and verify ECA user is unaffected.

@@ -34,3 +34,9 @@
 @interface SFSDKOAuthTokenEndpointResponse (Testing)
 - (instancetype)initWithDictionary:(NSDictionary *)nvPairs parseAdditionalFields:(NSArray<NSString *> *)additionalOAuthParameterKeys;
 @end
+
+/// Exposes private browser-login telemetry helpers for unit testing.
+@interface SFUserAccountManager (BrowserLoginTelemetryTesting)
+- (nullable NSString *)computeBMarkerForAuthSession:(nonnull SFSDKAuthSession *)authSession completedAuthType:(SFOAuthType)completedAuthType;
+- (nullable NSString *)computeLMarkerForDomain:(nullable NSString *)domain usedWelcomeDiscovery:(BOOL)usedWelcomeDiscovery;
+@end

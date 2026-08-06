@@ -116,7 +116,7 @@ class ForceAdvancedAuthTests: BaseAuthFlowTester {
                        "The external browser must NOT be shown when advanced auth is disabled")
     }
 
-    /// Flag ON (default), `regular_auth` My Domain that does NOT opt into browser login.
+    /// Flag ON (explicit `true`), `regular_auth` My Domain that does NOT opt into browser login.
     ///
     /// Proves the flag overrides a host that did not opt in: the login is forced into the external
     /// browser and completes end to end (credentials + REST call validated by

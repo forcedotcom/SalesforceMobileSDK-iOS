@@ -70,6 +70,7 @@
 #import <SalesforceSDKCommon/SFJsonUtils.h>
 #import "SFSDKOAuth2+Internal.h"
 #import "SFSDKResourceUtils.h"
+#import "SFSDKAuthConfigUtil.h"
 
 // Notifications
 NSNotificationName SFUserAccountManagerDidChangeUserNotification       = @"SFUserAccountManagerDidChangeUserNotification";
@@ -2153,6 +2154,43 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     [_accountsLock unlock];
 }
 
+/// Returns the single B-marker that best describes why browser login was used,
+/// or nil if browser login was not used (e.g. refresh flows or non-browser initial auth).
+/// Priority: B3 > B2 > B4 > B1.
+- (NSString *)computeBMarkerForAuthSession:(SFSDKAuthSession *)authSession completedAuthType:(SFOAuthType)completedAuthType {
+    if (completedAuthType != SFOAuthTypeAdvancedBrowser) {
+        return nil;
+    }
+    if (authSession.oauthRequest.loginAsAdmin) {
+        return kSFAppFeatureBrowserLoginForAdmin;        // B3 — Login for Admin path
+    }
+    if (authSession.oauthRequest.useBrowserAuth) {
+        return kSFAppFeatureBrowserLoginMDM;             // B2 — MDM-required browser auth
+    }
+    if ([SalesforceSDKManager sharedManager].sdk_forceAdvancedAuthentication) {
+        return kSFAppFeatureBrowserLoginForceFlag;       // B4 — forceAdvancedAuthentication SDK flag
+    }
+    return kSFAppFeatureBrowserLoginServerAuthConfig;   // B1 — server auth-config required browser login
+}
+
+/// Returns the single L-marker for the login server type used in this session.
+/// L3 must be evaluated before the WD global flag is cleared.
+- (NSString *)computeLMarkerForDomain:(NSString *)domain usedWelcomeDiscovery:(BOOL)usedWelcomeDiscovery {
+    if (usedWelcomeDiscovery) {
+        return kSFAppFeatureLoginServerWelcomeDiscovery;              // L3
+    }
+    if ([SFSDKAuthConfigUtil isProductionLoginHost:domain]) {
+        return kSFAppFeatureLoginServerProduction;                    // L1 — login.salesforce.com or login.*.salesforce.com
+    }
+    if ([domain isEqualToString:kSFSDKSandboxLoginURL]) {
+        return kSFAppFeatureLoginServerSandbox;                       // L2 — test.salesforce.com
+    }
+    if ([SFSDKAuthConfigUtil isMyDomainHost:domain]) {
+        return kSFAppFeatureLoginServerMyDomain;                      // L4 — *.my.salesforce.com or *.my.*.salesforce.com
+    }
+    return kSFAppFeatureLoginServerOther;                             // L5
+}
+
 - (void)finalizeAuthCompletion:(SFSDKAuthSession *)authSession {
     // Apply the credentials that will ensure there is a user and that this
     // current user as the proper credentials.
@@ -2189,6 +2227,25 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureSafariBrowserForLogin forUser:userAccount];
     }
     [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureSafariBrowserForLogin];
+
+    // B-markers: register exactly one "why browser was used" marker per-user alongside BW.
+    // Migration does not change how the user originally authenticated, so preserve existing
+    // B-markers unchanged (same rationale as preserving BW above).
+    if (completedAuthType != SFOAuthTypeRefreshTokenMigration) {
+        NSArray<NSString *> *allBMarkers = @[kSFAppFeatureBrowserLoginServerAuthConfig,
+                                             kSFAppFeatureBrowserLoginMDM,
+                                             kSFAppFeatureBrowserLoginForAdmin,
+                                             kSFAppFeatureBrowserLoginForceFlag];
+        NSString *bMarker = [self computeBMarkerForAuthSession:authSession completedAuthType:completedAuthType];
+        for (NSString *marker in allBMarkers) {
+            if (bMarker && [marker isEqualToString:bMarker]) {
+                [SFSDKAppFeatureMarkers registerAppFeature:marker forUser:userAccount];
+            } else {
+                [SFSDKAppFeatureMarkers unregisterAppFeature:marker forUser:userAccount];
+            }
+        }
+    }
+
     if (completedAuthType != SFOAuthTypeRefresh) {
         // Check the transient global flag rather than re-deriving from credentials.domain, which by
         // this point has been replaced with the resolved org domain (no longer contains "/discovery").
@@ -2198,6 +2255,24 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         } else {
             [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureWelcomeDiscovery forUser:userAccount];
         }
+
+        // L-markers: register exactly one "which login server" marker per-user.
+        // Must be evaluated before the WD global is cleared below so that L3 is detectable.
+        NSArray<NSString *> *allLMarkers = @[kSFAppFeatureLoginServerProduction,
+                                              kSFAppFeatureLoginServerSandbox,
+                                              kSFAppFeatureLoginServerMyDomain,
+                                              kSFAppFeatureLoginServerWelcomeDiscovery,
+                                              kSFAppFeatureLoginServerOther];
+        NSString *lMarker = [self computeLMarkerForDomain:authSession.oauthCoordinator.credentials.domain
+                                  usedWelcomeDiscovery:usedWelcomeDiscovery];
+        for (NSString *marker in allLMarkers) {
+            if ([marker isEqualToString:lMarker]) {
+                [SFSDKAppFeatureMarkers registerAppFeature:marker forUser:userAccount];
+            } else {
+                [SFSDKAppFeatureMarkers unregisterAppFeature:marker forUser:userAccount];
+            }
+        }
+
         // WD: clear the transient global flag after promoting to per-user
         [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureWelcomeDiscovery];
 

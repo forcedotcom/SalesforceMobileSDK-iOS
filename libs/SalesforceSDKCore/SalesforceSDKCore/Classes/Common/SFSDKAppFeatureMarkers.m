@@ -44,6 +44,15 @@ NSString * const kSFAppFeatureQrCodeLogin = @"QR";
 NSString * const kSFAppFeatureRTR = @"RT";
 NSString * const kSFAppFeatureDPoP = @"DP";
 NSString * const kSFAppFeatureAppAttestation = @"AA";
+NSString * const kSFAppFeatureBrowserLoginServerAuthConfig = @"B1";
+NSString * const kSFAppFeatureBrowserLoginMDM              = @"B2";
+NSString * const kSFAppFeatureBrowserLoginForAdmin         = @"B3";
+NSString * const kSFAppFeatureBrowserLoginForceFlag        = @"B4";
+NSString * const kSFAppFeatureLoginServerProduction        = @"L1";
+NSString * const kSFAppFeatureLoginServerSandbox           = @"L2";
+NSString * const kSFAppFeatureLoginServerWelcomeDiscovery  = @"L3";
+NSString * const kSFAppFeatureLoginServerMyDomain          = @"L4";
+NSString * const kSFAppFeatureLoginServerOther             = @"L5";
 
 static NSMutableSet<NSString *> *SFSDKAppFeatureMarkersSet = nil;
 static dispatch_queue_t SFSDKAppFeatureDispatchQueue = nil;
