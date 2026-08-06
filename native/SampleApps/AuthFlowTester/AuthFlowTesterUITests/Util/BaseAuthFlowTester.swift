@@ -34,7 +34,6 @@ class BaseAuthFlowTester: XCTestCase {
     // App Pages
     private var loginPage: LoginPageObject!
     private var mainPage: AuthFlowTesterMainPageObject!
-    private var logoutAtTearDown: Bool = true
 
     // Test configuration
     private let testConfig = UITestConfigUtils.shared
@@ -58,47 +57,7 @@ class BaseAuthFlowTester: XCTestCase {
     }
     
     override func tearDown() {
-        if (logoutAtTearDown) {
-            logout()
-        }
-        // Reset DPoP toggle to default (off) state for the next test
-        resetDPoPToggle()
         super.tearDown()
-    }
-
-    /// Resets the DPoP toggle to off by opening Login Options and disabling it if currently on.
-    /// This prevents DPoP state from leaking between tests.
-    private func resetDPoPToggle() {
-        // If not logged out, we can't reach the Login Options sheet from where the test stopped
-        // (it lives behind the login screen's Settings gear). Skip the UI-driven reset: the next
-        // test's `launch()` calls `XCUIApplication.launch()`, which per Apple's documentation
-        // terminates any running instance and starts a fresh process, so the in-memory
-        // `SalesforceManager.shared.usesDPoP` singleton is reset to its default (off) before the
-        // next test observes it. `configureLoginOptions` also unconditionally toggles the DPoP
-        // switch to match the incoming `useDPoP` value, so even a hypothetically leaked singleton
-        // would be force-set correctly on the very next login.
-        if !logoutAtTearDown {
-            return
-        }
-
-        // Navigate to login options to reset toggle
-        if let loginPage = loginPage, let app = app {
-            // Check if we're on the main screen by looking for a known element
-            if !app.navigationBars["AuthFlowTester"].waitForExistence(timeout: 1.0) {
-                // Not on main screen, can't reliably navigate to login options
-                return
-            }
-
-            // Go to login options and disable DPoP
-            if app.buttons["Settings"].waitForExistence(timeout: 1.0) {
-                app.buttons["Settings"].tap()
-                if app.buttons["Login Options"].waitForExistence(timeout: 1.0) {
-                    app.buttons["Login Options"].tap()
-                    LoginOptionsPageObject(testApp: app).disableDPoP()
-                    app.buttons["loginOptionsCloseButton"].tap()
-                }
-            }
-        }
     }
     
     // MARK: - Public API for Subclasses
@@ -118,6 +77,11 @@ class BaseAuthFlowTester: XCTestCase {
         // This is used to show/hide certain UI elements like DiscoveryResultEditor
         app.launchEnvironment["IS_UI_TESTING"] = "1"
 
+        // Instruct the app to reset all SDK auth state (users, login host, custom servers, flags)
+        // in-process at startup, before loginIfRequired fires. This replaces the UI-driven logout
+        // and host-reset that previously ran in tearDown and here in launch().
+        app.launchArguments = ["--resetSDKForUITesting"]
+
         loginPage = LoginPageObject(testApp: app)
         mainPage = AuthFlowTesterMainPageObject(testApp: app)
         app.launch()
@@ -126,24 +90,6 @@ class BaseAuthFlowTester: XCTestCase {
         // On CI, system alerts (tracking permission, paste confirmation) can block
         // the UI if not dismissed before interacting with app elements.
         app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
-
-        // Start logged out
-        if (mainPage.isShowing()) {
-            logout()
-        }
-
-        // Reset to a known login server so a discovery or advanced-auth host leaked by a prior test
-        // cannot strand this one. A fresh launch re-defaults advanced auth on, so the external
-        // browser is normally showing; a leaked discovery host instead runs discovery in the in-app
-        // WebView. Reach the host list from whichever surface is up — the browser is the common case
-        // (probe it with the generous default timeout), the in-app WebView the fallback — then pin
-        // the standard server (selecting it relaunches the browser against login.salesforce.com).
-        if loginPage.isShowingBrowserLogin() {
-            loginPage.returnToHostList(expectingBrowser: true)
-        } else {
-            loginPage.returnToHostList(expectingBrowser: false)
-        }
-        loginPage.configureLoginHost(host: "login.salesforce.com")
     }
 
     /// Performs login with the specified configuration.
@@ -160,10 +106,9 @@ class BaseAuthFlowTester: XCTestCase {
     ///   - dynamicScopeSelection: The scope selection for dynamic configuration. Defaults to `.empty`.
     ///   - useWebServerFlow: Whether to use web server OAuth flow. Defaults to `true`.
     ///   - useHybridFlow: Whether to use hybrid authentication flow. Defaults to `true`.
-    ///   - forceAdvancedAuthentication: Overrides the SDK's process-global "force advanced
-    ///     authentication" setting for this login. Leave `nil` to inherit the production default
-    ///     (advanced auth forced on — the external browser is used for interactive login). Pass
-    ///     `false` to exercise the legacy in-app WebView path, or `true` to force it explicitly.
+    ///   - forceAdvancedAuthentication: Whether to use the external browser for login (advanced
+    ///     auth). Defaults to `true`, matching the SDK's own default. Pass `false` to exercise
+    ///     the legacy in-app WebView path.
     ///   - useWelcomeDiscovery: When true, configures simulated domain discovery. Defaults to `false`.
     ///   - loginForAdmin: When true, uses the "Login for Admin" flow (browser-based auth via the
     ///     in-app WebView's Settings menu). Requires advanced auth disabled so the WebView — and its
@@ -177,7 +122,7 @@ class BaseAuthFlowTester: XCTestCase {
         dynamicScopeSelection: ScopeSelection = .empty,
         useWebServerFlow: Bool = true,
         useHybridFlow: Bool = true,
-        forceAdvancedAuthentication: Bool? = nil,
+        forceAdvancedAuthentication: Bool = true,
         useWelcomeDiscovery: Bool = false,
         loginForAdmin: Bool = false,
         useDPoP: Bool = false
@@ -189,9 +134,7 @@ class BaseAuthFlowTester: XCTestCase {
         let staticScopes = testConfig.getScopesToRequest(for: staticAppConfig, staticScopeSelection)
         let dynamicScopes = dynamicAppConfig == nil ? "" : testConfig.getScopesToRequest(for: dynamicAppConfig!, dynamicScopeSelection)
 
-        // Advanced auth is forced on by default; only an explicit `false` disables it. When it is
-        // on, interactive login happens in the external browser; when off, in the in-app WebView.
-        let advancedAuthEnabled = forceAdvancedAuthentication != false
+        let advancedAuthEnabled = forceAdvancedAuthentication
         // The surface used to enter credentials: the external browser under advanced auth (forced
         // on, or a host that itself requires it), otherwise the in-app WebView. Login for Admin is
         // special-cased below: it always finishes in the browser regardless of this value.
@@ -227,7 +170,6 @@ class BaseAuthFlowTester: XCTestCase {
         // Invalid app config
         if (dynamicAppConfigName == .invalid || (dynamicAppConfigName == nil && staticAppConfigName == .invalid)) {
             XCTAssertTrue(loginPage.isShowingInvalidClientIdError(), "Login page should show invalid client id error")
-            logoutAtTearDown = false
             return
         }
 
@@ -250,7 +192,6 @@ class BaseAuthFlowTester: XCTestCase {
         // Invalid scope
         if (dynamicScopeSelection == .invalid || (dynamicAppConfig == nil && staticScopeSelection == .invalid)) {
             XCTAssertTrue(loginPage.isShowingUnexpectedOauthError(), "Screen should show OAuth Error")
-            logoutAtTearDown = false
         }
     }
     
@@ -325,7 +266,7 @@ class BaseAuthFlowTester: XCTestCase {
         userScopeSelection: ScopeSelection = .empty,
         useWebServerFlow: Bool = true,
         useHybridFlow: Bool = true,
-        forceAdvancedAuthentication: Bool? = nil,
+        forceAdvancedAuthentication: Bool = true,
         loginForAdmin: Bool = false,
         isMultiUser: Bool = false
     ) {
@@ -340,7 +281,7 @@ class BaseAuthFlowTester: XCTestCase {
             userScopeSelection: userScopeSelection,
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow,
-            expectAdvancedAuth: loginForAdmin || loginHost == .advancedAuth || (forceAdvancedAuthentication != false),
+            expectAdvancedAuth: loginForAdmin || loginHost == .advancedAuth || forceAdvancedAuthentication,
             isMultiUser: isMultiUser
         )
     }
@@ -368,7 +309,7 @@ class BaseAuthFlowTester: XCTestCase {
         dynamicScopeSelection: ScopeSelection = .empty,
         useWebServerFlow: Bool = true,
         useHybridFlow: Bool = true,
-        forceAdvancedAuthentication: Bool? = nil,
+        forceAdvancedAuthentication: Bool = true,
         loginForAdmin: Bool = false,
     ) {
         // Launch
@@ -413,7 +354,7 @@ class BaseAuthFlowTester: XCTestCase {
         dynamicScopeSelection: ScopeSelection = .empty,
         useWebServerFlow: Bool = true,
         useHybridFlow: Bool = true,
-        forceAdvancedAuthentication: Bool? = nil,
+        forceAdvancedAuthentication: Bool = true,
         useWelcomeDiscovery: Bool = false,
         loginForAdmin: Bool = false,
         isMultiUser: Bool = false,
@@ -520,7 +461,7 @@ class BaseAuthFlowTester: XCTestCase {
         dynamicScopeSelection: ScopeSelection = .empty,
         useWebServerFlow: Bool = true,
         useHybridFlow: Bool = true,
-        forceAdvancedAuthentication: Bool? = nil,
+        forceAdvancedAuthentication: Bool = true,
         isMultiUser: Bool = true,
         useDPoP: Bool = false
     ) {
@@ -575,6 +516,7 @@ class BaseAuthFlowTester: XCTestCase {
     ///   - useHybridFlow: Whether hybrid authentication flow was used. Defaults to `true`.
     ///   - loginForAdmin: When true, Login for Admin was used (browser-based auth), which sets the BW flag. Defaults to `false`.
     ///   - usesWelcomeDiscovery: When true, welcome discovery was used, which sets the WD flag. Defaults to `false`.
+    ///   - isRtr: When true, the RT flag is expected to be present after restart (RTR cycle completed before restart). Defaults to `false`.
     func restartAndValidateUser(
         loginHost: KnownLoginHostConfig = .regularAuth,
         user: KnownUserConfig = .first,
@@ -582,17 +524,19 @@ class BaseAuthFlowTester: XCTestCase {
         userScopeSelection: ScopeSelection = .empty,
         useWebServerFlow: Bool = true,
         useHybridFlow: Bool = true,
-        forceAdvancedAuthentication: Bool? = nil,
+        forceAdvancedAuthentication: Bool = true,
         loginForAdmin: Bool = false,
         usesWelcomeDiscovery: Bool = false,
-        isMultiUser: Bool = false
+        isMultiUser: Bool = false,
+        isRtr: Bool = false
     ) {
-        // Restart
-        app.terminate()
-        app.launch()
+        // Restart without --resetSDKForUITesting so the session persists across the restart
+        restart()
 
         // Restore auth flow settings lost on restart
         mainPage.setAuthFlowTypes(useWebServerFlow: useWebServerFlow, useHybridFlow: useHybridFlow)
+
+        let expectAdvancedAuth = loginForAdmin || loginHost == .advancedAuth || forceAdvancedAuthentication
 
         // Validate user and feature flags
         // Not checking static app config since it will depend on the bootconfig of the target app
@@ -603,9 +547,10 @@ class BaseAuthFlowTester: XCTestCase {
             userScopeSelection: userScopeSelection,
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow,
-            expectAdvancedAuth: loginForAdmin || loginHost == .advancedAuth || (forceAdvancedAuthentication != false),
+            expectAdvancedAuth: expectAdvancedAuth,
             usesWelcomeDiscovery: usesWelcomeDiscovery,
-            isMultiUser: isMultiUser
+            isMultiUser: isMultiUser,
+            isRtr: isRtr
         )
     }
     
@@ -613,6 +558,12 @@ class BaseAuthFlowTester: XCTestCase {
     ///
     /// Performs a refresh token migration from the current app configuration to a new one,
     /// then validates that the credentials are updated correctly and the refresh token has changed.
+    ///
+    /// The SDK preserves the BW feature marker through migration (migration is a silent token
+    /// exchange that does not change how the user originally authenticated), so
+    /// `forceAdvancedAuthentication` mirrors the value used at initial login. Tests that logged
+    /// in with `forceAdvancedAuthentication: false` (e.g. user-agent flow) should pass `false`
+    /// here as well.
     ///
     /// - Parameters:
     ///   - loginHost: The login host configuration to use.
@@ -622,6 +573,9 @@ class BaseAuthFlowTester: XCTestCase {
     ///   - migrationScopeSelection: The scope selection for the migration target. Defaults to `.empty`.
     ///   - migrationUseWebServerFlow: Whether to use web server OAuth flow for migration. Defaults to `true`.
     ///   - migrationUseHybridFlow: Whether to use hybrid authentication flow for migration. Defaults to `true`.
+    ///   - forceAdvancedAuthentication: Whether BW is expected in the post-migration UA. Defaults to `true`.
+    ///   - useDPoP: Whether DPoP was enabled for this session. Defaults to `false`.
+    ///   - isMultiUser: Whether multiple users are logged in. Defaults to `false`.
     func migrateAndValidate(
         loginHost: KnownLoginHostConfig,
         staticAppConfigName: KnownAppConfig,
@@ -630,17 +584,13 @@ class BaseAuthFlowTester: XCTestCase {
         migrationScopeSelection: ScopeSelection = .empty,
         migrationUseWebServerFlow: Bool = true,
         migrationUseHybridFlow: Bool = true,
-        forceAdvancedAuthentication: Bool? = nil,
-        useDPoP: Bool = false
+        forceAdvancedAuthentication: Bool = true,
+        useDPoP: Bool = false,
+        isMultiUser: Bool = false
     ) {
-        // Get original credentials before migration
         let originalUserCredentials = mainPage.getUserCredentials()
-
-        // Get current user
         let user = getKnownUserConfig(loginHost: loginHost, byUsername: originalUserCredentials.username)
 
-
-        // Migrate refresh token
         migrateRefreshToken(
             appConfigName: migrationAppConfigName,
             scopeSelection: migrationScopeSelection,
@@ -648,18 +598,6 @@ class BaseAuthFlowTester: XCTestCase {
             useHybridFlow: migrationUseHybridFlow
         )
 
-        // Validate after migration.
-        //
-        // NB on `useDPoP`: The SDK's Change Key sheet does not expose a DPoP toggle, so the
-        // migration refresh exchange inherits `SalesforceManager.shared.usesDPoP` from the initial
-        // login. We forward `useDPoP` here purely to strengthen the intermediate revoke/refresh
-        // assertion inside `validate` — without it, a DPoP regression during the post-migration
-        // refresh cycle would go undetected here.
-        //
-        // NB on `forceAdvancedAuthentication`: on iOS, the BW feature marker registered by
-        // `SFOAuthCoordinator` at initial login does not appear in the migrated user's UA after
-        // `migrateRefreshToken`. Migration tests pass `false` here so `expectAdvancedAuth`
-        // matches the observed post-migration UA.
         let migratedUserCredentials = validate(
             loginHost: loginHost,
             user: user,
@@ -670,6 +608,7 @@ class BaseAuthFlowTester: XCTestCase {
             useWebServerFlow: migrationUseWebServerFlow,
             useHybridFlow: migrationUseHybridFlow,
             forceAdvancedAuthentication: forceAdvancedAuthentication,
+            isMultiUser: isMultiUser,
             useDPoP: useDPoP
         )
 
@@ -685,8 +624,14 @@ class BaseAuthFlowTester: XCTestCase {
 
     /// Restarts the application.
     /// Use this for testing session persistence across app restarts.
+    /// A fresh XCUIApplication is created without --resetSDKForUITesting so the
+    /// existing user session is preserved across the restart.
     func restart() {
         app.terminate()
+        app = XCUIApplication()
+        app.launchEnvironment["IS_UI_TESTING"] = "1"
+        loginPage = LoginPageObject(testApp: app)
+        mainPage = AuthFlowTesterMainPageObject(testApp: app)
         app.launch()
     }
 
@@ -797,14 +742,6 @@ class BaseAuthFlowTester: XCTestCase {
     // `login()`/validate cycle. `app`, `loginPage`, and `mainPage` are private, so these give the
     // subclass just enough surface without widening the general API.
 
-    /// Prevents `tearDown` from attempting a logout. Use in tests that intentionally stop on a
-    /// login surface (external browser, in-app WebView, or a dev-menu modal) rather than the main
-    /// page, where the logout button is not reachable. The next test's `launch()` self-heals any
-    /// residual session (it logs out if the main page is showing on relaunch).
-    func skipLogoutAtTearDown() {
-        logoutAtTearDown = false
-    }
-
     /// Returns to the login host list ("Change Server"). Pass `expectingBrowser: true` when the
     /// external browser is showing (forced advanced auth — cancel it to reach the list) and
     /// `false` when the in-app WebView is showing (reach the list via its Settings gear).
@@ -825,20 +762,26 @@ class BaseAuthFlowTester: XCTestCase {
         loginPage.configureLoginHost(host: getLoginHost(loginHost: loginHost).urlNoProtocol)
     }
 
-    /// Imports the `forceAdvancedAuthentication` flag (and a valid app config so the login form can
-    /// load) via the login screen's Settings gear → Login Options → Auth Flow Types JSON import —
-    /// the same hook `login()` uses. Assumes a screen with the Settings gear is showing (the host
-    /// list under forced advanced auth, or the in-app WebView). Closing Login Options restarts
-    /// authentication, so the login surface reappears in the modality the flag now selects.
+    /// Imports the `forceAdvancedAuthentication` flag via the login screen's Settings gear →
+    /// Login Options → Auth Flow Types JSON import — the same hook `login()` uses. Assumes a
+    /// screen with the Settings gear is showing (the host list under forced advanced auth, or the
+    /// in-app WebView). Closing Login Options restarts authentication, so the login surface
+    /// reappears in the modality the flag now selects.
+    ///
+    /// - Parameter staticAppConfigName: When non-nil, imports the given app config so the WebView
+    ///   can load a real login page. Pass `nil` (the default) when testing against
+    ///   `login.salesforce.com` — the app's default `bootconfig.plist` consumer key is valid there
+    ///   and overriding it with a My-Domain-specific ECA config (e.g. `ecaOpaque`) would cause
+    ///   `invalid_client_id` on the standard server and prevent the login form from loading.
     func setForceAdvancedAuthentication(
         _ value: Bool,
-        staticAppConfigName: KnownAppConfig,
+        staticAppConfigName: KnownAppConfig? = nil,
         staticScopeSelection: ScopeSelection = .empty,
         useWebServerFlow: Bool = true,
         useHybridFlow: Bool = true
     ) {
-        let staticAppConfig = getAppConfig(named: staticAppConfigName)
-        let staticScopes = testConfig.getScopesToRequest(for: staticAppConfig, staticScopeSelection)
+        let staticAppConfig = staticAppConfigName.map { getAppConfig(named: $0) }
+        let staticScopes = staticAppConfig.map { testConfig.getScopesToRequest(for: $0, staticScopeSelection) } ?? ""
         loginPage.configureLoginOptions(
             staticAppConfig: staticAppConfig,
             staticScopes: staticScopes,
@@ -862,6 +805,15 @@ class BaseAuthFlowTester: XCTestCase {
     /// the negative "no in-app WebView" assertion.
     func isShowingInAppLoginForm(timeout: TimeInterval = UITestTimeouts.network) -> Bool {
         return loginPage.isShowingInAppLoginForm(timeout: timeout)
+    }
+
+    /// True when the in-app login view controller (`SFLoginViewController`) is showing, detected
+    /// by its "Log In" nav bar. Appears as soon as the view controller is presented — before the
+    /// WKWebView has loaded the login page — so it is faster and more reliable than
+    /// `isShowingInAppLoginForm()` for modality checks. Use when you need to confirm the SDK chose
+    /// the in-app WebView path rather than the external browser, without waiting for a real page load.
+    func isShowingLoginViewController(timeout: TimeInterval = UITestTimeouts.long) -> Bool {
+        return loginPage.isShowingLoginViewController(timeout: timeout)
     }
 
     /// True when the Settings gear is present on the current login nav bar (host list under forced
@@ -921,7 +873,8 @@ class BaseAuthFlowTester: XCTestCase {
         useHybridFlow: Bool,
         expectAdvancedAuth: Bool = false,
         usesWelcomeDiscovery: Bool = false,
-        isMultiUser: Bool = false
+        isMultiUser: Bool = false,
+        isRtr: Bool = false
     ) -> UserCredentialsData {
 
         let userConfig = getUser(loginHost: loginHost, user: user)
@@ -958,7 +911,7 @@ class BaseAuthFlowTester: XCTestCase {
         }
 
         // Validate feature flags using UA already present in the fetched credentials
-        validateUserAgent(ua: userCredentials.userAgent, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, usesWelcomeDiscovery: usesWelcomeDiscovery, isMultiUser: isMultiUser, expectDP: userAppConfig.isDPoP)
+        validateUserAgent(ua: userCredentials.userAgent, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, usesWelcomeDiscovery: usesWelcomeDiscovery, isMultiUser: isMultiUser, isRtr: isRtr, expectDP: userAppConfig.isDPoP)
 
         return userCredentials
     }
@@ -976,7 +929,7 @@ class BaseAuthFlowTester: XCTestCase {
         userScopeSelection: ScopeSelection,
         useWebServerFlow: Bool,
         useHybridFlow: Bool,
-        forceAdvancedAuthentication: Bool? = nil,
+        forceAdvancedAuthentication: Bool = true,
         isMultiUser: Bool = false,
         usesWelcomeDiscovery: Bool = false,
         loginForAdmin: Bool = false,
@@ -988,7 +941,7 @@ class BaseAuthFlowTester: XCTestCase {
         // Check that app loads and shows the expected user credentials etc
         assertMainPageLoaded()
 
-        let expectAdvancedAuth = loginForAdmin || loginHost == .advancedAuth || (forceAdvancedAuthentication != false)
+        let expectAdvancedAuth = loginForAdmin || loginHost == .advancedAuth || forceAdvancedAuthentication
 
         let userCredentials = validateUser(
             loginHost: loginHost,
@@ -1134,8 +1087,9 @@ class BaseAuthFlowTester: XCTestCase {
     
     /// Captures current credentials then performs a revoke/refresh cycle and validates the result.
     ///
-    /// `expectAdvancedAuth` defaults to `true` because interactive login defaults to advanced auth
-    /// (external browser), which registers the BW feature marker on the UA.
+    /// `expectAdvancedAuth` defaults to `true`, matching the `forceAdvancedAuthentication` default.
+    /// Pass `false` for tests that logged in with the in-app WebView or post-migration validations
+    /// where BW is not re-registered.
     func assertRevokeAndRefreshWorks(isRtr: Bool, isDPoP: Bool = false, loginHost: KnownLoginHostConfig = .regularAuth, expectAdvancedAuth: Bool = true, isMultiUser: Bool = false) {
         assertRevokeAndRefreshWorks(previousCredentials: getUserCredentials(), isRtr: isRtr, isDPoP: isDPoP, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, isMultiUser: isMultiUser)
     }

@@ -99,6 +99,14 @@ extern NSString * const kSFAppFeatureAppAttestation;
  */
 + (void)loadPersistedFeatures:(nonnull NSSet<NSString *> *)features forUser:(nonnull SFUserAccount *)user;
 
+#if DEBUG
+/**
+ Clears all per-user in-memory feature flags. Intended for UI test resets only.
+ NOT FOR PRODUCTION USE.
+ */
++ (void)resetPerUserFeaturesForUITesting;
+#endif
+
 @end
 
 NS_ASSUME_NONNULL_END

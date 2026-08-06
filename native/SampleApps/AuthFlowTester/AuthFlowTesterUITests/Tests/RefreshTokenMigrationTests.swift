@@ -139,7 +139,8 @@ class RefreshTokenMigrationTests: BaseAuthFlowTester {
             loginHost: .regularAuth,
             staticAppConfigName: .caOpaque,
             migrationAppConfigName: .ecaOpaque,
-            migrationUseWebServerFlow: true
+            migrationUseWebServerFlow: true,
+            forceAdvancedAuthentication: false
         )
     }
 
@@ -156,7 +157,8 @@ class RefreshTokenMigrationTests: BaseAuthFlowTester {
             loginHost: .regularAuth,
             staticAppConfigName: .caOpaque,
             migrationAppConfigName: .beaconOpaque,
-            migrationUseWebServerFlow: true
+            migrationUseWebServerFlow: true,
+            forceAdvancedAuthentication: false
         )
     }
     
@@ -241,11 +243,12 @@ class RefreshTokenMigrationTests: BaseAuthFlowTester {
         // Switch to User A
         switchToUser(loginHost: .regularAuth, user: .fourth)
 
-        // Migrate User A to ECA Opaque
+        // Migrate User A to ECA Opaque (User B is still logged in)
         migrateAndValidate(
             loginHost: .regularAuth,
             staticAppConfigName: .caOpaque,
-            migrationAppConfigName: .ecaOpaque
+            migrationAppConfigName: .ecaOpaque,
+            isMultiUser: true
         )
 
         // Switch to User B and verify unchanged (still CA Opaque)
@@ -253,7 +256,8 @@ class RefreshTokenMigrationTests: BaseAuthFlowTester {
             loginHost: .regularAuth,
             user: .fifth,
             staticAppConfigName: .caOpaque,
-            userAppConfigName: .caOpaque
+            userAppConfigName: .caOpaque,
+            isMultiUser: true
         )
 
         // Switch back to User A and verify migration persisted (ECA Opaque)
@@ -261,7 +265,8 @@ class RefreshTokenMigrationTests: BaseAuthFlowTester {
             loginHost: .regularAuth,
             user: .fourth,
             staticAppConfigName: .caOpaque,
-            userAppConfigName: .ecaOpaque
+            userAppConfigName: .ecaOpaque,
+            isMultiUser: true
         )
 
         // Test API calls for both users

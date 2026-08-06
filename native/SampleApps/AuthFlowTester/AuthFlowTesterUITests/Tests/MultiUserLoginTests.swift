@@ -173,21 +173,23 @@ class MultiUserLoginTests: BaseAuthFlowTester {
             loginHost: .regularAuth,
             user: .fourth,
             staticAppConfigName: .ecaOpaque,
-            userAppConfigName: .ecaOpaque
+            userAppConfigName: .ecaOpaque,
+            isMultiUser: true
         )
-        
+
         // Switch back to other user
         switchToUserAndValidate(
             loginHost: .regularAuth,
             user: .fifth,
             staticAppConfigName: .ecaOpaque,
             userAppConfigName: .ecaJwt,
+            isMultiUser: true
         )
-        
+
         // Logout second user
         logout()
     }
-    
+
     /// First user dynamic config, second user static config, different apps, same scopes (default).
     func testFirstDynamic_SecondStatic_DifferentApps() throws {
         // Initial user
@@ -210,21 +212,23 @@ class MultiUserLoginTests: BaseAuthFlowTester {
             loginHost: .regularAuth,
             user: .fourth,
             staticAppConfigName: .ecaOpaque,
-            userAppConfigName: .ecaJwt
+            userAppConfigName: .ecaJwt,
+            isMultiUser: true
         )
-        
+
         // Switch back to other user
         switchToUserAndValidate(
             loginHost: .regularAuth,
             user: .fifth,
             staticAppConfigName: .ecaOpaque,
             userAppConfigName: .ecaOpaque,
+            isMultiUser: true
         )
-        
+
         // Logout second user
         logout()
     }
-    
+
     // MARK: - Both Users Dynamic Config
     
     /// Both users use dynamic config, different apps, same scopes (default).
@@ -250,17 +254,19 @@ class MultiUserLoginTests: BaseAuthFlowTester {
             loginHost: .regularAuth,
             user: .fourth,
             staticAppConfigName: .caOpaque, // not used - but using other config for validation
-            userAppConfigName: .ecaOpaque
+            userAppConfigName: .ecaOpaque,
+            isMultiUser: true
         )
-        
+
         // Switch back to other user
         switchToUserAndValidate(
             loginHost: .regularAuth,
             user: .fifth,
             staticAppConfigName: .caOpaque, // not used - but using other config for validation
             userAppConfigName: .ecaJwt,
+            isMultiUser: true
         )
-        
+
         // Logout second user
         logout()
     }
@@ -504,10 +510,11 @@ class MultiUserLoginTests: BaseAuthFlowTester {
     ///     loginOtherUser (no validate) is used for the advanced auth user because identity data
     ///     may not be immediately available in a cross-host multi-user login.
     func testAdvancedAuthUser_HasBWFlag_RegularAuthUser_DoesNot() throws {
-        // User A: regular auth — no BW
-        // Use launchLoginAndValidate to ensure credentials (including identity data) are fully loaded.
-        // validateUser (called internally) validates the UA as part of credential validation.
-        launchLoginAndValidate(loginHost: .regularAuth, user: .fourth, staticAppConfigName: .ecaOpaque)
+        // User A: regular auth — no BW.
+        // Pass forceAdvancedAuthentication: false so User A logs in via the in-app WebView and does
+        // NOT register the BW flag. The .regularAuth host does not opt into native browser auth via
+        // its auth config, so disabling the process-global flag is sufficient to use the WebView.
+        launchLoginAndValidate(loginHost: .regularAuth, user: .fourth, staticAppConfigName: .ecaOpaque, forceAdvancedAuthentication: false)
 
         // User B: advanced auth — has BW, both users now logged in → MU
         // Use loginOtherUser (without full credential validation) since identity data

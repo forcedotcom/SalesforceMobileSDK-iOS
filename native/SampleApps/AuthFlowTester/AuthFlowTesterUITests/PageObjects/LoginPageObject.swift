@@ -208,6 +208,16 @@ class LoginPageObject {
         return app.webViews.webViews.webViews.textFields.firstMatch.waitForExistence(timeout: timeout)
     }
 
+    /// True when the in-app login view controller (`SFLoginViewController`) is showing, detected
+    /// by its "Log In" navigation bar title. This appears as soon as the view controller is
+    /// presented — before the WKWebView has loaded the login page — so it is faster and more
+    /// reliable than `isShowingInAppLoginForm()` for asserting that the SDK chose the in-app
+    /// WebView modality rather than the external browser. Pass `UITestTimeouts.short` for the
+    /// negative assertion (not showing).
+    func isShowingLoginViewController(timeout: TimeInterval = UITestTimeouts.long) -> Bool {
+        return loginNavigationBar().waitForExistence(timeout: timeout)
+    }
+
     /// True when the Settings gear is present on the current login nav bar. Under forced advanced
     /// auth the gear lives on the host list; on the legacy path it lives on the in-app WebView
     /// ("Log In"). Both expose the same accessibility identifier "settings".
@@ -434,7 +444,7 @@ class LoginPageObject {
     
     private func hasHost(host: String) -> Bool {
         let row = hostRow(host: host)
-        return row.waitForExistence(timeout: UITestTimeouts.long)
+        return row.waitForExistence(timeout: UITestTimeouts.short)
     }
 }
 

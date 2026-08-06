@@ -43,6 +43,7 @@
 #import "SFSDKSalesforceSDKUpgradeManager.h"
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 #import "SFSDKWindowManager+Internal.h"
+#import "SFSDKLoginHostStorage.h"
 
 // Error constants
 NSString * const kSalesforceSDKManagerErrorDomain     = @"com.salesforce.sdkmanager.error";
@@ -228,6 +229,42 @@ SFNativeLoginManagerInternal *nativeLogin;
     [SalesforceSDKManager sharedManager];
 }
 
+- (void)resetAuthFlags {
+    self.useEphemeralSessionForAdvancedAuth = YES;
+    self.useWebServerAuthentication = YES;
+    self.useHybridAuthentication = YES;
+    self.useDPoP = NO;
+    self.sdk_forceAdvancedAuthentication = YES;
+    self.blockSalesforceIntegrationUser = NO;
+}
+
+#if DEBUG
++ (void)resetForUITesting {
+    // 1. Log out all users — clears on-disk account data, DPoP keychain keys, in-memory maps.
+    //    Refresh-token revocation fires asynchronously in the background.
+    [[SFUserAccountManager sharedInstance] logoutAllUsers];
+
+    // 2. Clear per-user in-memory feature flags (RT, DP, etc.) so flags from the previous test
+    //    do not bleed into the next one when the same user logs in again.
+    [SFSDKAppFeatureMarkers resetPerUserFeaturesForUITesting];
+
+    // 3. Reset selected login host to production default and persist it.
+    [SFUserAccountManager sharedInstance].loginHost = @"login.salesforce.com";
+
+    // 4. Remove custom login servers in-memory; save flushes the empty list to msdkUserDefaults
+    //    (SalesforceLoginHostListPrefs) so custom hosts do not reappear on next cold start.
+    //    Production (login.salesforce.com) and Sandbox (test.salesforce.com) are preserved.
+    SFSDKLoginHostStorage *storage = [SFSDKLoginHostStorage sharedInstance];
+    [storage removeAllLoginHosts];
+    [storage save];
+
+    // 5. Reset all auth flags to their -init defaults.
+    SalesforceSDKManager *mgr = [SalesforceSDKManager sharedManager];
+    [mgr resetAuthFlags];
+    mgr.simulatedDomainDiscoveryResult = nil;
+}
+#endif
+
 + (instancetype)sharedManager {
     static dispatch_once_t pred;
     static SalesforceSDKManager *sdkManager = nil;
@@ -328,12 +365,7 @@ SFNativeLoginManagerInternal *nativeLogin;
         [self computeWebViewUserAgent]; // web view user agent is computed asynchronously so very first call to self.userAgentString(...) will be missing it
         self.userAgentString = [self defaultUserAgentString];
         self.URLCacheType = kSFURLCacheTypeEncrypted;
-        self.useEphemeralSessionForAdvancedAuth = YES;
-        self.useWebServerAuthentication = YES;
-        self.blockSalesforceIntegrationUser = NO;
-        self.useHybridAuthentication = YES;
-        self.useDPoP = NO;
-        self.sdk_forceAdvancedAuthentication = YES;
+        [self resetAuthFlags];
         [self setupServiceConfiguration];
         _snapshotViewControllers = [SFSDKSafeMutableDictionary new];
         _nativeLoginViewControllers = [SFSDKSafeMutableDictionary new];
