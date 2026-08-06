@@ -2229,17 +2229,20 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureSafariBrowserForLogin];
 
     // B-markers: register exactly one "why browser was used" marker per-user alongside BW.
-    // Always ensure all B-markers are unregistered for non-browser logins to clear stale state.
-    NSArray<NSString *> *allBMarkers = @[kSFAppFeatureBrowserLoginServerAuthConfig,
-                                         kSFAppFeatureBrowserLoginMDM,
-                                         kSFAppFeatureBrowserLoginForAdmin,
-                                         kSFAppFeatureBrowserLoginForceFlag];
-    NSString *bMarker = [self computeBMarkerForAuthSession:authSession completedAuthType:completedAuthType];
-    for (NSString *marker in allBMarkers) {
-        if (bMarker && [marker isEqualToString:bMarker]) {
-            [SFSDKAppFeatureMarkers registerAppFeature:marker forUser:userAccount];
-        } else {
-            [SFSDKAppFeatureMarkers unregisterAppFeature:marker forUser:userAccount];
+    // Migration does not change how the user originally authenticated, so preserve existing
+    // B-markers unchanged (same rationale as preserving BW above).
+    if (completedAuthType != SFOAuthTypeRefreshTokenMigration) {
+        NSArray<NSString *> *allBMarkers = @[kSFAppFeatureBrowserLoginServerAuthConfig,
+                                             kSFAppFeatureBrowserLoginMDM,
+                                             kSFAppFeatureBrowserLoginForAdmin,
+                                             kSFAppFeatureBrowserLoginForceFlag];
+        NSString *bMarker = [self computeBMarkerForAuthSession:authSession completedAuthType:completedAuthType];
+        for (NSString *marker in allBMarkers) {
+            if (bMarker && [marker isEqualToString:bMarker]) {
+                [SFSDKAppFeatureMarkers registerAppFeature:marker forUser:userAccount];
+            } else {
+                [SFSDKAppFeatureMarkers unregisterAppFeature:marker forUser:userAccount];
+            }
         }
     }
 
