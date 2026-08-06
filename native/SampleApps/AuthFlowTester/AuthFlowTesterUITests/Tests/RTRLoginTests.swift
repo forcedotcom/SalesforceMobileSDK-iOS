@@ -61,7 +61,8 @@ class RTRLoginTests: BaseAuthFlowTester {
     /// Login with ECA JWT RTR without hybrid flow, restart app, and verify session persists.
     func testECAJwtRtr_NoHybrid_WithRestart() throws {
         launchLoginAndValidate(staticAppConfigName: .ecaJwtRtr, useHybridFlow: false)
-        restartAndValidateUser(userAppConfigName: .ecaJwtRtr, useHybridFlow: false, isRtr: true)
+        restartAndValidateUser(userAppConfigName: .ecaJwtRtr, useHybridFlow: false)
+        assertRevokeAndRefreshWorks(isRtr: true)
     }
 
     // MARK: - ECA Opaque RTR Tests
@@ -74,7 +75,8 @@ class RTRLoginTests: BaseAuthFlowTester {
     /// Login with ECA Opaque RTR using hybrid flow, restart app, and verify session persists.
     func testECAOpaqueRtr_Hybrid_WithRestart() throws {
         launchLoginAndValidate(staticAppConfigName: .ecaOpaqueRtr)
-        restartAndValidateUser(userAppConfigName: .ecaOpaqueRtr, isRtr: true)
+        restartAndValidateUser(userAppConfigName: .ecaOpaqueRtr)
+        assertRevokeAndRefreshWorks(isRtr: true)
     }
 
     /// Login with ECA Opaque RTR without hybrid flow.
@@ -85,6 +87,7 @@ class RTRLoginTests: BaseAuthFlowTester {
     /// Login with ECA Opaque RTR without hybrid flow, restart app, and verify session persists.
     func testECAOpaqueRtr_NoHybrid_WithRestart() throws {
         launchLoginAndValidate(staticAppConfigName: .ecaOpaqueRtr, useHybridFlow: false)
-        restartAndValidateUser(userAppConfigName: .ecaOpaqueRtr, useHybridFlow: false, isRtr: true)
+        restartAndValidateUser(userAppConfigName: .ecaOpaqueRtr, useHybridFlow: false)
+        assertRevokeAndRefreshWorks(isRtr: true)
     }
 }

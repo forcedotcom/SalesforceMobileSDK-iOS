@@ -112,7 +112,6 @@ class DPoPLoginTests: BaseAuthFlowTester {
             staticScopeSelection: .subset,
             migrationAppConfigName: .ecaJwtDpop,
             migrationScopeSelection: .all,
-            forceAdvancedAuthentication: false,
             useDPoP: true
         )
 
@@ -131,7 +130,6 @@ class DPoPLoginTests: BaseAuthFlowTester {
             staticAppConfigName: .ecaJwtDpop,
             migrationAppConfigName: .ecaJwtDpopRtr,
             migrationUseHybridFlow: false,
-            forceAdvancedAuthentication: false,
             useDPoP: true
         )
 

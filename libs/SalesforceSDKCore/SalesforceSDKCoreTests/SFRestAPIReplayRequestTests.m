@@ -160,10 +160,10 @@ successBlock:(SFRestResponseBlock)successBlock
     XCTAssertEqualObjects(receivedError.userInfo[kSFOAuthError], @"invalid_grant", @"Wire value should be preserved");
 }
 
-- (void)test_given_clientBlocked_when_replayRequest_then_logsOutWithAppAttestationFailed {
-    // Arrange: stub returns client_blocked error
+- (void)test_given_appAttestFailed_when_replayRequest_then_logsOutWithAppAttestationFailed {
+    // Arrange: stub returns app_attest_failed error
     NSDictionary *errorDict = @{
-        @"error": @"client_blocked",
+        @"error": @"app_attest_failed",
         @"error_description": @"app attestation failed"
     };
     SFSDKOAuthTokenEndpointResponse *response = [[SFSDKOAuthTokenEndpointResponse alloc]
@@ -209,16 +209,16 @@ successBlock:(SFRestResponseBlock)successBlock
 
     // Assert: wire value is preserved so replayRequest can parse it via SFOAuthErrorCode.from(_:)
     XCTAssertNotNil(receivedError, @"Request should receive error");
-    XCTAssertEqualObjects(receivedError.userInfo[kSFOAuthError], @"client_blocked", @"Wire value should be preserved");
+    XCTAssertEqualObjects(receivedError.userInfo[kSFOAuthError], @"app_attest_failed", @"Wire value should be preserved");
     XCTAssertEqual([SFOAuthErrorCodeHelper from:receivedError.userInfo[kSFOAuthError]],
                    SFOAuthErrorCodeAppAttestationFailed,
                    @"Wire value should map to appAttestationFailed via typed enum");
 }
 
-- (void)test_given_clientBlockedRetry_when_replayRequest_then_doesNotLogout_andFlushesErrorToPending {
-    // Arrange: stub returns client_blocked_retry error
+- (void)test_given_appAttestFailedRetry_when_replayRequest_then_doesNotLogout_andFlushesErrorToPending {
+    // Arrange: stub returns app_attest_failed_retry error
     NSDictionary *errorDict = @{
-        @"error": @"client_blocked_retry",
+        @"error": @"app_attest_failed_retry",
         @"error_description": @"attestation verification failed transiently"
     };
     SFSDKOAuthTokenEndpointResponse *response = [[SFSDKOAuthTokenEndpointResponse alloc]
@@ -264,7 +264,7 @@ successBlock:(SFRestResponseBlock)successBlock
 
     // Assert: wire value is preserved so replayRequest can parse it via SFOAuthErrorCode.from(_:)
     XCTAssertNotNil(receivedError, @"Request should receive error");
-    XCTAssertEqualObjects(receivedError.userInfo[kSFOAuthError], @"client_blocked_retry", @"Wire value should be preserved");
+    XCTAssertEqualObjects(receivedError.userInfo[kSFOAuthError], @"app_attest_failed_retry", @"Wire value should be preserved");
     XCTAssertEqual([SFOAuthErrorCodeHelper from:receivedError.userInfo[kSFOAuthError]],
                    SFOAuthErrorCodeAppAttestationFailedRetry,
                    @"Wire value should map to appAttestationFailedRetry via typed enum");

@@ -2220,6 +2220,9 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     SFOAuthType completedAuthType = authSession.oauthCoordinator.authInfo.authType;
     if (completedAuthType == SFOAuthTypeAdvancedBrowser) {
         [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSafariBrowserForLogin forUser:userAccount];
+    } else if (completedAuthType == SFOAuthTypeRefreshTokenMigration) {
+        // Migration exchanges the token but does not change how the user originally
+        // authenticated. Preserve the existing per-user BW flag rather than clearing it.
     } else {
         [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureSafariBrowserForLogin forUser:userAccount];
     }

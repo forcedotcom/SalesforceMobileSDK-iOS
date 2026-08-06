@@ -30,8 +30,12 @@ import XCTest
 
 class SFOAuthErrorCodeTests: XCTestCase {
 
-    func testFrom_knownClientBlockedValue_returnsAppAttestationFailed() {
-        XCTAssertEqual(SFOAuthErrorCode.from("client_blocked"), .appAttestationFailed)
+    func testFrom_knownAppAttestFailedValue_returnsAppAttestationFailed() {
+        XCTAssertEqual(SFOAuthErrorCode.from("app_attest_failed"), .appAttestationFailed)
+    }
+
+    func testFrom_knownAppAttestFailedRetryValue_returnsAppAttestationFailedRetry() {
+        XCTAssertEqual(SFOAuthErrorCode.from("app_attest_failed_retry"), .appAttestationFailedRetry)
     }
 
     func testFrom_knownUnsupportedGrantType_returnsUnsupportedGrantType() {

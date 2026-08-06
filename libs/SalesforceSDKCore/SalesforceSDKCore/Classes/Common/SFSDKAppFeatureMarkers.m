@@ -150,4 +150,12 @@ static NSMutableDictionary<NSString *, NSMutableSet<NSString *> *> *SFSDKPerUser
     });
 }
 
+#if DEBUG
++ (void)resetPerUserFeaturesForUITesting {
+    dispatch_sync(SFSDKAppFeatureDispatchQueue, ^{
+        [SFSDKPerUserFeatureMarkersMap removeAllObjects];
+    });
+}
+#endif
+
 @end
