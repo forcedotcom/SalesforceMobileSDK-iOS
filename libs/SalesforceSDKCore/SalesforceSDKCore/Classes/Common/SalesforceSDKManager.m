@@ -710,6 +710,24 @@ static NSString *SFSDKISO8601StringFromDate(NSDate *date) {
         ]];
     }
 
+    // section:App Attestation — app attestation observability
+    [devInfos addObject:@"section:App Attestation"];
+    {
+        SFUserAccount *aaUser = [SFUserAccountManager sharedInstance].currentUser;
+        BOOL attestationEnabled = [SFUserAccountManager sharedInstance].appAttestationEnabled;
+        NSString *aaFeatureFlag;
+        if (!aaUser) {
+            aaFeatureFlag = @"N/A";
+        } else {
+            NSSet<NSString *> *features = [SFSDKAppFeatureMarkers appFeaturesForUser:aaUser];
+            aaFeatureFlag = [features containsObject:kSFAppFeatureAppAttestation] ? @"YES" : @"NO";
+        }
+        [devInfos addObjectsFromArray:@[
+            @"Attestation Enabled", attestationEnabled ? @"YES" : @"NO",
+            @"Feature Flag (AA)", aaFeatureFlag
+        ]];
+    }
+
     return devInfos;
 }
 
