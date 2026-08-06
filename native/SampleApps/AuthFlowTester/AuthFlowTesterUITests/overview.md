@@ -6,12 +6,15 @@ This document provides an overview of all UI tests in the AuthFlowTester test su
 
 | Class | Description |
 |-------|-------------|
-| `LegacyLoginTests` | Tests for legacy login flows (CA, user agent flow, hybrid flow) with default, subset, and all scopes |
-| `LegacyLoginTestsNotHybrid` | Tests for legacy login flows (CA, user agent flow, non-hybrid flow) - extends LegacyLoginTests |
+| `LegacyLoginTests` | Tests for legacy login flows (CA, web server flow, and user agent flow) with default, subset, and all scopes, in-app WebView and external browser paths |
+| `LegacyLoginTestsNotHybrid` | Tests for legacy login flows (non-hybrid) - extends `LegacyLoginTests` with `useHybridFlow` overridden to `false` |
 | `ECALoginTests` | Tests for External Client App (ECA) login flows including negative testing with invalid configurations |
 | `BeaconLoginTests` | Tests for Beacon app login flows (using regular_auth login host) |
 | `AdvancedAuthBeaconLoginTests` | Tests for Beacon app login flows (using advanced_auth login host) |
 | `WelcomeLoginTests` | Tests for welcome (domain discovery) login flows using simulated domain discovery |
+| `ForceAdvancedAuthTests` | Tests for `SalesforceSDKManager.forceAdvancedAuthentication` flag — verifies it controls external browser vs in-app WebView |
+| `LoginForAdminTests` | Tests for the "Login for Admins" menu flow, which launches OAuth in a browser while the in-app WebView remains loaded |
+| `DPoPLoginTests` | Tests for DPoP-bound sessions, including basic login, RTR, multi-user, migration, and restart |
 | `RTRLoginTests` | Tests for ECA login flows with Refresh Token Rotation (RTR), with and without hybrid flow, with and without app restart |
 | `LoginWithRestartTests` | Tests for verifying that user sessions and per-user feature flags (BW, WD, B-markers, L-markers) persist across app restarts |
 | `RefreshTokenMigrationTests` | Tests for refresh token migration between app configurations without re-authentication |
@@ -22,31 +25,33 @@ This document provides an overview of all UI tests in the AuthFlowTester test su
 
 ## Login Tests
 
-### LegacyLoginTests (6 tests)
+### LegacyLoginTests (7 tests)
 
-Tests for Connected App (CA) configurations with default, subset, and all scopes using hybrid authentication flow. Tests both web server and user agent OAuth flows.
+Tests for Connected App (CA) configurations with default, subset, and all scopes using hybrid authentication flow. Tests web server flow with both the external browser (default) and in-app WebView (`forceAdvancedAuthentication: false`), plus the user agent flow (also in-app WebView).
 
-| Test Name | App Config | Scopes | Flow | Hybrid |
-|-----------|------------|--------|------|--------|
-| `testCAOpaque_DefaultScopes_WebServerFlow` | CA Opaque | Default | Web Server | Yes |
-| `testCAOpaque_SubsetScopes_WebServerFlow` | CA Opaque | Subset | Web Server | Yes |
-| `testCAOpaque_AllScopes_WebServerFlow` | CA Opaque | All | Web Server | Yes |
-| `testCAOpaque_DefaultScopes_UserAgentFlow` | CA Opaque | Default | User Agent | Yes |
-| `testCAOpaque_SubsetScopes_UserAgentFlow` | CA Opaque | Subset | User Agent | Yes |
-| `testCAOpaque_AllScopes_UserAgentFlow` | CA Opaque | All | User Agent | Yes |
+| Test Name | App Config | Scopes | Flow | Auth Surface |
+|-----------|------------|--------|------|--------------|
+| `testCAOpaque_DefaultScopes_WebServerFlow` | CA Opaque | Default | Web Server | Browser (default) |
+| `testCAOpaque_SubsetScopes_WebServerFlow` | CA Opaque | Subset | Web Server | Browser (default) |
+| `testCAOpaque_AllScopes_WebServerFlow` | CA Opaque | All | Web Server | Browser (default) |
+| `testCAOpaque_DefaultScopes_WebServerFlow_InAppWebView` | CA Opaque | Default | Web Server | In-App WebView |
+| `testCAOpaque_SubsetScopes_WebServerFlow_InAppWebView` | CA Opaque | Subset | Web Server | In-App WebView |
+| `testCAOpaque_AllScopes_WebServerFlow_InAppWebView` | CA Opaque | All | Web Server | In-App WebView |
+| `testCAOpaque_DefaultScopes_UserAgentFlow` | CA Opaque | Default | User Agent | In-App WebView |
 
-### LegacyLoginTestsNotHybrid (6 tests)
+### LegacyLoginTestsNotHybrid (7 tests)
 
 Tests for Connected App (CA) configurations with non-hybrid authentication flow. Extends `LegacyLoginTests` and runs the same tests with `useHybridFlow` set to false. Non-hybrid flow means the app does not receive front-door session cookies (SIDs) during authentication.
 
-| Test Name | App Config | Scopes | Flow | Hybrid |
-|-----------|------------|--------|------|--------|
-| `testCAOpaque_DefaultScopes_WebServerFlow` | CA Opaque | Default | Web Server | No |
-| `testCAOpaque_SubsetScopes_WebServerFlow` | CA Opaque | Subset | Web Server | No |
-| `testCAOpaque_AllScopes_WebServerFlow` | CA Opaque | All | Web Server | No |
-| `testCAOpaque_DefaultScopes_UserAgentFlow` | CA Opaque | Default | User Agent | No |
-| `testCAOpaque_SubsetScopes_UserAgentFlow` | CA Opaque | Subset | User Agent | No |
-| `testCAOpaque_AllScopes_UserAgentFlow` | CA Opaque | All | User Agent | No |
+| Test Name | App Config | Scopes | Flow | Auth Surface |
+|-----------|------------|--------|------|--------------|
+| `testCAOpaque_DefaultScopes_WebServerFlow` | CA Opaque | Default | Web Server | Browser (default) |
+| `testCAOpaque_SubsetScopes_WebServerFlow` | CA Opaque | Subset | Web Server | Browser (default) |
+| `testCAOpaque_AllScopes_WebServerFlow` | CA Opaque | All | Web Server | Browser (default) |
+| `testCAOpaque_DefaultScopes_WebServerFlow_InAppWebView` | CA Opaque | Default | Web Server | In-App WebView |
+| `testCAOpaque_SubsetScopes_WebServerFlow_InAppWebView` | CA Opaque | Subset | Web Server | In-App WebView |
+| `testCAOpaque_AllScopes_WebServerFlow_InAppWebView` | CA Opaque | All | Web Server | In-App WebView |
+| `testCAOpaque_DefaultScopes_UserAgentFlow` | CA Opaque | Default | User Agent | In-App WebView |
 
 ### ECALoginTests (8 tests)
 
