@@ -517,7 +517,6 @@ class DevInfoViewControllerTests: XCTestCase {
         XCTAssertEqual(view.sections[2].rows[2].headline, "Scopes")
         XCTAssertEqual(view.sections[2].rows[2].text, "api web refresh_token")
     }
-}
 
     // MARK: - App Attestation section tests
 
