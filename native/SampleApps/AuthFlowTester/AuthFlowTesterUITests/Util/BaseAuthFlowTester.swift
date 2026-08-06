@@ -279,10 +279,20 @@ class BaseAuthFlowTester: XCTestCase {
         useHybridFlow: Bool = true,
         forceAdvancedAuthentication: Bool = true,
         loginForAdmin: Bool = false,
+        usesWelcomeDiscovery: Bool = false,
         isMultiUser: Bool = false
     ) {
         // Switch user
         mainPage.switchToUser(username: getUser(loginHost: loginHost, user: user).username)
+
+        let expectAdvancedAuth = loginForAdmin || loginHost == .advancedAuth || forceAdvancedAuthentication
+
+        let expectedBMarker: String? = expectAdvancedAuth ? (
+            loginForAdmin ? kBrowserLoginForAdmin :
+            forceAdvancedAuthentication ? kBrowserLoginForceFlag :
+            kBrowserLoginServerAuthConfig
+        ) : nil
+        let expectedLMarker: String? = usesWelcomeDiscovery ? kLoginServerWelcomeDiscovery : kLoginServerMyDomain
 
         // Validate user and feature flags
         validateUser(
@@ -292,8 +302,11 @@ class BaseAuthFlowTester: XCTestCase {
             userScopeSelection: userScopeSelection,
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow,
-            expectAdvancedAuth: loginForAdmin || loginHost == .advancedAuth || forceAdvancedAuthentication,
-            isMultiUser: isMultiUser
+            expectAdvancedAuth: expectAdvancedAuth,
+            usesWelcomeDiscovery: usesWelcomeDiscovery,
+            isMultiUser: isMultiUser,
+            expectedBMarker: expectedBMarker,
+            expectedLMarker: expectedLMarker
         )
     }
 
