@@ -537,7 +537,8 @@ class BaseAuthFlowTester: XCTestCase {
         forceAdvancedAuthentication: Bool = true,
         loginForAdmin: Bool = false,
         usesWelcomeDiscovery: Bool = false,
-        isMultiUser: Bool = false
+        isMultiUser: Bool = false,
+        isRtr: Bool = false
     ) {
         // Restart without --resetSDKForUITesting so the session persists across the restart
         restart()
@@ -569,6 +570,7 @@ class BaseAuthFlowTester: XCTestCase {
             expectAdvancedAuth: expectAdvancedAuth,
             usesWelcomeDiscovery: usesWelcomeDiscovery,
             isMultiUser: isMultiUser,
+            isRtr: isRtr,
             expectedBMarker: expectedBMarker,
             expectedLMarker: expectedLMarker
         )
