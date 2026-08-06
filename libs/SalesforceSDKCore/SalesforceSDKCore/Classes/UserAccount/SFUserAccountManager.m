@@ -2284,22 +2284,22 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         } else {
             [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureQrCodeLogin forUser:userAccount];
         }
+        // AA: write per-user on non-refresh logins only
+        BOOL usedAppAttestation = [[SFSDKAppFeatureMarkers appFeatures] containsObject:kSFAppFeatureAppAttestation];
+        if (usedAppAttestation) {
+            [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureAppAttestation forUser:userAccount];
+        } else {
+            [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureAppAttestation forUser:userAccount];
+        }
     }
+    // Always clear the AA transient global regardless of auth type
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureAppAttestation];
 
     // DPoP: register unconditionally on every completed session where the server issued
     // a DPoP-bound token (initial login OR refresh) — token_type is a per-session property.
     if ([userAccount.credentials.tokenType isEqualToString:@"DPoP"]) {
         [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureDPoP forUser:userAccount];
     }
-
-    // AA: write per-user and clear the transient global flag
-    BOOL usedAppAttestation = [[SFSDKAppFeatureMarkers appFeatures] containsObject:kSFAppFeatureAppAttestation];
-    if (usedAppAttestation) {
-        [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureAppAttestation forUser:userAccount];
-    } else {
-        [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureAppAttestation forUser:userAccount];
-    }
-    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureAppAttestation];
 
     // Async call, ignore if theres a failure. If success save the user photo locally.
     [self retrieveUserPhotoIfNeeded:userAccount];
