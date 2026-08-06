@@ -1034,7 +1034,7 @@ class BaseAuthFlowTester: XCTestCase {
 
         // Revoke and refresh cycle
         let userAppConfig = getAppConfig(named: userAppConfigName)
-        assertRevokeAndRefreshWorks(previousCredentials: userCredentials, isRtr: userAppConfig.isRtr, isDPoP: useDPoP, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, isMultiUser: isMultiUser, expectedBMarker: expectedBMarker, expectedLMarker: expectedLMarker)
+        assertRevokeAndRefreshWorks(previousCredentials: userCredentials, isRtr: userAppConfig.isRtr, isDPoP: useDPoP, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, usesWelcomeDiscovery: usesWelcomeDiscovery, isMultiUser: isMultiUser, expectedBMarker: expectedBMarker, expectedLMarker: expectedLMarker)
 
         // Check the oauth configuration
         _ = checkOauthConfiguration(
@@ -1171,7 +1171,7 @@ class BaseAuthFlowTester: XCTestCase {
         assertRevokeAndRefreshWorks(previousCredentials: getUserCredentials(), isRtr: isRtr, isDPoP: isDPoP, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, isMultiUser: isMultiUser)
     }
 
-    private func assertRevokeAndRefreshWorks(previousCredentials: UserCredentialsData, isRtr: Bool, isDPoP: Bool = false, loginHost: KnownLoginHostConfig = .regularAuth, expectAdvancedAuth: Bool = true, isMultiUser: Bool = false, expectedBMarker: String? = nil, expectedLMarker: String? = nil) {
+    private func assertRevokeAndRefreshWorks(previousCredentials: UserCredentialsData, isRtr: Bool, isDPoP: Bool = false, loginHost: KnownLoginHostConfig = .regularAuth, expectAdvancedAuth: Bool = true, usesWelcomeDiscovery: Bool = false, isMultiUser: Bool = false, expectedBMarker: String? = nil, expectedLMarker: String? = nil) {
         // Revoke access token
         XCTAssert(mainPage.revokeAccessToken(), "Failed to revoke access token")
 
@@ -1210,6 +1210,7 @@ class BaseAuthFlowTester: XCTestCase {
         validateUserAgent(userCredentials: credentialsAfterRefresh,
                           loginHost: loginHost,
                           expectAdvancedAuth: expectAdvancedAuth,
+                          usesWelcomeDiscovery: usesWelcomeDiscovery,
                           isMultiUser: isMultiUser,
                           isRtr: isRtr,
                           expectDP: isDPoP,
