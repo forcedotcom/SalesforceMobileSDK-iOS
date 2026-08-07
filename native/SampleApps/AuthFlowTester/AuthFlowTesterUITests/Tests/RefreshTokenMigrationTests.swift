@@ -226,7 +226,7 @@ class RefreshTokenMigrationTests: BaseAuthFlowTester {
     /// After migration User A has TM+JT+BN (A2 preserved from initial login, TM set).
     /// User B logs in fresh with A1+OT, no TM. Four per-user flags differ simultaneously,
     /// making leakage between migrated and non-migrated users fully detectable.
-    func testFlagDiversity_TmJtBnVsA1OtNoTm() throws {
+    func testFlagDiversity_MigratedBeaconJwtVsNonHybridOpaque() throws {
         // User A: initial login with CA Opaque (A2, OT)
         launchAndLogin(
             loginHost: .regularAuth,

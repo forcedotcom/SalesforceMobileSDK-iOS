@@ -511,7 +511,7 @@ class MultiUserLoginTests: BaseAuthFlowTester {
     /// User A: web-server non-hybrid (A1) + opaque token (OT).
     /// User B: web-server hybrid (A2) + JWT (JT).
     /// A-marker leakage is undetectable when both users share A2; diverging A-markers here make it visible.
-    func testFlagDiversity_A1OtVsA2Jt() throws {
+    func testFlagDiversity_NonHybridOpaqueVsHybridJwt() throws {
         // User A: A1 (web server, non-hybrid), OT, no BN
         launchLoginAndValidate(
             loginHost: .regularAuth,
@@ -575,7 +575,7 @@ class MultiUserLoginTests: BaseAuthFlowTester {
     /// User A: A1 (web server, non-hybrid) + JWT (JT) + beacon (BN).
     /// User B: A2 (web server, hybrid) + opaque (OT), no beacon.
     /// Three per-user flags differ, maximising leakage detectability.
-    func testFlagDiversity_A1JtBnVsA2OtNoBn() throws {
+    func testFlagDiversity_BeaconNonHybridJwtVsHybridOpaque() throws {
         // User A: A1, JT, BN
         launchLoginAndValidate(
             loginHost: .regularAuth,

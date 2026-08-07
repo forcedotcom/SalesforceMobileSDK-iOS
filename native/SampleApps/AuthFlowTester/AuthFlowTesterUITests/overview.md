@@ -157,7 +157,7 @@ Tests for migrating refresh tokens between different app configurations without 
 | `testMigrateCAToECA` | CA Opaque → ECA Opaque → CA Opaque | No | No |
 | `testMigrateCAToBeaconAndBack` | CA Opaque → Beacon Opaque → CA Opaque | No | No |
 | `testMigrateBeaconOpaqueToJWTAndBack` | Beacon Opaque → Beacon JWT → Beacon Opaque | No | No |
-| `testFlagDiversity_TmJtBnVsA1OtNoTm` | User A: CA→Beacon JWT (A2+TM+JT+BN), User B: CA Opaque non-hybrid (A1+OT) | No | Yes |
+| `testFlagDiversity_MigratedBeaconJwtVsNonHybridOpaque` | User A: CA→Beacon JWT (A2+TM+JT+BN), User B: CA Opaque non-hybrid (A1+OT) | No | Yes |
 | `testMigrateOneUserOnly` | User A: CA→ECA, User B: CA (unchanged) | No | Yes |
 
 ### RefreshTokenMigrationWithRestartTests (5 tests)
@@ -180,7 +180,7 @@ Tests for verifying that migrated refresh tokens persist across app restarts. Co
 
 Tests for login scenarios with two users using various configurations, including token revocation, user logout scenarios, and A-marker per-user isolation.
 
-**A-marker isolation note**: all earlier multi-user tests happen to use the same app type for both users, producing identical A-markers (A2). The two `testFlagDiversity_*` tests below deliberately diverge A-markers (A1 vs A2) and token-format flags (OT vs JT) so that per-user flag leakage is detectable.
+**A-marker isolation note**: all earlier multi-user tests happen to use the same app type for both users, producing identical A-markers (A2). The two `testFlagDiversity_*` tests below deliberately diverge the auth-flow type (non-hybrid vs hybrid) and token-format flags (OT vs JT) so that per-user flag leakage is detectable.
 
 | Test Name | User 1 Config | User 2 Config | Same App | Same Scopes | Beacon | Action |
 |-----------|---------------|---------------|----------|-------------|--------|--------|
@@ -195,8 +195,8 @@ Tests for login scenarios with two users using various configurations, including
 | `testDifferentAppTypes_RevokeAccessForCaUser_EcaUserUnaffected` | CA (Opaque) | ECA (Opaque) | No | Yes | No | Revoke User A |
 | `testLogoutUserWithDynamicConfig_OtherUserUnaffected` | ECA (Opaque) static | ECA (JWT) dynamic | No | Yes | No | Logout User B |
 | `testDifferentAppTypes_LogoutCaUser_EcaUserUnaffected` | CA (Opaque) | ECA (Opaque) | No | Yes | No | Logout User A |
-| `testFlagDiversity_A1OtVsA2Jt` | CA Opaque non-hybrid (A1+OT) | ECA JWT hybrid (A2+JT) | No | Yes | No | Logout User B |
-| `testFlagDiversity_A1JtBnVsA2OtNoBn` | Beacon JWT non-hybrid (A1+JT+BN) | CA Opaque hybrid (A2+OT) | No | Yes | Partial | Logout User B |
+| `testFlagDiversity_NonHybridOpaqueVsHybridJwt` | CA Opaque non-hybrid (A1+OT) | ECA JWT hybrid (A2+JT) | No | Yes | No | Logout User B |
+| `testFlagDiversity_BeaconNonHybridJwtVsHybridOpaque` | Beacon JWT non-hybrid (A1+JT+BN) | CA Opaque hybrid (A2+OT) | No | Yes | Partial | Logout User B |
 
 ---
 
