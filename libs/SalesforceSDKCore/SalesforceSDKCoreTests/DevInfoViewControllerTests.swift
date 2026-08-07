@@ -524,7 +524,7 @@ class DevInfoViewControllerTests: XCTestCase {
         let infoData = [
             "section:App Attestation",
             "Attestation Enabled", "NO",
-            "Feature Flag (AA)", "N/A"
+            "Used in Last Auth", "N/A"
         ]
         let sections = DevInfoView.testExtractSections(from: infoData)
 
@@ -532,35 +532,35 @@ class DevInfoViewControllerTests: XCTestCase {
         let rows = sections[0].rows
         XCTAssertEqual(sections[0].title, "App Attestation")
         XCTAssertEqual(rows.first(where: { $0.headline == "Attestation Enabled" })?.text, "NO")
-        XCTAssertEqual(rows.first(where: { $0.headline == "Feature Flag (AA)" })?.text, "N/A")
+        XCTAssertEqual(rows.first(where: { $0.headline == "Used in Last Auth" })?.text, "N/A")
     }
 
     func testAppAttestationSection_DisabledWithUser_NoFlag() {
         let infoData = [
             "section:App Attestation",
             "Attestation Enabled", "NO",
-            "Feature Flag (AA)", "NO"
+            "Used in Last Auth", "NO"
         ]
         let sections = DevInfoView.testExtractSections(from: infoData)
 
         XCTAssertEqual(sections.count, 1)
         let rows = sections[0].rows
         XCTAssertEqual(rows.first(where: { $0.headline == "Attestation Enabled" })?.text, "NO")
-        XCTAssertEqual(rows.first(where: { $0.headline == "Feature Flag (AA)" })?.text, "NO")
+        XCTAssertEqual(rows.first(where: { $0.headline == "Used in Last Auth" })?.text, "NO")
     }
 
     func testAppAttestationSection_EnabledWithFeatureFlag() {
         let infoData = [
             "section:App Attestation",
             "Attestation Enabled", "YES",
-            "Feature Flag (AA)", "YES"
+            "Used in Last Auth", "YES"
         ]
         let sections = DevInfoView.testExtractSections(from: infoData)
 
         XCTAssertEqual(sections.count, 1)
         let rows = sections[0].rows
         XCTAssertEqual(rows.first(where: { $0.headline == "Attestation Enabled" })?.text, "YES")
-        XCTAssertEqual(rows.first(where: { $0.headline == "Feature Flag (AA)" })?.text, "YES")
+        XCTAssertEqual(rows.first(where: { $0.headline == "Used in Last Auth" })?.text, "YES")
     }
 
     func testAppAttestationSection_AppearsAfterRtrSection() {
@@ -570,7 +570,7 @@ class DevInfoViewControllerTests: XCTestCase {
             "Last Rotation", "Never",
             "section:App Attestation",
             "Attestation Enabled", "NO",
-            "Feature Flag (AA)", "N/A"
+            "Used in Last Auth", "N/A"
         ]
         let sections = DevInfoView.testExtractSections(from: infoData)
 

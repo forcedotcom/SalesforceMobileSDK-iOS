@@ -724,7 +724,7 @@ static NSString *SFSDKISO8601StringFromDate(NSDate *date) {
         }
         [devInfos addObjectsFromArray:@[
             @"Attestation Enabled", attestationEnabled ? @"YES" : @"NO",
-            @"Feature Flag (AA)", aaFeatureFlag
+            @"Used in Last Auth", aaFeatureFlag
         ]];
     }
 
