@@ -53,6 +53,15 @@ NSString * const kSFAppFeatureLoginServerSandbox           = @"L2";
 NSString * const kSFAppFeatureLoginServerWelcomeDiscovery  = @"L3";
 NSString * const kSFAppFeatureLoginServerMyDomain          = @"L4";
 NSString * const kSFAppFeatureLoginServerOther             = @"L5";
+NSString * const kSFAppFeatureAuthTypeWebServerNonHybrid   = @"A1";
+NSString * const kSFAppFeatureAuthTypeWebServerHybrid      = @"A2";
+NSString * const kSFAppFeatureAuthTypeUserAgentNonHybrid   = @"A3";
+NSString * const kSFAppFeatureAuthTypeUserAgentHybrid      = @"A4";
+NSString * const kSFAppFeatureAuthTypeNative               = @"A5";
+NSString * const kSFAppFeatureTokenMigration               = @"TM";
+NSString * const kSFAppFeatureTokenFormatJwt               = @"JT";
+NSString * const kSFAppFeatureTokenFormatOpaque            = @"OT";
+NSString * const kSFAppFeatureBeacon                       = @"BN";
 
 static NSMutableSet<NSString *> *SFSDKAppFeatureMarkersSet = nil;
 static dispatch_queue_t SFSDKAppFeatureDispatchQueue = nil;

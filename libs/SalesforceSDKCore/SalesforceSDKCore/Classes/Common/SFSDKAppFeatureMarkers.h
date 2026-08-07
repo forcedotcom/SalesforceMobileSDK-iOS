@@ -60,6 +60,17 @@ extern NSString * const kSFAppFeatureLoginServerWelcomeDiscovery;   // L3
 extern NSString * const kSFAppFeatureLoginServerMyDomain;           // L4
 extern NSString * const kSFAppFeatureLoginServerOther;              // L5
 
+// "Which auth type was used" markers — exactly one registered per-user per non-refresh login
+extern NSString * const kSFAppFeatureAuthTypeWebServerNonHybrid;    // A1
+extern NSString * const kSFAppFeatureAuthTypeWebServerHybrid;       // A2
+extern NSString * const kSFAppFeatureAuthTypeUserAgentNonHybrid;    // A3
+extern NSString * const kSFAppFeatureAuthTypeUserAgentHybrid;       // A4
+extern NSString * const kSFAppFeatureAuthTypeNative;                // A5
+extern NSString * const kSFAppFeatureTokenMigration;                // TM
+extern NSString * const kSFAppFeatureTokenFormatJwt;                // JT
+extern NSString * const kSFAppFeatureTokenFormatOpaque;             // OT
+extern NSString * const kSFAppFeatureBeacon;                        // BN
+
 /**
  Class to register and unregister feature markers associated with SDK facilities being used in
  an app.

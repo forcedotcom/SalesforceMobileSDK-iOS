@@ -2220,11 +2220,14 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     SFOAuthType completedAuthType = authSession.oauthCoordinator.authInfo.authType;
     if (completedAuthType == SFOAuthTypeAdvancedBrowser) {
         [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSafariBrowserForLogin forUser:userAccount];
+        [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureTokenMigration forUser:userAccount];
     } else if (completedAuthType == SFOAuthTypeRefreshTokenMigration) {
         // Migration exchanges the token but does not change how the user originally
         // authenticated. Preserve the existing per-user BW flag rather than clearing it.
+        [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureTokenMigration forUser:userAccount];
     } else {
         [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureSafariBrowserForLogin forUser:userAccount];
+        [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureTokenMigration forUser:userAccount];
     }
     [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureSafariBrowserForLogin];
 
@@ -2284,12 +2287,55 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         } else {
             [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureQrCodeLogin forUser:userAccount];
         }
+
+        // A-markers: promote exactly one per-user and clear all A-marker globals.
+        // Migration preserves the existing per-user A-marker (auth method unchanged).
+        NSArray<NSString *> *allAMarkers = @[kSFAppFeatureAuthTypeWebServerNonHybrid,
+                                              kSFAppFeatureAuthTypeWebServerHybrid,
+                                              kSFAppFeatureAuthTypeUserAgentNonHybrid,
+                                              kSFAppFeatureAuthTypeUserAgentHybrid,
+                                              kSFAppFeatureAuthTypeNative];
+        if (completedAuthType != SFOAuthTypeRefreshTokenMigration) {
+            NSString *aMarker = nil;
+            for (NSString *marker in allAMarkers) {
+                if ([[SFSDKAppFeatureMarkers appFeatures] containsObject:marker]) {
+                    aMarker = marker;
+                    break;
+                }
+            }
+            for (NSString *marker in allAMarkers) {
+                if ([marker isEqualToString:aMarker]) {
+                    [SFSDKAppFeatureMarkers registerAppFeature:marker forUser:userAccount];
+                } else {
+                    [SFSDKAppFeatureMarkers unregisterAppFeature:marker forUser:userAccount];
+                }
+            }
+        }
+        for (NSString *marker in allAMarkers) {
+            [SFSDKAppFeatureMarkers unregisterAppFeature:marker];
+        }
     }
 
     // DPoP: register unconditionally on every completed session where the server issued
     // a DPoP-bound token (initial login OR refresh) — token_type is a per-session property.
     if ([userAccount.credentials.tokenType isEqualToString:@"DPoP"]) {
         [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureDPoP forUser:userAccount];
+    }
+
+    // JT/OT: token format — written on every completed session (credentials may change on migration)
+    if ([authSession.oauthCoordinator.credentials.tokenFormat isEqualToString:@"jwt"]) {
+        [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureTokenFormatJwt forUser:userAccount];
+        [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureTokenFormatOpaque forUser:userAccount];
+    } else {
+        [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureTokenFormatOpaque forUser:userAccount];
+        [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureTokenFormatJwt forUser:userAccount];
+    }
+
+    // BN: beacon child app — written on every completed session
+    if (authSession.oauthCoordinator.credentials.beaconChildConsumerKey != nil) {
+        [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureBeacon forUser:userAccount];
+    } else {
+        [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureBeacon forUser:userAccount];
     }
 
     // AA: write per-user and clear the transient global flag

@@ -163,7 +163,24 @@
     } else {
         self.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeUserAgent];
     }
-    
+
+    // Register A-marker globally (will be promoted per-user at auth completion).
+    // useHybridAuthentication is captured now — it's a global that can change between logins.
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureAuthTypeWebServerNonHybrid];
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureAuthTypeWebServerHybrid];
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureAuthTypeUserAgentNonHybrid];
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureAuthTypeUserAgentHybrid];
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureAuthTypeNative];
+    BOOL hybrid = [SalesforceSDKManager sharedManager].useHybridAuthentication;
+    SFOAuthType aType = self.authInfo.authType;
+    if (aType == SFOAuthTypeWebServer) {
+        [SFSDKAppFeatureMarkers registerAppFeature:hybrid ? kSFAppFeatureAuthTypeWebServerHybrid : kSFAppFeatureAuthTypeWebServerNonHybrid];
+    } else if (aType == SFOAuthTypeUserAgent) {
+        [SFSDKAppFeatureMarkers registerAppFeature:hybrid ? kSFAppFeatureAuthTypeUserAgentHybrid : kSFAppFeatureAuthTypeUserAgentNonHybrid];
+    }
+    // SFOAuthTypeAdvancedBrowser is covered by BW — no A-marker
+    // SFOAuthTypeRefresh, SFOAuthTypeRefreshTokenMigration, SFOAuthTypeJwtTokenExchange — no A-marker global
+
     // Don't try to authenticate if there is no network available
     if ([self.delegate respondsToSelector:@selector(oauthCoordinatorIsNetworkAvailable:)] &&
         ![self.delegate oauthCoordinatorIsNetworkAvailable:self]) {
@@ -188,6 +205,11 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 __strong typeof(weakSelf) strongSelf = weakSelf;
                 strongSelf.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeNative];
+                [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureAuthTypeWebServerNonHybrid];
+                [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureAuthTypeWebServerHybrid];
+                [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureAuthTypeUserAgentNonHybrid];
+                [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureAuthTypeUserAgentHybrid];
+                [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureAuthTypeNative];
                 [strongSelf notifyDelegateOfBeginAuthentication];
                 [strongSelf beginHeadlessNativeLoginFlow];
             });
