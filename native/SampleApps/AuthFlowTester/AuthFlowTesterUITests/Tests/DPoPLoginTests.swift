@@ -49,8 +49,8 @@ class DPoPLoginTests: BaseAuthFlowTester {
         launchLoginAndValidate(staticAppConfigName: .ecaJwtDpop, useHybridFlow: false, useDPoP: true)
         // Two revoke/refresh cycles verify DPoP binding survives a second nonce rotation
         // (parity with Android's `testECAJwtDPoP_NoHybrid`).
-        assertRevokeAndRefreshWorks(isRtr: false, isDPoP: true)
-        assertRevokeAndRefreshWorks(isRtr: false, isDPoP: true)
+        assertRevokeAndRefreshWorks(isRtr: false, isDPoP: true, useHybridFlow: false)
+        assertRevokeAndRefreshWorks(isRtr: false, isDPoP: true, useHybridFlow: false)
     }
 
     // MARK: - ECA JWT DPoP+RTR Tests
@@ -64,7 +64,7 @@ class DPoPLoginTests: BaseAuthFlowTester {
     /// Login with ECA JWT DPoP+RTR without hybrid flow and verify refresh token rotation and DPoP binding.
     func test_givenDPoPRtrNoHybrid_whenLogin_thenRefreshTokenRotatesAndDPoPBindingHolds() throws {
         launchLoginAndValidate(staticAppConfigName: .ecaJwtDpopRtr, useHybridFlow: false, useDPoP: true)
-        assertRevokeAndRefreshWorks(isRtr: true, isDPoP: true)
+        assertRevokeAndRefreshWorks(isRtr: true, isDPoP: true, useHybridFlow: false)
     }
 
     // MARK: - Multi-User
@@ -134,7 +134,7 @@ class DPoPLoginTests: BaseAuthFlowTester {
         )
 
         // Verify RTR is enabled post-migration
-        assertRevokeAndRefreshWorks(isRtr: true, isDPoP: true, expectAdvancedAuth: false)
+        assertRevokeAndRefreshWorks(isRtr: true, isDPoP: true, expectAdvancedAuth: false, useHybridFlow: false)
     }
 
     // MARK: - Restart

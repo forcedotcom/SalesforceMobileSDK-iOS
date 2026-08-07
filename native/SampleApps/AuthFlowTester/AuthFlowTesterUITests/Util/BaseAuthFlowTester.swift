@@ -301,6 +301,7 @@ class BaseAuthFlowTester: XCTestCase {
             kBrowserLoginServerAuthConfig
         ) : nil
         let expectedLMarker: String? = usesWelcomeDiscovery ? kLoginServerWelcomeDiscovery : kLoginServerMyDomain
+        let aMarker = aMarkerFor(useWebServerFlow: useWebServerFlow, useHybridFlow: useHybridFlow)
 
         // Validate user and feature flags
         validateUser(
@@ -314,7 +315,8 @@ class BaseAuthFlowTester: XCTestCase {
             usesWelcomeDiscovery: usesWelcomeDiscovery,
             isMultiUser: isMultiUser,
             expectedBMarker: expectedBMarker,
-            expectedLMarker: expectedLMarker
+            expectedLMarker: expectedLMarker,
+            expectedAMarker: aMarker
         )
     }
 
@@ -579,6 +581,8 @@ class BaseAuthFlowTester: XCTestCase {
             ? kLoginServerWelcomeDiscovery
             : kLoginServerMyDomain
 
+        let aMarker = aMarkerFor(useWebServerFlow: useWebServerFlow, useHybridFlow: useHybridFlow)
+
         // Validate user and feature flags
         // Not checking static app config since it will depend on the bootconfig of the target app
         validateUser(
@@ -593,10 +597,11 @@ class BaseAuthFlowTester: XCTestCase {
             isMultiUser: isMultiUser,
             isRtr: isRtr,
             expectedBMarker: expectedBMarker,
-            expectedLMarker: expectedLMarker
+            expectedLMarker: expectedLMarker,
+            expectedAMarker: aMarker
         )
     }
-    
+
     /// Migrates the refresh token to a new app configuration and validates the result.
     ///
     /// Performs a refresh token migration from the current app configuration to a new one,
@@ -652,7 +657,8 @@ class BaseAuthFlowTester: XCTestCase {
             useHybridFlow: migrationUseHybridFlow,
             forceAdvancedAuthentication: forceAdvancedAuthentication,
             isMultiUser: isMultiUser,
-            useDPoP: useDPoP
+            useDPoP: useDPoP,
+            wasMigrated: true
         )
 
         // Making sure the refresh token changed
@@ -1036,7 +1042,15 @@ class BaseAuthFlowTester: XCTestCase {
     }
     
     // MARK: - Private Helpers
-    
+
+    private func aMarkerFor(useWebServerFlow: Bool, useHybridFlow: Bool) -> String {
+        if useWebServerFlow {
+            return useHybridFlow ? kAuthTypeWebServerHybrid : kAuthTypeWebServerNonHybrid
+        } else {
+            return useHybridFlow ? kAuthTypeUserAgentHybrid : kAuthTypeUserAgentNonHybrid
+        }
+    }
+
     /// Validates user credentials, do a revoke refesh cycle and validate oauth configuration
     @discardableResult
     private func validate(
@@ -1053,6 +1067,7 @@ class BaseAuthFlowTester: XCTestCase {
         usesWelcomeDiscovery: Bool = false,
         loginForAdmin: Bool = false,
         useDPoP: Bool = false,
+        wasMigrated: Bool = false
     ) -> UserCredentialsData {
 
         let staticAppConfig = getAppConfig(named: staticAppConfigName)
@@ -1072,6 +1087,8 @@ class BaseAuthFlowTester: XCTestCase {
             ? kLoginServerWelcomeDiscovery
             : kLoginServerMyDomain
 
+        let aMarker = aMarkerFor(useWebServerFlow: useWebServerFlow, useHybridFlow: useHybridFlow)
+
         let userCredentials = validateUser(
             loginHost: loginHost,
             user: user,
@@ -1083,12 +1100,14 @@ class BaseAuthFlowTester: XCTestCase {
             usesWelcomeDiscovery: usesWelcomeDiscovery,
             isMultiUser: isMultiUser,
             expectedBMarker: expectedBMarker,
-            expectedLMarker: expectedLMarker
+            expectedLMarker: expectedLMarker,
+            expectedAMarker: aMarker,
+            wasMigrated: wasMigrated
         )
 
         // Revoke and refresh cycle
         let userAppConfig = getAppConfig(named: userAppConfigName)
-        assertRevokeAndRefreshWorks(previousCredentials: userCredentials, isRtr: userAppConfig.isRtr, isDPoP: useDPoP, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, usesWelcomeDiscovery: usesWelcomeDiscovery, isMultiUser: isMultiUser, expectedBMarker: expectedBMarker, expectedLMarker: expectedLMarker)
+        assertRevokeAndRefreshWorks(previousCredentials: userCredentials, isRtr: userAppConfig.isRtr, isDPoP: useDPoP, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, usesWelcomeDiscovery: usesWelcomeDiscovery, isMultiUser: isMultiUser, expectedBMarker: expectedBMarker, expectedLMarker: expectedLMarker, expectedAMarker: aMarker, wasMigrated: wasMigrated)
 
         // Check the oauth configuration
         _ = checkOauthConfiguration(
@@ -1221,13 +1240,14 @@ class BaseAuthFlowTester: XCTestCase {
     /// `expectAdvancedAuth` defaults to `true`, matching the `forceAdvancedAuthentication` default.
     /// Pass `false` for tests that logged in with the in-app WebView or post-migration validations
     /// where BW is not re-registered.
-    func assertRevokeAndRefreshWorks(isRtr: Bool, isDPoP: Bool = false, loginHost: KnownLoginHostConfig = .regularAuth, expectAdvancedAuth: Bool = true, isMultiUser: Bool = false) {
+    func assertRevokeAndRefreshWorks(isRtr: Bool, isDPoP: Bool = false, loginHost: KnownLoginHostConfig = .regularAuth, expectAdvancedAuth: Bool = true, isMultiUser: Bool = false, useWebServerFlow: Bool = true, useHybridFlow: Bool = true) {
         let expectedBMarker: String? = expectAdvancedAuth ? kBrowserLoginForceFlag : nil
         let expectedLMarker: String? = kLoginServerMyDomain
-        assertRevokeAndRefreshWorks(previousCredentials: getUserCredentials(), isRtr: isRtr, isDPoP: isDPoP, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, isMultiUser: isMultiUser, expectedBMarker: expectedBMarker, expectedLMarker: expectedLMarker)
+        let aMarker = aMarkerFor(useWebServerFlow: useWebServerFlow, useHybridFlow: useHybridFlow)
+        assertRevokeAndRefreshWorks(previousCredentials: getUserCredentials(), isRtr: isRtr, isDPoP: isDPoP, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, isMultiUser: isMultiUser, expectedBMarker: expectedBMarker, expectedLMarker: expectedLMarker, expectedAMarker: aMarker)
     }
 
-    private func assertRevokeAndRefreshWorks(previousCredentials: UserCredentialsData, isRtr: Bool, isDPoP: Bool = false, loginHost: KnownLoginHostConfig = .regularAuth, expectAdvancedAuth: Bool = true, usesWelcomeDiscovery: Bool = false, isMultiUser: Bool = false, expectedBMarker: String? = nil, expectedLMarker: String? = nil) {
+    private func assertRevokeAndRefreshWorks(previousCredentials: UserCredentialsData, isRtr: Bool, isDPoP: Bool = false, loginHost: KnownLoginHostConfig = .regularAuth, expectAdvancedAuth: Bool = true, usesWelcomeDiscovery: Bool = false, isMultiUser: Bool = false, expectedBMarker: String? = nil, expectedLMarker: String? = nil, expectedAMarker: String? = nil, wasMigrated: Bool = false) {
         // Revoke access token
         XCTAssert(mainPage.revokeAccessToken(), "Failed to revoke access token")
 
@@ -1271,7 +1291,9 @@ class BaseAuthFlowTester: XCTestCase {
                           isRtr: isRtr,
                           expectDP: isDPoP,
                           expectedBMarker: expectedBMarker,
-                          expectedLMarker: expectedLMarker)
+                          expectedLMarker: expectedLMarker,
+                          expectedAMarker: expectedAMarker,
+                          wasMigrated: wasMigrated)
     }
 
     /// Asserts the DPoP token-type and nonce triad on a set of credentials.
