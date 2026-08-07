@@ -1088,6 +1088,7 @@ class BaseAuthFlowTester: XCTestCase {
             : kLoginServerMyDomain
 
         let aMarker = aMarkerFor(useWebServerFlow: useWebServerFlow, useHybridFlow: useHybridFlow)
+        let userAppConfig = getAppConfig(named: userAppConfigName)
 
         let userCredentials = validateUser(
             loginHost: loginHost,
@@ -1102,11 +1103,11 @@ class BaseAuthFlowTester: XCTestCase {
             expectedBMarker: expectedBMarker,
             expectedLMarker: expectedLMarker,
             expectedAMarker: aMarker,
-            wasMigrated: wasMigrated
+            wasMigrated: wasMigrated,
+            isBeacon: userAppConfig.isBeacon
         )
 
         // Revoke and refresh cycle
-        let userAppConfig = getAppConfig(named: userAppConfigName)
         assertRevokeAndRefreshWorks(previousCredentials: userCredentials, isRtr: userAppConfig.isRtr, isDPoP: useDPoP, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, usesWelcomeDiscovery: usesWelcomeDiscovery, isMultiUser: isMultiUser, expectedBMarker: expectedBMarker, expectedLMarker: expectedLMarker, expectedAMarker: aMarker, wasMigrated: wasMigrated)
 
         // Check the oauth configuration
