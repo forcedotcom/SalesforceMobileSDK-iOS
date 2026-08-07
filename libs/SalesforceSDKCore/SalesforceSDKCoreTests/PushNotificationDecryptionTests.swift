@@ -46,29 +46,26 @@ class PushNotificationDecryptionTests: XCTestCase {
         publicKey = try XCTUnwrap(SFSDKCryptoUtils.getRSAPublicKeyRef(withName: "com.salesforce.mobilesdk.notificationKey", keyLength: 2048)).takeUnretainedValue()
     }
     
-    func testPKCS1Secret() throws {
+    func testPKCS1EncryptedSecretReturnsError() throws {
         let notificationContent = baseNotificationContent()
-        
-        // Symmetric encryption for payload
+
+        // Symmetric encryption for payload (valid, but won't matter since secret decryption fails first)
         let key = SFSDKCryptoUtils.randomByteData(withLength: 16)
         let iv = SFSDKCryptoUtils.randomByteData(withLength: 16)
         let jsonContent = try JSONSerialization.data(withJSONObject: contentDictionary)
         let encryptedContent = try XCTUnwrap(SFSDKCryptoUtils.aes128EncryptData(jsonContent, withKey: key, iv: iv)).base64EncodedString()
-        
-        // RSA-PKCS1 encryption for secret
+
+        // RSA-PKCS1 encryption for secret — no longer accepted by the SDK
         let secret = key + iv
-        let encryptedSecret = try SFSDKCryptoUtils.encrypt(data: secret, key: publicKey, algorithm: SecKeyAlgorithm.rsaEncryptionPKCS1)
+        let encryptedSecret = try XCTUnwrap(SFSDKCryptoUtils.encrypt(data: secret, key: publicKey, algorithm: SecKeyAlgorithm.rsaEncryptionPKCS1))
         let secretString = encryptedSecret.base64EncodedString()
-        
+
         notificationContent.userInfo[kRemoteNotificationKeySecret] = secretString
         notificationContent.userInfo[kRemoteNotificationKeyContent] = encryptedContent
-        
-        // Decrypt
-        try SFSDKPushNotificationDecryption.decryptNotificationContent(notificationContent)
-        XCTAssertEqual("Matt D updated Jane Smith (CEO, Acme)", notificationContent.body)
-        XCTAssertEqual("Contact Updated", notificationContent.title)
+
+        XCTAssertThrowsError(try SFSDKPushNotificationDecryption.decryptNotificationContent(notificationContent))
     }
-    
+
     func testOAEPSecret() throws {
         let notificationContent = baseNotificationContent()
         
