@@ -505,6 +505,136 @@ class MultiUserLoginTests: BaseAuthFlowTester {
         XCTAssertTrue(makeRestRequest(), "User A's API call should succeed")
     }
 
+    // MARK: - Feature Flag Multi-User Isolation Tests
+
+    /// Verifies A-marker and token-format flags are isolated per user.
+    /// User A: web-server non-hybrid (A1) + opaque token (OT).
+    /// User B: web-server hybrid (A2) + JWT (JT).
+    /// A-marker leakage is undetectable when both users share A2; diverging A-markers here make it visible.
+    func testFlagDiversity_A1OtVsA2Jt() throws {
+        // User A: A1 (web server, non-hybrid), OT, no BN
+        launchLoginAndValidate(
+            loginHost: .regularAuth,
+            user: .fourth,
+            staticAppConfigName: .caOpaque,
+            useHybridFlow: false,
+            forceAdvancedAuthentication: true
+        )
+
+        // User B: A2 (web server, hybrid), JT, no BN — multi-user
+        loginOtherUserAndValidate(
+            loginHost: .regularAuth,
+            user: .fifth,
+            staticAppConfigName: .ecaJwt
+        )
+
+        // Switch to User A — A1 and OT must survive alongside MU
+        switchToUser(loginHost: .regularAuth, user: .fourth)
+        validateUserAgent(
+            userCredentials: getUserCredentials(),
+            loginHost: .regularAuth,
+            expectAdvancedAuth: true,
+            isMultiUser: true,
+            expectedBMarker: kBrowserLoginForceFlag,
+            expectedLMarker: kLoginServerMyDomain,
+            expectedAMarker: kAuthTypeWebServerNonHybrid,
+            isJwt: false,
+            isBeacon: false
+        )
+
+        // Switch to User B — A2 and JT must survive alongside MU
+        switchToUser(loginHost: .regularAuth, user: .fifth)
+        validateUserAgent(
+            userCredentials: getUserCredentials(),
+            loginHost: .regularAuth,
+            expectAdvancedAuth: true,
+            isMultiUser: true,
+            expectedBMarker: kBrowserLoginForceFlag,
+            expectedLMarker: kLoginServerMyDomain,
+            expectedAMarker: kAuthTypeWebServerHybrid,
+            isJwt: true,
+            isBeacon: false
+        )
+
+        // Logout User B — User A becomes active, MU must clear, A1 and OT must persist
+        logout()
+        validateUserAgent(
+            userCredentials: getUserCredentials(),
+            loginHost: .regularAuth,
+            expectAdvancedAuth: true,
+            isMultiUser: false,
+            expectedBMarker: kBrowserLoginForceFlag,
+            expectedLMarker: kLoginServerMyDomain,
+            expectedAMarker: kAuthTypeWebServerNonHybrid,
+            isJwt: false,
+            isBeacon: false
+        )
+    }
+
+    /// Verifies A-marker, token format, and beacon flag are isolated per user simultaneously.
+    /// User A: A1 (web server, non-hybrid) + JWT (JT) + beacon (BN).
+    /// User B: A2 (web server, hybrid) + opaque (OT), no beacon.
+    /// Three per-user flags differ, maximising leakage detectability.
+    func testFlagDiversity_A1JtBnVsA2OtNoBn() throws {
+        // User A: A1, JT, BN
+        launchLoginAndValidate(
+            loginHost: .regularAuth,
+            user: .fourth,
+            staticAppConfigName: .beaconJwt,
+            useHybridFlow: false,
+            forceAdvancedAuthentication: true
+        )
+
+        // User B: A2, OT, no BN — multi-user
+        loginOtherUserAndValidate(
+            loginHost: .regularAuth,
+            user: .fifth,
+            staticAppConfigName: .caOpaque
+        )
+
+        // Switch to User A — A1, JT, BN must survive alongside MU
+        switchToUser(loginHost: .regularAuth, user: .fourth)
+        validateUserAgent(
+            userCredentials: getUserCredentials(),
+            loginHost: .regularAuth,
+            expectAdvancedAuth: true,
+            isMultiUser: true,
+            expectedBMarker: kBrowserLoginForceFlag,
+            expectedLMarker: kLoginServerMyDomain,
+            expectedAMarker: kAuthTypeWebServerNonHybrid,
+            isJwt: true,
+            isBeacon: true
+        )
+
+        // Switch to User B — A2, OT, no BN must survive alongside MU
+        switchToUser(loginHost: .regularAuth, user: .fifth)
+        validateUserAgent(
+            userCredentials: getUserCredentials(),
+            loginHost: .regularAuth,
+            expectAdvancedAuth: true,
+            isMultiUser: true,
+            expectedBMarker: kBrowserLoginForceFlag,
+            expectedLMarker: kLoginServerMyDomain,
+            expectedAMarker: kAuthTypeWebServerHybrid,
+            isJwt: false,
+            isBeacon: false
+        )
+
+        // Logout User B — User A becomes active, MU must clear, A1, JT, BN must persist
+        logout()
+        validateUserAgent(
+            userCredentials: getUserCredentials(),
+            loginHost: .regularAuth,
+            expectAdvancedAuth: true,
+            isMultiUser: false,
+            expectedBMarker: kBrowserLoginForceFlag,
+            expectedLMarker: kLoginServerMyDomain,
+            expectedAMarker: kAuthTypeWebServerNonHybrid,
+            isJwt: true,
+            isBeacon: true
+        )
+    }
+
     // MARK: - Feature Flag User Agent Tests
 
     /// Verifies that the BW (browser-web) feature flag is set in the user agent for advanced auth users
