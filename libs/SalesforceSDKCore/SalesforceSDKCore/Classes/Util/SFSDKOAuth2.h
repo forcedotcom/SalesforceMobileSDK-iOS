@@ -111,6 +111,12 @@ NS_ASSUME_NONNULL_BEGIN
 /// `SFOAuthCredentials.identifier` for the in-flight account. Used by the DPoP layer to
 /// scope the per-account keypair and nonce cache. Optional; when nil, DPoP is skipped.
 @property (nonatomic, copy, nullable) NSString *credentialsIdentifier;
+/// Carried through unchanged from `SFOAuthCredentials.tokenType`. Used by the DPoP
+/// layer so a DPoP-bound credential is honored even when the process-wide `usesDPoP`
+/// switch has been flipped off. On the fresh-login (auth code exchange) path this is
+/// typically nil since the token endpoint has not yet issued a tokenType; DPoP gating
+/// on that path falls back to the persisted-key-material signal.
+@property (nonatomic, copy, nullable) NSString *tokenType;
 @end
 
 @interface SFSDKOAuthTokenEndpointResponse : NSObject

@@ -372,14 +372,14 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
     [request setHTTPMethod:kHttpMethodPost];
     [request setValue:kHttpPostContentType forHTTPHeaderField:kHttpHeaderContentType];
     [request setHTTPShouldHandleCookies:NO];
-    [self attachDPoPHeaderIfNeeded:request scope:endpointReq.credentialsIdentifier];
+    [self attachDPoPHeaderIfNeeded:request scope:endpointReq.credentialsIdentifier tokenType:endpointReq.tokenType];
     return request;
 }
 
-- (void)attachDPoPHeaderIfNeeded:(NSMutableURLRequest *)request scope:(NSString *)scope {
+- (void)attachDPoPHeaderIfNeeded:(NSMutableURLRequest *)request scope:(NSString *)scope tokenType:(nullable NSString *)tokenType {
     if (scope.length == 0) return;
     NSError *err = nil;
-    [SFSDKDPoPRequestDecorator decorateRequest:request scope:scope error:&err];
+    [SFSDKDPoPRequestDecorator decorateRequest:request scope:scope tokenType:tokenType accessToken:nil error:&err];
     if (err) {
         [SFSDKCoreLogger e:[self class] format:@"DPoP attach failed (code=%ld); proceeding without DPoP header.", (long)err.code];
     }
@@ -410,7 +410,7 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
                 [SFSDKDPoPRequestDecorator isNonceChallengeWithStatusCode:statusCode body:data response:urlResponse]) {
                 [SFSDKCoreLogger i:[strongSelf class] format:@"DPoP nonce challenge received; retrying token-endpoint request once."];
                 [request setValue:nil forHTTPHeaderField:kHttpHeaderDPoP];
-                [strongSelf attachDPoPHeaderIfNeeded:request scope:endpointReq.credentialsIdentifier];
+                [strongSelf attachDPoPHeaderIfNeeded:request scope:endpointReq.credentialsIdentifier tokenType:endpointReq.tokenType];
                 [strongSelf sendTokenEndpointRequest:request
                                   forEndpointRequest:endpointReq
                                retryOnNonceChallenge:NO // already retried once; don't retry again.

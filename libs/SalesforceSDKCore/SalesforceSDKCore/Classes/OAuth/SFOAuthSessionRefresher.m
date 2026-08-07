@@ -101,6 +101,7 @@ SFSDK_USE_DEPRECATED_BEGIN
     request.redirectURI = self.credentials.redirectUri;
     request.serverURL = [self.credentials overrideDomainIfNeeded];
     request.credentialsIdentifier = self.credentials.identifier;
+    request.tokenType = self.credentials.tokenType;
     request.attestation = attestation;
 
     __weak typeof(self) weakSelf = self;

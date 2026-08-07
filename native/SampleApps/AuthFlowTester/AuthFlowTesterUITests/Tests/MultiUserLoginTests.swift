@@ -671,6 +671,72 @@ class MultiUserLoginTests: BaseAuthFlowTester {
         validateUserAgent(userCredentials: getUserCredentials(), loginHost: .regularAuth, isMultiUser: false, expectedLMarker: kLoginServerMyDomain, expectedAMarker: kAuthTypeWebServerHybrid)
     }
 
+    // MARK: - DPoP + non-DPoP Multi-User (per-credential proof gating)
+
+    /// Mixed DPoP + non-DPoP users with the process-wide DPoP flag flipped off after both are
+    /// logged in. Each user's post-flip refresh + REST GET must use its own auth scheme
+    /// independently — DPoP for the DPoP-bound credential, Bearer for the non-DPoP one — gated
+    /// by per-credential state (tokenType or persisted key material), not the global flag.
+    ///
+    /// Simulates an app upgrade or config change that flips
+    /// `SalesforceManager.shared.usesDPoP = false` after both users are authenticated. The flag
+    /// flip is injected via the AuthFlowTester `--disableDPoPAtStart` launch argument (see
+    /// `AppDelegate.init`) on relaunch, since XCUITest runs out-of-process.
+    func test_dpopAndNonDPoPUsers_flagOff_maintainIndependentProofs() throws {
+        // User A: DPoP ECA (useDPoP=true so /authorize gets dpop_jkt and the credential is
+        // persisted with tokenType="DPoP" and a key pair in the Keychain).
+        launchLoginAndValidate(
+            loginHost: .regularAuth,
+            user: .fourth,
+            staticAppConfigName: .ecaJwtDpop,
+            useDPoP: true
+        )
+
+        // User B: non-DPoP ECA (Bearer) — no key material, no DPoP tokenType.
+        loginOtherUserAndValidate(
+            loginHost: .regularAuth,
+            user: .fifth,
+            staticAppConfigName: .ecaJwt
+        )
+
+        // Uses direct token invalidation rather than revokeAccessToken to avoid a known gap in the RestClient's use_dpop_nonce retry loop.
+
+        // Switch to user A so A is the current account across the next relaunch.
+        switchToUser(loginHost: .regularAuth, user: .fourth)
+        let userACredentialsBefore = getUserCredentials()
+        // Relaunch with the global DPoP flag flipped off AND user A's access token
+        // invalidated in place. --disableDPoPAtStart sets SalesforceManager.shared.usesDPoP = false;
+        // --invalidateCurrentUserAccessTokenAtStart corrupts the current user's access token so
+        // the next REST call 401s and triggers the natural refresh path.
+        restart(withLaunchArguments: ["--disableDPoPAtStart", "--invalidateCurrentUserAccessTokenAtStart"])
+        XCTAssertTrue(makeRestRequest(), "User A's REST request should succeed with DPoP proof after flag flip")
+        let userACredentialsAfter = getUserCredentials()
+        XCTAssertNotEqual(
+            userACredentialsBefore.accessToken,
+            userACredentialsAfter.accessToken,
+            "User A's access token should have refreshed"
+        )
+        XCTAssertEqual(userACredentialsAfter.dpopTokenType, "DPoP", "User A should remain DPoP-bound after global flag flipped off")
+        XCTAssertNotNil(userACredentialsAfter.dpopNonce, "User A DPoP nonce should be present after refresh")
+        XCTAssertFalse(userACredentialsAfter.dpopNonce?.isEmpty ?? true, "User A DPoP nonce should not be empty")
+
+        // Switch to user B (Bearer) and repeat with the same launch args. Refresh + REST must NOT be DPoP.
+        switchToUser(loginHost: .regularAuth, user: .fifth)
+        let userBCredentialsBefore = getUserCredentials()
+        restart(withLaunchArguments: ["--disableDPoPAtStart", "--invalidateCurrentUserAccessTokenAtStart"])
+        XCTAssertTrue(makeRestRequest(), "User B's REST request should succeed as Bearer after flag flip")
+        let userBCredentialsAfter = getUserCredentials()
+        XCTAssertNotEqual(
+            userBCredentialsBefore.accessToken,
+            userBCredentialsAfter.accessToken,
+            "User B's access token should have refreshed"
+        )
+        XCTAssertNotEqual(userBCredentialsAfter.dpopTokenType, "DPoP", "User B should remain Bearer after global flag flipped off")
+
+        // Logout current user
+        logout()
+    }
+
     /// Logout CA user and verify ECA user is unaffected.
     /// Tests that logging out one user automatically switches to the other user with different app types.
     func testDifferentAppTypes_LogoutCaUser_EcaUserUnaffected() throws {

@@ -606,7 +606,11 @@
     NSString *scope = self.credentials.identifier;
     if (scope.length == 0) return;
     NSError *err = nil;
-    [SFSDKDPoPRequestDecorator decorateRequest:request scope:scope error:&err];
+    [SFSDKDPoPRequestDecorator decorateRequest:request
+                                         scope:scope
+                                     tokenType:self.credentials.tokenType
+                                   accessToken:nil
+                                         error:&err];
     if (err) {
         [SFSDKCoreLogger e:[self class] format:@"DPoP attach failed on JWT swap (code=%ld); proceeding without DPoP header.", (long)err.code];
     }
@@ -720,6 +724,7 @@
     request.redirectURI = self.credentials.redirectUri;
     request.serverURL = [self.credentials overrideDomainIfNeeded];
     request.credentialsIdentifier = self.credentials.identifier;
+    request.tokenType = self.credentials.tokenType;
     request.attestation = attestation;
 
     __weak typeof (self) weakSelf = self;
