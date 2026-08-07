@@ -304,6 +304,7 @@ class BaseAuthFlowTester: XCTestCase {
         let aMarker = aMarkerFor(useWebServerFlow: useWebServerFlow, useHybridFlow: useHybridFlow)
 
         // Validate user and feature flags
+        let userAppConfig = getAppConfig(named: userAppConfigName)
         validateUser(
             loginHost: loginHost,
             user: user,
@@ -316,7 +317,8 @@ class BaseAuthFlowTester: XCTestCase {
             isMultiUser: isMultiUser,
             expectedBMarker: expectedBMarker,
             expectedLMarker: expectedLMarker,
-            expectedAMarker: aMarker
+            expectedAMarker: aMarker,
+            isBeacon: userAppConfig.isBeacon
         )
     }
 
@@ -585,6 +587,7 @@ class BaseAuthFlowTester: XCTestCase {
 
         // Validate user and feature flags
         // Not checking static app config since it will depend on the bootconfig of the target app
+        let userAppConfig = getAppConfig(named: userAppConfigName)
         validateUser(
             loginHost: loginHost,
             user: user,
@@ -598,7 +601,8 @@ class BaseAuthFlowTester: XCTestCase {
             isRtr: isRtr,
             expectedBMarker: expectedBMarker,
             expectedLMarker: expectedLMarker,
-            expectedAMarker: aMarker
+            expectedAMarker: aMarker,
+            isBeacon: userAppConfig.isBeacon
         )
     }
 
