@@ -517,6 +517,68 @@ class DevInfoViewControllerTests: XCTestCase {
         XCTAssertEqual(view.sections[2].rows[2].headline, "Scopes")
         XCTAssertEqual(view.sections[2].rows[2].text, "api web refresh_token")
     }
+
+    // MARK: - App Attestation section tests
+
+    func testAppAttestationSection_DisabledNoUser() {
+        let infoData = [
+            "section:App Attestation",
+            "Attestation Enabled", "NO",
+            "Used in Last Auth", "N/A"
+        ]
+        let sections = DevInfoView.testExtractSections(from: infoData)
+
+        XCTAssertEqual(sections.count, 1)
+        let rows = sections[0].rows
+        XCTAssertEqual(sections[0].title, "App Attestation")
+        XCTAssertEqual(rows.first(where: { $0.headline == "Attestation Enabled" })?.text, "NO")
+        XCTAssertEqual(rows.first(where: { $0.headline == "Used in Last Auth" })?.text, "N/A")
+    }
+
+    func testAppAttestationSection_DisabledWithUser_NoFlag() {
+        let infoData = [
+            "section:App Attestation",
+            "Attestation Enabled", "NO",
+            "Used in Last Auth", "NO"
+        ]
+        let sections = DevInfoView.testExtractSections(from: infoData)
+
+        XCTAssertEqual(sections.count, 1)
+        let rows = sections[0].rows
+        XCTAssertEqual(rows.first(where: { $0.headline == "Attestation Enabled" })?.text, "NO")
+        XCTAssertEqual(rows.first(where: { $0.headline == "Used in Last Auth" })?.text, "NO")
+    }
+
+    func testAppAttestationSection_EnabledWithFeatureFlag() {
+        let infoData = [
+            "section:App Attestation",
+            "Attestation Enabled", "YES",
+            "Used in Last Auth", "YES"
+        ]
+        let sections = DevInfoView.testExtractSections(from: infoData)
+
+        XCTAssertEqual(sections.count, 1)
+        let rows = sections[0].rows
+        XCTAssertEqual(rows.first(where: { $0.headline == "Attestation Enabled" })?.text, "YES")
+        XCTAssertEqual(rows.first(where: { $0.headline == "Used in Last Auth" })?.text, "YES")
+    }
+
+    func testAppAttestationSection_AppearsAfterRtrSection() {
+        let infoData = [
+            "section:RTR",
+            "RTR Active", "NO",
+            "Last Rotation", "Never",
+            "section:App Attestation",
+            "Attestation Enabled", "NO",
+            "Used in Last Auth", "N/A"
+        ]
+        let sections = DevInfoView.testExtractSections(from: infoData)
+
+        XCTAssertEqual(sections.count, 2)
+        XCTAssertEqual(sections[0].title, "RTR")
+        XCTAssertEqual(sections[1].title, "App Attestation")
+        XCTAssertEqual(sections[1].rows.count, 2)
+    }
 }
 
 // MARK: - Test Helper Extension

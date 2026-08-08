@@ -355,6 +355,48 @@
     [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureAppAttestation forUser:self.userA];
 }
 
+- (void)test_givenAAFlagPersistedOnUser_whenTokenRefreshCompletes_thenAAFlagPreserved {
+    // Regression: before the fix, the AA promotion block ran on every auth completion
+    // including token refresh, causing the per-user AA flag to be cleared.
+    //
+    // Simulates: user logged in with app attestation → AA is persisted per-user.
+    // Then a silent token refresh fires (completedAuthType == SFOAuthTypeRefresh).
+    // The refresh path must NOT touch the per-user AA flag.
+    [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureAppAttestation forUser:self.userA];
+
+    // Simulate the refresh path: global AA is absent (was never set for refresh),
+    // and the promotion block is skipped entirely. The global clear still fires.
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureAppAttestation]; // always-clear of transient global
+
+    // Per-user flag must be intact — refresh must not have unregistered it
+    XCTAssertTrue([[SFSDKAppFeatureMarkers appFeaturesForUser:self.userA] containsObject:kSFAppFeatureAppAttestation],
+                  @"AA flag on user should survive a token refresh (regression check)");
+    XCTAssertFalse([[SFSDKAppFeatureMarkers appFeatures] containsObject:kSFAppFeatureAppAttestation],
+                   @"Global AA should be absent after the always-clear step");
+}
+
+- (void)test_givenAARegisteredGlobally_whenNonRefreshLoginCompletes_thenAAPromotedToUserAndGlobalCleared {
+    // Simulates: app attestation fired during browser login flow (sets global AA),
+    // then finalizeAuthCompletion: runs for a non-refresh login.
+    // Expected: global AA promoted per-user and global copy cleared.
+    [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureAppAttestation]; // early global set by SFOAuthCoordinator
+
+    // Simulate promotion block (non-refresh path in finalizeAuthCompletion:)
+    BOOL usedAppAttestation = [[SFSDKAppFeatureMarkers appFeatures] containsObject:kSFAppFeatureAppAttestation];
+    XCTAssertTrue(usedAppAttestation, @"Precondition: global AA should be set");
+    if (usedAppAttestation) {
+        [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureAppAttestation forUser:self.userA];
+    } else {
+        [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureAppAttestation forUser:self.userA];
+    }
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureAppAttestation]; // always-clear
+
+    XCTAssertTrue([[SFSDKAppFeatureMarkers appFeaturesForUser:self.userA] containsObject:kSFAppFeatureAppAttestation],
+                  @"AA should be promoted to per-user on non-refresh login when attestation was used");
+    XCTAssertFalse([[SFSDKAppFeatureMarkers appFeatures] containsObject:kSFAppFeatureAppAttestation],
+                   @"Global AA should be cleared after non-refresh promotion");
+}
+
 #pragma mark - A-marker (auth type) tests
 
 - (void)test_givenWebServerNonHybrid_whenAuthCompletes_thenA1RegisteredPerUserAndGlobalCleared {

@@ -171,14 +171,17 @@
     [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureAuthTypeUserAgentNonHybrid];
     [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureAuthTypeUserAgentHybrid];
     [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureAuthTypeNative];
+    // BW and A-marker are orthogonal: BW captures that a browser was used; A-marker captures grant type × hybrid.
     BOOL hybrid = [SalesforceSDKManager sharedManager].useHybridAuthentication;
     SFOAuthType aType = self.authInfo.authType;
     if (aType == SFOAuthTypeWebServer) {
         [SFSDKAppFeatureMarkers registerAppFeature:hybrid ? kSFAppFeatureAuthTypeWebServerHybrid : kSFAppFeatureAuthTypeWebServerNonHybrid];
     } else if (aType == SFOAuthTypeUserAgent) {
         [SFSDKAppFeatureMarkers registerAppFeature:hybrid ? kSFAppFeatureAuthTypeUserAgentHybrid : kSFAppFeatureAuthTypeUserAgentNonHybrid];
+    } else if (aType == SFOAuthTypeAdvancedBrowser) {
+        // The native browser flow always uses the web-server (auth-code) grant — see beginNativeBrowserFlowWithSharedBrowserSessionEnabled.
+        [SFSDKAppFeatureMarkers registerAppFeature:hybrid ? kSFAppFeatureAuthTypeWebServerHybrid : kSFAppFeatureAuthTypeWebServerNonHybrid];
     }
-    // SFOAuthTypeAdvancedBrowser is covered by BW — no A-marker
     // SFOAuthTypeRefresh, SFOAuthTypeRefreshTokenMigration, SFOAuthTypeJwtTokenExchange — no A-marker global
 
     // Don't try to authenticate if there is no network available
