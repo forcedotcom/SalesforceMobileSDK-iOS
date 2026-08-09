@@ -134,7 +134,7 @@ class DPoPLoginTests: BaseAuthFlowTester {
         )
 
         // Verify RTR is enabled post-migration
-        assertRevokeAndRefreshWorks(isRtr: true, isDPoP: true, expectAdvancedAuth: false, useHybridFlow: false, wasMigrated: true, isJwt: true)
+        assertRevokeAndRefreshWorks(isRtr: true, isDPoP: true, expectAdvancedAuth: true, useHybridFlow: false, wasMigrated: true, isJwt: true)
     }
 
     // MARK: - Restart

@@ -2225,9 +2225,13 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         // Migration exchanges the token but does not change how the user originally
         // authenticated. Preserve the existing per-user BW flag rather than clearing it.
         [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureTokenMigration forUser:userAccount];
-    } else {
+    } else if (completedAuthType != SFOAuthTypeRefresh) {
+        // Full re-login: clear both BW and TM (migration flag does not apply to fresh logins).
         [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureSafariBrowserForLogin forUser:userAccount];
         [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureTokenMigration forUser:userAccount];
+    } else {
+        // Token refresh: clear BW only. TM must persist across refreshes per spec.
+        [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureSafariBrowserForLogin forUser:userAccount];
     }
     [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureSafariBrowserForLogin];
 
