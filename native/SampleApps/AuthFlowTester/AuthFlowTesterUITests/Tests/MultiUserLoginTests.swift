@@ -656,17 +656,17 @@ class MultiUserLoginTests: BaseAuthFlowTester {
         // Use loginOtherUser (without full credential validation) since identity data
         // may not be immediately available in cross-host multi-user scenarios.
         loginOtherUser(loginHost: .advancedAuth, user: .third, staticAppConfigName: .beaconOpaque)
-        validateUserAgent(userCredentials: getUserCredentials(), loginHost: .advancedAuth, expectAdvancedAuth: true, isMultiUser: true, expectedBMarker: kBrowserLoginForceFlag, expectedLMarker: kLoginServerMyDomain, expectedAMarker: kAuthTypeWebServerHybrid)
+        validateUserAgent(userCredentials: getUserCredentials(), loginHost: .advancedAuth, expectAdvancedAuth: true, isMultiUser: true, expectedBMarker: kBrowserLoginForceFlag, expectedLMarker: kLoginServerMyDomain, expectedAMarker: kAuthTypeWebServerHybrid, isBeacon: true)
 
-        // Switch to User A — no BW, MU still set
+        // Switch to User A — no BW, MU still set, no beacon
         switchToUser(loginHost: .regularAuth, user: .fourth)
         validateUserAgent(userCredentials: getUserCredentials(), loginHost: .regularAuth, isMultiUser: true, expectedLMarker: kLoginServerMyDomain, expectedAMarker: kAuthTypeWebServerHybrid)
 
-        // Switch back to User B — BW back, MU still set
+        // Switch back to User B — BW back, MU still set, beacon
         switchToUser(loginHost: .advancedAuth, user: .third)
-        validateUserAgent(userCredentials: getUserCredentials(), loginHost: .advancedAuth, expectAdvancedAuth: true, isMultiUser: true, expectedBMarker: kBrowserLoginForceFlag, expectedLMarker: kLoginServerMyDomain, expectedAMarker: kAuthTypeWebServerHybrid)
+        validateUserAgent(userCredentials: getUserCredentials(), loginHost: .advancedAuth, expectAdvancedAuth: true, isMultiUser: true, expectedBMarker: kBrowserLoginForceFlag, expectedLMarker: kLoginServerMyDomain, expectedAMarker: kAuthTypeWebServerHybrid, isBeacon: true)
 
-        // Logout User B — app auto-switches to User A; MU must be gone
+        // Logout User B — app auto-switches to User A; MU must be gone, no beacon
         logout()
         validateUserAgent(userCredentials: getUserCredentials(), loginHost: .regularAuth, isMultiUser: false, expectedLMarker: kLoginServerMyDomain, expectedAMarker: kAuthTypeWebServerHybrid)
     }

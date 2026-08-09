@@ -288,7 +288,8 @@ class BaseAuthFlowTester: XCTestCase {
         forceAdvancedAuthentication: Bool = true,
         loginForAdmin: Bool = false,
         usesWelcomeDiscovery: Bool = false,
-        isMultiUser: Bool = false
+        isMultiUser: Bool = false,
+        wasMigrated: Bool = false
     ) {
         // Switch user
         mainPage.switchToUser(username: getUser(loginHost: loginHost, user: user).username)
@@ -318,6 +319,7 @@ class BaseAuthFlowTester: XCTestCase {
             expectedBMarker: expectedBMarker,
             expectedLMarker: expectedLMarker,
             expectedAMarker: aMarker,
+            wasMigrated: wasMigrated,
             isBeacon: userAppConfig.isBeacon
         )
     }
@@ -563,7 +565,8 @@ class BaseAuthFlowTester: XCTestCase {
         loginForAdmin: Bool = false,
         usesWelcomeDiscovery: Bool = false,
         isMultiUser: Bool = false,
-        isRtr: Bool = false
+        isRtr: Bool = false,
+        wasMigrated: Bool = false
     ) {
         // Restart without --resetSDKForUITesting so the session persists across the restart
         restart()
@@ -602,6 +605,7 @@ class BaseAuthFlowTester: XCTestCase {
             expectedBMarker: expectedBMarker,
             expectedLMarker: expectedLMarker,
             expectedAMarker: aMarker,
+            wasMigrated: wasMigrated,
             isBeacon: userAppConfig.isBeacon
         )
     }
@@ -642,6 +646,8 @@ class BaseAuthFlowTester: XCTestCase {
     ) {
         let originalUserCredentials = mainPage.getUserCredentials()
         let user = getKnownUserConfig(loginHost: loginHost, byUsername: originalUserCredentials.username)
+        // Capture the A-marker before migration — migration preserves it unchanged (per spec).
+        let preMigrationAMarker = extractAMarkerFromUA(originalUserCredentials.userAgent)
 
         migrateRefreshToken(
             appConfigName: migrationAppConfigName,
@@ -662,7 +668,8 @@ class BaseAuthFlowTester: XCTestCase {
             forceAdvancedAuthentication: forceAdvancedAuthentication,
             isMultiUser: isMultiUser,
             useDPoP: useDPoP,
-            wasMigrated: true
+            wasMigrated: true,
+            expectedAMarkerOverride: preMigrationAMarker
         )
 
         // Making sure the refresh token changed
@@ -1055,6 +1062,15 @@ class BaseAuthFlowTester: XCTestCase {
         }
     }
 
+    /// Extracts the current A-marker from a UA string, returning nil if none is present.
+    private func extractAMarkerFromUA(_ ua: String) -> String? {
+        guard let ftrRange = ua.range(of: "ftr_") else { return nil }
+        let flags = String(ua[ftrRange.upperBound...])
+            .components(separatedBy: " ").first ?? ""
+        let flagSet = Set(flags.components(separatedBy: ".").filter { !$0.isEmpty })
+        return kAllAMarkers.first { flagSet.contains($0) }
+    }
+
     /// Validates user credentials, do a revoke refesh cycle and validate oauth configuration
     @discardableResult
     private func validate(
@@ -1071,7 +1087,8 @@ class BaseAuthFlowTester: XCTestCase {
         usesWelcomeDiscovery: Bool = false,
         loginForAdmin: Bool = false,
         useDPoP: Bool = false,
-        wasMigrated: Bool = false
+        wasMigrated: Bool = false,
+        expectedAMarkerOverride: String? = nil
     ) -> UserCredentialsData {
 
         let staticAppConfig = getAppConfig(named: staticAppConfigName)
@@ -1091,8 +1108,14 @@ class BaseAuthFlowTester: XCTestCase {
             ? kLoginServerWelcomeDiscovery
             : kLoginServerMyDomain
 
-        let aMarker = aMarkerFor(useWebServerFlow: useWebServerFlow, useHybridFlow: useHybridFlow)
+        // For migrations, use the pre-migration A-marker (preserved per spec). For fresh logins,
+        // derive it from the flow parameters. Login for Admin always uses SFOAuthTypeAdvancedBrowser
+        // which issues a web-server (auth-code) grant regardless of the app's configured flow.
+        let effectiveWebServerFlow = loginForAdmin ? true : useWebServerFlow
+        let aMarker = expectedAMarkerOverride ?? aMarkerFor(useWebServerFlow: effectiveWebServerFlow, useHybridFlow: useHybridFlow)
         let userAppConfig = getAppConfig(named: userAppConfigName)
+        // After migration the RTR flag is active immediately (the migration token exchange IS a rotation).
+        let isRtr = wasMigrated ? userAppConfig.isRtr : false
 
         let userCredentials = validateUser(
             loginHost: loginHost,
@@ -1104,6 +1127,7 @@ class BaseAuthFlowTester: XCTestCase {
             expectAdvancedAuth: expectAdvancedAuth,
             usesWelcomeDiscovery: usesWelcomeDiscovery,
             isMultiUser: isMultiUser,
+            isRtr: isRtr,
             expectedBMarker: expectedBMarker,
             expectedLMarker: expectedLMarker,
             expectedAMarker: aMarker,
@@ -1245,11 +1269,11 @@ class BaseAuthFlowTester: XCTestCase {
     /// `expectAdvancedAuth` defaults to `true`, matching the `forceAdvancedAuthentication` default.
     /// Pass `false` for tests that logged in with the in-app WebView or post-migration validations
     /// where BW is not re-registered.
-    func assertRevokeAndRefreshWorks(isRtr: Bool, isDPoP: Bool = false, loginHost: KnownLoginHostConfig = .regularAuth, expectAdvancedAuth: Bool = true, isMultiUser: Bool = false, useWebServerFlow: Bool = true, useHybridFlow: Bool = true, isJwt: Bool = false, isBeacon: Bool = false) {
+    func assertRevokeAndRefreshWorks(isRtr: Bool, isDPoP: Bool = false, loginHost: KnownLoginHostConfig = .regularAuth, expectAdvancedAuth: Bool = true, isMultiUser: Bool = false, useWebServerFlow: Bool = true, useHybridFlow: Bool = true, wasMigrated: Bool = false, isJwt: Bool = false, isBeacon: Bool = false) {
         let expectedBMarker: String? = expectAdvancedAuth ? kBrowserLoginForceFlag : nil
         let expectedLMarker: String? = kLoginServerMyDomain
         let aMarker = aMarkerFor(useWebServerFlow: useWebServerFlow, useHybridFlow: useHybridFlow)
-        assertRevokeAndRefreshWorks(previousCredentials: getUserCredentials(), isRtr: isRtr, isDPoP: isDPoP, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, isMultiUser: isMultiUser, expectedBMarker: expectedBMarker, expectedLMarker: expectedLMarker, expectedAMarker: aMarker, isJwt: isJwt, isBeacon: isBeacon)
+        assertRevokeAndRefreshWorks(previousCredentials: getUserCredentials(), isRtr: isRtr, isDPoP: isDPoP, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, isMultiUser: isMultiUser, expectedBMarker: expectedBMarker, expectedLMarker: expectedLMarker, expectedAMarker: aMarker, wasMigrated: wasMigrated, isJwt: isJwt, isBeacon: isBeacon)
     }
 
     private func assertRevokeAndRefreshWorks(previousCredentials: UserCredentialsData, isRtr: Bool, isDPoP: Bool = false, loginHost: KnownLoginHostConfig = .regularAuth, expectAdvancedAuth: Bool = true, usesWelcomeDiscovery: Bool = false, isMultiUser: Bool = false, expectedBMarker: String? = nil, expectedLMarker: String? = nil, expectedAMarker: String? = nil, wasMigrated: Bool = false, isJwt: Bool = false, isBeacon: Bool = false) {

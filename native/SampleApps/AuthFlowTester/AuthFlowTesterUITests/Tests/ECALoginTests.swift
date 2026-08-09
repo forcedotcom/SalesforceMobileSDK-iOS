@@ -72,7 +72,10 @@ class ECALoginTests: BaseAuthFlowTester {
     
     /// Login with invalid client id in dynamic configuration
     func testDynamicConfigurationWithInvalidClientId() throws {
-        launchAndLogin(loginHost: .regularAuth, user: .first, staticAppConfigName: .ecaOpaque, dynamicAppConfigName: .invalid)
+        // forceAdvancedAuthentication must be false: the invalid-client-id error is rendered by the
+        // server inside the WKWebView; ASWebAuthenticationSession runs in a separate process that
+        // XCTest cannot inspect, so the error is never visible under advanced auth.
+        launchAndLogin(loginHost: .regularAuth, user: .first, staticAppConfigName: .ecaOpaque, dynamicAppConfigName: .invalid, forceAdvancedAuthentication: false)
     }
     
     /// Login with invalid scope in dynamic configuration
