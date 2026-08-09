@@ -2234,6 +2234,8 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureSafariBrowserForLogin forUser:userAccount];
     }
     [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureSafariBrowserForLogin];
+    // TM is a per-user-only flag; clear any global residue so it does not bleed into other users.
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureTokenMigration];
 
     // B-markers: register exactly one "why browser was used" marker per-user alongside BW.
     // Migration does not change how the user originally authenticated, so preserve existing
