@@ -188,17 +188,15 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
     
     NSError *oaepDecryptionError;
     NSData *decryptedData = [SFSDKCryptoUtils decryptData:secretData key:privateKeyRef algorithm:kSecKeyAlgorithmRSAEncryptionOAEPSHA256 error:&oaepDecryptionError];
+    CFRelease(privateKeyRef);
     if (oaepDecryptionError) {
-        [SFSDKCoreLogger w:[self class] format:@"Decrypting secret with RSA OAEP failed, falling back to PKCS1: %@", oaepDecryptionError.localizedDescription];
-        
-        NSError *pkcs1DecryptionError;
-        decryptedData = [SFSDKCryptoUtils decryptData:secretData key:privateKeyRef algorithm:kSecKeyAlgorithmRSAEncryptionPKCS1 error:&pkcs1DecryptionError];
-        if (pkcs1DecryptionError) {
-            [SFSDKCoreLogger e:[self class] format:@"Decrypting secret with RSA PKCS1 failed: %@", pkcs1DecryptionError.localizedDescription];
+        [SFSDKCoreLogger e:[self class] format:@"Decrypting secret with RSA OAEP failed: %@", oaepDecryptionError.localizedDescription];
+        if (error) {
+            *error = oaepDecryptionError;
         }
+        return nil;
     }
 
-    CFRelease(privateKeyRef);
     if (decryptedData == nil || [decryptedData length] != 32) {
         if (error) {
             *error = [self pushErrorWithCode:SFSDKPushNotificationErrorSecretDecryptionFailed description:@"Failed to decrypt secret with RSA private key."];
