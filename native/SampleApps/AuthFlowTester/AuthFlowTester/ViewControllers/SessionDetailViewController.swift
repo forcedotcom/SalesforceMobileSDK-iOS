@@ -304,7 +304,11 @@ class SessionDetailViewController: UIHostingController<SessionDetailView> {
     
     private func handleSwitchUser() {
         let umvc = SalesforceUserManagementViewController.init(completionBlock: { [weak self] _ in
-            self?.dismiss(animated: true, completion: nil)
+            // Dismiss without animation so that viewDidDisappear fires synchronously
+            // before the completion block returns. This ensures SFUserAccountManager
+            // completes the user switch (setting currentUser) before any caller that
+            // observes the modal's disappearance can read user credentials.
+            self?.dismiss(animated: false, completion: nil)
         })
         self.present(umvc, animated: true, completion: nil)
     }

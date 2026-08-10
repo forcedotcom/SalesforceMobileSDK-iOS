@@ -335,13 +335,14 @@ class RefreshTokenMigrationTests: BaseAuthFlowTester {
             isMultiUser: true
         )
 
-        // Switch back to User A and verify migration persisted (ECA Opaque)
+        // Switch back to User A and verify migration persisted (ECA Opaque, with TM flag)
         switchToUserAndValidate(
             loginHost: .regularAuth,
             user: .fourth,
             staticAppConfigName: .caOpaque,
             userAppConfigName: .ecaOpaque,
-            isMultiUser: true
+            isMultiUser: true,
+            wasMigrated: true
         )
 
         // Test API calls for both users

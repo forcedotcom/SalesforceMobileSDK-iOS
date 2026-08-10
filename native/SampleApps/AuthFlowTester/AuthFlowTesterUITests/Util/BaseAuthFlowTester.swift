@@ -238,6 +238,7 @@ class BaseAuthFlowTester: XCTestCase {
     ///   - useWebServerFlow: Whether web server OAuth flow was used. Defaults to `true`.
     ///   - useHybridFlow: Whether hybrid authentication flow was used. Defaults to `true`.
     ///   - isMultiUser: Whether multiple users are still logged in after the switch. Defaults to `false`.
+    ///   - wasMigrated: Whether the user underwent a token migration. Defaults to `false`.
     func switchToUserAndValidate(
         loginHost: KnownLoginHostConfig,
         user: KnownUserConfig,
@@ -247,7 +248,8 @@ class BaseAuthFlowTester: XCTestCase {
         userScopeSelection: ScopeSelection = .empty,
         useWebServerFlow: Bool = true,
         useHybridFlow: Bool = true,
-        isMultiUser: Bool = false
+        isMultiUser: Bool = false,
+        wasMigrated: Bool = false
     ) {
         // Switch user
         mainPage.switchToUser(username: getUser(loginHost: loginHost, user: user).username)
@@ -262,7 +264,8 @@ class BaseAuthFlowTester: XCTestCase {
             userScopeSelection: userScopeSelection,
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow,
-            isMultiUser: isMultiUser
+            isMultiUser: isMultiUser,
+            wasMigrated: wasMigrated
         )
     }
 

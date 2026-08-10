@@ -273,12 +273,20 @@ class AuthFlowTesterMainPageObject {
     func switchToUser(username: String) {
         // Tap Switch User button to open the user management screen
         tap(bottomBarSwitchUserButton())
-        
+
         // Tap the row containing the username
         tap(userRow(username: username))
-        
+
         // Tap "Switch to User" button
         tap(swithToUserButton())
+
+        // The app dismisses the user-management modal without animation so that
+        // viewDidDisappear fires synchronously and SFUserAccountManager.switchToUser:
+        // sets currentUserAccount before this tap() call returns.  No additional wait
+        // is needed; any subsequent credential read will see the correct user.
+        let userListNavBar = app.navigationBars["User List"]
+        let disappeared = userListNavBar.waitForNonExistence(timeout: UITestTimeouts.long)
+        XCTAssertTrue(disappeared, "User List navigation bar should have disappeared after switching users")
     }
     
     func setAuthFlowTypes(useWebServerFlow: Bool, useHybridFlow: Bool, forceAdvancedAuthentication: Bool? = nil) {
