@@ -37,14 +37,19 @@ public final class DPoPRequestDecorator: NSObject {
     /// `token_type: "DPoP"` (RFC 6749 §5.1 / RFC 9449 §6.1).
     @objc public static let dpopTokenType = "DPoP"
 
-    /// Belt-and-suspenders gate: attach a DPoP proof for `scope` when *either*
-    /// signal says the credential is DPoP-bound —
+    /// Gate deciding whether to attach a DPoP proof for `scope`.
     ///
-    /// 1. `tokenType == "DPoP"` (per RFC 6749 §5.1 / RFC 9449 §6.1), or
-    /// 2. a DPoP keypair for this scope is already persisted in the Keychain
-    ///    (covers the pre-tokenType window during initial auth-code exchange,
-    ///    and any refresh where the persisted `tokenType` hasn't yet been rehydrated
-    ///    onto the request struct).
+    /// An explicit `tokenType` is authoritative:
+    /// - `tokenType == "DPoP"` (case-insensitive, per RFC 6749 §5.1 / RFC 9449 §6.1) → attach.
+    /// - any other known type (e.g. `"Bearer"`) → do **not** attach, and short-circuit
+    ///   before any Keychain I/O. This is what protects the DPoP→Bearer migration /
+    ///   Bearer re-auth path: a Bearer credential that reuses a scope still holding stale
+    ///   DPoP key material must never get an unexpected proof.
+    ///
+    /// `tokenType == nil` is the transition window between `/authorize` and `/token`
+    /// (and any refresh where the persisted `tokenType` hasn't been rehydrated onto the
+    /// request struct yet). Only then do we fall back to the key-material signal: a DPoP
+    /// keypair already persisted for this scope in the Keychain.
     ///
     /// Empty scope always returns `false` — an empty `SFOAuthCredentials.identifier`
     /// would collide with unrelated accounts' key material.
@@ -57,7 +62,11 @@ public final class DPoPRequestDecorator: NSObject {
             SFSDKCoreLogger.i(Self.self, message: "DPoP decorator skipped: empty scope identifier")
             return false
         }
-        if tokenType == dpopTokenType { return true }
+        if let tokenType {
+            return tokenType.caseInsensitiveCompare(dpopTokenType) == .orderedSame
+        }
+        // tokenType is nil — transition window between /authorize and /token; fall back to
+        // the key-material signal.
         return DPoPKeyStore.shared.hasKeyPair(forScope: scope)
     }
 
