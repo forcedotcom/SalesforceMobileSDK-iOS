@@ -261,7 +261,7 @@ struct UserCredentialsView: View {
     
     private func generateCredentialsJSON() -> String {
         var result: [String: [String: String]] = [:]
-        
+
         // User Identity section
         result[CredentialsLabels.userIdentity] = [
             CredentialsLabels.username: username,

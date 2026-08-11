@@ -2220,13 +2220,22 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     SFOAuthType completedAuthType = authSession.oauthCoordinator.authInfo.authType;
     if (completedAuthType == SFOAuthTypeAdvancedBrowser) {
         [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSafariBrowserForLogin forUser:userAccount];
+        [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureTokenMigration forUser:userAccount];
     } else if (completedAuthType == SFOAuthTypeRefreshTokenMigration) {
         // Migration exchanges the token but does not change how the user originally
         // authenticated. Preserve the existing per-user BW flag rather than clearing it.
+        [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureTokenMigration forUser:userAccount];
+    } else if (completedAuthType != SFOAuthTypeRefresh) {
+        // Full re-login: clear both BW and TM (migration flag does not apply to fresh logins).
+        [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureSafariBrowserForLogin forUser:userAccount];
+        [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureTokenMigration forUser:userAccount];
     } else {
+        // Token refresh: clear BW only. TM must persist across refreshes per spec.
         [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureSafariBrowserForLogin forUser:userAccount];
     }
     [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureSafariBrowserForLogin];
+    // TM is a per-user-only flag; clear any global residue so it does not bleed into other users.
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureTokenMigration];
 
     // B-markers: register exactly one "why browser was used" marker per-user alongside BW.
     // Migration does not change how the user originally authenticated, so preserve existing
@@ -2284,6 +2293,34 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         } else {
             [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureQrCodeLogin forUser:userAccount];
         }
+
+        // A-markers: promote exactly one per-user and clear all A-marker globals.
+        // Migration preserves the existing per-user A-marker (auth method unchanged).
+        NSArray<NSString *> *allAMarkers = @[kSFAppFeatureAuthTypeWebServerNonHybrid,
+                                              kSFAppFeatureAuthTypeWebServerHybrid,
+                                              kSFAppFeatureAuthTypeUserAgentNonHybrid,
+                                              kSFAppFeatureAuthTypeUserAgentHybrid,
+                                              kSFAppFeatureAuthTypeNative];
+        if (completedAuthType != SFOAuthTypeRefreshTokenMigration) {
+            NSString *aMarker = nil;
+            for (NSString *marker in allAMarkers) {
+                if ([[SFSDKAppFeatureMarkers appFeatures] containsObject:marker]) {
+                    aMarker = marker;
+                    break;
+                }
+            }
+            for (NSString *marker in allAMarkers) {
+                if ([marker isEqualToString:aMarker]) {
+                    [SFSDKAppFeatureMarkers registerAppFeature:marker forUser:userAccount];
+                } else {
+                    [SFSDKAppFeatureMarkers unregisterAppFeature:marker forUser:userAccount];
+                }
+            }
+        }
+        for (NSString *marker in allAMarkers) {
+            [SFSDKAppFeatureMarkers unregisterAppFeature:marker];
+        }
+
         // AA: write per-user on non-refresh logins only
         BOOL usedAppAttestation = [[SFSDKAppFeatureMarkers appFeatures] containsObject:kSFAppFeatureAppAttestation];
         if (usedAppAttestation) {
@@ -2300,6 +2337,23 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     if ([userAccount.credentials.tokenType isEqualToString:@"DPoP"]) {
         [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureDPoP forUser:userAccount];
     }
+
+    // JT/OT: token format — written on every completed session (credentials may change on migration)
+    if ([authSession.oauthCoordinator.credentials.tokenFormat isEqualToString:@"jwt"]) {
+        [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureTokenFormatJwt forUser:userAccount];
+        [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureTokenFormatOpaque forUser:userAccount];
+    } else {
+        [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureTokenFormatOpaque forUser:userAccount];
+        [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureTokenFormatJwt forUser:userAccount];
+    }
+
+    // BN: beacon child app — written on every completed session
+    if (authSession.oauthCoordinator.credentials.beaconChildConsumerKey != nil) {
+        [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureBeacon forUser:userAccount];
+    } else {
+        [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureBeacon forUser:userAccount];
+    }
+
 
     // Async call, ignore if theres a failure. If success save the user photo locally.
     [self retrieveUserPhotoIfNeeded:userAccount];

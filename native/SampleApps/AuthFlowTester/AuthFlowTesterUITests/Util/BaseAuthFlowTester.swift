@@ -38,6 +38,14 @@ let kLoginServerWelcomeDiscovery  = "L3"
 let kLoginServerMyDomain          = "L4"
 private let kAllLMarkers          = ["L1", "L2", "L3", "L4", "L5"]
 
+// A-marker codes (which auth type was used)
+let kAuthTypeWebServerNonHybrid   = "A1"
+let kAuthTypeWebServerHybrid      = "A2"
+let kAuthTypeUserAgentNonHybrid   = "A3"
+let kAuthTypeUserAgentHybrid      = "A4"
+let kAuthTypeNative               = "A5"
+private let kAllAMarkers          = ["A1", "A2", "A3", "A4", "A5"]
+
 class BaseAuthFlowTester: XCTestCase {
     // App object
     private var app: XCUIApplication!
@@ -230,6 +238,7 @@ class BaseAuthFlowTester: XCTestCase {
     ///   - useWebServerFlow: Whether web server OAuth flow was used. Defaults to `true`.
     ///   - useHybridFlow: Whether hybrid authentication flow was used. Defaults to `true`.
     ///   - isMultiUser: Whether multiple users are still logged in after the switch. Defaults to `false`.
+    ///   - wasMigrated: Whether the user underwent a token migration. Defaults to `false`.
     func switchToUserAndValidate(
         loginHost: KnownLoginHostConfig,
         user: KnownUserConfig,
@@ -239,7 +248,8 @@ class BaseAuthFlowTester: XCTestCase {
         userScopeSelection: ScopeSelection = .empty,
         useWebServerFlow: Bool = true,
         useHybridFlow: Bool = true,
-        isMultiUser: Bool = false
+        isMultiUser: Bool = false,
+        wasMigrated: Bool = false
     ) {
         // Switch user
         mainPage.switchToUser(username: getUser(loginHost: loginHost, user: user).username)
@@ -254,7 +264,8 @@ class BaseAuthFlowTester: XCTestCase {
             userScopeSelection: userScopeSelection,
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow,
-            isMultiUser: isMultiUser
+            isMultiUser: isMultiUser,
+            wasMigrated: wasMigrated
         )
     }
 
@@ -280,7 +291,8 @@ class BaseAuthFlowTester: XCTestCase {
         forceAdvancedAuthentication: Bool = true,
         loginForAdmin: Bool = false,
         usesWelcomeDiscovery: Bool = false,
-        isMultiUser: Bool = false
+        isMultiUser: Bool = false,
+        wasMigrated: Bool = false
     ) {
         // Switch user
         mainPage.switchToUser(username: getUser(loginHost: loginHost, user: user).username)
@@ -293,8 +305,10 @@ class BaseAuthFlowTester: XCTestCase {
             kBrowserLoginServerAuthConfig
         ) : nil
         let expectedLMarker: String? = usesWelcomeDiscovery ? kLoginServerWelcomeDiscovery : kLoginServerMyDomain
+        let aMarker = aMarkerFor(useWebServerFlow: useWebServerFlow, useHybridFlow: useHybridFlow)
 
         // Validate user and feature flags
+        let userAppConfig = getAppConfig(named: userAppConfigName)
         validateUser(
             loginHost: loginHost,
             user: user,
@@ -306,7 +320,10 @@ class BaseAuthFlowTester: XCTestCase {
             usesWelcomeDiscovery: usesWelcomeDiscovery,
             isMultiUser: isMultiUser,
             expectedBMarker: expectedBMarker,
-            expectedLMarker: expectedLMarker
+            expectedLMarker: expectedLMarker,
+            expectedAMarker: aMarker,
+            wasMigrated: wasMigrated,
+            isBeacon: userAppConfig.isBeacon
         )
     }
 
@@ -551,7 +568,8 @@ class BaseAuthFlowTester: XCTestCase {
         loginForAdmin: Bool = false,
         usesWelcomeDiscovery: Bool = false,
         isMultiUser: Bool = false,
-        isRtr: Bool = false
+        isRtr: Bool = false,
+        wasMigrated: Bool = false
     ) {
         // Restart without --resetSDKForUITesting so the session persists across the restart
         restart()
@@ -571,8 +589,11 @@ class BaseAuthFlowTester: XCTestCase {
             ? kLoginServerWelcomeDiscovery
             : kLoginServerMyDomain
 
+        let aMarker = aMarkerFor(useWebServerFlow: useWebServerFlow, useHybridFlow: useHybridFlow)
+
         // Validate user and feature flags
         // Not checking static app config since it will depend on the bootconfig of the target app
+        let userAppConfig = getAppConfig(named: userAppConfigName)
         validateUser(
             loginHost: loginHost,
             user: user,
@@ -585,10 +606,13 @@ class BaseAuthFlowTester: XCTestCase {
             isMultiUser: isMultiUser,
             isRtr: isRtr,
             expectedBMarker: expectedBMarker,
-            expectedLMarker: expectedLMarker
+            expectedLMarker: expectedLMarker,
+            expectedAMarker: aMarker,
+            wasMigrated: wasMigrated,
+            isBeacon: userAppConfig.isBeacon
         )
     }
-    
+
     /// Migrates the refresh token to a new app configuration and validates the result.
     ///
     /// Performs a refresh token migration from the current app configuration to a new one,
@@ -625,6 +649,8 @@ class BaseAuthFlowTester: XCTestCase {
     ) {
         let originalUserCredentials = mainPage.getUserCredentials()
         let user = getKnownUserConfig(loginHost: loginHost, byUsername: originalUserCredentials.username)
+        // Capture the A-marker before migration — migration preserves it unchanged (per spec).
+        let preMigrationAMarker = extractAMarkerFromUA(originalUserCredentials.userAgent)
 
         migrateRefreshToken(
             appConfigName: migrationAppConfigName,
@@ -644,7 +670,9 @@ class BaseAuthFlowTester: XCTestCase {
             useHybridFlow: migrationUseHybridFlow,
             forceAdvancedAuthentication: forceAdvancedAuthentication,
             isMultiUser: isMultiUser,
-            useDPoP: useDPoP
+            useDPoP: useDPoP,
+            wasMigrated: true,
+            expectedAMarkerOverride: preMigrationAMarker
         )
 
         // Making sure the refresh token changed
@@ -697,8 +725,12 @@ class BaseAuthFlowTester: XCTestCase {
     ///   - isRtr: Whether Refresh Token Rotation is enabled, which sets the RT flag. Defaults to `false`.
     ///   - expectedBMarker: The single B-marker code expected in the UA (e.g. "B3", "B4"). Pass `nil` when no browser login occurred.
     ///   - expectedLMarker: The single L-marker code expected in the UA (e.g. "L3", "L4"). Pass `nil` to assert no L-markers are present.
-    func validateUserAgent(userCredentials: UserCredentialsData, loginHost: KnownLoginHostConfig, expectAdvancedAuth: Bool = false, usesWelcomeDiscovery: Bool = false, isMultiUser: Bool = false, isRtr: Bool = false, expectDP: Bool = false, expectedBMarker: String? = nil, expectedLMarker: String? = nil) {
-        validateUserAgent(ua: userCredentials.userAgent, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, usesWelcomeDiscovery: usesWelcomeDiscovery, isMultiUser: isMultiUser, isRtr: isRtr, expectDP: expectDP, expectedBMarker: expectedBMarker, expectedLMarker: expectedLMarker)
+    ///   - expectedAMarker: The single A-marker code expected in the UA (e.g. "A1", "A5"). Pass `nil` to assert no A-markers are present.
+    ///   - wasMigrated: Whether a refresh token migration occurred (TM flag). Defaults to `false`.
+    ///   - isJwt: Whether the session uses JWT token format (JT flag). Defaults to `false`, asserting OT instead.
+    ///   - isBeacon: Whether this is a beacon child app (BN flag). Defaults to `false`.
+    func validateUserAgent(userCredentials: UserCredentialsData, loginHost: KnownLoginHostConfig, expectAdvancedAuth: Bool = false, usesWelcomeDiscovery: Bool = false, isMultiUser: Bool = false, isRtr: Bool = false, expectDP: Bool = false, expectedBMarker: String? = nil, expectedLMarker: String? = nil, expectedAMarker: String? = nil, wasMigrated: Bool = false, isJwt: Bool = false, isBeacon: Bool = false) {
+        validateUserAgent(ua: userCredentials.userAgent, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, usesWelcomeDiscovery: usesWelcomeDiscovery, isMultiUser: isMultiUser, isRtr: isRtr, expectDP: expectDP, expectedBMarker: expectedBMarker, expectedLMarker: expectedLMarker, expectedAMarker: expectedAMarker, wasMigrated: wasMigrated, isJwt: isJwt, isBeacon: isBeacon)
     }
 
     /// Validates a pre-fetched user agent string. Called from validate() which already has the UA.
@@ -712,7 +744,11 @@ class BaseAuthFlowTester: XCTestCase {
     ///   - isRtr: Whether Refresh Token Rotation is enabled, which sets the RT flag. Defaults to `false`.
     ///   - expectedBMarker: The single B-marker code expected in the UA (e.g. "B3", "B4"). Pass `nil` when no browser login occurred.
     ///   - expectedLMarker: The single L-marker code expected in the UA (e.g. "L3", "L4"). Pass `nil` to skip the assertion.
-    private func validateUserAgent(ua: String, loginHost: KnownLoginHostConfig, expectAdvancedAuth: Bool = false, usesWelcomeDiscovery: Bool = false, isMultiUser: Bool = false, isRtr: Bool = false, expectDP: Bool = false, expectedBMarker: String? = nil, expectedLMarker: String? = nil) {
+    ///   - expectedAMarker: The single A-marker code expected in the UA (e.g. "A1", "A5"). Pass `nil` to assert no A-markers are present.
+    ///   - wasMigrated: Whether a refresh token migration occurred (TM flag). Defaults to `false`.
+    ///   - isJwt: Whether the session uses JWT token format (JT flag). Defaults to `false`.
+    ///   - isBeacon: Whether this is a beacon child app (BN flag). Defaults to `false`.
+    private func validateUserAgent(ua: String, loginHost: KnownLoginHostConfig, expectAdvancedAuth: Bool = false, usesWelcomeDiscovery: Bool = false, isMultiUser: Bool = false, isRtr: Bool = false, expectDP: Bool = false, expectedBMarker: String? = nil, expectedLMarker: String? = nil, expectedAMarker: String? = nil, wasMigrated: Bool = false, isJwt: Bool = false, isBeacon: Bool = false) {
         XCTAssertTrue(ua.contains("SalesforceMobileSDK/"), "User agent should contain 'SalesforceMobileSDK/' prefix; got: \(ua)")
         XCTAssertTrue(ua.contains("ftr_"), "User agent should contain 'ftr_' feature flag segment; got: \(ua)")
 
@@ -782,6 +818,41 @@ class BaseAuthFlowTester: XCTestCase {
             for marker in kAllLMarkers {
                 XCTAssertFalse(flagSet.contains(marker), "Unexpected L-marker '\(marker)' when no login server marker expected; flags: \(flagSet), ua: \(ua)")
             }
+        }
+
+        // A-markers
+        if let aMarker = expectedAMarker {
+            XCTAssertTrue(flagSet.contains(aMarker), "Expected A-marker '\(aMarker)' in UA; flags: \(flagSet), ua: \(ua)")
+            for other in kAllAMarkers where other != aMarker {
+                XCTAssertFalse(flagSet.contains(other), "Unexpected A-marker '\(other)' in UA; flags: \(flagSet), ua: \(ua)")
+            }
+        } else {
+            for marker in kAllAMarkers {
+                XCTAssertFalse(flagSet.contains(marker), "Unexpected A-marker '\(marker)' when no auth-type marker expected; flags: \(flagSet), ua: \(ua)")
+            }
+        }
+
+        // TM: token migration
+        if wasMigrated {
+            XCTAssertTrue(flagSet.contains("TM"), "User agent should contain 'TM' flag after token migration; flags: \(flagSet), ua: \(ua)")
+        } else {
+            XCTAssertFalse(flagSet.contains("TM"), "User agent should NOT contain 'TM' flag when no migration occurred; flags: \(flagSet), ua: \(ua)")
+        }
+
+        // JT/OT: token format
+        if isJwt {
+            XCTAssertTrue(flagSet.contains("JT"), "User agent should contain 'JT' flag for JWT token format; flags: \(flagSet), ua: \(ua)")
+            XCTAssertFalse(flagSet.contains("OT"), "User agent should NOT contain 'OT' flag when token format is JWT; flags: \(flagSet), ua: \(ua)")
+        } else {
+            XCTAssertFalse(flagSet.contains("JT"), "User agent should NOT contain 'JT' flag for non-JWT token format; flags: \(flagSet), ua: \(ua)")
+            XCTAssertTrue(flagSet.contains("OT"), "User agent should contain 'OT' flag for opaque token format; flags: \(flagSet), ua: \(ua)")
+        }
+
+        // BN: beacon child app
+        if isBeacon {
+            XCTAssertTrue(flagSet.contains("BN"), "User agent should contain 'BN' flag for beacon child app; flags: \(flagSet), ua: \(ua)")
+        } else {
+            XCTAssertFalse(flagSet.contains("BN"), "User agent should NOT contain 'BN' flag for non-beacon app; flags: \(flagSet), ua: \(ua)")
         }
     }
 
@@ -939,7 +1010,10 @@ class BaseAuthFlowTester: XCTestCase {
         isMultiUser: Bool = false,
         isRtr: Bool = false,
         expectedBMarker: String? = nil,
-        expectedLMarker: String? = nil
+        expectedLMarker: String? = nil,
+        expectedAMarker: String? = nil,
+        wasMigrated: Bool = false,
+        isBeacon: Bool = false
     ) -> UserCredentialsData {
 
         let userConfig = getUser(loginHost: loginHost, user: user)
@@ -976,13 +1050,30 @@ class BaseAuthFlowTester: XCTestCase {
         }
 
         // Validate feature flags using UA already present in the fetched credentials
-        validateUserAgent(ua: userCredentials.userAgent, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, usesWelcomeDiscovery: usesWelcomeDiscovery, isMultiUser: isMultiUser, isRtr: isRtr, expectDP: userAppConfig.isDPoP, expectedBMarker: expectedBMarker, expectedLMarker: expectedLMarker)
+        validateUserAgent(ua: userCredentials.userAgent, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, usesWelcomeDiscovery: usesWelcomeDiscovery, isMultiUser: isMultiUser, isRtr: isRtr, expectDP: userAppConfig.isDPoP, expectedBMarker: expectedBMarker, expectedLMarker: expectedLMarker, expectedAMarker: expectedAMarker, wasMigrated: wasMigrated, isJwt: issuesJwt, isBeacon: isBeacon)
 
         return userCredentials
     }
     
     // MARK: - Private Helpers
-    
+
+    private func aMarkerFor(useWebServerFlow: Bool, useHybridFlow: Bool) -> String {
+        if useWebServerFlow {
+            return useHybridFlow ? kAuthTypeWebServerHybrid : kAuthTypeWebServerNonHybrid
+        } else {
+            return useHybridFlow ? kAuthTypeUserAgentHybrid : kAuthTypeUserAgentNonHybrid
+        }
+    }
+
+    /// Extracts the current A-marker from a UA string, returning nil if none is present.
+    private func extractAMarkerFromUA(_ ua: String) -> String? {
+        guard let ftrRange = ua.range(of: "ftr_") else { return nil }
+        let flags = String(ua[ftrRange.upperBound...])
+            .components(separatedBy: " ").first ?? ""
+        let flagSet = Set(flags.components(separatedBy: ".").filter { !$0.isEmpty })
+        return kAllAMarkers.first { flagSet.contains($0) }
+    }
+
     /// Validates user credentials, do a revoke refesh cycle and validate oauth configuration
     @discardableResult
     private func validate(
@@ -999,6 +1090,8 @@ class BaseAuthFlowTester: XCTestCase {
         usesWelcomeDiscovery: Bool = false,
         loginForAdmin: Bool = false,
         useDPoP: Bool = false,
+        wasMigrated: Bool = false,
+        expectedAMarkerOverride: String? = nil
     ) -> UserCredentialsData {
 
         let staticAppConfig = getAppConfig(named: staticAppConfigName)
@@ -1018,6 +1111,15 @@ class BaseAuthFlowTester: XCTestCase {
             ? kLoginServerWelcomeDiscovery
             : kLoginServerMyDomain
 
+        // For migrations, use the pre-migration A-marker (preserved per spec). For fresh logins,
+        // derive it from the flow parameters. Login for Admin always uses SFOAuthTypeAdvancedBrowser
+        // which issues a web-server (auth-code) grant regardless of the app's configured flow.
+        let effectiveWebServerFlow = loginForAdmin ? true : useWebServerFlow
+        let aMarker = expectedAMarkerOverride ?? aMarkerFor(useWebServerFlow: effectiveWebServerFlow, useHybridFlow: useHybridFlow)
+        let userAppConfig = getAppConfig(named: userAppConfigName)
+        // After migration the RTR flag is active immediately (the migration token exchange IS a rotation).
+        let isRtr = wasMigrated ? userAppConfig.isRtr : false
+
         let userCredentials = validateUser(
             loginHost: loginHost,
             user: user,
@@ -1028,13 +1130,16 @@ class BaseAuthFlowTester: XCTestCase {
             expectAdvancedAuth: expectAdvancedAuth,
             usesWelcomeDiscovery: usesWelcomeDiscovery,
             isMultiUser: isMultiUser,
+            isRtr: isRtr,
             expectedBMarker: expectedBMarker,
-            expectedLMarker: expectedLMarker
+            expectedLMarker: expectedLMarker,
+            expectedAMarker: aMarker,
+            wasMigrated: wasMigrated,
+            isBeacon: userAppConfig.isBeacon
         )
 
         // Revoke and refresh cycle
-        let userAppConfig = getAppConfig(named: userAppConfigName)
-        assertRevokeAndRefreshWorks(previousCredentials: userCredentials, isRtr: userAppConfig.isRtr, isDPoP: useDPoP, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, usesWelcomeDiscovery: usesWelcomeDiscovery, isMultiUser: isMultiUser, expectedBMarker: expectedBMarker, expectedLMarker: expectedLMarker)
+        assertRevokeAndRefreshWorks(previousCredentials: userCredentials, isRtr: userAppConfig.isRtr, isDPoP: useDPoP, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, usesWelcomeDiscovery: usesWelcomeDiscovery, isMultiUser: isMultiUser, expectedBMarker: expectedBMarker, expectedLMarker: expectedLMarker, expectedAMarker: aMarker, wasMigrated: wasMigrated, isJwt: userAppConfig.issuesJwt, isBeacon: userAppConfig.isBeacon)
 
         // Check the oauth configuration
         _ = checkOauthConfiguration(
@@ -1167,13 +1272,14 @@ class BaseAuthFlowTester: XCTestCase {
     /// `expectAdvancedAuth` defaults to `true`, matching the `forceAdvancedAuthentication` default.
     /// Pass `false` for tests that logged in with the in-app WebView or post-migration validations
     /// where BW is not re-registered.
-    func assertRevokeAndRefreshWorks(isRtr: Bool, isDPoP: Bool = false, loginHost: KnownLoginHostConfig = .regularAuth, expectAdvancedAuth: Bool = true, isMultiUser: Bool = false) {
+    func assertRevokeAndRefreshWorks(isRtr: Bool, isDPoP: Bool = false, loginHost: KnownLoginHostConfig = .regularAuth, expectAdvancedAuth: Bool = true, isMultiUser: Bool = false, useWebServerFlow: Bool = true, useHybridFlow: Bool = true, wasMigrated: Bool = false, isJwt: Bool = false, isBeacon: Bool = false) {
         let expectedBMarker: String? = expectAdvancedAuth ? kBrowserLoginForceFlag : nil
         let expectedLMarker: String? = kLoginServerMyDomain
-        assertRevokeAndRefreshWorks(previousCredentials: getUserCredentials(), isRtr: isRtr, isDPoP: isDPoP, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, isMultiUser: isMultiUser, expectedBMarker: expectedBMarker, expectedLMarker: expectedLMarker)
+        let aMarker = aMarkerFor(useWebServerFlow: useWebServerFlow, useHybridFlow: useHybridFlow)
+        assertRevokeAndRefreshWorks(previousCredentials: getUserCredentials(), isRtr: isRtr, isDPoP: isDPoP, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, isMultiUser: isMultiUser, expectedBMarker: expectedBMarker, expectedLMarker: expectedLMarker, expectedAMarker: aMarker, wasMigrated: wasMigrated, isJwt: isJwt, isBeacon: isBeacon)
     }
 
-    private func assertRevokeAndRefreshWorks(previousCredentials: UserCredentialsData, isRtr: Bool, isDPoP: Bool = false, loginHost: KnownLoginHostConfig = .regularAuth, expectAdvancedAuth: Bool = true, usesWelcomeDiscovery: Bool = false, isMultiUser: Bool = false, expectedBMarker: String? = nil, expectedLMarker: String? = nil) {
+    private func assertRevokeAndRefreshWorks(previousCredentials: UserCredentialsData, isRtr: Bool, isDPoP: Bool = false, loginHost: KnownLoginHostConfig = .regularAuth, expectAdvancedAuth: Bool = true, usesWelcomeDiscovery: Bool = false, isMultiUser: Bool = false, expectedBMarker: String? = nil, expectedLMarker: String? = nil, expectedAMarker: String? = nil, wasMigrated: Bool = false, isJwt: Bool = false, isBeacon: Bool = false) {
         // Revoke access token
         XCTAssert(mainPage.revokeAccessToken(), "Failed to revoke access token")
 
@@ -1217,7 +1323,11 @@ class BaseAuthFlowTester: XCTestCase {
                           isRtr: isRtr,
                           expectDP: isDPoP,
                           expectedBMarker: expectedBMarker,
-                          expectedLMarker: expectedLMarker)
+                          expectedLMarker: expectedLMarker,
+                          expectedAMarker: expectedAMarker,
+                          wasMigrated: wasMigrated,
+                          isJwt: isJwt,
+                          isBeacon: isBeacon)
     }
 
     /// Asserts the DPoP token-type and nonce triad on a set of credentials.

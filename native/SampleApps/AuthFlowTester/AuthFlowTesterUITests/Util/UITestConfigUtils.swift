@@ -133,6 +133,11 @@ struct AppConfig: Codable {
         return name.contains("_jwt")
     }
 
+    /// Returns true if this is a beacon child app (name starts with "beacon_")
+    var isBeacon: Bool {
+        return name.hasPrefix("beacon_")
+    }
+
     /// Returns true if the app uses Refresh Token Rotation (name contains "_rtr")
     var isRtr: Bool {
         return name.contains("_rtr")

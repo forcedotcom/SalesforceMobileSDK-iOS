@@ -62,6 +62,19 @@
     [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureRTR forUser:self.userA];
     [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureDPoP forUser:self.userA];
     [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureAppAttestation forUser:self.userA];
+    NSArray<NSString *> *allAMarkers = @[kSFAppFeatureAuthTypeWebServerNonHybrid,
+                                          kSFAppFeatureAuthTypeWebServerHybrid,
+                                          kSFAppFeatureAuthTypeUserAgentNonHybrid,
+                                          kSFAppFeatureAuthTypeUserAgentHybrid,
+                                          kSFAppFeatureAuthTypeNative];
+    for (NSString *marker in allAMarkers) {
+        [SFSDKAppFeatureMarkers unregisterAppFeature:marker forUser:self.userA];
+        [SFSDKAppFeatureMarkers unregisterAppFeature:marker];
+    }
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureTokenMigration forUser:self.userA];
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureTokenFormatJwt forUser:self.userA];
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureTokenFormatOpaque forUser:self.userA];
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureBeacon forUser:self.userA];
     self.userA = nil;
     self.userB = nil;
     [self clearExistingMarkers];
@@ -382,6 +395,137 @@
                   @"AA should be promoted to per-user on non-refresh login when attestation was used");
     XCTAssertFalse([[SFSDKAppFeatureMarkers appFeatures] containsObject:kSFAppFeatureAppAttestation],
                    @"Global AA should be cleared after non-refresh promotion");
+}
+
+#pragma mark - A-marker (auth type) tests
+
+- (void)test_givenWebServerNonHybrid_whenAuthCompletes_thenA1RegisteredPerUserAndGlobalCleared {
+    // Simulate: A1 set globally before auth completion
+    [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureAuthTypeWebServerNonHybrid];
+
+    // Promotion logic
+    NSArray<NSString *> *allAMarkers = @[kSFAppFeatureAuthTypeWebServerNonHybrid,
+                                          kSFAppFeatureAuthTypeWebServerHybrid,
+                                          kSFAppFeatureAuthTypeUserAgentNonHybrid,
+                                          kSFAppFeatureAuthTypeUserAgentHybrid,
+                                          kSFAppFeatureAuthTypeNative];
+    NSString *aMarker = nil;
+    for (NSString *marker in allAMarkers) {
+        if ([[SFSDKAppFeatureMarkers appFeatures] containsObject:marker]) {
+            aMarker = marker;
+            break;
+        }
+    }
+    for (NSString *marker in allAMarkers) {
+        if ([marker isEqualToString:aMarker]) {
+            [SFSDKAppFeatureMarkers registerAppFeature:marker forUser:self.userA];
+        } else {
+            [SFSDKAppFeatureMarkers unregisterAppFeature:marker forUser:self.userA];
+        }
+    }
+    for (NSString *marker in allAMarkers) {
+        [SFSDKAppFeatureMarkers unregisterAppFeature:marker];
+    }
+
+    XCTAssertTrue([[SFSDKAppFeatureMarkers appFeaturesForUser:self.userA] containsObject:kSFAppFeatureAuthTypeWebServerNonHybrid],
+                  @"A1 should be registered per-user after web-server non-hybrid auth");
+    for (NSString *marker in allAMarkers) {
+        if (![marker isEqualToString:kSFAppFeatureAuthTypeWebServerNonHybrid]) {
+            XCTAssertFalse([[SFSDKAppFeatureMarkers appFeaturesForUser:self.userA] containsObject:marker],
+                           @"Only A1 should be set; found unexpected marker %@", marker);
+        }
+        XCTAssertFalse([[SFSDKAppFeatureMarkers appFeatures] containsObject:marker],
+                       @"A-marker %@ should be cleared from global set after promotion", marker);
+    }
+}
+
+- (void)test_givenWebServerHybrid_whenAuthCompletes_thenA2RegisteredPerUserAndGlobalCleared {
+    [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureAuthTypeWebServerHybrid];
+
+    NSArray<NSString *> *allAMarkers = @[kSFAppFeatureAuthTypeWebServerNonHybrid,
+                                          kSFAppFeatureAuthTypeWebServerHybrid,
+                                          kSFAppFeatureAuthTypeUserAgentNonHybrid,
+                                          kSFAppFeatureAuthTypeUserAgentHybrid,
+                                          kSFAppFeatureAuthTypeNative];
+    NSString *aMarker = nil;
+    for (NSString *marker in allAMarkers) {
+        if ([[SFSDKAppFeatureMarkers appFeatures] containsObject:marker]) {
+            aMarker = marker;
+            break;
+        }
+    }
+    for (NSString *marker in allAMarkers) {
+        if ([marker isEqualToString:aMarker]) {
+            [SFSDKAppFeatureMarkers registerAppFeature:marker forUser:self.userA];
+        } else {
+            [SFSDKAppFeatureMarkers unregisterAppFeature:marker forUser:self.userA];
+        }
+    }
+    for (NSString *marker in allAMarkers) {
+        [SFSDKAppFeatureMarkers unregisterAppFeature:marker];
+    }
+
+    XCTAssertTrue([[SFSDKAppFeatureMarkers appFeaturesForUser:self.userA] containsObject:kSFAppFeatureAuthTypeWebServerHybrid],
+                  @"A2 should be registered per-user after web-server hybrid auth");
+    XCTAssertFalse([[SFSDKAppFeatureMarkers appFeatures] containsObject:kSFAppFeatureAuthTypeWebServerHybrid],
+                   @"A2 should be cleared from global set after promotion");
+}
+
+- (void)test_givenTokenMigration_whenAuthCompletes_thenTMRegisteredAndAMarkerPreserved {
+    // Precondition: userA already has A2 from a previous login
+    [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureAuthTypeWebServerHybrid forUser:self.userA];
+
+    // Simulate migration completion: TM registered, A-marker NOT touched
+    [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureTokenMigration forUser:self.userA];
+
+    XCTAssertTrue([[SFSDKAppFeatureMarkers appFeaturesForUser:self.userA] containsObject:kSFAppFeatureTokenMigration],
+                  @"TM should be registered per-user after token migration");
+    XCTAssertTrue([[SFSDKAppFeatureMarkers appFeaturesForUser:self.userA] containsObject:kSFAppFeatureAuthTypeWebServerHybrid],
+                  @"A2 should be preserved after migration (auth method unchanged)");
+}
+
+#pragma mark - JT/OT (token format) tests
+
+- (void)test_givenJwtTokenFormat_whenAuthCompletes_thenJTRegisteredAndOTCleared {
+    // Simulate: jwt token format
+    [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureTokenFormatJwt forUser:self.userA];
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureTokenFormatOpaque forUser:self.userA];
+
+    XCTAssertTrue([[SFSDKAppFeatureMarkers appFeaturesForUser:self.userA] containsObject:kSFAppFeatureTokenFormatJwt],
+                  @"JT should be registered per-user for JWT token format");
+    XCTAssertFalse([[SFSDKAppFeatureMarkers appFeaturesForUser:self.userA] containsObject:kSFAppFeatureTokenFormatOpaque],
+                   @"OT should NOT be present when token format is jwt");
+}
+
+- (void)test_givenOpaqueTokenFormat_whenAuthCompletes_thenOTRegisteredAndJTCleared {
+    // Simulate: opaque token format
+    [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureTokenFormatOpaque forUser:self.userA];
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureTokenFormatJwt forUser:self.userA];
+
+    XCTAssertTrue([[SFSDKAppFeatureMarkers appFeaturesForUser:self.userA] containsObject:kSFAppFeatureTokenFormatOpaque],
+                  @"OT should be registered per-user for opaque token format");
+    XCTAssertFalse([[SFSDKAppFeatureMarkers appFeaturesForUser:self.userA] containsObject:kSFAppFeatureTokenFormatJwt],
+                   @"JT should NOT be present when token format is opaque");
+}
+
+#pragma mark - BN (beacon) tests
+
+- (void)test_givenBeaconConsumerKey_whenAuthCompletes_thenBNRegistered {
+    // Simulate: beacon child consumer key present
+    [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureBeacon forUser:self.userA];
+
+    XCTAssertTrue([[SFSDKAppFeatureMarkers appFeaturesForUser:self.userA] containsObject:kSFAppFeatureBeacon],
+                  @"BN should be registered per-user when beacon child consumer key is present");
+    XCTAssertFalse([[SFSDKAppFeatureMarkers appFeatures] containsObject:kSFAppFeatureBeacon],
+                   @"BN should not be in global set");
+}
+
+- (void)test_givenNoBeaconConsumerKey_whenAuthCompletes_thenBNUnregistered {
+    // Simulate: no beacon child consumer key
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureBeacon forUser:self.userA];
+
+    XCTAssertFalse([[SFSDKAppFeatureMarkers appFeaturesForUser:self.userA] containsObject:kSFAppFeatureBeacon],
+                   @"BN should NOT be registered per-user when no beacon child consumer key");
 }
 
 #pragma mark - Private helpers

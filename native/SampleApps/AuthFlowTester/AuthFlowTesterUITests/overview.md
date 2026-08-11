@@ -17,9 +17,9 @@ This document provides an overview of all UI tests in the AuthFlowTester test su
 | `DPoPLoginTests` | Tests for DPoP-bound sessions, including basic login, RTR, multi-user, migration, and restart |
 | `RTRLoginTests` | Tests for ECA login flows with Refresh Token Rotation (RTR), with and without hybrid flow, with and without app restart |
 | `LoginWithRestartTests` | Tests for verifying that user sessions and per-user feature flags (BW, WD, B-markers, L-markers) persist across app restarts |
-| `RefreshTokenMigrationTests` | Tests for refresh token migration between app configurations without re-authentication |
+| `RefreshTokenMigrationTests` | Tests for refresh token migration between app configurations without re-authentication. Includes multi-user leakage detection (TM/A-marker isolation). |
 | `RefreshTokenMigrationWithRestartTests` | Tests for verifying that migrated refresh tokens persist across app restarts |
-| `MultiUserLoginTests` | Tests for multi-user login scenarios with various configurations, including token revocation |
+| `MultiUserLoginTests` | Tests for multi-user login scenarios with various configurations, including token revocation and A-marker per-user isolation |
 
 ---
 
@@ -141,7 +141,7 @@ Tests for verifying that user sessions and per-user feature flags (BW, WD, B-mar
 
 ## Migration Tests
 
-### RefreshTokenMigrationTests (11 tests)
+### RefreshTokenMigrationTests (12 tests)
 
 Tests for migrating refresh tokens between different app configurations without re-authentication. Tests can optionally specify the OAuth flow type (web server vs user agent) and hybrid flow setting to use during migration.
 
@@ -157,6 +157,7 @@ Tests for migrating refresh tokens between different app configurations without 
 | `testMigrateCAToECA` | CA Opaque → ECA Opaque → CA Opaque | No | No |
 | `testMigrateCAToBeaconAndBack` | CA Opaque → Beacon Opaque → CA Opaque | No | No |
 | `testMigrateBeaconOpaqueToJWTAndBack` | Beacon Opaque → Beacon JWT → Beacon Opaque | No | No |
+| `testFlagDiversity_MigratedBeaconJwtVsNonHybridOpaque` | User A: CA→Beacon JWT (A2+TM+JT+BN), User B: CA Opaque non-hybrid (A1+OT) | No | Yes |
 | `testMigrateOneUserOnly` | User A: CA→ECA, User B: CA (unchanged) | No | Yes |
 
 ### RefreshTokenMigrationWithRestartTests (5 tests)
@@ -175,9 +176,11 @@ Tests for verifying that migrated refresh tokens persist across app restarts. Co
 
 ## Multi-User Tests
 
-### MultiUserLoginTests (11 tests)
+### MultiUserLoginTests (13 tests)
 
-Tests for login scenarios with two users using various configurations, including token revocation and user logout scenarios.
+Tests for login scenarios with two users using various configurations, including token revocation, user logout scenarios, and A-marker per-user isolation.
+
+**A-marker isolation note**: all earlier multi-user tests happen to use the same app type for both users, producing identical A-markers (A2). The two `testFlagDiversity_*` tests below deliberately diverge the auth-flow type (non-hybrid vs hybrid) and token-format flags (OT vs JT) so that per-user flag leakage is detectable.
 
 | Test Name | User 1 Config | User 2 Config | Same App | Same Scopes | Beacon | Action |
 |-----------|---------------|---------------|----------|-------------|--------|--------|
@@ -192,6 +195,8 @@ Tests for login scenarios with two users using various configurations, including
 | `testDifferentAppTypes_RevokeAccessForCaUser_EcaUserUnaffected` | CA (Opaque) | ECA (Opaque) | No | Yes | No | Revoke User A |
 | `testLogoutUserWithDynamicConfig_OtherUserUnaffected` | ECA (Opaque) static | ECA (JWT) dynamic | No | Yes | No | Logout User B |
 | `testDifferentAppTypes_LogoutCaUser_EcaUserUnaffected` | CA (Opaque) | ECA (Opaque) | No | Yes | No | Logout User A |
+| `testFlagDiversity_NonHybridOpaqueVsHybridJwt` | CA Opaque non-hybrid (A1+OT) | ECA JWT hybrid (A2+JT) | No | Yes | No | Logout User B |
+| `testFlagDiversity_BeaconNonHybridJwtVsHybridOpaque` | Beacon JWT non-hybrid (A1+JT+BN) | CA Opaque hybrid (A2+OT) | No | Yes | Partial | Logout User B |
 
 ---
 
