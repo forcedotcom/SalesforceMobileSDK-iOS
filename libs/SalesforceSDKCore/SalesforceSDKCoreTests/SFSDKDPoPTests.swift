@@ -270,10 +270,11 @@ class SFSDKDPoPTests: XCTestCase {
         // Token type "DPoP" alone (before key pair minted) short-circuits to true.
         XCTAssertTrue(DPoPRequestDecorator.shouldAttachDPoP(scope: testScope, tokenType: "DPoP"))
 
-        // Mint the key pair. Now key material is enough on its own, even without tokenType.
+        // Mint the key pair. Key material is the fallback signal only when tokenType is nil.
         _ = try DPoPKeyStore.shared.keyPair(forScope: testScope)
         XCTAssertTrue(DPoPRequestDecorator.shouldAttachDPoP(scope: testScope, tokenType: nil))
-        XCTAssertTrue(DPoPRequestDecorator.shouldAttachDPoP(scope: testScope, tokenType: "Bearer"))
+        // An explicit "Bearer" tokenType takes priority — no proof, even with key material present.
+        XCTAssertFalse(DPoPRequestDecorator.shouldAttachDPoP(scope: testScope, tokenType: "Bearer"))
         XCTAssertTrue(DPoPRequestDecorator.shouldAttachDPoP(scope: testScope, tokenType: "DPoP"))
 
         // Removing the key pair collapses back to the tokenType-only signal.
