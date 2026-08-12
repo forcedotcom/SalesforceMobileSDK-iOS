@@ -493,7 +493,7 @@
         approvalUrl = [NSString stringWithFormat:@"%@&prompt=login", approvalUrl];
     }
 
-    NSString *sdkInfoValue = [[SalesforceSDKManager sharedManager] userAgentString:@"" forUser:nil];
+    NSString *sdkInfoValue = [[SalesforceSDKManager sharedManager] sdkUserAgentString:@"" forUser:nil];
     approvalUrl = [NSString stringWithFormat:@"%@&%@=%@&%@=%@",
                    approvalUrl,
                    kSFOAuthSdkInfoParamName, [sdkInfoValue sfsdk_stringByURLEncoding],

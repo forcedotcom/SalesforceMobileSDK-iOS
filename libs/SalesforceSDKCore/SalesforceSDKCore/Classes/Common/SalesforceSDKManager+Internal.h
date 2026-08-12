@@ -44,4 +44,9 @@ API_UNAVAILABLE(visionos)
 - (nonnull NSArray<SFSDKDevAction *> *)getDevActions:(nonnull UIViewController *)presentedViewController;
 - (void)hydratePerUserFeatureFlags;
 
+/** The SDK's own user agent string (SDK version, device/app info, app type, ftr_ markers),
+ without the WebView user agent that -userAgentString:forUser: appends as a trailing component.
+ */
+- (nonnull NSString *)sdkUserAgentString:(nonnull NSString *)qualifier forUser:(nullable SFUserAccount *)user;
+
 @end

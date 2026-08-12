@@ -189,7 +189,7 @@ static NSString * const kExpectedUnscopedSceneIdPrefix = @"com.salesforce.mobile
     NSString *approvalUrl = [coordinator nativeBrowserApprovalUrlWithSharedBrowserSessionEnabled:YES];
 
     XCTAssertTrue([approvalUrl containsString:@"auth_trigger=force_advanced_auth"], @"Expected force_advanced_auth trigger, got: %@", approvalUrl);
-    NSString *expectedSdkInfo = [[[SalesforceSDKManager sharedManager] userAgentString:@"" forUser:nil] sfsdk_stringByURLEncoding];
+    NSString *expectedSdkInfo = [[[SalesforceSDKManager sharedManager] sdkUserAgentString:@"" forUser:nil] sfsdk_stringByURLEncoding];
     NSString *expectedSdkInfoParam = [NSString stringWithFormat:@"sdkInfo=%@", expectedSdkInfo];
     XCTAssertTrue([approvalUrl containsString:expectedSdkInfoParam], @"Expected encoded sdkInfo, got: %@", approvalUrl);
 
@@ -250,7 +250,7 @@ static NSString * const kExpectedUnscopedSceneIdPrefix = @"com.salesforce.mobile
 
     NSString *approvalUrl = [coordinator nativeBrowserApprovalUrlWithSharedBrowserSessionEnabled:YES];
 
-    NSString *rawUserAgent = [[SalesforceSDKManager sharedManager] userAgentString:@"" forUser:nil];
+    NSString *rawUserAgent = [[SalesforceSDKManager sharedManager] sdkUserAgentString:@"" forUser:nil];
     NSString *encodedUserAgent = [rawUserAgent sfsdk_stringByURLEncoding];
     NSString *encodedSdkInfoParam = [NSString stringWithFormat:@"sdkInfo=%@", encodedUserAgent];
     XCTAssertTrue([approvalUrl containsString:encodedSdkInfoParam], @"sdkInfo value should be percent-encoded exactly once, got: %@", approvalUrl);
@@ -259,6 +259,21 @@ static NSString * const kExpectedUnscopedSceneIdPrefix = @"com.salesforce.mobile
     XCTAssertTrue([rawUserAgent containsString:@" "], @"Precondition: user agent string should contain spaces to make this a meaningful encoding check");
     NSString *rawSdkInfoParam = [NSString stringWithFormat:@"sdkInfo=%@", rawUserAgent];
     XCTAssertFalse([approvalUrl containsString:rawSdkInfoParam], @"sdkInfo value must not appear unencoded in the approval URL");
+}
+
+- (void)test_givenNativeBrowserFlow_whenBuildingApprovalUrl_thenSdkInfoExcludesWebViewUserAgent {
+    SFOAuthCoordinator *coordinator = [self browserFlowCoordinatorWithLoginAsAdmin:NO useBrowserAuth:NO];
+
+    NSString *approvalUrl = [coordinator nativeBrowserApprovalUrlWithSharedBrowserSessionEnabled:YES];
+
+    NSString *fullUserAgent = [[SalesforceSDKManager sharedManager] userAgentString:@"" forUser:nil];
+    NSString *sdkOnlyUserAgent = [[SalesforceSDKManager sharedManager] sdkUserAgentString:@"" forUser:nil];
+    XCTAssertNotEqualObjects(fullUserAgent, sdkOnlyUserAgent,
+                              @"Precondition: userAgentString:forUser: should append a trailing WebView UA that sdkUserAgentString:forUser: omits");
+
+    NSString *fullUserAgentEncodedParam = [NSString stringWithFormat:@"sdkInfo=%@", [fullUserAgent sfsdk_stringByURLEncoding]];
+    XCTAssertFalse([approvalUrl containsString:fullUserAgentEncodedParam],
+                    @"sdkInfo must not include the WebView user agent — the native browser's own UA is captured server-side, got: %@", approvalUrl);
 }
 
 // When a scene is connected, the advanced-auth browser callback must key its options dictionary by
