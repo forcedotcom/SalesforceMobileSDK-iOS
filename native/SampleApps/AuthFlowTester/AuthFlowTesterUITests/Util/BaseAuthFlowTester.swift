@@ -690,9 +690,18 @@ class BaseAuthFlowTester: XCTestCase {
     /// A fresh XCUIApplication is created without --resetSDKForUITesting so the
     /// existing user session is preserved across the restart.
     func restart() {
+        restart(withLaunchArguments: [])
+    }
+
+    /// Restarts the application with the given launch arguments.
+    ///
+    /// Session state persists (no `--resetSDKForUITesting`). Use for tests that need to relaunch
+    /// while injecting a test-only launch flag (e.g. `--disableDPoPAtStart`) recognized by the app.
+    func restart(withLaunchArguments launchArguments: [String]) {
         app.terminate()
         app = XCUIApplication()
         app.launchEnvironment["IS_UI_TESTING"] = "1"
+        app.launchArguments = launchArguments
         loginPage = LoginPageObject(testApp: app)
         mainPage = AuthFlowTesterMainPageObject(testApp: app)
         app.launch()

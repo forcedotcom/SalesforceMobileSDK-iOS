@@ -259,6 +259,51 @@ class SFSDKDPoPTests: XCTestCase {
         }
     }
 
+    func test_givenPredicateSignals_whenShouldAttachDPoP_thenTokenTypeOrKeyMaterialTriggers() throws {
+        // Empty scope always false — never mistake a missing identifier for a DPoP credential.
+        XCTAssertFalse(DPoPRequestDecorator.shouldAttachDPoP(scope: "", tokenType: "DPoP"))
+
+        // No token type, no key pair on this scope: predicate false.
+        XCTAssertFalse(DPoPRequestDecorator.shouldAttachDPoP(scope: testScope, tokenType: nil))
+        XCTAssertFalse(DPoPRequestDecorator.shouldAttachDPoP(scope: testScope, tokenType: "Bearer"))
+
+        // Token type "DPoP" alone (before key pair minted) short-circuits to true.
+        XCTAssertTrue(DPoPRequestDecorator.shouldAttachDPoP(scope: testScope, tokenType: "DPoP"))
+
+        // Mint the key pair. Key material is the fallback signal only when tokenType is nil.
+        _ = try DPoPKeyStore.shared.keyPair(forScope: testScope)
+        XCTAssertTrue(DPoPRequestDecorator.shouldAttachDPoP(scope: testScope, tokenType: nil))
+        // An explicit "Bearer" tokenType takes priority — no proof, even with key material present.
+        XCTAssertFalse(DPoPRequestDecorator.shouldAttachDPoP(scope: testScope, tokenType: "Bearer"))
+        XCTAssertTrue(DPoPRequestDecorator.shouldAttachDPoP(scope: testScope, tokenType: "DPoP"))
+
+        // Removing the key pair collapses back to the tokenType-only signal.
+        DPoPKeyStore.shared.delete(forScope: testScope)
+        XCTAssertFalse(DPoPRequestDecorator.shouldAttachDPoP(scope: testScope, tokenType: nil))
+        XCTAssertFalse(DPoPRequestDecorator.shouldAttachDPoP(scope: testScope, tokenType: "Bearer"))
+        XCTAssertTrue(DPoPRequestDecorator.shouldAttachDPoP(scope: testScope, tokenType: "DPoP"))
+    }
+
+    func test_givenScope_whenHasKeyPairChecked_thenReflectsKeyMaterialPresenceOnly() throws {
+        // Fresh scope: no key material yet.
+        XCTAssertFalse(DPoPKeyStore.shared.hasKeyPair(forScope: testScope),
+                       "hasKeyPair should be false before keyPair(forScope:) is ever called")
+
+        // Minting the pair should flip the flag to true without side-effects on other scopes.
+        _ = try DPoPKeyStore.shared.keyPair(forScope: testScope)
+        XCTAssertTrue(DPoPKeyStore.shared.hasKeyPair(forScope: testScope),
+                      "hasKeyPair should be true after a keypair is minted for the scope")
+
+        // Deletion should flip it back to false.
+        DPoPKeyStore.shared.delete(forScope: testScope)
+        XCTAssertFalse(DPoPKeyStore.shared.hasKeyPair(forScope: testScope),
+                       "hasKeyPair should be false after the keypair is deleted")
+
+        // Empty scope must be rejected — never treat "" as a valid credential.
+        XCTAssertFalse(DPoPKeyStore.shared.hasKeyPair(forScope: ""),
+                       "hasKeyPair should be false for an empty scope")
+    }
+
     func test_givenScopedKey_whenDeleted_thenSubsequentLookupGeneratesFreshKey() throws {
         let pair1 = try DPoPKeyStore.shared.keyPair(forScope: testScope)
         let payload = "hello".data(using: .utf8)!
@@ -403,21 +448,36 @@ class SFSDKDPoPTests: XCTestCase {
 
     // MARK: - Decorator gating + nonce challenge detection
 
-    func test_givenUseDPoPDisabled_whenDecorate_thenNoHeaderAttached() throws {
-        SalesforceManager.shared.usesDPoP = false
+    func test_givenNoTokenTypeAndNoKeyMaterial_whenDecorate_thenNoHeaderAttached() throws {
+        // Fresh scope: no key material, no tokenType. Both predicate signals off → skip.
+        // Global usesDPoP is intentionally ignored — the gate is per-credential state now.
         let req = NSMutableURLRequest(url: tokenURL)
         req.httpMethod = "POST"
         try DPoPRequestDecorator.decorate(req, scope: testScope)
         XCTAssertNil(req.value(forHTTPHeaderField: "DPoP"))
     }
 
-    func test_givenUseDPoPEnabled_whenDecorate_thenDPoPHeaderAttached() throws {
-        let prior = SalesforceManager.shared.usesDPoP
-        SalesforceManager.shared.usesDPoP = true
-        defer { SalesforceManager.shared.usesDPoP = prior }
+    func test_givenKeyMaterialPresent_whenDecorate_thenDPoPHeaderAttached() throws {
+        // Simulates the fresh-login flow after `/authorize` (which mints the key pair via
+        // dpop_jkt) but before `/token` returns a tokenType. Presence of key material alone
+        // is sufficient to gate proof attachment.
+        _ = try DPoPKeyStore.shared.keyPair(forScope: testScope)
         let req = NSMutableURLRequest(url: tokenURL)
         req.httpMethod = "POST"
         try DPoPRequestDecorator.decorate(req, scope: testScope)
+        let header = try XCTUnwrap(req.value(forHTTPHeaderField: "DPoP"))
+        XCTAssertEqual(header.split(separator: ".").count, 3)
+    }
+
+    func test_givenTokenTypeDPoP_whenDecorate_thenDPoPHeaderAttachedRegardlessOfGlobalFlag() throws {
+        // Simulates the refresh flow after a DPoP-bound credential has been persisted.
+        // Global flag is off, but the credential's tokenType is "DPoP" → proof still attached.
+        let prior = SalesforceManager.shared.usesDPoP
+        SalesforceManager.shared.usesDPoP = false
+        defer { SalesforceManager.shared.usesDPoP = prior }
+        let req = NSMutableURLRequest(url: tokenURL)
+        req.httpMethod = "POST"
+        try DPoPRequestDecorator.decorate(req, scope: testScope, tokenType: "DPoP", accessToken: nil)
         let header = try XCTUnwrap(req.value(forHTTPHeaderField: "DPoP"))
         XCTAssertEqual(header.split(separator: ".").count, 3)
     }
@@ -557,7 +617,10 @@ class SFSDKDPoPTests: XCTestCase {
         XCTAssertEqual(ath, expected)
     }
 
-    func test_givenDPoPDisabledButTokenTypeDPoP_whenApplyAuthHeaders_thenDPoPSchemeButNoProof() throws {
+    func test_givenGlobalFlagOffButTokenTypeDPoP_whenApplyAuthHeaders_thenProofStillAttached() throws {
+        // With the credential-state gate in place, the proof follows the tokenType — a
+        // DPoP-bound credential always gets a proof, even if the process-wide usesDPoP
+        // switch was flipped off (e.g. after an app upgrade / config change).
         let prior = SalesforceManager.shared.usesDPoP
         SalesforceManager.shared.usesDPoP = false
         defer { SalesforceManager.shared.usesDPoP = prior }
@@ -568,10 +631,10 @@ class SFSDKDPoPTests: XCTestCase {
                                                   scope: testScope,
                                                   accessToken: "tok-abc",
                                                   tokenType: "DPoP")
-        // The Authorization scheme follows tokenType (server-driven). The DPoP proof
-        // header itself follows SalesforceManager.shared.usesDPoP (client opt-in).
         XCTAssertEqual(req.value(forHTTPHeaderField: "Authorization"), "DPoP tok-abc")
-        XCTAssertNil(req.value(forHTTPHeaderField: "DPoP"))
+        let proof = try XCTUnwrap(req.value(forHTTPHeaderField: "DPoP"))
+        XCTAssertEqual(proof.split(separator: ".").count, 3,
+                       "Proof must be attached whenever tokenType == DPoP, regardless of global flag")
     }
 
     // MARK: - SFRestRequest end-to-end
@@ -629,6 +692,69 @@ class SFSDKDPoPTests: XCTestCase {
                        "Bearer \(creds.accessToken!)")
         XCTAssertNil(urlRequest.value(forHTTPHeaderField: "DPoP"),
                      "Bearer credentials must not attach a DPoP header")
+    }
+
+    // A DPoP-bound credential MUST attach a proof on the outbound REST request even
+    // when the process-wide `usesDPoP` flag has been flipped OFF. Locks in the fix — the
+    // gate is per-credential state, not the global flag.
+    func test_givenGlobalFlagOffAndDPoPCredential_whenPrepareRestRequest_thenAuthorizationIsDPoPAndProofAttached() throws {
+        let prior = SalesforceManager.shared.usesDPoP
+        SalesforceManager.shared.usesDPoP = false
+        defer { SalesforceManager.shared.usesDPoP = prior }
+
+        let scope = "rest-dpop-flagoff-\(UUID().uuidString)"
+        let creds = OAuthCredentials(identifier: scope,
+                                     clientId: "CLIENT_ID",
+                                     encrypted: false)!
+        creds.accessToken = "00DXX0000000000!ARQ.dpop.access.token"
+        creds.tokenType = "DPoP"
+        creds.instanceUrl = URL(string: "https://example.salesforce.com")
+        creds.userId = "USERID"
+        creds.organizationId = "ORGID"
+        defer { DPoPKeyStore.shared.delete(forScope: scope) }
+
+        let account = UserAccount(credentials: creds)
+        let request = RestRequest(method: .GET,
+                                  path: "/services/data/v60.0/sobjects/Account",
+                                  queryParams: nil)
+        let urlRequest = try XCTUnwrap(request.prepare(forSend: account))
+
+        XCTAssertEqual(urlRequest.value(forHTTPHeaderField: "Authorization"),
+                       "DPoP \(creds.accessToken!)",
+                       "Authorization scheme must follow credentials.tokenType even when the global usesDPoP flag is off")
+        let proof = try XCTUnwrap(urlRequest.value(forHTTPHeaderField: "DPoP"),
+                                  "DPoP proof header must be attached for a DPoP-bound credential even with global usesDPoP flag off")
+        XCTAssertEqual(proof.split(separator: ".").count, 3)
+    }
+
+    // A Bearer credential MUST NOT get a DPoP header regardless of the global flag.
+    func test_givenBearerCredential_whenPrepareRestRequest_thenNoDPoPHeaderRegardlessOfGlobalFlag() throws {
+        let prior = SalesforceManager.shared.usesDPoP
+        defer { SalesforceManager.shared.usesDPoP = prior }
+
+        for flag in [true, false] {
+            SalesforceManager.shared.usesDPoP = flag
+            let creds = OAuthCredentials(identifier: "rest-bearer-matrix-\(UUID().uuidString)",
+                                         clientId: "CLIENT_ID",
+                                         encrypted: false)!
+            creds.accessToken = "bearer-only-access-token"
+            // tokenType left nil, no keyPair seeded — Bearer baseline.
+            creds.instanceUrl = URL(string: "https://example.salesforce.com")
+            creds.userId = "USERID"
+            creds.organizationId = "ORGID"
+
+            let account = UserAccount(credentials: creds)
+            let request = RestRequest(method: .GET,
+                                      path: "/services/data/v60.0/sobjects/Account",
+                                      queryParams: nil)
+            let urlRequest = try XCTUnwrap(request.prepare(forSend: account), "flag=\(flag)")
+
+            XCTAssertEqual(urlRequest.value(forHTTPHeaderField: "Authorization"),
+                           "Bearer \(creds.accessToken!)",
+                           "Bearer credential must yield `Authorization: Bearer <token>` (flag=\(flag))")
+            XCTAssertNil(urlRequest.value(forHTTPHeaderField: "DPoP"),
+                         "Bearer credential must not attach a DPoP header (flag=\(flag))")
+        }
     }
 
     // MARK: - Log redaction

@@ -37,27 +37,75 @@ public final class DPoPRequestDecorator: NSObject {
     /// `token_type: "DPoP"` (RFC 6749 §5.1 / RFC 9449 §6.1).
     @objc public static let dpopTokenType = "DPoP"
 
-    /// No-op when `SalesforceSDKManager.shared.useDPoP == NO`. Otherwise builds a fresh
-    /// proof JWT (with cached nonce if any) and sets it on the `DPoP` header.
-    /// `scope` is typically `SFOAuthCredentials.identifier` so the keypair and nonce cache
-    /// are isolated per-account, even before an `SFUserAccount` exists.
+    /// Gate deciding whether to attach a DPoP proof for `scope`.
+    ///
+    /// An explicit `tokenType` is authoritative:
+    /// - `tokenType == "DPoP"` (case-insensitive, per RFC 6749 §5.1 / RFC 9449 §6.1) → attach.
+    /// - any other known type (e.g. `"Bearer"`) → do **not** attach, and short-circuit
+    ///   before any Keychain I/O. This is what protects the DPoP→Bearer migration /
+    ///   Bearer re-auth path: a Bearer credential that reuses a scope still holding stale
+    ///   DPoP key material must never get an unexpected proof.
+    ///
+    /// `tokenType == nil` is the transition window between `/authorize` and `/token`
+    /// (and any refresh where the persisted `tokenType` hasn't been rehydrated onto the
+    /// request struct yet). Only then do we fall back to the key-material signal: a DPoP
+    /// keypair already persisted for this scope in the Keychain.
+    ///
+    /// Empty scope always returns `false` — an empty `SFOAuthCredentials.identifier`
+    /// would collide with unrelated accounts' key material.
+    ///
+    /// Note: this gate is deliberately independent of `SalesforceManager.shared.usesDPoP`.
+    /// The global flag governs *new* logins (whether to request DPoP-bound tokens); once a
+    /// credential is bound, every request for it carries a proof regardless of the flag.
+    static func shouldAttachDPoP(scope: String, tokenType: String?) -> Bool {
+        guard !scope.isEmpty else {
+            SFSDKCoreLogger.i(Self.self, message: "DPoP decorator skipped: empty scope identifier")
+            return false
+        }
+        if let tokenType {
+            return tokenType.caseInsensitiveCompare(dpopTokenType) == .orderedSame
+        }
+        // tokenType is nil — transition window between /authorize and /token; fall back to
+        // the key-material signal.
+        return DPoPKeyStore.shared.hasKeyPair(forScope: scope)
+    }
+
+    /// No-op when the credential is not DPoP-bound (see `shouldAttachDPoP(scope:tokenType:)`).
+    /// Otherwise builds a fresh proof JWT (with cached nonce if any) and sets it on the
+    /// `DPoP` header. `scope` is typically `SFOAuthCredentials.identifier` so the keypair and
+    /// nonce cache are isolated per-account, even before an `SFUserAccount` exists.
+    ///
+    /// Preserved for backwards compatibility. Delegates with `tokenType: nil`, so the gate
+    /// falls back to the key-material signal — safe for the token-endpoint flow where the
+    /// tokenType isn't yet known.
     @objc(decorateRequest:scope:error:)
     public static func decorate(_ request: NSMutableURLRequest, scope: String) throws {
-        try decorate(request, scope: scope, accessToken: nil)
+        try decorate(request, scope: scope, tokenType: nil, accessToken: nil)
     }
 
     /// Same as `decorate(_:scope:)` but binds the proof to the given access token via the
     /// `ath` claim (RFC 9449 §4.2). Use at resource-server call sites where the SDK already
     /// holds a token; pass `nil` (or use the no-token overload) at the token endpoint.
+    ///
+    /// Preserved for backwards compatibility. Delegates to the 4-arg overload with
+    /// `tokenType: nil`.
     @objc(decorateRequest:scope:accessToken:error:)
     public static func decorate(_ request: NSMutableURLRequest,
                                 scope: String,
                                 accessToken: String?) throws {
-        guard SalesforceManager.shared.usesDPoP else { return }
-        guard !scope.isEmpty else {
-            SFSDKCoreLogger.i(self, message: "DPoP decorator skipped: empty scope identifier")
-            return
-        }
+        try decorate(request, scope: scope, tokenType: nil, accessToken: accessToken)
+    }
+
+    /// Full-signature entry point. Uses `shouldAttachDPoP(scope:tokenType:)` as the gate.
+    /// `tokenType` is the persisted `SFOAuthCredentials.tokenType` for the in-flight
+    /// account; pass `nil` when the caller doesn't have it (e.g. the token-endpoint
+    /// exchange itself), in which case the gate falls back to the key-material signal.
+    @objc(decorateRequest:scope:tokenType:accessToken:error:)
+    public static func decorate(_ request: NSMutableURLRequest,
+                                scope: String,
+                                tokenType: String?,
+                                accessToken: String?) throws {
+        guard Self.shouldAttachDPoP(scope: scope, tokenType: tokenType) else { return }
         guard let url = request.url else { return }
         let method = request.httpMethod
 
@@ -105,7 +153,7 @@ public final class DPoPRequestDecorator: NSObject {
         guard let accessToken, !accessToken.isEmpty else { return }
         if tokenType == dpopTokenType {
             request.setValue("DPoP \(accessToken)", forHTTPHeaderField: "Authorization")
-            try decorate(request, scope: scope, accessToken: accessToken)
+            try decorate(request, scope: scope, tokenType: tokenType, accessToken: accessToken)
         } else {
             request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
         }

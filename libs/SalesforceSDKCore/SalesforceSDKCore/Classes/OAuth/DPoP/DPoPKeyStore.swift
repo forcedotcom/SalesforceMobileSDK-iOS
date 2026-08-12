@@ -86,6 +86,31 @@ public final class DPoPKeyStore: NSObject {
         return try keyPair(forScope: credentials.identifier)
     }
 
+    /// Returns `true` iff a private key is already present in the Keychain for `scope`.
+    /// Side-effect-free — never generates a key on miss. Used to gate DPoP proof attachment
+    /// on the presence of previously-minted key material for the credential.
+    public func hasKeyPair(forScope scope: String) -> Bool {
+        guard !scope.isEmpty else { return false }
+        let name = Self.keyName(for: scope)
+        // Non-barrier read: safe to run concurrently with other reads.
+        // All mutating methods in this class use .barrier for exclusive access.
+        return queue.sync {
+            guard let privateTag = try? KeyGenerator.keyTag(name: name, prefix: KeyGenerator.ecPrivateKeyTagPrefix) else {
+                // A throw here isn't necessarily "key absent" — it can be a Keychain access
+                // denied, entitlement, or device-locked error. Returning `false` means
+                // "proceed without a proof," so surface the failure for diagnostics.
+                SFSDKCoreLogger.w(Self.self, message: "DPoPKeyStore.hasKeyPair: Keychain lookup failed for scope \(scope)")
+                return false
+            }
+            return (try? KeyGenerator.ecKey(tag: privateTag)) != nil
+        }
+    }
+
+    /// Convenience: presence check scoped on `credentials.identifier`.
+    public func hasKeyPair(forCredentials credentials: OAuthCredentials) -> Bool {
+        return hasKeyPair(forScope: credentials.identifier)
+    }
+
     /// Removes any existing keypair for the scope. Idempotent.
     @objc(deleteForScope:)
     public func delete(forScope scope: String) {

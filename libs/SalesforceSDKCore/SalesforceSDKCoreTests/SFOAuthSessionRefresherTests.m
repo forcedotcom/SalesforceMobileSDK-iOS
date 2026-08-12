@@ -40,11 +40,13 @@
 // Minimal SFSDKOAuthProtocol stub that immediately calls the completion block with a preset response.
 @interface SFSDKOAuthClientStub : NSObject <SFSDKOAuthProtocol>
 @property (nonatomic, strong) SFSDKOAuthTokenEndpointResponse *stubbedResponse;
+@property (nonatomic, strong, nullable) SFSDKOAuthTokenEndpointRequest *capturedRefreshRequest;
 @end
 
 @implementation SFSDKOAuthClientStub
 - (void)accessTokenForRefresh:(SFSDKOAuthTokenEndpointRequest *)endpointReq
                    completion:(void (^)(SFSDKOAuthTokenEndpointResponse *))completionBlock {
+    self.capturedRefreshRequest = endpointReq;
     completionBlock(self.stubbedResponse);
 }
 - (void)accessTokenForApprovalCode:(SFSDKOAuthTokenEndpointRequest *)endpointReq
@@ -197,6 +199,43 @@ SFSDK_USE_DEPRECATED_BEGIN
     [SFUserAccountManager sharedInstance].authClient = originalFactory;
     [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureRTR forUser:account];
     [[SFUserAccountManager sharedInstance] deleteAccountForUser:account error:nil];
+}
+
+- (void)test_givenDPoPBoundCredential_whenRefresh_thenEndpointRequestCarriesTokenTypeAndScope {
+    // Given: a DPoP-bound credential (tokenType = "DPoP") with a scope identifier
+    SFOAuthCredentials *creds = self.oauthSessionRefresher.credentials;
+    creds.tokenType = @"DPoP";
+    NSString *expectedScope = creds.identifier;
+
+    NSDictionary *responseDict = @{ kSFOAuthAccessToken: @"new_access_token",
+                                    kSFOAuthRefreshToken: creds.refreshToken };
+    SFSDKOAuthTokenEndpointResponse *response = [[SFSDKOAuthTokenEndpointResponse alloc]
+                                                  initWithDictionary:responseDict
+                                                  parseAdditionalFields:nil];
+    SFSDKOAuthClientStub *stub = [[SFSDKOAuthClientStub alloc] init];
+    stub.stubbedResponse = response;
+    SFAuthClientFactoryBlock originalFactory = [SFUserAccountManager sharedInstance].authClient;
+    [SFUserAccountManager sharedInstance].authClient = ^{ return stub; };
+
+    // When: refresh runs
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Refresh carries DPoP tokenType"];
+    [self.oauthSessionRefresher refreshSessionWithCompletion:^(SFOAuthCredentials *updatedCredentials) {
+        [expectation fulfill];
+    } error:^(NSError *error) {
+        XCTFail(@"Refresh should not fail: %@", error);
+        [expectation fulfill];
+    }];
+    [self waitForExpectationsWithTimeout:2.0 handler:nil];
+
+    // Then: the outbound endpoint request carries both signals the DPoP layer needs
+    XCTAssertNotNil(stub.capturedRefreshRequest, @"Stub should have captured the refresh request");
+    XCTAssertEqualObjects(stub.capturedRefreshRequest.tokenType, @"DPoP",
+                          @"Refresher must forward credentials.tokenType so DPoP gating survives a global-flag flip");
+    XCTAssertEqualObjects(stub.capturedRefreshRequest.credentialsIdentifier, expectedScope,
+                          @"Refresher must forward credentials.identifier as the DPoP scope");
+
+    // Cleanup
+    [SFUserAccountManager sharedInstance].authClient = originalFactory;
 }
 
 - (void)test_givenUnchangedRefreshToken_whenRefreshSucceeds_thenRTFlagNotRegistered {
