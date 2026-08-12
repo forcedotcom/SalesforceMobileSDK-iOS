@@ -39,6 +39,19 @@ static NSUInteger const kSFOAuthCodeVerifierByteLength          = 128;
 static NSString * const kSFOAuthCodeVerifierParamName           = @"code_verifier";
 static NSString * const kSFOAuthCodeChallengeParamName          = @"code_challenge";
 static NSString * const kSFOAuthDPoPJktParamName                = @"dpop_jkt";
+
+// Native browser (advanced auth) authorize URL params: tell the server why the SDK is using
+// native browser login, and carry the SDK user agent string as a query param (the system
+// browser's own outbound requests use its own User-Agent header, not the SDK's).
+static NSString * const kSFOAuthAuthTriggerParamName             = @"auth_trigger";
+static NSString * const kSFOAuthSdkInfoParamName                 = @"sdkInfo";
+
+// auth_trigger values. Priority when more than one applies: LoginForAdmin > MDM > ForceAdvancedAuth > OrgConfig
+// (mirrors the B1-B4 app feature marker priority in SFUserAccountManager's computeBMarkerForAuthSession:).
+static NSString * const kSFOAuthAuthTriggerOrgConfig             = @"org_config";
+static NSString * const kSFOAuthAuthTriggerMDM                   = @"mdm";
+static NSString * const kSFOAuthAuthTriggerForceAdvancedAuth     = @"force_advanced_auth";
+static NSString * const kSFOAuthAuthTriggerLoginForAdmin         = @"login_for_admin";
 static NSString * const kSFOAuthResponseTypeCode                = @"code";
 static NSString * const kSFOAuthAccessToken                     = @"access_token";
 static NSString * const kSFOAuthClientId                        = @"client_id";

@@ -1008,6 +1008,16 @@ static NSString *SFSDKISO8601StringFromDate(NSDate *date) {
 }
 
 - (NSString *)userAgentString:(NSString *)qualifier forUser:(SFUserAccount *)user {
+    return [NSString stringWithFormat:@"%@ %@",
+            [self sdkUserAgentString:qualifier forUser:user],
+            self.webViewUserAgent == nil ? @"" : self.webViewUserAgent];
+}
+
+// The SDK's own user agent string — SDK version, device/app info, app type, and ftr_ markers —
+// without the WebView user agent that -userAgentString:forUser: appends as a trailing component.
+// Used where the WebView UA is not wanted, e.g. the `sdkInfo` OAuth authorize param, which is only
+// meant to identify the SDK itself (the native browser's own UA is captured separately server-side).
+- (NSString *)sdkUserAgentString:(NSString *)qualifier forUser:(SFUserAccount *)user {
     SFUserAccount *resolvedUser = user ?: [SFUserAccountManager sharedInstance].currentUser;
     UIDevice *curDevice = [UIDevice currentDevice];
     NSString *appName = [SalesforceSDKManager appName];
@@ -1019,7 +1029,7 @@ static NSString *SFSDKISO8601StringFromDate(NSDate *date) {
                       sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)]
                      componentsJoinedByString:@"."];
     return [NSString stringWithFormat:
-            @"SalesforceMobileSDK/%@ %@/%@ (%@) %@/%@ %@%@ uid_%@ ftr_%@ %@",
+            @"SalesforceMobileSDK/%@ %@/%@ (%@) %@/%@ %@%@ uid_%@ ftr_%@",
             SALESFORCE_SDK_VERSION,
             [curDevice systemName],
             [curDevice systemVersion],
@@ -1029,8 +1039,7 @@ static NSString *SFSDKISO8601StringFromDate(NSDate *date) {
             appTypeStr,
             (qualifier != nil ? qualifier : @""),
             uid,
-            ftr,
-            self.webViewUserAgent == nil ? @"" : self.webViewUserAgent];
+            ftr];
 }
 
 - (SFSDKUserAgentCreationBlock)defaultUserAgentString {

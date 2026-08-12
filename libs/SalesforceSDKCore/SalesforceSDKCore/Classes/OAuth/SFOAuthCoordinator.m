@@ -457,13 +457,30 @@
     }
 }
 
-- (void)continueNativeBrowserFlowWithSharedBrowserSessionEnabled:(BOOL)shareBrowserSession {
-    if (![NSThread isMainThread]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self continueNativeBrowserFlowWithSharedBrowserSessionEnabled:shareBrowserSession];
-        });
-        return;
+// Returns the single auth_trigger value that best describes why native browser login is being
+// used. Mirrors the priority logic (and underlying signals) of computeBMarkerForAuthSession:
+// completedAuthType: in SFUserAccountManager.m — login_for_admin > mdm > force_advanced_auth >
+// org_config. Computed lazily from state that is fixed for the duration of a single
+// authentication attempt, so no threading through the modality-decision call sites is needed.
+- (NSString *)computeAuthTrigger {
+    if (self.authSession.oauthRequest.loginAsAdmin) {
+        return kSFOAuthAuthTriggerLoginForAdmin;     // B3 — highest priority
     }
+    if (self.useBrowserAuth) {
+        return kSFOAuthAuthTriggerMDM;               // B2
+    }
+    if ([SalesforceSDKManager sharedManager].sdk_forceAdvancedAuthentication) {
+        return kSFOAuthAuthTriggerForceAdvancedAuth; // B4
+    }
+    return kSFOAuthAuthTriggerOrgConfig;             // B1 — fallback
+}
+
+// Builds the authorize URL for the native browser (advanced auth) path, including the
+// `state`/`prompt` params already appended for that path plus the additive `auth_trigger` and
+// `sdkInfo` params. Broken out from continueNativeBrowserFlowWithSharedBrowserSessionEnabled: so
+// it can be exercised directly in tests — ASWebAuthenticationSession itself cannot be driven in
+// the unit test target and does not expose the URL it was created with.
+- (NSString *)nativeBrowserApprovalUrlWithSharedBrowserSessionEnabled:(BOOL)shareBrowserSession {
     NSString *approvalUrl = [self approvalURLForEndpoint:[self brandedAuthorizeURL]
                                              credentials:self.credentials
                                            webServerFlow:YES
@@ -471,11 +488,29 @@
                                                   domain:nil
                                            codeChallenge:nil];
     approvalUrl = [NSString stringWithFormat:@"%@&state=%@", approvalUrl, self.credentials.identifier];
-    
+
     if (!shareBrowserSession) {
         approvalUrl = [NSString stringWithFormat:@"%@&prompt=login", approvalUrl];
     }
-    
+
+    NSString *sdkInfoValue = [[SalesforceSDKManager sharedManager] sdkUserAgentString:@"" forUser:nil];
+    approvalUrl = [NSString stringWithFormat:@"%@&%@=%@&%@=%@",
+                   approvalUrl,
+                   kSFOAuthSdkInfoParamName, [sdkInfoValue sfsdk_stringByURLEncoding],
+                   kSFOAuthAuthTriggerParamName, [self computeAuthTrigger]];
+
+    return approvalUrl;
+}
+
+- (void)continueNativeBrowserFlowWithSharedBrowserSessionEnabled:(BOOL)shareBrowserSession {
+    if (![NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self continueNativeBrowserFlowWithSharedBrowserSessionEnabled:shareBrowserSession];
+        });
+        return;
+    }
+    NSString *approvalUrl = [self nativeBrowserApprovalUrlWithSharedBrowserSessionEnabled:shareBrowserSession];
+
     // Launch the native browser.
     [SFSDKCoreLogger d:[self class] format:@"%@: Initiating native browser flow with URL %@", NSStringFromSelector(_cmd), approvalUrl];
     NSURL *nativeBrowserUrl = [NSURL URLWithString:approvalUrl];
