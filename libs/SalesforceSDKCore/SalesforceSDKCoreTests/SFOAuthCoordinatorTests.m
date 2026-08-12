@@ -31,8 +31,14 @@
 #import "SFSDKAuthRequest.h"
 #import "SFOAuthTestFlowCoordinatorDelegate.h"
 #import "SFSDKAppFeatureMarkers.h"
+#import "SalesforceSDKManager+Internal.h"
 
 @interface SFOAuthCoordinatorTests : XCTestCase
+
+// SFOAuthCoordinator.authSession is weak; production code keeps it alive via
+// SFUserAccountManager's authSessions store, so tests must retain it here for as long as
+// the coordinator under test needs to read authSession.oauthRequest (e.g. computeAuthTrigger).
+@property (nonatomic, strong) SFSDKAuthSession *retainedAuthSession;
 
 @end
 
@@ -151,6 +157,108 @@ static NSString * const kExpectedUnscopedSceneIdPrefix = @"com.salesforce.mobile
     authRequest.loginHost = @"login.salesforce.com";
     SFSDKAuthSession *authSession = [[SFSDKAuthSession alloc] initWith:authRequest credentials:nil];
     return [[SFOAuthCoordinator alloc] initWithAuthSession:authSession];
+}
+
+// Helper to build a coordinator backed by an auth session whose oauthRequest flags
+// (loginAsAdmin, useBrowserAuth) can be set before asserting on the native browser approval URL.
+// Returns authSession.oauthCoordinator (not a freshly-initWithAuthSession: instance): SFSDKAuthSession
+// already builds and configures its own coordinator in -initCoordinator, including setting
+// useBrowserAuth from oauthRequest.useBrowserAuth/loginAsAdmin — a second coordinator built directly
+// via initWithAuthSession: would skip that configuration. authSession is retained on self for the
+// test's duration since SFOAuthCoordinator.authSession is weak (production keeps it alive via
+// SFUserAccountManager's authSessions store).
+- (SFOAuthCoordinator *)browserFlowCoordinatorWithLoginAsAdmin:(BOOL)loginAsAdmin useBrowserAuth:(BOOL)useBrowserAuth {
+    SFSDKAuthRequest *authRequest = [[SFSDKAuthRequest alloc] init];
+    authRequest.oauthClientId = @"testClientId";
+    authRequest.oauthCompletionUrl = @"testapp://callback";
+    authRequest.loginHost = @"login.salesforce.com";
+    authRequest.loginAsAdmin = loginAsAdmin;
+    authRequest.useBrowserAuth = useBrowserAuth;
+    self.retainedAuthSession = [[SFSDKAuthSession alloc] initWith:authRequest credentials:nil];
+    return self.retainedAuthSession.oauthCoordinator;
+}
+
+#pragma mark - auth_trigger / sdkInfo Tests
+
+- (void)test_givenForceAdvancedAuthentication_whenBuildingNativeBrowserApprovalUrl_thenContainsForceAdvancedAuthTriggerAndSdkInfo {
+    BOOL original = [SalesforceSDKManager sharedManager].sdk_forceAdvancedAuthentication;
+    [SalesforceSDKManager sharedManager].sdk_forceAdvancedAuthentication = YES;
+
+    SFOAuthCoordinator *coordinator = [self browserFlowCoordinatorWithLoginAsAdmin:NO useBrowserAuth:NO];
+
+    NSString *approvalUrl = [coordinator nativeBrowserApprovalUrlWithSharedBrowserSessionEnabled:YES];
+
+    XCTAssertTrue([approvalUrl containsString:@"auth_trigger=force_advanced_auth"], @"Expected force_advanced_auth trigger, got: %@", approvalUrl);
+    NSString *expectedSdkInfo = [[[SalesforceSDKManager sharedManager] userAgentString:@"" forUser:nil] sfsdk_stringByURLEncoding];
+    NSString *expectedSdkInfoParam = [NSString stringWithFormat:@"sdkInfo=%@", expectedSdkInfo];
+    XCTAssertTrue([approvalUrl containsString:expectedSdkInfoParam], @"Expected encoded sdkInfo, got: %@", approvalUrl);
+
+    [SalesforceSDKManager sharedManager].sdk_forceAdvancedAuthentication = original;
+}
+
+- (void)test_givenNoTriggerSignalsSet_whenBuildingNativeBrowserApprovalUrl_thenContainsOrgConfigTrigger {
+    BOOL original = [SalesforceSDKManager sharedManager].sdk_forceAdvancedAuthentication;
+    [SalesforceSDKManager sharedManager].sdk_forceAdvancedAuthentication = NO;
+
+    SFOAuthCoordinator *coordinator = [self browserFlowCoordinatorWithLoginAsAdmin:NO useBrowserAuth:NO];
+
+    NSString *approvalUrl = [coordinator nativeBrowserApprovalUrlWithSharedBrowserSessionEnabled:YES];
+
+    XCTAssertTrue([approvalUrl containsString:@"auth_trigger=org_config"], @"Expected org_config trigger, got: %@", approvalUrl);
+
+    [SalesforceSDKManager sharedManager].sdk_forceAdvancedAuthentication = original;
+}
+
+- (void)test_givenLoginAsAdmin_whenBuildingNativeBrowserApprovalUrl_thenContainsLoginForAdminTrigger {
+    BOOL original = [SalesforceSDKManager sharedManager].sdk_forceAdvancedAuthentication;
+    [SalesforceSDKManager sharedManager].sdk_forceAdvancedAuthentication = YES; // lower priority than loginAsAdmin
+
+    SFOAuthCoordinator *coordinator = [self browserFlowCoordinatorWithLoginAsAdmin:YES useBrowserAuth:NO];
+
+    NSString *approvalUrl = [coordinator nativeBrowserApprovalUrlWithSharedBrowserSessionEnabled:YES];
+
+    XCTAssertTrue([approvalUrl containsString:@"auth_trigger=login_for_admin"], @"Expected login_for_admin trigger to take priority, got: %@", approvalUrl);
+
+    [SalesforceSDKManager sharedManager].sdk_forceAdvancedAuthentication = original;
+}
+
+- (void)test_givenMdmUseBrowserAuth_whenBuildingNativeBrowserApprovalUrl_thenContainsMdmTrigger {
+    BOOL original = [SalesforceSDKManager sharedManager].sdk_forceAdvancedAuthentication;
+    [SalesforceSDKManager sharedManager].sdk_forceAdvancedAuthentication = YES; // lower priority than MDM
+
+    SFOAuthCoordinator *coordinator = [self browserFlowCoordinatorWithLoginAsAdmin:NO useBrowserAuth:YES];
+
+    NSString *approvalUrl = [coordinator nativeBrowserApprovalUrlWithSharedBrowserSessionEnabled:YES];
+
+    XCTAssertTrue([approvalUrl containsString:@"auth_trigger=mdm"], @"Expected mdm trigger to take priority over force_advanced_auth, got: %@", approvalUrl);
+
+    [SalesforceSDKManager sharedManager].sdk_forceAdvancedAuthentication = original;
+}
+
+- (void)test_givenWebViewFlow_whenGeneratingApprovalUrl_thenDoesNotContainAuthTriggerOrSdkInfo {
+    SFOAuthCoordinator *coordinator = [self browserFlowCoordinator];
+    coordinator.useBrowserAuth = NO;
+
+    NSString *approvalUrl = [coordinator generateApprovalUrlString];
+
+    XCTAssertFalse([approvalUrl containsString:@"auth_trigger="], @"WebView-path approval URL must not contain auth_trigger, got: %@", approvalUrl);
+    XCTAssertFalse([approvalUrl containsString:@"sdkInfo="], @"WebView-path approval URL must not contain sdkInfo, got: %@", approvalUrl);
+}
+
+- (void)test_givenNativeBrowserFlow_whenBuildingApprovalUrl_thenSdkInfoIsProperlyPercentEncoded {
+    SFOAuthCoordinator *coordinator = [self browserFlowCoordinatorWithLoginAsAdmin:NO useBrowserAuth:NO];
+
+    NSString *approvalUrl = [coordinator nativeBrowserApprovalUrlWithSharedBrowserSessionEnabled:YES];
+
+    NSString *rawUserAgent = [[SalesforceSDKManager sharedManager] userAgentString:@"" forUser:nil];
+    NSString *encodedUserAgent = [rawUserAgent sfsdk_stringByURLEncoding];
+    NSString *encodedSdkInfoParam = [NSString stringWithFormat:@"sdkInfo=%@", encodedUserAgent];
+    XCTAssertTrue([approvalUrl containsString:encodedSdkInfoParam], @"sdkInfo value should be percent-encoded exactly once, got: %@", approvalUrl);
+    // The SDK user agent always contains spaces (e.g. "SalesforceMobileSDK/..."); assert those are
+    // encoded away rather than appearing raw in the query string.
+    XCTAssertTrue([rawUserAgent containsString:@" "], @"Precondition: user agent string should contain spaces to make this a meaningful encoding check");
+    NSString *rawSdkInfoParam = [NSString stringWithFormat:@"sdkInfo=%@", rawUserAgent];
+    XCTAssertFalse([approvalUrl containsString:rawSdkInfoParam], @"sdkInfo value must not appear unencoded in the approval URL");
 }
 
 // When a scene is connected, the advanced-auth browser callback must key its options dictionary by

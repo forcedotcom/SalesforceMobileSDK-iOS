@@ -75,6 +75,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (NSString *)generateApprovalUrlString;
 
+/**
+ * Used for testing only.
+ * @return The authorize url for the native browser (advanced auth) path, including
+ *         `state`/`prompt`/`auth_trigger`/`sdkInfo` params.
+ */
+- (NSString *)nativeBrowserApprovalUrlWithSharedBrowserSessionEnabled:(BOOL)shareBrowserSession;
+
 - (void)beginWebViewFlow;
 
 /**
