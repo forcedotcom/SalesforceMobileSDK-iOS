@@ -57,7 +57,8 @@ public final class DPoPRequestDecorator: NSObject {
     /// Note: this gate is deliberately independent of `SalesforceManager.shared.usesDPoP`.
     /// The global flag governs *new* logins (whether to request DPoP-bound tokens); once a
     /// credential is bound, every request for it carries a proof regardless of the flag.
-    static func shouldAttachDPoP(scope: String, tokenType: String?) -> Bool {
+    @objc(shouldAttachDPoPForScope:tokenType:)
+    public static func shouldAttachDPoP(scope: String, tokenType: String?) -> Bool {
         guard !scope.isEmpty else {
             SFSDKCoreLogger.i(Self.self, message: "DPoP decorator skipped: empty scope identifier")
             return false
@@ -152,6 +153,35 @@ public final class DPoPRequestDecorator: NSObject {
                                         tokenType: String?) throws {
         guard let accessToken, !accessToken.isEmpty else { return }
         if tokenType == dpopTokenType {
+            request.setValue("DPoP \(accessToken)", forHTTPHeaderField: "Authorization")
+            try decorate(request, scope: scope, tokenType: tokenType, accessToken: accessToken)
+        } else {
+            request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+        }
+    }
+
+    /// Convenience overload for app-built requests. Extracts `scope`, `accessToken`,
+    /// and `tokenType` from `credentials`, then stamps the same headers as
+    /// `applyAuthHeaders(_:scope:accessToken:tokenType:)`.
+    ///
+    /// Use this when you hold an `OAuthCredentials` object and want to stamp the
+    /// correct `Authorization` (and, if the credential is DPoP-bound, `DPoP` proof)
+    /// headers on an `NSMutableURLRequest` you constructed yourself — outside the
+    /// SDK's `RestClient`.
+    ///
+    /// Unlike the four-argument overload (which keys the scheme off `tokenType ==
+    /// "DPoP"`), this gates via `shouldAttachDPoP(scope:tokenType:)`, so a credential
+    /// still in the `/authorize`→`/token` transition window (nil `tokenType` but with
+    /// persisted key material) also gets a proof. Gating is per-credential, not the
+    /// global `SalesforceManager.shared.usesDPoP` flag: a DPoP-bound credential carries
+    /// proofs regardless of that flag.
+    @objc(applyAuthHeaders:credentials:error:)
+    public static func applyAuthHeaders(_ request: NSMutableURLRequest,
+                                        credentials: OAuthCredentials) throws {
+        guard let accessToken = credentials.accessToken, !accessToken.isEmpty else { return }
+        let scope = credentials.identifier
+        let tokenType = credentials.tokenType
+        if shouldAttachDPoP(scope: scope, tokenType: tokenType) {
             request.setValue("DPoP \(accessToken)", forHTTPHeaderField: "Authorization")
             try decorate(request, scope: scope, tokenType: tokenType, accessToken: accessToken)
         } else {
