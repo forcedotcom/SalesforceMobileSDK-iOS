@@ -34,6 +34,7 @@ let kBrowserLoginForceFlag        = "B4"
 private let kAllBMarkers          = ["B1", "B2", "B3", "B4"]
 
 // L-marker codes (which login server type)
+let kLoginServerProduction        = "L1"
 let kLoginServerWelcomeDiscovery  = "L3"
 let kLoginServerMyDomain          = "L4"
 private let kAllLMarkers          = ["L1", "L2", "L3", "L4", "L5"]
@@ -189,10 +190,16 @@ class BaseAuthFlowTester: XCTestCase {
         let loginHostToUse: String
         if useWelcomeDiscovery {
             loginHostToUse = "welcome.salesforce.com/discovery"
-        } else if useLoginPoolHost, let poolHost = try? UITestConfigUtils.shared.getLoginPoolHost() {
-            loginHostToUse = poolHost
-                .replacingOccurrences(of: "https://", with: "")
-                .replacingOccurrences(of: "http://", with: "")
+        } else if useLoginPoolHost {
+            do {
+                let poolHost = try UITestConfigUtils.shared.getLoginPoolHost()
+                loginHostToUse = poolHost
+                    .replacingOccurrences(of: "https://", with: "")
+                    .replacingOccurrences(of: "http://", with: "")
+            } catch {
+                XCTFail("useLoginPoolHost is true but getLoginPoolHost() failed: \(error)")
+                return
+            }
         } else {
             loginHostToUse = hostConfig.urlNoProtocol
         }
@@ -454,7 +461,8 @@ class BaseAuthFlowTester: XCTestCase {
             isMultiUser: isMultiUser,
             usesWelcomeDiscovery: useWelcomeDiscovery,
             loginForAdmin: loginForAdmin,
-            useDPoP: useDPoP
+            useDPoP: useDPoP,
+            useLoginPoolHost: useLoginPoolHost
         )
     }
     
@@ -1114,6 +1122,7 @@ class BaseAuthFlowTester: XCTestCase {
         loginForAdmin: Bool = false,
         useDPoP: Bool = false,
         wasMigrated: Bool = false,
+        useLoginPoolHost: Bool = false,
         expectedAMarkerOverride: String? = nil
     ) -> UserCredentialsData {
 
@@ -1130,9 +1139,15 @@ class BaseAuthFlowTester: XCTestCase {
             kBrowserLoginServerAuthConfig
         ) : nil
 
-        let expectedLMarker: String? = usesWelcomeDiscovery
-            ? kLoginServerWelcomeDiscovery
-            : kLoginServerMyDomain
+        let expectedLMarker: String?
+        if usesWelcomeDiscovery {
+            expectedLMarker = kLoginServerWelcomeDiscovery
+        } else if useLoginPoolHost {
+            // Pool server (login.salesforce.com, login.*.salesforce.com) registers L1, not L4.
+            expectedLMarker = kLoginServerProduction
+        } else {
+            expectedLMarker = kLoginServerMyDomain
+        }
 
         // For migrations, use the pre-migration A-marker (preserved per spec). For fresh logins,
         // derive it from the flow parameters. Login for Admin always uses SFOAuthTypeAdvancedBrowser

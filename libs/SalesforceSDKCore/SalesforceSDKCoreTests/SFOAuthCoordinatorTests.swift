@@ -231,6 +231,44 @@ class SFOAuthCoordinatorTests: XCTestCase {
                      "empty credentials.identifier must skip the dpop_jkt append")
     }
 
+    /// Defensive-guard coverage — When `domain` is nil the
+    /// `appendDPoPJktIfNeededTo:domain:credentials:` guard must return
+    /// immediately, leaving the URL untouched.
+    ///
+    /// `generateApprovalUrlString()` always resolves a non-nil domain before
+    /// calling the append helper (it falls back to `credentials.domain` and
+    /// asserts), so the nil-domain guard in the helper is a defensive
+    /// belt-and-suspenders check. We exercise it by calling the internal
+    /// helper through the ObjC runtime with a nil domain string rather than
+    /// going through `generateApprovalUrlString` which cannot reach it.
+    func test_givenDPoPEnabledAndNilDomain_whenAppendDPoPJktIfNeededTo_thenUrlRemainsUnchanged() throws {
+        SalesforceManager.shared.usesDPoP = true
+
+        let identifier = trackedScope("sc6-nil-domain")
+        let credentials = try makeCredentials(identifier: identifier,
+                                              domain: "acme.my.salesforce.com")
+
+        // Build a baseline approval URL with a known domain so we can pass a nil
+        // domain directly to the append helper and confirm the URL is unchanged.
+        let coordinator = SFOAuthCoordinator()
+        coordinator.credentials = credentials
+        let baseUrl = NSMutableString(string:
+            "https://acme.my.salesforce.com/services/oauth2/authorize?client_id=test&redirect_uri=x://cb&display=touch")
+        let sel = NSSelectorFromString("appendDPoPJktIfNeededTo:domain:credentials:")
+        // The selector must exist — if it disappears the test fails here, loudly.
+        XCTAssertTrue(coordinator.responds(to: sel),
+                      "appendDPoPJktIfNeededTo:domain:credentials: must be present on SFOAuthCoordinator")
+        // Invoke with nil domain via NSInvocation-style IMP call.
+        // swiftlint:disable:next force_cast
+        typealias AppendFn = @convention(c) (AnyObject, Selector, NSMutableString, AnyObject?, AnyObject?) -> Void
+        let imp = coordinator.method(for: sel)
+        let fn = unsafeBitCast(imp, to: AppendFn.self)
+        fn(coordinator, sel, baseUrl, nil, credentials)
+
+        XCTAssertFalse(baseUrl.contains("dpop_jkt"),
+                       "dpop_jkt must not be appended when domain is nil — the nil-domain guard must return early")
+    }
+
     /// The `migrateRefreshToken:` flow constructs its single-access
     /// request path from `generateApprovalUrlString()`. Under the same gate
     /// (DPoP enabled + my-domain + identifier set), the URL it feeds to

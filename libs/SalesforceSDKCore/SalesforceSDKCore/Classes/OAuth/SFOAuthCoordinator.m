@@ -121,7 +121,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [SFNetwork removeSharedInstanceForIdentifier:self.networkIdentifier];
     self.networkIdentifier = nil;
-    _approvalCode = nil;
     _session = nil;
     _credentials = nil;
     _responseData = nil;
@@ -292,7 +291,7 @@
     _session = nil;
     self.networkIdentifier = nil;
     self.authenticating = NO;
-    _authInfo = nil;
+    _authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeUnknown];
 }
 
 - (void)revokeAuthentication {
@@ -1000,6 +999,7 @@
 
     [self appendDPoPJktIfNeededTo:approvalUrlString domain:domain credentials:credentials];
 
+    NSLog(@"approvalUrl-->%@", approvalUrlString);
     return approvalUrlString;
 }
 
