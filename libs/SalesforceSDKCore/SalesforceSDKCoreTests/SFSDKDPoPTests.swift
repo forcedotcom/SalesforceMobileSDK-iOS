@@ -583,6 +583,92 @@ class SFSDKDPoPTests: XCTestCase {
         XCTAssertNil(req.value(forHTTPHeaderField: "DPoP"))
     }
 
+    // MARK: - applyAuthHeaders(_:credentials:)
+
+    func test_givenDPoPCredentials_whenApplyAuthHeadersWithCredentials_thenBothHeadersSet() throws {
+        let scope = "creds-dpop-\(UUID().uuidString)"
+        defer { DPoPKeyStore.shared.delete(forScope: scope) }
+        let creds = OAuthCredentials(identifier: scope, clientId: "CLIENT_ID", encrypted: false)!
+        creds.accessToken = "00DXX0000000000!ARQ.dpop.access.token"
+        creds.tokenType = "DPoP"
+        _ = try DPoPKeyStore.shared.keyPair(forScope: scope)
+
+        let req = NSMutableURLRequest(url: URL(string: "https://example.salesforce.com/services/data/v60.0/sobjects/Account")!)
+        req.httpMethod = "GET"
+        try DPoPRequestDecorator.applyAuthHeaders(req, credentials: creds)
+
+        let auth = try XCTUnwrap(req.value(forHTTPHeaderField: "Authorization"))
+        XCTAssertTrue(auth.hasPrefix("DPoP "))
+        let proof = try XCTUnwrap(req.value(forHTTPHeaderField: "DPoP"))
+        XCTAssertEqual(proof.split(separator: ".").count, 3)
+    }
+
+    func test_givenBearerCredentials_whenApplyAuthHeadersWithCredentials_thenOnlyAuthorizationHeader() throws {
+        let scope = "creds-bearer-\(UUID().uuidString)"
+        defer { DPoPKeyStore.shared.delete(forScope: scope) }
+        let creds = OAuthCredentials(identifier: scope, clientId: "CLIENT_ID", encrypted: false)!
+        creds.accessToken = "bearer-only-access-token"
+        creds.tokenType = "Bearer"
+
+        let req = NSMutableURLRequest(url: tokenURL)
+        req.httpMethod = "GET"
+        try DPoPRequestDecorator.applyAuthHeaders(req, credentials: creds)
+
+        let auth = try XCTUnwrap(req.value(forHTTPHeaderField: "Authorization"))
+        XCTAssertTrue(auth.hasPrefix("Bearer "))
+        XCTAssertNil(req.value(forHTTPHeaderField: "DPoP"))
+    }
+
+    func test_givenDPoPCredentials_usesDPoPFalse_whenApplyAuthHeadersWithCredentials_thenProofStillAttached() throws {
+        let prior = SalesforceManager.shared.usesDPoP
+        SalesforceManager.shared.usesDPoP = false
+        defer { SalesforceManager.shared.usesDPoP = prior }
+
+        let scope = "creds-dpop-flagoff-\(UUID().uuidString)"
+        defer { DPoPKeyStore.shared.delete(forScope: scope) }
+        let creds = OAuthCredentials(identifier: scope, clientId: "CLIENT_ID", encrypted: false)!
+        creds.accessToken = "00DXX0000000000!ARQ.dpop.access.token"
+        creds.tokenType = "DPoP"
+        _ = try DPoPKeyStore.shared.keyPair(forScope: scope)
+
+        let req = NSMutableURLRequest(url: tokenURL)
+        req.httpMethod = "GET"
+        try DPoPRequestDecorator.applyAuthHeaders(req, credentials: creds)
+
+        XCTAssertNotNil(req.value(forHTTPHeaderField: "DPoP"),
+                        "Proof gating is per-credential, not the global usesDPoP flag")
+    }
+
+    func test_givenNilTokenType_withKeypair_whenApplyAuthHeadersWithCredentials_thenProofAttached() throws {
+        let scope = "creds-niltype-keypair-\(UUID().uuidString)"
+        defer { DPoPKeyStore.shared.delete(forScope: scope) }
+        let creds = OAuthCredentials(identifier: scope, clientId: "CLIENT_ID", encrypted: false)!
+        creds.accessToken = "00DXX0000000000!ARQ.dpop.access.token"
+        // tokenType left nil.
+        _ = try DPoPKeyStore.shared.keyPair(forScope: scope)
+
+        let req = NSMutableURLRequest(url: tokenURL)
+        req.httpMethod = "GET"
+        try DPoPRequestDecorator.applyAuthHeaders(req, credentials: creds)
+
+        XCTAssertNotNil(req.value(forHTTPHeaderField: "DPoP"))
+    }
+
+    func test_givenNilTokenType_noKeypair_whenApplyAuthHeadersWithCredentials_thenBearerOnly() throws {
+        let scope = "creds-niltype-nokeypair-\(UUID().uuidString)"
+        let creds = OAuthCredentials(identifier: scope, clientId: "CLIENT_ID", encrypted: false)!
+        creds.accessToken = "bearer-only-access-token"
+        // tokenType left nil, no keypair seeded.
+
+        let req = NSMutableURLRequest(url: tokenURL)
+        req.httpMethod = "GET"
+        try DPoPRequestDecorator.applyAuthHeaders(req, credentials: creds)
+
+        let auth = try XCTUnwrap(req.value(forHTTPHeaderField: "Authorization"))
+        XCTAssertTrue(auth.hasPrefix("Bearer "))
+        XCTAssertNil(req.value(forHTTPHeaderField: "DPoP"))
+    }
+
     // MARK: - Identity service loop-prevention
 
     /// Loop regression: under DPoP-bound credentials, an identity request must go out
