@@ -104,10 +104,8 @@ class SFOAuthCoordinatorTests: XCTestCase {
                        "dpop_jkt on /authorize must equal jwkThumbprint of the token-endpoint key pair")
     }
 
-    /// Pool login hosts (`login.salesforce.com`) must never receive
-    /// `dpop_jkt`, even when DPoP is enabled. Salesforce blocks DPoP at the
-    /// pool servers.
-    func test_givenDPoPEnabledAndProductionPoolHost_whenGenerateApprovalUrlString_thenUrlHasNoDPoPJkt() throws {
+    /// Production pool host `login.salesforce.com` must receive `dpop_jkt` when DPoP is enabled.
+    func test_givenDPoPEnabledAndProductionPoolHost_whenGenerateApprovalUrlString_thenUrlHasDPoPJkt() throws {
         SalesforceManager.shared.usesDPoP = true
 
         let scope = trackedScope("sc4-pool-prod")
@@ -116,12 +114,16 @@ class SFOAuthCoordinatorTests: XCTestCase {
         coordinator.credentials = credentials
 
         let url = coordinator.generateApprovalUrlString()
-        XCTAssertNil(queryValue(name: "dpop_jkt", in: url),
-                     "login.salesforce.com is a pool host; dpop_jkt must not be sent")
+        let jktValue = try XCTUnwrap(queryValue(name: "dpop_jkt", in: url),
+                                     "login.salesforce.com supports DPoP code binding; dpop_jkt must be present")
+        let pattern = try NSRegularExpression(pattern: "^[A-Za-z0-9_-]{43}$")
+        let range = NSRange(location: 0, length: jktValue.utf16.count)
+        XCTAssertNotNil(pattern.firstMatch(in: jktValue, options: [], range: range),
+                        "dpop_jkt must be a 43-char base64url string, got: \(jktValue)")
     }
 
-    /// Sandbox pool host `test.salesforce.com` must not receive `dpop_jkt`.
-    func test_givenDPoPEnabledAndSandboxPoolHost_whenGenerateApprovalUrlString_thenUrlHasNoDPoPJkt() throws {
+    /// Sandbox pool host `test.salesforce.com` must receive `dpop_jkt` when DPoP is enabled.
+    func test_givenDPoPEnabledAndSandboxPoolHost_whenGenerateApprovalUrlString_thenUrlHasDPoPJkt() throws {
         SalesforceManager.shared.usesDPoP = true
 
         let scope = trackedScope("sc4-pool-sandbox")
@@ -130,8 +132,12 @@ class SFOAuthCoordinatorTests: XCTestCase {
         coordinator.credentials = credentials
 
         let url = coordinator.generateApprovalUrlString()
-        XCTAssertNil(queryValue(name: "dpop_jkt", in: url),
-                     "test.salesforce.com is a pool host; dpop_jkt must not be sent")
+        let jktValue = try XCTUnwrap(queryValue(name: "dpop_jkt", in: url),
+                                     "test.salesforce.com supports DPoP code binding; dpop_jkt must be present")
+        let pattern = try NSRegularExpression(pattern: "^[A-Za-z0-9_-]{43}$")
+        let range = NSRange(location: 0, length: jktValue.utf16.count)
+        XCTAssertNotNil(pattern.firstMatch(in: jktValue, options: [], range: range),
+                        "dpop_jkt must be a 43-char base64url string, got: \(jktValue)")
     }
 
     /// Welcome / discovery pool host `welcome.salesforce.com/discovery`

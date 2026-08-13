@@ -151,6 +151,22 @@ class DPoPLoginTests: BaseAuthFlowTester {
         throw XCTSkip("TODO: Pending SDK fix: RestClient path lacks nonce-challenge retry; post-restart DPoP revoke fails because in-memory nonce cache is empty.")
     }
 
+    // MARK: - Pool Server Login
+
+    /// Login via the pool server (login.test1.pc-rnd.salesforce.com) with DPoP enabled
+    /// and verify that dpop_jkt was accepted and DPoP binding holds after a revoke+refresh.
+    func test_givenDPoP_whenLoginViaPoolServer_thenTokenTypeIsDPoP() throws {
+        launchLoginAndValidate(
+            loginHost: .regularAuth,
+            user: .first,
+            staticAppConfigName: .ecaJwtDpop,
+            useHybridFlow: false,
+            useDPoP: true,
+            useLoginPoolHost: true
+        )
+        assertRevokeAndRefreshWorks(isRtr: false, isDPoP: true, useHybridFlow: false, isJwt: true)
+    }
+
     // MARK: - Admin Login
 
     /// Login with DPoP via Login for Admin (browser-based) and verify DPoP binding.

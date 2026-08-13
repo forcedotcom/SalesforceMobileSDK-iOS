@@ -162,6 +162,7 @@ struct UserConfig: Codable {
 
 /// Represents the complete test configuration
 struct TestConfig: Codable {
+    let loginPoolHost: String?
     let loginHosts: [LoginHostConfig]
     let apps: [AppConfig]
 }
@@ -257,6 +258,14 @@ class UITestConfigUtils {
     
     // MARK: - Throwing Accessors
     
+    /// Returns the pool login host URL (e.g. https://login.test1.pc-rnd.salesforce.com) or throws if absent.
+    func getLoginPoolHost() throws -> String {
+        guard let host = config?.loginPoolHost, !host.isEmpty else {
+            throw TestConfigError.loginHostNotFound("loginPoolHost")
+        }
+        return host
+    }
+
     /// Returns a login host configuration by its name or throws an error if not found
     func getLoginHost(_ loginHost: KnownLoginHostConfig) throws -> LoginHostConfig {
         guard let hostConfig = config?.loginHosts.first(where: { $0.name == loginHost.rawValue }) else {

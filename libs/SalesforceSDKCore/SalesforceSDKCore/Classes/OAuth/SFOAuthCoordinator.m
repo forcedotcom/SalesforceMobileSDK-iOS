@@ -1004,17 +1004,18 @@
 }
 
 // Appends `&dpop_jkt=<base64url-sha256>` to the approval URL when DPoP is enabled
-// and the login server is a my-domain server (RFC 9449 §10 authorization code
-// binding). Soft-fails on key-material / crypto errors: logs a warning and leaves
-// the URL untouched so login proceeds — the server will surface an RFC-shaped
-// `invalid_request` error if the ECA requires code binding.
+// (RFC 9449 §10 authorization code binding). Soft-fails on key-material / crypto errors.
 - (void)appendDPoPJktIfNeededTo:(NSMutableString *)approvalUrlString
                          domain:(NSString *)domain
                     credentials:(SFOAuthCredentials *)credentials {
     if (![[SalesforceSDKManager sharedManager] useDPoP]) {
         return;
     }
-    if (domain == nil || [SFSDKAuthConfigUtil isPoolLoginHost:domain]) {
+    if (domain == nil) {
+        return;
+    }
+    // welcome.salesforce.com/discovery is a discovery endpoint, never a direct /authorize target.
+    if ([domain isEqualToString:kSFSDKWelcomeLoginURL]) {
         return;
     }
     if (credentials.identifier.length == 0) {
