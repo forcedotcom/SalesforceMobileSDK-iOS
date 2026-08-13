@@ -999,7 +999,6 @@
 
     [self appendDPoPJktIfNeededTo:approvalUrlString domain:domain credentials:credentials];
 
-    NSLog(@"approvalUrl-->%@", approvalUrlString);
     return approvalUrlString;
 }
 
