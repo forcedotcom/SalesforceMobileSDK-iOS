@@ -176,7 +176,7 @@ class DPoPLoginTests: BaseAuthFlowTester {
     // MARK: - Admin Login
 
     /// Login with DPoP via Login for Admin (browser-based) and verify DPoP binding.
-    func test_givenDPoPECA_whenAdminLogin_thenDPoPBindingWorksThroughSafariVC() throws {
+    func test_givenDPoPECA_whenAdminLogin_thenDPoPBindingWorksThroughBrowser() throws {
         // Login via Login for Admin with DPoP enabled (the DPoP triad is checked in the
         // base class's `validateUser()` via `launchLoginAndValidate`).
         launchLoginAndValidate(
