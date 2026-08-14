@@ -157,7 +157,8 @@ static NSRegularExpression* soupPathRegexp;
                 BOOL indexed = [store hasIndexForPath:path inSoup:soupName withDb:db];
                 if (!indexed) {
                     // Thanks to the json1 extension we can query the data even if it is not indexed
-                    columnName = [NSString stringWithFormat:@"json_extract(soup, '$.%@')", path];
+                    NSString *escapedPath = [path stringByReplacingOccurrencesOfString:@"'" withString:@"''"];
+                    columnName = [NSString stringWithFormat:@"json_extract(soup, '$.%@')", escapedPath];
                 } else {
                     columnName = [store columnNameForPath:path inSoup:soupName withDb:db];
                     if (nil == columnName) {
