@@ -66,6 +66,7 @@ static NSString * const kSFSDKAuthSessionUnscopedSceneIdPrefix = @"com.salesforc
     self.oauthCoordinator.scopes = self.oauthRequest.scopes;
     self.oauthCoordinator.brandLoginPath = self.oauthRequest.brandLoginPath;
     self.oauthCoordinator.useBrowserAuth = self.oauthRequest.useBrowserAuth || self.oauthRequest.loginAsAdmin;
+    self.oauthCoordinator.dpopOverride = self.oauthRequest.useDPoP;
     if (_spAppCredentials && _spAppCredentials.domain) {
         self.oauthCoordinator.credentials.domain = _spAppCredentials.domain;
     }

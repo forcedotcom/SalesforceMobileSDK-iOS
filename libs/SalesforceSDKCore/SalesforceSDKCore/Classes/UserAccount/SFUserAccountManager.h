@@ -601,6 +601,44 @@ Use this method to stop/clear any authentication which is has already been start
                     failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock NS_SWIFT_NAME(migrateRefreshToken(for:newAppConfig:success:failure:));
 
 /**
+ Migrates the refresh token for the specified user to a new app configuration, with explicit
+ control over whether the re-authentication requests a DPoP-bound authorization code.
+
+ This might cause the approve/deny screen to be presented to the user to authorize the
+ new app. If successful a new set of credentials (refresh token, access token) are obtained
+ and replace the existing credentials for the user.
+
+ @param user The user account whose refresh token should be migrated.
+ @param newAppConfig The new app configuration to migrate to.
+ @param useDPoP Per-call override for whether the re-authentication should bind its authorization
+ code to DPoP. `nil` defers to the process-wide `SalesforceSDKManager.useDPoP` flag, matching
+ `migrateRefreshToken:newAppConfig:success:failure:`.
+ @param completionBlock Called on successful migration with the updated user account and auth info.
+ @param failureBlock Called if the migration fails with an error and optional auth info.
+ */
+- (void)migrateRefreshToken:(SFUserAccount *)user
+               newAppConfig:(SFSDKAppConfig *)newAppConfig
+                    useDPoP:(nullable NSNumber *)useDPoP
+                    success:(SFUserAccountManagerSuccessCallbackBlock)completionBlock
+                    failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock NS_SWIFT_NAME(migrateRefreshToken(for:newAppConfig:useDPoP:success:failure:));
+
+/**
+ Upgrades the specified user's session to DPoP in place, without changing the connected app.
+
+ Re-authenticates using the user's current client id, redirect URI, and scopes, requesting a
+ DPoP-bound authorization code. This might cause the approve/deny screen to be presented to the
+ user. If successful, a new set of DPoP-bound credentials (refresh token, access token) are
+ obtained and replace the existing credentials for the user.
+
+ @param user The user account to upgrade to DPoP.
+ @param completionBlock Called on successful upgrade with the updated user account and auth info.
+ @param failureBlock Called if the upgrade fails with an error and optional auth info.
+ */
+- (void)upgradeToDPoP:(SFUserAccount *)user
+               success:(SFUserAccountManagerSuccessCallbackBlock)completionBlock
+               failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock NS_SWIFT_NAME(upgradeToDPoP(_:success:failure:));
+
+/**
  Handle an authentication response from the IDP application
  @param url The URL response returned to the app from the IDP application.
  @param options Dictionary of name-value pairs received from open URL

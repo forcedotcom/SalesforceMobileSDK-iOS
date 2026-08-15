@@ -271,19 +271,21 @@ class SFOAuthCoordinatorTests: XCTestCase {
 
     /// The `migrateRefreshToken:` flow constructs its single-access
     /// request path from `generateApprovalUrlString()`. Under the same gate
-    /// (DPoP enabled + my-domain + identifier set), the URL it feeds to
-    /// `requestForSingleAccess` therefore includes `dpop_jkt`. Because the
-    /// downstream `SFRestAPI sendRequest:` invocation makes a real network
-    /// call, this test verifies the URL produced by the same coordinator
-    /// method that migrateRefreshToken invokes — no REST mocking needed.
+    /// (a per-call `dpopOverride=@YES` + my-domain + identifier set), the URL it
+    /// feeds to `requestForSingleAccess` therefore includes `dpop_jkt`, regardless
+    /// of the process-wide `usesDPoP` flag. Because the downstream
+    /// `SFRestAPI sendRequest:` invocation makes a real network call, this test
+    /// verifies the URL produced by the same coordinator method that
+    /// migrateRefreshToken invokes — no REST mocking needed.
     func test_givenDPoPEnabledMigrateRefreshTokenSetup_whenGenerateApprovalUrlString_thenUrlContainsDPoPJkt() throws {
-        SalesforceManager.shared.usesDPoP = true
+        SalesforceManager.shared.usesDPoP = false
 
         let scope = trackedScope("sc7-migrate-refresh")
         let credentials = try makeCredentials(identifier: scope, domain: "acme.my.salesforce.com")
         credentials.refreshToken = "test-refresh-token"
         let coordinator = SFOAuthCoordinator()
         coordinator.credentials = credentials
+        coordinator.dpopOverride = NSNumber(value: true)
 
         // migrateRefreshToken: internally does:
         //   NSURL *approvalUrl = [NSURL URLWithString:[self generateApprovalUrlString]];
@@ -291,9 +293,69 @@ class SFOAuthCoordinatorTests: XCTestCase {
         // this string. The dpop_jkt binding therefore propagates end-to-end.
         let url = coordinator.generateApprovalUrlString()
         let jktValue = try XCTUnwrap(queryValue(name: "dpop_jkt", in: url),
-                                     "migrateRefreshToken path must produce a URL with dpop_jkt under DPoP + my-domain gate")
+                                     "migrateRefreshToken path must produce a URL with dpop_jkt under a per-call dpopOverride, independent of the global flag")
         XCTAssertEqual(jktValue.count, 43,
                        "dpop_jkt on migrateRefreshToken path must be a 43-char base64url string")
+    }
+
+    // MARK: - dpopOverride per-call gate (independent of the global usesDPoP flag)
+
+    /// Global flag OFF + a per-call `dpopOverride=@YES` (e.g. an in-place DPoP
+    /// upgrade migration) still attaches `dpop_jkt`. This is the crux of the
+    /// per-call gate: the override takes precedence over the global flag.
+    func test_givenGlobalFlagOffAndDpopOverrideYes_whenGenerateApprovalUrlString_thenUrlContainsDPoPJkt() throws {
+        SalesforceManager.shared.usesDPoP = false
+
+        let scope = trackedScope("override-flag-off-override-yes")
+        let credentials = try makeCredentials(identifier: scope, domain: "acme.my.salesforce.com")
+        let coordinator = SFOAuthCoordinator()
+        coordinator.credentials = credentials
+        coordinator.dpopOverride = NSNumber(value: true)
+
+        let url = coordinator.generateApprovalUrlString()
+        XCTAssertNotNil(queryValue(name: "dpop_jkt", in: url),
+                        "dpop_jkt must be present when dpopOverride=YES, even with the global flag off")
+    }
+
+    /// Global flag ON + a per-call `dpopOverride=@NO` (e.g. an explicit
+    /// downgrade migration) omits `dpop_jkt`. The override can turn DPoP off
+    /// per call just as it can turn it on.
+    func test_givenGlobalFlagOnAndDpopOverrideNo_whenGenerateApprovalUrlString_thenUrlHasNoDPoPJkt() throws {
+        SalesforceManager.shared.usesDPoP = true
+
+        let scope = trackedScope("override-flag-on-override-no")
+        let credentials = try makeCredentials(identifier: scope, domain: "acme.my.salesforce.com")
+        let coordinator = SFOAuthCoordinator()
+        coordinator.credentials = credentials
+        coordinator.dpopOverride = NSNumber(value: false)
+
+        let url = coordinator.generateApprovalUrlString()
+        XCTAssertNil(queryValue(name: "dpop_jkt", in: url),
+                     "dpop_jkt must be absent when dpopOverride=NO, even with the global flag on")
+    }
+
+    /// A nil `dpopOverride` (the normal-login default — never set outside a
+    /// per-call migration) must defer to the global flag exactly as before:
+    /// flag on ⇒ dpop_jkt present, flag off ⇒ absent.
+    func test_givenDpopOverrideNil_whenGenerateApprovalUrlString_thenUrlFollowsGlobalFlag() throws {
+        let scopeOn = trackedScope("override-nil-flag-on")
+        SalesforceManager.shared.usesDPoP = true
+        let credentialsOn = try makeCredentials(identifier: scopeOn, domain: "acme.my.salesforce.com")
+        let coordinatorOn = SFOAuthCoordinator()
+        coordinatorOn.credentials = credentialsOn
+        XCTAssertNil(coordinatorOn.dpopOverride, "normal login must never set dpopOverride")
+        let urlOn = coordinatorOn.generateApprovalUrlString()
+        XCTAssertNotNil(queryValue(name: "dpop_jkt", in: urlOn),
+                        "with dpopOverride nil and the global flag on, dpop_jkt must be present")
+
+        let scopeOff = trackedScope("override-nil-flag-off")
+        SalesforceManager.shared.usesDPoP = false
+        let credentialsOff = try makeCredentials(identifier: scopeOff, domain: "acme.my.salesforce.com")
+        let coordinatorOff = SFOAuthCoordinator()
+        coordinatorOff.credentials = credentialsOff
+        let urlOff = coordinatorOff.generateApprovalUrlString()
+        XCTAssertNil(queryValue(name: "dpop_jkt", in: urlOff),
+                     "with dpopOverride nil and the global flag off, dpop_jkt must be absent")
     }
 
     /// Entry-point coverage — user-agent flow (webServerFlow resolves to `NO`

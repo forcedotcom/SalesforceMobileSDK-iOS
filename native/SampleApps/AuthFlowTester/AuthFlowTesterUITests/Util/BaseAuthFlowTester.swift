@@ -704,7 +704,103 @@ class BaseAuthFlowTester: XCTestCase {
             "Refresh token should have been migrated"
         )
     }
-    
+
+    /// Upgrades the current session to DPoP in place (same connected app, via
+    /// `UserAccountManager.upgradeToDPoP`) and validates the result: DPoP-bound credentials,
+    /// an unchanged consumer key, and a working revoke/refresh cycle.
+    ///
+    /// Unlike `migrateAndValidate`, this does not change the connected app — it re-authenticates
+    /// against the same client id/redirect URI/scopes, so the consumer key is expected to stay
+    /// the same while the refresh token is rotated.
+    ///
+    /// - Parameter isJwt: Whether the connected app issues JWT-format access tokens (drives the
+    ///   "JT"/"OT" UA marker assertion). Defaults to `true` since the upgrade test uses `.ecaJwt`.
+    func upgradeToDPoPAndValidate(isJwt: Bool = true) {
+        let originalUserCredentials = getUserCredentials()
+
+        XCTAssert(mainPage.upgradeToDPoP(), "Failed to upgrade to DPoP")
+
+        let upgradedUserCredentials = getUserCredentials()
+
+        // The upgrade re-authenticates with the same connected app: consumer key is unchanged.
+        XCTAssertEqual(
+            originalUserCredentials.clientId,
+            upgradedUserCredentials.clientId,
+            "Consumer key should be unchanged after upgrading to DPoP"
+        )
+
+        assertDPoPCredentials(upgradedUserCredentials, context: "after upgrade")
+
+        // Making sure the refresh token changed
+        XCTAssertNotEqual(
+            originalUserCredentials.refreshToken,
+            upgradedUserCredentials.refreshToken,
+            "Refresh token should have been rotated by the DPoP upgrade"
+        )
+
+        // `upgradeToDPoP` delegates to the refresh-token migration path, so the "TM"
+        // (token-migration) UA feature flag is legitimately registered — the marker tracks the
+        // migration mechanism, not whether the connected app changed. Assert its presence.
+        assertRevokeAndRefreshWorks(isRtr: false, isDPoP: true, wasMigrated: true, isJwt: isJwt)
+    }
+
+    /// Launches the app and attempts a login expected to fail before any credentials are entered.
+    ///
+    /// Replays the same host-list / login-options / login-host prefix as `login()` (selecting the
+    /// login host is what triggers `/authorize`), then stops — it never calls `performLogin`.
+    /// Use this for enforced-server rejections that fire at `/authorize` before a login form ever
+    /// renders (e.g. a DPoP-enforced ECA rejecting an unbound login with `useDPoP: false`); calling
+    /// `performLogin` in that case would hang waiting on form fields that never appear.
+    ///
+    /// - Parameters:
+    ///   - loginHost: The login host configuration to use.
+    ///   - staticAppConfigName: The static app configuration name.
+    ///   - staticScopeSelection: The scope selection for static configuration. Defaults to `.empty`.
+    ///   - forceAdvancedAuthentication: Whether to use the external browser for login. Defaults to `true`.
+    ///   - useDPoP: Whether to enable the "Use DPoP" login option. Defaults to `false`.
+    func launchAndAttemptLoginExpectingFailure(
+        loginHost: KnownLoginHostConfig,
+        staticAppConfigName: KnownAppConfig,
+        staticScopeSelection: ScopeSelection = .empty,
+        forceAdvancedAuthentication: Bool = true,
+        useDPoP: Bool = false
+    ) {
+        launch()
+
+        let hostConfig = getLoginHost(loginHost: loginHost)
+        let staticAppConfig = getAppConfig(named: staticAppConfigName)
+        let staticScopes = testConfig.getScopesToRequest(for: staticAppConfig, staticScopeSelection)
+
+        let advancedAuthEnabled = forceAdvancedAuthentication
+
+        // A fresh login surface always starts under the process default (advanced auth on), so the
+        // external browser is showing. Cancel it to reach the host list, where login options and
+        // the login host are configured. (Mirrors login()'s own prefix.)
+        loginPage.returnToHostList(expectingBrowser: true)
+
+        loginPage.configureLoginOptions(
+            staticAppConfig: staticAppConfig,
+            staticScopes: staticScopes,
+            dynamicAppConfig: nil,
+            dynamicScopes: "",
+            useWebServerFlow: true,
+            useHybridFlow: true,
+            forceAdvancedAuthentication: forceAdvancedAuthentication,
+            discoveryLoginHost: "",
+            discoveryUsername: "",
+            useDPoP: useDPoP
+        )
+
+        loginPage.returnToHostList(expectingBrowser: advancedAuthEnabled)
+
+        // Selecting the login host triggers /authorize. For an enforced ECA with useDPoP: false,
+        // the server rejects before any login form renders, so there is nothing further to drive —
+        // assert on the outcome instead of attempting performLogin.
+        loginPage.configureLoginHost(host: hostConfig.urlNoProtocol)
+
+        assertMainPageNotLoaded()
+    }
+
     // MARK: - Protected Helpers for Subclasses
 
     /// Restarts the application.
@@ -1205,7 +1301,16 @@ class BaseAuthFlowTester: XCTestCase {
     func assertMainPageLoaded() {
         XCTAssert(mainPage.isShowing(), "AuthFlowTester is not loaded")
     }
-    
+
+    /// Asserts that the main page never loads, i.e. the app never reaches the post-login
+    /// credentials view. Use this after a login attempt expected to be rejected before any
+    /// authenticated user is added (e.g. an enforced-server `/authorize` rejection). Waits out
+    /// `mainPage.isShowing()`'s own network timeout to give a rejected login enough time to settle
+    /// back on the host picker before asserting absence.
+    func assertMainPageNotLoaded() {
+        XCTAssertFalse(mainPage.isShowing(), "AuthFlowTester should not have loaded")
+    }
+
     private func checkUserCredentials(username: String, userConsumerKey: String, userRedirectUri: String, grantedScopes: String, issuesJwt: Bool) -> UserCredentialsData {
         let userCredentials = mainPage.getUserCredentials()
         XCTAssertEqual(userCredentials.username, username, "Username in credentials should match expected username")
