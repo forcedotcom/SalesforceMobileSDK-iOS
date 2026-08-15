@@ -1,4 +1,5 @@
 {
+    "loginPoolHost": "https://login.your-env.salesforce.com",
     "loginHosts": [
         {
             "name": "regular_auth",

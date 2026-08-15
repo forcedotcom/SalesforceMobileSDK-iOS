@@ -63,20 +63,43 @@ xcodebuild -workspace SalesforceMobileSDK.xcworkspace \
   -scheme SalesforceSDKCore \
   -sdk iphonesimulator \
 
-# Run tests for a specific library
+# Run all unit tests for a specific library scheme (use -destination with explicit OS to avoid ambiguity)
 xcodebuild test -workspace SalesforceMobileSDK.xcworkspace \
   -scheme SalesforceSDKCore \
-  -sdk iphonesimulator \
+  -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.6'
 
-# Run tests for SmartStore
 xcodebuild test -workspace SalesforceMobileSDK.xcworkspace \
   -scheme SmartStore \
-  -sdk iphonesimulator \
+  -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.6'
 
-# Run tests for MobileSync
 xcodebuild test -workspace SalesforceMobileSDK.xcworkspace \
   -scheme MobileSync \
-  -sdk iphonesimulator \
+  -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.6'
+
+# Run a single test class
+xcodebuild test -workspace SalesforceMobileSDK.xcworkspace \
+  -scheme SalesforceSDKCore \
+  -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.6' \
+  -only-testing:SalesforceSDKCoreTests/SFOAuthCoordinatorTests
+
+# Run a single test method
+xcodebuild test -workspace SalesforceMobileSDK.xcworkspace \
+  -scheme SalesforceSDKCore \
+  -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.6' \
+  -only-testing:'SalesforceSDKCoreTests/SFOAuthCoordinatorTests/test_givenDPoPEnabledAndMyDomainAndIdentifier_whenGenerateApprovalUrlString_thenUrlContainsDPoPJktMatchingBase64UrlShape'
+
+# Run AuthFlowTester UI tests on simulator (requires ui_test_config.json in shared/test/ with valid org credentials)
+# The simulator CAN reach internal test environments — tests will fail with "not loaded" only if
+# ui_test_config.json is missing or the target org is unreachable from the machine.
+xcodebuild test -workspace SalesforceMobileSDK.xcworkspace \
+  -scheme AuthFlowTester \
+  -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.6' \
+  -only-testing:'AuthFlowTesterUITests/DPoPLoginTests/test_givenDPoP_whenLoginViaPoolServer_thenTokenTypeIsDPoP'
+
+# Run all AuthFlowTester UI tests
+xcodebuild test -workspace SalesforceMobileSDK.xcworkspace \
+  -scheme AuthFlowTester \
+  -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.6'
 
 # Static analysis (Clang)
 # Results output to libs/<Library>/clangReport/StaticAnalyzer/
