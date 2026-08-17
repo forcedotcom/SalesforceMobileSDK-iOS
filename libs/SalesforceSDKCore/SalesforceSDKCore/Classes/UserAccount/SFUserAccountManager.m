@@ -836,8 +836,10 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
                     success:(SFUserAccountManagerSuccessCallbackBlock)completionBlock
                     failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
 
-    // Store current user credentials to revoke them once migration completes
-    SFOAuthCredentials *preMigrationCredentials = self.currentUser.credentials;
+    // Store the migrated user's credentials to revoke them once migration completes. Snapshot the
+    // passed-in `user`, not `self.currentUser`: the two differ when upgrading a background account,
+    // and revoking currentUser's token here would sign out the wrong user.
+    SFOAuthCredentials *preMigrationCredentials = user.credentials;
 
     // Creating a SFSDKAuthRequest and SFSDKAuthSession
     SFSDKAuthRequest *request = [self migrateRefreshAuthRequest:newAppConfig];
