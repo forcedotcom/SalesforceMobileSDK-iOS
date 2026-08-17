@@ -262,29 +262,39 @@ public class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthenti
                         SFSDKWindowManager.shared().authWindow(scene).viewController?.dismiss(animated: false)
                     }
                 } catch {
-                    // User declined biometric. Stay locked, but resume the browser (Advanced Auth)
-                    // attempt lock() suppressed rather than strand them on the picker. Resuming the
-                    // same suppressed session keeps its covering window up (no app exposure) and
-                    // preserves lock()'s completion. ASWebAuthenticationSession.start() only presents
-                    // from a .foregroundActive scene, so wait for the Face ID sheet's dismissal to
-                    // reactivate the scene first.
-                    await waitForSceneActive(scene)
-                    UserAccountManager.shared.resumeBrowserAuthentication(scene)
+                    await handleBiometricCancellation(scene)
                 }
             }
         }
     }
-    
+
+    /// Handles the user declining/failing biometric. Stays locked, but resumes the browser (Advanced
+    /// Auth) attempt lock() suppressed rather than stranding them on the picker. Resuming the same
+    /// suppressed session keeps its covering window up (no app exposure) and preserves lock()'s
+    /// completion. ASWebAuthenticationSession.start() only presents from a .foregroundActive scene,
+    /// so wait for the Face ID sheet's dismissal to reactivate the scene first.
+    internal func handleBiometricCancellation(_ scene: UIScene) async {
+        await waitForSceneActive(scene)
+        UserAccountManager.shared.resumeBrowserAuthentication(scene)
+    }
+
     /// Awaits the scene returning to `.foregroundActive`. Dismissing the Face ID sheet leaves the
     /// scene `.foregroundInactive` for a beat, and `ASWebAuthenticationSession.start()` silently
     /// fails from a non-active scene. Resolves immediately if already active, otherwise on this
     /// scene's next `UIScene.didActivateNotification`, with a bounded fallback.
     @MainActor
-    private func waitForSceneActive(_ scene: UIScene) async {
+    internal func waitForSceneActive(_ scene: UIScene) async {
         if scene.activationState == .foregroundActive {
             return
         }
+        await awaitSceneActivation(scene)
+    }
 
+    /// Suspends until `scene` posts its next activation notification (or the bounded fallback fires).
+    /// Split out from `waitForSceneActive(_:)` so it can be exercised independently of the caller's
+    /// early-return-when-already-active guard.
+    @MainActor
+    internal func awaitSceneActivation(_ scene: UIScene) async {
         await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
             let center = NotificationCenter.default
             var observer: NSObjectProtocol?
@@ -313,7 +323,7 @@ public class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthenti
     }
 
     /// One-shot latch so the observer and the timeout fallback resume the continuation exactly once.
-    private final class ResumeGuard {
+    internal final class ResumeGuard {
         private var resumed = false
         func tryResume() -> Bool {
             if resumed { return false }

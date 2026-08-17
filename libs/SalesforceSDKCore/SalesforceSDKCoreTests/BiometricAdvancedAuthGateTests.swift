@@ -191,7 +191,155 @@ class BiometricAdvancedAuthGateTests: XCTestCase {
         UserAccountManager.shared.stopCurrentAuthentication(nil)
     }
 
+    func test_willBeginBrowserAuth_whenSuppressedAndCancelHandlerSet_invokesHandlerInsteadOfPicker() throws {
+        // presentLoginHostListViewControllerForBiometricFallback: short-circuits to the app-provided
+        // authCancelledByUserHandlerBlock when one is installed, instead of presenting the built-in
+        // host-list picker. This is the handler-block branch (the nil-handler picker branch is
+        // covered by test_willBeginBrowserAuth_whenSuppressionArmed_...).
+        let uam = UserAccountManager.shared
+        let user = createUser(index: 0)
+        bioAuthManager.storePolicy(userAccount: user, hasMobilePolicy: true, sessionTimeout: 15)
+        bioAuthManager.biometricOptIn(optIn: true)
+        bioAuthManager.laContext = StubbedLAContext(canEvaluate: true)
+        bioAuthManager.locked = true
+        bioAuthManager.suppressInitialBrowserAuthentication = true
+
+        let handlerCalled = expectation(description: "authCancelledByUserHandlerBlock invoked")
+        uam.authCancelledByUserHandlerBlock = { handlerCalled.fulfill() }
+
+        let session = makeAuthSession(uam: uam)
+        let gateReturned = expectation(description: "willBeginBrowserAuthentication callback invoked")
+        var capturedProceed: Bool?
+        uam.oauthCoordinator(session.oauthCoordinator, willBeginBrowserAuthentication: { proceed in
+            capturedProceed = proceed
+            gateReturned.fulfill()
+        })
+
+        wait(for: [gateReturned, handlerCalled], timeout: 2.0)
+        XCTAssertEqual(capturedProceed, false, "Browser launch must still be suppressed when a cancel handler is installed")
+
+        removeSession(session, from: uam)
+    }
+
+    // MARK: - resumeBrowserAuthentication:
+
+    func test_resumeBrowserAuthentication_whenBrowserBlockHeld_firesItWithYes() throws {
+        // The no-teardown resume path: the suppressed attempt's held browser-launch callback is
+        // fired with YES to continue Advanced Auth on the SAME session, leaving its covering window
+        // in place.
+        guard let scene = activeWindowScene() else {
+            throw XCTSkip("No active UIWindowScene in the test host")
+        }
+        let uam = UserAccountManager.shared
+        let session = makeAuthSession(uam: uam)
+
+        let blockFired = expectation(description: "held browser block fired")
+        var capturedProceed: Bool?
+        session.authCoordinatorBrowserBlock = { proceed in
+            capturedProceed = proceed
+            blockFired.fulfill()
+        }
+
+        uam.resumeBrowserAuthentication(scene)
+
+        wait(for: [blockFired], timeout: 2.0)
+        XCTAssertEqual(capturedProceed, true, "resumeBrowserAuthentication: must fire the held callback with YES to resume the browser")
+
+        removeSession(session, from: uam)
+    }
+
+    func test_resumeBrowserAuthentication_whenNoBrowserBlock_tearsDownSuppressedSession() throws {
+        // Fallback path: with no held callback (e.g. the session was already torn down), the method
+        // stops the current authentication and restarts login rather than doing nothing. Verify the
+        // suppressed session is torn down via stopCurrentAuthentication.
+        guard let scene = activeWindowScene() else {
+            throw XCTSkip("No active UIWindowScene in the test host")
+        }
+        let uam = UserAccountManager.shared
+        let session = makeAuthSession(uam: uam)
+        session.isAuthenticating = true
+        session.authCoordinatorBrowserBlock = nil
+        let sceneId = session.sceneId as NSString
+
+        uam.resumeBrowserAuthentication(scene)
+
+        let stillSameSession = (uam.authSessions[sceneId] as AnyObject?) === session
+        XCTAssertFalse(stillSameSession, "The suppressed session must be torn down by stopCurrentAuthentication before login is restarted")
+
+        // login() may have started a fresh attempt / presented UI -- tear it all down.
+        uam.stopCurrentAuthentication(nil)
+        dismissPresentedAuthWindow(uam: uam)
+        removeSession(session, from: uam)
+    }
+
+    // MARK: - Biometric cancellation resume (Swift)
+
+    func test_handleBiometricCancellation_resumesHeldBrowserSession() throws {
+        // handleBiometricCancellation(_:) is the extracted body of presentBiometric's catch block
+        // (unreachable in CI because presentBiometric builds a real LAContext). It waits for the
+        // scene to reactivate, then resumes the suppressed browser session.
+        guard let scene = activeWindowScene() else {
+            throw XCTSkip("No active UIWindowScene in the test host")
+        }
+        let uam = UserAccountManager.shared
+        let session = makeAuthSession(uam: uam)
+
+        let blockFired = expectation(description: "held browser block fired via cancellation handler")
+        session.authCoordinatorBrowserBlock = { _ in blockFired.fulfill() }
+
+        Task { await bioAuthManager.handleBiometricCancellation(scene) }
+        // Unblock waitForSceneActive in case the test scene is not already active.
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(name: UIScene.didActivateNotification, object: scene)
+        }
+
+        wait(for: [blockFired], timeout: 5.0)
+        removeSession(session, from: uam)
+    }
+
+    func test_waitForSceneActive_returnsImmediatelyWhenAlreadyActive() throws {
+        guard let scene = activeWindowScene() else {
+            throw XCTSkip("No active UIWindowScene in the test host")
+        }
+        // The test host's scene is .foregroundActive, so this exercises the early-return guard.
+        XCTAssertEqual(scene.activationState, .foregroundActive, "Test precondition: host scene must be active")
+        let resolved = expectation(description: "waitForSceneActive resolved via early return")
+        Task { @MainActor in
+            await bioAuthManager.waitForSceneActive(scene)
+            resolved.fulfill()
+        }
+        wait(for: [resolved], timeout: 5.0)
+    }
+
+    func test_awaitSceneActivation_resolvesOnActivationNotification() throws {
+        guard let scene = activeWindowScene() else {
+            throw XCTSkip("No active UIWindowScene in the test host")
+        }
+        // Exercises the continuation/observer path directly (the caller's early-return guard would
+        // otherwise skip it, since the host scene is already active).
+        let resolved = expectation(description: "awaitSceneActivation resolved on activation")
+        Task { @MainActor in
+            await bioAuthManager.awaitSceneActivation(scene)
+            resolved.fulfill()
+        }
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(name: UIScene.didActivateNotification, object: scene)
+        }
+        wait(for: [resolved], timeout: 5.0)
+    }
+
+    func test_resumeGuard_permitsResumeExactlyOnce() throws {
+        let guardLatch = BiometricAuthenticationManagerInternal.ResumeGuard()
+        XCTAssertTrue(guardLatch.tryResume(), "First tryResume() must succeed")
+        XCTAssertFalse(guardLatch.tryResume(), "Second tryResume() must fail -- the latch is one-shot")
+        XCTAssertFalse(guardLatch.tryResume(), "Subsequent tryResume() calls must keep failing")
+    }
+
     // MARK: - Helpers
+
+    private func activeWindowScene() -> UIWindowScene? {
+        return UIApplication.shared.connectedScenes.first as? UIWindowScene
+    }
 
     private func createUser(index: Int) -> UserAccount {
         let credentials = OAuthCredentials(identifier: "gate-identifier-\(index)", clientId: "fakeClientIdForTesting", encrypted: true)!
