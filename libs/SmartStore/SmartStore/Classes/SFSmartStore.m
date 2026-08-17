@@ -1117,7 +1117,7 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
         // Column name or expression the db index is on
         NSString *columnName = [NSString stringWithFormat:@"%@_%lu",soupTableName,(unsigned long)i];
         if (kValueIndexedWithJSONExtract(indexSpec)) {
-            columnName = [NSString stringWithFormat:@"json_extract(soup, '$.%@')", indexSpec.path];
+            columnName = [NSString stringWithFormat:@"json_extract(soup, '$.%@')", [indexSpec.path stringByReplacingOccurrencesOfString:@"'" withString:@"''"]];
         }
         if (kValueExtractedToColumn(indexSpec)) {
             NSString * columnType = [indexSpec columnType];
