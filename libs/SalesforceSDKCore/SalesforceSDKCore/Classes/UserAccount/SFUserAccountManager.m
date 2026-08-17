@@ -454,6 +454,26 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     return YES;
 }
 
+// Fires the held browser-launch callback of the attempt that willBeginBrowserAuthentication:
+// suppressed for the biometric prompt, resuming Advanced Auth on the same session without tearing
+// down the covering auth window. Falls back to a fresh login if the callback is gone.
+- (void)resumeBrowserAuthentication:(UIScene *)scene {
+    if (![NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self resumeBrowserAuthentication:scene];
+        });
+        return;
+    }
+    SFSDKAuthSession *authSession = self.authSessions[scene.session.persistentIdentifier];
+    void (^browserBlock)(BOOL) = authSession.authCoordinatorBrowserBlock;
+    if (browserBlock) {
+        browserBlock(YES);
+    } else {
+        [self stopCurrentAuthentication:nil];
+        [self loginWithCompletion:^(SFOAuthInfo *authInfo, SFUserAccount *user) { } failure:^(SFOAuthInfo *authInfo, NSError *error) { }];
+    }
+}
+
 - (void)stopCurrentAuthentication:(void (^)(BOOL))completionBlock {
     if (![NSThread isMainThread]) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -900,7 +920,39 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginBrowserAuthentication:(SFOAuthBrowserFlowCallbackBlock)callbackBlock {
     coordinator.authSession.authCoordinatorBrowserBlock = callbackBlock;
-    callbackBlock(YES);
+    SFBiometricAuthenticationManagerInternal *bioAuthManager = [SFBiometricAuthenticationManagerInternal shared];
+    // One-shot flag armed by -lock: for the browser attempt it triggers. Consume it unconditionally
+    // so being locked never suppresses a later attempt (fallback picker, gear-menu retry).
+    BOOL suppress = bioAuthManager.suppressInitialBrowserAuthentication;
+    bioAuthManager.suppressInitialBrowserAuthentication = NO;
+    if (suppress) {
+        // Biometric is locked: suppress the browser and show the picker as the fallback landing
+        // screen behind the biometric prompt -lock: already presented.
+        callbackBlock(NO);
+        [self presentLoginHostListViewControllerForBiometricFallback:coordinator.authSession];
+    } else {
+        callbackBlock(YES);
+    }
+}
+
+// Presents the login-host picker as the fallback landing screen when Advanced Auth is suppressed
+// for a biometric-locked user, mirroring oauthCoordinatorDidCancelBrowserAuthentication:'s picker
+// presentation. Driven explicitly since callbackBlock(NO) triggers no cancel delegate.
+- (void)presentLoginHostListViewControllerForBiometricFallback:(SFSDKAuthSession *)authSession {
+    if (self.authCancelledByUserHandlerBlock) {
+        self.authCancelledByUserHandlerBlock();
+        return;
+    }
+    SFSDKLoginHostListViewController *hostListViewController = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
+    hostListViewController.delegate = self;
+    SFSDKNavigationController *controller = [[SFSDKNavigationController alloc] initWithRootViewController:hostListViewController];
+    hostListViewController.hidesCancelButton = YES;
+    hostListViewController.presentedAsLoginScreen = YES;
+    controller.modalPresentationStyle = UIModalPresentationFullScreen;
+    UIScene *scene = authSession.oauthRequest.scene;
+    [[[SFSDKWindowManager sharedManager] authWindow:scene] presentWindowAnimated:NO withCompletion:^{
+        [[[SFSDKWindowManager sharedManager] authWindow:scene].viewController presentViewController:controller animated:NO completion:nil];
+    }];
 }
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator displayAlertMessage:(NSString*)message completion:(dispatch_block_t)completion {
@@ -2647,10 +2699,17 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
  }
 
 - (BOOL)isAlreadyPresentingLoginController:(UIViewController*)presentedViewController {
-    return (presentedViewController
-            && !presentedViewController.beingDismissed
-            && [presentedViewController isKindOfClass:[SFSDKNavigationController class]]
-            && [((SFSDKNavigationController*) presentedViewController).topViewController isKindOfClass:[SFLoginViewController class]]);
+    if (!presentedViewController
+        || presentedViewController.beingDismissed
+        || ![presentedViewController isKindOfClass:[SFSDKNavigationController class]]) {
+        return NO;
+    }
+    UIViewController *topViewController = ((SFSDKNavigationController*) presentedViewController).topViewController;
+    // Also match the login-host picker shown as the biometric fallback: when the user declines
+    // Face ID, the Advanced Auth retry must dismiss it before presenting the browser, else the
+    // browser never becomes visible and the user is stranded on the picker.
+    return ([topViewController isKindOfClass:[SFLoginViewController class]]
+            || [topViewController isKindOfClass:[SFSDKLoginHostListViewController class]]);
 }
 
 - (SFLoginViewController *)createLoginViewControllerInstance:(SFOAuthCoordinator *)coordinator {

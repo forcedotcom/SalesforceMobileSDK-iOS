@@ -35,12 +35,19 @@
 #import "SFSDKAuthRequest.h"
 #import "SFUserAccountConstants.h"
 #import "SFOAuthCoordinator+Internal.h"
+#import "SFSDKLoginHostListViewController.h"
+#import "SFSDKNavigationController.h"
+#import "SFLoginViewController.h"
 static NSString * const kUserIdFormatString = @"005R0000000Dsl%lu";
 static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 
 @interface SFUserAccountManager ()
 
 - (void)notifyLoginCompletion:(SFUserAccount *)userAccount authInfo:(SFOAuthInfo *)authInfo;
+
+// Private helper exercised directly below. -presentLoginView: consults this to decide whether a
+// login screen is already on the auth window and must be dismissed before presenting new login UI.
+- (BOOL)isAlreadyPresentingLoginController:(UIViewController *)presentedViewController;
 
 @end
 
@@ -431,8 +438,43 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     [coordinator beginWebViewFlow];
 
     [self waitForExpectations:@[expectation] timeout:20];
-    
+
     [SFUserAccountManager sharedInstance].authViewHandler = origAuthViewHandler;
+}
+
+// -presentLoginView: consults -isAlreadyPresentingLoginController: to decide whether an existing
+// login screen must be dismissed before presenting new login UI. When a biometric-locked user
+// cancels/fails Face ID during an Advanced Auth flow, the retry re-enters -presentLoginView:. The
+// screen already on the auth window at that point is the biometric fallback picker -- an
+// SFSDKLoginHostListViewController wrapped in an SFSDKNavigationController (see
+// -presentLoginHostListViewControllerForBiometricFallback:). If -isAlreadyPresentingLoginController:
+// fails to recognize it, the picker is never dismissed: the advanced-auth branch swaps the auth
+// window's root view controller and starts the ASWebAuthenticationSession while the picker is still
+// presented on top, so the browser login never becomes visible and the user is stranded on the
+// picker. The host-list picker must be recognized just like SFLoginViewController.
+- (void)test_givenLoginHostListPickerPresented_whenCheckingIsAlreadyPresentingLoginController_thenReturnsYES {
+    SFUserAccountManager *manager = [SFUserAccountManager sharedInstance];
+
+    // Regression guard: the standard login controller must still be recognized.
+    SFLoginViewController *loginController = [[SFLoginViewController alloc] init];
+    SFSDKNavigationController *loginNav = [[SFSDKNavigationController alloc] initWithRootViewController:loginController];
+    XCTAssertTrue([manager isAlreadyPresentingLoginController:loginNav],
+                  @"A presented SFLoginViewController should be recognized as already presenting login UI.");
+
+    // The defect: the biometric fallback picker must also be recognized so it gets dismissed
+    // before the Advanced Auth retry presents the ASWebAuthenticationSession.
+    SFSDKLoginHostListViewController *hostListViewController = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
+    SFSDKNavigationController *hostListNav = [[SFSDKNavigationController alloc] initWithRootViewController:hostListViewController];
+    XCTAssertTrue([manager isAlreadyPresentingLoginController:hostListNav],
+                  @"A presented biometric-fallback login-host picker should be recognized as already "
+                  @"presenting login UI so it is dismissed before the Advanced Auth session starts.");
+
+    // Negative guard: an unrelated view controller must not be treated as a login screen.
+    UIViewController *unrelated = [[UIViewController alloc] init];
+    XCTAssertFalse([manager isAlreadyPresentingLoginController:unrelated],
+                   @"A non-login view controller should not be treated as an already-presented login screen.");
+    XCTAssertFalse([manager isAlreadyPresentingLoginController:nil],
+                   @"A nil presented view controller should not be treated as an already-presented login screen.");
 }
 
 - (void)testLoginViewControllerCustomizations {
