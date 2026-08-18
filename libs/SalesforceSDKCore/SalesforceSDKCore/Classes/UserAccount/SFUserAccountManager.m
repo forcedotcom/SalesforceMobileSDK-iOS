@@ -921,10 +921,11 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginBrowserAuthentication:(SFOAuthBrowserFlowCallbackBlock)callbackBlock {
     coordinator.authSession.authCoordinatorBrowserBlock = callbackBlock;
     SFBiometricAuthenticationManagerInternal *bioAuthManager = [SFBiometricAuthenticationManagerInternal shared];
-    // One-shot flag armed by -lock: for the browser attempt it triggers. Consume it unconditionally
-    // so being locked never suppresses a later attempt (fallback picker, gear-menu retry).
-    BOOL suppress = bioAuthManager.suppressInitialBrowserAuthentication;
-    bioAuthManager.suppressInitialBrowserAuthentication = NO;
+    // Per-scene one-shot suppression armed by -lock: for the browser attempt it triggers on this
+    // scene. Consume only this scene's flag so being locked never suppresses a later attempt
+    // (fallback picker, gear-menu retry) and one scene's consume can't drain another's — login()
+    // fans out to every connected scene and each reaches this gate independently.
+    BOOL suppress = [bioAuthManager consumeBrowserAuthenticationSuppressionForSceneId:coordinator.authSession.sceneId];
     if (suppress) {
         // Biometric is locked: suppress the browser and show the picker as the fallback landing
         // screen behind the biometric prompt -lock: already presented.

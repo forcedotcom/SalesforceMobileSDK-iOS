@@ -54,12 +54,46 @@ public class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthenti
     private let kBioAuthPolicyIdentifier = "com.salesforce.security.bioauthpolicy"
     private let kBioAuthEnabledIdentifier = "com.salesforce.security.bioauth"
 
-    /// One-shot flag telling `willBeginBrowserAuthentication:` to suppress the browser launch that
-    /// `lock()`'s `login()` triggers, so it doesn't race the biometric prompt. The gate clears it
-    /// on its next check, so a later attempt (fallback picker, gear-menu retry) is not suppressed.
-    /// Read/written from SFUserAccountManager.m, hence `@objc`.
-    @objc internal var suppressInitialBrowserAuthentication = false
-    
+    /// Scene identifiers whose initial browser launch — the one `lock()`'s `login()` triggers for
+    /// that scene — must be suppressed so it doesn't race the biometric prompt. Scoped **per scene**
+    /// because `login()` fans out to every connected scene and each reaches
+    /// `willBeginBrowserAuthentication:` independently: a single global flag would be consumed by
+    /// the first scene and let the rest launch `ASWebAuthenticationSession` while still locked. The
+    /// gate consumes (removes) a scene's id on its next check, so a later attempt on that scene
+    /// (fallback picker, gear-menu retry) is not suppressed. Mutated from SFUserAccountManager.m
+    /// via the `@objc` arm/consume/disarm methods below.
+    private var suppressedBrowserAuthSceneIds = Set<String>()
+
+    /// Arms initial-browser-launch suppression for `sceneId`. Called by `lock()` for each connected
+    /// scene before it triggers `login()`.
+    @objc internal func armBrowserAuthenticationSuppression(forSceneId sceneId: String) {
+        suppressedBrowserAuthSceneIds.insert(sceneId)
+    }
+
+    /// Consumes (clears) suppression for `sceneId`, returning whether it was armed. The gate calls
+    /// this once per browser attempt so suppression is one-shot per scene and one scene's consume
+    /// can't drain another's.
+    @objc internal func consumeBrowserAuthenticationSuppression(forSceneId sceneId: String) -> Bool {
+        return suppressedBrowserAuthSceneIds.remove(sceneId) != nil
+    }
+
+    /// Clears suppression for `sceneId` without the consume return value — used when
+    /// `presentBiometric(scene:)` finds biometric unavailable and must let the browser gate proceed.
+    @objc internal func disarmBrowserAuthenticationSuppression(forSceneId sceneId: String) {
+        suppressedBrowserAuthSceneIds.remove(sceneId)
+    }
+
+    /// Whether `sceneId`'s initial browser launch is currently armed for suppression. Test/read-only
+    /// accessor; does not consume.
+    @objc internal func isBrowserAuthenticationSuppressed(forSceneId sceneId: String) -> Bool {
+        return suppressedBrowserAuthSceneIds.contains(sceneId)
+    }
+
+    /// Clears all armed scene suppression. Used to reset state between tests.
+    @objc internal func clearAllBrowserAuthenticationSuppression() {
+        suppressedBrowserAuthSceneIds.removeAll()
+    }
+
     private override init() {
         super.init()
         NotificationCenter.default.addObserver(forName: UIApplication.didEnterBackgroundNotification, object: nil, queue: nil) { [weak self] _ in
@@ -73,8 +107,8 @@ public class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthenti
     /// Locks the screen if necessary
     @objc public func handleAppForeground() {
         // Skip if already locked: shouldLock() ignores `locked`, so a foreground while locked would
-        // call lock() again and re-arm suppressInitialBrowserAuthentication, wrongly suppressing a
-        // browser-auth attempt that already cleared it.
+        // call lock() again and re-arm scene suppression, wrongly suppressing a browser-auth
+        // attempt that already cleared it.
         if !locked && shouldLock() {
             lock()
         }
@@ -146,9 +180,15 @@ public class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthenti
         locked = true
         NotificationCenter.default.post(name: Notification.Name(rawValue: kSFBiometricAuthenticationFlowWillBegin), object: nil)
 
-        // Suppress the browser launch from the login() below when biometric will be shown, so it
-        // doesn't race the prompt. The gate in SFUserAccountManager clears this on its next check.
-        suppressInitialBrowserAuthentication = showNativeLoginButton()
+        // Suppress the initial browser launch from the login() below when biometric will be shown,
+        // so it doesn't race the prompt. login() fans out to every connected scene, so arm
+        // suppression per scene — each scene reaches the gate in SFUserAccountManager independently
+        // and consumes only its own scene's flag on its next check.
+        if showNativeLoginButton() {
+            SFApplicationHelper.sharedApplication()?.connectedScenes.forEach() { scene in
+                armBrowserAuthenticationSuppression(forSceneId: scene.session.persistentIdentifier)
+            }
+        }
 
         // Open the Login Screen
         _ = UserAccountManager.shared.login { result in
@@ -245,10 +285,10 @@ public class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthenti
     @objc public func presentBiometric(scene: UIScene) {
         guard biometricAvailable() else {
             // Biometric is unavailable (e.g. hardware busy or enrollment removed since lock()
-            // checked). Disarm suppression so the browser-auth gate lets Advanced Auth /
-            // username-password proceed normally instead of stranding the user behind a
+            // checked). Disarm suppression for this scene so the browser-auth gate lets Advanced
+            // Auth / username-password proceed normally instead of stranding the user behind a
             // suppressed browser with no prompt.
-            suppressInitialBrowserAuthentication = false
+            disarmBrowserAuthenticationSuppression(forSceneId: scene.session.persistentIdentifier)
             return
         }
         let laContext = LAContext()

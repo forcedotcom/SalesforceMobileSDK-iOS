@@ -29,13 +29,16 @@ import LocalAuthentication
 // MARK: - Biometric + Advanced Auth Gate Tests
 //
 // Covers SFUserAccountManager's `oauthCoordinator:willBeginBrowserAuthentication:` gate together
-// with BiometricAuthenticationManagerInternal.suppressInitialBrowserAuthentication, the one-shot
-// flag `lock()` arms right before it triggers the very browser-auth attempt that would otherwise
-// race the biometric prompt `lock()` also presents. The gate consumes (clears) that flag on its
-// very next check, win or lose -- being locked must never again suppress a later attempt (e.g. a
-// server picked from the fallback picker, or a retry from the login-options gear menu). This
-// intentionally does NOT re-derive the decision from `locked`/`showNativeLoginButton()` on every
-// call, unlike the superseded implementation this file used to pin.
+// with BiometricAuthenticationManagerInternal's per-scene suppression set, armed by `lock()` right
+// before it triggers the very browser-auth attempt (per connected scene) that would otherwise race
+// the biometric prompt `lock()` also presents. Suppression is scoped **per scene** because
+// `login()` fans out to every connected scene and each reaches the gate independently: a single
+// global flag would be consumed by the first scene and let the rest launch a browser while still
+// locked. The gate consumes (clears) only that scene's id on its next check, win or lose -- being
+// locked must never again suppress a later attempt (e.g. a server picked from the fallback picker,
+// or a retry from the login-options gear menu), and one scene's consume must not drain another's.
+// This intentionally does NOT re-derive the decision from `locked`/`showNativeLoginButton()` on
+// every call, unlike the superseded implementation this file used to pin.
 
 class BiometricAdvancedAuthGateTests: XCTestCase {
 
@@ -47,7 +50,7 @@ class BiometricAdvancedAuthGateTests: XCTestCase {
         _ = KeychainHelper.removeAll()
         bioAuthManager.locked = false
         bioAuthManager.automaticPresentation = true
-        bioAuthManager.suppressInitialBrowserAuthentication = false
+        bioAuthManager.clearAllBrowserAuthenticationSuppression()
         originalAuthCancelledByUserHandlerBlock = UserAccountManager.shared.authCancelledByUserHandlerBlock
         // The gate's biometric-fallback branch presents a host-list screen unless a handler
         // block is installed; force the nil/default path so the fallback UI is deterministic.
@@ -57,7 +60,7 @@ class BiometricAdvancedAuthGateTests: XCTestCase {
     override func tearDownWithError() throws {
         bioAuthManager.locked = false
         bioAuthManager.automaticPresentation = true
-        bioAuthManager.suppressInitialBrowserAuthentication = false
+        bioAuthManager.clearAllBrowserAuthenticationSuppression()
         UserAccountManager.shared.authCancelledByUserHandlerBlock = originalAuthCancelledByUserHandlerBlock
         _ = KeychainHelper.removeAll()
         UserAccountManager.shared.clearAllAccountState()
@@ -73,11 +76,11 @@ class BiometricAdvancedAuthGateTests: XCTestCase {
         bioAuthManager.biometricOptIn(optIn: true)
         bioAuthManager.laContext = StubbedLAContext(canEvaluate: true)
         bioAuthManager.locked = true
-        // Mirrors what lock() does: capture the suppression decision once, ahead of the browser
-        // launch it's about to trigger, rather than the gate re-deriving it from `locked`.
-        bioAuthManager.suppressInitialBrowserAuthentication = true
 
         let session = makeAuthSession(uam: uam)
+        // Mirrors what lock() does: arm suppression for this scene once, ahead of the browser
+        // launch it's about to trigger, rather than the gate re-deriving it from `locked`.
+        bioAuthManager.armBrowserAuthenticationSuppression(forSceneId: session.sceneId)
         var capturedProceed: Bool?
         let expectation = expectation(description: "willBeginBrowserAuthentication callback invoked")
 
@@ -87,9 +90,9 @@ class BiometricAdvancedAuthGateTests: XCTestCase {
         })
 
         wait(for: [expectation], timeout: 2.0)
-        XCTAssertEqual(capturedProceed, false, "Callback must be invoked with NO to suppress the native browser launch when the one-shot flag is armed")
+        XCTAssertEqual(capturedProceed, false, "Callback must be invoked with NO to suppress the native browser launch when this scene's suppression is armed")
         XCTAssertNil(session.oauthCoordinator.asWebAuthenticationSession, "No ASWebAuthenticationSession should be allocated when the browser launch is suppressed")
-        XCTAssertFalse(bioAuthManager.suppressInitialBrowserAuthentication, "The gate must consume (clear) the one-shot flag on this check, regardless of outcome")
+        XCTAssertFalse(bioAuthManager.isBrowserAuthenticationSuppressed(forSceneId: session.sceneId), "The gate must consume (clear) this scene's suppression on this check, regardless of outcome")
 
         // Clean up the host-list fallback screen the gate presents on the auth window.
         dismissPresentedAuthWindow(uam: uam)
@@ -106,10 +109,10 @@ class BiometricAdvancedAuthGateTests: XCTestCase {
         bioAuthManager.biometricOptIn(optIn: true)
         bioAuthManager.laContext = StubbedLAContext(canEvaluate: true)
         bioAuthManager.locked = true
-        XCTAssertTrue(bioAuthManager.showNativeLoginButton(), "Test precondition: this scenario is exercising the case where showNativeLoginButton() would be true, yet the gate must still proceed because the one-shot flag was already consumed")
-        bioAuthManager.suppressInitialBrowserAuthentication = false
+        XCTAssertTrue(bioAuthManager.showNativeLoginButton(), "Test precondition: this scenario is exercising the case where showNativeLoginButton() would be true, yet the gate must still proceed because this scene's suppression was already consumed")
 
         let session = makeAuthSession(uam: uam)
+        // This scene's suppression is intentionally not armed (setUp cleared all).
         var capturedProceed: Bool?
         let expectation = expectation(description: "willBeginBrowserAuthentication callback invoked")
 
@@ -119,7 +122,7 @@ class BiometricAdvancedAuthGateTests: XCTestCase {
         })
 
         wait(for: [expectation], timeout: 2.0)
-        XCTAssertEqual(capturedProceed, true, "Callback must be invoked with YES once the one-shot flag has already been consumed, even while still locked")
+        XCTAssertEqual(capturedProceed, true, "Callback must be invoked with YES once this scene's suppression has already been consumed, even while still locked")
 
         removeSession(session, from: uam)
     }
@@ -131,7 +134,6 @@ class BiometricAdvancedAuthGateTests: XCTestCase {
         bioAuthManager.biometricOptIn(optIn: true)
         bioAuthManager.laContext = StubbedLAContext(canEvaluate: true)
         bioAuthManager.locked = false
-        bioAuthManager.suppressInitialBrowserAuthentication = false
 
         let session = makeAuthSession(uam: uam)
         var capturedProceed: Bool?
@@ -148,9 +150,74 @@ class BiometricAdvancedAuthGateTests: XCTestCase {
         removeSession(session, from: uam)
     }
 
-    func test_lock_armsSuppressionFlagFromShowNativeLoginButtonAtCallTime() throws {
+    func test_willBeginBrowserAuth_twoScenes_eachSuppressedIndependently() throws {
+        // Regression for the multi-scene race: login() fans out to every connected scene, so each
+        // scene reaches this gate independently. With per-scene suppression, arming both scenes
+        // must suppress the browser on BOTH -- a single global one-shot would be consumed by the
+        // first scene and let the second launch ASWebAuthenticationSession while still locked.
+        let uam = UserAccountManager.shared
+        let user = createUser(index: 0)
+        bioAuthManager.storePolicy(userAccount: user, hasMobilePolicy: true, sessionTimeout: 15)
+        bioAuthManager.biometricOptIn(optIn: true)
+        bioAuthManager.laContext = StubbedLAContext(canEvaluate: true)
+        bioAuthManager.locked = true
+
+        let sessionA = makeUnscopedAuthSession(uam: uam)
+        let sessionB = makeUnscopedAuthSession(uam: uam)
+        XCTAssertNotEqual(sessionA.sceneId, sessionB.sceneId, "Test precondition: the two sessions must model distinct scenes")
+        bioAuthManager.armBrowserAuthenticationSuppression(forSceneId: sessionA.sceneId)
+        bioAuthManager.armBrowserAuthenticationSuppression(forSceneId: sessionB.sceneId)
+
+        var proceedA: Bool?
+        let gateA = expectation(description: "scene A gate callback invoked")
+        uam.oauthCoordinator(sessionA.oauthCoordinator, willBeginBrowserAuthentication: { proceed in
+            proceedA = proceed
+            gateA.fulfill()
+        })
+        wait(for: [gateA], timeout: 2.0)
+
+        var proceedB: Bool?
+        let gateB = expectation(description: "scene B gate callback invoked")
+        uam.oauthCoordinator(sessionB.oauthCoordinator, willBeginBrowserAuthentication: { proceed in
+            proceedB = proceed
+            gateB.fulfill()
+        })
+        wait(for: [gateB], timeout: 2.0)
+
+        XCTAssertEqual(proceedA, false, "Scene A's browser launch must be suppressed")
+        XCTAssertEqual(proceedB, false, "Scene B's browser launch must ALSO be suppressed -- scene A consuming its own flag must not drain scene B's")
+        XCTAssertNil(sessionA.oauthCoordinator.asWebAuthenticationSession, "No ASWebAuthenticationSession should be allocated for scene A")
+        XCTAssertNil(sessionB.oauthCoordinator.asWebAuthenticationSession, "No ASWebAuthenticationSession should be allocated for scene B")
+
+        // Both scenes' fallback pickers were presented on the auth window; tear them down.
+        dismissPresentedAuthWindow(uam: uam)
+        removeSession(sessionA, from: uam)
+        removeSession(sessionB, from: uam)
+    }
+
+    func test_consumeSuppression_isScopedPerScene() throws {
+        // Unit-level invariant behind the two-scene gate test: consuming one scene's suppression
+        // must not affect another scene's, and consume is one-shot per scene.
+        bioAuthManager.clearAllBrowserAuthenticationSuppression()
+        bioAuthManager.armBrowserAuthenticationSuppression(forSceneId: "sceneA")
+        bioAuthManager.armBrowserAuthenticationSuppression(forSceneId: "sceneB")
+
+        XCTAssertTrue(bioAuthManager.consumeBrowserAuthenticationSuppression(forSceneId: "sceneA"), "sceneA's armed suppression must be consumed as true")
+        XCTAssertFalse(bioAuthManager.isBrowserAuthenticationSuppressed(forSceneId: "sceneA"), "sceneA must be cleared after consume")
+        XCTAssertTrue(bioAuthManager.isBrowserAuthenticationSuppressed(forSceneId: "sceneB"), "sceneB must remain armed -- consuming sceneA must not drain it")
+
+        XCTAssertFalse(bioAuthManager.consumeBrowserAuthenticationSuppression(forSceneId: "sceneA"), "A second consume of sceneA must return false -- suppression is one-shot per scene")
+        XCTAssertTrue(bioAuthManager.consumeBrowserAuthenticationSuppression(forSceneId: "sceneB"), "sceneB must still consume as true independently")
+    }
+
+    func test_lock_armsSuppressionForConnectedScenesFromShowNativeLoginButtonAtCallTime() throws {
         // lock() must capture the suppression decision once, at the moment it's about to trigger
         // login() -- not leave it to be re-derived later from the (by-then-stale) `locked` state.
+        // It arms suppression per connected scene, since login() fans out over all of them.
+        guard let scene = activeWindowScene() else {
+            throw XCTSkip("No active UIWindowScene in the test host")
+        }
+        let sceneId = scene.session.persistentIdentifier
         let user = createUser(index: 0)
         bioAuthManager.storePolicy(userAccount: user, hasMobilePolicy: true, sessionTimeout: 15)
         bioAuthManager.biometricOptIn(optIn: true)
@@ -161,7 +228,7 @@ class BiometricAdvancedAuthGateTests: XCTestCase {
         bioAuthManager.lock()
 
         XCTAssertTrue(bioAuthManager.locked, "lock() must set locked = true")
-        XCTAssertTrue(bioAuthManager.suppressInitialBrowserAuthentication, "lock() must arm the one-shot suppression flag when showNativeLoginButton() was true at call time")
+        XCTAssertTrue(bioAuthManager.isBrowserAuthenticationSuppressed(forSceneId: sceneId), "lock() must arm suppression for the connected scene when showNativeLoginButton() was true at call time")
 
         UserAccountManager.shared.stopCurrentAuthentication(nil)
     }
@@ -172,21 +239,24 @@ class BiometricAdvancedAuthGateTests: XCTestCase {
         // backgroundTimestamp, without consulting `locked` -- so any foreground notification while
         // already locked (the OS backgrounding the app behind the Face ID sheet, or momentarily
         // losing/regaining foreground during presentBiometric's catch-block retry) calls lock()
-        // again. That second lock() re-arms suppressInitialBrowserAuthentication, wrongly
-        // suppressing the very retry that just cleared it -- reproducing the reported symptom
-        // where cancelling Face ID or tapping "Use Password" lands on the fallback picker instead
-        // of launching Advanced Auth.
+        // again. That second lock() re-arms scene suppression, wrongly suppressing the very retry
+        // that just cleared it -- reproducing the reported symptom where cancelling Face ID or
+        // tapping "Use Password" lands on the fallback picker instead of launching Advanced Auth.
+        guard let scene = activeWindowScene() else {
+            throw XCTSkip("No active UIWindowScene in the test host")
+        }
+        let sceneId = scene.session.persistentIdentifier
         let user = createUser(index: 0)
         bioAuthManager.storePolicy(userAccount: user, hasMobilePolicy: true, sessionTimeout: 15)
         bioAuthManager.biometricOptIn(optIn: true)
         bioAuthManager.laContext = StubbedLAContext(canEvaluate: true)
         bioAuthManager.automaticPresentation = false
         bioAuthManager.locked = true
-        bioAuthManager.suppressInitialBrowserAuthentication = false
+        bioAuthManager.clearAllBrowserAuthenticationSuppression()
 
         bioAuthManager.handleAppForeground()
 
-        XCTAssertFalse(bioAuthManager.suppressInitialBrowserAuthentication, "handleAppForeground() must not call lock() again while already locked, which would re-arm the one-shot suppression flag and strand a subsequent browser-auth attempt")
+        XCTAssertFalse(bioAuthManager.isBrowserAuthenticationSuppressed(forSceneId: sceneId), "handleAppForeground() must not call lock() again while already locked, which would re-arm scene suppression and strand a subsequent browser-auth attempt")
 
         UserAccountManager.shared.stopCurrentAuthentication(nil)
     }
@@ -202,12 +272,12 @@ class BiometricAdvancedAuthGateTests: XCTestCase {
         bioAuthManager.biometricOptIn(optIn: true)
         bioAuthManager.laContext = StubbedLAContext(canEvaluate: true)
         bioAuthManager.locked = true
-        bioAuthManager.suppressInitialBrowserAuthentication = true
 
         let handlerCalled = expectation(description: "authCancelledByUserHandlerBlock invoked")
         uam.authCancelledByUserHandlerBlock = { handlerCalled.fulfill() }
 
         let session = makeAuthSession(uam: uam)
+        bioAuthManager.armBrowserAuthenticationSuppression(forSceneId: session.sceneId)
         let gateReturned = expectation(description: "willBeginBrowserAuthentication callback invoked")
         var capturedProceed: Bool?
         uam.oauthCoordinator(session.oauthCoordinator, willBeginBrowserAuthentication: { proceed in
@@ -355,16 +425,17 @@ class BiometricAdvancedAuthGateTests: XCTestCase {
         guard let scene = activeWindowScene() else {
             throw XCTSkip("No active UIWindowScene in the test host")
         }
-        // Simulate the capability race: lock() armed suppression, but biometric is no longer
-        // available by the time presentBiometric runs.
+        // Simulate the capability race: lock() armed suppression for this scene, but biometric is
+        // no longer available by the time presentBiometric runs.
+        let sceneId = scene.session.persistentIdentifier
         bioAuthManager.locked = true
-        bioAuthManager.suppressInitialBrowserAuthentication = true
+        bioAuthManager.armBrowserAuthenticationSuppression(forSceneId: sceneId)
         bioAuthManager.laContext = StubbedLAContext(canEvaluate: false)
 
         bioAuthManager.presentBiometric(scene: scene)
 
-        XCTAssertFalse(bioAuthManager.suppressInitialBrowserAuthentication,
-                       "presentBiometric must disarm suppression when biometric is unavailable so the browser-auth gate proceeds normally")
+        XCTAssertFalse(bioAuthManager.isBrowserAuthenticationSuppressed(forSceneId: sceneId),
+                       "presentBiometric must disarm this scene's suppression when biometric is unavailable so the browser-auth gate proceeds normally")
     }
 
     // MARK: - Helpers
@@ -390,6 +461,20 @@ class BiometricAdvancedAuthGateTests: XCTestCase {
             request.scene = windowScene
         }
         return request
+    }
+
+    /// Builds a session with no attached UIScene, so `SFSDKAuthSession` synthesizes a unique
+    /// per-session `sceneId`. Two such sessions model two independent connected scenes, letting the
+    /// multi-scene gate behavior be exercised without spinning up real additional UIScenes.
+    private func makeUnscopedAuthSession(uam: UserAccountManager) -> SFSDKAuthSession {
+        let request = SFSDKAuthRequest()
+        request.oauthClientId = "testClientId"
+        request.oauthCompletionUrl = "test://callback"
+        request.loginHost = "test.salesforce.com"
+        let session = SFSDKAuthSession(request, credentials: nil)
+        session.oauthCoordinator.delegate = uam
+        uam.authSessions[session.sceneId as NSString] = session
+        return session
     }
 
     /// Builds an SFSDKAuthSession with its coordinator delegate set to UserAccountManager.shared
