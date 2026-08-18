@@ -314,8 +314,9 @@ class AuthFlowTesterMainPageObject {
         let configJSON = buildConfigJSON(consumerKey: appConfig.consumerKey, redirectUri: appConfig.redirectUri, scopes: scopesToRequest)
         importConfig(configJSON)
 
-        // Tap the migrate button
-        tap(migrateRefreshTokenButton())
+        // Tap the migrate button (now below the "Upgrade to DPoP" section in a ScrollView —
+        // scroll it into a hittable region first).
+        tapScrollingIntoView(migrateRefreshTokenButton())
 
         // Tap the allow button if it appears
         tapIfPresent(allowButton())
@@ -336,6 +337,32 @@ class AuthFlowTesterMainPageObject {
         return true
     }
     
+    /// Opens the "Change Key" sheet and taps "Upgrade to DPoP", handling the approve/deny
+    /// screen if it appears. Mirrors `changeAppConfig`'s error-surfacing: the sheet reuses the
+    /// same "Migration Error" alert for both flows.
+    func upgradeToDPoP() -> Bool {
+        // Tap Change Key button to open the sheet
+        tap(bottomBarChangeKeyButton())
+
+        // Tap the "Upgrade to DPoP" button
+        tap(upgradeToDPoPButton())
+
+        // Tap the allow button if it appears
+        tapIfPresent(allowButton())
+
+        let alert = app.alerts["Migration Error"]
+        if (alert.waitForExistence(timeout: UITestTimeouts.long)) {
+            let message = alert.staticTexts.allElementsBoundByIndex
+                .map { $0.label }
+                .filter { $0 != "Migration Error" && !$0.isEmpty }
+                .joined(separator: " ")
+            XCTFail("Migration Error alert: \(message.isEmpty ? "<no message>" : message)")
+            alert.buttons["OK"].tap()
+            return false
+        }
+        return true
+    }
+
     // MARK: - Config Import Helpers
     
     private func buildConfigJSON(consumerKey: String, redirectUri: String, scopes: String) -> String {
@@ -450,7 +477,11 @@ class AuthFlowTesterMainPageObject {
     private func migrateRefreshTokenButton() -> XCUIElement {
         return app.buttons["Migrate refresh token"]
     }
-    
+
+    private func upgradeToDPoPButton() -> XCUIElement {
+        return app.buttons["upgradeToDPoPButton"]
+    }
+
     private func allowButton() -> XCUIElement {
         let buttons = app.webViews.webViews.webViews.buttons
         let predicate = NSPredicate(format: "label CONTAINS[c] 'Allow'")
@@ -496,6 +527,22 @@ class AuthFlowTesterMainPageObject {
         let exists = element.waitForExistence(timeout: timeout)
         XCTAssertTrue(exists, "Element \(element.debugDescription) did not appear within \(timeout)s", file: file, line: line)
         element.tap()
+    }
+
+    /// Taps a custom-styled SwiftUI `Button` (Text + background + cornerRadius) that exists and is
+    /// on-screen but whose hit-test returns `{-1, -1}`, so a plain `.tap()` fails with "Not hittable".
+    /// This happens for the "Migrate refresh token" button once it's pushed down by the "Upgrade to
+    /// DPoP" section (frame near the bottom of the sheet). The content fits, so there is nothing to
+    /// scroll — swiping is a no-op (or scrolls the sheet away). The reliable fix is a coordinate tap
+    /// on the element's frame center, which bypasses the hittability heuristic.
+    private func tapScrollingIntoView(_ element: XCUIElement, timeout: TimeInterval = UITestTimeouts.long, file: StaticString = #file, line: UInt = #line) {
+        let exists = element.waitForExistence(timeout: timeout)
+        XCTAssertTrue(exists, "Element \(element.debugDescription) did not appear within \(timeout)s", file: file, line: line)
+        if element.isHittable {
+            element.tap()
+        } else {
+            element.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
+        }
     }
 
     private func tapIfPresent(_ element: XCUIElement, timeout: TimeInterval = UITestTimeouts.long) {

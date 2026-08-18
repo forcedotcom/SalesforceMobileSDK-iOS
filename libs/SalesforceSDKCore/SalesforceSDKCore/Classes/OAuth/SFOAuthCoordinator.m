@@ -1004,10 +1004,17 @@
 
 // Appends `&dpop_jkt=<base64url-sha256>` to the approval URL when DPoP is enabled
 // (RFC 9449 §10 authorization code binding). Soft-fails on key-material / crypto errors.
+//
+// DPoP intent is resolved per call: `self.dpopOverride`, when set, takes precedence
+// over the process-wide `SalesforceSDKManager.useDPoP` flag (e.g. a refresh-token
+// migration explicitly requesting DPoP binding regardless of the app's default login
+// posture). Normal login never sets `dpopOverride`, so it continues to follow the
+// global flag unchanged.
 - (void)appendDPoPJktIfNeededTo:(NSMutableString *)approvalUrlString
                          domain:(NSString *)domain
                     credentials:(SFOAuthCredentials *)credentials {
-    if (![[SalesforceSDKManager sharedManager] useDPoP]) {
+    BOOL dpopEnabled = self.dpopOverride ? self.dpopOverride.boolValue : [[SalesforceSDKManager sharedManager] useDPoP];
+    if (!dpopEnabled) {
         return;
     }
     if (domain == nil) {
