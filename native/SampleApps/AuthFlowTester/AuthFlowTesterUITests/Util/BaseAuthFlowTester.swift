@@ -798,6 +798,15 @@ class BaseAuthFlowTester: XCTestCase {
         // assert on the outcome instead of attempting performLogin.
         loginPage.configureLoginHost(host: hostConfig.urlNoProtocol)
 
+        // We assert on absence-of-main-page rather than on error text because there is no error
+        // surface to read here. This path uses advanced auth (ASWebAuthenticationSession), and the
+        // enforced ECA rejects the unbound /authorize with a short non-HTML body. The system browser
+        // can't render it and falls back to a QuickLook document preview (a generic file icon
+        // labeled "authorize" / "data - N bytes" / "Open in…") — there is no error= / error_description
+        // string on screen. This differs from the in-app WebView negative tests (invalid client id,
+        // invalid scope), which render an HTML error page whose text is assertable. The only elements
+        // available here are iOS's file-preview chrome, which is not a stable SDK/server contract, so
+        // "the app never reaches the authenticated view" is the strongest reliable signal.
         assertMainPageNotLoaded()
     }
 
