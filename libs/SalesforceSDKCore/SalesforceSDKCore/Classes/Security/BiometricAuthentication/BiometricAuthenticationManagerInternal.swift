@@ -201,11 +201,10 @@ public class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthenti
     }
     
     @objc public func showNativeLoginButton() -> Bool {
-        var error: NSError?
-        if (!laContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)) {
+        if (!biometricAvailable()) {
             return false
         }
-        
+
         if let policy = readBioAuhPolicy() {
             if (policy.hasPolicy && locked && hasBiometricOptedIn()) {
                 // true if not specified
@@ -233,37 +232,51 @@ public class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthenti
         
         return false
     }
-    
+
+    /// Whether biometric authentication can currently be evaluated on this device. Both the
+    /// suppress-the-browser decision (`showNativeLoginButton()` via `lock()`) and the actual prompt
+    /// (`presentBiometric(scene:)`) consult this so they can't disagree: if biometric is unavailable
+    /// the browser is never suppressed and Advanced Auth / username-password proceeds normally.
+    @objc internal func biometricAvailable() -> Bool {
+        var error: NSError?
+        return laContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)
+    }
+
     @objc public func presentBiometric(scene: UIScene) {
+        guard biometricAvailable() else {
+            // Biometric is unavailable (e.g. hardware busy or enrollment removed since lock()
+            // checked). Disarm suppression so the browser-auth gate lets Advanced Auth /
+            // username-password proceed normally instead of stranding the user behind a
+            // suppressed browser with no prompt.
+            suppressInitialBrowserAuthentication = false
+            return
+        }
         let laContext = LAContext()
         laContext.localizedCancelTitle = SFSDKResourceUtils.localizedString("usePassword")
-        var error: NSError?
-        if (laContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)) {
-            Task {
-                do {
-                    try await laContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: SFSDKResourceUtils.localizedString("biometricReason"))
-                    
-                    // Refresh token and unlock
-                    let accountManager = UserAccountManager.shared
-                    if let currentAccount = accountManager.currentUserAccount {
-                        _ = accountManager.refresh(credentials: currentAccount.credentials, { (result) in
-                            switch(result) {
-                            case .success((_, _)):
-                                SFSDKCoreLogger.d(BiometricAuthenticationManagerInternal.self, message: "Refresh credentials succeeded")
-                            case .failure(let error):
-                                SFSDKCoreLogger.d(BiometricAuthenticationManagerInternal.self, message: "Refresh credentials failed: \(error)")
-                            }
-                        })
-                    }
-                    
-                    unlockPostProcessing()
-                    await accountManager.stopCurrentAuthentication()
-                    await MainActor.run {
-                        SFSDKWindowManager.shared().authWindow(scene).viewController?.dismiss(animated: false)
-                    }
-                } catch {
-                    await handleBiometricCancellation(scene)
+        Task {
+            do {
+                try await laContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: SFSDKResourceUtils.localizedString("biometricReason"))
+
+                // Refresh token and unlock
+                let accountManager = UserAccountManager.shared
+                if let currentAccount = accountManager.currentUserAccount {
+                    _ = accountManager.refresh(credentials: currentAccount.credentials, { (result) in
+                        switch(result) {
+                        case .success((_, _)):
+                            SFSDKCoreLogger.d(BiometricAuthenticationManagerInternal.self, message: "Refresh credentials succeeded")
+                        case .failure(let error):
+                            SFSDKCoreLogger.d(BiometricAuthenticationManagerInternal.self, message: "Refresh credentials failed: \(error)")
+                        }
+                    })
                 }
+
+                unlockPostProcessing()
+                await accountManager.stopCurrentAuthentication()
+                await MainActor.run {
+                    SFSDKWindowManager.shared().authWindow(scene).viewController?.dismiss(animated: false)
+                }
+            } catch {
+                await handleBiometricCancellation(scene)
             }
         }
     }

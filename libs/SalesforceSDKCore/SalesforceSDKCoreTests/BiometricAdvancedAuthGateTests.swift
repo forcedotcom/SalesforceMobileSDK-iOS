@@ -335,6 +335,38 @@ class BiometricAdvancedAuthGateTests: XCTestCase {
         XCTAssertFalse(guardLatch.tryResume(), "Subsequent tryResume() calls must keep failing")
     }
 
+    // MARK: - Capability-availability tests
+    //
+    // showNativeLoginButton() (which lock() uses to arm suppression) and presentBiometric(scene:)
+    // (which shows the prompt) must consult the same capability signal so they can't disagree. If
+    // biometric became unavailable between the two, presentBiometric must disarm suppression so the
+    // browser-auth gate falls back to Advanced Auth / username-password instead of stranding the
+    // user behind a suppressed browser with no prompt.
+
+    func test_biometricAvailable_reflectsLAContextCapability() throws {
+        bioAuthManager.laContext = StubbedLAContext(canEvaluate: true)
+        XCTAssertTrue(bioAuthManager.biometricAvailable(), "biometricAvailable() must be true when the LAContext can evaluate the policy")
+
+        bioAuthManager.laContext = StubbedLAContext(canEvaluate: false)
+        XCTAssertFalse(bioAuthManager.biometricAvailable(), "biometricAvailable() must be false when the LAContext cannot evaluate the policy")
+    }
+
+    func test_presentBiometric_whenBiometricUnavailable_disarmsSuppressionForBrowserFallback() throws {
+        guard let scene = activeWindowScene() else {
+            throw XCTSkip("No active UIWindowScene in the test host")
+        }
+        // Simulate the capability race: lock() armed suppression, but biometric is no longer
+        // available by the time presentBiometric runs.
+        bioAuthManager.locked = true
+        bioAuthManager.suppressInitialBrowserAuthentication = true
+        bioAuthManager.laContext = StubbedLAContext(canEvaluate: false)
+
+        bioAuthManager.presentBiometric(scene: scene)
+
+        XCTAssertFalse(bioAuthManager.suppressInitialBrowserAuthentication,
+                       "presentBiometric must disarm suppression when biometric is unavailable so the browser-auth gate proceeds normally")
+    }
+
     // MARK: - Helpers
 
     private func activeWindowScene() -> UIWindowScene? {
