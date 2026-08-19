@@ -54,8 +54,9 @@ update_salesforce_sdk_constants ()
     local file=$1
     local version=$2
     local isDev=$3
-    local defineNameForVersion="__SALESFORCE_SDK_${version//./_}"
-    local defineValueForVersion="${version//./0}" # XXX works y and z are < 10 in version x.y.z
+    local base_version="${version%%-*}"
+    local defineNameForVersion="__SALESFORCE_SDK_${base_version//./_}"
+    local defineValueForVersion="${base_version//./0}" # XXX works y and z are < 10 in version x.y.z
 
     local isProdBool="YES"
 
