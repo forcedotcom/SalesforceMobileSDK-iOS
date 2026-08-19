@@ -267,10 +267,11 @@ NS_SWIFT_NAME(SalesforceManager)
 @property (nonatomic, assign) BOOL useHybridAuthentication;
 
 /** Whether DPoP (RFC 9449) proof JWTs should be attached to token-endpoint requests.
- *  Defaults to NO. Enable only when the Salesforce External Client App / Connected App
- *  is configured with `dpop_bound_access_tokens=true`. When enabled, the SDK lazily
- *  generates a per-user P-256 keypair (Secure Enclave when available) and signs a
- *  proof JWT for every request to `/services/oauth2/token`.
+ *  Defaults to `YES` as of Mobile SDK 14. When enabled, the SDK lazily generates a
+ *  per-user P-256 keypair (Secure Enclave when available) and signs a proof JWT for
+ *  every request to `/services/oauth2/token`. This flag governs new logins only:
+ *  existing DPoP-bound credentials keep their binding and existing Bearer credentials
+ *  are not upgraded to DPoP, regardless of this setting.
  */
 @property (nonatomic, assign) BOOL useDPoP NS_SWIFT_NAME(usesDPoP);
 

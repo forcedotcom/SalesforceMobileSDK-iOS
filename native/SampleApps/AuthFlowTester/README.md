@@ -11,6 +11,8 @@ Tests are run via GitHub Actions using the `AuthFlowTester` Xcode scheme and `xc
 #### LegacyLoginTests
 Legacy login tests using the default Connected App (CA) opaque configuration from the app's boot config.
 
+> **DPoP default note:** Mobile SDK 14 defaults DPoP **on** for new logins (`SalesforceSDKManager.useDPoP` defaults to `true`). This suite deliberately passes `useDPoP: false` on every case so it remains the dedicated **Bearer (non-DPoP) compatibility suite**, exercising the legacy CA flows exactly as pre-14 apps did. DPoP-bound coverage lives in `DPoPLoginTests`.
+
 | Test | App Config | Scopes | Auth Surface |
 |------|-----------|--------|--------------|
 | `testCAOpaque_DefaultScopes_WebServerFlow` | CA Opaque | Default | ASWebAuthenticationSession |
