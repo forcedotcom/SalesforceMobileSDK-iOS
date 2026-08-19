@@ -473,7 +473,10 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     SFSDKAuthSession *session = [[SFSDKAuthSession alloc] initWith:request credentials:nil];
     SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithAuthSession:session];
     coordinator.delegate = [SFUserAccountManager sharedInstance];
-    [coordinator beginWebViewFlow];
+
+    // Invoke the delegate directly — no WKWebView needed since this test only verifies
+    // that loginViewControllerConfig propagates correctly to the presented controller.
+    [[SFUserAccountManager sharedInstance] oauthCoordinator:coordinator didBeginAuthenticationWithView:coordinator.view];
 
     [self waitForExpectations:@[expectation] timeout:20];
     XCTAssertTrue(success, @"SFSDKLoginViewController config should have changed" );

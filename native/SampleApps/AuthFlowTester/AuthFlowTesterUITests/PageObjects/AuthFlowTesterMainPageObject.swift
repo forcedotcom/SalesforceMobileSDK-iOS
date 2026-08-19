@@ -221,7 +221,7 @@ class AuthFlowTesterMainPageObject {
     }
     
     func isShowing() -> Bool {
-        return navigationTitle().waitForExistence(timeout: UITestTimeouts.long)
+        return navigationTitle().waitForExistence(timeout: UITestTimeouts.network)
     }
     
     func performLogout() {
@@ -268,6 +268,15 @@ class AuthFlowTesterMainPageObject {
         tap(swithToUserButton())
     }
     
+    func setAuthFlowTypes(useWebServerFlow: Bool, useHybridFlow: Bool) {
+        tap(bottomBarAuthFlowTypesButton())
+        authFlowTypesPageObject.setAuthFlowTypes(
+            useWebServerFlow: useWebServerFlow,
+            useHybridFlow: useHybridFlow
+        )
+        tap(authFlowTypesDoneButton())
+    }
+
     func changeAppConfig(appConfig: AppConfig, scopesToRequest: String = "", useWebServerFlow: Bool, useHybridFlow: Bool) -> Bool {
         // Tap Change Key button to open the sheet
         tap(bottomBarChangeKeyButton())
@@ -343,6 +352,14 @@ class AuthFlowTesterMainPageObject {
         return app.buttons["Change Key"]
     }
     
+    private func bottomBarAuthFlowTypesButton() -> XCUIElement {
+        return app.buttons["authFlowTypesButton"]
+    }
+
+    private func authFlowTypesDoneButton() -> XCUIElement {
+        return app.buttons["Done"]
+    }
+
     private func bottomBarSwitchUserButton() -> XCUIElement {
         return app.buttons["Switch User"]
     }
@@ -444,13 +461,14 @@ class AuthFlowTesterMainPageObject {
 
     // MARK: - Actions
     
-    private func tap(_ element: XCUIElement) {
-        _ = element.waitForExistence(timeout: UITestTimeouts.long)
+    private func tap(_ element: XCUIElement, timeout: TimeInterval = UITestTimeouts.long, file: StaticString = #file, line: UInt = #line) {
+        let exists = element.waitForExistence(timeout: timeout)
+        XCTAssertTrue(exists, "Element \(element.debugDescription) did not appear within \(timeout)s", file: file, line: line)
         element.tap()
     }
-    
-    private func tapIfPresent(_ element: XCUIElement) {
-        if (element.waitForExistence(timeout: UITestTimeouts.long)) {
+
+    private func tapIfPresent(_ element: XCUIElement, timeout: TimeInterval = UITestTimeouts.long) {
+        if element.waitForExistence(timeout: timeout) {
             element.tap()
         }
     }

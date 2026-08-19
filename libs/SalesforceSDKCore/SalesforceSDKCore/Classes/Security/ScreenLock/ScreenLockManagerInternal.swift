@@ -44,7 +44,10 @@ public class ScreenLockManagerInternal: NSObject, ScreenLockManager {
             return (getTimeout() != nil)
         }
     }
-    
+
+    /// Configuration for the lock screen's visual appearance.
+    @objc public var configuration = ScreenLockUIConfiguration()
+
     @objc public static let shared = ScreenLockManagerInternal()
     
     private let kScreenLockIdentifier = "com.salesforce.security.screenlock"
@@ -236,7 +239,7 @@ public class ScreenLockManagerInternal: NSObject, ScreenLockManager {
         NotificationCenter.default.post(name: Notification.Name(rawValue: kSFScreenLockFlowWillBegin), object: nil)
         
         // Launch Screen Lock
-        let screenLockViewController = UIHostingController(rootView: ScreenLockUIView())
+        let screenLockViewController = UIHostingController(rootView: ScreenLockUIView(configuration: configuration))
         screenLockViewController.modalPresentationStyle = .fullScreen
         SFSDKWindowManager.shared().screenLockWindow().presentWindow(animated: false) {
             SFSDKWindowManager.shared().screenLockWindow().viewController?.present(screenLockViewController, animated: false, completion: nil)

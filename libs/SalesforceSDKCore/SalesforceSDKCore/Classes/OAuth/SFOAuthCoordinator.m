@@ -53,6 +53,7 @@
 #import <SalesforceSDKCommon/SalesforceSDKCommon-Swift.h>
 #import <SalesforceSDKCommon/SFSDKDatasharingHelper.h>
 #import <LocalAuthentication/LocalAuthentication.h>
+#import "SFSDKResourceUtils.h"
 @interface SFOAuthCoordinator()
 
 @property (nonatomic) NSString *networkIdentifier;
@@ -78,7 +79,6 @@
 @synthesize scopes                      = _scopes;
 @synthesize codeVerifier                = _codeVerifier;
 @synthesize authInfo                    = _authInfo;
-@synthesize userAgentForAuth            = _userAgentForAuth;
 @synthesize origWebUserAgent            = _origWebUserAgent;
 
 
@@ -216,7 +216,7 @@
 
 - (void)authenticateWithCredentials:(SFOAuthCredentials *)credentials {
     self.credentials = credentials;
-    if ([self.domainDiscoveryCoordinator isDiscoveryDomain:self.credentials.domain]) {
+    if ([SFDomainDiscoveryCoordinator isDiscoveryDomain:self.credentials.domain]) {
         [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureWelcomeDiscovery];
         [self runMyDomainDiscoveryAndAuthenticate];
         return;
@@ -628,13 +628,7 @@
     request.refreshToken = self.credentials.refreshToken;
     request.redirectURI = self.credentials.redirectUri;
     request.serverURL = [self.credentials overrideDomainIfNeeded];
-   
-    // TODO: Remove in Mobile SDK 14.0
-    #pragma clang diagnostic push
-    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    request.userAgentForAuth = self.userAgentForAuth;
-    #pragma clang diagnostic pop
-    
+
     __weak typeof (self) weakSelf = self;
     if (self.approvalCode) {
         [SFSDKCoreLogger i:[self class] format:@"%@: Initiating authorization code flow.", NSStringFromSelector(_cmd)];
@@ -683,7 +677,20 @@
                  [SFSDKCoreLogger d:[self class] format:@"Refresh attempt timed out after %f seconds.", self.timeout];
                  [self stopAuthentication];
              }
-             [self notifyDelegateOfFailure:response.error.error authInfo:self.authInfo];
+             BOOL isUnsupportedGrantType = [response.error.tokenEndpointErrorCode isEqualToString:kSFOAuthErrorTypeUnsupportedGrantType];
+             BOOL isLightningURL = [self.credentials.domain containsString:@".lightning."];
+             if (isUnsupportedGrantType && isLightningURL) {
+                 [SFSDKCoreLogger e:[self class] format:@"Code exchange failed with unsupported_grant_type against Lightning URL: %@. Lightning URLs do not support authorization_code grant type. Use a My Domain login server URL instead.", self.credentials.domain];
+                 NSString *localizedMessage = [SFSDKResourceUtils localizedString:@"lightningUrlCodeExchangeError"];
+                 NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithDictionary:response.error.error.userInfo ?: @{}];
+                 userInfo[NSLocalizedDescriptionKey] = localizedMessage;
+                 NSError *diagnosticError = [NSError errorWithDomain:response.error.error.domain
+                                                                code:response.error.error.code
+                                                            userInfo:userInfo];
+                 [self notifyDelegateOfFailure:diagnosticError authInfo:self.authInfo];
+             } else {
+                 [self notifyDelegateOfFailure:response.error.error authInfo:self.authInfo];
+             }
              self.responseData = [NSMutableData dataWithCapacity:kSFOAuthReponseBufferLength];
          }
      }
@@ -882,16 +889,19 @@
     [self stopAuthentication];
     self.loginHint = loginHint;
     self.credentials.domain = myDomain;
-    [[SFUserAccountManager sharedInstance] setLoginHost:myDomain];
+    // Don't call setLoginHost: here — doing so would persist the My Domain into
+    // SFSDKLoginHostStorage and NSUserDefaults, polluting the server picker list
+    // and causing the login screen to show the My Domain after logout instead of
+    // the Welcome/Discovery page.  credentials.domain is all the auth flow needs.
     [self authenticate];
 }
 
 #pragma mark - WKNavigationDelegate (User-Agent Token Flow)
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
-    
+
     NSURL *url = navigationAction.request.URL;
     NSString *requestUrl = [url absoluteString];
-    
+
     // Determine if presence of discovery domain, then handle if present.
     SFDomainDiscoveryResult *discoveryResult = [self.domainDiscoveryCoordinator handleWithWebAction:navigationAction];
     if (discoveryResult) {
@@ -952,9 +962,13 @@
         [self.delegate oauthCoordinator:self didStartLoad:webView];
     }
     
+    SFSDK_USE_DEPRECATED_BEGIN
+    // When `showAuthWindowWhileLoading` is removed, call `[self startWebviewAuthenticationIfNeeded];`
+    // without conditional check
     if ([SFUserAccountManager sharedInstance].showAuthWindowWhileLoading) {
         [self startWebviewAuthenticationIfNeeded];
     }
+    SFSDK_USE_DEPRECATED_END
 }
 
 - (void)startWebviewAuthenticationIfNeeded {
@@ -979,9 +993,12 @@
         [self.delegate oauthCoordinator:self didFinishLoad:webView error:nil];
     }
     
+    SFSDK_USE_DEPRECATED_BEGIN
+    // Remove this block when `showAuthWindowWhileLoading` is removed
     if (![SFUserAccountManager sharedInstance].showAuthWindowWhileLoading) {
         [self startWebviewAuthenticationIfNeeded];
     }
+    SFSDK_USE_DEPRECATED_END
 }
 
 - (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {

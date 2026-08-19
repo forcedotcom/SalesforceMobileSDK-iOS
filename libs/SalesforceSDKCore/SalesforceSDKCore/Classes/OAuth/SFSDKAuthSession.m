@@ -66,13 +66,6 @@ static NSString * const kSFSDKAuthSessionUnscopedSceneIdPrefix = @"com.salesforc
     self.oauthCoordinator.scopes = self.oauthRequest.scopes;
     self.oauthCoordinator.brandLoginPath = self.oauthRequest.brandLoginPath;
     self.oauthCoordinator.useBrowserAuth = self.oauthRequest.useBrowserAuth || self.oauthRequest.loginAsAdmin;
-    
-    // TODO: Remove in Mobile SDK 14.0
-    #pragma clang diagnostic push
-    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    self.oauthCoordinator.userAgentForAuth = self.oauthRequest.userAgentForAuth;
-    #pragma clang diagnostic pop
-    
     if (_spAppCredentials && _spAppCredentials.domain) {
         self.oauthCoordinator.credentials.domain = _spAppCredentials.domain;
     }

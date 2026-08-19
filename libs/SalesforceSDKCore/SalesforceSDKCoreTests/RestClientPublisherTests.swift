@@ -27,7 +27,7 @@ import Combine
 @testable import SalesforceSDKCore
 
 class RestClientPublisherTests: XCTestCase {
-    
+
     var currentUser: UserAccount?
     
     override class func setUp() {
@@ -36,29 +36,30 @@ class RestClientPublisherTests: XCTestCase {
         TestSetupUtils.populateAuthCredentialsFromConfigFile(for: SFSDKAuthUtilTests.self)
         TestSetupUtils.synchronousAuthRefresh()
     }
-    
+
     override func setUp() {
+        super.setUp()
         currentUser = UserAccountManager.shared.currentUserAccount
     }
-    
+
     func testQueryPublisher() {
         let request = RestClient.shared.request(forQuery: "select name from CONTACT", apiVersion: nil)
         let publisher = RestClient.shared.publisher(for: request)
-        
+
         let validTest = evaluateResults(publisher: publisher)
-        wait(for: validTest.expectations, timeout: 5)
+        wait(for: validTest.expectations, timeout: 60)
         validTest.cancellable?.cancel()
     }
-    
+
     func testRecordsPublisher() {
         let request = RestClient.shared.request(forQuery: "select name from CONTACT", apiVersion: nil)
         let publisher: AnyPublisher<RestClient.QueryResponse<TestContact>, Never> = RestClient.shared.records(forRequest: request)
-        
+
         let validTest = evaluateResults(publisher: publisher)
-        wait(for: validTest.expectations, timeout: 5)
+        wait(for: validTest.expectations, timeout: 60)
         validTest.cancellable?.cancel()
     }
-  
+
     func testCompositePublisher() {
         let accountName = self.generateRecordName()
         let contactName = self.generateRecordName()
@@ -68,12 +69,12 @@ class RestClientPublisherTests: XCTestCase {
             .add(RestClient.shared.requestForCreate(withObjectType: "Contact", fields: ["LastName": contactName,"AccountId": "@{refAccount.id}"], apiVersion: apiVersion), referenceId: "refContact")
             .add(RestClient.shared.request(forQuery: "select Id, AccountId from Contact where LastName =  '\(contactName)'", apiVersion: apiVersion), referenceId: "refQuery")
             .setAllOrNone(true)
-        
+
         let compositeRequest = requestBuilder.buildCompositeRequest(apiVersion)
         let publisher = RestClient.shared.publisher(for: compositeRequest)
-        
+
         let validTest = evaluateResults(publisher: publisher)
-        wait(for: validTest.expectations, timeout: 10)
+        wait(for: validTest.expectations, timeout: 60)
         validTest.cancellable?.cancel()
     }
 
@@ -81,51 +82,52 @@ class RestClientPublisherTests: XCTestCase {
         let accountName = self.generateRecordName()
         let contactName = self.generateRecordName()
         let apiVersion = RestClient.shared.apiVersion
-        
+
         let requestBuilder = BatchRequestBuilder()
             .add(RestClient.shared.requestForCreate(withObjectType: "Account", fields: ["Name": accountName], apiVersion: apiVersion))
             .add(RestClient.shared.requestForCreate(withObjectType: "Contact", fields: ["LastName": contactName], apiVersion: apiVersion))
             .add(RestClient.shared.request(forQuery: "select Id from Account where Name ", apiVersion:  apiVersion)) // bad query
             .add(RestClient.shared.request(forQuery: "select Id from Contact where Name = '\(contactName)'", apiVersion: apiVersion))
             .setHaltOnError(false)
-        
+
         let batchRequest = requestBuilder.buildBatchRequest(apiVersion)
         let publisher = RestClient.shared.publisher(for: batchRequest)
-        
+
         let validTest = evaluateResults(publisher: publisher)
-        wait(for: validTest.expectations, timeout: 10)
+        wait(for: validTest.expectations, timeout: 60)
         validTest.cancellable?.cancel()
     }
-    
+
     private func evaluateResults<T: Publisher>(publisher: T?, evaluateValidResult: Bool = true) ->  (expectations:[XCTestExpectation], cancellable: AnyCancellable?)  {
         let finished = expectation(description: "finished")
         let received = expectation(description: "received")
         let failed = expectation(description: "failed")
-        
+
         if evaluateValidResult {
             failed.isInverted = true
         } else {
             received.isInverted = true
         }
-        
-        let cancellable = publisher?.sink (receiveCompletion: { (completion) in
-            switch completion {
-            case .failure(let error):
-                XCTAssertNotNil(error)
-                failed.fulfill()
-            case .finished:
-                finished.fulfill()
-            }
-        }, receiveValue: { response in
-            XCTAssertNotNil(response)
-            received.fulfill()
-        })
+
+        let cancellable = publisher?
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .failure(let error):
+                    XCTAssertNotNil(error)
+                    failed.fulfill()
+                case .finished:
+                    finished.fulfill()
+                }
+            }, receiveValue: { response in
+                XCTAssertNotNil(response)
+                received.fulfill()
+            })
         return (expectations: [finished, received, failed], cancellable: cancellable)
     }
     
     private func generateRecordName() -> String {
-        let timecode = Date.timeIntervalSinceReferenceDate
-        return "SwiftPublishersTestsiOS\(timecode)"
+        return "SwiftPublishersTestsiOS\(Date.timeIntervalSinceReferenceDate)"
     }
-    
+
 }

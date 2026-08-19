@@ -28,13 +28,16 @@
 import Foundation
 
 /// Provides timeout values for UI test element waits.
-/// Values come from the environment (`UI_TEST_SHORT_TIMEOUT`, `UI_TEST_LONG_TIMEOUT`) when set,
-/// otherwise from defaults. CI workflows can pass larger timeouts via these env vars.
+/// Values come from the environment (`UI_TEST_SHORT_TIMEOUT`, `UI_TEST_LONG_TIMEOUT`,
+/// `UI_TEST_NETWORK_TIMEOUT`) when set, otherwise from defaults.
+/// CI workflows can pass larger timeouts via these env vars.
 enum UITestTimeouts {
     /// Default short timeout in seconds (e.g. for quick UI state checks).
-    private static let defaultShort: TimeInterval = 1
+    private static let defaultShort: TimeInterval = 2
     /// Default long timeout in seconds (e.g. for page load or alert appearance).
-    private static let defaultLong: TimeInterval = 3
+    private static let defaultLong: TimeInterval = 10
+    /// Default network timeout in seconds (e.g. for operations that hit real OAuth servers).
+    private static let defaultNetwork: TimeInterval = 30
 
     private static func parseEnv(_ key: String) -> TimeInterval? {
         guard let raw = ProcessInfo.processInfo.environment[key],
@@ -52,5 +55,11 @@ enum UITestTimeouts {
     /// Long timeout (seconds). Use for page visibility, alerts, and general element waits.
     static var long: TimeInterval {
         parseEnv("UI_TEST_LONG_TIMEOUT") ?? defaultLong
+    }
+
+    /// Network timeout (seconds). Use for operations involving real server round-trips
+    /// (e.g. OAuth login, WKWebView page loads hitting Salesforce endpoints).
+    static var network: TimeInterval {
+        parseEnv("UI_TEST_NETWORK_TIMEOUT") ?? defaultNetwork
     }
 }

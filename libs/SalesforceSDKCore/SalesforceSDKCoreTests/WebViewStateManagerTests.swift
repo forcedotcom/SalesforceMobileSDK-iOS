@@ -14,12 +14,6 @@ final class WebViewStateManagerTests: XCTestCase {
     }
 
     @MainActor
-    func testProcessPoolIsNil() {
-        // TODO remove this test in 14.0 when we remove sharedProcessPool from SFSDKWebViewStateManager
-        XCTAssertNil(SFSDKWebViewStateManager.sharedProcessPool)
-    }
-
-    @MainActor
     func testRemoveSessionForcefullyCallsCompletion() async {
         await SFSDKWebViewStateManager.removeSessionForcefully()
 

@@ -180,7 +180,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         _authPreferences = [SFSDKAuthPreferences  new];
         _errorManager = [[SFSDKAuthErrorManager alloc] init];
         _shouldFallbackToWebAuthentication = NO;
-        _showAuthWindowWhileLoading = NO;
+        _showAuthWindowWhileLoading = YES;
         __weak typeof (self) weakSelf = self;
         self.alertDisplayBlock = ^(SFSDKAlertMessage * message, SFSDKWindowContainer *window) {
             __strong typeof (weakSelf) strongSelf = weakSelf;
@@ -608,26 +608,38 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
                                                         initWithFrontdoorBridgeUrl:frontDoorBridgeUrl
                                                         codeVerifier:codeVerifier];
     }
-    authSession.oauthCoordinator.loginHint = loginHint;
+    // Login for Admin: when the request carries a My Domain override (set by
+    // loginViewControllerDidSelectLoginForAdmin: in phase-2 Welcome Discovery),
+    // route the browser session to the resolved My Domain and forward the
+    // captured login hint, while leaving request.loginHost — and therefore
+    // every other restart path — pointed at the originally configured host.
+    BOOL useLfaOverride = request.loginAsAdmin && request.loginAsAdminMyDomain.length > 0;
+    if (useLfaOverride) {
+        authSession.credentials.domain = request.loginAsAdminMyDomain;
+        authSession.oauthCoordinator.loginHint = request.loginAsAdminLoginHint;
+    } else {
+        authSession.oauthCoordinator.loginHint = loginHint;
+    }
+    NSString *appConfigLoginHost = useLfaOverride ? request.loginAsAdminMyDomain : request.loginHost;
     NSString *sceneId = authSession.sceneId;
     self.authSessions[sceneId] = authSession;
-    
+
     if (self.nativeLoginEnabled && !self.shouldFallbackToWebAuthentication) {
         authSession.oauthCoordinator.useNativeAuth = YES;
     }
-    
+
     dispatch_async(dispatch_get_main_queue(), ^{
         [SFSDKWebViewStateManager removeSessionForcefullyWithCompletionHandler:^{
             // Get app config for the login host. If appConfigRuntimeSelectorBlock is set,
             // it will be invoked to select the appropriate config. Otherwise, returns the default appConfig.
-            [[SalesforceSDKManager sharedManager] appConfigForLoginHost:request.loginHost callback:^(SFSDKAppConfig* appConfig) {
+            [[SalesforceSDKManager sharedManager] appConfigForLoginHost:appConfigLoginHost callback:^(SFSDKAppConfig* appConfig) {
                 authSession.credentials.clientId = appConfig.remoteAccessConsumerKey;
                 authSession.credentials.redirectUri = appConfig.oauthRedirectURI;
                 authSession.credentials.scopes = [appConfig.oauthScopes allObjects];
                 [authSession.oauthCoordinator authenticateWithCredentials:authSession.credentials];
             }];
         }];
-        
+
     });
     return self.authSessions[sceneId].isAuthenticating;
 }
@@ -702,6 +714,9 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     [self dismissAuthViewControllerIfPresentForScene:scene completion:^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
         strongSelf.authSessions[scene.session.persistentIdentifier].isAuthenticating = NO;
+        // LFA passes its hint via the request's loginAsAdminLoginHint override
+        // (consulted in authenticateWithRequest:); other restart paths intentionally
+        // pass nil so a hint set on a prior session does not bleed across server changes.
         [strongSelf authenticateWithRequest:session.oauthRequest
                                   loginHint:nil
                                  completion:session.authSuccessCallback
@@ -1032,9 +1047,14 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     }
 
     // When "Login for Admin" initiated the browser auth, clear the flag and
-    // restart the WebView login flow instead of showing the server picker.
+    // its My Domain / login hint overrides, then restart the WebView login
+    // flow against the originally configured host instead of showing the
+    // server picker. For Welcome Discovery, this means the user lands back
+    // on the discovery page and re-picks an account.
     if (coordinator.authSession.oauthRequest.loginAsAdmin) {
         coordinator.authSession.oauthRequest.loginAsAdmin = NO;
+        coordinator.authSession.oauthRequest.loginAsAdminMyDomain = nil;
+        coordinator.authSession.oauthRequest.loginAsAdminLoginHint = nil;
         [self restartAuthentication:coordinator.authSession];
         return;
     }
@@ -1125,6 +1145,25 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 - (void)loginViewControllerDidSelectLoginForAdmin:(SFLoginViewController *)loginViewController {
     NSString *sceneId = loginViewController.view.window.windowScene.session.persistentIdentifier;
     SFSDKAuthSession *session = self.authSessions[sceneId];
+    SFOAuthCoordinator *coordinator = session.oauthCoordinator;
+
+    // Phase-1 Welcome Discovery: a discovery host is loaded but the user has not
+    // yet picked an account, so credentials.domain is still the discovery host
+    // and we have no My Domain to advance to. Switching to ASWebAuthenticationSession
+    // here would launch the browser against welcome.salesforce.com — wrong UX.
+    // No-op until phase 2 lands.
+    if ([SFDomainDiscoveryCoordinator isDiscoveryDomain:session.oauthRequest.loginHost] && !coordinator.domainUpdated) {
+        [SFSDKCoreLogger w:[self class] format:@"%@: Login for Admin is not available before a My Domain has been selected on the Welcome Discovery page; ignoring.", NSStringFromSelector(_cmd)];
+        return;
+    }
+
+    // Phase-2 Welcome Discovery (or a non-discovery host): record the resolved
+    // My Domain and login hint as LFA-scoped overrides on the request. The
+    // request's loginHost is left untouched so that Reload / Clear Cache /
+    // post-cancel restart continue to use the originally configured host.
+    // These overrides are in-memory only and are cleared on LFA cancel.
+    session.oauthRequest.loginAsAdminMyDomain = coordinator.credentials.domain.length > 0 ? coordinator.credentials.domain : nil;
+    session.oauthRequest.loginAsAdminLoginHint = coordinator.loginHint.length > 0 ? coordinator.loginHint : nil;
     session.oauthRequest.loginAsAdmin = YES;
     [self restartAuthenticationForViewController:loginViewController];
 }
@@ -1708,7 +1747,10 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
                 BOOL isNativeLogin = self.nativeLoginEnabled && !self.shouldFallbackToWebAuthentication;
                 // Native Login uses a secondary Connected App tied to a specifc community url.  If the
                 // next login is web based it should not try to use that url.
-                if (user.credentials.domain && !isNativeLogin)
+                // Also skip if the app uses a Welcome/Discovery domain — persisting the My Domain
+                // would pollute the server picker and prevent returning to the discovery page on logout.
+                BOOL isDiscoveryLogin = [SFDomainDiscoveryCoordinator isDiscoveryDomain:self.loginHost];
+                if (user.credentials.domain && !isNativeLogin && !isDiscoveryLogin)
                     self.loginHost = user.credentials.domain;
                 [self didChangeValueForKey:@"currentUser"];
                 userChanged = YES;
@@ -1971,7 +2013,10 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
                 
                 [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureBioAuth];
                 [bioAuthManager storePolicyWithUserAccount:self.currentUser hasMobilePolicy:hasBioAuthPolicy sessionTimeout:sessionTimeout];
-                
+                if (![bioAuthManager hasBiometricOptedIn] && bioAuthManager.automaticPresentation) {
+                    [bioAuthManager presentOptInDialogWithViewController:[[SFSDKWindowManager sharedManager] mainWindow:authSession.oauthRequest.scene].topViewController];
+                }
+
                 if (preLoginCredentials != nil && ![preLoginCredentials.refreshToken isEqualToString:self.currentUser.credentials.refreshToken]) {
                     
                     id<SFSDKOAuthProtocol> authClient = self.authClient();
@@ -2293,6 +2338,10 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
             UIViewController *multiWindowNativeLoginVC = [[SalesforceSDKManager sharedManager].nativeLoginViewControllers objectForKey:viewHandler.scene.session.persistentIdentifier];
             UIViewController *nativeLogin = multiWindowNativeLoginVC ? multiWindowNativeLoginVC : [[[SalesforceSDKManager sharedManager] nativeLoginViewControllers] objectForKey:kSFDefaultNativeLoginViewControllerKey];
             UIViewController *controllerToPresent = [[SFSDKNavigationController alloc] initWithRootViewController:nativeLogin];
+            // Hide the nav bar for custom native login views. SFLoginViewController hides it
+            // internally, but custom VCs don't — without this, a Salesforce-blue nav bar appears
+            // on top of the native login view on re-presentation (e.g. after fallback to web auth).
+            [(UINavigationController *)controllerToPresent setNavigationBarHidden:YES animated:NO];
             controllerToPresent.modalPresentationStyle = UIModalPresentationFullScreen;
             [[[SFSDKWindowManager sharedManager] authWindow:viewHandler.scene].viewController presentViewController:controllerToPresent animated:NO completion:^{ }];
         }

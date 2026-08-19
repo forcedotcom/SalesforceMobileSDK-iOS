@@ -39,7 +39,7 @@ class LoginPageObject {
     }
     
     func isShowing() -> Bool {
-        return loginNavigationBar().waitForExistence(timeout: UITestTimeouts.long)
+        return loginNavigationBar().waitForExistence(timeout: UITestTimeouts.network)
     }
     
     func hasFilledUsernameField(username: String) -> Bool {
@@ -78,29 +78,29 @@ class LoginPageObject {
         }
     }
     
-    func performLogin(username: String, password: String) {
+    func performLogin(username: String, password: String, advancedAuth: Bool = false) {
+        waitForLoginFormReady()
         setTextField(usernameField(), value: username)
-        dismissKeyboardAfterTyping()
-        tap(loginButton())
+        if advancedAuth {
+            usernameField().typeText(XCUIKeyboardKey.return.rawValue)
+        } else {
+            dismissKeyboardAfterTyping()
+            tap(loginButton(), timeout: UITestTimeouts.network)
+        }
         setTextField(passwordField(), value: password)
-        dismissKeyboardAfterTyping()
-        tap(loginButton())
-        tapIfPresent(allowButton())
-    }
-
-    func performAdvancedLogin(username: String, password: String) {
-        setTextField(usernameField(), value: username)
-        usernameField().typeText(XCUIKeyboardKey.return.rawValue)
-        setTextField(passwordField(), value: password)
-        passwordField().typeText(XCUIKeyboardKey.return.rawValue)
-        tapIfPresent(allowButton())
+        if advancedAuth {
+            passwordField().typeText(XCUIKeyboardKey.return.rawValue)
+        } else {
+            dismissKeyboardAfterTyping()
+            tap(loginButton(), timeout: UITestTimeouts.network)
+        }
+        tapIfPresent(allowButton(), timeout: UITestTimeouts.network)
     }
 
     /// Performs login via the "Login for Admin" flow.
     /// Taps Settings → "Login for Admin" which triggers ASWebAuthenticationSession (native browser),
     /// then completes authentication in the browser.
     func performLoginForAdmin(username: String, password: String) {
-        // Tap Settings gear icon → "Login for Admin" menu item
         tap(settingsButton())
         tap(loginForAdminButton())
 
@@ -108,20 +108,19 @@ class LoginPageObject {
         let topBar = app.otherElements["TopBrowserBar"]
         _ = topBar.waitForExistence(timeout: UITestTimeouts.long)
 
-        // Complete login in the browser (same interaction as advanced auth)
-        setTextField(usernameField(), value: username)
-        usernameField().typeText(XCUIKeyboardKey.return.rawValue)
-        setTextField(passwordField(), value: password)
-        passwordField().typeText(XCUIKeyboardKey.return.rawValue)
-        tapIfPresent(allowButton())
+        performLogin(username: username, password: password, advancedAuth: true)
     }
-    
-    func performWelcomeLogin(password: String) {
-        tap(loginButton())
+
+    func performWelcomeLogin(password: String, advancedAuth: Bool = false) {
+        tap(loginButton(), timeout: UITestTimeouts.network)
         setTextField(passwordField(), value: password)
-        dismissKeyboardAfterTyping()
-        tap(loginButton())
-        tapIfPresent(allowButton())
+        if advancedAuth {
+            passwordField().typeText(XCUIKeyboardKey.return.rawValue)
+        } else {
+            dismissKeyboardAfterTyping()
+            tap(loginButton(), timeout: UITestTimeouts.network)
+        }
+        tapIfPresent(allowButton(), timeout: UITestTimeouts.network)
     }
     
     func configureLoginOptions(
@@ -149,8 +148,29 @@ class LoginPageObject {
         )
     }
 
+    // MARK: - Login Form Readiness
+
+    /// Pre-warms the WKWebView process pool by waiting for the initial login page to render.
+    /// Called once after app launch to absorb the cold-start cost of WKWebView process creation.
+    /// Uses a longer timeout than normal because the first WebView load includes process pool
+    /// initialization, TLS session setup, and initial page compilation.
+    func waitForWebViewReady() {
+        let webView = app.webViews.firstMatch
+        _ = webView.waitForExistence(timeout: UITestTimeouts.network * 2)
+    }
+
+    /// Waits for the WKWebView login form to be fully loaded and interactive.
+    /// After a login host change, the WebView navigates to a new URL and the form elements
+    /// are not immediately available. This method waits for the username text field inside
+    /// the WebView to become available, which signals the login form has fully rendered.
+    private func waitForLoginFormReady() {
+        let webViewTextField = app.webViews.webViews.webViews.textFields.firstMatch
+        let formReady = webViewTextField.waitForExistence(timeout: UITestTimeouts.network)
+        XCTAssertTrue(formReady, "Login form did not load within \(UITestTimeouts.network)s — WebView may not have finished loading the login page")
+    }
+
     // MARK: - UI Element Accessors
-    
+
     private func loginNavigationBar() -> XCUIElement {
         return app.navigationBars["Log In"]
     }
@@ -259,14 +279,15 @@ class LoginPageObject {
     
     // MARK: - Actions
     
-    private func tap(_ element: XCUIElement) {
-        _ = element.waitForExistence(timeout: UITestTimeouts.long)
+    private func tap(_ element: XCUIElement, timeout: TimeInterval = UITestTimeouts.long, file: StaticString = #file, line: UInt = #line) {
+        let exists = element.waitForExistence(timeout: timeout)
+        XCTAssertTrue(exists, "Element \(element.debugDescription) did not appear within \(timeout)s", file: file, line: line)
         element.tap()
     }
-    
+
     @discardableResult
-    private func tapIfPresent(_ element: XCUIElement) -> Bool {
-        if element.waitForExistence(timeout: UITestTimeouts.long) {
+    private func tapIfPresent(_ element: XCUIElement, timeout: TimeInterval = UITestTimeouts.long) -> Bool {
+        if element.waitForExistence(timeout: timeout) {
             element.tap()
             return true
         }

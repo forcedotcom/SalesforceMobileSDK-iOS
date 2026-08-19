@@ -10,8 +10,8 @@
 cd "$(dirname "$0")"
 
 # Check for iOS SDK minimum version
-IOS_MIN_VERSION_NUM=170
-IOS_MIN_VERSION_STR="iOS 17.0"
+IOS_MIN_VERSION_NUM=180
+IOS_MIN_VERSION_STR="iOS 18.0"
 ios_ver=`xcodebuild -version -sdk iphoneos | grep SDKVersion:`
 if [[ "$ios_ver" == "" ]]
 then

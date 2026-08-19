@@ -1,0 +1,1 @@
+../../../.prizm/presubmits/skills/mobile-sdk-ios-pr-review/SKILL.md

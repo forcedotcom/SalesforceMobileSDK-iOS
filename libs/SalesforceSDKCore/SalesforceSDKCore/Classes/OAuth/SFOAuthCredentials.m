@@ -372,8 +372,17 @@ NSException * SFOAuthInvalidIdentifierException(void) {
 }
 
 - (NSURL *)overrideDomainIfNeeded {
-    NSString *domain = self.communityId ? self.communityUrl.absoluteString : self.domain;
-    NSString *protocolHost = self.communityId ? domain : [NSString stringWithFormat:@"%@://%@", self.protocol, domain];
+    // Precedence: communityUrl > instanceUrl > domain. instanceUrl is populated only after the first
+    // token response, so a nil instanceUrl naturally identifies the code-exchange path.
+    if (self.communityId && self.communityUrl) {
+        return self.communityUrl;
+    }
+
+    if (self.instanceUrl) {
+        return self.instanceUrl;
+    }
+
+    NSString *protocolHost = [NSString stringWithFormat:@"%@://%@", self.protocol, self.domain];
     return [NSURL URLWithString:protocolHost];
 }
 
@@ -469,11 +478,16 @@ NSException * SFOAuthInvalidIdentifierException(void) {
     if (params[kSFOAuthTokenFormat]) {
         self.tokenFormat = params[kSFOAuthTokenFormat];
     }
+    // TODO: Remove kSFOAuthLegacyBeaconChildConsumer* fallback once server version 264 has rolled out everywhere.
     if (params[kSFOAuthBeaconChildConsumerKey]) {
         self.beaconChildConsumerKey = params[kSFOAuthBeaconChildConsumerKey];
+    } else if (params[kSFOAuthLegacyBeaconChildConsumerKey]) {
+        self.beaconChildConsumerKey = params[kSFOAuthLegacyBeaconChildConsumerKey];
     }
     if (params[kSFOAuthBeaconChildConsumerSecret]) {
         self.beaconChildConsumerSecret = params[kSFOAuthBeaconChildConsumerSecret];
+    } else if (params[kSFOAuthLegacyBeaconChildConsumerSecret]) {
+        self.beaconChildConsumerSecret = params[kSFOAuthLegacyBeaconChildConsumerSecret];
     }
 }
 

@@ -1,0 +1,29 @@
+{
+  "docs": [
+    {
+      "doc": "readme.md",
+      "scope": ".",
+      "description": "Salesforce.com Mobile SDK for iOS - installation, setup, and getting started guide"
+    },
+    {
+      "doc": "UPGRADE.md",
+      "scope": ".",
+      "description": "Upgrade steps from v. 7.0 to v. 7.1 for Native apps"
+    },
+    {
+      "doc": "CLAUDE.md",
+      "scope": ".",
+      "description": "CLAUDE.md — Salesforce Mobile SDK - AI instructions for iOS library architecture and development guidelines"
+    },
+    {
+      "doc": "native/SampleApps/AuthFlowTester/AuthFlowTesterUITests/overview.md",
+      "scope": "native/SampleApps/AuthFlowTester/AuthFlowTesterUITests",
+      "description": "AuthFlowTester UI Tests Overview - comprehensive test suite documentation for authentication flows"
+    },
+    {
+      "doc": ".prizm/presubmits/skills/mobile-sdk-ios-pr-review/SKILL.md",
+      "scope": ".prizm/presubmits/skills/mobile-sdk-ios-pr-review",
+      "description": "mobile-sdk-ios-pr-review - Prizm skill for reviewing iOS SDK PRs for API breakage, OAuth safety, and platform concerns"
+    }
+  ]
+}

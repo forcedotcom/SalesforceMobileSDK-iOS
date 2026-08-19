@@ -36,6 +36,11 @@ public protocol BiometricAuthenticationManager {
     /// If the device is currently locked.  Authenticated rest requests will fail if true.
     var locked: Bool { get }
 
+    /// If enabled, the SDK will automatically present the biometric opt-in dialog after login
+    /// (if the user has not yet opted in) and automatically trigger biometric unlock when the
+    /// app is locked (if the user has opted in). Defaults to true.
+    var automaticPresentation: Bool { get set }
+
     /// Locks the device immediately.  Authenticated rest requests will fail until the user unlocks the app.
     func lock()
 

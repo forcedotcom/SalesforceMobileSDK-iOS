@@ -94,6 +94,8 @@ enum KnownLoginHostConfig: String {
 enum KnownAppConfig: String {
     case ecaOpaque = "eca_opaque"
     case ecaJwt = "eca_jwt"
+    case ecaOpaqueRtr = "eca_opaque_rtr"
+    case ecaJwtRtr = "eca_jwt_rtr"
     case beaconOpaque = "beacon_opaque"
     case beaconJwt = "beacon_jwt"
     case caOpaque = "ca_opaque"
@@ -127,6 +129,11 @@ struct AppConfig: Codable {
     /// Returns true if the app issues JWT tokens (name contains "_jwt")
     var issuesJwt: Bool {
         return name.contains("_jwt")
+    }
+
+    /// Returns true if the app uses Refresh Token Rotation (name contains "_rtr")
+    var isRtr: Bool {
+        return name.contains("_rtr")
     }
     
     /// Returns scopes as an array

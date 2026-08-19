@@ -93,7 +93,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SFSDKOAuthTokenEndpointRequest : NSObject
 @property (nonatomic, copy) NSString *refreshToken;
-@property (nonatomic, copy, nullable) NSString *userAgentForAuth;
 @property (nonatomic, copy) NSString *redirectURI;
 @property (nonatomic, copy) NSString *clientID;
 @property (nonatomic, copy, nullable) NSString *approvalCode;
@@ -145,15 +144,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)revokeRefreshToken:(SFOAuthCredentials *)credentials reason:(SFLogoutReason)reason;
 @end
 
-SFSDK_DEPRECATED(13.2, 14.0, "Will be removed.")
-@protocol SFSDKOAuthSessionManaging<NSObject>
-- (NSURLSession *)createURLSessionWithIdentifier:(nonnull NSString *)identifier;
-@end
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-@interface SFSDKOAuth2 : NSObject<SFSDKOAuthProtocol, SFSDKOAuthSessionManaging>
-#pragma clang diagnostic pop
+
+@interface SFSDKOAuth2 : NSObject<SFSDKOAuthProtocol>
 
 + (NSMutableURLRequest *)requestForRevokeRefreshToken:(SFOAuthCredentials *)credentials reason:(SFLogoutReason)reason;
 

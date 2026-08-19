@@ -41,6 +41,19 @@ public class PushNotificationManagerConstants: NSObject {
     public static let kPNEncryptionKeyLength: UInt = 2048
 }
 
+/// Controls which users are re-registered for push notifications when the app returns to the foreground.
+public enum PushNotificationForegroundRegistrationMode {
+    /// No re-registration occurs on foreground.
+    case none
+    /// Only the current user is re-registered on foreground. Use this to preserve the previous SDK behavior.
+    case currentUser
+    /// All logged-in users are re-registered on foreground. This is the default.
+    ///
+    /// - Note: Apps that are billed per login (e.g. some Publisher customers) may prefer `.currentUser`
+    ///   to avoid triggering token refreshes—and thus billable login events—for background users.
+    case allUsers
+}
+
 public enum PushNotificationManagerError: Error, Equatable {
     case registrationFailed
     case currentUserNotDetected
@@ -73,9 +86,31 @@ public class PushNotificationManager: NSObject {
     }
     
     public var deviceToken: String?
-    public var deviceSalesforceId: String?
+
+    @available(*, deprecated,
+               message: "Deprecated in Salesforce Mobile SDK 14.0 and will be removed in Salesforce Mobile SDK 15.0. This value is managed internally by registerSalesforceNotifications and unregisterSalesforceNotifications. No replacement is needed.")
+    public var deviceSalesforceId: String? {
+        get { _deviceSalesforceId }
+        set { _deviceSalesforceId = newValue }
+    }
+    // Separate private variable to avoid deprecation warnings until the field is removed
+    private var _deviceSalesforceId: String?
+
     public var customPushRegistrationBody: [String: Any]?
-    public var registerOnForeground: Bool = true
+
+    /// Controls which users are re-registered for push notifications when the app returns to the foreground.
+    /// Defaults to `.allUsers`.
+    ///
+    /// Set to `.currentUser` to preserve the pre-14.0 behavior of only re-registering the current user,
+    /// or to `.none` to disable foreground re-registration entirely.
+    public var foregroundRegistrationMode: PushNotificationForegroundRegistrationMode = .allUsers
+
+    @available(*, deprecated, renamed: "foregroundRegistrationMode",
+               message: "Use foregroundRegistrationMode instead. Set .none for false, .allUsers for true.")
+    public var registerOnForeground: Bool {
+        get { foregroundRegistrationMode != .none }
+        set { foregroundRegistrationMode = newValue ? .allUsers : .none }
+    }
     
     var isSimulator: Bool = false
     private let notificationRegister: RemoteNotificationRegistering
@@ -109,7 +144,7 @@ public class PushNotificationManager: NSObject {
 #endif
         let preferences = notificationRegister.preferences(for: UserAccountManager.shared.currentUserAccount)
         self.deviceToken = preferences?.string(forKey: PushNotificationConstants.deviceToken)
-        self.deviceSalesforceId = preferences?.string(forKey: PushNotificationConstants.deviceSalesforceId)
+        self._deviceSalesforceId = preferences?.string(forKey: PushNotificationConstants.deviceSalesforceId)
         
         setupNotificationObservers()
     }
@@ -256,10 +291,11 @@ public class PushNotificationManager: NSObject {
                 }
                 
                 SFSDKCoreLogger.i(Self.self, message: "Registration succeeded")
-                self.deviceSalesforceId = json["id"] as? String
+                // TODO: Remove in Mobile SDK 15.0 and set value in preferences directly
+                self._deviceSalesforceId = json["id"] as? String
                 
-                let prefs = SFPreferences.currentUserLevel()
-                prefs?.setObject(self.deviceSalesforceId ?? "", forKey: PushNotificationConstants.deviceSalesforceId)
+                let prefs = notificationRegister.preferences(for: user)
+                prefs?.setObject(self._deviceSalesforceId ?? "", forKey: PushNotificationConstants.deviceSalesforceId)
                 prefs?.synchronize()
                 
                 SFSDKCoreLogger.i(Self.self, message: "Response: \(json)")
@@ -307,24 +343,20 @@ public class PushNotificationManager: NSObject {
     @objc(unregisterSalesforceNotificationsWithCompletionBlock:completionBlock:)
     public func unregisterSalesforceNotifications(for user: UserAccount,
                                                   completionBlock: (() -> Void)?) -> Bool {
-        guard deviceSalesforceId != nil else {
-            completionBlock?()
-            return true
-        }
-        
         if isSimulator {
             completionBlock?()
             return true
         }
-        let preferences = notificationRegister.preferences(for: UserAccountManager.shared.currentUserAccount)
-        guard let prefs = preferences else {
+        let preferences = notificationRegister.preferences(for: user)
+        guard let preferences else {
             SFSDKCoreLogger.e(Self.self, message: "Cannot unregister from notifications with Salesforce: no user prefs")
             return false
         }
-        
-        guard let sfId = prefs.string(forKey: PushNotificationConstants.deviceSalesforceId) else {
-            SFSDKCoreLogger.e(Self.self, message: "Cannot unregister from notifications with Salesforce: no deviceSalesforceId")
-            return false
+
+        guard let sfId = preferences.string(forKey: PushNotificationConstants.deviceSalesforceId) else {
+            // User has no registered device — nothing to unregister
+            completionBlock?()
+            return true
         }
         
         guard let restClient = notificationRegister.client(for: user) else {
@@ -472,14 +504,22 @@ private extension PushNotificationManager {
     }
     
     @objc private func onAppWillEnterForeground(_ notification: Notification) {
-        guard registerOnForeground,
+        guard foregroundRegistrationMode != .none,
               !UserAccountManager.shared.isLogoutSettingEnabled,
               deviceToken != nil else {
             return
         }
-        
-        SFSDKCoreLogger.i(Self.self, message: "App entering foreground, re-registering push")
-        registerSalesforceNotifications(completionBlock: nil, failBlock: nil)
+
+        if foregroundRegistrationMode == .allUsers,
+           let allUsers = UserAccountManager.shared.userAccounts(), !allUsers.isEmpty {
+            SFSDKCoreLogger.i(Self.self, message: "App entering foreground, re-registering push for all users")
+            for user in allUsers {
+                registerSalesforceNotifications(for: user, completionBlock: nil, failBlock: nil)
+            }
+        } else {
+            SFSDKCoreLogger.i(Self.self, message: "App entering foreground, re-registering push for current user")
+            registerSalesforceNotifications(completionBlock: nil, failBlock: nil)
+        }
     }
     
     @objc private func onUserMigratedRefreshToken(_ notification: Notification) {

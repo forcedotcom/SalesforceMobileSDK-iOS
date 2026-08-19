@@ -30,7 +30,9 @@ NSString* const kTestRequestStatusWaiting = @"waiting";
 NSString* const kTestRequestStatusDidLoad = @"didLoad";
 NSString* const kTestRequestStatusDidFail = @"didFail";
 
-@interface SFSDKTestRequestListener ()
+@interface SFSDKTestRequestListener () {
+    dispatch_semaphore_t _completionSemaphore;
+}
 @end
 
 @implementation SFSDKTestRequestListener
@@ -46,6 +48,7 @@ NSString* const kTestRequestStatusDidFail = @"didFail";
     if (nil != self) {
         self.maxWaitTime = 30.0;
         self.returnStatus = kTestRequestStatusWaiting;
+        _completionSemaphore = dispatch_semaphore_create(0);
     }
     return self;
 }
@@ -53,19 +56,27 @@ NSString* const kTestRequestStatusDidFail = @"didFail";
 - (void)dealloc {
     self.dataResponse = nil;
     self.lastError = nil;
-    self.returnStatus = nil;
+    _returnStatus = nil;
+}
+
+- (void)setReturnStatus:(NSString *)returnStatus {
+    _returnStatus = returnStatus;
+    if (![returnStatus isEqualToString:kTestRequestStatusWaiting]) {
+        dispatch_semaphore_signal(_completionSemaphore);
+    }
 }
 
 - (NSString *)waitForCompletion {
-    NSDate *startTime = [NSDate date] ;
-    while ([self.returnStatus isEqualToString:kTestRequestStatusWaiting]) {
-        NSTimeInterval elapsed = [[NSDate date] timeIntervalSinceDate:startTime];
-        if (elapsed > self.maxWaitTime) {
-            [SFSDKCoreLogger d:[self class] format:@"Request took too long (> %f secs) to complete.", elapsed];
-            return kTestRequestStatusDidFail;
-        }
-        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+    // Wait for completion signal with timeout
+    dispatch_time_t timeout = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.maxWaitTime * NSEC_PER_SEC));
+    long result = dispatch_semaphore_wait(_completionSemaphore, timeout);
+
+    if (result != 0) {
+        // Timeout occurred
+        [SFSDKCoreLogger d:[self class] format:@"Request took too long (> %f secs) to complete.", self.maxWaitTime];
+        return kTestRequestStatusDidFail;
     }
+
     return self.returnStatus;
 }
 

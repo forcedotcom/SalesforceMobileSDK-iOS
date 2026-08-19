@@ -2,9 +2,12 @@ name: Nightly Tests
 
 on:
   schedule:
-    - cron: "0 5 * * 3,5"  # cron is UTC, this translates to 10 PM PST Tues and Thur.
+    - cron: "0 5 * * 2-6"  # cron is UTC; 9 PM PT every weekday (Mon-Fri).
   # This lets us trigger the workflow from a browser.
   workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   ios-nightly:
@@ -12,37 +15,39 @@ jobs:
       fail-fast: false
       matrix:
         lib: [SalesforceSDKCommon, SalesforceAnalytics, SalesforceSDKCore, SmartStore, MobileSync]
-        ios: [^26, ^18, ^17]
+        ios: [^26, ^18]
         include:
           - ios: ^26
             xcode: ^26
           - ios: ^18
             xcode: ^16
-          - ios: ^17
-            xcode: ^16
     uses: ./.github/workflows/reusable-test-workflow.yaml
+    permissions:
+      contents: read
+      pull-requests: write
     with:
       lib: ${{ matrix.lib }}
       ios: ${{ matrix.ios }}
       xcode: ${{ matrix.xcode }}
-    secrets: inherit
+    secrets:
+      TEST_CREDENTIALS: ${{ secrets.TEST_CREDENTIALS }}
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   native-samples-nightly:
     strategy:
       fail-fast: false
       matrix:
         app: [RestAPIExplorer, MobileSyncExplorer, AuthFlowTester]
-        ios: [^26, ^18, ^17]
+        ios: [^26, ^18]
         include:
           - ios: ^26
             xcode: ^26
           - ios: ^18
             xcode: ^16
-          - ios: ^17
-            xcode: ^16
     uses: ./.github/workflows/reusable-build-workflow.yaml
+    permissions:
+      contents: read
     with:
       app: ${{ matrix.app }}
       ios: ${{ matrix.ios }}
       xcode: ${{ matrix.xcode }}
-    secrets: inherit

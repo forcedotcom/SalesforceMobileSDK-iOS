@@ -42,6 +42,9 @@
 #import "SalesforceSDKManager+Internal.h"
 #import <LocalAuthentication/LocalAuthentication.h>
 #import "SFRestAPI+Internal.h"
+#import "SFOAuthCoordinator+Internal.h"
+#import "SFSDKAuthSession.h"
+#import "SFSDKAuthRequest.h"
 #import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 @interface SFLoginViewController () <SFSDKLoginHostDelegate, SFUserAccountManagerDelegate>
 
@@ -90,10 +93,6 @@
         [button addTarget:self action:@selector(presentBioAuthAction:) forControlEvents:UIControlEventTouchUpInside];
         self.biometricButton = button;
         [self.view addSubview:self.biometricButton];
-    }
-    
-    if (bioAuthManager.locked && bioAuthManager.hasBiometricOptedIn) {
-        [bioAuthManager presentBiometricWithScene:self.view.window.windowScene];
     }
     
     [self registerForTraitChanges:@[UITraitDisplayScale.class] withAction:@selector(setupNavigationBar)];
@@ -327,14 +326,29 @@
     }
 
     // Login for Admin - forces browser-based (advanced) authentication to support phishing-resistant MFA.
-    [menuActions addObject:[UIAction actionWithTitle:[SFSDKResourceUtils localizedString:@"LOGIN_FOR_ADMIN"]
+    // Wrapped in an uncached UIDeferredMenuElement so the show/hide predicate is re-evaluated each
+    // time the menu opens. The entry is hidden during phase 1 of Welcome Discovery (i.e. before the
+    // user has selected an account on welcome.salesforce.com/discovery), where we have no resolved
+    // My Domain to launch the browser session against.
+    __weak typeof(self) weakSelf = self;
+    UIDeferredMenuElement *loginForAdminElement = [UIDeferredMenuElement elementWithUncachedProvider:^(void (^ _Nonnull completion)(NSArray<UIMenuElement *> * _Nonnull)) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (![SFLoginViewController shouldShowLoginForAdminForSession:[strongSelf currentAuthSessionForMenu]]) {
+            completion(@[]);
+            return;
+        }
+        UIAction *action = [UIAction actionWithTitle:[SFSDKResourceUtils localizedString:@"LOGIN_FOR_ADMIN"]
                                                image:nil
                                           identifier:nil
                                              handler:^(__kindof UIAction* _Nonnull action) {
-        if ([self.delegate respondsToSelector:@selector(loginViewControllerDidSelectLoginForAdmin:)]) {
-            [self.delegate loginViewControllerDidSelectLoginForAdmin:self];
-        }
-    }]];
+            __strong typeof(weakSelf) handlerSelf = weakSelf;
+            if ([handlerSelf.delegate respondsToSelector:@selector(loginViewControllerDidSelectLoginForAdmin:)]) {
+                [handlerSelf.delegate loginViewControllerDidSelectLoginForAdmin:handlerSelf];
+            }
+        }];
+        completion(@[action]);
+    }];
+    [menuActions addObject:loginForAdminElement];
 
     UIMenu *menu = [UIMenu menuWithTitle:@"" // No title
                                 children:menuActions];
@@ -342,6 +356,32 @@
     settingsButton.accessibilityLabel = [SFSDKResourceUtils localizedString:@"LOGIN_SETTINGS_BUTTON"];
     settingsButton.accessibilityIdentifier = @"settings";
     return settingsButton;
+}
+
+- (nullable SFSDKAuthSession *)currentAuthSessionForMenu {
+    NSString *sceneId = self.view.window.windowScene.session.persistentIdentifier;
+    if (sceneId.length == 0) {
+        return nil;
+    }
+    return [[SFUserAccountManager sharedInstance].authSessions objectForKey:sceneId];
+}
+
++ (BOOL)shouldShowLoginForAdminForSession:(nullable SFSDKAuthSession *)session {
+    // Default to showing the entry when we have no session/coordinator info.
+    // This matches the previous (always-shown) behavior on non-discovery flows
+    // and during early SDK lifecycle before the auth session is wired up.
+    SFOAuthCoordinator *coordinator = session.oauthCoordinator;
+    if (session == nil || coordinator == nil) {
+        return YES;
+    }
+
+    NSString *loginHost = session.oauthRequest.loginHost;
+    BOOL isDiscoveryHost = [SFDomainDiscoveryCoordinator isDiscoveryDomain:loginHost];
+    // Hide only when we are mid-discovery (no My Domain selected yet).
+    if (isDiscoveryHost && !coordinator.domainUpdated) {
+        return NO;
+    }
+    return YES;
 }
 
 - (UIView *)createTitleItem {
