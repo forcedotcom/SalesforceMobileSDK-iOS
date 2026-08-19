@@ -34,12 +34,11 @@ External Client App (ECA) login tests for both opaque and JWT token formats with
 | `testECAJwt_DefaultScopes` | ECA JWT | Default | |
 | `testECAJwt_SubsetScopes` | ECA JWT | Subset | |
 | `testECAJwt_AllScopes` | ECA JWT | All | |
-| `test_givenNoDPoP_whenLoginViaPoolServer_thenSessionIsValid` | ECA JWT DPoP | — | Pool server login without DPoP |
 | `testDynamicConfigurationWithInvalidClientId` | — | — | Invalid consumer key; login must fail |
 | `testDynamicConfigurationWithInvalidScope` | — | — | Invalid scope; login must fail |
 
 #### DPoPLoginTests
-All DPoP tests live here — basic login, RTR, multi-user, migration, restart, pool server, and admin login. Verifies that DPoP-bound access tokens are issued (`token_type: "DPoP"`), API calls succeed with `ath`-bound proofs, the access token refreshes correctly, and the DPoP nonce rotates on every `/token` response.
+All DPoP tests live here — basic login, RTR, multi-user, migration, server enforcement, upgrade, restart, pool server, and admin login. Verifies that DPoP-bound access tokens are issued (`token_type: "DPoP"`), API calls succeed with `ath`-bound proofs, the access token refreshes correctly, and the DPoP nonce rotates on every `/token` response.
 
 | Test | App Config | Hybrid | Notes |
 |------|-----------|--------|-------|
@@ -50,6 +49,8 @@ All DPoP tests live here — basic login, RTR, multi-user, migration, restart, p
 | `test_givenTwoDPoPUsers_whenSwitchAndRefresh_thenTokensAndNoncesAreIsolated` | ECA JWT DPoP | — | Two users; unique tokens and nonces; independent revoke+refresh per user |
 | `test_givenDPoPUserWithSubsetScopes_whenMigrateToAllScopes_thenDPoPBindingPreserved` | ECA JWT DPoP | — | Scope upgrade; DPoP binding preserved |
 | `test_givenDPoPUser_whenMigrateToDPoPRtr_thenRefreshTokenRotationEnabled` | ECA JWT DPoP → ECA JWT DPoP RTR | — | Migrate from DPoP to DPoP+RTR |
+| `testLogin_DPoP_ECA_Without_DPoP_Fails` | ECA JWT DPoP | — | Server enforcement: DPoP-enforced ECA rejects login without DPoP (`useDPoP: false`); no account created |
+| `test_givenBearerSession_whenUpgradeToDPoP_thenDPoPBound` | ECA JWT → ECA JWT DPoP | — | Bearer → DPoP in-place upgrade via `UserAccountManager.upgradeToDPoP`; consumer key unchanged, `token_type: "DPoP"` post-upgrade |
 | `test_givenDPoPUser_whenAppRestart_thenSessionAndKeypairSurvive` | ECA JWT DPoP | — | DPoP EC key pair survives app restart (Keychain) |
 | `test_givenDPoP_whenLoginViaPoolServer_thenTokenTypeIsDPoP` | ECA JWT DPoP | — | `XCTSkip` (W-23864247 — pool login server rejects valid `dpop_jkt` token exchange) |
 | `test_givenDPoPECA_whenAdminLogin_thenDPoPBindingWorksThroughBrowser` | ECA JWT DPoP | — | Login for Admins hand-off to ASWebAuthenticationSession works with DPoP binding |
