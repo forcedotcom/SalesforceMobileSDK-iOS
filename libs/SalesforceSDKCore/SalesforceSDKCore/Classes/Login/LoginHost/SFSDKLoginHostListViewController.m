@@ -136,6 +136,10 @@ static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCel
     // is shown alongside the Add button (matching the in-app login screen). The 'Add Server'
     // button is shown only if the MDM policy allows it.
     NSMutableArray<UIBarButtonItem *> *rightItems = [NSMutableArray array];
+    UIBarButtonItem *retryBiometricButton = [self retryBiometricButton];
+    if (retryBiometricButton) {
+        [rightItems addObject:retryBiometricButton];
+    }
     UIBarButtonItem *settingsButton = [self loginOptionsButton];
     if (settingsButton) {
         [rightItems addObject:settingsButton];
@@ -299,6 +303,32 @@ static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCel
     settingsButton.accessibilityLabel = [SFSDKResourceUtils localizedString:@"LOGIN_SETTINGS_BUTTON"];
     settingsButton.accessibilityIdentifier = @"settings";
     return settingsButton;
+}
+
+/**
+ * Nav-bar button that re-presents the biometric unlock prompt. This is the picker-screen
+ * counterpart to SFLoginViewController's biometricButton for cases where auto-presentation
+ * didn't fire, was dismissed, or is disabled.  Only appears when biometric is actually locked,
+ * opted-in, and available.
+ */
+- (nullable UIBarButtonItem *)retryBiometricButton {
+    if (!self.presentedAsLoginScreen || ![[SFBiometricAuthenticationManagerInternal shared] showNativeLoginButton]) {
+        return nil;
+    }
+
+    UIBarButtonItem *retryButton = [[UIBarButtonItem alloc] initWithTitle:[SFSDKResourceUtils localizedString:@"biometricLoginButton"]
+                                                                     style:UIBarButtonItemStylePlain
+                                                                    target:self
+                                                                    action:@selector(presentBioAuthAction:)];
+    retryButton.accessibilityIdentifier = @"retryBiometric";
+    return retryButton;
+}
+
+/**
+ * Mirrors SFLoginViewController -presentBioAuthAction: verbatim.
+ */
+- (void)presentBioAuthAction:(id)sender {
+    [[SFBiometricAuthenticationManagerInternal shared] presentBiometricWithScene:self.view.window.windowScene];
 }
 
 #pragma mark - Delegate Wrapper Methods

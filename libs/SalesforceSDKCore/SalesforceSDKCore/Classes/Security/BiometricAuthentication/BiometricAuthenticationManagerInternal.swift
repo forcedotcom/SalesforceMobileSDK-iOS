@@ -53,7 +53,47 @@ public class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthenti
     internal var laContext = LAContext()
     private let kBioAuthPolicyIdentifier = "com.salesforce.security.bioauthpolicy"
     private let kBioAuthEnabledIdentifier = "com.salesforce.security.bioauth"
-    
+
+    /// Scene identifiers whose initial browser launch — the one `lock()`'s `login()` triggers for
+    /// that scene — must be suppressed so it doesn't race the biometric prompt. Scoped **per scene**
+    /// because `login()` fans out to every connected scene and each reaches
+    /// `willBeginBrowserAuthentication:` independently: a single global flag would be consumed by
+    /// the first scene and let the rest launch `ASWebAuthenticationSession` while still locked. The
+    /// gate consumes (removes) a scene's id on its next check, so a later attempt on that scene
+    /// (fallback picker, gear-menu retry) is not suppressed. Mutated from SFUserAccountManager.m
+    /// via the `@objc` arm/consume/disarm methods below.
+    private var suppressedBrowserAuthSceneIds = Set<String>()
+
+    /// Arms initial-browser-launch suppression for `sceneId`. Called by `lock()` for each connected
+    /// scene before it triggers `login()`.
+    @objc internal func armBrowserAuthenticationSuppression(forSceneId sceneId: String) {
+        suppressedBrowserAuthSceneIds.insert(sceneId)
+    }
+
+    /// Consumes (clears) suppression for `sceneId`, returning whether it was armed. The gate calls
+    /// this once per browser attempt so suppression is one-shot per scene and one scene's consume
+    /// can't drain another's.
+    @objc internal func consumeBrowserAuthenticationSuppression(forSceneId sceneId: String) -> Bool {
+        return suppressedBrowserAuthSceneIds.remove(sceneId) != nil
+    }
+
+    /// Clears suppression for `sceneId` without the consume return value — used when
+    /// `presentBiometric(scene:)` finds biometric unavailable and must let the browser gate proceed.
+    @objc internal func disarmBrowserAuthenticationSuppression(forSceneId sceneId: String) {
+        suppressedBrowserAuthSceneIds.remove(sceneId)
+    }
+
+    /// Whether `sceneId`'s initial browser launch is currently armed for suppression. Test/read-only
+    /// accessor; does not consume.
+    @objc internal func isBrowserAuthenticationSuppressed(forSceneId sceneId: String) -> Bool {
+        return suppressedBrowserAuthSceneIds.contains(sceneId)
+    }
+
+    /// Clears all armed scene suppression. Used to reset state between tests.
+    @objc internal func clearAllBrowserAuthenticationSuppression() {
+        suppressedBrowserAuthSceneIds.removeAll()
+    }
+
     private override init() {
         super.init()
         NotificationCenter.default.addObserver(forName: UIApplication.didEnterBackgroundNotification, object: nil, queue: nil) { [weak self] _ in
@@ -66,7 +106,10 @@ public class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthenti
     
     /// Locks the screen if necessary
     @objc public func handleAppForeground() {
-        if shouldLock() {
+        // Skip if already locked: shouldLock() ignores `locked`, so a foreground while locked would
+        // call lock() again and re-arm scene suppression, wrongly suppressing a browser-auth
+        // attempt that already cleared it.
+        if !locked && shouldLock() {
             lock()
         }
     }
@@ -136,7 +179,17 @@ public class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthenti
     public func lock() {
         locked = true
         NotificationCenter.default.post(name: Notification.Name(rawValue: kSFBiometricAuthenticationFlowWillBegin), object: nil)
-        
+
+        // Suppress the initial browser launch from the login() below when biometric will be shown,
+        // so it doesn't race the prompt. login() fans out to every connected scene, so arm
+        // suppression per scene — each scene reaches the gate in SFUserAccountManager independently
+        // and consumes only its own scene's flag on its next check.
+        if showNativeLoginButton() {
+            SFApplicationHelper.sharedApplication()?.connectedScenes.forEach() { scene in
+                armBrowserAuthenticationSuppression(forSceneId: scene.session.persistentIdentifier)
+            }
+        }
+
         // Open the Login Screen
         _ = UserAccountManager.shared.login { result in
             switch result {
@@ -188,11 +241,10 @@ public class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthenti
     }
     
     @objc public func showNativeLoginButton() -> Bool {
-        var error: NSError?
-        if (!laContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)) {
+        if (!biometricAvailable()) {
             return false
         }
-        
+
         if let policy = readBioAuhPolicy() {
             if (policy.hasPolicy && locked && hasBiometricOptedIn()) {
                 // true if not specified
@@ -220,41 +272,119 @@ public class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthenti
         
         return false
     }
-    
+
+    /// Whether biometric authentication can currently be evaluated on this device. Both the
+    /// suppress-the-browser decision (`showNativeLoginButton()` via `lock()`) and the actual prompt
+    /// (`presentBiometric(scene:)`) consult this so they can't disagree: if biometric is unavailable
+    /// the browser is never suppressed and Advanced Auth / username-password proceeds normally.
+    @objc internal func biometricAvailable() -> Bool {
+        var error: NSError?
+        return laContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)
+    }
+
     @objc public func presentBiometric(scene: UIScene) {
+        guard biometricAvailable() else {
+            // Biometric is unavailable (e.g. hardware busy or enrollment removed since lock()
+            // checked). Disarm suppression for this scene so the browser-auth gate lets Advanced
+            // Auth / username-password proceed normally instead of stranding the user behind a
+            // suppressed browser with no prompt.
+            disarmBrowserAuthenticationSuppression(forSceneId: scene.session.persistentIdentifier)
+            return
+        }
         let laContext = LAContext()
         laContext.localizedCancelTitle = SFSDKResourceUtils.localizedString("usePassword")
-        var error: NSError?
-        if (laContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)) {
-            Task {
-                do {
-                    try await laContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: SFSDKResourceUtils.localizedString("biometricReason"))
-                    
-                    // Refresh token and unlock
-                    let accountManager = UserAccountManager.shared
-                    if let currentAccount = accountManager.currentUserAccount {
-                        _ = accountManager.refresh(credentials: currentAccount.credentials, { (result) in
-                            switch(result) {
-                            case .success((_, _)):
-                                SFSDKCoreLogger.d(BiometricAuthenticationManagerInternal.self, message: "Refresh credentials succeeded")
-                            case .failure(let error):
-                                SFSDKCoreLogger.d(BiometricAuthenticationManagerInternal.self, message: "Refresh credentials failed: \(error)")
-                            }
-                        })
-                    }
-                    
-                    unlockPostProcessing()
-                    await accountManager.stopCurrentAuthentication()
-                    await MainActor.run {
-                        SFSDKWindowManager.shared().authWindow(scene).viewController?.dismiss(animated: false)
-                    }
-                } catch {
-                    // This just means the user chose the fallback option instead of biometric
+        Task {
+            do {
+                try await laContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: SFSDKResourceUtils.localizedString("biometricReason"))
+
+                // Refresh token and unlock
+                let accountManager = UserAccountManager.shared
+                if let currentAccount = accountManager.currentUserAccount {
+                    _ = accountManager.refresh(credentials: currentAccount.credentials, { (result) in
+                        switch(result) {
+                        case .success((_, _)):
+                            SFSDKCoreLogger.d(BiometricAuthenticationManagerInternal.self, message: "Refresh credentials succeeded")
+                        case .failure(let error):
+                            SFSDKCoreLogger.d(BiometricAuthenticationManagerInternal.self, message: "Refresh credentials failed: \(error)")
+                        }
+                    })
                 }
+
+                unlockPostProcessing()
+                await accountManager.stopCurrentAuthentication()
+                await MainActor.run {
+                    SFSDKWindowManager.shared().authWindow(scene).viewController?.dismiss(animated: false)
+                }
+            } catch {
+                await handleBiometricCancellation(scene)
             }
         }
     }
-    
+
+    /// Handles the user declining/failing biometric. Stays locked, but resumes the browser (Advanced
+    /// Auth) attempt lock() suppressed rather than stranding them on the picker. Resuming the same
+    /// suppressed session keeps its covering window up (no app exposure) and preserves lock()'s
+    /// completion. ASWebAuthenticationSession.start() only presents from a .foregroundActive scene,
+    /// so wait for the Face ID sheet's dismissal to reactivate the scene first.
+    internal func handleBiometricCancellation(_ scene: UIScene) async {
+        await waitForSceneActive(scene)
+        UserAccountManager.shared.resumeBrowserAuthentication(scene)
+    }
+
+    /// Awaits the scene returning to `.foregroundActive`. Dismissing the Face ID sheet leaves the
+    /// scene `.foregroundInactive` for a beat, and `ASWebAuthenticationSession.start()` silently
+    /// fails from a non-active scene. Resolves immediately if already active, otherwise on this
+    /// scene's next `UIScene.didActivateNotification`, with a bounded fallback.
+    @MainActor
+    internal func waitForSceneActive(_ scene: UIScene) async {
+        if scene.activationState == .foregroundActive {
+            return
+        }
+        await awaitSceneActivation(scene)
+    }
+
+    /// Suspends until `scene` posts its next activation notification (or the bounded fallback fires).
+    /// Split out from `waitForSceneActive(_:)` so it can be exercised independently of the caller's
+    /// early-return-when-already-active guard.
+    @MainActor
+    internal func awaitSceneActivation(_ scene: UIScene) async {
+        await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
+            let center = NotificationCenter.default
+            var observer: NSObjectProtocol?
+            let resumeOnce = ResumeGuard()
+
+            let finish: () -> Void = {
+                guard resumeOnce.tryResume() else { return }
+                if let observer = observer {
+                    center.removeObserver(observer)
+                }
+                continuation.resume()
+            }
+
+            observer = center.addObserver(forName: UIScene.didActivateNotification, object: nil, queue: .main) { notification in
+                guard let activatedScene = notification.object as? UIScene, activatedScene === scene else {
+                    return
+                }
+                finish()
+            }
+
+            // Bounded fallback so a scene that never reactivates can't hang the flow.
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                finish()
+            }
+        }
+    }
+
+    /// One-shot latch so the observer and the timeout fallback resume the continuation exactly once.
+    internal final class ResumeGuard {
+        private var resumed = false
+        func tryResume() -> Bool {
+            if resumed { return false }
+            resumed = true
+            return true
+        }
+    }
+
     @objc public func unlockPostProcessing() {
         self.locked = false
         NotificationCenter.default.post(name: Notification.Name(rawValue: kSFBiometricAuthenticationFlowCompleted), object: nil)

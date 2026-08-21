@@ -549,6 +549,13 @@ Use this method to stop/clear any authentication which is has already been start
 - (void)stopCurrentAuthentication:(nullable void (^)(BOOL))completionBlock;
 
 /**
+ SDK-internal. Resumes the browser (Advanced Auth) attempt that was suppressed while the biometric
+ prompt was shown, used when the user declines biometric. Not intended for SDK consumers.
+ @param scene The scene whose suppressed browser-auth attempt should be resumed.
+ */
+- (void)resumeBrowserAuthentication:(UIScene *)scene;
+
+/**
  Forces a logout from the current account, redirecting the user to the login process.
  This throws out the OAuth refresh token.
  */

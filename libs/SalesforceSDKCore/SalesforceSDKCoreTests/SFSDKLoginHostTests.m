@@ -27,6 +27,7 @@
  */
 
 #import <XCTest/XCTest.h>
+#import <objc/runtime.h>
 #import "SFLoginViewController.h"
 #import "SFSDKLoginHostListViewController.h"
 #import "SFSDKLoginHostStorage.h"
@@ -49,6 +50,8 @@
 - (void)backToPreviousHost:(id)sender;
 - (nullable UIBarButtonItem *)loginOptionsButton;
 - (void)delegateDidChangeLoginOptions;
+- (nullable UIBarButtonItem *)retryBiometricButton;
+- (void)presentBioAuthAction:(id)sender;
 @end
 
 // Spy delegate to observe the change-login-options callback.
@@ -61,6 +64,11 @@
     self.didChangeLoginOptionsCalled = YES;
 }
 @end
+
+// File-statics backing the swizzled replacements below (which run as if on
+// SFBiometricAuthenticationManagerInternal, not on the test case). Reset in setUp.
+static BOOL gShowNativeLoginButtonStubValue = NO;
+static NSUInteger gPresentBiometricWithSceneCallCount = 0;
 
 @interface SFSDKLoginHostTests : XCTestCase
 
@@ -80,9 +88,20 @@
 @property (nonatomic, copy, nullable) NSString *originalIdpAppURIScheme;
 @property (nonatomic, strong, nullable) SFUserAccount *originalCurrentUser;
 
+// Stand-in implementations swapped into SFBiometricAuthenticationManagerInternal for the
+// lifetime of an individual retry-button test. Mirrors the SFSDKLogoutBlocker /
+// SFUserAccountManagerLoginHostRecoveryTests swizzling pattern (see those files) so the retry
+// button and its action can be exercised deterministically without a mocking framework (this
+// test target has no OCMock or similar dependency).
+- (BOOL)dummy_showNativeLoginButton;
+- (void)dummy_presentBiometricWithScene:(UIScene *)scene;
+
 @end
 
-@implementation SFSDKLoginHostTests
+@implementation SFSDKLoginHostTests {
+    BOOL _showNativeLoginButtonSwapped;
+    BOOL _presentBiometricWithSceneSwapped;
+}
 
 - (void)setUp {
     [super setUp];
@@ -111,7 +130,47 @@
     [SFUserAccountManager sharedInstance].idpAppURIScheme = self.originalIdpAppURIScheme;
     [[SFUserAccountManager sharedInstance] setCurrentUserInternal:self.originalCurrentUser];
     [[SFUserAccountManager sharedInstance] stopCurrentAuthentication:nil];
+
+    // Guard against a test failing/throwing between swap-in and swap-back, which would otherwise
+    // leave the swizzle applied and corrupt every subsequent test in the suite.
+    if (_showNativeLoginButtonSwapped) {
+        [self swapShowNativeLoginButton];
+    }
+    if (_presentBiometricWithSceneSwapped) {
+        [self swapPresentBiometricWithScene];
+    }
+
     [super tearDown];
+}
+
+#pragma mark - Biometric Swizzle Helpers
+// This test target has no mocking framework (no OCMock or similar dependency), so the retry
+// button tests below drive SFBiometricAuthenticationManagerInternal's showNativeLoginButton and
+// presentBiometricWithScene: through the same method-swizzling pattern already used in this test
+// target (see SFSDKLogoutBlocker.m and SFUserAccountManagerLoginHostRecoveryTests.m).
+// method_exchangeImplementations is symmetric, so calling the same swap method a second time
+// restores the original implementation — each test that swaps must swap back before returning.
+
+- (void)swapShowNativeLoginButton {
+    Method original = class_getInstanceMethod([SFBiometricAuthenticationManagerInternal class], @selector(showNativeLoginButton));
+    Method replacement = class_getInstanceMethod([self class], @selector(dummy_showNativeLoginButton));
+    method_exchangeImplementations(original, replacement);
+    _showNativeLoginButtonSwapped = !_showNativeLoginButtonSwapped;
+}
+
+- (BOOL)dummy_showNativeLoginButton {
+    return gShowNativeLoginButtonStubValue;
+}
+
+- (void)swapPresentBiometricWithScene {
+    Method original = class_getInstanceMethod([SFBiometricAuthenticationManagerInternal class], @selector(presentBiometricWithScene:));
+    Method replacement = class_getInstanceMethod([self class], @selector(dummy_presentBiometricWithScene:));
+    method_exchangeImplementations(original, replacement);
+    _presentBiometricWithSceneSwapped = !_presentBiometricWithSceneSwapped;
+}
+
+- (void)dummy_presentBiometricWithScene:(UIScene *)scene {
+    gPresentBiometricWithSceneCallCount++;
 }
 
 #pragma clang diagnostic push
@@ -412,6 +471,90 @@
     vc.delegate = nil;
 
     XCTAssertNoThrow([vc delegateDidChangeLoginOptions], @"Should not throw when no delegate is set");
+}
+
+#pragma mark - Retry Biometric Button
+
+// retryBiometricButton is present when the host list is the standalone login screen and the app
+// is biometric-locked, opted-in, and biometric hardware is available (showNativeLoginButton()).
+- (void)test_givenPresentedAsLoginScreenAndShowNativeLoginButton_whenRetryBiometricButton_thenPresent {
+    gShowNativeLoginButtonStubValue = YES;
+    [self swapShowNativeLoginButton];
+
+    SFSDKLoginHostListViewController *vc = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
+    vc.presentedAsLoginScreen = YES;
+
+    UIBarButtonItem *retryButton = [vc retryBiometricButton];
+
+    XCTAssertNotNil(retryButton, @"Retry biometric button should be present when presented as the login screen and showNativeLoginButton() is true");
+    XCTAssertEqualObjects(retryButton.accessibilityIdentifier, @"retryBiometric", @"Retry biometric button should carry the 'retryBiometric' accessibility identifier");
+    XCTAssertEqual(retryButton.action, @selector(presentBioAuthAction:), @"Retry biometric button should target presentBioAuthAction:");
+
+    [self swapShowNativeLoginButton];
+}
+
+// retryBiometricButton is absent when the host list is not the standalone login screen, even if
+// showNativeLoginButton() would otherwise allow it (e.g. the transient "Choose Connection" sheet).
+- (void)test_givenNotPresentedAsLoginScreen_whenRetryBiometricButton_thenNil {
+    gShowNativeLoginButtonStubValue = YES;
+    [self swapShowNativeLoginButton];
+
+    SFSDKLoginHostListViewController *vc = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
+    vc.presentedAsLoginScreen = NO;
+
+    XCTAssertNil([vc retryBiometricButton], @"Retry biometric button should be nil when not presented as the login screen");
+
+    [self swapShowNativeLoginButton];
+}
+
+// retryBiometricButton is absent when showNativeLoginButton() is false (not locked / not opted-in
+// / biometric unavailable), even when presented as the standalone login screen.
+- (void)test_givenPresentedAsLoginScreenButNotShowNativeLoginButton_whenRetryBiometricButton_thenNil {
+    gShowNativeLoginButtonStubValue = NO;
+    [self swapShowNativeLoginButton];
+
+    SFSDKLoginHostListViewController *vc = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
+    vc.presentedAsLoginScreen = YES;
+
+    XCTAssertNil([vc retryBiometricButton], @"Retry biometric button should be nil when showNativeLoginButton() is false");
+
+    [self swapShowNativeLoginButton];
+}
+
+// viewDidLoad installs the retry biometric button into the right bar items when eligible.
+- (void)test_givenPresentedAsLoginScreenAndShowNativeLoginButton_whenViewLoads_thenRetryBiometricButtonInRightItems {
+    gShowNativeLoginButtonStubValue = YES;
+    [self swapShowNativeLoginButton];
+
+    SFSDKLoginHostListViewController *vc = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
+    vc.presentedAsLoginScreen = YES;
+
+    [vc loadViewIfNeeded];
+
+    BOOL retryButtonInRightItems = NO;
+    for (UIBarButtonItem *item in vc.navigationItem.rightBarButtonItems) {
+        if ([item.accessibilityIdentifier isEqualToString:@"retryBiometric"]) {
+            retryButtonInRightItems = YES;
+        }
+    }
+    XCTAssertTrue(retryButtonInRightItems, @"Right bar items should include the retry biometric button when eligible");
+
+    [self swapShowNativeLoginButton];
+}
+
+// presentBioAuthAction: invokes presentBiometricWithScene: on the shared biometric manager.
+- (void)test_whenPresentBioAuthAction_thenPresentBiometricWithSceneInvoked {
+    gPresentBiometricWithSceneCallCount = 0;
+    [self swapPresentBiometricWithScene];
+
+    SFSDKLoginHostListViewController *vc = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
+    [vc loadViewIfNeeded];
+
+    [vc presentBioAuthAction:nil];
+
+    XCTAssertEqual(gPresentBiometricWithSceneCallCount, 1, @"presentBioAuthAction: should invoke presentBiometricWithScene: exactly once");
+
+    [self swapPresentBiometricWithScene];
 }
 
 @end

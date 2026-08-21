@@ -155,6 +155,7 @@
 		695E86BE29EF9312002BDEA6 /* SFSDKIDPAuthCodeLoginRequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 695E86BC29EF9312002BDEA6 /* SFSDKIDPAuthCodeLoginRequestHandler.m */; };
 		696D6C3E2DD7E0AD00138888 /* NewLoginHostTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696D6C3D2DD7E0AD00138888 /* NewLoginHostTests.swift */; };
 		696E91472AD0A14A00205884 /* BiometricAuthenticationManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696E91452AD0A14A00205884 /* BiometricAuthenticationManagerTests.swift */; };
+		C52760EBAE2A41A2B697ABF7 /* BiometricAdvancedAuthGateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A9E801F34047C7A7E1A5BC /* BiometricAdvancedAuthGateTests.swift */; };
 		696E91482AD0A14A00205884 /* ScreenLockManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 696E91462AD0A14A00205884 /* ScreenLockManagerTests.m */; };
 		696E914A2AD0A68600205884 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 696E91492AD0A68600205884 /* PrivacyInfo.xcprivacy */; };
 		6975869F23296D7500574148 /* SFSDKURLCacheTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 691D129F23296A93000D6D41 /* SFSDKURLCacheTests.m */; };
@@ -782,6 +783,7 @@
 		695E86BC29EF9312002BDEA6 /* SFSDKIDPAuthCodeLoginRequestHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKIDPAuthCodeLoginRequestHandler.m; sourceTree = "<group>"; };
 		696D6C3D2DD7E0AD00138888 /* NewLoginHostTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NewLoginHostTests.swift; path = SalesforceSDKCoreTests/NewLoginHostTests.swift; sourceTree = SOURCE_ROOT; };
 		696E91452AD0A14A00205884 /* BiometricAuthenticationManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BiometricAuthenticationManagerTests.swift; path = SalesforceSDKCoreTests/BiometricAuthenticationManagerTests.swift; sourceTree = SOURCE_ROOT; };
+		22A9E801F34047C7A7E1A5BC /* BiometricAdvancedAuthGateTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BiometricAdvancedAuthGateTests.swift; path = SalesforceSDKCoreTests/BiometricAdvancedAuthGateTests.swift; sourceTree = SOURCE_ROOT; };
 		696E91462AD0A14A00205884 /* ScreenLockManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ScreenLockManagerTests.m; path = SalesforceSDKCoreTests/ScreenLockManagerTests.m; sourceTree = SOURCE_ROOT; };
 		696E91492AD0A68600205884 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		697A919E2363C3D800D2836F /* SFSDKPushNotificationDecryption.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKPushNotificationDecryption.h; sourceTree = "<group>"; };
@@ -1087,6 +1089,7 @@
 				23F200AB2E551C890091C5F5 /* ActionTypeTests.swift */,
 				4FAUTHFLOW112345678901ABC /* AuthFlowTypesViewTests.swift */,
 				696E91452AD0A14A00205884 /* BiometricAuthenticationManagerTests.swift */,
+				22A9E801F34047C7A7E1A5BC /* BiometricAdvancedAuthGateTests.swift */,
 				4FBOOTCP112345678901ABCD /* LoginOptionsViewControllerTests.swift */,
 				23F200AD2E551C890091C5F5 /* BootconfigTests.swift */,
 				4FDISCOV112345678901ABCD /* DiscoveryResultEditorTests.swift */,
@@ -2311,6 +2314,7 @@
 				009D77521CA4A92200D5183A /* SFPushNotificationManagerTests.m in Sources */,
 				699202FD2FEF11D70032ECD7 /* SFSDKTokenRefreshCoordinatorTests.m in Sources */,
 				696E91472AD0A14A00205884 /* BiometricAuthenticationManagerTests.swift in Sources */,
+				C52760EBAE2A41A2B697ABF7 /* BiometricAdvancedAuthGateTests.swift in Sources */,
 				692D36662F95F83A002FBFF3 /* AppAttestationTests.swift in Sources */,
 				2B7FB526B2A94663ABAA42F6 /* BrowserLoginTelemetryTests.swift in Sources */,
 				B7E8A2AF1E77062E007C0D92 /* SFUserAccountManagerPersisterTests.m in Sources */,
