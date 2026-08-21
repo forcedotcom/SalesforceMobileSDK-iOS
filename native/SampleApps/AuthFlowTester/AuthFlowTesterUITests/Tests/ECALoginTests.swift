@@ -68,6 +68,18 @@ class ECALoginTests: BaseAuthFlowTester {
         launchLoginAndValidate(staticAppConfigName: .ecaJwt, staticScopeSelection: .all)
     }
     
+    // MARK: - Pool Server Login
+
+    /// Login via the pool server without DPoP and verify the session is valid.
+    func test_givenNoDPoP_whenLoginViaPoolServer_thenSessionIsValid() throws {
+        launchLoginAndValidate(
+            loginHost: .regularAuth,
+            user: .first,
+            staticAppConfigName: .ecaJwt,
+            useLoginPoolHost: true
+        )
+    }
+
     // MARK: - Negative testing
     
     /// Login with invalid client id in dynamic configuration
