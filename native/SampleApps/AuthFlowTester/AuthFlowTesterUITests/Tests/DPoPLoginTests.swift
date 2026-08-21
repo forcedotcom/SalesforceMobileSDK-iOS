@@ -137,6 +137,28 @@ class DPoPLoginTests: BaseAuthFlowTester {
         assertRevokeAndRefreshWorks(isRtr: true, isDPoP: true, expectAdvancedAuth: true, useHybridFlow: false, wasMigrated: true, isJwt: true)
     }
 
+    // MARK: - Enforcement
+
+    /// Attempt to log in against a DPoP-enforced ECA with the "Use DPoP" toggle off and verify the
+    /// login is rejected: the enforced ECA requires a dpop_jkt on /authorize to bind the
+    /// authorization code, so an unbound login never reaches the post-login credentials view.
+    func testLogin_DPoP_ECA_Without_DPoP_Fails() throws {
+        launchAndAttemptLoginExpectingFailure(loginHost: .regularAuth, staticAppConfigName: .ecaJwtDpop, useDPoP: false)
+    }
+
+    // MARK: - Upgrade
+
+    /// Login with a Bearer (non-DPoP) session against the global "Use DPoP" flag off, then use
+    /// `UserAccountManager.upgradeToDPoP` to re-authenticate the same connected app in place and
+    /// verify the session becomes DPoP-bound without changing the consumer key.
+    func test_givenBearerSession_whenUpgradeToDPoP_thenDPoPBound() throws {
+        // Login with a plain Bearer (non-DPoP) ECA, global "Use DPoP" flag off.
+        launchLoginAndValidate(staticAppConfigName: .ecaJwt, useDPoP: false)
+
+        // Upgrade the current session to DPoP in place and validate the result.
+        upgradeToDPoPAndValidate()
+    }
+
     // MARK: - Restart
 
     /// Restart app after DPoP login and verify session and keypair persist.

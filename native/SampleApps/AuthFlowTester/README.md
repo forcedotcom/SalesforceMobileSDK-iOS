@@ -11,6 +11,8 @@ Tests are run via GitHub Actions using the `AuthFlowTester` Xcode scheme and `xc
 #### LegacyLoginTests
 Legacy login tests using the default Connected App (CA) opaque configuration from the app's boot config.
 
+> **DPoP default note:** Mobile SDK 14 defaults DPoP **on** for new logins (`SalesforceSDKManager.useDPoP` defaults to `true`). This suite deliberately passes `useDPoP: false` on every case so it remains the dedicated **Bearer (non-DPoP) compatibility suite**, exercising the legacy CA flows exactly as pre-14 apps did. DPoP-bound coverage lives in `DPoPLoginTests`.
+
 | Test | App Config | Scopes | Auth Surface |
 |------|-----------|--------|--------------|
 | `testCAOpaque_DefaultScopes_WebServerFlow` | CA Opaque | Default | ASWebAuthenticationSession |
@@ -32,12 +34,11 @@ External Client App (ECA) login tests for both opaque and JWT token formats with
 | `testECAJwt_DefaultScopes` | ECA JWT | Default | |
 | `testECAJwt_SubsetScopes` | ECA JWT | Subset | |
 | `testECAJwt_AllScopes` | ECA JWT | All | |
-| `test_givenNoDPoP_whenLoginViaPoolServer_thenSessionIsValid` | ECA JWT DPoP | — | Pool server login without DPoP |
 | `testDynamicConfigurationWithInvalidClientId` | — | — | Invalid consumer key; login must fail |
 | `testDynamicConfigurationWithInvalidScope` | — | — | Invalid scope; login must fail |
 
 #### DPoPLoginTests
-All DPoP tests live here — basic login, RTR, multi-user, migration, restart, pool server, and admin login. Verifies that DPoP-bound access tokens are issued (`token_type: "DPoP"`), API calls succeed with `ath`-bound proofs, the access token refreshes correctly, and the DPoP nonce rotates on every `/token` response.
+All DPoP tests live here — basic login, RTR, multi-user, migration, server enforcement, upgrade, restart, pool server, and admin login. Verifies that DPoP-bound access tokens are issued (`token_type: "DPoP"`), API calls succeed with `ath`-bound proofs, the access token refreshes correctly, and the DPoP nonce rotates on every `/token` response.
 
 | Test | App Config | Hybrid | Notes |
 |------|-----------|--------|-------|
@@ -48,6 +49,8 @@ All DPoP tests live here — basic login, RTR, multi-user, migration, restart, p
 | `test_givenTwoDPoPUsers_whenSwitchAndRefresh_thenTokensAndNoncesAreIsolated` | ECA JWT DPoP | — | Two users; unique tokens and nonces; independent revoke+refresh per user |
 | `test_givenDPoPUserWithSubsetScopes_whenMigrateToAllScopes_thenDPoPBindingPreserved` | ECA JWT DPoP | — | Scope upgrade; DPoP binding preserved |
 | `test_givenDPoPUser_whenMigrateToDPoPRtr_thenRefreshTokenRotationEnabled` | ECA JWT DPoP → ECA JWT DPoP RTR | — | Migrate from DPoP to DPoP+RTR |
+| `testLogin_DPoP_ECA_Without_DPoP_Fails` | ECA JWT DPoP | — | Server enforcement: DPoP-enforced ECA rejects login without DPoP (`useDPoP: false`); no account created |
+| `test_givenBearerSession_whenUpgradeToDPoP_thenDPoPBound` | ECA JWT → ECA JWT DPoP | — | Bearer → DPoP in-place upgrade via `UserAccountManager.upgradeToDPoP`; consumer key unchanged, `token_type: "DPoP"` post-upgrade |
 | `test_givenDPoPUser_whenAppRestart_thenSessionAndKeypairSurvive` | ECA JWT DPoP | — | `XCTSkip` (pending SDK fix — RestClient path lacks nonce-challenge retry; post-restart DPoP revoke fails because in-memory nonce cache is empty) |
 | `test_givenDPoP_whenLoginViaPoolServer_thenTokenTypeIsDPoP` | ECA JWT DPoP | — | `XCTSkip` (W-23864247 — pool login server rejects valid `dpop_jkt` token exchange) |
 | `test_givenDPoPECA_whenAdminLogin_thenDPoPBindingWorksThroughBrowser` | ECA JWT DPoP | — | Login for Admins hand-off to ASWebAuthenticationSession works with DPoP binding |

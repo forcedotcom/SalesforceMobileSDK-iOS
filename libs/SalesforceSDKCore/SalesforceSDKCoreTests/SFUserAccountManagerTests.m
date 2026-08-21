@@ -91,6 +91,28 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 
 @end
 
+/** Auth client stub that captures the credentials passed to revokeRefreshToken:, so tests can
+ assert which user's refresh token gets revoked. */
+@interface SFSDKRevokeCapturingOAuthClient : NSObject <SFSDKOAuthProtocol>
+
+@property (nonatomic, strong, nullable) SFOAuthCredentials *revokedCredentials;
+@property (nonatomic, assign) NSUInteger revokeCallCount;
+
+@end
+
+@implementation SFSDKRevokeCapturingOAuthClient
+
+- (void)accessTokenForApprovalCode:(SFSDKOAuthTokenEndpointRequest *)endpointReq completion:(void (^)(SFSDKOAuthTokenEndpointResponse *))completionBlock {}
+- (void)accessTokenForRefresh:(SFSDKOAuthTokenEndpointRequest *)endpointReq completion:(void (^)(SFSDKOAuthTokenEndpointResponse *))completionBlock {}
+- (void)openIDTokenForRefresh:(SFSDKOAuthTokenEndpointRequest *)endpointReq completion:(void (^)(NSString *))completionBlock {}
+
+- (void)revokeRefreshToken:(SFOAuthCredentials *)credentials reason:(SFLogoutReason)reason {
+    self.revokedCredentials = credentials;
+    self.revokeCallCount += 1;
+}
+
+@end
+
 /** Unit tests for the SFUserAccountManager
  */
 @interface SFUserAccountManagerTests : XCTestCase
@@ -832,6 +854,53 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     XCTAssertFalse(successCallbackInvoked, @"Success callback should not be invoked");
     
     // Clean up
+    [self.uam.authSessions removeObject:sceneId];
+}
+
+- (void)testMigrateRefreshToken_whenUserIsNotCurrentUser_revokesMigratedUsersToken {
+    // Given: user B is the current user, and user A (a different, background account) is the one
+    // being migrated. Their refresh tokens are distinct.
+    SFUserAccount *userA = [self createNewUserWithIndex:0];
+    userA.credentials.refreshToken = @"userA_oldRefreshToken";
+    SFUserAccount *userB = [self createNewUserWithIndex:1];
+    userB.credentials.refreshToken = @"userB_refreshToken";
+    [self.uam setCurrentUserInternal:userB];
+
+    // Capture whichever credentials get revoked.
+    SFSDKRevokeCapturingOAuthClient *revokeClient = [[SFSDKRevokeCapturingOAuthClient alloc] init];
+    SFAuthClientFactoryBlock originalFactory = self.uam.authClient;
+    self.uam.authClient = ^{ return revokeClient; };
+
+    NSDictionary *configDict = @{
+        @"remoteAccessConsumerKey": @"NewConsumerKey456",
+        @"oauthRedirectURI": @"newapp://oauth/callback",
+        @"oauthScopes": @[@"api", @"refresh_token"]
+    };
+    SFSDKAppConfig *appConfig = [[SFSDKAppConfig alloc] initWithDict:configDict];
+
+    // When: migrate the non-current user A, and the migration succeeds with a rotated token.
+    [self.uam migrateRefreshToken:userA
+                     newAppConfig:appConfig
+                          success:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {}
+                          failure:^(SFOAuthInfo *authInfo, NSError *error) {}];
+
+    NSString *sceneId = self.uam.authSessions.allKeys.firstObject;
+    SFSDKAuthSession *authSession = self.uam.authSessions[sceneId];
+
+    SFOAuthInfo *authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefresh];
+    SFUserAccount *migratedAccount = [self createNewUserWithIndex:2];
+    migratedAccount.credentials.refreshToken = @"userA_newRefreshToken"; // rotated -> triggers revoke
+    authSession.authSuccessCallback(authInfo, migratedAccount);
+
+    // Then: the migrated user A's old token is revoked -- NOT the current user B's token.
+    XCTAssertEqual(revokeClient.revokeCallCount, 1, @"Exactly one refresh token should be revoked");
+    XCTAssertEqualObjects(revokeClient.revokedCredentials.refreshToken, @"userA_oldRefreshToken",
+                          @"Should revoke the migrated (passed-in) user's token, not the current user's");
+    XCTAssertNotEqualObjects(revokeClient.revokedCredentials.refreshToken, @"userB_refreshToken",
+                             @"Must not revoke the current user's token when migrating a background account");
+
+    // Cleanup
+    self.uam.authClient = originalFactory;
     [self.uam.authSessions removeObject:sceneId];
 }
 

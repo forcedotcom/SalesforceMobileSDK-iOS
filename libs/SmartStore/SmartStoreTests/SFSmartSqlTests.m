@@ -218,6 +218,14 @@
     XCTAssertEqualObjects(@"select json_extract(soup, '$.education'), json_extract(soup, '$.address.zipcode') from TABLE_1 where json_extract(soup, '$.address.city') = 'San Francisco'", [self.store convertSmartSql:@"select {employees:education}, {employees:address.zipcode} from {employees} where {employees:address.city} = 'San Francisco'"], @"Bad conversion");
 }
 
+- (void) testConvertSmartSqlForNonIndexedColumnWithSingleQuoteInPath {
+    // Single quotes in non-indexed paths must be doubled so they don't break the surrounding json_extract(soup, '$.path') literal.
+    // The path with ' is in the WHERE clause so that the FROM {employees} token is resolved before any single-quote appears in beforeStr.
+    XCTAssertEqualObjects(@"select TABLE_1_3 from TABLE_1 where json_extract(soup, '$.user''s.address') = 'foo'",
+                          [self.store convertSmartSql:@"select {employees:employeeId} from {employees} where {employees:user's.address} = 'foo'"],
+                          @"Bad conversion");
+}
+
 - (void) testConvertSmartSqlWithQuotedCurlyBraces {
     XCTAssertEqualObjects(@"select json_extract(soup, '$.education') from TABLE_1 where json_extract(soup, '$.education') like 'Account(where: {Name: {eq: \"Jason\"}})'",
                         [self.store convertSmartSql:@"select {employees:education} from {employees} where {employees:education} like 'Account(where: {Name: {eq: \"Jason\"}})'"]);
@@ -509,6 +517,18 @@
     XCTAssertTrue([self timeRegexpInMs:newRegexp] * 500 < [self timeRegexpInMs:oldRegexp]);
     // No more than 25ms
     XCTAssertTrue([self timeRegexpInMs:newRegexp] <  25);
+}
+
+- (void) testRegisterSoupWithSingleQuoteInJSON1IndexPath {
+    // Single quotes in a JSON1 index path must be doubled so they don't break the json_extract(soup, '$.path') expression.
+    NSString *soupName = @"quotePathSoup";
+    [self.store registerSoup:soupName
+              withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[[self createJSON1IndexSpec:@"user's.name"]]]
+                       error:nil];
+    NSArray<SFSoupIndex*>* indices = [self.store indicesForSoup:soupName];
+    XCTAssertEqual(indices.count, 1U, @"Expected one index spec");
+    XCTAssertEqualObjects(indices[0].columnName, @"json_extract(soup, '$.user''s.name')", @"Single quote in JSON1 index path must be doubled");
+    [self.store removeSoup:soupName];
 }
 
 #pragma mark - helper methods

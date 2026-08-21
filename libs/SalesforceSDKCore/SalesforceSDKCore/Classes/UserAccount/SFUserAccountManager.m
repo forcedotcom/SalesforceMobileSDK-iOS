@@ -827,12 +827,23 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
                newAppConfig:(SFSDKAppConfig *)newAppConfig
                     success:(SFUserAccountManagerSuccessCallbackBlock)completionBlock
                     failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
-    
-    // Store current user credentials to revoke them once migration completes
-    SFOAuthCredentials *preMigrationCredentials = self.currentUser.credentials;
+    [self migrateRefreshToken:user newAppConfig:newAppConfig useDPoP:nil success:completionBlock failure:failureBlock];
+}
+
+- (void)migrateRefreshToken:(SFUserAccount *)user
+               newAppConfig:(SFSDKAppConfig *)newAppConfig
+                    useDPoP:(nullable NSNumber *)useDPoP
+                    success:(SFUserAccountManagerSuccessCallbackBlock)completionBlock
+                    failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
+
+    // Store the migrated user's credentials to revoke them once migration completes. Snapshot the
+    // passed-in `user`, not `self.currentUser`: the two differ when upgrading a background account,
+    // and revoking currentUser's token here would sign out the wrong user.
+    SFOAuthCredentials *preMigrationCredentials = user.credentials;
 
     // Creating a SFSDKAuthRequest and SFSDKAuthSession
     SFSDKAuthRequest *request = [self migrateRefreshAuthRequest:newAppConfig];
+    request.useDPoP = useDPoP;
     SFSDKAuthSession *authSession = [[SFSDKAuthSession alloc] initWith:request credentials:nil];
     authSession.isAuthenticating = YES;
     authSession.authSuccessCallback = ^(SFOAuthInfo *authInfo, SFUserAccount *newUserAccount) {
@@ -859,6 +870,18 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
             [authSession.oauthCoordinator migrateRefreshToken:user];
         }];
     });
+}
+
+- (void)upgradeToDPoP:(SFUserAccount *)user
+               success:(SFUserAccountManagerSuccessCallbackBlock)completionBlock
+               failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
+    SFOAuthCredentials *credentials = user.credentials;
+    SFSDKAppConfig *sameAppConfig = [[SFSDKAppConfig alloc] initWithDict:@{
+        @"remoteAccessConsumerKey": credentials.clientId ?: @"",
+        @"oauthRedirectURI": credentials.redirectUri ?: @"",
+        @"oauthScopes": credentials.scopes ?: @[]
+    }];
+    [self migrateRefreshToken:user newAppConfig:sameAppConfig useDPoP:@YES success:completionBlock failure:failureBlock];
 }
 
 

@@ -29,6 +29,8 @@ This document provides an overview of all UI tests in the AuthFlowTester test su
 
 Tests for Connected App (CA) configurations with default, subset, and all scopes using hybrid authentication flow. Tests web server flow with both the external browser (default) and in-app WebView (`forceAdvancedAuthentication: false`), plus the user agent flow (also in-app WebView).
 
+> **DPoP default note:** Mobile SDK 14 defaults DPoP **on** for new logins (`SalesforceSDKManager.useDPoP` defaults to `true`). Every case in this suite explicitly passes `useDPoP: false`, so it is the dedicated **Bearer (non-DPoP) compatibility suite** — the legacy CA flows continue to be exercised as they behaved before 14, independent of the new default. DPoP-bound coverage lives in `DPoPLoginTests`.
+
 | Test Name | App Config | Scopes | Flow | Auth Surface |
 |-----------|------------|--------|------|--------------|
 | `testCAOpaque_DefaultScopes_WebServerFlow` | CA Opaque | Default | Web Server | Browser (default) |

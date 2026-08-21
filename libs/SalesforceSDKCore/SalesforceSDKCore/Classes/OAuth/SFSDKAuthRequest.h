@@ -33,6 +33,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign) BOOL useBrowserAuth;
 
+/// Per-call override for whether this authentication request should bind its
+/// authorization code to DPoP (`dpop_jkt` on `/authorize`), independent of the
+/// process-wide `SalesforceSDKManager.useDPoP` flag. `nil` (the default) means
+/// "defer to the global flag" — normal logins never set this. A non-nil value
+/// (e.g. set by a refresh-token migration) is threaded through to the
+/// coordinator's `dpopOverride`.
+@property (nonatomic, strong, nullable) NSNumber *useDPoP;
+
 /// Indicates that browser auth was initiated by the "Login for Admin" action.
 /// When YES, cancelling the browser session returns to the WebView login instead of showing the server picker.
 @property (nonatomic, assign) BOOL loginAsAdmin;

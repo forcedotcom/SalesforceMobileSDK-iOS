@@ -233,7 +233,7 @@ SFNativeLoginManagerInternal *nativeLogin;
     self.useEphemeralSessionForAdvancedAuth = YES;
     self.useWebServerAuthentication = YES;
     self.useHybridAuthentication = YES;
-    self.useDPoP = NO;
+    self.useDPoP = YES;
     self.sdk_forceAdvancedAuthentication = YES;
     self.blockSalesforceIntegrationUser = NO;
 }
