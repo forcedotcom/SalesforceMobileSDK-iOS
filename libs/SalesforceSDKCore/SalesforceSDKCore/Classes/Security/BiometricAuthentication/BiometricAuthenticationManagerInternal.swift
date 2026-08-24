@@ -73,7 +73,7 @@ public class BiometricAuthenticationManagerInternal: NSObject, BiometricAuthenti
     /// Consumes (clears) suppression for `sceneId`, returning whether it was armed. The gate calls
     /// this once per browser attempt so suppression is one-shot per scene and one scene's consume
     /// can't drain another's.
-    @objc internal func consumeBrowserAuthenticationSuppression(forSceneId sceneId: String) -> Bool {
+    @objc public func consumeBrowserAuthenticationSuppression(forSceneId sceneId: String) -> Bool {
         return suppressedBrowserAuthSceneIds.remove(sceneId) != nil
     }
 
