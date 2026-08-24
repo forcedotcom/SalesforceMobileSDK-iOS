@@ -869,7 +869,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     // Snapshot DPoP-ness before the revoke block below can mutate `preMigrationCredentials`:
     // `revokeRefreshToken:` synchronously clears `tokenType` (and other fields) on the credentials
     // object it's handed, so reading `tokenType` after that call would always see it as non-DPoP.
-    BOOL preMigrationWasDPoP = [preMigrationCredentials.tokenType isEqualToString:@"DPoP"];
+    BOOL preMigrationWasDPoP = [SFSDKDPoPRequestDecorator isDPoPTokenType:preMigrationCredentials.tokenType];
     authSession.authSuccessCallback = ^(SFOAuthInfo *authInfo, SFUserAccount *newUserAccount) {
         if (preMigrationCredentials != nil && ![preMigrationCredentials.refreshToken isEqualToString:newUserAccount.credentials.refreshToken]) {
 
@@ -883,7 +883,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         // succeeded with a non-DPoP result — a failed/cancelled migration (authFailureCallback)
         // leaves the original DPoP session untouched and fully functional.
         if (preMigrationWasDPoP
-            && ![newUserAccount.credentials.tokenType isEqualToString:@"DPoP"]
+            && ![SFSDKDPoPRequestDecorator isDPoPTokenType:newUserAccount.credentials.tokenType]
             && preMigrationCredentials.identifier.length > 0) {
             [SFSDKDPoPKeyStore.shared deleteForCredentials:preMigrationCredentials];
             [SFSDKDPoPNonceCache.shared clearForScope:preMigrationCredentials.identifier];
@@ -913,7 +913,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
                failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
     // No-op if the session is already DPoP-bound: there's nothing to migrate, so return the
     // user unchanged rather than kicking off a needless re-authentication.
-    if ([user.credentials.tokenType isEqualToString:@"DPoP"]) {
+    if ([SFSDKDPoPRequestDecorator isDPoPTokenType:user.credentials.tokenType]) {
         if (completionBlock) {
             completionBlock(nil, user);
         }
@@ -933,7 +933,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
                failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
     // No-op if the session is already unbound (Bearer): there's nothing to migrate, so return
     // the user unchanged rather than kicking off a needless re-authentication.
-    if (![user.credentials.tokenType isEqualToString:@"DPoP"]) {
+    if (![SFSDKDPoPRequestDecorator isDPoPTokenType:user.credentials.tokenType]) {
         if (completionBlock) {
             completionBlock(nil, user);
         }
@@ -2458,7 +2458,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     // completed session that comes back non-DPoP (e.g. a downgradeFromDPoP migration) must clear
     // the marker too, or a session that has rolled back to Bearer would keep reporting DP. This is
     // idempotent and applies to any non-DPoP completion, not just downgrade.
-    if ([userAccount.credentials.tokenType isEqualToString:@"DPoP"]) {
+    if ([SFSDKDPoPRequestDecorator isDPoPTokenType:userAccount.credentials.tokenType]) {
         [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureDPoP forUser:userAccount];
     } else {
         [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureDPoP forUser:userAccount];
@@ -2542,7 +2542,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         [network sendRequest:request  dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error){
             // Gate harvest on DPoP credentials only — Bearer logins must not write to the
             // DPoP nonce cache even if the photo origin returns a stray DPoP-Nonce header.
-            if ([account.credentials.tokenType isEqualToString:[SFSDKDPoPRequestDecorator dpopTokenType]]
+            if ([SFSDKDPoPRequestDecorator isDPoPTokenType:account.credentials.tokenType]
                 && [[SalesforceSDKManager sharedManager] useDPoP]) {
                 [SFSDKDPoPRequestDecorator harvestNonceFromResponse:response
                                                          requestURL:request.URL

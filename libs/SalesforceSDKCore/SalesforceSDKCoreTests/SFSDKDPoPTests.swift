@@ -284,6 +284,23 @@ class SFSDKDPoPTests: XCTestCase {
         XCTAssertTrue(DPoPRequestDecorator.shouldAttachDPoP(scope: testScope, tokenType: "DPoP"))
     }
 
+    func test_givenTokenTypeVariants_whenIsDPoPTokenType_thenMatchesCaseInsensitivelyAndRejectsNilEmptyBearer() {
+        // Canonical and casing variants all resolve to DPoP — token_type is case-insensitive per
+        // RFC 6749 §5.1 / RFC 9449 §6.1, so the /authorize gate and the migration guards agree
+        // no matter how the server cases the value.
+        XCTAssertTrue(DPoPRequestDecorator.isDPoPTokenType("DPoP"))
+        XCTAssertTrue(DPoPRequestDecorator.isDPoPTokenType("dpop"))
+        XCTAssertTrue(DPoPRequestDecorator.isDPoPTokenType("DPOP"))
+
+        // nil / empty / Bearer are not DPoP. nil and empty especially matter: the predicate must
+        // preserve the `isEqualToString:` semantics it replaced (a bare `caseInsensitiveCompare:`
+        // on a nil receiver would return NSOrderedSame and wrongly read as DPoP).
+        XCTAssertFalse(DPoPRequestDecorator.isDPoPTokenType(nil))
+        XCTAssertFalse(DPoPRequestDecorator.isDPoPTokenType(""))
+        XCTAssertFalse(DPoPRequestDecorator.isDPoPTokenType("Bearer"))
+        XCTAssertFalse(DPoPRequestDecorator.isDPoPTokenType("bearer"))
+    }
+
     func test_givenScope_whenHasKeyPairChecked_thenReflectsKeyMaterialPresenceOnly() throws {
         // Fresh scope: no key material yet.
         XCTAssertFalse(DPoPKeyStore.shared.hasKeyPair(forScope: testScope),

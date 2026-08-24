@@ -1024,7 +1024,7 @@
     if (self.dpopOverride) {
         dpopEnabled = self.dpopOverride.boolValue;
     } else if (credentials.tokenType.length > 0) {
-        dpopEnabled = [credentials.tokenType caseInsensitiveCompare:[SFSDKDPoPRequestDecorator dpopTokenType]] == NSOrderedSame;
+        dpopEnabled = [SFSDKDPoPRequestDecorator isDPoPTokenType:credentials.tokenType];
     } else {
         dpopEnabled = [[SalesforceSDKManager sharedManager] useDPoP];
     }
