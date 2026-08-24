@@ -358,6 +358,46 @@ class SFOAuthCoordinatorTests: XCTestCase {
                      "with dpopOverride nil and the global flag off, dpop_jkt must be absent")
     }
 
+    // MARK: - Per-user credential binding on re-auth (independent of the global flag)
+
+    /// Interactive re-authentication of an already-Bearer credential (e.g. a
+    /// session that was downgraded from DPoP) must NOT re-bind to DPoP, even
+    /// with the global `usesDPoP` flag on and no per-call override. Before the
+    /// fix this fell through to the global flag and silently re-bound on the
+    /// stale-session re-login that follows a revoke+refresh. The per-user
+    /// `credentials.tokenType` is now the source of truth for re-auth.
+    func test_givenDpopOverrideNilAndBearerCredential_whenGenerateApprovalUrlString_thenUrlHasNoDPoPJktEvenWithGlobalFlagOn() throws {
+        SalesforceManager.shared.usesDPoP = true
+
+        let scope = trackedScope("reauth-bearer-credential")
+        let credentials = try makeCredentials(identifier: scope, domain: "acme.my.salesforce.com")
+        credentials.testTokenType = "Bearer"
+        let coordinator = SFOAuthCoordinator()
+        coordinator.credentials = credentials
+        XCTAssertNil(coordinator.dpopOverride, "interactive re-auth must never set dpopOverride")
+
+        let url = coordinator.generateApprovalUrlString()
+        XCTAssertNil(queryValue(name: "dpop_jkt", in: url),
+                     "a Bearer (downgraded) credential must not re-bind to DPoP on re-login, even with the global flag on")
+    }
+
+    /// Interactive re-authentication of a DPoP-bound credential must stay
+    /// DPoP-bound, even with the global `usesDPoP` flag off and no per-call
+    /// override — the per-user binding is honored in both directions.
+    func test_givenDpopOverrideNilAndDPoPCredential_whenGenerateApprovalUrlString_thenUrlHasDPoPJktEvenWithGlobalFlagOff() throws {
+        SalesforceManager.shared.usesDPoP = false
+
+        let scope = trackedScope("reauth-dpop-credential")
+        let credentials = try makeCredentials(identifier: scope, domain: "acme.my.salesforce.com")
+        credentials.testTokenType = DPoPRequestDecorator.dpopTokenType
+        let coordinator = SFOAuthCoordinator()
+        coordinator.credentials = credentials
+
+        let url = coordinator.generateApprovalUrlString()
+        XCTAssertNotNil(queryValue(name: "dpop_jkt", in: url),
+                        "a DPoP-bound credential must stay DPoP on re-login, even with the global flag off")
+    }
+
     /// Entry-point coverage — user-agent flow (webServerFlow resolves to `NO`
     /// when `useBrowserAuth=NO` and web-server auth is off). The URL builder
     /// emits `response_type=token` (or `hybrid_token` when hybrid mode is on),
@@ -460,6 +500,11 @@ extension OAuthCredentials {
     var testRedirectURI: String? {
         get { return self.redirectUri }
         set { self.setValue(newValue, forKey: "redirectUri") }
+    }
+
+    var testTokenType: String? {
+        get { return self.tokenType }
+        set { self.setValue(newValue, forKey: "tokenType") }
     }
 }
 

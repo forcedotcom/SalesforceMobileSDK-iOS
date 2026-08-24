@@ -41,6 +41,7 @@ struct SessionDetailView: View {
     @State private var migrateScopes = ""
     @State private var isMigrating = false
     @State private var isUpgradingToDPoP = false
+    @State private var isDowngradingFromDPoP = false
     @State private var migrationError: String?
     @State private var showMigrationError = false
     
@@ -156,6 +157,32 @@ struct SessionDetailView: View {
                             }
                             .disabled(isCurrentSessionDPoP || isUpgradingToDPoP)
                             .accessibilityIdentifier("upgradeToDPoPButton")
+                        }
+                        .padding()
+
+                        // Downgrade from DPoP Section
+                        VStack(alignment: .leading, spacing: 12) {
+                            Text("Downgrade from DPoP")
+                                .font(.headline)
+                                .foregroundColor(.primary)
+
+                            Text("Re-authenticates the current user with the same connected app, requesting an unbound (Bearer) authorization code.")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+
+                            Button(action: {
+                                handleDowngradeFromDPoP()
+                            }) {
+                                Text("Downgrade from DPoP")
+                                    .font(.headline)
+                                    .foregroundColor(.white)
+                                    .frame(maxWidth: .infinity)
+                                    .frame(height: 44)
+                                    .background(isCurrentSessionDPoP ? Color.green : Color.gray)
+                                    .cornerRadius(8)
+                            }
+                            .disabled(!isCurrentSessionDPoP || isDowngradingFromDPoP)
+                            .accessibilityIdentifier("downgradeFromDPoPButton")
                         }
                         .padding()
 
@@ -329,6 +356,34 @@ struct SessionDetailView: View {
             failure: { [self] _, error in
                 DispatchQueue.main.async {
                     isUpgradingToDPoP = false
+                    migrationError = error.localizedDescription
+                    showMigrationError = true
+                }
+            }
+        )
+    }
+
+    private func handleDowngradeFromDPoP() {
+        guard let user = UserAccountManager.shared.currentUserAccount else {
+            migrationError = "No current user found"
+            showMigrationError = true
+            return
+        }
+
+        isDowngradingFromDPoP = true
+
+        UserAccountManager.shared.downgradeFromDPoP(
+            user,
+            success: { [self] _, _ in
+                DispatchQueue.main.async {
+                    isDowngradingFromDPoP = false
+                    showMigrateRefreshToken = false
+                    refreshTrigger = UUID()
+                }
+            },
+            failure: { [self] _, error in
+                DispatchQueue.main.async {
+                    isDowngradingFromDPoP = false
                     migrationError = error.localizedDescription
                     showMigrationError = true
                 }

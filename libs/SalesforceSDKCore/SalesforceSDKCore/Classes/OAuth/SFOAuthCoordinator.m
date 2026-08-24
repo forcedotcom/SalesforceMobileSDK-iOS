@@ -1005,15 +1005,29 @@
 // Appends `&dpop_jkt=<base64url-sha256>` to the approval URL when DPoP is enabled
 // (RFC 9449 §10 authorization code binding). Soft-fails on key-material / crypto errors.
 //
-// DPoP intent is resolved per call: `self.dpopOverride`, when set, takes precedence
-// over the process-wide `SalesforceSDKManager.useDPoP` flag (e.g. a refresh-token
-// migration explicitly requesting DPoP binding regardless of the app's default login
-// posture). Normal login never sets `dpopOverride`, so it continues to follow the
-// global flag unchanged.
+// DPoP intent is resolved per call, in precedence order:
+//   1. `self.dpopOverride`, when set, wins (e.g. a refresh-token migration explicitly
+//      requesting or declining DPoP binding regardless of the app's default posture).
+//   2. Otherwise, if the credential already carries a token type (an interactive
+//      re-authentication of an existing account), honor the per-user
+//      `credentials.tokenType`: a Bearer session (e.g. one that was downgraded from
+//      DPoP) must not silently re-bind to DPoP on re-login, and a DPoP session stays
+//      DPoP — both independent of the process-wide flag. This mirrors the proof-attach
+//      gate in `SFSDKDPoPRequestDecorator`, so the /authorize binding decision and the
+//      outbound-request decoration agree on the same per-credential source of truth.
+//   3. Otherwise (a brand-new login with no per-user binding yet), the process-wide
+//      `SalesforceSDKManager.useDPoP` default governs.
 - (void)appendDPoPJktIfNeededTo:(NSMutableString *)approvalUrlString
                          domain:(NSString *)domain
                     credentials:(SFOAuthCredentials *)credentials {
-    BOOL dpopEnabled = self.dpopOverride ? self.dpopOverride.boolValue : [[SalesforceSDKManager sharedManager] useDPoP];
+    BOOL dpopEnabled;
+    if (self.dpopOverride) {
+        dpopEnabled = self.dpopOverride.boolValue;
+    } else if (credentials.tokenType.length > 0) {
+        dpopEnabled = [credentials.tokenType caseInsensitiveCompare:[SFSDKDPoPRequestDecorator dpopTokenType]] == NSOrderedSame;
+    } else {
+        dpopEnabled = [[SalesforceSDKManager sharedManager] useDPoP];
+    }
     if (!dpopEnabled) {
         return;
     }
