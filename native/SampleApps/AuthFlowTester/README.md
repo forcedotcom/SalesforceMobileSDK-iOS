@@ -52,7 +52,7 @@ All DPoP tests live here — basic login, RTR, multi-user, migration, server enf
 | `testLogin_DPoP_ECA_Without_DPoP_Fails` | ECA JWT DPoP | — | Server enforcement: DPoP-enforced ECA rejects login without DPoP (`useDPoP: false`); no account created |
 | `test_givenBearerSession_whenUpgradeToDPoP_thenDPoPBound` | ECA JWT → ECA JWT DPoP | — | Bearer → DPoP in-place upgrade via `UserAccountManager.upgradeToDPoP`; consumer key unchanged, `token_type: "DPoP"` post-upgrade |
 | `test_givenDPoPUser_whenAppRestart_thenSessionAndKeypairSurvive` | ECA JWT DPoP | — | `XCTSkip` (pending SDK fix — RestClient path lacks nonce-challenge retry; post-restart DPoP revoke fails because in-memory nonce cache is empty) |
-| `test_givenDPoP_whenLoginViaPoolServer_thenTokenTypeIsDPoP` | ECA JWT DPoP | — | `XCTSkip` (W-23864247 — pool login server rejects valid `dpop_jkt` token exchange) |
+| `test_givenDPoP_whenLoginViaPoolServer_thenTokenTypeIsDPoP` | ECA JWT DPoP | — | Pool server login with DPoP; `dpop_jkt` accepted; L1 (production) marker in UA |
 | `test_givenDPoPECA_whenAdminLogin_thenDPoPBindingWorksThroughBrowser` | ECA JWT DPoP | — | Login for Admins hand-off to ASWebAuthenticationSession works with DPoP binding |
 
 #### RTRLoginTests
