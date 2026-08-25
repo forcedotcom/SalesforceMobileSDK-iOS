@@ -360,6 +360,7 @@ class BaseAuthFlowTester: XCTestCase {
     ///   - dynamicScopeSelection: The scope selection for dynamic configuration. Defaults to `.empty`.
     ///   - useWebServerFlow: Whether to use web server OAuth flow. Defaults to `true`.
     ///   - useHybridFlow: Whether to use hybrid authentication flow. Defaults to `true`.
+    ///   - useDPoP: Whether to enable DPoP for this login. Defaults to `false`.
     func launchAndLogin(
         loginHost: KnownLoginHostConfig,
         user: KnownUserConfig,
@@ -371,6 +372,7 @@ class BaseAuthFlowTester: XCTestCase {
         useHybridFlow: Bool = true,
         forceAdvancedAuthentication: Bool = true,
         loginForAdmin: Bool = false,
+        useDPoP: Bool = false
     ) {
         // Launch
         launch()
@@ -387,6 +389,7 @@ class BaseAuthFlowTester: XCTestCase {
             useHybridFlow: useHybridFlow,
             forceAdvancedAuthentication: forceAdvancedAuthentication,
             loginForAdmin: loginForAdmin,
+            useDPoP: useDPoP
         )
     }
     
@@ -477,12 +480,14 @@ class BaseAuthFlowTester: XCTestCase {
     ///   - staticAppConfigName: The static app configuration name.
     ///   - useWebServerFlow: Whether to use web server OAuth flow. Defaults to `true`.
     ///   - useHybridFlow: Whether to use hybrid authentication flow. Defaults to `true`.
+    ///   - useDPoP: Whether to enable DPoP for this login. Defaults to `false`.
     func loginOtherUser(
         loginHost: KnownLoginHostConfig,
         user: KnownUserConfig,
         staticAppConfigName: KnownAppConfig,
         useWebServerFlow: Bool = true,
         useHybridFlow: Bool = true,
+        useDPoP: Bool = false
     ) {
         // Switch to add new user
         mainPage.performAddUser()
@@ -494,6 +499,7 @@ class BaseAuthFlowTester: XCTestCase {
             staticAppConfigName: staticAppConfigName,
             useWebServerFlow: useWebServerFlow,
             useHybridFlow: useHybridFlow,
+            useDPoP: useDPoP
         )
 
         // Wait for main page to show (user is logged in)
@@ -1190,13 +1196,15 @@ class BaseAuthFlowTester: XCTestCase {
         expectedLMarker: String? = nil,
         expectedAMarker: String? = nil,
         wasMigrated: Bool = false,
-        isBeacon: Bool = false
+        isBeacon: Bool = false,
+        expectDP: Bool? = nil
     ) -> UserCredentialsData {
 
         let userConfig = getUser(loginHost: loginHost, user: user)
         let userAppConfig = getAppConfig(named: userAppConfigName)
         let expectedGrantedScopes = testConfig.getExpectedScopesGranted(for: userAppConfig, userScopeSelection)
         let issuesJwt = userAppConfig.issuesJwt
+        let effectiveExpectDP = expectDP ?? userAppConfig.isDPoP
 
         // Check that app loads and shows the expected user credentials etc
         assertMainPageLoaded()
@@ -1222,12 +1230,12 @@ class BaseAuthFlowTester: XCTestCase {
         assertURLs(userCredentialsData: userCredentials, useWebServerFlow: useWebServerFlow)
 
         // DPoP token binding: assert on any DPoP-app path (login, switch, restart, migration)
-        if userAppConfig.isDPoP {
+        if effectiveExpectDP {
             assertDPoPCredentials(userCredentials)
         }
 
         // Validate feature flags using UA already present in the fetched credentials
-        validateUserAgent(ua: userCredentials.userAgent, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, usesWelcomeDiscovery: usesWelcomeDiscovery, isMultiUser: isMultiUser, isRtr: isRtr, expectDP: userAppConfig.isDPoP, expectedBMarker: expectedBMarker, expectedLMarker: expectedLMarker, expectedAMarker: expectedAMarker, wasMigrated: wasMigrated, isJwt: issuesJwt, isBeacon: isBeacon)
+        validateUserAgent(ua: userCredentials.userAgent, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, usesWelcomeDiscovery: usesWelcomeDiscovery, isMultiUser: isMultiUser, isRtr: isRtr, expectDP: effectiveExpectDP, expectedBMarker: expectedBMarker, expectedLMarker: expectedLMarker, expectedAMarker: expectedAMarker, wasMigrated: wasMigrated, isJwt: issuesJwt, isBeacon: isBeacon)
 
         return userCredentials
     }
@@ -1304,6 +1312,7 @@ class BaseAuthFlowTester: XCTestCase {
         // After migration the RTR flag is active immediately (the migration token exchange IS a rotation).
         let isRtr = wasMigrated ? userAppConfig.isRtr : false
 
+        let effectiveExpectDP = useDPoP || userAppConfig.isDPoP
         let userCredentials = validateUser(
             loginHost: loginHost,
             user: user,
@@ -1319,11 +1328,12 @@ class BaseAuthFlowTester: XCTestCase {
             expectedLMarker: expectedLMarker,
             expectedAMarker: aMarker,
             wasMigrated: wasMigrated,
-            isBeacon: userAppConfig.isBeacon
+            isBeacon: userAppConfig.isBeacon,
+            expectDP: effectiveExpectDP
         )
 
         // Revoke and refresh cycle
-        assertRevokeAndRefreshWorks(previousCredentials: userCredentials, isRtr: userAppConfig.isRtr, isDPoP: useDPoP, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, usesWelcomeDiscovery: usesWelcomeDiscovery, isMultiUser: isMultiUser, expectedBMarker: expectedBMarker, expectedLMarker: expectedLMarker, expectedAMarker: aMarker, wasMigrated: wasMigrated, isJwt: userAppConfig.issuesJwt, isBeacon: userAppConfig.isBeacon)
+        assertRevokeAndRefreshWorks(previousCredentials: userCredentials, isRtr: userAppConfig.isRtr, isDPoP: effectiveExpectDP, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, usesWelcomeDiscovery: usesWelcomeDiscovery, isMultiUser: isMultiUser, expectedBMarker: expectedBMarker, expectedLMarker: expectedLMarker, expectedAMarker: aMarker, wasMigrated: wasMigrated, isJwt: userAppConfig.issuesJwt, isBeacon: userAppConfig.isBeacon)
 
         // Check the oauth configuration
         _ = checkOauthConfiguration(
