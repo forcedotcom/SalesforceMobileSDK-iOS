@@ -364,6 +364,22 @@ successBlock:(SFRestResponseBlock)successBlock
                     request.successBlock(dataForDelegate, response);
                 }
             } else {
+                // DPoP nonce challenge (HTTP 400 with use_dpop_nonce in body): harvest the
+                // server-issued nonce and retry the request once with the updated proof.
+                // This covers the post-restart case where the in-memory nonce cache is empty
+                // and the first outbound DPoP call (e.g. revoke) triggers a nonce challenge.
+                // RFC 9449 §8 — the server SHOULD return the desired nonce in DPoP-Nonce.
+                NSString *bodyStr = data ? [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] : nil;
+                if (statusCode == 400
+                    && !request.dpopNonceRetried
+                    && [bodyStr containsString:SFSDKDPoPRequestDecorator.nonceErrorCode]) {
+                    request.dpopNonceRetried = YES;
+                    [SFSDKDPoPRequestDecorator harvestNonceFromResponse:response
+                                                            requestURL:finalRequest.URL
+                                                                 scope:strongSelf.user.credentials.identifier];
+                    [strongSelf enqueueRequest:request shouldRetry:shouldRetry];
+                    return;
+                }
                 if (shouldRetry && [strongSelf shouldRetryTask:dataTask withData:data]) {
                     [strongSelf replayRequest:request response:response];
                 } else {
