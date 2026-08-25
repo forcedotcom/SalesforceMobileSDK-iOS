@@ -744,6 +744,47 @@ class BaseAuthFlowTester: XCTestCase {
         assertRevokeAndRefreshWorks(isRtr: false, isDPoP: true, wasMigrated: true, isJwt: isJwt)
     }
 
+    /// Downgrades the current DPoP-bound session back to Bearer in place (same connected app, via
+    /// `UserAccountManager.downgradeFromDPoP`) and validates the result: Bearer credentials, an
+    /// unchanged consumer key, and a working revoke/refresh cycle.
+    ///
+    /// Mirrors `upgradeToDPoPAndValidate` in the opposite direction — it re-authenticates against
+    /// the same client id/redirect URI/scopes with `useDPoP: false`, so the consumer key is
+    /// expected to stay the same while the refresh token is rotated and the session unbinds from
+    /// DPoP.
+    ///
+    /// - Parameter isJwt: Whether the connected app issues JWT-format access tokens (drives the
+    ///   "JT"/"OT" UA marker assertion). Defaults to `true` since the downgrade test uses `.ecaJwt`.
+    func downgradeFromDPoPAndValidate(isJwt: Bool = true) {
+        let originalUserCredentials = getUserCredentials()
+
+        XCTAssert(mainPage.downgradeFromDPoP(), "Failed to downgrade from DPoP")
+
+        let downgradedUserCredentials = getUserCredentials()
+
+        // The downgrade re-authenticates with the same connected app: consumer key is unchanged.
+        XCTAssertEqual(
+            originalUserCredentials.clientId,
+            downgradedUserCredentials.clientId,
+            "Consumer key should be unchanged after downgrading from DPoP"
+        )
+
+        XCTAssertNotEqual(downgradedUserCredentials.dpopTokenType, "DPoP", "Token type should no longer be DPoP after downgrade")
+
+        // Making sure the refresh token changed
+        XCTAssertNotEqual(
+            originalUserCredentials.refreshToken,
+            downgradedUserCredentials.refreshToken,
+            "Refresh token should have been rotated by the DPoP downgrade"
+        )
+
+        // `downgradeFromDPoP` delegates to the refresh-token migration path, so the "TM"
+        // (token-migration) UA feature flag is legitimately registered — the marker tracks the
+        // migration mechanism, not whether the connected app changed. Assert its presence, and
+        // that "DP" is absent now that the session is Bearer-bound.
+        assertRevokeAndRefreshWorks(isRtr: false, isDPoP: false, wasMigrated: true, isJwt: isJwt)
+    }
+
     /// Launches the app and attempts a login expected to fail before any credentials are entered.
     ///
     /// Replays the same host-list / login-options / login-host prefix as `login()` (selecting the

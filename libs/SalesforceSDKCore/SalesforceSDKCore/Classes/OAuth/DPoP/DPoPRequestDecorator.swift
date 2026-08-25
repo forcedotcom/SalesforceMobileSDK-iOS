@@ -37,6 +37,23 @@ public final class DPoPRequestDecorator: NSObject {
     /// `token_type: "DPoP"` (RFC 6749 §5.1 / RFC 9449 §6.1).
     @objc public static let dpopTokenType = "DPoP"
 
+    /// Single source of truth for "does this `tokenType` denote a DPoP-bound session?".
+    ///
+    /// Compares case-insensitively against `dpopTokenType` (RFC 6749 §5.1 / RFC 9449 §6.1 both
+    /// define `token_type` as case-insensitive). Every DPoP-vs-Bearer decision — the `/authorize`
+    /// binding gate in `SFOAuthCoordinator`, the proof-attach gate below, and the migration guards
+    /// in `SFUserAccountManager` — routes through this so they can never disagree on a server
+    /// casing variant. `nil`/empty → `false`.
+    ///
+    /// Public (not internal) so it stays visible to the Objective-C callers across framework, SPM,
+    /// and CocoaPods builds — an internal `@objc` member is invisible to in-module Objective-C in a
+    /// framework build.
+    @objc(isDPoPTokenType:)
+    public static func isDPoPTokenType(_ tokenType: String?) -> Bool {
+        guard let tokenType, !tokenType.isEmpty else { return false }
+        return tokenType.caseInsensitiveCompare(dpopTokenType) == .orderedSame
+    }
+
     /// Gate deciding whether to attach a DPoP proof for `scope`.
     ///
     /// An explicit `tokenType` is authoritative:
@@ -64,7 +81,7 @@ public final class DPoPRequestDecorator: NSObject {
             return false
         }
         if let tokenType {
-            return tokenType.caseInsensitiveCompare(dpopTokenType) == .orderedSame
+            return isDPoPTokenType(tokenType)
         }
         // tokenType is nil — transition window between /authorize and /token; fall back to
         // the key-material signal.

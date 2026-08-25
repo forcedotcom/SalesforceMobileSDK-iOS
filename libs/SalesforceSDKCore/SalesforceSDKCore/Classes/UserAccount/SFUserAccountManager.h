@@ -637,6 +637,9 @@ Use this method to stop/clear any authentication which is has already been start
  user. If successful, a new set of DPoP-bound credentials (refresh token, access token) are
  obtained and replace the existing credentials for the user.
 
+ If the user's session is already DPoP-bound, this is a no-op: `completionBlock` is invoked
+ immediately with the unchanged user account and no re-authentication is attempted.
+
  @param user The user account to upgrade to DPoP.
  @param completionBlock Called on successful upgrade with the updated user account and auth info.
  @param failureBlock Called if the upgrade fails with an error and optional auth info.
@@ -644,6 +647,31 @@ Use this method to stop/clear any authentication which is has already been start
 - (void)upgradeToDPoP:(SFUserAccount *)user
                success:(SFUserAccountManagerSuccessCallbackBlock)completionBlock
                failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock NS_SWIFT_NAME(upgradeToDPoP(_:success:failure:));
+
+/**
+ Downgrades the specified user's session from DPoP to Bearer in place, without changing the
+ connected app.
+
+ Re-authenticates using the user's current client id, redirect URI, and scopes, requesting an
+ unbound (Bearer) authorization code even if the process-wide DPoP flag is on. This might cause
+ the approve/deny screen to be presented to the user. If successful, a new set of Bearer
+ credentials (refresh token, access token) are obtained and replace the existing credentials for
+ the user, and the now-obsolete DPoP key pair, nonce-cache entries, and per-user DPoP marker are
+ reclaimed.
+
+ Note: the connected app must accept Bearer tokens for the downgrade to succeed; a DPoP-enforcing
+ connected app will reject the resulting Bearer session.
+
+ If the user's session is already unbound (Bearer), this is a no-op: `completionBlock` is invoked
+ immediately with the unchanged user account and no re-authentication is attempted.
+
+ @param user The user account to downgrade from DPoP.
+ @param completionBlock Called on successful downgrade with the updated user account and auth info.
+ @param failureBlock Called if the downgrade fails with an error and optional auth info.
+ */
+- (void)downgradeFromDPoP:(SFUserAccount *)user
+               success:(SFUserAccountManagerSuccessCallbackBlock)completionBlock
+               failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock NS_SWIFT_NAME(downgradeFromDPoP(_:success:failure:));
 
 /**
  Handle an authentication response from the IDP application

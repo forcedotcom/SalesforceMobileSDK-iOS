@@ -363,6 +363,31 @@ class AuthFlowTesterMainPageObject {
         return true
     }
 
+    /// Opens the "Change Key" sheet and taps "Downgrade from DPoP", handling the approve/deny
+    /// screen if it appears. Mirrors `upgradeToDPoP`'s error-surfacing.
+    func downgradeFromDPoP() -> Bool {
+        // Tap Change Key button to open the sheet
+        tap(bottomBarChangeKeyButton())
+
+        // Tap the "Downgrade from DPoP" button
+        tap(downgradeFromDPoPButton())
+
+        // Tap the allow button if it appears
+        tapIfPresent(allowButton())
+
+        let alert = app.alerts["Migration Error"]
+        if (alert.waitForExistence(timeout: UITestTimeouts.long)) {
+            let message = alert.staticTexts.allElementsBoundByIndex
+                .map { $0.label }
+                .filter { $0 != "Migration Error" && !$0.isEmpty }
+                .joined(separator: " ")
+            XCTFail("Migration Error alert: \(message.isEmpty ? "<no message>" : message)")
+            alert.buttons["OK"].tap()
+            return false
+        }
+        return true
+    }
+
     // MARK: - Config Import Helpers
     
     private func buildConfigJSON(consumerKey: String, redirectUri: String, scopes: String) -> String {
@@ -480,6 +505,10 @@ class AuthFlowTesterMainPageObject {
 
     private func upgradeToDPoPButton() -> XCUIElement {
         return app.buttons["upgradeToDPoPButton"]
+    }
+
+    private func downgradeFromDPoPButton() -> XCUIElement {
+        return app.buttons["downgradeFromDPoPButton"]
     }
 
     private func allowButton() -> XCUIElement {
