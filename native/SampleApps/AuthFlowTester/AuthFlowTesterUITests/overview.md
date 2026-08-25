@@ -55,7 +55,7 @@ Tests for Connected App (CA) configurations with non-hybrid authentication flow.
 | `testCAOpaque_AllScopes_WebServerFlow_InAppWebView` | CA Opaque | All | Web Server | In-App WebView |
 | `testCAOpaque_DefaultScopes_UserAgentFlow` | CA Opaque | Default | User Agent | In-App WebView |
 
-### ECALoginTests (8 tests)
+### ECALoginTests (9 tests)
 
 Tests for External Client App (ECA) configurations using web server flow with hybrid auth. Includes negative testing scenarios for invalid client ID and invalid scopes.
 
@@ -67,6 +67,7 @@ Tests for External Client App (ECA) configurations using web server flow with hy
 | `testECAJwt_DefaultScopes` | ECA JWT | Default | Standard login with default scopes |
 | `testECAJwt_SubsetScopes` | ECA JWT | Subset | Standard login with subset scopes |
 | `testECAJwt_AllScopes` | ECA JWT | All | Standard login with all scopes |
+| `test_givenNoDPoP_whenLoginViaPoolServer_thenSessionIsValid` | ECA JWT | Default | Pool server login without DPoP; session valid with Bearer tokens |
 | `testDynamicConfigurationWithInvalidClientId` | Invalid (dynamic) | Default | Negative test: invalid client ID in dynamic config |
 | `testDynamicConfigurationWithInvalidScope` | ECA JWT (dynamic) | Invalid | Negative test: invalid scope in dynamic config |
 
@@ -117,10 +118,10 @@ Tests for welcome (domain discovery) login flows. Uses simulated domain discover
 
 | Test Name | Login Host | Dynamic Config |
 |-----------|------------|----------------|
-| `testWelcomeDiscoveryWithRegularAuthLoginHost` | regular_auth (simulated) | No |
-| `testWelcomeDiscoveryWithAdvancedAuthLoginHost` | advanced_auth (simulated) | No |
-| `testWelcomeDiscoveryWithRegularAuthLoginHostAndDynamicConfig` | regular_auth (simulated) | Yes |
-| `testWelcomeDiscoveryWithAdvancedAuthLoginHostAndDynamicConfig` | advanced_auth (simulated) | Yes |
+| `testWelcomeDiscovery_RegularAuthLoginHost` | regular_auth (simulated) | No |
+| `testWelcomeDiscovery_AdvancedAuthLoginHost` | advanced_auth (simulated) | No |
+| `testWelcomeDiscovery_RegularAuthLoginHost_DynamicConfig` | regular_auth (simulated) | Yes |
+| `testWelcomeDiscovery_AdvancedAuthLoginHost_DynamicConfig` | advanced_auth (simulated) | Yes |
 
 ### LoginWithRestartTests (10 tests)
 
@@ -178,7 +179,7 @@ Tests for verifying that migrated refresh tokens persist across app restarts. Co
 
 ## Multi-User Tests
 
-### MultiUserLoginTests (13 tests)
+### MultiUserLoginTests (15 tests)
 
 Tests for login scenarios with two users using various configurations, including token revocation, user logout scenarios, and A-marker per-user isolation.
 
@@ -199,6 +200,8 @@ Tests for login scenarios with two users using various configurations, including
 | `testDifferentAppTypes_LogoutCaUser_EcaUserUnaffected` | CA (Opaque) | ECA (Opaque) | No | Yes | No | Logout User A |
 | `testFlagDiversity_NonHybridOpaqueVsHybridJwt` | CA Opaque non-hybrid (A1+OT) | ECA JWT hybrid (A2+JT) | No | Yes | No | Logout User B |
 | `testFlagDiversity_BeaconNonHybridJwtVsHybridOpaque` | Beacon JWT non-hybrid (A1+JT+BN) | CA Opaque hybrid (A2+OT) | No | Yes | Partial | Logout User B |
+| `testAdvancedAuthUser_HasBWFlag_RegularAuthUser_DoesNot` | ECA Opaque (regular, BW off) | Beacon Opaque (advanced auth, BW set) | No | Yes | Partial | Logout User B |
+| `test_dpopAndNonDPoPUsers_flagOff_maintainIndependentProofs` | ECA JWT DPoP (User A) | ECA JWT Bearer (User B) | No | Yes | No | DPoP flag flip + restart; Logout User B |
 
 ---
 

@@ -34,6 +34,7 @@ External Client App (ECA) login tests for both opaque and JWT token formats with
 | `testECAJwt_DefaultScopes` | ECA JWT | Default | |
 | `testECAJwt_SubsetScopes` | ECA JWT | Subset | |
 | `testECAJwt_AllScopes` | ECA JWT | All | |
+| `test_givenNoDPoP_whenLoginViaPoolServer_thenSessionIsValid` | ECA JWT | Default | Pool server login without DPoP; Bearer session valid |
 | `testDynamicConfigurationWithInvalidClientId` | — | — | Invalid consumer key; login must fail |
 | `testDynamicConfigurationWithInvalidScope` | — | — | Invalid scope; login must fail |
 
