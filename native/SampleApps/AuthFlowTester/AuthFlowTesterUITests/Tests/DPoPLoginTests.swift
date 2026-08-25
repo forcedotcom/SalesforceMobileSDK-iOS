@@ -192,15 +192,10 @@ class DPoPLoginTests: BaseAuthFlowTester {
 
     // MARK: - Pool Server Login
 
-    /// Login via the pool server (login.test1.pc-rnd.salesforce.com) with DPoP enabled
-    /// and verify that dpop_jkt was accepted and DPoP binding holds after a revoke+refresh.
-    ///
-    /// Skipped: server-side bug W-23864247 — the pool login server returns
-    /// invalid_dpop_proof on the authorization-code token exchange even though the
-    /// DPoP proof is cryptographically valid and the JWK thumbprint exactly matches
-    /// the dpop_jkt sent in /authorize.  Re-enable when the server fix is confirmed.
+    /// Login via the pool server with DPoP enabled and verify that dpop_jkt was accepted
+    /// and DPoP binding holds after a revoke+refresh. The pool server routes through
+    /// production login infrastructure, so the user agent carries L1 (production), not L4.
     func test_givenDPoP_whenLoginViaPoolServer_thenTokenTypeIsDPoP() throws {
-        throw XCTSkip("W-23864247: pool login server rejects valid dpop_jkt token exchange")
         launchLoginAndValidate(
             loginHost: .regularAuth,
             user: .first,
@@ -209,7 +204,7 @@ class DPoPLoginTests: BaseAuthFlowTester {
             useDPoP: true,
             useLoginPoolHost: true
         )
-        assertRevokeAndRefreshWorks(isRtr: false, isDPoP: true, useHybridFlow: false, isJwt: true)
+        assertRevokeAndRefreshWorks(isRtr: false, isDPoP: true, useHybridFlow: false, isJwt: true, useLoginPoolHost: true)
     }
 
     // MARK: - Admin Login
