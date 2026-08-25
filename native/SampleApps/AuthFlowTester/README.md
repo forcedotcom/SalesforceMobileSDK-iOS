@@ -23,6 +23,20 @@ Legacy login tests using the default Connected App (CA) opaque configuration fro
 | `testCAOpaque_AllScopes_WebServerFlow_InAppWebView` | CA Opaque | All | In-App WKWebView |
 | `testCAOpaque_DefaultScopes_UserAgentFlow` | CA Opaque | Default | In-App WKWebView |
 
+#### LegacyLoginTestsNotHybrid
+
+Runs the same 7 tests as `LegacyLoginTests` with `useHybridFlow` overridden to `false`. Non-hybrid flow means the app does not receive front-door session cookies (SIDs) during authentication.
+
+| Test | App Config | Scopes | Auth Surface |
+|------|-----------|--------|--------------|
+| `testCAOpaque_DefaultScopes_WebServerFlow` | CA Opaque | Default | ASWebAuthenticationSession |
+| `testCAOpaque_SubsetScopes_WebServerFlow` | CA Opaque | Subset | ASWebAuthenticationSession |
+| `testCAOpaque_AllScopes_WebServerFlow` | CA Opaque | All | ASWebAuthenticationSession |
+| `testCAOpaque_DefaultScopes_WebServerFlow_InAppWebView` | CA Opaque | Default | In-App WKWebView |
+| `testCAOpaque_SubsetScopes_WebServerFlow_InAppWebView` | CA Opaque | Subset | In-App WKWebView |
+| `testCAOpaque_AllScopes_WebServerFlow_InAppWebView` | CA Opaque | All | In-App WKWebView |
+| `testCAOpaque_DefaultScopes_UserAgentFlow` | CA Opaque | Default | In-App WKWebView |
+
 #### ECALoginTests
 External Client App (ECA) login tests for both opaque and JWT token formats with scope variations. Also covers pool server login (non-DPoP) and negative-path dynamic config tests.
 
@@ -212,4 +226,20 @@ Restart tests additionally verify:
 - **Login hosts**: `regularAuth` (in-app WKWebView), `advancedAuth` (ASWebAuthenticationSession)
 - **Users**: `first` through `fifth`
 
-> **Note:** A valid `shared/test/ui_test_config.json` file with login host URLs, user credentials, and app configurations is required to run the tests.
+### Scope selections
+
+| Selection | Description |
+|-----------|-------------|
+| `empty` | No explicit scopes requested — org grants all scopes defined in the app config |
+| `subset` | Requests all scopes except `sfap_api` |
+| `all` | Requests all scopes explicitly |
+
+### Credential setup
+
+A valid `shared/test/ui_test_config.json` is required. Copy the sample and fill in your org URLs, user credentials, and consumer keys:
+
+```bash
+cp shared/test/ui_test_config.json.sample shared/test/ui_test_config.json
+```
+
+For full setup instructions, credential values, and cross-platform notes see the internal workspace doc: [`docs/auth/auth-ui-testing.md`](https://git.soma.salesforce.com/SalesforceMobileSDK/SalesforceMobileSDK-Workspace/blob/main/docs/auth/auth-ui-testing.md).
