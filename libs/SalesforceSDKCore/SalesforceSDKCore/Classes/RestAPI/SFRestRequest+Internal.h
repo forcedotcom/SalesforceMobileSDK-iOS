@@ -37,6 +37,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, nullable) SFRestRequestFailBlock failureBlock;
 @property (nonatomic, copy, nullable) SFRestResponseBlock successBlock;
 
+/// Set to YES after a DPoP nonce-challenge retry so the retry fires at most once per request.
+@property (nonatomic, assign) BOOL dpopNonceRetried;
+
 
 + (nonnull NSString *)restUrlForBaseUrl:(nullable NSString *)baseUrl serviceHostType:(SFSDKRestServiceHostType)hostType credentials:(nonnull SFOAuthCredentials *)credentials;
 + (NSString *)toQueryString:(nullable NSDictionary *)components;

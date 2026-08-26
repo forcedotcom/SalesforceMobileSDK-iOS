@@ -178,16 +178,29 @@ class DPoPLoginTests: BaseAuthFlowTester {
 
     // MARK: - Restart
 
-    /// Restart app after DPoP login and verify session and keypair persist.
+    /// Restart app after DPoP login; verify the EC keypair and session survive, and that
+    /// revoke+refresh works despite the in-memory nonce cache being empty after restart.
     ///
-    /// Skipped pending SDK fix: on iOS, revoke after app restart fails because the DPoP
-    /// nonce cache is in-memory only and there is no nonce-challenge retry on the
-    /// `RestClient` request path (only the token endpoint retries). Android's equivalent
-    /// test passes only because its revoke goes over raw OkHttp on the login host,
-    /// bypassing DPoP entirely — iOS revokes go to the instance host through the
-    /// DPoP-decorating REST stack.
+    /// After restart the nonce cache is cold. The first revoke call sends a nonce-less DPoP
+    /// proof; the server returns HTTP 400 `use_dpop_nonce`. `SFRestAPI.enqueueRequest` now
+    /// detects this, harvests the server-issued nonce from the response header, and retries
+    /// the request once with the updated proof (W-23501382).
     func test_givenDPoPUser_whenAppRestart_thenSessionAndKeypairSurvive() throws {
-        throw XCTSkip("TODO: Pending SDK fix: RestClient path lacks nonce-challenge retry; post-restart DPoP revoke fails because in-memory nonce cache is empty.")
+        launchLoginAndValidate(
+            loginHost: .regularAuth,
+            user: .third,
+            staticAppConfigName: .ecaJwtDpop,
+            useHybridFlow: false,
+            useDPoP: true
+        )
+
+        restartAndValidateUser(
+            loginHost: .regularAuth,
+            user: .third,
+            userAppConfigName: .ecaJwtDpop,
+            useHybridFlow: false
+        )
+        assertRevokeAndRefreshWorks(isRtr: false, isDPoP: true, useHybridFlow: false, isJwt: true)
     }
 
     // MARK: - Pool Server Login
