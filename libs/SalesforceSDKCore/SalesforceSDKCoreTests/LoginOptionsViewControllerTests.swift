@@ -80,8 +80,6 @@ class LoginOptionsViewControllerTests: XCTestCase {
     }
     
     func testBootConfigPickerViewRendered() {
-        let expectation = XCTestExpectation(description: "View works with existing BootConfig")
-        
         // Create a test BootConfig
         let testConfig: [String: Any] = [
             "remoteAccessConsumerKey": "test_boot_config_key",
@@ -90,34 +88,30 @@ class LoginOptionsViewControllerTests: XCTestCase {
             "shouldAuthenticate": true
         ]
         SalesforceManager.shared.bootConfig = BootConfig(testConfig)
-        
+
         let view = LoginOptionsView {
             // No-op callback
         }
-        
+
         let hostingController = UIHostingController(rootView: view)
-        
+
         // Create a window and add the view controller
         let window = UIWindow(frame: CGRect(x: 0, y: 0, width: 375, height: 667))
         window.rootViewController = hostingController
         window.makeKeyAndVisible()
-        
+
         // Trigger view lifecycle (use appearance transition APIs to avoid callback misuse warning)
         hostingController.beginAppearanceTransition(true, animated: false)
         hostingController.endAppearanceTransition()
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            // Verify view rendered with BootConfig
-            XCTAssertNotNil(hostingController.view)
-            
-            // Clean up
-            window.rootViewController = nil
-            window.isHidden = true
-            
-            expectation.fulfill()
-        }
-        
-        wait(for: [expectation], timeout: 2.0)
+
+        // Verify view rendered with non-zero layout (frame.height relies only on UIKit layout,
+        // avoiding SwiftUI internals like subview count which could vary across OS versions)
+        hostingController.view.layoutIfNeeded()
+        XCTAssertGreaterThan(hostingController.view.frame.height, 0)
+
+        // Clean up
+        window.rootViewController = nil
+        window.isHidden = true
     }
     
     func testStaticConfigButtonAction() {

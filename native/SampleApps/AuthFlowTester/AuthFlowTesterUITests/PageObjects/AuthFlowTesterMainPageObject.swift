@@ -64,6 +64,8 @@ struct CredentialsLabels {
     static let challengeString = "Challenge String"
     static let issuedAt = "Issued At"
     static let scopes = "Scopes"
+    static let oauthTokenType = "OAuth Token Type"
+    static let dpopNonce = "DPoP Nonce"
     
     // URLs fields
     static let instanceUrl = "Instance URL"
@@ -96,6 +98,10 @@ struct CredentialsLabels {
     
     // Other fields
     static let additionalOAuthFields = "Additional OAuth Fields"
+
+    // SDK section
+    static let sdk = "SDK"
+    static let userAgent = "User Agent"
 }
 
 struct OAuthConfigLabels {
@@ -182,6 +188,13 @@ struct UserCredentialsData {
     
     // Other
     var additionalOAuthFields: String
+
+    // SDK
+    var userAgent: String
+
+    // DPoP
+    var dpopTokenType: String?
+    var dpopNonce: String?
 }
 
 struct OAuthConfigurationData {
@@ -221,7 +234,7 @@ class AuthFlowTesterMainPageObject {
     }
     
     func isShowing() -> Bool {
-        return navigationTitle().waitForExistence(timeout: UITestTimeouts.long)
+        return navigationTitle().waitForExistence(timeout: UITestTimeouts.network)
     }
     
     func performLogout() {
@@ -260,42 +273,121 @@ class AuthFlowTesterMainPageObject {
     func switchToUser(username: String) {
         // Tap Switch User button to open the user management screen
         tap(bottomBarSwitchUserButton())
-        
+
         // Tap the row containing the username
         tap(userRow(username: username))
-        
+
         // Tap "Switch to User" button
         tap(swithToUserButton())
+
+        // The app dismisses the user-management modal without animation so that
+        // viewDidDisappear fires synchronously and SFUserAccountManager.switchToUser:
+        // sets currentUserAccount before this tap() call returns.  No additional wait
+        // is needed; any subsequent credential read will see the correct user.
+        let userListNavBar = app.navigationBars["User List"]
+        let disappeared = userListNavBar.waitForNonExistence(timeout: UITestTimeouts.long)
+        XCTAssertTrue(disappeared, "User List navigation bar should have disappeared after switching users")
     }
     
-    func changeAppConfig(appConfig: AppConfig, scopesToRequest: String = "", useWebServerFlow: Bool, useHybridFlow: Bool) -> Bool {
+    func setAuthFlowTypes(useWebServerFlow: Bool, useHybridFlow: Bool, forceAdvancedAuthentication: Bool? = nil) {
+        tap(bottomBarAuthFlowTypesButton())
+        authFlowTypesPageObject.setAuthFlowTypes(
+            useWebServerFlow: useWebServerFlow,
+            useHybridFlow: useHybridFlow,
+            forceAdvancedAuthentication: forceAdvancedAuthentication
+        )
+        tap(authFlowTypesDoneButton())
+    }
+
+    func changeAppConfig(appConfig: AppConfig, scopesToRequest: String = "", useWebServerFlow: Bool, useHybridFlow: Bool, forceAdvancedAuthentication: Bool? = nil) -> Bool {
         // Tap Change Key button to open the sheet
         tap(bottomBarChangeKeyButton())
 
         // Set auth flow types using the dedicated page object
         authFlowTypesPageObject.setAuthFlowTypes(
             useWebServerFlow: useWebServerFlow,
-            useHybridFlow: useHybridFlow
+            useHybridFlow: useHybridFlow,
+            forceAdvancedAuthentication: forceAdvancedAuthentication
         )
 
         // Build JSON config and import it
         let configJSON = buildConfigJSON(consumerKey: appConfig.consumerKey, redirectUri: appConfig.redirectUri, scopes: scopesToRequest)
         importConfig(configJSON)
 
-        // Tap the migrate button
-        tap(migrateRefreshTokenButton())
+        // Tap the migrate button (now below the "Upgrade to DPoP" section in a ScrollView —
+        // scroll it into a hittable region first).
+        tapScrollingIntoView(migrateRefreshTokenButton())
 
         // Tap the allow button if it appears
         tapIfPresent(allowButton())
 
         let alert = app.alerts["Migration Error"]
         if (alert.waitForExistence(timeout: UITestTimeouts.long)) {
+            // Surface the underlying error (from UserAccountManager.migrateRefreshToken's
+            // failure callback) via XCTFail before dismissing — otherwise the caller only sees
+            // a bare `false` return and the real cause disappears with the alert.
+            let message = alert.staticTexts.allElementsBoundByIndex
+                .map { $0.label }
+                .filter { $0 != "Migration Error" && !$0.isEmpty }
+                .joined(separator: " ")
+            XCTFail("Migration Error alert: \(message.isEmpty ? "<no message>" : message)")
             alert.buttons["OK"].tap()
             return false
         }
         return true
     }
     
+    /// Opens the "Change Key" sheet and taps "Upgrade to DPoP", handling the approve/deny
+    /// screen if it appears. Mirrors `changeAppConfig`'s error-surfacing: the sheet reuses the
+    /// same "Migration Error" alert for both flows.
+    func upgradeToDPoP() -> Bool {
+        // Tap Change Key button to open the sheet
+        tap(bottomBarChangeKeyButton())
+
+        // Tap the "Upgrade to DPoP" button
+        tap(upgradeToDPoPButton())
+
+        // Tap the allow button if it appears
+        tapIfPresent(allowButton())
+
+        let alert = app.alerts["Migration Error"]
+        if (alert.waitForExistence(timeout: UITestTimeouts.long)) {
+            let message = alert.staticTexts.allElementsBoundByIndex
+                .map { $0.label }
+                .filter { $0 != "Migration Error" && !$0.isEmpty }
+                .joined(separator: " ")
+            XCTFail("Migration Error alert: \(message.isEmpty ? "<no message>" : message)")
+            alert.buttons["OK"].tap()
+            return false
+        }
+        return true
+    }
+
+    /// Opens the "Change Key" sheet and taps "Downgrade from DPoP", handling the approve/deny
+    /// screen if it appears. Mirrors `upgradeToDPoP`'s error-surfacing.
+    func downgradeFromDPoP() -> Bool {
+        // Tap Change Key button to open the sheet
+        tap(bottomBarChangeKeyButton())
+
+        // Tap the "Downgrade from DPoP" button
+        tap(downgradeFromDPoPButton())
+
+        // Tap the allow button if it appears
+        tapIfPresent(allowButton())
+
+        let alert = app.alerts["Migration Error"]
+        if (alert.waitForExistence(timeout: UITestTimeouts.long)) {
+            let message = alert.staticTexts.allElementsBoundByIndex
+                .map { $0.label }
+                .filter { $0 != "Migration Error" && !$0.isEmpty }
+                .joined(separator: " ")
+            XCTFail("Migration Error alert: \(message.isEmpty ? "<no message>" : message)")
+            alert.buttons["OK"].tap()
+            return false
+        }
+        return true
+    }
+
     // MARK: - Config Import Helpers
     
     private func buildConfigJSON(consumerKey: String, redirectUri: String, scopes: String) -> String {
@@ -343,6 +435,14 @@ class AuthFlowTesterMainPageObject {
         return app.buttons["Change Key"]
     }
     
+    private func bottomBarAuthFlowTypesButton() -> XCUIElement {
+        return app.buttons["authFlowTypesButton"]
+    }
+
+    private func authFlowTypesDoneButton() -> XCUIElement {
+        return app.buttons["Done"]
+    }
+
     private func bottomBarSwitchUserButton() -> XCUIElement {
         return app.buttons["Switch User"]
     }
@@ -402,7 +502,15 @@ class AuthFlowTesterMainPageObject {
     private func migrateRefreshTokenButton() -> XCUIElement {
         return app.buttons["Migrate refresh token"]
     }
-    
+
+    private func upgradeToDPoPButton() -> XCUIElement {
+        return app.buttons["upgradeToDPoPButton"]
+    }
+
+    private func downgradeFromDPoPButton() -> XCUIElement {
+        return app.buttons["downgradeFromDPoPButton"]
+    }
+
     private func allowButton() -> XCUIElement {
         let buttons = app.webViews.webViews.webViews.buttons
         let predicate = NSPredicate(format: "label CONTAINS[c] 'Allow'")
@@ -444,13 +552,30 @@ class AuthFlowTesterMainPageObject {
 
     // MARK: - Actions
     
-    private func tap(_ element: XCUIElement) {
-        _ = element.waitForExistence(timeout: UITestTimeouts.long)
+    private func tap(_ element: XCUIElement, timeout: TimeInterval = UITestTimeouts.long, file: StaticString = #file, line: UInt = #line) {
+        let exists = element.waitForExistence(timeout: timeout)
+        XCTAssertTrue(exists, "Element \(element.debugDescription) did not appear within \(timeout)s", file: file, line: line)
         element.tap()
     }
-    
-    private func tapIfPresent(_ element: XCUIElement) {
-        if (element.waitForExistence(timeout: UITestTimeouts.long)) {
+
+    /// Taps a custom-styled SwiftUI `Button` (Text + background + cornerRadius) that exists and is
+    /// on-screen but whose hit-test returns `{-1, -1}`, so a plain `.tap()` fails with "Not hittable".
+    /// This happens for the "Migrate refresh token" button once it's pushed down by the "Upgrade to
+    /// DPoP" section (frame near the bottom of the sheet). The content fits, so there is nothing to
+    /// scroll — swiping is a no-op (or scrolls the sheet away). The reliable fix is a coordinate tap
+    /// on the element's frame center, which bypasses the hittability heuristic.
+    private func tapScrollingIntoView(_ element: XCUIElement, timeout: TimeInterval = UITestTimeouts.long, file: StaticString = #file, line: UInt = #line) {
+        let exists = element.waitForExistence(timeout: timeout)
+        XCTAssertTrue(exists, "Element \(element.debugDescription) did not appear within \(timeout)s", file: file, line: line)
+        if element.isHittable {
+            element.tap()
+        } else {
+            element.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
+        }
+    }
+
+    private func tapIfPresent(_ element: XCUIElement, timeout: TimeInterval = UITestTimeouts.long) {
+        if element.waitForExistence(timeout: timeout) {
             element.tap()
         }
     }
@@ -488,7 +613,8 @@ class AuthFlowTesterMainPageObject {
         let cookiesAndSecurity = json[CredentialsLabels.cookiesAndSecurity] as? [String: String] ?? [:]
         let beacon = json[CredentialsLabels.beacon] as? [String: String] ?? [:]
         let other = json[CredentialsLabels.other] as? [String: String] ?? [:]
-        
+        let sdk = json[CredentialsLabels.sdk] as? [String: String] ?? [:]
+
         return UserCredentialsData(
             username: userIdentity[CredentialsLabels.username] ?? "",
             userId: userIdentity[CredentialsLabels.userIdLabel] ?? "",
@@ -525,10 +651,13 @@ class AuthFlowTesterMainPageObject {
             cookieSidClient: cookiesAndSecurity[CredentialsLabels.cookieSidClient] ?? "",
             beaconChildConsumerKey: beacon[CredentialsLabels.beaconChildConsumerKey] ?? "",
             beaconChildConsumerSecret: beacon[CredentialsLabels.beaconChildConsumerSecret] ?? "",
-            additionalOAuthFields: other[CredentialsLabels.additionalOAuthFields] ?? ""
+            additionalOAuthFields: other[CredentialsLabels.additionalOAuthFields] ?? "",
+            userAgent: sdk[CredentialsLabels.userAgent] ?? "",
+            dpopTokenType: tokens[CredentialsLabels.oauthTokenType],
+            dpopNonce: tokens[CredentialsLabels.dpopNonce]
         )
     }
-    
+
     func getOAuthConfiguration() -> OAuthConfigurationData {
         // Tap export button and get JSON
         let json = tapExportAndGetJSON(exportOAuthConfigButton(), alertTitle: "OAuth Configuration JSON")

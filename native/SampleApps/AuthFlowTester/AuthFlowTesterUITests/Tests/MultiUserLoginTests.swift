@@ -61,19 +61,21 @@ class MultiUserLoginTests: BaseAuthFlowTester {
             loginHost: .regularAuth,
             user: .fourth,
             staticAppConfigName: .ecaOpaque,
-            userAppConfigName: .ecaOpaque)
-        
+            userAppConfigName: .ecaOpaque,
+            isMultiUser: true)
+
         // Switch back to other user
         switchToUserAndValidate(
             loginHost: .regularAuth,
             user: .fifth,
             staticAppConfigName: .ecaOpaque,
-            userAppConfigName: .ecaOpaque)
-        
+            userAppConfigName: .ecaOpaque,
+            isMultiUser: true)
+
         // Logout second user
         logout()
     }
-    
+
     /// Both users use static config, different app types (opaque + jwt), same scopes (default).
     func testBothStatic_DifferentApps() throws {
         // Initial user
@@ -95,14 +97,16 @@ class MultiUserLoginTests: BaseAuthFlowTester {
             loginHost: .regularAuth,
             user: .fourth,
             staticAppConfigName: .ecaJwt, // static config overwritten
-            userAppConfigName: .ecaOpaque)
-        
+            userAppConfigName: .ecaOpaque,
+            isMultiUser: true)
+
         // Switch back to other user
         switchToUserAndValidate(
             loginHost: .regularAuth,
             user: .fifth,
             staticAppConfigName: .ecaJwt,
-            userAppConfigName: .ecaJwt)
+            userAppConfigName: .ecaJwt,
+            isMultiUser: true)
 
         // Logout second user
         logout()
@@ -132,9 +136,10 @@ class MultiUserLoginTests: BaseAuthFlowTester {
             staticAppConfigName: .ecaOpaque,
             staticScopeSelection: .empty,
             userAppConfigName: .ecaOpaque,
-            userScopeSelection: .subset
+            userScopeSelection: .subset,
+            isMultiUser: true
         )
-        
+
         // Switch back to other user
         switchToUserAndValidate(
             loginHost: .regularAuth,
@@ -142,7 +147,8 @@ class MultiUserLoginTests: BaseAuthFlowTester {
             staticAppConfigName: .ecaOpaque,
             staticScopeSelection: .empty,
             userAppConfigName: .ecaOpaque,
-            userScopeSelection: .empty
+            userScopeSelection: .empty,
+            isMultiUser: true
         )
 
         // Logout second user
@@ -173,21 +179,23 @@ class MultiUserLoginTests: BaseAuthFlowTester {
             loginHost: .regularAuth,
             user: .fourth,
             staticAppConfigName: .ecaOpaque,
-            userAppConfigName: .ecaOpaque
+            userAppConfigName: .ecaOpaque,
+            isMultiUser: true
         )
-        
+
         // Switch back to other user
         switchToUserAndValidate(
             loginHost: .regularAuth,
             user: .fifth,
             staticAppConfigName: .ecaOpaque,
             userAppConfigName: .ecaJwt,
+            isMultiUser: true
         )
-        
+
         // Logout second user
         logout()
     }
-    
+
     /// First user dynamic config, second user static config, different apps, same scopes (default).
     func testFirstDynamic_SecondStatic_DifferentApps() throws {
         // Initial user
@@ -197,34 +205,36 @@ class MultiUserLoginTests: BaseAuthFlowTester {
             staticAppConfigName: .caOpaque, // not used - but using other config for validation
             dynamicAppConfigName: .ecaJwt
         )
-        
+
         // Other user
         loginOtherUserAndValidate(
             loginHost: .regularAuth,
             user: .fifth,
             staticAppConfigName: .ecaOpaque
         )
-        
+
         // Switch back to initial user
         switchToUserAndValidate(
             loginHost: .regularAuth,
             user: .fourth,
             staticAppConfigName: .ecaOpaque,
-            userAppConfigName: .ecaJwt
+            userAppConfigName: .ecaJwt,
+            isMultiUser: true
         )
-        
+
         // Switch back to other user
         switchToUserAndValidate(
             loginHost: .regularAuth,
             user: .fifth,
             staticAppConfigName: .ecaOpaque,
             userAppConfigName: .ecaOpaque,
+            isMultiUser: true
         )
-        
+
         // Logout second user
         logout()
     }
-    
+
     // MARK: - Both Users Dynamic Config
     
     /// Both users use dynamic config, different apps, same scopes (default).
@@ -250,17 +260,19 @@ class MultiUserLoginTests: BaseAuthFlowTester {
             loginHost: .regularAuth,
             user: .fourth,
             staticAppConfigName: .caOpaque, // not used - but using other config for validation
-            userAppConfigName: .ecaOpaque
+            userAppConfigName: .ecaOpaque,
+            isMultiUser: true
         )
-        
+
         // Switch back to other user
         switchToUserAndValidate(
             loginHost: .regularAuth,
             user: .fifth,
             staticAppConfigName: .caOpaque, // not used - but using other config for validation
             userAppConfigName: .ecaJwt,
+            isMultiUser: true
         )
-        
+
         // Logout second user
         logout()
     }
@@ -491,6 +503,238 @@ class MultiUserLoginTests: BaseAuthFlowTester {
 
         // Make API call for User A (should succeed)
         XCTAssertTrue(makeRestRequest(), "User A's API call should succeed")
+    }
+
+    // MARK: - Feature Flag Multi-User Isolation Tests
+
+    /// Verifies A-marker and token-format flags are isolated per user.
+    /// User A: web-server non-hybrid (A1) + opaque token (OT).
+    /// User B: web-server hybrid (A2) + JWT (JT).
+    /// A-marker leakage is undetectable when both users share A2; diverging A-markers here make it visible.
+    func testFlagDiversity_NonHybridOpaqueVsHybridJwt() throws {
+        // User A: A1 (web server, non-hybrid), OT, no BN
+        launchLoginAndValidate(
+            loginHost: .regularAuth,
+            user: .fourth,
+            staticAppConfigName: .caOpaque,
+            useHybridFlow: false,
+            forceAdvancedAuthentication: true
+        )
+
+        // User B: A2 (web server, hybrid), JT, no BN — multi-user
+        loginOtherUserAndValidate(
+            loginHost: .regularAuth,
+            user: .fifth,
+            staticAppConfigName: .ecaJwt
+        )
+
+        // Switch to User A — A1 and OT must survive alongside MU
+        switchToUser(loginHost: .regularAuth, user: .fourth)
+        validateUserAgent(
+            userCredentials: getUserCredentials(),
+            loginHost: .regularAuth,
+            expectAdvancedAuth: true,
+            isMultiUser: true,
+            expectedBMarker: kBrowserLoginForceFlag,
+            expectedLMarker: kLoginServerMyDomain,
+            expectedAMarker: kAuthTypeWebServerNonHybrid,
+            isJwt: false,
+            isBeacon: false
+        )
+
+        // Switch to User B — A2 and JT must survive alongside MU
+        switchToUser(loginHost: .regularAuth, user: .fifth)
+        validateUserAgent(
+            userCredentials: getUserCredentials(),
+            loginHost: .regularAuth,
+            expectAdvancedAuth: true,
+            isMultiUser: true,
+            expectedBMarker: kBrowserLoginForceFlag,
+            expectedLMarker: kLoginServerMyDomain,
+            expectedAMarker: kAuthTypeWebServerHybrid,
+            isJwt: true,
+            isBeacon: false
+        )
+
+        // Logout User B — User A becomes active, MU must clear, A1 and OT must persist
+        logout()
+        validateUserAgent(
+            userCredentials: getUserCredentials(),
+            loginHost: .regularAuth,
+            expectAdvancedAuth: true,
+            isMultiUser: false,
+            expectedBMarker: kBrowserLoginForceFlag,
+            expectedLMarker: kLoginServerMyDomain,
+            expectedAMarker: kAuthTypeWebServerNonHybrid,
+            isJwt: false,
+            isBeacon: false
+        )
+    }
+
+    /// Verifies A-marker, token format, and beacon flag are isolated per user simultaneously.
+    /// User A: A1 (web server, non-hybrid) + JWT (JT) + beacon (BN).
+    /// User B: A2 (web server, hybrid) + opaque (OT), no beacon.
+    /// Three per-user flags differ, maximising leakage detectability.
+    func testFlagDiversity_BeaconNonHybridJwtVsHybridOpaque() throws {
+        // User A: A1, JT, BN
+        launchLoginAndValidate(
+            loginHost: .regularAuth,
+            user: .fourth,
+            staticAppConfigName: .beaconJwt,
+            useHybridFlow: false,
+            forceAdvancedAuthentication: true
+        )
+
+        // User B: A2, OT, no BN — multi-user
+        loginOtherUserAndValidate(
+            loginHost: .regularAuth,
+            user: .fifth,
+            staticAppConfigName: .caOpaque
+        )
+
+        // Switch to User A — A1, JT, BN must survive alongside MU
+        switchToUser(loginHost: .regularAuth, user: .fourth)
+        validateUserAgent(
+            userCredentials: getUserCredentials(),
+            loginHost: .regularAuth,
+            expectAdvancedAuth: true,
+            isMultiUser: true,
+            expectedBMarker: kBrowserLoginForceFlag,
+            expectedLMarker: kLoginServerMyDomain,
+            expectedAMarker: kAuthTypeWebServerNonHybrid,
+            isJwt: true,
+            isBeacon: true
+        )
+
+        // Switch to User B — A2, OT, no BN must survive alongside MU
+        switchToUser(loginHost: .regularAuth, user: .fifth)
+        validateUserAgent(
+            userCredentials: getUserCredentials(),
+            loginHost: .regularAuth,
+            expectAdvancedAuth: true,
+            isMultiUser: true,
+            expectedBMarker: kBrowserLoginForceFlag,
+            expectedLMarker: kLoginServerMyDomain,
+            expectedAMarker: kAuthTypeWebServerHybrid,
+            isJwt: false,
+            isBeacon: false
+        )
+
+        // Logout User B — User A becomes active, MU must clear, A1, JT, BN must persist
+        logout()
+        validateUserAgent(
+            userCredentials: getUserCredentials(),
+            loginHost: .regularAuth,
+            expectAdvancedAuth: true,
+            isMultiUser: false,
+            expectedBMarker: kBrowserLoginForceFlag,
+            expectedLMarker: kLoginServerMyDomain,
+            expectedAMarker: kAuthTypeWebServerNonHybrid,
+            isJwt: true,
+            isBeacon: true
+        )
+    }
+
+    // MARK: - Feature Flag User Agent Tests
+
+    /// Verifies that the BW (browser-web) feature flag is set in the user agent for advanced auth users
+    /// and absent for regular auth users. Also verifies the MU (multi-user) flag when multiple users
+    /// are logged in simultaneously.
+    ///
+    /// NB: Uses .fourth user from regular_auth and .third user from advanced_auth (beaconOpaque app)
+    ///     to avoid parallel conflicts with AdvancedAuthBeaconLoginTests which uses .second.
+    ///     loginOtherUser (no validate) is used for the advanced auth user because identity data
+    ///     may not be immediately available in a cross-host multi-user login.
+    func testAdvancedAuthUser_HasBWFlag_RegularAuthUser_DoesNot() throws {
+        // User A: regular auth — no BW.
+        // Pass forceAdvancedAuthentication: false so User A logs in via the in-app WebView and does
+        // NOT register the BW flag. The .regularAuth host does not opt into native browser auth via
+        // its auth config, so disabling the process-global flag is sufficient to use the WebView.
+        launchLoginAndValidate(loginHost: .regularAuth, user: .fourth, staticAppConfigName: .ecaOpaque, forceAdvancedAuthentication: false)
+
+        // User B: advanced auth — has BW, both users now logged in → MU
+        // Use loginOtherUser (without full credential validation) since identity data
+        // may not be immediately available in cross-host multi-user scenarios.
+        loginOtherUser(loginHost: .advancedAuth, user: .third, staticAppConfigName: .beaconOpaque)
+        validateUserAgent(userCredentials: getUserCredentials(), loginHost: .advancedAuth, expectAdvancedAuth: true, isMultiUser: true, expectedBMarker: kBrowserLoginForceFlag, expectedLMarker: kLoginServerMyDomain, expectedAMarker: kAuthTypeWebServerHybrid, isBeacon: true)
+
+        // Switch to User A — no BW, MU still set, no beacon
+        switchToUser(loginHost: .regularAuth, user: .fourth)
+        validateUserAgent(userCredentials: getUserCredentials(), loginHost: .regularAuth, isMultiUser: true, expectedLMarker: kLoginServerMyDomain, expectedAMarker: kAuthTypeWebServerHybrid)
+
+        // Switch back to User B — BW back, MU still set, beacon
+        switchToUser(loginHost: .advancedAuth, user: .third)
+        validateUserAgent(userCredentials: getUserCredentials(), loginHost: .advancedAuth, expectAdvancedAuth: true, isMultiUser: true, expectedBMarker: kBrowserLoginForceFlag, expectedLMarker: kLoginServerMyDomain, expectedAMarker: kAuthTypeWebServerHybrid, isBeacon: true)
+
+        // Logout User B — app auto-switches to User A; MU must be gone, no beacon
+        logout()
+        validateUserAgent(userCredentials: getUserCredentials(), loginHost: .regularAuth, isMultiUser: false, expectedLMarker: kLoginServerMyDomain, expectedAMarker: kAuthTypeWebServerHybrid)
+    }
+
+    // MARK: - DPoP + non-DPoP Multi-User (per-credential proof gating)
+
+    /// Mixed DPoP + non-DPoP users with the process-wide DPoP flag flipped off after both are
+    /// logged in. Each user's post-flip refresh + REST GET must use its own auth scheme
+    /// independently — DPoP for the DPoP-bound credential, Bearer for the non-DPoP one — gated
+    /// by per-credential state (tokenType or persisted key material), not the global flag.
+    ///
+    /// Simulates an app upgrade or config change that flips
+    /// `SalesforceManager.shared.usesDPoP = false` after both users are authenticated. The flag
+    /// flip is injected via the AuthFlowTester `--disableDPoPAtStart` launch argument (see
+    /// `AppDelegate.init`) on relaunch, since XCUITest runs out-of-process.
+    func test_dpopAndNonDPoPUsers_flagOff_maintainIndependentProofs() throws {
+        // User A: DPoP ECA (useDPoP=true so /authorize gets dpop_jkt and the credential is
+        // persisted with tokenType="DPoP" and a key pair in the Keychain).
+        launchLoginAndValidate(
+            loginHost: .regularAuth,
+            user: .fourth,
+            staticAppConfigName: .ecaJwtDpop,
+            useDPoP: true
+        )
+
+        // User B: non-DPoP ECA (Bearer) — no key material, no DPoP tokenType.
+        loginOtherUserAndValidate(
+            loginHost: .regularAuth,
+            user: .fifth,
+            staticAppConfigName: .ecaJwt
+        )
+
+        // Uses direct token invalidation rather than revokeAccessToken to avoid a known gap in the RestClient's use_dpop_nonce retry loop.
+
+        // Switch to user A so A is the current account across the next relaunch.
+        switchToUser(loginHost: .regularAuth, user: .fourth)
+        let userACredentialsBefore = getUserCredentials()
+        // Relaunch with the global DPoP flag flipped off AND user A's access token
+        // invalidated in place. --disableDPoPAtStart sets SalesforceManager.shared.usesDPoP = false;
+        // --invalidateCurrentUserAccessTokenAtStart corrupts the current user's access token so
+        // the next REST call 401s and triggers the natural refresh path.
+        restart(withLaunchArguments: ["--disableDPoPAtStart", "--invalidateCurrentUserAccessTokenAtStart"])
+        XCTAssertTrue(makeRestRequest(), "User A's REST request should succeed with DPoP proof after flag flip")
+        let userACredentialsAfter = getUserCredentials()
+        XCTAssertNotEqual(
+            userACredentialsBefore.accessToken,
+            userACredentialsAfter.accessToken,
+            "User A's access token should have refreshed"
+        )
+        XCTAssertEqual(userACredentialsAfter.dpopTokenType, "DPoP", "User A should remain DPoP-bound after global flag flipped off")
+        XCTAssertNotNil(userACredentialsAfter.dpopNonce, "User A DPoP nonce should be present after refresh")
+        XCTAssertFalse(userACredentialsAfter.dpopNonce?.isEmpty ?? true, "User A DPoP nonce should not be empty")
+
+        // Switch to user B (Bearer) and repeat with the same launch args. Refresh + REST must NOT be DPoP.
+        switchToUser(loginHost: .regularAuth, user: .fifth)
+        let userBCredentialsBefore = getUserCredentials()
+        restart(withLaunchArguments: ["--disableDPoPAtStart", "--invalidateCurrentUserAccessTokenAtStart"])
+        XCTAssertTrue(makeRestRequest(), "User B's REST request should succeed as Bearer after flag flip")
+        let userBCredentialsAfter = getUserCredentials()
+        XCTAssertNotEqual(
+            userBCredentialsBefore.accessToken,
+            userBCredentialsAfter.accessToken,
+            "User B's access token should have refreshed"
+        )
+        XCTAssertNotEqual(userBCredentialsAfter.dpopTokenType, "DPoP", "User B should remain Bearer after global flag flipped off")
+
+        // Logout current user
+        logout()
     }
 
     /// Logout CA user and verify ECA user is unaffected.

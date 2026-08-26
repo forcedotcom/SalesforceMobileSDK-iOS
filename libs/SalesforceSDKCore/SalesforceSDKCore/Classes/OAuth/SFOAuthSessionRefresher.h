@@ -23,6 +23,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -37,20 +38,23 @@ typedef NS_ENUM(NSUInteger, SFOAuthSessionRefreshErrorCode) {
 
 /** This class refreshes stale OAuth sessions, if possible.
  */
+SFSDK_DEPRECATED(14.0, 15.0, "SFOAuthSessionRefresher bypasses the centralized token refresh coordinator and will be removed from the public API.");
 @interface SFOAuthSessionRefresher : NSObject
 
 /**
  * Initializes the object with the given credentials.
  * @param credentials The OAuth credentials used to refresh the session.
  */
-- (instancetype)initWithCredentials:(nullable SFOAuthCredentials *)credentials NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithCredentials:(nullable SFOAuthCredentials *)credentials NS_DESIGNATED_INITIALIZER
+    SFSDK_DEPRECATED(14.0, 15.0, "Use UserAccountManager.refresh(credentials:) instead.");
 
 /**
  * Refreshes the expired session, with the given completion and error handler blocks.
  * @param completionBlock Called once the session has been refreshed.
  * @param errorBlock Called if there was an error refreshing the session.
  */
-- (void)refreshSessionWithCompletion:(void (^) (SFOAuthCredentials *))completionBlock error:(void (^) (NSError *))errorBlock;
+- (void)refreshSessionWithCompletion:(void (^) (SFOAuthCredentials *))completionBlock error:(void (^) (NSError *))errorBlock
+    SFSDK_DEPRECATED(14.0, 15.0, "Use UserAccountManager.refresh(credentials:) instead.");
 
 @end
 

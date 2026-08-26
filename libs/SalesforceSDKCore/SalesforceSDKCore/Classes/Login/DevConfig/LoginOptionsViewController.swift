@@ -37,6 +37,7 @@ public struct LoginOptionsView: View {
     @State internal var dynamicScopes = ""
     @State internal var discoveryLoginHost = ""
     @State internal var discoveryUserName = ""
+    @State private var useDPoP = false
     @Environment(\.dismiss) private var dismiss
 
     let onConfigurationCompleted: () -> Void
@@ -81,6 +82,14 @@ public struct LoginOptionsView: View {
                         // Flow types section
                         AuthFlowTypesView()
                             .padding(.top, 20)
+
+                        // DPoP toggle
+                        Toggle("Use DPoP", isOn: $useDPoP)
+                            .padding(.horizontal, 20)
+                            .accessibilityIdentifier("useDPoPToggle")
+                            .onChange(of: useDPoP) { _, newValue in
+                                SalesforceManager.shared.usesDPoP = newValue
+                            }
 
                         Divider()
 
@@ -156,6 +165,9 @@ public struct LoginOptionsView: View {
             discoveryLoginHost = simulated.myDomain
             discoveryUserName = simulated.loginHint
         }
+
+        // Load DPoP toggle state from SalesforceManager
+        useDPoP = SalesforceManager.shared.usesDPoP
     }
 
     // MARK: - Close / Button Actions

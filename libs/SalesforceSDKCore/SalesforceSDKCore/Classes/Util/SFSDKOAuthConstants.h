@@ -38,6 +38,20 @@ static NSString * const kSFRevokePath                           = @"/services/oa
 static NSUInteger const kSFOAuthCodeVerifierByteLength          = 128;
 static NSString * const kSFOAuthCodeVerifierParamName           = @"code_verifier";
 static NSString * const kSFOAuthCodeChallengeParamName          = @"code_challenge";
+static NSString * const kSFOAuthDPoPJktParamName                = @"dpop_jkt";
+
+// Native browser (advanced auth) authorize URL params: tell the server why the SDK is using
+// native browser login, and carry the SDK user agent string as a query param (the system
+// browser's own outbound requests use its own User-Agent header, not the SDK's).
+static NSString * const kSFOAuthAuthTriggerParamName             = @"auth_trigger";
+static NSString * const kSFOAuthSdkInfoParamName                 = @"sdkInfo";
+
+// auth_trigger values. Priority when more than one applies: LoginForAdmin > MDM > ForceAdvancedAuth > OrgConfig
+// (mirrors the B1-B4 app feature marker priority in SFUserAccountManager's computeBMarkerForAuthSession:).
+static NSString * const kSFOAuthAuthTriggerOrgConfig             = @"org_config";
+static NSString * const kSFOAuthAuthTriggerMDM                   = @"mdm";
+static NSString * const kSFOAuthAuthTriggerForceAdvancedAuth     = @"force_advanced_auth";
+static NSString * const kSFOAuthAuthTriggerLoginForAdmin         = @"login_for_admin";
 static NSString * const kSFOAuthResponseTypeCode                = @"code";
 static NSString * const kSFOAuthAccessToken                     = @"access_token";
 static NSString * const kSFOAuthClientId                        = @"client_id";
@@ -78,9 +92,13 @@ static NSString * const kSFOAuthCookieSidClient                 = @"cookie-sid_C
 static NSString * const kSFOAuthSidCookieName                   = @"sidCookieName";
 static NSString * const kSFOAuthParentSid                       = @"parent_sid";
 static NSString * const kSFOAuthTokenFormat                     = @"token_format";
-static NSString * const kSFOAuthBeaconChildConsumerKey          = @"beacon_child_consumer_key";
-static NSString * const kSFOAuthBeaconChildConsumerSecret       = @"beacon_child_consumer_secret";
-
+static NSString * const kSFOAuthTokenType                       = @"token_type";
+static NSString * const kSFOAuthAttestation                     = @"attestation";
+static NSString * const kSFOAuthBeaconChildConsumerKey          = @"auto_installed_app_org_consumer_key";
+static NSString * const kSFOAuthBeaconChildConsumerSecret       = @"auto_installed_app_org_consumer_secret";
+// TODO: Remove legacy fallback constants once server version 264 has rolled out everywhere.
+static NSString * const kSFOAuthLegacyBeaconChildConsumerKey    = @"beacon_child_consumer_key";
+static NSString * const kSFOAuthLegacyBeaconChildConsumerSecret = @"beacon_child_consumer_secret";
 
 // Used for the IP bypass flow, Advanced auth flow
 static NSString * const kSFOAuthApprovalCode                     = @"code";
@@ -104,32 +122,35 @@ static NSString * const kSFOAuthAuthorizationTypeBasic          = @"Basic";
 
 // OAuth Error Descriptions
 // see https://na1.salesforce.com/help/doc/en/remoteaccess_oauth_refresh_token_flow.htm
-static NSString * const kSFOAuthErrorTypeMalformedResponse      = @"malformed_response";
-static NSString * const kSFOAuthErrorTypeAccessDenied           = @"access_denied";
-static NSString * const KSFOAuthErrorTypeInvalidClientId        = @"invalid_client_id"; // invalid_client_id:'client identifier invalid'
+// Deprecated: Use SFOAuthErrorCode enum instead.
+static NSString * const kSFOAuthErrorTypeMalformedResponse      __deprecated_msg("Use SFOAuthErrorCode enum instead") = @"malformed_response";
+static NSString * const kSFOAuthErrorTypeAccessDenied           __deprecated_msg("Use SFOAuthErrorCode enum instead") = @"access_denied";
+static NSString * const KSFOAuthErrorTypeInvalidClientId        __deprecated_msg("Use SFOAuthErrorCode enum instead") = @"invalid_client_id"; // invalid_client_id:'client identifier invalid'
 // this may be returned when the refresh token is revoked
 // TODO: needs clarification
-static NSString * const kSFOAuthErrorTypeInvalidClient          = @"invalid_client";    // invalid_client:'invalid client credentials'
+static NSString * const kSFOAuthErrorTypeInvalidClient          __deprecated_msg("Use SFOAuthErrorCode enum instead") = @"invalid_client";    // invalid_client:'invalid client credentials'
 // this is returned when refresh token is revoked
-static NSString * const kSFOAuthErrorTypeInvalidClientCredentials   = @"invalid_client_credentials"; // this is documented but hasn't been witnessed
-static NSString * const kSFOAuthErrorTypeInvalidGrant               = @"invalid_grant";
-static NSString * const kSFOAuthErrorTypeInvalidRequest             = @"invalid_request";
-static NSString * const kSFOAuthErrorTypeInactiveUser               = @"inactive_user";
-static NSString * const kSFOAuthErrorTypeInactiveOrg                = @"inactive_org";
-static NSString * const kSFOAuthErrorTypeRateLimitExceeded          = @"rate_limit_exceeded";
-static NSString * const kSFOAuthErrorTypeUnsupportedResponseType    = @"unsupported_response_type";
-static NSString * const kSFOAuthErrorTypeTimeout                    = @"auth_timeout";
-static NSString * const kSFOAuthErrorTypeWrongVersion               = @"wrong_version";     // credentials do not match current Connected App version in the org
-static NSString * const kSFOAuthErrorTypeBrowserLaunchFailed        = @"browser_launch_failed";
-static NSString * const kSFOAuthErrorTypeUnknownAdvancedAuthConfig  = @"unknown_advanced_auth_config";
-static NSString * const kSFOAuthErrorTypeJWTLaunchFailed            = @"jwt_launch_failed";
-static NSString * const kSFOAuthErrorTypeAuthConfig                 = @"auth_config";
+static NSString * const kSFOAuthErrorTypeInvalidClientCredentials   __deprecated_msg("Use SFOAuthErrorCode enum instead") = @"invalid_client_credentials"; // this is documented but hasn't been witnessed
+static NSString * const kSFOAuthErrorTypeInvalidGrant               __deprecated_msg("Use SFOAuthErrorCode enum instead") = @"invalid_grant";
+static NSString * const kSFOAuthErrorTypeInvalidRequest             __deprecated_msg("Use SFOAuthErrorCode enum instead") = @"invalid_request";
+static NSString * const kSFOAuthErrorTypeInactiveUser               __deprecated_msg("Use SFOAuthErrorCode enum instead") = @"inactive_user";
+static NSString * const kSFOAuthErrorTypeInactiveOrg                __deprecated_msg("Use SFOAuthErrorCode enum instead") = @"inactive_org";
+static NSString * const kSFOAuthErrorTypeRateLimitExceeded          __deprecated_msg("Use SFOAuthErrorCode enum instead") = @"rate_limit_exceeded";
+static NSString * const kSFOAuthErrorTypeUnsupportedResponseType    __deprecated_msg("Use SFOAuthErrorCode enum instead") = @"unsupported_response_type";
+static NSString * const kSFOAuthErrorTypeUnsupportedGrantType       __deprecated_msg("Use SFOAuthErrorCode enum instead") = @"unsupported_grant_type";
+static NSString * const kSFOAuthErrorTypeTimeout                    __deprecated_msg("Use SFOAuthErrorCode enum instead") = @"auth_timeout";
+static NSString * const kSFOAuthErrorTypeWrongVersion               __deprecated_msg("Use SFOAuthErrorCode enum instead") = @"wrong_version";     // credentials do not match current Connected App version in the org
+static NSString * const kSFOAuthErrorTypeBrowserLaunchFailed        __deprecated_msg("Use SFOAuthErrorCode enum instead") = @"browser_launch_failed";
+static NSString * const kSFOAuthErrorTypeUnknownAdvancedAuthConfig  __deprecated_msg("Use SFOAuthErrorCode enum instead") = @"unknown_advanced_auth_config";
+static NSString * const kSFOAuthErrorTypeJWTLaunchFailed            __deprecated_msg("Use SFOAuthErrorCode enum instead") = @"jwt_launch_failed";
+static NSString * const kSFOAuthErrorTypeAuthConfig                 __deprecated_msg("Use SFOAuthErrorCode enum instead") = @"auth_config";
 static NSUInteger kSFOAuthReponseBufferLength                       = 512; // bytes
 static NSString * const kHttpMethodPost                             = @"POST";
 static NSString * const kHttpHeaderContentType                      = @"Content-Type";
 static NSString * const kHttpPostContentType                        = @"application/x-www-form-urlencoded";
 static NSString * const kHttpPostApplicationJsonContentType         = @"application/json";
 static NSString * const kHttpHeaderUserAgent                        = @"User-Agent";
+static NSString * const kHttpHeaderDPoP                             = @"DPoP";
 static NSString * const kOAuthUserAgentUserDefaultsKey              = @"UserAgent";
 static NSString * const kSFECParameter                              = @"ec";
 
@@ -141,5 +162,10 @@ static NSString * const kSFOAuthEndPointHeadlessInitRegistration = @"services/au
 
 /// Endpoint path for Salesforce Identity API headless forgot password flow
 static NSString * const kSFOAuthEndPointHeadlessForgotPassword = @"services/auth/headless/forgot_password";
+
+// Standard login pool URLs (non-My Domain)
+static NSString * const kSFOAuthProductionLoginURL               = @"login.salesforce.com";
+static NSString * const kSFOAuthSandboxLoginURL                  = @"test.salesforce.com";
+static NSString * const kSFOAuthWelcomeLoginURL                  = @"welcome.salesforce.com/discovery";
 
 #endif /* SFSDKOAuthConstants_h */

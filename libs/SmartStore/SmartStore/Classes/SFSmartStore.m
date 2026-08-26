@@ -167,7 +167,7 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
             [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSmartStoreGlobal];
         } else {
             _dbMgr = [SFSmartStoreDatabaseManager sharedManagerForUser:_user];
-            [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSmartStoreUser];
+            [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSmartStoreUser forUser:_user];
         }
         
         // Setup listening for data protection available / unavailable
@@ -1117,7 +1117,7 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
         // Column name or expression the db index is on
         NSString *columnName = [NSString stringWithFormat:@"%@_%lu",soupTableName,(unsigned long)i];
         if (kValueIndexedWithJSONExtract(indexSpec)) {
-            columnName = [NSString stringWithFormat:@"json_extract(soup, '$.%@')", indexSpec.path];
+            columnName = [NSString stringWithFormat:@"json_extract(soup, '$.%@')", [indexSpec.path stringByReplacingOccurrencesOfString:@"'" withString:@"''"]];
         }
         if (kValueExtractedToColumn(indexSpec)) {
             NSString * columnType = [indexSpec columnType];

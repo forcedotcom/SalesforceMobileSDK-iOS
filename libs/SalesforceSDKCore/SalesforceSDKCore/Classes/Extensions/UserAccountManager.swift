@@ -71,15 +71,27 @@ extension UserAccountManager: UserAccountManaging {
         }
    }
 
-    /// Kick off the login process for jwt token with credentials previously configured.
+    /// Refresh the session for the given credentials.
     /// - Parameters:
-    ///   - credentials: the OAuthCredentials object
+    ///   - credentials: The credentials to refresh.
     ///   - completionBlock: completion block to invoke with a success tuple (UserAccount, AuthInfo) or   UserAccountManagerError for failure wrapped in a Result type.
    public func refresh(credentials: OAuthCredentials, _ completionBlock: @escaping (Result<(UserAccount, AuthInfo), UserAccountManagerError>) -> Void) -> Bool {
         return __refreshCredentials(credentials, completion: { (authInfo, userAccount) in
             completionBlock(Result.success((userAccount,authInfo)))
         }) { (authInfo, error) in
             completionBlock(Result.failure(.refreshFailed(underlyingError: error, authInfo: authInfo)))
+        }
+    }
+
+    /// Refresh the session for the given credentials.
+    /// - Parameter credentials: The credentials to refresh.
+    /// - Returns: A tuple of the updated `UserAccount` and `AuthInfo` on success.
+    /// - Throws: `UserAccountManagerError.refreshFailed` if the refresh fails.
+    public func refresh(credentials: OAuthCredentials) async throws -> (UserAccount, AuthInfo) {
+        try await withCheckedThrowingContinuation { continuation in
+            _ = self.refresh(credentials: credentials) { result in
+                continuation.resume(with: result.mapError { $0 })
+            }
         }
     }
 

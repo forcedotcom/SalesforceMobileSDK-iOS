@@ -35,4 +35,10 @@ public protocol ScreenLockManager {
     
     /// Locks the device immediately. 
     func lock()
+
+    /// Configuration for the lock screen's visual appearance.
+    ///
+    /// Set this property before the lock screen is presented to customize its appearance.
+    /// Changes take effect the next time the lock screen is shown.
+    var configuration: ScreenLockUIConfiguration { get set }
 }

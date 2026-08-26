@@ -52,6 +52,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong, nullable) NSString *loginHint;
 
+/**
+ Per-call override for whether `/authorize` should request a DPoP-bound authorization
+ code (`dpop_jkt`). `nil` means "defer to the process-wide `SalesforceSDKManager.useDPoP`
+ flag" — this is the normal-login default and must not be set for that path. A non-nil
+ value (e.g. set by a refresh-token migration) takes precedence over the global flag,
+ letting a single call opt in or out of DPoP binding independent of the app's default
+ posture for brand-new logins.
+ */
+@property (nonatomic, strong, nullable) NSNumber *dpopOverride;
+
 - (instancetype)initWithAuthSession:(SFSDKAuthSession *)authSession;
 
 /** UpdateCredentials and record changes to instanceUrl,accessToken,communityId
@@ -74,6 +84,13 @@ NS_ASSUME_NONNULL_BEGIN
  * @return A String representing the prepared authorize url
  */
 - (NSString *)generateApprovalUrlString;
+
+/**
+ * Used for testing only.
+ * @return The authorize url for the native browser (advanced auth) path, including
+ *         `state`/`prompt`/`auth_trigger`/`sdkInfo` params.
+ */
+- (NSString *)nativeBrowserApprovalUrlWithSharedBrowserSessionEnabled:(BOOL)shareBrowserSession;
 
 - (void)beginWebViewFlow;
 

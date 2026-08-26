@@ -45,7 +45,7 @@ NSString* const kTestRequestStatusDidFail = @"didFail";
     self = [super init];
     if (nil != self) {
         self.maxWaitTime = 30.0;
-        self.returnStatus = kTestRequestStatusWaiting;
+        _returnStatus = kTestRequestStatusWaiting;
     }
     return self;
 }
@@ -53,19 +53,29 @@ NSString* const kTestRequestStatusDidFail = @"didFail";
 - (void)dealloc {
     self.dataResponse = nil;
     self.lastError = nil;
-    self.returnStatus = nil;
+    _returnStatus = nil;
+}
+
+- (void)setReturnStatus:(NSString *)returnStatus {
+    _returnStatus = returnStatus;
 }
 
 - (NSString *)waitForCompletion {
-    NSDate *startTime = [NSDate date] ;
-    while ([self.returnStatus isEqualToString:kTestRequestStatusWaiting]) {
-        NSTimeInterval elapsed = [[NSDate date] timeIntervalSinceDate:startTime];
-        if (elapsed > self.maxWaitTime) {
-            [SFSDKCoreLogger d:[self class] format:@"Request took too long (> %f secs) to complete.", elapsed];
-            return kTestRequestStatusDidFail;
-        }
-        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+    // Spin the run loop so that blocks dispatched to the main queue (e.g. by
+    // SFSDKTokenRefreshCoordinator) can execute while we wait. A plain
+    // dispatch_semaphore_wait would block the main thread and deadlock.
+    NSDate *timeoutDate = [NSDate dateWithTimeIntervalSinceNow:self.maxWaitTime];
+    while ([self.returnStatus isEqualToString:kTestRequestStatusWaiting]
+           && [timeoutDate timeIntervalSinceNow] > 0) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                                 beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
     }
+
+    if ([self.returnStatus isEqualToString:kTestRequestStatusWaiting]) {
+        [SFSDKCoreLogger d:[self class] format:@"Request took too long (> %f secs) to complete.", self.maxWaitTime];
+        return kTestRequestStatusDidFail;
+    }
+
     return self.returnStatus;
 }
 

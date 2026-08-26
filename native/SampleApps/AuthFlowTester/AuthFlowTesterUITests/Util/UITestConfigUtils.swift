@@ -94,6 +94,10 @@ enum KnownLoginHostConfig: String {
 enum KnownAppConfig: String {
     case ecaOpaque = "eca_opaque"
     case ecaJwt = "eca_jwt"
+    case ecaOpaqueRtr = "eca_opaque_rtr"
+    case ecaJwtRtr = "eca_jwt_rtr"
+    case ecaJwtDpop = "eca_jwt_dpop"
+    case ecaJwtDpopRtr = "eca_jwt_dpop_rtr"
     case beaconOpaque = "beacon_opaque"
     case beaconJwt = "beacon_jwt"
     case caOpaque = "ca_opaque"
@@ -128,7 +132,22 @@ struct AppConfig: Codable {
     var issuesJwt: Bool {
         return name.contains("_jwt")
     }
-    
+
+    /// Returns true if this is a beacon child app (name starts with "beacon_")
+    var isBeacon: Bool {
+        return name.hasPrefix("beacon_")
+    }
+
+    // W-23971480: beacon apps behave as RTR due to a server bug; drop the beacon_ clause when fixed
+    var isRtr: Bool {
+        return name.contains("_rtr") || name.hasPrefix("beacon_")
+    }
+
+    /// Returns true if the app uses DPoP (name contains "_dpop")
+    var isDPoP: Bool {
+        return name.contains("_dpop")
+    }
+
     /// Returns scopes as an array
     var scopesArray: [String] {
         return scopes.split(separator: " ").map { String($0) }.filter { !$0.isEmpty }
@@ -143,6 +162,7 @@ struct UserConfig: Codable {
 
 /// Represents the complete test configuration
 struct TestConfig: Codable {
+    let loginPoolHost: String?
     let loginHosts: [LoginHostConfig]
     let apps: [AppConfig]
 }
@@ -238,6 +258,14 @@ class UITestConfigUtils {
     
     // MARK: - Throwing Accessors
     
+    /// Returns the pool login host URL (e.g. https://login.test1.pc-rnd.salesforce.com) or throws if absent.
+    func getLoginPoolHost() throws -> String {
+        guard let host = config?.loginPoolHost, !host.isEmpty else {
+            throw TestConfigError.loginHostNotFound("loginPoolHost")
+        }
+        return host
+    }
+
     /// Returns a login host configuration by its name or throws an error if not found
     func getLoginHost(_ loginHost: KnownLoginHostConfig) throws -> LoginHostConfig {
         guard let hostConfig = config?.loginHosts.first(where: { $0.name == loginHost.rawValue }) else {

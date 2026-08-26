@@ -31,6 +31,7 @@ import SalesforceSDKCore
 struct SessionDetailView: View {
     @State private var refreshTrigger = UUID()
     @State private var showMigrateRefreshToken = false
+    @State private var showAuthFlowTypes = false
     @State private var showLogoutConfirmation = false
     @State private var isUserCredentialsExpanded = false
     @State private var isJwtDetailsExpanded = false
@@ -39,6 +40,8 @@ struct SessionDetailView: View {
     @State private var migrateCallbackUrl = ""
     @State private var migrateScopes = ""
     @State private var isMigrating = false
+    @State private var isUpgradingToDPoP = false
+    @State private var isDowngradingFromDPoP = false
     @State private var migrationError: String?
     @State private var showMigrationError = false
     
@@ -89,17 +92,26 @@ struct SessionDetailView: View {
                 }) {
                     Label("Change Key", systemImage: "key.horizontal.fill")
                 }
-                
+
                 Spacer()
-                
+
+                Button(action: {
+                    showAuthFlowTypes = true
+                }) {
+                    Label("Auth Flow", systemImage: "arrow.triangle.2.circlepath")
+                }
+                .accessibilityIdentifier("authFlowTypesButton")
+
+                Spacer()
+
                 Button(action: {
                     onSwitchUser()
                 }) {
                     Label("Switch User", systemImage: "person.2.fill")
                 }
-                
+
                 Spacer()
-                
+
                 Button(action: {
                     showLogoutConfirmation = true
                 }) {
@@ -117,27 +129,88 @@ struct SessionDetailView: View {
         }
         .sheet(isPresented: $showMigrateRefreshToken) {
             NavigationView {
-                VStack(spacing: 20) {
-                    AuthFlowTypesView()
-                        .padding(.top)
+                ScrollView {
+                    VStack(spacing: 20) {
+                        AuthFlowTypesView()
+                            .padding(.top)
 
-                    BootConfigEditor(
-                        title: "New App Configuration",
-                        buttonLabel: "Migrate refresh token",
-                        buttonColor: .blue,
-                        consumerKey: $migrateConsumerKey,
-                        callbackUrl: $migrateCallbackUrl,
-                        scopes: $migrateScopes,
-                        isLoading: false,
-                        onConfigChanged: {
-                            handleMigrateRefreshToken()
-                        },
-                        initiallyExpanded: true
-                    )
-                    .padding()
-                    Spacer()
+                        // Upgrade to DPoP Section
+                        VStack(alignment: .leading, spacing: 12) {
+                            Text("Upgrade to DPoP")
+                                .font(.headline)
+                                .foregroundColor(.primary)
+
+                            Text("Re-authenticates the current user with the same connected app, requesting a DPoP-bound authorization code.")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+
+                            Button(action: {
+                                handleUpgradeToDPoP()
+                            }) {
+                                Text("Upgrade to DPoP")
+                                    .font(.headline)
+                                    .foregroundColor(.white)
+                                    .frame(maxWidth: .infinity)
+                                    .frame(height: 44)
+                                    .background(isCurrentSessionDPoP ? Color.gray : Color.green)
+                                    .cornerRadius(8)
+                            }
+                            .disabled(isCurrentSessionDPoP || isUpgradingToDPoP)
+                            .accessibilityIdentifier("upgradeToDPoPButton")
+                        }
+                        .padding()
+
+                        // Downgrade from DPoP Section
+                        VStack(alignment: .leading, spacing: 12) {
+                            Text("Downgrade from DPoP")
+                                .font(.headline)
+                                .foregroundColor(.primary)
+
+                            Text("Re-authenticates the current user with the same connected app, requesting an unbound (Bearer) authorization code.")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+
+                            Button(action: {
+                                handleDowngradeFromDPoP()
+                            }) {
+                                Text("Downgrade from DPoP")
+                                    .font(.headline)
+                                    .foregroundColor(.white)
+                                    .frame(maxWidth: .infinity)
+                                    .frame(height: 44)
+                                    .background(isCurrentSessionDPoP ? Color.green : Color.gray)
+                                    .cornerRadius(8)
+                            }
+                            .disabled(!isCurrentSessionDPoP || isDowngradingFromDPoP)
+                            .accessibilityIdentifier("downgradeFromDPoPButton")
+                        }
+                        .padding()
+
+                        // Change Connected App Section
+                        VStack(alignment: .leading, spacing: 12) {
+                            Text("Change Connected App")
+                                .font(.headline)
+                                .foregroundColor(.primary)
+
+                            BootConfigEditor(
+                                title: "New App Configuration",
+                                buttonLabel: "Migrate refresh token",
+                                buttonColor: .blue,
+                                consumerKey: $migrateConsumerKey,
+                                callbackUrl: $migrateCallbackUrl,
+                                scopes: $migrateScopes,
+                                isLoading: false,
+                                onConfigChanged: {
+                                    handleMigrateRefreshToken()
+                                },
+                                initiallyExpanded: true
+                            )
+                        }
+                        .padding()
+                        Spacer()
+                    }
                 }
-                .navigationTitle("Migrate to New App")
+                .navigationTitle("Migrate Refresh Token")
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                     ToolbarItem(placement: .cancellationAction) {
@@ -148,6 +221,21 @@ struct SessionDetailView: View {
                 }
             }
         }
+        .sheet(isPresented: $showAuthFlowTypes) {
+            NavigationView {
+                AuthFlowTypesView()
+                    .padding()
+                    .navigationTitle("Auth Flow Types")
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar {
+                        ToolbarItem(placement: .confirmationAction) {
+                            Button("Done") {
+                                showAuthFlowTypes = false
+                            }
+                        }
+                    }
+            }
+        }
         .alert("Migration Error", isPresented: $showMigrationError) {
             Button("OK", role: .cancel) { }
         } message: {
@@ -155,6 +243,10 @@ struct SessionDetailView: View {
         }
     }
     
+    private var isCurrentSessionDPoP: Bool {
+        UserAccountManager.shared.currentUserAccount?.credentials.tokenType == "DPoP"
+    }
+
     private func loadCurrentCredentials() {
         guard let credentials = UserAccountManager.shared.currentUserAccount?.credentials else {
             return
@@ -242,6 +334,62 @@ struct SessionDetailView: View {
             }
         )
     }
+
+    private func handleUpgradeToDPoP() {
+        guard let user = UserAccountManager.shared.currentUserAccount else {
+            migrationError = "No current user found"
+            showMigrationError = true
+            return
+        }
+
+        isUpgradingToDPoP = true
+
+        UserAccountManager.shared.upgradeToDPoP(
+            user,
+            success: { [self] _, _ in
+                DispatchQueue.main.async {
+                    isUpgradingToDPoP = false
+                    showMigrateRefreshToken = false
+                    refreshTrigger = UUID()
+                }
+            },
+            failure: { [self] _, error in
+                DispatchQueue.main.async {
+                    isUpgradingToDPoP = false
+                    migrationError = error.localizedDescription
+                    showMigrationError = true
+                }
+            }
+        )
+    }
+
+    private func handleDowngradeFromDPoP() {
+        guard let user = UserAccountManager.shared.currentUserAccount else {
+            migrationError = "No current user found"
+            showMigrationError = true
+            return
+        }
+
+        isDowngradingFromDPoP = true
+
+        UserAccountManager.shared.downgradeFromDPoP(
+            user,
+            success: { [self] _, _ in
+                DispatchQueue.main.async {
+                    isDowngradingFromDPoP = false
+                    showMigrateRefreshToken = false
+                    refreshTrigger = UUID()
+                }
+            },
+            failure: { [self] _, error in
+                DispatchQueue.main.async {
+                    isDowngradingFromDPoP = false
+                    migrationError = error.localizedDescription
+                    showMigrationError = true
+                }
+            }
+        )
+    }
 }
 
 class SessionDetailViewController: UIHostingController<SessionDetailView> {
@@ -279,7 +427,11 @@ class SessionDetailViewController: UIHostingController<SessionDetailView> {
     
     private func handleSwitchUser() {
         let umvc = SalesforceUserManagementViewController.init(completionBlock: { [weak self] _ in
-            self?.dismiss(animated: true, completion: nil)
+            // Dismiss without animation so that viewDidDisappear fires synchronously
+            // before the completion block returns. This ensures SFUserAccountManager
+            // completes the user switch (setting currentUser) before any caller that
+            // observes the modal's disappearance can read user credentials.
+            self?.dismiss(animated: false, completion: nil)
         })
         self.present(umvc, animated: true, completion: nil)
     }

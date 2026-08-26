@@ -34,11 +34,15 @@
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 #import <SalesforceSDKCommon/SFJsonUtils.h>
 #import "NSData+SFAdditions.h"
+#import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 
 NSString * const  kSFOAuthErrorDomain  = @"com.salesforce.OAuth.ErrorDomain";
 const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
 
-@interface SFSDKOAuthTokenEndpointErrorResponse()
+
+@interface SFSDKOAuthTokenEndpointErrorResponse() {
+    NSInteger _errorCode;
+}
 - (instancetype)initWithError:(NSString *)errorType description:(NSString*)errorDescription;
 - (instancetype)initWithError:(NSError *)error;
 @end
@@ -61,6 +65,7 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
         _tokenEndpointErrorCode = errorType;
         _tokenEndpointErrorDescription = errorDescription;
         _error = [SFSDKOAuth2 errorWithType:errorType description:errorDescription];
+        _errorCode = [SFOAuthErrorCodeHelper from:errorType];
     }
     return self;
 }
@@ -200,6 +205,10 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
     return self.values[kSFOAuthTokenFormat];
 }
 
+- (NSString *)tokenType {
+    return self.values[kSFOAuthTokenType];
+}
+
 - (NSString *)beaconChildConsumerKey {
     return self.values[kSFOAuthBeaconChildConsumerKey];
 }
@@ -232,14 +241,18 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
     [params appendFormat:@"&%@=%@", kSFOAuthCodeVerifierParamName, endpointReq.codeVerifier];
     NSString *grantType = [[SalesforceSDKManager sharedManager] useHybridAuthentication] ? kSFOAuthGrantTypeHybridAuthorizationCode : kSFOAuthGrantTypeAuthorizationCode;
     [params appendFormat:@"&%@=%@&%@=%@", kSFOAuthGrantType, grantType, kSFOAuthApprovalCode, endpointReq.approvalCode];
+    if (endpointReq.attestation) {
+        [params appendFormat:@"&%@=%@", kSFOAuthAttestation, [endpointReq.attestation sfsdk_stringByURLEncoding]];
+    }
+
     NSData *encodedBody = [params dataUsingEncoding:NSUTF8StringEncoding];
     [request setHTTPBody:encodedBody];
-    
-    __block NSString *networkIdentifier = [SFNetwork uniqueInstanceIdentifier];
-    SFNetwork *network = [SFNetwork sharedEphemeralInstanceWithIdentifier:networkIdentifier];
+
     __weak typeof(self) weakSelf = self;
-    [network sendRequest:request dataResponseBlock:^(NSData * data, NSURLResponse *urlResponse, NSError *error) {
-        [SFNetwork removeSharedInstanceForIdentifier:networkIdentifier];
+    [self sendTokenEndpointRequest:request
+                forEndpointRequest:endpointReq
+             retryOnNonceChallenge:YES // this is a fresh request — one retry is allowed if the server sends back a use_dpop_nonce challenge.
+                 dataResponseBlock:^(NSData *data, NSURLResponse *urlResponse, NSError *error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         SFSDKOAuthTokenEndpointResponse *endpointResponse = nil;
         if (error) {
@@ -252,11 +265,9 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
                 endpointResponse = [[SFSDKOAuthTokenEndpointResponse alloc] initWithError:error];
             }
             [SFSDKCoreLogger d:[strongSelf class] format:@"SFOAuth2 session failed with error: error code: %ld, description: %@, URL: %@", (long)error.code, [error localizedDescription], errorUrlString];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if (completionBlock) {
-                    completionBlock(endpointResponse);
-                }
-            });
+            if (completionBlock) {
+                completionBlock(endpointResponse);
+            }
             return;
         }
         [strongSelf handleTokenEndpointResponse:completionBlock request:endpointReq data:data urlResponse:urlResponse];
@@ -281,23 +292,28 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
                                kSFOAuthRedirectUri, endpointReq.redirectURI,
                                kSFOAuthClientId, endpointReq.clientID,
                                kSFOAuthDeviceId,[[[UIDevice currentDevice] identifierForVendor] UUIDString]];
-    [SFSDKCoreLogger i:[self class] format:@"%@: Initiating refresh token flow.", NSStringFromSelector(_cmd)];
+    NSURL *targetURL = endpointReq.serverURL;
+    NSString *targetHost = targetURL.host ?: @"<unknown>";
+    [SFSDKCoreLogger i:[self class] format:@"%@: Initiating refresh token flow to host: %@", NSStringFromSelector(_cmd), targetHost];
     NSString *grantType = [[SalesforceSDKManager sharedManager] useHybridAuthentication] ? kSFOAuthGrantTypeHybridRefresh : kSFOAuthGrantTypeRefresh;
     [params appendFormat:@"&%@=%@&%@=%@", kSFOAuthGrantType, grantType, kSFOAuthRefreshToken, endpointReq.refreshToken];
     for (NSString * key in endpointReq.additionalTokenRefreshParams) {
         [params appendFormat:@"&%@=%@", [key sfsdk_stringByURLEncoding], [endpointReq.additionalTokenRefreshParams[key] sfsdk_stringByURLEncoding]];
     }
+    if (endpointReq.attestation) {
+        [params appendFormat:@"&%@=%@", kSFOAuthAttestation, [endpointReq.attestation sfsdk_stringByURLEncoding]];
+    }
     NSData *encodedBody = [params dataUsingEncoding:NSUTF8StringEncoding];
     [request setHTTPBody:encodedBody];
-    __block NSString *instanceIdentifier = [SFNetwork uniqueInstanceIdentifier];
-    SFNetwork *network = [SFNetwork sharedEphemeralInstanceWithIdentifier:instanceIdentifier];
 
     __weak typeof(self) weakSelf = self;
     NSString *className = NSStringFromClass([self class]);
-    [network sendRequest:request dataResponseBlock:^(NSData *data, NSURLResponse *urlResponse, NSError *error) {
+    [self sendTokenEndpointRequest:request
+                forEndpointRequest:endpointReq
+             retryOnNonceChallenge:YES
+                 dataResponseBlock:^(NSData *data, NSURLResponse *urlResponse, NSError *error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         SFSDKOAuthTokenEndpointResponse *endpointResponse = nil;
-        [SFNetwork removeSharedInstanceForIdentifier:instanceIdentifier];
         if (error) {
             NSURL *requestUrl = [request URL];
             NSString *errorUrlString = [NSString stringWithFormat:@"%@://%@%@", [requestUrl scheme], [requestUrl host], [requestUrl relativePath]];
@@ -310,11 +326,9 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
             }
             
             [SFSDKCoreLogger d:[SFSDKOAuth2 class] format:@"SFOAuth2 session failed with error: error code: %ld, description: %@, URL: %@", (long)error.code, [error localizedDescription], errorUrlString];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if (completionBlock) {
-                    completionBlock(endpointResponse);
-                }
-            });
+            if (completionBlock) {
+                completionBlock(endpointResponse);
+            }
             return;
         }
         
@@ -323,11 +337,9 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
             [strongSelf handleTokenEndpointResponse:completionBlock request:endpointReq data:data urlResponse:urlResponse];
         } else {
             [SFSDKCoreLogger d:[SFSDKOAuth2 class] format:@"Token endpoint response handler skipped because self was deallocated."];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if (completionBlock) {
-                    completionBlock(nil);
-                }
-            });
+            if (completionBlock) {
+                completionBlock(nil);
+            }
         }
     }];
 }
@@ -341,13 +353,13 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
     }];
 }
 
-#pragma mark - SFSDKOAuthSessionManaging
+#pragma mark - private
+
 - (NSURLSession *)createURLSessionWithIdentifier:(NSString *)identifier {
     SFNetwork *network = [SFNetwork sharedEphemeralInstanceWithIdentifier:identifier];
     return network.activeSession;
 }
 
-#pragma mark - private
 - (NSMutableURLRequest *)prepareBasicRequest:(SFSDKOAuthTokenEndpointRequest *)endpointReq {
     NSString *protocolHost = endpointReq.serverURL.absoluteString;
     NSMutableString *url = [[NSMutableString alloc] initWithFormat:@"%@%@", protocolHost, kSFOAuthEndPointToken];
@@ -359,11 +371,55 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
                                                             timeoutInterval:endpointReq.timeout];
     [request setHTTPMethod:kHttpMethodPost];
     [request setValue:kHttpPostContentType forHTTPHeaderField:kHttpHeaderContentType];
-    if (endpointReq.userAgentForAuth != nil) {
-        [request setValue:endpointReq.userAgentForAuth forHTTPHeaderField:kHttpHeaderUserAgent];
-    }
     [request setHTTPShouldHandleCookies:NO];
+    [self attachDPoPHeaderIfNeeded:request scope:endpointReq.credentialsIdentifier tokenType:endpointReq.tokenType];
     return request;
+}
+
+- (void)attachDPoPHeaderIfNeeded:(NSMutableURLRequest *)request scope:(NSString *)scope tokenType:(nullable NSString *)tokenType {
+    if (scope.length == 0) return;
+    NSError *err = nil;
+    [SFSDKDPoPRequestDecorator decorateRequest:request scope:scope tokenType:tokenType accessToken:nil error:&err];
+    if (err) {
+        [SFSDKCoreLogger e:[self class] format:@"DPoP attach failed (code=%ld); proceeding without DPoP header.", (long)err.code];
+    }
+}
+
+// Sends a token-endpoint request, harvesting DPoP-Nonce headers from the response and
+// retrying exactly once if the server returns a use_dpop_nonce / 401-with-DPoP-Nonce
+// challenge (RFC 9449 §8). When DPoP is disabled this is a thin pass-through.
+- (void)sendTokenEndpointRequest:(NSMutableURLRequest *)request
+              forEndpointRequest:(SFSDKOAuthTokenEndpointRequest *)endpointReq
+           retryOnNonceChallenge:(BOOL)retryOnNonceChallenge
+               dataResponseBlock:(void (^)(NSData *, NSURLResponse *, NSError *))block {
+    __block NSString *networkIdentifier = [SFNetwork uniqueInstanceIdentifier];
+    SFNetwork *network = [SFNetwork sharedEphemeralInstanceWithIdentifier:networkIdentifier];
+    __weak typeof(self) weakSelf = self;
+    [network sendRequest:request dataResponseBlock:^(NSData *data, NSURLResponse *urlResponse, NSError *error) {
+        [SFNetwork removeSharedInstanceForIdentifier:networkIdentifier];
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (error == nil && endpointReq.credentialsIdentifier.length > 0) {
+            [SFSDKDPoPRequestDecorator harvestNonceFromResponse:urlResponse
+                                                     requestURL:request.URL
+                                                          scope:endpointReq.credentialsIdentifier];
+            NSInteger statusCode = 0;
+            if ([urlResponse isKindOfClass:[NSHTTPURLResponse class]]) {
+                statusCode = ((NSHTTPURLResponse *)urlResponse).statusCode;
+            }
+            if (retryOnNonceChallenge &&
+                [SFSDKDPoPRequestDecorator isNonceChallengeWithStatusCode:statusCode body:data response:urlResponse]) {
+                [SFSDKCoreLogger i:[strongSelf class] format:@"DPoP nonce challenge received; retrying token-endpoint request once."];
+                [request setValue:nil forHTTPHeaderField:kHttpHeaderDPoP];
+                [strongSelf attachDPoPHeaderIfNeeded:request scope:endpointReq.credentialsIdentifier tokenType:endpointReq.tokenType];
+                [strongSelf sendTokenEndpointRequest:request
+                                  forEndpointRequest:endpointReq
+                               retryOnNonceChallenge:NO // already retried once; don't retry again.
+                                   dataResponseBlock:block];
+                return;
+            }
+        }
+        block(data, urlResponse, error);
+    }];
 }
 
 - (void)handleTokenEndpointResponse:(void (^)(SFSDKOAuthTokenEndpointResponse *))completionBlock request:(SFSDKOAuthTokenEndpointRequest *)endpointReq data:(NSData *)data urlResponse:(NSURLResponse *)response {
@@ -390,7 +446,7 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
     } else {
         NSError* jsonError = [SFJsonUtils lastError];
         [SFSDKCoreLogger d:[self class] format:@"%@: JSON parse error: %@", NSStringFromSelector(_cmd), jsonError];
-        NSError *error = [[self class] errorWithType:kSFOAuthErrorTypeMalformedResponse description:@"failed to parse response JSON"];
+        NSError *error = [[self class] errorWithType:@"malformed_response" description:@"failed to parse response JSON"];
         NSMutableDictionary *errorDict = [NSMutableDictionary dictionaryWithDictionary:jsonError.userInfo];
         if (responseString) {
             errorDict[@"response_data"] = responseString;
@@ -469,6 +525,8 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
             return @"unexpected_response";
         case SFLogoutReasonRefreshTokenRotated:
             return @"refresh_token_rotated";
+        case SFLogoutReasonAppAttestationFailed:
+            return @"app_attestation_failed";
     }
 }
 
@@ -502,37 +560,37 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
 + (NSError *)errorWithType:(NSString *)type description:(NSString *)description underlyingError:(NSError *)underlyingError {
     NSAssert(type, @"error type can't be nil");
     NSInteger code = kSFOAuthErrorUnknown;
-    if ([type isEqualToString:kSFOAuthErrorTypeAccessDenied]) {
+    if ([type isEqualToString:@"access_denied"]) {
         code = kSFOAuthErrorAccessDenied;
-    } else if ([type isEqualToString:kSFOAuthErrorTypeMalformedResponse]) {
+    } else if ([type isEqualToString:@"malformed_response"]) {
         code = kSFOAuthErrorMalformed;
-    } else if ([type isEqualToString:KSFOAuthErrorTypeInvalidClientId]) {
+    } else if ([type isEqualToString:@"invalid_client_id"]) {
         code = kSFOAuthErrorInvalidClientId;
-    } else if ([type isEqualToString:kSFOAuthErrorTypeInvalidClient]) {
+    } else if ([type isEqualToString:@"invalid_client"]) {
         code = kSFOAuthErrorInvalidClientCredentials;
-    } else if ([type isEqualToString:kSFOAuthErrorTypeInvalidClientCredentials]) {
+    } else if ([type isEqualToString:@"invalid_client_credentials"]) {
         code = kSFOAuthErrorInvalidClientCredentials;
-    } else if ([type isEqualToString:kSFOAuthErrorTypeInvalidGrant]) {
+    } else if ([type isEqualToString:@"invalid_grant"]) {
         code = kSFOAuthErrorInvalidGrant;
-    } else if ([type isEqualToString:kSFOAuthErrorTypeInvalidRequest]) {
+    } else if ([type isEqualToString:@"invalid_request"]) {
         code = kSFOAuthErrorInvalidRequest;
-    } else if ([type isEqualToString:kSFOAuthErrorTypeInactiveUser]) {
+    } else if ([type isEqualToString:@"inactive_user"]) {
         code = kSFOAuthErrorInactiveUser;
-    }  else if ([type isEqualToString:kSFOAuthErrorTypeInactiveOrg]) {
+    } else if ([type isEqualToString:@"inactive_org"]) {
         code = kSFOAuthErrorInactiveOrg;
-    }  else if ([type isEqualToString:kSFOAuthErrorTypeRateLimitExceeded]) {
+    } else if ([type isEqualToString:@"rate_limit_exceeded"]) {
         code = kSFOAuthErrorRateLimitExceeded;
-    }  else if ([type isEqualToString:kSFOAuthErrorTypeUnsupportedResponseType]) {
+    } else if ([type isEqualToString:@"unsupported_response_type"]) {
         code = kSFOAuthErrorUnsupportedResponseType;
-    } else if ([type isEqualToString:kSFOAuthErrorTypeTimeout]) {
+    } else if ([type isEqualToString:@"auth_timeout"]) {
         code = kSFOAuthErrorTimeout;
-    } else if ([type isEqualToString:kSFOAuthErrorTypeWrongVersion]) {
+    } else if ([type isEqualToString:@"wrong_version"]) {
         code = kSFOAuthErrorWrongVersion;
-    } else if ([type isEqualToString:kSFOAuthErrorTypeBrowserLaunchFailed]) {
+    } else if ([type isEqualToString:@"browser_launch_failed"]) {
         code = kSFOAuthErrorBrowserLaunchFailed;
-    } else if ([type isEqualToString:kSFOAuthErrorTypeUnknownAdvancedAuthConfig]) {
+    } else if ([type isEqualToString:@"unknown_advanced_auth_config"]) {
         code = kSFOAuthErrorUnknownAdvancedAuthConfig;
-    } else if ([type isEqualToString:kSFOAuthErrorTypeJWTLaunchFailed]) {
+    } else if ([type isEqualToString:@"jwt_launch_failed"]) {
         code = kSFOAuthErrorJWTInvalidGrant;
     }
     NSMutableDictionary *userInfoDict = [NSMutableDictionary dictionaryWithDictionary:@{kSFOAuthError: type, NSLocalizedDescriptionKey: description}];

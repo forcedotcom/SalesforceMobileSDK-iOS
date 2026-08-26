@@ -51,34 +51,47 @@ class LegacyLoginTests: BaseAuthFlowTester {
 
     /// Login with CA opaque using default scopes and web server flow.
     func testCAOpaque_DefaultScopes_WebServerFlow() throws {
-        launchLoginAndValidate(staticAppConfigName: .caOpaque, useHybridFlow: useHybridFlow())
+        launchLoginAndValidate(staticAppConfigName: .caOpaque, useHybridFlow: useHybridFlow(), useDPoP: false)
     }
 
     /// Login with CA opaque using subset of scopes and web server flow.
     func testCAOpaque_SubsetScopes_WebServerFlow() throws {
-        launchLoginAndValidate(staticAppConfigName: .caOpaque, staticScopeSelection: .subset, useHybridFlow: useHybridFlow())
+        launchLoginAndValidate(staticAppConfigName: .caOpaque, staticScopeSelection: .subset, useHybridFlow: useHybridFlow(), useDPoP: false)
     }
 
     /// Login with CA opaque using all scopes and web server flow.
     func testCAOpaque_AllScopes_WebServerFlow() throws {
-        launchLoginAndValidate(staticAppConfigName: .caOpaque, staticScopeSelection: .all, useHybridFlow: useHybridFlow())
+        launchLoginAndValidate(staticAppConfigName: .caOpaque, staticScopeSelection: .all, useHybridFlow: useHybridFlow(), useDPoP: false)
+    }
+
+    // MARK: - CA Web Server Flow Tests (In-App WebView)
+
+    /// Login with CA opaque using default scopes, web server flow, and in-app WebView (advanced auth disabled).
+    func testCAOpaque_DefaultScopes_WebServerFlow_InAppWebView() throws {
+        launchLoginAndValidate(staticAppConfigName: .caOpaque, useHybridFlow: useHybridFlow(), forceAdvancedAuthentication: false, useDPoP: false)
+    }
+
+    /// Login with CA opaque using subset of scopes, web server flow, and in-app WebView (advanced auth disabled).
+    func testCAOpaque_SubsetScopes_WebServerFlow_InAppWebView() throws {
+        launchLoginAndValidate(staticAppConfigName: .caOpaque, staticScopeSelection: .subset, useHybridFlow: useHybridFlow(), forceAdvancedAuthentication: false, useDPoP: false)
+    }
+
+    /// Login with CA opaque using all scopes, web server flow, and in-app WebView (advanced auth disabled).
+    func testCAOpaque_AllScopes_WebServerFlow_InAppWebView() throws {
+        launchLoginAndValidate(staticAppConfigName: .caOpaque, staticScopeSelection: .all, useHybridFlow: useHybridFlow(), forceAdvancedAuthentication: false, useDPoP: false)
     }
 
     // MARK: - CA User Agent Flow Tests
 
     /// Login with CA opaque using default scopes and user agent flow.
+    ///
+    /// The user agent (implicit) flow is incompatible with forced advanced authentication, which
+    /// always uses the web server flow. This test therefore disables advanced authentication so the
+    /// legacy in-app WebView / user agent path is exercised. It is intentionally the only user
+    /// agent flow test retained: scope-variation coverage lives on the web server flow (advanced
+    /// auth on) tests above, which is the default path for the vast majority of apps.
     func testCAOpaque_DefaultScopes_UserAgentFlow() throws {
-        launchLoginAndValidate(staticAppConfigName: .caOpaque, useWebServerFlow: false, useHybridFlow: useHybridFlow())
-    }
-
-    /// Login with CA opaque using subset of scopes and user agent flow.
-    func testCAOpaque_SubsetScopes_UserAgentFlow() throws {
-        launchLoginAndValidate(staticAppConfigName: .caOpaque, staticScopeSelection: .subset, useWebServerFlow: false, useHybridFlow: useHybridFlow())
-    }
-
-    /// Login with CA opaque using all scopes and user agent flow.
-    func testCAOpaque_AllScopes_UserAgentFlow() throws {
-        launchLoginAndValidate(staticAppConfigName: .caOpaque, staticScopeSelection: .all, useWebServerFlow: false, useHybridFlow: useHybridFlow())
+        launchLoginAndValidate(staticAppConfigName: .caOpaque, useWebServerFlow: false, useHybridFlow: useHybridFlow(), forceAdvancedAuthentication: false, useDPoP: false)
     }
 }
 

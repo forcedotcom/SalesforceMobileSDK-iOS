@@ -141,6 +141,13 @@
     XCTAssertEqualObjects(@"SELECT id FROM {employees} WHERE {employees:_soupEntryId} IN (SELECT rowid FROM {employees}_fts WHERE {employees}_fts MATCH '{employees:lastName}:Bond') ORDER BY {employees:firstName} ASC ", querySpec.idsSmartSql, @"Wrong ids smart sql for match query spec");
 }
 
+- (void) testMatchQuerySmartSqlWithSingleQuoteInMatchKey
+{
+    // Single quotes in matchKey must be doubled so they don't break the surrounding MATCH '...' literal.
+    SFQuerySpec* querySpec = [SFQuerySpec newMatchQuerySpec:@"employees" withPath:@"lastName" withMatchKey:@"O'Brien" withOrderPath:@"firstName" withOrder:kSFSoupQuerySortOrderAscending withPageSize:1];
+    XCTAssertEqualObjects(@"SELECT {employees:_soup} FROM {employees} WHERE {employees:_soupEntryId} IN (SELECT rowid FROM {employees}_fts WHERE {employees}_fts MATCH '{employees:lastName}:O''Brien') ORDER BY {employees:firstName} ASC ", querySpec.smartSql, @"Wrong smart sql for match query spec with single quote in matchKey");
+}
+
 - (void) testLikeQuerySmartSql
 {
     SFQuerySpec* querySpec = [SFQuerySpec newLikeQuerySpec:@"employees" withPath:@"lastName" withLikeKey:@"Bon%" withOrderPath:@"lastName" withOrder:kSFSoupQuerySortOrderAscending withPageSize:1];

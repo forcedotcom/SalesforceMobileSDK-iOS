@@ -30,10 +30,32 @@
 #import <SalesforceSDKCore/SFOAuthCredentials.h>
 #import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
+/// Salesforce pool-server host strings. Exact-match constants used by
+/// `SFSDKAuthConfigUtil` and by DPoP `dpop_jkt` gating to distinguish
+/// pool hosts from my-domain hosts.
+FOUNDATION_EXTERN NSString * _Nonnull const kSFSDKSandboxLoginURL;      // test.salesforce.com
+FOUNDATION_EXTERN NSString * _Nonnull const kSFSDKProductionLoginURL;   // login.salesforce.com
+FOUNDATION_EXTERN NSString * _Nonnull const kSFSDKWelcomeLoginURL;      // welcome.salesforce.com/discovery
+
 @interface SFSDKAuthConfigUtil : NSObject
 
 typedef void (^ _Nonnull MyDomainAuthConfigBlock)(SFOAuthOrgAuthConfiguration * _Nullable authConfig, NSError * _Nullable error);
 
 + (void)getMyDomainAuthConfig:(nonnull MyDomainAuthConfigBlock)authConfigBlock loginDomain:(nonnull NSString *)loginDomain;
+
+/// YES when `host` is one of the three Salesforce pool servers
+/// (login.salesforce.com, test.salesforce.com, welcome.salesforce.com/discovery)
+/// or an internal production-pool variant (login.*.salesforce.com with no .my. component).
++ (BOOL)isPoolLoginHost:(nonnull NSString *)host;
+
+/// YES when `host` is the production login pool:
+/// exactly `login.salesforce.com` or matches `login.*.salesforce.com`
+/// without a `.my.` component (covers internal envs like `login.test1.pc-rnd.salesforce.com`).
++ (BOOL)isProductionLoginHost:(nonnull NSString *)host;
+
+/// YES when `host` is a My Domain server:
+/// ends with `.my.salesforce.com` or contains `.my.` before `.salesforce.com`
+/// (covers internal envs like `mobilesdksdb32.test1.my.pc-rnd.salesforce.com`).
++ (BOOL)isMyDomainHost:(nonnull NSString *)host;
 
 @end

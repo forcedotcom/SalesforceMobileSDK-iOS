@@ -25,7 +25,7 @@
 #import "SFSDKLogoutBlocker.h"
 #import <objc/runtime.h>
 #import "SFSDKCoreLogger.h"
-#import "SFUserAccountManager+Instrumentation.h"
+#import "SFUserAccountManager.h"
 #import "SFOAuthCredentials.h"
 
 @interface SFSDKLogoutBlocker()

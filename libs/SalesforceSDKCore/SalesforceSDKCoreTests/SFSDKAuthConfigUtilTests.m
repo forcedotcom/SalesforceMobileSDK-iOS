@@ -114,4 +114,71 @@ static NSString * const kSFSandboxEndpoint = @"test.salesforce.com";
     [self waitForExpectationsWithTimeout:20 handler:nil];
 }
 
+// MARK: - isProductionLoginHost tests (no network)
+
+- (void)testIsProductionLoginHost_production {
+    XCTAssertTrue([SFSDKAuthConfigUtil isProductionLoginHost:@"login.salesforce.com"]);
+}
+
+- (void)testIsProductionLoginHost_internalPool {
+    XCTAssertTrue([SFSDKAuthConfigUtil isProductionLoginHost:@"login.test1.pc-rnd.salesforce.com"]);
+}
+
+- (void)testIsProductionLoginHost_sandbox_isFalse {
+    XCTAssertFalse([SFSDKAuthConfigUtil isProductionLoginHost:@"test.salesforce.com"]);
+}
+
+- (void)testIsProductionLoginHost_myDomain_isFalse {
+    XCTAssertFalse([SFSDKAuthConfigUtil isProductionLoginHost:@"acme.my.salesforce.com"]);
+}
+
+- (void)testIsProductionLoginHost_internalMyDomain_isFalse {
+    XCTAssertFalse([SFSDKAuthConfigUtil isProductionLoginHost:@"mobilesdksdb32.test1.my.pc-rnd.salesforce.com"]);
+}
+
+- (void)testIsProductionLoginHost_loginPrefixMyDomain_isFalse {
+    // login-acme.my.salesforce.com: has .my. so it's My Domain, not production pool
+    XCTAssertFalse([SFSDKAuthConfigUtil isProductionLoginHost:@"login-acme.my.salesforce.com"]);
+}
+
+// MARK: - isMyDomainHost tests (no network)
+
+- (void)testIsMyDomainHost_standardMyDomain {
+    XCTAssertTrue([SFSDKAuthConfigUtil isMyDomainHost:@"acme.my.salesforce.com"]);
+}
+
+- (void)testIsMyDomainHost_sandboxMyDomain {
+    XCTAssertTrue([SFSDKAuthConfigUtil isMyDomainHost:@"acme.sandbox.my.salesforce.com"]);
+}
+
+- (void)testIsMyDomainHost_internalMyDomain {
+    XCTAssertTrue([SFSDKAuthConfigUtil isMyDomainHost:@"mobilesdksdb32.test1.my.pc-rnd.salesforce.com"]);
+}
+
+- (void)testIsMyDomainHost_production_isFalse {
+    XCTAssertFalse([SFSDKAuthConfigUtil isMyDomainHost:@"login.salesforce.com"]);
+}
+
+- (void)testIsMyDomainHost_sandbox_isFalse {
+    XCTAssertFalse([SFSDKAuthConfigUtil isMyDomainHost:@"test.salesforce.com"]);
+}
+
+// MARK: - isPoolLoginHost tests (no network)
+
+- (void)testIsPoolLoginHost_production {
+    XCTAssertTrue([SFSDKAuthConfigUtil isPoolLoginHost:@"login.salesforce.com"]);
+}
+
+- (void)testIsPoolLoginHost_internalProduction {
+    XCTAssertTrue([SFSDKAuthConfigUtil isPoolLoginHost:@"login.test1.pc-rnd.salesforce.com"]);
+}
+
+- (void)testIsPoolLoginHost_sandbox {
+    XCTAssertTrue([SFSDKAuthConfigUtil isPoolLoginHost:@"test.salesforce.com"]);
+}
+
+- (void)testIsPoolLoginHost_myDomain_isFalse {
+    XCTAssertFalse([SFSDKAuthConfigUtil isPoolLoginHost:@"acme.my.salesforce.com"]);
+}
+
 @end

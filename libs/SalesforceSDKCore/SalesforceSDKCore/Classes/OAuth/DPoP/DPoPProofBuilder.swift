@@ -1,0 +1,165 @@
+//
+//  SFSDKDPoPProofBuilder.swift
+//  SalesforceSDKCore
+//
+//  Copyright (c) 2026-present, salesforce.com, inc. All rights reserved.
+//
+//  Redistribution and use of this software in source and binary forms, with or without modification,
+//  are permitted provided that the following conditions are met:
+//  * Redistributions of source code must retain the above copyright notice, this list of conditions
+//  and the following disclaimer.
+//  * Redistributions in binary form must reproduce the above copyright notice, this list of
+//  conditions and the following disclaimer in the documentation and/or other materials provided
+//  with the distribution.
+//  * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
+//  endorse or promote products derived from this software without specific prior written
+//  permission of salesforce.com, inc.
+//
+//  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+//  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+//  FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+//  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+//  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+//  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+//  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+//  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+import Foundation
+import Security
+
+@objc(SFSDKDPoPProofBuilderError)
+public enum DPoPProofBuilderError: Int, Error {
+    case jwkExportFailed = 1
+    case serializationFailed = 2
+    case signingFailed = 3
+    case thumbprintFailed = 4
+}
+
+/// Builds an RFC 9449 §4 DPoP proof JWS for a single token-endpoint request.
+@objc(SFSDKDPoPProofBuilder)
+public final class DPoPProofBuilder: NSObject {
+
+    /// Build a compact-serialized JWS suitable for the `DPoP` HTTP header.
+    /// - Parameters:
+    ///   - httpMethod: HTTP verb (`"POST"` for token endpoint).
+    ///   - htu: Full request URL with no query and no fragment, per RFC 9449 §4.2.
+    ///   - nonce: Optional `nonce` claim from a prior `DPoP-Nonce` server hint.
+    ///   - accessToken: Optional access token bound to the request. When non-nil and
+    ///     non-empty, the payload includes the `ath` claim per RFC 9449 §4.2,
+    ///     computed as `base64url(SHA-256(accessToken))`. Required for resource-server
+    ///     calls; omitted for token-endpoint calls.
+    ///   - keyPair: Public key is embedded in the JWS header `jwk`; private key signs.
+    ///   - now: Injected clock for deterministic tests; defaults to `Date()`.
+    @objc public static func buildProof(httpMethod: String,
+                                        htu: URL,
+                                        nonce: String?,
+                                        accessToken: String? = nil,
+                                        keyPair: DPoPKeyPair,
+                                        now: Date = Date()) throws -> String {
+        let jwk: [String: String]
+        do {
+            jwk = try Encryptor.jwkP256(from: keyPair.publicKey)
+        } catch {
+            throw DPoPProofBuilderError.jwkExportFailed
+        }
+        let header: [String: Any] = [
+            "typ": "dpop+jwt",
+            "alg": "ES256",
+            "jwk": jwk
+        ]
+        var payload: [String: Any] = [
+            "htm": httpMethod.uppercased(),
+            "htu": DPoPURL.htu(htu),
+            "iat": Int(now.timeIntervalSince1970),
+            "jti": newJti()
+        ]
+        if let nonce = nonce, !nonce.isEmpty {
+            payload["nonce"] = nonce
+        }
+        if let accessToken = accessToken, !accessToken.isEmpty,
+           let ath = athClaim(for: accessToken) {
+            payload["ath"] = ath
+        }
+        guard let headerSegment = encode(json: header),
+              let payloadSegment = encode(json: payload) else {
+            throw DPoPProofBuilderError.serializationFailed
+        }
+        let signingInput = "\(headerSegment).\(payloadSegment)"
+        guard let signingData = signingInput.data(using: .utf8) else {
+            throw DPoPProofBuilderError.serializationFailed
+        }
+        let signature: Data
+        do {
+            signature = try Encryptor.signES256(signingData, with: keyPair.privateKey)
+        } catch {
+            throw DPoPProofBuilderError.signingFailed
+        }
+        let signatureSegment = (signature as NSData).sfsdk_base64UrlString()
+        return "\(signingInput).\(signatureSegment)"
+    }
+
+    /// RFC 7638 JWK thumbprint of a P-256 EC public key.
+    ///
+    /// Computes: `base64url(SHA-256(canonical_json({crv:"P-256", kty:"EC", x:<...>, y:<...>})))`
+    /// where `canonical_json` is UTF-8, no whitespace, keys in lexicographic order.
+    ///
+    /// Used at `/authorize` time to bind the authorization code to the same DPoP
+    /// key pair that will prove possession at `/token` (RFC 9449 §10 authorization
+    /// code binding via `dpop_jkt`).
+    ///
+    /// - Parameter publicKey: The P-256 `SecKey` whose thumbprint to compute.
+    ///   Same key that will later populate the DPoP proof header's `jwk` claim.
+    /// - Returns: 43-character base64url string (SHA-256 hash, base64url-encoded, no padding).
+    /// - Throws: `DPoPProofBuilderError.jwkExportFailed` if `Encryptor.jwkP256` fails;
+    ///   `DPoPProofBuilderError.thumbprintFailed` if canonicalization or hashing fails.
+    @objc public static func jwkThumbprint(publicKey: SecKey) throws -> String {
+        let jwk: [String: String]
+        do {
+            jwk = try Encryptor.jwkP256(from: publicKey)
+        } catch {
+            throw DPoPProofBuilderError.jwkExportFailed
+        }
+        // RFC 7638 §3.2: canonical JSON must contain ONLY the required members
+        // for the key type — for P-256 that is exactly {crv, kty, x, y}. If
+        // Encryptor.jwkP256 ever grows optional fields (kid, use, key_ops...)
+        // the thumbprint computed here will silently diverge from what the
+        // server derives off the DPoP proof's `jwk` claim, breaking the
+        // authorize↔token binding. Keep jwkP256's output minimal.
+        guard let canonicalData = try? JSONSerialization.data(withJSONObject: jwk,
+                                                              options: [.sortedKeys, .withoutEscapingSlashes]),
+              let digest = (canonicalData as NSData).sfsdk_sha256() else {
+            SFSDKCoreLogger.w(Self.self, message: "DPoP jwkThumbprint: JWK canonicalization or SHA-256 hash failed")
+            throw DPoPProofBuilderError.thumbprintFailed
+        }
+        return (digest as NSData).sfsdk_base64UrlString()
+    }
+
+    // MARK: - Helpers
+
+    /// 96 bits (12 bytes) of random entropy, per backend design doc.
+    private static func newJti() -> String {
+        let raw = SFSDKCryptoUtils.randomByteData(withLength: 12)
+        return (raw as NSData).sfsdk_base64UrlString()
+    }
+
+    /// `ath = base64url(SHA-256(access_token))` per RFC 9449 §4.2. The input is the
+    /// literal access-token string the SDK sends in the `Authorization: DPoP <token>`
+    /// header — confirmed by backend (Salesforce, 2026-06-10) as the exact `<token>`
+    /// value, byte-for-byte, no encoding or canonicalization.
+    private static func athClaim(for accessToken: String) -> String? {
+        guard let tokenData = accessToken.data(using: .utf8),
+              let digest = (tokenData as NSData).sfsdk_sha256() else {
+            return nil
+        }
+        return (digest as NSData).sfsdk_base64UrlString()
+    }
+
+    private static func encode(json: [String: Any]) -> String? {
+        // .sortedKeys keeps output stable so unit tests can snapshot byte-for-byte.
+        guard let data = try? JSONSerialization.data(withJSONObject: json,
+                                                     options: [.sortedKeys, .withoutEscapingSlashes]) else {
+            return nil
+        }
+        return (data as NSData).sfsdk_base64UrlString()
+    }
+}

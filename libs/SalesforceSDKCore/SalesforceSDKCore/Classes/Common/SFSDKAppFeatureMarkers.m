@@ -23,6 +23,8 @@
  */
 
 #import "SFSDKAppFeatureMarkers.h"
+#import "SFUserAccount.h"
+#import "SFUserAccountManager.h"
 
 // App Feature Marker Constants
 NSString * const kSFAppFeatureSwiftApp = @"SW";
@@ -39,9 +41,31 @@ NSString * const kSFAppFeatureAiltnEnabled = @"AI";
 NSString * const kSFSPAppFeatureIDPLogin = @"SP";
 NSString * const kSFIDPAppFeatureIDPLogin = @"IP";
 NSString * const kSFAppFeatureQrCodeLogin = @"QR";
+NSString * const kSFAppFeatureRTR = @"RT";
+NSString * const kSFAppFeatureDPoP = @"DP";
+NSString * const kSFAppFeatureAppAttestation = @"AA";
+NSString * const kSFAppFeatureBrowserLoginServerAuthConfig = @"B1";
+NSString * const kSFAppFeatureBrowserLoginMDM              = @"B2";
+NSString * const kSFAppFeatureBrowserLoginForAdmin         = @"B3";
+NSString * const kSFAppFeatureBrowserLoginForceFlag        = @"B4";
+NSString * const kSFAppFeatureLoginServerProduction        = @"L1";
+NSString * const kSFAppFeatureLoginServerSandbox           = @"L2";
+NSString * const kSFAppFeatureLoginServerWelcomeDiscovery  = @"L3";
+NSString * const kSFAppFeatureLoginServerMyDomain          = @"L4";
+NSString * const kSFAppFeatureLoginServerOther             = @"L5";
+NSString * const kSFAppFeatureAuthTypeWebServerNonHybrid   = @"A1";
+NSString * const kSFAppFeatureAuthTypeWebServerHybrid      = @"A2";
+NSString * const kSFAppFeatureAuthTypeUserAgentNonHybrid   = @"A3";
+NSString * const kSFAppFeatureAuthTypeUserAgentHybrid      = @"A4";
+NSString * const kSFAppFeatureAuthTypeNative               = @"A5";
+NSString * const kSFAppFeatureTokenMigration               = @"TM";
+NSString * const kSFAppFeatureTokenFormatJwt               = @"JT";
+NSString * const kSFAppFeatureTokenFormatOpaque            = @"OT";
+NSString * const kSFAppFeatureBeacon                       = @"BN";
 
 static NSMutableSet<NSString *> *SFSDKAppFeatureMarkersSet = nil;
 static dispatch_queue_t SFSDKAppFeatureDispatchQueue = nil;
+static NSMutableDictionary<NSString *, NSMutableSet<NSString *> *> *SFSDKPerUserFeatureMarkersMap = nil;
 
 @implementation SFSDKAppFeatureMarkers
 
@@ -52,6 +76,9 @@ static dispatch_queue_t SFSDKAppFeatureDispatchQueue = nil;
         }
         if (SFSDKAppFeatureDispatchQueue == nil) {
             SFSDKAppFeatureDispatchQueue = dispatch_queue_create("com.salesforce.mobilesdk.appFeaturesQueue", DISPATCH_QUEUE_SERIAL);
+        }
+        if (SFSDKPerUserFeatureMarkersMap == nil) {
+            SFSDKPerUserFeatureMarkersMap = [NSMutableDictionary dictionary];
         }
     }
 }
@@ -75,5 +102,69 @@ static dispatch_queue_t SFSDKAppFeatureDispatchQueue = nil;
     });
     return markersSet;
 }
+
++ (void)registerAppFeature:(NSString *)appFeature forUser:(SFUserAccount *)user {
+    if (!user) {
+        [self registerAppFeature:appFeature];
+        return;
+    }
+    NSString *key = SFKeyForUserAndScope(user, SFUserAccountScopeUser);
+    __block NSSet *snapshot = nil;
+    dispatch_sync(SFSDKAppFeatureDispatchQueue, ^{
+        NSMutableSet *set = SFSDKPerUserFeatureMarkersMap[key];
+        if (!set) {
+            set = [NSMutableSet set];
+            SFSDKPerUserFeatureMarkersMap[key] = set;
+        }
+        [set addObject:appFeature];
+        snapshot = [set copy];
+    });
+    user.persistedFeatureFlags = snapshot;
+    [[SFUserAccountManager sharedInstance] saveAccountForUser:user error:nil];
+}
+
++ (void)unregisterAppFeature:(NSString *)appFeature forUser:(SFUserAccount *)user {
+    if (!user) {
+        [self unregisterAppFeature:appFeature];
+        return;
+    }
+    NSString *key = SFKeyForUserAndScope(user, SFUserAccountScopeUser);
+    __block NSSet *snapshot = nil;
+    dispatch_sync(SFSDKAppFeatureDispatchQueue, ^{
+        [SFSDKPerUserFeatureMarkersMap[key] removeObject:appFeature];
+        snapshot = [SFSDKPerUserFeatureMarkersMap[key] copy];
+    });
+    user.persistedFeatureFlags = snapshot;
+    [[SFUserAccountManager sharedInstance] saveAccountForUser:user error:nil];
+}
+
++ (NSSet<NSString *> *)appFeaturesForUser:(SFUserAccount *)user {
+    if (!user) return [self appFeatures];
+    __block NSSet *combined;
+    NSString *key = SFKeyForUserAndScope(user, SFUserAccountScopeUser);
+    dispatch_sync(SFSDKAppFeatureDispatchQueue, ^{
+        NSMutableSet *all = [NSMutableSet setWithSet:SFSDKAppFeatureMarkersSet];
+        NSSet *userSet = SFSDKPerUserFeatureMarkersMap[key];
+        if (userSet) [all unionSet:userSet];
+        combined = [all copy];
+    });
+    return combined;
+}
+
++ (void)loadPersistedFeatures:(NSSet<NSString *> *)features forUser:(SFUserAccount *)user {
+    if (!user || features.count == 0) return;
+    NSString *key = SFKeyForUserAndScope(user, SFUserAccountScopeUser);
+    dispatch_sync(SFSDKAppFeatureDispatchQueue, ^{
+        SFSDKPerUserFeatureMarkersMap[key] = [features mutableCopy];
+    });
+}
+
+#if DEBUG
++ (void)resetPerUserFeaturesForUITesting {
+    dispatch_sync(SFSDKAppFeatureDispatchQueue, ^{
+        [SFSDKPerUserFeatureMarkersMap removeAllObjects];
+    });
+}
+#endif
 
 @end

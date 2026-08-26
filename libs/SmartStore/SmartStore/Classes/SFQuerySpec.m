@@ -331,7 +331,7 @@ NSString * const kQuerySpecParamSmartSql = @"smartSql";
                       @" WHERE ",
                       [self computeSoupFtsReference],
                       @" MATCH '",
-                      [SFQuerySpec qualifyMatchKey:self.matchKey field:field], // match clause -- statement arg binding doesn't seem to work so inlining matchKey
+                      [[SFQuerySpec qualifyMatchKey:self.matchKey field:field] stringByReplacingOccurrencesOfString:@"'" withString:@"''"], // match clause -- statement arg binding doesn't seem to work so inlining matchKey
                       @"') "
                       ]
                     componentsJoinedByString:@""];

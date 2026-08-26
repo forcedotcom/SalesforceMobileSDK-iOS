@@ -84,7 +84,11 @@ static CGFloat kImageHeight = 60;
 
     [self.detailLabel.topAnchor  constraintEqualToAnchor:self.titleLabel.bottomAnchor constant:4].active = YES;
     
-   [self.detailLabel.leftAnchor  constraintEqualToAnchor:self.profileImageView.rightAnchor constant:12].active = YES;
+    [self.detailLabel.leftAnchor  constraintEqualToAnchor:self.profileImageView.rightAnchor constant:12].active = YES;
+
+    [self registerForTraitChanges:@[UITraitUserInterfaceStyle.self] withHandler:^(SFSDKUITableViewCell *cell, UITraitCollection *previousCollection) {
+        [cell updateLayerColor];
+    }];
     return self;
 }
 
@@ -92,12 +96,6 @@ static CGFloat kImageHeight = 60;
     self.layer.borderColor = [UIColor salesforceSystemBackgroundColor].CGColor;
 }
 
-- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
-    [super traitCollectionDidChange:previousTraitCollection];
-    if ([self.traitCollection hasDifferentColorAppearanceComparedToTraitCollection:previousTraitCollection]) {
-        [self updateLayerColor];
-    }
-}
 
 - (void)awakeFromNib {
     [super awakeFromNib];

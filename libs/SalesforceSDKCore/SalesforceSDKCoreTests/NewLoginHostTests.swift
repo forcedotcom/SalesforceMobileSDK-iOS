@@ -52,4 +52,45 @@ final class NewLoginHostTests: XCTestCase {
         XCTAssertEqual(savedHost, expectedHost)
         XCTAssertEqual(savedLabel, expectedLabel)
     }
-} 
+
+    func testSaveRejectsEmpty() {
+        view.save(host: "", hostLabel: expectedLabel)
+
+        XCTAssertNil(savedHost)
+        XCTAssertNil(savedLabel)
+    }
+
+    func testSaveRejectsWhitespace() {
+        view.save(host: "   ", hostLabel: expectedLabel)
+
+        XCTAssertNil(savedHost)
+        XCTAssertNil(savedLabel)
+    }
+
+    func testSaveRejectsNoDot() {
+        view.save(host: "foo", hostLabel: expectedLabel)
+
+        XCTAssertNil(savedHost)
+        XCTAssertNil(savedLabel)
+    }
+
+    func testSaveRejectsInternalWhitespace() {
+        view.save(host: "bad host.com", hostLabel: expectedLabel)
+
+        XCTAssertNil(savedHost)
+        XCTAssertNil(savedLabel)
+    }
+
+    func testSaveRejectsInvalidScheme() {
+        view.save(host: "http:// extra space.com", hostLabel: expectedLabel)
+
+        XCTAssertNil(savedHost)
+        XCTAssertNil(savedLabel)
+    }
+
+    func testSaveAcceptsMyDomainHost() {
+        view.save(host: "mydomain.my.salesforce.com", hostLabel: expectedLabel)
+
+        XCTAssertEqual(savedHost, "mydomain.my.salesforce.com")
+    }
+}

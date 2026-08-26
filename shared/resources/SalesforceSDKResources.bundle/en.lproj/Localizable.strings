@@ -53,6 +53,8 @@
 "authAlertVersionMismatchError" = "Your app has been updated, and you will need to log in again to continue using the app.";
 "authAlertBrowserFlowTitle" = "Log In";
 "authAlertFrontdoorLoginUrlConsumerKeyMismatch" = "Cannot use another app's login QR Code.  Please log in to this app.";
+"lightningUrlCodeExchangeError" = "Lightning URLs (.lightning.) are not supported for OAuth code exchange. Use your My Domain (.my.) URL instead.";
+"appAttestationFailedError" = "This app could not be verified. Contact support.";
 
 // LoginViewController
 "TITLE_LOGIN" = "Log In";
@@ -64,6 +66,7 @@
 "LOGIN_SERVER_NAME" = "Label";
 "LOGIN_SERVER_URL_PLACEHOLDER" = "Example: login.salesforce.com";
 "LOGIN_SERVER_NAME_PLACEHOLDER" = "Optional";
+"LOGIN_INVALID_HOST" = "Please enter a valid host (for example, login.salesforce.com).";
 "DONE_BUTTON" = "Done";
 "LOGIN_SETTINGS_BUTTON" = "Settings";
 "LOGIN_OPTIONS" = "Login Options";
@@ -109,6 +112,7 @@
 "LOGIN_OPTIONS_AUTH_FLOW_TYPES_TITLE" = "Authentication Flow Types";
 "LOGIN_OPTIONS_USE_WEB_SERVER_FLOW" = "Use Web Server Flow";
 "LOGIN_OPTIONS_USE_HYBRID_FLOW" = "Use Hybrid Flow";
+"LOGIN_OPTIONS_FORCE_ADVANCED_AUTH" = "Force Advanced Authentication";
 
 // Account Switcher
 "ACCOUNT_SWITCHER_TITLE" = "Manage Accounts";

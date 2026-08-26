@@ -377,9 +377,11 @@ NS_SWIFT_NAME(UserAccountManager)
 @property (nonatomic, assign) BOOL shouldFallbackToWebAuthentication;
 
 /**
- *  If true, present the auth window while the webview is loading. Otherwise wait to present the auth window until the webview has finished loading
+ *  If true, present the auth window while the webview is loading. Otherwise wait to present the auth window until the webview has finished loading.
+ *  Defaults to YES.
+ *  @deprecated This property is deprecated in 14.0 and will be removed in 15.0.
  */
-@property (nonatomic, assign) BOOL showAuthWindowWhileLoading;
+@property (nonatomic, assign) BOOL showAuthWindowWhileLoading SFSDK_DEPRECATED(14.0, 15.0, "This property will be removed in 15.0. The auth window will always be shown while loading.");
 
 /** Shared singleton
  */
@@ -391,6 +393,11 @@ NS_SWIFT_NAME(UserAccountManager)
  * so that unsupported types are not registered with the system.
  */
 @property (nonatomic, copy, nullable) NSArray<NotificationType*>* (^filterSupportedNotificationTypes)(NSArray<NotificationType*>* notificationTypes);
+
+/** Whether or not app attestation is enabled. When YES, the SDK will include attestation
+ *  in token endpoint requests (code exchange and refresh). Defaults to NO.
+ */
+@property (nonatomic, assign) BOOL appAttestationEnabled;
 
 /**
  Adds a delegate to this user account manager.
@@ -542,6 +549,13 @@ Use this method to stop/clear any authentication which is has already been start
 - (void)stopCurrentAuthentication:(nullable void (^)(BOOL))completionBlock;
 
 /**
+ SDK-internal. Resumes the browser (Advanced Auth) attempt that was suppressed while the biometric
+ prompt was shown, used when the user declines biometric. Not intended for SDK consumers.
+ @param scene The scene whose suppressed browser-auth attempt should be resumed.
+ */
+- (void)resumeBrowserAuthentication:(UIScene *)scene;
+
+/**
  Forces a logout from the current account, redirecting the user to the login process.
  This throws out the OAuth refresh token.
  */
@@ -592,6 +606,72 @@ Use this method to stop/clear any authentication which is has already been start
                newAppConfig:(SFSDKAppConfig *)newAppConfig
                     success:(SFUserAccountManagerSuccessCallbackBlock)completionBlock
                     failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock NS_SWIFT_NAME(migrateRefreshToken(for:newAppConfig:success:failure:));
+
+/**
+ Migrates the refresh token for the specified user to a new app configuration, with explicit
+ control over whether the re-authentication requests a DPoP-bound authorization code.
+
+ This might cause the approve/deny screen to be presented to the user to authorize the
+ new app. If successful a new set of credentials (refresh token, access token) are obtained
+ and replace the existing credentials for the user.
+
+ @param user The user account whose refresh token should be migrated.
+ @param newAppConfig The new app configuration to migrate to.
+ @param useDPoP Per-call override for whether the re-authentication should bind its authorization
+ code to DPoP. `nil` defers to the process-wide `SalesforceSDKManager.useDPoP` flag, matching
+ `migrateRefreshToken:newAppConfig:success:failure:`.
+ @param completionBlock Called on successful migration with the updated user account and auth info.
+ @param failureBlock Called if the migration fails with an error and optional auth info.
+ */
+- (void)migrateRefreshToken:(SFUserAccount *)user
+               newAppConfig:(SFSDKAppConfig *)newAppConfig
+                    useDPoP:(nullable NSNumber *)useDPoP
+                    success:(SFUserAccountManagerSuccessCallbackBlock)completionBlock
+                    failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock NS_SWIFT_NAME(migrateRefreshToken(for:newAppConfig:useDPoP:success:failure:));
+
+/**
+ Upgrades the specified user's session to DPoP in place, without changing the connected app.
+
+ Re-authenticates using the user's current client id, redirect URI, and scopes, requesting a
+ DPoP-bound authorization code. This might cause the approve/deny screen to be presented to the
+ user. If successful, a new set of DPoP-bound credentials (refresh token, access token) are
+ obtained and replace the existing credentials for the user.
+
+ If the user's session is already DPoP-bound, this is a no-op: `completionBlock` is invoked
+ immediately with the unchanged user account and no re-authentication is attempted.
+
+ @param user The user account to upgrade to DPoP.
+ @param completionBlock Called on successful upgrade with the updated user account and auth info.
+ @param failureBlock Called if the upgrade fails with an error and optional auth info.
+ */
+- (void)upgradeToDPoP:(SFUserAccount *)user
+               success:(SFUserAccountManagerSuccessCallbackBlock)completionBlock
+               failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock NS_SWIFT_NAME(upgradeToDPoP(_:success:failure:));
+
+/**
+ Downgrades the specified user's session from DPoP to Bearer in place, without changing the
+ connected app.
+
+ Re-authenticates using the user's current client id, redirect URI, and scopes, requesting an
+ unbound (Bearer) authorization code even if the process-wide DPoP flag is on. This might cause
+ the approve/deny screen to be presented to the user. If successful, a new set of Bearer
+ credentials (refresh token, access token) are obtained and replace the existing credentials for
+ the user, and the now-obsolete DPoP key pair, nonce-cache entries, and per-user DPoP marker are
+ reclaimed.
+
+ Note: the connected app must accept Bearer tokens for the downgrade to succeed; a DPoP-enforcing
+ connected app will reject the resulting Bearer session.
+
+ If the user's session is already unbound (Bearer), this is a no-op: `completionBlock` is invoked
+ immediately with the unchanged user account and no re-authentication is attempted.
+
+ @param user The user account to downgrade from DPoP.
+ @param completionBlock Called on successful downgrade with the updated user account and auth info.
+ @param failureBlock Called if the downgrade fails with an error and optional auth info.
+ */
+- (void)downgradeFromDPoP:(SFUserAccount *)user
+               success:(SFUserAccountManagerSuccessCallbackBlock)completionBlock
+               failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock NS_SWIFT_NAME(downgradeFromDPoP(_:success:failure:));
 
 /**
  Handle an authentication response from the IDP application
@@ -648,6 +728,12 @@ Use this method to stop/clear any authentication which is has already been start
 
  2. Walk the key window's view hierarchy and locate the `SFLoginViewController` presented
     inside the SDK's navigation controller.
+
+ @note Welcome Discovery: when the active login host is a Welcome Discovery host
+ (e.g. `welcome.salesforce.com/discovery`) and the user has not yet selected an
+ account, "Login for Admin" is a no-op (there is no resolved My Domain to switch
+ to). After the user picks an account on the discovery page, this method may be
+ called again and will use the resolved My Domain for the browser session.
 
  @param loginViewController The login view controller whose scene's active auth session should
  switch to "Login for Admin". Its window's scene is used to locate the session.

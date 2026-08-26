@@ -20,11 +20,13 @@ class MockRestClient: RestClient {
     var sendCallCount = 0
     var lastRequest: RestRequest?
     var allRequests: [RestRequest] = []
+    var onSend: ((RestRequest) -> Void)?
 
     override func send(_ request: RestRequest, failureBlock: @escaping RestRequestFailBlock, successBlock: @escaping RestResponseBlock) {
         sendCallCount += 1
         lastRequest = request
         allRequests.append(request)
+        onSend?(request)
 
         let mockURLResponse = HTTPURLResponse(url: URL(string: "https://example.com")!,
                                               mimeType: "application/json",

@@ -123,6 +123,12 @@ Set this block to handle presentation of the Authentication View Controller.
  */
 @property (nonatomic, assign) BOOL nativeLoginEnabled;
 
+/**
+ The previous login host, captured before a user-initiated host change. Used to
+ recover the active login host when the current host fails to connect.
+ */
+@property (nonatomic, copy, nullable) NSString *previousLoginHost;
+
 - (void)setCurrentUserInternal:(SFUserAccount* _Nullable)user;
 
 /**

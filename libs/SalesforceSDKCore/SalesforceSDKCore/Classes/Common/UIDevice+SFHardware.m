@@ -233,7 +233,7 @@
         }
     }
     
-    // iPhones (iOS 17 and newer supported)
+    // iPhones (iOS 18 and newer supported)
     NSDictionary *iphoneIdentifiers = @{
         @"iPhone12,8": @(UIDeviceSE2iPhone),           // iPhone SE (2nd generation)
         @"iPhone14,6": @(UIDeviceSE3iPhone),           // iPhone SE (3rd generation)
@@ -268,7 +268,7 @@
     NSNumber *iphoneType = iphoneIdentifiers[platform];
     if (iphoneType) return iphoneType.integerValue;
     
-    // iPads (iOS 17 and newer supported)
+    // iPads (iOS 18 and newer supported)
     NSDictionary *ipadIdentifiers = @{
         @"iPad7,11": @(UIDevice7GiPad),              // iPad (7th generation)
         @"iPad7,12": @(UIDevice7GiPad),              // iPad (7th generation)

@@ -27,19 +27,42 @@
  */
 
 #import "SFSDKAuthConfigUtil.h"
+#import "SFSDKOAuthConstants.h"
 #import "SFNetwork.h"
 #import <SalesforceSDKCommon/SFJsonUtils.h>
 
 static NSString * const kSFOAuthEndPointAuthConfiguration = @"/.well-known/auth-configuration";
-static NSString * const kSandboxLoginURL = @"test.salesforce.com";
-static NSString * const kProductionLoginURL = @"login.salesforce.com";
-static NSString * const kWelcomeLoginURL = @"welcome.salesforce.com/discovery";
+
+NSString * const kSFSDKSandboxLoginURL    = @"test.salesforce.com";
+NSString * const kSFSDKProductionLoginURL = @"login.salesforce.com";
+NSString * const kSFSDKWelcomeLoginURL    = @"welcome.salesforce.com/discovery";
 
 @implementation SFSDKAuthConfigUtil
 
++ (BOOL)isProductionLoginHost:(NSString *)host {
+    // Matches login.salesforce.com and internal pool variants like login.test1.pc-rnd.salesforce.com.
+    // My-domain hosts (containing .my.) are never production-pool hosts.
+    if (![host hasPrefix:@"login."] || ![host hasSuffix:@".salesforce.com"]) {
+        return NO;
+    }
+    return [host rangeOfString:@".my."].location == NSNotFound;
+}
+
++ (BOOL)isMyDomainHost:(NSString *)host {
+    // Matches *.my.salesforce.com and internal env variants like *.my.*.salesforce.com.
+    return [host hasSuffix:@".salesforce.com"]
+        && [host rangeOfString:@".my."].location != NSNotFound;
+}
+
++ (BOOL)isPoolLoginHost:(NSString *)host {
+    return [self isProductionLoginHost:host]
+        || [host isEqualToString:kSFSDKSandboxLoginURL]
+        || [host isEqualToString:kSFSDKWelcomeLoginURL];
+}
+
 + (void)getMyDomainAuthConfig:(MyDomainAuthConfigBlock)authConfigBlock loginDomain:(NSString *)loginDomain {
     NSString *orgConfigUrl = [NSString stringWithFormat:@"https://%@%@", loginDomain, kSFOAuthEndPointAuthConfiguration];
-    if ([loginDomain isEqualToString:kSandboxLoginURL] || [loginDomain isEqualToString:kProductionLoginURL] || [loginDomain isEqualToString:kWelcomeLoginURL]) {
+    if ([SFSDKAuthConfigUtil isPoolLoginHost:loginDomain]) {
         [SFSDKCoreLogger d:[self class] format:@"%@ Skipping auth config retrieval for login pool URL", NSStringFromSelector(_cmd)];
         authConfigBlock(nil, nil);
         return;

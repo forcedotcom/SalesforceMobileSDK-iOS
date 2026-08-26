@@ -47,7 +47,8 @@ extension SyncDownTarget {
 
     func deleteRecordsFromLocalStore(syncManager: SyncManager, soupName: String, ids: [String], idField: String) throws {
         if !ids.isEmpty {
-            let smartSql = "SELECT {\(soupName):\(SmartStore.soupEntryId)} FROM {\(soupName)} WHERE {\(soupName):\(idField)} IN ('\(ids.joined(separator: "','"))')"
+            let escapedIds = ids.map { $0.replacingOccurrences(of: "'", with: "''") }
+            let smartSql = "SELECT {\(soupName):\(SmartStore.soupEntryId)} FROM {\(soupName)} WHERE {\(soupName):\(idField)} IN ('\(escapedIds.joined(separator: "','"))')"
             if let spec = QuerySpec.buildSmartQuerySpec(smartSql: smartSql, pageSize: UInt(ids.count)) {
                 try syncManager.store.removeEntries(usingQuerySpec: spec, forSoupNamed: soupName)
             }

@@ -70,7 +70,23 @@ static SFOAuthCredentials *credentials = nil;
 }
 
 + (void)synchronousAuthRefresh {
-    [self synchronousAuthRefreshWithUserDidLoginNotification:NO];
+    [self synchronousAuthRefreshWithRetries:3];
+}
+
++ (void)synchronousAuthRefreshWithRetries:(NSInteger)maxRetries {
+    for (NSInteger attempt = 1; attempt <= maxRetries; attempt++) {
+        @try {
+            [self synchronousAuthRefreshWithUserDidLoginNotification:NO];
+            return;
+        } @catch (NSException *exception) {
+            if (attempt < maxRetries) {
+                NSLog(@"[TestSetupUtils] Auth refresh attempt %ld failed: %@. Retrying in 3s...", (long)attempt, exception.reason);
+                [NSThread sleepForTimeInterval:3.0];
+            } else {
+                @throw;
+            }
+        }
+    }
 }
 
 + (void)synchronousAuthRefreshWithUserDidLoginNotification:(BOOL)postUserDidLogIn

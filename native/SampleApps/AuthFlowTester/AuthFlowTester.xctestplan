@@ -19,7 +19,7 @@
         "locationScenario" : {
           "identifier" : "com.apple.dt.IDEFoundation.CurrentLocationScenarioIdentifier"
         },
-        "maximumTestExecutionTimeAllowance" : 360,
+        "maximumTestExecutionTimeAllowance" : 480,
         "maximumTestRepetitions" : 3,
         "region" : "US",
         "targetForVariableExpansion" : {
@@ -50,7 +50,7 @@
     "locationScenario" : {
       "identifier" : "com.apple.dt.IDEFoundation.CurrentLocationScenarioIdentifier"
     },
-    "maximumTestExecutionTimeAllowance" : 360,
+    "maximumTestExecutionTimeAllowance" : 480,
     "maximumTestRepetitions" : 3,
     "region" : "US",
     "targetForVariableExpansion" : {

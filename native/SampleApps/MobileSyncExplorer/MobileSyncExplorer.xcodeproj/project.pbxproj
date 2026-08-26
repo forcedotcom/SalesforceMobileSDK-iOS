@@ -17,7 +17,6 @@
 		696A8B6A2AD0F7B300A85A1D /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 696A8B692AD0F7B300A85A1D /* PrivacyInfo.xcprivacy */; };
 		820C8B0E19E6054E00E9BE5C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C8B0D19E6054E00E9BE5C /* AppDelegate.m */; };
 		820C8B1119E6059400E9BE5C /* InitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C8B1019E6059400E9BE5C /* InitialViewController.m */; };
-		SD00000119E6054E00D37B27 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = SD00000019E6054E00D37B27 /* SceneDelegate.m */; };
 		820C8B1F19E6081C00E9BE5C /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C8B1E19E6081C00E9BE5C /* ImageIO.framework */; };
 		820C8B2319E6088400E9BE5C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C8B2219E6088400E9BE5C /* MessageUI.framework */; };
 		820C8B2719E6091100E9BE5C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C8B2619E6091100E9BE5C /* SystemConfiguration.framework */; };
@@ -61,6 +60,7 @@
 		BCAE02051D7F7A9A00944153 /* SalesforceAnalytics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8D4C1CE932BD00C6FC6A /* SalesforceAnalytics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CE2B8D671CE932D600C6FC6A /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8D4C1CE932BD00C6FC6A /* SalesforceAnalytics.framework */; };
 		CE6AB39B1C10C4F50012125E /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE6AB39A1C10C4F50012125E /* libz.tbd */; };
+		SD00000119E6054E00D37B27 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = SD00000019E6054E00D37B27 /* SceneDelegate.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -273,8 +273,6 @@
 		696A8B692AD0F7B300A85A1D /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		820C8B0C19E6054E00E9BE5C /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		820C8B0D19E6054E00E9BE5C /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		SD00000219E6054E00D37B27 /* SceneDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
-		SD00000019E6054E00D37B27 /* SceneDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
 		820C8B0F19E6059400E9BE5C /* InitialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InitialViewController.h; sourceTree = "<group>"; };
 		820C8B1019E6059400E9BE5C /* InitialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InitialViewController.m; sourceTree = "<group>"; };
 		820C8B1E19E6081C00E9BE5C /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
@@ -322,6 +320,8 @@
 		B7E0CF321D91CECE0050A1F4 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		CE2B8D341CE932BD00C6FC6A /* SalesforceAnalytics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceAnalytics.xcodeproj; path = ../../../libs/SalesforceAnalytics/SalesforceAnalytics.xcodeproj; sourceTree = "<group>"; };
 		CE6AB39A1C10C4F50012125E /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		SD00000019E6054E00D37B27 /* SceneDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
+		SD00000219E6054E00D37B27 /* SceneDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -953,11 +953,12 @@
 					"$(BUILT_PRODUCTS_DIR)/Headers",
 					"$(OBJROOT)/UninstalledProducts/Headers",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LIBRARY_SEARCH_PATHS = "";
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "../../../shared/test/XCUITest-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1010,12 +1011,13 @@
 					"$(BUILT_PRODUCTS_DIR)/Headers",
 					"$(OBJROOT)/UninstalledProducts/Headers",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LIBRARY_SEARCH_PATHS = "";
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OBJC_BRIDGING_HEADER = "../../../shared/test/XCUITest-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1039,7 +1041,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.MobileSyncExplorer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_MACCATALYST = NO;
-				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1063,7 +1064,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.MobileSyncExplorer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_MACCATALYST = NO;
-				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1178,7 +1178,7 @@
 			repositoryURL = "https://github.com/sqlcipher/SQLCipher.swift";
 			requirement = {
 				kind = exactVersion;
-				version = 4.10.0;
+				version = 4.17.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

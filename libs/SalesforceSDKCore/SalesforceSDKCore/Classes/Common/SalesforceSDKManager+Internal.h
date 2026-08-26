@@ -27,6 +27,13 @@ API_UNAVAILABLE(visionos)
 
 @property (nonatomic, assign) SFAppType appType;
 @property (nonatomic, weak, nullable) id<SalesforceSDKManagerFlow> sdkManagerFlow;
+
+/** Non-deprecated internal accessor for the same backing storage as the public
+ `forceAdvancedAuthentication` property (deprecated in 14.0, removed in 15.0). Internal SDK code
+ reads and writes the flag through this accessor so that its own use does not trip
+ -Wdeprecated-declarations. Delete this alongside the public property in 15.0.
+ */
+@property (nonatomic, assign) BOOL sdk_forceAdvancedAuthentication;
 @property (nonatomic, strong, nonnull) SFSDKSafeMutableDictionary<NSString *, UIViewController *> *snapshotViewControllers;
 @property (nonatomic, strong, nullable) SFSDKSafeMutableDictionary<NSString *, UIViewController *> *nativeLoginViewControllers;
 
@@ -35,5 +42,11 @@ API_UNAVAILABLE(visionos)
 - (void)dismissSnapshot:(nonnull UIScene *)scene completion:(void (^ __nullable)(void))completion API_UNAVAILABLE(visionos);
 
 - (nonnull NSArray<SFSDKDevAction *> *)getDevActions:(nonnull UIViewController *)presentedViewController;
+- (void)hydratePerUserFeatureFlags;
+
+/** The SDK's own user agent string (SDK version, device/app info, app type, ftr_ markers),
+ without the WebView user agent that -userAgentString:forUser: appends as a trailing component.
+ */
+- (nonnull NSString *)sdkUserAgentString:(nonnull NSString *)qualifier forUser:(nullable SFUserAccount *)user;
 
 @end

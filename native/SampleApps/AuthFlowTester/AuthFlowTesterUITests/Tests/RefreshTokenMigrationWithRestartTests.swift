@@ -55,7 +55,8 @@ class RefreshTokenMigrationWithRestartTests: BaseAuthFlowTester {
         restartAndValidateUser(
             loginHost: .regularAuth,
             user: .third,
-            userAppConfigName: .ecaOpaque
+            userAppConfigName: .ecaOpaque,
+            wasMigrated: true
         )
     }
 
@@ -79,7 +80,8 @@ class RefreshTokenMigrationWithRestartTests: BaseAuthFlowTester {
         restartAndValidateUser(
             loginHost: .regularAuth,
             user: .third,
-            userAppConfigName: .beaconOpaque
+            userAppConfigName: .beaconOpaque,
+            wasMigrated: true
         )
     }
 
@@ -107,7 +109,8 @@ class RefreshTokenMigrationWithRestartTests: BaseAuthFlowTester {
             loginHost: .regularAuth,
             user: .third,
             userAppConfigName: .ecaJwt,
-            userScopeSelection: .all
+            userScopeSelection: .all,
+            wasMigrated: true
         )
     }
 
@@ -135,7 +138,8 @@ class RefreshTokenMigrationWithRestartTests: BaseAuthFlowTester {
             loginHost: .regularAuth,
             user: .third,
             userAppConfigName: .beaconJwt,
-            userScopeSelection: .all
+            userScopeSelection: .all,
+            wasMigrated: true
         )
     }
 
@@ -168,20 +172,23 @@ class RefreshTokenMigrationWithRestartTests: BaseAuthFlowTester {
         // Verify main page loads
         assertMainPageLoaded()
 
-        // Switch to User A and validate
+        // Switch to User A and validate — was migrated, TM must be present
         switchToUserAndValidateUser(
             loginHost: .regularAuth,
             user: .third,
             userAppConfigName: .ecaOpaque,
-            userScopeSelection: .empty
+            userScopeSelection: .empty,
+            isMultiUser: true,
+            wasMigrated: true
         )
 
-        // Switch to User B and validate
+        // Switch to User B and validate — fresh login, no TM
         switchToUserAndValidateUser(
             loginHost: .regularAuth,
             user: .fourth,
             userAppConfigName: .beaconOpaque,
-            userScopeSelection: .empty
+            userScopeSelection: .empty,
+            isMultiUser: true
         )
 
         // Logout second user

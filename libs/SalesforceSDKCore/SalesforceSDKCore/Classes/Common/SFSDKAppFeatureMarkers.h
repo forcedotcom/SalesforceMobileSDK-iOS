@@ -24,6 +24,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class SFUserAccount;
+
 NS_ASSUME_NONNULL_BEGIN
 
 // App Feature Marker Constants
@@ -41,6 +43,33 @@ extern NSString * const kSFAppFeatureAiltnEnabled;
 extern NSString * const kSFSPAppFeatureIDPLogin;
 extern NSString * const kSFIDPAppFeatureIDPLogin;
 extern NSString * const kSFAppFeatureQrCodeLogin;
+extern NSString * const kSFAppFeatureRTR;
+extern NSString * const kSFAppFeatureDPoP;
+extern NSString * const kSFAppFeatureAppAttestation;
+
+// "Why browser login was used" markers — registered per-user alongside kSFAppFeatureSafariBrowserForLogin
+extern NSString * const kSFAppFeatureBrowserLoginServerAuthConfig;  // B1
+extern NSString * const kSFAppFeatureBrowserLoginMDM;               // B2
+extern NSString * const kSFAppFeatureBrowserLoginForAdmin;          // B3
+extern NSString * const kSFAppFeatureBrowserLoginForceFlag;         // B4
+
+// "Which login server type" markers — registered per-user on every non-refresh login
+extern NSString * const kSFAppFeatureLoginServerProduction;         // L1
+extern NSString * const kSFAppFeatureLoginServerSandbox;            // L2
+extern NSString * const kSFAppFeatureLoginServerWelcomeDiscovery;   // L3
+extern NSString * const kSFAppFeatureLoginServerMyDomain;           // L4
+extern NSString * const kSFAppFeatureLoginServerOther;              // L5
+
+// "Which auth type was used" markers — exactly one registered per-user per non-refresh login
+extern NSString * const kSFAppFeatureAuthTypeWebServerNonHybrid;    // A1
+extern NSString * const kSFAppFeatureAuthTypeWebServerHybrid;       // A2
+extern NSString * const kSFAppFeatureAuthTypeUserAgentNonHybrid;    // A3
+extern NSString * const kSFAppFeatureAuthTypeUserAgentHybrid;       // A4
+extern NSString * const kSFAppFeatureAuthTypeNative;                // A5
+extern NSString * const kSFAppFeatureTokenMigration;                // TM
+extern NSString * const kSFAppFeatureTokenFormatJwt;                // JT
+extern NSString * const kSFAppFeatureTokenFormatOpaque;             // OT
+extern NSString * const kSFAppFeatureBeacon;                        // BN
 
 /**
  Class to register and unregister feature markers associated with SDK facilities being used in
@@ -49,21 +78,58 @@ extern NSString * const kSFAppFeatureQrCodeLogin;
 @interface SFSDKAppFeatureMarkers : NSObject
 
 /**
- Register a particular app feature.
+ Register a particular app feature (global — all users).
  @param appFeature The string representation of the feature to register.
  */
 + (void)registerAppFeature:(nonnull NSString *)appFeature;
 
 /**
- Unregister a particular app feature.
+ Unregister a particular app feature (global — all users).
  @param appFeature The string representation of the feature to unregister.
  */
 + (void)unregisterAppFeature:(nonnull NSString *)appFeature;
 
 /**
- @return The current set of registered features.
+ @return The current set of globally registered features.
  */
 + (nonnull NSSet<NSString *> *)appFeatures;
+
+/**
+ Register a feature for a specific user. If user is nil, registers globally.
+ @param appFeature The string representation of the feature to register.
+ @param user The user account to register the feature for, or nil for global registration.
+ */
++ (void)registerAppFeature:(nonnull NSString *)appFeature forUser:(nullable SFUserAccount *)user;
+
+/**
+ Unregister a feature for a specific user. If user is nil, unregisters globally.
+ @param appFeature The string representation of the feature to unregister.
+ @param user The user account to unregister the feature for, or nil for global unregistration.
+ */
++ (void)unregisterAppFeature:(nonnull NSString *)appFeature forUser:(nullable SFUserAccount *)user;
+
+/**
+ Returns the union of global features and per-user features for the given user.
+ @param user The user account, or nil to return global features only.
+ @return The combined set of registered features.
+ */
++ (nonnull NSSet<NSString *> *)appFeaturesForUser:(nullable SFUserAccount *)user;
+
+/**
+ Populates the in-memory per-user map from persisted flags without triggering a save.
+ Called during SDK startup after accounts are loaded.
+ @param features The set of persisted feature flags.
+ @param user The user account to load flags for.
+ */
++ (void)loadPersistedFeatures:(nonnull NSSet<NSString *> *)features forUser:(nonnull SFUserAccount *)user;
+
+#if DEBUG
+/**
+ Clears all per-user in-memory feature flags. Intended for UI test resets only.
+ NOT FOR PRODUCTION USE.
+ */
++ (void)resetPerUserFeaturesForUITesting;
+#endif
 
 @end
 

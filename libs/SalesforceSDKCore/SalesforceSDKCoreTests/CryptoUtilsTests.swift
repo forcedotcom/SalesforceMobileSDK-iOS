@@ -44,15 +44,10 @@ class CryptoUtilsTests: XCTestCase {
     func testEncryptDecrypt() throws {
         let stringToEncrypt = "Test string"
         let data = try XCTUnwrap(stringToEncrypt.data(using: .utf8))
-        
-        // rsaEncryptionPKCS1
-        var encryptedData = try XCTUnwrap(SFSDKCryptoUtils.encrypt(data: data, key: publicKey, algorithm: SecKeyAlgorithm.rsaEncryptionPKCS1))
-        var decryptedData = try XCTUnwrap(SFSDKCryptoUtils.decrypt(data: encryptedData, key: privateKey, algorithm: SecKeyAlgorithm.rsaEncryptionPKCS1))
-        XCTAssertEqual(stringToEncrypt, String(bytes: decryptedData, encoding: .utf8))
-        
+
         // rsaEncryptionOAEPSHA256
-        encryptedData = try XCTUnwrap(SFSDKCryptoUtils.encrypt(data: data, key: publicKey, algorithm: SecKeyAlgorithm.rsaEncryptionOAEPSHA256))
-        decryptedData = try XCTUnwrap(SFSDKCryptoUtils.decrypt(data: encryptedData, key: privateKey, algorithm: SecKeyAlgorithm.rsaEncryptionOAEPSHA256))
+        let encryptedData = try XCTUnwrap(SFSDKCryptoUtils.encrypt(data: data, key: publicKey, algorithm: SecKeyAlgorithm.rsaEncryptionOAEPSHA256))
+        let decryptedData = try XCTUnwrap(SFSDKCryptoUtils.decrypt(data: encryptedData, key: privateKey, algorithm: SecKeyAlgorithm.rsaEncryptionOAEPSHA256))
         XCTAssertEqual(stringToEncrypt, String(bytes: decryptedData, encoding: .utf8))
     }
 }

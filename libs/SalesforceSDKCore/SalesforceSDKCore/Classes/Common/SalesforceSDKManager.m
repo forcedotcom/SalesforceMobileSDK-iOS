@@ -31,6 +31,7 @@
 #import "SFSDKAppFeatureMarkers.h"
 #import "SFDefaultUserManagementViewController.h"
 #import "SFSDKAuthRootController.h"
+#import "SFSDKLoginHostListViewController.h"
 #import <SalesforceSDKCommon/SFSwiftDetectUtil.h>
 #import "SFSDKEncryptedURLCache.h"
 #import "SFSDKNullURLCache.h"
@@ -42,6 +43,7 @@
 #import "SFSDKSalesforceSDKUpgradeManager.h"
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 #import "SFSDKWindowManager+Internal.h"
+#import "SFSDKLoginHostStorage.h"
 
 // Error constants
 NSString * const kSalesforceSDKManagerErrorDomain     = @"com.salesforce.sdkmanager.error";
@@ -137,6 +139,18 @@ SFNativeLoginManagerInternal *nativeLogin;
 #endif
 }
 
+// Non-deprecated internal accessor over the same backing ivar as the deprecated public
+// forceAdvancedAuthentication property (see SalesforceSDKManager+Internal.h). Lets internal SDK
+// code read/write the flag without tripping -Wdeprecated-declarations. Remove with the public
+// property in 15.0.
+- (BOOL)sdk_forceAdvancedAuthentication {
+    return _forceAdvancedAuthentication;
+}
+
+- (void)setSdk_forceAdvancedAuthentication:(BOOL)sdk_forceAdvancedAuthentication {
+    _forceAdvancedAuthentication = sdk_forceAdvancedAuthentication;
+}
+
 + (void)setInstanceClass:(Class)className {
     InstanceClass = className;
 }
@@ -196,22 +210,60 @@ SFNativeLoginManagerInternal *nativeLogin;
 
 + (void)initializeSDK {
     [self initializeSDKWithClass:InstanceClass];
+}
+
++ (void)initializeSDKWithClass:(Class)className {
+    [self setInstanceClass:className];
+
 #ifdef DEBUG
     // For debug app builds only, use test instant log in if applicable.
     NSArray<NSString *> *arguments = [[NSProcessInfo processInfo] arguments];
     if ([arguments containsObject:@"-creds"]) {
         NSString *creds = arguments[[arguments indexOfObject:@"-creds"] + 1];
-        
+
         [TestSetupUtils populateAuthCredentialsFromString:creds initializeSdk:NO];
         [TestSetupUtils synchronousAuthRefreshWithUserDidLoginNotification:YES];
     }
 #endif
-}
 
-+ (void)initializeSDKWithClass:(Class)className {
-    [self setInstanceClass:className];
     [SalesforceSDKManager sharedManager];
 }
+
+- (void)resetAuthFlags {
+    self.useEphemeralSessionForAdvancedAuth = YES;
+    self.useWebServerAuthentication = YES;
+    self.useHybridAuthentication = YES;
+    self.useDPoP = YES;
+    self.sdk_forceAdvancedAuthentication = YES;
+    self.blockSalesforceIntegrationUser = NO;
+}
+
+#if DEBUG
++ (void)resetForUITesting {
+    // 1. Log out all users — clears on-disk account data, DPoP keychain keys, in-memory maps.
+    //    Refresh-token revocation fires asynchronously in the background.
+    [[SFUserAccountManager sharedInstance] logoutAllUsers];
+
+    // 2. Clear per-user in-memory feature flags (RT, DP, etc.) so flags from the previous test
+    //    do not bleed into the next one when the same user logs in again.
+    [SFSDKAppFeatureMarkers resetPerUserFeaturesForUITesting];
+
+    // 3. Reset selected login host to production default and persist it.
+    [SFUserAccountManager sharedInstance].loginHost = @"login.salesforce.com";
+
+    // 4. Remove custom login servers in-memory; save flushes the empty list to msdkUserDefaults
+    //    (SalesforceLoginHostListPrefs) so custom hosts do not reappear on next cold start.
+    //    Production (login.salesforce.com) and Sandbox (test.salesforce.com) are preserved.
+    SFSDKLoginHostStorage *storage = [SFSDKLoginHostStorage sharedInstance];
+    [storage removeAllLoginHosts];
+    [storage save];
+
+    // 5. Reset all auth flags to their -init defaults.
+    SalesforceSDKManager *mgr = [SalesforceSDKManager sharedManager];
+    [mgr resetAuthFlags];
+    mgr.simulatedDomainDiscoveryResult = nil;
+}
+#endif
 
 + (instancetype)sharedManager {
     static dispatch_once_t pred;
@@ -235,6 +287,7 @@ SFNativeLoginManagerInternal *nativeLogin;
         else{
             [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureMultiUser];
         }
+        [sdkManager hydratePerUserFeatureFlags];
     });
     return sdkManager;
 }
@@ -312,10 +365,7 @@ SFNativeLoginManagerInternal *nativeLogin;
         [self computeWebViewUserAgent]; // web view user agent is computed asynchronously so very first call to self.userAgentString(...) will be missing it
         self.userAgentString = [self defaultUserAgentString];
         self.URLCacheType = kSFURLCacheTypeEncrypted;
-        self.useEphemeralSessionForAdvancedAuth = YES;
-        self.useWebServerAuthentication = YES;
-        self.blockSalesforceIntegrationUser = NO;
-        self.useHybridAuthentication = YES;
+        [self resetAuthFlags];
         [self setupServiceConfiguration];
         _snapshotViewControllers = [SFSDKSafeMutableDictionary new];
         _nativeLoginViewControllers = [SFSDKSafeMutableDictionary new];
@@ -475,17 +525,20 @@ SFNativeLoginManagerInternal *nativeLogin;
     SFUserAccountManager *userAccountManager = [SFUserAccountManager sharedInstance];
     SFUserAccount *currentUser = userAccountManager.currentUser;
     
-    // Check if we're showing the login screen
-    BOOL isShowingLogin = [presentedViewController isKindOfClass:[SFLoginViewController class]];
-    // TODO uncomment to support advanced auth case (once we add code to restart auth in that case below)
-    // || [presentedViewController.presentingViewController isKindOfClass:[SFSDKAuthRootController class]];
-    
+    // Check if we're showing a login screen. This is the in-app WebView screen (SFLoginViewController)
+    // or, in the forced-advanced-auth path where SFLoginViewController is never created, the host
+    // list (SFSDKLoginHostListViewController) the user lands on.
+    BOOL isShowingWebViewLogin = [presentedViewController isKindOfClass:[SFLoginViewController class]];
+    BOOL isShowingHostList = [presentedViewController isKindOfClass:[SFSDKLoginHostListViewController class]]
+        && ((SFSDKLoginHostListViewController *)presentedViewController).presentedAsLoginScreen;
+    BOOL isShowingLogin = isShowingWebViewLogin || isShowingHostList;
+
     // Show dev info - always available
     [actions addObject:[[SFSDKDevAction alloc]initWith:@"Show dev info" handler:^{
         UIViewController *devInfo = [SFSDKDevInfoViewController makeViewController];
         [presentedViewController presentViewController:devInfo animated:YES completion:nil];
     }]];
-    
+
     // Login Options - only show on login screen
     if (isShowingLogin) {
         [actions addObject:[[SFSDKDevAction alloc]initWith:@"Login Options" handler:^{
@@ -494,8 +547,9 @@ SFNativeLoginManagerInternal *nativeLogin;
                     // Restart authentication with the updated configuration
                     if ([presentedViewController isKindOfClass:[SFLoginViewController class]]) {
                         [[SFUserAccountManager sharedInstance] restartAuthenticationForViewController:(SFLoginViewController *)presentedViewController recreateAuthRequest:YES];
+                    } else if ([presentedViewController isKindOfClass:[SFSDKLoginHostListViewController class]]) {
+                        [[SFUserAccountManager sharedInstance] hostListViewControllerDidChangeLoginOptions:(SFSDKLoginHostListViewController *)presentedViewController];
                     }
-                    // TODO support advanced auth case
                 }];
             }];
             [presentedViewController presentViewController:configPicker animated:YES completion:nil];
@@ -533,6 +587,19 @@ SFNativeLoginManagerInternal *nativeLogin;
     return [actions copy];
 }
 
+static NSString *SFSDKISO8601StringFromDate(NSDate *date) {
+    if (!date) return nil;
+    static NSDateFormatter *formatter = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        formatter = [[NSDateFormatter alloc] init];
+        formatter.locale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
+        formatter.timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
+        formatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss'Z'";
+    });
+    return [formatter stringFromDate:date];
+}
+
 - (NSArray<NSString *>*) getDevSupportInfos
 {
     SFUserAccountManager* userAccountManager = [SFUserAccountManager sharedInstance];
@@ -553,6 +620,8 @@ SFNativeLoginManagerInternal *nativeLogin;
     [devInfos addObjectsFromArray:@[
             @"Use Web Server Authentication", [self useWebServerAuthentication]  ? @"YES" : @"NO",
             @"Use Hybrid Authentication", [self useHybridAuthentication]  ? @"YES" : @"NO",
+            @"Use DPoP", [self useDPoP] ? @"YES" : @"NO",
+            @"Force Advanced Authentication", [self sdk_forceAdvancedAuthentication]  ? @"YES" : @"NO",
             @"Browser Login Enabled", [SFUserAccountManager sharedInstance].useBrowserAuth? @"YES" : @"NO",
             @"IDP Enabled", [self idpEnabled] ? @"YES" : @"NO",
             @"Identity Provider", [self isIdentityProvider] ? @"YES" : @"NO"
@@ -574,9 +643,30 @@ SFNativeLoginManagerInternal *nativeLogin;
             @"Scopes", [self scopesToString:currentUser],
             @"Instance URL", [creds.instanceUrl absoluteString] ?: @"(nil)",
             @"Token format", [creds.tokenFormat isEqualToString:@"jwt"] ? @"jwt" : @"opaque",
+            @"OAuth Token Type", creds.tokenType ?: @"Bearer",
             @"Access Token Expiration", [self accessTokenExpiration],
             @"Beacon Child Consumer Key", creds.beaconChildConsumerKey ?: @"(empty)"
         ]];
+
+        if ([creds.tokenType isEqualToString:@"DPoP"]) {
+            [devInfos addObjectsFromArray:@[
+                @"DPoP Nonce", [SFSDKDPoPNonceCache.shared latestForScope:creds.identifier] ?: @"None"
+            ]];
+
+            NSError *kpErr = nil;
+            SFSDKDPoPKeyPair *keyPair = [SFSDKDPoPKeyStore.shared keyPairForCredentials:creds error:&kpErr];
+            NSString *thumbprint = @"Unavailable";
+            if (keyPair && !kpErr) {
+                NSError *tpErr = nil;
+                NSString *computed = [SFSDKDPoPProofBuilder jwkThumbprintWithPublicKey:keyPair.publicKey error:&tpErr];
+                if (computed && !tpErr) {
+                    thumbprint = computed;
+                }
+            }
+            [devInfos addObjectsFromArray:@[
+                @"DPoP Key Thumbprint", thumbprint
+            ]];
+        }
     }
     
     // Key Value Stores
@@ -595,7 +685,49 @@ SFNativeLoginManagerInternal *nativeLogin;
         [devInfos addObjectsFromArray:@[@"Managed", [managedPreferences hasManagedPreferences] ? @"YES" : @"NO"]];
         [devInfos addObjectsFromArray:[self dictToDevInfos:managedPreferences.rawPreferences]];
     }
-    
+
+    // section:RTR — refresh-token-rotation observability
+    [devInfos addObject:@"section:RTR"];
+    {
+        SFUserAccount *rtrUser = [SFUserAccountManager sharedInstance].currentUser;
+        NSString *rtrActive;
+        if (!rtrUser) {
+            rtrActive = @"N/A";
+        } else {
+            NSSet<NSString *> *features = [SFSDKAppFeatureMarkers appFeaturesForUser:rtrUser];
+            rtrActive = [features containsObject:kSFAppFeatureRTR] ? @"YES" : @"NO";
+        }
+        NSString *lastRotation = @"Never";
+        if (rtrUser.credentials.lastTokenRotationDate) {
+            NSString *iso = SFSDKISO8601StringFromDate(rtrUser.credentials.lastTokenRotationDate);
+            if (iso.length > 0) {
+                lastRotation = iso;
+            }
+        }
+        [devInfos addObjectsFromArray:@[
+            @"RTR Active", rtrActive,
+            @"Last Rotation", lastRotation
+        ]];
+    }
+
+    // section:App Attestation — app attestation observability
+    [devInfos addObject:@"section:App Attestation"];
+    {
+        SFUserAccount *aaUser = [SFUserAccountManager sharedInstance].currentUser;
+        BOOL attestationEnabled = [SFUserAccountManager sharedInstance].appAttestationEnabled;
+        NSString *aaFeatureFlag;
+        if (!aaUser) {
+            aaFeatureFlag = @"N/A";
+        } else {
+            NSSet<NSString *> *features = [SFSDKAppFeatureMarkers appFeaturesForUser:aaUser];
+            aaFeatureFlag = [features containsObject:kSFAppFeatureAppAttestation] ? @"YES" : @"NO";
+        }
+        [devInfos addObjectsFromArray:@[
+            @"Attestation Enabled", attestationEnabled ? @"YES" : @"NO",
+            @"Used in Last Auth", aaFeatureFlag
+        ]];
+    }
+
     return devInfos;
 }
 
@@ -875,32 +1007,55 @@ SFNativeLoginManagerInternal *nativeLogin;
     }
 }
 
-- (SFSDKUserAgentCreationBlock)defaultUserAgentString {
-    return ^NSString *(NSString *qualifier) {
-        UIDevice *curDevice = [UIDevice currentDevice];
-        NSString *appName = [SalesforceSDKManager appName];
-        NSString *prodAppVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-        NSString *buildNumber = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleVersionKey];
-        NSString *appVersion = [NSString stringWithFormat:@"%@(%@)", prodAppVersion, buildNumber];
+- (NSString *)userAgentString:(NSString *)qualifier forUser:(SFUserAccount *)user {
+    return [NSString stringWithFormat:@"%@ %@",
+            [self sdkUserAgentString:qualifier forUser:user],
+            self.webViewUserAgent == nil ? @"" : self.webViewUserAgent];
+}
 
-        // App type.
-        NSString *appTypeStr = [self getAppTypeAsString];
-        NSString *myUserAgent = [NSString stringWithFormat:
-                                 @"SalesforceMobileSDK/%@ %@/%@ (%@) %@/%@ %@%@ uid_%@ ftr_%@ %@",
-                                 SALESFORCE_SDK_VERSION,
-                                 [curDevice systemName],
-                                 [curDevice systemVersion],
-                                 [curDevice model],
-                                 appName,
-                                 appVersion,
-                                 appTypeStr,
-                                 (qualifier != nil ? qualifier : @""),
-                                 uid,
-                                 [[[SFSDKAppFeatureMarkers appFeatures].allObjects sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] componentsJoinedByString:@"."],
-                                 self.webViewUserAgent == nil ? @"" : self.webViewUserAgent
-                                 ];
-        return myUserAgent;
+// The SDK's own user agent string — SDK version, device/app info, app type, and ftr_ markers —
+// without the WebView user agent that -userAgentString:forUser: appends as a trailing component.
+// Used where the WebView UA is not wanted, e.g. the `sdkInfo` OAuth authorize param, which is only
+// meant to identify the SDK itself (the native browser's own UA is captured separately server-side).
+- (NSString *)sdkUserAgentString:(NSString *)qualifier forUser:(SFUserAccount *)user {
+    SFUserAccount *resolvedUser = user ?: [SFUserAccountManager sharedInstance].currentUser;
+    UIDevice *curDevice = [UIDevice currentDevice];
+    NSString *appName = [SalesforceSDKManager appName];
+    NSString *prodAppVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    NSString *buildNumber = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleVersionKey];
+    NSString *appVersion = [NSString stringWithFormat:@"%@(%@)", prodAppVersion, buildNumber];
+    NSString *appTypeStr = [self getAppTypeAsString];
+    NSString *ftr = [[[SFSDKAppFeatureMarkers appFeaturesForUser:resolvedUser].allObjects
+                      sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)]
+                     componentsJoinedByString:@"."];
+    return [NSString stringWithFormat:
+            @"SalesforceMobileSDK/%@ %@/%@ (%@) %@/%@ %@%@ uid_%@ ftr_%@",
+            SALESFORCE_SDK_VERSION,
+            [curDevice systemName],
+            [curDevice systemVersion],
+            [curDevice model],
+            appName,
+            appVersion,
+            appTypeStr,
+            (qualifier != nil ? qualifier : @""),
+            uid,
+            ftr];
+}
+
+- (SFSDKUserAgentCreationBlock)defaultUserAgentString {
+    __weak typeof(self) weakSelf = self;
+    return ^NSString *(NSString *qualifier) {
+        return [weakSelf userAgentString:qualifier forUser:nil];
     };
+}
+
+- (void)hydratePerUserFeatureFlags {
+    NSArray *allUsers = [[SFUserAccountManager sharedInstance] allUserAccounts];
+    for (SFUserAccount *account in allUsers) {
+        if (account.persistedFeatureFlags.count > 0) {
+            [SFSDKAppFeatureMarkers loadPersistedFeatures:account.persistedFeatureFlags forUser:account];
+        }
+    }
 }
 
 - (void)computeWebViewUserAgent {

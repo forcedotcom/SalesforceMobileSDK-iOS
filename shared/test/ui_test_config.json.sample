@@ -1,4 +1,5 @@
 {
+    "loginPoolHost": "https://login.your-env.salesforce.com",
     "loginHosts": [
         {
             "name": "regular_auth",
@@ -88,6 +89,30 @@
             "name": "beacon_jwt",
             "consumerKey": "your_consumer_key_here",
             "redirectUri": "beaconadvancedjwt://success/done",
+            "scopes": "api content id lightning refresh_token sfap_api web"
+        },
+        {
+            "name": "eca_jwt_rtr",
+            "consumerKey": "your_consumer_key_here",
+            "redirectUri": "ecajwtrtr://success/done",
+            "scopes": "api content id lightning refresh_token sfap_api web"
+        },
+        {
+            "name": "eca_opaque_rtr",
+            "consumerKey": "your_consumer_key_here",
+            "redirectUri": "ecaopaquertr://success/done",
+            "scopes": "api content id lightning refresh_token sfap_api web"
+        },
+        {
+            "name": "eca_jwt_dpop",
+            "consumerKey": "your_consumer_key_here",
+            "redirectUri": "ecajwtdpop://success/done",
+            "scopes": "api content id lightning refresh_token sfap_api web"
+        },
+        {
+            "name": "eca_jwt_dpop_rtr",
+            "consumerKey": "your_consumer_key_here",
+            "redirectUri": "ecajwtdpoprtr://success/done",
             "scopes": "api content id lightning refresh_token sfap_api web"
         }
     ]

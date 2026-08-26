@@ -161,9 +161,7 @@ struct KeyValuePair: Hashable {
     var value: String
 }
 
-struct KeyValueEncryptedFileStoreInpector_Previews: PreviewProvider {
-    static var previews: some View {
-        KeyValueEncryptedFileStoreInspector()
-    }
+#Preview {
+    KeyValueEncryptedFileStoreInspector()
 }
     

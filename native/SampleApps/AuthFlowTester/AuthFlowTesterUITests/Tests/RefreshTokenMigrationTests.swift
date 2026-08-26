@@ -119,37 +119,46 @@ class RefreshTokenMigrationTests: BaseAuthFlowTester {
     }
     
     // MARK: - Migration with auth flow type change (user agent to web server flow)
-    
-    
+
+    // The initial login in these tests uses the user agent flow, which is incompatible with forced
+    // advanced authentication (advanced auth always uses the web server flow), so the initial login
+    // disables advanced auth to exercise the legacy in-app WebView path. The migration step is a
+    // refresh-token exchange (no interactive browser login), so the flag is irrelevant to it and the
+    // migration keeps its default web server flow.
+
     // Migrate from CA (user agent) to ECA (web server)
     func testMigrateCAUserAgentToECAWebServer() throws {
         launchAndLogin(
             loginHost: .regularAuth,
             user:.second,
             staticAppConfigName: .caOpaque,
-            useWebServerFlow: false
+            useWebServerFlow: false,
+            forceAdvancedAuthentication: false
         )
         migrateAndValidate(
             loginHost: .regularAuth,
             staticAppConfigName: .caOpaque,
             migrationAppConfigName: .ecaOpaque,
-            migrationUseWebServerFlow: true
+            migrationUseWebServerFlow: true,
+            forceAdvancedAuthentication: false
         )
     }
-    
+
     // Migrate from CA (user agent) to Beacon (web server)
     func testMigrateCAUserAgentToBeaconWebServer() throws {
         launchAndLogin(
             loginHost: .regularAuth,
             user:.second,
             staticAppConfigName: .caOpaque,
-            useWebServerFlow: false
+            useWebServerFlow: false,
+            forceAdvancedAuthentication: false
         )
         migrateAndValidate(
             loginHost: .regularAuth,
             staticAppConfigName: .caOpaque,
             migrationAppConfigName: .beaconOpaque,
-            migrationUseWebServerFlow: true
+            migrationUseWebServerFlow: true,
+            forceAdvancedAuthentication: false
         )
     }
     
@@ -214,6 +223,81 @@ class RefreshTokenMigrationTests: BaseAuthFlowTester {
 
     // MARK: - Multi-User Migration Scenarios
 
+    /// After migration User A has TM+JT+BN (A2 preserved from initial login, TM set).
+    /// User B logs in fresh with A1+OT, no TM. Four per-user flags differ simultaneously,
+    /// making leakage between migrated and non-migrated users fully detectable.
+    func testFlagDiversity_MigratedBeaconJwtVsNonHybridOpaque() throws {
+        // User A: initial login with CA Opaque (A2, OT)
+        launchAndLogin(
+            loginHost: .regularAuth,
+            user: .fourth,
+            staticAppConfigName: .caOpaque
+        )
+
+        // Migrate User A to Beacon JWT → A2 preserved, TM set, JT set, BN set
+        migrateAndValidate(
+            loginHost: .regularAuth,
+            staticAppConfigName: .caOpaque,
+            staticScopeSelection: .empty,
+            migrationAppConfigName: .beaconJwt,
+            migrationScopeSelection: .empty
+        )
+
+        // User B: fresh login with CA Opaque, non-hybrid → A1, OT, no TM, no BN
+        loginOtherUserAndValidate(
+            loginHost: .regularAuth,
+            user: .fifth,
+            staticAppConfigName: .caOpaque,
+            useHybridFlow: false,
+            forceAdvancedAuthentication: true
+        )
+
+        // Switch to User A — TM, JT, BN, A2, MU must all be present
+        switchToUser(loginHost: .regularAuth, user: .fourth)
+        validateUserAgent(
+            userCredentials: getUserCredentials(),
+            loginHost: .regularAuth,
+            expectAdvancedAuth: true,
+            isMultiUser: true,
+            expectedBMarker: kBrowserLoginForceFlag,
+            expectedLMarker: kLoginServerMyDomain,
+            expectedAMarker: kAuthTypeWebServerHybrid,
+            wasMigrated: true,
+            isJwt: true,
+            isBeacon: true
+        )
+
+        // Switch to User B — A1, OT, no TM, no BN, MU must be present
+        switchToUser(loginHost: .regularAuth, user: .fifth)
+        validateUserAgent(
+            userCredentials: getUserCredentials(),
+            loginHost: .regularAuth,
+            expectAdvancedAuth: true,
+            isMultiUser: true,
+            expectedBMarker: kBrowserLoginForceFlag,
+            expectedLMarker: kLoginServerMyDomain,
+            expectedAMarker: kAuthTypeWebServerNonHybrid,
+            wasMigrated: false,
+            isJwt: false,
+            isBeacon: false
+        )
+
+        // Logout User B — User A active again, MU must clear
+        logout()
+        validateUserAgent(
+            userCredentials: getUserCredentials(),
+            loginHost: .regularAuth,
+            expectAdvancedAuth: true,
+            isMultiUser: false,
+            expectedBMarker: kBrowserLoginForceFlag,
+            expectedLMarker: kLoginServerMyDomain,
+            expectedAMarker: kAuthTypeWebServerHybrid,
+            wasMigrated: true,
+            isJwt: true,
+            isBeacon: true
+        )
+    }
+
     /// Migrate User A while User B remains unchanged.
     /// Tests that migrating one user does not affect other logged-in users.
     func testMigrateOneUserOnly() throws {
@@ -234,11 +318,12 @@ class RefreshTokenMigrationTests: BaseAuthFlowTester {
         // Switch to User A
         switchToUser(loginHost: .regularAuth, user: .fourth)
 
-        // Migrate User A to ECA Opaque
+        // Migrate User A to ECA Opaque (User B is still logged in)
         migrateAndValidate(
             loginHost: .regularAuth,
             staticAppConfigName: .caOpaque,
-            migrationAppConfigName: .ecaOpaque
+            migrationAppConfigName: .ecaOpaque,
+            isMultiUser: true
         )
 
         // Switch to User B and verify unchanged (still CA Opaque)
@@ -246,15 +331,18 @@ class RefreshTokenMigrationTests: BaseAuthFlowTester {
             loginHost: .regularAuth,
             user: .fifth,
             staticAppConfigName: .caOpaque,
-            userAppConfigName: .caOpaque
+            userAppConfigName: .caOpaque,
+            isMultiUser: true
         )
 
-        // Switch back to User A and verify migration persisted (ECA Opaque)
+        // Switch back to User A and verify migration persisted (ECA Opaque, with TM flag)
         switchToUserAndValidate(
             loginHost: .regularAuth,
             user: .fourth,
             staticAppConfigName: .caOpaque,
-            userAppConfigName: .ecaOpaque
+            userAppConfigName: .ecaOpaque,
+            isMultiUser: true,
+            wasMigrated: true
         )
 
         // Test API calls for both users

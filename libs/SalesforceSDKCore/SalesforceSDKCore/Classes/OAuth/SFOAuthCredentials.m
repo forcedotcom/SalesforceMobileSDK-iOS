@@ -65,6 +65,7 @@ NSException * SFOAuthInvalidIdentifierException(void) {
 @synthesize apiInstanceUrl            = _apiInstanceUrl;
 @synthesize scopes                    = _scopes;
 @synthesize issuedAt                  = _issuedAt;
+@synthesize lastTokenRotationDate     = _lastTokenRotationDate;
 @synthesize protocol                  = _protocol;
 @synthesize encrypted                 = _encrypted;
 @synthesize additionalOAuthFields     = _additionalOAuthFields;
@@ -98,6 +99,7 @@ NSException * SFOAuthInvalidIdentifierException(void) {
             self.communityId    = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthCommunityId"];
             self.communityUrl   = [coder decodeObjectOfClass:[NSURL class]    forKey:@"SFOAuthCommunityUrl"];
             self.issuedAt       = [coder decodeObjectOfClass:[NSDate class]   forKey:@"SFOAuthIssuedAt"];
+            self.lastTokenRotationDate = [coder decodeObjectOfClass:[NSDate class] forKey:@"SFOAuthLastTokenRotationDate"];
             self.additionalOAuthFields = [coder decodeObjectOfClasses:[NSSet setWithObjects:[NSDictionary class], [NSString class], nil] forKey:@"SFOAuthAdditionalFields"];
             NSString *protocolVal = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthProtocol"];
             if (nil != protocolVal) {
@@ -117,6 +119,7 @@ NSException * SFOAuthInvalidIdentifierException(void) {
             self.cookieSidClient  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthCookieSidClient"];
             self.sidCookieName  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthSidCookieName"];
             self.tokenFormat  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthTokenFormat"];
+            self.tokenType  = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthTokenType"];
 
             if ([self isMemberOfClass:[SFOAuthCredentials class]]) {
                 // Otherwise they are stored in keychain
@@ -151,6 +154,7 @@ NSException * SFOAuthInvalidIdentifierException(void) {
     [coder encodeObject:self.communityId        forKey:@"SFOAuthCommunityId"];
     [coder encodeObject:self.communityUrl       forKey:@"SFOAuthCommunityUrl"];
     [coder encodeObject:self.issuedAt           forKey:@"SFOAuthIssuedAt"];
+    [coder encodeObject:self.lastTokenRotationDate forKey:@"SFOAuthLastTokenRotationDate"];
     [coder encodeObject:self.protocol           forKey:@"SFOAuthProtocol"];
     [coder encodeObject:self.lightningDomain    forKey:@"SFOAuthLightningDomain"];
     [coder encodeObject:self.vfDomain           forKey:@"SFOAuthVFDomain"];
@@ -159,6 +163,7 @@ NSException * SFOAuthInvalidIdentifierException(void) {
     [coder encodeObject:self.cookieSidClient    forKey:@"SFOAuthCookieSidClient"];
     [coder encodeObject:self.sidCookieName      forKey:@"SFOAuthSidCookieName"];
     [coder encodeObject:self.tokenFormat        forKey:@"SFOAuthTokenFormat"];
+    [coder encodeObject:self.tokenType          forKey:@"SFOAuthTokenType"];
     [coder encodeObject:kSFOAuthArchiveVersion  forKey:@"SFOAuthArchiveVersion"];
     [coder encodeObject:@(self.isEncrypted)     forKey:@"SFOAuthEncrypted"];
     [coder encodeObject:self.additionalOAuthFields forKey:@"SFOAuthAdditionalFields"];
@@ -211,6 +216,7 @@ NSException * SFOAuthInvalidIdentifierException(void) {
     copyCreds.communityId = self.communityId;
     copyCreds.communityUrl = self.communityUrl;
     copyCreds.issuedAt = self.issuedAt;
+    copyCreds.lastTokenRotationDate = self.lastTokenRotationDate;
 
     // NB: Intentionally ordering the copying of these, because setting the identity URL automatically
     // sets the OrgID and UserID.  This ensures the values stay in sync.
@@ -229,6 +235,7 @@ NSException * SFOAuthInvalidIdentifierException(void) {
     copyCreds.sidCookieName = self.sidCookieName;
     copyCreds.parentSid = self.parentSid;
     copyCreds.tokenFormat = self.tokenFormat;
+    copyCreds.tokenType = self.tokenType;
     copyCreds.beaconChildConsumerKey = self.beaconChildConsumerKey;
     copyCreds.beaconChildConsumerSecret = self.beaconChildConsumerSecret;
     copyCreds.additionalOAuthFields = [self.additionalOAuthFields copy];
@@ -343,6 +350,7 @@ NSException * SFOAuthInvalidIdentifierException(void) {
     self.sidCookieName = nil;
     self.parentSid = nil;
     self.tokenFormat = nil;
+    self.tokenType = nil;
     self.beaconChildConsumerKey = nil;
     self.beaconChildConsumerSecret = nil;
 }
@@ -372,8 +380,17 @@ NSException * SFOAuthInvalidIdentifierException(void) {
 }
 
 - (NSURL *)overrideDomainIfNeeded {
-    NSString *domain = self.communityId ? self.communityUrl.absoluteString : self.domain;
-    NSString *protocolHost = self.communityId ? domain : [NSString stringWithFormat:@"%@://%@", self.protocol, domain];
+    // Precedence: communityUrl > instanceUrl > domain. instanceUrl is populated only after the first
+    // token response, so a nil instanceUrl naturally identifies the code-exchange path.
+    if (self.communityId && self.communityUrl) {
+        return self.communityUrl;
+    }
+
+    if (self.instanceUrl) {
+        return self.instanceUrl;
+    }
+
+    NSString *protocolHost = [NSString stringWithFormat:@"%@://%@", self.protocol, self.domain];
     return [NSURL URLWithString:protocolHost];
 }
 
@@ -469,11 +486,19 @@ NSException * SFOAuthInvalidIdentifierException(void) {
     if (params[kSFOAuthTokenFormat]) {
         self.tokenFormat = params[kSFOAuthTokenFormat];
     }
+    if (params[kSFOAuthTokenType]) {
+        self.tokenType = params[kSFOAuthTokenType];
+    }
+    // TODO: Remove kSFOAuthLegacyBeaconChildConsumer* fallback once server version 264 has rolled out everywhere.
     if (params[kSFOAuthBeaconChildConsumerKey]) {
         self.beaconChildConsumerKey = params[kSFOAuthBeaconChildConsumerKey];
+    } else if (params[kSFOAuthLegacyBeaconChildConsumerKey]) {
+        self.beaconChildConsumerKey = params[kSFOAuthLegacyBeaconChildConsumerKey];
     }
     if (params[kSFOAuthBeaconChildConsumerSecret]) {
         self.beaconChildConsumerSecret = params[kSFOAuthBeaconChildConsumerSecret];
+    } else if (params[kSFOAuthLegacyBeaconChildConsumerSecret]) {
+        self.beaconChildConsumerSecret = params[kSFOAuthLegacyBeaconChildConsumerSecret];
     }
 }
 

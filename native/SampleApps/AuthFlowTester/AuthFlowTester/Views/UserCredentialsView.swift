@@ -62,6 +62,8 @@ public struct CredentialsLabels {
     public static let challengeString = "Challenge String"
     public static let issuedAt = "Issued At"
     public static let scopes = "Scopes"
+    public static let oauthTokenType = "OAuth Token Type"
+    public static let dpopNonce = "DPoP Nonce"
     
     // URLs fields
     public static let instanceUrl = "Instance URL"
@@ -94,6 +96,10 @@ public struct CredentialsLabels {
     
     // Other fields
     public static let additionalOAuthFields = "Additional OAuth Fields"
+
+    // SDK section
+    public static let sdk = "SDK"
+    public static let userAgent = "User Agent"
 }
 
 struct UserCredentialsView: View {
@@ -110,6 +116,7 @@ struct UserCredentialsView: View {
     @State private var cookiesAndSecurityExpanded = true
     @State private var beaconExpanded = true
     @State private var otherExpanded = true
+    @State private var sdkSectionExpanded = false
     
     // Export alert state
     @State private var showExportAlert = false
@@ -172,6 +179,10 @@ struct UserCredentialsView: View {
                         InfoRowView(label: "\(CredentialsLabels.challengeString):", value: challengeString, isSensitive: true)
                         InfoRowView(label: "\(CredentialsLabels.issuedAt):", value: issuedAt)
                         InfoRowView(label: "\(CredentialsLabels.scopes):", value: credentialsScopes)
+                        InfoRowView(label: "\(CredentialsLabels.oauthTokenType):", value: oauthTokenType)
+                            .accessibilityIdentifier("oauthTokenTypeRow")
+                        InfoRowView(label: "\(CredentialsLabels.dpopNonce):", value: dpopNonce)
+                            .accessibilityIdentifier("dpopNonceRow")
                     }
                     
                     InfoSectionView(title: CredentialsLabels.urls, isExpanded: $urlsExpanded) {
@@ -211,6 +222,11 @@ struct UserCredentialsView: View {
                     InfoSectionView(title: CredentialsLabels.other, isExpanded: $otherExpanded) {
                         InfoRowView(label: "\(CredentialsLabels.additionalOAuthFields):", value: additionalOAuthFields)
                     }
+
+                    InfoSectionView(title: CredentialsLabels.sdk, isExpanded: $sdkSectionExpanded) {
+                        InfoRowView(label: "User Agent", value: userAgentString)
+                            .accessibilityIdentifier("userAgent")
+                    }
                 }
                 .id(refreshTrigger)
             }
@@ -240,11 +256,12 @@ struct UserCredentialsView: View {
         cookiesAndSecurityExpanded = expand
         beaconExpanded = expand
         otherExpanded = expand
+        sdkSectionExpanded = expand
     }
     
     private func generateCredentialsJSON() -> String {
         var result: [String: [String: String]] = [:]
-        
+
         // User Identity section
         result[CredentialsLabels.userIdentity] = [
             CredentialsLabels.username: username,
@@ -265,12 +282,14 @@ struct UserCredentialsView: View {
         result[CredentialsLabels.tokens] = [
             CredentialsLabels.accessToken: accessToken,
             CredentialsLabels.refreshToken: refreshToken,
-            CredentialsLabels.tokenFormat: tokenFormat,
+            CredentialsLabels.tokenFormat: tokenFormatRaw,
             CredentialsLabels.jwt: jwt,
             CredentialsLabels.authCode: authCode,
             CredentialsLabels.challengeString: challengeString,
             CredentialsLabels.issuedAt: issuedAt,
-            CredentialsLabels.scopes: credentialsScopes
+            CredentialsLabels.scopes: credentialsScopes,
+            CredentialsLabels.oauthTokenType: oauthTokenType,
+            CredentialsLabels.dpopNonce: dpopNonce
         ]
         
         // URLs section
@@ -316,7 +335,10 @@ struct UserCredentialsView: View {
         result[CredentialsLabels.other] = [
             CredentialsLabels.additionalOAuthFields: additionalOAuthFields
         ]
-        
+
+        // SDK section
+        result[CredentialsLabels.sdk] = [CredentialsLabels.userAgent: userAgentString]
+
         guard let jsonData = try? JSONSerialization.data(withJSONObject: result, options: [.prettyPrinted]),
               let jsonString = String(data: jsonData, encoding: .utf8) else {
             return "{}"
@@ -326,11 +348,16 @@ struct UserCredentialsView: View {
     }
     
     // MARK: - Computed Properties
-    
+
+    private var userAgentString: String {
+        guard let user = UserAccountManager.shared.currentUserAccount else { return "" }
+        return SalesforceManager.shared.userAgent(qualifier: "", for: user)
+    }
+
     private var credentials: OAuthCredentials? {
         return UserAccountManager.shared.currentUserAccount?.credentials
     }
-    
+
     // User Identity
     private var username: String {
         return UserAccountManager.shared.currentUserAccount?.idData.username ?? ""
@@ -374,8 +401,12 @@ struct UserCredentialsView: View {
         return credentials?.refreshToken ?? ""
     }
     
-    private var tokenFormat: String {
+    private var tokenFormatRaw: String {
         return credentials?.tokenFormat ?? ""
+    }
+
+    private var tokenFormat: String {
+        return tokenFormatRaw.isEmpty ? "Opaque" : tokenFormatRaw
     }
     
     private var jwt: String {
@@ -404,7 +435,15 @@ struct UserCredentialsView: View {
         }
         return scopes.sorted().joined(separator: " ")
     }
-    
+
+    private var oauthTokenType: String {
+        return credentials?.tokenType ?? "Bearer"
+    }
+
+    private var dpopNonce: String {
+        return DPoPNonceCache.shared.latest(forScope: credentials?.identifier) ?? "None"
+    }
+
     // URLs
     private var instanceUrl: String {
         return credentials?.instanceUrl?.absoluteString ?? ""

@@ -133,6 +133,7 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     credsIn.apiInstanceUrl  = [NSURL URLWithString:@"http://api.salesforce.com"];
     credsIn.scopes          = @[@"api", @"refresh_token"];
     credsIn.issuedAt        = [NSDate date];
+    credsIn.lastTokenRotationDate = [NSDate dateWithTimeIntervalSince1970:1700000000];
     credsIn.contentDomain   = @"mobilesdk.my.salesforce.com";
     credsIn.contentSid      = @"contentsid";
     credsIn.lightningDomain = @"mobilesdk.lightning.force.com";
@@ -145,6 +146,7 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     credsIn.sidCookieName   = @"sid-cookie-name";
     credsIn.parentSid       = @"parent-sid";
     credsIn.tokenFormat     = @"token-format";
+    credsIn.tokenType       = @"token-type";
     credsIn.beaconChildConsumerKey = @"beacon-child-consumer-key";
     credsIn.beaconChildConsumerSecret = @"beacon-child-consumer-secret";
 
@@ -177,6 +179,7 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     XCTAssertEqualObjects(credsIn.apiInstanceUrl,      credsOut.apiInstanceUrl,      @"apiInstanceUrl mismatch");
     XCTAssertEqualObjects(credsIn.scopes,              credsOut.scopes,              @"scopes mismatch");
     XCTAssertEqualObjects(credsIn.issuedAt,            credsOut.issuedAt,            @"issuedAt mismatch");
+    XCTAssertEqualObjects(credsIn.lastTokenRotationDate, credsOut.lastTokenRotationDate, @"lastTokenRotationDate mismatch");
     XCTAssertEqualObjects(credsIn.contentDomain,       credsOut.contentDomain,       @"contentDomain mismatch");
     XCTAssertEqualObjects(credsIn.contentSid,          credsOut.contentSid,          @"contentSid mismatch");
     XCTAssertEqualObjects(credsIn.lightningDomain,     credsOut.lightningDomain,     @"lightningDomain mismatch");
@@ -189,11 +192,27 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     XCTAssertEqualObjects(credsIn.sidCookieName,       credsOut.sidCookieName,       @"sidCookieName mismatch");
     XCTAssertEqualObjects(credsIn.parentSid,           credsOut.parentSid,           @"parentSid mismatch");
     XCTAssertEqualObjects(credsIn.tokenFormat,         credsOut.tokenFormat,         @"tokenFormat mismatch");
+    XCTAssertEqualObjects(credsIn.tokenType,           credsOut.tokenType,           @"tokenType mismatch");
     XCTAssertEqualObjects(credsIn.beaconChildConsumerKey,    credsOut.beaconChildConsumerKey,    @"beaconChildConsumerKey mismatch");
     XCTAssertEqualObjects(credsIn.beaconChildConsumerSecret, credsOut.beaconChildConsumerSecret, @"beaconChildConsumerSecret mismatch");
     XCTAssertEqualObjects(credsIn.additionalOAuthFields, credsOut.additionalOAuthFields, @"additionalFields mismatch");
     
     credsIn = nil;
+
+    // Test nil round-trip for lastTokenRotationDate
+    SFOAuthKeychainCredentials *nilCredsIn = [[SFOAuthKeychainCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
+    // Deliberately NOT setting lastTokenRotationDate
+
+    NSKeyedArchiver *nilArchiver = [[NSKeyedArchiver alloc] initRequiringSecureCoding:NO];
+    [nilArchiver encodeObject:nilCredsIn forKey:@"creds"];
+    [nilArchiver finishEncoding];
+    NSData *nilData = nilArchiver.encodedData;
+
+    NSKeyedUnarchiver *nilUnarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:nilData error:nil];
+    nilUnarchiver.requiresSecureCoding = YES;
+    SFOAuthCredentials *nilCredsOut = [nilUnarchiver decodeObjectOfClass:[SFOAuthCredentials class] forKey:@"creds"];
+
+    XCTAssertNil(nilCredsOut.lastTokenRotationDate, @"lastTokenRotationDate should be nil when not set");
 }
 
 - (void)testCredentialsCopying {
@@ -209,6 +228,7 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     NSString *communityIdToCheck = @"communityID";
     NSURL *communityUrlToCheck = [NSURL URLWithString:@"https://mycomm.my.salesforce.com/customers"];
     NSDate *issuedAtToCheck = [NSDate date];
+    NSDate *lastTokenRotationDateToCheck = [NSDate dateWithTimeIntervalSince1970:1700000000];
     NSURL *identityUrlToCheck = [NSURL URLWithString:@"https://login.salesforce.com/id/someOrg/someUser"];
     NSString *userIdToCheck = @"userID";
     NSString *contentDomainToCheck = @"mobilesdk.my.salesforce.com";
@@ -223,6 +243,7 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     NSString *sidCookieNameToCheck = @"sid-cookie-name";
     NSString *parentSidToCheck = @"parent-sid";
     NSString *tokenFormatToCheck = @"token-format";
+    NSString *tokenTypeToCheck = @"token-type";
     NSString *beaconChildConsumerKeyCheck = @"beacon-child-consumer-key";
     NSString *beaconChildConsumerSecretCheck = @"beacon-child-consumer-secret";
     NSDictionary *additionalFieldsToCheck = @{ @"field1": @"field1Val" };
@@ -239,6 +260,7 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     origCreds.communityId = communityIdToCheck;
     origCreds.communityUrl = communityUrlToCheck;
     origCreds.issuedAt = issuedAtToCheck;
+    origCreds.lastTokenRotationDate = lastTokenRotationDateToCheck;
     origCreds.contentDomain = contentDomainToCheck;
     origCreds.contentSid = contentSidToCheck;
     origCreds.lightningDomain = lightningDomainToCheck;
@@ -251,6 +273,7 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     origCreds.sidCookieName = sidCookieNameToCheck;
     origCreds.parentSid = parentSidToCheck;
     origCreds.tokenFormat = tokenFormatToCheck;
+    origCreds.tokenType = tokenTypeToCheck;
     origCreds.beaconChildConsumerKey = beaconChildConsumerKeyCheck;
     origCreds.beaconChildConsumerSecret = beaconChildConsumerSecretCheck;
 
@@ -276,6 +299,7 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     origCreds.communityId = nil;
     origCreds.communityUrl = nil;
     origCreds.issuedAt = nil;
+    origCreds.lastTokenRotationDate = nil;
     origCreds.identityUrl = nil;
     origCreds.userId = nil;
     origCreds.contentDomain = nil;
@@ -290,6 +314,7 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     origCreds.sidCookieName = nil;
     origCreds.parentSid = nil;
     origCreds.tokenFormat = nil;
+    origCreds.tokenType = nil;
     origCreds.beaconChildConsumerKey = nil;
     origCreds.beaconChildConsumerSecret = nil;
     origCreds.additionalOAuthFields = nil;
@@ -336,6 +361,8 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     XCTAssertNotEqual(origCreds.communityUrl, copiedCreds.communityUrl);
     XCTAssertEqual(copiedCreds.issuedAt, issuedAtToCheck);
     XCTAssertNotEqual(origCreds.issuedAt, copiedCreds.issuedAt);
+    XCTAssertEqual(copiedCreds.lastTokenRotationDate, lastTokenRotationDateToCheck);
+    XCTAssertNotEqual(origCreds.lastTokenRotationDate, copiedCreds.lastTokenRotationDate);
     XCTAssertEqual(copiedCreds.identityUrl, identityUrlToCheck);
     XCTAssertNotEqual(origCreds.identityUrl, copiedCreds.identityUrl);
     XCTAssertEqual(copiedCreds.userId, userIdToCheck);
@@ -354,6 +381,8 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     XCTAssertNotEqual(origCreds.sidCookieName, copiedCreds.sidCookieName);
     XCTAssertEqual(copiedCreds.tokenFormat, tokenFormatToCheck);
     XCTAssertNotEqual(origCreds.tokenFormat, copiedCreds.tokenFormat);
+    XCTAssertEqual(copiedCreds.tokenType, tokenTypeToCheck);
+    XCTAssertNotEqual(origCreds.tokenType, copiedCreds.tokenType);
     XCTAssertEqual(copiedCreds.additionalOAuthFields, additionalFieldsToCheck);
     XCTAssertNotEqual(origCreds.additionalOAuthFields, copiedCreds.additionalOAuthFields);
 }

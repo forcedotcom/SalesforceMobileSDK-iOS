@@ -63,6 +63,7 @@ extern NSException * _Nullable SFOAuthInvalidIdentifierException(void);
 @property (nonatomic, readwrite, nullable) NSString *communityId;
 @property (nonatomic, readwrite, nullable) NSURL *communityUrl;
 @property (nonatomic, readwrite, nullable) NSDate *issuedAt;
+@property (nonatomic, readwrite, nullable) NSDate *lastTokenRotationDate;
 @property (nonatomic, readwrite, nullable) NSURL *identityUrl;
 @property (nonatomic, readwrite, nullable) NSURL *apiUrl;
 @property (nonatomic, readwrite, nullable) NSString *userId;
@@ -82,6 +83,7 @@ extern NSException * _Nullable SFOAuthInvalidIdentifierException(void);
 @property (nonatomic, readwrite, nullable) NSString *sidCookieName;
 @property (nonatomic, readwrite, nullable) NSString *parentSid;
 @property (nonatomic, readwrite, nullable) NSString *tokenFormat;
+@property (nonatomic, readwrite, nullable) NSString *tokenType;
 @property (nonatomic, readwrite, nullable) NSString *beaconChildConsumerKey;
 @property (nonatomic, readwrite, nullable) NSString *beaconChildConsumerSecret;
 

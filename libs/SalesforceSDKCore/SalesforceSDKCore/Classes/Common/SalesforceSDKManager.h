@@ -204,6 +204,14 @@ NS_SWIFT_NAME(SalesforceManager)
 @property (nonatomic, copy) SFSDKUserAgentCreationBlock userAgentString NS_SWIFT_NAME(userAgentGenerator);
 
 /**
+ Returns a user agent string that includes both global and per-user feature flags.
+ @param qualifier Optional string appended to the app type (e.g., "Local" for hybrid).
+ @param user The user account whose per-user flags to include, or nil to use the current user.
+ @return The user agent string for the given user.
+ */
+- (nonnull NSString *)userAgentString:(nonnull NSString *)qualifier forUser:(nullable SFUserAccount *)user NS_SWIFT_NAME(userAgent(qualifier:for:));
+
+/**
  Block to dynamically select the app config at runtime based on login host.
  
  NB: SFUserAccountManager stores the consumer key, callback URL, etc. in its shared
@@ -257,6 +265,21 @@ NS_SWIFT_NAME(SalesforceManager)
 /** Whether hybrid authentication flow should be used. Defaults to YES.
  */
 @property (nonatomic, assign) BOOL useHybridAuthentication;
+
+/** Whether DPoP (RFC 9449) proof JWTs should be attached to token-endpoint requests.
+ *  Defaults to `YES` as of Mobile SDK 14. When enabled, the SDK lazily generates a
+ *  per-user P-256 keypair (Secure Enclave when available) and signs a proof JWT for
+ *  every request to `/services/oauth2/token`. This flag governs new logins only:
+ *  existing DPoP-bound credentials keep their binding and existing Bearer credentials
+ *  are not upgraded to DPoP, regardless of this setting.
+ */
+@property (nonatomic, assign) BOOL useDPoP NS_SWIFT_NAME(usesDPoP);
+
+/** Whether Advanced Authentication (browser-based OAuth) should always be used for interactive login, regardless of the target server's My Domain auth-configuration. When YES (the default), Advanced Auth is used even on standard login servers such as login.salesforce.com. When NO, Advanced Auth is used only when the server's My Domain auth-configuration opts into it (legacy behavior). Defaults to YES.
+
+ @deprecated Advanced Authentication is becoming mandatory; this flag no longer serves a durable purpose and will be removed in Salesforce Mobile SDK 15.0.
+ */
+@property (nonatomic, assign) BOOL forceAdvancedAuthentication SFSDK_DEPRECATED(14.0, 15.0, "Advanced Authentication is becoming mandatory; this flag will be removed.");
 
 /** Detect use of "Use Custom Domain" input from login web view using the given regex.
  *  Example for a specific org:
@@ -368,6 +391,22 @@ NS_SWIFT_NAME(SalesforceManager)
  * @return The Native Login Manager.
  */
 - (id <SFNativeLoginManager>)nativeLoginManager;
+
+#if DEBUG
+/**
+ * Resets all local SDK auth state for UI testing.
+ *
+ * Logs out all users (including async server refresh-token revocation), resets the selected
+ * login host to login.salesforce.com, removes persisted custom login servers, and restores
+ * all SalesforceSDKManager auth flags to their post-init defaults.
+ *
+ * Call once at process startup when --resetSDKForUITesting is present in launch arguments,
+ * after initializeSDK and before the SDK's login flow begins.
+ *
+ * NOT FOR PRODUCTION USE.
+ */
++ (void)resetForUITesting NS_SWIFT_NAME(resetForUITesting());
+#endif
 
 @end
 

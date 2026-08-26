@@ -104,6 +104,10 @@ To set this property use `setPhoto:completion:`
  */
 @property (nonatomic, readonly, assign) SFUserAccountLoginState loginState;
 
+/** Feature flags persisted for this user (e.g. BW, QR). Populated from SFSDKAppFeatureMarkers.
+ */
+@property (nonatomic, copy, nullable) NSSet<NSString *> *persistedFeatureFlags;
+
 /** Initialize with SFOAuthCredentials credentials
  @param credentials The credentials to link with the SFUserAccount.
  @return the account instance

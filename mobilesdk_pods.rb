@@ -23,6 +23,9 @@
 def use_mobile_sdk!(options={})
   path = options[:path] ||= "./mobile_sdk/SalesforceMobileSDK-iOS"
 
+  source 'https://www.github.com/forcedotcom/SalesforceMobileSDK-iOS-Specs'
+
+  pod 'SQLCipher', '4.17.0'
   pod 'SalesforceSDKCommon', :path => path
   pod 'SalesforceAnalytics', :path => path
   pod 'SalesforceSDKCore', :path => path
@@ -42,19 +45,6 @@ def mobile_sdk_pre_install(installer)
    end
 end
   
-
-# Post Install: Enable sign posts
-def signposts_post_install(installer)
-  installer.pods_project.targets.each do |target|
-    target.build_configurations.each do |config|
-      if config.name == 'Debug'
-        config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] ||= ['$(inherited)', 'DEBUG=1','SIGNPOST_ENABLED=1']
-        config.build_settings['OTHER_SWIFT_FLAGS'] = ['$(inherited)', '-DDEBUG','-DSIGNPOST_ENABLED']
-      end
-    end
-  end
-end
-
 
 # Post Install: Enable visionOS support
 def vision_os_post_install(installer)
@@ -79,7 +69,7 @@ def mobile_sdk_post_install(installer)
     # Mobile SDK targets
     is_mobile_sdk_target = ['SalesforceAnalytics', 'SalesforceSDKCommon', 'SalesforceSDKCore', 'SmartStore', 'MobileSync', 'SalesforceReact', 'FMDB'].include?(target.name)
     if is_mobile_sdk_target
-      change_deployment_target(target, '17.0')
+      change_deployment_target(target, '18.0')
     end
   end
 end

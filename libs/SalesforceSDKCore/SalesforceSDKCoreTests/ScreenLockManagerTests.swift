@@ -33,6 +33,23 @@ class ScreenLockManagerTests: XCTestCase {
         ScreenLockManagerInternal.shared.backgroundTimestamp = 0
     }
 
+    // MARK: - ScreenLockUIConfiguration Tests
+
+    func testDefaultConfiguration() {
+        let config = ScreenLockUIConfiguration()
+        XCTAssertNil(config.icon)
+        XCTAssertEqual(config.iconSize, CGSize(width: 125, height: 125))
+    }
+
+    func testSettingScreenLockManagerConfiguration() {
+        let config = ScreenLockUIConfiguration()
+        config.icon = UIImage()
+        config.iconSize = CGSize(width: 80, height: 80)
+        ScreenLockManagerInternal.shared.configuration = config
+        XCTAssertEqual(ScreenLockManagerInternal.shared.configuration.icon, config.icon)
+        XCTAssertEqual(ScreenLockManagerInternal.shared.configuration.iconSize, config.iconSize)
+    }
+
 // TODO: Add back after fixing Flappiness
     func _testLockScreenTriggers() throws {
         // Login with first user with a mobile policy -- should trigger lock screen
