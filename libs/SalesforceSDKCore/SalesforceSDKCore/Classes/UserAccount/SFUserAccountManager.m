@@ -902,7 +902,13 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     __weak typeof(self) weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
+        // Guard: if the session was removed before this block ran (e.g. the caller
+        // manually invoked the success/failure callback in a test, or another code
+        // path cancelled the session), skip the OAuth kick-off so no stale
+        // coordinator attempts to fire a network request for a dead session.
+        if (!strongSelf || !strongSelf.authSessions[authSession.sceneId]) { return; }
         [strongSelf dismissAuthViewControllerIfPresentForScene:authSession.oauthRequest.scene completion:^{
+            if (!strongSelf.authSessions[authSession.sceneId]) { return; }
             [authSession.oauthCoordinator migrateRefreshToken:user];
         }];
     });
