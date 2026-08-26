@@ -207,6 +207,23 @@ class DPoPLoginTests: BaseAuthFlowTester {
         assertRevokeAndRefreshWorks(isRtr: false, isDPoP: true, useHybridFlow: false, isJwt: true, useLoginPoolHost: true)
     }
 
+    /// Login via the pool server with DPoP + RTR and verify the refresh token survives the identity
+    /// fetch after login. Safety net for the RTR-unsafe credential-refresh pattern in
+    /// SFIdentityCoordinator: if the identity fetch were to consume the refresh token (by
+    /// triggering a credential refresh to resolve a routing error), assertRevokeAndRefreshWorks
+    /// below would fail because the refresh token would already be spent. W-23991713 tracks the fix.
+    func test_givenDPoPRtr_whenLoginViaPoolServer_thenRefreshTokenSurvivesIdentityFetch() throws {
+        launchLoginAndValidate(
+            loginHost: .regularAuth,
+            user: .first,
+            staticAppConfigName: .ecaJwtDpopRtr,
+            useHybridFlow: false,
+            useDPoP: true,
+            useLoginPoolHost: true
+        )
+        assertRevokeAndRefreshWorks(isRtr: true, isDPoP: true, useHybridFlow: false, isJwt: true, useLoginPoolHost: true)
+    }
+
     // MARK: - Admin Login
 
     /// Login with DPoP via Login for Admin (browser-based) and verify DPoP binding.
