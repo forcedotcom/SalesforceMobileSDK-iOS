@@ -151,6 +151,18 @@ SFNativeLoginManagerInternal *nativeLogin;
     _forceAdvancedAuthentication = sdk_forceAdvancedAuthentication;
 }
 
+// Non-deprecated internal accessor over the same backing ivar as the deprecated public
+// useWebServerAuthentication property (see SalesforceSDKManager+Internal.h). Lets internal SDK
+// code read/write the flag without tripping -Wdeprecated-declarations. Remove with the public
+// property in 15.0.
+- (BOOL)sdk_useWebServerAuthentication {
+    return _useWebServerAuthentication;
+}
+
+- (void)setSdk_useWebServerAuthentication:(BOOL)sdk_useWebServerAuthentication {
+    _useWebServerAuthentication = sdk_useWebServerAuthentication;
+}
+
 + (void)setInstanceClass:(Class)className {
     InstanceClass = className;
 }
@@ -231,7 +243,7 @@ SFNativeLoginManagerInternal *nativeLogin;
 
 - (void)resetAuthFlags {
     self.useEphemeralSessionForAdvancedAuth = YES;
-    self.useWebServerAuthentication = YES;
+    self.sdk_useWebServerAuthentication = YES;
     self.useHybridAuthentication = YES;
     self.useDPoP = YES;
     self.sdk_forceAdvancedAuthentication = YES;
@@ -618,7 +630,7 @@ static NSString *SFSDKISO8601StringFromDate(NSDate *date) {
     // Auth configuration
     [devInfos addObject:@"section:Auth Config"];
     [devInfos addObjectsFromArray:@[
-            @"Use Web Server Authentication", [self useWebServerAuthentication]  ? @"YES" : @"NO",
+            @"Use Web Server Authentication", [self sdk_useWebServerAuthentication]  ? @"YES" : @"NO",
             @"Use Hybrid Authentication", [self useHybridAuthentication]  ? @"YES" : @"NO",
             @"Use DPoP", [self useDPoP] ? @"YES" : @"NO",
             @"Force Advanced Authentication", [self sdk_forceAdvancedAuthentication]  ? @"YES" : @"NO",
