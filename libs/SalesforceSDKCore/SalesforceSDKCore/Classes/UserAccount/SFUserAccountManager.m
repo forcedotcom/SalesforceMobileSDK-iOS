@@ -866,11 +866,27 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     request.useDPoP = useDPoP;
     SFSDKAuthSession *authSession = [[SFSDKAuthSession alloc] initWith:request credentials:nil];
     authSession.isAuthenticating = YES;
+    // Snapshot DPoP-ness before the revoke block below can mutate `preMigrationCredentials`:
+    // `revokeRefreshToken:` synchronously clears `tokenType` (and other fields) on the credentials
+    // object it's handed, so reading `tokenType` after that call would always see it as non-DPoP.
+    BOOL preMigrationWasDPoP = [SFSDKDPoPRequestDecorator isDPoPTokenType:preMigrationCredentials.tokenType];
     authSession.authSuccessCallback = ^(SFOAuthInfo *authInfo, SFUserAccount *newUserAccount) {
         if (preMigrationCredentials != nil && ![preMigrationCredentials.refreshToken isEqualToString:newUserAccount.credentials.refreshToken]) {
-            
+
             id<SFSDKOAuthProtocol> authClient = self.authClient();
             [authClient revokeRefreshToken:preMigrationCredentials reason:SFLogoutReasonRefreshTokenRotated];
+        }
+
+        // Downgrade cleanup: if this migration moved the user off a DPoP-bound identifier onto a
+        // non-DPoP one, the pre-migration DPoP key pair and nonce-cache entries are now obsolete
+        // and would otherwise leak until logout. Only reclaim them once the migration has actually
+        // succeeded with a non-DPoP result — a failed/cancelled migration (authFailureCallback)
+        // leaves the original DPoP session untouched and fully functional.
+        if (preMigrationWasDPoP
+            && ![SFSDKDPoPRequestDecorator isDPoPTokenType:newUserAccount.credentials.tokenType]
+            && preMigrationCredentials.identifier.length > 0) {
+            [SFSDKDPoPKeyStore.shared deleteForCredentials:preMigrationCredentials];
+            [SFSDKDPoPNonceCache.shared clearForScope:preMigrationCredentials.identifier];
         }
 
         if (completionBlock) {
@@ -895,6 +911,14 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 - (void)upgradeToDPoP:(SFUserAccount *)user
                success:(SFUserAccountManagerSuccessCallbackBlock)completionBlock
                failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
+    // No-op if the session is already DPoP-bound: there's nothing to migrate, so return the
+    // user unchanged rather than kicking off a needless re-authentication.
+    if ([SFSDKDPoPRequestDecorator isDPoPTokenType:user.credentials.tokenType]) {
+        if (completionBlock) {
+            completionBlock(nil, user);
+        }
+        return;
+    }
     SFOAuthCredentials *credentials = user.credentials;
     SFSDKAppConfig *sameAppConfig = [[SFSDKAppConfig alloc] initWithDict:@{
         @"remoteAccessConsumerKey": credentials.clientId ?: @"",
@@ -902,6 +926,26 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         @"oauthScopes": credentials.scopes ?: @[]
     }];
     [self migrateRefreshToken:user newAppConfig:sameAppConfig useDPoP:@YES success:completionBlock failure:failureBlock];
+}
+
+- (void)downgradeFromDPoP:(SFUserAccount *)user
+               success:(SFUserAccountManagerSuccessCallbackBlock)completionBlock
+               failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
+    // No-op if the session is already unbound (Bearer): there's nothing to migrate, so return
+    // the user unchanged rather than kicking off a needless re-authentication.
+    if (![SFSDKDPoPRequestDecorator isDPoPTokenType:user.credentials.tokenType]) {
+        if (completionBlock) {
+            completionBlock(nil, user);
+        }
+        return;
+    }
+    SFOAuthCredentials *credentials = user.credentials;
+    SFSDKAppConfig *sameAppConfig = [[SFSDKAppConfig alloc] initWithDict:@{
+        @"remoteAccessConsumerKey": credentials.clientId ?: @"",
+        @"oauthRedirectURI": credentials.redirectUri ?: @"",
+        @"oauthScopes": credentials.scopes ?: @[]
+    }];
+    [self migrateRefreshToken:user newAppConfig:sameAppConfig useDPoP:@NO success:completionBlock failure:failureBlock];
 }
 
 
@@ -2410,8 +2454,14 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 
     // DPoP: register unconditionally on every completed session where the server issued
     // a DPoP-bound token (initial login OR refresh) — token_type is a per-session property.
-    if ([userAccount.credentials.tokenType isEqualToString:@"DPoP"]) {
+    // The else branch is a deliberate broadening beyond the original register-only logic: any
+    // completed session that comes back non-DPoP (e.g. a downgradeFromDPoP migration) must clear
+    // the marker too, or a session that has rolled back to Bearer would keep reporting DP. This is
+    // idempotent and applies to any non-DPoP completion, not just downgrade.
+    if ([SFSDKDPoPRequestDecorator isDPoPTokenType:userAccount.credentials.tokenType]) {
         [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureDPoP forUser:userAccount];
+    } else {
+        [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureDPoP forUser:userAccount];
     }
 
     // JT/OT: token format — written on every completed session (credentials may change on migration)
@@ -2492,7 +2542,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         [network sendRequest:request  dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error){
             // Gate harvest on DPoP credentials only — Bearer logins must not write to the
             // DPoP nonce cache even if the photo origin returns a stray DPoP-Nonce header.
-            if ([account.credentials.tokenType isEqualToString:[SFSDKDPoPRequestDecorator dpopTokenType]]
+            if ([SFSDKDPoPRequestDecorator isDPoPTokenType:account.credentials.tokenType]
                 && [[SalesforceSDKManager sharedManager] useDPoP]) {
                 [SFSDKDPoPRequestDecorator harvestNonceFromResponse:response
                                                          requestURL:request.URL

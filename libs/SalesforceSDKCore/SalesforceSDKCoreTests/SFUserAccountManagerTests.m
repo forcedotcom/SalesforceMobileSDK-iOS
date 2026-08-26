@@ -38,6 +38,7 @@
 #import "SFSDKLoginHostListViewController.h"
 #import "SFSDKNavigationController.h"
 #import "SFLoginViewController.h"
+#import <Security/Security.h>
 static NSString * const kUserIdFormatString = @"005R0000000Dsl%lu";
 static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 
@@ -99,11 +100,16 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 @end
 
 /** Auth client stub that captures the credentials passed to revokeRefreshToken:, so tests can
- assert which user's refresh token gets revoked. */
+ assert which user's refresh token gets revoked. By default it only captures -- it does NOT
+ clear any fields on the credentials, unlike the real SFSDKOAuth2 implementation. Set
+ `mimicsProductionRevokeSideEffect` to YES to also call `-[SFOAuthCredentials revoke]`, matching
+ what the real auth client does synchronously (clears refreshToken, tokenType, etc.) -- needed by
+ tests that must exercise that side effect rather than be shielded from it. */
 @interface SFSDKRevokeCapturingOAuthClient : NSObject <SFSDKOAuthProtocol>
 
 @property (nonatomic, strong, nullable) SFOAuthCredentials *revokedCredentials;
 @property (nonatomic, assign) NSUInteger revokeCallCount;
+@property (nonatomic, assign) BOOL mimicsProductionRevokeSideEffect;
 
 @end
 
@@ -116,6 +122,9 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 - (void)revokeRefreshToken:(SFOAuthCredentials *)credentials reason:(SFLogoutReason)reason {
     self.revokedCredentials = credentials;
     self.revokeCallCount += 1;
+    if (self.mimicsProductionRevokeSideEffect) {
+        [credentials revoke];
+    }
 }
 
 @end
@@ -944,6 +953,235 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     // Cleanup
     self.uam.authClient = originalFactory;
     [self.uam.authSessions removeObject:sceneId];
+}
+
+#pragma mark - upgradeToDPoP
+
+- (void)testUpgradeToDPoP_alreadyDPoP_isNoOpAndUserUnchanged {
+    // Given: a user whose session is already DPoP-bound.
+    SFUserAccount *testUser = [self createNewUserWithIndex:0];
+    testUser.credentials.tokenType = @"DPoP";
+    testUser.credentials.refreshToken = @"alreadyDPoPRefreshToken";
+
+    // Capture whichever credentials get revoked, so we can confirm no revoke -- and therefore no
+    // migration -- ever happens.
+    SFSDKRevokeCapturingOAuthClient *revokeClient = [[SFSDKRevokeCapturingOAuthClient alloc] init];
+    SFAuthClientFactoryBlock originalFactory = self.uam.authClient;
+    self.uam.authClient = ^{ return revokeClient; };
+
+    __block BOOL successCallbackInvoked = NO;
+    __block BOOL failureCallbackInvoked = NO;
+    __block SFUserAccount *capturedUserAccount = nil;
+
+    // When: upgrading a session that's already DPoP-bound.
+    [self.uam upgradeToDPoP:testUser
+                     success:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
+                         successCallbackInvoked = YES;
+                         capturedUserAccount = userAccount;
+                     }
+                     failure:^(SFOAuthInfo *authInfo, NSError *error) {
+                         failureCallbackInvoked = YES;
+                     }];
+
+    // Then: the success block fires immediately with the same user, and no migration/auth
+    // session was ever created -- proof that migrateRefreshToken was never invoked.
+    XCTAssertTrue(successCallbackInvoked, @"Success callback should be invoked for a no-op upgrade");
+    XCTAssertFalse(failureCallbackInvoked, @"Failure callback should not be invoked for a no-op upgrade");
+    XCTAssertEqual(capturedUserAccount, testUser, @"The unchanged user account should be passed back");
+    XCTAssertEqual(self.uam.authSessions.allKeys.count, 0, @"No auth session should be created for a no-op upgrade");
+    XCTAssertEqual(revokeClient.revokeCallCount, 0, @"No refresh token should be revoked for a no-op upgrade");
+    XCTAssertEqualObjects(testUser.credentials.refreshToken, @"alreadyDPoPRefreshToken",
+                          @"The refresh token must be untouched by a no-op upgrade");
+    XCTAssertEqualObjects(testUser.credentials.tokenType, @"DPoP",
+                          @"The token type must be untouched by a no-op upgrade");
+
+    // Cleanup
+    self.uam.authClient = originalFactory;
+}
+
+#pragma mark - downgradeFromDPoP
+
+/** Reads the raw public key bytes for a DPoP key pair so tests can tell a retained key apart
+ from a freshly-minted replacement (DPoPKeyStore's lookup is get-or-create, so a non-nil result
+ alone doesn't prove whether the original key survived). */
+- (NSData *)publicKeyDataForKeyPair:(SFSDKDPoPKeyPair *)keyPair {
+    CFErrorRef copyError = NULL;
+    NSData *data = (NSData *)CFBridgingRelease(SecKeyCopyExternalRepresentation(keyPair.publicKey, &copyError));
+    XCTAssertNotNil(data, @"Should be able to read the public key's raw representation");
+    return data;
+}
+
+- (void)testDowngradeFromDPoP_delegatesWithSameAppConfigAndUseDPoPNo {
+    // Given: a DPoP-bound user with a specific client id / redirect URI / scopes.
+    SFUserAccount *testUser = [self createNewUserWithIndex:0];
+    testUser.credentials.tokenType = @"DPoP";
+    testUser.credentials.clientId = @"existingClientId";
+    testUser.credentials.redirectUri = @"existingapp://oauth/callback";
+    testUser.credentials.scopes = @[@"api", @"refresh_token"];
+
+    // When: downgrading from DPoP.
+    [self.uam downgradeFromDPoP:testUser
+                         success:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {}
+                         failure:^(SFOAuthInfo *authInfo, NSError *error) {}];
+
+    // Then: the migration is set up against the SAME connected app, with useDPoP forced to NO --
+    // beating the process-wide DPoP flag, whatever it's set to.
+    NSString *sceneId = self.uam.authSessions.allKeys.firstObject;
+    XCTAssertNotNil(sceneId, @"Auth session should have been created");
+    SFSDKAuthSession *authSession = self.uam.authSessions[sceneId];
+
+    XCTAssertEqualObjects(authSession.oauthRequest.oauthClientId, testUser.credentials.clientId,
+                          @"Downgrade should reuse the user's existing client id");
+    XCTAssertEqualObjects(authSession.oauthRequest.oauthCompletionUrl, testUser.credentials.redirectUri,
+                          @"Downgrade should reuse the user's existing redirect URI");
+    XCTAssertEqualObjects(authSession.oauthRequest.useDPoP, @NO,
+                          @"Downgrade must force useDPoP:NO regardless of the global flag");
+
+    // Clean up
+    [self.uam.authSessions removeObject:sceneId];
+}
+
+- (void)testDowngradeFromDPoP_alreadyBearer_isNoOpAndUserUnchanged {
+    // Given: a user whose session is already unbound (Bearer).
+    SFUserAccount *testUser = [self createNewUserWithIndex:0];
+    testUser.credentials.tokenType = @"Bearer";
+    testUser.credentials.refreshToken = @"alreadyBearerRefreshToken";
+
+    // Capture whichever credentials get revoked, so we can confirm no revoke -- and therefore no
+    // migration -- ever happens.
+    SFSDKRevokeCapturingOAuthClient *revokeClient = [[SFSDKRevokeCapturingOAuthClient alloc] init];
+    SFAuthClientFactoryBlock originalFactory = self.uam.authClient;
+    self.uam.authClient = ^{ return revokeClient; };
+
+    __block BOOL successCallbackInvoked = NO;
+    __block BOOL failureCallbackInvoked = NO;
+    __block SFUserAccount *capturedUserAccount = nil;
+
+    // When: downgrading a session that's already Bearer.
+    [self.uam downgradeFromDPoP:testUser
+                         success:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
+                             successCallbackInvoked = YES;
+                             capturedUserAccount = userAccount;
+                         }
+                         failure:^(SFOAuthInfo *authInfo, NSError *error) {
+                             failureCallbackInvoked = YES;
+                         }];
+
+    // Then: the success block fires immediately with the same user, and no migration/auth
+    // session was ever created -- proof that migrateRefreshToken was never invoked.
+    XCTAssertTrue(successCallbackInvoked, @"Success callback should be invoked for a no-op downgrade");
+    XCTAssertFalse(failureCallbackInvoked, @"Failure callback should not be invoked for a no-op downgrade");
+    XCTAssertEqual(capturedUserAccount, testUser, @"The unchanged user account should be passed back");
+    XCTAssertEqual(self.uam.authSessions.allKeys.count, 0, @"No auth session should be created for a no-op downgrade");
+    XCTAssertEqual(revokeClient.revokeCallCount, 0, @"No refresh token should be revoked for a no-op downgrade");
+    XCTAssertEqualObjects(testUser.credentials.refreshToken, @"alreadyBearerRefreshToken",
+                          @"The refresh token must be untouched by a no-op downgrade");
+    XCTAssertEqualObjects(testUser.credentials.tokenType, @"Bearer",
+                          @"The token type must be untouched by a no-op downgrade");
+
+    // Cleanup
+    self.uam.authClient = originalFactory;
+}
+
+- (void)testDowngradeFromDPoP_successCleansUpObsoleteDPoPKeyAndNonce {
+    // Given: a DPoP-bound user with real key material and a cached nonce. Stub the auth client so
+    // the refresh-token-rotated revoke is captured instead of going over the network -- but set
+    // `mimicsProductionRevokeSideEffect` so the stub still reproduces the real auth client's
+    // synchronous side effect of clearing preMigrationCredentials' tokenType (among other fields)
+    // via `-[SFOAuthCredentials revoke]`. Cleanup must still fire after that happens: the
+    // production code must snapshot the DPoP-ness of preMigrationCredentials before the revoke
+    // block runs, not read it afterward.
+    SFSDKRevokeCapturingOAuthClient *revokeClient = [[SFSDKRevokeCapturingOAuthClient alloc] init];
+    revokeClient.mimicsProductionRevokeSideEffect = YES;
+    SFAuthClientFactoryBlock originalFactory = self.uam.authClient;
+    self.uam.authClient = ^{ return revokeClient; };
+
+    SFUserAccount *testUser = [self createNewUserWithIndex:0];
+    testUser.credentials.tokenType = @"DPoP";
+
+    NSURL *tokenURL = [NSURL URLWithString:@"https://login.salesforce.com/services/oauth2/token"];
+    [SFSDKDPoPNonceCache.shared setNonce:@"pre-downgrade-nonce" htu:tokenURL scope:testUser.credentials.identifier];
+
+    NSError *keyError = nil;
+    SFSDKDPoPKeyPair *originalKeyPair = [SFSDKDPoPKeyStore.shared keyPairForCredentials:testUser.credentials error:&keyError];
+    XCTAssertNil(keyError, @"Seeding the pre-downgrade key pair should succeed");
+    NSData *originalPublicKeyData = [self publicKeyDataForKeyPair:originalKeyPair];
+
+    [self.uam downgradeFromDPoP:testUser
+                         success:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {}
+                         failure:^(SFOAuthInfo *authInfo, NSError *error) {}];
+
+    NSString *sceneId = self.uam.authSessions.allKeys.firstObject;
+    SFSDKAuthSession *authSession = self.uam.authSessions[sceneId];
+
+    // When: the downgrade succeeds with a Bearer result.
+    SFOAuthInfo *authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefreshTokenMigration];
+    SFUserAccount *bearerUserAccount = [self createNewUserWithIndex:1];
+    bearerUserAccount.credentials.tokenType = @"Bearer";
+    bearerUserAccount.credentials.refreshToken = @"newBearerRefreshToken";
+    authSession.authSuccessCallback(authInfo, bearerUserAccount);
+
+    // Then: the pre-downgrade DPoP nonce is gone.
+    XCTAssertNil([SFSDKDPoPNonceCache.shared latestForScope:testUser.credentials.identifier],
+                @"Obsolete DPoP nonce should be cleared after a successful downgrade");
+
+    // And: the pre-downgrade DPoP key pair is gone -- a fresh lookup for the same identifier mints
+    // a brand-new key rather than returning the seeded one.
+    NSError *newKeyError = nil;
+    SFSDKDPoPKeyPair *regeneratedKeyPair = [SFSDKDPoPKeyStore.shared keyPairForCredentials:testUser.credentials error:&newKeyError];
+    XCTAssertNil(newKeyError);
+    NSData *regeneratedPublicKeyData = [self publicKeyDataForKeyPair:regeneratedKeyPair];
+    XCTAssertNotEqualObjects(originalPublicKeyData, regeneratedPublicKeyData,
+                            @"Obsolete DPoP key pair should have been deleted, forcing a fresh key on next lookup");
+
+    // Clean up
+    [self.uam.authSessions removeObject:sceneId];
+    [SFSDKDPoPNonceCache.shared clearForScope:testUser.credentials.identifier];
+    [SFSDKDPoPKeyStore.shared deleteForCredentials:testUser.credentials];
+    self.uam.authClient = originalFactory;
+}
+
+- (void)testDowngradeFromDPoP_failureRetainsDPoPKeyAndNonce {
+    // Given: a DPoP-bound user with real key material and a cached nonce.
+    SFUserAccount *testUser = [self createNewUserWithIndex:0];
+    testUser.credentials.tokenType = @"DPoP";
+
+    NSURL *tokenURL = [NSURL URLWithString:@"https://login.salesforce.com/services/oauth2/token"];
+    [SFSDKDPoPNonceCache.shared setNonce:@"still-working-nonce" htu:tokenURL scope:testUser.credentials.identifier];
+
+    NSError *keyError = nil;
+    SFSDKDPoPKeyPair *originalKeyPair = [SFSDKDPoPKeyStore.shared keyPairForCredentials:testUser.credentials error:&keyError];
+    XCTAssertNil(keyError);
+    NSData *originalPublicKeyData = [self publicKeyDataForKeyPair:originalKeyPair];
+
+    [self.uam downgradeFromDPoP:testUser
+                         success:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {}
+                         failure:^(SFOAuthInfo *authInfo, NSError *error) {}];
+
+    NSString *sceneId = self.uam.authSessions.allKeys.firstObject;
+    SFSDKAuthSession *authSession = self.uam.authSessions[sceneId];
+
+    // When: the downgrade fails (e.g. the user cancels the re-auth).
+    SFOAuthInfo *authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefreshTokenMigration];
+    NSError *testError = [NSError errorWithDomain:@"TestErrorDomain" code:1 userInfo:nil];
+    authSession.authFailureCallback(authInfo, testError);
+
+    // Then: the still-working DPoP session's nonce and key pair are untouched.
+    XCTAssertEqualObjects([SFSDKDPoPNonceCache.shared latestForScope:testUser.credentials.identifier],
+                         @"still-working-nonce",
+                         @"A failed downgrade must retain the original DPoP nonce");
+
+    NSError *lookupError = nil;
+    SFSDKDPoPKeyPair *keyPairAfterFailure = [SFSDKDPoPKeyStore.shared keyPairForCredentials:testUser.credentials error:&lookupError];
+    XCTAssertNil(lookupError);
+    NSData *publicKeyDataAfterFailure = [self publicKeyDataForKeyPair:keyPairAfterFailure];
+    XCTAssertEqualObjects(originalPublicKeyData, publicKeyDataAfterFailure,
+                         @"A failed downgrade must retain the original DPoP key pair, not mint a new one");
+
+    // Clean up
+    [self.uam.authSessions removeObject:sceneId];
+    [SFSDKDPoPNonceCache.shared clearForScope:testUser.credentials.identifier];
+    [SFSDKDPoPKeyStore.shared deleteForCredentials:testUser.credentials];
 }
 
 - (void)testNotifyLoginCompletion_PostsMigrateRefreshTokenNotification {

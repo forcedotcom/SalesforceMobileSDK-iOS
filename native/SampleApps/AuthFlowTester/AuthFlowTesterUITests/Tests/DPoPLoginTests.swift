@@ -159,6 +159,23 @@ class DPoPLoginTests: BaseAuthFlowTester {
         upgradeToDPoPAndValidate()
     }
 
+    // MARK: - Downgrade
+
+    /// Login with a DPoP-bound session, then use `UserAccountManager.downgradeFromDPoP` to
+    /// re-authenticate the same connected app in place and verify the session becomes an unbound
+    /// Bearer session without changing the consumer key.
+    ///
+    /// Uses the DPoP-optional `.ecaJwt` ECA rather than the DPoP-enforced `.ecaJwtDpop`: an
+    /// enforced ECA rejects the downgrade's unbound `/authorize` request outright, so downgrading
+    /// only makes sense starting from an ECA that accepts DPoP without requiring it.
+    func test_givenDPoPSession_whenDowngradeFromDPoP_thenBearerUnbound() throws {
+        // Login with a DPoP-bound session against a DPoP-optional ECA.
+        launchLoginAndValidate(staticAppConfigName: .ecaJwt, useDPoP: true)
+
+        // Downgrade the current session from DPoP in place and validate the result.
+        downgradeFromDPoPAndValidate()
+    }
+
     // MARK: - Restart
 
     /// Restart app after DPoP login and verify session and keypair persist.

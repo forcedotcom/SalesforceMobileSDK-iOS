@@ -23,6 +23,20 @@ Legacy login tests using the default Connected App (CA) opaque configuration fro
 | `testCAOpaque_AllScopes_WebServerFlow_InAppWebView` | CA Opaque | All | In-App WKWebView |
 | `testCAOpaque_DefaultScopes_UserAgentFlow` | CA Opaque | Default | In-App WKWebView |
 
+#### LegacyLoginTestsNotHybrid
+
+Runs the same 7 tests as `LegacyLoginTests` with `useHybridFlow` overridden to `false`. Non-hybrid flow means the app does not receive front-door session cookies (SIDs) during authentication.
+
+| Test | App Config | Scopes | Auth Surface |
+|------|-----------|--------|--------------|
+| `testCAOpaque_DefaultScopes_WebServerFlow` | CA Opaque | Default | ASWebAuthenticationSession |
+| `testCAOpaque_SubsetScopes_WebServerFlow` | CA Opaque | Subset | ASWebAuthenticationSession |
+| `testCAOpaque_AllScopes_WebServerFlow` | CA Opaque | All | ASWebAuthenticationSession |
+| `testCAOpaque_DefaultScopes_WebServerFlow_InAppWebView` | CA Opaque | Default | In-App WKWebView |
+| `testCAOpaque_SubsetScopes_WebServerFlow_InAppWebView` | CA Opaque | Subset | In-App WKWebView |
+| `testCAOpaque_AllScopes_WebServerFlow_InAppWebView` | CA Opaque | All | In-App WKWebView |
+| `testCAOpaque_DefaultScopes_UserAgentFlow` | CA Opaque | Default | In-App WKWebView |
+
 #### ECALoginTests
 External Client App (ECA) login tests for both opaque and JWT token formats with scope variations. Also covers pool server login (non-DPoP) and negative-path dynamic config tests.
 
@@ -34,6 +48,7 @@ External Client App (ECA) login tests for both opaque and JWT token formats with
 | `testECAJwt_DefaultScopes` | ECA JWT | Default | |
 | `testECAJwt_SubsetScopes` | ECA JWT | Subset | |
 | `testECAJwt_AllScopes` | ECA JWT | All | |
+| `test_givenNoDPoP_whenLoginViaPoolServer_thenSessionIsValid` | ECA JWT | Default | Pool server login without DPoP; Bearer session valid |
 | `testDynamicConfigurationWithInvalidClientId` | — | — | Invalid consumer key; login must fail |
 | `testDynamicConfigurationWithInvalidScope` | — | — | Invalid scope; login must fail |
 
@@ -51,6 +66,7 @@ All DPoP tests live here — basic login, RTR, multi-user, migration, server enf
 | `test_givenDPoPUser_whenMigrateToDPoPRtr_thenRefreshTokenRotationEnabled` | ECA JWT DPoP → ECA JWT DPoP RTR | — | Migrate from DPoP to DPoP+RTR |
 | `testLogin_DPoP_ECA_Without_DPoP_Fails` | ECA JWT DPoP | — | Server enforcement: DPoP-enforced ECA rejects login without DPoP (`useDPoP: false`); no account created |
 | `test_givenBearerSession_whenUpgradeToDPoP_thenDPoPBound` | ECA JWT → ECA JWT DPoP | — | Bearer → DPoP in-place upgrade via `UserAccountManager.upgradeToDPoP`; consumer key unchanged, `token_type: "DPoP"` post-upgrade |
+| `test_givenDPoPSession_whenDowngradeFromDPoP_thenBearerUnbound` | ECA JWT | — | DPoP → Bearer in-place downgrade via `UserAccountManager.downgradeFromDPoP`; consumer key unchanged, `token_type` no longer `"DPoP"` post-downgrade. Runs on the DPoP-*optional* ECA JWT app (a DPoP-*enforced* app would reject the downgrade's unbound `/authorize` request) |
 | `test_givenDPoPUser_whenAppRestart_thenSessionAndKeypairSurvive` | ECA JWT DPoP | — | `XCTSkip` (pending SDK fix — RestClient path lacks nonce-challenge retry; post-restart DPoP revoke fails because in-memory nonce cache is empty) |
 | `test_givenDPoP_whenLoginViaPoolServer_thenTokenTypeIsDPoP` | ECA JWT DPoP | — | Pool server login with DPoP; `dpop_jkt` accepted; L1 (production) marker in UA |
 | `test_givenDPoPRtr_whenLoginViaPoolServer_thenRefreshTokenSurvivesIdentityFetch` | ECA JWT DPoP RTR | — | Pool server + DPoP + RTR; safety net: refresh token must survive the post-login identity fetch |
@@ -110,8 +126,8 @@ End-to-end tests for multi-user scenarios: logging in two users, switching betwe
 
 | Test | Description |
 |------|-------------|
-| `testBothStatic_SameApp_SameScopes` | Two users on same CA Opaque app; unique tokens and user switching |
-| `testBothStatic_DifferentApps` | Two users on different static apps (CA + ECA) |
+| `testBothStatic_SameApp_SameScopes` | Two users on same ECA Opaque app; unique tokens and user switching |
+| `testBothStatic_DifferentApps` | Two users on different static apps (ECA Opaque + ECA JWT) |
 | `testBothStatic_SameApp_DifferentScopes` | Two users on same app with different scopes |
 | `testFirstStatic_SecondDynamic_DifferentApps` | First user on boot config (CA), second on dynamic config (ECA JWT) |
 | `testFirstDynamic_SecondStatic_DifferentApps` | First user on dynamic config (ECA JWT), second on boot config (CA) |
@@ -124,7 +140,7 @@ End-to-end tests for multi-user scenarios: logging in two users, switching betwe
 | `testFlagDiversity_NonHybridOpaqueVsHybridJwt` | User A: non-hybrid+OT; User B: hybrid+JT; validates per-user flag isolation |
 | `testFlagDiversity_BeaconNonHybridJwtVsHybridOpaque` | User A: beacon+non-hybrid+JT; User B: hybrid+OT; validates A-marker and BN isolation |
 | `testAdvancedAuthUser_HasBWFlag_RegularAuthUser_DoesNot` | One user on advanced auth (BW flag set), one on regular auth |
-| `test_dpopAndNonDPoPUsers_flagOff_maintainIndependentProofs` | DPoP and non-DPoP users coexist; toggling DPoP off for second user does not affect first |
+| `test_dpopAndNonDPoPUsers_flagOff_maintainIndependentProofs` | DPoP and non-DPoP users coexist; flipping the process-global DPoP flag off after both are authenticated leaves each user's per-credential binding intact |
 
 #### RefreshTokenMigrationTests
 Tests the SDK's refresh token migration flow. Validates that tokens are replaced and the new tokens are functional.
@@ -143,6 +159,17 @@ Tests the SDK's refresh token migration flow. Validates that tokens are replaced
 | `testMigrateBeaconOpaqueToJWTAndBack` | Migrate Beacon Opaque → JWT → Opaque (with rollback) |
 | `testFlagDiversity_MigratedBeaconJwtVsNonHybridOpaque` | Flag isolation after migration: Beacon JWT user vs non-hybrid opaque user |
 | `testMigrateOneUserOnly` | Migrate one user's tokens while the other remains unaffected |
+
+#### RefreshTokenMigrationWithRestartTests
+Tests that migrated refresh tokens persist across a cold app restart. Each test logs in, performs a migration, kills the app, relaunches, and verifies that the post-migration credentials are reloaded correctly.
+
+| Test | Original App | Migration App | Scope Change |
+|------|-------------|---------------|--------------|
+| `testMigrateCAToECA_WithRestart` | CA Opaque | ECA Opaque | No |
+| `testMigrateCAToBeacon_WithRestart` | CA Opaque | Beacon Opaque | No |
+| `testMigrateScopeAddition_WithRestart` | ECA JWT (subset) | ECA JWT (all) | Yes |
+| `testMigrateBeaconScopeAddition_WithRestart` | Beacon JWT (subset) | Beacon JWT (all) | Yes |
+| `testMigrateMultipleUsers_WithRestart` | User A: CA→ECA; User B: Beacon Opaque | Mixed | No |
 
 #### WelcomeLoginTests
 Tests for the Welcome Discovery login flow.
@@ -211,4 +238,51 @@ Restart tests additionally verify:
 - **Login hosts**: `regularAuth` (in-app WKWebView), `advancedAuth` (ASWebAuthenticationSession)
 - **Users**: `first` through `fifth`
 
-> **Note:** A valid `shared/test/ui_test_config.json` file with login host URLs, user credentials, and app configurations is required to run the tests.
+### Scope selections
+
+| Selection | Description |
+|-----------|-------------|
+| `empty` | No explicit scopes requested — org grants all scopes defined in the app config |
+| `subset` | Requests all scopes except `sfap_api` |
+| `all` | Requests all scopes explicitly |
+
+### Credential setup
+
+A valid `shared/test/ui_test_config.json` is required. Copy the sample and fill in your org URLs, user credentials, and consumer keys:
+
+```bash
+cp shared/test/ui_test_config.json.sample shared/test/ui_test_config.json
+```
+
+For full setup instructions, credential values, and cross-platform notes see the internal workspace doc: [`docs/auth/auth-ui-testing.md`](https://git.soma.salesforce.com/SalesforceMobileSDK/SalesforceMobileSDK-Workspace/blob/main/docs/auth/auth-ui-testing.md).
+
+## B- and L-markers in `ftr_`
+
+Each `validateUserAgent` call verifies two telemetry code families in the `ftr_` segment of the user-agent string.
+
+### B-markers — why browser login was used
+
+Registered once per user alongside the BW (browser-windows) flag. Exactly one is set when `ASWebAuthenticationSession` login occurred; none are set for in-app WKWebView login.
+
+| Code | Constant | Meaning | Priority |
+|------|----------|---------|----------|
+| B1 | `kSFAppFeatureBrowserLoginServerAuthConfig` | Server auth-config required browser login | Lowest |
+| B2 | `kSFAppFeatureBrowserLoginMDM` | MDM (`useBrowserAuth`) required browser login | — |
+| B3 | `kSFAppFeatureBrowserLoginForAdmin` | "Login for Admin" flow used | Highest |
+| B4 | `kSFAppFeatureBrowserLoginForceFlag` | `SalesforceSDKManager.forceAdvancedAuthentication` was set | — |
+
+Priority order when multiple reasons apply: **B3 > B2 > B4 > B1**.
+
+### L-markers — which login server type was used
+
+Registered on every non-refresh login. Exactly one is set per login.
+
+| Code | Constant | Meaning |
+|------|----------|---------|
+| L1 | `kSFAppFeatureLoginServerProduction` | Production pool server (`login.salesforce.com` and internal pool equivalents) |
+| L2 | `kSFAppFeatureLoginServerSandbox` | Sandbox (`test.salesforce.com`) |
+| L3 | `kSFAppFeatureLoginServerWelcomeDiscovery` | Welcome Discovery flow was used |
+| L4 | `kSFAppFeatureLoginServerMyDomain` | My Domain org (`.my.` in the host) |
+| L5 | `kSFAppFeatureLoginServerOther` | Any other login server |
+
+L3 takes priority over the resolved domain: even if Welcome Discovery resolves to a My Domain org, the final L-marker is L3.
