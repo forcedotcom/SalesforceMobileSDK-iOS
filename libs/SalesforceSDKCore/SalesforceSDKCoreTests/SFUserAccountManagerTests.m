@@ -429,8 +429,10 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
          [refreshExpectation fulfill];
          user = userAccount;
      } failure:^(SFOAuthInfo *authInfo, NSError *error) {
+         XCTFail(@"refreshCredentials failed: %@", error.localizedDescription);
+         [refreshExpectation fulfill];
      }];
-   
+
     [self waitForExpectations:@[refreshExpectation] timeout:20];
     
 }
