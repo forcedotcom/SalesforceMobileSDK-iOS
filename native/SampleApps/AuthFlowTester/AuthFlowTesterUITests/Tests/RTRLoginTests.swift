@@ -36,21 +36,15 @@ class RTRLoginTests: BaseAuthFlowTester {
     // MARK: - ECA JWT RTR Tests
 
     /// Login with ECA JWT RTR using hybrid flow.
-    // TODO: W-22512846 — Remove the skip when server enables Named JWTs for Hybrid Flows.
-    // Server currently returns invalid_grant for RTR + JWT tokens in hybrid flow.
     func testECAJwtRtr_Hybrid() throws {
-        throw XCTSkip("TODO: W-22512846 — Re-enable when server enables Named JWTs for Hybrid Flows")
         launchLoginAndValidate(staticAppConfigName: .ecaJwtRtr)
     }
 
     /// Login with ECA JWT RTR using hybrid flow, restart app, and verify session persists.
-    // TODO: W-22512846 — Remove the skip when server enables Named JWTs for Hybrid Flows.
-    // Server currently returns invalid_grant for RTR + JWT tokens in hybrid flow.
     func testECAJwtRtr_Hybrid_WithRestart() throws {
-        throw XCTSkip("TODO: W-22512846 — Re-enable when server enables Named JWTs for Hybrid Flows")
         launchLoginAndValidate(staticAppConfigName: .ecaJwtRtr)
         restartAndValidateUser(userAppConfigName: .ecaJwtRtr)
-        assertRevokeAndRefreshWorks(expectsRefreshTokenRotation: true)
+        assertRevokeAndRefreshWorks(expectsRefreshTokenRotation: true, isJwt: true)
     }
 
     /// Login with ECA JWT RTR without hybrid flow.

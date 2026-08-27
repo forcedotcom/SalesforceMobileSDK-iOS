@@ -55,10 +55,10 @@ class DPoPLoginTests: BaseAuthFlowTester {
 
     // MARK: - ECA JWT DPoP+RTR Tests
 
-    /// Login with ECA JWT DPoP+RTR using hybrid flow (pending server fix for Named JWTs + hybrid + RTR).
-    // TODO: Re-enable when server enables Named JWTs for Hybrid Flows (Salesforce server bug — see internal tracker).
-    func test_givenDPoPRtrHybrid_whenLogin_pendingServerFix() throws {
-        throw XCTSkip("TODO: Pending server fix for Named JWTs + RTR + hybrid flow")
+    /// Login with ECA JWT DPoP+RTR using hybrid flow and verify refresh token rotation and DPoP binding.
+    func test_givenDPoPRtrHybrid_whenLogin_thenRefreshTokenRotatesAndDPoPBindingHolds() throws {
+        launchLoginAndValidate(staticAppConfigName: .ecaJwtDpopRtr, useDPoP: true)
+        assertRevokeAndRefreshWorks(expectsRefreshTokenRotation: true, isDPoP: true, isJwt: true)
     }
 
     /// Login with ECA JWT DPoP+RTR without hybrid flow and verify refresh token rotation and DPoP binding.
