@@ -63,6 +63,11 @@ class BaseAuthFlowTester: XCTestCase {
     // Test configuration
     private let testConfig = UITestConfigUtils.shared
 
+    // RT is a per-user, sticky SDK marker. It starts absent after login and is set only when a
+    // normal refresh observes a changed refresh token. Keep the expected state independently of
+    // whether the current app configuration is capable of refresh-token rotation.
+    private var expectedRTRFeatureMarkerByUsername: [String: Bool] = [:]
+
     override func setUp() {
         super.setUp()
         continueAfterFailure = false
@@ -92,6 +97,8 @@ class BaseAuthFlowTester: XCTestCase {
     /// Initializes the app and page objects on the regular UI-test login server. Fresh launches
     /// reset all auth state, seed the fixed test servers, and select regular auth by default.
     func launch() {
+        // launch() requests --resetSDKForUITesting, which clears the SDK's per-user markers.
+        expectedRTRFeatureMarkerByUsername.removeAll()
         app = XCUIApplication()
 
         // Set environment variable to indicate we're running UI tests
@@ -234,6 +241,11 @@ class BaseAuthFlowTester: XCTestCase {
         else {
             loginPage.performLogin(username: userConfig.username, password: userConfig.password, advancedAuth: usesBrowser)
         }
+
+        // An authorization-code login does not use SFOAuthSessionRefresher, so it cannot set RT.
+        // Record this explicitly: later migration/restart checks must preserve this value until a
+        // test-triggered normal refresh observes token rotation.
+        expectedRTRFeatureMarkerByUsername[userConfig.username] = false
 
         // Invalid scope
         if (dynamicScopeSelection == .invalid || (dynamicAppConfig == nil && staticScopeSelection == .invalid)) {
@@ -604,7 +616,6 @@ class BaseAuthFlowTester: XCTestCase {
         loginForAdmin: Bool = false,
         usesWelcomeDiscovery: Bool = false,
         isMultiUser: Bool = false,
-        isRtr: Bool = false,
         wasMigrated: Bool = false
     ) {
         // Restart without --resetSDKForUITesting so the session persists across the restart
@@ -640,7 +651,6 @@ class BaseAuthFlowTester: XCTestCase {
             expectAdvancedAuth: expectAdvancedAuth,
             usesWelcomeDiscovery: usesWelcomeDiscovery,
             isMultiUser: isMultiUser,
-            isRtr: isRtr,
             expectedBMarker: expectedBMarker,
             expectedLMarker: expectedLMarker,
             expectedAMarker: aMarker,
@@ -755,7 +765,7 @@ class BaseAuthFlowTester: XCTestCase {
         // `upgradeToDPoP` delegates to the refresh-token migration path, so the "TM"
         // (token-migration) UA feature flag is legitimately registered — the marker tracks the
         // migration mechanism, not whether the connected app changed. Assert its presence.
-        assertRevokeAndRefreshWorks(isRtr: false, isDPoP: true, wasMigrated: true, isJwt: isJwt)
+        assertRevokeAndRefreshWorks(expectsRefreshTokenRotation: false, isDPoP: true, wasMigrated: true, isJwt: isJwt)
     }
 
     /// Downgrades the current DPoP-bound session back to Bearer in place (same connected app, via
@@ -796,7 +806,7 @@ class BaseAuthFlowTester: XCTestCase {
         // (token-migration) UA feature flag is legitimately registered — the marker tracks the
         // migration mechanism, not whether the connected app changed. Assert its presence, and
         // that "DP" is absent now that the session is Bearer-bound.
-        assertRevokeAndRefreshWorks(isRtr: false, isDPoP: false, wasMigrated: true, isJwt: isJwt)
+        assertRevokeAndRefreshWorks(expectsRefreshTokenRotation: false, isDPoP: false, wasMigrated: true, isJwt: isJwt)
     }
 
     /// Launches the app and attempts a login expected to fail before any credentials are entered.
@@ -913,15 +923,15 @@ class BaseAuthFlowTester: XCTestCase {
     ///   - expectAdvancedAuth: Whether advanced auth (browser-based) was used, which sets the BW flag. Defaults to `false`.
     ///   - usesWelcomeDiscovery: Whether welcome domain discovery was used. Defaults to `false`.
     ///   - isMultiUser: Whether multiple users are currently logged in. Defaults to `false`.
-    ///   - isRtr: Whether Refresh Token Rotation is enabled, which sets the RT flag. Defaults to `false`.
+    ///   - expectedRTRFeatureMarker: Whether the SDK should already have registered RT for this user.
     ///   - expectedBMarker: The single B-marker code expected in the UA (e.g. "B3", "B4"). Pass `nil` when no browser login occurred.
     ///   - expectedLMarker: The single L-marker code expected in the UA (e.g. "L3", "L4"). Pass `nil` to assert no L-markers are present.
     ///   - expectedAMarker: The single A-marker code expected in the UA (e.g. "A1", "A5"). Pass `nil` to assert no A-markers are present.
     ///   - wasMigrated: Whether a refresh token migration occurred (TM flag). Defaults to `false`.
     ///   - isJwt: Whether the session uses JWT token format (JT flag). Defaults to `false`, asserting OT instead.
     ///   - isBeacon: Whether this is a beacon child app (BN flag). Defaults to `false`.
-    func validateUserAgent(userCredentials: UserCredentialsData, loginHost: KnownLoginHostConfig, expectAdvancedAuth: Bool = false, usesWelcomeDiscovery: Bool = false, isMultiUser: Bool = false, isRtr: Bool = false, expectDP: Bool = false, expectedBMarker: String? = nil, expectedLMarker: String? = nil, expectedAMarker: String? = nil, wasMigrated: Bool = false, isJwt: Bool = false, isBeacon: Bool = false) {
-        validateUserAgent(ua: userCredentials.userAgent, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, usesWelcomeDiscovery: usesWelcomeDiscovery, isMultiUser: isMultiUser, isRtr: isRtr, expectDP: expectDP, expectedBMarker: expectedBMarker, expectedLMarker: expectedLMarker, expectedAMarker: expectedAMarker, wasMigrated: wasMigrated, isJwt: isJwt, isBeacon: isBeacon)
+    func validateUserAgent(userCredentials: UserCredentialsData, loginHost: KnownLoginHostConfig, expectAdvancedAuth: Bool = false, usesWelcomeDiscovery: Bool = false, isMultiUser: Bool = false, expectDP: Bool = false, expectedBMarker: String? = nil, expectedLMarker: String? = nil, expectedAMarker: String? = nil, wasMigrated: Bool = false, isJwt: Bool = false, isBeacon: Bool = false) {
+        validateUserAgent(ua: userCredentials.userAgent, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, usesWelcomeDiscovery: usesWelcomeDiscovery, isMultiUser: isMultiUser, expectedRTRFeatureMarker: expectedRTRFeatureMarker(for: userCredentials.username), expectDP: expectDP, expectedBMarker: expectedBMarker, expectedLMarker: expectedLMarker, expectedAMarker: expectedAMarker, wasMigrated: wasMigrated, isJwt: isJwt, isBeacon: isBeacon)
     }
 
     /// Validates a pre-fetched user agent string. Called from validate() which already has the UA.
@@ -932,14 +942,14 @@ class BaseAuthFlowTester: XCTestCase {
     ///   - expectAdvancedAuth: Whether advanced auth (browser-based) was used, which sets the BW flag. Defaults to `false`.
     ///   - usesWelcomeDiscovery: Whether welcome domain discovery was used. Defaults to `false`.
     ///   - isMultiUser: Whether multiple users are currently logged in. Defaults to `false`.
-    ///   - isRtr: Whether Refresh Token Rotation is enabled, which sets the RT flag. Defaults to `false`.
+    ///   - expectedRTRFeatureMarker: Whether the SDK should already have registered RT for this user.
     ///   - expectedBMarker: The single B-marker code expected in the UA (e.g. "B3", "B4"). Pass `nil` when no browser login occurred.
     ///   - expectedLMarker: The single L-marker code expected in the UA (e.g. "L3", "L4"). Pass `nil` to skip the assertion.
     ///   - expectedAMarker: The single A-marker code expected in the UA (e.g. "A1", "A5"). Pass `nil` to assert no A-markers are present.
     ///   - wasMigrated: Whether a refresh token migration occurred (TM flag). Defaults to `false`.
     ///   - isJwt: Whether the session uses JWT token format (JT flag). Defaults to `false`.
     ///   - isBeacon: Whether this is a beacon child app (BN flag). Defaults to `false`.
-    private func validateUserAgent(ua: String, loginHost: KnownLoginHostConfig, expectAdvancedAuth: Bool = false, usesWelcomeDiscovery: Bool = false, isMultiUser: Bool = false, isRtr: Bool = false, expectDP: Bool = false, expectedBMarker: String? = nil, expectedLMarker: String? = nil, expectedAMarker: String? = nil, wasMigrated: Bool = false, isJwt: Bool = false, isBeacon: Bool = false) {
+    private func validateUserAgent(ua: String, loginHost: KnownLoginHostConfig, expectAdvancedAuth: Bool = false, usesWelcomeDiscovery: Bool = false, isMultiUser: Bool = false, expectedRTRFeatureMarker: Bool, expectDP: Bool = false, expectedBMarker: String? = nil, expectedLMarker: String? = nil, expectedAMarker: String? = nil, wasMigrated: Bool = false, isJwt: Bool = false, isBeacon: Bool = false) {
         XCTAssertTrue(ua.contains("SalesforceMobileSDK/"), "User agent should contain 'SalesforceMobileSDK/' prefix; got: \(ua)")
         XCTAssertTrue(ua.contains("ftr_"), "User agent should contain 'ftr_' feature flag segment; got: \(ua)")
 
@@ -971,12 +981,12 @@ class BaseAuthFlowTester: XCTestCase {
             XCTAssertFalse(flagSet.contains("MU"), "User agent should NOT contain 'MU' flag when only one user is logged in; flags: \(flagSet), ua: \(ua)")
         }
 
-        if isRtr {
+        if expectedRTRFeatureMarker {
             XCTAssertTrue(flagSet.contains("RT"),
-                          "User agent should contain 'RT' flag after Refresh Token Rotation; flags: \(flagSet), ua: \(ua)")
+                          "User agent should contain 'RT' after the SDK observed Refresh Token Rotation; flags: \(flagSet), ua: \(ua)")
         } else {
             XCTAssertFalse(flagSet.contains("RT"),
-                           "User agent should NOT contain 'RT' flag when Refresh Token Rotation has not occurred; flags: \(flagSet), ua: \(ua)")
+                           "User agent should NOT contain 'RT' before the SDK observes Refresh Token Rotation; flags: \(flagSet), ua: \(ua)")
         }
 
         if expectDP {
@@ -1199,7 +1209,6 @@ class BaseAuthFlowTester: XCTestCase {
         expectAdvancedAuth: Bool = false,
         usesWelcomeDiscovery: Bool = false,
         isMultiUser: Bool = false,
-        isRtr: Bool = false,
         expectedBMarker: String? = nil,
         expectedLMarker: String? = nil,
         expectedAMarker: String? = nil,
@@ -1243,7 +1252,7 @@ class BaseAuthFlowTester: XCTestCase {
         }
 
         // Validate feature flags using UA already present in the fetched credentials
-        validateUserAgent(ua: userCredentials.userAgent, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, usesWelcomeDiscovery: usesWelcomeDiscovery, isMultiUser: isMultiUser, isRtr: isRtr, expectDP: effectiveExpectDP, expectedBMarker: expectedBMarker, expectedLMarker: expectedLMarker, expectedAMarker: expectedAMarker, wasMigrated: wasMigrated, isJwt: issuesJwt, isBeacon: isBeacon)
+        validateUserAgent(ua: userCredentials.userAgent, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, usesWelcomeDiscovery: usesWelcomeDiscovery, isMultiUser: isMultiUser, expectedRTRFeatureMarker: expectedRTRFeatureMarker(for: userConfig.username), expectDP: effectiveExpectDP, expectedBMarker: expectedBMarker, expectedLMarker: expectedLMarker, expectedAMarker: expectedAMarker, wasMigrated: wasMigrated, isJwt: issuesJwt, isBeacon: isBeacon)
 
         return userCredentials
     }
@@ -1317,8 +1326,6 @@ class BaseAuthFlowTester: XCTestCase {
         let effectiveWebServerFlow = loginForAdmin ? true : useWebServerFlow
         let aMarker = expectedAMarkerOverride ?? aMarkerFor(useWebServerFlow: effectiveWebServerFlow, useHybridFlow: useHybridFlow)
         let userAppConfig = getAppConfig(named: userAppConfigName)
-        // After migration the RTR flag is active immediately (the migration token exchange IS a rotation).
-        let isRtr = wasMigrated ? userAppConfig.isRtr : false
 
         let effectiveExpectDP = useDPoP || userAppConfig.isDPoP
         let userCredentials = validateUser(
@@ -1331,7 +1338,6 @@ class BaseAuthFlowTester: XCTestCase {
             expectAdvancedAuth: expectAdvancedAuth,
             usesWelcomeDiscovery: usesWelcomeDiscovery,
             isMultiUser: isMultiUser,
-            isRtr: isRtr,
             expectedBMarker: expectedBMarker,
             expectedLMarker: expectedLMarker,
             expectedAMarker: aMarker,
@@ -1341,7 +1347,7 @@ class BaseAuthFlowTester: XCTestCase {
         )
 
         // Revoke and refresh cycle
-        assertRevokeAndRefreshWorks(previousCredentials: userCredentials, isRtr: userAppConfig.isRtr, isDPoP: effectiveExpectDP, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, usesWelcomeDiscovery: usesWelcomeDiscovery, isMultiUser: isMultiUser, expectedBMarker: expectedBMarker, expectedLMarker: expectedLMarker, expectedAMarker: aMarker, wasMigrated: wasMigrated, isJwt: userAppConfig.issuesJwt, isBeacon: userAppConfig.isBeacon)
+        assertRevokeAndRefreshWorks(previousCredentials: userCredentials, expectsRefreshTokenRotation: userAppConfig.expectsRefreshTokenRotation, isDPoP: effectiveExpectDP, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, usesWelcomeDiscovery: usesWelcomeDiscovery, isMultiUser: isMultiUser, expectedBMarker: expectedBMarker, expectedLMarker: expectedLMarker, expectedAMarker: aMarker, wasMigrated: wasMigrated, isJwt: userAppConfig.issuesJwt, isBeacon: userAppConfig.isBeacon)
 
         // Check the oauth configuration
         _ = checkOauthConfiguration(
@@ -1483,14 +1489,14 @@ class BaseAuthFlowTester: XCTestCase {
     /// `expectAdvancedAuth` defaults to `true`, matching the `forceAdvancedAuthentication` default.
     /// Pass `false` for tests that logged in with the in-app WebView or post-migration validations
     /// where BW is not re-registered.
-    func assertRevokeAndRefreshWorks(isRtr: Bool, isDPoP: Bool = false, loginHost: KnownLoginHostConfig = .regularAuth, expectAdvancedAuth: Bool = true, isMultiUser: Bool = false, useWebServerFlow: Bool = true, useHybridFlow: Bool = true, wasMigrated: Bool = false, isJwt: Bool = false, isBeacon: Bool = false, useLoginPoolHost: Bool = false) {
+    func assertRevokeAndRefreshWorks(expectsRefreshTokenRotation: Bool, isDPoP: Bool = false, loginHost: KnownLoginHostConfig = .regularAuth, expectAdvancedAuth: Bool = true, isMultiUser: Bool = false, useWebServerFlow: Bool = true, useHybridFlow: Bool = true, wasMigrated: Bool = false, isJwt: Bool = false, isBeacon: Bool = false, useLoginPoolHost: Bool = false) {
         let expectedBMarker: String? = expectAdvancedAuth ? kBrowserLoginForceFlag : nil
         let expectedLMarker: String? = useLoginPoolHost ? kLoginServerProduction : kLoginServerMyDomain
         let aMarker = aMarkerFor(useWebServerFlow: useWebServerFlow, useHybridFlow: useHybridFlow)
-        assertRevokeAndRefreshWorks(previousCredentials: getUserCredentials(), isRtr: isRtr, isDPoP: isDPoP, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, isMultiUser: isMultiUser, expectedBMarker: expectedBMarker, expectedLMarker: expectedLMarker, expectedAMarker: aMarker, wasMigrated: wasMigrated, isJwt: isJwt, isBeacon: isBeacon)
+        assertRevokeAndRefreshWorks(previousCredentials: getUserCredentials(), expectsRefreshTokenRotation: expectsRefreshTokenRotation, isDPoP: isDPoP, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, isMultiUser: isMultiUser, expectedBMarker: expectedBMarker, expectedLMarker: expectedLMarker, expectedAMarker: aMarker, wasMigrated: wasMigrated, isJwt: isJwt, isBeacon: isBeacon)
     }
 
-    private func assertRevokeAndRefreshWorks(previousCredentials: UserCredentialsData, isRtr: Bool, isDPoP: Bool = false, loginHost: KnownLoginHostConfig = .regularAuth, expectAdvancedAuth: Bool = true, usesWelcomeDiscovery: Bool = false, isMultiUser: Bool = false, expectedBMarker: String? = nil, expectedLMarker: String? = nil, expectedAMarker: String? = nil, wasMigrated: Bool = false, isJwt: Bool = false, isBeacon: Bool = false) {
+    private func assertRevokeAndRefreshWorks(previousCredentials: UserCredentialsData, expectsRefreshTokenRotation: Bool, isDPoP: Bool = false, loginHost: KnownLoginHostConfig = .regularAuth, expectAdvancedAuth: Bool = true, usesWelcomeDiscovery: Bool = false, isMultiUser: Bool = false, expectedBMarker: String? = nil, expectedLMarker: String? = nil, expectedAMarker: String? = nil, wasMigrated: Bool = false, isJwt: Bool = false, isBeacon: Bool = false) {
         // Revoke access token
         XCTAssert(mainPage.revokeAccessToken(), "Failed to revoke access token")
 
@@ -1506,8 +1512,9 @@ class BaseAuthFlowTester: XCTestCase {
             "Access token should have been refreshed"
         )
 
-        // Assert refresh token rotated (RTR) or stayed the same (non-RTR)
-        if isRtr {
+        // Assert refresh token rotated (RTR) or stayed the same (non-RTR).
+        let refreshTokenRotated = previousCredentials.refreshToken != credentialsAfterRefresh.refreshToken
+        if expectsRefreshTokenRotation {
             XCTAssertNotEqual(
                 previousCredentials.refreshToken,
                 credentialsAfterRefresh.refreshToken,
@@ -1521,6 +1528,11 @@ class BaseAuthFlowTester: XCTestCase {
             )
         }
 
+        // RT is sticky per user and is registered only by a normal refresh that observes a
+        // changed refresh token. Migration and login never advance this state.
+        let expectedRTRFeatureMarkerAfterRefresh = expectedRTRFeatureMarker(for: previousCredentials.username) || refreshTokenRotated
+        expectedRTRFeatureMarkerByUsername[previousCredentials.username] = expectedRTRFeatureMarkerAfterRefresh
+
         // Assert DPoP token type and nonce presence if DPoP is enabled
         if isDPoP {
             assertDPoPCredentials(credentialsAfterRefresh, context: "after refresh")
@@ -1531,7 +1543,6 @@ class BaseAuthFlowTester: XCTestCase {
                           expectAdvancedAuth: expectAdvancedAuth,
                           usesWelcomeDiscovery: usesWelcomeDiscovery,
                           isMultiUser: isMultiUser,
-                          isRtr: isRtr,
                           expectDP: isDPoP,
                           expectedBMarker: expectedBMarker,
                           expectedLMarker: expectedLMarker,
@@ -1539,6 +1550,14 @@ class BaseAuthFlowTester: XCTestCase {
                           wasMigrated: wasMigrated,
                           isJwt: isJwt,
                           isBeacon: isBeacon)
+    }
+
+    private func expectedRTRFeatureMarker(for username: String) -> Bool {
+        guard let expectedRTRFeatureMarker = expectedRTRFeatureMarkerByUsername[username] else {
+            XCTFail("No RT feature-marker state recorded for user \(username)")
+            return false
+        }
+        return expectedRTRFeatureMarker
     }
 
     /// Asserts the DPoP token-type and nonce triad on a set of credentials.

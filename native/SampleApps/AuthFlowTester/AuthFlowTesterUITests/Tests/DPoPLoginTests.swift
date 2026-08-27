@@ -40,8 +40,8 @@ class DPoPLoginTests: BaseAuthFlowTester {
         launchLoginAndValidate(staticAppConfigName: .ecaJwtDpop, useDPoP: true)
         // Two revoke/refresh cycles verify DPoP binding survives a second nonce rotation
         // (parity with Android's `testECAJwtDPoP_Hybrid`).
-        assertRevokeAndRefreshWorks(isRtr: false, isDPoP: true, isJwt: true)
-        assertRevokeAndRefreshWorks(isRtr: false, isDPoP: true, isJwt: true)
+        assertRevokeAndRefreshWorks(expectsRefreshTokenRotation: false, isDPoP: true, isJwt: true)
+        assertRevokeAndRefreshWorks(expectsRefreshTokenRotation: false, isDPoP: true, isJwt: true)
     }
 
     /// Login with ECA JWT DPoP without hybrid flow and verify DPoP token binding.
@@ -49,8 +49,8 @@ class DPoPLoginTests: BaseAuthFlowTester {
         launchLoginAndValidate(staticAppConfigName: .ecaJwtDpop, useHybridFlow: false, useDPoP: true)
         // Two revoke/refresh cycles verify DPoP binding survives a second nonce rotation
         // (parity with Android's `testECAJwtDPoP_NoHybrid`).
-        assertRevokeAndRefreshWorks(isRtr: false, isDPoP: true, useHybridFlow: false, isJwt: true)
-        assertRevokeAndRefreshWorks(isRtr: false, isDPoP: true, useHybridFlow: false, isJwt: true)
+        assertRevokeAndRefreshWorks(expectsRefreshTokenRotation: false, isDPoP: true, useHybridFlow: false, isJwt: true)
+        assertRevokeAndRefreshWorks(expectsRefreshTokenRotation: false, isDPoP: true, useHybridFlow: false, isJwt: true)
     }
 
     // MARK: - ECA JWT DPoP+RTR Tests
@@ -64,7 +64,7 @@ class DPoPLoginTests: BaseAuthFlowTester {
     /// Login with ECA JWT DPoP+RTR without hybrid flow and verify refresh token rotation and DPoP binding.
     func test_givenDPoPRtrNoHybrid_whenLogin_thenRefreshTokenRotatesAndDPoPBindingHolds() throws {
         launchLoginAndValidate(staticAppConfigName: .ecaJwtDpopRtr, useHybridFlow: false, useDPoP: true)
-        assertRevokeAndRefreshWorks(isRtr: true, isDPoP: true, useHybridFlow: false, isJwt: true)
+        assertRevokeAndRefreshWorks(expectsRefreshTokenRotation: true, isDPoP: true, useHybridFlow: false, isJwt: true)
     }
 
     // MARK: - Multi-User
@@ -87,13 +87,13 @@ class DPoPLoginTests: BaseAuthFlowTester {
 
         // Switch back to user A and verify nonce persisted
         switchToUserAndValidateUser(loginHost: .regularAuth, user: .first, userAppConfigName: .ecaJwtDpop, isMultiUser: true)
-        assertRevokeAndRefreshWorks(isRtr: false, isDPoP: true, isMultiUser: true, isJwt: true)
+        assertRevokeAndRefreshWorks(expectsRefreshTokenRotation: false, isDPoP: true, isMultiUser: true, isJwt: true)
         let userACredentialsAfterSwitch = getUserCredentials()
         XCTAssertEqual(userACredentialsAfterSwitch.dpopNonce, userANonceBeforeSwitch, "User A nonce should persist across switch")
 
         // Switch to user B and verify nonce persisted
         switchToUserAndValidateUser(loginHost: .regularAuth, user: .second, userAppConfigName: .ecaJwtDpop, isMultiUser: true)
-        assertRevokeAndRefreshWorks(isRtr: false, isDPoP: true, isMultiUser: true, isJwt: true)
+        assertRevokeAndRefreshWorks(expectsRefreshTokenRotation: false, isDPoP: true, isMultiUser: true, isJwt: true)
         let userBCredentialsAfterRefresh = getUserCredentials()
         XCTAssertEqual(userBCredentialsAfterRefresh.dpopNonce, userBNonce, "User B nonce should persist across switch and refresh")
     }
@@ -134,7 +134,7 @@ class DPoPLoginTests: BaseAuthFlowTester {
         )
 
         // Verify RTR is enabled post-migration
-        assertRevokeAndRefreshWorks(isRtr: true, isDPoP: true, expectAdvancedAuth: true, useHybridFlow: false, wasMigrated: true, isJwt: true)
+        assertRevokeAndRefreshWorks(expectsRefreshTokenRotation: true, isDPoP: true, expectAdvancedAuth: true, useHybridFlow: false, wasMigrated: true, isJwt: true)
     }
 
     // MARK: - Enforcement
@@ -200,7 +200,7 @@ class DPoPLoginTests: BaseAuthFlowTester {
             userAppConfigName: .ecaJwtDpop,
             useHybridFlow: false
         )
-        assertRevokeAndRefreshWorks(isRtr: false, isDPoP: true, useHybridFlow: false, isJwt: true)
+        assertRevokeAndRefreshWorks(expectsRefreshTokenRotation: false, isDPoP: true, useHybridFlow: false, isJwt: true)
     }
 
     // MARK: - Pool Server Login
@@ -217,7 +217,7 @@ class DPoPLoginTests: BaseAuthFlowTester {
             useDPoP: true,
             useLoginPoolHost: true
         )
-        assertRevokeAndRefreshWorks(isRtr: false, isDPoP: true, useHybridFlow: false, isJwt: true, useLoginPoolHost: true)
+        assertRevokeAndRefreshWorks(expectsRefreshTokenRotation: false, isDPoP: true, useHybridFlow: false, isJwt: true, useLoginPoolHost: true)
     }
 
     /// Login via the pool server with DPoP + RTR and verify the refresh token survives the identity
@@ -234,7 +234,7 @@ class DPoPLoginTests: BaseAuthFlowTester {
             useDPoP: true,
             useLoginPoolHost: true
         )
-        assertRevokeAndRefreshWorks(isRtr: true, isDPoP: true, useHybridFlow: false, isJwt: true, useLoginPoolHost: true)
+        assertRevokeAndRefreshWorks(expectsRefreshTokenRotation: true, isDPoP: true, useHybridFlow: false, isJwt: true, useLoginPoolHost: true)
     }
 
     // MARK: - Admin Login
