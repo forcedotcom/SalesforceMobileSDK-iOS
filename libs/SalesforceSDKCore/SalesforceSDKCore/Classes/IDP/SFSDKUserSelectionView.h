@@ -31,12 +31,14 @@
 
 @class SFUserAccount;
 
+/// Deprecated: part of the IDP login flow, removed in 15.0.
 @protocol SFSDKUserSelectionViewDelegate
 - (void)createNewUser:(NSDictionary *)spAppOptions;
 - (void)selectedUser:(SFUserAccount *)user spAppContext:(NSDictionary *)spAppOptions;
 - (void)cancel:(NSDictionary *)spAppOptions;
 @end
 
+/// Deprecated: part of the IDP login flow, removed in 15.0.
 @protocol SFSDKUserSelectionView<NSObject>
 @property (nonatomic,weak) id<SFSDKUserSelectionViewDelegate> userSelectionDelegate;
 @property (nonatomic,strong) NSDictionary *spAppOptions;

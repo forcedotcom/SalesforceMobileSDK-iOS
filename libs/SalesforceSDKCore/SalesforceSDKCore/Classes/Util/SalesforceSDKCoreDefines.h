@@ -45,11 +45,13 @@ enum {
  */
 typedef NSString*_Nonnull (^SFSDKUserAgentCreationBlock)(NSString *qualifier) NS_SWIFT_NAME(UserAgentGeneratorBlock);
 
+/// Deprecated: part of the IDP login flow, removed in 15.0.
 /**
  Block typedef for creating a custom login flow selection dialog.
  */
 typedef UIViewController<SFSDKLoginFlowSelectionView>*_Nonnull (^SFIDPLoginFlowSelectionBlock)(void) NS_SWIFT_NAME(IDPLoginFlowSelectionBlock);
 
+/// Deprecated: part of the IDP login flow, removed in 15.0.
 /**
  Block typedef for creating a custom user selection flow for idp provider app.
  */

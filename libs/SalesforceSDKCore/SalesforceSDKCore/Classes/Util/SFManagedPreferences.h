@@ -23,6 +23,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -84,7 +85,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  The idp App's URL Scheme
  */
-@property (nonatomic,readonly) NSString *idpAppURLScheme;
+@property (nonatomic,readonly) NSString *idpAppURLScheme SFSDK_DEPRECATED(14.0, 15.0, "The IDP (Identity Provider) login flow is deprecated. Apps should use advanced (browser-based) authentication.");
 /**
  The raw NSDictionary of managed preferences.
  */

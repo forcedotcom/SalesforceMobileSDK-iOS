@@ -167,12 +167,12 @@ NS_SWIFT_NAME(SalesforceManager)
 /**
  The block to provide custom view to use for IDP selection flow.
  */
-@property (nonatomic, copy, nullable) SFIDPLoginFlowSelectionBlock idpLoginFlowSelectionBlock  NS_SWIFT_NAME(loginFlowSelectionViewProvider);
+@property (nonatomic, copy, nullable) SFIDPLoginFlowSelectionBlock idpLoginFlowSelectionBlock  NS_SWIFT_NAME(loginFlowSelectionViewProvider) SFSDK_DEPRECATED(14.0, 15.0, "The IDP (Identity Provider) login flow is deprecated. Apps should use advanced (browser-based) authentication.");
 
 /**
  The block to provide custom view to use for IDP user selection flow.
  */
-@property (nonatomic, copy, nullable) SFIDPUserSelectionBlock idpUserSelectionBlock NS_SWIFT_NAME(idpUserSelectionViewProvider);
+@property (nonatomic, copy, nullable) SFIDPUserSelectionBlock idpUserSelectionBlock NS_SWIFT_NAME(idpUserSelectionViewProvider) SFSDK_DEPRECATED(14.0, 15.0, "The IDP (Identity Provider) login flow is deprecated. Apps should use advanced (browser-based) authentication.");
 /**
  The block to provide custom view to use as the "image" that represents the app display when it is backgrounded.
  @discussion
@@ -226,11 +226,11 @@ NS_SWIFT_NAME(SalesforceManager)
 
 /** Use this flag to indicate if the APP will be an identity provider. When enabled this flag allows this application to perform authentication on behalf of another app.
  */
-@property (nonatomic,assign) BOOL isIdentityProvider NS_SWIFT_NAME(isIdentityProvider);
+@property (nonatomic,assign) BOOL isIdentityProvider NS_SWIFT_NAME(isIdentityProvider) SFSDK_DEPRECATED(14.0, 15.0, "The IDP (Identity Provider) login flow is deprecated. Apps should use advanced (browser-based) authentication.");
 
 /** Use this flag to indicate if the scheme for the identity provider app
  */
-@property (nonatomic, copy, nullable) NSString *idpAppURIScheme NS_SWIFT_NAME(identityProviderURLScheme);
+@property (nonatomic, copy, nullable) NSString *idpAppURIScheme NS_SWIFT_NAME(identityProviderURLScheme) SFSDK_DEPRECATED(14.0, 15.0, "The IDP (Identity Provider) login flow is deprecated. Apps should use advanced (browser-based) authentication.");
 
 /**
  A user friendly display name for use in UI by the SDK on behalf of the app.  This value will be used on various authentication screens

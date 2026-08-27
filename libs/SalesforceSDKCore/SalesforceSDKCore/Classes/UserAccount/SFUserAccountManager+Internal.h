@@ -94,6 +94,20 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, strong, nonnull) SFSDKAuthPreferences *authPreferences;
 
+/** Non-deprecated internal accessor for the same backing storage as the public
+ `idpEnabled` property (deprecated in 14.0, removed in 15.0). Internal SDK code
+ reads the flag through this accessor so that its own use does not trip
+ -Wdeprecated-declarations. Delete this alongside the public property in 15.0.
+ */
+@property (nonatomic, readonly, assign) BOOL sdk_idpEnabled;
+
+/** Non-deprecated internal accessor for the same backing storage as the public
+ `idpAppURIScheme` property (deprecated in 14.0, removed in 15.0). Internal SDK code
+ reads the value through this accessor so that its own use does not trip
+ -Wdeprecated-declarations. Delete this alongside the public property in 15.0.
+ */
+@property (nonatomic, readonly, copy, nullable) NSString *sdk_idpAppURIScheme;
+
 /** SFSDKAlertView used to wrap display of SFSDKMessage using an AlertController.
  *
  */

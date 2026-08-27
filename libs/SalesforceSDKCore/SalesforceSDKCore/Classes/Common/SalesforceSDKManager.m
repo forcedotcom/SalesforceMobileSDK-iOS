@@ -415,6 +415,8 @@ SFNativeLoginManagerInternal *nativeLogin;
     return _appConfig;
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 - (SFIDPLoginFlowSelectionBlock)idpLoginFlowSelectionBlock {
     return [SFUserAccountManager sharedInstance].idpLoginFlowSelectionAction;
 }
@@ -438,9 +440,10 @@ SFNativeLoginManagerInternal *nativeLogin;
 - (void)setIsIdentityProvider:(BOOL)isIdentityProvider {
    [SFUserAccountManager sharedInstance].isIdentityProvider = isIdentityProvider;
 }
+#pragma clang diagnostic pop
 
 - (BOOL)idpEnabled {
-    return [SFUserAccountManager sharedInstance].idpAppURIScheme!=nil;
+    return [SFUserAccountManager sharedInstance].sdk_idpAppURIScheme!=nil;
 }
 
 - (NSString *)appDisplayName {
@@ -451,6 +454,8 @@ SFNativeLoginManagerInternal *nativeLogin;
     [SFUserAccountManager sharedInstance].appDisplayName = appDisplayName;
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 - (NSString *)idpAppURIScheme{
     return [SFUserAccountManager sharedInstance].idpAppURIScheme;
 }
@@ -458,6 +463,7 @@ SFNativeLoginManagerInternal *nativeLogin;
 - (void)setIdpAppURIScheme:(NSString *)idpAppURIScheme {
     [SFUserAccountManager sharedInstance].idpAppURIScheme = idpAppURIScheme;
 }
+#pragma clang diagnostic pop
 
 - (NSString *)brandLoginPath
 {
@@ -629,6 +635,7 @@ static NSString *SFSDKISO8601StringFromDate(NSDate *date) {
     
     // Auth configuration
     [devInfos addObject:@"section:Auth Config"];
+    SFSDK_USE_DEPRECATED_BEGIN
     [devInfos addObjectsFromArray:@[
             @"Use Web Server Authentication", [self sdk_useWebServerAuthentication]  ? @"YES" : @"NO",
             @"Use Hybrid Authentication", [self useHybridAuthentication]  ? @"YES" : @"NO",
@@ -638,6 +645,7 @@ static NSString *SFSDKISO8601StringFromDate(NSDate *date) {
             @"IDP Enabled", [self idpEnabled] ? @"YES" : @"NO",
             @"Identity Provider", [self isIdentityProvider] ? @"YES" : @"NO"
     ]];
+    SFSDK_USE_DEPRECATED_END
 
     // Static bootconfig
     [devInfos addObject:@"section:Bootconfig"];
@@ -809,9 +817,11 @@ static NSString *SFSDKISO8601StringFromDate(NSDate *date) {
         self.appConfig.oauthRedirectURI = [SFManagedPreferences sharedPreferences].connectedAppCallbackUri;
     }
     
+    SFSDK_USE_DEPRECATED_BEGIN
     if ([SFManagedPreferences sharedPreferences].idpAppURLScheme) {
         self.idpAppURIScheme = [SFManagedPreferences sharedPreferences].idpAppURLScheme;
     }
+    SFSDK_USE_DEPRECATED_END
 }
 
 - (void)setupServiceConfiguration
