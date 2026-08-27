@@ -403,6 +403,7 @@ class SFOAuthCoordinatorTests: XCTestCase {
     /// emits `response_type=token` (or `hybrid_token` when hybrid mode is on),
     /// but the dpop_jkt append happens after the flow branch, so the gate
     /// result must be identical.
+    @available(*, deprecated, message: "Exercises deprecated useWebServerAuthentication; remove with the property in 15.0.")
     func test_givenDPoPEnabledAndUserAgentFlow_whenGenerateApprovalUrlString_thenUrlStillContainsDPoPJkt() throws {
         SalesforceManager.shared.usesDPoP = true
 

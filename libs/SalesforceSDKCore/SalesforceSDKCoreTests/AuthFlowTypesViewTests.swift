@@ -32,8 +32,9 @@ class AuthFlowTypesViewTests: XCTestCase {
     var originalUseHybridAuth: Bool!
     var originalForceAdvancedAuth: Bool!
 
-    // Touches the deprecated `forceAdvancedAuthentication` (removed in 15.0) to save/restore it.
-    @available(*, deprecated, message: "Exercises deprecated forceAdvancedAuthentication; remove with the property in 15.0.")
+    // Touches the deprecated `forceAdvancedAuthentication` and `useWebServerAuthentication`
+    // (both removed in 15.0) to save/restore them.
+    @available(*, deprecated, message: "Exercises deprecated forceAdvancedAuthentication and useWebServerAuthentication; remove with the properties in 15.0.")
     override func setUp() {
         super.setUp()
 
@@ -43,7 +44,7 @@ class AuthFlowTypesViewTests: XCTestCase {
         originalForceAdvancedAuth = SalesforceManager.shared.forceAdvancedAuthentication
     }
 
-    @available(*, deprecated, message: "Exercises deprecated forceAdvancedAuthentication; remove with the property in 15.0.")
+    @available(*, deprecated, message: "Exercises deprecated forceAdvancedAuthentication and useWebServerAuthentication; remove with the properties in 15.0.")
     override func tearDown() {
         // Restore original state
         SalesforceManager.shared.useWebServerAuthentication = originalUseWebServerAuth
@@ -53,6 +54,7 @@ class AuthFlowTypesViewTests: XCTestCase {
         super.tearDown()
     }
     
+    @available(*, deprecated, message: "Exercises deprecated useWebServerAuthentication; remove with the property in 15.0.")
     func testAuthFlowTypesViewRendersSuccessfully() {
         let expectation = XCTestExpectation(description: "View renders without crashing")
         
@@ -92,6 +94,7 @@ class AuthFlowTypesViewTests: XCTestCase {
         wait(for: [expectation], timeout: 2.0)
     }
 
+    @available(*, deprecated, message: "Exercises deprecated useWebServerAuthentication; remove with the property in 15.0.")
     func testImportAuthFlowTypesFromJSON() {
         // Set initial state
         SalesforceManager.shared.useWebServerAuthentication = true
@@ -128,6 +131,7 @@ class AuthFlowTypesViewTests: XCTestCase {
                       "Hybrid authentication should be false after import")
     }
 
+    @available(*, deprecated, message: "Exercises deprecated useWebServerAuthentication; remove with the property in 15.0.")
     func testImportAuthFlowTypesFromJSONPartialUpdate() {
         // Set initial state
         SalesforceManager.shared.useWebServerAuthentication = true
@@ -239,6 +243,7 @@ class AuthFlowTypesViewTests: XCTestCase {
                      "forceAdvancedAuthentication must remain true when it is not present in the imported JSON")
     }
 
+    @available(*, deprecated, message: "Exercises deprecated useWebServerAuthentication; remove with the property in 15.0.")
     func testImportAuthFlowTypesFromInvalidJSON() {
         // Set initial state
         SalesforceManager.shared.useWebServerAuthentication = true
@@ -260,6 +265,7 @@ class AuthFlowTypesViewTests: XCTestCase {
                      "Hybrid authentication should remain true after invalid JSON")
     }
 
+    @available(*, deprecated, message: "Exercises deprecated useWebServerAuthentication; remove with the property in 15.0.")
     func testImportAuthFlowTypesFromEmptyJSON() {
         // Set initial state
         SalesforceManager.shared.useWebServerAuthentication = true

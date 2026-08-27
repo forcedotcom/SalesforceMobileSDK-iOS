@@ -260,7 +260,7 @@ NS_SWIFT_NAME(SalesforceManager)
 
 /** Whether or not the app should use web server oauth flow in web view. If false, user-agent will be used.
  */
-@property (nonatomic, assign) BOOL useWebServerAuthentication;
+@property (nonatomic, assign) BOOL useWebServerAuthentication SFSDK_DEPRECATED(14.0, 15.0, "The OAuth user agent flow is being retired; the web server flow will be used going forward. This flag may be removed sooner than 15.0 if the server no longer supports the user agent flow.");
 
 /** Whether hybrid authentication flow should be used. Defaults to YES.
  */

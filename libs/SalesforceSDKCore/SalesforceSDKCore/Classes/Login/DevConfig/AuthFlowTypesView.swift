@@ -42,7 +42,7 @@ public struct AuthFlowTypesView: View {
     @State private var importJSONText: String = ""
 
     public init() {
-        _useWebServerFlow = State(initialValue: SalesforceManager.shared.useWebServerAuthentication)
+        _useWebServerFlow = State(initialValue: Self.readUseWebServerAuthentication())
         _useHybridFlow = State(initialValue: SalesforceManager.shared.useHybridAuthentication)
         _forceAdvancedAuth = State(initialValue: Self.readForceAdvancedAuthentication())
     }
@@ -72,7 +72,7 @@ public struct AuthFlowTypesView: View {
                 }
                 .accessibilityIdentifier("useWebServerFlowToggle")
                 .onChange(of: useWebServerFlow) { _, newValue in
-                    SalesforceManager.shared.useWebServerAuthentication = newValue
+                    Self.writeUseWebServerAuthentication(newValue)
                 }
                 .padding(.horizontal)
 
@@ -119,7 +119,7 @@ public struct AuthFlowTypesView: View {
 
         if let webServerFlow = json[AuthFlowTypesJSONKeys.useWebServerFlow] as? Bool {
             useWebServerFlow = webServerFlow
-            SalesforceManager.shared.useWebServerAuthentication = webServerFlow
+            Self.writeUseWebServerAuthentication(webServerFlow)
         }
         if let hybridFlow = json[AuthFlowTypesJSONKeys.useHybridFlow] as? Bool {
             useHybridFlow = hybridFlow
@@ -148,6 +148,25 @@ public struct AuthFlowTypesView: View {
 
     private static func writeForceAdvancedAuthentication(_ newValue: Bool) {
         SalesforceManager.shared.setValue(newValue, forKey: forceAdvancedAuthenticationKey)
+    }
+
+    // MARK: - useWebServerAuthentication access
+    //
+    // `SalesforceManager.useWebServerAuthentication` is deprecated (14.0, removed in 15.0). Internal
+    // Objective-C SDK code reaches the same backing storage through the non-deprecated
+    // `sdk_useWebServerAuthentication` accessor in SalesforceSDKManager+Internal.h, but that class
+    // extension is not visible to this framework's own Swift, and Swift has no inline way to silence a
+    // deprecation warning. This dev-only toggle therefore reads and writes the flag through key-value
+    // coding so it stays warning-free without deprecating this view's public API. Remove these helpers
+    // when the property is removed in 15.0.
+    private static let useWebServerAuthenticationKey = "useWebServerAuthentication"
+
+    private static func readUseWebServerAuthentication() -> Bool {
+        (SalesforceManager.shared.value(forKey: useWebServerAuthenticationKey) as? Bool) ?? true
+    }
+
+    private static func writeUseWebServerAuthentication(_ newValue: Bool) {
+        SalesforceManager.shared.setValue(newValue, forKey: useWebServerAuthenticationKey)
     }
 }
 

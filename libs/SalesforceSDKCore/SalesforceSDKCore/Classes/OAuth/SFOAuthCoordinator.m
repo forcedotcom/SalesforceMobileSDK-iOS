@@ -131,7 +131,7 @@
 }
 
 - (BOOL)shouldUseWebServerFlow {
-    return [[SalesforceSDKManager sharedManager] useWebServerAuthentication] || [SFUserAccountManager sharedInstance].appAttestationEnabled;
+    return [[SalesforceSDKManager sharedManager] sdk_useWebServerAuthentication] || [SFUserAccountManager sharedInstance].appAttestationEnabled;
 }
 
 - (void)authenticate {
