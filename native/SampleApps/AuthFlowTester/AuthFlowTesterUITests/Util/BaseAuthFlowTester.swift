@@ -47,6 +47,11 @@ let kAuthTypeUserAgentHybrid      = "A4"
 let kAuthTypeNative               = "A5"
 private let kAllAMarkers          = ["A1", "A2", "A3", "A4", "A5"]
 
+private let kRegularAuthLoginHostName = "UITests"
+private let kAdvancedAuthLoginHostName = "UITests Adv Auth"
+private let kLoginPoolHostName = "UITests Login Pool"
+private let kWelcomeDiscoveryLoginHostName = "Welcome Discovery"
+
 class BaseAuthFlowTester: XCTestCase {
     // App object
     private var app: XCUIApplication!
@@ -84,12 +89,8 @@ class BaseAuthFlowTester: XCTestCase {
     
     /// Launches the application and ensures it starts in a logged-out state on a known login server.
     ///
-    /// Initializes the app and page objects, launches the app, and logs out if a user is already
-    /// logged in. Then resets the login server to `login.salesforce.com`: the login host persists
-    /// across tests, so a prior test that selected a discovery or advanced-auth org would otherwise
-    /// strand the next test (its `login()` assumes the browser is showing on entry). Leaves the app
-    /// on the external browser surface (the default, advanced auth forced on) against the standard
-    /// server, which is exactly the state `login()` expects on entry.
+    /// Initializes the app and page objects on the regular UI-test login server. Fresh launches
+    /// reset all auth state, seed the fixed test servers, and select regular auth by default.
     func launch() {
         app = XCUIApplication()
 
@@ -97,9 +98,8 @@ class BaseAuthFlowTester: XCTestCase {
         // This is used to show/hide certain UI elements like DiscoveryResultEditor
         app.launchEnvironment["IS_UI_TESTING"] = "1"
 
-        // Instruct the app to reset all SDK auth state (users, login host, custom servers, flags)
-        // in-process at startup, before loginIfRequired fires. This replaces the UI-driven logout
-        // and host-reset that previously ran in tearDown and here in launch().
+        // Instruct the app to reset all SDK auth state and select the first static test server
+        // in-process at startup, before loginIfRequired fires.
         app.launchArguments = ["--resetSDKForUITesting"]
 
         loginPage = LoginPageObject(testApp: app)
@@ -179,31 +179,39 @@ class BaseAuthFlowTester: XCTestCase {
             useDPoP: useDPoP
         )
 
-        // Closing login options restarts authentication, so the login surface reappears — the
-        // browser when advanced auth is on, the in-app WebView when it was disabled. Return to the
-        // host list to select the login host. Configuring the host last matches how a real user
-        // arrives at the picker and keeps the login-options gear reachable until then.
-        // When useWelcomeDiscovery is true, use welcome.salesforce.com/discovery as the login server.
-        // When useLoginPoolHost is true, use the top-level loginPoolHost URL from ui_test_config.json
-        // so the auth code binding goes through the pool server while credentials come from loginHost.
-        loginPage.returnToHostList(expectingBrowser: advancedAuthEnabled)
-        let loginHostToUse: String
-        if useWelcomeDiscovery {
-            loginHostToUse = "welcome.salesforce.com/discovery"
-        } else if useLoginPoolHost {
-            do {
-                let poolHost = try UITestConfigUtils.shared.getLoginPoolHost()
-                loginHostToUse = poolHost
-                    .replacingOccurrences(of: "https://", with: "")
-                    .replacingOccurrences(of: "http://", with: "")
-            } catch {
-                XCTFail("useLoginPoolHost is true but getLoginPoolHost() failed: \(error)")
-                return
+        // Closing Login Options restarts authentication on the selected server. A fresh launch
+        // already selected regular auth, so avoid cancelling and re-selecting it for the common
+        // case. Special paths still choose their required server explicitly.
+        if useWelcomeDiscovery || useLoginPoolHost || loginHost != .regularAuth {
+            loginPage.returnToHostList(expectingBrowser: advancedAuthEnabled)
+            let loginHostToUse: String
+            if useWelcomeDiscovery {
+                loginHostToUse = "welcome.salesforce.com/discovery"
+            } else if useLoginPoolHost {
+                do {
+                    let poolHost = try UITestConfigUtils.shared.getLoginPoolHost()
+                    loginHostToUse = poolHost
+                        .replacingOccurrences(of: "https://", with: "")
+                        .replacingOccurrences(of: "http://", with: "")
+                } catch {
+                    XCTFail("useLoginPoolHost is true but getLoginPoolHost() failed: \(error)")
+                    return
+                }
+            } else {
+                loginHostToUse = hostConfig.urlNoProtocol
             }
-        } else {
-            loginHostToUse = hostConfig.urlNoProtocol
+            let loginHostDisplayName: String
+            if useWelcomeDiscovery {
+                loginHostDisplayName = kWelcomeDiscoveryLoginHostName
+            } else if useLoginPoolHost {
+                loginHostDisplayName = kLoginPoolHostName
+            } else if loginHost == .advancedAuth {
+                loginHostDisplayName = kAdvancedAuthLoginHostName
+            } else {
+                loginHostDisplayName = kRegularAuthLoginHostName
+            }
+            loginPage.configureLoginHost(host: loginHostToUse, displayName: loginHostDisplayName)
         }
-        loginPage.configureLoginHost(host: loginHostToUse)
 
         // Invalid app config
         if (dynamicAppConfigName == .invalid || (dynamicAppConfigName == nil && staticAppConfigName == .invalid)) {
@@ -838,12 +846,12 @@ class BaseAuthFlowTester: XCTestCase {
             useDPoP: useDPoP
         )
 
-        loginPage.returnToHostList(expectingBrowser: advancedAuthEnabled)
-
-        // Selecting the login host triggers /authorize. For an enforced ECA with useDPoP: false,
-        // the server rejects before any login form renders, so there is nothing further to drive —
-        // assert on the outcome instead of attempting performLogin.
-        loginPage.configureLoginHost(host: hostConfig.urlNoProtocol)
+        // Closing Login Options already triggers /authorize on the reset default regular server.
+        // Other hosts still require explicit selection.
+        if loginHost != .regularAuth {
+            loginPage.returnToHostList(expectingBrowser: advancedAuthEnabled)
+            loginPage.configureLoginHost(host: hostConfig.urlNoProtocol)
+        }
 
         // We assert on absence-of-main-page rather than on error text because there is no error
         // surface to read here. This path uses advanced auth (ASWebAuthenticationSession), and the
