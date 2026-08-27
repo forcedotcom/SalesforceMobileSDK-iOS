@@ -94,13 +94,15 @@ class LoginPageObject {
     }
 
     /// Selects (or adds) the given login host. Assumes the host list ("Change Server") is already
-    /// showing — call `returnToHostList()` first. Selecting or adding a host causes the SDK to
-    /// restart authentication (relaunching the browser under forced advanced auth, or reloading
+    /// showing — call `returnToHostList()` first. `displayName` is used for a preconfigured server
+    /// whose user-visible label differs from its address. Selecting or adding a host causes the SDK
+    /// to restart authentication (relaunching the browser under forced advanced auth, or reloading
     /// the in-app WebView when the flag is off).
-    func configureLoginHost(host: String) -> Void {
-        if (hasHost(host: host)) {
+    func configureLoginHost(host: String, displayName: String? = nil) -> Void {
+        let hostRowName = displayName ?? host
+        if (hasHost(host: hostRowName)) {
             // Select host if it exists already
-            tap(hostRow(host: host))
+            tap(hostRow(host: hostRowName))
         } else {
             // Add host if it does not exist
             tap(addConnectionButton())
@@ -447,4 +449,3 @@ class LoginPageObject {
         return row.waitForExistence(timeout: UITestTimeouts.short)
     }
 }
-

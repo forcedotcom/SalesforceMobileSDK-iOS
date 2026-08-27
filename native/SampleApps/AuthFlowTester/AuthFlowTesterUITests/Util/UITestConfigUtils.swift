@@ -138,8 +138,10 @@ struct AppConfig: Codable {
         return name.hasPrefix("beacon_")
     }
 
-    // W-23971480: beacon apps behave as RTR due to a server bug; drop the beacon_ clause when fixed
-    var isRtr: Bool {
+    /// Whether a normal refresh is expected to rotate this configuration's refresh token.
+    /// W-23971480: beacon apps behave as RTR due to a server bug; drop the beacon_ clause when fixed.
+    /// This is deliberately distinct from the per-user RT user-agent feature marker.
+    var expectsRefreshTokenRotation: Bool {
         return name.contains("_rtr") || name.hasPrefix("beacon_")
     }
 

@@ -56,7 +56,34 @@
 	<key>NSFaceIDUsageDescription</key>
 	<string>&quot;Use FaceID&quot;</string>
 	<key>SFDCOAuthLoginHost</key>
-	<string>login.salesforce.com</string>
+	<string>authflowtestingmsdksdb38.test1.my.pc-rnd.salesforce.com</string>
+	<key>SFDCOAuthLoginHosts</key>
+	<array>
+		<dict>
+			<key>name</key>
+			<string>UITests</string>
+			<key>host</key>
+			<string>authflowtestingmsdksdb38.test1.my.pc-rnd.salesforce.com</string>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>UITests Adv Auth</string>
+			<key>host</key>
+			<string>advauthflowtestingmsdksdb38.test1.my.pc-rnd.salesforce.com</string>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>UITests Login Pool</string>
+			<key>host</key>
+			<string>login.test1.pc-rnd.salesforce.com</string>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Welcome Discovery</string>
+			<key>host</key>
+			<string>welcome.salesforce.com/discovery</string>
+		</dict>
+	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
