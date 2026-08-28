@@ -171,4 +171,23 @@
     XCTAssertEqualObjects(creds.mainSid, @"test-parent-sid");
 }
 
+- (void)test_givenExistingUiSid_whenUpdateCredentialsWithBearerTokenType_thenUiSidCleared {
+    SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:@"test-uisid-stale" clientId:@"test-client" encrypted:NO storageType:SFOAuthCredentialsStorageTypeNone];
+
+    NSMutableDictionary *dpopParams = [NSMutableDictionary dictionary];
+    [dpopParams setObject:@"dpop-access-token" forKey:@"access_token"];
+    [dpopParams setObject:@"test-ui-sid" forKey:@"ui_sid"];
+    [dpopParams setObject:@"dpop" forKey:@"token_type"];
+    [creds updateCredentials:dpopParams];
+    XCTAssertEqualObjects(creds.uiSid, @"test-ui-sid", @"Precondition: uiSid must be set after DPoP login");
+
+    NSMutableDictionary *bearerParams = [NSMutableDictionary dictionary];
+    [bearerParams setObject:@"bearer-access-token" forKey:@"access_token"];
+    [bearerParams setObject:@"bearer" forKey:@"token_type"];
+    [creds updateCredentials:bearerParams];
+
+    XCTAssertNil(creds.uiSid, @"uiSid must be cleared after DPoP-to-Bearer downgrade");
+    XCTAssertEqualObjects(creds.mainSid, @"bearer-access-token", @"mainSid must return access token after uiSid is cleared");
+}
+
 @end
