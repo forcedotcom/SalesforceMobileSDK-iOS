@@ -91,6 +91,7 @@ static NSString * const kSFOAuthCookieClientSrc                 = @"cookie-clien
 static NSString * const kSFOAuthCookieSidClient                 = @"cookie-sid_Client";
 static NSString * const kSFOAuthSidCookieName                   = @"sidCookieName";
 static NSString * const kSFOAuthParentSid                       = @"parent_sid";
+static NSString * const kSFOAuthUiSid                           = @"ui_sid";
 static NSString * const kSFOAuthTokenFormat                     = @"token_format";
 static NSString * const kSFOAuthTokenType                       = @"token_type";
 static NSString * const kSFOAuthAttestation                     = @"attestation";
