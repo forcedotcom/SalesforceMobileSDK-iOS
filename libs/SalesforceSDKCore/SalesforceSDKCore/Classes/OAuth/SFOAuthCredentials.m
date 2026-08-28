@@ -506,4 +506,8 @@ NSException * SFOAuthInvalidIdentifierException(void) {
     return self.beaconChildConsumerKey.length != 0 ? self.beaconChildConsumerKey : self.clientId;
 }
 
+- (NSString *)mainSid {
+    return [@"jwt" isEqualToString:self.tokenFormat] ? self.parentSid : self.accessToken;
+}
+
 @end
