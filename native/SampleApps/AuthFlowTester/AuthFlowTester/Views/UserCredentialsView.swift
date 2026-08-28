@@ -83,6 +83,8 @@ public struct CredentialsLabels {
     public static let contentDomain = "Content Domain"
     public static let contentSid = "Content SID"
     public static let parentSid = "Parent SID"
+    public static let mainSid = "Main SID"
+    public static let uiSid = "UI SID"
     public static let sidCookieName = "SID Cookie Name"
     
     // Cookies and Security fields
@@ -205,6 +207,8 @@ struct UserCredentialsView: View {
                         InfoRowView(label: "\(CredentialsLabels.contentDomain):", value: contentDomain)
                         InfoRowView(label: "\(CredentialsLabels.contentSid):", value: contentSid, isSensitive: true)
                         InfoRowView(label: "\(CredentialsLabels.parentSid):", value: parentSid, isSensitive: true)
+                        InfoRowView(label: "\(CredentialsLabels.mainSid):", value: mainSid, isSensitive: true)
+                        InfoRowView(label: "\(CredentialsLabels.uiSid):", value: uiSid, isSensitive: true)
                         InfoRowView(label: "\(CredentialsLabels.sidCookieName):", value: sidCookieName)
                     }
                     
@@ -315,6 +319,8 @@ struct UserCredentialsView: View {
             CredentialsLabels.contentDomain: contentDomain,
             CredentialsLabels.contentSid: contentSid,
             CredentialsLabels.parentSid: parentSid,
+            CredentialsLabels.mainSid: mainSid,
+            CredentialsLabels.uiSid: uiSid,
             CredentialsLabels.sidCookieName: sidCookieName
         ]
         
@@ -498,7 +504,15 @@ struct UserCredentialsView: View {
     private var parentSid: String {
         return credentials?.parentSid ?? ""
     }
-    
+
+    private var mainSid: String {
+        return credentials?.mainSid ?? ""
+    }
+
+    private var uiSid: String {
+        return credentials?.uiSid ?? ""
+    }
+
     private var sidCookieName: String {
         return credentials?.sidCookieName ?? ""
     }

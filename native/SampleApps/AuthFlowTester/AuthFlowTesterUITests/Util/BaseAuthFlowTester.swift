@@ -1243,7 +1243,7 @@ class BaseAuthFlowTester: XCTestCase {
         )
 
         // Additional login-specific validations
-        assertSIDs(userCredentialsData: userCredentials, useHybridFlow: useHybridFlow, useJwt: issuesJwt)
+        assertSIDs(userCredentialsData: userCredentials, useHybridFlow: useHybridFlow, useJwt: issuesJwt, isDPoP: effectiveExpectDP)
         assertURLs(userCredentialsData: userCredentials, useWebServerFlow: useWebServerFlow)
 
         // DPoP token binding: assert on any DPoP-app path (login, switch, restart, migration)
@@ -1413,21 +1413,32 @@ class BaseAuthFlowTester: XCTestCase {
         return jwtDetails
     }
     
-    private func assertSIDs(userCredentialsData: UserCredentialsData, useHybridFlow: Bool, useJwt: Bool) {
+    private func assertSIDs(userCredentialsData: UserCredentialsData, useHybridFlow: Bool, useJwt: Bool, isDPoP: Bool) {
         let hasContentScope = userCredentialsData.credentialsScopes.contains("content")
         let hasLightningScope = userCredentialsData.credentialsScopes.contains("lightning")
         let hasVisualforceScope = userCredentialsData.credentialsScopes.contains("visualforce")
-        
+
         assertNotEmpty(userCredentialsData.contentDomain, shouldNotBeEmpty: hasContentScope && useHybridFlow, "Content domain")
         assertNotEmpty(userCredentialsData.contentSid, shouldNotBeEmpty: hasContentScope && useHybridFlow, "Content SID")
-        
+
         assertNotEmpty(userCredentialsData.lightningDomain, shouldNotBeEmpty: hasLightningScope && useHybridFlow, "Lightning domain")
         assertNotEmpty(userCredentialsData.lightningSid, shouldNotBeEmpty: hasLightningScope && useHybridFlow, "Lightning SID")
-        
+
         assertNotEmpty(userCredentialsData.vfDomain, shouldNotBeEmpty: hasVisualforceScope && useHybridFlow, "VF domain")
         assertNotEmpty(userCredentialsData.vfSid, shouldNotBeEmpty: hasVisualforceScope && useHybridFlow, "VF SID")
-        
+
         assertNotEmpty(userCredentialsData.parentSid, shouldNotBeEmpty: useJwt && useHybridFlow, "Parent SID")
+
+        assertNotEmpty(userCredentialsData.mainSid, shouldNotBeEmpty: true, "Main SID")
+        assertNotEmpty(userCredentialsData.uiSid, shouldNotBeEmpty: isDPoP, "UI SID")
+
+        if !userCredentialsData.uiSid.isEmpty {
+            XCTAssertEqual(userCredentialsData.mainSid, userCredentialsData.uiSid, "Main SID should equal UI SID when UI SID is present")
+        } else if !userCredentialsData.parentSid.isEmpty {
+            XCTAssertEqual(userCredentialsData.mainSid, userCredentialsData.parentSid, "Main SID should equal Parent SID when UI SID is absent and Parent SID is present")
+        } else {
+            XCTAssertEqual(userCredentialsData.mainSid, userCredentialsData.accessToken, "Main SID should equal Access Token when neither UI SID nor Parent SID is present")
+        }
     }
     
     private func assertURLs(userCredentialsData: UserCredentialsData, useWebServerFlow: Bool) {
