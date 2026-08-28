@@ -143,6 +143,9 @@ NS_SWIFT_NAME(OAuthCredentials)
  Returns parentSid for JWT token format, accessToken otherwise.
  */
 @property (nonatomic, readonly, nullable) NSString *mainSid;
+
+/** UI session ID returned by the token endpoint for DPoP token flows. */
+@property (nonatomic, readonly, nullable) NSString *uiSid;
 @property (nonatomic, readonly, nullable) NSString *tokenType;
 @property (nonatomic, readonly, nullable) NSString *beaconChildConsumerKey;
 @property (nonatomic, readonly, nullable) NSString *beaconChildConsumerSecret;

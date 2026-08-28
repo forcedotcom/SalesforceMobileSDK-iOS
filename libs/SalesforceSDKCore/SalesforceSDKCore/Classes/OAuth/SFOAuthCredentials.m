@@ -37,6 +37,7 @@ NSString * const kSFOAuthServiceVfSid           = @"com.salesforce.mobilesdk.oau
 NSString * const kSFOAuthServiceContentSid      = @"com.salesforce.mobilesdk.oauth.contentSid";
 NSString * const kSFOAuthServiceCsrf            = @"com.salesforce.mobilesdk.oauth.csrf";
 NSString * const kSFOAuthServiceParentSid       = @"com.salesforce.mobilesdk.oauth.parentSid";
+NSString * const kSFOAuthServiceUiSid           = @"com.salesforce.mobilesdk.oauth.uiSid";
 NSString * const kSFOAuthServiceBeaconChildConsumerKey    = @"com.salesforce.mobilesdk.oauth.beaconChildConsumerKey";
 NSString * const kSFOAuthServiceBeaconChildConsumerSecret = @"com.salesforce.mobilesdk.oauth.beaconChildConsumerSecret";
 
@@ -234,6 +235,7 @@ NSException * SFOAuthInvalidIdentifierException(void) {
     copyCreds.cookieSidClient = self.cookieSidClient;
     copyCreds.sidCookieName = self.sidCookieName;
     copyCreds.parentSid = self.parentSid;
+    copyCreds.uiSid = self.uiSid;
     copyCreds.tokenFormat = self.tokenFormat;
     copyCreds.tokenType = self.tokenType;
     copyCreds.beaconChildConsumerKey = self.beaconChildConsumerKey;
@@ -349,6 +351,7 @@ NSException * SFOAuthInvalidIdentifierException(void) {
     self.cookieSidClient = nil;
     self.sidCookieName = nil;
     self.parentSid = nil;
+    self.uiSid = nil;
     self.tokenFormat = nil;
     self.tokenType = nil;
     self.beaconChildConsumerKey = nil;
@@ -483,6 +486,9 @@ NSException * SFOAuthInvalidIdentifierException(void) {
     if (params[kSFOAuthParentSid]) {
         self.parentSid = params[kSFOAuthParentSid];
     }
+    if (params[kSFOAuthUiSid] && [@"dpop" isEqualToString:params[kSFOAuthTokenType]]) {
+        self.uiSid = params[kSFOAuthUiSid];
+    }
     if (params[kSFOAuthTokenFormat]) {
         self.tokenFormat = params[kSFOAuthTokenFormat];
     }
@@ -507,6 +513,7 @@ NSException * SFOAuthInvalidIdentifierException(void) {
 }
 
 - (NSString *)mainSid {
+    if (self.uiSid) { return self.uiSid; }
     return [@"jwt" isEqualToString:self.tokenFormat] ? self.parentSid : self.accessToken;
 }
 

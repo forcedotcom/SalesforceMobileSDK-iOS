@@ -128,4 +128,47 @@
     XCTAssertEqualObjects(creds.mainSid, @"test-parent-sid");
 }
 
+- (void)test_givenDPoPTokenType_whenUpdateCredentials_thenUiSidCaptured {
+    SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:@"test-uisid-dpop" clientId:@"test-client" encrypted:NO storageType:SFOAuthCredentialsStorageTypeNone];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setObject:@"test-access-token" forKey:@"access_token"];
+    [params setObject:@"test-ui-sid" forKey:@"ui_sid"];
+    [params setObject:@"dpop" forKey:@"token_type"];
+    [creds updateCredentials:params];
+    XCTAssertEqualObjects(creds.uiSid, @"test-ui-sid");
+}
+
+- (void)test_givenNonDPoPTokenType_whenUpdateCredentials_thenUiSidNotCaptured {
+    SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:@"test-uisid-nondpop" clientId:@"test-client" encrypted:NO storageType:SFOAuthCredentialsStorageTypeNone];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setObject:@"test-access-token" forKey:@"access_token"];
+    [params setObject:@"test-ui-sid" forKey:@"ui_sid"];
+    [params setObject:@"bearer" forKey:@"token_type"];
+    [creds updateCredentials:params];
+    XCTAssertNil(creds.uiSid);
+}
+
+- (void)test_givenUiSidPresent_whenGetMainSid_thenReturnsUiSid {
+    SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:@"test-mainsid-uisid" clientId:@"test-client" encrypted:NO storageType:SFOAuthCredentialsStorageTypeNone];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setObject:@"test-access-token" forKey:@"access_token"];
+    [params setObject:@"test-parent-sid" forKey:@"parent_sid"];
+    [params setObject:@"jwt" forKey:@"token_format"];
+    [params setObject:@"test-ui-sid" forKey:@"ui_sid"];
+    [params setObject:@"dpop" forKey:@"token_type"];
+    [creds updateCredentials:params];
+    XCTAssertEqualObjects(creds.mainSid, @"test-ui-sid");
+}
+
+- (void)test_givenUiSidAbsent_whenGetMainSid_thenFallsBackToExistingLogic {
+    SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:@"test-mainsid-fallback" clientId:@"test-client" encrypted:NO storageType:SFOAuthCredentialsStorageTypeNone];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setObject:@"test-access-token" forKey:@"access_token"];
+    [params setObject:@"test-parent-sid" forKey:@"parent_sid"];
+    [params setObject:@"jwt" forKey:@"token_format"];
+    [creds updateCredentials:params];
+    XCTAssertNil(creds.uiSid);
+    XCTAssertEqualObjects(creds.mainSid, @"test-parent-sid");
+}
+
 @end
