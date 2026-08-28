@@ -136,4 +136,5 @@ static CGFloat kImageHeight = 60;
     UIGraphicsEndImageContext();
     return image;
 }
+#pragma clang diagnostic pop
 @end
