@@ -59,7 +59,7 @@ All DPoP tests live here — basic login, RTR, multi-user, migration, server enf
 |------|-----------|--------|-------|
 | `test_givenDPoPHybrid_whenLogin_thenTokenTypeIsDPoPAndRefreshWorks` | ECA JWT DPoP | Yes | |
 | `test_givenDPoPNoHybrid_whenLogin_thenTokenTypeIsDPoPAndRefreshWorks` | ECA JWT DPoP | No | |
-| `test_givenDPoPRtrHybrid_whenLogin_pendingServerFix` | ECA JWT DPoP RTR | Yes | `XCTSkip` (pending server fix for Named JWTs + RTR + hybrid) |
+| `test_givenDPoPRtrHybrid_whenLogin_thenRefreshTokenRotatesAndDPoPBindingHolds` | ECA JWT DPoP RTR | Yes | DPoP + refresh token rotation |
 | `test_givenDPoPRtrNoHybrid_whenLogin_thenRefreshTokenRotatesAndDPoPBindingHolds` | ECA JWT DPoP RTR | No | DPoP + refresh token rotation |
 | `test_givenTwoDPoPUsers_whenSwitchAndRefresh_thenTokensAndNoncesAreIsolated` | ECA JWT DPoP | — | Two users; unique tokens and nonces; independent revoke+refresh per user |
 | `test_givenDPoPUserWithSubsetScopes_whenMigrateToAllScopes_thenDPoPBindingPreserved` | ECA JWT DPoP | — | Scope upgrade; DPoP binding preserved |
