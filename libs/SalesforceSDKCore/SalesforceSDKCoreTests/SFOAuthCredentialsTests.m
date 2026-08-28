@@ -108,4 +108,24 @@
     XCTAssertEqualObjects(creds.beaconChildConsumerSecret, @"test-beacon-child-consumer-secret");
 }
 
+- (void)testMainSid_withNonJwtFormat_returnsAccessToken {
+    SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:@"test-main-sid" clientId:@"test-client" encrypted:NO storageType:SFOAuthCredentialsStorageTypeNone];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setObject:@"test-access-token" forKey:@"access_token"];
+    [params setObject:@"test-parent-sid" forKey:@"parent_sid"];
+    [params setObject:@"access_token" forKey:@"token_format"];
+    [creds updateCredentials:params];
+    XCTAssertEqualObjects(creds.mainSid, @"test-access-token");
+}
+
+- (void)testMainSid_withJwtFormat_returnsParentSid {
+    SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:@"test-main-sid-jwt" clientId:@"test-client" encrypted:NO storageType:SFOAuthCredentialsStorageTypeNone];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setObject:@"test-access-token" forKey:@"access_token"];
+    [params setObject:@"test-parent-sid" forKey:@"parent_sid"];
+    [params setObject:@"jwt" forKey:@"token_format"];
+    [creds updateCredentials:params];
+    XCTAssertEqualObjects(creds.mainSid, @"test-parent-sid");
+}
+
 @end

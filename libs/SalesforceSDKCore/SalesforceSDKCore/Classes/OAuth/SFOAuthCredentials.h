@@ -138,6 +138,11 @@ NS_SWIFT_NAME(OAuthCredentials)
 @property (nonatomic, readonly, nullable) NSString *sidCookieName;
 @property (nonatomic, readonly, nullable) NSString *parentSid;
 @property (nonatomic, readonly, nullable) NSString *tokenFormat;
+
+/** Session ID to use as the main SID cookie.
+ Returns parentSid for JWT token format, accessToken otherwise.
+ */
+@property (nonatomic, readonly, nullable) NSString *mainSid;
 @property (nonatomic, readonly, nullable) NSString *tokenType;
 @property (nonatomic, readonly, nullable) NSString *beaconChildConsumerKey;
 @property (nonatomic, readonly, nullable) NSString *beaconChildConsumerSecret;
