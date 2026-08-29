@@ -109,22 +109,27 @@ FOUNDATION_EXTERN NSNotificationName kSFNotificationUserWillLogIn NS_SWIFT_NAME(
  */
 FOUNDATION_EXTERN NSNotificationName kSFNotificationUserDidLogIn NS_SWIFT_NAME(UserAccountManager.didLogInUser);
 
+/// Deprecated: part of the IDP login flow, removed in 15.0.
 /**  Notification sent before SP APP invokes IDP APP for authentication. In swift access this constant using Notification.Name.SFUserAccountManagerWillSendIDPRequest
  */
 FOUNDATION_EXTERN NSNotificationName kSFNotificationUserWillSendIDPRequest NS_SWIFT_NAME(UserAccountManager.willSendIDPRequest);
 
+/// Deprecated: part of the IDP login flow, removed in 15.0.
 /**  Notification sent before IDP APP invokes SP APP with auth code. In swift access this constant using Notification.Name.SFUserAccountManagerWillSendIDPResponse
  */
 FOUNDATION_EXTERN NSNotificationName kSFNotificationUserWillSendIDPResponse NS_SWIFT_NAME(UserAccountManager.willSendIDPResponse);
 
+/// Deprecated: part of the IDP login flow, removed in 15.0.
 /**  Notification sent when  IDP APP receives request for authentication from SP APP. In swift access this constant using Notification.Name.SFUserAccountManagerDidReceiveIDPRequest
  */
 FOUNDATION_EXTERN NSNotificationName kSFNotificationUserDidReceiveIDPRequest NS_SWIFT_NAME(UserAccountManager.didReceiveIDPRequest);
 
+/// Deprecated: part of the IDP login flow, removed in 15.0.
 /**  Notification sent when  SP APP receives successful response of authentication from IDP APP. In swift access this constant using Notification.Name.SFUserAccountManagerDidReceiveIDPResponse
  */
 FOUNDATION_EXTERN NSNotificationName kSFNotificationUserDidReceiveIDPResponse NS_SWIFT_NAME(UserAccountManager.didReceiveIDPResponse);
 
+/// Deprecated: part of the IDP login flow, removed in 15.0.
 /**  Notification sent when  SP APP has log in  is successful when initiated from IDP APP. In swift access this constant using Notification.Name.SFUserAccountManagerDidLogInAfterIDPInit
  */
 FOUNDATION_EXTERN NSNotificationName kSFNotificationUserIDPInitDidLogIn  NS_SWIFT_NAME(UserAccountManager.didLogInAfterIDPInit);
@@ -170,16 +175,19 @@ FOUNDATION_EXTERN NSString * const kSFNotificationFromUserKey NS_SWIFT_NAME(User
  */
 FOUNDATION_EXTERN NSString * const kSFNotificationToUserKey NS_SWIFT_NAME(UserAccountManager.userInfoToUserKey);
 
+/// Deprecated: part of the IDP login flow, removed in 15.0.
 /**  Key used to provide triggering scene info for IDP flow from a scene delegate.
  */
 FOUNDATION_EXTERN NSString * const kSFIDPSceneIdKey NS_SWIFT_NAME(UserAccountManager.IDPSceneKey);
 
+/// Deprecated: part of the IDP login flow, removed in 15.0.
 typedef NS_ENUM(NSUInteger, SFSPLoginStatus) {
     SFSPLoginStatusLaunchingSPWithUserHint,
     SFSPLoginStatusCodeVerifierStoredInKeychain,
     SFSPLoginStatusGettingAuthCodeFromServer
 } NS_SWIFT_NAME(SPLoginStatus);
 
+/// Deprecated: part of the IDP login flow, removed in 15.0.
 typedef NS_ENUM(NSUInteger, SFSPLoginError) {
     SFSPLoginErrorNoScheme,
     SFSPLoginErrorNoUserIdentity,
@@ -329,12 +337,12 @@ NS_SWIFT_NAME(UserAccountManager)
 /** Use this block to replace the Login flow selection dialog
  *
  */
-@property (nonatomic, copy, nullable) SFIDPLoginFlowSelectionBlock idpLoginFlowSelectionAction;
+@property (nonatomic, copy, nullable) SFIDPLoginFlowSelectionBlock idpLoginFlowSelectionAction SFSDK_DEPRECATED(14.0, 15.0, "The IDP (Identity Provider) login flow is deprecated. Apps should use advanced (browser-based) authentication.");
 
 /** Use this to replace the default User Selection Screen
  *
  */
-@property (nonatomic, copy, nullable) SFIDPUserSelectionBlock idpUserSelectionAction;
+@property (nonatomic, copy, nullable) SFIDPUserSelectionBlock idpUserSelectionAction SFSDK_DEPRECATED(14.0, 15.0, "The IDP (Identity Provider) login flow is deprecated. Apps should use advanced (browser-based) authentication.");
 
 
 /** Use this to add handling for navigation actions like email and custom links on the login screen, return WKNavigationActionPolicyAllow for any other actions to make sure that the login flow isn't interrupted
@@ -348,17 +356,17 @@ NS_SWIFT_NAME(UserAccountManager)
 /**  Use this property to enable an app to become and IdentityProvider for other apps
  *
  */
-@property (nonatomic,assign) BOOL isIdentityProvider;
+@property (nonatomic,assign) BOOL isIdentityProvider SFSDK_DEPRECATED(14.0, 15.0, "The IDP (Identity Provider) login flow is deprecated. Apps should use advanced (browser-based) authentication.");
 
 /**  Use this property to enable this app to be able to use another app that is an Identity Provider
  *
  */
-@property (nonatomic,assign, readonly) BOOL idpEnabled  NS_SWIFT_NAME(isIDPEnabled);
+@property (nonatomic,assign, readonly) BOOL idpEnabled  NS_SWIFT_NAME(isIDPEnabled) SFSDK_DEPRECATED(14.0, 15.0, "The IDP (Identity Provider) login flow is deprecated. Apps should use advanced (browser-based) authentication.");
 
 /** Use this property to indicate the url scheme  for the Identity Provider app
  *
  */
-@property (nonatomic, copy, nullable) NSString *idpAppURIScheme;
+@property (nonatomic, copy, nullable) NSString *idpAppURIScheme SFSDK_DEPRECATED(14.0, 15.0, "The IDP (Identity Provider) login flow is deprecated. Apps should use advanced (browser-based) authentication.");
 
 /** Use this property to indicate to provide a user-friendly name for your app. This name will be displayed
  *  in the user selection view of the identity provider app.
@@ -679,7 +687,7 @@ Use this method to stop/clear any authentication which is has already been start
  @param options Dictionary of name-value pairs received from open URL
  @return YES if this is a valid URL response from IDP authentication that should be handled, NO otherwise.
  */
-- (BOOL)handleIDPAuthenticationResponse:(NSURL *)url options:(nonnull NSDictionary *)options NS_SWIFT_NAME(handleIdentityProviderResponse(from:with:));
+- (BOOL)handleIDPAuthenticationResponse:(NSURL *)url options:(nonnull NSDictionary *)options NS_SWIFT_NAME(handleIdentityProviderResponse(from:with:)) SFSDK_DEPRECATED(14.0, 15.0, "The IDP (Identity Provider) login flow is deprecated. Apps should use advanced (browser-based) authentication.");
 
 
 /**
@@ -693,7 +701,7 @@ Use this method to stop/clear any authentication which is has already been start
 - (BOOL)handleIDPAuthenticationCommand:(NSURL *)url
                                options:(nonnull NSDictionary *)options
                             completion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock
-                               failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock NS_REFINED_FOR_SWIFT;
+                               failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock NS_REFINED_FOR_SWIFT SFSDK_DEPRECATED(14.0, 15.0, "The IDP (Identity Provider) login flow is deprecated. Apps should use advanced (browser-based) authentication.");
 
 
 /**
@@ -704,7 +712,7 @@ Use this method to stop/clear any authentication which is has already been start
  */
 - (void)kickOffIDPInitiatedLoginFlowForSP:(SFSDKSPConfig *)config
                              statusUpdate:(void(^)(SFSPLoginStatus))statusBlock
-                                  failure:(void(^)(SFSPLoginError))failureBlock;
+                                  failure:(void(^)(SFSPLoginError))failureBlock SFSDK_DEPRECATED(14.0, 15.0, "The IDP (Identity Provider) login flow is deprecated. Apps should use advanced (browser-based) authentication.");
 
 /**
  Triggers the "Login for Admin" flow for the active login session associated with the given

@@ -246,7 +246,7 @@
         return NO;
     }
     
-    if (self.config.shouldDisplayBackButton || [SFUserAccountManager sharedInstance].idpEnabled
+    if (self.config.shouldDisplayBackButton || [SFUserAccountManager sharedInstance].sdk_idpEnabled
         || [SFUserAccountManager sharedInstance].shouldFallbackToWebAuthentication) {
         return YES;
     }
@@ -437,7 +437,7 @@
         [[SFUserAccountManager sharedInstance] loginWithCompletion:nil failure:nil];
     }
     
-    if (![SFUserAccountManager sharedInstance].idpEnabled) {
+    if (![SFUserAccountManager sharedInstance].sdk_idpEnabled) {
         [[[SFSDKWindowManager sharedManager] authWindow:scene].viewController.presentedViewController dismissViewControllerAnimated:NO completion:^{
             [[[SFSDKWindowManager sharedManager] authWindow:scene] dismissWindow];
         }];

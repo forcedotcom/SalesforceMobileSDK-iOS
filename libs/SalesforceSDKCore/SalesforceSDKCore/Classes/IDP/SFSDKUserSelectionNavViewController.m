@@ -35,6 +35,8 @@
 }
 @end
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 @implementation SFSDKUserSelectionNavViewController
 @synthesize userSelectionDelegate = _userSelectionDelegate;
 
@@ -86,3 +88,4 @@
     return [[SFSDKUserSelectionTableViewController alloc] initWithNibName:nil bundle:nil];
 }
 @end
+#pragma clang diagnostic pop

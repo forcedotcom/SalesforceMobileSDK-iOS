@@ -299,6 +299,8 @@
     [self.credentials revoke];
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 - (BOOL)handleIDPAuthenticationResponse:(NSURL *)appUrlResponse {
     self.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeIDP];
    
@@ -335,6 +337,7 @@
     });
     return YES;
 }
+#pragma clang diagnostic pop
 
 - (BOOL)handleAdvancedAuthenticationResponse:(NSURL *)appUrlResponse {
     self.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeAdvancedBrowser];
@@ -673,6 +676,8 @@
 }
 
 // IDP related
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 - (void)beginIDPFlow:(SFUserAccount *)user success:(void(^)(void))successBlock failure:(void(^)(NSError *))failureBlock {
     self.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeIDP];
     self.initialRequestLoaded = NO;
@@ -693,6 +698,7 @@
         }];
     }
 }
+#pragma clang diagnostic pop
 
 - (NSString*)computeAuthorizationPathForSP {
     NSString *approvalUrlString = [self approvalURLForEndpoint:kSFOAuthEndPointAuthorize
@@ -877,7 +883,9 @@
         NSDictionary *params = [SFSDKOAuth2 parseQueryString:response decodeParams:NO];
         self.spAppCredentials.authCode = params[kSFOAuthApprovalCode];
         if ([self.delegate respondsToSelector:@selector(oauthCoordinatorDidFetchAuthCode:authInfo:)]) {
+            SFSDK_USE_DEPRECATED_BEGIN
             [self.delegate oauthCoordinatorDidFetchAuthCode:self authInfo:self.authInfo];
+            SFSDK_USE_DEPRECATED_END
         }
     }
 }

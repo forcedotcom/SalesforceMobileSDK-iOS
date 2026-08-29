@@ -200,7 +200,9 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         };
         
        _idpUserSelectionAction = ^UIViewController<SFSDKUserSelectionView> * _Nonnull{
+            SFSDK_USE_DEPRECATED_BEGIN
             SFSDKUserSelectionNavViewController *controller = [[SFSDKUserSelectionNavViewController alloc] init];
+            SFSDK_USE_DEPRECATED_END
             controller.userSelectionDelegate = [SFUserAccountManager sharedInstance];
             return controller;
         };
@@ -271,6 +273,8 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     self.authPreferences.oauthClientId = newClientId;
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 - (BOOL)isIdentityProvider {
     return self.authPreferences.isIdentityProvider;
 }
@@ -283,8 +287,16 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     }
     self.authPreferences.isIdentityProvider = isIdentityProvider;
 }
+#pragma clang diagnostic pop
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 - (BOOL)idpEnabled {
+    return self.authPreferences.idpEnabled;
+}
+#pragma clang diagnostic pop
+
+- (BOOL)sdk_idpEnabled {
     return self.authPreferences.idpEnabled;
 }
 
@@ -296,7 +308,14 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     self.authPreferences.appDisplayName = appDisplayName;
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 - (NSString *)idpAppURIScheme {
+    return self.authPreferences.idpAppURIScheme;
+}
+#pragma clang diagnostic pop
+
+- (NSString *)sdk_idpAppURIScheme {
     return self.authPreferences.idpAppURIScheme;
 }
 
@@ -308,6 +327,8 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
      self.authPreferences.requireBrowserAuthentication = useBrowserAuth;
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 - (void)setIdpAppURIScheme:(NSString *)idpAppURIScheme {
     if (idpAppURIScheme && [idpAppURIScheme sfsdk_trim].length > 0) {
         [SFSDKAppFeatureMarkers registerAppFeature:kSFSPAppFeatureIDPLogin];
@@ -316,6 +337,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     }
     self.authPreferences.idpAppURIScheme = idpAppURIScheme;
 }
+#pragma clang diagnostic pop
 
 - (SFSDKLoginViewControllerConfig *) loginViewControllerConfig {
     if (!_loginViewControllerConfig) {
@@ -332,6 +354,8 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 
 #pragma  mark - login & logout
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 - (BOOL)handleIDPAuthenticationResponse:(NSURL *)appUrlResponse options:(NSDictionary *)options {
     return [self handleIDPAuthenticationCommand:appUrlResponse options:options completion:nil failure:nil];
 }
@@ -391,6 +415,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         failureBlock(SFSPLoginErrorCredentialRefreshFailed);
     }];
 }
+#pragma clang diagnostic pop
 
 - (BOOL)loginWithCompletion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
     BOOL result = NO;
@@ -561,8 +586,10 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     request.scopes = self.scopes;
     request.retryLoginAfterFailure = self.retryLoginAfterFailure;
     request.useBrowserAuth = self.useBrowserAuth;
+    SFSDK_USE_DEPRECATED_BEGIN
     request.spAppLoginFlowSelectionAction = self.idpLoginFlowSelectionAction;
-    request.idpAppURIScheme = self.idpAppURIScheme;
+    SFSDK_USE_DEPRECATED_END
+    request.idpAppURIScheme = self.sdk_idpAppURIScheme;
     request.scene = [[SFSDKWindowManager sharedManager] defaultScene];
     return request;
 }
@@ -1060,6 +1087,8 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     });
 }
 // IDP related code fetched as an identity provider app
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 - (void)oauthCoordinatorDidFetchAuthCode:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)authInfo {
     SFSDKAuthCommand *authCommand;
     NSString *keychainReference = coordinator.authSession.oauthRequest.keychainReference;
@@ -1085,6 +1114,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         [self dismissAuthViewControllerIfPresent];
     }];
 }
+#pragma clang diagnostic pop
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(WKWebView *)view {
     SFLoginViewController *loginViewController = [self createLoginViewControllerInstance:coordinator];
@@ -2004,7 +2034,9 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     dispatch_async(dispatch_get_main_queue(), ^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
         [strongSelf dismissAuthViewControllerIfPresentForScene:authSession.oauthRequest.scene completion:^{
+            SFSDK_USE_DEPRECATED_BEGIN
             [strongSelf.authSessions[authSession.sceneId].oauthCoordinator beginIDPFlow:user success:successBlock failure:failureBlock];
+            SFSDK_USE_DEPRECATED_END
         }];
     });
 }

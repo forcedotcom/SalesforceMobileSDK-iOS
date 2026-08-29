@@ -28,7 +28,9 @@
  */
 
 #import <UIKit/UIKit.h>
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
+SFSDK_DEPRECATED(14.0, 15.0, "The IDP (Identity Provider) login flow is deprecated. Apps should use advanced (browser-based) authentication.")
 @interface SFSDKUITableViewCell : UITableViewCell
 @property (nonatomic,assign) NSString *userName;
 @property (nonatomic,assign) NSString *hostName;

@@ -178,12 +178,14 @@ NSString * const kOAuthAppName = @"oauth_app_name";
 
 - (NSString *)idpAppURIScheme
 {
+    SFSDK_USE_DEPRECATED_BEGIN
     if ([SFManagedPreferences sharedPreferences].idpAppURLScheme.length > 0) {
         return [SFManagedPreferences sharedPreferences].idpAppURLScheme;
     } else {
         NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
         return [defs stringForKey:kSFIDPKey];
     }
+    SFSDK_USE_DEPRECATED_END
 }
 
 - (void)setIdpAppURIScheme:(NSString *)appIdentifier

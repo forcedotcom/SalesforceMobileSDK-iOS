@@ -29,6 +29,7 @@
 
 #import <Foundation/Foundation.h>
 
+/// Deprecated: part of the IDP login flow, removed in 15.0.
 @protocol SFSDKLoginFlowSelectionViewDelegate<NSObject>
 /**
  * Used to notify the SDK of user selection on the login flow selection view
@@ -46,6 +47,7 @@
 
 @end
 
+/// Deprecated: part of the IDP login flow, removed in 15.0.
 @protocol SFSDKLoginFlowSelectionView<NSObject>
 @property (weak,nonatomic) id <SFSDKLoginFlowSelectionViewDelegate> selectionFlowDelegate;
 @property (nonatomic,strong) NSDictionary *appOptions;

@@ -117,6 +117,7 @@ extension UserAccountManager: UserAccountManaging {
     ///    - options: Dictionary of name-value pairs received from open URL
     ///    - completion: Completion block to invoke with a UserAccount on success or UserAccountManagerError on failure wrapped in a Result type.
     /// - Returns: true if this is a valid URL response from IDP authentication that should be handled, false otherwise.
+    @available(*, deprecated, message: "The IDP (Identity Provider) login flow is deprecated and will be removed in Salesforce Mobile SDK 15.0. Apps should use advanced (browser-based) authentication.")
     public func handleIdentityProviderCommand(from url: URL, with options: [AnyHashable: Any], completion: @escaping (Result<(UserAccount, AuthInfo), UserAccountManagerError>) -> Void) -> Bool {
         return __handleIDPAuthenticationCommand(url, options: options, completion: { (authInfo, userAccount) in
             completion(Result.success((userAccount, authInfo)))
