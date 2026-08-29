@@ -660,7 +660,7 @@ static NSString *SFSDKISO8601StringFromDate(NSDate *date) {
             @"Beacon Child Consumer Key", creds.beaconChildConsumerKey ?: @"(empty)"
         ]];
 
-        if ([creds.tokenType isEqualToString:@"DPoP"]) {
+        if ([creds.tokenType isEqualToString:kSFOAuthDPoPTokenType]) {
             [devInfos addObjectsFromArray:@[
                 @"DPoP Nonce", [SFSDKDPoPNonceCache.shared latestForScope:creds.identifier] ?: @"None"
             ]];

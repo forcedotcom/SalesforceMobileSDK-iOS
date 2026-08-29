@@ -94,6 +94,7 @@ static NSString * const kSFOAuthParentSid                       = @"parent_sid";
 static NSString * const kSFOAuthUiSid                           = @"ui_sid";
 static NSString * const kSFOAuthTokenFormat                     = @"token_format";
 static NSString * const kSFOAuthTokenType                       = @"token_type";
+static NSString * const kSFOAuthDPoPTokenType                   = @"DPoP";
 static NSString * const kSFOAuthAttestation                     = @"attestation";
 static NSString * const kSFOAuthBeaconChildConsumerKey          = @"auto_installed_app_org_consumer_key";
 static NSString * const kSFOAuthBeaconChildConsumerSecret       = @"auto_installed_app_org_consumer_secret";

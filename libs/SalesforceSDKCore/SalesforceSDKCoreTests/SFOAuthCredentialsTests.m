@@ -133,7 +133,7 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setObject:@"test-access-token" forKey:@"access_token"];
     [params setObject:@"test-ui-sid" forKey:@"ui_sid"];
-    [params setObject:@"dpop" forKey:@"token_type"];
+    [params setObject:@"DPoP" forKey:@"token_type"];
     [creds updateCredentials:params];
     XCTAssertEqualObjects(creds.uiSid, @"test-ui-sid");
 }
@@ -155,7 +155,7 @@
     [params setObject:@"test-parent-sid" forKey:@"parent_sid"];
     [params setObject:@"jwt" forKey:@"token_format"];
     [params setObject:@"test-ui-sid" forKey:@"ui_sid"];
-    [params setObject:@"dpop" forKey:@"token_type"];
+    [params setObject:@"DPoP" forKey:@"token_type"];
     [creds updateCredentials:params];
     XCTAssertEqualObjects(creds.mainSid, @"test-ui-sid");
 }
@@ -177,7 +177,7 @@
     NSMutableDictionary *dpopParams = [NSMutableDictionary dictionary];
     [dpopParams setObject:@"dpop-access-token" forKey:@"access_token"];
     [dpopParams setObject:@"test-ui-sid" forKey:@"ui_sid"];
-    [dpopParams setObject:@"dpop" forKey:@"token_type"];
+    [dpopParams setObject:@"DPoP" forKey:@"token_type"];
     [creds updateCredentials:dpopParams];
     XCTAssertEqualObjects(creds.uiSid, @"test-ui-sid", @"Precondition: uiSid must be set after DPoP login");
 
