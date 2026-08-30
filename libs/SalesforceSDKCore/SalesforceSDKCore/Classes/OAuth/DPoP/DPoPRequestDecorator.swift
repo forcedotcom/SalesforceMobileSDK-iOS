@@ -161,15 +161,15 @@ public final class DPoPRequestDecorator: NSObject {
     ///   - scope: per-account isolation key, typically `SFOAuthCredentials.identifier`.
     ///   - accessToken: the access token string sent in the Authorization header.
     ///   - tokenType: `SFOAuthCredentials.tokenType` (the OAuth `token_type` returned
-    ///     by the token endpoint, RFC 6749 §5.1). Case-sensitive equality match against
-    ///     `"DPoP"` is the only positive branch.
+    ///     by the token endpoint, RFC 6749 §5.1). Matched case-insensitively per RFC 6749 §5.1 —
+    ///     servers may return `"dpop"`, `"DPoP"`, or any casing variant.
     @objc(applyAuthHeaders:scope:accessToken:tokenType:error:)
     public static func applyAuthHeaders(_ request: NSMutableURLRequest,
                                         scope: String,
                                         accessToken: String?,
                                         tokenType: String?) throws {
         guard let accessToken, !accessToken.isEmpty else { return }
-        if tokenType == dpopTokenType {
+        if isDPoPTokenType(tokenType) {
             request.setValue("DPoP \(accessToken)", forHTTPHeaderField: "Authorization")
             try decorate(request, scope: scope, tokenType: tokenType, accessToken: accessToken)
         } else {
