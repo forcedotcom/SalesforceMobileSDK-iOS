@@ -57,9 +57,36 @@ SFSDK_USE_DEPRECATED_END
 @interface SFSDKTokenRefreshCoordinator ()
 @property (nonatomic, strong) NSMutableDictionary<NSString *, SFSDKTokenRefreshEntry *> *activeRefreshes;
 @property (nonatomic, strong) dispatch_queue_t serialQueue;
+// Returns the last 8 characters of key prefixed with "..." for safe log output.
++ (NSString *)truncatedKey:(NSString *)key;
 @end
 
 @implementation SFSDKTokenRefreshCoordinator
+
+#pragma mark - Helpers
+
++ (NSString *)truncatedKey:(NSString *)key {
+    // Identifier format: <consumerKey>-<randomUInt32>
+    // Show first 5 + last 4 of consumer key, last 4 of random number.
+    NSRange lastDash = [key rangeOfString:@"-" options:NSBackwardsSearch];
+    if (lastDash.location != NSNotFound) {
+        NSString *rnd = [key substringFromIndex:lastDash.location + 1];
+        NSCharacterSet *nonDigits = [[NSCharacterSet decimalDigitCharacterSet] invertedSet];
+        if (rnd.length > 0 && [rnd rangeOfCharacterFromSet:nonDigits].location == NSNotFound) {
+            NSString *ck = [key substringToIndex:lastDash.location];
+            NSString *ckPrefix = ck.length >= 5 ? [ck substringToIndex:5] : ck;
+            NSString *ckSuffix = ck.length > 5 ? [ck substringFromIndex:ck.length - 4] : @"";
+            NSString *rndSuffix = rnd.length >= 4 ? [rnd substringFromIndex:rnd.length - 4] : rnd;
+            if (ckSuffix.length > 0) {
+                return [NSString stringWithFormat:@"%@...%@...%@", ckPrefix, ckSuffix, rndSuffix];
+            } else {
+                return [NSString stringWithFormat:@"%@...%@", ckPrefix, rndSuffix];
+            }
+        }
+    }
+    // Fallback for unexpected format: show last 8 chars
+    return key.length <= 8 ? @"[redacted]" : [NSString stringWithFormat:@"...%@", [key substringFromIndex:key.length - 8]];
+}
 
 #pragma mark - Singleton
 
@@ -115,7 +142,7 @@ SFSDK_USE_DEPRECATED_END
         }
 
         if (alreadyInFlight) {
-            [SFSDKCoreLogger d:[self class] format:@"Refresh already in-flight for credential %@. Coalescing request.", key];
+            [SFSDKCoreLogger d:[self class] format:@"Refresh already in-flight for credential %@. Coalescing request.", [SFSDKTokenRefreshCoordinator truncatedKey:key]];
             return;
         }
 
@@ -137,7 +164,7 @@ SFSDK_USE_DEPRECATED_END
 
         self.activeRefreshes[key] = entry;
 
-        [SFSDKCoreLogger i:[self class] format:@"Starting token refresh for credential %@.", key];
+        [SFSDKCoreLogger i:[self class] format:@"Starting token refresh for credential %@.", [SFSDKTokenRefreshCoordinator truncatedKey:key]];
 
         [entry.refresher refreshSessionWithCompletion:^(SFOAuthCredentials *updatedCredentials) {
             dispatch_async(self.serialQueue, ^{
@@ -175,13 +202,13 @@ SFSDK_USE_DEPRECATED_END
     dispatch_async(dispatch_get_main_queue(), ^{
         if (error) {
             [SFSDKCoreLogger e:[self class] format:@"Token refresh failed for credential %@. Notifying %lu waiter(s). Error: %@",
-             key, (unsigned long)entry.errorBlocks.count, error];
+             [SFSDKTokenRefreshCoordinator truncatedKey:key], (unsigned long)entry.errorBlocks.count, error];
             for (void (^errorBlock)(NSError *) in entry.errorBlocks) {
                 errorBlock(error);
             }
         } else {
             [SFSDKCoreLogger i:[self class] format:@"Token refresh succeeded for credential %@. Notifying %lu waiter(s).",
-             key, (unsigned long)entry.completionBlocks.count];
+             [SFSDKTokenRefreshCoordinator truncatedKey:key], (unsigned long)entry.completionBlocks.count];
             for (void (^completionBlock)(SFOAuthCredentials *) in entry.completionBlocks) {
                 completionBlock(credentials);
             }
@@ -194,7 +221,7 @@ SFSDK_USE_DEPRECATED_END
         SFSDKTokenRefreshEntry *entry = self.activeRefreshes[key];
         if (!entry) return;
 
-        [SFSDKCoreLogger w:[self class] format:@"Background task expired during token refresh for credential %@. Delivering cancellation error.", key];
+        [SFSDKCoreLogger w:[self class] format:@"Background task expired during token refresh for credential %@. Delivering cancellation error.", [SFSDKTokenRefreshCoordinator truncatedKey:key]];
 
         NSError *bgError = [NSError errorWithDomain:@"SFSDKTokenRefreshCoordinator"
                                                code:-2

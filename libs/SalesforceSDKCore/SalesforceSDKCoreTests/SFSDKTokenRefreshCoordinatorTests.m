@@ -46,6 +46,11 @@ SFSDK_USE_DEPRECATED_BEGIN
 - (instancetype)initWithDictionary:(NSDictionary *)dict parseAdditionalFields:(NSArray<NSString *> *)additionalFields;
 @end
 
+// Expose private truncation helper for unit testing
+@interface SFSDKTokenRefreshCoordinator (Testing)
++ (NSString *)truncatedKey:(NSString *)key;
+@end
+
 #pragma mark - Single-Use Token Mock Refresher
 
 /**
@@ -517,6 +522,39 @@ SFSDK_USE_DEPRECATED_BEGIN
                              @"Token should have rotated again in cycle 2");
     XCTAssertEqual(self.mockRefresher.refreshCallCount, 2,
                    @"Two sequential cycles should each make exactly one refresh call");
+}
+
+#pragma mark - Log Key Truncation Tests
+
+- (void)test_givenFullIdentifier_whenTruncated_thenShowsKeyPrefixSuffixAndRandomSuffix {
+    // Consumer key: "3MVG9" (5) + 76 'a's + "bbbb" (4) = 85 chars — matches real SF consumer key length
+    // Random part:  "cccccc" (6) + "7777" (4) = 10 chars — matches max u_int32_t digit count
+    // (Random must be all-digit characters; 'c' chars here represent hidden leading digits)
+    NSString *ck = [[@"3MVG9" stringByPaddingToLength:81 withString:@"a" startingAtIndex:0]
+                    stringByAppendingString:@"bbbb"];
+    NSString *identifier = [NSString stringWithFormat:@"%@-6666667777", ck];
+    XCTAssertEqualObjects([SFSDKTokenRefreshCoordinator truncatedKey:identifier], @"3MVG9...bbbb...7777");
+}
+
+- (void)test_givenShortConsumerKey_whenTruncated_thenShowsFullKeyAndRandomSuffix {
+    // Consumer key 3 chars (< 5): show full key prefix only, no suffix segment
+    XCTAssertEqualObjects([SFSDKTokenRefreshCoordinator truncatedKey:@"3MV-6666667777"],
+                          @"3MV...7777");
+}
+
+- (void)test_givenShortRandomPart_whenTruncated_thenShowsFullRandom {
+    // Random part < 4 digits: show the full (short) random without truncation
+    NSString *ck = [[@"3MVG9" stringByPaddingToLength:81 withString:@"a" startingAtIndex:0]
+                    stringByAppendingString:@"bbbb"];
+    NSString *identifier = [NSString stringWithFormat:@"%@-123", ck];
+    XCTAssertEqualObjects([SFSDKTokenRefreshCoordinator truncatedKey:identifier], @"3MVG9...bbbb...123");
+}
+
+- (void)test_givenIdentifierWithNonDigitSuffix_whenTruncated_thenFallsBackToTailTruncation {
+    // Part after last "-" contains letters → not a valid random number → fall back to last 8 chars
+    // Last 8 chars of "1234567890-nope" (15 chars) = "890-nope"
+    XCTAssertEqualObjects([SFSDKTokenRefreshCoordinator truncatedKey:@"1234567890-nope"],
+                          @"...890-nope");
 }
 
 #pragma mark - Nil Identifier Test
