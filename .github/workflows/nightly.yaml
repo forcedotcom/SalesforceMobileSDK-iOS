@@ -22,6 +22,7 @@ jobs:
             macos: xcode-27
           - ios: ^26
             xcode: ^26
+            macos: macos-latest
           - ios: ^18
             xcode: ^16
             macos: macos-15
@@ -50,6 +51,7 @@ jobs:
             macos: xcode-27
           - ios: ^26
             xcode: ^26
+            macos: macos-latest
           - ios: ^18
             xcode: ^16
             macos: macos-15
