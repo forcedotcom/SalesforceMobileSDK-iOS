@@ -768,8 +768,10 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         guard let valuesUtf8EncodedData = "\(value1):\(value2)".data(
             using: .utf8
         ) else { return nil }
-        
-        return urlSafeBase64Encode(data: valuesUtf8EncodedData)
+
+        // HTTP Basic Authentication (RFC 7617) requires the standard base64 alphabet with
+        // padding, not the URL-safe alphabet used elsewhere in this file for PKCE values.
+        return valuesUtf8EncodedData.base64EncodedString()
     }
     
     /// Generates either the reCAPTCHA token parameter for non-enterprise reCAPTCHA configurations or

@@ -97,6 +97,86 @@ final class NativeLoginManagerTests: XCTestCase {
         XCTAssertEqual(.invalidCredentials, result, "Password should be acceptable.")
     }
     
+    /// Tests that `login` builds the Basic-Auth `Authorization` header using the standard
+    /// Base64 alphabet with padding (RFC 4648 §4, as required by RFC 7617), rather than the
+    /// URL-safe alphabet. The credentials below are chosen so that the colon-concatenated,
+    /// UTF-8-encoded username:password bytes Base64-encode differently under the standard and
+    /// URL-safe alphabets (contains `/` and requires `=` padding under the standard alphabet),
+    /// so a regression back to URL-safe encoding would be caught.
+    func testLoginUsesStandardBase64ForAuthorizationHeader() async throws {
+        let identifier = NetworkEphemeralInstanceIdentifier
+        let config = URLSessionConfiguration.ephemeral
+        config.protocolClasses = [ScriptedURLProtocol.self] + (config.protocolClasses ?? [])
+        ScriptedURLProtocol.installScripts([
+            .init(statusCode: 401, headers: nil, body: Data())
+        ], identifier: identifier)
+        Network.setSessionConfiguration(config, identifier: identifier)
+        defer {
+            Network.removeSharedInstance(forIdentifier: identifier)
+            ScriptedURLProtocol.removeScripts(identifier: identifier)
+        }
+
+        let manager = SalesforceManager.shared.useNativeLogin(
+            withConsumerKey: "c",
+            callbackUrl: "r",
+            communityUrl: "https://login.example.com",
+            nativeLoginViewController: UIViewController(),
+            scene: nil)
+
+        let username = "regdemouser501@salesforce.com"
+        let password = "Winter2026!?!"
+        _ = await manager.login(username: username, password: password)
+
+        let authRequest = try XCTUnwrap(
+            ScriptedURLProtocol.capturedRequests(identifier: identifier).first {
+                $0.value(forHTTPHeaderField: "Authorization") != nil
+            })
+        let expectedCreds = Data("\(username):\(password)".utf8).base64EncodedString()
+        XCTAssertEqual(
+            authRequest.value(forHTTPHeaderField: "Authorization"),
+            "Basic \(expectedCreds)")
+    }
+
+    /// Tests that `submitPasswordlessAuthorizationRequest`, which shares the same
+    /// colon-concatenated Base64 encoding helper as `login`, also produces a standard-alphabet,
+    /// padded Basic-Auth header rather than URL-safe encoding.
+    func testSubmitPasswordlessAuthorizationRequestUsesStandardBase64ForAuthorizationHeader() async throws {
+        let identifier = NetworkEphemeralInstanceIdentifier
+        let config = URLSessionConfiguration.ephemeral
+        config.protocolClasses = [ScriptedURLProtocol.self] + (config.protocolClasses ?? [])
+        ScriptedURLProtocol.installScripts([
+            .init(statusCode: 401, headers: nil, body: Data())
+        ], identifier: identifier)
+        Network.setSessionConfiguration(config, identifier: identifier)
+        defer {
+            Network.removeSharedInstance(forIdentifier: identifier)
+            ScriptedURLProtocol.removeScripts(identifier: identifier)
+        }
+
+        let manager = SalesforceManager.shared.useNativeLogin(
+            withConsumerKey: "c",
+            callbackUrl: "r",
+            communityUrl: "https://login.example.com",
+            nativeLoginViewController: UIViewController(),
+            scene: nil)
+
+        let otpIdentifier = "regdemouser501@salesforce.com"
+        let otp = "Winter2026!?!"
+        _ = await manager.submitPasswordlessAuthorizationRequest(
+            otp: otp,
+            otpIdentifier: otpIdentifier,
+            otpVerificationMethod: .email)
+
+        let authRequest = try XCTUnwrap(
+            ScriptedURLProtocol.capturedRequests(identifier: identifier).first {
+                $0.value(forHTTPHeaderField: "Authorization") != nil
+            })
+        let expectedCreds = Data("\(otpIdentifier):\(otp)".utf8).base64EncodedString()
+        XCTAssertEqual(
+            authRequest.value(forHTTPHeaderField: "Authorization"),
+            "Basic \(expectedCreds)")
+    }
+
     func testShouldShowBackButton() {
         let accountManager = UserAccountManager.shared
         XCTAssertNil(accountManager.currentUserAccount)
