@@ -60,10 +60,10 @@ end
 # Post Install: fix deployment targets
 def mobile_sdk_post_install(installer)
   installer.pods_project.targets.each do |target|
-    # ARC code targeting iOS 8 does not build on Xcode 14.3. Force to at least iOS 9.
-    force_to_arc_supported_min = target.deployment_target.to_i < 9
-    if force_to_arc_supported_min
-      change_deployment_target(target, '9.0')
+    # Xcode 27 dropped support for deployment targets below iOS 15.0. Force to at least iOS 15.
+    force_to_xcode_27_min = target.deployment_target.to_f < 15.0
+    if force_to_xcode_27_min
+      change_deployment_target(target, '15.0')
     end
     
     # Mobile SDK targets
