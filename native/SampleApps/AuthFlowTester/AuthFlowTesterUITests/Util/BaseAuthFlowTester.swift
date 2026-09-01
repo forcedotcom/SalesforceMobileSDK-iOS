@@ -1429,7 +1429,7 @@ class BaseAuthFlowTester: XCTestCase {
 
         assertNotEmpty(userCredentialsData.parentSid, shouldNotBeEmpty: useJwt && useHybridFlow, "Parent SID")
 
-        assertNotEmpty(userCredentialsData.uiSid, shouldNotBeEmpty: isDPoP, "UI SID")
+        assertNotEmpty(userCredentialsData.uiSid, shouldNotBeEmpty: isDPoP && useHybridFlow, "UI SID")
 
         if useHybridFlow {
             if isDPoP {
