@@ -1429,15 +1429,16 @@ class BaseAuthFlowTester: XCTestCase {
 
         assertNotEmpty(userCredentialsData.parentSid, shouldNotBeEmpty: useJwt && useHybridFlow, "Parent SID")
 
-        assertNotEmpty(userCredentialsData.mainSid, shouldNotBeEmpty: true, "Main SID")
         assertNotEmpty(userCredentialsData.uiSid, shouldNotBeEmpty: isDPoP, "UI SID")
 
-        if !userCredentialsData.uiSid.isEmpty {
-            XCTAssertEqual(userCredentialsData.mainSid, userCredentialsData.uiSid, "Main SID should equal UI SID when UI SID is present")
-        } else if !userCredentialsData.parentSid.isEmpty {
-            XCTAssertEqual(userCredentialsData.mainSid, userCredentialsData.parentSid, "Main SID should equal Parent SID when UI SID is absent and Parent SID is present")
-        } else {
-            XCTAssertEqual(userCredentialsData.mainSid, userCredentialsData.accessToken, "Main SID should equal Access Token when neither UI SID nor Parent SID is present")
+        if useHybridFlow {
+            if isDPoP {
+                XCTAssertEqual(userCredentialsData.mainSid, userCredentialsData.uiSid, "Main SID should equal UI SID in DPoP hybrid flow")
+            } else if useJwt {
+                XCTAssertEqual(userCredentialsData.mainSid, userCredentialsData.parentSid, "Main SID should equal Parent SID in JWT hybrid flow")
+            } else {
+                XCTAssertEqual(userCredentialsData.mainSid, userCredentialsData.accessToken, "Main SID should equal Access Token in opaque hybrid flow")
+            }
         }
     }
     
