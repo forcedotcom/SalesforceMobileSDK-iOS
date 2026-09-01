@@ -85,6 +85,8 @@ struct CredentialsLabels {
     static let contentDomain = "Content Domain"
     static let contentSid = "Content SID"
     static let parentSid = "Parent SID"
+    static let mainSid = "Main SID"
+    static let uiSid = "UI SID"
     static let sidCookieName = "SID Cookie Name"
     
     // Cookies and Security fields
@@ -175,6 +177,8 @@ struct UserCredentialsData {
     var contentDomain: String
     var contentSid: String
     var parentSid: String
+    var mainSid: String
+    var uiSid: String
     var sidCookieName: String
     
     // Cookies and Security
@@ -645,6 +649,8 @@ class AuthFlowTesterMainPageObject {
             contentDomain: domainsAndSids[CredentialsLabels.contentDomain] ?? "",
             contentSid: domainsAndSids[CredentialsLabels.contentSid] ?? "",
             parentSid: domainsAndSids[CredentialsLabels.parentSid] ?? "",
+            mainSid: domainsAndSids[CredentialsLabels.mainSid] ?? "",
+            uiSid: domainsAndSids[CredentialsLabels.uiSid] ?? "",
             sidCookieName: domainsAndSids[CredentialsLabels.sidCookieName] ?? "",
             csrfToken: cookiesAndSecurity[CredentialsLabels.csrfToken] ?? "",
             cookieClientSrc: cookiesAndSecurity[CredentialsLabels.cookieClientSrc] ?? "",

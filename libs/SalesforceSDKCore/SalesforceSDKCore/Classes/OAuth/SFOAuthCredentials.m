@@ -489,7 +489,7 @@ NSException * SFOAuthInvalidIdentifierException(void) {
     // Clear uiSid when the token type is known and non-DPoP so a stale DPoP
     // uiSid is not left behind after a DPoP-to-Bearer downgrade.
     if (params[kSFOAuthTokenType]) {
-        self.uiSid = [@"dpop" isEqualToString:params[kSFOAuthTokenType]] ? params[kSFOAuthUiSid] : nil;
+        self.uiSid = [kSFOAuthDPoPTokenType isEqualToString:params[kSFOAuthTokenType]] ? params[kSFOAuthUiSid] : nil;
     }
     if (params[kSFOAuthTokenFormat]) {
         self.tokenFormat = params[kSFOAuthTokenFormat];
