@@ -500,6 +500,16 @@ static NSString *const kSFScreenLockWindowKey = @"screenlock";
 }
 
 - (UIScene *)defaultScene {
+    // -[UIApplication connectedScenes] is a main-thread-only UIKit API. This can be reached from
+    // a background thread via the auth flow, so marshal to the main thread to avoid unsafe UIKit
+    // access and Main Thread Checker warnings.
+    if (![NSThread isMainThread]) {
+        __block UIScene *scene = nil;
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            scene = [self defaultScene];
+        });
+        return scene;
+    }
     NSArray *connectedScenes = [SFApplicationHelper sharedApplication].connectedScenes.allObjects;
     for (UIScene *connectedScene in connectedScenes) {
         if (connectedScene.activationState == UISceneActivationStateForegroundActive) {
