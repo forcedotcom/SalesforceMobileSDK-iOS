@@ -705,6 +705,24 @@ class BaseAuthFlowTester: XCTestCase {
             useHybridFlow: migrationUseHybridFlow
         )
 
+        // After migration to an RTR app, the post-migration identity fetch may return 401/403
+        // (per DPOP.md: "Identity 401/403 falls through to SFOAuthSessionRefresher"). When that
+        // happens, SFOAuthSessionRefresher performs a grant_type=refresh_token, the RTR app
+        // rotates the refresh token, and the RT flag is registered before validateUser ever runs.
+        // Sync the expected RT state to the actual UA so the validateUser assertion doesn't
+        // misfire in either direction (RT already present or not yet registered).
+        let migrationAppConfig = getAppConfig(named: migrationAppConfigName)
+        if migrationAppConfig.expectsRefreshTokenRotation {
+            let postMigrationUA = mainPage.getUserCredentials().userAgent
+            if let ftrRange = postMigrationUA.range(of: "ftr_") {
+                let flags = String(postMigrationUA[ftrRange.upperBound...])
+                    .components(separatedBy: " ").first ?? ""
+                if Set(flags.components(separatedBy: ".").filter { !$0.isEmpty }).contains("RT") {
+                    expectedRTRFeatureMarkerByUsername[originalUserCredentials.username] = true
+                }
+            }
+        }
+
         let migratedUserCredentials = validate(
             loginHost: loginHost,
             user: user,
@@ -1540,8 +1558,10 @@ class BaseAuthFlowTester: XCTestCase {
             )
         }
 
-        // RT is sticky per user and is registered only by a normal refresh that observes a
-        // changed refresh token. Migration and login never advance this state.
+        // RT is sticky per user and advances whenever SFOAuthSessionRefresher observes a changed
+        // refresh token — including during an implicit refresh triggered by a post-migration
+        // identity 401/403. migrateAndValidate syncs the expected state after migration, so this
+        // OR correctly carries any already-registered RT forward.
         let expectedRTRFeatureMarkerAfterRefresh = expectedRTRFeatureMarker(for: previousCredentials.username) || refreshTokenRotated
         expectedRTRFeatureMarkerByUsername[previousCredentials.username] = expectedRTRFeatureMarkerAfterRefresh
 
