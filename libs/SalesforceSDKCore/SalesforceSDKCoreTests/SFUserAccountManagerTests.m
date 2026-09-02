@@ -1216,4 +1216,90 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     // Clean up
     [[NSNotificationCenter defaultCenter] removeObserver:observer];
 }
+
+#pragma mark - Background-thread UIKit access regression tests
+
+// Seed an in-progress auth session for every connected scene so that
+// -authenticateWithCompletion:...scene:... short-circuits to NO synchronously (see
+// SFUserAccountManager.m) without starting a live auth flow. Returns the scene ids that were seeded
+// so the caller can remove them in teardown.
+- (NSArray<NSString *> *)seedAuthenticatingSessionsForAllConnectedScenes {
+    NSMutableArray<NSString *> *seededSceneIds = [NSMutableArray array];
+    for (UIScene *scene in [UIApplication sharedApplication].connectedScenes) {
+        NSString *sceneId = scene.session.persistentIdentifier;
+        if (!sceneId) {
+            continue;
+        }
+        SFSDKAuthRequest *request = [self.uam defaultAuthRequest];
+        SFSDKAuthSession *authSession = [[SFSDKAuthSession alloc] initWith:request credentials:nil];
+        authSession.isAuthenticating = YES;
+        self.uam.authSessions[sceneId] = authSession;
+        [seededSceneIds addObject:sceneId];
+    }
+    return seededSceneIds;
+}
+
+// Regression test for the background-thread UIKit fix: -[SFUserAccountManager loginWithCompletion:failure:]
+// iterates [UIApplication connectedScenes], a main-thread-only UIKit API. A REST request that hits the
+// login branch can call this on a background thread, so the entry point marshals to the main thread.
+// With an in-progress auth session seeded for every scene, the call short-circuits to a synchronous NO.
+// Verify the background invocation preserves that BOOL result and completes without hanging.
+- (void)testLoginWithCompletionFromBackgroundThreadPreservesResult {
+    NSArray<NSString *> *seededSceneIds = [self seedAuthenticatingSessionsForAllConnectedScenes];
+    XCTAssertTrue(seededSceneIds.count > 0, @"Precondition: at least one connected scene is required");
+
+    BOOL mainThreadResult = [self.uam loginWithCompletion:nil failure:nil];
+
+    XCTestExpectation *expectation = [self expectationWithDescription:@"loginWithCompletion returns from a background thread"];
+    __block BOOL backgroundResult = YES;
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+        XCTAssertFalse([NSThread isMainThread], @"Precondition: the call must originate off the main thread");
+        backgroundResult = [self.uam loginWithCompletion:nil failure:nil];
+        [expectation fulfill];
+    });
+    [self waitForExpectations:@[expectation] timeout:10];
+
+    XCTAssertEqual(backgroundResult, mainThreadResult,
+                   @"A background invocation must preserve the synchronous BOOL result of the main-thread invocation");
+    XCTAssertFalse(backgroundResult,
+                   @"With an in-progress auth session seeded for every scene, login should short-circuit to NO");
+
+    for (NSString *sceneId in seededSceneIds) {
+        [self.uam.authSessions removeObject:sceneId];
+    }
+}
+
+// Regression test for the background-thread UIKit fix: the scene-based login path reaches
+// -[SFUserAccountManager authenticateWithCompletion:failure:scene:...], which reads
+// scene.session.persistentIdentifier — a main-thread-only UIKit API. It marshals to the main thread
+// when invoked off it. Drive it through the public -loginWithCompletion:failure:scene: wrapper from a
+// background queue and verify the synchronous BOOL result is preserved and the call does not hang.
+- (void)testLoginWithCompletionForSceneFromBackgroundThreadPreservesResult {
+    UIScene *scene = [UIApplication sharedApplication].connectedScenes.allObjects.firstObject;
+    XCTAssertNotNil(scene, @"Precondition: at least one connected scene is required");
+    NSString *sceneId = scene.session.persistentIdentifier;
+
+    SFSDKAuthRequest *request = [self.uam defaultAuthRequest];
+    SFSDKAuthSession *authSession = [[SFSDKAuthSession alloc] initWith:request credentials:nil];
+    authSession.isAuthenticating = YES;
+    self.uam.authSessions[sceneId] = authSession;
+
+    BOOL mainThreadResult = [self.uam loginWithCompletion:nil failure:nil scene:scene];
+
+    XCTestExpectation *expectation = [self expectationWithDescription:@"scene login returns from a background thread"];
+    __block BOOL backgroundResult = YES;
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+        XCTAssertFalse([NSThread isMainThread], @"Precondition: the call must originate off the main thread");
+        backgroundResult = [self.uam loginWithCompletion:nil failure:nil scene:scene];
+        [expectation fulfill];
+    });
+    [self waitForExpectations:@[expectation] timeout:10];
+
+    XCTAssertEqual(backgroundResult, mainThreadResult,
+                   @"A background invocation must preserve the synchronous BOOL result of the main-thread invocation");
+    XCTAssertFalse(backgroundResult,
+                   @"With an in-progress auth session seeded for the scene, authentication should short-circuit to NO");
+
+    [self.uam.authSessions removeObject:sceneId];
+}
 @end

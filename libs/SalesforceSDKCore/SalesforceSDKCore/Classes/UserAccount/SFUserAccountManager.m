@@ -418,6 +418,17 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 #pragma clang diagnostic pop
 
 - (BOOL)loginWithCompletion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
+    // -[UIApplication connectedScenes] is a main-thread-only UIKit API. This entry point can be
+    // reached on a background thread (e.g. a REST request that triggers login from a background
+    // queue), so marshal to the main thread to avoid unsafe UIKit access and Main Thread Checker
+    // warnings. dispatch_sync preserves the synchronous BOOL return that callers rely on.
+    if (![NSThread isMainThread]) {
+        __block BOOL result = NO;
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            result = [self loginWithCompletion:completionBlock failure:failureBlock];
+        });
+        return result;
+    }
     BOOL result = NO;
     for (UIScene *scene in [SFApplicationHelper sharedApplication].connectedScenes) {
         result |= [self loginWithCompletion:completionBlock failure:failureBlock scene:scene];
@@ -547,6 +558,25 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
                 frontDoorBridgeUrl:(NSURL * )frontDoorBridgeUrl
                       codeVerifier:(NSString *)codeVerifier
 {
+    // -[UIScene session] (below) is a main-thread-only UIKit API, and this is the common
+    // chokepoint for the scene-based login paths (loginWithCompletion:...). Marshal to the main
+    // thread when invoked from a background thread so scene access and the auth UI it drives run
+    // on the main thread. (loginWithJwtToken: and SP-app authentication call authenticateWithRequest:
+    // directly and do not pass through here.)
+    // dispatch_sync preserves the synchronous BOOL return that callers (e.g. SFSDKAuthHelper) rely on.
+    if (![NSThread isMainThread]) {
+        __block BOOL result = NO;
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            result = [self authenticateWithCompletion:completionBlock
+                                              failure:failureBlock
+                                                scene:scene
+                                            loginHint:loginHint
+                                            loginHost:loginHost
+                                   frontDoorBridgeUrl:frontDoorBridgeUrl
+                                         codeVerifier:codeVerifier];
+        });
+        return result;
+    }
     SFSDKAuthSession *authSession = self.authSessions[scene.session.persistentIdentifier];
     if (authSession && authSession.isAuthenticating) {
         [SFSDKCoreLogger e:[self class] format:@"Login has already been called. Stop current authentication using SFUserAccountManager::stopCurrentAuthentication and then retry."];
