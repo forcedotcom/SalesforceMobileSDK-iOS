@@ -139,19 +139,26 @@ look like a rotation.
 ```text
 applyAuthHeaders(request, scope, accessToken, tokenType):
   if accessToken is empty -> leave request unchanged
-  set Authorization to "DPoP <token>" when tokenType is DPoP,
-                       or "Bearer <token>" otherwise
-  if shouldAttachDPoP(scope, tokenType):
+  if isDPoPTokenType(tokenType):
+    set Authorization to "DPoP <token>"
     load or create the credential-scoped EC P-256 keypair
     canonicalize the request URL for htu
     read a cached nonce for the URL and credential scope
     build a fresh proof with htm, htu, iat, jti, nonce, and ath
     set the DPoP header
+  else:
+    set Authorization to "Bearer <token>"
 ```
 
-The gate is per credential. An explicitly DPoP-bound credential continues to receive proofs even
-if the process-wide DPoP preference later changes. Token-endpoint proofs omit `ath`; resource
-proofs bind the proof to the current access token with `ath`.
+The four-argument overload used by `SFRestRequest` treats the credential's explicit `tokenType` as
+authoritative and attaches a proof only when that value is DPoP. It does not consult the
+process-wide DPoP preference.
+
+The credential-object convenience overload uses `shouldAttachDPoP(scope:tokenType:)`. An explicit
+token type is still authoritative, but when `tokenType` is nil during the `/authorize` to `/token`
+transition, that overload can fall back to credential-scoped key material. This fallback also does
+not consult the global preference. Token-endpoint proofs omit `ath`; resource proofs bind the proof
+to the current access token with `ath`.
 
 ---
 
@@ -171,6 +178,10 @@ built proof.
 2. Confirm that this request has not already used its one resource nonce retry.
 3. Harvest `DPoP-Nonce` for the response URL and credential scope.
 4. Rebuild and enqueue the request, producing a fresh proof.
+
+This REST branch deliberately checks `statusCode == 400` and searches the response body directly
+for `use_dpop_nonce`. It does not call `DPoPRequestDecorator.isNonceChallenge`, whose broader token
+endpoint detection also recognizes a 401 carrying `DPoP-Nonce`.
 
 Resource-server 401 responses do not take this inline nonce path. They enter normal access-token
 refresh, where the token endpoint can provide a fresh nonce before the resource request is replayed.
