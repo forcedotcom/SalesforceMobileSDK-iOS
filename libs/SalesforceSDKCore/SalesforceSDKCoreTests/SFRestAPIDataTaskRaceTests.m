@@ -43,6 +43,7 @@ successBlock:(SFRestResponseBlock)successBlock
 - (void)flushPendingRequestQueue:(NSError *)error rawResponse:(NSURLResponse *)rawResponse;
 - (void)replayRequest:(SFRestRequest *)request response:(NSURLResponse *)response;
 - (id)prepareDataForDelegate:(NSData *)data request:(SFRestRequest *)request response:(NSURLResponse *)response;
+- (SFNetwork *)networkForRequest:(SFRestRequest *)request;
 
 @property (readwrite, assign) BOOL refreshCycleActive;
 
@@ -60,6 +61,7 @@ successBlock:(SFRestResponseBlock)successBlock
 @property (atomic, assign) BOOL pauseNextResponsePreparation;
 @property (nonatomic, strong) dispatch_semaphore_t responsePreparationStarted;
 @property (nonatomic, strong) dispatch_semaphore_t allowResponsePreparation;
+@property (nonatomic, strong) SFNetwork *networkOverride;
 @end
 
 @implementation CompletionRaceRestAPI
@@ -83,6 +85,59 @@ successBlock:(SFRestResponseBlock)successBlock
     return [super prepareDataForDelegate:data request:request response:response];
 }
 
+- (SFNetwork *)networkForRequest:(SFRestRequest *)request {
+    return self.networkOverride ?: [super networkForRequest:request];
+}
+
+@end
+
+#pragma mark - ControlledCompletionNetwork
+
+/**
+ * Test-only network that can produce response combinations NSURLProtocol cannot,
+ * such as a completion with neither a response nor an error.
+ */
+@interface ControlledCompletionNetwork : SFNetwork
+@property (nonatomic, strong) NSMutableArray<NSURLSessionDataTask *> *tasks;
+@property (nonatomic, strong) NSMutableArray *completionBlocks;
+- (NSUInteger)pendingCount;
+- (void)deliverData:(NSData *)data response:(NSURLResponse *)response error:(NSError *)error atIndex:(NSUInteger)index;
+@end
+
+@implementation ControlledCompletionNetwork
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        _tasks = [NSMutableArray new];
+        _completionBlocks = [NSMutableArray new];
+    }
+    return self;
+}
+
+- (NSURLSessionDataTask *)sendRequest:(NSURLRequest *)urlRequest dataResponseBlock:(SFDataResponseBlock)dataResponseBlock {
+    NSURLSessionDataTask *task = [[NSURLSession sharedSession] dataTaskWithRequest:urlRequest];
+    @synchronized (self) {
+        [self.tasks addObject:task];
+        [self.completionBlocks addObject:[dataResponseBlock copy]];
+    }
+    return task;
+}
+
+- (NSUInteger)pendingCount {
+    @synchronized (self) {
+        return self.completionBlocks.count;
+    }
+}
+
+- (void)deliverData:(NSData *)data response:(NSURLResponse *)response error:(NSError *)error atIndex:(NSUInteger)index {
+    SFDataResponseBlock completionBlock;
+    @synchronized (self) {
+        completionBlock = [self.completionBlocks[index] copy];
+    }
+    completionBlock(data, response, error);
+}
+
 @end
 
 #pragma mark - DeferredURLProtocol
@@ -96,6 +151,11 @@ successBlock:(SFRestResponseBlock)successBlock
 + (void)reset;
 + (NSUInteger)pendingCount;
 + (void)deliverResponseAtIndex:(NSUInteger)index statusCode:(NSInteger)statusCode;
++ (void)deliverResponseAtIndex:(NSUInteger)index
+                    statusCode:(NSInteger)statusCode
+                          body:(NSString *)body
+                  headerFields:(NSDictionary<NSString *, NSString *> *)headerFields;
++ (void)deliverErrorAtIndex:(NSUInteger)index error:(NSError *)error;
 @end
 
 static NSMutableArray<DeferredURLProtocol *> *sPendingProtocols;
@@ -139,6 +199,16 @@ static NSMutableArray<DeferredURLProtocol *> *sPendingProtocols;
 }
 
 + (void)deliverResponseAtIndex:(NSUInteger)index statusCode:(NSInteger)statusCode {
+    [self deliverResponseAtIndex:index
+                      statusCode:statusCode
+                            body:@"{\"ok\":true}"
+                    headerFields:nil];
+}
+
++ (void)deliverResponseAtIndex:(NSUInteger)index
+                    statusCode:(NSInteger)statusCode
+                          body:(NSString *)body
+                  headerFields:(NSDictionary<NSString *, NSString *> *)headerFields {
     DeferredURLProtocol *proto;
     @synchronized (sPendingProtocols) {
         proto = sPendingProtocols[index];
@@ -146,11 +216,19 @@ static NSMutableArray<DeferredURLProtocol *> *sPendingProtocols;
     NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc] initWithURL:proto.request.URL
                                                              statusCode:statusCode
                                                             HTTPVersion:@"HTTP/1.1"
-                                                           headerFields:nil];
-    NSData *body = [@"{\"ok\":true}" dataUsingEncoding:NSUTF8StringEncoding];
+                                                           headerFields:headerFields];
+    NSData *bodyData = [body dataUsingEncoding:NSUTF8StringEncoding];
     [proto.client URLProtocol:proto didReceiveResponse:response cacheStoragePolicy:NSURLCacheStorageNotAllowed];
-    [proto.client URLProtocol:proto didLoadData:body];
+    [proto.client URLProtocol:proto didLoadData:bodyData];
     [proto.client URLProtocolDidFinishLoading:proto];
+}
+
++ (void)deliverErrorAtIndex:(NSUInteger)index error:(NSError *)error {
+    DeferredURLProtocol *proto;
+    @synchronized (sPendingProtocols) {
+        proto = sPendingProtocols[index];
+    }
+    [proto.client URLProtocol:proto didFailWithError:error];
 }
 
 @end
@@ -215,7 +293,8 @@ static NSMutableArray<DeferredURLProtocol *> *sPendingProtocols;
  * The terminal claim must revalidate task ownership under the replay lock, so
  * task #1 is ignored and only task #2 is allowed to call client code.
  */
-- (void)runTerminalCallbackRaceWithStatusCode:(NSInteger)statusCode expectSuccess:(BOOL)expectSuccess {
+- (void)runTerminalCallbackRaceWithDelivery:(void (^)(NSUInteger index))deliverResponse
+                               expectSuccess:(BOOL)expectSuccess {
     CompletionRaceRestAPI *api = (CompletionRaceRestAPI *)self.api;
     api.pauseNextResponsePreparation = YES;
 
@@ -249,7 +328,7 @@ static NSMutableArray<DeferredURLProtocol *> *sPendingProtocols;
     NSURLSessionDataTask *originalTask = request.sessionDataTask;
 
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
-        [DeferredURLProtocol deliverResponseAtIndex:0 statusCode:statusCode];
+        deliverResponse(0);
     });
     XCTAssertEqual(dispatch_semaphore_wait(api.responsePreparationStarted,
                                            dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC))), 0,
@@ -269,7 +348,7 @@ static NSMutableArray<DeferredURLProtocol *> *sPendingProtocols;
     XCTAssertTrue([self waitForCondition:^BOOL{
         return [DeferredURLProtocol pendingCount] >= 2;
     } timeout:2], @"task #2 should be pending");
-    [DeferredURLProtocol deliverResponseAtIndex:1 statusCode:statusCode];
+    deliverResponse(1);
 
     [self waitForExpectationsWithTimeout:5 handler:nil];
     [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.25]];
@@ -281,11 +360,114 @@ static NSMutableArray<DeferredURLProtocol *> *sPendingProtocols;
 #pragma mark - Test: resendActiveRequestsRequiringAuthentication race
 
 - (void)testConcurrentReplayWhileSuccessfulResponseIsBeingPreparedDeliversOnce {
-    [self runTerminalCallbackRaceWithStatusCode:200 expectSuccess:YES];
+    [self runTerminalCallbackRaceWithDelivery:^(NSUInteger index) {
+        [DeferredURLProtocol deliverResponseAtIndex:index statusCode:200];
+    } expectSuccess:YES];
 }
 
 - (void)testConcurrentReplayWhileFailureResponseIsBeingPreparedDeliversOnce {
-    [self runTerminalCallbackRaceWithStatusCode:500 expectSuccess:NO];
+    [self runTerminalCallbackRaceWithDelivery:^(NSUInteger index) {
+        [DeferredURLProtocol deliverResponseAtIndex:index statusCode:500];
+    } expectSuccess:NO];
+}
+
+- (void)testConcurrentReplayWhileNetworkErrorIsBeingPreparedDeliversOnce {
+    NSError *networkError = [NSError errorWithDomain:NSURLErrorDomain
+                                                code:NSURLErrorNetworkConnectionLost
+                                            userInfo:nil];
+    [self runTerminalCallbackRaceWithDelivery:^(NSUInteger index) {
+        [DeferredURLProtocol deliverErrorAtIndex:index error:networkError];
+    } expectSuccess:NO];
+}
+
+- (void)testCompletionWithoutResponseOrErrorDeliversFailureOnce {
+    CompletionRaceRestAPI *api = (CompletionRaceRestAPI *)self.api;
+    ControlledCompletionNetwork *network = [ControlledCompletionNetwork new];
+    api.networkOverride = network;
+
+    __block NSInteger failureCount = 0;
+    XCTestExpectation *failureDelivered = [self expectationWithDescription:@"timeout-style failure delivered"];
+    SFRestRequest *request = [self makeRequest];
+    [api send:request failureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
+        failureCount++;
+        XCTAssertNil(response);
+        XCTAssertNil(error);
+        XCTAssertNil(rawResponse);
+        [failureDelivered fulfill];
+    } successBlock:^(id response, NSURLResponse *rawResponse) {
+        XCTFail(@"A completion without a response must not succeed");
+    }];
+
+    XCTAssertEqual(network.pendingCount, 1u);
+    [network deliverData:nil response:nil error:nil atIndex:0];
+    [self waitForExpectationsWithTimeout:2 handler:nil];
+
+    XCTAssertEqual(failureCount, 1);
+    XCTAssertNil(request.sessionDataTask);
+    XCTAssertEqual(api.activeRequests.count, 0u);
+}
+
+- (void)testDPoPNonceChallengeRetriesThenDeliversOnce {
+    __block NSInteger successCount = 0;
+    __block NSInteger failureCount = 0;
+    XCTestExpectation *successDelivered = [self expectationWithDescription:@"retry succeeds"];
+    SFRestRequest *request = [self makeRequest];
+
+    [self.api send:request failureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
+        failureCount++;
+        XCTFail(@"DPoP nonce retry should not fail: %@", error);
+    } successBlock:^(id response, NSURLResponse *rawResponse) {
+        successCount++;
+        [successDelivered fulfill];
+    }];
+
+    XCTAssertTrue([self waitForCondition:^BOOL{
+        return [DeferredURLProtocol pendingCount] >= 1;
+    } timeout:2]);
+    NSURLSessionDataTask *originalTask = request.sessionDataTask;
+
+    [DeferredURLProtocol deliverResponseAtIndex:0
+                                     statusCode:400
+                                           body:@"{\"error\":\"use_dpop_nonce\"}"
+                                   headerFields:nil];
+
+    XCTAssertTrue([self waitForCondition:^BOOL{
+        return [DeferredURLProtocol pendingCount] >= 2;
+    } timeout:2], @"nonce challenge should install a successor task");
+    XCTAssertTrue(request.dpopNonceRetried);
+    XCTAssertNotEqual(request.sessionDataTask, originalTask);
+
+    [DeferredURLProtocol deliverResponseAtIndex:1 statusCode:200];
+    [self waitForExpectationsWithTimeout:2 handler:nil];
+
+    XCTAssertEqual(successCount, 1);
+    XCTAssertEqual(failureCount, 0);
+}
+
+- (void)testCompletionAfterRestAPIDeallocationIsIgnored {
+    __block NSInteger callbackCount = 0;
+    __weak SFRestAPI *weakAPI;
+
+    @autoreleasepool {
+        SFRestAPI *api = [[CompletionRaceRestAPI alloc] initWithUser:nil];
+        weakAPI = api;
+        SFRestRequest *request = [self makeRequest];
+        [api send:request failureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
+            callbackCount++;
+        } successBlock:^(id response, NSURLResponse *rawResponse) {
+            callbackCount++;
+        }];
+
+        XCTAssertTrue([self waitForCondition:^BOOL{
+            return [DeferredURLProtocol pendingCount] >= 1;
+        } timeout:2]);
+        api = nil;
+    }
+
+    XCTAssertNil(weakAPI);
+    [DeferredURLProtocol deliverResponseAtIndex:0 statusCode:200];
+    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.25]];
+    XCTAssertEqual(callbackCount, 0);
 }
 
 /**
