@@ -341,6 +341,7 @@ successBlock:(SFRestResponseBlock)successBlock
 
         __block NSURLSessionDataTask *dataTask;
         @synchronized (self) {
+            // Invariant: sendRequest: must remain nonblocking and invoke its completion asynchronously.
             dataTask = [network sendRequest:finalRequest dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
                 __strong typeof(weakSelf) strongSelf = weakSelf;
                 [SFNetwork removeSharedInstanceForIdentifier:instanceIdentifier];
@@ -359,6 +360,7 @@ successBlock:(SFRestResponseBlock)successBlock
                 // Network error.
                 if (error) {
                     [SFSDKCoreLogger d:[strongSelf class] format:@"REST request failed with error: Error Code: %ld, Description: %@, URL: %@", (long) error.code, error.localizedDescription, finalRequest.URL];
+                    id dataForDelegate = [strongSelf prepareDataForDelegate:data request:request response:response];
                     __block SFRestRequestFailBlock failureBlock;
                     BOOL claimed = [strongSelf performIfCurrentDataTask:dataTask forRequest:request action:^{
                         request.sessionDataTask = nil;
@@ -368,7 +370,6 @@ successBlock:(SFRestResponseBlock)successBlock
                     if (!claimed) {
                         return;
                     }
-                    id dataForDelegate = [strongSelf prepareDataForDelegate:data request:request response:response];
                     if (failureBlock) {
                         failureBlock(dataForDelegate, error, response);
                     }
@@ -623,6 +624,8 @@ successBlock:(SFRestResponseBlock)successBlock
         NSSet *pendingRequests = [self.activeRequests asSet];
         for (SFRestRequest *request in pendingRequests) {
             NSURLSessionDataTask *oldTask = request.sessionDataTask;
+            // This recursive send relies on enqueueRequest's documented nonblocking,
+            // asynchronous SFNetwork callback invariant while the state lock is held.
             [self send:request
           failureBlock:request.failureBlock
           successBlock:request.successBlock
