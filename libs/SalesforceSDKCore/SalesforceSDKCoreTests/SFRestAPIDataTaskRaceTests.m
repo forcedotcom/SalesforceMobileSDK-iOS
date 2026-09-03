@@ -42,8 +42,46 @@ successBlock:(SFRestResponseBlock)successBlock
 - (void)resendActiveRequestsRequiringAuthentication;
 - (void)flushPendingRequestQueue:(NSError *)error rawResponse:(NSURLResponse *)rawResponse;
 - (void)replayRequest:(SFRestRequest *)request response:(NSURLResponse *)response;
+- (id)prepareDataForDelegate:(NSData *)data request:(SFRestRequest *)request response:(NSURLResponse *)response;
 
 @property (readwrite, assign) BOOL refreshCycleActive;
+
+@end
+
+#pragma mark - CompletionRaceRestAPI
+
+/**
+ * Test-only SFRestAPI that can pause response preparation. The production race
+ * occurs after the old task passes its first stale-task check but before it
+ * invokes a terminal block, which is exactly where this override provides a
+ * deterministic scheduling point.
+ */
+@interface CompletionRaceRestAPI : SFRestAPI
+@property (atomic, assign) BOOL pauseNextResponsePreparation;
+@property (nonatomic, strong) dispatch_semaphore_t responsePreparationStarted;
+@property (nonatomic, strong) dispatch_semaphore_t allowResponsePreparation;
+@end
+
+@implementation CompletionRaceRestAPI
+
+- (instancetype)initWithUser:(SFUserAccount *)user {
+    self = [super initWithUser:user];
+    if (self) {
+        _responsePreparationStarted = dispatch_semaphore_create(0);
+        _allowResponsePreparation = dispatch_semaphore_create(0);
+    }
+    return self;
+}
+
+- (id)prepareDataForDelegate:(NSData *)data request:(SFRestRequest *)request response:(NSURLResponse *)response {
+    if (self.pauseNextResponsePreparation) {
+        self.pauseNextResponsePreparation = NO;
+        dispatch_semaphore_signal(self.responsePreparationStarted);
+        dispatch_semaphore_wait(self.allowResponsePreparation,
+                                dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)));
+    }
+    return [super prepareDataForDelegate:data request:request response:response];
+}
 
 @end
 
@@ -133,7 +171,7 @@ static NSMutableArray<DeferredURLProtocol *> *sPendingProtocols;
     config.protocolClasses = @[[DeferredURLProtocol class]];
     [SFNetwork setSessionConfiguration:config identifier:kSFNetworkEphemeralInstanceIdentifier];
 
-    self.api = [[SFRestAPI alloc] initWithUser:nil];
+    self.api = [[CompletionRaceRestAPI alloc] initWithUser:nil];
 }
 
 - (void)tearDown {
@@ -167,7 +205,88 @@ static NSMutableArray<DeferredURLProtocol *> *sPendingProtocols;
     return condition();
 }
 
+/**
+ * Forces the interleaving missing from the original stale-task regression test:
+ *
+ *   1. Task #1 passes the early stale-task check and pauses while preparing data.
+ *   2. Authentication refresh replay installs task #2 for the same request.
+ *   3. Task #1 resumes and attempts to deliver its terminal callback.
+ *
+ * The terminal claim must revalidate task ownership under the replay lock, so
+ * task #1 is ignored and only task #2 is allowed to call client code.
+ */
+- (void)runTerminalCallbackRaceWithStatusCode:(NSInteger)statusCode expectSuccess:(BOOL)expectSuccess {
+    CompletionRaceRestAPI *api = (CompletionRaceRestAPI *)self.api;
+    api.pauseNextResponsePreparation = YES;
+
+    __block NSInteger successCount = 0;
+    __block NSInteger failureCount = 0;
+    XCTestExpectation *terminalCallback = [self expectationWithDescription:@"one terminal callback"];
+    terminalCallback.assertForOverFulfill = YES;
+
+    SFRestRequest *request = [self makeRequest];
+    [api send:request failureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
+        @synchronized (self) {
+            failureCount++;
+        }
+        if (expectSuccess) {
+            XCTFail(@"Expected success, received failure: %@", error);
+        }
+        [terminalCallback fulfill];
+    } successBlock:^(id response, NSURLResponse *rawResponse) {
+        @synchronized (self) {
+            successCount++;
+        }
+        if (!expectSuccess) {
+            XCTFail(@"Expected terminal HTTP failure, received success");
+        }
+        [terminalCallback fulfill];
+    }];
+
+    XCTAssertTrue([self waitForCondition:^BOOL{
+        return [DeferredURLProtocol pendingCount] >= 1;
+    } timeout:2], @"task #1 should be pending");
+    NSURLSessionDataTask *originalTask = request.sessionDataTask;
+
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+        [DeferredURLProtocol deliverResponseAtIndex:0 statusCode:statusCode];
+    });
+    XCTAssertEqual(dispatch_semaphore_wait(api.responsePreparationStarted,
+                                           dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC))), 0,
+                   @"task #1 should pause after its early stale-task check");
+
+    dispatch_semaphore_t resendFinished = dispatch_semaphore_create(0);
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+        [api resendActiveRequestsRequiringAuthentication];
+        dispatch_semaphore_signal(resendFinished);
+    });
+    XCTAssertEqual(dispatch_semaphore_wait(resendFinished,
+                                           dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC))), 0,
+                   @"replay must not wait for response parsing or client code");
+    XCTAssertNotEqual(request.sessionDataTask, originalTask, @"replay should install task #2");
+
+    dispatch_semaphore_signal(api.allowResponsePreparation);
+    XCTAssertTrue([self waitForCondition:^BOOL{
+        return [DeferredURLProtocol pendingCount] >= 2;
+    } timeout:2], @"task #2 should be pending");
+    [DeferredURLProtocol deliverResponseAtIndex:1 statusCode:statusCode];
+
+    [self waitForExpectationsWithTimeout:5 handler:nil];
+    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.25]];
+
+    XCTAssertEqual(successCount, expectSuccess ? 1 : 0);
+    XCTAssertEqual(failureCount, expectSuccess ? 0 : 1);
+}
+
 #pragma mark - Test: resendActiveRequestsRequiringAuthentication race
+
+- (void)testConcurrentReplayWhileSuccessfulResponseIsBeingPreparedDeliversOnce {
+    [self runTerminalCallbackRaceWithStatusCode:200 expectSuccess:YES];
+}
+
+- (void)testConcurrentReplayWhileFailureResponseIsBeingPreparedDeliversOnce {
+    [self runTerminalCallbackRaceWithStatusCode:500 expectSuccess:NO];
+}
 
 /**
  * Reproduces the crash scenario:

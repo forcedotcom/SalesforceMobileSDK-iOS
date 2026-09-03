@@ -60,6 +60,10 @@ static SFSDKSafeMutableDictionary *sfRestApiList = nil;
 @property (readwrite, assign) BOOL refreshCycleActive;
 @property (nonatomic, strong, readwrite) SFUserAccount *user;
 
+- (BOOL)performIfCurrentDataTask:(NSURLSessionDataTask *)dataTask
+                      forRequest:(SFRestRequest *)request
+                          action:(nullable dispatch_block_t)action;
+
 @end
 
 @implementation SFRestAPI
@@ -98,6 +102,12 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
 #pragma mark - Cleanup / cancel all
 
 - (void)cleanup {
+    NSMutableArray<NSURLSessionDataTask *> *tasksToCancel = [NSMutableArray new];
+    NSMutableArray *failureBlocks = [NSMutableArray new];
+    NSError *logoutError = [NSError errorWithDomain:kSFRestErrorDomain
+                                                code:kSFRestErrorCode
+                                            userInfo:@{NSLocalizedDescriptionKey: @"User logged out"}];
+
     @synchronized (self) {
         NSSet *pendingRequests = [self.activeRequests asSet];
         for (SFRestRequest *request in pendingRequests) {
@@ -107,16 +117,24 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
             // double-deliver failureBlock.
             NSURLSessionDataTask *oldTask = request.sessionDataTask;
             request.sessionDataTask = nil;
-            [oldTask cancel];
+            if (oldTask) {
+                [tasksToCancel addObject:oldTask];
+            }
             if (request.failureBlock) {
-                NSError *logoutError = [NSError errorWithDomain:kSFRestErrorDomain
-                                                           code:kSFRestErrorCode
-                                                      userInfo:@{NSLocalizedDescriptionKey: @"User logged out"}];
-                request.failureBlock(nil, logoutError, nil);
+                [failureBlocks addObject:[request.failureBlock copy]];
             }
         }
         [self.activeRequests removeAllObjects];
         self.refreshCycleActive = NO;
+    }
+
+    // Cancellation and client callbacks may synchronously call back into SFRestAPI.
+    // Keep them outside the state lock after every request has been invalidated.
+    for (NSURLSessionDataTask *task in tasksToCancel) {
+        [task cancel];
+    }
+    for (SFRestRequestFailBlock failureBlock in failureBlocks) {
+        failureBlock(nil, logoutError, nil);
     }
 }
 
@@ -270,17 +288,10 @@ static dispatch_once_t pred;
 - (void)send:(SFRestRequest *)request
 failureBlock:(SFRestRequestFailBlock)failureBlock
 successBlock:(SFRestResponseBlock)successBlock {
-    [self send:request failureBlock:^(id  _Nullable response, NSError * _Nullable e, NSURLResponse * _Nullable rawResponse) {
-        if (failureBlock) {
-            failureBlock(response, e, rawResponse);
-        }
-        [self removeActiveRequestObject:request];
-    } successBlock:^(id  _Nullable response, NSURLResponse * _Nullable rawResponse) {
-        if (successBlock) {
-            successBlock(response, rawResponse);
-        }
-        [self removeActiveRequestObject:request];
-    }shouldRetry:self.requiresAuthentication && request.requiresAuthentication];
+    [self send:request
+   failureBlock:failureBlock
+   successBlock:successBlock
+    shouldRetry:self.requiresAuthentication && request.requiresAuthentication];
 }
 
 - (void)send:(SFRestRequest *)request
@@ -328,71 +339,133 @@ successBlock:(SFRestResponseBlock)successBlock
             network = [self networkForRequest:request];
         }
 
-        __block NSURLSessionDataTask *dataTask = [network sendRequest:finalRequest dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
-            __strong typeof(weakSelf) strongSelf = weakSelf;
-            [SFNetwork removeSharedInstanceForIdentifier:instanceIdentifier];
+        __block NSURLSessionDataTask *dataTask;
+        @synchronized (self) {
+            dataTask = [network sendRequest:finalRequest dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
+                __strong typeof(weakSelf) strongSelf = weakSelf;
+                [SFNetwork removeSharedInstanceForIdentifier:instanceIdentifier];
 
-            // Guard: ignore callbacks from stale dataTasks superseded by retry.
-            if (dataTask != request.sessionDataTask) {
-                [SFSDKCoreLogger d:[strongSelf class] format:@"Ignoring callback from stale task for request: %@", request.path];
-                return;
-            }
-
-            // Network error.
-            if (error) {
-                [SFSDKCoreLogger d:[strongSelf class] format:@"REST request failed with error: Error Code: %ld, Description: %@, URL: %@", (long) error.code, error.localizedDescription, finalRequest.URL];
-                id dataForDelegate = [strongSelf prepareDataForDelegate:data request:request response:response];
-                if (request.failureBlock) {
-                    request.failureBlock(dataForDelegate, error, response);
-                }
-                return;
-            }
-            
-            // Timeout.
-            if (!response) {
-                if (request.failureBlock) {
-                    request.failureBlock(nil, nil, nil);
-                }
-                return;
-            }
-            NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
-
-            // 2xx indicates success.
-            if ([SFRestAPI isStatusCodeSuccess:statusCode]) {
-                id dataForDelegate = [strongSelf prepareDataForDelegate:data request:request response:response];
-                if (request.successBlock) {
-                    request.successBlock(dataForDelegate, response);
-                }
-            } else {
-                // DPoP nonce challenge (HTTP 400 with use_dpop_nonce in body): harvest the
-                // server-issued nonce and retry the request once with the updated proof.
-                // This covers the post-restart case where the in-memory nonce cache is empty
-                // and the first outbound DPoP call (e.g. revoke) triggers a nonce challenge.
-                // RFC 9449 §8 — the server SHOULD return the desired nonce in DPoP-Nonce.
-                NSString *bodyStr = data ? [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] : nil;
-                if (statusCode == 400
-                    && !request.dpopNonceRetried
-                    && [bodyStr containsString:SFSDKDPoPRequestDecorator.nonceErrorCode]) {
-                    request.dpopNonceRetried = YES;
-                    [SFSDKDPoPRequestDecorator harvestNonceFromResponse:response
-                                                            requestURL:finalRequest.URL
-                                                                 scope:strongSelf.user.credentials.identifier];
-                    [strongSelf enqueueRequest:request shouldRetry:shouldRetry];
+                if (!strongSelf) {
                     return;
                 }
-                if (shouldRetry && [strongSelf shouldRetryTask:dataTask withData:data]) {
-                    [strongSelf replayRequest:request response:response];
-                } else {
-                    // Other status codes indicate failure.
-                    NSError *errorForDelegate = [strongSelf prepareErrorForDelegate:data response:response];
+
+                // This early check avoids parsing responses from attempts already superseded by
+                // retry. Terminal paths re-check while atomically claiming completion below;
+                // the re-check is what closes the check-then-replay race.
+                if (![strongSelf performIfCurrentDataTask:dataTask forRequest:request action:nil]) {
+                    return;
+                }
+
+                // Network error.
+                if (error) {
+                    [SFSDKCoreLogger d:[strongSelf class] format:@"REST request failed with error: Error Code: %ld, Description: %@, URL: %@", (long) error.code, error.localizedDescription, finalRequest.URL];
+                    __block SFRestRequestFailBlock failureBlock;
+                    BOOL claimed = [strongSelf performIfCurrentDataTask:dataTask forRequest:request action:^{
+                        request.sessionDataTask = nil;
+                        [strongSelf.activeRequests removeObject:request];
+                        failureBlock = [request.failureBlock copy];
+                    }];
+                    if (!claimed) {
+                        return;
+                    }
                     id dataForDelegate = [strongSelf prepareDataForDelegate:data request:request response:response];
-                    if (request.failureBlock) {
-                        request.failureBlock(dataForDelegate, errorForDelegate, response);
+                    if (failureBlock) {
+                        failureBlock(dataForDelegate, error, response);
+                    }
+                    return;
+                }
+
+                // Timeout.
+                if (!response) {
+                    __block SFRestRequestFailBlock failureBlock;
+                    BOOL claimed = [strongSelf performIfCurrentDataTask:dataTask forRequest:request action:^{
+                        request.sessionDataTask = nil;
+                        [strongSelf.activeRequests removeObject:request];
+                        failureBlock = [request.failureBlock copy];
+                    }];
+                    if (claimed && failureBlock) {
+                        failureBlock(nil, nil, nil);
+                    }
+                    return;
+                }
+
+                NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+
+                // 2xx indicates success.
+                if ([SFRestAPI isStatusCodeSuccess:statusCode]) {
+                    id dataForDelegate = [strongSelf prepareDataForDelegate:data request:request response:response];
+                    __block SFRestResponseBlock successBlock;
+                    BOOL claimed = [strongSelf performIfCurrentDataTask:dataTask forRequest:request action:^{
+                        // Claim terminal delivery and make the request non-replayable as one
+                        // operation. Client code runs after the lock is released.
+                        request.sessionDataTask = nil;
+                        [strongSelf.activeRequests removeObject:request];
+                        successBlock = [request.successBlock copy];
+                    }];
+                    if (claimed && successBlock) {
+                        successBlock(dataForDelegate, response);
+                    }
+                } else {
+                    // DPoP nonce challenge (HTTP 400 with use_dpop_nonce in body): harvest the
+                    // server-issued nonce and retry the request once with the updated proof.
+                    // This covers the post-restart case where the in-memory nonce cache is empty
+                    // and the first outbound DPoP call (e.g. revoke) triggers a nonce challenge.
+                    // RFC 9449 §8 — the server SHOULD return the desired nonce in DPoP-Nonce.
+                    NSString *bodyStr = data ? [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] : nil;
+                    if (statusCode == 400
+                        && !request.dpopNonceRetried
+                        && [bodyStr containsString:SFSDKDPoPRequestDecorator.nonceErrorCode]) {
+                        [strongSelf performIfCurrentDataTask:dataTask forRequest:request action:^{
+                            // Retire and replace this attempt while holding the same lock used by
+                            // terminal completion claims and authentication replay.
+                            request.dpopNonceRetried = YES;
+                            [SFSDKDPoPRequestDecorator harvestNonceFromResponse:response
+                                                                    requestURL:finalRequest.URL
+                                                                         scope:strongSelf.user.credentials.identifier];
+                            [strongSelf enqueueRequest:request shouldRetry:shouldRetry];
+                        }];
+                        return;
+                    }
+                    if (shouldRetry && [strongSelf shouldRetryTask:dataTask withData:data]) {
+                        [strongSelf performIfCurrentDataTask:dataTask forRequest:request action:^{
+                            [strongSelf replayRequest:request response:response];
+                        }];
+                    } else {
+                        // Other status codes indicate terminal failure.
+                        NSError *errorForDelegate = [strongSelf prepareErrorForDelegate:data response:response];
+                        id dataForDelegate = [strongSelf prepareDataForDelegate:data request:request response:response];
+                        __block SFRestRequestFailBlock failureBlock;
+                        BOOL claimed = [strongSelf performIfCurrentDataTask:dataTask forRequest:request action:^{
+                            request.sessionDataTask = nil;
+                            [strongSelf.activeRequests removeObject:request];
+                            failureBlock = [request.failureBlock copy];
+                        }];
+                        if (claimed && failureBlock) {
+                            failureBlock(dataForDelegate, errorForDelegate, response);
+                        }
                     }
                 }
-            }
-        }];
-        request.sessionDataTask = dataTask;
+            }];
+
+            // SFNetwork resumes before returning. Publishing the task while holding the state
+            // lock makes an exceptionally fast callback wait until ownership is installed.
+            request.sessionDataTask = dataTask;
+        }
+    }
+}
+
+- (BOOL)performIfCurrentDataTask:(NSURLSessionDataTask *)dataTask
+                      forRequest:(SFRestRequest *)request
+                          action:(dispatch_block_t)action {
+    @synchronized (self) {
+        if (dataTask != request.sessionDataTask) {
+            [SFSDKCoreLogger d:[self class] format:@"Ignoring callback from stale task for request: %@", request.path];
+            return NO;
+        }
+        if (action) {
+            action();
+        }
+        return YES;
     }
 }
 
@@ -494,10 +567,7 @@ successBlock:(SFRestResponseBlock)successBlock
      error:^(NSError *refreshError) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         [SFSDKCoreLogger e:[strongSelf class] format:@"Failed to refresh expired session. Error: %@", refreshError];
-        @synchronized (strongSelf) {
-            [strongSelf flushPendingRequestQueue:refreshError rawResponse:response];
-            strongSelf.refreshCycleActive = NO;
-        }
+        [strongSelf flushPendingRequestQueue:refreshError rawResponse:response];
         if ([refreshError.domain isEqualToString:kSFOAuthErrorDomain]) {
             SFUserAccount *user = strongSelf.user;
             void (^triggerLogout)(SFLogoutReason, NSString *) = ^(SFLogoutReason reason, NSString *logMessage) {
@@ -519,16 +589,32 @@ successBlock:(SFRestResponseBlock)successBlock
 }
 
 - (void)flushPendingRequestQueue:(NSError *)error rawResponse:(NSURLResponse *)rawResponse {
+    NSMutableArray<NSURLSessionDataTask *> *tasksToCancel = [NSMutableArray new];
+    NSMutableArray *failureBlocks = [NSMutableArray new];
+
     @synchronized (self) {
         NSSet *pendingRequests = [self.activeRequests asSet];
         for (SFRestRequest *request in pendingRequests) {
             NSURLSessionDataTask *oldTask = request.sessionDataTask;
             request.sessionDataTask = nil;
-            [oldTask cancel];
+            if (oldTask) {
+                [tasksToCancel addObject:oldTask];
+            }
             if (request.failureBlock) {
-                request.failureBlock(nil, error, rawResponse);
+                [failureBlocks addObject:[request.failureBlock copy]];
             }
         }
+        [self.activeRequests removeAllObjects];
+        self.refreshCycleActive = NO;
+    }
+
+    // Requests are no longer current before cancellation can enqueue its callback.
+    // Invoke client blocks outside the lock to permit safe re-entry into SFRestAPI.
+    for (NSURLSessionDataTask *task in tasksToCancel) {
+        [task cancel];
+    }
+    for (SFRestRequestFailBlock failureBlock in failureBlocks) {
+        failureBlock(nil, error, rawResponse);
     }
 }
 
@@ -550,14 +636,12 @@ successBlock:(SFRestResponseBlock)successBlock
     if ([delegate respondsToSelector:@selector(request:didSucceed:rawResponse:)]) {
         [delegate request:request didSucceed:data rawResponse:rawResponse];
     }
-    [self removeActiveRequestObject:request];
 }
 
 - (void)notifyDelegateOfFailure:(id<SFRestRequestDelegate>)delegate request:(SFRestRequest *)request data:(id)data rawResponse:(NSURLResponse *)rawResponse error:(NSError *)error {
     if ([delegate respondsToSelector:@selector(request:didFail:rawResponse:error:)]) {
         [delegate request:request didFail:data rawResponse:rawResponse error:error];
     }
-    [self removeActiveRequestObject:request];
 }
 
 #pragma mark - SFRestRequest factory methods
