@@ -205,8 +205,9 @@ When an attempt receives an authentication failure accepted by the retry policy:
 2. Under `@synchronized(self)`, `replayRequest` elects one refresh cycle for the API instance.
 3. The API asks the shared `SFSDKTokenRefreshCoordinator` to refresh the credential.
 4. Other failed requests remain in `activeRequests`; they do not start another refresh cycle.
-5. On refresh success, `resendActiveRequestsRequiringAuthentication` snapshots the active set and
-   installs a new task for each pending request with automatic auth retry disabled.
+5. On refresh success, `resendActiveRequestsRequiringAuthentication` snapshots the active set. It
+   skips any newly admitted request whose initial task has not been published yet, and installs a
+   successor for each request that already owns a task, with automatic auth retry disabled.
 6. Each old task is cancelled after its successor is installed.
 7. On refresh failure, the active set is atomically drained and each request receives one failure.
 
@@ -247,6 +248,12 @@ replace the task between parsing and delivery.
 The successor is created and assigned to `request.sessionDataTask` while holding the state lock.
 `SFNetwork.sendRequest` resumes its task before returning, so the lock prevents an exceptionally
 fast asynchronous completion from observing the request before task ownership is published.
+
+Admission to `activeRequests` intentionally happens before initial request preparation, so a newly
+submitted request can appear in a refresh replay snapshot while `sessionDataTask` is still nil.
+Replay skips that entry: only the original sender may publish the first task, while replay may only
+replace an existing task. This prevents replay and the original sender from independently creating
+two initial attempts for the same request.
 
 **Invariant:** `SFNetwork.sendRequest` must remain nonblocking and must not invoke its completion
 synchronously. Changing that contract could introduce a lock-ordering or reentrancy hazard.
@@ -339,6 +346,20 @@ Whichever acquires the ownership lock first wins:
 
 The request receives one terminal result in either ordering.
 
+### 9.5 New request racing the replay snapshot
+
+```text
+new send adds request B to activeRequests
+request B pauses before publishing its first task
+refresh replay snapshots request B and sees sessionDataTask == nil
+replay skips request B
+the original send publishes B's first task
+B's sole task claims and delivers its terminal callback
+```
+
+This is the admission-side counterpart to the completion race. Replay owns replacement of a
+published attempt; it never creates the initial attempt on behalf of an in-progress sender.
+
 ---
 
 ## 10. Concurrency Invariants
@@ -353,6 +374,8 @@ The request receives one terminal result in either ordering.
 7. Application and delegate callbacks execute outside the request-state lock.
 8. Cleanup invalidates request ownership before cancellation or client notification.
 9. A replayed REST request cannot automatically start a second auth refresh cycle.
+10. Refresh replay skips an active request with no published task; only its original sender may
+    publish the first attempt.
 
 The focused regression coverage lives in `SFRestAPIDataTaskRaceTests`, with coordinator behavior
 covered by `SFSDKTokenRefreshCoordinatorTests` and token-endpoint nonce handling covered by the

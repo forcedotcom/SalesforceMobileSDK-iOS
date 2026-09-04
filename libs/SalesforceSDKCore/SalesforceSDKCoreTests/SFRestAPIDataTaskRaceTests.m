@@ -91,6 +91,38 @@ successBlock:(SFRestResponseBlock)successBlock
 
 @end
 
+#pragma mark - AdmissionRaceRestRequest
+
+/**
+ * Test-only request that pauses its first preparation after SFRestAPI has added
+ * it to activeRequests but before enqueueRequest can publish sessionDataTask.
+ * A recursive replay preparation is allowed through so the old behavior fails
+ * deterministically instead of deadlocking the test.
+ */
+@interface AdmissionRaceRestRequest : SFRestRequest
+@property (nonatomic, strong) dispatch_semaphore_t initialPreparationStarted;
+@property (nonatomic, strong) dispatch_semaphore_t allowInitialPreparation;
+@property (nonatomic, assign) NSUInteger preparationCount;
+@end
+
+@implementation AdmissionRaceRestRequest
+
+- (NSURLRequest *)prepareRequestForSend:(SFUserAccount *)user {
+    BOOL shouldPause;
+    @synchronized (self) {
+        self.preparationCount++;
+        shouldPause = (self.preparationCount == 1);
+    }
+    if (shouldPause) {
+        dispatch_semaphore_signal(self.initialPreparationStarted);
+        dispatch_semaphore_wait(self.allowInitialPreparation,
+                                dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)));
+    }
+    return [super prepareRequestForSend:user];
+}
+
+@end
+
 #pragma mark - ControlledCompletionNetwork
 
 /**
@@ -358,6 +390,82 @@ static NSMutableArray<DeferredURLProtocol *> *sPendingProtocols;
 }
 
 #pragma mark - Test: resendActiveRequestsRequiringAuthentication race
+
+/**
+ * Forces a new-request admission to overlap the refresh replay snapshot:
+ *
+ *   1. send: adds the request to activeRequests, then pauses its first preparation
+ *      before sessionDataTask has been published.
+ *   2. Refresh replay snapshots the active request while its task is still nil.
+ *   3. Replay must skip it; the original sender remains responsible for publishing
+ *      the first attempt and delivering the sole terminal callback.
+ *
+ * Without the nil-task guard, replay creates a task for the request while its
+ * original send is paused. That violates the replace-an-existing-attempt invariant
+ * and permits the two independently created attempts to deliver twice.
+ */
+- (void)testNewRequestAdmissionRacingReplayPublishesOneTaskAndDeliversOnce {
+    CompletionRaceRestAPI *api = (CompletionRaceRestAPI *)self.api;
+    ControlledCompletionNetwork *network = [ControlledCompletionNetwork new];
+    api.networkOverride = network;
+
+    NSString *url = @"https://test.example.com/api/admission-race";
+    AdmissionRaceRestRequest *request = [AdmissionRaceRestRequest requestWithMethod:SFRestMethodGET
+                                                                               path:url
+                                                                        queryParams:nil];
+    request.initialPreparationStarted = dispatch_semaphore_create(0);
+    request.allowInitialPreparation = dispatch_semaphore_create(0);
+    request.requiresAuthentication = NO;
+
+    __block NSInteger successCount = 0;
+    __block NSInteger failureCount = 0;
+    XCTestExpectation *terminalCallback = [self expectationWithDescription:@"one terminal callback"];
+    terminalCallback.assertForOverFulfill = YES;
+    dispatch_semaphore_t initialSendFinished = dispatch_semaphore_create(0);
+
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+        [api send:request failureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
+            failureCount++;
+            [terminalCallback fulfill];
+        } successBlock:^(id response, NSURLResponse *rawResponse) {
+            successCount++;
+            [terminalCallback fulfill];
+        } shouldRetry:NO];
+        dispatch_semaphore_signal(initialSendFinished);
+    });
+
+    XCTAssertEqual(dispatch_semaphore_wait(request.initialPreparationStarted,
+                                           dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC))), 0,
+                   @"initial send should pause before publishing its task");
+    XCTAssertTrue([api.activeRequests containsObject:request]);
+    XCTAssertNil(request.sessionDataTask);
+
+    [api resendActiveRequestsRequiringAuthentication];
+
+    XCTAssertEqual(network.pendingCount, 0u,
+                   @"replay must not create the initial task for an unpublished request");
+    XCTAssertNil(request.sessionDataTask);
+
+    dispatch_semaphore_signal(request.allowInitialPreparation);
+    XCTAssertEqual(dispatch_semaphore_wait(initialSendFinished,
+                                           dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC))), 0,
+                   @"original send should publish after its preparation is released");
+    XCTAssertEqual(network.pendingCount, 1u);
+    XCTAssertNotNil(request.sessionDataTask);
+
+    NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc] initWithURL:[NSURL URLWithString:url]
+                                                              statusCode:200
+                                                             HTTPVersion:@"HTTP/1.1"
+                                                            headerFields:nil];
+    NSData *data = [@"{\"ok\":true}" dataUsingEncoding:NSUTF8StringEncoding];
+    [network deliverData:data response:response error:nil atIndex:0];
+
+    [self waitForExpectationsWithTimeout:2 handler:nil];
+    XCTAssertEqual(successCount, 1);
+    XCTAssertEqual(failureCount, 0);
+    XCTAssertNil(request.sessionDataTask);
+    XCTAssertEqual(api.activeRequests.count, 0u);
+}
 
 - (void)testConcurrentReplayWhileSuccessfulResponseIsBeingPreparedDeliversOnce {
     [self runTerminalCallbackRaceWithDelivery:^(NSUInteger index) {

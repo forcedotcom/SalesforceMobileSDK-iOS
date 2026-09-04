@@ -624,6 +624,12 @@ successBlock:(SFRestResponseBlock)successBlock
         NSSet *pendingRequests = [self.activeRequests asSet];
         for (SFRestRequest *request in pendingRequests) {
             NSURLSessionDataTask *oldTask = request.sessionDataTask;
+            if (!oldTask) {
+                // activeRequests admission precedes initial task publication. If a new request
+                // reaches this snapshot in that interval, its original sender still owns
+                // publication; replay must replace an existing attempt, not create the first one.
+                continue;
+            }
             // This recursive send relies on enqueueRequest's documented nonblocking,
             // asynchronous SFNetwork callback invariant while the state lock is held.
             [self send:request
