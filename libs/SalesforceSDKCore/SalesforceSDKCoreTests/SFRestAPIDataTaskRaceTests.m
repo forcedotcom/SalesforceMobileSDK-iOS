@@ -44,6 +44,9 @@ successBlock:(SFRestResponseBlock)successBlock
 - (void)replayRequest:(SFRestRequest *)request response:(NSURLResponse *)response;
 - (id)prepareDataForDelegate:(NSData *)data request:(SFRestRequest *)request response:(NSURLResponse *)response;
 - (SFNetwork *)networkForRequest:(SFRestRequest *)request;
+- (BOOL)performIfCurrentDataTask:(NSURLSessionDataTask *)dataTask
+                      forRequest:(SFRestRequest *)request
+                          action:(dispatch_block_t)action;
 
 @property (readwrite, assign) BOOL refreshCycleActive;
 
@@ -61,6 +64,10 @@ successBlock:(SFRestResponseBlock)successBlock
 @property (atomic, assign) BOOL pauseNextResponsePreparation;
 @property (nonatomic, strong) dispatch_semaphore_t responsePreparationStarted;
 @property (nonatomic, strong) dispatch_semaphore_t allowResponsePreparation;
+@property (atomic, assign) BOOL pauseNextCurrentTaskAction;
+@property (nonatomic, strong) dispatch_semaphore_t currentTaskActionStarted;
+@property (nonatomic, strong) dispatch_semaphore_t allowCurrentTaskAction;
+@property (nonatomic, strong) dispatch_semaphore_t currentTaskActionFinished;
 @property (nonatomic, strong) SFNetwork *networkOverride;
 @end
 
@@ -71,6 +78,9 @@ successBlock:(SFRestResponseBlock)successBlock
     if (self) {
         _responsePreparationStarted = dispatch_semaphore_create(0);
         _allowResponsePreparation = dispatch_semaphore_create(0);
+        _currentTaskActionStarted = dispatch_semaphore_create(0);
+        _allowCurrentTaskAction = dispatch_semaphore_create(0);
+        _currentTaskActionFinished = dispatch_semaphore_create(0);
     }
     return self;
 }
@@ -87,6 +97,24 @@ successBlock:(SFRestResponseBlock)successBlock
 
 - (SFNetwork *)networkForRequest:(SFRestRequest *)request {
     return self.networkOverride ?: [super networkForRequest:request];
+}
+
+- (BOOL)performIfCurrentDataTask:(NSURLSessionDataTask *)dataTask
+                      forRequest:(SFRestRequest *)request
+                          action:(dispatch_block_t)action {
+    BOOL shouldPause = action && self.pauseNextCurrentTaskAction;
+    if (shouldPause) {
+        self.pauseNextCurrentTaskAction = NO;
+        dispatch_semaphore_signal(self.currentTaskActionStarted);
+        dispatch_semaphore_wait(self.allowCurrentTaskAction,
+                                dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)));
+    }
+
+    BOOL performed = [super performIfCurrentDataTask:dataTask forRequest:request action:action];
+    if (shouldPause) {
+        dispatch_semaphore_signal(self.currentTaskActionFinished);
+    }
+    return performed;
 }
 
 @end
@@ -550,6 +578,72 @@ static NSMutableArray<DeferredURLProtocol *> *sPendingProtocols;
 
     XCTAssertEqual(successCount, 1);
     XCTAssertEqual(failureCount, 0);
+}
+
+/**
+ * Forces authentication replay to replace task #1 after its DPoP challenge has
+ * been recognized but before the DPoP retry can claim ownership. The stale DPoP
+ * path must lose its recheck and therefore must not install task #3.
+ */
+- (void)testDPoPNonceRetryClaimRacingAuthenticationReplayDoesNotInstallSecondSuccessor {
+    CompletionRaceRestAPI *api = (CompletionRaceRestAPI *)self.api;
+    api.pauseNextCurrentTaskAction = YES;
+
+    __block NSInteger successCount = 0;
+    __block NSInteger failureCount = 0;
+    XCTestExpectation *terminalCallback = [self expectationWithDescription:@"one terminal callback"];
+    terminalCallback.assertForOverFulfill = YES;
+    SFRestRequest *request = [self makeRequest];
+
+    [api send:request failureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
+        failureCount++;
+        [terminalCallback fulfill];
+    } successBlock:^(id response, NSURLResponse *rawResponse) {
+        successCount++;
+        [terminalCallback fulfill];
+    }];
+
+    XCTAssertTrue([self waitForCondition:^BOOL{
+        return [DeferredURLProtocol pendingCount] >= 1;
+    } timeout:2], @"task #1 should be pending");
+    NSURLSessionDataTask *originalTask = request.sessionDataTask;
+
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+        [DeferredURLProtocol deliverResponseAtIndex:0
+                                         statusCode:400
+                                               body:@"{\"error\":\"use_dpop_nonce\"}"
+                                       headerFields:nil];
+    });
+    XCTAssertEqual(dispatch_semaphore_wait(api.currentTaskActionStarted,
+                                           dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC))), 0,
+                   @"task #1 should pause immediately before its DPoP retry claim");
+
+    // Authentication replay wins ownership while the DPoP retry is paused.
+    [api resendActiveRequestsRequiringAuthentication];
+    NSURLSessionDataTask *replayTask = request.sessionDataTask;
+    XCTAssertNotEqual(replayTask, originalTask, @"authentication replay should install task #2");
+    XCTAssertTrue([self waitForCondition:^BOOL{
+        return [DeferredURLProtocol pendingCount] >= 2;
+    } timeout:2], @"task #2 should be pending");
+
+    dispatch_semaphore_signal(api.allowCurrentTaskAction);
+    XCTAssertEqual(dispatch_semaphore_wait(api.currentTaskActionFinished,
+                                           dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC))), 0,
+                   @"the stale DPoP claim should finish after the barrier is released");
+
+    XCTAssertEqual([DeferredURLProtocol pendingCount], 2u,
+                   @"the stale DPoP response must not install task #3");
+    XCTAssertEqual(request.sessionDataTask, replayTask);
+    XCTAssertFalse(request.dpopNonceRetried,
+                   @"the stale DPoP retry action must not mutate request state");
+
+    [DeferredURLProtocol deliverResponseAtIndex:1 statusCode:200];
+    [self waitForExpectationsWithTimeout:2 handler:nil];
+
+    XCTAssertEqual(successCount, 1);
+    XCTAssertEqual(failureCount, 0);
+    XCTAssertNil(request.sessionDataTask);
+    XCTAssertEqual(api.activeRequests.count, 0u);
 }
 
 - (void)testCompletionAfterRestAPIDeallocationIsIgnored {

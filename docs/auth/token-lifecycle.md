@@ -332,6 +332,12 @@ task 1 -> HTTP 400 use_dpop_nonce + DPoP-Nonce
   -> any later task-1 completion is stale and ignored
 ```
 
+If authentication replay installs a successor after task 1 recognizes the nonce challenge but
+before it claims retry ownership, task 1 fails its ownership recheck and does not install another
+successor. Conversely, if the DPoP retry claim wins the lock first, authentication replay can only
+replace the successor it published. The two retry mechanisms therefore preserve one current-task
+chain rather than creating independent successors.
+
 ### 9.4 Completion racing authentication replay
 
 ```text
