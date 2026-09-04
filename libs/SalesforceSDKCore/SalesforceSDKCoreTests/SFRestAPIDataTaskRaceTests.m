@@ -42,8 +42,161 @@ successBlock:(SFRestResponseBlock)successBlock
 - (void)resendActiveRequestsRequiringAuthentication;
 - (void)flushPendingRequestQueue:(NSError *)error rawResponse:(NSURLResponse *)rawResponse;
 - (void)replayRequest:(SFRestRequest *)request response:(NSURLResponse *)response;
+- (id)prepareDataForDelegate:(NSData *)data request:(SFRestRequest *)request response:(NSURLResponse *)response;
+- (SFNetwork *)networkForRequest:(SFRestRequest *)request;
+- (BOOL)performIfCurrentDataTask:(NSURLSessionDataTask *)dataTask
+                      forRequest:(SFRestRequest *)request
+                          action:(dispatch_block_t)action;
 
 @property (readwrite, assign) BOOL refreshCycleActive;
+
+@end
+
+#pragma mark - CompletionRaceRestAPI
+
+/**
+ * Test-only SFRestAPI that can pause response preparation. The production race
+ * occurs after the old task passes its first stale-task check but before it
+ * invokes a terminal block, which is exactly where this override provides a
+ * deterministic scheduling point.
+ */
+@interface CompletionRaceRestAPI : SFRestAPI
+@property (atomic, assign) BOOL pauseNextResponsePreparation;
+@property (nonatomic, strong) dispatch_semaphore_t responsePreparationStarted;
+@property (nonatomic, strong) dispatch_semaphore_t allowResponsePreparation;
+@property (atomic, assign) BOOL pauseNextCurrentTaskAction;
+@property (nonatomic, strong) dispatch_semaphore_t currentTaskActionStarted;
+@property (nonatomic, strong) dispatch_semaphore_t allowCurrentTaskAction;
+@property (nonatomic, strong) dispatch_semaphore_t currentTaskActionFinished;
+@property (nonatomic, strong) SFNetwork *networkOverride;
+@end
+
+@implementation CompletionRaceRestAPI
+
+- (instancetype)initWithUser:(SFUserAccount *)user {
+    self = [super initWithUser:user];
+    if (self) {
+        _responsePreparationStarted = dispatch_semaphore_create(0);
+        _allowResponsePreparation = dispatch_semaphore_create(0);
+        _currentTaskActionStarted = dispatch_semaphore_create(0);
+        _allowCurrentTaskAction = dispatch_semaphore_create(0);
+        _currentTaskActionFinished = dispatch_semaphore_create(0);
+    }
+    return self;
+}
+
+- (id)prepareDataForDelegate:(NSData *)data request:(SFRestRequest *)request response:(NSURLResponse *)response {
+    if (self.pauseNextResponsePreparation) {
+        self.pauseNextResponsePreparation = NO;
+        dispatch_semaphore_signal(self.responsePreparationStarted);
+        dispatch_semaphore_wait(self.allowResponsePreparation,
+                                dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)));
+    }
+    return [super prepareDataForDelegate:data request:request response:response];
+}
+
+- (SFNetwork *)networkForRequest:(SFRestRequest *)request {
+    return self.networkOverride ?: [super networkForRequest:request];
+}
+
+- (BOOL)performIfCurrentDataTask:(NSURLSessionDataTask *)dataTask
+                      forRequest:(SFRestRequest *)request
+                          action:(dispatch_block_t)action {
+    BOOL shouldPause = action && self.pauseNextCurrentTaskAction;
+    if (shouldPause) {
+        self.pauseNextCurrentTaskAction = NO;
+        dispatch_semaphore_signal(self.currentTaskActionStarted);
+        dispatch_semaphore_wait(self.allowCurrentTaskAction,
+                                dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)));
+    }
+
+    BOOL performed = [super performIfCurrentDataTask:dataTask forRequest:request action:action];
+    if (shouldPause) {
+        dispatch_semaphore_signal(self.currentTaskActionFinished);
+    }
+    return performed;
+}
+
+@end
+
+#pragma mark - AdmissionRaceRestRequest
+
+/**
+ * Test-only request that pauses its first preparation after SFRestAPI has added
+ * it to activeRequests but before enqueueRequest can publish sessionDataTask.
+ * A recursive replay preparation is allowed through so the old behavior fails
+ * deterministically instead of deadlocking the test.
+ */
+@interface AdmissionRaceRestRequest : SFRestRequest
+@property (nonatomic, strong) dispatch_semaphore_t initialPreparationStarted;
+@property (nonatomic, strong) dispatch_semaphore_t allowInitialPreparation;
+@property (nonatomic, assign) NSUInteger preparationCount;
+@end
+
+@implementation AdmissionRaceRestRequest
+
+- (NSURLRequest *)prepareRequestForSend:(SFUserAccount *)user {
+    BOOL shouldPause;
+    @synchronized (self) {
+        self.preparationCount++;
+        shouldPause = (self.preparationCount == 1);
+    }
+    if (shouldPause) {
+        dispatch_semaphore_signal(self.initialPreparationStarted);
+        dispatch_semaphore_wait(self.allowInitialPreparation,
+                                dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)));
+    }
+    return [super prepareRequestForSend:user];
+}
+
+@end
+
+#pragma mark - ControlledCompletionNetwork
+
+/**
+ * Test-only network that can produce response combinations NSURLProtocol cannot,
+ * such as a completion with neither a response nor an error.
+ */
+@interface ControlledCompletionNetwork : SFNetwork
+@property (nonatomic, strong) NSMutableArray<NSURLSessionDataTask *> *tasks;
+@property (nonatomic, strong) NSMutableArray *completionBlocks;
+- (NSUInteger)pendingCount;
+- (void)deliverData:(NSData *)data response:(NSURLResponse *)response error:(NSError *)error atIndex:(NSUInteger)index;
+@end
+
+@implementation ControlledCompletionNetwork
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        _tasks = [NSMutableArray new];
+        _completionBlocks = [NSMutableArray new];
+    }
+    return self;
+}
+
+- (NSURLSessionDataTask *)sendRequest:(NSURLRequest *)urlRequest dataResponseBlock:(SFDataResponseBlock)dataResponseBlock {
+    NSURLSessionDataTask *task = [[NSURLSession sharedSession] dataTaskWithRequest:urlRequest];
+    @synchronized (self) {
+        [self.tasks addObject:task];
+        [self.completionBlocks addObject:[dataResponseBlock copy]];
+    }
+    return task;
+}
+
+- (NSUInteger)pendingCount {
+    @synchronized (self) {
+        return self.completionBlocks.count;
+    }
+}
+
+- (void)deliverData:(NSData *)data response:(NSURLResponse *)response error:(NSError *)error atIndex:(NSUInteger)index {
+    SFDataResponseBlock completionBlock;
+    @synchronized (self) {
+        completionBlock = [self.completionBlocks[index] copy];
+    }
+    completionBlock(data, response, error);
+}
 
 @end
 
@@ -58,6 +211,11 @@ successBlock:(SFRestResponseBlock)successBlock
 + (void)reset;
 + (NSUInteger)pendingCount;
 + (void)deliverResponseAtIndex:(NSUInteger)index statusCode:(NSInteger)statusCode;
++ (void)deliverResponseAtIndex:(NSUInteger)index
+                    statusCode:(NSInteger)statusCode
+                          body:(NSString *)body
+                  headerFields:(NSDictionary<NSString *, NSString *> *)headerFields;
++ (void)deliverErrorAtIndex:(NSUInteger)index error:(NSError *)error;
 @end
 
 static NSMutableArray<DeferredURLProtocol *> *sPendingProtocols;
@@ -101,6 +259,16 @@ static NSMutableArray<DeferredURLProtocol *> *sPendingProtocols;
 }
 
 + (void)deliverResponseAtIndex:(NSUInteger)index statusCode:(NSInteger)statusCode {
+    [self deliverResponseAtIndex:index
+                      statusCode:statusCode
+                            body:@"{\"ok\":true}"
+                    headerFields:nil];
+}
+
++ (void)deliverResponseAtIndex:(NSUInteger)index
+                    statusCode:(NSInteger)statusCode
+                          body:(NSString *)body
+                  headerFields:(NSDictionary<NSString *, NSString *> *)headerFields {
     DeferredURLProtocol *proto;
     @synchronized (sPendingProtocols) {
         proto = sPendingProtocols[index];
@@ -108,11 +276,19 @@ static NSMutableArray<DeferredURLProtocol *> *sPendingProtocols;
     NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc] initWithURL:proto.request.URL
                                                              statusCode:statusCode
                                                             HTTPVersion:@"HTTP/1.1"
-                                                           headerFields:nil];
-    NSData *body = [@"{\"ok\":true}" dataUsingEncoding:NSUTF8StringEncoding];
+                                                           headerFields:headerFields];
+    NSData *bodyData = [body dataUsingEncoding:NSUTF8StringEncoding];
     [proto.client URLProtocol:proto didReceiveResponse:response cacheStoragePolicy:NSURLCacheStorageNotAllowed];
-    [proto.client URLProtocol:proto didLoadData:body];
+    [proto.client URLProtocol:proto didLoadData:bodyData];
     [proto.client URLProtocolDidFinishLoading:proto];
+}
+
++ (void)deliverErrorAtIndex:(NSUInteger)index error:(NSError *)error {
+    DeferredURLProtocol *proto;
+    @synchronized (sPendingProtocols) {
+        proto = sPendingProtocols[index];
+    }
+    [proto.client URLProtocol:proto didFailWithError:error];
 }
 
 @end
@@ -133,7 +309,7 @@ static NSMutableArray<DeferredURLProtocol *> *sPendingProtocols;
     config.protocolClasses = @[[DeferredURLProtocol class]];
     [SFNetwork setSessionConfiguration:config identifier:kSFNetworkEphemeralInstanceIdentifier];
 
-    self.api = [[SFRestAPI alloc] initWithUser:nil];
+    self.api = [[CompletionRaceRestAPI alloc] initWithUser:nil];
 }
 
 - (void)tearDown {
@@ -167,7 +343,334 @@ static NSMutableArray<DeferredURLProtocol *> *sPendingProtocols;
     return condition();
 }
 
+/**
+ * Forces the interleaving missing from the original stale-task regression test:
+ *
+ *   1. Task #1 passes the early stale-task check and pauses while preparing data.
+ *   2. Authentication refresh replay installs task #2 for the same request.
+ *   3. Task #1 resumes and attempts to deliver its terminal callback.
+ *
+ * The terminal claim must revalidate task ownership under the replay lock, so
+ * task #1 is ignored and only task #2 is allowed to call client code.
+ */
+- (void)runTerminalCallbackRaceWithDelivery:(void (^)(NSUInteger index))deliverResponse
+                               expectSuccess:(BOOL)expectSuccess {
+    CompletionRaceRestAPI *api = (CompletionRaceRestAPI *)self.api;
+    api.pauseNextResponsePreparation = YES;
+
+    __block NSInteger successCount = 0;
+    __block NSInteger failureCount = 0;
+    XCTestExpectation *terminalCallback = [self expectationWithDescription:@"one terminal callback"];
+    terminalCallback.assertForOverFulfill = YES;
+
+    SFRestRequest *request = [self makeRequest];
+    [api send:request failureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
+        @synchronized (self) {
+            failureCount++;
+        }
+        if (expectSuccess) {
+            XCTFail(@"Expected success, received failure: %@", error);
+        }
+        [terminalCallback fulfill];
+    } successBlock:^(id response, NSURLResponse *rawResponse) {
+        @synchronized (self) {
+            successCount++;
+        }
+        if (!expectSuccess) {
+            XCTFail(@"Expected terminal HTTP failure, received success");
+        }
+        [terminalCallback fulfill];
+    }];
+
+    XCTAssertTrue([self waitForCondition:^BOOL{
+        return [DeferredURLProtocol pendingCount] >= 1;
+    } timeout:2], @"task #1 should be pending");
+    NSURLSessionDataTask *originalTask = request.sessionDataTask;
+
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+        deliverResponse(0);
+    });
+    XCTAssertEqual(dispatch_semaphore_wait(api.responsePreparationStarted,
+                                           dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC))), 0,
+                   @"task #1 should pause after its early stale-task check");
+
+    dispatch_semaphore_t resendFinished = dispatch_semaphore_create(0);
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+        [api resendActiveRequestsRequiringAuthentication];
+        dispatch_semaphore_signal(resendFinished);
+    });
+    XCTAssertEqual(dispatch_semaphore_wait(resendFinished,
+                                           dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC))), 0,
+                   @"replay must not wait for response parsing or client code");
+    XCTAssertNotEqual(request.sessionDataTask, originalTask, @"replay should install task #2");
+
+    dispatch_semaphore_signal(api.allowResponsePreparation);
+    XCTAssertTrue([self waitForCondition:^BOOL{
+        return [DeferredURLProtocol pendingCount] >= 2;
+    } timeout:2], @"task #2 should be pending");
+    deliverResponse(1);
+
+    [self waitForExpectationsWithTimeout:5 handler:nil];
+    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.25]];
+
+    XCTAssertEqual(successCount, expectSuccess ? 1 : 0);
+    XCTAssertEqual(failureCount, expectSuccess ? 0 : 1);
+}
+
 #pragma mark - Test: resendActiveRequestsRequiringAuthentication race
+
+/**
+ * Forces a new-request admission to overlap the refresh replay snapshot:
+ *
+ *   1. send: adds the request to activeRequests, then pauses its first preparation
+ *      before sessionDataTask has been published.
+ *   2. Refresh replay snapshots the active request while its task is still nil.
+ *   3. Replay must skip it; the original sender remains responsible for publishing
+ *      the first attempt and delivering the sole terminal callback.
+ *
+ * Without the nil-task guard, replay creates a task for the request while its
+ * original send is paused. That violates the replace-an-existing-attempt invariant
+ * and permits the two independently created attempts to deliver twice.
+ */
+- (void)testNewRequestAdmissionRacingReplayPublishesOneTaskAndDeliversOnce {
+    CompletionRaceRestAPI *api = (CompletionRaceRestAPI *)self.api;
+    ControlledCompletionNetwork *network = [ControlledCompletionNetwork new];
+    api.networkOverride = network;
+
+    NSString *url = @"https://test.example.com/api/admission-race";
+    AdmissionRaceRestRequest *request = [AdmissionRaceRestRequest requestWithMethod:SFRestMethodGET
+                                                                               path:url
+                                                                        queryParams:nil];
+    request.initialPreparationStarted = dispatch_semaphore_create(0);
+    request.allowInitialPreparation = dispatch_semaphore_create(0);
+    request.requiresAuthentication = NO;
+
+    __block NSInteger successCount = 0;
+    __block NSInteger failureCount = 0;
+    XCTestExpectation *terminalCallback = [self expectationWithDescription:@"one terminal callback"];
+    terminalCallback.assertForOverFulfill = YES;
+    dispatch_semaphore_t initialSendFinished = dispatch_semaphore_create(0);
+
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+        [api send:request failureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
+            failureCount++;
+            [terminalCallback fulfill];
+        } successBlock:^(id response, NSURLResponse *rawResponse) {
+            successCount++;
+            [terminalCallback fulfill];
+        } shouldRetry:NO];
+        dispatch_semaphore_signal(initialSendFinished);
+    });
+
+    XCTAssertEqual(dispatch_semaphore_wait(request.initialPreparationStarted,
+                                           dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC))), 0,
+                   @"initial send should pause before publishing its task");
+    XCTAssertTrue([api.activeRequests containsObject:request]);
+    XCTAssertNil(request.sessionDataTask);
+
+    [api resendActiveRequestsRequiringAuthentication];
+
+    XCTAssertEqual(network.pendingCount, 0u,
+                   @"replay must not create the initial task for an unpublished request");
+    XCTAssertNil(request.sessionDataTask);
+
+    dispatch_semaphore_signal(request.allowInitialPreparation);
+    XCTAssertEqual(dispatch_semaphore_wait(initialSendFinished,
+                                           dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC))), 0,
+                   @"original send should publish after its preparation is released");
+    XCTAssertEqual(network.pendingCount, 1u);
+    XCTAssertNotNil(request.sessionDataTask);
+
+    NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc] initWithURL:[NSURL URLWithString:url]
+                                                              statusCode:200
+                                                             HTTPVersion:@"HTTP/1.1"
+                                                            headerFields:nil];
+    NSData *data = [@"{\"ok\":true}" dataUsingEncoding:NSUTF8StringEncoding];
+    [network deliverData:data response:response error:nil atIndex:0];
+
+    [self waitForExpectationsWithTimeout:2 handler:nil];
+    XCTAssertEqual(successCount, 1);
+    XCTAssertEqual(failureCount, 0);
+    XCTAssertNil(request.sessionDataTask);
+    XCTAssertEqual(api.activeRequests.count, 0u);
+}
+
+- (void)testConcurrentReplayWhileSuccessfulResponseIsBeingPreparedDeliversOnce {
+    [self runTerminalCallbackRaceWithDelivery:^(NSUInteger index) {
+        [DeferredURLProtocol deliverResponseAtIndex:index statusCode:200];
+    } expectSuccess:YES];
+}
+
+- (void)testConcurrentReplayWhileFailureResponseIsBeingPreparedDeliversOnce {
+    [self runTerminalCallbackRaceWithDelivery:^(NSUInteger index) {
+        [DeferredURLProtocol deliverResponseAtIndex:index statusCode:500];
+    } expectSuccess:NO];
+}
+
+- (void)testConcurrentReplayWhileNetworkErrorIsBeingPreparedDeliversOnce {
+    NSError *networkError = [NSError errorWithDomain:NSURLErrorDomain
+                                                code:NSURLErrorNetworkConnectionLost
+                                            userInfo:nil];
+    [self runTerminalCallbackRaceWithDelivery:^(NSUInteger index) {
+        [DeferredURLProtocol deliverErrorAtIndex:index error:networkError];
+    } expectSuccess:NO];
+}
+
+- (void)testCompletionWithoutResponseOrErrorDeliversFailureOnce {
+    CompletionRaceRestAPI *api = (CompletionRaceRestAPI *)self.api;
+    ControlledCompletionNetwork *network = [ControlledCompletionNetwork new];
+    api.networkOverride = network;
+
+    __block NSInteger failureCount = 0;
+    XCTestExpectation *failureDelivered = [self expectationWithDescription:@"timeout-style failure delivered"];
+    SFRestRequest *request = [self makeRequest];
+    [api send:request failureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
+        failureCount++;
+        XCTAssertNil(response);
+        XCTAssertNil(error);
+        XCTAssertNil(rawResponse);
+        [failureDelivered fulfill];
+    } successBlock:^(id response, NSURLResponse *rawResponse) {
+        XCTFail(@"A completion without a response must not succeed");
+    }];
+
+    XCTAssertEqual(network.pendingCount, 1u);
+    [network deliverData:nil response:nil error:nil atIndex:0];
+    [self waitForExpectationsWithTimeout:2 handler:nil];
+
+    XCTAssertEqual(failureCount, 1);
+    XCTAssertNil(request.sessionDataTask);
+    XCTAssertEqual(api.activeRequests.count, 0u);
+}
+
+- (void)testDPoPNonceChallengeRetriesThenDeliversOnce {
+    __block NSInteger successCount = 0;
+    __block NSInteger failureCount = 0;
+    XCTestExpectation *successDelivered = [self expectationWithDescription:@"retry succeeds"];
+    SFRestRequest *request = [self makeRequest];
+
+    [self.api send:request failureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
+        failureCount++;
+        XCTFail(@"DPoP nonce retry should not fail: %@", error);
+    } successBlock:^(id response, NSURLResponse *rawResponse) {
+        successCount++;
+        [successDelivered fulfill];
+    }];
+
+    XCTAssertTrue([self waitForCondition:^BOOL{
+        return [DeferredURLProtocol pendingCount] >= 1;
+    } timeout:2]);
+    NSURLSessionDataTask *originalTask = request.sessionDataTask;
+
+    [DeferredURLProtocol deliverResponseAtIndex:0
+                                     statusCode:400
+                                           body:@"{\"error\":\"use_dpop_nonce\"}"
+                                   headerFields:nil];
+
+    XCTAssertTrue([self waitForCondition:^BOOL{
+        return [DeferredURLProtocol pendingCount] >= 2;
+    } timeout:2], @"nonce challenge should install a successor task");
+    XCTAssertTrue(request.dpopNonceRetried);
+    XCTAssertNotEqual(request.sessionDataTask, originalTask);
+
+    [DeferredURLProtocol deliverResponseAtIndex:1 statusCode:200];
+    [self waitForExpectationsWithTimeout:2 handler:nil];
+
+    XCTAssertEqual(successCount, 1);
+    XCTAssertEqual(failureCount, 0);
+}
+
+/**
+ * Forces authentication replay to replace task #1 after its DPoP challenge has
+ * been recognized but before the DPoP retry can claim ownership. The stale DPoP
+ * path must lose its recheck and therefore must not install task #3.
+ */
+- (void)testDPoPNonceRetryClaimRacingAuthenticationReplayDoesNotInstallSecondSuccessor {
+    CompletionRaceRestAPI *api = (CompletionRaceRestAPI *)self.api;
+    api.pauseNextCurrentTaskAction = YES;
+
+    __block NSInteger successCount = 0;
+    __block NSInteger failureCount = 0;
+    XCTestExpectation *terminalCallback = [self expectationWithDescription:@"one terminal callback"];
+    terminalCallback.assertForOverFulfill = YES;
+    SFRestRequest *request = [self makeRequest];
+
+    [api send:request failureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
+        failureCount++;
+        [terminalCallback fulfill];
+    } successBlock:^(id response, NSURLResponse *rawResponse) {
+        successCount++;
+        [terminalCallback fulfill];
+    }];
+
+    XCTAssertTrue([self waitForCondition:^BOOL{
+        return [DeferredURLProtocol pendingCount] >= 1;
+    } timeout:2], @"task #1 should be pending");
+    NSURLSessionDataTask *originalTask = request.sessionDataTask;
+
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+        [DeferredURLProtocol deliverResponseAtIndex:0
+                                         statusCode:400
+                                               body:@"{\"error\":\"use_dpop_nonce\"}"
+                                       headerFields:nil];
+    });
+    XCTAssertEqual(dispatch_semaphore_wait(api.currentTaskActionStarted,
+                                           dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC))), 0,
+                   @"task #1 should pause immediately before its DPoP retry claim");
+
+    // Authentication replay wins ownership while the DPoP retry is paused.
+    [api resendActiveRequestsRequiringAuthentication];
+    NSURLSessionDataTask *replayTask = request.sessionDataTask;
+    XCTAssertNotEqual(replayTask, originalTask, @"authentication replay should install task #2");
+    XCTAssertTrue([self waitForCondition:^BOOL{
+        return [DeferredURLProtocol pendingCount] >= 2;
+    } timeout:2], @"task #2 should be pending");
+
+    dispatch_semaphore_signal(api.allowCurrentTaskAction);
+    XCTAssertEqual(dispatch_semaphore_wait(api.currentTaskActionFinished,
+                                           dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC))), 0,
+                   @"the stale DPoP claim should finish after the barrier is released");
+
+    XCTAssertEqual([DeferredURLProtocol pendingCount], 2u,
+                   @"the stale DPoP response must not install task #3");
+    XCTAssertEqual(request.sessionDataTask, replayTask);
+    XCTAssertFalse(request.dpopNonceRetried,
+                   @"the stale DPoP retry action must not mutate request state");
+
+    [DeferredURLProtocol deliverResponseAtIndex:1 statusCode:200];
+    [self waitForExpectationsWithTimeout:2 handler:nil];
+
+    XCTAssertEqual(successCount, 1);
+    XCTAssertEqual(failureCount, 0);
+    XCTAssertNil(request.sessionDataTask);
+    XCTAssertEqual(api.activeRequests.count, 0u);
+}
+
+- (void)testCompletionAfterRestAPIDeallocationIsIgnored {
+    __block NSInteger callbackCount = 0;
+    __weak SFRestAPI *weakAPI;
+
+    @autoreleasepool {
+        SFRestAPI *api = [[CompletionRaceRestAPI alloc] initWithUser:nil];
+        weakAPI = api;
+        SFRestRequest *request = [self makeRequest];
+        [api send:request failureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
+            callbackCount++;
+        } successBlock:^(id response, NSURLResponse *rawResponse) {
+            callbackCount++;
+        }];
+
+        XCTAssertTrue([self waitForCondition:^BOOL{
+            return [DeferredURLProtocol pendingCount] >= 1;
+        } timeout:2]);
+        api = nil;
+    }
+
+    XCTAssertNil(weakAPI);
+    [DeferredURLProtocol deliverResponseAtIndex:0 statusCode:200];
+    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.25]];
+    XCTAssertEqual(callbackCount, 0);
+}
 
 /**
  * Reproduces the crash scenario:
