@@ -26,7 +26,9 @@
  */
 
 #import <XCTest/XCTest.h>
+#import <objc/runtime.h>
 #import "SFSDKOAuth2+Internal.h"
+#import "SFNetwork.h"
 #import "SalesforceSDKManager.h"
 
 @interface SFSDKOAuthTokenEndpointResponse ()
@@ -35,11 +37,79 @@
 
 @end
 
-@interface SFSDKOAuthTokenEndpointResponseTests : XCTestCase
+@interface SFSDKOAuth2 (NonceRetryTesting)
+- (void)sendTokenEndpointRequest:(NSMutableURLRequest *)request
+              forEndpointRequest:(SFSDKOAuthTokenEndpointRequest *)endpointReq
+           retryOnNonceChallenge:(BOOL)retryOnNonceChallenge
+               dataResponseBlock:(void (^)(NSData *, NSURLResponse *, NSError *))block;
+@end
+
+@interface SFSDKOAuthNonceRetryNetworkStub : SFNetwork
+@property (nonatomic, strong) NSMutableArray<NSURLRequest *> *capturedRequests;
+@end
+
+@implementation SFSDKOAuthNonceRetryNetworkStub
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        _capturedRequests = [NSMutableArray new];
+    }
+    return self;
+}
+
+- (NSURLSessionDataTask *)sendRequest:(NSURLRequest *)urlRequest dataResponseBlock:(SFDataResponseBlock)dataResponseBlock {
+    [self.capturedRequests addObject:[urlRequest copy]];
+    BOOL isFirstAttempt = self.capturedRequests.count == 1;
+    NSInteger statusCode = isFirstAttempt ? 400 : 200;
+    NSDictionary *headers = isFirstAttempt ? @{ @"DPoP-Nonce": @"retry-nonce" } : @{};
+    NSString *body = isFirstAttempt
+        ? @"{\"error\":\"use_dpop_nonce\"}"
+        : @"{\"access_token\":\"refreshed-access-token\"}";
+    NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc] initWithURL:urlRequest.URL
+                                                             statusCode:statusCode
+                                                            HTTPVersion:@"HTTP/1.1"
+                                                           headerFields:headers];
+    dataResponseBlock([body dataUsingEncoding:NSUTF8StringEncoding], response, nil);
+    return [[NSURLSession sharedSession] dataTaskWithRequest:urlRequest];
+}
 
 @end
 
+static SFSDKOAuthNonceRetryNetworkStub *sNonceRetryNetworkStub;
+
+@interface SFNetwork (OAuthNonceRetryTesting)
++ (instancetype)sfsdk_test_sharedEphemeralInstanceWithIdentifier:(NSString *)identifier;
+@end
+
+@implementation SFNetwork (OAuthNonceRetryTesting)
+
++ (instancetype)sfsdk_test_sharedEphemeralInstanceWithIdentifier:(NSString *)identifier {
+    return sNonceRetryNetworkStub;
+}
+
+@end
+
+@interface SFSDKOAuthTokenEndpointResponseTests : XCTestCase
+@property (nonatomic, assign) BOOL networkFactorySwizzled;
+@end
+
 @implementation SFSDKOAuthTokenEndpointResponseTests
+
+- (void)tearDown {
+    if (self.networkFactorySwizzled) {
+        [self swapNetworkFactoryForNonceRetryTest];
+        self.networkFactorySwizzled = NO;
+    }
+    sNonceRetryNetworkStub = nil;
+    [super tearDown];
+}
+
+- (void)swapNetworkFactoryForNonceRetryTest {
+    Method original = class_getClassMethod([SFNetwork class], @selector(sharedEphemeralInstanceWithIdentifier:));
+    Method replacement = class_getClassMethod([SFNetwork class], @selector(sfsdk_test_sharedEphemeralInstanceWithIdentifier:));
+    method_exchangeImplementations(original, replacement);
+}
 
 - (void)testInitWithDictionary {
     // Prepeare dictionary simulating response from token end point
@@ -155,6 +225,39 @@
     NSMutableURLRequest *request = [[[SFSDKOAuth2 alloc] init] prepareBasicRequest:endpointReq];
     XCTAssertNil([request valueForHTTPHeaderField:@"User-Agent"],
                  @"Requests without explicit context should retain SFNetwork's fallback behavior");
+}
+
+- (void)test_givenExplicitUserAgent_whenDPoPNonceChallengeRetries_thenBothAttemptsPreserveHeader {
+    sNonceRetryNetworkStub = [[SFSDKOAuthNonceRetryNetworkStub alloc] init];
+    [self swapNetworkFactoryForNonceRetryTest];
+    self.networkFactorySwizzled = YES;
+
+    NSString *expectedUserAgent = @"SalesforceMobileSDK/Test ftr_A2.OT.RT";
+    SFSDKOAuthTokenEndpointRequest *endpointReq = [[SFSDKOAuthTokenEndpointRequest alloc] init];
+    endpointReq.credentialsIdentifier = [NSString stringWithFormat:@"nonce-retry-%@", NSUUID.UUID.UUIDString];
+    endpointReq.userAgent = expectedUserAgent;
+
+    NSMutableURLRequest *request = [NSMutableURLRequest
+                                    requestWithURL:[NSURL URLWithString:@"https://login.salesforce.com/services/oauth2/token"]];
+    [request setValue:expectedUserAgent forHTTPHeaderField:@"User-Agent"];
+
+    XCTestExpectation *completion = [self expectationWithDescription:@"Nonce retry completes"];
+    [[[SFSDKOAuth2 alloc] init] sendTokenEndpointRequest:request
+                                     forEndpointRequest:endpointReq
+                                  retryOnNonceChallenge:YES
+                                      dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
+        XCTAssertNil(error);
+        XCTAssertEqual(((NSHTTPURLResponse *)response).statusCode, 200);
+        [completion fulfill];
+    }];
+    [self waitForExpectations:@[completion] timeout:2.0];
+
+    XCTAssertEqual(sNonceRetryNetworkStub.capturedRequests.count, 2,
+                   @"A DPoP nonce challenge should produce exactly one retry");
+    for (NSURLRequest *capturedRequest in sNonceRetryNetworkStub.capturedRequests) {
+        XCTAssertEqualObjects([capturedRequest valueForHTTPHeaderField:@"User-Agent"], expectedUserAgent,
+                              @"The explicit User-Agent must be reused unchanged on the nonce retry");
+    }
 }
 
 @end

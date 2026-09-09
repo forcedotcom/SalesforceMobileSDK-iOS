@@ -81,6 +81,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UserDefaults.standard.removeObject(forKey: Self.uiTestLastTokenRequestUserAgentDefaultsKey)
         guard CommandLine.arguments.contains("--captureTokenRequestUserAgent") else { return }
 
+        // Replaces SFNetwork's process-global metrics sink (and any prior handler); DEBUG + explicit launch argument only.
         Network.metricsCollectedAction = { _, task, _ in
             guard task.originalRequest?.url?.path == "/services/oauth2/token",
                   let userAgent = task.originalRequest?.value(forHTTPHeaderField: "User-Agent") else {
