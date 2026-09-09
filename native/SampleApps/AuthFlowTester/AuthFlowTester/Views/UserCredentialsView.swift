@@ -102,6 +102,7 @@ public struct CredentialsLabels {
     // SDK section
     public static let sdk = "SDK"
     public static let userAgent = "User Agent"
+    public static let lastTokenRequestUserAgent = "Last Token Request User Agent"
 }
 
 struct UserCredentialsView: View {
@@ -230,6 +231,12 @@ struct UserCredentialsView: View {
                     InfoSectionView(title: CredentialsLabels.sdk, isExpanded: $sdkSectionExpanded) {
                         InfoRowView(label: "User Agent", value: userAgentString)
                             .accessibilityIdentifier("userAgent")
+                        #if DEBUG
+                        if !lastTokenRequestUserAgent.isEmpty {
+                            InfoRowView(label: "Last Token Request User Agent", value: lastTokenRequestUserAgent)
+                                .accessibilityIdentifier("lastTokenRequestUserAgent")
+                        }
+                        #endif
                     }
                 }
                 .id(refreshTrigger)
@@ -343,7 +350,10 @@ struct UserCredentialsView: View {
         ]
 
         // SDK section
-        result[CredentialsLabels.sdk] = [CredentialsLabels.userAgent: userAgentString]
+        result[CredentialsLabels.sdk] = [
+            CredentialsLabels.userAgent: userAgentString,
+            CredentialsLabels.lastTokenRequestUserAgent: lastTokenRequestUserAgent
+        ]
 
         guard let jsonData = try? JSONSerialization.data(withJSONObject: result, options: [.prettyPrinted]),
               let jsonString = String(data: jsonData, encoding: .utf8) else {
@@ -358,6 +368,14 @@ struct UserCredentialsView: View {
     private var userAgentString: String {
         guard let user = UserAccountManager.shared.currentUserAccount else { return "" }
         return SalesforceManager.shared.userAgent(qualifier: "", for: user)
+    }
+
+    private var lastTokenRequestUserAgent: String {
+        #if DEBUG
+        return UserDefaults.standard.string(forKey: AppDelegate.uiTestLastTokenRequestUserAgentDefaultsKey) ?? ""
+        #else
+        return ""
+        #endif
     }
 
     private var credentials: OAuthCredentials? {
@@ -550,4 +568,3 @@ struct UserCredentialsView: View {
     }
     
 }
-

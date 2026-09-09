@@ -104,6 +104,7 @@ struct CredentialsLabels {
     // SDK section
     static let sdk = "SDK"
     static let userAgent = "User Agent"
+    static let lastTokenRequestUserAgent = "Last Token Request User Agent"
 }
 
 struct OAuthConfigLabels {
@@ -195,6 +196,7 @@ struct UserCredentialsData {
 
     // SDK
     var userAgent: String
+    var lastTokenRequestUserAgent: String
 
     // DPoP
     var dpopTokenType: String?
@@ -659,6 +661,7 @@ class AuthFlowTesterMainPageObject {
             beaconChildConsumerSecret: beacon[CredentialsLabels.beaconChildConsumerSecret] ?? "",
             additionalOAuthFields: other[CredentialsLabels.additionalOAuthFields] ?? "",
             userAgent: sdk[CredentialsLabels.userAgent] ?? "",
+            lastTokenRequestUserAgent: sdk[CredentialsLabels.lastTokenRequestUserAgent] ?? "",
             dpopTokenType: tokens[CredentialsLabels.oauthTokenType],
             dpopNonce: tokens[CredentialsLabels.dpopNonce]
         )
@@ -739,4 +742,3 @@ class AuthFlowTesterMainPageObject {
         return staticText.firstMatch.waitForExistence(timeout: UITestTimeouts.long)
     }
 }
-

@@ -26,18 +26,13 @@
  */
 
 #import <XCTest/XCTest.h>
-#import "SFSDKOAuth2.h"
+#import "SFSDKOAuth2+Internal.h"
 #import "SalesforceSDKManager.h"
 
 @interface SFSDKOAuthTokenEndpointResponse ()
 
 - (instancetype)initWithDictionary:(NSDictionary *)nvPairs parseAdditionalFields:(NSArray<NSString *> *)additionalOAuthParameterKeys;
 
-@end
-
-// Expose private helper for byte-stability regression tests.
-@interface SFSDKOAuth2 (TestingPrivate)
-- (NSMutableURLRequest *)prepareBasicRequest:(SFSDKOAuthTokenEndpointRequest *)endpointReq;
 @end
 
 @interface SFSDKOAuthTokenEndpointResponseTests : XCTestCase
@@ -138,6 +133,28 @@
     XCTAssertFalse(request.HTTPShouldHandleCookies);
 
     [[SalesforceSDKManager sharedManager] setUseDPoP:prior];
+}
+
+- (void)test_givenExplicitUserAgent_whenPrepareBasicRequest_thenHeaderIsPreserved {
+    SFSDKOAuthTokenEndpointRequest *endpointReq = [[SFSDKOAuthTokenEndpointRequest alloc] init];
+    endpointReq.serverURL = [NSURL URLWithString:@"https://login.salesforce.com"];
+    endpointReq.timeout = 60.0;
+
+    endpointReq.userAgent = @"SalesforceMobileSDK/Test ftr_A2.OT.RT";
+
+    NSMutableURLRequest *request = [[[SFSDKOAuth2 alloc] init] prepareBasicRequest:endpointReq];
+    XCTAssertEqualObjects([request valueForHTTPHeaderField:@"User-Agent"],
+                          @"SalesforceMobileSDK/Test ftr_A2.OT.RT");
+}
+
+- (void)test_givenNoExplicitUserAgent_whenPrepareBasicRequest_thenHeaderRemainsUnsetForNetworkFallback {
+    SFSDKOAuthTokenEndpointRequest *endpointReq = [[SFSDKOAuthTokenEndpointRequest alloc] init];
+    endpointReq.serverURL = [NSURL URLWithString:@"https://login.salesforce.com"];
+    endpointReq.timeout = 60.0;
+
+    NSMutableURLRequest *request = [[[SFSDKOAuth2 alloc] init] prepareBasicRequest:endpointReq];
+    XCTAssertNil([request valueForHTTPHeaderField:@"User-Agent"],
+                 @"Requests without explicit context should retain SFNetwork's fallback behavior");
 }
 
 @end

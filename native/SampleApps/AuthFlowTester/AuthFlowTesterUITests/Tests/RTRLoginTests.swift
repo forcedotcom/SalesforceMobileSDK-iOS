@@ -84,4 +84,41 @@ class RTRLoginTests: BaseAuthFlowTester {
         restartAndValidateUser(userAppConfigName: .ecaOpaqueRtr, useHybridFlow: false)
         assertRevokeAndRefreshWorks(expectsRefreshTokenRotation: true, useHybridFlow: false)
     }
+
+    /// After RTR has been observed, the first token refresh in a new app process must send the
+    /// persisted RT marker on the wire. This intentionally validates the captured token-request
+    /// header rather than the user agent recomputed after the refresh response.
+    func test_givenRTRObserved_whenColdRestartForcesRefresh_thenTokenRequestUserAgentContainsRT() throws {
+        launchLoginAndValidate(staticAppConfigName: .ecaOpaqueRtr)
+        let credentialsBeforeRestart = getUserCredentials()
+
+        // Expire the server-side session before terminating so the first REST call in the new
+        // process takes the natural 401 -> token refresh -> replay path.
+        XCTAssertTrue(revokeAccessToken(), "Access-token revoke should succeed before restart")
+        restart(withLaunchArguments: ["--captureTokenRequestUserAgent"])
+
+        XCTAssertTrue(makeRestRequest(), "REST request should succeed after the cold-start refresh")
+        let credentialsAfterRefresh = getUserCredentials()
+        XCTAssertNotEqual(credentialsBeforeRestart.accessToken, credentialsAfterRefresh.accessToken,
+                          "Access token should change during the first post-restart refresh")
+        XCTAssertNotEqual(credentialsBeforeRestart.refreshToken, credentialsAfterRefresh.refreshToken,
+                          "RTR refresh token should rotate during the first post-restart refresh")
+
+        let capturedUserAgent = credentialsAfterRefresh.lastTokenRequestUserAgent
+        XCTAssertFalse(capturedUserAgent.isEmpty,
+                       "AuthFlowTester should capture the outbound token-request User-Agent")
+        let flags = featureMarkers(in: capturedUserAgent)
+        XCTAssertTrue(flags.contains("RT"),
+                      "First post-restart token request should contain persisted RT; flags: \(flags), ua: \(capturedUserAgent)")
+        XCTAssertTrue(flags.contains("A2"),
+                      "Token request should contain the credential owner's hybrid-flow marker; flags: \(flags), ua: \(capturedUserAgent)")
+        XCTAssertTrue(flags.contains("OT"),
+                      "Token request should contain the credential owner's opaque-token marker; flags: \(flags), ua: \(capturedUserAgent)")
+    }
+
+    private func featureMarkers(in userAgent: String) -> Set<String> {
+        guard let range = userAgent.range(of: "ftr_") else { return [] }
+        let markerString = String(userAgent[range.upperBound...]).components(separatedBy: " ").first ?? ""
+        return Set(markerString.components(separatedBy: ".").filter { !$0.isEmpty })
+    }
 }
