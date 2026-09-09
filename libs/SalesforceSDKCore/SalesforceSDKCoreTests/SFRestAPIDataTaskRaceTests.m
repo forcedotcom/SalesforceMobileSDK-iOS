@@ -495,6 +495,84 @@ static NSMutableArray<DeferredURLProtocol *> *sPendingProtocols;
     XCTAssertEqual(api.activeRequests.count, 0u);
 }
 
+/**
+ * Forces lifecycle cleanup to overlap initial request admission:
+ *
+ *   1. send: adds the request to activeRequests, then pauses its first preparation
+ *      before sessionDataTask has been published.
+ *   2. cleanup drains the request and delivers its logout failure.
+ *   3. The original sender resumes preparation.
+ *
+ * Once cleanup has retired the admission, the original sender must not publish a
+ * task that can deliver the same failure block a second time.
+ */
+- (void)testCleanupWhileInitialRequestIsBeingPreparedDeliversOnce {
+    CompletionRaceRestAPI *api = (CompletionRaceRestAPI *)self.api;
+    ControlledCompletionNetwork *network = [ControlledCompletionNetwork new];
+    api.networkOverride = network;
+
+    NSString *url = @"https://test.example.com/api/cleanup-admission-race";
+    AdmissionRaceRestRequest *request = [AdmissionRaceRestRequest requestWithMethod:SFRestMethodGET
+                                                                               path:url
+                                                                        queryParams:nil];
+    request.initialPreparationStarted = dispatch_semaphore_create(0);
+    request.allowInitialPreparation = dispatch_semaphore_create(0);
+    request.requiresAuthentication = NO;
+
+    __block NSInteger successCount = 0;
+    __block NSInteger failureCount = 0;
+    __block NSError *receivedError;
+    XCTestExpectation *logoutFailure = [self expectationWithDescription:@"cleanup delivers logout failure"];
+    logoutFailure.assertForOverFulfill = YES;
+    dispatch_semaphore_t initialSendFinished = dispatch_semaphore_create(0);
+
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+        [api send:request failureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
+            failureCount++;
+            receivedError = error;
+            [logoutFailure fulfill];
+        } successBlock:^(id response, NSURLResponse *rawResponse) {
+            successCount++;
+        } shouldRetry:NO];
+        dispatch_semaphore_signal(initialSendFinished);
+    });
+
+    XCTAssertEqual(dispatch_semaphore_wait(request.initialPreparationStarted,
+                                           dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC))), 0,
+                   @"initial send should pause before publishing its task");
+    XCTAssertTrue([api.activeRequests containsObject:request]);
+    XCTAssertNil(request.sessionDataTask);
+
+    [api cleanup];
+    [self waitForExpectationsWithTimeout:2 handler:nil];
+
+    XCTAssertEqual(failureCount, 1);
+    XCTAssertEqualObjects(receivedError.domain, kSFRestErrorDomain);
+    XCTAssertEqual(api.activeRequests.count, 0u);
+    XCTAssertNil(request.sessionDataTask);
+
+    dispatch_semaphore_signal(request.allowInitialPreparation);
+    XCTAssertEqual(dispatch_semaphore_wait(initialSendFinished,
+                                           dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC))), 0,
+                   @"original send should finish after preparation is released");
+
+    if (network.pendingCount > 0) {
+        NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc] initWithURL:[NSURL URLWithString:url]
+                                                                  statusCode:500
+                                                                 HTTPVersion:@"HTTP/1.1"
+                                                                headerFields:nil];
+        NSData *data = [@"{\"error\":\"server_error\"}" dataUsingEncoding:NSUTF8StringEncoding];
+        [network deliverData:data response:response error:nil atIndex:0];
+    }
+
+    XCTAssertEqual(network.pendingCount, 0u,
+                   @"a request retired by cleanup must not publish a task");
+    XCTAssertEqual(failureCount, 1,
+                   @"cleanup block must be delivered exactly once");
+    XCTAssertEqual(successCount, 0);
+    XCTAssertNil(request.sessionDataTask);
+}
+
 - (void)testConcurrentReplayWhileSuccessfulResponseIsBeingPreparedDeliversOnce {
     [self runTerminalCallbackRaceWithDelivery:^(NSUInteger index) {
         [DeferredURLProtocol deliverResponseAtIndex:index statusCode:200];
