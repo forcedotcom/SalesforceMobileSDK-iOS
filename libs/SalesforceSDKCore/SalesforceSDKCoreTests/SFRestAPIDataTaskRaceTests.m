@@ -503,6 +503,9 @@ static NSMutableArray<DeferredURLProtocol *> *sPendingProtocols;
  *   2. cleanup drains the request and delivers its logout failure.
  *   3. The original sender resumes preparation.
  *
+ * A delayed loginWithCompletion: callback follows the same path by entering
+ * enqueueRequest: after cleanup has removed the request's active membership.
+ *
  * Once cleanup has retired the admission, the original sender must not publish a
  * task that can deliver the same failure block a second time.
  */
