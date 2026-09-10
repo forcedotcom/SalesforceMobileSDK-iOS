@@ -330,17 +330,25 @@ successBlock:(SFRestResponseBlock)successBlock
     __weak __typeof(self) weakSelf = self;
     NSURLRequest *finalRequest = [request prepareRequestForSend:self.user];
     if (finalRequest) {
-        SFNetwork *network;
         __block NSString *instanceIdentifier;
-        if (request.serviceHostType == SFSDKRestServiceHostTypeCustom) {
-            instanceIdentifier = [SFNetwork uniqueInstanceIdentifier];
-            network = [self networkForRequest:request identifier:instanceIdentifier];
-        } else {
-            network = [self networkForRequest:request];
-        }
-
         __block NSURLSessionDataTask *dataTask;
         @synchronized (self) {
+            // Request preparation and login can complete after cleanup or a refresh-failure
+            // flush has already retired this admission and delivered its failure block. Do not
+            // publish a task that could deliver the same terminal block a second time.
+            if (![self.activeRequests containsObject:request]) {
+                [SFSDKCoreLogger d:[self class] format:@"Ignoring enqueue for inactive request: %@", request.path];
+                return;
+            }
+
+            SFNetwork *network;
+            if (request.serviceHostType == SFSDKRestServiceHostTypeCustom) {
+                instanceIdentifier = [SFNetwork uniqueInstanceIdentifier];
+                network = [self networkForRequest:request identifier:instanceIdentifier];
+            } else {
+                network = [self networkForRequest:request];
+            }
+
             // Invariant: sendRequest: must remain nonblocking and invoke its completion asynchronously.
             dataTask = [network sendRequest:finalRequest dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
                 __strong typeof(weakSelf) strongSelf = weakSelf;
