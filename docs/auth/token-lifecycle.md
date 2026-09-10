@@ -125,6 +125,14 @@ one used for the request. When it changed, the refresher:
 - records `lastTokenRotationDate` on `SFOAuthCredentials`; and
 - registers the `RT` app feature marker for the account.
 
+`RT` is sticky and persisted with the user account. For a refresh of an existing account,
+`SFOAuthSessionRefresher` also computes the token request's `User-Agent` from the account that owns
+the credentials and passes it through `SFSDKOAuthTokenEndpointRequest`. `SFSDKOAuth2` installs that
+request-scoped value before sending. This guarantees that the first refresh after an app restart
+contains the owner's complete persisted feature set—including `RT` after a prior rotation—even if
+ambient current-user state has not been restored yet or identifies another account. Token requests
+without a known account retain `SFNetwork`'s current-user fallback.
+
 If a refresh response omits `refresh_token`, `SFSDKOAuth2` carries the request's existing refresh
 token into the parsed response. This preserves non-RTR sessions without making an omitted value
 look like a rotation.

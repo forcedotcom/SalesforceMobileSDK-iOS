@@ -371,6 +371,9 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
                                                             timeoutInterval:endpointReq.timeout];
     [request setHTTPMethod:kHttpMethodPost];
     [request setValue:kHttpPostContentType forHTTPHeaderField:kHttpHeaderContentType];
+    if (endpointReq.userAgent.length > 0) {
+        [request setValue:endpointReq.userAgent forHTTPHeaderField:@"User-Agent"];
+    }
     [request setHTTPShouldHandleCookies:NO];
     [self attachDPoPHeaderIfNeeded:request scope:endpointReq.credentialsIdentifier tokenType:endpointReq.tokenType];
     return request;

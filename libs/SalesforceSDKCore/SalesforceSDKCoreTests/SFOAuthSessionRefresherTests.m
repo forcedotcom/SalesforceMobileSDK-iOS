@@ -27,6 +27,7 @@
 #import "SFOAuthSessionRefresher+Internal.h"
 #import "SFOAuthCoordinator+Internal.h"
 #import "SFUserAccount+Internal.h"
+#import "SFUserAccountManager+Internal.h"
 #import "SFOAuthCredentials+Internal.h"
 #import "SFSDKOAuth2+Internal.h"
 #import "SFSDKAppFeatureMarkers.h"
@@ -36,6 +37,14 @@
 @interface SFSDKOAuthTokenEndpointResponse ()
 - (instancetype)initWithDictionary:(NSDictionary *)nvPairs parseAdditionalFields:(NSArray<NSString *> *)additionalOAuthParameterKeys;
 @end
+
+static NSSet<NSString *> *SFSDKFeatureMarkersFromUserAgent(NSString *userAgent) {
+    NSRange featurePrefixRange = [userAgent rangeOfString:@"ftr_"];
+    if (featurePrefixRange.location == NSNotFound) return [NSSet set];
+    NSString *featureSuffix = [userAgent substringFromIndex:NSMaxRange(featurePrefixRange)];
+    NSString *featureString = [featureSuffix componentsSeparatedByString:@" "].firstObject ?: @"";
+    return [NSSet setWithArray:[featureString componentsSeparatedByString:@"."]];
+}
 
 // Minimal SFSDKOAuthProtocol stub that immediately calls the completion block with a preset response.
 @interface SFSDKOAuthClientStub : NSObject <SFSDKOAuthProtocol>
@@ -236,6 +245,65 @@ SFSDK_USE_DEPRECATED_BEGIN
 
     // Cleanup
     [SFUserAccountManager sharedInstance].authClient = originalFactory;
+}
+
+- (void)test_givenCredentialOwnerDiffersFromCurrentUser_whenRefresh_thenEndpointRequestCarriesOwnerUserAgent {
+    SFUserAccountManager *accountManager = [SFUserAccountManager sharedInstance];
+    SFUserAccount *originalCurrentUser = accountManager.currentUser;
+
+    SFOAuthCredentials *ownerCredentials = self.oauthSessionRefresher.credentials;
+    SFUserAccount *ownerAccount = [[SFUserAccount alloc] initWithCredentials:ownerCredentials];
+    [accountManager saveAccountForUser:ownerAccount error:nil];
+    [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureRTR forUser:ownerAccount];
+    [SFSDKAppFeatureMarkers registerAppFeature:@"OW" forUser:ownerAccount];
+
+    SFOAuthCredentials *currentCredentials = [[SFOAuthCredentials alloc]
+                                               initWithIdentifier:[NSString stringWithFormat:@"CurrentCredentials_%u", arc4random()]
+                                               clientId:@"current-client-id"
+                                               encrypted:YES];
+    currentCredentials.userId = @"005000000000002";
+    currentCredentials.organizationId = @"00D000000000002";
+    currentCredentials.instanceUrl = [NSURL URLWithString:@"https://cs2.salesforce.com"];
+    currentCredentials.accessToken = @"current-access-token";
+    currentCredentials.refreshToken = @"current-refresh-token";
+    SFUserAccount *currentAccount = [[SFUserAccount alloc] initWithCredentials:currentCredentials];
+    [accountManager saveAccountForUser:currentAccount error:nil];
+    [SFSDKAppFeatureMarkers registerAppFeature:@"CU" forUser:currentAccount];
+    [accountManager setCurrentUserInternal:currentAccount];
+
+    NSDictionary *responseDict = @{ kSFOAuthAccessToken: @"new_access_token",
+                                    kSFOAuthRefreshToken: ownerCredentials.refreshToken };
+    SFSDKOAuthTokenEndpointResponse *response = [[SFSDKOAuthTokenEndpointResponse alloc]
+                                                  initWithDictionary:responseDict
+                                                  parseAdditionalFields:nil];
+    SFSDKOAuthClientStub *stub = [[SFSDKOAuthClientStub alloc] init];
+    stub.stubbedResponse = response;
+    SFAuthClientFactoryBlock originalFactory = accountManager.authClient;
+    accountManager.authClient = ^{ return stub; };
+
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Refresh carries credential-owner User-Agent"];
+    [self.oauthSessionRefresher refreshSessionWithCompletion:^(SFOAuthCredentials *updatedCredentials) {
+        [expectation fulfill];
+    } error:^(NSError *error) {
+        XCTFail(@"Refresh should not fail: %@", error);
+        [expectation fulfill];
+    }];
+    [self waitForExpectationsWithTimeout:2.0 handler:nil];
+
+    NSString *userAgent = stub.capturedRefreshRequest.userAgent;
+    XCTAssertNotNil(userAgent, @"Refresh endpoint request must carry an explicit credential-owner User-Agent");
+    NSSet<NSString *> *featureMarkers = SFSDKFeatureMarkersFromUserAgent(userAgent);
+    XCTAssertTrue([featureMarkers containsObject:@"OW"], @"Owner marker should be present in %@", userAgent);
+    XCTAssertTrue([featureMarkers containsObject:@"RT"], @"Persisted RT marker should be present in %@", userAgent);
+    XCTAssertFalse([featureMarkers containsObject:@"CU"], @"Ambient current-user marker must not leak into %@", userAgent);
+
+    accountManager.authClient = originalFactory;
+    [accountManager setCurrentUserInternal:originalCurrentUser];
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureRTR forUser:ownerAccount];
+    [SFSDKAppFeatureMarkers unregisterAppFeature:@"OW" forUser:ownerAccount];
+    [SFSDKAppFeatureMarkers unregisterAppFeature:@"CU" forUser:currentAccount];
+    [accountManager deleteAccountForUser:ownerAccount error:nil];
+    [accountManager deleteAccountForUser:currentAccount error:nil];
 }
 
 - (void)test_givenUnchangedRefreshToken_whenRefreshSucceeds_thenRTFlagNotRegistered {

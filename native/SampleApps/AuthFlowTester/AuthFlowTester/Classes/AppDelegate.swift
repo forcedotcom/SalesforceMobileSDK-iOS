@@ -35,6 +35,8 @@ import UniformTypeIdentifiers
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
+    static let uiTestLastTokenRequestUserAgentDefaultsKey = "AuthFlowTesterLastTokenRequestUserAgent"
+
     private struct UITestLoginHost {
         let name: String
         let host: String
@@ -43,9 +45,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private static let uiTestLoginHostsInfoKey = "SFDCOAuthLoginHosts"
     
     override init() {
-        
         super.init()
-        
+
+        #if DEBUG
+        configureTokenRequestUserAgentCaptureForUITesting()
+        #endif
         SalesforceManager.initializeSDK()
         #if DEBUG
         let shouldResetForUITesting = CommandLine.arguments.contains("--resetSDKForUITesting")
@@ -69,6 +73,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return .allow
         }
     }
+
+    #if DEBUG
+    /// Captures the final User-Agent attached by SFNetwork to token-endpoint requests. This is
+    /// enabled only for UI tests so production app behavior and diagnostics remain unchanged.
+    private func configureTokenRequestUserAgentCaptureForUITesting() {
+        UserDefaults.standard.removeObject(forKey: Self.uiTestLastTokenRequestUserAgentDefaultsKey)
+        guard CommandLine.arguments.contains("--captureTokenRequestUserAgent") else { return }
+
+        // Replaces SFNetwork's process-global metrics sink (and any prior handler); DEBUG + explicit launch argument only.
+        Network.metricsCollectedAction = { _, task, _ in
+            guard task.originalRequest?.url?.path == "/services/oauth2/token",
+                  let userAgent = task.originalRequest?.value(forHTTPHeaderField: "User-Agent") else {
+                return
+            }
+            UserDefaults.standard.set(userAgent, forKey: Self.uiTestLastTokenRequestUserAgentDefaultsKey)
+        }
+    }
+    #endif
     
     // MARK: - App delegate lifecycle
 
