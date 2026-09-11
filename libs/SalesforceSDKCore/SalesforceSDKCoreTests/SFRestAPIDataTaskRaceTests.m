@@ -41,7 +41,6 @@ successBlock:(SFRestResponseBlock)successBlock
 
 - (void)resendActiveRequestsRequiringAuthentication;
 - (void)flushPendingRequestQueue:(NSError *)error rawResponse:(NSURLResponse *)rawResponse;
-- (void)replayRequest:(SFRestRequest *)request response:(NSURLResponse *)response;
 - (id)prepareDataForDelegate:(NSData *)data request:(SFRestRequest *)request response:(NSURLResponse *)response;
 - (SFNetwork *)networkForRequest:(SFRestRequest *)request;
 - (BOOL)performIfCurrentDataTask:(NSURLSessionDataTask *)dataTask
@@ -1132,7 +1131,7 @@ static NSMutableArray<DeferredURLProtocol *> *sPendingProtocols;
     XCTAssertTrue([self waitForCondition:^BOOL{ return [DeferredURLProtocol pendingCount] >= 1; } timeout:2],
                   @"dataTask should be pending");
 
-    // Simulate a refresh cycle being active (as if a 401 triggered replayRequest:).
+    // Simulate a refresh cycle being active (as if a 401 triggered startAuthenticationRefreshForRequest:response:).
     self.api.refreshCycleActive = YES;
 
     // Logout triggers cleanup while refresh is in-flight.

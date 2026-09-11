@@ -408,6 +408,35 @@ B's sole task claims and delivers its terminal callback
 This is the admission-side counterpart to the completion race. Replay owns replacement of a
 published attempt; it never creates the initial attempt on behalf of an in-progress sender.
 
+### 9.6 Logout during an active refresh cycle
+
+A logout can arrive after `startAuthenticationRefreshForRequest:response:` has begun a refresh but
+before the coordinator resolves it. Cleanup does not wait for the refresh; it drains the queue
+immediately, and the eventual refresh result finds nothing to act on.
+
+```text
+401 elects the refresh cycle (refreshCycleActive = YES)
+  -> refresh POST is in flight at the coordinator
+
+logout -> cleanup:
+  under the lock: clear each current task, copy its failure block,
+                  drain activeRequests, clear refreshCycleActive
+  outside the lock: cancel the invalidated tasks, invoke the copied failure blocks
+
+refresh resolves later:
+  success -> resendActiveRequestsRequiringAuthentication snapshots an empty
+             activeRequests -> nothing to resend (no-op)
+  error   -> flushPendingRequestQueue snapshots an empty activeRequests ->
+             no failure blocks to invoke; logout mapping still runs but the
+             account is already being torn down (no-op on the request set)
+```
+
+Each pending request receives exactly one terminal callback — delivered by cleanup, not by the
+refresh outcome. Because cleanup clears `refreshCycleActive` and empties `activeRequests` under the
+lock, the later success and error branches operate on an empty snapshot and cannot deliver a second
+callback. Cleanup calls client code only after releasing the lock, and the refresh callbacks take
+the same lock to read the (now empty) queue, so neither path can deadlock against the other.
+
 ---
 
 ## 10. Concurrency Invariants
@@ -428,6 +457,9 @@ published attempt; it never creates the initial attempt on behalf of an in-progr
 10. A replayed REST request cannot automatically start a second auth refresh cycle.
 11. Refresh replay skips an active request with no published task; that state belongs either to
     its original sender or to the path already constructing a reserved successor.
+12. Cleanup during an active refresh cycle drains `activeRequests` and clears `refreshCycleActive`
+    under the lock; a later refresh success or error branch then operates on an empty snapshot and
+    delivers no additional callback.
 
 The focused regression coverage lives in `SFRestAPIDataTaskRaceTests`, with coordinator behavior
 covered by `SFSDKTokenRefreshCoordinatorTests` and token-endpoint nonce handling covered by the

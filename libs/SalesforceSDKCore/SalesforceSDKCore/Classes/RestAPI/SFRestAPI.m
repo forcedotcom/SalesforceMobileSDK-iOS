@@ -569,22 +569,9 @@ successBlock:(SFRestResponseBlock)successBlock
     return [[NSError alloc] initWithDomain:kSFRestErrorDomain code:statusCode userInfo:errorDict];
 }
 
-- (void)replayRequest:(SFRestRequest *)request response:(NSURLResponse *)response {
-    BOOL shouldStartRefresh = NO;
-    @synchronized (self) {
-        if (!self.refreshCycleActive) {
-            self.refreshCycleActive = YES;
-            shouldStartRefresh = YES;
-        }
-    }
-    if (shouldStartRefresh) {
-        [self startAuthenticationRefreshForRequest:request response:response];
-    }
-}
-
 - (void)startAuthenticationRefreshForRequest:(SFRestRequest *)request response:(NSURLResponse *)response {
-    NSString *replaySelectorName = NSStringFromSelector(@selector(replayRequest:response:));
-    [SFSDKCoreLogger i:[self class] format:@"%@: REST request failed due to expired credentials. Attempting to refresh credentials.", replaySelectorName];
+    NSString *refreshSelectorName = NSStringFromSelector(_cmd);
+    [SFSDKCoreLogger i:[self class] format:@"%@: REST request failed due to expired credentials. Attempting to refresh credentials.", refreshSelectorName];
 
     __weak __typeof(self) weakSelf = self;
     [[SFSDKTokenRefreshCoordinator sharedInstance]
@@ -594,7 +581,7 @@ successBlock:(SFRestResponseBlock)successBlock
         if (!strongSelf) {
             return;
         }
-        [SFSDKCoreLogger i:[strongSelf class] format:@"%@: Credentials refresh successful. Replaying original REST request.", replaySelectorName];
+        [SFSDKCoreLogger i:[strongSelf class] format:@"%@: Credentials refresh successful. Replaying original REST request.", refreshSelectorName];
         [strongSelf resendActiveRequestsRequiringAuthentication];
     }
      error:^(NSError *refreshError) {
@@ -604,7 +591,7 @@ successBlock:(SFRestResponseBlock)successBlock
         if ([refreshError.domain isEqualToString:kSFOAuthErrorDomain]) {
             SFUserAccount *user = strongSelf.user;
             void (^triggerLogout)(SFLogoutReason, NSString *) = ^(SFLogoutReason reason, NSString *logMessage) {
-                [SFSDKCoreLogger i:[strongSelf class] format:@"%@ %@", replaySelectorName, logMessage];
+                [SFSDKCoreLogger i:[strongSelf class] format:@"%@ %@", refreshSelectorName, logMessage];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [[SFUserAccountManager sharedInstance] logoutUser:user reason:reason];
                 });
@@ -615,7 +602,7 @@ successBlock:(SFRestResponseBlock)successBlock
             } else if (errorCode == SFOAuthErrorCodeAppAttestationFailed) {
                 triggerLogout(SFLogoutReasonAppAttestationFailed, @"App attestation failed, triggering logout.");
             } else if (errorCode == SFOAuthErrorCodeAppAttestationFailedRetry) {
-                [SFSDKCoreLogger i:[strongSelf class] format:@"%@ App attestation retry needed, no automatic logout.", replaySelectorName];
+                [SFSDKCoreLogger i:[strongSelf class] format:@"%@ App attestation retry needed, no automatic logout.", refreshSelectorName];
             }
         }
     }];
