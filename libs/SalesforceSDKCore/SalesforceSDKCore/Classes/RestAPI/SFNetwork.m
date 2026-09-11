@@ -27,7 +27,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFNetwork.h"
+#import "SFNetwork+Internal.h"
 #import "SalesforceSDKManager.h"
 #import <SalesforceSDKCommon/SFSDKSafeMutableDictionary.h>
 
@@ -84,18 +84,28 @@ static SFSDKMetricsCollectedBlock _metricsCollectedAction = nil;
     return self;
 }
 
-- (NSURLSessionDataTask *)sendRequest:(NSMutableURLRequest *)urlRequest dataResponseBlock:(SFDataResponseBlock)dataResponseBlock {
-
+- (NSURLSessionDataTask *)dataTaskForRequest:(NSMutableURLRequest *)urlRequest dataResponseBlock:(SFDataResponseBlock)dataResponseBlock {
     // Sets Mobile SDK user agent if it hasn't been set already elsewhere.
     if (![urlRequest.allHTTPHeaderFields.allKeys containsObject:@"User-Agent"]) {
         [urlRequest setValue:[SalesforceSDKManager sharedManager].userAgentString(@"") forHTTPHeaderField:@"User-Agent"];
     }
-    NSURLSessionDataTask *dataTask = [self.activeSession dataTaskWithRequest:urlRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+    return [self.activeSession dataTaskWithRequest:urlRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (dataResponseBlock) {
             dataResponseBlock(data, response, error);
         }
     }];
+}
+
+- (void)resumeDataTask:(NSURLSessionDataTask *)dataTask {
     [dataTask resume];
+}
+
+- (NSURLSessionDataTask *)sendRequest:(NSURLRequest *)urlRequest dataResponseBlock:(SFDataResponseBlock)dataResponseBlock {
+    NSMutableURLRequest *requestToSend = [urlRequest isKindOfClass:[NSMutableURLRequest class]]
+        ? (NSMutableURLRequest *)urlRequest
+        : [urlRequest mutableCopy];
+    NSURLSessionDataTask *dataTask = [self dataTaskForRequest:requestToSend dataResponseBlock:dataResponseBlock];
+    [self resumeDataTask:dataTask];
     return dataTask;
 }
 

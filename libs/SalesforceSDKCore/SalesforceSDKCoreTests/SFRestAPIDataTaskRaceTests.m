@@ -26,7 +26,10 @@
 #import "SFRestAPI+Internal.h"
 #import "SFRestRequest+Internal.h"
 #import "SFRestAPI+Blocks.h"
-#import "SFNetwork.h"
+#import "SFNetwork+Internal.h"
+#import "SFUserAccountManager+Internal.h"
+#import "SFUserAccount+Internal.h"
+#import "SFOAuthCredentials+Internal.h"
 
 #pragma mark - Expose private methods for testing
 
@@ -41,7 +44,6 @@ successBlock:(SFRestResponseBlock)successBlock
 
 - (void)resendActiveRequestsRequiringAuthentication;
 - (void)flushPendingRequestQueue:(NSError *)error rawResponse:(NSURLResponse *)rawResponse;
-- (void)replayRequest:(SFRestRequest *)request response:(NSURLResponse *)response;
 - (id)prepareDataForDelegate:(NSData *)data request:(SFRestRequest *)request response:(NSURLResponse *)response;
 - (SFNetwork *)networkForRequest:(SFRestRequest *)request;
 - (BOOL)performIfCurrentDataTask:(NSURLSessionDataTask *)dataTask
@@ -160,6 +162,7 @@ successBlock:(SFRestResponseBlock)successBlock
 @interface ControlledCompletionNetwork : SFNetwork
 @property (nonatomic, strong) NSMutableArray<NSURLSessionDataTask *> *tasks;
 @property (nonatomic, strong) NSMutableArray *completionBlocks;
+@property (nonatomic, assign) NSUInteger resumeCount;
 - (NSUInteger)pendingCount;
 - (void)deliverData:(NSData *)data response:(NSURLResponse *)response error:(NSError *)error atIndex:(NSUInteger)index;
 @end
@@ -175,13 +178,19 @@ successBlock:(SFRestResponseBlock)successBlock
     return self;
 }
 
-- (NSURLSessionDataTask *)sendRequest:(NSURLRequest *)urlRequest dataResponseBlock:(SFDataResponseBlock)dataResponseBlock {
+- (NSURLSessionDataTask *)dataTaskForRequest:(NSMutableURLRequest *)urlRequest dataResponseBlock:(SFDataResponseBlock)dataResponseBlock {
     NSURLSessionDataTask *task = [[NSURLSession sharedSession] dataTaskWithRequest:urlRequest];
     @synchronized (self) {
         [self.tasks addObject:task];
         [self.completionBlocks addObject:[dataResponseBlock copy]];
     }
     return task;
+}
+
+- (void)resumeDataTask:(NSURLSessionDataTask *)dataTask {
+    @synchronized (self) {
+        self.resumeCount++;
+    }
 }
 
 - (NSUInteger)pendingCount {
@@ -196,6 +205,59 @@ successBlock:(SFRestResponseBlock)successBlock
         completionBlock = [self.completionBlocks[index] copy];
     }
     completionBlock(data, response, error);
+}
+
+@end
+
+#pragma mark - RefreshCycleObservingNetwork
+
+@interface RefreshCycleObservingNetwork : ControlledCompletionNetwork
+@property (nonatomic, weak) SFRestAPI *api;
+@property (nonatomic, assign) NSUInteger taskCreationCount;
+@property (nonatomic, assign) BOOL refreshCycleActiveDuringReplayTaskCreation;
+@end
+
+@implementation RefreshCycleObservingNetwork
+
+- (NSURLSessionDataTask *)dataTaskForRequest:(NSMutableURLRequest *)urlRequest dataResponseBlock:(SFDataResponseBlock)dataResponseBlock {
+    self.taskCreationCount++;
+    if (self.taskCreationCount == 2) {
+        self.refreshCycleActiveDuringReplayTaskCreation = self.api.refreshCycleActive;
+    }
+    return [super dataTaskForRequest:urlRequest dataResponseBlock:dataResponseBlock];
+}
+
+@end
+
+#pragma mark - LockBoundaryNetwork
+
+/**
+ * Starts cleanup from another queue while SFRestAPI is asking the network to
+ * create its suspended task. Cleanup can finish only when task creation is not
+ * running under the SFRestAPI state lock.
+ */
+@interface LockBoundaryNetwork : ControlledCompletionNetwork
+@property (nonatomic, weak) SFRestAPI *api;
+@property (nonatomic, assign) NSUInteger triggerTaskCreationNumber;
+@property (nonatomic, assign) NSUInteger taskCreationCount;
+@property (atomic, assign) BOOL cleanupFinishedBeforeTaskCreationReturned;
+@end
+
+@implementation LockBoundaryNetwork
+
+- (NSURLSessionDataTask *)dataTaskForRequest:(NSMutableURLRequest *)urlRequest dataResponseBlock:(SFDataResponseBlock)dataResponseBlock {
+    self.taskCreationCount++;
+    if (self.taskCreationCount == self.triggerTaskCreationNumber) {
+        dispatch_semaphore_t cleanupFinished = dispatch_semaphore_create(0);
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+            [self.api cleanup];
+            dispatch_semaphore_signal(cleanupFinished);
+        });
+        self.cleanupFinishedBeforeTaskCreationReturned =
+            dispatch_semaphore_wait(cleanupFinished,
+                                    dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC))) == 0;
+    }
+    return [super dataTaskForRequest:urlRequest dataResponseBlock:dataResponseBlock];
 }
 
 @end
@@ -293,6 +355,51 @@ static NSMutableArray<DeferredURLProtocol *> *sPendingProtocols;
 
 @end
 
+#pragma mark - ClassMonitorReentrantObserver
+
+/**
+ * Test-only "currentUser" KVO observer modeling an application observer that
+ * re-enters SFRestAPI (e.g. +sharedInstance / RestClient.shared) from its callback.
+ * KVO fires synchronously from setCurrentUserInternal: while _accountsLock is held,
+ * so this callback runs holding _accountsLock and then wants the SFRestAPI class
+ * monitor -- the second edge of the logout/login ABBA cycle.
+ */
+@interface ClassMonitorReentrantObserver : NSObject
+@property (nonatomic, strong) dispatch_semaphore_t releaseResolvingThread;
+@property (atomic, assign) BOOL reenteredClassMonitor;
+- (instancetype)initWithReleaseSemaphore:(dispatch_semaphore_t)releaseResolvingThread;
+@end
+
+@implementation ClassMonitorReentrantObserver
+
+- (instancetype)initWithReleaseSemaphore:(dispatch_semaphore_t)releaseResolvingThread {
+    self = [super init];
+    if (self) {
+        _releaseResolvingThread = releaseResolvingThread;
+    }
+    return self;
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context {
+    if (![keyPath isEqualToString:@"currentUser"]) {
+        return;
+    }
+    // We are inside setCurrentUserInternal: and therefore hold _accountsLock.
+    // Release the parked resolving thread so it proceeds to acquire _accountsLock
+    // (which we hold), then re-enter the SFRestAPI class monitor as an app observer
+    // would. Post-fix the monitor is free (the resolving thread does not hold it),
+    // so this returns; pre-fix the resolving thread holds it -> deadlock.
+    dispatch_semaphore_signal(self.releaseResolvingThread);
+    @synchronized ([SFRestAPI class]) {
+        self.reenteredClassMonitor = YES;
+    }
+}
+
+@end
+
 #pragma mark - Tests
 
 @interface SFRestAPIDataTaskRaceTests : XCTestCase
@@ -330,6 +437,95 @@ static NSMutableArray<DeferredURLProtocol *> *sPendingProtocols;
     SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodGET path:url queryParams:nil];
     request.requiresAuthentication = NO;
     return request;
+}
+
+/**
+ * Regression for the multi-user logout/login ABBA deadlock (W-24142318, Phase 7).
+ *
+ * Two lock-order edges could form a cycle during a logout window:
+ *   Edge 1: +sharedInstanceWithUser: resolving currentUser inside
+ *           @synchronized([SFRestAPI class]); the currentUser getter takes
+ *           SFUserAccountManager's _accountsLock when _currentUser is nil.
+ *   Edge 2: setCurrentUserInternal: fires the "currentUser" KVO while holding
+ *           _accountsLock; an app observer re-enters the SFRestAPI class monitor.
+ *
+ * If both edges exist, Thread B (resolving currentUser) holds the class monitor and
+ * wants _accountsLock while Thread M (KVO observer) holds _accountsLock and wants the
+ * class monitor -> deadlock. The Seam 1 fix resolves currentUser BEFORE the class
+ * monitor, so Thread B never holds the monitor across _accountsLock and the cycle
+ * cannot close. This test parks Thread B at the class-monitor/currentUser seam via
+ * SFRestAPI.currentUserResolutionHookForTesting and drives Edge 2 on another queue;
+ * it completes with the fix and deadlocks (times out) if the resolution is ever moved
+ * back inside the class monitor.
+ */
+- (void)test_givenLogoutWindow_whenCurrentUserKVOObserverReentersClassMonitor_thenSharedInstanceDoesNotDeadlock {
+    SFUserAccountManager *uam = [SFUserAccountManager sharedInstance];
+    SFUserAccount *origUser = uam.currentUser;
+
+    // Register a managed account so setCurrentUserInternal: fires the currentUser KVO.
+    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"restapi-deadlock-identifier"
+                                                                            clientId:@"fakeClientIdForTesting"
+                                                                           encrypted:YES];
+    credentials.identityUrl = [NSURL URLWithString:@"https://login.salesforce.com/id/00Dxx0000000001/005xx0000000001"];
+    SFUserAccount *user = [[SFUserAccount alloc] initWithCredentials:credentials];
+    NSError *saveError = nil;
+    [uam saveAccountForUser:user error:&saveError];
+    XCTAssertNil(saveError, @"Failed to register test account: %@", saveError);
+
+    // Enter the logout window with a non-nil current user so the pending nil-set fires
+    // KVO; once niled, Thread B's currentUser getter takes the _accountsLock path.
+    [uam setCurrentUserInternal:user];
+
+    dispatch_semaphore_t bReachedResolutionSeam = dispatch_semaphore_create(0);
+    dispatch_semaphore_t releaseResolvingThread = dispatch_semaphore_create(0);
+    const int64_t fiveSeconds = (int64_t)(5 * NSEC_PER_SEC);
+
+    // Thread B parks at the class-monitor/currentUser boundary: announce arrival,
+    // then wait until Thread M holds _accountsLock and is re-entering the monitor.
+    __block BOOL hookFired = NO;
+    SFRestAPI.currentUserResolutionHookForTesting = ^{
+        hookFired = YES;
+        SFRestAPI.currentUserResolutionHookForTesting = nil; // one-shot
+        dispatch_semaphore_signal(bReachedResolutionSeam);
+        dispatch_semaphore_wait(releaseResolvingThread, dispatch_time(DISPATCH_TIME_NOW, fiveSeconds));
+    };
+
+    XCTestExpectation *bReturned = [self expectationWithDescription:@"Thread B +sharedInstanceWithUser: returns"];
+    SFUserAccount *nilUser = nil; // resolve currentUser inside +sharedInstanceWithUser:
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+        (void)[SFRestAPI sharedInstanceWithUser:nilUser];
+        [bReturned fulfill];
+    });
+
+    // Wait until Thread B is parked at the seam.
+    XCTAssertEqual(0, dispatch_semaphore_wait(bReachedResolutionSeam, dispatch_time(DISPATCH_TIME_NOW, fiveSeconds)),
+                   @"Thread B never reached the currentUser resolution seam");
+
+    // Thread M runs the logout transition on another queue so a regression deadlock
+    // stalls only worker threads and this test can fail via expectation timeout
+    // instead of hanging the main thread.
+    ClassMonitorReentrantObserver *observer = [[ClassMonitorReentrantObserver alloc] initWithReleaseSemaphore:releaseResolvingThread];
+    [uam addObserver:observer forKeyPath:@"currentUser" options:0 context:NULL];
+
+    XCTestExpectation *mReturned = [self expectationWithDescription:@"Thread M setCurrentUserInternal: returns"];
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+        [uam setCurrentUserInternal:nil]; // fires currentUser KVO under _accountsLock
+        [mReturned fulfill];
+    });
+
+    [self waitForExpectations:@[bReturned, mReturned] timeout:10.0];
+
+    [uam removeObserver:observer forKeyPath:@"currentUser"];
+    XCTAssertTrue(hookFired, @"currentUser resolution seam did not fire");
+    XCTAssertTrue(observer.reenteredClassMonitor, @"KVO observer did not re-enter the class monitor");
+
+    // Cleanup: restore account-manager state so later tests start clean.
+    SFRestAPI.currentUserResolutionHookForTesting = nil;
+    [SFRestAPI removeSharedInstanceWithUser:user];
+    [uam setCurrentUserInternal:nil];
+    NSError *deleteError = nil;
+    [uam deleteAccountForUser:user error:&deleteError];
+    [uam setCurrentUserInternal:origUser];
 }
 
 /**
@@ -568,12 +764,160 @@ static NSMutableArray<DeferredURLProtocol *> *sPendingProtocols;
         [network deliverData:data response:response error:nil atIndex:0];
     }
 
-    XCTAssertEqual(network.pendingCount, 0u,
-                   @"a request retired by cleanup must not publish a task");
+    XCTAssertEqual(network.pendingCount, 1u,
+                   @"task creation may finish after cleanup, but the task must remain suspended");
+    XCTAssertEqual(network.resumeCount, 0u,
+                   @"a request retired by cleanup must not start its task");
     XCTAssertEqual(failureCount, 1,
                    @"cleanup block must be delivered exactly once");
     XCTAssertEqual(successCount, 0);
     XCTAssertNil(request.sessionDataTask);
+}
+
+/**
+ * Verifies that task creation does not execute while the SFRestAPI state lock
+ * is held. The network starts cleanup on another queue and waits for it before
+ * returning its suspended task. If enqueueRequest holds the state lock around
+ * task creation, cleanup cannot finish and this assertion fails after timeout.
+ */
+- (void)testNetworkTaskCreationDoesNotHoldStateLock {
+    CompletionRaceRestAPI *api = (CompletionRaceRestAPI *)self.api;
+    LockBoundaryNetwork *network = [LockBoundaryNetwork new];
+    network.api = api;
+    network.triggerTaskCreationNumber = 1;
+    api.networkOverride = network;
+
+    __block NSInteger failureCount = 0;
+    XCTestExpectation *logoutFailure = [self expectationWithDescription:@"cleanup delivers logout failure"];
+    logoutFailure.assertForOverFulfill = YES;
+    SFRestRequest *request = [self makeRequest];
+
+    [api send:request failureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
+        failureCount++;
+        [logoutFailure fulfill];
+    } successBlock:^(id response, NSURLResponse *rawResponse) {
+        XCTFail(@"request retired during task creation must not succeed");
+    } shouldRetry:NO];
+
+    [self waitForExpectationsWithTimeout:2 handler:nil];
+
+    XCTAssertTrue(network.cleanupFinishedBeforeTaskCreationReturned,
+                  @"network task creation must not run under the SFRestAPI state lock");
+    XCTAssertEqual(network.pendingCount, 1u);
+    XCTAssertEqual(network.resumeCount, 0u,
+                   @"cleanup retired the request before its task could start");
+    XCTAssertEqual(failureCount, 1);
+    XCTAssertNil(request.sessionDataTask);
+    XCTAssertEqual(api.activeRequests.count, 0u);
+}
+
+/**
+ * Authentication replay used to call send: recursively while holding the state
+ * lock. Verify replacement task creation also happens after that lock is released.
+ */
+- (void)testAuthenticationReplayTaskCreationDoesNotHoldStateLock {
+    CompletionRaceRestAPI *api = (CompletionRaceRestAPI *)self.api;
+    LockBoundaryNetwork *network = [LockBoundaryNetwork new];
+    network.api = api;
+    network.triggerTaskCreationNumber = 2;
+    api.networkOverride = network;
+
+    __block NSInteger failureCount = 0;
+    XCTestExpectation *logoutFailure = [self expectationWithDescription:@"cleanup retires replay"];
+    logoutFailure.assertForOverFulfill = YES;
+    SFRestRequest *request = [self makeRequest];
+
+    [api send:request failureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
+        failureCount++;
+        [logoutFailure fulfill];
+    } successBlock:^(id response, NSURLResponse *rawResponse) {
+        XCTFail(@"request retired during replay task creation must not succeed");
+    } shouldRetry:NO];
+
+    XCTAssertEqual(network.pendingCount, 1u);
+    XCTAssertEqual(network.resumeCount, 1u);
+    [api resendActiveRequestsRequiringAuthentication];
+    [self waitForExpectationsWithTimeout:2 handler:nil];
+
+    XCTAssertTrue(network.cleanupFinishedBeforeTaskCreationReturned,
+                  @"authentication replay task creation must not run under the state lock");
+    XCTAssertEqual(network.pendingCount, 2u);
+    XCTAssertEqual(network.resumeCount, 1u,
+                   @"cleanup must retire the replay before its suspended task starts");
+    XCTAssertEqual(failureCount, 1);
+    XCTAssertNil(request.sessionDataTask);
+    XCTAssertEqual(api.activeRequests.count, 0u);
+}
+
+/**
+ * The completed refresh cycle and its replay snapshot must transition as one
+ * state operation. Otherwise a newly admitted request can miss the snapshot,
+ * receive a 401 while replay tasks are being built, and incorrectly coalesce
+ * onto a refresh cycle that has no future completion left to replay it.
+ */
+- (void)testAuthenticationReplayEndsRefreshCycleBeforeTaskCreation {
+    CompletionRaceRestAPI *api = (CompletionRaceRestAPI *)self.api;
+    RefreshCycleObservingNetwork *network = [RefreshCycleObservingNetwork new];
+    network.api = api;
+    api.networkOverride = network;
+
+    SFRestRequest *request = [self makeRequest];
+    [api send:request
+ failureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {}
+ successBlock:^(id response, NSURLResponse *rawResponse) {}
+  shouldRetry:NO];
+
+    XCTAssertEqual(network.pendingCount, 1u);
+    api.refreshCycleActive = YES;
+    [api resendActiveRequestsRequiringAuthentication];
+
+    XCTAssertEqual(network.pendingCount, 2u);
+    XCTAssertFalse(network.refreshCycleActiveDuringReplayTaskCreation,
+                   @"requests admitted after the replay snapshot must be able to start a new refresh");
+    XCTAssertFalse(api.refreshCycleActive);
+}
+
+/**
+ * DPoP nonce replay is another recursive enqueue path. It must reserve the
+ * successor under the state lock, then harvest the nonce and create the task
+ * only after releasing the lock.
+ */
+- (void)testDPoPReplayTaskCreationDoesNotHoldStateLock {
+    CompletionRaceRestAPI *api = (CompletionRaceRestAPI *)self.api;
+    LockBoundaryNetwork *network = [LockBoundaryNetwork new];
+    network.api = api;
+    network.triggerTaskCreationNumber = 2;
+    api.networkOverride = network;
+
+    __block NSInteger failureCount = 0;
+    XCTestExpectation *logoutFailure = [self expectationWithDescription:@"cleanup retires DPoP replay"];
+    logoutFailure.assertForOverFulfill = YES;
+    SFRestRequest *request = [self makeRequest];
+
+    [api send:request failureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
+        failureCount++;
+        [logoutFailure fulfill];
+    } successBlock:^(id response, NSURLResponse *rawResponse) {
+        XCTFail(@"request retired during DPoP replay task creation must not succeed");
+    } shouldRetry:NO];
+
+    NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc] initWithURL:request.sessionDataTask.currentRequest.URL
+                                                              statusCode:400
+                                                             HTTPVersion:@"HTTP/1.1"
+                                                            headerFields:nil];
+    NSData *data = [@"{\"error\":\"use_dpop_nonce\"}" dataUsingEncoding:NSUTF8StringEncoding];
+    [network deliverData:data response:response error:nil atIndex:0];
+    [self waitForExpectationsWithTimeout:2 handler:nil];
+
+    XCTAssertTrue(network.cleanupFinishedBeforeTaskCreationReturned,
+                  @"DPoP replay task creation must not run under the state lock");
+    XCTAssertTrue(request.dpopNonceRetried);
+    XCTAssertEqual(network.pendingCount, 2u);
+    XCTAssertEqual(network.resumeCount, 1u,
+                   @"cleanup must retire the DPoP replay before its suspended task starts");
+    XCTAssertEqual(failureCount, 1);
+    XCTAssertNil(request.sessionDataTask);
+    XCTAssertEqual(api.activeRequests.count, 0u);
 }
 
 - (void)testConcurrentReplayWhileSuccessfulResponseIsBeingPreparedDeliversOnce {
@@ -924,7 +1268,7 @@ static NSMutableArray<DeferredURLProtocol *> *sPendingProtocols;
     XCTAssertTrue([self waitForCondition:^BOOL{ return [DeferredURLProtocol pendingCount] >= 1; } timeout:2],
                   @"dataTask should be pending");
 
-    // Simulate a refresh cycle being active (as if a 401 triggered replayRequest:).
+    // Simulate a refresh cycle being active (as if a 401 triggered startAuthenticationRefreshForRequest:response:).
     self.api.refreshCycleActive = YES;
 
     // Logout triggers cleanup while refresh is in-flight.

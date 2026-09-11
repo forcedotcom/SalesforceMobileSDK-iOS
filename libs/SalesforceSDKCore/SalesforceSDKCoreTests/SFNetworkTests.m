@@ -153,4 +153,20 @@
     XCTAssertEqualObjects(userAgent, expectedUserAgent, @"User-Agent header should match SDK manager's user agent");
 }
 
+- (void)testImmutableRequestUserAgent {
+    SFNetwork *network = [SFNetwork sharedEphemeralInstance];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"https://www.salesforce.com"]];
+    XCTestExpectation *completionExpectation = [self expectationWithDescription:@"immutable request completion"];
+    NSURLSessionDataTask *task = [network sendRequest:request dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
+        [completionExpectation fulfill];
+    }];
+
+    NSString *userAgent = task.currentRequest.allHTTPHeaderFields[@"User-Agent"];
+    NSString *expectedUserAgent = [SalesforceSDKManager sharedManager].userAgentString(@"");
+    XCTAssertEqualObjects(userAgent, expectedUserAgent,
+                          @"SFNetwork must safely copy an immutable request before adding User-Agent");
+    [task cancel];
+    [self waitForExpectations:@[completionExpectation] timeout:5];
+}
+
 @end

@@ -48,7 +48,7 @@
 failureBlock:(SFRestRequestFailBlock)failureBlock
 successBlock:(SFRestResponseBlock)successBlock
  shouldRetry:(BOOL)shouldRetry;
-- (void)replayRequest:(SFRestRequest *)request response:(NSURLResponse *)response;
+- (void)startAuthenticationRefreshForRequest:(SFRestRequest *)request response:(NSURLResponse *)response;
 @end
 
 @interface SFRestAPIReplayTestStub : NSObject <SFSDKOAuthProtocol>
@@ -106,7 +106,7 @@ successBlock:(SFRestResponseBlock)successBlock
     [super tearDown];
 }
 
-- (void)test_given_invalidGrant_when_replayRequest_then_logsOutWithTokenExpired {
+- (void)test_given_invalidGrant_when_startAuthenticationRefresh_then_logsOutWithTokenExpired {
     // Arrange: stub returns invalid_grant error
     NSDictionary *errorDict = @{
         @"error": @"invalid_grant",
@@ -135,18 +135,18 @@ successBlock:(SFRestResponseBlock)successBlock
         XCTFail(@"Should not succeed");
     } shouldRetry:NO];
 
-    // Trigger replay by simulating a 401
+    // Trigger the refresh path by simulating a 401
     NSHTTPURLResponse *unauthorizedResponse = [[NSHTTPURLResponse alloc]
                                                 initWithURL:[NSURL URLWithString:@"https://test.salesforce.com/services/data/v66.0"]
                                                 statusCode:401
                                                 HTTPVersion:@"HTTP/1.1"
                                                 headerFields:nil];
 
-    // Use performSelector to invoke replayRequest:response: since it's private
-    if ([self.restAPI respondsToSelector:@selector(replayRequest:response:)]) {
+    // Use performSelector to invoke startAuthenticationRefreshForRequest:response: since it's private
+    if ([self.restAPI respondsToSelector:@selector(startAuthenticationRefreshForRequest:response:)]) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-        [self.restAPI performSelector:@selector(replayRequest:response:)
+        [self.restAPI performSelector:@selector(startAuthenticationRefreshForRequest:response:)
                            withObject:request
                            withObject:unauthorizedResponse];
 #pragma clang diagnostic pop
@@ -160,7 +160,7 @@ successBlock:(SFRestResponseBlock)successBlock
     XCTAssertEqualObjects(receivedError.userInfo[kSFOAuthError], @"invalid_grant", @"Wire value should be preserved");
 }
 
-- (void)test_given_appAttestFailed_when_replayRequest_then_logsOutWithAppAttestationFailed {
+- (void)test_given_appAttestFailed_when_startAuthenticationRefresh_then_logsOutWithAppAttestationFailed {
     // Arrange: stub returns app_attest_failed error
     NSDictionary *errorDict = @{
         @"error": @"app_attest_failed",
@@ -189,17 +189,17 @@ successBlock:(SFRestResponseBlock)successBlock
         XCTFail(@"Should not succeed");
     } shouldRetry:NO];
 
-    // Trigger replay
+    // Trigger the refresh path
     NSHTTPURLResponse *unauthorizedResponse = [[NSHTTPURLResponse alloc]
                                                 initWithURL:[NSURL URLWithString:@"https://test.salesforce.com/services/data/v66.0"]
                                                 statusCode:401
                                                 HTTPVersion:@"HTTP/1.1"
                                                 headerFields:nil];
 
-    if ([self.restAPI respondsToSelector:@selector(replayRequest:response:)]) {
+    if ([self.restAPI respondsToSelector:@selector(startAuthenticationRefreshForRequest:response:)]) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-        [self.restAPI performSelector:@selector(replayRequest:response:)
+        [self.restAPI performSelector:@selector(startAuthenticationRefreshForRequest:response:)
                            withObject:request
                            withObject:unauthorizedResponse];
 #pragma clang diagnostic pop
@@ -207,7 +207,7 @@ successBlock:(SFRestResponseBlock)successBlock
 
     [self waitForExpectations:@[failureExpectation] timeout:5.0];
 
-    // Assert: wire value is preserved so replayRequest can parse it via SFOAuthErrorCode.from(_:)
+    // Assert: wire value is preserved so the refresh error path can parse it via SFOAuthErrorCode.from(_:)
     XCTAssertNotNil(receivedError, @"Request should receive error");
     XCTAssertEqualObjects(receivedError.userInfo[kSFOAuthError], @"app_attest_failed", @"Wire value should be preserved");
     XCTAssertEqual([SFOAuthErrorCodeHelper from:receivedError.userInfo[kSFOAuthError]],
@@ -215,7 +215,7 @@ successBlock:(SFRestResponseBlock)successBlock
                    @"Wire value should map to appAttestationFailed via typed enum");
 }
 
-- (void)test_given_appAttestFailedRetry_when_replayRequest_then_doesNotLogout_andFlushesErrorToPending {
+- (void)test_given_appAttestFailedRetry_when_startAuthenticationRefresh_then_doesNotLogout_andFlushesErrorToPending {
     // Arrange: stub returns app_attest_failed_retry error
     NSDictionary *errorDict = @{
         @"error": @"app_attest_failed_retry",
@@ -244,17 +244,17 @@ successBlock:(SFRestResponseBlock)successBlock
         XCTFail(@"Should not succeed");
     } shouldRetry:NO];
 
-    // Trigger replay
+    // Trigger the refresh path
     NSHTTPURLResponse *unauthorizedResponse = [[NSHTTPURLResponse alloc]
                                                 initWithURL:[NSURL URLWithString:@"https://test.salesforce.com/services/data/v66.0"]
                                                 statusCode:401
                                                 HTTPVersion:@"HTTP/1.1"
                                                 headerFields:nil];
 
-    if ([self.restAPI respondsToSelector:@selector(replayRequest:response:)]) {
+    if ([self.restAPI respondsToSelector:@selector(startAuthenticationRefreshForRequest:response:)]) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-        [self.restAPI performSelector:@selector(replayRequest:response:)
+        [self.restAPI performSelector:@selector(startAuthenticationRefreshForRequest:response:)
                            withObject:request
                            withObject:unauthorizedResponse];
 #pragma clang diagnostic pop
@@ -262,7 +262,7 @@ successBlock:(SFRestResponseBlock)successBlock
 
     [self waitForExpectations:@[failureExpectation] timeout:5.0];
 
-    // Assert: wire value is preserved so replayRequest can parse it via SFOAuthErrorCode.from(_:)
+    // Assert: wire value is preserved so the refresh error path can parse it via SFOAuthErrorCode.from(_:)
     XCTAssertNotNil(receivedError, @"Request should receive error");
     XCTAssertEqualObjects(receivedError.userInfo[kSFOAuthError], @"app_attest_failed_retry", @"Wire value should be preserved");
     XCTAssertEqual([SFOAuthErrorCodeHelper from:receivedError.userInfo[kSFOAuthError]],
