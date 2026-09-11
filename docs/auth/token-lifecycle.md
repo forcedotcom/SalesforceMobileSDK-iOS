@@ -305,7 +305,50 @@ belonging to the old attempt.
 
 ---
 
-## 8. Cleanup and Failure Semantics
+## 8. Shared-Instance Acquisition and Lock Ordering
+
+`SFRestAPI` instances are scoped per user and community. The class factory methods
+`+sharedInstanceWithUser:`, `+sharedGlobalInstance`, and `+removeSharedInstanceWithUser:`
+guard the shared-instance registry (`sfRestApiList`) with a **class-level** monitor,
+`@synchronized([SFRestAPI class])`. This monitor is distinct from the per-instance
+`@synchronized(self)` request-state lock in sections 6–7.
+
+When a factory method is called without an explicit user, it resolves the current user
+from `SFUserAccountManager`. The `currentUser` getter acquires the account manager's
+`_accountsLock` when no user is cached — precisely the state a logout window creates,
+because `setCurrentUserInternal:nil` nils the cached user. Independently,
+`setCurrentUserInternal:` fires the `currentUser` KVO synchronously **while holding
+`_accountsLock`**; an application observer of `currentUser` may re-enter `SFRestAPI`
+(for example `+sharedInstance` or `RestClient.shared`) from that callback and take the
+class monitor.
+
+Those two facts form an ABBA lock-ordering hazard across a logout/login window:
+
+```text
+Thread B (background, request right after login)   Thread M (main, setCurrentUserInternal:)
+  holds  @synchronized([SFRestAPI class])            holds  _accountsLock
+  wants  _accountsLock  <──────────────────────────► fires currentUser KVO
+                                                        -> app observer re-enters SFRestAPI
+                                                        wants @synchronized([SFRestAPI class])
+```
+
+To remove the hazard, the factory methods resolve `currentUser` **before** acquiring
+the class monitor. The class monitor therefore never nests `_accountsLock`, so the
+cycle cannot close regardless of what an application `currentUser` observer does. The
+monitor still serializes registry mutation; only the current-user read is hoisted out
+of it. The closing hop is application-supplied — the SDK registers no `currentUser`
+observer that re-enters `SFRestAPI`, and `notifyUserChange` posts its notification
+outside `_accountsLock` — which is why only apps with such an observer could
+reproduce the deadlock.
+
+This ordering is exercised by
+`SFRestAPIDataTaskRaceTests.test_givenLogoutWindow_whenCurrentUserKVOObserverReentersClassMonitor_thenSharedInstanceDoesNotDeadlock`,
+which parks a thread at the class-monitor/`currentUser` seam and drives a `currentUser`
+KVO observer that re-enters the class monitor while `_accountsLock` is held.
+
+---
+
+## 9. Cleanup and Failure Semantics
 
 Normal success, network error, timeout, and terminal HTTP failure all use the terminal ownership
 claim and can deliver at most one callback.
@@ -330,9 +373,9 @@ On token-refresh failure, `SFRestAPI` preserves the established policy:
 
 ---
 
-## 9. End-to-End Scenarios
+## 10. End-to-End Scenarios
 
-### 9.1 Successful authenticated request
+### 10.1 Successful authenticated request
 
 ```text
 send request
@@ -343,7 +386,7 @@ send request
   -> invoke success callback outside the lock
 ```
 
-### 9.2 Concurrent expired-token responses with RTR
+### 10.2 Concurrent expired-token responses with RTR
 
 ```text
 REST request A -> auth failure ----+     one token refresh POST
@@ -361,7 +404,7 @@ identity request -> 401 -----------+     keyed by credentials.identifier
 Each `SFRestAPI` still performs its own active-request replay, but every component observes the
 same coordinated refresh result.
 
-### 9.3 Resource-server nonce challenge
+### 10.3 Resource-server nonce challenge
 
 ```text
 task 1 -> HTTP 400 use_dpop_nonce + DPoP-Nonce
@@ -380,7 +423,7 @@ successor. Conversely, if the DPoP retry reservation wins the lock first, authen
 sees a nil task and skips the replacement while it is being built. The two retry mechanisms
 therefore preserve one current-task chain rather than creating independent successors.
 
-### 9.4 Completion racing authentication replay
+### 10.4 Completion racing authentication replay
 
 ```text
 old task passes the early stale check
@@ -394,7 +437,7 @@ Whichever acquires the ownership lock first wins:
 
 The request receives one terminal result in either ordering.
 
-### 9.5 New request racing the replay snapshot
+### 10.5 New request racing the replay snapshot
 
 ```text
 new send adds request B to activeRequests
@@ -408,7 +451,7 @@ B's sole task claims and delivers its terminal callback
 This is the admission-side counterpart to the completion race. Replay owns replacement of a
 published attempt; it never creates the initial attempt on behalf of an in-progress sender.
 
-### 9.6 Logout during an active refresh cycle
+### 10.6 Logout during an active refresh cycle
 
 A logout can arrive after `startAuthenticationRefreshForRequest:response:` has begun a refresh but
 before the coordinator resolves it. Cleanup does not wait for the refresh; it drains the queue
@@ -439,7 +482,7 @@ the same lock to read the (now empty) queue, so neither path can deadlock agains
 
 ---
 
-## 10. Concurrency Invariants
+## 11. Concurrency Invariants
 
 1. At most one active coordinator entry exists per credential identifier; concurrent callers
    coalesce onto that entry.
@@ -460,6 +503,10 @@ the same lock to read the (now empty) queue, so neither path can deadlock agains
 12. Cleanup during an active refresh cycle drains `activeRequests` and clears `refreshCycleActive`
     under the lock; a later refresh success or error branch then operates on an empty snapshot and
     delivers no additional callback.
+13. The `SFRestAPI` class monitor is never held while `SFUserAccountManager`'s `_accountsLock` is
+    acquired: the shared-instance factory methods resolve the current user before entering
+    `@synchronized([SFRestAPI class])`, so no class-monitor → `_accountsLock` ordering exists to
+    deadlock against a `currentUser` KVO observer that re-enters `SFRestAPI`.
 
 The focused regression coverage lives in `SFRestAPIDataTaskRaceTests`, with coordinator behavior
 covered by `SFSDKTokenRefreshCoordinatorTests` and token-endpoint nonce handling covered by the

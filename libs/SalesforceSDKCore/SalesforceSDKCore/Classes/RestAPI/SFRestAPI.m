@@ -147,6 +147,20 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
 #pragma mark - singleton
 static dispatch_once_t pred;
 
+// Test-only seam. Invoked immediately before +sharedInstanceWithUser: resolves the
+// current user (and thus before it enters the SFRestAPI class monitor). Lets a test
+// pause a thread exactly at the class-monitor/currentUser boundary to deterministically
+// drive the multi-user logout/login lock-ordering regression. Always nil in production.
+static void (^sfCurrentUserResolutionHookForTesting)(void) = nil;
+
++ (void (^)(void))currentUserResolutionHookForTesting {
+    return sfCurrentUserResolutionHookForTesting;
+}
+
++ (void)setCurrentUserResolutionHookForTesting:(void (^)(void))hook {
+    sfCurrentUserResolutionHookForTesting = [hook copy];
+}
+
 + (SFRestAPI *)sharedGlobalInstance {
     dispatch_once(&pred, ^{
         sfRestApiList = [[SFSDKSafeMutableDictionary alloc] init];
@@ -170,13 +184,29 @@ static dispatch_once_t pred;
     dispatch_once(&pred, ^{
         sfRestApiList = [[SFSDKSafeMutableDictionary alloc] init];
     });
+    // Resolve the current user BEFORE acquiring the class monitor. The currentUser
+    // getter takes SFUserAccountManager's _accountsLock when _currentUser is nil
+    // (which is precisely the logout window, since setCurrentUserInternal:nil nils
+    // it), and setCurrentUserInternal: fires the "currentUser" KVO under that same
+    // _accountsLock. Resolving currentUser inside @synchronized([SFRestAPI class])
+    // would establish a class-monitor -> _accountsLock ordering that deadlocks
+    // (ABBA) against a currentUser KVO observer that re-enters +sharedInstance while
+    // _accountsLock is held. Resolve first, lock second.
+    if (!user) {
+        // Test-only seam: parks a thread exactly at the class-monitor/currentUser
+        // boundary. Must stay adjacent to the resolution below so that if the
+        // resolution is ever moved back inside @synchronized([SFRestAPI class]) the
+        // regression test deadlocks. Always nil in production.
+        void (^currentUserResolutionHook)(void) = sfCurrentUserResolutionHookForTesting;
+        if (currentUserResolutionHook) {
+            currentUserResolutionHook();
+        }
+        user = [SFUserAccountManager sharedInstance].currentUser;
+    }
+    if (!user) {
+        return nil;
+    }
     @synchronized ([SFRestAPI class]) {
-        if (!user) {
-            user = [SFUserAccountManager sharedInstance].currentUser;
-        }
-        if (!user) {
-            return nil;
-        }
         NSString *key = SFKeyForUserAndScope(user, SFUserAccountScopeCommunity);
         if (!key) {
             return nil;
@@ -195,13 +225,15 @@ static dispatch_once_t pred;
 }
 
 + (void)removeSharedInstanceWithUser:(SFUserAccount *)user {
+    // Resolve currentUser before the class monitor for the same reason as
+    // +sharedInstanceWithUser: (avoid class-monitor -> _accountsLock ordering).
+    if (!user) {
+        user = [SFUserAccountManager sharedInstance].currentUser;
+    }
+    if (!user) {
+        return;
+    }
     @synchronized ([SFRestAPI class]) {
-        if (!user) {
-            user = [SFUserAccountManager sharedInstance].currentUser;
-        }
-        if (!user) {
-            return;
-        }
         NSString *userKey = SFKeyForUserAndScope(user, SFUserAccountScopeUser);
 
         // Remove all sub-instances (community users) for this user as well.

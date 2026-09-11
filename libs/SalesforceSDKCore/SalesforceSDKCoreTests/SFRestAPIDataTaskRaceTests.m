@@ -27,6 +27,9 @@
 #import "SFRestRequest+Internal.h"
 #import "SFRestAPI+Blocks.h"
 #import "SFNetwork+Internal.h"
+#import "SFUserAccountManager+Internal.h"
+#import "SFUserAccount+Internal.h"
+#import "SFOAuthCredentials+Internal.h"
 
 #pragma mark - Expose private methods for testing
 
@@ -352,6 +355,51 @@ static NSMutableArray<DeferredURLProtocol *> *sPendingProtocols;
 
 @end
 
+#pragma mark - ClassMonitorReentrantObserver
+
+/**
+ * Test-only "currentUser" KVO observer modeling an application observer that
+ * re-enters SFRestAPI (e.g. +sharedInstance / RestClient.shared) from its callback.
+ * KVO fires synchronously from setCurrentUserInternal: while _accountsLock is held,
+ * so this callback runs holding _accountsLock and then wants the SFRestAPI class
+ * monitor -- the second edge of the logout/login ABBA cycle.
+ */
+@interface ClassMonitorReentrantObserver : NSObject
+@property (nonatomic, strong) dispatch_semaphore_t releaseResolvingThread;
+@property (atomic, assign) BOOL reenteredClassMonitor;
+- (instancetype)initWithReleaseSemaphore:(dispatch_semaphore_t)releaseResolvingThread;
+@end
+
+@implementation ClassMonitorReentrantObserver
+
+- (instancetype)initWithReleaseSemaphore:(dispatch_semaphore_t)releaseResolvingThread {
+    self = [super init];
+    if (self) {
+        _releaseResolvingThread = releaseResolvingThread;
+    }
+    return self;
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context {
+    if (![keyPath isEqualToString:@"currentUser"]) {
+        return;
+    }
+    // We are inside setCurrentUserInternal: and therefore hold _accountsLock.
+    // Release the parked resolving thread so it proceeds to acquire _accountsLock
+    // (which we hold), then re-enter the SFRestAPI class monitor as an app observer
+    // would. Post-fix the monitor is free (the resolving thread does not hold it),
+    // so this returns; pre-fix the resolving thread holds it -> deadlock.
+    dispatch_semaphore_signal(self.releaseResolvingThread);
+    @synchronized ([SFRestAPI class]) {
+        self.reenteredClassMonitor = YES;
+    }
+}
+
+@end
+
 #pragma mark - Tests
 
 @interface SFRestAPIDataTaskRaceTests : XCTestCase
@@ -389,6 +437,95 @@ static NSMutableArray<DeferredURLProtocol *> *sPendingProtocols;
     SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodGET path:url queryParams:nil];
     request.requiresAuthentication = NO;
     return request;
+}
+
+/**
+ * Regression for the multi-user logout/login ABBA deadlock (W-24142318, Phase 7).
+ *
+ * Two lock-order edges could form a cycle during a logout window:
+ *   Edge 1: +sharedInstanceWithUser: resolving currentUser inside
+ *           @synchronized([SFRestAPI class]); the currentUser getter takes
+ *           SFUserAccountManager's _accountsLock when _currentUser is nil.
+ *   Edge 2: setCurrentUserInternal: fires the "currentUser" KVO while holding
+ *           _accountsLock; an app observer re-enters the SFRestAPI class monitor.
+ *
+ * If both edges exist, Thread B (resolving currentUser) holds the class monitor and
+ * wants _accountsLock while Thread M (KVO observer) holds _accountsLock and wants the
+ * class monitor -> deadlock. The Seam 1 fix resolves currentUser BEFORE the class
+ * monitor, so Thread B never holds the monitor across _accountsLock and the cycle
+ * cannot close. This test parks Thread B at the class-monitor/currentUser seam via
+ * SFRestAPI.currentUserResolutionHookForTesting and drives Edge 2 on another queue;
+ * it completes with the fix and deadlocks (times out) if the resolution is ever moved
+ * back inside the class monitor.
+ */
+- (void)test_givenLogoutWindow_whenCurrentUserKVOObserverReentersClassMonitor_thenSharedInstanceDoesNotDeadlock {
+    SFUserAccountManager *uam = [SFUserAccountManager sharedInstance];
+    SFUserAccount *origUser = uam.currentUser;
+
+    // Register a managed account so setCurrentUserInternal: fires the currentUser KVO.
+    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"restapi-deadlock-identifier"
+                                                                            clientId:@"fakeClientIdForTesting"
+                                                                           encrypted:YES];
+    credentials.identityUrl = [NSURL URLWithString:@"https://login.salesforce.com/id/00Dxx0000000001/005xx0000000001"];
+    SFUserAccount *user = [[SFUserAccount alloc] initWithCredentials:credentials];
+    NSError *saveError = nil;
+    [uam saveAccountForUser:user error:&saveError];
+    XCTAssertNil(saveError, @"Failed to register test account: %@", saveError);
+
+    // Enter the logout window with a non-nil current user so the pending nil-set fires
+    // KVO; once niled, Thread B's currentUser getter takes the _accountsLock path.
+    [uam setCurrentUserInternal:user];
+
+    dispatch_semaphore_t bReachedResolutionSeam = dispatch_semaphore_create(0);
+    dispatch_semaphore_t releaseResolvingThread = dispatch_semaphore_create(0);
+    const int64_t fiveSeconds = (int64_t)(5 * NSEC_PER_SEC);
+
+    // Thread B parks at the class-monitor/currentUser boundary: announce arrival,
+    // then wait until Thread M holds _accountsLock and is re-entering the monitor.
+    __block BOOL hookFired = NO;
+    SFRestAPI.currentUserResolutionHookForTesting = ^{
+        hookFired = YES;
+        SFRestAPI.currentUserResolutionHookForTesting = nil; // one-shot
+        dispatch_semaphore_signal(bReachedResolutionSeam);
+        dispatch_semaphore_wait(releaseResolvingThread, dispatch_time(DISPATCH_TIME_NOW, fiveSeconds));
+    };
+
+    XCTestExpectation *bReturned = [self expectationWithDescription:@"Thread B +sharedInstanceWithUser: returns"];
+    SFUserAccount *nilUser = nil; // resolve currentUser inside +sharedInstanceWithUser:
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+        (void)[SFRestAPI sharedInstanceWithUser:nilUser];
+        [bReturned fulfill];
+    });
+
+    // Wait until Thread B is parked at the seam.
+    XCTAssertEqual(0, dispatch_semaphore_wait(bReachedResolutionSeam, dispatch_time(DISPATCH_TIME_NOW, fiveSeconds)),
+                   @"Thread B never reached the currentUser resolution seam");
+
+    // Thread M runs the logout transition on another queue so a regression deadlock
+    // stalls only worker threads and this test can fail via expectation timeout
+    // instead of hanging the main thread.
+    ClassMonitorReentrantObserver *observer = [[ClassMonitorReentrantObserver alloc] initWithReleaseSemaphore:releaseResolvingThread];
+    [uam addObserver:observer forKeyPath:@"currentUser" options:0 context:NULL];
+
+    XCTestExpectation *mReturned = [self expectationWithDescription:@"Thread M setCurrentUserInternal: returns"];
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+        [uam setCurrentUserInternal:nil]; // fires currentUser KVO under _accountsLock
+        [mReturned fulfill];
+    });
+
+    [self waitForExpectations:@[bReturned, mReturned] timeout:10.0];
+
+    [uam removeObserver:observer forKeyPath:@"currentUser"];
+    XCTAssertTrue(hookFired, @"currentUser resolution seam did not fire");
+    XCTAssertTrue(observer.reenteredClassMonitor, @"KVO observer did not re-enter the class monitor");
+
+    // Cleanup: restore account-manager state so later tests start clean.
+    SFRestAPI.currentUserResolutionHookForTesting = nil;
+    [SFRestAPI removeSharedInstanceWithUser:user];
+    [uam setCurrentUserInternal:nil];
+    NSError *deleteError = nil;
+    [uam deleteAccountForUser:user error:&deleteError];
+    [uam setCurrentUserInternal:origUser];
 }
 
 /**
