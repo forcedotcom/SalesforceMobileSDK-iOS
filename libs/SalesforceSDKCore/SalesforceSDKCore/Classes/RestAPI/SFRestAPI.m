@@ -97,10 +97,6 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     return self;
 }
 
-- (void)dealloc {
-    SFRelease(_activeRequests);
-}
-
 #pragma mark - Cleanup / cancel all
 
 - (void)cleanup {
@@ -526,6 +522,10 @@ successBlock:(SFRestResponseBlock)successBlock
     // No parsing.
     if (!request.parseResponse) {
         return data;
+    }
+
+    if (!data) {
+        return nil;
     }
 
     // Parsing.
