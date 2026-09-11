@@ -151,6 +151,18 @@ SFNativeLoginManagerInternal *nativeLogin;
     _forceAdvancedAuthentication = sdk_forceAdvancedAuthentication;
 }
 
+// Non-deprecated internal accessor over the same backing ivar as the deprecated public
+// useWebServerAuthentication property (see SalesforceSDKManager+Internal.h). Lets internal SDK
+// code read/write the flag without tripping -Wdeprecated-declarations. Remove with the public
+// property in 15.0.
+- (BOOL)sdk_useWebServerAuthentication {
+    return _useWebServerAuthentication;
+}
+
+- (void)setSdk_useWebServerAuthentication:(BOOL)sdk_useWebServerAuthentication {
+    _useWebServerAuthentication = sdk_useWebServerAuthentication;
+}
+
 + (void)setInstanceClass:(Class)className {
     InstanceClass = className;
 }
@@ -231,7 +243,7 @@ SFNativeLoginManagerInternal *nativeLogin;
 
 - (void)resetAuthFlags {
     self.useEphemeralSessionForAdvancedAuth = YES;
-    self.useWebServerAuthentication = YES;
+    self.sdk_useWebServerAuthentication = YES;
     self.useHybridAuthentication = YES;
     self.useDPoP = YES;
     self.sdk_forceAdvancedAuthentication = YES;
@@ -403,6 +415,8 @@ SFNativeLoginManagerInternal *nativeLogin;
     return _appConfig;
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 - (SFIDPLoginFlowSelectionBlock)idpLoginFlowSelectionBlock {
     return [SFUserAccountManager sharedInstance].idpLoginFlowSelectionAction;
 }
@@ -426,9 +440,10 @@ SFNativeLoginManagerInternal *nativeLogin;
 - (void)setIsIdentityProvider:(BOOL)isIdentityProvider {
    [SFUserAccountManager sharedInstance].isIdentityProvider = isIdentityProvider;
 }
+#pragma clang diagnostic pop
 
 - (BOOL)idpEnabled {
-    return [SFUserAccountManager sharedInstance].idpAppURIScheme!=nil;
+    return [SFUserAccountManager sharedInstance].sdk_idpAppURIScheme!=nil;
 }
 
 - (NSString *)appDisplayName {
@@ -439,6 +454,8 @@ SFNativeLoginManagerInternal *nativeLogin;
     [SFUserAccountManager sharedInstance].appDisplayName = appDisplayName;
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 - (NSString *)idpAppURIScheme{
     return [SFUserAccountManager sharedInstance].idpAppURIScheme;
 }
@@ -446,6 +463,7 @@ SFNativeLoginManagerInternal *nativeLogin;
 - (void)setIdpAppURIScheme:(NSString *)idpAppURIScheme {
     [SFUserAccountManager sharedInstance].idpAppURIScheme = idpAppURIScheme;
 }
+#pragma clang diagnostic pop
 
 - (NSString *)brandLoginPath
 {
@@ -617,8 +635,9 @@ static NSString *SFSDKISO8601StringFromDate(NSDate *date) {
     
     // Auth configuration
     [devInfos addObject:@"section:Auth Config"];
+    SFSDK_USE_DEPRECATED_BEGIN
     [devInfos addObjectsFromArray:@[
-            @"Use Web Server Authentication", [self useWebServerAuthentication]  ? @"YES" : @"NO",
+            @"Use Web Server Authentication", [self sdk_useWebServerAuthentication]  ? @"YES" : @"NO",
             @"Use Hybrid Authentication", [self useHybridAuthentication]  ? @"YES" : @"NO",
             @"Use DPoP", [self useDPoP] ? @"YES" : @"NO",
             @"Force Advanced Authentication", [self sdk_forceAdvancedAuthentication]  ? @"YES" : @"NO",
@@ -626,6 +645,7 @@ static NSString *SFSDKISO8601StringFromDate(NSDate *date) {
             @"IDP Enabled", [self idpEnabled] ? @"YES" : @"NO",
             @"Identity Provider", [self isIdentityProvider] ? @"YES" : @"NO"
     ]];
+    SFSDK_USE_DEPRECATED_END
 
     // Static bootconfig
     [devInfos addObject:@"section:Bootconfig"];
@@ -648,7 +668,7 @@ static NSString *SFSDKISO8601StringFromDate(NSDate *date) {
             @"Beacon Child Consumer Key", creds.beaconChildConsumerKey ?: @"(empty)"
         ]];
 
-        if ([creds.tokenType isEqualToString:@"DPoP"]) {
+        if ([creds.tokenType isEqualToString:kSFOAuthDPoPTokenType]) {
             [devInfos addObjectsFromArray:@[
                 @"DPoP Nonce", [SFSDKDPoPNonceCache.shared latestForScope:creds.identifier] ?: @"None"
             ]];
@@ -797,9 +817,11 @@ static NSString *SFSDKISO8601StringFromDate(NSDate *date) {
         self.appConfig.oauthRedirectURI = [SFManagedPreferences sharedPreferences].connectedAppCallbackUri;
     }
     
+    SFSDK_USE_DEPRECATED_BEGIN
     if ([SFManagedPreferences sharedPreferences].idpAppURLScheme) {
         self.idpAppURIScheme = [SFManagedPreferences sharedPreferences].idpAppURLScheme;
     }
+    SFSDK_USE_DEPRECATED_END
 }
 
 - (void)setupServiceConfiguration

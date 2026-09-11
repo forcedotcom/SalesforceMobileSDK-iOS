@@ -34,16 +34,29 @@ import UniformTypeIdentifiers
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
+
+    static let uiTestLastTokenRequestUserAgentDefaultsKey = "AuthFlowTesterLastTokenRequestUserAgent"
+
+    private struct UITestLoginHost {
+        let name: String
+        let host: String
+    }
+
+    private static let uiTestLoginHostsInfoKey = "SFDCOAuthLoginHosts"
     
     override init() {
-        
         super.init()
-        
+
+        #if DEBUG
+        configureTokenRequestUserAgentCaptureForUITesting()
+        #endif
         SalesforceManager.initializeSDK()
         #if DEBUG
-        if CommandLine.arguments.contains("--resetSDKForUITesting") {
+        let shouldResetForUITesting = CommandLine.arguments.contains("--resetSDKForUITesting")
+        if shouldResetForUITesting {
             SalesforceManager.resetForUITesting()
         }
+        seedUITestLoginHosts(selectDefaultHost: shouldResetForUITesting)
         if CommandLine.arguments.contains("--disableDPoPAtStart") {
             SalesforceManager.shared.usesDPoP = false
         }
@@ -60,6 +73,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return .allow
         }
     }
+
+    #if DEBUG
+    /// Captures the final User-Agent attached by SFNetwork to token-endpoint requests. This is
+    /// enabled only for UI tests so production app behavior and diagnostics remain unchanged.
+    private func configureTokenRequestUserAgentCaptureForUITesting() {
+        UserDefaults.standard.removeObject(forKey: Self.uiTestLastTokenRequestUserAgentDefaultsKey)
+        guard CommandLine.arguments.contains("--captureTokenRequestUserAgent") else { return }
+
+        // Replaces SFNetwork's process-global metrics sink (and any prior handler); DEBUG + explicit launch argument only.
+        Network.metricsCollectedAction = { _, task, _ in
+            guard task.originalRequest?.url?.path == "/services/oauth2/token",
+                  let userAgent = task.originalRequest?.value(forHTTPHeaderField: "User-Agent") else {
+                return
+            }
+            UserDefaults.standard.set(userAgent, forKey: Self.uiTestLastTokenRequestUserAgentDefaultsKey)
+        }
+    }
+    #endif
     
     // MARK: - App delegate lifecycle
 
@@ -98,6 +129,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     // MARK: - Private methods
+
+    /// Seeds AuthFlowTester's fixed UI-test servers after the SDK initializes.  The reset helper
+    /// intentionally clears custom hosts, so it must run before the test login flow starts.
+    /// Ordinary restarts seed missing entries without changing the selected host or session.
+    private func seedUITestLoginHosts(selectDefaultHost: Bool) {
+        guard let hosts = Bundle.main.object(forInfoDictionaryKey: Self.uiTestLoginHostsInfoKey) as? [[String: String]] else {
+            return
+        }
+
+        let uiTestHosts = hosts.compactMap { entry -> UITestLoginHost? in
+            guard let name = entry["name"], let host = entry["host"], !host.isEmpty else {
+                return nil
+            }
+            return UITestLoginHost(name: name, host: host)
+        }
+        guard let defaultHost = uiTestHosts.first else {
+            return
+        }
+
+        let storage = SFSDKLoginHostStorage.sharedInstance()
+        for host in uiTestHosts where storage.loginHost(forHostAddress: host.host) == nil {
+            storage.add(SalesforceLoginHost(name: host.name, host: host.host, deletable: false))
+        }
+
+        if selectDefaultHost {
+            UserAccountManager.shared.loginHost = defaultHost.host
+        }
+    }
+
     func registerForRemotePushNotifications() {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { (granted, error) in
             if granted {

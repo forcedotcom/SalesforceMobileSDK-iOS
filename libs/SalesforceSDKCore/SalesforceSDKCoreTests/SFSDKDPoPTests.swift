@@ -301,6 +301,20 @@ class SFSDKDPoPTests: XCTestCase {
         XCTAssertFalse(DPoPRequestDecorator.isDPoPTokenType("bearer"))
     }
 
+    func test_givenLowercaseDPoPTokenType_whenApplyAuthHeaders_thenStampsDPoPSchemeNotBearer() throws {
+        // Regression for W-24027018: server returns lowercase "dpop" in refresh responses
+        // (SFOAuthCredentials.m line 492). Case-sensitive == caused applyAuthHeaders to fall
+        // through to the Bearer branch on every post-refresh request.
+        _ = try DPoPKeyStore.shared.keyPair(forScope: testScope)
+        let request = NSMutableURLRequest(url: URL(string: "https://test.salesforce.com/services/data/v66.0/sobjects")!)
+        try DPoPRequestDecorator.applyAuthHeaders(request, scope: testScope, accessToken: "test_access_token", tokenType: "dpop")
+        let auth = request.value(forHTTPHeaderField: "Authorization")
+        XCTAssertTrue(auth?.hasPrefix("DPoP ") == true,
+                      "lowercase 'dpop' tokenType must produce 'Authorization: DPoP …', got: \(auth ?? "nil")")
+        XCTAssertNotNil(request.value(forHTTPHeaderField: "DPoP"),
+                        "lowercase 'dpop' tokenType must attach a DPoP proof header")
+    }
+
     func test_givenScope_whenHasKeyPairChecked_thenReflectsKeyMaterialPresenceOnly() throws {
         // Fresh scope: no key material yet.
         XCTAssertFalse(DPoPKeyStore.shared.hasKeyPair(forScope: testScope),

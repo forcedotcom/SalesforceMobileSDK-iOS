@@ -404,7 +404,7 @@ static NSString* const kTestAppName = @"OverridenAppName";
     credentials.redirectUri = @"test";
     
     // Hybrid enabled, web server enabled
-    [SalesforceSDKManager sharedManager].useWebServerAuthentication = YES;
+    [self setUseWebServerAuthenticationForTest:YES];
     SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:credentials];
     SFOAuthTestFlowCoordinatorDelegate *delegate = [SFOAuthTestFlowCoordinatorDelegate new];
     coordinator.delegate = delegate;
@@ -415,7 +415,7 @@ static NSString* const kTestAppName = @"OverridenAppName";
     [coordinator stopAuthentication];
     
     // Hybrid enabled, web server disabled
-    [SalesforceSDKManager sharedManager].useWebServerAuthentication = NO;
+    [self setUseWebServerAuthenticationForTest:NO];
     approvalUrl = [coordinator generateApprovalUrlString];
     XCTAssert([approvalUrl containsString:@"response_type=hybrid_token"]);
     [coordinator authenticate];
@@ -424,7 +424,7 @@ static NSString* const kTestAppName = @"OverridenAppName";
     
     // Hybrid disabled, web server enabled
     [SalesforceSDKManager sharedManager].useHybridAuthentication = NO;
-    [SalesforceSDKManager sharedManager].useWebServerAuthentication = YES;
+    [self setUseWebServerAuthenticationForTest:YES];
     approvalUrl = [coordinator generateApprovalUrlString];
     XCTAssert([approvalUrl containsString:@"response_type=code"]);
     [coordinator authenticate];
@@ -433,7 +433,7 @@ static NSString* const kTestAppName = @"OverridenAppName";
     
     // Hybrid disabled, web server disabled
     [SalesforceSDKManager sharedManager].useHybridAuthentication = NO;
-    [SalesforceSDKManager sharedManager].useWebServerAuthentication = NO;
+    [self setUseWebServerAuthenticationForTest:NO];
     approvalUrl = [coordinator generateApprovalUrlString];
     XCTAssert([approvalUrl containsString:@"response_type=token"]);
     [coordinator authenticate];
@@ -630,7 +630,7 @@ static NSString* const kTestAppName = @"OverridenAppName";
     // implicit flow (response_type=token). The native-browser path hardcodes webServerFlow:YES
     // (SFOAuthCoordinator.m:420-425) and never consults useWebServerAuthentication.
     [self setForceAdvancedAuthenticationForTest:YES];
-    [SalesforceSDKManager sharedManager].useWebServerAuthentication = NO;
+    [self setUseWebServerAuthenticationForTest:NO];
     [SalesforceSDKManager sharedManager].useHybridAuthentication = NO;
 
     SFOAuthCredentials *credentials = [self standardLoginCredentialsWithIdentifier:@"securityInvariant"];
@@ -814,6 +814,24 @@ static NSString* const kTestAppName = @"OverridenAppName";
     SFSDK_USE_DEPRECATED_END
 }
 
+// useWebServerAuthentication is deprecated (14.0, removed in 15.0). These tests intentionally
+// exercise the public property a consumer would set, so all reads/writes are funneled through these
+// two helpers to localize the sanctioned -Wdeprecated-declarations suppression to one place. Remove
+// both helpers (and inline the property access) when the property is removed in 15.0.
+- (BOOL)currentUseWebServerAuthentication
+{
+    SFSDK_USE_DEPRECATED_BEGIN
+    return [SalesforceSDKManager sharedManager].useWebServerAuthentication;
+    SFSDK_USE_DEPRECATED_END
+}
+
+- (void)setUseWebServerAuthenticationForTest:(BOOL)enabled
+{
+    SFSDK_USE_DEPRECATED_BEGIN
+    [SalesforceSDKManager sharedManager].useWebServerAuthentication = enabled;
+    SFSDK_USE_DEPRECATED_END
+}
+
 - (void)setupSdkManagerState
 {
     _currentSdkManagerFlow = [[SFTestSDKManagerFlow alloc] init];
@@ -829,7 +847,7 @@ static NSString* const kTestAppName = @"OverridenAppName";
     // Auth-flow flags are process-global on the shared manager; snapshot so tests that flip
     // them (forced Advanced Auth, web-server/hybrid) cannot leak into other tests.
     _origForceAdvancedAuthentication = [self currentForceAdvancedAuthentication];
-    _origUseWebServerAuthentication = [SalesforceSDKManager sharedManager].useWebServerAuthentication;
+    _origUseWebServerAuthentication = [self currentUseWebServerAuthentication];
     _origUseHybridAuthentication = [SalesforceSDKManager sharedManager].useHybridAuthentication;
 }
 
@@ -844,7 +862,7 @@ static NSString* const kTestAppName = @"OverridenAppName";
     SalesforceSDKManager.ailtnAppName = _origAppName;
     [SalesforceSDKManager sharedManager].brandLoginPath = _origBrandLoginPath;
     [self setForceAdvancedAuthenticationForTest:_origForceAdvancedAuthentication];
-    [SalesforceSDKManager sharedManager].useWebServerAuthentication = _origUseWebServerAuthentication;
+    [self setUseWebServerAuthenticationForTest:_origUseWebServerAuthentication];
     [SalesforceSDKManager sharedManager].useHybridAuthentication = _origUseHybridAuthentication;
 }
 

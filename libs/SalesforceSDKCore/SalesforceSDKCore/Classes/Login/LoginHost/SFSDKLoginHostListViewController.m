@@ -32,6 +32,7 @@
 #import "SFSDKResourceUtils.h"
 #import "SFManagedPreferences.h"
 #import "SFUserAccountManager.h"
+#import "SFUserAccountManager+Internal.h"
 #import "SFSDKViewUtils.h"
 #import "SFSDKLoginViewControllerConfig.h"
 #import "SFSDKWindowManager.h"
@@ -237,7 +238,7 @@ static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCel
         && ((SFSDKLoginViewControllerConfig *)self.config).shouldDisplayBackButton) {
         return YES;
     }
-    if (accountManager.idpEnabled || accountManager.shouldFallbackToWebAuthentication) {
+    if (accountManager.sdk_idpEnabled || accountManager.shouldFallbackToWebAuthentication) {
         return YES;
     }
     NSInteger totalAccounts = accountManager.allUserAccounts.count;
@@ -263,7 +264,7 @@ static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCel
         [accountManager loginWithCompletion:nil failure:nil];
     }
 
-    if (!accountManager.idpEnabled) {
+    if (!accountManager.sdk_idpEnabled) {
         [[[SFSDKWindowManager sharedManager] authWindow:scene].viewController.presentedViewController dismissViewControllerAnimated:NO completion:^{
             [[[SFSDKWindowManager sharedManager] authWindow:scene] dismissWindow];
         }];

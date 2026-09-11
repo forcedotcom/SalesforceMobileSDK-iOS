@@ -36,21 +36,15 @@ class RTRLoginTests: BaseAuthFlowTester {
     // MARK: - ECA JWT RTR Tests
 
     /// Login with ECA JWT RTR using hybrid flow.
-    // TODO: W-22512846 — Remove the skip when server enables Named JWTs for Hybrid Flows.
-    // Server currently returns invalid_grant for RTR + JWT tokens in hybrid flow.
     func testECAJwtRtr_Hybrid() throws {
-        throw XCTSkip("TODO: W-22512846 — Re-enable when server enables Named JWTs for Hybrid Flows")
         launchLoginAndValidate(staticAppConfigName: .ecaJwtRtr)
     }
 
     /// Login with ECA JWT RTR using hybrid flow, restart app, and verify session persists.
-    // TODO: W-22512846 — Remove the skip when server enables Named JWTs for Hybrid Flows.
-    // Server currently returns invalid_grant for RTR + JWT tokens in hybrid flow.
     func testECAJwtRtr_Hybrid_WithRestart() throws {
-        throw XCTSkip("TODO: W-22512846 — Re-enable when server enables Named JWTs for Hybrid Flows")
         launchLoginAndValidate(staticAppConfigName: .ecaJwtRtr)
-        restartAndValidateUser(userAppConfigName: .ecaJwtRtr, isRtr: true)
-        assertRevokeAndRefreshWorks(isRtr: true)
+        restartAndValidateUser(userAppConfigName: .ecaJwtRtr)
+        assertRevokeAndRefreshWorks(expectsRefreshTokenRotation: true, isJwt: true)
     }
 
     /// Login with ECA JWT RTR without hybrid flow.
@@ -61,8 +55,8 @@ class RTRLoginTests: BaseAuthFlowTester {
     /// Login with ECA JWT RTR without hybrid flow, restart app, and verify session persists.
     func testECAJwtRtr_NoHybrid_WithRestart() throws {
         launchLoginAndValidate(staticAppConfigName: .ecaJwtRtr, useHybridFlow: false)
-        restartAndValidateUser(userAppConfigName: .ecaJwtRtr, useHybridFlow: false, isRtr: true)
-        assertRevokeAndRefreshWorks(isRtr: true, useHybridFlow: false, isJwt: true)
+        restartAndValidateUser(userAppConfigName: .ecaJwtRtr, useHybridFlow: false)
+        assertRevokeAndRefreshWorks(expectsRefreshTokenRotation: true, useHybridFlow: false, isJwt: true)
     }
 
     // MARK: - ECA Opaque RTR Tests
@@ -75,8 +69,8 @@ class RTRLoginTests: BaseAuthFlowTester {
     /// Login with ECA Opaque RTR using hybrid flow, restart app, and verify session persists.
     func testECAOpaqueRtr_Hybrid_WithRestart() throws {
         launchLoginAndValidate(staticAppConfigName: .ecaOpaqueRtr)
-        restartAndValidateUser(userAppConfigName: .ecaOpaqueRtr, isRtr: true)
-        assertRevokeAndRefreshWorks(isRtr: true)
+        restartAndValidateUser(userAppConfigName: .ecaOpaqueRtr)
+        assertRevokeAndRefreshWorks(expectsRefreshTokenRotation: true)
     }
 
     /// Login with ECA Opaque RTR without hybrid flow.
@@ -87,7 +81,44 @@ class RTRLoginTests: BaseAuthFlowTester {
     /// Login with ECA Opaque RTR without hybrid flow, restart app, and verify session persists.
     func testECAOpaqueRtr_NoHybrid_WithRestart() throws {
         launchLoginAndValidate(staticAppConfigName: .ecaOpaqueRtr, useHybridFlow: false)
-        restartAndValidateUser(userAppConfigName: .ecaOpaqueRtr, useHybridFlow: false, isRtr: true)
-        assertRevokeAndRefreshWorks(isRtr: true, useHybridFlow: false)
+        restartAndValidateUser(userAppConfigName: .ecaOpaqueRtr, useHybridFlow: false)
+        assertRevokeAndRefreshWorks(expectsRefreshTokenRotation: true, useHybridFlow: false)
+    }
+
+    /// After RTR has been observed, the first token refresh in a new app process must send the
+    /// persisted RT marker on the wire. This intentionally validates the captured token-request
+    /// header rather than the user agent recomputed after the refresh response.
+    func test_givenRTRObserved_whenColdRestartForcesRefresh_thenTokenRequestUserAgentContainsRT() throws {
+        launchLoginAndValidate(staticAppConfigName: .ecaOpaqueRtr)
+        let credentialsBeforeRestart = getUserCredentials()
+
+        // Expire the server-side session before terminating so the first REST call in the new
+        // process takes the natural 401 -> token refresh -> replay path.
+        XCTAssertTrue(revokeAccessToken(), "Access-token revoke should succeed before restart")
+        restart(withLaunchArguments: ["--captureTokenRequestUserAgent"])
+
+        XCTAssertTrue(makeRestRequest(), "REST request should succeed after the cold-start refresh")
+        let credentialsAfterRefresh = getUserCredentials()
+        XCTAssertNotEqual(credentialsBeforeRestart.accessToken, credentialsAfterRefresh.accessToken,
+                          "Access token should change during the first post-restart refresh")
+        XCTAssertNotEqual(credentialsBeforeRestart.refreshToken, credentialsAfterRefresh.refreshToken,
+                          "RTR refresh token should rotate during the first post-restart refresh")
+
+        let capturedUserAgent = credentialsAfterRefresh.lastTokenRequestUserAgent
+        XCTAssertFalse(capturedUserAgent.isEmpty,
+                       "AuthFlowTester should capture the outbound token-request User-Agent")
+        let flags = featureMarkers(in: capturedUserAgent)
+        XCTAssertTrue(flags.contains("RT"),
+                      "First post-restart token request should contain persisted RT; flags: \(flags), ua: \(capturedUserAgent)")
+        XCTAssertTrue(flags.contains("A2"),
+                      "Token request should contain the credential owner's hybrid-flow marker; flags: \(flags), ua: \(capturedUserAgent)")
+        XCTAssertTrue(flags.contains("OT"),
+                      "Token request should contain the credential owner's opaque-token marker; flags: \(flags), ua: \(capturedUserAgent)")
+    }
+
+    private func featureMarkers(in userAgent: String) -> Set<String> {
+        guard let range = userAgent.range(of: "ftr_") else { return [] }
+        let markerString = String(userAgent[range.upperBound...]).components(separatedBy: " ").first ?? ""
+        return Set(markerString.components(separatedBy: ".").filter { !$0.isEmpty })
     }
 }

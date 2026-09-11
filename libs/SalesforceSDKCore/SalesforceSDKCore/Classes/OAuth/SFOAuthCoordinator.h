@@ -149,7 +149,7 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
  Sent to notify the delegate that a  authentication code was retrieved during idp flow.
    @param coordinator The SFOAuthCoordinator instance processing this message.
  */
-- (void)oauthCoordinatorDidFetchAuthCode:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)authInfo;
+- (void)oauthCoordinatorDidFetchAuthCode:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)authInfo SFSDK_DEPRECATED(14.0, 15.0, "The IDP (Identity Provider) login flow is deprecated. Apps should use advanced (browser-based) authentication.");
 
 @required
 
@@ -342,9 +342,9 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
  */
 - (BOOL)handleAdvancedAuthenticationResponse:(NSURL *)appUrlResponse;
 
-- (BOOL)handleIDPAuthenticationResponse:(NSURL *)appUrlResponse;
+- (BOOL)handleIDPAuthenticationResponse:(NSURL *)appUrlResponse SFSDK_DEPRECATED(14.0, 15.0, "The IDP (Identity Provider) login flow is deprecated. Apps should use advanced (browser-based) authentication.");
 
-- (void)beginIDPFlow:(SFUserAccount *)user success:(void(^)(void))successBlock failure:(void(^)(NSError *))failureBlock;
+- (void)beginIDPFlow:(SFUserAccount *)user success:(void(^)(void))successBlock failure:(void(^)(NSError *))failureBlock SFSDK_DEPRECATED(14.0, 15.0, "The IDP (Identity Provider) login flow is deprecated. Apps should use advanced (browser-based) authentication.");
 
 @end
 

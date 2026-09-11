@@ -110,9 +110,12 @@ static NSString * const kSFDisableExternalPaste = @"DISABLE_EXTERNAL_PASTE";
     return [self.rawPreferences[kManagedKeyOnlyShowAuthorizedHosts] boolValue];
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 - (NSString *)idpAppURLScheme {
     return self.rawPreferences[kManagedKeyIDPAppURLScheme];
 }
+#pragma clang diagnostic pop
 
 - (NSArray *)loginHosts {
     id objLoginHosts = self.rawPreferences[kManagedKeyLoginHosts];

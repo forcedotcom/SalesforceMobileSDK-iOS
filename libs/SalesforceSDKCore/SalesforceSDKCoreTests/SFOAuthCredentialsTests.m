@@ -108,4 +108,86 @@
     XCTAssertEqualObjects(creds.beaconChildConsumerSecret, @"test-beacon-child-consumer-secret");
 }
 
+- (void)testMainSid_withNonJwtFormat_returnsAccessToken {
+    SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:@"test-main-sid" clientId:@"test-client" encrypted:NO storageType:SFOAuthCredentialsStorageTypeNone];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setObject:@"test-access-token" forKey:@"access_token"];
+    [params setObject:@"test-parent-sid" forKey:@"parent_sid"];
+    [params setObject:@"access_token" forKey:@"token_format"];
+    [creds updateCredentials:params];
+    XCTAssertEqualObjects(creds.mainSid, @"test-access-token");
+}
+
+- (void)testMainSid_withJwtFormat_returnsParentSid {
+    SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:@"test-main-sid-jwt" clientId:@"test-client" encrypted:NO storageType:SFOAuthCredentialsStorageTypeNone];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setObject:@"test-access-token" forKey:@"access_token"];
+    [params setObject:@"test-parent-sid" forKey:@"parent_sid"];
+    [params setObject:@"jwt" forKey:@"token_format"];
+    [creds updateCredentials:params];
+    XCTAssertEqualObjects(creds.mainSid, @"test-parent-sid");
+}
+
+- (void)test_givenDPoPTokenType_whenUpdateCredentials_thenUiSidCaptured {
+    SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:@"test-uisid-dpop" clientId:@"test-client" encrypted:NO storageType:SFOAuthCredentialsStorageTypeNone];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setObject:@"test-access-token" forKey:@"access_token"];
+    [params setObject:@"test-ui-sid" forKey:@"ui_sid"];
+    [params setObject:@"DPoP" forKey:@"token_type"];
+    [creds updateCredentials:params];
+    XCTAssertEqualObjects(creds.uiSid, @"test-ui-sid");
+}
+
+- (void)test_givenNonDPoPTokenType_whenUpdateCredentials_thenUiSidNotCaptured {
+    SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:@"test-uisid-nondpop" clientId:@"test-client" encrypted:NO storageType:SFOAuthCredentialsStorageTypeNone];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setObject:@"test-access-token" forKey:@"access_token"];
+    [params setObject:@"test-ui-sid" forKey:@"ui_sid"];
+    [params setObject:@"bearer" forKey:@"token_type"];
+    [creds updateCredentials:params];
+    XCTAssertNil(creds.uiSid);
+}
+
+- (void)test_givenUiSidPresent_whenGetMainSid_thenReturnsUiSid {
+    SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:@"test-mainsid-uisid" clientId:@"test-client" encrypted:NO storageType:SFOAuthCredentialsStorageTypeNone];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setObject:@"test-access-token" forKey:@"access_token"];
+    [params setObject:@"test-parent-sid" forKey:@"parent_sid"];
+    [params setObject:@"jwt" forKey:@"token_format"];
+    [params setObject:@"test-ui-sid" forKey:@"ui_sid"];
+    [params setObject:@"DPoP" forKey:@"token_type"];
+    [creds updateCredentials:params];
+    XCTAssertEqualObjects(creds.mainSid, @"test-ui-sid");
+}
+
+- (void)test_givenUiSidAbsent_whenGetMainSid_thenFallsBackToExistingLogic {
+    SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:@"test-mainsid-fallback" clientId:@"test-client" encrypted:NO storageType:SFOAuthCredentialsStorageTypeNone];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setObject:@"test-access-token" forKey:@"access_token"];
+    [params setObject:@"test-parent-sid" forKey:@"parent_sid"];
+    [params setObject:@"jwt" forKey:@"token_format"];
+    [creds updateCredentials:params];
+    XCTAssertNil(creds.uiSid);
+    XCTAssertEqualObjects(creds.mainSid, @"test-parent-sid");
+}
+
+- (void)test_givenExistingUiSid_whenUpdateCredentialsWithBearerTokenType_thenUiSidCleared {
+    SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:@"test-uisid-stale" clientId:@"test-client" encrypted:NO storageType:SFOAuthCredentialsStorageTypeNone];
+
+    NSMutableDictionary *dpopParams = [NSMutableDictionary dictionary];
+    [dpopParams setObject:@"dpop-access-token" forKey:@"access_token"];
+    [dpopParams setObject:@"test-ui-sid" forKey:@"ui_sid"];
+    [dpopParams setObject:@"DPoP" forKey:@"token_type"];
+    [creds updateCredentials:dpopParams];
+    XCTAssertEqualObjects(creds.uiSid, @"test-ui-sid", @"Precondition: uiSid must be set after DPoP login");
+
+    NSMutableDictionary *bearerParams = [NSMutableDictionary dictionary];
+    [bearerParams setObject:@"bearer-access-token" forKey:@"access_token"];
+    [bearerParams setObject:@"bearer" forKey:@"token_type"];
+    [creds updateCredentials:bearerParams];
+
+    XCTAssertNil(creds.uiSid, @"uiSid must be cleared after DPoP-to-Bearer downgrade");
+    XCTAssertEqualObjects(creds.mainSid, @"bearer-access-token", @"mainSid must return access token after uiSid is cleared");
+}
+
 @end

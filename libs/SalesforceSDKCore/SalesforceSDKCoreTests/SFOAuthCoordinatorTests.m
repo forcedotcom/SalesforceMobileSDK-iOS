@@ -365,9 +365,9 @@ static NSString * const kExpectedUnscopedSceneIdPrefix = @"com.salesforce.mobile
 - (void)test_givenAttestationEnabled_andWebServerFlowDisabled_whenAuthenticateCalled_thenUsesWebServerFlowType {
     // Arrange
     BOOL originalAttestation = [SFUserAccountManager sharedInstance].appAttestationEnabled;
-    BOOL originalWebServer = [[SalesforceSDKManager sharedManager] useWebServerAuthentication];
+    BOOL originalWebServer = [[SalesforceSDKManager sharedManager] sdk_useWebServerAuthentication];
     [SFUserAccountManager sharedInstance].appAttestationEnabled = YES;
-    [SalesforceSDKManager sharedManager].useWebServerAuthentication = NO;
+    [SalesforceSDKManager sharedManager].sdk_useWebServerAuthentication = NO;
 
     SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:@"testFlowType" clientId:@"testClient" encrypted:NO];
     creds.domain = @"mydomain.my.salesforce.com";
@@ -390,7 +390,7 @@ static NSString * const kExpectedUnscopedSceneIdPrefix = @"com.salesforce.mobile
 
     // Cleanup
     [SFUserAccountManager sharedInstance].appAttestationEnabled = originalAttestation;
-    [SalesforceSDKManager sharedManager].useWebServerAuthentication = originalWebServer;
+    [SalesforceSDKManager sharedManager].sdk_useWebServerAuthentication = originalWebServer;
     [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureAppAttestation];
     [creds revoke];
 }
@@ -398,9 +398,9 @@ static NSString * const kExpectedUnscopedSceneIdPrefix = @"com.salesforce.mobile
 - (void)test_givenAttestationDisabled_andWebServerFlowDisabled_whenAuthenticateCalled_thenUsesUserAgentFlowType {
     // Arrange
     BOOL originalAttestation = [SFUserAccountManager sharedInstance].appAttestationEnabled;
-    BOOL originalWebServer = [[SalesforceSDKManager sharedManager] useWebServerAuthentication];
+    BOOL originalWebServer = [[SalesforceSDKManager sharedManager] sdk_useWebServerAuthentication];
     [SFUserAccountManager sharedInstance].appAttestationEnabled = NO;
-    [SalesforceSDKManager sharedManager].useWebServerAuthentication = NO;
+    [SalesforceSDKManager sharedManager].sdk_useWebServerAuthentication = NO;
 
     SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:@"testFlowType2" clientId:@"testClient2" encrypted:NO];
     creds.domain = @"mydomain.my.salesforce.com";
@@ -423,16 +423,16 @@ static NSString * const kExpectedUnscopedSceneIdPrefix = @"com.salesforce.mobile
 
     // Cleanup
     [SFUserAccountManager sharedInstance].appAttestationEnabled = originalAttestation;
-    [SalesforceSDKManager sharedManager].useWebServerAuthentication = originalWebServer;
+    [SalesforceSDKManager sharedManager].sdk_useWebServerAuthentication = originalWebServer;
     [creds revoke];
 }
 
 - (void)test_givenAttestationEnabled_whenGeneratingApprovalUrl_thenContainsResponseTypeCode {
     // Arrange
     BOOL originalAttestation = [SFUserAccountManager sharedInstance].appAttestationEnabled;
-    BOOL originalWebServer = [[SalesforceSDKManager sharedManager] useWebServerAuthentication];
+    BOOL originalWebServer = [[SalesforceSDKManager sharedManager] sdk_useWebServerAuthentication];
     [SFUserAccountManager sharedInstance].appAttestationEnabled = YES;
-    [SalesforceSDKManager sharedManager].useWebServerAuthentication = NO;
+    [SalesforceSDKManager sharedManager].sdk_useWebServerAuthentication = NO;
 
     SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:@"testApprovalUrl" clientId:@"testClient" encrypted:NO];
     creds.domain = @"mydomain.my.salesforce.com";
@@ -453,16 +453,16 @@ static NSString * const kExpectedUnscopedSceneIdPrefix = @"com.salesforce.mobile
 
     // Cleanup
     [SFUserAccountManager sharedInstance].appAttestationEnabled = originalAttestation;
-    [SalesforceSDKManager sharedManager].useWebServerAuthentication = originalWebServer;
+    [SalesforceSDKManager sharedManager].sdk_useWebServerAuthentication = originalWebServer;
     [creds revoke];
 }
 
 - (void)test_givenAttestationDisabled_andWebServerFlowDisabled_whenGeneratingApprovalUrl_thenDoesNotContainResponseTypeCode {
     // Arrange
     BOOL originalAttestation = [SFUserAccountManager sharedInstance].appAttestationEnabled;
-    BOOL originalWebServer = [[SalesforceSDKManager sharedManager] useWebServerAuthentication];
+    BOOL originalWebServer = [[SalesforceSDKManager sharedManager] sdk_useWebServerAuthentication];
     [SFUserAccountManager sharedInstance].appAttestationEnabled = NO;
-    [SalesforceSDKManager sharedManager].useWebServerAuthentication = NO;
+    [SalesforceSDKManager sharedManager].sdk_useWebServerAuthentication = NO;
 
     SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:@"testApprovalUrl2" clientId:@"testClient2" encrypted:NO];
     creds.domain = @"mydomain.my.salesforce.com";
@@ -481,7 +481,7 @@ static NSString * const kExpectedUnscopedSceneIdPrefix = @"com.salesforce.mobile
 
     // Cleanup
     [SFUserAccountManager sharedInstance].appAttestationEnabled = originalAttestation;
-    [SalesforceSDKManager sharedManager].useWebServerAuthentication = originalWebServer;
+    [SalesforceSDKManager sharedManager].sdk_useWebServerAuthentication = originalWebServer;
     [creds revoke];
 }
 

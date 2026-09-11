@@ -106,6 +106,14 @@
     [self encryptToken:sid forService:kSFOAuthServiceParentSid];
 }
 
+- (NSString *)uiSid {
+    return [self decryptedTokenForService:kSFOAuthServiceUiSid];
+}
+
+- (void)setUiSid:(NSString *)sid {
+    [self encryptToken:sid forService:kSFOAuthServiceUiSid];
+}
+
 - (NSString *)beaconChildConsumerKey {
     return [self decryptedTokenForService:kSFOAuthServiceBeaconChildConsumerKey];
 }

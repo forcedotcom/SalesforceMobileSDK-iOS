@@ -56,5 +56,14 @@
 
 + (void)removeSharedInstanceWithUser:(nonnull SFUserAccount *)user;
 
+/**
+ Test-only hook invoked immediately before +sharedInstanceWithUser: resolves the
+ current user, i.e. before it enters the SFRestAPI class monitor. Lets a regression
+ pause a thread at the class-monitor/currentUser seam to deterministically reproduce
+ the multi-user logout/login lock-ordering deadlock. For testing only; always nil in
+ application code.
+ */
+@property (class, nonatomic, copy, nullable) void (^currentUserResolutionHookForTesting)(void);
+
 @end
 

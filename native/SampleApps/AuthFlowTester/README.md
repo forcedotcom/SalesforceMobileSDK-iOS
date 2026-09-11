@@ -59,7 +59,7 @@ All DPoP tests live here — basic login, RTR, multi-user, migration, server enf
 |------|-----------|--------|-------|
 | `test_givenDPoPHybrid_whenLogin_thenTokenTypeIsDPoPAndRefreshWorks` | ECA JWT DPoP | Yes | |
 | `test_givenDPoPNoHybrid_whenLogin_thenTokenTypeIsDPoPAndRefreshWorks` | ECA JWT DPoP | No | |
-| `test_givenDPoPRtrHybrid_whenLogin_pendingServerFix` | ECA JWT DPoP RTR | Yes | `XCTSkip` (pending server fix for Named JWTs + RTR + hybrid) |
+| `test_givenDPoPRtrHybrid_whenLogin_thenRefreshTokenRotatesAndDPoPBindingHolds` | ECA JWT DPoP RTR | Yes | DPoP + refresh token rotation |
 | `test_givenDPoPRtrNoHybrid_whenLogin_thenRefreshTokenRotatesAndDPoPBindingHolds` | ECA JWT DPoP RTR | No | DPoP + refresh token rotation |
 | `test_givenTwoDPoPUsers_whenSwitchAndRefresh_thenTokensAndNoncesAreIsolated` | ECA JWT DPoP | — | Two users; unique tokens and nonces; independent revoke+refresh per user |
 | `test_givenDPoPUserWithSubsetScopes_whenMigrateToAllScopes_thenDPoPBindingPreserved` | ECA JWT DPoP | — | Scope upgrade; DPoP binding preserved |
@@ -85,6 +85,7 @@ Tests for ECA configurations with Refresh Token Rotation (RTR) enabled. Verifies
 | `testECAOpaqueRtr_Hybrid_WithRestart` | ECA Opaque RTR | Yes | Session survives restart |
 | `testECAOpaqueRtr_NoHybrid` | ECA Opaque RTR | No | |
 | `testECAOpaqueRtr_NoHybrid_WithRestart` | ECA Opaque RTR | No | Session survives restart |
+| `test_givenRTRObserved_whenColdRestartForcesRefresh_thenTokenRequestUserAgentContainsRT` | ECA Opaque RTR | Yes | Captures the first post-restart `/token` request and verifies its wire User-Agent contains RT plus the owning user's A2/OT markers |
 
 #### BeaconLoginTests
 Beacon app login tests for lightweight authentication use cases, covering both opaque and JWT token formats.
@@ -222,6 +223,11 @@ Restart tests additionally verify:
 - Session credentials are **reloaded from disk** after a cold process restart
 - Per-user feature flags encoded in the user agent string **persist** across restarts
 - DPoP EC key pairs stored in **Keychain** survive a process kill and restart
+
+The RTR wire-header restart test additionally enables a debug/UI-test-only `SFNetwork` metrics
+observer. AuthFlowTester exports the final `User-Agent` from the actual
+`/services/oauth2/token` request as `Last Token Request User Agent`; the test checks this captured
+value rather than inferring request behavior from the user agent recomputed after the response.
 
 ## Architecture
 

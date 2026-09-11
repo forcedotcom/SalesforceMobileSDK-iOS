@@ -85,6 +85,8 @@ struct CredentialsLabels {
     static let contentDomain = "Content Domain"
     static let contentSid = "Content SID"
     static let parentSid = "Parent SID"
+    static let mainSid = "Main SID"
+    static let uiSid = "UI SID"
     static let sidCookieName = "SID Cookie Name"
     
     // Cookies and Security fields
@@ -102,6 +104,7 @@ struct CredentialsLabels {
     // SDK section
     static let sdk = "SDK"
     static let userAgent = "User Agent"
+    static let lastTokenRequestUserAgent = "Last Token Request User Agent"
 }
 
 struct OAuthConfigLabels {
@@ -175,6 +178,8 @@ struct UserCredentialsData {
     var contentDomain: String
     var contentSid: String
     var parentSid: String
+    var mainSid: String
+    var uiSid: String
     var sidCookieName: String
     
     // Cookies and Security
@@ -191,6 +196,7 @@ struct UserCredentialsData {
 
     // SDK
     var userAgent: String
+    var lastTokenRequestUserAgent: String
 
     // DPoP
     var dpopTokenType: String?
@@ -645,6 +651,8 @@ class AuthFlowTesterMainPageObject {
             contentDomain: domainsAndSids[CredentialsLabels.contentDomain] ?? "",
             contentSid: domainsAndSids[CredentialsLabels.contentSid] ?? "",
             parentSid: domainsAndSids[CredentialsLabels.parentSid] ?? "",
+            mainSid: domainsAndSids[CredentialsLabels.mainSid] ?? "",
+            uiSid: domainsAndSids[CredentialsLabels.uiSid] ?? "",
             sidCookieName: domainsAndSids[CredentialsLabels.sidCookieName] ?? "",
             csrfToken: cookiesAndSecurity[CredentialsLabels.csrfToken] ?? "",
             cookieClientSrc: cookiesAndSecurity[CredentialsLabels.cookieClientSrc] ?? "",
@@ -653,6 +661,7 @@ class AuthFlowTesterMainPageObject {
             beaconChildConsumerSecret: beacon[CredentialsLabels.beaconChildConsumerSecret] ?? "",
             additionalOAuthFields: other[CredentialsLabels.additionalOAuthFields] ?? "",
             userAgent: sdk[CredentialsLabels.userAgent] ?? "",
+            lastTokenRequestUserAgent: sdk[CredentialsLabels.lastTokenRequestUserAgent] ?? "",
             dpopTokenType: tokens[CredentialsLabels.oauthTokenType],
             dpopNonce: tokens[CredentialsLabels.dpopNonce]
         )
@@ -733,4 +742,3 @@ class AuthFlowTesterMainPageObject {
         return staticText.firstMatch.waitForExistence(timeout: UITestTimeouts.long)
     }
 }
-

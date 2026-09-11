@@ -267,4 +267,25 @@
     [self waitForExpectations:@[expectation] timeout:10];
 }
 
+// Regression test for the background-thread UIKit fix: -[SFSDKWindowManager defaultScene] iterates
+// [UIApplication connectedScenes], a main-thread-only UIKit API. The auth flow can reach it from a
+// background thread, so it marshals to the main thread. Verify a background invocation returns the
+// same scene as the main-thread invocation and completes without hanging (the dispatch_sync guard
+// must not deadlock when the caller is off the main thread).
+- (void)testDefaultSceneFromBackgroundThreadMatchesMainThread {
+    UIScene *mainThreadScene = [[SFSDKWindowManager sharedManager] defaultScene];
+
+    XCTestExpectation *expectation = [self expectationWithDescription:@"defaultScene returns from a background thread"];
+    __block UIScene *backgroundScene = nil;
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+        XCTAssertFalse([NSThread isMainThread], @"Precondition: the call must originate off the main thread");
+        backgroundScene = [[SFSDKWindowManager sharedManager] defaultScene];
+        [expectation fulfill];
+    });
+    [self waitForExpectations:@[expectation] timeout:10];
+
+    XCTAssertEqualObjects(backgroundScene, mainThreadScene,
+                          @"A background invocation should return the same scene as the main-thread invocation");
+}
+
 @end

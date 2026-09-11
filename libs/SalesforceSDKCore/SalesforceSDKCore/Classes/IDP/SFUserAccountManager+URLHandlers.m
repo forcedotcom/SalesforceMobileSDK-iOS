@@ -119,7 +119,9 @@
 
     if (showSelection) {
         dispatch_async(dispatch_get_main_queue(), ^{
+            SFSDK_USE_DEPRECATED_BEGIN
             UIViewController<SFSDKUserSelectionView> *controller = self.idpUserSelectionAction();
+            SFSDK_USE_DEPRECATED_END
             controller.spAppOptions = request.allParams;
             controller.userSelectionDelegate = self;
             controller.modalPresentationStyle = UIModalPresentationFullScreen;
@@ -139,7 +141,9 @@
         sceneId = [[SFSDKWindowManager sharedManager] defaultScene].session.persistentIdentifier;
     }
     if (self.authSessions[sceneId]) {
+        SFSDK_USE_DEPRECATED_BEGIN
         [self.authSessions[sceneId].oauthCoordinator handleIDPAuthenticationResponse:[response requestURL]];
+        SFSDK_USE_DEPRECATED_END
     } else {
         SFSDKAlertMessage *messageObject = [SFSDKAlertMessage messageWithBlock:^(SFSDKAlertMessageBuilder *builder) {
             builder.actionOneTitle = [SFSDKResourceUtils localizedString:@"authAlertCancelButton"];
@@ -164,7 +168,9 @@
     }
     
     if (self.authSessions[sceneId]) {
-           [self.authSessions[sceneId].oauthCoordinator handleIDPAuthenticationResponse:[response requestURL]];
+        SFSDK_USE_DEPRECATED_BEGIN
+        [self.authSessions[sceneId].oauthCoordinator handleIDPAuthenticationResponse:[response requestURL]];
+        SFSDK_USE_DEPRECATED_END
     } else if (response.keychainReference) {
         // IDP - SP: Need to create auth session
         NSString *userHint = response.userHint;
@@ -187,7 +193,9 @@
         authSession.authFailureCallback = failureBlock;
         authSession.authSuccessCallback = completionBlock;
         self.authSessions[sceneId] = authSession;
+        SFSDK_USE_DEPRECATED_BEGIN
         [self.authSessions[sceneId].oauthCoordinator handleIDPAuthenticationResponse:[response requestURL]];
+        SFSDK_USE_DEPRECATED_END
         authSession.isAuthenticating = YES;
         authSession.oauthCoordinator.delegate = self;
     }

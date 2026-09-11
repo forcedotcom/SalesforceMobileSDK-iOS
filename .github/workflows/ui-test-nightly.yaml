@@ -13,8 +13,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ios: [^26, ^18]
+        ios: [^27, ^26, ^18]
         include:
+          - ios: ^27
+            xcode: ^27
+            macos: xcode-27
           - ios: ^26
             xcode: ^26
           - ios: ^18

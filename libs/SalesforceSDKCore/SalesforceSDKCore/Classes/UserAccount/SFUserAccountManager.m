@@ -200,7 +200,9 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         };
         
        _idpUserSelectionAction = ^UIViewController<SFSDKUserSelectionView> * _Nonnull{
+            SFSDK_USE_DEPRECATED_BEGIN
             SFSDKUserSelectionNavViewController *controller = [[SFSDKUserSelectionNavViewController alloc] init];
+            SFSDK_USE_DEPRECATED_END
             controller.userSelectionDelegate = [SFUserAccountManager sharedInstance];
             return controller;
         };
@@ -271,6 +273,8 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     self.authPreferences.oauthClientId = newClientId;
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 - (BOOL)isIdentityProvider {
     return self.authPreferences.isIdentityProvider;
 }
@@ -283,8 +287,16 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     }
     self.authPreferences.isIdentityProvider = isIdentityProvider;
 }
+#pragma clang diagnostic pop
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 - (BOOL)idpEnabled {
+    return self.authPreferences.idpEnabled;
+}
+#pragma clang diagnostic pop
+
+- (BOOL)sdk_idpEnabled {
     return self.authPreferences.idpEnabled;
 }
 
@@ -296,7 +308,14 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     self.authPreferences.appDisplayName = appDisplayName;
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 - (NSString *)idpAppURIScheme {
+    return self.authPreferences.idpAppURIScheme;
+}
+#pragma clang diagnostic pop
+
+- (NSString *)sdk_idpAppURIScheme {
     return self.authPreferences.idpAppURIScheme;
 }
 
@@ -308,6 +327,8 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
      self.authPreferences.requireBrowserAuthentication = useBrowserAuth;
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 - (void)setIdpAppURIScheme:(NSString *)idpAppURIScheme {
     if (idpAppURIScheme && [idpAppURIScheme sfsdk_trim].length > 0) {
         [SFSDKAppFeatureMarkers registerAppFeature:kSFSPAppFeatureIDPLogin];
@@ -316,6 +337,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     }
     self.authPreferences.idpAppURIScheme = idpAppURIScheme;
 }
+#pragma clang diagnostic pop
 
 - (SFSDKLoginViewControllerConfig *) loginViewControllerConfig {
     if (!_loginViewControllerConfig) {
@@ -332,6 +354,8 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 
 #pragma  mark - login & logout
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 - (BOOL)handleIDPAuthenticationResponse:(NSURL *)appUrlResponse options:(NSDictionary *)options {
     return [self handleIDPAuthenticationCommand:appUrlResponse options:options completion:nil failure:nil];
 }
@@ -391,8 +415,20 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         failureBlock(SFSPLoginErrorCredentialRefreshFailed);
     }];
 }
+#pragma clang diagnostic pop
 
 - (BOOL)loginWithCompletion:(SFUserAccountManagerSuccessCallbackBlock)completionBlock failure:(SFUserAccountManagerFailureCallbackBlock)failureBlock {
+    // -[UIApplication connectedScenes] is a main-thread-only UIKit API. This entry point can be
+    // reached on a background thread (e.g. a REST request that triggers login from a background
+    // queue), so marshal to the main thread to avoid unsafe UIKit access and Main Thread Checker
+    // warnings. dispatch_sync preserves the synchronous BOOL return that callers rely on.
+    if (![NSThread isMainThread]) {
+        __block BOOL result = NO;
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            result = [self loginWithCompletion:completionBlock failure:failureBlock];
+        });
+        return result;
+    }
     BOOL result = NO;
     for (UIScene *scene in [SFApplicationHelper sharedApplication].connectedScenes) {
         result |= [self loginWithCompletion:completionBlock failure:failureBlock scene:scene];
@@ -522,6 +558,25 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
                 frontDoorBridgeUrl:(NSURL * )frontDoorBridgeUrl
                       codeVerifier:(NSString *)codeVerifier
 {
+    // -[UIScene session] (below) is a main-thread-only UIKit API, and this is the common
+    // chokepoint for the scene-based login paths (loginWithCompletion:...). Marshal to the main
+    // thread when invoked from a background thread so scene access and the auth UI it drives run
+    // on the main thread. (loginWithJwtToken: and SP-app authentication call authenticateWithRequest:
+    // directly and do not pass through here.)
+    // dispatch_sync preserves the synchronous BOOL return that callers (e.g. SFSDKAuthHelper) rely on.
+    if (![NSThread isMainThread]) {
+        __block BOOL result = NO;
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            result = [self authenticateWithCompletion:completionBlock
+                                              failure:failureBlock
+                                                scene:scene
+                                            loginHint:loginHint
+                                            loginHost:loginHost
+                                   frontDoorBridgeUrl:frontDoorBridgeUrl
+                                         codeVerifier:codeVerifier];
+        });
+        return result;
+    }
     SFSDKAuthSession *authSession = self.authSessions[scene.session.persistentIdentifier];
     if (authSession && authSession.isAuthenticating) {
         [SFSDKCoreLogger e:[self class] format:@"Login has already been called. Stop current authentication using SFUserAccountManager::stopCurrentAuthentication and then retry."];
@@ -561,8 +616,10 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     request.scopes = self.scopes;
     request.retryLoginAfterFailure = self.retryLoginAfterFailure;
     request.useBrowserAuth = self.useBrowserAuth;
+    SFSDK_USE_DEPRECATED_BEGIN
     request.spAppLoginFlowSelectionAction = self.idpLoginFlowSelectionAction;
-    request.idpAppURIScheme = self.idpAppURIScheme;
+    SFSDK_USE_DEPRECATED_END
+    request.idpAppURIScheme = self.sdk_idpAppURIScheme;
     request.scene = [[SFSDKWindowManager sharedManager] defaultScene];
     return request;
 }
@@ -1060,6 +1117,8 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     });
 }
 // IDP related code fetched as an identity provider app
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 - (void)oauthCoordinatorDidFetchAuthCode:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)authInfo {
     SFSDKAuthCommand *authCommand;
     NSString *keychainReference = coordinator.authSession.oauthRequest.keychainReference;
@@ -1085,6 +1144,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         [self dismissAuthViewControllerIfPresent];
     }];
 }
+#pragma clang diagnostic pop
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(WKWebView *)view {
     SFLoginViewController *loginViewController = [self createLoginViewControllerInstance:coordinator];
@@ -2004,7 +2064,9 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     dispatch_async(dispatch_get_main_queue(), ^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
         [strongSelf dismissAuthViewControllerIfPresentForScene:authSession.oauthRequest.scene completion:^{
+            SFSDK_USE_DEPRECATED_BEGIN
             [strongSelf.authSessions[authSession.sceneId].oauthCoordinator beginIDPFlow:user success:successBlock failure:failureBlock];
+            SFSDK_USE_DEPRECATED_END
         }];
     });
 }

@@ -20,7 +20,7 @@
           "identifier" : "com.apple.dt.IDEFoundation.CurrentLocationScenarioIdentifier"
         },
         "maximumTestExecutionTimeAllowance" : 480,
-        "maximumTestRepetitions" : 3,
+        "maximumTestRepetitions" : 1,
         "region" : "US",
         "targetForVariableExpansion" : {
           "containerPath" : "container:AuthFlowTester.xcodeproj",
@@ -51,7 +51,7 @@
       "identifier" : "com.apple.dt.IDEFoundation.CurrentLocationScenarioIdentifier"
     },
     "maximumTestExecutionTimeAllowance" : 480,
-    "maximumTestRepetitions" : 3,
+    "maximumTestRepetitions" : 1,
     "region" : "US",
     "targetForVariableExpansion" : {
       "containerPath" : "container:AuthFlowTester.xcodeproj",

@@ -32,12 +32,14 @@ class LoginForAdminTests: XCTestCase {
     private var originalUseWebServerAuth: Bool = true
     private var originalUseHybridAuth: Bool = false
 
+    @available(*, deprecated, message: "Exercises deprecated useWebServerAuthentication; remove with the property in 15.0.")
     override func setUp() {
         super.setUp()
         originalUseWebServerAuth = SalesforceManager.shared.useWebServerAuthentication
         originalUseHybridAuth = SalesforceManager.shared.useHybridAuthentication
     }
 
+    @available(*, deprecated, message: "Exercises deprecated useWebServerAuthentication; remove with the property in 15.0.")
     override func tearDown() {
         SalesforceManager.shared.useWebServerAuthentication = originalUseWebServerAuth
         SalesforceManager.shared.useHybridAuthentication = originalUseHybridAuth
@@ -111,6 +113,7 @@ class LoginForAdminTests: XCTestCase {
         session.oauthCoordinator.stopAuthentication()
     }
 
+    @available(*, deprecated, message: "Exercises deprecated useWebServerAuthentication; remove with the property in 15.0.")
     func testGivenWebServerAuth_whenAuthenticate_thenAuthInfoIsWebServer() {
         createTestAppIdentity()
         SalesforceManager.shared.useWebServerAuthentication = true
@@ -129,6 +132,7 @@ class LoginForAdminTests: XCTestCase {
         session.oauthCoordinator.stopAuthentication()
     }
 
+    @available(*, deprecated, message: "Exercises deprecated useWebServerAuthentication; remove with the property in 15.0.")
     func testGivenUserAgentAuth_whenAuthenticate_thenAuthInfoIsUserAgent() {
         createTestAppIdentity()
         SalesforceManager.shared.useWebServerAuthentication = false
@@ -149,6 +153,7 @@ class LoginForAdminTests: XCTestCase {
 
     // MARK: - Approval URL Web Server Flow
 
+    @available(*, deprecated, message: "Exercises deprecated useWebServerAuthentication; remove with the property in 15.0.")
     func testGivenLoginAsAdmin_whenGenerateApprovalUrl_thenUsesWebServerFlow() {
         createTestAppIdentity()
         SalesforceManager.shared.useWebServerAuthentication = false
@@ -165,6 +170,7 @@ class LoginForAdminTests: XCTestCase {
                        "Approval URL should not use response_type=token when loginAsAdmin is true")
     }
 
+    @available(*, deprecated, message: "Exercises deprecated useWebServerAuthentication; remove with the property in 15.0.")
     func testGivenNoLoginAsAdmin_whenWebServerAuthDisabled_thenUsesUserAgentFlow() {
         createTestAppIdentity()
         SalesforceManager.shared.useWebServerAuthentication = false
@@ -183,6 +189,7 @@ class LoginForAdminTests: XCTestCase {
 
     // MARK: - No Global State Mutation
 
+    @available(*, deprecated, message: "Exercises deprecated useWebServerAuthentication; remove with the property in 15.0.")
     func testGivenLoginAsAdmin_whenSet_thenGlobalWebServerAuthUnchanged() {
         let originalValue = SalesforceManager.shared.useWebServerAuthentication
 
@@ -193,6 +200,7 @@ class LoginForAdminTests: XCTestCase {
                        "Setting loginAsAdmin should not change the global useWebServerAuthentication")
     }
 
+    @available(*, deprecated, message: "Exercises deprecated useWebServerAuthentication; remove with the property in 15.0.")
     func testGivenLoginAsAdmin_whenAuthSessionCreated_thenGlobalStateUnchanged() {
         SalesforceManager.shared.useWebServerAuthentication = false
 
@@ -226,6 +234,7 @@ class LoginForAdminTests: XCTestCase {
                        "Coordinator should not use browser auth after loginAsAdmin is cleared")
     }
 
+    @available(*, deprecated, message: "Exercises deprecated useWebServerAuthentication; remove with the property in 15.0.")
     func testGivenLoginAsAdminCancelled_whenNewSession_thenAuthInfoMatchesGlobalSetting() {
         createTestAppIdentity()
         SalesforceManager.shared.useWebServerAuthentication = true

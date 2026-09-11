@@ -32,8 +32,9 @@ SFSDK_USE_DEPRECATED_BEGIN
 #import "SFUserAccountManager.h"
 #import "SFOAuthCredentials+Internal.h"
 #import "SFOAuthInfo.h"
-#import "SFSDKOAuth2.h"
+#import "SFSDKOAuth2+Internal.h"
 #import "SFSDKAppFeatureMarkers.h"
+#import "SalesforceSDKManager.h"
 #import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 
 @interface SFOAuthSessionRefresher()
@@ -103,6 +104,10 @@ SFSDK_USE_DEPRECATED_BEGIN
     request.credentialsIdentifier = self.credentials.identifier;
     request.tokenType = self.credentials.tokenType;
     request.attestation = attestation;
+    SFUserAccount *account = [[SFUserAccountManager sharedInstance] accountForCredentials:self.credentials];
+    if (account) {
+        request.userAgent = [[SalesforceSDKManager sharedManager] userAgentString:@"" forUser:account];
+    }
 
     __weak typeof(self) weakSelf = self;
     id<SFSDKOAuthProtocol> authClient = [SFUserAccountManager sharedInstance].authClient();

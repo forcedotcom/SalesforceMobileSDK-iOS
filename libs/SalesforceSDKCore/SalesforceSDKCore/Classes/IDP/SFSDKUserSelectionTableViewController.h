@@ -28,9 +28,11 @@
  */
 
 #import <UIKit/UIKit.h>
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 @class SFUserAccount;
 @class SFSDKIDPAuthClient;
 
+/// Deprecated: part of the IDP login flow, removed in 15.0.
 @protocol SFSDKUserSelectionTableViewControllerDelegate
 
 -(void) createNewuser:(NSDictionary *) options;
@@ -39,6 +41,7 @@
 
 @end
 
+SFSDK_DEPRECATED(14.0, 15.0, "The IDP (Identity Provider) login flow is deprecated. Apps should use advanced (browser-based) authentication.")
 @interface SFSDKUserSelectionTableViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic,strong) SFUserAccount *selectedAccount;
 @property (nonatomic,weak) id<SFSDKUserSelectionTableViewControllerDelegate> listViewDelegate;

@@ -29,12 +29,14 @@ import Foundation
 
 
 @objc(SFSDKSPConfig)
+@available(*, deprecated, message: "The IDP (Identity Provider) login flow is deprecated and will be removed in Salesforce Mobile SDK 15.0. Apps should use advanced (browser-based) authentication.")
 public class SPConfig: NSObject {
     @objc public let oauthClientId: String
     @objc public let oauthCallbackURL: String
     @objc public let oauthScopes: Set<String>
     @objc public let keychainGroup: String
-    
+
+    @available(*, deprecated, message: "The IDP (Identity Provider) login flow is deprecated and will be removed in Salesforce Mobile SDK 15.0. Apps should use advanced (browser-based) authentication.")
     @objc public init(oauthClientId: String, oauthCallbackURL: String, oauthScopes: Set<String>, keychainGroup: String) {
         self.oauthClientId = oauthClientId
         self.oauthCallbackURL = oauthCallbackURL

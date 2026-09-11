@@ -116,7 +116,11 @@ static NSUInteger gPresentBiometricWithSceneCallCount = 0;
     self.originalDevSupportEnabled = [SalesforceSDKManager sharedManager].isDevSupportEnabled;
     self.originalShouldFallbackToWebAuthentication = [SFUserAccountManager sharedInstance].shouldFallbackToWebAuthentication;
     self.originalBiometricLocked = [SFBiometricAuthenticationManagerInternal shared].locked;
+    // idpAppURIScheme is deprecated (14.0, removed in 15.0); these tests exercise the IDP branch of
+    // shouldShowBackButton on purpose, so the deprecated accessor use here is intentional.
+    SFSDK_USE_DEPRECATED_BEGIN
     self.originalIdpAppURIScheme = [SFUserAccountManager sharedInstance].idpAppURIScheme;
+    SFSDK_USE_DEPRECATED_END
     self.originalCurrentUser = [SFUserAccountManager sharedInstance].currentUser;
 }
 
@@ -127,7 +131,9 @@ static NSUInteger gPresentBiometricWithSceneCallCount = 0;
     [SalesforceSDKManager sharedManager].isDevSupportEnabled = self.originalDevSupportEnabled;
     [SFUserAccountManager sharedInstance].shouldFallbackToWebAuthentication = self.originalShouldFallbackToWebAuthentication;
     [SFBiometricAuthenticationManagerInternal shared].locked = self.originalBiometricLocked;
+    SFSDK_USE_DEPRECATED_BEGIN
     [SFUserAccountManager sharedInstance].idpAppURIScheme = self.originalIdpAppURIScheme;
+    SFSDK_USE_DEPRECATED_END
     [[SFUserAccountManager sharedInstance] setCurrentUserInternal:self.originalCurrentUser];
     [[SFUserAccountManager sharedInstance] stopCurrentAuthentication:nil];
 
@@ -370,7 +376,9 @@ static NSUInteger gPresentBiometricWithSceneCallCount = 0;
 
     // idp is disabled by default in the test environment; with no current user the account-based
     // branch returns NO.
+    SFSDK_USE_DEPRECATED_BEGIN
     XCTAssertFalse([SFUserAccountManager sharedInstance].idpEnabled, @"Test precondition: idp should be disabled");
+    SFSDK_USE_DEPRECATED_END
     XCTAssertNil([SFUserAccountManager sharedInstance].currentUser, @"Test precondition: there should be no current user");
     XCTAssertFalse([vc shouldShowBackButton], @"Back button should not show when unlocked with no flow and no account to return to");
 }
@@ -432,8 +440,10 @@ static NSUInteger gPresentBiometricWithSceneCallCount = 0;
 - (void)test_givenIdpEnabled_whenShouldShowBackButton_thenYes {
     [SFBiometricAuthenticationManagerInternal shared].locked = NO;
     [SFUserAccountManager sharedInstance].shouldFallbackToWebAuthentication = NO;
+    SFSDK_USE_DEPRECATED_BEGIN
     [SFUserAccountManager sharedInstance].idpAppURIScheme = @"testidp";
     XCTAssertTrue([SFUserAccountManager sharedInstance].idpEnabled, @"Test precondition: idp should be enabled");
+    SFSDK_USE_DEPRECATED_END
 
     SFSDKLoginHostListViewController *vc = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
 
@@ -445,8 +455,10 @@ static NSUInteger gPresentBiometricWithSceneCallCount = 0;
 // is a safe no-op that returns cleanly.
 - (void)test_givenIdpEnabled_whenHandleBackButtonAction_thenHandlesWithoutCrashing {
     [SFUserAccountManager sharedInstance].shouldFallbackToWebAuthentication = NO;
+    SFSDK_USE_DEPRECATED_BEGIN
     [SFUserAccountManager sharedInstance].idpAppURIScheme = @"testidp";
     XCTAssertTrue([SFUserAccountManager sharedInstance].idpEnabled, @"Test precondition: idp should be enabled");
+    SFSDK_USE_DEPRECATED_END
 
     SFSDKLoginHostListViewController *vc = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
     [vc loadViewIfNeeded];

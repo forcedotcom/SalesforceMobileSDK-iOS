@@ -41,6 +41,8 @@ static CGFloat kImageHeight = 60;
 @property (strong,nonatomic) UIImageView *profileImageView;
 @end
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 @implementation SFSDKUITableViewCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
@@ -134,4 +136,5 @@ static CGFloat kImageHeight = 60;
     UIGraphicsEndImageContext();
     return image;
 }
+#pragma clang diagnostic pop
 @end

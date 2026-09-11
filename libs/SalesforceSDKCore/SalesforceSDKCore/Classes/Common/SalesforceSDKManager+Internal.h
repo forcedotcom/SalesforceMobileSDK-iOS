@@ -34,6 +34,13 @@ API_UNAVAILABLE(visionos)
  -Wdeprecated-declarations. Delete this alongside the public property in 15.0.
  */
 @property (nonatomic, assign) BOOL sdk_forceAdvancedAuthentication;
+
+/** Non-deprecated internal accessor for the same backing storage as the public
+ `useWebServerAuthentication` property (deprecated in 14.0, removed in 15.0). Internal SDK code
+ reads and writes the flag through this accessor so that its own use does not trip
+ -Wdeprecated-declarations. Delete this alongside the public property in 15.0.
+ */
+@property (nonatomic, assign) BOOL sdk_useWebServerAuthentication;
 @property (nonatomic, strong, nonnull) SFSDKSafeMutableDictionary<NSString *, UIViewController *> *snapshotViewControllers;
 @property (nonatomic, strong, nullable) SFSDKSafeMutableDictionary<NSString *, UIViewController *> *nativeLoginViewControllers;
 
