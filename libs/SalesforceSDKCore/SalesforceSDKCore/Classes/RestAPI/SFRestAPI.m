@@ -27,10 +27,10 @@
 #import "SFSDKOAuth2.h"
 #import "SFRestAPI+Internal.h"
 #import "SFRestRequest+Internal.h"
+#import "SFNetwork+Internal.h"
 #import "SFSDKWebUtils.h"
 #import "SalesforceSDKManager.h"
 #import "SFSDKEventBuilderHelper.h"
-#import "SFNetwork.h"
 #import "SFSDKTokenRefreshCoordinator.h"
 #import "NSString+SFAdditions.h"
 #import "SFSDKCompositeRequest.h"
@@ -63,6 +63,8 @@ static SFSDKSafeMutableDictionary *sfRestApiList = nil;
 - (BOOL)performIfCurrentDataTask:(NSURLSessionDataTask *)dataTask
                       forRequest:(SFRestRequest *)request
                           action:(nullable dispatch_block_t)action;
+- (void)startAuthenticationRefreshForRequest:(SFRestRequest *)request
+                                    response:(NSURLResponse *)response;
 
 @end
 
@@ -328,64 +330,121 @@ successBlock:(SFRestResponseBlock)successBlock
 
 - (void)enqueueRequest:(SFRestRequest *)request shouldRetry:(BOOL)shouldRetry {
     __weak __typeof(self) weakSelf = self;
-    NSURLRequest *finalRequest = [request prepareRequestForSend:self.user];
+    NSMutableURLRequest *finalRequest = [[request prepareRequestForSend:self.user] mutableCopy];
     if (finalRequest) {
+        SFNetwork *network;
         __block NSString *instanceIdentifier;
+        if (request.serviceHostType == SFSDKRestServiceHostTypeCustom) {
+            instanceIdentifier = [SFNetwork uniqueInstanceIdentifier];
+            network = [self networkForRequest:request identifier:instanceIdentifier];
+        } else {
+            network = [self networkForRequest:request];
+        }
+
         __block NSURLSessionDataTask *dataTask;
-        @synchronized (self) {
-            // Request preparation and login can complete after cleanup or a refresh-failure
-            // flush has already retired this admission and delivered its failure block. Do not
-            // publish a task that could deliver the same terminal block a second time.
-            if (![self.activeRequests containsObject:request]) {
-                [SFSDKCoreLogger d:[self class] format:@"Ignoring enqueue for inactive request: %@", request.path];
+        dataTask = [network dataTaskForRequest:finalRequest dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            [SFNetwork removeSharedInstanceForIdentifier:instanceIdentifier];
+
+            if (!strongSelf) {
                 return;
             }
 
-            SFNetwork *network;
-            if (request.serviceHostType == SFSDKRestServiceHostTypeCustom) {
-                instanceIdentifier = [SFNetwork uniqueInstanceIdentifier];
-                network = [self networkForRequest:request identifier:instanceIdentifier];
-            } else {
-                network = [self networkForRequest:request];
+            // This early check avoids parsing responses from attempts already superseded by
+            // retry. Terminal paths re-check while atomically claiming completion below;
+            // the re-check is what closes the check-then-replay race.
+            if (![strongSelf performIfCurrentDataTask:dataTask forRequest:request action:nil]) {
+                return;
             }
 
-            // Invariant: sendRequest: must remain nonblocking and invoke its completion asynchronously.
-            dataTask = [network sendRequest:finalRequest dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
-                __strong typeof(weakSelf) strongSelf = weakSelf;
-                [SFNetwork removeSharedInstanceForIdentifier:instanceIdentifier];
-
-                if (!strongSelf) {
+            // Network error.
+            if (error) {
+                [SFSDKCoreLogger d:[strongSelf class] format:@"REST request failed with error: Error Code: %ld, Description: %@, URL: %@", (long) error.code, error.localizedDescription, finalRequest.URL];
+                id dataForDelegate = [strongSelf prepareDataForDelegate:data request:request response:response];
+                __block SFRestRequestFailBlock failureBlock;
+                BOOL claimed = [strongSelf performIfCurrentDataTask:dataTask forRequest:request action:^{
+                    request.sessionDataTask = nil;
+                    [strongSelf.activeRequests removeObject:request];
+                    failureBlock = [request.failureBlock copy];
+                }];
+                if (!claimed) {
                     return;
                 }
-
-                // This early check avoids parsing responses from attempts already superseded by
-                // retry. Terminal paths re-check while atomically claiming completion below;
-                // the re-check is what closes the check-then-replay race.
-                if (![strongSelf performIfCurrentDataTask:dataTask forRequest:request action:nil]) {
-                    return;
+                if (failureBlock) {
+                    failureBlock(dataForDelegate, error, response);
                 }
+                return;
+            }
 
-                // Network error.
-                if (error) {
-                    [SFSDKCoreLogger d:[strongSelf class] format:@"REST request failed with error: Error Code: %ld, Description: %@, URL: %@", (long) error.code, error.localizedDescription, finalRequest.URL];
-                    id dataForDelegate = [strongSelf prepareDataForDelegate:data request:request response:response];
-                    __block SFRestRequestFailBlock failureBlock;
+            // Timeout.
+            if (!response) {
+                __block SFRestRequestFailBlock failureBlock;
+                BOOL claimed = [strongSelf performIfCurrentDataTask:dataTask forRequest:request action:^{
+                    request.sessionDataTask = nil;
+                    [strongSelf.activeRequests removeObject:request];
+                    failureBlock = [request.failureBlock copy];
+                }];
+                if (claimed && failureBlock) {
+                    failureBlock(nil, nil, nil);
+                }
+                return;
+            }
+
+            NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+
+            // 2xx indicates success.
+            if ([SFRestAPI isStatusCodeSuccess:statusCode]) {
+                id dataForDelegate = [strongSelf prepareDataForDelegate:data request:request response:response];
+                __block SFRestResponseBlock successBlock;
+                BOOL claimed = [strongSelf performIfCurrentDataTask:dataTask forRequest:request action:^{
+                    // Claim terminal delivery and make the request non-replayable as one
+                    // operation. Client code runs after the lock is released.
+                    request.sessionDataTask = nil;
+                    [strongSelf.activeRequests removeObject:request];
+                    successBlock = [request.successBlock copy];
+                }];
+                if (claimed && successBlock) {
+                    successBlock(dataForDelegate, response);
+                }
+            } else {
+                // DPoP nonce challenge (HTTP 400 with use_dpop_nonce in body): harvest the
+                // server-issued nonce and retry the request once with the updated proof.
+                // This covers the post-restart case where the in-memory nonce cache is empty
+                // and the first outbound DPoP call (e.g. revoke) triggers a nonce challenge.
+                // RFC 9449 §8 — the server SHOULD return the desired nonce in DPoP-Nonce.
+                NSString *bodyStr = data ? [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] : nil;
+                if (statusCode == 400
+                    && !request.dpopNonceRetried
+                    && [bodyStr containsString:SFSDKDPoPRequestDecorator.nonceErrorCode]) {
                     BOOL claimed = [strongSelf performIfCurrentDataTask:dataTask forRequest:request action:^{
+                        // Reserve the successor by retiring this attempt under the state lock.
+                        // Authentication replay skips requests whose replacement is being built.
                         request.sessionDataTask = nil;
-                        [strongSelf.activeRequests removeObject:request];
-                        failureBlock = [request.failureBlock copy];
+                        request.dpopNonceRetried = YES;
                     }];
-                    if (!claimed) {
-                        return;
-                    }
-                    if (failureBlock) {
-                        failureBlock(dataForDelegate, error, response);
+                    if (claimed) {
+                        [SFSDKDPoPRequestDecorator harvestNonceFromResponse:response
+                                                                requestURL:finalRequest.URL
+                                                                     scope:strongSelf.user.credentials.identifier];
+                        [strongSelf enqueueRequest:request shouldRetry:shouldRetry];
                     }
                     return;
                 }
-
-                // Timeout.
-                if (!response) {
+                if (shouldRetry && [strongSelf shouldRetryTask:dataTask withData:data]) {
+                    __block BOOL shouldStartRefresh = NO;
+                    BOOL claimed = [strongSelf performIfCurrentDataTask:dataTask forRequest:request action:^{
+                        if (!strongSelf.refreshCycleActive) {
+                            strongSelf.refreshCycleActive = YES;
+                            shouldStartRefresh = YES;
+                        }
+                    }];
+                    if (claimed && shouldStartRefresh) {
+                        [strongSelf startAuthenticationRefreshForRequest:request response:response];
+                    }
+                } else {
+                    // Other status codes indicate terminal failure.
+                    NSError *errorForDelegate = [strongSelf prepareErrorForDelegate:data response:response];
+                    id dataForDelegate = [strongSelf prepareDataForDelegate:data request:request response:response];
                     __block SFRestRequestFailBlock failureBlock;
                     BOOL claimed = [strongSelf performIfCurrentDataTask:dataTask forRequest:request action:^{
                         request.sessionDataTask = nil;
@@ -393,72 +452,32 @@ successBlock:(SFRestResponseBlock)successBlock
                         failureBlock = [request.failureBlock copy];
                     }];
                     if (claimed && failureBlock) {
-                        failureBlock(nil, nil, nil);
-                    }
-                    return;
-                }
-
-                NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
-
-                // 2xx indicates success.
-                if ([SFRestAPI isStatusCodeSuccess:statusCode]) {
-                    id dataForDelegate = [strongSelf prepareDataForDelegate:data request:request response:response];
-                    __block SFRestResponseBlock successBlock;
-                    BOOL claimed = [strongSelf performIfCurrentDataTask:dataTask forRequest:request action:^{
-                        // Claim terminal delivery and make the request non-replayable as one
-                        // operation. Client code runs after the lock is released.
-                        request.sessionDataTask = nil;
-                        [strongSelf.activeRequests removeObject:request];
-                        successBlock = [request.successBlock copy];
-                    }];
-                    if (claimed && successBlock) {
-                        successBlock(dataForDelegate, response);
-                    }
-                } else {
-                    // DPoP nonce challenge (HTTP 400 with use_dpop_nonce in body): harvest the
-                    // server-issued nonce and retry the request once with the updated proof.
-                    // This covers the post-restart case where the in-memory nonce cache is empty
-                    // and the first outbound DPoP call (e.g. revoke) triggers a nonce challenge.
-                    // RFC 9449 §8 — the server SHOULD return the desired nonce in DPoP-Nonce.
-                    NSString *bodyStr = data ? [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] : nil;
-                    if (statusCode == 400
-                        && !request.dpopNonceRetried
-                        && [bodyStr containsString:SFSDKDPoPRequestDecorator.nonceErrorCode]) {
-                        [strongSelf performIfCurrentDataTask:dataTask forRequest:request action:^{
-                            // Retire and replace this attempt while holding the same lock used by
-                            // terminal completion claims and authentication replay.
-                            request.dpopNonceRetried = YES;
-                            [SFSDKDPoPRequestDecorator harvestNonceFromResponse:response
-                                                                    requestURL:finalRequest.URL
-                                                                         scope:strongSelf.user.credentials.identifier];
-                            [strongSelf enqueueRequest:request shouldRetry:shouldRetry];
-                        }];
-                        return;
-                    }
-                    if (shouldRetry && [strongSelf shouldRetryTask:dataTask withData:data]) {
-                        [strongSelf performIfCurrentDataTask:dataTask forRequest:request action:^{
-                            [strongSelf replayRequest:request response:response];
-                        }];
-                    } else {
-                        // Other status codes indicate terminal failure.
-                        NSError *errorForDelegate = [strongSelf prepareErrorForDelegate:data response:response];
-                        id dataForDelegate = [strongSelf prepareDataForDelegate:data request:request response:response];
-                        __block SFRestRequestFailBlock failureBlock;
-                        BOOL claimed = [strongSelf performIfCurrentDataTask:dataTask forRequest:request action:^{
-                            request.sessionDataTask = nil;
-                            [strongSelf.activeRequests removeObject:request];
-                            failureBlock = [request.failureBlock copy];
-                        }];
-                        if (claimed && failureBlock) {
-                            failureBlock(dataForDelegate, errorForDelegate, response);
-                        }
+                        failureBlock(dataForDelegate, errorForDelegate, response);
                     }
                 }
-            }];
+            }
+        }];
 
-            // SFNetwork resumes before returning. Publishing the task while holding the state
-            // lock makes an exceptionally fast callback wait until ownership is installed.
-            request.sessionDataTask = dataTask;
+        BOOL shouldResume = NO;
+        @synchronized (self) {
+            // Request preparation and login can complete after cleanup or a refresh-failure
+            // flush has already retired this admission and delivered its failure block. Do not
+            // publish a task that could deliver the same terminal block a second time.
+            if ([self.activeRequests containsObject:request]) {
+                request.sessionDataTask = dataTask;
+                shouldResume = YES;
+            }
+        }
+
+        if (shouldResume) {
+            // The task is created suspended, so no callback can race ownership publication.
+            // Cleanup can still clear and cancel it before or after this call; either ordering
+            // leaves the cancellation callback stale and unable to deliver a second result.
+            [network resumeDataTask:dataTask];
+        } else {
+            [dataTask cancel];
+            [SFNetwork removeSharedInstanceForIdentifier:instanceIdentifier];
+            [SFSDKCoreLogger d:[self class] format:@"Ignoring enqueue for inactive request: %@", request.path];
         }
     }
 }
@@ -466,16 +485,17 @@ successBlock:(SFRestResponseBlock)successBlock
 - (BOOL)performIfCurrentDataTask:(NSURLSessionDataTask *)dataTask
                       forRequest:(SFRestRequest *)request
                           action:(dispatch_block_t)action {
+    BOOL isCurrentTask;
     @synchronized (self) {
-        if (dataTask != request.sessionDataTask) {
-            [SFSDKCoreLogger d:[self class] format:@"Ignoring callback from stale task for request: %@", request.path];
-            return NO;
-        }
-        if (action) {
+        isCurrentTask = (dataTask == request.sessionDataTask);
+        if (isCurrentTask && action) {
             action();
         }
-        return YES;
     }
+    if (!isCurrentTask) {
+        [SFSDKCoreLogger d:[self class] format:@"Ignoring callback from stale task for request: %@", request.path];
+    }
+    return isCurrentTask;
 }
 
 -(BOOL)shouldRetryTask:(NSURLSessionTask*)task
@@ -550,28 +570,32 @@ successBlock:(SFRestResponseBlock)successBlock
 }
 
 - (void)replayRequest:(SFRestRequest *)request response:(NSURLResponse *)response {
-    [SFSDKCoreLogger i:[self class] format:@"%@: REST request failed due to expired credentials. Attempting to refresh credentials.", NSStringFromSelector(_cmd)];
-
+    BOOL shouldStartRefresh = NO;
     @synchronized (self) {
-        if (self.refreshCycleActive) {
-            // A refresh is already in-flight for this SFRestAPI instance.
-            // This request is in activeRequests and will be resent when
-            // the single completion block calls resendActiveRequestsRequiringAuthentication.
-            return;
+        if (!self.refreshCycleActive) {
+            self.refreshCycleActive = YES;
+            shouldStartRefresh = YES;
         }
-        self.refreshCycleActive = YES;
     }
+    if (shouldStartRefresh) {
+        [self startAuthenticationRefreshForRequest:request response:response];
+    }
+}
+
+- (void)startAuthenticationRefreshForRequest:(SFRestRequest *)request response:(NSURLResponse *)response {
+    NSString *replaySelectorName = NSStringFromSelector(@selector(replayRequest:response:));
+    [SFSDKCoreLogger i:[self class] format:@"%@: REST request failed due to expired credentials. Attempting to refresh credentials.", replaySelectorName];
 
     __weak __typeof(self) weakSelf = self;
     [[SFSDKTokenRefreshCoordinator sharedInstance]
      refreshSessionForCredentials:self.user.credentials
      completion:^(SFOAuthCredentials *updatedCredentials) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
-        [SFSDKCoreLogger i:[strongSelf class] format:@"%@: Credentials refresh successful. Replaying original REST request.", NSStringFromSelector(_cmd)];
-        @synchronized (strongSelf) {
-            [strongSelf resendActiveRequestsRequiringAuthentication];
-            strongSelf.refreshCycleActive = NO;
+        if (!strongSelf) {
+            return;
         }
+        [SFSDKCoreLogger i:[strongSelf class] format:@"%@: Credentials refresh successful. Replaying original REST request.", replaySelectorName];
+        [strongSelf resendActiveRequestsRequiringAuthentication];
     }
      error:^(NSError *refreshError) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
@@ -580,7 +604,7 @@ successBlock:(SFRestResponseBlock)successBlock
         if ([refreshError.domain isEqualToString:kSFOAuthErrorDomain]) {
             SFUserAccount *user = strongSelf.user;
             void (^triggerLogout)(SFLogoutReason, NSString *) = ^(SFLogoutReason reason, NSString *logMessage) {
-                [SFSDKCoreLogger i:[strongSelf class] format:@"%@ %@", NSStringFromSelector(_cmd), logMessage];
+                [SFSDKCoreLogger i:[strongSelf class] format:@"%@ %@", replaySelectorName, logMessage];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [[SFUserAccountManager sharedInstance] logoutUser:user reason:reason];
                 });
@@ -591,7 +615,7 @@ successBlock:(SFRestResponseBlock)successBlock
             } else if (errorCode == SFOAuthErrorCodeAppAttestationFailed) {
                 triggerLogout(SFLogoutReasonAppAttestationFailed, @"App attestation failed, triggering logout.");
             } else if (errorCode == SFOAuthErrorCodeAppAttestationFailedRetry) {
-                [SFSDKCoreLogger i:[strongSelf class] format:@"%@ App attestation retry needed, no automatic logout.", NSStringFromSelector(_cmd)];
+                [SFSDKCoreLogger i:[strongSelf class] format:@"%@ App attestation retry needed, no automatic logout.", replaySelectorName];
             }
         }
     }];
@@ -628,6 +652,9 @@ successBlock:(SFRestResponseBlock)successBlock
 }
 
 - (void)resendActiveRequestsRequiringAuthentication {
+    NSMutableArray<SFRestRequest *> *requestsToReplay = [NSMutableArray new];
+    NSMutableArray<NSURLSessionDataTask *> *tasksToCancel = [NSMutableArray new];
+
     @synchronized (self) {
         NSSet *pendingRequests = [self.activeRequests asSet];
         for (SFRestRequest *request in pendingRequests) {
@@ -638,14 +665,23 @@ successBlock:(SFRestResponseBlock)successBlock
                 // publication; replay must replace an existing attempt, not create the first one.
                 continue;
             }
-            // This recursive send relies on enqueueRequest's documented nonblocking,
-            // asynchronous SFNetwork callback invariant while the state lock is held.
-            [self send:request
-          failureBlock:request.failureBlock
-          successBlock:request.successBlock
-           shouldRetry:NO];
-            [oldTask cancel];
+            // Reserve the replacement atomically. A concurrent replay will skip this request,
+            // and callbacks from the old task become stale before it is cancelled.
+            request.sessionDataTask = nil;
+            [requestsToReplay addObject:request];
+            [tasksToCancel addObject:oldTask];
         }
+        // End the completed cycle atomically with the replay snapshot. A request admitted
+        // after this point was not reserved above and must be able to start a new refresh
+        // if it receives an authentication failure while replacements are being built.
+        self.refreshCycleActive = NO;
+    }
+
+    for (NSUInteger index = 0; index < requestsToReplay.count; index++) {
+        [tasksToCancel[index] cancel];
+        // Do not call send: here: cleanup may retire the request after the snapshot, and send:
+        // would re-admit it. enqueueRequest publishes only if active membership still exists.
+        [self enqueueRequest:requestsToReplay[index] shouldRetry:NO];
     }
 }
 

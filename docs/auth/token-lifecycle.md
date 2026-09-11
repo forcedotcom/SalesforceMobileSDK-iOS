@@ -183,9 +183,11 @@ built proof.
 `SFRestAPI` also defensively handles a resource-server HTTP 400 `use_dpop_nonce` response:
 
 1. Confirm that the response belongs to the request's current data task.
-2. Confirm that this request has not already used its one resource nonce retry.
-3. Harvest `DPoP-Nonce` for the response URL and credential scope.
-4. Rebuild and enqueue the request, producing a fresh proof.
+2. Under the REST state lock, confirm that this request has not already used its one resource
+   nonce retry, mark the retry used, and clear the current task to reserve its successor.
+3. Release the state lock, then harvest `DPoP-Nonce` for the response URL and credential scope.
+4. Rebuild a suspended task, publish it only if the request is still active, and start it after
+   releasing the state lock.
 
 This REST branch deliberately checks `statusCode == 400` and searches the response body directly
 for `use_dpop_nonce`. It does not call `DPoPRequestDecorator.isNonceChallenge`, whose broader token
@@ -210,13 +212,19 @@ An authenticated `SFRestAPI` instance maintains:
 When an attempt receives an authentication failure accepted by the retry policy:
 
 1. The completion verifies that its data task is still current.
-2. Under `@synchronized(self)`, `replayRequest` elects one refresh cycle for the API instance.
-3. The API asks the shared `SFSDKTokenRefreshCoordinator` to refresh the credential.
+2. Under `@synchronized(self)`, it atomically rechecks task ownership and elects one refresh cycle
+   for the API instance; the lock protects only these state changes.
+3. After releasing the lock, the API asks the shared `SFSDKTokenRefreshCoordinator` to refresh the
+   credential.
 4. Other failed requests remain in `activeRequests`; they do not start another refresh cycle.
 5. On refresh success, `resendActiveRequestsRequiringAuthentication` snapshots the active set. It
-   skips any newly admitted request whose initial task has not been published yet, and installs a
-   successor for each request that already owns a task, with automatic auth retry disabled.
-6. Each old task is cancelled after its successor is installed.
+   skips any newly admitted request whose initial task has not been published yet. For every
+   published attempt, it clears `sessionDataTask` under the lock to reserve one replacement, then
+   ends the completed refresh cycle before releasing that same lock.
+6. After releasing the lock, it cancels each old task and creates, publishes, and starts the
+   replacement with automatic auth retry disabled. It calls `enqueueRequest:` directly so cleanup
+   cannot be undone by re-admitting a request through `send:`. A request admitted after the replay
+   snapshot can start a new refresh rather than coalescing onto the already-completed cycle.
 7. On refresh failure, the active set is atomically drained and each request receives one failure.
 
 The local `refreshCycleActive` flag groups requests for one `SFRestAPI`. The shared refresh
@@ -230,7 +238,8 @@ Refresh coalescing alone does not make REST replay safe. An old task can finish 
 installing its replacement. `SFRestAPI` therefore treats `request.sessionDataTask` as an ownership
 token for one network attempt.
 
-All compound ownership transitions use the same `@synchronized(self)` domain:
+All compound ownership transitions use the same `@synchronized(self)` domain, but the lock covers
+only request state:
 
 ```text
 terminal completion:
@@ -242,29 +251,52 @@ terminal completion:
   unlock
   invoke application or delegate code
 
-authentication or DPoP retry:
+DPoP retry reservation:
   lock
     require callbackTask == request.sessionDataTask
-    build, start, and publish the successor task
+    request.sessionDataTask = nil
+    mark the one-time nonce retry used
   unlock
+  harvest the nonce and build the successor
+
+authentication replay reservation after refresh:
+  lock
+    snapshot active requests with published tasks
+    clear each request.sessionDataTask
+  unlock
+  cancel old tasks and build each successor
 ```
 
 There is an inexpensive current-task check before response parsing, followed by another check in
 the terminal claim. The second check is essential: parsing runs outside the lock, so refresh could
 replace the task between parsing and delivery.
 
-The successor is created and assigned to `request.sessionDataTask` while holding the state lock.
-`SFNetwork.sendRequest` resumes its task before returning, so the lock prevents an exceptionally
-fast asynchronous completion from observing the request before task ownership is published.
+`enqueueRequest:` uses a suspended-task publication protocol:
+
+1. Prepare the URL request, select the network, evaluate the public user-agent generator, and
+   create an `NSURLSessionDataTask` outside the REST state lock. The new task is suspended.
+2. Acquire the state lock and publish the task to `request.sessionDataTask` only if the request is
+   still in `activeRequests`.
+3. Release the lock and resume the published task. If the request was retired, cancel the
+   suspended task without publishing or starting it.
+
+The suspended state, rather than a long critical section, prevents an exceptionally fast
+completion from observing the request before task ownership is published. Cleanup can win before
+publication, after publication, or between publication and resume; in every ordering it removes
+membership, clears ownership, and prevents a second terminal callback.
 
 Admission to `activeRequests` intentionally happens before initial request preparation, so a newly
 submitted request can appear in a refresh replay snapshot while `sessionDataTask` is still nil.
 Replay skips that entry: only the original sender may publish the first task, while replay may only
-replace an existing task. This prevents replay and the original sender from independently creating
-two initial attempts for the same request.
+replace an existing task. A nil task can also mean that replay has reserved a replacement and is
+constructing it outside the lock; another replay likewise skips that entry. This prevents two
+paths from independently creating successors for the same request.
 
-**Invariant:** `SFNetwork.sendRequest` must remain nonblocking and must not invoke its completion
-synchronously. Changing that contract could introduce a lock-ordering or reentrancy hazard.
+`SFNetwork.sendRequest` preserves its public create-and-resume behavior. `SFRestAPI` uses private
+create-suspended and resume operations so task construction does not execute while holding its
+state lock. In particular, `SalesforceSDKManager` initialization, the application-overridable
+user-agent block, URL-session setup, logging, task cancellation, and task resume all remain outside
+the lock. This avoids lock inversion with main-thread login, logout, and screen-lock work.
 
 Application blocks and delegate methods always run after the state lock is released. The terminal
 claim removes the completed request before client code runs. This also permits a callback to reuse
@@ -334,17 +366,19 @@ same coordinated refresh result.
 ```text
 task 1 -> HTTP 400 use_dpop_nonce + DPoP-Nonce
   -> verify task 1 is current
-  -> harvest nonce and install task 2 under the ownership lock
+  -> reserve task 2 under the ownership lock by clearing task 1
+  -> release the lock, harvest the nonce, and create task 2 suspended
+  -> publish task 2 under the lock, then resume it after unlocking
   -> task 2 carries a fresh proof
   -> task 2 completes terminally
   -> any later task-1 completion is stale and ignored
 ```
 
 If authentication replay installs a successor after task 1 recognizes the nonce challenge but
-before it claims retry ownership, task 1 fails its ownership recheck and does not install another
-successor. Conversely, if the DPoP retry claim wins the lock first, authentication replay can only
-replace the successor it published. The two retry mechanisms therefore preserve one current-task
-chain rather than creating independent successors.
+before it claims retry ownership, task 1 fails its ownership recheck and does not reserve another
+successor. Conversely, if the DPoP retry reservation wins the lock first, authentication replay
+sees a nil task and skips the replacement while it is being built. The two retry mechanisms
+therefore preserve one current-task chain rather than creating independent successors.
 
 ### 9.4 Completion racing authentication replay
 
@@ -382,14 +416,18 @@ published attempt; it never creates the initial attempt on behalf of an in-progr
    coalesce onto that entry.
 2. A refresh network call never runs while the coordinator serial queue is synchronously held.
 3. At most one data-task attempt can deliver a terminal result for an `SFRestRequest`.
-4. Terminal completion and successor installation use the same request-state lock.
-5. A successor task is published before its asynchronous completion can claim ownership.
-6. DPoP and authentication retries remain nonterminal; they transfer ownership to a successor.
+4. Terminal completion and successor reservation use the same request-state lock.
+5. A successor task is created suspended outside the lock, published under the lock, and resumed
+   only after publication and lock release.
+6. DPoP and authentication retries remain nonterminal; clearing the old task under the lock
+   reserves exactly one successor.
 7. Application and delegate callbacks execute outside the request-state lock.
-8. Cleanup invalidates request ownership before cancellation or client notification.
-9. A replayed REST request cannot automatically start a second auth refresh cycle.
-10. Refresh replay skips an active request with no published task; only its original sender may
-    publish the first attempt.
+8. Network selection, user-agent generation, token refresh, nonce harvesting, logging, task
+   construction, cancellation, and resume execute outside the request-state lock.
+9. Cleanup invalidates request ownership before cancellation or client notification.
+10. A replayed REST request cannot automatically start a second auth refresh cycle.
+11. Refresh replay skips an active request with no published task; that state belongs either to
+    its original sender or to the path already constructing a reserved successor.
 
 The focused regression coverage lives in `SFRestAPIDataTaskRaceTests`, with coordinator behavior
 covered by `SFSDKTokenRefreshCoordinatorTests` and token-endpoint nonce handling covered by the
