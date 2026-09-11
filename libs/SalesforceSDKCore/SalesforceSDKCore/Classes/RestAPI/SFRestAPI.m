@@ -326,7 +326,13 @@ successBlock:(SFRestResponseBlock)successBlock
 
 - (void)enqueueRequest:(SFRestRequest *)request shouldRetry:(BOOL)shouldRetry {
     __weak __typeof(self) weakSelf = self;
-    NSMutableURLRequest *finalRequest = [[request prepareRequestForSend:self.user] mutableCopy];
+    // prepareRequestForSend: returns the SFRestRequest's own mutable request; preserve that
+    // object identity so headers applied during send (e.g. User-Agent) remain visible on
+    // request.request. Only copy if a caller supplied an immutable request.
+    NSURLRequest *preparedRequest = [request prepareRequestForSend:self.user];
+    NSMutableURLRequest *finalRequest = [preparedRequest isKindOfClass:[NSMutableURLRequest class]]
+        ? (NSMutableURLRequest *)preparedRequest
+        : [preparedRequest mutableCopy];
     if (finalRequest) {
         SFNetwork *network;
         __block NSString *instanceIdentifier;
