@@ -38,7 +38,7 @@ class DPoPLoginTests: BaseAuthFlowTester {
     /// Login with ECA JWT DPoP using hybrid flow and verify DPoP token binding.
     func test_givenDPoPHybrid_whenLogin_thenTokenTypeIsDPoPAndRefreshWorks() throws {
         launchLoginAndValidate(staticAppConfigName: .ecaJwtDpop, useDPoP: true)
-        // Two revoke/refresh cycles verify DPoP binding survives a second nonce rotation
+        // Two revoke/refresh cycles verify DPoP binding survives a second recovery
         // (parity with Android's `testECAJwtDPoP_Hybrid`).
         assertRevokeAndRefreshWorks(expectsRefreshTokenRotation: false, isDPoP: true, isJwt: true)
         assertRevokeAndRefreshWorks(expectsRefreshTokenRotation: false, isDPoP: true, isJwt: true)
@@ -47,7 +47,7 @@ class DPoPLoginTests: BaseAuthFlowTester {
     /// Login with ECA JWT DPoP without hybrid flow and verify DPoP token binding.
     func test_givenDPoPNoHybrid_whenLogin_thenTokenTypeIsDPoPAndRefreshWorks() throws {
         launchLoginAndValidate(staticAppConfigName: .ecaJwtDpop, useHybridFlow: false, useDPoP: true)
-        // Two revoke/refresh cycles verify DPoP binding survives a second nonce rotation
+        // Two revoke/refresh cycles verify DPoP binding survives a second recovery
         // (parity with Android's `testECAJwtDPoP_NoHybrid`).
         assertRevokeAndRefreshWorks(expectsRefreshTokenRotation: false, isDPoP: true, useHybridFlow: false, isJwt: true)
         assertRevokeAndRefreshWorks(expectsRefreshTokenRotation: false, isDPoP: true, useHybridFlow: false, isJwt: true)
@@ -65,6 +65,47 @@ class DPoPLoginTests: BaseAuthFlowTester {
     func test_givenDPoPRtrNoHybrid_whenLogin_thenRefreshTokenRotatesAndDPoPBindingHolds() throws {
         launchLoginAndValidate(staticAppConfigName: .ecaJwtDpopRtr, useHybridFlow: false, useDPoP: true)
         assertRevokeAndRefreshWorks(expectsRefreshTokenRotation: true, isDPoP: true, useHybridFlow: false, isJwt: true)
+    }
+
+    /// Concurrent 401 responses must share refresh/replay while preserving both DPoP and RTR.
+    func test_givenDPoPRTRSessionWithInvalidAccessToken_whenMakingManyRequests_thenReplayPreservesBinding() throws {
+        launchLoginAndValidate(staticAppConfigName: .ecaJwtDpopRtr, useDPoP: true)
+        let credentialsBefore = getUserCredentials()
+        restart(withLaunchArguments: ["--invalidateCurrentUserAccessTokenAtStart"])
+
+        startManyRestRequests()
+        let result = try XCTUnwrap(waitForManyRequestsToComplete(expectedCount: 20))
+        XCTAssertEqual(result.succeeded, 20)
+        XCTAssertEqual(result.failed, 0)
+        XCTAssertGreaterThan(result.peakInFlight, 1)
+
+        let credentialsAfter = getUserCredentials()
+        XCTAssertNotEqual(credentialsAfter.accessToken, credentialsBefore.accessToken)
+        XCTAssertNotEqual(credentialsAfter.refreshToken, credentialsBefore.refreshToken)
+        XCTAssertEqual(credentialsAfter.dpopTokenType, "DPoP")
+        XCTAssertFalse(credentialsAfter.dpopNonce?.isEmpty ?? true)
+    }
+
+    /// Revoke a non-RTR DPoP session under load and verify proof/nonce recovery remains usable.
+    func test_givenDPoPRequestsInFlight_whenRevoked_thenBindingIsPreserved() throws {
+        launchLoginAndValidate(staticAppConfigName: .ecaJwtDpop, useDPoP: true)
+        let credentialsBefore = getUserCredentials()
+
+        startManyRestRequests(interruption: .revoke)
+        XCTAssertTrue(waitForManyRequestsInterruptionRequested())
+        XCTAssertTrue(waitForManyRequestsInterruptionCompleted())
+        let result = try XCTUnwrap(waitForManyRequestsToComplete(expectedCount: 20))
+        XCTAssertEqual(result.completed, 20)
+        XCTAssertEqual(result.succeeded + result.failed, 20)
+        XCTAssertEqual(result.queued, 0)
+        XCTAssertEqual(result.inFlight, 0)
+
+        XCTAssertTrue(makeRestRequest(), "A follow-up DPoP request should succeed")
+        let credentialsAfter = getUserCredentials()
+        XCTAssertNotEqual(credentialsAfter.accessToken, credentialsBefore.accessToken)
+        XCTAssertEqual(credentialsAfter.refreshToken, credentialsBefore.refreshToken)
+        XCTAssertEqual(credentialsAfter.dpopTokenType, "DPoP")
+        XCTAssertFalse(credentialsAfter.dpopNonce?.isEmpty ?? true)
     }
 
     // MARK: - Multi-User

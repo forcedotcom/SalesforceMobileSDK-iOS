@@ -1087,6 +1087,70 @@ class BaseAuthFlowTester: XCTestCase {
         return mainPage.makeRestRequest()
     }
 
+    /// Starts a concurrent mixed REST batch without waiting for its responses.
+    func startManyRestRequests(
+        count: Int = 20,
+        interruption: ManyRequestsInterruption = .manual
+    ) {
+        mainPage.startManyRestRequests(count: count, interruption: interruption)
+    }
+
+    func waitForManyRequestsInFlight() -> Bool {
+        return mainPage.waitForManyRequestsInFlight()
+    }
+
+    func waitForManyRequestsInterruptionRequested() -> Bool {
+        return mainPage.waitForManyRequestsInterruptionRequested()
+    }
+
+    func waitForManyRequestsInterruptionCompleted() -> Bool {
+        return mainPage.waitForManyRequestsInterruptionCompleted()
+    }
+
+    func waitForManyRequestsToComplete(expectedCount: Int) -> ManyRequestsResult? {
+        return mainPage.waitForManyRequestsToComplete(expectedCount: expectedCount)
+    }
+
+    func manyRequestState(at requestNumber: Int) -> String {
+        return mainPage.requestState(at: requestNumber)
+    }
+
+    func manyRequestType(at requestNumber: Int) -> String {
+        return mainPage.requestType(at: requestNumber)
+    }
+
+    func tapFailedManyRequest(at requestNumber: Int) {
+        mainPage.tapFailedRequest(at: requestNumber)
+    }
+
+    func isShowingManyRequestErrorDetails() -> Bool {
+        return mainPage.isShowingRequestErrorDetails()
+    }
+
+    func manyRequestErrorDetail(identifier: String) -> String {
+        return mainPage.requestErrorDetail(identifier: identifier)
+    }
+
+    func hasManyRequestErrorCopyAction() -> Bool {
+        return mainPage.hasRequestErrorCopyAction()
+    }
+
+    func inspectUserList(for username: String) -> UserListState {
+        return mainPage.inspectUserList(for: username)
+    }
+
+    func waitForCurrentUser(username: String) -> Bool {
+        return mainPage.waitForCurrentUser(username: username)
+    }
+
+    func isShowingLogin() -> Bool {
+        return loginPage.isShowing()
+    }
+
+    func waitForLoggedOut() -> Bool {
+        return loginPage.waitForLoggedOut()
+    }
+
     // MARK: - Force Advanced Auth Test Support
     //
     // Thin wrappers exposing the login-page / main-page primitives to `ForceAdvancedAuthTests`,

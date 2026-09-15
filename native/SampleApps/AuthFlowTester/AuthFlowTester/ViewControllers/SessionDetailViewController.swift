@@ -47,7 +47,7 @@ struct SessionDetailView: View {
     
     var onChangeConsumerKey: () -> Void
     var onSwitchUser: () -> Void
-    var onLogout: () -> Void
+    var onLogout: (UserAccount?) -> Void
     
     var body: some View {
         ScrollView {
@@ -61,6 +61,15 @@ struct SessionDetailView: View {
                 RestApiTestView(onRequestCompleted: {
                     refreshTrigger = UUID()
                 })
+
+                ConcurrentRestApiTestView(
+                    onRequestCompleted: {
+                        refreshTrigger = UUID()
+                    },
+                    onLogout: { account in
+                        onLogout(account)
+                    }
+                )
                 
                 // User Credentials Section
                 UserCredentialsView(isExpanded: $isUserCredentialsExpanded, refreshTrigger: refreshTrigger)
@@ -122,7 +131,7 @@ struct SessionDetailView: View {
         .alert("Logout", isPresented: $showLogoutConfirmation) {
             Button("Cancel", role: .cancel) { }
             Button("Logout", role: .destructive) {
-                onLogout()
+                onLogout(nil)
             }
         } message: {
             Text("Are you sure you want to logout?")
@@ -398,7 +407,7 @@ class SessionDetailViewController: UIHostingController<SessionDetailView> {
         super.init(rootView: SessionDetailView(
             onChangeConsumerKey: {},
             onSwitchUser: {},
-            onLogout: {}
+            onLogout: { _ in }
         ))
         
         // Update the rootView with actual closures after init
@@ -409,8 +418,8 @@ class SessionDetailViewController: UIHostingController<SessionDetailView> {
             onSwitchUser: { [weak self] in
                 self?.handleSwitchUser()
             },
-            onLogout: { [weak self] in
-                self?.handleLogout()
+            onLogout: { [weak self] account in
+                self?.handleLogout(account: account)
             }
         )
     }
@@ -436,8 +445,13 @@ class SessionDetailViewController: UIHostingController<SessionDetailView> {
         self.present(umvc, animated: true, completion: nil)
     }
     
-    private func handleLogout() {
-        // Perform the actual logout - config has already been selected by the user
-        UserAccountManager.shared.logout(SFLogoutReason.userInitiated)
+    private func handleLogout(account: UserAccount?) {
+        // Automatic batch logout is bound to the account captured when the batch starts. Manual
+        // logout retains the existing current-user behavior.
+        if let account {
+            UserAccountManager.shared.logout(account, reason: SFLogoutReason.userInitiated)
+        } else {
+            UserAccountManager.shared.logout(SFLogoutReason.userInitiated)
+        }
     }
 }

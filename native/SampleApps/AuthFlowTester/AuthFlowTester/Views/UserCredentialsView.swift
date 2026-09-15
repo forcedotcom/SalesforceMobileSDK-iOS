@@ -146,6 +146,7 @@ struct UserCredentialsView: View {
                             .foregroundColor(.secondary)
                     }
                 }
+                .accessibilityValue(username)
                 Button(action: {
                     exportedJSON = generateCredentialsJSON()
                     showExportAlert = true
