@@ -94,7 +94,7 @@
         [SFLogger w:[self class] format:@"Attempted to set object with nil key in safe dictionary"];
         return;
     }
-    dispatch_barrier_async(self.queue, ^{
+    dispatch_barrier_sync(self.queue, ^{
         self.backingDictionary[aKey] = object;
     });
 }
@@ -108,35 +108,34 @@
         [SFLogger w:[self class] format:@"Attempted to remove nil key from safe dictionary"];
         return;
     }
-    dispatch_barrier_async(self.queue, ^{
+    dispatch_barrier_sync(self.queue, ^{
         [self.backingDictionary removeObjectForKey:aKey];
     });
 }
 
 - (void)removeAllObjects {
-    dispatch_barrier_async(self.queue, ^{
+    dispatch_barrier_sync(self.queue, ^{
         [self.backingDictionary removeAllObjects];
     });
 }
 
 - (void)removeObjects:(NSArray<id<NSCopying>> *)keys {
-    dispatch_barrier_async(self.queue, ^{
+    dispatch_barrier_sync(self.queue, ^{
         [self.backingDictionary removeObjectsForKeys:keys];
     });
 }
 
 - (void)addEntries:(NSDictionary *)otherDictionary {
-    dispatch_barrier_async(self.queue, ^{
+    dispatch_barrier_sync(self.queue, ^{
         [self.backingDictionary addEntriesFromDictionary:otherDictionary];
     });
 }
 
 - (void)setDictionary:(NSDictionary *)dictionary {
-    dispatch_barrier_async(self.queue, ^{
+    dispatch_barrier_sync(self.queue, ^{
         [self.backingDictionary setDictionary:dictionary];
     });
 }
 
 @end
-
 

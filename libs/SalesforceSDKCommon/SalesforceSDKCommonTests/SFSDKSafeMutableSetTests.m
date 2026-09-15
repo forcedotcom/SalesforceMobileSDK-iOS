@@ -25,6 +25,26 @@
 @import XCTest;
 #import "SFSDKSafeMutableSet.h"
 
+@interface SFSDKBlockingHashObject : NSObject
+@property (nonatomic, strong) dispatch_semaphore_t hashStarted;
+@property (nonatomic, strong) dispatch_semaphore_t allowHashToReturn;
+@property (atomic, assign) BOOL shouldBlockHash;
+@end
+
+@implementation SFSDKBlockingHashObject
+
+- (NSUInteger)hash {
+    if (self.shouldBlockHash) {
+        self.shouldBlockHash = NO;
+        dispatch_semaphore_signal(self.hashStarted);
+        dispatch_semaphore_wait(self.allowHashToReturn,
+                                dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)));
+    }
+    return 1;
+}
+
+@end
+
 @interface SFSDKSafeMutableSetTests : XCTestCase
 @end
 
@@ -74,6 +94,32 @@
     [inputs enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         XCTAssertTrue([set containsObject:inputs[idx]]);
     }];
+}
+
+- (void)testAddObjectPublishesMutationBeforeReturning {
+    SFSDKSafeMutableSet *set = [SFSDKSafeMutableSet set];
+    SFSDKBlockingHashObject *object = [SFSDKBlockingHashObject new];
+    object.hashStarted = dispatch_semaphore_create(0);
+    object.allowHashToReturn = dispatch_semaphore_create(0);
+    object.shouldBlockHash = YES;
+    dispatch_semaphore_t addReturned = dispatch_semaphore_create(0);
+
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+        [set addObject:object];
+        dispatch_semaphore_signal(addReturned);
+    });
+
+    XCTAssertEqual(dispatch_semaphore_wait(object.hashStarted,
+                                           dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC))), 0,
+                   @"set mutation should begin");
+    XCTAssertNotEqual(dispatch_semaphore_wait(addReturned, DISPATCH_TIME_NOW), 0,
+                      @"addObject: must not return before its mutation is published");
+
+    dispatch_semaphore_signal(object.allowHashToReturn);
+    XCTAssertEqual(dispatch_semaphore_wait(addReturned,
+                                           dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC))), 0,
+                   @"addObject: should return after publishing the mutation");
+    XCTAssertTrue([set containsObject:object]);
 }
 
 - (void)testConcurrentReadWrites {

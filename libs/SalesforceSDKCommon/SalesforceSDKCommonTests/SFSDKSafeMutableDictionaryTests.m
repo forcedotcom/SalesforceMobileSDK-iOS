@@ -25,6 +25,30 @@
 @import XCTest;
 #import "SFSDKSafeMutableDictionary.h"
 
+@interface SFSDKBlockingDictionaryKey : NSObject <NSCopying>
+@property (nonatomic, strong) dispatch_semaphore_t hashStarted;
+@property (nonatomic, strong) dispatch_semaphore_t allowHashToReturn;
+@property (atomic, assign) BOOL shouldBlockHash;
+@end
+
+@implementation SFSDKBlockingDictionaryKey
+
+- (id)copyWithZone:(NSZone *)zone {
+    return self;
+}
+
+- (NSUInteger)hash {
+    if (self.shouldBlockHash) {
+        self.shouldBlockHash = NO;
+        dispatch_semaphore_signal(self.hashStarted);
+        dispatch_semaphore_wait(self.allowHashToReturn,
+                                dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)));
+    }
+    return 1;
+}
+
+@end
+
 @interface SFSDKSafeMutableDictionaryTests : XCTestCase
 
 @property (strong, nonatomic) SFSDKSafeMutableDictionary *testDictionary;
@@ -62,6 +86,32 @@
             NSLog(@"Error occurred while waiting for expectations! Error: %@", error.localizedDescription);
         }
     }];
+}
+
+- (void)testSetObjectPublishesMutationBeforeReturning {
+    SFSDKSafeMutableDictionary *dictionary = [[SFSDKSafeMutableDictionary alloc] init];
+    SFSDKBlockingDictionaryKey *key = [SFSDKBlockingDictionaryKey new];
+    key.hashStarted = dispatch_semaphore_create(0);
+    key.allowHashToReturn = dispatch_semaphore_create(0);
+    key.shouldBlockHash = YES;
+    dispatch_semaphore_t setReturned = dispatch_semaphore_create(0);
+
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+        [dictionary setObject:@"value" forKey:key];
+        dispatch_semaphore_signal(setReturned);
+    });
+
+    XCTAssertEqual(dispatch_semaphore_wait(key.hashStarted,
+                                           dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC))), 0,
+                   @"dictionary mutation should begin");
+    XCTAssertNotEqual(dispatch_semaphore_wait(setReturned, DISPATCH_TIME_NOW), 0,
+                      @"setObject:forKey: must not return before its mutation is published");
+
+    dispatch_semaphore_signal(key.allowHashToReturn);
+    XCTAssertEqual(dispatch_semaphore_wait(setReturned,
+                                           dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC))), 0,
+                   @"setObject:forKey: should return after publishing the mutation");
+    XCTAssertEqualObjects([dictionary objectForKey:key], @"value");
 }
 
 #pragma Mark - Helper Methods

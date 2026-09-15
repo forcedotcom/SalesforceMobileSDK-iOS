@@ -101,66 +101,67 @@
 }
 
 - (void)addObject:(id)obj {
-    dispatch_barrier_async(self.queue, ^{
+    // Admission callers can immediately perform a synchronous membership read.
+    // Publish the mutation before returning so a burst of callers cannot fill
+    // their executor with readers waiting behind queued barrier writes.
+    dispatch_barrier_sync(self.queue, ^{
         [self.backingSet addObject:obj];
     });
 }
 
 - (void)addObjectsFromArray:(NSArray *)array {
-    dispatch_barrier_async(self.queue, ^{
+    dispatch_barrier_sync(self.queue, ^{
          [self.backingSet addObjectsFromArray:array];
     });
 }
 
 - (void)removeAllObjects {
-    dispatch_barrier_async(self.queue, ^{
+    dispatch_barrier_sync(self.queue, ^{
         [self.backingSet removeAllObjects];
     });
 }
 
 - (void)removeObject:(id)object {
-    dispatch_barrier_async(self.queue, ^{
+    dispatch_barrier_sync(self.queue, ^{
         [self.backingSet removeObject:object];
     });
 }
 
 - (void)unionSet:(NSSet *)set {
-    dispatch_barrier_async(self.queue, ^{
+    dispatch_barrier_sync(self.queue, ^{
         [self.backingSet unionSet:set];
     });
 }
 
 - (void)minusSet:(NSSet *)set {
-    dispatch_barrier_async(self.queue, ^{
+    dispatch_barrier_sync(self.queue, ^{
         [self.backingSet minusSet:set];
     });
 }
 
 - (void)intersectSet:(NSSet *)set {
-    dispatch_barrier_async(self.queue, ^{
+    dispatch_barrier_sync(self.queue, ^{
         [self.backingSet intersectSet:set];
     });
 }
 
 - (void)setSet:(NSSet *)set {
-    dispatch_barrier_async(self.queue, ^{
+    dispatch_barrier_sync(self.queue, ^{
         [self.backingSet setSet:set];
     });
 }
 
 - (void)filterUsingPredicate:(NSPredicate *)predicate {
-    dispatch_barrier_async(self.queue, ^{
+    dispatch_barrier_sync(self.queue, ^{
         [self.backingSet filterUsingPredicate:predicate];
     });
 }
 
 - (void)enumerateObjectsUsingBlock:(void (^)(id obj, BOOL *stop))block {
-    __block NSArray *array = [self allObjects];
-    dispatch_barrier_sync(self.queue, ^{
-        [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            block(obj, stop);
-        }];
-    });
+    NSArray *array = [self allObjects];
+    [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        block(obj, stop);
+    }];
 }
 
 #pragma mark - Class Level
