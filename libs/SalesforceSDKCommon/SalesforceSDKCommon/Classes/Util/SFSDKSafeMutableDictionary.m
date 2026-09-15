@@ -38,6 +38,7 @@
     self = [super init];
     if (self) {
         self.backingDictionary = [NSMutableDictionary new];
+        // A concurrent queue keeps independent readers parallel; barrier writes serialize with them.
         self.queue = dispatch_queue_create([NSString stringWithFormat:@"com.salesforce.mobilesdk.readWriteQueue%u", arc4random_uniform(UINT32_MAX)].UTF8String, DISPATCH_QUEUE_CONCURRENT);
     }
     return self;
@@ -94,7 +95,7 @@
         [SFLogger w:[self class] format:@"Attempted to set object with nil key in safe dictionary"];
         return;
     }
-    dispatch_barrier_async(self.queue, ^{
+    dispatch_barrier_sync(self.queue, ^{
         self.backingDictionary[aKey] = object;
     });
 }
@@ -108,35 +109,33 @@
         [SFLogger w:[self class] format:@"Attempted to remove nil key from safe dictionary"];
         return;
     }
-    dispatch_barrier_async(self.queue, ^{
+    dispatch_barrier_sync(self.queue, ^{
         [self.backingDictionary removeObjectForKey:aKey];
     });
 }
 
 - (void)removeAllObjects {
-    dispatch_barrier_async(self.queue, ^{
+    dispatch_barrier_sync(self.queue, ^{
         [self.backingDictionary removeAllObjects];
     });
 }
 
 - (void)removeObjects:(NSArray<id<NSCopying>> *)keys {
-    dispatch_barrier_async(self.queue, ^{
+    dispatch_barrier_sync(self.queue, ^{
         [self.backingDictionary removeObjectsForKeys:keys];
     });
 }
 
 - (void)addEntries:(NSDictionary *)otherDictionary {
-    dispatch_barrier_async(self.queue, ^{
+    dispatch_barrier_sync(self.queue, ^{
         [self.backingDictionary addEntriesFromDictionary:otherDictionary];
     });
 }
 
 - (void)setDictionary:(NSDictionary *)dictionary {
-    dispatch_barrier_async(self.queue, ^{
+    dispatch_barrier_sync(self.queue, ^{
         [self.backingDictionary setDictionary:dictionary];
     });
 }
 
 @end
-
-
