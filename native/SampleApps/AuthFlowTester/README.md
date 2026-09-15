@@ -103,6 +103,12 @@ in-flight, succeeded, and failed requests; tapping a failed square opens copyabl
 | `test_givenDeterministicRequestFailure_whenTappingRedSquare_thenDetailsAreShown` | ECA JWT RTR | DEBUG-only invalid endpoint produces one isolated failure with tappable details |
 | `test_givenRTRRequestsInFlight_whenLoggingOut_thenColdRelaunchStaysLoggedOut` | ECA JWT RTR | Logout drains active requests and the session remains logged out after restart |
 
+#### Concurrent REST request UI
+
+| Completed request grid | Tappable error details |
+|------------------------|------------------------|
+| ![Twenty completed concurrent REST requests](Screenshots/concurrent-rest-requests.png) | ![Concurrent REST request error details](Screenshots/concurrent-rest-request-error.png) |
+
 #### BeaconLoginTests
 Beacon app login tests for lightweight authentication use cases, covering both opaque and JWT token formats.
 
