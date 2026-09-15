@@ -292,6 +292,17 @@ class AuthFlowTesterMainPageObject {
         tap(manyRequestsInterruptionPicker())
         tap(app.buttons[interruption.rawValue])
 
+        let selectedInterruption = NSPredicate(format: "label CONTAINS %@", interruption.rawValue)
+        let selectionExpectation = XCTNSPredicateExpectation(
+            predicate: selectedInterruption,
+            object: manyRequestsOptionsButton()
+        )
+        XCTAssertEqual(
+            XCTWaiter.wait(for: [selectionExpectation], timeout: UITestTimeouts.long),
+            .completed,
+            "Concurrent request interruption did not change to \(interruption.rawValue)"
+        )
+
         scrollToElement(makeManyRestRequestsButton())
         tap(makeManyRestRequestsButton())
     }
@@ -386,6 +397,16 @@ class AuthFlowTesterMainPageObject {
         tap(navigationBar.buttons["Cancel"])
         XCTAssertTrue(navigationBar.waitForNonExistence(timeout: UITestTimeouts.long))
         return state
+    }
+
+    func waitForCurrentUser(username: String) -> Bool {
+        let credentialsSection = userCredentialsSection()
+        guard credentialsSection.waitForExistence(timeout: UITestTimeouts.long) else { return false }
+        let predicate = NSPredicate { _, _ in
+            (credentialsSection.value as? String) == username
+        }
+        let expectation = XCTNSPredicateExpectation(predicate: predicate, object: credentialsSection)
+        return XCTWaiter.wait(for: [expectation], timeout: UITestTimeouts.network) == .completed
     }
     
     func revokeAccessToken() -> Bool {

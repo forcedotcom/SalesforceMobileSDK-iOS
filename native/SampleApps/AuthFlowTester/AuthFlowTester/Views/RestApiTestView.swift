@@ -190,14 +190,12 @@ struct RestApiTestView: View {
 
 private enum ConcurrentRequestKind: String, CaseIterable {
     case resources
-    case limits
     case describeGlobal
     case intentionalFailure
 
     var title: String {
         switch self {
         case .resources: return "API Resources"
-        case .limits: return "Limits"
         case .describeGlobal: return "Describe Global"
         case .intentionalFailure: return "Intentional Failure"
         }
@@ -345,12 +343,21 @@ struct ConcurrentRestApiTestView: View {
                     .disabled(isRunning)
                     .accessibilityIdentifier("manyRequestsCountPicker")
 
-                    Picker("Interruption", selection: $interruption) {
+                    Menu {
                         ForEach(ConcurrentRequestInterruption.allCases) { mode in
-                            Text(mode.title).tag(mode)
+                            Button(mode.title) {
+                                interruption = mode
+                            }
+                        }
+                    } label: {
+                        HStack {
+                            Text("Interruption")
+                            Spacer()
+                            Text(interruption.title)
+                            Image(systemName: "chevron.up.chevron.down")
+                                .font(.caption)
                         }
                     }
-                    .pickerStyle(.menu)
                     .disabled(isRunning)
                     .accessibilityIdentifier("manyRequestsInterruptionPicker")
 
@@ -365,8 +372,8 @@ struct ConcurrentRestApiTestView: View {
                 Text("Options: \(requestCount) requests · Mixed · \(interruption.title)")
                     .font(.subheadline)
                     .foregroundColor(.primary)
+                    .accessibilityIdentifier("manyRequestsOptions")
             }
-            .accessibilityIdentifier("manyRequestsOptions")
 
             Button(action: {
                 Task {
@@ -645,7 +652,9 @@ struct ConcurrentRestApiTestView: View {
             return .intentionalFailure
         }
         #endif
-        let mix: [ConcurrentRequestKind] = [.resources, .limits, .describeGlobal]
+        // Keep the stress mix usable by minimally privileged test users. API Resources is
+        // intentionally weighted to avoid adding a permission-dependent endpoint.
+        let mix: [ConcurrentRequestKind] = [.resources, .resources, .describeGlobal]
         return mix[(requestNumber - 1) % mix.count]
     }
 
@@ -653,8 +662,6 @@ struct ConcurrentRestApiTestView: View {
         switch kind {
         case .resources:
             return client.cheapRequest(nil)
-        case .limits:
-            return client.request(forLimits: nil)
         case .describeGlobal:
             return client.request(forDescribeGlobal: nil)
         case .intentionalFailure:

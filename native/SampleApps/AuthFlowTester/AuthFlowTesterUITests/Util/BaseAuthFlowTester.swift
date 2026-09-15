@@ -1139,8 +1139,16 @@ class BaseAuthFlowTester: XCTestCase {
         return mainPage.inspectUserList(for: username)
     }
 
+    func waitForCurrentUser(username: String) -> Bool {
+        return mainPage.waitForCurrentUser(username: username)
+    }
+
     func isShowingLogin() -> Bool {
         return loginPage.isShowing()
+    }
+
+    func waitForLoggedOut() -> Bool {
+        return loginPage.waitForLoggedOut()
     }
 
     // MARK: - Force Advanced Auth Test Support

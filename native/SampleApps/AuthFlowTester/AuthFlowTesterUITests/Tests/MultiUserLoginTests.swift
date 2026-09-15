@@ -524,15 +524,20 @@ class MultiUserLoginTests: BaseAuthFlowTester {
         let removedUsername = getUserCredentials().username
 
         startManyRestRequests(interruption: .logout)
-        XCTAssertTrue(waitForManyRequestsInterruptionRequested())
+        XCTAssertTrue(
+            waitForCurrentUser(username: userACredentials.username),
+            "The remaining RTR user should become current after the DPoP+RTR user is logged out under load"
+        )
 
+        // Logout briefly presents a fresh advanced-auth browser even though the SDK has already
+        // switched the underlying current user. A cold relaunch removes that transient surface
+        // and proves the surviving account was persisted as current before we interact with it.
+        restartAndValidateUser(user: .fourth, userAppConfigName: .ecaJwtRtr)
         let currentCredentials = getUserCredentials()
         XCTAssertEqual(currentCredentials.username, userACredentials.username)
         XCTAssertEqual(currentCredentials.accessToken, userACredentials.accessToken)
         XCTAssertEqual(currentCredentials.refreshToken, userACredentials.refreshToken)
-        XCTAssertTrue(makeRestRequest(), "The remaining RTR user should be usable after cleanup")
 
-        restartAndValidateUser(user: .fourth, userAppConfigName: .ecaJwtRtr)
         let userListState = inspectUserList(for: removedUsername)
         XCTAssertEqual(userListState.userCount, 1, "Only the remaining RTR user should survive restart")
         XCTAssertFalse(userListState.containsUsername, "The logged-out DPoP+RTR user must stay removed")

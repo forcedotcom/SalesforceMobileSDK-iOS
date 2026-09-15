@@ -53,7 +53,7 @@ External Client App (ECA) login tests for both opaque and JWT token formats with
 | `testDynamicConfigurationWithInvalidScope` | — | — | Invalid scope; login must fail |
 
 #### DPoPLoginTests
-All DPoP tests live here — basic login, RTR, multi-user, migration, server enforcement, upgrade, restart, pool server, and admin login. Verifies that DPoP-bound access tokens are issued (`token_type: "DPoP"`), API calls succeed with `ath`-bound proofs, the access token refreshes correctly, and the DPoP nonce rotates on every `/token` response.
+All DPoP tests live here — basic login, RTR, multi-user, migration, server enforcement, upgrade, restart, pool server, and admin login. Verifies that DPoP-bound access tokens are issued (`token_type: "DPoP"`), API calls succeed with `ath`-bound proofs, the access token refreshes correctly, and server-issued DPoP nonces are harvested and reused until the server rotates them.
 
 | Test | App Config | Hybrid | Notes |
 |------|-----------|--------|-------|
@@ -61,7 +61,7 @@ All DPoP tests live here — basic login, RTR, multi-user, migration, server enf
 | `test_givenDPoPNoHybrid_whenLogin_thenTokenTypeIsDPoPAndRefreshWorks` | ECA JWT DPoP | No | |
 | `test_givenDPoPRtrHybrid_whenLogin_thenRefreshTokenRotatesAndDPoPBindingHolds` | ECA JWT DPoP RTR | Yes | DPoP + refresh token rotation |
 | `test_givenDPoPRtrNoHybrid_whenLogin_thenRefreshTokenRotatesAndDPoPBindingHolds` | ECA JWT DPoP RTR | No | DPoP + refresh token rotation |
-| `test_givenDPoPRTRSessionWithInvalidAccessToken_whenMakingManyRequests_thenReplayPreservesBinding` | ECA JWT DPoP RTR | Yes | 20 concurrent mixed requests share refresh/replay; access token, refresh token, and nonce rotate |
+| `test_givenDPoPRTRSessionWithInvalidAccessToken_whenMakingManyRequests_thenReplayPreservesBinding` | ECA JWT DPoP RTR | Yes | 20 concurrent mixed requests share refresh/replay; access and refresh tokens rotate while the server nonce remains usable |
 | `test_givenDPoPRequestsInFlight_whenRevoked_thenBindingIsPreserved` | ECA JWT DPoP | Yes | Revoke under concurrent load; follow-up proof and nonce recovery succeed |
 | `test_givenTwoDPoPUsers_whenSwitchAndRefresh_thenTokensAndNoncesAreIsolated` | ECA JWT DPoP | — | Two users; unique tokens and nonces; independent revoke+refresh per user |
 | `test_givenDPoPUserWithSubsetScopes_whenMigrateToAllScopes_thenDPoPBindingPreserved` | ECA JWT DPoP | — | Scope upgrade; DPoP binding preserved |
@@ -92,8 +92,9 @@ Tests for ECA configurations with Refresh Token Rotation (RTR) enabled. Verifies
 
 #### ConcurrentRestRequestTests
 Exercises AuthFlowTester's concurrent REST stress surface. The app keeps the original one-request
-card unchanged and adds a separate card that runs a read-only round-robin mix of API resources,
-limits, and describe-global requests. Options provide 5/10/20/50 request counts and manual,
+card unchanged and adds a separate card that runs a read-only mix of API-resources and
+describe-global requests, weighted toward the cheaper API-resources call. Options provide
+5/10/20/50 request counts and manual,
 revoke-in-flight, or logout-in-flight interruption modes. The result grid reports queued,
 in-flight, succeeded, and failed requests; tapping a failed square opens copyable diagnostics.
 
@@ -231,7 +232,7 @@ Each `launchLoginAndValidate` call performs the following checks:
 
 `assertRevokeAndRefreshWorks` additionally verifies for DPoP apps:
 - **Token type preserved** — `OAuth Token Type` remains `"DPoP"` after refresh
-- **Nonce rotated** — the DPoP nonce changes after each token refresh cycle
+- **Nonce available** — a non-empty server-issued nonce remains available after refresh; the server may reuse it until it chooses to rotate it
 
 Migration tests additionally verify:
 - Access and refresh tokens are **replaced** (not reused)

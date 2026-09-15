@@ -41,6 +41,20 @@ class LoginPageObject {
     func isShowing() -> Bool {
         return loginNavigationBar().waitForExistence(timeout: UITestTimeouts.network)
     }
+
+    /// Waits for any stable unauthenticated surface. Forced advanced authentication presents
+    /// the system browser instead of the legacy in-app "Log In" navigation controller.
+    func waitForLoggedOut() -> Bool {
+        let salesforceLoginTitle = app.staticTexts["Salesforce login"].firstMatch
+        let predicate = NSPredicate { [weak self] _, _ in
+            guard let self else { return false }
+            return self.loginNavigationBar().exists ||
+                self.advancedAuthCloseButton().exists ||
+                salesforceLoginTitle.exists
+        }
+        let expectation = XCTNSPredicateExpectation(predicate: predicate, object: app)
+        return XCTWaiter.wait(for: [expectation], timeout: UITestTimeouts.network) == .completed
+    }
     
     func hasFilledUsernameField(username: String) -> Bool {
         return app.staticTexts[username].waitForExistence(timeout: UITestTimeouts.long)

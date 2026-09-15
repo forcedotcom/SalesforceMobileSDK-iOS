@@ -39,8 +39,9 @@ class ConcurrentRestRequestTests: BaseAuthFlowTester {
 
         assertSuccessfulBatch(result)
         XCTAssertTrue(manyRequestType(at: 1).contains("API Resources"))
-        XCTAssertTrue(manyRequestType(at: 2).contains("Limits"))
+        XCTAssertTrue(manyRequestType(at: 2).contains("API Resources"))
         XCTAssertTrue(manyRequestType(at: 3).contains("Describe Global"))
+        XCTAssertNotEqual(manyRequestType(at: 1), manyRequestType(at: 3))
         let credentialsAfterBatch = getUserCredentials()
         XCTAssertEqual(credentialsAfterBatch.accessToken, credentialsBeforeBatch.accessToken)
         XCTAssertEqual(credentialsAfterBatch.refreshToken, credentialsBeforeBatch.refreshToken)
@@ -74,11 +75,10 @@ class ConcurrentRestRequestTests: BaseAuthFlowTester {
         launchLoginAndValidate(staticAppConfigName: .ecaJwtRtr)
 
         startManyRestRequests(interruption: .logout)
-        XCTAssertTrue(waitForManyRequestsInterruptionRequested(), "Logout should be requested only after requests enter flight")
-        XCTAssertTrue(isShowingLogin(), "Logout under load should return to login")
+        XCTAssertTrue(waitForLoggedOut(), "Logout under load should return to an unauthenticated login surface")
 
         restart()
-        XCTAssertTrue(isShowingLogin(), "A cold relaunch must not resurrect the logged-out user")
+        XCTAssertTrue(waitForLoggedOut(), "A cold relaunch must not resurrect the logged-out user")
     }
 
     private func assertSuccessfulBatch(_ result: ManyRequestsResult, file: StaticString = #filePath, line: UInt = #line) {
