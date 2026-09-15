@@ -67,6 +67,49 @@ class DPoPLoginTests: BaseAuthFlowTester {
         assertRevokeAndRefreshWorks(expectsRefreshTokenRotation: true, isDPoP: true, useHybridFlow: false, isJwt: true)
     }
 
+    /// Concurrent 401 responses must share refresh/replay while preserving both DPoP and RTR.
+    func test_givenDPoPRTRSessionWithInvalidAccessToken_whenMakingManyRequests_thenReplayPreservesBinding() throws {
+        launchLoginAndValidate(staticAppConfigName: .ecaJwtDpopRtr, useDPoP: true)
+        let credentialsBefore = getUserCredentials()
+        restart(withLaunchArguments: ["--invalidateCurrentUserAccessTokenAtStart"])
+
+        startManyRestRequests()
+        let result = try XCTUnwrap(waitForManyRequestsToComplete(expectedCount: 20))
+        XCTAssertEqual(result.succeeded, 20)
+        XCTAssertEqual(result.failed, 0)
+        XCTAssertGreaterThan(result.peakInFlight, 1)
+
+        let credentialsAfter = getUserCredentials()
+        XCTAssertNotEqual(credentialsAfter.accessToken, credentialsBefore.accessToken)
+        XCTAssertNotEqual(credentialsAfter.refreshToken, credentialsBefore.refreshToken)
+        XCTAssertEqual(credentialsAfter.dpopTokenType, "DPoP")
+        XCTAssertFalse(credentialsAfter.dpopNonce?.isEmpty ?? true)
+        XCTAssertNotEqual(credentialsAfter.dpopNonce, credentialsBefore.dpopNonce)
+    }
+
+    /// Revoke a non-RTR DPoP session under load and verify proof/nonce recovery remains usable.
+    func test_givenDPoPRequestsInFlight_whenRevoked_thenBindingIsPreserved() throws {
+        launchLoginAndValidate(staticAppConfigName: .ecaJwtDpop, useDPoP: true)
+        let credentialsBefore = getUserCredentials()
+
+        startManyRestRequests(interruption: .revoke)
+        XCTAssertTrue(waitForManyRequestsInterruptionRequested())
+        XCTAssertTrue(waitForManyRequestsInterruptionCompleted())
+        let result = try XCTUnwrap(waitForManyRequestsToComplete(expectedCount: 20))
+        XCTAssertEqual(result.completed, 20)
+        XCTAssertEqual(result.succeeded + result.failed, 20)
+        XCTAssertEqual(result.queued, 0)
+        XCTAssertEqual(result.inFlight, 0)
+
+        XCTAssertTrue(makeRestRequest(), "A follow-up DPoP request should succeed")
+        let credentialsAfter = getUserCredentials()
+        XCTAssertNotEqual(credentialsAfter.accessToken, credentialsBefore.accessToken)
+        XCTAssertEqual(credentialsAfter.refreshToken, credentialsBefore.refreshToken)
+        XCTAssertEqual(credentialsAfter.dpopTokenType, "DPoP")
+        XCTAssertFalse(credentialsAfter.dpopNonce?.isEmpty ?? true)
+        XCTAssertNotEqual(credentialsAfter.dpopNonce, credentialsBefore.dpopNonce)
+    }
+
     // MARK: - Multi-User
 
     /// Login two DPoP users and verify token and nonce isolation across user switch.

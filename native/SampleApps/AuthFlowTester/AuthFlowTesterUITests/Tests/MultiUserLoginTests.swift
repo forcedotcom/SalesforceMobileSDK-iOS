@@ -505,6 +505,40 @@ class MultiUserLoginTests: BaseAuthFlowTester {
         XCTAssertTrue(makeRestRequest(), "User A's API call should succeed")
     }
 
+    /// Logout a DPoP+RTR current user while REST requests are active and verify the remaining
+    /// RTR user's credentials and ability to issue requests survive cleanup and restart.
+    func test_givenRTRAndDPoPRTRUsers_whenCurrentUserLogsOutUnderLoad_thenOtherUserRemainsUsable() throws {
+        launchLoginAndValidate(
+            loginHost: .regularAuth,
+            user: .fourth,
+            staticAppConfigName: .ecaJwtRtr
+        )
+        let userACredentials = getUserCredentials()
+
+        loginOtherUserAndValidate(
+            loginHost: .regularAuth,
+            user: .fifth,
+            staticAppConfigName: .ecaJwtDpopRtr,
+            useDPoP: true
+        )
+        let removedUsername = getUserCredentials().username
+
+        startManyRestRequests(interruption: .logout)
+        XCTAssertTrue(waitForManyRequestsInterruptionRequested())
+
+        let currentCredentials = getUserCredentials()
+        XCTAssertEqual(currentCredentials.username, userACredentials.username)
+        XCTAssertEqual(currentCredentials.accessToken, userACredentials.accessToken)
+        XCTAssertEqual(currentCredentials.refreshToken, userACredentials.refreshToken)
+        XCTAssertTrue(makeRestRequest(), "The remaining RTR user should be usable after cleanup")
+
+        restartAndValidateUser(user: .fourth, userAppConfigName: .ecaJwtRtr)
+        let userListState = inspectUserList(for: removedUsername)
+        XCTAssertEqual(userListState.userCount, 1, "Only the remaining RTR user should survive restart")
+        XCTAssertFalse(userListState.containsUsername, "The logged-out DPoP+RTR user must stay removed")
+        XCTAssertTrue(makeRestRequest(), "The remaining RTR user should remain usable after restart")
+    }
+
     // MARK: - Feature Flag Multi-User Isolation Tests
 
     /// Verifies A-marker and token-format flags are isolated per user.

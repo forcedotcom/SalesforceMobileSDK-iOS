@@ -227,6 +227,27 @@ struct JwtDetailsData {
     var clientId: String
 }
 
+enum ManyRequestsInterruption: String {
+    case manual = "Manual"
+    case revoke = "Revoke in flight"
+    case logout = "Logout in flight"
+}
+
+struct ManyRequestsResult {
+    let queued: Int
+    let inFlight: Int
+    let succeeded: Int
+    let failed: Int
+    let completed: Int
+    let total: Int
+    let peakInFlight: Int
+}
+
+struct UserListState {
+    let userCount: Int
+    let containsUsername: Bool
+}
+
 /// Page object for interacting with the AuthFlowTester main screen during UI tests.
 /// Provides methods to perform actions (revoke access token, make REST requests, change consumer key, change users, logout).
 /// and extract data (user credentials, OAuth configuration, JWT details) from the UI.
@@ -256,6 +277,115 @@ class AuthFlowTesterMainPageObject {
             return true
         }
         return false
+    }
+
+    func startManyRestRequests(
+        count: Int = 20,
+        interruption: ManyRequestsInterruption = .manual
+    ) {
+        scrollToElement(manyRequestsOptionsButton())
+        tap(manyRequestsOptionsButton())
+
+        let countButton = manyRequestsCountPicker().buttons["\(count)"]
+        tap(countButton)
+
+        tap(manyRequestsInterruptionPicker())
+        tap(app.buttons[interruption.rawValue])
+
+        scrollToElement(makeManyRestRequestsButton())
+        tap(makeManyRestRequestsButton())
+    }
+
+    func waitForManyRequestsInFlight() -> Bool {
+        let predicate = NSPredicate(format: "label != '0'")
+        guard manyRequestsInFlightCount().waitForExistence(timeout: UITestTimeouts.long) else { return false }
+        let valueExpectation = XCTNSPredicateExpectation(predicate: predicate, object: manyRequestsInFlightCount())
+        return XCTWaiter.wait(for: [valueExpectation], timeout: UITestTimeouts.long) == .completed
+    }
+
+    func waitForManyRequestsInterruptionRequested() -> Bool {
+        let state = manyRequestsInterruptionState()
+        let loginNavigationBar = app.navigationBars["Log In"]
+        let predicate = NSPredicate { _, _ in
+            let stateLabel = state.label
+            return stateLabel.contains("Requested") ||
+                stateLabel.contains("Completed") ||
+                stateLabel.contains("Failed") ||
+                loginNavigationBar.exists
+        }
+        // "Requested" is intentionally brief so revoke/logout still races live requests. Accept
+        // a stable terminal state as proof it was observed, and for logout accept the resulting
+        // login screen because the request card is removed with the authenticated session.
+        let valueExpectation = XCTNSPredicateExpectation(predicate: predicate, object: app)
+        return XCTWaiter.wait(for: [valueExpectation], timeout: UITestTimeouts.long) == .completed
+    }
+
+    func waitForManyRequestsInterruptionCompleted() -> Bool {
+        let predicate = NSPredicate(format: "label CONTAINS 'Completed'")
+        guard manyRequestsInterruptionState().waitForExistence(timeout: UITestTimeouts.network) else { return false }
+        let valueExpectation = XCTNSPredicateExpectation(predicate: predicate, object: manyRequestsInterruptionState())
+        return XCTWaiter.wait(for: [valueExpectation], timeout: UITestTimeouts.network) == .completed
+    }
+
+    func waitForManyRequestsToComplete(expectedCount: Int) -> ManyRequestsResult? {
+        let summary = manyRequestsCompletedSummary()
+        let predicate = NSPredicate(format: "label == %@", "\(expectedCount) / \(expectedCount) completed")
+        guard summary.waitForExistence(timeout: UITestTimeouts.network),
+              XCTWaiter.wait(for: [XCTNSPredicateExpectation(predicate: predicate, object: summary)], timeout: UITestTimeouts.network) == .completed else {
+            return nil
+        }
+
+        return ManyRequestsResult(
+            queued: integerLabel(manyRequestsQueuedCount()),
+            inFlight: integerLabel(manyRequestsInFlightCount()),
+            succeeded: integerLabel(manyRequestsSucceededCount()),
+            failed: integerLabel(manyRequestsFailedCount()),
+            completed: expectedCount,
+            total: expectedCount,
+            peakInFlight: integerSuffixLabel(manyRequestsPeakInFlight())
+        )
+    }
+
+    func requestState(at requestNumber: Int) -> String {
+        let value = manyRequestSquare(requestNumber).value as? String
+        return value ?? ""
+    }
+
+    func requestType(at requestNumber: Int) -> String {
+        return manyRequestSquare(requestNumber).label
+    }
+
+    func tapFailedRequest(at requestNumber: Int) {
+        tap(manyRequestSquare(requestNumber))
+    }
+
+    func isShowingRequestErrorDetails() -> Bool {
+        return app.navigationBars["Request Error"].waitForExistence(timeout: UITestTimeouts.long)
+    }
+
+    func requestErrorDetail(identifier: String) -> String {
+        let element = app.staticTexts[identifier]
+        _ = element.waitForExistence(timeout: UITestTimeouts.long)
+        return element.label
+    }
+
+    func hasRequestErrorCopyAction() -> Bool {
+        return app.buttons["manyRequestErrorCopyButton"].waitForExistence(timeout: UITestTimeouts.long)
+    }
+
+    func inspectUserList(for username: String) -> UserListState {
+        tap(bottomBarSwitchUserButton())
+        let navigationBar = app.navigationBars["User List"]
+        XCTAssertTrue(navigationBar.waitForExistence(timeout: UITestTimeouts.long))
+
+        let state = UserListState(
+            userCount: app.tables.cells.count,
+            containsUsername: app.staticTexts[username].exists
+        )
+
+        tap(navigationBar.buttons["Cancel"])
+        XCTAssertTrue(navigationBar.waitForNonExistence(timeout: UITestTimeouts.long))
+        return state
     }
     
     func revokeAccessToken() -> Bool {
@@ -436,6 +566,54 @@ class AuthFlowTesterMainPageObject {
     private func makeRestRequestButton() -> XCUIElement {
         return app.buttons["Make REST API Request"]
     }
+
+    private func manyRequestsOptionsButton() -> XCUIElement {
+        return app.buttons["manyRequestsOptions"]
+    }
+
+    private func manyRequestsCountPicker() -> XCUIElement {
+        return app.segmentedControls["manyRequestsCountPicker"]
+    }
+
+    private func manyRequestsInterruptionPicker() -> XCUIElement {
+        return app.buttons["manyRequestsInterruptionPicker"]
+    }
+
+    private func makeManyRestRequestsButton() -> XCUIElement {
+        return app.buttons["makeManyRestRequestsButton"]
+    }
+
+    private func manyRequestsQueuedCount() -> XCUIElement {
+        return app.staticTexts["manyRequestsQueuedCount"]
+    }
+
+    private func manyRequestsInFlightCount() -> XCUIElement {
+        return app.staticTexts["manyRequestsInFlightCount"]
+    }
+
+    private func manyRequestsSucceededCount() -> XCUIElement {
+        return app.staticTexts["manyRequestsSucceededCount"]
+    }
+
+    private func manyRequestsFailedCount() -> XCUIElement {
+        return app.staticTexts["manyRequestsFailedCount"]
+    }
+
+    private func manyRequestsCompletedSummary() -> XCUIElement {
+        return app.staticTexts["manyRequestsCompletedSummary"]
+    }
+
+    private func manyRequestsPeakInFlight() -> XCUIElement {
+        return app.staticTexts["manyRequestsPeakInFlight"]
+    }
+
+    private func manyRequestsInterruptionState() -> XCUIElement {
+        return app.staticTexts["manyRequestsInterruptionState"]
+    }
+
+    private func manyRequestSquare(_ requestNumber: Int) -> XCUIElement {
+        return app.buttons["manyRequestSquare-\(requestNumber)"]
+    }
     
     private func bottomBarChangeKeyButton() -> XCUIElement {
         return app.buttons["Change Key"]
@@ -584,6 +762,32 @@ class AuthFlowTesterMainPageObject {
         if element.waitForExistence(timeout: timeout) {
             element.tap()
         }
+    }
+
+    private func scrollToElement(
+        _ element: XCUIElement,
+        file: StaticString = #file,
+        line: UInt = #line
+    ) {
+        let exists = element.waitForExistence(timeout: UITestTimeouts.long)
+        XCTAssertTrue(exists, "Element \(element.debugDescription) did not exist", file: file, line: line)
+        guard !element.isHittable else { return }
+
+        let scrollView = app.scrollViews.firstMatch
+        for _ in 0..<6 where !element.isHittable {
+            scrollView.swipeUp()
+        }
+        XCTAssertTrue(element.isHittable, "Element \(element.debugDescription) could not be scrolled into view", file: file, line: line)
+    }
+
+    private func integerLabel(_ element: XCUIElement) -> Int {
+        _ = element.waitForExistence(timeout: UITestTimeouts.long)
+        return Int(element.label) ?? -1
+    }
+
+    private func integerSuffixLabel(_ element: XCUIElement) -> Int {
+        _ = element.waitForExistence(timeout: UITestTimeouts.long)
+        return Int(element.label.split(separator: " ").last ?? "") ?? -1
     }
     
     private func setTextField(_ textField: XCUIElement, value: String) {
