@@ -81,7 +81,9 @@ NS_SWIFT_NAME(SafeMutableSet)
 - (void)filterUsingPredicate:(NSPredicate *)predicate;
 
 /**
- * Enumerate objects in the set safely, using a block.
+ * Enumerates a stable snapshot of the set using a block. The block executes outside the
+ * collection's synchronization queue, so it may safely mutate the set. Mutations made while
+ * enumeration is in progress do not change the snapshot and may interleave with block calls.
  */
 - (void)enumerateObjectsUsingBlock:(void (^)(id obj, BOOL *stop))block;
 

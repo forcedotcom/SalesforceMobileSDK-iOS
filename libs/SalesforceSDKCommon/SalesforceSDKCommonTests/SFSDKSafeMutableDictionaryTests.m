@@ -25,6 +25,7 @@
 @import XCTest;
 #import "SFSDKSafeMutableDictionary.h"
 
+// Blocking -hash pauses inside NSMutableDictionary's mutation so publication timing is deterministic.
 @interface SFSDKBlockingDictionaryKey : NSObject <NSCopying>
 @property (nonatomic, strong) dispatch_semaphore_t hashStarted;
 @property (nonatomic, strong) dispatch_semaphore_t allowHashToReturn;

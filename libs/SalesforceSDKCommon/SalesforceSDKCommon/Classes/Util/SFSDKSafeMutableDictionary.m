@@ -38,6 +38,7 @@
     self = [super init];
     if (self) {
         self.backingDictionary = [NSMutableDictionary new];
+        // A concurrent queue keeps independent readers parallel; barrier writes serialize with them.
         self.queue = dispatch_queue_create([NSString stringWithFormat:@"com.salesforce.mobilesdk.readWriteQueue%u", arc4random_uniform(UINT32_MAX)].UTF8String, DISPATCH_QUEUE_CONCURRENT);
     }
     return self;
@@ -138,4 +139,3 @@
 }
 
 @end
-

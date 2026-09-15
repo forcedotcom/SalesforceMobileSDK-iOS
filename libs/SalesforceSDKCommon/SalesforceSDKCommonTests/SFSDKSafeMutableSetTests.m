@@ -25,6 +25,7 @@
 @import XCTest;
 #import "SFSDKSafeMutableSet.h"
 
+// Blocking -hash pauses inside NSMutableSet's mutation so publication timing is deterministic.
 @interface SFSDKBlockingHashObject : NSObject
 @property (nonatomic, strong) dispatch_semaphore_t hashStarted;
 @property (nonatomic, strong) dispatch_semaphore_t allowHashToReturn;
@@ -120,6 +121,32 @@
                                            dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC))), 0,
                    @"addObject: should return after publishing the mutation");
     XCTAssertTrue([set containsObject:object]);
+}
+
+- (void)testEnumerationCallbackCanMutateSet {
+    SFSDKSafeMutableSet *set = [SFSDKSafeMutableSet set];
+    [set addObjectsFromArray:@[@"one", @"two"]];
+    NSMutableSet *enumeratedObjects = [NSMutableSet set];
+    XCTestExpectation *enumerationCompleted = [self expectationWithDescription:@"enumerationCompleted"];
+
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+        [set enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
+            [enumeratedObjects addObject:obj];
+            [set addObject:@"addedFromCallback"];
+        }];
+        [enumerationCompleted fulfill];
+    });
+
+    XCTWaiterResult result = [XCTWaiter waitForExpectations:@[enumerationCompleted] timeout:2.0];
+    XCTAssertEqual(result, XCTWaiterResultCompleted,
+                   @"enumeration callbacks must be able to mutate the set without deadlocking");
+    if (result != XCTWaiterResultCompleted) {
+        return;
+    }
+
+    NSSet *expectedObjects = [NSSet setWithObjects:@"one", @"two", nil];
+    XCTAssertEqualObjects(enumeratedObjects, expectedObjects);
+    XCTAssertTrue([set containsObject:@"addedFromCallback"]);
 }
 
 - (void)testConcurrentReadWrites {
