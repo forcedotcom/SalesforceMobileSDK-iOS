@@ -447,7 +447,12 @@ successBlock:(SFRestResponseBlock)successBlock
                 // and the first outbound DPoP call (e.g. revoke) triggers a nonce challenge.
                 // RFC 9449 §8 — the server SHOULD return the desired nonce in DPoP-Nonce.
                 NSString *bodyStr = data ? [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] : nil;
+                NSString *authorization = [finalRequest valueForHTTPHeaderField:@"Authorization"];
+                BOOL requestUsedDPoP = authorization.length > 0
+                    && [authorization rangeOfString:@"DPoP " options:(NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound
+                    && [finalRequest valueForHTTPHeaderField:SFSDKDPoPRequestDecorator.dpopHeaderName].length > 0;
                 if (statusCode == 400
+                    && requestUsedDPoP
                     && !request.dpopNonceRetried
                     && [bodyStr containsString:SFSDKDPoPRequestDecorator.nonceErrorCode]) {
                     BOOL claimed = [strongSelf performIfCurrentDataTask:dataTask forRequest:request action:^{
