@@ -167,11 +167,11 @@ applyAuthHeaders(request, credentials):
 ```
 
 `SalesforceManager.uiSidBearerPathPolicy` is a synchronous, process-wide app override. Its
-built-in default returns true for `/lwr` and paths below `/lwr/`, without matching `/lwrx`, a
-hostname, or query text. `shouldUseUiSidBearer(forPath:)` resolves the override or the default.
-Authentication calls it only after confirming both an explicit DPoP token type and a nonempty
-`uiSid`; Bearer credentials, a missing UI session, and the nil-token-type transition window never
-invoke the policy. Assigning `nil` restores the default.
+built-in default returns false for every path, so no request uses UI-session Bearer authentication
+until an app registers a policy. `shouldUseUiSidBearer(forPath:)` resolves the override or the
+default. Authentication calls it only after confirming both an explicit DPoP token type and a
+nonempty `uiSid`; Bearer credentials, a missing UI session, and the nil-token-type transition
+window never invoke the policy. Assigning `nil` restores the default.
 
 The four-argument `applyAuthHeaders(_:scope:accessToken:tokenType:)` overload remains available to
 callers that hold only raw token fields. It treats the explicit `tokenType` as authoritative and

@@ -1199,7 +1199,7 @@ void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t b
     if (policy) {
         return policy(path);
     }
-    return [path isEqualToString:@"/lwr"] || [path hasPrefix:@"/lwr/"];
+    return NO;
 }
 
 #pragma mark - Native Login

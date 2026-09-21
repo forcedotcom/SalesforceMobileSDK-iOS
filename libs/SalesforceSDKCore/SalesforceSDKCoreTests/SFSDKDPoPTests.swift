@@ -616,17 +616,15 @@ class SFSDKDPoPTests: XCTestCase {
 
     // MARK: - applyAuthHeaders(_:credentials:)
 
-    func test_givenDefaultUiSidPolicy_whenResolvingPaths_thenOnlyLwrSegmentMatches() {
+    func test_givenDefaultUiSidPolicy_whenResolvingPaths_thenAlwaysFalse() {
         let manager = SalesforceManager.shared
         let priorPolicy = manager.uiSidBearerPathPolicy
         manager.uiSidBearerPathPolicy = nil
         defer { manager.uiSidBearerPathPolicy = priorPolicy }
 
-        XCTAssertTrue(manager.shouldUseUiSidBearer(forPath: "/lwr"))
-        XCTAssertTrue(manager.shouldUseUiSidBearer(forPath: "/lwr/"))
-        XCTAssertTrue(manager.shouldUseUiSidBearer(forPath: "/lwr/application/bootstrap"))
-        XCTAssertFalse(manager.shouldUseUiSidBearer(forPath: "/lwrx/application"))
-        XCTAssertFalse(manager.shouldUseUiSidBearer(forPath: "/services/data?next=/lwr/application"))
+        XCTAssertFalse(manager.shouldUseUiSidBearer(forPath: "/services/data"))
+        XCTAssertFalse(manager.shouldUseUiSidBearer(forPath: "/any/path"))
+        XCTAssertFalse(manager.shouldUseUiSidBearer(forPath: "/"))
     }
 
     func test_givenCustomUiSidPolicy_whenResolvingPath_thenOverrideIsUsed() {
@@ -641,13 +639,13 @@ class SFSDKDPoPTests: XCTestCase {
 
         XCTAssertTrue(manager.shouldUseUiSidBearer(forPath: "/services/custom"))
         XCTAssertEqual(receivedPath, "/services/custom")
-        XCTAssertFalse(manager.shouldUseUiSidBearer(forPath: "/lwr/application"))
+        XCTAssertFalse(manager.shouldUseUiSidBearer(forPath: "/other/path"))
     }
 
-    func test_givenDPoPCredentialsWithUiSidAndDefaultLwrPath_whenApplyAuthHeaders_thenBearerUiSidAndNoProof() throws {
+    func test_givenDPoPCredentialsWithUiSidAndSelectedPath_whenApplyAuthHeaders_thenBearerUiSidAndNoProof() throws {
         let manager = SalesforceManager.shared
         let priorPolicy = manager.uiSidBearerPathPolicy
-        manager.uiSidBearerPathPolicy = nil
+        manager.uiSidBearerPathPolicy = { _ in true }
         defer { manager.uiSidBearerPathPolicy = priorPolicy }
 
         let scope = "creds-dpop-ui-sid-\(UUID().uuidString)"
@@ -658,7 +656,7 @@ class SFSDKDPoPTests: XCTestCase {
         creds.uiSid = "ui-session-id"
         _ = try DPoPKeyStore.shared.keyPair(forScope: scope)
 
-        let req = NSMutableURLRequest(url: URL(string: "https://example.salesforce.com/lwr/application?target=/services/data")!)
+        let req = NSMutableURLRequest(url: URL(string: "https://example.salesforce.com/services/session?target=/services/data")!)
         req.httpMethod = "GET"
         req.setValue("stale-proof", forHTTPHeaderField: "DPoP")
         try DPoPRequestDecorator.applyAuthHeaders(req, credentials: creds)
@@ -667,13 +665,13 @@ class SFSDKDPoPTests: XCTestCase {
         XCTAssertNil(req.value(forHTTPHeaderField: "DPoP"))
     }
 
-    func test_givenDPoPCredentialsWithUiSidAndNonLwrPath_whenApplyAuthHeaders_thenDPoPAccessTokenAndProof() throws {
+    func test_givenDPoPCredentialsWithUiSidAndUnselectedPath_whenApplyAuthHeaders_thenDPoPAccessTokenAndProof() throws {
         let manager = SalesforceManager.shared
         let priorPolicy = manager.uiSidBearerPathPolicy
         manager.uiSidBearerPathPolicy = nil
         defer { manager.uiSidBearerPathPolicy = priorPolicy }
 
-        let scope = "creds-dpop-ui-sid-non-lwr-\(UUID().uuidString)"
+        let scope = "creds-dpop-ui-sid-unselected-\(UUID().uuidString)"
         defer { DPoPKeyStore.shared.delete(forScope: scope) }
         let creds = OAuthCredentials(identifier: scope, clientId: "CLIENT_ID", encrypted: false)!
         creds.accessToken = "dpop-access-token"
@@ -707,7 +705,7 @@ class SFSDKDPoPTests: XCTestCase {
         dpopCreds.uiSid = ""
         _ = try DPoPKeyStore.shared.keyPair(forScope: dpopScope)
 
-        let dpopRequest = NSMutableURLRequest(url: URL(string: "https://example.salesforce.com/lwr/application")!)
+        let dpopRequest = NSMutableURLRequest(url: URL(string: "https://example.salesforce.com/services/session")!)
         dpopRequest.httpMethod = "GET"
         try DPoPRequestDecorator.applyAuthHeaders(dpopRequest, credentials: dpopCreds)
 
@@ -717,7 +715,7 @@ class SFSDKDPoPTests: XCTestCase {
         transitionCreds.accessToken = "transition-access-token"
         transitionCreds.uiSid = "transition-ui-session-id"
         _ = try DPoPKeyStore.shared.keyPair(forScope: transitionScope)
-        let transitionRequest = NSMutableURLRequest(url: URL(string: "https://example.salesforce.com/lwr/application")!)
+        let transitionRequest = NSMutableURLRequest(url: URL(string: "https://example.salesforce.com/services/session")!)
         transitionRequest.httpMethod = "GET"
         try DPoPRequestDecorator.applyAuthHeaders(transitionRequest, credentials: transitionCreds)
 
@@ -725,7 +723,7 @@ class SFSDKDPoPTests: XCTestCase {
         bearerCreds.accessToken = "bearer-access-token"
         bearerCreds.tokenType = "Bearer"
         bearerCreds.uiSid = "stale-ui-session-id"
-        let bearerRequest = NSMutableURLRequest(url: URL(string: "https://example.salesforce.com/lwr/application")!)
+        let bearerRequest = NSMutableURLRequest(url: URL(string: "https://example.salesforce.com/services/session")!)
         bearerRequest.httpMethod = "GET"
         try DPoPRequestDecorator.applyAuthHeaders(bearerRequest, credentials: bearerCreds)
 

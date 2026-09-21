@@ -232,11 +232,11 @@ NS_SWIFT_NAME(SalesforceManager)
 
 /**
  A synchronous policy that selects request paths which should use `Bearer <ui_sid>` when the
- current credential is DPoP-bound and has a UI session ID. When unset, the SDK selects `/lwr`
- and paths beneath `/lwr/`.
+ current credential is DPoP-bound and has a UI session ID. When unset, the SDK selects no paths
+ (the default policy returns `NO`).
 
  The policy is not consulted for ordinary Bearer credentials or when `ui_sid` is unavailable.
- Set this property to replace the SDK default process-wide; set it to `nil` to restore the default.
+ Set this property to opt specific paths in process-wide; set it to `nil` to restore the default.
  */
 @property (nonatomic, copy, nullable) SFSDKShouldUseUiSidBearerForPathBlock shouldUseUiSidBearerForPathBlock NS_SWIFT_NAME(uiSidBearerPathPolicy);
 
@@ -376,9 +376,9 @@ NS_SWIFT_NAME(SalesforceManager)
 /**
  Returns whether an eligible DPoP request for `path` should instead use `Bearer <ui_sid>`.
 
- This resolves `shouldUseUiSidBearerForPathBlock` when registered, otherwise applying the SDK
- default for `/lwr` and paths beneath `/lwr/`. Authentication code calls this method only after
- confirming that the credential is DPoP-bound and has a nonempty `ui_sid`.
+ This resolves `shouldUseUiSidBearerForPathBlock` when registered, otherwise returning `NO` (the
+ SDK selects no paths by default). Authentication code calls this method only after confirming that
+ the credential is DPoP-bound and has a nonempty `ui_sid`.
 
  @param path The path component of the request URL. Hosts and query values are not considered.
  */
