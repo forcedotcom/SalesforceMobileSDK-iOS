@@ -208,9 +208,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
             && ![self.request.allHTTPHeaderFields.allKeys containsObject:@"Authorization"]) {
         NSError *authError = nil;
         BOOL ok = [SFSDKDPoPRequestDecorator applyAuthHeaders:self.request
-                                                        scope:user.credentials.identifier
-                                                  accessToken:user.credentials.accessToken
-                                                    tokenType:user.credentials.tokenType
+                                                  credentials:user.credentials
                                                         error:&authError];
         if (!ok) {
             [SFSDKCoreLogger e:[self class] format:@"Failed to stamp authorization headers: %@", authError.localizedDescription];
