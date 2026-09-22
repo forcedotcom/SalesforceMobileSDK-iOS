@@ -718,6 +718,161 @@ class SFSDKDPoPTests: XCTestCase {
 
     // MARK: - applyAuthHeaders(_:credentials:)
 
+    func test_givenDefaultUiSidPolicy_whenResolvingPaths_thenAlwaysFalse() {
+        let manager = SalesforceManager.shared
+        let priorPolicy = manager.uiSidBearerPathPolicy
+        manager.uiSidBearerPathPolicy = nil
+        defer { manager.uiSidBearerPathPolicy = priorPolicy }
+
+        XCTAssertFalse(manager.shouldUseUiSidBearer(forPath: "/services/data"))
+        XCTAssertFalse(manager.shouldUseUiSidBearer(forPath: "/any/path"))
+        XCTAssertFalse(manager.shouldUseUiSidBearer(forPath: "/"))
+    }
+
+    func test_givenCustomUiSidPolicy_whenResolvingPath_thenOverrideIsUsed() {
+        let manager = SalesforceManager.shared
+        let priorPolicy = manager.uiSidBearerPathPolicy
+        var receivedPath: String?
+        manager.uiSidBearerPathPolicy = { path in
+            receivedPath = path
+            return path == "/services/custom"
+        }
+        defer { manager.uiSidBearerPathPolicy = priorPolicy }
+
+        XCTAssertTrue(manager.shouldUseUiSidBearer(forPath: "/services/custom"))
+        XCTAssertEqual(receivedPath, "/services/custom")
+        XCTAssertFalse(manager.shouldUseUiSidBearer(forPath: "/other/path"))
+    }
+
+    func test_givenDPoPCredentialsWithUiSidAndSelectedPath_whenApplyAuthHeaders_thenBearerUiSidAndNoProof() throws {
+        let manager = SalesforceManager.shared
+        let priorPolicy = manager.uiSidBearerPathPolicy
+        manager.uiSidBearerPathPolicy = { _ in true }
+        defer { manager.uiSidBearerPathPolicy = priorPolicy }
+
+        let scope = "creds-dpop-ui-sid-\(UUID().uuidString)"
+        defer { DPoPKeyStore.shared.delete(forScope: scope) }
+        let creds = OAuthCredentials(identifier: scope, clientId: "CLIENT_ID", encrypted: false)!
+        creds.accessToken = "dpop-access-token"
+        creds.tokenType = "DPoP"
+        creds.uiSid = "ui-session-id"
+        _ = try DPoPKeyStore.shared.keyPair(forScope: scope)
+
+        let req = NSMutableURLRequest(url: URL(string: "https://example.salesforce.com/services/session?target=/services/data")!)
+        req.httpMethod = "GET"
+        req.setValue("stale-proof", forHTTPHeaderField: "DPoP")
+        try DPoPRequestDecorator.applyAuthHeaders(req, credentials: creds)
+
+        XCTAssertEqual(req.value(forHTTPHeaderField: "Authorization"), "Bearer ui-session-id")
+        XCTAssertNil(req.value(forHTTPHeaderField: "DPoP"))
+    }
+
+    func test_givenDPoPCredentialsWithUiSidAndUnselectedPath_whenApplyAuthHeaders_thenDPoPAccessTokenAndProof() throws {
+        let manager = SalesforceManager.shared
+        let priorPolicy = manager.uiSidBearerPathPolicy
+        manager.uiSidBearerPathPolicy = nil
+        defer { manager.uiSidBearerPathPolicy = priorPolicy }
+
+        let scope = "creds-dpop-ui-sid-unselected-\(UUID().uuidString)"
+        defer { DPoPKeyStore.shared.delete(forScope: scope) }
+        let creds = OAuthCredentials(identifier: scope, clientId: "CLIENT_ID", encrypted: false)!
+        creds.accessToken = "dpop-access-token"
+        creds.tokenType = "DPoP"
+        creds.uiSid = "ui-session-id"
+        _ = try DPoPKeyStore.shared.keyPair(forScope: scope)
+
+        let req = NSMutableURLRequest(url: URL(string: "https://example.salesforce.com/services/data/v60.0")!)
+        req.httpMethod = "GET"
+        try DPoPRequestDecorator.applyAuthHeaders(req, credentials: creds)
+
+        XCTAssertEqual(req.value(forHTTPHeaderField: "Authorization"), "DPoP dpop-access-token")
+        XCTAssertNotNil(req.value(forHTTPHeaderField: "DPoP"))
+    }
+
+    func test_givenIneligibleCredentials_whenApplyAuthHeaders_thenUiSidPolicyIsNotCalled() throws {
+        let manager = SalesforceManager.shared
+        let priorPolicy = manager.uiSidBearerPathPolicy
+        var policyCallCount = 0
+        manager.uiSidBearerPathPolicy = { _ in
+            policyCallCount += 1
+            return true
+        }
+        defer { manager.uiSidBearerPathPolicy = priorPolicy }
+
+        let dpopScope = "creds-dpop-no-ui-sid-\(UUID().uuidString)"
+        defer { DPoPKeyStore.shared.delete(forScope: dpopScope) }
+        let dpopCreds = OAuthCredentials(identifier: dpopScope, clientId: "CLIENT_ID", encrypted: false)!
+        dpopCreds.accessToken = "dpop-access-token"
+        dpopCreds.tokenType = "DPoP"
+        dpopCreds.uiSid = ""
+        _ = try DPoPKeyStore.shared.keyPair(forScope: dpopScope)
+
+        let dpopRequest = NSMutableURLRequest(url: URL(string: "https://example.salesforce.com/services/session")!)
+        dpopRequest.httpMethod = "GET"
+        try DPoPRequestDecorator.applyAuthHeaders(dpopRequest, credentials: dpopCreds)
+
+        let transitionScope = "creds-transition-ui-sid-\(UUID().uuidString)"
+        defer { DPoPKeyStore.shared.delete(forScope: transitionScope) }
+        let transitionCreds = OAuthCredentials(identifier: transitionScope, clientId: "CLIENT_ID", encrypted: false)!
+        transitionCreds.accessToken = "transition-access-token"
+        transitionCreds.uiSid = "transition-ui-session-id"
+        _ = try DPoPKeyStore.shared.keyPair(forScope: transitionScope)
+        let transitionRequest = NSMutableURLRequest(url: URL(string: "https://example.salesforce.com/services/session")!)
+        transitionRequest.httpMethod = "GET"
+        try DPoPRequestDecorator.applyAuthHeaders(transitionRequest, credentials: transitionCreds)
+
+        let bearerCreds = OAuthCredentials(identifier: "creds-bearer-ui-sid-\(UUID().uuidString)", clientId: "CLIENT_ID", encrypted: false)!
+        bearerCreds.accessToken = "bearer-access-token"
+        bearerCreds.tokenType = "Bearer"
+        bearerCreds.uiSid = "stale-ui-session-id"
+        let bearerRequest = NSMutableURLRequest(url: URL(string: "https://example.salesforce.com/services/session")!)
+        bearerRequest.httpMethod = "GET"
+        try DPoPRequestDecorator.applyAuthHeaders(bearerRequest, credentials: bearerCreds)
+
+        XCTAssertEqual(policyCallCount, 0)
+        XCTAssertEqual(dpopRequest.value(forHTTPHeaderField: "Authorization"), "DPoP dpop-access-token")
+        XCTAssertNotNil(dpopRequest.value(forHTTPHeaderField: "DPoP"))
+        XCTAssertEqual(transitionRequest.value(forHTTPHeaderField: "Authorization"), "DPoP transition-access-token")
+        XCTAssertNotNil(transitionRequest.value(forHTTPHeaderField: "DPoP"))
+        XCTAssertEqual(bearerRequest.value(forHTTPHeaderField: "Authorization"), "Bearer bearer-access-token")
+        XCTAssertNil(bearerRequest.value(forHTTPHeaderField: "DPoP"))
+    }
+
+    func test_givenCustomPolicyChangesBetweenRestRequestPreparations_whenPreparedAgain_thenAuthenticationIsReevaluated() throws {
+        let manager = SalesforceManager.shared
+        let priorPolicy = manager.uiSidBearerPathPolicy
+        var policyCallCount = 0
+        manager.uiSidBearerPathPolicy = { _ in
+            policyCallCount += 1
+            return policyCallCount == 2
+        }
+        defer { manager.uiSidBearerPathPolicy = priorPolicy }
+
+        let scope = "rest-dpop-policy-replay-\(UUID().uuidString)"
+        defer { DPoPKeyStore.shared.delete(forScope: scope) }
+        let creds = OAuthCredentials(identifier: scope, clientId: "CLIENT_ID", encrypted: false)!
+        creds.accessToken = "dpop-access-token"
+        creds.tokenType = "DPoP"
+        creds.uiSid = "ui-session-id"
+        creds.instanceUrl = URL(string: "https://example.salesforce.com")
+        creds.userId = "USERID"
+        creds.organizationId = "ORGID"
+        _ = try DPoPKeyStore.shared.keyPair(forScope: scope)
+
+        let account = UserAccount(credentials: creds)
+        let request = RestRequest(method: .GET,
+                                  path: "https://example.salesforce.com/services/custom",
+                                  queryParams: nil)
+        let firstAttempt = try XCTUnwrap(request.prepare(forSend: account))
+        XCTAssertEqual(firstAttempt.value(forHTTPHeaderField: "Authorization"), "DPoP dpop-access-token")
+        XCTAssertNotNil(firstAttempt.value(forHTTPHeaderField: "DPoP"))
+
+        let replayAttempt = try XCTUnwrap(request.prepare(forSend: account))
+        XCTAssertEqual(policyCallCount, 2)
+        XCTAssertEqual(replayAttempt.value(forHTTPHeaderField: "Authorization"), "Bearer ui-session-id")
+        XCTAssertNil(replayAttempt.value(forHTTPHeaderField: "DPoP"))
+    }
+
     func test_givenDPoPCredentials_whenApplyAuthHeadersWithCredentials_thenBothHeadersSet() throws {
         let scope = "creds-dpop-\(UUID().uuidString)"
         defer { DPoPKeyStore.shared.delete(forScope: scope) }

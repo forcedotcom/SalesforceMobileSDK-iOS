@@ -142,12 +142,19 @@ look like a rotation.
 ## 4. DPoP Proof Attachment
 
 `SFRestRequest.prepareRequestForSend` delegates authentication headers to
-`DPoPRequestDecorator.applyAuthHeaders` unless the caller already supplied `Authorization`.
+`DPoPRequestDecorator.applyAuthHeaders(_:credentials:)` unless the caller already supplied
+`Authorization`.
 
 ```text
-applyAuthHeaders(request, scope, accessToken, tokenType):
+applyAuthHeaders(request, credentials):
   if accessToken is empty -> leave request unchanged
-  if isDPoPTokenType(tokenType):
+  if shouldAttachDPoP(scope, tokenType):
+    if tokenType explicitly identifies DPoP
+       and uiSid is nonempty
+       and SalesforceManager.shouldUseUiSidBearer(forPath) is true:
+      set Authorization to "Bearer <uiSid>"
+      remove any stale DPoP header
+      return
     set Authorization to "DPoP <token>"
     load or create the credential-scoped EC P-256 keypair
     canonicalize the request URL for htu
@@ -156,11 +163,19 @@ applyAuthHeaders(request, scope, accessToken, tokenType):
     set the DPoP header
   else:
     set Authorization to "Bearer <token>"
+    remove any stale DPoP header
 ```
 
-The four-argument overload used by `SFRestRequest` treats the credential's explicit `tokenType` as
-authoritative and attaches a proof only when that value is DPoP. It does not consult the
-process-wide DPoP preference.
+`SalesforceManager.uiSidBearerPathPolicy` is a synchronous, process-wide app override. Its
+built-in default returns false for every path, so no request uses UI-session Bearer authentication
+until an app registers a policy. `shouldUseUiSidBearer(forPath:)` resolves the override or the
+default. Authentication calls it only after confirming both an explicit DPoP token type and a
+nonempty `uiSid`; Bearer credentials, a missing UI session, and the nil-token-type transition
+window never invoke the policy. Assigning `nil` restores the default.
+
+The four-argument `applyAuthHeaders(_:scope:accessToken:tokenType:)` overload remains available to
+callers that hold only raw token fields. It treats the explicit `tokenType` as authoritative and
+cannot select `uiSid` because none is supplied.
 
 The credential-object convenience overload uses `shouldAttachDPoP(scope:tokenType:)`. An explicit
 token type is still authoritative, but when `tokenType` is nil during the `/authorize` to `/token`
@@ -189,9 +204,10 @@ Salesforce normally seeds and rotates the nonce at the token endpoint. `SFSDKOAu
 response header before interpreting a token response and retries one nonce challenge with a newly
 built proof.
 
-`SFRestAPI` also defensively handles a resource-server HTTP 400 `use_dpop_nonce` response:
+`SFRestAPI` also defensively handles a resource-server HTTP 400 `use_dpop_nonce` response, but
+only when the failed attempt actually carried both `Authorization: DPoP ...` and a `DPoP` proof:
 
-1. Confirm that the response belongs to the request's current data task.
+1. Confirm that the response belongs to the request's current data task and used DPoP.
 2. Under the REST state lock, confirm that this request has not already used its one resource
    nonce retry, mark the retry used, and clear the current task to reserve its successor.
 3. Release the state lock, then harvest `DPoP-Nonce` for the response URL and credential scope.
@@ -204,6 +220,7 @@ endpoint detection also recognizes a 401 carrying `DPoP-Nonce`.
 
 Resource-server 401 responses do not take this inline nonce path. They enter normal access-token
 refresh, where the token endpoint can provide a fresh nonce before the resource request is replayed.
+Requests authenticated as `Bearer <uiSid>` also bypass inline DPoP nonce handling.
 
 Account deletion clears both the credential-scoped DPoP keypair and cached nonces. Credential
 migration clears the old credential's DPoP state after the new credential state is established.
@@ -398,7 +415,22 @@ send request
   -> invoke success callback outside the lock
 ```
 
-### 10.2 Concurrent expired-token responses with RTR
+### 10.2 UI-session path under a DPoP credential
+
+```text
+prepare request with tokenType=DPoP and nonempty uiSid
+  -> resolve the URL path
+  -> shouldUseUiSidBearer(forPath:) returns true
+  -> set Authorization: Bearer <uiSid>
+  -> remove any stale DPoP proof
+  -> send as a Bearer attempt
+  -> do not enter DPoP nonce retry for its response
+```
+
+Preparing the request again reevaluates the policy. This lets replay use current credential state
+and prevents a previous attempt's authentication headers from deciding the next attempt.
+
+### 10.3 Concurrent expired-token responses with RTR
 
 ```text
 REST request A -> auth failure ----+     one token refresh POST
@@ -416,7 +448,7 @@ identity request -> 401 -----------+     keyed by credentials.identifier
 Each `SFRestAPI` still performs its own active-request replay, but every component observes the
 same coordinated refresh result.
 
-### 10.3 Resource-server nonce challenge
+### 10.4 Resource-server nonce challenge
 
 ```text
 task 1 -> HTTP 400 use_dpop_nonce + DPoP-Nonce
@@ -435,7 +467,7 @@ successor. Conversely, if the DPoP retry reservation wins the lock first, authen
 sees a nil task and skips the replacement while it is being built. The two retry mechanisms
 therefore preserve one current-task chain rather than creating independent successors.
 
-### 10.4 Completion racing authentication replay
+### 10.5 Completion racing authentication replay
 
 ```text
 old task passes the early stale check
@@ -449,7 +481,7 @@ Whichever acquires the ownership lock first wins:
 
 The request receives one terminal result in either ordering.
 
-### 10.5 New request racing the replay snapshot
+### 10.6 New request racing the replay snapshot
 
 ```text
 new send adds request B to activeRequests
@@ -463,7 +495,7 @@ B's sole task claims and delivers its terminal callback
 This is the admission-side counterpart to the completion race. Replay owns replacement of a
 published attempt; it never creates the initial attempt on behalf of an in-progress sender.
 
-### 10.6 Logout during an active refresh cycle
+### 10.7 Logout during an active refresh cycle
 
 A logout can arrive after `startAuthenticationRefreshForRequest:response:` has begun a refresh but
 before the coordinator resolves it. Cleanup does not wait for the refresh; it drains the queue
@@ -519,6 +551,9 @@ the same lock to read the (now empty) queue, so neither path can deadlock agains
     acquired: the shared-instance factory methods resolve the current user before entering
     `@synchronized([SFRestAPI class])`, so no class-monitor → `_accountsLock` ordering exists to
     deadlock against a `currentUser` KVO observer that re-enters `SFRestAPI`.
+14. Request-path authentication is evaluated for each prepared attempt and only for an explicit
+    DPoP token with a nonempty UI session. UI-session Bearer attempts never retain a DPoP proof or
+    enter DPoP nonce retry.
 
 The focused regression coverage lives in `SFRestAPIDataTaskRaceTests`, with coordinator behavior
 covered by `SFSDKTokenRefreshCoordinatorTests` and token-endpoint nonce handling covered by the

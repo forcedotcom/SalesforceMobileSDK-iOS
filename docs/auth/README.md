@@ -7,4 +7,4 @@ SDK.
 
 | Document | Purpose |
 |---|---|
-| [`token-lifecycle.md`](token-lifecycle.md) | Code exchange, token refresh, DPoP nonce handling, Refresh Token Rotation, and REST replay concurrency. |
+| [`token-lifecycle.md`](token-lifecycle.md) | Code exchange, token refresh, DPoP/UI-session request-path authentication, nonce handling, Refresh Token Rotation, and REST replay concurrency. |
