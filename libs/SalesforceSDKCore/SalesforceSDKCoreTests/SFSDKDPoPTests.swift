@@ -440,6 +440,48 @@ class SFSDKDPoPTests: XCTestCase {
         XCTAssertEqual(DPoPNonceCache.shared.nonce(htu: tokenURL, scope: testScope), "nonceB")
     }
 
+    func test_givenNoncesForMultipleUrls_whenLatestRequested_thenReturnsMostRecentWrite() {
+        let resourceURL = URL(string: "https://example.my.salesforce.com/services/data/v66.0")!
+
+        DPoPNonceCache.shared.setNonce("token-nonce", htu: tokenURL, scope: testScope)
+        DPoPNonceCache.shared.setNonce("resource-nonce", htu: resourceURL, scope: testScope)
+        XCTAssertEqual(DPoPNonceCache.shared.latest(forScope: testScope), "resource-nonce")
+
+        DPoPNonceCache.shared.setNonce("rotated-token-nonce", htu: tokenURL, scope: testScope)
+        XCTAssertEqual(DPoPNonceCache.shared.latest(forScope: testScope), "rotated-token-nonce")
+    }
+
+    func test_givenMoreThanMaximumNonces_whenCapacityExceeded_thenLeastRecentlyWrittenIsEvicted() {
+        let urls = (0...DPoPNonceCache.maximumEntriesPerScope).map {
+            URL(string: "https://example.my.salesforce.com/resource/\($0)")!
+        }
+
+        for (index, url) in urls.enumerated() {
+            DPoPNonceCache.shared.setNonce("nonce-\(index)", htu: url, scope: testScope)
+        }
+
+        XCTAssertNil(DPoPNonceCache.shared.nonce(htu: urls[0], scope: testScope))
+        XCTAssertEqual(DPoPNonceCache.shared.nonce(htu: urls[1], scope: testScope), "nonce-1")
+        XCTAssertEqual(DPoPNonceCache.shared.latest(forScope: testScope),
+                       "nonce-\(DPoPNonceCache.maximumEntriesPerScope)")
+    }
+
+    func test_givenRewrittenNonce_whenCapacityExceeded_thenRewriteRefreshesEvictionOrder() {
+        let urls = (0...DPoPNonceCache.maximumEntriesPerScope).map {
+            URL(string: "https://example.my.salesforce.com/rewrite/\($0)")!
+        }
+
+        for (index, url) in urls.dropLast().enumerated() {
+            DPoPNonceCache.shared.setNonce("nonce-\(index)", htu: url, scope: testScope)
+        }
+        DPoPNonceCache.shared.setNonce("rewritten", htu: urls[0], scope: testScope)
+        DPoPNonceCache.shared.setNonce("overflow", htu: urls.last!, scope: testScope)
+
+        XCTAssertEqual(DPoPNonceCache.shared.nonce(htu: urls[0], scope: testScope), "rewritten")
+        XCTAssertNil(DPoPNonceCache.shared.nonce(htu: urls[1], scope: testScope))
+        XCTAssertEqual(DPoPNonceCache.shared.latest(forScope: testScope), "overflow")
+    }
+
     func test_givenNoncesAcrossScopes_whenClearForScope_thenOnlyMatchingScopeIsRemoved() {
         DPoPNonceCache.shared.setNonce("nA", htu: tokenURL, scope: testScope)
         DPoPNonceCache.shared.setNonce("nB", htu: tokenURL, scope: "other-scope")
@@ -475,6 +517,28 @@ class SFSDKDPoPTests: XCTestCase {
         let scope = scopes[0]
         DPoPNonceCache.shared.setNonce("final", htu: url, scope: scope)
         XCTAssertEqual(DPoPNonceCache.shared.nonce(htu: url, scope: scope), "final")
+    }
+
+    func test_givenConcurrentUniqueWrites_whenNonceCacheAccessed_thenCapacityRemainsBounded() {
+        let scope = "concurrent-capacity-scope-\(UUID().uuidString)"
+        let urlCount = DPoPNonceCache.maximumEntriesPerScope * 4
+        let urls = (0..<urlCount).map {
+            URL(string: "https://example.my.salesforce.com/concurrent/\($0)")!
+        }
+        defer { DPoPNonceCache.shared.clear(forScope: scope) }
+
+        DispatchQueue.concurrentPerform(iterations: urlCount) { index in
+            DPoPNonceCache.shared.setNonce("nonce-\(index)", htu: urls[index], scope: scope)
+            _ = DPoPNonceCache.shared.latest(forScope: scope)
+        }
+
+        let retainedCount = urls.reduce(into: 0) { count, url in
+            if DPoPNonceCache.shared.nonce(htu: url, scope: scope) != nil {
+                count += 1
+            }
+        }
+        XCTAssertEqual(retainedCount, DPoPNonceCache.maximumEntriesPerScope)
+        XCTAssertNotNil(DPoPNonceCache.shared.latest(forScope: scope))
     }
 
     // MARK: - Decorator gating + nonce challenge detection
