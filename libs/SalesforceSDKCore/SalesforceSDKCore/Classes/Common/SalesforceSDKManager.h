@@ -64,6 +64,12 @@ typedef void (^SFSnapshotViewControllerPresentationBlock)(UIViewController* snap
  */
 typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapshotViewController) NS_SWIFT_NAME(SalesforceManager.SnapshotViewDismissBlock) API_UNAVAILABLE(visionos);
 
+/**
+ Block used to select requests that should authenticate with the UI session instead of a
+ DPoP-bound access token.
+ */
+typedef BOOL (^SFSDKShouldUseUiSidBearerForPathBlock)(NSString *path) NS_SWIFT_NAME(SalesforceManager.UiSidBearerPathPolicy);
+
 NS_SWIFT_NAME(DevAction)
 @interface SFSDKDevAction : NSObject
 
@@ -224,6 +230,16 @@ NS_SWIFT_NAME(SalesforceManager)
  */
  @property (nonatomic, copy, nullable) SFSDKAppConfigRuntimeSelectorBlock appConfigRuntimeSelectorBlock NS_SWIFT_NAME(bootConfigRuntimeSelector);
 
+/**
+ A synchronous policy that selects request paths which should use `Bearer <ui_sid>` when the
+ current credential is DPoP-bound and has a UI session ID. When unset, the SDK selects no paths
+ (the default policy returns `NO`).
+
+ The policy is not consulted for ordinary Bearer credentials or when `ui_sid` is unavailable.
+ Set this property to opt specific paths in process-wide; set it to `nil` to restore the default.
+ */
+@property (nonatomic, copy, nullable) SFSDKShouldUseUiSidBearerForPathBlock shouldUseUiSidBearerForPathBlock NS_SWIFT_NAME(uiSidBearerPathPolicy);
+
 /** Use this flag to indicate if the APP will be an identity provider. When enabled this flag allows this application to perform authentication on behalf of another app.
  */
 @property (nonatomic,assign) BOOL isIdentityProvider NS_SWIFT_NAME(isIdentityProvider) SFSDK_DEPRECATED(14.0, 15.0, "The IDP (Identity Provider) login flow is deprecated. Apps should use advanced (browser-based) authentication.");
@@ -356,6 +372,17 @@ NS_SWIFT_NAME(SalesforceManager)
  * @param callback The callback invoked with the selected app config
  */
 - (void)appConfigForLoginHost:(nullable NSString *)loginHost callback:(nonnull void (^)(SFSDKAppConfig * _Nullable))callback NS_SWIFT_NAME(bootConfig(forLoginHost:callback:));
+
+/**
+ Returns whether an eligible DPoP request for `path` should instead use `Bearer <ui_sid>`.
+
+ This resolves `shouldUseUiSidBearerForPathBlock` when registered, otherwise returning `NO` (the
+ SDK selects no paths by default). Authentication code calls this method only after confirming that
+ the credential is DPoP-bound and has a nonempty `ui_sid`.
+
+ @param path The path component of the request URL. Hosts and query values are not considered.
+ */
+- (BOOL)shouldUseUiSidBearerForPath:(nonnull NSString *)path NS_SWIFT_NAME(shouldUseUiSidBearer(forPath:));
 
 /**
  * Creates the NativeLoginManager instance.

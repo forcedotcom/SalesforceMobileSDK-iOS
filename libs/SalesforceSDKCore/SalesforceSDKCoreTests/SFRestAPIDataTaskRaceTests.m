@@ -439,6 +439,13 @@ static NSMutableArray<DeferredURLProtocol *> *sPendingProtocols;
     return request;
 }
 
+- (SFRestRequest *)makeDPoPRequest {
+    SFRestRequest *request = [self makeRequest];
+    [request setHeaderValue:@"DPoP test-access-token" forHeaderName:@"Authorization"];
+    [request setHeaderValue:@"test-proof" forHeaderName:@"DPoP"];
+    return request;
+}
+
 /**
  * Regression for the multi-user logout/login ABBA deadlock (W-24142318, Phase 7).
  *
@@ -892,7 +899,7 @@ static NSMutableArray<DeferredURLProtocol *> *sPendingProtocols;
     __block NSInteger failureCount = 0;
     XCTestExpectation *logoutFailure = [self expectationWithDescription:@"cleanup retires DPoP replay"];
     logoutFailure.assertForOverFulfill = YES;
-    SFRestRequest *request = [self makeRequest];
+    SFRestRequest *request = [self makeDPoPRequest];
 
     [api send:request failureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
         failureCount++;
@@ -972,7 +979,7 @@ static NSMutableArray<DeferredURLProtocol *> *sPendingProtocols;
     __block NSInteger successCount = 0;
     __block NSInteger failureCount = 0;
     XCTestExpectation *successDelivered = [self expectationWithDescription:@"retry succeeds"];
-    SFRestRequest *request = [self makeRequest];
+    SFRestRequest *request = [self makeDPoPRequest];
 
     [self.api send:request failureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
         failureCount++;
@@ -1005,6 +1012,33 @@ static NSMutableArray<DeferredURLProtocol *> *sPendingProtocols;
     XCTAssertEqual(failureCount, 0);
 }
 
+- (void)testBearerAttemptDoesNotRetryDPoPNonceChallenge {
+    __block NSInteger failureCount = 0;
+    XCTestExpectation *failureDelivered = [self expectationWithDescription:@"Bearer attempt fails without DPoP retry"];
+    SFRestRequest *request = [self makeRequest];
+
+    [self.api send:request failureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
+        failureCount++;
+        [failureDelivered fulfill];
+    } successBlock:^(id response, NSURLResponse *rawResponse) {
+        XCTFail(@"Bearer attempt with an error response must not succeed");
+    } shouldRetry:NO];
+
+    XCTAssertTrue([self waitForCondition:^BOOL{
+        return [DeferredURLProtocol pendingCount] >= 1;
+    } timeout:2]);
+    [DeferredURLProtocol deliverResponseAtIndex:0
+                                     statusCode:400
+                                           body:@"{\"error\":\"use_dpop_nonce\"}"
+                                   headerFields:nil];
+    [self waitForExpectationsWithTimeout:2 handler:nil];
+
+    XCTAssertEqual(failureCount, 1);
+    XCTAssertFalse(request.dpopNonceRetried);
+    XCTAssertEqual([DeferredURLProtocol pendingCount], 1u,
+                   @"a non-DPoP attempt must not install a nonce-retry task");
+}
+
 /**
  * Forces authentication replay to replace task #1 after its DPoP challenge has
  * been recognized but before the DPoP retry can claim ownership. The stale DPoP
@@ -1018,7 +1052,7 @@ static NSMutableArray<DeferredURLProtocol *> *sPendingProtocols;
     __block NSInteger failureCount = 0;
     XCTestExpectation *terminalCallback = [self expectationWithDescription:@"one terminal callback"];
     terminalCallback.assertForOverFulfill = YES;
-    SFRestRequest *request = [self makeRequest];
+    SFRestRequest *request = [self makeDPoPRequest];
 
     [api send:request failureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
         failureCount++;
