@@ -422,6 +422,88 @@ class SFSDKDPoPTests: XCTestCase {
         }
     }
 
+    // MARK: - In-memory key-pair cache
+
+    /// Warm hit must return the exact same cached instance (object identity), not merely
+    /// an equivalent-but-distinct wrapper — a fresh `DPoPKeyPair` would mean the lookup
+    /// re-hit the Keychain and re-acquired the barrier lock.
+    func test_givenCachedKeyPair_whenFetchedAgain_thenSameInstanceReturned() throws {
+        let scope = "cache-warm-\(UUID().uuidString)"
+        defer { DPoPKeyStore.shared.delete(forScope: scope) }
+        let first = try DPoPKeyStore.shared.keyPair(forScope: scope)
+        let second = try DPoPKeyStore.shared.keyPair(forScope: scope)
+        XCTAssertTrue(first === second, "warm hit must return the identical cached instance")
+    }
+
+    /// N concurrent cold callers for a not-yet-cached scope must converge on exactly one
+    /// generated instance — the barrier's double-check must prevent a double-mint race.
+    func test_givenConcurrentCallers_whenGenerateOrLoad_thenSameCachedInstance() throws {
+        let scope = "cache-concurrent-\(UUID().uuidString)"
+        defer { DPoPKeyStore.shared.delete(forScope: scope) }
+        let iterations = 50
+        var results: [DPoPKeyPair?] = Array(repeating: nil, count: iterations)
+        let lock = NSLock()
+
+        // `concurrentPerform` genuinely runs the closures in parallel (unlike serial-prone
+        // `async` dispatch), so multiple cold callers actually race the barrier's double-check.
+        DispatchQueue.concurrentPerform(iterations: iterations) { i in
+            if let kp = try? DPoPKeyStore.shared.keyPair(forScope: scope) {
+                lock.lock(); results[i] = kp; lock.unlock()
+            }
+        }
+
+        let resolved = results.compactMap { $0 }
+        XCTAssertEqual(resolved.count, iterations, "every concurrent caller should get a keypair")
+        let first = try XCTUnwrap(resolved.first)
+        for result in resolved.dropFirst() {
+            XCTAssertTrue(result === first, "all concurrent cold callers must converge on the same cached instance")
+        }
+    }
+
+    /// Deleting a scope must evict its cached handle — the next fetch must not resurrect
+    /// the pre-delete instance, and must mint a genuinely new key pair.
+    func test_givenCachedKeyPair_whenDeleted_thenNextFetchGeneratesNew() throws {
+        let scope = "cache-delete-\(UUID().uuidString)"
+        defer { DPoPKeyStore.shared.delete(forScope: scope) }
+        let first = try DPoPKeyStore.shared.keyPair(forScope: scope)
+        DPoPKeyStore.shared.delete(forScope: scope)
+        let regenerated = try DPoPKeyStore.shared.keyPair(forScope: scope)
+        XCTAssertFalse(first === regenerated, "delete must evict the cache, not just leave a stale handle live")
+        let firstJwk = try Encryptor.jwkP256(from: first.publicKey)
+        let regenJwk = try Encryptor.jwkP256(from: regenerated.publicKey)
+        XCTAssertNotEqual(firstJwk, regenJwk, "post-delete key pair must have a different public key")
+    }
+
+    /// Clearing the in-memory cache (simulating a process restart) must reload the same
+    /// persistent Keychain-backed key on the next fetch, and re-cache it for subsequent
+    /// warm hits.
+    func test_givenMemoryCacheCleared_whenFetched_thenSamePersistentKeyReloaded() throws {
+        let scope = "cache-reset-\(UUID().uuidString)"
+        defer { DPoPKeyStore.shared.delete(forScope: scope) }
+        let first = try DPoPKeyStore.shared.keyPair(forScope: scope)
+        let firstJwk = try Encryptor.jwkP256(from: first.publicKey)
+
+        DPoPKeyStore.shared.clearInMemoryCache()
+
+        let reloaded = try DPoPKeyStore.shared.keyPair(forScope: scope)
+        let reloadedJwk = try Encryptor.jwkP256(from: reloaded.publicKey)
+        XCTAssertEqual(firstJwk, reloadedJwk, "cache-reset reload must return the same persistent key")
+
+        let rewarmed = try DPoPKeyStore.shared.keyPair(forScope: scope)
+        XCTAssertTrue(reloaded === rewarmed, "the reloaded instance must be re-cached for subsequent warm hits")
+    }
+
+    /// `hasKeyPair` must short-circuit on a cache hit without touching the Keychain, and
+    /// must still correctly report absence for an uncached/empty scope.
+    func test_givenCachedKeyPair_whenHasKeyPair_thenTrue_andFalseForEmptyScope() throws {
+        let scope = "cache-haskey-\(UUID().uuidString)"
+        defer { DPoPKeyStore.shared.delete(forScope: scope) }
+        XCTAssertFalse(DPoPKeyStore.shared.hasKeyPair(forScope: scope))
+        _ = try DPoPKeyStore.shared.keyPair(forScope: scope)
+        XCTAssertTrue(DPoPKeyStore.shared.hasKeyPair(forScope: scope))
+        XCTAssertFalse(DPoPKeyStore.shared.hasKeyPair(forScope: ""))
+    }
+
     // MARK: - Nonce cache
 
     func test_givenScopedNonce_whenSameUrlSameScope_thenReturnsCachedValue() {

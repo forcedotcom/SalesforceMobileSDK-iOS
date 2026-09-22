@@ -168,6 +168,15 @@ transition, that overload can fall back to credential-scoped key material. This 
 not consult the global preference. Token-endpoint proofs omit `ath`; resource proofs bind the proof
 to the current access token with `ath`.
 
+`DPoPKeyStore` caches each credential-scoped `SecKey` handle in process memory, keyed by the derived
+Keychain key name. The first "load or create the credential-scoped EC P-256 keypair" step for a
+scope performs the Keychain lookup (or Secure Enclave key generation on first use) and caches the
+resulting handle; every subsequent proof build for that scope reuses the cached handle directly,
+skipping the Keychain (`SecItemCopyMatching`/`securityd`) round-trip and the exclusive lock that
+previously serialized every DPoP proof build across every credential. Proof signing still happens
+per request against the Secure-Enclave/Keychain-backed private key — only the *lookup* is cached, so
+no private-key material is exported or held in plaintext.
+
 ---
 
 ## 5. DPoP Nonce Lifecycle
@@ -198,6 +207,9 @@ refresh, where the token endpoint can provide a fresh nonce before the resource 
 
 Account deletion clears both the credential-scoped DPoP keypair and cached nonces. Credential
 migration clears the old credential's DPoP state after the new credential state is established.
+Both paths evict the corresponding entry from `DPoPKeyStore`'s in-process key-pair cache before
+removing the persisted Keychain entry, so no later lookup for that scope can return a stale handle
+to a now-deleted key.
 
 ---
 
