@@ -103,9 +103,15 @@ public final class DPoPKeyStore: NSObject {
         return try keyPair(forScope: credentials.identifier)
     }
 
-    /// Returns `true` iff a private key is already present in the Keychain for `scope`.
-    /// Side-effect-free — never generates a key on miss. Used to gate DPoP proof attachment
-    /// on the presence of previously-minted key material for the credential.
+    /// Returns `true` if key material for `scope` is available — from the in-process cache,
+    /// or (on a cache miss) from the Keychain. Side-effect-free — never generates a key on
+    /// miss. Used to gate DPoP proof attachment on the presence of previously-minted key
+    /// material for the credential.
+    ///
+    /// Note: a cache hit reports `true` without touching the Keychain, so if the persistent
+    /// key were removed out of band (i.e. not via `delete(forScope:)`) this can report `true`
+    /// until the in-process cache is evicted. Every in-SDK deletion routes through
+    /// `delete(forScope:)`, which evicts the cache, keeping the two views consistent.
     public func hasKeyPair(forScope scope: String) -> Bool {
         guard !scope.isEmpty else { return false }
         let name = Self.keyName(for: scope)

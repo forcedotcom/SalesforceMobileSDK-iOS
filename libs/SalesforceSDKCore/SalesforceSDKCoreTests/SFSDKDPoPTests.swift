@@ -493,15 +493,35 @@ class SFSDKDPoPTests: XCTestCase {
         XCTAssertTrue(reloaded === rewarmed, "the reloaded instance must be re-cached for subsequent warm hits")
     }
 
-    /// `hasKeyPair` must short-circuit on a cache hit without touching the Keychain, and
-    /// must still correctly report absence for an uncached/empty scope.
-    func test_givenCachedKeyPair_whenHasKeyPair_thenTrue_andFalseForEmptyScope() throws {
+    /// `hasKeyPair` must short-circuit on a cache hit. To prove this is genuinely the
+    /// cache-first path (and not just the pre-change Keychain lookup — which would also
+    /// pass while the persisted key exists), remove the persisted key *out of band* via
+    /// `KeyGenerator`, bypassing `delete(forScope:)` so the in-memory cache is NOT evicted:
+    /// the cache-first path must still report `true`, whereas the Keychain-only
+    /// implementation would report `false`. Clearing the cache then falls back to the
+    /// Keychain and reports the now-absent key.
+    func test_givenCachedKeyPair_whenPersistentKeyRemovedOutOfBand_thenCacheStillReportsPresentUntilCleared() throws {
         let scope = "cache-haskey-\(UUID().uuidString)"
         defer { DPoPKeyStore.shared.delete(forScope: scope) }
+
+        // Absent before any key exists; empty scope is always false.
         XCTAssertFalse(DPoPKeyStore.shared.hasKeyPair(forScope: scope))
+        XCTAssertFalse(DPoPKeyStore.shared.hasKeyPair(forScope: ""))
+
+        // Warm the in-process cache.
         _ = try DPoPKeyStore.shared.keyPair(forScope: scope)
         XCTAssertTrue(DPoPKeyStore.shared.hasKeyPair(forScope: scope))
-        XCTAssertFalse(DPoPKeyStore.shared.hasKeyPair(forScope: ""))
+
+        // Remove the persisted key directly, WITHOUT going through delete(forScope:), so the
+        // cache entry survives. The Keychain-only implementation would now return false.
+        _ = try KeyGenerator.removeECKeyPair(name: DPoPKeyStore.keyName(for: scope))
+        XCTAssertTrue(DPoPKeyStore.shared.hasKeyPair(forScope: scope),
+                      "a cache hit must satisfy hasKeyPair even after the persistent key is gone")
+
+        // Evict the cache: hasKeyPair now falls back to the Keychain and sees the absence.
+        DPoPKeyStore.shared.clearInMemoryCache()
+        XCTAssertFalse(DPoPKeyStore.shared.hasKeyPair(forScope: scope),
+                       "after clearing the cache, hasKeyPair must reflect the now-absent persistent key")
     }
 
     // MARK: - Nonce cache
