@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param testClass The class associated with the bundle where the test credentials file lives.
  @return a dictionary of login username, password, url
  */
-+ (NSArray *)populateUILoginInfoFromConfigFileForClass:(Class)testClass;
++ (NSArray *)populateUILoginInfoFromConfigFileForClass:(Class)testClass SFSDK_DEPRECATED(14.0, 15.0, "TestSetupUtils instant login helpers are deprecated and will be removed in 15.0. They are incompatible with DPoP enforcement.");
 
 /**
  Loads a set of auth credentials from the 'test_credentials.json' file located in the bundle associated
@@ -50,7 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
  @return The configuration data used to configure SFUserAccountManager (useful e.g. for hybrid
  apps which need the data to bootstrap SFHybridViewController).
  */
-+ (SFSDKTestCredentialsData *)populateAuthCredentialsFromConfigFileForClass:(Class)testClass;
++ (SFSDKTestCredentialsData *)populateAuthCredentialsFromConfigFileForClass:(Class)testClass SFSDK_DEPRECATED(14.0, 15.0, "TestSetupUtils instant login helpers are deprecated and will be removed in 15.0. They are incompatible with DPoP enforcement.");
 
 /**
  Loads a set of auth credentials from the provided JSON string, and configures
@@ -60,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
  @return The configuration data used to configure SFUserAccountManager (useful
  e.g. for hybrid apps which need the data to bootstrap SFHybridViewController).
  */
-+ (SFSDKTestCredentialsData *)populateAuthCredentialsFromString:(NSString *)testCredentialsJsonString;
++ (SFSDKTestCredentialsData *)populateAuthCredentialsFromString:(NSString *)testCredentialsJsonString SFSDK_DEPRECATED(14.0, 15.0, "TestSetupUtils instant login helpers are deprecated and will be removed in 15.0. They are incompatible with DPoP enforcement.");
 
 /**
  Loads a set of auth credentials from the provided JSON string, and configures
@@ -71,7 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
  @return The configuration data used to configure SFUserAccountManager (useful
  e.g. for hybrid apps which need the data to bootstrap SFHybridViewController).
  */
-+ (SFSDKTestCredentialsData *)populateAuthCredentialsFromString:(NSString *)testCredentialsJsonString initializeSdk:(BOOL)initializeSdk;
++ (SFSDKTestCredentialsData *)populateAuthCredentialsFromString:(NSString *)testCredentialsJsonString initializeSdk:(BOOL)initializeSdk SFSDK_DEPRECATED(14.0, 15.0, "TestSetupUtils instant login helpers are deprecated and will be removed in 15.0. They are incompatible with DPoP enforcement.");
 
 /**
  Performs a synchronous refresh of the OAuth credentials, which will stage the

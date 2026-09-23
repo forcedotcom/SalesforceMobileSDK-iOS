@@ -116,6 +116,26 @@ class RTRLoginTests: BaseAuthFlowTester {
                       "Token request should contain the credential owner's opaque-token marker; flags: \(flags), ua: \(capturedUserAgent)")
     }
 
+    /// Revoke once requests overlap, then verify coordinated replay and RTR recovery.
+    func test_givenRTRRequestsInFlight_whenRevoked_thenBatchSettlesAndFollowUpSucceeds() throws {
+        launchLoginAndValidate(staticAppConfigName: .ecaJwtRtr)
+        let credentialsBefore = getUserCredentials()
+
+        startManyRestRequests(interruption: .revoke)
+        XCTAssertTrue(waitForManyRequestsInterruptionRequested(), "Revoke should be requested after requests enter flight")
+        XCTAssertTrue(waitForManyRequestsInterruptionCompleted(), "Revoke should complete")
+        let result = try XCTUnwrap(waitForManyRequestsToComplete(expectedCount: 20))
+        XCTAssertEqual(result.completed, 20)
+        XCTAssertEqual(result.succeeded + result.failed, 20)
+        XCTAssertEqual(result.queued, 0)
+        XCTAssertEqual(result.inFlight, 0)
+
+        XCTAssertTrue(makeRestRequest(), "A follow-up request should deterministically exercise recovery")
+        let credentialsAfter = getUserCredentials()
+        XCTAssertNotEqual(credentialsAfter.accessToken, credentialsBefore.accessToken)
+        XCTAssertNotEqual(credentialsAfter.refreshToken, credentialsBefore.refreshToken)
+    }
+
     private func featureMarkers(in userAgent: String) -> Set<String> {
         guard let range = userAgent.range(of: "ftr_") else { return [] }
         let markerString = String(userAgent[range.upperBound...]).components(separatedBy: " ").first ?? ""

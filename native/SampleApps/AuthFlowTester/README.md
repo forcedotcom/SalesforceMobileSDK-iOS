@@ -53,7 +53,7 @@ External Client App (ECA) login tests for both opaque and JWT token formats with
 | `testDynamicConfigurationWithInvalidScope` | — | — | Invalid scope; login must fail |
 
 #### DPoPLoginTests
-All DPoP tests live here — basic login, RTR, multi-user, migration, server enforcement, upgrade, restart, pool server, and admin login. Verifies that DPoP-bound access tokens are issued (`token_type: "DPoP"`), API calls succeed with `ath`-bound proofs, the access token refreshes correctly, and the DPoP nonce rotates on every `/token` response.
+All DPoP tests live here — basic login, RTR, multi-user, migration, server enforcement, upgrade, restart, pool server, and admin login. Verifies that DPoP-bound access tokens are issued (`token_type: "DPoP"`), API calls succeed with `ath`-bound proofs, the access token refreshes correctly, and server-issued DPoP nonces are harvested and reused until the server rotates them.
 
 | Test | App Config | Hybrid | Notes |
 |------|-----------|--------|-------|
@@ -61,6 +61,8 @@ All DPoP tests live here — basic login, RTR, multi-user, migration, server enf
 | `test_givenDPoPNoHybrid_whenLogin_thenTokenTypeIsDPoPAndRefreshWorks` | ECA JWT DPoP | No | |
 | `test_givenDPoPRtrHybrid_whenLogin_thenRefreshTokenRotatesAndDPoPBindingHolds` | ECA JWT DPoP RTR | Yes | DPoP + refresh token rotation |
 | `test_givenDPoPRtrNoHybrid_whenLogin_thenRefreshTokenRotatesAndDPoPBindingHolds` | ECA JWT DPoP RTR | No | DPoP + refresh token rotation |
+| `test_givenDPoPRTRSessionWithInvalidAccessToken_whenMakingManyRequests_thenReplayPreservesBinding` | ECA JWT DPoP RTR | Yes | 20 concurrent mixed requests share refresh/replay; access and refresh tokens rotate while the server nonce remains usable |
+| `test_givenDPoPRequestsInFlight_whenRevoked_thenBindingIsPreserved` | ECA JWT DPoP | Yes | Revoke under concurrent load; follow-up proof and nonce recovery succeed |
 | `test_givenTwoDPoPUsers_whenSwitchAndRefresh_thenTokensAndNoncesAreIsolated` | ECA JWT DPoP | — | Two users; unique tokens and nonces; independent revoke+refresh per user |
 | `test_givenDPoPUserWithSubsetScopes_whenMigrateToAllScopes_thenDPoPBindingPreserved` | ECA JWT DPoP | — | Scope upgrade; DPoP binding preserved |
 | `test_givenDPoPUser_whenMigrateToDPoPRtr_thenRefreshTokenRotationEnabled` | ECA JWT DPoP → ECA JWT DPoP RTR | — | Migrate from DPoP to DPoP+RTR |
@@ -86,6 +88,27 @@ Tests for ECA configurations with Refresh Token Rotation (RTR) enabled. Verifies
 | `testECAOpaqueRtr_NoHybrid` | ECA Opaque RTR | No | |
 | `testECAOpaqueRtr_NoHybrid_WithRestart` | ECA Opaque RTR | No | Session survives restart |
 | `test_givenRTRObserved_whenColdRestartForcesRefresh_thenTokenRequestUserAgentContainsRT` | ECA Opaque RTR | Yes | Captures the first post-restart `/token` request and verifies its wire User-Agent contains RT plus the owning user's A2/OT markers |
+| `test_givenRTRRequestsInFlight_whenRevoked_thenBatchSettlesAndFollowUpSucceeds` | ECA JWT RTR | Yes | Revoke after requests overlap; every request settles and a follow-up request recovers with rotated tokens |
+
+#### ConcurrentRestRequestTests
+Exercises AuthFlowTester's concurrent REST stress surface. The app keeps the original one-request
+card unchanged and adds a separate card that runs a read-only mix of API-resources and
+describe-global requests, weighted toward the cheaper API-resources call. Options provide
+5/10/20/50 request counts and manual,
+revoke-in-flight, or logout-in-flight interruption modes. The result grid reports queued,
+in-flight, succeeded, and failed requests; tapping a failed square opens copyable diagnostics.
+
+| Test | App Config | Notes |
+|------|------------|-------|
+| `test_givenValidRTRSession_whenMakingTwentyMixedRequests_thenAllSucceed` | ECA JWT RTR | All 20 requests settle successfully and overlap without rotating valid credentials |
+| `test_givenDeterministicRequestFailure_whenTappingRedSquare_thenDetailsAreShown` | ECA JWT RTR | DEBUG-only invalid endpoint produces one isolated failure with tappable details |
+| `test_givenRTRRequestsInFlight_whenLoggingOut_thenColdRelaunchStaysLoggedOut` | ECA JWT RTR | Logout drains active requests and the session remains logged out after restart |
+
+#### Concurrent REST request UI
+
+| Completed request grid | Tappable error details |
+|------------------------|------------------------|
+| ![Twenty completed concurrent REST requests](Screenshots/concurrent-rest-requests.png) | ![Concurrent REST request error details](Screenshots/concurrent-rest-request-error.png) |
 
 #### BeaconLoginTests
 Beacon app login tests for lightweight authentication use cases, covering both opaque and JWT token formats.
@@ -137,6 +160,7 @@ End-to-end tests for multi-user scenarios: logging in two users, switching betwe
 | `testRevokeAccessForUserWithDynamicConfig_OtherUserUnaffected` | Revoke dynamic-config user's access; static user unaffected |
 | `testDifferentAppTypes_RevokeAccessForCaUser_EcaUserUnaffected` | Revoke CA user's access; ECA user unaffected |
 | `testLogoutUserWithDynamicConfig_OtherUserUnaffected` | Logout dynamic-config user; static user unaffected |
+| `test_givenRTRAndDPoPRTRUsers_whenCurrentUserLogsOutUnderLoad_thenOtherUserRemainsUsable` | Logout DPoP+RTR user during 20 requests; remaining RTR user works before and after restart |
 | `testDifferentAppTypes_LogoutCaUser_EcaUserUnaffected` | Logout CA user; ECA user unaffected |
 | `testFlagDiversity_NonHybridOpaqueVsHybridJwt` | User A: non-hybrid+OT; User B: hybrid+JT; validates per-user flag isolation |
 | `testFlagDiversity_BeaconNonHybridJwtVsHybridOpaque` | User A: beacon+non-hybrid+JT; User B: hybrid+OT; validates A-marker and BN isolation |
@@ -208,7 +232,7 @@ Each `launchLoginAndValidate` call performs the following checks:
 
 `assertRevokeAndRefreshWorks` additionally verifies for DPoP apps:
 - **Token type preserved** — `OAuth Token Type` remains `"DPoP"` after refresh
-- **Nonce rotated** — the DPoP nonce changes after each token refresh cycle
+- **Nonce available** — a non-empty server-issued nonce remains available after refresh; the server may reuse it until it chooses to rotate it
 
 Migration tests additionally verify:
 - Access and refresh tokens are **replaced** (not reused)

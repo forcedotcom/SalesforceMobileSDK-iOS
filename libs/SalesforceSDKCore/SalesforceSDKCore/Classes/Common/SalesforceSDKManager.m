@@ -1192,6 +1192,16 @@ void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t b
     }
 }
 
+#pragma mark - Request Authentication Override
+
+- (BOOL)shouldUseUiSidBearerForPath:(NSString *)path {
+    SFSDKShouldUseUiSidBearerForPathBlock policy = self.shouldUseUiSidBearerForPathBlock;
+    if (policy) {
+        return policy(path);
+    }
+    return NO;
+}
+
 #pragma mark - Native Login
 
 - (id <SFNativeLoginManager>)useNativeLoginWithConsumerKey:(nonnull NSString *)consumerKey
@@ -1255,4 +1265,3 @@ NSString *SFAppTypeGetDescription(SFAppType appType){
     }
     return appTypeStr;
 }
-

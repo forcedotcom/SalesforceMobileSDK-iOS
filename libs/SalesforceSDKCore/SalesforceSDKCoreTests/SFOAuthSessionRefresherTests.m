@@ -50,12 +50,16 @@ static NSSet<NSString *> *SFSDKFeatureMarkersFromUserAgent(NSString *userAgent) 
 @interface SFSDKOAuthClientStub : NSObject <SFSDKOAuthProtocol>
 @property (nonatomic, strong) SFSDKOAuthTokenEndpointResponse *stubbedResponse;
 @property (nonatomic, strong, nullable) SFSDKOAuthTokenEndpointRequest *capturedRefreshRequest;
+@property (nonatomic, copy, nullable) void (^beforeCompletion)(void);
 @end
 
 @implementation SFSDKOAuthClientStub
 - (void)accessTokenForRefresh:(SFSDKOAuthTokenEndpointRequest *)endpointReq
                    completion:(void (^)(SFSDKOAuthTokenEndpointResponse *))completionBlock {
     self.capturedRefreshRequest = endpointReq;
+    if (self.beforeCompletion) {
+        self.beforeCompletion();
+    }
     completionBlock(self.stubbedResponse);
 }
 - (void)accessTokenForApprovalCode:(SFSDKOAuthTokenEndpointRequest *)endpointReq
@@ -67,6 +71,21 @@ static NSSet<NSString *> *SFSDKFeatureMarkersFromUserAgent(NSString *userAgent) 
 
 // TODO: Remove deprecated warning suppression when SFOAuthSessionRefresher is internal in Mobile SDK 15.0
 SFSDK_USE_DEPRECATED_BEGIN
+
+@interface SFOAuthSessionRefresher (Testing)
+- (nullable SFUserAccount *)accountForCredentials;
+@end
+
+@interface SFSDKCountingOAuthSessionRefresher : SFOAuthSessionRefresher
+@property (nonatomic, assign) NSUInteger accountLookupCount;
+@end
+
+@implementation SFSDKCountingOAuthSessionRefresher
+- (SFUserAccount *)accountForCredentials {
+    self.accountLookupCount += 1;
+    return [super accountForCredentials];
+}
+@end
 
 @interface SFOAuthSessionRefresherTests : XCTestCase
 
@@ -203,6 +222,8 @@ SFSDK_USE_DEPRECATED_BEGIN
     XCTAssertNotNil(account.credentials.lastTokenRotationDate, @"Expected rotation timestamp to be stamped");
     XCTAssertLessThan(fabs([account.credentials.lastTokenRotationDate timeIntervalSinceNow]), 5.0,
                       @"Rotation timestamp should be within 5 seconds of now");
+    XCTAssertEqual(((SFSDKCountingOAuthSessionRefresher *)self.oauthSessionRefresher).accountLookupCount, 2,
+                   @"A rotated refresh should perform one request-time and one post-response lookup");
 
     // Cleanup
     [SFUserAccountManager sharedInstance].authClient = originalFactory;
@@ -345,10 +366,65 @@ SFSDK_USE_DEPRECATED_BEGIN
     // Assert: timestamp preserved
     XCTAssertEqualWithAccuracy([account.credentials.lastTokenRotationDate timeIntervalSince1970], 1234567890, 0.001,
                                @"Rotation timestamp must be preserved when no rotation occurred");
+    XCTAssertEqual(((SFSDKCountingOAuthSessionRefresher *)self.oauthSessionRefresher).accountLookupCount, 2,
+                   @"An unchanged refresh should perform one request-time and one post-response lookup");
 
     // Cleanup
     [SFUserAccountManager sharedInstance].authClient = originalFactory;
     [[SFUserAccountManager sharedInstance] deleteAccountForUser:account error:nil];
+}
+
+- (void)test_givenAccountRemovedDuringRefresh_whenRotatedTokenSucceeds_thenNotificationOmitsAccount {
+    SFOAuthCredentials *credentials = self.oauthSessionRefresher.credentials;
+    SFUserAccount *account = [[SFUserAccount alloc] initWithCredentials:credentials];
+    SFUserAccountManager *accountManager = [SFUserAccountManager sharedInstance];
+    [accountManager saveAccountForUser:account error:nil];
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureRTR forUser:account];
+
+    NSDictionary *responseDictionary = @{
+        kSFOAuthAccessToken: @"new_access_token",
+        kSFOAuthRefreshToken: [NSString stringWithFormat:@"rotated_token_%u", arc4random()],
+    };
+    SFSDKOAuthTokenEndpointResponse *response = [[SFSDKOAuthTokenEndpointResponse alloc]
+                                                  initWithDictionary:responseDictionary
+                                                  parseAdditionalFields:nil];
+    SFSDKOAuthClientStub *stub = [[SFSDKOAuthClientStub alloc] init];
+    stub.stubbedResponse = response;
+    stub.beforeCompletion = ^{
+        [accountManager deleteAccountForUser:account error:nil];
+    };
+    SFAuthClientFactoryBlock originalFactory = accountManager.authClient;
+    accountManager.authClient = ^{ return stub; };
+
+    __block NSDictionary *notificationUserInfo = nil;
+    id observer = [[NSNotificationCenter defaultCenter]
+                   addObserverForName:kSFNotificationUserDidRefreshToken
+                   object:accountManager
+                   queue:nil
+                   usingBlock:^(NSNotification *notification) {
+        notificationUserInfo = notification.userInfo;
+    }];
+
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Refresh after account removal"];
+    [self.oauthSessionRefresher refreshSessionWithCompletion:^(SFOAuthCredentials *updatedCredentials) {
+        [expectation fulfill];
+    } error:^(NSError *error) {
+        XCTFail(@"Refresh should still complete after account removal: %@", error);
+        [expectation fulfill];
+    }];
+    [self waitForExpectationsWithTimeout:2.0 handler:nil];
+
+    XCTAssertNotNil(notificationUserInfo, @"A successful refresh should still post its notification");
+    XCTAssertNil(notificationUserInfo[kSFNotificationUserInfoAccountKey],
+                 @"A removed account must not be carried across the asynchronous refresh");
+    XCTAssertFalse([[SFSDKAppFeatureMarkers appFeaturesForUser:account] containsObject:kSFAppFeatureRTR],
+                   @"RTR must not be registered for an account removed during refresh");
+    XCTAssertEqual(((SFSDKCountingOAuthSessionRefresher *)self.oauthSessionRefresher).accountLookupCount, 2,
+                   @"Account removal should be observed by the single post-response lookup");
+
+    [[NSNotificationCenter defaultCenter] removeObserver:observer];
+    accountManager.authClient = originalFactory;
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureRTR forUser:account];
 }
 
 #pragma mark - Private methods
@@ -367,7 +443,7 @@ SFSDK_USE_DEPRECATED_BEGIN
     // (sfsdk_entityId18 returns nil for non-conforming strings, making isEqualToString:nil == NO.)
     creds.userId = @"005000000000001";
     creds.organizationId = @"00D000000000001";
-    self.oauthSessionRefresher = [[SFOAuthSessionRefresher alloc] initWithCredentials:creds];
+    self.oauthSessionRefresher = [[SFSDKCountingOAuthSessionRefresher alloc] initWithCredentials:creds];
 }
 
 - (void)tearDownCoordinatorFlow {

@@ -25,6 +25,27 @@
 @import XCTest;
 #import "SFSDKSafeMutableSet.h"
 
+// Blocking -hash pauses inside NSMutableSet's mutation so publication timing is deterministic.
+@interface SFSDKBlockingHashObject : NSObject
+@property (nonatomic, strong) dispatch_semaphore_t hashStarted;
+@property (nonatomic, strong) dispatch_semaphore_t allowHashToReturn;
+@property (atomic, assign) BOOL shouldBlockHash;
+@end
+
+@implementation SFSDKBlockingHashObject
+
+- (NSUInteger)hash {
+    if (self.shouldBlockHash) {
+        self.shouldBlockHash = NO;
+        dispatch_semaphore_signal(self.hashStarted);
+        dispatch_semaphore_wait(self.allowHashToReturn,
+                                dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)));
+    }
+    return 1;
+}
+
+@end
+
 @interface SFSDKSafeMutableSetTests : XCTestCase
 @end
 
@@ -74,6 +95,58 @@
     [inputs enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         XCTAssertTrue([set containsObject:inputs[idx]]);
     }];
+}
+
+- (void)testAddObjectPublishesMutationBeforeReturning {
+    SFSDKSafeMutableSet *set = [SFSDKSafeMutableSet set];
+    SFSDKBlockingHashObject *object = [SFSDKBlockingHashObject new];
+    object.hashStarted = dispatch_semaphore_create(0);
+    object.allowHashToReturn = dispatch_semaphore_create(0);
+    object.shouldBlockHash = YES;
+    dispatch_semaphore_t addReturned = dispatch_semaphore_create(0);
+
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+        [set addObject:object];
+        dispatch_semaphore_signal(addReturned);
+    });
+
+    XCTAssertEqual(dispatch_semaphore_wait(object.hashStarted,
+                                           dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC))), 0,
+                   @"set mutation should begin");
+    XCTAssertNotEqual(dispatch_semaphore_wait(addReturned, DISPATCH_TIME_NOW), 0,
+                      @"addObject: must not return before its mutation is published");
+
+    dispatch_semaphore_signal(object.allowHashToReturn);
+    XCTAssertEqual(dispatch_semaphore_wait(addReturned,
+                                           dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC))), 0,
+                   @"addObject: should return after publishing the mutation");
+    XCTAssertTrue([set containsObject:object]);
+}
+
+- (void)testEnumerationCallbackCanMutateSet {
+    SFSDKSafeMutableSet *set = [SFSDKSafeMutableSet set];
+    [set addObjectsFromArray:@[@"one", @"two"]];
+    NSMutableSet *enumeratedObjects = [NSMutableSet set];
+    XCTestExpectation *enumerationCompleted = [self expectationWithDescription:@"enumerationCompleted"];
+
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+        [set enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
+            [enumeratedObjects addObject:obj];
+            [set addObject:@"addedFromCallback"];
+        }];
+        [enumerationCompleted fulfill];
+    });
+
+    XCTWaiterResult result = [XCTWaiter waitForExpectations:@[enumerationCompleted] timeout:2.0];
+    XCTAssertEqual(result, XCTWaiterResultCompleted,
+                   @"enumeration callbacks must be able to mutate the set without deadlocking");
+    if (result != XCTWaiterResultCompleted) {
+        return;
+    }
+
+    NSSet *expectedObjects = [NSSet setWithObjects:@"one", @"two", nil];
+    XCTAssertEqualObjects(enumeratedObjects, expectedObjects);
+    XCTAssertTrue([set containsObject:@"addedFromCallback"]);
 }
 
 - (void)testConcurrentReadWrites {

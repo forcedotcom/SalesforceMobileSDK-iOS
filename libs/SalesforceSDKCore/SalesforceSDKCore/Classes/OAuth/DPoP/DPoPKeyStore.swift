@@ -57,6 +57,12 @@ public final class DPoPKeyStore: NSObject {
     // Use dispatch queue to prevent a potential double create race
     private let queue = DispatchQueue(label: "com.salesforce.dpop.keystore", attributes: .concurrent)
 
+    // Process-local cache of key-pair handles, keyed by the derived Keychain key name.
+    // The key material never changes for the lifetime of a credential, so once loaded or
+    // generated, the handle is safe to reuse for the rest of the process's lifetime.
+    // Accessed only under `queue` — concurrent reads, exclusive (.barrier) writes.
+    private var keyPairCache: [String: DPoPKeyPair] = [:]
+
     private override init() { super.init() }
 
     /// Returns the keypair bound to the given scope identifier, generating it on first call.
@@ -66,13 +72,24 @@ public final class DPoPKeyStore: NSObject {
             throw DPoPKeyStoreError.missingScopeIdentifier
         }
         let name = Self.keyName(for: scope)
-        // In this specific file, only .barrier work runs on this queue, so it's behaviorally
-        // identical to a serial queue. The concurrent-with-barriers pattern is the standard Swift
-        // idiom for reader/writer locks — concurrent reads, exclusive write.
+
+        // Warm path: concurrent (non-barrier) read. No Keychain I/O, no exclusive lock.
+        if let cached = queue.sync(execute: { keyPairCache[name] }) {
+            return cached
+        }
+
+        // Cold path: exclusive barrier. Double-check the cache (a concurrent cold caller may
+        // have populated it while this call was waiting), then load-or-generate exactly once
+        // and cache the handle.
         return try queue.sync(flags: .barrier) {
+            if let cached = keyPairCache[name] {
+                return cached
+            }
             do {
                 let pair = try KeyGenerator.ecKeyPair(name: name)
-                return DPoPKeyPair(publicKey: pair.publicKey, privateKey: pair.privateKey)
+                let keyPair = DPoPKeyPair(publicKey: pair.publicKey, privateKey: pair.privateKey)
+                keyPairCache[name] = keyPair
+                return keyPair
             } catch {
                 SFSDKCoreLogger.e(Self.self, message: "DPoP keypair generation failed: \(error.localizedDescription)")
                 throw DPoPKeyStoreError.keyGenerationFailed
@@ -86,15 +103,22 @@ public final class DPoPKeyStore: NSObject {
         return try keyPair(forScope: credentials.identifier)
     }
 
-    /// Returns `true` iff a private key is already present in the Keychain for `scope`.
-    /// Side-effect-free — never generates a key on miss. Used to gate DPoP proof attachment
-    /// on the presence of previously-minted key material for the credential.
+    /// Returns `true` if key material for `scope` is available — from the in-process cache,
+    /// or (on a cache miss) from the Keychain. Side-effect-free — never generates a key on
+    /// miss. Used to gate DPoP proof attachment on the presence of previously-minted key
+    /// material for the credential.
+    ///
+    /// Note: a cache hit reports `true` without touching the Keychain, so if the persistent
+    /// key were removed out of band (i.e. not via `delete(forScope:)`) this can report `true`
+    /// until the in-process cache is evicted. Every in-SDK deletion routes through
+    /// `delete(forScope:)`, which evicts the cache, keeping the two views consistent.
     public func hasKeyPair(forScope scope: String) -> Bool {
         guard !scope.isEmpty else { return false }
         let name = Self.keyName(for: scope)
         // Non-barrier read: safe to run concurrently with other reads.
         // All mutating methods in this class use .barrier for exclusive access.
         return queue.sync {
+            if keyPairCache[name] != nil { return true }   // cache-first short-circuit
             guard let privateTag = try? KeyGenerator.keyTag(name: name, prefix: KeyGenerator.ecPrivateKeyTagPrefix) else {
                 // A throw here isn't necessarily "key absent" — it can be a Keychain access
                 // denied, entitlement, or device-locked error. Returning `false` means
@@ -117,6 +141,7 @@ public final class DPoPKeyStore: NSObject {
         guard !scope.isEmpty else { return }
         let name = Self.keyName(for: scope)
         queue.sync(flags: .barrier) {
+            keyPairCache.removeValue(forKey: name)   // evict BEFORE removing the persistent key
             do {
                 try KeyGenerator.removeECKeyPair(name: name)
             } catch {
@@ -128,6 +153,14 @@ public final class DPoPKeyStore: NSObject {
     @objc(deleteForCredentials:)
     public func delete(forCredentials credentials: OAuthCredentials) {
         delete(forScope: credentials.identifier)
+    }
+
+    /// Clears process-local key-pair handles without deleting their Keychain entries.
+    /// Test-only (simulates a process restart / cold load). Not `@objc` — invisible to consumers.
+    internal func clearInMemoryCache() {
+        queue.sync(flags: .barrier) {
+            keyPairCache.removeAll()
+        }
     }
 
     // MARK: - Internal helpers

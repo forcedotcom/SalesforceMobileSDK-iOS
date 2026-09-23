@@ -174,15 +174,17 @@ public final class DPoPRequestDecorator: NSObject {
             try decorate(request, scope: scope, tokenType: tokenType, accessToken: accessToken)
         } else {
             request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+            request.setValue(nil, forHTTPHeaderField: dpopHeaderName)
         }
     }
 
     /// Convenience overload for app-built requests. Extracts `scope`, `accessToken`,
-    /// and `tokenType` from `credentials`, then stamps the same headers as
-    /// `applyAuthHeaders(_:scope:accessToken:tokenType:)`.
+    /// `tokenType`, and `uiSid` from `credentials`. For DPoP-bound credentials with a
+    /// nonempty UI session, it consults `SalesforceManager`'s path policy and either uses
+    /// clean `Bearer <ui_sid>` authentication or the normal DPoP authorization and proof.
     ///
     /// Use this when you hold an `OAuthCredentials` object and want to stamp the
-    /// correct `Authorization` (and, if the credential is DPoP-bound, `DPoP` proof)
+    /// correct `Authorization` (and, when selected, `DPoP` proof)
     /// headers on an `NSMutableURLRequest` you constructed yourself — outside the
     /// SDK's `RestClient`.
     ///
@@ -199,10 +201,20 @@ public final class DPoPRequestDecorator: NSObject {
         let scope = credentials.identifier
         let tokenType = credentials.tokenType
         if shouldAttachDPoP(scope: scope, tokenType: tokenType) {
-            request.setValue("DPoP \(accessToken)", forHTTPHeaderField: "Authorization")
-            try decorate(request, scope: scope, tokenType: tokenType, accessToken: accessToken)
+            let uiSid = credentials.uiSid
+            let shouldUseUiSidBearer = isDPoPTokenType(tokenType)
+                && uiSid?.isEmpty == false
+                && SalesforceManager.shared.shouldUseUiSidBearer(forPath: request.url?.path ?? "")
+            if shouldUseUiSidBearer, let uiSid {
+                request.setValue("Bearer \(uiSid)", forHTTPHeaderField: "Authorization")
+                request.setValue(nil, forHTTPHeaderField: dpopHeaderName)
+            } else {
+                request.setValue("DPoP \(accessToken)", forHTTPHeaderField: "Authorization")
+                try decorate(request, scope: scope, tokenType: tokenType, accessToken: accessToken)
+            }
         } else {
             request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+            request.setValue(nil, forHTTPHeaderField: dpopHeaderName)
         }
     }
 
