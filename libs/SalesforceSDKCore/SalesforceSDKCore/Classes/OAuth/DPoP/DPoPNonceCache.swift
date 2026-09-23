@@ -53,10 +53,78 @@ public final class DPoPNonceCache: NSObject {
 
     @objc public static let shared = DPoPNonceCache()
 
+    /// A scope normally contains only the token endpoint and a small set of
+    /// resource origins. Keep enough headroom for multi-origin deployments while
+    /// bounding process-lifetime memory when a server returns nonces for many HTUs.
+    static let maximumEntriesPerScope = 32
+
     private let queue = DispatchQueue(label: "com.salesforce.dpop.nonceCache", attributes: .concurrent)
 
     // Nonces are ephemeral by spec.
-    private var storage: [String: String] = [:]
+    private var storage: [String: ScopeCache] = [:]
+
+    private struct Entry {
+        let nonce: String
+        let sequence: UInt64
+    }
+
+    private struct WriteRecord {
+        let htu: String
+        let sequence: UInt64
+    }
+
+    private struct ScopeCache {
+        var entries: [String: Entry] = [:]
+        var latestHTU: String?
+        var nextSequence: UInt64 = 0
+        var writeOrder: [WriteRecord] = []
+        var writeOrderHead = 0
+
+        var latestNonce: String? {
+            guard let latestHTU else { return nil }
+            return entries[latestHTU]?.nonce
+        }
+
+        mutating func setNonce(_ nonce: String, htu: String) {
+            nextSequence += 1
+            let sequence = nextSequence
+            entries[htu] = Entry(nonce: nonce, sequence: sequence)
+            latestHTU = htu
+            writeOrder.append(WriteRecord(htu: htu, sequence: sequence))
+
+            evictIfNeeded()
+            compactWriteOrderIfNeeded()
+        }
+
+        private mutating func evictIfNeeded() {
+            while entries.count > DPoPNonceCache.maximumEntriesPerScope,
+                  writeOrderHead < writeOrder.count {
+                let candidate = writeOrder[writeOrderHead]
+                writeOrderHead += 1
+
+                // Rewrites leave an older record in the FIFO. Evict only when
+                // this record still identifies the entry's most recent write.
+                if entries[candidate.htu]?.sequence == candidate.sequence {
+                    entries.removeValue(forKey: candidate.htu)
+                }
+            }
+        }
+
+        private mutating func compactWriteOrderIfNeeded() {
+            let liveRecordCount = writeOrder.count - writeOrderHead
+            guard writeOrderHead > DPoPNonceCache.maximumEntriesPerScope
+                    || liveRecordCount > DPoPNonceCache.maximumEntriesPerScope * 2 else {
+                return
+            }
+
+            // This bookkeeping remains bounded even if one HTU is rewritten
+            // indefinitely without ever causing an eviction.
+            writeOrder = entries
+                .map { WriteRecord(htu: $0.key, sequence: $0.value.sequence) }
+                .sorted { $0.sequence < $1.sequence }
+            writeOrderHead = 0
+        }
+    }
 
     private override init() { super.init() }
 
@@ -64,8 +132,9 @@ public final class DPoPNonceCache: NSObject {
     /// Non-destructive — see class doc comment for rationale.
     @objc(nonceForHtu:scope:)
     public func nonce(htu: URL, scope: String?) -> String? {
-        let key = Self.cacheKey(htu: htu, scope: scope)
-        return queue.sync { storage[key] }
+        let htuKey = DPoPURL.htu(htu)
+        let scopeKey = Self.scopeKey(scope)
+        return queue.sync { storage[scopeKey]?.entries[htuKey]?.nonce }
     }
 
     /// Returns the most recently observed nonce for `scope`, regardless of `htu`.
@@ -84,37 +153,26 @@ public final class DPoPNonceCache: NSObject {
     /// calls without an unnecessary `use_dpop_nonce` round-trip.
     @objc(latestForScope:)
     public func latest(forScope scope: String?) -> String? {
-        let scopeKey = (scope?.isEmpty == false) ? scope! : "anonymous"
-        let suffix = "|" + scopeKey
-        return queue.sync {
-            for (key, value) in storage where key.hasSuffix(suffix) {
-                return value
-            }
-            return nil
-        }
+        let scopeKey = Self.scopeKey(scope)
+        return queue.sync { storage[scopeKey]?.latestNonce }
     }
 
     @objc(setNonce:htu:scope:)
     public func setNonce(_ nonce: String, htu: URL, scope: String?) {
-        let key = Self.cacheKey(htu: htu, scope: scope)
+        let htuKey = DPoPURL.htu(htu)
+        let scopeKey = Self.scopeKey(scope)
         queue.async(flags: .barrier) { [weak self] in
-            self?.storage[key] = nonce
+            guard let self else { return }
+            self.storage[scopeKey, default: ScopeCache()].setNonce(nonce, htu: htuKey)
         }
     }
 
     @objc(clearForScope:)
     public func clear(forScope scope: String) {
         guard !scope.isEmpty else { return }
-        
-        // The cache stores entries keyed by (htu, scope) — token-endpoint URL + which credentials
-        // it belongs to. To make a single dictionary work, those two strings get joined into one composite key:
-        //
-        // cacheKey = "<canonicalized htu>|<scope>"
-        // e.g.       "https://login.salesforce.com/services/oauth2/token|005xx0000012Q9P"
-        let suffix = "|" + scope
+
         queue.async(flags: .barrier) { [weak self] in
-            guard let self = self else { return }
-            self.storage = self.storage.filter { !$0.key.hasSuffix(suffix) }
+            self?.storage.removeValue(forKey: scope)
         }
     }
 
@@ -126,9 +184,7 @@ public final class DPoPNonceCache: NSObject {
 
     // MARK: - Internal
 
-    private static func cacheKey(htu: URL, scope: String?) -> String {
-        let canonical = DPoPURL.htu(htu)
-        let scopeKey = (scope?.isEmpty == false) ? scope! : "anonymous"
-        return "\(canonical)|\(scopeKey)"
+    private static func scopeKey(_ scope: String?) -> String {
+        (scope?.isEmpty == false) ? scope! : "anonymous"
     }
 }
