@@ -104,7 +104,7 @@ SFSDK_USE_DEPRECATED_BEGIN
     request.credentialsIdentifier = self.credentials.identifier;
     request.tokenType = self.credentials.tokenType;
     request.attestation = attestation;
-    SFUserAccount *account = [[SFUserAccountManager sharedInstance] accountForCredentials:self.credentials];
+    SFUserAccount *account = [self accountForCredentials];
     if (account) {
         request.userAgent = [[SalesforceSDKManager sharedManager] userAgentString:@"" forUser:account];
     }
@@ -121,27 +121,36 @@ SFSDK_USE_DEPRECATED_BEGIN
             if (response.additionalOAuthFields)
                 strongSelf.credentials.additionalOAuthFields = response.additionalOAuthFields;
 
-            // Detect Refresh Token Rotation: server sent a new, different refresh token
-            if (strongSelf.credentials.refreshToken.length > 0
-                && ![strongSelf.credentials.refreshToken isEqualToString:oldRefreshToken]) {
-                SFUserAccount *account = [[SFUserAccountManager sharedInstance]
-                                           accountForCredentials:strongSelf.credentials];
+            // Resolve the account again after the asynchronous request. It may have been removed
+            // while the refresh was in flight, so the request-time account must not be reused.
+            BOOL refreshTokenRotated = strongSelf.credentials.refreshToken.length > 0
+                && ![strongSelf.credentials.refreshToken isEqualToString:oldRefreshToken];
+            SFUserAccount *account = nil;
+            if (refreshTokenRotated || strongSelf.completionBlock) {
+                account = [strongSelf accountForCredentials];
+            }
+
+            // Detect Refresh Token Rotation: server sent a new, different refresh token.
+            if (refreshTokenRotated) {
                 if (account) {
                     strongSelf.credentials.lastTokenRotationDate = [NSDate date];
                     [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureRTR forUser:account];
                 }
             }
 
-            [strongSelf completeWithSuccess];
+            [strongSelf completeWithSuccessForAccount:account];
         }
     }];
 }
 
 #pragma mark - Private methods
-- (void)completeWithSuccess {
+- (SFUserAccount *)accountForCredentials {
+    return [[SFUserAccountManager sharedInstance] accountForCredentials:self.credentials];
+}
+
+- (void)completeWithSuccessForAccount:(SFUserAccount *)account {
     [SFSDKCoreLogger i:[self class] format:@"%@ Session was successfully refreshed.", NSStringFromSelector(_cmd)];
     if (self.completionBlock) {
-        SFUserAccount *account = [[SFUserAccountManager sharedInstance] accountForCredentials:self.credentials];
         NSMutableDictionary *userInfo = [NSMutableDictionary new];
         if (account) {
             [userInfo setValue:account forKey:kSFNotificationUserInfoAccountKey];
