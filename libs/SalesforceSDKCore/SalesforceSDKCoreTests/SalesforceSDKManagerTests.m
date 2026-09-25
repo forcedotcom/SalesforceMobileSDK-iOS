@@ -670,6 +670,21 @@ static NSString* const kTestAppName = @"OverridenAppName";
 
 #pragma mark - Per-user user-agent tests
 
+- (void)test_givenGlobalFeature_whenUserAgentStringForNilUser_thenFtrContainsGlobalFlag {
+    // Guards the nil-account fallback the token requests now rely on: a globally-registered
+    // marker must actually surface in the ftr_ segment when no user is resolved (not just a
+    // well-formed but empty ftr_).
+    [SFSDKAppFeatureMarkers registerAppFeature:@"ZZ"];
+
+    NSString *ua = [[SalesforceSDKManager sharedManager] userAgentString:@"" forUser:nil];
+
+    XCTAssertTrue([ua containsString:@"ftr_"], @"User agent should contain the ftr_ segment");
+    XCTAssertTrue([ua containsString:@"ZZ"], @"Nil-user user agent should include the global feature flag ZZ");
+
+    // Cleanup
+    [SFSDKAppFeatureMarkers unregisterAppFeature:@"ZZ"];
+}
+
 - (void)test_givenUserWithPerUserFeature_whenUserAgentStringForUser_thenFtrContainsUserFlag {
     [self createTestAppIdentity];
     SFUserAccount *user = [self createUserAccount];

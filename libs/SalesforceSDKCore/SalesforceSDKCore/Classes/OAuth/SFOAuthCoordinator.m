@@ -767,6 +767,12 @@
     request.tokenType = self.credentials.tokenType;
     request.attestation = attestation;
 
+    // Stamp the SDK User-Agent so the token request carries the ftr_ feature-marker segment.
+    // account is nil during a first interactive login (no account yet) -> globals-only UA;
+    // mirrors what the refresh path does.
+    SFUserAccount *account = [[SFUserAccountManager sharedInstance] accountForCredentials:self.credentials];
+    request.userAgent = [[SalesforceSDKManager sharedManager] userAgentString:@"" forUser:account];
+
     __weak typeof (self) weakSelf = self;
     if (self.approvalCode) {
         [SFSDKCoreLogger i:[self class] format:@"%@: Initiating authorization code flow.", NSStringFromSelector(_cmd)];

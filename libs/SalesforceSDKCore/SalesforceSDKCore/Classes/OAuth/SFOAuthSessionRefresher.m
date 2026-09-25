@@ -105,9 +105,9 @@ SFSDK_USE_DEPRECATED_BEGIN
     request.tokenType = self.credentials.tokenType;
     request.attestation = attestation;
     SFUserAccount *account = [self accountForCredentials];
-    if (account) {
-        request.userAgent = [[SalesforceSDKManager sharedManager] userAgentString:@"" forUser:account];
-    }
+    // Always stamp the UA. When account is nil the globals-only UA still carries the ftr_ markers;
+    // omitting it entirely (the old `if (account)` guard) dropped feature telemetry on refresh.
+    request.userAgent = [[SalesforceSDKManager sharedManager] userAgentString:@"" forUser:account];
 
     __weak typeof(self) weakSelf = self;
     id<SFSDKOAuthProtocol> authClient = [SFUserAccountManager sharedInstance].authClient();
