@@ -35,6 +35,7 @@ SFSDK_USE_DEPRECATED_BEGIN
 #import "SFSDKOAuth2+Internal.h"
 #import "SFSDKAppFeatureMarkers.h"
 #import "SalesforceSDKManager.h"
+#import "SalesforceSDKManager+Internal.h"
 #import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 
 @interface SFOAuthSessionRefresher()
@@ -105,9 +106,10 @@ SFSDK_USE_DEPRECATED_BEGIN
     request.tokenType = self.credentials.tokenType;
     request.attestation = attestation;
     SFUserAccount *account = [self accountForCredentials];
-    // Always stamp the UA. When account is nil the globals-only UA still carries the ftr_ markers;
-    // omitting it entirely (the old `if (account)` guard) dropped feature telemetry on refresh.
-    request.userAgent = [[SalesforceSDKManager sharedManager] userAgentString:@"" forUser:account];
+    // Always stamp the UA. Resolve the credential owner explicitly; if the account is transiently nil
+    // fall back to a globals-only UA rather than the ambient current user, so this refresh never carries
+    // another user's per-user markers.
+    request.userAgent = [[SalesforceSDKManager sharedManager] userAgentString:@"" forUser:account resolveCurrentUser:NO];
 
     __weak typeof(self) weakSelf = self;
     id<SFSDKOAuthProtocol> authClient = [SFUserAccountManager sharedInstance].authClient();

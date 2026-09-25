@@ -768,10 +768,11 @@
     request.attestation = attestation;
 
     // Stamp the SDK User-Agent so the token request carries the ftr_ feature-marker segment.
-    // account is nil during a first interactive login (no account yet) -> globals-only UA;
-    // mirrors what the refresh path does.
+    // Resolve the credential owner explicitly; a nil account (e.g. a brand-new user's first login)
+    // yields a globals-only UA. resolveCurrentUser:NO prevents falling back to the ambient current
+    // user, which during a multi-user add-user flow would stamp the other user's per-user markers.
     SFUserAccount *account = [[SFUserAccountManager sharedInstance] accountForCredentials:self.credentials];
-    request.userAgent = [[SalesforceSDKManager sharedManager] userAgentString:@"" forUser:account];
+    request.userAgent = [[SalesforceSDKManager sharedManager] userAgentString:@"" forUser:account resolveCurrentUser:NO];
 
     __weak typeof (self) weakSelf = self;
     if (self.approvalCode) {
