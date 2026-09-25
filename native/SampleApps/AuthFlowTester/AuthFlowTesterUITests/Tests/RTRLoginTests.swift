@@ -114,6 +114,8 @@ class RTRLoginTests: BaseAuthFlowTester {
                       "Token request should contain the credential owner's hybrid-flow marker; flags: \(flags), ua: \(capturedUserAgent)")
         XCTAssertTrue(flags.contains("OT"),
                       "Token request should contain the credential owner's opaque-token marker; flags: \(flags), ua: \(capturedUserAgent)")
+        XCTAssertTrue(flags.contains("UA"),
+                      "Token request should contain the always-registered UA global marker; flags: \(flags), ua: \(capturedUserAgent)")
     }
 
     /// Revoke once requests overlap, then verify coordinated replay and RTR recovery.

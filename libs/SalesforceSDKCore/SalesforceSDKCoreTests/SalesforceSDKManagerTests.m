@@ -670,6 +670,45 @@ static NSString* const kTestAppName = @"OverridenAppName";
 
 #pragma mark - Per-user user-agent tests
 
+- (void)test_givenGlobalFeature_whenUserAgentStringForNilUser_thenFtrContainsGlobalFlag {
+    // A globally-registered marker surfaces in the ftr_ segment when no user is resolved.
+    // Note: userAgentString:forUser:nil resolves to the current user; this test runs with no
+    // current user, so it only proves globals surface — the globals-ONLY exclusion guarantee the
+    // token paths rely on is pinned by the resolveCurrentUser:NO test below.
+    [SFSDKAppFeatureMarkers registerAppFeature:@"ZZ"];
+
+    NSString *ua = [[SalesforceSDKManager sharedManager] userAgentString:@"" forUser:nil];
+
+    XCTAssertTrue([ua containsString:@"ftr_"], @"User agent should contain the ftr_ segment");
+    XCTAssertTrue([ua containsString:@"ZZ"], @"Nil-user user agent should include the global feature flag ZZ");
+
+    // Cleanup
+    [SFSDKAppFeatureMarkers unregisterAppFeature:@"ZZ"];
+}
+
+- (void)test_givenCurrentUserWithPerUserFeature_whenGlobalsOnlyUserAgentForNilUser_thenExcludesPerUserFlag {
+    [self createTestAppIdentity];
+    SFUserAccount *user = [self createUserAccount];
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:user];
+    [SFSDKAppFeatureMarkers registerAppFeature:@"ZZ"];              // global
+    [SFSDKAppFeatureMarkers registerAppFeature:@"PU" forUser:user]; // per-user (current user)
+
+    NSString *ua = [[SalesforceSDKManager sharedManager] userAgentString:@"" forUser:nil resolveCurrentUser:NO];
+
+    NSRange r = [ua rangeOfString:@"ftr_"];
+    XCTAssertTrue(r.location != NSNotFound, @"UA should contain ftr_; got: %@", ua);
+    NSString *flagStr = [[ua substringFromIndex:NSMaxRange(r)] componentsSeparatedByString:@" "].firstObject ?: @"";
+    NSSet<NSString *> *flags = [NSSet setWithArray:[flagStr componentsSeparatedByString:@"."]];
+    XCTAssertTrue([flags containsObject:@"ZZ"], @"globals-only UA should include global ZZ; %@", flags);
+    XCTAssertFalse([flags containsObject:@"PU"], @"globals-only UA must NOT include current user's PU; %@", flags);
+
+    [SFSDKAppFeatureMarkers unregisterAppFeature:@"ZZ"];
+    [SFSDKAppFeatureMarkers unregisterAppFeature:@"PU" forUser:user];
+    NSError *e = nil;
+    [[SFUserAccountManager sharedInstance] deleteAccountForUser:user error:&e];
+    [[SFUserAccountManager sharedInstance] setCurrentUserInternal:nil];
+}
+
 - (void)test_givenUserWithPerUserFeature_whenUserAgentStringForUser_thenFtrContainsUserFlag {
     [self createTestAppIdentity];
     SFUserAccount *user = [self createUserAccount];

@@ -1030,8 +1030,12 @@ static NSString *SFSDKISO8601StringFromDate(NSDate *date) {
 }
 
 - (NSString *)userAgentString:(NSString *)qualifier forUser:(SFUserAccount *)user {
+    return [self userAgentString:qualifier forUser:user resolveCurrentUser:YES];
+}
+
+- (NSString *)userAgentString:(NSString *)qualifier forUser:(SFUserAccount *)user resolveCurrentUser:(BOOL)resolveCurrentUser {
     return [NSString stringWithFormat:@"%@ %@",
-            [self sdkUserAgentString:qualifier forUser:user],
+            [self sdkUserAgentString:qualifier forUser:user resolveCurrentUser:resolveCurrentUser],
             self.webViewUserAgent == nil ? @"" : self.webViewUserAgent];
 }
 
@@ -1040,7 +1044,14 @@ static NSString *SFSDKISO8601StringFromDate(NSDate *date) {
 // Used where the WebView UA is not wanted, e.g. the `sdkInfo` OAuth authorize param, which is only
 // meant to identify the SDK itself (the native browser's own UA is captured separately server-side).
 - (NSString *)sdkUserAgentString:(NSString *)qualifier forUser:(SFUserAccount *)user {
-    SFUserAccount *resolvedUser = user ?: [SFUserAccountManager sharedInstance].currentUser;
+    return [self sdkUserAgentString:qualifier forUser:user resolveCurrentUser:YES];
+}
+
+- (NSString *)sdkUserAgentString:(NSString *)qualifier forUser:(SFUserAccount *)user resolveCurrentUser:(BOOL)resolveCurrentUser {
+    SFUserAccount *resolvedUser = user;
+    if (!resolvedUser && resolveCurrentUser) {
+        resolvedUser = [SFUserAccountManager sharedInstance].currentUser;
+    }
     UIDevice *curDevice = [UIDevice currentDevice];
     NSString *appName = [SalesforceSDKManager appName];
     NSString *prodAppVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
