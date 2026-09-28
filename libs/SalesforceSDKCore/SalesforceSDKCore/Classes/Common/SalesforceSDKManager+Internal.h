@@ -56,4 +56,19 @@ API_UNAVAILABLE(visionos)
  */
 - (nonnull NSString *)sdkUserAgentString:(nonnull NSString *)qualifier forUser:(nullable SFUserAccount *)user;
 
+/** Variant of -sdkUserAgentString:forUser: that only falls back to the current user when
+ resolveCurrentUser is YES. Pass NO to get a globals-only UA for a nil user, avoiding the
+ ambient current-user fallback (e.g. so a token request never carries another user's markers).
+ */
+- (nonnull NSString *)sdkUserAgentString:(nonnull NSString *)qualifier
+                                 forUser:(nullable SFUserAccount *)user
+                      resolveCurrentUser:(BOOL)resolveCurrentUser;
+
+/** Variant of -userAgentString:forUser: that only falls back to the current user when
+ resolveCurrentUser is YES. Pass NO to get a globals-only UA for a nil user.
+ */
+- (nonnull NSString *)userAgentString:(nonnull NSString *)qualifier
+                              forUser:(nullable SFUserAccount *)user
+                   resolveCurrentUser:(BOOL)resolveCurrentUser;
+
 @end

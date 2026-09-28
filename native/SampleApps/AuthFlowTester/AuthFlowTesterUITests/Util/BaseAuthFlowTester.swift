@@ -969,17 +969,17 @@ class BaseAuthFlowTester: XCTestCase {
     ///   - isBeacon: Whether this is a beacon child app (BN flag). Defaults to `false`.
     private func validateUserAgent(ua: String, loginHost: KnownLoginHostConfig, expectAdvancedAuth: Bool = false, usesWelcomeDiscovery: Bool = false, isMultiUser: Bool = false, expectedRTRFeatureMarker: Bool, expectDP: Bool = false, expectedBMarker: String? = nil, expectedLMarker: String? = nil, expectedAMarker: String? = nil, wasMigrated: Bool = false, isJwt: Bool = false, isBeacon: Bool = false) {
         XCTAssertTrue(ua.contains("SalesforceMobileSDK/"), "User agent should contain 'SalesforceMobileSDK/' prefix; got: \(ua)")
-        XCTAssertTrue(ua.contains("ftr_"), "User agent should contain 'ftr_' feature flag segment; got: \(ua)")
 
         // Extract the flag string after "ftr_" up to the next space
         let flagSet: Set<String>
         if let ftrRange = ua.range(of: "ftr_") {
             let afterFtr = String(ua[ftrRange.upperBound...])
-            let flagString = afterFtr.components(separatedBy: " ").first ?? "" 
+            let flagString = afterFtr.components(separatedBy: " ").first ?? ""
             flagSet = Set(flagString.components(separatedBy: ".").filter { !$0.isEmpty })
         } else {
             flagSet = []
         }
+        XCTAssertFalse(flagSet.isEmpty, "User agent should carry a non-empty ftr_ feature-marker set; got: \(ua)")
 
         if expectAdvancedAuth {
             XCTAssertTrue(flagSet.contains("BW"), "User agent should contain 'BW' flag for advanced auth; flags: \(flagSet), ua: \(ua)")
