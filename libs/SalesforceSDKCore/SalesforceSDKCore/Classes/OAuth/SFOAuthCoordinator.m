@@ -44,6 +44,7 @@
 #import "SFNetwork.h"
 #import "NSURL+SFAdditions.h"
 #import "SFSDKURLHandlerManager.h"
+#import "SFSDKTokenRefreshCoordinator.h"
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 #import <SalesforceSDKCommon/SFJsonUtils.h>
 #import "SFSDKOAuth2+Internal.h"
@@ -746,15 +747,24 @@
 }
 
 - (void)beginTokenEndpointFlow {
-    __weak typeof(self) weakSelf = self;
-    [SFSDKAppAttestation attestationIfEnabledFor:self.credentials.domain consumerKey:self.credentials.clientId completionHandler:^(NSString * _Nullable attestation) {
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        if (!strongSelf) return;
-        [strongSelf executeTokenEndpointFlowWithAttestation:attestation];
-    }];
+    if (self.approvalCode) {
+        // Authorization-code login: acquire app attestation (if enabled), then exchange the code.
+        __weak typeof(self) weakSelf = self;
+        [SFSDKAppAttestation attestationIfEnabledFor:self.credentials.domain consumerKey:self.credentials.clientId completionHandler:^(NSString * _Nullable attestation) {
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            if (!strongSelf) return;
+            [strongSelf exchangeApprovalCodeWithAttestation:attestation];
+        }];
+    } else {
+        // Token refresh: delegate to the shared single-flight token-refresh coordinator. It coalesces
+        // with any concurrent refresh for the same credential (one token request per credential
+        // identifier) and inherits attestation, owner User-Agent stamping, refresh-token-rotation
+        // feature-marker registration, and background-task protection from the shared refresh path.
+        [self refreshSessionViaSharedCoordinator];
+    }
 }
 
-- (void)executeTokenEndpointFlowWithAttestation:(NSString * _Nullable)attestation {
+- (void)exchangeApprovalCodeWithAttestation:(NSString * _Nullable)attestation {
     self.responseData = [NSMutableData dataWithLength:512];
     SFSDKOAuthTokenEndpointRequest *request = [[SFSDKOAuthTokenEndpointRequest alloc] init];
     request.additionalOAuthParameterKeys = self.additionalOAuthParameterKeys;
@@ -774,24 +784,56 @@
     SFUserAccount *account = [[SFUserAccountManager sharedInstance] accountForCredentials:self.credentials];
     request.userAgent = [[SalesforceSDKManager sharedManager] userAgentString:@"" forUser:account resolveCurrentUser:NO];
 
+    [SFSDKCoreLogger i:[self class] format:@"%@: Initiating authorization code flow.", NSStringFromSelector(_cmd)];
+    request.approvalCode = self.approvalCode;
+    // Choose either the default generated code verifier or the code verifier matching the overriding Salesforce Identity API UI Bridge front door bridge.
+    request.codeVerifier = self.frontdoorBridgeLoginOverride.codeVerifier ? self.frontdoorBridgeLoginOverride.codeVerifier : self.codeVerifier;
     __weak typeof (self) weakSelf = self;
-    if (self.approvalCode) {
-        [SFSDKCoreLogger i:[self class] format:@"%@: Initiating authorization code flow.", NSStringFromSelector(_cmd)];
-        request.approvalCode = self.approvalCode;
-        // Choose either the default generated code verifier or the code verifier matching the overriding Salesforce Identity API UI Bridge front door bridge.
-        request.codeVerifier = self.frontdoorBridgeLoginOverride.codeVerifier ? self.frontdoorBridgeLoginOverride.codeVerifier : self.codeVerifier;
-        [self.authClient accessTokenForApprovalCode:request completion:^(SFSDKOAuthTokenEndpointResponse * response) {
-             __strong typeof (weakSelf) strongSelf = weakSelf;
-            [strongSelf handleResponse:response];
-        }];
-    } else {
-        // Assumes refresh token flow.
-        [SFSDKCoreLogger i:[self class] format:@"%@: Initiating refresh token flow.", NSStringFromSelector(_cmd)];
-        [self.authClient accessTokenForRefresh:request completion:^(SFSDKOAuthTokenEndpointResponse * response) {
-            __strong typeof (weakSelf) strongSelf = weakSelf;
-            [strongSelf handleResponse:response];
-        }];
+    [self.authClient accessTokenForApprovalCode:request completion:^(SFSDKOAuthTokenEndpointResponse * response) {
+         __strong typeof (weakSelf) strongSelf = weakSelf;
+        [strongSelf handleResponse:response];
+    }];
+}
+
+- (void)refreshSessionViaSharedCoordinator {
+    [SFSDKCoreLogger i:[self class] format:@"%@: Initiating refresh token flow via the shared token-refresh coordinator.", NSStringFromSelector(_cmd)];
+    __weak typeof(self) weakSelf = self;
+    [[SFSDKTokenRefreshCoordinator sharedInstance] refreshSessionForCredentials:self.credentials
+                                                                    completion:^(SFOAuthCredentials *updatedCredentials) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (!strongSelf) return;
+        // The shared coordinator may hand back the credentials object owned by a coalesced in-flight
+        // refresh (keyed by credentials.identifier), which can be a different instance than ours.
+        // Adopt it so the delegate observes the refreshed tokens. In the common (non-coalesced) case
+        // the refresher updates our instance in place and this is a no-op. Mirrors SFIdentityCoordinator.
+        strongSelf.credentials = updatedCredentials;
+        [strongSelf notifyDelegateOfSuccess:strongSelf.authInfo];
     }
+                                                                         error:^(NSError *refreshError) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (!strongSelf) return;
+        [strongSelf notifyDelegateOfRefreshFailure:refreshError];
+    }];
+}
+
+- (void)notifyDelegateOfRefreshFailure:(NSError *)refreshError {
+    // The shared refresh path returns the raw NSError; the server error wire string lives in
+    // userInfo[kSFOAuthError], and timeouts arrive as kSFOAuthErrorDomain/kSFOAuthErrorTimeout.
+    // Reconstruct the SFOAuthErrorCode so app-attestation handling matches the code-exchange path.
+    NSError *errorToReport = refreshError;
+    NSInteger errorCode = [SFOAuthErrorCodeHelper from:refreshError.userInfo[kSFOAuthError]];
+    BOOL isAppAttestationFailed = (errorCode == SFOAuthErrorCodeAppAttestationFailed ||
+                                   errorCode == SFOAuthErrorCodeAppAttestationFailedRetry);
+    if (isAppAttestationFailed) {
+        NSString *localizedMessage = [SFSDKResourceUtils localizedString:@"appAttestationFailedError"];
+        NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithDictionary:refreshError.userInfo ?: @{}];
+        userInfo[NSLocalizedDescriptionKey] = localizedMessage;
+        errorToReport = [NSError errorWithDomain:refreshError.domain code:refreshError.code userInfo:userInfo];
+    } else if ([refreshError.domain isEqualToString:kSFOAuthErrorDomain] && refreshError.code == kSFOAuthErrorTimeout) {
+        [SFSDKCoreLogger d:[self class] format:@"Refresh attempt timed out after %f seconds.", self.timeout];
+        [self stopAuthentication];
+    }
+    [self notifyDelegateOfFailure:errorToReport authInfo:self.authInfo];
 }
 
 - (void)beginHeadlessNativeLoginFlow {
@@ -818,8 +860,8 @@
           [self notifyDelegateOfSuccess:self.authInfo];
      } else {
          if (response.error.error) {
-             if (response.error.error.code == NSURLErrorTimedOut) {
-                 [SFSDKCoreLogger d:[self class] format:@"Refresh attempt timed out after %f seconds.", self.timeout];
+             if ([response.error.error.domain isEqualToString:kSFOAuthErrorDomain] && response.error.error.code == kSFOAuthErrorTimeout) {
+                 [SFSDKCoreLogger d:[self class] format:@"Code exchange timed out after %f seconds.", self.timeout];
                  [self stopAuthentication];
              }
              BOOL isAppAttestationFailed = (response.error.errorCode == SFOAuthErrorCodeAppAttestationFailed ||
