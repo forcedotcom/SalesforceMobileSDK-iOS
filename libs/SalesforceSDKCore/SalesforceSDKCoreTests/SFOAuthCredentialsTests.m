@@ -27,6 +27,7 @@
 
 #import <XCTest/XCTest.h>
 #import "SFOAuthCredentials.h"
+#import "SFOAuthCredentials+Internal.h"
 
 @interface SFOAuthCredentialsTests : XCTestCase
 
@@ -169,6 +170,72 @@
     [creds updateCredentials:params];
     XCTAssertNil(creds.uiSid);
     XCTAssertEqualObjects(creds.mainSid, @"test-parent-sid");
+}
+
+- (void)test_givenRefreshUpdatedOtherInstance_whenMergeCredentials_thenFieldsAndChangeSetAreCopied {
+    // `target` stands in for the credentials a coordinator holds; `refreshed` stands in for the
+    // coalesced in-flight instance the shared token refresher ran -updateCredentials: on.
+    SFOAuthCredentials *target = [[SFOAuthCredentials alloc] initWithIdentifier:@"merge_creds" clientId:@"client_id" encrypted:NO storageType:SFOAuthCredentialsStorageTypeNone];
+    target.accessToken = @"old-access-token";
+    target.refreshToken = @"old-refresh-token";
+    [target resetCredentialsChangeSet];
+
+    SFOAuthCredentials *refreshed = [[SFOAuthCredentials alloc] initWithIdentifier:@"merge_creds" clientId:@"client_id" encrypted:NO storageType:SFOAuthCredentialsStorageTypeNone];
+    NSMutableDictionary<NSString *, NSString *> *params = [NSMutableDictionary dictionary];
+    params[@"access_token"] = @"new-access-token";
+    params[@"refresh_token"] = @"new-refresh-token";
+    params[@"instance_url"] = @"https://new-instance.salesforce.com";
+    params[@"sfdc_community_id"] = @"new-community-id";
+    [refreshed updateCredentials:params]; // populates refreshed.credentialsChangeSet via setPropertyForKey:
+
+    [target mergeCredentialsFromCredentials:refreshed];
+
+    // Fields are copied into the target instance in place.
+    XCTAssertEqualObjects(target.accessToken, @"new-access-token", @"merge should copy the rotated access token");
+    XCTAssertEqualObjects(target.refreshToken, @"new-refresh-token", @"merge should copy the rotated refresh token");
+    XCTAssertEqualObjects(target.instanceUrl.absoluteString, @"https://new-instance.salesforce.com", @"merge should copy the instance URL");
+    XCTAssertEqualObjects(target.communityId, @"new-community-id", @"merge should copy the community id");
+
+    // The refresh delta is carried over so -[SFUserAccountManager applyCredentials:] still posts the
+    // SFUserAccountDataChange notification after a coalesced, coordinator-driven refresh.
+    XCTAssertTrue([target hasPropertyValueChangedForKey:@"accessToken"], @"merge should carry over the access-token change");
+    XCTAssertTrue([target hasPropertyValueChangedForKey:@"instanceUrl"], @"merge should carry over the instance-url change");
+    XCTAssertTrue([target hasPropertyValueChangedForKey:@"communityId"], @"merge should carry over the community-id change");
+}
+
+- (void)test_givenNilOrSameInstance_whenMergeCredentials_thenNoOp {
+    SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:@"merge_noop" clientId:@"client_id" encrypted:NO storageType:SFOAuthCredentialsStorageTypeNone];
+    creds.accessToken = @"token";
+    [creds resetCredentialsChangeSet];
+
+    [creds mergeCredentialsFromCredentials:nil];
+    [creds mergeCredentialsFromCredentials:creds];
+
+    XCTAssertEqualObjects(creds.accessToken, @"token", @"a nil/self merge must not alter fields");
+    XCTAssertFalse([creds hasPropertyValueChangedForKey:@"accessToken"], @"a nil/self merge must not record changes");
+}
+
+- (void)test_givenPopulatedCredentials_whenCopy_thenAllFieldsCopied {
+    SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:@"copy_creds" clientId:@"client_id" encrypted:NO storageType:SFOAuthCredentialsStorageTypeNone];
+    NSMutableDictionary<NSString *, NSString *> *params = [NSMutableDictionary dictionary];
+    params[@"access_token"] = @"copy-access-token";
+    params[@"refresh_token"] = @"copy-refresh-token";
+    params[@"instance_url"] = @"https://copy-instance.salesforce.com";
+    params[@"sfdc_community_id"] = @"copy-community-id";
+    params[@"token_type"] = @"copy-token-type";
+    [creds updateCredentials:params];
+
+    SFOAuthCredentials *copied = [creds copy];
+
+    // copyWithZone: now routes through the shared copyFieldsFromCredentials: helper; confirm the
+    // identity and session fields still round-trip.
+    XCTAssertEqualObjects(copied.identifier, creds.identifier);
+    XCTAssertEqualObjects(copied.clientId, creds.clientId);
+    XCTAssertEqualObjects(copied.accessToken, @"copy-access-token");
+    XCTAssertEqualObjects(copied.refreshToken, @"copy-refresh-token");
+    XCTAssertEqualObjects(copied.instanceUrl.absoluteString, @"https://copy-instance.salesforce.com");
+    XCTAssertEqualObjects(copied.communityId, @"copy-community-id");
+    XCTAssertEqualObjects(copied.tokenType, @"copy-token-type");
 }
 
 - (void)test_givenExistingUiSid_whenUpdateCredentialsWithBearerTokenType_thenUiSidCleared {
