@@ -76,20 +76,38 @@
 /// Mock `SFOAuthSessionRefresher` injected through `SFSDKTokenRefreshCoordinator.refresherFactory`.
 /// Lets the coordinator-reroute tests drive the shared refresh path without a network: it counts
 /// invocations, can force an error, can simulate refresh-token rotation (stamping
-/// `lastTokenRotationDate` and registering the RT marker exactly like the real refresher), and can
-/// return a credentials instance other than the one it was created with (to exercise the coalesced
-/// in-flight case). Named distinctly from `SingleUseTokenMockRefresher` to avoid a duplicate symbol.
+/// `lastTokenRotationDate`), and can return a credentials instance other than the one it was created
+/// with (to exercise the coalesced in-flight case). When `holdCompletion` is set it defers completion
+/// until `-releaseHeldCompletion` is called, so a second caller can coalesce onto the in-flight entry
+/// deterministically. Named distinctly from `SingleUseTokenMockRefresher` to avoid a duplicate symbol.
 @interface SFSDKCoordinatorMockRefresher : SFOAuthSessionRefresher
 @property (atomic, assign) NSInteger refreshCallCount;
 @property (nonatomic, strong, nullable) NSError *forcedError;
 /// When set, the success completion returns this instance instead of `self.credentials`.
 @property (nonatomic, strong, nullable) SFOAuthCredentials *overrideCompletionCredentials;
-/// When set, simulate a rotating response: adopt this refresh token, stamp the rotation date, and
-/// register the RT feature marker for the credential owner (mirrors SFOAuthSessionRefresher).
+/// When set, simulate a rotating response: adopt this refresh token and stamp the rotation date.
 @property (nonatomic, copy, nullable) NSString *rotatedRefreshToken;
+/// When YES, the refresher captures the completion and does not fire it until -releaseHeldCompletion.
+@property (atomic, assign) BOOL holdCompletion;
+/// Fulfilled when the (single) refresh actually starts — lets a test coalesce a second caller onto it.
+@property (nonatomic, strong, nullable) XCTestExpectation *startedExpectation;
+@property (nonatomic, copy, nullable) void (^heldCompletion)(SFOAuthCredentials *);
+- (void)releaseHeldCompletion;
 @end
 
 @implementation SFSDKCoordinatorMockRefresher
+
+/// Applies the simulated refresh outcome (new access token, optional rotation) to the credentials the
+/// shared coordinator will hand back to every coalesced caller.
+- (SFOAuthCredentials *)buildResultCredentials {
+    SFOAuthCredentials *result = self.overrideCompletionCredentials ?: self.credentials;
+    result.accessToken = @"mock_new_access_token";
+    if (self.rotatedRefreshToken) {
+        result.refreshToken = self.rotatedRefreshToken;
+        result.lastTokenRotationDate = [NSDate date];
+    }
+    return result;
+}
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-implementations"
@@ -101,21 +119,24 @@
         }
         return;
     }
-    SFOAuthCredentials *result = self.overrideCompletionCredentials ?: self.credentials;
-    result.accessToken = @"mock_new_access_token";
-    if (self.rotatedRefreshToken) {
-        result.refreshToken = self.rotatedRefreshToken;
-        result.lastTokenRotationDate = [NSDate date];
-        SFUserAccount *account = [[SFUserAccountManager sharedInstance] accountForCredentials:result];
-        if (account) {
-            [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureRTR forUser:account];
-        }
+    if (self.holdCompletion) {
+        self.heldCompletion = completionBlock;
+        [self.startedExpectation fulfill];
+        return;
     }
     if (completionBlock) {
-        completionBlock(result);
+        completionBlock([self buildResultCredentials]);
     }
 }
 #pragma clang diagnostic pop
+
+- (void)releaseHeldCompletion {
+    void (^block)(SFOAuthCredentials *) = self.heldCompletion;
+    self.heldCompletion = nil;
+    if (block) {
+        block([self buildResultCredentials]);
+    }
+}
 
 @end
 
@@ -648,37 +669,10 @@ static NSString * const kExpectedUnscopedSceneIdPrefix = @"com.salesforce.mobile
     [[SFUserAccountManager sharedInstance] deleteAccountForUser:account error:nil];
 }
 
-// a coordinator-driven refresh whose response rotates the refresh token registers the RT
-// feature marker for the credential owner (via the shared refresher), fixing the original symptom.
-- (void)test_givenRotatedRefreshToken_whenCoordinatorRefreshes_thenRTFlagRegisteredForOwner {
-    SFUserAccount *account = nil;
-    SFOAuthCredentials *creds = [self makeSavedRefreshCredentialsReturningAccount:&account];
-
-    SFSDKCoordinatorMockRefresher *mock = [self makeMockRefresherForCredentials:creds];
-    mock.rotatedRefreshToken = [NSString stringWithFormat:@"rotated_token_%u", arc4random()];
-    [SFSDKTokenRefreshCoordinator sharedInstance].refresherFactory = ^SFOAuthSessionRefresher *(SFOAuthCredentials *c) {
-        return mock;
-    };
-
-    SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:creds];
-    SFOAuthTestFlowCoordinatorDelegate *delegate = [[SFOAuthTestFlowCoordinatorDelegate alloc] init];
-    delegate.isNetworkAvailable = YES;
-    coordinator.delegate = delegate;
-
-    NSPredicate *finished = [NSPredicate predicateWithFormat:@"didAuthenticateCalled == YES OR didFailWithErrorCalled == YES"];
-    [self expectationForPredicate:finished evaluatedWithObject:delegate handler:nil];
-    [coordinator authenticate];
-    [self waitForExpectationsWithTimeout:5.0 handler:nil];
-
-    XCTAssertTrue(delegate.didAuthenticateCalled, @"Coordinator refresh should complete successfully; error: %@", delegate.didFailWithError);
-    NSSet *features = [SFSDKAppFeatureMarkers appFeaturesForUser:account];
-    XCTAssertTrue([features containsObject:kSFAppFeatureRTR],
-                  @"RT flag must be registered for the owner after a rotating coordinator refresh (now via the shared refresher)");
-
-    // Cleanup
-    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureRTR forUser:account];
-    [[SFUserAccountManager sharedInstance] deleteAccountForUser:account error:nil];
-}
+// NB: the RT-marker registration on rotation is the shared refresher's responsibility and is covered
+// end-to-end by SFOAuthSessionRefresherTests. A coordinator-level test with the mock refresher would
+// only assert the mock, so it is intentionally omitted here — the reroute's own contract (routing +
+// coalescing + credential merge) is covered by the tests in this file.
 
 // a refresh that fails with app-attestation-failed must still reach the coordinator delegate
 // with the attestation-failed semantics preserved — the error path reconstructs the SFOAuthErrorCode
@@ -749,19 +743,24 @@ static NSString * const kExpectedUnscopedSceneIdPrefix = @"com.salesforce.mobile
                           @"Timeout error domain must be preserved to the delegate");
     XCTAssertEqual(delegate.didFailWithError.code, kSFOAuthErrorTimeout,
                    @"Timeout must be classified as kSFOAuthErrorTimeout (the shared path's timeout code), not left as NSURLErrorTimedOut");
+    XCTAssertEqual(delegate.authInfo.authType, SFOAuthTypeRefresh,
+                   @"A refresh timeout must report SFOAuthTypeRefresh to the delegate; stopAuthentication (which resets authInfo to SFOAuthTypeUnknown) must not clobber the reported authInfo first");
 
     // Cleanup
     [[SFUserAccountManager sharedInstance] deleteAccountForUser:account error:nil];
 }
 
 // when the shared coordinator coalesces this refresh onto an in-flight refresh keyed to a
-// DIFFERENT SFOAuthCredentials instance, the coordinator must adopt the returned instance so its own
-// self.credentials reflects the refreshed tokens before success is reported.
-- (void)test_givenCoalescedResultFromOtherCredentialsInstance_whenCoordinatorRefreshCompletes_thenSelfCredentialsAdopted {
+// DIFFERENT SFOAuthCredentials instance, the coordinator must merge the refreshed fields into its OWN
+// credentials instance (the object the app passed to initWithCredentials:) rather than swapping the
+// pointer. Swapping would leave the app's object holding the rotated-out refresh token, and its next
+// refresh would fail with invalid_grant — the very race this reroute closes.
+- (void)test_givenCoalescedResultFromOtherCredentialsInstance_whenCoordinatorRefreshCompletes_thenOriginalCredentialsMerged {
     SFUserAccount *account = nil;
     SFOAuthCredentials *creds = [self makeSavedRefreshCredentialsReturningAccount:&account];
 
-    // Simulate the coalesced-winner's own credentials object (same identifier, different instance).
+    // Simulate the coalesced-winner's own credentials object (same identifier, different instance)
+    // carrying a rotated refresh token.
     SFOAuthCredentials *otherInstance = [[SFOAuthCredentials alloc] initWithIdentifier:creds.identifier clientId:creds.clientId encrypted:NO];
     otherInstance.domain = creds.domain;
     otherInstance.instanceUrl = creds.instanceUrl;
@@ -784,10 +783,76 @@ static NSString * const kExpectedUnscopedSceneIdPrefix = @"com.salesforce.mobile
     [self waitForExpectationsWithTimeout:5.0 handler:nil];
 
     XCTAssertTrue(delegate.didAuthenticateCalled, @"Coordinator refresh should complete successfully; error: %@", delegate.didFailWithError);
-    XCTAssertEqual(coordinator.credentials, otherInstance,
-                   @"Coordinator must adopt the coalesced result instance returned by the shared coordinator");
+    XCTAssertEqual(coordinator.credentials, creds,
+                   @"Coordinator must keep its original credentials instance, not swap in the coalesced winner's object");
     XCTAssertEqualObjects(coordinator.credentials.accessToken, @"mock_new_access_token",
-                          @"self.credentials must carry the refreshed access token before success is reported");
+                          @"The original credentials object must carry the refreshed access token after a coalesced refresh");
+    XCTAssertEqualObjects(coordinator.credentials.refreshToken, @"coalesced_refresh_token",
+                          @"The original credentials object must carry the rotated refresh token so the app's next refresh does not reuse a rotated-out token");
+
+    // Cleanup
+    [[SFUserAccountManager sharedInstance] deleteAccountForUser:account error:nil];
+}
+
+// the regression this reroute guards against: a coordinator-driven refresh and a concurrent
+// refreshCredentials: for the same credential must be coalesced into a SINGLE refresher invocation
+// (one token POST), and BOTH callers must observe the rotated token. To exercise coalescing
+// deterministically the coordinator's refresh arrives first and the mock holds its completion; the
+// in-flight entry then persists so the concurrent direct caller provably coalesces onto it before we
+// release the single result.
+- (void)test_givenConcurrentCoordinatorAndDirectRefresh_whenSameCredential_thenSinglePOSTAndBothSeeRotatedToken {
+    SFUserAccount *account = nil;
+    SFOAuthCredentials *coordinatorCreds = [self makeSavedRefreshCredentialsReturningAccount:&account];
+
+    NSString *rotatedToken = [NSString stringWithFormat:@"rotated_%u", arc4random()];
+    SFSDKCoordinatorMockRefresher *mock = [self makeMockRefresherForCredentials:coordinatorCreds];
+    mock.rotatedRefreshToken = rotatedToken;
+    mock.holdCompletion = YES;
+    mock.startedExpectation = [self expectationWithDescription:@"refresher started"];
+    [SFSDKTokenRefreshCoordinator sharedInstance].refresherFactory = ^SFOAuthSessionRefresher *(SFOAuthCredentials *c) {
+        return mock;
+    };
+
+    // Coordinator refresh arrives first and starts the (held) single refresh.
+    SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:coordinatorCreds];
+    SFOAuthTestFlowCoordinatorDelegate *delegate = [[SFOAuthTestFlowCoordinatorDelegate alloc] init];
+    delegate.isNetworkAvailable = YES;
+    coordinator.delegate = delegate;
+    NSPredicate *finished = [NSPredicate predicateWithFormat:@"didAuthenticateCalled == YES OR didFailWithErrorCalled == YES"];
+    [self expectationForPredicate:finished evaluatedWithObject:delegate handler:nil];
+    [coordinator authenticate];
+
+    // Wait until the single refresh is in flight (and held), so the entry is guaranteed to exist.
+    [self waitForExpectations:@[mock.startedExpectation] timeout:5.0];
+
+    // The concurrent direct caller uses a different instance with the same identifier, as the
+    // account-manager-held credentials would. Because the in-flight entry still exists, it coalesces.
+    SFOAuthCredentials *directCreds = [[SFOAuthCredentials alloc] initWithIdentifier:coordinatorCreds.identifier clientId:coordinatorCreds.clientId encrypted:NO];
+    directCreds.domain = coordinatorCreds.domain;
+    directCreds.instanceUrl = coordinatorCreds.instanceUrl;
+    directCreds.refreshToken = coordinatorCreds.refreshToken;
+
+    __block SFOAuthCredentials *directResult = nil;
+    XCTestExpectation *directDone = [self expectationWithDescription:@"direct caller completed"];
+    [[SFSDKTokenRefreshCoordinator sharedInstance] refreshSessionForCredentials:directCreds
+        completion:^(SFOAuthCredentials *updated) {
+            directResult = updated;
+            [directDone fulfill];
+        }
+        error:^(NSError *e) {
+            XCTFail(@"Direct refresh should not fail: %@", e);
+            [directDone fulfill];
+        }];
+
+    // Both callers are now registered on the single in-flight entry; release the shared result.
+    [mock releaseHeldCompletion];
+    [self waitForExpectationsWithTimeout:5.0 handler:nil];
+
+    XCTAssertEqual(mock.refreshCallCount, 1, @"Concurrent refreshes for the same credential must coalesce into a single refresher invocation (one token POST)");
+    XCTAssertTrue(delegate.didAuthenticateCalled, @"Coordinator refresh should complete successfully; error: %@", delegate.didFailWithError);
+    XCTAssertEqualObjects(directResult.refreshToken, rotatedToken, @"The direct caller must observe the rotated refresh token");
+    XCTAssertEqualObjects(coordinator.credentials.refreshToken, rotatedToken, @"The coordinator (its original credentials object) must observe the rotated refresh token");
+    XCTAssertEqualObjects(coordinator.credentials.accessToken, @"mock_new_access_token", @"The coordinator must observe the refreshed access token");
 
     // Cleanup
     [[SFUserAccountManager sharedInstance] deleteAccountForUser:account error:nil];

@@ -244,6 +244,51 @@ NSException * SFOAuthInvalidIdentifierException(void) {
     return copyCreds;
 }
 
+- (void)mergeCredentialsFromCredentials:(SFOAuthCredentials *)other {
+    if (other == nil || other == self) {
+        return;
+    }
+    // Mirrors the mutable session fields copied by copyWithZone: (minus the identity fields
+    // identifier/clientId, which both instances already share). Keep this list in sync with
+    // copyWithZone: when adding credential fields.
+    self.protocol = other.protocol;
+    self.domain = other.domain;
+    self.redirectUri = other.redirectUri;
+    self.jwt = other.jwt;
+    self.refreshToken = other.refreshToken;
+    self.accessToken = other.accessToken;
+    self.instanceUrl = other.instanceUrl;
+    self.apiInstanceUrl = other.apiInstanceUrl;
+    self.scopes = other.scopes;
+    self.communityId = other.communityId;
+    self.communityUrl = other.communityUrl;
+    self.issuedAt = other.issuedAt;
+    self.lastTokenRotationDate = other.lastTokenRotationDate;
+
+    // NB: Intentionally ordering the copying of these, because setting the identity URL automatically
+    // sets the OrgID and UserID.  This ensures the values stay in sync.
+    self.identityUrl = other.identityUrl;
+    self.organizationId = other.organizationId;
+    self.userId = other.userId;
+    self.lightningDomain = other.lightningDomain;
+    self.lightningSid = other.lightningSid;
+    self.vfDomain = other.vfDomain;
+    self.vfSid = other.vfSid;
+    self.contentDomain = other.contentDomain;
+    self.contentSid = other.contentSid;
+    self.csrfToken = other.csrfToken;
+    self.cookieClientSrc = other.cookieClientSrc;
+    self.cookieSidClient = other.cookieSidClient;
+    self.sidCookieName = other.sidCookieName;
+    self.parentSid = other.parentSid;
+    self.uiSid = other.uiSid;
+    self.tokenFormat = other.tokenFormat;
+    self.tokenType = other.tokenType;
+    self.beaconChildConsumerKey = other.beaconChildConsumerKey;
+    self.beaconChildConsumerSecret = other.beaconChildConsumerSecret;
+    self.additionalOAuthFields = [other.additionalOAuthFields copy];
+}
+
 #pragma mark - Public Methods
 
 - (NSString *)clientId {

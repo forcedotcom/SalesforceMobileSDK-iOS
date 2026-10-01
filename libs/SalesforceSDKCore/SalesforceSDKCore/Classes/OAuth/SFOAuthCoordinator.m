@@ -803,10 +803,16 @@
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (!strongSelf) return;
         // The shared coordinator may hand back the credentials object owned by a coalesced in-flight
-        // refresh (keyed by credentials.identifier), which can be a different instance than ours.
-        // Adopt it so the delegate observes the refreshed tokens. In the common (non-coalesced) case
-        // the refresher updates our instance in place and this is a no-op. Mirrors SFIdentityCoordinator.
-        strongSelf.credentials = updatedCredentials;
+        // refresh (keyed by credentials.identifier), which can be a different instance than ours. Merge
+        // the refreshed fields into our own instance rather than swapping the pointer: an app that
+        // drives this coordinator still holds the object it passed to initWithCredentials:, and if we
+        // swapped, that object would keep the rotated-out refresh token and its next refresh would fail
+        // with invalid_grant — the very race this path now closes. In the common (non-coalesced) case
+        // the refresher updated our instance in place, so updatedCredentials == self.credentials and the
+        // merge is a no-op.
+        if (updatedCredentials && updatedCredentials != strongSelf.credentials) {
+            [strongSelf.credentials mergeCredentialsFromCredentials:updatedCredentials];
+        }
         [strongSelf notifyDelegateOfSuccess:strongSelf.authInfo];
     }
                                                                          error:^(NSError *refreshError) {
@@ -817,6 +823,10 @@
 }
 
 - (void)notifyDelegateOfRefreshFailure:(NSError *)refreshError {
+    // Capture the authInfo before any stopAuthentication below: stopAuthentication resets _authInfo to
+    // SFOAuthTypeUnknown, which would otherwise hide the refresh origin (SFOAuthTypeRefresh) from the
+    // delegate's didFailWithError: callback.
+    SFOAuthInfo *authInfoToReport = self.authInfo;
     // The shared refresh path returns the raw NSError; the server error wire string lives in
     // userInfo[kSFOAuthError], and timeouts arrive as kSFOAuthErrorDomain/kSFOAuthErrorTimeout.
     // Reconstruct the SFOAuthErrorCode so app-attestation handling matches the code-exchange path.
@@ -833,7 +843,7 @@
         [SFSDKCoreLogger d:[self class] format:@"Refresh attempt timed out after %f seconds.", self.timeout];
         [self stopAuthentication];
     }
-    [self notifyDelegateOfFailure:errorToReport authInfo:self.authInfo];
+    [self notifyDelegateOfFailure:errorToReport authInfo:authInfoToReport];
 }
 
 - (void)beginHeadlessNativeLoginFlow {
@@ -860,6 +870,9 @@
           [self notifyDelegateOfSuccess:self.authInfo];
      } else {
          if (response.error.error) {
+             // Capture the authInfo before stopAuthentication below resets _authInfo to
+             // SFOAuthTypeUnknown, so the delegate still sees the originating auth type on failure.
+             SFOAuthInfo *authInfoToReport = self.authInfo;
              if ([response.error.error.domain isEqualToString:kSFOAuthErrorDomain] && response.error.error.code == kSFOAuthErrorTimeout) {
                  [SFSDKCoreLogger d:[self class] format:@"Code exchange timed out after %f seconds.", self.timeout];
                  [self stopAuthentication];
@@ -875,7 +888,7 @@
                  NSError *diagnosticError = [NSError errorWithDomain:response.error.error.domain
                                                                 code:response.error.error.code
                                                             userInfo:userInfo];
-                 [self notifyDelegateOfFailure:diagnosticError authInfo:self.authInfo];
+                 [self notifyDelegateOfFailure:diagnosticError authInfo:authInfoToReport];
              } else if (isUnsupportedGrantType && isLightningURL) {
                  [SFSDKCoreLogger e:[self class] format:@"Code exchange failed with unsupported_grant_type against Lightning URL: %@. Lightning URLs do not support authorization_code grant type. Use a My Domain login server URL instead.", self.credentials.domain];
                  NSString *localizedMessage = [SFSDKResourceUtils localizedString:@"lightningUrlCodeExchangeError"];
@@ -884,9 +897,9 @@
                  NSError *diagnosticError = [NSError errorWithDomain:response.error.error.domain
                                                                 code:response.error.error.code
                                                             userInfo:userInfo];
-                 [self notifyDelegateOfFailure:diagnosticError authInfo:self.authInfo];
+                 [self notifyDelegateOfFailure:diagnosticError authInfo:authInfoToReport];
              } else {
-                 [self notifyDelegateOfFailure:response.error.error authInfo:self.authInfo];
+                 [self notifyDelegateOfFailure:response.error.error authInfo:authInfoToReport];
              }
              self.responseData = [NSMutableData dataWithCapacity:kSFOAuthReponseBufferLength];
          }

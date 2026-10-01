@@ -96,6 +96,19 @@ extern NSException * _Nullable SFOAuthInvalidIdentifierException(void);
 /** Reset changes to credentials, called at the end of auth flow.
  */
 - (void)resetCredentialsChangeSet;
+
+/** Merges the mutable session fields (tokens, URLs, identity, community/lightning/vf/content domains
+ and sids, cookies, additional OAuth fields, token type/format, and rotation date) from another
+ credentials instance into this one.
+
+ Used to apply a refresh that was performed against a different SFOAuthCredentials instance — e.g. a
+ request coalesced onto an in-flight refresh by SFSDKTokenRefreshCoordinator, which hands back the
+ in-flight instance — onto this object in place, so holders of this instance observe the rotated
+ tokens instead of being left with a rotated-out refresh token. The credential identity fields
+ (identifier, clientId) are not copied; both instances already share the same identifier. No-op if
+ other is nil or the same instance.
+ */
+- (void)mergeCredentialsFromCredentials:(SFOAuthCredentials *_Nullable)other;
 @end
 
 
