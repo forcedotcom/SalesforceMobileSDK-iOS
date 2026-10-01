@@ -37,6 +37,9 @@ private let kAllBMarkers          = ["B1", "B2", "B3", "B4"]
 let kLoginServerProduction        = "L1"
 let kLoginServerWelcomeDiscovery  = "L3"
 let kLoginServerMyDomain          = "L4"
+// Anything the SDK's isMyDomainHost: check (SFSDKAuthConfigUtil.m) doesn't recognize as a
+// *.my.salesforce.com-shaped host — e.g. a community/Experience Cloud site (*.my.site.com).
+let kLoginServerOther             = "L5"
 private let kAllLMarkers          = ["L1", "L2", "L3", "L4", "L5"]
 
 // A-marker codes (which auth type was used)
@@ -51,6 +54,7 @@ private let kRegularAuthLoginHostName = "UITests"
 private let kAdvancedAuthLoginHostName = "UITests Adv Auth"
 private let kLoginPoolHostName = "UITests Login Pool"
 private let kWelcomeDiscoveryLoginHostName = "Welcome Discovery"
+private let kCommunityAuthLoginHostName = "UITests Community Auth"
 
 class BaseAuthFlowTester: XCTestCase {
     // App object
@@ -214,6 +218,11 @@ class BaseAuthFlowTester: XCTestCase {
                 loginHostDisplayName = kLoginPoolHostName
             } else if loginHost == .advancedAuth {
                 loginHostDisplayName = kAdvancedAuthLoginHostName
+            } else if loginHost == .communityAuth {
+                // Without a dedicated display name, this host falls into the regular-auth branch
+                // below and silently reuses the pre-seeded regular-auth row instead of adding (and
+                // selecting) its own host entry.
+                loginHostDisplayName = kCommunityAuthLoginHostName
             } else {
                 loginHostDisplayName = kRegularAuthLoginHostName
             }
@@ -343,7 +352,7 @@ class BaseAuthFlowTester: XCTestCase {
             forceAdvancedAuthentication ? kBrowserLoginForceFlag :
             kBrowserLoginServerAuthConfig
         ) : nil
-        let expectedLMarker: String? = usesWelcomeDiscovery ? kLoginServerWelcomeDiscovery : kLoginServerMyDomain
+        let expectedLMarker = computeExpectedLMarker(loginHost: loginHost, usesWelcomeDiscovery: usesWelcomeDiscovery)
         let aMarker = aMarkerFor(useWebServerFlow: useWebServerFlow, useHybridFlow: useHybridFlow)
 
         // Validate user and feature flags
@@ -488,7 +497,7 @@ class BaseAuthFlowTester: XCTestCase {
             useLoginPoolHost: useLoginPoolHost
         )
     }
-    
+
     /// Logs in an additional user (multi-user scenario) WITHOUT performing credential validation.
     ///
     /// Use this method when you need to add a second user account but don't need full credential
@@ -632,9 +641,7 @@ class BaseAuthFlowTester: XCTestCase {
             kBrowserLoginServerAuthConfig
         ) : nil
 
-        let expectedLMarker: String? = usesWelcomeDiscovery
-            ? kLoginServerWelcomeDiscovery
-            : kLoginServerMyDomain
+        let expectedLMarker = computeExpectedLMarker(loginHost: loginHost, usesWelcomeDiscovery: usesWelcomeDiscovery)
 
         let aMarker = aMarkerFor(useWebServerFlow: useWebServerFlow, useHybridFlow: useHybridFlow)
 
@@ -755,9 +762,12 @@ class BaseAuthFlowTester: XCTestCase {
     /// against the same client id/redirect URI/scopes, so the consumer key is expected to stay
     /// the same while the refresh token is rotated.
     ///
-    /// - Parameter isJwt: Whether the connected app issues JWT-format access tokens (drives the
-    ///   "JT"/"OT" UA marker assertion). Defaults to `true` since the upgrade test uses `.ecaJwt`.
-    func upgradeToDPoPAndValidate(isJwt: Bool = true) {
+    /// - Parameters:
+    ///   - isJwt: Whether the connected app issues JWT-format access tokens (drives the
+    ///     "JT"/"OT" UA marker assertion). Defaults to `true` since the upgrade test uses `.ecaJwt`.
+    ///   - loginHost: The login host the session was authenticated against (drives the L-marker
+    ///     assertion). Defaults to `.regularAuth`.
+    func upgradeToDPoPAndValidate(isJwt: Bool = true, loginHost: KnownLoginHostConfig = .regularAuth) {
         let originalUserCredentials = getUserCredentials()
 
         XCTAssert(mainPage.upgradeToDPoP(), "Failed to upgrade to DPoP")
@@ -783,7 +793,7 @@ class BaseAuthFlowTester: XCTestCase {
         // `upgradeToDPoP` delegates to the refresh-token migration path, so the "TM"
         // (token-migration) UA feature flag is legitimately registered — the marker tracks the
         // migration mechanism, not whether the connected app changed. Assert its presence.
-        assertRevokeAndRefreshWorks(expectsRefreshTokenRotation: false, isDPoP: true, wasMigrated: true, isJwt: isJwt)
+        assertRevokeAndRefreshWorks(expectsRefreshTokenRotation: false, isDPoP: true, loginHost: loginHost, wasMigrated: true, isJwt: isJwt)
     }
 
     /// Downgrades the current DPoP-bound session back to Bearer in place (same connected app, via
@@ -795,9 +805,12 @@ class BaseAuthFlowTester: XCTestCase {
     /// expected to stay the same while the refresh token is rotated and the session unbinds from
     /// DPoP.
     ///
-    /// - Parameter isJwt: Whether the connected app issues JWT-format access tokens (drives the
-    ///   "JT"/"OT" UA marker assertion). Defaults to `true` since the downgrade test uses `.ecaJwt`.
-    func downgradeFromDPoPAndValidate(isJwt: Bool = true) {
+    /// - Parameters:
+    ///   - isJwt: Whether the connected app issues JWT-format access tokens (drives the
+    ///     "JT"/"OT" UA marker assertion). Defaults to `true` since the downgrade test uses `.ecaJwt`.
+    ///   - loginHost: The login host the session was authenticated against (drives the L-marker
+    ///     assertion). Defaults to `.regularAuth`.
+    func downgradeFromDPoPAndValidate(isJwt: Bool = true, loginHost: KnownLoginHostConfig = .regularAuth) {
         let originalUserCredentials = getUserCredentials()
 
         XCTAssert(mainPage.downgradeFromDPoP(), "Failed to downgrade from DPoP")
@@ -824,7 +837,7 @@ class BaseAuthFlowTester: XCTestCase {
         // (token-migration) UA feature flag is legitimately registered — the marker tracks the
         // migration mechanism, not whether the connected app changed. Assert its presence, and
         // that "DP" is absent now that the session is Bearer-bound.
-        assertRevokeAndRefreshWorks(expectsRefreshTokenRotation: false, isDPoP: false, wasMigrated: true, isJwt: isJwt)
+        assertRevokeAndRefreshWorks(expectsRefreshTokenRotation: false, isDPoP: false, loginHost: loginHost, wasMigrated: true, isJwt: isJwt)
     }
 
     /// Launches the app and attempts a login expected to fail before any credentials are entered.
@@ -1349,6 +1362,25 @@ class BaseAuthFlowTester: XCTestCase {
         }
     }
 
+    /// Computes the expected L-marker (login-server-type UA feature flag) for a login host.
+    ///
+    /// Defaults to My Domain (L4), the shape of the regular test login host. Welcome discovery
+    /// and the production login pool are the pre-existing exceptions. A community/Experience Cloud
+    /// host (`*.my.site.com`) is also an exception: it is not `*.my.salesforce.com`-shaped, so the
+    /// SDK's `isMyDomainHost:` check (`SFSDKAuthConfigUtil.m`) does not classify it as My Domain —
+    /// it falls through to Other (L5).
+    private func computeExpectedLMarker(loginHost: KnownLoginHostConfig, usesWelcomeDiscovery: Bool = false, useLoginPoolHost: Bool = false) -> String? {
+        if usesWelcomeDiscovery {
+            return kLoginServerWelcomeDiscovery
+        } else if useLoginPoolHost {
+            return kLoginServerProduction
+        } else if loginHost == .communityAuth {
+            return kLoginServerOther
+        } else {
+            return kLoginServerMyDomain
+        }
+    }
+
     /// Extracts the current A-marker from a UA string, returning nil if none is present.
     private func extractAMarkerFromUA(_ ua: String) -> String? {
         guard let ftrRange = ua.range(of: "ftr_") else { return nil }
@@ -1392,15 +1424,7 @@ class BaseAuthFlowTester: XCTestCase {
             kBrowserLoginServerAuthConfig
         ) : nil
 
-        let expectedLMarker: String?
-        if usesWelcomeDiscovery {
-            expectedLMarker = kLoginServerWelcomeDiscovery
-        } else if useLoginPoolHost {
-            // Pool server (login.salesforce.com, login.*.salesforce.com) registers L1, not L4.
-            expectedLMarker = kLoginServerProduction
-        } else {
-            expectedLMarker = kLoginServerMyDomain
-        }
+        let expectedLMarker = computeExpectedLMarker(loginHost: loginHost, usesWelcomeDiscovery: usesWelcomeDiscovery, useLoginPoolHost: useLoginPoolHost)
 
         // For migrations, use the pre-migration A-marker (preserved per spec). For fresh logins,
         // derive it from the flow parameters. Login for Admin always uses SFOAuthTypeAdvancedBrowser
@@ -1585,7 +1609,7 @@ class BaseAuthFlowTester: XCTestCase {
     /// where BW is not re-registered.
     func assertRevokeAndRefreshWorks(expectsRefreshTokenRotation: Bool, isDPoP: Bool = false, loginHost: KnownLoginHostConfig = .regularAuth, expectAdvancedAuth: Bool = true, isMultiUser: Bool = false, useWebServerFlow: Bool = true, useHybridFlow: Bool = true, wasMigrated: Bool = false, isJwt: Bool = false, isBeacon: Bool = false, useLoginPoolHost: Bool = false) {
         let expectedBMarker: String? = expectAdvancedAuth ? kBrowserLoginForceFlag : nil
-        let expectedLMarker: String? = useLoginPoolHost ? kLoginServerProduction : kLoginServerMyDomain
+        let expectedLMarker = computeExpectedLMarker(loginHost: loginHost, useLoginPoolHost: useLoginPoolHost)
         let aMarker = aMarkerFor(useWebServerFlow: useWebServerFlow, useHybridFlow: useHybridFlow)
         assertRevokeAndRefreshWorks(previousCredentials: getUserCredentials(), expectsRefreshTokenRotation: expectsRefreshTokenRotation, isDPoP: isDPoP, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, isMultiUser: isMultiUser, expectedBMarker: expectedBMarker, expectedLMarker: expectedLMarker, expectedAMarker: aMarker, wasMigrated: wasMigrated, isJwt: isJwt, isBeacon: isBeacon)
     }

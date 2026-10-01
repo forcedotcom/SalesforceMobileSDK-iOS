@@ -52,6 +52,16 @@
                     "password": "yourPasswordHere"
                 }
             ]
+        },
+        {
+            "name": "community_auth",
+            "url": "https://<your-community>.my.site.com/<path>",
+            "users": [
+                {
+                    "username": "testios@community.authflowtesting.msdk.sdb38.com",
+                    "password": "yourPasswordHere"
+                }
+            ]
         }
     ],
     "apps": [

@@ -87,6 +87,7 @@ enum KnownUserConfig {
 enum KnownLoginHostConfig: String {
     case regularAuth = "regular_auth"
     case advancedAuth = "advanced_auth"
+    case communityAuth = "community_auth"
 }
 
 // MARK: - App Names
@@ -265,6 +266,17 @@ class UITestConfigUtils {
             throw TestConfigError.loginHostNotFound("loginPoolHost")
         }
         return host
+    }
+
+    /// Returns true if the given login host is present in ui_test_config.json with at least one
+    /// user configured. Intended for tests that need to skip cleanly (e.g. via `XCTSkipUnless`)
+    /// rather than fail when an optional, not-yet-provisioned login host (such as a community
+    /// org) hasn't been added to the local config.
+    func hasLoginHost(_ loginHost: KnownLoginHostConfig) -> Bool {
+        guard let hostConfig = config?.loginHosts.first(where: { $0.name == loginHost.rawValue }) else {
+            return false
+        }
+        return !hostConfig.users.isEmpty
     }
 
     /// Returns a login host configuration by its name or throws an error if not found
