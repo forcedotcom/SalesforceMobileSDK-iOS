@@ -205,43 +205,70 @@ NSException * SFOAuthInvalidIdentifierException(void) {
 
 - (id)copyWithZone:(nullable NSZone *)zone {
     SFOAuthCredentials *copyCreds = [[[self class] allocWithZone:zone] initWithIdentifier:self.identifier clientId:self.clientId encrypted:self.encrypted];
-    copyCreds.protocol = self.protocol;
-    copyCreds.domain = self.domain;
-    copyCreds.redirectUri = self.redirectUri;
-    copyCreds.jwt = self.jwt;
-    copyCreds.refreshToken = self.refreshToken;
-    copyCreds.accessToken = self.accessToken;
-    copyCreds.instanceUrl = self.instanceUrl;
-    copyCreds.apiInstanceUrl = self.apiInstanceUrl;
-    copyCreds.scopes = self.scopes;
-    copyCreds.communityId = self.communityId;
-    copyCreds.communityUrl = self.communityUrl;
-    copyCreds.issuedAt = self.issuedAt;
-    copyCreds.lastTokenRotationDate = self.lastTokenRotationDate;
+    [copyCreds copyFieldsFromCredentials:self];
+    return copyCreds;
+}
+
+- (void)copyFieldsFromCredentials:(SFOAuthCredentials *)other {
+    self.protocol = other.protocol;
+    self.domain = other.domain;
+    self.redirectUri = other.redirectUri;
+    self.jwt = other.jwt;
+    self.refreshToken = other.refreshToken;
+    self.accessToken = other.accessToken;
+    self.instanceUrl = other.instanceUrl;
+    self.apiInstanceUrl = other.apiInstanceUrl;
+    self.scopes = other.scopes;
+    self.communityId = other.communityId;
+    self.communityUrl = other.communityUrl;
+    self.issuedAt = other.issuedAt;
+    self.lastTokenRotationDate = other.lastTokenRotationDate;
 
     // NB: Intentionally ordering the copying of these, because setting the identity URL automatically
     // sets the OrgID and UserID.  This ensures the values stay in sync.
-    copyCreds.identityUrl = self.identityUrl;
-    copyCreds.organizationId = self.organizationId;
-    copyCreds.userId = self.userId;
-    copyCreds.lightningDomain = self.lightningDomain;
-    copyCreds.lightningSid = self.lightningSid;
-    copyCreds.vfDomain = self.vfDomain;
-    copyCreds.vfSid = self.vfSid;
-    copyCreds.contentDomain = self.contentDomain;
-    copyCreds.contentSid = self.contentSid;
-    copyCreds.csrfToken = self.csrfToken;
-    copyCreds.cookieClientSrc = self.cookieClientSrc;
-    copyCreds.cookieSidClient = self.cookieSidClient;
-    copyCreds.sidCookieName = self.sidCookieName;
-    copyCreds.parentSid = self.parentSid;
-    copyCreds.uiSid = self.uiSid;
-    copyCreds.tokenFormat = self.tokenFormat;
-    copyCreds.tokenType = self.tokenType;
-    copyCreds.beaconChildConsumerKey = self.beaconChildConsumerKey;
-    copyCreds.beaconChildConsumerSecret = self.beaconChildConsumerSecret;
-    copyCreds.additionalOAuthFields = [self.additionalOAuthFields copy];
-    return copyCreds;
+    self.identityUrl = other.identityUrl;
+    self.organizationId = other.organizationId;
+    self.userId = other.userId;
+    self.lightningDomain = other.lightningDomain;
+    self.lightningSid = other.lightningSid;
+    self.vfDomain = other.vfDomain;
+    self.vfSid = other.vfSid;
+    self.contentDomain = other.contentDomain;
+    self.contentSid = other.contentSid;
+    self.csrfToken = other.csrfToken;
+    self.cookieClientSrc = other.cookieClientSrc;
+    self.cookieSidClient = other.cookieSidClient;
+    self.sidCookieName = other.sidCookieName;
+    self.parentSid = other.parentSid;
+    self.uiSid = other.uiSid;
+    self.tokenFormat = other.tokenFormat;
+    self.tokenType = other.tokenType;
+    self.beaconChildConsumerKey = other.beaconChildConsumerKey;
+    self.beaconChildConsumerSecret = other.beaconChildConsumerSecret;
+    self.additionalOAuthFields = [other.additionalOAuthFields copy];
+}
+
+- (void)mergeCredentialsFromCredentials:(SFOAuthCredentials *)other {
+    if (other == nil || other == self) {
+        return;
+    }
+    [self copyFieldsFromCredentials:other];
+
+    // copyFieldsFromCredentials: uses the property setters, which (unlike -updateCredentials:) do not
+    // record into credentialsChangeSet. `other` is the instance the shared token refresher ran
+    // -updateCredentials: on, so its change set holds exactly the fields this refresh altered. Carry
+    // those entries over so a coalesced, coordinator-driven refresh still drives the
+    // SFUserAccountDataChange notification that -[SFUserAccountManager applyCredentials:] posts from
+    // the change set (e.g. access-token rotation); without this the change set would be empty and the
+    // notification would be skipped. Snapshot under other's lock, then apply under ours, to avoid
+    // holding both locks at once.
+    NSDictionary *otherChanges;
+    @synchronized (other->_credentialsChangeSet) {
+        otherChanges = [other->_credentialsChangeSet copy];
+    }
+    @synchronized (_credentialsChangeSet) {
+        [_credentialsChangeSet addEntriesFromDictionary:otherChanges];
+    }
 }
 
 #pragma mark - Public Methods

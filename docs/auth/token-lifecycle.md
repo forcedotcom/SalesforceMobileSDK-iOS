@@ -44,8 +44,12 @@ DPoP keypair, nonce cache, and later refresh coalescing.
 ## 2. Token Refresh
 
 Refresh can be requested by multiple SDK components, including `SFRestAPI`,
-`SFIdentityCoordinator`, and `SFUserAccountManager`. They all use the shared
-`SFSDKTokenRefreshCoordinator`; callers should not construct an independent refresher.
+`SFIdentityCoordinator`, `SFUserAccountManager`, and `SFOAuthCoordinator` (whose own refresh
+branch — used by apps that drive `SFOAuthCoordinator` directly with existing credentials —
+delegates here rather than refreshing directly). They all use the shared
+`SFSDKTokenRefreshCoordinator`; callers should not construct an independent refresher. Routing
+every refresh through the single coordinator means there is one refresh implementation and one
+single-flight gate: no path can bypass coalescing and double-spend a rotated refresh token.
 
 ### 2.1 Per-credential coordination
 

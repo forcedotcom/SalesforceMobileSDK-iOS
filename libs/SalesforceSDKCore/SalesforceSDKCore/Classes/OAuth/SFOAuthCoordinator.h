@@ -261,12 +261,23 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
 @property (nonatomic, readonly, null_unspecified) ASWebAuthenticationSession *asWebAuthenticationSession;
 
 /**
- An array of additional keys (NSString) to parse during OAuth
+ An array of additional keys (NSString) to parse during OAuth.
+
+ @note This applies to the authorization-code (login) flow only. Token refresh is performed through
+ the shared SFSDKTokenRefreshCoordinator, which sources these keys from SFUserAccountManager so that
+ concurrent refreshes for the same user can be coalesced into a single request; a value set only on
+ this coordinator instance is not used for refresh. Set it on SFUserAccountManager if it must apply to
+ refresh.
  */
 @property (nonatomic, strong) NSArray * additionalOAuthParameterKeys;
 
 /**
- A dictionary of additional parameters (key value pairs) to send during token refresh
+ A dictionary of additional parameters (key value pairs) to send during token refresh.
+
+ @note Token refresh is performed through the shared SFSDKTokenRefreshCoordinator, which sources these
+ parameters from SFUserAccountManager so that concurrent refreshes for the same user can be coalesced
+ into a single request; a value set only on this coordinator instance is not used for refresh. Set it
+ on SFUserAccountManager if it must apply to refresh.
  */
 @property (nonatomic, strong) NSDictionary * additionalTokenRefreshParams;
 
@@ -280,6 +291,13 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
  */
 @property (nonatomic, assign) BOOL useBrowserAuth;
     
+/**
+ The OAuth client used to make token-endpoint requests for the authorization-code (login) flow.
+
+ @note Token refresh is performed through the shared SFSDKTokenRefreshCoordinator, which uses
+ SFUserAccountManager's client so that concurrent refreshes for the same user can be coalesced into a
+ single request; a client set only on this coordinator instance is not used for refresh.
+ */
 @property (nonatomic, strong) id<SFSDKOAuthProtocol>authClient;
 
 /** Setup the coordinator to use an app provided native UI for authentication.
