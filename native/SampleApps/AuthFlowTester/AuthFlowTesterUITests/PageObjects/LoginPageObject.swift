@@ -148,7 +148,10 @@ class LoginPageObject {
             dismissKeyboardAfterTyping()
             tap(loginButton(), timeout: UITestTimeouts.network)
         }
-        tapIfPresent(allowButton(), timeout: UITestTimeouts.network)
+        // Some login hosts (e.g. a community/Experience Cloud site) add an extra SSO redirect
+        // hop before the "Allow Access?" consent screen renders, so give it more room than the
+        // network timeout allows for the common single-hop case.
+        tapIfPresent(allowButton(), timeout: UITestTimeouts.network * 2)
     }
 
     /// Performs login via the "Login for Admin" flow.
@@ -282,9 +285,13 @@ class LoginPageObject {
     /// URL and the form elements are not immediately available. This waits for the username text
     /// field inside the web content to appear, which signals the login form has fully rendered.
     private func waitForLoginFormReady() {
+        // Some login hosts (e.g. a community/Experience Cloud site) route through an extra SSO
+        // redirect before the login form renders, so give it more room than the network timeout
+        // allows for the common single-hop case.
         let webViewTextField = app.webViews.webViews.webViews.textFields.firstMatch
-        let formReady = webViewTextField.waitForExistence(timeout: UITestTimeouts.network)
-        XCTAssertTrue(formReady, "Login form did not load within \(UITestTimeouts.network)s — WebView may not have finished loading the login page")
+        let formReadyTimeout = UITestTimeouts.network * 2
+        let formReady = webViewTextField.waitForExistence(timeout: formReadyTimeout)
+        XCTAssertTrue(formReady, "Login form did not load within \(formReadyTimeout)s — WebView may not have finished loading the login page")
     }
 
     // MARK: - UI Element Accessors
@@ -399,7 +406,11 @@ class LoginPageObject {
     }
     
     private func loginButton() -> XCUIElement {
-        return app.webViews.webViews.webViews.buttons["Log In"]
+        // Case-insensitive: some login hosts (e.g. a community/Experience Cloud site) render the
+        // button label as "Log in" rather than "Log In".
+        let buttons = app.webViews.webViews.webViews.buttons
+        let predicate = NSPredicate(format: "label ==[c] 'Log In'")
+        return buttons.matching(predicate).firstMatch
     }
     
     private func allowButton() -> XCUIElement {
