@@ -24,8 +24,8 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
- Covers logging into a community (Experience Cloud) login server: with and without DPoP, hybrid
- and non-hybrid, across a token refresh, an app relaunch, logout/relogin, in-place DPoP
+ Covers logging into a community (Experience Cloud) login server: with and without DPoP (and with
+ opaque or JWT tokens when not using DPoP), hybrid and non-hybrid, across a token refresh, an app relaunch, logout/relogin, in-place DPoP
  upgrade/downgrade, multi-user isolation against a regular org user, and the alternate (in-app
  WebView) auth UI. Protects the `communityUrl > instanceUrl > domain` refresh precedence chain by
  asserting the community URL stays populated throughout.
@@ -68,6 +68,10 @@ class CommunityLoginTests: BaseAuthFlowTester {
     /// No DPoP: an opaque, non-RTR ECA. Matches the plain login pattern in `ECALoginTests`.
     private let noDPoPAppConfig: KnownAppConfig = .ecaOpaque
 
+    /// No DPoP, JWT access tokens: the plain (DPoP-optional) JWT ECA, logged into with DPoP off so the
+    /// session stays Bearer. Covers the opaque-vs-JWT token format on the community server.
+    private let jwtNoDPoPAppConfig: KnownAppConfig = .ecaJwt
+
     /// DPoP, non-RTR: matches the DPoP-enforced ECA `DPoPLoginTests` uses for its basic DPoP
     /// scenarios (login, restart, logout/relogin, in-app WebView).
     private let dpopAppConfig: KnownAppConfig = .ecaJwtDpop
@@ -89,8 +93,10 @@ class CommunityLoginTests: BaseAuthFlowTester {
 
     /// Asserts the DPoP/Bearer token-type triad and the community URL on a set of community
     /// credentials. Used for the one scenario (test 8, logout/relogin) that can't go through the
-    /// heavy `validateUser`-driven chain (see file header), and as a cheap addition everywhere
-    /// else, since nothing in `BaseAuthFlowTester` checks `communityUrl`.
+    /// heavy `validateUser`-driven chain (see file header); `BaseAuthFlowTester.validateUser` and
+    /// `assertRevokeAndRefreshWorks` already run the community-URL check (via
+    /// `assertCommunityHostIfApplicable`) after every login and refresh everywhere else, so this
+    /// delegates to the same shared check rather than duplicating it.
     private func assertCommunitySessionIsHealthy(_ credentials: UserCredentialsData, expectDPoP: Bool, context: String = "") {
         let ctx = context.isEmpty ? "" : " (\(context))"
         if expectDPoP {
@@ -99,7 +105,7 @@ class CommunityLoginTests: BaseAuthFlowTester {
         } else {
             XCTAssertNotEqual(credentials.dpopTokenType, "DPoP", "Expected a non-DPoP (Bearer) token_type\(ctx); got \(credentials.dpopTokenType ?? "nil")")
         }
-        XCTAssertFalse(credentials.communityUrl.isEmpty, "Expected a non-empty community URL\(ctx)")
+        assertCommunityHostIfApplicable(credentials, loginHost: .communityAuth, context: context)
     }
 
     // MARK: - 1/2: Non-DPoP login, hybrid and non-hybrid
@@ -121,6 +127,31 @@ class CommunityLoginTests: BaseAuthFlowTester {
         launchLoginAndValidate(
             loginHost: .communityAuth,
             staticAppConfigName: noDPoPAppConfig,
+            useHybridFlow: false,
+            useDPoP: false
+        )
+        assertCommunitySessionIsHealthy(getUserCredentials(), expectDPoP: false)
+    }
+
+    // MARK: - Non-DPoP JWT login, hybrid and non-hybrid
+
+    /// Logging into the community server with a plain (non-DPoP) JWT ECA, using the hybrid auth
+    /// flow, produces a Bearer token and a working revoke/refresh cycle.
+    func test_givenCommunityJwtNoDPoPHybrid_whenLogin_thenBearerAndRefreshWorks() throws {
+        launchLoginAndValidate(
+            loginHost: .communityAuth,
+            staticAppConfigName: jwtNoDPoPAppConfig,
+            useDPoP: false
+        )
+        assertCommunitySessionIsHealthy(getUserCredentials(), expectDPoP: false)
+    }
+
+    /// Logging into the community server with a plain (non-DPoP) JWT ECA, using the non-hybrid
+    /// auth flow, produces a Bearer token and a working revoke/refresh cycle.
+    func test_givenCommunityJwtNoDPoPNoHybrid_whenLogin_thenBearerAndRefreshWorks() throws {
+        launchLoginAndValidate(
+            loginHost: .communityAuth,
+            staticAppConfigName: jwtNoDPoPAppConfig,
             useHybridFlow: false,
             useDPoP: false
         )

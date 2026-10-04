@@ -223,8 +223,8 @@ Tests that user sessions and per-user feature flags persist across a cold app re
 | `testMultiUserRestart` | ECA Opaque + ECA JWT | Mixed | — |
 
 #### CommunityLoginTests
-Covers logging into a community (Experience Cloud) login server: with and without DPoP, hybrid and
-non-hybrid, across a token refresh, an app relaunch, logout/relogin, in-place DPoP
+Covers logging into a community (Experience Cloud) login server: with and without DPoP (and with
+opaque or JWT tokens when not using DPoP), hybrid and non-hybrid, across a token refresh, an app relaunch, logout/relogin, in-place DPoP
 upgrade/downgrade, multi-user isolation against a regular org user, and the alternate (in-app
 WebView) auth UI. Protects the `communityUrl > instanceUrl > domain` refresh precedence chain.
 Requires a `community_auth` login host in `ui_test_config.json` (see Configuration below); skips
@@ -248,6 +248,8 @@ helper.
 |------|-------|
 | `test_givenCommunityNoDPoPHybrid_whenLogin_thenBearerAndRefreshWorks` | Bearer token; hybrid flow; revoke/refresh cycle works |
 | `test_givenCommunityNoDPoPNoHybrid_whenLogin_thenBearerAndRefreshWorks` | Bearer token; non-hybrid flow; revoke/refresh cycle works |
+| `test_givenCommunityJwtNoDPoPHybrid_whenLogin_thenBearerAndRefreshWorks` | Plain JWT ECA (`eca_jwt`), no DPoP; Bearer token; hybrid flow; revoke/refresh cycle works |
+| `test_givenCommunityJwtNoDPoPNoHybrid_whenLogin_thenBearerAndRefreshWorks` | Plain JWT ECA (`eca_jwt`), no DPoP; Bearer token; non-hybrid flow; revoke/refresh cycle works |
 | `test_givenCommunityDPoPHybrid_whenLogin_thenTokenTypeIsDPoPAndRefreshWorks` | DPoP-bound token; hybrid flow; revoke/refresh cycle works |
 | `test_givenCommunityDPoPNoHybrid_whenLogin_thenTokenTypeIsDPoPAndRefreshWorks` | DPoP-bound token; non-hybrid flow; revoke/refresh cycle works |
 | `test_givenCommunityDPoP_whenRefresh_thenRefreshTokenRotatesAndDPoPBindingHolds` | Refresh token rotates; DPoP binding holds across rotation |

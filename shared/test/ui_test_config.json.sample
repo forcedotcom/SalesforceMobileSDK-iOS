@@ -58,7 +58,7 @@
             "url": "https://<your-community>.my.site.com/<path>",
             "users": [
                 {
-                    "username": "testios@community.authflowtesting.msdk.sdb38.com",
+                    "username": "tios@community.authflowtesting.msdk.sdb38.com.com",
                     "password": "yourPasswordHere"
                 }
             ]

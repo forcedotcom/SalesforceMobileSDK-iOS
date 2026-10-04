@@ -136,15 +136,32 @@ class LoginPageObject {
         waitForLoginFormReady()
         setTextField(usernameField(), value: username)
         if advancedAuth {
-            usernameField().typeText(XCUIKeyboardKey.return.rawValue)
+            // Login forms come in two shapes: a two-step reveal (regular/DPoP/RTR hosts), where
+            // the password field doesn't exist until Return is pressed on the username field, and
+            // a single-page form (e.g. a community/Experience Cloud site), where both fields are
+            // already present. Pressing Return on the username field of a single-page form makes
+            // some of those hosts re-validate and rearrange the form, which raced with the
+            // password field gaining focus right after and intermittently left it unable to
+            // receive typed text — so detect the shape and only press Return there when needed.
+            if passwordField().waitForExistence(timeout: UITestTimeouts.short) {
+                // Single-page form: the field already exists. Tap it directly, then re-query it
+                // fresh before typing (the tap above may have triggered a layout pass, so the
+                // node the query resolves to isn't assumed to be the same one from before the
+                // tap), and submit from the password field itself.
+                tap(passwordField())
+                passwordField().typeText(password)
+                passwordField().typeText(XCUIKeyboardKey.return.rawValue)
+            } else {
+                // Two-step reveal: Return on the username field is what reveals the password
+                // field.
+                usernameField().typeText(XCUIKeyboardKey.return.rawValue)
+                setTextField(passwordField(), value: password)
+                passwordField().typeText(XCUIKeyboardKey.return.rawValue)
+            }
         } else {
             dismissKeyboardAfterTyping()
             tap(loginButton(), timeout: UITestTimeouts.network)
-        }
-        setTextField(passwordField(), value: password)
-        if advancedAuth {
-            passwordField().typeText(XCUIKeyboardKey.return.rawValue)
-        } else {
+            setTextField(passwordField(), value: password)
             dismissKeyboardAfterTyping()
             tap(loginButton(), timeout: UITestTimeouts.network)
         }
@@ -448,7 +465,7 @@ class LoginPageObject {
     
     private func setTextField(_ textField: XCUIElement, value: String) {
         tap(textField)
-        
+
         // Return if the value is already set
         if textField.value as? String == value {
             return
@@ -463,7 +480,7 @@ class LoginPageObject {
                 textField.typeText(XCUIKeyboardKey.delete.rawValue)
             }
         }
-        
+
         textField.typeText(value)
     }
     
