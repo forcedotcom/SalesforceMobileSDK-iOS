@@ -259,6 +259,21 @@ When an attempt receives an authentication failure accepted by the retry policy:
 The local `refreshCycleActive` flag groups requests for one `SFRestAPI`. The shared refresh
 coordinator is the cross-component, per-credential protection that prevents a second token POST.
 
+### 6.1 Identity request attempts (diagnostics)
+
+The identity request made at the end of login is not a REST request. `SFIdentityCoordinator` sends
+a `GET` to the token response `id` URL and, on 401/403, refreshes the credentials through the shared
+refresh coordinator and replays the request, without a cap. The coordinator counts the requests and
+refreshes per retrieval and logs, at info level and without tokens or personal data:
+
+- each rejection: `Identity request returned HTTP <401|403> errorCode=<e.g. Wrong_Org, Bad_OAuth_Token>`
+- one summary when the retrieval finishes, on success or failure:
+  `IDENTITY_ATTEMPTS attempts=N refreshes=M status=<final HTTP status, error or refresh_failed> elapsedMs=T dpop=<true|false> community=<true|false> pool=<true|false> host=<login host>`
+
+`attempts=1` means the first access token was accepted. `pool` is true for login-pool hosts
+(`login.*`, `test.*`, welcome discovery). Grep for `IDENTITY_ATTEMPTS` to measure how many replays
+a login needs.
+
 ---
 
 ## 7. Request-Attempt Ownership

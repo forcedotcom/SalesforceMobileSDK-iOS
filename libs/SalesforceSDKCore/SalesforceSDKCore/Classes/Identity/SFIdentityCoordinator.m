@@ -55,6 +55,7 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
 @interface SFIdentityCoordinator()
 
 @property (nonatomic) NSString *networkIdentifier;
+@property (nonatomic, strong, nullable) NSDate *retrievalStartDate;
 
 @end
 
@@ -66,6 +67,9 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
 @synthesize timeout = _timeout;
 @synthesize retrievingData = _retrievingData;
 @synthesize session = _session;
+@synthesize identityAttempts = _identityAttempts;
+@synthesize identityRefreshes = _identityRefreshes;
+@synthesize identityFinalStatus = _identityFinalStatus;
 
 #pragma mark - init / dealloc
 
@@ -112,6 +116,10 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
         return;
     }
     self.retrievingData = YES;
+    self.identityAttempts = 0;
+    self.identityRefreshes = 0;
+    self.identityFinalStatus = nil;
+    self.retrievalStartDate = [NSDate date];
     
     [self sendRequest];
 }
@@ -162,6 +170,7 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
     }
     [request setTimeoutInterval:self.timeout];
     [request setHTTPShouldHandleCookies:NO];
+    self.identityAttempts++;
     [SFSDKCoreLogger d:[self class] format:@"SFIdentityCoordinator:Starting identity request at %@", self.credentials.identityUrl.absoluteString];
 
     __weak __typeof(self) weakSelf = self;
@@ -172,23 +181,28 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (error) {
             [SFSDKCoreLogger d:[self class] format:@"SFIdentityCoordinator session failed with error: %@", error];
+            strongSelf.identityFinalStatus = @"error";
             [strongSelf notifyDelegateOfFailure:error];
             return;
         }
 
         // The connection can succeed, but the actual HTTP response is a failure.  Check for that.
         NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+        strongSelf.identityFinalStatus = [NSString stringWithFormat:@"%ld", (long)statusCode];
         if (statusCode == 401 || statusCode == 403) {
+            [SFSDKCoreLogger i:[self class] format:@"Identity request returned HTTP %ld errorCode=%@", (long)statusCode, [strongSelf errorCodeFromResponseData:data]];
             // The session timed out.  Identity service tends to send 403s for session timeouts.  Try to refresh.
             [SFSDKCoreLogger i:[self class] format:@"%@: Identity request failed due to expired credentials.  Attempting to refresh credentials.", NSStringFromSelector(_cmd)];
             [[SFSDKTokenRefreshCoordinator sharedInstance] refreshSessionForCredentials:strongSelf.credentials completion:^(SFOAuthCredentials *updatedCredentials) {
                 [SFSDKCoreLogger d:[strongSelf class] format:@"%@: Credentials refresh successful.  Replaying original identity request.", NSStringFromSelector(_cmd)];
                 strongSelf.credentials = updatedCredentials;
+                strongSelf.identityRefreshes++;
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [strongSelf sendRequest];
                 });
             } error:^(NSError *refreshError) {
                 [SFSDKCoreLogger e:[strongSelf class] format:@"SFIdentityCoordinator failed to refresh expired session. Error: %@", refreshError];
+                strongSelf.identityFinalStatus = @"refresh_failed";
                 [strongSelf notifyDelegateOfFailure:refreshError];
             }];
         } else if (statusCode != 200) {
@@ -205,6 +219,7 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
 
 - (void)notifyDelegateOfSuccess
 {
+    [self logIdentityAttemptsSummary];
     dispatch_async(dispatch_get_main_queue(), ^{
         if ([self.delegate respondsToSelector:@selector(identityCoordinatorRetrievedData:)]) {
             [self.delegate identityCoordinatorRetrievedData:self];
@@ -215,12 +230,57 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
 
 - (void)notifyDelegateOfFailure:(NSError *)error
 {
+    [self logIdentityAttemptsSummary];
     dispatch_async(dispatch_get_main_queue(), ^{
         if ([self.delegate respondsToSelector:@selector(identityCoordinator:didFailWithError:)]) {
             [self.delegate identityCoordinator:self didFailWithError:error];
         }
         [self cleanupData];
     });
+}
+
+#pragma mark - Attempt counting / logging
+
+/// Extracts the error code (e.g. Wrong_Org, Bad_OAuth_Token) from an identity error body, if any. Never returns the full body.
+- (NSString *)errorCodeFromResponseData:(NSData *)data
+{
+    if (data.length == 0) {
+        return @"none";
+    }
+    id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    if ([json isKindOfClass:[NSArray class]]) {
+        json = [(NSArray *)json firstObject];
+    }
+    if ([json isKindOfClass:[NSDictionary class]]) {
+        id code = json[@"errorCode"] ?: json[@"error"];
+        if ([code isKindOfClass:[NSString class]] && [code length] > 0) {
+            return code;
+        }
+    }
+    // Not JSON: keep only a short token made of safe characters.
+    NSString *text = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    NSCharacterSet *unsafe = [[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_"] invertedSet];
+    NSString *token = [[[text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] componentsSeparatedByCharactersInSet:unsafe] firstObject];
+    return token.length > 0 ? [token substringToIndex:MIN(token.length, 40)] : @"unknown";
+}
+
+- (NSString *)identityAttemptsSummary
+{
+    SFOAuthCredentials *credentials = self.credentials;
+    NSString *domain = credentials.domain ?: @"";
+    NSString *host = [domain containsString:@"://"] ? [NSURL URLWithString:domain].host : [[domain componentsSeparatedByString:@"/"] firstObject];
+    host = host.lowercaseString ?: @"";
+    BOOL isPool = [host hasPrefix:@"login."] || [host hasPrefix:@"test."] || [domain hasPrefix:@"welcome.salesforce.com"];
+    BOOL isDPoP = [credentials.tokenType.lowercaseString isEqualToString:@"dpop"];
+    long elapsedMs = self.retrievalStartDate ? (long)([[NSDate date] timeIntervalSinceDate:self.retrievalStartDate] * 1000.0) : 0;
+    return [NSString stringWithFormat:@"IDENTITY_ATTEMPTS attempts=%lu refreshes=%lu status=%@ elapsedMs=%ld dpop=%@ community=%@ pool=%@ host=%@",
+            (unsigned long)self.identityAttempts, (unsigned long)self.identityRefreshes, self.identityFinalStatus ?: @"none", elapsedMs,
+            isDPoP ? @"true" : @"false", credentials.communityUrl ? @"true" : @"false", isPool ? @"true" : @"false", host];
+}
+
+- (void)logIdentityAttemptsSummary
+{
+    [SFSDKCoreLogger i:[self class] format:@"%@", [self identityAttemptsSummary]];
 }
 
 - (void)dealloc
