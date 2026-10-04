@@ -72,6 +72,15 @@ class BaseAuthFlowTester: XCTestCase {
     // whether the current app configuration is capable of refresh-token rotation.
     private var expectedRTRFeatureMarkerByUsername: [String: Bool] = [:]
 
+    /// Whether the regular test server is the one currently selected in the app. A fresh launch
+    /// selects it; selecting any other host clears it. Adding a user preserves the previously
+    /// selected server, so `login()` uses this to know when the regular server must be re-selected.
+    private var regularServerSelected = true
+
+    /// Extra launch arguments appended on every `launch()` and `restart()`. Subclasses set this in
+    /// `setUp` (e.g. `--captureTokenRequestUserAgent` to record the last token request).
+    var extraLaunchArguments: [String] = []
+
     override func setUp() {
         super.setUp()
         continueAfterFailure = false
@@ -103,6 +112,7 @@ class BaseAuthFlowTester: XCTestCase {
     func launch() {
         // launch() requests --resetSDKForUITesting, which clears the SDK's per-user markers.
         expectedRTRFeatureMarkerByUsername.removeAll()
+        regularServerSelected = true
         app = XCUIApplication()
 
         // Set environment variable to indicate we're running UI tests
@@ -111,7 +121,7 @@ class BaseAuthFlowTester: XCTestCase {
 
         // Instruct the app to reset all SDK auth state and select the first static test server
         // in-process at startup, before loginIfRequired fires.
-        app.launchArguments = ["--resetSDKForUITesting"]
+        app.launchArguments = ["--resetSDKForUITesting"] + extraLaunchArguments
 
         loginPage = LoginPageObject(testApp: app)
         mainPage = AuthFlowTesterMainPageObject(testApp: app)
@@ -191,9 +201,10 @@ class BaseAuthFlowTester: XCTestCase {
         )
 
         // Closing Login Options restarts authentication on the selected server. A fresh launch
-        // already selected regular auth, so avoid cancelling and re-selecting it for the common
-        // case. Special paths still choose their required server explicitly.
-        if useWelcomeDiscovery || useLoginPoolHost || loginHost != .regularAuth {
+        // already selected regular auth, so avoid cancelling and re-selecting it while it is still
+        // the selected server. Special paths, and regular auth after another server was selected
+        // (e.g. adding a regular user to a community user), choose their server explicitly.
+        if useWelcomeDiscovery || useLoginPoolHost || loginHost != .regularAuth || !regularServerSelected {
             loginPage.returnToHostList(expectingBrowser: advancedAuthEnabled)
             let loginHostToUse: String
             if useWelcomeDiscovery {
@@ -224,6 +235,7 @@ class BaseAuthFlowTester: XCTestCase {
                 loginHostDisplayName = kRegularAuthLoginHostName
             }
             loginPage.configureLoginHost(host: loginHostToUse, displayName: loginHostDisplayName)
+            regularServerSelected = loginHost == .regularAuth && !useWelcomeDiscovery && !useLoginPoolHost
         }
 
         // Invalid app config
@@ -921,7 +933,7 @@ class BaseAuthFlowTester: XCTestCase {
         app.terminate()
         app = XCUIApplication()
         app.launchEnvironment["IS_UI_TESTING"] = "1"
-        app.launchArguments = launchArguments
+        app.launchArguments = launchArguments + extraLaunchArguments
         loginPage = LoginPageObject(testApp: app)
         mainPage = AuthFlowTesterMainPageObject(testApp: app)
         app.launch()
@@ -1572,14 +1584,47 @@ class BaseAuthFlowTester: XCTestCase {
     
     /// Asserts that credentials obtained via a community (Experience Cloud) login host actually
     /// carry a community-scoped session, rather than silently falling back to a regular org
-    /// session. `communityUrl` is the field the app surfaces for this: it comes back non-empty for
-    /// a community login and isn't populated by any other login host, so its presence is the
-    /// clearest signal available from the credentials the app displays. No-op for every other
-    /// login host, so it's safe to call unconditionally from shared helpers.
+    /// session: `communityUrl` must be populated and match the configured community login host
+    /// (host and path). No-op for every other login host, so it's safe to call unconditionally
+    /// from shared helpers.
     func assertCommunityHostIfApplicable(_ userCredentialsData: UserCredentialsData, loginHost: KnownLoginHostConfig, context: String = "") {
         guard loginHost == .communityAuth else { return }
         let ctx = context.isEmpty ? "" : " (\(context))"
         XCTAssertFalse(userCredentialsData.communityUrl.isEmpty, "Expected a non-empty community URL for a community login host\(ctx)")
+        guard let expected = communityComponents(of: getLoginHost(loginHost: loginHost).url),
+              let actual = communityComponents(of: userCredentialsData.communityUrl) else {
+            XCTFail("Could not parse community URL '\(userCredentialsData.communityUrl)' or the configured community login host\(ctx)")
+            return
+        }
+        XCTAssertEqual(actual.host, expected.host, "Community URL host should match the configured community\(ctx)")
+        XCTAssertEqual(actual.path, expected.path, "Community URL path should match the configured community\(ctx)")
+    }
+
+    /// Asserts that the last token (refresh) request went to the configured community host and
+    /// path (`<community path>/services/oauth2/token`) rather than the instance URL. Requires the
+    /// app to be launched with `--captureTokenRequestUserAgent` (see `extraLaunchArguments`). No-op
+    /// for every other login host.
+    func assertRefreshRequestUsesCommunityIfApplicable(_ userCredentialsData: UserCredentialsData, loginHost: KnownLoginHostConfig, context: String = "") {
+        guard loginHost == .communityAuth else { return }
+        let ctx = context.isEmpty ? "" : " (\(context))"
+        XCTAssertFalse(userCredentialsData.lastTokenRequestUrl.isEmpty, "Expected the last token request URL to be captured; was the app launched with --captureTokenRequestUserAgent?\(ctx)")
+        guard let expected = communityComponents(of: getLoginHost(loginHost: loginHost).url),
+              let actual = communityComponents(of: userCredentialsData.lastTokenRequestUrl) else {
+            XCTFail("Could not parse token request URL '\(userCredentialsData.lastTokenRequestUrl)' or the configured community login host\(ctx)")
+            return
+        }
+        XCTAssertEqual(actual.host, expected.host, "Refresh request should use the community host, got \(userCredentialsData.lastTokenRequestUrl)\(ctx)")
+        XCTAssertEqual(actual.path, expected.path + "/services/oauth2/token", "Refresh request should use the community path, got \(userCredentialsData.lastTokenRequestUrl)\(ctx)")
+    }
+
+    /// Host and path (without trailing slash) of a URL string, tolerating a missing scheme as in
+    /// the `ui_test_config` login host entries.
+    private func communityComponents(of urlString: String) -> (host: String, path: String)? {
+        let withScheme = urlString.contains("://") ? urlString : "https://" + urlString
+        guard let components = URLComponents(string: withScheme), let host = components.host else { return nil }
+        var path = components.path
+        while path.hasSuffix("/") { path.removeLast() }
+        return (host.lowercased(), path)
     }
 
     private func assertNotEmpty(_ value: String, shouldNotBeEmpty: Bool, _ name: String) {
@@ -1683,6 +1728,7 @@ class BaseAuthFlowTester: XCTestCase {
         }
 
         assertCommunityHostIfApplicable(credentialsAfterRefresh, loginHost: loginHost, context: "after refresh")
+        assertRefreshRequestUsesCommunityIfApplicable(credentialsAfterRefresh, loginHost: loginHost, context: "after refresh")
 
         validateUserAgent(userCredentials: credentialsAfterRefresh,
                           loginHost: loginHost,

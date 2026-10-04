@@ -25,10 +25,12 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
  Covers logging into a community (Experience Cloud) login server: with and without DPoP (and with
- opaque or JWT tokens when not using DPoP), hybrid and non-hybrid, across a token refresh, an app relaunch, logout/relogin, in-place DPoP
- upgrade/downgrade, multi-user isolation against a regular org user, and the alternate (in-app
+ opaque or JWT tokens when not using DPoP), hybrid and non-hybrid, across a token refresh, an app relaunch, Bearer logout then DPoP
+ relogin, in-place DPoP upgrade/downgrade, multi-user isolation against a regular org user, and the alternate (in-app
  WebView) auth UI. Protects the `communityUrl > instanceUrl > domain` refresh precedence chain by
- asserting the community URL stays populated throughout.
+ asserting the community URL stays populated and equal to the configured community (host and path)
+ throughout, and that every token refresh request actually goes to that community host and path
+ (captured via the app's `--captureTokenRequestUserAgent` hook, enabled for every launch/restart).
 
  These tests require a `community_auth` login host (with one user) in `ui_test_config.json`; see
  `shared/test/ui_test_config.json.sample` for the expected shape. They skip cleanly when that entry
@@ -46,9 +48,10 @@
  a one-place change.
 
  Uses the same heavy, app-config-driven chain `DPoPLoginTests`/`RTRLoginTests` use. The one case
- that doesn't fit that chain is the logout/relogin scenario (test 8): `login()` after `logout()` is
- a lightweight primitive with no corresponding "relogin and validate" heavy helper, so that one
- scenario checks the DPoP token-type triad directly via `assertCommunitySessionIsHealthy`.
+ that doesn't fit that chain is the Bearer logout then DPoP relogin scenario (test 8): `login()`
+ after `logout()` is a lightweight primitive with no corresponding "relogin and validate" heavy
+ helper, so that one scenario checks the DPoP token-type triad directly via
+ `assertCommunitySessionIsHealthy`.
  */
 
 import XCTest
@@ -61,6 +64,8 @@ class CommunityLoginTests: BaseAuthFlowTester {
             UITestConfigUtils.shared.hasLoginHost(.communityAuth),
             "No community_auth login host configured in ui_test_config.json; skipping community login tests"
         )
+        // Record the URL of the last token request so refreshes can be checked against the community.
+        extraLaunchArguments = ["--captureTokenRequestUserAgent"]
     }
 
     // MARK: - App choice (temporary — swap for a real dedicated community app once provisioned)
@@ -92,7 +97,7 @@ class CommunityLoginTests: BaseAuthFlowTester {
     // MARK: - Local helper
 
     /// Asserts the DPoP/Bearer token-type triad and the community URL on a set of community
-    /// credentials. Used for the one scenario (test 8, logout/relogin) that can't go through the
+    /// credentials. Used for the one scenario (test 8, Bearer logout then DPoP relogin) that can't go through the
     /// heavy `validateUser`-driven chain (see file header); `BaseAuthFlowTester.validateUser` and
     /// `assertRevokeAndRefreshWorks` already run the community-URL check (via
     /// `assertCommunityHostIfApplicable`) after every login and refresh everywhere else, so this
@@ -249,30 +254,33 @@ class CommunityLoginTests: BaseAuthFlowTester {
         assertRevokeAndRefreshWorks(expectsRefreshTokenRotation: false, isDPoP: false, loginHost: .communityAuth, isJwt: false)
     }
 
-    // MARK: - 8: Logout and relogin
+    // MARK: - 8: Bearer logout, then DPoP relogin
 
-    /// A community DPoP user who logs out and logs back in gets a fresh DPoP-bound session with a
-    /// new refresh token (not a refresh of the previous one).
+    /// A community Bearer user who logs out and logs back in with DPoP gets a fresh DPoP-bound
+    /// session with new tokens (not a refresh of the previous one). Starting Bearer guards against
+    /// a regression where the previous session's token type is retained across logout.
     ///
     /// `login()` after `logout()` is a lightweight primitive with no corresponding "relogin and
     /// validate" heavy helper (see file header), so this scenario checks the DPoP triad directly.
-    func test_givenCommunityDPoPUser_whenLogoutAndRelogin_thenTokenTypeIsDPoP() throws {
+    func test_givenCommunityBearerUser_whenLogoutAndReloginWithDPoP_thenTokenTypeIsDPoP() throws {
+        // .ecaJwt supports both Bearer and DPoP logins.
         launchLoginAndValidate(
             loginHost: .communityAuth,
-            staticAppConfigName: dpopAppConfig,
-            useDPoP: true
+            staticAppConfigName: upgradeAppConfig,
+            useDPoP: false
         )
 
         let beforeLogout = getUserCredentials()
-        assertCommunitySessionIsHealthy(beforeLogout, expectDPoP: true)
+        assertCommunitySessionIsHealthy(beforeLogout, expectDPoP: false, context: "before logout")
 
         logout()
         // login()'s first step always returns to the host list expecting the (default) browser
         // prompt, so it can be called directly after logout() without any extra teardown.
-        login(loginHost: .communityAuth, user: .first, staticAppConfigName: dpopAppConfig, useDPoP: true)
+        login(loginHost: .communityAuth, user: .first, staticAppConfigName: upgradeAppConfig, useDPoP: true)
 
         let afterRelogin = getUserCredentials()
-        assertCommunitySessionIsHealthy(afterRelogin, expectDPoP: true, context: "after logout and relogin")
+        assertCommunitySessionIsHealthy(afterRelogin, expectDPoP: true, context: "after logout and DPoP relogin")
+        XCTAssertNotEqual(afterRelogin.accessToken, beforeLogout.accessToken, "Access token should differ after a fresh login")
         XCTAssertNotEqual(afterRelogin.refreshToken, beforeLogout.refreshToken, "Refresh token should differ after a fresh login (not a refresh)")
 
         XCTAssertTrue(makeRestRequest(), "REST API request should succeed after relogin")
@@ -329,7 +337,8 @@ class CommunityLoginTests: BaseAuthFlowTester {
         let communityBeforeSwitch = getUserCredentials()
         assertCommunitySessionIsHealthy(communityBeforeSwitch, expectDPoP: true)
 
-        // Regular org user, on the same app config but a different (regular) login host.
+        // Regular org user, on the same app config but a different (regular) login host. Adding a
+        // user keeps the community server selected; login() re-selects the regular server.
         loginOtherUserAndValidate(loginHost: .regularAuth, user: .first, staticAppConfigName: .ecaJwtDpop, useDPoP: true)
         let regularCredentials = getUserCredentials()
 

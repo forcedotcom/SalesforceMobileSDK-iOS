@@ -105,6 +105,7 @@ struct CredentialsLabels {
     static let sdk = "SDK"
     static let userAgent = "User Agent"
     static let lastTokenRequestUserAgent = "Last Token Request User Agent"
+    static let lastTokenRequestUrl = "Last Token Request URL"
 }
 
 struct OAuthConfigLabels {
@@ -197,6 +198,8 @@ struct UserCredentialsData {
     // SDK
     var userAgent: String
     var lastTokenRequestUserAgent: String
+    /// Scheme, host and path of the last token request; only captured when launched with `--captureTokenRequestUserAgent`.
+    var lastTokenRequestUrl: String
 
     // DPoP
     var dpopTokenType: String?
@@ -904,6 +907,7 @@ class AuthFlowTesterMainPageObject {
             additionalOAuthFields: other[CredentialsLabels.additionalOAuthFields] ?? "",
             userAgent: sdk[CredentialsLabels.userAgent] ?? "",
             lastTokenRequestUserAgent: sdk[CredentialsLabels.lastTokenRequestUserAgent] ?? "",
+            lastTokenRequestUrl: sdk[CredentialsLabels.lastTokenRequestUrl] ?? "",
             dpopTokenType: tokens[CredentialsLabels.oauthTokenType],
             dpopNonce: tokens[CredentialsLabels.dpopNonce]
         )

@@ -224,9 +224,12 @@ Tests that user sessions and per-user feature flags persist across a cold app re
 
 #### CommunityLoginTests
 Covers logging into a community (Experience Cloud) login server: with and without DPoP (and with
-opaque or JWT tokens when not using DPoP), hybrid and non-hybrid, across a token refresh, an app relaunch, logout/relogin, in-place DPoP
+opaque or JWT tokens when not using DPoP), hybrid and non-hybrid, across a token refresh, an app relaunch, Bearer logout then DPoP relogin, in-place DPoP
 upgrade/downgrade, multi-user isolation against a regular org user, and the alternate (in-app
-WebView) auth UI. Protects the `communityUrl > instanceUrl > domain` refresh precedence chain.
+WebView) auth UI. Protects the `communityUrl > instanceUrl > domain` refresh precedence chain: the
+stored community URL must equal the configured community (host and path), and every refresh request
+must go to that host and path (recorded via the `--captureTokenRequestUserAgent` launch argument,
+which also exports the last token request URL as `Last Token Request URL`).
 Requires a `community_auth` login host in `ui_test_config.json` (see Configuration below); skips
 cleanly via `XCTSkip` when that entry is absent, so CI stays green until a dedicated community org
 is provisioned.
@@ -240,7 +243,7 @@ equivalent `DPoPLoginTests`/`RTRLoginTests` test uses, so the full
 works unmodified — the app config's name already correctly signals its real properties
 (`_jwt`/`_dpop`/`_rtr` substrings). The app choice for each scenario is centralized in
 `CommunityLoginTests.swift` so swapping to a real dedicated community app later is a one-place
-change. The one exception to the heavy chain is the logout/relogin test, which checks the DPoP
+change. The one exception to the heavy chain is the Bearer logout then DPoP relogin test, which checks the DPoP
 triad directly since `login()` after `logout()` has no corresponding heavy "relogin and validate"
 helper.
 
@@ -255,7 +258,7 @@ helper.
 | `test_givenCommunityDPoP_whenRefresh_thenRefreshTokenRotatesAndDPoPBindingHolds` | Refresh token rotates; DPoP binding holds across rotation |
 | `test_givenCommunityDPoPUser_whenAppRestart_thenSessionAndKeypairSurvive` | DPoP session and keypair survive a cold app restart |
 | `test_givenCommunityNoDPoPUser_whenAppRestart_thenSessionSurvives` | Non-DPoP session survives a cold app restart |
-| `test_givenCommunityDPoPUser_whenLogoutAndRelogin_thenTokenTypeIsDPoP` | Fresh DPoP-bound session with a new refresh token after logout/relogin |
+| `test_givenCommunityBearerUser_whenLogoutAndReloginWithDPoP_thenTokenTypeIsDPoP` | Bearer login, logout, then DPoP relogin: fresh DPoP-bound session with new access and refresh tokens |
 | `test_givenCommunityBearerSession_whenUpgradeToDPoP_thenDPoPBound` | In-place Bearer-to-DPoP upgrade; same client id |
 | `test_givenCommunityDPoPSession_whenDowngradeFromDPoP_thenBearerUnbound` | In-place DPoP-to-Bearer downgrade; same client id |
 | `test_givenCommunityDPoPUserAndRegularDPoPUser_whenSwitchAndRefresh_thenTokensAndNoncesAreIsolated` | Community user + regular `eca_jwt_dpop` user; tokens and DPoP nonces stay isolated across switches |
