@@ -96,6 +96,29 @@ extern NSException * _Nullable SFOAuthInvalidIdentifierException(void);
 /** Reset changes to credentials, called at the end of auth flow.
  */
 - (void)resetCredentialsChangeSet;
+
+/** Copies the mutable session fields (tokens, URLs, identity, community/lightning/vf/content domains
+ and sids, cookies, additional OAuth fields, token type/format, and rotation date) from another
+ credentials instance into this one, using the property setters. The credential identity fields
+ (identifier, clientId, encrypted) are not copied; they are established at init time. This is the
+ single source of truth for the field set shared by -copyWithZone: and
+ -mergeCredentialsFromCredentials:, so a field added here is picked up by both.
+ */
+- (void)copyFieldsFromCredentials:(SFOAuthCredentials *_Nonnull)other;
+
+/** Merges the mutable session fields from another credentials instance into this one (see
+ -copyFieldsFromCredentials:).
+
+ Used to apply a refresh that was performed against a different SFOAuthCredentials instance — e.g. a
+ request coalesced onto an in-flight refresh by SFSDKTokenRefreshCoordinator, which hands back the
+ in-flight instance — onto this object in place, so holders of this instance observe the rotated
+ tokens instead of being left with a rotated-out refresh token. In addition to copying the fields,
+ this carries over the other instance's credentialsChangeSet (the delta that -updateCredentials:
+ recorded during the refresh), so a coalesced, coordinator-driven refresh still drives the
+ SFUserAccountDataChange notification posted by -[SFUserAccountManager applyCredentials:]. No-op if
+ other is nil or the same instance.
+ */
+- (void)mergeCredentialsFromCredentials:(SFOAuthCredentials *_Nullable)other;
 @end
 
 
