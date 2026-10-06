@@ -1358,11 +1358,6 @@ class BaseAuthFlowTester: XCTestCase {
             beaconChildConsumerKey: userCredentials.beaconChildConsumerKey
         )
 
-        // TEMP DEBUG (community investigation, to be removed before commit): dump full credentials
-        print("TEMP_DEBUG_USER_CREDENTIALS_DUMP_START")
-        dump(userCredentials)
-        print("TEMP_DEBUG_USER_CREDENTIALS_DUMP_END")
-
         // Additional login-specific validations
         assertSIDs(userCredentialsData: userCredentials, loginHost: loginHost, useHybridFlow: useHybridFlow, useJwt: issuesJwt, isDPoP: effectiveExpectDP)
         assertURLs(userCredentialsData: userCredentials, useWebServerFlow: useWebServerFlow)
