@@ -133,9 +133,11 @@ SFSDK_USE_DEPRECATED_BEGIN
             }
 
             // Detect Refresh Token Rotation: server sent a new, different refresh token.
+            // During login (identity fetch) there is no account yet: still record the rotation on the
+            // credentials; finalizeAuthCompletion registers RT once the account exists.
             if (refreshTokenRotated) {
+                strongSelf.credentials.lastTokenRotationDate = [NSDate date];
                 if (account) {
-                    strongSelf.credentials.lastTokenRotationDate = [NSDate date];
                     [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureRTR forUser:account];
                 }
             }

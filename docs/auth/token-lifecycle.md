@@ -123,7 +123,14 @@ On a successful response, `SFOAuthSessionRefresher` compares the updated refresh
 one used for the request. When it changed, the refresher:
 
 - records `lastTokenRotationDate` on `SFOAuthCredentials`; and
-- registers the `RT` app feature marker for the account.
+- registers the `RT` app feature marker for the account, when one exists.
+
+During a first login the account does not exist yet while the identity fetch runs (see 6.1). If an
+identity 401/403 triggers a refresh that rotates the token, the rotation is still recorded on the
+credentials (`lastTokenRotationDate`, and the new refresh token is kept), and
+`SFUserAccountManager finalizeAuthCompletion:` registers `RT` for the user as soon as the account is
+created. So `RT` is in the user agent from the first screen after such a login. A refresh that does not
+change the token (non-RTR apps) records and registers nothing.
 
 `RT` is sticky and persisted with the user account. For a refresh of an existing account,
 `SFOAuthSessionRefresher` also computes the token request's `User-Agent` from the account that owns

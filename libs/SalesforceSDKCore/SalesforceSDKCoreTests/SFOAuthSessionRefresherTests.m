@@ -32,6 +32,8 @@
 #import "SFSDKOAuth2+Internal.h"
 #import "SFSDKAppFeatureMarkers.h"
 #import "SFSDKOAuthConstants.h"
+#import "SFSDKAuthSession.h"
+#import "SFSDKAuthRequest.h"
 
 // Expose the private initializer used in production code.
 @interface SFSDKOAuthTokenEndpointResponse ()
@@ -45,6 +47,11 @@ static NSSet<NSString *> *SFSDKFeatureMarkersFromUserAgent(NSString *userAgent) 
     NSString *featureString = [featureSuffix componentsSeparatedByString:@" "].firstObject ?: @"";
     return [NSSet setWithArray:[featureString componentsSeparatedByString:@"."]];
 }
+
+// Expose the private login completion step that creates the account and registers per-user markers.
+@interface SFUserAccountManager (RTRLoginTesting)
+- (void)finalizeAuthCompletion:(SFSDKAuthSession *)authSession;
+@end
 
 // Minimal SFSDKOAuthProtocol stub that immediately calls the completion block with a preset response.
 @interface SFSDKOAuthClientStub : NSObject <SFSDKOAuthProtocol>
@@ -427,7 +434,90 @@ SFSDK_USE_DEPRECATED_BEGIN
     [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureRTR forUser:account];
 }
 
+- (void)test_givenNoAccount_whenRotatedTokenSucceeds_thenRotationRecordedAndRTRegisteredOnceAccountCreated {
+    SFOAuthCredentials *credentials = self.oauthSessionRefresher.credentials;
+    SFUserAccountManager *accountManager = [SFUserAccountManager sharedInstance];
+    XCTAssertNil([accountManager accountForCredentials:credentials], @"Precondition: no account yet (login in progress)");
+    XCTAssertNil(credentials.lastTokenRotationDate);
+
+    NSString *rotatedToken = [NSString stringWithFormat:@"rotated_token_%u", arc4random()];
+    SFSDKOAuthClientStub *stub = [[SFSDKOAuthClientStub alloc] init];
+    stub.stubbedResponse = [[SFSDKOAuthTokenEndpointResponse alloc]
+                            initWithDictionary:@{kSFOAuthAccessToken: @"new_access_token", kSFOAuthRefreshToken: rotatedToken}
+                            parseAdditionalFields:nil];
+    SFAuthClientFactoryBlock originalFactory = accountManager.authClient;
+    accountManager.authClient = ^{ return stub; };
+
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Refresh without account"];
+    [self.oauthSessionRefresher refreshSessionWithCompletion:^(SFOAuthCredentials *updatedCredentials) {
+        [expectation fulfill];
+    } error:^(NSError *error) {
+        XCTFail(@"Refresh should succeed: %@", error);
+        [expectation fulfill];
+    }];
+    [self waitForExpectationsWithTimeout:2.0 handler:nil];
+    accountManager.authClient = originalFactory;
+
+    XCTAssertEqualObjects(credentials.refreshToken, rotatedToken, @"Rotated refresh token must be kept on the credentials");
+    XCTAssertNotNil(credentials.lastTokenRotationDate, @"Rotation must be recorded even though there is no account yet");
+
+    // Finish the login: the account is created and RT is registered from the recorded rotation.
+    SFSDKAuthSession *authSession = [self authSessionWithCredentials:credentials];
+    [accountManager finalizeAuthCompletion:authSession];
+    SFUserAccount *account = [accountManager accountForCredentials:credentials];
+    XCTAssertNotNil(account);
+    XCTAssertTrue([[SFSDKAppFeatureMarkers appFeaturesForUser:account] containsObject:kSFAppFeatureRTR],
+                  @"RT should be registered once the account exists after a login-time rotation");
+
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureRTR forUser:account];
+    [accountManager deleteAccountForUser:account error:nil];
+}
+
+- (void)test_givenNoAccount_whenTokenNotRotated_thenNoRotationRecordedAndRTNotRegistered {
+    SFOAuthCredentials *credentials = self.oauthSessionRefresher.credentials;
+    SFUserAccountManager *accountManager = [SFUserAccountManager sharedInstance];
+
+    SFSDKOAuthClientStub *stub = [[SFSDKOAuthClientStub alloc] init];
+    stub.stubbedResponse = [[SFSDKOAuthTokenEndpointResponse alloc]
+                            initWithDictionary:@{kSFOAuthAccessToken: @"new_access_token"}
+                            parseAdditionalFields:nil];
+    SFAuthClientFactoryBlock originalFactory = accountManager.authClient;
+    accountManager.authClient = ^{ return stub; };
+
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Refresh without rotation"];
+    [self.oauthSessionRefresher refreshSessionWithCompletion:^(SFOAuthCredentials *updatedCredentials) {
+        [expectation fulfill];
+    } error:^(NSError *error) {
+        XCTFail(@"Refresh should succeed: %@", error);
+        [expectation fulfill];
+    }];
+    [self waitForExpectationsWithTimeout:2.0 handler:nil];
+    accountManager.authClient = originalFactory;
+
+    XCTAssertNil(credentials.lastTokenRotationDate, @"No rotation, nothing to record");
+
+    SFSDKAuthSession *authSession = [self authSessionWithCredentials:credentials];
+    [accountManager finalizeAuthCompletion:authSession];
+    SFUserAccount *account = [accountManager accountForCredentials:credentials];
+    XCTAssertNotNil(account);
+    XCTAssertFalse([[SFSDKAppFeatureMarkers appFeaturesForUser:account] containsObject:kSFAppFeatureRTR],
+                   @"RT must not be registered when the refresh token never rotated");
+
+    [accountManager deleteAccountForUser:account error:nil];
+}
+
 #pragma mark - Private methods
+
+- (SFSDKAuthSession *)authSessionWithCredentials:(SFOAuthCredentials *)credentials {
+    SFSDKAuthRequest *request = [[SFSDKAuthRequest alloc] init];
+    request.loginHost = @"login.salesforce.com";
+    request.oauthClientId = credentials.clientId;
+    request.oauthCompletionUrl = credentials.redirectUri;
+    request.scopes = [NSSet setWithObject:@"api"];
+    SFSDKAuthSession *authSession = [[SFSDKAuthSession alloc] initWith:request credentials:credentials];
+    authSession.oauthCoordinator.credentials = credentials;
+    return authSession;
+}
 
 - (void)setupCoordinatorFlow {
     NSString *credsIdentifier = [NSString stringWithFormat:@"CredsIdentifier_%u", arc4random()];
