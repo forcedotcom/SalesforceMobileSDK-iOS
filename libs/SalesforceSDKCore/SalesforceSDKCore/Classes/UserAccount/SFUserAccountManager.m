@@ -2548,6 +2548,12 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureBeacon forUser:userAccount];
     }
 
+    // RT: a refresh token rotation observed before the account existed (identity fetch refresh during login)
+    // was recorded on the credentials only; register the per-user marker now. Sticky, never cleared here.
+    if (authSession.oauthCoordinator.credentials.lastTokenRotationDate) {
+        [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureRTR forUser:userAccount];
+    }
+
 
     // Async call, ignore if theres a failure. If success save the user photo locally.
     [self retrieveUserPhotoIfNeeded:userAccount];

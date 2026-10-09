@@ -45,10 +45,12 @@ External Client App (ECA) login tests for both opaque and JWT token formats with
 | `testECAOpaque_DefaultScopes` | ECA Opaque | Default | |
 | `testECAOpaque_SubsetScopes` | ECA Opaque | Subset | |
 | `testECAOpaque_AllScopes` | ECA Opaque | All | |
+| `test_givenECAOpaqueNoHybrid_whenLogin_thenSessionIsValid` | ECA Opaque | Default | Non-hybrid flow (hybrid is `testECAOpaque_DefaultScopes`) |
 | `testECAJwt_DefaultScopes` | ECA JWT | Default | |
 | `testECAJwt_SubsetScopes` | ECA JWT | Subset | |
 | `testECAJwt_AllScopes` | ECA JWT | All | |
 | `test_givenNoDPoP_whenLoginViaPoolServer_thenSessionIsValid` | ECA JWT | Default | Pool server login without DPoP; Bearer session valid |
+| `test_givenNoDPoPOpaque_whenLoginViaPoolServer_thenSessionIsValid` | ECA Opaque | Default | Pool server login, opaque token, without DPoP; Bearer session valid |
 | `testDynamicConfigurationWithInvalidClientId` | — | — | Invalid consumer key; login must fail |
 | `testDynamicConfigurationWithInvalidScope` | — | — | Invalid scope; login must fail |
 
@@ -222,6 +224,78 @@ Tests that user sessions and per-user feature flags persist across a cold app re
 | `testWelcomeDiscovery_WithRestart` | ECA Opaque | Static | WD |
 | `testMultiUserRestart` | ECA Opaque + ECA JWT | Mixed | — |
 
+#### CommunityLoginTests
+Covers logging into a community (Experience Cloud) login server: with and without DPoP (and with
+opaque or JWT tokens when not using DPoP), hybrid and non-hybrid, across a token refresh, an app relaunch, Bearer logout then DPoP relogin, in-place DPoP
+upgrade/downgrade, multi-user isolation against a regular org user, and the alternate (in-app
+WebView) auth UI. Protects the `communityUrl > instanceUrl > domain` refresh precedence chain: the
+stored community URL must equal the configured community (host and path), and every refresh request
+must go to that host and path (recorded via the `--captureTokenRequestUserAgent` launch argument,
+which also exports the last token request URL as `Last Token Request URL`).
+Requires a `community_auth` login host in `ui_test_config.json` (see Configuration below); skips
+cleanly via `XCTSkip` when that entry is absent, so CI stays green until a dedicated community org
+is provisioned.
+
+There is no dedicated community-only app config: the community org under evaluation reuses the
+existing regular-host apps (`ecaOpaque`, `ecaJwt`, `ecaJwtDpop`, `ecaJwtDpopRtr`), pointed at the
+`community_auth` login host instead of `regularAuth`. Each test picks whichever existing app the
+equivalent `DPoPLoginTests`/`RTRLoginTests` test uses, so the full
+`launchLoginAndValidate()`/`validateUser()`/`switchToUserAndValidateUser()`/
+`restartAndValidateUser()`/`upgradeToDPoPAndValidate()`/`downgradeFromDPoPAndValidate()` chain
+works unmodified — the app config's name already correctly signals its real properties
+(`_jwt`/`_dpop`/`_rtr` substrings). The app choice for each scenario is centralized in
+`CommunityLoginTests.swift` so swapping to a real dedicated community app later is a one-place
+change. The one exception to the heavy chain is the Bearer logout then DPoP relogin test, which checks the DPoP
+triad directly since `login()` after `logout()` has no corresponding heavy "relogin and validate"
+helper.
+
+| Test | Notes |
+|------|-------|
+| `test_givenCommunityNoDPoPHybrid_whenLogin_thenBearerAndRefreshWorks` | Bearer token; hybrid flow; revoke/refresh cycle works |
+| `test_givenCommunityNoDPoPNoHybrid_whenLogin_thenBearerAndRefreshWorks` | Bearer token; non-hybrid flow; revoke/refresh cycle works |
+| `test_givenCommunityJwtNoDPoPHybrid_whenLogin_thenBearerAndRefreshWorks` | Plain JWT ECA (`eca_jwt`), no DPoP; Bearer token; hybrid flow; revoke/refresh cycle works |
+| `test_givenCommunityJwtNoDPoPNoHybrid_whenLogin_thenBearerAndRefreshWorks` | Plain JWT ECA (`eca_jwt`), no DPoP; Bearer token; non-hybrid flow; revoke/refresh cycle works |
+| `test_givenCommunityDPoPHybrid_whenLogin_thenTokenTypeIsDPoPAndRefreshWorks` | DPoP-bound token; hybrid flow; revoke/refresh cycle works |
+| `test_givenCommunityDPoPNoHybrid_whenLogin_thenTokenTypeIsDPoPAndRefreshWorks` | DPoP-bound token; non-hybrid flow; revoke/refresh cycle works |
+| `test_givenCommunityDPoP_whenRefresh_thenRefreshTokenRotatesAndDPoPBindingHolds` | Refresh token rotates; DPoP binding holds across rotation |
+| `test_givenCommunityDPoPUser_whenAppRestart_thenSessionAndKeypairSurvive` | DPoP session and keypair survive a cold app restart |
+| `test_givenCommunityNoDPoPUser_whenAppRestart_thenSessionSurvives` | Non-DPoP session survives a cold app restart |
+| `test_givenCommunityBearerUser_whenLogoutAndReloginWithDPoP_thenTokenTypeIsDPoP` | Bearer login, logout, then DPoP relogin: fresh DPoP-bound session with new access and refresh tokens |
+| `test_givenCommunityBearerSession_whenUpgradeToDPoP_thenDPoPBound` | In-place Bearer-to-DPoP upgrade; same client id |
+| `test_givenCommunityDPoPSession_whenDowngradeFromDPoP_thenBearerUnbound` | In-place DPoP-to-Bearer downgrade; same client id |
+| `test_givenCommunityDPoPUserAndRegularDPoPUser_whenSwitchAndRefresh_thenTokensAndNoncesAreIsolated` | Community user + regular `eca_jwt_dpop` user; tokens and DPoP nonces stay isolated across switches |
+| `test_givenCommunityDPoP_whenLoginViaInAppWebView_thenTokenTypeIsDPoP` | DPoP-bound token via the in-app WebView auth surface |
+| `test_givenCommunityNoDPoP_whenLoginViaInAppWebView_thenTokenTypeIsBearer` | Bearer token via the in-app WebView auth surface |
+
+### Launch arguments
+
+Tests can pass extra launch arguments through `extraLaunchArguments` (or `restart(withLaunchArguments:)`).
+
+| Argument | Effect |
+|----------|--------|
+| `--captureTokenRequestUserAgent` | Debug/UI-test-only `SFNetwork` metrics observer. The app records the User-Agent and URL (scheme, host, path) of the last `/services/oauth2/token` request and shows them as `Last Token Request User Agent` and `Last Token Request URL`. Used by `RTRLoginTests` and `CommunityLoginTests`. |
+
+### Identity request diagnostics (`IDENTITY_ATTEMPTS`)
+
+After a login, the SDK fetches the identity resource. The server can reject a valid JWT access token
+with HTTP 403 `Wrong_Org` several times in a row; the SDK then refreshes the token and replays, so the
+login still succeeds. `SFIdentityCoordinator` logs (info level) one line per login plus one per rejection:
+
+```
+IDENTITY_ATTEMPTS attempts=N refreshes=M status=<200|code|error|refresh_failed> elapsedMs=T dpop=<bool> community=<bool> pool=<bool> host=<login host>
+Identity request returned HTTP <code> errorCode=<Wrong_Org|Bad_OAuth_Token|other>
+```
+
+Info-level SDK logs are not in the `xcodebuild` output; they go to the macOS unified log. Capture them on the
+host while the tests run (use the full path, `log` is a zsh builtin):
+
+```bash
+/usr/bin/log stream --level info --style compact \
+  --predicate 'eventMessage CONTAINS "IDENTITY_" OR eventMessage CONTAINS "Identity request returned"'
+```
+
+`xcrun simctl spawn <udid> log stream` does not work: `xcodebuild` runs UI tests on a cloned simulator.
+
 ### Validation Per Test
 
 Each `launchLoginAndValidate` call performs the following checks:
@@ -265,7 +339,7 @@ value rather than inferring request behavior from the user agent recomputed afte
 ### Configuration
 
 - **App configs**: `ecaOpaque`, `ecaJwt`, `ecaOpaqueRtr`, `ecaJwtRtr`, `ecaJwtDpop`, `ecaJwtDpopRtr`, `beaconOpaque`, `beaconJwt`, `caOpaque`
-- **Login hosts**: `regularAuth` (in-app WKWebView), `advancedAuth` (ASWebAuthenticationSession)
+- **Login hosts**: `regularAuth` (in-app WKWebView), `advancedAuth` (ASWebAuthenticationSession), `communityAuth` (community/Experience Cloud login server; browser by default, in-app WKWebView when `forceAdvancedAuthentication: false`)
 - **Users**: `first` through `fifth`
 
 ### Scope selections

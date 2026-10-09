@@ -105,6 +105,7 @@ struct CredentialsLabels {
     static let sdk = "SDK"
     static let userAgent = "User Agent"
     static let lastTokenRequestUserAgent = "Last Token Request User Agent"
+    static let lastTokenRequestUrl = "Last Token Request URL"
 }
 
 struct OAuthConfigLabels {
@@ -197,6 +198,8 @@ struct UserCredentialsData {
     // SDK
     var userAgent: String
     var lastTokenRequestUserAgent: String
+    /// Scheme, host and path of the last token request; only captured when launched with `--captureTokenRequestUserAgent`.
+    var lastTokenRequestUrl: String
 
     // DPoP
     var dpopTokenType: String?
@@ -801,6 +804,23 @@ class AuthFlowTesterMainPageObject {
         XCTAssertTrue(element.isHittable, "Element \(element.debugDescription) could not be scrolled into view", file: file, line: line)
     }
 
+    /// Scrolls `element` up until it sits above the floating bottom toolbar (Change Key / Auth Flow /
+    /// Switch User / Logout).
+    ///
+    /// The toolbar floats over the scroll content, so a row can be on-screen (and "hittable") yet
+    /// underneath it: a tap on it is then swallowed by the toolbar and no alert appears. This happens
+    /// for the credentials export button once the "Concurrent REST Requests" result grid has grown the
+    /// page, pushing that row down to the toolbar's position.
+    private func scrollAboveToolbar(_ element: XCUIElement) {
+        guard element.waitForExistence(timeout: UITestTimeouts.long) else { return }
+        let toolbarClearance: CGFloat = 100
+        let visibleBottom = app.windows.firstMatch.frame.maxY - toolbarClearance
+        let scrollView = app.scrollViews.firstMatch
+        for _ in 0..<4 where element.frame.maxY > visibleBottom {
+            scrollView.swipeUp()
+        }
+    }
+
     private func integerLabel(_ element: XCUIElement) -> Int {
         _ = element.waitForExistence(timeout: UITestTimeouts.long)
         return Int(element.label) ?? -1
@@ -887,6 +907,7 @@ class AuthFlowTesterMainPageObject {
             additionalOAuthFields: other[CredentialsLabels.additionalOAuthFields] ?? "",
             userAgent: sdk[CredentialsLabels.userAgent] ?? "",
             lastTokenRequestUserAgent: sdk[CredentialsLabels.lastTokenRequestUserAgent] ?? "",
+            lastTokenRequestUrl: sdk[CredentialsLabels.lastTokenRequestUrl] ?? "",
             dpopTokenType: tokens[CredentialsLabels.oauthTokenType],
             dpopNonce: tokens[CredentialsLabels.dpopNonce]
         )
@@ -936,7 +957,8 @@ class AuthFlowTesterMainPageObject {
     
     /// Taps the export button and returns the parsed JSON from the alert
     private func tapExportAndGetJSON(_ exportButton: XCUIElement, alertTitle: String) -> [String: Any] {
-        // Tap the export button
+        // Tap the export button, first scrolling it clear of the floating bottom toolbar
+        scrollAboveToolbar(exportButton)
         tap(exportButton)
         
         // Wait for and get the alert

@@ -136,19 +136,48 @@ class LoginPageObject {
         waitForLoginFormReady()
         setTextField(usernameField(), value: username)
         if advancedAuth {
-            usernameField().typeText(XCUIKeyboardKey.return.rawValue)
+            // Login forms come in two shapes: a two-step reveal (regular/DPoP/RTR hosts), where
+            // the password field doesn't exist until Return is pressed on the username field, and
+            // a single-page form (e.g. a community/Experience Cloud site), where both fields are
+            // already present. Pressing Return on the username field of a single-page form makes
+            // some of those hosts re-validate and rearrange the form, which raced with the
+            // password field gaining focus right after and intermittently left it unable to
+            // receive typed text — so detect the shape and only press Return there when needed.
+            if passwordField().waitForExistence(timeout: UITestTimeouts.short) {
+                // Single-page form: the field already exists. Tap it directly, then re-query it
+                // fresh before typing (the tap above may have triggered a layout pass, so the
+                // node the query resolves to isn't assumed to be the same one from before the
+                // tap), and submit from the password field itself.
+                tap(passwordField())
+                passwordField().typeText(password)
+                passwordField().typeText(XCUIKeyboardKey.return.rawValue)
+            } else {
+                // Two-step reveal: Return on the username field is what reveals the password
+                // field.
+                usernameField().typeText(XCUIKeyboardKey.return.rawValue)
+                setTextField(passwordField(), value: password)
+                passwordField().typeText(XCUIKeyboardKey.return.rawValue)
+            }
         } else {
             dismissKeyboardAfterTyping()
-            tap(loginButton(), timeout: UITestTimeouts.network)
+            // Same two shapes as above: a single-page form (e.g. a community/Experience Cloud
+            // site) already shows the password field, so tapping "Log In" now would submit an
+            // empty password. Fill it first in that case; otherwise keep the two-step flow.
+            if passwordField().waitForExistence(timeout: UITestTimeouts.short) {
+                setTextField(passwordField(), value: password)
+                dismissKeyboardAfterTyping()
+                tap(loginButton(), timeout: UITestTimeouts.network)
+            } else {
+                tap(loginButton(), timeout: UITestTimeouts.network)
+                setTextField(passwordField(), value: password)
+                dismissKeyboardAfterTyping()
+                tap(loginButton(), timeout: UITestTimeouts.network)
+            }
         }
-        setTextField(passwordField(), value: password)
-        if advancedAuth {
-            passwordField().typeText(XCUIKeyboardKey.return.rawValue)
-        } else {
-            dismissKeyboardAfterTyping()
-            tap(loginButton(), timeout: UITestTimeouts.network)
-        }
-        tapIfPresent(allowButton(), timeout: UITestTimeouts.network)
+        // Some login hosts (e.g. a community/Experience Cloud site) add an extra SSO redirect
+        // hop before the "Allow Access?" consent screen renders, so give it more room than the
+        // network timeout allows for the common single-hop case.
+        tapIfPresent(allowButton(), timeout: UITestTimeouts.network * 2)
     }
 
     /// Performs login via the "Login for Admin" flow.
@@ -282,9 +311,13 @@ class LoginPageObject {
     /// URL and the form elements are not immediately available. This waits for the username text
     /// field inside the web content to appear, which signals the login form has fully rendered.
     private func waitForLoginFormReady() {
+        // Some login hosts (e.g. a community/Experience Cloud site) route through an extra SSO
+        // redirect before the login form renders, so give it more room than the network timeout
+        // allows for the common single-hop case.
         let webViewTextField = app.webViews.webViews.webViews.textFields.firstMatch
-        let formReady = webViewTextField.waitForExistence(timeout: UITestTimeouts.network)
-        XCTAssertTrue(formReady, "Login form did not load within \(UITestTimeouts.network)s — WebView may not have finished loading the login page")
+        let formReadyTimeout = UITestTimeouts.network * 2
+        let formReady = webViewTextField.waitForExistence(timeout: formReadyTimeout)
+        XCTAssertTrue(formReady, "Login form did not load within \(formReadyTimeout)s — WebView may not have finished loading the login page")
     }
 
     // MARK: - UI Element Accessors
@@ -399,7 +432,11 @@ class LoginPageObject {
     }
     
     private func loginButton() -> XCUIElement {
-        return app.webViews.webViews.webViews.buttons["Log In"]
+        // Case-insensitive: some login hosts (e.g. a community/Experience Cloud site) render the
+        // button label as "Log in" rather than "Log In".
+        let buttons = app.webViews.webViews.webViews.buttons
+        let predicate = NSPredicate(format: "label ==[c] 'Log In'")
+        return buttons.matching(predicate).firstMatch
     }
     
     private func allowButton() -> XCUIElement {
@@ -437,7 +474,7 @@ class LoginPageObject {
     
     private func setTextField(_ textField: XCUIElement, value: String) {
         tap(textField)
-        
+
         // Return if the value is already set
         if textField.value as? String == value {
             return
@@ -452,7 +489,7 @@ class LoginPageObject {
                 textField.typeText(XCUIKeyboardKey.delete.rawValue)
             }
         }
-        
+
         textField.typeText(value)
     }
     
