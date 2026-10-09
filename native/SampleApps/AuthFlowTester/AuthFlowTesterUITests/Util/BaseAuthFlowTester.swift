@@ -55,6 +55,10 @@ private let kAdvancedAuthLoginHostName = "UITests Adv Auth"
 private let kLoginPoolHostName = "UITests Login Pool"
 private let kWelcomeDiscoveryLoginHostName = "Welcome Discovery"
 private let kCommunityAuthLoginHostName = "UITests Community"
+/// Host and path the seeded "UITests Community" row points at (the `UITests Community` entry in the
+/// app's Info.plist). The row is selected by display name, so `community_auth.url` in
+/// `ui_test_config.json` must match it; this is checked before the row is selected.
+private let kCommunityAuthSeededHost = "authflowtestingmsdksdb38.test1.my.pc-rnd.site.com/customerportal"
 
 class BaseAuthFlowTester: XCTestCase {
     // App object
@@ -236,6 +240,14 @@ class BaseAuthFlowTester: XCTestCase {
             } else if loginHost == .advancedAuth {
                 loginHostDisplayName = kAdvancedAuthLoginHostName
             } else if loginHost == .communityAuth {
+                // The seeded row is selected by display name, so it must point at the configured
+                // community; otherwise the test would silently log in to a different community.
+                guard let seeded = communityComponents(of: kCommunityAuthSeededHost),
+                      let configured = communityComponents(of: hostConfig.url),
+                      seeded.host == configured.host, seeded.path == configured.path else {
+                    XCTFail("community_auth.url '\(hostConfig.url)' does not match the community host seeded in the app's Info.plist ('\(kCommunityAuthLoginHostName)' -> '\(kCommunityAuthSeededHost)'); update one to match the other")
+                    return
+                }
                 loginHostDisplayName = kCommunityAuthLoginHostName
             } else {
                 loginHostDisplayName = kRegularAuthLoginHostName
@@ -270,6 +282,18 @@ class BaseAuthFlowTester: XCTestCase {
         // login-time identity 401/403 refresh rotated it. A non-RTR app never rotates: assert RT absent.
         // An RTR app may or may not have refreshed during login: seed the expectation from the first
         // observed user agent. Later migration/restart checks preserve the value until a refresh rotates.
+        //
+        // Known limitation: because that seed comes from the very user agent it is then asserted
+        // against, the first-login RT check is tautological. Whether login rotates the RT depends on
+        // whether the identity fetch (/id on the login host) fails with 401/403 and triggers a
+        // refresh, which the test cannot predict. The known cause is W-24433488 (login-host /id
+        // intermittently returns 403 Wrong_Org for JWT access tokens on 266; the cross-instance hop
+        // strips Host; fixed server-side in core-266 PR 41531). So the first-screen RT check cannot
+        // independently prove RT registration at finalization.
+        // TODO(W-24433488): revisit once the fix is deployed to the test org. Login should then no
+        // longer trigger an identity refresh, making an independent assertion feasible (e.g. refresh
+        // token unchanged / no refresh_token grant during login, via --captureTokenRequestUserAgent
+        // / lastTokenRequestUrl).
         expectedRTRFeatureMarkerByUsername[userConfig.username] = false
         if (dynamicAppConfig ?? staticAppConfig).expectsRefreshTokenRotation {
             rtrMarkerSeedPendingUsernames.insert(userConfig.username)
@@ -1751,6 +1775,10 @@ class BaseAuthFlowTester: XCTestCase {
                           isBeacon: isBeacon)
     }
 
+    /// The first call after an RTR login seeds the expectation from `userAgent` itself, so that
+    /// first check is tautological (see the known-limitation note in `launchLoginAndValidate`'s
+    /// login path). TODO(W-24433488): replace with an independent assertion once login no longer
+    /// triggers an identity-fetch refresh on the test org.
     private func expectedRTRFeatureMarker(for username: String, userAgent: String) -> Bool {
         if rtrMarkerSeedPendingUsernames.remove(username) != nil {
             expectedRTRFeatureMarkerByUsername[username] = Self.userAgentFeatureFlags(userAgent).contains("RT")

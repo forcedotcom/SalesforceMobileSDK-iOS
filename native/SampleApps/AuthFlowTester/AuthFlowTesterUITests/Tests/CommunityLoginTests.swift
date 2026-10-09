@@ -36,6 +36,11 @@
  `shared/test/ui_test_config.json.sample` for the expected shape. They skip cleanly when that entry
  is absent so CI stays green until a dedicated community org is provisioned.
 
+ The community login host is selected in the app by its seeded "UITests Community" row (Info.plist
+ `SFDCOAuthLoginHosts`), which is fixed to one community URL. That seeded row must match
+ `community_auth.url` in `ui_test_config.json` (host and path); the tests fail up front with a clear
+ message when they differ.
+
  There is no dedicated community-only app config. The community org under evaluation reuses the
  existing regular-host apps (`eca_opaque`, `eca_jwt`, `eca_jwt_dpop`, `eca_jwt_dpop_rtr`), so every
  test below just points one of those apps at the `community_auth` login host instead. Because the

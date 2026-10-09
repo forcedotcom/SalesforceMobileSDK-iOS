@@ -160,10 +160,19 @@ class LoginPageObject {
             }
         } else {
             dismissKeyboardAfterTyping()
-            tap(loginButton(), timeout: UITestTimeouts.network)
-            setTextField(passwordField(), value: password)
-            dismissKeyboardAfterTyping()
-            tap(loginButton(), timeout: UITestTimeouts.network)
+            // Same two shapes as above: a single-page form (e.g. a community/Experience Cloud
+            // site) already shows the password field, so tapping "Log In" now would submit an
+            // empty password. Fill it first in that case; otherwise keep the two-step flow.
+            if passwordField().waitForExistence(timeout: UITestTimeouts.short) {
+                setTextField(passwordField(), value: password)
+                dismissKeyboardAfterTyping()
+                tap(loginButton(), timeout: UITestTimeouts.network)
+            } else {
+                tap(loginButton(), timeout: UITestTimeouts.network)
+                setTextField(passwordField(), value: password)
+                dismissKeyboardAfterTyping()
+                tap(loginButton(), timeout: UITestTimeouts.network)
+            }
         }
         // Some login hosts (e.g. a community/Experience Cloud site) add an extra SSO redirect
         // hop before the "Allow Access?" consent screen renders, so give it more room than the
