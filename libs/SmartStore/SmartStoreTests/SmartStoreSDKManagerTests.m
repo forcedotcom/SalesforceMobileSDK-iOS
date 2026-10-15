@@ -26,12 +26,56 @@
 #import "SmartStoreSDKManager.h"
 #import "SFSmartStore.h"
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
+#import <objc/runtime.h>
+
+@interface SFSmartStore (DevInfoUnavailableStoreTesting)
++ (instancetype)sfsdk_test_sharedGlobalStoreWithName:(NSString *)storeName;
+@end
+
+@implementation SFSmartStore (DevInfoUnavailableStoreTesting)
+
++ (instancetype)sfsdk_test_sharedGlobalStoreWithName:(NSString *)storeName {
+    if ([storeName isEqualToString:kDefaultSmartStoreName]) {
+        return nil;
+    }
+    return [self sfsdk_test_sharedGlobalStoreWithName:storeName];
+}
+
+@end
 
 @interface SmartStoreSDKManagerTests : SFSmartStoreTestCase
 
 @end
 
 @implementation SmartStoreSDKManagerTests
+
+- (void)test_givenDefaultGlobalStoreUnavailable_whenGetDevSupportInfos_thenShowsUnavailableSQLCipherValues {
+    SalesforceSDKManager *manager = [[SmartStoreSDKManager alloc] init];
+    NSArray *baseInfos = [[[SalesforceSDKManager alloc] init] getDevSupportInfos];
+    Method original = class_getClassMethod([SFSmartStore class], @selector(sharedGlobalStoreWithName:));
+    Method replacement = class_getClassMethod([SFSmartStore class], @selector(sfsdk_test_sharedGlobalStoreWithName:));
+    NSArray *devInfos = nil;
+
+    method_exchangeImplementations(original, replacement);
+    @try {
+        devInfos = [manager getDevSupportInfos];
+    } @finally {
+        method_exchangeImplementations(original, replacement);
+    }
+
+    XCTAssertNotNil(devInfos);
+    XCTAssertEqualObjects([devInfos subarrayWithRange:NSMakeRange(0, baseInfos.count)], baseInfos);
+    XCTAssertEqual(devInfos.count, baseInfos.count + 11);
+    XCTAssertEqualObjects([devInfos subarrayWithRange:NSMakeRange(baseInfos.count, 7)],
+                          (@[@"section:SmartStore",
+                             @"SQLCipher version", @"Unavailable",
+                             @"SQLCipher Compile Options", @"Unavailable",
+                             @"SQLCipher Runtime Settings", @"Unavailable"]));
+    XCTAssertEqualObjects(devInfos[baseInfos.count + 7], @"User SmartStores");
+    XCTAssertTrue([devInfos[baseInfos.count + 8] isKindOfClass:[NSString class]]);
+    XCTAssertEqualObjects(devInfos[baseInfos.count + 9], @"Global SmartStores");
+    XCTAssertTrue([devInfos[baseInfos.count + 10] isKindOfClass:[NSString class]]);
+}
 
 - (void)testGetDevSupportInfosContainsSmartStoreSection {
     SmartStoreSDKManager *manager = [[SmartStoreSDKManager alloc] init];
@@ -196,4 +240,3 @@
 }
 
 @end
-
