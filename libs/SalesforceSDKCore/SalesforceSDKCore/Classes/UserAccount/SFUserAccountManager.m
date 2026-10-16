@@ -71,6 +71,9 @@
 #import "SFSDKOAuth2+Internal.h"
 #import "SFSDKResourceUtils.h"
 #import "SFSDKAuthConfigUtil.h"
+#import <objc/runtime.h>
+
+static char kSFNativeAuthenticationAttemptKey;
 
 // Notifications
 NSNotificationName SFUserAccountManagerDidChangeUserNotification       = @"SFUserAccountManagerDidChangeUserNotification";
@@ -694,8 +697,9 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
             // Get app config for the login host. If appConfigRuntimeSelectorBlock is set,
             // it will be invoked to select the appropriate config. Otherwise, returns the default appConfig.
             [[SalesforceSDKManager sharedManager] appConfigForLoginHost:appConfigLoginHost callback:^(SFSDKAppConfig* appConfig) {
-                authSession.credentials.clientId = appConfig.remoteAccessConsumerKey;
-                authSession.credentials.redirectUri = appConfig.oauthRedirectURI;
+                // Native requests use the manager's captured config, not the boot app config.
+                authSession.credentials.clientId = authSession.oauthCoordinator.useNativeAuth ? request.oauthClientId : appConfig.remoteAccessConsumerKey;
+                authSession.credentials.redirectUri = authSession.oauthCoordinator.useNativeAuth ? request.oauthCompletionUrl : appConfig.oauthRedirectURI;
                 authSession.credentials.scopes = [appConfig.oauthScopes allObjects];
                 [authSession.oauthCoordinator authenticateWithCredentials:authSession.credentials];
             }];
@@ -1271,6 +1275,9 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 }
 
 - (void)identityCoordinator:(SFIdentityCoordinator *)coordinator didFailWithError:(NSError *)error {
+    SFSDKAuthSession *session = coordinator.authSession;
+    if (session.oauthCoordinator.useNativeAuth && (!session.isAuthenticating
+            || self.authSessions[session.sceneId] != session || session.identityCoordinator != coordinator)) { return; }
    if (error.code == kSFIdentityErrorMissingParameters) {
         // No retry, as missing parameters are fatal
         [SFSDKCoreLogger e:[self class] format:@"Missing parameters attempting to retrieve identity data.  Error domain: %@, code: %ld, description: %@", [error domain], [error code], [error localizedDescription]];
@@ -1279,14 +1286,25 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
        [self handleFailure:error session:coordinator.authSession];
     } else {
         [SFSDKCoreLogger e:[self class] format:@"Error retrieving idData:%@", error];
+        NSDictionary *nativeContext = session.oauthCoordinator.useNativeAuth ? [self nativeAuthenticationContextForSession:session] : nil;
         SFSDKAlertMessage *message = [SFSDKAlertMessage messageWithBlock:^(SFSDKAlertMessageBuilder *builder) {
             builder.actionOneTitle = [SFSDKResourceUtils localizedString:@"authAlertRetryButton"];
             builder.actionTwoTitle = [SFSDKResourceUtils localizedString:@"authAlertDismissButton"];
             builder.alertTitle = [SFSDKResourceUtils localizedString:@"authAlertErrorTitle"];
             builder.alertMessage = [NSString stringWithFormat:[SFSDKResourceUtils localizedString:@"authAlertConnectionErrorFormatString"], [error localizedDescription]];
             builder.actionOneCompletion = ^{
-                 [coordinator initiateIdentityDataRetrieval];
+                  [coordinator initiateIdentityDataRetrieval];
             };
+            if (nativeContext) {
+                builder.actionTwoCompletion = ^{
+                    if ([[self isCurrentNativeAuthentication:nativeContext] boolValue]
+                            && session.identityCoordinator == coordinator) {
+                        [self resetAuthentication:session];
+                        // An alert can retain the failed session after it leaves authSessions.
+                        [session.credentials revoke];
+                    }
+                };
+            }
         }];
         dispatch_async(dispatch_get_main_queue(), ^{
             self.alertDisplayBlock(message, [[SFSDKWindowManager sharedManager] authWindow:coordinator.authSession.oauthRequest.scene]);
@@ -1623,6 +1641,159 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     return newAcct;
 }
 
+- (NSString *)normalizedNativeLoginSite:(NSString *)loginUrl {
+    if (loginUrl.length == 0) { return nil; }
+    NSString *url = [loginUrl containsString:@"://"] ? loginUrl : [@"https://" stringByAppendingString:loginUrl];
+    NSURLComponents *components = [NSURLComponents componentsWithString:url];
+    if (components.host.length == 0) { return nil; }
+    components.scheme = components.scheme.lowercaseString;
+    components.host = components.host.lowercaseString;
+    if (([components.scheme isEqualToString:@"https"] && components.port.integerValue == 443)
+            || ([components.scheme isEqualToString:@"http"] && components.port.integerValue == 80)) {
+        components.port = nil;
+    }
+    NSString *path = components.percentEncodedPath;
+    while ([path hasSuffix:@"/"]) { path = [path substringToIndex:path.length - 1]; }
+    components.percentEncodedPath = path;
+    components.fragment = nil;
+    return components.string;
+}
+
+- (SFSDKAuthSession *)nativeAuthSessionForConfiguration:(NSDictionary *)configuration {
+    __block SFSDKAuthSession *result = nil;
+    void (^resolve)(void) = ^{
+        UIScene *scene = configuration[@"scene"] ?: [[[SalesforceSDKManager sharedManager] nativeLoginViewControllers] objectForKey:kSFDefaultNativeLoginViewControllerKey].view.window.windowScene;
+        NSString *clientId = configuration[@"clientId"];
+        NSString *redirectUri = configuration[@"redirectUri"];
+        NSString *loginSite = [self normalizedNativeLoginSite:configuration[@"loginUrl"]];
+        NSMutableArray<SFSDKAuthSession *> *matches = [NSMutableArray new];
+        for (SFSDKAuthSession *session in self.authSessions.allValues) {
+            BOOL sameScene = session.oauthRequest.scene == scene;
+            if (session.isAuthenticating && session.oauthCoordinator.useNativeAuth && sameScene
+                    && [session.oauthRequest.oauthClientId isEqualToString:clientId]
+                    && [session.oauthRequest.oauthCompletionUrl isEqualToString:redirectUri]
+                    && [[self normalizedNativeLoginSite:session.oauthRequest.loginHost] isEqualToString:loginSite]) {
+                [matches addObject:session];
+            }
+        }
+        if (matches.count == 1) {
+            result = matches.firstObject;
+        } else if (matches.count == 0 && (!scene || !self.authSessions[scene.session.persistentIdentifier])) {
+            SFSDKAuthRequest *request = [self defaultAuthRequest];
+            request.oauthClientId = clientId;
+            request.oauthCompletionUrl = redirectUri;
+            request.loginHost = configuration[@"loginUrl"];
+            request.scene = scene;
+            result = [[SFSDKAuthSession alloc] initWith:request credentials:nil];
+            result.isAuthenticating = YES;
+            result.oauthCoordinator.useNativeAuth = YES;
+            self.authSessions[result.sceneId] = result;
+        }
+    };
+    if ([NSThread isMainThread]) {
+        resolve();
+    } else {
+        dispatch_sync(dispatch_get_main_queue(), resolve);
+    }
+    return result;
+}
+
+- (void)cleanupAbandonedNativeSession:(SFSDKAuthSession *)session {
+    if (!session.oauthCoordinator.useNativeAuth) { return; }
+    for (SFUserAccount *account in [self allUserAccounts]) {
+        if ([account.credentials.identifier isEqualToString:session.credentials.identifier]) { return; }
+    }
+    for (SFSDKAuthSession *other in self.authSessions.allValues) {
+        if (other != session && [other.credentials.identifier isEqualToString:session.credentials.identifier]) { return; }
+    }
+    [SFSDKDPoPKeyStore.shared deleteForCredentials:session.credentials];
+    [SFSDKDPoPNonceCache.shared clearForScope:session.credentials.identifier];
+}
+
+- (NSDictionary *)beginNativeAuthentication:(NSDictionary *)configuration {
+    if (![NSThread isMainThread]) {
+        __block NSDictionary *context;
+        dispatch_sync(dispatch_get_main_queue(), ^{ context = [self beginNativeAuthentication:configuration]; });
+        return context;
+    }
+    SFSDKAuthSession *session = [self nativeAuthSessionForConfiguration:configuration];
+    // A token already handed to identity retrieval is no longer an abandoned native attempt.
+    if (!session || session.credentials.accessToken.length > 0) { return nil; }
+    session.credentials.clientId = session.oauthRequest.oauthClientId;
+    session.credentials.redirectUri = session.oauthRequest.oauthCompletionUrl;
+    if (objc_getAssociatedObject(session, &kSFNativeAuthenticationAttemptKey)) {
+        [self cleanupAbandonedNativeSession:session];
+    }
+    NSUUID *attempt = [NSUUID UUID];
+    objc_setAssociatedObject(session, &kSFNativeAuthenticationAttemptKey, attempt, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    return @{@"session": session, @"attempt": attempt};
+}
+
+- (NSDictionary *)nativeAuthenticationContextForSession:(SFSDKAuthSession *)session {
+    if (![NSThread isMainThread]) {
+        __block NSDictionary *context;
+        dispatch_sync(dispatch_get_main_queue(), ^{ context = [self nativeAuthenticationContextForSession:session]; });
+        return context;
+    }
+    NSUUID *attempt = objc_getAssociatedObject(session, &kSFNativeAuthenticationAttemptKey);
+    return attempt ? @{ @"session": session, @"attempt": attempt } : @{ @"session": session };
+}
+
+- (NSNumber *)isCurrentNativeAuthentication:(NSDictionary *)context {
+    if (![NSThread isMainThread]) {
+        __block NSNumber *current;
+        dispatch_sync(dispatch_get_main_queue(), ^{ current = [self isCurrentNativeAuthentication:context]; });
+        return current;
+    }
+    SFSDKAuthSession *session = context[@"session"];
+    return @(session && session.isAuthenticating && self.authSessions[session.sceneId] == session
+             && objc_getAssociatedObject(session, &kSFNativeAuthenticationAttemptKey) == context[@"attempt"]);
+}
+
+- (NSDictionary *)nativeIdentityAuthenticationContextForCredentials:(SFOAuthCredentials *)credentials {
+    if (![NSThread isMainThread]) {
+        __block NSDictionary *context;
+        dispatch_sync(dispatch_get_main_queue(), ^{ context = [self nativeIdentityAuthenticationContextForCredentials:credentials]; });
+        return context;
+    }
+    for (SFSDKAuthSession *session in self.authSessions.allValues) {
+        NSUUID *attempt = objc_getAssociatedObject(session, &kSFNativeAuthenticationAttemptKey);
+        if (session.nativeLogin && session.credentials == credentials && attempt && session.isAuthenticating) {
+            return @{@"session": session, @"attempt": attempt};
+        }
+    }
+    return nil;
+}
+
+- (void)abandonNativeAuthentication:(NSDictionary *)context {
+    if (![NSThread isMainThread]) {
+        dispatch_sync(dispatch_get_main_queue(), ^{ [self abandonNativeAuthentication:context]; });
+        return;
+    }
+    SFSDKAuthSession *session = context[@"session"];
+    // A superseded attempt must not clean up its successor's key or nonce.
+    if (session && objc_getAssociatedObject(session, &kSFNativeAuthenticationAttemptKey) == context[@"attempt"]) {
+        [self cleanupAbandonedNativeSession:session];
+        objc_setAssociatedObject(session, &kSFNativeAuthenticationAttemptKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    } else if (session && !session.isAuthenticating
+            && !objc_getAssociatedObject(session, &kSFNativeAuthenticationAttemptKey)) {
+        // Off-main key generation may finish after cancellation has reclaimed the key.
+        [self cleanupAbandonedNativeSession:session];
+    }
+}
+
+- (NSNumber *)completeNativeAuthentication:(NSData *)data context:(NSDictionary *)context {
+    if (![NSThread isMainThread]) {
+        __block NSNumber *completed;
+        dispatch_sync(dispatch_get_main_queue(), ^{ completed = [self completeNativeAuthentication:data context:context]; });
+        return completed;
+    }
+    if (![[self isCurrentNativeAuthentication:context] boolValue]) { return @NO; }
+    SFSDKAuthSession *session = context[@"session"];
+    [self createNativeUserAccount:data authSession:session];
+    return @(session.credentials.accessToken.length > 0);
+}
+
 - (void)createNativeUserAccount:(NSData *)data scene:(nullable UIScene *)scene {
     if (![NSThread isMainThread]) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -1633,12 +1804,32 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     
     UIScene *nativeLoginScene = scene ? scene : [[[SalesforceSDKManager sharedManager] nativeLoginViewControllers] objectForKey:kSFDefaultNativeLoginViewControllerKey].view.window.windowScene;
     SFSDKAuthSession *authSession = self.authSessions[nativeLoginScene.session.persistentIdentifier];
+    [self createNativeUserAccount:data authSession:authSession];
+}
+
+- (void)createNativeUserAccount:(NSData *)data authSession:(SFSDKAuthSession *)authSession {
+    if (![NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self createNativeUserAccount:data authSession:authSession];
+        });
+        return;
+    }
+    if (!authSession || !authSession.isAuthenticating || self.authSessions[authSession.sceneId] != authSession) {
+        return;
+    }
+    // The legacy native handoff entry point also needs an attempt owner.
+    if (!objc_getAssociatedObject(authSession, &kSFNativeAuthenticationAttemptKey)) {
+        objc_setAssociatedObject(authSession, &kSFNativeAuthenticationAttemptKey, [NSUUID UUID], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
     // Dummy request is necessary for flow
     SFSDKOAuthTokenEndpointRequest *request = [[SFSDKOAuthTokenEndpointRequest alloc] init];
     request.additionalOAuthParameterKeys = [NSArray new];
     
     // Let SFSDKOAuth2 do error handling
     [(SFSDKOAuth2 *)self.authClient() handleTokenEndpointResponse:^(SFSDKOAuthTokenEndpointResponse *response) {
+        if (response.hasError || !authSession.isAuthenticating || self.authSessions[authSession.sceneId] != authSession) {
+            return;
+        }
         [[authSession oauthCoordinator] updateCredentials:[response asDictionary]];
         authSession.credentials = authSession.oauthCoordinator.credentials;
         authSession.identityCoordinator = [[SFIdentityCoordinator alloc] initWithCredentials:authSession.credentials];
@@ -1844,6 +2035,13 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 
 - (SFUserAccount *)applyCredentials:(SFOAuthCredentials*)credentials withIdData:(SFIdentityData *) identityData {
     SFUserAccount *currentAccount = [self accountForCredentials:credentials];
+    NSString *previousNativeIdentifier = nil;
+    for (SFSDKAuthSession *session in self.authSessions.allValues) {
+        if (session.nativeLogin && session.oauthCoordinator.useNativeAuth && session.credentials == credentials) {
+            previousNativeIdentifier = [currentAccount.credentials.identifier copy];
+            break;
+        }
+    }
     SFUserAccountDataChange accountDataChange = SFUserAccountDataChangeUnknown;
     SFUserAccountChange userAccountChange = SFUserAccountChangeUnknown;
 
@@ -1877,7 +2075,28 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     if (identityData) {
         currentAccount.idData = identityData;
     }
-    [self saveAccountForUser:currentAccount error:nil];
+    BOOL saved = [self saveAccountForUser:currentAccount error:nil];
+    // Reclaim only after the replacement is persisted, and never delete a shared scope.
+    if (saved && previousNativeIdentifier.length > 0
+            && ![previousNativeIdentifier isEqualToString:credentials.identifier]) {
+        BOOL referenced = NO;
+        for (SFUserAccount *account in [self allUserAccounts]) {
+            if ([account.credentials.identifier isEqualToString:previousNativeIdentifier]) {
+                referenced = YES;
+                break;
+            }
+        }
+        for (SFSDKAuthSession *session in self.authSessions.allValues) {
+            if ([session.credentials.identifier isEqualToString:previousNativeIdentifier]) {
+                referenced = YES;
+                break;
+            }
+        }
+        if (!referenced) {
+            [SFSDKDPoPKeyStore.shared deleteForScope:previousNativeIdentifier];
+            [SFSDKDPoPNonceCache.shared clearForScope:previousNativeIdentifier];
+        }
+    }
    
     if (accountDataChange != SFUserAccountDataChangeUnknown) {
         [self notifyUserDataChange:SFUserAccountManagerDidChangeUserDataNotification withUser:currentAccount andChange:accountDataChange];
@@ -2232,6 +2451,8 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 }
 
 - (void)retrievedIdentityData:(SFSDKAuthSession *)authSession {
+    if (authSession.oauthCoordinator.useNativeAuth && (!authSession.isAuthenticating
+            || self.authSessions[authSession.sceneId] != authSession)) { return; }
     // NB: This method is assumed to run after identity data has been refreshed from the service, or otherwise
     // already exists.
     NSAssert(authSession.identityCoordinator.idData != nil, @"Identity data should not be nil/empty at this point.");
@@ -2253,6 +2474,9 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     __weak typeof(self) weakSelf = self;
     [self dismissAuthViewControllerIfPresentForScene:authSession.oauthRequest.scene completion:^{
           __strong typeof(weakSelf) strongSelf = weakSelf;
+        // Reset may occur while dismissal is pending, after identity success was accepted.
+        if (authSession.oauthCoordinator.useNativeAuth && (!authSession.isAuthenticating
+                || strongSelf.authSessions[authSession.sceneId] != authSession)) { return; }
         [strongSelf finalizeAuthCompletion:authSession];
 
         if (authSession.oauthCoordinator.authInfo.authType != SFOAuthTypeRefresh) {
@@ -2306,6 +2530,14 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     [self resetAuthentication:authSession];
 }
 
+- (void)invalidateNativeIdentityRetrieval:(SFSDKAuthSession *)authSession {
+    if (!authSession.oauthCoordinator.useNativeAuth) { return; }
+    // Invalidate callbacks before reclaiming the transaction's bound key.
+    authSession.isAuthenticating = NO;
+    authSession.identityCoordinator.delegate = nil;
+    [authSession.identityCoordinator cancelRetrieval];
+}
+
 - (void)resetAuthentication {
     [_accountsLock lock];
     for (NSString *key in self.authSessions.allKeys) {
@@ -2314,6 +2546,9 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
             [authSession.oauthCoordinator.view removeFromSuperview];
         }
         NSString *sceneId = authSession.sceneId;
+        [self invalidateNativeIdentityRetrieval:authSession];
+        [self cleanupAbandonedNativeSession:authSession];
+        objc_setAssociatedObject(authSession, &kSFNativeAuthenticationAttemptKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         [self.authSessions[sceneId].oauthCoordinator stopAuthentication];
         self.authSessions[sceneId].identityCoordinator.idData = nil;
         self.authSessions[sceneId].isAuthenticating = NO;
@@ -2331,6 +2566,13 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     }
     
     [_accountsLock lock];
+    if (self.authSessions[authSession.sceneId] != authSession) {
+        [_accountsLock unlock];
+        return;
+    }
+    [self invalidateNativeIdentityRetrieval:authSession];
+    [self cleanupAbandonedNativeSession:authSession];
+    objc_setAssociatedObject(authSession, &kSFNativeAuthenticationAttemptKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     if (authSession.oauthCoordinator.authInfo.authType == SFOAuthTypeUserAgent) {
         [authSession.oauthCoordinator.view removeFromSuperview];
     }
@@ -2665,7 +2907,12 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 
 - (void)sceneDidDisconnect:(NSNotification *)notification {
     UIScene *scene = (UIScene *)notification.object;
-    [self.authSessions removeObject:scene.session.persistentIdentifier];
+    SFSDKAuthSession *session = self.authSessions[scene.session.persistentIdentifier];
+    if (session.oauthCoordinator.useNativeAuth) {
+        [self resetAuthentication:session];
+    } else {
+        [self.authSessions removeObject:scene.session.persistentIdentifier];
+    }
 }
 
 #pragma mark Switching Users

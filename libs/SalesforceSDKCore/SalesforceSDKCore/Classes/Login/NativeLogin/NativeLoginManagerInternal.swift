@@ -55,6 +55,123 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
     private let isReCaptchaEnterprise: Bool
     
     let scene: UIScene?
+
+    private struct AuthenticationContext {
+        let ownership: NSDictionary?
+        let credentials: OAuthCredentials?
+        let usesDPoP: Bool
+    }
+
+    private func authenticationContext() -> AuthenticationContext {
+        // Auth-session headers are private to Objective-C framework builds.
+        var configuration: [String: Any] = ["clientId": clientId, "redirectUri": redirectUri, "loginUrl": loginUrl]
+        configuration["scene"] = scene
+        let ownership = UserAccountManager.shared.perform(NSSelectorFromString("beginNativeAuthentication:"),
+                                                         with: configuration)?.takeUnretainedValue() as? NSDictionary
+        let session = ownership?["session"] as? NSObject
+        return AuthenticationContext(ownership: ownership,
+                                     credentials: session?.value(forKey: "credentials") as? OAuthCredentials,
+                                     usesDPoP: (session?.value(forKeyPath: "oauthRequest.useDPoP") as? NSNumber)?.boolValue ?? SalesforceManager.shared.usesDPoP)
+    }
+
+    private func isCurrentAuthentication(_ context: AuthenticationContext) -> Bool {
+        guard let ownership = context.ownership else { return false }
+        return (UserAccountManager.shared.perform(NSSelectorFromString("isCurrentNativeAuthentication:"),
+                                                 with: ownership)?.takeUnretainedValue() as? NSNumber)?.boolValue == true
+    }
+
+    private func abandonAuthentication(_ context: AuthenticationContext) {
+        guard let ownership = context.ownership else { return }
+        UserAccountManager.shared.perform(NSSelectorFromString("abandonNativeAuthentication:"), with: ownership)
+    }
+
+    internal static func performCrypto<T>(_ work: @escaping () throws -> T) async throws -> T {
+        try await withCheckedThrowingContinuation { continuation in
+            DispatchQueue.global(qos: .userInitiated).async {
+                continuation.resume(with: Result { try work() })
+            }
+        }
+    }
+
+    private func sendAuthenticationRequest(_ request: RestRequest,
+                                           context: AuthenticationContext,
+                                           authorizationBody: String? = nil) async throws -> RestResponse {
+        guard isCurrentAuthentication(context) else {
+            throw RestClientError.invalidRequest("Native authentication was cancelled or superseded.")
+        }
+        guard context.usesDPoP else {
+            let response = try await RestClient.sharedGlobal.send(request: request)
+            guard isCurrentAuthentication(context) else {
+                throw RestClientError.invalidRequest("Native authentication was cancelled or superseded.")
+            }
+            return response
+        }
+        guard let credentials = context.credentials, !credentials.identifier.isEmpty,
+              let prepared = request.prepare(forSend: UserAccount(credentials: credentials)), let url = prepared.url else {
+            throw RestClientError.invalidRequest("Native DPoP authentication requires an owning auth session.")
+        }
+        let scope = credentials.identifier
+        for attempt in 0...1 {
+            let pair = try await Self.performCrypto {
+                try DPoPKeyStore.shared.keyPair(forScope: scope)
+            }
+            let nonce = try await MainActor.run { () throws -> String? in
+                guard isCurrentAuthentication(context) else {
+                    abandonAuthentication(context)
+                    throw RestClientError.invalidRequest("Native authentication was cancelled or superseded.")
+                }
+                return DPoPNonceCache.shared.nonce(htu: url, scope: scope)
+                    ?? DPoPNonceCache.shared.latest(forScope: scope)
+            }
+            let (proof, thumbprint) = try await Self.performCrypto {
+                let proof = try DPoPProofBuilder.buildProof(httpMethod: "POST", htu: url,
+                                                          nonce: nonce, accessToken: nil, keyPair: pair)
+                let thumbprint = attempt == 0 && authorizationBody != nil
+                    ? try DPoPProofBuilder.jwkThumbprint(publicKey: pair.publicKey) : nil
+                return (proof, thumbprint)
+            }
+            try await MainActor.run {
+                guard isCurrentAuthentication(context) else {
+                    throw RestClientError.invalidRequest("Native authentication was cancelled or superseded.")
+                }
+                if let thumbprint, let authorizationBody {
+                    // Bind the code to the same transaction key used by authorize and token proofs.
+                    request.setCustomRequestBodyString("\(authorizationBody)&\(kSFOAuthDPoPJktParamName)=\(thumbprint)",
+                                                       contentType: kHttpPostContentType)
+                }
+                let headers = (request.customHeaders?.mutableCopy() as? NSMutableDictionary) ?? NSMutableDictionary()
+                headers[DPoPRequestDecorator.dpopHeaderName] = proof
+                request.customHeaders = headers
+            }
+            do {
+                let response = try await RestClient.sharedGlobal.send(request: request)
+                try await MainActor.run {
+                    guard isCurrentAuthentication(context) else {
+                        throw RestClientError.invalidRequest("Native authentication was cancelled or superseded.")
+                    }
+                    DPoPRequestDecorator.harvestNonce(from: response.urlResponse, requestURL: url, scope: scope)
+                }
+                return response
+            } catch let error as RestClientError {
+                guard isCurrentAuthentication(context) else { throw error }
+                if case .apiFailed(let body, _, let response) = error {
+                    try await MainActor.run {
+                        guard isCurrentAuthentication(context) else { throw error }
+                        DPoPRequestDecorator.harvestNonce(from: response, requestURL: url, scope: scope)
+                    }
+                    let http = response as? HTTPURLResponse
+                    if attempt == 0,
+                       http?.value(forHTTPHeaderField: DPoPRequestDecorator.dpopNonceHeaderName)?.isEmpty == false,
+                       DPoPRequestDecorator.isNonceChallenge(statusCode: http?.statusCode ?? 0,
+                                                            body: body as? Data, response: response) {
+                        continue
+                    }
+                }
+                throw error
+            }
+        }
+        throw RestClientError.apiResponseIsEmpty
+    }
     
     /// A structure for the Headless Identity API's authorization endpoint response
     private struct AuthorizationResponseBody: Codable {
@@ -130,16 +247,17 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         authRequest.setCustomRequestBodyString(authRequestBody, contentType: kHttpPostContentType)
         authRequest.requiresAuthentication = false
         authRequest.endpoint = ""
+        let context = authenticationContext()
         
         // First REST Call - Authorization
         let authorizationResponse = await handleResponseForRequest {
-            try await RestClient.sharedGlobal.send(request: authRequest)
+            try await sendAuthenticationRequest(authRequest, context: context, authorizationBody: authRequestBody)
         }
         
         // Second REST Call - Access token request with code verifier
         return await submitAccessTokenRequest(
             authorizationResponse: authorizationResponse,
-            codeVerifier: codeVerifier)
+            codeVerifier: codeVerifier, context: context)
     }
     
     public func fallbackToWebAuthentication() {
@@ -647,16 +765,18 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         authorizationRequest.setCustomRequestBodyString(
             authorizationRequestBodyString,
             contentType: kHttpPostContentType)
+        let context = authenticationContext()
         
         // Submit the authorization request and fetch the authorization response.
         let authorizationResponse = await handleResponseForRequest {
-            try await RestClient.sharedGlobal.send(request: authorizationRequest)
+            try await sendAuthenticationRequest(authorizationRequest, context: context,
+                                                authorizationBody: authorizationRequestBodyString)
         }
         
         // React to the authorization response.
         return await submitAccessTokenRequest(
             authorizationResponse: authorizationResponse,
-            codeVerifier: codeVerifier)
+            codeVerifier: codeVerifier, context: context)
     }
     
     /// Resolves a Headless Identity API headless, password-less one-time-passcode verification type
@@ -909,16 +1029,18 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         authorizationRequest.setCustomRequestBodyString(
             authorizationRequestBodyString,
             contentType: kHttpPostContentType)
+        let context = authenticationContext()
         
         // Submit the authorization request and fetch the authorization response.
         let authorizationResponse = await handleResponseForRequest {
-            try await RestClient.sharedGlobal.send(request: authorizationRequest)
+            try await sendAuthenticationRequest(authorizationRequest, context: context,
+                                                authorizationBody: authorizationRequestBodyString)
         }
         
         // React to the authorization response.
         return await submitAccessTokenRequest(
             authorizationResponse: authorizationResponse,
-            codeVerifier: codeVerifier)
+            codeVerifier: codeVerifier, context: context)
     }
     
     /// Reacts to a response from the Headless Identity API's authorization endpoint to initiate the token
@@ -928,8 +1050,13 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
     ///   - codeVerifier: The code verifier
     private func submitAccessTokenRequest(
         authorizationResponse: Result<RestResponse, RestClientError>,
-        codeVerifier: String
+        codeVerifier: String,
+        context: AuthenticationContext
     ) async -> NativeLoginResult {
+        var handedOff = false
+        defer {
+            if !handedOff { abandonAuthentication(context) }
+        }
         
         switch authorizationResponse {
             
@@ -957,7 +1084,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
                 
                 // Submit the access token request.
                 let tokenResponse = await handleResponseForRequest {
-                    try await RestClient.sharedGlobal.send(request: tokenRequest)
+                    try await sendAuthenticationRequest(tokenRequest, context: context)
                 }
                 
                 // React to the token response.
@@ -965,9 +1092,12 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
                     
                 case .success(let tokenResponse): // Access token success.
                     // Create the successfully authorized user's session.
-                    UserAccountManager.shared.createNativeUserAccount(
-                        with: tokenResponse.asData(),
-                        scene:scene)
+                    guard let ownership = context.ownership,
+                          let completed = UserAccountManager.shared.perform(
+                            NSSelectorFromString("completeNativeAuthentication:context:"),
+                            with: tokenResponse.asData(), with: ownership)?.takeUnretainedValue() as? NSNumber,
+                          completed.boolValue else { return .unknownError }
+                    handedOff = true
                     return .success
                     
                 case .failure(let error): // Access token failure.

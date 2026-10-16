@@ -33,6 +33,8 @@ SFSDK_USE_DEPRECATED_BEGIN
 @property (nonatomic,strong) SFOAuthCredentials *credentials;
 @property (nonatomic, copy) void (^completionBlock)(SFOAuthCredentials *);
 @property (nonatomic, copy) void (^errorBlock)(NSError *);
+/// Native identity refresh only. Evaluated on main before any asynchronous side effects.
+@property (nonatomic, copy) BOOL (^nativeRequestIsCurrent)(void);
 
 @end
 

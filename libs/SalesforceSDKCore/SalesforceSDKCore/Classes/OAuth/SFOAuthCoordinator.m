@@ -34,7 +34,7 @@
 #import "NSString+SFAdditions.h"
 #import "SFApplicationHelper.h"
 #import "NSURL+SFStringUtils.h"
-#import "SFUserAccountManager.h"
+#import "SFUserAccountManager+Internal.h"
 #import "SFSDKLoginHostStorage.h"
 #import "SFSDKLoginHost.h"
 #import "SFSDKEventBuilderHelper.h"
@@ -423,7 +423,12 @@
 {
     self.authenticating = NO;
     if ([self.delegate respondsToSelector:@selector(oauthCoordinator:didFailWithError:authInfo:)]) {
+        // Preflight can fail before a native attempt exists. Retain that ownership
+        // snapshot too, so starting an attempt before delivery makes this failure stale.
+        NSDictionary *nativeContext = self.useNativeAuth && self.authSession
+            ? [[SFUserAccountManager sharedInstance] nativeAuthenticationContextForSession:self.authSession] : nil;
         dispatch_async(dispatch_get_main_queue(), ^{
+           if (nativeContext && ![[[SFUserAccountManager sharedInstance] isCurrentNativeAuthentication:nativeContext] boolValue]) { return; }
            [self.delegate oauthCoordinator:self didFailWithError:error authInfo:info];
         });
     }
