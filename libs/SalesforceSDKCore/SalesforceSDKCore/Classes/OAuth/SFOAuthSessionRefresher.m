@@ -95,7 +95,16 @@ SFSDK_USE_DEPRECATED_BEGIN
 }
 
 - (void)executeRefreshWithAttestation:(NSString * _Nullable)attestation {
+    if (self.nativeRequestIsCurrent && ![NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^{ [self executeRefreshWithAttestation:attestation]; });
+        return;
+    }
+    if (self.nativeRequestIsCurrent && !self.nativeRequestIsCurrent()) {
+        [self completeWithError:[NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorCancelled userInfo:nil]];
+        return;
+    }
     SFSDKOAuthTokenEndpointRequest *request = [[SFSDKOAuthTokenEndpointRequest alloc] init];
+    request.nativeRequestIsCurrent = self.nativeRequestIsCurrent;
     request.additionalOAuthParameterKeys = [SFUserAccountManager sharedInstance].additionalOAuthParameterKeys;
     request.additionalTokenRefreshParams = [SFUserAccountManager sharedInstance].additionalTokenRefreshParams;
     request.clientID = [self.credentials getClientIdForRefresh];
@@ -115,36 +124,48 @@ SFSDK_USE_DEPRECATED_BEGIN
     id<SFSDKOAuthProtocol> authClient = [SFUserAccountManager sharedInstance].authClient();
     [authClient accessTokenForRefresh:request completion:^(SFSDKOAuthTokenEndpointResponse * response) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
-        if (response.hasError) {
-            [strongSelf completeWithError:response.error.error];
-        } else {
-            NSString *oldRefreshToken = strongSelf.credentials.refreshToken;
-            [strongSelf.credentials updateCredentials:[response asDictionary]];
-            if (response.additionalOAuthFields)
-                strongSelf.credentials.additionalOAuthFields = response.additionalOAuthFields;
-
-            // Resolve the account again after the asynchronous request. It may have been removed
-            // while the refresh was in flight, so the request-time account must not be reused.
-            BOOL refreshTokenRotated = strongSelf.credentials.refreshToken.length > 0
-                && ![strongSelf.credentials.refreshToken isEqualToString:oldRefreshToken];
-            SFUserAccount *account = nil;
-            if (refreshTokenRotated || strongSelf.completionBlock) {
-                account = [strongSelf accountForCredentials];
-            }
-
-            // Detect Refresh Token Rotation: server sent a new, different refresh token.
-            // During login (identity fetch) there is no account yet: still record the rotation on the
-            // credentials; finalizeAuthCompletion registers RT once the account exists.
-            if (refreshTokenRotated) {
-                strongSelf.credentials.lastTokenRotationDate = [NSDate date];
-                if (account) {
-                    [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureRTR forUser:account];
-                }
-            }
-
-            [strongSelf completeWithSuccessForAccount:account];
-        }
+        [strongSelf handleRefreshResponse:response];
     }];
+}
+
+- (void)handleRefreshResponse:(SFSDKOAuthTokenEndpointResponse *)response {
+    if (self.nativeRequestIsCurrent && ![NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^{ [self handleRefreshResponse:response]; });
+        return;
+    }
+    if (self.nativeRequestIsCurrent && !self.nativeRequestIsCurrent()) {
+        [self completeWithError:[NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorCancelled userInfo:nil]];
+        return;
+    }
+    if (response.hasError) {
+        [self completeWithError:response.error.error];
+    } else {
+        NSString *oldRefreshToken = self.credentials.refreshToken;
+        [self.credentials updateCredentials:[response asDictionary]];
+        if (response.additionalOAuthFields)
+            self.credentials.additionalOAuthFields = response.additionalOAuthFields;
+
+        // Resolve the account again after the asynchronous request. It may have been removed
+        // while the refresh was in flight, so the request-time account must not be reused.
+        BOOL refreshTokenRotated = self.credentials.refreshToken.length > 0
+            && ![self.credentials.refreshToken isEqualToString:oldRefreshToken];
+        SFUserAccount *account = nil;
+        if (refreshTokenRotated || self.completionBlock) {
+            account = [self accountForCredentials];
+        }
+
+        // Detect Refresh Token Rotation: server sent a new, different refresh token.
+        // During login (identity fetch) there is no account yet: still record the rotation on the
+        // credentials; finalizeAuthCompletion registers RT once the account exists.
+        if (refreshTokenRotated) {
+            self.credentials.lastTokenRotationDate = [NSDate date];
+            if (account) {
+                [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureRTR forUser:account];
+            }
+        }
+
+        [self completeWithSuccessForAccount:account];
+    }
 }
 
 #pragma mark - Private methods
