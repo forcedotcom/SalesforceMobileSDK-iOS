@@ -94,6 +94,31 @@ class SFSDKDPoPTests: XCTestCase {
         XCTAssertEqual(payload["htu"] as? String, "https://login.salesforce.com/services/oauth2/token")
     }
 
+    // WORKAROUND (W-24564590): remove the internal site path tests below once the server bug is fixed.
+    func test_givenInternalSitePath_whenBuildProof_thenHtuUsesPublicSitePath() throws {
+        let pair = try DPoPKeyStore.shared.keyPair(forScope: testScope)
+        let url = URL(string: "https://example.my.site.com/headlessvforcesite/services/oauth2/token?q=1")!
+        let proof = try DPoPProofBuilder.buildProof(httpMethod: "POST",
+                                                         htu: url,
+                                                         nonce: nil,
+                                                         keyPair: pair)
+        let payload = try decodeBase64UrlJSON(String(proof.split(separator: ".")[1]))
+        XCTAssertEqual(payload["htu"] as? String, "https://example.my.site.com/headless/services/oauth2/token")
+    }
+
+    func test_givenInternalSitePathOnly_whenHtu_thenPublicSitePathUsed() {
+        XCTAssertEqual(DPoPURL.htu(URL(string: "https://example.my.site.com/headlessvforcesite")!),
+                       "https://example.my.site.com/headless")
+    }
+
+    func test_givenVforcesiteOutsideFirstSegmentOrBare_whenHtu_thenUnchanged() {
+        for string in ["https://example.my.site.com/vforcesite/services/data/v66.0/",
+                       "https://example.my.site.com/headless/services/apexrest/vforcesite",
+                       "https://example.my.site.com/headlessvforcesitex/services/oauth2/token"] {
+            XCTAssertEqual(DPoPURL.htu(URL(string: string)!), string)
+        }
+    }
+
     func test_givenAccessTokenProvided_whenBuildProof_thenPayloadIncludesAth() throws {
         let pair = try DPoPKeyStore.shared.keyPair(forScope: testScope)
         let accessToken = "00DXX0000000000!ARQAQGyAccessTokenLiteralValue"
