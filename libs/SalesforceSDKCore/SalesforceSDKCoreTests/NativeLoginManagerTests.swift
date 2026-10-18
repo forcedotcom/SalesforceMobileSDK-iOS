@@ -401,18 +401,15 @@ final class NativeLoginManagerTests: XCTestCase {
             // while the native manager and captured request still use their native configuration.
             session.credentials.clientId = "boot-client"
             session.credentials.redirectUri = "bootapp://callback"
-            let config = URLSessionConfiguration.ephemeral
-            config.protocolClasses = [NativeIntentURLProtocol.self]
-            Network.setSessionConfiguration(config, identifier: identifier)
-            NativeIntentURLProtocol.requests = []
-            NativeIntentURLProtocol.onAuthorize = {
-                XCTAssertEqual(session.credentials.clientId, session.oauthRequest.oauthClientId)
-                XCTAssertEqual(session.credentials.redirectUri, session.oauthRequest.oauthCompletionUrl)
-            }
-            defer { NativeIntentURLProtocol.onAuthorize = nil }
+            ScriptedURLProtocol.installScripts([
+                .init(statusCode: 200, headers: nil, body: Data("{\"code\":\"test-code\",\"sfdc_community_url\":\"https://community.example.com/site\",\"sfdc_community_id\":\"community\"}".utf8)),
+                .init(statusCode: 400, headers: nil, body: Data("{\"error\":\"invalid_grant\"}".utf8))
+            ], identifier: identifier)
             let result = await manager.login(username: "native-test@example.com", password: "Test-password1")
             XCTAssertEqual(result, .unknownError, "Native session must reach token exchange despite boot-config mismatch")
-            let requests = NativeIntentURLProtocol.requests
+            XCTAssertEqual(session.credentials.clientId, session.oauthRequest.oauthClientId)
+            XCTAssertEqual(session.credentials.redirectUri, session.oauthRequest.oauthCompletionUrl)
+            let requests = ScriptedURLProtocol.capturedRequests(identifier: identifier)
             XCTAssertEqual(requests.count, 2)
             for request in requests {
                 XCTAssertNil(request.value(forHTTPHeaderField: "DPoP"))
