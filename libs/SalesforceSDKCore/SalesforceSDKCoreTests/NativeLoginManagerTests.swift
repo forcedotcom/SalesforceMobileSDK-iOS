@@ -31,14 +31,25 @@ import ObjectiveC
 
 final class NativeLoginManagerTests: XCTestCase {
     let nativeLoginManager = SalesforceManager.shared.useNativeLogin(withConsumerKey: "c", callbackUrl: "r", communityUrl: "l", nativeLoginViewController: UIViewController(), scene: nil)
+    private var networkIdentifiersBeforeTest = Set<String>()
+
+    private func sharedNetworkIdentifiers() -> Set<String> {
+        Set(Network.sharedInstanceIdentifiers()?.compactMap { $0 as? String } ?? [])
+    }
     
     override func setUpWithError() throws {
+        networkIdentifiersBeforeTest = sharedNetworkIdentifiers()
         _ = KeychainHelper.removeAll()
         BiometricAuthenticationManagerInternal.shared.locked = false
     }
     
     override func tearDownWithError() throws {
         UserAccountManager.shared.stopCurrentAuthentication()
+        // Native identity requests own uniquely named SFNetwork instances. Remove only instances
+        // created by this test so SFNetworkTests does not inherit an active request's session.
+        sharedNetworkIdentifiers()
+            .subtracting(networkIdentifiersBeforeTest)
+            .forEach { Network.removeSharedInstance(forIdentifier: $0) }
         _ = KeychainHelper.removeAll()
         UserAccountManager.shared.clearAllAccountState()
     }
@@ -1794,7 +1805,11 @@ private final class NativeIntentURLProtocol: URLProtocol {
                                              httpVersion: "HTTP/1.1", headerFields: nil) else { return }
         let body: Data
         if url.path.hasSuffix("authorize") {
-            DispatchQueue.main.sync { Self.onAuthorize?() }
+            if Thread.isMainThread {
+                Self.onAuthorize?()
+            } else {
+                DispatchQueue.main.sync { Self.onAuthorize?() }
+            }
             body = Data("{\"code\":\"test-code\",\"sfdc_community_url\":\"https://community.example.com/site\",\"sfdc_community_id\":\"community\"}".utf8)
         } else {
             body = Data("{\"error\":\"invalid_grant\"}".utf8)
