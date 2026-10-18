@@ -1004,6 +1004,60 @@ final class NativeLoginManagerTests: XCTestCase {
     }
 
     @MainActor
+    func test_givenInlineTokenParser_whenNativeLoginReturnsSuccess_thenOwningCredentialsArePopulatedBeforeIdentityFinishes() async throws {
+        for enabled in [true, false] {
+            try await withNativeSession(usesDPoP: enabled) { manager, session, identifier in
+                let original = try XCTUnwrap(class_getInstanceMethod(SFIdentityCoordinator.self, #selector(SFIdentityCoordinator.initiateIdentityDataRetrieval)))
+                let replacement = try XCTUnwrap(class_getInstanceMethod(SFIdentityCoordinator.self, #selector(SFIdentityCoordinator.nativeTestIdentityRetrieval)))
+                var identity: SFIdentityCoordinator?
+                NativeIdentityCapture.onRetrieve = { coordinator in
+                    identity = coordinator
+                    coordinator.setValue(true, forKey: "retrievingData")
+                }
+                method_exchangeImplementations(original, replacement)
+                defer {
+                    identity?.cancelRetrieval()
+                    method_exchangeImplementations(original, replacement)
+                    NativeIdentityCapture.onRetrieve = nil
+                }
+                let credentials = session.credentials
+                let scope = credentials.identifier
+                let accessToken = UUID().uuidString
+                let refreshToken = UUID().uuidString
+                let tokenType = enabled ? "DPoP" : "Bearer"
+                let instanceURL = "https://community.example.com"
+                let identityURL = "\(instanceURL)/id/00D000000000001/005000000000001"
+                let tokenData = try JSONSerialization.data(withJSONObject: [
+                    "access_token": accessToken, "refresh_token": refreshToken, "token_type": tokenType,
+                    "instance_url": instanceURL, "id": identityURL
+                ])
+                ScriptedURLProtocol.installScripts([
+                    .init(statusCode: 200, headers: nil, body: Data("{\"code\":\"test-code\",\"sfdc_community_url\":\"https://community.example.com/site\",\"sfdc_community_id\":\"community\"}".utf8)),
+                    .init(statusCode: 200, headers: nil, body: tokenData)
+                ], identifier: identifier)
+                XCTAssertNil(credentials.accessToken)
+                let result = await manager.login(username: "native-test@example.com", password: UUID().uuidString + "1a")
+                XCTAssertEqual(result, .success)
+                // No run-loop drain: success promises the real inline parser has already populated credentials.
+                XCTAssertTrue(session.credentials === credentials)
+                XCTAssertEqual(credentials.accessToken, accessToken)
+                XCTAssertEqual(credentials.refreshToken, refreshToken)
+                XCTAssertEqual(credentials.tokenType, tokenType)
+                XCTAssertEqual(credentials.instanceUrl?.absoluteString, instanceURL)
+                XCTAssertEqual(credentials.identityUrl?.absoluteString, identityURL)
+                XCTAssertEqual(credentials.identifier, scope)
+                let coordinator = try XCTUnwrap(identity)
+                XCTAssertTrue(coordinator.credentials === credentials)
+                XCTAssertTrue(coordinator.retrievingData, "Public success must not wait for identity completion")
+                XCTAssertTrue(session.isAuthenticating)
+                XCTAssertTrue(UserAccountManager.shared.userAccounts()?.isEmpty ?? true)
+                XCTAssertNil(UserAccountManager.shared.currentUserAccount)
+                XCTAssertEqual(ScriptedURLProtocol.capturedRequests(identifier: identifier).count, 2)
+            }
+        }
+    }
+
+    @MainActor
     private func withNativeSession(usesDPoP: Bool = true,
                                    execute: (NativeLoginManager, SFSDKAuthSession, String) async throws -> Void) async throws {
         let originalDPoP = SalesforceManager.shared.usesDPoP

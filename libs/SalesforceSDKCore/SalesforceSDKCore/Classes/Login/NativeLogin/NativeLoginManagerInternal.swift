@@ -32,6 +32,15 @@ let maximumUsernameLength = 80
 let minimumPasswordLength = 8
 let maximumPasswordLengthInBytes = 16000
 
+// takeUnretainedValue() assumes these internal methods' object returns follow
+// the documented ObjC +0 (autoreleased) convention, not a +1 ownership transfer.
+fileprivate enum NativeAuthenticationSelectors {
+    static let begin = NSSelectorFromString("beginNativeAuthentication:")
+    static let isCurrent = NSSelectorFromString("isCurrentNativeAuthentication:")
+    static let abandon = NSSelectorFromString("abandonNativeAuthentication:")
+    static let complete = NSSelectorFromString("completeNativeAuthentication:context:")
+}
+
 ///
 /// This class is internal to the Mobile SDK - don't instantiate in your application code!
 ///
@@ -66,7 +75,10 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         // Auth-session headers are private to Objective-C framework builds.
         var configuration: [String: Any] = ["clientId": clientId, "redirectUri": redirectUri, "loginUrl": loginUrl]
         configuration["scene"] = scene
-        let ownership = UserAccountManager.shared.perform(NSSelectorFromString("beginNativeAuthentication:"),
+        #if DEBUG
+        precondition(UserAccountManager.shared.responds(to: NativeAuthenticationSelectors.begin), "Missing internal native authentication begin bridge")
+        #endif
+        let ownership = UserAccountManager.shared.perform(NativeAuthenticationSelectors.begin,
                                                          with: configuration)?.takeUnretainedValue() as? NSDictionary
         let session = ownership?["session"] as? NSObject
         return AuthenticationContext(ownership: ownership,
@@ -76,13 +88,19 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
 
     private func isCurrentAuthentication(_ context: AuthenticationContext) -> Bool {
         guard let ownership = context.ownership else { return false }
-        return (UserAccountManager.shared.perform(NSSelectorFromString("isCurrentNativeAuthentication:"),
+        #if DEBUG
+        precondition(UserAccountManager.shared.responds(to: NativeAuthenticationSelectors.isCurrent), "Missing internal native authentication ownership bridge")
+        #endif
+        return (UserAccountManager.shared.perform(NativeAuthenticationSelectors.isCurrent,
                                                  with: ownership)?.takeUnretainedValue() as? NSNumber)?.boolValue == true
     }
 
     private func abandonAuthentication(_ context: AuthenticationContext) {
         guard let ownership = context.ownership else { return }
-        UserAccountManager.shared.perform(NSSelectorFromString("abandonNativeAuthentication:"), with: ownership)
+        #if DEBUG
+        precondition(UserAccountManager.shared.responds(to: NativeAuthenticationSelectors.abandon), "Missing internal native authentication abandon bridge")
+        #endif
+        UserAccountManager.shared.perform(NativeAuthenticationSelectors.abandon, with: ownership)
     }
 
     internal static func performCrypto<T>(_ work: @escaping () throws -> T) async throws -> T {
@@ -1092,9 +1110,12 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
                     
                 case .success(let tokenResponse): // Access token success.
                     // Create the successfully authorized user's session.
-                    guard let ownership = context.ownership,
-                          let completed = UserAccountManager.shared.perform(
-                            NSSelectorFromString("completeNativeAuthentication:context:"),
+                    guard let ownership = context.ownership else { return .unknownError }
+                    #if DEBUG
+                    precondition(UserAccountManager.shared.responds(to: NativeAuthenticationSelectors.complete), "Missing internal native authentication completion bridge")
+                    #endif
+                    guard let completed = UserAccountManager.shared.perform(
+                            NativeAuthenticationSelectors.complete,
                             with: tokenResponse.asData(), with: ownership)?.takeUnretainedValue() as? NSNumber,
                           completed.boolValue else { return .unknownError }
                     handedOff = true
