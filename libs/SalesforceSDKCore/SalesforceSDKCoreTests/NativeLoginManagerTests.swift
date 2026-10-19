@@ -32,19 +32,56 @@ import ObjectiveC
 final class NativeLoginManagerTests: XCTestCase {
     let nativeLoginManager = SalesforceManager.shared.useNativeLogin(withConsumerKey: "c", callbackUrl: "r", communityUrl: "l", nativeLoginViewController: UIViewController(), scene: nil)
     private var networkIdentifiersBeforeTest = Set<String>()
+    private var restoreBootstrap: (() -> Void)?
 
     private func sharedNetworkIdentifiers() -> Set<String> {
         Set(Network.sharedInstanceIdentifiers()?.compactMap { $0 as? String } ?? [])
     }
     
-    override func setUpWithError() throws {
+    @MainActor
+    override func setUp() async throws {
+        try await super.setUp()
         networkIdentifiersBeforeTest = sharedNetworkIdentifiers()
+        let sdk = SalesforceManager.shared
+        let uam = UserAccountManager.shared
+        let bootConfig = sdk.bootConfig
+        let selector = sdk.bootConfigRuntimeSelector
+        let clientId = uam.oauthClientID
+        let redirect = uam.oauthCompletionURL
+        let scopes = uam.scopes
+        let nativeEnabled = uam.nativeLoginEnabled
+        let fallback = uam.shouldFallbackToWebAuthentication
+        let config = try XCTUnwrap(BootConfig([
+            "remoteAccessConsumerKey": "bootstrap-test-app",
+            "oauthRedirectURI": "bootstrap-test://callback", "oauthScopes": ["api"]
+        ]))
+        sdk.bootConfig = config
+        sdk.bootConfigRuntimeSelector = nil
+        uam.oauthClientID = config.remoteAccessConsumerKey
+        uam.oauthCompletionURL = config.oauthRedirectURI
+        uam.scopes = config.oauthScopes
+        let original = try XCTUnwrap(class_getClassMethod(SFSDKWebViewStateManager.self,
+            NSSelectorFromString("removeSessionForcefullyWithCompletionHandler:")))
+        let replacement = try XCTUnwrap(class_getClassMethod(SFSDKWebViewStateManager.self,
+            #selector(SFSDKWebViewStateManager.nativeTestRemoveSession(_:))))
+        method_exchangeImplementations(original, replacement)
+        restoreBootstrap = {
+            method_exchangeImplementations(original, replacement)
+            sdk.bootConfig = bootConfig
+            sdk.bootConfigRuntimeSelector = selector
+            uam.oauthClientID = clientId
+            uam.oauthCompletionURL = redirect
+            uam.scopes = scopes
+            uam.nativeLoginEnabled = nativeEnabled
+            uam.shouldFallbackToWebAuthentication = fallback
+        }
         _ = KeychainHelper.removeAll()
         BiometricAuthenticationManagerInternal.shared.locked = false
     }
     
-    override func tearDownWithError() throws {
-        UserAccountManager.shared.stopCurrentAuthentication()
+    @MainActor
+    override func tearDown() async throws {
+        _ = await UserAccountManager.shared.stopCurrentAuthentication()
         // Native identity requests own uniquely named SFNetwork instances. Remove only instances
         // created by this test so SFNetworkTests does not inherit an active request's session.
         sharedNetworkIdentifiers()
@@ -52,6 +89,9 @@ final class NativeLoginManagerTests: XCTestCase {
             .forEach { Network.removeSharedInstance(forIdentifier: $0) }
         _ = KeychainHelper.removeAll()
         UserAccountManager.shared.clearAllAccountState()
+        restoreBootstrap?()
+        restoreBootstrap = nil
+        try await super.tearDown()
     }
     
     func testUsernameValidation() async {
@@ -670,11 +710,21 @@ final class NativeLoginManagerTests: XCTestCase {
 
     @MainActor
     func test_givenRealIdentityRefresh_whenResetBeforeLateResponse_thenNoNonceRetryOrKeyRecreation() async throws {
-        for scenario in 0...8 {
+        enum SimulatedFixtureError: Error { case afterTransportStarted }
+        for scenario in 0...9 {
             let status = [200, 400, 401, 0][scenario % 4]
             try await withNativeSession { manager, session, identifier in
                 let send = try XCTUnwrap(class_getInstanceMethod(Network.self, NSSelectorFromString("sendRequest:dataResponseBlock:")))
                 let capture = try XCTUnwrap(class_getInstanceMethod(Network.self, #selector(Network.nativeTestHoldLifecycleRequest(_:dataResponseBlock:))))
+                let refreshClass: AnyClass = try XCTUnwrap(NSClassFromString("SFSDKTokenRefreshCoordinator"))
+                let refresh = try XCTUnwrap(class_getInstanceMethod(refreshClass, NSSelectorFromString("refreshSessionForCredentials:completion:error:")))
+                let observeRefresh = try XCTUnwrap(class_getInstanceMethod(NSObject.self, #selector(NSObject.nativeTestObserveRealRefresh(_:completion:error:))))
+                let refreshCompleted = XCTestExpectation(description: "Real refresh completion delivered")
+                var didCompleteRefresh = false
+                NativeLifecycleCapture.onRefreshCompleted = {
+                    didCompleteRefresh = true
+                    refreshCompleted.fulfill()
+                }
                 NativeLifecycleCapture.requests = []
                 NativeLifecycleCapture.responses = []
                 let started = expectation(description: "Real OAuth refresh reached transport")
@@ -683,12 +733,16 @@ final class NativeLoginManagerTests: XCTestCase {
                     started.fulfill()
                 }
                 method_exchangeImplementations(send, capture)
+                method_exchangeImplementations(refresh, observeRefresh)
                 defer {
                     session.identityCoordinator.cancelRetrieval()
                     method_exchangeImplementations(send, capture)
+                    method_exchangeImplementations(refresh, observeRefresh)
+                    NativeLifecycleCapture.onRefreshCompleted = nil
                     NativeLifecycleCapture.onRefresh = nil
                     NativeLifecycleCapture.responses = []
                 }
+                do {
                 ScriptedURLProtocol.installScripts([
                     .init(statusCode: 200, headers: nil, body: Data("{\"code\":\"test-code\",\"sfdc_community_url\":\"https://community.example.com/site\",\"sfdc_community_id\":\"community\"}".utf8)),
                     .init(statusCode: 200, headers: nil, body: Data("{\"access_token\":\"test-token\",\"refresh_token\":\"test-refresh\",\"token_type\":\"DPoP\",\"instance_url\":\"https://community.example.com\",\"id\":\"https://community.example.com/id/00D000000000001/005000000000001\"}".utf8))
@@ -698,6 +752,7 @@ final class NativeLoginManagerTests: XCTestCase {
                 await fulfillment(of: [started], timeout: 5)
                 let request = try XCTUnwrap(NativeLifecycleCapture.requests.last)
                 let response = try XCTUnwrap(NativeLifecycleCapture.responses.last)
+                if scenario == 9 { throw SimulatedFixtureError.afterTransportStarted }
                 XCTAssertNotNil(request.value(forHTTPHeaderField: "DPoP"))
                 if scenario == 8 {
                     let replayed = expectation(description: "Active real refresh replays identity")
@@ -717,6 +772,7 @@ final class NativeLoginManagerTests: XCTestCase {
                     let success = try XCTUnwrap(HTTPURLResponse(url: url, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: ["DPoP-Nonce": "success-refresh-nonce"]))
                     try XCTUnwrap(NativeLifecycleCapture.responses.last)(Data("{\"access_token\":\"active-refreshed-token\",\"token_type\":\"DPoP\",\"instance_url\":\"https://community.example.com\"}".utf8), success, nil)
                     await fulfillment(of: [replayed], timeout: 5)
+                    await fulfillment(of: [refreshCompleted], timeout: 5)
                     XCTAssertEqual(session.credentials.accessToken, "active-refreshed-token")
                     XCTAssertTrue(DPoPKeyStore.shared.hasKeyPair(forCredentials: session.credentials))
                     XCTAssertEqual(DPoPNonceCache.shared.latest(forScope: session.credentials.identifier), "success-refresh-nonce")
@@ -741,15 +797,29 @@ final class NativeLoginManagerTests: XCTestCase {
                     }
                     await fulfillment(of: [delivered], timeout: 5)
                 }
-                for _ in 0..<6 {
-                    let drained = expectation(description: "Refresh continuation drained")
-                    DispatchQueue.main.async { drained.fulfill() }
-                    await fulfillment(of: [drained], timeout: 5)
-                }
+                await fulfillment(of: [refreshCompleted], timeout: 5)
                 XCTAssertEqual(NativeLifecycleCapture.requests.count, count, "Late real refresh must not retry transport")
                 XCTAssertEqual(session.credentials.accessToken, "test-token", "Cancelled refresh must not update credentials")
                 XCTAssertFalse(DPoPKeyStore.shared.hasKeyPair(forCredentials: session.credentials), "Late real OAuth retry must not recreate reclaimed key")
                 XCTAssertNil(DPoPNonceCache.shared.latest(forScope: session.credentials.identifier), "Late real OAuth response must not harvest nonce")
+                } catch {
+                    // Stop the owner before delivering cancellation, while both transport and
+                    // completion observation are still installed. Reset alone does not finish
+                    // the shared refresh entry; its held transport response must also be released.
+                    _ = await UserAccountManager.shared.stopCurrentAuthentication()
+                    if !didCompleteRefresh, let pendingResponse = NativeLifecycleCapture.responses.last {
+                        pendingResponse(nil, nil, NSError(domain: NSURLErrorDomain, code: NSURLErrorCancelled))
+                        await fulfillment(of: [refreshCompleted], timeout: 5)
+                    }
+                    if error is SimulatedFixtureError {
+                        XCTAssertTrue(didCompleteRefresh, "Throwing fixture cleanup must finish the shared real refresh before restoring hooks")
+                        XCTAssertEqual(session.credentials.accessToken, "test-token")
+                        XCTAssertFalse(DPoPKeyStore.shared.hasKeyPair(forCredentials: session.credentials))
+                        XCTAssertNil(DPoPNonceCache.shared.latest(forScope: session.credentials.identifier))
+                        return
+                    }
+                    throw error
+                }
             }
         }
     }
@@ -1084,6 +1154,8 @@ final class NativeLoginManagerTests: XCTestCase {
         session.oauthCoordinator.useNativeAuth = true
         UserAccountManager.shared.authSessions[session.sceneId as NSString] = session
         defer {
+            session.identityCoordinator.cancelRetrieval()
+            session.oauthCoordinator.stopAuthentication()
             SalesforceManager.shared.usesDPoP = originalDPoP
             Network.removeSharedInstance(forIdentifier: identifier)
             ScriptedURLProtocol.removeScripts(identifier: identifier)
@@ -1268,6 +1340,20 @@ final class NativeLoginManagerTests: XCTestCase {
                         method_exchangeImplementations(send, holdSend)
                         method_exchangeImplementations(authenticate, holdBrowser)
                         method_exchangeImplementations(network, holdNetwork)
+                        var nativeTasks: [Task<NativeLoginResult, Never>] = []
+                        func finishHeldWork() async {
+                            NativeFallbackCapture.onRequest = nil
+                            NativeFallbackCapture.onAuthenticate = nil
+                            NativeLifecycleCapture.onIdentity = nil
+                            _ = await uam.stopCurrentAuthentication()
+                            // Dropping these closures leaks RestClient.send's checked continuation.
+                            // Deliver cancellation while the fixture hooks and session state still exist.
+                            NativeFallbackCapture.responses.forEach { $0(Data(), "") }
+                            NativeLifecycleCapture.responses.forEach {
+                                $0(nil, nil, NSError(domain: NSURLErrorDomain, code: NSURLErrorCancelled))
+                            }
+                            for task in nativeTasks { _ = await task.value }
+                        }
                         defer {
                             method_exchangeImplementations(send, holdSend)
                             method_exchangeImplementations(authenticate, holdBrowser)
@@ -1291,6 +1377,7 @@ final class NativeLoginManagerTests: XCTestCase {
                             uam.clearAllAccountState()
                         }
 
+                        do {
                         let other = createUser()
                         other.credentials.tokenType = "DPoP"
                         let otherScope = other.credentials.identifier
@@ -1304,6 +1391,7 @@ final class NativeLoginManagerTests: XCTestCase {
                         let heldAuthorize = expectation(description: "Original native authorize held")
                         NativeFallbackCapture.onRequest = { heldAuthorize.fulfill() }
                         let oldTask = Task { await manager.login(username: "native-test@example.com", password: "Test-password1") }
+                        nativeTasks.append(oldTask)
                         await fulfillment(of: [heldAuthorize], timeout: 5)
                         NativeFallbackCapture.onRequest = nil
                         let originalAuthorize = try XCTUnwrap(NativeFallbackCapture.requests.first)
@@ -1398,6 +1486,7 @@ final class NativeLoginManagerTests: XCTestCase {
                         let freshAuthorizeHeld = expectation(description: "Fresh native authorize held")
                         NativeFallbackCapture.onRequest = { freshAuthorizeHeld.fulfill() }
                         let freshTask = Task { await freshManager.login(username: "native-test@example.com", password: "Fresh-password1") }
+                        nativeTasks.append(freshTask)
                         await fulfillment(of: [freshAuthorizeHeld], timeout: 5)
                         NativeFallbackCapture.onRequest = nil
                         let freshAuthorize = try XCTUnwrap(NativeFallbackCapture.requests.last)
@@ -1424,11 +1513,8 @@ final class NativeLoginManagerTests: XCTestCase {
                                 XCTAssertNotEqual(oldResult, .success)
                             }
                             uam.perform(NSSelectorFromString("resetAuthentication:"), with: originalSession)
-                            for _ in 0..<4 {
-                                let drained = expectation(description: "Stale continuation drained")
-                                DispatchQueue.main.async { drained.fulfill() }
-                                await fulfillment(of: [drained], timeout: 5)
-                            }
+                            // Native task completion above is the authorize/token boundary;
+                            // identity processing and reset are synchronous on main here.
                             XCTAssertEqual(NativeFallbackCapture.requests.count, count)
                             XCTAssertFalse(DPoPKeyStore.shared.hasKeyPair(forScope: oldScope))
                             XCTAssertNil(DPoPNonceCache.shared.latest(forScope: oldScope))
@@ -1483,7 +1569,12 @@ final class NativeLoginManagerTests: XCTestCase {
                         DPoPKeyStore.shared.delete(forScope: freshScope)
                         DPoPNonceCache.shared.clear(forScope: freshScope)
                         DPoPKeyStore.shared.delete(forScope: otherScope)
-                         DPoPNonceCache.shared.clear(forScope: otherScope)
+                          DPoPNonceCache.shared.clear(forScope: otherScope)
+                        } catch {
+                            await finishHeldWork()
+                            throw error
+                        }
+                        await finishHeldWork()
                      }
     }
 
@@ -1915,6 +2006,7 @@ private enum NativeLifecycleCapture {
     static var requests: [URLRequest] = []
     static var responses: [(Data?, URLResponse?, Error?) -> Void] = []
     static var onRefresh: (() -> Void)?
+    static var onRefreshCompleted: (() -> Void)?
     static var holdIdentity = false
     static var onIdentity: (() -> Void)?
 }
@@ -1934,9 +2026,12 @@ private extension RestClient {
             guard let credentials = OAuthCredentials(identifier: "fallback-transport", clientId: "native-dpop-test", encrypted: true),
                   let prepared = request.prepare(forSend: UserAccount(credentials: credentials)), let url = prepared.url else { return }
             NativeFallbackCapture.requests.append(prepared)
+            var pendingSuccess: SFRestResponseBlock? = successBlock
             NativeFallbackCapture.responses.append { data, nonce in
+                guard let callback = pendingSuccess else { return }
+                pendingSuccess = nil
                 let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: ["DPoP-Nonce": nonce])
-                successBlock(data, response)
+                callback(data, response)
             }
             NativeFallbackCapture.onRequest?()
         }
@@ -1949,7 +2044,28 @@ private extension SFOAuthCoordinator {
     }
 }
 
+private extension SFSDKWebViewStateManager {
+    @objc static func nativeTestRemoveSession(_ completion: @escaping () -> Void) {
+        // Cookie-store latency is not part of the native request/fallback contract.
+        completion()
+    }
+}
+
 private extension NSObject {
+    @objc func nativeTestObserveRealRefresh(_ credentials: OAuthCredentials,
+                                          completion: @escaping (OAuthCredentials) -> Void,
+                                          error: @escaping (NSError) -> Void) {
+        // Invoke the unchanged shared coordinator/refresher/attestation/OAuth pipeline.
+        let finished = NativeLifecycleCapture.onRefreshCompleted
+        nativeTestObserveRealRefresh(credentials, completion: { updated in
+            completion(updated)
+            finished?()
+        }, error: { failure in
+            error(failure)
+            finished?()
+        })
+    }
+
     @objc func nativeTestHoldIdentityRefresh(_ credentials: OAuthCredentials,
                                             completion: @escaping (OAuthCredentials) -> Void,
                                             error: @escaping (NSError) -> Void) {
@@ -1969,13 +2085,23 @@ private extension Network {
         if request.url?.path.hasPrefix("/id/") == true {
             NativeLifecycleCapture.onIdentity?()
             if NativeLifecycleCapture.holdIdentity {
-                NativeLifecycleCapture.responses.append(dataResponseBlock)
+                var pendingResponse: ((Data?, URLResponse?, Error?) -> Void)? = dataResponseBlock
+                NativeLifecycleCapture.responses.append { data, response, error in
+                    guard let callback = pendingResponse else { return }
+                    pendingResponse = nil
+                    callback(data, response, error)
+                }
                 return URLSession.shared.dataTask(with: request)
             }
             let response = request.url.flatMap { HTTPURLResponse(url: $0, statusCode: 403, httpVersion: "HTTP/1.1", headerFields: nil) }
             DispatchQueue.main.async { dataResponseBlock(Data(), response, nil) }
         } else {
-            NativeLifecycleCapture.responses.append(dataResponseBlock)
+            var pendingResponse: ((Data?, URLResponse?, Error?) -> Void)? = dataResponseBlock
+            NativeLifecycleCapture.responses.append { data, response, error in
+                guard let callback = pendingResponse else { return }
+                pendingResponse = nil
+                callback(data, response, error)
+            }
             NativeLifecycleCapture.onRefresh?()
         }
         return URLSession.shared.dataTask(with: request)
