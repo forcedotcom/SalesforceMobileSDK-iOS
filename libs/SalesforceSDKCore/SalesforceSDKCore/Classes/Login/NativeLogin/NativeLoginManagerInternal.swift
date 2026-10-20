@@ -178,10 +178,14 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
                         DPoPRequestDecorator.harvestNonce(from: response, requestURL: url, scope: scope)
                     }
                     let http = response as? HTTPURLResponse
+                    // A nonce can accompany an ordinary authentication failure. Only an
+                    // explicit challenge may replay the password/OTP or authorization code.
                     if attempt == 0,
+                       http?.statusCode == 400 || http?.statusCode == 401,
                        http?.value(forHTTPHeaderField: DPoPRequestDecorator.dpopNonceHeaderName)?.isEmpty == false,
-                       DPoPRequestDecorator.isNonceChallenge(statusCode: http?.statusCode ?? 0,
-                                                            body: body as? Data, response: response) {
+                       let data = body as? Data,
+                       let payload = (try? JSONSerialization.jsonObject(with: data)) as? [String: Any],
+                       payload["error"] as? String == DPoPRequestDecorator.nonceErrorCode {
                         continue
                     }
                 }

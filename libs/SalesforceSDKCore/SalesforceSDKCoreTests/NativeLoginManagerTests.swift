@@ -172,7 +172,7 @@ final class NativeLoginManagerTests: XCTestCase {
                 ScriptedURLProtocol.installScripts([
                     .init(statusCode: 400, headers: ["DPoP-Nonce": "authorize-nonce"], body: Data("{\"error\":\"use_dpop_nonce\"}".utf8)),
                     .init(statusCode: 200, headers: ["DPoP-Nonce": "success-nonce"], body: Data("{\"code\":\"test-code\",\"sfdc_community_url\":\"https://community.example.com/site\",\"sfdc_community_id\":\"community\"}".utf8)),
-                    .init(statusCode: 401, headers: ["DPoP-Nonce": "token-nonce"], body: Data()),
+                    .init(statusCode: 401, headers: ["DPoP-Nonce": "token-nonce"], body: Data("{\"error\":\"use_dpop_nonce\"}".utf8)),
                     .init(statusCode: 400, headers: nil, body: Data("{\"error\":\"invalid_grant\"}".utf8))
                 ], identifier: identifier)
                 let result: NativeLoginResult
@@ -213,6 +213,35 @@ final class NativeLoginManagerTests: XCTestCase {
                 }
                 XCTAssertNil(DPoPNonceCache.shared.latest(forScope: session.credentials.identifier))
                 XCTAssertFalse(DPoPKeyStore.shared.hasKeyPair(forCredentials: session.credentials))
+            }
+        }
+    }
+
+    @MainActor
+    func test_givenNativeNonChallenge401WithNonce_whenAuthorizeOrToken_thenDoesNotReplayCredentials() async throws {
+        for path in 0...2 {
+            for tokenEndpoint in [false, true] {
+                for body in ["{\"error\":\"invalid_client\"}", "{\"error\":\"invalid_grant\"}", "{}", "not-json",
+                             "{\"error_description\":\"use_dpop_nonce\"}"] {
+                    try await withNativeSession { manager, _, identifier in
+                        var scripts = [ScriptedURLProtocol.ScriptedResponse]()
+                        if tokenEndpoint {
+                            scripts.append(.init(statusCode: 200, headers: nil, body: Data("{\"code\":\"test-code\",\"sfdc_community_url\":\"https://community.example.com/site\",\"sfdc_community_id\":\"community\"}".utf8)))
+                        }
+                        scripts.append(.init(statusCode: 401, headers: ["DPoP-Nonce": "nonce"], body: Data(body.utf8)))
+                        scripts.append(.init(statusCode: 400, headers: nil, body: Data("{\"error\":\"invalid_grant\"}".utf8)))
+                        ScriptedURLProtocol.installScripts(scripts, identifier: identifier)
+                        let result: NativeLoginResult
+                        switch path {
+                        case 0: result = await manager.login(username: "native-test@example.com", password: UUID().uuidString + "1a")
+                        case 1: result = await manager.submitPasswordlessAuthorizationRequest(otp: "123456", otpIdentifier: "request-id", otpVerificationMethod: .sms)
+                        default: result = await manager.completeRegistration(otp: "123456", requestIdentifier: "request-id", otpVerificationMethod: .email)
+                        }
+                        XCTAssertNotEqual(result, .success)
+                        XCTAssertEqual(ScriptedURLProtocol.capturedRequests(identifier: identifier).count, tokenEndpoint ? 2 : 1,
+                                       "Unrelated 401 must not replay credentials: path=\(path) token=\(tokenEndpoint) body=\(body)")
+                    }
+                }
             }
         }
     }
@@ -1613,17 +1642,27 @@ final class NativeLoginManagerTests: XCTestCase {
 
     @MainActor
     func test_givenTerminalNonceResponses_whenNativeAuthorizationRuns_thenRetriesAtMostOnce() async throws {
-        for scenario in 0...2 {
-            try await withNativeSession { manager, _, identifier in
-                let headers = scenario == 0 ? nil : ["DPoP-Nonce": "challenge-nonce"]
-                let body = Data((scenario == 1 ? "{\"error\":\"invalid_grant\"}" : "{\"error\":\"use_dpop_nonce\"}").utf8)
-                ScriptedURLProtocol.installScripts([
-                    .init(statusCode: 400, headers: headers, body: body),
-                    .init(statusCode: 400, headers: headers, body: body)
-                ], identifier: identifier)
-                let result = await manager.login(username: "native-test@example.com", password: UUID().uuidString + "1a")
-                XCTAssertEqual(result, .invalidCredentials)
-                XCTAssertEqual(ScriptedURLProtocol.requestCount(identifier: identifier), scenario == 2 ? 2 : 1)
+        for tokenEndpoint in [false, true] {
+            for statusCode in [400, 401] {
+                for scenario in 0...2 {
+                    try await withNativeSession { manager, _, identifier in
+                        let headers = scenario == 0 ? nil : ["DPoP-Nonce": "challenge-nonce"]
+                        let body = Data((scenario == 1 ? "{\"error\":\"invalid_grant\"}" : "{\"error\":\"use_dpop_nonce\"}").utf8)
+                        var scripts = [ScriptedURLProtocol.ScriptedResponse]()
+                        if tokenEndpoint {
+                            scripts.append(.init(statusCode: 200, headers: nil, body: Data("{\"code\":\"test-code\",\"sfdc_community_url\":\"https://community.example.com/site\",\"sfdc_community_id\":\"community\"}".utf8)))
+                        }
+                        scripts.append(contentsOf: [
+                            .init(statusCode: statusCode, headers: headers, body: body),
+                            .init(statusCode: statusCode, headers: headers, body: body)
+                        ])
+                        ScriptedURLProtocol.installScripts(scripts, identifier: identifier)
+                        let result = await manager.login(username: "native-test@example.com", password: UUID().uuidString + "1a")
+                        XCTAssertEqual(result, tokenEndpoint ? .unknownError : .invalidCredentials)
+                        XCTAssertEqual(ScriptedURLProtocol.requestCount(identifier: identifier),
+                                       (tokenEndpoint ? 1 : 0) + (scenario == 2 ? 2 : 1))
+                    }
+                }
             }
         }
     }
