@@ -23,7 +23,7 @@ The primary classes are:
 
 **Entry point:** `SFOAuthCoordinator.beginTokenEndpointFlow`
 
-After browser authentication returns an authorization code, `SFOAuthCoordinator`:
+After web authentication (embedded WebView or system browser) returns an authorization code, `SFOAuthCoordinator`:
 
 1. Obtains an App Attestation assertion when attestation is enabled for the login domain.
 2. Creates `SFSDKOAuthTokenEndpointRequest` with the client ID, redirect URI, server URL,
@@ -84,7 +84,7 @@ is not treated as an abandoned pre-token attempt. Replacement-account cleanup mu
 its newly published credentials.
 
 `fallbackToWebAuthentication()` resets the native authentication and starts an independent
-browser flow. It transfers no native identifier, keypair, nonce or proof. The existing browser
+web flow. It transfers no native identifier, keypair, nonce or proof. The existing browser
 flow determines its own DPoP state; cancellation can return to a fresh Native Login. The
 normal account-completion path records token type and feature markers for native sessions too.
 
