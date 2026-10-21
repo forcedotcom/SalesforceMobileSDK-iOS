@@ -49,9 +49,9 @@ login, passwordless authorization completion and registration completion. These 
 requests do not use `SFOAuthCoordinator.beginTokenEndpointFlow` for the initial exchange.
 
 - Resolve the owning native auth session by scene, client ID, callback and normalized community
-  URL. `beginNativeAuthentication:` records a new attempt identity. The session's
-  `oauthRequest.useDPoP` captures the setting; toggling the process flag does not change an
-  in-flight session's posture.
+  URL. `beginNativeAuthentication:` records a new attempt identity. The native
+  `AuthenticationContext` captures `usesDPoP` from the session request's optional `useDPoP` override, otherwise from the current process flag. Later flag changes do
+  not alter that context during authorize/token exchange.
 - With DPoP enabled, use the session credentials identifier/keypair for both POSTs. Append
   `dpop_jkt` to the authorize form body and attach a proof. Parse a JSON response with code,
   community URL and community ID; then send a token POST using the configured native callback,
@@ -257,7 +257,8 @@ no private-key material is exported or held in plaintext.
 ## 5. DPoP Nonce Lifecycle
 
 `DPoPURL.htu()` strips query and fragment. Its temporary compatibility rewrite also removes
-`vforcesite` from the end of the first nonempty path segment, case-insensitively:
+`vforcesite` from the end of the first path segment immediately after the leading slash,
+case-insensitively, with a nonempty prefix before the suffix:
 `/sitevforcesite/services/oauth2/token` → `/site/services/oauth2/token`. A later segment or
 `/site/vforcesite/...` does not match. This affects proof `htu` and the nonce cache URL key,
 not the network destination; it applies to native, refresh and resource paths. Remove the
