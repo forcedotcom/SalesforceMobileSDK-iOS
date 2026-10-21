@@ -221,6 +221,17 @@ Set this block to handle presentation of the Authentication View Controller.
 
 - (SFSDKAuthRequest *)defaultAuthRequest;
 
+- (void)createNativeUserAccount:(NSData *)data authSession:(SFSDKAuthSession *)authSession;
+
+- (nullable SFSDKAuthSession *)nativeAuthSessionForConfiguration:(NSDictionary *)configuration;
+
+- (nullable NSDictionary *)beginNativeAuthentication:(NSDictionary *)configuration;
+- (NSDictionary *)nativeAuthenticationContextForSession:(SFSDKAuthSession *)session;
+- (NSNumber *)isCurrentNativeAuthentication:(NSDictionary *)context;
+- (nullable NSDictionary *)nativeIdentityAuthenticationContextForCredentials:(SFOAuthCredentials *)credentials;
+- (void)abandonNativeAuthentication:(NSDictionary *)context;
+- (NSNumber *)completeNativeAuthentication:(NSData *)data context:(NSDictionary *)context;
+
 
 - (BOOL)loginWithCompletion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock
                     failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock

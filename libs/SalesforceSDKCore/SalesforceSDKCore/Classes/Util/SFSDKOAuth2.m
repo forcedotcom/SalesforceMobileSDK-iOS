@@ -286,6 +286,16 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
  { "error":"invalid_grant","error_description":"authentication failure - Invalid Password" }
  */
 - (void)accessTokenForRefresh:(SFSDKOAuthTokenEndpointRequest *)endpointReq completion:(void (^)(SFSDKOAuthTokenEndpointResponse *)) completionBlock {
+    if (endpointReq.nativeRequestIsCurrent && ![NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^{ [self accessTokenForRefresh:endpointReq completion:completionBlock]; });
+        return;
+    }
+    if (endpointReq.nativeRequestIsCurrent && !endpointReq.nativeRequestIsCurrent()) {
+        if (completionBlock) {
+            completionBlock([[SFSDKOAuthTokenEndpointResponse alloc] initWithError:[NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorCancelled userInfo:nil]]);
+        }
+        return;
+    }
     NSMutableURLRequest *request = [self prepareBasicRequest:endpointReq];
     NSMutableString *params = [[NSMutableString alloc] initWithFormat:@"%@=%@&%@=%@&%@=%@&%@=%@",
                                kSFOAuthFormat, @"json",
@@ -400,7 +410,14 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
     __weak typeof(self) weakSelf = self;
     [network sendRequest:request dataResponseBlock:^(NSData *data, NSURLResponse *urlResponse, NSError *error) {
         [SFNetwork removeSharedInstanceForIdentifier:networkIdentifier];
+        void (^processResponse)(void) = ^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
+        // Reset and native proof/nonce/credential side effects share the main queue.
+        // Transport cancellation alone cannot reject a response already queued for delivery.
+        if (endpointReq.nativeRequestIsCurrent && !endpointReq.nativeRequestIsCurrent()) {
+            block(nil, nil, [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorCancelled userInfo:nil]);
+            return;
+        }
         if (error == nil && endpointReq.credentialsIdentifier.length > 0) {
             [SFSDKDPoPRequestDecorator harvestNonceFromResponse:urlResponse
                                                      requestURL:request.URL
@@ -422,6 +439,12 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
             }
         }
         block(data, urlResponse, error);
+        };
+        if (endpointReq.nativeRequestIsCurrent && ![NSThread isMainThread]) {
+            dispatch_async(dispatch_get_main_queue(), processResponse);
+        } else {
+            processResponse();
+        }
     }];
 }
 
