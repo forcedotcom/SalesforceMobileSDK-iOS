@@ -29,11 +29,6 @@
 		AUTH049 /* JwtTokenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AUTH050 /* JwtTokenView.swift */; };
 		AUTH051 /* InfoRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AUTH052 /* InfoRowView.swift */; };
 		AUTH054 /* ui_test_config.json in Resources */ = {isa = PBXBuildFile; fileRef = AUTH053 /* ui_test_config.json */; };
-		NATV00B00000000000000000 /* NativeLoginSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = NATV00A00000000000000000 /* NativeLoginSettings.swift */; };
-		NATV01B00000000000000000 /* NativeLoginDiagnostics.swift in Sources */ = {isa = PBXBuildFile; fileRef = NATV01A00000000000000000 /* NativeLoginDiagnostics.swift */; };
-		NATV02B00000000000000000 /* NativeLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = NATV02A00000000000000000 /* NativeLoginView.swift */; };
-		NATV03B00000000000000000 /* NativeLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = NATV03A00000000000000000 /* NativeLoginViewController.swift */; };
-		NATV04B00000000000000000 /* NativeLoginOptionsContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = NATV04A00000000000000000 /* NativeLoginOptionsContent.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,11 +80,6 @@
 		AUTH052 /* InfoRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoRowView.swift; sourceTree = "<group>"; };
 		AUTH053 /* ui_test_config.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ui_test_config.json; sourceTree = "<group>"; };
 		AUTH056 /* AuthFlowTester.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = AuthFlowTester.xctestplan; sourceTree = "<group>"; };
-		NATV00A00000000000000000 /* NativeLoginSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeLoginSettings.swift; sourceTree = "<group>"; };
-		NATV01A00000000000000000 /* NativeLoginDiagnostics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeLoginDiagnostics.swift; sourceTree = "<group>"; };
-		NATV02A00000000000000000 /* NativeLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeLoginView.swift; sourceTree = "<group>"; };
-		NATV03A00000000000000000 /* NativeLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeLoginViewController.swift; sourceTree = "<group>"; };
-		NATV04A00000000000000000 /* NativeLoginOptionsContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeLoginOptionsContent.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -168,7 +158,6 @@
 			isa = PBXGroup;
 			children = (
 				AUTH022 /* Classes */,
-				NATVGRP00000000000000000 /* Native */,
 				AUTH044 /* ViewControllers */,
 				AUTH039 /* Views */,
 				AUTH035 /* Resources */,
@@ -233,18 +222,6 @@
 			);
 			name = "Shared Test";
 			path = ../../../shared/test;
-			sourceTree = "<group>";
-		};
-		NATVGRP00000000000000000 /* Native */ = {
-			isa = PBXGroup;
-			children = (
-				NATV00A00000000000000000 /* NativeLoginSettings.swift */,
-				NATV01A00000000000000000 /* NativeLoginDiagnostics.swift */,
-				NATV02A00000000000000000 /* NativeLoginView.swift */,
-				NATV03A00000000000000000 /* NativeLoginViewController.swift */,
-				NATV04A00000000000000000 /* NativeLoginOptionsContent.swift */,
-			);
-			path = Native;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -356,11 +333,6 @@
 				AUTH003 /* SceneDelegate.swift in Sources */,
 				AUTH007 /* SessionDetailViewController.swift in Sources */,
 				AUTH037 /* UserCredentialsView.swift in Sources */,
-				NATV00B00000000000000000 /* NativeLoginSettings.swift in Sources */,
-				NATV01B00000000000000000 /* NativeLoginDiagnostics.swift in Sources */,
-				NATV02B00000000000000000 /* NativeLoginView.swift in Sources */,
-				NATV03B00000000000000000 /* NativeLoginViewController.swift in Sources */,
-				NATV04B00000000000000000 /* NativeLoginOptionsContent.swift in Sources */,
 				AUTH040 /* RestApiTestView.swift in Sources */,
 				4FE006B52EBEB94700CFD66F /* InitialViewController.swift in Sources */,
 				AUTH042 /* OAuthConfigurationView.swift in Sources */,

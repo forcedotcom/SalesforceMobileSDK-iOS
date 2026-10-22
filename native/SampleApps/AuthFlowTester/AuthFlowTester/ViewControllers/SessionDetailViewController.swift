@@ -32,7 +32,6 @@ struct SessionDetailView: View {
     @State private var refreshTrigger = UUID()
     @State private var showMigrateRefreshToken = false
     @State private var showAuthFlowTypes = false
-    @State private var showAuthenticationMode = false
     @State private var showLogoutConfirmation = false
     @State private var isUserCredentialsExpanded = false
     @State private var isJwtDetailsExpanded = false
@@ -87,7 +86,6 @@ struct SessionDetailView: View {
                 // OAuth Configuration Section
                 OAuthConfigurationView(isExpanded: $isOAuthConfigExpanded)
                     .id(refreshTrigger)
-
                                 
             }
             .padding()

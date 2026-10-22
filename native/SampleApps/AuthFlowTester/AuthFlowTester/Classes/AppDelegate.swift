@@ -65,11 +65,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UserAccountManager.shared.currentUserAccount?.credentials.setValue("invalid-access-token", forKey: "accessToken")
         }
         #endif
-        #if DEBUG
-        if NativeLoginSettings.shared.activeMode == .native {
-            NativeLoginDiagnostics.shared.install()
-        }
-        #endif
         SalesforceManager.shared.appDisplayName = "Auth Flow Tester"
         UserAccountManager.shared.navigationPolicyForAction = { webView, action in
             if let url = action.request.url, url.absoluteString == "https://www.salesforce.com/us/company/privacy" {
@@ -109,9 +104,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         self.window = UIWindow(frame: UIScreen.main.bounds)
-
-        // Adds the Authentication Mode picker (and Native Login settings) to the SDK's Login Options screen.
-        NativeLoginOptionsContent.install()
 
         // If you wish to register for push notifications, uncomment the line below.  Note that,
         // if you want to receive push notifications from Salesforce, you will also need to

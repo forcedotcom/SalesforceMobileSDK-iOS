@@ -28,26 +28,7 @@
 import SwiftUI
 import UIKit
 
-/// Lets an app extend the (debug-only) Login Options screen without changing its default behavior.
-/// With the defaults (no top content, `hidesDefaultSections == false`) the screen is unchanged.
-public final class LoginOptionsCustomization: ObservableObject {
-    /// SwiftUI content shown at the very top of the Login Options screen, above the default sections.
-    @Published public var topContent: AnyView?
-    /// When true, the default sections (flow types, DPoP, static/dynamic config, ...) are hidden
-    /// and only `topContent` is shown.
-    @Published public var hidesDefaultSections = false
-
-    public init() {}
-
-    /// Restores the default behavior.
-    public func reset() {
-        topContent = nil
-        hidesDefaultSections = false
-    }
-}
-
 public struct LoginOptionsView: View {
-    @ObservedObject private var customization = LoginOptionsViewController.customization
     @State internal var staticConsumerKey = ""
     @State internal var staticCallbackUrl = ""
     @State internal var staticScopes = ""
@@ -98,12 +79,6 @@ public struct LoginOptionsView: View {
             // Content
             ScrollView {
                     VStack(spacing: 30) {
-                        // App-provided content (see LoginOptionsCustomization)
-                        if let topContent = customization.topContent {
-                            topContent
-                        }
-
-                        if !customization.hidesDefaultSections {
                         // Flow types section
                         AuthFlowTypesView()
                             .padding(.top, 20)
@@ -157,7 +132,6 @@ public struct LoginOptionsView: View {
                                 onUseForSimulation: handleSimulatedDomainDiscovery,
                                 initiallyExpanded: false
                             )
-                        }
                         }
                     }
                     .padding(.bottom, 40)
@@ -302,9 +276,6 @@ struct TitleBarView: View {
 // MARK: - Objective-C Bridge
 
 @objc public class LoginOptionsViewController: NSObject {
-
-    /// Customization hook for the Login Options screen. Default: no change in behavior.
-    public static let customization = LoginOptionsCustomization()
 
     @objc(makeViewControllerOnConfigurationCompleted:)
     public static func makeViewController(onConfigurationCompleted: @escaping () -> Void) -> UIViewController {

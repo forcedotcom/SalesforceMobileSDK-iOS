@@ -59,33 +59,6 @@ class LoginOptionsViewControllerTests: XCTestCase {
         super.tearDown()
     }
     
-    func testCustomizationDefaultsAreNoOp() {
-        let customization = LoginOptionsViewController.customization
-        XCTAssertNil(customization.topContent)
-        XCTAssertFalse(customization.hidesDefaultSections)
-    }
-
-    func testCustomizationResetRestoresDefaults() {
-        let customization = LoginOptionsViewController.customization
-        defer { customization.reset() }
-        customization.topContent = AnyView(Text("custom"))
-        customization.hidesDefaultSections = true
-        XCTAssertNotNil(customization.topContent)
-        XCTAssertTrue(customization.hidesDefaultSections)
-        customization.reset()
-        XCTAssertNil(customization.topContent)
-        XCTAssertFalse(customization.hidesDefaultSections)
-    }
-
-    func testMakeViewControllerWithCustomizationCreatesController() {
-        let customization = LoginOptionsViewController.customization
-        defer { customization.reset() }
-        customization.topContent = AnyView(Text("custom"))
-        customization.hidesDefaultSections = true
-        let viewController = LoginOptionsViewController.makeViewController {}
-        XCTAssertTrue(viewController is UIHostingController<LoginOptionsView>)
-    }
-
     func testMakeViewControllerHasSheetPresentationConfiguration() {
         let viewController = LoginOptionsViewController.makeViewController {
             // No-op callback
