@@ -267,12 +267,67 @@ helper.
 | `test_givenCommunityDPoP_whenLoginViaInAppWebView_thenTokenTypeIsDPoP` | DPoP-bound token via the in-app WebView auth surface |
 | `test_givenCommunityNoDPoP_whenLoginViaInAppWebView_thenTokenTypeIsBearer` | Bearer token via the in-app WebView auth surface |
 
+#### NativeLoginTests
+Covers Native Login (`NativeLoginManager`) against the community login host, with the app's own
+SwiftUI native form (username, password, Cancel, Login Options and "Use Browser" fallback). Two
+headless ECAs are used: `eca_jwt_headless` accepts but does not require DPoP, and
+`eca_jwt_dpop_headless` requires it (`/authorize` without `dpop_jkt` is rejected with HTTP 400
+`invalid_request`). The four-case matrix has explicit expectations, independent of the ECA name:
+
+| ECA | Client DPoP | Expected |
+|-----|-------------|----------|
+| `eca_jwt_headless` | off | Bearer |
+| `eca_jwt_headless` | on | DPoP-bound |
+| `eca_jwt_dpop_headless` | off | Rejected, failure shown on the form, no account created |
+| `eca_jwt_dpop_headless` | on | DPoP-bound |
+
+Successful sessions are checked for the `NL`, `A5` and `L5` feature markers (plus `DP` only when
+DPoP is on, and no `B` markers), then a REST call, a revoke/refresh cycle, a cold restart and another
+refresh.
+
+Native Login cannot be turned off inside a running process, so the authentication mode is chosen per
+launch. Tests launch with `--authenticationMode=native`; a user switches mode from Login Options
+(Settings in the session screen, or the Login Options button on the native form) and relaunches.
+Native client settings (consumer key, callback URL, community login URL, DPoP and hybrid) are
+edited in that sheet; tests fill them with its JSON import button.
+
+| Test | Notes |
+|------|-------|
+| `testNativeLoginConfigIsValid` | The `nativeLogin` entry resolves (host, user, both apps, keys, HTTPS redirect URIs). Fails, never skips, when the entry is malformed |
+| `test_givenOptionalEca_whenDPoPOff_thenBearer` | Matrix case 1 |
+| `test_givenOptionalEca_whenDPoPOn_thenDPoP` | Matrix case 2 |
+| `test_givenRequiredEca_whenDPoPOff_thenRejectedNoAccount` | Matrix case 3; failure result and redacted diagnostics on the form; main page never loads |
+| `test_givenRequiredEca_whenDPoPOn_thenDPoP` | Matrix case 4 |
+| `test_givenRejection_whenRetryWithDPoP_thenSucceeds` | After a rejection, turning DPoP on and retrying succeeds |
+| `test_givenLoggedInUser_whenCancelAddUserForm_thenStaysLoggedIn` | Cancel is offered with an existing account and returns to it |
+| `test_givenNoUser_whenNativeFormShown_thenNoCancelButton` | No Cancel without an account |
+| `test_givenNativeForm_whenBrowserFallback_thenWebLoginShown` | "Use Browser" hands off to web authentication |
+| `test_givenSameUser_whenDPoPThenBearerReauth_thenBearerWithoutDPoPMarker` | Same user, DPoP login, logout, Bearer login: no `DP` carry-over, also after a restart |
+| `test_givenNativeForm_whenBackgroundedAndReactivated_thenLoginStillWorks` | Home and reactivate mid-form |
+| `test_givenFailedLogin_whenDiagnosticsShown_thenRedacted` | Diagnostics name the authorize stage and contain no tokens, nonces, codes or passwords |
+
+The form shows redacted diagnostics (stage, whether a DPoP proof was sent, nonce challenges, retries
+and HTTP status). `NativeLoginResult` carries no HTTP status, so this is the only rejection detail
+available; the diagnostics are produced by an app-side `SFNetwork` metrics observer.
+
+Requires a `nativeLogin` entry in `ui_test_config.json` (see Configuration below); skips cleanly
+via `XCTSkip` when the entry is absent.
+
+Run only this suite:
+
+```bash
+xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme AuthFlowTester \
+  -destination 'platform=iOS Simulator,name=iPhone 17' \
+  -only-testing:'AuthFlowTesterUITests/NativeLoginTests'
+```
+
 ### Launch arguments
 
 Tests can pass extra launch arguments through `extraLaunchArguments` (or `restart(withLaunchArguments:)`).
 
 | Argument | Effect |
 |----------|--------|
+| `--authenticationMode=native\|browser` | Debug/UI-test-only. Selects the authentication mode for this launch; without it the mode saved from Login Options is used. `native` registers the app's native login form for each scene before login starts. Used by `NativeLoginTests`. |
 | `--captureTokenRequestUserAgent` | Debug/UI-test-only `SFNetwork` metrics observer. The app records the User-Agent and URL (scheme, host, path) of the last `/services/oauth2/token` request and shows them as `Last Token Request User Agent` and `Last Token Request URL`. Used by `RTRLoginTests` and `CommunityLoginTests`. |
 
 ### Identity request diagnostics (`IDENTITY_ATTEMPTS`)
@@ -341,6 +396,7 @@ value rather than inferring request behavior from the user agent recomputed afte
 - **App configs**: `ecaOpaque`, `ecaJwt`, `ecaOpaqueRtr`, `ecaJwtRtr`, `ecaJwtDpop`, `ecaJwtDpopRtr`, `beaconOpaque`, `beaconJwt`, `caOpaque`
 - **Login hosts**: `regularAuth` (in-app WKWebView), `advancedAuth` (ASWebAuthenticationSession), `communityAuth` (community/Experience Cloud login server; browser by default, in-app WKWebView when `forceAdvancedAuthentication: false`)
 - **Users**: `first` through `fifth`
+- **Native Login**: optional `nativeLogin` entry naming the login host (`community_auth`), the `optionalDPoPApp` (`eca_jwt_headless`) and the `requiredDPoPApp` (`eca_jwt_dpop_headless`). Both apps need an `https://` redirect URI. Credentials are not duplicated: the user is the host's first user.
 
 ### Scope selections
 

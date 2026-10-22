@@ -1666,7 +1666,7 @@ class BaseAuthFlowTester: XCTestCase {
         }
     }
     
-    private func getAppConfig(named name: KnownAppConfig) -> AppConfig {
+    func getAppConfig(named name: KnownAppConfig) -> AppConfig {
         do {
             return try testConfig.getApp(named: name)
         } catch {
@@ -1816,5 +1816,167 @@ class BaseAuthFlowTester: XCTestCase {
             .filter { !$0.isEmpty }
             .sorted()
         return scopes.joined(separator: " ")
+    }
+}
+
+// MARK: - Native Login Support
+//
+// Native Login cannot be turned off inside a running process, so the app picks its authentication
+// mode per launch (`--authenticationMode=native`). These helpers live in this file because `app`,
+// `loginPage` and `mainPage` are private. See `NativeLoginTests`.
+
+extension BaseAuthFlowTester {
+
+    /// Page object for the app-owned Native Login form and its options sheet.
+    var nativeLoginPage: NativeLoginPageObject {
+        return NativeLoginPageObject(testApp: app)
+    }
+
+    /// Launches the app in Native mode (fresh state) and waits for the native form.
+    func launchNative() {
+        if !extraLaunchArguments.contains(NativeLoginPageObject.nativeModeArgument) {
+            extraLaunchArguments.append(NativeLoginPageObject.nativeModeArgument)
+        }
+        launch()
+        XCTAssertTrue(nativeLoginPage.isShowingForm(), "Native login form did not appear after launching in Native mode")
+    }
+
+    /// Applies the Native client (ECA, community, DPoP and hybrid choice) through the options sheet.
+    func configureNative(setup: NativeLoginSetup, app appName: KnownAppConfig, useDPoP: Bool, useHybridFlow: Bool = true) {
+        let appConfig = nativeAppConfig(setup: setup, app: appName)
+        nativeLoginPage.configure(
+            consumerKey: appConfig.consumerKey,
+            redirectUri: appConfig.redirectUri,
+            communityUrl: setup.communityUrl,
+            useDPoP: useDPoP,
+            useHybridFlow: useHybridFlow
+        )
+    }
+
+    /// Types the configured user's credentials into the native form and submits.
+    func submitNativeCredentials(setup: NativeLoginSetup) {
+        nativeLoginPage.submit(username: setup.user.username, password: setup.user.password)
+    }
+
+    /// Launches in Native mode, configures, logs in, and validates the outcome.
+    func loginNativeAndValidate(setup: NativeLoginSetup, app appName: KnownAppConfig, useDPoP: Bool, useHybridFlow: Bool = true, expectation: NativeLoginExpectation) {
+        launchNative()
+        configureNative(setup: setup, app: appName, useDPoP: useDPoP, useHybridFlow: useHybridFlow)
+        submitNativeCredentials(setup: setup)
+        seedNativeRTRState(setup: setup, app: appName)
+        switch expectation {
+        case .rejected:
+            assertNativeLoginRejected()
+        case .bearer, .dpop:
+            validateNativeSession(setup: setup, app: appName, useHybridFlow: useHybridFlow, expectDPoP: expectation == .dpop)
+        }
+    }
+
+    /// Asserts that the attempt was rejected: the form is still showing, a failure result and
+    /// redacted detail are visible, and no account was created (main page never loads).
+    func assertNativeLoginRejected() {
+        let result = nativeLoginPage.result()
+        XCTAssertNotNil(result, "Expected a failure result on the native form")
+        XCTAssertNotEqual(result, "success", "Login must not succeed")
+        XCTAssertTrue(nativeLoginPage.isShowingForm(timeout: UITestTimeouts.long), "Native form should still be showing after a rejection")
+        let detail = nativeLoginPage.errorDetail()
+        XCTAssertFalse(detail.isEmpty, "Expected redacted failure detail on the form")
+        assertNativeDiagnosticsAreRedacted()
+        assertNativeNoAccountCreated()
+    }
+
+    /// No account: the authenticated main page never appears.
+    func assertNativeNoAccountCreated() {
+        XCTAssertFalse(mainPage.isShowing(), "No account should exist after a rejected native login")
+    }
+
+    /// Validates the session after a successful native login: identity, token type, markers
+    /// (NL, A5, L5, DP iff DPoP, no B markers), then a REST call.
+    @discardableResult
+    func validateNativeSession(setup: NativeLoginSetup, app appName: KnownAppConfig, useHybridFlow: Bool = true, expectDPoP: Bool) -> UserCredentialsData {
+        let credentials = validateUser(
+            loginHost: .communityAuth,
+            user: .first,
+            userAppConfigName: appName,
+            userScopeSelection: .empty,
+            useWebServerFlow: true,
+            useHybridFlow: useHybridFlow,
+            expectedLMarker: kLoginServerOther,
+            expectedAMarker: kAuthTypeNative,
+            expectDP: expectDPoP
+        )
+        assertNativeNLMarker(credentials)
+        if expectDPoP {
+            XCTAssertEqual(credentials.dpopTokenType, "DPoP", "Expected a DPoP-bound token type")
+        } else {
+            XCTAssertNotEqual(credentials.dpopTokenType, "DPoP", "Expected a Bearer token type")
+        }
+        XCTAssertTrue(makeRestRequest(), "REST request should succeed with the native session")
+        return credentials
+    }
+
+    /// Revoke/refresh cycle for a native session.
+    func assertNativeRevokeAndRefresh(app appName: KnownAppConfig, useHybridFlow: Bool = true, expectDPoP: Bool) {
+        let appConfig = nativeAppConfig(app: appName)
+        assertRevokeAndRefreshWorks(
+            previousCredentials: getUserCredentials(),
+            expectsRefreshTokenRotation: appConfig.expectsRefreshTokenRotation,
+            isDPoP: expectDPoP,
+            loginHost: .communityAuth,
+            expectAdvancedAuth: false,
+            expectedLMarker: kLoginServerOther,
+            expectedAMarker: kAuthTypeNative,
+            isJwt: appConfig.issuesJwt
+        )
+    }
+
+    /// Cold restart (session persists) in the same mode, then validate and refresh again.
+    func restartNativeAndValidate(setup: NativeLoginSetup, app appName: KnownAppConfig, useHybridFlow: Bool = true, expectDPoP: Bool) {
+        restart()
+        validateNativeSession(setup: setup, app: appName, useHybridFlow: useHybridFlow, expectDPoP: expectDPoP)
+    }
+
+    /// Sends the app to the background and brings it back (scene disconnect-free lifecycle).
+    func sendAppToBackgroundAndBack() {
+        XCUIDevice.shared.press(.home)
+        app.activate()
+    }
+
+    /// True when a browser-based or in-app web login surface is showing.
+    func isShowingAnyWebLogin() -> Bool {
+        return loginPage.isShowingBrowserLogin(timeout: UITestTimeouts.long)
+            || loginPage.isShowingLoginViewController(timeout: UITestTimeouts.long)
+    }
+
+    /// Fails if the diagnostics text on the form contains anything resembling a secret.
+    func assertNativeDiagnosticsAreRedacted() {
+        let text = nativeLoginPage.diagnostics() + "\n" + nativeLoginPage.errorDetail()
+        let forbidden = ["access_token", "refresh_token", "code_verifier", "DPoP-Nonce:", "eyJ", "password"]
+        for token in forbidden {
+            XCTAssertFalse(text.contains(token), "Diagnostics must not contain '\(token)'")
+        }
+    }
+
+    /// Mirrors what `login()` records so the RT marker expectation exists for the native user.
+    /// Called after a login is submitted (also for later re-logins of the same user).
+    func seedNativeRTRState(setup: NativeLoginSetup, app appName: KnownAppConfig) {
+        expectedRTRFeatureMarkerByUsername[setup.user.username] = false
+        if getAppConfig(named: appName).expectsRefreshTokenRotation {
+            rtrMarkerSeedPendingUsernames.insert(setup.user.username)
+        }
+    }
+
+    private func assertNativeNLMarker(_ credentials: UserCredentialsData) {
+        let ua = credentials.userAgent
+        guard let range = ua.range(of: "ftr_") else {
+            XCTFail("No ftr_ marker set in user agent: \(ua)")
+            return
+        }
+        let flags = Set(String(ua[range.upperBound...]).components(separatedBy: " ").first?.components(separatedBy: ".") ?? [])
+        XCTAssertTrue(flags.contains("NL"), "Expected NL marker for a native login session; flags: \(flags)")
+    }
+
+    private func nativeAppConfig(setup: NativeLoginSetup? = nil, app appName: KnownAppConfig) -> AppConfig {
+        return getAppConfig(named: appName)
     }
 }

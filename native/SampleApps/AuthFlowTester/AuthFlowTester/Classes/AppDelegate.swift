@@ -65,6 +65,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UserAccountManager.shared.currentUserAccount?.credentials.setValue("invalid-access-token", forKey: "accessToken")
         }
         #endif
+        #if DEBUG
+        if NativeLoginSettings.shared.activeMode == .native {
+            NativeLoginDiagnostics.shared.install()
+        }
+        #endif
         SalesforceManager.shared.appDisplayName = "Auth Flow Tester"
         UserAccountManager.shared.navigationPolicyForAction = { webView, action in
             if let url = action.request.url, url.absoluteString == "https://www.salesforce.com/us/company/privacy" {

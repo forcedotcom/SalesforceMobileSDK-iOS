@@ -124,6 +124,23 @@
             "consumerKey": "your_consumer_key_here",
             "redirectUri": "ecajwtdpoprtr://success/done",
             "scopes": "api content id lightning refresh_token sfap_api web"
+        },
+        {
+            "name": "eca_jwt_headless",
+            "consumerKey": "your_consumer_key_here",
+            "redirectUri": "https://authflowtestingmsdksdb38.test1.my.pc-rnd.site.com/customerportal/services/oauth2/echo",
+            "scopes": "api content id lightning refresh_token sfap_api web"
+        },
+        {
+            "name": "eca_jwt_dpop_headless",
+            "consumerKey": "your_consumer_key_here",
+            "redirectUri": "https://authflowtestingmsdksdb38.test1.my.pc-rnd.site.com/customerportal/services/oauth2/echo",
+            "scopes": "api content id lightning refresh_token sfap_api web"
         }
-    ]
+    ],
+    "nativeLogin": {
+        "loginHost": "community_auth",
+        "optionalDPoPApp": "eca_jwt_headless",
+        "requiredDPoPApp": "eca_jwt_dpop_headless"
+    }
 }

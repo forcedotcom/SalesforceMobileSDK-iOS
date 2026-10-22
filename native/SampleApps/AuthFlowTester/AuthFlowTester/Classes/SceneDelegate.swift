@@ -50,6 +50,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // On iOS 26, XCTest requires the app to reach foreground-ready state quickly;
         // starting the WKWebView-based login synchronously can exceed the background
         // assertion timeout (~60 s on CI) and fail the launch.
+        // Native Login must be registered for the scene before authentication starts.
+        NativeLoginSettings.shared.applyIfNative(scene: scene)
         DispatchQueue.main.async {
             AuthHelper.loginIfRequired(scene) {
                 self.setupRootViewController()
@@ -62,6 +64,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This occurs shortly after the scene enters the background, or when its session is discarded.
         // Release any resources associated with this scene that can be re-created the next time the scene connects.
         // The scene may re-connect later, as its session was not neccessarily discarded (see `application:didDiscardSceneSessions` instead).
+        NativeLoginSettings.shared.release(scene: scene)
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) {

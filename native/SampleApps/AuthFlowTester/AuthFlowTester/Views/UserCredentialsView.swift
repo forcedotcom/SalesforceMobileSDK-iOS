@@ -233,6 +233,8 @@ struct UserCredentialsView: View {
                     InfoSectionView(title: CredentialsLabels.sdk, isExpanded: $sdkSectionExpanded) {
                         InfoRowView(label: "User Agent", value: userAgentString)
                             .accessibilityIdentifier("userAgent")
+                        InfoRowView(label: "Authentication Mode", value: NativeLoginSettings.shared.activeMode.title)
+                            .accessibilityIdentifier("authenticationModeRow")
                         #if DEBUG
                         if !lastTokenRequestUserAgent.isEmpty {
                             InfoRowView(label: "Last Token Request User Agent", value: lastTokenRequestUserAgent)
