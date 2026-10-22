@@ -128,13 +128,13 @@
         {
             "name": "eca_jwt_headless",
             "consumerKey": "your_consumer_key_here",
-            "redirectUri": "https://authflowtestingmsdksdb38.test1.my.pc-rnd.site.com/customerportal/services/oauth2/echo",
+            "redirectUri": "https://<your-community>.my.site.com/<path>/services/oauth2/echo",
             "scopes": "api content id lightning refresh_token sfap_api visualforce web"
         },
         {
             "name": "eca_jwt_dpop_headless",
             "consumerKey": "your_consumer_key_here",
-            "redirectUri": "https://authflowtestingmsdksdb38.test1.my.pc-rnd.site.com/customerportal/services/oauth2/echo",
+            "redirectUri": "https://<your-community>.my.site.com/<path>/services/oauth2/echo",
             "scopes": "api content id lightning refresh_token sfap_api visualforce web"
         }
     ]
