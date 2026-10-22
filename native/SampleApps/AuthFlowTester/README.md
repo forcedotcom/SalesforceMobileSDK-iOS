@@ -282,14 +282,14 @@ headless ECAs are used: `eca_jwt_headless` accepts but does not require DPoP, an
 | `eca_jwt_dpop_headless` | on | DPoP-bound |
 
 Successful sessions are checked for the `NL`, `A5` and `L5` feature markers (plus `DP` only when
-DPoP is on, and no `B` markers), then a REST call, a revoke/refresh cycle, a cold restart and another
+DPoP is on, and no `B` markers; the Android SDK registers no `L` marker for Native Login), then a REST call, a revoke/refresh cycle, a cold restart and another
 refresh.
 
 Native Login is an SDK debug feature, not AuthFlowTester code: the **Authentication Mode** picker
 (Browser / Native) at the top of the SDK's Login Options screen (debug builds with developer support;
 reached from the web login screen, the developer menu, or the Login Options button on the native
 form) selects it, with its own client settings (Client ID, Native Callback URL, Community Login URL,
-Use DPoP, Use Hybrid). In Native mode the browser-only sections are hidden. Settings are saved as
+Use DPoP, Use Hybrid Authentication). In Native mode the browser-only sections are hidden. Settings are saved as
 edited, apart from the browser configuration, and closing Login Options restarts authentication.
 They are kept in `SalesforceManager.shared.debugLoginSettings`. Tests launch with
 `--nativeLoginConfig=<json>` and change apps or DPoP mid-run with the JSON import button.
@@ -424,7 +424,7 @@ A valid `shared/test/ui_test_config.json` is required. Copy the sample and fill 
 cp shared/test/ui_test_config.json.sample shared/test/ui_test_config.json
 ```
 
-For full setup instructions, credential values, and cross-platform notes see the internal workspace doc: [`docs/auth/auth-ui-testing.md`](https://git.soma.salesforce.com/SalesforceMobileSDK/SalesforceMobileSDK-Workspace/blob/main/docs/auth/auth-ui-testing.md).
+For full setup instructions, credential values, and cross-platform notes see the internal workspace doc: [`docs/auth/AUTH_UI_TESTING.md`](https://git.soma.salesforce.com/SalesforceMobileSDK/SalesforceMobileSDK-Workspace/blob/main/docs/auth/AUTH_UI_TESTING.md).
 
 ## B- and L-markers in `ftr_`
 
