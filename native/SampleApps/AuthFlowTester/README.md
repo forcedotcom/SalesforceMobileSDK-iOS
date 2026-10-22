@@ -268,8 +268,8 @@ helper.
 | `test_givenCommunityNoDPoP_whenLoginViaInAppWebView_thenTokenTypeIsBearer` | Bearer token via the in-app WebView auth surface |
 
 #### NativeLoginTests
-Covers Native Login (`NativeLoginManager`) against the community login host, with the app's own
-SwiftUI native form (username, password, Cancel, Login Options and "Use Browser" fallback). Two
+Covers Native Login (`NativeLoginManager`) against the community login host, with the SDK's debug
+Native Login form (username, password, Cancel, Login Options and "Log In with Browser" fallback). Two
 headless ECAs are used: `eca_jwt_headless` accepts but does not require DPoP, and
 `eca_jwt_dpop_headless` requires it (`/authorize` without `dpop_jkt` is rejected with HTTP 400
 `invalid_request`). The four-case matrix has explicit expectations, independent of the ECA name:
@@ -285,33 +285,35 @@ Successful sessions are checked for the `NL`, `A5` and `L5` feature markers (plu
 DPoP is on, and no `B` markers), then a REST call, a revoke/refresh cycle, a cold restart and another
 refresh.
 
-Native Login cannot be turned off inside a running process, so the authentication mode is chosen per
-launch. Tests launch with `--authenticationMode=native`; a user switches mode with the
-Authentication Mode picker at the top of the SDK's Login Options screen (debug builds only; reached
-from the web login screen, the developer menu, or the Login Options button on the native form) and
-relaunches. AuthFlowTester injects the picker and the Native Login client settings (Client ID,
-Native Callback URL, Community Login URL, hybrid, DPoP) through `LoginOptionsViewController.customization`;
-in Native mode the SDK's browser-only sections are hidden. Settings take effect on Apply; tests fill
-them with the JSON import button.
+Native Login is an SDK debug feature, not AuthFlowTester code: the **Authentication Mode** picker
+(Browser / Native) at the top of the SDK's Login Options screen (debug builds with developer support;
+reached from the web login screen, the developer menu, or the Login Options button on the native
+form) selects it, with its own client settings (Client ID, Native Callback URL, Community Login URL,
+Use DPoP, Use Hybrid). In Native mode the browser-only sections are hidden. Settings are saved as
+edited, apart from the browser configuration, and closing Login Options restarts authentication.
+They are kept in `SalesforceManager.shared.debugLoginSettings`. Tests launch with
+`--nativeLoginConfig=<json>` and change apps or DPoP mid-run with the JSON import button.
 
 | Test | Notes |
 |------|-------|
 | `testNativeLoginConfigIsValid` | The `nativeLogin` entry resolves (host, user, both apps, keys, HTTPS redirect URIs). Fails, never skips, when the entry is malformed |
 | `test_givenOptionalEca_whenDPoPOff_thenBearer` | Matrix case 1 |
 | `test_givenOptionalEca_whenDPoPOn_thenDPoP` | Matrix case 2 |
-| `test_givenRequiredEca_whenDPoPOff_thenRejectedNoAccount` | Matrix case 3; failure result and redacted diagnostics on the form; main page never loads |
+| `test_givenRequiredEca_whenDPoPOff_thenRejectedNoAccount` | Matrix case 3; HTTP 400 `invalid_request` naming the missing `dpop_jkt` (not `invalid_grant`) on the form, redacted diagnostics, main page never loads |
 | `test_givenRequiredEca_whenDPoPOn_thenDPoP` | Matrix case 4 |
 | `test_givenRejection_whenRetryWithDPoP_thenSucceeds` | After a rejection, turning DPoP on and retrying succeeds |
 | `test_givenLoggedInUser_whenCancelAddUserForm_thenStaysLoggedIn` | Cancel is offered with an existing account and returns to it |
 | `test_givenNoUser_whenNativeFormShown_thenNoCancelButton` | No Cancel without an account |
-| `test_givenNativeForm_whenBrowserFallback_thenWebLoginShown` | "Use Browser" hands off to web authentication |
+| `test_givenNativeForm_whenBrowserFallback_thenWebLoginShown` | "Log In with Browser" hands off to web authentication |
 | `test_givenSameUser_whenDPoPThenBearerReauth_thenBearerWithoutDPoPMarker` | Same user, DPoP login, logout, Bearer login: no `DP` carry-over, also after a restart |
 | `test_givenNativeForm_whenBackgroundedAndReactivated_thenLoginStillWorks` | Home and reactivate mid-form |
 | `test_givenFailedLogin_whenDiagnosticsShown_thenRedacted` | Diagnostics name the authorize stage and contain no tokens, nonces, codes or passwords |
 
-The form shows redacted diagnostics (stage, whether a DPoP proof was sent, nonce challenges, retries
-and HTTP status). `NativeLoginResult` carries no HTTP status, so this is the only rejection detail
-available; the diagnostics are produced by an app-side `SFNetwork` metrics observer.
+The form shows redacted diagnostics for each authorize/token attempt (stage, HTTP status, OAuth error
+and description, whether a DPoP proof was sent, nonce challenges and retries), recorded by the SDK's
+internal `NativeLoginDiagnostics` in debug builds. `NativeLoginResult` carries no HTTP status, so the
+failure detail adds the last failed attempt, for example
+`unknownError (HTTP 400 invalid_request: ...dpop_jkt...)`.
 
 Requires a `nativeLogin` entry in `ui_test_config.json` (see Configuration below); skips cleanly
 via `XCTSkip` when the entry is absent.
@@ -334,7 +336,8 @@ Tests can pass extra launch arguments through `extraLaunchArguments` (or `restar
 
 | Argument | Effect |
 |----------|--------|
-| `--authenticationMode=native\|browser` | Debug/UI-test-only. Selects the authentication mode for this launch; without it the mode saved from Login Options is used. `native` registers the app's native login form for each scene before login starts. Used by `NativeLoginTests`. |
+| `--nativeLoginConfig=<json>` | Debug-only. Applies a Native Login configuration to `SalesforceManager.shared.debugLoginSettings` after the UI-test reset, with the JSON keys shared with Android and the Login Options import: `authenticationMode` (`native` or `browser`), `consumerKey`, `redirectUri`, `communityUrl`, `useDPoP`, `useHybridFlow`. Absent keys keep their saved value; an invalid configuration is logged and ignored. Used by `NativeLoginTests`. |
+| `--authenticationMode=native\|browser` | Debug-only. Selects the authentication mode (applied after `--nativeLoginConfig`); `native` needs a complete saved configuration. Without either argument the settings saved from Login Options are used. |
 | `--captureTokenRequestUserAgent` | Debug/UI-test-only `SFNetwork` metrics observer. The app records the User-Agent and URL (scheme, host, path) of the last `/services/oauth2/token` request and shows them as `Last Token Request User Agent` and `Last Token Request URL`. Used by `RTRLoginTests` and `CommunityLoginTests`. |
 
 ### Identity request diagnostics (`IDENTITY_ATTEMPTS`)
