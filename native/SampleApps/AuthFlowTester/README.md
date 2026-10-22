@@ -313,6 +313,10 @@ available; the diagnostics are produced by an app-side `SFNetwork` metrics obser
 Requires a `nativeLogin` entry in `ui_test_config.json` (see Configuration below); skips cleanly
 via `XCTSkip` when the entry is absent.
 
+| Native login form | Login Options (Native mode) |
+|---|---|
+| ![Native login form](Screenshots/native-login-form.png) | ![Native Login Options sheet](Screenshots/native-login-options.png) |
+
 Run only this suite:
 
 ```bash
