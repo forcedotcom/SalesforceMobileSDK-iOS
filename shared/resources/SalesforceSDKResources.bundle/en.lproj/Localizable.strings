@@ -114,6 +114,28 @@
 "LOGIN_OPTIONS_USE_HYBRID_FLOW" = "Use Hybrid Flow";
 "LOGIN_OPTIONS_FORCE_ADVANCED_AUTH" = "Force Advanced Authentication";
 
+// Authentication Mode and debug Native Login (Login Options)
+"LOGIN_OPTIONS_AUTH_MODE_TITLE" = "Authentication Mode";
+"LOGIN_OPTIONS_AUTH_MODE_BROWSER" = "Browser";
+"LOGIN_OPTIONS_AUTH_MODE_NATIVE" = "Native";
+"LOGIN_OPTIONS_NATIVE_CLIENT_ID" = "Client ID";
+"LOGIN_OPTIONS_NATIVE_CALLBACK_URL" = "Native Callback URL";
+"LOGIN_OPTIONS_NATIVE_COMMUNITY_URL" = "Community Login URL";
+"LOGIN_OPTIONS_NATIVE_USE_DPOP" = "Use DPoP";
+"LOGIN_OPTIONS_NATIVE_USE_HYBRID" = "Use Hybrid Authentication";
+"LOGIN_OPTIONS_NATIVE_IMPORT" = "Import Native Login Configuration";
+"LOGIN_OPTIONS_NATIVE_IMPORT_MESSAGE" = "Paste JSON with consumerKey, redirectUri, communityUrl, useDPoP, useHybridFlow and authenticationMode";
+"LOGIN_OPTIONS_NATIVE_IMPORT_BUTTON" = "Import";
+"LOGIN_OPTIONS_NATIVE_IMPORT_CANCEL" = "Cancel";
+"LOGIN_OPTIONS_NATIVE_IMPORT_PLACEHOLDER" = "Paste JSON here";
+"NATIVE_LOGIN_DEBUG_TITLE" = "Native Login (Debug)";
+"NATIVE_LOGIN_DEBUG_USERNAME" = "Username";
+"NATIVE_LOGIN_DEBUG_PASSWORD" = "Password";
+"NATIVE_LOGIN_DEBUG_LOG_IN" = "Log In";
+"NATIVE_LOGIN_DEBUG_BROWSER_FALLBACK" = "Log In with Browser";
+"NATIVE_LOGIN_DEBUG_FAILED" = "Login failed";
+"NATIVE_LOGIN_DEBUG_CANCEL" = "Cancel";
+
 // Account Switcher
 "ACCOUNT_SWITCHER_TITLE" = "Manage Accounts";
 "LOG_OUT" = "Log Out";

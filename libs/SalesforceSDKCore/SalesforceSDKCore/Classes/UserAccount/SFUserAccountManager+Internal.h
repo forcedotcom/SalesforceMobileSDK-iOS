@@ -251,6 +251,12 @@ Set this block to handle presentation of the Authentication View Controller.
 
 - (void)restartAuthenticationForViewController:(SFLoginViewController *)loginViewController recreateAuthRequest:(BOOL)recreateAuthRequest;
 
+/** Restarts the scene's authentication after a Login Options change made from the SDK's debug
+ Native Login form: re-applies `NativeLoginDebugSettings`, then rebuilds the native or browser request.
+ Swift code calls it by selector (this header is not visible to Swift).
+ */
+- (void)restartAuthenticationAfterLoginOptionsChangeForScene:(nullable UIScene *)scene;
+
 
 @end
 

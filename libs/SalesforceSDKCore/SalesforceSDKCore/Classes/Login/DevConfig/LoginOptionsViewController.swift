@@ -38,6 +38,7 @@ public struct LoginOptionsView: View {
     @State internal var discoveryLoginHost = ""
     @State internal var discoveryUserName = ""
     @State private var useDPoP = false
+    @ObservedObject private var debugLoginSettings = NativeLoginDebugSettings.shared
     @Environment(\.dismiss) private var dismiss
 
     let onConfigurationCompleted: () -> Void
@@ -69,6 +70,11 @@ public struct LoginOptionsView: View {
         self._discoveryUserName = State(initialValue: discoveryUserName)
     }
 
+    /// Which sections show, for the debug Native Login availability and mode.
+    internal var visibility: LoginOptionsVisibility {
+        LoginOptionsVisibility.make(isAvailable: debugLoginSettings.isAvailable, mode: debugLoginSettings.mode)
+    }
+
     public var body: some View {
         let isUITesting = ProcessInfo.processInfo.environment["IS_UI_TESTING"] == "1"
 
@@ -79,59 +85,70 @@ public struct LoginOptionsView: View {
             // Content
             ScrollView {
                     VStack(spacing: 30) {
-                        // Flow types section
-                        AuthFlowTypesView()
-                            .padding(.top, 20)
+                        // Authentication mode section (debug Native Login)
+                        if visibility.showsAuthenticationMode {
+                            AuthenticationModeView(settings: debugLoginSettings)
+                                .padding(.top, 20)
 
-                        // DPoP toggle
-                        Toggle("Use DPoP", isOn: $useDPoP)
-                            .padding(.horizontal, 20)
-                            .accessibilityIdentifier("useDPoPToggle")
-                            .onChange(of: useDPoP) { _, newValue in
-                                SalesforceManager.shared.usesDPoP = newValue
-                            }
+                            Divider()
+                        }
 
-                        Divider()
+                        // Browser login options, hidden in Native mode
+                        if visibility.showsBrowserOptions {
+                            // Flow types section
+                            AuthFlowTypesView()
+                                .padding(.top, visibility.showsAuthenticationMode ? 0 : 20)
 
-                        // Static config section
-                        BootConfigEditor(
-                            title: SFSDKResourceUtils.localizedString("LOGIN_OPTIONS_STATIC_CONFIG_TITLE"),
-                            buttonLabel: SFSDKResourceUtils.localizedString("LOGIN_OPTIONS_SAVE_STATIC_CONFIG"),
-                            buttonColor: .blue,
-                            consumerKey: $staticConsumerKey,
-                            callbackUrl: $staticCallbackUrl,
-                            scopes: $staticScopes,
-                            isLoading: false,
-                            onConfigChanged: handleStaticConfig,
-                            initiallyExpanded: false
-                        )
+                            // DPoP toggle
+                            Toggle("Use DPoP", isOn: $useDPoP)
+                                .padding(.horizontal, 20)
+                                .accessibilityIdentifier("useDPoPToggle")
+                                .onChange(of: useDPoP) { _, newValue in
+                                    SalesforceManager.shared.usesDPoP = newValue
+                                }
 
-                        Divider()
-
-                        // Dynamic config section
-                        BootConfigEditor(
-                            title: SFSDKResourceUtils.localizedString("LOGIN_OPTIONS_DYNAMIC_CONFIG_TITLE"),
-                            buttonLabel: SFSDKResourceUtils.localizedString("LOGIN_OPTIONS_SAVE_DYNAMIC_CONFIG"),
-                            buttonColor: .green,
-                            consumerKey: $dynamicConsumerKey,
-                            callbackUrl: $dynamicCallbackUrl,
-                            scopes: $dynamicScopes,
-                            isLoading: false,
-                            onConfigChanged: handleDynamicBootconfig,
-                            initiallyExpanded: false
-                        )
-
-                        // Only show DiscoveryResultEditor during UI tests
-                        if isUITesting {
                             Divider()
 
-                            // Simulate domain discovery – sets simulatedDomainDiscoveryResult so the next discovery navigation uses this result
-                            DiscoveryResultEditor(
-                                loginHost: $discoveryLoginHost,
-                                userName: $discoveryUserName,
-                                onUseForSimulation: handleSimulatedDomainDiscovery,
+                            // Static config section
+                            BootConfigEditor(
+                                title: SFSDKResourceUtils.localizedString("LOGIN_OPTIONS_STATIC_CONFIG_TITLE"),
+                                buttonLabel: SFSDKResourceUtils.localizedString("LOGIN_OPTIONS_SAVE_STATIC_CONFIG"),
+                                buttonColor: .blue,
+                                consumerKey: $staticConsumerKey,
+                                callbackUrl: $staticCallbackUrl,
+                                scopes: $staticScopes,
+                                isLoading: false,
+                                onConfigChanged: handleStaticConfig,
                                 initiallyExpanded: false
                             )
+
+                            Divider()
+
+                            // Dynamic config section
+                            BootConfigEditor(
+                                title: SFSDKResourceUtils.localizedString("LOGIN_OPTIONS_DYNAMIC_CONFIG_TITLE"),
+                                buttonLabel: SFSDKResourceUtils.localizedString("LOGIN_OPTIONS_SAVE_DYNAMIC_CONFIG"),
+                                buttonColor: .green,
+                                consumerKey: $dynamicConsumerKey,
+                                callbackUrl: $dynamicCallbackUrl,
+                                scopes: $dynamicScopes,
+                                isLoading: false,
+                                onConfigChanged: handleDynamicBootconfig,
+                                initiallyExpanded: false
+                            )
+
+                            // Only show DiscoveryResultEditor during UI tests
+                            if isUITesting {
+                                Divider()
+
+                                // Simulate domain discovery – sets simulatedDomainDiscoveryResult so the next discovery navigation uses this result
+                                DiscoveryResultEditor(
+                                    loginHost: $discoveryLoginHost,
+                                    userName: $discoveryUserName,
+                                    onUseForSimulation: handleSimulatedDomainDiscovery,
+                                    initiallyExpanded: false
+                                )
+                            }
                         }
                     }
                     .padding(.bottom, 40)
