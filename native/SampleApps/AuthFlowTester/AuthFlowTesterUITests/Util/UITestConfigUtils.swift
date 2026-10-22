@@ -39,9 +39,7 @@ enum TestConfigError: Error, CustomStringConvertible {
     case appNotFound(String)
     case appNotConfigured(String)
     case loginHostNotFound(String)
-    case nativeLoginNotConfigured
-    case nativeLoginMalformed(String)
-    case nativeLoginReferenceMissing(field: String, name: String)
+    case nativeLoginIncomplete(String)
 
     var description: String {
         switch self {
@@ -63,12 +61,8 @@ enum TestConfigError: Error, CustomStringConvertible {
             return "App '\(appName)' has empty consumerKey in ui_test_config.json"
         case .loginHostNotFound(let hostName):
             return "Login host '\(hostName)' not found in ui_test_config.json"
-        case .nativeLoginNotConfigured:
-            return "No nativeLogin entry in ui_test_config.json"
-        case .nativeLoginMalformed(let reason):
-            return "Malformed nativeLogin entry in ui_test_config.json: \(reason)"
-        case .nativeLoginReferenceMissing(let field, let name):
-            return "nativeLogin.\(field) refers to '\(name)', which is not usable in ui_test_config.json"
+        case .nativeLoginIncomplete(let reason):
+            return "Native Login configuration in ui_test_config.json is incomplete: \(reason)"
         }
     }
 }
@@ -176,40 +170,18 @@ struct UserConfig: Codable {
     let password: String
 }
 
-/// Decodes `T` without ever throwing, so a malformed optional section can't break decoding of the
-/// whole file (and with it every other suite). `value` is nil when the section isn't a valid `T`.
-struct LenientDecodable<T: Codable>: Codable {
-    let value: T?
-
-    init(from decoder: Decoder) throws {
-        value = try? T(from: decoder)
-    }
-
-    func encode(to encoder: Encoder) throws {
-        try value?.encode(to: encoder)
-    }
-}
-
-/// The optional `nativeLogin` section: which login host, user and apps `NativeLoginTests` use.
-/// Fields are optional so a missing key is reported by validation rather than a decode failure.
-struct NativeLoginConfigEntry: Codable {
-    let loginHost: String?
-    let optionalDPoPApp: String?
-    let requiredDPoPApp: String?
-}
-
-/// Fully resolved and validated `nativeLogin` configuration.
+/// Native Login fixtures resolved by name from the existing `apps` and `loginHosts` collections.
 struct NativeLoginSetup {
     let loginHost: KnownLoginHostConfig
     /// Community login URL, including its path.
     let communityUrl: String
     let user: UserConfig
-    /// ECA that accepts, but does not require, DPoP.
-    let optionalDPoPApp: KnownAppConfig
-    let optionalDPoPAppConfig: AppConfig
-    /// ECA that requires DPoP.
-    let requiredDPoPApp: KnownAppConfig
-    let requiredDPoPAppConfig: AppConfig
+    /// `eca_jwt_headless`: accepts, but does not require, DPoP.
+    let ecaJwtHeadless: KnownAppConfig
+    let ecaJwtHeadlessConfig: AppConfig
+    /// `eca_jwt_dpop_headless`: requires DPoP.
+    let ecaJwtDpopHeadless: KnownAppConfig
+    let ecaJwtDpopHeadlessConfig: AppConfig
 }
 
 /// What a Native Login attempt is expected to produce. This is the test's explicit expectation, not
@@ -226,7 +198,6 @@ struct TestConfig: Codable {
     let loginPoolHost: String?
     let loginHosts: [LoginHostConfig]
     let apps: [AppConfig]
-    let nativeLogin: LenientDecodable<NativeLoginConfigEntry>?
 }
 
 // MARK: - Configuration Utility
@@ -301,60 +272,42 @@ class UITestConfigUtils {
     
     // MARK: - Native Login
 
-    /// True when the file has a `nativeLogin` section. Tests skip when it is absent; a present but
-    /// malformed section is a failure (see `nativeLoginSetup()`), never a skip.
+    /// True when either headless ECA is in the file. Native Login tests skip when neither is present;
+    /// a partial or invalid setup is a failure (see `nativeLoginSetup()`), never a skip.
     var hasNativeLoginConfig: Bool {
-        return config?.nativeLogin != nil
+        return apps.contains { $0.name == KnownAppConfig.ecaJwtHeadless.rawValue || $0.name == KnownAppConfig.ecaJwtDpopHeadless.rawValue }
     }
 
-    /// Resolves and validates the `nativeLogin` section: every field present, host and apps exist,
-    /// the host has a user, consumer keys are set and redirect URIs are HTTPS.
+    /// Looks up `eca_jwt_headless`, `eca_jwt_dpop_headless` and the `community_auth` host by name.
+    /// Fails if only one ECA is present, the host or its user is missing, a consumer key is empty
+    /// or a redirect URI is not HTTPS.
     func nativeLoginSetup() throws -> NativeLoginSetup {
-        guard let section = config?.nativeLogin else {
-            throw TestConfigError.nativeLoginNotConfigured
-        }
-        guard let entry = section.value else {
-            throw TestConfigError.nativeLoginMalformed("expected an object with loginHost, optionalDPoPApp and requiredDPoPApp")
-        }
-        func required(_ value: String?, _ field: String) throws -> String {
-            guard let value, !value.isEmpty else {
-                throw TestConfigError.nativeLoginMalformed("'\(field)' is missing or empty")
-            }
-            return value
-        }
-        let hostName = try required(entry.loginHost, "loginHost")
-        let optionalName = try required(entry.optionalDPoPApp, "optionalDPoPApp")
-        let requiredName = try required(entry.requiredDPoPApp, "requiredDPoPApp")
-
-        guard let knownHost = KnownLoginHostConfig(rawValue: hostName),
-              let host = config?.loginHosts.first(where: { $0.name == hostName }),
-              let user = host.users.first else {
-            throw TestConfigError.nativeLoginReferenceMissing(field: "loginHost", name: hostName)
-        }
-
-        func resolveApp(_ name: String, field: String) throws -> (KnownAppConfig, AppConfig) {
-            guard let known = KnownAppConfig(rawValue: name),
-                  let app = config?.apps.first(where: { $0.name == name }) else {
-                throw TestConfigError.nativeLoginReferenceMissing(field: field, name: name)
+        func resolveApp(_ known: KnownAppConfig) throws -> AppConfig {
+            guard let app = apps.first(where: { $0.name == known.rawValue }) else {
+                throw TestConfigError.nativeLoginIncomplete("app '\(known.rawValue)' is missing")
             }
             guard !app.consumerKey.isEmpty else {
-                throw TestConfigError.nativeLoginMalformed("app '\(name)' has an empty consumerKey")
+                throw TestConfigError.nativeLoginIncomplete("app '\(known.rawValue)' has an empty consumerKey")
             }
             guard app.redirectUri.lowercased().hasPrefix("https://") else {
-                throw TestConfigError.nativeLoginMalformed("app '\(name)' needs an https:// redirectUri")
+                throw TestConfigError.nativeLoginIncomplete("app '\(known.rawValue)' needs an https:// redirectUri")
             }
-            return (known, app)
+            return app
         }
-        let optionalApp = try resolveApp(optionalName, field: "optionalDPoPApp")
-        let requiredApp = try resolveApp(requiredName, field: "requiredDPoPApp")
-
-        return NativeLoginSetup(loginHost: knownHost,
+        let headless = try resolveApp(.ecaJwtHeadless)
+        let dpopHeadless = try resolveApp(.ecaJwtDpopHeadless)
+        let hostName = KnownLoginHostConfig.communityAuth.rawValue
+        guard let host = loginHosts.first(where: { $0.name == hostName }),
+              let user = host.users.first else {
+            throw TestConfigError.nativeLoginIncomplete("login host '\(hostName)' or its user is missing")
+        }
+        return NativeLoginSetup(loginHost: .communityAuth,
                                 communityUrl: host.url,
                                 user: user,
-                                optionalDPoPApp: optionalApp.0,
-                                optionalDPoPAppConfig: optionalApp.1,
-                                requiredDPoPApp: requiredApp.0,
-                                requiredDPoPAppConfig: requiredApp.1)
+                                ecaJwtHeadless: .ecaJwtHeadless,
+                                ecaJwtHeadlessConfig: headless,
+                                ecaJwtDpopHeadless: .ecaJwtDpopHeadless,
+                                ecaJwtDpopHeadlessConfig: dpopHeadless)
     }
 
     // MARK: - Scope Utilities

@@ -296,11 +296,11 @@ They are kept in `SalesforceManager.shared.debugLoginSettings`. Tests launch wit
 
 | Test | Notes |
 |------|-------|
-| `testNativeLoginConfigIsValid` | The `nativeLogin` entry resolves (host, user, both apps, keys, HTTPS redirect URIs). Fails, never skips, when the entry is malformed |
-| `test_givenOptionalEca_whenDPoPOff_thenBearer` | Matrix case 1 |
-| `test_givenOptionalEca_whenDPoPOn_thenDPoP` | Matrix case 2 |
-| `test_givenRequiredEca_whenDPoPOff_thenRejectedNoAccount` | Matrix case 3; HTTP 400 `invalid_request` naming the missing `dpop_jkt` (not `invalid_grant`) on the form, redacted diagnostics, main page never loads |
-| `test_givenRequiredEca_whenDPoPOn_thenDPoP` | Matrix case 4 |
+| `testNativeLoginConfigIsValid` | The by-name fixtures resolve (`community_auth` host and user, both ECAs, keys, HTTPS redirect URIs). Fails, never skips, when only one ECA is present or a fixture is invalid |
+| `testECAJwtHeadless_whenDPoPOff_thenBearer` | Matrix case 1 |
+| `testECAJwtHeadless_whenDPoPOn_thenDPoP` | Matrix case 2 |
+| `testECAJwtDPoPHeadless_whenDPoPOff_thenRejectedNoAccount` | Matrix case 3; HTTP 400 `invalid_request` naming the missing `dpop_jkt` (not `invalid_grant`) on the form, redacted diagnostics, main page never loads |
+| `testECAJwtDPoPHeadless_whenDPoPOn_thenDPoP` | Matrix case 4 |
 | `test_givenRejection_whenRetryWithDPoP_thenSucceeds` | After a rejection, turning DPoP on and retrying succeeds |
 | `test_givenLoggedInUser_whenCancelAddUserForm_thenStaysLoggedIn` | Cancel is offered with an existing account and returns to it |
 | `test_givenNoUser_whenNativeFormShown_thenNoCancelButton` | No Cancel without an account |
@@ -315,8 +315,8 @@ internal `NativeLoginDiagnostics` in debug builds. `NativeLoginResult` carries n
 failure detail adds the last failed attempt, for example
 `unknownError (HTTP 400 invalid_request: ...dpop_jkt...)`.
 
-Requires a `nativeLogin` entry in `ui_test_config.json` (see Configuration below); skips cleanly
-via `XCTSkip` when the entry is absent.
+Requires the `eca_jwt_headless` and `eca_jwt_dpop_headless` apps and the `community_auth` host in
+`ui_test_config.json` (see Configuration below); skips cleanly via `XCTSkip` when neither ECA is present.
 
 | Native login form | Login Options (Native) | Login Options (Browser) |
 |---|---|---|
@@ -406,7 +406,7 @@ value rather than inferring request behavior from the user agent recomputed afte
 - **App configs**: `ecaOpaque`, `ecaJwt`, `ecaOpaqueRtr`, `ecaJwtRtr`, `ecaJwtDpop`, `ecaJwtDpopRtr`, `beaconOpaque`, `beaconJwt`, `caOpaque`
 - **Login hosts**: `regularAuth` (in-app WKWebView), `advancedAuth` (ASWebAuthenticationSession), `communityAuth` (community/Experience Cloud login server; browser by default, in-app WKWebView when `forceAdvancedAuthentication: false`)
 - **Users**: `first` through `fifth`
-- **Native Login**: optional `nativeLogin` entry naming the login host (`community_auth`), the `optionalDPoPApp` (`eca_jwt_headless`) and the `requiredDPoPApp` (`eca_jwt_dpop_headless`). Both apps need an `https://` redirect URI. Credentials are not duplicated: the user is the host's first user.
+- **Native Login**: the optional `eca_jwt_headless` and `eca_jwt_dpop_headless` apps, looked up by name together with the `community_auth` host (no separate config block). Both apps need an `https://` redirect URI. Credentials are not duplicated: the user is the host's first user. If neither app is present the suite is skipped; if only one is present, or the host is missing, it fails.
 
 ### Scope selections
 
