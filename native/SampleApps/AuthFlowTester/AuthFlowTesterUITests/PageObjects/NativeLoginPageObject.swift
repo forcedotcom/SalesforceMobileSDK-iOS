@@ -29,11 +29,11 @@
 import Foundation
 import XCTest
 
-/// Page object for the app-owned Native Login form and its Login Options sheet.
-/// Identifiers mirror `NativeLoginView` / `the SDK Login Options screen` in the app target.
+/// Page object for the SDK's debug Native Login form and the Authentication Mode section of the
+/// SDK Login Options screen. Identifiers mirror `DebugNativeLoginView` and `AuthenticationModeView`.
 class NativeLoginPageObject {
-    /// Launch argument that selects Native mode for a launch (Native Login cannot be turned off in-process).
-    static let nativeModeArgument = "--authenticationMode=native"
+    /// Launch argument prefix carrying a Native Login configuration (see `configJSON`).
+    static let configArgumentPrefix = "--nativeLoginConfig="
     static let browserModeArgument = "--authenticationMode=browser"
 
     let app: XCUIApplication
@@ -105,33 +105,40 @@ class NativeLoginPageObject {
         tap(browserFallbackButton())
     }
 
-    /// Opens the options sheet, applies the Native client configuration through the JSON import
-    /// (consumerKey, redirectUri, communityUrl, useDPoP, useHybridFlow), and closes the sheet.
+    /// Opens the SDK Login Options screen, imports the Native Login configuration (with Native mode
+    /// selected) through the JSON import, and closes the screen, which restarts authentication.
     func configure(consumerKey: String, redirectUri: String, communityUrl: String, useDPoP: Bool, useHybridFlow: Bool) {
+        guard let text = Self.configJSON(consumerKey: consumerKey, redirectUri: redirectUri, communityUrl: communityUrl,
+                                         useDPoP: useDPoP, useHybridFlow: useHybridFlow) else {
+            XCTFail("Could not build native login config JSON")
+            return
+        }
         tap(optionsButton())
+        tap(importButton())
+        let alert = app.alerts["Import Native Login Configuration"]
+        XCTAssertTrue(alert.waitForExistence(timeout: UITestTimeouts.long), "Native config import alert did not appear")
+        alert.textFields.firstMatch.typeText(text)
+        // The alert action is exposed as more than one element; any of them applies the import.
+        let importById = alert.buttons.matching(identifier: "importNativeConfigApplyButton").firstMatch
+        (importById.exists ? importById : alert.buttons.matching(identifier: "Import").firstMatch).tap()
+        XCTAssertFalse(configErrorLabel().waitForExistence(timeout: UITestTimeouts.short),
+                       "Native config import failed: \(configErrorLabel().label)")
+        tap(closeButton())
+        XCTAssertTrue(loginButton().waitForExistence(timeout: UITestTimeouts.long), "Native form did not return after closing options")
+    }
+
+    /// The `--nativeLoginConfig` / import JSON, in the schema shared with Android.
+    static func configJSON(consumerKey: String, redirectUri: String, communityUrl: String, useDPoP: Bool, useHybridFlow: Bool) -> String? {
         let json: [String: Any] = [
+            "authenticationMode": "native",
             "consumerKey": consumerKey,
             "redirectUri": redirectUri,
             "communityUrl": communityUrl,
             "useDPoP": useDPoP,
             "useHybridFlow": useHybridFlow
         ]
-        guard let data = try? JSONSerialization.data(withJSONObject: json, options: []),
-              let text = String(data: data, encoding: .utf8) else {
-            XCTFail("Could not build native login config JSON")
-            return
-        }
-        tap(importButton())
-        let alert = app.alerts["Import Native Login Configuration"]
-        XCTAssertTrue(alert.waitForExistence(timeout: UITestTimeouts.long), "Native config import alert did not appear")
-        alert.textFields.firstMatch.typeText(text)
-        alert.buttons["Import"].tap()
-        tap(applyButton())
-        // Applying may restart authentication, which replaces the form and its sheet; otherwise close the screen.
-        if closeButton().waitForExistence(timeout: UITestTimeouts.short), closeButton().isHittable {
-            closeButton().tap()
-        }
-        XCTAssertTrue(loginButton().waitForExistence(timeout: UITestTimeouts.long), "Native form did not return after closing options")
+        guard let data = try? JSONSerialization.data(withJSONObject: json, options: [.sortedKeys]) else { return nil }
+        return String(data: data, encoding: .utf8)
     }
 
     // MARK: - Accessors
@@ -143,7 +150,7 @@ class NativeLoginPageObject {
     private func optionsButton() -> XCUIElement { app.buttons["nativeLoginOptionsButton"] }
     private func browserFallbackButton() -> XCUIElement { app.buttons["nativeBrowserFallbackButton"] }
     private func importButton() -> XCUIElement { app.buttons["importNativeConfigButton"] }
-    private func applyButton() -> XCUIElement { app.buttons["nativeApplyButton"] }
+    private func configErrorLabel() -> XCUIElement { app.staticTexts["nativeConfigError"] }
     private func closeButton() -> XCUIElement { app.buttons["loginOptionsCloseButton"] }
     private func resultLabel() -> XCUIElement { app.staticTexts["nativeResultLabel"] }
     private func errorDetailLabel() -> XCUIElement { app.staticTexts["nativeErrorDetail"] }

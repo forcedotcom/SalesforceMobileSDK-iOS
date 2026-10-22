@@ -1821,27 +1821,35 @@ class BaseAuthFlowTester: XCTestCase {
 
 // MARK: - Native Login Support
 //
-// Native Login cannot be turned off inside a running process, so the app picks its authentication
-// mode per launch (`--authenticationMode=native`). These helpers live in this file because `app`,
-// `loginPage` and `mainPage` are private. See `NativeLoginTests`.
+// Native Login is the SDK's debug Authentication Mode (Login Options). Tests select it per launch
+// with `--nativeLoginConfig=<json>` and change it later through the Login Options import. These
+// helpers live in this file because `app`, `loginPage` and `mainPage` are private. See `NativeLoginTests`.
 
 extension BaseAuthFlowTester {
 
-    /// Page object for the app-owned Native Login form and its options sheet.
+    /// Page object for the SDK's debug Native Login form and its Login Options section.
     var nativeLoginPage: NativeLoginPageObject {
         return NativeLoginPageObject(testApp: app)
     }
 
-    /// Launches the app in Native mode (fresh state) and waits for the native form.
-    func launchNative() {
-        if !extraLaunchArguments.contains(NativeLoginPageObject.nativeModeArgument) {
-            extraLaunchArguments.append(NativeLoginPageObject.nativeModeArgument)
+    /// Launches the app (fresh state) in Native mode configured for `appName`, and waits for the native form.
+    func launchNative(setup: NativeLoginSetup, app appName: KnownAppConfig, useDPoP: Bool, useHybridFlow: Bool = true) {
+        let appConfig = nativeAppConfig(setup: setup, app: appName)
+        guard let json = NativeLoginPageObject.configJSON(consumerKey: appConfig.consumerKey,
+                                                          redirectUri: appConfig.redirectUri,
+                                                          communityUrl: setup.communityUrl,
+                                                          useDPoP: useDPoP,
+                                                          useHybridFlow: useHybridFlow) else {
+            XCTFail("Could not build native login config JSON")
+            return
         }
+        extraLaunchArguments.removeAll { $0.hasPrefix(NativeLoginPageObject.configArgumentPrefix) }
+        extraLaunchArguments.append(NativeLoginPageObject.configArgumentPrefix + json)
         launch()
         XCTAssertTrue(nativeLoginPage.isShowingForm(), "Native login form did not appear after launching in Native mode")
     }
 
-    /// Applies the Native client (ECA, community, DPoP and hybrid choice) through the options sheet.
+    /// Applies the Native client (ECA, community, DPoP and hybrid choice) through the Login Options import.
     func configureNative(setup: NativeLoginSetup, app appName: KnownAppConfig, useDPoP: Bool, useHybridFlow: Bool = true) {
         let appConfig = nativeAppConfig(setup: setup, app: appName)
         nativeLoginPage.configure(
@@ -1858,10 +1866,9 @@ extension BaseAuthFlowTester {
         nativeLoginPage.submit(username: setup.user.username, password: setup.user.password)
     }
 
-    /// Launches in Native mode, configures, logs in, and validates the outcome.
+    /// Launches in Native mode configured for `appName`, logs in, and validates the outcome.
     func loginNativeAndValidate(setup: NativeLoginSetup, app appName: KnownAppConfig, useDPoP: Bool, useHybridFlow: Bool = true, expectation: NativeLoginExpectation) {
-        launchNative()
-        configureNative(setup: setup, app: appName, useDPoP: useDPoP, useHybridFlow: useHybridFlow)
+        launchNative(setup: setup, app: appName, useDPoP: useDPoP, useHybridFlow: useHybridFlow)
         submitNativeCredentials(setup: setup)
         seedNativeRTRState(setup: setup, app: appName)
         switch expectation {
@@ -1872,15 +1879,23 @@ extension BaseAuthFlowTester {
         }
     }
 
-    /// Asserts that the attempt was rejected: the form is still showing, a failure result and
-    /// redacted detail are visible, and no account was created (main page never loads).
+    /// Asserts that the required-DPoP ECA rejected an unbound attempt: the form is still showing,
+    /// `/authorize` answered HTTP 400 `invalid_request` naming the missing `dpop_jkt` (not
+    /// `invalid_grant`, which would be a credential or user problem), the detail is redacted, and no
+    /// account was created (main page never loads).
     func assertNativeLoginRejected() {
         let result = nativeLoginPage.result()
         XCTAssertNotNil(result, "Expected a failure result on the native form")
         XCTAssertNotEqual(result, "success", "Login must not succeed")
         XCTAssertTrue(nativeLoginPage.isShowingForm(timeout: UITestTimeouts.long), "Native form should still be showing after a rejection")
         let detail = nativeLoginPage.errorDetail()
-        XCTAssertFalse(detail.isEmpty, "Expected redacted failure detail on the form")
+        let diagnostics = nativeLoginPage.diagnostics()
+        XCTAssertTrue(detail.contains("HTTP 400 invalid_request") && detail.contains("dpop_jkt"),
+                      "Expected HTTP 400 invalid_request for the missing dpop_jkt; detail: \(detail)")
+        XCTAssertTrue(diagnostics.contains("stage=authorize status=400 error=invalid_request dpop=false"),
+                      "Expected an authorize rejection without a DPoP proof; diagnostics: \(diagnostics)")
+        XCTAssertFalse(detail.contains("invalid_grant") || diagnostics.contains("invalid_grant"),
+                       "The rejection must not be invalid_grant; detail: \(detail), diagnostics: \(diagnostics)")
         assertNativeDiagnosticsAreRedacted()
         assertNativeNoAccountCreated()
     }

@@ -27,16 +27,16 @@
 
 
 /*
- Covers Native Login (the app-owned SwiftUI form driven by `NativeLoginManager`) against the
- community login host, for the two headless ECAs:
+ Covers Native Login (the SDK's debug Native Login form, selected by the Authentication Mode of the
+ SDK Login Options screen) against the community login host, for the two headless ECAs:
 
    - `eca_jwt_headless`      accepts, but does not require, DPoP
    - `eca_jwt_dpop_headless` requires DPoP (`/authorize` without `dpop_jkt` is rejected)
 
  The four-case matrix (ECA x client DPoP choice) has explicit expectations: Bearer, DPoP, rejected
- (no account created), DPoP. Native Login cannot be switched off inside a running process, so every
- test launches the app in Native mode (`--authenticationMode=native`); the browser fallback test
- covers the hand-off to web authentication.
+ (no account created), DPoP. Every test launches the app in Native mode with its configuration
+ (`--nativeLoginConfig=<json>`); tests that switch apps or DPoP mid-run use the Login Options import.
+ The browser fallback test covers the hand-off to web authentication.
 
  The suite needs a `nativeLogin` entry in `ui_test_config.json` (see
  `shared/test/ui_test_config.json.sample`) naming the login host and both apps. It skips cleanly
@@ -131,13 +131,13 @@ class NativeLoginTests: BaseAuthFlowTester {
 
     /// With no account there is nothing to return to, so Cancel is not offered.
     func test_givenNoUser_whenNativeFormShown_thenNoCancelButton() throws {
-        launchNative()
+        launchNative(setup: setup, app: setup.optionalDPoPApp, useDPoP: false)
         XCTAssertFalse(nativeLoginPage.isShowingCancelButton(), "Cancel must not be offered without an account")
     }
 
     /// The browser fallback hands off to web authentication.
     func test_givenNativeForm_whenBrowserFallback_thenWebLoginShown() throws {
-        launchNative()
+        launchNative(setup: setup, app: setup.optionalDPoPApp, useDPoP: false)
         nativeLoginPage.tapBrowserFallback()
         XCTAssertTrue(isShowingAnyWebLogin(), "Web authentication should be showing after the browser fallback")
     }
@@ -158,7 +158,8 @@ class NativeLoginTests: BaseAuthFlowTester {
     /// Backgrounding and reactivating mid-form keeps the form usable.
     func test_givenNativeForm_whenBackgroundedAndReactivated_thenLoginStillWorks() throws {
         let app = setup.optionalDPoPApp
-        launchNative()
+        launchNative(setup: setup, app: setup.requiredDPoPApp, useDPoP: true)
+        // Switch apps through the Login Options import, then background mid-form.
         configureNative(setup: setup, app: app, useDPoP: false)
         sendAppToBackgroundAndBack()
         XCTAssertTrue(nativeLoginPage.isShowingForm(), "Native form should survive backgrounding")
@@ -169,7 +170,7 @@ class NativeLoginTests: BaseAuthFlowTester {
 
     // MARK: - Diagnostics
 
-    /// Diagnostics report the token stage for a successful attempt and carry no secrets.
+    /// Diagnostics name the rejected authorize stage and carry no secrets.
     func test_givenFailedLogin_whenDiagnosticsShown_thenRedacted() throws {
         loginNativeAndValidate(setup: setup, app: setup.requiredDPoPApp, useDPoP: false, expectation: .rejected)
         let diagnostics = nativeLoginPage.diagnostics()
