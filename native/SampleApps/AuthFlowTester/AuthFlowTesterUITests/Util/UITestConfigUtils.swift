@@ -282,6 +282,11 @@ class UITestConfigUtils {
     /// Fails if only one ECA is present, the host or its user is missing, a consumer key is empty
     /// or a redirect URI is not HTTPS.
     func nativeLoginSetup() throws -> NativeLoginSetup {
+        let present = [KnownAppConfig.ecaJwtHeadless, .ecaJwtDpopHeadless].filter { known in apps.contains { $0.name == known.rawValue } }
+        if present.count == 1 {
+            let missing = [KnownAppConfig.ecaJwtHeadless, .ecaJwtDpopHeadless].first { !present.contains($0) }?.rawValue ?? ""
+            throw TestConfigError.nativeLoginIncomplete("Native Login tests need both eca_jwt_headless and eca_jwt_dpop_headless in apps of ui_test_config.json; missing: \(missing).")
+        }
         func resolveApp(_ known: KnownAppConfig) throws -> AppConfig {
             guard let app = apps.first(where: { $0.name == known.rawValue }) else {
                 throw TestConfigError.nativeLoginIncomplete("app '\(known.rawValue)' is missing")
@@ -299,7 +304,7 @@ class UITestConfigUtils {
         let hostName = KnownLoginHostConfig.communityAuth.rawValue
         guard let host = loginHosts.first(where: { $0.name == hostName }),
               let user = host.users.first else {
-            throw TestConfigError.nativeLoginIncomplete("login host '\(hostName)' or its user is missing")
+            throw TestConfigError.nativeLoginIncomplete("Native Login tests need the '\(hostName)' login host (with a user) in ui_test_config.json")
         }
         return NativeLoginSetup(loginHost: .communityAuth,
                                 communityUrl: host.url,
