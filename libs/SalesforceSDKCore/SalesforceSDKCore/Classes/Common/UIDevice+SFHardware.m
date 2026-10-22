@@ -15,104 +15,8 @@
 #import "SFApplicationHelper.h"
 
 @implementation UIDevice (SFHardware)
-/*
- Platforms
+// Hardware identifiers are mapped in sfsdk_platformType below.
 
- iFPGA ->        Unknown or Internal Development Platform
- 
- // iPhone Models
- iPhone11,2 ->   iPhone XS, D321
- iPhone11,4 ->   iPhone XS Max (China), D331
- iPhone11,6 ->   iPhone XS Max (Global), D332
- iPhone11,8 ->   iPhone XR, D321AP
-
- iPhone12,1 ->   iPhone 11, N104
- iPhone12,3 ->   iPhone 11 Pro, N104AP
- iPhone12,5 ->   iPhone 11 Pro Max, N104AP2
- iPhone12,8 ->   iPhone SE (2nd Generation), N138
-
- iPhone13,1 ->   iPhone 12 Mini, D52G
- iPhone13,2 ->   iPhone 12, D53G
- iPhone13,3 ->   iPhone 12 Pro, D53P
- iPhone13,4 ->   iPhone 12 Pro Max, D54P
-
- iPhone14,4 ->   iPhone 13 Mini, D63G
- iPhone14,5 ->   iPhone 13, D64G
- iPhone14,2 ->   iPhone 13 Pro, D64P
- iPhone14,3 ->   iPhone 13 Pro Max, D65P
-
- iPhone14,7 ->   iPhone 14, D73G
- iPhone14,8 ->   iPhone 14 Plus, D74G
- iPhone15,2 ->   iPhone 14 Pro, D74P
- iPhone15,3 ->   iPhone 14 Pro Max, D75P
-
- iPhone15,4 ->   iPhone 15, D83G
- iPhone15,5 ->   iPhone 15 Plus, D84G
- iPhone16,1 ->   iPhone 15 Pro, D84P
- iPhone16,2 ->   iPhone 15 Pro Max, D85P
- 
- 
- iPhone17,1 ->   iPhone 16 Pro
- iPhone17,2 ->   iPhone 16 Pro Max
- iPhone17,3 ->   iPhone 16
- iPhone17,4 ->   iPhone 16 Plus
-
- // iPad Models
- iPad7,11   ->    iPad (7th Generation), D331AP
- iPad7,12   ->    iPad (7th Generation), D331AP
- iPad8,1    ->    iPad Pro (11-inch, 1st Generation), D42A
- iPad8,2    ->    iPad Pro (11-inch, 1st Generation), D42A
- iPad8,3    ->    iPad Pro (11-inch, 1st Generation), D42A
- iPad8,4    ->    iPad Pro (11-inch, 1st Generation), D42A
- iPad8,5    ->    iPad Pro (12.9-inch, 3rd Generation), J417AP
- iPad8,6    ->    iPad Pro (12.9-inch, 3rd Generation), J417AP
- iPad8,7    ->    iPad Pro (12.9-inch, 3rd Generation), J417AP
- iPad8,8    ->    iPad Pro (12.9-inch, 3rd Generation), J417AP
- iPad8,9    ->    iPad Pro (11-inch, 2nd Generation), D43AP
- iPad8,10   ->    iPad Pro (11-inch, 2nd Generation), D43AP
- iPad8,11   ->    iPad Pro (12.9-inch, 4th Generation), J418AP
- iPad8,12   ->    iPad Pro (12.9-inch, 4th Generation), J418AP
- iPad11,1   ->    iPad mini (5th Generation), J210AP
- iPad11,2   ->    iPad mini (5th Generation), J210AP
- iPad11,3   ->    iPad Air (3rd Generation), J230AP
- iPad11,4   ->    iPad Air (3rd Generation), J230AP
- iPad11,6   ->    iPad (8th Generation), J217AP
- iPad11,7   ->    iPad (8th Generation), J217AP
- iPad12,1   ->    iPad (9th Generation), J272AP
- iPad12,2   ->    iPad (9th Generation), J272AP
- iPad13,1   ->    iPad Air (4th Generation), J413AP
- iPad13,2   ->    iPad Air (4th Generation), J413AP
- iPad13,4   ->    iPad Pro (11-inch, 3rd Generation), D44AP
- iPad13,5   ->    iPad Pro (11-inch, 3rd Generation), D44AP
- iPad13,6   ->    iPad Pro (11-inch, 3rd Generation), D44AP
- iPad13,7   ->    iPad Pro (11-inch, 3rd Generation), D44AP
- iPad13,8   ->    iPad Pro (12.9-inch, 5th Generation, M1), J522AP
- iPad13,9   ->    iPad Pro (12.9-inch, 5th Generation, M1), J522AP
- iPad13,10  ->    iPad Pro (12.9-inch, 5th Generation, M1), J522AP
- iPad13,11  ->    iPad Pro (12.9-inch, 5th Generation, M1), J522AP
- iPad13,16  ->    iPad Air (5th Generation, M1), J517AP
- iPad13,17  ->    iPad Air (5th Generation, M1), J517AP
- iPad13,18  ->    iPad (10th Generation), J274AP
- iPad13,19  ->    iPad (10th Generation), J274AP
- iPad14,1   ->    iPad mini (6th Generation), J407AP
- iPad14,2   ->    iPad mini (6th Generation), J407AP
- iPad14,3   ->    iPad Pro (12.9-inch, 6th Generation, M2), J523AP
- iPad14,4   ->    iPad Pro (12.9-inch, 6th Generation, M2), J523AP
- iPad14,5   ->    iPad Pro (11-inch, 4th Generation, M2), D45AP
- iPad14,6   ->    iPad Pro (11-inch, 4th Generation, M2), D45AP
-
- // Apple TVs
- AppleTV2,1 ->   Apple TV 2G, K66
- AppleTV3,1 ->   Apple TV 3G, J33AP
- AppleTV5,3 ->   Apple TV HD, J42d
- AppleTV6,2 ->   Apple TV 4K, J421d
-
- // Simulator
- i386, x86_64 -> iPhone Simulator
- arm64 ->        iPhone Simulator
-
- // Notes
- */
 
 #pragma mark sysctlbyname utils
 - (NSString *)getSysInfoByName:(char *)typeSpecifier
@@ -264,6 +168,15 @@
         @"iPhone17,2": @(UIDevice16ProMaxiPhone),     // iPhone 16 Pro Max
         @"iPhone17,3": @(UIDevice16iPhone),           // iPhone 16
         @"iPhone17,4": @(UIDevice16PlusiPhone),       // iPhone 16 Plus
+        @"iPhone17,5": @(UIDevice16eiPhone), // iPhone 16e
+        @"iPhone18,3": @(UIDevice17iPhone), // iPhone 17
+        @"iPhone18,1": @(UIDevice17ProiPhone), // iPhone 17 Pro
+        @"iPhone18,2": @(UIDevice17ProMaxiPhone), // iPhone 17 Pro Max
+        @"iPhone18,4": @(UIDeviceAiriPhone), // iPhone Air
+        @"iPhone18,5": @(UIDevice17eiPhone), // iPhone 17e
+        @"iPhone19,2": @(UIDevice18ProiPhone), // iPhone 18 Pro
+        @"iPhone19,3": @(UIDevice18ProMaxiPhone), // iPhone 18 Pro Max
+        @"iPhone19,7": @(UIDevice18ProMaxiPhone), // iPhone 18 Pro Max
     };
     NSNumber *iphoneType = iphoneIdentifiers[platform];
     if (iphoneType) return iphoneType.integerValue;
@@ -308,20 +221,34 @@
         @"iPad13,19": @(UIDevice10GiPad),           // iPad (10th generation)
         @"iPad14,1": @(UIDevice6GiPadMini),         // iPad mini (6th generation)
         @"iPad14,2": @(UIDevice6GiPadMini),         // iPad mini (6th generation)
-        @"iPad14,3": @(UIDevice6G129InchiPadPro),   // iPad Pro (12.9-inch, 6th generation)
-        @"iPad14,4": @(UIDevice6G129InchiPadPro),   // iPad Pro (12.9-inch, 6th generation)
-        @"iPad14,5": @(UIDevice11Inch4GiPadPro),    // iPad Pro (11-inch, 4th generation)
-        @"iPad14,6": @(UIDevice11Inch4GiPadPro),    // iPad Pro (11-inch, 4th generation)
-        @"iPad14,8": @(UIDevice6GiPadAir),          // iPad Air 6th Gen
-        @"iPad14,9": @(UIDevice6GiPadAir),          // iPad Air 6th Gen
-        @"iPad14,10": @(UIDevice7GiPadAir),          //iPad Air 7th Gen
-        @"iPad14,11": @(UIDevice7GiPadAir),          //iPad Air 7th Gen
-        @"iPad16,1": @(UIDevice7GiPadMini),          //iPad mini 7th Gen (WiFi)
-        @"iPad16,2": @(UIDevice7GiPadMini),          //iPad mini 7th Gen (WiFi+Cellular)
-        @"iPad16,3": @(UIDevice11Inch5GiPadPro),     //iPad Pro 11 inch 5th Gen
-        @"iPad16,4": @(UIDevice11Inch5GiPadPro),     //iPad Pro 11 inch 5th Gen
-        @"iPad16,5": @(UIDevice12Inch7GiPadPro),     //iPad Pro 12.9 inch 7th Gen
-        @"iPad16,6": @(UIDevice12Inch7GiPadPro),     //iPad Pro 12.9 inch 7th Gen
+        @"iPad14,3": @(UIDevice11Inch4GiPadPro),    // iPad Pro (11-inch, 4th generation, M2)
+        @"iPad14,4": @(UIDevice11Inch4GiPadPro),    // iPad Pro (11-inch, 4th generation, M2)
+        @"iPad14,5": @(UIDevice6G129InchiPadPro),   // iPad Pro (12.9-inch, 6th generation, M2)
+        @"iPad14,6": @(UIDevice6G129InchiPadPro),   // iPad Pro (12.9-inch, 6th generation, M2)
+        @"iPad14,8": @(UIDevice6GiPadAir),          // iPad Air 11-inch (M2)
+        @"iPad14,9": @(UIDevice6GiPadAir),          // iPad Air 11-inch (M2)
+        @"iPad14,10": @(UIDevice7GiPadAir),          // iPad Air 13-inch (M2)
+        @"iPad14,11": @(UIDevice7GiPadAir),          // iPad Air 13-inch (M2)
+        @"iPad16,1": @(UIDevice7GiPadMini),          // iPad mini (A17 Pro)
+        @"iPad16,2": @(UIDevice7GiPadMini),          // iPad mini (A17 Pro)
+        @"iPad16,3": @(UIDevice11Inch5GiPadPro),     // iPad Pro 11-inch (M4)
+        @"iPad16,4": @(UIDevice11Inch5GiPadPro),     // iPad Pro 11-inch (M4)
+        @"iPad16,5": @(UIDevice12Inch7GiPadPro),     // iPad Pro 13-inch (M4)
+        @"iPad16,6": @(UIDevice12Inch7GiPadPro),     // iPad Pro 13-inch (M4)
+        @"iPad15,7": @(UIDeviceA16iPad), // iPad (A16)
+        @"iPad15,8": @(UIDeviceA16iPad), // iPad (A16)
+        @"iPad15,3": @(UIDeviceM3iPadAir11Inch), // iPad Air 11-inch (M3)
+        @"iPad15,4": @(UIDeviceM3iPadAir11Inch), // iPad Air 11-inch (M3)
+        @"iPad15,5": @(UIDeviceM3iPadAir13Inch), // iPad Air 13-inch (M3)
+        @"iPad15,6": @(UIDeviceM3iPadAir13Inch), // iPad Air 13-inch (M3)
+        @"iPad16,8": @(UIDeviceM4iPadAir11Inch), // iPad Air 11-inch (M4)
+        @"iPad16,9": @(UIDeviceM4iPadAir11Inch), // iPad Air 11-inch (M4)
+        @"iPad16,10": @(UIDeviceM4iPadAir13Inch), // iPad Air 13-inch (M4)
+        @"iPad16,11": @(UIDeviceM4iPadAir13Inch), // iPad Air 13-inch (M4)
+        @"iPad17,1": @(UIDeviceM5iPadPro11Inch), // iPad Pro 11-inch (M5)
+        @"iPad17,2": @(UIDeviceM5iPadPro11Inch), // iPad Pro 11-inch (M5)
+        @"iPad17,3": @(UIDeviceM5iPadPro13Inch), // iPad Pro 13-inch (M5)
+        @"iPad17,4": @(UIDeviceM5iPadPro13Inch), // iPad Pro 13-inch (M5)
     };
     NSNumber *ipadType = ipadIdentifiers[platform];
     if (ipadType) return ipadType.integerValue;
@@ -351,57 +278,79 @@
     
     UIDevicePlatform platform = [self sfsdk_platformType];
     switch (platform) {
-        // Devices without a Neural Engine
-        case UIDeviceSE2iPhone:            // iPhone SE (2nd generation)
-        case UIDeviceXRiPhone:            // iPhone XR
-        case UIDeviceSE3iPhone:           // iPhone SE (3rd generation)
-        case UIDeviceXsiPhone:            // iPhone XS
-        case UIDeviceXsMaxiPhone:         // iPhone XS Max
-        case UIDevice11iPhone:            // iPhone 11
-        case UIDevice11ProiPhone:         // iPhone 11 Pro
-        case UIDevice11ProMaxiPhone:      // iPhone 11 Pro Max
-        case UIDevice5GiPadMini:          // iPad mini (5th generation)
-        case UIDevice3GiPadAir:           // iPad Air (3rd generation)
-        case UIDevice7GiPad:              // iPad (7th generation)
-        case UIDevice8GiPad:              // iPad (8th generation)
-        case UIDevice3G129InchiPadPro:    // iPad Pro (12.9-inch, 3rd generation)
-        case UIDevice11Inch2GiPadPro:     // iPad Pro (11-inch, 2nd generation)
+        // The A10-based iPad (7th generation) has no Neural Engine.
+        case UIDevice7GiPad:
             return NO;
 
-        // Devices with a Neural Engine
-        case UIDevice12MiniiPhone:        // iPhone 12 Mini
-        case UIDevice12iPhone:            // iPhone 12
-        case UIDevice12ProiPhone:         // iPhone 12 Pro
-        case UIDevice12ProMaxiPhone:      // iPhone 12 Pro Max
-        case UIDevice13MiniiPhone:        // iPhone 13 Mini
-        case UIDevice13iPhone:            // iPhone 13
-        case UIDevice13ProiPhone:         // iPhone 13 Pro
-        case UIDevice13ProMaxiPhone:      // iPhone 13 Pro Max
-        case UIDevice14iPhone:            // iPhone 14
-        case UIDevice14PlusiPhone:        // iPhone 14 Plus
-        case UIDevice14ProiPhone:         // iPhone 14 Pro
-        case UIDevice14ProMaxiPhone:      // iPhone 14 Pro Max
-        case UIDevice15iPhone:            // iPhone 15
-        case UIDevice15PlusiPhone:        // iPhone 15 Plus
-        case UIDevice15ProiPhone:         // iPhone 15 Pro
-        case UIDevice15ProMaxiPhone:      // iPhone 15 Pro Max
-        case UIDevice16ProiPhone:         // iPhone 16 Pro
-        case UIDevice16ProMaxiPhone:      // iPhone 16 Pro Max
-        case UIDevice16iPhone:            // iPhone 16
-        case UIDevice16PlusiPhone:        // iPhone 16 Plus
-        case UIDevice6GiPadMini:          // iPad mini (6th generation)
-        case UIDevice4GiPadAir:           // iPad Air (4th generation)
-        case UIDevice5GiPadAir:           // iPad Air (5th generation)
-        case UIDevice9GiPad:              // iPad (9th generation)
-        case UIDevice10GiPad:             // iPad (10th generation)
-        case UIDevice4G129InchiPadPro:    // iPad Pro (12.9-inch, 4th generation)
-        case UIDevice5G129InchiPadPro:    // iPad Pro (12.9-inch, 5th generation)
-        case UIDevice6G129InchiPadPro:    // iPad Pro (12.9-inch, 6th generation)
-        case UIDevice11Inch3GiPadPro:     // iPad Pro (11-inch, 3rd generation)
-        case UIDevice11Inch4GiPadPro:     // iPad Pro (11-inch, 4th generation)
+        // All other recognized iPhones/iPads use A12/A12X or newer chips.
+        case UIDeviceSE2iPhone:
+        case UIDeviceSE3iPhone:
+        case UIDeviceXRiPhone:
+        case UIDeviceXsiPhone:
+        case UIDeviceXsMaxiPhone:
+        case UIDevice11iPhone:
+        case UIDevice11ProiPhone:
+        case UIDevice11ProMaxiPhone:
+        case UIDevice12MiniiPhone:
+        case UIDevice12iPhone:
+        case UIDevice12ProiPhone:
+        case UIDevice12ProMaxiPhone:
+        case UIDevice13MiniiPhone:
+        case UIDevice13iPhone:
+        case UIDevice13ProiPhone:
+        case UIDevice13ProMaxiPhone:
+        case UIDevice14iPhone:
+        case UIDevice14PlusiPhone:
+        case UIDevice14ProiPhone:
+        case UIDevice14ProMaxiPhone:
+        case UIDevice15iPhone:
+        case UIDevice15PlusiPhone:
+        case UIDevice15ProiPhone:
+        case UIDevice15ProMaxiPhone:
+        case UIDevice16ProiPhone:
+        case UIDevice16ProMaxiPhone:
+        case UIDevice16iPhone:
+        case UIDevice16PlusiPhone:
+        case UIDevice16eiPhone:
+        case UIDevice17iPhone:
+        case UIDevice17ProiPhone:
+        case UIDevice17ProMaxiPhone:
+        case UIDeviceAiriPhone:
+        case UIDevice17eiPhone:
+        case UIDevice18ProiPhone:
+        case UIDevice18ProMaxiPhone:
+        case UIDevice11InchiPadPro:
+        case UIDevice3G129InchiPadPro:
+        case UIDevice11Inch2GiPadPro:
+        case UIDevice4G129InchiPadPro:
+        case UIDevice3GiPadAir:
+        case UIDevice5GiPadMini:
+        case UIDevice8GiPad:
+        case UIDevice9GiPad:
+        case UIDevice4GiPadAir:
+        case UIDevice11Inch3GiPadPro:
+        case UIDevice5G129InchiPadPro:
+        case UIDevice5GiPadAir:
+        case UIDevice10GiPad:
+        case UIDevice6GiPadMini:
+        case UIDevice11Inch4GiPadPro:
+        case UIDevice6G129InchiPadPro:
+        case UIDevice6GiPadAir:
+        case UIDevice7GiPadAir:
+        case UIDevice7GiPadMini:
+        case UIDevice11Inch5GiPadPro:
+        case UIDevice12Inch7GiPadPro:
+        case UIDeviceA16iPad:
+        case UIDeviceM3iPadAir11Inch:
+        case UIDeviceM3iPadAir13Inch:
+        case UIDeviceM4iPadAir11Inch:
+        case UIDeviceM4iPadAir13Inch:
+        case UIDeviceM5iPadPro11Inch:
+        case UIDeviceM5iPadPro13Inch:
+        case UIDeviceM1iPadPro129Inch:
             return YES;
 
-        // Default case
+        // Do not infer hardware capabilities for unknown models or simulators.
         default:
             return NO;
     }
@@ -438,6 +387,14 @@
         case UIDevice16ProMaxiPhone: return IPHONE_16_PRO_MAX_NAMESTRING;   // iPhone 16 Pro Max
         case UIDevice16iPhone: return IPHONE_16_NAMESTRING;  // iPhone 16
         case UIDevice16PlusiPhone: return IPHONE_16_PLUS_NAMESTRING;  // iPhone 16 Plus
+        case UIDevice16eiPhone: return IPHONE_16E_NAMESTRING;
+        case UIDevice17iPhone: return IPHONE_17_NAMESTRING;
+        case UIDevice17ProiPhone: return IPHONE_17_PRO_NAMESTRING;
+        case UIDevice17ProMaxiPhone: return IPHONE_17_PRO_MAX_NAMESTRING;
+        case UIDeviceAiriPhone: return IPHONE_AIR_NAMESTRING;
+        case UIDevice17eiPhone: return IPHONE_17E_NAMESTRING;
+        case UIDevice18ProiPhone: return IPHONE_18_PRO_NAMESTRING;
+        case UIDevice18ProMaxiPhone: return IPHONE_18_PRO_MAX_NAMESTRING;
 
         case UIDeviceUnknowniPhone: return IPHONE_UNKNOWN_NAMESTRING;
 
@@ -454,6 +411,7 @@
         case UIDevice4G129InchiPadPro: return IPAD_PRO_12_9_4G_NAMESTRING;
         case UIDevice5G129InchiPadPro: return IPAD_PRO_12_9_5G_NAMESTRING;
         case UIDevice6G129InchiPadPro: return IPAD_PRO_12_9_6G_NAMESTRING;
+        case UIDevice11InchiPadPro: return IPAD_PRO_11_1G_NAMESTRING;
         case UIDevice11Inch2GiPadPro: return IPAD_PRO_11_2G_NAMESTRING;
         case UIDevice11Inch3GiPadPro: return IPAD_PRO_11_3G_NAMESTRING;
         case UIDevice11Inch4GiPadPro: return IPAD_PRO_11_4G_NAMESTRING;
@@ -462,6 +420,14 @@
         case UIDevice7GiPadMini: return IPAD_MINI_7G_NAMESTRING;
         case UIDevice11Inch5GiPadPro: return IPAD_PRO_11_5G_NAMESTRING;
         case UIDevice12Inch7GiPadPro: return IPAD_PRO_12_7G_NAMESTRING;
+
+        case UIDeviceA16iPad: return IPAD_A16_NAMESTRING;
+        case UIDeviceM3iPadAir11Inch: return IPAD_AIR_11_M3_NAMESTRING;
+        case UIDeviceM3iPadAir13Inch: return IPAD_AIR_13_M3_NAMESTRING;
+        case UIDeviceM4iPadAir11Inch: return IPAD_AIR_11_M4_NAMESTRING;
+        case UIDeviceM4iPadAir13Inch: return IPAD_AIR_13_M4_NAMESTRING;
+        case UIDeviceM5iPadPro11Inch: return IPAD_PRO_11_M5_NAMESTRING;
+        case UIDeviceM5iPadPro13Inch: return IPAD_PRO_13_M5_NAMESTRING;
 
         case UIDeviceUnknowniPad: return IPAD_UNKNOWN_NAMESTRING;
 
