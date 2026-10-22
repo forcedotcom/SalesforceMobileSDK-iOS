@@ -1031,10 +1031,9 @@ successBlock:(SFRestResponseBlock)successBlock
 
 + (NSString *)getHttpStringFomFromDate:(NSDate *)date {
     if (date == nil) return nil;
-    /* HTTP dates have second precision; avoid sending a precondition earlier
-     * than the supplied modification timestamp. Exact seconds stay unchanged.
+    /* HTTP dates have second precision. Do not round up past the supplied
+     * cutoff, which could allow an intervening update to be overwritten.
      */
-    date = [NSDate dateWithTimeIntervalSinceReferenceDate:ceil(date.timeIntervalSinceReferenceDate)];
     return [httpDateFormatter stringFromDate:date];
 }
 

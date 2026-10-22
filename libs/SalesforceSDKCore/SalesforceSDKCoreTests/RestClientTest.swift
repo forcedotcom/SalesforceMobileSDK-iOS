@@ -833,13 +833,13 @@ final class RestClientConditionalRequestTests: XCTestCase {
                        "Wed, 01 Jan 2025 23:59:59 GMT")
     }
 
-    func test_givenFractionalSeconds_whenBuildingConditionalUpdate_thenHeaderRoundsUp() throws {
+    func test_givenFractionalSeconds_whenBuildingConditionalUpdate_thenHeaderDoesNotAdvanceCutoff() throws {
         NSTimeZone.default = try XCTUnwrap(TimeZone(secondsFromGMT: 0))
-        for fraction in [0.001, 0.499, 0.5, 0.999] {
+        for fraction in [0.001, 0.1, 0.499, 0.5, 0.999] {
             let request = conditionalUpdate(date: Date(timeIntervalSince1970: 1_735_775_999 + fraction))
 
             XCTAssertEqual(request.customHeaders?["If-Unmodified-Since"] as? String,
-                           "Thu, 02 Jan 2025 00:00:00 GMT", "Fraction: \(fraction)")
+                           "Wed, 01 Jan 2025 23:59:59 GMT", "Fraction: \(fraction)")
         }
     }
 
