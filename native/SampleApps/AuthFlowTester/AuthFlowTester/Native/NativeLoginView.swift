@@ -128,7 +128,7 @@ struct NativeLoginView: View {
         .padding(.horizontal, 24)
         .background(Color(.systemBackground))
         .sheet(isPresented: $showOptions) {
-            NativeLoginOptionsSheet()
+            LoginOptionsSheetView()
         }
     }
 

@@ -88,14 +88,6 @@ struct SessionDetailView: View {
                 OAuthConfigurationView(isExpanded: $isOAuthConfigExpanded)
                     .id(refreshTrigger)
 
-                // Authentication mode (browser or Native Login) takes effect on the next launch.
-                Button("Authentication Mode: \(NativeLoginSettings.shared.activeMode.title)") {
-                    showAuthenticationMode = true
-                }
-                .accessibilityIdentifier("authModeButton")
-                .sheet(isPresented: $showAuthenticationMode) {
-                    NativeLoginOptionsSheet()
-                }
                                 
             }
             .padding()

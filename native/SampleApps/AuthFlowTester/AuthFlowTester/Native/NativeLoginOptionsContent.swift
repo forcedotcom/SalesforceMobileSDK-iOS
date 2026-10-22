@@ -1,5 +1,5 @@
 //
-//  NativeLoginOptionsSheet.swift
+//  NativeLoginOptionsContent.swift
 //  AuthFlowTester
 //
 //  Copyright (c) 2025-present, salesforce.com, inc. All rights reserved.
@@ -28,77 +28,76 @@
 import SwiftUI
 import SalesforceSDKCore
 
-/// App-presented Login Options for Native mode. The SDK's own Login Options screen is only reachable
-/// from its web login screens and has no extension point, so this sheet is built here instead.
-/// Browser-only rows (static/dynamic config, discovery, web-server and force-advanced toggles) are
-/// intentionally absent.
-struct NativeLoginOptionsSheet: View {
+/// Content injected at the top of the SDK's Login Options screen (see `LoginOptionsCustomization`):
+/// the Authentication Mode picker and, for Native mode, the Native Login client settings. In Native
+/// mode the SDK's browser-only sections are hidden.
+struct NativeLoginOptionsContent: View {
     @ObservedObject private var settings = NativeLoginSettings.shared
-    @Environment(\.dismiss) private var dismiss
     @State private var draft = NativeLoginConfig()
     @State private var showImportAlert = false
     @State private var importJSONText = ""
 
+    /// Installs this content into the SDK's Login Options screen.
+    static func install() {
+        let customization = LoginOptionsViewController.customization
+        customization.topContent = AnyView(NativeLoginOptionsContent())
+        customization.hidesDefaultSections = NativeLoginSettings.shared.savedMode == .native
+    }
+
     var body: some View {
-        VStack(spacing: 0) {
-            HStack {
-                Text("Login Options")
-                    .font(.headline)
-                Spacer()
-                Button("Done") {
-                    settings.update(draft)
-                    dismiss()
+        VStack(alignment: .leading, spacing: 16) {
+            Text("Authentication Mode")
+                .font(.headline)
+            Picker("Authentication Mode", selection: $settings.savedMode) {
+                ForEach(AuthenticationMode.allCases) { mode in
+                    Text(mode.title).tag(mode)
                 }
-                .accessibilityIdentifier("nativeOptionsDoneButton")
             }
-            .padding()
+            .pickerStyle(.segmented)
+            .accessibilityIdentifier("authModePicker")
+            if settings.relaunchRequired {
+                Text("Relaunch to apply")
+                    .font(.caption)
+                    .foregroundColor(.orange)
+                    .accessibilityIdentifier("authModeRelaunchNotice")
+            }
 
-            ScrollView {
-                VStack(alignment: .leading, spacing: 16) {
-                    Text("Authentication Mode")
+            if settings.savedMode == .native {
+                Divider()
+
+                HStack {
+                    Text("Native Login Client")
                         .font(.headline)
-                    Picker("Authentication Mode", selection: $settings.savedMode) {
-                        ForEach(AuthenticationMode.allCases) { mode in
-                            Text(mode.title).tag(mode)
-                        }
+                    Spacer()
+                    Button {
+                        importJSONText = ""
+                        showImportAlert = true
+                    } label: {
+                        Image(systemName: "square.and.arrow.down")
                     }
-                    .pickerStyle(.segmented)
-                    .accessibilityIdentifier("authModePicker")
-                    if settings.relaunchRequired {
-                        Text("Relaunch to apply")
-                            .font(.caption)
-                            .foregroundColor(.orange)
-                            .accessibilityIdentifier("authModeRelaunchNotice")
-                    }
-
-                    Divider()
-
-                    HStack {
-                        Text("Native Login Client")
-                            .font(.headline)
-                        Spacer()
-                        Button {
-                            importJSONText = ""
-                            showImportAlert = true
-                        } label: {
-                            Image(systemName: "square.and.arrow.down")
-                        }
-                        .accessibilityIdentifier("importNativeConfigButton")
-                    }
-                    field("Consumer key", text: $draft.clientId, id: "nativeClientIdField")
-                    field("Callback URL", text: $draft.callbackUrl, id: "nativeCallbackUrlField")
-                    field("Community login URL", text: $draft.communityUrl, id: "nativeCommunityUrlField")
-
-                    Toggle("Use Hybrid Authentication", isOn: $draft.useHybridFlow)
-                        .accessibilityIdentifier("useHybridFlowToggle")
-                    Toggle("Use DPoP", isOn: $draft.useDPoP)
-                        .accessibilityIdentifier("useDPoPToggle")
+                    .accessibilityIdentifier("importNativeConfigButton")
                 }
-                .padding()
+                field("Client ID", text: $draft.clientId, id: "nativeClientIdField")
+                field("Native Callback URL", text: $draft.callbackUrl, id: "nativeCallbackUrlField")
+                field("Community Login URL", text: $draft.communityUrl, id: "nativeCommunityUrlField")
+
+                Toggle("Use Hybrid Authentication", isOn: $draft.useHybridFlow)
+                    .accessibilityIdentifier("useHybridFlowToggle")
+                Toggle("Use DPoP", isOn: $draft.useDPoP)
+                    .accessibilityIdentifier("useDPoPToggle")
+                Button("Apply") {
+                    settings.update(draft)
+                }
+                .buttonStyle(.borderedProminent)
+                .accessibilityIdentifier("nativeApplyButton")
             }
         }
-        .background(Color(.systemBackground))
+        .padding(.horizontal, 20)
+        .padding(.top, 20)
         .onAppear { draft = settings.config }
+        .onChange(of: settings.savedMode) { _, mode in
+            LoginOptionsViewController.customization.hidesDefaultSections = mode == .native
+        }
         .alert("Import Native Login Configuration", isPresented: $showImportAlert) {
             TextField("Paste JSON here", text: $importJSONText)
             Button("Import") {
@@ -124,4 +123,13 @@ struct NativeLoginOptionsSheet: View {
                 .accessibilityIdentifier(id)
         }
     }
+}
+
+/// Presents the SDK's Login Options screen from the native form.
+struct LoginOptionsSheetView: UIViewControllerRepresentable {
+    func makeUIViewController(context: Context) -> UIViewController {
+        LoginOptionsViewController.makeViewController { }
+    }
+
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) { }
 }

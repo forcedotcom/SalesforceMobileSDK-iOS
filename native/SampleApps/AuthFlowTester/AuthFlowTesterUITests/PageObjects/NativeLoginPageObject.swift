@@ -30,7 +30,7 @@ import Foundation
 import XCTest
 
 /// Page object for the app-owned Native Login form and its Login Options sheet.
-/// Identifiers mirror `NativeLoginView` / `NativeLoginOptionsSheet` in the app target.
+/// Identifiers mirror `NativeLoginView` / `the SDK Login Options screen` in the app target.
 class NativeLoginPageObject {
     /// Launch argument that selects Native mode for a launch (Native Login cannot be turned off in-process).
     static let nativeModeArgument = "--authenticationMode=native"
@@ -116,7 +116,11 @@ class NativeLoginPageObject {
         XCTAssertTrue(alert.waitForExistence(timeout: UITestTimeouts.long), "Native config import alert did not appear")
         alert.textFields.firstMatch.typeText(text)
         alert.buttons["Import"].tap()
-        tap(doneButton())
+        tap(applyButton())
+        // Applying may restart authentication, which replaces the form and its sheet; otherwise close the screen.
+        if closeButton().waitForExistence(timeout: UITestTimeouts.short), closeButton().isHittable {
+            closeButton().tap()
+        }
         XCTAssertTrue(loginButton().waitForExistence(timeout: UITestTimeouts.long), "Native form did not return after closing options")
     }
 
@@ -129,7 +133,8 @@ class NativeLoginPageObject {
     private func optionsButton() -> XCUIElement { app.buttons["nativeLoginOptionsButton"] }
     private func browserFallbackButton() -> XCUIElement { app.buttons["nativeBrowserFallbackButton"] }
     private func importButton() -> XCUIElement { app.buttons["importNativeConfigButton"] }
-    private func doneButton() -> XCUIElement { app.buttons["nativeOptionsDoneButton"] }
+    private func applyButton() -> XCUIElement { app.buttons["nativeApplyButton"] }
+    private func closeButton() -> XCUIElement { app.buttons["loginOptionsCloseButton"] }
     private func resultLabel() -> XCUIElement { app.staticTexts["nativeResultLabel"] }
     private func errorDetailLabel() -> XCUIElement { app.staticTexts["nativeErrorDetail"] }
     private func diagnosticsLabel() -> XCUIElement { app.staticTexts["nativeDiagnosticsLabel"] }

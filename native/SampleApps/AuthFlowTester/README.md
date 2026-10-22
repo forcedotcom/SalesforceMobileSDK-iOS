@@ -286,10 +286,13 @@ DPoP is on, and no `B` markers), then a REST call, a revoke/refresh cycle, a col
 refresh.
 
 Native Login cannot be turned off inside a running process, so the authentication mode is chosen per
-launch. Tests launch with `--authenticationMode=native`; a user switches mode from Login Options
-(Settings in the session screen, or the Login Options button on the native form) and relaunches.
-Native client settings (consumer key, callback URL, community login URL, DPoP and hybrid) are
-edited in that sheet; tests fill them with its JSON import button.
+launch. Tests launch with `--authenticationMode=native`; a user switches mode with the
+Authentication Mode picker at the top of the SDK's Login Options screen (debug builds only; reached
+from the web login screen, the developer menu, or the Login Options button on the native form) and
+relaunches. AuthFlowTester injects the picker and the Native Login client settings (Client ID,
+Native Callback URL, Community Login URL, hybrid, DPoP) through `LoginOptionsViewController.customization`;
+in Native mode the SDK's browser-only sections are hidden. Settings take effect on Apply; tests fill
+them with the JSON import button.
 
 | Test | Notes |
 |------|-------|
@@ -313,9 +316,9 @@ available; the diagnostics are produced by an app-side `SFNetwork` metrics obser
 Requires a `nativeLogin` entry in `ui_test_config.json` (see Configuration below); skips cleanly
 via `XCTSkip` when the entry is absent.
 
-| Native login form | Login Options (Native mode) |
-|---|---|
-| ![Native login form](Screenshots/native-login-form.png) | ![Native Login Options sheet](Screenshots/native-login-options.png) |
+| Native login form | Login Options (Native) | Login Options (Browser) |
+|---|---|---|
+| ![Native login form](Screenshots/native-login-form.png) | ![Login Options, Native selected](Screenshots/login-options-native.png) | ![Login Options, Browser selected](Screenshots/login-options-browser.png) |
 
 Run only this suite:
 
