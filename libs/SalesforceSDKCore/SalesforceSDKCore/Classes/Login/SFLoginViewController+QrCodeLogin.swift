@@ -51,6 +51,9 @@ public extension SalesforceLoginViewController {
         pkceCodeVerifier: String?
     ) {
         guard let frontdoorBridgeUrl = URL(string: frontdoorBridgeUrlString) else { return }
+        guard AuthCoordinatorFrontdoorBridgeLoginOverride(
+            frontdoorBridgeUrl: frontdoorBridgeUrl,
+            codeVerifier: pkceCodeVerifier).isValid else { return }
         
         // Stop current authentication attempt, if applicable, before starting the new one.
         UserAccountManager.shared.stopCurrentAuthentication { result in
@@ -86,6 +89,12 @@ public extension SalesforceLoginViewController {
         if let uiBridgeApiParameters = uiBridgeApiParametersFromQrCodeLoginUrl(
             qrCodeLoginUrl
         ) {
+            guard let url = URL(string: uiBridgeApiParameters.frontdoorBridgeUrl),
+                  AuthCoordinatorFrontdoorBridgeLoginOverride(
+                    frontdoorBridgeUrl: url,
+                    codeVerifier: uiBridgeApiParameters.pkceCodeVerifier).isValid else {
+                return false
+            }
             SFSDKAppFeatureMarkers.registerAppFeature(kSFAppFeatureQrCodeLogin)
             loginWithFrontdoorBridgeUrl(
                 uiBridgeApiParameters.frontdoorBridgeUrl,
