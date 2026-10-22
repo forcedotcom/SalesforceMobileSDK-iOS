@@ -105,6 +105,7 @@
 		4FAUTHFLOW001234567890ABC /* AuthFlowTypesViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FAUTHFLOW112345678901ABC /* AuthFlowTypesViewTests.swift */; };
 		4FBOOTCP001234567890ABCD /* LoginOptionsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FBOOTCP112345678901ABCD /* LoginOptionsViewControllerTests.swift */; };
 		4FDEVINFO001234567890ABCD /* DevInfoViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FDEVINFO112345678901ABCD /* DevInfoViewControllerTests.swift */; };
+		D24627009000000000000001 /* UIDeviceHardwareTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D24627009000000000000002 /* UIDeviceHardwareTests.swift */; };
 		4FDISCOV001234567890ABCD /* DiscoveryResultEditorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FDISCOV112345678901ABCD /* DiscoveryResultEditorTests.swift */; };
 		4FE006B12EBEB65900CFD66F /* AuthFlowTypesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE006B02EBEB65900CFD66F /* AuthFlowTypesView.swift */; };
 		4FE006B22EBEB65900CFD66F /* BootConfigEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE006AE2EBEB65900CFD66F /* BootConfigEditor.swift */; };
@@ -719,6 +720,7 @@
 		4FAUTHFLOW112345678901ABC /* AuthFlowTypesViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AuthFlowTypesViewTests.swift; path = SalesforceSDKCoreTests/AuthFlowTypesViewTests.swift; sourceTree = SOURCE_ROOT; };
 		4FBOOTCP112345678901ABCD /* LoginOptionsViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LoginOptionsViewControllerTests.swift; path = SalesforceSDKCoreTests/LoginOptionsViewControllerTests.swift; sourceTree = SOURCE_ROOT; };
 		4FDEVINFO112345678901ABCD /* DevInfoViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DevInfoViewControllerTests.swift; path = SalesforceSDKCoreTests/DevInfoViewControllerTests.swift; sourceTree = SOURCE_ROOT; };
+		D24627009000000000000002 /* UIDeviceHardwareTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UIDeviceHardwareTests.swift; path = SalesforceSDKCoreTests/UIDeviceHardwareTests.swift; sourceTree = SOURCE_ROOT; };
 		4FDISCOV112345678901ABCD /* DiscoveryResultEditorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DiscoveryResultEditorTests.swift; path = SalesforceSDKCoreTests/DiscoveryResultEditorTests.swift; sourceTree = SOURCE_ROOT; };
 		4FE006AE2EBEB65900CFD66F /* BootConfigEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BootConfigEditor.swift; path = SalesforceSDKCore/Classes/Login/DevConfig/BootConfigEditor.swift; sourceTree = SOURCE_ROOT; };
 		4FE006AF2EBEB65900CFD66F /* LoginOptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LoginOptionsViewController.swift; path = SalesforceSDKCore/Classes/Login/DevConfig/LoginOptionsViewController.swift; sourceTree = SOURCE_ROOT; };
@@ -1098,6 +1100,7 @@
 				69DFE0682B969C1D000906E4 /* CryptoUtilsTests.swift */,
 				237C18722E450B710008015C /* DecryptStreamTests.swift */,
 				4FDEVINFO112345678901ABCD /* DevInfoViewControllerTests.swift */,
+				D24627009000000000000002 /* UIDeviceHardwareTests.swift */,
 				23D96B752E145B400004B06A /* DomainDiscoveryCoordinatorTests.swift */,
 				A2A70B3207E0F66D9367BCAB /* WelcomeDiscoveryLoginHostTests.swift */,
 				697F5C4E267BE29A00F382A9 /* EncryptionTests.swift */,
@@ -2357,6 +2360,7 @@
 				237C18732E450B710008015C /* DecryptStreamTests.swift in Sources */,
 				230834862DF8938D00C7CBF7 /* URLSessionTask+RetryPolicyTests.swift in Sources */,
 				4FDEVINFO001234567890ABCD /* DevInfoViewControllerTests.swift in Sources */,
+				D24627009000000000000001 /* UIDeviceHardwareTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
