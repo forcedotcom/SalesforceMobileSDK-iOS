@@ -810,6 +810,62 @@ class RestClientTests: XCTestCase {
     
 }
 
+final class RestClientConditionalRequestTests: XCTestCase {
+    private var originalTimeZone: TimeZone?
+
+    override func setUpWithError() throws {
+        try super.setUpWithError()
+        originalTimeZone = NSTimeZone.default
+    }
+
+    override func tearDownWithError() throws {
+        if let originalTimeZone {
+            NSTimeZone.default = originalTimeZone
+        }
+        try super.tearDownWithError()
+    }
+
+    func test_givenNonUTCTimeZone_whenBuildingConditionalUpdate_thenHeaderUsesGMT() throws {
+        NSTimeZone.default = try XCTUnwrap(TimeZone(secondsFromGMT: 20_700))
+        let request = conditionalUpdate(date: Date(timeIntervalSince1970: 1_735_775_999))
+
+        XCTAssertEqual(request.customHeaders?["If-Unmodified-Since"] as? String,
+                       "Wed, 01 Jan 2025 23:59:59 GMT")
+    }
+
+    func test_givenFractionalSeconds_whenBuildingConditionalUpdate_thenHeaderRoundsUp() throws {
+        NSTimeZone.default = try XCTUnwrap(TimeZone(secondsFromGMT: 0))
+        for fraction in [0.001, 0.499, 0.5, 0.999] {
+            let request = conditionalUpdate(date: Date(timeIntervalSince1970: 1_735_775_999 + fraction))
+
+            XCTAssertEqual(request.customHeaders?["If-Unmodified-Since"] as? String,
+                           "Thu, 02 Jan 2025 00:00:00 GMT", "Fraction: \(fraction)")
+        }
+    }
+
+    func test_givenExactSecond_whenBuildingConditionalUpdate_thenHeaderDoesNotAdvance() throws {
+        NSTimeZone.default = try XCTUnwrap(TimeZone(secondsFromGMT: 0))
+        let request = conditionalUpdate(date: Date(timeIntervalSince1970: 1_735_775_999))
+
+        XCTAssertEqual(request.customHeaders?["If-Unmodified-Since"] as? String,
+                       "Wed, 01 Jan 2025 23:59:59 GMT")
+    }
+
+    func test_givenNilDate_whenBuildingUpdate_thenConditionalHeaderIsAbsent() {
+        let request = conditionalUpdate(date: nil)
+
+        XCTAssertNil(request.customHeaders?["If-Unmodified-Since"])
+    }
+
+    private func conditionalUpdate(date: Date?) -> RestRequest {
+        RestClient.sharedGlobal.requestForUpdate(withObjectType: "Account",
+                                                objectId: "test-account",
+                                                fields: ["Name": "Updated"],
+                                                ifUnmodifiedSince: date,
+                                                apiVersion: nil)
+    }
+}
+
 final class RestClientWebSocketTests: XCTestCase {
 
     func testNewWebSocketFromURLRequest() async throws {

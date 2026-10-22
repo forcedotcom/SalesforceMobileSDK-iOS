@@ -78,6 +78,8 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
 + (void) initialize {
     if (self == [SFRestAPI class]) {
         httpDateFormatter = [NSDateFormatter new];
+        httpDateFormatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
+        httpDateFormatter.timeZone = [NSTimeZone timeZoneForSecondsFromGMT:0];
         httpDateFormatter.dateFormat = @"EEE',' dd MMM yyyy HH':'mm':'ss 'GMT'";
     }
 }
@@ -1029,6 +1031,10 @@ successBlock:(SFRestResponseBlock)successBlock
 
 + (NSString *)getHttpStringFomFromDate:(NSDate *)date {
     if (date == nil) return nil;
+    /* HTTP dates have second precision; avoid sending a precondition earlier
+     * than the supplied modification timestamp. Exact seconds stay unchanged.
+     */
+    date = [NSDate dateWithTimeIntervalSinceReferenceDate:ceil(date.timeIntervalSinceReferenceDate)];
     return [httpDateFormatter stringFromDate:date];
 }
 
