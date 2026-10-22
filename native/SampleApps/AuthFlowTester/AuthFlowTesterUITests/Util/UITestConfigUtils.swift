@@ -155,7 +155,8 @@ struct AppConfig: Codable {
     /// Whether a normal refresh is expected to rotate this configuration's refresh token.
     /// This is deliberately distinct from the per-user RT user-agent feature marker.
     var expectsRefreshTokenRotation: Bool {
-        return name.contains("_rtr")
+        // The community (headless) ECAs rotate the refresh token on every refresh.
+        return name.contains("_rtr") || name.hasSuffix("_headless")
     }
 
     /// Returns true if the app uses DPoP (name contains "_dpop")

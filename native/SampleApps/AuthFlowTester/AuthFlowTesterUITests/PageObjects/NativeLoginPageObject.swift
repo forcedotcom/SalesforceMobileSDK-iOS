@@ -80,11 +80,21 @@ class NativeLoginPageObject {
         let user = usernameField()
         XCTAssertTrue(user.waitForExistence(timeout: UITestTimeouts.long), "Native username field did not appear")
         user.tap()
+        clear(user, placeholder: "Username")
         user.typeText(username)
         let pass = passwordField()
         pass.tap()
+        clear(pass, placeholder: "Password")
         pass.typeText(password)
         loginButton().tap()
+    }
+
+    /// The form keeps its text after a failed attempt; remove it so a retry doesn't append to it.
+    private func clear(_ field: XCUIElement, placeholder: String) {
+        guard let text = field.value as? String, !text.isEmpty, text != placeholder else { return }
+        // Put the caret at the end first; deleting from the middle would leave text behind.
+        field.coordinate(withNormalizedOffset: CGVector(dx: 0.98, dy: 0.5)).tap()
+        field.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: text.count))
     }
 
     func tapCancel() {

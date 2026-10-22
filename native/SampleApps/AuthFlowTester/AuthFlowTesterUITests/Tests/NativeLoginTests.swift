@@ -57,6 +57,8 @@ class NativeLoginTests: BaseAuthFlowTester {
             "No nativeLogin entry in ui_test_config.json; skipping Native Login tests"
         )
         setup = try UITestConfigUtils.shared.nativeLoginSetup()
+        // Record the last token request so refreshes can be checked against the community host.
+        extraLaunchArguments = ["--captureTokenRequestUserAgent"]
     }
 
     // MARK: - Config
