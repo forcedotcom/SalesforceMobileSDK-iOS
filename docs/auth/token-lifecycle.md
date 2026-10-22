@@ -6,6 +6,7 @@ concurrency.
 
 The primary classes are:
 
+- **`NativeLoginManagerInternal`**, **`SFUserAccountManager`** — native REST exchange, owning-session/attempt checks, identity handoff and account completion.
 - **`SFOAuthCoordinator`** — drives interactive authentication and authorization-code exchange.
 - **`SFSDKOAuth2`** — sends token-endpoint requests and handles DPoP nonce challenges.
 - **`SFSDKTokenRefreshCoordinator`** — coalesces refresh requests per credential.
@@ -22,7 +23,7 @@ The primary classes are:
 
 **Entry point:** `SFOAuthCoordinator.beginTokenEndpointFlow`
 
-After browser authentication returns an authorization code, `SFOAuthCoordinator`:
+After web authentication (embedded WebView or system browser) returns an authorization code, `SFOAuthCoordinator`:
 
 1. Obtains an App Attestation assertion when attestation is enabled for the login domain.
 2. Creates `SFSDKOAuthTokenEndpointRequest` with the client ID, redirect URI, server URL,
@@ -38,6 +39,54 @@ After browser authentication returns an authorization code, `SFOAuthCoordinator`
 
 The credential identifier is established before token exchange. It is the stable scope for the
 DPoP keypair, nonce cache, and later refresh coalescing.
+
+---
+
+### 1.1 Native Login code exchange
+
+**Entry point:** `NativeLoginManagerInternal.sendAuthenticationRequest`, used by password
+login, passwordless authorization completion and registration completion. These direct REST
+requests do not use `SFOAuthCoordinator.beginTokenEndpointFlow` for the initial exchange.
+
+- Resolve the owning native auth session by scene, client ID, callback and normalized community
+  URL. `beginNativeAuthentication:` records a new attempt identity. The native
+  `AuthenticationContext` captures `usesDPoP` from the session request's optional `useDPoP` override, otherwise from the current process flag. Later flag changes do
+  not alter that context during authorize/token exchange.
+- With DPoP enabled, use the session credentials identifier/keypair for both POSTs. Append
+  `dpop_jkt` to the authorize form body and attach a proof. Parse a JSON response with code,
+  community URL and community ID; then send a token POST using the configured native callback,
+  PKCE verifier and `authorization_code` or `hybrid_auth_code` grant. These proofs have no `ath`.
+- Before each send and around asynchronous crypto work, verify the attempt is still current.
+  Key loading and proof creation use `performCrypto` off the main thread.
+- Cache nonempty nonce headers from either response. Retry an individual authorize/token
+  request once only for HTTP 400/401, exact JSON `error=use_dpop_nonce`, and a nonempty
+  `DPoP-Nonce`. Preserve the body/key and generate a fresh proof. Malformed/unrelated errors,
+  missing nonce and a second challenge do not trigger another retry. This does not broaden or
+  narrow the existing shared `DPoPRequestDecorator.isNonceChallenge` rule.
+- `completeNativeAuthentication:context:` validates ownership and hands token data to
+  `createNativeUserAccount:authSession:`. Token-response handling updates the same session
+  credentials and starts identity retrieval. Returning native success means the token handoff
+  was accepted; identity retrieval, account persistence and app success notification complete
+  through the existing account-manager lifecycle afterward.
+
+A nonce received at authorize can seed token exchange, so an empty nonce cache at the first
+native token POST is not guaranteed. A signing/key failure aborts native authentication rather
+than retrying unsigned. With DPoP disabled, requests retain the native Bearer exchange while
+still enforcing ownership checks.
+
+### 1.2 Native ownership and fallback
+
+Ownership is scene/auth-session plus attempt identity, not merely the current user or manager.
+Late identity callbacks and identity-refresh results must still belong to the owning attempt.
+Failure/cancellation cleanup removes native key/nonce state only when no persisted account or
+other auth session references it. Once token data is handed to identity retrieval, that session
+is not treated as an abandoned pre-token attempt. Replacement-account cleanup must preserve
+its newly published credentials.
+
+`fallbackToWebAuthentication()` resets the native authentication and starts an independent
+web flow. It transfers no native identifier, keypair, nonce or proof. The existing browser
+flow determines its own DPoP state; cancellation can return to a fresh Native Login. The
+normal account-completion path records token type and feature markers for native sessions too.
 
 ---
 
@@ -207,13 +256,22 @@ no private-key material is exported or held in plaintext.
 
 ## 5. DPoP Nonce Lifecycle
 
+`DPoPURL.htu()` strips query and fragment. Its temporary compatibility rewrite also removes
+`vforcesite` from the end of the first path segment immediately after the leading slash,
+case-insensitively, with a nonempty prefix before the suffix:
+`/sitevforcesite/services/oauth2/token` → `/site/services/oauth2/token`. A later segment or
+`/site/vforcesite/...` does not match. This affects proof `htu` and the nonce cache URL key,
+not the network destination; it applies to native, refresh and resource paths. Remove the
+rewrite when the server validation issue is resolved.
+
 `DPoPNonceCache` is a process-lifetime, thread-safe cache keyed by canonicalized `htu` and
 credential scope. Reads are non-destructive. A scope-wide fallback lets a resource request reuse
 the most recently observed token-endpoint nonce when no exact URL entry exists.
 
 Salesforce normally seeds and rotates the nonce at the token endpoint. `SFSDKOAuth2` harvests the
 response header before interpreting a token response and retries one nonce challenge with a newly
-built proof.
+built proof. Native Login harvests both authorize/token attempts with its own stricter
+challenge rule (§1.1); the shared helper is unchanged.
 
 `SFRestAPI` also defensively handles a resource-server HTTP 400 `use_dpop_nonce` response, but
 only when the failed attempt actually carried both `Authorization: DPoP ...` and a `DPoP` proof:
