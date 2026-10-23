@@ -307,6 +307,7 @@ class DebugNativeLoginModelTests: XCTestCase {
     private var diagnostics: NativeLoginDiagnostics!
     private var cancelCount = 0
     private var fallbackCount = 0
+    private var invalidateCount = 0
     private var canDismiss = false
     private var submitted: [(String, String)] = []
 
@@ -315,6 +316,7 @@ class DebugNativeLoginModelTests: XCTestCase {
         diagnostics = NativeLoginDiagnostics(isEnabled: { true })
         cancelCount = 0
         fallbackCount = 0
+        invalidateCount = 0
         canDismiss = false
         submitted = []
     }
@@ -326,6 +328,7 @@ class DebugNativeLoginModelTests: XCTestCase {
                               },
                               cancelAction: { [unowned self] in self.cancelCount += 1 },
                               fallbackAction: { [unowned self] in self.fallbackCount += 1 },
+                              invalidateAttempt: { [unowned self] in self.invalidateCount += 1 },
                               canDismiss: { [unowned self] in self.canDismiss },
                               diagnostics: diagnostics)
     }
@@ -411,7 +414,14 @@ class DebugNativeLoginModelTests: XCTestCase {
 
         XCTAssertEqual(model.state, .idle, "A cancelled attempt's result is ignored")
         XCTAssertEqual(cancelCount, 0, "Nothing to return to without an account")
+        XCTAssertEqual(invalidateCount, 1, "The SDK attempt is invalidated so a late token creates no account")
         XCTAssertFalse(model.showsCancel)
+    }
+
+    func test_givenIdleForm_whenCancelled_thenNothingInvalidated() {
+        let model = makeModel { _, _ in .success }
+        model.cancel()
+        XCTAssertEqual(invalidateCount, 0)
     }
 
     func test_givenExistingAccount_whenCancelled_thenAuthenticationCancelled() {

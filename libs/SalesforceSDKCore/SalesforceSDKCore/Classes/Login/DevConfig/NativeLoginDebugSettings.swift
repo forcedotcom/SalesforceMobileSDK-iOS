@@ -79,13 +79,13 @@ public struct NativeLoginDebugConfig: Codable, Equatable {
     /// The first problem with this configuration, or nil when Native Login can use it.
     public var validationError: String? {
         if consumerKey.trimmingCharacters(in: .whitespaces).isEmpty {
-            return "Client ID is required"
+            return SFSDKResourceUtils.localizedString("NATIVE_LOGIN_DEBUG_ERROR_CLIENT_ID_REQUIRED")
         }
         if !Self.isHttpsUrl(redirectUri) {
-            return "Native Callback URL must be an https:// URL"
+            return SFSDKResourceUtils.localizedString("NATIVE_LOGIN_DEBUG_ERROR_CALLBACK_URL_HTTPS")
         }
         if !Self.isHttpsUrl(communityUrl) {
-            return "Community Login URL must be an https:// URL"
+            return SFSDKResourceUtils.localizedString("NATIVE_LOGIN_DEBUG_ERROR_COMMUNITY_URL_HTTPS")
         }
         return nil
     }
@@ -113,10 +113,10 @@ public enum NativeLoginDebugSettingsError: LocalizedError, Equatable {
 
     public var errorDescription: String? {
         switch self {
-        case .unavailable: return "Native Login debug settings require developer support"
-        case .malformedJSON: return "Native Login configuration is not a JSON object"
-        case .wrongType(let key): return "Native Login configuration has a value of the wrong type for '\(key)'"
-        case .unknownAuthenticationMode(let name): return "Unknown authenticationMode '\(name)'"
+        case .unavailable: return SFSDKResourceUtils.localizedString("NATIVE_LOGIN_DEBUG_ERROR_UNAVAILABLE")
+        case .malformedJSON: return SFSDKResourceUtils.localizedString("NATIVE_LOGIN_DEBUG_ERROR_MALFORMED_JSON")
+        case .wrongType(let key): return String(format: SFSDKResourceUtils.localizedString("NATIVE_LOGIN_DEBUG_ERROR_WRONG_TYPE"), key)
+        case .unknownAuthenticationMode(let name): return String(format: SFSDKResourceUtils.localizedString("NATIVE_LOGIN_DEBUG_ERROR_UNKNOWN_MODE"), name)
         case .invalidConfiguration(let message): return message
         }
     }

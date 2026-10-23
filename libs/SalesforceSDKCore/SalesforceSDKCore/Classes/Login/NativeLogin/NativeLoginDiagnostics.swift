@@ -26,7 +26,6 @@
  */
 
 import Foundation
-import os.log
 
 /// One Native Login network attempt, redacted: no nonce, proof, code, verifier, token or password.
 struct NativeLoginDiagnosticEvent: Equatable {
@@ -65,12 +64,11 @@ struct NativeLoginDiagnosticEvent: Equatable {
 }
 
 /// Records Native Login network attempts for the SDK's debug Native Login form and the
-/// `native-login` log category. Records only when developer support is enabled.
+/// SDK log (debug level). Records only when developer support is enabled.
 final class NativeLoginDiagnostics {
     static let shared = NativeLoginDiagnostics()
 
     static let maxDescriptionLength = 200
-    private static let logger = Logger(subsystem: "com.salesforce.mobilesdk", category: "native-login")
 
     private let lock = NSLock()
     private var recorded: [NativeLoginDiagnosticEvent] = []
@@ -101,7 +99,7 @@ final class NativeLoginDiagnostics {
     func record(_ event: NativeLoginDiagnosticEvent) {
         guard isEnabled() else { return }
         lock.withLock { recorded.append(event) }
-        Self.logger.debug("\(event.summary, privacy: .public)")
+        SFSDKCoreLogger().d(NativeLoginDiagnostics.self, message: "Native Login: \(event.summary)")
     }
 
     /// Records an attempt from the request path, the DPoP header choice and the response.

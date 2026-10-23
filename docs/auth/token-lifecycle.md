@@ -90,7 +90,7 @@ normal account-completion path records token type and feature markers for native
 
 ### 1.3 Debug Native Login mode
 
-Debug builds can switch any app without its own Native Login to Native Login from the developer
+Apps with developer support enabled (the default in debug builds) can switch to Native Login, unless they register their own Native Login, from the developer
 support **Login Options** screen (**Authentication Mode**: Browser / Native). The choice and its
 External Client App (consumer key, HTTPS callback URL, community URL with path, DPoP, hybrid)
 persist in `SalesforceManager.debugLoginSettings` (`NativeLoginDebugSettings`, its own
@@ -114,8 +114,8 @@ as Android; `resetForUITesting` clears them.
   browser request built after a native one uses the selected login host, not the community URL.
 - **Fallback.** **Log In with Browser** calls `fallbackToWebAuthentication()`; the browser login
   uses the boot config and browser options.
-- **Diagnostics.** In debug builds `sendAuthenticationRequest` records each authorize/token
-  attempt in the internal `NativeLoginDiagnostics` (`native-login` log category): stage, HTTP
+- **Diagnostics.** With developer support enabled `sendAuthenticationRequest` records each authorize/token
+  attempt in the internal `NativeLoginDiagnostics` (also written to the SDK log at debug level through `SFSDKCoreLogger`): stage, HTTP
   status, OAuth error and truncated description, whether a proof was sent and a nonce received,
   and the retry count. Nonce values, proofs, codes, verifiers, tokens and passwords are never kept.
 

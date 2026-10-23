@@ -62,6 +62,7 @@ final class DebugNativeLoginModel: ObservableObject {
     private let loginAction: (String, String) async -> NativeLoginResult
     private let cancelAction: () -> Void
     private let fallbackAction: () -> Void
+    private let invalidateAttemptAction: () -> Void
     private let canDismissProvider: () -> Bool
     private let diagnostics: NativeLoginDiagnostics
     private var loginTask: Task<Void, Never>?
@@ -69,11 +70,13 @@ final class DebugNativeLoginModel: ObservableObject {
     init(loginAction: @escaping (String, String) async -> NativeLoginResult,
          cancelAction: @escaping () -> Void,
          fallbackAction: @escaping () -> Void,
+         invalidateAttempt: @escaping () -> Void = {},
          canDismiss: @escaping () -> Bool,
          diagnostics: NativeLoginDiagnostics = .shared) {
         self.loginAction = loginAction
         self.cancelAction = cancelAction
         self.fallbackAction = fallbackAction
+        self.invalidateAttemptAction = invalidateAttempt
         self.canDismissProvider = canDismiss
         self.diagnostics = diagnostics
     }
@@ -83,6 +86,7 @@ final class DebugNativeLoginModel: ObservableObject {
         self.init(loginAction: { username, password in await manager.login(username: username, password: password) },
                   cancelAction: { manager.cancelAuthentication() },
                   fallbackAction: { manager.fallbackToWebAuthentication() },
+                  invalidateAttempt: { UserAccountManager.shared.perform(NSSelectorFromString("cancelNativeAuthentications")) },
                   canDismiss: { manager.shouldShowBackButton() })
     }
 
@@ -127,10 +131,14 @@ final class DebugNativeLoginModel: ObservableObject {
         fallbackAction()
     }
 
+    /// Cancelling the Swift task does not stop the SDK request chain, so the SDK attempt is
+    /// invalidated too: a token response that arrives later then creates no account, and a retry
+    /// starts a fresh attempt.
     private func stopLogin() {
         loginTask?.cancel()
         loginTask = nil
         if state == .loading {
+            invalidateAttemptAction()
             state = .idle
         }
     }

@@ -311,7 +311,7 @@ They are kept in `SalesforceManager.shared.debugLoginSettings`. Tests launch wit
 
 The form shows redacted diagnostics for each authorize/token attempt (stage, HTTP status, OAuth error
 and description, whether a DPoP proof was sent, nonce challenges and retries), recorded by the SDK's
-internal `NativeLoginDiagnostics` in debug builds. `NativeLoginResult` carries no HTTP status, so the
+internal `NativeLoginDiagnostics` when developer support is enabled (also written to the SDK log at debug level). `NativeLoginResult` carries no HTTP status, so the
 failure detail adds the last failed attempt, for example
 `unknownError (HTTP 400 invalid_request: ...dpop_jkt...)`.
 

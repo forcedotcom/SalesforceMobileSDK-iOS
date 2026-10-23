@@ -1078,6 +1078,105 @@ final class NativeLoginManagerTests: XCTestCase {
     }
 
     @MainActor
+    func test_givenDebugFormWithoutAccount_whenCancelledBeforeTokenSuccess_thenNoAccountAndRetryWorks() async throws {
+        for enabled in [true, false] {
+            try await withNativeSession(usesDPoP: enabled) { manager, session, identifier in
+                let original = try XCTUnwrap(class_getInstanceMethod(SFIdentityCoordinator.self, #selector(SFIdentityCoordinator.initiateIdentityDataRetrieval)))
+                let replacement = try XCTUnwrap(class_getInstanceMethod(SFIdentityCoordinator.self, #selector(SFIdentityCoordinator.nativeTestIdentityRetrieval)))
+                var identityRequests = 0
+                NativeIdentityCapture.onRetrieve = { _ in identityRequests += 1 }
+                method_exchangeImplementations(original, replacement)
+                defer {
+                    UserAccountManager.shared.perform(NSSelectorFromString("cancelNativeAuthentications"))
+                    method_exchangeImplementations(original, replacement)
+                    NativeIdentityCapture.onRetrieve = nil
+                    NativeOverlapURLProtocol.reset {}
+                }
+                let config = URLSessionConfiguration.ephemeral
+                config.protocolClasses = [NativeOverlapURLProtocol.self]
+                Network.setSessionConfiguration(config, identifier: identifier)
+                let tokenHeld = expectation(description: "Token response held")
+                NativeOverlapURLProtocol.reset(holdToken: true, tokenSuccess: true) { tokenHeld.fulfill() }
+
+                let model = DebugNativeLoginModel(manager: manager)
+                model.username = "native-test@example.com"
+                model.password = "First-password1"
+                model.login()
+                let attempt = model.currentLoginTask
+                await fulfillment(of: [tokenHeld], timeout: 5)
+
+                XCTAssertFalse(model.canDismiss, "No account to return to")
+                model.cancel()
+                NativeOverlapURLProtocol.releaseFirst()
+                await attempt?.value
+
+                XCTAssertEqual(model.state, .idle)
+                XCTAssertEqual(identityRequests, 0, "A token released after Cancel must not start an account")
+                XCTAssertNil(session.credentials.accessToken)
+                XCTAssertNil(UserAccountManager.shared.currentUserAccount)
+
+                // Retry starts a fresh attempt that completes normally.
+                let retryStarted = expectation(description: "Retry authorize held")
+                NativeOverlapURLProtocol.reset(tokenSuccess: true) { retryStarted.fulfill() }
+                model.password = "Second-password1"
+                model.login()
+                let retry = model.currentLoginTask
+                await fulfillment(of: [retryStarted], timeout: 5)
+                NativeOverlapURLProtocol.releaseFirst()
+                await retry?.value
+                XCTAssertEqual(model.state, .success)
+                XCTAssertEqual(identityRequests, 1)
+            }
+        }
+    }
+
+    @MainActor
+    func test_givenNativeAttemptAndExistingAccount_whenNativeAttemptsCancelled_thenOnlyTheAttemptIsInvalidated() async throws {
+        try await withNativeSession { _, session, _ in
+            let uam = UserAccountManager.shared
+            uam.clearAllAccountState()
+            defer { uam.clearAllAccountState() }
+            let existing = try XCTUnwrap(OAuthCredentials(identifier: UUID().uuidString, clientId: "other-app", encrypted: true))
+            existing.identityUrl = URL(string: "https://community.example.com/id/00D000000000001/005000000000009")
+            let account = UserAccount(credentials: existing)
+            try uam.upsert(account)
+            _ = try DPoPKeyStore.shared.keyPair(forCredentials: existing)
+            defer { DPoPKeyStore.shared.delete(forCredentials: existing) }
+            let context = try XCTUnwrap(uam.perform(NSSelectorFromString("beginNativeAuthentication:"), with: [
+                "clientId": "native-dpop-test", "redirectUri": "testapp://callback", "loginUrl": "https://login.example.com/community"
+            ])?.takeUnretainedValue() as? NSDictionary)
+            XCTAssertTrue((uam.perform(NSSelectorFromString("isCurrentNativeAuthentication:"), with: context)?.takeUnretainedValue() as? NSNumber)?.boolValue == true)
+
+            uam.perform(NSSelectorFromString("cancelNativeAuthentications"))
+
+            XCTAssertFalse((uam.perform(NSSelectorFromString("isCurrentNativeAuthentication:"), with: context)?.takeUnretainedValue() as? NSNumber)?.boolValue == true,
+                           "A token response that arrives after cancellation is no longer the current attempt")
+            XCTAssertFalse(session.isAuthenticating)
+            XCTAssertNil(uam.authSessions[session.sceneId as NSString])
+            XCTAssertEqual(uam.userAccounts()?.count, 1, "The existing account is untouched")
+            XCTAssertTrue(DPoPKeyStore.shared.hasKeyPair(forCredentials: existing), "The existing account keeps its DPoP key")
+        }
+    }
+
+    @MainActor
+    func test_givenBrowserAttempt_whenNativeAttemptsCancelled_thenBrowserSessionKept() async throws {
+        let uam = UserAccountManager.shared
+        let request = SFSDKAuthRequest()
+        request.oauthClientId = "browser-client"
+        request.oauthCompletionUrl = "testapp://callback"
+        request.loginHost = "login.salesforce.com"
+        let session = SFSDKAuthSession(request, credentials: nil)
+        session.isAuthenticating = true
+        uam.authSessions[session.sceneId as NSString] = session
+        defer { uam.authSessions.removeObject(session.sceneId as NSString) }
+
+        uam.perform(NSSelectorFromString("cancelNativeAuthentications"))
+
+        XCTAssertTrue(session.isAuthenticating)
+        XCTAssertTrue(uam.authSessions[session.sceneId as NSString] === session)
+    }
+
+    @MainActor
     func test_givenUnscopedNativeSession_whenTokenCompletes_thenOwningCredentialsAreUpdated() async throws {
         try await withNativeSession { manager, session, identifier in
             let original = try XCTUnwrap(class_getInstanceMethod(SFIdentityCoordinator.self, #selector(SFIdentityCoordinator.initiateIdentityDataRetrieval)))

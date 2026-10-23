@@ -1816,6 +1816,18 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     }
 }
 
+- (void)cancelNativeAuthentications {
+    if (![NSThread isMainThread]) {
+        dispatch_sync(dispatch_get_main_queue(), ^{ [self cancelNativeAuthentications]; });
+        return;
+    }
+    for (SFSDKAuthSession *session in self.authSessions.allValues) {
+        if (session.isAuthenticating && session.oauthCoordinator.useNativeAuth) {
+            [self resetAuthentication:session];
+        }
+    }
+}
+
 - (NSNumber *)completeNativeAuthentication:(NSData *)data context:(NSDictionary *)context {
     if (![NSThread isMainThread]) {
         __block NSNumber *completed;

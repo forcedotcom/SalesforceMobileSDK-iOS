@@ -135,6 +135,13 @@
 "NATIVE_LOGIN_DEBUG_BROWSER_FALLBACK" = "Log In with Browser";
 "NATIVE_LOGIN_DEBUG_FAILED" = "Login failed";
 "NATIVE_LOGIN_DEBUG_CANCEL" = "Cancel";
+"NATIVE_LOGIN_DEBUG_ERROR_CLIENT_ID_REQUIRED" = "Client ID is required";
+"NATIVE_LOGIN_DEBUG_ERROR_CALLBACK_URL_HTTPS" = "Native Callback URL must be an https:// URL";
+"NATIVE_LOGIN_DEBUG_ERROR_COMMUNITY_URL_HTTPS" = "Community Login URL must be an https:// URL";
+"NATIVE_LOGIN_DEBUG_ERROR_UNAVAILABLE" = "Native Login debug settings require developer support";
+"NATIVE_LOGIN_DEBUG_ERROR_MALFORMED_JSON" = "Native Login configuration is not a JSON object";
+"NATIVE_LOGIN_DEBUG_ERROR_WRONG_TYPE" = "Native Login configuration has a value of the wrong type for '%@'";
+"NATIVE_LOGIN_DEBUG_ERROR_UNKNOWN_MODE" = "Unknown authenticationMode '%@'";
 
 // Account Switcher
 "ACCOUNT_SWITCHER_TITLE" = "Manage Accounts";
