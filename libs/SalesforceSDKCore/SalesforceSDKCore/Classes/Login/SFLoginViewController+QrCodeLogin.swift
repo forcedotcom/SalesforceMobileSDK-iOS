@@ -50,10 +50,13 @@ public extension SalesforceLoginViewController {
         _ frontdoorBridgeUrlString: String,
         pkceCodeVerifier: String?
     ) {
-        guard let frontdoorBridgeUrl = URL(string: frontdoorBridgeUrlString) else { return }
-        guard AuthCoordinatorFrontdoorBridgeLoginOverride(
+        guard let frontdoorBridgeUrl = URL(string: frontdoorBridgeUrlString),
+              AuthCoordinatorFrontdoorBridgeLoginOverride(
             frontdoorBridgeUrl: frontdoorBridgeUrl,
-            codeVerifier: pkceCodeVerifier).isValid else { return }
+            codeVerifier: pkceCodeVerifier).isValid else {
+            SFSDKCoreLogger.d(Self.self, message: "Rejected invalid frontdoor bridge login URL.")
+            return
+        }
         
         // Stop current authentication attempt, if applicable, before starting the new one.
         UserAccountManager.shared.stopCurrentAuthentication { result in

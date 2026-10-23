@@ -522,6 +522,7 @@ final class FrontdoorBridgeLoginTests: XCTestCase, SFOAuthCoordinatorDelegate {
     private var savedBootConfig: BootConfig?
     private var failureExpectation: XCTestExpectation?
     private var failure: NSError?
+    private var failureCount = 0
     private var onAuthenticationBegin: (() -> Void)?
     private var onWebViewBegin: (() -> Void)?
     private var onNetworkAvailability: (() -> Bool)?
@@ -541,6 +542,7 @@ final class FrontdoorBridgeLoginTests: XCTestCase, SFOAuthCoordinatorDelegate {
         SalesforceManager.shared.bootConfig = savedBootConfig
         failureExpectation = nil
         failure = nil
+        failureCount = 0
         clearFlowDelegateHooks()
         pendingBrowserApproval = nil
         super.tearDown()
@@ -869,6 +871,13 @@ final class FrontdoorBridgeLoginTests: XCTestCase, SFOAuthCoordinatorDelegate {
         XCTAssertEqual(request.codeVerifier, "test-verifier")
     }
 
+    func test_givenOtherMyDomainWithMatchingClient_whenReadingBridge_thenNoTenantMatchIsRequired() throws {
+        let url = try bridgeURL(origin: "https://other-tenant.my.salesforce.com")
+        let coordinator = try makeCoordinator(origin: "https://other-tenant.my.salesforce.com")
+        XCTAssertEqual(coordinator.credentials?.domain, "login.salesforce.com")
+        XCTAssertEqual(coordinator.frontdoorBridgeLoginOverride?.frontdoorBridgeUrl, url)
+    }
+
     func test_givenValidUserAgentBridge_whenLoadingWebView_thenExactBridgeIsLoaded() throws {
         let coordinator = try makeCoordinator()
         coordinator.frontdoorBridgeLoginOverride?.codeVerifier = nil
@@ -970,12 +979,14 @@ final class FrontdoorBridgeLoginTests: XCTestCase, SFOAuthCoordinatorDelegate {
         let webView = BridgeRecordingWebView()
         coordinator.view = webView
         failureExpectation = expectation(description: "invalid queued bridge fails once")
+        failureExpectation?.assertForOverFulfill = true
         performAndDrainMainQueue {
             coordinator.loadWebView(withUrlString: "https://login.salesforce.com", cookie: false)
             coordinator.loadWebView(withUrlString: "https://login.salesforce.com", cookie: false)
             coordinator.frontdoorBridgeLoginOverride?.frontdoorBridgeUrl = attackerURL
         }
         XCTAssertEqual(failure?.code, Int(kSFOAuthErrorInvalidRequest))
+        XCTAssertEqual(failureCount, 1)
         XCTAssertTrue(webView.requests.isEmpty)
         XCTAssertNil(coordinator.frontdoorBridgeLoginOverride)
     }
@@ -1115,6 +1126,75 @@ final class FrontdoorBridgeLoginTests: XCTestCase, SFOAuthCoordinatorDelegate {
         XCTAssertEqual(failure?.code, Int(kSFOAuthErrorInvalidRequest))
         XCTAssertFalse(coordinator.authenticating)
         XCTAssertNil(coordinator.frontdoorBridgeLoginOverride)
+    }
+
+    func test_givenConfiguredHostRemoved_whenReadingBridge_thenURLAndVerifierAreNil() throws {
+        let storage = SFSDKLoginHostStorage.sharedInstance()
+        let index = storage.numberOfLoginHosts()
+        storage.add(SalesforceLoginHost(name: "QR getter test", host: "qr-getter.example", deletable: true))
+        defer {
+            if storage.numberOfLoginHosts() > index { storage.removeLoginHost(at: index) }
+        }
+        let url = try bridgeURL(origin: "https://qr-getter.example")
+        let bridge = AuthCoordinatorFrontdoorBridgeLoginOverride(
+            frontdoorBridgeUrl: url, codeVerifier: "getter-test-verifier")
+        XCTAssertEqual(bridge.frontdoorBridgeUrl, url)
+        XCTAssertEqual(bridge.codeVerifier, "getter-test-verifier")
+        storage.removeLoginHost(at: index)
+        XCTAssertNil(bridge.frontdoorBridgeUrl)
+        XCTAssertNil(bridge.codeVerifier)
+    }
+
+    @available(*, deprecated, message: "Exercises IDP response handling; remove with the deprecated IDP API.")
+    func test_givenStoppedNonBridgeAttempt_whenResponseArrives_thenOnlyExplicitRetryExchangesCode() throws {
+        for usesIDP in [false, true] {
+            let coordinator = try makePoolCoordinator()
+            coordinator.frontdoorBridgeLoginOverride = nil
+            let client = BridgeRecordingOAuthClient()
+            coordinator.authClient = client
+            coordinator.view = BridgeRecordingWebView()
+            let callback = try XCTUnwrap(URL(string: "qr-test://callback?code=late-code"))
+            let freshCallback = try XCTUnwrap(URL(string: "qr-test://callback?code=fresh-code"))
+            let handleResponse: (URL) -> Bool = { url in
+                usesIDP ? coordinator.handleIDPAuthenticationResponse(url)
+                    : coordinator.handleAdvancedAuthenticationResponse(url)
+            }
+            defer { coordinator.stopAuthentication() }
+            try withControlledFlowBoundaries {
+                performAndDrainMainQueue {
+                    coordinator.authenticate()
+                    coordinator.stopAuthentication()
+                    XCTAssertFalse(handleResponse(callback))
+                }
+                XCTAssertTrue(client.requests.isEmpty)
+                performAndDrainMainQueue {
+                    coordinator.authenticate()
+                    XCTAssertTrue(handleResponse(freshCallback))
+                }
+                XCTAssertEqual(client.requests.count, 1)
+                XCTAssertEqual(client.requests.first?.approvalCode, "fresh-code")
+            }
+            XCTAssertNil(failure)
+            pendingBrowserApproval = nil
+        }
+    }
+
+    @available(*, deprecated, message: "Exercises IDP response handling; remove with the deprecated IDP API.")
+    func test_givenFreshNonBridgeCoordinator_whenIDPResponseArrives_thenAuthenticateIsNotRequired() throws {
+        let coordinator = try makePoolCoordinator()
+        coordinator.frontdoorBridgeLoginOverride = nil
+        let client = BridgeRecordingOAuthClient()
+        coordinator.authClient = client
+        let callback = try XCTUnwrap(URL(string: "qr-test://callback?code=idp-initiated-code"))
+        defer { coordinator.stopAuthentication() }
+        try withControlledFlowBoundaries {
+            performAndDrainMainQueue {
+                XCTAssertTrue(coordinator.handleIDPAuthenticationResponse(callback))
+            }
+            XCTAssertEqual(client.requests.count, 1)
+            XCTAssertEqual(client.requests.first?.approvalCode, "idp-initiated-code")
+        }
+        XCTAssertNil(failure)
     }
 
     @available(*, deprecated, message: "Exercises IDP response handling; remove with the deprecated IDP API.")
@@ -1397,6 +1477,7 @@ final class FrontdoorBridgeLoginTests: XCTestCase, SFOAuthCoordinatorDelegate {
 
     func oauthCoordinator(_ coordinator: SFOAuthCoordinator, didFailWithError error: Error, authInfo: AuthInfo?) {
         failure = error as NSError
+        failureCount += 1
         failureExpectation?.fulfill()
     }
 
@@ -1474,8 +1555,9 @@ private final class BridgeMutatingBootConfig: BootConfig {
 }
 
 /*
- Control attestation completion and record browser launch at external boundaries.
- Keep callback-order tests independent of Swift task scheduling and browser UI.
+ Control attestation completion and record browser launch at external
+ boundaries. Keep callback-order tests independent of Swift task scheduling and
+ browser UI.
  */
 private final class BridgeFlowBoundaryStub: NSObject {
     static var browserLaunches = 0

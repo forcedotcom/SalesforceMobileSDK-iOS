@@ -63,7 +63,7 @@
 
 @property (nonatomic) NSString *networkIdentifier;
 @property (nonatomic, strong) SFDomainDiscoveryCoordinator *domainDiscoveryCoordinator;
-@property (atomic, strong) SFSDKFrontdoorBridgeLoginAttempt *frontdoorBridgeLoginAttempt;
+@property (atomic, strong) SFSDKAuthAttempt *authAttempt;
 
 @end
 
@@ -101,7 +101,7 @@
         _view = nil;
         _authClient = [[SFSDKOAuth2 alloc] init];
         _domainDiscoveryCoordinator = [[SFDomainDiscoveryCoordinator alloc] init];
-        _frontdoorBridgeLoginAttempt = [[SFSDKFrontdoorBridgeLoginAttempt alloc] init];
+        _authAttempt = [[SFSDKAuthAttempt alloc] init];
     }
     return self;
 }
@@ -116,7 +116,7 @@
         _view = nil;
         _authClient = [[SFSDKOAuth2 alloc] init];
         _domainDiscoveryCoordinator = [[SFDomainDiscoveryCoordinator alloc] init];
-        _frontdoorBridgeLoginAttempt = [[SFSDKFrontdoorBridgeLoginAttempt alloc] init];
+        _authAttempt = [[SFSDKAuthAttempt alloc] init];
     }
     return self;
 }
@@ -153,7 +153,7 @@
          NSStringFromSelector(_cmd),
          self.credentials.clientId, (nil == self.credentials.refreshToken ? @"without" : @"with"),
          self.credentials.protocol, self.credentials.domain];
-    self.frontdoorBridgeLoginAttempt = [[SFSDKFrontdoorBridgeLoginAttempt alloc] init];
+    self.authAttempt = [[SFSDKAuthAttempt alloc] init];
     self.authenticating = YES;
     if ([SFUserAccountManager sharedInstance].appAttestationEnabled) {
         [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureAppAttestation];
@@ -173,7 +173,7 @@
         return;
     }
 
-    SFSDKFrontdoorBridgeLoginAttempt *bridgeLoginAttempt = self.frontdoorBridgeLoginAttempt;
+    SFSDKAuthAttempt *authAttempt = self.authAttempt;
 
     // Register A-marker globally (will be promoted per-user at auth completion).
     // useHybridAuthentication is captured now — it's a global that can change between logins.
@@ -200,7 +200,7 @@
     if ([self.delegate respondsToSelector:@selector(oauthCoordinatorIsNetworkAvailable:)]) {
         networkAvailable = [self.delegate oauthCoordinatorIsNetworkAvailable:self];
     }
-    if (![self isCurrentFrontdoorBridgeLoginAttempt:bridgeLoginAttempt]) { return; }
+    if (![self isCurrentAuthAttempt:authAttempt]) { return; }
     if (!networkAvailable) {
         [SFSDKCoreLogger d:[self class] format:@"Network is not available, so bypassing login"];
         NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorNotConnectedToInternet userInfo:nil];
@@ -211,13 +211,13 @@
     if (self.credentials.refreshToken) {
         // clear any access token we may have and begin refresh flow
         [self notifyDelegateOfBeginAuthentication];
-        if (![self isCurrentFrontdoorBridgeLoginAttempt:bridgeLoginAttempt]) { return; }
+        if (![self isCurrentAuthAttempt:authAttempt]) { return; }
         [self beginTokenEndpointFlow];
     } else if (self.credentials.jwt) {
         // JWT token existence means we're doing JWT token exchange.
         self.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeJwtTokenExchange];
         [self notifyDelegateOfBeginAuthentication];
-        if (![self isCurrentFrontdoorBridgeLoginAttempt:bridgeLoginAttempt]) { return; }
+        if (![self isCurrentAuthAttempt:authAttempt]) { return; }
         [self beginJwtTokenExchangeFlow];
     } else {
         __weak typeof(self) weakSelf = self;
@@ -225,7 +225,7 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 __strong typeof(weakSelf) strongSelf = weakSelf;
                 SFSDKFrontdoorBridgeLoginSnapshot *currentBridgeSnapshot = nil;
-                if (![strongSelf isCurrentFrontdoorBridgeLoginAttempt:bridgeLoginAttempt] ||
+                if (![strongSelf isCurrentAuthAttempt:authAttempt] ||
                     ![strongSelf validateFrontdoorBridgeLoginOverride:&currentBridgeSnapshot]) {
                     return;
                 }
@@ -236,7 +236,7 @@
                 [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureAuthTypeUserAgentHybrid];
                 [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureAuthTypeNative];
                 [strongSelf notifyDelegateOfBeginAuthentication];
-                if (![strongSelf isCurrentFrontdoorBridgeLoginAttempt:bridgeLoginAttempt]) { return; }
+                if (![strongSelf isCurrentAuthAttempt:authAttempt]) { return; }
                 [strongSelf beginHeadlessNativeLoginFlow];
             });
         } else if (!bridgeSnapshot && self.useBrowserAuth) {
@@ -244,13 +244,13 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 __strong typeof(weakSelf) strongSelf = weakSelf;
                 SFSDKFrontdoorBridgeLoginSnapshot *currentBridgeSnapshot = nil;
-                if (![strongSelf isCurrentFrontdoorBridgeLoginAttempt:bridgeLoginAttempt] ||
+                if (![strongSelf isCurrentAuthAttempt:authAttempt] ||
                     ![strongSelf validateFrontdoorBridgeLoginOverride:&currentBridgeSnapshot]) {
                     return;
                 }
                 strongSelf.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeAdvancedBrowser];
                 [strongSelf notifyDelegateOfBeginAuthentication];
-                if (![strongSelf isCurrentFrontdoorBridgeLoginAttempt:bridgeLoginAttempt]) { return; }
+                if (![strongSelf isCurrentAuthAttempt:authAttempt]) { return; }
                 [strongSelf beginNativeBrowserFlowWithSharedBrowserSessionEnabled:false];
             });
         } else {
@@ -262,7 +262,7 @@
                 __strong typeof(weakSelf) strongSelf = weakSelf;
                 dispatch_async(dispatch_get_main_queue(), ^{
                     SFSDKFrontdoorBridgeLoginSnapshot *currentBridgeSnapshot = nil;
-                    if (![strongSelf isCurrentFrontdoorBridgeLoginAttempt:bridgeLoginAttempt] ||
+                    if (![strongSelf isCurrentAuthAttempt:authAttempt] ||
                         ![strongSelf validateFrontdoorBridgeLoginOverride:&currentBridgeSnapshot]) {
                         return;
                     }
@@ -285,14 +285,14 @@
                         [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSafariBrowserForLogin];
                         strongSelf.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeAdvancedBrowser];
                         [strongSelf notifyDelegateOfBeginAuthentication];
-                        if (![strongSelf isCurrentFrontdoorBridgeLoginAttempt:bridgeLoginAttempt]) { return; }
+                        if (![strongSelf isCurrentAuthAttempt:authAttempt]) { return; }
                         // shareBrowserSession is honored for My Domain; nil-messaging yields false
                         // for standard servers, which is the correct default there.
                         [strongSelf beginNativeBrowserFlowWithSharedBrowserSessionEnabled:authConfig.shareBrowserSession];
                     } else {
                         [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureSafariBrowserForLogin];
                         [strongSelf notifyDelegateOfBeginAuthentication];
-                        if (![strongSelf isCurrentFrontdoorBridgeLoginAttempt:bridgeLoginAttempt]) { return; }
+                        if (![strongSelf isCurrentAuthAttempt:authAttempt]) { return; }
                         [strongSelf beginWebViewFlow];
                     }
                 });
@@ -304,7 +304,7 @@
 - (void)authenticateWithCredentials:(SFOAuthCredentials *)credentials {
     self.credentials = credentials;
     if ([SFDomainDiscoveryCoordinator isDiscoveryDomain:self.credentials.domain]) {
-        self.frontdoorBridgeLoginAttempt = [[SFSDKFrontdoorBridgeLoginAttempt alloc] init];
+        self.authAttempt = [[SFSDKAuthAttempt alloc] init];
         SFSDKFrontdoorBridgeLoginSnapshot *bridgeSnapshot = nil;
         if (![self validateFrontdoorBridgeLoginOverride:&bridgeSnapshot]) {
             return;
@@ -319,10 +319,10 @@
 }
 
 - (void)runMyDomainDiscoveryAndAuthenticate {
-    SFSDKFrontdoorBridgeLoginAttempt *bridgeLoginAttempt = self.frontdoorBridgeLoginAttempt;
-    if (![self isCurrentFrontdoorBridgeLoginAttempt:bridgeLoginAttempt]) { return; }
+    SFSDKAuthAttempt *authAttempt = self.authAttempt;
+    if (![self isCurrentAuthAttempt:authAttempt]) { return; }
     [self startWebviewAuthenticationIfNeeded];
-    if (![self isCurrentFrontdoorBridgeLoginAttempt:bridgeLoginAttempt]) { return; }
+    if (![self isCurrentAuthAttempt:authAttempt]) { return; }
     [self.domainDiscoveryCoordinator runMyDomainsDiscoveryOn:self.view with:self.credentials];
 }
 
@@ -331,7 +331,7 @@
 }
 
 - (void)stopAuthentication {
-    [self.frontdoorBridgeLoginAttempt reject];
+    [self.authAttempt invalidate];
     [_view stopLoading];
     [self.session invalidateAndCancel];
     _session = nil;
@@ -348,8 +348,8 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-implementations"
 - (BOOL)handleIDPAuthenticationResponse:(NSURL *)appUrlResponse {
-    SFSDKFrontdoorBridgeLoginAttempt *bridgeLoginAttempt = self.frontdoorBridgeLoginAttempt;
-    if (![self isCurrentFrontdoorBridgeLoginAttempt:bridgeLoginAttempt]) { return NO; }
+    SFSDKAuthAttempt *authAttempt = self.authAttempt;
+    if (![self isCurrentAuthAttempt:authAttempt]) { return NO; }
     self.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeIDP];
    
     NSString *query = [appUrlResponse query];
@@ -381,7 +381,7 @@
 
     [SFSDKCoreLogger i:[self class] format:@"%@ Received advanced authentication response.  Beginning token exchange.", NSStringFromSelector(_cmd)];
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (![self isCurrentFrontdoorBridgeLoginAttempt:bridgeLoginAttempt]) { return; }
+        if (![self isCurrentAuthAttempt:authAttempt]) { return; }
         [self beginTokenEndpointFlow];
     });
     return YES;
@@ -398,8 +398,8 @@
 }
 
 - (BOOL)handleWebServerResponse:(NSURL *)appUrlResponse {
-    SFSDKFrontdoorBridgeLoginAttempt *bridgeLoginAttempt = self.frontdoorBridgeLoginAttempt;
-    if (![self isCurrentFrontdoorBridgeLoginAttempt:bridgeLoginAttempt]) { return NO; }
+    SFSDKAuthAttempt *authAttempt = self.authAttempt;
+    if (![self isCurrentAuthAttempt:authAttempt]) { return NO; }
     NSString *appUrlResponseString = [appUrlResponse absoluteString];
     if (![[appUrlResponseString lowercaseString] hasPrefix:[self.credentials.redirectUri lowercaseString]]) {
         [SFSDKCoreLogger i:[self class] format:@"%@ URL does not match redirect URI.", NSStringFromSelector(_cmd)];
@@ -429,7 +429,7 @@
     self.approvalCode = codeVal;
     [SFSDKCoreLogger i:[self class] format:@"%@ Received web server response.  Beginning token exchange.", NSStringFromSelector(_cmd)];
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (![self isCurrentFrontdoorBridgeLoginAttempt:bridgeLoginAttempt]) { return; }
+        if (![self isCurrentAuthAttempt:authAttempt]) { return; }
         [self beginTokenEndpointFlow];
     });
     return YES;
@@ -478,9 +478,9 @@
         // snapshot too, so starting an attempt before delivery makes this failure stale.
         NSDictionary *nativeContext = self.useNativeAuth && self.authSession
             ? [[SFUserAccountManager sharedInstance] nativeAuthenticationContextForSession:self.authSession] : nil;
-        SFSDKFrontdoorBridgeLoginAttempt *bridgeLoginAttempt = self.frontdoorBridgeLoginAttempt;
+        SFSDKAuthAttempt *authAttempt = self.authAttempt;
         dispatch_async(dispatch_get_main_queue(), ^{
-           if (bridgeLoginAttempt.isRejected && bridgeLoginAttempt != self.frontdoorBridgeLoginAttempt) { return; }
+           if (authAttempt.isInvalidated && authAttempt != self.authAttempt) { return; }
            if (nativeContext && ![[[SFUserAccountManager sharedInstance] isCurrentNativeAuthentication:nativeContext] boolValue]) { return; }
            [self.delegate oauthCoordinator:self didFailWithError:error authInfo:info];
         });
@@ -505,12 +505,12 @@
 }
 
 - (void)beginNativeBrowserFlowWithSharedBrowserSessionEnabled:(BOOL)shareBrowserSession {
-    SFSDKFrontdoorBridgeLoginAttempt *bridgeLoginAttempt = self.frontdoorBridgeLoginAttempt;
-    if (![self isCurrentFrontdoorBridgeLoginAttempt:bridgeLoginAttempt]) { return; }
+    SFSDKAuthAttempt *authAttempt = self.authAttempt;
+    if (![self isCurrentAuthAttempt:authAttempt]) { return; }
     if ([self.delegate respondsToSelector:@selector(oauthCoordinator:willBeginBrowserAuthentication:)]) {
         __weak typeof(self) weakSelf = self;
         [self.delegate oauthCoordinator:self willBeginBrowserAuthentication:^(BOOL proceed) {
-            if (proceed && [weakSelf isCurrentFrontdoorBridgeLoginAttempt:bridgeLoginAttempt]) {
+            if (proceed && [weakSelf isCurrentAuthAttempt:authAttempt]) {
                 [weakSelf continueNativeBrowserFlowWithSharedBrowserSessionEnabled:shareBrowserSession];
             }
         }];
@@ -566,17 +566,17 @@
 }
 
 - (void)continueNativeBrowserFlowWithSharedBrowserSessionEnabled:(BOOL)shareBrowserSession {
-    SFSDKFrontdoorBridgeLoginAttempt *bridgeLoginAttempt = self.frontdoorBridgeLoginAttempt;
-    if (![self isCurrentFrontdoorBridgeLoginAttempt:bridgeLoginAttempt]) { return; }
+    SFSDKAuthAttempt *authAttempt = self.authAttempt;
+    if (![self isCurrentAuthAttempt:authAttempt]) { return; }
     if (![NSThread isMainThread]) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            if (![self isCurrentFrontdoorBridgeLoginAttempt:bridgeLoginAttempt]) { return; }
+            if (![self isCurrentAuthAttempt:authAttempt]) { return; }
             [self continueNativeBrowserFlowWithSharedBrowserSessionEnabled:shareBrowserSession];
         });
         return;
     }
     NSString *approvalUrl = [self nativeBrowserApprovalUrlWithSharedBrowserSessionEnabled:shareBrowserSession];
-    if (![self isCurrentFrontdoorBridgeLoginAttempt:bridgeLoginAttempt]) { return; }
+    if (![self isCurrentAuthAttempt:authAttempt]) { return; }
 
     // Launch the native browser.
     [SFSDKCoreLogger d:[self class] format:@"%@: Initiating native browser flow with URL %@", NSStringFromSelector(_cmd), approvalUrl];
@@ -604,13 +604,13 @@
 }
 
 - (void)beginWebViewFlow {
-    SFSDKFrontdoorBridgeLoginAttempt *bridgeLoginAttempt = self.frontdoorBridgeLoginAttempt;
-    if (![self isCurrentFrontdoorBridgeLoginAttempt:bridgeLoginAttempt]) {
+    SFSDKAuthAttempt *authAttempt = self.authAttempt;
+    if (![self isCurrentAuthAttempt:authAttempt]) {
         return;
     }
     if (![NSThread isMainThread]) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            if (![self isCurrentFrontdoorBridgeLoginAttempt:bridgeLoginAttempt]) {
+            if (![self isCurrentAuthAttempt:authAttempt]) {
                 return;
             }
             [self beginWebViewFlow];
@@ -623,9 +623,9 @@
     if ([self.delegate respondsToSelector:@selector(oauthCoordinator:willBeginAuthenticationWithView:)]) {
         [self.delegate oauthCoordinator:self willBeginAuthenticationWithView:self.view];
     }
-    if (![self isCurrentFrontdoorBridgeLoginAttempt:bridgeLoginAttempt]) { return; }
+    if (![self isCurrentAuthAttempt:authAttempt]) { return; }
     NSString *approvalUrlString = [self generateApprovalUrlString];
-    if (![self isCurrentFrontdoorBridgeLoginAttempt:bridgeLoginAttempt]) { return; }
+    if (![self isCurrentAuthAttempt:authAttempt]) { return; }
     [self loadWebViewWithUrlString:approvalUrlString cookie:YES];
 }
 
@@ -790,26 +790,26 @@
     return approvalPath;
 }
 
-- (BOOL)isCurrentFrontdoorBridgeLoginAttempt:(SFSDKFrontdoorBridgeLoginAttempt *)attempt {
-    return attempt && attempt == self.frontdoorBridgeLoginAttempt && !attempt.isRejected;
+- (BOOL)isCurrentAuthAttempt:(SFSDKAuthAttempt *)attempt {
+    return attempt && attempt == self.authAttempt && !attempt.isInvalidated;
 }
 
 - (BOOL)validateFrontdoorBridgeLoginOverride:(SFSDKFrontdoorBridgeLoginSnapshot **)snapshot {
     *snapshot = nil;
-    SFSDKFrontdoorBridgeLoginAttempt *bridgeLoginAttempt = self.frontdoorBridgeLoginAttempt;
-    if (![self isCurrentFrontdoorBridgeLoginAttempt:bridgeLoginAttempt]) {
+    SFSDKAuthAttempt *authAttempt = self.authAttempt;
+    if (![self isCurrentAuthAttempt:authAttempt]) {
         return NO;
     }
     SFSDKAuthCoordinatorFrontdoorBridgeLoginOverride *bridge = self.frontdoorBridgeLoginOverride;
     *snapshot = bridge.validatedSnapshot;
-    if (![self isCurrentFrontdoorBridgeLoginAttempt:bridgeLoginAttempt]) {
+    if (![self isCurrentAuthAttempt:authAttempt]) {
         *snapshot = nil;
         return NO;
     }
     if (!bridge || *snapshot) {
         return YES;
     }
-    [bridgeLoginAttempt reject];
+    [authAttempt invalidate];
     NSError *error = [NSError errorWithDomain:kSFOAuthErrorDomain
                                        code:kSFOAuthErrorInvalidRequest
                                    userInfo:nil];
@@ -818,8 +818,8 @@
 }
 
 - (void)loadWebViewWithUrlString:(NSString *)urlString cookie:(BOOL)enableCookie {
-    SFSDKFrontdoorBridgeLoginAttempt *bridgeLoginAttempt = self.frontdoorBridgeLoginAttempt;
-    if (![self isCurrentFrontdoorBridgeLoginAttempt:bridgeLoginAttempt]) {
+    SFSDKAuthAttempt *authAttempt = self.authAttempt;
+    if (![self isCurrentAuthAttempt:authAttempt]) {
         return;
     }
     NSURL *urlToLoad = [NSURL URLWithString:urlString];
@@ -838,7 +838,7 @@
     [SFSDKCoreLogger d:[self class] format:@"%@ Loading web view for '%@' auth flow, with URL: %@", NSStringFromSelector(_cmd), self.authInfo.authTypeDescription, [urlToLoad sfsdk_redactedAbsoluteString:@[ @"sid" ]]];
     dispatch_async(dispatch_get_main_queue(), ^{
         SFSDKFrontdoorBridgeLoginSnapshot *bridgeSnapshot = nil;
-        if (![self isCurrentFrontdoorBridgeLoginAttempt:bridgeLoginAttempt] ||
+        if (![self isCurrentAuthAttempt:authAttempt] ||
             ![self validateFrontdoorBridgeLoginOverride:&bridgeSnapshot]) {
             return;
         }
@@ -856,14 +856,14 @@
 }
 
 - (void)beginTokenEndpointFlow {
-    SFSDKFrontdoorBridgeLoginAttempt *bridgeLoginAttempt = self.frontdoorBridgeLoginAttempt;
-    if (![self isCurrentFrontdoorBridgeLoginAttempt:bridgeLoginAttempt]) { return; }
+    SFSDKAuthAttempt *authAttempt = self.authAttempt;
+    if (![self isCurrentAuthAttempt:authAttempt]) { return; }
     if (self.approvalCode) {
         // Authorization-code login: acquire app attestation (if enabled), then exchange the code.
         __weak typeof(self) weakSelf = self;
         [SFSDKAppAttestation attestationIfEnabledFor:self.credentials.domain consumerKey:self.credentials.clientId completionHandler:^(NSString * _Nullable attestation) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
-            if (![strongSelf isCurrentFrontdoorBridgeLoginAttempt:bridgeLoginAttempt]) { return; }
+            if (![strongSelf isCurrentAuthAttempt:authAttempt]) { return; }
             [strongSelf exchangeApprovalCodeWithAttestation:attestation];
         }];
     } else {
@@ -1284,7 +1284,7 @@
 
 #pragma mark - WKNavigationDelegate (User-Agent Token Flow)
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
-    SFSDKFrontdoorBridgeLoginAttempt *bridgeLoginAttempt = self.frontdoorBridgeLoginAttempt;
+    SFSDKAuthAttempt *authAttempt = self.authAttempt;
 
     SFSDKFrontdoorBridgeLoginSnapshot *bridgeSnapshot = nil;
     if (![self validateFrontdoorBridgeLoginOverride:&bridgeSnapshot]) {
@@ -1332,7 +1332,7 @@
         decisionHandler(WKNavigationActionPolicyCancel);
     } else if ([SFUserAccountManager sharedInstance].navigationPolicyForAction) {
         WKNavigationActionPolicy policy = [SFUserAccountManager sharedInstance].navigationPolicyForAction(webView, navigationAction);
-        decisionHandler([self isCurrentFrontdoorBridgeLoginAttempt:bridgeLoginAttempt]
+        decisionHandler([self isCurrentAuthAttempt:authAttempt]
                         ? policy : WKNavigationActionPolicyCancel);
     } else {
         decisionHandler(WKNavigationActionPolicyAllow);

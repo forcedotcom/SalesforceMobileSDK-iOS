@@ -24,12 +24,21 @@
 
 import Foundation
 
+/**
+ Validates a QR login bridge on any recognized My Domain or an independently
+ configured login host. Another org's My Domain can be accepted; the public
+ consumer key identifies the app and does not bind the intended tenant.
+ Configured custom-host ownership is not independently verified.
+ */
 @objc(SFSDKAuthCoordinatorFrontdoorBridgeLoginOverride)
 public class AuthCoordinatorFrontdoorBridgeLoginOverride: NSObject {
     
     /**
      A Salesforce Identity UI Bridge URL on a My Domain or explicitly configured
      login host that replaces the initial login URL. Invalid values read as nil.
+     Each read validates against the current boot key and login host
+     configuration. Removing a configured host can make a previously accepted
+     value read as nil.
      */
     @objc public var frontdoorBridgeUrl: URL? {
         get { validatedSnapshot?.url }
@@ -42,7 +51,8 @@ public class AuthCoordinatorFrontdoorBridgeLoginOverride: NSObject {
     
     /**
      The optional web server flow code verifier accompanying the bridge URL.
-     Available only when the bridge URL is valid.
+     Available only while the bridge URL is valid under current configuration.
+     Setting a verifier does not make an invalid bridge URL acceptable.
      */
     @objc public var codeVerifier: String? {
         get { validatedSnapshot?.codeVerifier }
@@ -55,7 +65,8 @@ public class AuthCoordinatorFrontdoorBridgeLoginOverride: NSObject {
     
     /**
      Whether the initial bridge URL's consumer key matches the boot config.
-     This public identifier check does not establish trust in the URL.
+     This informational value is not updated by later property/configuration
+     changes. Setting it does not bypass validation or establish URL trust.
      */
     @objc public var matchesConsumerKey: Bool = false
 
@@ -187,20 +198,24 @@ final class FrontdoorBridgeLoginSnapshot: NSObject {
     }
 }
 
-@objc(SFSDKFrontdoorBridgeLoginAttempt)
-final class FrontdoorBridgeLoginAttempt: NSObject {
+/*
+ Identity and cancellation state for pending coordinator work across all
+ login types.
+ */
+@objc(SFSDKAuthAttempt)
+final class AuthAttempt: NSObject {
     private let stateLock = NSLock()
-    private var rejected = false
+    private var invalidated = false
 
-    @objc var isRejected: Bool {
+    @objc var isInvalidated: Bool {
         stateLock.lock()
         defer { stateLock.unlock() }
-        return rejected
+        return invalidated
     }
 
-    @objc func reject() {
+    @objc func invalidate() {
         stateLock.lock()
-        rejected = true
+        invalidated = true
         stateLock.unlock()
     }
 }
