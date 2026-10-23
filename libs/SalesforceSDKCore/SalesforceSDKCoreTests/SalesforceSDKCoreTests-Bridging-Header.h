@@ -9,6 +9,8 @@
 #import "SFSDKAuthSession.h"
 #import "SFOAuthCoordinator+Internal.h"
 #import "SFUserAccountManager+Internal.h"
+#import "SalesforceSDKManager+Internal.h"
+#import "SFSDKAppFeatureMarkers.h"
 #import "SFOAuthCredentials+Internal.h"
 #import "SFSDKOAuth2.h"
 #import "SFLoginViewController.h"
@@ -39,4 +41,10 @@
 @interface SFUserAccountManager (BrowserLoginTelemetryTesting)
 - (nullable NSString *)computeBMarkerForAuthSession:(nonnull SFSDKAuthSession *)authSession completedAuthType:(SFOAuthType)completedAuthType;
 - (nullable NSString *)computeLMarkerForDomain:(nullable NSString *)domain usedWelcomeDiscovery:(BOOL)usedWelcomeDiscovery;
+@end
+
+/// Exposes the private auth request builders used by the debug Native Login routing.
+@interface SFUserAccountManager (DebugNativeLoginTesting)
+- (nonnull SFSDKAuthRequest *)nativeLoginAuthRequest;
+- (nonnull SFSDKAuthRequest *)authRequestAfterLoginOptionsChangeForSession:(nonnull SFSDKAuthSession *)session;
 @end

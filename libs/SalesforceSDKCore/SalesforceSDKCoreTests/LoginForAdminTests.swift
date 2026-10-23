@@ -848,6 +848,11 @@ class LoginForAdminTests: XCTestCase {
     func test_givenAuthSession_whenHostListChangesLoginOptions_thenAuthRequestRecreatedAndRestarted() {
         expectBootstrap()
         let uam = UserAccountManager.shared
+        // Native login state is process-wide and other suites leave it enabled; this test is about
+        // a browser session, whose login host must survive the restart.
+        let originalNativeLoginEnabled = uam.nativeLoginEnabled
+        uam.nativeLoginEnabled = false
+        defer { uam.nativeLoginEnabled = originalNativeLoginEnabled }
 
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
             XCTFail("Test requires a UIWindowScene from the running test app")
@@ -893,9 +898,13 @@ class LoginForAdminTests: XCTestCase {
         XCTAssertEqual(session.oauthRequest.loginHost, "test.salesforce.com",
                        "The recreated request must preserve the originally configured login host")
 
-        // Clean up
+        // Clean up. The restart presented a login screen on the auth window; take it down so it
+        // does not leak into tests that look at the auth window next.
         uam.stopCurrentAuthentication()
         uam.authSessions.removeObject(sceneId as NSString)
+        let authWindow = SFSDKWindowManager.shared().authWindow(windowScene)
+        authWindow.viewController?.dismiss(animated: false, completion: nil)
+        authWindow.dismissWindow()
         window.rootViewController = nil
     }
 

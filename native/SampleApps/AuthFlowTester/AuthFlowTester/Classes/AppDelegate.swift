@@ -58,6 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             SalesforceManager.resetForUITesting()
         }
         seedUITestLoginHosts(selectDefaultHost: shouldResetForUITesting)
+        applyNativeLoginLaunchArguments()
         if CommandLine.arguments.contains("--disableDPoPAtStart") {
             SalesforceManager.shared.usesDPoP = false
         }
@@ -97,6 +98,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             components?.query = nil
             UserDefaults.standard.set(components?.string ?? "", forKey: Self.uiTestLastTokenRequestUrlDefaultsKey)
         }
+    }
+
+    /// Maps `--nativeLoginConfig=<json>` and `--authenticationMode=native|browser` onto the SDK's
+    /// debug Login Options settings, so UI tests can select Native Login without driving the screen.
+    private func applyNativeLoginLaunchArguments() {
+        let settings = SalesforceManager.shared.debugLoginSettings
+        if let json = Self.launchArgumentValue("--nativeLoginConfig=") {
+            do {
+                try settings.apply(json: json)
+            } catch {
+                SalesforceLogger.e(AppDelegate.self, message: "Ignoring --nativeLoginConfig: \(error.localizedDescription)")
+            }
+        }
+        if let name = Self.launchArgumentValue("--authenticationMode=") {
+            let modeJson = "{\"\(NativeLoginDebugSettings.JSONKeys.authenticationMode)\":\"\(name)\"}"
+            do {
+                try settings.apply(json: modeJson)
+            } catch {
+                SalesforceLogger.e(AppDelegate.self, message: "Ignoring --authenticationMode: \(error.localizedDescription)")
+            }
+        }
+    }
+
+    private static func launchArgumentValue(_ prefix: String) -> String? {
+        CommandLine.arguments.last(where: { $0.hasPrefix(prefix) }).map { String($0.dropFirst(prefix.count)) }
     }
     #endif
     

@@ -586,6 +586,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         return NO;
     }
     
+    [[SalesforceSDKManager sharedManager] applyDebugNativeLoginSettings];
     SFSDKAuthRequest *request;
     if (self.nativeLoginEnabled && !self.shouldFallbackToWebAuthentication) {
         request = [self nativeLoginAuthRequest];
@@ -650,6 +651,28 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     request.oauthClientId = nativeLoginManager.clientId;
     request.oauthCompletionUrl = nativeLoginManager.redirectUri;
     request.scene = [[SFSDKWindowManager sharedManager] defaultScene];
+    if ([SalesforceSDKManager sharedManager].debugNativeLoginActive) {
+        // The debug Native Login mode has its own DPoP choice, apart from the browser login's.
+        request.useDPoP = @([SFSDKNativeLoginDebugSettings shared].nativeUseDPoP);
+    }
+    return request;
+}
+
+// Rebuilds a scene's request after a Login Options change, so changes to the authentication mode,
+// consumer key, callback URL or scopes get picked up.
+-(SFSDKAuthRequest *)authRequestAfterLoginOptionsChangeForSession:(SFSDKAuthSession *)session {
+    BOOL wasNative = session.oauthCoordinator.useNativeAuth;
+    [[SalesforceSDKManager sharedManager] applyDebugNativeLoginSettings];
+    SFSDKAuthRequest *request;
+    if (self.nativeLoginEnabled && !self.shouldFallbackToWebAuthentication) {
+        request = [self nativeLoginAuthRequest];
+    } else {
+        // A native request's login host is the community URL; browser login uses the selected host.
+        request = [self defaultAuthRequestWithLoginHost:wasNative ? nil : session.oauthRequest.loginHost];
+    }
+    if (session.oauthRequest.scene) {
+        request.scene = session.oauthRequest.scene;
+    }
     return request;
 }
 
@@ -1381,9 +1404,20 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     // Recreate the oauth request
     // Otherwise changes to consumer key / callback url or scopes will not get picked up
     if (recreateAuthRequest) {
-        session.oauthRequest = [self defaultAuthRequestWithLoginHost:session.oauthRequest.loginHost];
+        session.oauthRequest = [self authRequestAfterLoginOptionsChangeForSession:session];
     }
     
+    [self restartAuthentication:session];
+}
+
+- (void)restartAuthenticationAfterLoginOptionsChangeForScene:(UIScene *)scene {
+    UIScene *sceneToRestart = scene ?: [[SFSDKWindowManager sharedManager] defaultScene];
+    SFSDKAuthSession *session = self.authSessions[sceneToRestart.session.persistentIdentifier];
+    if (!session) {
+        [SFSDKCoreLogger w:[self class] format:@"No auth session to restart after a Login Options change."];
+        return;
+    }
+    session.oauthRequest = [self authRequestAfterLoginOptionsChangeForSession:session];
     [self restartAuthentication:session];
 }
 
@@ -1414,7 +1448,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     // effect, mirroring loginViewControllerDidChangeLoginOptions: on the WebView screen.
     NSString *sceneId = hostListViewController.view.window.windowScene.session.persistentIdentifier;
     SFSDKAuthSession *session = self.authSessions[sceneId];
-    session.oauthRequest = [self defaultAuthRequestWithLoginHost:session.oauthRequest.loginHost];
+    session.oauthRequest = [self authRequestAfterLoginOptionsChangeForSession:session];
     [self restartAuthentication:session];
 }
 
@@ -1779,6 +1813,18 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
             && !objc_getAssociatedObject(session, &kSFNativeAuthenticationAttemptKey)) {
         // Off-main key generation may finish after cancellation has reclaimed the key.
         [self cleanupAbandonedNativeSession:session];
+    }
+}
+
+- (void)cancelNativeAuthentications {
+    if (![NSThread isMainThread]) {
+        dispatch_sync(dispatch_get_main_queue(), ^{ [self cancelNativeAuthentications]; });
+        return;
+    }
+    for (SFSDKAuthSession *session in self.authSessions.allValues) {
+        if (session.isAuthenticating && session.oauthCoordinator.useNativeAuth) {
+            [self resetAuthentication:session];
+        }
     }
 }
 

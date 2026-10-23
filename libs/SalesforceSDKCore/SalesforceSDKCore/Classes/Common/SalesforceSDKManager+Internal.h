@@ -44,6 +44,22 @@ API_UNAVAILABLE(visionos)
 @property (nonatomic, strong, nonnull) SFSDKSafeMutableDictionary<NSString *, UIViewController *> *snapshotViewControllers;
 @property (nonatomic, strong, nullable) SFSDKSafeMutableDictionary<NSString *, UIViewController *> *nativeLoginViewControllers;
 
+/** YES once the app called the public `useNativeLogin` API. An app-registered native login always
+ takes precedence over the debug Native Login mode of the Login Options (`NativeLoginDebugSettings`).
+ */
+@property (nonatomic, assign) BOOL appRegisteredNativeLogin;
+
+/** YES while the SDK's debug Native Login form is registered as the native login view controller. */
+@property (nonatomic, assign, readonly) BOOL debugNativeLoginActive;
+
+/** Registers or unregisters the SDK's debug Native Login form to match `NativeLoginDebugSettings`.
+ Does nothing when the app registered its own native login. Called before an auth request is built.
+ */
+- (void)applyDebugNativeLoginSettings;
+
+/** Unregisters the SDK's debug Native Login form, if registered. */
+- (void)deactivateDebugNativeLogin;
+
 - (void)presentSnapshot:(nonnull UIScene *)scene API_UNAVAILABLE(visionos);
 - (BOOL)isSnapshotPresented:(nonnull UIScene *)scene API_UNAVAILABLE(visionos);
 - (void)dismissSnapshot:(nonnull UIScene *)scene completion:(void (^ __nullable)(void))completion API_UNAVAILABLE(visionos);

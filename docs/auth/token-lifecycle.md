@@ -88,6 +88,37 @@ web flow. It transfers no native identifier, keypair, nonce or proof. The existi
 flow determines its own DPoP state; cancellation can return to a fresh Native Login. The
 normal account-completion path records token type and feature markers for native sessions too.
 
+### 1.3 Debug Native Login mode
+
+Apps with developer support enabled (the default in debug builds) can switch to Native Login, unless they register their own Native Login, from the developer
+support **Login Options** screen (**Authentication Mode**: Browser / Native). The choice and its
+External Client App (consumer key, HTTPS callback URL, community URL with path, DPoP, hybrid)
+persist in `SalesforceManager.debugLoginSettings` (`NativeLoginDebugSettings`, its own
+`UserDefaults` suite), apart from the boot config and the global `usesDPoP` /
+`useHybridAuthentication` flags. They are inert unless `isDevSupportEnabled` is true and the app
+did not call `useNativeLogin` (`appRegisteredNativeLogin`). `apply(json:)` takes the same JSON keys
+as Android; `resetForUITesting` clears them.
+
+- **Routing.** `applyDebugNativeLoginSettings` runs at the end of `initializeSDK` and before each
+  auth request is built (`authenticateWithCompletion:` and Login Options restarts). In Native mode
+  with a complete configuration it registers `SFSDKDebugNativeLoginViewController` and a
+  `NativeLoginManagerInternal` for the debug config, so the regular native routing
+  (`nativeLoginEnabled`) presents the SDK's debug form; otherwise it unregisters them. Running at
+  `initializeSDK` keeps the `NL` marker of a restored native session, like an app calling
+  `useNativeLogin` at launch.
+- **DPoP and hybrid.** The native auth request carries the debug `useDPoP` choice as its
+  `useDPoP` override (see 1.1), and the manager's `useHybridAuthenticationOverride` selects the
+  token grant. The browser values are untouched.
+- **Restart.** Closing Login Options rebuilds the scene's request through
+  `authRequestAfterLoginOptionsChangeForSession:`, native or browser per the new settings. A
+  browser request built after a native one uses the selected login host, not the community URL.
+- **Fallback.** **Log In with Browser** calls `fallbackToWebAuthentication()`; the browser login
+  uses the boot config and browser options.
+- **Diagnostics.** With developer support enabled `sendAuthenticationRequest` records each authorize/token
+  attempt in the internal `NativeLoginDiagnostics` (also written to the SDK log at debug level through `SFSDKCoreLogger`): stage, HTTP
+  status, OAuth error and truncated description, whether a proof was sent and a nonce received,
+  and the retry count. Nonce values, proofs, codes, verifiers, tokens and passwords are never kept.
+
 ---
 
 ## 2. Token Refresh

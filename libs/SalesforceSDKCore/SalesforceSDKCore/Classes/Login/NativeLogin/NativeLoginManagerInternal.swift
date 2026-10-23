@@ -65,6 +65,10 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
     
     let scene: UIScene?
 
+    /// Hybrid token choice of the SDK's debug Native Login mode. When nil (the default), the token
+    /// exchange follows `SalesforceManager.useHybridAuthentication`.
+    @objc public var useHybridAuthenticationOverride: NSNumber?
+
     private struct AuthenticationContext {
         let ownership: NSDictionary?
         let credentials: OAuthCredentials?
@@ -118,7 +122,15 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
             throw RestClientError.invalidRequest("Native authentication was cancelled or superseded.")
         }
         guard context.usesDPoP else {
-            let response = try await RestClient.sharedGlobal.send(request: request)
+            let response: RestResponse
+            do {
+                response = try await RestClient.sharedGlobal.send(request: request)
+            } catch {
+                recordDiagnostics(request, dpop: false, retry: 0, error: error)
+                throw error
+            }
+            NativeLoginDiagnostics.shared.record(path: request.path, dpop: false, retry: 0,
+                                                 urlResponse: response.urlResponse, body: nil)
             guard isCurrentAuthentication(context) else {
                 throw RestClientError.invalidRequest("Native authentication was cancelled or superseded.")
             }
@@ -162,7 +174,15 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
                 request.customHeaders = headers
             }
             do {
-                let response = try await RestClient.sharedGlobal.send(request: request)
+                let response: RestResponse
+                do {
+                    response = try await RestClient.sharedGlobal.send(request: request)
+                } catch {
+                    recordDiagnostics(request, dpop: true, retry: attempt, error: error)
+                    throw error
+                }
+                NativeLoginDiagnostics.shared.record(path: request.path, dpop: true, retry: attempt,
+                                                     urlResponse: response.urlResponse, body: nil)
                 try await MainActor.run {
                     guard isCurrentAuthentication(context) else {
                         throw RestClientError.invalidRequest("Native authentication was cancelled or superseded.")
@@ -195,6 +215,17 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         throw RestClientError.apiResponseIsEmpty
     }
     
+    private func recordDiagnostics(_ request: RestRequest, dpop: Bool, retry: Int, error: Error) {
+        var urlResponse: URLResponse?
+        var body: Any?
+        if case .apiFailed(let failureBody, _, let failureResponse) = error as? RestClientError {
+            urlResponse = failureResponse
+            body = failureBody
+        }
+        NativeLoginDiagnostics.shared.record(path: request.path, dpop: dpop, retry: retry,
+                                             urlResponse: urlResponse, body: body)
+    }
+
     /// A structure for the Headless Identity API's authorization endpoint response
     private struct AuthorizationResponseBody: Codable {
         let sfdc_community_url: String
@@ -1087,7 +1118,8 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
                 // Decode the authorization response.
                 let authorizationResponseBody = try successfulResponse.asDecodable(
                     type: AuthorizationResponseBody.self)
-                let grantType = SalesforceManager.shared.useHybridAuthentication ? kSFOAuthGrantTypeHybridAuthorizationCode : kSFOAuthGrantTypeAuthorizationCode
+                let useHybrid = useHybridAuthenticationOverride?.boolValue ?? SalesforceManager.shared.useHybridAuthentication
+                let grantType = useHybrid ? kSFOAuthGrantTypeHybridAuthorizationCode : kSFOAuthGrantTypeAuthorizationCode
                 
                 // Generate the access token request body.
                 let tokenRequestBody = "\(kSFOAuthResponseTypeCode)=\(authorizationResponseBody.code)&\(kSFOAuthGrantType)=\(grantType)&\(kSFOAuthClientId)=\(clientId)&\(kSFOAuthRedirectUri)=\(redirectUri)&\(kSFOAuthCodeVerifierParamName)=\(codeVerifier)"
