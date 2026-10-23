@@ -1363,6 +1363,117 @@ final class FrontdoorBridgeLoginTests: XCTestCase, SFOAuthCoordinatorDelegate {
         }
     }
 
+    func test_givenInvalidDirectBridge_whenStartingLogin_thenCurrentAuthenticationIsNotStopped() throws {
+        let stop = try XCTUnwrap(class_getInstanceMethod(UserAccountManager.self,
+            NSSelectorFromString("stopCurrentAuthentication:")))
+        let stopStub = try XCTUnwrap(class_getInstanceMethod(BridgeFlowBoundaryStub.self,
+            NSSelectorFromString("bridgeStopCurrentAuthentication:")))
+        method_exchangeImplementations(stop, stopStub)
+        let savedStopCalls = BridgeFlowBoundaryStub.stopCalls
+        BridgeFlowBoundaryStub.stopCalls = 0
+        defer {
+            method_exchangeImplementations(stop, stopStub)
+            BridgeFlowBoundaryStub.stopCalls = savedStopCalls
+        }
+
+        let invalidValues = ["https://[", try bridgeURL(origin: "https://attacker.example").absoluteString,
+                             try bridgeURL(clientID: "foreign-public-client").absoluteString]
+        for value in invalidValues {
+            SalesforceLoginViewController.loginWithFrontdoorBridgeUrl(value, pkceCodeVerifier: "test-verifier")
+            XCTAssertEqual(BridgeFlowBoundaryStub.stopCalls, 0)
+        }
+        SalesforceLoginViewController.loginWithFrontdoorBridgeUrl(
+            try bridgeURL().absoluteString, pkceCodeVerifier: "test-verifier")
+        XCTAssertEqual(BridgeFlowBoundaryStub.stopCalls, 1)
+    }
+
+    func test_givenMalformedConfiguredAddresses_whenReadingBridge_thenConfigurationDoesNotGrantTrust() throws {
+        let storage = SFSDKLoginHostStorage.sharedInstance()
+        let host = "qr-malformed-config.example"
+        let url = try bridgeURL(origin: "https://\(host)")
+        let addresses = ["http://\(host)", "https://user@\(host)", "https://\(host):444",
+                         "https://\(host)?query=value", "https://\(host)#fragment", "https://["]
+        for address in addresses + ["https://\(host)/customers"] {
+            let index = storage.numberOfLoginHosts()
+            storage.add(SalesforceLoginHost(name: "QR configuration test", host: address, deletable: true))
+            defer { storage.removeLoginHost(at: index) }
+            let bridge = AuthCoordinatorFrontdoorBridgeLoginOverride(
+                frontdoorBridgeUrl: url, codeVerifier: "test-verifier")
+            if address == "https://\(host)/customers" {
+                XCTAssertEqual(bridge.frontdoorBridgeUrl, url)
+                XCTAssertEqual(bridge.codeVerifier, "test-verifier")
+            } else {
+                XCTAssertNil(bridge.frontdoorBridgeUrl, address)
+                XCTAssertNil(bridge.codeVerifier, address)
+            }
+        }
+    }
+
+    func test_givenValidBridgeCallback_whenNavigating_thenVerifierSelectsTheCorrectFlow() throws {
+        for hasBridge in [false, true] {
+            for hasVerifier in [false, true] {
+                let coordinator = try makePoolCoordinator()
+                if !hasBridge { coordinator.frontdoorBridgeLoginOverride = nil }
+                else if !hasVerifier { coordinator.frontdoorBridgeLoginOverride?.codeVerifier = nil }
+                let client = BridgeRecordingOAuthClient()
+                coordinator.authClient = client
+                let webView = BridgeRecordingWebView()
+                coordinator.view = webView
+                let usesCode = !hasBridge || hasVerifier
+                let callback = try XCTUnwrap(URL(string: usesCode
+                    ? "qr-test://callback?code=navigation-code"
+                    : "qr-test://callback#access_token=navigation-test-placeholder"))
+                defer {
+                    coordinator.credentials?.accessToken = nil
+                    coordinator.stopAuthentication()
+                }
+                try withControlledFlowBoundaries {
+                    performAndDrainMainQueue {
+                        coordinator.webView(webView, decidePolicyFor: MockNavigationAction(url: callback)) {
+                            XCTAssertEqual($0, .cancel)
+                        }
+                    }
+                }
+                XCTAssertEqual(client.requests.count, usesCode ? 1 : 0)
+                if usesCode {
+                    XCTAssertEqual(client.requests.first?.approvalCode, "navigation-code")
+                    XCTAssertEqual(client.requests.first?.codeVerifier, hasBridge ? "test-verifier" : coordinator.codeVerifier)
+                } else {
+                    XCTAssertEqual(coordinator.credentials?.accessToken, "navigation-test-placeholder")
+                }
+                XCTAssertNil(failure)
+            }
+        }
+    }
+
+    func test_givenStopDuringValidation_whenLoading_thenCapturedBridgeAndLaterLoadsAreDiscarded() throws {
+        let config = try installMutatingConfig()
+        let coordinator = try makePoolCoordinator()
+        let webView = BridgeRecordingWebView()
+        let client = BridgeRecordingOAuthClient()
+        coordinator.view = webView
+        coordinator.authClient = client
+        let url = try bridgeURL(origin: "https://login.salesforce.com").absoluteString
+        var configurationReads = 0
+        config.beforeConsumerKeyRead = {
+            config.beforeConsumerKeyRead = nil
+            configurationReads += 1
+            coordinator.stopAuthentication()
+        }
+        defer { config.beforeConsumerKeyRead = nil; coordinator.stopAuthentication() }
+        performAndDrainMainQueue {
+            coordinator.loadWebView(withUrlString: url, cookie: true)
+        }
+        performAndDrainMainQueue {
+            coordinator.loadWebView(withUrlString: url, cookie: true)
+        }
+        XCTAssertEqual(configurationReads, 1)
+        XCTAssertTrue(webView.requests.isEmpty)
+        XCTAssertTrue(client.requests.isEmpty)
+        XCTAssertFalse(coordinator.authenticating)
+        XCTAssertNil(failure)
+    }
+
     private func clearFlowDelegateHooks() {
         onAuthenticationBegin = nil
         onWebViewBegin = nil
@@ -1560,9 +1671,15 @@ private final class BridgeMutatingBootConfig: BootConfig {
  browser UI.
  */
 private final class BridgeFlowBoundaryStub: NSObject {
+    static var stopCalls = 0
     static var browserLaunches = 0
     static var holdAttestation = false
     static var pendingAttestation: ((String?) -> Void)?
+
+    @objc(bridgeStopCurrentAuthentication:)
+    func stopAuthentication(_ completion: ((Bool) -> Void)?) {
+        BridgeFlowBoundaryStub.stopCalls += 1
+    }
 
     @objc(bridgeAttestationFor:consumerKey:completionHandler:)
     static func attest(domain: String?, consumerKey: String?, completion: @escaping (String?) -> Void) {
