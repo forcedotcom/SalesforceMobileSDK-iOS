@@ -232,6 +232,11 @@ Set this block to handle presentation of the Authentication View Controller.
 - (void)abandonNativeAuthentication:(NSDictionary *)context;
 - (NSNumber *)completeNativeAuthentication:(NSData *)data context:(NSDictionary *)context;
 
+/// Invalidates the native login attempt owned by the given configuration (client ID, callback URL, login URL and
+/// scene, as for beginNativeAuthentication:), so a token response that arrives later creates no account. Other
+/// native attempts are left alone. Unlike stopCurrentAuthentication:, it leaves the login screen in place.
+- (void)cancelNativeAuthenticationsForConfiguration:(NSDictionary *)configuration;
+
 
 - (BOOL)loginWithCompletion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock
                     failure:(nullable SFUserAccountManagerFailureCallbackBlock)failureBlock
@@ -250,6 +255,12 @@ Set this block to handle presentation of the Authentication View Controller.
 - (void)restartAuthenticationForViewController:(SFLoginViewController *)loginViewController;
 
 - (void)restartAuthenticationForViewController:(SFLoginViewController *)loginViewController recreateAuthRequest:(BOOL)recreateAuthRequest;
+
+/** Restarts the scene's authentication after a Login Options change made from the SDK's debug
+ Native Login form: re-applies `NativeLoginDebugSettings`, then rebuilds the native or browser request.
+ Swift code calls it by selector (this header is not visible to Swift).
+ */
+- (void)restartAuthenticationAfterLoginOptionsChangeForScene:(nullable UIScene *)scene;
 
 
 @end

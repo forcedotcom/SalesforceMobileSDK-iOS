@@ -267,12 +267,77 @@ helper.
 | `test_givenCommunityDPoP_whenLoginViaInAppWebView_thenTokenTypeIsDPoP` | DPoP-bound token via the in-app WebView auth surface |
 | `test_givenCommunityNoDPoP_whenLoginViaInAppWebView_thenTokenTypeIsBearer` | Bearer token via the in-app WebView auth surface |
 
+#### NativeLoginTests
+Covers Native Login (`NativeLoginManager`) against the community login host, with the SDK's debug
+Native Login form (username, password, Cancel, Login Options and "Log In with Browser" fallback). Two
+headless ECAs are used: `eca_jwt_headless` accepts but does not require DPoP, and
+`eca_jwt_dpop_headless` requires it (`/authorize` without `dpop_jkt` is rejected with HTTP 400
+`invalid_request`). The four-case matrix has explicit expectations, independent of the ECA name:
+
+| ECA | Client DPoP | Expected |
+|-----|-------------|----------|
+| `eca_jwt_headless` | off | Bearer |
+| `eca_jwt_headless` | on | DPoP-bound |
+| `eca_jwt_dpop_headless` | off | Rejected, failure shown on the form, no account created |
+| `eca_jwt_dpop_headless` | on | DPoP-bound |
+
+Successful sessions are checked for the `NL`, `A5` and `L5` feature markers (plus `DP` only when
+DPoP is on, and no `B` markers; the Android SDK registers no `L` marker for Native Login), then a REST call, a revoke/refresh cycle, a cold restart and another
+refresh.
+
+Native Login is an SDK debug feature, not AuthFlowTester code: the **Authentication Mode** picker
+(Browser / Native) at the top of the SDK's Login Options screen (debug builds with developer support;
+reached from the web login screen, the developer menu, or the Login Options button on the native
+form) selects it, with its own client settings (Client ID, Native Callback URL, Community Login URL,
+Use DPoP, Use Hybrid Authentication). In Native mode the browser-only sections are hidden. Settings are saved as
+edited, apart from the browser configuration, and closing Login Options restarts authentication.
+They are kept in `SalesforceManager.shared.debugLoginSettings`. Tests launch with
+`--nativeLoginConfig=<json>` and change apps or DPoP mid-run with the JSON import button.
+
+| Test | Notes |
+|------|-------|
+| `testNativeLoginConfigIsValid` | The by-name fixtures resolve (`community_auth` host and user, both ECAs, keys, HTTPS redirect URIs). Fails, never skips, when only one ECA is present or a fixture is invalid |
+| `testECAJwtHeadless_whenDPoPOff_thenBearer` | Matrix case 1 |
+| `testECAJwtHeadless_whenDPoPOn_thenDPoP` | Matrix case 2 |
+| `testECAJwtDPoPHeadless_whenDPoPOff_thenRejectedNoAccount` | Matrix case 3; HTTP 400 `invalid_request` naming the missing `dpop_jkt` (not `invalid_grant`) on the form, redacted diagnostics, main page never loads |
+| `testECAJwtDPoPHeadless_whenDPoPOn_thenDPoP` | Matrix case 4 |
+| `test_givenRejection_whenRetryWithDPoP_thenSucceeds` | After a rejection, turning DPoP on and retrying succeeds |
+| `test_givenLoggedInUser_whenCancelAddUserForm_thenStaysLoggedIn` | Cancel is offered with an existing account and returns to it |
+| `test_givenNoUser_whenNativeFormShown_thenNoCancelButton` | No Cancel without an account |
+| `test_givenNativeForm_whenBrowserFallback_thenWebLoginShown` | "Log In with Browser" hands off to web authentication |
+| `test_givenSameUser_whenDPoPThenBearerReauth_thenBearerWithoutDPoPMarker` | Same user, DPoP login, logout, Bearer login: no `DP` carry-over, also after a restart |
+| `test_givenNativeForm_whenBackgroundedAndReactivated_thenLoginStillWorks` | Home and reactivate mid-form |
+| `test_givenFailedLogin_whenDiagnosticsShown_thenRedacted` | Diagnostics name the authorize stage and contain no tokens, nonces, codes or passwords |
+
+The form shows redacted diagnostics for each authorize/token attempt (stage, HTTP status, OAuth error
+and description, whether a DPoP proof was sent, nonce challenges and retries), recorded by the SDK's
+internal `NativeLoginDiagnostics` when developer support is enabled (also written to the SDK log at debug level). `NativeLoginResult` carries no HTTP status, so the
+failure detail adds the last failed attempt, for example
+`unknownError (HTTP 400 invalid_request: ...dpop_jkt...)`.
+
+Requires the `eca_jwt_headless` and `eca_jwt_dpop_headless` apps and the `community_auth` host in
+`ui_test_config.json` (see Configuration below); skips cleanly via `XCTSkip` when neither ECA is present.
+
+| Native login form | Login Options (Native) | Login Options (Browser) |
+|---|---|---|
+| ![Native login form](Screenshots/native-login-form.png) | ![Login Options, Native selected](Screenshots/login-options-native.png) | ![Login Options, Browser selected](Screenshots/login-options-browser.png) |
+
+Run only this suite:
+
+```bash
+xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme AuthFlowTester \
+  -destination 'platform=iOS Simulator,name=iPhone 17' \
+  -only-testing:'AuthFlowTesterUITests/NativeLoginTests'
+```
+
 ### Launch arguments
 
 Tests can pass extra launch arguments through `extraLaunchArguments` (or `restart(withLaunchArguments:)`).
 
 | Argument | Effect |
 |----------|--------|
+| `--nativeLoginConfig=<json>` | Debug-only. Applies a Native Login configuration to `SalesforceManager.shared.debugLoginSettings` after the UI-test reset, with the JSON keys shared with Android and the Login Options import: `authenticationMode` (`native` or `browser`), `consumerKey`, `redirectUri`, `communityUrl`, `useDPoP`, `useHybridFlow`. Absent keys keep their saved value; an invalid configuration is logged and ignored. Used by `NativeLoginTests`. |
+| `--authenticationMode=native\|browser` | Debug-only. Selects the authentication mode (applied after `--nativeLoginConfig`); `native` needs a complete saved configuration. Without either argument the settings saved from Login Options are used. |
 | `--captureTokenRequestUserAgent` | Debug/UI-test-only `SFNetwork` metrics observer. The app records the User-Agent and URL (scheme, host, path) of the last `/services/oauth2/token` request and shows them as `Last Token Request User Agent` and `Last Token Request URL`. Used by `RTRLoginTests` and `CommunityLoginTests`. |
 
 ### Identity request diagnostics (`IDENTITY_ATTEMPTS`)
@@ -341,6 +406,7 @@ value rather than inferring request behavior from the user agent recomputed afte
 - **App configs**: `ecaOpaque`, `ecaJwt`, `ecaOpaqueRtr`, `ecaJwtRtr`, `ecaJwtDpop`, `ecaJwtDpopRtr`, `beaconOpaque`, `beaconJwt`, `caOpaque`
 - **Login hosts**: `regularAuth` (in-app WKWebView), `advancedAuth` (ASWebAuthenticationSession), `communityAuth` (community/Experience Cloud login server; browser by default, in-app WKWebView when `forceAdvancedAuthentication: false`)
 - **Users**: `first` through `fifth`
+- **Native Login**: the optional `eca_jwt_headless` and `eca_jwt_dpop_headless` apps, looked up by name together with the `community_auth` host (no separate config block). Both apps need an `https://` redirect URI. Credentials are not duplicated: the user is the host's first user. If neither app is present the suite is skipped; if only one is present, or the host is missing, it fails.
 
 ### Scope selections
 
@@ -358,7 +424,7 @@ A valid `shared/test/ui_test_config.json` is required. Copy the sample and fill 
 cp shared/test/ui_test_config.json.sample shared/test/ui_test_config.json
 ```
 
-For full setup instructions, credential values, and cross-platform notes see the internal workspace doc: [`docs/auth/auth-ui-testing.md`](https://git.soma.salesforce.com/SalesforceMobileSDK/SalesforceMobileSDK-Workspace/blob/main/docs/auth/auth-ui-testing.md).
+For full setup instructions, credential values, and cross-platform notes see the internal workspace doc: [`docs/auth/AUTH_UI_TESTING.md`](https://git.soma.salesforce.com/SalesforceMobileSDK/SalesforceMobileSDK-Workspace/blob/main/docs/auth/AUTH_UI_TESTING.md).
 
 ## B- and L-markers in `ftr_`
 

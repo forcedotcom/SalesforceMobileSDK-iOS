@@ -238,7 +238,9 @@ SFNativeLoginManagerInternal *nativeLogin;
     }
 #endif
 
-    [SalesforceSDKManager sharedManager];
+    // Like an app calling `useNativeLogin` at launch, so a restored Native Login session keeps its
+    // Native Login markers when the debug Login Options select Native mode.
+    [[SalesforceSDKManager sharedManager] applyDebugNativeLoginSettings];
 }
 
 - (void)resetAuthFlags {
@@ -274,6 +276,10 @@ SFNativeLoginManagerInternal *nativeLogin;
     SalesforceSDKManager *mgr = [SalesforceSDKManager sharedManager];
     [mgr resetAuthFlags];
     mgr.simulatedDomainDiscoveryResult = nil;
+
+    // 6. Back to browser login: clear the debug Native Login mode and configuration.
+    [[SFSDKNativeLoginDebugSettings shared] reset];
+    [mgr deactivateDebugNativeLogin];
 }
 #endif
 
@@ -549,7 +555,8 @@ SFNativeLoginManagerInternal *nativeLogin;
     BOOL isShowingWebViewLogin = [presentedViewController isKindOfClass:[SFLoginViewController class]];
     BOOL isShowingHostList = [presentedViewController isKindOfClass:[SFSDKLoginHostListViewController class]]
         && ((SFSDKLoginHostListViewController *)presentedViewController).presentedAsLoginScreen;
-    BOOL isShowingLogin = isShowingWebViewLogin || isShowingHostList;
+    BOOL isShowingDebugNativeLogin = [presentedViewController isKindOfClass:[SFSDKDebugNativeLoginViewController class]];
+    BOOL isShowingLogin = isShowingWebViewLogin || isShowingHostList || isShowingDebugNativeLogin;
 
     // Show dev info - always available
     [actions addObject:[[SFSDKDevAction alloc]initWith:@"Show dev info" handler:^{
@@ -567,6 +574,8 @@ SFNativeLoginManagerInternal *nativeLogin;
                         [[SFUserAccountManager sharedInstance] restartAuthenticationForViewController:(SFLoginViewController *)presentedViewController recreateAuthRequest:YES];
                     } else if ([presentedViewController isKindOfClass:[SFSDKLoginHostListViewController class]]) {
                         [[SFUserAccountManager sharedInstance] hostListViewControllerDidChangeLoginOptions:(SFSDKLoginHostListViewController *)presentedViewController];
+                    } else if (isShowingDebugNativeLogin) {
+                        [[SFUserAccountManager sharedInstance] restartAuthenticationAfterLoginOptionsChangeForScene:presentedViewController.view.window.windowScene];
                     }
                 }];
             }];
@@ -1238,7 +1247,27 @@ void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t b
                                      isReCaptchaEnterprise:(BOOL)isReCaptchaEnterprise
                                  nativeLoginViewController:(nonnull UIViewController *)nativeLoginViewController
                                                      scene:(nullable UIScene *)scene {
-    
+    // The app's own native login always wins over the debug Native Login mode.
+    [self deactivateDebugNativeLogin];
+    self.appRegisteredNativeLogin = YES;
+    return [self registerNativeLoginWithConsumerKey:consumerKey
+                                        callbackUrl:callbackUrl
+                                       communityUrl:communityUrl
+                                 reCaptchaSiteKeyId:reCaptchaSiteKeyId
+                               googleCloudProjectId:googleCloudProjectId
+                              isReCaptchaEnterprise:isReCaptchaEnterprise
+                          nativeLoginViewController:nativeLoginViewController
+                                              scene:scene];
+}
+
+- (SFNativeLoginManagerInternal *)registerNativeLoginWithConsumerKey:(nonnull NSString *)consumerKey
+                                                         callbackUrl:(nonnull NSString *)callbackUrl
+                                                        communityUrl:(nonnull NSString *)communityUrl
+                                                  reCaptchaSiteKeyId:(nullable NSString *)reCaptchaSiteKeyId
+                                                googleCloudProjectId:(nullable NSString *)googleCloudProjectId
+                                               isReCaptchaEnterprise:(BOOL)isReCaptchaEnterprise
+                                           nativeLoginViewController:(nonnull UIViewController *)nativeLoginViewController
+                                                               scene:(nullable UIScene *)scene {
     [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureNativeLogin];
     NSString *key = scene ? scene.session.persistentIdentifier : kSFDefaultNativeLoginViewControllerKey;
     [_nativeLoginViewControllers setObject:nativeLoginViewController forKey:key];
@@ -1254,6 +1283,39 @@ void dispatch_once_on_main_thread(dispatch_once_t *predicate, dispatch_block_t b
     [SFUserAccountManager sharedInstance].nativeLoginEnabled = true;
     
     return nativeLogin;
+}
+
+- (void)applyDebugNativeLoginSettings {
+    if (self.appRegisteredNativeLogin) {
+        return;
+    }
+    SFSDKNativeLoginDebugSettings *settings = [SFSDKNativeLoginDebugSettings shared];
+    if (settings.isAvailable && settings.isNativeLoginActive) {
+        // A fresh form per authentication, so no state carries over from a previous attempt.
+        SFNativeLoginManagerInternal *manager = [self registerNativeLoginWithConsumerKey:settings.nativeConsumerKey
+                                                                             callbackUrl:settings.nativeRedirectUri
+                                                                            communityUrl:settings.nativeCommunityUrl
+                                                                      reCaptchaSiteKeyId:nil
+                                                                    googleCloudProjectId:nil
+                                                                   isReCaptchaEnterprise:NO
+                                                               nativeLoginViewController:[SFSDKDebugNativeLoginViewController new]
+                                                                                   scene:nil];
+        manager.useHybridAuthenticationOverride = @(settings.nativeUseHybridFlow);
+        _debugNativeLoginActive = YES;
+    } else {
+        [self deactivateDebugNativeLogin];
+    }
+}
+
+- (void)deactivateDebugNativeLogin {
+    if (!_debugNativeLoginActive) {
+        return;
+    }
+    _debugNativeLoginActive = NO;
+    [_nativeLoginViewControllers removeAllObjects];
+    nativeLogin = nil;
+    [SFUserAccountManager sharedInstance].nativeLoginEnabled = NO;
+    [SFSDKAppFeatureMarkers unregisterAppFeature:kSFAppFeatureNativeLogin];
 }
 
 - (id <SFNativeLoginManager>)nativeLoginManager {
