@@ -1087,7 +1087,7 @@ final class NativeLoginManagerTests: XCTestCase {
                 NativeIdentityCapture.onRetrieve = { _ in identityRequests += 1 }
                 method_exchangeImplementations(original, replacement)
                 defer {
-                    UserAccountManager.shared.perform(NSSelectorFromString("cancelNativeAuthentications"))
+                    (manager as? NativeLoginManagerInternal)?.invalidateCurrentAttempt()
                     method_exchangeImplementations(original, replacement)
                     NativeIdentityCapture.onRetrieve = nil
                     NativeOverlapURLProtocol.reset {}
@@ -1132,7 +1132,7 @@ final class NativeLoginManagerTests: XCTestCase {
 
     @MainActor
     func test_givenNativeAttemptAndExistingAccount_whenNativeAttemptsCancelled_thenOnlyTheAttemptIsInvalidated() async throws {
-        try await withNativeSession { _, session, _ in
+        try await withNativeSession { manager, session, _ in
             let uam = UserAccountManager.shared
             uam.clearAllAccountState()
             defer { uam.clearAllAccountState() }
@@ -1147,7 +1147,7 @@ final class NativeLoginManagerTests: XCTestCase {
             ])?.takeUnretainedValue() as? NSDictionary)
             XCTAssertTrue((uam.perform(NSSelectorFromString("isCurrentNativeAuthentication:"), with: context)?.takeUnretainedValue() as? NSNumber)?.boolValue == true)
 
-            uam.perform(NSSelectorFromString("cancelNativeAuthentications"))
+            (manager as? NativeLoginManagerInternal)?.invalidateCurrentAttempt()
 
             XCTAssertFalse((uam.perform(NSSelectorFromString("isCurrentNativeAuthentication:"), with: context)?.takeUnretainedValue() as? NSNumber)?.boolValue == true,
                            "A token response that arrives after cancellation is no longer the current attempt")
@@ -1159,21 +1159,43 @@ final class NativeLoginManagerTests: XCTestCase {
     }
 
     @MainActor
-    func test_givenBrowserAttempt_whenNativeAttemptsCancelled_thenBrowserSessionKept() async throws {
-        let uam = UserAccountManager.shared
-        let request = SFSDKAuthRequest()
-        request.oauthClientId = "browser-client"
-        request.oauthCompletionUrl = "testapp://callback"
-        request.loginHost = "login.salesforce.com"
-        let session = SFSDKAuthSession(request, credentials: nil)
-        session.isAuthenticating = true
-        uam.authSessions[session.sceneId as NSString] = session
-        defer { uam.authSessions.removeObject(session.sceneId as NSString) }
+    func test_givenBrowserAndOtherNativeAttempts_whenFormAttemptCancelled_thenOnlyTheFormsAttemptIsInvalidated() async throws {
+        try await withNativeSession { manager, session, _ in
+            let uam = UserAccountManager.shared
+            let browserRequest = SFSDKAuthRequest()
+            browserRequest.oauthClientId = "browser-client"
+            browserRequest.oauthCompletionUrl = "testapp://callback"
+            browserRequest.loginHost = "login.salesforce.com"
+            let browser = SFSDKAuthSession(browserRequest, credentials: nil)
+            browser.isAuthenticating = true
 
-        uam.perform(NSSelectorFromString("cancelNativeAuthentications"))
+            // Another, separately owned native attempt (different client, as another form or scene would have).
+            let otherRequest = SFSDKAuthRequest()
+            otherRequest.oauthClientId = "other-native-client"
+            otherRequest.oauthCompletionUrl = "testapp://callback"
+            otherRequest.loginHost = "https://other.example.com/community"
+            let other = SFSDKAuthSession(otherRequest, credentials: nil)
+            other.isAuthenticating = true
+            other.oauthCoordinator.useNativeAuth = true
+            uam.authSessions[browser.sceneId as NSString] = browser
+            uam.authSessions[other.sceneId as NSString] = other
+            _ = try DPoPKeyStore.shared.keyPair(forCredentials: other.credentials)
+            defer {
+                DPoPKeyStore.shared.delete(forCredentials: other.credentials)
+                uam.authSessions.removeObject(browser.sceneId as NSString)
+                uam.authSessions.removeObject(other.sceneId as NSString)
+            }
 
-        XCTAssertTrue(session.isAuthenticating)
-        XCTAssertTrue(uam.authSessions[session.sceneId as NSString] === session)
+            (manager as? NativeLoginManagerInternal)?.invalidateCurrentAttempt()
+
+            XCTAssertFalse(session.isAuthenticating, "The form's own attempt is invalidated")
+            XCTAssertNil(uam.authSessions[session.sceneId as NSString])
+            XCTAssertTrue(browser.isAuthenticating)
+            XCTAssertTrue(uam.authSessions[browser.sceneId as NSString] === browser)
+            XCTAssertTrue(other.isAuthenticating, "Another native attempt is left alone")
+            XCTAssertTrue(uam.authSessions[other.sceneId as NSString] === other)
+            XCTAssertTrue(DPoPKeyStore.shared.hasKeyPair(forCredentials: other.credentials), "and keeps its DPoP key")
+        }
     }
 
     @MainActor

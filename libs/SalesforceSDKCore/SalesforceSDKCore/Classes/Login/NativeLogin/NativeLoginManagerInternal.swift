@@ -99,6 +99,14 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
                                                  with: ownership)?.takeUnretainedValue() as? NSNumber)?.boolValue == true
     }
 
+    /// Invalidates this manager's in-flight login attempt, if any, so a token response arriving later
+    /// creates no account. Attempts owned by other managers or scenes are not affected.
+    func invalidateCurrentAttempt() {
+        var configuration: [String: Any] = ["clientId": clientId, "redirectUri": redirectUri, "loginUrl": loginUrl]
+        configuration["scene"] = scene
+        UserAccountManager.shared.perform(NSSelectorFromString("cancelNativeAuthenticationsForConfiguration:"), with: configuration)
+    }
+
     private func abandonAuthentication(_ context: AuthenticationContext) {
         guard let ownership = context.ownership else { return }
         #if DEBUG

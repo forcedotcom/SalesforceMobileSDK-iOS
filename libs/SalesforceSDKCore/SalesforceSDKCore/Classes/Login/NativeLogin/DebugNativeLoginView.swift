@@ -86,7 +86,7 @@ final class DebugNativeLoginModel: ObservableObject {
         self.init(loginAction: { username, password in await manager.login(username: username, password: password) },
                   cancelAction: { manager.cancelAuthentication() },
                   fallbackAction: { manager.fallbackToWebAuthentication() },
-                  invalidateAttempt: { UserAccountManager.shared.perform(NSSelectorFromString("cancelNativeAuthentications")) },
+                  invalidateAttempt: { (manager as? NativeLoginManagerInternal)?.invalidateCurrentAttempt() },
                   canDismiss: { manager.shouldShowBackButton() })
     }
 

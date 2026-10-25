@@ -1816,13 +1816,20 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     }
 }
 
-- (void)cancelNativeAuthentications {
+- (void)cancelNativeAuthenticationsForConfiguration:(NSDictionary *)configuration {
     if (![NSThread isMainThread]) {
-        dispatch_sync(dispatch_get_main_queue(), ^{ [self cancelNativeAuthentications]; });
+        dispatch_sync(dispatch_get_main_queue(), ^{ [self cancelNativeAuthenticationsForConfiguration:configuration]; });
         return;
     }
+    // Same ownership as nativeAuthSessionForConfiguration:, so another form's attempt is left alone.
+    UIScene *scene = configuration[@"scene"] ?: [[[SalesforceSDKManager sharedManager] nativeLoginViewControllers] objectForKey:kSFDefaultNativeLoginViewControllerKey].view.window.windowScene;
+    NSString *loginSite = [self normalizedNativeLoginSite:configuration[@"loginUrl"]];
     for (SFSDKAuthSession *session in self.authSessions.allValues) {
-        if (session.isAuthenticating && session.oauthCoordinator.useNativeAuth) {
+        if (session.isAuthenticating && session.oauthCoordinator.useNativeAuth
+                && session.oauthRequest.scene == scene
+                && [session.oauthRequest.oauthClientId isEqualToString:configuration[@"clientId"]]
+                && [session.oauthRequest.oauthCompletionUrl isEqualToString:configuration[@"redirectUri"]]
+                && [[self normalizedNativeLoginSite:session.oauthRequest.loginHost] isEqualToString:loginSite]) {
             [self resetAuthentication:session];
         }
     }

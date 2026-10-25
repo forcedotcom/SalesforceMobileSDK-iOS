@@ -232,9 +232,10 @@ Set this block to handle presentation of the Authentication View Controller.
 - (void)abandonNativeAuthentication:(NSDictionary *)context;
 - (NSNumber *)completeNativeAuthentication:(NSData *)data context:(NSDictionary *)context;
 
-/// Invalidates every native login attempt in progress, so a token response that arrives later creates no account.
-/// Unlike stopCurrentAuthentication:, it leaves the login screen in place.
-- (void)cancelNativeAuthentications;
+/// Invalidates the native login attempt owned by the given configuration (client ID, callback URL, login URL and
+/// scene, as for beginNativeAuthentication:), so a token response that arrives later creates no account. Other
+/// native attempts are left alone. Unlike stopCurrentAuthentication:, it leaves the login screen in place.
+- (void)cancelNativeAuthenticationsForConfiguration:(NSDictionary *)configuration;
 
 
 - (BOOL)loginWithCompletion:(nullable SFUserAccountManagerSuccessCallbackBlock)completionBlock
