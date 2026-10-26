@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "SalesforceAnalytics"
-  s.version      = "14.0.1"
+  s.version      = "14.0.1-rc.0"
   s.summary      = "Salesforce Mobile SDK for iOS"
   s.homepage     = "https://github.com/forcedotcom/SalesforceMobileSDK-iOS"
 
