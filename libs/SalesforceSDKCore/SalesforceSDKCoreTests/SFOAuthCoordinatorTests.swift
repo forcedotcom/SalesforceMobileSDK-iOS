@@ -516,3 +516,1178 @@ extension SFOAuthCoordinator {
         set { self.setValue(newValue, forKey: "loginHint") }
     }
 }
+
+final class FrontdoorBridgeLoginTests: XCTestCase, SFOAuthCoordinatorDelegate {
+    private let consumerKey = "qr-test-public-client"
+    private var savedBootConfig: BootConfig?
+    private var failureExpectation: XCTestExpectation?
+    private var failure: NSError?
+    private var failureCount = 0
+    private var onAuthenticationBegin: (() -> Void)?
+    private var onWebViewBegin: (() -> Void)?
+    private var onNetworkAvailability: (() -> Bool)?
+    private var pendingBrowserApproval: ((Bool) -> Void)?
+
+    override func setUp() {
+        super.setUp()
+        savedBootConfig = SalesforceManager.shared.bootConfig
+        SalesforceManager.shared.bootConfig = BootConfig([
+            "remoteAccessConsumerKey": consumerKey,
+            "oauthRedirectURI": "qr-test://callback",
+            "oauthScopes": ["api"]
+        ])
+    }
+
+    override func tearDown() {
+        SalesforceManager.shared.bootConfig = savedBootConfig
+        failureExpectation = nil
+        failure = nil
+        failureCount = 0
+        clearFlowDelegateHooks()
+        pendingBrowserApproval = nil
+        super.tearDown()
+    }
+
+    func test_givenUntrustedHostAndMatchingPublicClient_whenCreatingBridge_thenURLAndVerifierAreRejected() throws {
+        let bridge = AuthCoordinatorFrontdoorBridgeLoginOverride(
+            frontdoorBridgeUrl: try bridgeURL(origin: "https://attacker.example"),
+            codeVerifier: "test-verifier")
+
+        XCTAssertNil(bridge.frontdoorBridgeUrl)
+        XCTAssertNil(bridge.codeVerifier)
+    }
+
+    func test_givenValidBridge_whenMutatingURLAndMatchFlag_thenUntrustedURLCannotBeConsumed() throws {
+        let bridge = AuthCoordinatorFrontdoorBridgeLoginOverride(
+            frontdoorBridgeUrl: try bridgeURL(), codeVerifier: "test-verifier")
+        bridge.frontdoorBridgeUrl = try bridgeURL(origin: "https://attacker.example")
+        bridge.matchesConsumerKey = true
+
+        XCTAssertNil(bridge.frontdoorBridgeUrl)
+        XCTAssertNil(bridge.codeVerifier)
+    }
+
+    func test_givenMyDomainBridge_whenCreatingOverride_thenURLAndVerifierArePreserved() throws {
+        let url = try bridgeURL()
+        let bridge = AuthCoordinatorFrontdoorBridgeLoginOverride(
+            frontdoorBridgeUrl: url, codeVerifier: "test-verifier")
+
+        XCTAssertEqual(bridge.frontdoorBridgeUrl, url)
+        XCTAssertEqual(bridge.codeVerifier, "test-verifier")
+        XCTAssertTrue(bridge.matchesConsumerKey)
+    }
+
+    func test_givenForeignClient_whenCreatingBridge_thenURLAndVerifierAreRejected() throws {
+        let bridge = AuthCoordinatorFrontdoorBridgeLoginOverride(
+            frontdoorBridgeUrl: try bridgeURL(clientID: "another-public-client"),
+            codeVerifier: "test-verifier")
+
+        XCTAssertFalse(bridge.matchesConsumerKey)
+        XCTAssertNil(bridge.frontdoorBridgeUrl)
+        XCTAssertNil(bridge.codeVerifier)
+    }
+
+    func test_givenAmbiguousOrUnsafeURL_whenCreatingBridge_thenOverrideIsRejected() throws {
+        let validURL = try bridgeURL()
+        let invalidURLs = [
+            try bridgeURL(origin: "http://qr-test.my.salesforce.com"),
+            try bridgeURL(origin: "https://qr-test.my.salesforce.com:444"),
+            try bridgeURL(origin: "https://user@qr-test.my.salesforce.com"),
+            try bridgeURL(origin: "https://qr-test.my.salesforce.com.attacker.example"),
+            try bridgeURL(origin: "https://attacker-my.salesforce.com.example"),
+            try bridgeURL(origin: "https://qr-test.force.com"),
+            try bridgeURL(origin: "https://127.0.0.1"),
+            try modified(validURL) { $0.fragment = "fragment" },
+            try modified(validURL) { $0.path = "/attacker" },
+            try modified(validURL) { $0.percentEncodedPath = "/secur/%66rontdoor.jsp" },
+            try modified(validURL) { $0.path = "/../secur/frontdoor.jsp" },
+            try modified(validURL) { $0.path = "/customers//secur/frontdoor.jsp" },
+            try modified(validURL) { $0.path = "/customers\\secur/frontdoor.jsp" },
+            try modified(validURL) { $0.queryItems = [] },
+            try modified(validURL) {
+                let duplicate = $0.queryItems?.first
+                if let duplicate { $0.queryItems?.append(duplicate) }
+            }
+        ]
+        for url in invalidURLs {
+            let bridge = AuthCoordinatorFrontdoorBridgeLoginOverride(
+                frontdoorBridgeUrl: url, codeVerifier: "test-verifier")
+            XCTAssertNil(bridge.frontdoorBridgeUrl, url.absoluteString)
+            XCTAssertNil(bridge.codeVerifier, url.absoluteString)
+        }
+    }
+
+    func test_givenCanonicalAuthorityVariants_whenWebKitInterpretsBridge_thenOriginIsPreserved() throws {
+        let original = try bridgeURL().absoluteString
+        let origins = [
+            "https://qr-test.my.salesforce.com",
+            "HTTPS://QR-TEST.MY.SALESFORCE.COM:443",
+            "https://%71r-test.my.salesforce.com",
+            "https://qr-test.my%2Esalesforce.com"
+        ]
+        for origin in origins {
+            let url = try XCTUnwrap(URL(string: original.replacingOccurrences(
+                of: "https://qr-test.my.salesforce.com", with: origin)))
+            let bridge = AuthCoordinatorFrontdoorBridgeLoginOverride(
+                frontdoorBridgeUrl: url, codeVerifier: nil)
+            let validatedURL = try XCTUnwrap(bridge.frontdoorBridgeUrl, origin)
+            let validated = try XCTUnwrap(URLComponents(url: validatedURL, resolvingAgainstBaseURL: false))
+            let observed = expectation(description: "WebKit policy for \(origin)")
+            let delegate = BridgeCancellingNavigationDelegate { request in
+                defer { observed.fulfill() }
+                guard let requestURL = request.url,
+                      let browser = URLComponents(url: requestURL, resolvingAgainstBaseURL: false) else {
+                    XCTFail("WebKit did not provide a URL for \(origin)")
+                    return
+                }
+                XCTAssertEqual(browser.scheme?.lowercased(), NSURLProtectionSpaceHTTPS, origin)
+                XCTAssertEqual(browser.host?.lowercased(), "qr-test.my.salesforce.com", origin)
+                XCTAssertEqual(browser.host?.lowercased(), validated.host?.lowercased(), origin)
+                XCTAssertEqual(browser.port ?? 443, validated.port ?? 443, origin)
+                XCTAssertEqual(browser.percentEncodedPath, validated.percentEncodedPath, origin)
+                XCTAssertEqual(browser.queryItems, validated.queryItems, origin)
+                XCTAssertNil(browser.user, origin)
+                XCTAssertNil(browser.password, origin)
+            }
+            let webView = WKWebView()
+            webView.navigationDelegate = delegate
+            webView.load(URLRequest(url: validatedURL))
+            wait(for: [observed], timeout: 10)
+            webView.stopLoading()
+            withExtendedLifetime(delegate) {}
+        }
+    }
+
+    func test_givenMisleadingAuthoritySpellings_whenCreatingBridge_thenNoURLIsAuthorized() throws {
+        let original = try bridgeURL().absoluteString
+        let origins = [
+            "https://qr-test.my.salesforce.com@attacker.example",
+            "https://attacker.example@qr-test.my.salesforce.com",
+            "https://qr-test.my.salesforce.com%2F.attacker.example",
+            "https://qr-test.my.salesforce.com%40attacker.example",
+            "https://qr-test.my.salesforce.com\\@attacker.example",
+            "https://qr-test.my.salesforce.com.",
+            "https://qr-test.my.s\u{0430}lesforce.com"
+        ]
+        for origin in origins {
+            guard let url = URL(string: original.replacingOccurrences(
+                of: "https://qr-test.my.salesforce.com", with: origin)) else { continue }
+            XCTAssertNil(AuthCoordinatorFrontdoorBridgeLoginOverride(
+                frontdoorBridgeUrl: url, codeVerifier: nil).frontdoorBridgeUrl, origin)
+        }
+    }
+
+    func test_givenUnsafeStartURL_whenCreatingBridge_thenOverrideIsRejected() throws {
+        let values = [
+            "", "/services/oauth2/authorize", "/services/oauth2/authorize?client_id=",
+            "/services/oauth2/authorize?client_id=\(consumerKey)&client_id=\(consumerKey)",
+            "https://attacker.example/services/oauth2/authorize?client_id=\(consumerKey)",
+            "//attacker.example/services/oauth2/authorize?client_id=\(consumerKey)",
+            "http://qr-test.my.salesforce.com/services/oauth2/authorize?client_id=\(consumerKey)",
+            "https://user@qr-test.my.salesforce.com/services/oauth2/authorize?client_id=\(consumerKey)",
+            "https://qr-test.my.salesforce.com:444/services/oauth2/authorize?client_id=\(consumerKey)",
+            "/customers//services/oauth2/authorize?client_id=\(consumerKey)",
+            "/customers\\services/oauth2/authorize?client_id=\(consumerKey)",
+            "/services/oauth2/%61uthorize?client_id=\(consumerKey)",
+            "/attacker?client_id=\(consumerKey)",
+            "/../services/oauth2/authorize?client_id=\(consumerKey)",
+            "/services/oauth2/authorize?client_id=\(consumerKey)#fragment"
+        ]
+        for value in values {
+            let url = try modified(bridgeURL()) {
+                $0.queryItems = [URLQueryItem(name: "startURL", value: value)]
+            }
+            let bridge = AuthCoordinatorFrontdoorBridgeLoginOverride(
+                frontdoorBridgeUrl: url, codeVerifier: "test-verifier")
+            XCTAssertNil(bridge.frontdoorBridgeUrl, value)
+        }
+    }
+
+    func test_givenConfiguredCommunity_whenCreatingBridge_thenPrefixAndVerifierArePreserved() throws {
+        let storage = SFSDKLoginHostStorage.sharedInstance()
+        let index = storage.numberOfLoginHosts()
+        storage.add(SalesforceLoginHost(name: "QR test", host: "qr-community.example", deletable: true))
+        defer { storage.removeLoginHost(at: index) }
+        let url = try modified(bridgeURL(origin: "https://qr-community.example")) {
+            $0.path = "/customers/secur/frontdoor.jsp"
+            $0.queryItems = [URLQueryItem(name: "startURL", value:
+                "/customers/services/oauth2/authorize?client_id=\(consumerKey)")]
+        }
+        let bridge = AuthCoordinatorFrontdoorBridgeLoginOverride(
+            frontdoorBridgeUrl: url, codeVerifier: "community-verifier")
+        XCTAssertEqual(bridge.frontdoorBridgeUrl, url)
+        XCTAssertEqual(bridge.codeVerifier, "community-verifier")
+    }
+
+    func test_givenSameOriginAbsoluteStartURL_whenCreatingBridge_thenOverrideIsAccepted() throws {
+        let url = try modified(bridgeURL(origin: "https://QR-TEST.MY.SALESFORCE.COM:443")) {
+            $0.queryItems = [URLQueryItem(name: "startURL", value:
+                "https://qr-test.my.salesforce.com/services/oauth2/authorize?client_id=\(consumerKey)")]
+        }
+        XCTAssertEqual(AuthCoordinatorFrontdoorBridgeLoginOverride(
+            frontdoorBridgeUrl: url, codeVerifier: nil).frontdoorBridgeUrl, url)
+    }
+
+    func test_givenConfiguredAddressWithSchemeOrSitePath_whenCreatingBridge_thenOnlyThatHostIsTrusted() throws {
+        let storage = SFSDKLoginHostStorage.sharedInstance()
+        for address in ["qr-community.example/customers", "https://QR-COMMUNITY.EXAMPLE:443/customers"] {
+            let index = storage.numberOfLoginHosts()
+            storage.add(SalesforceLoginHost(name: "QR test", host: address, deletable: true))
+            defer { storage.removeLoginHost(at: index) }
+            let url = try bridgeURL(origin: "https://qr-community.example")
+            XCTAssertEqual(AuthCoordinatorFrontdoorBridgeLoginOverride(
+                frontdoorBridgeUrl: url, codeVerifier: nil).frontdoorBridgeUrl, url)
+            let spoofed = try bridgeURL(origin: "https://qr-community.example.attacker.example")
+            XCTAssertNil(AuthCoordinatorFrontdoorBridgeLoginOverride(
+                frontdoorBridgeUrl: spoofed, codeVerifier: nil).frontdoorBridgeUrl)
+        }
+    }
+
+    func test_givenUntrustedBridge_whenLoadingWebView_thenFailureArrivesWithoutNavigation() throws {
+        let coordinator = try makeCoordinator(origin: "https://attacker.example")
+        let webView = BridgeRecordingWebView()
+        coordinator.view = webView
+        failureExpectation = expectation(description: "invalid bridge fails")
+        coordinator.loadWebView(withUrlString: "https://login.salesforce.com", cookie: false)
+        waitForExpectations(timeout: 3)
+        XCTAssertEqual(failure?.code, Int(kSFOAuthErrorInvalidRequest))
+        XCTAssertTrue(webView.requests.isEmpty)
+        XCTAssertNil(coordinator.frontdoorBridgeLoginOverride)
+    }
+
+    func test_givenMutatedBridge_whenExchangingCode_thenNoTokenRequestIsSent() throws {
+        let coordinator = try makeCoordinator()
+        let client = BridgeRecordingOAuthClient()
+        coordinator.authClient = client
+        coordinator.frontdoorBridgeLoginOverride?.frontdoorBridgeUrl = try bridgeURL(origin: "https://attacker.example")
+        failureExpectation = expectation(description: "invalid code exchange fails")
+        coordinator.exchangeApprovalCode(withAttestation: nil)
+        waitForExpectations(timeout: 3)
+        XCTAssertEqual(failure?.code, Int(kSFOAuthErrorInvalidRequest))
+        XCTAssertTrue(client.requests.isEmpty)
+    }
+
+    func test_givenUntrustedBridge_whenAuthenticating_thenFailurePrecedesAnyLoginFlow() throws {
+        let coordinator = try makeCoordinator(origin: "https://attacker.example")
+        let webView = BridgeRecordingWebView()
+        coordinator.view = webView
+        coordinator.useBrowserAuth = true
+        failureExpectation = expectation(description: "authentication rejects bridge")
+        coordinator.authenticate()
+        XCTAssertFalse(coordinator.authenticating)
+        waitForExpectations(timeout: 3)
+        XCTAssertEqual(failure?.domain, kSFOAuthErrorDomain)
+        XCTAssertEqual(failure?.code, Int(kSFOAuthErrorInvalidRequest))
+        XCTAssertFalse(coordinator.authenticating)
+        XCTAssertTrue(webView.requests.isEmpty)
+        XCTAssertEqual(coordinator.credentials?.domain, "login.salesforce.com")
+    }
+
+    func test_givenBridgeMutatedAfterLoadIsQueued_whenMainQueueRuns_thenNoNavigationOccurs() throws {
+        let coordinator = try makeCoordinator()
+        let webView = BridgeRecordingWebView()
+        coordinator.view = webView
+        failureExpectation = expectation(description: "queued load rejects mutation")
+        coordinator.loadWebView(withUrlString: "https://login.salesforce.com", cookie: false)
+        coordinator.frontdoorBridgeLoginOverride?.frontdoorBridgeUrl = try bridgeURL(origin: "https://attacker.example")
+        waitForExpectations(timeout: 3)
+        XCTAssertEqual(failure?.code, Int(kSFOAuthErrorInvalidRequest))
+        XCTAssertTrue(webView.requests.isEmpty)
+    }
+
+    func test_givenUntrustedQRPayload_whenParsingLogin_thenItIsNotAccepted() throws {
+        let storage = SFSDKLoginHostStorage.sharedInstance()
+        let storedHosts = (0..<storage.numberOfLoginHosts()).map { storage.loginHost(at: $0).host }
+        let selectedHost = UserAccountManager.shared.loginHost
+        let json = try JSONSerialization.data(withJSONObject: [
+            "frontdoor_bridge_url": try bridgeURL(origin: "https://attacker.example").absoluteString,
+            "pkce_code_verifier": "test-verifier"
+        ])
+        let string = try XCTUnwrap(String(data: json, encoding: .utf8))
+        let encoded = try XCTUnwrap(string.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed))
+        XCTAssertFalse(SalesforceLoginViewController.loginWithFrontdoorBridgeUrlFromQrCode(
+            "qr-test://login/qr?bridgeJson=\(encoded)"))
+        XCTAssertFalse(SalesforceLoginViewController.loginWithFrontdoorBridgeUrlFromQrCode(nil))
+        XCTAssertEqual(UserAccountManager.shared.loginHost, selectedHost)
+        XCTAssertEqual((0..<storage.numberOfLoginHosts()).map { storage.loginHost(at: $0).host }, storedHosts)
+        XCTAssertNil(AuthCoordinatorFrontdoorBridgeLoginOverride(
+            frontdoorBridgeUrl: try bridgeURL(origin: "https://attacker.example"),
+            codeVerifier: nil).frontdoorBridgeUrl)
+    }
+
+    func test_givenMutatedUserAgentBridge_whenRedirectArrives_thenCredentialsAreNotAccepted() throws {
+        let coordinator = try makeCoordinator()
+        coordinator.frontdoorBridgeLoginOverride?.codeVerifier = nil
+        coordinator.frontdoorBridgeLoginOverride?.frontdoorBridgeUrl = try bridgeURL(origin: "https://attacker.example")
+        let url = try XCTUnwrap(URL(string: "qr-test://callback#access_token=qr-test-placeholder"))
+        let action = MockNavigationAction(url: url)
+        failureExpectation = expectation(description: "user-agent callback rejects mutation")
+        let webView = BridgeRecordingWebView()
+        coordinator.webView(webView, decidePolicyFor: action) { policy in
+            XCTAssertEqual(policy, .cancel)
+        }
+        waitForExpectations(timeout: 3)
+        XCTAssertEqual(failure?.code, Int(kSFOAuthErrorInvalidRequest))
+        XCTAssertNil(coordinator.credentials?.accessToken)
+    }
+
+    func test_givenMutatedBridge_whenNavigationArrives_thenNavigationIsCancelled() throws {
+        let coordinator = try makeCoordinator()
+        let url = try bridgeURL(origin: "https://attacker.example")
+        coordinator.frontdoorBridgeLoginOverride?.frontdoorBridgeUrl = url
+        failureExpectation = expectation(description: "navigation rejects mutation")
+        coordinator.webView(BridgeRecordingWebView(), decidePolicyFor: MockNavigationAction(url: url)) { policy in
+            XCTAssertEqual(policy, .cancel)
+        }
+        waitForExpectations(timeout: 3)
+        XCTAssertEqual(failure?.code, Int(kSFOAuthErrorInvalidRequest))
+    }
+
+    func test_givenEmptyBootClient_whenCreatingBridge_thenEmptyClientCannotEstablishValidity() throws {
+        SalesforceManager.shared.bootConfig?.remoteAccessConsumerKey = ""
+        let bridge = AuthCoordinatorFrontdoorBridgeLoginOverride(
+            frontdoorBridgeUrl: try bridgeURL(clientID: ""), codeVerifier: nil)
+        XCTAssertFalse(bridge.matchesConsumerKey)
+        XCTAssertNil(bridge.frontdoorBridgeUrl)
+    }
+
+    func test_givenBootConfigChanges_whenConsumingExistingBridge_thenOldClientIsRejected() throws {
+        let bridge = AuthCoordinatorFrontdoorBridgeLoginOverride(
+            frontdoorBridgeUrl: try bridgeURL(), codeVerifier: "test-verifier")
+        SalesforceManager.shared.bootConfig?.remoteAccessConsumerKey = "changed-client"
+        bridge.matchesConsumerKey = true
+        XCTAssertNil(bridge.frontdoorBridgeUrl)
+        XCTAssertNil(bridge.codeVerifier)
+    }
+
+    func test_givenValidBridge_whenExchangingCode_thenConfiguredTokenOriginAndVerifierAreUsed() throws {
+        let coordinator = try makeCoordinator()
+        let client = BridgeRecordingOAuthClient()
+        coordinator.authClient = client
+        coordinator.exchangeApprovalCode(withAttestation: nil)
+        let request = try XCTUnwrap(client.requests.first)
+        XCTAssertEqual(client.requests.count, 1)
+        XCTAssertEqual(request.serverURL.host, "login.salesforce.com")
+        XCTAssertEqual(request.codeVerifier, "test-verifier")
+    }
+
+    func test_givenOtherMyDomainWithMatchingClient_whenReadingBridge_thenNoTenantMatchIsRequired() throws {
+        let url = try bridgeURL(origin: "https://other-tenant.my.salesforce.com")
+        let coordinator = try makeCoordinator(origin: "https://other-tenant.my.salesforce.com")
+        XCTAssertEqual(coordinator.credentials?.domain, "login.salesforce.com")
+        XCTAssertEqual(coordinator.frontdoorBridgeLoginOverride?.frontdoorBridgeUrl, url)
+    }
+
+    func test_givenValidUserAgentBridge_whenLoadingWebView_thenExactBridgeIsLoaded() throws {
+        let coordinator = try makeCoordinator()
+        coordinator.frontdoorBridgeLoginOverride?.codeVerifier = nil
+        let webView = BridgeRecordingWebView()
+        coordinator.view = webView
+        let loaded = expectation(description: "bridge loaded")
+        webView.didLoad = { loaded.fulfill() }
+        coordinator.loadWebView(withUrlString: "https://login.salesforce.com", cookie: false)
+        waitForExpectations(timeout: 3)
+        XCTAssertEqual(webView.requests.map(\.url), [try bridgeURL()])
+        XCTAssertNil(coordinator.frontdoorBridgeLoginOverride?.codeVerifier)
+    }
+
+    func test_givenMutationDuringValidation_whenReadingURL_thenOnlyValidatedURLIsReturned() throws {
+        let config = try installMutatingConfig()
+        let url = try bridgeURL()
+        let attackerURL = try bridgeURL(origin: "https://attacker.example")
+        let bridge = AuthCoordinatorFrontdoorBridgeLoginOverride(
+            frontdoorBridgeUrl: url, codeVerifier: "test-verifier")
+        config.beforeConsumerKeyRead = {
+            bridge.frontdoorBridgeUrl = attackerURL
+        }
+        XCTAssertEqual(bridge.frontdoorBridgeUrl, url)
+        config.beforeConsumerKeyRead = nil
+        XCTAssertNil(bridge.frontdoorBridgeUrl)
+    }
+
+    func test_givenMutationDuringValidation_whenReadingVerifier_thenOnlyCapturedVerifierIsReturned() throws {
+        let config = try installMutatingConfig()
+        let attackerURL = try bridgeURL(origin: "https://attacker.example")
+        let bridge = AuthCoordinatorFrontdoorBridgeLoginOverride(
+            frontdoorBridgeUrl: try bridgeURL(), codeVerifier: "test-verifier")
+        config.beforeConsumerKeyRead = {
+            bridge.frontdoorBridgeUrl = attackerURL
+            bridge.codeVerifier = "replacement-verifier"
+        }
+        XCTAssertEqual(bridge.codeVerifier, "test-verifier")
+        config.beforeConsumerKeyRead = nil
+        XCTAssertNil(bridge.codeVerifier)
+    }
+
+    func test_givenMutationBetweenValidationAndLoad_whenLoading_thenAttackerURLIsNeverLoaded() throws {
+        let config = try installMutatingConfig()
+        let coordinator = try makeCoordinator()
+        let attackerURL = try bridgeURL(origin: "https://attacker.example")
+        var reads = 0
+        config.beforeConsumerKeyRead = {
+            reads += 1
+            if reads == 2 {
+                coordinator.frontdoorBridgeLoginOverride?.frontdoorBridgeUrl = attackerURL
+            }
+        }
+        let webView = BridgeRecordingWebView()
+        coordinator.view = webView
+        let loaded = expectation(description: "validated URL loaded")
+        webView.didLoad = { loaded.fulfill() }
+        coordinator.loadWebView(withUrlString: "https://login.salesforce.com", cookie: false)
+        waitForExpectations(timeout: 3)
+        config.beforeConsumerKeyRead = nil
+        XCTAssertEqual(webView.requests.map(\.url), [try bridgeURL()])
+    }
+
+    func test_givenInvalidBridgeAndDiscoveryHost_whenAuthenticating_thenFailurePrecedesDiscovery() throws {
+        let coordinator = try makeCoordinator(origin: "https://attacker.example")
+        let credentials = try XCTUnwrap(coordinator.credentials)
+        credentials.testDomain = "welcome.salesforce.com/discovery"
+        let webView = BridgeRecordingWebView()
+        coordinator.view = webView
+        failureExpectation = expectation(description: "invalid bridge fails before discovery")
+        performAndDrainMainQueue {
+            coordinator.authenticate(with: credentials)
+        }
+        XCTAssertEqual(failure?.code, Int(kSFOAuthErrorInvalidRequest))
+        XCTAssertTrue(webView.requests.isEmpty)
+        XCTAssertFalse(coordinator.authenticating)
+        XCTAssertNil(coordinator.frontdoorBridgeLoginOverride)
+    }
+
+    func test_givenDiscoveryHostWithValidOrNoBridge_whenAuthenticating_thenDiscoveryIsPreserved() throws {
+        for hasBridge in [true, false] {
+            let coordinator = try makeCoordinator()
+            if !hasBridge { coordinator.frontdoorBridgeLoginOverride = nil }
+            let credentials = try XCTUnwrap(coordinator.credentials)
+            credentials.testDomain = "welcome.salesforce.com/discovery"
+            let webView = BridgeRecordingWebView()
+            coordinator.view = webView
+            performAndDrainMainQueue {
+                coordinator.authenticate(with: credentials)
+            }
+            XCTAssertEqual(webView.requests.count, 1)
+            XCTAssertEqual(webView.requests.first?.url?.host, "welcome.salesforce.com")
+            XCTAssertNil(failure)
+        }
+    }
+
+    func test_givenTwoQueuedLoads_whenBridgeBecomesInvalid_thenNeitherLoadOccurs() throws {
+        let coordinator = try makeCoordinator()
+        let attackerURL = try bridgeURL(origin: "https://attacker.example")
+        let webView = BridgeRecordingWebView()
+        coordinator.view = webView
+        failureExpectation = expectation(description: "invalid queued bridge fails once")
+        failureExpectation?.assertForOverFulfill = true
+        performAndDrainMainQueue {
+            coordinator.loadWebView(withUrlString: "https://login.salesforce.com", cookie: false)
+            coordinator.loadWebView(withUrlString: "https://login.salesforce.com", cookie: false)
+            coordinator.frontdoorBridgeLoginOverride?.frontdoorBridgeUrl = attackerURL
+        }
+        XCTAssertEqual(failure?.code, Int(kSFOAuthErrorInvalidRequest))
+        XCTAssertEqual(failureCount, 1)
+        XCTAssertTrue(webView.requests.isEmpty)
+        XCTAssertNil(coordinator.frontdoorBridgeLoginOverride)
+    }
+
+    func test_givenPendingAuthConfig_whenBridgeRejected_thenContinuationCannotLoadOrdinaryLogin() throws {
+        let coordinator = try makePoolCoordinator()
+        let attackerURL = try bridgeURL(origin: "https://attacker.example")
+        let webView = BridgeRecordingWebView()
+        coordinator.view = webView
+        failureExpectation = expectation(description: "bridge rejected during pending auth config")
+        performAndDrainMainQueue {
+            coordinator.authenticate()
+            coordinator.frontdoorBridgeLoginOverride?.frontdoorBridgeUrl = attackerURL
+            coordinator.exchangeApprovalCode(withAttestation: nil)
+        }
+        XCTAssertEqual(failure?.code, Int(kSFOAuthErrorInvalidRequest))
+        XCTAssertTrue(webView.requests.isEmpty)
+        XCTAssertFalse(coordinator.authenticating)
+    }
+
+    func test_givenRejectedBridge_whenExplicitlyStartingNewAttempt_thenValidBridgeLoads() throws {
+        let coordinator = try makePoolCoordinator()
+        let attackerURL = try bridgeURL(origin: "https://attacker.example")
+        let validURL = try bridgeURL(origin: "https://login.salesforce.com")
+        let webView = BridgeRecordingWebView()
+        coordinator.view = webView
+        failureExpectation = expectation(description: "first bridge rejected")
+        performAndDrainMainQueue {
+            coordinator.frontdoorBridgeLoginOverride?.frontdoorBridgeUrl = attackerURL
+            coordinator.exchangeApprovalCode(withAttestation: nil)
+        }
+        XCTAssertEqual(failure?.code, Int(kSFOAuthErrorInvalidRequest))
+        failure = nil
+        failureExpectation = nil
+        performAndDrainMainQueue {
+            coordinator.frontdoorBridgeLoginOverride = AuthCoordinatorFrontdoorBridgeLoginOverride(
+                frontdoorBridgeUrl: validURL, codeVerifier: "fresh-verifier")
+            coordinator.authenticate()
+        }
+        XCTAssertEqual(webView.requests.map(\.url), [validURL])
+        XCTAssertTrue(coordinator.authenticating)
+        XCTAssertNil(failure)
+    }
+
+    func test_givenRejectedPendingAttempt_whenNewAttemptStarts_thenOldWorkAndFailureStayStale() throws {
+        let coordinator = try makePoolCoordinator()
+        let attackerURL = try bridgeURL(origin: "https://attacker.example")
+        let validURL = try bridgeURL(origin: "https://login.salesforce.com")
+        let webView = BridgeRecordingWebView()
+        coordinator.view = webView
+        performAndDrainMainQueue {
+            coordinator.authenticate()
+            coordinator.frontdoorBridgeLoginOverride?.frontdoorBridgeUrl = attackerURL
+            coordinator.exchangeApprovalCode(withAttestation: nil)
+            coordinator.frontdoorBridgeLoginOverride = AuthCoordinatorFrontdoorBridgeLoginOverride(
+                frontdoorBridgeUrl: validURL, codeVerifier: "fresh-verifier")
+            coordinator.authenticate()
+        }
+        XCTAssertEqual(webView.requests.map(\.url), [validURL])
+        XCTAssertTrue(coordinator.authenticating)
+        XCTAssertNil(failure)
+        XCTAssertEqual(coordinator.frontdoorBridgeLoginOverride?.codeVerifier, "fresh-verifier")
+    }
+
+    func test_givenQueuedBridgeLoads_whenStopped_thenNoLoadOrTokenRequestOccurs() throws {
+        let coordinator = try makeCoordinator()
+        let webView = BridgeRecordingWebView()
+        let client = BridgeRecordingOAuthClient()
+        coordinator.view = webView
+        coordinator.authClient = client
+        performAndDrainMainQueue {
+            coordinator.loadWebView(withUrlString: "https://login.salesforce.com", cookie: false)
+            coordinator.loadWebView(withUrlString: "https://login.salesforce.com", cookie: false)
+            coordinator.stopAuthentication()
+            coordinator.exchangeApprovalCode(withAttestation: nil)
+        }
+        XCTAssertTrue(webView.requests.isEmpty)
+        XCTAssertTrue(client.requests.isEmpty)
+        XCTAssertFalse(coordinator.authenticating)
+        XCTAssertNil(failure)
+    }
+
+    func test_givenPendingAuthConfig_whenStopped_thenNeitherBridgeNorOrdinaryLoginLoads() throws {
+        for hasBridge in [true, false] {
+            let coordinator = try makePoolCoordinator()
+            if !hasBridge { coordinator.frontdoorBridgeLoginOverride = nil }
+            let webView = BridgeRecordingWebView()
+            coordinator.view = webView
+            performAndDrainMainQueue {
+                coordinator.authenticate()
+                coordinator.stopAuthentication()
+            }
+            XCTAssertTrue(webView.requests.isEmpty, "hasBridge: \(hasBridge)")
+            XCTAssertFalse(coordinator.authenticating)
+            XCTAssertNil(failure)
+        }
+    }
+
+    func test_givenStoppedPendingAttempt_whenStartingNewAttempt_thenOnlyFreshBridgeLoads() throws {
+        let coordinator = try makePoolCoordinator()
+        let freshURL = try modified(bridgeURL(origin: "https://login.salesforce.com")) {
+            $0.queryItems?.append(URLQueryItem(name: "qr_retry", value: "fresh"))
+        }
+        let webView = BridgeRecordingWebView()
+        coordinator.view = webView
+        performAndDrainMainQueue {
+            coordinator.authenticate()
+            coordinator.loadWebView(withUrlString: "https://login.salesforce.com", cookie: false)
+            coordinator.stopAuthentication()
+            coordinator.frontdoorBridgeLoginOverride = AuthCoordinatorFrontdoorBridgeLoginOverride(
+                frontdoorBridgeUrl: freshURL, codeVerifier: "fresh-verifier")
+            coordinator.authenticate()
+        }
+        XCTAssertEqual(webView.requests.map(\.url), [freshURL])
+        XCTAssertTrue(coordinator.authenticating)
+        XCTAssertEqual(coordinator.frontdoorBridgeLoginOverride?.codeVerifier, "fresh-verifier")
+        XCTAssertNil(failure)
+    }
+
+    func test_givenConfiguredHostRemovedBeforeQueuedLoad_whenConsumed_thenBridgeIsRejected() throws {
+        let storage = SFSDKLoginHostStorage.sharedInstance()
+        let index = storage.numberOfLoginHosts()
+        storage.add(SalesforceLoginHost(name: "QR revocation test", host: "qr-revoked.example", deletable: true))
+        defer {
+            if storage.numberOfLoginHosts() > index { storage.removeLoginHost(at: index) }
+        }
+        let coordinator = try makeCoordinator(origin: "https://qr-revoked.example")
+        let webView = BridgeRecordingWebView()
+        coordinator.view = webView
+        XCTAssertNotNil(coordinator.frontdoorBridgeLoginOverride?.frontdoorBridgeUrl)
+        failureExpectation = expectation(description: "removed configuration rejects queued bridge")
+        performAndDrainMainQueue {
+            coordinator.loadWebView(withUrlString: "https://login.salesforce.com", cookie: false)
+            storage.removeLoginHost(at: index)
+        }
+        XCTAssertTrue(webView.requests.isEmpty)
+        XCTAssertEqual(failure?.code, Int(kSFOAuthErrorInvalidRequest))
+        XCTAssertFalse(coordinator.authenticating)
+        XCTAssertNil(coordinator.frontdoorBridgeLoginOverride)
+    }
+
+    func test_givenConfiguredHostRemoved_whenReadingBridge_thenURLAndVerifierAreNil() throws {
+        let storage = SFSDKLoginHostStorage.sharedInstance()
+        let index = storage.numberOfLoginHosts()
+        storage.add(SalesforceLoginHost(name: "QR getter test", host: "qr-getter.example", deletable: true))
+        defer {
+            if storage.numberOfLoginHosts() > index { storage.removeLoginHost(at: index) }
+        }
+        let url = try bridgeURL(origin: "https://qr-getter.example")
+        let bridge = AuthCoordinatorFrontdoorBridgeLoginOverride(
+            frontdoorBridgeUrl: url, codeVerifier: "getter-test-verifier")
+        XCTAssertEqual(bridge.frontdoorBridgeUrl, url)
+        XCTAssertEqual(bridge.codeVerifier, "getter-test-verifier")
+        storage.removeLoginHost(at: index)
+        XCTAssertNil(bridge.frontdoorBridgeUrl)
+        XCTAssertNil(bridge.codeVerifier)
+    }
+
+    @available(*, deprecated, message: "Exercises IDP response handling; remove with the deprecated IDP API.")
+    func test_givenStoppedNonBridgeAttempt_whenResponseArrives_thenOnlyExplicitRetryExchangesCode() throws {
+        for usesIDP in [false, true] {
+            let coordinator = try makePoolCoordinator()
+            coordinator.frontdoorBridgeLoginOverride = nil
+            let client = BridgeRecordingOAuthClient()
+            coordinator.authClient = client
+            coordinator.view = BridgeRecordingWebView()
+            let callback = try XCTUnwrap(URL(string: "qr-test://callback?code=late-code"))
+            let freshCallback = try XCTUnwrap(URL(string: "qr-test://callback?code=fresh-code"))
+            let handleResponse: (URL) -> Bool = { url in
+                usesIDP ? coordinator.handleIDPAuthenticationResponse(url)
+                    : coordinator.handleAdvancedAuthenticationResponse(url)
+            }
+            defer { coordinator.stopAuthentication() }
+            try withControlledFlowBoundaries {
+                performAndDrainMainQueue {
+                    coordinator.authenticate()
+                    coordinator.stopAuthentication()
+                    XCTAssertFalse(handleResponse(callback))
+                }
+                XCTAssertTrue(client.requests.isEmpty)
+                performAndDrainMainQueue {
+                    coordinator.authenticate()
+                    XCTAssertTrue(handleResponse(freshCallback))
+                }
+                XCTAssertEqual(client.requests.count, 1)
+                XCTAssertEqual(client.requests.first?.approvalCode, "fresh-code")
+            }
+            XCTAssertNil(failure)
+            pendingBrowserApproval = nil
+        }
+    }
+
+    @available(*, deprecated, message: "Exercises IDP response handling; remove with the deprecated IDP API.")
+    func test_givenFreshNonBridgeCoordinator_whenIDPResponseArrives_thenAuthenticateIsNotRequired() throws {
+        let coordinator = try makePoolCoordinator()
+        coordinator.frontdoorBridgeLoginOverride = nil
+        let client = BridgeRecordingOAuthClient()
+        coordinator.authClient = client
+        let callback = try XCTUnwrap(URL(string: "qr-test://callback?code=idp-initiated-code"))
+        defer { coordinator.stopAuthentication() }
+        try withControlledFlowBoundaries {
+            performAndDrainMainQueue {
+                XCTAssertTrue(coordinator.handleIDPAuthenticationResponse(callback))
+            }
+            XCTAssertEqual(client.requests.count, 1)
+            XCTAssertEqual(client.requests.first?.approvalCode, "idp-initiated-code")
+        }
+        XCTAssertNil(failure)
+    }
+
+    @available(*, deprecated, message: "Exercises IDP response handling; remove with the deprecated IDP API.")
+    func test_givenQueuedWebOrIDPResponse_whenStoppedOrReplaced_thenOnlyCurrentCodeIsExchanged() throws {
+        for usesIDP in [false, true] {
+            for state in ["current", "stopped", "replaced"] {
+                for hasBridge in [false, true] {
+                    let coordinator = try makePoolCoordinator()
+                    if !hasBridge { coordinator.frontdoorBridgeLoginOverride = nil }
+                    let client = BridgeRecordingOAuthClient()
+                    coordinator.authClient = client
+                    coordinator.view = BridgeRecordingWebView()
+                    let callback = try XCTUnwrap(URL(string: "qr-test://callback?code=original-code"))
+                    let freshURL = try bridgeURL(origin: "https://login.salesforce.com")
+                    let label = "IDP: \(usesIDP), state: \(state), bridge: \(hasBridge)"
+                    defer { coordinator.stopAuthentication() }
+                    let handleResponse: (URL) -> Bool = { url in
+                        usesIDP ? coordinator.handleIDPAuthenticationResponse(url)
+                            : coordinator.handleAdvancedAuthenticationResponse(url)
+                    }
+                    try withControlledFlowBoundaries {
+                        performAndDrainMainQueue {
+                            coordinator.authenticate()
+                            XCTAssertTrue(handleResponse(callback), label)
+                            if state != "current" { coordinator.stopAuthentication() }
+                            if state == "replaced" {
+                                coordinator.frontdoorBridgeLoginOverride = AuthCoordinatorFrontdoorBridgeLoginOverride(
+                                    frontdoorBridgeUrl: freshURL, codeVerifier: "replacement-verifier")
+                                coordinator.authenticate()
+                            }
+                        }
+                        XCTAssertEqual(client.requests.count, state == "current" ? 1 : 0, label)
+                        if state == "current" {
+                            XCTAssertEqual(client.requests.first?.approvalCode, "original-code", label)
+                        } else if state == "replaced" {
+                            client.requests.removeAll()
+                            let freshCallback = try XCTUnwrap(URL(string: "qr-test://callback?code=fresh-code"))
+                            performAndDrainMainQueue { XCTAssertTrue(handleResponse(freshCallback), label) }
+                            XCTAssertEqual(client.requests.count, 1, label)
+                            XCTAssertEqual(client.requests.first?.approvalCode, "fresh-code", label)
+                            XCTAssertEqual(client.requests.first?.codeVerifier, "replacement-verifier", label)
+                        }
+                    }
+                    XCTAssertNil(failure, label)
+                    pendingBrowserApproval = nil
+                }
+            }
+        }
+    }
+
+    func test_givenBeginDelegateStopsAndRestarts_whenReturning_thenOnlyReplacementBridgeLoads() throws {
+        for stage in ["notification", "view", "network", "discovery"] {
+            let coordinator = try makePoolCoordinator()
+            let webView = BridgeRecordingWebView()
+            coordinator.view = webView
+            let credentials = try XCTUnwrap(coordinator.credentials)
+            if stage == "discovery" { credentials.testDomain = "welcome.salesforce.com/discovery" }
+            let freshURL = try modified(bridgeURL(origin: "https://login.salesforce.com")) {
+                $0.queryItems?.append(URLQueryItem(name: "retry", value: stage))
+            }
+            defer { clearFlowDelegateHooks(); coordinator.stopAuthentication() }
+            let restart = {
+                self.clearFlowDelegateHooks()
+                coordinator.stopAuthentication()
+                credentials.testDomain = "login.salesforce.com"
+                coordinator.frontdoorBridgeLoginOverride = AuthCoordinatorFrontdoorBridgeLoginOverride(
+                    frontdoorBridgeUrl: freshURL, codeVerifier: "replacement-verifier")
+                coordinator.authenticate()
+            }
+            installFlowDelegateHook(stage: stage, action: restart)
+            if stage != "network" { expectFirstLoadAndItsQueuedContinuations(webView) }
+            performAndDrainMainQueue {
+                if stage == "discovery" { coordinator.authenticate(with: credentials) }
+                else { coordinator.authenticate() }
+            }
+            XCTAssertEqual(webView.requests.map(\.url), [freshURL], stage)
+            XCTAssertTrue(coordinator.authenticating, stage)
+            XCTAssertNil(failure, stage)
+        }
+    }
+
+    func test_givenBeginDelegateStops_whenReturning_thenNoLoginWorkOrFailureResumes() throws {
+        for stage in ["notification", "view", "network", "discovery"] {
+            let coordinator = try makePoolCoordinator()
+            let webView = BridgeRecordingWebView()
+            coordinator.view = webView
+            let credentials = try XCTUnwrap(coordinator.credentials)
+            if stage == "discovery" { credentials.testDomain = "welcome.salesforce.com/discovery" }
+            defer { clearFlowDelegateHooks() }
+            installFlowDelegateHook(stage: stage) {
+                self.clearFlowDelegateHooks()
+                coordinator.stopAuthentication()
+            }
+            performAndDrainMainQueue {
+                if stage == "discovery" { coordinator.authenticate(with: credentials) }
+                else { coordinator.authenticate() }
+            }
+            XCTAssertTrue(webView.requests.isEmpty, stage)
+            XCTAssertFalse(coordinator.authenticating, stage)
+            XCTAssertNil(failure, stage)
+        }
+    }
+
+    func test_givenDeferredBrowserApproval_whenStoppedOrReplaced_thenOnlyCurrentApprovalLaunches() throws {
+        for state in ["current", "stopped", "replaced"] {
+            let coordinator = try makePoolCoordinator()
+            coordinator.frontdoorBridgeLoginOverride = nil
+            coordinator.useBrowserAuth = true
+            coordinator.view = BridgeRecordingWebView()
+            defer { coordinator.stopAuthentication(); pendingBrowserApproval = nil }
+            try withControlledFlowBoundaries {
+                performAndDrainMainQueue { coordinator.authenticate() }
+                let approval = try XCTUnwrap(pendingBrowserApproval, state)
+                performAndDrainMainQueue {
+                    if state != "current" { coordinator.stopAuthentication() }
+                    if state == "replaced" { coordinator.authenticate() }
+                    approval(true)
+                }
+                XCTAssertEqual(BridgeFlowBoundaryStub.browserLaunches, state == "current" ? 1 : 0, state)
+            }
+        }
+    }
+
+    func test_givenPendingAttestation_whenAttemptIsReplaced_thenOldCompletionCannotExchangeCode() throws {
+        let coordinator = try makePoolCoordinator()
+        let client = BridgeRecordingOAuthClient()
+        coordinator.authClient = client
+        coordinator.view = BridgeRecordingWebView()
+        let callback = try XCTUnwrap(URL(string: "qr-test://callback?code=old-code"))
+        defer { coordinator.stopAuthentication() }
+        try withControlledFlowBoundaries {
+            BridgeFlowBoundaryStub.holdAttestation = true
+            performAndDrainMainQueue {
+                XCTAssertTrue(coordinator.handleAdvancedAuthenticationResponse(callback))
+            }
+            let complete = try XCTUnwrap(BridgeFlowBoundaryStub.pendingAttestation)
+            performAndDrainMainQueue {
+                coordinator.stopAuthentication()
+                coordinator.authenticate()
+                complete(nil)
+            }
+            XCTAssertTrue(client.requests.isEmpty)
+        }
+    }
+
+    func test_givenNavigationPolicyStopsOrReplacesAttempt_whenReturning_thenOldNavigationIsCancelled() throws {
+        let manager = UserAccountManager.shared
+        let savedPolicy = manager.navigationPolicyForAction
+        defer { manager.navigationPolicyForAction = savedPolicy }
+        for state in ["current", "stopped", "replaced"] {
+            let coordinator = try makePoolCoordinator()
+            let webView = BridgeRecordingWebView()
+            coordinator.view = webView
+            let url = try XCTUnwrap(URL(string: "https://sso.example/continue"))
+            manager.navigationPolicyForAction = { _, _ in
+                if state != "current" { coordinator.stopAuthentication() }
+                if state == "replaced" { coordinator.authenticate() }
+                return .allow
+            }
+            var observed: WKNavigationActionPolicy?
+            performAndDrainMainQueue {
+                coordinator.webView(webView, decidePolicyFor: MockNavigationAction(url: url)) { observed = $0 }
+            }
+            XCTAssertEqual(observed, state == "current" ? .allow : .cancel, state)
+            coordinator.stopAuthentication()
+        }
+    }
+
+    func test_givenInvalidDirectBridge_whenStartingLogin_thenCurrentAuthenticationIsNotStopped() throws {
+        let stop = try XCTUnwrap(class_getInstanceMethod(UserAccountManager.self,
+            NSSelectorFromString("stopCurrentAuthentication:")))
+        let stopStub = try XCTUnwrap(class_getInstanceMethod(BridgeFlowBoundaryStub.self,
+            NSSelectorFromString("bridgeStopCurrentAuthentication:")))
+        method_exchangeImplementations(stop, stopStub)
+        let savedStopCalls = BridgeFlowBoundaryStub.stopCalls
+        BridgeFlowBoundaryStub.stopCalls = 0
+        defer {
+            method_exchangeImplementations(stop, stopStub)
+            BridgeFlowBoundaryStub.stopCalls = savedStopCalls
+        }
+
+        let invalidValues = ["https://[", try bridgeURL(origin: "https://attacker.example").absoluteString,
+                             try bridgeURL(clientID: "foreign-public-client").absoluteString]
+        for value in invalidValues {
+            SalesforceLoginViewController.loginWithFrontdoorBridgeUrl(value, pkceCodeVerifier: "test-verifier")
+            XCTAssertEqual(BridgeFlowBoundaryStub.stopCalls, 0)
+        }
+        SalesforceLoginViewController.loginWithFrontdoorBridgeUrl(
+            try bridgeURL().absoluteString, pkceCodeVerifier: "test-verifier")
+        XCTAssertEqual(BridgeFlowBoundaryStub.stopCalls, 1)
+    }
+
+    func test_givenMalformedConfiguredAddresses_whenReadingBridge_thenConfigurationDoesNotGrantTrust() throws {
+        let storage = SFSDKLoginHostStorage.sharedInstance()
+        let host = "qr-malformed-config.example"
+        let url = try bridgeURL(origin: "https://\(host)")
+        let addresses = ["http://\(host)", "https://user@\(host)", "https://\(host):444",
+                         "https://\(host)?query=value", "https://\(host)#fragment", "https://["]
+        for address in addresses + ["https://\(host)/customers"] {
+            let index = storage.numberOfLoginHosts()
+            storage.add(SalesforceLoginHost(name: "QR configuration test", host: address, deletable: true))
+            defer { storage.removeLoginHost(at: index) }
+            let bridge = AuthCoordinatorFrontdoorBridgeLoginOverride(
+                frontdoorBridgeUrl: url, codeVerifier: "test-verifier")
+            if address == "https://\(host)/customers" {
+                XCTAssertEqual(bridge.frontdoorBridgeUrl, url)
+                XCTAssertEqual(bridge.codeVerifier, "test-verifier")
+            } else {
+                XCTAssertNil(bridge.frontdoorBridgeUrl, address)
+                XCTAssertNil(bridge.codeVerifier, address)
+            }
+        }
+    }
+
+    func test_givenValidBridgeCallback_whenNavigating_thenVerifierSelectsTheCorrectFlow() throws {
+        for hasBridge in [false, true] {
+            for hasVerifier in [false, true] {
+                let coordinator = try makePoolCoordinator()
+                if !hasBridge { coordinator.frontdoorBridgeLoginOverride = nil }
+                else if !hasVerifier { coordinator.frontdoorBridgeLoginOverride?.codeVerifier = nil }
+                let client = BridgeRecordingOAuthClient()
+                coordinator.authClient = client
+                let webView = BridgeRecordingWebView()
+                coordinator.view = webView
+                let usesCode = !hasBridge || hasVerifier
+                let callback = try XCTUnwrap(URL(string: usesCode
+                    ? "qr-test://callback?code=navigation-code"
+                    : "qr-test://callback#access_token=navigation-test-placeholder"))
+                defer {
+                    coordinator.credentials?.accessToken = nil
+                    coordinator.stopAuthentication()
+                }
+                try withControlledFlowBoundaries {
+                    performAndDrainMainQueue {
+                        coordinator.webView(webView, decidePolicyFor: MockNavigationAction(url: callback)) {
+                            XCTAssertEqual($0, .cancel)
+                        }
+                    }
+                }
+                XCTAssertEqual(client.requests.count, usesCode ? 1 : 0)
+                if usesCode {
+                    XCTAssertEqual(client.requests.first?.approvalCode, "navigation-code")
+                    XCTAssertEqual(client.requests.first?.codeVerifier, hasBridge ? "test-verifier" : coordinator.codeVerifier)
+                } else {
+                    XCTAssertEqual(coordinator.credentials?.accessToken, "navigation-test-placeholder")
+                }
+                XCTAssertNil(failure)
+            }
+        }
+    }
+
+    func test_givenStopDuringValidation_whenLoading_thenCapturedBridgeAndLaterLoadsAreDiscarded() throws {
+        let config = try installMutatingConfig()
+        let coordinator = try makePoolCoordinator()
+        let webView = BridgeRecordingWebView()
+        let client = BridgeRecordingOAuthClient()
+        coordinator.view = webView
+        coordinator.authClient = client
+        let url = try bridgeURL(origin: "https://login.salesforce.com").absoluteString
+        var configurationReads = 0
+        config.beforeConsumerKeyRead = {
+            config.beforeConsumerKeyRead = nil
+            configurationReads += 1
+            coordinator.stopAuthentication()
+        }
+        defer { config.beforeConsumerKeyRead = nil; coordinator.stopAuthentication() }
+        performAndDrainMainQueue {
+            coordinator.loadWebView(withUrlString: url, cookie: true)
+        }
+        performAndDrainMainQueue {
+            coordinator.loadWebView(withUrlString: url, cookie: true)
+        }
+        XCTAssertEqual(configurationReads, 1)
+        XCTAssertTrue(webView.requests.isEmpty)
+        XCTAssertTrue(client.requests.isEmpty)
+        XCTAssertFalse(coordinator.authenticating)
+        XCTAssertNil(failure)
+    }
+
+    private func clearFlowDelegateHooks() {
+        onAuthenticationBegin = nil
+        onWebViewBegin = nil
+        onNetworkAvailability = nil
+    }
+
+    private func installFlowDelegateHook(stage: String, action: @escaping () -> Void) {
+        if stage == "notification" {
+            onAuthenticationBegin = action
+        } else if stage == "view" || stage == "discovery" {
+            onWebViewBegin = action
+        } else {
+            onNetworkAvailability = { action(); return false }
+        }
+    }
+
+    private func expectFirstLoadAndItsQueuedContinuations(_ webView: BridgeRecordingWebView) {
+        let drained = expectation(description: "observed load and queued replacement work")
+        webView.didLoad = { [weak webView] in
+            webView?.didLoad = nil
+            DispatchQueue.main.async {
+                DispatchQueue.main.async { drained.fulfill() }
+            }
+        }
+    }
+
+    private func withControlledFlowBoundaries(_ work: () throws -> Void) throws {
+        let attest = try XCTUnwrap(class_getClassMethod(AppAttestation.self,
+            NSSelectorFromString("attestationIfEnabledFor:consumerKey:completionHandler:")))
+        let attestStub = try XCTUnwrap(class_getClassMethod(BridgeFlowBoundaryStub.self,
+            NSSelectorFromString("bridgeAttestationFor:consumerKey:completionHandler:")))
+        let browser = try XCTUnwrap(class_getInstanceMethod(SFOAuthCoordinator.self,
+            NSSelectorFromString("continueNativeBrowserFlowWithSharedBrowserSessionEnabled:")))
+        let browserStub = try XCTUnwrap(class_getInstanceMethod(BridgeFlowBoundaryStub.self,
+            NSSelectorFromString("bridgeContinueNativeBrowserWithSharedBrowserSessionEnabled:")))
+        method_exchangeImplementations(attest, attestStub)
+        method_exchangeImplementations(browser, browserStub)
+        BridgeFlowBoundaryStub.browserLaunches = 0
+        defer {
+            method_exchangeImplementations(browser, browserStub)
+            method_exchangeImplementations(attest, attestStub)
+            BridgeFlowBoundaryStub.pendingAttestation = nil
+            BridgeFlowBoundaryStub.holdAttestation = false
+        }
+        try work()
+    }
+
+    func oauthCoordinatorWillBeginAuthentication(_ coordinator: SFOAuthCoordinator, authInfo: AuthInfo) {
+        onAuthenticationBegin?()
+    }
+
+    func oauthCoordinator(_ coordinator: SFOAuthCoordinator, willBeginAuthenticationWith view: WKWebView) {
+        onWebViewBegin?()
+    }
+
+    func oauthCoordinatorIsNetworkAvailable(_ coordinator: SFOAuthCoordinator) -> Bool {
+        onNetworkAvailability?() ?? true
+    }
+
+    func oauthCoordinator(_ coordinator: SFOAuthCoordinator,
+                          willBeginBrowserAuthentication callback: @escaping (Bool) -> Void) {
+        pendingBrowserApproval = callback
+    }
+
+    private func makePoolCoordinator() throws -> SFOAuthCoordinator {
+        let coordinator = try makeCoordinator(origin: "https://login.salesforce.com")
+        coordinator.dpopOverride = NSNumber(value: false)
+        coordinator.authClient = BridgeRecordingOAuthClient()
+        return coordinator
+    }
+
+    private func performAndDrainMainQueue(_ work: @escaping () -> Void) {
+        let drained = expectation(description: "main-queue continuations drained")
+        DispatchQueue.main.async {
+            work()
+            DispatchQueue.main.async {
+                DispatchQueue.main.async { drained.fulfill() }
+            }
+        }
+        waitForExpectations(timeout: 3)
+    }
+
+    private func installMutatingConfig() throws -> BridgeMutatingBootConfig {
+        let config = try XCTUnwrap(BridgeMutatingBootConfig([
+            "remoteAccessConsumerKey": consumerKey,
+            "oauthRedirectURI": "qr-test://callback",
+            "oauthScopes": ["api"]
+        ]))
+        SalesforceManager.shared.bootConfig = config
+        return config
+    }
+
+    private func makeCoordinator(origin: String = "https://qr-test.my.salesforce.com") throws -> SFOAuthCoordinator {
+        let credentials = try XCTUnwrap(OAuthCredentials(
+            identifier: "qr-bridge-test", clientId: consumerKey, encrypted: false))
+        credentials.testDomain = "login.salesforce.com"
+        credentials.testRedirectURI = "qr-test://callback"
+        let coordinator = SFOAuthCoordinator()
+        coordinator.credentials = credentials
+        coordinator.delegate = self
+        coordinator.approvalCode = "qr-test-code"
+        coordinator.frontdoorBridgeLoginOverride = AuthCoordinatorFrontdoorBridgeLoginOverride(
+            frontdoorBridgeUrl: try bridgeURL(origin: origin), codeVerifier: "test-verifier")
+        return coordinator
+    }
+
+    private func modified(_ url: URL, change: (inout URLComponents) -> Void) throws -> URL {
+        var components = try XCTUnwrap(URLComponents(url: url, resolvingAgainstBaseURL: false))
+        change(&components)
+        return try XCTUnwrap(components.url)
+    }
+
+    func oauthCoordinator(_ coordinator: SFOAuthCoordinator, didFailWithError error: Error, authInfo: AuthInfo?) {
+        failure = error as NSError
+        failureCount += 1
+        failureExpectation?.fulfill()
+    }
+
+    func oauthCoordinator(_ coordinator: SFOAuthCoordinator, didBeginAuthenticationWith view: WKWebView) {
+        onWebViewBegin?()
+    }
+    func oauthCoordinator(_ coordinator: SFOAuthCoordinator, didBeginAuthenticationWith session: ASWebAuthenticationSession) {}
+    func oauthCoordinatorDidBeginNativeAuthentication(_ coordinator: SFOAuthCoordinator) {}
+    func oauthCoordinatorDidCancelBrowserAuthentication(_ coordinator: SFOAuthCoordinator) {}
+
+    private func bridgeURL(origin: String = "https://qr-test.my.salesforce.com",
+                           clientID: String? = nil) throws -> URL {
+        var components = try XCTUnwrap(URLComponents(string: origin))
+        components.path = "/secur/frontdoor.jsp"
+        components.queryItems = [URLQueryItem(
+            name: "startURL",
+            value: "/services/oauth2/authorize?client_id=\(clientID ?? consumerKey)")]
+        return try XCTUnwrap(components.url)
+    }
+}
+
+private final class BridgeRecordingWebView: WKWebView {
+    var requests: [URLRequest] = []
+    var didLoad: (() -> Void)?
+
+    override func load(_ request: URLRequest) -> WKNavigation? {
+        requests.append(request)
+        didLoad?()
+        return nil
+    }
+}
+
+private final class BridgeCancellingNavigationDelegate: NSObject, WKNavigationDelegate {
+    private let observe: (URLRequest) -> Void
+
+    init(observe: @escaping (URLRequest) -> Void) {
+        self.observe = observe
+    }
+
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction,
+                 decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        decisionHandler(.cancel)
+        observe(navigationAction.request)
+    }
+}
+
+private final class BridgeRecordingOAuthClient: NSObject, SFSDKOAuthProtocol {
+    var requests: [SFSDKOAuthTokenEndpointRequest] = []
+
+    func accessToken(forApprovalCode request: SFSDKOAuthTokenEndpointRequest,
+                     completion: @escaping (SFSDKOAuthTokenEndpointResponse) -> Void) {
+        requests.append(request)
+    }
+
+    func accessToken(forRefresh request: SFSDKOAuthTokenEndpointRequest,
+                     completion: @escaping (SFSDKOAuthTokenEndpointResponse) -> Void) {
+        XCTFail("Unexpected refresh")
+    }
+
+    func openIDToken(forRefresh request: SFSDKOAuthTokenEndpointRequest,
+                     completion: @escaping (String) -> Void) {}
+    func revokeRefreshToken(_ credentials: OAuthCredentials, reason: SFLogoutReason) {}
+}
+
+private final class BridgeMutatingBootConfig: BootConfig {
+    var beforeConsumerKeyRead: (() -> Void)?
+
+    override var remoteAccessConsumerKey: String {
+        get {
+            beforeConsumerKeyRead?()
+            return super.remoteAccessConsumerKey
+        }
+        set { super.remoteAccessConsumerKey = newValue }
+    }
+}
+
+/*
+ Control attestation completion and record browser launch at external
+ boundaries. Keep callback-order tests independent of Swift task scheduling and
+ browser UI.
+ */
+private final class BridgeFlowBoundaryStub: NSObject {
+    static var stopCalls = 0
+    static var browserLaunches = 0
+    static var holdAttestation = false
+    static var pendingAttestation: ((String?) -> Void)?
+
+    @objc(bridgeStopCurrentAuthentication:)
+    func stopAuthentication(_ completion: ((Bool) -> Void)?) {
+        BridgeFlowBoundaryStub.stopCalls += 1
+    }
+
+    @objc(bridgeAttestationFor:consumerKey:completionHandler:)
+    static func attest(domain: String?, consumerKey: String?, completion: @escaping (String?) -> Void) {
+        if holdAttestation { pendingAttestation = completion } else { completion(nil) }
+    }
+
+    @objc(bridgeContinueNativeBrowserWithSharedBrowserSessionEnabled:)
+    func continueBrowser(_ shareBrowserSession: Bool) {
+        BridgeFlowBoundaryStub.browserLaunches += 1
+    }
+}

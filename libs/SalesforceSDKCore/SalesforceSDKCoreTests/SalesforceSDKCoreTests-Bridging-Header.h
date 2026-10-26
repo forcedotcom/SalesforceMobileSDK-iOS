@@ -26,6 +26,11 @@
 - (void)handleResponse:(SFSDKOAuthTokenEndpointResponse *)response;
 @end
 
+@interface SFOAuthCoordinator (FrontdoorBridgeTesting)
+- (void)loadWebViewWithUrlString:(NSString *)urlString cookie:(BOOL)enableCookie;
+- (void)exchangeApprovalCodeWithAttestation:(nullable NSString *)attestation;
+@end
+
 @interface SFLoginViewController (LoginForAdminTesting)
 /// Predicate that controls visibility of the "Login for Admin" entry in the
 /// settings menu. Returns NO during phase 1 of Welcome Discovery (a discovery

@@ -343,7 +343,12 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
  */
 - (BOOL)isAuthenticating;
 
-/** Stops the authentication process.
+/**
+ Stops authentication and invalidates pending coordinator work for every login
+ type. Late responses and queued continuations for that attempt are ignored.
+ Call authenticate or authenticateWithCredentials: to start a new attempt before
+ delivering another response to a stopped coordinator. This does not guarantee
+ cancellation of token requests that have already been issued.
  */
 - (void)stopAuthentication;
 
