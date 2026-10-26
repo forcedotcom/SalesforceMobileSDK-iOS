@@ -39,7 +39,8 @@ enum TestConfigError: Error, CustomStringConvertible {
     case appNotFound(String)
     case appNotConfigured(String)
     case loginHostNotFound(String)
-    
+    case nativeLoginIncomplete(String)
+
     var description: String {
         switch self {
         case .noPrimaryUser:
@@ -60,6 +61,8 @@ enum TestConfigError: Error, CustomStringConvertible {
             return "App '\(appName)' has empty consumerKey in ui_test_config.json"
         case .loginHostNotFound(let hostName):
             return "Login host '\(hostName)' not found in ui_test_config.json"
+        case .nativeLoginIncomplete(let reason):
+            return "Native Login configuration in ui_test_config.json is incomplete: \(reason)"
         }
     }
 }
@@ -87,6 +90,7 @@ enum KnownUserConfig {
 enum KnownLoginHostConfig: String {
     case regularAuth = "regular_auth"
     case advancedAuth = "advanced_auth"
+    case communityAuth = "community_auth"
 }
 
 // MARK: - App Names
@@ -102,6 +106,10 @@ enum KnownAppConfig: String {
     case beaconJwt = "beacon_jwt"
     case caOpaque = "ca_opaque"
     case caJwt = "ca_jwt"
+    /// Headless (Native Login) ECA that accepts, but does not require, DPoP.
+    case ecaJwtHeadless = "eca_jwt_headless"
+    /// Headless (Native Login) ECA that requires DPoP: `/authorize` without `dpop_jkt` is rejected.
+    case ecaJwtDpopHeadless = "eca_jwt_dpop_headless"
     case invalid = "invalid" // Returns hard-coded invalid app config for negative testing
 }
 
@@ -141,7 +149,8 @@ struct AppConfig: Codable {
     /// Whether a normal refresh is expected to rotate this configuration's refresh token.
     /// This is deliberately distinct from the per-user RT user-agent feature marker.
     var expectsRefreshTokenRotation: Bool {
-        return name.contains("_rtr")
+        // The community (headless) ECAs rotate the refresh token on every refresh.
+        return name.contains("_rtr") || name.hasSuffix("_headless")
     }
 
     /// Returns true if the app uses DPoP (name contains "_dpop")
@@ -159,6 +168,29 @@ struct AppConfig: Codable {
 struct UserConfig: Codable {
     let username: String
     let password: String
+}
+
+/// Native Login fixtures resolved by name from the existing `apps` and `loginHosts` collections.
+struct NativeLoginSetup {
+    let loginHost: KnownLoginHostConfig
+    /// Community login URL, including its path.
+    let communityUrl: String
+    let user: UserConfig
+    /// `eca_jwt_headless`: accepts, but does not require, DPoP.
+    let ecaJwtHeadless: KnownAppConfig
+    let ecaJwtHeadlessConfig: AppConfig
+    /// `eca_jwt_dpop_headless`: requires DPoP.
+    let ecaJwtDpopHeadless: KnownAppConfig
+    let ecaJwtDpopHeadlessConfig: AppConfig
+}
+
+/// What a Native Login attempt is expected to produce. This is the test's explicit expectation, not
+/// derived from the ECA name: `AppConfig.isDPoP` says the ECA requires DPoP, which is separate from
+/// whether the client chooses to use it.
+enum NativeLoginExpectation {
+    case bearer
+    case dpop
+    case rejected
 }
 
 /// Represents the complete test configuration
@@ -238,6 +270,51 @@ class UITestConfigUtils {
         return config?.apps ?? []
     }
     
+    // MARK: - Native Login
+
+    /// True when either headless ECA is in the file. Native Login tests skip when neither is present;
+    /// a partial or invalid setup is a failure (see `nativeLoginSetup()`), never a skip.
+    var hasNativeLoginConfig: Bool {
+        return apps.contains { $0.name == KnownAppConfig.ecaJwtHeadless.rawValue || $0.name == KnownAppConfig.ecaJwtDpopHeadless.rawValue }
+    }
+
+    /// Looks up `eca_jwt_headless`, `eca_jwt_dpop_headless` and the `community_auth` host by name.
+    /// Fails if only one ECA is present, the host or its user is missing, a consumer key is empty
+    /// or a redirect URI is not HTTPS.
+    func nativeLoginSetup() throws -> NativeLoginSetup {
+        let present = [KnownAppConfig.ecaJwtHeadless, .ecaJwtDpopHeadless].filter { known in apps.contains { $0.name == known.rawValue } }
+        if present.count == 1 {
+            let missing = [KnownAppConfig.ecaJwtHeadless, .ecaJwtDpopHeadless].first { !present.contains($0) }?.rawValue ?? ""
+            throw TestConfigError.nativeLoginIncomplete("Native Login tests need both eca_jwt_headless and eca_jwt_dpop_headless in apps of ui_test_config.json; missing: \(missing).")
+        }
+        func resolveApp(_ known: KnownAppConfig) throws -> AppConfig {
+            guard let app = apps.first(where: { $0.name == known.rawValue }) else {
+                throw TestConfigError.nativeLoginIncomplete("app '\(known.rawValue)' is missing")
+            }
+            guard !app.consumerKey.isEmpty else {
+                throw TestConfigError.nativeLoginIncomplete("app '\(known.rawValue)' has an empty consumerKey")
+            }
+            guard app.redirectUri.lowercased().hasPrefix("https://") else {
+                throw TestConfigError.nativeLoginIncomplete("app '\(known.rawValue)' needs an https:// redirectUri")
+            }
+            return app
+        }
+        let headless = try resolveApp(.ecaJwtHeadless)
+        let dpopHeadless = try resolveApp(.ecaJwtDpopHeadless)
+        let hostName = KnownLoginHostConfig.communityAuth.rawValue
+        guard let host = loginHosts.first(where: { $0.name == hostName }),
+              let user = host.users.first else {
+            throw TestConfigError.nativeLoginIncomplete("Native Login tests need the '\(hostName)' login host (with a user) in ui_test_config.json")
+        }
+        return NativeLoginSetup(loginHost: .communityAuth,
+                                communityUrl: host.url,
+                                user: user,
+                                ecaJwtHeadless: .ecaJwtHeadless,
+                                ecaJwtHeadlessConfig: headless,
+                                ecaJwtDpopHeadless: .ecaJwtDpopHeadless,
+                                ecaJwtDpopHeadlessConfig: dpopHeadless)
+    }
+
     // MARK: - Scope Utilities
     
     /// Removes a scope from a space-separated scope string.
@@ -265,6 +342,17 @@ class UITestConfigUtils {
             throw TestConfigError.loginHostNotFound("loginPoolHost")
         }
         return host
+    }
+
+    /// Returns true if the given login host is present in ui_test_config.json with at least one
+    /// user configured. Intended for tests that need to skip cleanly (e.g. via `XCTSkipUnless`)
+    /// rather than fail when an optional, not-yet-provisioned login host (such as a community
+    /// org) hasn't been added to the local config.
+    func hasLoginHost(_ loginHost: KnownLoginHostConfig) -> Bool {
+        guard let hostConfig = config?.loginHosts.first(where: { $0.name == loginHost.rawValue }) else {
+            return false
+        }
+        return !hostConfig.users.isEmpty
     }
 
     /// Returns a login host configuration by its name or throws an error if not found

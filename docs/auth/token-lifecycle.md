@@ -6,6 +6,7 @@ concurrency.
 
 The primary classes are:
 
+- **`NativeLoginManagerInternal`**, **`SFUserAccountManager`** — native REST exchange, owning-session/attempt checks, identity handoff and account completion.
 - **`SFOAuthCoordinator`** — drives interactive authentication and authorization-code exchange.
 - **`SFSDKOAuth2`** — sends token-endpoint requests and handles DPoP nonce challenges.
 - **`SFSDKTokenRefreshCoordinator`** — coalesces refresh requests per credential.
@@ -22,7 +23,7 @@ The primary classes are:
 
 **Entry point:** `SFOAuthCoordinator.beginTokenEndpointFlow`
 
-After browser authentication returns an authorization code, `SFOAuthCoordinator`:
+After web authentication (embedded WebView or system browser) returns an authorization code, `SFOAuthCoordinator`:
 
 1. Obtains an App Attestation assertion when attestation is enabled for the login domain.
 2. Creates `SFSDKOAuthTokenEndpointRequest` with the client ID, redirect URI, server URL,
@@ -38,6 +39,85 @@ After browser authentication returns an authorization code, `SFOAuthCoordinator`
 
 The credential identifier is established before token exchange. It is the stable scope for the
 DPoP keypair, nonce cache, and later refresh coalescing.
+
+---
+
+### 1.1 Native Login code exchange
+
+**Entry point:** `NativeLoginManagerInternal.sendAuthenticationRequest`, used by password
+login, passwordless authorization completion and registration completion. These direct REST
+requests do not use `SFOAuthCoordinator.beginTokenEndpointFlow` for the initial exchange.
+
+- Resolve the owning native auth session by scene, client ID, callback and normalized community
+  URL. `beginNativeAuthentication:` records a new attempt identity. The native
+  `AuthenticationContext` captures `usesDPoP` from the session request's optional `useDPoP` override, otherwise from the current process flag. Later flag changes do
+  not alter that context during authorize/token exchange.
+- With DPoP enabled, use the session credentials identifier/keypair for both POSTs. Append
+  `dpop_jkt` to the authorize form body and attach a proof. Parse a JSON response with code,
+  community URL and community ID; then send a token POST using the configured native callback,
+  PKCE verifier and `authorization_code` or `hybrid_auth_code` grant. These proofs have no `ath`.
+- Before each send and around asynchronous crypto work, verify the attempt is still current.
+  Key loading and proof creation use `performCrypto` off the main thread.
+- Cache nonempty nonce headers from either response. Retry an individual authorize/token
+  request once only for HTTP 400/401, exact JSON `error=use_dpop_nonce`, and a nonempty
+  `DPoP-Nonce`. Preserve the body/key and generate a fresh proof. Malformed/unrelated errors,
+  missing nonce and a second challenge do not trigger another retry. This does not broaden or
+  narrow the existing shared `DPoPRequestDecorator.isNonceChallenge` rule.
+- `completeNativeAuthentication:context:` validates ownership and hands token data to
+  `createNativeUserAccount:authSession:`. Token-response handling updates the same session
+  credentials and starts identity retrieval. Returning native success means the token handoff
+  was accepted; identity retrieval, account persistence and app success notification complete
+  through the existing account-manager lifecycle afterward.
+
+A nonce received at authorize can seed token exchange, so an empty nonce cache at the first
+native token POST is not guaranteed. A signing/key failure aborts native authentication rather
+than retrying unsigned. With DPoP disabled, requests retain the native Bearer exchange while
+still enforcing ownership checks.
+
+### 1.2 Native ownership and fallback
+
+Ownership is scene/auth-session plus attempt identity, not merely the current user or manager.
+Late identity callbacks and identity-refresh results must still belong to the owning attempt.
+Failure/cancellation cleanup removes native key/nonce state only when no persisted account or
+other auth session references it. Once token data is handed to identity retrieval, that session
+is not treated as an abandoned pre-token attempt. Replacement-account cleanup must preserve
+its newly published credentials.
+
+`fallbackToWebAuthentication()` resets the native authentication and starts an independent
+web flow. It transfers no native identifier, keypair, nonce or proof. The existing browser
+flow determines its own DPoP state; cancellation can return to a fresh Native Login. The
+normal account-completion path records token type and feature markers for native sessions too.
+
+### 1.3 Debug Native Login mode
+
+Apps with developer support enabled (the default in debug builds) can switch to Native Login, unless they register their own Native Login, from the developer
+support **Login Options** screen (**Authentication Mode**: Browser / Native). The choice and its
+External Client App (consumer key, HTTPS callback URL, community URL with path, DPoP, hybrid)
+persist in `SalesforceManager.debugLoginSettings` (`NativeLoginDebugSettings`, its own
+`UserDefaults` suite), apart from the boot config and the global `usesDPoP` /
+`useHybridAuthentication` flags. They are inert unless `isDevSupportEnabled` is true and the app
+did not call `useNativeLogin` (`appRegisteredNativeLogin`). `apply(json:)` takes the same JSON keys
+as Android; `resetForUITesting` clears them.
+
+- **Routing.** `applyDebugNativeLoginSettings` runs at the end of `initializeSDK` and before each
+  auth request is built (`authenticateWithCompletion:` and Login Options restarts). In Native mode
+  with a complete configuration it registers `SFSDKDebugNativeLoginViewController` and a
+  `NativeLoginManagerInternal` for the debug config, so the regular native routing
+  (`nativeLoginEnabled`) presents the SDK's debug form; otherwise it unregisters them. Running at
+  `initializeSDK` keeps the `NL` marker of a restored native session, like an app calling
+  `useNativeLogin` at launch.
+- **DPoP and hybrid.** The native auth request carries the debug `useDPoP` choice as its
+  `useDPoP` override (see 1.1), and the manager's `useHybridAuthenticationOverride` selects the
+  token grant. The browser values are untouched.
+- **Restart.** Closing Login Options rebuilds the scene's request through
+  `authRequestAfterLoginOptionsChangeForSession:`, native or browser per the new settings. A
+  browser request built after a native one uses the selected login host, not the community URL.
+- **Fallback.** **Log In with Browser** calls `fallbackToWebAuthentication()`; the browser login
+  uses the boot config and browser options.
+- **Diagnostics.** With developer support enabled `sendAuthenticationRequest` records each authorize/token
+  attempt in the internal `NativeLoginDiagnostics` (also written to the SDK log at debug level through `SFSDKCoreLogger`): stage, HTTP
+  status, OAuth error and truncated description, whether a proof was sent and a nonce received,
+  and the retry count. Nonce values, proofs, codes, verifiers, tokens and passwords are never kept.
 
 ---
 
@@ -127,7 +207,14 @@ On a successful response, `SFOAuthSessionRefresher` compares the updated refresh
 one used for the request. When it changed, the refresher:
 
 - records `lastTokenRotationDate` on `SFOAuthCredentials`; and
-- registers the `RT` app feature marker for the account.
+- registers the `RT` app feature marker for the account, when one exists.
+
+During a first login the account does not exist yet while the identity fetch runs (see 6.1). If an
+identity 401/403 triggers a refresh that rotates the token, the rotation is still recorded on the
+credentials (`lastTokenRotationDate`, and the new refresh token is kept), and
+`SFUserAccountManager finalizeAuthCompletion:` registers `RT` for the user as soon as the account is
+created. So `RT` is in the user agent from the first screen after such a login. A refresh that does not
+change the token (non-RTR apps) records and registers nothing.
 
 `RT` is sticky and persisted with the user account. For a refresh of an existing account,
 `SFOAuthSessionRefresher` also computes the token request's `User-Agent` from the account that owns
@@ -200,13 +287,22 @@ no private-key material is exported or held in plaintext.
 
 ## 5. DPoP Nonce Lifecycle
 
+`DPoPURL.htu()` strips query and fragment. Its temporary compatibility rewrite also removes
+`vforcesite` from the end of the first path segment immediately after the leading slash,
+case-insensitively, with a nonempty prefix before the suffix:
+`/sitevforcesite/services/oauth2/token` → `/site/services/oauth2/token`. A later segment or
+`/site/vforcesite/...` does not match. This affects proof `htu` and the nonce cache URL key,
+not the network destination; it applies to native, refresh and resource paths. Remove the
+rewrite when the server validation issue is resolved.
+
 `DPoPNonceCache` is a process-lifetime, thread-safe cache keyed by canonicalized `htu` and
 credential scope. Reads are non-destructive. A scope-wide fallback lets a resource request reuse
 the most recently observed token-endpoint nonce when no exact URL entry exists.
 
 Salesforce normally seeds and rotates the nonce at the token endpoint. `SFSDKOAuth2` harvests the
 response header before interpreting a token response and retries one nonce challenge with a newly
-built proof.
+built proof. Native Login harvests both authorize/token attempts with its own stricter
+challenge rule (§1.1); the shared helper is unchanged.
 
 `SFRestAPI` also defensively handles a resource-server HTTP 400 `use_dpop_nonce` response, but
 only when the failed attempt actually carried both `Authorization: DPoP ...` and a `DPoP` proof:
@@ -262,6 +358,21 @@ When an attempt receives an authentication failure accepted by the retry policy:
 
 The local `refreshCycleActive` flag groups requests for one `SFRestAPI`. The shared refresh
 coordinator is the cross-component, per-credential protection that prevents a second token POST.
+
+### 6.1 Identity request attempts (diagnostics)
+
+The identity request made at the end of login is not a REST request. `SFIdentityCoordinator` sends
+a `GET` to the token response `id` URL and, on 401/403, refreshes the credentials through the shared
+refresh coordinator and replays the request, without a cap. The coordinator counts the requests and
+refreshes per retrieval and logs, at info level and without tokens or personal data:
+
+- each rejection: `Identity request returned HTTP <401|403> errorCode=<e.g. Wrong_Org, Bad_OAuth_Token>`
+- one summary when the retrieval finishes, on success or failure:
+  `IDENTITY_ATTEMPTS attempts=N refreshes=M status=<final HTTP status, error or refresh_failed> elapsedMs=T dpop=<true|false> community=<true|false> pool=<true|false> host=<login host>`
+
+`attempts=1` means the first access token was accepted. `pool` is true for login-pool hosts
+(`login.*`, `test.*`, welcome discovery). Grep for `IDENTITY_ATTEMPTS` to measure how many replays
+a login needs.
 
 ---
 

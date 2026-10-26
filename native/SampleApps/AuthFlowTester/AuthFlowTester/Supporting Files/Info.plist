@@ -79,6 +79,12 @@
 		</dict>
 		<dict>
 			<key>name</key>
+			<string>UITests Community</string>
+			<key>host</key>
+			<string>authflowtestingmsdksdb38.test1.my.pc-rnd.site.com/customerportal</string>
+		</dict>
+		<dict>
+			<key>name</key>
 			<string>Welcome Discovery</string>
 			<key>host</key>
 			<string>welcome.salesforce.com/discovery</string>

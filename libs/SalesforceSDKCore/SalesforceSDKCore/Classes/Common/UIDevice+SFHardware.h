@@ -18,11 +18,11 @@
 #define IPHONE_11_NAMESTRING            @"iPhone 11"
 #define IPHONE_11_PRO_NAMESTRING        @"iPhone 11 Pro"
 #define IPHONE_11_PRO_MAX_NAMESTRING    @"iPhone 11 Pro Max"
-#define IPHONE_12_MINI_NAMESTRING       @"iPhone 12 Mini"
+#define IPHONE_12_MINI_NAMESTRING       @"iPhone 12 mini"
 #define IPHONE_12_NAMESTRING            @"iPhone 12"
 #define IPHONE_12_PRO_NAMESTRING        @"iPhone 12 Pro"
 #define IPHONE_12_PRO_MAX_NAMESTRING    @"iPhone 12 Pro Max"
-#define IPHONE_13_MINI_NAMESTRING       @"iPhone 13 Mini"
+#define IPHONE_13_MINI_NAMESTRING       @"iPhone 13 mini"
 #define IPHONE_13_NAMESTRING            @"iPhone 13"
 #define IPHONE_13_PRO_NAMESTRING        @"iPhone 13 Pro"
 #define IPHONE_13_PRO_MAX_NAMESTRING    @"iPhone 13 Pro Max"
@@ -39,21 +39,31 @@
 #define IPHONE_16_NAMESTRING            @"iPhone 16"
 #define IPHONE_16_PLUS_NAMESTRING       @"iPhone 16 Plus"
 
+#define IPHONE_16E_NAMESTRING          @"iPhone 16e"
+#define IPHONE_17_NAMESTRING           @"iPhone 17"
+#define IPHONE_17_PRO_NAMESTRING       @"iPhone 17 Pro"
+#define IPHONE_17_PRO_MAX_NAMESTRING   @"iPhone 17 Pro Max"
+#define IPHONE_AIR_NAMESTRING          @"iPhone Air"
+#define IPHONE_17E_NAMESTRING          @"iPhone 17e"
+#define IPHONE_18_PRO_NAMESTRING       @"iPhone 18 Pro"
+#define IPHONE_18_PRO_MAX_NAMESTRING   @"iPhone 18 Pro Max"
+
 #define IPHONE_UNKNOWN_NAMESTRING       @"Unknown iPhone"
 
 // Supported iPads
 #define IPAD_MINI_5G_NAMESTRING         @"iPad mini (5th generation)"
 #define IPAD_MINI_6G_NAMESTRING         @"iPad mini (6th generation)"
-#define IPAD_MINI_7G_NAMESTRING         @"iPad mini 7th Gen"
+#define IPAD_MINI_7G_NAMESTRING         @"iPad mini (A17 Pro)"
 #define IPAD_AIR_3G_NAMESTRING          @"iPad Air (3rd generation)"
 #define IPAD_AIR_4G_NAMESTRING          @"iPad Air (4th generation)"
 #define IPAD_AIR_5G_NAMESTRING          @"iPad Air (5th generation)"
-#define IPAD_AIR_6G_NAMESTRING          @"iPad Air 6th Gen"
-#define IPAD_AIR_7G_NAMESTRING          @"iPad Air 7th Gen"
+#define IPAD_AIR_6G_NAMESTRING          @"iPad Air 11-inch (M2)"
+#define IPAD_AIR_7G_NAMESTRING          @"iPad Air 13-inch (M2)"
 #define IPAD_7G_NAMESTRING              @"iPad (7th generation)"
 #define IPAD_8G_NAMESTRING              @"iPad (8th generation)"
 #define IPAD_9G_NAMESTRING              @"iPad (9th generation)"
 #define IPAD_10G_NAMESTRING             @"iPad (10th generation)"
+#define IPAD_PRO_11_1G_NAMESTRING       @"iPad Pro (11-inch, 1st generation)"
 #define IPAD_PRO_11_2G_NAMESTRING       @"iPad Pro (11-inch, 2nd generation)"
 #define IPAD_PRO_11_3G_NAMESTRING       @"iPad Pro (11-inch, 3rd generation)"
 #define IPAD_PRO_11_4G_NAMESTRING       @"iPad Pro (11-inch, 4th generation)"
@@ -61,8 +71,16 @@
 #define IPAD_PRO_12_9_4G_NAMESTRING     @"iPad Pro (12.9-inch, 4th generation)"
 #define IPAD_PRO_12_9_5G_NAMESTRING     @"iPad Pro (12.9-inch, 5th generation)"
 #define IPAD_PRO_12_9_6G_NAMESTRING     @"iPad Pro (12.9-inch, 6th generation)"
-#define IPAD_PRO_11_5G_NAMESTRING       @"iPad Pro 11 inch 5th Gen"
-#define IPAD_PRO_12_7G_NAMESTRING       @"iPad Pro 12.9 inch 7th Gen"
+#define IPAD_PRO_11_5G_NAMESTRING       @"iPad Pro 11-inch (M4)"
+#define IPAD_PRO_12_7G_NAMESTRING       @"iPad Pro 13-inch (M4)"
+
+#define IPAD_A16_NAMESTRING            @"iPad (A16)"
+#define IPAD_AIR_11_M3_NAMESTRING      @"iPad Air 11-inch (M3)"
+#define IPAD_AIR_13_M3_NAMESTRING      @"iPad Air 13-inch (M3)"
+#define IPAD_AIR_11_M4_NAMESTRING      @"iPad Air 11-inch (M4)"
+#define IPAD_AIR_13_M4_NAMESTRING      @"iPad Air 13-inch (M4)"
+#define IPAD_PRO_11_M5_NAMESTRING      @"iPad Pro 11-inch (M5)"
+#define IPAD_PRO_13_M5_NAMESTRING      @"iPad Pro 13-inch (M5)"
 
 #define IPAD_UNKNOWN_NAMESTRING         @"Unknown iPad"
 
@@ -144,11 +162,11 @@ typedef NS_ENUM(NSUInteger, UIDevicePlatform) {
     UIDevice11Inch2GiPadPro,      // iPad Pro (11-inch, 2nd generation)
     UIDevice11Inch3GiPadPro,      // iPad Pro (11-inch, 3rd generation, M1)
     UIDevice11Inch4GiPadPro,      // iPad Pro (11-inch, 4th generation, M2)
-    UIDevice6GiPadAir,            // iPad Air 6th Gen
-    UIDevice7GiPadAir,            //iPad Air 7th Gen
-    UIDevice7GiPadMini,           //iPad mini 7th Gen
-    UIDevice11Inch5GiPadPro,      //iPad Pro 11 inch 5th Gen
-    UIDevice12Inch7GiPadPro,      //iPad Pro 12.9 inch 7th Gen
+    UIDevice6GiPadAir,            // iPad Air 11-inch (M2) (legacy enum name)
+    UIDevice7GiPadAir,            // iPad Air 13-inch (M2) (legacy enum name)
+    UIDevice7GiPadMini,           // iPad mini (A17 Pro) (legacy enum name)
+    UIDevice11Inch5GiPadPro,      // iPad Pro 11-inch (M4) (legacy enum name)
+    UIDevice12Inch7GiPadPro,      // iPad Pro 13-inch (M4) (legacy enum name)
     
     // Supported Apple TVs
     UIDeviceAppleTV4,             // Apple TV HD
@@ -158,7 +176,24 @@ typedef NS_ENUM(NSUInteger, UIDevicePlatform) {
     
     UIDeviceUnknowniPhone,
     UIDeviceUnknowniPad,
-    UIDeviceUnknownAppleTV
+    UIDeviceUnknownAppleTV,
+
+    // Append new models to preserve the numeric values of existing public cases.
+    UIDevice16eiPhone, // iPhone 16e
+    UIDevice17iPhone, // iPhone 17
+    UIDevice17ProiPhone, // iPhone 17 Pro
+    UIDevice17ProMaxiPhone, // iPhone 17 Pro Max
+    UIDeviceAiriPhone, // iPhone Air
+    UIDevice17eiPhone, // iPhone 17e
+    UIDevice18ProiPhone, // iPhone 18 Pro
+    UIDevice18ProMaxiPhone, // iPhone 18 Pro Max
+    UIDeviceA16iPad, // iPad (A16)
+    UIDeviceM3iPadAir11Inch, // iPad Air 11-inch (M3)
+    UIDeviceM3iPadAir13Inch, // iPad Air 13-inch (M3)
+    UIDeviceM4iPadAir11Inch, // iPad Air 11-inch (M4)
+    UIDeviceM4iPadAir13Inch, // iPad Air 13-inch (M4)
+    UIDeviceM5iPadPro11Inch, // iPad Pro 11-inch (M5)
+    UIDeviceM5iPadPro13Inch, // iPad Pro 13-inch (M5)
 };
 
 typedef NS_ENUM(NSUInteger, UIDeviceFamily) {

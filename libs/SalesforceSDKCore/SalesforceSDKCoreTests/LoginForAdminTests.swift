@@ -23,6 +23,7 @@
  */
 
 import XCTest
+import ObjectiveC
 @testable import SalesforceSDKCore
 
 // MARK: - Login for Admin Tests
@@ -31,16 +32,69 @@ class LoginForAdminTests: XCTestCase {
 
     private var originalUseWebServerAuth: Bool = true
     private var originalUseHybridAuth: Bool = false
+    private var bootstrapMethods: [(Method, Method)] = []
+    private var restoreAppConfig: (() -> Void)?
+    private var bootstrapCompleted: XCTestExpectation?
+
+    private func expectBootstrap() {
+        let completed = XCTestExpectation(description: "Admin restart reached authentication boundary")
+        bootstrapCompleted = completed
+        AdminBootstrapCapture.onAuthenticate = { completed.fulfill() }
+    }
 
     @available(*, deprecated, message: "Exercises deprecated useWebServerAuthentication; remove with the property in 15.0.")
     override func setUp() {
         super.setUp()
         originalUseWebServerAuth = SalesforceManager.shared.useWebServerAuthentication
         originalUseHybridAuth = SalesforceManager.shared.useHybridAuthentication
+        let sdk = SalesforceManager.shared
+        let uam = UserAccountManager.shared
+        let config = sdk.bootConfig
+        let selector = sdk.bootConfigRuntimeSelector
+        let clientId = uam.oauthClientID
+        sdk.bootConfig = BootConfig(["remoteAccessConsumerKey": "admin-test-app",
+                                     "oauthRedirectURI": "admin-test://callback", "oauthScopes": ["api"]])
+        sdk.bootConfigRuntimeSelector = nil
+        restoreAppConfig = {
+            sdk.bootConfig = config
+            sdk.bootConfigRuntimeSelector = selector
+            uam.oauthClientID = clientId
+        }
+        // These tests assert request routing, not WebKit cookie deletion or browser launch.
+        // Keep bootstrap inside the fixture instead of leaving WKWebsiteDataStore callbacks
+        // to authenticate a removed session during the next test class.
+        for (type, selector, replacementType, replacementSelector) in [
+            (SFSDKWebViewStateManager.self, NSSelectorFromString("removeSessionForcefullyWithCompletionHandler:"),
+             SFSDKWebViewStateManager.self, #selector(SFSDKWebViewStateManager.adminTestRemoveSession(_:))),
+            (SFOAuthCoordinator.self, NSSelectorFromString("authenticateWithCredentials:"),
+             SFOAuthCoordinator.self, #selector(SFOAuthCoordinator.adminTestAuthenticate(_:)))
+        ] {
+            let original = type == SFSDKWebViewStateManager.self
+                ? class_getClassMethod(type, selector) : class_getInstanceMethod(type, selector)
+            let replacement = replacementType == SFSDKWebViewStateManager.self
+                ? class_getClassMethod(replacementType, replacementSelector) : class_getInstanceMethod(replacementType, replacementSelector)
+            guard let original, let replacement else {
+                XCTFail("Missing authentication bootstrap boundary")
+                return
+            }
+            method_exchangeImplementations(original, replacement)
+            bootstrapMethods.append((original, replacement))
+        }
     }
 
     @available(*, deprecated, message: "Exercises deprecated useWebServerAuthentication; remove with the property in 15.0.")
     override func tearDown() {
+        // Wait for the real restart to reach the mocked launch boundary, not a queue delay.
+        if let bootstrapCompleted { wait(for: [bootstrapCompleted], timeout: 5) }
+        bootstrapCompleted = nil
+        AdminBootstrapCapture.onAuthenticate = nil
+        UserAccountManager.shared.stopCurrentAuthentication()
+        for (original, replacement) in bootstrapMethods.reversed() {
+            method_exchangeImplementations(original, replacement)
+        }
+        bootstrapMethods = []
+        restoreAppConfig?()
+        restoreAppConfig = nil
         SalesforceManager.shared.useWebServerAuthentication = originalUseWebServerAuth
         SalesforceManager.shared.useHybridAuthentication = originalUseHybridAuth
         super.tearDown()
@@ -312,6 +366,7 @@ class LoginForAdminTests: XCTestCase {
     // MARK: - SFUserAccountManager Cancel Browser Auth (loginAsAdmin path)
 
     func testGivenLoginAsAdmin_whenBrowserAuthCancelled_thenLoginAsAdminCleared() {
+        expectBootstrap()
         let request = makeAuthRequest()
         request.loginAsAdmin = true
 
@@ -327,6 +382,7 @@ class LoginForAdminTests: XCTestCase {
     }
 
     func testGivenLoginAsAdmin_whenBrowserAuthCancelled_thenUserCancelledNotificationNotPosted() {
+        expectBootstrap()
         let request = makeAuthRequest()
         request.loginAsAdmin = true
 
@@ -383,6 +439,7 @@ class LoginForAdminTests: XCTestCase {
     }
 
     func testGivenLoginAsAdmin_whenBrowserAuthCancelled_thenHandlerBlockNotCalled() {
+        expectBootstrap()
         let request = makeAuthRequest()
         request.loginAsAdmin = true
 
@@ -405,6 +462,7 @@ class LoginForAdminTests: XCTestCase {
     // MARK: - SFUserAccountManager Cancel Browser Auth (nativeLogin fallback path)
 
     func testGivenNativeLoginFallback_whenBrowserAuthCancelled_thenFallbackConsumedAndRestartsNativeLogin() {
+        expectBootstrap()
         let request = makeAuthRequest()
         request.loginAsAdmin = false
 
@@ -454,6 +512,7 @@ class LoginForAdminTests: XCTestCase {
     // MARK: - SFUserAccountManager loginViewControllerDidSelectLoginForAdmin
 
     func testGivenAuthSession_whenLoginForAdminSelected_thenLoginAsAdminSetAndAuthRestarted() {
+        expectBootstrap()
         let uam = UserAccountManager.shared
 
         // Get the test app's active window scene to obtain a real sceneId
@@ -544,6 +603,7 @@ class LoginForAdminTests: XCTestCase {
     }
 
     func test_givenPhase2Discovery_whenLoginForAdminSelected_thenMyDomainOverrideSet() {
+        expectBootstrap()
         let uam = UserAccountManager.shared
 
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
@@ -587,6 +647,7 @@ class LoginForAdminTests: XCTestCase {
     }
 
     func test_givenPhase2Discovery_whenLoginForAdminSelected_thenLoginHostStorageNotPolluted() {
+        expectBootstrap()
         // The brief explicitly forbids persisting the My Domain to SFSDKLoginHostStorage
         // / NSUserDefaults during the discovery → admin transition.
         let uam = UserAccountManager.shared
@@ -642,6 +703,7 @@ class LoginForAdminTests: XCTestCase {
     }
 
     func test_givenLfaOverridesSet_whenBrowserAuthCancelled_thenOverridesCleared() {
+        expectBootstrap()
         // After the user backs out of the LFA browser session, both overrides and
         // the loginAsAdmin flag must be cleared so subsequent settings actions
         // (Reload, Clear Cache) and the next browser launch do not pick up stale state.
@@ -712,6 +774,7 @@ class LoginForAdminTests: XCTestCase {
 
     @available(*, deprecated, message: "Exercises deprecated public API")
     func testGivenAuthSession_whenPublicLoginForAdminCalled_thenLoginAsAdminSet() {
+        expectBootstrap()
         let uam = UserAccountManager.shared
 
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
@@ -783,7 +846,13 @@ class LoginForAdminTests: XCTestCase {
     // MARK: - SFUserAccountManager hostListViewControllerDidChangeLoginOptions (forced advanced auth)
 
     func test_givenAuthSession_whenHostListChangesLoginOptions_thenAuthRequestRecreatedAndRestarted() {
+        expectBootstrap()
         let uam = UserAccountManager.shared
+        // Native login state is process-wide and other suites leave it enabled; this test is about
+        // a browser session, whose login host must survive the restart.
+        let originalNativeLoginEnabled = uam.nativeLoginEnabled
+        uam.nativeLoginEnabled = false
+        defer { uam.nativeLoginEnabled = originalNativeLoginEnabled }
 
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
             XCTFail("Test requires a UIWindowScene from the running test app")
@@ -829,9 +898,13 @@ class LoginForAdminTests: XCTestCase {
         XCTAssertEqual(session.oauthRequest.loginHost, "test.salesforce.com",
                        "The recreated request must preserve the originally configured login host")
 
-        // Clean up
+        // Clean up. The restart presented a login screen on the auth window; take it down so it
+        // does not leak into tests that look at the auth window next.
         uam.stopCurrentAuthentication()
         uam.authSessions.removeObject(sceneId as NSString)
+        let authWindow = SFSDKWindowManager.shared().authWindow(windowScene)
+        authWindow.viewController?.dismiss(animated: false, completion: nil)
+        authWindow.dismissWindow()
         window.rootViewController = nil
     }
 
@@ -906,6 +979,22 @@ class LoginForAdminTests: XCTestCase {
         SalesforceManager.shared.bootConfig?.oauthScopes = Set(["web", "api"])
         UserAccountManager.shared.oauthClientID = "test_connected_app_id"
     }
+}
+
+private extension SFSDKWebViewStateManager {
+    @objc static func adminTestRemoveSession(_ completion: @escaping () -> Void) {
+        completion()
+    }
+}
+
+private extension SFOAuthCoordinator {
+    @objc func adminTestAuthenticate(_ credentials: OAuthCredentials) {
+        AdminBootstrapCapture.onAuthenticate?()
+    }
+}
+
+private enum AdminBootstrapCapture {
+    static var onAuthenticate: (() -> Void)?
 }
 
 // MARK: - SFOAuthCoordinatorDelegate conformance for tests

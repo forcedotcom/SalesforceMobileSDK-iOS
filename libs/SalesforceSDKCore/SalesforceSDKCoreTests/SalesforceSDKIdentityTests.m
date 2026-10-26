@@ -26,6 +26,8 @@
 #import "SFIdentityCoordinator.h"
 #import "SFUserAccountManager.h"
 #import "SFIdentityData.h"
+#import "SFIdentityCoordinator+Internal.h"
+#import "SFOAuthCredentials+Internal.h"
 
 @interface SFIdentityCoordinator ()
 
@@ -101,6 +103,30 @@
     XCTAssertNotNil(idData.lastModifiedDate, @"lastModifiedDate should not be nil");
     // Note: lastModifiedDate is parsed from "2024-12-23T18:40:50Z", exact value comparison would need date formatter
 }
+
+/**
+ * Tests the IDENTITY_ATTEMPTS summary line built from the attempt and refresh counters
+ */
+- (void)testIdentityAttemptsSummary
+{
+    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"identity-attempts-test" clientId:@"clientId" encrypted:NO];
+    credentials.domain = @"login.test1.pc-rnd.salesforce.com";
+    credentials.tokenType = @"DPoP";
+    credentials.communityUrl = [NSURL URLWithString:@"https://example.my.site.com/community"];
+    SFIdentityCoordinator *coordinator = [[SFIdentityCoordinator alloc] initWithCredentials:credentials];
+    coordinator.identityAttempts = 3;
+    coordinator.identityRefreshes = 2;
+    coordinator.identityFinalStatus = @"200";
+    NSString *summary = [coordinator identityAttemptsSummary];
+    XCTAssertEqualObjects([summary componentsSeparatedByString:@" elapsedMs="].firstObject, @"IDENTITY_ATTEMPTS attempts=3 refreshes=2 status=200");
+    XCTAssertTrue([summary hasSuffix:@" dpop=true community=true pool=true host=login.test1.pc-rnd.salesforce.com"], @"%@", summary);
+
+    SFOAuthCredentials *regular = [[SFOAuthCredentials alloc] initWithIdentifier:@"identity-attempts-test-2" clientId:@"clientId" encrypted:NO];
+    regular.domain = @"example.my.salesforce.com";
+    SFIdentityCoordinator *regularCoordinator = [[SFIdentityCoordinator alloc] initWithCredentials:regular];
+    XCTAssertTrue([[regularCoordinator identityAttemptsSummary] hasSuffix:@" dpop=false community=false pool=false host=example.my.salesforce.com"]);
+}
+
 
 @end
 

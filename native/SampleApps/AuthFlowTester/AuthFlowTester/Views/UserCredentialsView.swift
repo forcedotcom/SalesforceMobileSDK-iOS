@@ -103,6 +103,7 @@ public struct CredentialsLabels {
     public static let sdk = "SDK"
     public static let userAgent = "User Agent"
     public static let lastTokenRequestUserAgent = "Last Token Request User Agent"
+    public static let lastTokenRequestUrl = "Last Token Request URL"
 }
 
 struct UserCredentialsView: View {
@@ -237,6 +238,10 @@ struct UserCredentialsView: View {
                             InfoRowView(label: "Last Token Request User Agent", value: lastTokenRequestUserAgent)
                                 .accessibilityIdentifier("lastTokenRequestUserAgent")
                         }
+                        if !lastTokenRequestUrl.isEmpty {
+                            InfoRowView(label: "Last Token Request URL", value: lastTokenRequestUrl)
+                                .accessibilityIdentifier("lastTokenRequestUrl")
+                        }
                         #endif
                     }
                 }
@@ -353,7 +358,8 @@ struct UserCredentialsView: View {
         // SDK section
         result[CredentialsLabels.sdk] = [
             CredentialsLabels.userAgent: userAgentString,
-            CredentialsLabels.lastTokenRequestUserAgent: lastTokenRequestUserAgent
+            CredentialsLabels.lastTokenRequestUserAgent: lastTokenRequestUserAgent,
+            CredentialsLabels.lastTokenRequestUrl: lastTokenRequestUrl
         ]
 
         guard let jsonData = try? JSONSerialization.data(withJSONObject: result, options: [.prettyPrinted]),
@@ -369,6 +375,14 @@ struct UserCredentialsView: View {
     private var userAgentString: String {
         guard let user = UserAccountManager.shared.currentUserAccount else { return "" }
         return SalesforceManager.shared.userAgent(qualifier: "", for: user)
+    }
+
+    private var lastTokenRequestUrl: String {
+        #if DEBUG
+        return UserDefaults.standard.string(forKey: AppDelegate.uiTestLastTokenRequestUrlDefaultsKey) ?? ""
+        #else
+        return ""
+        #endif
     }
 
     private var lastTokenRequestUserAgent: String {

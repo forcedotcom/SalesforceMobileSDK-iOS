@@ -97,9 +97,9 @@
     NSMutableArray * devInfos = [NSMutableArray arrayWithArray:[super getDevSupportInfos]];
     [devInfos addObject:@"section:SmartStore"];
     [devInfos addObjectsFromArray:@[
-            @"SQLCipher version", [store getSQLCipherVersion],
-            @"SQLCipher Compile Options", [[store getCompileOptions] componentsJoinedByString:@", "],
-            @"SQLCipher Runtime Settings", [[store getRuntimeSettings] componentsJoinedByString:@", "],
+            @"SQLCipher version", [store getSQLCipherVersion] ?: @"Unavailable",
+            @"SQLCipher Compile Options", [[store getCompileOptions] componentsJoinedByString:@", "] ?: @"Unavailable",
+            @"SQLCipher Runtime Settings", [[store getRuntimeSettings] componentsJoinedByString:@", "] ?: @"Unavailable",
             @"User SmartStores", [self safeJoin:[SFSmartStore allStoreNames] separator:@", "],
             @"Global SmartStores", [self safeJoin:[SFSmartStore allGlobalStoreNames] separator:@", "],
     ]];
@@ -112,4 +112,3 @@
 
 
 @end
-

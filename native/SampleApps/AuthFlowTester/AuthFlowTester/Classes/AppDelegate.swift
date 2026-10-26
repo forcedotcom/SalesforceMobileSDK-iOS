@@ -36,6 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     static let uiTestLastTokenRequestUserAgentDefaultsKey = "AuthFlowTesterLastTokenRequestUserAgent"
+    static let uiTestLastTokenRequestUrlDefaultsKey = "AuthFlowTesterLastTokenRequestUrl"
 
     private struct UITestLoginHost {
         let name: String
@@ -57,6 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             SalesforceManager.resetForUITesting()
         }
         seedUITestLoginHosts(selectDefaultHost: shouldResetForUITesting)
+        applyNativeLoginLaunchArguments()
         if CommandLine.arguments.contains("--disableDPoPAtStart") {
             SalesforceManager.shared.usesDPoP = false
         }
@@ -75,20 +77,52 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     #if DEBUG
-    /// Captures the final User-Agent attached by SFNetwork to token-endpoint requests. This is
-    /// enabled only for UI tests so production app behavior and diagnostics remain unchanged.
+    /// Captures the final User-Agent and URL (without query) of SFNetwork token-endpoint requests. The
+    /// URL lets UI tests verify which host and path (e.g. a community path prefix) a refresh used.
+    /// This is enabled only for UI tests so production app behavior and diagnostics remain unchanged.
     private func configureTokenRequestUserAgentCaptureForUITesting() {
         UserDefaults.standard.removeObject(forKey: Self.uiTestLastTokenRequestUserAgentDefaultsKey)
+        UserDefaults.standard.removeObject(forKey: Self.uiTestLastTokenRequestUrlDefaultsKey)
         guard CommandLine.arguments.contains("--captureTokenRequestUserAgent") else { return }
 
         // Replaces SFNetwork's process-global metrics sink (and any prior handler); DEBUG + explicit launch argument only.
         Network.metricsCollectedAction = { _, task, _ in
-            guard task.originalRequest?.url?.path == "/services/oauth2/token",
+            // hasSuffix: a community token endpoint is prefixed by the community path.
+            guard let url = task.originalRequest?.url,
+                  url.path.hasSuffix("/services/oauth2/token"),
                   let userAgent = task.originalRequest?.value(forHTTPHeaderField: "User-Agent") else {
                 return
             }
             UserDefaults.standard.set(userAgent, forKey: Self.uiTestLastTokenRequestUserAgentDefaultsKey)
+            var components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+            components?.query = nil
+            UserDefaults.standard.set(components?.string ?? "", forKey: Self.uiTestLastTokenRequestUrlDefaultsKey)
         }
+    }
+
+    /// Maps `--nativeLoginConfig=<json>` and `--authenticationMode=native|browser` onto the SDK's
+    /// debug Login Options settings, so UI tests can select Native Login without driving the screen.
+    private func applyNativeLoginLaunchArguments() {
+        let settings = SalesforceManager.shared.debugLoginSettings
+        if let json = Self.launchArgumentValue("--nativeLoginConfig=") {
+            do {
+                try settings.apply(json: json)
+            } catch {
+                SalesforceLogger.e(AppDelegate.self, message: "Ignoring --nativeLoginConfig: \(error.localizedDescription)")
+            }
+        }
+        if let name = Self.launchArgumentValue("--authenticationMode=") {
+            let modeJson = "{\"\(NativeLoginDebugSettings.JSONKeys.authenticationMode)\":\"\(name)\"}"
+            do {
+                try settings.apply(json: modeJson)
+            } catch {
+                SalesforceLogger.e(AppDelegate.self, message: "Ignoring --authenticationMode: \(error.localizedDescription)")
+            }
+        }
+    }
+
+    private static func launchArgumentValue(_ prefix: String) -> String? {
+        CommandLine.arguments.last(where: { $0.hasPrefix(prefix) }).map { String($0.dropFirst(prefix.count)) }
     }
     #endif
     

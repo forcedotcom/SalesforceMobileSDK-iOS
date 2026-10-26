@@ -31,10 +31,23 @@ enum DPoPURL {
     /// query and no fragment. Used both in the DPoP proof JWT payload
     /// (`SFSDKDPoPProofBuilder`) and as part of the nonce cache key
     /// (`SFSDKDPoPNonceCache`); both sites must agree on the canonical form.
+    ///
+    /// WORKAROUND (W-24564590): server-side DPoP `htu` validation bug.
+    /// Experience Cloud sites with a URL path prefix (e.g. "/site") return an internal
+    /// community URL ("/sitevforcesite"). The server validates `htu` against the public
+    /// path and rejects the internal one with `invalid_dpop_proof` (token, refresh) or
+    /// `INVALID_AUTH_HEADER` (REST), so the internal suffix is dropped from the first path segment.
+    /// TODO: Remove the `vforcesite` rewrite below once W-24564590 is fixed.
     static func htu(_ url: URL) -> String {
         var components = URLComponents(url: url, resolvingAgainstBaseURL: false)
         components?.query = nil
         components?.fragment = nil
+        // WORKAROUND (W-24564590): map the internal "/<site>vforcesite" path to the public "/<site>" path.
+        if let path = components?.percentEncodedPath,
+           let range = path.range(of: "^/[^/]+vforcesite(?=/|$)", options: [.regularExpression, .caseInsensitive]) {
+            let segment = path[range]
+            components?.percentEncodedPath = path.replacingCharacters(in: range, with: segment.dropLast("vforcesite".count))
+        }
         return components?.url?.absoluteString ?? url.absoluteString
     }
 }

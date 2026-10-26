@@ -26,10 +26,12 @@
 #import "SalesforceSDKConstants.h"
 SFSDK_USE_DEPRECATED_BEGIN
 #import "SFOAuthSessionRefresher.h"
+#import "SFOAuthSessionRefresher+Internal.h"
 SFSDK_USE_DEPRECATED_END
 #import "SFOAuthCredentials.h"
 #import "SFApplicationHelper.h"
 #import "SFSDKCoreLogger.h"
+#import "SFUserAccountManager+Internal.h"
 
 /**
  * Private container for an in-flight refresh operation, holding the refresher
@@ -114,6 +116,8 @@ SFSDK_USE_DEPRECATED_END
                           completion:(void (^)(SFOAuthCredentials *))completionBlock
                                error:(void (^)(NSError *))errorBlock {
     NSString *key = credentials.identifier;
+    // Capture before enqueueing: reset may remove the session before our serial queue runs.
+    NSDictionary *nativeContext = [[SFUserAccountManager sharedInstance] nativeIdentityAuthenticationContextForCredentials:credentials];
     if (!key) {
         [SFSDKCoreLogger e:[self class] format:@"Cannot refresh credentials with nil identifier."];
         if (errorBlock) {
@@ -161,6 +165,11 @@ SFSDK_USE_DEPRECATED_END
         entry.refresher = self.refresherFactory
             ? self.refresherFactory(credentials)
             : [[SFOAuthSessionRefresher alloc] initWithCredentials:credentials];
+        if (nativeContext) {
+            entry.refresher.nativeRequestIsCurrent = ^BOOL {
+                return [[[SFUserAccountManager sharedInstance] isCurrentNativeAuthentication:nativeContext] boolValue];
+            };
+        }
 
         self.activeRefreshes[key] = entry;
 

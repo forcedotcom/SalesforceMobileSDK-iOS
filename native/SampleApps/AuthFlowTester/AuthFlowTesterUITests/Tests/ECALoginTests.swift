@@ -51,6 +51,11 @@ class ECALoginTests: BaseAuthFlowTester {
         launchLoginAndValidate(staticAppConfigName: .ecaOpaque, staticScopeSelection: .all)
     }
     
+    /// Login with ECA opaque using the non-hybrid flow (hybrid is covered by `testECAOpaque_DefaultScopes`).
+    func test_givenECAOpaqueNoHybrid_whenLogin_thenSessionIsValid() throws {
+        launchLoginAndValidate(staticAppConfigName: .ecaOpaque, useHybridFlow: false)
+    }
+
     // MARK: - ECA JWT Tests
     
     /// Login with ECA JWT using default scopes and web server flow.
@@ -76,6 +81,16 @@ class ECALoginTests: BaseAuthFlowTester {
             loginHost: .regularAuth,
             user: .first,
             staticAppConfigName: .ecaJwt,
+            useLoginPoolHost: true
+        )
+    }
+
+    /// Login via the pool server with an opaque token (no DPoP) and verify the session is valid.
+    func test_givenNoDPoPOpaque_whenLoginViaPoolServer_thenSessionIsValid() throws {
+        launchLoginAndValidate(
+            loginHost: .regularAuth,
+            user: .first,
+            staticAppConfigName: .ecaOpaque,
             useLoginPoolHost: true
         )
     }

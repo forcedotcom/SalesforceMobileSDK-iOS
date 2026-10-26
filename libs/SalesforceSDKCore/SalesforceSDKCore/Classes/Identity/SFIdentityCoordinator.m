@@ -27,6 +27,7 @@
 #import "SFOAuthCredentials.h"
 #import "SFSDKTokenRefreshCoordinator.h"
 #import "SFUserAccountManager.h"
+#import "SFUserAccountManager+Internal.h"
 #import "SFNetwork.h"
 #import "SFSDKAuthSession.h"
 #import "SFIdentityData+Internal.h"
@@ -55,6 +56,9 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
 @interface SFIdentityCoordinator()
 
 @property (nonatomic) NSString *networkIdentifier;
+@property (nonatomic, strong, nullable) NSDate *retrievalStartDate;
+@property (nonatomic, strong, nullable) NSUUID *nativeRetrievalGeneration;
+@property (nonatomic, strong, nullable) NSUUID *nativeAuthenticationAttempt;
 
 @end
 
@@ -66,6 +70,9 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
 @synthesize timeout = _timeout;
 @synthesize retrievingData = _retrievingData;
 @synthesize session = _session;
+@synthesize identityAttempts = _identityAttempts;
+@synthesize identityRefreshes = _identityRefreshes;
+@synthesize identityFinalStatus = _identityFinalStatus;
 
 #pragma mark - init / dealloc
 
@@ -98,6 +105,16 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
 
 - (void)initiateIdentityDataRetrieval
 {
+    if ([self isNativeIdentityRetrieval] && ![NSThread isMainThread]) {
+        dispatch_sync(dispatch_get_main_queue(), ^{ [self initiateIdentityDataRetrieval]; });
+        return;
+    }
+    if ([self isNativeIdentityRetrieval]) {
+        if (!self.nativeAuthenticationAttempt) {
+            self.nativeAuthenticationAttempt = [[SFUserAccountManager sharedInstance] nativeIdentityAuthenticationContextForCredentials:self.authSession.credentials][@"attempt"];
+        }
+        if (![self isCurrentNativeRetrievalOwner]) { return; }
+    }
     NSString *missingParameters = [self validateParameters];
     if ([missingParameters length] > 0) {
         NSError *missingParamsError = [self errorWithType:kSFIdentityErrorTypeMissingParameters description:missingParameters];
@@ -112,17 +129,51 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
         return;
     }
     self.retrievingData = YES;
+    if ([self isNativeIdentityRetrieval]) { self.nativeRetrievalGeneration = [NSUUID UUID]; }
+    self.identityAttempts = 0;
+    self.identityRefreshes = 0;
+    self.identityFinalStatus = nil;
+    self.retrievalStartDate = [NSDate date];
     
     [self sendRequest];
 }
 
 - (void)cancelRetrieval
 {
+    if ([self isNativeIdentityRetrieval] && ![NSThread isMainThread]) {
+        dispatch_sync(dispatch_get_main_queue(), ^{ [self cancelRetrieval]; });
+        return;
+    }
+    self.nativeRetrievalGeneration = nil;
     [self.session invalidateAndCancel];
     [self cleanupData];
 }
 
 #pragma mark - Private methods
+
+- (BOOL)isNativeIdentityRetrieval {
+    // authSession is weak; a retained alert must remain native even after reset releases it.
+    return self.authSession.nativeLogin || self.nativeAuthenticationAttempt != nil;
+}
+
+- (BOOL)isCurrentNativeRetrievalOwner {
+    return self.nativeAuthenticationAttempt && self.authSession
+        && self.authSession.identityCoordinator == self
+        && [[[SFUserAccountManager sharedInstance] isCurrentNativeAuthentication:@{@"session": self.authSession, @"attempt": self.nativeAuthenticationAttempt}] boolValue];
+}
+
+// Native reset reclaims the bound key on main. Serialize its continuations with
+// reset, and reject cancelled generations even if a new retrieval has started.
+// A nil captured generation denotes the unchanged non-native path.
+- (void)performForNativeGeneration:(NSUUID *)generation block:(void (^)(void))block
+{
+    if (generation && ![NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^{ [self performForNativeGeneration:generation block:block]; });
+        return;
+    }
+    if (generation && (!self.retrievingData || self.nativeRetrievalGeneration != generation || ![self isCurrentNativeRetrievalOwner])) { return; }
+    block();
+}
 
 - (NSString *)validateParameters
 {
@@ -145,6 +196,14 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
 
 - (void)sendRequest
 {
+    if ([self isNativeIdentityRetrieval] && ![NSThread isMainThread]) {
+        NSUUID *generation = self.nativeRetrievalGeneration;
+        if (!generation) { return; }
+        [self performForNativeGeneration:generation block:^{ [self sendRequest]; }];
+        return;
+    }
+    if ([self isNativeIdentityRetrieval] && (!self.retrievingData || !self.nativeRetrievalGeneration || ![self isCurrentNativeRetrievalOwner])) { return; }
+    NSUUID *generation = self.nativeRetrievalGeneration;
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:self.credentials.identityUrl
                                                                 cachePolicy:NSURLRequestReloadIgnoringCacheData
                                                             timeoutInterval:self.timeout];
@@ -162,6 +221,7 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
     }
     [request setTimeoutInterval:self.timeout];
     [request setHTTPShouldHandleCookies:NO];
+    self.identityAttempts++;
     [SFSDKCoreLogger d:[self class] format:@"SFIdentityCoordinator:Starting identity request at %@", self.credentials.identityUrl.absoluteString];
 
     __weak __typeof(self) weakSelf = self;
@@ -170,57 +230,120 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
     self.session = network.activeSession;
     [network sendRequest:request dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
-        if (error) {
-            [SFSDKCoreLogger d:[self class] format:@"SFIdentityCoordinator session failed with error: %@", error];
-            [strongSelf notifyDelegateOfFailure:error];
-            return;
-        }
+        [strongSelf performForNativeGeneration:generation block:^{
+            if (error) {
+                [SFSDKCoreLogger d:[self class] format:@"SFIdentityCoordinator session failed with error: %@", error];
+                strongSelf.identityFinalStatus = @"error";
+                [strongSelf notifyDelegateOfFailure:error];
+                return;
+            }
 
-        // The connection can succeed, but the actual HTTP response is a failure.  Check for that.
-        NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
-        if (statusCode == 401 || statusCode == 403) {
-            // The session timed out.  Identity service tends to send 403s for session timeouts.  Try to refresh.
-            [SFSDKCoreLogger i:[self class] format:@"%@: Identity request failed due to expired credentials.  Attempting to refresh credentials.", NSStringFromSelector(_cmd)];
-            [[SFSDKTokenRefreshCoordinator sharedInstance] refreshSessionForCredentials:strongSelf.credentials completion:^(SFOAuthCredentials *updatedCredentials) {
-                [SFSDKCoreLogger d:[strongSelf class] format:@"%@: Credentials refresh successful.  Replaying original identity request.", NSStringFromSelector(_cmd)];
-                strongSelf.credentials = updatedCredentials;
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [strongSelf sendRequest];
-                });
-            } error:^(NSError *refreshError) {
-                [SFSDKCoreLogger e:[strongSelf class] format:@"SFIdentityCoordinator failed to refresh expired session. Error: %@", refreshError];
-                [strongSelf notifyDelegateOfFailure:refreshError];
-            }];
-        } else if (statusCode != 200) {
-            // Some other HTTP error.
-            NSError *httpError = [self errorWithType:kSFIdentityErrorTypeBadHttpResponse
-                                         description:[NSString stringWithFormat:@"Unexpected HTTP response code from the identity service: %ld", (long)statusCode]];
-            [strongSelf notifyDelegateOfFailure:httpError];
-        } else {
-            // Successful response.  Process the return data.
-            [strongSelf processResponse:data];
-        }
+            // The connection can succeed, but the actual HTTP response is a failure.  Check for that.
+            NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+            strongSelf.identityFinalStatus = [NSString stringWithFormat:@"%ld", (long)statusCode];
+            if (statusCode == 401 || statusCode == 403) {
+                [SFSDKCoreLogger i:[self class] format:@"Identity request returned HTTP %ld errorCode=%@", (long)statusCode, [strongSelf errorCodeFromResponseData:data]];
+                // The session timed out.  Identity service tends to send 403s for session timeouts.  Try to refresh.
+                [SFSDKCoreLogger i:[self class] format:@"%@: Identity request failed due to expired credentials.  Attempting to refresh credentials.", NSStringFromSelector(_cmd)];
+                [[SFSDKTokenRefreshCoordinator sharedInstance] refreshSessionForCredentials:strongSelf.credentials completion:^(SFOAuthCredentials *updatedCredentials) {
+                    [strongSelf performForNativeGeneration:generation block:^{
+                        [SFSDKCoreLogger d:[strongSelf class] format:@"%@: Credentials refresh successful.  Replaying original identity request.", NSStringFromSelector(_cmd)];
+                        strongSelf.credentials = updatedCredentials;
+                        strongSelf.identityRefreshes++;
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [strongSelf performForNativeGeneration:generation block:^{ [strongSelf sendRequest]; }];
+                        });
+                    }];
+                } error:^(NSError *refreshError) {
+                    [strongSelf performForNativeGeneration:generation block:^{
+                        [SFSDKCoreLogger e:[strongSelf class] format:@"SFIdentityCoordinator failed to refresh expired session. Error: %@", refreshError];
+                        strongSelf.identityFinalStatus = @"refresh_failed";
+                        [strongSelf notifyDelegateOfFailure:refreshError];
+                    }];
+                }];
+            } else if (statusCode != 200) {
+                // Some other HTTP error.
+                NSError *httpError = [self errorWithType:kSFIdentityErrorTypeBadHttpResponse
+                                             description:[NSString stringWithFormat:@"Unexpected HTTP response code from the identity service: %ld", (long)statusCode]];
+                [strongSelf notifyDelegateOfFailure:httpError];
+            } else {
+                // Successful response.  Process the return data.
+                [strongSelf processResponse:data];
+            }
+        }];
     }];
 }
 
 - (void)notifyDelegateOfSuccess
 {
+    NSUUID *generation = self.nativeRetrievalGeneration;
+    [self logIdentityAttemptsSummary];
     dispatch_async(dispatch_get_main_queue(), ^{
-        if ([self.delegate respondsToSelector:@selector(identityCoordinatorRetrievedData:)]) {
-            [self.delegate identityCoordinatorRetrievedData:self];
-        }
-        [self cleanupData];
+        [self performForNativeGeneration:generation block:^{
+            if ([self.delegate respondsToSelector:@selector(identityCoordinatorRetrievedData:)]) {
+                [self.delegate identityCoordinatorRetrievedData:self];
+            }
+            [self cleanupData];
+        }];
     });
 }
 
 - (void)notifyDelegateOfFailure:(NSError *)error
 {
+    NSUUID *generation = self.nativeRetrievalGeneration;
+    [self logIdentityAttemptsSummary];
     dispatch_async(dispatch_get_main_queue(), ^{
-        if ([self.delegate respondsToSelector:@selector(identityCoordinator:didFailWithError:)]) {
-            [self.delegate identityCoordinator:self didFailWithError:error];
-        }
-        [self cleanupData];
+        [self performForNativeGeneration:generation block:^{
+            if ([self.delegate respondsToSelector:@selector(identityCoordinator:didFailWithError:)]) {
+                [self.delegate identityCoordinator:self didFailWithError:error];
+            }
+            [self cleanupData];
+        }];
     });
+}
+
+#pragma mark - Attempt counting / logging
+
+/// Extracts the error code (e.g. Wrong_Org, Bad_OAuth_Token) from an identity error body, if any. Never returns the full body.
+- (NSString *)errorCodeFromResponseData:(NSData *)data
+{
+    if (data.length == 0) {
+        return @"none";
+    }
+    id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    if ([json isKindOfClass:[NSArray class]]) {
+        json = [(NSArray *)json firstObject];
+    }
+    if ([json isKindOfClass:[NSDictionary class]]) {
+        id code = json[@"errorCode"] ?: json[@"error"];
+        if ([code isKindOfClass:[NSString class]] && [code length] > 0) {
+            return code;
+        }
+    }
+    // Not JSON: keep only a short token made of safe characters.
+    NSString *text = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    NSCharacterSet *unsafe = [[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_"] invertedSet];
+    NSString *token = [[[text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] componentsSeparatedByCharactersInSet:unsafe] firstObject];
+    return token.length > 0 ? [token substringToIndex:MIN(token.length, 40)] : @"unknown";
+}
+
+- (NSString *)identityAttemptsSummary
+{
+    SFOAuthCredentials *credentials = self.credentials;
+    NSString *domain = credentials.domain ?: @"";
+    NSString *host = [domain containsString:@"://"] ? [NSURL URLWithString:domain].host : [[domain componentsSeparatedByString:@"/"] firstObject];
+    host = host.lowercaseString ?: @"";
+    BOOL isPool = [host hasPrefix:@"login."] || [host hasPrefix:@"test."] || [domain hasPrefix:@"welcome.salesforce.com"];
+    BOOL isDPoP = [credentials.tokenType.lowercaseString isEqualToString:@"dpop"];
+    long elapsedMs = self.retrievalStartDate ? (long)([[NSDate date] timeIntervalSinceDate:self.retrievalStartDate] * 1000.0) : 0;
+    return [NSString stringWithFormat:@"IDENTITY_ATTEMPTS attempts=%lu refreshes=%lu status=%@ elapsedMs=%ld dpop=%@ community=%@ pool=%@ host=%@",
+            (unsigned long)self.identityAttempts, (unsigned long)self.identityRefreshes, self.identityFinalStatus ?: @"none", elapsedMs,
+            isDPoP ? @"true" : @"false", credentials.communityUrl ? @"true" : @"false", isPool ? @"true" : @"false", host];
+}
+
+- (void)logIdentityAttemptsSummary
+{
+    [SFSDKCoreLogger i:[self class] format:@"%@", [self identityAttemptsSummary]];
 }
 
 - (void)dealloc
@@ -234,6 +357,7 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
 
 - (void)cleanupData
 {
+    self.nativeRetrievalGeneration = nil;
     [SFNetwork removeSharedInstanceForIdentifier:self.networkIdentifier];
     self.networkIdentifier = nil;
     self.session = nil;
@@ -242,6 +366,7 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
 
 - (void)processResponse:(NSData *)data
 {
+    if ([self isNativeIdentityRetrieval] && (!self.retrievingData || !self.nativeRetrievalGeneration || ![self isCurrentNativeRetrievalOwner])) { return; }
     NSError *error = nil;
     if (data == nil) {
         error = [self errorWithType:kSFIdentityErrorTypeNoData description:@"No identity data returned in response."];

@@ -52,6 +52,16 @@
                     "password": "yourPasswordHere"
                 }
             ]
+        },
+        {
+            "name": "community_auth",
+            "url": "https://<your-community>.my.site.com/<path>",
+            "users": [
+                {
+                    "username": "tios@community.authflowtesting.msdk.sdb38.com.com",
+                    "password": "yourPasswordHere"
+                }
+            ]
         }
     ],
     "apps": [
@@ -114,6 +124,18 @@
             "consumerKey": "your_consumer_key_here",
             "redirectUri": "ecajwtdpoprtr://success/done",
             "scopes": "api content id lightning refresh_token sfap_api web"
+        },
+        {
+            "name": "eca_jwt_headless",
+            "consumerKey": "your_consumer_key_here",
+            "redirectUri": "https://<your-community>.my.site.com/<path>/services/oauth2/echo",
+            "scopes": "api content id lightning refresh_token sfap_api visualforce web"
+        },
+        {
+            "name": "eca_jwt_dpop_headless",
+            "consumerKey": "your_consumer_key_here",
+            "redirectUri": "https://<your-community>.my.site.com/<path>/services/oauth2/echo",
+            "scopes": "api content id lightning refresh_token sfap_api visualforce web"
         }
     ]
 }

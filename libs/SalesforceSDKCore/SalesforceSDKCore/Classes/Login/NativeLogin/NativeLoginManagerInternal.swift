@@ -32,6 +32,15 @@ let maximumUsernameLength = 80
 let minimumPasswordLength = 8
 let maximumPasswordLengthInBytes = 16000
 
+// takeUnretainedValue() assumes these internal methods' object returns follow
+// the documented ObjC +0 (autoreleased) convention, not a +1 ownership transfer.
+fileprivate enum NativeAuthenticationSelectors {
+    static let begin = NSSelectorFromString("beginNativeAuthentication:")
+    static let isCurrent = NSSelectorFromString("isCurrentNativeAuthentication:")
+    static let abandon = NSSelectorFromString("abandonNativeAuthentication:")
+    static let complete = NSSelectorFromString("completeNativeAuthentication:context:")
+}
+
 ///
 /// This class is internal to the Mobile SDK - don't instantiate in your application code!
 ///
@@ -55,7 +64,176 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
     private let isReCaptchaEnterprise: Bool
     
     let scene: UIScene?
+
+    /// Hybrid token choice of the SDK's debug Native Login mode. When nil (the default), the token
+    /// exchange follows `SalesforceManager.useHybridAuthentication`.
+    @objc public var useHybridAuthenticationOverride: NSNumber?
+
+    private struct AuthenticationContext {
+        let ownership: NSDictionary?
+        let credentials: OAuthCredentials?
+        let usesDPoP: Bool
+    }
+
+    private func authenticationContext() -> AuthenticationContext {
+        // Auth-session headers are private to Objective-C framework builds.
+        var configuration: [String: Any] = ["clientId": clientId, "redirectUri": redirectUri, "loginUrl": loginUrl]
+        configuration["scene"] = scene
+        #if DEBUG
+        precondition(UserAccountManager.shared.responds(to: NativeAuthenticationSelectors.begin), "Missing internal native authentication begin bridge")
+        #endif
+        let ownership = UserAccountManager.shared.perform(NativeAuthenticationSelectors.begin,
+                                                         with: configuration)?.takeUnretainedValue() as? NSDictionary
+        let session = ownership?["session"] as? NSObject
+        return AuthenticationContext(ownership: ownership,
+                                     credentials: session?.value(forKey: "credentials") as? OAuthCredentials,
+                                     usesDPoP: (session?.value(forKeyPath: "oauthRequest.useDPoP") as? NSNumber)?.boolValue ?? SalesforceManager.shared.usesDPoP)
+    }
+
+    private func isCurrentAuthentication(_ context: AuthenticationContext) -> Bool {
+        guard let ownership = context.ownership else { return false }
+        #if DEBUG
+        precondition(UserAccountManager.shared.responds(to: NativeAuthenticationSelectors.isCurrent), "Missing internal native authentication ownership bridge")
+        #endif
+        return (UserAccountManager.shared.perform(NativeAuthenticationSelectors.isCurrent,
+                                                 with: ownership)?.takeUnretainedValue() as? NSNumber)?.boolValue == true
+    }
+
+    /// Invalidates this manager's in-flight login attempt, if any, so a token response arriving later
+    /// creates no account. Attempts owned by other managers or scenes are not affected.
+    func invalidateCurrentAttempt() {
+        var configuration: [String: Any] = ["clientId": clientId, "redirectUri": redirectUri, "loginUrl": loginUrl]
+        configuration["scene"] = scene
+        UserAccountManager.shared.perform(NSSelectorFromString("cancelNativeAuthenticationsForConfiguration:"), with: configuration)
+    }
+
+    private func abandonAuthentication(_ context: AuthenticationContext) {
+        guard let ownership = context.ownership else { return }
+        #if DEBUG
+        precondition(UserAccountManager.shared.responds(to: NativeAuthenticationSelectors.abandon), "Missing internal native authentication abandon bridge")
+        #endif
+        UserAccountManager.shared.perform(NativeAuthenticationSelectors.abandon, with: ownership)
+    }
+
+    internal static func performCrypto<T>(_ work: @escaping () throws -> T) async throws -> T {
+        try await withCheckedThrowingContinuation { continuation in
+            DispatchQueue.global(qos: .userInitiated).async {
+                continuation.resume(with: Result { try work() })
+            }
+        }
+    }
+
+    private func sendAuthenticationRequest(_ request: RestRequest,
+                                           context: AuthenticationContext,
+                                           authorizationBody: String? = nil) async throws -> RestResponse {
+        guard isCurrentAuthentication(context) else {
+            throw RestClientError.invalidRequest("Native authentication was cancelled or superseded.")
+        }
+        guard context.usesDPoP else {
+            let response: RestResponse
+            do {
+                response = try await RestClient.sharedGlobal.send(request: request)
+            } catch {
+                recordDiagnostics(request, dpop: false, retry: 0, error: error)
+                throw error
+            }
+            NativeLoginDiagnostics.shared.record(path: request.path, dpop: false, retry: 0,
+                                                 urlResponse: response.urlResponse, body: nil)
+            guard isCurrentAuthentication(context) else {
+                throw RestClientError.invalidRequest("Native authentication was cancelled or superseded.")
+            }
+            return response
+        }
+        guard let credentials = context.credentials, !credentials.identifier.isEmpty,
+              let prepared = request.prepare(forSend: UserAccount(credentials: credentials)), let url = prepared.url else {
+            throw RestClientError.invalidRequest("Native DPoP authentication requires an owning auth session.")
+        }
+        let scope = credentials.identifier
+        for attempt in 0...1 {
+            let pair = try await Self.performCrypto {
+                try DPoPKeyStore.shared.keyPair(forScope: scope)
+            }
+            let nonce = try await MainActor.run { () throws -> String? in
+                guard isCurrentAuthentication(context) else {
+                    abandonAuthentication(context)
+                    throw RestClientError.invalidRequest("Native authentication was cancelled or superseded.")
+                }
+                return DPoPNonceCache.shared.nonce(htu: url, scope: scope)
+                    ?? DPoPNonceCache.shared.latest(forScope: scope)
+            }
+            let (proof, thumbprint) = try await Self.performCrypto {
+                let proof = try DPoPProofBuilder.buildProof(httpMethod: "POST", htu: url,
+                                                          nonce: nonce, accessToken: nil, keyPair: pair)
+                let thumbprint = attempt == 0 && authorizationBody != nil
+                    ? try DPoPProofBuilder.jwkThumbprint(publicKey: pair.publicKey) : nil
+                return (proof, thumbprint)
+            }
+            try await MainActor.run {
+                guard isCurrentAuthentication(context) else {
+                    throw RestClientError.invalidRequest("Native authentication was cancelled or superseded.")
+                }
+                if let thumbprint, let authorizationBody {
+                    // Bind the code to the same transaction key used by authorize and token proofs.
+                    request.setCustomRequestBodyString("\(authorizationBody)&\(kSFOAuthDPoPJktParamName)=\(thumbprint)",
+                                                       contentType: kHttpPostContentType)
+                }
+                let headers = (request.customHeaders?.mutableCopy() as? NSMutableDictionary) ?? NSMutableDictionary()
+                headers[DPoPRequestDecorator.dpopHeaderName] = proof
+                request.customHeaders = headers
+            }
+            do {
+                let response: RestResponse
+                do {
+                    response = try await RestClient.sharedGlobal.send(request: request)
+                } catch {
+                    recordDiagnostics(request, dpop: true, retry: attempt, error: error)
+                    throw error
+                }
+                NativeLoginDiagnostics.shared.record(path: request.path, dpop: true, retry: attempt,
+                                                     urlResponse: response.urlResponse, body: nil)
+                try await MainActor.run {
+                    guard isCurrentAuthentication(context) else {
+                        throw RestClientError.invalidRequest("Native authentication was cancelled or superseded.")
+                    }
+                    DPoPRequestDecorator.harvestNonce(from: response.urlResponse, requestURL: url, scope: scope)
+                }
+                return response
+            } catch let error as RestClientError {
+                guard isCurrentAuthentication(context) else { throw error }
+                if case .apiFailed(let body, _, let response) = error {
+                    try await MainActor.run {
+                        guard isCurrentAuthentication(context) else { throw error }
+                        DPoPRequestDecorator.harvestNonce(from: response, requestURL: url, scope: scope)
+                    }
+                    let http = response as? HTTPURLResponse
+                    // A nonce can accompany an ordinary authentication failure. Only an
+                    // explicit challenge may replay the password/OTP or authorization code.
+                    if attempt == 0,
+                       http?.statusCode == 400 || http?.statusCode == 401,
+                       http?.value(forHTTPHeaderField: DPoPRequestDecorator.dpopNonceHeaderName)?.isEmpty == false,
+                       let data = body as? Data,
+                       let payload = (try? JSONSerialization.jsonObject(with: data)) as? [String: Any],
+                       payload["error"] as? String == DPoPRequestDecorator.nonceErrorCode {
+                        continue
+                    }
+                }
+                throw error
+            }
+        }
+        throw RestClientError.apiResponseIsEmpty
+    }
     
+    private func recordDiagnostics(_ request: RestRequest, dpop: Bool, retry: Int, error: Error) {
+        var urlResponse: URLResponse?
+        var body: Any?
+        if case .apiFailed(let failureBody, _, let failureResponse) = error as? RestClientError {
+            urlResponse = failureResponse
+            body = failureBody
+        }
+        NativeLoginDiagnostics.shared.record(path: request.path, dpop: dpop, retry: retry,
+                                             urlResponse: urlResponse, body: body)
+    }
+
     /// A structure for the Headless Identity API's authorization endpoint response
     private struct AuthorizationResponseBody: Codable {
         let sfdc_community_url: String
@@ -130,16 +308,17 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         authRequest.setCustomRequestBodyString(authRequestBody, contentType: kHttpPostContentType)
         authRequest.requiresAuthentication = false
         authRequest.endpoint = ""
+        let context = authenticationContext()
         
         // First REST Call - Authorization
         let authorizationResponse = await handleResponseForRequest {
-            try await RestClient.sharedGlobal.send(request: authRequest)
+            try await sendAuthenticationRequest(authRequest, context: context, authorizationBody: authRequestBody)
         }
         
         // Second REST Call - Access token request with code verifier
         return await submitAccessTokenRequest(
             authorizationResponse: authorizationResponse,
-            codeVerifier: codeVerifier)
+            codeVerifier: codeVerifier, context: context)
     }
     
     public func fallbackToWebAuthentication() {
@@ -647,16 +826,18 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         authorizationRequest.setCustomRequestBodyString(
             authorizationRequestBodyString,
             contentType: kHttpPostContentType)
+        let context = authenticationContext()
         
         // Submit the authorization request and fetch the authorization response.
         let authorizationResponse = await handleResponseForRequest {
-            try await RestClient.sharedGlobal.send(request: authorizationRequest)
+            try await sendAuthenticationRequest(authorizationRequest, context: context,
+                                                authorizationBody: authorizationRequestBodyString)
         }
         
         // React to the authorization response.
         return await submitAccessTokenRequest(
             authorizationResponse: authorizationResponse,
-            codeVerifier: codeVerifier)
+            codeVerifier: codeVerifier, context: context)
     }
     
     /// Resolves a Headless Identity API headless, password-less one-time-passcode verification type
@@ -909,16 +1090,18 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
         authorizationRequest.setCustomRequestBodyString(
             authorizationRequestBodyString,
             contentType: kHttpPostContentType)
+        let context = authenticationContext()
         
         // Submit the authorization request and fetch the authorization response.
         let authorizationResponse = await handleResponseForRequest {
-            try await RestClient.sharedGlobal.send(request: authorizationRequest)
+            try await sendAuthenticationRequest(authorizationRequest, context: context,
+                                                authorizationBody: authorizationRequestBodyString)
         }
         
         // React to the authorization response.
         return await submitAccessTokenRequest(
             authorizationResponse: authorizationResponse,
-            codeVerifier: codeVerifier)
+            codeVerifier: codeVerifier, context: context)
     }
     
     /// Reacts to a response from the Headless Identity API's authorization endpoint to initiate the token
@@ -928,8 +1111,13 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
     ///   - codeVerifier: The code verifier
     private func submitAccessTokenRequest(
         authorizationResponse: Result<RestResponse, RestClientError>,
-        codeVerifier: String
+        codeVerifier: String,
+        context: AuthenticationContext
     ) async -> NativeLoginResult {
+        var handedOff = false
+        defer {
+            if !handedOff { abandonAuthentication(context) }
+        }
         
         switch authorizationResponse {
             
@@ -938,7 +1126,8 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
                 // Decode the authorization response.
                 let authorizationResponseBody = try successfulResponse.asDecodable(
                     type: AuthorizationResponseBody.self)
-                let grantType = SalesforceManager.shared.useHybridAuthentication ? kSFOAuthGrantTypeHybridAuthorizationCode : kSFOAuthGrantTypeAuthorizationCode
+                let useHybrid = useHybridAuthenticationOverride?.boolValue ?? SalesforceManager.shared.useHybridAuthentication
+                let grantType = useHybrid ? kSFOAuthGrantTypeHybridAuthorizationCode : kSFOAuthGrantTypeAuthorizationCode
                 
                 // Generate the access token request body.
                 let tokenRequestBody = "\(kSFOAuthResponseTypeCode)=\(authorizationResponseBody.code)&\(kSFOAuthGrantType)=\(grantType)&\(kSFOAuthClientId)=\(clientId)&\(kSFOAuthRedirectUri)=\(redirectUri)&\(kSFOAuthCodeVerifierParamName)=\(codeVerifier)"
@@ -957,7 +1146,7 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
                 
                 // Submit the access token request.
                 let tokenResponse = await handleResponseForRequest {
-                    try await RestClient.sharedGlobal.send(request: tokenRequest)
+                    try await sendAuthenticationRequest(tokenRequest, context: context)
                 }
                 
                 // React to the token response.
@@ -965,9 +1154,15 @@ public class NativeLoginManagerInternal: NSObject, NativeLoginManager {
                     
                 case .success(let tokenResponse): // Access token success.
                     // Create the successfully authorized user's session.
-                    UserAccountManager.shared.createNativeUserAccount(
-                        with: tokenResponse.asData(),
-                        scene:scene)
+                    guard let ownership = context.ownership else { return .unknownError }
+                    #if DEBUG
+                    precondition(UserAccountManager.shared.responds(to: NativeAuthenticationSelectors.complete), "Missing internal native authentication completion bridge")
+                    #endif
+                    guard let completed = UserAccountManager.shared.perform(
+                            NativeAuthenticationSelectors.complete,
+                            with: tokenResponse.asData(), with: ownership)?.takeUnretainedValue() as? NSNumber,
+                          completed.boolValue else { return .unknownError }
+                    handedOff = true
                     return .success
                     
                 case .failure(let error): // Access token failure.

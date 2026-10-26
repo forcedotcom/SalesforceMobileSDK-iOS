@@ -54,6 +54,26 @@ NS_ASSUME_NONNULL_BEGIN
 - (id)initWithAuthSession:(SFSDKAuthSession *)authSession;
 
 /**
+ * Number of identity requests sent since the current retrieval started (1 means accepted first time).
+ */
+@property (nonatomic, assign) NSUInteger identityAttempts;
+
+/**
+ * Number of token refreshes performed since the current retrieval started.
+ */
+@property (nonatomic, assign) NSUInteger identityRefreshes;
+
+/**
+ * Final HTTP status (as a string) or error description of the current retrieval.
+ */
+@property (nonatomic, copy, nullable) NSString *identityFinalStatus;
+
+/**
+ * Builds the one-line, greppable IDENTITY_ATTEMPTS summary for the current retrieval.
+ */
+- (NSString *)identityAttemptsSummary;
+
+/**
  * Triggers the success notifictation to the delegate.
  */
 - (void)notifyDelegateOfSuccess;
