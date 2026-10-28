@@ -26,7 +26,8 @@
  */
 
 import SwiftUI
-import SalesforceSDKCore
+// Imports the non-public Core diagnostics SPI used only by the AuthFlowTester capture switch.
+@_spi(Internal) import SalesforceSDKCore
 
 // MARK: - Labels Constants
 public struct CredentialsLabels {
@@ -253,19 +254,19 @@ struct UserCredentialsView: View {
                                     withAnimation { requestUserAgentsExpanded.toggle() }
                                 }) {
                                     HStack {
-                                        Text(SFSDKResourceUtils.localizedString("AUTH_FLOW_TESTER_REQUEST_USER_AGENTS"))
+                                        Text("Request User Agents")
                                         Spacer()
                                         Image(systemName: requestUserAgentsExpanded ? "chevron.up" : "chevron.down")
                                             .accessibilityHidden(true)
                                     }
                                 }
                                 .accessibilityIdentifier("requestUserAgents")
-                                .accessibilityValue(SFSDKResourceUtils.localizedString(requestUserAgentsExpanded ? "AUTH_FLOW_TESTER_EXPANDED" : "AUTH_FLOW_TESTER_COLLAPSED"))
+                                .accessibilityValue(requestUserAgentsExpanded ? "Expanded" : "Collapsed")
                                 if requestUserAgentsExpanded {
                                     ForEach(requestUserAgents) { entry in
                                         Text("\(entry.path) · \(entry.userKey) · \(entry.userAgent)")
                                             .font(.system(.caption, design: .monospaced))
-                                            .accessibilityIdentifier("requestUserAgent-\(entry.seq)")
+                                            .accessibilityIdentifier("requestUserAgent-\(entry.sequence)")
                                     }
                                 }
                             }
@@ -392,7 +393,7 @@ struct UserCredentialsView: View {
         #if DEBUG
         let entries = requestUserAgents
         if AppDelegate.requestUserAgentCaptureEnabled && !entries.isEmpty {
-            result[CredentialsLabels.sdk]?[CredentialsLabels.requestUserAgents] = entries.map { $0.json }
+            result[CredentialsLabels.sdk]?[CredentialsLabels.requestUserAgents] = entries.map { $0.dictionary }
         }
         #endif
 
@@ -407,7 +408,7 @@ struct UserCredentialsView: View {
     // MARK: - Computed Properties
 
     #if DEBUG
-    private var requestUserAgents: [CapturedRequestUserAgent] {
+    private var requestUserAgents: [RequestUserAgentCaptureEntry] {
         requestUserAgentCapture.publishedSnapshot
     }
     #endif

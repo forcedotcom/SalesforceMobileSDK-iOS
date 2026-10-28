@@ -408,10 +408,7 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
     __block NSString *networkIdentifier = [SFNetwork uniqueInstanceIdentifier];
     SFNetwork *network = [SFNetwork sharedEphemeralInstanceWithIdentifier:networkIdentifier];
     __weak typeof(self) weakSelf = self;
-    NSString *ownerKey = nil;
-#if DEBUG
-    ownerKey = endpointReq.ownerKey;
-#endif
+    NSString *ownerKey = endpointReq.ownerKey;
     [network sendRequest:request ownerKey:ownerKey dataResponseBlock:^(NSData *data, NSURLResponse *urlResponse, NSError *error) {
         [SFNetwork removeSharedInstanceForIdentifier:networkIdentifier];
         void (^processResponse)(void) = ^{

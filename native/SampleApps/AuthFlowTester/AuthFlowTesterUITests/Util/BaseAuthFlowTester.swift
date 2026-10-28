@@ -26,6 +26,8 @@
  */
 
 import XCTest
+// Imports the non-public Core diagnostics SPI used by request User-Agent assertions.
+@_spi(Internal) import SalesforceSDKCore
 
 // B-marker codes (why browser login was used)
 let kBrowserLoginServerAuthConfig = "B1"
@@ -95,15 +97,15 @@ class BaseAuthFlowTester: XCTestCase {
     var restRequestPath: String { "/services/data" }
 
     func requestUserAgentSequenceBoundary() -> Int {
-        getUserCredentials().requestUserAgents.map { $0.seq }.max() ?? 0
+        getUserCredentials().requestUserAgents.map { $0.sequence }.max() ?? 0
     }
 
-    static func matchesSentUserAgent(_ entry: CapturedRequestUserAgent, path: String, userKey: String, since sequence: Int, expectedUserAgent: String) -> Bool {
+    static func matchesSentUserAgent(_ entry: RequestUserAgentCaptureEntry, path: String, userKey: String, since sequence: Int, expectedUserAgent: String) -> Bool {
         // Only the resources endpoint ignores API version. All other expected paths remain exact.
         let pathMatches = path == "/services/data"
             ? entry.path.range(of: #"\A/services/data/v[0-9]+\.[0-9]+\z"#, options: .regularExpression) != nil
             : entry.path == path
-        return entry.seq > sequence && pathMatches && entry.userKey == userKey && entry.userAgent == expectedUserAgent
+        return entry.sequence > sequence && pathMatches && entry.userKey == userKey && entry.userAgent == expectedUserAgent
     }
 
     func assertSentUserAgent(path: String, user: UserCredentialsData, since sequence: Int = 0, expectedUserAgent: String? = nil, file: StaticString = #file, line: UInt = #line) {
@@ -1751,7 +1753,7 @@ class BaseAuthFlowTester: XCTestCase {
 
     private func assertRevokeAndRefreshWorks(previousCredentials: UserCredentialsData, expectsRefreshTokenRotation: Bool, isDPoP: Bool = false, loginHost: KnownLoginHostConfig = .regularAuth, expectAdvancedAuth: Bool = true, usesWelcomeDiscovery: Bool = false, isMultiUser: Bool = false, expectedBMarker: String? = nil, expectedLMarker: String? = nil, expectedAMarker: String? = nil, wasMigrated: Bool = false, isJwt: Bool = false, isBeacon: Bool = false) {
         let requestTimeCredentials = assertsRequestUserAgents ? getUserCredentials() : previousCredentials
-        let revokeBoundary = assertsRequestUserAgents ? requestTimeCredentials.requestUserAgents.map { $0.seq }.max() ?? 0 : 0
+        let revokeBoundary = assertsRequestUserAgents ? requestTimeCredentials.requestUserAgents.map { $0.sequence }.max() ?? 0 : 0
         // Revoke access token
         XCTAssert(mainPage.revokeAccessToken(), "Failed to revoke access token")
         if assertsRequestUserAgents {

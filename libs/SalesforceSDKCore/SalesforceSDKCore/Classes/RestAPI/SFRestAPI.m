@@ -361,10 +361,7 @@ successBlock:(SFRestResponseBlock)successBlock
 - (void)enqueueRequest:(SFRestRequest *)request shouldRetry:(BOOL)shouldRetry {
     __weak __typeof(self) weakSelf = self;
     SFUserAccount *user = self.user;
-    NSString *ownerKey = nil;
-#if DEBUG
-    ownerKey = [SFNetwork ownerKeyForOrgId:user.credentials.organizationId userId:user.credentials.userId];
-#endif
+    NSString *ownerKey = [SFNetwork ownerKeyForOrgId:user.credentials.organizationId userId:user.credentials.userId];
     // prepareRequestForSend: returns the SFRestRequest's own mutable request; preserve that
     // object identity so headers applied during send (e.g. User-Agent) remain visible on
     // request.request. Only copy if a caller supplied an immutable request.

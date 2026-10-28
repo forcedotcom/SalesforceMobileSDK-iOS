@@ -27,105 +27,8 @@
 
 import Foundation
 import XCTest
-import SalesforceSDKCore
-
-#if REQUEST_CAPTURE_STORE_TESTS
-import Combine
-
-// Compiled with the DEBUG capture source in a standalone XCTest harness because the UI-test runner cannot link app types.
-final class RequestUserAgentCaptureStoreTests: XCTestCase {
-    private var store = RequestUserAgentCaptureStore()
-    private let owner = "org/user"
-    private var url: URL { URL(string: "https://example.invalid/services/data/v66.0?private=value") ?? URL(fileURLWithPath: "/") }
-
-    override func tearDown() {
-        store.reset()
-        UserDefaults.standard.removeObject(forKey: AppDelegate.uiTestLastTokenRequestUserAgentDefaultsKey)
-        UserDefaults.standard.removeObject(forKey: AppDelegate.uiTestLastTokenRequestUrlDefaultsKey)
-        super.tearDown()
-    }
-
-    func test_givenTwentyFiveCaptures_whenReadingSnapshot_thenOnlyNewestTwentyPathsRemain() {
-        for index in 1...25 { store.capture(url: url, userKey: owner, userAgent: "ua-\(index)") }
-        XCTAssertEqual(store.snapshot.map { $0.seq }, Array(6...25))
-        XCTAssertEqual(store.snapshot.first?.userAgent, "ua-6")
-        XCTAssertTrue(store.snapshot.allSatisfy { $0.path == "/services/data/v66.0" })
-    }
-
-    func test_givenRetirementAndReset_whenCapturing_thenSequenceIsMonotonicUntilReset() {
-        store.capture(url: url, userKey: owner, userAgent: "ua")
-        store.retire(owner)
-        store.capture(url: url, userKey: owner, userAgent: "late")
-        store.login(owner)
-        store.capture(url: url, userKey: owner, userAgent: "new")
-        XCTAssertEqual(store.snapshot.map { $0.seq }, [2])
-        store.reset()
-        XCTAssertTrue(store.snapshot.isEmpty)
-        store.capture(url: url, userKey: owner, userAgent: "reset")
-        XCTAssertEqual(store.snapshot.map { $0.seq }, [1])
-    }
-
-    func test_givenMultipleOwners_whenLogoutCompletesLate_thenOnlyRetiredOwnerIsRejectedUntilRelogin() {
-        for key in [owner, "org/other", "unknown"] { store.capture(url: url, userKey: key, userAgent: "ua") }
-        store.retire(owner)
-        store.capture(url: url, userKey: owner, userAgent: "late")
-        XCTAssertEqual(store.snapshot.map { $0.userKey }, ["org/other", "unknown"])
-        store.login(owner)
-        store.capture(url: url, userKey: owner, userAgent: "relogin")
-        XCTAssertEqual(store.snapshot.last?.userAgent, "relogin")
-        XCTAssertEqual(store.snapshot.last?.seq, 4)
-    }
-
-    @MainActor
-    func test_givenBackgroundCapture_whenPublishing_thenObserversReceiveMainActorSnapshot() {
-        let observable = store as Any as? any ObservableObject
-        XCTAssertNotNil(observable, "Capture store must publish changes to the visible UI")
-        guard let publisher = observable?.objectWillChange as? ObservableObjectPublisher else { return }
-        let changed = expectation(description: "main actor snapshot publication")
-        let subscription = publisher.sink { _ in
-            XCTAssertTrue(Thread.isMainThread)
-            DispatchQueue.main.async {
-                XCTAssertEqual(self.store.publishedSnapshot.last?.userAgent, "background")
-                changed.fulfill()
-            }
-        }
-        let capture = DispatchWorkItem { self.store.capture(url: self.url, userKey: self.owner, userAgent: "background") }
-        DispatchQueue.global().async(execute: capture)
-        wait(for: [changed], timeout: 2)
-        withExtendedLifetime(subscription) {}
-    }
-
-    func test_givenTransactionRequests_whenMetricsArrive_thenLastSentRequestDrivesCaptureAndLegacyRows() throws {
-        let original = makeRequest(path: "/original", userAgent: "original-ua")
-        let sent = makeRequest(path: "/community/services/oauth2/token?private=value", userAgent: "sent-ua")
-        let task = CaptureTask(originalRequest: original, taskDescription: "com.salesforce.sdk.request-owner:org/user")
-        let metrics = CaptureMetrics(transactionMetrics: [CaptureTransaction(request: original), CaptureTransaction(request: sent)])
-        captureMetrics(task, metrics)
-        let entry = try XCTUnwrap(AppDelegate.requestUserAgentCapture.snapshot.last)
-        XCTAssertEqual(entry.path, "/community/services/oauth2/token")
-        XCTAssertEqual(entry.userAgent, "sent-ua")
-        XCTAssertEqual(entry.userKey, owner)
-        XCTAssertEqual(UserDefaults.standard.string(forKey: AppDelegate.uiTestLastTokenRequestUserAgentDefaultsKey), "sent-ua")
-        XCTAssertEqual(UserDefaults.standard.string(forKey: AppDelegate.uiTestLastTokenRequestUrlDefaultsKey), "https://example.invalid/community/services/oauth2/token")
-        AppDelegate.requestUserAgentCapture.reset()
-    }
-
-    func test_givenNoTransactions_whenMetricsArrive_thenOriginalRequestIsFallback() {
-        AppDelegate.requestUserAgentCapture.reset()
-        captureMetrics(CaptureTask(originalRequest: makeRequest(path: "/fallback", userAgent: "fallback-ua"), taskDescription: nil), CaptureMetrics(transactionMetrics: []))
-        XCTAssertEqual(AppDelegate.requestUserAgentCapture.snapshot.last?.path, "/fallback")
-        XCTAssertEqual(AppDelegate.requestUserAgentCapture.snapshot.last?.userAgent, "fallback-ua")
-        XCTAssertEqual(AppDelegate.requestUserAgentCapture.snapshot.last?.userKey, "unknown")
-        AppDelegate.requestUserAgentCapture.reset()
-    }
-
-    private func makeRequest(path: String, userAgent: String) -> URLRequest {
-        var request = URLRequest(url: URL(string: "https://example.invalid" + path) ?? URL(fileURLWithPath: "/"))
-        request.setValue(userAgent, forHTTPHeaderField: "User-Agent")
-        return request
-    }
-}
-#endif
+// Imports the non-public Core diagnostics SPI used to parse AuthFlowTester capture exports.
+@_spi(Internal) import SalesforceSDKCore
 
 // MARK: - Label Constants (mirroring the app's Labels structs for JSON parsing)
 
@@ -237,13 +140,6 @@ struct JwtTokenLabels {
 
 // MARK: - Data Structures
 
-struct CapturedRequestUserAgent: Equatable {
-    let path: String
-    let userKey: String
-    let userAgent: String
-    let seq: Int
-}
-
 struct UserCredentialsData {
     // User Identity
     var username: String
@@ -306,7 +202,7 @@ struct UserCredentialsData {
     var lastTokenRequestUserAgent: String
     /// Scheme, host and path of the last token request; only captured when launched with `--captureTokenRequestUserAgent`.
     var lastTokenRequestUrl: String
-    var requestUserAgents: [CapturedRequestUserAgent] = []
+    var requestUserAgents: [RequestUserAgentCaptureEntry] = []
 
     // DPoP
     var dpopTokenType: String?
@@ -976,13 +872,7 @@ class AuthFlowTesterMainPageObject {
         let beacon = json[CredentialsLabels.beacon] as? [String: String] ?? [:]
         let other = json[CredentialsLabels.other] as? [String: String] ?? [:]
         let sdk = json[CredentialsLabels.sdk] as? [String: Any] ?? [:]
-        let entries = (sdk[CredentialsLabels.requestUserAgents] as? [[String: Any]] ?? []).compactMap { entry -> CapturedRequestUserAgent? in
-            guard let path = entry["path"] as? String,
-                  let userKey = entry["userKey"] as? String,
-                  let userAgent = entry["userAgent"] as? String,
-                  let seq = entry["seq"] as? Int else { return nil }
-            return CapturedRequestUserAgent(path: path, userKey: userKey, userAgent: userAgent, seq: seq)
-        }
+        let entries = (sdk[CredentialsLabels.requestUserAgents] as? [[String: Any]] ?? []).compactMap(RequestUserAgentCaptureEntry.init(dictionary:))
 
         return UserCredentialsData(
             username: userIdentity[CredentialsLabels.username] ?? "",
@@ -1126,21 +1016,21 @@ class RequestUserAgentParsingTests: XCTestCase {
 
     func test_givenRESTPaths_whenMatchingStablePath_thenOnlyVersionedResourcesPathMatches() {
         for path in ["/services/data/v67.1", "/services/data/v100.0"] {
-            let entry = CapturedRequestUserAgent(path: path, userKey: "org/user", userAgent: "ua", seq: 8)
+            let entry = RequestUserAgentCaptureEntry(path: path, userKey: "org/user", userAgent: "ua", sequence: 8)
             XCTAssertTrue(BaseAuthFlowTester.matchesSentUserAgent(entry, path: "/services/data", userKey: "org/user", since: 7, expectedUserAgent: "ua"), path)
         }
         for path in ["/services/data", "/services/data/", "/services/data/v66", "/services/data/v66.0/query", "/services/data/v66.0/", "/services/data/v66.0extra", "/services/database/v66.0", "/services/data/v66x0", "/services/data/v66.0\n"] {
-            let entry = CapturedRequestUserAgent(path: path, userKey: "org/user", userAgent: "ua", seq: 8)
+            let entry = RequestUserAgentCaptureEntry(path: path, userKey: "org/user", userAgent: "ua", sequence: 8)
             XCTAssertFalse(BaseAuthFlowTester.matchesSentUserAgent(entry, path: "/services/data", userKey: "org/user", since: 7, expectedUserAgent: "ua"), path)
         }
     }
 
     func test_givenOAuthOrExplicitRESTPath_whenMatching_thenPathRemainsExact() {
         for path in ["/services/oauth2/token", "/services/oauth2/revoke", "/services/data/v66.0"] {
-            let entry = CapturedRequestUserAgent(path: path, userKey: "org/user", userAgent: "ua", seq: 8)
+            let entry = RequestUserAgentCaptureEntry(path: path, userKey: "org/user", userAgent: "ua", sequence: 8)
             XCTAssertTrue(BaseAuthFlowTester.matchesSentUserAgent(entry, path: path, userKey: "org/user", since: 7, expectedUserAgent: "ua"))
             for differentPath in [path + "/", path + "extra", "/prefix" + path] {
-                let other = CapturedRequestUserAgent(path: differentPath, userKey: "org/user", userAgent: "ua", seq: 8)
+                let other = RequestUserAgentCaptureEntry(path: differentPath, userKey: "org/user", userAgent: "ua", sequence: 8)
                 XCTAssertFalse(BaseAuthFlowTester.matchesSentUserAgent(other, path: path, userKey: "org/user", since: 7, expectedUserAgent: "ua"))
             }
         }
@@ -1181,7 +1071,7 @@ class RequestUserAgentParsingTests: XCTestCase {
         XCTAssertEqual(credentials.lastTokenRequestUserAgent, "token-ua")
         XCTAssertEqual(credentials.lastTokenRequestUrl, "https://example.invalid/services/oauth2/token")
         XCTAssertEqual(credentials.requestUserAgents, [
-            CapturedRequestUserAgent(path: "/services/oauth2/token", userKey: "org/user", userAgent: "token-ua", seq: 7)
+            RequestUserAgentCaptureEntry(path: "/services/oauth2/token", userKey: "org/user", userAgent: "token-ua", sequence: 7)
         ])
     }
 }

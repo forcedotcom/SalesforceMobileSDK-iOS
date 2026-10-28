@@ -27,72 +27,40 @@
 
 import UIKit
 import SalesforceSDKCommon
-import SalesforceSDKCore
+// Imports the non-public Core diagnostics SPI used only by the AuthFlowTester capture switch.
+@_spi(Internal) import SalesforceSDKCore
 import MobileCoreServices
 import UniformTypeIdentifiers
 import Combine
 
 #if DEBUG
-struct CapturedRequestUserAgent: Identifiable {
-    let path: String
-    let userKey: String
-    let userAgent: String
-    let seq: Int
-
-    var id: Int { seq }
-    var json: [String: Any] {
-        ["path": path, "userKey": userKey, "userAgent": userAgent, "seq": seq]
-    }
-}
-
-final class RequestUserAgentCaptureStore: ObservableObject {
-    @MainActor @Published private(set) var publishedSnapshot: [CapturedRequestUserAgent] = []
-    private let queue = DispatchQueue(label: "AuthFlowTester.requestUserAgents")
-    private var entries: [CapturedRequestUserAgent] = []
-    private var retiredKeys: Set<String> = []
-    private var sequence = 0
-
-    var snapshot: [CapturedRequestUserAgent] { queue.sync { entries } }
+final class RequestUserAgentCapturePublisher: ObservableObject {
+    @MainActor @Published private(set) var publishedSnapshot: [RequestUserAgentCaptureEntry] = []
+    private let store = RequestUserAgentCaptureStore()
 
     func reset() {
-        queue.sync {
-            entries.removeAll()
-            retiredKeys.removeAll()
-            sequence = 0
-            publishSnapshot()
-        }
+        store.reset(onSnapshot: publish)
     }
 
     func retire(_ userKey: String) {
-        queue.sync {
-            retiredKeys.insert(userKey)
-            entries.removeAll { $0.userKey == userKey }
-            publishSnapshot()
-        }
+        store.retire(userKey, onSnapshot: publish)
     }
 
     func login(_ userKey: String) {
-        queue.sync { _ = retiredKeys.remove(userKey) }
+        store.login(userKey)
     }
 
-    func capture(url: URL, userKey: String, userAgent: String) {
-        queue.sync {
-            guard !retiredKeys.contains(userKey) else { return }
-            sequence += 1
-            entries.append(CapturedRequestUserAgent(path: url.path, userKey: userKey, userAgent: userAgent, seq: sequence))
-            if entries.count > 20 { entries.removeFirst(entries.count - 20) }
-            if url.path.hasSuffix("/services/oauth2/token") {
-                UserDefaults.standard.set(userAgent, forKey: AppDelegate.uiTestLastTokenRequestUserAgentDefaultsKey)
-                var components = URLComponents(url: url, resolvingAgainstBaseURL: false)
-                components?.query = nil
-                UserDefaults.standard.set(components?.string ?? "", forKey: AppDelegate.uiTestLastTokenRequestUrlDefaultsKey)
-            }
-            publishSnapshot()
+    func capture(url: URL, taskDescription: String?, userAgent: String) {
+        guard store.capture(url: url, taskDescription: taskDescription, userAgent: userAgent, onSnapshot: publish) != nil else { return }
+        if url.path.hasSuffix("/services/oauth2/token") {
+            UserDefaults.standard.set(userAgent, forKey: AppDelegate.uiTestLastTokenRequestUserAgentDefaultsKey)
+            var components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+            components?.query = nil
+            UserDefaults.standard.set(components?.string ?? "", forKey: AppDelegate.uiTestLastTokenRequestUrlDefaultsKey)
         }
     }
 
-    private func publishSnapshot() {
-        let snapshot = entries
+    private func publish(_ snapshot: [RequestUserAgentCaptureEntry]) {
         // Enqueue while serialized so concurrent capture/logout/reset publications retain mutation order.
         DispatchQueue.main.async { self.publishedSnapshot = snapshot }
     }
@@ -106,7 +74,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     static let uiTestLastTokenRequestUserAgentDefaultsKey = "AuthFlowTesterLastTokenRequestUserAgent"
     static let uiTestLastTokenRequestUrlDefaultsKey = "AuthFlowTesterLastTokenRequestUrl"
     #if DEBUG
-    static let requestUserAgentCapture = RequestUserAgentCaptureStore()
+    static let requestUserAgentCapture = RequestUserAgentCapturePublisher()
     static var requestUserAgentCaptureEnabled: Bool { CommandLine.arguments.contains("--captureTokenRequestUserAgent") }
     private var captureObservers: [NSObjectProtocol] = []
     #endif
@@ -150,6 +118,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     #if DEBUG
+    /// Captures final SDK request User-Agents for UI tests only. Token requests also retain their
+    /// query-free URL so tests can verify the host and path used by a refresh.
+    /// This is enabled only for UI tests so production app behavior and diagnostics remain unchanged.
     private func configureTokenRequestUserAgentCaptureForUITesting() {
         Self.requestUserAgentCapture.reset()
         UserDefaults.standard.removeObject(forKey: Self.uiTestLastTokenRequestUserAgentDefaultsKey)
@@ -177,11 +148,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                   let userAgent = request?.value(forHTTPHeaderField: "User-Agent") else {
                 return
             }
-            // SDK-private task metadata is not a header and never depends on the current user.
-            let prefix = "com.salesforce.sdk.request-owner:"
-            let description = task.taskDescription ?? ""
-            let owner = description.hasPrefix(prefix) ? String(description.dropFirst(prefix.count)) : ""
-            Self.requestUserAgentCapture.capture(url: url, userKey: owner.isEmpty ? "unknown" : owner, userAgent: userAgent)
+            Self.requestUserAgentCapture.capture(url: url, taskDescription: task.taskDescription, userAgent: userAgent)
         }
     }
 

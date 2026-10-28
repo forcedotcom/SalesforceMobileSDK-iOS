@@ -116,9 +116,7 @@ SFSDK_USE_DEPRECATED_BEGIN
     request.tokenType = self.credentials.tokenType;
     request.attestation = attestation;
     SFUserAccount *account = [self accountForCredentials];
-#if DEBUG
     request.ownerKey = [SFNetwork ownerKeyForOrgId:account.credentials.organizationId userId:account.credentials.userId];
-#endif
     // Always stamp the UA. Resolve the credential owner explicitly; if the account is transiently nil
     // fall back to a globals-only UA rather than the ambient current user, so this refresh never carries
     // another user's per-user markers.
