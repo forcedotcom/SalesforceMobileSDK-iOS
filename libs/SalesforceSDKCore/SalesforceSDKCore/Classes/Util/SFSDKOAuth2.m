@@ -30,7 +30,7 @@
 #import "SFSDKOAuthConstants.h"
 #import "NSString+SFAdditions.h"
 #import "SFOAuthCredentials+Internal.h"
-#import "SFNetwork.h"
+#import "SFNetwork+Internal.h"
 #import <SalesforceSDKCommon/NSUserDefaults+SFAdditions.h>
 #import <SalesforceSDKCommon/SFJsonUtils.h>
 #import "NSData+SFAdditions.h"
@@ -408,7 +408,11 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
     __block NSString *networkIdentifier = [SFNetwork uniqueInstanceIdentifier];
     SFNetwork *network = [SFNetwork sharedEphemeralInstanceWithIdentifier:networkIdentifier];
     __weak typeof(self) weakSelf = self;
-    [network sendRequest:request dataResponseBlock:^(NSData *data, NSURLResponse *urlResponse, NSError *error) {
+    NSString *ownerKey = nil;
+#if DEBUG
+    ownerKey = endpointReq.ownerKey;
+#endif
+    [network sendRequest:request ownerKey:ownerKey dataResponseBlock:^(NSData *data, NSURLResponse *urlResponse, NSError *error) {
         [SFNetwork removeSharedInstanceForIdentifier:networkIdentifier];
         void (^processResponse)(void) = ^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
@@ -490,11 +494,16 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
 
 - (void)revokeRefreshToken:(SFOAuthCredentials *)credentials reason:(SFLogoutReason)reason {
     if (credentials.refreshToken != nil) {
+        NSString *ownerKey = nil;
+#if DEBUG
+        SFUserAccount *account = [[SFUserAccountManager sharedInstance] accountForCredentials:credentials];
+        ownerKey = [SFNetwork ownerKeyForOrgId:account.credentials.organizationId userId:account.credentials.userId];
+#endif
         NSMutableURLRequest *request = [SFSDKOAuth2 requestForRevokeRefreshToken:credentials reason:reason];
 
         __block NSString *networkIdentifier = [SFNetwork uniqueInstanceIdentifier];
         SFNetwork *network = [SFNetwork sharedEphemeralInstanceWithIdentifier:networkIdentifier];
-        [network sendRequest:request dataResponseBlock:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        [network sendRequest:request ownerKey:ownerKey dataResponseBlock:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
             [SFNetwork removeSharedInstanceForIdentifier:networkIdentifier];
         }];
     }

@@ -104,6 +104,7 @@ public struct CredentialsLabels {
     public static let userAgent = "User Agent"
     public static let lastTokenRequestUserAgent = "Last Token Request User Agent"
     public static let lastTokenRequestUrl = "Last Token Request URL"
+    public static let requestUserAgents = "Request User Agents"
 }
 
 struct UserCredentialsView: View {
@@ -121,6 +122,10 @@ struct UserCredentialsView: View {
     @State private var beaconExpanded = true
     @State private var otherExpanded = true
     @State private var sdkSectionExpanded = false
+    #if DEBUG
+    @ObservedObject private var requestUserAgentCapture = AppDelegate.requestUserAgentCapture
+    @State private var requestUserAgentsExpanded = false
+    #endif
     
     // Export alert state
     @State private var showExportAlert = false
@@ -242,6 +247,29 @@ struct UserCredentialsView: View {
                             InfoRowView(label: "Last Token Request URL", value: lastTokenRequestUrl)
                                 .accessibilityIdentifier("lastTokenRequestUrl")
                         }
+                        if AppDelegate.requestUserAgentCaptureEnabled && !requestUserAgents.isEmpty {
+                            VStack(alignment: .leading, spacing: 8) {
+                                Button(action: {
+                                    withAnimation { requestUserAgentsExpanded.toggle() }
+                                }) {
+                                    HStack {
+                                        Text(SFSDKResourceUtils.localizedString("AUTH_FLOW_TESTER_REQUEST_USER_AGENTS"))
+                                        Spacer()
+                                        Image(systemName: requestUserAgentsExpanded ? "chevron.up" : "chevron.down")
+                                            .accessibilityHidden(true)
+                                    }
+                                }
+                                .accessibilityIdentifier("requestUserAgents")
+                                .accessibilityValue(SFSDKResourceUtils.localizedString(requestUserAgentsExpanded ? "AUTH_FLOW_TESTER_EXPANDED" : "AUTH_FLOW_TESTER_COLLAPSED"))
+                                if requestUserAgentsExpanded {
+                                    ForEach(requestUserAgents) { entry in
+                                        Text("\(entry.path) · \(entry.userKey) · \(entry.userAgent)")
+                                            .font(.system(.caption, design: .monospaced))
+                                            .accessibilityIdentifier("requestUserAgent-\(entry.seq)")
+                                    }
+                                }
+                            }
+                        }
                         #endif
                     }
                 }
@@ -277,7 +305,7 @@ struct UserCredentialsView: View {
     }
     
     private func generateCredentialsJSON() -> String {
-        var result: [String: [String: String]] = [:]
+        var result: [String: [String: Any]] = [:]
 
         // User Identity section
         result[CredentialsLabels.userIdentity] = [
@@ -361,6 +389,12 @@ struct UserCredentialsView: View {
             CredentialsLabels.lastTokenRequestUserAgent: lastTokenRequestUserAgent,
             CredentialsLabels.lastTokenRequestUrl: lastTokenRequestUrl
         ]
+        #if DEBUG
+        let entries = requestUserAgents
+        if AppDelegate.requestUserAgentCaptureEnabled && !entries.isEmpty {
+            result[CredentialsLabels.sdk]?[CredentialsLabels.requestUserAgents] = entries.map { $0.json }
+        }
+        #endif
 
         guard let jsonData = try? JSONSerialization.data(withJSONObject: result, options: [.prettyPrinted]),
               let jsonString = String(data: jsonData, encoding: .utf8) else {
@@ -371,6 +405,12 @@ struct UserCredentialsView: View {
     }
     
     // MARK: - Computed Properties
+
+    #if DEBUG
+    private var requestUserAgents: [CapturedRequestUserAgent] {
+        requestUserAgentCapture.publishedSnapshot
+    }
+    #endif
 
     private var userAgentString: String {
         guard let user = UserAccountManager.shared.currentUserAccount else { return "" }

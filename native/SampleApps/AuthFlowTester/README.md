@@ -338,7 +338,52 @@ Tests can pass extra launch arguments through `extraLaunchArguments` (or `restar
 |----------|--------|
 | `--nativeLoginConfig=<json>` | Debug-only. Applies a Native Login configuration to `SalesforceManager.shared.debugLoginSettings` after the UI-test reset, with the JSON keys shared with Android and the Login Options import: `authenticationMode` (`native` or `browser`), `consumerKey`, `redirectUri`, `communityUrl`, `useDPoP`, `useHybridFlow`. Absent keys keep their saved value; an invalid configuration is logged and ignored. Used by `NativeLoginTests`. |
 | `--authenticationMode=native\|browser` | Debug-only. Selects the authentication mode (applied after `--nativeLoginConfig`); `native` needs a complete saved configuration. Without either argument the settings saved from Login Options are used. |
-| `--captureTokenRequestUserAgent` | Debug/UI-test-only `SFNetwork` metrics observer. The app records the User-Agent and URL (scheme, host, path) of the last `/services/oauth2/token` request and shows them as `Last Token Request User Agent` and `Last Token Request URL`. Used by `RTRLoginTests` and `CommunityLoginTests`. |
+| `--captureTokenRequestUserAgent` | Debug/UI-test-only `SFNetwork` metrics observer. Captures up to 20 SDK request User-Agents, including token, revoke, REST and identity requests. Retains the last token User-Agent and query-free URL (scheme, host, path) as `Last Token Request User Agent` and `Last Token Request URL`. Enabled for every launch/restart in Legacy, RTR and MultiUser suites; also used by Community and Native suites for the legacy token fields. |
+
+### Request User-Agent capture
+
+With the existing capture argument, User Credentials → SDK contains a nested **Request User Agents**
+disclosure when observations exist. Its actionable button has identifier `requestUserAgents` and
+accessibility value `Expanded` or `Collapsed`. Rows have identifiers `requestUserAgent-<seq>` and
+render `<path> · <userKey> · <userAgent>`.
+
+The SDK JSON section preserves all existing string values and adds a structured array:
+
+```json
+"Request User Agents": [
+  {"path": "/services/oauth2/token", "userKey": "orgId/userId", "userAgent": "SDK User-Agent", "seq": 7}
+]
+```
+
+Only these four fields are retained. `path` is `url.path`, never a host, query or fragment; capture
+does not inspect authorization headers, bodies, tokens or DPoP proofs. Owner attribution reads the
+SDK-private `com.salesforce.sdk.request-owner:` prefix from `NSURLSessionTask.taskDescription` in the
+public metrics callback, not an HTTP header or the ambient current user. Unattributed requests,
+including initial authorization-code exchange before an account exists, use `unknown`.
+
+The serially synchronized in-memory store keeps the latest 20 observations, resets at launch, and
+removes an owner's observations before logout. That key is retired so late completions cannot
+reinsert it; a subsequent login clears retirement. `unknown` observations remain. Capture replaces
+the process-global metrics sink only in DEBUG with the argument; the disclosure and array are absent
+without it. Legacy last-token scalar export values remain unchanged.
+
+`AuthFlowTesterMainPageObject.parseUserCredentials` parses heterogeneous SDK JSON into typed
+`CapturedRequestUserAgent` entries without losing the scalar User-Agent or legacy last-token fields.
+Its deterministic `RequestUserAgentParsingTests` fixture requires no org credentials.
+
+Wire assertions are separately opt-in through `assertsRequestUserAgents` in Legacy, RTR and MultiUser
+suites so other suites retain their validation behavior. `assertSentUserAgent(path:user:since:expectedUserAgent:)`
+reads fresh credential exports and matches exact path, account key and expected User-Agent after the
+operation's sequence boundary, without assuming request order. It allows metrics delivery to catch up
+and reports only captured entries on failure. The default expected UA is the selected user's current
+SDK UA; an explicit snapshot is used for request-time refresh/revoke expectations.
+
+The existing revoke/refresh validation reuses its successful post-login REST/replay request; no extra
+requests are issued solely for capture. On first RTR rotation the token request can lack `RT`, while
+the replay must use the post-response UA. The cold-restart RTR test additionally retains independent
+wire checks for persisted `RT`, `A2`, `OT` and `UA`. The distinct opaque/non-hybrid A and JWT/hybrid B
+multi-user scenario refreshes B after switching and checks its exact wire UA, preventing A's marker
+leakage. Sequence numbers establish freshness, not ordering expectations.
 
 ### Identity request diagnostics (`IDENTITY_ATTEMPTS`)
 

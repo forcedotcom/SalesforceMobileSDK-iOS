@@ -33,6 +33,26 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SFNetwork (Internal)
 
+/// Returns a diagnostic owner key for a complete org/user pair, or nil when either ID is absent.
+/// The key is intended only for DEBUG request attribution and contains no credential material.
++ (nullable NSString *)ownerKeyForOrgId:(nullable NSString *)orgId userId:(nullable NSString *)userId;
+
+/// Returns the DEBUG-only diagnostic owner key stored on a task, or nil when attribution is absent.
+/// The key is task metadata, never an HTTP header.
++ (nullable NSString *)ownerKeyForTask:(NSURLSessionTask *)task;
+
+/// Creates a suspended task and attaches the optional DEBUG-only owner key before it can be resumed.
+/// The key is stored as task metadata and is never sent on the wire.
+- (NSURLSessionDataTask *)dataTaskForRequest:(NSMutableURLRequest *)urlRequest
+                                   ownerKey:(nullable NSString *)ownerKey
+                          dataResponseBlock:(nullable SFDataResponseBlock)dataResponseBlock;
+
+/// Creates and resumes a task with optional DEBUG-only owner metadata.
+/// Passing nil preserves the ordinary unattributed request behavior.
+- (NSURLSessionDataTask *)sendRequest:(NSURLRequest *)urlRequest
+                             ownerKey:(nullable NSString *)ownerKey
+                    dataResponseBlock:(nullable SFDataResponseBlock)dataResponseBlock;
+
 /// Creates a suspended task. The caller owns publication and must explicitly resume it.
 - (NSURLSessionDataTask *)dataTaskForRequest:(NSMutableURLRequest *)urlRequest
                            dataResponseBlock:(nullable SFDataResponseBlock)dataResponseBlock;

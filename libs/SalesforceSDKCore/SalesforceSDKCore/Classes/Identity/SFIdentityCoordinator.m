@@ -28,7 +28,7 @@
 #import "SFSDKTokenRefreshCoordinator.h"
 #import "SFUserAccountManager.h"
 #import "SFUserAccountManager+Internal.h"
-#import "SFNetwork.h"
+#import "SFNetwork+Internal.h"
 #import "SFSDKAuthSession.h"
 #import "SFIdentityData+Internal.h"
 #import "SalesforceSDKCore/SalesforceSDKCore-Swift.h"
@@ -228,7 +228,12 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
     self.networkIdentifier = [SFNetwork uniqueInstanceIdentifier];
     SFNetwork *network = [SFNetwork sharedEphemeralInstanceWithIdentifier:self.networkIdentifier];
     self.session = network.activeSession;
-    [network sendRequest:request dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
+    NSString *ownerKey = nil;
+#if DEBUG
+    SFUserAccount *account = [[SFUserAccountManager sharedInstance] accountForCredentials:self.credentials];
+    ownerKey = [SFNetwork ownerKeyForOrgId:account.credentials.organizationId userId:account.credentials.userId];
+#endif
+    [network sendRequest:request ownerKey:ownerKey dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         [strongSelf performForNativeGeneration:generation block:^{
             if (error) {

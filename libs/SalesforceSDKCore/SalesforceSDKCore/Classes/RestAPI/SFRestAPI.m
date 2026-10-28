@@ -360,10 +360,15 @@ successBlock:(SFRestResponseBlock)successBlock
 
 - (void)enqueueRequest:(SFRestRequest *)request shouldRetry:(BOOL)shouldRetry {
     __weak __typeof(self) weakSelf = self;
+    SFUserAccount *user = self.user;
+    NSString *ownerKey = nil;
+#if DEBUG
+    ownerKey = [SFNetwork ownerKeyForOrgId:user.credentials.organizationId userId:user.credentials.userId];
+#endif
     // prepareRequestForSend: returns the SFRestRequest's own mutable request; preserve that
     // object identity so headers applied during send (e.g. User-Agent) remain visible on
     // request.request. Only copy if a caller supplied an immutable request.
-    NSURLRequest *preparedRequest = [request prepareRequestForSend:self.user];
+    NSURLRequest *preparedRequest = [request prepareRequestForSend:user];
     NSMutableURLRequest *finalRequest = [preparedRequest isKindOfClass:[NSMutableURLRequest class]]
         ? (NSMutableURLRequest *)preparedRequest
         : [preparedRequest mutableCopy];
@@ -378,7 +383,7 @@ successBlock:(SFRestResponseBlock)successBlock
         }
 
         __block NSURLSessionDataTask *dataTask;
-        dataTask = [network dataTaskForRequest:finalRequest dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
+        dataTask = [network dataTaskForRequest:finalRequest ownerKey:ownerKey dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             [SFNetwork removeSharedInstanceForIdentifier:instanceIdentifier];
 
