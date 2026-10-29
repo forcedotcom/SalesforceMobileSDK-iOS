@@ -127,6 +127,27 @@ class BaseAuthFlowTester: XCTestCase {
         XCTFail("No matching sent User-Agent for \(path) since \(sequence). Captured: \(credentials.requestUserAgents)", file: file, line: line)
     }
 
+    static func userAgentPrefixBeforeFeatureMarkers(_ userAgent: String) -> String {
+        guard let featureMarkerRange = userAgent.range(of: " ftr_") else { return userAgent }
+        return String(userAgent[..<featureMarkerRange.lowerBound])
+    }
+
+    private func assertSentUnaffiliatedUserAgent(path: String, expectedUserAgent: String, file: StaticString = #file, line: UInt = #line) {
+        let deadline = Date().addingTimeInterval(UITestTimeouts.long)
+        var credentials = getUserCredentials()
+        while true {
+            if credentials.requestUserAgents.contains(where: {
+                $0.path == path
+                    && $0.userKey == "unknown"
+                    && Self.userAgentPrefixBeforeFeatureMarkers($0.userAgent) == Self.userAgentPrefixBeforeFeatureMarkers(expectedUserAgent)
+            }) { return }
+            guard Date() < deadline else { break }
+            // Metrics can arrive after the identity response that updates the credential screen.
+            credentials = getUserCredentials()
+        }
+        XCTFail("No matching unaffiliated sent User-Agent for \(path). Captured: \(credentials.requestUserAgents)", file: file, line: line)
+    }
+
     override func setUp() {
         super.setUp()
         continueAfterFailure = false
@@ -1536,7 +1557,8 @@ class BaseAuthFlowTester: XCTestCase {
         )
 
         if assertsRequestUserAgents, let identityURL = URL(string: userCredentials.identityUrl) {
-            assertSentUserAgent(path: identityURL.path, user: userCredentials)
+            // Identity retrieval precedes account creation, so attribution is unknown and post-login feature markers are not present yet.
+            assertSentUnaffiliatedUserAgent(path: identityURL.path, expectedUserAgent: userCredentials.userAgent)
         }
 
         // Revoke and refresh cycle

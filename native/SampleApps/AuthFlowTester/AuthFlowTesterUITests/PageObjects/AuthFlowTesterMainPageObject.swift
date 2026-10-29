@@ -1036,6 +1036,16 @@ class RequestUserAgentParsingTests: XCTestCase {
         }
     }
 
+    func test_givenUserAgentWithFeatureMarkers_whenMatchingPreAccountRequest_thenStablePrefixMatches() {
+        let preAccountUserAgent = "SalesforceMobileSDK/14.0 iOS/27.0 (iPhone) AuthFlowTester/1.0(1) Native uid_123 ftr_AI"
+        let postAccountUserAgent = "SalesforceMobileSDK/14.0 iOS/27.0 (iPhone) AuthFlowTester/1.0(1) Native uid_123 ftr_A1.BW.DP"
+
+        XCTAssertEqual(
+            BaseAuthFlowTester.userAgentPrefixBeforeFeatureMarkers(preAccountUserAgent),
+            BaseAuthFlowTester.userAgentPrefixBeforeFeatureMarkers(postAccountUserAgent)
+        )
+    }
+
     func test_givenLegacySDKExport_whenParsing_thenScalarsRemainAndEntriesAreEmpty() {
         let credentials = AuthFlowTesterMainPageObject.parseUserCredentials([
             CredentialsLabels.sdk: [CredentialsLabels.userAgent: "legacy-ua",
