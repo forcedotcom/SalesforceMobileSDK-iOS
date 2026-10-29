@@ -51,13 +51,16 @@ final class RequestUserAgentCapturePublisher: ObservableObject {
     }
 
     func capture(url: URL, taskDescription: String?, userAgent: String) {
-        guard store.capture(url: url, taskDescription: taskDescription, userAgent: userAgent, onSnapshot: publish) != nil else { return }
-        if url.path.hasSuffix("/services/oauth2/token") {
-            UserDefaults.standard.set(userAgent, forKey: AppDelegate.uiTestLastTokenRequestUserAgentDefaultsKey)
-            var components = URLComponents(url: url, resolvingAgainstBaseURL: false)
-            components?.query = nil
-            UserDefaults.standard.set(components?.string ?? "", forKey: AppDelegate.uiTestLastTokenRequestUrlDefaultsKey)
-        }
+        _ = store.capture(
+            url: url,
+            taskDescription: taskDescription,
+            userAgent: userAgent,
+            onSnapshot: publish,
+            onTokenRequest: { userAgent, url in
+                UserDefaults.standard.set(userAgent, forKey: AppDelegate.uiTestLastTokenRequestUserAgentDefaultsKey)
+                UserDefaults.standard.set(url, forKey: AppDelegate.uiTestLastTokenRequestUrlDefaultsKey)
+            }
+        )
     }
 
     private func publish(_ snapshot: [RequestUserAgentCaptureEntry]) {
@@ -143,7 +146,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // Replaces SFNetwork's process-global metrics sink (and any prior handler); DEBUG + explicit launch argument only.
         Network.metricsCollectedAction = { _, task, metrics in
-            let request = metrics.transactionMetrics.last?.request ?? task.originalRequest
+            let request = RequestUserAgentCaptureStore.selectedRequest(
+                transactionRequests: metrics.transactionMetrics.map(\.request),
+                originalRequest: task.originalRequest
+            )
             guard let url = request?.url,
                   let userAgent = request?.value(forHTTPHeaderField: "User-Agent") else {
                 return

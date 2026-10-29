@@ -345,8 +345,6 @@ Tests can pass extra launch arguments through `extraLaunchArguments` (or `restar
 With the capture argument, User Credentials → SDK contains a nested **Request User Agents** disclosure
 when observations exist. The SDK JSON preserves existing string values and adds this structured array:
 
-The SDK JSON section preserves all existing string values and adds a structured array:
-
 ```json
 "Request User Agents": [
   {"path": "/services/oauth2/token", "userKey": "orgId/userId", "userAgent": "SDK User-Agent", "seq": 7}

@@ -1535,6 +1535,10 @@ class BaseAuthFlowTester: XCTestCase {
             expectDP: effectiveExpectDP
         )
 
+        if assertsRequestUserAgents, let identityURL = URL(string: userCredentials.identityUrl) {
+            assertSentUserAgent(path: identityURL.path, user: userCredentials)
+        }
+
         // Revoke and refresh cycle
         assertRevokeAndRefreshWorks(previousCredentials: userCredentials, expectsRefreshTokenRotation: userAppConfig.expectsRefreshTokenRotation, isDPoP: effectiveExpectDP, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, usesWelcomeDiscovery: usesWelcomeDiscovery, isMultiUser: isMultiUser, expectedBMarker: expectedBMarker, expectedLMarker: expectedLMarker, expectedAMarker: aMarker, wasMigrated: wasMigrated, isJwt: userAppConfig.issuesJwt, isBeacon: userAppConfig.isBeacon)
 

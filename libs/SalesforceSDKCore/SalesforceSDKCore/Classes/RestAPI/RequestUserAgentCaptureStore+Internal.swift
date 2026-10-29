@@ -62,6 +62,7 @@ import Foundation
 /// SPI controls who can access this API; DEBUG keeps capture state and behavior out of production binaries.
 @_spi(Internal) public final class RequestUserAgentCaptureStore {
     public static let defaultCapacity = 200
+    // Keep in sync with kSFNetworkRequestOwnerPrefix in SFNetwork.m, which writes this task metadata.
     private static let ownerPrefix = "com.salesforce.sdk.request-owner:"
 
     private let queue = DispatchQueue(label: "com.salesforce.sdk.requestUserAgents")
@@ -94,11 +95,11 @@ import Foundation
     }
 
     public func login(_ userKey: String) {
-        queue.sync { retiredKeys.remove(userKey) }
+        queue.sync { _ = retiredKeys.remove(userKey) }
     }
 
     /// Bounds diagnostics memory while leaving room for the sample app's 50-request batch.
-    public func capture(url: URL, taskDescription: String?, userAgent: String, onSnapshot: ([RequestUserAgentCaptureEntry]) -> Void) -> RequestUserAgentCaptureEntry? {
+    public func capture(url: URL, taskDescription: String?, userAgent: String, onSnapshot: ([RequestUserAgentCaptureEntry]) -> Void, onTokenRequest: ((String, String) -> Void)? = nil) -> RequestUserAgentCaptureEntry? {
         queue.sync {
             let userKey = Self.ownerKey(from: taskDescription) ?? "unknown"
             guard !retiredKeys.contains(userKey) else { return nil }
@@ -108,10 +109,21 @@ import Foundation
             if entries.count > capacity {
                 entries.removeFirst(entries.count - capacity)
             }
+            if url.path.hasSuffix("/services/oauth2/token") {
+                var components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+                components?.query = nil
+                onTokenRequest?(userAgent, components?.string ?? "")
+            }
             onSnapshot(entries)
             return entry
         }
     }
+
+    /// Uses the final transaction request after redirects or retries, falling back to the task's original request.
+    public static func selectedRequest(transactionRequests: [URLRequest?], originalRequest: URLRequest?) -> URLRequest? {
+        transactionRequests.last ?? originalRequest
+    }
+
     public static func ownerKey(from taskDescription: String?) -> String? {
         guard let taskDescription,
               taskDescription.hasPrefix(ownerPrefix) else {

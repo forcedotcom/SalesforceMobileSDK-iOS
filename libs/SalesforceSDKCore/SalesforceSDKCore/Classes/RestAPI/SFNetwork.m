@@ -36,6 +36,7 @@ NSString * const kSFNetworkBackgroundInstanceIdentifier = @"com.salesforce.netwo
 static SFSDKSafeMutableDictionary *sharedInstances = nil;
 static SFSDKMetricsCollectedBlock _metricsCollectedAction = nil;
 #if DEBUG
+// Keep in sync with RequestUserAgentCaptureStore.ownerPrefix, which parses this task metadata in Swift.
 static NSString * const kSFNetworkRequestOwnerPrefix = @"com.salesforce.sdk.request-owner:";
 #endif
 
