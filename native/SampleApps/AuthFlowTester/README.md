@@ -338,7 +338,7 @@ Tests can pass extra launch arguments through `extraLaunchArguments` (or `restar
 |----------|--------|
 | `--nativeLoginConfig=<json>` | Debug-only. Applies a Native Login configuration to `SalesforceManager.shared.debugLoginSettings` after the UI-test reset, with the JSON keys shared with Android and the Login Options import: `authenticationMode` (`native` or `browser`), `consumerKey`, `redirectUri`, `communityUrl`, `useDPoP`, `useHybridFlow`. Absent keys keep their saved value; an invalid configuration is logged and ignored. Used by `NativeLoginTests`. |
 | `--authenticationMode=native\|browser` | Debug-only. Selects the authentication mode (applied after `--nativeLoginConfig`); `native` needs a complete saved configuration. Without either argument the settings saved from Login Options are used. |
-| `--captureTokenRequestUserAgent` | Debug/UI-test-only `SFNetwork` metrics observer. Captures up to 200 SDK request User-Agents, including token, revoke, REST and identity requests. Retains the last token User-Agent and query-free URL (scheme, host, path) as `Last Token Request User Agent` and `Last Token Request URL`. Enabled for every launch/restart in Legacy, RTR and MultiUser suites; also used by Community and Native suites for the legacy token fields. |
+| `--captureTokenRequestUserAgent` | Debug/UI-test-only `SFNetwork` metrics observer. Captures up to 200 SDK request User-Agents, including token, revoke, REST and identity requests. Retains the last token User-Agent and query-free URL (scheme, host, path) as `Last Token Request User Agent` and `Last Token Request URL`. Enabled for every launch/restart in Legacy, DPoP, RTR, MultiUser, and Community suites; Native uses it for the legacy token fields. |
 
 ### Request User-Agent capture
 

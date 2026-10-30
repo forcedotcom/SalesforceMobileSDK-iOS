@@ -233,7 +233,7 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
     SFUserAccount *account = [[SFUserAccountManager sharedInstance] accountForCredentials:self.credentials];
     ownerKey = [SFNetwork ownerKeyForOrgId:account.credentials.organizationId userId:account.credentials.userId];
 #endif
-    [network sendRequest:request ownerKey:ownerKey dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
+    SFDataResponseBlock responseBlock = ^(NSData *data, NSURLResponse *response, NSError *error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         [strongSelf performForNativeGeneration:generation block:^{
             if (error) {
@@ -276,7 +276,12 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
                 [strongSelf processResponse:data];
             }
         }];
-    }];
+    };
+    if (ownerKey) {
+        [network sendRequest:request ownerKey:ownerKey dataResponseBlock:responseBlock];
+    } else {
+        [network sendRequest:request dataResponseBlock:responseBlock];
+    }
 }
 
 - (void)notifyDelegateOfSuccess
