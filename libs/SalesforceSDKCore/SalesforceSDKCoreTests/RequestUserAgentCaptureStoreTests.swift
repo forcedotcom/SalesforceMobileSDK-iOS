@@ -75,6 +75,19 @@ final class RequestUserAgentCaptureStoreTests: XCTestCase {
         XCTAssertNil(RequestUserAgentCaptureStore.ownerKey(from: ownerPrefix))
     }
 
+    func test_givenNetworkOwnerMetadata_whenParsingTaskDescription_thenStoreReturnsSameOwner() {
+        let identifier = Network.uniqueInstanceIdentifier()
+        let network = Network.sharedEphemeralInstance(withIdentifier: identifier)
+        let request = NSMutableURLRequest(url: url)
+        let task = network.dataTask(for: request, ownerKey: owner, dataResponseBlock: nil)
+        addTeardownBlock {
+            task.cancel()
+            Network.removeSharedInstance(forIdentifier: identifier)
+        }
+
+        XCTAssertEqual(RequestUserAgentCaptureStore.ownerKey(from: task.taskDescription), owner)
+    }
+
     func test_givenTransactionRequests_whenSelectingRequest_thenLastTransactionWinsOrOriginalRequestIsUsed() {
         let originalRequest = URLRequest(url: URL(string: "https://example.invalid/original")!)
         let redirectedRequest = URLRequest(url: URL(string: "https://example.invalid/redirected")!)

@@ -588,9 +588,8 @@ class MultiUserLoginTests: BaseAuthFlowTester {
         )
 
         // Switch to User B — A2 and JT must survive alongside MU
-        let userAUserAgent = getUserCredentials().userAgent
         switchToUser(loginHost: .regularAuth, user: .fifth)
-        XCTAssertNotEqual(getUserCredentials().userAgent, userAUserAgent)
+        // Exercise new User B requests; capture assertions verify User B's owner key and User-Agent.
         assertRevokeAndRefreshWorks(expectsRefreshTokenRotation: false, isMultiUser: true, isJwt: true)
         validateUserAgent(
             userCredentials: getUserCredentials(),
