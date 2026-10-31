@@ -26,6 +26,8 @@
  */
 
 import XCTest
+// Imports the non-public Core diagnostics SPI used by request User-Agent assertions.
+@_spi(Internal) import SalesforceSDKCore
 
 // B-marker codes (why browser login was used)
 let kBrowserLoginServerAuthConfig = "B1"
@@ -89,6 +91,62 @@ class BaseAuthFlowTester: XCTestCase {
     /// Extra launch arguments appended on every `launch()` and `restart()`. Subclasses set this in
     /// `setUp` (e.g. `--captureTokenRequestUserAgent` to record the last token request).
     var extraLaunchArguments: [String] = []
+    var assertsRequestUserAgents: Bool { false }
+
+    /// Stable expectation for cheapRequest's versioned resources endpoint in the app process.
+    var restRequestPath: String { "/services/data" }
+
+    func requestUserAgentSequenceBoundary() -> Int {
+        getUserCredentials().requestUserAgents.map { $0.sequence }.max() ?? 0
+    }
+
+    static func matchesSentUserAgent(_ entry: RequestUserAgentCaptureEntry, path: String, userKey: String, since sequence: Int, expectedUserAgent: String) -> Bool {
+        // Only the resources endpoint ignores API version. All other expected paths remain exact.
+        let pathMatches = path == "/services/data"
+            ? entry.path.range(of: #"\A/services/data/v[0-9]+\.[0-9]+\z"#, options: .regularExpression) != nil
+            : entry.path == path
+        return entry.sequence > sequence && pathMatches && entry.userKey == userKey && entry.userAgent == expectedUserAgent
+    }
+
+    func assertSentUserAgent(path: String, user: UserCredentialsData, since sequence: Int = 0, expectedUserAgent: String? = nil, file: StaticString = #file, line: UInt = #line) {
+        let deadline = Date().addingTimeInterval(UITestTimeouts.long)
+        var credentials = getUserCredentials()
+        while true {
+            XCTAssertEqual(credentials.username, user.username, "Selected user changed during request assertion", file: file, line: line)
+            XCTAssertEqual(credentials.organizationId, user.organizationId, file: file, line: line)
+            XCTAssertEqual(credentials.userId, user.userId, file: file, line: line)
+            let key = "\(credentials.organizationId)/\(credentials.userId)"
+            let expected = expectedUserAgent ?? credentials.userAgent
+            if credentials.requestUserAgents.contains(where: {
+                Self.matchesSentUserAgent($0, path: path, userKey: key, since: sequence, expectedUserAgent: expected)
+            }) { return }
+            guard Date() < deadline else { break }
+            // Metrics can arrive after the REST completion that updates the credential screen.
+            credentials = getUserCredentials()
+        }
+        XCTFail("No matching sent User-Agent for \(path) since \(sequence). Captured: \(credentials.requestUserAgents)", file: file, line: line)
+    }
+
+    static func userAgentPrefixBeforeFeatureMarkers(_ userAgent: String) -> String {
+        guard let featureMarkerRange = userAgent.range(of: " ftr_") else { return userAgent }
+        return String(userAgent[..<featureMarkerRange.lowerBound])
+    }
+
+    private func assertSentUnaffiliatedUserAgent(path: String, expectedUserAgent: String, file: StaticString = #file, line: UInt = #line) {
+        let deadline = Date().addingTimeInterval(UITestTimeouts.long)
+        var credentials = getUserCredentials()
+        while true {
+            if credentials.requestUserAgents.contains(where: {
+                $0.path == path
+                    && $0.userKey == "unknown"
+                    && Self.userAgentPrefixBeforeFeatureMarkers($0.userAgent) == Self.userAgentPrefixBeforeFeatureMarkers(expectedUserAgent)
+            }) { return }
+            guard Date() < deadline else { break }
+            // Metrics can arrive after the identity response that updates the credential screen.
+            credentials = getUserCredentials()
+        }
+        XCTFail("No matching unaffiliated sent User-Agent for \(path). Captured: \(credentials.requestUserAgents)", file: file, line: line)
+    }
 
     override func setUp() {
         super.setUp()
@@ -1498,6 +1556,11 @@ class BaseAuthFlowTester: XCTestCase {
             expectDP: effectiveExpectDP
         )
 
+        if assertsRequestUserAgents, let identityURL = URL(string: userCredentials.identityUrl) {
+            // Identity retrieval precedes account creation, so attribution is unknown and post-login feature markers are not present yet.
+            assertSentUnaffiliatedUserAgent(path: identityURL.path, expectedUserAgent: userCredentials.userAgent)
+        }
+
         // Revoke and refresh cycle
         assertRevokeAndRefreshWorks(previousCredentials: userCredentials, expectsRefreshTokenRotation: userAppConfig.expectsRefreshTokenRotation, isDPoP: effectiveExpectDP, loginHost: loginHost, expectAdvancedAuth: expectAdvancedAuth, usesWelcomeDiscovery: usesWelcomeDiscovery, isMultiUser: isMultiUser, expectedBMarker: expectedBMarker, expectedLMarker: expectedLMarker, expectedAMarker: aMarker, wasMigrated: wasMigrated, isJwt: userAppConfig.issuesJwt, isBeacon: userAppConfig.isBeacon)
 
@@ -1715,13 +1778,25 @@ class BaseAuthFlowTester: XCTestCase {
     }
 
     private func assertRevokeAndRefreshWorks(previousCredentials: UserCredentialsData, expectsRefreshTokenRotation: Bool, isDPoP: Bool = false, loginHost: KnownLoginHostConfig = .regularAuth, expectAdvancedAuth: Bool = true, usesWelcomeDiscovery: Bool = false, isMultiUser: Bool = false, expectedBMarker: String? = nil, expectedLMarker: String? = nil, expectedAMarker: String? = nil, wasMigrated: Bool = false, isJwt: Bool = false, isBeacon: Bool = false) {
+        let requestTimeCredentials = assertsRequestUserAgents ? getUserCredentials() : previousCredentials
+        let revokeBoundary = assertsRequestUserAgents ? requestTimeCredentials.requestUserAgents.map { $0.sequence }.max() ?? 0 : 0
         // Revoke access token
         XCTAssert(mainPage.revokeAccessToken(), "Failed to revoke access token")
+        if assertsRequestUserAgents {
+            assertSentUserAgent(path: "/services/oauth2/revoke", user: requestTimeCredentials, since: revokeBoundary, expectedUserAgent: requestTimeCredentials.userAgent)
+        }
+
+        let refreshBoundary = assertsRequestUserAgents ? requestUserAgentSequenceBoundary() : 0
 
         // Make REST request (which should trigger token refresh)
         XCTAssert(mainPage.makeRestRequest(), "Failed to make REST request")
 
         let credentialsAfterRefresh = getUserCredentials()
+        if assertsRequestUserAgents {
+            // The first rotation registers RT only after the token response; replay uses the new UA.
+            assertSentUserAgent(path: "/services/oauth2/token", user: requestTimeCredentials, since: refreshBoundary, expectedUserAgent: requestTimeCredentials.userAgent)
+            assertSentUserAgent(path: restRequestPath, user: credentialsAfterRefresh, since: refreshBoundary)
+        }
 
         // Assert access token changed
         XCTAssertNotEqual(

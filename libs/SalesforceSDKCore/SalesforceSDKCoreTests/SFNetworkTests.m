@@ -28,10 +28,12 @@
 #import "SalesforceSDKCore/SFRestAPI+Blocks.h"
 #import "SalesforceSDKCore/SalesforceSDKCore-Swift.h"
 #import "SalesforceSDKCore/SalesforceSDKManager.h"
+#import "SFNetwork+Internal.h"
 
 @interface SFNetwork (Testing)
 
 + (NSDictionary *)sharedInstances;
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didFinishCollectingMetrics:(nullable NSURLSessionTaskMetrics *)metrics;
 
 @end
 
@@ -39,6 +41,55 @@
 @end
 
 @implementation SFNetworkTests
+
+- (void)test_givenRequestOwner_whenMetricsCollected_thenOwnerIsTaskMetadataNotHTTPHeader {
+    NSString *identifier = [SFNetwork uniqueInstanceIdentifier];
+    SFNetwork *network = [SFNetwork sharedEphemeralInstanceWithIdentifier:identifier];
+    SFSDKMetricsCollectedBlock priorAction = SFNetwork.metricsCollectedAction;
+    [self addTeardownBlock:^{
+        SFNetwork.metricsCollectedAction = priorAction;
+        [SFNetwork removeSharedInstanceForIdentifier:identifier];
+    }];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://example.invalid/services/data"]];
+    [request setValue:@"Test/UserAgent" forHTTPHeaderField:@"User-Agent"];
+    NSString *ownerKey = @"00D000000000001/005000000000001";
+    NSURLSessionDataTask *task = [network dataTaskForRequest:request ownerKey:ownerKey dataResponseBlock:nil];
+    XCTAssertEqual(task.state, NSURLSessionTaskStateSuspended);
+    __block NSString *observedOwner;
+    SFNetwork.metricsCollectedAction = ^(NSURLSession *session, NSURLSessionTask *metricsTask, NSURLSessionTaskMetrics *metrics) {
+        NSString *prefix = @"com.salesforce.sdk.request-owner:";
+        if ([metricsTask.taskDescription hasPrefix:prefix]) {
+            observedOwner = [metricsTask.taskDescription substringFromIndex:prefix.length];
+        }
+    };
+    [network URLSession:network.activeSession task:task didFinishCollectingMetrics:nil];
+#if DEBUG
+    XCTAssertEqualObjects(observedOwner, ownerKey);
+    XCTAssertEqualObjects([SFNetwork ownerKeyForTask:task], ownerKey);
+    XCTAssertEqualObjects(task.taskDescription, [@"com.salesforce.sdk.request-owner:" stringByAppendingString:ownerKey]);
+    XCTAssertEqualObjects([SFNetwork ownerKeyForOrgId:@"00D000000000001" userId:@"005000000000001"], ownerKey);
+#else
+    XCTAssertNil(observedOwner);
+    XCTAssertNil([SFNetwork ownerKeyForTask:task]);
+    XCTAssertNil(task.taskDescription);
+    XCTAssertNil([SFNetwork ownerKeyForOrgId:@"00D000000000001" userId:@"005000000000001"]);
+    task.taskDescription = [@"com.salesforce.sdk.request-owner:" stringByAppendingString:ownerKey];
+    XCTAssertNil([SFNetwork ownerKeyForTask:task]);
+#endif
+    XCTAssertEqualObjects(task.originalRequest.allHTTPHeaderFields, (@{@"User-Agent": @"Test/UserAgent"}));
+    XCTAssertNil([task.originalRequest valueForHTTPHeaderField:@"taskDescription"]);
+    XCTAssertNil([SFNetwork ownerKeyForOrgId:nil userId:@"005000000000001"]);
+    XCTAssertNil([SFNetwork ownerKeyForOrgId:@"00D000000000001" userId:@""]);
+    task.taskDescription = @"unrelated task metadata";
+    XCTAssertNil([SFNetwork ownerKeyForTask:task]);
+    task.taskDescription = @"com.salesforce.sdk.request-owner:";
+    XCTAssertNil([SFNetwork ownerKeyForTask:task]);
+    NSURLSessionDataTask *unattributedTask = [network dataTaskForRequest:request ownerKey:nil dataResponseBlock:nil];
+    XCTAssertNil(unattributedTask.taskDescription);
+    XCTAssertNil([SFNetwork ownerKeyForTask:unattributedTask]);
+    [unattributedTask cancel];
+    [task cancel];
+}
 
 - (void)testSessionSharing {
     // Default ephemeral instance

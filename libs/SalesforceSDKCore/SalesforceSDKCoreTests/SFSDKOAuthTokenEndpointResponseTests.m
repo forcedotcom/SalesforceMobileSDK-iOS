@@ -29,6 +29,7 @@
 #import <objc/runtime.h>
 #import "SFSDKOAuth2+Internal.h"
 #import "SFNetwork.h"
+#import "SFNetwork+Internal.h"
 #import "SalesforceSDKManager.h"
 
 @interface SFSDKOAuthTokenEndpointResponse ()
@@ -46,6 +47,7 @@
 
 @interface SFSDKOAuthNonceRetryNetworkStub : SFNetwork
 @property (nonatomic, strong) NSMutableArray<NSURLRequest *> *capturedRequests;
+@property (nonatomic, strong) NSMutableArray<NSString *> *capturedOwnerKeys;
 @end
 
 @implementation SFSDKOAuthNonceRetryNetworkStub
@@ -54,8 +56,14 @@
     self = [super init];
     if (self) {
         _capturedRequests = [NSMutableArray new];
+        _capturedOwnerKeys = [NSMutableArray new];
     }
     return self;
+}
+
+- (NSURLSessionDataTask *)sendRequest:(NSURLRequest *)urlRequest ownerKey:(NSString *)ownerKey dataResponseBlock:(SFDataResponseBlock)dataResponseBlock {
+    [self.capturedOwnerKeys addObject:ownerKey ?: @""];
+    return [self sendRequest:urlRequest dataResponseBlock:dataResponseBlock];
 }
 
 - (NSURLSessionDataTask *)sendRequest:(NSURLRequest *)urlRequest dataResponseBlock:(SFDataResponseBlock)dataResponseBlock {
@@ -236,6 +244,8 @@ static SFSDKOAuthNonceRetryNetworkStub *sNonceRetryNetworkStub;
     SFSDKOAuthTokenEndpointRequest *endpointReq = [[SFSDKOAuthTokenEndpointRequest alloc] init];
     endpointReq.credentialsIdentifier = [NSString stringWithFormat:@"nonce-retry-%@", NSUUID.UUID.UUIDString];
     endpointReq.userAgent = expectedUserAgent;
+    NSString *expectedOwnerKey = @"00D000000000001/005000000000001";
+    endpointReq.ownerKey = expectedOwnerKey;
 
     NSMutableURLRequest *request = [NSMutableURLRequest
                                     requestWithURL:[NSURL URLWithString:@"https://login.salesforce.com/services/oauth2/token"]];
@@ -254,6 +264,11 @@ static SFSDKOAuthNonceRetryNetworkStub *sNonceRetryNetworkStub;
 
     XCTAssertEqual(sNonceRetryNetworkStub.capturedRequests.count, 2,
                    @"A DPoP nonce challenge should produce exactly one retry");
+#if DEBUG
+    XCTAssertEqualObjects(sNonceRetryNetworkStub.capturedOwnerKeys, (@[expectedOwnerKey, expectedOwnerKey]));
+#else
+    XCTAssertEqualObjects(sNonceRetryNetworkStub.capturedOwnerKeys, (@[@"", @""]));
+#endif
     for (NSURLRequest *capturedRequest in sNonceRetryNetworkStub.capturedRequests) {
         XCTAssertEqualObjects([capturedRequest valueForHTTPHeaderField:@"User-Agent"], expectedUserAgent,
                               @"The explicit User-Agent must be reused unchanged on the nonce retry");

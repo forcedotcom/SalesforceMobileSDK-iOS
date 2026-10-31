@@ -27,9 +27,48 @@
 
 import UIKit
 import SalesforceSDKCommon
-import SalesforceSDKCore
+// Imports the non-public Core diagnostics SPI used only by the AuthFlowTester capture switch.
+@_spi(Internal) import SalesforceSDKCore
 import MobileCoreServices
 import UniformTypeIdentifiers
+import Combine
+
+#if DEBUG
+final class RequestUserAgentCapturePublisher: ObservableObject {
+    @MainActor @Published private(set) var publishedSnapshot: [RequestUserAgentCaptureEntry] = []
+    private let store = RequestUserAgentCaptureStore()
+
+    func reset() {
+        store.reset(onSnapshot: publish)
+    }
+
+    func retire(_ userKey: String) {
+        store.retire(userKey, onSnapshot: publish)
+    }
+
+    func login(_ userKey: String) {
+        store.login(userKey)
+    }
+
+    func capture(url: URL, taskDescription: String?, userAgent: String) {
+        _ = store.capture(
+            url: url,
+            taskDescription: taskDescription,
+            userAgent: userAgent,
+            onSnapshot: publish,
+            onTokenRequest: { userAgent, url in
+                UserDefaults.standard.set(userAgent, forKey: AppDelegate.uiTestLastTokenRequestUserAgentDefaultsKey)
+                UserDefaults.standard.set(url, forKey: AppDelegate.uiTestLastTokenRequestUrlDefaultsKey)
+            }
+        )
+    }
+
+    private func publish(_ snapshot: [RequestUserAgentCaptureEntry]) {
+        // Enqueue while serialized so concurrent capture/logout/reset publications retain mutation order.
+        DispatchQueue.main.async { self.publishedSnapshot = snapshot }
+    }
+}
+#endif
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -37,6 +76,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     static let uiTestLastTokenRequestUserAgentDefaultsKey = "AuthFlowTesterLastTokenRequestUserAgent"
     static let uiTestLastTokenRequestUrlDefaultsKey = "AuthFlowTesterLastTokenRequestUrl"
+    #if DEBUG
+    static let requestUserAgentCapture = RequestUserAgentCapturePublisher()
+    static var requestUserAgentCaptureEnabled: Bool { CommandLine.arguments.contains("--captureTokenRequestUserAgent") }
+    private var captureObservers: [NSObjectProtocol] = []
+    #endif
 
     private struct UITestLoginHost {
         let name: String
@@ -77,26 +121,40 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     #if DEBUG
-    /// Captures the final User-Agent and URL (without query) of SFNetwork token-endpoint requests. The
-    /// URL lets UI tests verify which host and path (e.g. a community path prefix) a refresh used.
+    /// Captures final SDK request User-Agents for UI tests only. Token requests also retain their
+    /// query-free URL so tests can verify the host and path used by a refresh.
     /// This is enabled only for UI tests so production app behavior and diagnostics remain unchanged.
     private func configureTokenRequestUserAgentCaptureForUITesting() {
+        Self.requestUserAgentCapture.reset()
         UserDefaults.standard.removeObject(forKey: Self.uiTestLastTokenRequestUserAgentDefaultsKey)
         UserDefaults.standard.removeObject(forKey: Self.uiTestLastTokenRequestUrlDefaultsKey)
-        guard CommandLine.arguments.contains("--captureTokenRequestUserAgent") else { return }
+        guard Self.requestUserAgentCaptureEnabled else { return }
+
+        for name in [UserAccountManager.willLogoutUser, UserAccountManager.didLogInUser] {
+            captureObservers.append(NotificationCenter.default.addObserver(forName: name, object: nil, queue: nil) { notification in
+                guard let account = notification.userInfo?[UserAccountManager.userInfoAccountKey] as? UserAccount,
+                      let orgId = account.credentials.organizationId, !orgId.isEmpty,
+                      let userId = account.credentials.userId, !userId.isEmpty else { return }
+                let key = "\(orgId)/\(userId)"
+                if notification.name == UserAccountManager.willLogoutUser {
+                    Self.requestUserAgentCapture.retire(key)
+                } else {
+                    Self.requestUserAgentCapture.login(key)
+                }
+            })
+        }
 
         // Replaces SFNetwork's process-global metrics sink (and any prior handler); DEBUG + explicit launch argument only.
-        Network.metricsCollectedAction = { _, task, _ in
-            // hasSuffix: a community token endpoint is prefixed by the community path.
-            guard let url = task.originalRequest?.url,
-                  url.path.hasSuffix("/services/oauth2/token"),
-                  let userAgent = task.originalRequest?.value(forHTTPHeaderField: "User-Agent") else {
+        Network.metricsCollectedAction = { _, task, metrics in
+            let request = RequestUserAgentCaptureStore.selectedRequest(
+                transactionRequests: metrics.transactionMetrics.map(\.request),
+                originalRequest: task.originalRequest
+            )
+            guard let url = request?.url,
+                  let userAgent = request?.value(forHTTPHeaderField: "User-Agent") else {
                 return
             }
-            UserDefaults.standard.set(userAgent, forKey: Self.uiTestLastTokenRequestUserAgentDefaultsKey)
-            var components = URLComponents(url: url, resolvingAgainstBaseURL: false)
-            components?.query = nil
-            UserDefaults.standard.set(components?.string ?? "", forKey: Self.uiTestLastTokenRequestUrlDefaultsKey)
+            Self.requestUserAgentCapture.capture(url: url, taskDescription: task.taskDescription, userAgent: userAgent)
         }
     }
 

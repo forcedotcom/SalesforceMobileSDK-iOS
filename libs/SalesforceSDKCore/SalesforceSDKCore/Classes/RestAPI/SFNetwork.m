@@ -35,6 +35,10 @@ NSString * const kSFNetworkEphemeralInstanceIdentifier = @"com.salesforce.networ
 NSString * const kSFNetworkBackgroundInstanceIdentifier = @"com.salesforce.network.backgroundSession";
 static SFSDKSafeMutableDictionary *sharedInstances = nil;
 static SFSDKMetricsCollectedBlock _metricsCollectedAction = nil;
+#if DEBUG
+// Keep in sync with RequestUserAgentCaptureStore.ownerPrefix, which parses this task metadata in Swift.
+static NSString * const kSFNetworkRequestOwnerPrefix = @"com.salesforce.sdk.request-owner:";
+#endif
 
 @interface SFNetwork()<NSURLSessionDelegate, NSURLSessionTaskDelegate>
 
@@ -100,11 +104,49 @@ static SFSDKMetricsCollectedBlock _metricsCollectedAction = nil;
     [dataTask resume];
 }
 
++ (NSString *)ownerKeyForOrgId:(NSString *)orgId userId:(NSString *)userId {
+#if DEBUG
+    if (orgId.length == 0 || userId.length == 0) {
+        return nil;
+    }
+    return [NSString stringWithFormat:@"%@/%@", orgId, userId];
+#else
+    return nil;
+#endif
+}
+
++ (NSString *)ownerKeyForTask:(NSURLSessionTask *)task {
+#if DEBUG
+    NSString *description = task.taskDescription;
+    if (![description hasPrefix:kSFNetworkRequestOwnerPrefix]) {
+        return nil;
+    }
+    NSString *ownerKey = [description substringFromIndex:kSFNetworkRequestOwnerPrefix.length];
+    return ownerKey.length > 0 ? ownerKey : nil;
+#else
+    return nil;
+#endif
+}
+
+- (NSURLSessionDataTask *)dataTaskForRequest:(NSMutableURLRequest *)urlRequest ownerKey:(NSString *)ownerKey dataResponseBlock:(SFDataResponseBlock)dataResponseBlock {
+    NSURLSessionDataTask *dataTask = [self dataTaskForRequest:urlRequest dataResponseBlock:dataResponseBlock];
+#if DEBUG
+    if (ownerKey.length > 0) {
+        dataTask.taskDescription = [kSFNetworkRequestOwnerPrefix stringByAppendingString:ownerKey];
+    }
+#endif
+    return dataTask;
+}
+
 - (NSURLSessionDataTask *)sendRequest:(NSURLRequest *)urlRequest dataResponseBlock:(SFDataResponseBlock)dataResponseBlock {
+    return [self sendRequest:urlRequest ownerKey:nil dataResponseBlock:dataResponseBlock];
+}
+
+- (NSURLSessionDataTask *)sendRequest:(NSURLRequest *)urlRequest ownerKey:(NSString *)ownerKey dataResponseBlock:(SFDataResponseBlock)dataResponseBlock {
     NSMutableURLRequest *requestToSend = [urlRequest isKindOfClass:[NSMutableURLRequest class]]
         ? (NSMutableURLRequest *)urlRequest
         : [urlRequest mutableCopy];
-    NSURLSessionDataTask *dataTask = [self dataTaskForRequest:requestToSend dataResponseBlock:dataResponseBlock];
+    NSURLSessionDataTask *dataTask = [self dataTaskForRequest:requestToSend ownerKey:ownerKey dataResponseBlock:dataResponseBlock];
     [self resumeDataTask:dataTask];
     return dataTask;
 }
