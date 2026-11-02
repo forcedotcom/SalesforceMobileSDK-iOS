@@ -27,7 +27,8 @@
 
 import Foundation
 import XCTest
-import SalesforceSDKCore
+// Imports the non-public Core diagnostics SPI used to parse AuthFlowTester capture exports.
+@_spi(Internal) import SalesforceSDKCore
 
 // MARK: - Label Constants (mirroring the app's Labels structs for JSON parsing)
 
@@ -106,6 +107,7 @@ struct CredentialsLabels {
     static let userAgent = "User Agent"
     static let lastTokenRequestUserAgent = "Last Token Request User Agent"
     static let lastTokenRequestUrl = "Last Token Request URL"
+    static let requestUserAgents = "Request User Agents"
 }
 
 struct OAuthConfigLabels {
@@ -200,6 +202,7 @@ struct UserCredentialsData {
     var lastTokenRequestUserAgent: String
     /// Scheme, host and path of the last token request; only captured when launched with `--captureTokenRequestUserAgent`.
     var lastTokenRequestUrl: String
+    var requestUserAgents: [RequestUserAgentCaptureEntry] = []
 
     // DPoP
     var dpopTokenType: String?
@@ -853,6 +856,10 @@ class AuthFlowTesterMainPageObject {
     func getUserCredentials() -> UserCredentialsData {
         // Tap export button and get JSON
         let json = tapExportAndGetJSON(exportCredentialsButton(), alertTitle: "Credentials JSON")
+        return Self.parseUserCredentials(json)
+    }
+
+    static func parseUserCredentials(_ json: [String: Any]) -> UserCredentialsData {
         
         // Parse JSON sections
         let userIdentity = json[CredentialsLabels.userIdentity] as? [String: String] ?? [:]
@@ -864,7 +871,8 @@ class AuthFlowTesterMainPageObject {
         let cookiesAndSecurity = json[CredentialsLabels.cookiesAndSecurity] as? [String: String] ?? [:]
         let beacon = json[CredentialsLabels.beacon] as? [String: String] ?? [:]
         let other = json[CredentialsLabels.other] as? [String: String] ?? [:]
-        let sdk = json[CredentialsLabels.sdk] as? [String: String] ?? [:]
+        let sdk = json[CredentialsLabels.sdk] as? [String: Any] ?? [:]
+        let entries = (sdk[CredentialsLabels.requestUserAgents] as? [[String: Any]] ?? []).compactMap(RequestUserAgentCaptureEntry.init(dictionary:))
 
         return UserCredentialsData(
             username: userIdentity[CredentialsLabels.username] ?? "",
@@ -905,9 +913,10 @@ class AuthFlowTesterMainPageObject {
             beaconChildConsumerKey: beacon[CredentialsLabels.beaconChildConsumerKey] ?? "",
             beaconChildConsumerSecret: beacon[CredentialsLabels.beaconChildConsumerSecret] ?? "",
             additionalOAuthFields: other[CredentialsLabels.additionalOAuthFields] ?? "",
-            userAgent: sdk[CredentialsLabels.userAgent] ?? "",
-            lastTokenRequestUserAgent: sdk[CredentialsLabels.lastTokenRequestUserAgent] ?? "",
-            lastTokenRequestUrl: sdk[CredentialsLabels.lastTokenRequestUrl] ?? "",
+            userAgent: sdk[CredentialsLabels.userAgent] as? String ?? "",
+            lastTokenRequestUserAgent: sdk[CredentialsLabels.lastTokenRequestUserAgent] as? String ?? "",
+            lastTokenRequestUrl: sdk[CredentialsLabels.lastTokenRequestUrl] as? String ?? "",
+            requestUserAgents: entries,
             dpopTokenType: tokens[CredentialsLabels.oauthTokenType],
             dpopNonce: tokens[CredentialsLabels.dpopNonce]
         )

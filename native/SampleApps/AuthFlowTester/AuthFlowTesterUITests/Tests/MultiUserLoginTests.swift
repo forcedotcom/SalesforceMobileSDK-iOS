@@ -37,6 +37,12 @@ import XCTest
 /// NB: Tests use the fourth and fifth user from ui_test_config.json
 ///
 class MultiUserLoginTests: BaseAuthFlowTester {
+    override var assertsRequestUserAgents: Bool { true }
+
+    override func setUp() {
+        super.setUp()
+        extraLaunchArguments = ["--captureTokenRequestUserAgent"]
+    }
         
     // MARK: - Both Users Static Config
     
@@ -583,6 +589,8 @@ class MultiUserLoginTests: BaseAuthFlowTester {
 
         // Switch to User B — A2 and JT must survive alongside MU
         switchToUser(loginHost: .regularAuth, user: .fifth)
+        // Exercise new User B requests; capture assertions verify User B's owner key and User-Agent.
+        assertRevokeAndRefreshWorks(expectsRefreshTokenRotation: false, isMultiUser: true, isJwt: true)
         validateUserAgent(
             userCredentials: getUserCredentials(),
             loginHost: .regularAuth,

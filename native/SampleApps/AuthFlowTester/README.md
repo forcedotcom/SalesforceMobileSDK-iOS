@@ -338,7 +338,25 @@ Tests can pass extra launch arguments through `extraLaunchArguments` (or `restar
 |----------|--------|
 | `--nativeLoginConfig=<json>` | Debug-only. Applies a Native Login configuration to `SalesforceManager.shared.debugLoginSettings` after the UI-test reset, with the JSON keys shared with Android and the Login Options import: `authenticationMode` (`native` or `browser`), `consumerKey`, `redirectUri`, `communityUrl`, `useDPoP`, `useHybridFlow`. Absent keys keep their saved value; an invalid configuration is logged and ignored. Used by `NativeLoginTests`. |
 | `--authenticationMode=native\|browser` | Debug-only. Selects the authentication mode (applied after `--nativeLoginConfig`); `native` needs a complete saved configuration. Without either argument the settings saved from Login Options are used. |
-| `--captureTokenRequestUserAgent` | Debug/UI-test-only `SFNetwork` metrics observer. The app records the User-Agent and URL (scheme, host, path) of the last `/services/oauth2/token` request and shows them as `Last Token Request User Agent` and `Last Token Request URL`. Used by `RTRLoginTests` and `CommunityLoginTests`. |
+| `--captureTokenRequestUserAgent` | Debug/UI-test-only `SFNetwork` metrics observer. Captures up to 200 SDK request User-Agents, including token, revoke, REST and identity requests. Retains the last token User-Agent and query-free URL (scheme, host, path) as `Last Token Request User Agent` and `Last Token Request URL`. Enabled for every launch/restart in Legacy, DPoP, RTR, MultiUser, and Community suites; Native uses it for the legacy token fields. |
+
+### Request User-Agent capture
+
+With the capture argument, User Credentials → SDK contains a nested **Request User Agents** disclosure
+when observations exist. The SDK JSON preserves existing string values and adds this structured array:
+
+```json
+"Request User Agents": [
+  {"path": "/services/oauth2/token", "userKey": "orgId/userId", "userAgent": "SDK User-Agent", "seq": 7}
+]
+```
+
+`path` is `url.path` and never includes a host, query, or fragment. Owner attribution is best-effort:
+the initial authorization-code exchange and revocation after account removal can appear as `unknown`.
+
+Use `assertSentUserAgent(path:user:since:expectedUserAgent:)` in an opt-in UI-test suite to wait for
+and assert an outbound request after a sequence boundary. It matches the path, account key, and
+expected User-Agent without assuming request order.
 
 ### Identity request diagnostics (`IDENTITY_ATTEMPTS`)
 

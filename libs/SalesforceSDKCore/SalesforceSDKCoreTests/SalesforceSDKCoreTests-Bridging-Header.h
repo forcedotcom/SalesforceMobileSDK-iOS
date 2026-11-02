@@ -14,6 +14,7 @@
 #import "SFOAuthCredentials+Internal.h"
 #import "SFSDKOAuth2.h"
 #import "SFLoginViewController.h"
+#import "SFNetwork+Internal.h"
 
 // Exposes the private `+clearAllComponents` selector so SFSDKDPoPTests can flush
 // cached per-component loggers and force them to re-bind to a freshly installed

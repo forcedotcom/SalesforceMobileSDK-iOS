@@ -34,6 +34,10 @@ NS_ASSUME_NONNULL_BEGIN
 /// Request-scoped User-Agent for flows that already know the account being authenticated.
 /// When nil, SFNetwork retains its legacy ambient-current-user fallback.
 @property (nonatomic, copy, nullable) NSString *userAgent;
+
+/// DEBUG-only diagnostic owner key propagated to the token request's task metadata.
+/// It is never serialized into the token request or used to select credentials.
+@property (nonatomic, copy, nullable) NSString *ownerKey;
 /// Native identity transaction ownership; nil preserves ordinary OAuth behavior.
 @property (nonatomic, copy, nullable) BOOL (^nativeRequestIsCurrent)(void);
 @end

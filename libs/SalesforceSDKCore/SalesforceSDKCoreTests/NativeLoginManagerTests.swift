@@ -745,6 +745,8 @@ final class NativeLoginManagerTests: XCTestCase {
             try await withNativeSession { manager, session, identifier in
                 let send = try XCTUnwrap(class_getInstanceMethod(Network.self, NSSelectorFromString("sendRequest:dataResponseBlock:")))
                 let capture = try XCTUnwrap(class_getInstanceMethod(Network.self, #selector(Network.nativeTestHoldLifecycleRequest(_:dataResponseBlock:))))
+                let ownedSend = try XCTUnwrap(class_getInstanceMethod(Network.self, NSSelectorFromString("sendRequest:ownerKey:dataResponseBlock:")))
+                let ownedCapture = try XCTUnwrap(class_getInstanceMethod(Network.self, #selector(Network.nativeTestHoldLifecycleOwnedRequest(_:ownerKey:dataResponseBlock:))))
                 let refreshClass: AnyClass = try XCTUnwrap(NSClassFromString("SFSDKTokenRefreshCoordinator"))
                 let refresh = try XCTUnwrap(class_getInstanceMethod(refreshClass, NSSelectorFromString("refreshSessionForCredentials:completion:error:")))
                 let observeRefresh = try XCTUnwrap(class_getInstanceMethod(NSObject.self, #selector(NSObject.nativeTestObserveRealRefresh(_:completion:error:))))
@@ -762,10 +764,12 @@ final class NativeLoginManagerTests: XCTestCase {
                     started.fulfill()
                 }
                 method_exchangeImplementations(send, capture)
+                method_exchangeImplementations(ownedSend, ownedCapture)
                 method_exchangeImplementations(refresh, observeRefresh)
                 defer {
                     session.identityCoordinator.cancelRetrieval()
                     method_exchangeImplementations(send, capture)
+                    method_exchangeImplementations(ownedSend, ownedCapture)
                     method_exchangeImplementations(refresh, observeRefresh)
                     NativeLifecycleCapture.onRefreshCompleted = nil
                     NativeLifecycleCapture.onRefresh = nil
@@ -2278,6 +2282,23 @@ private extension Network {
             DispatchQueue.main.async { dataResponseBlock(Data(), response, nil) }
         }
         // An inert task: no external request is ever resumed.
+        return URLSession.shared.dataTask(with: request)
+    }
+
+    @objc func nativeTestHoldLifecycleOwnedRequest(_ request: URLRequest,
+                                                    ownerKey: String?,
+                                                    dataResponseBlock: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
+        guard request.url?.path == "/services/oauth2/token" else {
+            return nativeTestHoldLifecycleOwnedRequest(request, ownerKey: ownerKey, dataResponseBlock: dataResponseBlock)
+        }
+        NativeLifecycleCapture.requests.append(request)
+        var pendingResponse: ((Data?, URLResponse?, Error?) -> Void)? = dataResponseBlock
+        NativeLifecycleCapture.responses.append { data, response, error in
+            guard let callback = pendingResponse else { return }
+            pendingResponse = nil
+            callback(data, response, error)
+        }
+        NativeLifecycleCapture.onRefresh?()
         return URLSession.shared.dataTask(with: request)
     }
 }
