@@ -878,6 +878,96 @@ final class FrontdoorBridgeLoginTests: XCTestCase, SFOAuthCoordinatorDelegate {
         XCTAssertEqual(coordinator.frontdoorBridgeLoginOverride?.frontdoorBridgeUrl, url)
     }
 
+    func test_givenBridgeOrOrdinaryLogin_whenCustomDomainIsInferred_thenOnlyOrdinaryLoginChangesTokenOrigin() throws {
+        let previousPattern = SalesforceManager.shared.customDomainInferencePattern
+        defer { SalesforceManager.shared.customDomainInferencePattern = previousPattern }
+        SalesforceManager.shared.customDomainInferencePattern = try NSRegularExpression(
+            pattern: "^https://inferred[.]example/")
+        let url = try XCTUnwrap(URL(string: "https://inferred.example/login"))
+
+        try withDeferredDomainAuthConfig {
+            for hasBridge in [true, false] {
+                let coordinator = try makeCoordinator()
+                let bridge = coordinator.frontdoorBridgeLoginOverride
+                if !hasBridge { coordinator.frontdoorBridgeLoginOverride = nil }
+                coordinator.dpopOverride = NSNumber(value: false)
+                let client = BridgeRecordingOAuthClient()
+                coordinator.authClient = client
+                let webView = BridgeRecordingWebView()
+                coordinator.view = webView
+                var policy: WKNavigationActionPolicy?
+
+                performAndDrainMainQueue {
+                    coordinator.webView(webView, decidePolicyFor: MockNavigationAction(url: url)) {
+                        policy = $0
+                    }
+                    coordinator.exchangeApprovalCode(withAttestation: nil)
+                }
+
+                let expectedHost = hasBridge ? "login.salesforce.com" : "inferred.example"
+                XCTAssertEqual(coordinator.credentials?.domain, expectedHost)
+                XCTAssertEqual(coordinator.domainUpdated, !hasBridge)
+                XCTAssertEqual(policy, hasBridge ? .allow : .cancel)
+                XCTAssertEqual(client.requests.count, 1)
+                XCTAssertEqual(client.requests.first?.serverURL.host, expectedHost)
+                if hasBridge {
+                    XCTAssertTrue(coordinator.frontdoorBridgeLoginOverride === bridge)
+                    XCTAssertEqual(client.requests.first?.codeVerifier, "test-verifier")
+                }
+                XCTAssertNil(failure)
+                coordinator.stopAuthentication()
+            }
+        }
+    }
+
+    func test_givenBridgeOrOrdinaryLogin_whenDiscoveryReturnsDomain_thenOnlyOrdinaryLoginChangesTokenOrigin() throws {
+        var components = URLComponents()
+        components.scheme = "sfdc"
+        components.host = "discocallback"
+        components.queryItems = [
+            URLQueryItem(name: "my_domain", value: "https://discovered.my.salesforce.com"),
+            URLQueryItem(name: "login_hint", value: "discovery-test@example.com")
+        ]
+        let url = try XCTUnwrap(components.url)
+
+        try withDeferredDomainAuthConfig {
+            for hasBridge in [true, false] {
+                let coordinator = try makeCoordinator()
+                let bridge = coordinator.frontdoorBridgeLoginOverride
+                if !hasBridge { coordinator.frontdoorBridgeLoginOverride = nil }
+                coordinator.dpopOverride = NSNumber(value: false)
+                coordinator.testLoginHint = "original-test@example.com"
+                let client = BridgeRecordingOAuthClient()
+                coordinator.authClient = client
+                let webView = BridgeRecordingWebView()
+                coordinator.view = webView
+                var policy: WKNavigationActionPolicy?
+
+                performAndDrainMainQueue {
+                    coordinator.webView(webView, decidePolicyFor: MockNavigationAction(url: url)) {
+                        policy = $0
+                    }
+                    coordinator.exchangeApprovalCode(withAttestation: nil)
+                }
+
+                let expectedHost = hasBridge ? "login.salesforce.com" : "discovered.my.salesforce.com"
+                XCTAssertEqual(coordinator.credentials?.domain, expectedHost)
+                XCTAssertEqual(coordinator.domainUpdated, !hasBridge)
+                XCTAssertEqual(coordinator.testLoginHint,
+                    hasBridge ? "original-test@example.com" : "discovery-test@example.com")
+                XCTAssertEqual(policy, .cancel)
+                XCTAssertEqual(client.requests.count, 1)
+                XCTAssertEqual(client.requests.first?.serverURL.host, expectedHost)
+                if hasBridge {
+                    XCTAssertTrue(coordinator.frontdoorBridgeLoginOverride === bridge)
+                    XCTAssertEqual(client.requests.first?.codeVerifier, "test-verifier")
+                }
+                XCTAssertNil(failure)
+                coordinator.stopAuthentication()
+            }
+        }
+    }
+
     func test_givenValidUserAgentBridge_whenLoadingWebView_thenExactBridgeIsLoaded() throws {
         let coordinator = try makeCoordinator()
         coordinator.frontdoorBridgeLoginOverride?.codeVerifier = nil
@@ -1480,6 +1570,16 @@ final class FrontdoorBridgeLoginTests: XCTestCase, SFOAuthCoordinatorDelegate {
         onNetworkAvailability = nil
     }
 
+    private func withDeferredDomainAuthConfig(_ work: () throws -> Void) throws {
+        let original = try XCTUnwrap(class_getClassMethod(SFSDKAuthConfigUtil.self,
+            NSSelectorFromString("getMyDomainAuthConfig:loginDomain:")))
+        let stub = try XCTUnwrap(class_getClassMethod(BridgeFlowBoundaryStub.self,
+            NSSelectorFromString("bridgeAuthConfig:loginDomain:")))
+        method_exchangeImplementations(original, stub)
+        defer { method_exchangeImplementations(original, stub) }
+        try work()
+    }
+
     private func installFlowDelegateHook(stage: String, action: @escaping () -> Void) {
         if stage == "notification" {
             onAuthenticationBegin = action
@@ -1675,6 +1775,12 @@ private final class BridgeFlowBoundaryStub: NSObject {
     static var browserLaunches = 0
     static var holdAttestation = false
     static var pendingAttestation: ((String?) -> Void)?
+
+    @objc(bridgeAuthConfig:loginDomain:)
+    static func authConfig(_ completion: @escaping (SFOAuthOrgAuthConfiguration?, NSError?) -> Void,
+                           loginDomain: String) {
+        // Hold the external lookup so domain-update tests never contact an org.
+    }
 
     @objc(bridgeStopCurrentAuthentication:)
     func stopAuthentication(_ completion: ((Bool) -> Void)?) {

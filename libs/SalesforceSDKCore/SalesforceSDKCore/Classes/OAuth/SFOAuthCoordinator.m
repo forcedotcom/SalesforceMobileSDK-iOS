@@ -1271,6 +1271,11 @@
 }
 
 - (void)handleCustomDomainUpdateWithLoginHint:(NSString *)loginHint myDomain:(NSString *)myDomain {
+    /*
+     Bridge login supplies its destination. Neither inferred navigation nor
+     discovery callbacks may replace its credential-derived token origin.
+     */
+    if (self.frontdoorBridgeLoginOverride) { return; }
     self.domainUpdated = YES;
     [self stopAuthentication];
     self.loginHint = loginHint;
@@ -1341,7 +1346,8 @@
 
 - (BOOL)shouldUpdateDomain:(NSURL *)webviewURL {
     NSRegularExpression *regex = [SalesforceSDKManager sharedManager].customDomainInferencePattern;
-    if (!regex || self.domainUpdated || [self.credentials.domain isEqualToString:webviewURL.host]) {
+    if (self.frontdoorBridgeLoginOverride || !regex || self.domainUpdated ||
+        [self.credentials.domain isEqualToString:webviewURL.host]) {
         return NO;
     }
     NSString *urlString = webviewURL.absoluteString;
