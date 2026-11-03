@@ -232,6 +232,9 @@
             [SFSDKAuthConfigUtil getMyDomainAuthConfig:^(SFOAuthOrgAuthConfiguration *authConfig, NSError *error) {
                 __strong typeof(weakSelf) strongSelf = weakSelf;
                 dispatch_async(dispatch_get_main_queue(), ^{
+                    if (!strongSelf || !strongSelf.authenticating) {
+                        return;
+                    }
                     // A prefetch error against an unreachable login host is the earliest
                     // authoritative signal that the host itself is bad. Falling through to
                     // beginWebViewFlow would dispatch a WKWebView load against the same host

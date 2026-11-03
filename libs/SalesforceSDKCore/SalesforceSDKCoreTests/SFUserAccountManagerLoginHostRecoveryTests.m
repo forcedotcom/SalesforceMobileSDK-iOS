@@ -28,6 +28,7 @@
 #import "SFUserAccountManager+Internal.h"
 #import "SFSDKLoginHostStorage.h"
 #import "SFSDKLoginHost.h"
+#import "SFSDKLoginHostListViewController.h"
 #import "SFSDKAuthSession.h"
 #import "SFSDKAuthRequest.h"
 #import "SFSDKAuthErrorManager.h"
@@ -36,6 +37,58 @@
 static NSString * const kBogusHost = @"bogus.example.com";
 static NSString * const kBogusLabel = @"Bogus Test Host";
 static NSString * const kBuiltInProductionHost = @"login.salesforce.com";
+
+// Preserve scene lookup without starting UIKit transitions that can outlive a test.
+@interface SFHostRecoverySceneView : UIView
+@property (nonatomic, strong) UIWindow *sceneWindow;
+@end
+
+@implementation SFHostRecoverySceneView
+- (UIWindow *)window {
+    return self.sceneWindow;
+}
+@end
+
+@interface SFHostRecoveryVisibleViewController : UIViewController
+@property (nonatomic, strong) UIView *sceneView;
+@end
+
+@implementation SFHostRecoveryVisibleViewController
+- (UIView *)view {
+    return self.sceneView;
+}
+@end
+
+@interface SFHostRecoveryNavigationController : UINavigationController
+@property (nonatomic, strong) UIViewController *sceneViewController;
+@end
+
+@implementation SFHostRecoveryNavigationController
+- (UIViewController *)visibleViewController {
+    return self.sceneViewController;
+}
+@end
+
+@interface SFHostRecoveryLoginHostListViewController : SFSDKLoginHostListViewController
+@property (nonatomic, strong) UIView *sceneView;
+@property (nonatomic, strong) UINavigationController *sceneNavigationController;
+@end
+
+@implementation SFHostRecoveryLoginHostListViewController
+- (UIView *)view {
+    return self.sceneView;
+}
+
+- (UINavigationController *)navigationController {
+    return self.sceneNavigationController;
+}
+
+- (void)dismissViewControllerAnimated:(BOOL)animated completion:(void (^)(void))completion {
+    if (completion) {
+        completion();
+    }
+}
+@end
 
 @interface SFUserAccountManagerLoginHostRecoveryTests : XCTestCase
 // Stand-in implementation swapped into restartAuthentication: for the lifetime of each test.
@@ -52,6 +105,9 @@ static NSUInteger gRestartAuthenticationCallCount = 0;
     NSString *_origLoginHost;
     NSString *_origPreviousLoginHost;
     void (^_origAlertDisplayBlock)(SFSDKAlertMessage *, SFSDKWindowContainer *);
+    NSString *_hostPickerSceneId;
+    SFSDKAuthSession *_originalSceneSession;
+    SFSDKAuthSession *_unrelatedSession;
 }
 
 // Isolate the host-recovery decision logic from the real OAuth restart pipeline.
@@ -98,10 +154,20 @@ static NSUInteger gRestartAuthenticationCallCount = 0;
 }
 
 - (void)tearDown {
+    SFUserAccountManager *mgr = [SFUserAccountManager sharedInstance];
+    if (_hostPickerSceneId) {
+        [mgr.authSessions removeObject:_hostPickerSceneId];
+        if (_originalSceneSession) {
+            mgr.authSessions[_hostPickerSceneId] = _originalSceneSession;
+        }
+    }
+    if (_unrelatedSession) {
+        [mgr.authSessions removeObject:_unrelatedSession.sceneId];
+    }
+
     // method_exchangeImplementations is symmetric — calling it again restores the originals.
     [self swapRestartAuthentication];
 
-    SFUserAccountManager *mgr = [SFUserAccountManager sharedInstance];
     mgr.loginHost = _origLoginHost;
     mgr.previousLoginHost = _origPreviousLoginHost;
     if (_origAlertDisplayBlock) {
@@ -116,6 +182,51 @@ static NSUInteger gRestartAuthenticationCallCount = 0;
 
 #pragma mark - Helpers
 
+- (SFSDKLoginHostListViewController *)makeSceneHostPickerWithRemovedAuthSession {
+    XCTAssertTrue([NSThread isMainThread]);
+    UIWindowScene *activeScene = nil;
+    for (UIScene *scene in UIApplication.sharedApplication.connectedScenes) {
+        if ([scene isKindOfClass:[UIWindowScene class]] && scene.activationState == UISceneActivationStateForegroundActive) {
+            activeScene = (UIWindowScene *)scene;
+            break;
+        }
+    }
+    XCTAssertNotNil(activeScene, @"The test host must provide an active UIWindowScene.");
+    if (!activeScene) {
+        return nil;
+    }
+    SFHostRecoverySceneView *view = [SFHostRecoverySceneView new];
+    view.sceneWindow = [[UIWindow alloc] initWithWindowScene:activeScene];
+    SFHostRecoveryVisibleViewController *visibleViewController = [SFHostRecoveryVisibleViewController new];
+    visibleViewController.sceneView = view;
+    SFHostRecoveryNavigationController *navigationController = [SFHostRecoveryNavigationController new];
+    navigationController.sceneViewController = visibleViewController;
+    SFHostRecoveryLoginHostListViewController *picker = [SFHostRecoveryLoginHostListViewController new];
+    picker.sceneView = view;
+    picker.sceneNavigationController = navigationController;
+
+    _hostPickerSceneId = activeScene.session.persistentIdentifier;
+    XCTAssertGreaterThan(_hostPickerSceneId.length, (NSUInteger)0);
+    XCTAssertEqualObjects(picker.view.window.windowScene.session.persistentIdentifier, _hostPickerSceneId);
+    XCTAssertEqualObjects(picker.navigationController.visibleViewController.view.window.windowScene.session.persistentIdentifier,
+                          _hostPickerSceneId);
+
+    SFUserAccountManager *mgr = [SFUserAccountManager sharedInstance];
+    _originalSceneSession = mgr.authSessions[_hostPickerSceneId];
+    SFSDKAuthSession *session = [self makeAuthSessionForLoginHost:kBogusHost scene:activeScene];
+    XCTAssertEqualObjects(session.sceneId, _hostPickerSceneId);
+    mgr.authSessions[session.sceneId] = session;
+    XCTAssertEqual(mgr.authSessions[_hostPickerSceneId], session);
+    // Model the removed-session state left by stopCurrentAuthentication without dismissing this picker.
+    [mgr.authSessions removeObject:_hostPickerSceneId];
+    XCTAssertNil(mgr.authSessions[_hostPickerSceneId]);
+
+    _unrelatedSession = [self makeAuthSessionForLoginHost:kBuiltInProductionHost];
+    XCTAssertNotEqualObjects(_unrelatedSession.sceneId, _hostPickerSceneId);
+    mgr.authSessions[_unrelatedSession.sceneId] = _unrelatedSession;
+    return picker;
+}
+
 - (void)removeHostIfPresent:(NSString *)hostAddress fromStorage:(SFSDKLoginHostStorage *)storage {
     for (NSUInteger i = 0; i < [storage numberOfLoginHosts]; i++) {
         if ([[storage loginHostAtIndex:i].host isEqualToString:hostAddress]) {
@@ -126,7 +237,12 @@ static NSUInteger gRestartAuthenticationCallCount = 0;
 }
 
 - (SFSDKAuthSession *)makeAuthSessionForLoginHost:(NSString *)loginHost {
+    return [self makeAuthSessionForLoginHost:loginHost scene:nil];
+}
+
+- (SFSDKAuthSession *)makeAuthSessionForLoginHost:(NSString *)loginHost scene:(UIWindowScene *)scene {
     SFSDKAuthRequest *request = [[SFSDKAuthRequest alloc] init];
+    request.scene = scene;
     request.loginHost = loginHost;
     request.oauthClientId = @"test-client-id";
     request.oauthCompletionUrl = @"test://callback";
@@ -188,6 +304,66 @@ static NSUInteger gRestartAuthenticationCallCount = 0;
 }
 
 #pragma mark - Tests
+
+- (void)test_givenHostPickerFixture_whenCreated_thenSceneLookupRequiresNoPresentation {
+    SFSDKLoginHostListViewController *picker = [self makeSceneHostPickerWithRemovedAuthSession];
+    if (!picker) {
+        return;
+    }
+    UIWindow *window = picker.view.window;
+    XCTAssertNotNil(window);
+    XCTAssertTrue(window.hidden);
+    XCTAssertFalse(window.isKeyWindow);
+    XCTAssertNil(window.rootViewController);
+    XCTAssertNil(picker.navigationController.presentingViewController);
+    XCTAssertEqualObjects(window.windowScene.session.persistentIdentifier, _hostPickerSceneId);
+    XCTAssertEqualObjects(picker.navigationController.visibleViewController.view.window.windowScene.session.persistentIdentifier,
+                          _hostPickerSceneId);
+}
+
+- (void)test_givenNoHostPickerAuthSession_whenLoginHostSelected_thenAuthenticationIsNotRestarted {
+    SFUserAccountManager *mgr = [SFUserAccountManager sharedInstance];
+    SFSDKLoginHostListViewController *picker = [self makeSceneHostPickerWithRemovedAuthSession];
+    if (!picker) {
+        return;
+    }
+    SFSDKAuthRequest *unrelatedRequest = _unrelatedSession.oauthRequest;
+    NSString *sceneId = picker.navigationController.visibleViewController.view.window.windowScene.session.persistentIdentifier;
+    XCTAssertNotNil(sceneId);
+    XCTAssertNil([mgr.authSessions objectForKey:sceneId]);
+
+    [mgr hostListViewControllerDidSelectLoginHost:picker];
+
+    XCTAssertEqual(gRestartAuthenticationCallCount, (NSUInteger)0,
+                    @"Selecting a login host without a scene auth session must not restart authentication.");
+    XCTAssertNil(mgr.authSessions[sceneId]);
+    XCTAssertEqual(mgr.authSessions[_unrelatedSession.sceneId], _unrelatedSession);
+    XCTAssertEqual(_unrelatedSession.oauthRequest, unrelatedRequest);
+    XCTAssertEqualObjects(unrelatedRequest.loginHost, kBuiltInProductionHost);
+    XCTAssertFalse(_unrelatedSession.isAuthenticating);
+}
+
+- (void)test_givenNoHostPickerAuthSession_whenLoginOptionsChanged_thenAuthenticationIsNotRestarted {
+    SFUserAccountManager *mgr = [SFUserAccountManager sharedInstance];
+    SFSDKLoginHostListViewController *picker = [self makeSceneHostPickerWithRemovedAuthSession];
+    if (!picker) {
+        return;
+    }
+    SFSDKAuthRequest *unrelatedRequest = _unrelatedSession.oauthRequest;
+    NSString *sceneId = picker.view.window.windowScene.session.persistentIdentifier;
+    XCTAssertNotNil(sceneId);
+    XCTAssertNil([mgr.authSessions objectForKey:sceneId]);
+
+    [mgr hostListViewControllerDidChangeLoginOptions:picker];
+
+    XCTAssertEqual(gRestartAuthenticationCallCount, (NSUInteger)0,
+                    @"Changing login options without a scene auth session must not restart authentication.");
+    XCTAssertNil(mgr.authSessions[sceneId]);
+    XCTAssertEqual(mgr.authSessions[_unrelatedSession.sceneId], _unrelatedSession);
+    XCTAssertEqual(_unrelatedSession.oauthRequest, unrelatedRequest);
+    XCTAssertEqualObjects(unrelatedRequest.loginHost, kBuiltInProductionHost);
+    XCTAssertFalse(_unrelatedSession.isAuthenticating);
+}
 
 - (void)test_givenHostChange_when_didChangeLoginHostCalled_then_previousLoginHostIsPriorHost {
     SFUserAccountManager *mgr = [SFUserAccountManager sharedInstance];
