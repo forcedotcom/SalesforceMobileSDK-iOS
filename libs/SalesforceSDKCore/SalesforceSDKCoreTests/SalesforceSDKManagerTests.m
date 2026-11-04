@@ -526,12 +526,19 @@ static NSString* const kTestAppName = @"OverridenAppName";
     SFOAuthTestFlowCoordinatorDelegate *delegate = [SFOAuthTestFlowCoordinatorDelegate new];
     coordinator.delegate = delegate;
 
-    // Simulate an active Frontdoor Bridge login override. The production guard
-    // (SFOAuthCoordinator.m:201 `!self.frontdoorBridgeLoginOverride`) keys off the *presence*
-    // of the override object, so any non-nil override must suppress forced Advanced Auth.
+    /*
+     A valid Frontdoor Bridge login must suppress forced Advanced Auth. Use a
+     standard host so the auth-config lookup completes without a network call.
+     */
+    NSURLComponents *bridgeURL = [NSURLComponents componentsWithString:
+                                 @"https://login.salesforce.com/secur/frontdoor.jsp"];
+    NSString *startURL = [NSString stringWithFormat:
+                         @"/services/oauth2/authorize?client_id=%@",
+                         [SalesforceSDKManager sharedManager].appConfig.remoteAccessConsumerKey];
+    bridgeURL.queryItems = @[[NSURLQueryItem queryItemWithName:@"startURL" value:startURL]];
     SFSDKAuthCoordinatorFrontdoorBridgeLoginOverride *override =
         [[SFSDKAuthCoordinatorFrontdoorBridgeLoginOverride alloc]
-            initWithFrontdoorBridgeUrl:[NSURL URLWithString:@"https://login.salesforce.com/frontdoor.jsp"]
+            initWithFrontdoorBridgeUrl:bridgeURL.URL
                           codeVerifier:nil];
     coordinator.frontdoorBridgeLoginOverride = override;
 
