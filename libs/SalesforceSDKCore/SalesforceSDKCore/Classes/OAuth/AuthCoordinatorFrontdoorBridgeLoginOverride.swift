@@ -24,55 +24,204 @@
 
 import Foundation
 
+/**
+ Validates a QR login bridge on any recognized My Domain or an independently
+ configured login host. Another org's My Domain can be accepted; the public
+ consumer key identifies the app and does not bind the intended tenant.
+ Configured custom-host ownership is not independently verified.
+ */
 @objc(SFSDKAuthCoordinatorFrontdoorBridgeLoginOverride)
 public class AuthCoordinatorFrontdoorBridgeLoginOverride: NSObject {
     
-    /// For Salesforce Identity UI Bridge API support, an overriding front door bridge URL to use in place of the default initial URL.
-    @objc public var frontdoorBridgeUrl: URL?
+    /**
+     A Salesforce Identity UI Bridge URL on a My Domain or explicitly configured
+     login host that replaces the initial login URL. Invalid values read as nil.
+     Each read validates against the current boot key and login host
+     configuration. Removing a configured host can make a previously accepted
+     value read as nil.
+     */
+    @objc public var frontdoorBridgeUrl: URL? {
+        get { validatedSnapshot?.url }
+        set {
+            stateLock.lock()
+            suppliedURL = newValue
+            stateLock.unlock()
+        }
+    }
     
-    /// For Salesforce Identity UI Bridge API support, the optional web server flow code verifier accompanying the front door bridge URL.  This can only be used with `overrideWithfrontDoorBridgeUrl`.
-    @objc public var codeVerifier: String?
+    /**
+     The optional web server flow code verifier accompanying the bridge URL.
+     Available only while the bridge URL is valid under current configuration.
+     Setting a verifier does not make an invalid bridge URL acceptable.
+     */
+    @objc public var codeVerifier: String? {
+        get { validatedSnapshot?.codeVerifier }
+        set {
+            stateLock.lock()
+            suppliedCodeVerifier = newValue
+            stateLock.unlock()
+        }
+    }
     
-    /// For Salesforce Identity UI Bridge API support, indicates if the overriding front door bridge URL has a consumer key value that matches the app config, which is also known as the boot config.
+    /**
+     Whether the initial bridge URL's consumer key matches the boot config.
+     This informational value is not updated by later property/configuration
+     changes. Setting it does not bypass validation or establish URL trust.
+     */
     @objc public var matchesConsumerKey: Bool = false
-    
+
+    private var suppliedURL: URL?
+    private var suppliedCodeVerifier: String?
+    private let stateLock = NSLock()
+
+    @objc var validatedSnapshot: FrontdoorBridgeLoginSnapshot? {
+        stateLock.lock()
+        let url = suppliedURL
+        let codeVerifier = suppliedCodeVerifier
+        stateLock.unlock()
+
+        guard let url, isValidURL(url) else { return nil }
+        return FrontdoorBridgeLoginSnapshot(url: url, codeVerifier: codeVerifier)
+    }
+
+    /*
+     Validate on use because the public properties remain writable for API
+     compatibility. A public consumer key identifies an app, not a trusted host.
+     */
+    @objc var isValid: Bool {
+        validatedSnapshot != nil
+    }
+
+    private func isValidURL(_ url: URL) -> Bool {
+        guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
+              components.isHTTPS,
+              let host = components.host?.lowercased(),
+              components.user == nil, components.password == nil,
+              components.port == nil || components.port == 443,
+              components.fragment == nil,
+              isTrustedHost(host),
+              isEndpointPath(components.percentEncodedPath, endpoint: "/secur/frontdoor.jsp"),
+              let startURL = startURLComponents(in: url),
+              startURL.fragment == nil,
+              isEndpointPath(startURL.percentEncodedPath, endpoint: "/services/oauth2/authorize"),
+              let clientID = consumerKey(in: startURL),
+              let appConsumerKey = SalesforceManager.shared.bootConfig?.remoteAccessConsumerKey,
+              !appConsumerKey.isEmpty, clientID == appConsumerKey else {
+            return false
+        }
+
+        /*
+         UI Bridge uses relative start URLs. Also accept an absolute authorize
+         URL on the same origin for existing programmatic integrations.
+         */
+        if startURL.scheme != nil || startURL.host != nil {
+            return startURL.isHTTPS
+                && startURL.host?.lowercased() == host
+                && startURL.user == nil && startURL.password == nil
+                && (startURL.port ?? 443) == (components.port ?? 443)
+        }
+        return !startURL.percentEncodedPath.hasPrefix("//")
+    }
+
+    private func isTrustedHost(_ host: String) -> Bool {
+        if SFSDKAuthConfigUtil.isMyDomainHost(host) {
+            return true
+        }
+        if isConfiguredHost(UserAccountManager.shared.loginHost, matching: host) {
+            return true
+        }
+        let storage = SFSDKLoginHostStorage.sharedInstance()
+        return (0..<storage.numberOfLoginHosts()).contains {
+            isConfiguredHost(storage.loginHost(at: $0).host, matching: host)
+        }
+    }
+
+    private func isConfiguredHost(_ address: String, matching host: String) -> Bool {
+        let urlString = address.contains("://")
+            ? address : "\(NSURLProtectionSpaceHTTPS)://\(address)"
+        guard let components = URLComponents(string: urlString),
+              components.isHTTPS,
+              components.user == nil, components.password == nil,
+              components.port == nil || components.port == 443,
+              components.query == nil, components.fragment == nil else {
+            return false
+        }
+        return components.host?.lowercased() == host
+    }
+
+    private func isEndpointPath(_ path: String, endpoint: String) -> Bool {
+        let absolutePath = path.hasPrefix("/") ? path : "/" + path
+        let segments = absolutePath.split(separator: "/", omittingEmptySubsequences: false)
+        return absolutePath.hasSuffix(endpoint)
+            && !absolutePath.contains("%") && !absolutePath.contains("\\")
+            && !absolutePath.contains("//")
+            && !segments.contains(".") && !segments.contains("..")
+    }
+
+    private func startURLComponents(in url: URL) -> URLComponents? {
+        guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
+              let items = components.queryItems?.filter({ $0.name == "startURL" }),
+              items.count == 1, let value = items.first?.value,
+              !value.isEmpty else { return nil }
+        return URLComponents(string: value)
+    }
+
+    private func consumerKey(in components: URLComponents) -> String? {
+        let items = components.queryItems?.filter { $0.name == "client_id" }
+        guard items?.count == 1, let value = items?.first?.value,
+              !value.isEmpty else { return nil }
+        return value
+    }
+
     @objc public init(frontdoorBridgeUrl: URL, codeVerifier: String?) {
         super.init()
         
-        guard let frontdoorBridgeUrlComponents = URLComponents(url: frontdoorBridgeUrl, resolvingAgainstBaseURL: true),
-              let frontdoorBridgeUrlQueryItems = frontdoorBridgeUrlComponents.queryItems else {
-            return
+        suppliedURL = frontdoorBridgeUrl
+        suppliedCodeVerifier = codeVerifier
+        if let startURL = startURLComponents(in: frontdoorBridgeUrl),
+           let clientID = consumerKey(in: startURL),
+           let appConsumerKey = SalesforceManager.shared.bootConfig?.remoteAccessConsumerKey {
+            matchesConsumerKey = !appConsumerKey.isEmpty && clientID == appConsumerKey
         }
-        
-        // Extract startURL from query parameters
-        guard let startUrlQueryItem = frontdoorBridgeUrlQueryItems.first(where: { $0.name == "startURL" }),
-              let startUrlString = startUrlQueryItem.value,
-              let startUrl = URL(string: startUrlString) else {
-            return
-        }
-        
-        // Parse the startURL to get client_id
-        guard let startUrlComponents = URLComponents(url: startUrl, resolvingAgainstBaseURL: true),
-              let startUrlQueryItems = startUrlComponents.queryItems else {
-            return
-        }
-        
-        // Extract client_id from startURL query parameters
-        guard let clientIdQueryItem = startUrlQueryItems.first(where: { $0.name == "client_id" }),
-              let frontdoorBridgeUrlClientId = clientIdQueryItem.value else {
-            return
-        }
-        
-        // Check if the client_id matches the app's consumer key
-        guard let appConsumerKey = SalesforceManager.shared.bootConfig?.remoteAccessConsumerKey else {
-            return
-        }
-        self.matchesConsumerKey = frontdoorBridgeUrlClientId == appConsumerKey
-        
-        // Only set the properties if the front door start URL's consumer key matches the app's current value.
-        if self.matchesConsumerKey {
-            self.codeVerifier = codeVerifier
-            self.frontdoorBridgeUrl = frontdoorBridgeUrl
-        }
+    }
+}
+
+@objc(SFSDKFrontdoorBridgeLoginSnapshot)
+final class FrontdoorBridgeLoginSnapshot: NSObject {
+    @objc let url: URL
+    @objc let codeVerifier: String?
+
+    init(url: URL, codeVerifier: String?) {
+        self.url = url
+        self.codeVerifier = codeVerifier
+        super.init()
+    }
+}
+
+/*
+ Identity and cancellation state for pending coordinator work across all
+ login types.
+ */
+@objc(SFSDKAuthAttempt)
+final class AuthAttempt: NSObject {
+    private let stateLock = NSLock()
+    private var invalidated = false
+
+    @objc var isInvalidated: Bool {
+        stateLock.lock()
+        defer { stateLock.unlock() }
+        return invalidated
+    }
+
+    @objc func invalidate() {
+        stateLock.lock()
+        invalidated = true
+        stateLock.unlock()
+    }
+}
+
+private extension URLComponents {
+    var isHTTPS: Bool {
+        scheme?.caseInsensitiveCompare(NSURLProtectionSpaceHTTPS) == .orderedSame
     }
 }
