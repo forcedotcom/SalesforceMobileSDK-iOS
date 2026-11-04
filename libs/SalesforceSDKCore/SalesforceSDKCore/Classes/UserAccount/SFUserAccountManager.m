@@ -1448,14 +1448,25 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     // effect, mirroring loginViewControllerDidChangeLoginOptions: on the WebView screen.
     NSString *sceneId = hostListViewController.view.window.windowScene.session.persistentIdentifier;
     SFSDKAuthSession *session = self.authSessions[sceneId];
+    if (!session) {
+        // A stale picker cannot resume authentication after its session is gone.
+        [hostListViewController dismissViewControllerAnimated:YES completion:nil];
+        [SFSDKCoreLogger w:[self class] format:@"No auth session to restart after a host picker Login Options change."];
+        return;
+    }
     session.oauthRequest = [self authRequestAfterLoginOptionsChangeForSession:session];
     [self restartAuthentication:session];
 }
 
 - (void)loginHostSelected:(SFSDKLoginHostListViewController *)hostListViewController {
     NSString *sceneId = hostListViewController.navigationController.visibleViewController.view.window.windowScene.session.persistentIdentifier;
+    SFSDKAuthSession *session = [self.authSessions objectForKey:sceneId];
     [hostListViewController dismissViewControllerAnimated:YES completion:nil];
-    [self restartAuthentication: [self.authSessions objectForKey:sceneId]];
+    if (!session) {
+        [SFSDKCoreLogger w:[self class] format:@"No auth session to restart after a login host selection."];
+        return;
+    }
+    [self restartAuthentication:session];
 }
 
 #pragma mark - SFSDKLoginFlowSelectionViewDelegate (SP App flow Related Actions)

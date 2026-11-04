@@ -261,6 +261,7 @@
             [SFSDKAuthConfigUtil getMyDomainAuthConfig:^(SFOAuthOrgAuthConfiguration *authConfig, NSError *error) {
                 __strong typeof(weakSelf) strongSelf = weakSelf;
                 dispatch_async(dispatch_get_main_queue(), ^{
+                    // Ignore a response from a stopped, replaced, or deallocated authentication attempt.
                     SFSDKFrontdoorBridgeLoginSnapshot *currentBridgeSnapshot = nil;
                     if (![strongSelf isCurrentAuthAttempt:authAttempt] ||
                         ![strongSelf validateFrontdoorBridgeLoginOverride:&currentBridgeSnapshot]) {
