@@ -1449,7 +1449,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     NSString *sceneId = hostListViewController.view.window.windowScene.session.persistentIdentifier;
     SFSDKAuthSession *session = self.authSessions[sceneId];
     if (!session) {
-        [SFSDKCoreLogger d:[self class] format:@"No auth session to restart after a host picker Login Options change."];
+        [SFSDKCoreLogger w:[self class] format:@"No auth session to restart after a host picker Login Options change."];
         return;
     }
     session.oauthRequest = [self authRequestAfterLoginOptionsChangeForSession:session];
@@ -1461,7 +1461,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     SFSDKAuthSession *session = [self.authSessions objectForKey:sceneId];
     [hostListViewController dismissViewControllerAnimated:YES completion:nil];
     if (!session) {
-        [SFSDKCoreLogger d:[self class] format:@"No auth session to restart after a login host selection."];
+        [SFSDKCoreLogger w:[self class] format:@"No auth session to restart after a login host selection."];
         return;
     }
     [self restartAuthentication:session];

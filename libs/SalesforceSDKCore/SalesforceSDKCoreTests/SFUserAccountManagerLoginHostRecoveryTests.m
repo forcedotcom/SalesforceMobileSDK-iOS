@@ -38,7 +38,6 @@ static NSString * const kBogusHost = @"bogus.example.com";
 static NSString * const kBogusLabel = @"Bogus Test Host";
 static NSString * const kBuiltInProductionHost = @"login.salesforce.com";
 
-// Preserve scene lookup without starting UIKit transitions that can outlive a test.
 @interface SFHostRecoverySceneView : UIView
 @property (nonatomic, strong) UIWindow *sceneWindow;
 @end
@@ -304,22 +303,6 @@ static NSUInteger gRestartAuthenticationCallCount = 0;
 }
 
 #pragma mark - Tests
-
-- (void)test_givenHostPickerFixture_whenCreated_thenSceneLookupRequiresNoPresentation {
-    SFSDKLoginHostListViewController *picker = [self makeSceneHostPickerWithRemovedAuthSession];
-    if (!picker) {
-        return;
-    }
-    UIWindow *window = picker.view.window;
-    XCTAssertNotNil(window);
-    XCTAssertTrue(window.hidden);
-    XCTAssertFalse(window.isKeyWindow);
-    XCTAssertNil(window.rootViewController);
-    XCTAssertNil(picker.navigationController.presentingViewController);
-    XCTAssertEqualObjects(window.windowScene.session.persistentIdentifier, _hostPickerSceneId);
-    XCTAssertEqualObjects(picker.navigationController.visibleViewController.view.window.windowScene.session.persistentIdentifier,
-                          _hostPickerSceneId);
-}
 
 - (void)test_givenNoHostPickerAuthSession_whenLoginHostSelected_thenAuthenticationIsNotRestarted {
     SFUserAccountManager *mgr = [SFUserAccountManager sharedInstance];

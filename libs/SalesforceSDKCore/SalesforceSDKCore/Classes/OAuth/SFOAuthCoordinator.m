@@ -232,6 +232,7 @@
             [SFSDKAuthConfigUtil getMyDomainAuthConfig:^(SFOAuthOrgAuthConfiguration *authConfig, NSError *error) {
                 __strong typeof(weakSelf) strongSelf = weakSelf;
                 dispatch_async(dispatch_get_main_queue(), ^{
+                    // Ignore a response that arrives after authentication was stopped or the coordinator deallocated.
                     if (!strongSelf || !strongSelf.authenticating) {
                         return;
                     }
@@ -248,7 +249,7 @@
                         [strongSelf notifyDelegateOfFailure:error authInfo:strongSelf.authInfo];
                         return;
                     }
-                    if (!self.frontdoorBridgeLoginOverride &&
+                    if (!strongSelf.frontdoorBridgeLoginOverride &&
                         (authConfig.useNativeBrowserForAuth ||
                          [SalesforceSDKManager sharedManager].sdk_forceAdvancedAuthentication)) {
                         [SFSDKAppFeatureMarkers registerAppFeature:kSFAppFeatureSafariBrowserForLogin];
