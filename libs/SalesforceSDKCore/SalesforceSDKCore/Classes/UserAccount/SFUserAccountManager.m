@@ -1449,6 +1449,8 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     NSString *sceneId = hostListViewController.view.window.windowScene.session.persistentIdentifier;
     SFSDKAuthSession *session = self.authSessions[sceneId];
     if (!session) {
+        // A stale picker cannot resume authentication after its session is gone.
+        [hostListViewController dismissViewControllerAnimated:YES completion:nil];
         [SFSDKCoreLogger w:[self class] format:@"No auth session to restart after a host picker Login Options change."];
         return;
     }

@@ -71,6 +71,7 @@ static NSString * const kBuiltInProductionHost = @"login.salesforce.com";
 @interface SFHostRecoveryLoginHostListViewController : SFSDKLoginHostListViewController
 @property (nonatomic, strong) UIView *sceneView;
 @property (nonatomic, strong) UINavigationController *sceneNavigationController;
+@property (nonatomic, assign) BOOL wasDismissed;
 @end
 
 @implementation SFHostRecoveryLoginHostListViewController
@@ -83,6 +84,7 @@ static NSString * const kBuiltInProductionHost = @"login.salesforce.com";
 }
 
 - (void)dismissViewControllerAnimated:(BOOL)animated completion:(void (^)(void))completion {
+    self.wasDismissed = YES;
     if (completion) {
         completion();
     }
@@ -341,6 +343,8 @@ static NSUInteger gRestartAuthenticationCallCount = 0;
 
     XCTAssertEqual(gRestartAuthenticationCallCount, (NSUInteger)0,
                     @"Changing login options without a scene auth session must not restart authentication.");
+    XCTAssertTrue(((SFHostRecoveryLoginHostListViewController *)picker).wasDismissed,
+                  @"Changing login options on a stale picker must dismiss it.");
     XCTAssertNil(mgr.authSessions[sceneId]);
     XCTAssertEqual(mgr.authSessions[_unrelatedSession.sceneId], _unrelatedSession);
     XCTAssertEqual(_unrelatedSession.oauthRequest, unrelatedRequest);
