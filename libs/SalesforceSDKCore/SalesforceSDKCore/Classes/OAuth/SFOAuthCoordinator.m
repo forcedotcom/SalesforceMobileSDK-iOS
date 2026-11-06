@@ -1242,6 +1242,15 @@
         return;
     }
 
+    // Diagnostic: record the scope (credentials.identifier) and the PUBLIC jkt thumbprint the key
+    // is bound under at /authorize. Compare against the refresh-time binding log (emitted by
+    // SFSDKOAuth2 when it attaches the refresh proof) to detect key-scope drift: if a later refresh
+    // logs a different scope for the same user, the key was created under one identifier and looked
+    // up under another, which causes the server to reject the refresh with `DPoPCnfJkt miss match`.
+    // Non-PII — the thumbprint is the public value already sent in dpop_jkt; never logs key
+    // material, tokens, or user data.
+    [SFSDKCoreLogger i:[self class] format:@"DPoP binding at /authorize: scope=%@ jkt=%@", credentials.identifier, thumbprint];
+
     [approvalUrlString appendFormat:@"&%@=%@", kSFOAuthDPoPJktParamName, thumbprint];
 }
 
