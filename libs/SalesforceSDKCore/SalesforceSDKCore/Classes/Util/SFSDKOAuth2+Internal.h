@@ -27,6 +27,7 @@
  */
 
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
+#import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 #import "SFSDKOAuth2.h"
 NS_ASSUME_NONNULL_BEGIN
 
@@ -50,6 +51,11 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSDate *)timestampStringToDate:(NSString *)timestamp;
 - (void)handleTokenEndpointResponse:(void (^)(SFSDKOAuthTokenEndpointResponse *))completionBlock request:(SFSDKOAuthTokenEndpointRequest *)endpointReq data:(NSData *)data urlResponse:(NSURLResponse *)response;
 - (NSMutableURLRequest *)prepareBasicRequest:(SFSDKOAuthTokenEndpointRequest *)endpointReq;
+/// Variant that reports how DPoP decoration resolved, so the refresh path can fail fast
+/// (invalid_grant) instead of sending an unsigned/mis-signed refresh. `SFSDKDPoPDecorationFailureOther`
+/// means "no DPoP key-binding failure" (success or a non-key error handled as before).
+- (NSMutableURLRequest *)prepareBasicRequest:(SFSDKOAuthTokenEndpointRequest *)endpointReq
+                                 dpopFailure:(nullable SFSDKDPoPDecorationFailure *)outFailure;
 @end
 
 NS_ASSUME_NONNULL_END

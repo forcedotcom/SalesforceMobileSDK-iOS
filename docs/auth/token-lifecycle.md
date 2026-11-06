@@ -247,7 +247,10 @@ applyAuthHeaders(request, credentials):
       remove any stale DPoP header
       return
     set Authorization to "DPoP <token>"
-    load or create the credential-scoped EC P-256 keypair
+    LOAD (never create) the credential-scoped EC P-256 keypair:
+      - found        -> use it
+      - confirmed absent (errSecItemNotFound) -> throw boundKeyMissing (fail fast, no mint)
+      - indeterminate (any other OSStatus, e.g. device locked) -> throw boundKeyUnavailable (retry)
     canonicalize the request URL for htu
     read a cached nonce for the URL and credential scope
     build a fresh proof with htm, htu, iat, jti, nonce, and ath
@@ -275,13 +278,47 @@ not consult the global preference. Token-endpoint proofs omit `ath`; resource pr
 to the current access token with `ath`.
 
 `DPoPKeyStore` caches each credential-scoped `SecKey` handle in process memory, keyed by the derived
-Keychain key name. The first "load or create the credential-scoped EC P-256 keypair" step for a
-scope performs the Keychain lookup (or Secure Enclave key generation on first use) and caches the
-resulting handle; every subsequent proof build for that scope reuses the cached handle directly,
-skipping the Keychain (`SecItemCopyMatching`/`securityd`) round-trip and the exclusive lock that
-previously serialized every DPoP proof build across every credential. Proof signing still happens
-per request against the Secure-Enclave/Keychain-backed private key — only the *lookup* is cached, so
-no private-key material is exported or held in plaintext.
+Keychain key name. The first keypair lookup for a scope performs the Keychain lookup (or Secure
+Enclave key generation on a *binding* path's first use) and caches the resulting handle; every
+subsequent proof build for that scope reuses the cached handle directly, skipping the Keychain
+(`SecItemCopyMatching`/`securityd`) round-trip and the exclusive lock that previously serialized
+every DPoP proof build across every credential. Proof signing still happens per request against the
+Secure-Enclave/Keychain-backed private key — only the *lookup* is cached, so no private-key material
+is exported or held in plaintext.
+
+### 4.1 Key generation vs. load-only lookup (bound credentials never mint)
+
+Key **generation** happens only on the two **binding** paths, where the key is first created and the
+server is told its public thumbprint:
+
+- `SFOAuthCoordinator` appends `dpop_jkt` at `/authorize` (`keyPair(forScope:)`).
+- Native Login binding (`keyPair(forScope:)`).
+
+Every other site that needs the key for an **already-bound** credential — refresh and resource-call
+decoration (`DPoPRequestDecorator.decorate`) and the dev-info thumbprint display
+(`SalesforceSDKManager`) — uses the **load-only** lookup `DPoPKeyStore.existingKeyPair(forScope:)`,
+which **never generates** a key. This is a correctness requirement: if a bound credential's key were
+re-minted on a miss, the SDK would sign the refresh with a key the server cannot accept, and because
+the new key is persisted, every retry and restart would reuse it — the refresh token is then
+permanently dead until re-login (server reports `DPoPCnfJkt miss match`).
+
+`existingKeyPair(forScope:)` returns a **tri-state** so callers can react safely to a miss:
+
+| Result | Meaning | Caller action |
+|---|---|---|
+| `found` | Key present (cache or Keychain). | Build the proof as normal. |
+| `absent` | Keychain read succeeded with `errSecItemNotFound` — the bound key is confirmed gone. | Fail fast → re-auth (`boundKeyMissing`). |
+| `unavailable` | Keychain read failed for any other reason (e.g. device locked, `errSecInteractionNotAllowed`). **Not** proof of absence. | Do **not** send a mis-signed request and do **not** re-auth; treat as transient/retryable (`boundKeyUnavailable`). |
+
+On the refresh path, `SFSDKOAuth2` classifies the decoration result (`DPoPRequestDecorator`'s
+`classifyDecorationError:` / `DPoPDecorationFailure`). For a DPoP-bound credential, **both**
+`boundKeyMissing` and `boundKeyUnavailable` abort the refresh before it is sent and complete it with
+an `invalid_grant`-class error (`kSFOAuthErrorDomain` / `kSFOAuthErrorInvalidGrant`), which
+`SFSDKAuthErrorManager` already treats as invalid credentials — so the app's existing re-auth routing
+takes over instead of looping on a dead token. A non-key decoration error (e.g. a proof-build
+failure) preserves the legacy "log and proceed without a proof" behavior. Viewing the dev-info
+screen shows "Unavailable" for a missing/indeterminate key and never mints one as a display side
+effect.
 
 ---
 

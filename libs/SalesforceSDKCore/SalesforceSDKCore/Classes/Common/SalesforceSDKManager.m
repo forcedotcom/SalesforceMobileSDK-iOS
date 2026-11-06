@@ -682,10 +682,13 @@ static NSString *SFSDKISO8601StringFromDate(NSDate *date) {
                 @"DPoP Nonce", [SFSDKDPoPNonceCache.shared latestForScope:creds.identifier] ?: @"None"
             ]];
 
-            NSError *kpErr = nil;
-            SFSDKDPoPKeyPair *keyPair = [SFSDKDPoPKeyStore.shared keyPairForCredentials:creds error:&kpErr];
+            // Load-only lookup: displaying the dev-info thumbprint must NEVER mint a DPoP key as a
+            // side effect. Use the non-creating lookup rather than the binding `keyPairForScope:`,
+            // which generates a key on a miss. Returns nil when the key is absent or the Keychain
+            // read is indeterminate (e.g. device locked); show "Unavailable" in both cases.
+            SFSDKDPoPKeyPair *keyPair = [SFSDKDPoPKeyStore.shared existingKeyPairForScope:creds.identifier];
             NSString *thumbprint = @"Unavailable";
-            if (keyPair && !kpErr) {
+            if (keyPair) {
                 NSError *tpErr = nil;
                 NSString *computed = [SFSDKDPoPProofBuilder jwkThumbprintWithPublicKey:keyPair.publicKey error:&tpErr];
                 if (computed && !tpErr) {

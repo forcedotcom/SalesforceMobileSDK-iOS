@@ -296,7 +296,27 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
         }
         return;
     }
-    NSMutableURLRequest *request = [self prepareBasicRequest:endpointReq];
+    SFSDKDPoPDecorationFailure dpopFailure = SFSDKDPoPDecorationFailureOther;
+    NSMutableURLRequest *request = [self prepareBasicRequest:endpointReq dpopFailure:&dpopFailure];
+
+    // For a DPoP-bound credential, never send a refresh we could not sign with the bound key. If
+    // the key is confirmed gone (boundKeyMissing) or temporarily unreadable (boundKeyUnavailable,
+    // e.g. device locked), fail fast with an invalid_grant-class error so the app's existing re-auth
+    // routing handles it — instead of sending an unsigned/mis-signed refresh that the server rejects
+    // with `DPoPCnfJkt miss match`, leaving the refresh token permanently
+    // dead. (invalid_grant is treated as invalid credentials by SFSDKAuthErrorManager.)
+    if (dpopFailure == SFSDKDPoPDecorationFailureBoundKeyMissing ||
+        dpopFailure == SFSDKDPoPDecorationFailureBoundKeyUnavailable) {
+        [SFSDKCoreLogger e:[self class] format:@"%@: aborting refresh — DPoP bound key unusable (failure=%ld); routing to re-auth via invalid_grant.", NSStringFromSelector(_cmd), (long)dpopFailure];
+        if (completionBlock) {
+            NSError *dpopError = [NSError errorWithDomain:kSFOAuthErrorDomain
+                                                     code:kSFOAuthErrorInvalidGrant
+                                                 userInfo:@{NSLocalizedDescriptionKey: @"DPoP bound key unavailable for refresh; re-authentication required."}];
+            completionBlock([[SFSDKOAuthTokenEndpointResponse alloc] initWithError:dpopError]);
+        }
+        return;
+    }
+
     NSMutableString *params = [[NSMutableString alloc] initWithFormat:@"%@=%@&%@=%@&%@=%@&%@=%@",
                                kSFOAuthFormat, @"json",
                                kSFOAuthRedirectUri, endpointReq.redirectURI,
@@ -371,6 +391,11 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
 }
 
 - (NSMutableURLRequest *)prepareBasicRequest:(SFSDKOAuthTokenEndpointRequest *)endpointReq {
+    return [self prepareBasicRequest:endpointReq dpopFailure:NULL];
+}
+
+- (NSMutableURLRequest *)prepareBasicRequest:(SFSDKOAuthTokenEndpointRequest *)endpointReq
+                                 dpopFailure:(SFSDKDPoPDecorationFailure *)outFailure {
     NSString *protocolHost = endpointReq.serverURL.absoluteString;
     NSMutableString *url = [[NSMutableString alloc] initWithFormat:@"%@%@", protocolHost, kSFOAuthEndPointToken];
     if (![url hasPrefix:@"http"]) {
@@ -385,16 +410,60 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
         [request setValue:endpointReq.userAgent forHTTPHeaderField:@"User-Agent"];
     }
     [request setHTTPShouldHandleCookies:NO];
-    [self attachDPoPHeaderIfNeeded:request scope:endpointReq.credentialsIdentifier tokenType:endpointReq.tokenType];
+    [self attachDPoPHeaderIfNeeded:request scope:endpointReq.credentialsIdentifier tokenType:endpointReq.tokenType failure:outFailure];
     return request;
 }
 
 - (void)attachDPoPHeaderIfNeeded:(NSMutableURLRequest *)request scope:(NSString *)scope tokenType:(nullable NSString *)tokenType {
+    [self attachDPoPHeaderIfNeeded:request scope:scope tokenType:tokenType failure:NULL];
+}
+
+// Classifies a DPoP decoration failure so the refresh path can fail fast instead of silently
+// sending a refresh with no proof (or a proof signed by a freshly-minted, server-unacceptable key).
+// On `boundKeyMissing` the bound key is confirmed gone → the caller must fail the refresh as
+// invalid_grant and route to re-auth. On `boundKeyUnavailable` (e.g. device locked) the key may
+// still exist → do not send a mis-signed request, but treat as transient. For
+// any other (non-key) decoration error, preserve the legacy "log and proceed without a proof".
+- (void)attachDPoPHeaderIfNeeded:(NSMutableURLRequest *)request
+                           scope:(NSString *)scope
+                       tokenType:(nullable NSString *)tokenType
+                         failure:(SFSDKDPoPDecorationFailure *)outFailure {
+    if (outFailure) { *outFailure = SFSDKDPoPDecorationFailureOther; }
     if (scope.length == 0) return;
     NSError *err = nil;
     [SFSDKDPoPRequestDecorator decorateRequest:request scope:scope tokenType:tokenType accessToken:nil error:&err];
     if (err) {
-        [SFSDKCoreLogger e:[self class] format:@"DPoP attach failed (code=%ld); proceeding without DPoP header.", (long)err.code];
+        SFSDKDPoPDecorationFailure failure = [SFSDKDPoPRequestDecorator classifyDecorationError:err];
+        if (outFailure) { *outFailure = failure; }
+        switch (failure) {
+            case SFSDKDPoPDecorationFailureBoundKeyMissing:
+                [SFSDKCoreLogger e:[self class] format:@"DPoP attach: bound key missing; refusing to send a mis-signed refresh. Routing to re-auth."];
+                break;
+            case SFSDKDPoPDecorationFailureBoundKeyUnavailable:
+                [SFSDKCoreLogger w:[self class] format:@"DPoP attach: bound key temporarily unavailable (indeterminate Keychain read); refresh will not be sent and should be retried."];
+                break;
+            case SFSDKDPoPDecorationFailureOther:
+            default:
+                [SFSDKCoreLogger e:[self class] format:@"DPoP attach failed (code=%ld); proceeding without DPoP header.", (long)err.code];
+                break;
+        }
+        return;
+    }
+    // Diagnostic: if a proof was attached, record the scope + PUBLIC jkt thumbprint the refresh is
+    // being signed with. Compare against the /authorize binding log (emitted by SFOAuthCoordinator)
+    // to detect key-scope drift — a refresh whose scope/jkt differs from the originally bound pair
+    // means the key was looked up under a different identifier than it was created under. Low-
+    // frequency (token endpoint only, not resource calls) and non-PII: thumbprint is the public jkt;
+    // no key material/tokens.
+    if ([request valueForHTTPHeaderField:kHttpHeaderDPoP].length > 0) {
+        SFSDKDPoPKeyPair *boundPair = [SFSDKDPoPKeyStore.shared existingKeyPairForScope:scope];
+        if (boundPair) {
+            NSError *tpErr = nil;
+            NSString *jkt = [SFSDKDPoPProofBuilder jwkThumbprintWithPublicKey:boundPair.publicKey error:&tpErr];
+            if (jkt.length > 0 && !tpErr) {
+                [SFSDKCoreLogger i:[self class] format:@"DPoP binding at refresh: scope=%@ jkt=%@", scope, jkt];
+            }
+        }
     }
 }
 
