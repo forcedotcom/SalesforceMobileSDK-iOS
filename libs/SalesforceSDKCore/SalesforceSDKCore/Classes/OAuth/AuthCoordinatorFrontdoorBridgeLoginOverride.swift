@@ -74,7 +74,7 @@ public class AuthCoordinatorFrontdoorBridgeLoginOverride: NSObject {
     private var suppliedCodeVerifier: String?
     private let stateLock = NSLock()
 
-    @objc var validatedSnapshot: FrontdoorBridgeLoginSnapshot? {
+    @objc public var validatedSnapshot: FrontdoorBridgeLoginSnapshot? {
         stateLock.lock()
         let url = suppliedURL
         let codeVerifier = suppliedCodeVerifier
@@ -88,7 +88,7 @@ public class AuthCoordinatorFrontdoorBridgeLoginOverride: NSObject {
      Validate on use because the public properties remain writable for API
      compatibility. A public consumer key identifies an app, not a trusted host.
      */
-    @objc var isValid: Bool {
+    @objc public var isValid: Bool {
         validatedSnapshot != nil
     }
 
