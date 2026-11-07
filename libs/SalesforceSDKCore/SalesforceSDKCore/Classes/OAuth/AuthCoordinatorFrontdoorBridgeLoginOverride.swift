@@ -187,9 +187,9 @@ public class AuthCoordinatorFrontdoorBridgeLoginOverride: NSObject {
 }
 
 @objc(SFSDKFrontdoorBridgeLoginSnapshot)
-final class FrontdoorBridgeLoginSnapshot: NSObject {
-    @objc let url: URL
-    @objc let codeVerifier: String?
+public final class FrontdoorBridgeLoginSnapshot: NSObject {
+    @objc public let url: URL
+    @objc public let codeVerifier: String?
 
     init(url: URL, codeVerifier: String?) {
         self.url = url
@@ -203,17 +203,17 @@ final class FrontdoorBridgeLoginSnapshot: NSObject {
  login types.
  */
 @objc(SFSDKAuthAttempt)
-final class AuthAttempt: NSObject {
+public final class AuthAttempt: NSObject {
     private let stateLock = NSLock()
     private var invalidated = false
 
-    @objc var isInvalidated: Bool {
+    @objc public var isInvalidated: Bool {
         stateLock.lock()
         defer { stateLock.unlock() }
         return invalidated
     }
 
-    @objc func invalidate() {
+    @objc public func invalidate() {
         stateLock.lock()
         invalidated = true
         stateLock.unlock()
