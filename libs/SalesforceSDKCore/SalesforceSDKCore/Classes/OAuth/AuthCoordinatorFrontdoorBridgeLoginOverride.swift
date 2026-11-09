@@ -74,7 +74,7 @@ public class AuthCoordinatorFrontdoorBridgeLoginOverride: NSObject {
     private var suppliedCodeVerifier: String?
     private let stateLock = NSLock()
 
-    @objc var validatedSnapshot: FrontdoorBridgeLoginSnapshot? {
+    @objc public var validatedSnapshot: FrontdoorBridgeLoginSnapshot? {
         stateLock.lock()
         let url = suppliedURL
         let codeVerifier = suppliedCodeVerifier
@@ -88,7 +88,7 @@ public class AuthCoordinatorFrontdoorBridgeLoginOverride: NSObject {
      Validate on use because the public properties remain writable for API
      compatibility. A public consumer key identifies an app, not a trusted host.
      */
-    @objc var isValid: Bool {
+    @objc public var isValid: Bool {
         validatedSnapshot != nil
     }
 
@@ -187,9 +187,9 @@ public class AuthCoordinatorFrontdoorBridgeLoginOverride: NSObject {
 }
 
 @objc(SFSDKFrontdoorBridgeLoginSnapshot)
-final class FrontdoorBridgeLoginSnapshot: NSObject {
-    @objc let url: URL
-    @objc let codeVerifier: String?
+public final class FrontdoorBridgeLoginSnapshot: NSObject {
+    @objc public let url: URL
+    @objc public let codeVerifier: String?
 
     init(url: URL, codeVerifier: String?) {
         self.url = url
@@ -203,17 +203,17 @@ final class FrontdoorBridgeLoginSnapshot: NSObject {
  login types.
  */
 @objc(SFSDKAuthAttempt)
-final class AuthAttempt: NSObject {
+public final class AuthAttempt: NSObject {
     private let stateLock = NSLock()
     private var invalidated = false
 
-    @objc var isInvalidated: Bool {
+    @objc public var isInvalidated: Bool {
         stateLock.lock()
         defer { stateLock.unlock() }
         return invalidated
     }
 
-    @objc func invalidate() {
+    @objc public func invalidate() {
         stateLock.lock()
         invalidated = true
         stateLock.unlock()
