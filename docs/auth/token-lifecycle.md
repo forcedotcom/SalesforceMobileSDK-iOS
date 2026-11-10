@@ -300,7 +300,8 @@ decoration (`DPoPRequestDecorator.decorate`) and the dev-info thumbprint display
 which **never generates** a key. This is a correctness requirement: if a bound credential's key were
 re-minted on a miss, the SDK would sign the refresh with a key the server cannot accept, and because
 the new key is persisted, every retry and restart would reuse it — the refresh token is then
-permanently dead until re-login (server reports `DPoPCnfJkt miss match`).
+permanently dead until re-login (the token endpoint rejects the replacement proof as
+`invalid_dpop_proof` / `dpop thumbprint invalid for token`).
 
 `existingKeyPair(forScope:)` returns a **tri-state** so callers can react safely to a miss:
 
@@ -308,17 +309,18 @@ permanently dead until re-login (server reports `DPoPCnfJkt miss match`).
 |---|---|---|
 | `found` | Key present (cache or Keychain). | Build the proof as normal. |
 | `absent` | Keychain read succeeded with `errSecItemNotFound` — the bound key is confirmed gone. | Fail fast → re-auth (`boundKeyMissing`). |
-| `unavailable` | Keychain read failed for any other reason (e.g. device locked, `errSecInteractionNotAllowed`). **Not** proof of absence. | Do **not** send a mis-signed request and do **not** re-auth; treat as transient/retryable (`boundKeyUnavailable`). |
+| `unavailable` | Keychain read failed for any other reason (e.g. device locked, `errSecInteractionNotAllowed`). **Not** proof of absence. | Do **not** send a mis-signed request or re-auth. Complete as transient `boundKeyUnavailable`; do not retry the in-flight request. A later caller-initiated refresh can retry after Keychain access is restored. |
 
 On the refresh path, `SFSDKOAuth2` classifies the decoration result (`DPoPRequestDecorator`'s
-`classifyDecorationError:` / `DPoPDecorationFailure`). For a DPoP-bound credential, **both**
-`boundKeyMissing` and `boundKeyUnavailable` abort the refresh before it is sent and complete it with
-an `invalid_grant`-class error (`kSFOAuthErrorDomain` / `kSFOAuthErrorInvalidGrant`), which
-`SFSDKAuthErrorManager` already treats as invalid credentials — so the app's existing re-auth routing
-takes over instead of looping on a dead token. A non-key decoration error (e.g. a proof-build
-failure) preserves the legacy "log and proceed without a proof" behavior. Viewing the dev-info
-screen shows "Unavailable" for a missing/indeterminate key and never mints one as a display side
-effect.
+`classifyDecorationError:` / `DPoPDecorationFailure`) and aborts the refresh before it is sent for
+either outcome. `boundKeyMissing` completes with an `invalid_grant`-class error
+(`kSFOAuthErrorDomain` / `kSFOAuthErrorInvalidGrant`), which `SFSDKAuthErrorManager` treats as
+invalid credentials and routes to re-auth. `boundKeyUnavailable` completes with the transient
+`kSFOAuthErrorRefreshFailed`, preserving the current session; the SDK does not retry that refresh
+immediately, but a later caller-initiated refresh can retry after Keychain access is restored. A
+non-key decoration error (e.g. a proof-build failure) preserves the legacy "log and proceed without
+a proof" behavior. Viewing the dev-info screen shows "Unavailable" for a missing/indeterminate key
+and never mints one as a display side effect.
 
 ---
 

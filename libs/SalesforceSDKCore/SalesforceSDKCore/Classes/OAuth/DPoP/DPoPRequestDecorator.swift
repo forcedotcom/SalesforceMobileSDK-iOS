@@ -173,7 +173,7 @@ public final class DPoPRequestDecorator: NSObject {
             // a transient error; the caller must not treat this as a missing key / re-auth trigger
             // or retry immediately. A later caller-initiated refresh can retry after Keychain access
             // is restored.
-            SFSDKCoreLogger.w(Self.self, message: "DPoP decorate: bound key temporarily unavailable for scope (indeterminate Keychain read); request should be retried.")
+            SFSDKCoreLogger.w(Self.self, message: "DPoP decorate: bound key temporarily unavailable for scope (indeterminate Keychain read); request not sent. A later caller-initiated request can retry after Keychain access is restored.")
             throw DPoPKeyStoreError.boundKeyUnavailable
         }
         // Salesforce seeds DPoP-Nonce only on token-endpoint responses; resource-server

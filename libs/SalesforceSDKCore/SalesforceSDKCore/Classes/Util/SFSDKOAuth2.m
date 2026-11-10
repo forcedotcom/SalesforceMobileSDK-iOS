@@ -447,7 +447,7 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
                 [SFSDKCoreLogger e:[self class] format:@"DPoP attach: bound key missing; refusing to send a mis-signed refresh. Routing to re-auth."];
                 break;
             case SFSDKDPoPDecorationFailureBoundKeyUnavailable:
-                [SFSDKCoreLogger w:[self class] format:@"DPoP attach: bound key temporarily unavailable (indeterminate Keychain read); refresh will not be sent and should be retried."];
+                [SFSDKCoreLogger w:[self class] format:@"DPoP attach: bound key temporarily unavailable (indeterminate Keychain read); refresh not sent. A later caller-initiated refresh can retry after Keychain access is restored."];
                 break;
             case SFSDKDPoPDecorationFailureOther:
             default:
@@ -503,6 +503,24 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
             if ([urlResponse isKindOfClass:[NSHTTPURLResponse class]]) {
                 statusCode = ((NSHTTPURLResponse *)urlResponse).statusCode;
             }
+#if DEBUG
+            // Temporary diagnostic for the former mint-on-miss state. Log only normalized server
+            // signals, not the OAuth response body, refresh token, or DPoP proof.
+            if (statusCode >= 400 && [request valueForHTTPHeaderField:kHttpHeaderDPoP].length > 0) {
+                NSDictionary *oauthErrorResponse = [SFJsonUtils objectFromJSONData:data];
+                NSString *oauthError = [oauthErrorResponse[kSFOAuthError] isKindOfClass:[NSString class]]
+                    ? oauthErrorResponse[kSFOAuthError]
+                    : @"<missing>";
+                NSString *oauthErrorDescription = [oauthErrorResponse[kSFOAuthErrorDescription] isKindOfClass:[NSString class]]
+                    ? oauthErrorResponse[kSFOAuthErrorDescription]
+                    : @"";
+                BOOL isCnfJktMismatch = [oauthErrorDescription rangeOfString:@"DPoPCnfJkt miss match"
+                                                                       options:NSCaseInsensitiveSearch].location != NSNotFound;
+                [SFSDKCoreLogger w:[strongSelf class]
+                              format:@"DPoP token response diagnostic: status=%ld oauth_error=%@ cnf_jkt_mismatch=%@",
+                 (long)statusCode, oauthError, isCnfJktMismatch ? @"true" : @"false"];
+            }
+#endif
             if (retryOnNonceChallenge &&
                 [SFSDKDPoPRequestDecorator isNonceChallengeWithStatusCode:statusCode body:data response:urlResponse]) {
                 [SFSDKCoreLogger i:[strongSelf class] format:@"DPoP nonce challenge received; retrying token-endpoint request once."];
