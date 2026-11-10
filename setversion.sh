@@ -55,6 +55,7 @@ update_salesforce_sdk_constants ()
     local version=$2
     local isDev=$3
     local base_version="${version%%-*}"
+    local version_suffix="${version#"$base_version"}" # e.g. -rc.0 (empty for final releases)
     local defineNameForVersion="__SALESFORCE_SDK_${base_version//./_}"
     local defineValueForVersion="${base_version//./0}" # XXX works y and z are < 10 in version x.y.z
 
@@ -66,6 +67,7 @@ update_salesforce_sdk_constants ()
     fi
 
     gsed -i "s/\#define\ SALESFORCE_SDK_IS_PRODUCTION_VERSION\ .*/#define SALESFORCE_SDK_IS_PRODUCTION_VERSION ${isProdBool}/g" ${file}
+    gsed -i "s/\#define\ SALESFORCE_SDK_VERSION_SUFFIX\ .*/#define SALESFORCE_SDK_VERSION_SUFFIX @\"${version_suffix}\"/g" ${file}
     gsed -i "s/\#define\ SALESFORCE_SDK_VERSION_MIN_REQUIRED\ .*/#define SALESFORCE_SDK_VERSION_MIN_REQUIRED ${defineNameForVersion}/g" ${file}
 
     if ! grep "#define ${defineNameForVersion}" ${file} 1>/dev/null;
