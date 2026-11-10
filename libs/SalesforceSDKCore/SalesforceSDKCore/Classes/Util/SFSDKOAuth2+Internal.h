@@ -51,9 +51,9 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSDate *)timestampStringToDate:(NSString *)timestamp;
 - (void)handleTokenEndpointResponse:(void (^)(SFSDKOAuthTokenEndpointResponse *))completionBlock request:(SFSDKOAuthTokenEndpointRequest *)endpointReq data:(NSData *)data urlResponse:(NSURLResponse *)response;
 - (NSMutableURLRequest *)prepareBasicRequest:(SFSDKOAuthTokenEndpointRequest *)endpointReq;
-/// Variant that reports how DPoP decoration resolved, so the refresh path can fail fast
-/// (invalid_grant) instead of sending an unsigned/mis-signed refresh. `SFSDKDPoPDecorationFailureOther`
-/// means "no DPoP key-binding failure" (success or a non-key error handled as before).
+/// Variant that reports how DPoP decoration resolved, so the refresh path can fail locally rather
+/// than send an unsigned/mis-signed refresh. A missing key routes to `invalid_grant`; an
+/// indeterminate Keychain read is surfaced as a transient refresh failure.
 - (NSMutableURLRequest *)prepareBasicRequest:(SFSDKOAuthTokenEndpointRequest *)endpointReq
                                  dpopFailure:(nullable SFSDKDPoPDecorationFailure *)outFailure;
 @end

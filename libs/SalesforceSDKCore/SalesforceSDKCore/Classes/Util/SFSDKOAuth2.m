@@ -299,20 +299,13 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
     SFSDKDPoPDecorationFailure dpopFailure = SFSDKDPoPDecorationFailureOther;
     NSMutableURLRequest *request = [self prepareBasicRequest:endpointReq dpopFailure:&dpopFailure];
 
-    // For a DPoP-bound credential, never send a refresh we could not sign with the bound key. If
-    // the key is confirmed gone (boundKeyMissing) or temporarily unreadable (boundKeyUnavailable,
-    // e.g. device locked), fail fast with an invalid_grant-class error so the app's existing re-auth
-    // routing handles it — instead of sending an unsigned/mis-signed refresh that the server rejects
-    // with `DPoPCnfJkt miss match`, leaving the refresh token permanently
-    // dead. (invalid_grant is treated as invalid credentials by SFSDKAuthErrorManager.)
+    // Never send a refresh without the bound DPoP key. Confirmed absence requires re-auth;
+    // an indeterminate Keychain read is transient and must preserve the current session.
     if (dpopFailure == SFSDKDPoPDecorationFailureBoundKeyMissing ||
         dpopFailure == SFSDKDPoPDecorationFailureBoundKeyUnavailable) {
-        [SFSDKCoreLogger e:[self class] format:@"%@: aborting refresh — DPoP bound key unusable (failure=%ld); routing to re-auth via invalid_grant.", NSStringFromSelector(_cmd), (long)dpopFailure];
+        [SFSDKCoreLogger e:[self class] format:@"%@: aborting refresh — DPoP bound key unusable (failure=%ld).", NSStringFromSelector(_cmd), (long)dpopFailure];
         if (completionBlock) {
-            NSError *dpopError = [NSError errorWithDomain:kSFOAuthErrorDomain
-                                                     code:kSFOAuthErrorInvalidGrant
-                                                 userInfo:@{NSLocalizedDescriptionKey: @"DPoP bound key unavailable for refresh; re-authentication required."}];
-            completionBlock([[SFSDKOAuthTokenEndpointResponse alloc] initWithError:dpopError]);
+            completionBlock([[SFSDKOAuthTokenEndpointResponse alloc] initWithError:[self errorForDPoPDecorationFailure:dpopFailure]]);
         }
         return;
     }
@@ -348,8 +341,12 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
             NSURL *requestUrl = [request URL];
             NSString *errorUrlString = [NSString stringWithFormat:@"%@://%@%@", [requestUrl scheme], [requestUrl host], [requestUrl relativePath]];
             
-            NSUInteger code = [SFSDKOAuth2 sfErrorCodeFromError:error.code];
-            endpointResponse = [[SFSDKOAuthTokenEndpointResponse alloc] initWithError:[NSError errorWithDomain:kSFOAuthErrorDomain code:code userInfo:nil]];
+            if ([error.domain isEqualToString:kSFOAuthErrorDomain]) {
+                endpointResponse = [[SFSDKOAuthTokenEndpointResponse alloc] initWithError:error];
+            } else {
+                NSUInteger code = [SFSDKOAuth2 sfErrorCodeFromError:error.code];
+                endpointResponse = [[SFSDKOAuthTokenEndpointResponse alloc] initWithError:[NSError errorWithDomain:kSFOAuthErrorDomain code:code userInfo:nil]];
+            }
             
             if (error.code == NSURLErrorTimedOut) {
                 [SFSDKCoreLogger d:[SFSDKOAuth2 class] format:@"Refresh attempt timed out after %f seconds.", endpointReq.timeout];
@@ -416,6 +413,16 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
 
 - (void)attachDPoPHeaderIfNeeded:(NSMutableURLRequest *)request scope:(NSString *)scope tokenType:(nullable NSString *)tokenType {
     [self attachDPoPHeaderIfNeeded:request scope:scope tokenType:tokenType failure:NULL];
+}
+
+- (NSError *)errorForDPoPDecorationFailure:(SFSDKDPoPDecorationFailure)failure {
+    if (failure == SFSDKDPoPDecorationFailureBoundKeyMissing) {
+        return [SFSDKOAuth2 errorWithType:@"invalid_grant"
+                               description:@"DPoP bound key missing for refresh; re-authentication required."];
+    }
+    return [NSError errorWithDomain:kSFOAuthErrorDomain
+                               code:kSFOAuthErrorRefreshFailed
+                           userInfo:@{NSLocalizedDescriptionKey: @"DPoP bound key is temporarily unavailable for refresh; retry after Keychain access is restored."}];
 }
 
 // Classifies a DPoP decoration failure so the refresh path can fail fast instead of silently
@@ -500,7 +507,16 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
                 [SFSDKDPoPRequestDecorator isNonceChallengeWithStatusCode:statusCode body:data response:urlResponse]) {
                 [SFSDKCoreLogger i:[strongSelf class] format:@"DPoP nonce challenge received; retrying token-endpoint request once."];
                 [request setValue:nil forHTTPHeaderField:kHttpHeaderDPoP];
-                [strongSelf attachDPoPHeaderIfNeeded:request scope:endpointReq.credentialsIdentifier tokenType:endpointReq.tokenType];
+                SFSDKDPoPDecorationFailure dpopFailure = SFSDKDPoPDecorationFailureOther;
+                [strongSelf attachDPoPHeaderIfNeeded:request
+                                                 scope:endpointReq.credentialsIdentifier
+                                             tokenType:endpointReq.tokenType
+                                               failure:&dpopFailure];
+                if (dpopFailure == SFSDKDPoPDecorationFailureBoundKeyMissing ||
+                    dpopFailure == SFSDKDPoPDecorationFailureBoundKeyUnavailable) {
+                    block(nil, nil, [strongSelf errorForDPoPDecorationFailure:dpopFailure]);
+                    return;
+                }
                 [strongSelf sendTokenEndpointRequest:request
                                   forEndpointRequest:endpointReq
                                retryOnNonceChallenge:NO // already retried once; don't retry again.

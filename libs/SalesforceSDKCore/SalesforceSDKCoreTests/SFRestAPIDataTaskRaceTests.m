@@ -30,6 +30,7 @@
 #import "SFUserAccountManager+Internal.h"
 #import "SFUserAccount+Internal.h"
 #import "SFOAuthCredentials+Internal.h"
+#import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 
 #pragma mark - Expose private methods for testing
 
@@ -444,6 +445,44 @@ static NSMutableArray<DeferredURLProtocol *> *sPendingProtocols;
     [request setHeaderValue:@"DPoP test-access-token" forHeaderName:@"Authorization"];
     [request setHeaderValue:@"test-proof" forHeaderName:@"DPoP"];
     return request;
+}
+
+/// A bound DPoP credential must fail locally before SFRestAPI asks the network to create a task
+/// when the bound key has been confirmed absent. Leaving the request active would strand its
+/// callback; sending it would transmit `Authorization: DPoP` without a proof.
+- (void)test_givenDPoPBoundCredentialWithMissingKey_whenSendRequest_thenFailsWithoutCreatingTask {
+    NSString *scope = [NSString stringWithFormat:@"rest-boundmissing-%@", [[NSUUID UUID] UUIDString]];
+    [SFSDKDPoPKeyStore.shared deleteForScope:scope];
+    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:scope
+                                                                             clientId:@"test-client-id"
+                                                                            encrypted:NO];
+    credentials.accessToken = @"dpop-access-token";
+    credentials.tokenType = @"DPoP";
+    credentials.instanceUrl = [NSURL URLWithString:@"https://example.salesforce.com"];
+    SFUserAccount *account = [[SFUserAccount alloc] initWithCredentials:credentials];
+
+    CompletionRaceRestAPI *api = [[CompletionRaceRestAPI alloc] initWithUser:account];
+    ControlledCompletionNetwork *network = [ControlledCompletionNetwork new];
+    api.networkOverride = network;
+    SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodGET
+                                                          path:@"/services/data/v60.0/sobjects/Account"
+                                                   queryParams:nil];
+    XCTestExpectation *failed = [self expectationWithDescription:@"local DPoP failure"];
+    __block NSError *receivedError;
+
+    [api send:request failureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
+        receivedError = error;
+        [failed fulfill];
+    } successBlock:^(id response, NSURLResponse *rawResponse) {
+        XCTFail(@"A request without its bound DPoP key must not succeed");
+    } shouldRetry:YES];
+
+    [self waitForExpectations:@[failed] timeout:2.0];
+    XCTAssertEqual([SFSDKDPoPRequestDecorator classifyDecorationError:receivedError], SFSDKDPoPDecorationFailureBoundKeyMissing);
+    XCTAssertEqual(network.pendingCount, 0u, @"No network task may be created for a missing bound key");
+    XCTAssertNil(request.sessionDataTask);
+    XCTAssertEqual(api.activeRequests.count, 0u, @"Local preparation failure must retire the active request");
+    [SFSDKDPoPKeyStore.shared deleteForScope:scope];
 }
 
 /**

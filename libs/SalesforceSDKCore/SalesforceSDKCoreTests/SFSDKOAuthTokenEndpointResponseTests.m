@@ -31,6 +31,7 @@
 #import "SFNetwork.h"
 #import "SFNetwork+Internal.h"
 #import "SalesforceSDKManager.h"
+#import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 
 @interface SFSDKOAuthTokenEndpointResponse ()
 
@@ -48,6 +49,7 @@
 @interface SFSDKOAuthNonceRetryNetworkStub : SFNetwork
 @property (nonatomic, strong) NSMutableArray<NSURLRequest *> *capturedRequests;
 @property (nonatomic, strong) NSMutableArray<NSString *> *capturedOwnerKeys;
+@property (nonatomic, copy, nullable) void (^firstRequestBlock)(void);
 @end
 
 @implementation SFSDKOAuthNonceRetryNetworkStub
@@ -69,6 +71,9 @@
 - (NSURLSessionDataTask *)sendRequest:(NSURLRequest *)urlRequest dataResponseBlock:(SFDataResponseBlock)dataResponseBlock {
     [self.capturedRequests addObject:[urlRequest copy]];
     BOOL isFirstAttempt = self.capturedRequests.count == 1;
+    if (isFirstAttempt && self.firstRequestBlock) {
+        self.firstRequestBlock();
+    }
     NSInteger statusCode = isFirstAttempt ? 400 : 200;
     NSDictionary *headers = isFirstAttempt ? @{ @"DPoP-Nonce": @"retry-nonce" } : @{};
     NSString *body = isFirstAttempt
@@ -273,6 +278,48 @@ static SFSDKOAuthNonceRetryNetworkStub *sNonceRetryNetworkStub;
         XCTAssertEqualObjects([capturedRequest valueForHTTPHeaderField:@"User-Agent"], expectedUserAgent,
                               @"The explicit User-Agent must be reused unchanged on the nonce retry");
     }
+}
+
+- (void)test_givenBoundKeyDisappearsAfterNonceChallenge_whenRefreshRetries_thenFailsWithoutSecondRequest {
+    sNonceRetryNetworkStub = [[SFSDKOAuthNonceRetryNetworkStub alloc] init];
+    [self swapNetworkFactoryForNonceRetryTest];
+    self.networkFactorySwizzled = YES;
+
+    NSString *scope = [NSString stringWithFormat:@"nonce-retry-boundmissing-%@", NSUUID.UUID.UUIDString];
+    NSError *keyError = nil;
+    SFSDKDPoPKeyPair *keyPair = [SFSDKDPoPKeyStore.shared keyPairForScope:scope error:&keyError];
+    XCTAssertNotNil(keyPair);
+    XCTAssertNil(keyError);
+    sNonceRetryNetworkStub.firstRequestBlock = ^{
+        [SFSDKDPoPKeyStore.shared deleteForScope:scope];
+    };
+
+    SFSDKOAuthTokenEndpointRequest *endpointReq = [[SFSDKOAuthTokenEndpointRequest alloc] init];
+    endpointReq.credentialsIdentifier = scope;
+    endpointReq.tokenType = @"DPoP";
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://login.salesforce.com/services/oauth2/token"]];
+    NSError *decorationError = nil;
+    [SFSDKDPoPRequestDecorator decorateRequest:request
+                                          scope:scope
+                                      tokenType:@"DPoP"
+                                    accessToken:nil
+                                          error:&decorationError];
+    XCTAssertNil(decorationError);
+
+    XCTestExpectation *completion = [self expectationWithDescription:@"nonce retry fails locally"];
+    [[[SFSDKOAuth2 alloc] init] sendTokenEndpointRequest:request
+                                     forEndpointRequest:endpointReq
+                                  retryOnNonceChallenge:YES
+                                      dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
+        XCTAssertEqualObjects(error.domain, kSFOAuthErrorDomain);
+        XCTAssertEqual(error.code, kSFOAuthErrorInvalidGrant);
+        [completion fulfill];
+    }];
+    [self waitForExpectations:@[completion] timeout:2.0];
+
+    XCTAssertEqual(sNonceRetryNetworkStub.capturedRequests.count, 1u,
+                   @"A nonce retry must not create a second task after the bound key disappears");
+    [SFSDKDPoPKeyStore.shared deleteForScope:scope];
 }
 
 @end

@@ -170,7 +170,9 @@ public final class DPoPRequestDecorator: NSObject {
             throw DPoPKeyStoreError.boundKeyMissing
         case .unavailable:
             // Keychain read was indeterminate (e.g. device locked) — NOT proof of absence. Surface
-            // a retryable error; the caller must not treat this as a missing key / re-auth trigger.
+            // a transient error; the caller must not treat this as a missing key / re-auth trigger
+            // or retry immediately. A later caller-initiated refresh can retry after Keychain access
+            // is restored.
             SFSDKCoreLogger.w(Self.self, message: "DPoP decorate: bound key temporarily unavailable for scope (indeterminate Keychain read); request should be retried.")
             throw DPoPKeyStoreError.boundKeyUnavailable
         }

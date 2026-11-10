@@ -146,6 +146,95 @@
 - (void)beginTokenEndpointFlow;
 @end
 
+@interface SFOAuthCoordinator (DPoPJWTTesting)
+- (void)swapJWTWithCompletionHandler:(void (^)(NSData *data, NSURLResponse *response, NSError *error))completionHandler;
+@end
+
+@interface DPoPJWTNoSendURLProtocol : NSURLProtocol
++ (void)reset;
++ (NSUInteger)requestCount;
++ (void)setFirstRequestBlock:(nullable void (^)(void))block;
++ (void)setSendsNonceChallengeOnFirstRequest:(BOOL)sendsNonceChallenge;
+@end
+
+@implementation DPoPJWTNoSendURLProtocol
+
+static NSUInteger DPoPJWTNoSendRequestCount;
+static void (^DPoPJWTFirstRequestBlock)(void);
+static BOOL DPoPJWTSendsNonceChallengeOnFirstRequest;
+
++ (BOOL)canInitWithRequest:(NSURLRequest *)request { return YES; }
++ (NSURLRequest *)canonicalRequestForRequest:(NSURLRequest *)request { return request; }
+
++ (void)reset {
+    @synchronized (self) {
+        DPoPJWTNoSendRequestCount = 0;
+        DPoPJWTFirstRequestBlock = nil;
+        DPoPJWTSendsNonceChallengeOnFirstRequest = NO;
+    }
+}
+
++ (NSUInteger)requestCount {
+    @synchronized (self) {
+        return DPoPJWTNoSendRequestCount;
+    }
+}
+
++ (void)setFirstRequestBlock:(void (^)(void))block {
+    @synchronized (self) {
+        DPoPJWTFirstRequestBlock = [block copy];
+    }
+}
+
++ (void)setSendsNonceChallengeOnFirstRequest:(BOOL)sendsNonceChallenge {
+    @synchronized (self) {
+        DPoPJWTSendsNonceChallengeOnFirstRequest = sendsNonceChallenge;
+    }
+}
+
+- (void)startLoading {
+    BOOL sendNonceChallenge = NO;
+    void (^firstRequestBlock)(void) = nil;
+    @synchronized ([self class]) {
+        DPoPJWTNoSendRequestCount++;
+        if (DPoPJWTNoSendRequestCount == 1) {
+            sendNonceChallenge = DPoPJWTSendsNonceChallengeOnFirstRequest;
+            firstRequestBlock = DPoPJWTFirstRequestBlock;
+        }
+    }
+    if (firstRequestBlock) {
+        firstRequestBlock();
+    }
+    if (sendNonceChallenge) {
+        NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc] initWithURL:self.request.URL
+                                                                   statusCode:400
+                                                                  HTTPVersion:@"HTTP/1.1"
+                                                                 headerFields:@{ @"DPoP-Nonce": @"retry-nonce" }];
+        [self.client URLProtocol:self didReceiveResponse:response cacheStoragePolicy:NSURLCacheStorageNotAllowed];
+        [self.client URLProtocol:self didLoadData:[@"{\"error\":\"use_dpop_nonce\"}" dataUsingEncoding:NSUTF8StringEncoding]];
+        [self.client URLProtocolDidFinishLoading:self];
+        return;
+    }
+    NSError *error = [NSError errorWithDomain:@"DPoPJWTNoSendURLProtocol" code:1 userInfo:nil];
+    [self.client URLProtocol:self didFailWithError:error];
+}
+
+- (void)stopLoading {}
+
+@end
+
+@interface DPoPJWTNoSendCoordinator : SFOAuthCoordinator
+@property (nonatomic, strong) NSURLSession *sessionOverride;
+@end
+
+@implementation DPoPJWTNoSendCoordinator
+
+- (NSURLSession *)session {
+    return self.sessionOverride;
+}
+
+@end
+
 @interface SFOAuthCoordinatorTests : XCTestCase
 
 // SFOAuthCoordinator.authSession is weak; production code keeps it alive via
@@ -170,6 +259,67 @@
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [[SFSDKCoordinatorMockRefresher alloc] initWithCredentials:creds];
 #pragma clang diagnostic pop
+}
+
+- (void)test_givenDPoPBoundCredentialWithMissingKey_whenSwapJWT_thenFailsWithoutSending {
+    NSString *scope = [NSString stringWithFormat:@"jwt-boundmissing-%@", [[NSUUID UUID] UUIDString]];
+    [SFSDKDPoPKeyStore.shared deleteForScope:scope];
+    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:scope clientId:@"test-client-id" encrypted:NO];
+    credentials.domain = @"login.salesforce.com";
+    credentials.jwt = @"signed-jwt-assertion";
+    credentials.tokenType = @"DPoP";
+
+    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
+    configuration.protocolClasses = @[[DPoPJWTNoSendURLProtocol class]];
+    DPoPJWTNoSendCoordinator *coordinator = [[DPoPJWTNoSendCoordinator alloc] initWithCredentials:credentials];
+    coordinator.sessionOverride = [NSURLSession sessionWithConfiguration:configuration];
+    [DPoPJWTNoSendURLProtocol reset];
+
+    XCTestExpectation *failed = [self expectationWithDescription:@"local JWT DPoP failure"];
+    __block NSError *receivedError;
+    [coordinator swapJWTWithCompletionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        receivedError = error;
+        [failed fulfill];
+    }];
+
+    [self waitForExpectations:@[failed] timeout:2.0];
+    XCTAssertEqual([SFSDKDPoPRequestDecorator classifyDecorationError:receivedError], SFSDKDPoPDecorationFailureBoundKeyMissing);
+    XCTAssertEqual([DPoPJWTNoSendURLProtocol requestCount], 0u, @"JWT swap must not create a task without the bound DPoP key");
+    [SFSDKDPoPKeyStore.shared deleteForScope:scope];
+}
+
+- (void)test_givenBoundKeyDisappearsAfterJWTNonceChallenge_whenSwapJWTThenRetries_thenFailsWithoutSecondRequest {
+    NSString *scope = [NSString stringWithFormat:@"jwt-nonce-boundmissing-%@", [[NSUUID UUID] UUIDString]];
+    NSError *keyError = nil;
+    SFSDKDPoPKeyPair *keyPair = [SFSDKDPoPKeyStore.shared keyPairForScope:scope error:&keyError];
+    XCTAssertNotNil(keyPair);
+    XCTAssertNil(keyError);
+    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:scope clientId:@"test-client-id" encrypted:NO];
+    credentials.domain = @"login.salesforce.com";
+    credentials.jwt = @"signed-jwt-assertion";
+    credentials.tokenType = @"DPoP";
+
+    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
+    configuration.protocolClasses = @[[DPoPJWTNoSendURLProtocol class]];
+    DPoPJWTNoSendCoordinator *coordinator = [[DPoPJWTNoSendCoordinator alloc] initWithCredentials:credentials];
+    coordinator.sessionOverride = [NSURLSession sessionWithConfiguration:configuration];
+    [DPoPJWTNoSendURLProtocol reset];
+    [DPoPJWTNoSendURLProtocol setSendsNonceChallengeOnFirstRequest:YES];
+    [DPoPJWTNoSendURLProtocol setFirstRequestBlock:^{
+        [SFSDKDPoPKeyStore.shared deleteForScope:scope];
+    }];
+
+    XCTestExpectation *failed = [self expectationWithDescription:@"local JWT nonce retry failure"];
+    __block NSError *receivedError;
+    [coordinator swapJWTWithCompletionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        receivedError = error;
+        [failed fulfill];
+    }];
+
+    [self waitForExpectations:@[failed] timeout:2.0];
+    XCTAssertEqual([SFSDKDPoPRequestDecorator classifyDecorationError:receivedError], SFSDKDPoPDecorationFailureBoundKeyMissing);
+    XCTAssertEqual([DPoPJWTNoSendURLProtocol requestCount], 1u, @"JWT nonce retry must not create a second task after the bound key disappears");
+    [SFSDKDPoPKeyStore.shared deleteForScope:scope];
 }
 
 - (void)testMigrateRefreshTokenSetup {
@@ -905,4 +1055,3 @@ static NSString * const kExpectedUnscopedSceneIdPrefix = @"com.salesforce.mobile
 }
 
 @end
-

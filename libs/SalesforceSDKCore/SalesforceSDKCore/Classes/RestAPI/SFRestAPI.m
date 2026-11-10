@@ -369,6 +369,21 @@ successBlock:(SFRestResponseBlock)successBlock
     NSMutableURLRequest *finalRequest = [preparedRequest isKindOfClass:[NSMutableURLRequest class]]
         ? (NSMutableURLRequest *)preparedRequest
         : [preparedRequest mutableCopy];
+    if (!finalRequest && request.preparationError) {
+        __block SFRestRequestFailBlock failureBlock;
+        NSError *preparationError = request.preparationError;
+        @synchronized (self) {
+            if ([self.activeRequests containsObject:request]) {
+                request.sessionDataTask = nil;
+                [self.activeRequests removeObject:request];
+                failureBlock = [request.failureBlock copy];
+            }
+        }
+        if (failureBlock) {
+            failureBlock(nil, preparationError, nil);
+        }
+        return;
+    }
     if (finalRequest) {
         SFNetwork *network;
         __block NSString *instanceIdentifier;

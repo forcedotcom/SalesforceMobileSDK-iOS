@@ -1609,6 +1609,82 @@ class SFSDKDPoPTests: XCTestCase {
                        "decorate must NOT mint a key for a bound credential on a miss")
     }
 
+    func test_givenDPoPBoundCredentialWithUnavailableKey_whenRefresh_thenCompletesTransientError() {
+        let scope = "refresh-boundunavailable-\(UUID().uuidString)"
+        let store = DPoPKeyStore.shared
+        let priorReader = store.ecKeyReader
+        defer {
+            store.ecKeyReader = priorReader
+            store.clearInMemoryCache()
+            store.delete(forScope: scope)
+        }
+        struct LockedError: Error {}
+        store.ecKeyReader = { _ in throw LockedError() }
+        store.clearInMemoryCache()
+
+        let endpointRequest = SFSDKOAuthTokenEndpointRequest()
+        endpointRequest.clientID = "test-client-id"
+        endpointRequest.refreshToken = "test-refresh-token"
+        endpointRequest.redirectURI = "test://callback"
+        endpointRequest.serverURL = tokenURL.deletingLastPathComponent().deletingLastPathComponent()
+        endpointRequest.credentialsIdentifier = scope
+        endpointRequest.tokenType = "DPoP"
+
+        let completion = expectation(description: "transient refresh error")
+        var refreshError: NSError?
+        SFSDKOAuth2().accessToken(forRefresh: endpointRequest) { response in
+            refreshError = response.error?.error as NSError?
+            completion.fulfill()
+        }
+        wait(for: [completion], timeout: 2)
+
+        guard let error = refreshError else {
+            return XCTFail("refresh must complete with a transient error")
+        }
+        XCTAssertEqual(error.domain, kSFOAuthErrorDomain)
+        XCTAssertEqual(error.code, kSFOAuthErrorRefreshFailed,
+                       "An indeterminate Keychain read must remain a transient refresh failure")
+    }
+
+    func test_givenDPoPBoundCredentialWithMissingKey_whenPrepareRestRequest_thenFailsLocally() {
+        let scope = "rest-boundmissing-\(UUID().uuidString)"
+        defer { DPoPKeyStore.shared.delete(forScope: scope) }
+
+        let credentials = OAuthCredentials(identifier: scope, clientId: "CLIENT_ID", encrypted: false)!
+        credentials.accessToken = "dpop-access-token"
+        credentials.tokenType = "DPoP"
+        credentials.instanceUrl = URL(string: "https://example.salesforce.com")
+        let account = UserAccount(credentials: credentials)
+        let request = RestRequest(method: .GET, path: "/services/data/v60.0/sobjects/Account", queryParams: nil)
+
+        XCTAssertNil(request.prepare(forSend: account),
+                     "REST preparation must fail locally when the bound key is confirmed absent")
+    }
+
+    func test_givenDPoPBoundCredentialWithUnavailableKey_whenPrepareRestRequest_thenFailsLocally() {
+        let scope = "rest-boundunavailable-\(UUID().uuidString)"
+        let store = DPoPKeyStore.shared
+        let priorReader = store.ecKeyReader
+        defer {
+            store.ecKeyReader = priorReader
+            store.clearInMemoryCache()
+            store.delete(forScope: scope)
+        }
+        struct LockedError: Error {}
+        store.ecKeyReader = { _ in throw LockedError() }
+        store.clearInMemoryCache()
+
+        let credentials = OAuthCredentials(identifier: scope, clientId: "CLIENT_ID", encrypted: false)!
+        credentials.accessToken = "dpop-access-token"
+        credentials.tokenType = "DPoP"
+        credentials.instanceUrl = URL(string: "https://example.salesforce.com")
+        let account = UserAccount(credentials: credentials)
+        let request = RestRequest(method: .GET, path: "/services/data/v60.0/sobjects/Account", queryParams: nil)
+
+        XCTAssertNil(request.prepare(forSend: account),
+                     "REST preparation must not send DPoP authorization without a proof when Keychain access is indeterminate")
+    }
+
     /// Binding is unaffected: the generating API still mints on first use at `/authorize` and
     /// native login. Guards against over-restricting the fix.
     func test_givenBindingPath_whenKeyPairForScope_thenGeneratesKey() throws {
