@@ -28,9 +28,11 @@
 #import <XCTest/XCTest.h>
 #import <objc/runtime.h>
 #import "SFSDKOAuth2+Internal.h"
+#import "SFSDKCoreLogger.h"
 #import "SFNetwork.h"
 #import "SFNetwork+Internal.h"
 #import "SalesforceSDKManager.h"
+#import <SalesforceSDKCommon/SalesforceSDKCommon-Swift.h>
 #import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 
 @interface SFSDKOAuthTokenEndpointResponse ()
@@ -44,6 +46,77 @@
               forEndpointRequest:(SFSDKOAuthTokenEndpointRequest *)endpointReq
            retryOnNonceChallenge:(BOOL)retryOnNonceChallenge
                dataResponseBlock:(void (^)(NSData *, NSURLResponse *, NSError *))block;
+@end
+
+@interface SFLogger (NonceRetryLoggingTest)
++ (void)clearAllComponents;
+@end
+
+@interface SFSDKOAuthNonceRetryLogReceiver : NSObject <SFLogReceiver>
+@property (nonatomic, strong) NSMutableArray<NSString *> *messages;
+@end
+
+@implementation SFSDKOAuthNonceRetryLogReceiver
+
+- (instancetype)init {
+    if (self = [super init]) {
+        _messages = [NSMutableArray new];
+    }
+    return self;
+}
+
+- (void)receiveWithLevel:(SFLogLevel)level cls:(Class)cls component:(NSString *)component message:(NSString *)message {
+    [self.messages addObject:message];
+}
+
+@end
+
+@interface SFSDKOAuthNonceRetryLogReceiverFactory : NSObject <SFLogReceiverFactory>
+@property (nonatomic, strong) SFSDKOAuthNonceRetryLogReceiver *receiver;
+@end
+
+@implementation SFSDKOAuthNonceRetryLogReceiverFactory
+
+- (instancetype)initWithReceiver:(SFSDKOAuthNonceRetryLogReceiver *)receiver {
+    if (self = [super init]) {
+        _receiver = receiver;
+    }
+    return self;
+}
+
+- (id<SFLogReceiver>)createWithComponentName:(NSString *)componentName {
+    return self.receiver;
+}
+
+@end
+
+@interface SFSDKOAuthNonceRetryNoOpLogReceiver : NSObject <SFLogReceiver>
+@end
+
+@implementation SFSDKOAuthNonceRetryNoOpLogReceiver
+
+- (void)receiveWithLevel:(SFLogLevel)level cls:(Class)cls component:(NSString *)component message:(NSString *)message {
+}
+
+@end
+
+@interface SFSDKOAuthNonceRetryNoOpLogReceiverFactory : NSObject <SFLogReceiverFactory>
+@property (nonatomic, strong) SFSDKOAuthNonceRetryNoOpLogReceiver *receiver;
+@end
+
+@implementation SFSDKOAuthNonceRetryNoOpLogReceiverFactory
+
+- (instancetype)init {
+    if (self = [super init]) {
+        _receiver = [[SFSDKOAuthNonceRetryNoOpLogReceiver alloc] init];
+    }
+    return self;
+}
+
+- (id<SFLogReceiver>)createWithComponentName:(NSString *)componentName {
+    return self.receiver;
+}
+
 @end
 
 @interface SFSDKOAuthNonceRetryNetworkStub : SFNetwork
@@ -113,11 +186,17 @@ static SFSDKOAuthNonceRetryNetworkStub *sNonceRetryNetworkStub;
 
 @interface SFSDKOAuthTokenEndpointResponseTests : XCTestCase
 @property (nonatomic, assign) BOOL networkFactorySwizzled;
+@property (nonatomic, assign) BOOL logReceiverFactoryInstalled;
 @end
 
 @implementation SFSDKOAuthTokenEndpointResponseTests
 
 - (void)tearDown {
+    if (self.logReceiverFactoryInstalled) {
+        [SFLogger setLogReceiverFactory:[[SFSDKOAuthNonceRetryNoOpLogReceiverFactory alloc] init]];
+        [SFLogger clearAllComponents];
+        self.logReceiverFactoryInstalled = NO;
+    }
     if (self.networkFactorySwizzled) {
         [self swapNetworkFactoryForNonceRetryTest];
         self.networkFactorySwizzled = NO;
@@ -404,6 +483,66 @@ static SFSDKOAuthNonceRetryNetworkStub *sNonceRetryNetworkStub;
     }
     XCTAssertEqualObjects([self nonceClaimFromDPoPProof:[sNonceRetryNetworkStub.capturedRequests[1] valueForHTTPHeaderField:@"DPoP"]],
                           @"retry-nonce");
+    [SFSDKDPoPKeyStore.shared deleteForScope:scope];
+}
+
+- (void)test_givenNonceRetryReturnsCasedAndPaddedBoundKeyMismatch_whenRefreshCompletes_thenMarksRecovery {
+    sNonceRetryNetworkStub = [[SFSDKOAuthNonceRetryNetworkStub alloc] init];
+    sNonceRetryNetworkStub.secondResponseStatusCode = 400;
+    sNonceRetryNetworkStub.secondResponseBody = @"{\"error\":\"invalid_dpop_proof\",\"error_description\":\"  DPOP THUMBPRINT INVALID FOR TOKEN  \"}";
+    [self swapNetworkFactoryForNonceRetryTest];
+    self.networkFactorySwizzled = YES;
+
+    NSString *scope = [NSString stringWithFormat:@"nonce-retry-normalized-%@", NSUUID.UUID.UUIDString];
+    NSError *keyError = nil;
+    XCTAssertNotNil([SFSDKDPoPKeyStore.shared keyPairForScope:scope error:&keyError]);
+    XCTAssertNil(keyError);
+
+    XCTestExpectation *completion = [self expectationWithDescription:@"refresh completes"];
+    [[[SFSDKOAuth2 alloc] init] accessTokenForRefresh:[self refreshRequestForDPoPScope:scope] completion:^(SFSDKOAuthTokenEndpointResponse *response) {
+        XCTAssertTrue(response.hasError);
+        XCTAssertEqualObjects(response.error.error.userInfo[NSLocalizedDescriptionKey], @"  DPOP THUMBPRINT INVALID FOR TOKEN  ");
+        XCTAssertTrue([SFSDKOAuth2 isDPoPBoundKeyMismatchError:response.error.error]);
+        [completion fulfill];
+    }];
+    [self waitForExpectations:@[completion] timeout:2.0];
+
+    XCTAssertEqual(sNonceRetryNetworkStub.capturedRequests.count, 2u);
+    [SFSDKDPoPKeyStore.shared deleteForScope:scope];
+}
+
+- (void)test_givenNonceRetryReturnsUnrecognizedDPoPProofDescription_whenRefreshCompletes_thenDoesNotMarkRecovery {
+    sNonceRetryNetworkStub = [[SFSDKOAuthNonceRetryNetworkStub alloc] init];
+    sNonceRetryNetworkStub.secondResponseStatusCode = 400;
+    NSString *unrecognizedDescription = @"server-controlled-unrecognized-description";
+    sNonceRetryNetworkStub.secondResponseBody = [NSString stringWithFormat:@"{\"error\":\"invalid_dpop_proof\",\"error_description\":\"%@\"}", unrecognizedDescription];
+    [self swapNetworkFactoryForNonceRetryTest];
+    self.networkFactorySwizzled = YES;
+
+    SFSDKOAuthNonceRetryLogReceiver *logReceiver = [[SFSDKOAuthNonceRetryLogReceiver alloc] init];
+    [SFLogger setLogReceiverFactory:[[SFSDKOAuthNonceRetryLogReceiverFactory alloc] initWithReceiver:logReceiver]];
+    [SFLogger clearAllComponents];
+    self.logReceiverFactoryInstalled = YES;
+
+    NSString *scope = [NSString stringWithFormat:@"nonce-retry-unrecognized-description-%@", NSUUID.UUID.UUIDString];
+    NSError *keyError = nil;
+    XCTAssertNotNil([SFSDKDPoPKeyStore.shared keyPairForScope:scope error:&keyError]);
+    XCTAssertNil(keyError);
+
+    XCTestExpectation *completion = [self expectationWithDescription:@"refresh completes"];
+    [[[SFSDKOAuth2 alloc] init] accessTokenForRefresh:[self refreshRequestForDPoPScope:scope] completion:^(SFSDKOAuthTokenEndpointResponse *response) {
+        XCTAssertTrue(response.hasError);
+        XCTAssertEqualObjects(response.error.error.userInfo[NSLocalizedDescriptionKey], unrecognizedDescription);
+        XCTAssertFalse([SFSDKOAuth2 isDPoPBoundKeyMismatchError:response.error.error]);
+        [completion fulfill];
+    }];
+    [self waitForExpectations:@[completion] timeout:2.0];
+
+    XCTAssertEqual(sNonceRetryNetworkStub.capturedRequests.count, 2u);
+    XCTAssertTrue([logReceiver.messages containsObject:@"DPoP refresh nonce retry rejected with an unrecognized invalid_dpop_proof description; bound-key recovery not applied."]);
+    for (NSString *message in logReceiver.messages) {
+        XCTAssertFalse([message containsString:unrecognizedDescription]);
+    }
     [SFSDKDPoPKeyStore.shared deleteForScope:scope];
 }
 

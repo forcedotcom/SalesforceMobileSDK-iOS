@@ -39,6 +39,11 @@
 NSString * const  kSFOAuthErrorDomain  = @"com.salesforce.OAuth.ErrorDomain";
 const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
 NSString * const kSFSDKOAuthDPoPBoundKeyMismatchRecoveryKey = @"com.salesforce.mobilesdk.dpopBoundKeyMismatchRecovery";
+static NSString * const kSFSDKOAuthDPoPUseNonceError = @"use_dpop_nonce";
+static NSString * const kSFSDKOAuthDPoPInvalidProofError = @"invalid_dpop_proof";
+// Observed in the 2026-11-10 test-org reproduction after a refresh nonce retry with a persisted replacement key.
+static NSString * const kSFSDKOAuthDPoPBoundKeyMismatchDescription = @"dpop thumbprint invalid for token";
+static NSString * const kSFSDKOAuthDPoPUnrecognizedMismatchWarning = @"DPoP refresh nonce retry rejected with an unrecognized invalid_dpop_proof description; bound-key recovery not applied.";
 
 
 @interface SFSDKOAuthTokenEndpointErrorResponse() {
@@ -61,6 +66,14 @@ NSString * const kSFSDKOAuthDPoPBoundKeyMismatchRecoveryKey = @"com.salesforce.m
 + (BOOL)isServerDPoPBoundKeyMismatchError:(NSError *)error;
 + (BOOL)dpopProof:(NSString *)proof containsNonce:(NSString *)nonce;
 @end
+
+static BOOL SFSDKIsServerDPoPBoundKeyMismatch(NSString *errorType, NSString *errorDescription) {
+    if (![errorType isEqualToString:kSFSDKOAuthDPoPInvalidProofError] || ![errorDescription isKindOfClass:[NSString class]]) {
+        return NO;
+    }
+    NSString *normalizedDescription = [errorDescription stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceAndNewlineCharacterSet];
+    return [normalizedDescription caseInsensitiveCompare:kSFSDKOAuthDPoPBoundKeyMismatchDescription] == NSOrderedSame;
+}
 
 @implementation SFSDKOAuthTokenEndpointRequest
 @end
@@ -534,8 +547,7 @@ NSString * const kSFSDKOAuthDPoPBoundKeyMismatchRecoveryKey = @"com.salesforce.m
                 NSString *oauthErrorDescription = [oauthErrorResponse[kSFOAuthErrorDescription] isKindOfClass:[NSString class]]
                     ? oauthErrorResponse[kSFOAuthErrorDescription]
                     : @"";
-                BOOL isBoundKeyMismatch = [oauthError isEqualToString:@"invalid_dpop_proof"]
-                    && [oauthErrorDescription isEqualToString:@"dpop thumbprint invalid for token"];
+                BOOL isBoundKeyMismatch = SFSDKIsServerDPoPBoundKeyMismatch(oauthError, oauthErrorDescription);
                 [SFSDKCoreLogger w:[strongSelf class]
                               format:@"DPoP token response diagnostic: status=%ld has_oauth_error=%@ bound_key_mismatch=%@",
                  (long)statusCode, hasOAuthError ? @"true" : @"false", isBoundKeyMismatch ? @"true" : @"false"];
@@ -554,7 +566,7 @@ NSString * const kSFSDKOAuthDPoPBoundKeyMismatchRecoveryKey = @"com.salesforce.m
                 ? oauthErrorResponse[kSFOAuthError]
                 : nil;
             BOOL isNonceChallenge = statusCode == 400
-                ? [oauthError isEqualToString:@"use_dpop_nonce"]
+                ? [oauthError isEqualToString:kSFSDKOAuthDPoPUseNonceError]
                 : [SFSDKDPoPRequestDecorator isNonceChallengeWithStatusCode:statusCode body:data response:urlResponse];
             if (retryOnNonceChallenge && !hasMalformedOAuthErrorFields && isNonceChallenge) {
                 [SFSDKCoreLogger i:[strongSelf class] format:@"DPoP nonce challenge received; retrying token-endpoint request once."];
@@ -563,7 +575,7 @@ NSString * const kSFSDKOAuthDPoPBoundKeyMismatchRecoveryKey = @"com.salesforce.m
                     : nil;
                 BOOL isBoundKeyRecoveryChallenge = endpointReq.isRefreshTokenRequest
                     && statusCode == 400
-                    && [oauthError isEqualToString:@"use_dpop_nonce"]
+                    && [oauthError isEqualToString:kSFSDKOAuthDPoPUseNonceError]
                     && challengedNonce.length > 0;
                 [request setValue:nil forHTTPHeaderField:kHttpHeaderDPoP];
                 SFSDKDPoPDecorationFailure dpopFailure = SFSDKDPoPDecorationFailureOther;
@@ -615,17 +627,23 @@ NSString * const kSFSDKOAuthDPoPBoundKeyMismatchRecoveryKey = @"com.salesforce.m
         NSInteger statusCode = [response isKindOfClass:[NSHTTPURLResponse class]]
             ? ((NSHTTPURLResponse *)response).statusCode
             : 0;
-        if (endpointReq.isRefreshTokenRequest
+        BOOL isVerifiedNonceRetry = endpointReq.isRefreshTokenRequest
             && endpointReq.dpopNonceRetryUsedExistingKey
             && endpointReq.dpopNonceRetryUsedChallengeNonce
             && statusCode == 400
-            && endpointResponse.hasError
-            && [[self class] isServerDPoPBoundKeyMismatchError:endpointResponse.error.error]) {
-            NSMutableDictionary *userInfo = [endpointResponse.error.error.userInfo mutableCopy];
-            userInfo[kSFSDKOAuthDPoPBoundKeyMismatchRecoveryKey] = @YES;
-            endpointResponse.error.error = [NSError errorWithDomain:endpointResponse.error.error.domain
-                                                                 code:endpointResponse.error.error.code
-                                                             userInfo:userInfo];
+            && endpointResponse.hasError;
+        if (isVerifiedNonceRetry) {
+            NSError *serverError = endpointResponse.error.error;
+            if ([[self class] isServerDPoPBoundKeyMismatchError:serverError]) {
+                NSMutableDictionary *userInfo = [serverError.userInfo mutableCopy];
+                userInfo[kSFSDKOAuthDPoPBoundKeyMismatchRecoveryKey] = @YES;
+                endpointResponse.error.error = [NSError errorWithDomain:serverError.domain
+                                                                     code:serverError.code
+                                                                 userInfo:userInfo];
+            } else if ([serverError.userInfo[kSFOAuthError] isEqualToString:kSFSDKOAuthDPoPInvalidProofError]) {
+                // Server error text is untrusted, so expose only this fixed diagnostic to log receivers.
+                [SFSDKCoreLogger w:[self class] format:@"%@", kSFSDKOAuthDPoPUnrecognizedMismatchWarning];
+            }
         }
         if (!endpointResponse.hasError){
            // Adds the refresh token to the response for consistency.
@@ -828,8 +846,7 @@ NSString * const kSFSDKOAuthDPoPBoundKeyMismatchRecoveryKey = @"com.salesforce.m
     return [error.domain isEqualToString:kSFOAuthErrorDomain]
         && [error.userInfo[kSFOAuthError] isKindOfClass:[NSString class]]
         && [error.userInfo[NSLocalizedDescriptionKey] isKindOfClass:[NSString class]]
-        && [error.userInfo[kSFOAuthError] isEqualToString:@"invalid_dpop_proof"]
-        && [error.userInfo[NSLocalizedDescriptionKey] isEqualToString:@"dpop thumbprint invalid for token"];
+        && SFSDKIsServerDPoPBoundKeyMismatch(error.userInfo[kSFOAuthError], error.userInfo[NSLocalizedDescriptionKey]);
 }
 
 // Convert from a Unix timestamp string in milliseconds (returned in the OAuth response) to an NSDate
