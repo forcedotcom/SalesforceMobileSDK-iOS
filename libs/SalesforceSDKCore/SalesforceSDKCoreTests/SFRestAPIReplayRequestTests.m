@@ -41,6 +41,7 @@
 
 @interface SFSDKOAuthTokenEndpointResponse ()
 - (instancetype)initWithDictionary:(NSDictionary *)nvPairs parseAdditionalFields:(NSArray<NSString *> *)additionalOAuthParameterKeys;
+- (instancetype)initWithError:(NSError *)error;
 @end
 
 @interface SFRestAPI (Testing)
@@ -160,6 +161,14 @@ static XCTestExpectation *gLogoutExpectation;
     [self waitForExpectations:@[drained] timeout:2.0];
 }
 
+- (SFSDKOAuthTokenEndpointResponse *)poisonedDPoPKeyMismatchResponse {
+    NSError *serverError = [SFSDKOAuth2 errorWithType:@"invalid_dpop_proof" description:@"dpop thumbprint invalid for token"];
+    NSMutableDictionary *userInfo = [serverError.userInfo mutableCopy];
+    userInfo[kSFSDKOAuthDPoPBoundKeyMismatchRecoveryKey] = @YES;
+    NSError *recoveryError = [NSError errorWithDomain:serverError.domain code:serverError.code userInfo:userInfo];
+    return [[SFSDKOAuthTokenEndpointResponse alloc] initWithError:recoveryError];
+}
+
 - (void)test_given_invalidGrant_when_startAuthenticationRefresh_then_logsOutWithTokenExpired {
     // Arrange: stub returns invalid_grant error
     NSDictionary *errorDict = @{
@@ -191,13 +200,7 @@ static XCTestExpectation *gLogoutExpectation;
 }
 
 - (void)test_givenDPoPBoundKeyMismatch_when_startAuthenticationRefresh_thenLogsOutWithTokenExpired {
-    NSDictionary *errorDict = @{
-        @"error": @"invalid_dpop_proof",
-        @"error_description": @"dpop thumbprint invalid for token"
-    };
-    SFSDKOAuthTokenEndpointResponse *response = [[SFSDKOAuthTokenEndpointResponse alloc]
-                                                  initWithDictionary:errorDict
-                                                  parseAdditionalFields:nil];
+    SFSDKOAuthTokenEndpointResponse *response = [self poisonedDPoPKeyMismatchResponse];
     SFRestAPIReplayTestStub *stub = [[SFRestAPIReplayTestStub alloc] init];
     stub.stubbedResponse = response;
     [SFUserAccountManager sharedInstance].authClient = ^{ return stub; };
@@ -226,6 +229,32 @@ static XCTestExpectation *gLogoutExpectation;
     NSDictionary *errorDict = @{
         @"error": @"invalid_dpop_proof",
         @"error_description": @"dpop proof failed validation"
+    };
+    SFSDKOAuthTokenEndpointResponse *response = [[SFSDKOAuthTokenEndpointResponse alloc]
+                                                  initWithDictionary:errorDict
+                                                  parseAdditionalFields:nil];
+    SFRestAPIReplayTestStub *stub = [[SFRestAPIReplayTestStub alloc] init];
+    stub.stubbedResponse = response;
+    [SFUserAccountManager sharedInstance].authClient = ^{ return stub; };
+    [self swapLogoutUserWithRecorder];
+
+    XCTestExpectation *failureExpectation = [self expectationWithDescription:@"Request fails"];
+    SFRestRequest *request = [self pendingRequestWithFailureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
+        XCTAssertEqualObjects(error.userInfo[kSFOAuthError], @"invalid_dpop_proof");
+        [failureExpectation fulfill];
+    }];
+
+    [self startRefreshForRequest:request];
+    [self waitForExpectations:@[failureExpectation] timeout:5.0];
+    [self drainMainQueue];
+    XCTAssertEqual(gLogoutCallCount, 0);
+    [self swapLogoutUserWithRecorder];
+}
+
+- (void)test_givenUnmarkedDPoPBoundKeyMismatch_when_startAuthenticationRefresh_thenDoesNotLogout {
+    NSDictionary *errorDict = @{
+        @"error": @"invalid_dpop_proof",
+        @"error_description": @"dpop thumbprint invalid for token"
     };
     SFSDKOAuthTokenEndpointResponse *response = [[SFSDKOAuthTokenEndpointResponse alloc]
                                                   initWithDictionary:errorDict

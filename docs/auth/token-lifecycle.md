@@ -322,6 +322,14 @@ non-key decoration error (e.g. a proof-build failure) preserves the legacy "log 
 a proof" behavior. Viewing the dev-info screen shows "Unavailable" for a missing/indeterminate key
 and never mints one as a display side effect.
 
+For credentials already poisoned by an earlier replacement-key refresh, `SFSDKOAuth2` treats the
+server's exact `invalid_dpop_proof` / `dpop thumbprint invalid for token` response as invalid
+credentials only after a refresh-only HTTP 400 `use_dpop_nonce` retry used the persisted key and
+the challenged nonce. It preserves the raw OAuth error and routes it through the same
+invalid-credentials re-auth handling as a confirmed missing key. Other DPoP proof errors, code
+exchanges, malformed responses, and mismatches before or outside that verified retry sequence
+remain ordinary errors and do not force re-auth.
+
 ---
 
 ## 5. DPoP Nonce Lifecycle
