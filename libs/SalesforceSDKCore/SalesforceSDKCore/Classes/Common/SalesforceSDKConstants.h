@@ -5,6 +5,8 @@
 
 #define SALESFORCE_SDK_BUILD_IDENTIFIER @".dev"
 
+#define SALESFORCE_SDK_VERSION_SUFFIX @""
+
 #define __SALESFORCE_SDK_2_0_0 20000
 #define __SALESFORCE_SDK_2_0_1 20001
 #define __SALESFORCE_SDK_2_0_2 20002
@@ -95,10 +97,11 @@
 
 #define SALESFORCE_SDK_VERSION_MIN_REQUIRED __SALESFORCE_SDK_14_1_0
 
-#define SALESFORCE_SDK_VERSION [NSString stringWithFormat:@"%d.%d.%d%@",              \
+#define SALESFORCE_SDK_VERSION [NSString stringWithFormat:@"%d.%d.%d%@%@",              \
                                 (SALESFORCE_SDK_VERSION_MIN_REQUIRED / 10000),        \
                                 (SALESFORCE_SDK_VERSION_MIN_REQUIRED % 10000) / 100,  \
                                 (SALESFORCE_SDK_VERSION_MIN_REQUIRED % 10000) % 100,  \
+                                SALESFORCE_SDK_VERSION_SUFFIX,                        \
                                 (SALESFORCE_SDK_IS_PRODUCTION_VERSION ? @"" : SALESFORCE_SDK_BUILD_IDENTIFIER)]
 
 #define FIX_CATEGORY_BUG(name) @interface FIXCATEGORYBUG ## name @end @implementation FIXCATEGORYBUG ## name @end
