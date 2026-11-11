@@ -24,6 +24,7 @@
 #import <XCTest/XCTest.h>
 #import "SFSDKAuthErrorManager.h"
 #import "SFSDKAuthErrorManager+Internal.h"
+#import "SFSDKOAuth2+Internal.h"
 #import "SFOAuthInfo.h"
 #import "SFOAuthCoordinator+Internal.h"
 #import "SFUserAccountManager+Internal.h"
@@ -101,6 +102,69 @@
     NSDictionary *userInfo = [[NSMutableDictionary alloc] init];
     NSError *error = [NSError errorWithDomain:kSFOAuthErrorDomain code:kSFOAuthErrorInvalidGrant userInfo:userInfo];
     XCTAssertTrue([SFSDKAuthErrorManager errorIsInvalidAuthCredentials:error],@"Should be a valid auth error  handled by the ErrorManager");
+}
+
+- (void)test_givenDPoPBoundKeyMismatchDuringRefresh_whenProcessAuthError_thenUsesInvalidCredentialsHandler {
+    SFSDKAuthErrorManager *errorManager = [[SFSDKAuthErrorManager alloc] init];
+    SFOAuthCredentials *credentials = [TestSetupUtils newClientCredentials];
+    SFSDKAuthSession *authSession = [[SFSDKAuthSession alloc] initWith:[[SFSDKAuthRequest alloc] init]
+                                                               credentials:credentials
+                                                         spAppCredentials:nil];
+    authSession.oauthCoordinator.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefresh];
+    XCTestExpectation *invalidCredentialsExpectation = [self expectationWithDescription:@"invalid credentials handler"];
+    NSError *error = [SFSDKOAuth2 errorWithType:@"invalid_dpop_proof" description:@"dpop thumbprint invalid for token"];
+
+    errorManager.invalidAuthCredentialsErrorHandlerBlock = ^(NSError *receivedError, SFSDKAuthSession *session, NSDictionary *options) {
+        [invalidCredentialsExpectation fulfill];
+    };
+    errorManager.genericErrorHandlerBlock = ^(NSError *receivedError, SFSDKAuthSession *session, NSDictionary *options) {
+        XCTFail(@"The exact DPoP bound-key mismatch must not use generic error handling.");
+    };
+
+    XCTAssertTrue([errorManager processAuthError:error authContext:authSession options:nil]);
+    [self waitForExpectations:@[invalidCredentialsExpectation] timeout:2.0];
+}
+
+- (void)test_givenOtherDPoPProofErrorDuringRefresh_whenProcessAuthError_thenUsesGenericHandler {
+    SFSDKAuthErrorManager *errorManager = [[SFSDKAuthErrorManager alloc] init];
+    SFOAuthCredentials *credentials = [TestSetupUtils newClientCredentials];
+    SFSDKAuthSession *authSession = [[SFSDKAuthSession alloc] initWith:[[SFSDKAuthRequest alloc] init]
+                                                               credentials:credentials
+                                                         spAppCredentials:nil];
+    authSession.oauthCoordinator.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefresh];
+    XCTestExpectation *genericExpectation = [self expectationWithDescription:@"generic error handler"];
+    NSError *error = [SFSDKOAuth2 errorWithType:@"invalid_dpop_proof" description:@"dpop proof failed validation"];
+
+    errorManager.invalidAuthCredentialsErrorHandlerBlock = ^(NSError *receivedError, SFSDKAuthSession *session, NSDictionary *options) {
+        XCTFail(@"Generic DPoP proof failures must not be treated as a bound-key mismatch.");
+    };
+    errorManager.genericErrorHandlerBlock = ^(NSError *receivedError, SFSDKAuthSession *session, NSDictionary *options) {
+        [genericExpectation fulfill];
+    };
+
+    XCTAssertTrue([errorManager processAuthError:error authContext:authSession options:nil]);
+    [self waitForExpectations:@[genericExpectation] timeout:2.0];
+}
+
+- (void)test_givenDPoPBoundKeyMismatchOutsideRefresh_whenProcessAuthError_thenUsesGenericHandler {
+    SFSDKAuthErrorManager *errorManager = [[SFSDKAuthErrorManager alloc] init];
+    SFOAuthCredentials *credentials = [TestSetupUtils newClientCredentials];
+    SFSDKAuthSession *authSession = [[SFSDKAuthSession alloc] initWith:[[SFSDKAuthRequest alloc] init]
+                                                               credentials:credentials
+                                                         spAppCredentials:nil];
+    authSession.oauthCoordinator.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeWebServer];
+    XCTestExpectation *genericExpectation = [self expectationWithDescription:@"generic error handler"];
+    NSError *error = [SFSDKOAuth2 errorWithType:@"invalid_dpop_proof" description:@"dpop thumbprint invalid for token"];
+
+    errorManager.invalidAuthCredentialsErrorHandlerBlock = ^(NSError *receivedError, SFSDKAuthSession *session, NSDictionary *options) {
+        XCTFail(@"Only refresh flows may recover the DPoP bound-key mismatch as invalid credentials.");
+    };
+    errorManager.genericErrorHandlerBlock = ^(NSError *receivedError, SFSDKAuthSession *session, NSDictionary *options) {
+        [genericExpectation fulfill];
+    };
+
+    XCTAssertTrue([errorManager processAuthError:error authContext:authSession options:nil]);
+    [self waitForExpectations:@[genericExpectation] timeout:2.0];
 }
 
 - (void)testConnectedAppVersionMismatchError {

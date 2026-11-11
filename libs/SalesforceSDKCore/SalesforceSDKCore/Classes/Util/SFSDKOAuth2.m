@@ -736,6 +736,12 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
     return error;
 }
 
++ (BOOL)isDPoPBoundKeyMismatchError:(NSError *)error {
+    return [error.domain isEqualToString:kSFOAuthErrorDomain]
+        && [error.userInfo[kSFOAuthError] isEqualToString:@"invalid_dpop_proof"]
+        && [error.userInfo[NSLocalizedDescriptionKey] isEqualToString:@"dpop thumbprint invalid for token"];
+}
+
 // Convert from a Unix timestamp string in milliseconds (returned in the OAuth response) to an NSDate
 + (NSDate *)timestampStringToDate:(NSString *)timestamp {
     NSDate *d = nil;

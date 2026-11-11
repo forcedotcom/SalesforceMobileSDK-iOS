@@ -48,6 +48,9 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSDictionary *)parseQueryString:(NSString *)query decodeParams:(BOOL)decodeParams;
 + (NSError *)errorWithType:(NSString *)type description:(NSString *)description;
 + (NSError *)errorWithType:(NSString *)type description:(NSString *)description underlyingError:(NSError *_Nullable)underlyingError;
+/// Returns YES only for the server response that identifies a persisted local DPoP key whose
+/// thumbprint differs from the one bound to its refresh token. The raw OAuth error remains intact.
++ (BOOL)isDPoPBoundKeyMismatchError:(NSError *)error;
 + (NSDate *)timestampStringToDate:(NSString *)timestamp;
 - (void)handleTokenEndpointResponse:(void (^)(SFSDKOAuthTokenEndpointResponse *))completionBlock request:(SFSDKOAuthTokenEndpointRequest *)endpointReq data:(NSData *)data urlResponse:(NSURLResponse *)response;
 - (NSMutableURLRequest *)prepareBasicRequest:(SFSDKOAuthTokenEndpointRequest *)endpointReq;

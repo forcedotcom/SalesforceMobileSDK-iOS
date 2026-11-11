@@ -32,6 +32,7 @@
 #import "SFAuthErrorHandlerList.h"
 #import "SFAuthErrorHandler.h"
 #import "SFOAuthCoordinator+Internal.h"
+#import "SFSDKOAuth2+Internal.h"
 #include "SFSDKResourceUtils.h"
 #include "SFUserAccountManager.h"
 #include "SFSDKOAuth2.h"
@@ -85,13 +86,16 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     
     // Invalid credentials handler
     self.invalidCredentialsAuthErrorHandler = [[SFAuthErrorHandler alloc]
-                                               initWithName:kSFInvalidCredentialsAuthErrorHandler
-                                               authSessionBlock:^BOOL(NSError *error, SFSDKAuthSession  *authSession, NSDictionary *options) {
-                                                   __strong typeof(weakSelf) strongSelf = weakSelf;
-                                                   if ([[strongSelf class] errorIsInvalidAuthCredentials:error]) {
-                                                       if (self.invalidAuthCredentialsErrorHandlerBlock) {
-                                                           self.invalidAuthCredentialsErrorHandlerBlock(error, authSession, options);
-                                                           return YES;
+                                                initWithName:kSFInvalidCredentialsAuthErrorHandler
+                                                authSessionBlock:^BOOL(NSError *error, SFSDKAuthSession  *authSession, NSDictionary *options) {
+                                                    __strong typeof(weakSelf) strongSelf = weakSelf;
+                                                    BOOL isDPoPBoundKeyMismatchDuringRefresh =
+                                                        authSession.oauthCoordinator.authInfo.authType == SFOAuthTypeRefresh
+                                                        && [SFSDKOAuth2 isDPoPBoundKeyMismatchError:error];
+                                                    if ([[strongSelf class] errorIsInvalidAuthCredentials:error] || isDPoPBoundKeyMismatchDuringRefresh) {
+                                                        if (self.invalidAuthCredentialsErrorHandlerBlock) {
+                                                            self.invalidAuthCredentialsErrorHandlerBlock(error, authSession, options);
+                                                            return YES;
                                                        }
                                                    }
                                                    return NO;

@@ -25,6 +25,7 @@
 #import <SalesforceSDKCommon/SFJsonUtils.h>
 #import <SalesforceSDKCommon/SFSDKSafeMutableDictionary.h>
 #import "SFSDKOAuth2.h"
+#import "SFSDKOAuth2+Internal.h"
 #import "SFRestAPI+Internal.h"
 #import "SFRestRequest+Internal.h"
 #import "SFNetwork+Internal.h"
@@ -659,8 +660,8 @@ successBlock:(SFRestResponseBlock)successBlock
                 });
             };
             NSInteger errorCode = [SFOAuthErrorCodeHelper from:refreshError.userInfo[kSFOAuthError]];
-            if (errorCode == SFOAuthErrorCodeInvalidGrant) {
-                triggerLogout(SFLogoutReasonTokenExpired, @"Invalid grant error received, triggering logout.");
+            if (errorCode == SFOAuthErrorCodeInvalidGrant || [SFSDKOAuth2 isDPoPBoundKeyMismatchError:refreshError]) {
+                triggerLogout(SFLogoutReasonTokenExpired, @"Refresh credentials are no longer valid, triggering logout.");
             } else if (errorCode == SFOAuthErrorCodeAppAttestationFailed) {
                 triggerLogout(SFLogoutReasonAppAttestationFailed, @"App attestation failed, triggering logout.");
             } else if (errorCode == SFOAuthErrorCodeAppAttestationFailedRetry) {
