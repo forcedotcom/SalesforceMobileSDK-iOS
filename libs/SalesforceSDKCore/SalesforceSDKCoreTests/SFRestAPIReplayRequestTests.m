@@ -46,6 +46,10 @@
 
 @interface SFRestAPI (Testing)
 - (void)startAuthenticationRefreshForRequest:(SFRestRequest *)request response:(NSURLResponse *)response;
+- (void)send:(SFRestRequest *)request
+ failureBlock:(SFRestRequestFailBlock)failureBlock
+ successBlock:(SFRestResponseBlock)successBlock
+  shouldRetry:(BOOL)shouldRetry;
 @end
 
 @interface SFRestAPIReplayTestStub : NSObject <SFSDKOAuthProtocol>
@@ -197,6 +201,68 @@ static XCTestExpectation *gLogoutExpectation;
     XCTAssertNotNil(receivedError, @"Request should receive error");
     XCTAssertEqual(receivedError.code, kSFOAuthErrorInvalidGrant, @"Error code should be invalid_grant");
     XCTAssertEqualObjects(receivedError.userInfo[kSFOAuthError], @"invalid_grant", @"Wire value should be preserved");
+}
+
+- (void)test_givenMissingBoundKey_whenSendingRestRequest_thenFailsLocallyAndLogsOut {
+    NSString *scope = self.testAccount.credentials.identifier;
+    [SFSDKDPoPKeyStore.shared deleteForScope:scope];
+    self.testAccount.credentials.tokenType = @"DPoP";
+    [self swapLogoutUserWithRecorder];
+
+    XCTestExpectation *failureExpectation = [self expectationWithDescription:@"Local request failure"];
+    gLogoutExpectation = [self expectationWithDescription:@"Token-expired logout"];
+    SFRestRequest *request = [self.restAPI requestForResources:nil];
+    [self.restAPI send:request failureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
+        XCTAssertEqual([SFSDKDPoPRequestDecorator classifyDecorationError:error], SFSDKDPoPDecorationFailureBoundKeyMissing);
+        [failureExpectation fulfill];
+    } successBlock:^(id response, NSURLResponse *rawResponse) {
+        XCTFail(@"A request with a missing bound key must not succeed");
+    } shouldRetry:YES];
+
+    [self waitForExpectations:@[failureExpectation, gLogoutExpectation] timeout:5.0];
+    XCTAssertNil(request.sessionDataTask);
+    XCTAssertEqual(self.restAPI.activeRequests.count, 0u);
+    XCTAssertEqual(gLogoutCallCount, 1u);
+    XCTAssertEqualObjects(gLoggedOutUser.credentials.identifier, scope);
+    XCTAssertEqual(gLogoutReason, SFLogoutReasonTokenExpired);
+
+    gLogoutExpectation = nil;
+    [self swapLogoutUserWithRecorder];
+}
+
+- (void)test_givenBoundKeyMissingAndCredentialsReplacedBeforeQueuedLogout_whenSendingRestRequest_thenDoesNotLogoutReplacement {
+    NSString *scope = self.testAccount.credentials.identifier;
+    [SFSDKDPoPKeyStore.shared deleteForScope:scope];
+    self.testAccount.credentials.tokenType = @"DPoP";
+    [self swapLogoutUserWithRecorder];
+
+    SFOAuthCredentials *replacementCredentials = [[SFOAuthCredentials alloc] initWithIdentifier:scope
+                                                                                       clientId:@"replacement-client"
+                                                                                      encrypted:YES];
+    replacementCredentials.redirectUri = @"testapp:///replacement";
+    replacementCredentials.instanceUrl = [NSURL URLWithString:@"https://replacement.salesforce.com"];
+    replacementCredentials.accessToken = @"replacement-access";
+    replacementCredentials.refreshToken = @"replacement-refresh";
+    replacementCredentials.userId = self.testAccount.credentials.userId;
+    replacementCredentials.organizationId = self.testAccount.credentials.organizationId;
+
+    XCTestExpectation *failureExpectation = [self expectationWithDescription:@"Local request failure"];
+    SFRestRequest *request = [self.restAPI requestForResources:nil];
+    [self.restAPI send:request failureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
+        XCTAssertEqual([SFSDKDPoPRequestDecorator classifyDecorationError:error], SFSDKDPoPDecorationFailureBoundKeyMissing);
+        // Simulate a completed re-login before the terminal recovery block reaches the main queue.
+        self.testAccount.credentials = replacementCredentials;
+        [failureExpectation fulfill];
+    } successBlock:^(id response, NSURLResponse *rawResponse) {
+        XCTFail(@"A request with a missing bound key must not succeed");
+    } shouldRetry:YES];
+
+    [self waitForExpectations:@[failureExpectation] timeout:5.0];
+    [self drainMainQueue];
+    XCTAssertEqual(self.testAccount.credentials, replacementCredentials);
+    XCTAssertEqual(gLogoutCallCount, 0u, @"Terminal recovery must not revoke credentials installed after the request failed");
+
+    [self swapLogoutUserWithRecorder];
 }
 
 - (void)test_givenDPoPBoundKeyMismatch_when_startAuthenticationRefresh_thenLogsOutWithTokenExpired {

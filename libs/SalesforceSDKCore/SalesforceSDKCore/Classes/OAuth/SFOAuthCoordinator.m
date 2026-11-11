@@ -734,7 +734,8 @@
     if (err) {
         SFSDKDPoPDecorationFailure failure = [SFSDKDPoPRequestDecorator classifyDecorationError:err];
         if (failure == SFSDKDPoPDecorationFailureBoundKeyMissing ||
-            failure == SFSDKDPoPDecorationFailureBoundKeyUnavailable) {
+            failure == SFSDKDPoPDecorationFailureBoundKeyUnavailable ||
+            failure == SFSDKDPoPDecorationFailureBoundKeyInvalid) {
             [SFSDKCoreLogger e:[self class] format:@"DPoP attach failed on JWT swap (failure=%ld); refusing to send without the bound proof.", (long)failure];
             return err;
         }

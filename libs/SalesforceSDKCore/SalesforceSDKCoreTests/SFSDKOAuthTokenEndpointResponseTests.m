@@ -38,6 +38,7 @@
 @interface SFSDKOAuthTokenEndpointResponse ()
 
 - (instancetype)initWithDictionary:(NSDictionary *)nvPairs parseAdditionalFields:(NSArray<NSString *> *)additionalOAuthParameterKeys;
+- (NSDictionary *)asDictionary;
 
 @end
 
@@ -279,6 +280,19 @@ static SFSDKOAuthNonceRetryNetworkStub *sNonceRetryNetworkStub;
         XCTAssertEqualObjects(response.additionalOAuthFields[field], value);
     }
 
+}
+
+- (void)test_givenSuccessResponseWithNonStringScope_whenInitialized_thenDropsScopeBeforeCredentialUpdate {
+    NSDictionary *params = @{
+        @"access_token": @"test-auth-token",
+        @"scope": NSNull.null
+    };
+    SFSDKOAuthTokenEndpointResponse *response = [[SFSDKOAuthTokenEndpointResponse alloc] initWithDictionary:params parseAdditionalFields:nil];
+
+    XCTAssertFalse(response.hasError);
+    XCTAssertNil(response.scopes);
+    XCTAssertNil([response asDictionary][@"scope"],
+                 @"A malformed optional scope must not reach SFOAuthCredentials string handling");
 }
 
 // With useDPoP == NO, the prepared token-endpoint request must be byte-identical
@@ -589,6 +603,7 @@ static SFSDKOAuthNonceRetryNetworkStub *sNonceRetryNetworkStub;
     [[[SFSDKOAuth2 alloc] init] accessTokenForRefresh:[self refreshRequestForDPoPScope:scope] completion:^(SFSDKOAuthTokenEndpointResponse *response) {
         XCTAssertTrue(response.hasError);
         XCTAssertEqualObjects(response.error.error.userInfo[kSFOAuthError], @"malformed_response");
+        XCTAssertNil(response.error.error.userInfo[@"response_data"]);
         XCTAssertFalse([SFSDKOAuth2 isDPoPBoundKeyMismatchError:response.error.error]);
         [completion fulfill];
     }];
@@ -598,7 +613,7 @@ static SFSDKOAuthNonceRetryNetworkStub *sNonceRetryNetworkStub;
     [SFSDKDPoPKeyStore.shared deleteForScope:scope];
 }
 
-- (void)test_givenNonceChallengeHasMalformedOAuthFields_whenRefreshCompletes_thenReturnsMalformedResponseWithoutRetry {
+- (void)test_givenNonceChallengeHasOptionalNonStringDescription_whenRefreshCompletes_thenRetries {
     sNonceRetryNetworkStub = [[SFSDKOAuthNonceRetryNetworkStub alloc] init];
     sNonceRetryNetworkStub.firstResponseBody = @"{\"error\":\"use_dpop_nonce\",\"error_description\":null}";
     [self swapNetworkFactoryForNonceRetryTest];
@@ -611,15 +626,12 @@ static SFSDKOAuthNonceRetryNetworkStub *sNonceRetryNetworkStub;
 
     XCTestExpectation *completion = [self expectationWithDescription:@"refresh completes"];
     [[[SFSDKOAuth2 alloc] init] accessTokenForRefresh:[self refreshRequestForDPoPScope:scope] completion:^(SFSDKOAuthTokenEndpointResponse *response) {
-        XCTAssertTrue(response.hasError);
-        XCTAssertEqualObjects(response.error.error.userInfo[kSFOAuthError], @"malformed_response");
-        XCTAssertNil(response.error.error.userInfo[@"response_data"]);
-        XCTAssertFalse([SFSDKOAuth2 isDPoPBoundKeyMismatchError:response.error.error]);
+        XCTAssertFalse(response.hasError);
         [completion fulfill];
     }];
     [self waitForExpectations:@[completion] timeout:2.0];
 
-    XCTAssertEqual(sNonceRetryNetworkStub.capturedRequests.count, 1u);
+    XCTAssertEqual(sNonceRetryNetworkStub.capturedRequests.count, 2u);
     [SFSDKDPoPKeyStore.shared deleteForScope:scope];
 }
 
@@ -664,7 +676,33 @@ static SFSDKOAuthNonceRetryNetworkStub *sNonceRetryNetworkStub;
     [[[SFSDKOAuth2 alloc] init] accessTokenForRefresh:[self refreshRequestForDPoPScope:scope] completion:^(SFSDKOAuthTokenEndpointResponse *response) {
         XCTAssertTrue(response.hasError);
         XCTAssertEqualObjects(response.error.error.userInfo[kSFOAuthError], @"malformed_response");
+        XCTAssertNil(response.error.error.userInfo[@"response_data"]);
         XCTAssertFalse([SFSDKOAuth2 isDPoPBoundKeyMismatchError:response.error.error]);
+        [completion fulfill];
+    }];
+    [self waitForExpectations:@[completion] timeout:2.0];
+
+    XCTAssertEqual(sNonceRetryNetworkStub.capturedRequests.count, 2u);
+    [SFSDKDPoPKeyStore.shared deleteForScope:scope];
+}
+
+- (void)test_givenMalformedOAuthErrorContainsToken_whenRefreshCompletes_thenDoesNotExposeResponseData {
+    sNonceRetryNetworkStub = [[SFSDKOAuthNonceRetryNetworkStub alloc] init];
+    sNonceRetryNetworkStub.secondResponseStatusCode = 400;
+    sNonceRetryNetworkStub.secondResponseBody = @"{\"error\":null,\"access_token\":\"secret-access-token\",\"refresh_token\":\"secret-refresh-token\"}";
+    [self swapNetworkFactoryForNonceRetryTest];
+    self.networkFactorySwizzled = YES;
+
+    NSString *scope = [NSString stringWithFormat:@"nonce-retry-token-bearing-malformed-%@", NSUUID.UUID.UUIDString];
+    NSError *keyError = nil;
+    XCTAssertNotNil([SFSDKDPoPKeyStore.shared keyPairForScope:scope error:&keyError]);
+    XCTAssertNil(keyError);
+
+    XCTestExpectation *completion = [self expectationWithDescription:@"refresh completes"];
+    [[[SFSDKOAuth2 alloc] init] accessTokenForRefresh:[self refreshRequestForDPoPScope:scope] completion:^(SFSDKOAuthTokenEndpointResponse *response) {
+        XCTAssertTrue(response.hasError);
+        XCTAssertEqualObjects(response.error.error.userInfo[kSFOAuthError], @"malformed_response");
+        XCTAssertNil(response.error.error.userInfo[@"response_data"]);
         [completion fulfill];
     }];
     [self waitForExpectations:@[completion] timeout:2.0];
@@ -699,7 +737,7 @@ static SFSDKOAuthNonceRetryNetworkStub *sNonceRetryNetworkStub;
     [SFSDKDPoPKeyStore.shared deleteForScope:scope];
 }
 
-- (void)test_givenRetryResponseHasNonStringScope_whenRefreshCompletes_thenReturnsMalformedResponseWithoutBody {
+- (void)test_givenRetryResponseHasNonStringScope_whenRefreshCompletes_thenPreservesUnmarkedOAuthError {
     sNonceRetryNetworkStub = [[SFSDKOAuthNonceRetryNetworkStub alloc] init];
     sNonceRetryNetworkStub.secondResponseStatusCode = 400;
     sNonceRetryNetworkStub.secondResponseBody = @"{\"error\":\"invalid_dpop_proof\",\"scope\":null}";
@@ -714,14 +752,38 @@ static SFSDKOAuthNonceRetryNetworkStub *sNonceRetryNetworkStub;
     XCTestExpectation *completion = [self expectationWithDescription:@"refresh completes"];
     [[[SFSDKOAuth2 alloc] init] accessTokenForRefresh:[self refreshRequestForDPoPScope:scope] completion:^(SFSDKOAuthTokenEndpointResponse *response) {
         XCTAssertTrue(response.hasError);
-        XCTAssertEqualObjects(response.error.error.userInfo[kSFOAuthError], @"malformed_response");
-        XCTAssertNil(response.error.error.userInfo[@"response_data"]);
+        XCTAssertEqualObjects(response.error.error.userInfo[kSFOAuthError], @"invalid_dpop_proof");
         XCTAssertFalse([SFSDKOAuth2 isDPoPBoundKeyMismatchError:response.error.error]);
         [completion fulfill];
     }];
     [self waitForExpectations:@[completion] timeout:2.0];
 
     XCTAssertEqual(sNonceRetryNetworkStub.capturedRequests.count, 2u);
+    [SFSDKDPoPKeyStore.shared deleteForScope:scope];
+}
+
+- (void)test_givenHeaderOnlyNonceChallenge_whenRefreshCompletes_thenDoesNotRetry {
+    sNonceRetryNetworkStub = [[SFSDKOAuthNonceRetryNetworkStub alloc] init];
+    sNonceRetryNetworkStub.firstResponseBody = @"";
+    [self swapNetworkFactoryForNonceRetryTest];
+    self.networkFactorySwizzled = YES;
+
+    NSString *scope = [NSString stringWithFormat:@"nonce-retry-header-only-%@", NSUUID.UUID.UUIDString];
+    NSError *keyError = nil;
+    XCTAssertNotNil([SFSDKDPoPKeyStore.shared keyPairForScope:scope error:&keyError]);
+    XCTAssertNil(keyError);
+
+    XCTestExpectation *completion = [self expectationWithDescription:@"refresh completes"];
+    [[[SFSDKOAuth2 alloc] init] accessTokenForRefresh:[self refreshRequestForDPoPScope:scope] completion:^(SFSDKOAuthTokenEndpointResponse *response) {
+        XCTAssertTrue(response.hasError);
+        XCTAssertEqualObjects(response.error.error.userInfo[kSFOAuthError], @"malformed_response");
+        XCTAssertNil(response.error.error.userInfo[@"response_data"]);
+        [completion fulfill];
+    }];
+    [self waitForExpectations:@[completion] timeout:2.0];
+
+    XCTAssertEqual(sNonceRetryNetworkStub.capturedRequests.count, 1u,
+                   @"RFC 9449 token-endpoint nonce challenges require an OAuth JSON error body");
     [SFSDKDPoPKeyStore.shared deleteForScope:scope];
 }
 

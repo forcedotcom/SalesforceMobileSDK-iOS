@@ -215,7 +215,8 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
             [SFSDKCoreLogger e:[self class] format:@"Failed to stamp authorization headers: %@", authError.localizedDescription];
             SFSDKDPoPDecorationFailure failure = [SFSDKDPoPRequestDecorator classifyDecorationError:authError];
             if (failure == SFSDKDPoPDecorationFailureBoundKeyMissing ||
-                failure == SFSDKDPoPDecorationFailureBoundKeyUnavailable) {
+                failure == SFSDKDPoPDecorationFailureBoundKeyUnavailable ||
+                failure == SFSDKDPoPDecorationFailureBoundKeyInvalid) {
                 self.preparationError = authError;
                 return nil;
             }

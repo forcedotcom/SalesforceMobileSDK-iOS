@@ -1571,6 +1571,59 @@ class SFSDKDPoPTests: XCTestCase {
         }
     }
 
+    func test_givenRepeatedUnavailableLookup_whenExistingKeyPair_thenUsesShortLivedNegativeCache() {
+        let scope = "loadonly-unavailable-cache-\(UUID().uuidString)"
+        let store = DPoPKeyStore.shared
+        let prior = store.ecKeyReader
+        let priorClock = store.unavailableCacheClock
+        defer {
+            store.ecKeyReader = prior
+            store.unavailableCacheClock = priorClock
+            store.clearInMemoryCache()
+            store.delete(forScope: scope)
+        }
+        struct LockedError: Error {}
+        var readCount = 0
+        var uptime: TimeInterval = 0
+        store.unavailableCacheClock = { uptime }
+        store.ecKeyReader = { _ in
+            readCount += 1
+            throw LockedError()
+        }
+        store.clearInMemoryCache()
+
+        guard case .unavailable = store.existingKeyPair(forScope: scope) else {
+            return XCTFail("the first read should report unavailable")
+        }
+        guard case .unavailable = store.existingKeyPair(forScope: scope) else {
+            return XCTFail("a recent unavailable read should remain retryable")
+        }
+        XCTAssertEqual(readCount, 1, "the short-lived unavailable cache should avoid repeated Keychain I/O")
+
+        uptime += 1.1
+        guard case .unavailable = store.existingKeyPair(forScope: scope) else {
+            return XCTFail("an expired unavailable cache entry should retry the Keychain read")
+        }
+        XCTAssertEqual(readCount, 2, "the cache must expire using monotonic uptime")
+    }
+
+    func test_givenStructurallyInvalidKeychainResult_whenExistingKeyPair_thenInvalidNotUnavailable() {
+        let scope = "loadonly-invalid-\(UUID().uuidString)"
+        let store = DPoPKeyStore.shared
+        let prior = store.ecKeyReader
+        defer {
+            store.ecKeyReader = prior
+            store.clearInMemoryCache()
+            store.delete(forScope: scope)
+        }
+        store.ecKeyReader = { _ in throw KeyGenerator.KeyGeneratorError.invalidQueryResult }
+        store.clearInMemoryCache()
+
+        guard case .invalid = store.existingKeyPair(forScope: scope) else {
+            return XCTFail("a structurally invalid Keychain result must not be treated as retryable")
+        }
+    }
+
     /// The Objective-C nullable wrapper (used by the dev-info display) returns the key when present
     /// and nil when absent — and, like the Swift form, never mints.
     func test_givenNoKey_whenExistingKeyPairObjc_thenNilAndDoesNotGenerate() throws {
@@ -1644,6 +1697,49 @@ class SFSDKDPoPTests: XCTestCase {
         XCTAssertEqual(error.domain, kSFOAuthErrorDomain)
         XCTAssertEqual(error.code, kSFOAuthErrorRefreshFailed,
                        "An indeterminate Keychain read must remain a transient refresh failure")
+    }
+
+    func test_givenDPoPBoundCredentialWithStructurallyInvalidKey_whenRefresh_thenCompletesInvalidGrant() {
+        let scope = "refresh-boundinvalid-\(UUID().uuidString)"
+        let store = DPoPKeyStore.shared
+        let priorReader = store.ecKeyReader
+        let transportIdentifier = "refresh-boundinvalid-transport-\(UUID().uuidString)"
+        defer {
+            store.ecKeyReader = priorReader
+            store.clearInMemoryCache()
+            store.delete(forScope: scope)
+            URLProtocol.unregisterClass(ScriptedURLProtocol.self)
+            ScriptedURLProtocol.removeScripts(identifier: transportIdentifier)
+        }
+        store.ecKeyReader = { _ in throw KeyGenerator.KeyGeneratorError.invalidQueryResult }
+        store.clearInMemoryCache()
+        ScriptedURLProtocol.installScripts([], identifier: transportIdentifier)
+        XCTAssertTrue(URLProtocol.registerClass(ScriptedURLProtocol.self))
+
+        let endpointRequest = SFSDKOAuthTokenEndpointRequest()
+        endpointRequest.clientID = "test-client-id"
+        endpointRequest.refreshToken = "test-refresh-token"
+        endpointRequest.redirectURI = "test://callback"
+        endpointRequest.serverURL = tokenURL.deletingLastPathComponent().deletingLastPathComponent()
+        endpointRequest.credentialsIdentifier = scope
+        endpointRequest.tokenType = "DPoP"
+
+        let completion = expectation(description: "terminal refresh error")
+        var refreshError: NSError?
+        SFSDKOAuth2().accessToken(forRefresh: endpointRequest) { response in
+            refreshError = response.error?.error as NSError?
+            completion.fulfill()
+        }
+        wait(for: [completion], timeout: 2)
+
+        guard let error = refreshError else {
+            return XCTFail("refresh must complete with an invalid-credentials error")
+        }
+        XCTAssertEqual(error.domain, kSFOAuthErrorDomain)
+        XCTAssertEqual(error.code, kSFOAuthErrorInvalidGrant,
+                        "A structurally invalid bound key must route through re-auth, not retry forever")
+        XCTAssertEqual(ScriptedURLProtocol.requestCount(identifier: transportIdentifier), 0,
+                       "A structurally invalid bound key must fail before creating a token request")
     }
 
     func test_givenDPoPBoundCredentialWithMissingKey_whenPrepareRestRequest_thenFailsLocally() {

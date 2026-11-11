@@ -52,12 +52,14 @@ public enum DPoPKeyStoreError: Int, Error {
     /// access/entitlement error. This is **not** proof the key is gone; the caller must treat it
     /// as transient/retryable and must **not** route to re-auth. See `existingKeyPair(forScope:)`.
     case boundKeyUnavailable = 4
+    /// A DPoP-bound credential's key query completed but returned structurally invalid keychain
+    /// data (for example, multiple keys for one tag). Retrying cannot repair this state, so the
+    /// caller must route to re-auth rather than preserving a permanently unusable session.
+    case boundKeyInvalid = 5
 }
 
-/// Tri-state result of a **load-only** (non-generating) key lookup. `hasKeyPair` collapses the
-/// last two into a single `false`, which is unsafe for the refresh fail-fast decision: only
-/// `absent` means "the bound key is confirmed gone"; `unavailable` (device locked, etc.) must be
-/// retried, never treated as a missing key.
+/// Result of a **load-only** (non-generating) key lookup. `hasKeyPair` collapses the terminal and
+/// retryable outcomes into a single `false`, which is unsafe for the refresh fail-fast decision.
 public enum DPoPKeyLookupResult {
     /// The key material exists (from the in-process cache or the Keychain).
     case found(DPoPKeyPair)
@@ -66,6 +68,9 @@ public enum DPoPKeyLookupResult {
     /// The Keychain read failed for a reason other than confirmed absence (e.g. device locked).
     /// Indeterminate: the key may still exist. Do not treat as missing.
     case unavailable
+    /// The Keychain read completed but the result is structurally invalid (for example, duplicate
+    /// keys for one tag). This is terminal for the bound credential, but is distinct from absence.
+    case invalid
 }
 
 /// Per-credentials DPoP keypair lifecycle, scoped on `SFOAuthCredentials.identifier`
@@ -86,6 +91,16 @@ public final class DPoPKeyStore: NSObject {
     // generated, the handle is safe to reuse for the rest of the process's lifetime.
     // Accessed only under `queue` — concurrent reads, exclusive (.barrier) writes.
     private var keyPairCache: [String: DPoPKeyPair] = [:]
+
+    // Avoid repeatedly serializing all readers behind Keychain I/O while the device is locked.
+    // This cache is deliberately short-lived: it reduces contention without delaying recovery once
+    // Keychain access is restored.
+    private static let unavailableCacheLifetime: TimeInterval = 1
+    private var unavailableKeyCache: [String: TimeInterval] = [:]
+
+    /// Monotonic clock seam for the short-lived unavailable cache. System uptime is unaffected by
+    /// wall-clock changes, so a user time adjustment cannot extend a Keychain retry suppression.
+    internal var unavailableCacheClock: () -> TimeInterval = { ProcessInfo.processInfo.systemUptime }
 
     /// Seam for the side-effect-free Keychain EC-key read used by `existingKeyPair(forScope:)`.
     /// Production routes to `KeyGenerator.ecKey(tag:)` (nil ⇒ `errSecItemNotFound`; throws ⇒ any
@@ -120,6 +135,7 @@ public final class DPoPKeyStore: NSObject {
                 let pair = try KeyGenerator.ecKeyPair(name: name)
                 let keyPair = DPoPKeyPair(publicKey: pair.publicKey, privateKey: pair.privateKey)
                 keyPairCache[name] = keyPair
+                unavailableKeyCache.removeValue(forKey: name)
                 return keyPair
             } catch {
                 SFSDKCoreLogger.e(Self.self, message: "DPoP keypair generation failed: \(error.localizedDescription)")
@@ -140,10 +156,11 @@ public final class DPoPKeyStore: NSObject {
     /// where minting a fresh key would silently rebind to a key the server cannot accept
     /// (`DPoPCnfJkt miss match`).
     ///
-    /// Returns a tri-state (`DPoPKeyLookupResult`) rather than an optional so the caller can
-    /// distinguish a **confirmed-absent** key (route to re-auth) from an **indeterminate**
-    /// Keychain failure such as a locked device (retry; never re-auth). Key **generation**
-    /// stays only on the binding paths (`/authorize`, native login) via `keyPair(forScope:)`.
+    /// Returns a structured `DPoPKeyLookupResult` rather than an optional so the caller can
+    /// distinguish a **confirmed-absent** or structurally invalid key (route to re-auth) from an
+    /// **indeterminate** Keychain failure such as a locked device (retry; never re-auth). Key
+    /// **generation** stays only on the binding paths (`/authorize`, native login) via
+    /// `keyPair(forScope:)`.
     public func existingKeyPair(forScope scope: String) -> DPoPKeyLookupResult {
         guard !scope.isEmpty else { return .absent }
         let name = Self.keyName(for: scope)
@@ -152,14 +169,25 @@ public final class DPoPKeyStore: NSObject {
         if let cached = queue.sync(execute: { keyPairCache[name] }) {
             return .found(cached)
         }
+        let now = unavailableCacheClock()
+        if let unavailableUntil = queue.sync(execute: { unavailableKeyCache[name] }),
+           unavailableUntil > now {
+            return .unavailable
+        }
 
         // Cold path: side-effect-free Keychain read. `KeyGenerator.ecKey(tag:)` returns nil for
-        // `errSecItemNotFound` (confirmed absent) and throws for any other OSStatus (device
-        // locked, entitlement, access denied) — map those two outcomes to `.absent` vs.
-        // `.unavailable`. No generation, no cache write on a miss.
+        // `errSecItemNotFound` (confirmed absent) and throws for another OSStatus (device locked,
+        // entitlement, access denied). Structural query failures are terminal; OSStatus failures
+        // remain indeterminate. No generation or negative cache on a confirmed miss.
         return queue.sync(flags: .barrier) {
             if let cached = keyPairCache[name] {
                 return .found(cached)
+            }
+            if let unavailableUntil = unavailableKeyCache[name] {
+                if unavailableUntil > unavailableCacheClock() {
+                    return .unavailable
+                }
+                unavailableKeyCache.removeValue(forKey: name)
             }
             do {
                 let privateTag = try KeyGenerator.keyTag(name: name, prefix: KeyGenerator.ecPrivateKeyTagPrefix)
@@ -172,11 +200,18 @@ public final class DPoPKeyStore: NSObject {
                 }
                 let keyPair = DPoPKeyPair(publicKey: publicKey, privateKey: privateKey)
                 keyPairCache[name] = keyPair
+                unavailableKeyCache.removeValue(forKey: name)
                 return .found(keyPair)
             } catch {
-                // A thrown error is NOT proof of absence (e.g. device locked). Surface as
-                // indeterminate so the caller retries instead of destroying a valid session.
+                if let keyGeneratorError = error as? KeyGenerator.KeyGeneratorError,
+                   case .invalidQueryResult = keyGeneratorError {
+                    SFSDKCoreLogger.e(Self.self, message: "DPoPKeyStore.existingKeyPair: Keychain result is structurally invalid for scope \(scope): \(error.localizedDescription)")
+                    return .invalid
+                }
+                // A Keychain status failure is NOT proof of absence (e.g. device locked). Surface
+                // it as indeterminate so the caller retries instead of destroying a valid session.
                 SFSDKCoreLogger.w(Self.self, message: "DPoPKeyStore.existingKeyPair: Keychain read indeterminate for scope \(scope): \(error.localizedDescription)")
+                unavailableKeyCache[name] = unavailableCacheClock() + Self.unavailableCacheLifetime
                 return .unavailable
             }
         }
@@ -188,7 +223,7 @@ public final class DPoPKeyStore: NSObject {
     }
 
     /// Objective-C-visible **load-only** lookup. Returns the existing keypair, or `nil` when the
-    /// key is absent *or* the Keychain read is indeterminate — **never generates** one. Swift
+    /// key is absent, invalid, or the Keychain read is indeterminate — **never generates** one. Swift
     /// callers that must distinguish absent from indeterminate should use
     /// `existingKeyPair(forScope:)` and its `DPoPKeyLookupResult`. This nullable form exists for
     /// display-only Objective-C sites (e.g. the dev-info thumbprint) that only need
@@ -240,6 +275,7 @@ public final class DPoPKeyStore: NSObject {
         let name = Self.keyName(for: scope)
         queue.sync(flags: .barrier) {
             keyPairCache.removeValue(forKey: name)   // evict BEFORE removing the persistent key
+            unavailableKeyCache.removeValue(forKey: name)
             do {
                 try KeyGenerator.removeECKeyPair(name: name)
             } catch {
@@ -258,6 +294,7 @@ public final class DPoPKeyStore: NSObject {
     internal func clearInMemoryCache() {
         queue.sync(flags: .barrier) {
             keyPairCache.removeAll()
+            unavailableKeyCache.removeAll()
         }
     }
 

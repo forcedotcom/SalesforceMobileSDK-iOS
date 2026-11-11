@@ -49,6 +49,9 @@ public final class DPoPRequestDecorator: NSObject {
         /// device locked). Do not send a mis-signed request and do not route to re-auth — the
         /// caller should surface a transient/retryable failure.
         case boundKeyUnavailable = 2
+        /// The bound key's Keychain data is structurally invalid. The caller must route to re-auth
+        /// because retrying cannot recover a key that cannot be loaded unambiguously.
+        case boundKeyInvalid = 3
     }
 
     /// Maps a `decorate(...)` error to a `DPoPDecorationFailure`. `nil` → `.other`.
@@ -57,6 +60,7 @@ public final class DPoPRequestDecorator: NSObject {
         switch error as? DPoPKeyStoreError {
         case .boundKeyMissing: return .boundKeyMissing
         case .boundKeyUnavailable: return .boundKeyUnavailable
+        case .boundKeyInvalid: return .boundKeyInvalid
         default: return .other
         }
     }
@@ -175,6 +179,9 @@ public final class DPoPRequestDecorator: NSObject {
             // is restored.
             SFSDKCoreLogger.w(Self.self, message: "DPoP decorate: bound key temporarily unavailable for scope (indeterminate Keychain read); request not sent. A later caller-initiated request can retry after Keychain access is restored.")
             throw DPoPKeyStoreError.boundKeyUnavailable
+        case .invalid:
+            SFSDKCoreLogger.e(Self.self, message: "DPoP decorate: bound key is structurally invalid for scope; refusing to send. Routing to re-auth.")
+            throw DPoPKeyStoreError.boundKeyInvalid
         }
         // Salesforce seeds DPoP-Nonce only on token-endpoint responses; resource-server
         // responses don't refresh it. RFC 9449 §8/§9 permits this. Look up the per-htu
