@@ -89,10 +89,11 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
                                                 initWithName:kSFInvalidCredentialsAuthErrorHandler
                                                 authSessionBlock:^BOOL(NSError *error, SFSDKAuthSession  *authSession, NSDictionary *options) {
                                                     __strong typeof(weakSelf) strongSelf = weakSelf;
-                                                    BOOL isDPoPBoundKeyMismatchDuringRefresh =
+                                                    BOOL isInvalidDPoPProofDuringRefresh =
                                                         authSession.oauthCoordinator.authInfo.authType == SFOAuthTypeRefresh
-                                                        && [SFSDKOAuth2 isDPoPBoundKeyMismatchError:error];
-                                                    if ([[strongSelf class] errorIsInvalidAuthCredentials:error] || isDPoPBoundKeyMismatchDuringRefresh) {
+                                                        && [SFOAuthErrorCodeHelper from:error.userInfo[kSFOAuthError]]
+                                                            == SFOAuthErrorCodeInvalidDpopProof;
+                                                    if ([[strongSelf class] errorIsInvalidAuthCredentials:error] || isInvalidDPoPProofDuringRefresh) {
                                                         if (self.invalidAuthCredentialsErrorHandlerBlock) {
                                                             self.invalidAuthCredentialsErrorHandlerBlock(error, authSession, options);
                                                             return YES;

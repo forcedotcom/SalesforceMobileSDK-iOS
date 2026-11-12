@@ -31,10 +31,6 @@
 #import "SFSDKOAuth2.h"
 NS_ASSUME_NONNULL_BEGIN
 
-/// Internal marker added only after a refresh nonce retry succeeds in loading and using the
-/// persisted DPoP key, then receives the server's bound-key mismatch response.
-FOUNDATION_EXPORT NSString * const kSFSDKOAuthDPoPBoundKeyMismatchRecoveryKey;
-
 @interface SFSDKOAuthTokenEndpointRequest ()
 /// Request-scoped User-Agent for flows that already know the account being authenticated.
 /// When nil, SFNetwork retains its legacy ambient-current-user fallback.
@@ -45,12 +41,6 @@ FOUNDATION_EXPORT NSString * const kSFSDKOAuthDPoPBoundKeyMismatchRecoveryKey;
 @property (nonatomic, copy, nullable) NSString *ownerKey;
 /// Native identity transaction ownership; nil preserves ordinary OAuth behavior.
 @property (nonatomic, copy, nullable) BOOL (^nativeRequestIsCurrent)(void);
-/// Tracks whether the nonce retry successfully attached a proof made with a stored key.
-@property (nonatomic, assign) BOOL dpopNonceRetryUsedExistingKey;
-/// Tracks the narrowly verified refresh recovery sequence: a 400 `use_dpop_nonce` response with a
-/// nonempty nonce header followed by a proof that includes that challenged nonce.
-@property (nonatomic, assign) BOOL dpopNonceRetryUsedChallengeNonce;
-@property (nonatomic, assign) BOOL isRefreshTokenRequest;
 @end
 
 @interface SFSDKOAuth2()
@@ -58,9 +48,6 @@ FOUNDATION_EXPORT NSString * const kSFSDKOAuthDPoPBoundKeyMismatchRecoveryKey;
 + (NSDictionary *)parseQueryString:(NSString *)query decodeParams:(BOOL)decodeParams;
 + (NSError *)errorWithType:(NSString *)type description:(NSString *)description;
 + (NSError *)errorWithType:(NSString *)type description:(NSString *)description underlyingError:(NSError *_Nullable)underlyingError;
-/// Returns YES only for a refresh nonce retry that used the persisted DPoP key and received the
-/// server response identifying a thumbprint mismatch. The raw OAuth error remains intact.
-+ (BOOL)isDPoPBoundKeyMismatchError:(NSError *)error;
 + (NSDate *)timestampStringToDate:(NSString *)timestamp;
 - (void)handleTokenEndpointResponse:(void (^)(SFSDKOAuthTokenEndpointResponse *))completionBlock request:(SFSDKOAuthTokenEndpointRequest *)endpointReq data:(NSData *)data urlResponse:(NSURLResponse *)response;
 - (NSMutableURLRequest *)prepareBasicRequest:(SFSDKOAuthTokenEndpointRequest *)endpointReq;

@@ -37,6 +37,7 @@
 #import "SFOAuthCredentials+Internal.h"
 #import "SFSDKOAuth2+Internal.h"
 #import "SFSDKOAuthConstants.h"
+#import "SFSDKLogoutBlocker.h"
 #import <objc/runtime.h>
 
 @interface SFSDKOAuthTokenEndpointResponse ()
@@ -79,6 +80,10 @@ static XCTestExpectation *gLogoutExpectation;
 @property (nonatomic, strong) SFAuthClientFactoryBlock originalAuthClientFactory;
 @property (nonatomic, assign) BOOL logoutUserSwizzled;
 - (void)record_logoutUser:(SFUserAccount *)user reason:(SFLogoutReason)reason;
+@end
+
+@interface SFSDKLogoutBlocker (LifecycleTesting)
+- (void)dummy_logoutUser:(SFUserAccount *)user reason:(SFLogoutReason)reason;
 @end
 
 @implementation SFRestAPIReplayRequestTests
@@ -165,12 +170,18 @@ static XCTestExpectation *gLogoutExpectation;
     [self waitForExpectations:@[drained] timeout:2.0];
 }
 
-- (SFSDKOAuthTokenEndpointResponse *)poisonedDPoPKeyMismatchResponse {
-    NSError *serverError = [SFSDKOAuth2 errorWithType:@"invalid_dpop_proof" description:@"dpop thumbprint invalid for token"];
-    NSMutableDictionary *userInfo = [serverError.userInfo mutableCopy];
-    userInfo[kSFSDKOAuthDPoPBoundKeyMismatchRecoveryKey] = @YES;
-    NSError *recoveryError = [NSError errorWithDomain:serverError.domain code:serverError.code userInfo:userInfo];
-    return [[SFSDKOAuthTokenEndpointResponse alloc] initWithError:recoveryError];
+- (void)swapLogoutBlockerForLifecycleTest {
+    // SFSDKLogoutBlocker is installed process-wide by the test target to suppress unrelated
+    // logout effects. This test specifically verifies the real account lifecycle, so restore the
+    // original implementation only for its controlled window and swap the blocker back afterward.
+    Method intercepted = class_getInstanceMethod([SFUserAccountManager class], @selector(logoutUser:reason:));
+    Method original = class_getInstanceMethod([SFSDKLogoutBlocker class], @selector(dummy_logoutUser:reason:));
+    method_exchangeImplementations(intercepted, original);
+}
+
+- (SFSDKOAuthTokenEndpointResponse *)invalidDPoPProofResponse {
+    NSError *error = [SFSDKOAuth2 errorWithType:@"invalid_dpop_proof" description:@"dpop thumbprint invalid for token"];
+    return [[SFSDKOAuthTokenEndpointResponse alloc] initWithError:error];
 }
 
 - (void)test_given_invalidGrant_when_startAuthenticationRefresh_then_logsOutWithTokenExpired {
@@ -230,6 +241,90 @@ static XCTestExpectation *gLogoutExpectation;
     [self swapLogoutUserWithRecorder];
 }
 
+- (void)test_givenConcurrentRequestsWithMissingBoundKey_whenBothFail_thenOnlyOneLogoutLifecycleRuns {
+    NSString *scope = self.testAccount.credentials.identifier;
+    [SFSDKDPoPKeyStore.shared deleteForScope:scope];
+    self.testAccount.credentials.tokenType = @"DPoP";
+
+    // Keep both callers in their failure blocks until each has observed the local key miss. Releasing
+    // them together makes both terminal-recovery blocks queue before the main queue can run either one.
+    dispatch_semaphore_t startRequests = dispatch_semaphore_create(0);
+    dispatch_semaphore_t failuresEntered = dispatch_semaphore_create(0);
+    dispatch_semaphore_t releaseFailures = dispatch_semaphore_create(0);
+    NSObject *failureLock = [[NSObject alloc] init];
+    __block BOOL allFailuresWereBoundKeyMissing = YES;
+    __block NSUInteger willLogoutCount = 0;
+    XCTestExpectation *logoutLifecycle = [self expectationWithDescription:@"one effective logout lifecycle"];
+    logoutLifecycle.assertForOverFulfill = YES;
+    id observer = [[NSNotificationCenter defaultCenter]
+                   addObserverForName:kSFNotificationUserWillLogout
+                   object:[SFUserAccountManager sharedInstance]
+                   queue:nil
+                   usingBlock:^(NSNotification *notification) {
+        willLogoutCount++;
+        [logoutLifecycle fulfill];
+    }];
+
+    BOOL didSwapLogoutBlocker = NO;
+    [self swapLogoutBlockerForLifecycleTest];
+    didSwapLogoutBlocker = YES;
+    SFRestAPIReplayTestStub *stub = [[SFRestAPIReplayTestStub alloc] init];
+    [SFUserAccountManager sharedInstance].authClient = ^{ return stub; };
+    NSArray<SFRestRequest *> *requests = @[
+        [self.restAPI requestForResources:nil],
+        [self.restAPI requestForResources:nil]
+    ];
+    dispatch_group_t sendGroup = dispatch_group_create();
+    dispatch_queue_t concurrentQueue = dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0);
+    for (SFRestRequest *request in requests) {
+        dispatch_group_async(sendGroup, concurrentQueue, ^{
+            dispatch_semaphore_wait(startRequests, DISPATCH_TIME_FOREVER);
+            [self.restAPI send:request
+                   failureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
+                @synchronized (failureLock) {
+                    allFailuresWereBoundKeyMissing &=
+                        [SFSDKDPoPRequestDecorator classifyDecorationError:error]
+                        == SFSDKDPoPDecorationFailureBoundKeyMissing;
+                }
+                dispatch_semaphore_signal(failuresEntered);
+                dispatch_semaphore_wait(releaseFailures, DISPATCH_TIME_FOREVER);
+            }
+                   successBlock:^(id response, NSURLResponse *rawResponse) {
+                XCTFail(@"A request with a missing bound key must not create a task or succeed");
+            }
+                    shouldRetry:YES];
+        });
+    }
+    dispatch_semaphore_signal(startRequests);
+    dispatch_semaphore_signal(startRequests);
+    XCTAssertEqual(dispatch_semaphore_wait(failuresEntered, dispatch_time(DISPATCH_TIME_NOW, 5 * NSEC_PER_SEC)), 0);
+    XCTAssertEqual(dispatch_semaphore_wait(failuresEntered, dispatch_time(DISPATCH_TIME_NOW, 5 * NSEC_PER_SEC)), 0);
+
+    dispatch_semaphore_signal(releaseFailures);
+    dispatch_semaphore_signal(releaseFailures);
+    XCTestExpectation *sendsCompleted = [self expectationWithDescription:@"both terminal recoveries queued"];
+    dispatch_group_notify(sendGroup, dispatch_get_main_queue(), ^{
+        [sendsCompleted fulfill];
+    });
+    @try {
+        [self waitForExpectations:@[logoutLifecycle, sendsCompleted] timeout:5.0];
+
+        XCTAssertTrue(allFailuresWereBoundKeyMissing);
+        XCTAssertEqual(willLogoutCount, 1u,
+                       @"The account's LoggedIn -> LoggingOut transition coalesces queued terminal recoveries");
+        XCTAssertEqual(self.testAccount.loginState, SFUserAccountLoginStateNotLoggedIn);
+        XCTAssertEqual(self.restAPI.activeRequests.count, 0u);
+        for (SFRestRequest *request in requests) {
+            XCTAssertNil(request.sessionDataTask);
+        }
+    } @finally {
+        [[NSNotificationCenter defaultCenter] removeObserver:observer];
+        if (didSwapLogoutBlocker) {
+            [self swapLogoutBlockerForLifecycleTest];
+        }
+    }
+}
+
 - (void)test_givenBoundKeyMissingAndCredentialsReplacedBeforeQueuedLogout_whenSendingRestRequest_thenDoesNotLogoutReplacement {
     NSString *scope = self.testAccount.credentials.identifier;
     [SFSDKDPoPKeyStore.shared deleteForScope:scope];
@@ -265,8 +360,8 @@ static XCTestExpectation *gLogoutExpectation;
     [self swapLogoutUserWithRecorder];
 }
 
-- (void)test_givenDPoPBoundKeyMismatch_when_startAuthenticationRefresh_thenLogsOutWithTokenExpired {
-    SFSDKOAuthTokenEndpointResponse *response = [self poisonedDPoPKeyMismatchResponse];
+- (void)test_givenInvalidDPoPProofWithLegacyMismatchDescription_when_startAuthenticationRefresh_thenLogsOutWithTokenExpired {
+    SFSDKOAuthTokenEndpointResponse *response = [self invalidDPoPProofResponse];
     SFRestAPIReplayTestStub *stub = [[SFRestAPIReplayTestStub alloc] init];
     stub.stubbedResponse = response;
     [SFUserAccountManager sharedInstance].authClient = ^{ return stub; };
@@ -291,7 +386,7 @@ static XCTestExpectation *gLogoutExpectation;
     [self swapLogoutUserWithRecorder];
 }
 
-- (void)test_givenOtherDPoPProofError_when_startAuthenticationRefresh_thenDoesNotLogout {
+- (void)test_givenInvalidDPoPProof_when_startAuthenticationRefresh_thenLogsOutWithTokenExpired {
     NSDictionary *errorDict = @{
         @"error": @"invalid_dpop_proof",
         @"error_description": @"dpop proof failed validation"
@@ -305,19 +400,21 @@ static XCTestExpectation *gLogoutExpectation;
     [self swapLogoutUserWithRecorder];
 
     XCTestExpectation *failureExpectation = [self expectationWithDescription:@"Request fails"];
+    gLogoutExpectation = [self expectationWithDescription:@"Token-expired logout"];
     SFRestRequest *request = [self pendingRequestWithFailureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
         XCTAssertEqualObjects(error.userInfo[kSFOAuthError], @"invalid_dpop_proof");
         [failureExpectation fulfill];
     }];
 
     [self startRefreshForRequest:request];
-    [self waitForExpectations:@[failureExpectation] timeout:5.0];
-    [self drainMainQueue];
-    XCTAssertEqual(gLogoutCallCount, 0);
+    [self waitForExpectations:@[failureExpectation, gLogoutExpectation] timeout:5.0];
+    XCTAssertEqual(gLogoutCallCount, 1);
+    XCTAssertEqual(gLogoutReason, SFLogoutReasonTokenExpired);
+    gLogoutExpectation = nil;
     [self swapLogoutUserWithRecorder];
 }
 
-- (void)test_givenUnmarkedDPoPBoundKeyMismatch_when_startAuthenticationRefresh_thenDoesNotLogout {
+- (void)test_givenInvalidDPoPProofWithoutLegacyMarker_when_startAuthenticationRefresh_thenLogsOutWithTokenExpired {
     NSDictionary *errorDict = @{
         @"error": @"invalid_dpop_proof",
         @"error_description": @"dpop thumbprint invalid for token"
@@ -331,15 +428,17 @@ static XCTestExpectation *gLogoutExpectation;
     [self swapLogoutUserWithRecorder];
 
     XCTestExpectation *failureExpectation = [self expectationWithDescription:@"Request fails"];
+    gLogoutExpectation = [self expectationWithDescription:@"Token-expired logout"];
     SFRestRequest *request = [self pendingRequestWithFailureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
         XCTAssertEqualObjects(error.userInfo[kSFOAuthError], @"invalid_dpop_proof");
         [failureExpectation fulfill];
     }];
 
     [self startRefreshForRequest:request];
-    [self waitForExpectations:@[failureExpectation] timeout:5.0];
-    [self drainMainQueue];
-    XCTAssertEqual(gLogoutCallCount, 0);
+    [self waitForExpectations:@[failureExpectation, gLogoutExpectation] timeout:5.0];
+    XCTAssertEqual(gLogoutCallCount, 1);
+    XCTAssertEqual(gLogoutReason, SFLogoutReasonTokenExpired);
+    gLogoutExpectation = nil;
     [self swapLogoutUserWithRecorder];
 }
 
