@@ -179,9 +179,12 @@ static XCTestExpectation *gLogoutExpectation;
     method_exchangeImplementations(intercepted, original);
 }
 
-- (SFSDKOAuthTokenEndpointResponse *)invalidDPoPProofResponse {
-    NSError *error = [SFSDKOAuth2 errorWithType:@"invalid_dpop_proof" description:@"dpop thumbprint invalid for token"];
-    return [[SFSDKOAuthTokenEndpointResponse alloc] initWithError:error];
+- (SFSDKOAuthTokenEndpointResponse *)verifiedDPoPBoundKeyMismatchResponse {
+    NSError *serverError = [SFSDKOAuth2 errorWithType:@"invalid_dpop_proof" description:@"dpop thumbprint invalid for token"];
+    NSMutableDictionary *userInfo = [serverError.userInfo mutableCopy];
+    userInfo[kSFSDKOAuthDPoPBoundKeyMismatchRecoveryKey] = @YES;
+    NSError *markedError = [NSError errorWithDomain:serverError.domain code:serverError.code userInfo:userInfo];
+    return [[SFSDKOAuthTokenEndpointResponse alloc] initWithError:markedError];
 }
 
 - (void)test_given_invalidGrant_when_startAuthenticationRefresh_then_logsOutWithTokenExpired {
@@ -360,8 +363,8 @@ static XCTestExpectation *gLogoutExpectation;
     [self swapLogoutUserWithRecorder];
 }
 
-- (void)test_givenInvalidDPoPProofWithLegacyMismatchDescription_when_startAuthenticationRefresh_thenLogsOutWithTokenExpired {
-    SFSDKOAuthTokenEndpointResponse *response = [self invalidDPoPProofResponse];
+- (void)test_givenVerifiedDPoPBoundKeyMismatch_when_startAuthenticationRefresh_thenLogsOutWithTokenExpired {
+    SFSDKOAuthTokenEndpointResponse *response = [self verifiedDPoPBoundKeyMismatchResponse];
     SFRestAPIReplayTestStub *stub = [[SFRestAPIReplayTestStub alloc] init];
     stub.stubbedResponse = response;
     [SFUserAccountManager sharedInstance].authClient = ^{ return stub; };
@@ -386,7 +389,7 @@ static XCTestExpectation *gLogoutExpectation;
     [self swapLogoutUserWithRecorder];
 }
 
-- (void)test_givenInvalidDPoPProof_when_startAuthenticationRefresh_thenLogsOutWithTokenExpired {
+- (void)test_givenGenericInvalidDPoPProof_when_startAuthenticationRefresh_thenDoesNotLogout {
     NSDictionary *errorDict = @{
         @"error": @"invalid_dpop_proof",
         @"error_description": @"dpop proof failed validation"
@@ -398,23 +401,23 @@ static XCTestExpectation *gLogoutExpectation;
     stub.stubbedResponse = response;
     [SFUserAccountManager sharedInstance].authClient = ^{ return stub; };
     [self swapLogoutUserWithRecorder];
-
     XCTestExpectation *failureExpectation = [self expectationWithDescription:@"Request fails"];
-    gLogoutExpectation = [self expectationWithDescription:@"Token-expired logout"];
+    gLogoutExpectation = [self expectationWithDescription:@"No token-expired logout"];
+    gLogoutExpectation.inverted = YES;
     SFRestRequest *request = [self pendingRequestWithFailureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
         XCTAssertEqualObjects(error.userInfo[kSFOAuthError], @"invalid_dpop_proof");
         [failureExpectation fulfill];
     }];
 
     [self startRefreshForRequest:request];
-    [self waitForExpectations:@[failureExpectation, gLogoutExpectation] timeout:5.0];
-    XCTAssertEqual(gLogoutCallCount, 1);
-    XCTAssertEqual(gLogoutReason, SFLogoutReasonTokenExpired);
+    [self waitForExpectations:@[failureExpectation, gLogoutExpectation] timeout:2.0];
+    XCTAssertEqual(gLogoutCallCount, 0u,
+                   @"A generic proof validation failure must preserve credentials for a later retry.");
     gLogoutExpectation = nil;
     [self swapLogoutUserWithRecorder];
 }
 
-- (void)test_givenInvalidDPoPProofWithoutLegacyMarker_when_startAuthenticationRefresh_thenLogsOutWithTokenExpired {
+- (void)test_givenUnmarkedThumbprintInvalidDPoPProof_when_startAuthenticationRefresh_thenDoesNotLogout {
     NSDictionary *errorDict = @{
         @"error": @"invalid_dpop_proof",
         @"error_description": @"dpop thumbprint invalid for token"
@@ -426,18 +429,18 @@ static XCTestExpectation *gLogoutExpectation;
     stub.stubbedResponse = response;
     [SFUserAccountManager sharedInstance].authClient = ^{ return stub; };
     [self swapLogoutUserWithRecorder];
-
     XCTestExpectation *failureExpectation = [self expectationWithDescription:@"Request fails"];
-    gLogoutExpectation = [self expectationWithDescription:@"Token-expired logout"];
+    gLogoutExpectation = [self expectationWithDescription:@"No token-expired logout"];
+    gLogoutExpectation.inverted = YES;
     SFRestRequest *request = [self pendingRequestWithFailureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
         XCTAssertEqualObjects(error.userInfo[kSFOAuthError], @"invalid_dpop_proof");
         [failureExpectation fulfill];
     }];
 
     [self startRefreshForRequest:request];
-    [self waitForExpectations:@[failureExpectation, gLogoutExpectation] timeout:5.0];
-    XCTAssertEqual(gLogoutCallCount, 1);
-    XCTAssertEqual(gLogoutReason, SFLogoutReasonTokenExpired);
+    [self waitForExpectations:@[failureExpectation, gLogoutExpectation] timeout:2.0];
+    XCTAssertEqual(gLogoutCallCount, 0u,
+                   @"The observed description is not sufficient without verified nonce-retry provenance.");
     gLogoutExpectation = nil;
     [self swapLogoutUserWithRecorder];
 }

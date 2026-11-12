@@ -446,7 +446,7 @@ static SFSDKOAuthNonceRetryNetworkStub *sNonceRetryNetworkStub;
     return payload[@"nonce"];
 }
 
-- (void)test_givenInvalidDPoPProofBeforeNonceRetry_whenRefreshCompletes_thenMarksTerminalRefreshFailure {
+- (void)test_givenInvalidDPoPProofBeforeNonceRetry_whenRefreshCompletes_thenDoesNotMarkBoundKeyMismatch {
     sNonceRetryNetworkStub = [[SFSDKOAuthNonceRetryNetworkStub alloc] init];
     sNonceRetryNetworkStub.firstResponseBody = @"{\"error\":\"invalid_dpop_proof\",\"error_description\":\"dpop thumbprint invalid for token\"}";
     [self swapNetworkFactoryForNonceRetryTest];
@@ -461,6 +461,7 @@ static SFSDKOAuthNonceRetryNetworkStub *sNonceRetryNetworkStub;
     [[[SFSDKOAuth2 alloc] init] accessTokenForRefresh:[self refreshRequestForDPoPScope:scope] completion:^(SFSDKOAuthTokenEndpointResponse *response) {
         XCTAssertTrue(response.hasError);
         XCTAssertEqualObjects(response.error.error.userInfo[kSFOAuthError], @"invalid_dpop_proof");
+        XCTAssertFalse([SFSDKOAuth2 isDPoPBoundKeyMismatchError:response.error.error]);
         [completion fulfill];
     }];
     [self waitForExpectations:@[completion] timeout:2.0];
@@ -531,7 +532,7 @@ static SFSDKOAuthNonceRetryNetworkStub *sNonceRetryNetworkStub;
     }
 }
 
-- (void)test_givenInvalidDPoPProofAfterNonceRetry_whenRefreshCompletes_thenPreservesOAuthError {
+- (void)test_givenObservedThumbprintMismatchAfterVerifiedNonceRetry_whenRefreshCompletes_thenMarksBoundKeyMismatch {
     sNonceRetryNetworkStub = [[SFSDKOAuthNonceRetryNetworkStub alloc] init];
     sNonceRetryNetworkStub.secondResponseStatusCode = 400;
     sNonceRetryNetworkStub.secondResponseBody = @"{\"error\":\"invalid_dpop_proof\",\"error_description\":\"dpop thumbprint invalid for token\"}";
@@ -547,6 +548,7 @@ static SFSDKOAuthNonceRetryNetworkStub *sNonceRetryNetworkStub;
     [[[SFSDKOAuth2 alloc] init] accessTokenForRefresh:[self refreshRequestForDPoPScope:scope] completion:^(SFSDKOAuthTokenEndpointResponse *response) {
         XCTAssertTrue(response.hasError);
         XCTAssertEqualObjects(response.error.error.userInfo[kSFOAuthError], @"invalid_dpop_proof");
+        XCTAssertTrue([SFSDKOAuth2 isDPoPBoundKeyMismatchError:response.error.error]);
         [completion fulfill];
     }];
     [self waitForExpectations:@[completion] timeout:2.0];
@@ -560,7 +562,7 @@ static SFSDKOAuthNonceRetryNetworkStub *sNonceRetryNetworkStub;
     [SFSDKDPoPKeyStore.shared deleteForScope:scope];
 }
 
-- (void)test_givenNonceRetryReturnsCasedAndPaddedInvalidDPoPProof_whenRefreshCompletes_thenPreservesOAuthError {
+- (void)test_givenNonceRetryReturnsNormalizedObservedMismatch_whenRefreshCompletes_thenMarksBoundKeyMismatch {
     sNonceRetryNetworkStub = [[SFSDKOAuthNonceRetryNetworkStub alloc] init];
     sNonceRetryNetworkStub.secondResponseStatusCode = 400;
     sNonceRetryNetworkStub.secondResponseBody = @"{\"error\":\"invalid_dpop_proof\",\"error_description\":\"  DPOP THUMBPRINT INVALID FOR TOKEN  \"}";
@@ -576,6 +578,7 @@ static SFSDKOAuthNonceRetryNetworkStub *sNonceRetryNetworkStub;
     [[[SFSDKOAuth2 alloc] init] accessTokenForRefresh:[self refreshRequestForDPoPScope:scope] completion:^(SFSDKOAuthTokenEndpointResponse *response) {
         XCTAssertTrue(response.hasError);
         XCTAssertEqualObjects(response.error.error.userInfo[NSLocalizedDescriptionKey], @"  DPOP THUMBPRINT INVALID FOR TOKEN  ");
+        XCTAssertTrue([SFSDKOAuth2 isDPoPBoundKeyMismatchError:response.error.error]);
         [completion fulfill];
     }];
     [self waitForExpectations:@[completion] timeout:2.0];
@@ -584,7 +587,7 @@ static SFSDKOAuthNonceRetryNetworkStub *sNonceRetryNetworkStub;
     [SFSDKDPoPKeyStore.shared deleteForScope:scope];
 }
 
-- (void)test_givenNonceRetryReturnsAnyInvalidDPoPProofDescription_whenRefreshCompletes_thenMarksTerminalRefreshFailure {
+- (void)test_givenNonceRetryReturnsUnrecognizedInvalidDPoPProofDescription_whenRefreshCompletes_thenDoesNotMarkBoundKeyMismatch {
     sNonceRetryNetworkStub = [[SFSDKOAuthNonceRetryNetworkStub alloc] init];
     sNonceRetryNetworkStub.secondResponseStatusCode = 400;
     NSString *unrecognizedDescription = @"server-controlled-unrecognized-description";
@@ -606,11 +609,13 @@ static SFSDKOAuthNonceRetryNetworkStub *sNonceRetryNetworkStub;
     [[[SFSDKOAuth2 alloc] init] accessTokenForRefresh:[self refreshRequestForDPoPScope:scope] completion:^(SFSDKOAuthTokenEndpointResponse *response) {
         XCTAssertTrue(response.hasError);
         XCTAssertEqualObjects(response.error.error.userInfo[NSLocalizedDescriptionKey], unrecognizedDescription);
+        XCTAssertFalse([SFSDKOAuth2 isDPoPBoundKeyMismatchError:response.error.error]);
         [completion fulfill];
     }];
     [self waitForExpectations:@[completion] timeout:2.0];
 
     XCTAssertEqual(sNonceRetryNetworkStub.capturedRequests.count, 2u);
+    XCTAssertTrue([logReceiver.messages containsObject:@"DPoP refresh nonce retry returned invalid_dpop_proof without the recognized thumbprint-mismatch response; no credential recovery applied."]);
     for (NSString *message in logReceiver.messages) {
         XCTAssertFalse([message containsString:unrecognizedDescription],
                        @"The terminal decision must not log an untrusted server description");
@@ -765,7 +770,7 @@ static SFSDKOAuthNonceRetryNetworkStub *sNonceRetryNetworkStub;
     [SFSDKDPoPKeyStore.shared deleteForScope:scope];
 }
 
-- (void)test_givenRetryResponseOmitsErrorDescription_whenRefreshCompletes_thenMarksTerminalRefreshFailure {
+- (void)test_givenRetryResponseOmitsErrorDescription_whenRefreshCompletes_thenDoesNotMarkBoundKeyMismatch {
     sNonceRetryNetworkStub = [[SFSDKOAuthNonceRetryNetworkStub alloc] init];
     sNonceRetryNetworkStub.secondResponseStatusCode = 400;
     sNonceRetryNetworkStub.secondResponseBody = @"{\"error\":\"invalid_dpop_proof\"}";
@@ -782,6 +787,7 @@ static SFSDKOAuthNonceRetryNetworkStub *sNonceRetryNetworkStub;
         XCTAssertTrue(response.hasError);
         XCTAssertEqualObjects(response.error.error.userInfo[kSFOAuthError], @"invalid_dpop_proof");
         XCTAssertEqualObjects(response.error.error.userInfo[NSLocalizedDescriptionKey], @"");
+        XCTAssertFalse([SFSDKOAuth2 isDPoPBoundKeyMismatchError:response.error.error]);
         [completion fulfill];
     }];
     [self waitForExpectations:@[completion] timeout:2.0];
@@ -790,7 +796,7 @@ static SFSDKOAuthNonceRetryNetworkStub *sNonceRetryNetworkStub;
     [SFSDKDPoPKeyStore.shared deleteForScope:scope];
 }
 
-- (void)test_givenRetryResponseHasNonStringScope_whenRefreshCompletes_thenMarksTerminalRefreshFailure {
+- (void)test_givenRetryResponseHasNonStringScope_whenRefreshCompletes_thenDoesNotMarkBoundKeyMismatch {
     sNonceRetryNetworkStub = [[SFSDKOAuthNonceRetryNetworkStub alloc] init];
     sNonceRetryNetworkStub.secondResponseStatusCode = 400;
     sNonceRetryNetworkStub.secondResponseBody = @"{\"error\":\"invalid_dpop_proof\",\"scope\":null}";
@@ -806,6 +812,7 @@ static SFSDKOAuthNonceRetryNetworkStub *sNonceRetryNetworkStub;
     [[[SFSDKOAuth2 alloc] init] accessTokenForRefresh:[self refreshRequestForDPoPScope:scope] completion:^(SFSDKOAuthTokenEndpointResponse *response) {
         XCTAssertTrue(response.hasError);
         XCTAssertEqualObjects(response.error.error.userInfo[kSFOAuthError], @"invalid_dpop_proof");
+        XCTAssertFalse([SFSDKOAuth2 isDPoPBoundKeyMismatchError:response.error.error]);
         [completion fulfill];
     }];
     [self waitForExpectations:@[completion] timeout:2.0];
@@ -839,7 +846,7 @@ static SFSDKOAuthNonceRetryNetworkStub *sNonceRetryNetworkStub;
     [SFSDKDPoPKeyStore.shared deleteForScope:scope];
 }
 
-- (void)test_givenUseDPoPNonceWithoutNonceHeader_whenRefreshCompletes_thenMarksTerminalRefreshFailure {
+- (void)test_givenUseDPoPNonceWithoutNonceHeader_whenRefreshCompletes_thenDoesNotMarkBoundKeyMismatch {
     sNonceRetryNetworkStub = [[SFSDKOAuthNonceRetryNetworkStub alloc] init];
     sNonceRetryNetworkStub.firstResponseHeaders = @{};
     sNonceRetryNetworkStub.secondResponseStatusCode = 400;
@@ -856,6 +863,7 @@ static SFSDKOAuthNonceRetryNetworkStub *sNonceRetryNetworkStub;
     [[[SFSDKOAuth2 alloc] init] accessTokenForRefresh:[self refreshRequestForDPoPScope:scope] completion:^(SFSDKOAuthTokenEndpointResponse *response) {
         XCTAssertTrue(response.hasError);
         XCTAssertEqualObjects(response.error.error.userInfo[kSFOAuthError], @"invalid_dpop_proof");
+        XCTAssertFalse([SFSDKOAuth2 isDPoPBoundKeyMismatchError:response.error.error]);
         [completion fulfill];
     }];
     [self waitForExpectations:@[completion] timeout:2.0];
@@ -864,7 +872,7 @@ static SFSDKOAuthNonceRetryNetworkStub *sNonceRetryNetworkStub;
     [SFSDKDPoPKeyStore.shared deleteForScope:scope];
 }
 
-- (void)test_givenInvalidDPoPProofWithNon400Response_whenRefreshCompletes_thenMarksTerminalRefreshFailure {
+- (void)test_givenInvalidDPoPProofWithNon400Response_whenRefreshCompletes_thenDoesNotMarkBoundKeyMismatch {
     sNonceRetryNetworkStub = [[SFSDKOAuthNonceRetryNetworkStub alloc] init];
     sNonceRetryNetworkStub.secondResponseStatusCode = 500;
     sNonceRetryNetworkStub.secondResponseBody = @"{\"error\":\"invalid_dpop_proof\",\"error_description\":\"dpop thumbprint invalid for token\"}";
@@ -880,6 +888,7 @@ static SFSDKOAuthNonceRetryNetworkStub *sNonceRetryNetworkStub;
     [[[SFSDKOAuth2 alloc] init] accessTokenForRefresh:[self refreshRequestForDPoPScope:scope] completion:^(SFSDKOAuthTokenEndpointResponse *response) {
         XCTAssertTrue(response.hasError);
         XCTAssertEqualObjects(response.error.error.userInfo[kSFOAuthError], @"invalid_dpop_proof");
+        XCTAssertFalse([SFSDKOAuth2 isDPoPBoundKeyMismatchError:response.error.error]);
         [completion fulfill];
     }];
     [self waitForExpectations:@[completion] timeout:2.0];
@@ -888,7 +897,66 @@ static SFSDKOAuthNonceRetryNetworkStub *sNonceRetryNetworkStub;
     [SFSDKDPoPKeyStore.shared deleteForScope:scope];
 }
 
-- (void)test_givenEndpointRequestReusedForApprovalCode_whenInvalidDPoPProofCompletes_thenPreservesOAuthError {
+- (void)test_given401NonceChallengeThenObservedMismatch_whenRefreshCompletes_thenDoesNotMarkBoundKeyMismatch {
+    sNonceRetryNetworkStub = [[SFSDKOAuthNonceRetryNetworkStub alloc] init];
+    sNonceRetryNetworkStub.firstResponseStatusCode = 401;
+    sNonceRetryNetworkStub.firstResponseBody = @"";
+    sNonceRetryNetworkStub.secondResponseStatusCode = 400;
+    sNonceRetryNetworkStub.secondResponseBody = @"{\"error\":\"invalid_dpop_proof\",\"error_description\":\"dpop thumbprint invalid for token\"}";
+    [self swapNetworkFactoryForNonceRetryTest];
+    self.networkFactorySwizzled = YES;
+
+    NSString *scope = [NSString stringWithFormat:@"nonce-retry-401-%@", NSUUID.UUID.UUIDString];
+    NSError *keyError = nil;
+    XCTAssertNotNil([SFSDKDPoPKeyStore.shared keyPairForScope:scope error:&keyError]);
+    XCTAssertNil(keyError);
+
+    XCTestExpectation *completion = [self expectationWithDescription:@"refresh completes"];
+    [[[SFSDKOAuth2 alloc] init] accessTokenForRefresh:[self refreshRequestForDPoPScope:scope] completion:^(SFSDKOAuthTokenEndpointResponse *response) {
+        XCTAssertTrue(response.hasError);
+        XCTAssertEqualObjects(response.error.error.userInfo[kSFOAuthError], @"invalid_dpop_proof");
+        XCTAssertFalse([SFSDKOAuth2 isDPoPBoundKeyMismatchError:response.error.error]);
+        [completion fulfill];
+    }];
+    [self waitForExpectations:@[completion] timeout:2.0];
+
+    XCTAssertEqual(sNonceRetryNetworkStub.capturedRequests.count, 2u);
+    [SFSDKDPoPKeyStore.shared deleteForScope:scope];
+}
+
+- (void)test_givenInitialRefreshWithoutProofThenProofBearingRetry_whenObservedMismatchReturns_thenDoesNotMarkBoundKeyMismatch {
+    sNonceRetryNetworkStub = [[SFSDKOAuthNonceRetryNetworkStub alloc] init];
+    sNonceRetryNetworkStub.secondResponseStatusCode = 400;
+    sNonceRetryNetworkStub.secondResponseBody = @"{\"error\":\"invalid_dpop_proof\",\"error_description\":\"dpop thumbprint invalid for token\"}";
+    [self swapNetworkFactoryForNonceRetryTest];
+    self.networkFactorySwizzled = YES;
+
+    NSString *scope = [NSString stringWithFormat:@"nonce-retry-initial-proof-%@", NSUUID.UUID.UUIDString];
+    NSError *keyError = nil;
+    XCTAssertNotNil([SFSDKDPoPKeyStore.shared keyPairForScope:scope error:&keyError]);
+    XCTAssertNil(keyError);
+    SFSDKOAuthTokenEndpointRequest *endpointReq = [self refreshRequestForDPoPScope:scope];
+    endpointReq.tokenType = @"Bearer";
+    sNonceRetryNetworkStub.firstRequestBlock = ^{
+        endpointReq.tokenType = @"DPoP";
+    };
+
+    XCTestExpectation *completion = [self expectationWithDescription:@"refresh completes"];
+    [[[SFSDKOAuth2 alloc] init] accessTokenForRefresh:endpointReq completion:^(SFSDKOAuthTokenEndpointResponse *response) {
+        XCTAssertTrue(response.hasError);
+        XCTAssertEqualObjects(response.error.error.userInfo[kSFOAuthError], @"invalid_dpop_proof");
+        XCTAssertFalse([SFSDKOAuth2 isDPoPBoundKeyMismatchError:response.error.error]);
+        [completion fulfill];
+    }];
+    [self waitForExpectations:@[completion] timeout:2.0];
+
+    XCTAssertEqual(sNonceRetryNetworkStub.capturedRequests.count, 2u);
+    XCTAssertNil([sNonceRetryNetworkStub.capturedRequests[0] valueForHTTPHeaderField:@"DPoP"]);
+    XCTAssertNotNil([sNonceRetryNetworkStub.capturedRequests[1] valueForHTTPHeaderField:@"DPoP"]);
+    [SFSDKDPoPKeyStore.shared deleteForScope:scope];
+}
+
+- (void)test_givenEndpointRequestReusedForApprovalCode_whenVerifiedMismatchRefreshCompletes_thenDoesNotLeakMarker {
     sNonceRetryNetworkStub = [[SFSDKOAuthNonceRetryNetworkStub alloc] init];
     sNonceRetryNetworkStub.secondResponseStatusCode = 400;
     sNonceRetryNetworkStub.secondResponseBody = @"{\"error\":\"invalid_dpop_proof\",\"error_description\":\"dpop thumbprint invalid for token\"}";
@@ -905,6 +973,7 @@ static SFSDKOAuthNonceRetryNetworkStub *sNonceRetryNetworkStub;
     XCTestExpectation *refreshCompletion = [self expectationWithDescription:@"refresh completes"];
     [oauth accessTokenForRefresh:endpointReq completion:^(SFSDKOAuthTokenEndpointResponse *response) {
         XCTAssertEqualObjects(response.error.error.userInfo[kSFOAuthError], @"invalid_dpop_proof");
+        XCTAssertTrue([SFSDKOAuth2 isDPoPBoundKeyMismatchError:response.error.error]);
         [refreshCompletion fulfill];
     }];
     [self waitForExpectations:@[refreshCompletion] timeout:2.0];
@@ -917,6 +986,7 @@ static SFSDKOAuthNonceRetryNetworkStub *sNonceRetryNetworkStub;
     [oauth accessTokenForApprovalCode:endpointReq completion:^(SFSDKOAuthTokenEndpointResponse *response) {
         XCTAssertTrue(response.hasError);
         XCTAssertEqualObjects(response.error.error.userInfo[kSFOAuthError], @"invalid_dpop_proof");
+        XCTAssertFalse([SFSDKOAuth2 isDPoPBoundKeyMismatchError:response.error.error]);
         [approvalCodeCompletion fulfill];
     }];
     [self waitForExpectations:@[approvalCodeCompletion] timeout:2.0];

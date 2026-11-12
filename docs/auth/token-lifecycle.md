@@ -323,13 +323,30 @@ non-key decoration error (e.g. a proof-build failure) preserves the legacy "log 
 a proof" behavior. Viewing the dev-info screen shows "Unavailable" for a missing/indeterminate key
 and never mints one as a display side effect.
 
-If a refresh response contains OAuth `invalid_dpop_proof`, `SFSDKOAuth2` preserves the raw OAuth
-error. `SFRestAPI` and `SFSDKAuthErrorManager` treat that refresh-only error as terminal,
-regardless of HTTP status, nonce-retry history, or the server's `error_description`. This matches
-Android's refresh policy and avoids trying an unbound replacement key that cannot satisfy the
-server's DPoP binding. The error follows the same invalid-credentials re-auth handling as a
-confirmed missing or invalid local key. The rule does not apply to code exchange, malformed
-responses, or other OAuth errors.
+The load-only change prevents new replacement keys, but an SDK version with the earlier mint-on-miss
+behavior may already have persisted one. iOS has a bounded compatibility recovery for the observed
+token-endpoint response from that state. It is **not** a general `invalid_dpop_proof` policy, a
+server-defined subcode, or proof that the current local key differs from the key originally bound to
+the refresh token.
+
+`SFSDKOAuth2` preserves the raw OAuth error and adds an internal recovery marker only when every
+condition below is true:
+
+1. The request is a refresh that successfully attached a proof using the persisted bound key.
+2. Its initial response is an HTTP 400 JSON object with `error` exactly `use_dpop_nonce` and a
+   nonempty `DPoP-Nonce` header.
+3. The single retry successfully attaches a proof containing that exact challenged nonce.
+4. The retry response is HTTP 400 with `error` exactly `invalid_dpop_proof` and an
+   `error_description` equal to `dpop thumbprint invalid for token`, after trimming outer
+   whitespace and comparing case-insensitively.
+
+Only a marked error follows the existing invalid-credentials/token-expired re-auth paths in
+`SFSDKAuthErrorManager` and `SFRestAPI`. A generic `invalid_dpop_proof`, the observed description
+without this verified retry provenance, a non-400 response, a missing nonce header, malformed
+OAuth data, and code-exchange flows remain ordinary errors and preserve the session. When a verified
+retry returns `invalid_dpop_proof` with a different description, the SDK emits a fixed warning that
+does not include response text, proof data, nonce values, or tokens; it does not mark the error for
+credential recovery.
 
 For support diagnostics, `/authorize` and each successfully decorated refresh emit
 `DPoP binding at ...: scope=<credential identifier> jkt=<public thumbprint>`. The refresh log is

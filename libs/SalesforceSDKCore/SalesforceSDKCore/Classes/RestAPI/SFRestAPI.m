@@ -674,9 +674,7 @@ successBlock:(SFRestResponseBlock)successBlock
                 });
             };
             NSInteger errorCode = [SFOAuthErrorCodeHelper from:refreshError.userInfo[kSFOAuthError]];
-            BOOL isInvalidDPoPProof = [SFOAuthErrorCodeHelper from:refreshError.userInfo[kSFOAuthError]]
-                == SFOAuthErrorCodeInvalidDpopProof;
-            if (errorCode == SFOAuthErrorCodeInvalidGrant || isInvalidDPoPProof) {
+            if (errorCode == SFOAuthErrorCodeInvalidGrant || [SFSDKOAuth2 isDPoPBoundKeyMismatchError:refreshError]) {
                 triggerLogout(SFLogoutReasonTokenExpired, @"Refresh credentials are no longer valid, triggering logout.");
             } else if (errorCode == SFOAuthErrorCodeAppAttestationFailed) {
                 triggerLogout(SFLogoutReasonAppAttestationFailed, @"App attestation failed, triggering logout.");
