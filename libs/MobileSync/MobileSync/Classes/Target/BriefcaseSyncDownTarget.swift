@@ -74,6 +74,8 @@ public class BriefcaseSyncDownTarget: SyncDownTarget {
     private var fetchedTypedIds: TypedIds?
     private var sliceIndex = 0
     private var cancellableSet: Set<AnyCancellable> = []
+    // Internal seam so tests can provide canned responses
+    var restClientProvider: () -> RestClient = { RestClient.shared }
 
     override required public convenience init(dict: [AnyHashable : Any]) {
         var infos: [BriefcaseObjectInfo] = []
@@ -126,6 +128,8 @@ public class BriefcaseSyncDownTarget: SyncDownTarget {
     override public func startFetch(syncManager: SyncManager, maxTimeStamp: Int64, onFail errorBlock: @escaping SyncDownErrorBlock, onComplete completeBlock: @escaping SyncDownCompletionBlock) {
         self.maxTimeStamp = maxTimeStamp
         relayToken = nil
+        fetchedTypedIds = nil
+        sliceIndex = 0
         totalSize = 0
         getIdsFromBriefcasesAndFetchFromServer(syncManager: syncManager, relayToken: relayToken, onFail: errorBlock, onComplete: completeBlock)
     }
@@ -148,6 +152,7 @@ public class BriefcaseSyncDownTarget: SyncDownTarget {
     }
     
     private func getIdsFromBriefcasesAndFetchFromServer(syncManager: SyncManager, relayToken: String?, onFail errorBlock: @escaping SyncDownErrorBlock, onComplete completeBlock: SyncDownCompletionBlock?) {
+        let isFirstPage = relayToken == nil
         idsFromBriefcases(syncManager: syncManager, maxTimeStamp: maxTimeStamp as NSNumber, relayToken: relayToken)
             .sink { result in
                 if case .failure(let error) = result {
@@ -155,8 +160,12 @@ public class BriefcaseSyncDownTarget: SyncDownTarget {
                 }
             } receiveValue: { [weak self] (typedIds, relayToken) in
                 guard let self = self else { return }
+                // Saving the relay token (nil on the last page) so that continueFetch gets the next page
+                self.relayToken = relayToken
                 self.fetchedTypedIds = typedIds
-                self.totalSize = UInt(typedIds.ids.count) // TODO: This only works with one page of results but stats are always returning 1000
+                if isFirstPage {
+                    self.totalSize = UInt(typedIds.ids.count) // TODO: This only works with one page of results but stats are always returning 1000
+                }
                 self.fetchRecordsFromServer(errorBlock: errorBlock, completeBlock: completeBlock)
             }
             .store(in: &cancellableSet)
@@ -167,7 +176,7 @@ public class BriefcaseSyncDownTarget: SyncDownTarget {
         fieldList.insert(objectInfo.idFieldName)
         fieldList.insert(objectInfo.modificationDateFieldName)
         
-        return RestClient.shared.request(forCollectionRetrieve: objectInfo.sobjectType, objectIds: ids, fieldList: Array(fieldList), apiVersion: nil)
+        return restClientProvider().request(forCollectionRetrieve: objectInfo.sobjectType, objectIds: ids, fieldList: Array(fieldList), apiVersion: nil)
     }
 
     private func fetchRecordsFromServer(errorBlock: @escaping SyncDownErrorBlock, completeBlock: SyncDownCompletionBlock?) {
@@ -178,24 +187,41 @@ public class BriefcaseSyncDownTarget: SyncDownTarget {
         }
         
         let group = DispatchGroup()
+        let lock = NSLock()
         var allRecords: [Any] = []
+        var firstError: Error?
+        let recordFailure = { (error: Error) in
+            lock.lock()
+            defer { lock.unlock() }
+            if firstError == nil {
+                firstError = error
+            }
+        }
         typedIdBatch.objectTypeToIds.forEach { (objectType, recordIds) in
             let request = requestForRecordIds(recordIds, objectInfo: objectType)
             group.enter()
-            NetworkUtils.sendRequest(withMobileSyncUserAgent: request) { response, error, urlResponse in
-                errorBlock(error)
+            request.setHeaderValue(RestClient.userAgentString("MobileSync"), forHeaderName: "User-Agent")
+            restClientProvider().send(request) { response, error, urlResponse in
+                recordFailure(error ?? BriefcaseSyncDownError.unknownResponse)
+                group.leave()
             } successBlock: { response, urlResponse in
                 if let records = response as? [[String: Any]] {
+                    lock.lock()
                     allRecords.append(contentsOf: records)
-                    group.leave()
+                    lock.unlock()
                 } else {
-                    errorBlock(nil)
+                    recordFailure(BriefcaseSyncDownError.unknownResponse)
                 }
+                group.leave()
             }
         }
         
         group.notify(queue: DispatchQueue.global()) { [weak self] in
             guard let self = self else { return }
+            if let error = firstError {
+                errorBlock(error)
+                return
+            }
             self.sliceIndex += 1
             if let fetchedTypedIds = self.fetchedTypedIds, self.sliceIndex >= fetchedTypedIds.sliceCount(sliceSize: self.countIdsPerRetrieve) {
                 self.fetchedTypedIds = nil
@@ -231,10 +257,11 @@ public class BriefcaseSyncDownTarget: SyncDownTarget {
     }
     
     private func idsFromBriefcases(syncManager: SyncManager, maxTimeStamp: NSNumber?, relayToken: String?) -> AnyPublisher<(TypedIds, String?), Error> {
-        let request = RestClient.shared.request(forPrimingRecords: relayToken, changedAfterTimestamp: maxTimeStamp, apiVersion: nil)
+        let restClient = restClientProvider()
+        let request = restClient.request(forPrimingRecords: relayToken, changedAfterTimestamp: maxTimeStamp, apiVersion: nil)
         // Setting the MobileSync user agent because this publisher isn't using SFMobileSyncNetworkUtils
         request.setHeaderValue(RestClient.userAgentString("MobileSync"), forHeaderName: "User-Agent")
-        return RestClient.shared.publisher(for: request).tryMap { response -> (TypedIds, String?) in
+        return restClient.publisher(for: request).tryMap { response -> (TypedIds, String?) in
             guard let response = try response.asJson() as? [AnyHashable: Any] else {
                 throw BriefcaseSyncDownError.unknownResponse
             }

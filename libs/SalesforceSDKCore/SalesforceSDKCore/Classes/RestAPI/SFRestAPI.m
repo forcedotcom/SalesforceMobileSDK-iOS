@@ -949,18 +949,19 @@ successBlock:(SFRestResponseBlock)successBlock
 - (SFRestRequest*) requestForPrimingRecords:(nullable NSString *)relayToken changedAfterTimestamp:(nullable NSNumber *)timestamp apiVersion:(nullable NSString *)apiVersion {
     NSString *path = [NSString stringWithFormat:@"/%@/connect/briefcase/priming-records", [self computeAPIVersion:apiVersion]];
     
-    NSDictionary *queryParams = nil;
+    NSMutableDictionary *queryParams = [NSMutableDictionary new];
     if (relayToken != nil) {
-        queryParams = @{@"relayToken": relayToken};
+        queryParams[@"relayToken"] = relayToken;
     }
-    if (timestamp) {
+    // A timestamp of 0 means "no previous sync" and is not sent
+    if (timestamp != nil && timestamp.longLongValue > 0) {
         NSString *isoTimestamp = [SFFormatUtils getIsoStringFromMillis:timestamp.longLongValue];
         if (isoTimestamp) {
-            queryParams = @{@"changedAfterTimestamp": isoTimestamp};
+            queryParams[@"changedAfterTimestamp"] = isoTimestamp;
         }
     }
 
-    return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:queryParams];
+    return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:queryParams.count > 0 ? queryParams : nil];
 }
 
 - (SFRestRequest*) requestForCollectionCreate:(BOOL)allOrNone records:(NSArray<NSDictionary*>*)records apiVersion:(nullable NSString *)apiVersion {

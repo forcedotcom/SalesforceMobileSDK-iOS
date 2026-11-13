@@ -329,9 +329,8 @@ Paginates local IDs. First run fetches all; `reSync` fetches only records change
 
 ```swift
 @objc(SFBriefcaseSyncDownTarget)
-public class BriefcaseSyncDownTarget: SFSyncDownTarget {
+public class BriefcaseSyncDownTarget: SyncDownTarget {
     @objc public init(infos: [BriefcaseObjectInfo])
-    @objc public init(infos: [BriefcaseObjectInfo], countIdsPerRetrieve: Int)
 }
 ```
 
@@ -716,6 +715,6 @@ xcodebuild test -workspace SalesforceMobileSDK-iOS.xcworkspace \
     -scheme MobileSyncTests -destination 'platform=iOS Simulator,...'
 ```
 
-Key test files: `SyncManagerTestCase.m`, `SyncDownTests.m`, `SyncUpTests.m`, `ParentChildrenSyncTests.m`, `BriefcaseSyncTests.m`.
+Key test files: `SyncManagerTestCase.m`, `SyncDownTests.m`, `SyncUpTests.m`, `ParentChildrenSyncTests.m`, `BriefcaseSyncDownTests.swift`.
 
 Tests use `MockRestClient` / `MockRestResponse` to intercept REST calls without hitting a live org.

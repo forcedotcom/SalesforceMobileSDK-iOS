@@ -3359,3 +3359,37 @@ static NSException *authException = nil;
 }
 
 @end
+
+
+// Request building tests for priming records. They do not need a server or a logged in user.
+@interface SFRestAPIPrimingRecordsRequestTests : XCTestCase
+@end
+
+@implementation SFRestAPIPrimingRecordsRequestTests
+
+// Test that relay token and timestamp are both sent when both are given
+- (void) test_givenRelayTokenAndTimestamp_whenRequestForPrimingRecords_thenQueryParamsContainBoth {
+    SFRestRequest* request = [[SFRestAPI sharedGlobalInstance] requestForPrimingRecords:@"fake-token" changedAfterTimestamp:@(1629744152000) apiVersion:kSFRestDefaultAPIVersion];
+    NSDictionary* expected = @{@"relayToken": @"fake-token", @"changedAfterTimestamp": @"2021-08-23T18:42:32.000+0000"};
+    XCTAssertEqualObjects(expected, request.queryParams);
+}
+
+// Test that a timestamp of zero (no previous sync) is not sent
+- (void) test_givenTimestampZero_whenRequestForPrimingRecords_thenChangedAfterTimestampOmitted {
+    SFRestRequest* request = [[SFRestAPI sharedGlobalInstance] requestForPrimingRecords:nil changedAfterTimestamp:@0 apiVersion:kSFRestDefaultAPIVersion];
+    XCTAssertNil(request.queryParams[@"changedAfterTimestamp"]);
+    request = [[SFRestAPI sharedGlobalInstance] requestForPrimingRecords:@"fake-token" changedAfterTimestamp:@0 apiVersion:kSFRestDefaultAPIVersion];
+    XCTAssertEqualObjects(@{@"relayToken": @"fake-token"}, request.queryParams);
+}
+
+- (void) test_givenOnlyTimestamp_whenRequestForPrimingRecords_thenOnlyChangedAfterTimestampSent {
+    SFRestRequest* request = [[SFRestAPI sharedGlobalInstance] requestForPrimingRecords:nil changedAfterTimestamp:@(1629744152000) apiVersion:kSFRestDefaultAPIVersion];
+    XCTAssertEqualObjects(@{@"changedAfterTimestamp": @"2021-08-23T18:42:32.000+0000"}, request.queryParams);
+}
+
+- (void) test_givenOnlyRelayToken_whenRequestForPrimingRecords_thenOnlyRelayTokenSent {
+    SFRestRequest* request = [[SFRestAPI sharedGlobalInstance] requestForPrimingRecords:@"fake-token" changedAfterTimestamp:nil apiVersion:kSFRestDefaultAPIVersion];
+    XCTAssertEqualObjects(@{@"relayToken": @"fake-token"}, request.queryParams);
+}
+
+@end
