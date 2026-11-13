@@ -27,8 +27,13 @@
  */
 
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
+#import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 #import "SFSDKOAuth2.h"
 NS_ASSUME_NONNULL_BEGIN
+
+/// Internal provenance marker added only when a refresh retry used the challenged nonce with an
+/// existing persisted key and received the observed server thumbprint-mismatch response.
+FOUNDATION_EXPORT NSString * const kSFSDKOAuthDPoPBoundKeyMismatchRecoveryKey;
 
 @interface SFSDKOAuthTokenEndpointRequest ()
 /// Request-scoped User-Agent for flows that already know the account being authenticated.
@@ -47,9 +52,17 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSDictionary *)parseQueryString:(NSString *)query decodeParams:(BOOL)decodeParams;
 + (NSError *)errorWithType:(NSString *)type description:(NSString *)description;
 + (NSError *)errorWithType:(NSString *)type description:(NSString *)description underlyingError:(NSError *_Nullable)underlyingError;
+/// Returns YES only for a raw OAuth error carrying verified refresh-retry provenance and the
+/// normalized observed thumbprint-mismatch response. It is not a general DPoP proof classifier.
++ (BOOL)isDPoPBoundKeyMismatchError:(NSError *)error;
 + (NSDate *)timestampStringToDate:(NSString *)timestamp;
 - (void)handleTokenEndpointResponse:(void (^)(SFSDKOAuthTokenEndpointResponse *))completionBlock request:(SFSDKOAuthTokenEndpointRequest *)endpointReq data:(NSData *)data urlResponse:(NSURLResponse *)response;
 - (NSMutableURLRequest *)prepareBasicRequest:(SFSDKOAuthTokenEndpointRequest *)endpointReq;
+/// Variant that reports how DPoP decoration resolved, so the refresh path can fail locally rather
+/// than send an unsigned/mis-signed refresh. A missing key routes to `invalid_grant`; an
+/// indeterminate Keychain read is surfaced as a transient refresh failure.
+- (NSMutableURLRequest *)prepareBasicRequest:(SFSDKOAuthTokenEndpointRequest *)endpointReq
+                                 dpopFailure:(nullable SFSDKDPoPDecorationFailure *)outFailure;
 @end
 
 NS_ASSUME_NONNULL_END

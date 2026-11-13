@@ -38,11 +38,35 @@
 
 NSString * const  kSFOAuthErrorDomain  = @"com.salesforce.OAuth.ErrorDomain";
 const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
+NSString * const kSFSDKOAuthDPoPBoundKeyMismatchRecoveryKey = @"com.salesforce.mobilesdk.dpopBoundKeyMismatchRecovery";
+static NSString * const kSFSDKOAuthDPoPUseNonceError = @"use_dpop_nonce";
+static NSString * const kSFSDKOAuthDPoPInvalidProofError = @"invalid_dpop_proof";
+// Observed in the 2026-11-10 test-org reproduction after a refresh nonce retry signed by the
+// persisted key. This is a bounded compatibility recovery, not a server-issued subcode.
+static NSString * const kSFSDKOAuthDPoPBoundKeyMismatchDescription = @"dpop thumbprint invalid for token";
+static NSString * const kSFSDKOAuthDPoPUnrecognizedMismatchWarning = @"DPoP refresh nonce retry returned invalid_dpop_proof without the recognized thumbprint-mismatch response; no credential recovery applied.";
+
+@interface SFSDKDPoPRefreshRecoveryContext : NSObject
+@property (nonatomic, assign) BOOL initialProofAttached;
+@property (nonatomic, assign) BOOL retryUsedVerifiedTokenEndpointNonce;
+@end
+
+@implementation SFSDKDPoPRefreshRecoveryContext
+@end
+
+static BOOL SFSDKIsServerDPoPBoundKeyMismatch(NSString *errorType, NSString *errorDescription) {
+    if (![errorType isEqualToString:kSFSDKOAuthDPoPInvalidProofError] || ![errorDescription isKindOfClass:[NSString class]]) {
+        return NO;
+    }
+    NSString *normalizedDescription = [errorDescription stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceAndNewlineCharacterSet];
+    return [normalizedDescription caseInsensitiveCompare:kSFSDKOAuthDPoPBoundKeyMismatchDescription] == NSOrderedSame;
+}
 
 
 @interface SFSDKOAuthTokenEndpointErrorResponse() {
     NSInteger _errorCode;
 }
+@property (nonatomic, readwrite) NSError *error;
 - (instancetype)initWithError:(NSString *)errorType description:(NSString*)errorDescription;
 - (instancetype)initWithError:(NSError *)error;
 @end
@@ -53,6 +77,10 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
 @property (nonatomic,strong,readonly) NSMutableDictionary *values;
 @property (nonatomic,strong) NSArray<NSString *> *additionalOAuthParameterKeys;
 @property (nonatomic,strong,readwrite) NSString *refreshToken;
+@end
+
+@interface SFSDKOAuth2 ()
++ (BOOL)dpopProof:(NSString *)proof containsNonce:(NSString *)nonce;
 @end
 
 @implementation SFSDKOAuthTokenEndpointRequest
@@ -91,6 +119,11 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
 - (instancetype)initWithDictionary:(NSDictionary *)nvPairs parseAdditionalFields:(NSArray<NSString *> *)additionalOAuthParameterKeys {
     if (self = [super init]) {
         _values = [NSMutableDictionary dictionaryWithDictionary:nvPairs];
+        if (_values[kSFOAuthScope] && ![_values[kSFOAuthScope] isKindOfClass:[NSString class]]) {
+            // Scope is optional, but it reaches SFOAuthCredentials on successful refreshes.
+            // Discard malformed values rather than forwarding NSNull/an object to string APIs.
+            [_values removeObjectForKey:kSFOAuthScope];
+        }
         _additionalOAuthParameterKeys = additionalOAuthParameterKeys;
         if (additionalOAuthParameterKeys) {
             NSMutableDictionary * parsedValues = [NSMutableDictionary dictionaryWithCapacity:_additionalOAuthParameterKeys.count];
@@ -102,12 +135,15 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
             }
             _additionalOAuthFields = parsedValues;
         }
-        if (nvPairs[kSFOAuthScope]) {
+        if ([nvPairs[kSFOAuthScope] isKindOfClass:[NSString class]]) {
             NSString *rawScope = nvPairs[kSFOAuthScope];
             _scopes = [rawScope componentsSeparatedByString:@" "];
         }
-        if (nvPairs[kSFOAuthError]) {
-            _error = [[SFSDKOAuthTokenEndpointErrorResponse alloc] initWithError:nvPairs[kSFOAuthError] description:nvPairs[kSFOAuthErrorDescription]];
+        if ([nvPairs[kSFOAuthError] isKindOfClass:[NSString class]]) {
+            NSString *errorDescription = [nvPairs[kSFOAuthErrorDescription] isKindOfClass:[NSString class]]
+                ? nvPairs[kSFOAuthErrorDescription]
+                : @"";
+            _error = [[SFSDKOAuthTokenEndpointErrorResponse alloc] initWithError:nvPairs[kSFOAuthError] description:errorDescription];
         }
     }
     return self;
@@ -296,7 +332,22 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
         }
         return;
     }
-    NSMutableURLRequest *request = [self prepareBasicRequest:endpointReq];
+    SFSDKDPoPDecorationFailure dpopFailure = SFSDKDPoPDecorationFailureOther;
+    NSMutableURLRequest *request = [self prepareBasicRequest:endpointReq dpopFailure:&dpopFailure];
+
+    // Never send a refresh without the bound DPoP key. Confirmed absence or a structurally
+    // invalid result requires re-auth; an indeterminate Keychain read is transient.
+    if (dpopFailure == SFSDKDPoPDecorationFailureBoundKeyMissing ||
+        dpopFailure == SFSDKDPoPDecorationFailureBoundKeyUnavailable ||
+        dpopFailure == SFSDKDPoPDecorationFailureBoundKeyInvalid) {
+        [SFSDKCoreLogger e:[self class] format:@"%@: aborting refresh — DPoP bound key unusable (failure=%ld).", NSStringFromSelector(_cmd), (long)dpopFailure];
+        if (completionBlock) {
+            completionBlock([[SFSDKOAuthTokenEndpointResponse alloc] initWithError:[self errorForDPoPDecorationFailure:dpopFailure]]);
+        }
+        return;
+    }
+    [self logDPoPBindingForRefreshRequest:request scope:endpointReq.credentialsIdentifier];
+
     NSMutableString *params = [[NSMutableString alloc] initWithFormat:@"%@=%@&%@=%@&%@=%@&%@=%@",
                                kSFOAuthFormat, @"json",
                                kSFOAuthRedirectUri, endpointReq.redirectURI,
@@ -318,18 +369,25 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
 
     __weak typeof(self) weakSelf = self;
     NSString *className = NSStringFromClass([self class]);
+    SFSDKDPoPRefreshRecoveryContext *recoveryContext = [[SFSDKDPoPRefreshRecoveryContext alloc] init];
+    recoveryContext.initialProofAttached = [request valueForHTTPHeaderField:kHttpHeaderDPoP].length > 0;
     [self sendTokenEndpointRequest:request
                 forEndpointRequest:endpointReq
              retryOnNonceChallenge:YES
-                 dataResponseBlock:^(NSData *data, NSURLResponse *urlResponse, NSError *error) {
+                   recoveryContext:recoveryContext
+                  dataResponseBlock:^(NSData *data, NSURLResponse *urlResponse, NSError *error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         SFSDKOAuthTokenEndpointResponse *endpointResponse = nil;
         if (error) {
             NSURL *requestUrl = [request URL];
             NSString *errorUrlString = [NSString stringWithFormat:@"%@://%@%@", [requestUrl scheme], [requestUrl host], [requestUrl relativePath]];
             
-            NSUInteger code = [SFSDKOAuth2 sfErrorCodeFromError:error.code];
-            endpointResponse = [[SFSDKOAuthTokenEndpointResponse alloc] initWithError:[NSError errorWithDomain:kSFOAuthErrorDomain code:code userInfo:nil]];
+            if ([error.domain isEqualToString:kSFOAuthErrorDomain]) {
+                endpointResponse = [[SFSDKOAuthTokenEndpointResponse alloc] initWithError:error];
+            } else {
+                NSUInteger code = [SFSDKOAuth2 sfErrorCodeFromError:error.code];
+                endpointResponse = [[SFSDKOAuthTokenEndpointResponse alloc] initWithError:[NSError errorWithDomain:kSFOAuthErrorDomain code:code userInfo:nil]];
+            }
             
             if (error.code == NSURLErrorTimedOut) {
                 [SFSDKCoreLogger d:[SFSDKOAuth2 class] format:@"Refresh attempt timed out after %f seconds.", endpointReq.timeout];
@@ -344,7 +402,7 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
         
         [SFSDKEventBuilderHelper createAndStoreEvent:@"tokenRefresh" userAccount:[SFUserAccountManager sharedInstance].currentUser className:className attributes:nil];
         if (strongSelf) {
-            [strongSelf handleTokenEndpointResponse:completionBlock request:endpointReq data:data urlResponse:urlResponse];
+            [strongSelf handleTokenEndpointResponse:completionBlock request:endpointReq data:data urlResponse:urlResponse recoveryContext:recoveryContext];
         } else {
             [SFSDKCoreLogger d:[SFSDKOAuth2 class] format:@"Token endpoint response handler skipped because self was deallocated."];
             if (completionBlock) {
@@ -371,6 +429,11 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
 }
 
 - (NSMutableURLRequest *)prepareBasicRequest:(SFSDKOAuthTokenEndpointRequest *)endpointReq {
+    return [self prepareBasicRequest:endpointReq dpopFailure:NULL];
+}
+
+- (NSMutableURLRequest *)prepareBasicRequest:(SFSDKOAuthTokenEndpointRequest *)endpointReq
+                                 dpopFailure:(SFSDKDPoPDecorationFailure *)outFailure {
     NSString *protocolHost = endpointReq.serverURL.absoluteString;
     NSMutableString *url = [[NSMutableString alloc] initWithFormat:@"%@%@", protocolHost, kSFOAuthEndPointToken];
     if (![url hasPrefix:@"http"]) {
@@ -385,16 +448,79 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
         [request setValue:endpointReq.userAgent forHTTPHeaderField:@"User-Agent"];
     }
     [request setHTTPShouldHandleCookies:NO];
-    [self attachDPoPHeaderIfNeeded:request scope:endpointReq.credentialsIdentifier tokenType:endpointReq.tokenType];
+    [self attachDPoPHeaderIfNeeded:request scope:endpointReq.credentialsIdentifier tokenType:endpointReq.tokenType failure:outFailure];
     return request;
 }
 
 - (void)attachDPoPHeaderIfNeeded:(NSMutableURLRequest *)request scope:(NSString *)scope tokenType:(nullable NSString *)tokenType {
+    [self attachDPoPHeaderIfNeeded:request scope:scope tokenType:tokenType failure:NULL];
+}
+
+- (NSError *)errorForDPoPDecorationFailure:(SFSDKDPoPDecorationFailure)failure {
+    if (failure == SFSDKDPoPDecorationFailureBoundKeyMissing ||
+        failure == SFSDKDPoPDecorationFailureBoundKeyInvalid) {
+        NSString *description = failure == SFSDKDPoPDecorationFailureBoundKeyMissing
+            ? @"DPoP bound key missing for refresh; re-authentication required."
+            : @"DPoP bound key is structurally invalid for refresh; re-authentication required.";
+        return [SFSDKOAuth2 errorWithType:@"invalid_grant"
+                               description:description];
+    }
+    return [NSError errorWithDomain:kSFOAuthErrorDomain
+                               code:kSFOAuthErrorRefreshFailed
+                           userInfo:@{NSLocalizedDescriptionKey: @"DPoP bound key is temporarily unavailable for refresh; retry after Keychain access is restored."}];
+}
+
+// Classifies a DPoP decoration failure so the refresh path can fail fast instead of silently
+// sending a refresh with no proof (or a proof signed by a freshly-minted, server-unacceptable key).
+// On `boundKeyMissing` or `boundKeyInvalid` the bound key cannot be used → the caller must fail
+// the refresh as invalid_grant and route to re-auth. On `boundKeyUnavailable` (e.g. device locked)
+// the key may still exist → do not send a mis-signed request, but treat as transient. For
+// any other (non-key) decoration error, preserve the legacy "log and proceed without a proof".
+- (void)attachDPoPHeaderIfNeeded:(NSMutableURLRequest *)request
+                           scope:(NSString *)scope
+                       tokenType:(nullable NSString *)tokenType
+                         failure:(SFSDKDPoPDecorationFailure *)outFailure {
+    if (outFailure) { *outFailure = SFSDKDPoPDecorationFailureOther; }
     if (scope.length == 0) return;
     NSError *err = nil;
     [SFSDKDPoPRequestDecorator decorateRequest:request scope:scope tokenType:tokenType accessToken:nil error:&err];
     if (err) {
-        [SFSDKCoreLogger e:[self class] format:@"DPoP attach failed (code=%ld); proceeding without DPoP header.", (long)err.code];
+        SFSDKDPoPDecorationFailure failure = [SFSDKDPoPRequestDecorator classifyDecorationError:err];
+        if (outFailure) { *outFailure = failure; }
+        switch (failure) {
+            case SFSDKDPoPDecorationFailureBoundKeyMissing:
+                [SFSDKCoreLogger e:[self class] format:@"DPoP attach: bound key missing; refusing to send a mis-signed refresh. Routing to re-auth."];
+                break;
+            case SFSDKDPoPDecorationFailureBoundKeyUnavailable:
+                [SFSDKCoreLogger w:[self class] format:@"DPoP attach: bound key temporarily unavailable (indeterminate Keychain read); refresh not sent. A later caller-initiated refresh can retry after Keychain access is restored."];
+                break;
+            case SFSDKDPoPDecorationFailureBoundKeyInvalid:
+                [SFSDKCoreLogger e:[self class] format:@"DPoP attach: bound key is structurally invalid; refresh not sent. Routing to re-auth."];
+                break;
+            case SFSDKDPoPDecorationFailureOther:
+            default:
+                [SFSDKCoreLogger e:[self class] format:@"DPoP attach failed (code=%ld); proceeding without DPoP header.", (long)err.code];
+                break;
+        }
+        return;
+    }
+}
+
+// The same public JKT emitted at /authorize lets support correlate the credential scope used for
+// binding with the scope later used for refresh. Emit it only after decoration has attached a proof;
+// this log intentionally contains neither the proof nor any token value.
+- (void)logDPoPBindingForRefreshRequest:(NSURLRequest *)request scope:(NSString *)scope {
+    if (scope.length == 0 || [request valueForHTTPHeaderField:kHttpHeaderDPoP].length == 0) {
+        return;
+    }
+    SFSDKDPoPKeyPair *keyPair = [SFSDKDPoPKeyStore.shared existingKeyPairForScope:scope];
+    if (!keyPair) {
+        return;
+    }
+    NSError *error = nil;
+    NSString *thumbprint = [SFSDKDPoPProofBuilder jwkThumbprintWithPublicKey:keyPair.publicKey error:&error];
+    if (thumbprint.length > 0 && !error) {
+        [SFSDKCoreLogger i:[self class] format:@"DPoP binding at refresh: scope=%@ jkt=%@", scope, thumbprint];
     }
 }
 
@@ -404,7 +530,19 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
 - (void)sendTokenEndpointRequest:(NSMutableURLRequest *)request
               forEndpointRequest:(SFSDKOAuthTokenEndpointRequest *)endpointReq
            retryOnNonceChallenge:(BOOL)retryOnNonceChallenge
-               dataResponseBlock:(void (^)(NSData *, NSURLResponse *, NSError *))block {
+                dataResponseBlock:(void (^)(NSData *, NSURLResponse *, NSError *))block {
+    [self sendTokenEndpointRequest:request
+                forEndpointRequest:endpointReq
+             retryOnNonceChallenge:retryOnNonceChallenge
+                   recoveryContext:nil
+                 dataResponseBlock:block];
+}
+
+- (void)sendTokenEndpointRequest:(NSMutableURLRequest *)request
+              forEndpointRequest:(SFSDKOAuthTokenEndpointRequest *)endpointReq
+           retryOnNonceChallenge:(BOOL)retryOnNonceChallenge
+                 recoveryContext:(nullable SFSDKDPoPRefreshRecoveryContext *)recoveryContext
+                dataResponseBlock:(void (^)(NSData *, NSURLResponse *, NSError *))block {
     __block NSString *networkIdentifier = [SFNetwork uniqueInstanceIdentifier];
     SFNetwork *network = [SFNetwork sharedEphemeralInstanceWithIdentifier:networkIdentifier];
     __weak typeof(self) weakSelf = self;
@@ -427,15 +565,50 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
             if ([urlResponse isKindOfClass:[NSHTTPURLResponse class]]) {
                 statusCode = ((NSHTTPURLResponse *)urlResponse).statusCode;
             }
-            if (retryOnNonceChallenge &&
-                [SFSDKDPoPRequestDecorator isNonceChallengeWithStatusCode:statusCode body:data response:urlResponse]) {
+            // RFC 9449 §8 defines authorization-server nonce challenges as an HTTP 400 OAuth
+            // JSON error response with `error=use_dpop_nonce`; a DPoP-Nonce header alone is not
+            // sufficient. Resource-server 401 challenges retain the shared helper's header check.
+            id parsedOAuthErrorResponse = statusCode == 400 ? [SFJsonUtils objectFromJSONData:data] : nil;
+            NSDictionary *oauthErrorResponse = [parsedOAuthErrorResponse isKindOfClass:[NSDictionary class]]
+                ? parsedOAuthErrorResponse
+                : nil;
+            NSString *oauthError = [oauthErrorResponse[kSFOAuthError] isKindOfClass:[NSString class]]
+                ? oauthErrorResponse[kSFOAuthError]
+                : nil;
+            BOOL isNonceChallenge = statusCode == 400
+                ? [oauthError isEqualToString:kSFSDKOAuthDPoPUseNonceError]
+                : [SFSDKDPoPRequestDecorator isNonceChallengeWithStatusCode:statusCode body:data response:urlResponse];
+            if (retryOnNonceChallenge && isNonceChallenge) {
                 [SFSDKCoreLogger i:[strongSelf class] format:@"DPoP nonce challenge received; retrying token-endpoint request once."];
+                NSString *challengedNonce = [urlResponse isKindOfClass:[NSHTTPURLResponse class]]
+                    ? [(NSHTTPURLResponse *)urlResponse valueForHTTPHeaderField:@"DPoP-Nonce"]
+                    : nil;
                 [request setValue:nil forHTTPHeaderField:kHttpHeaderDPoP];
-                [strongSelf attachDPoPHeaderIfNeeded:request scope:endpointReq.credentialsIdentifier tokenType:endpointReq.tokenType];
+                SFSDKDPoPDecorationFailure dpopFailure = SFSDKDPoPDecorationFailureOther;
+                [strongSelf attachDPoPHeaderIfNeeded:request
+                                                 scope:endpointReq.credentialsIdentifier
+                                             tokenType:endpointReq.tokenType
+                                               failure:&dpopFailure];
+                if (dpopFailure == SFSDKDPoPDecorationFailureBoundKeyMissing ||
+                    dpopFailure == SFSDKDPoPDecorationFailureBoundKeyUnavailable ||
+                    dpopFailure == SFSDKDPoPDecorationFailureBoundKeyInvalid) {
+                    block(nil, nil, [strongSelf errorForDPoPDecorationFailure:dpopFailure]);
+                    return;
+                }
+                NSString *retryProof = [request valueForHTTPHeaderField:kHttpHeaderDPoP];
+                BOOL isVerifiedTokenEndpointNonceChallenge = statusCode == 400
+                    && [oauthError isEqualToString:kSFSDKOAuthDPoPUseNonceError]
+                    && challengedNonce.length > 0;
+                recoveryContext.retryUsedVerifiedTokenEndpointNonce = recoveryContext.initialProofAttached
+                    && isVerifiedTokenEndpointNonceChallenge
+                    && retryProof.length > 0
+                    && [[self class] dpopProof:retryProof containsNonce:challengedNonce];
+                [strongSelf logDPoPBindingForRefreshRequest:request scope:endpointReq.credentialsIdentifier];
                 [strongSelf sendTokenEndpointRequest:request
                                   forEndpointRequest:endpointReq
                                retryOnNonceChallenge:NO // already retried once; don't retry again.
-                                   dataResponseBlock:block];
+                                     recoveryContext:recoveryContext
+                                    dataResponseBlock:block];
                 return;
             }
         }
@@ -450,19 +623,42 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
 }
 
 - (void)handleTokenEndpointResponse:(void (^)(SFSDKOAuthTokenEndpointResponse *))completionBlock request:(SFSDKOAuthTokenEndpointRequest *)endpointReq data:(NSData *)data urlResponse:(NSURLResponse *)response {
+    [self handleTokenEndpointResponse:completionBlock request:endpointReq data:data urlResponse:response recoveryContext:nil];
+}
+
+- (void)handleTokenEndpointResponse:(void (^)(SFSDKOAuthTokenEndpointResponse *))completionBlock request:(SFSDKOAuthTokenEndpointRequest *)endpointReq data:(NSData *)data urlResponse:(NSURLResponse *)response recoveryContext:(nullable SFSDKDPoPRefreshRecoveryContext *)recoveryContext {
     SFSDKOAuthTokenEndpointResponse *endpointResponse = nil;
 
     // Resets the response data for a new refresh response.
     NSMutableData *responseData = [NSMutableData dataWithCapacity:kSFOAuthReponseBufferLength];
     [responseData appendData:data];
-    NSString *responseString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
-    NSDictionary *json = [SFJsonUtils objectFromJSONData:responseData];
-    if (json) {
+    id parsedJSON = [SFJsonUtils objectFromJSONData:responseData];
+    NSDictionary *json = [parsedJSON isKindOfClass:[NSDictionary class]] ? parsedJSON : nil;
+    BOOL hasMalformedOAuthError = json && json[kSFOAuthError]
+        && ![json[kSFOAuthError] isKindOfClass:[NSString class]];
+    if (json && !hasMalformedOAuthError) {
         endpointResponse  = [[SFSDKOAuthTokenEndpointResponse alloc] initWithDictionary:json  parseAdditionalFields:endpointReq.additionalOAuthParameterKeys];
+        NSInteger statusCode = [response isKindOfClass:[NSHTTPURLResponse class]]
+            ? ((NSHTTPURLResponse *)response).statusCode
+            : 0;
+        if (recoveryContext.retryUsedVerifiedTokenEndpointNonce && statusCode == 400 && endpointResponse.hasError) {
+            NSError *serverError = endpointResponse.error.error;
+            if (SFSDKIsServerDPoPBoundKeyMismatch(serverError.userInfo[kSFOAuthError], serverError.userInfo[NSLocalizedDescriptionKey])) {
+                NSMutableDictionary *userInfo = [serverError.userInfo mutableCopy];
+                userInfo[kSFSDKOAuthDPoPBoundKeyMismatchRecoveryKey] = @YES;
+                endpointResponse.error.error = [NSError errorWithDomain:serverError.domain
+                                                                     code:serverError.code
+                                                                 userInfo:userInfo];
+            } else if ([serverError.userInfo[kSFOAuthError] isEqualToString:kSFSDKOAuthDPoPInvalidProofError]) {
+                // The raw OAuth error remains available to the caller; this fixed diagnostic avoids
+                // echoing an untrusted response description into SDK logs.
+                [SFSDKCoreLogger w:[self class] format:@"%@", kSFSDKOAuthDPoPUnrecognizedMismatchWarning];
+            }
+        }
         if (!endpointResponse.hasError){
            // Adds the refresh token to the response for consistency.
-           NSString *jsonRefreshToken = [json objectForKey:kSFOAuthRefreshToken];
-           if (jsonRefreshToken == nil || jsonRefreshToken.length < 1 ) {
+            id jsonRefreshToken = json[kSFOAuthRefreshToken];
+            if (![jsonRefreshToken isKindOfClass:[NSString class]] || [jsonRefreshToken length] < 1) {
                if (endpointReq.refreshToken) {
                    [endpointResponse setRefreshToken:endpointReq.refreshToken];
                } else {
@@ -472,12 +668,15 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
         }
     } else {
         NSError* jsonError = [SFJsonUtils lastError];
-        [SFSDKCoreLogger d:[self class] format:@"%@: JSON parse error: %@", NSStringFromSelector(_cmd), jsonError];
+        [SFSDKCoreLogger d:[self class] format:@"%@: malformed OAuth response: %@", NSStringFromSelector(_cmd), jsonError];
         NSError *error = [[self class] errorWithType:@"malformed_response" description:@"failed to parse response JSON"];
-        NSMutableDictionary *errorDict = [NSMutableDictionary dictionaryWithDictionary:jsonError.userInfo];
-        if (responseString) {
-            errorDict[@"response_data"] = responseString;
-        }
+        NSMutableDictionary *errorDict = jsonError.userInfo
+            ? [NSMutableDictionary dictionaryWithDictionary:jsonError.userInfo]
+            : [NSMutableDictionary dictionary];
+        errorDict[kSFOAuthError] = @"malformed_response";
+        errorDict[NSLocalizedDescriptionKey] = @"failed to parse response JSON";
+        // Do not attach the raw response: refresh errors are logged by callers and a malformed
+        // server body can still contain access or refresh token values.
         if (error) {
             errorDict[NSUnderlyingErrorKey] = error;
         }
@@ -631,6 +830,29 @@ const NSTimeInterval kSFOAuthDefaultTimeout  = 120.0; // seconds
     }
     NSError *error = [NSError errorWithDomain:kSFOAuthErrorDomain code:code userInfo:userInfoDict];
     return error;
+}
+
++ (BOOL)isDPoPBoundKeyMismatchError:(NSError *)error {
+    return [error.domain isEqualToString:kSFOAuthErrorDomain]
+        && [error.userInfo[kSFSDKOAuthDPoPBoundKeyMismatchRecoveryKey] boolValue]
+        && SFSDKIsServerDPoPBoundKeyMismatch(error.userInfo[kSFOAuthError], error.userInfo[NSLocalizedDescriptionKey]);
+}
+
++ (BOOL)dpopProof:(NSString *)proof containsNonce:(NSString *)nonce {
+    NSArray<NSString *> *segments = [proof componentsSeparatedByString:@"."];
+    if (segments.count != 3 || nonce.length == 0) {
+        return NO;
+    }
+    NSString *payloadBase64 = [[segments[1] stringByReplacingOccurrencesOfString:@"-" withString:@"+"]
+                               stringByReplacingOccurrencesOfString:@"_" withString:@"/"];
+    NSUInteger paddingLength = (4 - (payloadBase64.length % 4)) % 4;
+    payloadBase64 = [payloadBase64 stringByPaddingToLength:payloadBase64.length + paddingLength
+                                                withString:@"="
+                                           startingAtIndex:0];
+    NSData *payloadData = [[NSData alloc] initWithBase64EncodedString:payloadBase64 options:0];
+    id parsedPayload = payloadData ? [NSJSONSerialization JSONObjectWithData:payloadData options:0 error:nil] : nil;
+    NSDictionary *payload = [parsedPayload isKindOfClass:[NSDictionary class]] ? parsedPayload : nil;
+    return [payload[@"nonce"] isKindOfClass:[NSString class]] && [payload[@"nonce"] isEqualToString:nonce];
 }
 
 // Convert from a Unix timestamp string in milliseconds (returned in the OAuth response) to an NSDate

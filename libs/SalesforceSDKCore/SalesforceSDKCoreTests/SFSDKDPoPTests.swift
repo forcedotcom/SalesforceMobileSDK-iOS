@@ -672,6 +672,9 @@ class SFSDKDPoPTests: XCTestCase {
         let prior = SalesforceManager.shared.usesDPoP
         SalesforceManager.shared.usesDPoP = false
         defer { SalesforceManager.shared.usesDPoP = prior }
+        // A DPoP-bound credential always has its key minted at login; seed it so the load-only
+        // decorate path finds a bound key instead of failing fast.
+        _ = try DPoPKeyStore.shared.keyPair(forScope: testScope)
         let req = NSMutableURLRequest(url: tokenURL)
         req.httpMethod = "POST"
         try DPoPRequestDecorator.decorate(req, scope: testScope, tokenType: "DPoP", accessToken: nil)
@@ -714,6 +717,9 @@ class SFSDKDPoPTests: XCTestCase {
         SalesforceManager.shared.usesDPoP = true
         defer { SalesforceManager.shared.usesDPoP = prior }
 
+        // Seed the bound key — a DPoP credential's key is minted at login; the load-only
+        // applyAuthHeaders path requires it present.
+        _ = try DPoPKeyStore.shared.keyPair(forScope: testScope)
         let req = NSMutableURLRequest(url: URL(string: "https://example.salesforce.com/services/data/v60.0/sobjects/Account")!)
         req.httpMethod = "GET"
         let token = "00DXX0000000000!ARQAQGyAccessTokenLiteralValue"
@@ -1036,6 +1042,8 @@ class SFSDKDPoPTests: XCTestCase {
         let scope = "sc3-\(UUID().uuidString)"
         let token = "00DXX0000000000!ARQAQGyAccessTokenLiteralValue"
         defer { DPoPKeyStore.shared.delete(forScope: scope) }
+        // Bound credential: seed the key the load-only path requires.
+        _ = try DPoPKeyStore.shared.keyPair(forScope: scope)
 
         let identityURL = URL(string: "https://login.salesforce.com/id/00D000000000000/005000000000000")!
         let req = NSMutableURLRequest(url: identityURL)
@@ -1062,6 +1070,8 @@ class SFSDKDPoPTests: XCTestCase {
         let prior = SalesforceManager.shared.usesDPoP
         SalesforceManager.shared.usesDPoP = false
         defer { SalesforceManager.shared.usesDPoP = prior }
+        // Bound credential: seed the key the load-only path requires.
+        _ = try DPoPKeyStore.shared.keyPair(forScope: testScope)
 
         let req = NSMutableURLRequest(url: tokenURL)
         req.httpMethod = "GET"
@@ -1092,6 +1102,8 @@ class SFSDKDPoPTests: XCTestCase {
         creds.userId = "USERID"
         creds.organizationId = "ORGID"
         defer { DPoPKeyStore.shared.delete(forScope: scope) }
+        // Bound credential: seed the key the load-only REST path requires.
+        _ = try DPoPKeyStore.shared.keyPair(forScope: scope)
 
         let account = UserAccount(credentials: creds)
         let request = RestRequest(method: .GET,
@@ -1150,6 +1162,8 @@ class SFSDKDPoPTests: XCTestCase {
         creds.userId = "USERID"
         creds.organizationId = "ORGID"
         defer { DPoPKeyStore.shared.delete(forScope: scope) }
+        // Bound credential: seed the key the load-only REST path requires.
+        _ = try DPoPKeyStore.shared.keyPair(forScope: scope)
 
         let account = UserAccount(credentials: creds)
         let request = RestRequest(method: .GET,
@@ -1224,6 +1238,8 @@ class SFSDKDPoPTests: XCTestCase {
         let scope = "redaction-\(UUID().uuidString)"
         let token = "00DXX0000000000!ARQ.redactionTestSecret.AccessTokenLiteralValue"
         defer { DPoPKeyStore.shared.delete(forScope: scope) }
+        // Bound credential: seed the key the load-only paths require.
+        _ = try DPoPKeyStore.shared.keyPair(forScope: scope)
 
         // Site 1 — REST (SFRestRequest.prepare)
         let creds = OAuthCredentials(identifier: scope, clientId: "CLIENT_ID", encrypted: false)!
@@ -1458,6 +1474,297 @@ class SFSDKDPoPTests: XCTestCase {
         var v = n
         while v > 0 { bytes.insert(UInt8(v & 0xff), at: 0); v >>= 8 }
         return [UInt8(0x80 | bytes.count)] + bytes
+    }
+
+    // MARK: - Load-only key lookup (no silent mint-on-miss for bound credentials)
+
+    /// Load-only lookup for a never-minted scope must report **confirmed absent** and must NOT
+    /// generate a key as a side effect (the core of the fix: a bound credential whose key is gone
+    /// must fail fast, not get a fresh server-unacceptable key).
+    func test_givenNoKeyForScope_whenExistingKeyPair_thenAbsentAndDoesNotGenerate() throws {
+        let scope = "loadonly-absent-\(UUID().uuidString)"
+        defer { DPoPKeyStore.shared.delete(forScope: scope) }
+
+        guard case .absent = DPoPKeyStore.shared.existingKeyPair(forScope: scope) else {
+            return XCTFail("expected .absent for a never-minted scope")
+        }
+        // Prove no key was minted as a side effect of the lookup.
+        XCTAssertFalse(DPoPKeyStore.shared.hasKeyPair(forScope: scope),
+                       "load-only lookup must never mint a key on a miss")
+    }
+
+    /// Empty scope is treated as confirmed-absent (an empty identifier must never resolve a key).
+    func test_givenEmptyScope_whenExistingKeyPair_thenAbsent() {
+        guard case .absent = DPoPKeyStore.shared.existingKeyPair(forScope: "") else {
+            return XCTFail("empty scope must be .absent")
+        }
+    }
+
+    /// When a key is present (bound at login), the load-only lookup returns it — happy path
+    /// unchanged — and resolves to the same persistent key the generating API returns.
+    func test_givenKeyForScope_whenExistingKeyPair_thenFoundAndMatchesPersistentKey() throws {
+        let scope = "loadonly-found-\(UUID().uuidString)"
+        defer { DPoPKeyStore.shared.delete(forScope: scope) }
+        let minted = try DPoPKeyStore.shared.keyPair(forScope: scope)
+
+        guard case let .found(loaded) = DPoPKeyStore.shared.existingKeyPair(forScope: scope) else {
+            return XCTFail("expected .found after a key was minted")
+        }
+        // Sign with the minted private key, verify with the loaded public key — same pair.
+        let payload = "load-only".data(using: .utf8)!
+        let sig = try Encryptor.signES256(payload, with: minted.privateKey)
+        let der = try derEncodeRawECSignature(sig)
+        var error: Unmanaged<CFError>?
+        let ok = SecKeyVerifySignature(loaded.publicKey,
+                                       .ecdsaSignatureMessageX962SHA256,
+                                       payload as CFData,
+                                       der as CFData,
+                                       &error)
+        XCTAssertTrue(ok, "load-only lookup must return the same persistent key that was bound")
+    }
+
+    /// A Keychain read that fails for a reason other than confirmed absence (e.g. device locked)
+    /// must resolve to **indeterminate**, NOT absent — so the caller retries instead of destroying
+    /// a potentially-valid session. Uses the test-only `ecKeyReader` seam to simulate the
+    /// device-locked `OSStatus` that cannot be produced on a simulator.
+    func test_givenKeychainReadThrows_whenExistingKeyPair_thenUnavailableNotAbsent() {
+        let scope = "loadonly-indeterminate-\(UUID().uuidString)"
+        let store = DPoPKeyStore.shared
+        let prior = store.ecKeyReader
+        defer {
+            store.ecKeyReader = prior
+            store.clearInMemoryCache()
+            store.delete(forScope: scope)
+        }
+        // errSecInteractionNotAllowed (-25308) is the canonical device-locked status.
+        struct LockedError: Error {}
+        store.ecKeyReader = { _ in throw LockedError() }
+        store.clearInMemoryCache() // force the cold path so the reader is consulted
+
+        guard case .unavailable = store.existingKeyPair(forScope: scope) else {
+            return XCTFail("a thrown Keychain error must map to .unavailable, never .absent")
+        }
+    }
+
+    func test_givenRepeatedUnavailableLookup_whenExistingKeyPair_thenUsesShortLivedNegativeCache() {
+        let scope = "loadonly-unavailable-cache-\(UUID().uuidString)"
+        let store = DPoPKeyStore.shared
+        let prior = store.ecKeyReader
+        let priorClock = store.unavailableCacheClock
+        defer {
+            store.ecKeyReader = prior
+            store.unavailableCacheClock = priorClock
+            store.clearInMemoryCache()
+            store.delete(forScope: scope)
+        }
+        struct LockedError: Error {}
+        var readCount = 0
+        var uptime: TimeInterval = 0
+        store.unavailableCacheClock = { uptime }
+        store.ecKeyReader = { _ in
+            readCount += 1
+            throw LockedError()
+        }
+        store.clearInMemoryCache()
+
+        guard case .unavailable = store.existingKeyPair(forScope: scope) else {
+            return XCTFail("the first read should report unavailable")
+        }
+        guard case .unavailable = store.existingKeyPair(forScope: scope) else {
+            return XCTFail("a recent unavailable read should remain retryable")
+        }
+        XCTAssertEqual(readCount, 1, "the short-lived unavailable cache should avoid repeated Keychain I/O")
+
+        uptime += 1.1
+        guard case .unavailable = store.existingKeyPair(forScope: scope) else {
+            return XCTFail("an expired unavailable cache entry should retry the Keychain read")
+        }
+        XCTAssertEqual(readCount, 2, "the cache must expire using monotonic uptime")
+    }
+
+    func test_givenStructurallyInvalidKeychainResult_whenExistingKeyPair_thenInvalidNotUnavailable() {
+        let scope = "loadonly-invalid-\(UUID().uuidString)"
+        let store = DPoPKeyStore.shared
+        let prior = store.ecKeyReader
+        defer {
+            store.ecKeyReader = prior
+            store.clearInMemoryCache()
+            store.delete(forScope: scope)
+        }
+        store.ecKeyReader = { _ in throw KeyGenerator.KeyGeneratorError.invalidQueryResult }
+        store.clearInMemoryCache()
+
+        guard case .invalid = store.existingKeyPair(forScope: scope) else {
+            return XCTFail("a structurally invalid Keychain result must not be treated as retryable")
+        }
+    }
+
+    /// The Objective-C nullable wrapper (used by the dev-info display) returns the key when present
+    /// and nil when absent — and, like the Swift form, never mints.
+    func test_givenNoKey_whenExistingKeyPairObjc_thenNilAndDoesNotGenerate() throws {
+        let scope = "loadonly-objc-\(UUID().uuidString)"
+        defer { DPoPKeyStore.shared.delete(forScope: scope) }
+        XCTAssertNil(DPoPKeyStore.shared.existingKeyPairObjc(forScope: scope),
+                     "dev-info load-only lookup must return nil when no key is bound")
+        XCTAssertFalse(DPoPKeyStore.shared.hasKeyPair(forScope: scope),
+                       "dev-info load-only lookup must not mint a key")
+
+        _ = try DPoPKeyStore.shared.keyPair(forScope: scope)
+        XCTAssertNotNil(DPoPKeyStore.shared.existingKeyPairObjc(forScope: scope),
+                        "dev-info load-only lookup must return the key once bound")
+    }
+
+    // MARK: - Decorate must be load-only for bound credentials (no silent mint-on-miss)
+
+    /// The bug, locked in: a DPoP-bound credential (`tokenType == "DPoP"`) whose key is gone must
+    /// make `decorate` **fail fast** with `boundKeyMissing` and must NOT mint a replacement key.
+    /// Pre-fix, `decorate` called the generating `keyPair(forScope:)` and silently minted a
+    /// server-unacceptable key (→ `DPoPCnfJkt miss match`).
+    func test_givenDPoPBoundCredentialWithMissingKey_whenDecorate_thenThrowsBoundKeyMissingAndDoesNotMint() {
+        let scope = "decorate-boundmissing-\(UUID().uuidString)"
+        defer { DPoPKeyStore.shared.delete(forScope: scope) }
+        // No key minted for this scope, but the credential is explicitly DPoP-bound.
+        let req = NSMutableURLRequest(url: tokenURL)
+        req.httpMethod = "POST"
+
+        XCTAssertThrowsError(try DPoPRequestDecorator.decorate(req, scope: scope, tokenType: "DPoP", accessToken: nil)) { error in
+            XCTAssertEqual(error as? DPoPKeyStoreError, .boundKeyMissing,
+                           "a bound credential with a confirmed-absent key must surface boundKeyMissing")
+        }
+        XCTAssertNil(req.value(forHTTPHeaderField: "DPoP"),
+                     "no proof may be attached when the bound key is missing")
+        XCTAssertFalse(DPoPKeyStore.shared.hasKeyPair(forScope: scope),
+                       "decorate must NOT mint a key for a bound credential on a miss")
+    }
+
+    func test_givenDPoPBoundCredentialWithUnavailableKey_whenRefresh_thenCompletesTransientError() {
+        let scope = "refresh-boundunavailable-\(UUID().uuidString)"
+        let store = DPoPKeyStore.shared
+        let priorReader = store.ecKeyReader
+        defer {
+            store.ecKeyReader = priorReader
+            store.clearInMemoryCache()
+            store.delete(forScope: scope)
+        }
+        struct LockedError: Error {}
+        store.ecKeyReader = { _ in throw LockedError() }
+        store.clearInMemoryCache()
+
+        let endpointRequest = SFSDKOAuthTokenEndpointRequest()
+        endpointRequest.clientID = "test-client-id"
+        endpointRequest.refreshToken = "test-refresh-token"
+        endpointRequest.redirectURI = "test://callback"
+        endpointRequest.serverURL = tokenURL.deletingLastPathComponent().deletingLastPathComponent()
+        endpointRequest.credentialsIdentifier = scope
+        endpointRequest.tokenType = "DPoP"
+
+        let completion = expectation(description: "transient refresh error")
+        var refreshError: NSError?
+        SFSDKOAuth2().accessToken(forRefresh: endpointRequest) { response in
+            refreshError = response.error?.error as NSError?
+            completion.fulfill()
+        }
+        wait(for: [completion], timeout: 2)
+
+        guard let error = refreshError else {
+            return XCTFail("refresh must complete with a transient error")
+        }
+        XCTAssertEqual(error.domain, kSFOAuthErrorDomain)
+        XCTAssertEqual(error.code, kSFOAuthErrorRefreshFailed,
+                       "An indeterminate Keychain read must remain a transient refresh failure")
+    }
+
+    func test_givenDPoPBoundCredentialWithStructurallyInvalidKey_whenRefresh_thenCompletesInvalidGrant() {
+        let scope = "refresh-boundinvalid-\(UUID().uuidString)"
+        let store = DPoPKeyStore.shared
+        let priorReader = store.ecKeyReader
+        let transportIdentifier = "refresh-boundinvalid-transport-\(UUID().uuidString)"
+        defer {
+            store.ecKeyReader = priorReader
+            store.clearInMemoryCache()
+            store.delete(forScope: scope)
+            URLProtocol.unregisterClass(ScriptedURLProtocol.self)
+            ScriptedURLProtocol.removeScripts(identifier: transportIdentifier)
+        }
+        store.ecKeyReader = { _ in throw KeyGenerator.KeyGeneratorError.invalidQueryResult }
+        store.clearInMemoryCache()
+        ScriptedURLProtocol.installScripts([], identifier: transportIdentifier)
+        XCTAssertTrue(URLProtocol.registerClass(ScriptedURLProtocol.self))
+
+        let endpointRequest = SFSDKOAuthTokenEndpointRequest()
+        endpointRequest.clientID = "test-client-id"
+        endpointRequest.refreshToken = "test-refresh-token"
+        endpointRequest.redirectURI = "test://callback"
+        endpointRequest.serverURL = tokenURL.deletingLastPathComponent().deletingLastPathComponent()
+        endpointRequest.credentialsIdentifier = scope
+        endpointRequest.tokenType = "DPoP"
+
+        let completion = expectation(description: "terminal refresh error")
+        var refreshError: NSError?
+        SFSDKOAuth2().accessToken(forRefresh: endpointRequest) { response in
+            refreshError = response.error?.error as NSError?
+            completion.fulfill()
+        }
+        wait(for: [completion], timeout: 2)
+
+        guard let error = refreshError else {
+            return XCTFail("refresh must complete with an invalid-credentials error")
+        }
+        XCTAssertEqual(error.domain, kSFOAuthErrorDomain)
+        XCTAssertEqual(error.code, kSFOAuthErrorInvalidGrant,
+                        "A structurally invalid bound key must route through re-auth, not retry forever")
+        XCTAssertEqual(ScriptedURLProtocol.requestCount(identifier: transportIdentifier), 0,
+                       "A structurally invalid bound key must fail before creating a token request")
+    }
+
+    func test_givenDPoPBoundCredentialWithMissingKey_whenPrepareRestRequest_thenFailsLocally() {
+        let scope = "rest-boundmissing-\(UUID().uuidString)"
+        defer { DPoPKeyStore.shared.delete(forScope: scope) }
+
+        let credentials = OAuthCredentials(identifier: scope, clientId: "CLIENT_ID", encrypted: false)!
+        credentials.accessToken = "dpop-access-token"
+        credentials.tokenType = "DPoP"
+        credentials.instanceUrl = URL(string: "https://example.salesforce.com")
+        let account = UserAccount(credentials: credentials)
+        let request = RestRequest(method: .GET, path: "/services/data/v60.0/sobjects/Account", queryParams: nil)
+
+        XCTAssertNil(request.prepare(forSend: account),
+                     "REST preparation must fail locally when the bound key is confirmed absent")
+    }
+
+    func test_givenDPoPBoundCredentialWithUnavailableKey_whenPrepareRestRequest_thenFailsLocally() {
+        let scope = "rest-boundunavailable-\(UUID().uuidString)"
+        let store = DPoPKeyStore.shared
+        let priorReader = store.ecKeyReader
+        defer {
+            store.ecKeyReader = priorReader
+            store.clearInMemoryCache()
+            store.delete(forScope: scope)
+        }
+        struct LockedError: Error {}
+        store.ecKeyReader = { _ in throw LockedError() }
+        store.clearInMemoryCache()
+
+        let credentials = OAuthCredentials(identifier: scope, clientId: "CLIENT_ID", encrypted: false)!
+        credentials.accessToken = "dpop-access-token"
+        credentials.tokenType = "DPoP"
+        credentials.instanceUrl = URL(string: "https://example.salesforce.com")
+        let account = UserAccount(credentials: credentials)
+        let request = RestRequest(method: .GET, path: "/services/data/v60.0/sobjects/Account", queryParams: nil)
+
+        XCTAssertNil(request.prepare(forSend: account),
+                     "REST preparation must not send DPoP authorization without a proof when Keychain access is indeterminate")
+    }
+
+    /// Binding is unaffected: the generating API still mints on first use at `/authorize` and
+    /// native login. Guards against over-restricting the fix.
+    func test_givenBindingPath_whenKeyPairForScope_thenGeneratesKey() throws {
+        let scope = "binding-still-mints-\(UUID().uuidString)"
+        defer { DPoPKeyStore.shared.delete(forScope: scope) }
+        XCTAssertFalse(DPoPKeyStore.shared.hasKeyPair(forScope: scope))
+        _ = try DPoPKeyStore.shared.keyPair(forScope: scope)
+        XCTAssertTrue(DPoPKeyStore.shared.hasKeyPair(forScope: scope),
+                      "binding path must still mint on first use")
     }
 }
 
