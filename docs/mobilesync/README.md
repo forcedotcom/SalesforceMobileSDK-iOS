@@ -329,15 +329,14 @@ Paginates local IDs. First run fetches all; `reSync` fetches only records change
 
 ```swift
 @objc(SFBriefcaseSyncDownTarget)
-public class BriefcaseSyncDownTarget: SFSyncDownTarget {
+public class BriefcaseSyncDownTarget: SyncDownTarget {
     @objc public init(infos: [BriefcaseObjectInfo])
-    @objc public init(infos: [BriefcaseObjectInfo], countIdsPerRetrieve: Int)
 }
 ```
 
 `BriefcaseObjectInfo` fields: `sobjectType`, `fieldlist`, `idFieldName`, `modificationDateFieldName`, `soupName`.
 
-Uses `/connect/briefcase/priming-records` with relay-token pagination. Fetches full records via Collection Retrieve. Routes records to different soups based on `attributes.type`. Ghost cleanup paginates the priming API without a timestamp filter.
+Uses `/connect/briefcase/priming-records` with relay-token pagination. `totalSize` is an estimate: the number of ids discovered so far, plus one while the server has more pages, so the sync only completes once the target has returned its last page (`SFSyncDownTask` re-reads `target.totalSize` after each fetch). Fetches full records via Collection Retrieve. Routes records to different soups based on `attributes.type`. Ghost cleanup paginates the priming API without a timestamp filter.
 
 ---
 
@@ -716,6 +715,6 @@ xcodebuild test -workspace SalesforceMobileSDK-iOS.xcworkspace \
     -scheme MobileSyncTests -destination 'platform=iOS Simulator,...'
 ```
 
-Key test files: `SyncManagerTestCase.m`, `SyncDownTests.m`, `SyncUpTests.m`, `ParentChildrenSyncTests.m`, `BriefcaseSyncTests.m`.
+Key test files: `SyncManagerTestCase.m`, `SyncDownTests.m`, `SyncUpTests.m`, `ParentChildrenSyncTests.m`, `BriefcaseSyncDownTests.swift`.
 
 Tests use `MockRestClient` / `MockRestResponse` to intercept REST calls without hitting a live org.

@@ -400,8 +400,8 @@ successBlock:(SFRestResponseBlock _Nonnull )successBlock;
 /**
  * Returns an `SFRestRequest` object for getting list of record related to offline briefcase
  *
- * @param relayToken Relay token (to get next page of results)
- * @param timestamp To only get ids of records that changed after given time - or nil
+ * @param relayToken Relay token (to get next page of results) - or nil. Sent together with timestamp if both are given.
+ * @param timestamp To only get ids of records that changed after given time (in milliseconds since 1970) - or nil. Not sent if 0 or negative.
  * @param apiVersion Salesforce API version.
  *
  * @see https://developer.salesforce.com/docs/atlas.en-us.chatterapi.meta/chatterapi/connect_resources_briefcase_priming_records.htm

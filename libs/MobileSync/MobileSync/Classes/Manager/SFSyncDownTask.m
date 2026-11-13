@@ -71,6 +71,9 @@
                 return;
             }
             
+            // Some targets (e.g. briefcase) discover the total size as they fetch pages
+            sync.totalSize = target.totalSize;
+            
             // Figure out records to save
             NSArray* recordsToSave = idsToSkip && idsToSkip.count > 0 ? [strongSelf  removeWithIds:records idsToSkip:idsToSkip idField:target.idFieldName] : records;
             
