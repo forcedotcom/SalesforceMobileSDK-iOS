@@ -689,7 +689,11 @@
     [request setHTTPBody:body];
     [request setHTTPMethod:kHttpMethodPost];
     [request setValue:kHttpPostContentType forHTTPHeaderField:kHttpHeaderContentType];
-    [self attachDPoPHeaderIfNeeded:request];
+    NSError *dpopError = [self attachDPoPHeaderIfNeeded:request];
+    if (dpopError) {
+        completionHandler(nil, nil, dpopError);
+        return;
+    }
 
     __weak typeof(self) weakSelf = self;
     [[self.session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -705,7 +709,11 @@
             if ([SFSDKDPoPRequestDecorator isNonceChallengeWithStatusCode:statusCode body:data response:response]) {
                 [SFSDKCoreLogger i:[strongSelf class] format:@"DPoP nonce challenge received on JWT swap; retrying once."];
                 [request setValue:nil forHTTPHeaderField:kHttpHeaderDPoP];
-                [strongSelf attachDPoPHeaderIfNeeded:request];
+                NSError *retryDPoPError = [strongSelf attachDPoPHeaderIfNeeded:request];
+                if (retryDPoPError) {
+                    completionHandler(nil, nil, retryDPoPError);
+                    return;
+                }
                 [[strongSelf.session dataTaskWithRequest:request completionHandler:completionHandler] resume];
                 return;
             }
@@ -714,9 +722,9 @@
     }] resume];
 }
 
-- (void)attachDPoPHeaderIfNeeded:(NSMutableURLRequest *)request {
+- (NSError *)attachDPoPHeaderIfNeeded:(NSMutableURLRequest *)request {
     NSString *scope = self.credentials.identifier;
-    if (scope.length == 0) return;
+    if (scope.length == 0) return nil;
     NSError *err = nil;
     [SFSDKDPoPRequestDecorator decorateRequest:request
                                          scope:scope
@@ -724,8 +732,16 @@
                                    accessToken:nil
                                          error:&err];
     if (err) {
+        SFSDKDPoPDecorationFailure failure = [SFSDKDPoPRequestDecorator classifyDecorationError:err];
+        if (failure == SFSDKDPoPDecorationFailureBoundKeyMissing ||
+            failure == SFSDKDPoPDecorationFailureBoundKeyUnavailable ||
+            failure == SFSDKDPoPDecorationFailureBoundKeyInvalid) {
+            [SFSDKCoreLogger e:[self class] format:@"DPoP attach failed on JWT swap (failure=%ld); refusing to send without the bound proof.", (long)failure];
+            return err;
+        }
         [SFSDKCoreLogger e:[self class] format:@"DPoP attach failed on JWT swap (code=%ld); proceeding without DPoP header.", (long)err.code];
     }
+    return nil;
 }
 
 // Refresh token migration
@@ -1241,6 +1257,15 @@
         [SFSDKCoreLogger w:[self class] format:@"DPoP dpop_jkt skipped: thumbprint failed (%@)", err.localizedDescription];
         return;
     }
+
+    // Diagnostic: record the scope (credentials.identifier) and the PUBLIC jkt thumbprint the key
+    // is bound under at /authorize. Compare against the refresh-time binding log (emitted by
+    // SFSDKOAuth2 when it attaches the refresh proof) to detect key-scope drift: if a later refresh
+    // logs a different scope for the same user, the key was created under one identifier and looked
+    // up under another, which causes the server to reject the refresh with `DPoPCnfJkt miss match`.
+    // Non-PII — the thumbprint is the public value already sent in dpop_jkt; never logs key
+    // material, tokens, or user data.
+    [SFSDKCoreLogger i:[self class] format:@"DPoP binding at /authorize: scope=%@ jkt=%@", credentials.identifier, thumbprint];
 
     [approvalUrlString appendFormat:@"&%@=%@", kSFOAuthDPoPJktParamName, thumbprint];
 }
