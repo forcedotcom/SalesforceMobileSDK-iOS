@@ -440,18 +440,26 @@ class LoginPageObject {
         return buttons.matching(predicate).firstMatch
     }
     
-    /// Taps the "Allow Access?" button if it appears, returning early once the app's main screen is
-    /// showing (consent skipped) instead of waiting out the full timeout.
+    /// Taps the "Allow Access?" button if it appears. Returns early once the login has finished
+    /// (consent skipped), instead of waiting out the full timeout. Login is finished when the
+    /// app's main screen is in the foreground and no login web view or browser is showing; the
+    /// main screen's navigation bar alone is not enough, since an add-user login keeps the previous
+    /// user's screen in the hierarchy behind the login. The condition has to hold on two
+    /// consecutive polls, so a pause between two redirects is not mistaken for the end.
     private func tapAllowIfShown(timeout: TimeInterval) {
         let allow = allowButton()
         let mainScreen = app.navigationBars["AuthFlowTester"]
+        let loginSurfaces = [app.webViews.firstMatch, app.otherElements["TopBrowserBar"]]
         let deadline = Date().addingTimeInterval(timeout)
+        var finishedPolls = 0
         while Date() < deadline {
             if allow.waitForExistence(timeout: 1) {
                 allow.tap()
                 return
             }
-            if mainScreen.exists {
+            let finished = mainScreen.isHittable && !loginSurfaces.contains { $0.exists }
+            finishedPolls = finished ? finishedPolls + 1 : 0
+            if finishedPolls >= 2 {
                 return
             }
         }
