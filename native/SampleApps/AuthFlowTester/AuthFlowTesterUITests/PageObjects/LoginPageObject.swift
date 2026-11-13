@@ -175,9 +175,10 @@ class LoginPageObject {
             }
         }
         // Some login hosts (e.g. a community/Experience Cloud site) add an extra SSO redirect
-        // hop before the "Allow Access?" consent screen renders, so give it more room than the
-        // network timeout allows for the common single-hop case.
-        tapIfPresent(allowButton(), timeout: UITestTimeouts.network)
+        // hop before the "Allow Access?" consent screen renders, so keep waiting for it up to the
+        // network timeout — but stop as soon as the app's main screen is back, since the consent
+        // screen is skipped when the user has already approved the app.
+        tapAllowIfShown(timeout: UITestTimeouts.network)
     }
 
     /// Performs login via the "Login for Admin" flow.
@@ -203,7 +204,7 @@ class LoginPageObject {
             dismissKeyboardAfterTyping()
             tap(loginButton(), timeout: UITestTimeouts.network)
         }
-        tapIfPresent(allowButton(), timeout: UITestTimeouts.network)
+        tapAllowIfShown(timeout: UITestTimeouts.network)
     }
     
     func configureLoginOptions(
@@ -439,6 +440,23 @@ class LoginPageObject {
         return buttons.matching(predicate).firstMatch
     }
     
+    /// Taps the "Allow Access?" button if it appears, returning early once the app's main screen is
+    /// showing (consent skipped) instead of waiting out the full timeout.
+    private func tapAllowIfShown(timeout: TimeInterval) {
+        let allow = allowButton()
+        let mainScreen = app.navigationBars["AuthFlowTester"]
+        let deadline = Date().addingTimeInterval(timeout)
+        while Date() < deadline {
+            if allow.waitForExistence(timeout: 1) {
+                allow.tap()
+                return
+            }
+            if mainScreen.exists {
+                return
+            }
+        }
+    }
+
     private func allowButton() -> XCUIElement {
         let buttons = app.webViews.webViews.webViews.buttons
         let predicate = NSPredicate(format: "label CONTAINS[c] 'Allow'")
