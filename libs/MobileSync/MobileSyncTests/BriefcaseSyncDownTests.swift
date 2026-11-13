@@ -323,9 +323,12 @@ class BriefcaseSyncDownPagingTests: XCTestCase {
         store = try XCTUnwrap(SmartStore.sharedGlobal(withName: BriefcaseSyncDownPagingTests.storeName))
         syncManager = try XCTUnwrap(SyncManager.sharedInstance(store: store))
         restClient = CannedResponsesRestClient()
+        let client = restClient!
+        BriefcaseSyncDownTarget.defaultRestClientProvider = { client }
     }
 
     override func tearDown() {
+        BriefcaseSyncDownTarget.defaultRestClientProvider = { RestClient.shared }
         SyncManager.removeSharedInstance(store: store)
         SmartStore.removeSharedGlobal(withName: BriefcaseSyncDownPagingTests.storeName)
         super.tearDown()
@@ -500,14 +503,14 @@ class BriefcaseSyncDownPagingTests: XCTestCase {
         XCTAssertEqual(restClient.primingRequests.count, priming)
     }
 
-    func test_givenTwoPages_whenFetchingBothPages_thenTotalSizeIsFirstPageCount() {
+    func test_givenTwoPages_whenFetchingBothPages_thenTotalSizeIsCountOfAllDiscoveredIds() {
         serve(pages: [PrimingPage(ids: [(ACCOUNT_TYPE, "001A"), (ACCOUNT_TYPE, "001B")], relayToken: "token-1"),
                       PrimingPage(ids: [(ACCOUNT_TYPE, "001C")], relayToken: nil)])
         let target = makeTarget()
 
         _ = fetchEverything(target: target)
 
-        XCTAssertEqual(target.totalSize, 2)
+        XCTAssertEqual(target.totalSize, 3)
     }
 
     func test_givenTargetAlreadyUsed_whenStartFetchAgain_thenFetchRestartsFromFirstPage() {
@@ -524,6 +527,47 @@ class BriefcaseSyncDownPagingTests: XCTestCase {
 
         let batches = fetchEverything(target: target)
         XCTAssertEqual(batches.ids.flatMap { $0 }.sorted(), ["001A", "001B", "001C", "001D"])
+    }
+
+    // MARK: through SyncManager (sync lifecycle)
+
+    func test_givenTwoPagesOfPrimingRecords_whenSyncDown_thenRecordsFromBothPagesSavedAndSyncDoneAfterLastPage() throws {
+        let soupName = "BriefcasePagingAccounts"
+        let indexSpecs: [SoupIndex?] = [SoupIndex(path: ID, indexType: kSoupIndexTypeString, columnName: nil),
+                          SoupIndex(path: kSyncTargetLocal, indexType: kSoupIndexTypeString, columnName: nil),
+                          SoupIndex(path: kSyncTargetSyncId, indexType: kSoupIndexTypeInteger, columnName: nil)]
+        XCTAssertNoThrow(try store.registerSoup(withName: soupName, withIndices: indexSpecs.compactMap { $0 }))
+        defer { store.removeSoup(soupName) }
+        let info = BriefcaseObjectInfo(soupName: soupName, sobjectType: ACCOUNT_TYPE, fieldlist: [NAME])
+        serve(pages: [PrimingPage(ids: [(ACCOUNT_TYPE, "001A"), (ACCOUNT_TYPE, "001B"), (ACCOUNT_TYPE, "001C")], relayToken: "token-1"),
+                      PrimingPage(ids: [(ACCOUNT_TYPE, "001D"), (ACCOUNT_TYPE, "001E")], relayToken: "token-2"),
+                      PrimingPage(ids: [(ACCOUNT_TYPE, "001F")], relayToken: nil)])
+        let target = makeTarget(infos: [info], countIdsPerRetrieve: 2)
+
+        let doneExpectation = expectation(description: "sync done")
+        doneExpectation.assertForOverFulfill = false
+        var statuses: [SyncStatus] = []
+        let lock = NSLock()
+        let syncState = syncManager.syncDown(target: target, soupName: soupName) { sync in
+            lock.lock()
+            statuses.append(sync.status)
+            lock.unlock()
+            if sync.status == .done || sync.status == .failed {
+                doneExpectation.fulfill()
+            }
+        }
+        XCTAssertNotNil(syncState)
+        waitForExpectations(timeout: 10)
+
+        lock.lock()
+        let finalStatuses = statuses
+        lock.unlock()
+        XCTAssertEqual(finalStatuses.last, .done)
+        XCTAssertEqual(finalStatuses.filter { $0 == .done }.count, 1)
+        let query = QuerySpec.buildAllQuerySpec(soupName: soupName, orderPath: ID, order: .ascending, pageSize: 100)
+        let saved = (try? store.query(using: query, startingFromPageIndex: 0) as? [[String: Any]]) ?? []
+        XCTAssertEqual(saved.compactMap { $0[ID] as? String }, ["001A", "001B", "001C", "001D", "001E", "001F"])
+        XCTAssertEqual(restClient.primingRequests.count, 3)
     }
 
     // MARK: errors

@@ -71,11 +71,14 @@ public class BriefcaseSyncDownTarget: SyncDownTarget {
     @objc private(set) var infosMap: [String: BriefcaseObjectInfo] = [:]
     private var relayToken: String? = nil
     private var maxTimeStamp: Int64 = 0
+    private var countDiscoveredIds = 0
     private var fetchedTypedIds: TypedIds?
     private var sliceIndex = 0
     private var cancellableSet: Set<AnyCancellable> = []
-    // Internal seam so tests can provide canned responses
-    var restClientProvider: () -> RestClient = { RestClient.shared }
+    // Internal seams so tests can provide canned responses
+    // (the sync manager re-creates targets from their dict, hence the static default)
+    static var defaultRestClientProvider: () -> RestClient = { RestClient.shared }
+    var restClientProvider: () -> RestClient = BriefcaseSyncDownTarget.defaultRestClientProvider
 
     override required public convenience init(dict: [AnyHashable : Any]) {
         var infos: [BriefcaseObjectInfo] = []
@@ -130,6 +133,7 @@ public class BriefcaseSyncDownTarget: SyncDownTarget {
         relayToken = nil
         fetchedTypedIds = nil
         sliceIndex = 0
+        countDiscoveredIds = 0
         totalSize = 0
         getIdsFromBriefcasesAndFetchFromServer(syncManager: syncManager, relayToken: relayToken, onFail: errorBlock, onComplete: completeBlock)
     }
@@ -152,7 +156,6 @@ public class BriefcaseSyncDownTarget: SyncDownTarget {
     }
     
     private func getIdsFromBriefcasesAndFetchFromServer(syncManager: SyncManager, relayToken: String?, onFail errorBlock: @escaping SyncDownErrorBlock, onComplete completeBlock: SyncDownCompletionBlock?) {
-        let isFirstPage = relayToken == nil
         idsFromBriefcases(syncManager: syncManager, maxTimeStamp: maxTimeStamp as NSNumber, relayToken: relayToken)
             .sink { result in
                 if case .failure(let error) = result {
@@ -163,9 +166,13 @@ public class BriefcaseSyncDownTarget: SyncDownTarget {
                 // Saving the relay token (nil on the last page) so that continueFetch gets the next page
                 self.relayToken = relayToken
                 self.fetchedTypedIds = typedIds
-                if isFirstPage {
-                    self.totalSize = UInt(typedIds.ids.count) // TODO: This only works with one page of results but stats are always returning 1000
-                }
+                // The server doesn't tell us the total number of records (stats are always returning 1000) so
+                // totalSize is the number of ids discovered so far. While there is a next page (relay token),
+                // we add one so that the sync task doesn't consider the sync done (count fetched == totalSize)
+                // before we have returned nil from continueFetch. SFSyncDownTask picks up the updated totalSize
+                // after each fetch.
+                self.countDiscoveredIds += typedIds.ids.count
+                self.totalSize = UInt(self.countDiscoveredIds + (relayToken != nil ? 1 : 0))
                 self.fetchRecordsFromServer(errorBlock: errorBlock, completeBlock: completeBlock)
             }
             .store(in: &cancellableSet)
