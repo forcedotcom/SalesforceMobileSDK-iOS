@@ -482,7 +482,7 @@ class AuthFlowTesterMainPageObject {
         tapScrollingIntoView(migrateRefreshTokenButton())
 
         // Tap the allow button if it appears
-        tapIfPresent(allowButton())
+        tapIfPresent(allowButton(), timeout: UITestTimeouts.short)
 
         let alert = app.alerts["Migration Error"]
         if (alert.waitForExistence(timeout: UITestTimeouts.long)) {
@@ -511,7 +511,7 @@ class AuthFlowTesterMainPageObject {
         tap(upgradeToDPoPButton())
 
         // Tap the allow button if it appears
-        tapIfPresent(allowButton())
+        tapIfPresent(allowButton(), timeout: UITestTimeouts.short)
 
         let alert = app.alerts["Migration Error"]
         if (alert.waitForExistence(timeout: UITestTimeouts.long)) {
@@ -536,7 +536,7 @@ class AuthFlowTesterMainPageObject {
         tap(downgradeFromDPoPButton())
 
         // Tap the allow button if it appears
-        tapIfPresent(allowButton())
+        tapIfPresent(allowButton(), timeout: UITestTimeouts.short)
 
         let alert = app.alerts["Migration Error"]
         if (alert.waitForExistence(timeout: UITestTimeouts.long)) {
