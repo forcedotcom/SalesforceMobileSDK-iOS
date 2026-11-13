@@ -481,23 +481,8 @@ class AuthFlowTesterMainPageObject {
         // scroll it into a hittable region first).
         tapScrollingIntoView(migrateRefreshTokenButton())
 
-        // Tap the allow button if it appears
-        tapIfPresent(allowButton())
-
-        let alert = app.alerts["Migration Error"]
-        if (alert.waitForExistence(timeout: UITestTimeouts.long)) {
-            // Surface the underlying error (from UserAccountManager.migrateRefreshToken's
-            // failure callback) via XCTFail before dismissing — otherwise the caller only sees
-            // a bare `false` return and the real cause disappears with the alert.
-            let message = alert.staticTexts.allElementsBoundByIndex
-                .map { $0.label }
-                .filter { $0 != "Migration Error" && !$0.isEmpty }
-                .joined(separator: " ")
-            XCTFail("Migration Error alert: \(message.isEmpty ? "<no message>" : message)")
-            alert.buttons["OK"].tap()
-            return false
-        }
-        return true
+        // Handle the approve screen if it shows up, and wait for the sheet to close or an error.
+        return awaitMigrationOutcome(sheetClosedWhenGone: migrateRefreshTokenButton())
     }
     
     /// Opens the "Change Key" sheet and taps "Upgrade to DPoP", handling the approve/deny
@@ -510,20 +495,8 @@ class AuthFlowTesterMainPageObject {
         // Tap the "Upgrade to DPoP" button
         tap(upgradeToDPoPButton())
 
-        // Tap the allow button if it appears
-        tapIfPresent(allowButton())
-
-        let alert = app.alerts["Migration Error"]
-        if (alert.waitForExistence(timeout: UITestTimeouts.long)) {
-            let message = alert.staticTexts.allElementsBoundByIndex
-                .map { $0.label }
-                .filter { $0 != "Migration Error" && !$0.isEmpty }
-                .joined(separator: " ")
-            XCTFail("Migration Error alert: \(message.isEmpty ? "<no message>" : message)")
-            alert.buttons["OK"].tap()
-            return false
-        }
-        return true
+        // Handle the approve screen if it shows up, and wait for the sheet to close or an error.
+        return awaitMigrationOutcome(sheetClosedWhenGone: upgradeToDPoPButton())
     }
 
     /// Opens the "Change Key" sheet and taps "Downgrade from DPoP", handling the approve/deny
@@ -535,20 +508,8 @@ class AuthFlowTesterMainPageObject {
         // Tap the "Downgrade from DPoP" button
         tap(downgradeFromDPoPButton())
 
-        // Tap the allow button if it appears
-        tapIfPresent(allowButton())
-
-        let alert = app.alerts["Migration Error"]
-        if (alert.waitForExistence(timeout: UITestTimeouts.long)) {
-            let message = alert.staticTexts.allElementsBoundByIndex
-                .map { $0.label }
-                .filter { $0 != "Migration Error" && !$0.isEmpty }
-                .joined(separator: " ")
-            XCTFail("Migration Error alert: \(message.isEmpty ? "<no message>" : message)")
-            alert.buttons["OK"].tap()
-            return false
-        }
-        return true
+        // Handle the approve screen if it shows up, and wait for the sheet to close or an error.
+        return awaitMigrationOutcome(sheetClosedWhenGone: downgradeFromDPoPButton())
     }
 
     // MARK: - Config Import Helpers
@@ -783,6 +744,38 @@ class AuthFlowTesterMainPageObject {
         } else {
             element.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
         }
+    }
+
+    /// Waits for a migration started from the "Change Key" sheet to finish. The sheet closes on
+    /// success, and the "Migration Error" alert appears on failure. The "Allow Access?" button
+    /// can show up at any point before that, after an asynchronous authorization step, so keep
+    /// watching for it until the outcome is known. `marker` is a button inside the sheet.
+    private func awaitMigrationOutcome(sheetClosedWhenGone marker: XCUIElement) -> Bool {
+        let alert = app.alerts["Migration Error"]
+        let allow = allowButton()
+        let deadline = Date().addingTimeInterval(UITestTimeouts.network)
+        while Date() < deadline {
+            if alert.exists {
+                // Surface the underlying error (from UserAccountManager's failure callback) via
+                // XCTFail before dismissing — otherwise the caller only sees a bare `false`
+                // return and the real cause disappears with the alert.
+                let message = alert.staticTexts.allElementsBoundByIndex
+                    .map { $0.label }
+                    .filter { $0 != "Migration Error" && !$0.isEmpty }
+                    .joined(separator: " ")
+                XCTFail("Migration Error alert: \(message.isEmpty ? "<no message>" : message)")
+                alert.buttons["OK"].tap()
+                return false
+            }
+            if allow.exists {
+                allow.tap()
+            } else if !marker.exists {
+                return true
+            }
+            RunLoop.current.run(until: Date().addingTimeInterval(0.25))
+        }
+        XCTFail("Migration did not finish within \(UITestTimeouts.network)s")
+        return false
     }
 
     private func tapIfPresent(_ element: XCUIElement, timeout: TimeInterval = UITestTimeouts.long) {

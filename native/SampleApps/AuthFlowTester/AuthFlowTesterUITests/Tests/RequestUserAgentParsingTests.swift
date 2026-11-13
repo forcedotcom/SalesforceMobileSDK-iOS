@@ -55,10 +55,12 @@ class RequestUserAgentParsingTests: XCTestCase {
         for path in ["/services/oauth2/token", "/services/oauth2/revoke", "/services/data/v66.0"] {
             let entry = RequestUserAgentCaptureEntry(path: path, userKey: "org/user", userAgent: "ua", sequence: 8)
             XCTAssertTrue(BaseAuthFlowTester.matchesSentUserAgent(entry, path: path, userKey: "org/user", since: 7, expectedUserAgent: "ua"))
-            for differentPath in [path + "/", path + "extra", "/prefix" + path] {
+            for differentPath in [path + "/", path + "extra", "/a/b" + path] {
                 let other = RequestUserAgentCaptureEntry(path: differentPath, userKey: "org/user", userAgent: "ua", sequence: 8)
                 XCTAssertFalse(BaseAuthFlowTester.matchesSentUserAgent(other, path: path, userKey: "org/user", since: 7, expectedUserAgent: "ua"))
             }
+            let community = RequestUserAgentCaptureEntry(path: "/customerportal" + path, userKey: "org/user", userAgent: "ua", sequence: 8)
+            XCTAssertTrue(BaseAuthFlowTester.matchesSentUserAgent(community, path: path, userKey: "org/user", since: 7, expectedUserAgent: "ua"))
         }
     }
 

@@ -175,9 +175,10 @@ class LoginPageObject {
             }
         }
         // Some login hosts (e.g. a community/Experience Cloud site) add an extra SSO redirect
-        // hop before the "Allow Access?" consent screen renders, so give it more room than the
-        // network timeout allows for the common single-hop case.
-        tapIfPresent(allowButton(), timeout: UITestTimeouts.network * 2)
+        // hop before the "Allow Access?" consent screen renders, so keep waiting for it up to the
+        // network timeout — but stop as soon as the app's main screen is back, since the consent
+        // screen is skipped when the user has already approved the app.
+        tapAllowIfShown(timeout: UITestTimeouts.network)
     }
 
     /// Performs login via the "Login for Admin" flow.
@@ -203,7 +204,7 @@ class LoginPageObject {
             dismissKeyboardAfterTyping()
             tap(loginButton(), timeout: UITestTimeouts.network)
         }
-        tapIfPresent(allowButton(), timeout: UITestTimeouts.network)
+        tapAllowIfShown(timeout: UITestTimeouts.network)
     }
     
     func configureLoginOptions(
@@ -439,6 +440,31 @@ class LoginPageObject {
         return buttons.matching(predicate).firstMatch
     }
     
+    /// Taps the "Allow Access?" button if it appears. Returns early once the login has finished
+    /// (consent skipped), instead of waiting out the full timeout. Login is finished when the
+    /// app's main screen is in the foreground and no login web view or browser is showing; the
+    /// main screen's navigation bar alone is not enough, since an add-user login keeps the previous
+    /// user's screen in the hierarchy behind the login. The condition has to hold on two
+    /// consecutive polls, so a pause between two redirects is not mistaken for the end.
+    private func tapAllowIfShown(timeout: TimeInterval) {
+        let allow = allowButton()
+        let mainScreen = app.navigationBars["AuthFlowTester"]
+        let loginSurfaces = [app.webViews.firstMatch, app.otherElements["TopBrowserBar"]]
+        let deadline = Date().addingTimeInterval(timeout)
+        var finishedPolls = 0
+        while Date() < deadline {
+            if allow.waitForExistence(timeout: 1) {
+                allow.tap()
+                return
+            }
+            let finished = mainScreen.isHittable && !loginSurfaces.contains { $0.exists }
+            finishedPolls = finished ? finishedPolls + 1 : 0
+            if finishedPolls >= 2 {
+                return
+            }
+        }
+    }
+
     private func allowButton() -> XCUIElement {
         let buttons = app.webViews.webViews.webViews.buttons
         let predicate = NSPredicate(format: "label CONTAINS[c] 'Allow'")

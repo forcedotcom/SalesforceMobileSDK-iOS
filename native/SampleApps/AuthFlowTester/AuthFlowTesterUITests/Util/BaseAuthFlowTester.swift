@@ -101,10 +101,13 @@ class BaseAuthFlowTester: XCTestCase {
     }
 
     static func matchesSentUserAgent(_ entry: RequestUserAgentCaptureEntry, path: String, userKey: String, since sequence: Int, expectedUserAgent: String) -> Bool {
-        // Only the resources endpoint ignores API version. All other expected paths remain exact.
-        let pathMatches = path == "/services/data"
-            ? entry.path.range(of: #"\A/services/data/v[0-9]+\.[0-9]+\z"#, options: .regularExpression) != nil
-            : entry.path == path
+        // Community logins prefix endpoints with the community path (e.g. `/customerportal/services/oauth2/revoke`),
+        // so accept an optional single leading path segment. The resources endpoint also ignores API version.
+        let communityPrefix = #"\A(/[^/]+)?"#
+        let pattern = path == "/services/data"
+            ? communityPrefix + #"/services/data/v[0-9]+\.[0-9]+\z"#
+            : communityPrefix + NSRegularExpression.escapedPattern(for: path) + #"\z"#
+        let pathMatches = entry.path.range(of: pattern, options: .regularExpression) != nil
         return entry.sequence > sequence && pathMatches && entry.userKey == userKey && entry.userAgent == expectedUserAgent
     }
 
