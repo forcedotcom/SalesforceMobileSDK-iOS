@@ -177,7 +177,7 @@ class LoginPageObject {
         // Some login hosts (e.g. a community/Experience Cloud site) add an extra SSO redirect
         // hop before the "Allow Access?" consent screen renders, so give it more room than the
         // network timeout allows for the common single-hop case.
-        tapIfPresent(allowButton(), timeout: UITestTimeouts.network * 2)
+        tapIfPresent(allowButton(), timeout: UITestTimeouts.network)
     }
 
     /// Performs login via the "Login for Admin" flow.
