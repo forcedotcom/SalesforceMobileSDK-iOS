@@ -110,11 +110,14 @@ public final class DPoPMigrationManager {
     init(currentUser: @escaping () -> UserAccount?, upgrade: @escaping UpgradeBlock) {
         self.currentUser = currentUser
         self.upgrade = upgrade
-        // stopCurrentAuthentication resets the auth session without invoking its callbacks, which
-        // would leave the upgrade pending forever.
+        // Abandoning the migration's auth session (stopCurrentAuthentication, scene disconnect) does not
+        // invoke its callbacks, which would leave the upgrade pending forever.
         stopObserver = NotificationCenter.default.addObserver(forName: UserAccountManager.didStopAuthentication,
-                                                              object: nil, queue: .main) { [weak self] _ in
-            guard let self, let operation = self.operation else { return }
+                                                              object: nil, queue: .main) { [weak self] notification in
+            // Only an abandoned migration session cancels the upgrade: an unrelated authentication
+            // stopping (e.g. another scene disconnecting) leaves it running.
+            let abandonedMigration = notification.userInfo?[UserAccountManager.userInfoAbandonedMigrationKey] as? Bool ?? false
+            guard abandonedMigration, let self, let operation = self.operation else { return }
             SFSDKCoreLogger.w(Self.self, message: "DPoPMigration: upgrade cancelled, authentication was stopped")
             self.finish(operation.id, .failed(DPoPMigrationError.cancelled))
         }

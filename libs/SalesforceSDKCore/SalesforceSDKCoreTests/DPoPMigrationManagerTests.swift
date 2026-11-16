@@ -259,7 +259,8 @@ class DPoPMigrationManagerTests: XCTestCase {
                 waiters.fulfill()
             }
         }
-        NotificationCenter.default.post(name: UserAccountManager.didStopAuthentication, object: nil)
+        NotificationCenter.default.post(name: UserAccountManager.didStopAuthentication, object: nil,
+                                        userInfo: [UserAccountManager.userInfoAbandonedMigrationKey: true])
         wait(for: [waiters], timeout: 5)
 
         // Callbacks of the abandoned upgrade are ignored; a new call starts a fresh upgrade.
@@ -283,6 +284,7 @@ class DPoPMigrationManagerTests: XCTestCase {
         request.loginHost = "test.salesforce.com"
         let session = SFSDKAuthSession(request, credentials: nil)
         session.isAuthenticating = true
+        session.isRefreshTokenMigration = true
         UserAccountManager.shared.authSessions[session.sceneId as NSString] = session
 
         let done = expectation(description: "cancelled")
@@ -420,6 +422,7 @@ class DPoPMigrationManagerTests: XCTestCase {
         request.loginHost = "login.example.com"
         let session = SFSDKAuthSession(request, credentials: nil)
         session.isAuthenticating = true
+        session.isRefreshTokenMigration = true
         let key = scene.session.persistentIdentifier as NSString
         UserAccountManager.shared.authSessions[key] = session
         defer { UserAccountManager.shared.authSessions.removeObject(key) }
@@ -433,5 +436,92 @@ class DPoPMigrationManagerTests: XCTestCase {
         }
         NotificationCenter.default.post(name: UIScene.didDisconnectNotification, object: scene)
         wait(for: [done], timeout: 5)
+    }
+
+    func test_givenMigrationInFlight_whenUnrelatedAuthenticationStops_thenMigrationNotCancelled() throws {
+        user = try makeUser(tokenType: "Bearer")
+        var outcomes = [String]()
+        manager.migrateIfNeeded { outcomes.append("\($0)") }
+
+        // Another scene's login is abandoned: not a migration session.
+        NotificationCenter.default.post(name: UserAccountManager.didStopAuthentication, object: nil,
+                                        userInfo: [UserAccountManager.userInfoAbandonedMigrationKey: false])
+        NotificationCenter.default.post(name: UserAccountManager.didStopAuthentication, object: nil)
+        let flushed = expectation(description: "main queue flushed")
+        DispatchQueue.main.async { flushed.fulfill() }
+        wait(for: [flushed], timeout: 5)
+        XCTAssertTrue(outcomes.isEmpty, "Unrelated stop must not cancel the migration: \(outcomes)")
+
+        let done = expectation(description: "migrated")
+        manager.migrateIfNeeded { outcome in
+            if case .migrated = outcome {} else { XCTFail("Expected .migrated, got \(outcome)") }
+            done.fulfill()
+        }
+        XCTAssertEqual(upgradeCalls, 1, "Second call joins the original upgrade")
+        pendingSuccess?(try makeUser(tokenType: "DPoP"))
+        wait(for: [done], timeout: 5)
+    }
+
+    func test_givenMigrationSessionAndUnrelatedScene_whenUnrelatedSceneDisconnects_thenMigrationNotCancelled() throws {
+        guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
+            throw XCTSkip("Requires a UIWindowScene")
+        }
+        user = try makeUser(tokenType: "Bearer")
+        let uam = UserAccountManager.shared
+        let migration = SFSDKAuthSession(SFSDKAuthRequest(), credentials: nil)
+        migration.isAuthenticating = true
+        migration.isRefreshTokenMigration = true
+        uam.authSessions[migration.sceneId as NSString] = migration
+        let login = SFSDKAuthSession(SFSDKAuthRequest(), credentials: nil)
+        login.isAuthenticating = true
+        let key = scene.session.persistentIdentifier as NSString
+        uam.authSessions[key] = login
+        defer {
+            uam.authSessions.removeObject(migration.sceneId as NSString)
+            uam.authSessions.removeObject(key)
+        }
+
+        var cancelled = false
+        manager.migrateIfNeeded { _ in cancelled = true }
+        NotificationCenter.default.post(name: UIScene.didDisconnectNotification, object: scene)
+        let flushed = expectation(description: "main queue flushed")
+        DispatchQueue.main.async { flushed.fulfill() }
+        wait(for: [flushed], timeout: 5)
+        XCTAssertFalse(cancelled, "Disconnect of an unrelated login scene must not cancel the migration")
+        XCTAssertNotNil(uam.authSessions[migration.sceneId as NSString], "Migration session still registered")
+    }
+
+    func test_givenMigrationOfAWithScreenLockPolicyWhileBIsCurrent_whenFinalizes_thenBPolicyUntouched() throws {
+        let uam = UserAccountManager.shared
+        uam.clearAllAccountState()
+        let (_, session) = try makeMigration(userId: "005000000000001", newTokenType: "DPoP")
+        defer { cleanUpAccounts(session) }
+        session.identityCoordinator.idData = IdentityData(jsonDict: [
+            "user_id": "005000000000001", "organization_id": "00D000000000001",
+            "mobile_policy": ["screen_lock": 5]
+        ])
+        let credsB = try XCTUnwrap(OAuthCredentials(identifier: "migration-old-B", clientId: "migration-test", encrypted: true))
+        credsB.identityUrl = URL(string: "https://login.example.com/id/00D000000000001/005000000000002")
+        let userB = UserAccount(credentials: credsB)
+        userB.idData = IdentityData(jsonDict: ["user_id": "005000000000002", "organization_id": "00D000000000001"])
+        try uam.upsert(userB)
+        uam.switchToUserAccount(userB)
+        let service = "com.salesforce.security.screenlock"
+        _ = KeychainHelper.remove(service: service, account: "005000000000002")
+        defer {
+            _ = KeychainHelper.remove(service: service, account: "005000000000001")
+            _ = KeychainHelper.remove(service: service, account: "005000000000002")
+        }
+
+        let succeeded = expectation(description: "success callback")
+        session.authSuccessCallback = { _, _ in succeeded.fulfill() }
+        uam.perform(NSSelectorFromString("retrievedIdentityData:"), with: session)
+        wait(for: [succeeded], timeout: 5)
+        let flushed = expectation(description: "main queue flushed")
+        DispatchQueue.main.async { flushed.fulfill() }
+        wait(for: [flushed], timeout: 5)
+
+        XCTAssertNil(KeychainHelper.read(service: service, account: "005000000000002").data,
+                     "A's migration must not store a screen-lock policy for the current user B")
     }
 }

@@ -109,6 +109,7 @@ NSString * const kSFNotificationUserInfoAccountKey           = @"account";
 NSString * const kSFNotificationUserInfoLogoutReasonKey      = @"logoutReason";
 NSString * const kSFNotificationUserInfoCredentialsKey       = @"credentials";
 NSString * const kSFNotificationUserInfoAuthTypeKey          = @"authType";
+NSString * const kSFNotificationUserInfoAbandonedMigrationKey = @"abandonedMigration";
 NSString * const kSFNotificationPreviousLoginHost            = @"prevLoginHost";
 NSString * const kSFNotificationCurrentLoginHost             = @"currentLoginHost";
 NSString * const kSFUserInfoAddlOptionsKey                   = @"options";
@@ -522,10 +523,12 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         return;
     }
     BOOL result = NO;
+    BOOL abandonedMigration = NO;
     for (NSString *sceneId in self.authSessions.allKeys) {
         SFSDKAuthSession *authSession = self.authSessions[sceneId];
         if (authSession.isAuthenticating) {
             result = YES;
+            abandonedMigration |= authSession.isRefreshTokenMigration;
             [self dismissAuthViewControllerIfPresentForScene:authSession.oauthRequest.scene completion:nil];
         }
     }
@@ -535,7 +538,8 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     if (!result) {
         [SFSDKCoreLogger e:[self class] format:@"Authentication has already been stopped."];
     } else {
-        [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserDidStopAuth object:self];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserDidStopAuth object:self
+                                                          userInfo:@{kSFNotificationUserInfoAbandonedMigrationKey: @(abandonedMigration)}];
     }
 
     if (completionBlock) {
@@ -953,6 +957,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     request.useDPoP = useDPoP;
     SFSDKAuthSession *authSession = [[SFSDKAuthSession alloc] initWith:request credentials:nil];
     authSession.isAuthenticating = YES;
+    authSession.isRefreshTokenMigration = YES;
     // Snapshot DPoP-ness before the revoke block below can mutate `preMigrationCredentials`:
     // `revokeRefreshToken:` synchronously clears `tokenType` (and other fields) on the credentials
     // object it's handed, so reading `tokenType` after that call would always see it as non-DPoP.
@@ -2546,9 +2551,13 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
         if (strongSelf.authSessions[authSession.sceneId] != authSession) { return; }
         if (authSession.oauthCoordinator.useNativeAuth && !authSession.isAuthenticating) { return; }
         if ([strongSelf failIfMigrationDidNotBindDPoP:authSession]) { return; }
+        // Decide before finalizing, which may change the credentials the identity is matched against.
+        BOOL skipPolicy = [strongSelf isMigrationOfNonCurrentUser:authSession];
         [strongSelf finalizeAuthCompletion:authSession];
 
-        if (authSession.oauthCoordinator.authInfo.authType != SFOAuthTypeRefresh) {
+        // A background migration must not store or unlock the screen-lock/biometric policy of the
+        // account that is current (it belongs to another identity).
+        if (!skipPolicy && authSession.oauthCoordinator.authInfo.authType != SFOAuthTypeRefresh) {
             if (hasBioAuthPolicy) {
                 if ([bioAuthManager locked]) {
                     [bioAuthManager unlockPostProcessing];
@@ -2714,6 +2723,15 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     authSession.notifiesDelegatesOfFailure = NO;
     [self handleFailure:error session:authSession];
     return YES;
+}
+
+/** Whether `authSession` is a refresh token migration for an account other than the current one. */
+- (BOOL)isMigrationOfNonCurrentUser:(SFSDKAuthSession *)authSession {
+    if (authSession.oauthCoordinator.authInfo.authType != SFOAuthTypeRefreshTokenMigration || self.currentUser == nil) {
+        return NO;
+    }
+    SFUserAccount *migrated = [self accountForCredentials:authSession.oauthCoordinator.credentials];
+    return migrated != nil && ![self.currentUser.accountIdentity isEqual:migrated.accountIdentity];
 }
 
 - (void)finalizeAuthCompletion:(SFSDKAuthSession *)authSession {
@@ -2898,9 +2916,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     
     // A token migration does not select a user: if the app switched to another account while it
     // ran, keep that selection instead of reverting to the migrated account.
-    BOOL migratingNonCurrentUser = completedAuthType == SFOAuthTypeRefreshTokenMigration
-        && self.currentUser != nil
-        && ![self.currentUser.accountIdentity isEqual:userAccount.accountIdentity];
+    BOOL migratingNonCurrentUser = [self isMigrationOfNonCurrentUser:authSession];
     if (!migratingNonCurrentUser && (self.currentUser == nil || !authSession.oauthRequest.authenticateRequestFromSPApp)) {
         [self setCurrentUserInternal:userAccount];
     }
@@ -3009,6 +3025,7 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     UIScene *scene = (UIScene *)notification.object;
     SFSDKAuthSession *session = self.authSessions[scene.session.persistentIdentifier];
     BOOL wasAuthenticating = session.isAuthenticating;
+    BOOL wasMigration = session.isRefreshTokenMigration;
     if (session.oauthCoordinator.useNativeAuth) {
         [self resetAuthentication:session];
     } else {
@@ -3016,7 +3033,8 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     }
     // The session's callbacks will never run: let observers waiting on it (e.g. a migration) know.
     if (wasAuthenticating) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserDidStopAuth object:self];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserDidStopAuth object:self
+                                                          userInfo:@{kSFNotificationUserInfoAbandonedMigrationKey: @(wasMigration)}];
     }
 }
 
