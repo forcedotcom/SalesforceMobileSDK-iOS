@@ -295,4 +295,143 @@ class DPoPMigrationManagerTests: XCTestCase {
         UserAccountManager.shared.stopCurrentAuthentication()
         wait(for: [done], timeout: 5)
     }
+
+    // MARK: - Real auth-manager flows
+
+    /// Persists a user and registers a migration auth session for it, as `migrateRefreshToken` does.
+    private func makeMigration(userId: String, newTokenType: String, requestDPoP: Bool = true,
+                               register: Bool = true) throws -> (user: UserAccount, session: SFSDKAuthSession) {
+        let uam = UserAccountManager.shared
+        let old = try XCTUnwrap(OAuthCredentials(identifier: "migration-old-\(userId)", clientId: "migration-test", encrypted: true))
+        old.identityUrl = URL(string: "https://login.example.com/id/00D000000000001/\(userId)")
+        old.refreshToken = "old-refresh-\(userId)"
+        old.tokenType = "Bearer"
+        let user = UserAccount(credentials: old)
+        user.idData = IdentityData(jsonDict: ["user_id": userId, "organization_id": "00D000000000001"])
+        try uam.upsert(user)
+
+        let request = SFSDKAuthRequest()
+        request.oauthClientId = "migration-test"
+        request.oauthCompletionUrl = "testapp://callback"
+        request.loginHost = "login.example.com"
+        request.useDPoP = requestDPoP as NSNumber
+        let session = SFSDKAuthSession(request, credentials: nil)
+        session.isAuthenticating = true
+        session.oauthCoordinator.authInfo = AuthInfo(authType: .refreshTokenMigration)
+        session.oauthCoordinator.updateCredentials([
+            "access_token": "new-access", "refresh_token": "new-refresh", "token_type": newTokenType,
+            "instance_url": "https://login.example.com",
+            "id": try XCTUnwrap(old.identityUrl).absoluteString
+        ])
+        let identity = SFIdentityCoordinator(credentials: session.credentials)
+        identity.authSession = session
+        identity.idData = user.idData
+        session.identityCoordinator = identity
+        if register { uam.authSessions[session.sceneId as NSString] = session }
+        return (user, session)
+    }
+
+    private func cleanUpAccounts(_ session: SFSDKAuthSession) {
+        let uam = UserAccountManager.shared
+        uam.authSessions.removeObject(session.sceneId as NSString)
+        for account in uam.userAccounts() ?? [] { try? uam.delete(account) }
+        uam.clearAllAccountState()
+    }
+
+    func test_givenDPoPMigrationReturnsBearerToken_whenIdentityRetrieved_thenFailsWithoutReplacingSession() throws {
+        let uam = UserAccountManager.shared
+        uam.clearAllAccountState()
+        let (user, session) = try makeMigration(userId: "005000000000001", newTokenType: "Bearer")
+        defer { cleanUpAccounts(session) }
+        let failed = expectation(description: "failure callback")
+        session.authSuccessCallback = { _, _ in XCTFail("Must not succeed") }
+        session.authFailureCallback = { _, error in
+            XCTAssertEqual((error as NSError).domain, kSFSDKUserAccountManagerErrorDomain)
+            XCTAssertEqual((error as NSError).code, 10006)
+            failed.fulfill()
+        }
+        uam.perform(NSSelectorFromString("retrievedIdentityData:"), with: session)
+        wait(for: [failed], timeout: 5)
+        let persisted = try XCTUnwrap(uam.userAccounts()?.first { $0.credentials.userId == user.credentials.userId })
+        XCTAssertEqual(persisted.credentials.identifier, user.credentials.identifier)
+        XCTAssertEqual(persisted.credentials.tokenType, "Bearer")
+        XCTAssertNil(uam.authSessions[session.sceneId as NSString], "Failed session is reset")
+    }
+
+    func test_givenDPoPMigrationReturnsDPoPToken_whenIdentityRetrieved_thenSucceeds() throws {
+        let uam = UserAccountManager.shared
+        uam.clearAllAccountState()
+        let (_, session) = try makeMigration(userId: "005000000000001", newTokenType: "DPoP")
+        defer { cleanUpAccounts(session) }
+        let succeeded = expectation(description: "success callback")
+        session.authSuccessCallback = { _, account in
+            XCTAssertEqual(account.credentials.tokenType, "DPoP")
+            succeeded.fulfill()
+        }
+        session.authFailureCallback = { _, error in XCTFail("Unexpected failure \(error)") }
+        uam.perform(NSSelectorFromString("retrievedIdentityData:"), with: session)
+        wait(for: [succeeded], timeout: 5)
+    }
+
+    func test_givenSessionStoppedBeforeFinalization_whenWebIdentityRetrieved_thenNothingIsFinalized() throws {
+        let uam = UserAccountManager.shared
+        uam.clearAllAccountState()
+        let (user, session) = try makeMigration(userId: "005000000000001", newTokenType: "DPoP", register: false)
+        defer { cleanUpAccounts(session) }
+        session.authSuccessCallback = { _, _ in XCTFail("Abandoned session must not finalize") }
+        session.authFailureCallback = { _, _ in XCTFail("Abandoned session must not fail either") }
+        uam.perform(NSSelectorFromString("retrievedIdentityData:"), with: session)
+        let flushed = expectation(description: "main flushed")
+        DispatchQueue.main.async { flushed.fulfill() }
+        wait(for: [flushed], timeout: 5)
+        let persisted = try XCTUnwrap(uam.userAccounts()?.first { $0.credentials.userId == user.credentials.userId })
+        XCTAssertEqual(persisted.credentials.tokenType, "Bearer")
+    }
+
+    func test_givenMigrationForAWhileBIsCurrent_whenMigrationFinalizes_thenBStaysCurrent() throws {
+        let uam = UserAccountManager.shared
+        uam.clearAllAccountState()
+        let (userA, session) = try makeMigration(userId: "005000000000001", newTokenType: "DPoP")
+        defer { cleanUpAccounts(session) }
+        let credsB = try XCTUnwrap(OAuthCredentials(identifier: "migration-old-B", clientId: "migration-test", encrypted: true))
+        credsB.identityUrl = URL(string: "https://login.example.com/id/00D000000000001/005000000000002")
+        let userB = UserAccount(credentials: credsB)
+        try uam.upsert(userB)
+        uam.switchToUserAccount(userB)
+        XCTAssertEqual(uam.currentUserAccount?.credentials.userId, credsB.userId)
+
+        let succeeded = expectation(description: "success callback")
+        session.authSuccessCallback = { _, _ in succeeded.fulfill() }
+        uam.perform(NSSelectorFromString("retrievedIdentityData:"), with: session)
+        wait(for: [succeeded], timeout: 5)
+        XCTAssertEqual(uam.currentUserAccount?.credentials.userId, credsB.userId,
+                       "Migrating A must not undo the switch to B")
+        XCTAssertEqual(uam.userAccounts()?.first { $0.credentials.userId == userA.credentials.userId }?.credentials.tokenType, "DPoP")
+    }
+
+    func test_givenAuthenticatingSceneDisconnects_whenManagerWaiting_thenCancelled() throws {
+        guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
+            throw XCTSkip("Requires a UIWindowScene")
+        }
+        user = try makeUser(tokenType: "Bearer")
+        let request = SFSDKAuthRequest()
+        request.oauthClientId = "migration-test"
+        request.oauthCompletionUrl = "testapp://callback"
+        request.loginHost = "login.example.com"
+        let session = SFSDKAuthSession(request, credentials: nil)
+        session.isAuthenticating = true
+        let key = scene.session.persistentIdentifier as NSString
+        UserAccountManager.shared.authSessions[key] = session
+        defer { UserAccountManager.shared.authSessions.removeObject(key) }
+
+        let done = expectation(description: "cancelled")
+        manager.migrateIfNeeded { outcome in
+            if case .failed(let error) = outcome, case DPoPMigrationError.cancelled = error {} else {
+                XCTFail("Expected .failed(.cancelled), got \(outcome)")
+            }
+            done.fulfill()
+        }
+        NotificationCenter.default.post(name: UIScene.didDisconnectNotification, object: scene)
+        wait(for: [done], timeout: 5)
+    }
 }

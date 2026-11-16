@@ -101,7 +101,7 @@ FOUNDATION_EXTERN NSNotificationName kSFNotificationUserWillShowAuthView NS_SWIF
  */
 FOUNDATION_EXTERN NSNotificationName kSFNotificationUserCancelledAuth NS_SWIFT_NAME(UserAccountManager.userCancelledAuthentication);
 
-/** Notification sent when `stopCurrentAuthentication` stops in-progress authentication, after the auth UI has been dismissed and the auth sessions reset. Callbacks of the abandoned authentication are never invoked, so observers waiting on one (e.g. a refresh token migration) should treat it as cancelled. In swift access this constant using UserAccountManager.didStopAuthentication
+/** Notification sent when in-progress authentication is abandoned without its callbacks running: `stopCurrentAuthentication` (after the auth UI has been dismissed and the auth sessions reset) or the disconnect of the scene hosting it. Callbacks of the abandoned authentication are never invoked, so observers waiting on one (e.g. a refresh token migration) should treat it as cancelled. In swift access this constant using UserAccountManager.didStopAuthentication
  */
 FOUNDATION_EXTERN NSNotificationName kSFNotificationUserDidStopAuth NS_SWIFT_NAME(UserAccountManager.didStopAuthentication);
 
