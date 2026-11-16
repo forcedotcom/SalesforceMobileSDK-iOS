@@ -29,7 +29,7 @@ class DPoPMigrationManagerTests: XCTestCase {
 
     private var user: UserAccount?
     private var upgradeCalls = 0
-    private var pendingSuccess: (() -> Void)?
+    private var pendingSuccess: ((UserAccount) -> Void)?
     private var pendingFailure: ((Error) -> Void)?
     private var manager: DPoPMigrationManager!
 
@@ -55,9 +55,9 @@ class DPoPMigrationManagerTests: XCTestCase {
         super.tearDown()
     }
 
-    private func makeUser(tokenType: String?) throws -> UserAccount {
-        let credentials = try XCTUnwrap(OAuthCredentials(identifier: "dpop-migration-test", clientId: "fakeClientId", encrypted: true))
-        credentials.userId = "user0"
+    private func makeUser(tokenType: String?, userId: String = "user0") throws -> UserAccount {
+        let credentials = try XCTUnwrap(OAuthCredentials(identifier: "dpop-migration-test-\(userId)", clientId: "fakeClientId", encrypted: true))
+        credentials.userId = userId
         credentials.organizationId = "org0"
         credentials.tokenType = tokenType
         return UserAccount(credentials: credentials)
@@ -104,7 +104,7 @@ class DPoPMigrationManagerTests: XCTestCase {
             done.fulfill()
         }
         XCTAssertEqual(upgradeCalls, 1)
-        pendingSuccess?()
+        pendingSuccess?(try! makeUser(tokenType: "DPoP"))
         wait(for: [done], timeout: 5)
     }
 
@@ -136,7 +136,7 @@ class DPoPMigrationManagerTests: XCTestCase {
             second.fulfill()
         }
         XCTAssertEqual(upgradeCalls, 2)
-        pendingSuccess?()
+        pendingSuccess?(try! makeUser(tokenType: "DPoP"))
         wait(for: [second], timeout: 5)
     }
 
@@ -183,7 +183,8 @@ class DPoPMigrationManagerTests: XCTestCase {
         // Each queued fulfill runs after that caller's own hop to main, so all callers are registered.
         wait(for: [queued], timeout: 5)
         XCTAssertEqual(upgradeCalls, 1)
-        DispatchQueue.global().async { self.pendingSuccess?() }
+        let upgraded = try makeUser(tokenType: "DPoP")
+        DispatchQueue.global().async { self.pendingSuccess?(upgraded) }
         wait(for: [done], timeout: 5)
     }
 
@@ -194,7 +195,8 @@ class DPoPMigrationManagerTests: XCTestCase {
             XCTAssertTrue(Thread.isMainThread)
             done.fulfill()
         }
-        DispatchQueue.global().async { self.pendingSuccess?() }
+        let upgraded = try makeUser(tokenType: "DPoP")
+        DispatchQueue.global().async { self.pendingSuccess?(upgraded) }
         wait(for: [done], timeout: 5)
     }
 
@@ -206,6 +208,91 @@ class DPoPMigrationManagerTests: XCTestCase {
                 done.fulfill()
             }
         }
+        wait(for: [done], timeout: 5)
+    }
+
+    // MARK: - Review regressions
+
+    func test_givenUpgradeReturnsBearerCredentials_whenMigrateIfNeeded_thenFailedNotDPoPBound() throws {
+        user = try makeUser(tokenType: "Bearer")
+        let done = expectation(description: "completion")
+        manager.migrateIfNeeded { outcome in
+            if case .failed(let error) = outcome, case DPoPMigrationError.notDPoPBound = error {} else {
+                XCTFail("Expected .failed(.notDPoPBound), got \(outcome)")
+            }
+            done.fulfill()
+        }
+        pendingSuccess?(try! makeUser(tokenType: "Bearer"))
+        wait(for: [done], timeout: 5)
+    }
+
+    func test_givenUpgradeInFlightForUserA_whenCurrentUserSwitchesToBAndMigrates_thenBFailsAndANotAffected() throws {
+        user = try makeUser(tokenType: "Bearer", userId: "userA")
+        let a = expectation(description: "A completes")
+        manager.migrateIfNeeded { outcome in
+            if case .migrated = outcome {} else { XCTFail("Expected A .migrated, got \(outcome)") }
+            a.fulfill()
+        }
+        user = try makeUser(tokenType: "Bearer", userId: "userB")
+        let b = expectation(description: "B completes")
+        manager.migrateIfNeeded { outcome in
+            if case .failed(let error) = outcome, case DPoPMigrationError.anotherMigrationInProgress = error {} else {
+                XCTFail("Expected B .failed(.anotherMigrationInProgress), got \(outcome)")
+            }
+            b.fulfill()
+        }
+        XCTAssertEqual(upgradeCalls, 1)
+        pendingSuccess?(try makeUser(tokenType: "DPoP", userId: "userA"))
+        wait(for: [a, b], timeout: 5)
+    }
+
+    func test_givenUpgradeInFlight_whenAuthenticationStopped_thenWaitersCancelledAndNextCallRetries() throws {
+        user = try makeUser(tokenType: "Bearer")
+        let waiters = expectation(description: "waiters cancelled")
+        waiters.expectedFulfillmentCount = 2
+        waiters.assertForOverFulfill = true
+        for _ in 0..<2 {
+            manager.migrateIfNeeded { outcome in
+                if case .failed(let error) = outcome, case DPoPMigrationError.cancelled = error {} else {
+                    XCTFail("Expected .failed(.cancelled), got \(outcome)")
+                }
+                waiters.fulfill()
+            }
+        }
+        NotificationCenter.default.post(name: UserAccountManager.didStopAuthentication, object: nil)
+        wait(for: [waiters], timeout: 5)
+
+        // Callbacks of the abandoned upgrade are ignored; a new call starts a fresh upgrade.
+        let abandonedSuccess = pendingSuccess
+        let retry = expectation(description: "retry")
+        manager.migrateIfNeeded { outcome in
+            if case .migrated = outcome {} else { XCTFail("Expected .migrated, got \(outcome)") }
+            retry.fulfill()
+        }
+        XCTAssertEqual(upgradeCalls, 2)
+        abandonedSuccess?(try makeUser(tokenType: "Bearer"))
+        pendingSuccess?(try makeUser(tokenType: "DPoP"))
+        wait(for: [retry], timeout: 5)
+    }
+
+    func test_givenMigrationAuthSessionActive_whenStopCurrentAuthentication_thenWaiterCancelled() throws {
+        user = try makeUser(tokenType: "Bearer")
+        let request = SFSDKAuthRequest()
+        request.oauthClientId = "testClientId"
+        request.oauthCompletionUrl = "test://callback"
+        request.loginHost = "test.salesforce.com"
+        let session = SFSDKAuthSession(request, credentials: nil)
+        session.isAuthenticating = true
+        UserAccountManager.shared.authSessions[session.sceneId as NSString] = session
+
+        let done = expectation(description: "cancelled")
+        manager.migrateIfNeeded { outcome in
+            if case .failed(let error) = outcome, case DPoPMigrationError.cancelled = error {} else {
+                XCTFail("Expected .failed(.cancelled), got \(outcome)")
+            }
+            done.fulfill()
+        }
+        UserAccountManager.shared.stopCurrentAuthentication()
         wait(for: [done], timeout: 5)
     }
 }

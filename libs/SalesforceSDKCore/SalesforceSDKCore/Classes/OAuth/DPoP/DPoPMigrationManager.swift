@@ -35,8 +35,11 @@ import Foundation
 ///
 ///  - It is a no-op when there is no current user or the credentials are already DPoP-bound. The
 ///    credentials' token type is the only source of truth; no state is persisted.
-///  - At most one upgrade is in flight. Callers arriving meanwhile are queued and completed
-///    together with the same outcome.
+///  - At most one upgrade is in flight. Callers for the same user arriving meanwhile are queued and
+///    completed together with the same outcome. A caller whose current user differs from the one
+///    being upgraded gets `.failed(DPoPMigrationError.anotherMigrationInProgress)`.
+///  - An upgrade abandoned through `UserAccountManager.stopCurrentAuthentication` completes with
+///    `.failed(DPoPMigrationError.cancelled)`.
 ///  - On failure nothing is persisted and the existing session is left intact, so the next call
 ///    (typically the next launch) retries. There is no automatic retry and no logout.
 ///
@@ -50,6 +53,16 @@ import Foundation
 /// }
 /// ```
 ///
+/// Why a migration did not complete. Reported through `DPoPMigrationManager.Outcome.failed`.
+public enum DPoPMigrationError: Error {
+    /// The upgrade was abandoned, e.g. through `UserAccountManager.stopCurrentAuthentication`.
+    case cancelled
+    /// The upgrade finished but the resulting credentials are not DPoP-bound.
+    case notDPoPBound
+    /// An upgrade for a different user is in flight; retry once it completes.
+    case anotherMigrationInProgress
+}
+
 /// Only the current user is ever migrated; other users are migrated once they become current.
 public final class DPoPMigrationManager {
 
@@ -67,19 +80,28 @@ public final class DPoPMigrationManager {
     public static let shared = DPoPMigrationManager()
 
     typealias UpgradeBlock = (_ user: UserAccount,
-                              _ success: @escaping () -> Void,
+                              _ success: @escaping (_ upgradedUser: UserAccount) -> Void,
                               _ failure: @escaping (Error) -> Void) -> Void
+
+    /// An upgrade in flight and everyone waiting on it.
+    private struct Operation {
+        let id = UUID()
+        let userId: String?
+        let orgId: String?
+        var completions: [(Outcome) -> Void]
+    }
 
     private let currentUser: () -> UserAccount?
     private let upgrade: UpgradeBlock
+    private var stopObserver: NSObjectProtocol?
 
-    /// Main-queue only. Non-nil while an upgrade is in flight; holds every waiting completion.
-    private var pendingCompletions: [(Outcome) -> Void]?
+    /// Main-queue only. Non-nil while an upgrade is in flight.
+    private var operation: Operation?
 
     private convenience init() {
         self.init(currentUser: { UserAccountManager.shared.currentUserAccount },
                   upgrade: { user, success, failure in
-            UserAccountManager.shared.upgradeToDPoP(user, success: { _, _ in success() },
+            UserAccountManager.shared.upgradeToDPoP(user, success: { _, upgradedUser in success(upgradedUser) },
                                                     failure: { _, error in failure(error) })
         })
     }
@@ -88,6 +110,18 @@ public final class DPoPMigrationManager {
     init(currentUser: @escaping () -> UserAccount?, upgrade: @escaping UpgradeBlock) {
         self.currentUser = currentUser
         self.upgrade = upgrade
+        // stopCurrentAuthentication resets the auth session without invoking its callbacks, which
+        // would leave the upgrade pending forever.
+        stopObserver = NotificationCenter.default.addObserver(forName: UserAccountManager.didStopAuthentication,
+                                                              object: nil, queue: .main) { [weak self] _ in
+            guard let self, let operation = self.operation else { return }
+            SFSDKCoreLogger.w(Self.self, message: "DPoPMigration: upgrade cancelled, authentication was stopped")
+            self.finish(operation.id, .failed(DPoPMigrationError.cancelled))
+        }
+    }
+
+    deinit {
+        if let stopObserver { NotificationCenter.default.removeObserver(stopObserver) }
     }
 
     // MARK: - Public API
@@ -102,8 +136,8 @@ public final class DPoPMigrationManager {
 
     /// Upgrades the current user to DPoP if needed.
     ///
-    /// Concurrent calls share a single upgrade and all receive its outcome. The upgrade may
-    /// present the SDK's approve/deny web screen.
+    /// Concurrent calls for the same user share a single upgrade and all receive its outcome. The
+    /// upgrade may present the SDK's approve/deny web screen.
     ///
     /// - Returns: The outcome. Failures are reported as `.failed`, never thrown.
     public func migrateIfNeeded() async -> Outcome {
@@ -122,43 +156,61 @@ public final class DPoPMigrationManager {
             return
         }
 
-        if pendingCompletions != nil {
-            SFSDKCoreLogger.i(Self.self, message: "DPoPMigration: upgrade already in flight, joining it")
-            pendingCompletions?.append(completion)
-            return
-        }
-
         guard let user = currentUser() else {
             SFSDKCoreLogger.i(Self.self, message: "DPoPMigration: not needed, no current user")
             completion(.notNeeded)
             return
         }
+
+        if operation != nil {
+            let credentials = user.credentials
+            if operation?.userId == credentials.userId && operation?.orgId == credentials.organizationId {
+                SFSDKCoreLogger.i(Self.self, message: "DPoPMigration: upgrade already in flight, joining it")
+                operation?.completions.append(completion)
+            } else {
+                SFSDKCoreLogger.w(Self.self, message: "DPoPMigration: upgrade in flight for another user")
+                completion(.failed(DPoPMigrationError.anotherMigrationInProgress))
+            }
+            return
+        }
+
         guard !DPoPRequestDecorator.isDPoPTokenType(user.credentials.tokenType) else {
             SFSDKCoreLogger.i(Self.self, message: "DPoPMigration: not needed, already DPoP-bound")
             completion(.notNeeded)
             return
         }
 
-        pendingCompletions = [completion]
+        let started = Operation(userId: user.credentials.userId,
+                                orgId: user.credentials.organizationId,
+                                completions: [completion])
+        operation = started
         SFSDKCoreLogger.i(Self.self, message: "DPoPMigration: upgrade started")
-        upgrade(user, {
+        upgrade(user, { upgradedUser in
             DispatchQueue.main.async {
-                SFSDKCoreLogger.i(Self.self, message: "DPoPMigration: upgrade succeeded")
-                self.finish(.migrated)
+                // A soft-failed DPoP key creation can complete with a Bearer token.
+                if DPoPRequestDecorator.isDPoPTokenType(upgradedUser.credentials.tokenType) {
+                    SFSDKCoreLogger.i(Self.self, message: "DPoPMigration: upgrade succeeded")
+                    self.finish(started.id, .migrated)
+                } else {
+                    SFSDKCoreLogger.w(Self.self, message: "DPoPMigration: upgrade completed without DPoP-bound credentials")
+                    self.finish(started.id, .failed(DPoPMigrationError.notDPoPBound))
+                }
             }
         }, { error in
             DispatchQueue.main.async {
                 SFSDKCoreLogger.w(Self.self, message: "DPoPMigration: upgrade failed: \((error as NSError).domain) \((error as NSError).code)")
-                self.finish(.failed(error))
+                self.finish(started.id, .failed(error))
             }
         })
     }
 
     // MARK: - Private
 
-    private func finish(_ outcome: Outcome) {
-        let completions = pendingCompletions ?? []
-        pendingCompletions = nil
-        completions.forEach { $0(outcome) }
+    /// Completes the operation `id` if it is still the one in flight; callbacks from an operation
+    /// that was already cancelled are ignored.
+    private func finish(_ id: UUID, _ outcome: Outcome) {
+        guard let current = operation, current.id == id else { return }
+        operation = nil
+        current.completions.forEach { $0(outcome) }
     }
 }

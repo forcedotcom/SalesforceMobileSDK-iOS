@@ -96,6 +96,7 @@ NSNotificationName kSFNotificationDidChangeLoginHost = @"SFNotificationDidChange
 //Auth Display Notification
 NSNotificationName kSFNotificationUserWillShowAuthView = @"SFNotificationUserWillShowAuthView";
 NSNotificationName kSFNotificationUserCancelledAuth = @"SFNotificationUserCanceledAuthentication";
+NSNotificationName kSFNotificationUserDidStopAuth = @"SFNotificationUserDidStopAuthentication";
 //IDP-SP flow Notifications
 NSNotificationName kSFNotificationUserWillSendIDPRequest      = @"SFNotificationUserWillSendIDPRequest";
 NSNotificationName kSFNotificationUserWillSendIDPResponse     = @"kSFNotificationUserWillSendIDPResponse";
@@ -533,6 +534,8 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
     
     if (!result) {
         [SFSDKCoreLogger e:[self class] format:@"Authentication has already been stopped."];
+    } else {
+        [[NSNotificationCenter defaultCenter] postNotificationName:kSFNotificationUserDidStopAuth object:self];
     }
 
     if (completionBlock) {
