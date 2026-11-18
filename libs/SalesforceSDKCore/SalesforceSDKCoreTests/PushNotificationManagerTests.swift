@@ -236,6 +236,117 @@ class PushNotificationManagerTests: XCTestCase {
                        "Should NOT overwrite the current user's deviceSalesforceId")
     }
 
+    func test_givenOverlappingRegistrationsForDifferentUsers_whenResponsesInterleave_thenEachUserStoresItsOwnDeviceId() throws {
+        // Given
+        let firstUser = try makeUserAccount(index: 4)
+        let secondUser = try makeUserAccount(index: 5)
+        let firstPreferences = MockPreferences()
+        let secondPreferences = MockPreferences()
+        let firstClient = MockRestClient()
+        let secondClient = MockRestClient()
+        firstClient.apiVersion = SFRestDefaultAPIVersion
+        secondClient.apiVersion = SFRestDefaultAPIVersion
+        firstClient.jsonResponse = """
+        {"id": "first-user-device-id"}
+        """.data(using: .utf8) ?? Data()
+        secondClient.jsonResponse = """
+        {"id": "second-user-device-id"}
+        """.data(using: .utf8) ?? Data()
+        mockApplicationHelper.preferencesMap[firstUser.accountIdentity] = firstPreferences
+        mockApplicationHelper.preferencesMap[secondUser.accountIdentity] = secondPreferences
+        mockApplicationHelper.clientsMap[firstUser.accountIdentity] = firstClient
+        mockApplicationHelper.clientsMap[secondUser.accountIdentity] = secondClient
+        pushNotificationManager.deviceToken = "test-device-token"
+
+        let firstPreferencesLookup = XCTestExpectation(description: "First registration reached preferences lookup")
+        let firstRegistrationCompleted = XCTestExpectation(description: "First registration completed")
+        let secondRegistrationCompleted = XCTestExpectation(description: "Second registration completed")
+        let firstPreferencesLookupSemaphore = DispatchSemaphore(value: 0)
+        let firstRegistrationFinished = DispatchSemaphore(value: 0)
+        let secondRegistrationFinished = DispatchSemaphore(value: 0)
+        var firstPreferencesLookupReleased = false
+        var firstRegistrationStarted = false
+        var secondRegistrationStarted = false
+        var firstRegistrationDrained = false
+        var secondRegistrationDrained = false
+
+        func releaseFirstPreferencesLookup() {
+            guard !firstPreferencesLookupReleased else {
+                return
+            }
+
+            firstPreferencesLookupReleased = true
+            firstPreferencesLookupSemaphore.signal()
+        }
+
+        defer {
+            releaseFirstPreferencesLookup()
+
+            if secondRegistrationStarted && !secondRegistrationDrained {
+                XCTAssertEqual(secondRegistrationFinished.wait(timeout: .now() + 2), .success,
+                               "Second registration should finish before test teardown")
+            }
+            if firstRegistrationStarted && !firstRegistrationDrained {
+                XCTAssertEqual(firstRegistrationFinished.wait(timeout: .now() + 2), .success,
+                               "First registration should finish before test teardown")
+            }
+        }
+
+        mockApplicationHelper.beforePreferencesLookup = { user in
+            guard user?.accountIdentity == firstUser.accountIdentity else {
+                return
+            }
+
+            firstPreferencesLookup.fulfill()
+            XCTAssertEqual(firstPreferencesLookupSemaphore.wait(timeout: .now() + 5), .success,
+                           "First registration should be released after the second registration persists its ID")
+        }
+
+        // When
+        guard pushNotificationManager.registerSalesforceNotifications(for: firstUser, completionBlock: {
+            firstRegistrationFinished.signal()
+            firstRegistrationCompleted.fulfill()
+        }, failBlock: {
+            XCTFail("First registration should succeed")
+            firstRegistrationFinished.signal()
+            firstRegistrationCompleted.fulfill()
+        }) else {
+            return XCTFail("First registration should start")
+        }
+        firstRegistrationStarted = true
+        guard XCTWaiter.wait(for: [firstPreferencesLookup], timeout: 2) == .completed else {
+            return XCTFail("First registration should reach preferences lookup")
+        }
+
+        guard pushNotificationManager.registerSalesforceNotifications(for: secondUser, completionBlock: {
+            secondRegistrationFinished.signal()
+            secondRegistrationCompleted.fulfill()
+        }, failBlock: {
+            XCTFail("Second registration should succeed")
+            secondRegistrationFinished.signal()
+            secondRegistrationCompleted.fulfill()
+        }) else {
+            return XCTFail("Second registration should start")
+        }
+        secondRegistrationStarted = true
+        guard XCTWaiter.wait(for: [secondRegistrationCompleted], timeout: 2) == .completed else {
+            return XCTFail("Second registration should complete")
+        }
+        secondRegistrationDrained = true
+
+        releaseFirstPreferencesLookup()
+        guard XCTWaiter.wait(for: [firstRegistrationCompleted], timeout: 2) == .completed else {
+            return XCTFail("First registration should complete")
+        }
+        firstRegistrationDrained = true
+
+        // Then
+        XCTAssertEqual(firstPreferences.objects[PushNotificationConstants.deviceSalesforceId] as? String,
+                       "first-user-device-id")
+        XCTAssertEqual(secondPreferences.objects[PushNotificationConstants.deviceSalesforceId] as? String,
+                       "second-user-device-id")
+    }
+
     // MARK: - Modern Swift API Tests
 
     func testRegisterForSalesforceNotifications_Success() {
@@ -1248,14 +1359,20 @@ class NotificationCategoryFactoryTests: XCTestCase {
 // MARK: - Mocks
 class MockApplicationHelper: RemoteNotificationRegistering {
     var client: RestClient?
+    var clientsMap: [UserAccountIdentity: RestClient] = [:]
     var preferencesMap: [UserAccountIdentity: SFPreferences] = [:]
+    var beforePreferencesLookup: ((UserAccount?) -> Void)?
     var registerForRemoteNotificationsCalled = false
 
     func client(for user: UserAccount?) -> RestClient? {
-        client
+        if let user, let client = clientsMap[user.accountIdentity] {
+            return client
+        }
+        return client
     }
 
     func preferences(for user: UserAccount?) -> SFPreferences? {
+        beforePreferencesLookup?(user)
         if let user = user {
             return preferencesMap[user.accountIdentity] ?? MockPreferences()
         }
