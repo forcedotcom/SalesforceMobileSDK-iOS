@@ -24,31 +24,33 @@
 
 /*
  * Test coverage note: These tests verify that the correct NSError codes are propagated
- * to pending requests when token refresh fails with App Attestation errors. The logout
- * side-effects (logoutUser:reason:) are observable in the logs but difficult to verify
- * via notification in a unit test environment due to asynchronous account deletion.
- * Integration tests provide full end-to-end coverage of the logout flow.
+ * to pending requests when token refresh fails. The DPoP mismatch regression tests also
+ * verify the asynchronous logout decision without invoking account deletion.
  */
 
 #import <XCTest/XCTest.h>
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
 #import "SFRestAPI+Internal.h"
+#import "SFRestRequest+Internal.h"
 #import "SFOAuthCoordinator+Internal.h"
 #import "SFUserAccount+Internal.h"
 #import "SFOAuthCredentials+Internal.h"
 #import "SFSDKOAuth2+Internal.h"
 #import "SFSDKOAuthConstants.h"
+#import "SFSDKLogoutBlocker.h"
+#import <objc/runtime.h>
 
 @interface SFSDKOAuthTokenEndpointResponse ()
 - (instancetype)initWithDictionary:(NSDictionary *)nvPairs parseAdditionalFields:(NSArray<NSString *> *)additionalOAuthParameterKeys;
+- (instancetype)initWithError:(NSError *)error;
 @end
 
 @interface SFRestAPI (Testing)
-- (void)send:(SFRestRequest *)request
-failureBlock:(SFRestRequestFailBlock)failureBlock
-successBlock:(SFRestResponseBlock)successBlock
- shouldRetry:(BOOL)shouldRetry;
 - (void)startAuthenticationRefreshForRequest:(SFRestRequest *)request response:(NSURLResponse *)response;
+- (void)send:(SFRestRequest *)request
+ failureBlock:(SFRestRequestFailBlock)failureBlock
+ successBlock:(SFRestResponseBlock)successBlock
+  shouldRetry:(BOOL)shouldRetry;
 @end
 
 @interface SFRestAPIReplayTestStub : NSObject <SFSDKOAuthProtocol>
@@ -67,16 +69,31 @@ successBlock:(SFRestResponseBlock)successBlock
 - (void)revokeRefreshToken:(SFOAuthCredentials *)credentials reason:(SFLogoutReason)reason {}
 @end
 
+static NSUInteger gLogoutCallCount;
+static SFUserAccount *gLoggedOutUser;
+static SFLogoutReason gLogoutReason;
+static XCTestExpectation *gLogoutExpectation;
+
 @interface SFRestAPIReplayRequestTests : XCTestCase
 @property (nonatomic, strong) SFRestAPI *restAPI;
 @property (nonatomic, strong) SFUserAccount *testAccount;
 @property (nonatomic, strong) SFAuthClientFactoryBlock originalAuthClientFactory;
+@property (nonatomic, assign) BOOL logoutUserSwizzled;
+- (void)record_logoutUser:(SFUserAccount *)user reason:(SFLogoutReason)reason;
+@end
+
+@interface SFSDKLogoutBlocker (LifecycleTesting)
+- (void)dummy_logoutUser:(SFUserAccount *)user reason:(SFLogoutReason)reason;
 @end
 
 @implementation SFRestAPIReplayRequestTests
 
 - (void)setUp {
     [super setUp];
+    gLogoutCallCount = 0;
+    gLoggedOutUser = nil;
+    gLogoutReason = SFLogoutReasonUnknown;
+    gLogoutExpectation = nil;
 
     // Save original factory
     self.originalAuthClientFactory = [SFUserAccountManager sharedInstance].authClient;
@@ -99,11 +116,75 @@ successBlock:(SFRestResponseBlock)successBlock
 }
 
 - (void)tearDown {
+    if (self.logoutUserSwizzled) {
+        [self swapLogoutUserWithRecorder];
+    }
     [SFUserAccountManager sharedInstance].authClient = self.originalAuthClientFactory;
+    [SFRestAPI removeSharedInstanceWithUser:self.restAPI.user];
     [[SFUserAccountManager sharedInstance] deleteAccountForUser:self.testAccount error:nil];
     self.testAccount = nil;
     self.restAPI = nil;
     [super tearDown];
+}
+
+- (void)swapLogoutUserWithRecorder {
+    Method original = class_getInstanceMethod([SFUserAccountManager class], @selector(logoutUser:reason:));
+    Method replacement = class_getInstanceMethod([self class], @selector(record_logoutUser:reason:));
+    method_exchangeImplementations(original, replacement);
+    self.logoutUserSwizzled = !self.logoutUserSwizzled;
+}
+
+- (void)record_logoutUser:(SFUserAccount *)user reason:(SFLogoutReason)reason {
+    gLogoutCallCount++;
+    gLoggedOutUser = user;
+    gLogoutReason = reason;
+    [gLogoutExpectation fulfill];
+}
+
+- (void)startRefreshForRequest:(SFRestRequest *)request {
+    NSHTTPURLResponse *unauthorizedResponse = [[NSHTTPURLResponse alloc]
+                                                initWithURL:[NSURL URLWithString:@"https://test.salesforce.com/services/data/v66.0"]
+                                                statusCode:401
+                                                HTTPVersion:@"HTTP/1.1"
+                                                headerFields:nil];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+    [self.restAPI performSelector:@selector(startAuthenticationRefreshForRequest:response:)
+                       withObject:request
+                       withObject:unauthorizedResponse];
+#pragma clang diagnostic pop
+}
+
+- (SFRestRequest *)pendingRequestWithFailureBlock:(SFRestRequestFailBlock)failureBlock {
+    SFRestRequest *request = [self.restAPI requestForResources:nil];
+    request.failureBlock = failureBlock;
+    [self.restAPI.activeRequests addObject:request];
+    return request;
+}
+
+- (void)drainMainQueue {
+    XCTestExpectation *drained = [self expectationWithDescription:@"Main queue drained"];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [drained fulfill];
+    });
+    [self waitForExpectations:@[drained] timeout:2.0];
+}
+
+- (void)swapLogoutBlockerForLifecycleTest {
+    // SFSDKLogoutBlocker is installed process-wide by the test target to suppress unrelated
+    // logout effects. This test specifically verifies the real account lifecycle, so restore the
+    // original implementation only for its controlled window and swap the blocker back afterward.
+    Method intercepted = class_getInstanceMethod([SFUserAccountManager class], @selector(logoutUser:reason:));
+    Method original = class_getInstanceMethod([SFSDKLogoutBlocker class], @selector(dummy_logoutUser:reason:));
+    method_exchangeImplementations(intercepted, original);
+}
+
+- (SFSDKOAuthTokenEndpointResponse *)verifiedDPoPBoundKeyMismatchResponse {
+    NSError *serverError = [SFSDKOAuth2 errorWithType:@"invalid_dpop_proof" description:@"dpop thumbprint invalid for token"];
+    NSMutableDictionary *userInfo = [serverError.userInfo mutableCopy];
+    userInfo[kSFSDKOAuthDPoPBoundKeyMismatchRecoveryKey] = @YES;
+    NSError *markedError = [NSError errorWithDomain:serverError.domain code:serverError.code userInfo:userInfo];
+    return [[SFSDKOAuthTokenEndpointResponse alloc] initWithError:markedError];
 }
 
 - (void)test_given_invalidGrant_when_startAuthenticationRefresh_then_logsOutWithTokenExpired {
@@ -119,45 +200,249 @@ successBlock:(SFRestResponseBlock)successBlock
     stub.stubbedResponse = response;
     [SFUserAccountManager sharedInstance].authClient = ^{ return stub; };
 
-    // Create a pending request
-    SFRestRequest *request = [self.restAPI requestForResources:nil];
     __block NSError *receivedError = nil;
-    __block BOOL expectationFulfilled = NO;
     XCTestExpectation *failureExpectation = [self expectationWithDescription:@"Request fails"];
-
-    [self.restAPI send:request failureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
+    SFRestRequest *request = [self pendingRequestWithFailureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
         receivedError = error;
-        if (!expectationFulfilled) {
-            expectationFulfilled = YES;
-            [failureExpectation fulfill];
-        }
-    } successBlock:^(id response, NSURLResponse *rawResponse) {
-        XCTFail(@"Should not succeed");
-    } shouldRetry:NO];
-
-    // Trigger the refresh path by simulating a 401
-    NSHTTPURLResponse *unauthorizedResponse = [[NSHTTPURLResponse alloc]
-                                                initWithURL:[NSURL URLWithString:@"https://test.salesforce.com/services/data/v66.0"]
-                                                statusCode:401
-                                                HTTPVersion:@"HTTP/1.1"
-                                                headerFields:nil];
-
-    // Use performSelector to invoke startAuthenticationRefreshForRequest:response: since it's private
-    if ([self.restAPI respondsToSelector:@selector(startAuthenticationRefreshForRequest:response:)]) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-        [self.restAPI performSelector:@selector(startAuthenticationRefreshForRequest:response:)
-                           withObject:request
-                           withObject:unauthorizedResponse];
-#pragma clang diagnostic pop
-    }
+        [failureExpectation fulfill];
+    }];
+    [self startRefreshForRequest:request];
 
     [self waitForExpectations:@[failureExpectation] timeout:5.0];
+    [self drainMainQueue];
 
     // Assert
     XCTAssertNotNil(receivedError, @"Request should receive error");
     XCTAssertEqual(receivedError.code, kSFOAuthErrorInvalidGrant, @"Error code should be invalid_grant");
     XCTAssertEqualObjects(receivedError.userInfo[kSFOAuthError], @"invalid_grant", @"Wire value should be preserved");
+}
+
+- (void)test_givenMissingBoundKey_whenSendingRestRequest_thenFailsLocallyAndLogsOut {
+    NSString *scope = self.testAccount.credentials.identifier;
+    [SFSDKDPoPKeyStore.shared deleteForScope:scope];
+    self.testAccount.credentials.tokenType = @"DPoP";
+    [self swapLogoutUserWithRecorder];
+
+    XCTestExpectation *failureExpectation = [self expectationWithDescription:@"Local request failure"];
+    gLogoutExpectation = [self expectationWithDescription:@"Token-expired logout"];
+    SFRestRequest *request = [self.restAPI requestForResources:nil];
+    [self.restAPI send:request failureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
+        XCTAssertEqual([SFSDKDPoPRequestDecorator classifyDecorationError:error], SFSDKDPoPDecorationFailureBoundKeyMissing);
+        [failureExpectation fulfill];
+    } successBlock:^(id response, NSURLResponse *rawResponse) {
+        XCTFail(@"A request with a missing bound key must not succeed");
+    } shouldRetry:YES];
+
+    [self waitForExpectations:@[failureExpectation, gLogoutExpectation] timeout:5.0];
+    XCTAssertNil(request.sessionDataTask);
+    XCTAssertEqual(self.restAPI.activeRequests.count, 0u);
+    XCTAssertEqual(gLogoutCallCount, 1u);
+    XCTAssertEqualObjects(gLoggedOutUser.credentials.identifier, scope);
+    XCTAssertEqual(gLogoutReason, SFLogoutReasonTokenExpired);
+
+    gLogoutExpectation = nil;
+    [self swapLogoutUserWithRecorder];
+}
+
+- (void)test_givenConcurrentRequestsWithMissingBoundKey_whenBothFail_thenOnlyOneLogoutLifecycleRuns {
+    NSString *scope = self.testAccount.credentials.identifier;
+    [SFSDKDPoPKeyStore.shared deleteForScope:scope];
+    self.testAccount.credentials.tokenType = @"DPoP";
+
+    // Keep both callers in their failure blocks until each has observed the local key miss. Releasing
+    // them together makes both terminal-recovery blocks queue before the main queue can run either one.
+    dispatch_semaphore_t startRequests = dispatch_semaphore_create(0);
+    dispatch_semaphore_t failuresEntered = dispatch_semaphore_create(0);
+    dispatch_semaphore_t releaseFailures = dispatch_semaphore_create(0);
+    NSObject *failureLock = [[NSObject alloc] init];
+    __block BOOL allFailuresWereBoundKeyMissing = YES;
+    __block NSUInteger willLogoutCount = 0;
+    XCTestExpectation *logoutLifecycle = [self expectationWithDescription:@"one effective logout lifecycle"];
+    logoutLifecycle.assertForOverFulfill = YES;
+    id observer = [[NSNotificationCenter defaultCenter]
+                   addObserverForName:kSFNotificationUserWillLogout
+                   object:[SFUserAccountManager sharedInstance]
+                   queue:nil
+                   usingBlock:^(NSNotification *notification) {
+        willLogoutCount++;
+        [logoutLifecycle fulfill];
+    }];
+
+    BOOL didSwapLogoutBlocker = NO;
+    [self swapLogoutBlockerForLifecycleTest];
+    didSwapLogoutBlocker = YES;
+    SFRestAPIReplayTestStub *stub = [[SFRestAPIReplayTestStub alloc] init];
+    [SFUserAccountManager sharedInstance].authClient = ^{ return stub; };
+    NSArray<SFRestRequest *> *requests = @[
+        [self.restAPI requestForResources:nil],
+        [self.restAPI requestForResources:nil]
+    ];
+    dispatch_group_t sendGroup = dispatch_group_create();
+    dispatch_queue_t concurrentQueue = dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0);
+    for (SFRestRequest *request in requests) {
+        dispatch_group_async(sendGroup, concurrentQueue, ^{
+            dispatch_semaphore_wait(startRequests, DISPATCH_TIME_FOREVER);
+            [self.restAPI send:request
+                   failureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
+                @synchronized (failureLock) {
+                    allFailuresWereBoundKeyMissing &=
+                        [SFSDKDPoPRequestDecorator classifyDecorationError:error]
+                        == SFSDKDPoPDecorationFailureBoundKeyMissing;
+                }
+                dispatch_semaphore_signal(failuresEntered);
+                dispatch_semaphore_wait(releaseFailures, DISPATCH_TIME_FOREVER);
+            }
+                   successBlock:^(id response, NSURLResponse *rawResponse) {
+                XCTFail(@"A request with a missing bound key must not create a task or succeed");
+            }
+                    shouldRetry:YES];
+        });
+    }
+    dispatch_semaphore_signal(startRequests);
+    dispatch_semaphore_signal(startRequests);
+    XCTAssertEqual(dispatch_semaphore_wait(failuresEntered, dispatch_time(DISPATCH_TIME_NOW, 5 * NSEC_PER_SEC)), 0);
+    XCTAssertEqual(dispatch_semaphore_wait(failuresEntered, dispatch_time(DISPATCH_TIME_NOW, 5 * NSEC_PER_SEC)), 0);
+
+    dispatch_semaphore_signal(releaseFailures);
+    dispatch_semaphore_signal(releaseFailures);
+    XCTestExpectation *sendsCompleted = [self expectationWithDescription:@"both terminal recoveries queued"];
+    dispatch_group_notify(sendGroup, dispatch_get_main_queue(), ^{
+        [sendsCompleted fulfill];
+    });
+    @try {
+        [self waitForExpectations:@[logoutLifecycle, sendsCompleted] timeout:5.0];
+
+        XCTAssertTrue(allFailuresWereBoundKeyMissing);
+        XCTAssertEqual(willLogoutCount, 1u,
+                       @"The account's LoggedIn -> LoggingOut transition coalesces queued terminal recoveries");
+        XCTAssertEqual(self.testAccount.loginState, SFUserAccountLoginStateNotLoggedIn);
+        XCTAssertEqual(self.restAPI.activeRequests.count, 0u);
+        for (SFRestRequest *request in requests) {
+            XCTAssertNil(request.sessionDataTask);
+        }
+    } @finally {
+        [[NSNotificationCenter defaultCenter] removeObserver:observer];
+        if (didSwapLogoutBlocker) {
+            [self swapLogoutBlockerForLifecycleTest];
+        }
+    }
+}
+
+- (void)test_givenBoundKeyMissingAndCredentialsReplacedBeforeQueuedLogout_whenSendingRestRequest_thenDoesNotLogoutReplacement {
+    NSString *scope = self.testAccount.credentials.identifier;
+    [SFSDKDPoPKeyStore.shared deleteForScope:scope];
+    self.testAccount.credentials.tokenType = @"DPoP";
+    [self swapLogoutUserWithRecorder];
+
+    SFOAuthCredentials *replacementCredentials = [[SFOAuthCredentials alloc] initWithIdentifier:scope
+                                                                                       clientId:@"replacement-client"
+                                                                                      encrypted:YES];
+    replacementCredentials.redirectUri = @"testapp:///replacement";
+    replacementCredentials.instanceUrl = [NSURL URLWithString:@"https://replacement.salesforce.com"];
+    replacementCredentials.accessToken = @"replacement-access";
+    replacementCredentials.refreshToken = @"replacement-refresh";
+    replacementCredentials.userId = self.testAccount.credentials.userId;
+    replacementCredentials.organizationId = self.testAccount.credentials.organizationId;
+
+    XCTestExpectation *failureExpectation = [self expectationWithDescription:@"Local request failure"];
+    SFRestRequest *request = [self.restAPI requestForResources:nil];
+    [self.restAPI send:request failureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
+        XCTAssertEqual([SFSDKDPoPRequestDecorator classifyDecorationError:error], SFSDKDPoPDecorationFailureBoundKeyMissing);
+        // Simulate a completed re-login before the terminal recovery block reaches the main queue.
+        self.testAccount.credentials = replacementCredentials;
+        [failureExpectation fulfill];
+    } successBlock:^(id response, NSURLResponse *rawResponse) {
+        XCTFail(@"A request with a missing bound key must not succeed");
+    } shouldRetry:YES];
+
+    [self waitForExpectations:@[failureExpectation] timeout:5.0];
+    [self drainMainQueue];
+    XCTAssertEqual(self.testAccount.credentials, replacementCredentials);
+    XCTAssertEqual(gLogoutCallCount, 0u, @"Terminal recovery must not revoke credentials installed after the request failed");
+
+    [self swapLogoutUserWithRecorder];
+}
+
+- (void)test_givenVerifiedDPoPBoundKeyMismatch_when_startAuthenticationRefresh_thenLogsOutWithTokenExpired {
+    SFSDKOAuthTokenEndpointResponse *response = [self verifiedDPoPBoundKeyMismatchResponse];
+    SFRestAPIReplayTestStub *stub = [[SFRestAPIReplayTestStub alloc] init];
+    stub.stubbedResponse = response;
+    [SFUserAccountManager sharedInstance].authClient = ^{ return stub; };
+    [self swapLogoutUserWithRecorder];
+
+    XCTestExpectation *failureExpectation = [self expectationWithDescription:@"Request fails"];
+    gLogoutExpectation = [self expectationWithDescription:@"Token-expired logout"];
+    SFRestRequest *request = [self pendingRequestWithFailureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
+        XCTAssertEqualObjects(error.userInfo[kSFOAuthError], @"invalid_dpop_proof");
+        XCTAssertEqualObjects(error.localizedDescription, @"dpop thumbprint invalid for token");
+        XCTAssertEqual(error.code, kSFOAuthErrorUnknown);
+        [failureExpectation fulfill];
+    }];
+
+    [self startRefreshForRequest:request];
+    [self waitForExpectations:@[failureExpectation, gLogoutExpectation] timeout:5.0];
+
+    XCTAssertEqual(gLogoutCallCount, 1);
+    XCTAssertEqualObjects(gLoggedOutUser.credentials.identifier, self.testAccount.credentials.identifier);
+    XCTAssertEqual(gLogoutReason, SFLogoutReasonTokenExpired);
+    gLogoutExpectation = nil;
+    [self swapLogoutUserWithRecorder];
+}
+
+- (void)test_givenGenericInvalidDPoPProof_when_startAuthenticationRefresh_thenDoesNotLogout {
+    NSDictionary *errorDict = @{
+        @"error": @"invalid_dpop_proof",
+        @"error_description": @"dpop proof failed validation"
+    };
+    SFSDKOAuthTokenEndpointResponse *response = [[SFSDKOAuthTokenEndpointResponse alloc]
+                                                  initWithDictionary:errorDict
+                                                  parseAdditionalFields:nil];
+    SFRestAPIReplayTestStub *stub = [[SFRestAPIReplayTestStub alloc] init];
+    stub.stubbedResponse = response;
+    [SFUserAccountManager sharedInstance].authClient = ^{ return stub; };
+    [self swapLogoutUserWithRecorder];
+    XCTestExpectation *failureExpectation = [self expectationWithDescription:@"Request fails"];
+    gLogoutExpectation = [self expectationWithDescription:@"No token-expired logout"];
+    gLogoutExpectation.inverted = YES;
+    SFRestRequest *request = [self pendingRequestWithFailureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
+        XCTAssertEqualObjects(error.userInfo[kSFOAuthError], @"invalid_dpop_proof");
+        [failureExpectation fulfill];
+    }];
+
+    [self startRefreshForRequest:request];
+    [self waitForExpectations:@[failureExpectation, gLogoutExpectation] timeout:2.0];
+    XCTAssertEqual(gLogoutCallCount, 0u,
+                   @"A generic proof validation failure must preserve credentials for a later retry.");
+    gLogoutExpectation = nil;
+    [self swapLogoutUserWithRecorder];
+}
+
+- (void)test_givenUnmarkedThumbprintInvalidDPoPProof_when_startAuthenticationRefresh_thenDoesNotLogout {
+    NSDictionary *errorDict = @{
+        @"error": @"invalid_dpop_proof",
+        @"error_description": @"dpop thumbprint invalid for token"
+    };
+    SFSDKOAuthTokenEndpointResponse *response = [[SFSDKOAuthTokenEndpointResponse alloc]
+                                                  initWithDictionary:errorDict
+                                                  parseAdditionalFields:nil];
+    SFRestAPIReplayTestStub *stub = [[SFRestAPIReplayTestStub alloc] init];
+    stub.stubbedResponse = response;
+    [SFUserAccountManager sharedInstance].authClient = ^{ return stub; };
+    [self swapLogoutUserWithRecorder];
+    XCTestExpectation *failureExpectation = [self expectationWithDescription:@"Request fails"];
+    gLogoutExpectation = [self expectationWithDescription:@"No token-expired logout"];
+    gLogoutExpectation.inverted = YES;
+    SFRestRequest *request = [self pendingRequestWithFailureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
+        XCTAssertEqualObjects(error.userInfo[kSFOAuthError], @"invalid_dpop_proof");
+        [failureExpectation fulfill];
+    }];
+
+    [self startRefreshForRequest:request];
+    [self waitForExpectations:@[failureExpectation, gLogoutExpectation] timeout:2.0];
+    XCTAssertEqual(gLogoutCallCount, 0u,
+                   @"The observed description is not sufficient without verified nonce-retry provenance.");
+    gLogoutExpectation = nil;
+    [self swapLogoutUserWithRecorder];
 }
 
 - (void)test_given_appAttestFailed_when_startAuthenticationRefresh_then_logsOutWithAppAttestationFailed {
@@ -173,39 +458,16 @@ successBlock:(SFRestResponseBlock)successBlock
     stub.stubbedResponse = response;
     [SFUserAccountManager sharedInstance].authClient = ^{ return stub; };
 
-    // Create a pending request
-    SFRestRequest *request = [self.restAPI requestForResources:nil];
     __block NSError *receivedError = nil;
-    __block BOOL expectationFulfilled = NO;
     XCTestExpectation *failureExpectation = [self expectationWithDescription:@"Request fails"];
-
-    [self.restAPI send:request failureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
+    SFRestRequest *request = [self pendingRequestWithFailureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
         receivedError = error;
-        if (!expectationFulfilled) {
-            expectationFulfilled = YES;
-            [failureExpectation fulfill];
-        }
-    } successBlock:^(id response, NSURLResponse *rawResponse) {
-        XCTFail(@"Should not succeed");
-    } shouldRetry:NO];
-
-    // Trigger the refresh path
-    NSHTTPURLResponse *unauthorizedResponse = [[NSHTTPURLResponse alloc]
-                                                initWithURL:[NSURL URLWithString:@"https://test.salesforce.com/services/data/v66.0"]
-                                                statusCode:401
-                                                HTTPVersion:@"HTTP/1.1"
-                                                headerFields:nil];
-
-    if ([self.restAPI respondsToSelector:@selector(startAuthenticationRefreshForRequest:response:)]) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-        [self.restAPI performSelector:@selector(startAuthenticationRefreshForRequest:response:)
-                           withObject:request
-                           withObject:unauthorizedResponse];
-#pragma clang diagnostic pop
-    }
+        [failureExpectation fulfill];
+    }];
+    [self startRefreshForRequest:request];
 
     [self waitForExpectations:@[failureExpectation] timeout:5.0];
+    [self drainMainQueue];
 
     // Assert: wire value is preserved so the refresh error path can parse it via SFOAuthErrorCode.from(_:)
     XCTAssertNotNil(receivedError, @"Request should receive error");
@@ -228,37 +490,13 @@ successBlock:(SFRestResponseBlock)successBlock
     stub.stubbedResponse = response;
     [SFUserAccountManager sharedInstance].authClient = ^{ return stub; };
 
-    // Create a pending request
-    SFRestRequest *request = [self.restAPI requestForResources:nil];
     __block NSError *receivedError = nil;
-    __block BOOL expectationFulfilled = NO;
     XCTestExpectation *failureExpectation = [self expectationWithDescription:@"Request fails"];
-
-    [self.restAPI send:request failureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
+    SFRestRequest *request = [self pendingRequestWithFailureBlock:^(id response, NSError *error, NSURLResponse *rawResponse) {
         receivedError = error;
-        if (!expectationFulfilled) {
-            expectationFulfilled = YES;
-            [failureExpectation fulfill];
-        }
-    } successBlock:^(id response, NSURLResponse *rawResponse) {
-        XCTFail(@"Should not succeed");
-    } shouldRetry:NO];
-
-    // Trigger the refresh path
-    NSHTTPURLResponse *unauthorizedResponse = [[NSHTTPURLResponse alloc]
-                                                initWithURL:[NSURL URLWithString:@"https://test.salesforce.com/services/data/v66.0"]
-                                                statusCode:401
-                                                HTTPVersion:@"HTTP/1.1"
-                                                headerFields:nil];
-
-    if ([self.restAPI respondsToSelector:@selector(startAuthenticationRefreshForRequest:response:)]) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-        [self.restAPI performSelector:@selector(startAuthenticationRefreshForRequest:response:)
-                           withObject:request
-                           withObject:unauthorizedResponse];
-#pragma clang diagnostic pop
-    }
+        [failureExpectation fulfill];
+    }];
+    [self startRefreshForRequest:request];
 
     [self waitForExpectations:@[failureExpectation] timeout:5.0];
 

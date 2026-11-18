@@ -32,6 +32,12 @@ import XCTest
 /// NB: Tests use the first user from ui_test_config.json
 ///
 class RTRLoginTests: BaseAuthFlowTester {
+    override var assertsRequestUserAgents: Bool { true }
+
+    override func setUp() {
+        super.setUp()
+        extraLaunchArguments = ["--captureTokenRequestUserAgent"]
+    }
 
     // MARK: - ECA JWT RTR Tests
 
@@ -97,6 +103,8 @@ class RTRLoginTests: BaseAuthFlowTester {
         XCTAssertTrue(revokeAccessToken(), "Access-token revoke should succeed before restart")
         restart(withLaunchArguments: ["--captureTokenRequestUserAgent"])
 
+        let requestTimeCredentials = getUserCredentials()
+        let boundary = requestUserAgentSequenceBoundary()
         XCTAssertTrue(makeRestRequest(), "REST request should succeed after the cold-start refresh")
         let credentialsAfterRefresh = getUserCredentials()
         XCTAssertNotEqual(credentialsBeforeRestart.accessToken, credentialsAfterRefresh.accessToken,
@@ -104,7 +112,9 @@ class RTRLoginTests: BaseAuthFlowTester {
         XCTAssertNotEqual(credentialsBeforeRestart.refreshToken, credentialsAfterRefresh.refreshToken,
                           "RTR refresh token should rotate during the first post-restart refresh")
 
-        let capturedUserAgent = credentialsAfterRefresh.lastTokenRequestUserAgent
+        assertSentUserAgent(path: "/services/oauth2/token", user: requestTimeCredentials, since: boundary, expectedUserAgent: requestTimeCredentials.userAgent)
+        assertSentUserAgent(path: restRequestPath, user: credentialsAfterRefresh, since: boundary)
+        let capturedUserAgent = getUserCredentials().lastTokenRequestUserAgent
         XCTAssertFalse(capturedUserAgent.isEmpty,
                        "AuthFlowTester should capture the outbound token-request User-Agent")
         let flags = featureMarkers(in: capturedUserAgent)

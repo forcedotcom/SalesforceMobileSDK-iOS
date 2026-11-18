@@ -62,6 +62,7 @@
 import XCTest
 
 class CommunityLoginTests: BaseAuthFlowTester {
+    override var assertsRequestUserAgents: Bool { true }
 
     override func setUpWithError() throws {
         try super.setUpWithError()

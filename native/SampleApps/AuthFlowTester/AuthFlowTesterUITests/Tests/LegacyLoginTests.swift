@@ -38,6 +38,12 @@ import XCTest
 /// NB: Tests use the first user from ui_test_config.json
 ///
 class LegacyLoginTests: BaseAuthFlowTester {
+    override var assertsRequestUserAgents: Bool { true }
+
+    override func setUp() {
+        super.setUp()
+        extraLaunchArguments = ["--captureTokenRequestUserAgent"]
+    }
 
     // MARK: - Test Configuration
 
@@ -94,4 +100,3 @@ class LegacyLoginTests: BaseAuthFlowTester {
         launchLoginAndValidate(staticAppConfigName: .caOpaque, useWebServerFlow: false, useHybridFlow: useHybridFlow(), forceAdvancedAuthentication: false, useDPoP: false)
     }
 }
-

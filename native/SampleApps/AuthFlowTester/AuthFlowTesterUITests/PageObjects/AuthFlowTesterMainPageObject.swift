@@ -27,7 +27,8 @@
 
 import Foundation
 import XCTest
-import SalesforceSDKCore
+// Imports the non-public Core diagnostics SPI used to parse AuthFlowTester capture exports.
+@_spi(Internal) import SalesforceSDKCore
 
 // MARK: - Label Constants (mirroring the app's Labels structs for JSON parsing)
 
@@ -106,6 +107,7 @@ struct CredentialsLabels {
     static let userAgent = "User Agent"
     static let lastTokenRequestUserAgent = "Last Token Request User Agent"
     static let lastTokenRequestUrl = "Last Token Request URL"
+    static let requestUserAgents = "Request User Agents"
 }
 
 struct OAuthConfigLabels {
@@ -200,6 +202,7 @@ struct UserCredentialsData {
     var lastTokenRequestUserAgent: String
     /// Scheme, host and path of the last token request; only captured when launched with `--captureTokenRequestUserAgent`.
     var lastTokenRequestUrl: String
+    var requestUserAgents: [RequestUserAgentCaptureEntry] = []
 
     // DPoP
     var dpopTokenType: String?
@@ -478,23 +481,8 @@ class AuthFlowTesterMainPageObject {
         // scroll it into a hittable region first).
         tapScrollingIntoView(migrateRefreshTokenButton())
 
-        // Tap the allow button if it appears
-        tapIfPresent(allowButton())
-
-        let alert = app.alerts["Migration Error"]
-        if (alert.waitForExistence(timeout: UITestTimeouts.long)) {
-            // Surface the underlying error (from UserAccountManager.migrateRefreshToken's
-            // failure callback) via XCTFail before dismissing — otherwise the caller only sees
-            // a bare `false` return and the real cause disappears with the alert.
-            let message = alert.staticTexts.allElementsBoundByIndex
-                .map { $0.label }
-                .filter { $0 != "Migration Error" && !$0.isEmpty }
-                .joined(separator: " ")
-            XCTFail("Migration Error alert: \(message.isEmpty ? "<no message>" : message)")
-            alert.buttons["OK"].tap()
-            return false
-        }
-        return true
+        // Handle the approve screen if it shows up, and wait for the sheet to close or an error.
+        return awaitMigrationOutcome(sheetClosedWhenGone: migrateRefreshTokenButton())
     }
     
     /// Opens the "Change Key" sheet and taps "Upgrade to DPoP", handling the approve/deny
@@ -507,20 +495,8 @@ class AuthFlowTesterMainPageObject {
         // Tap the "Upgrade to DPoP" button
         tap(upgradeToDPoPButton())
 
-        // Tap the allow button if it appears
-        tapIfPresent(allowButton())
-
-        let alert = app.alerts["Migration Error"]
-        if (alert.waitForExistence(timeout: UITestTimeouts.long)) {
-            let message = alert.staticTexts.allElementsBoundByIndex
-                .map { $0.label }
-                .filter { $0 != "Migration Error" && !$0.isEmpty }
-                .joined(separator: " ")
-            XCTFail("Migration Error alert: \(message.isEmpty ? "<no message>" : message)")
-            alert.buttons["OK"].tap()
-            return false
-        }
-        return true
+        // Handle the approve screen if it shows up, and wait for the sheet to close or an error.
+        return awaitMigrationOutcome(sheetClosedWhenGone: upgradeToDPoPButton())
     }
 
     /// Opens the "Change Key" sheet and taps "Downgrade from DPoP", handling the approve/deny
@@ -532,20 +508,8 @@ class AuthFlowTesterMainPageObject {
         // Tap the "Downgrade from DPoP" button
         tap(downgradeFromDPoPButton())
 
-        // Tap the allow button if it appears
-        tapIfPresent(allowButton())
-
-        let alert = app.alerts["Migration Error"]
-        if (alert.waitForExistence(timeout: UITestTimeouts.long)) {
-            let message = alert.staticTexts.allElementsBoundByIndex
-                .map { $0.label }
-                .filter { $0 != "Migration Error" && !$0.isEmpty }
-                .joined(separator: " ")
-            XCTFail("Migration Error alert: \(message.isEmpty ? "<no message>" : message)")
-            alert.buttons["OK"].tap()
-            return false
-        }
-        return true
+        // Handle the approve screen if it shows up, and wait for the sheet to close or an error.
+        return awaitMigrationOutcome(sheetClosedWhenGone: downgradeFromDPoPButton())
     }
 
     // MARK: - Config Import Helpers
@@ -782,6 +746,38 @@ class AuthFlowTesterMainPageObject {
         }
     }
 
+    /// Waits for a migration started from the "Change Key" sheet to finish. The sheet closes on
+    /// success, and the "Migration Error" alert appears on failure. The "Allow Access?" button
+    /// can show up at any point before that, after an asynchronous authorization step, so keep
+    /// watching for it until the outcome is known. `marker` is a button inside the sheet.
+    private func awaitMigrationOutcome(sheetClosedWhenGone marker: XCUIElement) -> Bool {
+        let alert = app.alerts["Migration Error"]
+        let allow = allowButton()
+        let deadline = Date().addingTimeInterval(UITestTimeouts.network)
+        while Date() < deadline {
+            if alert.exists {
+                // Surface the underlying error (from UserAccountManager's failure callback) via
+                // XCTFail before dismissing — otherwise the caller only sees a bare `false`
+                // return and the real cause disappears with the alert.
+                let message = alert.staticTexts.allElementsBoundByIndex
+                    .map { $0.label }
+                    .filter { $0 != "Migration Error" && !$0.isEmpty }
+                    .joined(separator: " ")
+                XCTFail("Migration Error alert: \(message.isEmpty ? "<no message>" : message)")
+                alert.buttons["OK"].tap()
+                return false
+            }
+            if allow.exists {
+                allow.tap()
+            } else if !marker.exists {
+                return true
+            }
+            RunLoop.current.run(until: Date().addingTimeInterval(0.25))
+        }
+        XCTFail("Migration did not finish within \(UITestTimeouts.network)s")
+        return false
+    }
+
     private func tapIfPresent(_ element: XCUIElement, timeout: TimeInterval = UITestTimeouts.long) {
         if element.waitForExistence(timeout: timeout) {
             element.tap()
@@ -853,6 +849,10 @@ class AuthFlowTesterMainPageObject {
     func getUserCredentials() -> UserCredentialsData {
         // Tap export button and get JSON
         let json = tapExportAndGetJSON(exportCredentialsButton(), alertTitle: "Credentials JSON")
+        return Self.parseUserCredentials(json)
+    }
+
+    static func parseUserCredentials(_ json: [String: Any]) -> UserCredentialsData {
         
         // Parse JSON sections
         let userIdentity = json[CredentialsLabels.userIdentity] as? [String: String] ?? [:]
@@ -864,7 +864,8 @@ class AuthFlowTesterMainPageObject {
         let cookiesAndSecurity = json[CredentialsLabels.cookiesAndSecurity] as? [String: String] ?? [:]
         let beacon = json[CredentialsLabels.beacon] as? [String: String] ?? [:]
         let other = json[CredentialsLabels.other] as? [String: String] ?? [:]
-        let sdk = json[CredentialsLabels.sdk] as? [String: String] ?? [:]
+        let sdk = json[CredentialsLabels.sdk] as? [String: Any] ?? [:]
+        let entries = (sdk[CredentialsLabels.requestUserAgents] as? [[String: Any]] ?? []).compactMap(RequestUserAgentCaptureEntry.init(dictionary:))
 
         return UserCredentialsData(
             username: userIdentity[CredentialsLabels.username] ?? "",
@@ -905,9 +906,10 @@ class AuthFlowTesterMainPageObject {
             beaconChildConsumerKey: beacon[CredentialsLabels.beaconChildConsumerKey] ?? "",
             beaconChildConsumerSecret: beacon[CredentialsLabels.beaconChildConsumerSecret] ?? "",
             additionalOAuthFields: other[CredentialsLabels.additionalOAuthFields] ?? "",
-            userAgent: sdk[CredentialsLabels.userAgent] ?? "",
-            lastTokenRequestUserAgent: sdk[CredentialsLabels.lastTokenRequestUserAgent] ?? "",
-            lastTokenRequestUrl: sdk[CredentialsLabels.lastTokenRequestUrl] ?? "",
+            userAgent: sdk[CredentialsLabels.userAgent] as? String ?? "",
+            lastTokenRequestUserAgent: sdk[CredentialsLabels.lastTokenRequestUserAgent] as? String ?? "",
+            lastTokenRequestUrl: sdk[CredentialsLabels.lastTokenRequestUrl] as? String ?? "",
+            requestUserAgents: entries,
             dpopTokenType: tokens[CredentialsLabels.oauthTokenType],
             dpopNonce: tokens[CredentialsLabels.dpopNonce]
         )

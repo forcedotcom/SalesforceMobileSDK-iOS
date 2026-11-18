@@ -33,6 +33,38 @@ public final class DPoPRequestDecorator: NSObject {
     @objc public static let dpopNonceHeaderName = "DPoP-Nonce"
     @objc public static let nonceErrorCode = "use_dpop_nonce"
 
+    /// Classification of a `decorate(...)` failure for callers (notably the Objective-C token
+    /// endpoint in `SFSDKOAuth2`) that must choose between **fail-fast → re-auth**, **retry**, and
+    /// **proceed without a proof**. Keeps the `DPoPKeyStoreError` mapping in Swift, where the typed
+    /// error lives, instead of matching NSError domain/code strings from Objective-C.
+    @objc(SFSDKDPoPDecorationFailure)
+    public enum DPoPDecorationFailure: Int {
+        /// Not a DPoP key-binding failure (e.g. proof-build/encoding error). Preserve the legacy
+        /// behavior: log and proceed without a proof.
+        case other = 0
+        /// The bound key is confirmed gone (`boundKeyMissing`). The refresh must fail fast with an
+        /// `invalid_grant`-class error so the app's existing re-auth routing takes over.
+        case boundKeyMissing = 1
+        /// The bound key could not be read for a non-absence reason (`boundKeyUnavailable`, e.g.
+        /// device locked). Do not send a mis-signed request and do not route to re-auth — the
+        /// caller should surface a transient/retryable failure.
+        case boundKeyUnavailable = 2
+        /// The bound key's Keychain data is structurally invalid. The caller must route to re-auth
+        /// because retrying cannot recover a key that cannot be loaded unambiguously.
+        case boundKeyInvalid = 3
+    }
+
+    /// Maps a `decorate(...)` error to a `DPoPDecorationFailure`. `nil` → `.other`.
+    @objc(classifyDecorationError:)
+    public static func classifyDecorationError(_ error: Error?) -> DPoPDecorationFailure {
+        switch error as? DPoPKeyStoreError {
+        case .boundKeyMissing: return .boundKeyMissing
+        case .boundKeyUnavailable: return .boundKeyUnavailable
+        case .boundKeyInvalid: return .boundKeyInvalid
+        default: return .other
+        }
+    }
+
     /// Authorization scheme value used when the token endpoint returns
     /// `token_type: "DPoP"` (RFC 6749 §5.1 / RFC 9449 §6.1).
     @objc public static let dpopTokenType = "DPoP"
@@ -127,7 +159,30 @@ public final class DPoPRequestDecorator: NSObject {
         guard let url = request.url else { return }
         let method = request.httpMethod
 
-        let keyPair = try DPoPKeyStore.shared.keyPair(forScope: scope)
+        // Load-only lookup: this call site decorates *already-bound* credentials (refresh + resource
+        // calls). It must NEVER mint a key on a miss — a fresh key the server cannot accept causes a
+        // permanent `DPoPCnfJkt miss match` until re-login. Key generation happens only on the
+        // binding paths (`/authorize`, native login) via `keyPair(forScope:)`.
+        let keyPair: DPoPKeyPair
+        switch DPoPKeyStore.shared.existingKeyPair(forScope: scope) {
+        case .found(let pair):
+            keyPair = pair
+        case .absent:
+            // The bound key is confirmed gone. Fail fast so the caller routes to re-auth; do not
+            // sign with a new key.
+            SFSDKCoreLogger.e(Self.self, message: "DPoP decorate: bound key missing for scope; refusing to mint. Routing to re-auth.")
+            throw DPoPKeyStoreError.boundKeyMissing
+        case .unavailable:
+            // Keychain read was indeterminate (e.g. device locked) — NOT proof of absence. Surface
+            // a transient error; the caller must not treat this as a missing key / re-auth trigger
+            // or retry immediately. A later caller-initiated refresh can retry after Keychain access
+            // is restored.
+            SFSDKCoreLogger.w(Self.self, message: "DPoP decorate: bound key temporarily unavailable for scope (indeterminate Keychain read); request not sent. A later caller-initiated request can retry after Keychain access is restored.")
+            throw DPoPKeyStoreError.boundKeyUnavailable
+        case .invalid:
+            SFSDKCoreLogger.e(Self.self, message: "DPoP decorate: bound key is structurally invalid for scope; refusing to send. Routing to re-auth.")
+            throw DPoPKeyStoreError.boundKeyInvalid
+        }
         // Salesforce seeds DPoP-Nonce only on token-endpoint responses; resource-server
         // responses don't refresh it. RFC 9449 §8/§9 permits this. Look up the per-htu
         // entry first (spec-correct), then fall back to the latest nonce for the same

@@ -25,6 +25,7 @@
 #import <SalesforceSDKCommon/SFJsonUtils.h>
 #import <SalesforceSDKCommon/SFSDKSafeMutableDictionary.h>
 #import "SFSDKOAuth2.h"
+#import "SFSDKOAuth2+Internal.h"
 #import "SFRestAPI+Internal.h"
 #import "SFRestRequest+Internal.h"
 #import "SFNetwork+Internal.h"
@@ -360,13 +361,44 @@ successBlock:(SFRestResponseBlock)successBlock
 
 - (void)enqueueRequest:(SFRestRequest *)request shouldRetry:(BOOL)shouldRetry {
     __weak __typeof(self) weakSelf = self;
+    SFUserAccount *user = self.user;
+    SFOAuthCredentials *credentials = user.credentials;
+    NSString *ownerKey = [SFNetwork ownerKeyForOrgId:user.credentials.organizationId userId:user.credentials.userId];
     // prepareRequestForSend: returns the SFRestRequest's own mutable request; preserve that
     // object identity so headers applied during send (e.g. User-Agent) remain visible on
     // request.request. Only copy if a caller supplied an immutable request.
-    NSURLRequest *preparedRequest = [request prepareRequestForSend:self.user];
+    NSURLRequest *preparedRequest = [request prepareRequestForSend:user];
     NSMutableURLRequest *finalRequest = [preparedRequest isKindOfClass:[NSMutableURLRequest class]]
         ? (NSMutableURLRequest *)preparedRequest
         : [preparedRequest mutableCopy];
+    if (!finalRequest && request.preparationError) {
+        __block SFRestRequestFailBlock failureBlock;
+        NSError *preparationError = request.preparationError;
+        SFSDKDPoPDecorationFailure dpopFailure = [SFSDKDPoPRequestDecorator classifyDecorationError:preparationError];
+        BOOL requiresReauthentication = dpopFailure == SFSDKDPoPDecorationFailureBoundKeyMissing
+            || dpopFailure == SFSDKDPoPDecorationFailureBoundKeyInvalid;
+        @synchronized (self) {
+            if ([self.activeRequests containsObject:request]) {
+                request.sessionDataTask = nil;
+                [self.activeRequests removeObject:request];
+                failureBlock = [request.failureBlock copy];
+            }
+        }
+        if (failureBlock) {
+            failureBlock(nil, preparationError, nil);
+        }
+        if (requiresReauthentication) {
+            [SFSDKCoreLogger i:[self class] format:@"Bound DPoP key is unusable; triggering token-expired logout."];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                // A re-login may have replaced the account credentials while this block waited.
+                // Never revoke the replacement session for a failure of the previous credentials.
+                if (user.credentials == credentials) {
+                    [[SFUserAccountManager sharedInstance] logoutUser:user reason:SFLogoutReasonTokenExpired];
+                }
+            });
+        }
+        return;
+    }
     if (finalRequest) {
         SFNetwork *network;
         __block NSString *instanceIdentifier;
@@ -378,7 +410,7 @@ successBlock:(SFRestResponseBlock)successBlock
         }
 
         __block NSURLSessionDataTask *dataTask;
-        dataTask = [network dataTaskForRequest:finalRequest dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
+        dataTask = [network dataTaskForRequest:finalRequest ownerKey:ownerKey dataResponseBlock:^(NSData *data, NSURLResponse *response, NSError *error) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             [SFNetwork removeSharedInstanceForIdentifier:instanceIdentifier];
 
@@ -642,8 +674,8 @@ successBlock:(SFRestResponseBlock)successBlock
                 });
             };
             NSInteger errorCode = [SFOAuthErrorCodeHelper from:refreshError.userInfo[kSFOAuthError]];
-            if (errorCode == SFOAuthErrorCodeInvalidGrant) {
-                triggerLogout(SFLogoutReasonTokenExpired, @"Invalid grant error received, triggering logout.");
+            if (errorCode == SFOAuthErrorCodeInvalidGrant || [SFSDKOAuth2 isDPoPBoundKeyMismatchError:refreshError]) {
+                triggerLogout(SFLogoutReasonTokenExpired, @"Refresh credentials are no longer valid, triggering logout.");
             } else if (errorCode == SFOAuthErrorCodeAppAttestationFailed) {
                 triggerLogout(SFLogoutReasonAppAttestationFailed, @"App attestation failed, triggering logout.");
             } else if (errorCode == SFOAuthErrorCodeAppAttestationFailedRetry) {

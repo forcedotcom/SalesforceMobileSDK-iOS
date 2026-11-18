@@ -34,6 +34,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SFSDKAuthSession : NSObject
 @property (nonatomic, assign) BOOL isAuthenticating;
+/** YES for a refresh token migration session (as opposed to a login or refresh); set when the session is created. */
+@property (nonatomic, assign) BOOL isRefreshTokenMigration;
 @property (nonatomic, strong) SFOAuthCredentials *credentials;
 @property (nonatomic, strong) SFOAuthCoordinator *oauthCoordinator;
 @property (nonatomic, strong) SFSDKAuthRequest *oauthRequest;

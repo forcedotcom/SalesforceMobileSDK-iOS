@@ -231,6 +231,13 @@ SFSDK_USE_DEPRECATED_BEGIN
                       @"Rotation timestamp should be within 5 seconds of now");
     XCTAssertEqual(((SFSDKCountingOAuthSessionRefresher *)self.oauthSessionRefresher).accountLookupCount, 2,
                    @"A rotated refresh should perform one request-time and one post-response lookup");
+    NSString *ownerKey = stub.capturedRefreshRequest.ownerKey;
+#if DEBUG
+    NSString *expectedOwnerKey = [NSString stringWithFormat:@"%@/%@", account.credentials.organizationId, account.credentials.userId];
+    XCTAssertEqualObjects(ownerKey, expectedOwnerKey);
+#else
+    XCTAssertNil(ownerKey);
+#endif
 
     // Cleanup
     [SFUserAccountManager sharedInstance].authClient = originalFactory;

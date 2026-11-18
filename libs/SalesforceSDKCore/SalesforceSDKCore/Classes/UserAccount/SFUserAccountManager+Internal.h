@@ -42,6 +42,7 @@ extern NSString * _Nonnull const kSFSDKUserAccountManagerErrorDomain;
 typedef NS_ENUM(NSUInteger, SFSDKUserAccountManagerErrorCode) {
     SFSDKUserAccountManagerError = 100,
     SFSDKUserAccountManagerCannotEncrypt = 10005,
+    SFSDKUserAccountManagerDPoPNotBound = 10006,
 };
 
 @protocol SFUserAccountPersister <NSObject>

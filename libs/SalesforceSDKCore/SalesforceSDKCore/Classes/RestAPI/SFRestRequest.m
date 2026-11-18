@@ -135,6 +135,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 # pragma mark - send and cancel
 
 - (NSURLRequest *)prepareRequestForSend:(SFUserAccount *)user {
+    self.preparationError = nil;
 
     /*
      * If an absolute URL is passed in, use it as-is. If a relative URL is passed in,
@@ -212,6 +213,13 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
                                                         error:&authError];
         if (!ok) {
             [SFSDKCoreLogger e:[self class] format:@"Failed to stamp authorization headers: %@", authError.localizedDescription];
+            SFSDKDPoPDecorationFailure failure = [SFSDKDPoPRequestDecorator classifyDecorationError:authError];
+            if (failure == SFSDKDPoPDecorationFailureBoundKeyMissing ||
+                failure == SFSDKDPoPDecorationFailureBoundKeyUnavailable ||
+                failure == SFSDKDPoPDecorationFailureBoundKeyInvalid) {
+                self.preparationError = authError;
+                return nil;
+            }
         }
     }
 

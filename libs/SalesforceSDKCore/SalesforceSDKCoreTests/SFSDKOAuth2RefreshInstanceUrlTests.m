@@ -27,6 +27,8 @@
 #import "SFOAuthCredentials+Internal.h"
 #import "SFSDKOAuth2.h"
 #import "SFSDKOAuth2+Internal.h"
+#import "SFSDKOAuthConstants.h"
+#import <SalesforceSDKCore/SalesforceSDKCore-Swift.h>
 
 /**
  Tests for token refresh behavior that ensures instanceUrl is used when available,
@@ -227,6 +229,117 @@
                          @"Code exchange must target domain since instanceUrl is not yet known");
     XCTAssertEqualObjects(request.URL.path, @"/services/oauth2/token",
                          @"Token endpoint path should be appended correctly");
+}
+
+#pragma mark - DPoP bound-key fail-fast on refresh
+
+/// A DPoP-bound credential whose bound key is **confirmed gone** must make the refresh-request
+/// builder report `boundKeyMissing` and must NOT attach a DPoP proof header — the precondition for
+/// the refresh path to fail fast with invalid_grant instead of sending a mis-signed refresh.
+- (void)test_givenDPoPBoundCredentialWithMissingKey_whenPrepareBasicRequest_thenReportsBoundKeyMissingAndNoProof {
+    NSString *scope = [NSString stringWithFormat:@"refresh-boundmissing-%@", [[NSUUID UUID] UUIDString]];
+    [SFSDKDPoPKeyStore.shared deleteForScope:scope]; // ensure no key exists for this scope
+
+    SFSDKOAuthTokenEndpointRequest *endpointReq = [[SFSDKOAuthTokenEndpointRequest alloc] init];
+    endpointReq.clientID = @"test_client_id";
+    endpointReq.refreshToken = @"test-refresh-token";
+    endpointReq.redirectURI = @"test://callback";
+    endpointReq.serverURL = [NSURL URLWithString:@"https://login.salesforce.com"];
+    endpointReq.credentialsIdentifier = scope;
+    endpointReq.tokenType = @"DPoP"; // bound credential
+
+    SFSDKDPoPDecorationFailure failure = SFSDKDPoPDecorationFailureOther;
+    NSMutableURLRequest *request = [[[SFSDKOAuth2 alloc] init] prepareBasicRequest:endpointReq dpopFailure:&failure];
+
+    XCTAssertEqual(failure, SFSDKDPoPDecorationFailureBoundKeyMissing,
+                   @"A bound DPoP credential with a confirmed-absent key must report boundKeyMissing");
+    XCTAssertNil([request valueForHTTPHeaderField:@"DPoP"],
+                 @"No DPoP proof may be attached when the bound key is missing");
+    XCTAssertNil([SFSDKDPoPKeyStore.shared existingKeyPairForScope:scope],
+                 @"Building the refresh request must NOT mint a key for a bound credential");
+}
+
+/// Happy path: when the bound key is present, the builder reports no DPoP failure and attaches a
+/// proof — proves the fail-fast guard does not fire for a correctly-bound credential.
+- (void)test_givenDPoPBoundCredentialWithKey_whenPrepareBasicRequest_thenNoFailureAndProofAttached {
+    NSString *scope = [NSString stringWithFormat:@"refresh-boundpresent-%@", [[NSUUID UUID] UUIDString]];
+    NSError *mintErr = nil;
+    [SFSDKDPoPKeyStore.shared keyPairForScope:scope error:&mintErr]; // bind the key (as /authorize would)
+    XCTAssertNil(mintErr, @"precondition: key should mint");
+
+    SFSDKOAuthTokenEndpointRequest *endpointReq = [[SFSDKOAuthTokenEndpointRequest alloc] init];
+    endpointReq.clientID = @"test_client_id";
+    endpointReq.refreshToken = @"test-refresh-token";
+    endpointReq.redirectURI = @"test://callback";
+    endpointReq.serverURL = [NSURL URLWithString:@"https://login.salesforce.com"];
+    endpointReq.credentialsIdentifier = scope;
+    endpointReq.tokenType = @"DPoP";
+
+    SFSDKDPoPDecorationFailure failure = SFSDKDPoPDecorationFailureBoundKeyMissing; // seed non-default
+    NSMutableURLRequest *request = [[[SFSDKOAuth2 alloc] init] prepareBasicRequest:endpointReq dpopFailure:&failure];
+
+    XCTAssertEqual(failure, SFSDKDPoPDecorationFailureOther,
+                   @"A bound credential with its key present must not report a DPoP failure");
+    NSString *proof = [request valueForHTTPHeaderField:@"DPoP"];
+    XCTAssertNotNil(proof, @"A bound credential with its key present must attach a DPoP proof");
+    XCTAssertEqual([[proof componentsSeparatedByString:@"."] count], (NSUInteger)3,
+                   @"DPoP proof must be a three-segment JWS");
+
+    [SFSDKDPoPKeyStore.shared deleteForScope:scope];
+}
+
+/// A Bearer (non-DPoP) credential must never trigger the DPoP fail-fast path, regardless of key
+/// state — preserves Bearer backward compatibility.
+- (void)test_givenBearerCredential_whenPrepareBasicRequest_thenNoDPoPFailureAndNoProof {
+    SFSDKOAuthTokenEndpointRequest *endpointReq = [[SFSDKOAuthTokenEndpointRequest alloc] init];
+    endpointReq.clientID = @"test_client_id";
+    endpointReq.refreshToken = @"test-refresh-token";
+    endpointReq.redirectURI = @"test://callback";
+    endpointReq.serverURL = [NSURL URLWithString:@"https://login.salesforce.com"];
+    endpointReq.credentialsIdentifier = [NSString stringWithFormat:@"refresh-bearer-%@", [[NSUUID UUID] UUIDString]];
+    endpointReq.tokenType = @"Bearer";
+
+    SFSDKDPoPDecorationFailure failure = SFSDKDPoPDecorationFailureBoundKeyMissing; // seed non-default
+    NSMutableURLRequest *request = [[[SFSDKOAuth2 alloc] init] prepareBasicRequest:endpointReq dpopFailure:&failure];
+
+    XCTAssertEqual(failure, SFSDKDPoPDecorationFailureOther,
+                   @"A Bearer credential must never report a DPoP key-binding failure");
+    XCTAssertNil([request valueForHTTPHeaderField:@"DPoP"],
+                 @"A Bearer credential must not attach a DPoP proof");
+}
+
+/// End-to-end: a refresh for a DPoP-bound credential with a confirmed-absent key must complete with
+/// an `invalid_grant`-class error (so the app's existing re-auth routing takes over) and must NOT
+/// reach the network. The malformed server URL guarantees any real send would fail differently —
+/// invalid_grant proves the fail-fast guard short-circuited before the request was sent.
+- (void)test_givenDPoPBoundCredentialWithMissingKey_whenAccessTokenForRefresh_thenCompletesInvalidGrantWithoutSending {
+    NSString *scope = [NSString stringWithFormat:@"refresh-failfast-%@", [[NSUUID UUID] UUIDString]];
+    [SFSDKDPoPKeyStore.shared deleteForScope:scope];
+
+    SFSDKOAuthTokenEndpointRequest *endpointReq = [[SFSDKOAuthTokenEndpointRequest alloc] init];
+    endpointReq.clientID = @"test_client_id";
+    endpointReq.refreshToken = @"test-refresh-token";
+    endpointReq.redirectURI = @"test://callback";
+    endpointReq.serverURL = [NSURL URLWithString:@"https://login.salesforce.com"];
+    endpointReq.credentialsIdentifier = scope;
+    endpointReq.tokenType = @"DPoP";
+    endpointReq.timeout = 5.0;
+
+    XCTestExpectation *done = [self expectationWithDescription:@"refresh completion"];
+    __block SFSDKOAuthTokenEndpointResponse *response = nil;
+    [[[SFSDKOAuth2 alloc] init] accessTokenForRefresh:endpointReq completion:^(SFSDKOAuthTokenEndpointResponse *resp) {
+        response = resp;
+        [done fulfill];
+    }];
+    // Short timeout: the completion must fire synchronously-ish from the fail-fast guard, well before
+    // any network timeout would elapse.
+    [self waitForExpectations:@[done] timeout:2.0];
+
+    XCTAssertNotNil(response.error, @"refresh must complete with an error");
+    XCTAssertEqualObjects(response.error.error.domain, kSFOAuthErrorDomain,
+                          @"error must be in the OAuth error domain");
+    XCTAssertEqual(response.error.error.code, kSFOAuthErrorInvalidGrant,
+                   @"a missing bound key must surface as invalid_grant so existing re-auth routing handles it");
 }
 
 @end

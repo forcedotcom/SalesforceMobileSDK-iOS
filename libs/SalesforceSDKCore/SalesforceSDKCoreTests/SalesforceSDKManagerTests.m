@@ -23,6 +23,8 @@
  */
 
 #import <XCTest/XCTest.h>
+#import <objc/runtime.h>
+#import "SFNetwork.h"
 #import "SFTestSDKManagerFlow.h"
 #import "SalesforceSDKManager+Internal.h"
 #import "SFOAuthCoordinator+Internal.h"
@@ -82,6 +84,35 @@ static NSString* const kTestAppName = @"OverridenAppName";
 }
 @end
 
+@interface SFSDKDelayedAuthConfigNetworkStub : SFNetwork
+@property (nonatomic, strong) NSURLRequest *capturedRequest;
+@property (nonatomic, copy) SFDataResponseBlock pendingResponseBlock;
+@end
+
+@implementation SFSDKDelayedAuthConfigNetworkStub
+
+- (NSURLSessionDataTask *)sendRequest:(NSURLRequest *)urlRequest dataResponseBlock:(SFDataResponseBlock)dataResponseBlock {
+    self.capturedRequest = [urlRequest copy];
+    self.pendingResponseBlock = dataResponseBlock;
+    return [[NSURLSession sharedSession] dataTaskWithRequest:urlRequest];
+}
+
+@end
+
+static SFSDKDelayedAuthConfigNetworkStub *sDelayedAuthConfigNetworkStub;
+
+@interface SFNetwork (DelayedAuthConfigTesting)
++ (instancetype)sfsdk_test_delayedAuthConfigSharedEphemeralInstance;
+@end
+
+@implementation SFNetwork (DelayedAuthConfigTesting)
+
++ (instancetype)sfsdk_test_delayedAuthConfigSharedEphemeralInstance {
+    return sDelayedAuthConfigNetworkStub;
+}
+
+@end
+
 @interface SalesforceSDKManagerTests : XCTestCase
 {
     NSString *_origConnectedAppId;
@@ -96,6 +127,7 @@ static NSString* const kTestAppName = @"OverridenAppName";
     BOOL _origForceAdvancedAuthentication;
     BOOL _origUseWebServerAuthentication;
     BOOL _origUseHybridAuthentication;
+    BOOL _authConfigNetworkFactorySwizzled;
 }
 
 @end
@@ -112,6 +144,12 @@ static NSString* const kTestAppName = @"OverridenAppName";
 
 - (void)tearDown
 {
+    if (_authConfigNetworkFactorySwizzled) {
+        [self swapNetworkFactoryForDelayedAuthConfigTest];
+        _authConfigNetworkFactorySwizzled = NO;
+    }
+    sDelayedAuthConfigNetworkStub.pendingResponseBlock = nil;
+    sDelayedAuthConfigNetworkStub = nil;
     // Restore the original SDK Manager state (see setUp).
     [self restoreOrigSdkManagerState];
     [super tearDown];
@@ -442,6 +480,67 @@ static NSString* const kTestAppName = @"OverridenAppName";
 
 #pragma mark - Forced Advanced Authentication Tests (W-23126676)
 
+- (void)swapNetworkFactoryForDelayedAuthConfigTest {
+    Method original = class_getClassMethod([SFNetwork class], @selector(sharedEphemeralInstance));
+    Method replacement = class_getClassMethod([SFNetwork class], @selector(sfsdk_test_delayedAuthConfigSharedEphemeralInstance));
+    method_exchangeImplementations(original, replacement);
+}
+
+- (void)test_givenPendingMyDomainAuthConfig_whenAuthenticationStoppedBeforeResponse_thenNoLoginFlowBegins {
+    [self createTestAppIdentity];
+    [self setForceAdvancedAuthenticationForTest:NO];
+    sDelayedAuthConfigNetworkStub = [SFSDKDelayedAuthConfigNetworkStub new];
+    [self swapNetworkFactoryForDelayedAuthConfigTest];
+    _authConfigNetworkFactorySwizzled = YES;
+
+    SFOAuthCredentials *credentials = [self standardLoginCredentialsWithIdentifier:@"stoppedMyDomainAuthConfig"];
+    credentials.domain = @"cancelled-auth.my.salesforce.com";
+    SFForceAdvancedAuthCapturingCoordinator *coordinator = [[SFForceAdvancedAuthCapturingCoordinator alloc] initWithCredentials:credentials];
+    SFOAuthTestFlowCoordinatorDelegate *delegate = [SFOAuthTestFlowCoordinatorDelegate new];
+    coordinator.delegate = delegate;
+    coordinator.useBrowserAuth = NO;
+    coordinator.useNativeAuth = NO;
+
+    [coordinator authenticate];
+    XCTAssertTrue(coordinator.authenticating);
+    XCTAssertEqualObjects(sDelayedAuthConfigNetworkStub.capturedRequest.URL.host, credentials.domain);
+    XCTAssertEqualObjects(sDelayedAuthConfigNetworkStub.capturedRequest.URL.path, @"/.well-known/auth-configuration");
+    XCTAssertNotNil(sDelayedAuthConfigNetworkStub.pendingResponseBlock, @"The real auth-config request must be held at the network boundary.");
+    XCTAssertFalse(coordinator.didChooseNativeBrowser);
+    XCTAssertFalse(coordinator.didChooseWebView);
+
+    [coordinator stopAuthentication];
+    SFOAuthInfo *stoppedAuthInfo = coordinator.authInfo;
+    XCTAssertFalse(coordinator.authenticating);
+    XCTAssertEqual(stoppedAuthInfo.authType, SFOAuthTypeUnknown);
+
+    SFDataResponseBlock responseBlock = sDelayedAuthConfigNetworkStub.pendingResponseBlock;
+    sDelayedAuthConfigNetworkStub.pendingResponseBlock = nil;
+    NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc] initWithURL:sDelayedAuthConfigNetworkStub.capturedRequest.URL
+                                                           statusCode:200
+                                                          HTTPVersion:@"HTTP/1.1"
+                                                         headerFields:nil];
+    NSData *data = [@"{\"MobileSDK\":{\"UseiOSNativeBrowserForAuthentication\":true,\"shareBrowserSessionIOS\":true}}" dataUsingEncoding:NSUTF8StringEncoding];
+    if (responseBlock) {
+        responseBlock(data, response, nil);
+    }
+
+    // The real callback enqueues its decision on main; a FIFO marker avoids waiting for an absent decision.
+    XCTestExpectation *responseProcessed = [self expectationWithDescription:@"late auth-config response processed"];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [responseProcessed fulfill];
+    });
+    [self waitForExpectations:@[responseProcessed] timeout:5.0];
+
+    // Keep the coordinator alive so a weak-reference disappearance cannot masquerade as cancellation.
+    XCTAssertFalse(coordinator.didChooseNativeBrowser, @"A late auth-config response must not start browser authentication after stopAuthentication.");
+    XCTAssertFalse(coordinator.didChooseWebView, @"A late auth-config response must not start WebView authentication after stopAuthentication.");
+    XCTAssertFalse(delegate.willBeginAuthenticationCalled);
+    XCTAssertFalse(coordinator.authenticating);
+    XCTAssertEqual(coordinator.authInfo, stoppedAuthInfo, @"A stopped coordinator's auth lifecycle must remain unchanged by the late response.");
+    XCTAssertEqual(coordinator.authInfo.authType, SFOAuthTypeUnknown);
+}
+
 // Builds credentials targeting a *standard* login pool (login/test/welcome). For these
 // domains SFSDKAuthConfigUtil.getMyDomainAuthConfig short-circuits to (nil authConfig, nil
 // error) synchronously with no network, so the auth-modality decision is exercised offline.
@@ -526,12 +625,19 @@ static NSString* const kTestAppName = @"OverridenAppName";
     SFOAuthTestFlowCoordinatorDelegate *delegate = [SFOAuthTestFlowCoordinatorDelegate new];
     coordinator.delegate = delegate;
 
-    // Simulate an active Frontdoor Bridge login override. The production guard
-    // (SFOAuthCoordinator.m:201 `!self.frontdoorBridgeLoginOverride`) keys off the *presence*
-    // of the override object, so any non-nil override must suppress forced Advanced Auth.
+    /*
+     A valid Frontdoor Bridge login must suppress forced Advanced Auth. Use a
+     standard host so the auth-config lookup completes without a network call.
+     */
+    NSURLComponents *bridgeURL = [NSURLComponents componentsWithString:
+                                 @"https://login.salesforce.com/secur/frontdoor.jsp"];
+    NSString *startURL = [NSString stringWithFormat:
+                         @"/services/oauth2/authorize?client_id=%@",
+                         [SalesforceSDKManager sharedManager].appConfig.remoteAccessConsumerKey];
+    bridgeURL.queryItems = @[[NSURLQueryItem queryItemWithName:@"startURL" value:startURL]];
     SFSDKAuthCoordinatorFrontdoorBridgeLoginOverride *override =
         [[SFSDKAuthCoordinatorFrontdoorBridgeLoginOverride alloc]
-            initWithFrontdoorBridgeUrl:[NSURL URLWithString:@"https://login.salesforce.com/frontdoor.jsp"]
+            initWithFrontdoorBridgeUrl:bridgeURL.URL
                           codeVerifier:nil];
     coordinator.frontdoorBridgeLoginOverride = override;
 

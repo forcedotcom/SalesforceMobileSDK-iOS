@@ -32,6 +32,12 @@ import XCTest
 /// NB: Tests use users from ui_test_config.json across multiple scenarios
 ///
 class DPoPLoginTests: BaseAuthFlowTester {
+    override var assertsRequestUserAgents: Bool { true }
+
+    override func setUp() {
+        super.setUp()
+        extraLaunchArguments = ["--captureTokenRequestUserAgent"]
+    }
 
     // MARK: - ECA JWT DPoP Tests
 

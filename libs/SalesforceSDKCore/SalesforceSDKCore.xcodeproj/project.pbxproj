@@ -105,6 +105,7 @@
 		4FAUTHFLOW001234567890ABC /* AuthFlowTypesViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FAUTHFLOW112345678901ABC /* AuthFlowTypesViewTests.swift */; };
 		4FBOOTCP001234567890ABCD /* LoginOptionsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FBOOTCP112345678901ABCD /* LoginOptionsViewControllerTests.swift */; };
 		4F0DDB00001234567890ABCD /* NativeLoginDebugSettingsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F0DDB00112345678901ABCD /* NativeLoginDebugSettingsTests.swift */; };
+		D24433020000000000000001 /* RequestUserAgentCaptureStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D24433020000000000000002 /* RequestUserAgentCaptureStoreTests.swift */; };
 		4FDEVINFO001234567890ABCD /* DevInfoViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FDEVINFO112345678901ABCD /* DevInfoViewControllerTests.swift */; };
 		D24627009000000000000001 /* UIDeviceHardwareTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D24627009000000000000002 /* UIDeviceHardwareTests.swift */; };
 		4FDISCOV001234567890ABCD /* DiscoveryResultEditorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FDISCOV112345678901ABCD /* DiscoveryResultEditorTests.swift */; };
@@ -113,6 +114,7 @@
 		4FE006B32EBEB65900CFD66F /* LoginOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE006AF2EBEB65900CFD66F /* LoginOptionsViewController.swift */; };
 		B7074DEB018E0AAC39EF492F /* AuthenticationModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794307EF3A3C5CAEA91212AE /* AuthenticationModeView.swift */; };
 		0A75216E0FF0DB5218ED5892 /* NativeLoginDebugSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71FE6B651BA567EA8559A154 /* NativeLoginDebugSettings.swift */; };
+		D24433020000000000000003 /* RequestUserAgentCaptureStore+Internal.swift in Sources */ = {isa = PBXBuildFile; fileRef = D24433020000000000000004 /* RequestUserAgentCaptureStore+Internal.swift */; };
 		4FE006B52EBEB65900CFD66F /* DiscoveryResultEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE006B42EBEB65900CFD66F /* DiscoveryResultEditor.swift */; };
 		4FE006D42EBEBBF300CFD66F /* SFSDKLoginHostListViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FE006CE2EBEBBF300CFD66F /* SFSDKLoginHostListViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4FE006D52EBEBBF300CFD66F /* SFSDKTextFieldTableViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FE006D22EBEBBF300CFD66F /* SFSDKTextFieldTableViewCell.h */; };
@@ -135,6 +137,8 @@
 		68FE80582FD0DE4E00947FFF /* DPoPProofBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68FE80532FD0DE4E00947FFF /* DPoPProofBuilder.swift */; };
 		68FE80592FD0DE4E00947FFF /* DPoPKeyStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68FE80512FD0DE4E00947FFF /* DPoPKeyStore.swift */; };
 		68FE805B2FD0DE4E00947FFF /* DPoPURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68FE805A2FD0DE4E00947FFF /* DPoPURL.swift */; };
+		AA00D0A12FF000010000A001 /* DPoPMigrationManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00D0A12FF000010000A002 /* DPoPMigrationManagerTests.swift */; };
+		AA00D0A12FF000010000A003 /* DPoPMigrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00D0A12FF000010000A004 /* DPoPMigrationManager.swift */; };
 		68FE80602FD0E35D00947FFF /* SFSDKDPoPTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68FE805F2FD0E35D00947FFF /* SFSDKDPoPTests.swift */; };
 		68FE80622FD0E35D00947FFF /* EncryptorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68FE80612FD0E35D00947FFF /* EncryptorTests.swift */; };
 		6900B62C24B64DD800500923 /* NSURLResponse+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6900B62A24B64DD800500923 /* NSURLResponse+SFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -725,6 +729,7 @@
 		4FAUTHFLOW112345678901ABC /* AuthFlowTypesViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AuthFlowTypesViewTests.swift; path = SalesforceSDKCoreTests/AuthFlowTypesViewTests.swift; sourceTree = SOURCE_ROOT; };
 		4FBOOTCP112345678901ABCD /* LoginOptionsViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LoginOptionsViewControllerTests.swift; path = SalesforceSDKCoreTests/LoginOptionsViewControllerTests.swift; sourceTree = SOURCE_ROOT; };
 		4F0DDB00112345678901ABCD /* NativeLoginDebugSettingsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NativeLoginDebugSettingsTests.swift; path = SalesforceSDKCoreTests/NativeLoginDebugSettingsTests.swift; sourceTree = SOURCE_ROOT; };
+		D24433020000000000000002 /* RequestUserAgentCaptureStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RequestUserAgentCaptureStoreTests.swift; path = SalesforceSDKCoreTests/RequestUserAgentCaptureStoreTests.swift; sourceTree = SOURCE_ROOT; };
 		4FDEVINFO112345678901ABCD /* DevInfoViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DevInfoViewControllerTests.swift; path = SalesforceSDKCoreTests/DevInfoViewControllerTests.swift; sourceTree = SOURCE_ROOT; };
 		D24627009000000000000002 /* UIDeviceHardwareTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UIDeviceHardwareTests.swift; path = SalesforceSDKCoreTests/UIDeviceHardwareTests.swift; sourceTree = SOURCE_ROOT; };
 		4FDISCOV112345678901ABCD /* DiscoveryResultEditorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DiscoveryResultEditorTests.swift; path = SalesforceSDKCoreTests/DiscoveryResultEditorTests.swift; sourceTree = SOURCE_ROOT; };
@@ -732,6 +737,7 @@
 		4FE006AF2EBEB65900CFD66F /* LoginOptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LoginOptionsViewController.swift; path = SalesforceSDKCore/Classes/Login/DevConfig/LoginOptionsViewController.swift; sourceTree = SOURCE_ROOT; };
 		794307EF3A3C5CAEA91212AE /* AuthenticationModeView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AuthenticationModeView.swift; sourceTree = "<group>"; };
 		71FE6B651BA567EA8559A154 /* NativeLoginDebugSettings.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NativeLoginDebugSettings.swift; sourceTree = "<group>"; };
+		D24433020000000000000004 /* RequestUserAgentCaptureStore+Internal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "RequestUserAgentCaptureStore+Internal.swift"; path = "SalesforceSDKCore/Classes/RestAPI/RequestUserAgentCaptureStore+Internal.swift"; sourceTree = SOURCE_ROOT; };
 		4FE006B02EBEB65900CFD66F /* AuthFlowTypesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AuthFlowTypesView.swift; path = SalesforceSDKCore/Classes/Login/DevConfig/AuthFlowTypesView.swift; sourceTree = SOURCE_ROOT; };
 		4FE006B42EBEB65900CFD66F /* DiscoveryResultEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DiscoveryResultEditor.swift; path = SalesforceSDKCore/Classes/Login/DevConfig/DiscoveryResultEditor.swift; sourceTree = SOURCE_ROOT; };
 		4FE006CA2EBEBBF300CFD66F /* NewLoginHostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewLoginHostView.swift; sourceTree = "<group>"; };
@@ -768,6 +774,8 @@
 		68FE80532FD0DE4E00947FFF /* DPoPProofBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DPoPProofBuilder.swift; sourceTree = "<group>"; };
 		68FE80542FD0DE4E00947FFF /* DPoPRequestDecorator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DPoPRequestDecorator.swift; sourceTree = "<group>"; };
 		68FE805A2FD0DE4E00947FFF /* DPoPURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DPoPURL.swift; sourceTree = "<group>"; };
+		AA00D0A12FF000010000A002 /* DPoPMigrationManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DPoPMigrationManagerTests.swift; sourceTree = "<group>"; };
+		AA00D0A12FF000010000A004 /* DPoPMigrationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DPoPMigrationManager.swift; sourceTree = "<group>"; };
 		68FE805F2FD0E35D00947FFF /* SFSDKDPoPTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSDKDPoPTests.swift; sourceTree = "<group>"; };
 		68FE80612FD0E35D00947FFF /* EncryptorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncryptorTests.swift; sourceTree = "<group>"; };
 		6900B62A24B64DD800500923 /* NSURLResponse+SFAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSURLResponse+SFAdditions.h"; sourceTree = "<group>"; };
@@ -1095,6 +1103,7 @@
 			isa = PBXGroup;
 			children = (
 				68FE805F2FD0E35D00947FFF /* SFSDKDPoPTests.swift */,
+				AA00D0A12FF000010000A002 /* DPoPMigrationManagerTests.swift */,
 				68FE80612FD0E35D00947FFF /* EncryptorTests.swift */,
 				699202FC2FEF11D70032ECD7 /* SFSDKTokenRefreshCoordinatorTests.m */,
 				692D36652F95F83A002FBFF3 /* AppAttestationTests.swift */,
@@ -1106,6 +1115,7 @@
 				22A9E801F34047C7A7E1A5BC /* BiometricAdvancedAuthGateTests.swift */,
 				4FBOOTCP112345678901ABCD /* LoginOptionsViewControllerTests.swift */,
 				4F0DDB00112345678901ABCD /* NativeLoginDebugSettingsTests.swift */,
+				D24433020000000000000002 /* RequestUserAgentCaptureStoreTests.swift */,
 				23F200AD2E551C890091C5F5 /* BootconfigTests.swift */,
 				4FDISCOV112345678901ABCD /* DiscoveryResultEditorTests.swift */,
 				69DFE0682B969C1D000906E4 /* CryptoUtilsTests.swift */,
@@ -1418,6 +1428,7 @@
 			isa = PBXGroup;
 			children = (
 				68FE80512FD0DE4E00947FFF /* DPoPKeyStore.swift */,
+				AA00D0A12FF000010000A004 /* DPoPMigrationManager.swift */,
 				68FE80522FD0DE4E00947FFF /* DPoPNonceCache.swift */,
 				68FE80532FD0DE4E00947FFF /* DPoPProofBuilder.swift */,
 				68FE80542FD0DE4E00947FFF /* DPoPRequestDecorator.swift */,
@@ -2312,6 +2323,7 @@
 				23CAB0F92DCBE51F00B8929B /* MockRestClient.swift in Sources */,
 				B7E66AE923763278005A652E /* RestClientPublisherTests.swift in Sources */,
 				68FE80602FD0E35D00947FFF /* SFSDKDPoPTests.swift in Sources */,
+				AA00D0A12FF000010000A001 /* DPoPMigrationManagerTests.swift in Sources */,
 				68FE80622FD0E35D00947FFF /* EncryptorTests.swift in Sources */,
 				697F5C4F267BE29A00F382A9 /* EncryptionTests.swift in Sources */,
 				23D96B762E145B400004B06A /* DomainDiscoveryCoordinatorTests.swift in Sources */,
@@ -2327,6 +2339,7 @@
 				23F200AE2E551C890091C5F5 /* BootconfigTests.swift in Sources */,
 				4FBOOTCP001234567890ABCD /* LoginOptionsViewControllerTests.swift in Sources */,
 				4F0DDB00001234567890ABCD /* NativeLoginDebugSettingsTests.swift in Sources */,
+				D24433020000000000000001 /* RequestUserAgentCaptureStoreTests.swift in Sources */,
 				4FDISCOV001234567890ABCD /* DiscoveryResultEditorTests.swift in Sources */,
 				4F7EB4171BFFC8D700768720 /* SFEncryptionKeyTests.m in Sources */,
 				69848CBD2364063E00893E57 /* SFSDKPushNotificationDataProvider.m in Sources */,
@@ -2420,12 +2433,14 @@
 				68FE80572FD0DE4E00947FFF /* DPoPRequestDecorator.swift in Sources */,
 				68FE80582FD0DE4E00947FFF /* DPoPProofBuilder.swift in Sources */,
 				68FE80592FD0DE4E00947FFF /* DPoPKeyStore.swift in Sources */,
+				AA00D0A12FF000010000A003 /* DPoPMigrationManager.swift in Sources */,
 				68FE805B2FD0DE4E00947FFF /* DPoPURL.swift in Sources */,
 				4FE006B12EBEB65900CFD66F /* AuthFlowTypesView.swift in Sources */,
 				4FE006B22EBEB65900CFD66F /* BootConfigEditor.swift in Sources */,
 				4FE006B32EBEB65900CFD66F /* LoginOptionsViewController.swift in Sources */,
 				B7074DEB018E0AAC39EF492F /* AuthenticationModeView.swift in Sources */,
 				0A75216E0FF0DB5218ED5892 /* NativeLoginDebugSettings.swift in Sources */,
+				D24433020000000000000003 /* RequestUserAgentCaptureStore+Internal.swift in Sources */,
 				4FE006B52EBEB65900CFD66F /* DiscoveryResultEditor.swift in Sources */,
 				697A91A12363C3D800D2836F /* SFSDKPushNotificationDecryption.m in Sources */,
 				CE675A341E0B2CC6002DBF5A /* SFSDKSoqlBuilder.m in Sources */,
@@ -2653,6 +2668,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.salesforce.mobilesdk.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "SalesforceSDKCoreTests/SalesforceSDKCoreTests-Bridging-Header.h";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SalesforceSDKCoreTestApp.app/SalesforceSDKCoreTestApp";
 				WRAPPER_EXTENSION = xctest;
@@ -2918,6 +2934,7 @@
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
 				SUPPORTS_MACCATALYST = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2,7";
 				VERSIONING_SYSTEM = "apple-generic";

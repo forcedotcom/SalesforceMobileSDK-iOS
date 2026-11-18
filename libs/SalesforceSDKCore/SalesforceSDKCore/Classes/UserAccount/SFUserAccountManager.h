@@ -101,6 +101,10 @@ FOUNDATION_EXTERN NSNotificationName kSFNotificationUserWillShowAuthView NS_SWIF
  */
 FOUNDATION_EXTERN NSNotificationName kSFNotificationUserCancelledAuth NS_SWIFT_NAME(UserAccountManager.userCancelledAuthentication);
 
+/** Notification sent when in-progress authentication is abandoned without its callbacks running: `stopCurrentAuthentication` (after the auth UI has been dismissed and the auth sessions reset) or the disconnect of the scene hosting it. Callbacks of the abandoned authentication are never invoked, so observers waiting on one (e.g. a refresh token migration) should treat it as cancelled. The userInfo flags whether a migration session was among the abandoned ones (`kSFNotificationUserInfoAbandonedMigrationKey`). In swift access this constant using UserAccountManager.didStopAuthentication
+ */
+FOUNDATION_EXTERN NSNotificationName kSFNotificationUserDidStopAuth NS_SWIFT_NAME(UserAccountManager.didStopAuthentication);
+
 /** Notification sent prior to user log in. In swift access this constant using Notification.Name.SFUserAccountManagerWillLogInUser
  */
 FOUNDATION_EXTERN NSNotificationName kSFNotificationUserWillLogIn NS_SWIFT_NAME(UserAccountManager.willLogInUser);
@@ -158,6 +162,10 @@ FOUNDATION_EXTERN NSString * const kSFNotificationUserInfoCredentialsKey NS_SWIF
 /**  Key to use to lookup authinfo type associated with  NSNotification userInfo.
  */
 FOUNDATION_EXTERN NSString * const kSFNotificationUserInfoAuthTypeKey  NS_SWIFT_NAME(UserAccountManager.userInfoAuthenticationTypeKey);
+
+/**  Key to use to lookup, in `kSFNotificationUserDidStopAuth` userInfo, an NSNumber (BOOL) telling whether a refresh token migration session was among the abandoned ones.
+ */
+FOUNDATION_EXTERN NSString * const kSFNotificationUserInfoAbandonedMigrationKey NS_SWIFT_NAME(UserAccountManager.userInfoAbandonedMigrationKey);
 
 /**  Key to use to lookup dictionary of nv-pairs type associated with NSNotification userInfo.
  */

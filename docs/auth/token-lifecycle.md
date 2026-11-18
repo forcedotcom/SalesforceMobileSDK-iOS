@@ -247,7 +247,10 @@ applyAuthHeaders(request, credentials):
       remove any stale DPoP header
       return
     set Authorization to "DPoP <token>"
-    load or create the credential-scoped EC P-256 keypair
+    LOAD (never create) the credential-scoped EC P-256 keypair:
+      - found        -> use it
+      - confirmed absent (errSecItemNotFound) -> throw boundKeyMissing (fail fast, no mint)
+      - indeterminate (any other OSStatus, e.g. device locked) -> throw boundKeyUnavailable (retry)
     canonicalize the request URL for htu
     read a cached nonce for the URL and credential scope
     build a fresh proof with htm, htu, iat, jti, nonce, and ath
@@ -275,13 +278,81 @@ not consult the global preference. Token-endpoint proofs omit `ath`; resource pr
 to the current access token with `ath`.
 
 `DPoPKeyStore` caches each credential-scoped `SecKey` handle in process memory, keyed by the derived
-Keychain key name. The first "load or create the credential-scoped EC P-256 keypair" step for a
-scope performs the Keychain lookup (or Secure Enclave key generation on first use) and caches the
-resulting handle; every subsequent proof build for that scope reuses the cached handle directly,
-skipping the Keychain (`SecItemCopyMatching`/`securityd`) round-trip and the exclusive lock that
-previously serialized every DPoP proof build across every credential. Proof signing still happens
-per request against the Secure-Enclave/Keychain-backed private key — only the *lookup* is cached, so
-no private-key material is exported or held in plaintext.
+Keychain key name. The first keypair lookup for a scope performs the Keychain lookup (or Secure
+Enclave key generation on a *binding* path's first use) and caches the resulting handle; every
+subsequent proof build for that scope reuses the cached handle directly, skipping the Keychain
+(`SecItemCopyMatching`/`securityd`) round-trip and the exclusive lock that previously serialized
+every DPoP proof build across every credential. Proof signing still happens per request against the
+Secure-Enclave/Keychain-backed private key — only the *lookup* is cached, so no private-key material
+is exported or held in plaintext.
+
+### 4.1 Key generation vs. load-only lookup (bound credentials never mint)
+
+Key **generation** happens only on the two **binding** paths, where the key is first created and the
+server is told its public thumbprint:
+
+- `SFOAuthCoordinator` appends `dpop_jkt` at `/authorize` (`keyPair(forScope:)`).
+- Native Login binding (`keyPair(forScope:)`).
+
+Every other site that needs the key for an **already-bound** credential — refresh and resource-call
+decoration (`DPoPRequestDecorator.decorate`) and the dev-info thumbprint display
+(`SalesforceSDKManager`) — uses the **load-only** lookup `DPoPKeyStore.existingKeyPair(forScope:)`,
+which **never generates** a key. This is a correctness requirement: if a bound credential's key were
+re-minted on a miss, the SDK would sign the refresh with a key the server cannot accept, and because
+the new key is persisted, every retry and restart would reuse it — the refresh token is then
+permanently dead until re-login (the token endpoint rejects the replacement proof as
+`invalid_dpop_proof` / `dpop thumbprint invalid for token`).
+
+`existingKeyPair(forScope:)` returns one of four results so callers can react safely to a miss:
+
+| Result | Meaning | Caller action |
+|---|---|---|
+| `found` | Key present (cache or Keychain). | Build the proof as normal. |
+| `absent` | Keychain read succeeded with `errSecItemNotFound` — the bound key is confirmed gone. | Fail fast → re-auth (`boundKeyMissing`). |
+| `invalid` | Keychain returned a key record that cannot be used as the expected DPoP key. | Fail fast → re-auth (`boundKeyInvalid`). |
+| `unavailable` | Keychain read failed for any other reason (e.g. device locked, `errSecInteractionNotAllowed`). **Not** proof of absence. | Do **not** send a mis-signed request or re-auth. Complete as transient `boundKeyUnavailable`; do not retry the in-flight request. A later caller-initiated refresh can retry after Keychain access is restored. |
+
+On the refresh path, `SFSDKOAuth2` classifies the decoration result (`DPoPRequestDecorator`'s
+`classifyDecorationError:` / `DPoPDecorationFailure`) and aborts the refresh before it is sent for
+either terminal result. `boundKeyMissing` and `boundKeyInvalid` complete with an `invalid_grant`-class error
+(`kSFOAuthErrorDomain` / `kSFOAuthErrorInvalidGrant`), which `SFSDKAuthErrorManager` treats as
+invalid credentials and routes to re-auth. `boundKeyUnavailable` completes with the transient
+`kSFOAuthErrorRefreshFailed`, preserving the current session; the SDK does not retry that refresh
+immediately, but a later caller-initiated refresh can retry after Keychain access is restored. A
+non-key decoration error (e.g. a proof-build failure) preserves the legacy "log and proceed without
+a proof" behavior. Viewing the dev-info screen shows "Unavailable" for a missing/indeterminate key
+and never mints one as a display side effect.
+
+The load-only change prevents new replacement keys, but an SDK version with the earlier mint-on-miss
+behavior may already have persisted one. iOS has a bounded compatibility recovery for the observed
+token-endpoint response from that state. It is **not** a general `invalid_dpop_proof` policy, a
+server-defined subcode, or proof that the current local key differs from the key originally bound to
+the refresh token.
+
+`SFSDKOAuth2` preserves the raw OAuth error and adds an internal recovery marker only when every
+condition below is true:
+
+1. The request is a refresh that successfully attached a proof using the persisted bound key.
+2. Its initial response is an HTTP 400 JSON object with `error` exactly `use_dpop_nonce` and a
+   nonempty `DPoP-Nonce` header.
+3. The single retry successfully attaches a proof containing that exact challenged nonce.
+4. The retry response is HTTP 400 with `error` exactly `invalid_dpop_proof` and an
+   `error_description` equal to `dpop thumbprint invalid for token`, after trimming outer
+   whitespace and comparing case-insensitively.
+
+Only a marked error follows the existing invalid-credentials/token-expired re-auth paths in
+`SFSDKAuthErrorManager` and `SFRestAPI`. A generic `invalid_dpop_proof`, the observed description
+without this verified retry provenance, a non-400 response, a missing nonce header, malformed
+OAuth data, and code-exchange flows remain ordinary errors and preserve the session. When a verified
+retry returns `invalid_dpop_proof` with a different description, the SDK emits a fixed warning that
+does not include response text, proof data, nonce values, or tokens; it does not mark the error for
+credential recovery.
+
+For support diagnostics, `/authorize` and each successfully decorated refresh emit
+`DPoP binding at ...: scope=<credential identifier> jkt=<public thumbprint>`. The refresh log is
+emitted only after the request contains a DPoP proof and uses the load-only key lookup; it never
+creates a key and never includes a proof, access token, refresh token, private-key material, or
+server-controlled error text.
 
 ---
 
@@ -669,7 +740,11 @@ the same lock to read the (now empty) queue, so neither path can deadlock agains
 14. Request-path authentication is evaluated for each prepared attempt and only for an explicit
     DPoP token with a nonempty UI session. UI-session Bearer attempts never retain a DPoP proof or
     enter DPoP nonce retry.
+15. Concurrent terminal DPoP recoveries may each schedule `logoutUser:reason:`, but only the first
+    successful `LoggedIn -> LoggingOut` transition performs account teardown; later attempts are
+    no-ops. The lifecycle therefore emits one effective logout for the user.
 
-The focused regression coverage lives in `SFRestAPIDataTaskRaceTests`, with coordinator behavior
-covered by `SFSDKTokenRefreshCoordinatorTests` and token-endpoint nonce handling covered by the
+The focused regression coverage lives in `SFRestAPIDataTaskRaceTests` and
+`SFRestAPIReplayRequestTests`, with coordinator behavior covered by
+`SFSDKTokenRefreshCoordinatorTests` and token-endpoint nonce handling covered by the
 `SFSDKOAuth2` test suites.

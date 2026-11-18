@@ -36,6 +36,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy, nullable) SFRestRequestFailBlock failureBlock;
 @property (nonatomic, copy, nullable) SFRestResponseBlock successBlock;
+/// Set when DPoP request decoration must fail locally before creating a network task.
+@property (nonatomic, strong, nullable) NSError *preparationError;
 
 /// Set to YES after a DPoP nonce-challenge retry so the retry fires at most once per request.
 @property (nonatomic, assign) BOOL dpopNonceRetried;
