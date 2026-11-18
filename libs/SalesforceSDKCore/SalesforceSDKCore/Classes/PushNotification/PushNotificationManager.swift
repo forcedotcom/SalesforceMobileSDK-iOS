@@ -90,11 +90,25 @@ public class PushNotificationManager: NSObject {
     @available(*, deprecated,
                message: "Deprecated in Salesforce Mobile SDK 14.0 and will be removed in Salesforce Mobile SDK 15.0. This value is managed internally by registerSalesforceNotifications and unregisterSalesforceNotifications. No replacement is needed.")
     public var deviceSalesforceId: String? {
-        get { _deviceSalesforceId }
-        set { _deviceSalesforceId = newValue }
+        get { synchronizedDeviceSalesforceId }
+        set { synchronizedDeviceSalesforceId = newValue }
     }
     // Separate private variable to avoid deprecation warnings until the field is removed
     private var _deviceSalesforceId: String?
+    private let deviceSalesforceIdLock = NSLock()
+
+    private var synchronizedDeviceSalesforceId: String? {
+        get {
+            deviceSalesforceIdLock.lock()
+            defer { deviceSalesforceIdLock.unlock() }
+            return _deviceSalesforceId
+        }
+        set {
+            deviceSalesforceIdLock.lock()
+            _deviceSalesforceId = newValue
+            deviceSalesforceIdLock.unlock()
+        }
+    }
 
     public var customPushRegistrationBody: [String: Any]?
 
@@ -291,11 +305,11 @@ public class PushNotificationManager: NSObject {
                 }
                 
                 SFSDKCoreLogger.i(Self.self, message: "Registration succeeded")
-                // TODO: Remove in Mobile SDK 15.0 and set value in preferences directly
-                self._deviceSalesforceId = json["id"] as? String
+                let deviceSalesforceId = json["id"] as? String
+                self.synchronizedDeviceSalesforceId = deviceSalesforceId
                 
                 let prefs = notificationRegister.preferences(for: user)
-                prefs?.setObject(self._deviceSalesforceId ?? "", forKey: PushNotificationConstants.deviceSalesforceId)
+                prefs?.setObject(deviceSalesforceId ?? "", forKey: PushNotificationConstants.deviceSalesforceId)
                 prefs?.synchronize()
                 
                 SFSDKCoreLogger.i(Self.self, message: "Response: \(json)")
