@@ -236,6 +236,39 @@ class PushNotificationManagerTests: XCTestCase {
                        "Should NOT overwrite the current user's deviceSalesforceId")
     }
 
+    func test_givenRegistrationResponseWithoutId_whenRegisterThenUnregister_thenClearsIdAndSkipsDelete() {
+        // Given
+        pushNotificationManager.deviceToken = "fake-apns-token"
+        mockRestClient.jsonResponse = """
+        {"success": true}
+        """.data(using: .utf8) ?? Data()
+        let registrationCompleted = XCTestExpectation(description: "Registration completion")
+
+        // When
+        let registrationStarted = pushNotificationManager.registerSalesforceNotifications(for: currentUserAccount, completionBlock: {
+            registrationCompleted.fulfill()
+        }, failBlock: {
+            XCTFail("Registration should succeed")
+        })
+
+        // Then
+        XCTAssertTrue(registrationStarted)
+        wait(for: [registrationCompleted], timeout: 2)
+        XCTAssertNil(currentUserPreferences.objects[PushNotificationConstants.deviceSalesforceId],
+                     "A registration response without an ID should clear any stale device ID")
+
+        let deleteRequestSent = XCTestExpectation(description: "DELETE request sent")
+        deleteRequestSent.isInverted = true
+        mockRestClient.onSend = { request in
+            if request.method == .DELETE {
+                deleteRequestSent.fulfill()
+            }
+        }
+
+        XCTAssertTrue(pushNotificationManager.unregisterSalesforceNotifications(for: currentUserAccount, completionBlock: nil))
+        wait(for: [deleteRequestSent], timeout: 0.2)
+    }
+
     func test_givenOverlappingRegistrationsForDifferentUsers_whenResponsesInterleave_thenEachUserStoresItsOwnDeviceId() throws {
         // Given
         // Pause A at its preferences lookup, persist B, then release A to verify each user keeps its own ID.
@@ -1393,5 +1426,9 @@ class MockPreferences: SFPreferences {
     
     override func setObject(_ object: Any, forKey key: String) {
         objects[key] = object
+    }
+
+    override func removeObject(forKey key: String) {
+        objects.removeValue(forKey: key)
     }
 }

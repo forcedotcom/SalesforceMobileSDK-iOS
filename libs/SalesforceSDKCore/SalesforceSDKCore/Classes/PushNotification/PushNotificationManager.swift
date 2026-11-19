@@ -309,7 +309,11 @@ public class PushNotificationManager: NSObject {
                 self.synchronizedDeviceSalesforceId = deviceSalesforceId
                 
                 let prefs = notificationRegister.preferences(for: user)
-                prefs?.setObject(deviceSalesforceId ?? "", forKey: PushNotificationConstants.deviceSalesforceId)
+                if let deviceSalesforceId {
+                    prefs?.setObject(deviceSalesforceId, forKey: PushNotificationConstants.deviceSalesforceId)
+                } else {
+                    prefs?.removeObject(forKey: PushNotificationConstants.deviceSalesforceId)
+                }
                 prefs?.synchronize()
                 
                 SFSDKCoreLogger.i(Self.self, message: "Response: \(json)")
