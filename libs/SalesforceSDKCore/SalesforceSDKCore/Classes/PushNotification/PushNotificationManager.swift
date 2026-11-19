@@ -93,7 +93,7 @@ public class PushNotificationManager: NSObject {
         get { synchronizedDeviceSalesforceId }
         set { synchronizedDeviceSalesforceId = newValue }
     }
-    // Separate private variable to avoid deprecation warnings until the field is removed
+    // Backing storage for deviceSalesforceId; remove with the deprecated API in Mobile SDK 15.0.
     private var _deviceSalesforceId: String?
     private let deviceSalesforceIdLock = NSLock()
 
@@ -158,7 +158,7 @@ public class PushNotificationManager: NSObject {
 #endif
         let preferences = notificationRegister.preferences(for: UserAccountManager.shared.currentUserAccount)
         self.deviceToken = preferences?.string(forKey: PushNotificationConstants.deviceToken)
-        self._deviceSalesforceId = preferences?.string(forKey: PushNotificationConstants.deviceSalesforceId)
+        self.synchronizedDeviceSalesforceId = preferences?.string(forKey: PushNotificationConstants.deviceSalesforceId)
         
         setupNotificationObservers()
     }
