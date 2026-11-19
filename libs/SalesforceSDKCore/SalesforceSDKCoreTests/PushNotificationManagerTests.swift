@@ -238,6 +238,7 @@ class PushNotificationManagerTests: XCTestCase {
 
     func test_givenOverlappingRegistrationsForDifferentUsers_whenResponsesInterleave_thenEachUserStoresItsOwnDeviceId() throws {
         // Given
+        // Pause A at its preferences lookup, persist B, then release A to verify each user keeps its own ID.
         let firstUser = try makeUserAccount(index: 4)
         let secondUser = try makeUserAccount(index: 5)
         let firstPreferences = MockPreferences()
