@@ -1427,7 +1427,7 @@ Make sure we do NOT get a notification for a JSON parsing error
     [self registerTestSoup:self.store indexType:kSoupIndexTypeString];
     NSError* error = nil;
     __block NSArray* upserted = nil;
-    BOOL success = [self.store performTransaction:^(SFSmartStoreTransaction* txn, BOOL* rollback) {
+    BOOL success = [self.store performTransaction:^(SFSmartStoreTransaction* txn) {
         upserted = [txn upsertEntries:@[@{@"key":@"k1", @"value":@"v1"}, @{@"key":@"k2", @"value":@"v2"}] toSoup:kTestSoupName withExternalIdPath:SOUP_ENTRY_ID error:nil];
     } error:&error];
     XCTAssertTrue(success);
@@ -1440,20 +1440,83 @@ Make sure we do NOT get a notification for a JSON parsing error
 {
     [self registerTestSoup:self.store indexType:kSoupIndexTypeString];
     NSError* error = nil;
-    BOOL success = [self.store performTransaction:^(SFSmartStoreTransaction* txn, BOOL* rollback) {
+    BOOL success = [self.store performTransaction:^(SFSmartStoreTransaction* txn) {
         [txn upsertEntries:@[@{@"key":@"k1", @"value":@"v1"}] toSoup:kTestSoupName withExternalIdPath:SOUP_ENTRY_ID error:nil];
-        *rollback = YES;
+        [txn rollback];
     } error:&error];
-    XCTAssertTrue(success, @"A requested rollback is not an error");
+    XCTAssertFalse(success, @"A requested rollback returns NO");
     XCTAssertNil(error);
     XCTAssertEqual([self countEntriesInSoup:kTestSoupName store:self.store], 0UL);
+}
+
+- (void) testPerformTransactionFailWithErrorRollsBackWithThatError
+{
+    [self registerTestSoup:self.store indexType:kSoupIndexTypeString];
+    NSError* mine = [NSError errorWithDomain:@"test" code:42 userInfo:nil];
+    NSError* other = [NSError errorWithDomain:@"test" code:43 userInfo:nil];
+    NSError* error = nil;
+    BOOL success = [self.store performTransaction:^(SFSmartStoreTransaction* txn) {
+        [txn upsertEntries:@[@{@"key":@"k1", @"value":@"v1"}] toSoup:kTestSoupName withExternalIdPath:SOUP_ENTRY_ID error:nil];
+        [txn failWithError:mine];
+        [txn failWithError:other];
+    } error:&error];
+    XCTAssertFalse(success);
+    XCTAssertEqual(error, mine, @"First failure wins");
+    XCTAssertEqual([self countEntriesInSoup:kTestSoupName store:self.store], 0UL);
+}
+
+- (void) testPerformTransactionFailureWinsOverRequestedRollback
+{
+    [self registerTestSoup:self.store indexType:kSoupIndexTypeString];
+    NSError* mine = [NSError errorWithDomain:@"test" code:42 userInfo:nil];
+    NSError* error = nil;
+    BOOL success = [self.store performTransaction:^(SFSmartStoreTransaction* txn) {
+        [txn rollback];
+        [txn failWithError:mine];
+    } error:&error];
+    XCTAssertFalse(success);
+    XCTAssertEqual(error, mine);
+    error = nil;
+    success = [self.store performTransaction:^(SFSmartStoreTransaction* txn) {
+        [txn failWithError:mine];
+        [txn rollback];
+    } error:&error];
+    XCTAssertFalse(success);
+    XCTAssertEqual(error, mine);
+}
+
+- (void) testPerformTransactionRollbackAndFailWithErrorRejectedFromOtherThreadOrAfterBlock
+{
+    [self registerTestSoup:self.store indexType:kSoupIndexTypeString];
+    NSError* error = nil;
+    __block SFSmartStoreTransaction* captured = nil;
+    BOOL success = [self.store performTransaction:^(SFSmartStoreTransaction* txn) {
+        captured = txn;
+        [txn upsertEntries:@[@{@"key":@"k1", @"value":@"v1"}] toSoup:kTestSoupName withExternalIdPath:SOUP_ENTRY_ID error:nil];
+        NSConditionLock* lock = [[NSConditionLock alloc] initWithCondition:0];
+        NSThread* waiter = [[NSThread alloc] initWithBlock:^{
+            [txn rollback];
+            [txn failWithError:[NSError errorWithDomain:@"test" code:1 userInfo:nil]];
+            [lock lock]; [lock unlockWithCondition:1];
+        }];
+        [waiter start];
+        [lock lockWhenCondition:1]; [lock unlock];
+    } error:&error];
+    XCTAssertTrue(success, @"Rejected calls from another thread must not affect the transaction");
+    XCTAssertNil(error);
+    XCTAssertEqual([self countEntriesInSoup:kTestSoupName store:self.store], 1UL);
+
+    // After the block: no effect, no crash, and nothing changes in the store
+    [captured rollback];
+    [captured failWithError:[NSError errorWithDomain:@"test" code:1 userInfo:nil]];
+    XCTAssertEqual([self countEntriesInSoup:kTestSoupName store:self.store], 1UL);
 }
 
 - (void) testPerformTransactionRollsBackAndReturnsErrorOnException
 {
     [self registerTestSoup:self.store indexType:kSoupIndexTypeString];
     NSError* error = nil;
-    BOOL success = [self.store performTransaction:^(SFSmartStoreTransaction* txn, BOOL* rollback) {
+    BOOL success = [self.store performTransaction:^(SFSmartStoreTransaction* txn) {
         [txn upsertEntries:@[@{@"key":@"k1", @"value":@"v1"}] toSoup:kTestSoupName withExternalIdPath:SOUP_ENTRY_ID error:nil];
         @throw [NSException exceptionWithName:@"TestException" reason:@"boom" userInfo:nil];
     } error:&error];
@@ -1473,7 +1536,7 @@ Make sure we do NOT get a notification for a JSON parsing error
     XCTAssertNil(error);
 
     // Two soups written in one transaction: commit
-    BOOL success = [self.store performTransaction:^(SFSmartStoreTransaction* txn, BOOL* rollback) {
+    BOOL success = [self.store performTransaction:^(SFSmartStoreTransaction* txn) {
         [txn upsertEntries:@[@{@"key":@"k1"}] toSoup:kTestSoupName withExternalIdPath:SOUP_ENTRY_ID error:nil];
         [txn upsertEntries:@[@{@"key":@"q1"}] toSoup:otherSoupName withExternalIdPath:SOUP_ENTRY_ID error:nil];
     } error:&error];
@@ -1484,10 +1547,10 @@ Make sure we do NOT get a notification for a JSON parsing error
     // Second write fails (unknown soup): the first write is rolled back too
     error = nil;
     __block NSError* opError = nil;
-    success = [self.store performTransaction:^(SFSmartStoreTransaction* txn, BOOL* rollback) {
+    success = [self.store performTransaction:^(SFSmartStoreTransaction* txn) {
         XCTAssertNotNil([txn upsertEntries:@[@{@"key":@"k2"}] toSoup:kTestSoupName withExternalIdPath:SOUP_ENTRY_ID error:nil]);
         XCTAssertNil([txn upsertEntries:@[@{@"key":@"x"}] toSoup:@"noSuchSoup" withExternalIdPath:SOUP_ENTRY_ID error:&opError]);
-        // Block does not set rollback: failed write alone must roll back
+        // Block does not call rollback: failed write alone must roll back
     } error:&error];
     XCTAssertFalse(success);
     XCTAssertNotNil(error);
@@ -1496,7 +1559,7 @@ Make sure we do NOT get a notification for a JSON parsing error
 
     // A batch where a later entry fails (external id missing): earlier entries of the batch are rolled back too
     error = nil;
-    success = [self.store performTransaction:^(SFSmartStoreTransaction* txn, BOOL* rollback) {
+    success = [self.store performTransaction:^(SFSmartStoreTransaction* txn) {
         NSArray* batch = @[@{@"key":@"k3"}, @{@"value":@"no key"}];
         NSArray* batchResult = [txn upsertEntries:batch toSoup:kTestSoupName withExternalIdPath:@"key" error:nil];
         XCTAssertNil(batchResult);
@@ -1508,11 +1571,13 @@ Make sure we do NOT get a notification for a JSON parsing error
     // Remove inside a rolled back transaction is undone
     NSNumber* existingId = [self.store lookupSoupEntryIdForSoupName:kTestSoupName forFieldPath:@"key" fieldValue:@"k1" error:nil];
     XCTAssertNotNil(existingId);
-    success = [self.store performTransaction:^(SFSmartStoreTransaction* txn, BOOL* rollback) {
+    error = nil;
+    success = [self.store performTransaction:^(SFSmartStoreTransaction* txn) {
         XCTAssertTrue([txn removeEntries:@[existingId] fromSoup:kTestSoupName error:nil]);
-        *rollback = YES;
+        [txn rollback];
     } error:&error];
-    XCTAssertTrue(success);
+    XCTAssertFalse(success);
+    XCTAssertNil(error);
     XCTAssertEqual([self countEntriesInSoup:kTestSoupName store:self.store], 1UL);
 }
 
@@ -1520,7 +1585,7 @@ Make sure we do NOT get a notification for a JSON parsing error
 {
     [self registerTestSoup:self.store indexType:kSoupIndexTypeString];
     NSError* error = nil;
-    BOOL success = [self.store performTransaction:^(SFSmartStoreTransaction* txn, BOOL* rollback) {
+    BOOL success = [self.store performTransaction:^(SFSmartStoreTransaction* txn) {
         NSArray* upserted = [txn upsertEntries:@[@{@"key":@"k1", @"value":@"v1"}] toSoup:kTestSoupName withExternalIdPath:SOUP_ENTRY_ID error:nil];
         NSNumber* entryId = upserted[0][SOUP_ENTRY_ID];
 
@@ -1556,12 +1621,12 @@ Make sure we do NOT get a notification for a JSON parsing error
     __block NSError* nestedTransactionError = nil;
     __block BOOL nestedTransactionResult = YES;
     __block NSArray* publicWriteResult = nil;
-    BOOL success = [self.store performTransaction:^(SFSmartStoreTransaction* txn, BOOL* rollback) {
+    BOOL success = [self.store performTransaction:^(SFSmartStoreTransaction* txn) {
         [txn upsertEntries:@[@{@"key":@"k1"}] toSoup:kTestSoupName withExternalIdPath:SOUP_ENTRY_ID error:nil];
         // Public write method of the store from inside the block: would deadlock, fails instead
         publicWriteResult = [self.store upsertEntries:@[@{@"key":@"k2"}] toSoup:kTestSoupName withExternalIdPath:SOUP_ENTRY_ID error:&publicWriteError];
         // Nested transaction: fails without running the nested block
-        nestedTransactionResult = [self.store performTransaction:^(SFSmartStoreTransaction* innerTxn, BOOL* innerRollback) {
+        nestedTransactionResult = [self.store performTransaction:^(SFSmartStoreTransaction* innerTxn) {
             XCTFail(@"Nested block must not run");
         } error:&nestedTransactionError];
     } error:&error];
@@ -1582,7 +1647,7 @@ Make sure we do NOT get a notification for a JSON parsing error
 {
     [self registerTestSoup:self.store indexType:kSoupIndexTypeString];
     __block SFSmartStoreTransaction* leaked = nil;
-    [self.store performTransaction:^(SFSmartStoreTransaction* txn, BOOL* rollback) {
+    [self.store performTransaction:^(SFSmartStoreTransaction* txn) {
         leaked = txn;
     } error:nil];
     NSError* error = nil;
@@ -1595,7 +1660,7 @@ Make sure we do NOT get a notification for a JSON parsing error
 {
     [self registerTestSoup:self.store indexType:kSoupIndexTypeString];
     [self registerTestSoup:self.globalStore indexType:kSoupIndexTypeString];
-    BOOL success = [self.store performTransaction:^(SFSmartStoreTransaction* txn, BOOL* rollback) {
+    BOOL success = [self.store performTransaction:^(SFSmartStoreTransaction* txn) {
         [txn upsertEntries:@[@{@"key":@"k1"}] toSoup:kTestSoupName withExternalIdPath:SOUP_ENTRY_ID error:nil];
         // Other store has its own queue: the re-entrancy guard only applies to the same store
         XCTAssertNotNil([self.globalStore upsertEntries:@[@{@"key":@"g1"}] toSoup:kTestSoupName]);
@@ -1630,7 +1695,7 @@ Make sure we do NOT get a notification for a JSON parsing error
 
     __block BOOL upsertThrew = NO;
     __block NSError* opError = nil;
-    BOOL success = [self.store performTransaction:^(SFSmartStoreTransaction* txn, BOOL* rollback) {
+    BOOL success = [self.store performTransaction:^(SFSmartStoreTransaction* txn) {
         XCTAssertNotNil([txn upsertEntries:@[@{@"key":@"k1"}] toSoup:kTestSoupName withExternalIdPath:SOUP_ENTRY_ID error:nil]);
         @try {
             NSArray* result = [txn upsertEntries:@[@{@"key":@"x"}] toSoup:brokenSoupName withExternalIdPath:SOUP_ENTRY_ID error:&opError];
@@ -1658,7 +1723,7 @@ Make sure we do NOT get a notification for a JSON parsing error
     NSNumber* brokenEntryId = brokenEntries[0][SOUP_ENTRY_ID];
     [self makeWritesFailOnSoup:brokenSoupName];
     NSError* error = nil;
-    BOOL success = [self.store performTransaction:^(SFSmartStoreTransaction* txn, BOOL* rollback) {
+    BOOL success = [self.store performTransaction:^(SFSmartStoreTransaction* txn) {
         XCTAssertNotNil([txn upsertEntries:@[@{@"key":@"k1"}] toSoup:kTestSoupName withExternalIdPath:SOUP_ENTRY_ID error:nil]);
         XCTAssertFalse([txn removeEntries:@[brokenEntryId] fromSoup:brokenSoupName error:nil]);
     } error:&error];
@@ -1671,7 +1736,7 @@ Make sure we do NOT get a notification for a JSON parsing error
 {
     [self registerTestSoup:self.store indexType:kSoupIndexTypeString];
     NSError* error = nil;
-    BOOL success = [self.store performTransaction:^(SFSmartStoreTransaction* txn, BOOL* rollback) {
+    BOOL success = [self.store performTransaction:^(SFSmartStoreTransaction* txn) {
         XCTAssertNotNil([txn upsertEntries:@[@{@"key":@"k1"}] toSoup:kTestSoupName withExternalIdPath:SOUP_ENTRY_ID error:nil]);
 
         SFQuerySpec* badQuery = [SFQuerySpec newSmartQuerySpec:@"select {noSuchSoup:key} from {noSuchSoup}" withPageSize:10];
@@ -1699,7 +1764,7 @@ Make sure we do NOT get a notification for a JSON parsing error
 - (void) testPerformTransactionLookupWithNoMatchReturnsNilWithoutError
 {
     [self registerTestSoup:self.store indexType:kSoupIndexTypeString];
-    [self.store performTransaction:^(SFSmartStoreTransaction* txn, BOOL* rollback) {
+    [self.store performTransaction:^(SFSmartStoreTransaction* txn) {
         NSError* error = nil;
         XCTAssertNil([txn lookupSoupEntryIdForSoupName:kTestSoupName forFieldPath:@"key" fieldValue:@"nope" error:&error]);
         XCTAssertNil(error);
@@ -1712,7 +1777,7 @@ Make sure we do NOT get a notification for a JSON parsing error
     [self.store upsertEntries:@[@{@"key":@"k1"}] toSoup:kTestSoupName];
     SFQuerySpec* querySpec = [SFQuerySpec newAllQuerySpec:kTestSoupName withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderAscending withPageSize:10];
     NSError* error = nil;
-    BOOL success = [self.store performTransaction:^(SFSmartStoreTransaction* txn, BOOL* rollback) {
+    BOOL success = [self.store performTransaction:^(SFSmartStoreTransaction* txn) {
         // queryPragma based
         XCTAssertEqualObjects([self.store getSQLCipherVersion], @"");
         XCTAssertEqual([self.store getCompileOptions].count, 0UL);
@@ -1747,7 +1812,7 @@ Make sure we do NOT get a notification for a JSON parsing error
     __block NSError* retrieveError = nil;
     __block NSArray* upsertResult = @[];
     __block NSArray* retrieveResult = @[];
-    BOOL success = [self.store performTransaction:^(SFSmartStoreTransaction* txn, BOOL* rollback) {
+    BOOL success = [self.store performTransaction:^(SFSmartStoreTransaction* txn) {
         dispatch_semaphore_t done = dispatch_semaphore_create(0);
         dispatch_async(dispatch_get_global_queue(QOS_CLASS_DEFAULT, 0), ^{
             upsertResult = [txn upsertEntries:@[@{@"key":@"other"}] toSoup:kTestSoupName withExternalIdPath:SOUP_ENTRY_ID error:&upsertError];

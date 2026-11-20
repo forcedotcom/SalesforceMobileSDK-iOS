@@ -112,7 +112,8 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
 @property (nonatomic, strong) SFSmartStore* store;
 @property (atomic, strong, nullable) NSThread* ownerThread; // thread running the transaction block; nil outside of the block
 @property (nonatomic, strong, nullable) FMDatabase* db; // only used by ownerThread, nil once the transaction block has returned
-@property (nonatomic, strong, nullable) NSError* failure; // first failed write operation
+@property (nonatomic, strong, nullable) NSError* failure; // first failure
+@property (nonatomic, assign) BOOL rollbackRequested; // set by -rollback
 - (instancetype)initWithStore:(SFSmartStore*)store NS_DESIGNATED_INITIALIZER;
 @end
 
@@ -718,15 +719,16 @@ static NSString * const kSFSmartStoreActiveBlocksKey = @"com.salesforce.smartsto
     return success;
 }
 
-- (BOOL)performTransaction:(void (NS_NOESCAPE ^)(SFSmartStoreTransaction *transaction, BOOL *rollback))block error:(NSError* __autoreleasing *)error
+- (BOOL)performTransaction:(void (NS_NOESCAPE ^)(SFSmartStoreTransaction *transaction))block error:(NSError* __autoreleasing *)error
 {
     SFSmartStoreTransaction* transaction = [[SFSmartStoreTransaction alloc] initWithStore:self];
+    NSError* txnError = nil;
     BOOL success = [self inTransaction:^(FMDatabase* db, BOOL* rollback) {
         transaction.db = db;
         transaction.ownerThread = [NSThread currentThread];
         @try {
-            block(transaction, rollback);
-            if (transaction.failure != nil) {
+            block(transaction);
+            if (transaction.failure != nil || transaction.rollbackRequested) {
                 *rollback = YES;
             }
         }
@@ -735,14 +737,19 @@ static NSString * const kSFSmartStoreActiveBlocksKey = @"com.salesforce.smartsto
             transaction.ownerThread = nil;
             transaction.db = nil;
         }
-    } error:error];
-    if (success && transaction.failure != nil) {
-        if (error != nil) {
-            *error = transaction.failure;
-        }
-        success = NO;
+    } error:&txnError];
+    // A failure recorded by the transaction wins (it is the first one), then errors from the queue (exception, re-entrancy)
+    NSError* failure = transaction.failure ?: txnError;
+    if (failure == nil && !success) {
+        failure = [NSError errorWithDomain:kSFSmartStoreErrorDomain code:kSFSmartStoreOtherErrorCode userInfo:@{NSLocalizedDescriptionKey: @"The transaction failed."}];
     }
-    return success;
+    if (failure != nil) {
+        if (error != nil) {
+            *error = failure;
+        }
+        return NO;
+    }
+    return !transaction.rollbackRequested;
 }
 
 - (NSError*) errorForException:(NSException*)exception
@@ -2198,7 +2205,19 @@ static NSString * const kSFSmartStoreActiveBlocksKey = @"com.salesforce.smartsto
     return self.db;
 }
 
-// Records the failure of a write operation so that the transaction is rolled back
+- (void)rollback
+{
+    if ([self activeDbWithError:nil] == nil) return;
+    self.rollbackRequested = YES;
+}
+
+- (void)failWithError:(NSError*)error
+{
+    if ([self activeDbWithError:nil] == nil) return;
+    [self recordFailure:error ?: [self errorWithDescription:@"The transaction was failed by the caller."]];
+}
+
+// Records a failure so that the transaction is rolled back
 - (void)recordFailure:(NSError*)error
 {
     if (self.failure == nil) {

@@ -494,18 +494,20 @@ NS_SWIFT_NAME(SmartStore)
  does not run: it fails with an error (kSFSmartStoreErrorDomain, code 999) instead of deadlocking.
 
  The transaction is committed when the block returns, unless
- - the block sets *rollback to YES, or
- - a write operation of the SFSmartStoreTransaction fails (it records its error), or
- - an exception is thrown inside the block (e.g. by a failing SQL statement).
+ - the block calls -[SFSmartStoreTransaction rollback] (requested rollback), or
+ - a write operation of the SFSmartStoreTransaction fails, or the block calls
+   -[SFSmartStoreTransaction failWithError:] (failure), or
+ - an exception is thrown inside the block (e.g. by a failing SQL statement): this is a failure too.
  In those cases everything done in the block is rolled back.
 
- @param block The work to do. Set *rollback to YES to discard everything done in the block.
+ @param block The work to do. It receives the transaction to read and write the store with, and to roll it back.
  @param error Set when the transaction was rolled back because of a failure (the first failure of the block
-              if there were several). Not set when the block itself requests a rollback.
- @return NO if the transaction failed and was rolled back (error is set), YES otherwise. Note that
-         YES is also returned when the block requested a rollback: the caller knows because it set the flag.
+              if there were several; a failure wins over a requested rollback). Left untouched (nil) when the
+              block only requested a rollback.
+ @return YES if and only if the transaction was committed. NO means it was rolled back: with error set if it
+         was a failure, with error nil if the block requested the rollback through -rollback.
  */
-- (BOOL)performTransaction:(void (NS_NOESCAPE ^)(SFSmartStoreTransaction *transaction, BOOL *rollback))block error:(NSError * _Nullable * _Nullable)error NS_SWIFT_NAME(performTransaction(_:));
+- (BOOL)performTransaction:(void (NS_NOESCAPE ^)(SFSmartStoreTransaction *transaction))block error:(NSError * _Nullable * _Nullable)error NS_SWIFT_NAME(performTransaction(_:));
 
 #pragma mark - Long operations recovery methods
 
@@ -552,7 +554,7 @@ NS_SWIFT_NAME(SmartStore)
 
  Write operations (upsert, remove) that fail mark the transaction as failed: it is rolled back when
  the block returns and -performTransaction:error: returns NO with that error, even if the block catches
- an exception and carries on. Read operations that fail (including SQL errors) only return the error to the
+ an exception and carries on. -rollback and -failWithError: do the same explicitly. Read operations that fail (including SQL errors) only return the error to the
  caller and do not mark the transaction as failed. SQL failures never surface as exceptions from these methods.
  */
 NS_SWIFT_NAME(SmartStore.Transaction)
@@ -560,6 +562,23 @@ NS_SWIFT_NAME(SmartStore.Transaction)
 
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
+
+/**
+ Marks the transaction for rollback, without an error: -performTransaction:error: will return NO and leave
+ its error nil. Operations already done in the block stay usable until the block returns. Does not
+ undo an earlier failure (a failure wins over a requested rollback).
+ Called from another thread than the one running the block, or after the block returned, it is rejected:
+ it has no effect (it cannot report an error).
+ */
+- (void)rollback NS_SWIFT_NAME(rollback());
+
+/**
+ Marks the transaction for rollback and records the error: -performTransaction:error: will return NO with
+ this error. If the transaction already failed, the first failure is kept. Same thread and lifetime
+ rules as -rollback: called from another thread, or after the block returned, it has no effect.
+ @param error The error to return from -performTransaction:error:. If nil, a generic error is recorded.
+ */
+- (void)failWithError:(NSError*)error NS_SWIFT_NAME(fail(with:));
 
 /**
  Same as -[SFSmartStore upsertEntries:toSoup:withExternalIdPath:error:] but inside the transaction.
