@@ -110,7 +110,8 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
 
 @interface SFSmartStoreTransaction ()
 @property (nonatomic, strong) SFSmartStore* store;
-@property (nonatomic, strong, nullable) FMDatabase* db; // nil once the transaction block has returned
+@property (atomic, strong, nullable) NSThread* ownerThread; // thread running the transaction block; nil outside of the block
+@property (nonatomic, strong, nullable) FMDatabase* db; // only used by ownerThread, nil once the transaction block has returned
 @property (nonatomic, strong, nullable) NSError* failure; // first failed write operation
 - (instancetype)initWithStore:(SFSmartStore*)store NS_DESIGNATED_INITIALIZER;
 @end
@@ -722,12 +723,19 @@ static NSString * const kSFSmartStoreActiveBlocksKey = @"com.salesforce.smartsto
     SFSmartStoreTransaction* transaction = [[SFSmartStoreTransaction alloc] initWithStore:self];
     BOOL success = [self inTransaction:^(FMDatabase* db, BOOL* rollback) {
         transaction.db = db;
-        block(transaction, rollback);
-        if (transaction.failure != nil) {
-            *rollback = YES;
+        transaction.ownerThread = [NSThread currentThread];
+        @try {
+            block(transaction, rollback);
+            if (transaction.failure != nil) {
+                *rollback = YES;
+            }
+        }
+        @finally {
+            // Invalidate before leaving the store's queue: the connection must not be used after the block
+            transaction.ownerThread = nil;
+            transaction.db = nil;
         }
     } error:error];
-    transaction.db = nil;  // invalidate: the connection must not be used after the block
     if (success && transaction.failure != nil) {
         if (error != nil) {
             *error = transaction.failure;
@@ -1100,7 +1108,7 @@ static NSString * const kSFSmartStoreActiveBlocksKey = @"com.salesforce.smartsto
 }
 
 - (BOOL)soupExists:(NSString*)soupName {
-    __block BOOL result;
+    __block BOOL result = NO;
     [self inDatabase:^(FMDatabase* db) {
         result = [self soupExists:soupName withDb:db];
     } error:nil];
@@ -1329,7 +1337,7 @@ static NSString * const kSFSmartStoreActiveBlocksKey = @"com.salesforce.smartsto
                                          fieldValue:(NSString *)fieldValue
                                               error:(NSError **)error
                                              withDb:(FMDatabase*)db];
-    } error:nil];
+    } error:error];
     return result;
 }
 
@@ -1392,11 +1400,11 @@ static NSString * const kSFSmartStoreActiveBlocksKey = @"com.salesforce.smartsto
 
 - (NSNumber*)countWithQuerySpec:(SFQuerySpec*)querySpec error:(NSError **)error;
 {
-    __block NSInteger result;
-    [self inDatabase:^(FMDatabase* db) {
+    __block NSInteger result = 0;
+    BOOL success = [self inDatabase:^(FMDatabase* db) {
         result = [self countWithQuerySpec:querySpec withDb:db];
     } error:error];
-    return [NSNumber numberWithUnsignedInteger:result];
+    return success ? [NSNumber numberWithUnsignedInteger:result] : nil;
 }
 
 - (NSUInteger)countWithQuerySpec:(SFQuerySpec*)querySpec withDb:(FMDatabase*)db
@@ -1988,7 +1996,7 @@ static NSString * const kSFSmartStoreActiveBlocksKey = @"com.salesforce.smartsto
 
 - (BOOL) reIndexSoup:(NSString*)soupName withIndexPaths:(NSArray*)indexPaths
 {
-    __block BOOL result;
+    __block BOOL result = NO;
     [self inTransaction:^(FMDatabase* db, BOOL* rollback) {
         result = [self reIndexSoup:soupName withIndexPaths:indexPaths withDb:db];
     } error:nil];
@@ -2132,7 +2140,8 @@ static NSString * const kSFSmartStoreActiveBlocksKey = @"com.salesforce.smartsto
 {
     __block NSMutableArray* result = [NSMutableArray new];
 
-    [self.storeQueue inDatabase:^(FMDatabase *db) {
+    // Goes through the guarded wrapper: called from inside a store block it returns an empty result
+    [self inDatabase:^(FMDatabase *db) {
 
         FMResultSet *rs = [db executeQuery:[NSString stringWithFormat:@"pragma %@", pragma]];
 
@@ -2141,7 +2150,7 @@ static NSString * const kSFSmartStoreActiveBlocksKey = @"com.salesforce.smartsto
         }
 
         [rs close];
-    }];
+    } error:nil];
 
     return result;
 }
@@ -2170,11 +2179,21 @@ static NSString * const kSFSmartStoreActiveBlocksKey = @"com.salesforce.smartsto
                            userInfo:@{NSLocalizedDescriptionKey: description}];
 }
 
-// Returns the connection, or nil (with error set) if the transaction block has already returned
+// Returns the connection, or nil (with error set) if the transaction is not active or is used from another thread
 - (FMDatabase*)activeDbWithError:(NSError**)error
 {
-    if (self.db == nil && error != nil) {
-        *error = [self errorWithDescription:@"The transaction is no longer active: it can only be used inside the performTransaction block."];
+    NSThread* owner = self.ownerThread;
+    if (owner == nil) {
+        if (error != nil) {
+            *error = [self errorWithDescription:@"The transaction is no longer active: it can only be used inside the performTransaction block."];
+        }
+        return nil;
+    }
+    if (owner != [NSThread currentThread]) {
+        if (error != nil) {
+            *error = [self errorWithDescription:@"The transaction can only be used on the thread that runs the performTransaction block."];
+        }
+        return nil;
     }
     return self.db;
 }
@@ -2187,96 +2206,108 @@ static NSString * const kSFSmartStoreActiveBlocksKey = @"com.salesforce.smartsto
     }
 }
 
-- (NSArray*)upsertEntries:(NSArray*)entries toSoup:(NSString*)soupName withExternalIdPath:(NSString*)externalIdPath error:(NSError* __autoreleasing *)error
+// Runs a read operation: exceptions become errors, the transaction is not marked as failed
+- (id)runRead:(id (^)(FMDatabase* db))operation error:(NSError* __autoreleasing *)error
 {
     FMDatabase* db = [self activeDbWithError:error];
     if (db == nil) return nil;
+    @try {
+        return operation(db);
+    }
+    @catch (NSException* exception) {
+        if (error != nil) *error = [self.store errorForException:exception];
+        return nil;
+    }
+}
+
+// Runs a write operation: failures (error or exception) mark the transaction as failed
+- (BOOL)runWrite:(void (^)(FMDatabase* db, NSError** error))operation error:(NSError* __autoreleasing *)error
+{
+    FMDatabase* db = [self activeDbWithError:error];
+    if (db == nil) return NO;
     NSError* localError = nil;
-    NSArray* result = [self.store upsertEntries:entries toSoup:soupName withExternalIdPath:externalIdPath error:&localError withDb:db];
-    if (localError == nil && result == nil) {
-        localError = [self errorWithDescription:[NSString stringWithFormat:@"Soup '%@' does not exist", soupName]];
+    @try {
+        operation(db, &localError);
+    }
+    @catch (NSException* exception) {
+        localError = [self.store errorForException:exception];
     }
     if (localError != nil) {
         [self recordFailure:localError];
         if (error != nil) *error = localError;
-        return nil;
+        return NO;
     }
-    return result;
+    return YES;
+}
+
+- (NSArray*)upsertEntries:(NSArray*)entries toSoup:(NSString*)soupName withExternalIdPath:(NSString*)externalIdPath error:(NSError* __autoreleasing *)error
+{
+    __block NSArray* result = nil;
+    BOOL ok = [self runWrite:^(FMDatabase* db, NSError** opError) {
+        result = [self.store upsertEntries:entries toSoup:soupName withExternalIdPath:externalIdPath error:opError withDb:db];
+        if (*opError == nil && result == nil) {
+            *opError = [self errorWithDescription:[NSString stringWithFormat:@"Soup '%@' does not exist", soupName]];
+        }
+    } error:error];
+    return ok ? result : nil;
 }
 
 - (NSArray*)retrieveEntries:(NSArray*)soupEntryIds fromSoup:(NSString*)soupName error:(NSError* __autoreleasing *)error
 {
-    FMDatabase* db = [self activeDbWithError:error];
-    if (db == nil) return nil;
-    return [self.store retrieveEntries:soupEntryIds fromSoup:soupName withDb:db];
+    return [self runRead:^id(FMDatabase* db) {
+        return [self.store retrieveEntries:soupEntryIds fromSoup:soupName withDb:db];
+    } error:error];
 }
 
 - (NSNumber*)lookupSoupEntryIdForSoupName:(NSString*)soupName forFieldPath:(NSString*)fieldPath fieldValue:(NSString*)fieldValue error:(NSError* __autoreleasing *)error
 {
-    FMDatabase* db = [self activeDbWithError:error];
-    if (db == nil) return nil;
-    NSString* soupTableName = [self.store tableNameForSoup:soupName withDb:db];
-    if (soupTableName == nil) {
-        if (error != nil) *error = [self errorWithDescription:[NSString stringWithFormat:@"Soup '%@' does not exist", soupName]];
-        return nil;
-    }
-    return [self.store lookupSoupEntryIdForSoupName:soupName soupTableName:soupTableName forFieldPath:fieldPath fieldValue:fieldValue error:error withDb:db];
+    // Failure is reported through error only: a nil result without error means "no match"
+    return [self runRead:^id(FMDatabase* db) {
+        NSString* soupTableName = [self.store tableNameForSoup:soupName withDb:db];
+        if (soupTableName == nil) {
+            if (error != nil) *error = [self errorWithDescription:[NSString stringWithFormat:@"Soup '%@' does not exist", soupName]];
+            return nil;
+        }
+        return [self.store lookupSoupEntryIdForSoupName:soupName soupTableName:soupTableName forFieldPath:fieldPath fieldValue:fieldValue error:error withDb:db];
+    } error:error];
 }
 
 - (NSArray*)queryWithQuerySpec:(SFQuerySpec*)querySpec pageIndex:(NSUInteger)pageIndex whereArgs:(NSArray*)whereArgs error:(NSError* __autoreleasing *)error
 {
-    FMDatabase* db = [self activeDbWithError:error];
-    if (db == nil) return nil;
-    if (whereArgs != nil && querySpec.queryType != kSFSoupQueryTypeSmart) {
-        if (error != nil) {
-            *error = [NSError errorWithDomain:kSFSmartStoreErrorDomain
-                                         code:kSFSmartStoreWhereArgsNotSupportedCode
-                                     userInfo:@{NSLocalizedDescriptionKey: kSFSmartStoreWhereArgsNotSupportedDescription}];
+    return [self runRead:^id(FMDatabase* db) {
+        if (whereArgs != nil && querySpec.queryType != kSFSoupQueryTypeSmart) {
+            if (error != nil) {
+                *error = [NSError errorWithDomain:kSFSmartStoreErrorDomain
+                                             code:kSFSmartStoreWhereArgsNotSupportedCode
+                                         userInfo:@{NSLocalizedDescriptionKey: kSFSmartStoreWhereArgsNotSupportedDescription}];
+            }
+            return nil;
         }
-        return nil;
-    }
-    NSMutableArray* result = [NSMutableArray new];
-    [self.store runQuery:result resultString:nil querySpec:querySpec pageIndex:pageIndex whereArgs:whereArgs withDb:db];
-    return result;
+        NSMutableArray* result = [NSMutableArray new];
+        [self.store runQuery:result resultString:nil querySpec:querySpec pageIndex:pageIndex whereArgs:whereArgs withDb:db];
+        return result;
+    } error:error];
 }
 
 - (NSNumber*)countWithQuerySpec:(SFQuerySpec*)querySpec error:(NSError* __autoreleasing *)error
 {
-    FMDatabase* db = [self activeDbWithError:error];
-    if (db == nil) return nil;
-    return @([self.store countWithQuerySpec:querySpec withDb:db]);
+    return [self runRead:^id(FMDatabase* db) {
+        return @([self.store countWithQuerySpec:querySpec withDb:db]);
+    } error:error];
 }
 
 - (BOOL)removeEntries:(NSArray*)entryIds fromSoup:(NSString*)soupName error:(NSError* __autoreleasing *)error
 {
-    FMDatabase* db = [self activeDbWithError:error];
-    if (db == nil) return NO;
-    @try {
+    return [self runWrite:^(FMDatabase* db, NSError** opError) {
         [self.store removeEntries:entryIds fromSoup:soupName withDb:db];
-    }
-    @catch (NSException* exception) {
-        NSError* localError = [self.store errorForException:exception];
-        [self recordFailure:localError];
-        if (error != nil) *error = localError;
-        return NO;
-    }
-    return YES;
+    } error:error];
 }
 
 - (BOOL)removeEntriesByQuery:(SFQuerySpec*)querySpec fromSoup:(NSString*)soupName error:(NSError* __autoreleasing *)error
 {
-    FMDatabase* db = [self activeDbWithError:error];
-    if (db == nil) return NO;
-    @try {
+    return [self runWrite:^(FMDatabase* db, NSError** opError) {
         [self.store removeEntriesByQuery:querySpec fromSoup:soupName withDb:db];
-    }
-    @catch (NSException* exception) {
-        NSError* localError = [self.store errorForException:exception];
-        [self recordFailure:localError];
-        if (error != nil) *error = localError;
-        return NO;
-    }
-    return YES;
+    } error:error];
 }
 
 @end

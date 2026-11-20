@@ -546,11 +546,14 @@ NS_SWIFT_NAME(SmartStore)
  Operations that can be used inside the block given to -[SFSmartStore performTransaction:error:].
  They run on the transaction's connection, so they see the writes made earlier in the same
  transaction (uncommitted) and do not re-enter the store's queue.
- An instance is only valid while the block runs; using it afterwards fails with an error.
+ An instance is only valid while the block runs, and only on the thread that runs the block: using it
+ afterwards, or from another thread (e.g. a block dispatched while the transaction block waits), fails with
+ an error without touching the database.
 
  Write operations (upsert, remove) that fail mark the transaction as failed: it is rolled back when
- the block returns and -performTransaction:error: returns NO with that error. Read operations that fail
- only return the error to the caller.
+ the block returns and -performTransaction:error: returns NO with that error, even if the block catches
+ an exception and carries on. Read operations that fail (including SQL errors) only return the error to the
+ caller and do not mark the transaction as failed. SQL failures never surface as exceptions from these methods.
  */
 NS_SWIFT_NAME(SmartStore.Transaction)
 @interface SFSmartStoreTransaction : NSObject
@@ -574,8 +577,9 @@ NS_SWIFT_NAME(SmartStore.Transaction)
 /**
  Same as -[SFSmartStore lookupSoupEntryIdForSoupName:forFieldPath:fieldValue:error:] but inside the transaction.
  @return The soup entry id, or nil if there is no match (error is not set) or on error (error is set).
+         In Swift a failure throws and "no match" returns nil (swift_error(nonnull_error)).
  */
-- (nullable NSNumber*)lookupSoupEntryIdForSoupName:(NSString*)soupName forFieldPath:(NSString*)fieldPath fieldValue:(nullable NSString*)fieldValue error:(NSError * _Nullable * _Nullable)error NS_SWIFT_NAME(lookupSoupEntryId(soupNamed:fieldPath:fieldValue:));
+- (nullable NSNumber*)lookupSoupEntryIdForSoupName:(NSString*)soupName forFieldPath:(NSString*)fieldPath fieldValue:(nullable NSString*)fieldValue error:(NSError * _Nullable * _Nullable)error NS_SWIFT_NAME(lookupSoupEntryId(soupNamed:fieldPath:fieldValue:)) __attribute__((swift_error(nonnull_error)));
 
 /**
  Same as -[SFSmartStore queryWithQuerySpec:pageIndex:whereArgs:error:] but inside the transaction.

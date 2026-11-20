@@ -72,4 +72,47 @@ class SmartStoreTests: XCTestCase {
         case .failure(_): XCTFail("query should not have failed")
         }
     }
+
+    func testTransactionLookupWithNoMatchReturnsNilInsteadOfThrowing() throws {
+        _ = store!.registerSoup(withName: "MyTestSoup", withIndexPaths: ["key"])
+        var lookedUp = false
+        try store!.performTransaction { txn, _ in
+            do {
+                let entryId = try txn.lookupSoupEntryId(soupNamed: "MyTestSoup", fieldPath: "key", fieldValue: "nope")
+                XCTAssertNil(entryId)
+                lookedUp = true
+            } catch {
+                XCTFail("Lookup with no match must not throw: \(error)")
+            }
+        }
+        XCTAssertTrue(lookedUp)
+    }
+
+    func testTransactionLookupFailureThrows() throws {
+        _ = store!.registerSoup(withName: "MyTestSoup", withIndexPaths: ["key"])
+        var threw = false
+        try store!.performTransaction { txn, _ in
+            do {
+                _ = try txn.lookupSoupEntryId(soupNamed: "MyTestSoup", fieldPath: "notIndexed", fieldValue: "x")
+            } catch {
+                threw = true
+            }
+        }
+        XCTAssertTrue(threw)
+    }
+
+    func testTransactionReadsAndWritesFromSwift() throws {
+        _ = store!.registerSoup(withName: "MyTestSoup", withIndexPaths: ["key"])
+        try store!.performTransaction { txn, _ in
+            do {
+                let upserted = try txn.upsert(entries: [["key": "k1"]], forSoupNamed: "MyTestSoup", withExternalIdPath: SmartStore.soupEntryId)
+                XCTAssertEqual(upserted.count, 1)
+                let found = try txn.lookupSoupEntryId(soupNamed: "MyTestSoup", fieldPath: "key", fieldValue: "k1")
+                XCTAssertNotNil(found)
+                XCTAssertEqual(try txn.retrieve(usingSoupEntryIds: [], fromSoupNamed: "MyTestSoup").count, 0)
+            } catch {
+                XCTFail("Unexpected error: \(error)")
+            }
+        }
+    }
 }

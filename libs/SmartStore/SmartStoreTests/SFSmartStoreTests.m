@@ -1606,6 +1606,168 @@ Make sure we do NOT get a notification for a JSON parsing error
 }
 
 
+// Makes inserts and deletes on the soup fail with a SQL error (the soup still exists as far as the store knows)
+- (void) makeWritesFailOnSoup:(NSString*)soupName
+{
+    NSString* tableName = [self getSoupTableName:soupName store:self.store];
+    [self.store.storeQueue inDatabase:^(FMDatabase* db) {
+        for (NSString* op in @[@"INSERT", @"UPDATE", @"DELETE"]) {
+            NSString* sql = [NSString stringWithFormat:@"CREATE TRIGGER fail_%@ BEFORE %@ ON %@ BEGIN SELECT RAISE(ABORT, 'injected failure'); END", op, op, tableName];
+            BOOL created = [db executeUpdate:sql];
+            XCTAssertTrue(created);
+        }
+    }];
+}
+
+- (void) testPerformTransactionUpsertSqlFailureCaughtInBlockStillRollsBack
+{
+    [self registerTestSoup:self.store indexType:kSoupIndexTypeString];
+    NSString* brokenSoupName = @"brokenSoup";
+    NSError* error = nil;
+    [self.store registerSoup:brokenSoupName withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[@{@"path": @"key", @"type": kSoupIndexTypeString}]] error:&error];
+    XCTAssertNil(error);
+    [self makeWritesFailOnSoup:brokenSoupName];
+
+    __block BOOL upsertThrew = NO;
+    __block NSError* opError = nil;
+    BOOL success = [self.store performTransaction:^(SFSmartStoreTransaction* txn, BOOL* rollback) {
+        XCTAssertNotNil([txn upsertEntries:@[@{@"key":@"k1"}] toSoup:kTestSoupName withExternalIdPath:SOUP_ENTRY_ID error:nil]);
+        @try {
+            NSArray* result = [txn upsertEntries:@[@{@"key":@"x"}] toSoup:brokenSoupName withExternalIdPath:SOUP_ENTRY_ID error:&opError];
+            XCTAssertNil(result);
+        }
+        @catch (NSException* e) {
+            upsertThrew = YES;
+        }
+        // Block swallows the failure and returns normally
+    } error:&error];
+    XCTAssertFalse(upsertThrew, @"Transaction operations report SQL failures through NSError, not exceptions");
+    XCTAssertNotNil(opError);
+    XCTAssertFalse(success);
+    XCTAssertNotNil(error);
+    XCTAssertEqual([self countEntriesInSoup:kTestSoupName store:self.store], 0UL, @"Earlier write must be rolled back");
+}
+
+- (void) testPerformTransactionRemoveSqlFailureCaughtInBlockStillRollsBack
+{
+    [self registerTestSoup:self.store indexType:kSoupIndexTypeString];
+    [self.store upsertEntries:@[@{@"key":@"k0"}] toSoup:kTestSoupName];
+    NSString* brokenSoupName = @"brokenSoup";
+    [self.store registerSoup:brokenSoupName withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[@{@"path": @"key", @"type": kSoupIndexTypeString}]] error:nil];
+    NSArray* brokenEntries = [self.store upsertEntries:@[@{@"key":@"b0"}] toSoup:brokenSoupName];
+    NSNumber* brokenEntryId = brokenEntries[0][SOUP_ENTRY_ID];
+    [self makeWritesFailOnSoup:brokenSoupName];
+    NSError* error = nil;
+    BOOL success = [self.store performTransaction:^(SFSmartStoreTransaction* txn, BOOL* rollback) {
+        XCTAssertNotNil([txn upsertEntries:@[@{@"key":@"k1"}] toSoup:kTestSoupName withExternalIdPath:SOUP_ENTRY_ID error:nil]);
+        XCTAssertFalse([txn removeEntries:@[brokenEntryId] fromSoup:brokenSoupName error:nil]);
+    } error:&error];
+    XCTAssertFalse(success);
+    XCTAssertNotNil(error);
+    XCTAssertEqual([self countEntriesInSoup:kTestSoupName store:self.store], 1UL);
+}
+
+- (void) testPerformTransactionFailedReadsReturnErrorAndDoNotAbortTransaction
+{
+    [self registerTestSoup:self.store indexType:kSoupIndexTypeString];
+    NSError* error = nil;
+    BOOL success = [self.store performTransaction:^(SFSmartStoreTransaction* txn, BOOL* rollback) {
+        XCTAssertNotNil([txn upsertEntries:@[@{@"key":@"k1"}] toSoup:kTestSoupName withExternalIdPath:SOUP_ENTRY_ID error:nil]);
+
+        SFQuerySpec* badQuery = [SFQuerySpec newSmartQuerySpec:@"select {noSuchSoup:key} from {noSuchSoup}" withPageSize:10];
+        NSError* queryError = nil;
+        XCTAssertNil([txn queryWithQuerySpec:badQuery pageIndex:0 whereArgs:nil error:&queryError]);
+        XCTAssertNotNil(queryError);
+        NSError* countError = nil;
+        XCTAssertNil([txn countWithQuerySpec:badQuery error:&countError]);
+        XCTAssertNotNil(countError);
+        NSError* lookupError = nil;
+        XCTAssertNil([txn lookupSoupEntryIdForSoupName:kTestSoupName forFieldPath:@"notIndexed" fieldValue:@"x" error:&lookupError]);
+        XCTAssertNotNil(lookupError);
+        NSError* retrieveError = nil;
+        XCTAssertNotNil([txn retrieveEntries:@[@1] fromSoup:kTestSoupName error:&retrieveError]);
+        XCTAssertNil(retrieveError);
+
+        // The callback keeps going and the transaction is still usable
+        XCTAssertNotNil([txn upsertEntries:@[@{@"key":@"k2"}] toSoup:kTestSoupName withExternalIdPath:SOUP_ENTRY_ID error:nil]);
+    } error:&error];
+    XCTAssertTrue(success);
+    XCTAssertNil(error);
+    XCTAssertEqual([self countEntriesInSoup:kTestSoupName store:self.store], 2UL);
+}
+
+- (void) testPerformTransactionLookupWithNoMatchReturnsNilWithoutError
+{
+    [self registerTestSoup:self.store indexType:kSoupIndexTypeString];
+    [self.store performTransaction:^(SFSmartStoreTransaction* txn, BOOL* rollback) {
+        NSError* error = nil;
+        XCTAssertNil([txn lookupSoupEntryIdForSoupName:kTestSoupName forFieldPath:@"key" fieldValue:@"nope" error:&error]);
+        XCTAssertNil(error);
+    } error:nil];
+}
+
+- (void) testReentrantCallsToOtherPublicApisFailSafely
+{
+    [self registerTestSoup:self.store indexType:kSoupIndexTypeString];
+    [self.store upsertEntries:@[@{@"key":@"k1"}] toSoup:kTestSoupName];
+    SFQuerySpec* querySpec = [SFQuerySpec newAllQuerySpec:kTestSoupName withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderAscending withPageSize:10];
+    NSError* error = nil;
+    BOOL success = [self.store performTransaction:^(SFSmartStoreTransaction* txn, BOOL* rollback) {
+        // queryPragma based
+        XCTAssertEqualObjects([self.store getSQLCipherVersion], @"");
+        XCTAssertEqual([self.store getCompileOptions].count, 0UL);
+        XCTAssertFalse([self.store getCipherFIPSStatus]);
+        // soupExists / count / lookup with error
+        XCTAssertFalse([self.store soupExists:kTestSoupName]);
+        NSError* countError = nil;
+        XCTAssertNil([self.store countWithQuerySpec:querySpec error:&countError]);
+        XCTAssertEqual(countError.code, 999);
+        NSError* lookupError = nil;
+        XCTAssertNil([self.store lookupSoupEntryIdForSoupName:kTestSoupName forFieldPath:@"key" fieldValue:@"k1" error:&lookupError]);
+        XCTAssertEqual(lookupError.code, 999);
+        NSError* queryError = nil;
+        XCTAssertNil([self.store queryWithQuerySpec:querySpec pageIndex:0 error:&queryError]);
+        XCTAssertEqual(queryError.code, 999);
+        XCTAssertNil([self.store allSoupNames]);
+        XCTAssertFalse([self.store alterSoup:kTestSoupName withIndexSpecs:@[] reIndexData:NO]);
+        XCTAssertFalse([self.store reIndexSoup:kTestSoupName withIndexPaths:@[@"key"]]);
+    } error:&error];
+    XCTAssertTrue(success);
+    XCTAssertNil(error);
+    // Outside of a block everything works as usual
+    XCTAssertTrue([self.store soupExists:kTestSoupName]);
+    XCTAssertGreaterThan([self.store getSQLCipherVersion].length, 0UL);
+}
+
+- (void) testPerformTransactionRejectsUseFromAnotherThread
+{
+    [self registerTestSoup:self.store indexType:kSoupIndexTypeString];
+    NSError* error = nil;
+    __block NSError* upsertError = nil;
+    __block NSError* retrieveError = nil;
+    __block NSArray* upsertResult = @[];
+    __block NSArray* retrieveResult = @[];
+    BOOL success = [self.store performTransaction:^(SFSmartStoreTransaction* txn, BOOL* rollback) {
+        dispatch_semaphore_t done = dispatch_semaphore_create(0);
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_DEFAULT, 0), ^{
+            upsertResult = [txn upsertEntries:@[@{@"key":@"other"}] toSoup:kTestSoupName withExternalIdPath:SOUP_ENTRY_ID error:&upsertError];
+            retrieveResult = [txn retrieveEntries:@[@1] fromSoup:kTestSoupName error:&retrieveError];
+            dispatch_semaphore_signal(done);
+        });
+        XCTAssertEqual(dispatch_semaphore_wait(done, dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC)), 0L);
+        XCTAssertNotNil([txn upsertEntries:@[@{@"key":@"mine"}] toSoup:kTestSoupName withExternalIdPath:SOUP_ENTRY_ID error:nil]);
+    } error:&error];
+    XCTAssertNil(upsertResult);
+    XCTAssertNotNil(upsertError);
+    XCTAssertNil(retrieveResult);
+    XCTAssertNotNil(retrieveError);
+    XCTAssertTrue(success, @"Rejected calls from another thread do not affect the transaction");
+    XCTAssertNil(error);
+    XCTAssertEqual([self countEntriesInSoup:kTestSoupName store:self.store], 1UL);
+    XCTAssertNotNil([self.store lookupSoupEntryIdForSoupName:kTestSoupName forFieldPath:@"key" fieldValue:@"mine" error:nil]);
+    XCTAssertNil([self.store lookupSoupEntryIdForSoupName:kTestSoupName forFieldPath:@"key" fieldValue:@"other" error:nil]);
+}
+
 - (void)clearAllStores
 {
     self.store = nil;
