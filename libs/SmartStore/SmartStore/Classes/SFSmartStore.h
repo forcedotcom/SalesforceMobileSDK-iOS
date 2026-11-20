@@ -580,7 +580,8 @@ NS_SWIFT_NAME(SmartStore.Transaction)
  Marks the transaction for rollback and records the error: -performTransaction:error: will return NO with
  this error. If the transaction already failed, the first failure is kept. Same thread and lifetime
  rules as -rollback: called from another thread, or after the block returned, it has no effect.
- @param error The error to return from -performTransaction:error:. If nil, a generic error is recorded.
+ @param error The error to return from -performTransaction:error:. Must not be nil (use -rollback to roll back
+              without an error); a nil passed anyway still rolls back, with a generic error.
  */
 - (void)failWithError:(NSError*)error NS_SWIFT_NAME(fail(with:));
 
