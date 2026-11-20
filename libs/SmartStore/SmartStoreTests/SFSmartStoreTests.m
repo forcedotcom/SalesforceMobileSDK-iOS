@@ -1918,6 +1918,32 @@ static int denyRollbackAuthorizer(void* unused, int action, const char* arg1, co
     XCTAssertEqual([self countEntriesInSoup:kTestSoupName store:self.store], 1UL);
 }
 
+- (void) testPerformTransactionFailedRollbackDoesNotLeakPendingWritesToQueuedOperation
+{
+    [self registerTestSoup:self.store indexType:kSoupIndexTypeString];
+    [self.store.storeQueue inDatabase:^(FMDatabase* db) {
+        sqlite3_set_authorizer([db sqliteHandle], denyRollbackAuthorizer, NULL);
+    }];
+    dispatch_group_t group = dispatch_group_create();
+    __block NSArray* competingResult = nil;
+    NSError* error = nil;
+    BOOL success = [self.store performTransaction:^(SFSmartStoreTransaction* txn) {
+        [txn upsertEntries:@[@{@"key":@"leaked"}] toSoup:kTestSoupName withExternalIdPath:SOUP_ENTRY_ID error:nil];
+        [txn rollback];
+        // A public write from another thread queues up behind the transaction on the store's queue
+        dispatch_group_async(group, dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+            competingResult = [self.store upsertEntries:@[@{@"key":@"competing"}] toSoup:kTestSoupName];
+        });
+        [NSThread sleepForTimeInterval:0.5];
+    } error:&error];
+    XCTAssertFalse(success);
+    XCTAssertNotNil(error);
+    XCTAssertEqual(dispatch_group_wait(group, dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC)), 0L);
+    XCTAssertNotNil(competingResult);
+    // Only the competing write is stored: it must not have committed the failed transaction's write
+    XCTAssertEqual([self countEntriesInSoup:kTestSoupName store:self.store], 1UL);
+}
+
 - (void)clearAllStores
 {
     self.store = nil;

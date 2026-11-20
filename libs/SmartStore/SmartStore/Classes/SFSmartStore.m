@@ -27,6 +27,7 @@
 @import SQLCipher;
 @import FMDB;
 #import "SFSmartStore+Internal.h"
+#import "SFSmartStoreDatabaseManager+Internal.h"
 #import "SFSmartStoreUtils.h"
 #import "SFSmartSqlHelper.h"
 #import "SFSmartSqlCache.h"
@@ -725,7 +726,6 @@ static NSString * const kSFSmartStoreActiveBlocksKey = @"com.salesforce.smartsto
 {
     SFSmartStoreTransaction* transaction = [[SFSmartStoreTransaction alloc] initWithStore:self];
     NSError* txnError = nil;
-    __block BOOL connectionNeedsReset = NO;
     // BEGIN / COMMIT / ROLLBACK are driven here rather than through FMDatabaseQueue's inTransaction:, which ignores their outcome
     BOOL success = [self inDatabase:^(FMDatabase* db) {
         if (![db beginTransaction]) {
@@ -760,18 +760,20 @@ static NSString * const kSFSmartStoreActiveBlocksKey = @"com.salesforce.smartsto
             if (![db rollback]) {
                 [transaction recordFailure:[self errorForDb:db description:@"Could not roll back the transaction"]];
             }
-            // If the transaction is still open, the next operation on this connection would commit its pending writes
-            connectionNeedsReset = ![SFSmartStoreTransaction isAutocommitOnDb:db];
+            if (![SFSmartStoreTransaction isAutocommitOnDb:db]) {
+                // Still open: the next operation on this connection would commit its pending writes.
+                // Reset the connection right here, while we still own the queue, so that no queued operation can run on it:
+                // closing discards the pending changes, then the same FMDatabase is reopened and unlocked like at store opening.
+                [SFSDKSmartStoreLogger e:[self class] format:@"Rollback failed in store '%@': resetting the connection", self.storeName];
+                [db close];
+                NSString* salt = [[self class] encryptionSaltBlock] ? [[self class] encryptionSaltBlock]() : nil;
+                NSError* reopenError = nil;
+                if ([SFSmartStoreDatabaseManager setKeyForDb:db key:[[self class] encKey] salt:salt error:&reopenError] == nil) {
+                    [transaction recordFailure:[self errorWithDescription:[NSString stringWithFormat:@"Could not roll back the transaction and could not reopen the store: %@", reopenError.localizedDescription]]];
+                }
+            }
         }
     } error:&txnError];
-    if (connectionNeedsReset) {
-        // Closing the connection discards the pending changes; a fresh one is opened for later operations.
-        // Done outside of the queue block since closing waits on the queue.
-        [self.storeQueue close];
-        if (![self openStoreDatabase]) {
-            [transaction recordFailure:[self errorWithDescription:@"Could not roll back the transaction and could not reopen the store."]];
-        }
-    }
     // A failure recorded by the transaction wins (it is the first one), then errors from the queue (re-entrancy)
     NSError* failure = transaction.failure ?: txnError;
     if (failure == nil && !success) {
