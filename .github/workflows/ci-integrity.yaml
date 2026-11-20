@@ -1,0 +1,82 @@
+name: PR integrity
+
+on:
+  pull_request:
+    branches: [dev, 'dev[0-9]*', master, '!dev70preview']
+
+permissions:
+  contents: read
+
+jobs:
+  integrity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Validate PR and distribution metadata
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          git diff --check "$BASE_SHA" "$HEAD_SHA"
+          python3 - <<'PYTHON'
+          import json, pathlib, xml.etree.ElementTree as ET
+          for name in ('package.json', 'templates.json'):
+              path = pathlib.Path(name)
+              if path.is_file():
+                  json.loads(path.read_text())
+          if pathlib.Path('plugin.xml').is_file():
+              ET.parse('plugin.xml')
+          PYTHON
+
+  ci-provenance:
+    name: CI provenance
+    if: always()
+    needs: ["integrity"]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - name: Record GitHub execution context
+        env:
+          REPOSITORY: ${{ github.repository }}
+          REPOSITORY_ID: ${{ github.repository_id }}
+          RUN_ID: ${{ github.run_id }}
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+          EVENT: ${{ github.event_name }}
+          WORKFLOW_SHA: ${{ github.workflow_sha }}
+          EXECUTED_SHA: ${{ github.sha }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          HEAD_REPOSITORY_ID: ${{ github.event.pull_request.head.repo.id }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          BASE_REF: ${{ github.event.pull_request.base.ref }}
+        run: |
+          python3 - <<'PYTHON'
+          import json, os
+          fields = {
+              'repository': 'REPOSITORY', 'repository_id': 'REPOSITORY_ID',
+              'run_id': 'RUN_ID', 'run_attempt': 'RUN_ATTEMPT', 'event': 'EVENT',
+              'workflow_sha': 'WORKFLOW_SHA', 'sha': 'EXECUTED_SHA',
+              'pr': 'PR_NUMBER', 'head_sha': 'HEAD_SHA',
+              'head_repository_id': 'HEAD_REPOSITORY_ID',
+              'base_sha': 'BASE_SHA', 'base_ref': 'BASE_REF',
+          }
+          value = {key: os.environ[env] for key, env in fields.items()}
+          value['workflow_path'] = '.github/workflows/ci-integrity.yaml'
+          with open('provenance.json', 'w') as output:
+              json.dump(value, output, sort_keys=True)
+          PYTHON
+      - name: Upload provenance
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: ci-provenance-${{ github.run_id }}-${{ github.run_attempt }}
+          path: provenance.json
+          if-no-files-found: error
+          retention-days: 30
+          overwrite: false
