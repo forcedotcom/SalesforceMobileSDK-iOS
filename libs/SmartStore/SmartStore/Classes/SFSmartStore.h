@@ -89,6 +89,7 @@ extern NSString *const SOUP_LAST_MODIFIED_DATE NS_SWIFT_NAME(SmartStore.lastModi
 @class FMDatabaseQueue;
 @class SFQuerySpec;
 @class SFSoupSpec;
+@class SFSmartStoreTransaction;
 @class SFUserAccount;
 
 NS_SWIFT_NAME(SmartStore)
@@ -481,6 +482,31 @@ NS_SWIFT_NAME(SmartStore)
  */
 - (BOOL)getCipherFIPSStatus NS_SWIFT_NAME(cipherFIPSStatus());
 
+#pragma mark - Transactions
+
+/**
+ Run several operations as one atomic unit: either all of them are committed or none is.
+
+ The block runs on the store's serial queue inside a single SQLite transaction (BEGIN EXCLUSIVE).
+ Use the SFSmartStoreTransaction passed to the block to read and write the store; do NOT call
+ methods of this SFSmartStore (or of any other API that uses it, such as MobileSync) from inside
+ the block: transactions are not nested and the store's queue is not re-entrant. Such a call
+ does not run: it fails with an error (kSFSmartStoreErrorDomain, code 999) instead of deadlocking.
+
+ The transaction is committed when the block returns, unless
+ - the block sets *rollback to YES, or
+ - a write operation of the SFSmartStoreTransaction fails (it records its error), or
+ - an exception is thrown inside the block (e.g. by a failing SQL statement).
+ In those cases everything done in the block is rolled back.
+
+ @param block The work to do. Set *rollback to YES to discard everything done in the block.
+ @param error Set when the transaction was rolled back because of a failure (the first failure of the block
+              if there were several). Not set when the block itself requests a rollback.
+ @return NO if the transaction failed and was rolled back (error is set), YES otherwise. Note that
+         YES is also returned when the block requested a rollback: the caller knows because it set the flag.
+ */
+- (BOOL)performTransaction:(void (NS_NOESCAPE ^)(SFSmartStoreTransaction *transaction, BOOL *rollback))block error:(NSError * _Nullable * _Nullable)error NS_SWIFT_NAME(performTransaction(_:));
+
 #pragma mark - Long operations recovery methods
 
 /**
@@ -513,6 +539,66 @@ NS_SWIFT_NAME(SmartStore)
  @return The NSDate representation of the last modified date.
  */
 + (NSDate *)dateFromLastModifiedValue:(NSNumber *)lastModifiedValue NS_SWIFT_NAME(date(lastModifiedValue:));
+
+@end
+
+/**
+ Operations that can be used inside the block given to -[SFSmartStore performTransaction:error:].
+ They run on the transaction's connection, so they see the writes made earlier in the same
+ transaction (uncommitted) and do not re-enter the store's queue.
+ An instance is only valid while the block runs; using it afterwards fails with an error.
+
+ Write operations (upsert, remove) that fail mark the transaction as failed: it is rolled back when
+ the block returns and -performTransaction:error: returns NO with that error. Read operations that fail
+ only return the error to the caller.
+ */
+NS_SWIFT_NAME(SmartStore.Transaction)
+@interface SFSmartStoreTransaction : NSObject
+
+- (instancetype)init NS_UNAVAILABLE;
++ (instancetype)new NS_UNAVAILABLE;
+
+/**
+ Same as -[SFSmartStore upsertEntries:toSoup:withExternalIdPath:error:] but inside the transaction.
+ If an entry fails to be upserted, nothing is returned and the whole transaction is rolled back
+ (including entries of the same call that were already written).
+ @return The upserted entries, or nil with error set (e.g. the soup does not exist).
+ */
+- (nullable NSArray<NSDictionary*>*)upsertEntries:(NSArray<NSDictionary*>*)entries toSoup:(NSString*)soupName withExternalIdPath:(NSString*)externalIdPath error:(NSError * _Nullable * _Nullable)error NS_SWIFT_NAME(upsert(entries:forSoupNamed:withExternalIdPath:));
+
+/**
+ Same as -[SFSmartStore retrieveEntries:fromSoup:] but inside the transaction.
+ */
+- (nullable NSArray<NSDictionary*>*)retrieveEntries:(NSArray<NSNumber*>*)soupEntryIds fromSoup:(NSString*)soupName error:(NSError * _Nullable * _Nullable)error NS_SWIFT_NAME(retrieve(usingSoupEntryIds:fromSoupNamed:));
+
+/**
+ Same as -[SFSmartStore lookupSoupEntryIdForSoupName:forFieldPath:fieldValue:error:] but inside the transaction.
+ @return The soup entry id, or nil if there is no match (error is not set) or on error (error is set).
+ */
+- (nullable NSNumber*)lookupSoupEntryIdForSoupName:(NSString*)soupName forFieldPath:(NSString*)fieldPath fieldValue:(nullable NSString*)fieldValue error:(NSError * _Nullable * _Nullable)error NS_SWIFT_NAME(lookupSoupEntryId(soupNamed:fieldPath:fieldValue:));
+
+/**
+ Same as -[SFSmartStore queryWithQuerySpec:pageIndex:whereArgs:error:] but inside the transaction.
+ @param whereArgs Only supported (and optional) for smart queries.
+ */
+- (nullable NSArray*)queryWithQuerySpec:(SFQuerySpec*)querySpec pageIndex:(NSUInteger)pageIndex whereArgs:(nullable NSArray*)whereArgs error:(NSError * _Nullable * _Nullable)error NS_SWIFT_NAME(query(using:startingFromPageIndex:whereArgs:));
+
+/**
+ Same as -[SFSmartStore countWithQuerySpec:error:] but inside the transaction.
+ */
+- (nullable NSNumber*)countWithQuerySpec:(SFQuerySpec*)querySpec error:(NSError * _Nullable * _Nullable)error NS_SWIFT_NAME(count(using:));
+
+/**
+ Same as -[SFSmartStore removeEntries:fromSoup:error:] but inside the transaction.
+ @return YES on success; NO with error set (the transaction is then rolled back).
+ */
+- (BOOL)removeEntries:(NSArray<NSNumber*>*)entryIds fromSoup:(NSString*)soupName error:(NSError * _Nullable * _Nullable)error NS_SWIFT_NAME(remove(entryIds:forSoupNamed:));
+
+/**
+ Same as -[SFSmartStore removeEntriesByQuery:fromSoup:error:] but inside the transaction.
+ @return YES on success; NO with error set (the transaction is then rolled back).
+ */
+- (BOOL)removeEntriesByQuery:(SFQuerySpec*)querySpec fromSoup:(NSString*)soupName error:(NSError * _Nullable * _Nullable)error NS_SWIFT_NAME(removeEntries(usingQuerySpec:forSoupNamed:));
 
 @end
 

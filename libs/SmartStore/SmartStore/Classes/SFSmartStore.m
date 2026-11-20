@@ -108,6 +108,13 @@ NSString *const EXPLAIN_ARGS = @"args";
 // Caches count limit
 NSUInteger CACHES_COUNT_LIMIT = 1024;
 
+@interface SFSmartStoreTransaction ()
+@property (nonatomic, strong) SFSmartStore* store;
+@property (nonatomic, strong, nullable) FMDatabase* db; // nil once the transaction block has returned
+@property (nonatomic, strong, nullable) NSError* failure; // first failed write operation
+- (instancetype)initWithStore:(SFSmartStore*)store NS_DESIGNATED_INITIALIZER;
+@end
+
 @implementation SFSmartStore
 
 + (void)initialize
@@ -618,10 +625,53 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
     @throw [NSException exceptionWithName:message reason:[db lastErrorMessage] userInfo:nil];
 }
 
+// The store's queue is serial and not re-entrant: running a block on it from inside a block
+// already running on it deadlocks (FMDB asserts in debug builds). The block runs on the thread
+// that called into the queue, so we track on the current thread which stores are in a block.
+static NSString * const kSFSmartStoreActiveBlocksKey = @"com.salesforce.smartstore.activeBlocks";
+
+- (BOOL)isInStoreBlockOnCurrentThread
+{
+    NSSet* active = [NSThread currentThread].threadDictionary[kSFSmartStoreActiveBlocksKey];
+    return [active containsObject:[NSValue valueWithNonretainedObject:self]];
+}
+
+- (void)setInStoreBlockOnCurrentThread:(BOOL)inBlock
+{
+    NSMutableDictionary* threadDict = [NSThread currentThread].threadDictionary;
+    NSMutableSet* active = threadDict[kSFSmartStoreActiveBlocksKey];
+    if (active == nil) {
+        active = [NSMutableSet set];
+        threadDict[kSFSmartStoreActiveBlocksKey] = active;
+    }
+    NSValue* key = [NSValue valueWithNonretainedObject:self];
+    if (inBlock) {
+        [active addObject:key];
+    } else {
+        [active removeObject:key];
+    }
+}
+
+- (NSError*)reentrantCallError
+{
+    NSString* msg = @"SmartStore operations cannot be called from inside a SmartStore database or transaction block on the same store (it would deadlock). Use the operations of SFSmartStoreTransaction inside performTransaction.";
+    [SFSDKSmartStoreLogger e:[self class] format:@"%@", msg];
+    return [NSError errorWithDomain:kSFSmartStoreErrorDomain
+                               code:kSFSmartStoreOtherErrorCode
+                           userInfo:@{NSLocalizedDescriptionKey: msg}];
+}
+
 - (BOOL)inDatabase:(void (^)(FMDatabase *db))block error:(NSError* __autoreleasing *)error
 {
+    if ([self isInStoreBlockOnCurrentThread]) {
+        if (error != nil) {
+            *error = [self reentrantCallError];
+        }
+        return NO;
+    }
     __block BOOL success = YES;
     [self.storeQueue inDatabase:^(FMDatabase* db) {
+        [self setInStoreBlockOnCurrentThread:YES];
         @try {
             block(db);
         }
@@ -631,13 +681,23 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
             }
             success = NO;
         }
+        @finally {
+            [self setInStoreBlockOnCurrentThread:NO];
+        }
     }];
     return success;
 }
 
 - (BOOL)inTransaction:(void (^)(FMDatabase *db, BOOL *rollback))block error:(NSError* __autoreleasing *)error {
+    if ([self isInStoreBlockOnCurrentThread]) {
+        if (error != nil) {
+            *error = [self reentrantCallError];
+        }
+        return NO;
+    }
     __block BOOL success = YES;
     [self.storeQueue inTransaction:^(FMDatabase* db, BOOL *rollback) {
+        [self setInStoreBlockOnCurrentThread:YES];
         @try {
             block(db, rollback);
         }
@@ -650,7 +710,30 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
             }
             success = NO;
         }
+        @finally {
+            [self setInStoreBlockOnCurrentThread:NO];
+        }
     }];
+    return success;
+}
+
+- (BOOL)performTransaction:(void (NS_NOESCAPE ^)(SFSmartStoreTransaction *transaction, BOOL *rollback))block error:(NSError* __autoreleasing *)error
+{
+    SFSmartStoreTransaction* transaction = [[SFSmartStoreTransaction alloc] initWithStore:self];
+    BOOL success = [self inTransaction:^(FMDatabase* db, BOOL* rollback) {
+        transaction.db = db;
+        block(transaction, rollback);
+        if (transaction.failure != nil) {
+            *rollback = YES;
+        }
+    } error:error];
+    transaction.db = nil;  // invalidate: the connection must not be used after the block
+    if (success && transaction.failure != nil) {
+        if (error != nil) {
+            *error = transaction.failure;
+        }
+        success = NO;
+    }
     return success;
 }
 
@@ -2061,6 +2144,139 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
     }];
 
     return result;
+}
+
+@end
+
+#pragma mark - SFSmartStoreTransaction
+
+
+
+@implementation SFSmartStoreTransaction
+
+- (instancetype)initWithStore:(SFSmartStore*)store
+{
+    self = [super init];
+    if (self) {
+        _store = store;
+    }
+    return self;
+}
+
+- (NSError*)errorWithDescription:(NSString*)description
+{
+    return [NSError errorWithDomain:kSFSmartStoreErrorDomain
+                               code:kSFSmartStoreOtherErrorCode
+                           userInfo:@{NSLocalizedDescriptionKey: description}];
+}
+
+// Returns the connection, or nil (with error set) if the transaction block has already returned
+- (FMDatabase*)activeDbWithError:(NSError**)error
+{
+    if (self.db == nil && error != nil) {
+        *error = [self errorWithDescription:@"The transaction is no longer active: it can only be used inside the performTransaction block."];
+    }
+    return self.db;
+}
+
+// Records the failure of a write operation so that the transaction is rolled back
+- (void)recordFailure:(NSError*)error
+{
+    if (self.failure == nil) {
+        self.failure = error;
+    }
+}
+
+- (NSArray*)upsertEntries:(NSArray*)entries toSoup:(NSString*)soupName withExternalIdPath:(NSString*)externalIdPath error:(NSError* __autoreleasing *)error
+{
+    FMDatabase* db = [self activeDbWithError:error];
+    if (db == nil) return nil;
+    NSError* localError = nil;
+    NSArray* result = [self.store upsertEntries:entries toSoup:soupName withExternalIdPath:externalIdPath error:&localError withDb:db];
+    if (localError == nil && result == nil) {
+        localError = [self errorWithDescription:[NSString stringWithFormat:@"Soup '%@' does not exist", soupName]];
+    }
+    if (localError != nil) {
+        [self recordFailure:localError];
+        if (error != nil) *error = localError;
+        return nil;
+    }
+    return result;
+}
+
+- (NSArray*)retrieveEntries:(NSArray*)soupEntryIds fromSoup:(NSString*)soupName error:(NSError* __autoreleasing *)error
+{
+    FMDatabase* db = [self activeDbWithError:error];
+    if (db == nil) return nil;
+    return [self.store retrieveEntries:soupEntryIds fromSoup:soupName withDb:db];
+}
+
+- (NSNumber*)lookupSoupEntryIdForSoupName:(NSString*)soupName forFieldPath:(NSString*)fieldPath fieldValue:(NSString*)fieldValue error:(NSError* __autoreleasing *)error
+{
+    FMDatabase* db = [self activeDbWithError:error];
+    if (db == nil) return nil;
+    NSString* soupTableName = [self.store tableNameForSoup:soupName withDb:db];
+    if (soupTableName == nil) {
+        if (error != nil) *error = [self errorWithDescription:[NSString stringWithFormat:@"Soup '%@' does not exist", soupName]];
+        return nil;
+    }
+    return [self.store lookupSoupEntryIdForSoupName:soupName soupTableName:soupTableName forFieldPath:fieldPath fieldValue:fieldValue error:error withDb:db];
+}
+
+- (NSArray*)queryWithQuerySpec:(SFQuerySpec*)querySpec pageIndex:(NSUInteger)pageIndex whereArgs:(NSArray*)whereArgs error:(NSError* __autoreleasing *)error
+{
+    FMDatabase* db = [self activeDbWithError:error];
+    if (db == nil) return nil;
+    if (whereArgs != nil && querySpec.queryType != kSFSoupQueryTypeSmart) {
+        if (error != nil) {
+            *error = [NSError errorWithDomain:kSFSmartStoreErrorDomain
+                                         code:kSFSmartStoreWhereArgsNotSupportedCode
+                                     userInfo:@{NSLocalizedDescriptionKey: kSFSmartStoreWhereArgsNotSupportedDescription}];
+        }
+        return nil;
+    }
+    NSMutableArray* result = [NSMutableArray new];
+    [self.store runQuery:result resultString:nil querySpec:querySpec pageIndex:pageIndex whereArgs:whereArgs withDb:db];
+    return result;
+}
+
+- (NSNumber*)countWithQuerySpec:(SFQuerySpec*)querySpec error:(NSError* __autoreleasing *)error
+{
+    FMDatabase* db = [self activeDbWithError:error];
+    if (db == nil) return nil;
+    return @([self.store countWithQuerySpec:querySpec withDb:db]);
+}
+
+- (BOOL)removeEntries:(NSArray*)entryIds fromSoup:(NSString*)soupName error:(NSError* __autoreleasing *)error
+{
+    FMDatabase* db = [self activeDbWithError:error];
+    if (db == nil) return NO;
+    @try {
+        [self.store removeEntries:entryIds fromSoup:soupName withDb:db];
+    }
+    @catch (NSException* exception) {
+        NSError* localError = [self.store errorForException:exception];
+        [self recordFailure:localError];
+        if (error != nil) *error = localError;
+        return NO;
+    }
+    return YES;
+}
+
+- (BOOL)removeEntriesByQuery:(SFQuerySpec*)querySpec fromSoup:(NSString*)soupName error:(NSError* __autoreleasing *)error
+{
+    FMDatabase* db = [self activeDbWithError:error];
+    if (db == nil) return NO;
+    @try {
+        [self.store removeEntriesByQuery:querySpec fromSoup:soupName withDb:db];
+    }
+    @catch (NSException* exception) {
+        NSError* localError = [self.store errorForException:exception];
+        [self recordFailure:localError];
+        if (error != nil) *error = localError;
+        return NO;
+    }
+    return YES;
 }
 
 @end
