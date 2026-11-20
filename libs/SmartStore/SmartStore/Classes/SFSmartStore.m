@@ -115,6 +115,8 @@ NSUInteger CACHES_COUNT_LIMIT = 1024;
 @property (nonatomic, strong, nullable) NSError* failure; // first failure
 @property (nonatomic, assign) BOOL rollbackRequested; // set by -rollback
 - (instancetype)initWithStore:(SFSmartStore*)store NS_DESIGNATED_INITIALIZER;
+- (void)recordFailure:(NSError*)error;
++ (BOOL)isAutocommitOnDb:(FMDatabase*)db;
 @end
 
 @implementation SFSmartStore
@@ -723,25 +725,46 @@ static NSString * const kSFSmartStoreActiveBlocksKey = @"com.salesforce.smartsto
 {
     SFSmartStoreTransaction* transaction = [[SFSmartStoreTransaction alloc] initWithStore:self];
     NSError* txnError = nil;
-    BOOL success = [self inTransaction:^(FMDatabase* db, BOOL* rollback) {
+    // BEGIN / COMMIT / ROLLBACK are driven here rather than through FMDatabaseQueue's inTransaction:, which ignores their outcome
+    BOOL success = [self inDatabase:^(FMDatabase* db) {
+        if (![db beginTransaction]) {
+            [transaction recordFailure:[self errorForDb:db description:@"Could not begin the transaction"]];
+            return;
+        }
         transaction.db = db;
         transaction.ownerThread = [NSThread currentThread];
         @try {
             block(transaction);
-            if (transaction.failure != nil || transaction.rollbackRequested) {
-                *rollback = YES;
-            }
+        }
+        @catch (NSException* exception) {
+            [transaction recordFailure:[self errorForException:exception]];
         }
         @finally {
             // Invalidate before leaving the store's queue: the connection must not be used after the block
             transaction.ownerThread = nil;
             transaction.db = nil;
         }
+        BOOL stillOpen = ![SFSmartStoreTransaction isAutocommitOnDb:db];
+        if (transaction.failure == nil && !transaction.rollbackRequested && !stillOpen) {
+            // SQLite ended the transaction by itself (e.g. ON CONFLICT ROLLBACK): what was written has been rolled back
+            [transaction recordFailure:[self errorWithDescription:@"SQLite ended the transaction before it was committed; its writes were rolled back."]];
+        }
+        if (transaction.failure == nil && !transaction.rollbackRequested && stillOpen) {
+            if (![db commit]) {
+                [transaction recordFailure:[self errorForDb:db description:@"Could not commit the transaction"]];
+            }
+        }
+        // Leave the connection usable: nothing may stay open (failure, requested rollback or failed commit)
+        if (![SFSmartStoreTransaction isAutocommitOnDb:db]) {
+            if (![db rollback]) {
+                [transaction recordFailure:[self errorForDb:db description:@"Could not roll back the transaction"]];
+            }
+        }
     } error:&txnError];
-    // A failure recorded by the transaction wins (it is the first one), then errors from the queue (exception, re-entrancy)
+    // A failure recorded by the transaction wins (it is the first one), then errors from the queue (re-entrancy)
     NSError* failure = transaction.failure ?: txnError;
     if (failure == nil && !success) {
-        failure = [NSError errorWithDomain:kSFSmartStoreErrorDomain code:kSFSmartStoreOtherErrorCode userInfo:@{NSLocalizedDescriptionKey: @"The transaction failed."}];
+        failure = [self errorWithDescription:@"The transaction failed."];
     }
     if (failure != nil) {
         if (error != nil) {
@@ -750,6 +773,18 @@ static NSString * const kSFSmartStoreActiveBlocksKey = @"com.salesforce.smartsto
         return NO;
     }
     return !transaction.rollbackRequested;
+}
+
+- (NSError*)errorWithDescription:(NSString*)description
+{
+    return [NSError errorWithDomain:kSFSmartStoreErrorDomain
+                               code:kSFSmartStoreOtherErrorCode
+                           userInfo:@{NSLocalizedDescriptionKey: description}];
+}
+
+- (NSError*)errorForDb:(FMDatabase*)db description:(NSString*)description
+{
+    return [self errorWithDescription:[NSString stringWithFormat:@"%@: %@", description, [db lastErrorMessage]]];
 }
 
 - (NSError*) errorForException:(NSException*)exception
@@ -2181,9 +2216,13 @@ static NSString * const kSFSmartStoreActiveBlocksKey = @"com.salesforce.smartsto
 
 - (NSError*)errorWithDescription:(NSString*)description
 {
-    return [NSError errorWithDomain:kSFSmartStoreErrorDomain
-                               code:kSFSmartStoreOtherErrorCode
-                           userInfo:@{NSLocalizedDescriptionKey: description}];
+    return [self.store errorWithDescription:description];
+}
+
+// YES if SQLite is not inside a transaction (BEGIN was not executed or SQLite already ended the transaction)
++ (BOOL)isAutocommitOnDb:(FMDatabase*)db
+{
+    return sqlite3_get_autocommit([db sqliteHandle]) != 0;
 }
 
 // Returns the connection, or nil (with error set) if the transaction is not active or is used from another thread
@@ -2203,6 +2242,20 @@ static NSString * const kSFSmartStoreActiveBlocksKey = @"com.salesforce.smartsto
         return nil;
     }
     return self.db;
+}
+
+// Like activeDbWithError: but also fails if SQLite has ended the transaction (writes would then be autocommitted and survive a rollback)
+- (FMDatabase*)openDbWithError:(NSError**)error
+{
+    FMDatabase* db = [self activeDbWithError:error];
+    if (db == nil) return nil;
+    if ([SFSmartStoreTransaction isAutocommitOnDb:db]) {
+        NSError* ended = [self errorWithDescription:@"SQLite ended the transaction: it was rolled back and no further operation can run in it."];
+        [self recordFailure:ended];
+        if (error != nil) *error = ended;
+        return nil;
+    }
+    return db;
 }
 
 - (void)rollback
@@ -2228,7 +2281,7 @@ static NSString * const kSFSmartStoreActiveBlocksKey = @"com.salesforce.smartsto
 // Runs a read operation: exceptions become errors, the transaction is not marked as failed
 - (id)runRead:(id (^)(FMDatabase* db))operation error:(NSError* __autoreleasing *)error
 {
-    FMDatabase* db = [self activeDbWithError:error];
+    FMDatabase* db = [self openDbWithError:error];
     if (db == nil) return nil;
     @try {
         return operation(db);
@@ -2242,7 +2295,12 @@ static NSString * const kSFSmartStoreActiveBlocksKey = @"com.salesforce.smartsto
 // Runs a write operation: failures (error or exception) mark the transaction as failed
 - (BOOL)runWrite:(void (^)(FMDatabase* db, NSError** error))operation error:(NSError* __autoreleasing *)error
 {
-    FMDatabase* db = [self activeDbWithError:error];
+    if (self.failure != nil) {
+        // Already failed: the transaction will be rolled back, so do not write anything more
+        if (error != nil) *error = self.failure;
+        return NO;
+    }
+    FMDatabase* db = [self openDbWithError:error];
     if (db == nil) return NO;
     NSError* localError = nil;
     @try {
@@ -2250,6 +2308,10 @@ static NSString * const kSFSmartStoreActiveBlocksKey = @"com.salesforce.smartsto
     }
     @catch (NSException* exception) {
         localError = [self.store errorForException:exception];
+    }
+    if (localError == nil && [SFSmartStoreTransaction isAutocommitOnDb:db]) {
+        // The operation itself made SQLite end the transaction even though it reported no error
+        localError = [self errorWithDescription:@"SQLite ended the transaction during the operation: it was rolled back."];
     }
     if (localError != nil) {
         [self recordFailure:localError];

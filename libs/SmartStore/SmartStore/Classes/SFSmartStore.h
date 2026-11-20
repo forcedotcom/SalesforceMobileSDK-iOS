@@ -497,8 +497,10 @@ NS_SWIFT_NAME(SmartStore)
  - the block calls -[SFSmartStoreTransaction rollback] (requested rollback), or
  - a write operation of the SFSmartStoreTransaction fails, or the block calls
    -[SFSmartStoreTransaction failWithError:] (failure), or
- - an exception is thrown inside the block (e.g. by a failing SQL statement): this is a failure too.
- In those cases everything done in the block is rolled back.
+ - an exception is thrown inside the block (e.g. by a failing SQL statement): this is a failure too, or
+ - SQLite ends the transaction by itself (e.g. a statement failing with ON CONFLICT ROLLBACK), or BEGIN or COMMIT fails.
+ In those cases everything done in the block is rolled back. Once a failure is recorded (or SQLite has ended
+ the transaction), further operations on the SFSmartStoreTransaction are rejected with that error rather than run.
 
  @param block The work to do. It receives the transaction to read and write the store with, and to roll it back.
  @param error Set when the transaction was rolled back because of a failure (the first failure of the block

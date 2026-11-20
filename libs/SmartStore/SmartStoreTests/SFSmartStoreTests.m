@@ -1833,6 +1833,64 @@ Make sure we do NOT get a notification for a JSON parsing error
     XCTAssertNil([self.store lookupSoupEntryIdForSoupName:kTestSoupName forFieldPath:@"key" fieldValue:@"other" error:nil]);
 }
 
+static int rejectCommitHook(void* unused) { return 1; }
+
+- (void) testPerformTransactionRejectsWritesAfterSqliteEndedTheTransaction
+{
+    [self registerTestSoup:self.store indexType:kSoupIndexTypeString];
+    NSString* brokenSoupName = @"brokenSoup";
+    NSError* error = nil;
+    [self.store registerSoup:brokenSoupName withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[@{@"path": @"key", @"type": kSoupIndexTypeString}]] error:&error];
+    XCTAssertNil(error);
+    // RAISE(ROLLBACK) makes SQLite end the transaction itself; later writes would run in autocommit mode
+    NSString* brokenTable = [self getSoupTableName:brokenSoupName store:self.store];
+    [self.store.storeQueue inDatabase:^(FMDatabase* db) {
+        NSString* sql = [NSString stringWithFormat:@"CREATE TRIGGER end_txn BEFORE INSERT ON %@ BEGIN SELECT RAISE(ROLLBACK, 'injected rollback'); END", brokenTable];
+        XCTAssertTrue([db executeUpdate:sql]);
+    }];
+
+    __block NSError* afterError = nil;
+    __block NSArray* afterResult = nil;
+    BOOL success = [self.store performTransaction:^(SFSmartStoreTransaction* txn) {
+        XCTAssertNotNil([txn upsertEntries:@[@{@"key":@"before"}] toSoup:kTestSoupName withExternalIdPath:SOUP_ENTRY_ID error:nil]);
+        XCTAssertNil([txn upsertEntries:@[@{@"key":@"x"}] toSoup:brokenSoupName withExternalIdPath:SOUP_ENTRY_ID error:nil]);
+        afterResult = [txn upsertEntries:@[@{@"key":@"after"}] toSoup:kTestSoupName withExternalIdPath:SOUP_ENTRY_ID error:&afterError];
+    } error:&error];
+    XCTAssertFalse(success);
+    XCTAssertNotNil(error);
+    XCTAssertNil(afterResult, @"Writes after SQLite ended the transaction are rejected");
+    XCTAssertNotNil(afterError);
+    XCTAssertEqual([self countEntriesInSoup:kTestSoupName store:self.store], 0UL, @"Neither write may survive");
+}
+
+- (void) testPerformTransactionReportsFailedCommit
+{
+    [self registerTestSoup:self.store indexType:kSoupIndexTypeString];
+    // A commit hook returning non-zero makes SQLite turn COMMIT into a rollback
+    [self.store.storeQueue inDatabase:^(FMDatabase* db) {
+        sqlite3_commit_hook([db sqliteHandle], rejectCommitHook, NULL);
+    }];
+    NSError* error = nil;
+    BOOL success = [self.store performTransaction:^(SFSmartStoreTransaction* txn) {
+        XCTAssertNotNil([txn upsertEntries:@[@{@"key":@"k1"}] toSoup:kTestSoupName withExternalIdPath:SOUP_ENTRY_ID error:nil]);
+    } error:&error];
+    XCTAssertFalse(success, @"A failed COMMIT is not a successful transaction");
+    XCTAssertNotNil(error);
+    XCTAssertEqual([self countEntriesInSoup:kTestSoupName store:self.store], 0UL);
+
+    // The connection stays usable once the hook is gone
+    [self.store.storeQueue inDatabase:^(FMDatabase* db) {
+        sqlite3_commit_hook([db sqliteHandle], NULL, NULL);
+    }];
+    error = nil;
+    success = [self.store performTransaction:^(SFSmartStoreTransaction* txn) {
+        [txn upsertEntries:@[@{@"key":@"k2"}] toSoup:kTestSoupName withExternalIdPath:SOUP_ENTRY_ID error:nil];
+    } error:&error];
+    XCTAssertTrue(success);
+    XCTAssertNil(error);
+    XCTAssertEqual([self countEntriesInSoup:kTestSoupName store:self.store], 1UL);
+}
+
 - (void)clearAllStores
 {
     self.store = nil;
