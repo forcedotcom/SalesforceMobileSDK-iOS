@@ -1891,6 +1891,33 @@ static int rejectCommitHook(void* unused) { return 1; }
     XCTAssertEqual([self countEntriesInSoup:kTestSoupName store:self.store], 1UL);
 }
 
+static int denyRollbackAuthorizer(void* unused, int action, const char* arg1, const char* arg2, const char* arg3, const char* arg4)
+{
+    if (action == SQLITE_TRANSACTION && arg1 != NULL && strcasecmp(arg1, "ROLLBACK") == 0) {
+        return SQLITE_DENY;
+    }
+    return SQLITE_OK;
+}
+
+- (void) testPerformTransactionFailedRollbackDoesNotLeakPendingWrites
+{
+    [self registerTestSoup:self.store indexType:kSoupIndexTypeString];
+    [self.store.storeQueue inDatabase:^(FMDatabase* db) {
+        sqlite3_set_authorizer([db sqliteHandle], denyRollbackAuthorizer, NULL);
+    }];
+    NSError* error = nil;
+    BOOL success = [self.store performTransaction:^(SFSmartStoreTransaction* txn) {
+        [txn upsertEntries:@[@{@"key":@"leaked"}] toSoup:kTestSoupName withExternalIdPath:SOUP_ENTRY_ID error:nil];
+        [txn rollback];
+    } error:&error];
+    XCTAssertFalse(success);
+    XCTAssertNotNil(error, @"The failed rollback is reported");
+
+    // A later, ordinary operation must not commit what the failed transaction wrote
+    XCTAssertNotNil([self.store upsertEntries:@[@{@"key":@"later"}] toSoup:kTestSoupName]);
+    XCTAssertEqual([self countEntriesInSoup:kTestSoupName store:self.store], 1UL);
+}
+
 - (void)clearAllStores
 {
     self.store = nil;
