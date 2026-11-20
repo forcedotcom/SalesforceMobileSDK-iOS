@@ -30,6 +30,10 @@
 # set -x
 set -e
 
+# Sort in the C locale so the generated list is identical regardless of the developer's locale
+# (sort and comm otherwise order punctuation differently, e.g. en_US.UTF-8 vs C).
+export LC_ALL=C
+
 SUBSPEC_NAME=""
 
 function usage()
