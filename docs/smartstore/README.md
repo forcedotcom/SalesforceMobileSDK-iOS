@@ -6,6 +6,16 @@ Everything below was checked against the source in this repo. Where a behavior c
 
 ---
 
+## Why SmartStore Exists
+
+Mobile SDK apps need to keep Salesforce data on the device so they can work offline. The server-side data model is dynamic: admins add, rename and retire fields at any time, and records of different record types of the same object carry different fields. A conventional fixed-schema local database would need a migration every time the server schema changed, which does not suit an SDK that ships inside many apps, each with its own objects and fields.
+
+SmartStore handles this by storing each record as a JSON document in a **soup**: a named collection, backed by one table, whose entries can have different shapes. Only the "important" fields, the ones the app queries on, are declared as **indexes** when the soup is registered. SmartStore extracts each indexed field into its own column so queries on it are fast; everything else stays in the JSON and is returned as-is. When the server adds a field, the app can start storing it with no schema change, and if it later needs to query on it, it can add an index with `alterSoup`.
+
+SmartStore was built before SQLite and SQLCipher had the JSON1 extension, so it extracts indexed values into dedicated columns itself. Once JSON1 became available, SmartStore adopted it as an additional index type, `json1`, which indexes a field through `json_extract` on the stored JSON without a separate column. The original column-based index types (`string`, `integer`, `floating`, `full_text`) still work as before.
+
+---
+
 ## Table of Contents
 
 1. [Overview](#overview)
