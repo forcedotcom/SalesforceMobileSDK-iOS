@@ -29,6 +29,11 @@
       "doc": "docs/mobilesync/README.md",
       "scope": "libs/MobileSync",
       "description": "MobileSync library — iOS API reference: SFMobileSyncSyncManager, all sync targets, SFSyncState, SFSyncOptions, Swift/Combine extensions, JSON-driven configuration"
+    },
+    {
+      "doc": "docs/smartstore/README.md",
+      "scope": "libs/SmartStore",
+      "description": "SmartStore library — iOS API reference: SFSmartStore, SFQuerySpec, SFSoupIndex, SFSmartSqlHelper, store scoping, encryption, transactions, full-text search, soup alteration, Swift/Combine extensions"
     }
   ]
 }
