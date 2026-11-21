@@ -1923,6 +1923,14 @@ static int denyRollbackAuthorizer(void* unused, int action, const char* arg1, co
     XCTAssertEqual([self countEntriesInSoup:kTestSoupName store:self.store], 1UL);
 }
 
+// Test-only access to the serial dispatch queue behind the store's FMDatabaseQueue (FMDB keeps it in the private ivar _queue)
+- (dispatch_queue_t) dispatchQueueOfStore:(SFSmartStore*)store
+{
+    dispatch_queue_t queue = [store.storeQueue valueForKey:@"_queue"];
+    XCTAssertNotNil(queue, @"Could not get the dispatch queue of the store");
+    return queue;
+}
+
 - (void) testPerformTransactionFailedRollbackDoesNotLeakPendingWritesToQueuedOperation
 {
     [self registerTestSoup:self.store indexType:kSoupIndexTypeString];
@@ -1942,10 +1950,7 @@ static int denyRollbackAuthorizer(void* unused, int action, const char* arg1, co
         [txn upsertEntries:@[@{@"key":@"leaked"}] toSoup:kTestSoupName withExternalIdPath:SOUP_ENTRY_ID error:nil];
         [txn rollback];
         FMDatabase* db = [txn valueForKey:@"db"];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        dispatch_queue_t storeDispatchQueue = dispatch_get_current_queue(); // the store's queue: this block runs on it
-#pragma clang diagnostic pop
+        dispatch_queue_t storeDispatchQueue = [self dispatchQueueOfStore:self.store]; // the store's queue: this block runs on it
         dispatch_group_enter(group);
         dispatch_async(storeDispatchQueue, ^{
             competingBegan = [db beginTransaction];
