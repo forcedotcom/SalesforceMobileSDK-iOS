@@ -43,6 +43,11 @@
 + (void)setJsonSerializationCheckEnabled:(BOOL)jsonSerializationCheckEnabled;
 @end
 
+// Private method of SFSmartStore, used to write on the queue's connection from a block running on the queue
+@interface SFSmartStore (TestWithDb)
+- (NSArray*)upsertEntries:(NSArray*)entries toSoup:(NSString*)soupName withExternalIdPath:(NSString*)externalIdPath error:(NSError**)error withDb:(FMDatabase*)db;
+@end
+
 @implementation SFSmartStoreTests
 
 
@@ -1924,22 +1929,38 @@ static int denyRollbackAuthorizer(void* unused, int action, const char* arg1, co
     [self.store.storeQueue inDatabase:^(FMDatabase* db) {
         sqlite3_set_authorizer([db sqliteHandle], denyRollbackAuthorizer, NULL);
     }];
+    // The competing write is enqueued on the store's own serial queue from inside the transaction block: dispatch_async
+    // returns once the block is enqueued, so it is guaranteed to run right after the block that runs performTransaction
+    // and before anything enqueued later (such as a close done after that block released the queue).
+    // It does what a public write does (BEGIN, upsert, COMMIT) directly on the queue's connection.
     dispatch_group_t group = dispatch_group_create();
+    __block BOOL competingBegan = NO;
+    __block BOOL competingCommitted = NO;
     __block NSArray* competingResult = nil;
     NSError* error = nil;
     BOOL success = [self.store performTransaction:^(SFSmartStoreTransaction* txn) {
         [txn upsertEntries:@[@{@"key":@"leaked"}] toSoup:kTestSoupName withExternalIdPath:SOUP_ENTRY_ID error:nil];
         [txn rollback];
-        // A public write from another thread queues up behind the transaction on the store's queue
-        dispatch_group_async(group, dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
-            competingResult = [self.store upsertEntries:@[@{@"key":@"competing"}] toSoup:kTestSoupName];
+        FMDatabase* db = [txn valueForKey:@"db"];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        dispatch_queue_t storeDispatchQueue = dispatch_get_current_queue(); // the store's queue: this block runs on it
+#pragma clang diagnostic pop
+        dispatch_group_enter(group);
+        dispatch_async(storeDispatchQueue, ^{
+            competingBegan = [db beginTransaction];
+            NSError* competingError = nil;
+            competingResult = [self.store upsertEntries:@[@{@"key":@"competing"}] toSoup:kTestSoupName withExternalIdPath:SOUP_ENTRY_ID error:&competingError withDb:db];
+            competingCommitted = [db commit];
+            dispatch_group_leave(group);
         });
-        [NSThread sleepForTimeInterval:0.5];
     } error:&error];
     XCTAssertFalse(success);
     XCTAssertNotNil(error);
     XCTAssertEqual(dispatch_group_wait(group, dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC)), 0L);
+    XCTAssertTrue(competingBegan, @"The competing write must find a clean connection: its BEGIN must succeed");
     XCTAssertNotNil(competingResult);
+    XCTAssertTrue(competingCommitted);
     // Only the competing write is stored: it must not have committed the failed transaction's write
     XCTAssertEqual([self countEntriesInSoup:kTestSoupName store:self.store], 1UL);
 }
