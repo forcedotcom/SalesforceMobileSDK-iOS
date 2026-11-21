@@ -745,34 +745,17 @@ static NSString * const kSFSmartStoreActiveBlocksKey = @"com.salesforce.smartsto
             transaction.ownerThread = nil;
             transaction.db = nil;
         }
-        BOOL stillOpen = ![SFSmartStoreTransaction isAutocommitOnDb:db];
-        if (transaction.failure == nil && !transaction.rollbackRequested && !stillOpen) {
-            // SQLite ended the transaction by itself (e.g. ON CONFLICT ROLLBACK): what was written has been rolled back
-            [transaction recordFailure:[self errorWithDescription:@"SQLite ended the transaction before it was committed; its writes were rolled back."]];
-        }
-        if (transaction.failure == nil && !transaction.rollbackRequested && stillOpen) {
-            if (![db commit]) {
+        // Read before COMMIT: tells whether SQLite ended the transaction by itself (e.g. ON CONFLICT ROLLBACK) during the block
+        BOOL endedBySqlite = [SFSmartStoreTransaction isAutocommitOnDb:db];
+        if (transaction.failure == nil && !transaction.rollbackRequested) {
+            if (endedBySqlite) {
+                // What was written has been rolled back
+                [transaction recordFailure:[self errorWithDescription:@"SQLite ended the transaction before it was committed; its writes were rolled back."]];
+            } else if (![db commit]) {
                 [transaction recordFailure:[self errorForDb:db description:@"Could not commit the transaction"]];
             }
         }
-        // Leave the connection usable: nothing may stay open (failure, requested rollback or failed commit)
-        if (![SFSmartStoreTransaction isAutocommitOnDb:db]) {
-            if (![db rollback]) {
-                [transaction recordFailure:[self errorForDb:db description:@"Could not roll back the transaction"]];
-            }
-            if (![SFSmartStoreTransaction isAutocommitOnDb:db]) {
-                // Still open: the next operation on this connection would commit its pending writes.
-                // Reset the connection right here, while we still own the queue, so that no queued operation can run on it:
-                // closing discards the pending changes, then the same FMDatabase is reopened and unlocked like at store opening.
-                [SFSDKSmartStoreLogger e:[self class] format:@"Rollback failed in store '%@': resetting the connection", self.storeName];
-                [db close];
-                NSString* salt = [[self class] encryptionSaltBlock] ? [[self class] encryptionSaltBlock]() : nil;
-                NSError* reopenError = nil;
-                if ([SFSmartStoreDatabaseManager setKeyForDb:db key:[[self class] encKey] salt:salt error:&reopenError] == nil) {
-                    [transaction recordFailure:[self errorWithDescription:[NSString stringWithFormat:@"Could not roll back the transaction and could not reopen the store: %@", reopenError.localizedDescription]]];
-                }
-            }
-        }
+        [self leaveConnectionUsableOnDb:db transaction:transaction];
     } error:&txnError];
     // A failure recorded by the transaction wins (it is the first one), then errors from the queue (re-entrancy)
     NSError* failure = transaction.failure ?: txnError;
@@ -786,6 +769,32 @@ static NSString * const kSFSmartStoreActiveBlocksKey = @"com.salesforce.smartsto
         return NO;
     }
     return !transaction.rollbackRequested;
+}
+
+// Leaves the connection usable once the transaction is over: nothing may stay open (failure, requested rollback or failed commit).
+// Reads the autocommit state live since COMMIT and ROLLBACK change it.
+// Must be called on the store's queue.
+- (void)leaveConnectionUsableOnDb:(FMDatabase*)db transaction:(SFSmartStoreTransaction*)transaction
+{
+    if ([SFSmartStoreTransaction isAutocommitOnDb:db]) {
+        return;
+    }
+    if (![db rollback]) {
+        [transaction recordFailure:[self errorForDb:db description:@"Could not roll back the transaction"]];
+    }
+    if ([SFSmartStoreTransaction isAutocommitOnDb:db]) {
+        return;
+    }
+    // Still open: the next operation on this connection would commit its pending writes.
+    // Reset the connection right here, while we still own the queue, so that no queued operation can run on it:
+    // closing discards the pending changes, then the same FMDatabase is reopened and unlocked like at store opening.
+    [SFSDKSmartStoreLogger e:[self class] format:@"Rollback failed in store '%@': resetting the connection", self.storeName];
+    [db close];
+    NSString* salt = [[self class] encryptionSaltBlock] ? [[self class] encryptionSaltBlock]() : nil;
+    NSError* reopenError = nil;
+    if ([SFSmartStoreDatabaseManager setKeyForDb:db key:[[self class] encKey] salt:salt error:&reopenError] == nil) {
+        [transaction recordFailure:[self errorWithDescription:[NSString stringWithFormat:@"Could not roll back the transaction and could not reopen the store: %@", reopenError.localizedDescription]]];
+    }
 }
 
 - (NSError*)errorWithDescription:(NSString*)description
