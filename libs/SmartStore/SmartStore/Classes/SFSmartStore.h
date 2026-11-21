@@ -89,6 +89,7 @@ extern NSString *const SOUP_LAST_MODIFIED_DATE NS_SWIFT_NAME(SmartStore.lastModi
 @class FMDatabaseQueue;
 @class SFQuerySpec;
 @class SFSoupSpec;
+@class SFSmartStoreTransaction;
 @class SFUserAccount;
 
 NS_SWIFT_NAME(SmartStore)
@@ -481,6 +482,37 @@ NS_SWIFT_NAME(SmartStore)
  */
 - (BOOL)getCipherFIPSStatus NS_SWIFT_NAME(cipherFIPSStatus());
 
+#pragma mark - Transactions
+
+/**
+ Run several operations as one atomic unit: either all of them are committed or none is.
+
+ The block runs on the store's serial queue inside a single SQLite transaction (BEGIN EXCLUSIVE).
+ Use the SFSmartStoreTransaction passed to the block to read and write the store; do NOT call
+ methods of this SFSmartStore (or of any other API that uses it, such as MobileSync) from inside
+ the block: transactions are not nested and the store's queue is not re-entrant. Such a call
+ does not run: it fails with an error (kSFSmartStoreErrorDomain, code 999) instead of deadlocking.
+
+ The transaction is committed when the block returns, unless
+ - the block calls -[SFSmartStoreTransaction rollback] (requested rollback), or
+ - a write operation of the SFSmartStoreTransaction fails, or the block calls
+   -[SFSmartStoreTransaction failWithError:] (failure), or
+ - an exception is thrown inside the block (e.g. by a failing SQL statement): this is a failure too, or
+ - SQLite ends the transaction by itself (e.g. a statement failing with ON CONFLICT ROLLBACK), or BEGIN or COMMIT fails.
+ In those cases everything done in the block is rolled back. Once a failure is recorded, further writes on the
+ SFSmartStoreTransaction are rejected with that error rather than run; once SQLite has ended the transaction,
+ all further operations are rejected. If the rollback itself fails and leaves the transaction open, the store's
+ connection is closed and reopened so that the pending writes cannot be committed by a later operation.
+
+ @param block The work to do. It receives the transaction to read and write the store with, and to roll it back.
+ @param error Set when the transaction was rolled back because of a failure (the first failure of the block
+              if there were several; a failure wins over a requested rollback). Left untouched (nil) when the
+              block only requested a rollback.
+ @return YES if and only if the transaction was committed. NO means it was rolled back: with error set if it
+         was a failure, with error nil if the block requested the rollback through -rollback.
+ */
+- (BOOL)performTransaction:(void (NS_NOESCAPE ^)(SFSmartStoreTransaction *transaction))block error:(NSError * _Nullable * _Nullable)error NS_SWIFT_NAME(performTransaction(_:));
+
 #pragma mark - Long operations recovery methods
 
 /**
@@ -513,6 +545,88 @@ NS_SWIFT_NAME(SmartStore)
  @return The NSDate representation of the last modified date.
  */
 + (NSDate *)dateFromLastModifiedValue:(NSNumber *)lastModifiedValue NS_SWIFT_NAME(date(lastModifiedValue:));
+
+@end
+
+/**
+ Operations that can be used inside the block given to -[SFSmartStore performTransaction:error:].
+ They run on the transaction's connection, so they see the writes made earlier in the same
+ transaction (uncommitted) and do not re-enter the store's queue.
+ An instance is only valid while the block runs, and only on the thread that runs the block: using it
+ afterwards, or from another thread (e.g. a block dispatched while the transaction block waits), fails with
+ an error without touching the database.
+
+ Write operations (upsert, remove) that fail mark the transaction as failed: it is rolled back when
+ the block returns and -performTransaction:error: returns NO with that error, even if the block catches
+ an exception and carries on. -rollback and -failWithError: do the same explicitly. Read operations that fail (including SQL errors) only return the error to the
+ caller and do not mark the transaction as failed. SQL failures never surface as exceptions from these methods.
+ */
+NS_SWIFT_NAME(SmartStore.Transaction)
+@interface SFSmartStoreTransaction : NSObject
+
+- (instancetype)init NS_UNAVAILABLE;
++ (instancetype)new NS_UNAVAILABLE;
+
+/**
+ Marks the transaction for rollback, without an error: -performTransaction:error: will return NO and leave
+ its error nil. Operations already done in the block stay usable until the block returns. Does not
+ undo an earlier failure (a failure wins over a requested rollback).
+ Called from another thread than the one running the block, or after the block returned, it is rejected:
+ it has no effect (it cannot report an error).
+ */
+- (void)rollback NS_SWIFT_NAME(rollback());
+
+/**
+ Marks the transaction for rollback and records the error: -performTransaction:error: will return NO with
+ this error. If the transaction already failed, the first failure is kept. Same thread and lifetime
+ rules as -rollback: called from another thread, or after the block returned, it has no effect.
+ @param error The error to return from -performTransaction:error:. Must not be nil (use -rollback to roll back
+              without an error); a nil passed anyway still rolls back, with a generic error.
+ */
+- (void)failWithError:(NSError*)error NS_SWIFT_NAME(fail(with:));
+
+/**
+ Same as -[SFSmartStore upsertEntries:toSoup:withExternalIdPath:error:] but inside the transaction.
+ If an entry fails to be upserted, nothing is returned and the whole transaction is rolled back
+ (including entries of the same call that were already written).
+ @return The upserted entries, or nil with error set (e.g. the soup does not exist).
+ */
+- (nullable NSArray<NSDictionary*>*)upsertEntries:(NSArray<NSDictionary*>*)entries toSoup:(NSString*)soupName withExternalIdPath:(NSString*)externalIdPath error:(NSError * _Nullable * _Nullable)error NS_SWIFT_NAME(upsert(entries:forSoupNamed:withExternalIdPath:));
+
+/**
+ Same as -[SFSmartStore retrieveEntries:fromSoup:] but inside the transaction.
+ */
+- (nullable NSArray<NSDictionary*>*)retrieveEntries:(NSArray<NSNumber*>*)soupEntryIds fromSoup:(NSString*)soupName error:(NSError * _Nullable * _Nullable)error NS_SWIFT_NAME(retrieve(usingSoupEntryIds:fromSoupNamed:));
+
+/**
+ Same as -[SFSmartStore lookupSoupEntryIdForSoupName:forFieldPath:fieldValue:error:] but inside the transaction.
+ @return The soup entry id, or nil if there is no match (error is not set) or on error (error is set).
+         In Swift a failure throws and "no match" returns nil (swift_error(nonnull_error)).
+ */
+- (nullable NSNumber*)lookupSoupEntryIdForSoupName:(NSString*)soupName forFieldPath:(NSString*)fieldPath fieldValue:(nullable NSString*)fieldValue error:(NSError * _Nullable * _Nullable)error NS_SWIFT_NAME(lookupSoupEntryId(soupNamed:fieldPath:fieldValue:)) __attribute__((swift_error(nonnull_error)));
+
+/**
+ Same as -[SFSmartStore queryWithQuerySpec:pageIndex:whereArgs:error:] but inside the transaction.
+ @param whereArgs Only supported (and optional) for smart queries.
+ */
+- (nullable NSArray*)queryWithQuerySpec:(SFQuerySpec*)querySpec pageIndex:(NSUInteger)pageIndex whereArgs:(nullable NSArray*)whereArgs error:(NSError * _Nullable * _Nullable)error NS_SWIFT_NAME(query(using:startingFromPageIndex:whereArgs:));
+
+/**
+ Same as -[SFSmartStore countWithQuerySpec:error:] but inside the transaction.
+ */
+- (nullable NSNumber*)countWithQuerySpec:(SFQuerySpec*)querySpec error:(NSError * _Nullable * _Nullable)error NS_SWIFT_NAME(count(using:));
+
+/**
+ Same as -[SFSmartStore removeEntries:fromSoup:error:] but inside the transaction.
+ @return YES on success; NO with error set (the transaction is then rolled back).
+ */
+- (BOOL)removeEntries:(NSArray<NSNumber*>*)entryIds fromSoup:(NSString*)soupName error:(NSError * _Nullable * _Nullable)error NS_SWIFT_NAME(remove(entryIds:forSoupNamed:));
+
+/**
+ Same as -[SFSmartStore removeEntriesByQuery:fromSoup:error:] but inside the transaction.
+ @return YES on success; NO with error set (the transaction is then rolled back).
+ */
+- (BOOL)removeEntriesByQuery:(SFQuerySpec*)querySpec fromSoup:(NSString*)soupName error:(NSError * _Nullable * _Nullable)error NS_SWIFT_NAME(removeEntries(usingQuerySpec:forSoupNamed:));
 
 @end
 

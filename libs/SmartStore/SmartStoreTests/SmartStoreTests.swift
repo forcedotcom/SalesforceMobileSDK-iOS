@@ -72,4 +72,67 @@ class SmartStoreTests: XCTestCase {
         case .failure(_): XCTFail("query should not have failed")
         }
     }
+
+    func testTransactionLookupWithNoMatchReturnsNilInsteadOfThrowing() throws {
+        _ = store!.registerSoup(withName: "MyTestSoup", withIndexPaths: ["key"])
+        var lookedUp = false
+        try store!.performTransaction { txn in
+            do {
+                let entryId = try txn.lookupSoupEntryId(soupNamed: "MyTestSoup", fieldPath: "key", fieldValue: "nope")
+                XCTAssertNil(entryId)
+                lookedUp = true
+            } catch {
+                XCTFail("Lookup with no match must not throw: \(error)")
+            }
+        }
+        XCTAssertTrue(lookedUp)
+    }
+
+    func testTransactionLookupFailureThrows() throws {
+        _ = store!.registerSoup(withName: "MyTestSoup", withIndexPaths: ["key"])
+        var threw = false
+        try store!.performTransaction { txn in
+            do {
+                _ = try txn.lookupSoupEntryId(soupNamed: "MyTestSoup", fieldPath: "notIndexed", fieldValue: "x")
+            } catch {
+                threw = true
+            }
+        }
+        XCTAssertTrue(threw)
+    }
+
+    func testTransactionReadsAndWritesFromSwift() throws {
+        _ = store!.registerSoup(withName: "MyTestSoup", withIndexPaths: ["key"])
+        try store!.performTransaction { txn in
+            do {
+                let upserted = try txn.upsert(entries: [["key": "k1"]], forSoupNamed: "MyTestSoup", withExternalIdPath: SmartStore.soupEntryId)
+                XCTAssertEqual(upserted.count, 1)
+                let found = try txn.lookupSoupEntryId(soupNamed: "MyTestSoup", fieldPath: "key", fieldValue: "k1")
+                XCTAssertNotNil(found)
+                XCTAssertEqual(try txn.retrieve(usingSoupEntryIds: [], fromSoupNamed: "MyTestSoup").count, 0)
+            } catch {
+                XCTFail("Unexpected error: \(error)")
+            }
+        }
+    }
+
+    func testTransactionRollbackAndFailFromSwift() throws {
+        _ = store!.registerSoup(withName: "MyTestSoup", withIndexPaths: ["key"])
+        // Requested rollback: returns NO with no NSError, which Swift reports as a thrown error
+        XCTAssertThrowsError(try store!.performTransaction { txn in
+            _ = try? txn.upsert(entries: [["key": "k1"]], forSoupNamed: "MyTestSoup", withExternalIdPath: SmartStore.soupEntryId)
+            txn.rollback()
+        })
+        // Explicit failure: thrown error is the one passed
+        let mine = NSError(domain: "test", code: 42, userInfo: nil)
+        do {
+            try store!.performTransaction { txn in txn.fail(with: mine) }
+            XCTFail("Should have thrown")
+        } catch {
+            XCTAssertEqual((error as NSError).code, 42)
+        }
+        if case .success(let val) = store!.query("select {MyTestSoup:key} from {MyTestSoup}") {
+            XCTAssertEqual((val as! [[String]]).count, 0)
+        } else { XCTFail("query should not have failed") }
+    }
 }
