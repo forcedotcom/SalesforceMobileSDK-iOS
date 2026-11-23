@@ -513,13 +513,25 @@ BOOL committed = [store performTransaction:^(SFSmartStoreTransaction *txn) {
 } error:&error];
 ```
 
-- The block runs on the store's serial queue inside one SQLite transaction (`BEGIN`; the connection is the store's single `FMDatabase`). Use the `SFSmartStoreTransaction` passed to the block for every read and write. Do **not** call methods of the same `SFSmartStore` (or APIs built on it, such as MobileSync) from inside the block.
+In Swift the method throws; a requested `rollback()` (no error) surfaces as a thrown generic error, and `lookupSoupEntryId(soupNamed:fieldPath:fieldValue:)` returns `nil` for "no match" and throws only on failure:
+
+```swift
+try store.performTransaction { txn in
+    do {
+        _ = try txn.upsert(entries: entries, forSoupNamed: "accounts", withExternalIdPath: "Id")
+    } catch {
+        txn.fail(with: error)   // or txn.rollback() to roll back without an error
+    }
+}
+```
+
+- The block runs on the store's serial queue inside one SQLite transaction (`BEGIN EXCLUSIVE`; the connection is the store's single `FMDatabase`). Use the `SFSmartStoreTransaction` passed to the block for every read and write. Do **not** call methods of the same `SFSmartStore` (or APIs built on it, such as MobileSync) from inside the block.
 - **Commit / rollback**: the transaction commits when the block returns, unless
   - the block calls `-[SFSmartStoreTransaction rollback]` (requested rollback: the method returns `NO` with `error` left `nil`), or
   - a write operation of the transaction fails, or the block calls `-failWithError:` (failure: returns `NO` with `error` set; the first failure is kept, and a failure wins over a requested rollback), or
   - an exception is thrown inside the block (counted as a failure), or
   - SQLite ends the transaction by itself (for example `ON CONFLICT ROLLBACK`), or `BEGIN` / `COMMIT` fails.
-  Once a failure is recorded, further writes on the transaction are rejected with that error instead of running. If the rollback itself fails and leaves the transaction open, the store's connection is closed and reopened so that the pending writes cannot be committed later.
+  Once a failure is recorded, further writes on the transaction are rejected with that error instead of running; once SQLite has ended the transaction, all further operations (reads included) are rejected. If the rollback itself fails and leaves the transaction open, the store's connection is closed and reopened so that the pending writes cannot be committed later.
 - **Return value**: `YES` if and only if the transaction was committed.
 - **Operations on `SFSmartStoreTransaction`** (they run on the transaction's connection, so they see earlier uncommitted writes of the same transaction):
 
@@ -532,7 +544,7 @@ BOOL committed = [store performTransaction:^(SFSmartStoreTransaction *txn) {
   | `countWithQuerySpec:error:` | same name |
   | `removeEntries:fromSoup:error:` | same name; `NO` with error rolls the transaction back |
   | `removeEntriesByQuery:fromSoup:error:` | same name; `NO` with error rolls the transaction back |
-  | `rollback` / `failWithError:` | explicit rollback, with or without an error |
+  | `rollback` / `failWithError:` | explicit rollback, without / with an error (Swift: `rollback()` / `fail(with:)`). The error passed to `failWithError:` must not be `nil`; a `nil` still rolls back, with a generic error |
 
   Write operations (upsert, remove) that fail mark the transaction as failed even if the block catches the exception and carries on. Failing read operations only return the error and do not mark the transaction as failed. SQL failures never surface as exceptions from these methods.
 - **Lifetime and threading**: a transaction object is only valid while the block runs, and only on the thread running it. Using it afterwards, or from another thread (for example a block dispatched while the transaction block waits), fails with an error without touching the database. `rollback` / `failWithError:` called that way have no effect.
